@@ -1,0 +1,66 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  height: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: #191919;
+  height: 100%;
+}
+
+a {
+  text-decoration: none;
+}
+
+#root {
+  height: 100%;
+}
+
+.scenarioChartNode {
+  background: #2E2E2E;
+  color: white;
+}
+
+.scenarioChartNodeSelected {
+  background: #FFAD38;
+  color: #2E2E2E;
+}
+
+.scenarioChart {
+  margin: auto;
+}
+
+.scenarioChartNode .scenarioName {
+  color: #FFAD38;
+}
+
+.scenarioChartNodeSelected .scenarioName {
+  color: #000000;
+}
+
+.scenarioChart .google-visualization-orgchart-linebottom {
+  border-bottom: 1px solid #FFAD38;
+}
+
+.scenarioChart .google-visualization-orgchart-lineleft {
+  border-left: 1px solid #FFAD38;
+}
+
+.scenarioChart .google-visualization-orgchart-lineright {
+  border-right: 1px solid #FFAD38;
+}
+
+.scenarioChart .google-visualization-orgchart-linetop {
+  border-top: 1px solid #FFAD38;
+}
+
+.google-visualization-orgchart-table {
+  margin: 0 auto;
+}
