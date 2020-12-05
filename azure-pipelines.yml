@@ -13,14 +13,12 @@ variables:
 
   # Web app name
   webAppName: 'csm-webapp'
-
+  
   # Environment name
   environmentName: 'csm-webapp'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
-
-  buildOutputFolder: '$(System.DefaultWorkingDirectory)/build'
 
 stages:
 - stage: Build
@@ -32,14 +30,10 @@ stages:
       vmImage: $(vmImageName)
 
     steps:
-    - script: |
-        yarn install
-        yarn build
-
     - task: ArchiveFiles@2
       displayName: 'Archive files'
       inputs:
-        rootFolderOrFile: '$(buildOutputFolder)'
+        rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
         includeRootFolder: false
         archiveType: zip
         archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
@@ -61,7 +55,7 @@ stages:
     strategy:
       runOnce:
         deploy:
-          steps:
+          steps:            
           - task: AzureRmWebAppDeployment@4
             displayName: 'Azure App Service Deploy: csm-webapp'
             inputs:
@@ -69,3 +63,9 @@ stages:
               appType: webAppLinux
               WebAppName: $(webAppName)
               packageForLinux: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
+              RuntimeStack: 'NODE|10.10'
+              StartupCommand: 'npm run start'
+              ScriptType: 'Inline Script'
+              InlineScript: |
+                npm install
+                npm run build --if-present
