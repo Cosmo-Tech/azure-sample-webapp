@@ -24,3 +24,7 @@ yarn-error.log*
 
 .azure
 .env
+
+# vim
+*~
+*.swp
