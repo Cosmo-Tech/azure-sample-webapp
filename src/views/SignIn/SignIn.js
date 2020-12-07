@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
-import auth from '../../helpers/auth.js';
+// import auth from '../../helpers/auth.js';
 import PropTypes from 'prop-types';
 import validate from 'validate.js';
 import { makeStyles } from '@material-ui/styles';
 import {
   Grid,
   Button,
-  TextField,
   Typography
 } from '@material-ui/core';
 
@@ -121,7 +120,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const SignIn = props => {
-  const { history } = props;
+  // const { history } = props;
 
   const classes = useStyles();
 
@@ -142,50 +141,9 @@ const SignIn = props => {
     }));
   }, [formState.values]);
 
-  const handleChange = event => {
-    event.persist();
-
-    setFormState(formState => ({
-      ...formState,
-      values: {
-        ...formState.values,
-        [event.target.name]:
-          event.target.type === 'checkbox'
-            ? event.target.checked
-            : event.target.value
-      },
-      touched: {
-        ...formState.touched,
-        [event.target.name]: true
-      }
-    }));
-  };
-
-  const handleSignIn = async event => {
-    event.preventDefault();
-    // await signInWithMail(formState.values.email, formState.values.password);
-    history.push('/');
-  };
-
-  const handleGoogleSignIn = async event => {
-    event.preventDefault();
-    // await signInWithGoogle();
-    history.push('/');
-  };
-
-  const handleAzureB2CSignIn = async event => {
-    event.preventDefault();
-    auth.setProvider('azure-b2c');
-    auth.signIn();
-    history.push('/');
-  };
-
   const handleAzureAADSignIn = event => {
     window.location.href = "http://sample.azure.cosmo-platform.com/.auth/login/aad?post_login_redirect_uri=http://localhost:3000/"
-  }
-
-  const hasError = field =>
-    formState.touched[field] && formState.errors[field] ? true : false;
+  };
 
   return (
     <div className={classes.root}>
@@ -207,7 +165,7 @@ const SignIn = props => {
             <div className={classes.contentHeader}>
             </div>
             <div className={classes.contentBody}>
-              <form className={classes.form} onSubmit={handleSignIn}>
+              <form className={classes.form}>
                 <Typography className={classes.title} variant="h2">
                   Sign in
                 </Typography>
