@@ -32,16 +32,18 @@ async function isUserSignedIn () {
 }
 
 async function acquireUserInfo () {
-  return await fetch(getBaseUrl() + '/.auth/me')
-    .then(response => response.json())
-    .then(data => {
-      return data.clientPrincipal
-    })
-    .catch(error => {
-      console.error(error)
-      return null
+  const response = await fetch(getBaseUrl() + '/.auth/me')
+  const json = await response.json()
+  if (response.ok) {
+    if (json) {
+      authData = json.clientPrincipal
+    } else {
+      console.error('No json return by /auth/me')
     }
-    )
+  } else {
+    console.error(json)
+    authData = null
+  }
 }
 
 function getUserName () {

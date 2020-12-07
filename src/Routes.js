@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Switch, Redirect } from 'react-router-dom'
+import { Switch, Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import { PublicRoute, PrivateRoute } from './components'
@@ -80,7 +80,6 @@ const Routes = props => {
         authorized={authorized}
         signInPath="/sign-in"
         unauthorizedPath="/unauthorized"/>
-      <Route render={() => <UnauthorizedView/>} />
     </Switch>
   )
 }
