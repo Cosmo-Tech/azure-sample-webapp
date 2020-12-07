@@ -31,3 +31,6 @@ yarn-error.log*
 
 # vscode
 .vscode
+
+# npm: use only warn lock file
+package-lock.json
