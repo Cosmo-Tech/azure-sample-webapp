@@ -75,12 +75,12 @@ function onAuthStateChanged (newCallback) {
   onAuthChangeCallbacks.push(newCallback)
 }
 
-function isUserSignedIn () {
+async function isUserSignedIn () {
   initProviderIfNull()
   if (currentProvider === undefined) {
     return false
   }
-  return currentProvider.isUserSignedIn()
+  return await currentProvider.isUserSignedIn()
 }
 
 function getUserName () {
