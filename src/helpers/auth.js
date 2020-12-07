@@ -41,7 +41,9 @@ function setProvider (newProvider) {
 
   if (currentProvider !== undefined) {
     // Update callbacks for the new provider
-    currentProvider.setAuthChangeCallbacks(onAuthChangeCallbacks)
+    if (currentProvider.setAuthChangeCallbacks) {
+      currentProvider.setAuthChangeCallbacks(onAuthChangeCallbacks)
+    }
     // Store the provider used in local storage
     writeToStorage('authProvider', newProvider)
   }
