@@ -151,7 +151,7 @@ const Unauthorized = props => {
             <div className={classes.contentBody}>
               <div className={classes.message}>
                 <Typography className={classes.title} variant="h3">
-                  You don&apost have permission to view this page.
+                  You don&apos;t have permission to view this page.
                 </Typography>
                 <Typography color="textSecondary" variant="body1">
                   Please contact the application administrator to activate your account.

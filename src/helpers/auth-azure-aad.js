@@ -26,13 +26,13 @@ async function isUserSignedIn () {
   console.log('silent log-in')
   authData = await acquireUserInfo()
   if (authData) {
-    return true
+    console.log('true')
   }
   return false
 }
 
 async function acquireUserInfo () {
-  fetch(getBaseUrl() + '/.auth/me')
+  return await fetch(getBaseUrl() + '/.auth/me')
     .then(response => response.json())
     .then(data => {
       return data.clientPrincipal
