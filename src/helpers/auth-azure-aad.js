@@ -10,11 +10,11 @@ function getBaseUrl () {
 }
 
 function signIn () {
-  window.location.href = getBaseUrl() + '/.auth/login/aad'
+  window.location.href = getBaseUrl() + '/.auth/login/aad?post_login_redirect_uri=' + getBaseUrl() + '/digitaltwin'
 }
 
 function signOut () {
-  window.location.href = getBaseUrl() + '/.auth/logout'
+  window.location.href = getBaseUrl() + '/.auth/logout?post_logout_redirect_uri=' + getBaseUrl()
 }
 
 async function isUserSignedIn () {
