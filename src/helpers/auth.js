@@ -75,12 +75,20 @@ function onAuthStateChanged (newCallback) {
   onAuthChangeCallbacks.push(newCallback)
 }
 
-async function isUserSignedIn () {
+function isAsync () {
+  if (currentProvider.isAsync) {
+    return currentProvider.isAsync()
+  }
+
+  return false
+}
+
+async function isUserSignedIn (callback) {
   initProviderIfNull()
   if (currentProvider === undefined) {
     return false
   }
-  return await currentProvider.isUserSignedIn()
+  return await currentProvider.isUserSignedIn(callback)
 }
 
 function getUserName () {
@@ -113,6 +121,7 @@ const auth = {
   getUserName,
   getUserId,
   getUserPicUrl,
-  providers
+  providers,
+  isAsync
 }
 export default auth

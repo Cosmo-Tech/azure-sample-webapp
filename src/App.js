@@ -22,7 +22,15 @@ class App extends Component {
     this._isMounted = true
     document.title = this.state.title
     // Check if the user is already signed-in
-    const authenticated = await auth.isUserSignedIn()
+    if (auth.isAsync()) {
+      auth.isUserSignedIn(this.authenticationDone)
+    } else {
+      const authenticated = await auth.isUserSignedIn()
+      this.authenticationDone(authenticated)
+    }
+  }
+
+  authenticationDone (authenticated) {
     if (authenticated) {
       this.setState({
         authenticated: authenticated,

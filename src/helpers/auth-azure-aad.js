@@ -17,33 +17,31 @@ function signOut () {
   window.location.href = getBaseUrl() + '/.auth/logout?post_logout_redirect_uri=' + getBaseUrl()
 }
 
-async function isUserSignedIn () {
+function isAsync () {
+  return true
+}
+
+function isUserSignedIn (callback) {
   // Return true if already authenticated
   if (authData) {
-    return true
+    callback(authData)
   }
   // Otherwise, try to acquire a token silently to implement SSO
   console.log('silent log-in')
-  authData = await acquireUserInfo()
-  if (authData) {
-    console.log('true')
-  }
-  return false
+  acquireUserInfo(callback)
 }
 
-async function acquireUserInfo () {
-  const response = await fetch(getBaseUrl() + '/.auth/me')
-  const json = await response.json()
-  if (response.ok) {
-    if (json) {
-      authData = json.clientPrincipal
-    } else {
-      console.error('No json return by /auth/me')
-    }
-  } else {
-    console.error(json)
-    authData = null
-  }
+function acquireUserInfo (callback) {
+  fetch(getBaseUrl() + '/.auth/me')
+    .then(response => response.json())
+    .then(data => {
+      authData = data.clientPrincipal
+      callback(authData)
+    })
+    .catch(error => {
+      console.error(error)
+      callback(null)
+    })
 }
 
 function getUserName () {
@@ -70,6 +68,7 @@ const azureAAD = {
   isUserSignedIn,
   getUserName,
   getUserId,
-  getUserPicUrl
+  getUserPicUrl,
+  isAsync
 }
 export default azureAAD
