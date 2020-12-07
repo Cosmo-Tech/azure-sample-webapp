@@ -142,7 +142,9 @@ const SignIn = props => {
   }, [formState.values]);
 
   const handleAzureAADSignIn = event => {
-    window.location.href = "http://sample.azure.cosmo-platform.com/.auth/login/aad?post_login_redirect_uri=http://localhost:3000/"
+    const redirectUri = window.location.protocol + '//' +
+      window.location.host + '/digitaltwin';
+    window.location.href = "http://sample.azure.cosmo-platform.com/.auth/login/aad?post_login_redirect_uri=" + redirectUri
   };
 
   return (
