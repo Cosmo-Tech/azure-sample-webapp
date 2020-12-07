@@ -1,97 +1,95 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import auth from '../../helpers/auth';
-import {Box, Menu, MenuItem, withStyles} from "@material-ui/core";
-
+import React from 'react'
+import PropTypes from 'prop-types'
+import auth from '../../helpers/auth'
+import { Box, Menu, MenuItem, withStyles } from '@material-ui/core'
 
 const useStyles = theme => ({
   menuTrigger: {
-    backgroundRepeat: "no-repeat",
-    width: "32px",
-    height: "32px",
-    backgroundSize: "32px",
-    borderRadius: "50%",
+    backgroundRepeat: 'no-repeat',
+    width: '32px',
+    height: '32px',
+    backgroundSize: '32px',
+    borderRadius: '50%',
     flexShrink: 0,
     transition: 'box-shadow ease-in-out 0.2s',
     '&:hover': {
-      'cursor': 'pointer'
+      cursor: 'pointer'
     },
     '&.active': {
-      'boxShadow': 'inset 0 0 0 1.5px orange'
+      boxShadow: 'inset 0 0 0 1.5px orange'
     }
   },
   menu: {
-    transform: 'translate3d(0,30px,0) !important',
+    transform: 'translate3d(0,30px,0) !important'
   },
   menuHead: {
-    borderBottom: '1px solid #313030',
-  },
-});
+    borderBottom: '1px solid #313030'
+  }
+})
 
 class UserInfo extends React.Component {
-  _isMounted = false;
-
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
+    this._isMounted = false
     this.state = {
       id: '',
       name: '',
       picUrl: 'profile_placeholder.png',
       isMenuOpened: false,
       anchorEl: null
-    };
+    }
 
-    this.handleClick = this.handleClick.bind(this);
+    this.handleClick = this.handleClick.bind(this)
   }
 
-  componentDidMount() {
-    this._isMounted = true;
+  componentDidMount () {
+    this._isMounted = true
     // Bind callback to update component on authentication data change
     auth.onAuthStateChanged(authData => {
-      if(authData && this._isMounted) {
+      if (authData && this._isMounted) {
         this.setState({
           id: auth.getUserId(),
           name: auth.getUserName(),
-          picUrl: auth.getUserPicUrl(),
-        });
+          picUrl: auth.getUserPicUrl()
+        })
       }
-    });
+    })
     // Get user data if authenticated
-    const id = auth.getUserId();
-    const name = auth.getUserName();
-    const picUrl = auth.getUserPicUrl();
-    const newState = {};
-    if(id !== undefined) {
-      newState.id = id;
+    const id = auth.getUserId()
+    const name = auth.getUserName()
+    const picUrl = auth.getUserPicUrl()
+    const newState = {}
+    if (id !== undefined) {
+      newState.id = id
     }
-    if(name !== undefined) {
-      newState.name = name;
+    if (name !== undefined) {
+      newState.name = name
     }
-    if(picUrl !== undefined) {
-      newState.picUrl = picUrl;
+    if (picUrl !== undefined) {
+      newState.picUrl = picUrl
     }
-    this.setState(newState);
+    this.setState(newState)
   }
 
-  componentWillUnmount() {
-    this._isMounted = false;
+  componentWillUnmount () {
+    this._isMounted = false
   }
 
-  handleClick(e) {
-    this.setState({anchorEl: e.target});
-    this.setState({isMenuOpened: !this.state.isMenuOpened});
+  handleClick (e) {
+    this.setState({ anchorEl: e.target })
+    this.setState({ isMenuOpened: !this.state.isMenuOpened })
   }
 
-  render() {
-    const {classes} = this.props;
+  render () {
+    const { classes } = this.props
     return (
       <React.Fragment>
         <Box
           aria-controls="simple-menu"
           aria-haspopup="true"
           onClick={this.handleClick}
-          className={`${classes.menuTrigger} ${this.state.isMenuOpened ? "active" : ""}`}
-          style={{backgroundImage: `url(${this.state.picUrl})`}
+          className={`${classes.menuTrigger} ${this.state.isMenuOpened ? 'active' : ''}`}
+          style={{ backgroundImage: `url(${this.state.picUrl})` }
         }>
         </Box>
         <Menu
@@ -108,12 +106,16 @@ class UserInfo extends React.Component {
           }}>Logout</MenuItem>
         </Menu>
       </React.Fragment>
-    );
+    )
   }
 }
 
 UserInfo.propTypes = {
   className: PropTypes.string,
-};
+  classes: PropTypes.any,
+  'classes.menuTrigger': PropTypes.any,
+  'classes.menu': PropTypes.any,
+  'classes.menuHead': PropTypes.any
+}
 
-export default withStyles(useStyles)(UserInfo);
+export default withStyles(useStyles)(UserInfo)

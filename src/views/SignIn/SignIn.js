@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
-// import auth from '../../helpers/auth.js';
-import PropTypes from 'prop-types';
-import validate from 'validate.js';
-import { makeStyles } from '@material-ui/styles';
+import React, { useState, useEffect } from 'react'
+import { withRouter } from 'react-router-dom'
+// import auth from '../../helpers/auth.js'
+import PropTypes from 'prop-types'
+import validate from 'validate.js'
+import { makeStyles } from '@material-ui/styles'
 import {
   Grid,
   Button,
   Typography
-} from '@material-ui/core';
-
+} from '@material-ui/core'
 
 const schema = {
   email: {
@@ -25,7 +24,7 @@ const schema = {
       maximum: 128
     }
   }
-};
+}
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -49,12 +48,12 @@ const useStyles = makeStyles(theme => ({
     backgroundImage: 'url(/auth.png)',
     backgroundSize: 'contain',
     backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'center bottom',
+    backgroundPosition: 'center bottom'
   },
   quoteInner: {
     textAlign: 'center',
     flexBasis: '600px',
-    marginTop: '2%',
+    marginTop: '2%'
   },
   quoteText: {
     color: theme.palette.white,
@@ -117,35 +116,35 @@ const useStyles = makeStyles(theme => ({
   signInButton: {
     margin: theme.spacing(2, 0)
   }
-}));
+}))
 
 const SignIn = props => {
-  // const { history } = props;
+  // const { history } = props
 
-  const classes = useStyles();
+  const classes = useStyles()
 
   const [formState, setFormState] = useState({
     isValid: false,
     values: {},
     touched: {},
     errors: {}
-  });
+  })
 
   useEffect(() => {
-    const errors = validate(formState.values, schema);
+    const errors = validate(formState.values, schema)
 
     setFormState(formState => ({
       ...formState,
-      isValid: errors ? false : true,
+      isValid: !errors,
       errors: errors || {}
-    }));
-  }, [formState.values]);
+    }))
+  }, [formState.values])
 
   const handleAzureAADSignIn = event => {
     const redirectUri = window.location.protocol + '//' +
-      window.location.host + '/digitaltwin';
-    window.location.href = "http://sample.azure.cosmo-platform.com/.auth/login/aad?post_login_redirect_uri=" + redirectUri
-  };
+      window.location.host + '/digitaltwin'
+    window.location.href = 'http://sample.azure.cosmo-platform.com/.auth/login/aad?post_login_redirect_uri=' + redirectUri
+  }
 
   return (
     <div className={classes.root}>
@@ -191,11 +190,11 @@ const SignIn = props => {
         </Grid>
       </Grid>
     </div>
-  );
-};
+  )
+}
 
 SignIn.propTypes = {
   history: PropTypes.object
-};
+}
 
-export default withRouter(SignIn);
+export default withRouter(SignIn)

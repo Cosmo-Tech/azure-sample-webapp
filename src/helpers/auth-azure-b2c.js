@@ -1,150 +1,151 @@
-import * as msal from "@azure/msal-browser";
+import * as msal from '@azure/msal-browser'
 import {
   b2cPolicies,
   msalConfig,
-  loginRequest,
-} from './auth-azure-b2c-config.js';
+  loginRequest
+} from './auth-azure-b2c-config.js'
 
-let onAuthChangeCallbacks = [];
-const msalApp = new msal.PublicClientApplication(msalConfig);
+let onAuthChangeCallbacks = []
+const msalApp = new msal.PublicClientApplication(msalConfig)
 const authData = {
   authenticated: false,
   accountId: undefined,
-  username: undefined,
-};
+  username: undefined
+}
 
-function onAuthSuccess() {
+function onAuthSuccess () {
   // Call application-defined callbacks (e.g. to update authentication state and
   // trigger app re-render)
-  for(var i in onAuthChangeCallbacks) {
-    const callback = onAuthChangeCallbacks[i];
-    callback(authData);
+  for (const i in onAuthChangeCallbacks) {
+    const callback = onAuthChangeCallbacks[i]
+    callback(authData)
   }
 }
 
-async function acquireTokenSilent() {
-  const account = msalApp.getAllAccounts()[0];
+async function acquireTokenSilent () {
+  const account = msalApp.getAllAccounts()[0]
   const tokenReq = {
     scopes: ['user.read'],
-    account: account,
-  };
-  return await msalApp.acquireTokenSilent(tokenReq).then(function(tokenRes) {
+    account: account
+  }
+  return await msalApp.acquireTokenSilent(tokenReq).then(function (tokenRes) {
     // Token acquired
-    onAuthSuccess();
-    return tokenRes.accessToken;
+    onAuthSuccess()
+    return tokenRes.accessToken
   }).catch(function (error) {
-    if(error.errorMessage === undefined) {
-      console.error(error);
-    }
-    else if(error.errorMessage.indexOf("interaction_required") !== -1) {
-      msalApp.acquireTokenPopup(tokenReq).then(function(tokenRes) {
+    if (error.errorMessage === undefined) {
+      console.error(error)
+    } else if (error.errorMessage.indexOf('interaction_required') !== -1) {
+      msalApp.acquireTokenPopup(tokenReq).then(function (tokenRes) {
         // Token acquired with interaction
-        onAuthSuccess();
-        return tokenRes.accessToken;
-      }).catch(function(error) {
+        onAuthSuccess()
+        return tokenRes.accessToken
+      }).catch(function (error) {
         // Token retrieval failed
-        return undefined;
-      });
+        if (error) {
+          console.error(error)
+        }
+        return undefined
+      })
     }
-    return undefined;
-  });
+    return undefined
+  })
 }
 
 function selectAccount () {
-  const accounts = msalApp.getAllAccounts();
-  console.log('debug - all accounts:');
-  console.log(msalApp.getAllAccounts());
-  if(accounts.length === 0) {
-    return;
+  const accounts = msalApp.getAllAccounts()
+  console.log('debug - all accounts:')
+  console.log(msalApp.getAllAccounts())
+  if (accounts.length === 0) {
+    return
   }
   // Select the 1st account if more than one is detected
-  if(accounts.length > 1) {
-    console.warn("Several accounts detected, using the first one by default.");
+  if (accounts.length > 1) {
+    console.warn('Several accounts detected, using the first one by default.')
   }
 
-  authData.authenticated = true;
-  authData.accountId = accounts[0].homeAccountId;
-  authData.username = accounts[0].name;
-  onAuthSuccess();
+  authData.authenticated = true
+  authData.accountId = accounts[0].homeAccountId
+  authData.username = accounts[0].name
+  onAuthSuccess()
 }
 
-function handleResponse(response) {
+function handleResponse (response) {
   if (response !== null) {
-    console.log('debug - sign-in response:');
-    console.log(response);
-    authData.authenticated = true;
-    authData.accountId = response.account.homeAccountId;
-    authData.username = response.account.name;
-    onAuthSuccess();
+    console.log('debug - sign-in response:')
+    console.log(response)
+    authData.authenticated = true
+    authData.accountId = response.account.homeAccountId
+    authData.username = response.account.name
+    onAuthSuccess()
   } else {
-    selectAccount();
+    selectAccount()
   }
 }
 
-function signIn() {
+function signIn () {
   msalApp.loginPopup(loginRequest)
     .then(handleResponse)
     .catch(error => {
-      console.error(error);
+      console.error(error)
 
       // Error handling
       if (error.errorMessage) {
         // Check for forgot password error
         // Learn more about AAD error codes at https://docs.microsoft.com/en-us/azure/active-directory/develop/reference-aadsts-error-codes
-        if (error.errorMessage.indexOf("AADB2C90118") > -1) {
+        if (error.errorMessage.indexOf('AADB2C90118') > -1) {
           msalApp.loginPopup(b2cPolicies.authorities.forgotPassword)
             .then(response => {
-              window.alert("Password has been reset successfully. \nPlease sign-in with your new password.");
-            });
+              window.alert('Password has been reset successfully. \nPlease sign-in with your new password.')
+            })
         }
       }
-  });
+    })
 }
 
-function signOut() {
+function signOut () {
   const logoutRequest = {
     account: msalApp.getAccountByHomeId(authData.accountId)
-  };
-  msalApp.logout(logoutRequest);
+  }
+  msalApp.logout(logoutRequest)
 }
 
-function setAuthChangeCallbacks(callbacks) {
-  onAuthChangeCallbacks = callbacks;
+function setAuthChangeCallbacks (callbacks) {
+  onAuthChangeCallbacks = callbacks
 }
 
-async function isUserSignedIn() {
+async function isUserSignedIn () {
   // Return true if already authenticated
-  if(authData.authenticated) {
-    return true;
+  if (authData.authenticated) {
+    return true
   }
   // Otherwise, try to acquire a token silently to implement SSO
-  console.log('silent log-in');
-  const accessToken = await acquireTokenSilent();
-  if(accessToken !== undefined) {
-    return true;
+  console.log('silent log-in')
+  const accessToken = await acquireTokenSilent()
+  if (accessToken !== undefined) {
+    return true
   }
-  return false;
+  return false
 }
 
-function getUserName() {
-  if(authData.username !== undefined) {
-    return authData.username;
+function getUserName () {
+  if (authData.username !== undefined) {
+    return authData.username
   }
-  const account = msalApp.getAllAccounts()[0];
-  if(account !== undefined) {
-    return account.name;
+  const account = msalApp.getAllAccounts()[0]
+  if (account !== undefined) {
+    return account.name
   }
-  return undefined;
+  return undefined
 }
 
-function getUserId() {
-  return authData.accountId;
+function getUserId () {
+  return authData.accountId
 }
 
-function getUserPicUrl() {
-  return undefined;
+function getUserPicUrl () {
+  return undefined
 }
-
 
 const azureB2C = {
   signIn,
@@ -153,6 +154,6 @@ const azureB2C = {
   isUserSignedIn,
   getUserName,
   getUserId,
-  getUserPicUrl,
-};
-export default azureB2C;
+  getUserPicUrl
+}
+export default azureB2C

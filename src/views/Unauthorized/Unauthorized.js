@@ -1,14 +1,14 @@
-import React from 'react';
-import { withRouter } from 'react-router-dom';
-import { makeStyles } from '@material-ui/styles';
+import React from 'react'
+import { withRouter } from 'react-router-dom'
+import { makeStyles } from '@material-ui/styles'
 import {
   Grid,
   Typography,
   AppBar,
-  Link as RefLink,
-} from '@material-ui/core';
+  Link as RefLink
+} from '@material-ui/core'
 
-import {UserInfo } from '../../components';
+import { UserInfo } from '../../components'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -18,23 +18,23 @@ const useStyles = makeStyles(theme => ({
   bar: {
     background: theme.palette.background.secondary,
     color: '#FFFFFF',
-    display: "inline_block",
+    display: 'inline_block'
   },
   barDiv: {
     minHeight: '48px',
-    display: "inline-flex",
+    display: 'inline-flex'
   },
   logo: {
     display: 'block'
   },
   rightBar: {
-    textAlign: "right",
-    display: "flex",
-    alignItems: "center",
-    marginTop: "0px",
-    marginBottom: "0px",
+    textAlign: 'right',
+    display: 'flex',
+    alignItems: 'center',
+    marginTop: '0px',
+    marginBottom: '0px',
     marginRight: `${theme.spacing(3)}px`,
-    marginLeft: "auto",
+    marginLeft: 'auto'
   },
   rightBarElement: {
     display: 'block',
@@ -57,12 +57,12 @@ const useStyles = makeStyles(theme => ({
     backgroundImage: 'url(/auth.png)',
     backgroundSize: 'contain',
     backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'center bottom',
+    backgroundPosition: 'center bottom'
   },
   quoteInner: {
     textAlign: 'center',
     flexBasis: '600px',
-    marginTop: '13%',
+    marginTop: '13%'
   },
   quoteText: {
     color: theme.palette.white,
@@ -91,7 +91,7 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     [theme.breakpoints.down('md')]: {
       justifyContent: 'center'
-    },
+    }
   },
   message: {
     paddingLeft: 100,
@@ -106,12 +106,11 @@ const useStyles = makeStyles(theme => ({
   title: {
     marginTop: theme.spacing(3),
     marginBottom: theme.spacing(3)
-  },
-}));
-
+  }
+}))
 
 const Unauthorized = props => {
-  const classes = useStyles();
+  const classes = useStyles()
 
   return (
     <div className={classes.root}>
@@ -152,7 +151,7 @@ const Unauthorized = props => {
             <div className={classes.contentBody}>
               <div className={classes.message}>
                 <Typography className={classes.title} variant="h3">
-                  You don't have permission to view this page.
+                  You don&apost have permission to view this page.
                 </Typography>
                 <Typography color="textSecondary" variant="body1">
                   Please contact the application administrator to activate your account.
@@ -163,8 +162,7 @@ const Unauthorized = props => {
         </Grid>
       </Grid>
     </div>
-  );
-};
+  )
+}
 
-
-export default withRouter(Unauthorized);
+export default withRouter(Unauthorized)

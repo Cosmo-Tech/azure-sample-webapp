@@ -1,20 +1,20 @@
-import { colors } from '@material-ui/core';
+import { colors } from '@material-ui/core'
 
-let themeColors = {
+const themeColors = {
   primary200: '#FFE8AF',
   primary500: '#FFAD38',
   primaryDark: '#a16612',
-  secondary : '#466180',
-  background : '#191919',
-  backgroundSecondary : '#1f1f1f',
+  secondary: '#466180',
+  background: '#191919',
+  backgroundSecondary: '#1f1f1f',
   textGrey: '#999a9d',
-  surface : '#100f0f',
+  surface: '#100f0f',
   red: '#df410c',
   green: '#19e152',
   error: '#FF667F',
-  black : '#000000',
+  black: '#000000',
   white: '#FFFFFF'
-};
+}
 
 /* eslint import/no-anonymous-default-export: [2, {"allowObject": true}] */
 export default {
@@ -24,27 +24,27 @@ export default {
   primary: {
     contrastText: themeColors.white,
     main: themeColors.primary500,
-    dark: themeColors.primaryDark,
+    dark: themeColors.primaryDark
   },
   secondary: {
     contrastText: themeColors.white,
-    main: themeColors.primary500,
+    main: themeColors.primary500
   },
   success: {
     contrastText: themeColors.white,
-    main: colors.green[600],
+    main: colors.green[600]
   },
   info: {
     contrastText: themeColors.white,
-    main: colors.blue[600],
+    main: colors.blue[600]
   },
   warning: {
     contrastText: themeColors.white,
-    main: colors.orange[600],
+    main: colors.orange[600]
   },
   error: {
     contrastText: themeColors.white,
-    main: themeColors.error,
+    main: themeColors.error
 
   },
   text: {
@@ -61,5 +61,5 @@ export default {
     secondary: themeColors.backgroundSecondary
   },
   icon: colors.blueGrey[600],
-  divider: colors.grey[200],
-};
+  divider: colors.grey[200]
+}

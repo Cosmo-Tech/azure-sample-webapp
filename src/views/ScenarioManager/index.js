@@ -1,1 +1,1 @@
-export { default } from './ScenarioManager';
+export { default } from './ScenarioManager'

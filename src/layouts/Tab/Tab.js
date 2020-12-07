@@ -1,10 +1,10 @@
-import React, { Fragment } from "react";
-import { AppBar, Tabs, Tab, Box } from "@material-ui/core";
-import { Switch, Route, Link } from "react-router-dom";
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import { PrivateRoute, UserInfo } from '../../components';
-import Footer from "./components/Footer";
+import React, { Fragment } from 'react'
+import { AppBar, Tabs, Tab, Box } from '@material-ui/core'
+import { Switch, Route, Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
+import { makeStyles } from '@material-ui/core/styles'
+import { PrivateRoute, UserInfo } from '../../components'
+import Footer from './components/Footer'
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -21,14 +21,14 @@ const useStyles = makeStyles((theme) => ({
   bar: {
     background: theme.palette.background.secondary,
     color: '#FFFFFF',
-    display: "flex",
+    display: 'flex',
     justifyContent: 'space-between',
     boxShadow: '0 2px 2px 0px rgba(0,0,0,0.6)'
   },
   rightBar: {
-    textAlign: "right",
-    display: "flex",
-    alignItems: "center",
+    textAlign: 'right',
+    display: 'flex',
+    alignItems: 'center',
     margin: `0 ${theme.spacing(3)}px`
   },
   rightBarElement: {
@@ -51,22 +51,24 @@ const useStyles = makeStyles((theme) => ({
     opacity: 1,
     color: theme.palette.text.grey,
     '&.Mui-selected': {
-      'fontWeight': 'bold',
-      'color': theme.palette.primary.contrastText
+      fontWeight: 'bold',
+      color: theme.palette.primary.contrastText
     }
   },
   barDiv: {
     minHeight: '48px',
     display: 'flex',
     justifyContent: 'space-between'
-  },
+  }
 }
-));
+))
 
 const TabLayout = props => {
-  const { tabs, authenticated, authorized, signInPath,
-    unauthorizedPath } = props;
-  const classes = useStyles();
+  const {
+    tabs, authenticated, authorized, signInPath,
+    unauthorizedPath
+  } = props
+  const classes = useStyles()
   return <Route
     path="/"
     render={({ location }) => (
@@ -76,7 +78,7 @@ const TabLayout = props => {
             <Tabs value={location.pathname} className={classes.tabs}>
               {tabs.map(tab => (
               <Tab key={tab.key} value={tab.to} label={tab.label} component={Link} to={tab.to} className={classes.tab}/>
-            ))}
+              ))}
             </Tabs>
 
               <div className={classes.rightBar}>
@@ -102,13 +104,14 @@ const TabLayout = props => {
       </Fragment>
     )}
   />
-};
+}
 
 TabLayout.propTypes = {
   tabs: PropTypes.array.isRequired,
   authenticated: PropTypes.bool.isRequired,
   authorized: PropTypes.bool.isRequired,
   signInPath: PropTypes.string.isRequired,
+  unauthorizedPath: PropTypes.string.isRequired
 }
 
-export default TabLayout;
+export default TabLayout

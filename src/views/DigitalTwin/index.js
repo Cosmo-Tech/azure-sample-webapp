@@ -1,1 +1,1 @@
-export { default } from './DigitalTwin';
+export { default } from './DigitalTwin'

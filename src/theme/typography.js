@@ -1,8 +1,8 @@
-import palette from './palette';
+import palette from './palette'
 
 /* eslint import/no-anonymous-default-export: [2, {"allowObject": true}] */
 export default {
-  fontFamily:  "'Inter', sans-serif",
+  fontFamily: "'Inter', sans-serif",
   h1: {
     color: palette.text.primary,
     fontWeight: 500,
@@ -88,4 +88,4 @@ export default {
     lineHeight: '13px',
     textTransform: 'uppercase'
   }
-};
+}

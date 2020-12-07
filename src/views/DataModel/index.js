@@ -1,1 +1,1 @@
-export { default } from './DataModel';
+export { default } from './DataModel'

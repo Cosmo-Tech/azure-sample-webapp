@@ -1,28 +1,32 @@
-import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
-
+import React from 'react'
+import { withStyles } from '@material-ui/core/styles'
+import PropTypes from 'prop-types'
 
 const useStyles = theme => ({
   root: {
     margin: 'auto',
-    width: '100%',
-  },
-});
+    width: '100%'
+  }
+})
 
 class DigitalTwin extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
+  constructor (props) {
+    super(props)
+    this.state = {}
   }
 
-  render() {
-    const { classes } = this.props;
+  render () {
+    const { classes } = this.props
     return (
       <div className={classes.root}>
         DIGITAL TWIN
       </div>
-    );
+    )
   }
 }
 
-export default withStyles(useStyles)(DigitalTwin);
+DigitalTwin.propTypes = {
+  classes: PropTypes.any
+}
+
+export default withStyles(useStyles)(DigitalTwin)

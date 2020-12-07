@@ -1,23 +1,34 @@
-import React from 'react';
-import { Redirect, Route } from 'react-router-dom';
+import React from 'react'
+import { Redirect, Route } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
 const PublicRoute = props => {
-  const { component: Component, authenticated, authorized,
-    redirectTo, unauthorizedPath, ...rest } = props;
+  const {
+    component: Component, authenticated, authorized,
+    redirectTo, unauthorizedPath, ...rest
+  } = props
 
   return (
     <Route
       {...rest}
       render={routeProps =>
         authenticated === false
-          ? ( <Component {...routeProps} /> )
+          ? (<Component {...routeProps} />)
           : (authorized === false
-            ? ( <Redirect to={props.unauthorizedPath} /> )
-            : ( <Redirect to={props.redirectTo} /> )
-          )
+              ? (<Redirect to={props.unauthorizedPath} />)
+              : (<Redirect to={props.redirectTo} />)
+            )
       }
     />
-  );
+  )
 }
 
-export default PublicRoute;
+PublicRoute.propTypes = {
+  component: PropTypes.any,
+  authenticated: PropTypes.bool,
+  authorized: PropTypes.bool,
+  redirectTo: PropTypes.string,
+  unauthorizedPath: PropTypes.string
+}
+
+export default PublicRoute
