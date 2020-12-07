@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
-// import auth from '../../helpers/auth.js'
+import auth from '../../helpers/auth.js'
 import PropTypes from 'prop-types'
 import validate from 'validate.js'
 import { makeStyles } from '@material-ui/styles'
@@ -141,9 +141,7 @@ const SignIn = props => {
   }, [formState.values])
 
   const handleAzureAADSignIn = event => {
-    const redirectUri = window.location.protocol + '//' +
-      window.location.host + '/digitaltwin'
-    window.location.href = 'http://sample.azure.cosmo-platform.com/.auth/login/aad?post_login_redirect_uri=' + redirectUri
+    auth.setProvider(auth.providers.azureAAD)
   }
 
   return (

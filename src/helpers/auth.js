@@ -1,4 +1,5 @@
 import azureB2C from './auth-azure-b2c.js'
+import azureAAD from './auth-azure-aad.js'
 
 // Functions to read & write from storage.
 // Notes : local storage works on Chromium but not on Firefox if "Delete
@@ -19,9 +20,17 @@ function clearFromStorage (key) {
 let currentProvider
 const onAuthChangeCallbacks = []
 
+const providers = {
+  azureAAD: 'azure-aad',
+  azureB2C: 'azure-b2c'
+}
+
 function setProvider (newProvider) {
   switch (newProvider) {
-    case 'azure-b2c':
+    case providers.azureAAD:
+      currentProvider = azureAAD
+      break
+    case providers.azureB2C:
       currentProvider = azureB2C
       break
     // TODO: Support more providers
@@ -101,6 +110,7 @@ const auth = {
   isUserSignedIn,
   getUserName,
   getUserId,
-  getUserPicUrl
+  getUserPicUrl,
+  providers
 }
 export default auth
