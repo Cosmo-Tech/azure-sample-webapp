@@ -3,7 +3,19 @@
     {
       "route": "/*",
       "serve": "/index.html",
-      "statusCode": 200
+      "statusCode": 200,
+      "allowedRoles": ["Authenticated"]
+    },
+    {
+      "route": "/sign-in"
+      "serve": "/sign-in"
+      "allowedRoles": ["Anonymous"]
+    }
+  ],
+  "plaformErrorOverrides": [
+    {
+      "errorType": "Unauthenticated",
+      "serve": "sign-in"
     }
   ]
 }

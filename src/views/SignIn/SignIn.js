@@ -180,6 +180,10 @@ const SignIn = props => {
     history.push('/');
   };
 
+  const handleAzureAADSignIn = event => {
+    window.location.href = "http://sample.azure.cosmo-platform.com/.auth/login/aad?post_login_redirect_uri=http://localhost:3000/"
+  }
+
   const hasError = field =>
     formState.touched[field] && formState.errors[field] ? true : false;
 
@@ -210,69 +214,14 @@ const SignIn = props => {
                 <Grid className={classes.socialButtons} container spacing={2}>
                   <Grid item>
                     <Button
-                      onClick={handleGoogleSignIn}
+                      onClick={handleAzureAADSignIn}
                       size="large"
                       variant="contained"
                     >
-                      {/* <GoogleIcon className={classes.socialIcon} /> */}
-                      Login with Google
-                    </Button>
-                    <Button
-                      onClick={handleAzureB2CSignIn}
-                      size="large"
-                      variant="contained"
-                    >
-                      Login with Azure B2C
+                      Login with Azure Active Directory
                     </Button>
                   </Grid>
                 </Grid>
-                <Typography
-                  align="center"
-                  className={classes.sugestion}
-                  color="textSecondary"
-                  variant="body1"
-                >
-                  or login with email address
-                </Typography>
-                <TextField
-                  className={classes.textField}
-                  error={hasError('email')}
-                  fullWidth
-                  helperText={
-                    hasError('email') ? formState.errors.email[0] : null
-                  }
-                  label="Email address"
-                  name="email"
-                  onChange={handleChange}
-                  type="text"
-                  value={formState.values.email || ''}
-                  variant="outlined"
-                />
-                <TextField
-                  className={classes.textField}
-                  error={hasError('password')}
-                  fullWidth
-                  helperText={
-                    hasError('password') ? formState.errors.password[0] : null
-                  }
-                  label="Password"
-                  name="password"
-                  onChange={handleChange}
-                  type="password"
-                  value={formState.values.password || ''}
-                  variant="outlined"
-                />
-                <Button
-                  className={classes.signInButton}
-                  color="primary"
-                  disabled={!formState.isValid}
-                  fullWidth
-                  size="large"
-                  type="submit"
-                  variant="contained"
-                >
-                  Sign in now
-                </Button>
                 <Typography color="textSecondary" variant="body1">
                   Please contact CosmoTech to get an account.
                 </Typography>
