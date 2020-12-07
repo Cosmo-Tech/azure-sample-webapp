@@ -155,7 +155,7 @@ const SignIn = props => {
                 className={classes.quoteText}
                 variant="h1"
               >
-                Airspace Network Management
+                Azure Sample Web Application
               </Typography>
             </div>
           </div>
