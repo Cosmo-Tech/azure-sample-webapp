@@ -16,6 +16,7 @@ class App extends Component {
       loading: true
     }
     this._isMounted = false
+    this.authenticationDone = this.authenticationDone.bind(this)
   }
 
   async componentDidMount () {

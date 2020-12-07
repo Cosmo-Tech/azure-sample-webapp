@@ -76,19 +76,20 @@ function onAuthStateChanged (newCallback) {
 }
 
 function isAsync () {
-  if (currentProvider.isAsync) {
+  initProviderIfNull()
+  if (currentProvider && currentProvider.isAsync) {
     return currentProvider.isAsync()
   }
 
   return false
 }
 
-async function isUserSignedIn (callback) {
+function isUserSignedIn (callback) {
   initProviderIfNull()
   if (currentProvider === undefined) {
     return false
   }
-  return await currentProvider.isUserSignedIn(callback)
+  return currentProvider.isUserSignedIn(callback)
 }
 
 function getUserName () {
