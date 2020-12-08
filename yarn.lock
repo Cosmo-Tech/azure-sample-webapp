@@ -1152,6 +1152,16 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
+"@cosmotech/azure@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@cosmotech/azure/-/azure-0.1.0.tgz#b975f8c4aeb2579b5954a76c02878c50aaa9d81c"
+  integrity sha512-Yg1Gj1E1m+UHcyW+AZv48DX8iElZVEbcUrLrYpbVMrr2bEhb7ICWvuyqW6h5bbr/kTBQFI7EwGq5y+FA2jeKPg==
+
+"@cosmotech/core@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.0.1.tgz#f693399d2f8eccf028bfe6422323166189c83861"
+  integrity sha512-fHcR5K3vdwCS+7dejBcg6DHspUMWUnnd5AwvaZbW8ZSBe/LmV6wnVivONPR73QnUz7R3j+l0oIUaMC+fNJxClA==
+
 "@csstools/convert-colors@^1.4.0":
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@csstools/convert-colors/-/convert-colors-1.4.0.tgz#ad495dc41b12e75d588c6db8b9834f08fa131eb7"
