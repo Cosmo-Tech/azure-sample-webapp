@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import { AppBar, Tabs, Tab, Box } from '@material-ui/core'
-import { Switch, Route, Link } from 'react-router-dom'
+import { Switch, Route, Link, Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import { PrivateRoute, UserInfo } from '../../components'
@@ -98,6 +98,7 @@ const TabLayout = props => {
               noAuthRedirect={signInPath}
               noPermRedirect={unauthorizedPath} />
             ))}
+            <Route render={() => <Redirect to="/digitaltwin" />} />
           </Switch>
         </Box>
         <Footer />
