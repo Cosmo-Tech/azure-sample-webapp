@@ -4,7 +4,8 @@ import Routes from './Routes'
 import { ThemeProvider } from '@material-ui/styles'
 import theme from './theme'
 import './assets/scss/index.scss'
-import auth from './helpers/auth.js'
+import './service/auth.js'
+import { Auth } from '@cosmotech/core'
 
 class App extends Component {
   constructor () {
@@ -23,10 +24,10 @@ class App extends Component {
     this._isMounted = true
     document.title = this.state.title
     // Check if the user is already signed-in
-    if (auth.isAsync()) {
-      auth.isUserSignedIn(this.authenticationDone)
+    if (Auth.isAsync()) {
+      Auth.isUserSignedIn(this.authenticationDone)
     } else {
-      const authenticated = await auth.isUserSignedIn()
+      const authenticated = await Auth.isUserSignedIn()
       this.authenticationDone(authenticated)
     }
   }
@@ -39,7 +40,7 @@ class App extends Component {
       })
     }
     // Bind callback to update state on authentication data change
-    auth.onAuthStateChanged(authData => {
+    Auth.onAuthStateChanged(authData => {
       if (authData && this._isMounted) {
         this.setState({
           authenticated: authData.authenticated,
