@@ -1,12 +1,8 @@
 let authData = null
 
 function getBaseUrl () {
-  if (window.location.hostname === 'localhost') {
-    return 'https://sample.azure.cosmo-platform.com'
-  } else {
-    return window.location.protocol + '//' +
-      window.location.host
-  }
+  return window.location.protocol + '//' +
+    window.location.host
 }
 
 function signIn () {
