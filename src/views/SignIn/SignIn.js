@@ -146,6 +146,12 @@ const SignIn = props => {
     auth.signIn()
   }
 
+  const handleAuthDevSignIn = event => {
+    event.preventDefault()
+    auth.setProvider(auth.providers.authDev)
+    auth.signIn()
+  }
+
   return (
     <div className={classes.root}>
       <Grid className={classes.grid} container>
@@ -179,6 +185,16 @@ const SignIn = props => {
                     >
                       Login with Azure Active Directory
                     </Button>
+                    {
+                      window.location.hostname === 'localhost' &&
+                        <Button
+                          onClick={handleAuthDevSignIn}
+                          size="large"
+                          variant="contained"
+                        >
+                          Login with Dev account
+                        </Button>
+                    }
                   </Grid>
                 </Grid>
                 <Typography color="textSecondary" variant="body1">

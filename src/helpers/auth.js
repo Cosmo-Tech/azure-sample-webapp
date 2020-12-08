@@ -1,5 +1,6 @@
 import azureB2C from './auth-azure-b2c.js'
 import azureAAD from './auth-azure-aad.js'
+import authDev from './auth-dev.js'
 
 // Functions to read & write from storage.
 // Notes : local storage works on Chromium but not on Firefox if "Delete
@@ -22,7 +23,8 @@ const onAuthChangeCallbacks = []
 
 const providers = {
   azureAAD: 'azure-aad',
-  azureB2C: 'azure-b2c'
+  azureB2C: 'azure-b2c',
+  authDev: 'auth-dev'
 }
 
 function setProvider (newProvider) {
@@ -33,7 +35,9 @@ function setProvider (newProvider) {
     case providers.azureB2C:
       currentProvider = azureB2C
       break
-    // TODO: Support more providers
+    case providers.authDev:
+      currentProvider = authDev
+      break
     default:
       console.error('Unknown provider "' + newProvider + '"')
       currentProvider = undefined
