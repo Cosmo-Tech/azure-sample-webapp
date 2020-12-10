@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import auth from '../../helpers/auth'
+import { Auth } from '@cosmotech/core'
 import { Box, Menu, MenuItem, withStyles } from '@material-ui/core'
 
 const useStyles = theme => ({
@@ -45,19 +45,19 @@ class UserInfo extends React.Component {
   componentDidMount () {
     this._isMounted = true
     // Bind callback to update component on authentication data change
-    auth.onAuthStateChanged(authData => {
+    Auth.onAuthStateChanged(authData => {
       if (authData && this._isMounted) {
         this.setState({
-          id: auth.getUserId(),
-          name: auth.getUserName(),
-          picUrl: auth.getUserPicUrl()
+          id: Auth.getUserId(),
+          name: Auth.getUserName(),
+          picUrl: Auth.getUserPicUrl()
         })
       }
     })
     // Get user data if authenticated
-    const id = auth.getUserId()
-    const name = auth.getUserName()
-    const picUrl = auth.getUserPicUrl()
+    const id = Auth.getUserId()
+    const name = Auth.getUserName()
+    const picUrl = Auth.getUserPicUrl()
     const newState = {}
     if (id !== undefined) {
       newState.id = id
@@ -102,7 +102,7 @@ class UserInfo extends React.Component {
         >
           <MenuItem className={classes.menuHead} disabled>{this.state.name}</MenuItem>
           <MenuItem onClick={() => {
-            auth.signOut()
+            Auth.signOut()
           }}>Logout</MenuItem>
         </Menu>
       </React.Fragment>
