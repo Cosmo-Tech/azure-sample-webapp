@@ -1157,10 +1157,10 @@
   resolved "https://registry.yarnpkg.com/@cosmotech/azure/-/azure-0.1.0.tgz#b975f8c4aeb2579b5954a76c02878c50aaa9d81c"
   integrity sha512-Yg1Gj1E1m+UHcyW+AZv48DX8iElZVEbcUrLrYpbVMrr2bEhb7ICWvuyqW6h5bbr/kTBQFI7EwGq5y+FA2jeKPg==
 
-"@cosmotech/core@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.0.1.tgz#f693399d2f8eccf028bfe6422323166189c83861"
-  integrity sha512-fHcR5K3vdwCS+7dejBcg6DHspUMWUnnd5AwvaZbW8ZSBe/LmV6wnVivONPR73QnUz7R3j+l0oIUaMC+fNJxClA==
+"@cosmotech/core@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.0.2.tgz#ac5415465df317325aa3a237cad46e47513c4507"
+  integrity sha512-T+bPfQeV7tXh2ETblwtaT8Ox4BUXpUZ/lWF8eWvC9nAp4cU8bcnFHhlgV8MjFdCe1QuWuXg6E98X5QJUpruYcw==
 
 "@csstools/convert-colors@^1.4.0":
   version "1.4.0"
