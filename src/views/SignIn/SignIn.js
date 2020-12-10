@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import { Auth, AuthDev } from '@cosmotech/core'
+import { AuthAAD } from '@cosmotech/azure'
 import PropTypes from 'prop-types'
 import validate from 'validate.js'
 import { makeStyles } from '@material-ui/styles'
@@ -142,7 +143,7 @@ const SignIn = props => {
 
   const handleAzureAADSignIn = event => {
     event.preventDefault()
-    Auth.setProvider(Auth.providers.azureAAD)
+    Auth.setProvider(AuthAAD.name)
     Auth.signIn()
   }
 
