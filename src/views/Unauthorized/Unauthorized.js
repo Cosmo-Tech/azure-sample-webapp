@@ -7,8 +7,7 @@ import {
   AppBar,
   Link as RefLink
 } from '@material-ui/core'
-
-import { UserInfo } from '../../components'
+import { UserInfo } from '@cosmotech/ui'
 
 const useStyles = makeStyles(theme => ({
   root: {
