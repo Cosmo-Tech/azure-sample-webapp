@@ -7,6 +7,7 @@ import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline'
 
 const useStyles = theme => ({
   button: {
+    margin: '2px'
   }
 })
 

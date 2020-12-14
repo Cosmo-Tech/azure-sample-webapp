@@ -1,6 +1,7 @@
 import React from 'react'
-import { withStyles } from '@material-ui/core/styles'
 import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
+import { Box } from '@material-ui/core'
 import apiConfig from '../../service/api'
 import {
   ButtonRunSimulation,
@@ -8,9 +9,26 @@ import {
 } from '../../components'
 
 const useStyles = theme => ({
-  root: {
-    margin: 'auto',
-    width: '100%'
+  toolbar: {
+    display: 'flex',
+    alignItems: 'center',
+    background: theme.palette.background.secondary,
+    padding: `${theme.spacing(1)}px ${theme.spacing(1)}px`,
+    position: 'relative',
+    zIndex: 11
+  },
+  toolbarActions: {
+    marginLeft: 'auto',
+    display: 'flex',
+    alignItems: 'center',
+    flexShrink: 0
+  },
+  digitalTwinPanel: {
+    flexGrow: 1,
+    padding: `0 ${theme.spacing(3)}px ${theme.spacing(2)}px ${theme.spacing(3)}px`,
+    display: 'flex',
+    flexDirection: 'column',
+    margin: '4px'
   }
 })
 
@@ -26,14 +44,20 @@ class DigitalTwin extends React.Component {
   render () {
     const { classes } = this.props
     return (
-      <div className={classes.root}>
-        <ButtonRunSimulation
-          apiConfig={apiConfig}
-          scenarioName={this.state.scenarioName}/>
-        <ButtonRunProtocol
-          apiConfig={apiConfig}
-          driverName={this.state.driverName}/>
-      </div>
+      <Box component='main' display='flex' flexDirection='column' height='100%'>
+        <Box className={classes.toolbar}>
+          <Box className={classes.toolbarActions}>
+            <ButtonRunSimulation
+              apiConfig={apiConfig}
+              scenarioName={this.state.scenarioName}/>
+            <ButtonRunProtocol
+              apiConfig={apiConfig}
+              driverName={this.state.driverName}/>
+          </Box>
+        </Box>
+        <Box className={classes.digitalTwinPanel}>
+        </Box>
+      </Box>
     )
   }
 }
