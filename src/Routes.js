@@ -8,10 +8,7 @@ import {
   SignIn as SignInView,
   Unauthorized as UnauthorizedView,
   DigitalTwin as DigitalTwinView,
-  ScoreCard as ScoreCardView,
-  ScenarioManager as ScenarioManagerView,
-  Dashboards as DashboardsView,
-  DataModel as DataModelView
+  Dashboards as DashboardsView
 } from './views'
 
 const Routes = props => {
@@ -24,28 +21,10 @@ const Routes = props => {
       render: () => <DigitalTwinView /> // eslint-disable-line
     },
     {
-      key: 'ScoreCard',
-      label: 'Score Card',
-      to: '/scorecard',
-      render: () => <ScoreCardView /> // eslint-disable-line
-    },
-    {
-      key: 'ScenarioManager',
-      label: 'Scenario Manager',
-      to: '/scenariomanager',
-      render: () => <ScenarioManagerView /> // eslint-disable-line
-    },
-    {
       key: 'Dashboards',
       label: 'Dashboards',
       to: '/dashboards',
       render: () => <DashboardsView /> // eslint-disable-line
-    },
-    {
-      key: 'DataModel',
-      label: 'Data Model',
-      to: '/datamodel',
-      render: () => <DataModelView /> // eslint-disable-line
     }
   ]
 
