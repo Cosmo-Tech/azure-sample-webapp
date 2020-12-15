@@ -37,7 +37,9 @@ class DigitalTwin extends React.Component {
     super(props)
     this.state = {
       scenarioName: 'Simulation',
-      driverName: 'custom-drivers/Supplychain.zip'
+      driverName: 'custom-drivers/Supplychain.zip',
+      popSize: 48,
+      totalSimulations: 200
     }
   }
 
@@ -49,10 +51,15 @@ class DigitalTwin extends React.Component {
           <Box className={classes.toolbarActions}>
             <ButtonRunSimulation
               apiConfig={apiConfig}
-              scenarioName={this.state.scenarioName}/>
+              scenarioName={this.state.scenarioName}
+            />
             <ButtonRunProtocol
               apiConfig={apiConfig}
-              driverName={this.state.driverName}/>
+              scenarioName={this.state.scenarioName}
+              driverName={this.state.driverName}
+              popSize={this.state.popSize}
+              totalSimulations={this.state.totalSimulations}
+            />
           </Box>
         </Box>
         <Box className={classes.digitalTwinPanel}>
