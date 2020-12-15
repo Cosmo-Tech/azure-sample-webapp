@@ -36,7 +36,7 @@ class DigitalTwin extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      scenarioName: 'Simulation',
+      simulationName: 'Simulation',
       driverName: 'custom-drivers/Supplychain.zip',
       popSize: 48,
       totalSimulations: 200
@@ -51,11 +51,11 @@ class DigitalTwin extends React.Component {
           <Box className={classes.toolbarActions}>
             <ButtonRunSimulation
               apiConfig={apiConfig}
-              scenarioName={this.state.scenarioName}
+              simulationName={this.state.simulationName}
             />
             <ButtonRunProtocol
               apiConfig={apiConfig}
-              scenarioName={this.state.scenarioName}
+              simulationName={this.state.simulationName}
               driverName={this.state.driverName}
               popSize={this.state.popSize}
               totalSimulations={this.state.totalSimulations}
