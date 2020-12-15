@@ -74,9 +74,6 @@ class ButtonRunSimulation extends React.Component {
     simulatorRunArgs.push('--amqp-consumer')
     simulatorRunArgs.push(this.props.apiConfig.amqpConsumer)
 
-    console.log('test:')
-    console.log(this.props.apiConfig.amqpConsumer)
-
     for (const i in simulatorRunArgs) {
       url += '&runArgs=' + simulatorRunArgs[i]
     }
