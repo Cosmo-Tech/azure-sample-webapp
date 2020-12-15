@@ -15,6 +15,7 @@ class ButtonRunSimulation extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
+      disabled: false
     }
 
     // Bind methods
@@ -23,36 +24,29 @@ class ButtonRunSimulation extends React.Component {
   }
 
   handleClick () {
+    // Disable button to prevent multiple clicks
+    this.setState({
+      disabled: true
+    })
+    // Start the simulation
     this.startSimulation()
+    // Enable button after a delay
+    // TODO: move disabled state attribute to a higher component
+    window.setTimeout(() => {
+      this.setState({
+        disabled: false
+      })
+    }, 2000)
   }
 
   startSimulation () {
     // Check mandatory parameters
-    if (this.props.apiConfig.url === undefined ||
-        this.props.apiConfig.url.length === 0) {
-      console.error('REST API url is empty or undefined, ' +
-        'can\'t run simulation')
-      return
-    }
-    if (this.props.apiConfig.key === undefined ||
-        this.props.apiConfig.key.length === 0) {
-      console.error('REST API key is empty or undefined, ' +
-        'can\'t run simulation')
-      return
-    }
     if (this.props.apiConfig.simulator === undefined ||
         this.props.apiConfig.simulator.length === 0) {
       console.error('Simulator parameter is empty or undefined, ' +
         'can\'t run simulation')
       return
     }
-    if (this.props.apiConfig.amqpConsumer === undefined ||
-        this.props.apiConfig.amqpConsumer.length === 0) {
-      console.error('AMQP parameter is empty or undefined, ' +
-        'can\'t run simulation')
-      return
-    }
-
     if (this.props.scenarioName === undefined ||
         this.props.scenarioName.length === 0) {
       console.error('Scenario name parameter is empty or undefined, ' +
@@ -61,25 +55,10 @@ class ButtonRunSimulation extends React.Component {
     }
 
     // Forge request URL
-    const newSimEndpoint = 'simulations/new'
-    let url = this.props.apiConfig.url + '/' + newSimEndpoint + '?'
-    // Mandatory REST API key
-    url += 'key=' + this.props.apiConfig.key
+    let url = '/api/RunSimulation?'
     // Mandatory simulator parameter
     url += '&simulator=' + this.props.apiConfig.simulator
-    // SimulatorRunArgs
-    const simulatorRunArgs = []
-    simulatorRunArgs.push('--input')
-    simulatorRunArgs.push(this.props.scenarioName)
-    simulatorRunArgs.push('--amqp-consumer')
-    simulatorRunArgs.push(this.props.apiConfig.amqpConsumer)
-
-    for (const i in simulatorRunArgs) {
-      url += '&runArgs=' + simulatorRunArgs[i]
-    }
-
-    // Debug log
-    console.log(url)
+    url += '&simulation=' + this.props.scenarioName
 
     fetch(url, {
       method: 'POST',
@@ -99,16 +78,10 @@ class ButtonRunSimulation extends React.Component {
       })
       .then(data => {
         if (data === undefined) { return }
-
-        // Debug log
-        console.log('Simulation started:')
-        console.log(' - data: ')
-        console.log(data)
-        // console.log(' - jobName: ' + data.jobName)
-        // console.log(' - sagaId: ' + data.sagaId)
-
-      // Send saga id to the "scenario manager"
-      // this.props.onSimulationStarted(data.sagaId, scenarioId)
+        // Send saga id to the "scenario manager"
+        if (this.props.onSimulationStarted) {
+          this.props.onSimulationStarted(data.sagaId, data.jobName)
+        }
       })
   }
 
@@ -118,6 +91,7 @@ class ButtonRunSimulation extends React.Component {
       <Box>
         <Button
           variant="contained"
+          disabled={this.state.disabled}
           color="primary"
           size="medium"
           className={classes.button}
@@ -131,12 +105,10 @@ class ButtonRunSimulation extends React.Component {
 
 ButtonRunSimulation.propTypes = {
   classes: PropTypes.any,
+  onSimulationStarted: PropTypes.func,
   scenarioName: PropTypes.string.isRequired,
   apiConfig: PropTypes.shape({
-    url: PropTypes.string.isRequired,
-    key: PropTypes.string.isRequired,
-    simulator: PropTypes.string.isRequired,
-    amqpConsumer: PropTypes.string.isRequired
+    simulator: PropTypes.string.isRequired
   })
 }
 

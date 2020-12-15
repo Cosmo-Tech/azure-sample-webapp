@@ -15,44 +15,44 @@ class ButtonRunProtocol extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
+      disabled: false
     }
 
     // Bind methods
-    this.startSimulation = this.startSimulation.bind(this)
+    this.startProtocol = this.startProtocol.bind(this)
     this.handleClick = this.handleClick.bind(this)
   }
 
   handleClick () {
-    this.startSimulation()
+    // Disable button to prevent multiple clicks
+    this.setState({
+      disabled: true
+    })
+    // Start the protocol
+    this.startProtocol()
+    // Enable button after a delay
+    // TODO: move disabled state attribute to a higher component
+    window.setTimeout(() => {
+      this.setState({
+        disabled: false
+      })
+    }, 2000)
   }
 
-  startSimulation () {
+  startProtocol () {
     // Check mandatory parameters
-    if (this.props.apiConfig.url === undefined ||
-        this.props.apiConfig.url.length === 0) {
-      console.error('REST API url is empty or undefined, ' +
-        'can\'t run simulation')
-      return
-    }
-    if (this.props.apiConfig.key === undefined ||
-        this.props.apiConfig.key.length === 0) {
-      console.error('REST API key is empty or undefined, ' +
-        'can\'t run simulation')
-      return
-    }
     if (this.props.apiConfig.simulator === undefined ||
         this.props.apiConfig.simulator.length === 0) {
       console.error('Simulator parameter is empty or undefined, ' +
         'can\'t run simulation')
       return
     }
-    if (this.props.apiConfig.driverConnection === undefined ||
-        this.props.apiConfig.driverConnection.length === 0) {
-      console.error('Driver connection parameter is empty or undefined, ' +
+    if (this.props.scenarioName === undefined ||
+        this.props.scenarioName.length === 0) {
+      console.error('Scenario name parameter is empty or undefined, ' +
         'can\'t run simulation')
       return
     }
-
     if (this.props.driverName === undefined ||
         this.props.driverName.length === 0) {
       console.error('Driver name parameter is empty or undefined, ' +
@@ -61,25 +61,17 @@ class ButtonRunProtocol extends React.Component {
     }
 
     // Forge request URL
-    const newSimEndpoint = 'simulations/new'
-    let url = this.props.apiConfig.url + '/' + newSimEndpoint + '?'
-    // Mandatory REST API key
-    url += 'key=' + this.props.apiConfig.key
+    let url = '/api/RunProtocol?'
     // Mandatory simulator parameter
     url += '&simulator=' + this.props.apiConfig.simulator
-    // SimulatorRunArgs
-    const simulatorRunArgs = []
-    simulatorRunArgs.push('--custom-driver')
-    simulatorRunArgs.push(this.props.driverName)
-    simulatorRunArgs.push('--custom-driver-connection')
-    simulatorRunArgs.push(this.props.apiConfig.driverConnection)
-
-    for (const i in simulatorRunArgs) {
-      url += '&runArgs=' + simulatorRunArgs[i]
+    url += '&simulation=' + this.props.scenarioName
+    url += '&driverName=' + this.props.driverName
+    if (this.props.popSize !== undefined) {
+      url += '&popSize=' + this.props.popSize
     }
-
-    // Debug log
-    console.log(url)
+    if (this.props.totalSimulations !== undefined) {
+      url += '&totalSimulations=' + this.props.totalSimulations
+    }
 
     fetch(url, {
       method: 'POST',
@@ -99,16 +91,10 @@ class ButtonRunProtocol extends React.Component {
       })
       .then(data => {
         if (data === undefined) { return }
-
-        // Debug log
-        console.log('Simulation started:')
-        console.log(' - data: ')
-        console.log(data)
-        // console.log(' - jobName: ' + data.jobName)
-        // console.log(' - sagaId: ' + data.sagaId)
-
-      // Send saga id to the "scenario manager"
-      // this.props.onSimulationStarted(data.sagaId, scenarioId)
+        // Send saga id to the "scenario manager"
+        if (this.props.onProtocolStarted) {
+          this.props.onProtocolStarted(data.sagaId, data.jobName)
+        }
       })
   }
 
@@ -118,6 +104,7 @@ class ButtonRunProtocol extends React.Component {
       <Box>
         <Button
           variant="contained"
+          disabled={this.state.disabled}
           color="primary"
           size="medium"
           className={classes.button}
@@ -131,12 +118,13 @@ class ButtonRunProtocol extends React.Component {
 
 ButtonRunProtocol.propTypes = {
   classes: PropTypes.any,
+  onProtocolStarted: PropTypes.func,
+  scenarioName: PropTypes.string.isRequired,
   driverName: PropTypes.string.isRequired,
+  popSize: PropTypes.number,
+  totalSimulations: PropTypes.number,
   apiConfig: PropTypes.shape({
-    url: PropTypes.string.isRequired,
-    key: PropTypes.string.isRequired,
-    simulator: PropTypes.string.isRequired,
-    driverConnection: PropTypes.string.isRequired
+    simulator: PropTypes.string.isRequired
   })
 }
 
