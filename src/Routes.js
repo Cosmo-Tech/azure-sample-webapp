@@ -7,8 +7,7 @@ import { Tab as TabLayout } from './layouts'
 import {
   SignIn as SignInView,
   Unauthorized as UnauthorizedView,
-  DigitalTwin as DigitalTwinView,
-  Dashboards as DashboardsView
+  DigitalTwin as DigitalTwinView
 } from './views'
 
 const Routes = props => {
@@ -19,12 +18,6 @@ const Routes = props => {
       label: 'Digital Twin',
       to: '/digitaltwin',
       render: () => <DigitalTwinView /> // eslint-disable-line
-    },
-    {
-      key: 'Dashboards',
-      label: 'Dashboards',
-      to: '/dashboards',
-      render: () => <DashboardsView /> // eslint-disable-line
     }
   ]
 

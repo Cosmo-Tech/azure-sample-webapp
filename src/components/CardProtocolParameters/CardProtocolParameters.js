@@ -10,13 +10,17 @@ import {
   Slider,
   Typography
 } from '@material-ui/core'
+import { ButtonRunProtocol } from '../../components'
+import apiConfig from '../../service/api'
 
 const useStyles = theme => ({
   card: {
     height: '100%',
     color: '#FFFFFF',
     backgroundColor: theme.palette.background.secondary,
-    margin: '8px'
+    marginBottom: '8px',
+    marginLeft: '4px',
+    marginRight: '4px'
   },
   title: {
     margin: '16px',
@@ -46,6 +50,12 @@ const useStyles = theme => ({
   },
   input: {
     width: 56
+  },
+  buttonContainer: {
+    marginTop: '16px',
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center'
   }
 })
 
@@ -164,6 +174,15 @@ class CardProtocolParameters extends React.Component {
               type: 'number',
               'aria-labelledby': 'protocol-parameters-total-simulations-slider'
             }}
+          />
+        </div>
+        <div className={classes.buttonContainer}>
+          <ButtonRunProtocol
+            apiConfig={apiConfig}
+            simulationName={this.state.simulationName}
+            driverName={this.state.driverName}
+            popSize={this.state.popSize}
+            totalSimulations={this.state.totalSimulations}
           />
         </div>
       </Card>

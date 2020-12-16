@@ -9,7 +9,7 @@ import Footer from './components/Footer'
 
 const useStyles = makeStyles((theme) => ({
   content: {
-    minHeight: 'calc(100% - 36px)', // footer height = 36px
+    height: 'calc(100% - 36px)', // footer height = 36px
     paddingTop: theme.spacing(6),
     paddingLeft: theme.spacing(0),
     paddingRight: theme.spacing(0),
