@@ -65,7 +65,7 @@ class ButtonRunProtocol extends React.Component {
     // Mandatory simulator parameter
     url += '&simulator=' + this.props.apiConfig.simulator
     url += '&simulation=' + this.props.simulationName
-    url += '&driverName=' + this.props.driverName
+    url += '&driverName=' + 'custom-drivers/' + this.props.driverName
     if (this.props.popSize !== undefined) {
       url += '&popSize=' + this.props.popSize
     }

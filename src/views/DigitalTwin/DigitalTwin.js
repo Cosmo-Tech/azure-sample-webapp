@@ -44,7 +44,7 @@ class DigitalTwin extends React.Component {
     this.state = {
       simulationsList: ['Simulation'],
       simulationName: 'Simulation',
-      driverName: 'custom-drivers/Supplychain.zip',
+      driverName: 'Supplychain.zip',
       popSize: 48,
       totalSimulations: 200
     }
