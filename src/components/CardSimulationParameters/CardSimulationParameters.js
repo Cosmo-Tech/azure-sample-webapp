@@ -2,13 +2,17 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import { Card, MenuItem, Select, Typography } from '@material-ui/core'
+import { ButtonRunSimulation } from '../../components'
+import apiConfig from '../../service/api'
 
 const useStyles = theme => ({
   card: {
     height: '100%',
     color: '#FFFFFF',
     backgroundColor: theme.palette.background.secondary,
-    margin: '8px'
+    marginBottom: '8px',
+    marginLeft: '4px',
+    marginRight: '4px'
   },
   title: {
     margin: '16px',
@@ -28,6 +32,12 @@ const useStyles = theme => ({
   },
   select: {
     marginLeft: '8px'
+  },
+  buttonContainer: {
+    marginTop: '16px',
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center'
   }
 })
 
@@ -64,6 +74,12 @@ class CardSimulationParameters extends React.Component {
             onChange={this.onSimulationNameChange}>
             { generateMenuItems(this.props.simulationsList) }
           </Select>
+        </div>
+        <div className={classes.buttonContainer}>
+          <ButtonRunSimulation
+            apiConfig={apiConfig}
+            simulationName={this.state.simulationName}
+          />
         </div>
       </Card>
     )
