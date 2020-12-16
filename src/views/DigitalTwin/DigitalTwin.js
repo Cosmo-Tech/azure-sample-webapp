@@ -6,7 +6,8 @@ import apiConfig from '../../service/api'
 import {
   ButtonRunSimulation,
   ButtonRunProtocol,
-  CardSimulationParameters
+  CardSimulationParameters,
+  CardProtocolParameters
 } from '../../components'
 
 const useStyles = theme => ({
@@ -43,6 +44,7 @@ class DigitalTwin extends React.Component {
     super(props)
     this.state = {
       simulationsList: ['Simulation'],
+      driversList: ['Supplychain.zip'],
       simulationName: 'Simulation',
       driverName: 'Supplychain.zip',
       popSize: 48,
@@ -97,6 +99,15 @@ class DigitalTwin extends React.Component {
                 simulationsList={this.state.simulationsList}
                 simulationName={this.state.simulationName}
                 onSimulationNameChange={this.setSimulationName}
+              />
+              <CardProtocolParameters
+                driversList={this.state.driversList}
+                driverName={this.state.driverName}
+                popSize={this.state.popSize}
+                totalSimulations={this.state.totalSimulations}
+                onDriverNameChange={this.setDriverName}
+                onPopSizeChange={this.setPopSize}
+                onTotalSimulationsChange={this.setTotalSimulations}
               />
             </Grid>
             <Grid item xs={8}>
