@@ -47,9 +47,9 @@ class ButtonRunProtocol extends React.Component {
         'can\'t run simulation')
       return
     }
-    if (this.props.scenarioName === undefined ||
-        this.props.scenarioName.length === 0) {
-      console.error('Scenario name parameter is empty or undefined, ' +
+    if (this.props.simulationName === undefined ||
+        this.props.simulationName.length === 0) {
+      console.error('Simulation name parameter is empty or undefined, ' +
         'can\'t run simulation')
       return
     }
@@ -64,8 +64,8 @@ class ButtonRunProtocol extends React.Component {
     let url = '/api/RunProtocol?'
     // Mandatory simulator parameter
     url += '&simulator=' + this.props.apiConfig.simulator
-    url += '&simulation=' + this.props.scenarioName
-    url += '&driverName=' + this.props.driverName
+    url += '&simulation=' + this.props.simulationName
+    url += '&driverName=' + 'custom-drivers/' + this.props.driverName
     if (this.props.popSize !== undefined) {
       url += '&popSize=' + this.props.popSize
     }
@@ -119,7 +119,7 @@ class ButtonRunProtocol extends React.Component {
 ButtonRunProtocol.propTypes = {
   classes: PropTypes.any,
   onProtocolStarted: PropTypes.func,
-  scenarioName: PropTypes.string.isRequired,
+  simulationName: PropTypes.string.isRequired,
   driverName: PropTypes.string.isRequired,
   popSize: PropTypes.number,
   totalSimulations: PropTypes.number,

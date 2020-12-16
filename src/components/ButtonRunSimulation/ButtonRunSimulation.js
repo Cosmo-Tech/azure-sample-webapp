@@ -47,9 +47,9 @@ class ButtonRunSimulation extends React.Component {
         'can\'t run simulation')
       return
     }
-    if (this.props.scenarioName === undefined ||
-        this.props.scenarioName.length === 0) {
-      console.error('Scenario name parameter is empty or undefined, ' +
+    if (this.props.simulationName === undefined ||
+        this.props.simulationName.length === 0) {
+      console.error('Simulation name parameter is empty or undefined, ' +
         'can\'t run simulation')
       return
     }
@@ -58,7 +58,7 @@ class ButtonRunSimulation extends React.Component {
     let url = '/api/RunSimulation?'
     // Mandatory simulator parameter
     url += '&simulator=' + this.props.apiConfig.simulator
-    url += '&simulation=' + this.props.scenarioName
+    url += '&simulation=' + this.props.simulationName
 
     fetch(url, {
       method: 'POST',
@@ -106,7 +106,7 @@ class ButtonRunSimulation extends React.Component {
 ButtonRunSimulation.propTypes = {
   classes: PropTypes.any,
   onSimulationStarted: PropTypes.func,
-  scenarioName: PropTypes.string.isRequired,
+  simulationName: PropTypes.string.isRequired,
   apiConfig: PropTypes.shape({
     simulator: PropTypes.string.isRequired
   })
