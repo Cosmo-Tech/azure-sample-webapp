@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@azure/msal-browser@^2.7.0":
+"@azure/msal-browser@^2.8.0":
   version "2.8.0"
   resolved "https://registry.yarnpkg.com/@azure/msal-browser/-/msal-browser-2.8.0.tgz#16e310e430b57768eba5b14289c7e16975a4dd7d"
   integrity sha512-I6n7EQnwsZXgKPOLlS5X48jhzUNUFwMVm180wDBA/pwEkUy8ei6zWiPMBfWaMSxz9uNx9WHaEhgAyhJy0ze3AQ==
@@ -1149,22 +1149,23 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@cosmotech/azure@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@cosmotech/azure/-/azure-0.1.0.tgz#b975f8c4aeb2579b5954a76c02878c50aaa9d81c"
-  integrity sha512-Yg1Gj1E1m+UHcyW+AZv48DX8iElZVEbcUrLrYpbVMrr2bEhb7ICWvuyqW6h5bbr/kTBQFI7EwGq5y+FA2jeKPg==
-
-"@cosmotech/core@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.0.2.tgz#ac5415465df317325aa3a237cad46e47513c4507"
-  integrity sha512-T+bPfQeV7tXh2ETblwtaT8Ox4BUXpUZ/lWF8eWvC9nAp4cU8bcnFHhlgV8MjFdCe1QuWuXg6E98X5QJUpruYcw==
-
-"@cosmotech/ui@0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-0.1.0.tgz#1b1a35c180c09c748ceaa3081de4e6e8ace320e4"
-  integrity sha512-JOWtVcxY/tmomM1duP9iJLzya3FEKT1DvdzHT3MX+dfQqAwWHVAOn++5Bwxg9Z54EEv4+UIeMn5YYTa4YmxnaQ==
+"@cosmotech/azure@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@cosmotech/azure/-/azure-0.3.0.tgz#816aa72df6629218c46e551c35413df5986de6af"
+  integrity sha512-xCODdI7uYxPiaPyNkGeWdzG3T0wJYztC6oXeptRt0zCc2nPsc88MUDyX1to8TlelfHY77XtBtq95XSjPO83vLA==
   dependencies:
-    "@cosmotech/core" "^1.0.2"
+    "@azure/msal-browser" "^2.8.0"
+
+"@cosmotech/core@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.1.1.tgz#86d18d7cd5e679733db1ad0bb717f7b16d7e6878"
+  integrity sha512-BJ6bbq7BFcchblBNaGZg3D8jgkHNryvtfyRQ+sN6yQUfxhoKyKMDNyfL7A2ZuTgdu8ZniJ0s6W8VqKgUJsjy+w==
+
+"@cosmotech/ui@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-0.2.0.tgz#181d850320f74f425627d34b18dbb164d1e3893a"
+  integrity sha512-oq9Ivt+/BEE8OWoZQgcWHjCE4r/2Dz9LHeV4p5xKV1+UzxuITIzlo2kQLuxpGY5BmFQSNFGTa2UB9zaK9987Lg==
+  dependencies:
     "@material-ui/core" "^4.11.2"
     prop-types "^15.7.2"
 

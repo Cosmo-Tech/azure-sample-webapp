@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import { Auth, AuthDev } from '@cosmotech/core'
-import { AuthAAD } from '@cosmotech/azure'
-import PropTypes from 'prop-types'
+import { AuthMSAL, AuthStaticWebApp } from '@cosmotech/azure'
 import validate from 'validate.js'
 import { makeStyles } from '@material-ui/styles'
 import {
@@ -108,6 +107,9 @@ const useStyles = makeStyles(theme => ({
   socialIcon: {
     marginRight: theme.spacing(1)
   },
+  loginButton: {
+    marginTop: theme.spacing(1)
+  },
   sugestion: {
     marginTop: theme.spacing(2)
   },
@@ -120,8 +122,6 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const SignIn = props => {
-  // const { history } = props
-
   const classes = useStyles()
 
   const [formState, setFormState] = useState({
@@ -141,9 +141,15 @@ const SignIn = props => {
     }))
   }, [formState.values])
 
-  const handleAzureAADSignIn = event => {
+  const handleAzureStaticWebAppSignIn = event => {
     event.preventDefault()
-    Auth.setProvider(AuthAAD.name)
+    Auth.setProvider(AuthStaticWebApp.name)
+    Auth.signIn()
+  }
+
+  const handleAzureMSALSignIn = event => {
+    event.preventDefault()
+    Auth.setProvider(AuthMSAL.name)
     Auth.signIn()
   }
 
@@ -180,15 +186,25 @@ const SignIn = props => {
                 <Grid className={classes.socialButtons} container spacing={2}>
                   <Grid item>
                     <Button
-                      onClick={handleAzureAADSignIn}
+                      className={classes.loginButton}
+                      onClick={handleAzureMSALSignIn}
                       size="large"
                       variant="contained"
                     >
-                      Login with Azure Active Directory
+                      Login with Active Directory (MSAL)
+                    </Button>
+                    <Button
+                      className={classes.loginButton}
+                      onClick={handleAzureStaticWebAppSignIn}
+                      size="large"
+                      variant="contained"
+                    >
+                      Login with Active Directory (Static Web App)
                     </Button>
                     {
                       window.location.hostname === 'localhost' &&
                         <Button
+                          className={classes.loginButton}
                           onClick={handleAuthDevSignIn}
                           size="large"
                           variant="contained"
@@ -211,7 +227,6 @@ const SignIn = props => {
 }
 
 SignIn.propTypes = {
-  history: PropTypes.object
 }
 
 export default withRouter(SignIn)
