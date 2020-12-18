@@ -1149,10 +1149,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@cosmotech/azure@^0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@cosmotech/azure/-/azure-0.3.0.tgz#816aa72df6629218c46e551c35413df5986de6af"
-  integrity sha512-xCODdI7uYxPiaPyNkGeWdzG3T0wJYztC6oXeptRt0zCc2nPsc88MUDyX1to8TlelfHY77XtBtq95XSjPO83vLA==
+"@cosmotech/azure@^0.3.0-dev":
+  version "0.3.0-dev"
+  resolved "https://registry.yarnpkg.com/@cosmotech/azure/-/azure-0.3.0-dev.tgz#54e9ea62ecd24b5bb1ac06f524a573500b4d2f75"
+  integrity sha512-IKSCINttm+21yGQLwtoN5oO1mNWMeX3Dy1+KGCDZvJJMPXabXinefZZIdLa1W87Ea+mh3PZDY48AcfiDGXgceg==
   dependencies:
     "@azure/msal-browser" "^2.8.0"
 
