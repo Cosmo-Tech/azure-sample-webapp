@@ -5,7 +5,7 @@
   "dependencies": {
     "@cosmotech/azure": "^0.3.0",
     "@cosmotech/core": "^1.1.1",
-    "@cosmotech/ui": "^0.2.0",
+    "@cosmotech/ui": "^0.2.1",
     "@material-ui/core": "^4.11.2",
     "@material-ui/icons": "^4.11.2",
     "@testing-library/jest-dom": "^5.11.6",
