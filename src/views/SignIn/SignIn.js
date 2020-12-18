@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import { Auth, AuthDev } from '@cosmotech/core'
-import { AuthAAD } from '@cosmotech/azure'
-import PropTypes from 'prop-types'
+import { AuthAAD, AuthB2C } from '@cosmotech/azure'
 import validate from 'validate.js'
 import { makeStyles } from '@material-ui/styles'
 import {
@@ -108,6 +107,9 @@ const useStyles = makeStyles(theme => ({
   socialIcon: {
     marginRight: theme.spacing(1)
   },
+  loginButton: {
+    marginTop: theme.spacing(1)
+  },
   sugestion: {
     marginTop: theme.spacing(2)
   },
@@ -120,8 +122,6 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const SignIn = props => {
-  // const { history } = props
-
   const classes = useStyles()
 
   const [formState, setFormState] = useState({
@@ -144,6 +144,12 @@ const SignIn = props => {
   const handleAzureAADSignIn = event => {
     event.preventDefault()
     Auth.setProvider(AuthAAD.name)
+    Auth.signIn()
+  }
+
+  const handleAzureB2CSignIn = event => {
+    event.preventDefault()
+    Auth.setProvider(AuthB2C.name)
     Auth.signIn()
   }
 
@@ -180,6 +186,15 @@ const SignIn = props => {
                 <Grid className={classes.socialButtons} container spacing={2}>
                   <Grid item>
                     <Button
+                      className={classes.loginButton}
+                      onClick={handleAzureB2CSignIn}
+                      size="large"
+                      variant="contained"
+                    >
+                      Login with Azure B2C
+                    </Button>
+                    <Button
+                      className={classes.loginButton}
                       onClick={handleAzureAADSignIn}
                       size="large"
                       variant="contained"
@@ -189,6 +204,7 @@ const SignIn = props => {
                     {
                       window.location.hostname === 'localhost' &&
                         <Button
+                          className={classes.loginButton}
                           onClick={handleAuthDevSignIn}
                           size="large"
                           variant="contained"
@@ -211,7 +227,6 @@ const SignIn = props => {
 }
 
 SignIn.propTypes = {
-  history: PropTypes.object
 }
 
 export default withRouter(SignIn)
