@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import { Auth, AuthDev } from '@cosmotech/core'
-import { AuthAAD, AuthB2C } from '@cosmotech/azure'
+import { AuthMSAL, AuthStaticWebApp } from '@cosmotech/azure'
 import validate from 'validate.js'
 import { makeStyles } from '@material-ui/styles'
 import {
@@ -141,15 +141,15 @@ const SignIn = props => {
     }))
   }, [formState.values])
 
-  const handleAzureAADSignIn = event => {
+  const handleAzureStaticWebAppSignIn = event => {
     event.preventDefault()
-    Auth.setProvider(AuthAAD.name)
+    Auth.setProvider(AuthStaticWebApp.name)
     Auth.signIn()
   }
 
-  const handleAzureB2CSignIn = event => {
+  const handleAzureMSALSignIn = event => {
     event.preventDefault()
-    Auth.setProvider(AuthB2C.name)
+    Auth.setProvider(AuthMSAL.name)
     Auth.signIn()
   }
 
@@ -187,19 +187,19 @@ const SignIn = props => {
                   <Grid item>
                     <Button
                       className={classes.loginButton}
-                      onClick={handleAzureB2CSignIn}
+                      onClick={handleAzureMSALSignIn}
                       size="large"
                       variant="contained"
                     >
-                      Login with Azure B2C
+                      Login with Active Directory (MSAL)
                     </Button>
                     <Button
                       className={classes.loginButton}
-                      onClick={handleAzureAADSignIn}
+                      onClick={handleAzureStaticWebAppSignIn}
                       size="large"
                       variant="contained"
                     >
-                      Login with Azure Active Directory
+                      Login with Active Directory (Static Web App)
                     </Button>
                     {
                       window.location.hostname === 'localhost' &&
