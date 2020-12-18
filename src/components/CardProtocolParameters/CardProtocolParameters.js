@@ -179,10 +179,10 @@ class CardProtocolParameters extends React.Component {
         <div className={classes.buttonContainer}>
           <ButtonRunProtocol
             apiConfig={apiConfig}
-            simulationName={this.state.simulationName}
-            driverName={this.state.driverName}
-            popSize={this.state.popSize}
-            totalSimulations={this.state.totalSimulations}
+            simulationName={this.props.simulationName}
+            driverName={this.props.driverName}
+            popSize={this.props.popSize}
+            totalSimulations={this.props.totalSimulations}
           />
         </div>
       </Card>
@@ -202,6 +202,7 @@ function generateMenuItems (simulations) {
 
 CardProtocolParameters.propTypes = {
   classes: PropTypes.any,
+  simulationName: PropTypes.string.isRequired,
   driversList: PropTypes.array.isRequired,
   driverName: PropTypes.string.isRequired,
   popSize: PropTypes.number.isRequired,

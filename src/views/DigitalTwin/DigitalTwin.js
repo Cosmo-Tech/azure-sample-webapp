@@ -95,6 +95,7 @@ class DigitalTwin extends React.Component {
                 <Grid item>
                   <CardProtocolParameters
                     driversList={this.state.driversList}
+                    simulationName={this.state.simulationName}
                     driverName={this.state.driverName}
                     popSize={this.state.popSize}
                     totalSimulations={this.state.totalSimulations}

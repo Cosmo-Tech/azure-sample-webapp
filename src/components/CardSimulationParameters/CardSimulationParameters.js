@@ -78,7 +78,7 @@ class CardSimulationParameters extends React.Component {
         <div className={classes.buttonContainer}>
           <ButtonRunSimulation
             apiConfig={apiConfig}
-            simulationName={this.state.simulationName}
+            simulationName={this.props.simulationName}
           />
         </div>
       </Card>
