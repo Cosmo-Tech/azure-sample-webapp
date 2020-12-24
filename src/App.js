@@ -18,6 +18,8 @@ class App extends Component {
     }
     this._isMounted = false
     this.authenticationDone = this.authenticationDone.bind(this)
+    this.debugLocalKey = this.debugLocalKey.bind(this)
+    this.debugToken = this.debugToken.bind(this)
   }
 
   async componentDidMount () {
@@ -32,7 +34,23 @@ class App extends Component {
     }
   }
 
+  debugLocalKey (key) {
+    const value = localStorage.getItem(key)
+    if (value) {
+      console.log(key + ': ' + value)
+    } else {
+      console.log(key + ': ' + 'NO VALUE')
+    }
+  }
+
+  debugToken () {
+    this.debugLocalKey('authIdTokenPopup')
+    this.debugLocalKey('authIdToken')
+    this.debugLocalKey('authAccessToken')
+  }
+
   authenticationDone (authenticated) {
+    this.debugToken()
     if (authenticated) {
       this.setState({
         authenticated: authenticated,

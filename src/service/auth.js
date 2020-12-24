@@ -6,11 +6,14 @@ const msalConfig = {
   loginRequest: {
     scopes: ['user.read']
   },
+  accessRequest: {
+    scopes: ['https://cosmotechweb.onmicrosoft.com/cosmo_sample/cosmoplatform']
+  },
   msalConfig: {
     auth: {
-      clientId: 'dbc3efdc-2aa4-4683-a24f-20c7b1614bbc',
+      clientId: '3ae79982-a3dd-471b-9a9e-268b4ff0d5a6',
       redirectUri: window.location.protocol + '//' + window.location.host + '/digitaltwin',
-      authority: 'https://login.microsoftonline.com/e9641c78-d0d6-4d09-af63-168922724e7f/',
+      authority: 'https://login.microsoftonline.com/1fcfc752-2be8-42b2-be24-0f1bb2ef2164/',
       knownAuthorities: ['https://login.microsoftonline.com']
     },
     cache: {
