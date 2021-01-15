@@ -23,8 +23,9 @@ module.exports = async function (context, req) {
   // Process the request
   const url = forgeUrl()
   const body = forgeBody(req.query.simulator, req.query.simulation)
+  context.log(body)
   const res = await fetch(url,
-    { method: 'POST', headers: { Accept: 'application/json' }, body: JSON.stringify(body) })
+    { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(body) })
   // Check if the call succeeded
   if (!res.ok) {
     context.log.error('Simulation run request failed with status ' +
@@ -39,6 +40,8 @@ module.exports = async function (context, req) {
       status: res.status,
       body: data
     }
+
+    context.log(data)
   }
   context.done()
 }
@@ -70,8 +73,8 @@ function checkServerApiConfig (context) {
   const azureClientSecret = process.env.REST_AZURE_CLIENT_SECRET
   // Event Hub
   const amqpConsumer = process.env.REST_API_AMQP_CONSUMER
-  const amqpUser = process.env.REST_API_AMQP_CONSUMER_USER
-  const amqpKey = process.env.REST_API_AMQP_CONSUMER_PASSWORD
+  const amqpUser = process.env.REST_CSM_AMQPCONSUMER_USER
+  const amqpKey = process.env.REST_CSM_AMQPCONSUMER_PASSWORD
   // Check mandatory parameters
   let msg
   if (url === undefined || url.length === 0) {
@@ -127,8 +130,8 @@ function forgeBody(simulator, simulation) {
   const azureClientSecret = process.env.REST_AZURE_CLIENT_SECRET
   // Event Hub
   const amqpConsumer = process.env.REST_API_AMQP_CONSUMER
-  const amqpUser = process.env.REST_API_AMQP_CONSUMER_USER
-  const amqpKey = process.env.REST_API_AMQP_CONSUMER_PASSWORD
+  const amqpUser = process.env.REST_CSM_AMQPCONSUMER_USER
+  const amqpKey = process.env.REST_CSM_AMQPCONSUMER_PASSWORD
 
   const body = {
     "init": {
