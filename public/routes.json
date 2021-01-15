@@ -6,7 +6,7 @@
       "statusCode": 200
     },
     {
-      "route": "/api/*",
+      "route": "/api/RunSimulation",
       "allowedRoles": ["reader"]
     }
   ]
