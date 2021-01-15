@@ -3,7 +3,7 @@ const fetch = require('node-fetch')
 module.exports = async function (context, req) {
   context.log('JavaScript HTTP function RunSimulation has been triggered')
   // Check REST API configuration from Azure Function parameters sent by user
-  let error = checkCSimulation(context, req)
+  let error = checkClientParametersApiConfig(context, req)
   if (error !== undefined) {
     context.res = { status: 400, body: error }
     context.done()
