@@ -1,14 +1,6 @@
 {
   "routes": [
     {
-      "route": "/api/admin",
-      "allowedRoles": ["admin"]
-    },
-    {
-      "route": "/api/message",
-      "allowedRoles": ["authenticated"]
-    },
-    {
       "route": "/*",
       "serve": "/index.html",
       "statusCode": 200
