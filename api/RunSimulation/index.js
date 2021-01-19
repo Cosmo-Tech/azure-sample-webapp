@@ -1,7 +1,31 @@
 const fetch = require('node-fetch')
+const jwt = require('jsonwebtoken')
+const jwksClient = require('jwks-rsa')
+
 
 module.exports = async function (context, req) {
   context.log('JavaScript HTTP function RunSimulation has been triggered')
+  const accessToken = req.headers['authorization'].replace('Bearer ', '')
+  context.log('Bearer Token: ' + accessToken)
+  var client = jwksClient({
+    jwksUri: 'https://login.microsoftonline.com/common/discovery/keys'
+  })
+  function getKey(header, callback){
+    client.getSigningKey(header.kid, function(err, key) {
+      var signingKey = key.publicKey || key.rsaPublicKey;
+      callback(null, signingKey);
+    })
+  }
+ 
+  const options = {
+    audience: "3ae79982-a3dd-471b-9a9e-268b4ff0d5a6"
+  }
+
+  jwt.verify(accessToken, getKey, options, function(err, decoded) {
+    context.log('errors: ' + err)
+    context.log('decoded: ' + JSON.stringify(decoded))
+  })
+
   // Check REST API configuration from Azure Function parameters sent by user
   let error = checkClientParametersApiConfig(context, req)
   if (error !== undefined) {

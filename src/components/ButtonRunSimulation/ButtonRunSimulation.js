@@ -63,7 +63,8 @@ class ButtonRunSimulation extends React.Component {
     fetch(url, {
       method: 'POST',
       headers: {
-        Accept: 'application/json'
+        Accept: 'application/json',
+        Authorization: 'Bearer ' + localStorage.getItem('authAccessToken')
       }
     })
       .then(response => {
