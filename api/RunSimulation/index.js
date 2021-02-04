@@ -5,7 +5,7 @@ const jwksClient = require('jwks-rsa')
 
 module.exports = async function (context, req) {
   context.log('JavaScript HTTP function RunSimulation has been triggered')
-  const authorizationHeader = req.headers['authorization']
+  const authorizationHeader = req.headers['Authorization']
   const accessToken = authorizationHeader.replace('Bearer ', '')
   context.log('Bearer Token: ' + accessToken)
   var client = jwksClient({
@@ -26,6 +26,11 @@ module.exports = async function (context, req) {
     context.log('errors: ' + err)
     context.log('decoded: ' + JSON.stringify(decoded))
   })
+
+  // Correlation ID for Application Insights Tracing
+  const requestIdHeader = req.headers['Request-Id']
+  const requestContextHeader = req.headers['Request-Context']
+
 
   // Check REST API configuration from Azure Function parameters sent by user
   let error = checkClientParametersApiConfig(context, req)
@@ -50,7 +55,13 @@ module.exports = async function (context, req) {
   const body = forgeBody(req.query.simulator, req.query.simulation)
   context.log(body)
   const res = await fetch(url,
-    { method: 'POST', headers: { 'content-type': 'application/json', 'accept': 'application/json', 'authorization': authorizationHeader }, body: JSON.stringify(body) })
+    { method: 'POST', headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': authorizationHeader,
+      'Request-Id': requestIdHeader,
+      'Request-Context': requestContextHeader
+    }, body: JSON.stringify(body) })
   // Check if the call succeeded
   if (!res.ok) {
     context.log.error('Simulation run request failed with status ' +

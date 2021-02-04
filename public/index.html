@@ -17,10 +17,11 @@
     //useXhr: 1, // Use XHR instead of fetch to report failures (if available),
     //crossOrigin: "anonymous", // When supplied this will add the provided value as the cross origin attribute on the script tag 
     cfg: { // Application Insights Configuration
-        instrumentationKey: "InstrumentationKey=05ef985d-8209-46db-acb0-d035da80faa1;IngestionEndpoint=https://francecentral-0.in.applicationinsights.azure.com/",
-        "role": {
-              "name": "Sample Web App"
-            }
+        instrumentationKey: "05ef985d-8209-46db-acb0-d035da80faa1",
+        disableFetchTracking: false,
+        enableCorsCorrelation: true,
+        enableRequestHeaderTracking: true,
+        enableResponseHeaderTracking: true
     }});
     </script>
   </head>
