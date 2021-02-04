@@ -5,7 +5,7 @@ const jwksClient = require('jwks-rsa')
 
 module.exports = async function (context, req) {
   context.log('JavaScript HTTP function RunSimulation has been triggered')
-  const authorizationHeader = req.headers['Authorization']
+  const authorizationHeader = req.headers['authorization']
   const accessToken = authorizationHeader.replace('Bearer ', '')
   context.log('Bearer Token: ' + accessToken)
   var client = jwksClient({
@@ -28,8 +28,8 @@ module.exports = async function (context, req) {
   })
 
   // Correlation ID for Application Insights Tracing
-  const requestIdHeader = req.headers['Request-Id']
-  const requestContextHeader = req.headers['Request-Context']
+  const requestIdHeader = req.headers['request-id']
+  const requestContextHeader = req.headers['request-context']
 
 
   // Check REST API configuration from Azure Function parameters sent by user
