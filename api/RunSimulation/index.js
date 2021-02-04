@@ -13,6 +13,12 @@ module.exports = async function (context, req) {
   })
   function getKey(header, callback){
     client.getSigningKey(header.kid, function(err, key) {
+      if (err) {
+        context.log('Error while getting JWKS signing keys: ' + err)
+        context.res = { status: 500, body: err }
+        context.done()
+        return
+      }
       var signingKey = key.publicKey || key.rsaPublicKey;
       callback(null, signingKey);
     })
