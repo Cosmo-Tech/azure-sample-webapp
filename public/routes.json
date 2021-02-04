@@ -1,10 +1,6 @@
 {
   "routes": [
     {
-      "route": "/api/RunSimulation",
-      "allowedRoles": ["reader"]
-    },
-    {
       "route": "/*",
       "serve": "/index.html",
       "statusCode": 200
