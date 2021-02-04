@@ -34,7 +34,7 @@ class App extends Component {
         enableRequestHeaderTracking: true,
         enableResponseHeaderTracking: true,
         enableAutoRouteTracking: true,
-        distributedTracingMode: DistributedTracingModes.W3C
+        distributedTracingMode: DistributedTracingModes.AI_AND_W3C
       }
     })
     appInsights.loadAppInsights()
