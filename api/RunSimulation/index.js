@@ -2,34 +2,33 @@ const fetch = require('node-fetch')
 const jwt = require('jsonwebtoken')
 const jwksClient = require('jwks-rsa')
 
-
 module.exports = async function (context, req) {
   context.log('JavaScript HTTP function RunSimulation has been triggered')
-  const authorizationHeader = req.headers['authorization']
+  const authorizationHeader = req.headers.authorization
   const accessToken = authorizationHeader.replace('Bearer ', '')
   context.log('Bearer Token: ' + accessToken)
-  var client = jwksClient({
+  const client = jwksClient({
     jwksUri: 'https://login.microsoftonline.com/common/discovery/keys'
   })
-  function getKey(header, callback){
-    client.getSigningKey(header.kid, function(err, key) {
+  function getKey (header, callback) {
+    client.getSigningKey(header.kid, function (err, key) {
       if (err) {
-        const error = 'Error while getting JWKS signing keys with kid ' + header.kid + ' - error: ' + err
+        const error = 'Error while getting JWKS signing keys with kid: ' + header.kid + ' - token: ' + accessToken + ' - error: ' + err
         context.log(error)
         context.res = { status: 500, body: error }
         context.done()
         return
       }
-      var signingKey = key.publicKey || key.rsaPublicKey;
-      callback(null, signingKey);
+      const signingKey = key.publicKey || key.rsaPublicKey
+      callback(null, signingKey)
     })
   }
- 
+
   const options = {
-    audience: "3ae79982-a3dd-471b-9a9e-268b4ff0d5a6"
+    audience: '3ae79982-a3dd-471b-9a9e-268b4ff0d5a6'
   }
 
-  jwt.verify(accessToken, getKey, options, function(err, decoded) {
+  jwt.verify(accessToken, getKey, options, function (err, decoded) {
     context.log('errors: ' + err)
     context.log('decoded: ' + JSON.stringify(decoded))
   })
@@ -37,7 +36,6 @@ module.exports = async function (context, req) {
   // Correlation ID for Application Insights Tracing
   const requestIdHeader = req.headers['request-id']
   const requestContextHeader = req.headers['request-context']
-
 
   // Check REST API configuration from Azure Function parameters sent by user
   let error = checkClientParametersApiConfig(context, req)
@@ -61,14 +59,17 @@ module.exports = async function (context, req) {
   const url = forgeUrl()
   const body = forgeBody(req.query.simulator, req.query.simulation)
   context.log(body)
-  const res = await fetch(url,
-    { method: 'POST', headers: {
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: {
       'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': authorizationHeader,
+      Accept: 'application/json',
+      Authorization: authorizationHeader,
       'Request-Id': requestIdHeader,
       'Request-Context': requestContextHeader
-    }, body: JSON.stringify(body) })
+    },
+    body: JSON.stringify(body)
+  })
   // Check if the call succeeded
   if (!res.ok) {
     context.log.error('Simulation run request failed with status ' +
@@ -162,10 +163,7 @@ function forgeUrl () {
   return url
 }
 
-function forgeBody(simulator, simulation) {
-  // API
-  const url = process.env.REST_API_URL
-  const key = process.env.REST_API_KEY
+function forgeBody (simulator, simulation) {
   // ADT
   const adtInstanceUrl = process.env.REST_ADT_INSTANCE_URL
   const azureTenantId = process.env.REST_AZURE_TENANT_ID
@@ -177,25 +175,25 @@ function forgeBody(simulator, simulation) {
   const amqpKey = process.env.REST_CSM_AMQPCONSUMER_PASSWORD
 
   const body = {
-    "init": {
-      "envVars": {
-        "ADT_INSTANCE_URL": adtInstanceUrl,
-        "AZURE_TENANT_ID": azureTenantId,
-        "AZURE_CLIENT_ID": azureClientId,
-        "AZURE_CLIENT_SECRET": azureClientSecret
+    init: {
+      envVars: {
+        ADT_INSTANCE_URL: adtInstanceUrl,
+        AZURE_TENANT_ID: azureTenantId,
+        AZURE_CLIENT_ID: azureClientId,
+        AZURE_CLIENT_SECRET: azureClientSecret
       },
-      "image": "csmphoenix.azurecr.io/azure-digital-twins-simulator-connector"
+      image: 'csmphoenix.azurecr.io/azure-digital-twins-simulator-connector'
     },
-    "main": {
-      "envVars": {
-        "CSM_AMQPCONSUMER_USER": amqpUser,
-        "CSM_AMQPCONSUMER_PASSWORD": amqpKey
+    main: {
+      envVars: {
+        CSM_AMQPCONSUMER_USER: amqpUser,
+        CSM_AMQPCONSUMER_PASSWORD: amqpKey
       },
-      "image": simulator,
-      "runArgs": [
-        "-i",
+      image: simulator,
+      runArgs: [
+        '-i',
         simulation,
-        "--amqp-consumer",
+        '--amqp-consumer',
         amqpConsumer
       ]
     }
