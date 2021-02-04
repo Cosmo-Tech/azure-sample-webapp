@@ -34,8 +34,8 @@ module.exports = async function (context, req) {
   })
 
   // Correlation ID for Application Insights Tracing
-  const requestIdHeader = req.headers['request-id']
-  const requestContextHeader = req.headers['request-context']
+  const traceParentHeader = req.headers.traceparent
+  const traceStateHeader = req.headers.tracestate
 
   // Check REST API configuration from Azure Function parameters sent by user
   let error = checkClientParametersApiConfig(context, req)
@@ -59,15 +59,21 @@ module.exports = async function (context, req) {
   const url = forgeUrl()
   const body = forgeBody(req.query.simulator, req.query.simulation)
   context.log(body)
+  const headers = {
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+    Authorization: authorizationHeader
+  }
+  if (traceParentHeader) {
+    headers.traceparent = traceParentHeader
+  }
+  if (traceStateHeader) {
+    headers.tracestate = traceStateHeader
+  }
+
   const res = await fetch(url, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-      Authorization: authorizationHeader,
-      'Request-Id': requestIdHeader,
-      'Request-Context': requestContextHeader
-    },
+    headers: headers,
     body: JSON.stringify(body)
   })
   // Check if the call succeeded
