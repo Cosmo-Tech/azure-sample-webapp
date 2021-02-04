@@ -5,7 +5,8 @@ const jwksClient = require('jwks-rsa')
 
 module.exports = async function (context, req) {
   context.log('JavaScript HTTP function RunSimulation has been triggered')
-  const accessToken = req.headers['authorization'].replace('Bearer ', '')
+  const authorizationHeader = req.headers['authorization']
+  const accessToken = authorizationHeader.replace('Bearer ', '')
   context.log('Bearer Token: ' + accessToken)
   var client = jwksClient({
     jwksUri: 'https://login.microsoftonline.com/common/discovery/keys'
@@ -49,7 +50,7 @@ module.exports = async function (context, req) {
   const body = forgeBody(req.query.simulator, req.query.simulation)
   context.log(body)
   const res = await fetch(url,
-    { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(body) })
+    { method: 'POST', headers: { 'content-type': 'application/json', 'accept': 'application/json', 'authorization': authorizationHeader }, body: JSON.stringify(body) })
   // Check if the call succeeded
   if (!res.ok) {
     context.log.error('Simulation run request failed with status ' +
