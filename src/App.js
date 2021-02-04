@@ -25,10 +25,11 @@ class App extends Component {
 
   async componentDidMount () {
     this._isMounted = true
+    console.log('ik: ' + process.env.REACT_APP_APPINSIGHTS_INSTRUMENTATIONKEY)
     const appInsights = new ApplicationInsights({
       name: 'Web Application Sample',
       config: {
-        instrumentationKey: '05ef985d-8209-46db-acb0-d035da80faa1',
+        instrumentationKey: process.env.REACT_APP_APPINSIGHTS_INSTRUMENTATIONKEY,
         disableFetchTracking: false,
         enableCorsCorrelation: true,
         enableRequestHeaderTracking: true,
