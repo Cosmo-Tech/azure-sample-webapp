@@ -4,9 +4,8 @@ const jwksClient = require('jwks-rsa')
 
 module.exports = async function (context, req) {
   context.log('JavaScript HTTP function RunSimulation has been triggered')
-  const authorizationHeader = req.headers.authorization
-  const accessToken = authorizationHeader.replace('Bearer ', '')
-  context.log('Bearer Token: ' + accessToken)
+  const accessToken = req.headers['csm-authorization']
+  context.log('csm access token: ' + accessToken)
   const client = jwksClient({
     jwksUri: 'https://login.microsoftonline.com/common/discovery/keys'
   })

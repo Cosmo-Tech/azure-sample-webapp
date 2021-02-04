@@ -64,7 +64,7 @@ class ButtonRunSimulation extends React.Component {
       method: 'POST',
       headers: {
         Accept: 'application/json',
-        Authorization: 'Bearer ' + localStorage.getItem('authAccessToken')
+        'csm-authorization': localStorage.getItem('authAccessToken')
       }
     })
       .then(response => {

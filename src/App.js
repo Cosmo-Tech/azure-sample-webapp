@@ -12,7 +12,7 @@ class App extends Component {
   constructor () {
     super()
     this.state = {
-      title: 'csm web-app',
+      title: 'Cosmo Tech Web Application Sample',
       authenticated: false,
       authorized: false,
       loading: true
