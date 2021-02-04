@@ -33,7 +33,8 @@ class App extends Component {
         enableCorsCorrelation: true,
         enableRequestHeaderTracking: true,
         enableResponseHeaderTracking: true,
-        enableAutoRouteTracking: true
+        enableAutoRouteTracking: true,
+        distributedTracingMode: 'DistributedTracingModes.W3C'
       }
     })
     appInsights.loadAppInsights()
