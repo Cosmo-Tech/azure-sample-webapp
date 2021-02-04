@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
-import { ApplicationInsights } from '@microsoft/applicationinsights-web'
+import { ApplicationInsights, DistributedTracingModes } from '@microsoft/applicationinsights-web'
 import Routes from './Routes'
 import { ThemeProvider } from '@material-ui/styles'
 import theme from './theme'
@@ -34,7 +34,7 @@ class App extends Component {
         enableRequestHeaderTracking: true,
         enableResponseHeaderTracking: true,
         enableAutoRouteTracking: true,
-        distributedTracingMode: 'DistributedTracingModes.W3C'
+        distributedTracingMode: DistributedTracingModes.W3C
       }
     })
     appInsights.loadAppInsights()

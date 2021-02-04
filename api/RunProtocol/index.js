@@ -108,7 +108,7 @@ function checkServerApiConfig (context) {
 }
 
 function forgeUrl (simulator, simulation, driverName, popSize,
-    totalSimulations) {
+  totalSimulations) {
   const newSimEndpoint = 'simulations/new'
   let url = process.env.REST_API_URL + '/' + newSimEndpoint + '?'
   // Mandatory REST API key & simulator parameters
