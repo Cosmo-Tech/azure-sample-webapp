@@ -8,7 +8,7 @@ module.exports = async function (context, req) {
   const authorizationHeader = req.headers['authorization']
   const accessToken = authorizationHeader.replace('Bearer ', '')
   context.log('Bearer Token: ' + accessToken)
-  var client = jwksClient({
+  /*var client = jwksClient({
     jwksUri: 'https://login.microsoftonline.com/common/discovery/keys'
   })
   function getKey(header, callback){
@@ -25,7 +25,7 @@ module.exports = async function (context, req) {
   jwt.verify(accessToken, getKey, options, function(err, decoded) {
     context.log('errors: ' + err)
     context.log('decoded: ' + JSON.stringify(decoded))
-  })
+  })*/
 
   // Correlation ID for Application Insights Tracing
   const requestIdHeader = req.headers['request-id']
