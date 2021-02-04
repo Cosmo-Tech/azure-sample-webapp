@@ -36,6 +36,8 @@ module.exports = async function (context, req) {
   // Correlation ID for Application Insights Tracing
   const traceParentHeader = req.headers.traceparent
   const traceStateHeader = req.headers.tracestate
+  const requestIdHeader = req.headers['request-id']
+  const requestContextHeader = req.headers['request-context']
 
   // Check REST API configuration from Azure Function parameters sent by user
   let error = checkClientParametersApiConfig(context, req)
@@ -69,6 +71,12 @@ module.exports = async function (context, req) {
   }
   if (traceStateHeader) {
     headers.tracestate = traceStateHeader
+  }
+  if (requestIdHeader) {
+    headers['request-id'] = requestIdHeader
+  }
+  if (requestContextHeader) {
+    headers['request-context'] = requestContextHeader
   }
 
   const res = await fetch(url, {
