@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
+import { ApplicationInsights } from '@microsoft/applicationinsights-web'
 import Routes from './Routes'
 import { ThemeProvider } from '@material-ui/styles'
 import theme from './theme'
@@ -24,6 +25,16 @@ class App extends Component {
 
   async componentDidMount () {
     this._isMounted = true
+    const appInsights = new ApplicationInsights({ name: "Web Application Sample", config: {
+      instrumentationKey: "05ef985d-8209-46db-acb0-d035da80faa1",
+      disableFetchTracking: false,
+      enableCorsCorrelation: true,
+      enableRequestHeaderTracking: true,
+      enableResponseHeaderTracking: true,
+      enableAutoRouteTracking: true
+    } });
+    appInsights.loadAppInsights();
+    appInsights.trackPageView();
     document.title = this.state.title
     // Check if the user is already signed-in
     if (Auth.isAsync()) {

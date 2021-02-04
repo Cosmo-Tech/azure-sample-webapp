@@ -14,8 +14,9 @@ module.exports = async function (context, req) {
   function getKey(header, callback){
     client.getSigningKey(header.kid, function(err, key) {
       if (err) {
-        context.log('Error while getting JWKS signing keys: ' + err)
-        context.res = { status: 500, body: err }
+        const error = 'Error while getting JWKS signing keys with kid ' + header.kid + ' - error: ' + err
+        context.log(error)
+        context.res = { status: 500, body: error }
         context.done()
         return
       }
