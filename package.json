@@ -5,7 +5,7 @@
   "dependencies": {
     "@cosmotech/azure": "^0.8.0",
     "@cosmotech/core": "^1.1.1",
-    "@cosmotech/ui": "^0.2.2",
+    "@cosmotech/ui": "^0.2.3",
     "@material-ui/core": "^4.11.2",
     "@material-ui/icons": "^4.11.2",
     "@microsoft/applicationinsights-web": "^2.5.11",
@@ -25,7 +25,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "cypress": "node_modules/.bin/cypress"
   },
   "eslintConfig": {
     "extends": [
@@ -47,6 +48,7 @@
     ]
   },
   "devDependencies": {
+    "cypress": "^6.4.0",
     "eslint": "^7.17.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.22.1",
