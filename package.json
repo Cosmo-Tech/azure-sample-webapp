@@ -5,7 +5,7 @@
   "dependencies": {
     "@cosmotech/azure": "^0.8.0",
     "@cosmotech/core": "^1.1.1",
-    "@cosmotech/ui": "^0.2.2",
+    "@cosmotech/ui": "^0.2.3",
     "@material-ui/core": "^4.11.2",
     "@material-ui/icons": "^4.11.2",
     "@microsoft/applicationinsights-web": "^2.5.11",
