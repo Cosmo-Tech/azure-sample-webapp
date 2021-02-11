@@ -126,7 +126,7 @@ class CardSimulationParameters extends React.Component {
         </div>
         <Snackbar open={this.state.snackOpen} autoHideDuration={20000} onClose={this.handleSnackClose}>
             <Alert severity="success" onClose={this.handleSnackClose}>
-              Simulation successfuly launched:<br/>{this.state.jobName}<br/>{this.state.sagaId}
+              Simulation successfully launched:<br/>{this.state.jobName}<br/>{this.state.sagaId}
             </Alert>
           </Snackbar>
       </Card>
