@@ -1,6 +1,6 @@
 // REST API data object
 const apiConfig = {
-  simulator: 'twinengines.azurecr.io/supplychain_simulator'
+  simulator: 'twinengines.azurecr.io/SIMULATORNAME_simulator:latest'
 }
 
 export default apiConfig

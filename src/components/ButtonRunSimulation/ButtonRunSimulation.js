@@ -40,9 +40,10 @@ class ButtonRunSimulation extends React.Component {
   }
 
   startSimulation () {
+    const simulatorUri = this.props.apiConfig.simulator.replace('SIMULATORNAME', this.props.simulatorName)
     // Check mandatory parameters
-    if (this.props.apiConfig.simulator === undefined ||
-        this.props.apiConfig.simulator.length === 0) {
+    if (simulatorUri === undefined ||
+        simulatorUri === 0) {
       console.error('Simulator parameter is empty or undefined, ' +
         'can\'t run simulation')
       return
@@ -57,7 +58,7 @@ class ButtonRunSimulation extends React.Component {
     // Forge request URL
     let url = '/api/RunSimulation?'
     // Mandatory simulator parameter
-    url += '&simulator=' + this.props.apiConfig.simulator
+    url += '&simulator=' + simulatorUri
     url += '&simulation=' + this.props.simulationName
 
     fetch(url, {
@@ -108,6 +109,7 @@ ButtonRunSimulation.propTypes = {
   classes: PropTypes.any,
   onSimulationStarted: PropTypes.func,
   simulationName: PropTypes.string.isRequired,
+  simulatorName: PropTypes.string.isRequired,
   apiConfig: PropTypes.shape({
     simulator: PropTypes.string.isRequired
   })

@@ -35,15 +35,18 @@ class DigitalTwin extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
+      simulatorsList: ['supplychain', 'supplychaindemo'],
       simulationsList: ['Simulation'],
       driversList: ['Supplychain.zip'],
       simulationName: 'Simulation',
+      simulatorName: 'supplychain',
       driverName: 'Supplychain.zip',
       popSize: 48,
       totalSimulations: 200
     }
 
     this.setSimulationName = this.setSimulationName.bind(this)
+    this.setSimulatorName = this.setSimulatorName.bind(this)
     this.setDriverName = this.setDriverName.bind(this)
     this.setPopSize = this.setPopSize.bind(this)
     this.setTotalSimulations = this.setTotalSimulations.bind(this)
@@ -51,6 +54,10 @@ class DigitalTwin extends React.Component {
 
   setSimulationName (newSimulationName) {
     this.setState({ simulationName: newSimulationName })
+  }
+
+  setSimulatorName (newSimulatorName) {
+    this.setState({ simulatorName: newSimulatorName })
   }
 
   setDriverName (newDriverName) {
@@ -87,9 +94,12 @@ class DigitalTwin extends React.Component {
                   direction="column">
                 <Grid item>
                   <CardSimulationParameters
+                    simulatorsList={this.state.simulatorsList}
                     simulationsList={this.state.simulationsList}
                     simulationName={this.state.simulationName}
+                    simulatorName={this.state.simulatorName}
                     onSimulationNameChange={this.setSimulationName}
+                    onSimulatorNameChange={this.setSimulatorName}
                   />
                 </Grid>
                 <Grid item>
