@@ -1,6 +1,7 @@
 import i18n from 'i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
 import { initReactI18next } from 'react-i18next'
+import HttpApi from 'i18next-http-backend'
 
 const langDetectorOptions = {
   // order and from where user language should be detected
@@ -19,16 +20,15 @@ const langDetectorOptions = {
 }
 
 i18n
+  .use(HttpApi)
   .use(LanguageDetector)
 // connect with React
   .use(initReactI18next)
 // for all options read: https://www.i18next.com/overview/configuration-options
   .init({
-    debug: true,
     lng: 'en',
     fallbackLng: 'en',
     whitelist: ['en', 'fr'],
-    saveMissing: true,
     detection: langDetectorOptions,
     backend: {
       loadPath: '/locales/{{lng}}/{{ns}}.json'

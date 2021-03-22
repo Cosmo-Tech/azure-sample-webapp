@@ -1,4 +1,14 @@
 {
+  "main": {
+    "text": {
+      "loading": "Loading..."
+    },
+    "button": {
+      "change": {
+        "language": "Change language"
+      }
+    }
+  },
   "views": {
     "signin": {
       "title": "Azure Sample Web Application",

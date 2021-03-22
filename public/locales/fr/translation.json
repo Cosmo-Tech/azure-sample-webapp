@@ -1,7 +1,17 @@
 {
+  "main": {
+    "text": {
+      "loading": "Chargement..."
+    },
+    "button": {
+      "change": {
+        "language": "Changer de langue"
+      }
+    }
+  },
   "views": {
     "signin": {
-      "title": "Azure Sample Web Application",
+      "title": "Exemple d'Application Web Azure",
       "button": {
         "regular": {
           "login": "Se Connecter"

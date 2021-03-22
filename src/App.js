@@ -3,6 +3,7 @@
 
 import React, { Component } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
+import { useTranslation, withTranslation, I18nextProvider } from 'react-i18next'
 import { ApplicationInsights, DistributedTracingModes } from '@microsoft/applicationinsights-web'
 import Routes from './Routes'
 import { ThemeProvider } from '@material-ui/styles'
@@ -11,7 +12,7 @@ import './assets/scss/index.scss'
 import './service/auth.js'
 import { Auth } from '@cosmotech/core'
 
-class App extends Component {
+class LegacyAppClass extends Component {
   constructor () {
     super()
     this.state = {
@@ -95,11 +96,13 @@ class App extends Component {
   }
 
   render () {
+    // eslint-disable-next-line react/prop-types
+    const { t } = this.props
     return this.state.loading === true
       ? (
       <ThemeProvider theme={theme}>
         <div className="spinner-border text-success" role="status">
-          <span className="sr-only">Loading...</span>
+          <span className="sr-only">{t('main.text.loading', 'Loading...')}</span>
         </div>
       </ThemeProvider>
         )
@@ -116,4 +119,30 @@ class App extends Component {
   }
 }
 
-export default App
+const TranslatedApp = withTranslation()(LegacyAppClass)
+
+export default function App () {
+  const { t, i18n } = useTranslation()
+
+  const toggleLang = () => {
+    // overly simplistic way of toggling between 3 languages
+    switch (i18n.language) {
+      case 'en':
+        i18n.changeLanguage('fr')
+        break
+      case 'fr':
+        i18n.changeLanguage('en')
+        break
+      default:
+        i18n.changeLanguage('en')
+        break
+    }
+  }
+
+  return (
+      <I18nextProvider i18n={i18n}>
+        <button onClick={toggleLang}>{t('main.button.change.language', 'Change language')}</button>
+        <TranslatedApp />
+      </I18nextProvider>
+  )
+}
