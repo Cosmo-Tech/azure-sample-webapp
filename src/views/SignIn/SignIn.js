@@ -3,6 +3,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { Auth, AuthDev } from '@cosmotech/core'
 import { AuthMSAL, AuthStaticWebApp } from '@cosmotech/azure'
 import validate from 'validate.js'
@@ -125,6 +126,8 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const SignIn = props => {
+  const { t } = useTranslation()
+
   const classes = useStyles()
 
   const [formState, setFormState] = useState({
@@ -172,7 +175,7 @@ const SignIn = props => {
                 className={classes.quoteText}
                 variant="h1"
               >
-                Azure Sample Web Application
+                  {t('views.signin.title', 'Azure Sample Web Application')}
               </Typography>
             </div>
           </div>
@@ -184,7 +187,7 @@ const SignIn = props => {
             <div className={classes.contentBody}>
               <form className={classes.form}>
                 <Typography className={classes.title} variant="h2">
-                  Sign in
+                  {t('views.signin.button.regular.login', 'Sign In')}
                 </Typography>
                 <Grid className={classes.socialButtons} container spacing={2}>
                   <Grid item>
@@ -194,7 +197,7 @@ const SignIn = props => {
                       size="large"
                       variant="contained"
                     >
-                      Login with Active Directory (MSAL)
+                      {t('views.signin.button.msal.login', 'Login with Active Directory (MSAL)')}
                     </Button>
                     <Button
                       className={classes.loginButton}
@@ -202,7 +205,7 @@ const SignIn = props => {
                       size="large"
                       variant="contained"
                     >
-                      Login with Active Directory (Static Web App)
+                      {t('views.signin.button.static.webapp.login', 'Login with Active Directory (Static Web App)')}
                     </Button>
                     {
                       window.location.hostname === 'localhost' &&
@@ -213,13 +216,13 @@ const SignIn = props => {
                           variant="contained"
                           data-cy="log-with-dev-account-button"
                         >
-                          Login with Dev account
+                          {t('views.signin.button.dev.account.login', 'Login with Dev account')}
                         </Button>
                     }
                   </Grid>
                 </Grid>
                 <Typography color="textSecondary" variant="body1">
-                  Please contact CosmoTech to get an account.
+                  {t('views.signin.text.contact.get.account', 'Please contact CosmoTech to get an account.')}
                 </Typography>
               </form>
             </div>

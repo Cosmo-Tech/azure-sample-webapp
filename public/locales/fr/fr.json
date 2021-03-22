@@ -1,0 +1,32 @@
+{
+  "views": {
+    "signin": {
+      "title": "Azure Sample Web Application",
+      "button": {
+        "regular": {
+          "login": "Se Connecter"
+        },
+        "msal": {
+          "login": "Se Connecter avec Active Directory (MSAL)"
+        },
+        "static": {
+          "webapp": {
+            "login": "Se Connecter avec Active Directory (Static Web App)"
+          }
+        },
+        "dev": {
+          "account": {
+            "login": "Se Connecter avec Dev account"
+          }
+        }
+      },
+      "text": {
+        "contact": {
+          "get": {
+            "account": "Contactez Cosmotech pour avoir un compte."
+          }
+        }
+      }
+    }
+  }
+}
