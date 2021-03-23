@@ -9,6 +9,39 @@
       }
     }
   },
+  "component": {
+    "button": {
+      "run": {
+        "simulation": {
+          "text": "Lancer une simulation"
+        }
+      }
+    },
+    "card": {
+      "simulation": {
+        "parameters": {
+          "title": {
+            "simulation": {
+              "parameters": "Parametres de Simulator"
+            }
+          },
+          "text": {
+            "simulator": {
+              "name": "Nom de Simulator"
+            },
+            "simulation": {
+              "name": "Nom de Simulation"
+            },
+            "alert": {
+              "simulation": {
+                "launched": "La simulation a été lancée"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
   "views": {
     "signin": {
       "title": "Exemple d'Application Web Azure",

@@ -9,6 +9,39 @@
       }
     }
   },
+  "component": {
+    "button": {
+      "run": {
+        "simulation": {
+          "text": "Run simulation"
+        }
+      }
+    },
+    "card": {
+      "simulation": {
+        "parameters": {
+          "title": {
+            "simulation": {
+              "parameters": "Simulator parameters"
+            }
+          },
+          "text": {
+            "simulator": {
+              "name": "Simulator name"
+            },
+            "simulation": {
+              "name": "Simulation name"
+            },
+            "alert": {
+              "simulation": {
+                "launched": "Simulation successfully launched"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
   "views": {
     "signin": {
       "title": "Azure Sample Web Application",
