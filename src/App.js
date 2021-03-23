@@ -13,8 +13,8 @@ import './service/auth.js'
 import { Auth } from '@cosmotech/core'
 
 class LegacyAppClass extends Component {
-  constructor () {
-    super()
+  constructor (props) {
+    super(props)
     this.state = {
       title: 'Cosmo Tech Web Application Sample',
       authenticated: false,
