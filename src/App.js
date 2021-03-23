@@ -1,9 +1,9 @@
 // copyright (c) cosmo tech corporation.
 // licensed under the mit license.
 
-import React, { Component } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
-import { useTranslation, withTranslation, I18nextProvider } from 'react-i18next'
+import { useTranslation, I18nextProvider } from 'react-i18next'
 import { ApplicationInsights, DistributedTracingModes } from '@microsoft/applicationinsights-web'
 import Routes from './Routes'
 import { ThemeProvider } from '@material-ui/styles'
@@ -12,48 +12,46 @@ import './assets/scss/index.scss'
 import './service/auth.js'
 import { Auth } from '@cosmotech/core'
 
-class LegacyAppClass extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      title: 'Cosmo Tech Web Application Sample',
-      authenticated: false,
-      authorized: false,
-      loading: true
-    }
-    this._isMounted = false
-    this.authenticationDone = this.authenticationDone.bind(this)
-    this.debugLocalKey = this.debugLocalKey.bind(this)
-    this.debugToken = this.debugToken.bind(this)
+const applicationInsightConfig = {
+  name: 'Web Application Sample',
+  config: {
+    instrumentationKey: '05ef985d-8209-46db-acb0-d035da80faa1',
+    disableFetchTracking: false,
+    enableCorsCorrelation: true,
+    enableRequestHeaderTracking: true,
+    enableResponseHeaderTracking: true,
+    enableAutoRouteTracking: true,
+    distributedTracingMode: DistributedTracingModes.AI_AND_W3C
   }
+}
 
-  async componentDidMount () {
-    this._isMounted = true
-    const appInsights = new ApplicationInsights({
-      name: 'Web Application Sample',
-      config: {
-        instrumentationKey: '05ef985d-8209-46db-acb0-d035da80faa1',
-        disableFetchTracking: false,
-        enableCorsCorrelation: true,
-        enableRequestHeaderTracking: true,
-        enableResponseHeaderTracking: true,
-        enableAutoRouteTracking: true,
-        distributedTracingMode: DistributedTracingModes.AI_AND_W3C
-      }
-    })
+const App = () => {
+  // TODO find an elegant way to set the title ( should be translatable)
+  document.title = 'Cosmo Tech Web Application Sample'
+  const [authenticated, setAuthenticated] = useState(false)
+  // TODO: handle authorization and remove the eslint warning
+  // eslint-disable-next-line no-unused-vars
+  const [authorized, setAuthorized] = useState(false)
+  const [loading, setLoading] = useState(true)
+  const { t, i18n } = useTranslation()
+
+  useEffect(() => {
+    const appInsights = new ApplicationInsights(applicationInsightConfig)
     appInsights.loadAppInsights()
     appInsights.trackPageView()
-    document.title = this.state.title
     // Check if the user is already signed-in
-    if (Auth.isAsync()) {
-      Auth.isUserSignedIn(this.authenticationDone)
-    } else {
-      const authenticated = await Auth.isUserSignedIn()
-      this.authenticationDone(authenticated)
+    async function signIn () {
+      if (Auth.isAsync()) {
+        return Auth.isUserSignedIn(authenticationDone)
+      } else {
+        return Auth.isUserSignedIn()
+      }
     }
-  }
+    signIn()
+      .then((isSignInSuccessfully) => authenticationDone(isSignInSuccessfully))
+  }, [])
 
-  debugLocalKey (key) {
+  const debugLocalKey = (key) => {
     const value = localStorage.getItem(key)
     if (value) {
       console.log(key + ': ' + value)
@@ -62,67 +60,27 @@ class LegacyAppClass extends Component {
     }
   }
 
-  debugToken () {
-    this.debugLocalKey('authIdTokenPopup')
-    this.debugLocalKey('authIdToken')
-    this.debugLocalKey('authAccessToken')
+  const debugToken = () => {
+    debugLocalKey('authIdTokenPopup')
+    debugLocalKey('authIdToken')
+    debugLocalKey('authAccessToken')
   }
 
-  authenticationDone (authenticated) {
-    this.debugToken()
+  const authenticationDone = (authenticated) => {
+    debugToken()
     if (authenticated) {
-      this.setState({
-        authenticated: authenticated,
-        authorized: authenticated // TODO: handle authorization
-      })
+      setAuthenticated(authenticated)
+      setAuthorized(authenticated) // TODO: handle authorization
     }
     // Bind callback to update state on authentication data change
     Auth.onAuthStateChanged(authData => {
-      if (authData && this._isMounted) {
-        this.setState({
-          authenticated: authData.authenticated,
-          authorized: authData.authenticated // TODO: handle authorization
-        })
+      if (authData) {
+        setAuthenticated(authData.authenticated)
+        setAuthorized(authData.authenticated) // TODO: handle authorization
       }
     })
-
-    this.setState({
-      loading: false
-    })
+    setLoading(false)
   }
-
-  componentWillUnmount () {
-    this._isMounted = false
-  }
-
-  render () {
-    // eslint-disable-next-line react/prop-types
-    const { t } = this.props
-    return this.state.loading === true
-      ? (
-      <ThemeProvider theme={theme}>
-        <div className="spinner-border text-success" role="status">
-          <span className="sr-only">{t('main.text.loading', 'Loading...')}</span>
-        </div>
-      </ThemeProvider>
-        )
-      : (
-      <ThemeProvider theme={theme}>
-        <Router>
-          <Routes authenticated={this.state.authenticated}
-            authorized={this.state.authenticated} />
-          {/* <Routes authenticated={this.state.authenticated}
-            authorized={this.state.authorized} /> */}
-        </Router>
-      </ThemeProvider>
-        )
-  }
-}
-
-const TranslatedApp = withTranslation()(LegacyAppClass)
-
-export default function App () {
-  const { t, i18n } = useTranslation()
 
   const toggleLang = () => {
     // overly simplistic way of toggling between 3 languages
@@ -139,10 +97,31 @@ export default function App () {
     }
   }
 
-  return (
-      <I18nextProvider i18n={i18n}>
-        <button onClick={toggleLang}>{t('main.button.change.language', 'Change language')}</button>
-        <TranslatedApp />
-      </I18nextProvider>
-  )
+  // eslint-disable-next-line react/prop-types
+  return loading === true
+    ? (
+          <I18nextProvider i18n={i18n}>
+            <button onClick={toggleLang}>{t('main.button.change.language', 'Change language')}</button>
+            <ThemeProvider theme={theme}>
+              <div className="spinner-border text-success" role="status">
+                <span className="sr-only">{t('main.text.loading', 'Loading...')}</span>
+              </div>
+            </ThemeProvider>
+          </I18nextProvider>
+      )
+    : (
+          <I18nextProvider i18n={i18n}>
+            <button onClick={toggleLang}>{t('main.button.change.language', 'Change language')}</button>
+            <ThemeProvider theme={theme}>
+              <Router>
+                <Routes authenticated={authenticated}
+                  authorized={authenticated} />
+                {/* <Routes authenticated={this.state.authenticated}
+                  authorized={this.state.authorized} /> */}
+              </Router>
+            </ThemeProvider>
+          </I18nextProvider>
+      )
 }
+
+export default App
