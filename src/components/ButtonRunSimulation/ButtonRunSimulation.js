@@ -1,12 +1,13 @@
 // copyright (c) cosmo tech corporation.
 // licensed under the mit license.
 
-import React from 'react'
+import React, { useState } from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import PropTypes from 'prop-types'
 import Button from '@material-ui/core/Button'
 import { Box } from '@material-ui/core'
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline'
+import { useTranslation } from 'react-i18next'
 
 const useStyles = theme => ({
   button: {
@@ -14,47 +15,32 @@ const useStyles = theme => ({
   }
 })
 
-class ButtonRunSimulation extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      disabled: false
-    }
+const ButtonRunSimulation = (props) => {
+  const [disabled, setDisabled] = useState(false)
+  const { t } = useTranslation()
 
-    // Bind methods
-    this.startSimulation = this.startSimulation.bind(this)
-    this.handleClick = this.handleClick.bind(this)
-  }
-
-  handleClick () {
+  const handleClick = () => {
     // Disable button to prevent multiple clicks
-    this.setState({
-      disabled: true
-    })
+    setDisabled(true)
     // Start the simulation
-    this.startSimulation()
+    startSimulation()
     // Enable button after a delay
     // TODO: move disabled state attribute to a higher component
     window.setTimeout(() => {
-      this.setState({
-        disabled: false
-      })
+      setDisabled(false)
     }, 2000)
   }
 
-  startSimulation () {
-    const simulatorUri = this.props.apiConfig.simulator.replace('SIMULATORNAME', this.props.simulatorName)
+  // TODO extract the api call into a core library function in order to abstract the url construction
+  const startSimulation = () => {
+    const simulatorUri = props.apiConfig.simulator.replace('SIMULATORNAME', props.simulatorName)
     // Check mandatory parameters
-    if (simulatorUri === undefined ||
-        simulatorUri === 0) {
-      console.error('Simulator parameter is empty or undefined, ' +
-        'can\'t run simulation')
+    if (simulatorUri === undefined || simulatorUri.length === 0) {
+      console.error('Simulator parameter is empty or undefined, can\'t run simulation')
       return
     }
-    if (this.props.simulationName === undefined ||
-        this.props.simulationName.length === 0) {
-      console.error('Simulation name parameter is empty or undefined, ' +
-        'can\'t run simulation')
+    if (props.simulationName === undefined || props.simulationName.length === 0) {
+      console.error('Simulation name parameter is empty or undefined, can\'t run simulation')
       return
     }
 
@@ -62,7 +48,7 @@ class ButtonRunSimulation extends React.Component {
     let url = '/api/RunSimulation?'
     // Mandatory simulator parameter
     url += '&simulator=' + simulatorUri
-    url += '&simulation=' + this.props.simulationName
+    url += '&simulation=' + props.simulationName
 
     fetch(url, {
       method: 'POST',
@@ -84,28 +70,25 @@ class ButtonRunSimulation extends React.Component {
       .then(data => {
         if (data === undefined) { return }
         // Send saga id to the "scenario manager"
-        if (this.props.onSimulationStarted) {
-          this.props.onSimulationStarted(data.sagaId, data.jobName)
+        if (props.onSimulationStarted) {
+          props.onSimulationStarted(data.sagaId, data.jobName)
         }
       })
   }
 
-  render () {
-    const { classes } = this.props
-    return (
+  return (
       <Box>
         <Button
           variant="contained"
-          disabled={this.state.disabled}
+          disabled={disabled}
           color="primary"
           size="medium"
-          className={classes.button}
-          onClick={this.handleClick}
+          className={props.classes.button}
+          onClick={handleClick}
           endIcon={<PlayCircleOutlineIcon/>}
-        >Run simulation</Button>
+        >{t('component.button.run.simulation.text', 'Run simulation')}</Button>
       </Box>
-    )
-  }
+  )
 }
 
 ButtonRunSimulation.propTypes = {
