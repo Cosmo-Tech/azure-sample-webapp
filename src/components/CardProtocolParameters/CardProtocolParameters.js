@@ -4,17 +4,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
-import {
-  Card,
-  // Grid,
-  Input,
-  MenuItem,
-  Select,
-  Slider,
-  Typography
-} from '@material-ui/core'
+import { Card, Input, MenuItem, Select, Slider, Typography } from '@material-ui/core'
 import { ButtonRunProtocol } from '../../components'
 import apiConfig from '../../service/api'
+import { useTranslation } from 'react-i18next'
 
 const useStyles = theme => ({
   card: {
@@ -62,141 +55,118 @@ const useStyles = theme => ({
   }
 })
 
-const POP_SIZE_MIN = 1
-const POP_SIZE_MAX = 1000
-const TOTAL_SIMS_MIN = 1
-const TOTAL_SIMS_MAX = 1000
+const CardProtocolParameters = (props) => {
+  const { t } = useTranslation()
 
-class CardProtocolParameters extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-    }
+  const onDriverNameChange = (event) => { props.onDriverNameChange(event.target.value) }
 
-    // Bind methods
-    this.onDriverNameChange = this.onDriverNameChange.bind(this)
-    this.onPopSizeSliderChange = this.onPopSizeSliderChange.bind(this)
-    this.onPopSizeInputChange = this.onPopSizeInputChange.bind(this)
-    this.onTotalSimulationsSliderChange =
-      this.onTotalSimulationsSliderChange.bind(this)
-    this.onTotalSimulationsInputChange =
-      this.onTotalSimulationsInputChange.bind(this)
+  const onPopSizeSliderChange = (event, newValue) => { props.onPopSizeChange(newValue) }
+
+  const onPopSizeInputChange = (event) => {
+    props.onPopSizeChange(
+      event.target.value === ''
+        ? props.popDefaultValue
+        : Number(event.target.value))
   }
 
-  onDriverNameChange (event) {
-    this.props.onDriverNameChange(event.target.value)
+  const onTotalSimulationsSliderChange = (event, newValue) => { props.onTotalSimulationsChange(newValue) }
+
+  const onTotalSimulationsInputChange = (event) => {
+    props.onTotalSimulationsChange(
+      event.target.value === ''
+        ? props.totalSimulationsDefaultValue
+        : Number(event.target.value))
   }
 
-  onPopSizeSliderChange (event, newValue) {
-    this.props.onPopSizeChange(newValue)
-  }
-
-  onPopSizeInputChange (event) {
-    this.props.onPopSizeChange(event.target.value === ''
-      ? 48
-      : Number(event.target.value))
-  }
-
-  onTotalSimulationsSliderChange (event, newValue) {
-    this.props.onTotalSimulationsChange(newValue)
-  }
-
-  onTotalSimulationsInputChange (event) {
-    this.props.onTotalSimulationsChange(event.target.value === ''
-      ? 200
-      : Number(event.target.value))
-  }
-
-  render () {
-    const { classes } = this.props
-    return (
-      <Card className={classes.card} raised>
-        <Typography variant='h5' component='h2' className={classes.title}>
-          Protocol parameters
+  return (
+      <Card className={props.classes.card} raised>
+        <Typography variant='h5' component='h2' className={props.classes.title}>
+          {t('component.card.protocol.parameters.title.protocol.parameters', 'Protocol parameters')}
         </Typography>
-        <div className={classes.parameter}>
-          <Typography className={classes.label} component='span'>
-            Driver name:
+        <div className={props.classes.parameter}>
+          <Typography className={props.classes.label} component='span'>
+            {t('component.card.protocol.parameters.text.driver.name', 'Driver name')}:
           </Typography>
           <Select
-            className={classes.select}
+            className={props.classes.select}
             labelId='protocol-parameters-driver-name'
             id='driver-name-select'
-            value={ this.props.driverName }
-            onChange={this.onDriverNameChange}>
-            { generateMenuItems(this.props.driversList) }
+            value={ props.driverName }
+            onChange={onDriverNameChange}>
+            { generateMenuItems(props.driversList) }
           </Select>
         </div>
-        <div className={classes.parameter}>
-          <Typography className={classes.label} component='span'>
-            Population size:
+        {/* TODO create a custom component "Typography-Slider-Input" */}
+        <div className={props.classes.parameter}>
+          <Typography className={props.classes.label} component='span'>
+            {t('component.card.protocol.parameters.text.population.size', 'Population size')}:
           </Typography>
           <Slider
-            className={classes.slider}
-            value={this.props.popSize}
-            min={POP_SIZE_MIN}
-            max={POP_SIZE_MAX}
-            onChange={this.onPopSizeSliderChange}
+            className={props.classes.slider}
+            value={props.popSize}
+            min={props.popMin}
+            max={props.popMax}
+            onChange={onPopSizeSliderChange}
             aria-labelledby="protocol-parameters-population-size-slider"
           />
           <Input
-            className={classes.input}
-            value={this.props.popSize}
+            className={props.classes.input}
+            value={props.popSize}
             margin="dense"
-            onChange={this.onPopSizeInputChange}
+            onChange={onPopSizeInputChange}
             inputProps={{
               step: 10,
-              min: POP_SIZE_MIN,
-              max: POP_SIZE_MAX,
+              min: props.popMin,
+              max: props.popMax,
               type: 'number',
               'aria-labelledby': 'protocol-parameters-population-size-slider'
             }}
           />
         </div>
-        <div className={classes.parameter}>
-          <Typography className={classes.label} component='span'>
-            Total simulations:
+        {/* TODO create a custom component "Typography-Slider-Input" */}
+        <div className={props.classes.parameter}>
+          <Typography className={props.classes.label} component='span'>
+            {t('component.card.protocol.parameters.text.total.simulations', 'Total simulations')}:
           </Typography>
           <Slider
-            className={classes.slider}
-            value={this.props.totalSimulations}
-            min={TOTAL_SIMS_MIN}
-            max={TOTAL_SIMS_MAX}
-            onChange={this.onTotalSimulationsSliderChange}
+            className={props.classes.slider}
+            value={props.totalSimulations}
+            min={props.totalSimulationsMin}
+            max={props.totalSimulationsMax}
+            onChange={onTotalSimulationsSliderChange}
             aria-labelledby="protocol-parameters-total-simulations-slider"
           />
           <Input
-            className={classes.input}
-            value={this.props.totalSimulations}
+            className={props.classes.input}
+            value={props.totalSimulations}
             margin="dense"
-            onChange={this.onTotalSimulationsInputChange}
+            onChange={onTotalSimulationsInputChange}
             inputProps={{
               step: 10,
-              min: TOTAL_SIMS_MIN,
-              max: TOTAL_SIMS_MAX,
+              min: props.totalSimulationsMin,
+              max: props.totalSimulationsMax,
               type: 'number',
               'aria-labelledby': 'protocol-parameters-total-simulations-slider'
             }}
           />
         </div>
-        <div className={classes.buttonContainer}>
+        <div className={props.classes.buttonContainer}>
           <ButtonRunProtocol
             apiConfig={apiConfig}
-            simulationName={this.props.simulationName}
-            driverName={this.props.driverName}
-            popSize={this.props.popSize}
-            totalSimulations={this.props.totalSimulations}
+            simulationName={props.simulationName}
+            driverName={props.driverName}
+            popSize={props.popSize}
+            totalSimulations={props.totalSimulations}
           />
         </div>
       </Card>
-    )
-  }
+  )
 }
-
+// TODO handle ref component correctly to avoid error message in console
 function generateMenuItems (simulations) {
-  return simulations.map(simulationName => {
+  return simulations.map((simulationName, index) => {
     return (
-      <MenuItem key={simulationName} value={simulationName}>
+      <MenuItem key={index} value={simulationName}>
         {simulationName}
       </MenuItem>
     )
@@ -212,7 +182,13 @@ CardProtocolParameters.propTypes = {
   totalSimulations: PropTypes.number.isRequired,
   onDriverNameChange: PropTypes.func.isRequired,
   onPopSizeChange: PropTypes.func.isRequired,
-  onTotalSimulationsChange: PropTypes.func.isRequired
+  onTotalSimulationsChange: PropTypes.func.isRequired,
+  totalSimulationsMin: PropTypes.number,
+  totalSimulationsMax: PropTypes.number,
+  totalSimulationsDefaultValue: PropTypes.number,
+  popMin: PropTypes.number,
+  popMax: PropTypes.number,
+  popDefaultValue: PropTypes.number
 }
 
 export default withStyles(useStyles)(CardProtocolParameters)
