@@ -1,11 +1,12 @@
 // copyright (c) cosmo tech corporation.
 // licensed under the mit license.
 
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import { Card, CardContent, CardMedia } from '@material-ui/core'
+import { useTranslation } from 'react-i18next'
 
 const useStyles = theme => ({
   iframe: {
@@ -50,41 +51,38 @@ const useStyles = theme => ({
   }
 })
 
-class IframeScenarioResults extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      enabled: true
-    }
-  }
+const IframeScenarioResults = (props) => {
+  // eslint-disable-next-line no-unused-vars
+  const [enable, setEnable] = useState(true)
 
-  render () {
-    const { classes, iframeTitle, cardTitle, cardStyle, ...otherProps } = this.props
-    return (
+  const { t } = useTranslation()
+
+  const { classes, iframeTitle, cardTitle, cardStyle, ...otherProps } = props
+
+  return (
         <Card style={cardStyle} className={classes.card}>
           <Typography variant='h5' component='h2' className={classes.cardTitle}>
             {cardTitle}
           </Typography>
           <CardContent className={classes.cardContent}>
-            { this.state.enabled &&
+            { enable &&
               <CardMedia
                 className={classes.iframe}
                 title={iframeTitle}
                 component="iframe"
                 src={otherProps.src} {...otherProps}/>
             }
-            { !this.state.enabled &&
+            { !enable &&
               <Typography
                 variant="caption"
                 component="p"
                 color="textSecondary"
                 className={classes.label}
-              >No results for this scenario.</Typography>
+              >{t('components.iframe.scenario.results.text.no.result', 'No results for this scenario.')}</Typography>
             }
           </CardContent>
         </Card>
-    )
-  }
+  )
 }
 
 IframeScenarioResults.propTypes = {

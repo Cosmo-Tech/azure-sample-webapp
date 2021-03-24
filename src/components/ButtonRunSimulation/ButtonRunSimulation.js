@@ -86,7 +86,7 @@ const ButtonRunSimulation = (props) => {
           className={props.classes.button}
           onClick={handleClick}
           endIcon={<PlayCircleOutlineIcon/>}
-        >{t('component.button.run.simulation.text', 'Run simulation')}</Button>
+        >{t('components.button.run.simulation.text', 'Run simulation')}</Button>
       </Box>
   )
 }

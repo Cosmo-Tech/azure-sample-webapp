@@ -9,14 +9,14 @@
       "loading": "Chargement..."
     }
   },
-  "component": {
+  "components": {
     "button": {
       "run": {
         "protocol": {
-          "text": "Lancer le protocole"
+          "text": "Run protocol"
         },
         "simulation": {
-          "text": "Lancer la simulation"
+          "text": "Run simulation"
         }
       }
     },
@@ -25,18 +25,18 @@
         "parameters": {
           "title": {
             "protocol": {
-              "parameters": "Parametres du protocole"
+              "parameters": "Protocol parameters"
             }
           },
           "text": {
             "driver": {
-              "name": "Nom du driver"
+              "name": "Driver name"
             },
             "population": {
-              "size": "Taille de population"
+              "size": "Population size"
             },
             "total": {
-              "simulations": "Nombre de simulations"
+              "simulations": "Total simulations"
             }
           }
         }
@@ -45,20 +45,31 @@
         "parameters": {
           "title": {
             "simulation": {
-              "parameters": "Parametres de Simulator"
+              "parameters": "Simulator parameters"
             }
           },
           "text": {
             "simulator": {
-              "name": "Nom de Simulator"
+              "name": "Simulator name"
             },
             "simulation": {
-              "name": "Nom de Simulation"
+              "name": "Simulation name"
             },
             "alert": {
               "simulation": {
-                "launched": "La simulation a été lancée"
+                "launched": "Simulation successfully launched"
               }
+            }
+          }
+        }
+      }
+    },
+    "iframe": {
+      "scenario": {
+        "results": {
+          "text": {
+            "no": {
+              "result": "Pas de résultat pour ce scénario"
             }
           }
         }

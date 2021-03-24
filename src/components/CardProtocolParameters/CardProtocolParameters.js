@@ -81,11 +81,11 @@ const CardProtocolParameters = (props) => {
   return (
       <Card className={props.classes.card} raised>
         <Typography variant='h5' component='h2' className={props.classes.title}>
-          {t('component.card.protocol.parameters.title.protocol.parameters', 'Protocol parameters')}
+          {t('components.card.protocol.parameters.title.protocol.parameters', 'Protocol parameters')}
         </Typography>
         <div className={props.classes.parameter}>
           <Typography className={props.classes.label} component='span'>
-            {t('component.card.protocol.parameters.text.driver.name', 'Driver name')}:
+            {t('components.card.protocol.parameters.text.driver.name', 'Driver name')}:
           </Typography>
           <Select
             className={props.classes.select}
@@ -99,7 +99,7 @@ const CardProtocolParameters = (props) => {
         {/* TODO create a custom component "Typography-Slider-Input" */}
         <div className={props.classes.parameter}>
           <Typography className={props.classes.label} component='span'>
-            {t('component.card.protocol.parameters.text.population.size', 'Population size')}:
+            {t('components.card.protocol.parameters.text.population.size', 'Population size')}:
           </Typography>
           <Slider
             className={props.classes.slider}
@@ -126,7 +126,7 @@ const CardProtocolParameters = (props) => {
         {/* TODO create a custom component "Typography-Slider-Input" */}
         <div className={props.classes.parameter}>
           <Typography className={props.classes.label} component='span'>
-            {t('component.card.protocol.parameters.text.total.simulations', 'Total simulations')}:
+            {t('components.card.protocol.parameters.text.total.simulations', 'Total simulations')}:
           </Typography>
           <Slider
             className={props.classes.slider}
