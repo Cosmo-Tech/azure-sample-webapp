@@ -1,23 +1,46 @@
 {
   "main": {
-    "text": {
-      "loading": "Loading..."
-    },
     "button": {
       "change": {
         "language": "Change language"
       }
+    },
+    "text": {
+      "loading": "Loading..."
     }
   },
   "component": {
     "button": {
       "run": {
+        "protocol": {
+          "text": "Run protocol"
+        },
         "simulation": {
           "text": "Run simulation"
         }
       }
     },
     "card": {
+      "protocol": {
+        "parameters": {
+          "title": {
+            "protocol": {
+              "parameters": "Protocol parameters"
+            }
+          },
+          "text": {
+            "driver": {
+              "name": "Driver name"
+            },
+            "population": {
+              "size": "Population size"
+            },
+            "total": {
+              "simulations": "Total simulations"
+            }
+          }
+        }
+      },
       "simulation": {
         "parameters": {
           "title": {
@@ -43,6 +66,20 @@
     }
   },
   "views": {
+    "digitaltwin": {
+      "iframe": {
+        "scenario": {
+          "results": {
+            "iframe": {
+              "title": "Supply Chain results"
+            },
+            "card": {
+              "title": "Results"
+            }
+          }
+        }
+      }
+    },
     "signin": {
       "title": "Azure Sample Web Application",
       "button": {

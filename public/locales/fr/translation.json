@@ -1,23 +1,46 @@
 {
   "main": {
-    "text": {
-      "loading": "Chargement..."
-    },
     "button": {
       "change": {
         "language": "Changer de langue"
       }
+    },
+    "text": {
+      "loading": "Chargement..."
     }
   },
   "component": {
     "button": {
       "run": {
+        "protocol": {
+          "text": "Lancer le protocole"
+        },
         "simulation": {
-          "text": "Lancer une simulation"
+          "text": "Lancer la simulation"
         }
       }
     },
     "card": {
+      "protocol": {
+        "parameters": {
+          "title": {
+            "protocol": {
+              "parameters": "Parametres du protocole"
+            }
+          },
+          "text": {
+            "driver": {
+              "name": "Nom du driver"
+            },
+            "population": {
+              "size": "Taille de population"
+            },
+            "total": {
+              "simulations": "Nombre de simulations"
+            }
+          }
+        }
+      },
       "simulation": {
         "parameters": {
           "title": {
@@ -43,6 +66,20 @@
     }
   },
   "views": {
+    "digitaltwin": {
+      "iframe": {
+        "scenario": {
+          "results": {
+            "iframe": {
+              "title": "Resultats simulation supply chain"
+            },
+            "card": {
+              "title": "Resultats"
+            }
+          }
+        }
+      }
+    },
     "signin": {
       "title": "Exemple d'Application Web Azure",
       "button": {
