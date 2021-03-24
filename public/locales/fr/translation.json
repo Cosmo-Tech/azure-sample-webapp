@@ -7,6 +7,11 @@
     },
     "text": {
       "loading": "Chargement..."
+    },
+    "footer": {
+      "text": {
+        "poweredby": "Produit par CosmoTech"
+      }
     }
   },
   "components": {
