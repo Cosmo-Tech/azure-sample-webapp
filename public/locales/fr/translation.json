@@ -123,6 +123,24 @@
           }
         }
       }
+    },
+    "unauthorized": {
+      "title": "Exemple d'Application Web Azure",
+      "digitaltwin": {
+        "specialists": {
+          "title": "Specialistes des jumeaux numériques"
+        }
+      },
+      "text": {
+        "no": {
+          "permission": "Vous n'avez pas les droits suffisants pour accéder à cette page."
+        },
+        "contact": {
+          "get": {
+            "account": "Merci de contacter l'administrateur."
+          }
+        }
+      }
     }
   },
   "layouts": {

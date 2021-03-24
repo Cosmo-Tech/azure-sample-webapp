@@ -123,6 +123,24 @@
           }
         }
       }
+    },
+    "unauthorized": {
+      "title": "Azure Sample Web Application",
+      "digitaltwin": {
+        "specialists": {
+          "title": "Digital Twins Specialists"
+        }
+      },
+      "text": {
+        "no": {
+          "permission": "You don't have permission to view this page."
+        },
+        "contact": {
+          "get": {
+            "account": "Please contact the application administrator to activate your account."
+          }
+        }
+      }
     }
   },
   "layouts": {
