@@ -110,7 +110,7 @@ const CardSimulationParameters = (props) => {
         </div>
         <Snackbar open={snackOpen} autoHideDuration={20000} onClose={handleSnackClose}>
           <Alert severity="success" onClose={handleSnackClose}>
-            <Trans i18nKey="userMessagesUnread" jobName={jobName} sagaId={sagaId}>
+            <Trans i18nKey="alertSimulationLaunchedSuccessfully" jobName={jobName} sagaId={sagaId}>
               {t('components.card.simulation.parameters.text.alert.simulation.launched', 'Simulation successfully launched')}:<br/>{{ jobName }}<br/>{{ sagaId }}
             </Trans>
           </Alert>
