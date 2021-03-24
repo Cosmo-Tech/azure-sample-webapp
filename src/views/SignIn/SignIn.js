@@ -125,7 +125,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const SignIn = props => {
+const SignIn = (props) => {
   const { t } = useTranslation()
 
   const classes = useStyles()

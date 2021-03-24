@@ -12,20 +12,12 @@ const useStyles = theme => ({
   }
 })
 
-class ScenarioManager extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {}
-  }
-
-  render () {
-    const { classes } = this.props
-    return (
-      <div className={classes.root}>
+const ScenarioManager = (props) => {
+  return (
+      <div className={props.classes.root}>
         SCENARIO MANAGER
       </div>
-    )
-  }
+  )
 }
 
 ScenarioManager.propTypes = {

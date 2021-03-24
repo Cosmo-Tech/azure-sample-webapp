@@ -12,20 +12,12 @@ const useStyles = theme => ({
   }
 })
 
-class DataModel extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {}
-  }
-
-  render () {
-    const { classes } = this.props
-    return (
-      <div className={classes.root}>
+const DataModel = (props) => {
+  return (
+      <div className={props.classes.root}>
         DATA MODEL
       </div>
-    )
-  }
+  )
 }
 
 DataModel.propTypes = {

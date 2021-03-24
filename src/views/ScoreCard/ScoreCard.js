@@ -12,20 +12,12 @@ const useStyles = theme => ({
   }
 })
 
-class ScoreCard extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {}
-  }
-
-  render () {
-    const { classes } = this.props
-    return (
-      <div className={classes.root}>
+const ScoreCard = (props) => {
+  return (
+      <div className={props.classes.root}>
         SCORE CARD
       </div>
-    )
-  }
+  )
 }
 
 ScoreCard.propTypes = {
