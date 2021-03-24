@@ -9,20 +9,11 @@ import { PublicRoute, PrivateRoute } from './components'
 import { Tab as TabLayout } from './layouts'
 import {
   SignIn as SignInView,
-  Unauthorized as UnauthorizedView,
-  DigitalTwin as DigitalTwinView
+  Unauthorized as UnauthorizedView
 } from './views'
 
 const Routes = props => {
-  const { authenticated, authorized } = props
-  const tabs = [
-    {
-      key: 'DigitalTwin',
-      label: 'Digital Twin',
-      to: '/digitaltwin',
-      render: () => <DigitalTwinView /> // eslint-disable-line
-    }
-  ]
+  const { authenticated, authorized, tabs } = props
 
   return (
     <Switch>
@@ -61,7 +52,8 @@ const Routes = props => {
 
 Routes.propTypes = {
   authenticated: PropTypes.bool.isRequired,
-  authorized: PropTypes.bool
+  authorized: PropTypes.bool,
+  tabs: PropTypes.any
 }
 
 export default Routes

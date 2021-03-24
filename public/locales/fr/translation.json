@@ -108,5 +108,14 @@
         }
       }
     }
+  },
+  "layouts": {
+    "tabs": {
+      "digitaltwin": {
+        "tab": {
+          "title": "Jumeaux numériques"
+        }
+      }
+    }
   }
 }

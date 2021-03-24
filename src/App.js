@@ -11,7 +11,9 @@ import theme from './theme'
 import './assets/scss/index.scss'
 import './service/auth.js'
 import { Auth } from '@cosmotech/core'
+import { DigitalTwin as DigitalTwinView } from './views'
 
+// TODO move this into a config file
 const applicationInsightConfig = {
   name: 'Web Application Sample',
   config: {
@@ -24,6 +26,16 @@ const applicationInsightConfig = {
     distributedTracingMode: DistributedTracingModes.AI_AND_W3C
   }
 }
+
+// TODO move this into a config file
+const tabs = [
+  {
+    key: 'tabs.digitaltwin.key',
+    label: 'layouts.tabs.digitaltwin.tab.title',
+    to: '/digitaltwin',
+    render: () => <DigitalTwinView /> // eslint-disable-line
+  }
+]
 
 const App = () => {
   // TODO find an elegant way to set the title ( should be translatable)
@@ -83,7 +95,6 @@ const App = () => {
   }
 
   const toggleLang = () => {
-    // overly simplistic way of toggling between 3 languages
     switch (i18n.language) {
       case 'en':
         i18n.changeLanguage('fr')
@@ -97,7 +108,6 @@ const App = () => {
     }
   }
 
-  // eslint-disable-next-line react/prop-types
   return loading === true
     ? (
           <I18nextProvider i18n={i18n}>
@@ -115,7 +125,7 @@ const App = () => {
             <ThemeProvider theme={theme}>
               <Router>
                 <Routes authenticated={authenticated}
-                  authorized={authenticated} />
+                  authorized={authenticated} tabs={tabs}/>
                 {/* <Routes authenticated={this.state.authenticated}
                   authorized={this.state.authorized} /> */}
               </Router>

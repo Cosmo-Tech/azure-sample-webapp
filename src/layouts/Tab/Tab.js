@@ -9,6 +9,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { PrivateRoute } from '../../components'
 import { UserInfo } from '@cosmotech/ui'
 import Footer from './components/Footer'
+import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -73,7 +74,9 @@ const TabLayout = props => {
     unauthorizedPath
   } = props
   const classes = useStyles()
-  return <Route
+  const { t } = useTranslation()
+
+  return (<Route
     path="/"
     render={({ location }) => (
       <Fragment>
@@ -81,10 +84,9 @@ const TabLayout = props => {
           <Box className={classes.barDiv}>
             <Tabs value={location.pathname} className={classes.tabs}>
               {tabs.map(tab => (
-              <Tab key={tab.key} value={tab.to} label={tab.label} component={Link} to={tab.to} className={classes.tab}/>
+              <Tab key={tab.key} value={tab.to} label= {t(tab.label, tab.key)} component={Link} to={tab.to} className={classes.tab}/>
               ))}
             </Tabs>
-
               <div className={classes.rightBar}>
                 <div className={classes.rightBarElement}>
                   <img alt="Cosmo Tech" height="28px" src="cosmotech.png" className={classes.logo} />
@@ -108,7 +110,7 @@ const TabLayout = props => {
         <Footer />
       </Fragment>
     )}
-  />
+  />)
 }
 
 TabLayout.propTypes = {
