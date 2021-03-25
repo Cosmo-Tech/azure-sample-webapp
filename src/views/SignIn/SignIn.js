@@ -187,7 +187,7 @@ const SignIn = (props) => {
             <div className={classes.contentBody}>
               <form className={classes.form}>
                 <Typography className={classes.title} variant="h2">
-                  {t('views.signin.button.regular.login', 'Sign In')}
+                  {t('commoncomponents.button.login.regular.login', 'Sign In')}
                 </Typography>
                 <Grid className={classes.socialButtons} container spacing={2}>
                   <Grid item>
@@ -197,7 +197,7 @@ const SignIn = (props) => {
                       size="large"
                       variant="contained"
                     >
-                      {t('views.signin.button.msal.login', 'Login with Active Directory (MSAL)')}
+                      {t('commoncomponents.button.login.msal.login', 'Login with Active Directory (MSAL)')}
                     </Button>
                     <Button
                       className={classes.loginButton}
@@ -205,7 +205,7 @@ const SignIn = (props) => {
                       size="large"
                       variant="contained"
                     >
-                      {t('views.signin.button.static.webapp.login', 'Login with Active Directory (Static Web App)')}
+                      {t('commoncomponents.button.login.static.webapp.login', 'Login with Active Directory (Static Web App)')}
                     </Button>
                     {
                       window.location.hostname === 'localhost' &&
@@ -216,13 +216,13 @@ const SignIn = (props) => {
                           variant="contained"
                           data-cy="log-with-dev-account-button"
                         >
-                          {t('views.signin.button.dev.account.login', 'Login with Dev account')}
+                          {t('commoncomponents.button.login.dev.account.login', 'Login with Dev account')}
                         </Button>
                     }
                   </Grid>
                 </Grid>
                 <Typography color="textSecondary" variant="body1">
-                  {t('views.signin.text.contact.get.account', 'Please contact CosmoTech to get an account.')}
+                  {t('commoncomponents.text.contact.get.account', 'Please contact the application administrator to activate your account.')}
                 </Typography>
               </form>
             </div>

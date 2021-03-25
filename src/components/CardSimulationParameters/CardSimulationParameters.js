@@ -72,11 +72,11 @@ const CardSimulationParameters = (props) => {
   return (
       <Card className={props.classes.card} raised>
         <Typography variant='h5' component='h2' className={props.classes.title}>
-          {t('components.card.simulation.parameters.title.simulation.parameters', 'Simulator parameters')}
+          {t('commoncomponents.card.simulation.parameters.title.simulation.parameters', 'Simulator parameters')}
         </Typography>
         <div className={props.classes.parameter}>
           <Typography className={props.classes.label} component='span'>
-            {t('components.card.simulation.parameters.text.simulator.name', 'Simulator name')}:
+            {t('commoncomponents.card.simulation.parameters.text.simulator.name', 'Simulator name')}:
           </Typography>
           <Select
               className={props.classes.select}
@@ -89,7 +89,7 @@ const CardSimulationParameters = (props) => {
         </div>
         <div className={props.classes.parameter}>
           <Typography className={props.classes.label} component='span'>
-            {t('components.card.simulation.parameters.text.simulation.name', 'Simulation name')}:
+            {t('commoncomponents.card.simulation.parameters.text.simulation.name', 'Simulation name')}:
           </Typography>
           <Select
               className={props.classes.select}
@@ -111,7 +111,7 @@ const CardSimulationParameters = (props) => {
         <Snackbar open={snackOpen} autoHideDuration={20000} onClose={handleSnackClose}>
           <Alert severity="success" onClose={handleSnackClose}>
             <Trans i18nKey="alertSimulationLaunchedSuccessfully" jobName={jobName} sagaId={sagaId}>
-              {t('components.card.simulation.parameters.text.alert.simulation.launched', 'Simulation successfully launched')}:<br/>{{ jobName }}<br/>{{ sagaId }}
+              {t('commoncomponents.card.simulation.parameters.text.alert.simulation.launched', 'Simulation successfully launched')}:<br/>{{ jobName }}<br/>{{ sagaId }}
             </Trans>
           </Alert>
         </Snackbar>

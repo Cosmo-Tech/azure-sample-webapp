@@ -30,7 +30,7 @@ const Footer = (props) => {
     >
       <Typography variant="caption" component="div" className={classes.text}>
         <Trans i18nKey="copyrightMessage" year={year} >
-          &copy; {t('main.footer.text.poweredby', 'Powered by CosmoTech')}:{{ year }}
+          &copy; {t('views.common.footer.text.poweredby', 'Powered by CosmoTech')}:{{ year }}
         </Trans>
       </Typography>
     </footer>

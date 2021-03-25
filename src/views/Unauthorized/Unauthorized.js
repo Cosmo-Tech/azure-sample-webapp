@@ -155,10 +155,10 @@ const Unauthorized = (props) => {
             <div className={classes.contentBody}>
               <div className={classes.message}>
                 <Typography className={classes.title} variant="h3">
-                  {t('views.unauthorized.text.no.permission', 'You don\'t have permission to view this page.')}
+                  {t('commoncomponents.text.no.permission', 'You don\'t have permission to view this page.')}
                 </Typography>
                 <Typography color="textSecondary" variant="body1">
-                  {t('views.unauthorized.text.contact.get.account', 'Please contact the application administrator to activate your account.')}
+                  {t('commoncomponents.text.contact.get.account', 'Please contact the application administrator to activate your account.')}
                 </Typography>
               </div>
             </div>

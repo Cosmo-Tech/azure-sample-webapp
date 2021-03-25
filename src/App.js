@@ -111,17 +111,17 @@ const App = () => {
   return loading === true
     ? (
           <I18nextProvider i18n={i18n}>
-            <button onClick={toggleLang}>{t('main.button.change.language', 'Change language')}</button>
+            <button onClick={toggleLang}>{t('commoncomponents.button.change.language', 'Change language')}</button>
             <ThemeProvider theme={theme}>
               <div className="spinner-border text-success" role="status">
-                <span className="sr-only">{t('main.text.loading', 'Loading...')}</span>
+                <span className="sr-only">{t('views.common.text.loading', 'Loading...')}</span>
               </div>
             </ThemeProvider>
           </I18nextProvider>
       )
     : (
           <I18nextProvider i18n={i18n}>
-            <button onClick={toggleLang}>{t('main.button.change.language', 'Change language')}</button>
+            <button onClick={toggleLang}>{t('commoncomponents.button.change.language', 'Change language')}</button>
             <ThemeProvider theme={theme}>
               <Router>
                 <Routes authenticated={authenticated}

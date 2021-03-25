@@ -92,8 +92,8 @@ const DigitalTwin = (props) => {
             <Grid item xs={9}>
               <IframeScenarioResults
               cardStyle={ { height: '100%', width: '100%' } }
-              iframeTitle={t('views.digitaltwin.iframe.scenario.results.iframe.title', 'Supply Chain results')}
-              cardTitle={t('views.digitaltwin.iframe.scenario.results.card.title', 'Results')}
+              iframeTitle={t('commoncomponents.iframe.scenario.results.iframe.title', 'Supply Chain results')}
+              cardTitle={t('commoncomponents.iframe.scenario.results.card.title', 'Results')}
               src="https://app.powerbi.com/reportEmbed?reportId=018525c4-3fed-49e7-9048-6d6237e80145&autoAuth=true&ctid=e9641c78-d0d6-4d09-af63-168922724e7f&config=eyJjbHVzdGVyVXJsIjoiaHR0cHM6Ly93YWJpLWZyYW5jZS1jZW50cmFsLWEtcHJpbWFyeS1yZWRpcmVjdC5hbmFseXNpcy53aW5kb3dzLm5ldC8ifQ%3D%3D"
               frameBorder="0"
               allowFullScreen

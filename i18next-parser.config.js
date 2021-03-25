@@ -61,7 +61,7 @@ module.exports = {
   // For react file, extract the defaultNamespace - https://react.i18next.com/latest/withtranslation-hoc
   // Ignored when parsing a `.jsx` file and namespace is extracted from that file.
 
-  sort: false,
+  sort: true,
   // Whether or not to sort the catalog
 
   skipDefaultValues: false,

@@ -95,7 +95,7 @@ const ButtonRunProtocol = (props) => {
           className={props.classes.button}
           onClick={handleClick}
           endIcon={<PlayCircleOutlineIcon/>}
-        >{t('components.button.run.protocol.text', 'Run protocol')}</Button>
+        >{t('commoncomponents.button.run.protocol.text', 'Run protocol')}</Button>
       </Box>
   )
 }

@@ -1,21 +1,27 @@
 {
-  "main": {
+  "commoncomponents": {
     "button": {
       "change": {
         "language": "Change language"
-      }
-    },
-    "text": {
-      "loading": "Loading..."
-    },
-    "footer": {
-      "text": {
-        "poweredby": "Powered by CosmoTech"
-      }
-    }
-  },
-  "components": {
-    "button": {
+      },
+      "login": {
+        "dev": {
+          "account": {
+            "login": "Login with Dev account"
+          }
+        },
+        "msal": {
+          "login": "Login with Active Directory (MSAL)"
+        },
+        "regular": {
+          "login": "Sign In"
+        },
+        "static": {
+          "webapp": {
+            "login": "Login with Active Directory (Static Web App)"
+          }
+        }
+      },
       "run": {
         "protocol": {
           "text": "Run protocol"
@@ -28,11 +34,6 @@
     "card": {
       "protocol": {
         "parameters": {
-          "title": {
-            "protocol": {
-              "parameters": "Protocol parameters"
-            }
-          },
           "text": {
             "driver": {
               "name": "Driver name"
@@ -43,27 +44,32 @@
             "total": {
               "simulations": "Total simulations"
             }
+          },
+          "title": {
+            "protocol": {
+              "parameters": "Protocol parameters"
+            }
           }
         }
       },
       "simulation": {
         "parameters": {
-          "title": {
-            "simulation": {
-              "parameters": "Simulator parameters"
-            }
-          },
           "text": {
-            "simulator": {
-              "name": "Simulator name"
-            },
-            "simulation": {
-              "name": "Simulation name"
-            },
             "alert": {
               "simulation": {
                 "launched": "Simulation successfully launched"
               }
+            },
+            "simulation": {
+              "name": "Simulation name"
+            },
+            "simulator": {
+              "name": "Simulator name"
+            }
+          },
+          "title": {
+            "simulation": {
+              "parameters": "Simulator parameters"
             }
           }
         }
@@ -72,6 +78,12 @@
     "iframe": {
       "scenario": {
         "results": {
+          "card": {
+            "title": "Results"
+          },
+          "iframe": {
+            "title": "Supply Chain results"
+          },
           "text": {
             "no": {
               "result": "No results for this scenario."
@@ -79,68 +91,39 @@
           }
         }
       }
+    },
+    "text": {
+      "contact": {
+        "get": {
+          "account": "Please contact the application administrator to activate your account."
+        }
+      },
+      "no": {
+        "permission": "You don't have permission to view this page."
+      }
     }
   },
   "views": {
-    "digitaltwin": {
-      "iframe": {
-        "scenario": {
-          "results": {
-            "iframe": {
-              "title": "Supply Chain results"
-            },
-            "card": {
-              "title": "Results"
-            }
-          }
-        }
-      }
-    },
-    "signin": {
-      "title": "Azure Sample Web Application",
-      "button": {
-        "regular": {
-          "login": "Sign In"
-        },
-        "msal": {
-          "login": "Login with Active Directory (MSAL)"
-        },
-        "static": {
-          "webapp": {
-            "login": "Login with Active Directory (Static Web App)"
-          }
-        },
-        "dev": {
-          "account": {
-            "login": "Login with Dev account"
-          }
+    "common": {
+      "footer": {
+        "text": {
+          "poweredby": "Powered by CosmoTech"
         }
       },
       "text": {
-        "contact": {
-          "get": {
-            "account": "Please contact CosmoTech to get an account."
-          }
-        }
+        "loading": "Loading..."
       }
     },
+    "signin": {
+      "title": "Azure Sample Web Application"
+    },
     "unauthorized": {
-      "title": "Azure Sample Web Application",
       "digitaltwin": {
         "specialists": {
           "title": "Digital Twins Specialists"
         }
       },
-      "text": {
-        "no": {
-          "permission": "You don't have permission to view this page."
-        },
-        "contact": {
-          "get": {
-            "account": "Please contact the application administrator to activate your account."
-          }
-        }
-      }
+      "title": "Azure Sample Web Application"
     }
   },
   "layouts": {

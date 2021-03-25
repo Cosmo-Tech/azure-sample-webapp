@@ -78,7 +78,7 @@ const IframeScenarioResults = (props) => {
                 component="p"
                 color="textSecondary"
                 className={classes.label}
-              >{t('components.iframe.scenario.results.text.no.result', 'No results for this scenario.')}</Typography>
+              >{t('commoncomponents.iframe.scenario.results.text.no.result', 'No results for this scenario.')}</Typography>
             }
           </CardContent>
         </Card>
