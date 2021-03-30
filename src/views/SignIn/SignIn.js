@@ -208,6 +208,7 @@ const SignIn = props => {
                           onClick={handleAuthDevSignIn}
                           size="large"
                           variant="contained"
+                          data-cy="log-with-dev-account-button"
                         >
                           Login with Dev account
                         </Button>
