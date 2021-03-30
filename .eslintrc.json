@@ -1,11 +1,16 @@
 {
     "env": {
         "browser": true,
-        "es2021": true
+        "es2021": true,
+        "jest/globals": true,
+        "cypress/globals": true
     },
     "extends": [
         "plugin:react/recommended",
-        "standard"
+        "standard",
+        "eslint:recommended",
+        "plugin:jest/recommended",
+        "plugin:cypress/recommended"
     ],
     "parserOptions": {
         "ecmaFeatures": {
@@ -15,9 +20,24 @@
         "sourceType": "module"
     },
     "plugins": [
-        "react"
+        "react",
+        "react-hooks",
+        "jest",
+        "cypress"
     ],
     "rules": {
+        "react-hooks/rules-of-hooks": "error", // Checks rules of Hooksyarn run eslint --init
+        "react-hooks/exhaustive-deps": "warn", // Checks effect dependencies
+        "jest/no-disabled-tests": "warn",
+        "jest/no-focused-tests": "error",
+        "jest/no-identical-title": "error",
+        "jest/prefer-to-have-length": "warn",
+        "jest/valid-expect": "error",
+        "cypress/no-assigning-return-values": "error",
+        "cypress/no-unnecessary-waiting": "error",
+        "cypress/assertion-before-screenshot": "warn",
+        "cypress/no-force": "error",
+        "cypress/no-async-tests": "error"
     },
     "settings": {
         "react": {
