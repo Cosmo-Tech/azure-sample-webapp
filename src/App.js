@@ -48,9 +48,40 @@ const App = () => {
   const { t, i18n } = useTranslation()
 
   useEffect(() => {
+    const authenticationDone = (authenticated) => {
+      debugToken()
+      if (authenticated) {
+        setAuthenticated(authenticated)
+        setAuthorized(authenticated) // TODO: handle authorization
+      }
+      // Bind callback to update state on authentication data change
+      Auth.onAuthStateChanged(authData => {
+        if (authData) {
+          setAuthenticated(authData.authenticated)
+          setAuthorized(authData.authenticated) // TODO: handle authorization
+        }
+      })
+      setLoading(false)
+    }
+    const debugLocalKey = (key) => {
+      const value = localStorage.getItem(key)
+      if (value) {
+        console.log(key + ': ' + value)
+      } else {
+        console.log(key + ': ' + 'NO VALUE')
+      }
+    }
+
+    const debugToken = () => {
+      debugLocalKey('authIdTokenPopup')
+      debugLocalKey('authIdToken')
+      debugLocalKey('authAccessToken')
+    }
+
     const appInsights = new ApplicationInsights(applicationInsightConfig)
     appInsights.loadAppInsights()
     appInsights.trackPageView()
+
     // Check if the user is already signed-in
     async function signIn () {
       if (Auth.isAsync()) {
@@ -62,37 +93,6 @@ const App = () => {
     signIn()
       .then((isSignInSuccessfully) => authenticationDone(isSignInSuccessfully))
   }, [])
-
-  const debugLocalKey = (key) => {
-    const value = localStorage.getItem(key)
-    if (value) {
-      console.log(key + ': ' + value)
-    } else {
-      console.log(key + ': ' + 'NO VALUE')
-    }
-  }
-
-  const debugToken = () => {
-    debugLocalKey('authIdTokenPopup')
-    debugLocalKey('authIdToken')
-    debugLocalKey('authAccessToken')
-  }
-
-  const authenticationDone = (authenticated) => {
-    debugToken()
-    if (authenticated) {
-      setAuthenticated(authenticated)
-      setAuthorized(authenticated) // TODO: handle authorization
-    }
-    // Bind callback to update state on authentication data change
-    Auth.onAuthStateChanged(authData => {
-      if (authData) {
-        setAuthenticated(authData.authenticated)
-        setAuthorized(authData.authenticated) // TODO: handle authorization
-      }
-    })
-    setLoading(false)
-  }
 
   const toggleLang = () => {
     switch (i18n.language) {
