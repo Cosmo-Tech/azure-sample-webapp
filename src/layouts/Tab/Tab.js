@@ -1,3 +1,6 @@
+// copyright (c) cosmo tech corporation.
+// licensed under the mit license.
+
 import React, { Fragment } from 'react'
 import { AppBar, Tabs, Tab, Box } from '@material-ui/core'
 import { Switch, Route, Link, Redirect } from 'react-router-dom'

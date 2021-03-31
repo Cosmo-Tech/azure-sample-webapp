@@ -1,3 +1,6 @@
+// copyright (c) cosmo tech corporation.
+// licensed under the mit license.
+
 import React from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'

@@ -1,3 +1,6 @@
+// copyright (c) cosmo tech corporation.
+// licensed under the mit license.
+
 /// <reference types="cypress" />
 // ***********************************************************
 // This example plugins/index.js can be used to load plugins

@@ -1,3 +1,6 @@
+// copyright (c) cosmo tech corporation.
+// licensed under the mit license.
+
 import MuiButton from './MuiButton'
 import MuiCard from './MuiCard'
 import MuiIconButton from './MuiIconButton'

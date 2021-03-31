@@ -1,3 +1,6 @@
+// copyright (c) cosmo tech corporation.
+// licensed under the mit license.
+
 export { default as ButtonRunSimulation } from './ButtonRunSimulation'
 export { default as ButtonRunProtocol } from './ButtonRunProtocol'
 export { default as CardSimulationParameters } from './CardSimulationParameters'

@@ -1,3 +1,6 @@
+// copyright (c) cosmo tech corporation.
+// licensed under the mit license.
+
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'

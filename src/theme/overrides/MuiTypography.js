@@ -1,4 +1,6 @@
-/* eslint import/no-anonymous-default-export: [2, {"allowObject": true}] */
+// copyright (c) cosmo tech corporation.
+// licensed under the mit license.
+
 export default {
   gutterBottom: {
     marginBottom: 8

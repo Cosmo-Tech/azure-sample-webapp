@@ -1,3 +1,6 @@
+// copyright (c) cosmo tech corporation.
+// licensed under the mit license.
+
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import PropTypes from 'prop-types'

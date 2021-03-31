@@ -1,3 +1,5 @@
+// copyright (c) cosmo tech corporation.
+// licensed under the mit license.
 const fetch = require('node-fetch')
 const jwt = require('jsonwebtoken')
 const jwksClient = require('jwks-rsa')

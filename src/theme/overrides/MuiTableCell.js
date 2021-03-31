@@ -1,7 +1,9 @@
+// copyright (c) cosmo tech corporation.
+// licensed under the mit license.
+
 import palette from '../palette'
 import typography from '../typography'
 
-/* eslint import/no-anonymous-default-export: [2, {"allowObject": true}] */
 export default {
   root: {
     ...typography.body1,

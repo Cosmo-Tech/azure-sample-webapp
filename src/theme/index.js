@@ -1,3 +1,6 @@
+// copyright (c) cosmo tech corporation.
+// licensed under the mit license.
+
 import { createMuiTheme } from '@material-ui/core'
 
 import palette from './palette'

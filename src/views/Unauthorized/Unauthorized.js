@@ -1,3 +1,6 @@
+// copyright (c) cosmo tech corporation.
+// licensed under the mit license.
+
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { makeStyles } from '@material-ui/styles'

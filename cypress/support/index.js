@@ -1,3 +1,6 @@
+// copyright (c) cosmo tech corporation.
+// licensed under the mit license.
+
 // ***********************************************************
 // This example support/index.js is processed and
 // loaded automatically before your test files.

@@ -1,3 +1,6 @@
+// copyright (c) cosmo tech corporation.
+// licensed under the mit license.
+
 import { colors } from '@material-ui/core'
 
 const themeColors = {
@@ -16,7 +19,6 @@ const themeColors = {
   white: '#FFFFFF'
 }
 
-/* eslint import/no-anonymous-default-export: [2, {"allowObject": true}] */
 export default {
   type: 'dark',
   white: themeColors.white,

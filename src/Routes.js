@@ -1,3 +1,6 @@
+// copyright (c) cosmo tech corporation.
+// licensed under the mit license.
+
 import React from 'react'
 import { Switch, Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'

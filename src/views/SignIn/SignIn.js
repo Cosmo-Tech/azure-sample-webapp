@@ -1,3 +1,6 @@
+// copyright (c) cosmo tech corporation.
+// licensed under the mit license.
+
 import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import { Auth, AuthDev } from '@cosmotech/core'

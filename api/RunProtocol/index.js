@@ -1,3 +1,5 @@
+// copyright (c) cosmo tech corporation.
+// licensed under the mit license.
 const fetch = require('node-fetch')
 
 module.exports = async function (context, req) {

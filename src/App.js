@@ -1,3 +1,6 @@
+// copyright (c) cosmo tech corporation.
+// licensed under the mit license.
+
 import React, { Component } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { ApplicationInsights, DistributedTracingModes } from '@microsoft/applicationinsights-web'
