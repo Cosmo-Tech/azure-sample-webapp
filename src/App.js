@@ -1,5 +1,5 @@
-// copyright (c) cosmo tech corporation.
-// licensed under the mit license.
+// Copyright (c) Cosmo Tech.
+// Licensed under the MIT license.
 
 import React, { useEffect, useState } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'

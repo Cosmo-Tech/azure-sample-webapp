@@ -1,4 +1,4 @@
-// copyright (c) cosmo tech corporation.
-// licensed under the mit license.
+// Copyright (c) Cosmo Tech.
+// Licensed under the MIT license.
 
 export { default } from './ScenarioManager'

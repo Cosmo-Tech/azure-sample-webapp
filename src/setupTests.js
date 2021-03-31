@@ -1,5 +1,5 @@
-// copyright (c) cosmo tech corporation.
-// licensed under the mit license.
+// Copyright (c) Cosmo Tech.
+// Licensed under the MIT license.
 
 // jest-dom adds custom jest matchers for asserting on DOM nodes.
 // allows you to do things like:
