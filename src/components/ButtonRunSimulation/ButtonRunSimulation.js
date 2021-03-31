@@ -86,7 +86,7 @@ const ButtonRunSimulation = (props) => {
           className={props.classes.button}
           onClick={handleClick}
           endIcon={<PlayCircleOutlineIcon/>}
-        >{t('commoncomponents.button.run.simulation.text', 'Run simulation')}</Button>
+        >{t('commoncomponents.button.run.scenario.text', 'Run scenario')}</Button>
       </Box>
   )
 }

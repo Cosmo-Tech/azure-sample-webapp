@@ -76,7 +76,7 @@ const CardSimulationParameters = (props) => {
         </Typography>
         <div className={props.classes.parameter}>
           <Typography className={props.classes.label} component='span'>
-            {t('commoncomponents.card.simulation.parameters.text.simulator.name', 'Simulator name')}:
+            {t('commoncomponents.card.simulation.parameters.text.engine.name', 'Simulator name')}:
           </Typography>
           <Select
               className={props.classes.select}

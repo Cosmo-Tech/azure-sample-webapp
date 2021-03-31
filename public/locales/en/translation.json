@@ -7,18 +7,18 @@
       "login": {
         "dev": {
           "account": {
-            "login": "Login with Dev account"
+            "login": "Sign in with Dev mode"
           }
         },
         "msal": {
-          "login": "Login with Active Directory (MSAL)"
+          "login": "Sign in with Active Directory (MSAL)"
         },
         "regular": {
           "login": "Sign In"
         },
         "static": {
           "webapp": {
-            "login": "Login with Active Directory (Static Web App)"
+            "login": "Sign in with Active Directory (Static Web App)"
           }
         }
       },
@@ -26,8 +26,8 @@
         "protocol": {
           "text": "Run protocol"
         },
-        "simulation": {
-          "text": "Run simulation"
+        "scenario": {
+          "text": "Run scenario"
         }
       }
     },
@@ -63,13 +63,13 @@
             "simulation": {
               "name": "Simulation name"
             },
-            "simulator": {
-              "name": "Simulator name"
+            "engine": {
+              "name": "Engine name"
             }
           },
           "title": {
             "simulation": {
-              "parameters": "Simulator parameters"
+              "parameters": "Engine parameters"
             }
           }
         }
@@ -107,7 +107,7 @@
     "common": {
       "footer": {
         "text": {
-          "poweredby": "Powered by CosmoTech"
+          "poweredby": "Powered by Cosmo Tech"
         }
       },
       "text": {

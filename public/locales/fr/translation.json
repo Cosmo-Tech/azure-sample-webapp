@@ -7,7 +7,7 @@
       "login": {
         "dev": {
           "account": {
-            "login": "Se connecter avec Dev account"
+            "login": "Se connecter en mode Dev"
           }
         },
         "msal": {
@@ -26,8 +26,8 @@
         "protocol": {
           "text": "Lancer le protocole"
         },
-        "simulation": {
-          "text": "Lancer la simulation"
+        "scenario": {
+          "text": "Lancer le scénario"
         }
       }
     },
@@ -42,7 +42,7 @@
               "size": "Taille de population"
             },
             "total": {
-              "simulations": "Nombre de simulation"
+              "simulations": "Nombre de simulations"
             }
           },
           "title": {
@@ -63,7 +63,7 @@
             "simulation": {
               "name": "Nom de la simulation"
             },
-            "simulator": {
+            "engine": {
               "name": "Nom du simulator"
             }
           },
@@ -95,7 +95,7 @@
     "text": {
       "contact": {
         "get": {
-          "account": "Contactez Cosmotech pour avoir un compte."
+          "account": "Contactez Cosmo Tech pour avoir un compte."
         }
       },
       "no": {
@@ -107,7 +107,7 @@
     "common": {
       "footer": {
         "text": {
-          "poweredby": "Produit par Cosmo Tech"
+          "poweredby": "Propulsé par Cosmo Tech"
         }
       },
       "text": {
@@ -120,7 +120,7 @@
     "unauthorized": {
       "digitaltwin": {
         "specialists": {
-          "title": "Specialistes des jumeaux numériques"
+          "title": "Spécialistes des jumeaux numériques"
         }
       },
       "title": "Exemple d'Application Web Azure"
