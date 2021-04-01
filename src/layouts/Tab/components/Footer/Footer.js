@@ -1,11 +1,12 @@
-// copyright (c) cosmo tech corporation.
-// licensed under the mit license.
+// Copyright (c) Cosmo Tech.
+// Licensed under the MIT license.
 
 import React from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/styles'
 import { Typography } from '@material-ui/core'
+import { Trans, useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -16,7 +17,8 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const Footer = props => {
+const Footer = (props) => {
+  const { t } = useTranslation()
   const { className, ...rest } = props
   const classes = useStyles()
   const year = new Date().getFullYear()
@@ -27,7 +29,9 @@ const Footer = props => {
       className={clsx(classes.root, className)}
     >
       <Typography variant="caption" component="div" className={classes.text}>
-        &copy; Powered by CosmoTech. {year}
+        <Trans i18nKey="copyrightMessage" year={year} >
+          &copy; {t('views.common.footer.text.poweredby', 'Powered by CosmoTech')}:{{ year }}
+        </Trans>
       </Typography>
     </footer>
   )

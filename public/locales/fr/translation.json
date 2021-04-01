@@ -1,0 +1,138 @@
+{
+  "commoncomponents": {
+    "button": {
+      "change": {
+        "language": "Changer de langue"
+      },
+      "login": {
+        "dev": {
+          "account": {
+            "login": "Se connecter en mode Dev"
+          }
+        },
+        "msal": {
+          "login": "Se connecter avec Active Directory (MSAL)"
+        },
+        "regular": {
+          "login": "Se connecter"
+        },
+        "static": {
+          "webapp": {
+            "login": "Se connecter avec Active Directory (Static Web App)"
+          }
+        }
+      },
+      "run": {
+        "protocol": {
+          "text": "Lancer le protocole"
+        },
+        "scenario": {
+          "text": "Lancer le scénario"
+        }
+      }
+    },
+    "card": {
+      "protocol": {
+        "parameters": {
+          "text": {
+            "driver": {
+              "name": "Nom du driver"
+            },
+            "population": {
+              "size": "Taille de population"
+            },
+            "total": {
+              "simulations": "Nombre de simulations"
+            }
+          },
+          "title": {
+            "protocol": {
+              "parameters": "Parametres du protocole"
+            }
+          }
+        }
+      },
+      "simulation": {
+        "parameters": {
+          "text": {
+            "alert": {
+              "simulation": {
+                "launched": "Simulation lancée avec succès"
+              }
+            },
+            "simulation": {
+              "name": "Nom de la simulation"
+            },
+            "engine": {
+              "name": "Nom du simulator"
+            }
+          },
+          "title": {
+            "simulation": {
+              "parameters": "Parametres du simulator"
+            }
+          }
+        }
+      }
+    },
+    "iframe": {
+      "scenario": {
+        "results": {
+          "card": {
+            "title": "Resultats"
+          },
+          "iframe": {
+            "title": "Resultats simulation supply chain"
+          },
+          "text": {
+            "no": {
+              "result": "Pas de résultat pour ce scénario"
+            }
+          }
+        }
+      }
+    },
+    "text": {
+      "contact": {
+        "get": {
+          "account": "Contactez Cosmo Tech pour avoir un compte."
+        }
+      },
+      "no": {
+        "permission": "Vous n'avez pas les droits suffisants pour accéder à cette page."
+      }
+    }
+  },
+  "views": {
+    "common": {
+      "footer": {
+        "text": {
+          "poweredby": "Propulsé par Cosmo Tech"
+        }
+      },
+      "text": {
+        "loading": "Chargement..."
+      }
+    },
+    "signin": {
+      "title": "Exemple d'Application Web Azure"
+    },
+    "unauthorized": {
+      "digitaltwin": {
+        "specialists": {
+          "title": "Spécialistes des jumeaux numériques"
+        }
+      },
+      "title": "Exemple d'Application Web Azure"
+    }
+  },
+  "layouts": {
+    "tabs": {
+      "digitaltwin": {
+        "tab": {
+          "title": "Jumeaux numériques"
+        }
+      }
+    }
+  }
+}

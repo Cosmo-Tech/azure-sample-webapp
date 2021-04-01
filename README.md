@@ -39,6 +39,16 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
+### `i18next`
+We have defined our own i18next-parser.config.js file. 
+
+Once you had launched the command `yarn install`, you'll be able to run the command `i18next` in the project root folder.
+This command will :
+- look for react-i18next usage within the __src/__ folder 
+- get all keys defined
+- add all keys into translation files (by default __public/locales/en/translation.json__ and __public/locales/fr/translation.json__)
+Feel free to add new supported languages or change the parser configuration. ( See [react-i18next](https://github.com/i18next/react-i18next) and [i18next-parser](https://github.com/i18next/i18next-parser) )
+
 ## Learn More
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).

@@ -1,9 +1,10 @@
-// copyright (c) cosmo tech corporation.
-// licensed under the mit license.
+// Copyright (c) Cosmo Tech.
+// Licensed under the MIT license.
 
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
+import { Trans, useTranslation } from 'react-i18next'
 import { Card, MenuItem, Select, Typography } from '@material-ui/core'
 import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
@@ -50,99 +51,81 @@ function Alert (props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />
 }
 
-class CardSimulationParameters extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      sagaId: null,
-      jobName: null,
-      snackOpen: false
-    }
+const CardSimulationParameters = (props) => {
+  const [sagaId, setSagaId] = useState(null)
+  const [jobName, setJobName] = useState(null)
+  const [snackOpen, setSnackOpen] = useState(false)
+  const { t } = useTranslation()
 
-    // Bind methods
-    this.onSimulationNameChange = this.onSimulationNameChange.bind(this)
-    this.onSimulatorNameChange = this.onSimulatorNameChange.bind(this)
-    this.onSimulationStarted = this.onSimulationStarted.bind(this)
-    this.handleSnackClose = this.handleSnackClose.bind(this)
+  const handleSnackClose = () => setSnackOpen(false)
+
+  const onSimulationStarted = (sagaId, jobName) => {
+    setSnackOpen(true)
+    setJobName(jobName)
+    setSagaId(sagaId)
   }
 
-  handleSnackClose () {
-    this.setState({ snackOpen: false })
+  const onSelectSimulator = (event) => {
+    props.onSimulatorNameChange(event.target.value)
   }
 
-  onSimulationStarted (sagaId, jobName) {
-    this.setState({
-      sagaId: sagaId,
-      jobName: jobName,
-      snackOpen: true
-    })
-  }
-
-  onSimulationNameChange (event) {
-    this.props.onSimulationNameChange(event.target.value)
-  }
-
-  onSimulatorNameChange (event) {
-    this.props.onSimulatorNameChange(event.target.value)
-  }
-
-  render () {
-    const { classes } = this.props
-    return (
-      <Card className={classes.card} raised>
-        <Typography variant='h5' component='h2' className={classes.title}>
-          Simulation parameters
+  return (
+      <Card className={props.classes.card} raised>
+        <Typography variant='h5' component='h2' className={props.classes.title}>
+          {t('commoncomponents.card.simulation.parameters.title.simulation.parameters', 'Simulator parameters')}
         </Typography>
-        <div className={classes.parameter}>
-          <Typography className={classes.label} component='span'>
-            Simulator name:
+        <div className={props.classes.parameter}>
+          <Typography className={props.classes.label} component='span'>
+            {t('commoncomponents.card.simulation.parameters.text.engine.name', 'Simulator name')}:
           </Typography>
           <Select
-            className={classes.select}
-            labelId='simulators-parameters-simulators-name'
-            id='simulators-name-select'
-            value={ this.props.simulatorName }
-            onChange={this.onSimulatorNameChange}>
-            { generateMenuItems(this.props.simulatorsList) }
+              className={props.classes.select}
+              labelId='simulators-parameters-simulators-name'
+              id='simulators-name-select'
+              value={ props.simulatorName }
+              onChange={onSelectSimulator}>
+            { generateMenuItems(props.simulatorsList) }
           </Select>
         </div>
-        <div className={classes.parameter}>
-          <Typography className={classes.label} component='span'>
-            Simulation name:
+        <div className={props.classes.parameter}>
+          <Typography className={props.classes.label} component='span'>
+            {t('commoncomponents.card.simulation.parameters.text.simulation.name', 'Simulation name')}:
           </Typography>
           <Select
-            className={classes.select}
-            labelId='simulation-parameters-simulation-name'
-            id='simulation-name-select'
-            value={ this.props.simulationName }
-            onChange={this.onSimulationNameChange}>
-            { generateMenuItems(this.props.simulationsList) }
+              className={props.classes.select}
+              labelId='simulation-parameters-simulation-name'
+              id='simulation-name-select'
+              value={ props.simulationName }
+              onChange={(event) => props.onSimulationNameChange(event.target.value)}>
+              { generateMenuItems(props.simulationsList) }
           </Select>
         </div>
-        <div className={classes.buttonContainer}>
+        <div className={props.classes.buttonContainer}>
           <ButtonRunSimulation
-            apiConfig={apiConfig}
-            simulationName={this.props.simulationName}
-            simulatorName={this.props.simulatorName}
-            onSimulationStarted={this.onSimulationStarted}
+              apiConfig={apiConfig}
+              simulationName={props.simulationName}
+              simulatorName={props.simulatorName}
+              onSimulationStarted={onSimulationStarted}
           />
         </div>
-        <Snackbar open={this.state.snackOpen} autoHideDuration={20000} onClose={this.handleSnackClose}>
-            <Alert severity="success" onClose={this.handleSnackClose}>
-              Simulation successfully launched:<br/>{this.state.jobName}<br/>{this.state.sagaId}
-            </Alert>
-          </Snackbar>
+        <Snackbar open={snackOpen} autoHideDuration={20000} onClose={handleSnackClose}>
+          <Alert severity="success" onClose={handleSnackClose}>
+            <Trans i18nKey="alertSimulationLaunchedSuccessfully" jobName={jobName} sagaId={sagaId}>
+              {t('commoncomponents.card.simulation.parameters.text.alert.simulation.launched', 'Simulation successfully launched')}:<br/>{{ jobName }}<br/>{{ sagaId }}
+            </Trans>
+          </Alert>
+        </Snackbar>
       </Card>
-    )
-  }
+  )
 }
 
+// TODO handle ref component correctly to avoid error message in console
 function generateMenuItems (simulations) {
-  return simulations.map(simulationName => {
+  return simulations.map((simulationName, index) => {
     return (
-      <MenuItem key={simulationName} value={simulationName}>
-        {simulationName}
-      </MenuItem>
+        <MenuItem key={index} value={simulationName}>
+          {simulationName}
+        </MenuItem>
     )
   })
 }

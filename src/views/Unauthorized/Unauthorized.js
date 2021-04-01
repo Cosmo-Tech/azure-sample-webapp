@@ -1,5 +1,5 @@
-// copyright (c) cosmo tech corporation.
-// licensed under the mit license.
+// Copyright (c) Cosmo Tech.
+// Licensed under the MIT license.
 
 import React from 'react'
 import { withRouter } from 'react-router-dom'
@@ -11,6 +11,7 @@ import {
   Link as RefLink
 } from '@material-ui/core'
 import { UserInfo } from '@cosmotech/ui'
+import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -111,8 +112,9 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const Unauthorized = props => {
+const Unauthorized = (props) => {
   const classes = useStyles()
+  const { t } = useTranslation()
 
   return (
     <div className={classes.root}>
@@ -136,11 +138,11 @@ const Unauthorized = props => {
           <div className={classes.quote}>
             <div className={classes.quoteInner}>
               <Typography className={classes.quoteText} variant="h1">
-                Azure Sample Web Application
+                {t('views.unauthorized.title', 'Azure Sample Web Application')}
               </Typography>
               <div className={classes.person}>
                 <Typography className={classes.name} variant="body2">
-                  Digital Twins Specialists
+                  {t('views.unauthorized.digitaltwin.specialists.title', 'Digital Twins Specialists')}
                 </Typography>
               </div>
             </div>
@@ -153,10 +155,10 @@ const Unauthorized = props => {
             <div className={classes.contentBody}>
               <div className={classes.message}>
                 <Typography className={classes.title} variant="h3">
-                  You don&apos;t have permission to view this page.
+                  {t('commoncomponents.text.no.permission', 'You don\'t have permission to view this page.')}
                 </Typography>
                 <Typography color="textSecondary" variant="body1">
-                  Please contact the application administrator to activate your account.
+                  {t('commoncomponents.text.contact.get.account', 'Please contact the application administrator to activate your account.')}
                 </Typography>
               </div>
             </div>

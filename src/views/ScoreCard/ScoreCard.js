@@ -1,5 +1,5 @@
-// copyright (c) cosmo tech corporation.
-// licensed under the mit license.
+// Copyright (c) Cosmo Tech.
+// Licensed under the MIT license.
 
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
@@ -12,20 +12,12 @@ const useStyles = theme => ({
   }
 })
 
-class ScoreCard extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {}
-  }
-
-  render () {
-    const { classes } = this.props
-    return (
-      <div className={classes.root}>
+const ScoreCard = (props) => {
+  return (
+      <div className={props.classes.root}>
         SCORE CARD
       </div>
-    )
-  }
+  )
 }
 
 ScoreCard.propTypes = {

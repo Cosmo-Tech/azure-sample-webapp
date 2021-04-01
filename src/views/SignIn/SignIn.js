@@ -1,8 +1,9 @@
-// copyright (c) cosmo tech corporation.
-// licensed under the mit license.
+// Copyright (c) Cosmo Tech.
+// Licensed under the MIT license.
 
 import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { Auth, AuthDev } from '@cosmotech/core'
 import { AuthMSAL, AuthStaticWebApp } from '@cosmotech/azure'
 import validate from 'validate.js'
@@ -124,7 +125,9 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const SignIn = props => {
+const SignIn = (props) => {
+  const { t } = useTranslation()
+
   const classes = useStyles()
 
   const [formState, setFormState] = useState({
@@ -172,7 +175,7 @@ const SignIn = props => {
                 className={classes.quoteText}
                 variant="h1"
               >
-                Azure Sample Web Application
+                  {t('views.signin.title', 'Azure Sample Web Application')}
               </Typography>
             </div>
           </div>
@@ -184,7 +187,7 @@ const SignIn = props => {
             <div className={classes.contentBody}>
               <form className={classes.form}>
                 <Typography className={classes.title} variant="h2">
-                  Sign in
+                  {t('commoncomponents.button.login.regular.login', 'Sign In')}
                 </Typography>
                 <Grid className={classes.socialButtons} container spacing={2}>
                   <Grid item>
@@ -194,7 +197,7 @@ const SignIn = props => {
                       size="large"
                       variant="contained"
                     >
-                      Login with Active Directory (MSAL)
+                      {t('commoncomponents.button.login.msal.login', 'Login with Active Directory (MSAL)')}
                     </Button>
                     <Button
                       className={classes.loginButton}
@@ -202,7 +205,7 @@ const SignIn = props => {
                       size="large"
                       variant="contained"
                     >
-                      Login with Active Directory (Static Web App)
+                      {t('commoncomponents.button.login.static.webapp.login', 'Login with Active Directory (Static Web App)')}
                     </Button>
                     {
                       window.location.hostname === 'localhost' &&
@@ -213,13 +216,13 @@ const SignIn = props => {
                           variant="contained"
                           data-cy="log-with-dev-account-button"
                         >
-                          Login with Dev account
+                          {t('commoncomponents.button.login.dev.account.login', 'Login with Dev account')}
                         </Button>
                     }
                   </Grid>
                 </Grid>
                 <Typography color="textSecondary" variant="body1">
-                  Please contact CosmoTech to get an account.
+                  {t('commoncomponents.text.contact.get.account', 'Please contact the application administrator to activate your account.')}
                 </Typography>
               </form>
             </div>

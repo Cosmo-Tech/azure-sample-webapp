@@ -1,5 +1,5 @@
-// copyright (c) cosmo tech corporation.
-// licensed under the mit license.
+// Copyright (c) Cosmo Tech.
+// Licensed under the MIT license.
 
 import { Auth, AuthDev } from '@cosmotech/core'
 import { AuthMSAL, AuthStaticWebApp } from '@cosmotech/azure'

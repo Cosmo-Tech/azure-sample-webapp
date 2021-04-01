@@ -1,0 +1,138 @@
+{
+  "commoncomponents": {
+    "button": {
+      "change": {
+        "language": "Change language"
+      },
+      "login": {
+        "dev": {
+          "account": {
+            "login": "Sign in with Dev mode"
+          }
+        },
+        "msal": {
+          "login": "Sign in with Active Directory (MSAL)"
+        },
+        "regular": {
+          "login": "Sign In"
+        },
+        "static": {
+          "webapp": {
+            "login": "Sign in with Active Directory (Static Web App)"
+          }
+        }
+      },
+      "run": {
+        "protocol": {
+          "text": "Run protocol"
+        },
+        "scenario": {
+          "text": "Run scenario"
+        }
+      }
+    },
+    "card": {
+      "protocol": {
+        "parameters": {
+          "text": {
+            "driver": {
+              "name": "Driver name"
+            },
+            "population": {
+              "size": "Population size"
+            },
+            "total": {
+              "simulations": "Total simulations"
+            }
+          },
+          "title": {
+            "protocol": {
+              "parameters": "Protocol parameters"
+            }
+          }
+        }
+      },
+      "simulation": {
+        "parameters": {
+          "text": {
+            "alert": {
+              "simulation": {
+                "launched": "Simulation successfully launched"
+              }
+            },
+            "simulation": {
+              "name": "Simulation name"
+            },
+            "engine": {
+              "name": "Engine name"
+            }
+          },
+          "title": {
+            "simulation": {
+              "parameters": "Engine parameters"
+            }
+          }
+        }
+      }
+    },
+    "iframe": {
+      "scenario": {
+        "results": {
+          "card": {
+            "title": "Results"
+          },
+          "iframe": {
+            "title": "Supply Chain results"
+          },
+          "text": {
+            "no": {
+              "result": "No results for this scenario."
+            }
+          }
+        }
+      }
+    },
+    "text": {
+      "contact": {
+        "get": {
+          "account": "Please contact the application administrator to activate your account."
+        }
+      },
+      "no": {
+        "permission": "You don't have permission to view this page."
+      }
+    }
+  },
+  "views": {
+    "common": {
+      "footer": {
+        "text": {
+          "poweredby": "Powered by Cosmo Tech"
+        }
+      },
+      "text": {
+        "loading": "Loading..."
+      }
+    },
+    "signin": {
+      "title": "Azure Sample Web Application"
+    },
+    "unauthorized": {
+      "digitaltwin": {
+        "specialists": {
+          "title": "Digital Twins Specialists"
+        }
+      },
+      "title": "Azure Sample Web Application"
+    }
+  },
+  "layouts": {
+    "tabs": {
+      "digitaltwin": {
+        "tab": {
+          "title": "Digital twins"
+        }
+      }
+    }
+  }
+}
