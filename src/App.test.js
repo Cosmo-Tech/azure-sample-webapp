@@ -1,12 +1,23 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React from 'react'
-import { render, screen } from '@testing-library/react'
+import React, { Suspense } from 'react'
+import { render } from '@testing-library/react'
+import { act } from 'react-dom/test-utils'
 import App from './App'
+import { I18nextProvider } from 'react-i18next'
+import i18n from './i18next.config'
 
-test('renders learn react link', () => {
-  render(<App />)
-  const linkElement = screen.getByText(/learn react/i)
-  expect(linkElement).toBeInTheDocument()
+describe('App test suite', () => {
+  it('renders App loading', () => {
+    act(() => {
+      const appScreen = render(
+                <Suspense fallback="loading">
+                    <I18nextProvider i18n={i18n}>
+                        <App />
+                    </I18nextProvider>
+                </Suspense>)
+      appScreen.getByText('loading')
+    })
+  })
 })
