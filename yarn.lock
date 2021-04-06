@@ -1186,10 +1186,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@cosmotech/azure@0.8.1-beta.1":
-  version "0.8.1-beta.1"
-  resolved "https://registry.yarnpkg.com/@cosmotech/azure/-/azure-0.8.1-beta.1.tgz#6aae484c8245422788d93f18e3dc119c3fe6a4f4"
-  integrity sha512-uzJaE9uEHtf0KJ4gb/fs3MplDO6rHelIyLAo2YYycIxTOggTJIR5bDY1BflDgC2fwA//D+JqCthQ3bde1+FTpQ==
+"@cosmotech/azure@0.8.1-beta.2":
+  version "0.8.1-beta.2"
+  resolved "https://registry.yarnpkg.com/@cosmotech/azure/-/azure-0.8.1-beta.2.tgz#db97c83e98f0a95358b831aedee319fbd56a2352"
+  integrity sha512-kXz3jaO6vYflgbjg2l+A5LvslCq5831MD01E5zhJMLkn5Sav+0NTLH6NOo8hy05jeLpZPV57h/WeEgLowwVGuA==
   dependencies:
     "@azure/msal-browser" "^2.8.0"
 
@@ -1198,15 +1198,15 @@
   resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.1.1-beta.0.tgz#e838d7104b0e1ba542a60e8f3e4502e6df53ffd6"
   integrity sha512-WlbeyjE2wLoz6vy483V0tvK+nd2lvP8cs0/QyBihws554q23StgddKlJuSjauGPFeR9uT8W3hNFYkDbctrSzJw==
 
-"@cosmotech/core@1.1.2-beta.0":
-  version "1.1.2-beta.0"
-  resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.1.2-beta.0.tgz#1b6a52fae3877ed4d5fedd005d236c676536dbf0"
-  integrity sha512-+BPV551xfXYu8lQPvUUBkjonyQxkdd7fQh2GU3S9E7OplF5y7RJR7RbXHu5SOICRyI/AqweZqMVO0OlGYyAAwg==
+"@cosmotech/core@1.1.2-beta.1":
+  version "1.1.2-beta.1"
+  resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.1.2-beta.1.tgz#82d6bd98de10a4f7427fdf9a23fa1be7c2fc5d8f"
+  integrity sha512-LdTYmk8YnZ5FYm60n/l7nv9NWWH/VOvTsX/fPRmHMSH9/if4HeG9YtGvUW1oXyr3oxgYCKJ5FPylhxT4jW/ySA==
 
-"@cosmotech/ui@0.2.4-beta.1":
-  version "0.2.4-beta.1"
-  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-0.2.4-beta.1.tgz#1dd2b1e7d49d5cf36247eb5ce624fca752904b0e"
-  integrity sha512-GSQTKczbKNR9g6trwHw8uaCekK/5pXfp/a48xpBWYUwQD3dl6UdESZ1IxDsN0oifmJa7dSPPdWKf7FHSW+zi/A==
+"@cosmotech/ui@0.2.4-beta.2":
+  version "0.2.4-beta.2"
+  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-0.2.4-beta.2.tgz#3fa908a2a32f7a447c710a60d044e1261d5c214d"
+  integrity sha512-Eu2GNrsIm2oUbQlLBq+lSSWP9kAAt7qSukYQrgLKPCVvxj9/mcnM45O98ZTDQpe2z1cEs0hnfTY2PrYP/RCgsA==
   dependencies:
     "@cosmotech/core" "1.1.1-beta.0"
     "@material-ui/core" "^4.11.2"
