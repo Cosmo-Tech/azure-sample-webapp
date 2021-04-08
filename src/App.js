@@ -14,15 +14,13 @@ import { Auth } from '@cosmotech/core'
 import { tabs, applicationInsightConfig } from './App.config'
 
 const App = () => {
-  // TODO find an elegant way to set the title ( should be translatable)
-  document.title = 'Cosmo Tech Web Application Sample'
   const [authenticated, setAuthenticated] = useState(false)
   // TODO: handle authorization and remove the eslint warning
   // eslint-disable-next-line no-unused-vars
   const [authorized, setAuthorized] = useState(false)
   const [loading, setLoading] = useState(true)
   const { t, i18n } = useTranslation()
-
+  document.title = t('commoncomponents.text.application.title', 'Cosmo Tech Web Application Sample')
   useEffect(() => {
     const authenticationDone = (authenticated) => {
       debugToken()

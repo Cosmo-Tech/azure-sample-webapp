@@ -100,6 +100,9 @@
       },
       "no": {
         "permission": "You don't have permission to view this page."
+      },
+      "application": {
+        "title": "Cosmo Tech Web Application Sample"
       }
     }
   },
