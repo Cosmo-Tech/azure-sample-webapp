@@ -4,28 +4,14 @@
 import React, { useEffect, useState } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { useTranslation, I18nextProvider } from 'react-i18next'
-import { ApplicationInsights, DistributedTracingModes } from '@microsoft/applicationinsights-web'
+import { ApplicationInsights } from '@microsoft/applicationinsights-web'
 import Routes from './Routes'
 import { ThemeProvider } from '@material-ui/styles'
 import theme from './theme'
 import './assets/scss/index.scss'
 import './service/auth.js'
 import { Auth } from '@cosmotech/core'
-import { tabs } from './App.config'
-
-// TODO move this into a config file
-const applicationInsightConfig = {
-  name: 'Web Application Sample',
-  config: {
-    instrumentationKey: '05ef985d-8209-46db-acb0-d035da80faa1',
-    disableFetchTracking: false,
-    enableCorsCorrelation: true,
-    enableRequestHeaderTracking: true,
-    enableResponseHeaderTracking: true,
-    enableAutoRouteTracking: true,
-    distributedTracingMode: DistributedTracingModes.AI_AND_W3C
-  }
-}
+import { tabs, applicationInsightConfig } from './App.config'
 
 const App = () => {
   // TODO find an elegant way to set the title ( should be translatable)
