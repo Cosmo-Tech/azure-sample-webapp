@@ -9,6 +9,7 @@ import { I18nextProvider } from 'react-i18next'
 import i18n from './i18next.config'
 
 describe('App test suite', () => {
+  // eslint-disable-next-line jest/expect-expect
   it('renders App loading', () => {
     act(() => {
       const appScreen = render(
