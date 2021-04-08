@@ -118,7 +118,7 @@
       "title": "Exemple d'Application Web Azure"
     },
     "unauthorized": {
-      "digitaltwin": {
+      "scenario": {
         "specialists": {
           "title": "Spécialistes des jumeaux numériques"
         }
@@ -128,7 +128,7 @@
   },
   "layouts": {
     "tabs": {
-      "digitaltwin": {
+      "scenario": {
         "tab": {
           "title": "Jumeaux numériques"
         }

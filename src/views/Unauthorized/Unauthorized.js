@@ -142,7 +142,7 @@ const Unauthorized = (props) => {
               </Typography>
               <div className={classes.person}>
                 <Typography className={classes.name} variant="body2">
-                  {t('views.unauthorized.digitaltwin.specialists.title', 'Digital Twins Specialists')}
+                  {t('views.unauthorized.scenario.specialists.title', 'Scenario Specialists')}
                 </Typography>
               </div>
             </div>

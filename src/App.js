@@ -11,7 +11,7 @@ import theme from './theme'
 import './assets/scss/index.scss'
 import './service/auth.js'
 import { Auth } from '@cosmotech/core'
-import { DigitalTwin as DigitalTwinView } from './views'
+import { tabs } from './App.config'
 
 // TODO move this into a config file
 const applicationInsightConfig = {
@@ -26,16 +26,6 @@ const applicationInsightConfig = {
     distributedTracingMode: DistributedTracingModes.AI_AND_W3C
   }
 }
-
-// TODO move this into a config file
-const tabs = [
-  {
-    key: 'tabs.digitaltwin.key',
-    label: 'layouts.tabs.digitaltwin.tab.title',
-    to: '/digitaltwin',
-    render: () => <DigitalTwinView /> // eslint-disable-line
-  }
-]
 
 const App = () => {
   // TODO find an elegant way to set the title ( should be translatable)

@@ -20,7 +20,7 @@ const Routes = props => {
       <Redirect
         exact
         from="/"
-        to="/digitaltwin"
+        to="/scenario"
       />
       <PublicRoute
         exact
@@ -28,7 +28,7 @@ const Routes = props => {
         authenticated={authenticated}
         authorized={authorized}
         component={SignInView}
-        redirectTo="/digitaltwin"
+        redirectTo="/scenario"
         unauthorizedPath="/unauthorized"
       >
       </PublicRoute>
@@ -38,7 +38,7 @@ const Routes = props => {
         authenticated={authenticated}
         authorized={authorized}
         render={() => <UnauthorizedView/>}
-        redirectTo="/digitaltwin"
+        redirectTo="/scenario"
         >
       </PrivateRoute>
       <TabLayout tabs={tabs}

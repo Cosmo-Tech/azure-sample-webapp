@@ -16,7 +16,7 @@ const useStyles = theme => ({
   root: {
     height: '100%'
   },
-  digitalTwinPanel: {
+  scenarioPanel: {
     height: '100%',
     flexGrow: 1,
     paddingRight: '4px',
@@ -35,7 +35,7 @@ const useStyles = theme => ({
   }
 })
 
-const DigitalTwin = (props) => {
+const Scenario = (props) => {
   // TODO remove eslint warning when information will be retrieved from api calls
   // eslint-disable-next-line no-unused-vars
   const [simulators, setSimulators] = useState(['supplychain', 'supplychaindemo'])
@@ -87,7 +87,7 @@ const DigitalTwin = (props) => {
   return (
       <Box component='main' display='flex' flexDirection='column'
           className={props.classes.root}>
-        <Box className={props.classes.digitalTwinPanel}>
+        <Box className={props.classes.scenarioPanel}>
           <Grid container spacing={2} className={props.classes.mainGrid}>
             <Grid item xs={9}>
               <IframeScenarioResults
@@ -138,8 +138,8 @@ const DigitalTwin = (props) => {
   )
 }
 
-DigitalTwin.propTypes = {
+Scenario.propTypes = {
   classes: PropTypes.any
 }
 
-export default withStyles(useStyles)(DigitalTwin)
+export default withStyles(useStyles)(Scenario)

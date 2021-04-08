@@ -15,7 +15,7 @@ const msalConfig = {
   msalConfig: {
     auth: {
       clientId: '3ae79982-a3dd-471b-9a9e-268b4ff0d5a6',
-      redirectUri: window.location.protocol + '//' + window.location.host + '/digitaltwin',
+      redirectUri: window.location.protocol + '//' + window.location.host + '/scenario',
       authority: 'https://login.microsoftonline.com/1fcfc752-2be8-42b2-be24-0f1bb2ef2164',
       knownAuthorities: ['https://login.microsoftonline.com/1fcfc752-2be8-42b2-be24-0f1bb2ef2164']
     },

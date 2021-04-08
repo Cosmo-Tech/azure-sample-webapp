@@ -118,9 +118,9 @@
       "title": "Azure Sample Web Application"
     },
     "unauthorized": {
-      "digitaltwin": {
+      "scenario": {
         "specialists": {
-          "title": "Digital Twins Specialists"
+          "title": "Scenario Specialists"
         }
       },
       "title": "Azure Sample Web Application"
@@ -128,9 +128,9 @@
   },
   "layouts": {
     "tabs": {
-      "digitaltwin": {
+      "scenario": {
         "tab": {
-          "title": "Digital twins"
+          "title": "Scenario"
         }
       }
     }

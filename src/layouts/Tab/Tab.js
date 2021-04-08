@@ -104,7 +104,7 @@ const TabLayout = props => {
               noAuthRedirect={signInPath}
               noPermRedirect={unauthorizedPath} />
             ))}
-            <Route render={() => <Redirect to="/digitaltwin" />} />
+            <Route render={() => <Redirect to="/scenario" />} />
           </Switch>
         </Box>
         <Footer />
