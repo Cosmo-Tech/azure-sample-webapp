@@ -5,7 +5,7 @@ import { Auth, AuthDev } from '@cosmotech/core'
 import { AuthMSAL, AuthStaticWebApp } from '@cosmotech/azure'
 
 // AuthMSAL configuration
-const msalConfig = {
+const MSAL_CONFIG = {
   loginRequest: {
     scopes: ['user.read']
   },
@@ -29,4 +29,4 @@ const msalConfig = {
 // Register the providers used in the application
 Auth.addProvider(AuthDev)
 Auth.addProvider(AuthStaticWebApp)
-Auth.addProvider(AuthMSAL).setConfig(msalConfig)
+Auth.addProvider(AuthMSAL).setConfig(MSAL_CONFIG)

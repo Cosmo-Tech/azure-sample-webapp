@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import { Card, Input, MenuItem, Select, Slider, Typography } from '@material-ui/core'
 import { ButtonRunProtocol } from '../../components'
-import apiConfig from '../../service/api'
+import API_CONFIG from '../../configs/Api.config'
 import { useTranslation } from 'react-i18next'
 
 const useStyles = theme => ({
@@ -152,7 +152,7 @@ const CardProtocolParameters = (props) => {
         </div>
         <div className={props.classes.buttonContainer}>
           <ButtonRunProtocol
-            apiConfig={apiConfig}
+            apiConfig={API_CONFIG}
             simulationName={props.simulationName}
             driverName={props.driverName}
             popSize={props.popSize}

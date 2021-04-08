@@ -9,7 +9,7 @@ import { Card, MenuItem, Select, Typography } from '@material-ui/core'
 import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
 import { ButtonRunSimulation } from '../../components'
-import apiConfig from '../../service/api'
+import API_CONFIG from '../../configs/Api.config'
 
 const useStyles = theme => ({
   card: {
@@ -102,7 +102,7 @@ const CardSimulationParameters = (props) => {
         </div>
         <div className={props.classes.buttonContainer}>
           <ButtonRunSimulation
-              apiConfig={apiConfig}
+              apiConfig={API_CONFIG}
               simulationName={props.simulationName}
               simulatorName={props.simulatorName}
               onSimulationStarted={onSimulationStarted}

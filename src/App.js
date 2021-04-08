@@ -9,9 +9,9 @@ import Routes from './Routes'
 import { ThemeProvider } from '@material-ui/styles'
 import theme from './theme'
 import './assets/scss/index.scss'
-import './service/auth.js'
+import './configs/Auth.config.js'
 import { Auth } from '@cosmotech/core'
-import { tabs, applicationInsightConfig } from './App.config'
+import { tabs, applicationInsightConfig } from './configs/App.config'
 
 const App = () => {
   const [authenticated, setAuthenticated] = useState(false)

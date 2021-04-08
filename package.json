@@ -11,6 +11,7 @@
     "@material-ui/lab": "^4.0.0-alpha.57",
     "@material-ui/styles": "^4.11.3",
     "@microsoft/applicationinsights-web": "^2.5.11",
+    "@reduxjs/toolkit": "^1.5.1",
     "clsx": "^1.1.1",
     "history": "^5.0.0",
     "i18next": "^20.2.1",
@@ -25,6 +26,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
     "typescript": "^4.2.4",
+    "redux": "^4.0.5",
     "validate.js": "^0.13.1",
     "web-vitals": "^1.1.1"
   },
@@ -73,6 +75,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.0",
     "eslint-plugin-react": "^7.23.2",
-    "eslint-plugin-react-hooks": "^4.2.0"
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "redux-devtools-extension": "^2.13.9"
   }
 }
