@@ -52,6 +52,7 @@ function Alert (props) {
 }
 
 const CardSimulationParameters = (props) => {
+  const { classes, simulationName, simulatorName, scenarioList } = props
   const [sagaId, setSagaId] = useState(null)
   const [jobName, setJobName] = useState(null)
   const [snackOpen, setSnackOpen] = useState(false)
@@ -70,41 +71,41 @@ const CardSimulationParameters = (props) => {
   }
 
   return (
-      <Card className={props.classes.card} raised>
-        <Typography variant='h5' component='h2' className={props.classes.title}>
+      <Card className={classes.card} raised>
+        <Typography variant='h5' component='h2' className={classes.title}>
           {t('commoncomponents.card.simulation.parameters.title.simulation.parameters', 'Simulator parameters')}
         </Typography>
-        <div className={props.classes.parameter}>
-          <Typography className={props.classes.label} component='span'>
+        <div className={classes.parameter}>
+          <Typography className={classes.label} component='span'>
             {t('commoncomponents.card.simulation.parameters.text.engine.name', 'Simulator name')}:
           </Typography>
           <Select
-              className={props.classes.select}
+              className={classes.select}
               labelId='simulators-parameters-simulators-name'
               id='simulators-name-select'
-              value={ props.simulatorName }
+              value={ simulatorName }
               onChange={onSelectSimulator}>
-            { generateMenuItems(props.simulatorsList) }
+            { generateSimulatorMenuItems(props.simulatorsList) }
           </Select>
         </div>
-        <div className={props.classes.parameter}>
-          <Typography className={props.classes.label} component='span'>
+        <div className={classes.parameter}>
+          <Typography className={classes.label} component='span'>
             {t('commoncomponents.card.simulation.parameters.text.simulation.name', 'Simulation name')}:
           </Typography>
           <Select
-              className={props.classes.select}
+              className={classes.select}
               labelId='simulation-parameters-simulation-name'
               id='simulation-name-select'
-              value={ props.simulationName }
+              value={ simulationName }
               onChange={(event) => props.onSimulationNameChange(event.target.value)}>
-              { generateMenuItems(props.simulationsList) }
+              { generateSimulationMenuItems(scenarioList) }
           </Select>
         </div>
-        <div className={props.classes.buttonContainer}>
+        <div className={classes.buttonContainer}>
           <ButtonRunSimulation
               apiConfig={API_CONFIG}
-              simulationName={props.simulationName}
-              simulatorName={props.simulatorName}
+              simulationName={simulationName}
+              simulatorName={simulatorName}
               onSimulationStarted={onSimulationStarted}
           />
         </div>
@@ -120,11 +121,22 @@ const CardSimulationParameters = (props) => {
 }
 
 // TODO handle ref component correctly to avoid error message in console
-function generateMenuItems (simulations) {
-  return simulations.map((simulationName, index) => {
+function generateSimulatorMenuItems (simulators) {
+  return simulators.map((simulatorName, index) => {
     return (
-        <MenuItem key={index} value={simulationName}>
-          {simulationName}
+        <MenuItem key={index} value={simulatorName}>
+          {simulatorName}
+        </MenuItem>
+    )
+  })
+}
+
+// TODO handle ref component correctly to avoid error message in console
+function generateSimulationMenuItems (simulations) {
+  return simulations.map((simulation, index) => {
+    return (
+        <MenuItem key={index} value={simulation.name}>
+          {simulation.name}
         </MenuItem>
     )
   })
@@ -132,8 +144,8 @@ function generateMenuItems (simulations) {
 
 CardSimulationParameters.propTypes = {
   classes: PropTypes.any,
-  simulationsList: PropTypes.array.isRequired,
-  simulationName: PropTypes.string.isRequired,
+  scenarioList: PropTypes.array.isRequired,
+  simulationName: PropTypes.string,
   onSimulationNameChange: PropTypes.func.isRequired,
   simulatorsList: PropTypes.array.isRequired,
   simulatorName: PropTypes.string.isRequired,
