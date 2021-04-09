@@ -2,8 +2,7 @@
 // Licensed under the MIT license.
 
 import { combineReducers } from 'redux'
-import { SCENARIO_STATUS } from './ScenarioConstants'
-import { SCENARIO_ACTIONS } from './ScenarioActions'
+import { SCENARIO_STATUS, SCENARIO_ACTIONS_KEY } from '../../commons/ScenarioConstants'
 
 export const scenarioReducer = combineReducers({
   scenarioList: (
@@ -14,15 +13,15 @@ export const scenarioReducer = combineReducers({
     action
   ) => {
     switch (action.type) {
-      case SCENARIO_ACTIONS.GET_SCENARIO_LIST:
+      case SCENARIO_ACTIONS_KEY.GET_SCENARIO_LIST:
         return {
           ...state,
           status: SCENARIO_STATUS.LOADING
         }
-      case SCENARIO_ACTIONS.SET_SCENARIO_LIST:
+      case SCENARIO_ACTIONS_KEY.SET_SCENARIO_LIST:
         return {
           ...state,
-          list: action.tree,
+          list: action.list,
           status: SCENARIO_STATUS.SUCCESS
         }
       default:
@@ -37,12 +36,12 @@ export const scenarioReducer = combineReducers({
     action
   ) => {
     switch (action.type) {
-      case SCENARIO_ACTIONS.GET_CURRENT_SCENARIO:
+      case SCENARIO_ACTIONS_KEY.GET_CURRENT_SCENARIO:
         return {
           ...state,
           status: SCENARIO_STATUS.LOADING
         }
-      case SCENARIO_ACTIONS.SET_CURRENT_SCENARIO:
+      case SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO:
         return {
           ...state,
           scenario:

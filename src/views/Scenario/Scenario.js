@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import { Box, Grid } from '@material-ui/core'
@@ -36,6 +36,12 @@ const useStyles = theme => ({
 })
 
 const Scenario = (props) => {
+  const { getScenarioListAction } = props
+
+  useEffect(() => {
+    getScenarioListAction()
+  }, [getScenarioListAction])
+
   // TODO remove eslint warning when information will be retrieved from api calls
   // eslint-disable-next-line no-unused-vars
   const [simulators, setSimulators] = useState(['supplychain', 'supplychaindemo'])
@@ -139,7 +145,8 @@ const Scenario = (props) => {
 }
 
 Scenario.propTypes = {
-  classes: PropTypes.any
+  classes: PropTypes.any,
+  getScenarioListAction: PropTypes.func
 }
 
 export default withStyles(useStyles)(Scenario)
