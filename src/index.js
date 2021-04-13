@@ -8,7 +8,7 @@ import './index.css'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 import './configs/i18next.config'
-import applicationStore from './redux/Store.config'
+import applicationStore from './state/Store.config'
 
 ReactDOM.render(
     <Suspense fallback="loading">
