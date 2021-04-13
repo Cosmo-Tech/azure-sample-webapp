@@ -6,7 +6,7 @@ import { put, takeEvery } from 'redux-saga/effects'
 import { SCENARIO_ENDPOINT, SCENARIO_ACTIONS_KEY } from '../../commons/ScenarioConstants'
 
 // generators function
-function * scenarioListData () {
+export function * scenarioListData () {
   try {
     // yield keyword is here to milestone and save the action
     const { data } = yield axios.get(SCENARIO_ENDPOINT.GET_SCENARIO_LIST)
