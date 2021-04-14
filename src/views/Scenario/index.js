@@ -6,8 +6,8 @@ import Scenario from './Scenario'
 import { dispatchGetScenarioList } from '../../state/dispatchers/scenario/ScenarioDispatcher'
 
 const mapStateToProps = (state) => ({
-  scenarioList: state.scenarioReducer.scenarioList.list,
-  currentScenario: state.scenarioReducer.currentScenario
+  scenarioList: state.scenario.scenarioList.list,
+  currentScenario: state.scenario.currentScenario
 })
 
 // connect Scenario view to state store
