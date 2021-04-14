@@ -1,3 +1,6 @@
+// Copyright (c) Cosmo Tech.
+// Licensed under the MIT license.
+
 const findAllScenarioSampleTest = require('./FindAllScenarios.json')
 // TODO remove the mock response and use the ScenarioAPI when it's ready
 module.exports = async function (context, req) {

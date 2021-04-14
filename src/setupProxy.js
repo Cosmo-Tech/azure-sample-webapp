@@ -1,3 +1,6 @@
+// Copyright (c) Cosmo Tech.
+// Licensed under the MIT license.
+
 const { createProxyMiddleware } = require('http-proxy-middleware')
 
 module.exports = function (app) {
