@@ -76,6 +76,10 @@ const TabLayout = props => {
   const classes = useStyles();
   const { t } = useTranslation();
   const location = useLocation();
+  const languages = {
+    fr: 'Français',
+    en: 'English'
+  };
 
   return (<>
           <AppBar className={classes.bar}>
@@ -87,7 +91,7 @@ const TabLayout = props => {
               </Tabs>
               <div className={classes.rightBar}>
                 <div className={classes.rightBarElement}>
-                  <UserInfo documentationUrl="doc.pdf"/>
+                  <UserInfo documentationUrl="doc.pdf" languages={languages}/>
                 </div>
                 <div className={classes.rightBarElement}>
                   <img alt="Cosmo Tech" height="28px" src="cosmotech.png" className={classes.logo} />
