@@ -28,7 +28,7 @@ export const currentScenarioInitialState = {
   status: SCENARIO_STATUS.IDLE
 }
 
-const currentScenarioReducer = createReducer(currentScenarioInitialState, (builder) => {
+export const currentScenarioReducer = createReducer(currentScenarioInitialState, (builder) => {
   builder
     .addCase(SCENARIO_ACTIONS_KEY.GET_CURRENT_SCENARIO, (state, action) => { state.status = SCENARIO_STATUS.LOADING })
     .addCase(SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO, (state, action) => {
@@ -37,4 +37,4 @@ const currentScenarioReducer = createReducer(currentScenarioInitialState, (build
     })
 })
 
-export const scenarioReducer = combineReducers(scenarioListReducer, currentScenarioReducer)
+export const scenarioReducer = combineReducers({ scenarioList: scenarioListReducer, currentScenario: currentScenarioReducer })
