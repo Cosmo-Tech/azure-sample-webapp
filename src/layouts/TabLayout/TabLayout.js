@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   },
   rightBarElement: {
     display: 'block',
-    margin: `0 ${theme.spacing(3)}px`
+    margin: `0 ${theme.spacing(1)}px`
   },
   tabs: {
     width: '100%',
@@ -87,9 +87,11 @@ const TabLayout = props => {
               </Tabs>
               <div className={classes.rightBar}>
                 <div className={classes.rightBarElement}>
+                  <UserInfo documentationUrl="doc.pdf"/>
+                </div>
+                <div className={classes.rightBarElement}>
                   <img alt="Cosmo Tech" height="28px" src="cosmotech.png" className={classes.logo} />
                 </div>
-                <UserInfo className={classes.rightBarElement} />
               </div>
             </Box>
           </AppBar>
