@@ -1,9 +1,8 @@
 import { all, fork } from 'redux-saga/effects'
-
-import getScenarioListData from './GetScenarioListData'
+import { findAllScenariosData } from './FindAllScenarios'
 
 export default function * scenarioSaga () {
   yield all([
-    fork(getScenarioListData)
+    fork(findAllScenariosData)
   ])
 }

@@ -9,7 +9,7 @@ import CardSimulationParameters from './CardSimulationParameters'
 // This way, state will have all data available (replace simulationName and simulatorName default value)
 const mapStateToProps = (state) => ({
   scenarioList: state.scenarioReducer.scenarioList.list,
-  simulationName: 'Scenario1',
+  simulationName: 'Brewery Master Analysis',
   simulatorName: 'supplychain'
 })
 

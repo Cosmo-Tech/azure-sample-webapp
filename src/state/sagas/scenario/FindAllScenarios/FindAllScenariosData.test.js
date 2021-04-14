@@ -2,32 +2,19 @@
 // Licensed under the MIT license.
 
 import SagaTester from 'redux-saga-tester'
-import { scenarioListData } from './GetScenarioListData'
-import { scenarioListInitialState, scenarioListReducer } from '../../reducers/scenario/ScenarioReducer'
-import { SCENARIO_ACTIONS_KEY, SCENARIO_ENDPOINT, SCENARIO_STATUS } from '../../commons/ScenarioConstants'
+import { getAllScenariosData } from './FindAllScenariosData'
+import { scenarioListInitialState, scenarioListReducer } from '../../../reducers/scenario/ScenarioReducer'
+import { SCENARIO_ACTIONS_KEY, SCENARIO_ENDPOINT, SCENARIO_STATUS } from '../../../commons/ScenarioConstants'
 import * as axios from 'axios'
+import findAllScenarioSampleTest from './FindAllScenarios.json'
 
 // Mocks
 jest.mock('axios')
 
 // Test Constants
-const scenarioList = [
-  {
-    id: '1',
-    name: 'Scenario1'
-  },
-  {
-    id: '2',
-    name: 'Scenario2'
-  }
-]
-
-const scenarioListMockData = {
-  list: scenarioList
-}
 
 const scenarioListUpdatedState = {
-  list: scenarioList,
+  list: findAllScenarioSampleTest,
   status: SCENARIO_STATUS.SUCCESS
 }
 
@@ -48,22 +35,22 @@ describe('GetScenarioListData saga', () => {
       })
 
     // define the success returned value of axios.get
-    axios.get.mockResolvedValue({ data: scenarioListMockData })
+    axios.get.mockResolvedValue({ data: findAllScenarioSampleTest })
 
-    sagaTester.start(scenarioListData)
+    sagaTester.start(getAllScenariosData)
 
     // Check that state was populated with initialState correctly
     // TODO Did not figure out how to test 'deeply equals' with jest that's why I use the [0] trick...
     expect(sagaTester.getState()[0]).toEqual(scenarioListInitialState)
 
     // Dispatch the event to start the saga
-    sagaTester.dispatch({ type: SCENARIO_ACTIONS_KEY.GET_SCENARIO_LIST })
+    sagaTester.dispatch({ type: SCENARIO_ACTIONS_KEY.GET_ALL_SCENARIOS })
 
     // Check that the axios.get call has been perform
-    expect(axios.get).toHaveBeenCalledWith(SCENARIO_ENDPOINT.GET_SCENARIO_LIST)
+    expect(axios.get).toHaveBeenCalledWith(SCENARIO_ENDPOINT.FIND_ALL_SCENARIOS)
 
-    // Wait until the SET_SCENARIO_LIST is launched
-    await sagaTester.waitFor(SCENARIO_ACTIONS_KEY.SET_SCENARIO_LIST)
+    // Wait until the SET_ALL_SCENARIOS is launched
+    await sagaTester.waitFor(SCENARIO_ACTIONS_KEY.SET_ALL_SCENARIOS)
 
     // Optional: Check that all actions have the meta property from the middleware
     sagaTester.getCalledActions().forEach(action => {
@@ -76,15 +63,15 @@ describe('GetScenarioListData saga', () => {
     expect(sagaTester.getState()[0]).toEqual(scenarioListUpdatedState)
 
     // Check that the saga listens only once
-    sagaTester.dispatch({ type: SCENARIO_ACTIONS_KEY.GET_SCENARIO_LIST })
-    expect(sagaTester.numCalled(SCENARIO_ACTIONS_KEY.GET_SCENARIO_LIST)).toEqual(2)
-    expect(sagaTester.numCalled(SCENARIO_ACTIONS_KEY.SET_SCENARIO_LIST)).toEqual(1)
+    sagaTester.dispatch({ type: SCENARIO_ACTIONS_KEY.GET_ALL_SCENARIOS })
+    expect(sagaTester.numCalled(SCENARIO_ACTIONS_KEY.GET_ALL_SCENARIOS)).toEqual(2)
+    expect(sagaTester.numCalled(SCENARIO_ACTIONS_KEY.SET_ALL_SCENARIOS)).toEqual(1)
 
     // Reset the state and action list, dispatch again
     // and check that it was called
     sagaTester.reset(true)
-    expect(sagaTester.wasCalled(SCENARIO_ACTIONS_KEY.GET_SCENARIO_LIST)).toEqual(false)
-    sagaTester.dispatch({ type: SCENARIO_ACTIONS_KEY.GET_SCENARIO_LIST })
-    expect(sagaTester.wasCalled(SCENARIO_ACTIONS_KEY.GET_SCENARIO_LIST)).toEqual(true)
+    expect(sagaTester.wasCalled(SCENARIO_ACTIONS_KEY.GET_ALL_SCENARIOS)).toEqual(false)
+    sagaTester.dispatch({ type: SCENARIO_ACTIONS_KEY.GET_ALL_SCENARIOS })
+    expect(sagaTester.wasCalled(SCENARIO_ACTIONS_KEY.GET_ALL_SCENARIOS)).toEqual(true)
   })
 })

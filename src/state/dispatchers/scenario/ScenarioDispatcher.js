@@ -5,6 +5,6 @@
 import { SCENARIO_ACTIONS_KEY } from '../../commons/ScenarioConstants'
 
 export const dispatchGetScenarioList = (payLoad) => ({
-  type: SCENARIO_ACTIONS_KEY.GET_SCENARIO_LIST,
+  type: SCENARIO_ACTIONS_KEY.GET_ALL_SCENARIOS,
   ...payLoad
 })

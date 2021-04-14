@@ -14,8 +14,8 @@ export const scenarioListInitialState = {
 
 export const scenarioListReducer = createReducer(scenarioListInitialState, (builder) => {
   builder
-    .addCase(SCENARIO_ACTIONS_KEY.GET_SCENARIO_LIST, (state, action) => { state.status = SCENARIO_STATUS.LOADING })
-    .addCase(SCENARIO_ACTIONS_KEY.SET_SCENARIO_LIST, (state, action) => {
+    .addCase(SCENARIO_ACTIONS_KEY.GET_ALL_SCENARIOS, (state, action) => { state.status = SCENARIO_STATUS.LOADING })
+    .addCase(SCENARIO_ACTIONS_KEY.SET_ALL_SCENARIOS, (state, action) => {
       state.status = SCENARIO_STATUS.SUCCESS
       state.list = action.list
     })

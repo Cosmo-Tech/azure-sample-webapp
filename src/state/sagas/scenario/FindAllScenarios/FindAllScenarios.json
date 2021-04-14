@@ -1,0 +1,158 @@
+[
+  {
+    "id": "1",
+    "name": "Brewery Master Analysis",
+    "description": "Brewery master reference analysis",
+    "version": "1.0.0",
+    "tags": [
+      "Brewery",
+      "reference"
+    ],
+    "ownerId": "1",
+    "simulatorId": "1",
+    "userList": [
+      {
+        "id": "1",
+        "name": "Bob",
+        "roles": "Editor"
+      },
+      {
+        "id": "2",
+        "name": "Alice",
+        "roles": "Viewer"
+      }
+    ],
+    "analysis": {
+      "analysisId": "1",
+      "datasetList": [
+        "1"
+      ],
+      "parametersValues": [
+        {
+          "parameterId": "prefix",
+          "varType": "string",
+          "value": ""
+        }
+      ]
+    },
+    "successfulAnalysis": {
+      "analysisId": "1",
+      "datasetList": [
+        "1"
+      ],
+      "parametersValues": [
+        {
+          "parameterId": "prefix",
+          "varType": "string",
+          "value": "last"
+        }
+      ],
+      "simulationId": "1"
+    },
+    "failedAnalysis": {
+      "analysisId": "1",
+      "datasetList": [
+        "1"
+      ],
+      "parametersValues": [
+        {
+          "parameterId": "prefix",
+          "varType": "string",
+          "value": "erroredValue_"
+        }
+      ],
+      "simulationId": "2",
+      "error": "value _ is not valid"
+    },
+    "runningAnalysis": {
+      "analysisId": "1",
+      "datasetList": [
+        "1"
+      ],
+      "parametersValues": [
+        {
+          "parameterId": "prefix",
+          "varType": "string",
+          "value": "last"
+        }
+      ],
+      "simulationId": "3",
+      "jobId": "1",
+      "state": "Running"
+    }
+  },
+  {
+    "id": "2",
+    "name": "Brewery Analysis name example",
+    "description": "Brewery analysis with example as name prefix",
+    "tags": [
+      "Brewery",
+      "example"
+    ],
+    "parentId": "1",
+    "ownerId": "1",
+    "simulatorId": "1",
+    "userList": [
+      {
+        "id": "1",
+        "name": "Bob",
+        "roles": "Editor"
+      },
+      {
+        "id": "2",
+        "name": "Alice",
+        "roles": "Viewer"
+      }
+    ],
+    "analysis": {
+      "analysisId": "1",
+      "datasetList": [
+        "1"
+      ],
+      "parametersValues": [
+        {
+          "parameterId": "prefix",
+          "varType": "string",
+          "value": "example"
+        }
+      ]
+    }
+  },
+  {
+    "id": "3",
+    "name": "Brewery Analysis name no change",
+    "description": "Brewery analysis with no change on name prefix",
+    "tags": [
+      "Brewery"
+    ],
+    "parentId": "1",
+    "ownerId": "1",
+    "simulatorId": "1",
+    "userList": [
+      {
+        "id": "1",
+        "name": "Bob",
+        "roles": "Editor"
+      },
+      {
+        "id": "2",
+        "name": "Alice",
+        "roles": "Viewer"
+      }
+    ],
+    "analysis": {
+      "analysisId": "1",
+      "datasetList": [
+        "1"
+      ],
+      "parametersValues": [
+        {
+          "parameterId": "prefix",
+          "varType": "string",
+          "value": "",
+          "inherited": true
+        }
+      ]
+    }
+  }
+]
