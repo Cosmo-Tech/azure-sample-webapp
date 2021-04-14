@@ -154,5 +154,14 @@
         }
       }
     }
+  },
+  "genericcomponent": {
+    "userinfo": {
+      "button": {
+        "changeLanguage": "Changer la langue",
+        "downloadDocumentation": "Télécharger la documentation",
+        "logout": "Déconnexion"
+      }
+    }
   }
 }
