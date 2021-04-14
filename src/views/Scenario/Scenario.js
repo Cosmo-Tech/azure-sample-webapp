@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import { Box, Grid } from '@material-ui/core'
@@ -35,12 +35,19 @@ const useStyles = theme => ({
   }
 })
 
-const Scenario = (props) => {
+const Scenario = ({
+  classes,
+  scenarioList,
+  currentScenario,
+  getScenarioListAction
+}) => {
+  useEffect(() => {
+    getScenarioListAction()
+  }, [getScenarioListAction])
+
   // TODO remove eslint warning when information will be retrieved from api calls
   // eslint-disable-next-line no-unused-vars
   const [simulators, setSimulators] = useState(['supplychain', 'supplychaindemo'])
-  // eslint-disable-next-line no-unused-vars
-  const [simulations, setSimulations] = useState(['Simulation'])
   // eslint-disable-next-line no-unused-vars
   const [drivers, setDrivers] = useState(['Supplychain.zip'])
   const { t } = useTranslation()
@@ -86,9 +93,9 @@ const Scenario = (props) => {
 
   return (
       <Box component='main' display='flex' flexDirection='column'
-          className={props.classes.root}>
-        <Box className={props.classes.scenarioPanel}>
-          <Grid container spacing={2} className={props.classes.mainGrid}>
+          className={classes.root}>
+        <Box className={classes.scenarioPanel}>
+          <Grid container spacing={2} className={classes.mainGrid}>
             <Grid item xs={9}>
               <IframeScenarioResults
               cardStyle={ { height: '100%', width: '100%' } }
@@ -100,12 +107,12 @@ const Scenario = (props) => {
               />
             </Grid>
             <Grid item xs={3}>
-              <Grid container spacing={2} className={props.classes.grid}
+              <Grid container spacing={2} className={classes.grid}
                   direction="column">
                 <Grid item>
                   <CardSimulationParameters
                     simulatorsList={simulators}
-                    simulationsList={simulations}
+                    simulationsList={scenarioList}
                     simulationName={simulationInfo.simulationName}
                     simulatorName={simulationInfo.simulatorName}
                     onSimulationNameChange={setSimulationName}
@@ -139,7 +146,10 @@ const Scenario = (props) => {
 }
 
 Scenario.propTypes = {
-  classes: PropTypes.any
+  classes: PropTypes.any,
+  scenarioList: PropTypes.array.isRequired,
+  currentScenario: PropTypes.object,
+  getScenarioListAction: PropTypes.func.isRequired
 }
 
 export default withStyles(useStyles)(Scenario)

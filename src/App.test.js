@@ -6,7 +6,7 @@ import { render } from '@testing-library/react'
 import { act } from 'react-dom/test-utils'
 import App from './App'
 import { I18nextProvider } from 'react-i18next'
-import i18n from './i18next.config'
+import i18n from './configs/i18next.config'
 
 describe('App test suite', () => {
   // eslint-disable-next-line jest/expect-expect

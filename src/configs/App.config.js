@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { Scenario as ScenarioView } from './views'
+import { Scenario as ScenarioView } from '../views'
 import React from 'react'
 import { DistributedTracingModes } from '@microsoft/applicationinsights-web'
 

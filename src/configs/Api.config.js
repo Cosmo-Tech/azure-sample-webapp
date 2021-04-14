@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 // REST API data object
-const apiConfig = {
+const API_CONFIG = {
   simulator: 'twinengines.azurecr.io/SIMULATORNAME_simulator:latest'
 }
 
-export default apiConfig
+export default API_CONFIG
