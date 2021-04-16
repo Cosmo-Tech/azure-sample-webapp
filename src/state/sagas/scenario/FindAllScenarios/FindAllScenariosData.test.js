@@ -14,7 +14,7 @@ jest.mock('axios')
 // Test Constants
 
 const scenarioListUpdatedState = {
-  list: findAllScenarioSampleTest,
+  data: findAllScenarioSampleTest,
   status: SCENARIO_STATUS.SUCCESS
 }
 
