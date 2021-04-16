@@ -181,6 +181,13 @@
       }
     }
   },
+  "genericcomponent": {
+    "uploadfile": {
+      "button": {
+        "browse": "Browse"
+      }
+    }
+  },
   "views": {
     "common": {
       "footer": {
