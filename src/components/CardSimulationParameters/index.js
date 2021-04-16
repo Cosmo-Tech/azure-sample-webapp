@@ -8,7 +8,7 @@ import CardSimulationParameters from './CardSimulationParameters'
 // The loading screen should be disabled when all data needed has been fetched from servers
 // This way, state will have all data available (replace simulationName and simulatorName default value)
 const mapStateToProps = (state) => ({
-  scenarioList: state.scenario.scenarioList.list,
+  scenarioList: state.scenario.list.data,
   simulationName: 'Brewery Master Analysis',
   simulatorName: 'supplychain'
 })

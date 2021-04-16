@@ -8,7 +8,7 @@ import { createReducer } from '@reduxjs/toolkit'
 // Scenario List
 
 export const scenarioListInitialState = {
-  list: [],
+  data: [],
   status: SCENARIO_STATUS.IDLE
 }
 
@@ -16,15 +16,15 @@ export const scenarioListReducer = createReducer(scenarioListInitialState, (buil
   builder
     .addCase(SCENARIO_ACTIONS_KEY.GET_ALL_SCENARIOS, (state, action) => { state.status = SCENARIO_STATUS.LOADING })
     .addCase(SCENARIO_ACTIONS_KEY.SET_ALL_SCENARIOS, (state, action) => {
+      state.data = action.list
       state.status = SCENARIO_STATUS.SUCCESS
-      state.list = action.list
     })
 })
 
 // Current Scenario
 
 export const currentScenarioInitialState = {
-  scenario: null,
+  data: null,
   status: SCENARIO_STATUS.IDLE
 }
 
@@ -32,9 +32,9 @@ export const currentScenarioReducer = createReducer(currentScenarioInitialState,
   builder
     .addCase(SCENARIO_ACTIONS_KEY.GET_CURRENT_SCENARIO, (state, action) => { state.status = SCENARIO_STATUS.LOADING })
     .addCase(SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO, (state, action) => {
-      state.scenario = action.scenario
-      state.list = action.list
+      state.data = action.data
+      state.status = SCENARIO_STATUS.SUCCESS
     })
 })
 
-export const scenarioReducer = combineReducers({ scenarioList: scenarioListReducer, currentScenario: currentScenarioReducer })
+export const scenarioReducer = combineReducers({ list: scenarioListReducer, current: currentScenarioReducer })
