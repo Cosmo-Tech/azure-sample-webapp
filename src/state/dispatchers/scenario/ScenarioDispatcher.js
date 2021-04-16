@@ -8,3 +8,8 @@ export const dispatchGetScenarioList = (payLoad) => ({
   type: SCENARIO_ACTIONS_KEY.GET_ALL_SCENARIOS,
   ...payLoad
 })
+
+export const dispatchGetScenarioTree = (payLoad) => ({
+  type: SCENARIO_ACTIONS_KEY.GET_SCENARIO_TREE,
+  ...payLoad
+})

@@ -39,11 +39,13 @@ const Scenario = ({
   classes,
   scenarioList,
   currentScenario,
-  getScenarioListAction
+  getScenarioListAction,
+  getScenarioTreeAction
 }) => {
   useEffect(() => {
     getScenarioListAction()
-  }, [getScenarioListAction])
+    getScenarioTreeAction()
+  }, [getScenarioListAction, getScenarioTreeAction])
 
   // TODO remove eslint warning when information will be retrieved from api calls
   // eslint-disable-next-line no-unused-vars
@@ -149,7 +151,8 @@ Scenario.propTypes = {
   classes: PropTypes.any,
   scenarioList: PropTypes.array.isRequired,
   currentScenario: PropTypes.object,
-  getScenarioListAction: PropTypes.func.isRequired
+  getScenarioListAction: PropTypes.func.isRequired,
+  getScenarioTreeAction: PropTypes.func.isRequired
 }
 
 export default withStyles(useStyles)(Scenario)

@@ -21,6 +21,22 @@ export const scenarioListReducer = createReducer(scenarioListInitialState, (buil
     })
 })
 
+// Scenario Tree
+
+export const scenarioTreeInitialState = {
+  data: [],
+  status: SCENARIO_STATUS.IDLE
+}
+
+export const scenarioTreeReducer = createReducer(scenarioTreeInitialState, (builder) => {
+  builder
+    .addCase(SCENARIO_ACTIONS_KEY.GET_SCENARIO_TREE, (state, action) => { state.status = SCENARIO_STATUS.LOADING })
+    .addCase(SCENARIO_ACTIONS_KEY.SET_SCENARIO_TREE, (state, action) => {
+      state.data = action.tree
+      state.status = SCENARIO_STATUS.SUCCESS
+    })
+})
+
 // Current Scenario
 
 export const currentScenarioInitialState = {
@@ -37,4 +53,4 @@ export const currentScenarioReducer = createReducer(currentScenarioInitialState,
     })
 })
 
-export const scenarioReducer = combineReducers({ list: scenarioListReducer, current: currentScenarioReducer })
+export const scenarioReducer = combineReducers({ list: scenarioListReducer, current: currentScenarioReducer, tree: scenarioTreeReducer })

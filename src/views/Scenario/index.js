@@ -3,17 +3,19 @@
 import { connect } from 'react-redux'
 import Scenario from './Scenario'
 
-import { dispatchGetScenarioList } from '../../state/dispatchers/scenario/ScenarioDispatcher'
+import { dispatchGetScenarioList, dispatchGetScenarioTree } from '../../state/dispatchers/scenario/ScenarioDispatcher'
 
 const mapStateToProps = (state) => ({
   scenarioList: state.scenario.list.data,
-  currentScenario: state.scenario.current.data
+  currentScenario: state.scenario.current.data,
+  scenarioTree: state.scenario.tree.data
 })
 
 // connect Scenario view to state store
 // add getScenarioListAction (dispatch) method to props
 const mapDispatchToProps = {
-  getScenarioListAction: dispatchGetScenarioList
+  getScenarioListAction: dispatchGetScenarioList,
+  getScenarioTreeAction: dispatchGetScenarioTree
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Scenario)
