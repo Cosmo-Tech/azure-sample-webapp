@@ -38,6 +38,7 @@ const useStyles = theme => ({
 const Scenario = ({
   classes,
   scenarioList,
+  scenarioTree,
   currentScenario,
   getScenarioListAction,
   getScenarioTreeAction
@@ -114,7 +115,7 @@ const Scenario = ({
                 <Grid item>
                   <CardSimulationParameters
                     simulatorsList={simulators}
-                    simulationsList={scenarioList}
+                    simulationsList={scenarioList.data}
                     simulationName={simulationInfo.simulationName}
                     simulatorName={simulationInfo.simulatorName}
                     onSimulationNameChange={setSimulationName}
@@ -149,7 +150,8 @@ const Scenario = ({
 
 Scenario.propTypes = {
   classes: PropTypes.any,
-  scenarioList: PropTypes.array.isRequired,
+  scenarioList: PropTypes.object.isRequired,
+  scenarioTree: PropTypes.object.isRequired,
   currentScenario: PropTypes.object,
   getScenarioListAction: PropTypes.func.isRequired,
   getScenarioTreeAction: PropTypes.func.isRequired
