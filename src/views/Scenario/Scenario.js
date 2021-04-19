@@ -1,12 +1,11 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import { Box, Grid } from '@material-ui/core';
-import { IframeScenarioResults } from '../../components';
-import { useTranslation } from 'react-i18next';
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
+import { Grid, Typography } from '@material-ui/core'
+import DropdownScenario from '../../components/DropdownScenario'
 
 const useStyles = theme => ({
   root: {
@@ -22,8 +21,7 @@ const useStyles = theme => ({
   },
   mainGrid: {
     margin: `${theme.spacing(1)}px ${theme.spacing(-1)}px ${theme.spacing(-1)}px ${theme.spacing(-1)}px`,
-    flexGrow: 1,
-    height: '100%'
+    flexGrow: 1
   },
   grid: {
     flexGrow: 1,
@@ -38,27 +36,32 @@ const Scenario = ({
   currentScenario
 }) => {
   const { t } = useTranslation();
+  // TODO remove eslint warning when information will be retrieved from api calls
+  // eslint-disable-next-line no-unused-vars
+  const [simulators, setSimulators] = useState(['supplychain', 'supplychaindemo'])
+  // eslint-disable-next-line no-unused-vars
+  const [simulations, setSimulations] = useState(['Simulation'])
+  // eslint-disable-next-line no-unused-vars
+  const [drivers, setDrivers] = useState(['Supplychain.zip'])
+
+  const [scenario, setStateScenario] = useState(null)
 
   return (
-      <Box component='main' display='flex' flexDirection='column'
-          className={classes.root}>
-        <Box className={classes.scenarioPanel}>
-          <Grid container spacing={2} className={classes.mainGrid}>
-            <Grid item xs={9}>
-              <IframeScenarioResults
-              cardStyle={ { height: '100%', width: '100%' } }
-              iframeTitle={t('commoncomponents.iframe.scenario.results.iframe.title', 'Supply Chain results')}
-              cardTitle={t('commoncomponents.iframe.scenario.results.card.title', 'Results')}
-              src="https://app.powerbi.com/reportEmbed?reportId=018525c4-3fed-49e7-9048-6d6237e80145&autoAuth=true&ctid=e9641c78-d0d6-4d09-af63-168922724e7f&config=eyJjbHVzdGVyVXJsIjoiaHR0cHM6Ly93YWJpLWZyYW5jZS1jZW50cmFsLWEtcHJpbWFyeS1yZWRpcmVjdC5hbmFseXNpcy53aW5kb3dzLm5ldC8ifQ%3D%3D"
-              frameBorder="0"
-              allowFullScreen
-              />
-            </Grid>
+    <Grid container spacing={2} alignItems="center" className={props.classes.mainGrid}>
+      <Grid item xs={10}>
+        <Grid container spacing={2} alignItems="center" className={props.classes.mainGrid}>
+          <Grid item xs={3} style={{ width: '100%', marginLeft: '20px', paddingRight: '30px' }}>
+            <DropdownScenario setScenario={(sc) => (setStateScenario(sc))}>
+            </DropdownScenario>
           </Grid>
-        </Box>
-      </Box>
-  );
-};
+          <Grid item xs={3}>
+            <Typography>Scenario type: {scenario}</Typography>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Grid>
+  )
+}
 
 Scenario.propTypes = {
   classes: PropTypes.any,
