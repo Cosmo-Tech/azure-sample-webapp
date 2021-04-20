@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import { TextField } from '@material-ui/core'
@@ -9,8 +9,8 @@ import Autocomplete from '@material-ui/lab/Autocomplete'
 import JSONscenario from '../../views/Scenario/GetScenariosTree.json'
 
 const useStyles = theme => ({
-  button: {
-    margin: '2px'
+  textfield: {
+    borderColor: '#FFFFFF'
   }
 })
 
@@ -41,16 +41,13 @@ const DropdownScenario = (props) => {
   }
   getScenarioOption(scenarioOptions, scenarioTree, 0)
 
-  const [selectedScenario, setSelectedScenario] = useState(null)
-
   return (
     <Autocomplete
       id="dd_scenario"
-      value={selectedScenario}
-      onChange={(event, newScenario) => setSelectedScenario(newScenario)}
+      onChange={(event, newScenario) => (props.setScenario(newScenario.type)) }
       options={scenarioOptions}
       getOptionLabel={(option) => option.optionLabel }
-      style={{ width: '100%', marginLeft: '20px', paddingRight: '30px', borderColor: '#FFFFFF' }}
+      style={{ width: '100%', marginLeft: '20px', paddingRight: '30px', color: '#F8F9F8' }}
       renderInput={(params) => (
         <TextField {...params} placeholder="Scenario" label="Scenario" variant="outlined"/>
       )}
@@ -60,12 +57,7 @@ const DropdownScenario = (props) => {
 
 DropdownScenario.propTypes = {
   classes: PropTypes.any,
-  onSimulationStarted: PropTypes.func,
-  simulationName: PropTypes.string.isRequired,
-  simulatorName: PropTypes.string.isRequired,
-  apiConfig: PropTypes.shape({
-    simulator: PropTypes.string.isRequired
-  })
+  setScenario: PropTypes.func
 }
 
 export default withStyles(useStyles)(DropdownScenario)
