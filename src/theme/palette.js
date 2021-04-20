@@ -10,6 +10,7 @@ const themeColors = {
   secondary: '#466180',
   background: '#191919',
   backgroundSecondary: '#1f1f1f',
+  backgroundSignInPage: '#2E363B',
   textGrey: '#999a9d',
   surface: '#100f0f',
   red: '#df410c',
@@ -63,5 +64,8 @@ export default {
     secondary: themeColors.backgroundSecondary
   },
   icon: colors.blueGrey[600],
-  divider: colors.grey[200]
+  divider: colors.grey[200],
+  signInPage: {
+    background: themeColors.backgroundSignInPage
+  }
 }

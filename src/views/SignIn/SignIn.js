@@ -3,16 +3,22 @@
 
 import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { Auth, AuthDev } from '@cosmotech/core'
-import { AuthMSAL, AuthStaticWebApp } from '@cosmotech/azure'
+import { AuthMSAL } from '@cosmotech/azure'
 import validate from 'validate.js'
 import { makeStyles } from '@material-ui/styles'
 import {
   Grid,
   Button,
-  Typography
+  Typography,
+  Box,
+  Select,
+  FormControl,
+  MenuItem
 } from '@material-ui/core'
+import { SignInButton } from '@cosmotech/ui'
+import { i18nUtils } from '../../utils'
 
 const schema = {
   email: {
@@ -32,7 +38,7 @@ const schema = {
 
 const useStyles = makeStyles(theme => ({
   root: {
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.palette.signInPage.background,
     height: '100%'
   },
   grid: {
@@ -81,26 +87,27 @@ const useStyles = makeStyles(theme => ({
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2)
   },
-  logoImage: {
-    marginLeft: theme.spacing(4)
-  },
   contentBody: {
     flexGrow: 1,
     display: 'flex',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     [theme.breakpoints.down('md')]: {
       justifyContent: 'center'
     }
   },
   form: {
+    paddingTop: 120,
     paddingLeft: 100,
     paddingRight: 100,
-    paddingBottom: 125,
     flexBasis: 700,
     [theme.breakpoints.down('sm')]: {
       paddingLeft: theme.spacing(2),
       paddingRight: theme.spacing(2)
     }
+  },
+  contentFooter: {
+    display: 'flex',
+    alignItems: 'flex-end'
   },
   title: {
     marginTop: theme.spacing(3)
@@ -108,25 +115,23 @@ const useStyles = makeStyles(theme => ({
   socialButtons: {
     marginTop: theme.spacing(3)
   },
-  socialIcon: {
-    marginRight: theme.spacing(1)
+  contact: {
+    marginLeft: '10px',
+    marginTop: '5px'
   },
-  loginButton: {
-    marginTop: theme.spacing(1)
+  formControl: {
+    fontSize: '11px'
   },
-  sugestion: {
-    marginTop: theme.spacing(2)
+  languageSelect: {
+    fontSize: '11px'
   },
-  textField: {
-    marginTop: theme.spacing(2)
-  },
-  signInButton: {
-    margin: theme.spacing(2, 0)
+  copyrightText: {
+    marginLeft: '8px'
   }
 }))
 
-const SignIn = (props) => {
-  const { t } = useTranslation()
+const SignIn = () => {
+  const { t, i18n } = useTranslation()
 
   const classes = useStyles()
 
@@ -147,12 +152,6 @@ const SignIn = (props) => {
     }))
   }, [formState.values])
 
-  const handleAzureStaticWebAppSignIn = event => {
-    event.preventDefault()
-    Auth.setProvider(AuthStaticWebApp.name)
-    Auth.signIn()
-  }
-
   const handleAzureMSALSignIn = event => {
     event.preventDefault()
     Auth.setProvider(AuthMSAL.name)
@@ -164,6 +163,8 @@ const SignIn = (props) => {
     Auth.setProvider(AuthDev.name)
     Auth.signIn()
   }
+
+  const year = new Date().getFullYear()
 
   return (
     <div className={classes.root}>
@@ -189,51 +190,71 @@ const SignIn = (props) => {
                 <Typography className={classes.title} variant="h2">
                   {t('commoncomponents.button.login.regular.login', 'Sign In')}
                 </Typography>
-                <Grid className={classes.socialButtons} container spacing={2}>
+                <Grid className={classes.socialButtons} container spacing={2} direction="column">
                   <Grid item>
-                    <Button
-                      className={classes.loginButton}
+                    <SignInButton
                       onClick={handleAzureMSALSignIn}
-                      size="large"
-                      variant="contained"
-                    >
-                      {t('commoncomponents.button.login.msal.login', 'Login with Active Directory (MSAL)')}
-                    </Button>
-                    <Button
-                      className={classes.loginButton}
-                      onClick={handleAzureStaticWebAppSignIn}
-                      size="large"
-                      variant="contained"
-                    >
-                      {t('commoncomponents.button.login.static.webapp.login', 'Login with Active Directory (Static Web App)')}
-                    </Button>
+                    />
+                  </Grid>
+                  <Grid item>
                     {
                       window.location.hostname === 'localhost' &&
                         <Button
-                          className={classes.loginButton}
+                          color="primary"
                           onClick={handleAuthDevSignIn}
-                          size="large"
-                          variant="contained"
-                          data-cy="log-with-dev-account-button"
+                          data-cy="sign-in-with-dev-account-button"
                         >
                           {t('commoncomponents.button.login.dev.account.login', 'Login with Dev account')}
                         </Button>
                     }
                   </Grid>
                 </Grid>
-                <Typography color="textSecondary" variant="body1">
-                  {t('commoncomponents.text.contact.get.account', 'Please contact the application administrator to activate your account.')}
-                </Typography>
+                <Grid container spacing={1} className={classes.contact} direction="row">
+                  <Grid item>
+                    <Typography color="textSecondary" variant="caption">
+                      <Box fontWeight="fontWeightLight">
+                        {t('commoncomponents.text.contact.get.account', 'Don\'t have an account?')}
+                      </Box>
+                    </Typography>
+                  </Grid>
+                  <Grid item>
+                    <Typography color="textSecondary" variant="caption">
+                      <Box fontWeight="fontWeightBold">
+                        {t('commoncomponents.text.link.cosmotech', 'Please contact CosmoTech')}
+                      </Box>
+                    </Typography>
+                  </Grid>
+                </Grid>
               </form>
+            </div>
+            <div className={classes.contentFooter}>
+              <Grid container direction="row" justify="center" alignItems="baseline">
+               <Grid item>
+                  <FormControl className={classes.formControl}>
+                    <Select
+                      className={classes.languageSelect}
+                      defaultValue={i18n.language}
+                      onChange={(event) => i18nUtils.changeLanguage(event.target.value, i18n)}
+                    >
+                      <MenuItem value={'en'}>English</MenuItem>
+                      <MenuItem value={'fr'}>Français</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item>
+                <Typography variant="caption" component="div" className={classes.copyrightText}>
+                  <Trans i18nKey="copyrightMessage" year={year} >
+                    &copy; {{ year }} {t('views.common.footer.text.companyname', 'Cosmo Tech')}
+                  </Trans>
+                </Typography>
+                </Grid>
+              </Grid>
             </div>
           </div>
         </Grid>
       </Grid>
     </div>
   )
-}
-
-SignIn.propTypes = {
 }
 
 export default withRouter(SignIn)

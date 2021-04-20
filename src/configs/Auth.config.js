@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { Auth, AuthDev } from '@cosmotech/core'
-import { AuthMSAL, AuthStaticWebApp } from '@cosmotech/azure'
+import { AuthMSAL } from '@cosmotech/azure'
 
 // AuthMSAL configuration
 const MSAL_CONFIG = {
@@ -28,5 +28,4 @@ const MSAL_CONFIG = {
 
 // Register the providers used in the application
 Auth.addProvider(AuthDev)
-Auth.addProvider(AuthStaticWebApp)
 Auth.addProvider(AuthMSAL).setConfig(MSAL_CONFIG)

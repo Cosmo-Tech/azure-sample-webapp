@@ -68,24 +68,9 @@ const App = () => {
       .then((isSignInSuccessfully) => authenticationDone(isSignInSuccessfully))
   }, [])
 
-  const toggleLang = () => {
-    switch (i18n.language) {
-      case 'en':
-        i18n.changeLanguage('fr')
-        break
-      case 'fr':
-        i18n.changeLanguage('en')
-        break
-      default:
-        i18n.changeLanguage('en')
-        break
-    }
-  }
-
   return loading === true
     ? (
           <I18nextProvider i18n={i18n}>
-            <button onClick={toggleLang}>{t('commoncomponents.button.change.language', 'Change language')}</button>
             <ThemeProvider theme={theme}>
               <div className="spinner-border text-success" role="status">
                 <span className="sr-only">{t('views.common.text.loading', 'Loading...')}</span>
@@ -95,7 +80,6 @@ const App = () => {
       )
     : (
           <I18nextProvider i18n={i18n}>
-            <button onClick={toggleLang}>{t('commoncomponents.button.change.language', 'Change language')}</button>
             <ThemeProvider theme={theme}>
               <Router>
                 <Routes authenticated={authenticated}
