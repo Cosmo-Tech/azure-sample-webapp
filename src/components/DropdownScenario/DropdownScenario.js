@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import { TextField } from '@material-ui/core'
 import Autocomplete from '@material-ui/lab/Autocomplete'
-import JSONscenario from '../../views/Scenario/GetScenariosTree.json'
+import GetScenarioTree from '../../utils/UtilsScenario'
 
 const useStyles = theme => ({
   textfield: {
@@ -15,20 +15,6 @@ const useStyles = theme => ({
 })
 
 const DropdownScenario = (props) => {
-  JSONscenario.sort()
-  const scenarioTree = []
-  for (const scParent of JSONscenario) {
-    if (scParent.parentId === undefined) {
-      scenarioTree.push(scParent)
-    }
-    scParent.children = []
-    for (const scChild of JSONscenario) {
-      if (scChild.parentId === scParent.id) {
-        scParent.children.push(scChild)
-      }
-    }
-  }
-
   const scenarioOptions = []
   const getScenarioOption = (scenarioOptions, node, depth) => {
     for (const sc of node) {
@@ -39,7 +25,7 @@ const DropdownScenario = (props) => {
       }
     }
   }
-  getScenarioOption(scenarioOptions, scenarioTree, 0)
+  getScenarioOption(scenarioOptions, GetScenarioTree(), 0)
 
   return (
     <Autocomplete

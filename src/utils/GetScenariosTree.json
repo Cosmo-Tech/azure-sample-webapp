@@ -92,5 +92,28 @@
         "roles": "Viewer"
       }
     ]
+  },
+  {
+    "id": "5",
+    "name": "Brewery Analysis name no change",
+    "description": "Brewery analysis with no change on name prefix",
+    "type": "Emulateur PC Engine",
+    "tags": [
+      "Brewery"
+    ],
+    "parentId": "3",
+    "ownerId": "1",
+    "userList": [
+      {
+        "id": "1",
+        "name": "Bob",
+        "roles": "Editor"
+      },
+      {
+        "id": "2",
+        "name": "Alice",
+        "roles": "Viewer"
+      }
+    ]
   }
 ]
