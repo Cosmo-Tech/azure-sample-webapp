@@ -7,6 +7,7 @@ import { withStyles } from '@material-ui/core/styles'
 import { TextField } from '@material-ui/core'
 import Autocomplete from '@material-ui/lab/Autocomplete'
 import GetScenarioTree from '../../utils/UtilsScenario'
+import { useTranslation } from 'react-i18next'
 
 const useStyles = theme => ({
   textfield: {
@@ -15,10 +16,12 @@ const useStyles = theme => ({
 })
 
 const DropdownScenario = (props) => {
+  const { t } = useTranslation()
+
   const scenarioOptions = []
   const getScenarioOption = (scenarioOptions, node, depth) => {
     for (const sc of node) {
-      sc.optionLabel = '\xa0'.repeat(depth * 3) + 'Scenario ' + sc.id
+      sc.optionLabel = '\xa0'.repeat(depth * 3) + t('commoncomponents.dropdown.scenario.label', 'Scenario ') + sc.id
       scenarioOptions.push(sc)
       if (sc.children.length > 0) {
         getScenarioOption(scenarioOptions, sc.children, depth + 1)
@@ -35,7 +38,12 @@ const DropdownScenario = (props) => {
       getOptionLabel={(option) => option.optionLabel }
       style={{ width: '100%', marginLeft: '20px', paddingRight: '30px', color: '#F8F9F8' }}
       renderInput={(params) => (
-        <TextField {...params} placeholder="Scenario" label="Scenario" variant="outlined"/>
+        <TextField
+          {...params}
+          placeholder={t('commoncomponents.dropdown.scenario.label', 'Scenario ')}
+          label={t('commoncomponents.dropdown.scenario.label', 'Scenario ')}
+          variant="outlined"
+        />
       )}
     />
   )
