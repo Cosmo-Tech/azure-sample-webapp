@@ -36,7 +36,7 @@ const DropdownScenario = (props) => {
       onChange={(event, newScenario) => (props.setScenario(newScenario.type)) }
       options={scenarioOptions}
       getOptionLabel={(option) => option.optionLabel }
-      style={{ width: '100%', marginLeft: '20px', paddingRight: '30px', color: '#F8F9F8' }}
+      style={{ width: '100%', marginLeft: '20px', paddingRight: '30px' }}
       renderInput={(params) => (
         <TextField
           {...params}

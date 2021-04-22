@@ -6,6 +6,7 @@ import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import { Grid, Typography } from '@material-ui/core'
 import DropdownScenario from '../../components/DropdownScenario'
+import DialogCreateScenario from '../../components/DialogCreateScenario'
 
 const useStyles = theme => ({
   root: {
@@ -43,7 +44,7 @@ const Scenario = ({
   const [simulations, setSimulations] = useState(['Simulation'])
   // eslint-disable-next-line no-unused-vars
   const [drivers, setDrivers] = useState(['Supplychain.zip'])
-  
+
   const [scenario, setStateScenario] = useState(null)
 
   return (
@@ -58,6 +59,9 @@ const Scenario = ({
             <Typography>Scenario type: {scenario}</Typography>
           </Grid>
         </Grid>
+        </Grid>
+      <Grid item xs={2}>
+        <DialogCreateScenario></DialogCreateScenario>
       </Grid>
     </Grid>
   )
