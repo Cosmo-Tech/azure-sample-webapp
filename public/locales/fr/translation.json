@@ -1,4 +1,18 @@
 {
+  "genericcomponent": {
+    "loading": {
+      "line": {
+        "scenario": {
+          "list" : {
+            "title" : "Récupération de la liste des scénarios"
+          },
+          "tree" : {
+            "title" : "Récupération de l'arborescence des scénarios"
+          }
+        }
+      }
+    }
+  },
   "commoncomponents": {
     "button": {
       "login": {

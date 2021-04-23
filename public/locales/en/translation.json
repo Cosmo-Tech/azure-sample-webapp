@@ -1,4 +1,18 @@
 {
+  "genericcomponent": {
+  "loading": {
+    "line": {
+      "scenario": {
+        "list" : {
+          "title" : "Fetching scenario's list"
+        },
+        "tree" : {
+          "title" : "Fetching scenario's tree"
+        }
+      }
+    }
+  }
+},
   "commoncomponents": {
     "button": {
       "login": {
