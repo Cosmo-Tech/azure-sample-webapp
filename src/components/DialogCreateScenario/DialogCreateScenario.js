@@ -5,6 +5,7 @@ import {
   Button, TextField, Dialog, DialogActions, FormControlLabel,
   DialogTitle, DialogContent, Checkbox, Grid
 } from '@material-ui/core'
+import AddIcon from '@material-ui/icons/Add'
 import Autocomplete from '@material-ui/lab/Autocomplete'
 import DropdownScenario from '../../components/DropdownScenario'
 
@@ -12,18 +13,18 @@ const useStyles = theme => ({
   root: {
     height: '100%'
   },
-  dialog: {
-    height: '100%'
+  dialogcontent: {
+    marginLeft: '20px',
+    marginRight: '20px'
   },
-  autocomplete: {
-    margin: '20px'
-  },
-  grid: {
-    flexGrow: 1
+  dialogactions: {
+    marginRight: '30px',
+    marginTop: '20px',
+    marginBottom: '5px'
   }
 })
 
-const DialogCreateScenario = () => {
+const DialogCreateScenario = (props) => {
   const [open, setOpen] = useState(false)
   const [master, setMaster] = useState(true)
   const [scenario, setStateScenario] = useState(null)
@@ -46,17 +47,17 @@ const DialogCreateScenario = () => {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        + Create Alternate Scenario
+      <Button startIcon={<AddIcon />} variant="text" onClick={handleClickOpen} color="primary">
+        Create Alternate Scenario
       </Button>
       <Dialog open={open} onClose={handleDialogClose} aria-labelledby="form-dialog-title"
         maxWidth={'sm'}
         fullWidth={true}
         disableBackdropClick
       >
-        <DialogTitle id="form-dialog-title">CREATE ALTERNATIVE SCENARIO</DialogTitle>
-        <DialogContent>
-          <Grid container style={{ width: '100%', padding: '10px', color: '#F8F9F8' }} spacing={2}>
+        <DialogTitle id="form-dialog-title" className={props.classes.dialogcontent}>CREATE ALTERNATIVE SCENARIO</DialogTitle>
+        <DialogContent className={props.classes.dialogcontent}>
+          <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField autoFocus margin="dense" id="scenarioName" label="Scenario Name" fullWidth/>
             </Grid>
@@ -80,9 +81,8 @@ const DialogCreateScenario = () => {
             <Grid item xs={12}>
               <Autocomplete
                 id="senarioType"
-                options={['Emulateur SNES', 'Emulateur MD']}
+                options={['Simulation', 'Optimisation']}
                 getOptionLabel={(option) => option}
-                style={{ width: '100%', marginLeft: '20px', paddingRight: '30px' }}
                 renderInput={(params) => (
                   <TextField {...params} placeholder="Scenario" label="Scenario Type" variant="outlined"/>
                 )}
@@ -90,11 +90,11 @@ const DialogCreateScenario = () => {
             </Grid>
           </Grid>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleDialogClose} color="primary">
+        <DialogActions className={props.classes.dialogactions}>
+          <Button id="ButtonCancel" onClick={handleDialogClose} color="primary">
             CANCEL
           </Button>
-          <Button onClick={createScenario} color="primary">
+          <Button id="ButtonCreate" onClick={createScenario} color="primary">
             CREATE
           </Button>
         </DialogActions>
