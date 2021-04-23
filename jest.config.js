@@ -1,3 +1,6 @@
+// Copyright (c) Cosmo Tech.
+// Licensed under the MIT license.
+
 module.exports = {
   verbose: true,
   setupFiles: [
@@ -6,5 +9,6 @@ module.exports = {
   moduleDirectories: [
     'node_modules',
     'src'
-  ]
+  ],
+  setupFilesAfterEnv: ['./rtl.setup.js']
 };
