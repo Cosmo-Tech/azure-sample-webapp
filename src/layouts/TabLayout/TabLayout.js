@@ -1,9 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import { AppBar, Tabs, Tab, Box } from '@material-ui/core';
-import { Switch, Route, Link, Redirect } from 'react-router-dom';
+import { Switch, Route, Link, Redirect, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import { PrivateRoute } from '../../components';
@@ -75,42 +75,39 @@ const TabLayout = props => {
   } = props;
   const classes = useStyles();
   const { t } = useTranslation();
+  const location = useLocation();
 
-  return (<Route
-    path="/"
-    render={({ location }) => (
-      <Fragment>
-        <AppBar className={classes.bar}>
-          <Box className={classes.barDiv}>
-            <Tabs value={location.pathname} className={classes.tabs}>
-              {tabs.map(tab => (
-              <Tab key={tab.key} value={tab.to} label= {t(tab.label, tab.key)} component={Link} to={tab.to} className={classes.tab}/>
-              ))}
-            </Tabs>
+  return (<>
+          <AppBar className={classes.bar}>
+            <Box className={classes.barDiv}>
+              <Tabs value={location.pathname} className={classes.tabs}>
+                {tabs.map(tab => (
+                    <Tab key={tab.key} value={tab.to} label= {t(tab.label, tab.key)} component={Link} to={tab.to} className={classes.tab}/>
+                ))}
+              </Tabs>
               <div className={classes.rightBar}>
                 <div className={classes.rightBarElement}>
                   <img alt="Cosmo Tech" height="28px" src="cosmotech.png" className={classes.logo} />
                 </div>
-                <UserInfo className={classes.rightBarElement}/>
+                <UserInfo className={classes.rightBarElement} />
               </div>
+            </Box>
+          </AppBar>
+          <Box className={classes.content}>
+            <Switch>
+              {tabs.map(tab => (
+                  <PrivateRoute key={tab.key} path={tab.to} render={tab.render}
+                                authenticated={authenticated}
+                                authorized={authorized}
+                                noAuthRedirect={signInPath}
+                                noPermRedirect={unauthorizedPath} />
+              ))}
+              <Route render={() => <Redirect to="/scenario" />} />
+            </Switch>
           </Box>
-        </AppBar>
-        <Box className={classes.content}>
-          <Switch>
-            {tabs.map(tab => (
-            <PrivateRoute key={tab.key} path={tab.to} render={tab.render}
-              authenticated={authenticated}
-              authorized={authorized}
-              noAuthRedirect={signInPath}
-              noPermRedirect={unauthorizedPath} />
-            ))}
-            <Route render={() => <Redirect to="/scenario" />} />
-          </Switch>
-        </Box>
-        <Footer />
-      </Fragment>
-    )}
-  />);
+          <Footer />
+      </>
+  );
 };
 
 TabLayout.propTypes = {
