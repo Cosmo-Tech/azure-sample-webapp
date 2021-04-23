@@ -3,7 +3,8 @@
 
 import { combineReducers } from 'redux';
 import { scenarioReducer } from './scenario/ScenarioReducer';
+import { applicationReducer } from './app/ApplicationReducer';
 
-const rootReducer = combineReducers({ scenario: scenarioReducer });
+const rootReducer = combineReducers({ scenario: scenarioReducer, application: applicationReducer });
 
 export default rootReducer;
