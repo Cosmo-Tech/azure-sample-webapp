@@ -40,7 +40,7 @@ const Loading = (
         left: '50%',
         top: '50%',
         transform: 'translate(-50%, -50%)'
-      }}>
+      }} data-cy="loading-component">
           <FadeIn delay={200}>
             <LoadingLine titleKey={'genericcomponent.loading.line.scenario.list.title'} hasError={hasErrors(scenarioList)} isLoading={isLoading(scenarioList)} height={120} width={120}/>
             <LoadingLine titleKey={'genericcomponent.loading.line.scenario.tree.title'} hasError={hasErrors(scenarioTree)} isLoading={isLoading(scenarioTree)} height={120} width={120}/>

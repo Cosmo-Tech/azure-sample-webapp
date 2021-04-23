@@ -10,7 +10,7 @@ export function * fetchScenarioTreeData () {
   try {
     // yield keyword is here to milestone and save the action
     const { data } = yield axios.get(SCENARIO_ENDPOINT.GET_SCENARIO_TREE);
-    yield delay(3000);
+    yield delay(2000);
     // Here is an effect named put that indicate to the middleware that it can dispatch a SET_SCENARIO_TREE action with data as payload
     yield put({ type: SCENARIO_ACTIONS_KEY.SET_SCENARIO_TREE, tree: data });
   } catch (error) {
