@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import { TextField } from '@material-ui/core'
 import Autocomplete from '@material-ui/lab/Autocomplete'
-import ScenarioUtils from '../../utils'
+import { ScenarioUtils } from '@cosmotech/core'
 import { useTranslation } from 'react-i18next'
 
 const useStyles = theme => ({
