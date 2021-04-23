@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import { TextField } from '@material-ui/core'
 import Autocomplete from '@material-ui/lab/Autocomplete'
-import GetScenarioTree from '../../utils/UtilsScenario'
+import ScenarioUtils from '../../utils'
 import { useTranslation } from 'react-i18next'
 
 const useStyles = theme => ({
@@ -28,7 +28,7 @@ const DropdownScenario = (props) => {
       }
     }
   }
-  getScenarioOption(scenarioOptions, GetScenarioTree(), 0)
+  getScenarioOption(scenarioOptions, ScenarioUtils.getScenarioTree(), 0)
 
   return (
     <Autocomplete
@@ -36,7 +36,6 @@ const DropdownScenario = (props) => {
       onChange={(event, newScenario) => (props.setScenario(newScenario.type)) }
       options={scenarioOptions}
       getOptionLabel={(option) => option.optionLabel }
-      style={{ width: '100%', marginLeft: '20px', paddingRight: '30px' }}
       renderInput={(params) => (
         <TextField
           {...params}

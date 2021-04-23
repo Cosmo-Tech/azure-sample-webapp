@@ -3,8 +3,8 @@
 
 import JSONscenario from './GetScenariosTree.json'
 
-JSONscenario.sort()
-const GetScenarioTree = () => {
+const getScenarioTree = () => {
+  JSONscenario.sort()
   const scenarioTree = []
   for (const scParent of JSONscenario) {
     if (scParent.parentId === undefined) {
@@ -20,4 +20,8 @@ const GetScenarioTree = () => {
   return scenarioTree
 }
 
-export default GetScenarioTree
+const ScenarioUtils = {
+  getScenarioTree
+}
+
+export default ScenarioUtils
