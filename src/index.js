@@ -7,15 +7,25 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import './configs/i18next.config';
+import i18n from './configs/i18next.config';
 import applicationStore from './state/Store.config';
+import { BrowserRouter } from 'react-router-dom';
+import { I18nextProvider } from 'react-i18next';
+import { ThemeProvider } from '@material-ui/styles';
+import theme from './theme';
 
 ReactDOM.render(
     <Suspense fallback="loading">
       <React.StrictMode>
-          <Provider store={applicationStore}>
-            <App />
-          </Provider>
+          <BrowserRouter>
+              <Provider store={applicationStore}>
+                  <I18nextProvider i18n={i18n}>
+                      <ThemeProvider theme={theme}>
+                        <App />
+                      </ThemeProvider>
+                  </I18nextProvider>
+              </Provider>
+          </BrowserRouter>
       </React.StrictMode>
     </Suspense>,
     document.getElementById('root')
