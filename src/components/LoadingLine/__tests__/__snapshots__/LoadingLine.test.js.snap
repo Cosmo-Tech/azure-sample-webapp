@@ -1,0 +1,145 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LoadingLine test suite should render correctly when all props are here 1`] = `
+<div
+  className="MuiGrid-root MuiGrid-container MuiGrid-align-items-xs-center"
+>
+  <div
+    className="MuiGrid-root MuiGrid-item"
+  >
+    <h1
+      className="MuiTypography-root MuiTypography-h1"
+    >
+      test.all.props.key
+    </h1>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item"
+  >
+    <div
+      aria-label="animation"
+      onClick={[Function]}
+      role="button"
+      style={
+        Object {
+          "height": "120px",
+          "margin": "0 auto",
+          "outline": "none",
+          "overflow": "hidden",
+          "width": "120px",
+        }
+      }
+      tabIndex="0"
+      title=""
+    />
+  </div>
+</div>
+`;
+
+exports[`LoadingLine test suite should render correctly when it has errors 1`] = `
+<div
+  className="MuiGrid-root MuiGrid-container MuiGrid-align-items-xs-center"
+>
+  <div
+    className="MuiGrid-root MuiGrid-item"
+  >
+    <h1
+      className="MuiTypography-root MuiTypography-h1"
+    >
+      test.has.errors.key
+    </h1>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item"
+  >
+    <div
+      aria-label="animation"
+      onClick={[Function]}
+      role="button"
+      style={
+        Object {
+          "height": "120px",
+          "margin": "0 auto",
+          "outline": "none",
+          "overflow": "hidden",
+          "width": "120px",
+        }
+      }
+      tabIndex="0"
+      title=""
+    />
+  </div>
+</div>
+`;
+
+exports[`LoadingLine test suite should render correctly when its loaded 1`] = `
+<div
+  className="MuiGrid-root MuiGrid-container MuiGrid-align-items-xs-center"
+>
+  <div
+    className="MuiGrid-root MuiGrid-item"
+  >
+    <h1
+      className="MuiTypography-root MuiTypography-h1"
+    >
+      test.is.loaded.key
+    </h1>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item"
+  >
+    <div
+      aria-label="animation"
+      onClick={[Function]}
+      role="button"
+      style={
+        Object {
+          "height": "120px",
+          "margin": "0 auto",
+          "outline": "none",
+          "overflow": "hidden",
+          "width": "120px",
+        }
+      }
+      tabIndex="0"
+      title=""
+    />
+  </div>
+</div>
+`;
+
+exports[`LoadingLine test suite should render correctly when its loading 1`] = `
+<div
+  className="MuiGrid-root MuiGrid-container MuiGrid-align-items-xs-center"
+>
+  <div
+    className="MuiGrid-root MuiGrid-item"
+  >
+    <h1
+      className="MuiTypography-root MuiTypography-h1"
+    >
+      test.is.loading.key
+    </h1>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item"
+  >
+    <div
+      aria-label="animation"
+      onClick={[Function]}
+      role="button"
+      style={
+        Object {
+          "height": "120px",
+          "margin": "0 auto",
+          "outline": "none",
+          "overflow": "hidden",
+          "width": "120px",
+        }
+      }
+      tabIndex="0"
+      title=""
+    />
+  </div>
+</div>
+`;
