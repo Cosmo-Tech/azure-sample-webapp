@@ -6,9 +6,10 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { Grid, Typography, Card } from '@material-ui/core';
 import HierarchicalComboBox from '../../components/HierarchicalComboBox';
-import { IframeScenarioResults, ScenarioParameters } from '../../components';
+import { ScenarioParameters } from '../../components';
 import { useTranslation } from 'react-i18next';
 import { CreateScenarioButton } from '../../components/CreateScenarioDialog';
+import { Dashboard } from '@cosmotech/ui';
 
 const useStyles = theme => ({
   root: {
@@ -103,18 +104,11 @@ const Scenario = (props) => {
         </Grid>
       </Grid>
       <Grid item xs={12}>
-        {/* <Dashboard
-          iframeTitle="Dashboard"
-          url="https://app.powerbi.com/reportEmbed?reportId=018525c4-3fed-49e7-9048-6d6237e80145&autoAuth=true&ctid=e9641c78-d0d6-4d09-af63-168922724e7f&config=eyJjbHVzdGVyVXJsIjoiaHR0cHM6Ly93YWJpLWZyYW5jZS1jZW50cmFsLWEtcHJpbWFyeS1yZWRpcmVjdC5hbmFseXNpcy53aW5kb3dzLm5ldC8ifQ%3D%3D"
-        /> */}
         <Card style={{ height: '400px' }}>
-          <IframeScenarioResults
-            cardStyle={ { height: '100%', width: '100%' } }
-            iframeTitle={t('commoncomponents.iframe.scenario.results.iframe.title', 'Supply Chain results')}
-            cardTitle={t('commoncomponents.iframe.scenario.results.card.title', 'Results')}
-            src="https://app.powerbi.com/reportEmbed?reportId=018525c4-3fed-49e7-9048-6d6237e80145&autoAuth=true&ctid=e9641c78-d0d6-4d09-af63-168922724e7f&config=eyJjbHVzdGVyVXJsIjoiaHR0cHM6Ly93YWJpLWZyYW5jZS1jZW50cmFsLWEtcHJpbWFyeS1yZWRpcmVjdC5hbmFseXNpcy53aW5kb3dzLm5ldC8ifQ%3D%3D"
-            frameBorder="0"
-            allowFullScreen
+          <Dashboard
+            iframeTitle={t('commoncomponents.iframe.scenario.results.card.title', 'Results')}
+            url="https://app.powerbi.com/reportEmbed?reportId=64985f52-2231-4a61-8dc0-6dd0c38c65de&autoAuth=true&ctid=e413b834-8be8-4822-a370-be619545cb49&config=eyJjbHVzdGVyVXJsIjoiaHR0cHM6Ly93YWJpLXdlc3QtZXVyb3BlLWItcHJpbWFyeS1yZWRpcmVjdC5hbmFseXNpcy53aW5kb3dzLm5ldC8ifQ%3D%3D&pageName=ReportSection&$filter=Demands_x0020__x0028_2_x0029_/Scenario_x0020_ID%20eq%20<ScenarioId>"
+            scenarioId={currentScenario.id}
           />
         </Card>
       </Grid>
