@@ -233,7 +233,7 @@ const SignIn = () => {
                   <FormControl className={classes.formControl}>
                     <Select
                       className={classes.languageSelect}
-                      defaultValue={i18n.language}
+                      value={i18n.language}
                       onChange={(event) => i18nUtils.changeLanguage(event.target.value, i18n)}
                     >
                       <MenuItem value={'en'}>English</MenuItem>
