@@ -1,25 +1,14 @@
 {
   "commoncomponents": {
     "button": {
-      "change": {
-        "language": "Changer de langue"
-      },
       "login": {
         "dev": {
           "account": {
             "login": "Se connecter en mode Dev"
           }
         },
-        "msal": {
-          "login": "Se connecter avec Active Directory (MSAL)"
-        },
         "regular": {
           "login": "Se connecter"
-        },
-        "static": {
-          "webapp": {
-            "login": "Se connecter avec Active Directory (Static Web App)"
-          }
         }
       },
       "run": {
@@ -29,6 +18,9 @@
         "scenario": {
           "text": "Lancer le scénario"
         }
+      },
+      "change": {
+        "language": "Changer de langue"
       }
     },
     "card": {
@@ -60,11 +52,11 @@
                 "launched": "Simulation lancée avec succès"
               }
             },
-            "simulation": {
-              "name": "Nom de la simulation"
-            },
             "engine": {
               "name": "Nom du simulator"
+            },
+            "simulation": {
+              "name": "Nom de la simulation"
             }
           },
           "title": {
@@ -93,16 +85,19 @@
       }
     },
     "text": {
+      "application": {
+        "title": "Exemple d'Application Web Azure"
+      },
       "contact": {
         "get": {
-          "account": "Contactez Cosmo Tech pour avoir un compte."
+          "account": "Vous n'avez pas de compte ?"
         }
+      },
+      "link": {
+        "cosmotech": "Veuillez contacter CosmoTech"
       },
       "no": {
         "permission": "Vous n'avez pas les droits suffisants pour accéder à cette page."
-      },
-      "application": {
-        "title": "Exemple d'Application Web Azure"
       }
     }
   },
@@ -110,6 +105,7 @@
     "common": {
       "footer": {
         "text": {
+          "companyname": "Cosmo Tech",
           "poweredby": "Propulsé par Cosmo Tech"
         }
       },
@@ -127,6 +123,15 @@
         }
       },
       "title": "Exemple d'Application Web Azure"
+    }
+  },
+  "genericcomponent": {
+    "button": {
+      "login": {
+        "msal": {
+          "title": "Se connecter avec Microsoft"
+        }
+      }
     }
   },
   "layouts": {

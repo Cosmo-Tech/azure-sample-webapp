@@ -6,7 +6,7 @@ describe('Log in & log out', () => {
     // Login
     cy.visit('/')
     cy.url().should('include', '/sign-in')
-    cy.get('[data-cy=log-with-dev-account-button]')
+    cy.get('[data-cy=sign-in-with-dev-account-button]')
       .click()
     cy.url().should('include', '/scenario')
     cy.get('[data-cy=user-profile-menu]')

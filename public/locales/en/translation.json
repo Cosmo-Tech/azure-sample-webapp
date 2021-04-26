@@ -1,25 +1,14 @@
 {
   "commoncomponents": {
     "button": {
-      "change": {
-        "language": "Change language"
-      },
       "login": {
         "dev": {
           "account": {
             "login": "Sign in with Dev mode"
           }
         },
-        "msal": {
-          "login": "Sign in with Active Directory (MSAL)"
-        },
         "regular": {
           "login": "Sign In"
-        },
-        "static": {
-          "webapp": {
-            "login": "Sign in with Active Directory (Static Web App)"
-          }
         }
       },
       "run": {
@@ -29,6 +18,9 @@
         "scenario": {
           "text": "Run scenario"
         }
+      },
+      "change": {
+        "language": "Change language"
       }
     },
     "card": {
@@ -60,11 +52,11 @@
                 "launched": "Simulation successfully launched"
               }
             },
-            "simulation": {
-              "name": "Simulation name"
-            },
             "engine": {
               "name": "Engine name"
+            },
+            "simulation": {
+              "name": "Simulation name"
             }
           },
           "title": {
@@ -93,16 +85,19 @@
       }
     },
     "text": {
+      "application": {
+        "title": "Cosmo Tech Web Application Sample"
+      },
       "contact": {
         "get": {
-          "account": "Please contact the application administrator to activate your account."
+          "account": "Don't have an account?"
         }
+      },
+      "link": {
+        "cosmotech": "Please contact CosmoTech"
       },
       "no": {
         "permission": "You don't have permission to view this page."
-      },
-      "application": {
-        "title": "Cosmo Tech Web Application Sample"
       }
     }
   },
@@ -110,6 +105,7 @@
     "common": {
       "footer": {
         "text": {
+          "companyname": "Cosmo Tech",
           "poweredby": "Powered by Cosmo Tech"
         }
       },
@@ -127,6 +123,15 @@
         }
       },
       "title": "Azure Sample Web Application"
+    }
+  },
+  "genericcomponent": {
+    "button": {
+      "login": {
+        "msal": {
+          "title": "Sign in with Microsoft"
+        }
+      }
     }
   },
   "layouts": {
