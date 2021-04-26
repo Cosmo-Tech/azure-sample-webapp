@@ -46,7 +46,6 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: '900px'
   },
   tab: {
-    textTransform: 'none',
     minWidth: 0,
     fontSize: '14px',
     fontWeight: '500',
