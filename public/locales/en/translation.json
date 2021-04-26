@@ -4,10 +4,10 @@
     "line": {
       "scenario": {
         "list" : {
-          "title" : "Fetching scenario's list"
+          "title" : "Fetching scenario list"
         },
         "tree" : {
-          "title" : "Fetching scenario's tree"
+          "title" : "Fetching scenario tree"
         }
       }
     }

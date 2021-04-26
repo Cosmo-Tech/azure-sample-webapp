@@ -43,7 +43,7 @@ const LoadingLine = props => {
       <>
         <Grid container direction="row" alignItems={'center'}>
           <Grid item >
-            <Typography variant="h1">
+            <Typography variant="h2">
               {t(titleKey, 'LoadingLine Title')}
             </Typography>
           </Grid>
