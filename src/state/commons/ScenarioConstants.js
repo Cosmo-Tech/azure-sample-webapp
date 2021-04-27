@@ -24,3 +24,9 @@ export const SCENARIO_ACTIONS_KEY = {
   GET_CURRENT_SCENARIO: 'GET_CURRENT_SCENARIO',
   SET_CURRENT_SCENARIO: 'SET_CURRENT_SCENARIO'
 };
+
+// Available scenario types
+export const SCENARIO_TYPES = {
+  SIMULATION: 'scenario.type.simulation',
+  OPTIMISATION: 'scenario.type.optimisation'
+}
