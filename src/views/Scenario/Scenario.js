@@ -7,6 +7,7 @@ import { withStyles } from '@material-ui/core/styles'
 import { Grid, Typography } from '@material-ui/core'
 import DropdownScenario from '../../components/DropdownScenario'
 import DialogCreateScenario from '../../components/DialogCreateScenario'
+import { useTranslation } from 'react-i18next'
 
 const useStyles = theme => ({
   root: {
@@ -47,6 +48,8 @@ const Scenario = ({
 
   const [scenario, setStateScenario] = useState(null)
 
+  const { t } = useTranslation()
+
   return (
     <Grid container spacing={2} alignItems="center" className={props.classes.mainGrid}>
       <Grid item xs={10}>
@@ -56,7 +59,7 @@ const Scenario = ({
             </DropdownScenario>
           </Grid>
           <Grid item xs={3}>
-            <Typography>Scenario type: {scenario}</Typography>
+            <Typography>{ t('scenario.type.label')} {scenario}</Typography>
           </Grid>
         </Grid>
         </Grid>

@@ -166,9 +166,19 @@
       }
     }
   },
-  "dropdown": {
-    "scenario" : {
-      "label": "Scenario"
+  "scenario" : {
+    "label": "Scenario",
+    "textField": {
+      "label": "Nom de scenario",
+      "error": "Erreur",
+      "enterName" : "Saisir un nom de scenario",
+      "nameIsEmpy" : "Le nom de scenario ne peut être vide",
+      "nameAlreadyExist": "Le nom de scenario existe déjà"
+    },
+    "type": {
+      "label": "Type de scénario :",
+      "simulation": "Simulation",
+      "optimisation": "Optimisation"
     }
   }
 }
