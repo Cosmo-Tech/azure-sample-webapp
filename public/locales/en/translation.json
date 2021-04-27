@@ -1,18 +1,4 @@
 {
-  "genericcomponent": {
-  "loading": {
-    "line": {
-      "scenario": {
-        "list" : {
-          "title" : "Fetching scenario list"
-        },
-        "tree" : {
-          "title" : "Fetching scenario tree"
-        }
-      }
-    }
-  }
-},
   "commoncomponents": {
     "button": {
       "login": {
@@ -140,6 +126,18 @@
     }
   },
   "genericcomponent": {
+    "loading": {
+      "line": {
+        "scenario": {
+          "list" : {
+            "title" : "Fetching scenario list"
+          },
+          "tree" : {
+            "title" : "Fetching scenario tree"
+          }
+        }
+      }
+    },
     "button": {
       "login": {
         "msal": {
