@@ -21,6 +21,16 @@
       },
       "change": {
         "language": "Change language"
+      },
+      "scenario": {
+        "parameters": {
+          "discard": "Discard Modifications",
+          "edit": "Edit",
+          "launch": "Launch Scenario",
+          "update" : {
+            "launch" : "Update And Launch Scenario"
+          }
+        }
       }
     },
     "card": {
@@ -84,6 +94,21 @@
         }
       }
     },
+    "tab": {
+      "scenario": {
+        "parameters": {
+          "upload": {
+            "file" : "Upload File template"
+          },
+          "array": {
+            "template": "Array Template"
+          },
+          "basic": {
+            "types": "Basic Types template"
+          }
+        }
+      }
+    },
     "text": {
       "application": {
         "title": "Cosmo Tech Web Application Sample"
@@ -142,6 +167,18 @@
       "login": {
         "msal": {
           "title": "Sign in with Microsoft"
+        }
+      }
+    },
+    "dialog" : {
+      "scenario" : {
+        "parameters" : {
+          "button": {
+            "cancel": "Cancel",
+            "validate": "Discard"
+          },
+          "title" : "Discard current modifications ?",
+          "body": "You will lose all your current changes made on the scenario parameters"
         }
       }
     }

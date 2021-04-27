@@ -1,0 +1,252 @@
+// Copyright (c) Cosmo Tech.
+// Licensed under the MIT license.
+
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
+import {
+  Box,
+  Card,
+  Grid,
+  Tab,
+  Typography,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions
+} from '@material-ui/core'
+import { withStyles } from '@material-ui/core/styles'
+import { TabContext, TabList, TabPanel } from '@material-ui/lab'
+import { useTranslation } from 'react-i18next'
+
+const useStyles = theme => ({
+  card: {
+    height: '100%',
+    width: '100%',
+    color: '#FFFFFF',
+    backgroundColor: theme.palette.background.secondary,
+    margin: '8px'
+  },
+  header: {
+    display: 'flex',
+    background: theme.palette.background.secondary,
+    color: '#FFFFFF',
+    marginLeft: '30px',
+    height: '50px',
+    paddingTop: '10px'
+  },
+  rightBar: {
+    textAlign: 'right',
+    display: 'flex',
+    alignItems: 'center',
+    margin: `0 ${theme.spacing(3)}px`
+  },
+  headerButton: {
+    display: 'block',
+    textAlign: 'right',
+    alignItems: 'center',
+    margin: `0 ${theme.spacing(3)}px`
+  },
+  tabs: {
+    marginLeft: '30px'
+  },
+  tab: {
+    minWidth: 0,
+    fontSize: '14px',
+    fontWeight: '500',
+    letterSpacing: '0',
+    lineHeight: '15px',
+    textAlign: 'center',
+    flexGrow: 1,
+    opacity: 1,
+    color: theme.palette.text.grey,
+    '&.Mui-selected': {
+      fontWeight: 'bold',
+      color: theme.palette.primary.contrastText
+    }
+  }
+})
+
+const ScenarioParameters = ({ classes }) => {
+  const { t } = useTranslation()
+  const [value, setValue] = useState('upload_file_template')
+  const [editMode, setEditMode] = useState(false)
+  const [displayPopup, setDisplayPopup] = useState(false)
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue)
+  }
+
+  // Popup part
+  const handleClickOnPopupCancelButton = () => setDisplayPopup(false)
+
+  // TODO: Discard changes
+  const handleClickOnPopupDiscardChangeButton = () => {
+    setDisplayPopup(false)
+    setEditMode(false)
+  }
+
+  // Normal Mode Screen
+  const handleClickOnEditButton = () => setEditMode(true)
+
+  // TODO: Launch scenario
+  const handleClickOnLaunchScenarioButton = () => alert('TODO')
+
+  // Edit Mode Screen
+  // TODO: Update parameters and Launch scenario
+  const handleClickOnUpdateAndLaunchScenarioButton = () => alert('TODO')
+
+  // Open the popup
+  const handleClickOnDiscardChangeButton = () => setDisplayPopup(true)
+
+  return (
+      <Card className={classes.card}>
+          <Grid container direction="column" justify="center" alignContent="flex-start" >
+              <Box className={classes.header}>
+                <Typography variant='subtitle1' >Scenario parameters</Typography>
+                  <div className={classes.rightBar}>
+                      {editMode
+                        ? (<EditModeButton classes={classes}
+                                           handleClickOnDiscardChange={handleClickOnDiscardChangeButton}
+                                           handleClickOnUpdateAndLaunchScenario={handleClickOnUpdateAndLaunchScenarioButton}/>)
+                        : (<NormalModeButton classes={classes}
+                                             handleClickOnEdit={handleClickOnEditButton}
+                                             handleClickOnLaunchScenario={handleClickOnLaunchScenarioButton}/>)
+                      }
+                  </div>
+              </Box>
+          </Grid>
+          <Grid item className={classes.tabs}>
+              <form>
+                  <TabContext value={value}>
+                      <TabList
+                          value={value}
+                          indicatorColor="primary"
+                          textColor="primary"
+                          onChange={handleChange}
+                          aria-label="scenario parameters">
+                          <Tab label={t('commoncomponents.tab.scenario.parameters.upload.file', 'Upload File template')} value="upload_file_template" className={classes.tab}/>
+                          <Tab label={t('commoncomponents.tab.scenario.parameters.array.template', 'Array Template')} value="array_template" className={classes.tab}/>
+                          <Tab label={t('commoncomponents.tab.scenario.parameters.basic.types', 'Basic Types template')} value="basic_types" className={classes.tab}/>
+                      </TabList>
+                      <TabPanel value="upload_file_template" index={0}>
+                          TOTO
+                      </TabPanel>
+                      <TabPanel value="array_template" index={0}>
+                          TUTU
+                      </TabPanel>
+                      <TabPanel value="basic_types" index={0}>
+                          TITI
+                      </TabPanel>
+                  </TabContext>
+              </form>
+          </Grid>
+          <SimpleTwoActionsDialog
+              open={displayPopup}
+              dialogTitleKey='genericcomponent.dialog.scenario.parameters.title'
+              dialogBodyKey='genericcomponent.dialog.scenario.parameters.body'
+              cancelLabelKey='genericcomponent.dialog.scenario.parameters.button.cancel'
+              validateLabelKey='genericcomponent.dialog.scenario.parameters.button.validate'
+              handleClickOnCancel={handleClickOnPopupCancelButton}
+              handleClickOnValidate={handleClickOnPopupDiscardChangeButton}/>
+      </Card>
+  )
+}
+
+ScenarioParameters.propTypes = {
+  classes: PropTypes.any
+}
+
+const EditModeButton = ({ classes, handleClickOnDiscardChange, handleClickOnUpdateAndLaunchScenario }) => {
+  const { t } = useTranslation()
+  return (
+        <div className={classes.headerButton}>
+            <Button
+                onClick={handleClickOnDiscardChange}>
+                {t('commoncomponents.button.scenario.parameters.discard', 'Discard Modifications')}
+            </Button>
+            <Button
+                onClick={handleClickOnUpdateAndLaunchScenario}>
+                {t('commoncomponents.button.scenario.parameters.update.launch', 'Update And Launch Scenario')}
+            </Button>
+        </div>
+  )
+}
+
+EditModeButton.propTypes = {
+  classes: PropTypes.any.isRequired,
+  handleClickOnDiscardChange: PropTypes.func.isRequired,
+  handleClickOnUpdateAndLaunchScenario: PropTypes.func.isRequired
+
+}
+
+const NormalModeButton = ({ classes, handleClickOnEdit, handleClickOnLaunchScenario }) => {
+  const { t } = useTranslation()
+  return (
+        <div className={classes.headerButton}>
+            <Button
+                onClick={handleClickOnEdit}>
+                {t('commoncomponents.button.scenario.parameters.edit', 'Edit')}
+            </Button>
+            <Button
+                onClick={handleClickOnLaunchScenario}>
+                {t('commoncomponents.button.scenario.parameters.launch', 'Launch Scenario')}
+            </Button>
+        </div>
+  )
+}
+
+NormalModeButton.propTypes = {
+  classes: PropTypes.any.isRequired,
+  handleClickOnEdit: PropTypes.func.isRequired,
+  handleClickOnLaunchScenario: PropTypes.func.isRequired
+
+}
+
+// TODO Add classes/styles props and export this into '@cosmotech/ui' npm package
+const SimpleTwoActionsDialog = ({
+  open,
+  dialogTitleKey,
+  dialogBodyKey,
+  cancelLabelKey,
+  handleClickOnCancel,
+  validateLabelKey,
+  handleClickOnValidate
+}) => {
+  const { t } = useTranslation()
+  return (
+        <Dialog open={open} aria-labelledby="discard-changes-dialog"
+                maxWidth={'sm'}
+                fullWidth={true}
+                disableBackdropClick>
+            <DialogTitle id="discard-changes-dialog-title">
+                <Typography variant='h3' >
+                    {t(dialogTitleKey, 'Dialog title')}
+                </Typography>
+            </DialogTitle>
+            <DialogContent>
+                <Typography variant='body1'>{t(dialogBodyKey, 'Dialog Body')}</Typography>
+            </DialogContent>
+            <DialogActions >
+                <Button id="ButtonCancel" onClick={handleClickOnCancel} color="primary">
+                    {t(cancelLabelKey, 'Cancel label')}
+                </Button>
+                <Button id="ButtonDiscard" onClick={handleClickOnValidate} color="primary">
+                    {t(validateLabelKey, 'Validate label')}
+                </Button>
+            </DialogActions>
+        </Dialog>
+  )
+}
+
+SimpleTwoActionsDialog.propTypes = {
+  open: PropTypes.bool.isRequired,
+  dialogTitleKey: PropTypes.string.isRequired,
+  dialogBodyKey: PropTypes.string.isRequired,
+  cancelLabelKey: PropTypes.string.isRequired,
+  handleClickOnCancel: PropTypes.func.isRequired,
+  validateLabelKey: PropTypes.string.isRequired,
+  handleClickOnValidate: PropTypes.func.isRequired
+}
+
+export default withStyles(useStyles)(ScenarioParameters)
