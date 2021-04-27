@@ -167,13 +167,16 @@
     }
   },
   "scenario" : {
-    "label": "Scenario",
     "textField": {
       "label": "Scenario name",
       "error": "Error",
-      "enterName" : "Enter a scenario name",
-      "nameIsEmpy" : "Scenario name cannot be empty",
-      "nameAlreadyExist": "Scenario name already exists"
+      "entername" : "Enter a scenario name",
+      "nameisempy" : "Scenario name cannot be empty",
+      "namealreadyexist": "Scenario name already exists"
+    },
+    "dropdown": {
+      "label" : "Scenario",
+      "parentlabel" : "Scenario Parent"
     },
     "type": {
       "label": "Scenario type:",

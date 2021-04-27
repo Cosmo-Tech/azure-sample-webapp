@@ -55,11 +55,11 @@ const Scenario = ({
       <Grid item xs={10}>
         <Grid container spacing={2} alignItems="center" className={props.classes.mainGrid}>
           <Grid item xs={3} style={{ width: '100%', marginLeft: '20px', paddingRight: '30px' }}>
-            <DropdownScenario setScenario={(sc) => (setStateScenario(sc))}>
+            <DropdownScenario label='scenario.dropdown.label' handleChange={(event, scenario) => (setStateScenario(scenario))}>
             </DropdownScenario>
           </Grid>
           <Grid item xs={3}>
-            <Typography>{ t('scenario.type.label')} {scenario}</Typography>
+            <Typography>{ t('scenario.type.label')} {scenario && scenario.type}</Typography>
           </Grid>
         </Grid>
         </Grid>

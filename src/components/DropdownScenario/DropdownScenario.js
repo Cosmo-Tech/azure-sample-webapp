@@ -33,16 +33,16 @@ const DropdownScenario = (props) => {
 
   return (
     <Autocomplete
-      id="dd_scenario"
+      disableClearable
       disabled={props.disabled}
-      onChange={(event, newScenario) => (props.setScenario(newScenario.type)) }
+      onChange={(event, newScenario) => (props.handleChange(event, newScenario, 'dropDownScenario')) }
       options={scenarioOptions}
       getOptionLabel={(option) => option.optionLabel }
       renderInput={(params) => (
         <TextField
           {...params}
-          placeholder={t('scenario.label', 'Scenario')}
-          label={t('scenario.label', 'Scenario')}
+          placeholder={t(props.label)}
+          label={t(props.label)}
           variant="outlined"
         />
       )}
@@ -52,7 +52,8 @@ const DropdownScenario = (props) => {
 
 DropdownScenario.propTypes = {
   classes: PropTypes.any,
-  setScenario: PropTypes.func,
+  label: PropTypes.string,
+  handleChange: PropTypes.func,
   disabled: PropTypes.bool
 }
 

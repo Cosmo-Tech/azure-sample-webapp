@@ -27,6 +27,12 @@ export const SCENARIO_ACTIONS_KEY = {
 
 // Available scenario types
 export const SCENARIO_TYPES = {
-  SIMULATION: 'scenario.type.simulation',
-  OPTIMISATION: 'scenario.type.optimisation'
+  SIMULATION: {
+    key: 'simulation',
+    trad: 'scenario.type.simulation'
+  },
+  OPTIMISATION: {
+    key: 'optimisation',
+    trad: 'scenario.type.optimisation'
+  }
 }
