@@ -24,6 +24,16 @@
       },
       "create": {
         "scenario" : "Créer un scenario"
+      },
+      "scenario": {
+        "parameters": {
+          "discard": "Annuler les modifications",
+          "edit": "Edition",
+          "launch": "Lancer le Scenario",
+          "update" : {
+            "launch" : "Mise à jour et lancement du Scenario"
+          }
+        }
       }
     },
     "card": {
@@ -83,6 +93,21 @@
             "no": {
               "result": "Pas de résultat pour ce scénario"
             }
+          }
+        }
+      }
+    },
+    "tab": {
+      "scenario": {
+        "parameters": {
+          "upload": {
+            "file" : "Template d'upload de fichier"
+          },
+          "array": {
+            "template": "Template de tableau"
+          },
+          "basic": {
+            "types": "Template de types basiques"
           }
         }
       }
@@ -224,6 +249,18 @@
           "documentation": "Télécharger la documentation"
         },
         "logout": "Se déconnecter"
+      }
+    },
+    "dialog" : {
+      "scenario" : {
+        "parameters" : {
+          "button": {
+            "cancel": "Annuler",
+            "validate": "Valider"
+          },
+           "title" : "Annuler les modifications courantes?",
+           "body": "Vous allez perdre toutes les modifications que vous avez faite sur les paramêtres de scénario"
+        }
       }
     }
   },

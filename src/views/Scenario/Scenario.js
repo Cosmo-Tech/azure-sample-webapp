@@ -61,6 +61,7 @@ const Scenario = (props) => {
   }
 
   return (
+
     <Grid container alignItems="center" className={props.classes.mainGrid}>
       <Grid item xs={9}>
         <Grid container spacing={0} alignItems="center" className={props.classes.mainGrid}>
@@ -91,7 +92,8 @@ const Scenario = (props) => {
                 runTemplates={runTemplateList.data}
                 datasets={datasetList.data}
                 scenarios={scenarioTree.data}
-                user={user}/>
+                user={user}
+            />
           </Grid>
         </Grid>
       </Grid>
