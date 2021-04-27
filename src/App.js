@@ -37,6 +37,12 @@ const App = () => {
     setLoading(false);
   };
 
+  const logout = () => {
+    setAuthenticated(false);
+    setAuthorized(false);
+    setLoading(false);
+  };
+
   useEffect(() => {
     const appInsights = new ApplicationInsights(applicationInsightConfig);
     appInsights.loadAppInsights();
@@ -54,7 +60,7 @@ const App = () => {
       </div>
       )
     : (
-        <Loading authenticated={authenticated} authorized={authenticated} tabs={tabs}/>
+        <Loading logout={logout} authenticated={authenticated} authorized={authenticated} tabs={tabs}/>
       );
 };
 

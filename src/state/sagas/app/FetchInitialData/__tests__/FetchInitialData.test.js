@@ -21,8 +21,8 @@ const middleware = store => next => action => next({
   meta: middlewareMeta
 })
 
-const applicationUpdatedState = {
-  status: APPLICATION_STATUS.READY
+const applicationLoadingState = {
+  status: APPLICATION_STATUS.LOADING
 }
 
 describe('FetchInitialData saga', () => {
@@ -50,12 +50,12 @@ describe('FetchInitialData saga', () => {
     // Wait until the SET_APPLICATION_STATUS is launched
     await sagaTester.waitFor(APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS)
 
-    expect(sagaTester.getState()[0]).toEqual(applicationUpdatedState)
+    expect(sagaTester.getState()[0]).toEqual(applicationLoadingState)
 
     // Check that the saga listens only once
     sagaTester.dispatch({ type: APPLICATION_ACTIONS_KEY.GET_ALL_INITIAL_DATA })
     expect(sagaTester.numCalled(APPLICATION_ACTIONS_KEY.GET_ALL_INITIAL_DATA)).toEqual(2)
-    expect(sagaTester.numCalled(APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS)).toEqual(1)
+    expect(sagaTester.numCalled(APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS)).toEqual(2)
 
     sagaTester.reset(true)
     expect(sagaTester.wasCalled(APPLICATION_ACTIONS_KEY.GET_ALL_INITIAL_DATA)).toEqual(false)

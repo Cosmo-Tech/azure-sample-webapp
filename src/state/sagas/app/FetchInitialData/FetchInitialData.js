@@ -9,12 +9,13 @@ import { fetchScenarioTreeData } from '../../scenario/GetScenariosTree/GetScenar
 // generators function
 export function * fetchAllInitialData () {
   try {
+    yield put({ type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS, status: APPLICATION_STATUS.LOADING })
     // Fetch all scenarios
     yield call(getAllScenariosData)
     yield call(fetchScenarioTreeData)
     yield put({ type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS, status: APPLICATION_STATUS.READY })
   } catch (error) {
-    console.log(error)
+    yield put({ type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS, status: APPLICATION_STATUS.ERROR })
   }
 }
 

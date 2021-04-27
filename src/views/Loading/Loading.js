@@ -13,6 +13,7 @@ const Loading = (
   {
     authenticated,
     authorized,
+    logout,
     tabs,
     scenarioList,
     scenarioTree,
@@ -34,6 +35,10 @@ const Loading = (
 
   const hasErrors = (entityStatus) => entityStatus.status === SCENARIO_STATUS.ERROR
 
+  if (application.status === APPLICATION_STATUS.ERROR) {
+    logout()
+  }
+
   return (authenticated && application.status !== APPLICATION_STATUS.READY
     ? (<div style={{
         position: 'absolute',
@@ -53,6 +58,7 @@ const Loading = (
 Loading.propTypes = {
   authenticated: PropTypes.bool.isRequired,
   authorized: PropTypes.bool.isRequired,
+  logout: PropTypes.func.isRequired,
   tabs: PropTypes.array.isRequired,
   scenarioList: PropTypes.object.isRequired,
   scenarioTree: PropTypes.object.isRequired,

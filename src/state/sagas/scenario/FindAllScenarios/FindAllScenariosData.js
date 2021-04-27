@@ -2,20 +2,15 @@
 // Licensed under the MIT license.
 
 import axios from 'axios';
-import { put, takeEvery, delay } from 'redux-saga/effects';
+import { put, takeEvery } from 'redux-saga/effects';
 import { SCENARIO_ENDPOINT, SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 
 // generators function
 export function * getAllScenariosData () {
-  try {
-    // yield keyword is here to milestone and save the action
-    const { data } = yield axios.get(SCENARIO_ENDPOINT.FIND_ALL_SCENARIOS);
-    yield delay(1000);
-    // Here is an effect named put that indicate to the middleware that it can dispatch a SET_ALL_SCENARIOS action with list as payload
-    yield put({ type: SCENARIO_ACTIONS_KEY.SET_ALL_SCENARIOS, list: data });
-  } catch (error) {
-    console.log(error);
-  }
+  // yield keyword is here to milestone and save the action
+  const { data } = yield axios.get(SCENARIO_ENDPOINT.FIND_ALL_SCENARIOS);
+  // Here is an effect named put that indicate to the middleware that it can dispatch a SET_ALL_SCENARIOS action with list as payload
+  yield put({ type: SCENARIO_ACTIONS_KEY.SET_ALL_SCENARIOS, list: data });
 }
 
 // generators function
