@@ -8,9 +8,20 @@ import FadeIn from 'react-fade-in';
 import LoadingLine from '../../components/LoadingLine';
 import { SCENARIO_STATUS } from '../../state/commons/ScenarioConstants';
 import { APPLICATION_STATUS } from '../../state/commons/ApplicationConstants';
+import { withStyles } from '@material-ui/core/styles';
+
+const useStyles = theme => ({
+  panel: {
+    position: 'absolute',
+    left: '50%',
+    top: '50%',
+    transform: 'translate(-50%, -50%)'
+  }
+});
 
 const Loading = (
   {
+    classes,
     authenticated,
     authorized,
     logout,
@@ -40,12 +51,7 @@ const Loading = (
   }
 
   return (authenticated && application.status !== APPLICATION_STATUS.READY
-    ? (<div style={{
-        position: 'absolute',
-        left: '50%',
-        top: '50%',
-        transform: 'translate(-50%, -50%)'
-      }} data-cy="loading-component">
+    ? (<div className={classes.panel} data-cy="loading-component">
           <FadeIn delay={200}>
             <LoadingLine titleKey={'genericcomponent.loading.line.scenario.list.title'} hasError={hasErrors(scenarioList)} isLoading={isLoading(scenarioList)} height={120} width={120}/>
             <LoadingLine titleKey={'genericcomponent.loading.line.scenario.tree.title'} hasError={hasErrors(scenarioTree)} isLoading={isLoading(scenarioTree)} height={120} width={120}/>
@@ -56,6 +62,7 @@ const Loading = (
 };
 
 Loading.propTypes = {
+  classes: PropTypes.any,
   authenticated: PropTypes.bool.isRequired,
   authorized: PropTypes.bool.isRequired,
   logout: PropTypes.func.isRequired,
@@ -67,4 +74,4 @@ Loading.propTypes = {
   setApplicationStatusAction: PropTypes.func.isRequired
 };
 
-export default Loading;
+export default withStyles(useStyles)(Loading);
