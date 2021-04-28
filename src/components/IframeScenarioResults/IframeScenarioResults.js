@@ -1,12 +1,12 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
-import { Card, CardContent, CardMedia } from '@material-ui/core'
-import { useTranslation } from 'react-i18next'
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import { Card, CardContent, CardMedia } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = theme => ({
   iframe: {
@@ -49,15 +49,15 @@ const useStyles = theme => ({
     padding: `${theme.spacing(1)}px`,
     flexGrow: '1'
   }
-})
+});
 
 const IframeScenarioResults = (props) => {
   // eslint-disable-next-line no-unused-vars
-  const [enable, setEnable] = useState(true)
+  const [enable, setEnable] = useState(true);
 
-  const { t } = useTranslation()
+  const { t } = useTranslation();
 
-  const { classes, iframeTitle, cardTitle, cardStyle, ...otherProps } = props
+  const { classes, iframeTitle, cardTitle, cardStyle, ...otherProps } = props;
 
   return (
         <Card style={cardStyle} className={classes.card}>
@@ -82,8 +82,8 @@ const IframeScenarioResults = (props) => {
             }
           </CardContent>
         </Card>
-  )
-}
+  );
+};
 
 IframeScenarioResults.propTypes = {
   classes: PropTypes.any,
@@ -91,6 +91,6 @@ IframeScenarioResults.propTypes = {
   cardTitle: PropTypes.string.isRequired,
   cardStyle: PropTypes.any,
   src: PropTypes.string.isRequired
-}
+};
 
-export default withStyles(useStyles)(IframeScenarioResults)
+export default withStyles(useStyles)(IframeScenarioResults);

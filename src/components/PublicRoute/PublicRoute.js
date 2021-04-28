@@ -1,15 +1,15 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React from 'react'
-import { Redirect, Route } from 'react-router-dom'
-import PropTypes from 'prop-types'
+import React from 'react';
+import { Redirect, Route } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 const PublicRoute = props => {
   const {
     component: Component, authenticated, authorized,
     redirectTo, unauthorizedPath, ...rest
-  } = props
+  } = props;
 
   return (
     <Route
@@ -23,8 +23,8 @@ const PublicRoute = props => {
             )
       }
     />
-  )
-}
+  );
+};
 
 PublicRoute.propTypes = {
   component: PropTypes.any,
@@ -32,6 +32,6 @@ PublicRoute.propTypes = {
   authorized: PropTypes.bool,
   redirectTo: PropTypes.string,
   unauthorizedPath: PropTypes.string
-}
+};
 
-export default PublicRoute
+export default PublicRoute;

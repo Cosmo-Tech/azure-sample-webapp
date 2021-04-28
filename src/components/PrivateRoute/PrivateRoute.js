@@ -1,19 +1,19 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React from 'react'
-import { Redirect, Route } from 'react-router-dom'
+import React from 'react';
+import { Redirect, Route } from 'react-router-dom';
 
 const PrivateRoute = props => {
   const {
     render, authenticated, authorized, noAuthRedirect,
     noPermRedirect, ...rest
-  } = props
+  } = props;
 
   let route = (
       <Route
         {...rest}
-       render={render} />)
+       render={render} />);
 
   if (!authenticated) {
     route = (
@@ -27,7 +27,7 @@ const PrivateRoute = props => {
           />
         }
       />
-    )
+    );
   } else if (!authorized && noPermRedirect !== undefined) {
     route = (
       <Route
@@ -40,10 +40,10 @@ const PrivateRoute = props => {
           />
         }
       />
-    )
+    );
   }
 
-  return route
-}
+  return route;
+};
 
-export default PrivateRoute
+export default PrivateRoute;

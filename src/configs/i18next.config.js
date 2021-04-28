@@ -1,10 +1,10 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import i18n from 'i18next'
-import LanguageDetector from 'i18next-browser-languagedetector'
-import { initReactI18next } from 'react-i18next'
-import HttpApi from 'i18next-http-backend'
+import i18n from 'i18next';
+import LanguageDetector from 'i18next-browser-languagedetector';
+import { initReactI18next } from 'react-i18next';
+import HttpApi from 'i18next-http-backend';
 
 const langDetectorOptions = {
   // order and from where user language should be detected
@@ -20,7 +20,7 @@ const langDetectorOptions = {
 
   // only detect languages that are in the whitelist
   checkWhitelist: true
-}
+};
 
 i18n
   .use(HttpApi)
@@ -35,6 +35,6 @@ i18n
     backend: {
       loadPath: '/locales/{{lng}}/{{ns}}.json'
     }
-  })
+  });
 
-export default i18n
+export default i18n;

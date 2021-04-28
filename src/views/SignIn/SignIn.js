@@ -1,13 +1,13 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useState, useEffect } from 'react'
-import { withRouter } from 'react-router-dom'
-import { Trans, useTranslation } from 'react-i18next'
-import { Auth, AuthDev } from '@cosmotech/core'
-import { AuthMSAL } from '@cosmotech/azure'
-import validate from 'validate.js'
-import { makeStyles } from '@material-ui/styles'
+import React, { useState, useEffect } from 'react';
+import { withRouter } from 'react-router-dom';
+import { Trans, useTranslation } from 'react-i18next';
+import { Auth, AuthDev } from '@cosmotech/core';
+import { AuthMSAL } from '@cosmotech/azure';
+import validate from 'validate.js';
+import { makeStyles } from '@material-ui/styles';
 import {
   Grid,
   Button,
@@ -16,9 +16,9 @@ import {
   Select,
   FormControl,
   MenuItem
-} from '@material-ui/core'
-import { SignInButton } from '@cosmotech/ui'
-import { i18nUtils } from '../../utils'
+} from '@material-ui/core';
+import { SignInButton } from '@cosmotech/ui';
+import { i18nUtils } from '../../utils';
 
 const schema = {
   email: {
@@ -34,7 +34,7 @@ const schema = {
       maximum: 128
     }
   }
-}
+};
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -128,43 +128,43 @@ const useStyles = makeStyles(theme => ({
   copyrightText: {
     marginLeft: '8px'
   }
-}))
+}));
 
 const SignIn = () => {
-  const { t, i18n } = useTranslation()
+  const { t, i18n } = useTranslation();
 
-  const classes = useStyles()
+  const classes = useStyles();
 
   const [formState, setFormState] = useState({
     isValid: false,
     values: {},
     touched: {},
     errors: {}
-  })
+  });
 
   useEffect(() => {
-    const errors = validate(formState.values, schema)
+    const errors = validate(formState.values, schema);
 
     setFormState(formState => ({
       ...formState,
       isValid: !errors,
       errors: errors || {}
-    }))
-  }, [formState.values])
+    }));
+  }, [formState.values]);
 
   const handleAzureMSALSignIn = event => {
-    event.preventDefault()
-    Auth.setProvider(AuthMSAL.name)
-    Auth.signIn()
-  }
+    event.preventDefault();
+    Auth.setProvider(AuthMSAL.name);
+    Auth.signIn();
+  };
 
   const handleAuthDevSignIn = event => {
-    event.preventDefault()
-    Auth.setProvider(AuthDev.name)
-    Auth.signIn()
-  }
+    event.preventDefault();
+    Auth.setProvider(AuthDev.name);
+    Auth.signIn();
+  };
 
-  const year = new Date().getFullYear()
+  const year = new Date().getFullYear();
 
   return (
     <div className={classes.root}>
@@ -254,7 +254,7 @@ const SignIn = () => {
         </Grid>
       </Grid>
     </div>
-  )
-}
+  );
+};
 
-export default withRouter(SignIn)
+export default withRouter(SignIn);

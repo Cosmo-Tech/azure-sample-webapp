@@ -1,12 +1,12 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React from 'react'
-import PropTypes from 'prop-types'
-import clsx from 'clsx'
-import { makeStyles } from '@material-ui/styles'
-import { Typography } from '@material-ui/core'
-import { Trans, useTranslation } from 'react-i18next'
+import React from 'react';
+import PropTypes from 'prop-types';
+import clsx from 'clsx';
+import { makeStyles } from '@material-ui/styles';
+import { Typography } from '@material-ui/core';
+import { Trans, useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -15,13 +15,13 @@ const useStyles = makeStyles(theme => ({
   text: {
     lineHeight: '36px'
   }
-}))
+}));
 
 const Footer = (props) => {
-  const { t } = useTranslation()
-  const { className, ...rest } = props
-  const classes = useStyles()
-  const year = new Date().getFullYear()
+  const { t } = useTranslation();
+  const { className, ...rest } = props;
+  const classes = useStyles();
+  const year = new Date().getFullYear();
 
   return (
     <footer
@@ -34,11 +34,11 @@ const Footer = (props) => {
         </Trans>
       </Typography>
     </footer>
-  )
-}
+  );
+};
 
 Footer.propTypes = {
   className: PropTypes.string
-}
+};
 
-export default Footer
+export default Footer;

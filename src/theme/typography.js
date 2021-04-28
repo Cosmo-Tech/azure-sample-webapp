@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import palette from './palette'
+import palette from './palette';
 
 export default {
   fontFamily: "'Inter', sans-serif",
@@ -90,4 +90,4 @@ export default {
     lineHeight: '13px',
     textTransform: 'uppercase'
   }
-}
+};

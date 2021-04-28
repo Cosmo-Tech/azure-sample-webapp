@@ -4,6 +4,6 @@
 // REST API data object
 const API_CONFIG = {
   simulator: 'twinengines.azurecr.io/SIMULATORNAME_simulator:latest'
-}
+};
 
-export default API_CONFIG
+export default API_CONFIG;

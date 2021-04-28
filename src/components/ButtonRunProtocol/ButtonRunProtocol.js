@@ -1,63 +1,63 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useState } from 'react'
-import { withStyles } from '@material-ui/core/styles'
-import PropTypes from 'prop-types'
-import Button from '@material-ui/core/Button'
-import { Box } from '@material-ui/core'
-import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline'
-import { useTranslation } from 'react-i18next'
+import React, { useState } from 'react';
+import { withStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
+import Button from '@material-ui/core/Button';
+import { Box } from '@material-ui/core';
+import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = theme => ({
   button: {
     margin: '2px'
   }
-})
+});
 
 const ButtonRunProtocol = (props) => {
-  const [disabled, setDisabled] = useState(false)
-  const { t } = useTranslation()
+  const [disabled, setDisabled] = useState(false);
+  const { t } = useTranslation();
 
   const handleClick = () => {
     // Disable button to prevent multiple clicks
-    setDisabled(true)
+    setDisabled(true);
     // Start the protocol
-    startProtocol()
+    startProtocol();
     // Enable button after a delay
     // TODO: move disabled state attribute to a higher component
     window.setTimeout(() => {
-      setDisabled(false)
-    }, 2000)
-  }
+      setDisabled(false);
+    }, 2000);
+  };
 
   // TODO extract the api call into a core library function in order to abstract the url construction
   const startProtocol = () => {
     // Check mandatory parameters
     if (props.apiConfig.simulator === undefined || props.apiConfig.simulator.length === 0) {
-      console.error('Simulator parameter is empty or undefined, can\'t run simulation')
-      return
+      console.error('Simulator parameter is empty or undefined, can\'t run simulation');
+      return;
     }
     if (props.simulationName === undefined || props.simulationName.length === 0) {
-      console.error('Simulation name parameter is empty or undefined, can\'t run simulation')
-      return
+      console.error('Simulation name parameter is empty or undefined, can\'t run simulation');
+      return;
     }
     if (props.driverName === undefined || props.driverName.length === 0) {
-      console.error('Driver name parameter is empty or undefined, can\'t run simulation')
-      return
+      console.error('Driver name parameter is empty or undefined, can\'t run simulation');
+      return;
     }
 
     // Forge request URL
-    let url = '/api/RunProtocol?'
+    let url = '/api/RunProtocol?';
     // Mandatory simulator parameter
-    url += '&simulator=' + props.apiConfig.simulator
-    url += '&simulation=' + props.simulationName
-    url += '&driverName=' + 'custom-drivers/' + props.driverName
+    url += '&simulator=' + props.apiConfig.simulator;
+    url += '&simulation=' + props.simulationName;
+    url += '&driverName=' + 'custom-drivers/' + props.driverName;
     if (props.popSize !== undefined) {
-      url += '&popSize=' + props.popSize
+      url += '&popSize=' + props.popSize;
     }
     if (props.totalSimulations !== undefined) {
-      url += '&totalSimulations=' + props.totalSimulations
+      url += '&totalSimulations=' + props.totalSimulations;
     }
 
     fetch(url, {
@@ -70,20 +70,20 @@ const ButtonRunProtocol = (props) => {
       // On failure, print error in console
         if (!response.ok) {
           console.error('Request failed with status ' + response.status + ':' +
-          response.statusText)
-          return undefined
+          response.statusText);
+          return undefined;
         }
         // On success, parse JSON
-        return response.json()
+        return response.json();
       })
       .then(data => {
-        if (data === undefined) { return }
+        if (data === undefined) { return; }
         // Send saga id to the "scenario manager"
         if (props.onProtocolStarted) {
-          props.onProtocolStarted(data.sagaId, data.jobName)
+          props.onProtocolStarted(data.sagaId, data.jobName);
         }
-      })
-  }
+      });
+  };
 
   return (
       <Box>
@@ -97,8 +97,8 @@ const ButtonRunProtocol = (props) => {
           endIcon={<PlayCircleOutlineIcon/>}
         >{t('commoncomponents.button.run.protocol.text', 'Run protocol')}</Button>
       </Box>
-  )
-}
+  );
+};
 
 ButtonRunProtocol.propTypes = {
   classes: PropTypes.any,
@@ -110,6 +110,6 @@ ButtonRunProtocol.propTypes = {
   apiConfig: PropTypes.shape({
     simulator: PropTypes.string.isRequired
   })
-}
+};
 
-export default withStyles(useStyles)(ButtonRunProtocol)
+export default withStyles(useStyles)(ButtonRunProtocol);

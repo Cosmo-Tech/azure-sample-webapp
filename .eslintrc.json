@@ -37,7 +37,8 @@
         "cypress/no-unnecessary-waiting": "error",
         "cypress/assertion-before-screenshot": "warn",
         "cypress/no-force": "error",
-        "cypress/no-async-tests": "error"
+        "cypress/no-async-tests": "error",
+        "semi": [2, "always"]
     },
     "settings": {
         "react": {

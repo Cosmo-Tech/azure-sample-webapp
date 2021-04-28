@@ -1,8 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { Auth, AuthDev } from '@cosmotech/core'
-import { AuthMSAL } from '@cosmotech/azure'
+import { Auth, AuthDev } from '@cosmotech/core';
+import { AuthMSAL } from '@cosmotech/azure';
 
 // AuthMSAL configuration
 const MSAL_CONFIG = {
@@ -24,8 +24,8 @@ const MSAL_CONFIG = {
       storeAuthStateInCookie: true
     }
   }
-}
+};
 
 // Register the providers used in the application
-Auth.addProvider(AuthDev)
-Auth.addProvider(AuthMSAL).setConfig(MSAL_CONFIG)
+Auth.addProvider(AuthDev);
+Auth.addProvider(AuthMSAL).setConfig(MSAL_CONFIG);

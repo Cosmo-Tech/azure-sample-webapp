@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import palette from '../palette'
+import palette from '../palette';
 
 export default {
   root: {
@@ -10,4 +10,4 @@ export default {
       backgroundColor: 'rgba(0, 0, 0, 0.03)'
     }
   }
-}
+};

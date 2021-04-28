@@ -1,13 +1,13 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React from 'react'
-import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import { Card, Input, MenuItem, Select, Slider, Typography } from '@material-ui/core'
-import { ButtonRunProtocol } from '../../components'
-import API_CONFIG from '../../configs/Api.config'
-import { useTranslation } from 'react-i18next'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import { Card, Input, MenuItem, Select, Slider, Typography } from '@material-ui/core';
+import { ButtonRunProtocol } from '../../components';
+import API_CONFIG from '../../configs/Api.config';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = theme => ({
   card: {
@@ -53,30 +53,30 @@ const useStyles = theme => ({
     display: 'flex',
     justifyContent: 'center'
   }
-})
+});
 
 const CardProtocolParameters = (props) => {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
 
-  const onDriverNameChange = (event) => { props.onDriverNameChange(event.target.value) }
+  const onDriverNameChange = (event) => { props.onDriverNameChange(event.target.value); };
 
-  const onPopSizeSliderChange = (event, newValue) => { props.onPopSizeChange(newValue) }
+  const onPopSizeSliderChange = (event, newValue) => { props.onPopSizeChange(newValue); };
 
   const onPopSizeInputChange = (event) => {
     props.onPopSizeChange(
       event.target.value === ''
         ? props.popDefaultValue
-        : Number(event.target.value))
-  }
+        : Number(event.target.value));
+  };
 
-  const onTotalSimulationsSliderChange = (event, newValue) => { props.onTotalSimulationsChange(newValue) }
+  const onTotalSimulationsSliderChange = (event, newValue) => { props.onTotalSimulationsChange(newValue); };
 
   const onTotalSimulationsInputChange = (event) => {
     props.onTotalSimulationsChange(
       event.target.value === ''
         ? props.totalSimulationsDefaultValue
-        : Number(event.target.value))
-  }
+        : Number(event.target.value));
+  };
 
   return (
       <Card className={props.classes.card} raised>
@@ -160,8 +160,8 @@ const CardProtocolParameters = (props) => {
           />
         </div>
       </Card>
-  )
-}
+  );
+};
 // TODO handle ref component correctly to avoid error message in console
 function generateMenuItems (simulations) {
   return simulations.map((simulationName, index) => {
@@ -169,8 +169,8 @@ function generateMenuItems (simulations) {
       <MenuItem key={index} value={simulationName}>
         {simulationName}
       </MenuItem>
-    )
-  })
+    );
+  });
 }
 
 CardProtocolParameters.propTypes = {
@@ -189,6 +189,6 @@ CardProtocolParameters.propTypes = {
   popMin: PropTypes.number,
   popMax: PropTypes.number,
   popDefaultValue: PropTypes.number
-}
+};
 
-export default withStyles(useStyles)(CardProtocolParameters)
+export default withStyles(useStyles)(CardProtocolParameters);

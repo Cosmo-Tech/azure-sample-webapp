@@ -1,17 +1,17 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React from 'react'
-import { withRouter } from 'react-router-dom'
-import { makeStyles } from '@material-ui/styles'
+import React from 'react';
+import { withRouter } from 'react-router-dom';
+import { makeStyles } from '@material-ui/styles';
 import {
   Grid,
   Typography,
   AppBar,
   Link as RefLink
-} from '@material-ui/core'
-import { UserInfo } from '@cosmotech/ui'
-import { useTranslation } from 'react-i18next'
+} from '@material-ui/core';
+import { UserInfo } from '@cosmotech/ui';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -110,11 +110,11 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(3),
     marginBottom: theme.spacing(3)
   }
-}))
+}));
 
 const Unauthorized = (props) => {
-  const classes = useStyles()
-  const { t } = useTranslation()
+  const classes = useStyles();
+  const { t } = useTranslation();
 
   return (
     <div className={classes.root}>
@@ -166,7 +166,7 @@ const Unauthorized = (props) => {
         </Grid>
       </Grid>
     </div>
-  )
-}
+  );
+};
 
-export default withRouter(Unauthorized)
+export default withRouter(Unauthorized);

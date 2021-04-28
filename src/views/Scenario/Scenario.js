@@ -1,16 +1,16 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import { Box, Grid } from '@material-ui/core'
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import { Box, Grid } from '@material-ui/core';
 import {
   CardSimulationParameters,
   CardProtocolParameters,
   IframeScenarioResults
-} from '../../components'
-import { useTranslation } from 'react-i18next'
+} from '../../components';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = theme => ({
   root: {
@@ -33,7 +33,7 @@ const useStyles = theme => ({
     flexGrow: 1,
     height: '100%'
   }
-})
+});
 
 const Scenario = ({
   classes,
@@ -44,16 +44,16 @@ const Scenario = ({
   getScenarioTreeAction
 }) => {
   useEffect(() => {
-    getScenarioListAction()
-    getScenarioTreeAction()
-  }, [getScenarioListAction, getScenarioTreeAction])
+    getScenarioListAction();
+    getScenarioTreeAction();
+  }, [getScenarioListAction, getScenarioTreeAction]);
 
   // TODO remove eslint warning when information will be retrieved from api calls
   // eslint-disable-next-line no-unused-vars
-  const [simulators, setSimulators] = useState(['supplychain', 'supplychaindemo'])
+  const [simulators, setSimulators] = useState(['supplychain', 'supplychaindemo']);
   // eslint-disable-next-line no-unused-vars
-  const [drivers, setDrivers] = useState(['Supplychain.zip'])
-  const { t } = useTranslation()
+  const [drivers, setDrivers] = useState(['Supplychain.zip']);
+  const { t } = useTranslation();
   const [parameterInfo, setParameterInfo] = useState(
     {
       popSize: 48,
@@ -65,34 +65,34 @@ const Scenario = ({
       totalSimulationsMin: 1,
       totalSimulationsMax: 1000
     }
-  )
+  );
   const [simulationInfo, setSimulationInfo] = useState(
     {
       simulationName: 'Simulation',
       simulatorName: 'supplychain',
       driverName: 'Supplychain.zip'
     }
-  )
+  );
 
   const setSimulationName = (newSimulationName) => {
-    setSimulationInfo({ ...simulationInfo, simulationName: newSimulationName })
-  }
+    setSimulationInfo({ ...simulationInfo, simulationName: newSimulationName });
+  };
 
   const setSimulatorName = (newSimulatorName) => {
-    setSimulationInfo({ ...simulationInfo, simulatorName: newSimulatorName })
-  }
+    setSimulationInfo({ ...simulationInfo, simulatorName: newSimulatorName });
+  };
 
   const setDriverName = (newDriverName) => {
-    setSimulationInfo({ ...simulationInfo, driverName: newDriverName })
-  }
+    setSimulationInfo({ ...simulationInfo, driverName: newDriverName });
+  };
 
   const setPopSize = (newPopSize) => {
-    setParameterInfo({ ...parameterInfo, popSize: newPopSize })
-  }
+    setParameterInfo({ ...parameterInfo, popSize: newPopSize });
+  };
 
   const setTotalSimulations = (newTotalSimulations) => {
-    setParameterInfo({ ...parameterInfo, totalSimulations: newTotalSimulations })
-  }
+    setParameterInfo({ ...parameterInfo, totalSimulations: newTotalSimulations });
+  };
 
   return (
       <Box component='main' display='flex' flexDirection='column'
@@ -145,8 +145,8 @@ const Scenario = ({
           </Grid>
         </Box>
       </Box>
-  )
-}
+  );
+};
 
 Scenario.propTypes = {
   classes: PropTypes.any,
@@ -155,6 +155,6 @@ Scenario.propTypes = {
   currentScenario: PropTypes.object,
   getScenarioListAction: PropTypes.func.isRequired,
   getScenarioTreeAction: PropTypes.func.isRequired
-}
+};
 
-export default withStyles(useStyles)(Scenario)
+export default withStyles(useStyles)(Scenario);

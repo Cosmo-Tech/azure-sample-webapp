@@ -1,15 +1,15 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import { Trans, useTranslation } from 'react-i18next'
-import { Card, MenuItem, Select, Typography } from '@material-ui/core'
-import Snackbar from '@material-ui/core/Snackbar'
-import MuiAlert from '@material-ui/lab/Alert'
-import { ButtonRunSimulation } from '../../components'
-import API_CONFIG from '../../configs/Api.config'
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import { Trans, useTranslation } from 'react-i18next';
+import { Card, MenuItem, Select, Typography } from '@material-ui/core';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+import { ButtonRunSimulation } from '../../components';
+import API_CONFIG from '../../configs/Api.config';
 
 const useStyles = theme => ({
   card: {
@@ -45,30 +45,30 @@ const useStyles = theme => ({
     display: 'flex',
     justifyContent: 'center'
   }
-})
+});
 
 function Alert (props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
 const CardSimulationParameters = (props) => {
-  const { classes, simulationName, simulatorName, scenarioList } = props
-  const [sagaId, setSagaId] = useState(null)
-  const [jobName, setJobName] = useState(null)
-  const [snackOpen, setSnackOpen] = useState(false)
-  const { t } = useTranslation()
+  const { classes, simulationName, simulatorName, scenarioList } = props;
+  const [sagaId, setSagaId] = useState(null);
+  const [jobName, setJobName] = useState(null);
+  const [snackOpen, setSnackOpen] = useState(false);
+  const { t } = useTranslation();
 
-  const handleSnackClose = () => setSnackOpen(false)
+  const handleSnackClose = () => setSnackOpen(false);
 
   const onSimulationStarted = (sagaId, jobName) => {
-    setSnackOpen(true)
-    setJobName(jobName)
-    setSagaId(sagaId)
-  }
+    setSnackOpen(true);
+    setJobName(jobName);
+    setSagaId(sagaId);
+  };
 
   const onSelectSimulator = (event) => {
-    props.onSimulatorNameChange(event.target.value)
-  }
+    props.onSimulatorNameChange(event.target.value);
+  };
 
   return (
       <Card className={classes.card} raised>
@@ -117,8 +117,8 @@ const CardSimulationParameters = (props) => {
           </Alert>
         </Snackbar>
       </Card>
-  )
-}
+  );
+};
 
 // TODO handle ref component correctly to avoid error message in console
 function generateSimulatorMenuItems (simulators) {
@@ -127,8 +127,8 @@ function generateSimulatorMenuItems (simulators) {
         <MenuItem key={index} value={simulatorName}>
           {simulatorName}
         </MenuItem>
-    )
-  })
+    );
+  });
 }
 
 // TODO handle ref component correctly to avoid error message in console
@@ -138,8 +138,8 @@ function generateSimulationMenuItems (simulations) {
         <MenuItem key={index} value={simulation.name}>
           {simulation.name}
         </MenuItem>
-    )
-  })
+    );
+  });
 }
 
 CardSimulationParameters.propTypes = {
@@ -150,6 +150,6 @@ CardSimulationParameters.propTypes = {
   simulatorsList: PropTypes.array.isRequired,
   simulatorName: PropTypes.string.isRequired,
   onSimulatorNameChange: PropTypes.func.isRequired
-}
+};
 
-export default withStyles(useStyles)(CardSimulationParameters)
+export default withStyles(useStyles)(CardSimulationParameters);

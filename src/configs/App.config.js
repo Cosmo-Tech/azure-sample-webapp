@@ -1,9 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { Scenario as ScenarioView } from '../views'
-import React from 'react'
-import { DistributedTracingModes } from '@microsoft/applicationinsights-web'
+import { Scenario as ScenarioView } from '../views';
+import React from 'react';
+import { DistributedTracingModes } from '@microsoft/applicationinsights-web';
 
 // Tabs configuration
 export const tabs = [
@@ -13,7 +13,7 @@ export const tabs = [
     to: '/scenario',
         render: () => <ScenarioView /> // eslint-disable-line
   }
-]
+];
 
 // Application Insight configuration
 export const applicationInsightConfig = {
@@ -27,4 +27,4 @@ export const applicationInsightConfig = {
     enableAutoRouteTracking: true,
     distributedTracingMode: DistributedTracingModes.AI_AND_W3C
   }
-}
+};

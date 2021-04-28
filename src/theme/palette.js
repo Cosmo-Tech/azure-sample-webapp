@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { colors } from '@material-ui/core'
+import { colors } from '@material-ui/core';
 
 const themeColors = {
   primary200: '#FFE8AF',
@@ -18,7 +18,7 @@ const themeColors = {
   error: '#FF667F',
   black: '#000000',
   white: '#FFFFFF'
-}
+};
 
 export default {
   type: 'dark',
@@ -68,4 +68,4 @@ export default {
   signInPage: {
     background: themeColors.backgroundSignInPage
   }
-}
+};

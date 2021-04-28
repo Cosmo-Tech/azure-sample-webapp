@@ -1,15 +1,15 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { Fragment } from 'react'
-import { AppBar, Tabs, Tab, Box } from '@material-ui/core'
-import { Switch, Route, Link, Redirect } from 'react-router-dom'
-import PropTypes from 'prop-types'
-import { makeStyles } from '@material-ui/core/styles'
-import { PrivateRoute } from '../../components'
-import { UserInfo } from '@cosmotech/ui'
-import Footer from './components/Footer'
-import { useTranslation } from 'react-i18next'
+import React, { Fragment } from 'react';
+import { AppBar, Tabs, Tab, Box } from '@material-ui/core';
+import { Switch, Route, Link, Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
+import { PrivateRoute } from '../../components';
+import { UserInfo } from '@cosmotech/ui';
+import Footer from './components/Footer';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -66,15 +66,15 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between'
   }
 }
-))
+));
 
 const TabLayout = props => {
   const {
     tabs, authenticated, authorized, signInPath,
     unauthorizedPath
-  } = props
-  const classes = useStyles()
-  const { t } = useTranslation()
+  } = props;
+  const classes = useStyles();
+  const { t } = useTranslation();
 
   return (<Route
     path="/"
@@ -110,8 +110,8 @@ const TabLayout = props => {
         <Footer />
       </Fragment>
     )}
-  />)
-}
+  />);
+};
 
 TabLayout.propTypes = {
   tabs: PropTypes.array.isRequired,
@@ -119,6 +119,6 @@ TabLayout.propTypes = {
   authorized: PropTypes.bool.isRequired,
   signInPath: PropTypes.string.isRequired,
   unauthorizedPath: PropTypes.string.isRequired
-}
+};
 
-export default TabLayout
+export default TabLayout;

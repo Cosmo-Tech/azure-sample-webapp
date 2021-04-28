@@ -88,4 +88,4 @@ module.exports = {
   //   message: "${defaultValue}",
   //   description: "${maxLength}", // t('my-key', {maxLength: 150})
   // }
-}
+};

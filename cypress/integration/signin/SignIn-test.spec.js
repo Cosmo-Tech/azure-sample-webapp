@@ -4,16 +4,16 @@ describe('Log in & log out', () => {
   // eslint-disable-next-line jest/expect-expect
   it('can log in and log out with dev account', () => {
     // Login
-    cy.visit('/')
-    cy.url().should('include', '/sign-in')
+    cy.visit('/');
+    cy.url().should('include', '/sign-in');
     cy.get('[data-cy=sign-in-with-dev-account-button]')
-      .click()
-    cy.url().should('include', '/scenario')
+      .click();
+    cy.url().should('include', '/scenario');
     cy.get('[data-cy=user-profile-menu]')
-      .click()
+      .click();
     // Logout
     cy.get('[data-cy=logout]')
-      .click()
-    cy.url().should('include', '/sign-in')
-  })
-})
+      .click();
+    cy.url().should('include', '/sign-in');
+  });
+});

@@ -1,8 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { connect } from 'react-redux'
-import CardSimulationParameters from './CardSimulationParameters'
+import { connect } from 'react-redux';
+import CardSimulationParameters from './CardSimulationParameters';
 
 // TODO Add a loading screen between SignIn and Scenario view
 // The loading screen should be disabled when all data needed has been fetched from servers
@@ -11,6 +11,6 @@ const mapStateToProps = (state) => ({
   scenarioList: state.scenario.list.data,
   simulationName: 'Brewery Master Analysis',
   simulatorName: 'supplychain'
-})
+});
 
-export default connect(mapStateToProps, null)(CardSimulationParameters)
+export default connect(mapStateToProps, null)(CardSimulationParameters);
