@@ -1,8 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import {
   Box,
   Card,
@@ -14,10 +14,10 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions
-} from '@material-ui/core'
-import { withStyles } from '@material-ui/core/styles'
-import { TabContext, TabList, TabPanel } from '@material-ui/lab'
-import { useTranslation } from 'react-i18next'
+} from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
+import { TabContext, TabList, TabPanel } from '@material-ui/lab';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = theme => ({
   card: {
@@ -65,39 +65,39 @@ const useStyles = theme => ({
       color: theme.palette.primary.contrastText
     }
   }
-})
+});
 
 const ScenarioParameters = ({ classes }) => {
-  const { t } = useTranslation()
-  const [value, setValue] = useState('upload_file_template')
-  const [editMode, setEditMode] = useState(false)
-  const [displayPopup, setDisplayPopup] = useState(false)
+  const { t } = useTranslation();
+  const [value, setValue] = useState('upload_file_template');
+  const [editMode, setEditMode] = useState(false);
+  const [displayPopup, setDisplayPopup] = useState(false);
 
   const handleChange = (event, newValue) => {
-    setValue(newValue)
-  }
+    setValue(newValue);
+  };
 
   // Popup part
-  const handleClickOnPopupCancelButton = () => setDisplayPopup(false)
+  const handleClickOnPopupCancelButton = () => setDisplayPopup(false);
 
   // TODO: Discard changes
   const handleClickOnPopupDiscardChangeButton = () => {
-    setDisplayPopup(false)
-    setEditMode(false)
-  }
+    setDisplayPopup(false);
+    setEditMode(false);
+  };
 
   // Normal Mode Screen
-  const handleClickOnEditButton = () => setEditMode(true)
+  const handleClickOnEditButton = () => setEditMode(true);
 
   // TODO: Launch scenario
-  const handleClickOnLaunchScenarioButton = () => alert('TODO')
+  const handleClickOnLaunchScenarioButton = () => alert('TODO');
 
   // Edit Mode Screen
   // TODO: Update parameters and Launch scenario
-  const handleClickOnUpdateAndLaunchScenarioButton = () => alert('TODO')
+  const handleClickOnUpdateAndLaunchScenarioButton = () => alert('TODO');
 
   // Open the popup
-  const handleClickOnDiscardChangeButton = () => setDisplayPopup(true)
+  const handleClickOnDiscardChangeButton = () => setDisplayPopup(true);
 
   return (
       <Card className={classes.card}>
@@ -150,15 +150,15 @@ const ScenarioParameters = ({ classes }) => {
               handleClickOnCancel={handleClickOnPopupCancelButton}
               handleClickOnValidate={handleClickOnPopupDiscardChangeButton}/>
       </Card>
-  )
-}
+  );
+};
 
 ScenarioParameters.propTypes = {
   classes: PropTypes.any
-}
+};
 
 const EditModeButton = ({ classes, handleClickOnDiscardChange, handleClickOnUpdateAndLaunchScenario }) => {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
   return (
         <div className={classes.headerButton}>
             <Button
@@ -170,18 +170,18 @@ const EditModeButton = ({ classes, handleClickOnDiscardChange, handleClickOnUpda
                 {t('commoncomponents.button.scenario.parameters.update.launch', 'Update And Launch Scenario')}
             </Button>
         </div>
-  )
-}
+  );
+};
 
 EditModeButton.propTypes = {
   classes: PropTypes.any.isRequired,
   handleClickOnDiscardChange: PropTypes.func.isRequired,
   handleClickOnUpdateAndLaunchScenario: PropTypes.func.isRequired
 
-}
+};
 
 const NormalModeButton = ({ classes, handleClickOnEdit, handleClickOnLaunchScenario }) => {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
   return (
         <div className={classes.headerButton}>
             <Button
@@ -193,15 +193,15 @@ const NormalModeButton = ({ classes, handleClickOnEdit, handleClickOnLaunchScena
                 {t('commoncomponents.button.scenario.parameters.launch', 'Launch Scenario')}
             </Button>
         </div>
-  )
-}
+  );
+};
 
 NormalModeButton.propTypes = {
   classes: PropTypes.any.isRequired,
   handleClickOnEdit: PropTypes.func.isRequired,
   handleClickOnLaunchScenario: PropTypes.func.isRequired
 
-}
+};
 
 // TODO Add classes/styles props and export this into '@cosmotech/ui' npm package
 const SimpleTwoActionsDialog = ({
@@ -213,7 +213,7 @@ const SimpleTwoActionsDialog = ({
   validateLabelKey,
   handleClickOnValidate
 }) => {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
   return (
         <Dialog open={open} aria-labelledby="discard-changes-dialog"
                 maxWidth={'sm'}
@@ -236,8 +236,8 @@ const SimpleTwoActionsDialog = ({
                 </Button>
             </DialogActions>
         </Dialog>
-  )
-}
+  );
+};
 
 SimpleTwoActionsDialog.propTypes = {
   open: PropTypes.bool.isRequired,
@@ -247,6 +247,6 @@ SimpleTwoActionsDialog.propTypes = {
   handleClickOnCancel: PropTypes.func.isRequired,
   validateLabelKey: PropTypes.string.isRequired,
   handleClickOnValidate: PropTypes.func.isRequired
-}
+};
 
-export default withStyles(useStyles)(ScenarioParameters)
+export default withStyles(useStyles)(ScenarioParameters);
