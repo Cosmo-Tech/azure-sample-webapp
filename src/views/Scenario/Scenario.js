@@ -7,7 +7,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { Box, Grid } from '@material-ui/core';
 import { IframeScenarioResults } from '../../components';
 import { useTranslation } from 'react-i18next';
-import ScenarioParameters from '../../components/ScenarioParameters';
+import { ScenarioParameters } from '../../components/ScenarioParameters';
 
 const useStyles = theme => ({
   root: {

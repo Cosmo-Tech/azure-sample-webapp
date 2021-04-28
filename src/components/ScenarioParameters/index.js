@@ -1,4 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-export { default } from './ScenarioParameters';
+export { default as ScenarioParameters } from './ScenarioParameters';
+export { default as BasicTypes } from './BasicTypes';

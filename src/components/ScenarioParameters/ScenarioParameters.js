@@ -4,7 +4,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Box,
   Card,
   Grid,
   Tab,
@@ -18,6 +17,7 @@ import {
 import { withStyles } from '@material-ui/core/styles';
 import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 import { useTranslation } from 'react-i18next';
+import { BasicTypes } from './index';
 
 const useStyles = theme => ({
   card: {
@@ -69,7 +69,7 @@ const useStyles = theme => ({
 
 const ScenarioParameters = ({ classes }) => {
   const { t } = useTranslation();
-  const [value, setValue] = useState('upload_file_template');
+  const [value, setValue] = useState('basic_types');
   const [editMode, setEditMode] = useState(false);
   const [displayPopup, setDisplayPopup] = useState(false);
 
@@ -102,19 +102,21 @@ const ScenarioParameters = ({ classes }) => {
   return (
       <Card className={classes.card}>
           <Grid container direction="column" justify="center" alignContent="flex-start" >
-              <Box className={classes.header}>
-                <Typography variant='subtitle1' >Scenario parameters</Typography>
-                  <div className={classes.rightBar}>
+              <Grid container className={classes.root} direction="row" justify="space-between" alignContent="flex-start" spacing={5}>
+                  <Grid item >
+                      <Typography variant='subtitle1' >Scenario parameters</Typography>
+                  </Grid>
+                  <Grid item >
                       {editMode
                         ? (<EditModeButton classes={classes}
-                                           handleClickOnDiscardChange={handleClickOnDiscardChangeButton}
-                                           handleClickOnUpdateAndLaunchScenario={handleClickOnUpdateAndLaunchScenarioButton}/>)
+                                             handleClickOnDiscardChange={handleClickOnDiscardChangeButton}
+                                             handleClickOnUpdateAndLaunchScenario={handleClickOnUpdateAndLaunchScenarioButton}/>)
                         : (<NormalModeButton classes={classes}
-                                             handleClickOnEdit={handleClickOnEditButton}
-                                             handleClickOnLaunchScenario={handleClickOnLaunchScenarioButton}/>)
+                                               handleClickOnEdit={handleClickOnEditButton}
+                                               handleClickOnLaunchScenario={handleClickOnLaunchScenarioButton}/>)
                       }
-                  </div>
-              </Box>
+                  </Grid>
+              </Grid>
           </Grid>
           <Grid item className={classes.tabs}>
               <form>
@@ -136,7 +138,7 @@ const ScenarioParameters = ({ classes }) => {
                           TUTU
                       </TabPanel>
                       <TabPanel value="basic_types" index={0}>
-                          TITI
+                          <BasicTypes/>
                       </TabPanel>
                   </TabContext>
               </form>
