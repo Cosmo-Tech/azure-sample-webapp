@@ -8,6 +8,7 @@ describe('Log in & log out', () => {
     cy.url().should('include', '/sign-in');
     cy.get('[data-cy=sign-in-with-dev-account-button]')
       .click();
+    cy.get('[data-cy=loading-component]').should('be.visible');
     cy.url().should('include', '/scenario');
     cy.get('[data-cy=user-profile-menu]')
       .click();

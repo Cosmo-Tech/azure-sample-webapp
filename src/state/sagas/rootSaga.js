@@ -3,9 +3,11 @@
 
 import { all, fork } from 'redux-saga/effects';
 import scenarioSaga from './scenario';
+import appSaga from './app';
 
 export default function * rootSaga () {
   yield all([
-    fork(scenarioSaga)
+    fork(scenarioSaga),
+    fork(appSaga)
   ]);
 }

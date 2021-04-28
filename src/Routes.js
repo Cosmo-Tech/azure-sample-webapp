@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 import React from 'react';
-import { Switch, Redirect } from 'react-router-dom';
+import { Switch, Redirect, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { PublicRoute, PrivateRoute } from './components';
-import { Tab as TabLayout } from './layouts';
+import { TabLayout } from './layouts';
 import {
   SignIn as SignInView,
   Unauthorized as UnauthorizedView
@@ -41,11 +41,16 @@ const Routes = props => {
         redirectTo="/scenario"
         >
       </PrivateRoute>
-      <TabLayout tabs={tabs}
-        authenticated={authenticated}
-        authorized={authorized}
-        signInPath="/sign-in"
-        unauthorizedPath="/unauthorized"/>
+    <Route
+        path="/"
+        render={ routeProps =>
+            <TabLayout
+                {...routeProps}
+                tabs={tabs}
+                authenticated={authenticated}
+                authorized={authorized}
+                signInPath="/sign-in"
+                unauthorizedPath="/unauthorized"/>}/>
     </Switch>
   );
 };

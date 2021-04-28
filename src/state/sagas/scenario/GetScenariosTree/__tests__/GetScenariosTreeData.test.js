@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import SagaTester from 'redux-saga-tester';
-import { fetchScenarioTreeData } from './GetScenariosTreeData';
-import { scenarioTreeInitialState, scenarioTreeReducer } from '../../../reducers/scenario/ScenarioReducer';
-import { SCENARIO_ACTIONS_KEY, SCENARIO_ENDPOINT, SCENARIO_STATUS } from '../../../commons/ScenarioConstants';
+import { fetchScenarioTreeData } from '../GetScenariosTreeData';
+import { scenarioTreeInitialState, scenarioTreeReducer } from '../../../../reducers/scenario/ScenarioReducer';
+import { SCENARIO_ACTIONS_KEY, SCENARIO_ENDPOINT, SCENARIO_STATUS } from '../../../../commons/ScenarioConstants';
 import * as axios from 'axios';
 import getScenarioTreeSampleTest from './GetScenariosTree.json';
 

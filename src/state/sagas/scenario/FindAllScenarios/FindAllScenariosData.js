@@ -7,14 +7,10 @@ import { SCENARIO_ENDPOINT, SCENARIO_ACTIONS_KEY } from '../../../commons/Scenar
 
 // generators function
 export function * getAllScenariosData () {
-  try {
-    // yield keyword is here to milestone and save the action
-    const { data } = yield axios.get(SCENARIO_ENDPOINT.FIND_ALL_SCENARIOS);
-    // Here is an effect named put that indicate to the middleware that it can dispatch a SET_ALL_SCENARIOS action with list as payload
-    yield put({ type: SCENARIO_ACTIONS_KEY.SET_ALL_SCENARIOS, list: data });
-  } catch (error) {
-    console.log(error);
-  }
+  // yield keyword is here to milestone and save the action
+  const { data } = yield axios.get(SCENARIO_ENDPOINT.FIND_ALL_SCENARIOS);
+  // Here is an effect named put that indicate to the middleware that it can dispatch a SET_ALL_SCENARIOS action with list as payload
+  yield put({ type: SCENARIO_ACTIONS_KEY.SET_ALL_SCENARIOS, list: data });
 }
 
 // generators function

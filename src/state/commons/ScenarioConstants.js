@@ -4,6 +4,7 @@
 // Available scenario statuses
 export const SCENARIO_STATUS = {
   LOADING: 'LOADING',
+  ERROR: 'ERROR',
   SUCCESS: 'SUCCESS',
   IDLE: 'IDLE'
 };
