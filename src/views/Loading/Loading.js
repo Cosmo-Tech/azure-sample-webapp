@@ -1,13 +1,13 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useEffect } from 'react'
-import PropTypes from 'prop-types'
-import Routes from '../../Routes'
-import FadeIn from 'react-fade-in'
-import LoadingLine from '../../components/LoadingLine'
-import { SCENARIO_STATUS } from '../../state/commons/ScenarioConstants'
-import { APPLICATION_STATUS } from '../../state/commons/ApplicationConstants'
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
+import Routes from '../../Routes';
+import FadeIn from 'react-fade-in';
+import LoadingLine from '../../components/LoadingLine';
+import { SCENARIO_STATUS } from '../../state/commons/ScenarioConstants';
+import { APPLICATION_STATUS } from '../../state/commons/ApplicationConstants';
 
 const Loading = (
   {
@@ -23,20 +23,20 @@ const Loading = (
   }) => {
   useEffect(() => {
     if (authenticated) {
-      getAllInitialDataAction()
+      getAllInitialDataAction();
     } else {
-      setApplicationStatusAction(APPLICATION_STATUS.IDLE)
+      setApplicationStatusAction(APPLICATION_STATUS.IDLE);
     }
-  }, [authenticated, getAllInitialDataAction, setApplicationStatusAction])
+  }, [authenticated, getAllInitialDataAction, setApplicationStatusAction]);
 
   const isLoading = (entityStatus) => {
-    return entityStatus.status !== SCENARIO_STATUS.ERROR && (entityStatus.status === SCENARIO_STATUS.LOADING || entityStatus.status === SCENARIO_STATUS.IDLE)
-  }
+    return entityStatus.status !== SCENARIO_STATUS.ERROR && (entityStatus.status === SCENARIO_STATUS.LOADING || entityStatus.status === SCENARIO_STATUS.IDLE);
+  };
 
-  const hasErrors = (entityStatus) => entityStatus.status === SCENARIO_STATUS.ERROR
+  const hasErrors = (entityStatus) => entityStatus.status === SCENARIO_STATUS.ERROR;
 
   if (application.status === APPLICATION_STATUS.ERROR) {
-    logout()
+    logout();
   }
 
   return (authenticated && application.status !== APPLICATION_STATUS.READY
@@ -52,8 +52,8 @@ const Loading = (
           </FadeIn>
       </div>)
     : (<Routes authenticated={authenticated} authorized={authenticated} tabs={tabs}/>)
-  )
-}
+  );
+};
 
 Loading.propTypes = {
   authenticated: PropTypes.bool.isRequired,
@@ -65,6 +65,6 @@ Loading.propTypes = {
   application: PropTypes.object.isRequired,
   getAllInitialDataAction: PropTypes.func.isRequired,
   setApplicationStatusAction: PropTypes.func.isRequired
-}
+};
 
-export default Loading
+export default Loading;

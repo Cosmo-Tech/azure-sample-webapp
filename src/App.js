@@ -3,13 +3,13 @@
 
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ApplicationInsights } from '@microsoft/applicationinsights-web'
+import { ApplicationInsights } from '@microsoft/applicationinsights-web';
 import './assets/scss/index.scss';
 import './configs/Auth.config.js';
 import { Auth } from '@cosmotech/core';
 import { applicationInsightConfig, tabs } from './configs/App.config';
-import Loading from './views/Loading'
-import { signIn } from './utils/SignUtils'
+import Loading from './views/Loading';
+import { signIn } from './utils/SignUtils';
 
 const App = () => {
   // eslint-disable-next-line no-unused-vars

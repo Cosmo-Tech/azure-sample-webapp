@@ -1,14 +1,14 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React from 'react'
-import PropTypes from 'prop-types'
-import * as dataLoading from '../../assets/loadingView/dataLoading.json'
-import * as dataLoaded from '../../assets/loadingView/dataLoaded.json'
-import * as dataError from '../../assets/loadingView/dataError.json'
-import Lottie from 'react-lottie'
-import { useTranslation } from 'react-i18next'
-import { Grid, Typography } from '@material-ui/core'
+import React from 'react';
+import PropTypes from 'prop-types';
+import * as dataLoading from '../../assets/loadingView/dataLoading.json';
+import * as dataLoaded from '../../assets/loadingView/dataLoaded.json';
+import * as dataError from '../../assets/loadingView/dataError.json';
+import Lottie from 'react-lottie';
+import { useTranslation } from 'react-i18next';
+import { Grid, Typography } from '@material-ui/core';
 
 const dataLoaderOptions = {
   loop: true,
@@ -17,7 +17,7 @@ const dataLoaderOptions = {
   rendererSettings: {
     preserveAspectRatio: 'xMidYMid slice'
   }
-}
+};
 
 const dataLoadedOptions = {
   loop: false,
@@ -26,7 +26,7 @@ const dataLoadedOptions = {
   rendererSettings: {
     preserveAspectRatio: 'xMidYMid slice'
   }
-}
+};
 const errorDataOptions = {
   loop: false,
   autoplay: true,
@@ -34,11 +34,11 @@ const errorDataOptions = {
   rendererSettings: {
     preserveAspectRatio: 'xMidYMid slice'
   }
-}
+};
 
 const LoadingLine = props => {
-  const { t } = useTranslation()
-  const { titleKey, isLoading, hasError, height, width } = props
+  const { t } = useTranslation();
+  const { titleKey, isLoading, hasError, height, width } = props;
   return (
       <>
         <Grid container direction="row" alignItems={'center'}>
@@ -54,8 +54,8 @@ const LoadingLine = props => {
           </Grid>
         </Grid>
       </>
-  )
-}
+  );
+};
 
 LoadingLine.propTypes = {
   titleKey: PropTypes.string.isRequired,
@@ -63,6 +63,6 @@ LoadingLine.propTypes = {
   hasError: PropTypes.bool.isRequired,
   height: PropTypes.number.isRequired,
   width: PropTypes.number.isRequired
-}
+};
 
-export default LoadingLine
+export default LoadingLine;
