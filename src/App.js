@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { ApplicationInsights } from '@microsoft/applicationinsights-web';
 import './assets/scss/index.scss';
 import './configs/Auth.config.js';
@@ -19,8 +18,6 @@ const App = () => {
   const [authorized, setAuthorized] = useState(false);
   // eslint-disable-next-line no-unused-vars
   const [loading, setLoading] = useState(true);
-  const { t } = useTranslation();
-  document.title = t('commoncomponents.text.application.title', 'Cosmo Tech Web Application Sample');
 
   const authenticationDone = (authenticated) => {
     if (authenticated) {
@@ -56,7 +53,7 @@ const App = () => {
   return loading === true
     ? (
       <div className="spinner-border text-success" role="status">
-        <span className="sr-only">{t('views.common.text.loading', 'Loading...')}</span>
+        <span className="sr-only">Loading...</span>
       </div>
       )
     : (
