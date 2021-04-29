@@ -35,4 +35,4 @@ export const SCENARIO_TYPES = {
     key: 'optimisation',
     trad: 'scenario.type.optimisation'
   }
-}
+};

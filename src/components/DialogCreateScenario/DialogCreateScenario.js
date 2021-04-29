@@ -1,18 +1,18 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 import {
   Button, TextField, Dialog, DialogActions, FormControlLabel,
   DialogTitle, DialogContent, Checkbox, Grid
-} from '@material-ui/core'
-import AddIcon from '@material-ui/icons/Add'
-import Autocomplete from '@material-ui/lab/Autocomplete'
-import DropdownScenario from '../../components/DropdownScenario'
-import { SCENARIO_TYPES } from '../../state/commons/ScenarioConstants'
-import { useTranslation } from 'react-i18next'
-import { ScenarioUtils } from '@cosmotech/core'
-import scenarioJSON from '../DropdownScenario/GetScenariosTree.json'
-import datasetJSON from '../DropdownScenario/GetDataset.json'
+} from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import DropdownScenario from '../../components/DropdownScenario';
+import { SCENARIO_TYPES } from '../../state/commons/ScenarioConstants';
+import { useTranslation } from 'react-i18next';
+import { ScenarioUtils } from '@cosmotech/core';
+import scenarioJSON from '../DropdownScenario/GetScenariosTree.json';
+import datasetJSON from '../DropdownScenario/GetDataset.json';
 
 const useStyles = theme => ({
   root: {
@@ -27,9 +27,10 @@ const useStyles = theme => ({
     marginTop: '20px',
     marginBottom: '5px'
   }
-})
+});
 
 const DialogCreateScenario = (props) => {
+  const { scenarioTree } = props;
   const initState = {
     scenarioName: '',
     scenarioError: false,
@@ -37,79 +38,78 @@ const DialogCreateScenario = (props) => {
     scenarioHelper: 'scenario.textField.enterName',
     checkScenarioMaster: true,
     buttonCreateDisabled: true
-  }
-  const { t } = useTranslation()
-  const [open, setOpen] = useState(false)
-  const [values, setValues] = useState(initState)
-
+  };
+  const { t } = useTranslation();
+  const [open, setOpen] = useState(false);
+  const [values, setValues] = useState(initState);
   const handleClickOpen = () => {
-    setOpen(true)
-  }
+    setOpen(true);
+  };
   const handleDialogClose = () => {
-    setValues(initState)
-    setOpen(false)
-  }
+    setValues(initState);
+    setOpen(false);
+  };
   const handleChange = (event, value, id) => {
-    const newValues = { ...values }
+    const newValues = { ...values };
     if (id === undefined) {
-      id = event.target.id
+      id = event.target.id;
     }
     if (value === undefined) {
-      value = event.target.value
+      value = event.target.value;
     }
 
     if (id === 'scenarioName') {
-      const scenarioExist = ScenarioUtils.isScenarioExist(scenarioJSON, value)
-      const scenarioNameEmpty = value.length === 0
-      newValues.scenarioLabel = 'scenario.textField.error'
+      const scenarioExist = ScenarioUtils.isScenarioExist(scenarioJSON, value);
+      const scenarioNameEmpty = value.length === 0;
+      newValues.scenarioLabel = 'scenario.textField.error';
       if (scenarioExist) {
-        newValues.scenarioHelper = 'scenario.textField.nameAlreadyExist'
+        newValues.scenarioHelper = 'scenario.textField.nameAlreadyExist';
       } else if (scenarioNameEmpty) {
-        newValues.scenarioHelper = 'scenario.textField.nameIsEmpy'
+        newValues.scenarioHelper = 'scenario.textField.nameIsEmpy';
       } else {
-        newValues.scenarioHelper = ''
-        newValues.scenarioLabel = 'scenario.textField.label'
+        newValues.scenarioHelper = '';
+        newValues.scenarioLabel = 'scenario.textField.label';
       }
-      newValues.buttonCreateDisabled = scenarioExist || value.length === 0
-      newValues.scenarioError = newValues.buttonCreateDisabled
+      newValues.buttonCreateDisabled = scenarioExist || value.length === 0;
+      newValues.scenarioError = newValues.buttonCreateDisabled;
     } else if (id === 'dropDownScenario') {
-      newValues.scenarioParent = value
+      newValues.scenarioParent = value;
     }
-    setValues({ ...newValues, [id]: value })
-  }
+    setValues({ ...newValues, [id]: value });
+  };
 
   const createScenario = () => {
     const newScenario = {
       id: Math.max(...scenarioJSON.map((sc) => parseInt(sc.id))) + 1,
       name: values.scenarioName,
       type: values.scenarioType
-    }
+    };
     if (values.checkScenarioMaster) {
-      newScenario.parentId = values.scenarioParent.id
+      newScenario.parentId = values.scenarioParent.id;
     } else {
-      newScenario.dataset = values.dataset.id
+      newScenario.dataset = values.dataset.id;
     }
-    scenarioJSON.push(newScenario)
-    handleDialogClose()
-  }
+    scenarioJSON.push(newScenario);
+    handleDialogClose();
+  };
 
-  let scenarioOrDatasetDropDown
+  let scenarioOrDatasetDropDown;
   if (values.checkScenarioMaster) {
     scenarioOrDatasetDropDown =
       <Autocomplete
-        id="dataset"
+        id="dropdownDataset"
         disableClearable={true}
         options={datasetJSON}
-        onChange={handleChange}
+        onChange={(event, dataset) => (handleChange(event, dataset, 'dropdownDataset'))}
         getOptionLabel={(option) => option.name}
         renderInput={(params) => (
           <TextField {...params} placeholder="Dataset" label="Select a dataset" variant="outlined"/>
         )}
-      />
+      />;
   } else {
     scenarioOrDatasetDropDown =
-      <DropdownScenario label='scenario.dropdown.parentlabel' handleChange={handleChange}>
-      </DropdownScenario>
+      <DropdownScenario scenarioTree={scenarioTree} label='scenario.dropdown.parentlabel' handleChange={handleChange}>
+      </DropdownScenario>;
   }
 
   return (
@@ -173,11 +173,13 @@ const DialogCreateScenario = (props) => {
         </DialogActions>
       </Dialog>
     </div>
-  )
-}
+  );
+};
 
 DialogCreateScenario.propTypes = {
-  classes: PropTypes.any
-}
+  classes: PropTypes.any,
+  scenarioTree: PropTypes.object.isRequired,
+  handleChange: PropTypes.func.isRequired
+};
 
-export default withStyles(useStyles)(DialogCreateScenario)
+export default withStyles(useStyles)(DialogCreateScenario);
