@@ -35,7 +35,7 @@ const DropdownScenario = (props) => {
     <Autocomplete
       disableClearable
       disabled={props.disabled}
-      onChange={(event, newScenario) => (props.handleChange(event, newScenario, 'dropDownScenario')) }
+      onChange={(event, scenario) => (props.handleChange(event, scenario)) }
       options={scenarioOptions}
       getOptionLabel={(option) => option.optionLabel }
       renderInput={(params) => (
