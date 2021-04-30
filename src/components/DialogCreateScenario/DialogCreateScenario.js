@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import {
   Button, TextField, Dialog, DialogActions, FormControlLabel,
-  DialogTitle, DialogContent, Checkbox, Grid
+  DialogTitle, DialogContent, Checkbox, Grid, Typography
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -11,7 +11,6 @@ import DropdownScenario from '../../components/DropdownScenario';
 import { SCENARIO_TYPES } from '../../state/commons/ScenarioConstants';
 import { useTranslation } from 'react-i18next';
 import { ScenarioUtils } from '@cosmotech/core';
-import scenarioJSON from '../DropdownScenario/GetScenariosTree.json';
 import datasetJSON from '../DropdownScenario/GetDataset.json';
 
 const useStyles = theme => ({
@@ -35,7 +34,7 @@ const DialogCreateScenario = (props) => {
     scenarioName: '',
     scenarioError: false,
     scenarioLabel: 'scenario.textField.label',
-    scenarioHelper: 'scenario.textField.enterName',
+    scenarioHelper: 'scenario.textField.entername',
     checkScenarioMaster: true,
     buttonCreateDisabled: true
   };
@@ -59,13 +58,13 @@ const DialogCreateScenario = (props) => {
     }
 
     if (id === 'scenarioName') {
-      const scenarioExist = ScenarioUtils.isScenarioExist(scenarioJSON, value);
+      const scenarioExist = ScenarioUtils.isScenarioExist(scenarioTree, value);
       const scenarioNameEmpty = value.length === 0;
       newValues.scenarioLabel = 'scenario.textField.error';
       if (scenarioExist) {
-        newValues.scenarioHelper = 'scenario.textField.nameAlreadyExist';
+        newValues.scenarioHelper = 'scenario.textField.namealreadyexists';
       } else if (scenarioNameEmpty) {
-        newValues.scenarioHelper = 'scenario.textField.nameIsEmpy';
+        newValues.scenarioHelper = 'scenario.textField.nameiseempty';
       } else {
         newValues.scenarioHelper = '';
         newValues.scenarioLabel = 'scenario.textField.label';
@@ -80,7 +79,6 @@ const DialogCreateScenario = (props) => {
 
   const createScenario = () => {
     const newScenario = {
-      id: Math.max(...scenarioJSON.map((sc) => parseInt(sc.id))) + 1,
       name: values.scenarioName,
       type: values.scenarioType
     };
@@ -89,7 +87,6 @@ const DialogCreateScenario = (props) => {
     } else {
       newScenario.dataset = values.dataset.id;
     }
-    scenarioJSON.push(newScenario);
     handleDialogClose();
   };
 
@@ -114,8 +111,8 @@ const DialogCreateScenario = (props) => {
 
   return (
     <div>
-      <Button startIcon={<AddIcon />} variant="text" onClick={handleClickOpen} color="primary">
-        Create Alternate Scenario
+      <Button size="medium" startIcon={<AddIcon />} variant="text" onClick={handleClickOpen} color="primary">
+        <Typography noWrap color="primary">Create Alternate Scenario</Typography>
       </Button>
       <Dialog open={open} onClose={handleDialogClose} aria-labelledby="form-dialog-title"
         maxWidth={'sm'}
@@ -129,7 +126,7 @@ const DialogCreateScenario = (props) => {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField onChange={handleChange} autoFocus id="scenarioName" value={values.scenarioName}
-                error={values.scenarioError} label={t(values.scenariolabel)} helperText={t(values.scenariohelper)}
+                error={values.scenarioError} label={t(values.scenarioLabel)} helperText={t(values.scenarioHelper)}
                 fullWidth
               />
             </Grid>

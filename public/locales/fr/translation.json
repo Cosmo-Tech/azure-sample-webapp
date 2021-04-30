@@ -171,8 +171,8 @@
       "label": "Nom de scenario",
       "error": "Erreur",
       "enterName" : "Saisir un nom de scenario",
-      "nameesempy" : "Le nom de scenario ne peut être vide",
-      "namealreadyexist": "Le nom de scenario existe déjà"
+      "nameiseempty" : "Le nom de scenario ne peut être vide",
+      "namealreadyexists": "Le nom de scenario existe déjà"
     },
     "dropdown": {
       "label" : "Scenario",

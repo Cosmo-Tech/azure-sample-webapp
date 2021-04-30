@@ -171,8 +171,8 @@
       "label": "Scenario name",
       "error": "Error",
       "entername" : "Enter a scenario name",
-      "nameisempy" : "Scenario name cannot be empty",
-      "namealreadyexist": "Scenario name already exists"
+      "nameiseempty" : "Scenario name cannot be empty",
+      "namealreadyexists": "Scenario name already exists"
     },
     "dropdown": {
       "label" : "Scenario",
