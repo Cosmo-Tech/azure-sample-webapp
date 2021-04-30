@@ -12,7 +12,8 @@ export const SCENARIO_STATUS = {
 // Available scenario endpoints
 export const SCENARIO_ENDPOINT = {
   FIND_ALL_SCENARIOS: '/api/FindAllScenarios',
-  GET_SCENARIO_TREE: '/api/GetScenariosTree'
+  GET_SCENARIO_TREE: '/api/GetScenariosTree',
+  FIND_SCENARIO_BY_ID: '/api/FindScenarioById'
 };
 
 // Available scenario actions
@@ -22,7 +23,8 @@ export const SCENARIO_ACTIONS_KEY = {
   GET_SCENARIO_TREE: 'GET_SCENARIO_TREE',
   SET_SCENARIO_TREE: 'SET_SCENARIO_TREE',
   GET_CURRENT_SCENARIO: 'GET_CURRENT_SCENARIO',
-  SET_CURRENT_SCENARIO: 'SET_CURRENT_SCENARIO'
+  SET_CURRENT_SCENARIO: 'SET_CURRENT_SCENARIO',
+  FIND_SCENARIO_BY_ID: 'FIND_SCENARIO_BY_ID'
 };
 
 // Available scenario types

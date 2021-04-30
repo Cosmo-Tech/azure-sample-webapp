@@ -1,0 +1,40 @@
+  {
+    "id": "2",
+    "name": "Brewery Analysis name example",
+    "description": "Brewery analysis with example as name prefix",
+    "tags": [
+      "Brewery",
+      "example"
+    ],
+    "parentId": "1",
+    "ownerId": "1",
+    "solutionId": "1",
+    "solutionName": "Brewery Solution",
+    "runTemplateId": "1",
+    "runTemplateName": "Full simulation 100 steps",
+    "users": [
+        {
+            "id": "1",
+            "name": "Bob",
+            "roles": "Editor"
+        },
+        {
+            "id": "2",
+            "name": "Alice",
+            "roles": "Viewer"
+        }
+    ],
+    "state": "Created",
+    "ownerName": "Bob",
+    "creationDate": "4/15/2021, 10:52:21.593 AM",
+    "datasetList": [
+        "1"
+    ],
+    "parametersValues": [
+        {
+            "parameterId": "prefix",
+            "varType": "string",
+            "value": ""
+        }
+    ]
+}

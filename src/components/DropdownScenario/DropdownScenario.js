@@ -29,7 +29,7 @@ const DropdownScenario = (props) => {
       }
     }
   };
-  getScenarioOption(scenarioOptions, scenarioTree.data, 0);
+  getScenarioOption(scenarioOptions, scenarioTree, 0);
 
   return (
     <Autocomplete

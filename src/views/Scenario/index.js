@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 import { connect } from 'react-redux';
 import Scenario from './Scenario';
+import { dispatchFindScenarioById } from '../../state/dispatchers/scenario/ScenarioDispatcher';
 
 const mapStateToProps = (state) => ({
   scenarioList: state.scenario.list,
@@ -9,4 +10,8 @@ const mapStateToProps = (state) => ({
   scenarioTree: state.scenario.tree
 });
 
-export default connect(mapStateToProps, null)(Scenario);
+const mapDispatchToProps = {
+  findScenarioById: dispatchFindScenarioById
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Scenario);

@@ -30,7 +30,6 @@ export const scenarioTreeInitialState = {
 
 export const scenarioTreeReducer = createReducer(scenarioTreeInitialState, (builder) => {
   builder
-    .addCase(SCENARIO_ACTIONS_KEY.GET_SCENARIO_TREE, (state, action) => { state.status = SCENARIO_STATUS.LOADING; })
     .addCase(SCENARIO_ACTIONS_KEY.SET_SCENARIO_TREE, (state, action) => {
       state.data = action.tree;
       state.status = SCENARIO_STATUS.SUCCESS;
@@ -46,10 +45,9 @@ export const currentScenarioInitialState = {
 
 export const currentScenarioReducer = createReducer(currentScenarioInitialState, (builder) => {
   builder
-    .addCase(SCENARIO_ACTIONS_KEY.GET_CURRENT_SCENARIO, (state, action) => { state.status = SCENARIO_STATUS.LOADING; })
     .addCase(SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO, (state, action) => {
-      state.data = action.data;
-      state.status = SCENARIO_STATUS.SUCCESS;
+      state.data = action.data.scenario;
+      state.status = action.data.status;
     });
 });
 

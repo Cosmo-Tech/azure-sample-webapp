@@ -41,26 +41,29 @@ const Scenario = (props) => {
   // eslint-disable-next-line no-unused-vars
   const [drivers, setDrivers] = useState(['Supplychain.zip']);
 
-  const [scenario, setStateScenario] = useState(null);
   // eslint-disable-next-line no-unused-vars
-  const { currentScenario, scenarioList, scenarioTree } = props;
+  const { currentScenario, scenarioList, findScenarioById, scenarioTree } = props;
 
   return (
-    <Grid container spacing={2} alignItems="center" className={props.classes.mainGrid}>
-      <Grid item xs={10}>
-        <Grid container spacing={2} alignItems="center" className={props.classes.mainGrid}>
-          <Grid item xs={3} style={{ width: '100%', marginLeft: '20px', paddingRight: '30px' }}>
-            <DropdownScenario scenarioTree={scenarioTree} label='scenario.dropdown.label'
-              handleChange={(event, scenario) => (setStateScenario(scenario))}>
+    <Grid container alignItems="center" className={props.classes.mainGrid}>
+      <Grid item xs={9}>
+        <Grid container spacing={0} alignItems="center" className={props.classes.mainGrid}>
+          <Grid item xs={4} style={{ paddingLeft: '40px', paddingRight: '20px', paddingTop: '10px' }}>
+            <DropdownScenario scenarioTree={scenarioTree.data} label='scenario.dropdown.label'
+              handleChange={(event, scenario) => (findScenarioById({ data: scenario.id }))}>
             </DropdownScenario>
           </Grid>
-          <Grid item xs={3}>
-            <Typography>{ t('scenario.type.label')} {scenario && scenario.type}</Typography>
+          <Grid item xs={8}>
+            <Typography>{ t('scenario.type.label')} {currentScenario.data && currentScenario.data.runTemplateName}</Typography>
           </Grid>
         </Grid>
         </Grid>
-      <Grid item xs={2}>
-        <DialogCreateScenario></DialogCreateScenario>
+      <Grid item xs={3}>
+        <Grid container spacing={2} justify="flex-end" className={props.classes.mainGrid}>
+          <Grid item>
+            <DialogCreateScenario scenarioTree={scenarioTree.data}></DialogCreateScenario>
+          </Grid>
+        </Grid>
       </Grid>
     </Grid>
   );
@@ -70,7 +73,8 @@ Scenario.propTypes = {
   classes: PropTypes.any,
   scenarioTree: PropTypes.object.isRequired,
   scenarioList: PropTypes.object.isRequired,
-  currentScenario: PropTypes.object.isRequired
+  currentScenario: PropTypes.object.isRequired,
+  findScenarioById: PropTypes.func.isRequired
 };
 
 export default withStyles(useStyles)(Scenario);
