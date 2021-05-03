@@ -90,5 +90,15 @@
     "redux-devtools-extension": "^2.13.9",
     "redux-mock-store": "^1.5.4",
     "redux-saga-tester": "^1.0.874"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "^@cosmotech/core$": "<rootDir>/node_modules/@cosmotech/core",
+      "^@material-ui/core": "<rootDir>/node_modules/@material-ui/core",
+      "^@material-ui/icons": "<rootDir>/node_modules/@material-ui/icons",
+      "^@material-ui/styles": "<rootDir>/node_modules/@material-ui/styles",
+      "^react$": "<rootDir>/node_modules/react",
+      "^react-dom$": "<rootDir>/node_modules/react-dom"
+    }
   }
 }
