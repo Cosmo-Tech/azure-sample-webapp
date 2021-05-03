@@ -7,6 +7,7 @@ import { Switch, Route, Link, Redirect, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import { PrivateRoute } from '../../components';
+import { Auth } from '@cosmotech/core';
 import { UserInfo } from '@cosmotech/ui';
 import Footer from './components/Footer';
 import { useTranslation } from 'react-i18next';
@@ -91,7 +92,11 @@ const TabLayout = props => {
               </Tabs>
               <div className={classes.rightBar}>
                 <div className={classes.rightBarElement}>
-                  <UserInfo documentationUrl="doc.pdf" languages={languages}/>
+                  <UserInfo documentationUrl="doc.pdf" languages={languages}
+                    userName={props.userName}
+                    profilePictureUrl={props.userProfilePic}
+                    onLogout={Auth.signOut}
+                  />
                 </div>
                 <div className={classes.rightBarElement}>
                   <img alt="Cosmo Tech" height="28px" src="cosmotech.png" className={classes.logo} />
@@ -121,7 +126,9 @@ TabLayout.propTypes = {
   authenticated: PropTypes.bool.isRequired,
   authorized: PropTypes.bool.isRequired,
   signInPath: PropTypes.string.isRequired,
-  unauthorizedPath: PropTypes.string.isRequired
+  unauthorizedPath: PropTypes.string.isRequired,
+  userName: PropTypes.string.isRequired,
+  userProfilePic: PropTypes.string.isRequired
 };
 
 export default TabLayout;
