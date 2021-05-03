@@ -4,7 +4,8 @@
 import SagaTester from 'redux-saga-tester';
 import { getAllScenariosData } from '../FindAllScenariosData';
 import { scenarioListInitialState, scenarioListReducer } from '../../../../reducers/scenario/ScenarioReducer';
-import { SCENARIO_ACTIONS_KEY, SCENARIO_ENDPOINT, SCENARIO_STATUS } from '../../../../commons/ScenarioConstants';
+import { SCENARIO_ACTIONS_KEY, SCENARIO_ENDPOINT } from '../../../../commons/ScenarioConstants';
+import { STATUSES } from '../../../../commons/Constants';
 import * as axios from 'axios';
 import findAllScenarioSampleTest from './FindAllScenarios.json';
 
@@ -15,7 +16,7 @@ jest.mock('axios');
 
 const scenarioListUpdatedState = {
   data: findAllScenarioSampleTest,
-  status: SCENARIO_STATUS.SUCCESS
+  status: STATUSES.SUCCESS
 };
 
 // Saga tester parameter

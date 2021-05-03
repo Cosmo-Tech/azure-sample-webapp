@@ -6,7 +6,8 @@ import MockAdapter from 'axios-mock-adapter';
 import SagaTester from 'redux-saga-tester';
 import { applicationInitialState, applicationReducer } from '../../../../reducers/app/ApplicationReducer';
 import getAllInitialData from '../FetchInitialData';
-import { APPLICATION_ACTIONS_KEY, APPLICATION_STATUS } from '../../../../commons/ApplicationConstants';
+import { APPLICATION_ACTIONS_KEY } from '../../../../commons/ApplicationConstants';
+import { STATUSES } from '../../../../commons/Constants';
 import getScenarioTreeSampleTest from '../../../scenario/GetScenariosTree/__tests__/GetScenariosTree.json';
 import { SCENARIO_ENDPOINT } from '../../../../commons/ScenarioConstants';
 import findAllScenarioSampleTest from '../../../scenario/FindAllScenarios/__tests__/FindAllScenarios.json';
@@ -22,7 +23,7 @@ const middleware = store => next => action => next({
 });
 
 const applicationLoadingState = {
-  status: APPLICATION_STATUS.LOADING
+  status: STATUSES.LOADING
 };
 
 describe('FetchInitialData saga', () => {

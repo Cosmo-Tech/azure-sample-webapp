@@ -1,16 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-// Available scenario statuses
-export const SCENARIO_STATUS = {
-  LOADING: 'LOADING',
-  ERROR: 'ERROR',
-  SUCCESS: 'SUCCESS',
-  SAVING: 'SAVING',
-  SAVED: 'SAVED',
-  IDLE: 'IDLE'
-};
-
 // Available scenario endpoints
 export const SCENARIO_ENDPOINT = {
   FIND_ALL_SCENARIOS: '/api/FindAllScenarios',

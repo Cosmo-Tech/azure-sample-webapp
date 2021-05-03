@@ -1,7 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { APPLICATION_ACTIONS_KEY, APPLICATION_STATUS } from '../../commons/ApplicationConstants';
+import { APPLICATION_ACTIONS_KEY } from '../../commons/ApplicationConstants';
+import { STATUSES } from '../../commons/Constants';
 
 export const dispatchSetApplicationStatus = (payLoad) => ({
   type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS,
@@ -10,5 +11,5 @@ export const dispatchSetApplicationStatus = (payLoad) => ({
 
 export const dispatchGetAllInitialData = () => ({
   type: APPLICATION_ACTIONS_KEY.GET_ALL_INITIAL_DATA,
-  status: APPLICATION_STATUS.LOADING
+  status: STATUSES.LOADING
 });

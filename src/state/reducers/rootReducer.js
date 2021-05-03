@@ -4,12 +4,14 @@
 import { combineReducers } from 'redux';
 import { scenarioReducer } from './scenario/ScenarioReducer';
 import { applicationReducer } from './app/ApplicationReducer';
+import { datasetReducer } from './dataset/DatasetReducer';
 import { authReducer } from './auth/AuthReducer';
 
 const rootReducer = combineReducers({
   scenario: scenarioReducer,
   application: applicationReducer,
-  auth: authReducer
+  auth: authReducer,
+  dataset: datasetReducer
 });
 
 export default rootReducer;

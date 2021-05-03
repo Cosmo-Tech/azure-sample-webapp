@@ -16,6 +16,7 @@ const mapDispatchToProps = {
 const mapStateToProps = (state) => ({
   scenarioList: state.scenario.list,
   scenarioTree: state.scenario.tree,
+  datasetList: state.dataset.list,
   application: state.application
 });
 
