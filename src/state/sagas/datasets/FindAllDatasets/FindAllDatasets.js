@@ -2,14 +2,13 @@
 // Licensed under the MIT license.
 
 import axios from 'axios';
-import { put, takeEvery, delay } from 'redux-saga/effects';
+import { put, takeEvery } from 'redux-saga/effects';
 import { DATASET_ENDPOINT, DATASET_ACTIONS_KEY } from '../../../commons/DatasetConstants';
 
 // generators function
 export function * fetchAllDatasetsData () {
   // yield keyword is here to milestone and save the action
   const { data } = yield axios.get(DATASET_ENDPOINT.FIND_ALL_DATASETS);
-  yield delay(2000);
   // Here is an effect named put that indicate to the middleware that it can dispatch a SET_ALL_SCENARIOS action with list as payload
   yield put({ type: DATASET_ACTIONS_KEY.SET_ALL_DATASETS, list: data });
 }

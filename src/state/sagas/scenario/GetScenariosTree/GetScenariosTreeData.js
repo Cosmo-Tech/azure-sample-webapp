@@ -7,11 +7,10 @@ import { SCENARIO_ENDPOINT, SCENARIO_ACTIONS_KEY } from '../../../commons/Scenar
 import { ScenarioUtils } from '@cosmotech/core';
 
 // generators function
-export function * fetchScenarioTreeData () {
+export function * fetchScenarioTreeData (workspaceId) {
   try {
     // yield keyword is here to milestone and save the action
-    const { data } = yield axios.get(SCENARIO_ENDPOINT.GET_SCENARIO_TREE);
-
+    const { data } = yield axios.get(SCENARIO_ENDPOINT.GET_SCENARIO_TREE, { params: { workspaceId: workspaceId } });
     // Here is an effect named put that indicate to the middleware that it can dispatch a SET_SCENARIO_TREE action with data as payload
     const scenarioTree = ScenarioUtils.getScenarioTree(data);
     yield put({ type: SCENARIO_ACTIONS_KEY.SET_SCENARIO_TREE, tree: scenarioTree });

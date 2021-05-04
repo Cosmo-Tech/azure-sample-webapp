@@ -20,15 +20,3 @@ export const SCENARIO_ACTIONS_KEY = {
   FIND_SCENARIO_BY_ID: 'FIND_SCENARIO_BY_ID',
   ADD_NEW_SCENARIO: 'ADD_NEW_SCENARIO'
 };
-
-// Available scenario types
-export const SCENARIO_TYPES = {
-  SIMULATION: {
-    key: 'simulation',
-    trad: 'scenario.type.simulation'
-  },
-  OPTIMISATION: {
-    key: 'optimisation',
-    trad: 'scenario.type.optimisation'
-  }
-};

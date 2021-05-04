@@ -6,6 +6,8 @@ import { dispatchFindScenarioById, dispatchAddNewScenario } from '../../state/di
 
 const mapStateToProps = (state) => ({
   scenarioList: state.scenario.list,
+  datasetList: state.dataset.list,
+  runTemplateList: state.solution.current,
   currentScenario: state.scenario.current,
   scenarioTree: state.scenario.tree
 });

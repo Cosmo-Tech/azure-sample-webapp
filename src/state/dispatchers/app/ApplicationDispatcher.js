@@ -3,6 +3,7 @@
 
 import { APPLICATION_ACTIONS_KEY } from '../../commons/ApplicationConstants';
 import { STATUSES } from '../../commons/Constants';
+import { WORKSPACE_ID } from '../../../configs/App.config';
 
 export const dispatchSetApplicationStatus = (payLoad) => ({
   type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS,
@@ -11,5 +12,6 @@ export const dispatchSetApplicationStatus = (payLoad) => ({
 
 export const dispatchGetAllInitialData = () => ({
   type: APPLICATION_ACTIONS_KEY.GET_ALL_INITIAL_DATA,
-  status: STATUSES.LOADING
+  status: STATUSES.LOADING,
+  workspaceId: WORKSPACE_ID
 });

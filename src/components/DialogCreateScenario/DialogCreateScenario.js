@@ -8,10 +8,8 @@ import {
 import AddIcon from '@material-ui/icons/Add';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import HierarchicalComboBox from '../../components/HierarchicalComboBox';
-import { SCENARIO_TYPES } from '../../state/commons/ScenarioConstants';
 import { useTranslation } from 'react-i18next';
 import { ScenarioUtils } from '@cosmotech/core';
-import datasetJSON from '../HierarchicalComboBox/GetDataset.json';
 
 const useStyles = theme => ({
   root: {
@@ -28,8 +26,9 @@ const useStyles = theme => ({
   }
 });
 
-const DialogCreateScenario = (props) => {
-  const { scenarioTree } = props;
+const DialogCreateScenario = ({ classes, datasets, scenarios, runTemplates }) => {
+  const { t } = useTranslation();
+
   const initState = {
     scenarioName: '',
     scenarioError: false,
@@ -38,7 +37,6 @@ const DialogCreateScenario = (props) => {
     scenarioMaster: true,
     buttonCreateDisabled: true
   };
-  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [values, setValues] = useState(initState);
 
@@ -55,7 +53,7 @@ const DialogCreateScenario = (props) => {
     const newValues = { ...values };
     const value = event.target.value;
 
-    const scenarioExist = ScenarioUtils.isScenarioExist(scenarioTree, value);
+    const scenarioExist = ScenarioUtils.isScenarioExist(scenarios, value);
     const scenarioNameEmpty = value.length === 0;
     newValues.scenarioLabel = 'scenario.textField.error';
     if (scenarioExist) {
@@ -100,7 +98,7 @@ const DialogCreateScenario = (props) => {
     scenarioOrDatasetDropDown =
       <Autocomplete
         disableClearable={true}
-        options={datasetJSON}
+        options={datasets}
         onChange={(event, dataset) => (handleChangeCommon(event, dataset, 'dataset'))}
         getOptionLabel={(option) => option.name}
         renderInput={(params) => (
@@ -109,7 +107,7 @@ const DialogCreateScenario = (props) => {
       />;
   } else {
     scenarioOrDatasetDropDown =
-      <HierarchicalComboBox scenarioTree={scenarioTree} label='scenario.dropdown.parentlabel'
+      <HierarchicalComboBox tree={scenarios} label='scenario.dropdown.parentlabel'
         handleChange={(event, scenarioParent) => (handleChangeCommon(event, scenarioParent, 'scenarioParent'))}>
       </HierarchicalComboBox>;
   }
@@ -124,10 +122,10 @@ const DialogCreateScenario = (props) => {
         fullWidth={true}
         disableBackdropClick
       >
-        <DialogTitle id="form-dialog-title" className={props.classes.dialogcontent}>
+        <DialogTitle id="form-dialog-title" className={classes.dialogcontent}>
           CREATE ALTERNATIVE SCENARIO
         </DialogTitle>
-        <DialogContent className={props.classes.dialogcontent}>
+        <DialogContent className={classes.dialogcontent}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField onChange={handleChangeScenarioName} autoFocus id="scenarioName" value={values.scenarioName}
@@ -154,9 +152,9 @@ const DialogCreateScenario = (props) => {
             <Grid item xs={12}>
               <Autocomplete
                 disableClearable={true}
-                options={Object.values(SCENARIO_TYPES)}
+                options={runTemplates}
                 onChange={(event, dataset) => (handleChangeCommon(event, dataset, 'scenarioType'))}
-                getOptionLabel={(option) => t(option.trad, 'type')}
+                getOptionLabel={(option) => option.name}
                 renderInput={(params) => (
                   <TextField {...params} placeholder="Scenario" label="Scenario Type" variant="outlined"/>
                 )}
@@ -164,7 +162,7 @@ const DialogCreateScenario = (props) => {
             </Grid>
           </Grid>
         </DialogContent>
-        <DialogActions className={props.classes.dialogactions}>
+        <DialogActions className={classes.dialogactions}>
           <Button id="ButtonCancel" onClick={handleDialogClose} color="primary">
             CANCEL
           </Button>
@@ -179,7 +177,9 @@ const DialogCreateScenario = (props) => {
 
 DialogCreateScenario.propTypes = {
   classes: PropTypes.any,
-  scenarioTree: PropTypes.object.isRequired,
+  scenarios: PropTypes.array.isRequired,
+  datasets: PropTypes.array.isRequired,
+  runTemplates: PropTypes.array.isRequired,
   handleChange: PropTypes.func.isRequired
 };
 

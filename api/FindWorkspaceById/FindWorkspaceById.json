@@ -1,0 +1,73 @@
+{
+  "id": "1",
+  "name": "Brewery Analysis",
+  "description": "Brewery analysis for stock, production, transport and customer satisfaction",
+  "version": "1.0.0",
+  "tags": [
+    "Brewery"
+  ],
+  "ownerId": "1",
+  "solution": {
+    "solutionId": "1",
+    "runTemplateFilter": [
+      "1"
+    ],
+    "defaultRunTemplateDataset": {
+      "1": "1"
+    }
+  },
+  "users": [
+    {
+      "id": "1",
+      "name": "Bob",
+      "roles": [
+        "Admin"
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Alice",
+      "roles": [
+        "Viewer"
+      ]
+    }
+  ],
+  "webApp": {
+    "url": "https://brewery.app.cosmotech.com",
+    "iframes": {
+      "main": "https://app.powerbi.com/reportEmbed?reportId=05eee4e7-b301-4fb3-8850-9ef00f3516ef&autoAuth=true&ctid=e9641c78-d0d6-4d09-af63-168922724e7f&config=eyJjbHVzdGVyVXJsIjoiaHR0cHM6Ly93YWJpLWZyYW5jZS1jZW50cmFsLWEtcHJpbWFyeS1yZWRpcmVjdC5hbmFseXNpcy53aW5kb3dzLm5ldC8ifQ%3D%3D",
+      "dashboard": "https://app.powerbi.com/reportEmbed?reportId=05eee4e7-b301-4fb3-8850-9ef00f3516ef&autoAuth=true&ctid=e9641c78-d0d6-4d09-af63-168922724e7f&config=eyJjbHVzdGVyVXJsIjoiaHR0cHM6Ly93YWJpLWZyYW5jZS1jZW50cmFsLWEtcHJpbWFyeS1yZWRpcmVjdC5hbmFseXNpcy53aW5kb3dzLm5ldC8ifQ%3D%3D"
+    }
+  },
+  "services": {
+    "tenantCredentials": {
+      "azureTenantId": "e9641c78-d0d6-4d09-af63-168922724e7g",
+      "azureClientId": "857bbfb2-ba5b-4482-92e4-bfdda9e278ef",
+      "azureClientSecret": "F6c6..s6CC9-Cu49u~R7_n8y.tCCy~4d3U"
+    },
+    "resultsEventBus": {
+      "cloudService": "AzureEventHub",
+      "platformService": "eventBusCluster",
+      "baseUri": "csm-phoenix.servicebus.windows.net",
+      "resourceUri": "brewery"
+    },
+    "scenariorunEventBus": {
+      "cloudService": "AzureEventHub",
+      "platformService": "eventBusCluster",
+      "baseUri": "csm-phoenix.servicebus.windows.net",
+      "resourceUri": "brewery-scenariorun"
+    },
+    "dataWarehouse": {
+      "cloudService": "AzureDataExplorer",
+      "platformService": "dataWarehouseCluster",
+      "baseUri": "https://phoenix.westeurope.kusto.windows.net",
+      "resourceUri": "Brewery"
+    },
+    "storage": {
+      "cloudService": "AzureStorage",
+      "platformService": "storage",
+      "baseUri": "https://csmphoenix.blob.core.windows.net",
+      "resourceUri": "organization-1/workspaces/1"
+    }
+  }
+}

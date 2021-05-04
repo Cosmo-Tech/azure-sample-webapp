@@ -1,0 +1,67 @@
+{
+  "id": "1",
+  "key": "Brewery Solution",
+  "name": "Brewery Solution",
+  "description": "A Brewery Supplier Solution Model which simulate stock, production, transport and customer satisfaction",
+  "repository": "brewery_solution",
+  "version": "1.0.0",
+  "ownerId": "1",
+  "url": "https://github.com/Cosm-Tech/brewery.git",
+  "tags": [
+    "Brewery"
+  ],
+  "parameters": [
+    {
+      "id": "prefix",
+      "labels": {
+        "fr": "Prefix des noms",
+        "en": "Names prefix"
+      },
+      "varType": "string"
+    }
+  ],
+  "parameterGroups": [
+    {
+      "id": "consumers",
+      "labels": {
+        "fr": "Consommateurs",
+        "en": "Consumers"
+      },
+      "parameters": [
+        "prefix"
+      ]
+    }
+  ],
+  "run_templates": [
+    {
+      "id": "hundred",
+      "name": "Full simulation 100 steps",
+      "description": "Run a full simulation with 100 steps",
+      "csmSimulation": "DeployedSimulation",
+      "tags": [
+        "Full",
+        "Supply"
+      ],
+      "computeSize": "highcpu",
+      "parametersHandlerResource": {
+        "storageType": "local",
+        "resourcePath": "run_templates/hundred/parameters_handler/"
+      },
+      "datasetValidatorResource": {
+        "storageType": "local",
+        "resourcePath": "run_templates/hundred/validator/"
+      },
+      "engineResource": {
+        "storageType": "local",
+        "resourcePath": "run_templates/hundred/engine/"
+      },
+      "datasetSchemaResource": {
+        "storageType": "local",
+        "resourcePath": "run_templates/hundred/schema"
+      },
+      "parameterGroups": [
+        "consumers"
+      ]
+    }
+  ]
+}

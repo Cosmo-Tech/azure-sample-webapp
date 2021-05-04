@@ -48,7 +48,7 @@ const Scenario = (props) => {
   const [drivers, setDrivers] = useState(['Supplychain.zip']);
 
   // eslint-disable-next-line no-unused-vars
-  const { currentScenario, scenarioList, findScenarioById, scenarioTree } = props;
+  const { currentScenario, scenarioList, findScenarioById, scenarioTree, datasetList, runTemplateList } = props;
 
   return (
     <Grid container alignItems="center" className={props.classes.mainGrid}>
@@ -70,7 +70,7 @@ const Scenario = (props) => {
       <Grid item xs={3}>
         <Grid container spacing={2} justify="flex-end" className={props.classes.mainGrid}>
           <Grid item>
-            <DialogCreateScenario scenarioTree={scenarioTree.data} />
+            <DialogCreateScenario runTemplates={runTemplateList.data.run_templates} datasets={datasetList.data} scenarios={scenarioTree.data} />
           </Grid>
         </Grid>
       </Grid>
@@ -82,6 +82,8 @@ Scenario.propTypes = {
   classes: PropTypes.any,
   scenarioTree: PropTypes.object.isRequired,
   scenarioList: PropTypes.object.isRequired,
+  datasetList: PropTypes.object.isRequired,
+  runTemplateList: PropTypes.object.isRequired,
   currentScenario: PropTypes.object.isRequired,
   findScenarioById: PropTypes.func.isRequired
 };

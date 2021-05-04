@@ -6,9 +6,9 @@ import { put, takeEvery } from 'redux-saga/effects';
 import { SCENARIO_ENDPOINT, SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 
 // generators function
-export function * getAllScenariosData () {
+export function * getAllScenariosData (workspaceId) {
   // yield keyword is here to milestone and save the action
-  const { data } = yield axios.get(SCENARIO_ENDPOINT.FIND_ALL_SCENARIOS);
+  const { data } = yield axios.get(SCENARIO_ENDPOINT.FIND_ALL_SCENARIOS, { params: { workspaceId: workspaceId } });
   // Here is an effect named put that indicate to the middleware that it can dispatch a SET_ALL_SCENARIOS action with list as payload
   yield put({ type: SCENARIO_ACTIONS_KEY.SET_ALL_SCENARIOS, list: data });
 }

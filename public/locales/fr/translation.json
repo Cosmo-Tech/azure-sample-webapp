@@ -128,6 +128,16 @@
   "genericcomponent": {
     "loading": {
       "line": {
+        "workspace" : {
+          "current" : {
+            "title" : "Récupération du workspace"
+          }
+        },
+        "solution" : {
+          "current" : {
+            "title" : "Récupération de la solution"
+          }
+        },
         "dataset" : {
           "list" : {
             "title" : "Récupération de la liste des datasets"

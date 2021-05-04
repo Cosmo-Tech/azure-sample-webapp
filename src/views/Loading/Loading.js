@@ -27,6 +27,8 @@ const Loading = (
     tabs,
     scenarioList,
     scenarioTree,
+    workspace,
+    solution,
     datasetList,
     application,
     getAllInitialDataAction,
@@ -56,6 +58,8 @@ const Loading = (
             <LoadingLine titleKey={'genericcomponent.loading.line.scenario.list.title'} hasError={hasErrors(scenarioList)} isLoading={isLoading(scenarioList)} height={120} width={120}/>
             <LoadingLine titleKey={'genericcomponent.loading.line.scenario.tree.title'} hasError={hasErrors(scenarioTree)} isLoading={isLoading(scenarioTree)} height={120} width={120}/>
             <LoadingLine titleKey={'genericcomponent.loading.line.dataset.list.title'} hasError={hasErrors(datasetList)} isLoading={isLoading(datasetList)} height={120} width={120}/>
+            <LoadingLine titleKey={'genericcomponent.loading.line.workspace.current.title'} hasError={hasErrors(workspace)} isLoading={isLoading(workspace)} height={120} width={120}/>
+              <LoadingLine titleKey={'genericcomponent.loading.line.solution.current.title'} hasError={hasErrors(solution)} isLoading={isLoading(solution)} height={120} width={120}/>
           </FadeIn>
       </div>)
     : (<Routes authenticated={authenticated} authorized={authenticated} tabs={tabs}/>)
@@ -70,6 +74,8 @@ Loading.propTypes = {
   tabs: PropTypes.array.isRequired,
   scenarioList: PropTypes.object.isRequired,
   scenarioTree: PropTypes.object.isRequired,
+  workspace: PropTypes.object.isRequired,
+  solution: PropTypes.object.isRequired,
   datasetList: PropTypes.object.isRequired,
   application: PropTypes.object.isRequired,
   getAllInitialDataAction: PropTypes.func.isRequired,
