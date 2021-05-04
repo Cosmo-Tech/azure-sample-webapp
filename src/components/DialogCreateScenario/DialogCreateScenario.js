@@ -7,11 +7,11 @@ import {
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import DropdownScenario from '../../components/DropdownScenario';
+import HierarchicalComboBox from '../../components/HierarchicalComboBox';
 import { SCENARIO_TYPES } from '../../state/commons/ScenarioConstants';
 import { useTranslation } from 'react-i18next';
 import { ScenarioUtils } from '@cosmotech/core';
-import datasetJSON from '../DropdownScenario/GetDataset.json';
+import datasetJSON from '../HierarchicalComboBox/GetDataset.json';
 
 const useStyles = theme => ({
   root: {
@@ -109,9 +109,9 @@ const DialogCreateScenario = (props) => {
       />;
   } else {
     scenarioOrDatasetDropDown =
-      <DropdownScenario scenarioTree={scenarioTree} label='scenario.dropdown.parentlabel'
+      <HierarchicalComboBox scenarioTree={scenarioTree} label='scenario.dropdown.parentlabel'
         handleChange={(event, scenarioParent) => (handleChangeCommon(event, scenarioParent, 'scenarioParent'))}>
-      </DropdownScenario>;
+      </HierarchicalComboBox>;
   }
 
   return (

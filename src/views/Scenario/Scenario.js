@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { Grid, Typography } from '@material-ui/core';
-import DropdownScenario from '../../components/DropdownScenario';
+import HierarchicalComboBox from '../../components/HierarchicalComboBox';
 import DialogCreateScenario from '../../components/DialogCreateScenario';
 import { useTranslation } from 'react-i18next';
 
@@ -21,8 +21,14 @@ const useStyles = theme => ({
     flexDirection: 'column',
     margin: '4px'
   },
+  scenarioList: {
+    paddingLeft: '40px',
+    paddingRight: '20px'
+  },
   mainGrid: {
+    display: 'flex',
     margin: `${theme.spacing(1)}px ${theme.spacing(-1)}px ${theme.spacing(-1)}px ${theme.spacing(-1)}px`,
+    paddingTop: '10px',
     flexGrow: 1
   },
   grid: {
@@ -48,20 +54,23 @@ const Scenario = (props) => {
     <Grid container alignItems="center" className={props.classes.mainGrid}>
       <Grid item xs={9}>
         <Grid container spacing={0} alignItems="center" className={props.classes.mainGrid}>
-          <Grid item xs={4} style={{ paddingLeft: '40px', paddingRight: '20px', paddingTop: '10px' }}>
-            <DropdownScenario scenarioTree={scenarioTree.data} label='scenario.dropdown.label'
-              handleChange={(event, scenario) => (findScenarioById({ data: scenario.id }))}>
-            </DropdownScenario>
+          <Grid item xs={5} className={props.classes.scenarioList}>
+            <HierarchicalComboBox
+              maxCharLength="36"
+              tree={scenarioTree.data}
+              label='scenario.dropdown.label'
+              handleChange={(event, scenario) => (findScenarioById({ data: scenario.id }))}
+            />
           </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={7}>
             <Typography>{ t('scenario.type.label')} {currentScenario.data && currentScenario.data.runTemplateName}</Typography>
           </Grid>
         </Grid>
-        </Grid>
+      </Grid>
       <Grid item xs={3}>
         <Grid container spacing={2} justify="flex-end" className={props.classes.mainGrid}>
           <Grid item>
-            <DialogCreateScenario scenarioTree={scenarioTree.data}></DialogCreateScenario>
+            <DialogCreateScenario scenarioTree={scenarioTree.data} />
           </Grid>
         </Grid>
       </Grid>
