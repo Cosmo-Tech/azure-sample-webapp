@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { Grid, Typography } from '@material-ui/core';
 import HierarchicalComboBox from '../../components/HierarchicalComboBox';
-import DialogCreateScenario from '../../components/DialogCreateScenario';
+import CreateScenarioDialogButton from '../../components/CreateScenarioDialogButton';
 import { useTranslation } from 'react-i18next';
 
 const useStyles = theme => ({
@@ -56,21 +56,21 @@ const Scenario = (props) => {
         <Grid container spacing={0} alignItems="center" className={props.classes.mainGrid}>
           <Grid item xs={5} className={props.classes.scenarioList}>
             <HierarchicalComboBox
-              maxCharLength="36"
+              maxCharLength={36}
               tree={scenarioTree.data}
-              label='scenario.dropdown.label'
+              label='views.scenario.dropdown.scenario.label'
               handleChange={(event, scenario) => (findScenarioById({ data: scenario.id }))}
             />
           </Grid>
           <Grid item xs={7}>
-            <Typography>{ t('scenario.type.label')} {currentScenario.data && currentScenario.data.runTemplateName}</Typography>
+            <Typography>{ t('views.scenario.text.scenariotype')}: {currentScenario.data && currentScenario.data.runTemplateName}</Typography>
           </Grid>
         </Grid>
       </Grid>
       <Grid item xs={3}>
         <Grid container spacing={2} justify="flex-end" className={props.classes.mainGrid}>
           <Grid item>
-            <DialogCreateScenario runTemplates={runTemplateList.data.run_templates} datasets={datasetList.data} scenarios={scenarioTree.data} />
+            <CreateScenarioDialogButton runTemplates={runTemplateList.data.run_templates} datasets={datasetList.data} scenarios={scenarioTree.data} />
           </Grid>
         </Grid>
       </Grid>

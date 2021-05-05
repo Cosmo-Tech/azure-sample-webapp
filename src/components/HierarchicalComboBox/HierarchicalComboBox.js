@@ -47,7 +47,7 @@ HierarchicalComboBox.propTypes = {
   label: PropTypes.string,
   handleChange: PropTypes.func,
   disabled: PropTypes.bool,
-  tree: PropTypes.Object,
+  tree: PropTypes.array,
   separator: PropTypes.string,
   maxCharLength: PropTypes.number
 };

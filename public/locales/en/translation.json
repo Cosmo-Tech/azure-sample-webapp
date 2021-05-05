@@ -21,6 +21,9 @@
       },
       "change": {
         "language": "Change language"
+      },
+      "create": {
+        "scenario" : "Create Alternate Scenario"
       }
     },
     "card": {
@@ -99,6 +102,48 @@
       "no": {
         "permission": "You don't have permission to view this page."
       }
+    },
+    "dialog": {
+      "create": {
+        "scenario": {
+          "text": {
+            "title": "Create a scenario"
+          },
+          "input" : {
+            "scenarioname": {
+              "label": "Scenario name",
+              "error": {
+                "label" : "Error",
+                "empty" : "Scenario name cannot be empty",
+                "existing": "Scenario name already exists"
+              }
+            }
+          },
+          "dropdown" : {
+            "parentscenario" : {
+              "label" : "Parent Scenario",
+              "placeholder": "Select a parent Scenario"
+            },
+            "scenariotype" : {
+              "label" : "Scenario Type",
+              "placeholder": "Select a scenario Type"
+            },
+            "dataset" : {
+              "label" : "Dataset",
+              "placeholder": "Select a dataset"
+            }
+          },
+          "checkbox": {
+            "scenarioMaster" : {
+              "label": "Master"
+            }
+          },
+          "button": {
+            "create": "Create",
+            "cancel": "Cancel"
+          }
+        }
+      }
     }
   },
   "views": {
@@ -123,6 +168,16 @@
         }
       },
       "title": "Azure Sample Web Application"
+    },
+    "scenario": {
+      "dropdown": {
+        "scenario" : {
+          "label" : "Scenario"
+        }
+      },
+      "text" : {
+        "scenariotype" : "Scenario type"
+      }
     }
   },
   "genericcomponent": {
@@ -179,24 +234,6 @@
           "title": "Scenario"
         }
       }
-    }
-  },
-  "scenario" : {
-    "textField": {
-      "label": "Scenario name",
-      "error": "Error",
-      "entername" : "Enter a scenario name",
-      "nameiseempty" : "Scenario name cannot be empty",
-      "namealreadyexists": "Scenario name already exists"
-    },
-    "dropdown": {
-      "label" : "Scenario",
-      "parentlabel" : "Scenario Parent"
-    },
-    "type": {
-      "label": "Scenario type:",
-      "simulation": "Simulation",
-      "optimisation": "Optimisation"
     }
   }
 }
