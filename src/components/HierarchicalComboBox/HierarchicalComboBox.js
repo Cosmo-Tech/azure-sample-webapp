@@ -27,7 +27,12 @@ const HierarchicalComboBox = ({ tree, label, disabled, handleChange, separator, 
       getOptionLabel={(option) => option.optionLabel}
       renderOption={(option) => (
         <React.Fragment>
-          <span style={{ marginLeft: option.depth * 20 }}>{option.fullName}</span>
+          <span
+            data-testid={'option-' + option.id}
+            style={{ marginLeft: option.depth * 20 }}
+          >
+            {option.fullName}
+          </span>
         </React.Fragment>
       )}
       renderInput={(params) => (
