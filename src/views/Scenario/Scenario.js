@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { Grid, Typography } from '@material-ui/core';
@@ -39,16 +39,13 @@ const useStyles = theme => ({
 
 const Scenario = (props) => {
   const { t } = useTranslation();
-  // TODO remove eslint warning when information will be retrieved from api calls
-  // eslint-disable-next-line no-unused-vars
-  const [simulators, setSimulators] = useState(['supplychain', 'supplychaindemo']);
-  // eslint-disable-next-line no-unused-vars
-  const [simulations, setSimulations] = useState(['Simulation']);
-  // eslint-disable-next-line no-unused-vars
-  const [drivers, setDrivers] = useState(['Supplychain.zip']);
 
   // eslint-disable-next-line no-unused-vars
   const { currentScenario, scenarioList, findScenarioById, scenarioTree, datasetList, runTemplateList } = props;
+
+  function handleScenarioChange (event, scenario) {
+    findScenarioById(scenario.id);
+  }
 
   return (
     <Grid container alignItems="center" className={props.classes.mainGrid}>
@@ -56,21 +53,24 @@ const Scenario = (props) => {
         <Grid container spacing={0} alignItems="center" className={props.classes.mainGrid}>
           <Grid item xs={5} className={props.classes.scenarioList}>
             <HierarchicalComboBox
+               value={currentScenario.data}
               maxCharLength={36}
               tree={scenarioTree.data}
               label='views.scenario.dropdown.scenario.label'
-              handleChange={(event, scenario) => (findScenarioById({ data: scenario.id }))}
+              handleChange={handleScenarioChange}
             />
           </Grid>
-          <Grid item xs={7}>
-            <Typography>{ t('views.scenario.text.scenariotype')}: {currentScenario.data && currentScenario.data.runTemplateName}</Typography>
-          </Grid>
+          { currentScenario.data &&
+              (<Grid item xs={7}>
+                <Typography>{ t('views.scenario.text.scenariotype')}: { currentScenario.data.runTemplateName}</Typography>
+              </Grid>)
+          }
         </Grid>
       </Grid>
       <Grid item xs={3}>
         <Grid container spacing={2} justify="flex-end" className={props.classes.mainGrid}>
           <Grid item>
-            <CreateScenarioButton currentScenario={currentScenario} runTemplates={runTemplateList.data.run_templates} datasets={datasetList.data} scenarios={scenarioTree.data} />
+            <CreateScenarioButton currentScenario={currentScenario} runTemplates={runTemplateList.data} datasets={datasetList.data} scenarios={scenarioTree.data} />
           </Grid>
         </Grid>
       </Grid>
