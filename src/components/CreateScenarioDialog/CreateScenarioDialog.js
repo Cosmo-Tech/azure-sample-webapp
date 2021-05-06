@@ -98,6 +98,8 @@ const CreateScenarioDialog = ({
       const currentRunTemplate = getCurrentScenarioRunType(currentScenario, runTemplates);
       defaultScenarioType.current = currentRunTemplate;
       setScenarioTypeFieldValues(currentRunTemplate);
+    } else {
+      setMaster(true);
     }
   }, [currentScenario, currentScenarioSelected, runTemplates]);
 
