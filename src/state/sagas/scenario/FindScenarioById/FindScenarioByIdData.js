@@ -8,10 +8,8 @@ import { STATUSES } from '../../../commons/Constants';
 
 // generators function
 export function * findScenarioByIdData (action) {
-  // Here is an effect named put that indicate to the middleware that it can dispatch a SET_ALL_SCENARIOS action with list as payload
-  yield put({ type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO, data: { status: STATUSES.LOADING, scenario: null } });
   // yield keyword is here to milestone and save the action
-  const { data } = yield axios.get(SCENARIO_ENDPOINT.FIND_SCENARIO_BY_ID, { params: { id: action.data } });
+  const { data } = yield axios.get(SCENARIO_ENDPOINT.FIND_SCENARIO_BY_ID, { params: { id: action.scenarioId } });
   yield put({ type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO, data: { status: STATUSES.SUCCESS, scenario: data } });
 }
 

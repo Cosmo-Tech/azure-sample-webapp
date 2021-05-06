@@ -10,9 +10,13 @@ import { fetchScenarioTreeData } from '../../scenario/GetScenariosTree/GetScenar
 import { fetchWorkspaceByIdData } from '../../workspace/FindWorkspaceById/FindWorkspaceByIdData';
 import { fetchSolutionByIdData }
   from '../../solution/FindSolutionById/FindSolutionByIdData';
+import { RUN_TEMPLATE_ACTIONS_KEY } from '../../../commons/RunTemplateConstants';
+import { findScenarioByIdData } from '../../scenario/FindScenarioById/FindScenarioByIdData';
 
 // Selector for solution
 const selectSolutionIdFromCurrentWorkspace = (state) => state.workspace.current.data.solution.solutionId;
+const selectRunTemplatesFromCurrentSolution = (state) => state.solution.current.data.run_templates;
+const selectFirstScenarioFromScenarioTree = (state) => state.scenario.tree.data;
 
 // generators function
 export function * fetchAllInitialData (action) {
@@ -26,6 +30,12 @@ export function * fetchAllInitialData (action) {
     yield call(fetchWorkspaceByIdData, workspaceId);
     const solutionId = yield select(selectSolutionIdFromCurrentWorkspace);
     yield call(fetchSolutionByIdData, solutionId);
+    const scenarioTree = yield select(selectFirstScenarioFromScenarioTree);
+    if (scenarioTree.length !== 0) {
+      yield call(findScenarioByIdData, { scenarioId: scenarioTree[0].id });
+    }
+    const runTemplates = yield select(selectRunTemplatesFromCurrentSolution);
+    yield put({ type: RUN_TEMPLATE_ACTIONS_KEY.SET_RUN_TEMPLATE_LIST, data: { list: runTemplates, status: STATUSES.SUCCESS } });
     yield put({ type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS, status: STATUSES.SUCCESS });
   } catch (error) {
     yield put({ type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS, status: STATUSES.ERROR });
