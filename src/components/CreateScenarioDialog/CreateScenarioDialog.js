@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { useTranslation } from 'react-i18next';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   CREATE_SCENARIO_DIALOG_CANCEL_LABEL_KEY, CREATE_SCENARIO_DIALOG_CREATE_LABEL_KEY,
   CREATE_SCENARIO_DIALOG_DATASET_LABEL_KEY,
@@ -46,6 +46,12 @@ const useStyles = theme => ({
   }
 });
 
+const getCurrentScenarioRunType = (currentScenario, runTemplates) => {
+  const runTemplateId = currentScenario?.data?.runTemplateId;
+  const runTemplate = runTemplates.find(runTemplate => runTemplate.id === runTemplateId);
+  return runTemplate === undefined ? {} : runTemplate;
+};
+
 const isDialogDataValid = (scenarioName, isMaster, scenarioType, parentScenario, dataset) => {
   const validScenarioName = scenarioName.value.length !== 0 && !scenarioName.hasError;
   const validScenarioType = Object.keys(scenarioType).length !== 0;
@@ -76,12 +82,24 @@ const CreateScenarioDialog = ({
     hasError: false,
     errorKey: ''
   };
-
   const [scenarioNameFieldValues, setScenarioNameFieldValues] = useState(scenarioNameInitialState);
   const [isMaster, setMaster] = useState(false);
   const [datasetFieldValues, setDatasetFieldValues] = useState({});
   const [parentScenarioFieldValues, setParentScenarioFieldValues] = useState({});
   const [scenarioTypeFieldValues, setScenarioTypeFieldValues] = useState({});
+  const currentScenarioSelected = currentScenario.data !== null;
+  const defaultParentScenario = useRef({});
+  const defaultScenarioType = useRef({});
+
+  useEffect(() => {
+    if (currentScenarioSelected) {
+      defaultParentScenario.current = currentScenario.data;
+      setParentScenarioFieldValues(currentScenario.data);
+      const currentRunTemplate = getCurrentScenarioRunType(currentScenario, runTemplates);
+      defaultScenarioType.current = currentRunTemplate;
+      setScenarioTypeFieldValues(currentRunTemplate);
+    }
+  }, [currentScenario, currentScenarioSelected, runTemplates]);
 
   const handleChangeScenarioName = (event) => {
     const newScenarioName = event.target.value;
@@ -103,32 +121,32 @@ const CreateScenarioDialog = ({
     });
   };
 
-  /*   const handleCreateScenario = () => {
-   let formData;
+  const handleCreateScenario = () => {
+    let formData;
     if (isMaster) {
       formData = {
         name: scenarioNameFieldValues.value,
         description: scenarioNameFieldValues.value,
-        parentId: parentScenarioFieldValues.id,
-        ownerId: 'testId'
-
+        ownerId: 'testId',
+        dataset: datasetFieldValues.id,
+        runTemplateId: scenarioTypeFieldValues.id,
+        runTemplateName: scenarioTypeFieldValues.name
       };
     } else {
-
+      formData = {
+        name: scenarioNameFieldValues.value,
+        description: scenarioNameFieldValues.value,
+        parentId: parentScenarioFieldValues.id,
+        ownerId: 'testId',
+        runTemplateId: scenarioTypeFieldValues.id,
+        runTemplateName: scenarioTypeFieldValues.name
+      };
     }
-
-    closeDialog();
-  }; */
-
-  const handleChangeScenarioMaster = (event) => {
-    const isMaster = event.target.checked;
-    if (isMaster) {
-      setParentScenarioFieldValues({});
-    } else {
-      setDatasetFieldValues({});
-    }
-    setMaster(isMaster);
+    alert(JSON.stringify(formData));
+    handleCloseDialog();
   };
+
+  const handleChangeScenarioMaster = (event) => setMaster(event.target.checked);
 
   const handleChangeDataset = (newDataset) => setDatasetFieldValues(newDataset);
 
@@ -145,21 +163,16 @@ const CreateScenarioDialog = ({
     createScenarioDisabled = false;
   }
 
-  const currentScenarioSelected = currentScenario.data !== null;
-  const selectedParentType = currentScenario.data === null ? '' : currentScenario.data.name;
-
-  const resetState = () => {
-    console.log('resetState');
-    setScenarioTypeFieldValues({});
-    setParentScenarioFieldValues({});
+  const resetToDefaultData = () => {
+    setParentScenarioFieldValues(defaultParentScenario.current);
     setDatasetFieldValues({});
     setMaster(false);
     setScenarioNameFieldValues(scenarioNameInitialState);
+    setScenarioTypeFieldValues(defaultScenarioType.current);
   };
 
   const handleCloseDialog = () => {
-    console.log('handleCloseDialog');
-    resetState();
+    resetToDefaultData();
     closeDialog();
   };
 
@@ -171,7 +184,7 @@ const CreateScenarioDialog = ({
                 fullWidth={true}
                 disableBackdropClick >
                 <DialogTitle id="form-dialog-title" className={classes.dialogContent} >
-                    <Typography variant='h3'>
+                    <Typography variant='subtitle1'>
                         {t(CREATE_SCENARIO_DIALOG_TITLE_LABEL_KEY, 'Create alternative scenario')}
                     </Typography>
                 </DialogTitle>
@@ -207,10 +220,12 @@ const CreateScenarioDialog = ({
                                     disableClearable={true}
                                     id='dataset'
                                     options={datasets}
+                                    defaultValue={datasetFieldValues}
                                     onChange={
                                         (event, newDataset) => (handleChangeDataset(newDataset))
                                     }
-                                    getOptionLabel={(option) => option.name}
+                                    getOptionLabel={(option) => Object.keys(option).length !== 0 ? option.name : ''}
+                                    getOptionSelected={(option, value) => option.id === value.id}
                                     renderInput={
                                         (params) => (
                                             <TextField
@@ -221,8 +236,8 @@ const CreateScenarioDialog = ({
                                     }/>)
                               : (<HierarchicalComboBox
                                         tree={scenarios}
+                                        defaultValue={defaultParentScenario.current}
                                         label={CREATE_SCENARIO_DIALOG_PARENT_SCENARIO_LABEL_KEY}
-                                        defaultValue={{ optionLabel: selectedParentType }}
                                         handleChange={
                                             (event, newParentScenario) => (handleChangeParentScenario(newParentScenario))
                                         }/>
@@ -233,11 +248,13 @@ const CreateScenarioDialog = ({
                             <Autocomplete
                                 id='scenarioType'
                                 disableClearable={true}
+                                value={scenarioTypeFieldValues}
                                 options={runTemplates}
                                 onChange={
                                     (event, newScenarioType) => (handleScenarioTypeChange(newScenarioType))
                                 }
-                                getOptionLabel={(option) => option.name}
+                                getOptionLabel={(option) => Object.keys(option).length !== 0 ? option.name : ''}
+                                getOptionSelected={(option, value) => option.id === value.id}
                                 renderInput={
                                     (params) => (
                                         <TextField
@@ -257,6 +274,7 @@ const CreateScenarioDialog = ({
                     </Button>
                     <Button id="create"
                             disabled={createScenarioDisabled}
+                            onClick={handleCreateScenario}
                             color="primary">
                         {t(CREATE_SCENARIO_DIALOG_CREATE_LABEL_KEY, 'Create')}
                     </Button>
