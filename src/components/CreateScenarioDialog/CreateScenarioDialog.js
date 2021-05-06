@@ -38,13 +38,11 @@ const useStyles = theme => ({
     height: '100%'
   },
   dialogContent: {
-    marginLeft: '20px',
-    marginRight: '20px'
+    marginTop: '16px'
   },
   dialogActions: {
-    marginRight: '30px',
-    marginTop: '20px',
-    marginBottom: '5px'
+    marginRight: '4px',
+    marginBottom: '4px'
   }
 });
 
