@@ -14,9 +14,9 @@ export const dispatchSetCurrentScenario = (payLoad) => ({
   ...payLoad
 });
 
-export const dispatchFindScenarioById = (payLoad) => ({
+export const dispatchFindScenarioById = (scenarioId) => ({
   type: SCENARIO_ACTIONS_KEY.FIND_SCENARIO_BY_ID,
-  ...payLoad
+  scenarioId: scenarioId
 });
 
 export const dispatchAddNewScenario = (payLoad) => ({
