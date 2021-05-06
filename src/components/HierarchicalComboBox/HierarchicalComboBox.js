@@ -3,11 +3,11 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 import { TextField } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useTranslation } from 'react-i18next';
 import { getFormattedOptionsList } from './utils';
+import { withStyles } from '@material-ui/styles';
 
 const useStyles = theme => ({
 });
@@ -25,7 +25,8 @@ const HierarchicalComboBox = ({ tree, label, disabled, handleChange, separator, 
       disabled={disabled}
       onChange={(event, node) => (handleChange(event, node))}
       options={optionsList}
-      getOptionLabel={(option) => option.optionLabel}
+        getOptionLabel={(option) => Object.keys(option).length !== 0 ? option.name : ''}
+        getOptionSelected={(option, value) => option.id === value.id}
       renderOption={(option) => (
         <React.Fragment>
           <span

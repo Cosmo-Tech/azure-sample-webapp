@@ -10,8 +10,8 @@ export const getFormattedOptionsList = (optionsList, nodesList, depth, separator
       const subStringLenght = maxCharLength / 2;
       option.id = node.id;
       (maxCharLength === -1 || node.name.length <= maxCharLength)
-        ? option.optionLabel = node.name
-        : option.optionLabel = node.name.substring(0, subStringLenght) + separator + node.name.substring(node.name.length - subStringLenght);
+        ? option.name = node.name
+        : option.name = node.name.substring(0, subStringLenght) + separator + node.name.substring(node.name.length - subStringLenght);
       option.depth = depth;
       optionsList.push(option);
       if (node.children !== undefined && node.children.length > 0) {
