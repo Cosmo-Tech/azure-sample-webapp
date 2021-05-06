@@ -20,6 +20,7 @@ const HierarchicalComboBox = ({ tree, label, disabled, handleChange, separator, 
 
   return (
     <Autocomplete
+        {...props}
       disableClearable
       disabled={disabled}
       onChange={(event, node) => (handleChange(event, node))}

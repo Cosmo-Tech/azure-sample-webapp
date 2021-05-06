@@ -6,8 +6,8 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { Grid, Typography } from '@material-ui/core';
 import HierarchicalComboBox from '../../components/HierarchicalComboBox';
-import CreateScenarioDialogButton from '../../components/CreateScenarioDialogButton';
 import { useTranslation } from 'react-i18next';
+import { CreateScenarioButton } from '../../components/CreateScenarioDialog';
 
 const useStyles = theme => ({
   root: {
@@ -70,7 +70,7 @@ const Scenario = (props) => {
       <Grid item xs={3}>
         <Grid container spacing={2} justify="flex-end" className={props.classes.mainGrid}>
           <Grid item>
-            <CreateScenarioDialogButton runTemplates={runTemplateList.data.run_templates} datasets={datasetList.data} scenarios={scenarioTree.data} />
+            <CreateScenarioButton currentScenario={currentScenario} runTemplates={runTemplateList.data.run_templates} datasets={datasetList.data} scenarios={scenarioTree.data} />
           </Grid>
         </Grid>
       </Grid>

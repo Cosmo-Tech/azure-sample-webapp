@@ -23,7 +23,7 @@
         "language": "Change language"
       },
       "create": {
-        "scenario" : "Create Alternate Scenario"
+        "scenario" : "Create Alternative Scenario"
       }
     },
     "card": {
@@ -125,8 +125,8 @@
               "placeholder": "Select a parent Scenario"
             },
             "scenariotype" : {
-              "label" : "Scenario Type",
-              "placeholder": "Select a scenario Type"
+              "label" : "Run Type",
+              "placeholder": "Select a run Type"
             },
             "dataset" : {
               "label" : "Dataset",
@@ -176,7 +176,7 @@
         }
       },
       "text" : {
-        "scenariotype" : "Scenario type"
+        "scenariotype" : "Run type"
       }
     }
   },
@@ -231,7 +231,7 @@
     "tabs": {
       "scenario": {
         "tab": {
-          "title": "Scenario"
+          "title": "SCENARIO VIEW"
         }
       }
     }
