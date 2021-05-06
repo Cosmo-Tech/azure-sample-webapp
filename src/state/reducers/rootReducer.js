@@ -8,6 +8,7 @@ import { datasetReducer } from './dataset/DatasetReducer';
 import { workspaceReducer } from './workspace/WorkspaceReducer';
 import { solutionReducer } from './solution/SolutionReducer';
 import { authReducer } from './auth/AuthReducer';
+import { runTemplateReducer } from './runtemplate/RunTemplateReducer';
 
 const rootReducer = combineReducers(
   {
@@ -16,7 +17,8 @@ const rootReducer = combineReducers(
     auth: authReducer,
     dataset: datasetReducer,
     workspace: workspaceReducer,
-    solution: solutionReducer
+    solution: solutionReducer,
+    runTemplate: runTemplateReducer
   }
 );
 
