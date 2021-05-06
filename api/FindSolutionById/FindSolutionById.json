@@ -34,9 +34,39 @@
   ],
   "run_templates": [
     {
-      "id": "hundred",
+      "id": "1",
       "name": "Full simulation 100 steps",
       "description": "Run a full simulation with 100 steps",
+      "csmSimulation": "DeployedSimulation",
+      "tags": [
+        "Full",
+        "Supply"
+      ],
+      "computeSize": "highcpu",
+      "parametersHandlerResource": {
+        "storageType": "local",
+        "resourcePath": "run_templates/hundred/parameters_handler/"
+      },
+      "datasetValidatorResource": {
+        "storageType": "local",
+        "resourcePath": "run_templates/hundred/validator/"
+      },
+      "engineResource": {
+        "storageType": "local",
+        "resourcePath": "run_templates/hundred/engine/"
+      },
+      "datasetSchemaResource": {
+        "storageType": "local",
+        "resourcePath": "run_templates/hundred/schema"
+      },
+      "parameterGroups": [
+        "consumers"
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Blue Optimization of the death",
+      "description": "Blue Optimization of the death",
       "csmSimulation": "DeployedSimulation",
       "tags": [
         "Full",
