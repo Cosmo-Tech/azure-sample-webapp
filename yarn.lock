@@ -1238,10 +1238,10 @@
   resolved "https://registry.npmjs.org/@cosmotech/core/-/core-1.1.2.tgz"
   integrity sha512-vhUCg2KNwIfsu7f4V2lejPLAKv1Y1/yBnUNlBVUA6qCaP+DH1N9ySgdpW8/IK5E2Utl9rT/TUHE40x5vhvCI/w==
 
-"@cosmotech/ui@^0.2.7-beta.0":
-  version "0.2.7-beta.0"
-  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-0.2.7-beta.0.tgz#352d4b6ba88085355d8faf41941fce3d35cc4e68"
-  integrity sha512-q3pgWbAhKTYogxj8PXAsOz6XaODY3/+4WUzwmblYdiDLJEZBIBq9o6Hj82hYzWFzcdkVdp3uETfwmrBqkwLkeA==
+"@cosmotech/ui@^0.2.7-beta.1":
+  version "0.2.7-beta.1"
+  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-0.2.7-beta.1.tgz#4d8fe4ac61285e0c1395523d2e4a3ccb1ab4234c"
+  integrity sha512-TtN/2k5DzEQE85iPEOfqaGqwBWsCAWyALXdYj2eAq4/nAJ8xB5Bcb3Ye4g939HHibFiaziMGHa+TZtlTpRE1Aw==
 
 "@csstools/convert-colors@^1.4.0":
   version "1.4.0"
