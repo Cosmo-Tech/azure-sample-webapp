@@ -136,6 +136,17 @@
             "title" : "Fetching scenario tree"
           }
         }
+      },
+      "userinfo": {
+        "button": {
+          "change": {
+            "language": "Change language"
+          },
+          "download": {
+            "documentation": "Download documentation"
+          },
+          "logout": "Sign out"
+        }
       }
     },
     "button": {
@@ -152,15 +163,6 @@
         "tab": {
           "title": "Scenario"
         }
-      }
-    }
-  },
-  "genericcomponent": {
-    "userinfo": {
-      "button": {
-        "changeLanguage": "Change language",
-        "downloadDocumentation": "Download documentation",
-        "logout": "Log out"
       }
     }
   }
