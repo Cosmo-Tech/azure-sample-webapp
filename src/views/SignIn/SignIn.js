@@ -131,7 +131,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const SignIn = ({ authStatus, logInAction }) => {
+const SignIn = ({ logInAction }) => {
   const { t, i18n } = useTranslation();
 
   const classes = useStyles();
@@ -253,7 +253,6 @@ const SignIn = ({ authStatus, logInAction }) => {
 };
 
 SignIn.propTypes = {
-  authStatus: PropTypes.string.isRequired,
   logInAction: PropTypes.func.isRequired
 };
 

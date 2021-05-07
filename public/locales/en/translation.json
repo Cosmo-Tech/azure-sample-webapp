@@ -136,17 +136,6 @@
             "title" : "Fetching scenario tree"
           }
         }
-      },
-      "userinfo": {
-        "button": {
-          "change": {
-            "language": "Change language"
-          },
-          "download": {
-            "documentation": "Download documentation"
-          },
-          "logout": "Sign out"
-        }
       }
     },
     "button": {
@@ -154,6 +143,17 @@
         "msal": {
           "title": "Sign in with Microsoft"
         }
+      }
+    },
+    "userinfo": {
+      "button": {
+        "change": {
+          "language": "Change language"
+        },
+        "download": {
+          "documentation": "Download documentation"
+        },
+        "logout": "Sign out"
       }
     }
   },

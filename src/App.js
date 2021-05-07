@@ -14,33 +14,35 @@ const App = (props) => {
   const { t } = useTranslation();
   document.title = t('commoncomponents.text.application.title', 'Cosmo Tech Web Application Sample');
 
+  const { authStatus, logOutAction, logInAction } = props;
+
   useEffect(() => {
     const appInsights = new ApplicationInsights(applicationInsightConfig);
     appInsights.loadAppInsights();
     appInsights.trackPageView();
 
     // Check if the user is already signed-in
-    if (props.authStatus === 'ANONYMOUS') {
-      props.logInAction();
+    if (authStatus === 'ANONYMOUS') {
+      logInAction();
     }
   });
 
-  return (props.authStatus === 'CONNECTING')
+  return (authStatus === 'CONNECTING')
     ? (
       <div className="spinner-border text-success" role="status">
         <span className="sr-only">{t('views.common.text.loading', 'Loading...')}</span>
       </div>
       )
     : (
-        <Loading logout={props.logOutAction}
-          authenticated={props.authStatus === 'AUTHENTICATED'}
-          authorized={props.authStatus === 'AUTHENTICATED'}
+        <Loading logout={logOutAction}
+          authenticated={authStatus === 'AUTHENTICATED'}
+          authorized={authStatus === 'AUTHENTICATED'}
           tabs={tabs} />
       );
 };
 
 App.propTypes = {
-  authStatus: PropTypes.any,
+  authStatus: PropTypes.string.isRequired,
   logInAction: PropTypes.func.isRequired,
   logOutAction: PropTypes.func.isRequired
 };

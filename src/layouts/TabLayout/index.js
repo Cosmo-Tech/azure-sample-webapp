@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import TabLayout from './TabLayout';
 
 const mapStateToProps = (state) => ({
-  userId: state.auth.id,
+  userId: state.auth.userId,
   userName: state.auth.userName,
   userProfilePic: state.auth.profilePic || '',
   authStatus: state.auth.status

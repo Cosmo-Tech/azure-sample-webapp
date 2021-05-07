@@ -11,6 +11,7 @@ import { Auth } from '@cosmotech/core';
 import { UserInfo } from '@cosmotech/ui';
 import Footer from './components/Footer';
 import { useTranslation } from 'react-i18next';
+import { applicationLanguages } from '../../configs/App.config';
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -77,10 +78,6 @@ const TabLayout = props => {
   const classes = useStyles();
   const { t } = useTranslation();
   const location = useLocation();
-  const languages = {
-    en: 'English',
-    fr: 'Français'
-  };
 
   return (<>
           <AppBar className={classes.bar}>
@@ -92,7 +89,7 @@ const TabLayout = props => {
               </Tabs>
               <div className={classes.rightBar}>
                 <div className={classes.rightBarElement}>
-                  <UserInfo documentationUrl="doc.pdf" languages={languages}
+                  <UserInfo documentationUrl="doc.pdf" languages={applicationLanguages}
                     userName={props.userName}
                     profilePictureUrl={props.userProfilePic}
                     onLogout={Auth.signOut}

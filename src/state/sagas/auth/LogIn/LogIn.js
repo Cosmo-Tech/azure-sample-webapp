@@ -18,7 +18,7 @@ export function * tryLogIn (action) {
       // If the user is authenticated, set the auth data
       yield put({
         type: AUTH_ACTIONS_KEY.SET_AUTH_DATA,
-        id: Auth.getUserId(),
+        userId: Auth.getUserId(),
         userName: Auth.getUserName(),
         profilePic: Auth.getUserPicUrl(),
         status: AUTH_STATUS.AUTHENTICATED
@@ -26,7 +26,7 @@ export function * tryLogIn (action) {
     } else {
       yield put({
         type: AUTH_ACTIONS_KEY.SET_AUTH_DATA,
-        id: '',
+        userId: '',
         userName: '',
         profilePic: '',
         status: AUTH_STATUS.DENIED
