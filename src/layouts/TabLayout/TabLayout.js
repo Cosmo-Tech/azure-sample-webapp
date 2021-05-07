@@ -78,8 +78,8 @@ const TabLayout = props => {
   const { t } = useTranslation();
   const location = useLocation();
   const languages = {
-    fr: 'Français',
-    en: 'English'
+    en: 'English',
+    fr: 'Français'
   };
 
   return (<>
