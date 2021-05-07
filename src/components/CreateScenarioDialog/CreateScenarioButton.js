@@ -23,7 +23,7 @@ const useStyles = theme => ({
   }
 });
 
-const CreateScenarioButton = ({ classes, currentScenario, datasets, scenarios, runTemplates }) => {
+const CreateScenarioButton = ({ classes, currentScenario, datasets, scenarios, runTemplates, userId }) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const openDialog = () => setOpen(true);
@@ -41,7 +41,8 @@ const CreateScenarioButton = ({ classes, currentScenario, datasets, scenarios, r
           classes={classes}
           closeDialog={closeDialog}
           runTemplates={runTemplates}
-          scenarios={scenarios} />
+          scenarios={scenarios}
+          userId={userId} />
     </div>
   );
 };
@@ -51,7 +52,8 @@ CreateScenarioButton.propTypes = {
   currentScenario: PropTypes.object,
   scenarios: PropTypes.array.isRequired,
   datasets: PropTypes.array.isRequired,
-  runTemplates: PropTypes.array.isRequired
+  runTemplates: PropTypes.array.isRequired,
+  userId: PropTypes.number.isRequired
 };
 
 export default withStyles(useStyles)(CreateScenarioButton);

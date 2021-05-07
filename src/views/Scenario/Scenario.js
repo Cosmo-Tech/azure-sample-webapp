@@ -40,8 +40,16 @@ const useStyles = theme => ({
 const Scenario = (props) => {
   const { t } = useTranslation();
 
-  // eslint-disable-next-line no-unused-vars
-  const { currentScenario, scenarioList, findScenarioById, scenarioTree, datasetList, runTemplateList } = props;
+  const {
+    currentScenario,
+    // eslint-disable-next-line no-unused-vars
+    scenarioList,
+    findScenarioById,
+    scenarioTree,
+    datasetList,
+    runTemplateList,
+    userId
+  } = props;
 
   function handleScenarioChange (event, scenario) {
     findScenarioById(scenario.id);
@@ -70,7 +78,12 @@ const Scenario = (props) => {
       <Grid item xs={3}>
         <Grid container spacing={2} justify="flex-end" className={props.classes.mainGrid}>
           <Grid item>
-            <CreateScenarioButton currentScenario={currentScenario} runTemplates={runTemplateList.data} datasets={datasetList.data} scenarios={scenarioTree.data} />
+            <CreateScenarioButton
+                currentScenario={currentScenario}
+                runTemplates={runTemplateList.data}
+                datasets={datasetList.data}
+                scenarios={scenarioTree.data}
+                userId={userId}/>
           </Grid>
         </Grid>
       </Grid>
@@ -85,7 +98,8 @@ Scenario.propTypes = {
   datasetList: PropTypes.object.isRequired,
   runTemplateList: PropTypes.object.isRequired,
   currentScenario: PropTypes.object.isRequired,
-  findScenarioById: PropTypes.func.isRequired
+  findScenarioById: PropTypes.func.isRequired,
+  userId: PropTypes.number.isRequired
 };
 
 export default withStyles(useStyles)(Scenario);

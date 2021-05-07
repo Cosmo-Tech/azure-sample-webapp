@@ -73,7 +73,8 @@ const CreateScenarioDialog = ({
   scenarios,
   currentScenario,
   datasets,
-  runTemplates
+  runTemplates,
+  userId
 }) => {
   const { t } = useTranslation();
 
@@ -129,7 +130,7 @@ const CreateScenarioDialog = ({
       formData = {
         name: scenarioNameFieldValues.value,
         description: scenarioNameFieldValues.value,
-        ownerId: 'testId',
+        ownerId: userId,
         dataset: datasetFieldValues.id,
         runTemplateId: scenarioTypeFieldValues.id,
         runTemplateName: scenarioTypeFieldValues.name
@@ -139,7 +140,7 @@ const CreateScenarioDialog = ({
         name: scenarioNameFieldValues.value,
         description: scenarioNameFieldValues.value,
         parentId: parentScenarioFieldValues.id,
-        ownerId: 'testId',
+        ownerId: userId,
         runTemplateId: scenarioTypeFieldValues.id,
         runTemplateName: scenarioTypeFieldValues.name
       };
@@ -292,7 +293,8 @@ CreateScenarioDialog.propTypes = {
   scenarios: PropTypes.array.isRequired,
   currentScenario: PropTypes.object.isRequired,
   datasets: PropTypes.array.isRequired,
-  runTemplates: PropTypes.array.isRequired
+  runTemplates: PropTypes.array.isRequired,
+  userId: PropTypes.number.isRequired
 };
 
 export default withStyles(useStyles)(CreateScenarioDialog);

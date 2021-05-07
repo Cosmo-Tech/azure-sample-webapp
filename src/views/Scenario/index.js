@@ -9,7 +9,8 @@ const mapStateToProps = (state) => ({
   datasetList: state.dataset.list,
   runTemplateList: state.runTemplate.list,
   currentScenario: state.scenario.current,
-  scenarioTree: state.scenario.tree
+  scenarioTree: state.scenario.tree,
+  userId: state.auth.userId
 });
 
 const mapDispatchToProps = {
