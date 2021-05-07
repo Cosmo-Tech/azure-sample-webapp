@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
+
 describe('Log in & log out', () => {
-  // eslint-disable-next-line jest/expect-expect
   it('can log in and log out with dev account', () => {
     // Login
     cy.visit('/');

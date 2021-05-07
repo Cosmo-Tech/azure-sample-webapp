@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 import { Auth, AuthDev } from '@cosmotech/core';
@@ -130,7 +131,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const SignIn = () => {
+const SignIn = ({ logInAction }) => {
   const { t, i18n } = useTranslation();
 
   const classes = useStyles();
@@ -152,16 +153,10 @@ const SignIn = () => {
     }));
   }, [formState.values]);
 
-  const handleAzureMSALSignIn = event => {
+  const handleSignIn = (event, authProvider) => {
     event.preventDefault();
-    Auth.setProvider(AuthMSAL.name);
-    Auth.signIn();
-  };
-
-  const handleAuthDevSignIn = event => {
-    event.preventDefault();
-    Auth.setProvider(AuthDev.name);
-    Auth.signIn();
+    Auth.setProvider(authProvider);
+    logInAction(authProvider);
   };
 
   const year = new Date().getFullYear();
@@ -193,7 +188,7 @@ const SignIn = () => {
                 <Grid className={classes.socialButtons} container spacing={2} direction="column">
                   <Grid item>
                     <SignInButton
-                      onClick={handleAzureMSALSignIn}
+                      onClick={event => handleSignIn(event, AuthMSAL.name)}
                     />
                   </Grid>
                   <Grid item>
@@ -201,7 +196,7 @@ const SignIn = () => {
                       window.location.hostname === 'localhost' &&
                         <Button
                           color="primary"
-                          onClick={handleAuthDevSignIn}
+                          onClick={event => handleSignIn(event, AuthDev.name)}
                           data-cy="sign-in-with-dev-account-button"
                         >
                           {t('commoncomponents.button.login.dev.account.login', 'Login with Dev account')}
@@ -255,6 +250,10 @@ const SignIn = () => {
       </Grid>
     </div>
   );
+};
+
+SignIn.propTypes = {
+  logInAction: PropTypes.func.isRequired
 };
 
 export default withRouter(SignIn);

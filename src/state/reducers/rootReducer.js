@@ -4,7 +4,12 @@
 import { combineReducers } from 'redux';
 import { scenarioReducer } from './scenario/ScenarioReducer';
 import { applicationReducer } from './app/ApplicationReducer';
+import { authReducer } from './auth/AuthReducer';
 
-const rootReducer = combineReducers({ scenario: scenarioReducer, application: applicationReducer });
+const rootReducer = combineReducers({
+  scenario: scenarioReducer,
+  application: applicationReducer,
+  auth: authReducer
+});
 
 export default rootReducer;

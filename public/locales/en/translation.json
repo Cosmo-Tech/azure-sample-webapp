@@ -144,6 +144,17 @@
           "title": "Sign in with Microsoft"
         }
       }
+    },
+    "userinfo": {
+      "button": {
+        "change": {
+          "language": "Change language"
+        },
+        "download": {
+          "documentation": "Download documentation"
+        },
+        "logout": "Sign out"
+      }
     }
   },
   "layouts": {

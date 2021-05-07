@@ -28,3 +28,9 @@ export const applicationInsightConfig = {
     distributedTracingMode: DistributedTracingModes.AI_AND_W3C
   }
 };
+
+// languages
+export const applicationLanguages = {
+  en: 'English',
+  fr: 'Français'
+};
