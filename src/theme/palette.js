@@ -11,6 +11,7 @@ const themeColors = {
   background: '#191919',
   backgroundSecondary: '#1f1f1f',
   backgroundSignInPage: '#2E363B',
+  cardBackground: '#2E2E2E',
   textGrey: '#999a9d',
   surface: '#100f0f',
   red: '#df410c',
@@ -61,7 +62,8 @@ export default {
   background: {
     default: themeColors.background,
     paper: themeColors.background,
-    secondary: themeColors.backgroundSecondary
+    secondary: themeColors.backgroundSecondary,
+    card: themeColors.cardBackground
   },
   icon: colors.blueGrey[600],
   divider: colors.grey[200],

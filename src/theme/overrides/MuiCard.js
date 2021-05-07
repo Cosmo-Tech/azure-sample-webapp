@@ -5,6 +5,6 @@ import palette from '../palette';
 
 export default {
   root: {
-    backgroundColor: palette.background.default
+    backgroundColor: palette.background.card
   }
 };
