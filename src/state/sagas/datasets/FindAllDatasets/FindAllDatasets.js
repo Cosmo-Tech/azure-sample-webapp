@@ -1,16 +1,21 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import axios from 'axios';
-import { put, takeEvery } from 'redux-saga/effects';
-import { DATASET_ENDPOINT, DATASET_ACTIONS_KEY } from '../../../commons/DatasetConstants';
+import { call, put, takeEvery } from 'redux-saga/effects';
+import { DATASET_ACTIONS_KEY } from '../../../commons/DatasetConstants';
+import { ORGANISATION_ID } from '../../../../configs/App.config';
+import DatasetService from '../../../../services/dataset/DatasetService';
 
 // generators function
 export function * fetchAllDatasetsData () {
   // yield keyword is here to milestone and save the action
-  const { data } = yield axios.get(DATASET_ENDPOINT.FIND_ALL_DATASETS);
-  // Here is an effect named put that indicate to the middleware that it can dispatch a SET_ALL_SCENARIOS action with list as payload
-  yield put({ type: DATASET_ACTIONS_KEY.SET_ALL_DATASETS, list: data });
+  const { error, data } = yield call(DatasetService.findAllDatasets, ORGANISATION_ID);
+  if (error) {
+    // TODO handle error management
+  } else {
+    // Here is an effect named put that indicate to the middleware that it can dispatch a SET_ALL_SCENARIOS action with list as payload
+    yield put({ type: DATASET_ACTIONS_KEY.SET_ALL_DATASETS, list: data });
+  }
 }
 
 // generators function

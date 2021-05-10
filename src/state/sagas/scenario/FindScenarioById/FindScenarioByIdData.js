@@ -1,16 +1,22 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import axios from 'axios';
-import { put, takeLatest } from 'redux-saga/effects';
-import { SCENARIO_ENDPOINT, SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
+import { call, put, takeLatest } from 'redux-saga/effects';
+import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { STATUSES } from '../../../commons/Constants';
+import ScenarioService from '../../../../services/scenario/ScenarioService';
+import { ORGANISATION_ID } from '../../../../configs/App.config';
 
 // generators function
 export function * findScenarioByIdData (action) {
   // yield keyword is here to milestone and save the action
-  const { data } = yield axios.get(SCENARIO_ENDPOINT.FIND_SCENARIO_BY_ID, { params: { id: action.scenarioId } });
-  yield put({ type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO, data: { status: STATUSES.SUCCESS, scenario: data } });
+  const { error, data } = yield call(ScenarioService.findScenarioById, ORGANISATION_ID, 1, action.scenarioId);
+  if (error) {
+    // TODO handle error management
+  } else {
+    // Here is an effect named put that indicate to the middleware that it can dispatch a SET_CURRENT_SCENARIO action with data as payload
+    yield put({ type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO, data: { status: STATUSES.SUCCESS, scenario: data } });
+  }
 }
 
 // generators function

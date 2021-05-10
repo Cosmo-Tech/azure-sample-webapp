@@ -1,16 +1,22 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import axios from 'axios';
-import { put, takeEvery } from 'redux-saga/effects';
+import { call, put, takeEvery } from 'redux-saga/effects';
 import { STATUSES } from '../../../commons/Constants';
-import { WORKSPACE_ACTIONS_KEY, WORKSPACE_ENDPOINT } from '../../../commons/WorkspaceConstants';
+import { WORKSPACE_ACTIONS_KEY } from '../../../commons/WorkspaceConstants';
+import { ORGANISATION_ID } from '../../../../configs/App.config';
+import WorkspaceService from '../../../../services/workspace/WorspaceService';
 
 // generators function
 export function * fetchWorkspaceByIdData (workspaceId) {
   // yield keyword is here to milestone and save the action
-  const { data } = yield axios.get(WORKSPACE_ENDPOINT.FIND_WORKSPACE_BY_ID, { params: { workspaceId: workspaceId } });
-  yield put({ type: WORKSPACE_ACTIONS_KEY.SET_CURRENT_WORKSPACE, data: { status: STATUSES.SUCCESS, workspace: data } });
+  const { error, data } = yield call(WorkspaceService.findWorkspaceById, ORGANISATION_ID, workspaceId);
+  if (error) {
+    // TODO handle error management
+  } else {
+    // Here is an effect named put that indicate to the middleware that it can dispatch a SET_CURRENT_SCENARIO action with data as payload
+    yield put({ type: WORKSPACE_ACTIONS_KEY.SET_CURRENT_WORKSPACE, data: { status: STATUSES.SUCCESS, workspace: data } });
+  }
 }
 
 // generators function
