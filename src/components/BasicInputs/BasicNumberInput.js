@@ -12,7 +12,7 @@ const useStyles = theme => ({
 });
 
 const BasicNumberInput = (props) => {
-  const { classes, label, containerProps, labelProps, textFieldProps, inputProps } = props;
+  const { classes, label, containerProps, labelProps, textFieldProps, inputProps, changeNumberField } = props;
   return (
         <Grid container className={classes.root} {...containerProps}>
             <Grid item >
@@ -20,6 +20,7 @@ const BasicNumberInput = (props) => {
             </Grid>
             <Grid item >
                 <TextField
+                    onChange={(event) => changeNumberField(event.target.value)}
                     type="number"
                     inputProps={inputProps}
                     {...textFieldProps} />
@@ -34,6 +35,7 @@ BasicNumberInput.propTypes = {
   containerProps: PropTypes.object.isRequired,
   labelProps: PropTypes.object.isRequired,
   textFieldProps: PropTypes.object.isRequired,
+  changeNumberField: PropTypes.func.isRequired,
   inputProps: PropTypes.object.isRequired
 };
 

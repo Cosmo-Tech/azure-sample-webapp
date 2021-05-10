@@ -5,7 +5,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { BasicTextInput, BasicNumberInput, BasicEnumTypes, BasicToggleInput } from '../BasicInputs';
 
-const BasicTypes = ({ classes }) => {
+const BasicTypes = ({ classes, changeTextField, changeNumberField, changeEnumField, changeSwitchType }) => {
   const containerProps = {
     direction: 'row',
     alignItems: 'center',
@@ -36,46 +36,78 @@ const BasicTypes = ({ classes }) => {
 
   const enumValues = [
     {
-      value: 'USD',
-      label: '$'
+      key: 'USD',
+      value: '$'
     },
     {
-      value: 'EUR',
-      label: '€'
+      key: 'EUR',
+      value: '€'
     },
     {
-      value: 'BTC',
-      label: '฿'
+      key: 'BTC',
+      value: '฿'
     },
     {
-      value: 'JPY',
-      label: '¥'
+      key: 'JPY',
+      value: '¥'
     }
   ];
 
   const enumFieldProps = {
     disabled: false,
     id: 'standard-required',
-    defaultValue: 'EUR'
+    defaultValue: '€'
   };
 
   const switchFieldProps = {
     disabled: false,
-    id: 'standard-required',
-    checked: true
+    id: 'standard-required'
   };
 
   return (
       <div>
-        <BasicTextInput classes={classes} label='Text Field' containerProps={containerProps} textFieldProps={textFieldProps} labelProps={labelProps}/>
-        <BasicNumberInput classes={classes} label='Number Field' containerProps={containerProps} textFieldProps={numberFieldsProps} inputProps={inputProps} labelProps={labelProps}/>
-        <BasicEnumTypes classes={classes} label='Enum Field' containerProps={containerProps} textFieldProps={enumFieldProps} enumValues={enumValues} labelProps={labelProps}/>
-        <BasicToggleInput labelProps={labelProps} containerProps={containerProps} classes={classes} label='Switch type' switchProps={switchFieldProps} />
+        <BasicTextInput
+          classes={classes}
+          label='Text Field'
+          changeTextField={changeTextField}
+          containerProps={containerProps}
+          textFieldProps={textFieldProps}
+          labelProps={labelProps}
+        />
+        <BasicNumberInput
+          classes={classes}
+          label='Number Field'
+          changeNumberField={changeNumberField}
+          containerProps={containerProps}
+          textFieldProps={numberFieldsProps}
+          inputProps={inputProps}
+          labelProps={labelProps}
+        />
+        <BasicEnumTypes
+          classes={classes}
+          label='Enum Field'
+          changeEnumField={changeEnumField}
+          containerProps={containerProps}
+          textFieldProps={enumFieldProps}
+          enumValues={enumValues}
+          labelProps={labelProps}/>
+        <BasicToggleInput
+          labelProps={labelProps}
+          changeSwitchType={changeSwitchType}
+          containerProps={containerProps}
+          classes={classes}
+          label='Switch type'
+          switchProps={switchFieldProps}
+        />
       </div>);
 };
 
 BasicTypes.propTypes = {
-  classes: PropTypes.any
+  classes: PropTypes.any,
+  changeTextField: PropTypes.func.isRequired,
+  changeNumberField: PropTypes.func.isRequired,
+  changeEnumField: PropTypes.func.isRequired,
+  changeSwitchType: PropTypes.func.isRequired
 };
 
 export default BasicTypes;

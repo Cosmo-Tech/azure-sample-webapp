@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Switch, Typography, withStyles } from '@material-ui/core';
 
@@ -12,10 +12,7 @@ const useStyles = theme => ({
 });
 
 const BasicToggleInput = (props) => {
-  const { classes, label, containerProps, labelProps, switchProps } = props;
-  const [checked, setChecked] = useState(switchProps.checked);
-
-  const handleOnChange = () => setChecked(!checked);
+  const { classes, label, containerProps, switchProps, labelProps, changeSwitchType } = props;
 
   return (
 
@@ -24,7 +21,10 @@ const BasicToggleInput = (props) => {
               <Typography {...labelProps}>{label}</Typography>
           </Grid>
           <Grid item >
-              <Switch onChange={handleOnChange} {...switchProps} />
+              <Switch
+                onChange={(event) => changeSwitchType(event.target.checked)}
+                {...switchProps}
+              />
           </Grid>
       </Grid>
 
@@ -36,6 +36,7 @@ BasicToggleInput.propTypes = {
   label: PropTypes.string.isRequired,
   containerProps: PropTypes.object.isRequired,
   labelProps: PropTypes.object.isRequired,
+  changeSwitchType: PropTypes.func.isRequired,
   switchProps: PropTypes.object.isRequired
 };
 

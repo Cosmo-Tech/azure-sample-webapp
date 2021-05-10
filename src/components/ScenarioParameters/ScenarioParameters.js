@@ -55,11 +55,19 @@ const useStyles = theme => ({
   }
 });
 
-const ScenarioParameters = ({ classes }) => {
+const ScenarioParameters = ({ classes, editMode, changeEditMode }) => {
+  // Translation
   const { t } = useTranslation();
+
+  // General states
   const [value, setValue] = useState('basic_types');
-  const [editMode, setEditMode] = useState(false);
   const [displayPopup, setDisplayPopup] = useState(false);
+
+  // States for parameters
+  const [textField, setTextField] = useState('Default value');
+  const [numberField, setNumberField] = useState('1000');
+  const [enumField, setEnumField] = useState('EUR');
+  const [switchType, setSwitchType] = useState(false);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -71,11 +79,11 @@ const ScenarioParameters = ({ classes }) => {
   // TODO: Discard changes
   const handleClickOnPopupDiscardChangeButton = () => {
     setDisplayPopup(false);
-    setEditMode(false);
+    changeEditMode(false);
   };
 
   // Normal Mode Screen
-  const handleClickOnEditButton = () => setEditMode(true);
+  const handleClickOnEditButton = () => changeEditMode(true);
 
   // TODO: Launch scenario
   const handleClickOnLaunchScenarioButton = () => alert('TODO');
@@ -126,7 +134,13 @@ const ScenarioParameters = ({ classes }) => {
                           TUTU
                       </TabPanel>
                       <TabPanel value="basic_types" index={0}>
-                          <BasicTypes/>
+                          <BasicTypes
+                            changeTextField={setTextField}
+                            changeNumberField={setNumberField}
+                            changeEnumField={setEnumField}
+                            changeSwitchType={setSwitchType}
+                          />
+                          <Typography>{textField} | {numberField} | {enumField} | {switchType ? 'true' : 'false'}</Typography>
                       </TabPanel>
                   </TabContext>
               </form>
@@ -144,6 +158,8 @@ const ScenarioParameters = ({ classes }) => {
 };
 
 ScenarioParameters.propTypes = {
+  editMode: PropTypes.bool.isRequired,
+  changeEditMode: PropTypes.func.isRequired,
   classes: PropTypes.any
 };
 
@@ -175,7 +191,6 @@ EditModeButton.propTypes = {
   classes: PropTypes.any.isRequired,
   handleClickOnDiscardChange: PropTypes.func.isRequired,
   handleClickOnUpdateAndLaunchScenario: PropTypes.func.isRequired
-
 };
 
 const NormalModeButton = ({ classes, handleClickOnEdit, handleClickOnLaunchScenario }) => {

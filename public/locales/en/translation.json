@@ -259,7 +259,7 @@
             "validate": "Discard"
           },
           "title" : "Discard current modifications ?",
-          "body": "You will lose all your current changes made on the scenario parameters"
+          "body": "You will lose all your current changes made on the scenario parameters."
         }
       }
     }

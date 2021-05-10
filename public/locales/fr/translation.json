@@ -259,7 +259,7 @@
             "validate": "Valider"
           },
            "title" : "Annuler les modifications courantes?",
-           "body": "Vous allez perdre toutes les modifications que vous avez faite sur les paramêtres de scénario"
+           "body": "Vous allez perdre toutes les modifications que vous avez faite sur les paramêtres de scénario."
         }
       }
     }

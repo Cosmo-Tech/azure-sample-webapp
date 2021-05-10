@@ -12,14 +12,14 @@ const useStyles = theme => ({
 });
 
 const BasicTextInput = (props) => {
-  const { classes, label, containerProps, labelProps, textFieldProps } = props;
+  const { classes, label, containerProps, labelProps, textFieldProps, changeTextField } = props;
   return (
         <Grid container className={classes.root} {...containerProps}>
             <Grid item >
                 <Typography {...labelProps}>{label}</Typography>
             </Grid>
             <Grid item >
-                <TextField {...textFieldProps} />
+                <TextField {...textFieldProps} onChange={(event) => changeTextField(event.target.value)} />
             </Grid>
         </Grid>
   );
@@ -30,6 +30,7 @@ BasicTextInput.propTypes = {
   label: PropTypes.string.isRequired,
   containerProps: PropTypes.object.isRequired,
   labelProps: PropTypes.object.isRequired,
+  changeTextField: PropTypes.func.isRequired,
   textFieldProps: PropTypes.object.isRequired
 };
 

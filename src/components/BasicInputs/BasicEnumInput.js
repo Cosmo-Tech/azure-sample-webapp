@@ -12,17 +12,34 @@ const useStyles = theme => ({
 });
 
 const BasicEnumInput = (props) => {
-  const { classes, label, containerProps, labelProps, textFieldProps, enumValues } = props;
+  const { classes, label, containerProps, labelProps, textFieldProps, enumValues, changeEnumField } = props;
+
+  // REQUIREMENT: the keyValueMap cannot have duplicate values to work
+  const getKeyFromValue = (value, keyValueMap) => {
+    let key = '';
+    for (const keyValue of keyValueMap) {
+      if (keyValue.value === value) {
+        key = keyValue.key;
+        break;
+      }
+    }
+    return key;
+  };
+
   return (
         <Grid container className={classes.root} {...containerProps}>
             <Grid item >
                 <Typography {...labelProps}>{label}</Typography>
             </Grid>
             <Grid item >
-                <TextField select {...textFieldProps}>
+                <TextField
+                    select
+                    {...textFieldProps}
+                    onChange={(event) => changeEnumField(getKeyFromValue(event.target.value, enumValues))}
+                >
                     {enumValues.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
-                            {option.label}
+                        <MenuItem key={option.key} value={option.value}>
+                            {option.value}
                         </MenuItem>
                     ))}
                 </TextField>
@@ -37,6 +54,7 @@ BasicEnumInput.propTypes = {
   containerProps: PropTypes.object.isRequired,
   labelProps: PropTypes.object.isRequired,
   textFieldProps: PropTypes.object.isRequired,
+  changeEnumField: PropTypes.func.isRequired,
   enumValues: PropTypes.array.isRequired
 };
 
