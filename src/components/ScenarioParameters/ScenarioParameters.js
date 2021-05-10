@@ -4,7 +4,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Card,
   Grid,
   Tab,
   Typography,
@@ -18,15 +17,10 @@ import { withStyles } from '@material-ui/core/styles';
 import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 import { useTranslation } from 'react-i18next';
 import { BasicTypes } from './index';
+import EditIcon from '@material-ui/icons/Edit';
+import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 
 const useStyles = theme => ({
-  card: {
-    height: '100%',
-    width: '100%',
-    color: '#FFFFFF',
-    backgroundColor: theme.palette.background.secondary,
-    margin: '8px'
-  },
   header: {
     display: 'flex',
     background: theme.palette.background.secondary,
@@ -41,14 +35,8 @@ const useStyles = theme => ({
     alignItems: 'center',
     margin: `0 ${theme.spacing(3)}px`
   },
-  headerButton: {
-    display: 'block',
-    textAlign: 'right',
-    alignItems: 'center',
-    margin: `0 ${theme.spacing(3)}px`
-  },
   tabs: {
-    marginLeft: '30px'
+    margin: '8px'
   },
   tab: {
     minWidth: 0,
@@ -100,7 +88,7 @@ const ScenarioParameters = ({ classes }) => {
   const handleClickOnDiscardChangeButton = () => setDisplayPopup(true);
 
   return (
-      <Card className={classes.card}>
+      <div>
           <Grid container direction="column" justify="center" alignContent="flex-start" >
               <Grid container className={classes.root} direction="row" justify="space-between" alignContent="flex-start" spacing={5}>
                   <Grid item >
@@ -151,7 +139,7 @@ const ScenarioParameters = ({ classes }) => {
               validateLabelKey='genericcomponent.dialog.scenario.parameters.button.validate'
               handleClickOnCancel={handleClickOnPopupCancelButton}
               handleClickOnValidate={handleClickOnPopupDiscardChangeButton}/>
-      </Card>
+      </div>
   );
 };
 
@@ -162,16 +150,24 @@ ScenarioParameters.propTypes = {
 const EditModeButton = ({ classes, handleClickOnDiscardChange, handleClickOnUpdateAndLaunchScenario }) => {
   const { t } = useTranslation();
   return (
-        <div className={classes.headerButton}>
+        <Grid container spacing={1}>
+          <Grid item>
             <Button
+                color="primary"
                 onClick={handleClickOnDiscardChange}>
                 {t('commoncomponents.button.scenario.parameters.discard', 'Discard Modifications')}
             </Button>
+          </Grid>
+          <Grid item>
             <Button
+                startIcon={<PlayCircleOutlineIcon />}
+                variant="contained"
+                color="primary"
                 onClick={handleClickOnUpdateAndLaunchScenario}>
                 {t('commoncomponents.button.scenario.parameters.update.launch', 'Update And Launch Scenario')}
             </Button>
-        </div>
+          </Grid>
+        </Grid>
   );
 };
 
@@ -185,16 +181,26 @@ EditModeButton.propTypes = {
 const NormalModeButton = ({ classes, handleClickOnEdit, handleClickOnLaunchScenario }) => {
   const { t } = useTranslation();
   return (
-        <div className={classes.headerButton}>
+        <Grid container spacing={1} alignItems="center">
+          <Grid item>
             <Button
+                startIcon={<EditIcon />}
+                variant="contained"
+                color="primary"
                 onClick={handleClickOnEdit}>
                 {t('commoncomponents.button.scenario.parameters.edit', 'Edit')}
             </Button>
+          </Grid>
+          <Grid item>
             <Button
+                startIcon={<PlayCircleOutlineIcon />}
+                variant="contained"
+                color="primary"
                 onClick={handleClickOnLaunchScenario}>
                 {t('commoncomponents.button.scenario.parameters.launch', 'Launch Scenario')}
             </Button>
-        </div>
+          </Grid>
+        </Grid>
   );
 };
 
@@ -218,7 +224,7 @@ const SimpleTwoActionsDialog = ({
   const { t } = useTranslation();
   return (
         <Dialog open={open} aria-labelledby="discard-changes-dialog"
-                maxWidth={'sm'}
+                maxWidth={'xs'}
                 fullWidth={true}
                 disableBackdropClick>
             <DialogTitle id="discard-changes-dialog-title">

@@ -4,8 +4,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { Grid, Typography } from '@material-ui/core';
+import { Grid, Typography, Card } from '@material-ui/core';
 import HierarchicalComboBox from '../../components/HierarchicalComboBox';
+import { IframeScenarioResults } from '../../components';
 import { useTranslation } from 'react-i18next';
 import { CreateScenarioButton } from '../../components/CreateScenarioDialog';
 
@@ -27,9 +28,8 @@ const useStyles = theme => ({
   },
   mainGrid: {
     display: 'flex',
-    margin: `${theme.spacing(1)}px ${theme.spacing(-1)}px ${theme.spacing(-1)}px ${theme.spacing(-1)}px`,
-    paddingTop: '10px',
-    flexGrow: 1
+    flexGrow: 1,
+    padding: '10px'
   },
   grid: {
     flexGrow: 1,
@@ -61,41 +61,65 @@ const Scenario = (props) => {
   }
 
   return (
-
-    <Grid container alignItems="center" className={props.classes.mainGrid}>
-      <Grid item xs={9}>
-        <Grid container spacing={0} alignItems="center" className={props.classes.mainGrid}>
-          <Grid item xs={5} className={props.classes.scenarioList}>
-            <HierarchicalComboBox
-               value={currentScenario.data}
-              maxCharLength={36}
-              tree={scenarioTree.data}
-              label='views.scenario.dropdown.scenario.label'
-              handleChange={handleScenarioChange}
-            />
+    <Grid container direction="column" className={classes.mainGrid}>
+      <Grid item xs={12}>
+        <Grid container alignItems="center" className={classes.mainGrid}>
+          <Grid item xs={9}>
+            <Grid container spacing={0} alignItems="center" className={props.classes.mainGrid}>
+              <Grid item xs={5} className={props.classes.scenarioList}>
+                <HierarchicalComboBox
+                  value={currentScenario.data}
+                  maxCharLength={36}
+                  tree={scenarioTree.data}
+                  label='views.scenario.dropdown.scenario.label'
+                  handleChange={handleScenarioChange}
+                />
+              </Grid>
+              { currentScenario.data &&
+                (<Grid item xs={7}>
+                  <Typography>{ t('views.scenario.text.scenariotype')}: { currentScenario.data.runTemplateName}</Typography>
+                </Grid>)
+              }
+            </Grid>
           </Grid>
-          { currentScenario.data &&
-              (<Grid item xs={7}>
-                <Typography>{ t('views.scenario.text.scenariotype')}: { currentScenario.data.runTemplateName}</Typography>
-              </Grid>)
-          }
+          <Grid item xs={3}>
+            <Grid container spacing={2} justify="flex-end" className={props.classes.mainGrid}>
+              <Grid item>
+                <CreateScenarioButton
+                  solution={solution}
+                  workspaceId={workspaceId}
+                  createScenario={createScenario}
+                  currentScenario={currentScenario}
+                  runTemplates={runTemplateList.data}
+                  datasets={datasetList.data}
+                  scenarios={scenarioTree.data}
+                  user={user}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
-      <Grid item xs={3}>
-        <Grid container spacing={2} justify="flex-end" className={props.classes.mainGrid}>
-          <Grid item>
-            <CreateScenarioButton
-                solution={solution}
-                workspaceId={workspaceId}
-                createScenario={createScenario}
-                currentScenario={currentScenario}
-                runTemplates={runTemplateList.data}
-                datasets={datasetList.data}
-                scenarios={scenarioTree.data}
-                user={user}
-            />
-          </Grid>
-        </Grid>
+      <Grid item xs={12}>
+        {/* <Dashboard
+          iframeTitle="Dashboard"
+          url="https://app.powerbi.com/reportEmbed?reportId=018525c4-3fed-49e7-9048-6d6237e80145&autoAuth=true&ctid=e9641c78-d0d6-4d09-af63-168922724e7f&config=eyJjbHVzdGVyVXJsIjoiaHR0cHM6Ly93YWJpLWZyYW5jZS1jZW50cmFsLWEtcHJpbWFyeS1yZWRpcmVjdC5hbmFseXNpcy53aW5kb3dzLm5ldC8ifQ%3D%3D"
+        /> */}
+        <Card>
+          <IframeScenarioResults
+            cardStyle={ { height: '100%', width: '100%' } }
+            iframeTitle={t('commoncomponents.iframe.scenario.results.iframe.title', 'Supply Chain results')}
+            cardTitle={t('commoncomponents.iframe.scenario.results.card.title', 'Results')}
+            src="https://app.powerbi.com/reportEmbed?reportId=018525c4-3fed-49e7-9048-6d6237e80145&autoAuth=true&ctid=e9641c78-d0d6-4d09-af63-168922724e7f&config=eyJjbHVzdGVyVXJsIjoiaHR0cHM6Ly93YWJpLWZyYW5jZS1jZW50cmFsLWEtcHJpbWFyeS1yZWRpcmVjdC5hbmFseXNpcy53aW5kb3dzLm5ldC8ifQ%3D%3D"
+            frameBorder="0"
+            allowFullScreen
+          />
+        </Card>
+      </Grid>
+      <Grid item xs={12}>
+        <Card>
+          <ScenarioParameters/>
+        </Card>
       </Grid>
     </Grid>
   );
