@@ -25,7 +25,7 @@ export function * createScenario (action) {
 }
 
 // generators function
-// Here is a watcher that take EVERY action dispatched named GET_SCENARIO_LIST and bind getAllScenariosData saga to it
+// Here is a watcher that takes EVERY action dispatched named CREATE_SCENARIO and binds createScenario saga to it
 function * createScenarioData () {
   yield takeEvery(SCENARIO_ACTIONS_KEY.CREATE_SCENARIO, createScenario);
 }

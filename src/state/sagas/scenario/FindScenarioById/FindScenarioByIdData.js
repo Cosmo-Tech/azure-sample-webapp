@@ -31,7 +31,7 @@ export function * fetchScenarioByIdData (action) {
 }
 
 // generators function
-// Here is a watcher that take EVERY action dispatched named GET_SCENARIO_LIST and bind getAllScenariosData saga to it
+// Here is a watcher that takes EVERY action dispatched named FIND_SCENARIO_BY_ID and binds fetchScenarioByIdData saga to it
 function * findScenarioByIdData () {
   yield takeEvery(SCENARIO_ACTIONS_KEY.FIND_SCENARIO_BY_ID, fetchScenarioByIdData);
 }

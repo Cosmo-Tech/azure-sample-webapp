@@ -13,13 +13,13 @@ export function * fetchAllDatasetsData () {
   if (error) {
     // TODO handle error management
   } else {
-    // Here is an effect named put that indicate to the middleware that it can dispatch a SET_ALL_SCENARIOS action with list as payload
+    // Here is an effect named put that indicate to the middleware that it can dispatch a SET_ALL_DATASETS action with list as payload
     yield put({ type: DATASET_ACTIONS_KEY.SET_ALL_DATASETS, list: data });
   }
 }
 
 // generators function
-// Here is a watcher that take EVERY action dispatched named GET_SCENARIO_LIST and bind getAllScenariosData saga to it
+// Here is a watcher that takes EVERY action dispatched named GET_ALL_DATASETS and binds fetchAllDatasetsData saga to it
 function * findAllDatasetsData () {
   yield takeEvery(DATASET_ACTIONS_KEY.GET_ALL_DATASETS, fetchAllDatasetsData);
 }

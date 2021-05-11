@@ -115,7 +115,7 @@ const CreateScenarioDialog = ({
       errorKey = ERROR_SCENARIO_NAME_EMPTY_LABEL_KEY;
       hasErrors = true;
     }
-    if (ScenarioUtils.isScenarioExist(scenarios, newScenarioName)) {
+    if (ScenarioUtils.isExistingScenario(newScenarioName, scenarios)) {
       errorKey = ERROR_SCENARIO_NAME_EXISTING_LABEL_KEY;
       hasErrors = true;
     }

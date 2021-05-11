@@ -14,13 +14,13 @@ export function * fetchSolutionByIdData (workspaceId, solutionId) {
   if (error) {
     // TODO handle error management
   } else {
-    // Here is an effect named put that indicate to the middleware that it can dispatch a SET_CURRENT_SCENARIO action with data as payload
+    // Here is an effect named put that indicate to the middleware that it can dispatch a SET_CURRENT_SOLUTION action with data as payload
     yield put({ type: SOLUTION_ACTIONS_KEY.SET_CURRENT_SOLUTION, data: { status: STATUSES.SUCCESS, solution: data } });
   }
 }
 
 // generators function
-// Here is a watcher that take EVERY action dispatched named FIND_SOLUTION_BY_ID and bind fetchSolutionByIdData saga to it
+// Here is a watcher that takes EVERY action dispatched named GET_SOLUTION_BY_ID and binds fetchSolutionByIdData saga to it
 function * findSolutionByIdData () {
   yield takeEvery(SOLUTION_ACTIONS_KEY.GET_SOLUTION_BY_ID, fetchSolutionByIdData);
 }

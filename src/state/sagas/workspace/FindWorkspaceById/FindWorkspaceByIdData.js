@@ -14,13 +14,13 @@ export function * fetchWorkspaceByIdData (workspaceId) {
   if (error) {
     // TODO handle error management
   } else {
-    // Here is an effect named put that indicate to the middleware that it can dispatch a SET_CURRENT_SCENARIO action with data as payload
+    // Here is an effect named put that indicate to the middleware that it can dispatch a SET_CURRENT_WORKSPACE action with data as payload
     yield put({ type: WORKSPACE_ACTIONS_KEY.SET_CURRENT_WORKSPACE, data: { status: STATUSES.SUCCESS, workspace: data } });
   }
 }
 
 // generators function
-// Here is a watcher that take EVERY action dispatched named GET_SCENARIO_LIST and bind getAllScenariosData saga to it
+// Here is a watcher that takes EVERY action dispatched named GET_WORKSPACE_BY_ID and binds fetchWorkspaceByIdData saga to it
 function * findWorkspaceByIdData () {
   yield takeEvery(WORKSPACE_ACTIONS_KEY.GET_WORKSPACE_BY_ID, fetchWorkspaceByIdData);
 }
