@@ -5,7 +5,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { BasicTextInput, BasicNumberInput, BasicEnumTypes, BasicToggleInput } from '../BasicInputs';
 
-const BasicTypes = ({ classes, changeTextField, changeNumberField, changeEnumField, changeSwitchType }) => {
+const BasicTypes = ({ classes, changeTextField, changeNumberField, changeEnumField, changeSwitchType, editMode }) => {
   const containerProps = {
     direction: 'row',
     alignItems: 'center',
@@ -18,7 +18,7 @@ const BasicTypes = ({ classes, changeTextField, changeNumberField, changeEnumFie
   };
 
   const textFieldProps = {
-    disabled: false,
+    disabled: !editMode,
     id: 'standard-required',
     defaultValue: 'Default Value'
   };
@@ -29,7 +29,7 @@ const BasicTypes = ({ classes, changeTextField, changeNumberField, changeEnumFie
   };
 
   const numberFieldsProps = {
-    disabled: false,
+    disabled: !editMode,
     id: 'standard-required',
     defaultValue: 1000
   };
@@ -54,13 +54,13 @@ const BasicTypes = ({ classes, changeTextField, changeNumberField, changeEnumFie
   ];
 
   const enumFieldProps = {
-    disabled: false,
+    disabled: !editMode,
     id: 'standard-required',
     defaultValue: '€'
   };
 
   const switchFieldProps = {
-    disabled: false,
+    disabled: !editMode,
     id: 'standard-required'
   };
 
@@ -90,7 +90,8 @@ const BasicTypes = ({ classes, changeTextField, changeNumberField, changeEnumFie
           containerProps={containerProps}
           textFieldProps={enumFieldProps}
           enumValues={enumValues}
-          labelProps={labelProps}/>
+          labelProps={labelProps}
+        />
         <BasicToggleInput
           labelProps={labelProps}
           changeSwitchType={changeSwitchType}
@@ -107,7 +108,8 @@ BasicTypes.propTypes = {
   changeTextField: PropTypes.func.isRequired,
   changeNumberField: PropTypes.func.isRequired,
   changeEnumField: PropTypes.func.isRequired,
-  changeSwitchType: PropTypes.func.isRequired
+  changeSwitchType: PropTypes.func.isRequired,
+  editMode: PropTypes.bool.isRequired
 };
 
 export default BasicTypes;

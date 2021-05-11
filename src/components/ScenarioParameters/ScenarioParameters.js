@@ -35,6 +35,10 @@ const useStyles = theme => ({
     alignItems: 'center',
     margin: `0 ${theme.spacing(3)}px`
   },
+  tabPanel: {
+    maxHeight: 300,
+    overflow: 'auto'
+  },
   tabs: {
     margin: '8px'
   },
@@ -127,18 +131,19 @@ const ScenarioParameters = ({ classes, editMode, changeEditMode }) => {
                           <Tab label={t('commoncomponents.tab.scenario.parameters.array.template', 'Array Template')} value="array_template" className={classes.tab}/>
                           <Tab label={t('commoncomponents.tab.scenario.parameters.basic.types', 'Basic Types template')} value="basic_types" className={classes.tab}/>
                       </TabList>
-                      <TabPanel value="upload_file_template" index={0}>
+                      <TabPanel value="upload_file_template" index={0} className={classes.tabPanel}>
                           TOTO
                       </TabPanel>
-                      <TabPanel value="array_template" index={0}>
+                      <TabPanel value="array_template" index={0} className={classes.tabPanel}>
                           TUTU
                       </TabPanel>
-                      <TabPanel value="basic_types" index={0}>
+                      <TabPanel value="basic_types" index={0} className={classes.tabPanel}>
                           <BasicTypes
                             changeTextField={setTextField}
                             changeNumberField={setNumberField}
                             changeEnumField={setEnumField}
                             changeSwitchType={setSwitchType}
+                            editMode={editMode}
                           />
                           <Typography>{textField} | {numberField} | {enumField} | {switchType ? 'true' : 'false'}</Typography>
                       </TabPanel>
