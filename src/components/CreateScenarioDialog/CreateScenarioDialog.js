@@ -128,12 +128,10 @@ const CreateScenarioDialog = ({
   };
 
   function createScenarioData () {
-    const creationDate = Date.now();
     const scenarioData = {
       name: scenarioNameFieldValues.value,
       ownerId: user.userId.toString(),
       ownerName: user.userName,
-      creationDate: creationDate.toString(),
       solutionId: solution.data.id,
       solutionName: solution.data.name,
       runTemplateId: scenarioTypeFieldValues.id,
