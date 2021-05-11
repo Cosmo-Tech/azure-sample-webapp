@@ -48,11 +48,16 @@ const Scenario = (props) => {
     scenarioTree,
     datasetList,
     runTemplateList,
-    userId
+    user,
+    workspace,
+    solution,
+    createScenario
   } = props;
 
+  const workspaceId = workspace.data.id;
+
   function handleScenarioChange (event, scenario) {
-    findScenarioById(scenario.id);
+    findScenarioById(workspaceId, scenario.id);
   }
 
   return (
@@ -79,11 +84,14 @@ const Scenario = (props) => {
         <Grid container spacing={2} justify="flex-end" className={props.classes.mainGrid}>
           <Grid item>
             <CreateScenarioButton
+                solution={solution}
+                workspaceId={workspaceId}
+                createScenario={createScenario}
                 currentScenario={currentScenario}
                 runTemplates={runTemplateList.data}
                 datasets={datasetList.data}
                 scenarios={scenarioTree.data}
-                userId={userId}/>
+                user={user}/>
           </Grid>
         </Grid>
       </Grid>
@@ -99,7 +107,10 @@ Scenario.propTypes = {
   runTemplateList: PropTypes.object.isRequired,
   currentScenario: PropTypes.object.isRequired,
   findScenarioById: PropTypes.func.isRequired,
-  userId: PropTypes.number.isRequired
+  user: PropTypes.object.isRequired,
+  workspace: PropTypes.object.isRequired,
+  solution: PropTypes.object.isRequired,
+  createScenario: PropTypes.func.isRequired
 };
 
 export default withStyles(useStyles)(Scenario);

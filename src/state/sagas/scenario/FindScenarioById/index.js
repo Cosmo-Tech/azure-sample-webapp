@@ -1,4 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-export { default as getScenarioByIdData } from './FindScenarioByIdData';
+export { default as findScenarioByIdData } from './FindScenarioByIdData';
+export { fetchScenarioByIdForInitialData } from './FindScenarioByIdData';

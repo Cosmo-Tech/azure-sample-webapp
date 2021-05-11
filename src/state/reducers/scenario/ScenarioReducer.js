@@ -52,24 +52,8 @@ export const currentScenarioReducer = createReducer(currentScenarioInitialState,
     });
 });
 
-// New scenario to be added
-
-export const newScenarioInitialState = {
-  data: null,
-  status: STATUSES.IDLE
-};
-
-export const newScenarioReducer = createReducer(newScenarioInitialState, (builder) => {
-  builder
-    .addCase(SCENARIO_ACTIONS_KEY.ADD_NEW_SCENARIO, (state, action) => {
-      state.data = action.data.scenario;
-      state.status = action.data.status;
-    });
-});
-
 export const scenarioReducer = combineReducers({
   list: scenarioListReducer,
   current: currentScenarioReducer,
-  tree: scenarioTreeReducer,
-  new: newScenarioReducer
+  tree: scenarioTreeReducer
 });

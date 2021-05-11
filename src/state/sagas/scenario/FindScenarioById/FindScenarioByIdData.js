@@ -1,16 +1,27 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeEvery } from 'redux-saga/effects';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { STATUSES } from '../../../commons/Constants';
 import ScenarioService from '../../../../services/scenario/ScenarioService';
 import { ORGANISATION_ID } from '../../../../configs/App.config';
 
 // generators function
-export function * findScenarioByIdData (action) {
+export function * fetchScenarioByIdForInitialData (workspaceId, scenarioId) {
   // yield keyword is here to milestone and save the action
-  const { error, data } = yield call(ScenarioService.findScenarioById, ORGANISATION_ID, 1, action.scenarioId);
+  const { error, data } = yield call(ScenarioService.findScenarioById, ORGANISATION_ID, workspaceId, scenarioId);
+  if (error) {
+    // TODO handle error management
+  } else {
+    // Here is an effect named put that indicate to the middleware that it can dispatch a SET_CURRENT_SCENARIO action with data as payload
+    yield put({ type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO, data: { status: STATUSES.SUCCESS, scenario: data } });
+  }
+}
+
+// generators function
+export function * fetchScenarioByIdData (action) {
+  const { error, data } = yield call(ScenarioService.findScenarioById, ORGANISATION_ID, action.workspaceId, action.scenarioId);
   if (error) {
     // TODO handle error management
   } else {
@@ -21,8 +32,8 @@ export function * findScenarioByIdData (action) {
 
 // generators function
 // Here is a watcher that take EVERY action dispatched named GET_SCENARIO_LIST and bind getAllScenariosData saga to it
-function * getScenarioByIdData () {
-  yield takeLatest(SCENARIO_ACTIONS_KEY.FIND_SCENARIO_BY_ID, findScenarioByIdData);
+function * findScenarioByIdData () {
+  yield takeEvery(SCENARIO_ACTIONS_KEY.FIND_SCENARIO_BY_ID, fetchScenarioByIdData);
 }
 
-export default getScenarioByIdData;
+export default findScenarioByIdData;

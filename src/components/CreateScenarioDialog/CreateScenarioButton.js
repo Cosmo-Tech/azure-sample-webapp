@@ -23,7 +23,17 @@ const useStyles = theme => ({
   }
 });
 
-const CreateScenarioButton = ({ classes, currentScenario, datasets, scenarios, runTemplates, userId }) => {
+const CreateScenarioButton = ({
+  classes,
+  currentScenario,
+  datasets,
+  scenarios,
+  runTemplates,
+  user,
+  createScenario,
+  workspaceId,
+  solution
+}) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const openDialog = () => setOpen(true);
@@ -35,6 +45,9 @@ const CreateScenarioButton = ({ classes, currentScenario, datasets, scenarios, r
         <Typography noWrap color="primary">{t('commoncomponents.button.create.scenario', 'Create Alternative Scenario')}</Typography>
       </Button>
       <CreateScenarioDialog
+          createScenario={createScenario}
+          workspaceId={workspaceId}
+          solution={solution}
           open={open}
           currentScenario={currentScenario}
           datasets={datasets}
@@ -42,7 +55,7 @@ const CreateScenarioButton = ({ classes, currentScenario, datasets, scenarios, r
           closeDialog={closeDialog}
           runTemplates={runTemplates}
           scenarios={scenarios}
-          userId={userId} />
+          user={user} />
     </div>
   );
 };
@@ -53,7 +66,10 @@ CreateScenarioButton.propTypes = {
   scenarios: PropTypes.array.isRequired,
   datasets: PropTypes.array.isRequired,
   runTemplates: PropTypes.array.isRequired,
-  userId: PropTypes.number.isRequired
+  user: PropTypes.object.isRequired,
+  createScenario: PropTypes.func.isRequired,
+  workspaceId: PropTypes.string.isRequired,
+  solution: PropTypes.object.isRequired
 };
 
 export default withStyles(useStyles)(CreateScenarioButton);

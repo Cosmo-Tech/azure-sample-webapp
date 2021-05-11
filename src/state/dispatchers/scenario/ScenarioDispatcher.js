@@ -14,12 +14,14 @@ export const dispatchSetCurrentScenario = (payLoad) => ({
   ...payLoad
 });
 
-export const dispatchFindScenarioById = (scenarioId) => ({
+export const dispatchFindScenarioById = (workspaceId, scenarioId) => ({
   type: SCENARIO_ACTIONS_KEY.FIND_SCENARIO_BY_ID,
+  workspaceId: workspaceId,
   scenarioId: scenarioId
 });
 
-export const dispatchAddNewScenario = (payLoad) => ({
-  type: SCENARIO_ACTIONS_KEY.ADD_NEW_SCENARIO,
-  ...payLoad
+export const dispatchCreateScenario = (workspaceId, scenario) => ({
+  type: SCENARIO_ACTIONS_KEY.CREATE_SCENARIO,
+  workspaceId: workspaceId,
+  scenario: scenario
 });

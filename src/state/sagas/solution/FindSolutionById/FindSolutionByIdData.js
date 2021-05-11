@@ -8,9 +8,9 @@ import { ORGANISATION_ID } from '../../../../configs/App.config';
 import SolutionService from '../../../../services/solution/SolutionService';
 
 // generators function
-export function * fetchSolutionByIdData (solutionId) {
+export function * fetchSolutionByIdData (workspaceId, solutionId) {
   // yield keyword is here to milestone and save the action
-  const { error, data } = yield call(SolutionService.findSolutionById, ORGANISATION_ID, solutionId);
+  const { error, data } = yield call(SolutionService.findSolutionById, ORGANISATION_ID, workspaceId, solutionId);
   if (error) {
     // TODO handle error management
   } else {

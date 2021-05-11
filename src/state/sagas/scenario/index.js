@@ -4,12 +4,14 @@
 import { all, fork } from 'redux-saga/effects';
 import { findAllScenariosData } from './FindAllScenarios';
 import { getScenariosTreeData } from './GetScenariosTree';
-import { getScenarioByIdData } from './FindScenarioById';
+import { findScenarioByIdData } from './FindScenarioById';
+import { createScenarioData } from './CreateScenario';
 
 export default function * scenarioSaga () {
   yield all([
     fork(findAllScenariosData),
     fork(getScenariosTreeData),
-    fork(getScenarioByIdData)
+    fork(findScenarioByIdData),
+    fork(createScenarioData)
   ]);
 }

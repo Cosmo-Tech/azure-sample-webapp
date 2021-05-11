@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import { connect } from 'react-redux';
 import Scenario from './Scenario';
-import { dispatchFindScenarioById, dispatchAddNewScenario } from '../../state/dispatchers/scenario/ScenarioDispatcher';
+import { dispatchFindScenarioById, dispatchCreateScenario } from '../../state/dispatchers/scenario/ScenarioDispatcher';
 
 const mapStateToProps = (state) => ({
   scenarioList: state.scenario.list,
@@ -10,12 +10,14 @@ const mapStateToProps = (state) => ({
   runTemplateList: state.runTemplate.list,
   currentScenario: state.scenario.current,
   scenarioTree: state.scenario.tree,
-  userId: state.auth.userId
+  user: state.auth,
+  workspace: state.workspace.current,
+  solution: state.solution.current
 });
 
 const mapDispatchToProps = {
   findScenarioById: dispatchFindScenarioById,
-  addNewScenario: dispatchAddNewScenario
+  createScenario: dispatchCreateScenario
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Scenario);

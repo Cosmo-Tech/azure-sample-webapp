@@ -11,11 +11,11 @@ import authSaga from './auth';
 
 export default function * rootSaga () {
   yield all([
-    fork(scenarioSaga),
+    fork(authSaga),
     fork(appSaga),
-    fork(datasetSaga),
     fork(workspaceSaga),
     fork(solutionSaga),
-    fork(authSaga)
+    fork(scenarioSaga),
+    fork(datasetSaga)
   ]);
 }

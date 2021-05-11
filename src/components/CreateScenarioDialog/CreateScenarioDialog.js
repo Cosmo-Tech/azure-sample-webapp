@@ -74,7 +74,10 @@ const CreateScenarioDialog = ({
   currentScenario,
   datasets,
   runTemplates,
-  userId
+  user,
+  createScenario,
+  workspaceId,
+  solution
 }) => {
   const { t } = useTranslation();
 
@@ -124,28 +127,30 @@ const CreateScenarioDialog = ({
     });
   };
 
-  const handleCreateScenario = () => {
-    let formData;
+  function createScenarioData () {
+    const creationDate = Date.now();
+    const scenarioData = {
+      name: scenarioNameFieldValues.value,
+      ownerId: user.userId.toString(),
+      ownerName: user.userName,
+      creationDate: creationDate.toString(),
+      solutionId: solution.data.id,
+      solutionName: solution.data.name,
+      runTemplateId: scenarioTypeFieldValues.id,
+      runTemplateName: scenarioTypeFieldValues.name
+    };
+
     if (isMaster) {
-      formData = {
-        name: scenarioNameFieldValues.value,
-        description: scenarioNameFieldValues.value,
-        ownerId: userId,
-        dataset: datasetFieldValues.id,
-        runTemplateId: scenarioTypeFieldValues.id,
-        runTemplateName: scenarioTypeFieldValues.name
-      };
+      scenarioData.datasetList = [datasetFieldValues.id];
     } else {
-      formData = {
-        name: scenarioNameFieldValues.value,
-        description: scenarioNameFieldValues.value,
-        parentId: parentScenarioFieldValues.id,
-        ownerId: userId,
-        runTemplateId: scenarioTypeFieldValues.id,
-        runTemplateName: scenarioTypeFieldValues.name
-      };
+      scenarioData.parentId = parentScenarioFieldValues.id;
     }
-    alert(JSON.stringify(formData));
+    return scenarioData;
+  }
+
+  const handleCreateScenario = () => {
+    const scenarioData = createScenarioData();
+    createScenario(workspaceId, scenarioData);
     handleCloseDialog();
   };
 
@@ -294,7 +299,10 @@ CreateScenarioDialog.propTypes = {
   currentScenario: PropTypes.object.isRequired,
   datasets: PropTypes.array.isRequired,
   runTemplates: PropTypes.array.isRequired,
-  userId: PropTypes.number.isRequired
+  user: PropTypes.object.isRequired,
+  createScenario: PropTypes.func.isRequired,
+  workspaceId: PropTypes.string.isRequired,
+  solution: PropTypes.object.isRequired
 };
 
 export default withStyles(useStyles)(CreateScenarioDialog);
