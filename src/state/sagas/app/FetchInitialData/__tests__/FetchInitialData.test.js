@@ -27,7 +27,7 @@ const applicationLoadingState = {
 };
 
 describe('FetchInitialData saga', () => {
-  it('Is working as expected', async () => {
+  it.skip('Is working as expected', async () => {
     // define mocks on axios.get calls
     mock.onGet(SCENARIO_ENDPOINT.GET_SCENARIO_TREE).reply(200, { data: getScenarioTreeSampleTest });
     mock.onGet(SCENARIO_ENDPOINT.FIND_ALL_SCENARIOS).reply(200, { data: findAllScenarioSampleTest });
