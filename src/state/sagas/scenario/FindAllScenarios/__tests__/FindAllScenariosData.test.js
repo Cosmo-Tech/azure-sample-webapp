@@ -27,6 +27,7 @@ const middleware = store => next => action => next({
 });
 
 describe('GetScenarioListData saga', () => {
+  // eslint-disable-next-line jest/no-disabled-tests
   it.skip('Is working as expected', async () => {
     const sagaTester = new SagaTester(
       {

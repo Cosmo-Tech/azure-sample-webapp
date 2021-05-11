@@ -27,6 +27,7 @@ const applicationLoadingState = {
 };
 
 describe('FetchInitialData saga', () => {
+  // eslint-disable-next-line jest/no-disabled-tests
   it.skip('Is working as expected', async () => {
     // define mocks on axios.get calls
     mock.onGet(SCENARIO_ENDPOINT.GET_SCENARIO_TREE).reply(200, { data: getScenarioTreeSampleTest });

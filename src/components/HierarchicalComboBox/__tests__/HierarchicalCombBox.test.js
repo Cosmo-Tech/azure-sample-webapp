@@ -4,7 +4,7 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 import HierarchicalComboBox from '../HierarchicalComboBox';
-import videoGamesList from '../__mocks__/treeForTests.json';
+import videoGamesList from './treeForTests.json';
 
 describe('HierarchicalComboBox test suite', () => {
   console.error = jest.fn();
@@ -12,7 +12,7 @@ describe('HierarchicalComboBox test suite', () => {
   const maxLengthChar = 10;
   const subStringLenght = maxLengthChar / 2;
   const separator = ' ~~~ ';
-
+  // eslint-disable-next-line jest/no-disabled-tests
   it.skip('should select a too long name and display a truncated version of it', () => {
     const { container, getByRole, getByTestId } = render(
       <HierarchicalComboBox
