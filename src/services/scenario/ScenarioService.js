@@ -37,11 +37,20 @@ function createScenario (organizationId, workspaceId, scenario) {
   });
 }
 
+function updateAndLaunchScenario (organizationId, workspaceId, scenariodId, scenarioParameters) {
+  return new Promise((resolve) => {
+    ScenarioApi.addOrReplaceScenarioParameterValues(organizationId, workspaceId, scenariodId, scenarioParameters, (error, data, response) => {
+      resolve({ error, data, response });
+    });
+  });
+}
+
 const ScenarioService = {
   findAllScenarios,
   getScenariosTree,
   findScenarioById,
-  createScenario
+  createScenario,
+  updateAndLaunchScenario
 };
 
 export default ScenarioService;

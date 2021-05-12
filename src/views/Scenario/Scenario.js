@@ -9,6 +9,7 @@ import HierarchicalComboBox from '../../components/HierarchicalComboBox';
 import { IframeScenarioResults } from '../../components';
 import { useTranslation } from 'react-i18next';
 import { CreateScenarioButton } from '../../components/CreateScenarioDialog';
+import { ScenarioParameters } from '../../components/ScenarioParameters';
 
 const useStyles = theme => ({
   root: {
@@ -23,7 +24,6 @@ const useStyles = theme => ({
     margin: '4px'
   },
   scenarioList: {
-    paddingLeft: '40px',
     paddingRight: '20px'
   },
   mainGrid: {
@@ -51,7 +51,9 @@ const Scenario = (props) => {
     user,
     workspace,
     solution,
-    createScenario
+    createScenario,
+    classes,
+    updateAndLaunchScenario
   } = props;
 
   const workspaceId = workspace.data.id;
@@ -119,7 +121,12 @@ const Scenario = (props) => {
       </Grid>
       <Grid item xs={12}>
         <Card>
-          <ScenarioParameters editMode={editMode} changeEditMode={setEditMode}/>
+          <ScenarioParameters
+            editMode={editMode}
+            changeEditMode={setEditMode}
+            updateAndLaunchScenario={updateAndLaunchScenario}
+            workspaceId={workspaceId}
+            scenarioId={currentScenario.data.id}/>
         </Card>
       </Grid>
     </Grid>
@@ -137,7 +144,8 @@ Scenario.propTypes = {
   user: PropTypes.object.isRequired,
   workspace: PropTypes.object.isRequired,
   solution: PropTypes.object.isRequired,
-  createScenario: PropTypes.func.isRequired
+  createScenario: PropTypes.func.isRequired,
+  updateAndLaunchScenario: PropTypes.func.isRequired
 };
 
 export default withStyles(useStyles)(Scenario);

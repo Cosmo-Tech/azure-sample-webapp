@@ -2,7 +2,11 @@
 // Licensed under the MIT license.
 import { connect } from 'react-redux';
 import Scenario from './Scenario';
-import { dispatchFindScenarioById, dispatchCreateScenario } from '../../state/dispatchers/scenario/ScenarioDispatcher';
+import {
+  dispatchFindScenarioById,
+  dispatchCreateScenario,
+  dispatchUpdateAndLaunchScenario
+} from '../../state/dispatchers/scenario/ScenarioDispatcher';
 
 const mapStateToProps = (state) => ({
   scenarioList: state.scenario.list,
@@ -17,7 +21,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   findScenarioById: dispatchFindScenarioById,
-  createScenario: dispatchCreateScenario
+  createScenario: dispatchCreateScenario,
+  updateAndLaunchScenario: dispatchUpdateAndLaunchScenario
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Scenario);

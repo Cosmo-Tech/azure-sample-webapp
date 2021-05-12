@@ -25,3 +25,10 @@ export const dispatchCreateScenario = (workspaceId, scenario) => ({
   workspaceId: workspaceId,
   scenario: scenario
 });
+
+export const dispatchUpdateAndLaunchScenario = (workspaceId, scenarioId, scenarioParameters) => ({
+  type: SCENARIO_ACTIONS_KEY.UPDATE_AND_LAUNCH_SCENARIO,
+  workspaceId: workspaceId,
+  scenarioId: scenarioId,
+  scenarioParameters: scenarioParameters
+});

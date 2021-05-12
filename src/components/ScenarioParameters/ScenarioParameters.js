@@ -59,7 +59,7 @@ const useStyles = theme => ({
   }
 });
 
-const ScenarioParameters = ({ classes, editMode, changeEditMode }) => {
+const ScenarioParameters = ({ classes, editMode, changeEditMode, updateAndLaunchScenario, workspaceId, scenarioId }) => {
   // Translation
   const { t } = useTranslation();
 
@@ -94,7 +94,27 @@ const ScenarioParameters = ({ classes, editMode, changeEditMode }) => {
 
   // Edit Mode Screen
   // TODO: Update parameters and Launch scenario
-  const handleClickOnUpdateAndLaunchScenarioButton = () => alert('TODO');
+  const handleClickOnUpdateAndLaunchScenarioButton = () => {
+    const parametersData = [
+      {
+        parameterId: 'currency',
+        varType: 'string',
+        value: enumField,
+        isInherited: 'true'
+      },
+      {
+        parameterId: 'currency name',
+        varType: 'string',
+        value: textField,
+        isInherited: 'true'
+      }
+    ];
+
+    // See https://github.com/jreynard-code/cosmotech-api-javascript-client/blob/master/docs/ScenarioApi.md#addorreplacescenarioparametervalues
+    updateAndLaunchScenario(workspaceId, scenarioId, parametersData);
+
+    changeEditMode(false);
+  };
 
   // Open the popup
   const handleClickOnDiscardChangeButton = () => setDisplayPopup(true);
@@ -165,7 +185,10 @@ const ScenarioParameters = ({ classes, editMode, changeEditMode }) => {
 ScenarioParameters.propTypes = {
   editMode: PropTypes.bool.isRequired,
   changeEditMode: PropTypes.func.isRequired,
-  classes: PropTypes.any
+  classes: PropTypes.any,
+  updateAndLaunchScenario: PropTypes.func.isRequired,
+  workspaceId: PropTypes.string.isRequired,
+  scenarioId: PropTypes.string.isRequired
 };
 
 const EditModeButton = ({ classes, handleClickOnDiscardChange, handleClickOnUpdateAndLaunchScenario }) => {
