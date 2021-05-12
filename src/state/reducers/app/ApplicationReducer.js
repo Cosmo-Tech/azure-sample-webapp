@@ -2,10 +2,11 @@
 // Licensed under the MIT license.
 
 import { createReducer } from '@reduxjs/toolkit';
-import { APPLICATION_STATUS, APPLICATION_ACTIONS_KEY } from '../../commons/ApplicationConstants';
+import { APPLICATION_ACTIONS_KEY } from '../../commons/ApplicationConstants';
+import { STATUSES } from '../../commons/Constants';
 
 export const applicationInitialState = {
-  status: APPLICATION_STATUS.IDLE
+  status: STATUSES.IDLE
 };
 
 export const applicationReducer = createReducer(applicationInitialState, (builder) => {

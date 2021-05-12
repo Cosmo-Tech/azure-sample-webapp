@@ -6,8 +6,7 @@ import PropTypes from 'prop-types';
 import Routes from '../../Routes';
 import FadeIn from 'react-fade-in';
 import LoadingLine from '../../components/LoadingLine';
-import { SCENARIO_STATUS } from '../../state/commons/ScenarioConstants';
-import { APPLICATION_STATUS } from '../../state/commons/ApplicationConstants';
+import { STATUSES } from '../../state/commons/Constants';
 import { withStyles } from '@material-ui/core/styles';
 
 const useStyles = theme => ({
@@ -28,6 +27,9 @@ const Loading = (
     tabs,
     scenarioList,
     scenarioTree,
+    workspace,
+    solution,
+    datasetList,
     application,
     getAllInitialDataAction,
     setApplicationStatusAction
@@ -36,25 +38,28 @@ const Loading = (
     if (authenticated) {
       getAllInitialDataAction();
     } else {
-      setApplicationStatusAction(APPLICATION_STATUS.IDLE);
+      setApplicationStatusAction(STATUSES.IDLE);
     }
   }, [authenticated, getAllInitialDataAction, setApplicationStatusAction]);
 
   const isLoading = (entityStatus) => {
-    return entityStatus.status !== SCENARIO_STATUS.ERROR && (entityStatus.status === SCENARIO_STATUS.LOADING || entityStatus.status === SCENARIO_STATUS.IDLE);
+    return entityStatus.status !== STATUSES.ERROR && (entityStatus.status === STATUSES.LOADING || entityStatus.status === STATUSES.IDLE);
   };
 
-  const hasErrors = (entityStatus) => entityStatus.status === SCENARIO_STATUS.ERROR;
+  const hasErrors = (entityStatus) => entityStatus.status === STATUSES.ERROR;
 
-  if (application.status === APPLICATION_STATUS.ERROR) {
+  if (application.status === STATUSES.ERROR) {
     logout();
   }
 
-  return (authenticated && application.status !== APPLICATION_STATUS.READY
+  return (authenticated && application.status !== STATUSES.SUCCESS
     ? (<div className={classes.panel} data-cy="loading-component">
           <FadeIn delay={200}>
             <LoadingLine titleKey={'genericcomponent.loading.line.scenario.list.title'} hasError={hasErrors(scenarioList)} isLoading={isLoading(scenarioList)} height={120} width={120}/>
             <LoadingLine titleKey={'genericcomponent.loading.line.scenario.tree.title'} hasError={hasErrors(scenarioTree)} isLoading={isLoading(scenarioTree)} height={120} width={120}/>
+            <LoadingLine titleKey={'genericcomponent.loading.line.dataset.list.title'} hasError={hasErrors(datasetList)} isLoading={isLoading(datasetList)} height={120} width={120}/>
+            <LoadingLine titleKey={'genericcomponent.loading.line.workspace.current.title'} hasError={hasErrors(workspace)} isLoading={isLoading(workspace)} height={120} width={120}/>
+              <LoadingLine titleKey={'genericcomponent.loading.line.solution.current.title'} hasError={hasErrors(solution)} isLoading={isLoading(solution)} height={120} width={120}/>
           </FadeIn>
       </div>)
     : (<Routes authenticated={authenticated} authorized={authenticated} tabs={tabs}/>)
@@ -69,6 +74,9 @@ Loading.propTypes = {
   tabs: PropTypes.array.isRequired,
   scenarioList: PropTypes.object.isRequired,
   scenarioTree: PropTypes.object.isRequired,
+  workspace: PropTypes.object.isRequired,
+  solution: PropTypes.object.isRequired,
+  datasetList: PropTypes.object.isRequired,
   application: PropTypes.object.isRequired,
   getAllInitialDataAction: PropTypes.func.isRequired,
   setApplicationStatusAction: PropTypes.func.isRequired

@@ -29,6 +29,12 @@ export const applicationInsightConfig = {
   }
 };
 
+// TODO Theses parameters for the V1 will be hard-coded.
+//  We will have a sort of control panel right before login where it'll be possible to switch between workspace (and more)
+export const WORKSPACE_ID = '1';
+// Hardcoded value in V1
+export const ORGANISATION_ID = '1';
+
 // languages
 export const applicationLanguages = {
   en: 'English',

@@ -21,6 +21,9 @@
       },
       "change": {
         "language": "Changer de langue"
+      },
+      "create": {
+        "scenario" : "Créer un scenario"
       }
     },
     "card": {
@@ -99,6 +102,48 @@
       "no": {
         "permission": "Vous n'avez pas les droits suffisants pour accéder à cette page."
       }
+    },
+    "dialog": {
+      "create": {
+        "scenario": {
+          "text": {
+            "title": "Création d'un scénario"
+          },
+          "input" : {
+            "scenarioname": {
+              "label": "Nom du scénario",
+              "error": {
+                "label" : "Erreur",
+                "empty" : "Le nom du scénario ne doit pas être vide",
+                "existing": "Le nom du scénario existe déjà"
+              }
+            }
+          },
+          "dropdown" : {
+            "parentscenario" : {
+              "label" : "Scénario parent",
+              "placeholder": "Sélectionner un scénario parent"
+            },
+            "scenariotype" : {
+              "label" : "Type de scénario",
+              "placeholder": "Sélectionner un type de scénario"
+            },
+            "dataset" : {
+              "label" : "Dataset",
+              "placeholder": "Sélectionner un dataset"
+            }
+          },
+          "checkbox": {
+            "scenarioMaster" : {
+              "label": "Parent"
+            }
+          },
+          "button": {
+            "create": "Créer",
+            "cancel": "Annuler"
+          }
+        }
+      }
     }
   },
   "views": {
@@ -123,11 +168,36 @@
         }
       },
       "title": "Exemple d'Application Web Azure"
+    },
+    "scenario": {
+      "dropdown": {
+        "scenario" : {
+          "label" : "Scénario"
+        }
+      },
+      "text" : {
+        "scenariotype" : "Type de scénario"
+      }
     }
   },
   "genericcomponent": {
     "loading": {
       "line": {
+        "workspace" : {
+          "current" : {
+            "title" : "Récupération du workspace"
+          }
+        },
+        "solution" : {
+          "current" : {
+            "title" : "Récupération de la solution"
+          }
+        },
+        "dataset" : {
+          "list" : {
+            "title" : "Récupération de la liste des datasets"
+          }
+        },
         "scenario": {
           "list" : {
             "title" : "Récupération de la liste des scénarios"

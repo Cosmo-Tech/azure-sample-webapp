@@ -21,6 +21,9 @@
       },
       "change": {
         "language": "Change language"
+      },
+      "create": {
+        "scenario" : "Create Alternative Scenario"
       }
     },
     "card": {
@@ -99,6 +102,48 @@
       "no": {
         "permission": "You don't have permission to view this page."
       }
+    },
+    "dialog": {
+      "create": {
+        "scenario": {
+          "text": {
+            "title": "Create a scenario"
+          },
+          "input" : {
+            "scenarioname": {
+              "label": "Scenario name",
+              "error": {
+                "label" : "Error",
+                "empty" : "Scenario name cannot be empty",
+                "existing": "Scenario name already exists"
+              }
+            }
+          },
+          "dropdown" : {
+            "parentscenario" : {
+              "label" : "Parent Scenario",
+              "placeholder": "Select a parent Scenario"
+            },
+            "scenariotype" : {
+              "label" : "Run Type",
+              "placeholder": "Select a run Type"
+            },
+            "dataset" : {
+              "label" : "Dataset",
+              "placeholder": "Select a dataset"
+            }
+          },
+          "checkbox": {
+            "scenarioMaster" : {
+              "label": "Master"
+            }
+          },
+          "button": {
+            "create": "Create",
+            "cancel": "Cancel"
+          }
+        }
+      }
     }
   },
   "views": {
@@ -123,11 +168,36 @@
         }
       },
       "title": "Azure Sample Web Application"
+    },
+    "scenario": {
+      "dropdown": {
+        "scenario" : {
+          "label" : "Scenario"
+        }
+      },
+      "text" : {
+        "scenariotype" : "Run type"
+      }
     }
   },
   "genericcomponent": {
     "loading": {
       "line": {
+        "workspace" : {
+          "current" : {
+            "title" : "Fetching workspace"
+          }
+        },
+        "solution" : {
+          "current" : {
+            "title" : "Fetching solution"
+          }
+        },
+        "dataset" : {
+          "list" : {
+            "title" : "Fetching dataset list"
+          }
+        },
         "scenario": {
           "list" : {
             "title" : "Fetching scenario list"
@@ -161,7 +231,7 @@
     "tabs": {
       "scenario": {
         "tab": {
-          "title": "Scenario"
+          "title": "SCENARIO VIEW"
         }
       }
     }

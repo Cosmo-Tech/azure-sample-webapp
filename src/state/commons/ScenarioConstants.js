@@ -1,20 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-// Available scenario statuses
-export const SCENARIO_STATUS = {
-  LOADING: 'LOADING',
-  ERROR: 'ERROR',
-  SUCCESS: 'SUCCESS',
-  IDLE: 'IDLE'
-};
-
-// Available scenario endpoints
-export const SCENARIO_ENDPOINT = {
-  FIND_ALL_SCENARIOS: '/api/FindAllScenarios',
-  GET_SCENARIO_TREE: '/api/GetScenariosTree'
-};
-
 // Available scenario actions
 export const SCENARIO_ACTIONS_KEY = {
   GET_ALL_SCENARIOS: 'GET_ALL_SCENARIOS',
@@ -22,5 +8,7 @@ export const SCENARIO_ACTIONS_KEY = {
   GET_SCENARIO_TREE: 'GET_SCENARIO_TREE',
   SET_SCENARIO_TREE: 'SET_SCENARIO_TREE',
   GET_CURRENT_SCENARIO: 'GET_CURRENT_SCENARIO',
-  SET_CURRENT_SCENARIO: 'SET_CURRENT_SCENARIO'
+  SET_CURRENT_SCENARIO: 'SET_CURRENT_SCENARIO',
+  FIND_SCENARIO_BY_ID: 'FIND_SCENARIO_BY_ID',
+  CREATE_SCENARIO: 'CREATE_SCENARIO'
 };

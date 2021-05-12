@@ -4,12 +4,22 @@
 import { combineReducers } from 'redux';
 import { scenarioReducer } from './scenario/ScenarioReducer';
 import { applicationReducer } from './app/ApplicationReducer';
+import { datasetReducer } from './dataset/DatasetReducer';
+import { workspaceReducer } from './workspace/WorkspaceReducer';
+import { solutionReducer } from './solution/SolutionReducer';
 import { authReducer } from './auth/AuthReducer';
+import { runTemplateReducer } from './runtemplate/RunTemplateReducer';
 
-const rootReducer = combineReducers({
-  scenario: scenarioReducer,
-  application: applicationReducer,
-  auth: authReducer
-});
+const rootReducer = combineReducers(
+  {
+    scenario: scenarioReducer,
+    application: applicationReducer,
+    auth: authReducer,
+    dataset: datasetReducer,
+    workspace: workspaceReducer,
+    solution: solutionReducer,
+    runTemplate: runTemplateReducer
+  }
+);
 
 export default rootReducer;

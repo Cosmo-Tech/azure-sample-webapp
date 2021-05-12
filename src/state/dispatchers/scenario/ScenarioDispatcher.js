@@ -9,7 +9,19 @@ export const dispatchGetScenarioList = (payLoad) => ({
   ...payLoad
 });
 
-export const dispatchGetScenarioTree = (payLoad) => ({
-  type: SCENARIO_ACTIONS_KEY.GET_SCENARIO_TREE,
+export const dispatchSetCurrentScenario = (payLoad) => ({
+  type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
   ...payLoad
+});
+
+export const dispatchFindScenarioById = (workspaceId, scenarioId) => ({
+  type: SCENARIO_ACTIONS_KEY.FIND_SCENARIO_BY_ID,
+  workspaceId: workspaceId,
+  scenarioId: scenarioId
+});
+
+export const dispatchCreateScenario = (workspaceId, scenario) => ({
+  type: SCENARIO_ACTIONS_KEY.CREATE_SCENARIO,
+  workspaceId: workspaceId,
+  scenario: scenario
 });
