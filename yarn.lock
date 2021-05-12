@@ -1257,10 +1257,10 @@
   dependencies:
     "@azure/msal-browser" "^2.8.0"
 
-"@cosmotech/core@^1.1.3-beta.0":
-  version "1.1.3-beta.0"
-  resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.1.3-beta.0.tgz#4ff9b5cd54d6fecfdcffe660125a8b7c5ba8af94"
-  integrity sha512-abxTuKO+fc0kEr11TAqApiSPt88T3BTlaB97feup2s7Bqowu3XyGay27WU7qCDi6sYqfgPDt5oiU4OyfU6ExzA==
+"@cosmotech/core@^1.1.3-beta.1":
+  version "1.1.3-beta.1"
+  resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.1.3-beta.1.tgz#f504e4951d83ba5515fccb59158bba09c1c441cf"
+  integrity sha512-oWJ+qDwtCFTiC8eLwVC6xhVRXkR60TE/JQHF/nmFgodnWKEXkViagoSMvxH/eb1W2QfmxMYL14tXu3mvaG3bCw==
 
 "@cosmotech/ui@^0.2.7-beta.2":
   version "0.2.7-beta.2"
