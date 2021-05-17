@@ -107,6 +107,12 @@ const ScenarioParameters = ({ classes, editMode, changeEditMode, updateAndLaunch
         varType: 'string',
         value: textField,
         isInherited: 'true'
+      },
+      {
+        parameterId: 'currency value',
+        varType: 'string',
+        value: numberField,
+        isInherited: 'true'
       }
     ];
 
