@@ -7,11 +7,7 @@ import {
   Grid,
   Tab,
   Typography,
-  Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions
+  Button
 } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { TabContext, TabList, TabPanel } from '@material-ui/lab';
@@ -19,6 +15,7 @@ import { useTranslation } from 'react-i18next';
 import { BasicTypes } from './index';
 import EditIcon from '@material-ui/icons/Edit';
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
+import { SimpleTwoActionsDialog } from '@cosmotech/ui';
 
 const useStyles = theme => ({
   header: {
@@ -273,52 +270,6 @@ NormalModeButton.propTypes = {
   handleClickOnEdit: PropTypes.func.isRequired,
   handleClickOnLaunchScenario: PropTypes.func.isRequired
 
-};
-
-// TODO Add classes/styles props and export this into '@cosmotech/ui' npm package
-const SimpleTwoActionsDialog = ({
-  open,
-  dialogTitleKey,
-  dialogBodyKey,
-  cancelLabelKey,
-  handleClickOnCancel,
-  validateLabelKey,
-  handleClickOnValidate
-}) => {
-  const { t } = useTranslation();
-  return (
-        <Dialog open={open} aria-labelledby="discard-changes-dialog"
-                maxWidth={'xs'}
-                fullWidth={true}
-                disableBackdropClick>
-            <DialogTitle id="discard-changes-dialog-title">
-                <Typography variant='h3' >
-                    {t(dialogTitleKey, 'Dialog title')}
-                </Typography>
-            </DialogTitle>
-            <DialogContent>
-                <Typography variant='body1'>{t(dialogBodyKey, 'Dialog Body')}</Typography>
-            </DialogContent>
-            <DialogActions >
-                <Button id="ButtonCancel" onClick={handleClickOnCancel} color="primary">
-                    {t(cancelLabelKey, 'Cancel label')}
-                </Button>
-                <Button id="ButtonDiscard" onClick={handleClickOnValidate} color="primary">
-                    {t(validateLabelKey, 'Validate label')}
-                </Button>
-            </DialogActions>
-        </Dialog>
-  );
-};
-
-SimpleTwoActionsDialog.propTypes = {
-  open: PropTypes.bool.isRequired,
-  dialogTitleKey: PropTypes.string.isRequired,
-  dialogBodyKey: PropTypes.string.isRequired,
-  cancelLabelKey: PropTypes.string.isRequired,
-  handleClickOnCancel: PropTypes.func.isRequired,
-  validateLabelKey: PropTypes.string.isRequired,
-  handleClickOnValidate: PropTypes.func.isRequired
 };
 
 export default withStyles(useStyles)(ScenarioParameters);
