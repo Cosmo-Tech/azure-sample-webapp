@@ -3,7 +3,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { BasicTextInput, BasicNumberInput, BasicEnumTypes, BasicToggleInput } from '../BasicInputs';
+import { BasicTextInput, BasicNumberInput, BasicEnumTypes, BasicToggleInput } from '@cosmotech/ui';
 
 const BasicTypes = ({ classes, changeTextField, initTextFieldValue, changeNumberField, changeEnumField, changeSwitchType, editMode }) => {
   const containerProps = {
