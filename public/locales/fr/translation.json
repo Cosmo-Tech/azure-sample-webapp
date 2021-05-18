@@ -256,9 +256,9 @@
         "parameters" : {
           "button": {
             "cancel": "Annuler",
-            "validate": "Valider"
+            "validate": "Restaurer"
           },
-           "title" : "Annuler les modifications courantes ?",
+           "title" : "Restaurer l'état avant modifications ?",
            "body": "Vous allez perdre toutes les modifications que vous avez faites sur les paramètres de scénario."
         }
       }
