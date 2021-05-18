@@ -275,7 +275,8 @@ const ScenarioParameters = ({
             cancelLabelKey='genericcomponent.dialog.scenario.parameters.button.cancel'
             validateLabelKey='genericcomponent.dialog.scenario.parameters.button.validate'
             handleClickOnCancel={handleClickOnPopupCancelButton}
-            handleClickOnValidate={handleClickOnPopupDiscardChangeButton}/>
+            handleClickOnValidate={handleClickOnPopupDiscardChangeButton}
+          />
       </div>
   );
 };
