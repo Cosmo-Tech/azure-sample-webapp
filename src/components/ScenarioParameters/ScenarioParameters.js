@@ -121,6 +121,12 @@ const ScenarioParameters = ({
         varType: 'string',
         value: numberField,
         isInherited: 'true'
+      },
+      {
+        parameterId: 'currency used',
+        varType: 'bool',
+        value: switchType,
+        isInherited: 'true'
       }
     ];
 
@@ -166,10 +172,10 @@ const ScenarioParameters = ({
                           <Tab label={t('commoncomponents.tab.scenario.parameters.basic.types', 'Basic Types template')} value="basic_types" className={classes.tab}/>
                       </TabList>
                       <TabPanel value="upload_file_template" index={0} className={classes.tabPanel}>
-                          TOTO
+                        EMPTY
                       </TabPanel>
                       <TabPanel value="array_template" index={0} className={classes.tabPanel}>
-                          TUTU
+                        EMPTY
                       </TabPanel>
                       <TabPanel value="basic_types" index={0} className={classes.tabPanel}>
                           <BasicTypes
@@ -180,7 +186,6 @@ const ScenarioParameters = ({
                             changeSwitchType={setSwitchType}
                             editMode={editMode}
                           />
-                          <Typography>{textField} | {numberField} | {enumField} | {switchType ? 'true' : 'false'}</Typography>
                       </TabPanel>
                   </TabContext>
               </form>
