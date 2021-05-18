@@ -23,7 +23,17 @@
         "language": "Changer de langue"
       },
       "create": {
-        "scenario" : "Créer un scenario"
+        "scenario" : "Créer un scénario"
+      },
+      "scenario": {
+        "parameters": {
+          "discard": "Annuler les modifications",
+          "edit": "Edition",
+          "launch": "Lancer le Scénario",
+          "update" : {
+            "launch" : "Mise à jour et lancement du Scénario"
+          }
+        }
       }
     },
     "card": {
@@ -83,6 +93,21 @@
             "no": {
               "result": "Pas de résultat pour ce scénario"
             }
+          }
+        }
+      }
+    },
+    "tab": {
+      "scenario": {
+        "parameters": {
+          "upload": {
+            "file" : "Template d'upload de fichier"
+          },
+          "array": {
+            "template": "Template de tableau"
+          },
+          "basic": {
+            "types": "Template de types basiques"
           }
         }
       }
@@ -224,6 +249,18 @@
           "documentation": "Télécharger la documentation"
         },
         "logout": "Se déconnecter"
+      }
+    },
+    "dialog" : {
+      "scenario" : {
+        "parameters" : {
+          "button": {
+            "cancel": "Annuler",
+            "validate": "Restaurer"
+          },
+           "title" : "Restaurer l'état avant modifications ?",
+           "body": "Vous allez perdre toutes les modifications que vous avez faites sur les paramètres de scénario."
+        }
       }
     }
   },

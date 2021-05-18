@@ -9,7 +9,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { PrivateRoute } from '../../components';
 import { Auth } from '@cosmotech/core';
 import { UserInfo } from '@cosmotech/ui';
-import Footer from './components/Footer';
 import { useTranslation } from 'react-i18next';
 import { applicationLanguages } from '../../configs/App.config';
 
@@ -113,7 +112,6 @@ const TabLayout = props => {
               <Route render={() => <Redirect to="/scenario" />} />
             </Switch>
           </Box>
-          <Footer />
       </>
   );
 };

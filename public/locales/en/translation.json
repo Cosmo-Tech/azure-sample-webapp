@@ -24,6 +24,16 @@
       },
       "create": {
         "scenario" : "Create Alternative Scenario"
+      },
+      "scenario": {
+        "parameters": {
+          "discard": "Discard Modifications",
+          "edit": "Edit",
+          "launch": "Launch Scenario",
+          "update" : {
+            "launch" : "Update And Launch Scenario"
+          }
+        }
       }
     },
     "card": {
@@ -83,6 +93,21 @@
             "no": {
               "result": "No results for this scenario."
             }
+          }
+        }
+      }
+    },
+    "tab": {
+      "scenario": {
+        "parameters": {
+          "upload": {
+            "file" : "Upload File template"
+          },
+          "array": {
+            "template": "Array Template"
+          },
+          "basic": {
+            "types": "Basic Types template"
           }
         }
       }
@@ -224,6 +249,18 @@
           "documentation": "Download documentation"
         },
         "logout": "Sign out"
+      }
+    },
+    "dialog" : {
+      "scenario" : {
+        "parameters" : {
+          "button": {
+            "cancel": "Cancel",
+            "validate": "Discard"
+          },
+          "title" : "Discard current modifications ?",
+          "body": "You will lose all your current changes made on the scenario parameters."
+        }
       }
     }
   },

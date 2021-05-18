@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import { Card, CardContent, CardMedia } from '@material-ui/core';
+import { CardContent, CardMedia } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 
 const useStyles = theme => ({
@@ -28,26 +28,6 @@ const useStyles = theme => ({
     fontWeight: '500',
     letterSpacing: '0',
     lineHeight: '14px'
-  },
-  card: {
-    width: '100%',
-    background: theme.palette.background.secondary,
-    display: 'flex',
-    flexDirection: 'column'
-  },
-  cardTitle: {
-    margin: '16px',
-    marginLeft: '8px',
-    marginBottom: '4px',
-    fontWeight: 'bold',
-    textAlign: 'left',
-    fontSize: 18,
-    padding: 0,
-    letterSpacing: 0
-  },
-  cardContent: {
-    padding: `${theme.spacing(1)}px`,
-    flexGrow: '1'
   }
 });
 
@@ -60,8 +40,8 @@ const IframeScenarioResults = (props) => {
   const { classes, iframeTitle, cardTitle, cardStyle, ...otherProps } = props;
 
   return (
-        <Card style={cardStyle} className={classes.card}>
-          <Typography variant='h5' component='h2' className={classes.cardTitle}>
+        <div>
+          <Typography variant='subtitle1' component='h2'>
             {cardTitle}
           </Typography>
           <CardContent className={classes.cardContent}>
@@ -81,7 +61,7 @@ const IframeScenarioResults = (props) => {
               >{t('commoncomponents.iframe.scenario.results.text.no.result', 'No results for this scenario.')}</Typography>
             }
           </CardContent>
-        </Card>
+        </div>
   );
 };
 
