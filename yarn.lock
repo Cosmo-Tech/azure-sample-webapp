@@ -1242,10 +1242,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@cosmotech/api@^0.0.1-SNAPSHOT":
-  version "0.0.1-SNAPSHOT"
-  resolved "https://registry.yarnpkg.com/@cosmotech/api/-/api-0.0.1-SNAPSHOT.tgz#be7be864e778d80aa9be9c08fe36dbfc6baf9a02"
-  integrity sha512-LNS82R4Lcm4zm5jix4yjTcxm5oMucM68szRVPlZxd66X8zWCxt5hQ0a8V4+nboQ9cINI/wnSkeHEIh2+rFBUgw==
+"@cosmotech/api@^0.0.2-SNAPSHOT":
+  version "0.0.2-SNAPSHOT"
+  resolved "https://registry.yarnpkg.com/@cosmotech/api/-/api-0.0.2-SNAPSHOT.tgz#95fbd547e2c173173edad22ba273def17c37c982"
+  integrity sha512-fX6/dUuHLiuZU5jXjV4WdCgIXZMnhUNnf1pIkPT7ckIYZQaycCVb3QFHLVEEU9J4JpDFI0NCi7uBn2NSCGJboQ==
   dependencies:
     "@babel/cli" "^7.0.0"
     superagent "^5.3.0"
