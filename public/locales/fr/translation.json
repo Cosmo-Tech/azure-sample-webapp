@@ -23,15 +23,15 @@
         "language": "Changer de langue"
       },
       "create": {
-        "scenario" : "Créer un scenario"
+        "scenario" : "Créer un scénario"
       },
       "scenario": {
         "parameters": {
           "discard": "Annuler les modifications",
           "edit": "Edition",
-          "launch": "Lancer le Scenario",
+          "launch": "Lancer le Scénario",
           "update" : {
-            "launch" : "Mise à jour et lancement du Scenario"
+            "launch" : "Mise à jour et lancement du Scénario"
           }
         }
       }
@@ -258,8 +258,8 @@
             "cancel": "Annuler",
             "validate": "Valider"
           },
-           "title" : "Annuler les modifications courantes?",
-           "body": "Vous allez perdre toutes les modifications que vous avez faite sur les paramêtres de scénario."
+           "title" : "Annuler les modifications courantes ?",
+           "body": "Vous allez perdre toutes les modifications que vous avez faites sur les paramètres de scénario."
         }
       }
     }
