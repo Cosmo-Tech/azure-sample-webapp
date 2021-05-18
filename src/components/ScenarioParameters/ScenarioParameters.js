@@ -6,15 +6,12 @@ import PropTypes from 'prop-types';
 import {
   Grid,
   Tab,
-  Typography,
-  Button
+  Typography
 } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 import { useTranslation } from 'react-i18next';
-import { BasicTypes } from './index';
-import EditIcon from '@material-ui/icons/Edit';
-import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
+import { BasicTypes, EditModeButton, NormalModeButton } from './components';
 import { SimpleTwoActionsDialog } from '@cosmotech/ui';
 
 const useStyles = theme => ({
@@ -207,69 +204,6 @@ ScenarioParameters.propTypes = {
   workspaceId: PropTypes.string.isRequired,
   scenarioId: PropTypes.string.isRequired,
   currentScenario: PropTypes.object.isRequired
-};
-
-const EditModeButton = ({ classes, handleClickOnDiscardChange, handleClickOnUpdateAndLaunchScenario }) => {
-  const { t } = useTranslation();
-  return (
-        <Grid container spacing={1}>
-          <Grid item>
-            <Button
-                color="primary"
-                onClick={handleClickOnDiscardChange}>
-                {t('commoncomponents.button.scenario.parameters.discard', 'Discard Modifications')}
-            </Button>
-          </Grid>
-          <Grid item>
-            <Button
-                startIcon={<PlayCircleOutlineIcon />}
-                variant="contained"
-                color="primary"
-                onClick={handleClickOnUpdateAndLaunchScenario}>
-                {t('commoncomponents.button.scenario.parameters.update.launch', 'Update And Launch Scenario')}
-            </Button>
-          </Grid>
-        </Grid>
-  );
-};
-
-EditModeButton.propTypes = {
-  classes: PropTypes.any.isRequired,
-  handleClickOnDiscardChange: PropTypes.func.isRequired,
-  handleClickOnUpdateAndLaunchScenario: PropTypes.func.isRequired
-};
-
-const NormalModeButton = ({ classes, handleClickOnEdit, handleClickOnLaunchScenario }) => {
-  const { t } = useTranslation();
-  return (
-        <Grid container spacing={1} alignItems="center">
-          <Grid item>
-            <Button
-                startIcon={<EditIcon />}
-                variant="contained"
-                color="primary"
-                onClick={handleClickOnEdit}>
-                {t('commoncomponents.button.scenario.parameters.edit', 'Edit')}
-            </Button>
-          </Grid>
-          <Grid item>
-            <Button
-                startIcon={<PlayCircleOutlineIcon />}
-                variant="contained"
-                color="primary"
-                onClick={handleClickOnLaunchScenario}>
-                {t('commoncomponents.button.scenario.parameters.launch', 'Launch Scenario')}
-            </Button>
-          </Grid>
-        </Grid>
-  );
-};
-
-NormalModeButton.propTypes = {
-  classes: PropTypes.any.isRequired,
-  handleClickOnEdit: PropTypes.func.isRequired,
-  handleClickOnLaunchScenario: PropTypes.func.isRequired
-
 };
 
 export default withStyles(useStyles)(ScenarioParameters);

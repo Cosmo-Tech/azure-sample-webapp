@@ -6,10 +6,9 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { Grid, Typography, Card } from '@material-ui/core';
 import HierarchicalComboBox from '../../components/HierarchicalComboBox';
-import { IframeScenarioResults } from '../../components';
+import { IframeScenarioResults, ScenarioParameters } from '../../components';
 import { useTranslation } from 'react-i18next';
 import { CreateScenarioButton } from '../../components/CreateScenarioDialog';
-import { ScenarioParameters } from '../../components/ScenarioParameters';
 
 const useStyles = theme => ({
   root: {
