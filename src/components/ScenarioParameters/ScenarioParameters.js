@@ -70,6 +70,9 @@ const ScenarioParameters = ({
   const [displayPopup, setDisplayPopup] = useState(false);
 
   // States for parameters
+  // TODO: For now, backend is replaced with a mock server. It has limitations, and it returns a string
+  // at the very first index. Therefore 0 is hardcoded here, but this should be updated once
+  // a real conection with the backend is established. A tag should be used here instead of the index.
   const [textField, setTextField] = useState(currentScenario.data.parametersValues[0].value);
   const [numberField, setNumberField] = useState('1000');
   const [enumField, setEnumField] = useState('EUR');
