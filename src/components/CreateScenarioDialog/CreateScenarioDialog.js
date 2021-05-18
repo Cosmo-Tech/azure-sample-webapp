@@ -48,6 +48,7 @@ const useStyles = theme => ({
 
 const getCurrentScenarioRunType = (currentScenario, runTemplates) => {
   const runTemplateId = currentScenario?.data?.runTemplateId;
+  runTemplates = runTemplates === undefined ? [] : runTemplates;
   const runTemplate = runTemplates.find(runTemplate => runTemplate.id === runTemplateId);
   return runTemplate === undefined ? {} : runTemplate;
 };
