@@ -6,17 +6,6 @@ import PropTypes from 'prop-types';
 import { BasicTextInput, BasicNumberInput, BasicEnumTypes, BasicToggleInput } from '@cosmotech/ui';
 
 const BasicTypes = ({ classes, changeTextField, initTextFieldValue, changeNumberField, changeEnumField, changeSwitchType, editMode }) => {
-  const containerProps = {
-    direction: 'row',
-    alignItems: 'center',
-    alignContent: 'flex-start',
-    spacing: 2
-  };
-
-  const labelProps = {
-    variant: 'subtitle2'
-  };
-
   const textFieldProps = {
     disabled: !editMode,
     id: 'standard-required',
@@ -70,32 +59,24 @@ const BasicTypes = ({ classes, changeTextField, initTextFieldValue, changeNumber
           classes={classes}
           label='Text Field'
           changeTextField={changeTextField}
-          containerProps={containerProps}
           textFieldProps={textFieldProps}
-          labelProps={labelProps}
         />
         <BasicNumberInput
           classes={classes}
           label='Number Field'
           changeNumberField={changeNumberField}
-          containerProps={containerProps}
           textFieldProps={numberFieldsProps}
           inputProps={inputProps}
-          labelProps={labelProps}
         />
         <BasicEnumTypes
           classes={classes}
           label='Enum Field'
           changeEnumField={changeEnumField}
-          containerProps={containerProps}
           textFieldProps={enumFieldProps}
           enumValues={enumValues}
-          labelProps={labelProps}
         />
         <BasicToggleInput
-          labelProps={labelProps}
           changeSwitchType={changeSwitchType}
-          containerProps={containerProps}
           classes={classes}
           label='Switch type'
           switchProps={switchFieldProps}
