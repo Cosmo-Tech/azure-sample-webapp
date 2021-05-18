@@ -126,6 +126,7 @@ const Scenario = (props) => {
             changeEditMode={setEditMode}
             updateAndLaunchScenario={updateAndLaunchScenario}
             workspaceId={workspaceId}
+            currentScenario={currentScenario}
             scenarioId={currentScenario.data.id}/>
         </Card>
       </Grid>

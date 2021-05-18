@@ -5,7 +5,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { BasicTextInput, BasicNumberInput, BasicEnumTypes, BasicToggleInput } from '../BasicInputs';
 
-const BasicTypes = ({ classes, changeTextField, changeNumberField, changeEnumField, changeSwitchType, editMode }) => {
+const BasicTypes = ({ classes, changeTextField, initTextFieldValue, changeNumberField, changeEnumField, changeSwitchType, editMode }) => {
   const containerProps = {
     direction: 'row',
     alignItems: 'center',
@@ -20,7 +20,7 @@ const BasicTypes = ({ classes, changeTextField, changeNumberField, changeEnumFie
   const textFieldProps = {
     disabled: !editMode,
     id: 'standard-required',
-    defaultValue: 'Default Value'
+    defaultValue: initTextFieldValue
   };
 
   const inputProps = {
@@ -105,6 +105,7 @@ const BasicTypes = ({ classes, changeTextField, changeNumberField, changeEnumFie
 
 BasicTypes.propTypes = {
   classes: PropTypes.any,
+  initTextFieldValue: PropTypes.string.isRequired,
   changeTextField: PropTypes.func.isRequired,
   changeNumberField: PropTypes.func.isRequired,
   changeEnumField: PropTypes.func.isRequired,

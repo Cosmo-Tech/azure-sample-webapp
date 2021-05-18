@@ -59,7 +59,15 @@ const useStyles = theme => ({
   }
 });
 
-const ScenarioParameters = ({ classes, editMode, changeEditMode, updateAndLaunchScenario, workspaceId, scenarioId }) => {
+const ScenarioParameters = ({
+  classes,
+  editMode,
+  changeEditMode,
+  updateAndLaunchScenario,
+  workspaceId,
+  currentScenario,
+  scenarioId
+}) => {
   // Translation
   const { t } = useTranslation();
 
@@ -68,7 +76,7 @@ const ScenarioParameters = ({ classes, editMode, changeEditMode, updateAndLaunch
   const [displayPopup, setDisplayPopup] = useState(false);
 
   // States for parameters
-  const [textField, setTextField] = useState('Default value');
+  const [textField, setTextField] = useState(currentScenario.data.parametersValues[0].value);
   const [numberField, setNumberField] = useState('1000');
   const [enumField, setEnumField] = useState('EUR');
   const [switchType, setSwitchType] = useState(false);
@@ -165,6 +173,7 @@ const ScenarioParameters = ({ classes, editMode, changeEditMode, updateAndLaunch
                       </TabPanel>
                       <TabPanel value="basic_types" index={0} className={classes.tabPanel}>
                           <BasicTypes
+                            initTextFieldValue={textField}
                             changeTextField={setTextField}
                             changeNumberField={setNumberField}
                             changeEnumField={setEnumField}
@@ -194,7 +203,8 @@ ScenarioParameters.propTypes = {
   classes: PropTypes.any,
   updateAndLaunchScenario: PropTypes.func.isRequired,
   workspaceId: PropTypes.string.isRequired,
-  scenarioId: PropTypes.string.isRequired
+  scenarioId: PropTypes.string.isRequired,
+  currentScenario: PropTypes.object.isRequired
 };
 
 const EditModeButton = ({ classes, handleClickOnDiscardChange, handleClickOnUpdateAndLaunchScenario }) => {
