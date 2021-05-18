@@ -233,6 +233,7 @@ const ScenarioParameters = ({
       break;
     }
   }
+  const acceptExcel = '.xlsx,.xls,.csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
 
   return (
       <div>
