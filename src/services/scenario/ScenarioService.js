@@ -37,9 +37,9 @@ function createScenario (organizationId, workspaceId, scenario) {
   });
 }
 
-function updateAndLaunchScenario (organizationId, workspaceId, scenariodId, scenarioParameters) {
+function updateAndLaunchScenario (organizationId, workspaceId, scenarioId, scenarioParameters) {
   return new Promise((resolve) => {
-    ScenarioApi.addOrReplaceScenarioParameterValues(organizationId, workspaceId, scenariodId, scenarioParameters, (error, data, response) => {
+    ScenarioApi.addOrReplaceScenarioParameterValues(organizationId, workspaceId, scenarioId, scenarioParameters, (error, data, response) => {
       resolve({ error, data, response });
     });
   });
