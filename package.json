@@ -16,7 +16,7 @@
     "axios": "^0.21.1",
     "clsx": "^1.1.1",
     "history": "^5.0.0",
-    "i18next": "^20.2.1",
+    "i18next": "^20.2.4",
     "i18next-browser-languagedetector": "^6.1.0",
     "i18next-http-backend": "^1.2.0",
     "i18next-parser": "^3.7.0",
