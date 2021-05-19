@@ -13,7 +13,7 @@ const BasicTypes = ({ classes, changeTextField, initTextFieldValue, changeNumber
   };
 
   const inputProps = {
-    min: 0,
+    min: -999,
     max: 9999
   };
 
