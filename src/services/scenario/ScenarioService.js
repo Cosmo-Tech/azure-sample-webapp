@@ -2,8 +2,10 @@
 // Licensed under the MIT license.
 
 import { CosmotechApiService } from '../../configs/Api.config';
+import rfdc from 'rfdc';
 
 const ScenarioApi = new CosmotechApiService.ScenarioApi();
+const clone = rfdc();
 
 function findAllScenarios (organizationId, workspaceId) {
   return new Promise((resolve) => {
@@ -37,12 +39,47 @@ function createScenario (organizationId, workspaceId, scenario) {
   });
 }
 
-function updateAndLaunchScenario (organizationId, workspaceId, scenarioId, scenarioParameters) {
+function formatScenarioParametersForApi (scenarioParameters) {
+  // Reformat scenario parameters to match the API expected types
+  return scenarioParameters.map(param => {
+    // Clone the original parameter
+    const newParam = clone(param);
+    // Cast boolean values into string values
+    if (newParam.varType === 'bool') {
+      newParam.value = newParam.value.toString();
+    }
+    return newParam;
+  });
+}
+
+function formatScenarioParametersFromApi (scenarioParameters) {
+  if (!scenarioParameters) {
+    return undefined;
+  }
+  // Reformat scenario parameters to match the front-end expected types
+  return scenarioParameters.map(param => {
+    // Clone the original parameter
+    const newParam = clone(param);
+    // Cast string values into boolean values
+    if (newParam.varType === 'bool') {
+      newParam.value = (newParam.value === 'true');
+    }
+    return newParam;
+  });
+}
+
+function updateScenarioParameters (organizationId, workspaceId, scenarioId, scenarioParameters) {
+  const formattedParameters = formatScenarioParametersForApi(scenarioParameters);
   return new Promise((resolve) => {
-    ScenarioApi.addOrReplaceScenarioParameterValues(organizationId, workspaceId, scenarioId, scenarioParameters, (error, data, response) => {
+    ScenarioApi.addOrReplaceScenarioParameterValues(organizationId, workspaceId, scenarioId, formattedParameters, (error, data, response) => {
+      data = formatScenarioParametersFromApi(data);
       resolve({ error, data, response });
     });
   });
+}
+
+function launchScenario (organizationId, workspaceId, scenarioId) {
+  // TODO
 }
 
 const ScenarioService = {
@@ -50,7 +87,8 @@ const ScenarioService = {
   getScenariosTree,
   findScenarioById,
   createScenario,
-  updateAndLaunchScenario
+  updateScenarioParameters,
+  launchScenario
 };
 
 export default ScenarioService;
