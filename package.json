@@ -20,7 +20,7 @@
     "i18next-browser-languagedetector": "^6.1.0",
     "i18next-http-backend": "^1.2.0",
     "i18next-parser": "^3.7.0",
-    "node-sass": "^5.0.0",
+    "node-sass": "^6.0.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
