@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 import {
   Grid,
   Card,
-  CardContent,
   Tabs,
   Tab
 } from '@material-ui/core';
@@ -22,12 +21,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper
   },
   dashboard: {
-    height: '100%'
-  },
-  card: {
-    height: '100%'
-  },
-  cardContent: {
     height: '100%'
   }
 }));
@@ -50,7 +43,9 @@ const Dashboards = ({ scenarioId }) => {
   return (
     <Grid container className={classes.root} direction="row">
       <Grid item sm={2}>
-        <Card>
+        {/* TODO: I don't know yet how to make a specific style for this card,
+        other than using style attribute. Update this whenever knowledge has been acquired. */}
+        <Card style={{ padding: '0px', height: '100%', paddingTop: '8px' }}>
           <Tabs
             orientation="vertical"
             variant="scrollable"
@@ -66,8 +61,7 @@ const Dashboards = ({ scenarioId }) => {
         </Card>
       </Grid>
       <Grid item sm={10}>
-        <Card className={classes.card}>
-          <CardContent className={classes.cardContent}>
+        <Card className={classes.dashboard}>
             {dashboards.map(dashboard => (
               <TabPanel
                 className={classes.dashboard}
@@ -79,7 +73,6 @@ const Dashboards = ({ scenarioId }) => {
                 scenarioId={scenarioId}
               />
             ))}
-          </CardContent>
         </Card>
       </Grid>
     </Grid>

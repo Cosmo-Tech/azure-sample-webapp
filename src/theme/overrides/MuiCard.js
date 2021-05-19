@@ -8,6 +8,8 @@ export default {
     backgroundColor: palette.background.card,
     marginTop: '4px',
     marginBottom: '4px',
+    marginLeft: '2px',
+    marginRight: '2px',
     padding: '16px'
   }
 };
