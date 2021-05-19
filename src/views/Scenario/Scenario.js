@@ -10,6 +10,7 @@ import { ScenarioParameters } from '../../components';
 import { useTranslation } from 'react-i18next';
 import { CreateScenarioButton } from '../../components/CreateScenarioDialog';
 import { Dashboard } from '@cosmotech/ui';
+import { dashboardConfig } from './Dashboard.config';
 
 const useStyles = theme => ({
   root: {
@@ -29,7 +30,10 @@ const useStyles = theme => ({
   mainGrid: {
     display: 'flex',
     flexGrow: 1,
-    padding: '10px'
+    paddingLeft: '2px',
+    paddingTop: '6px',
+    paddingRight: '2px',
+    paddingBottom: '6px'
   },
   grid: {
     flexGrow: 1,
@@ -55,6 +59,8 @@ const Scenario = (props) => {
     classes,
     updateAndLaunchScenario
   } = props;
+
+  const formattedUrl = dashboardConfig.url.replaceAll('<ScenarioId>', currentScenario.data.id);
 
   const workspaceId = workspace.data.id;
   const [editMode, setEditMode] = useState(false);
@@ -107,7 +113,7 @@ const Scenario = (props) => {
         <Card style={{ height: '400px' }}>
           <Dashboard
             iframeTitle={t('commoncomponents.iframe.scenario.results.card.title', 'Results')}
-            url="https://app.powerbi.com/reportEmbed?reportId=64985f52-2231-4a61-8dc0-6dd0c38c65de&autoAuth=true&ctid=e413b834-8be8-4822-a370-be619545cb49&config=eyJjbHVzdGVyVXJsIjoiaHR0cHM6Ly93YWJpLXdlc3QtZXVyb3BlLWItcHJpbWFyeS1yZWRpcmVjdC5hbmFseXNpcy53aW5kb3dzLm5ldC8ifQ%3D%3D&pageName=ReportSection&$filter=Demands_x0020__x0028_2_x0029_/Scenario_x0020_ID%20eq%20<ScenarioId>"
+            url={formattedUrl}
             scenarioId={currentScenario.id}
           />
         </Card>
