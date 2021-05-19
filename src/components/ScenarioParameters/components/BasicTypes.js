@@ -9,7 +9,7 @@ const BasicTypes = ({ classes, changeTextField, initTextFieldValue, changeNumber
   const textFieldProps = {
     disabled: !editMode,
     id: 'standard-required',
-    defaultValue: initTextFieldValue
+    value: initTextFieldValue
   };
 
   const inputProps = {

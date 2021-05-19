@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   Grid,
@@ -69,11 +69,25 @@ const ScenarioParameters = ({
   const [value, setValue] = useState('basic_types');
   const [displayPopup, setDisplayPopup] = useState(false);
 
+  // TODO: For now, backend is replaced with a mock server. It has limitations,
+  // and it returns a string at the very first index. Therefore 0 is hardcoded
+  // here, but this should be updated once a real connection with the backend is
+  // established. A tag should be used here instead of the index.
+  const getTextParameter = (params) => params[0].value;
+  // TODO: use actual scenario parameters
+  const getNumberParameter = (params) => '1000';
+  const getEnumParameter = (params) => 'EUR';
+  const getBoolParameter = (params) => false;
+
   // States for parameters
-  // TODO: For now, backend is replaced with a mock server. It has limitations, and it returns a string
-  // at the very first index. Therefore 0 is hardcoded here, but this should be updated once
-  // a real conection with the backend is established. A tag should be used here instead of the index.
-  const [textField, setTextField] = useState(currentScenario.data.parametersValues[0].value);
+  const [textField, setTextField] = useState(
+    getTextParameter(currentScenario.data.parametersValues));
+
+  // Update the parameters form when scenario paramaters change
+  useEffect(() => {
+    setTextField(getTextParameter(currentScenario.data.parametersValues));
+  }, [currentScenario.data.parametersValues]);
+
   const [numberField, setNumberField] = useState('1000');
   const [enumField, setEnumField] = useState('EUR');
   const [switchType, setSwitchType] = useState(false);
@@ -89,6 +103,11 @@ const ScenarioParameters = ({
   const handleClickOnPopupDiscardChangeButton = () => {
     setDisplayPopup(false);
     changeEditMode(false);
+    // Reset form values
+    setTextField(getTextParameter(currentScenario.data.parametersValues));
+    setNumberField(getNumberParameter(currentScenario.data.parametersValues));
+    setEnumField(getEnumParameter(currentScenario.data.parametersValues));
+    setSwitchType(getBoolParameter(currentScenario.data.parametersValues));
   };
 
   // Normal Mode Screen
