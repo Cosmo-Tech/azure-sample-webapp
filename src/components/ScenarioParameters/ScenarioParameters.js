@@ -30,7 +30,7 @@ const useStyles = theme => ({
     margin: `0 ${theme.spacing(3)}px`
   },
   tabPanel: {
-    maxHeight: 300,
+    maxHeight: 450,
     overflow: 'auto'
   },
   tabs: {
