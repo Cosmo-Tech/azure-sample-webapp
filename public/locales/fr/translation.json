@@ -27,7 +27,7 @@
       },
       "scenario": {
         "parameters": {
-          "discard": "Annuler les modifications",
+          "discard": "Abandonner les modifications",
           "edit": "Edition",
           "launch": "Lancer le Scénario",
           "update" : {
@@ -256,9 +256,9 @@
         "parameters" : {
           "button": {
             "cancel": "Annuler",
-            "validate": "Restaurer"
+            "validate": "Abandonner"
           },
-           "title" : "Restaurer l'état avant modifications ?",
+           "title" : "Abandonner les modifications ?",
            "body": "Vous allez perdre toutes les modifications que vous avez faites sur les paramètres de scénario."
         }
       }
