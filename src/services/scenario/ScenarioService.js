@@ -51,17 +51,12 @@ function updateScenarioParameters (organizationId, workspaceId, scenarioId, scen
   });
 }
 
-function launchScenario (organizationId, workspaceId, scenarioId) {
-  // TODO
-}
-
 const ScenarioService = {
   findAllScenarios,
   getScenariosTree,
   findScenarioById,
   createScenario,
-  updateScenarioParameters,
-  launchScenario
+  updateScenarioParameters
 };
 
 export default ScenarioService;
