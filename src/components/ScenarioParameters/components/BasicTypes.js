@@ -5,7 +5,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { BasicTextInput, BasicNumberInput, BasicEnumTypes, BasicToggleInput } from '@cosmotech/ui';
 
-const BasicTypes = ({ classes, changeTextField, initTextFieldValue, changeNumberField, changeEnumField, changeSwitchType, editMode }) => {
+const BasicTypes = ({
+  classes,
+  changeTextField,
+  initTextFieldValue,
+  changeNumberField,
+  changeEnumField,
+  changeSwitchType,
+  editMode
+}) => {
   const textFieldProps = {
     disabled: !editMode,
     id: 'standard-required',
@@ -76,9 +84,9 @@ const BasicTypes = ({ classes, changeTextField, initTextFieldValue, changeNumber
           enumValues={enumValues}
         />
         <BasicToggleInput
-          changeSwitchType={changeSwitchType}
           classes={classes}
           label='Switch type'
+          changeSwitchType={changeSwitchType}
           switchProps={switchFieldProps}
         />
       </div>);
