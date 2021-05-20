@@ -5,6 +5,7 @@ import { takeEvery, call, put } from 'redux-saga/effects';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { ORGANISATION_ID } from '../../../../configs/App.config';
 import ScenarioService from '../../../../services/scenario/ScenarioService';
+import ScenariorunService from '../../../../services/scenariorun/ScenariorunService';
 import { STATUSES } from '../../../commons/Constants';
 
 // generators function
@@ -13,11 +14,12 @@ export function * updateAndLaunchScenario (action) {
   const scenarioId = action.scenarioId;
   const scenarioParameters = action.scenarioParameters;
   // Update scenario parameters
-  const { error, data } = yield call(ScenarioService.updateScenarioParameters,
-    ORGANISATION_ID, workspaceId, scenarioId, scenarioParameters);
-  if (error) {
+  const { error: updateError, data: updateData } = yield call(
+    ScenarioService.updateScenarioParameters, ORGANISATION_ID, workspaceId,
+    scenarioId, scenarioParameters);
+  if (updateError) {
     console.error('Failed to update scenario parameters');
-    console.error(error);
+    console.error(updateError);
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
       data: { status: STATUSES.IDLE }
@@ -25,9 +27,28 @@ export function * updateAndLaunchScenario (action) {
   } else {
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
-      data: { status: STATUSES.SUCCESS, scenario: { parametersValues: data } }
+      data: { status: STATUSES.SUCCESS, scenario: { parametersValues: updateData } }
     });
-    // TODO: launch scenario
+    // Launch scenario if parameters update succeeded
+    const { error: runError, data: runData } = yield call(
+      ScenariorunService.runScenario, ORGANISATION_ID, workspaceId, scenarioId);
+    if (runError) {
+      console.error(runError);
+    } else {
+      // Get csmSimulationRun id
+      const csmSimulationRun = runData.csmSimulationRun;
+      if (csmSimulationRun === undefined) {
+        console.error('csmSimulationRun is undefined');
+      } else {
+        yield put({
+          type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
+          data: {
+            status: STATUSES.SUCCESS,
+            scenario: { csmSimulationRun: csmSimulationRun }
+          }
+        });
+      }
+    }
   }
 }
 
