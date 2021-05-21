@@ -5,14 +5,11 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   Grid,
-  Tab,
   Typography
 } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { SCENARIO_RUN_STATE } from '../../utils/ApiUtils';
-import { TabContext, TabList, TabPanel } from '@material-ui/lab';
-import { useTranslation } from 'react-i18next';
-import { BasicTypes, EditModeButton, NormalModeButton } from './components';
+import { EditModeButton, NormalModeButton, ScenarioParametersTabs } from './components';
 import { SimpleTwoActionsDialog } from '@cosmotech/ui';
 
 const useStyles = theme => ({
@@ -29,28 +26,6 @@ const useStyles = theme => ({
     display: 'flex',
     alignItems: 'center',
     margin: `0 ${theme.spacing(3)}px`
-  },
-  tabPanel: {
-    maxHeight: 450,
-    overflow: 'auto'
-  },
-  tabs: {
-    margin: '8px'
-  },
-  tab: {
-    minWidth: 0,
-    fontSize: '14px',
-    fontWeight: '500',
-    letterSpacing: '0',
-    lineHeight: '15px',
-    textAlign: 'center',
-    flexGrow: 1,
-    opacity: 1,
-    color: theme.palette.text.grey,
-    '&.Mui-selected': {
-      fontWeight: 'bold',
-      color: theme.palette.primary.contrastText
-    }
   }
 });
 
@@ -63,11 +38,7 @@ const ScenarioParameters = ({
   currentScenario,
   scenarioId
 }) => {
-  // Translation
-  const { t } = useTranslation();
-
   // General states
-  const [value, setValue] = useState('basic_types');
   const [displayPopup, setDisplayPopup] = useState(false);
 
   // TODO: For now, backend is replaced with a mock server. It has limitations,
@@ -94,10 +65,6 @@ const ScenarioParameters = ({
   const [enumField, setEnumField] = useState('EUR');
   const [switchType, setSwitchType] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date('2021-08-18T21:11:54'));
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
 
   // Popup part
   const handleClickOnPopupCancelButton = () => setDisplayPopup(false);
@@ -168,67 +135,47 @@ const ScenarioParameters = ({
 
   return (
       <div>
-          <Grid container direction="column" justify="center" alignContent="flex-start" >
-              <Grid container className={classes.root} direction="row" justify="space-between" alignContent="flex-start" spacing={5}>
-                  <Grid item >
-                      <Typography variant='subtitle1' >Scenario parameters</Typography>
-                  </Grid>
-                  <Grid item >
-                    {editMode
-                      ? (<EditModeButton classes={classes}
-                         handleClickOnDiscardChange={handleClickOnDiscardChangeButton}
-                         handleClickOnUpdateAndLaunchScenario={handleClickOnUpdateAndLaunchScenarioButton}/>)
-                      : (<NormalModeButton classes={classes}
-                         handleClickOnEdit={handleClickOnEditButton}
-                         handleClickOnLaunchScenario={handleClickOnLaunchScenarioButton}
-                         editDisabled={isCurrentScenarioRunning()}
-                         runDisabled={isCurrentScenarioRunning()}/>)
-                    }
-                  </Grid>
-              </Grid>
+        <Grid container direction="column" justify="center" alignContent="flex-start" >
+          <Grid container className={classes.root} direction="row" justify="space-between" alignContent="flex-start" spacing={5}>
+            <Grid item >
+              <Typography variant='subtitle1' >Scenario parameters</Typography>
+            </Grid>
+            <Grid item >
+              {editMode
+                ? (<EditModeButton classes={classes}
+                    handleClickOnDiscardChange={handleClickOnDiscardChangeButton}
+                    handleClickOnUpdateAndLaunchScenario={handleClickOnUpdateAndLaunchScenarioButton}/>)
+                : (<NormalModeButton classes={classes}
+                    handleClickOnEdit={handleClickOnEditButton}
+                    handleClickOnLaunchScenario={handleClickOnLaunchScenarioButton}
+                    editDisabled={isCurrentScenarioRunning()}
+                    runDisabled={isCurrentScenarioRunning()}/>)
+              }
+            </Grid>
           </Grid>
-          <Grid item className={classes.tabs}>
-              <form>
-                  <TabContext value={value}>
-                      <TabList
-                          value={value}
-                          indicatorColor="primary"
-                          textColor="primary"
-                          onChange={handleChange}
-                          aria-label="scenario parameters">
-                          <Tab label={t('commoncomponents.tab.scenario.parameters.upload.file', 'Upload File template')} value="upload_file_template" className={classes.tab}/>
-                          <Tab label={t('commoncomponents.tab.scenario.parameters.array.template', 'Array Template')} value="array_template" className={classes.tab}/>
-                          <Tab label={t('commoncomponents.tab.scenario.parameters.basic.types', 'Basic Types template')} value="basic_types" className={classes.tab}/>
-                      </TabList>
-                      <TabPanel value="upload_file_template" index={0} className={classes.tabPanel}>
-                        EMPTY
-                      </TabPanel>
-                      <TabPanel value="array_template" index={0} className={classes.tabPanel}>
-                        EMPTY
-                      </TabPanel>
-                      <TabPanel value="basic_types" index={0} className={classes.tabPanel}>
-                          <BasicTypes
-                            initTextFieldValue={textField}
-                            changeTextField={setTextField}
-                            changeNumberField={setNumberField}
-                            changeEnumField={setEnumField}
-                            changeSwitchType={setSwitchType}
-                            changeSelectedDate={setSelectedDate}
-                            selectedDate={selectedDate}
-                            editMode={editMode}
-                          />
-                      </TabPanel>
-                  </TabContext>
-              </form>
-          </Grid>
-          <SimpleTwoActionsDialog
-              open={displayPopup}
-              dialogTitleKey='genericcomponent.dialog.scenario.parameters.title'
-              dialogBodyKey='genericcomponent.dialog.scenario.parameters.body'
-              cancelLabelKey='genericcomponent.dialog.scenario.parameters.button.cancel'
-              validateLabelKey='genericcomponent.dialog.scenario.parameters.button.validate'
-              handleClickOnCancel={handleClickOnPopupCancelButton}
-              handleClickOnValidate={handleClickOnPopupDiscardChangeButton}/>
+        </Grid>
+        <Grid item className={classes.tabs}>
+          <form>
+            <ScenarioParametersTabs
+              currentScenario={currentScenario}
+              classes={classes}
+              initTextFieldValue={textField}
+              changeTextField={setTextField}
+              changeNumberField={setNumberField}
+              changeEnumField={setEnumField}
+              changeSwitchType={setSwitchType}
+              editMode={editMode}
+            />
+          </form>
+        </Grid>
+        <SimpleTwoActionsDialog
+            open={displayPopup}
+            dialogTitleKey='genericcomponent.dialog.scenario.parameters.title'
+            dialogBodyKey='genericcomponent.dialog.scenario.parameters.body'
+            cancelLabelKey='genericcomponent.dialog.scenario.parameters.button.cancel'
+            validateLabelKey='genericcomponent.dialog.scenario.parameters.button.validate'
+            handleClickOnCancel={handleClickOnPopupCancelButton}
+            handleClickOnValidate={handleClickOnPopupDiscardChangeButton}/>
       </div>
   );
 };
