@@ -10,7 +10,7 @@ import { ScenarioParameters } from '../../components';
 import { useTranslation } from 'react-i18next';
 import { CreateScenarioButton } from '../../components/CreateScenarioDialog';
 import { Dashboard } from '@cosmotech/ui';
-import { dashboardConfig } from './Dashboard.config';
+import { SCENARIO_DASHBOARD_CONFIG } from '../../configs/ScenarioDashboard.config';
 
 const useStyles = theme => ({
   root: {
@@ -60,7 +60,7 @@ const Scenario = (props) => {
     updateAndLaunchScenario
   } = props;
 
-  const formattedUrl = dashboardConfig.url.replaceAll('<ScenarioId>', currentScenario.data.id);
+  const formattedUrl = SCENARIO_DASHBOARD_CONFIG.url.replaceAll('<ScenarioId>', currentScenario.data.id);
 
   const workspaceId = workspace.data.id;
   const [editMode, setEditMode] = useState(false);

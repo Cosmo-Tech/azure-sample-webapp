@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 // Tabs configuration
-export const dashboards = [
+export const DASHBOARDS_LIST_CONFIG = [
   {
     id: 0,
     title: 'Dashboard 1',
