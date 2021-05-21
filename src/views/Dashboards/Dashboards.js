@@ -10,7 +10,7 @@ import {
   Tabs,
   Tab
 } from '@material-ui/core';
-import { dashboards } from './Dashboard.config';
+import { DASHBOARDS_LIST_CONFIG } from '../../configs/DashboardsList.config';
 import { Dashboard } from '@cosmotech/ui';
 
 const useStyles = makeStyles((theme) => ({
@@ -54,7 +54,7 @@ const Dashboards = ({ scenarioId }) => {
             aria-label="Dashboards list"
             className={classes.tabs}
           >
-            {dashboards.map(dashboard => (
+            {DASHBOARDS_LIST_CONFIG.map(dashboard => (
               <Tab key={dashboard.id} label={dashboard.title} {...a11yProps(dashboard.id)} />
             ))}
           </Tabs>
@@ -62,7 +62,7 @@ const Dashboards = ({ scenarioId }) => {
       </Grid>
       <Grid item sm={10}>
         <Card className={classes.dashboard}>
-            {dashboards.map(dashboard => (
+            {DASHBOARDS_LIST_CONFIG.map(dashboard => (
               <TabPanel
                 className={classes.dashboard}
                 value={value}
