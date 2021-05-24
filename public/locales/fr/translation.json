@@ -91,7 +91,7 @@
           },
           "text": {
             "no": {
-              "result": "Pas de résultat pour ce scénario"
+              "result": "Pas de dashboard pour ce scénario"
             }
           }
         }
@@ -269,6 +269,11 @@
       "scenario": {
         "tab": {
           "title": "Jumeaux numériques"
+        }
+      },
+      "dashboards": {
+        "tab": {
+          "title": "Résultats"
         }
       }
     }

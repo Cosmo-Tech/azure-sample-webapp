@@ -91,7 +91,7 @@
           },
           "text": {
             "no": {
-              "result": "No results for this scenario."
+              "result": "No dashboards for this scenario."
             }
           }
         }
@@ -269,6 +269,11 @@
       "scenario": {
         "tab": {
           "title": "SCENARIO VIEW"
+        }
+      },
+      "dashboards": {
+        "tab": {
+          "title": "Dashboards"
         }
       }
     }

@@ -1,27 +1,118 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import React, { useState } from 'react';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
+import {
+  Grid,
+  Card,
+  Tabs,
+  Tab
+} from '@material-ui/core';
+import { DASHBOARDS_LIST_CONFIG } from '../../configs/DashboardsList.config';
+import { Dashboard } from '@cosmotech/ui';
 
-const useStyles = theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     margin: 'auto',
-    width: '100%'
+    width: '100%',
+    height: '100%',
+    backgroundColor: theme.palette.background.paper
+  },
+  dashboard: {
+    height: '100%'
   }
-});
+}));
 
-const Dashboards = (props) => {
+function a11yProps (index) {
+  return {
+    id: `vertical-tab-${index}`,
+    'aria-controls': `vertical-tabpanel-${index}`
+  };
+}
+
+const Dashboards = ({ scenarioName }) => {
+  const classes = useStyles();
+  const [value, setValue] = useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
   return (
-      <div className={props.classes.root}>
-        <iframe title="reportDashboard1" width="1140" height="541.25" src="https://app.powerbi.com/reportEmbed?reportId=018525c4-3fed-49e7-9048-6d6237e80145&autoAuth=true&ctid=e9641c78-d0d6-4d09-af63-168922724e7f&config=eyJjbHVzdGVyVXJsIjoiaHR0cHM6Ly93YWJpLWZyYW5jZS1jZW50cmFsLWEtcHJpbWFyeS1yZWRpcmVjdC5hbmFseXNpcy53aW5kb3dzLm5ldC8ifQ%3D%3D" frameBorder="0" allowFullScreen={true}></iframe>
-      </div>
+    <Grid container className={classes.root} direction="row">
+      <Grid item sm={2}>
+        {/* TODO: I don't know yet how to make a specific style for this card,
+        other than using style attribute. Update this whenever knowledge has been acquired. */}
+        <Card style={{ padding: '0px', height: '100%', paddingTop: '8px' }}>
+          <Tabs
+            orientation="vertical"
+            variant="scrollable"
+            value={value}
+            onChange={handleChange}
+            aria-label="Dashboards list"
+            className={classes.tabs}
+          >
+            {DASHBOARDS_LIST_CONFIG.map(dashboard => (
+              <Tab key={dashboard.id} label={dashboard.title} {...a11yProps(dashboard.id)} />
+            ))}
+          </Tabs>
+        </Card>
+      </Grid>
+      <Grid item sm={10}>
+        <Card className={classes.dashboard}>
+            {DASHBOARDS_LIST_CONFIG.map(dashboard => (
+              <TabPanel
+                className={classes.dashboard}
+                value={value}
+                index={dashboard.id}
+                key={dashboard.id}
+                src={dashboard.url}
+                title={dashboard.title}
+                scenarioName={scenarioName}
+              />
+            ))}
+        </Card>
+      </Grid>
+    </Grid>
   );
 };
 
 Dashboards.propTypes = {
-  classes: PropTypes.any
+  classes: PropTypes.any,
+  scenarioName: PropTypes.string.isRequired
+};
+
+function TabPanel (props) {
+  const { children, value, index, src, title, scenarioName, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`vertical-tabpanel-${index}`}
+      aria-labelledby={`vertical-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Dashboard
+          iframeTitle={title}
+          url={src}
+          scenarioName={scenarioName}
+        />
+      )}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
+  src: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  scenarioName: PropTypes.string.isRequired
 };
 
 export default withStyles(useStyles)(Dashboards);
