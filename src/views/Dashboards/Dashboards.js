@@ -32,7 +32,7 @@ function a11yProps (index) {
   };
 }
 
-const Dashboards = ({ scenarioName }) => {
+const Dashboards = ({ scenarioName, scenarioId }) => {
   const classes = useStyles();
   const [value, setValue] = useState(0);
 
@@ -71,6 +71,7 @@ const Dashboards = ({ scenarioName }) => {
                 src={dashboard.url}
                 title={dashboard.title}
                 scenarioName={scenarioName}
+                scenarioId={scenarioId}
               />
             ))}
         </Card>
@@ -81,11 +82,12 @@ const Dashboards = ({ scenarioName }) => {
 
 Dashboards.propTypes = {
   classes: PropTypes.any,
-  scenarioName: PropTypes.string.isRequired
+  scenarioName: PropTypes.string,
+  scenarioId: PropTypes.string
 };
 
 function TabPanel (props) {
-  const { children, value, index, src, title, scenarioName, ...other } = props;
+  const { children, value, index, src, title, scenarioName, scenarioId, ...other } = props;
 
   return (
     <div
@@ -100,6 +102,7 @@ function TabPanel (props) {
           iframeTitle={title}
           url={src}
           scenarioName={scenarioName}
+          scenarioId={scenarioId}
         />
       )}
     </div>
@@ -112,7 +115,8 @@ TabPanel.propTypes = {
   value: PropTypes.any.isRequired,
   src: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  scenarioName: PropTypes.string.isRequired
+  scenarioName: PropTypes.string,
+  scenarioId: PropTypes.string
 };
 
 export default withStyles(useStyles)(Dashboards);
