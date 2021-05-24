@@ -60,7 +60,7 @@ const Scenario = (props) => {
     updateAndLaunchScenario
   } = props;
 
-  const formattedUrl = SCENARIO_DASHBOARD_CONFIG.url.replaceAll('<ScenarioId>', currentScenario.data.id);
+  const formattedUrl = SCENARIO_DASHBOARD_CONFIG.url.replaceAll('<ScenarioName>', currentScenario.data.name);
 
   const workspaceId = workspace.data.id;
   const [editMode, setEditMode] = useState(false);
@@ -114,7 +114,7 @@ const Scenario = (props) => {
           <Dashboard
             iframeTitle={t('commoncomponents.iframe.scenario.results.card.title', 'Results')}
             url={formattedUrl}
-            scenarioId={currentScenario.id}
+            scenarioName={currentScenario.data.name}
           />
         </Card>
       </Grid>
