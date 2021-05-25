@@ -49,6 +49,19 @@ This command will :
 - add all keys into translation files (by default __public/locales/en/translation.json__ and __public/locales/fr/translation.json__)
 Feel free to add new supported languages or change the parser configuration. ( See [react-i18next](https://github.com/i18next/react-i18next) and [i18next-parser](https://github.com/i18next/i18next-parser) )
 
+## Prerequisites
+
+- Install [Prism](https://github.com/stoplightio/prism)
+
+## How-to 
+
+- Start the application locally:
+  - Run `yarn install && yarn start` in the project root folder
+  - Run `prism mock https://csmphoenix.blob.core.windows.net/public/openapi.yaml`
+  
+- Configure: 
+  - [Scenario Parameters](https://github.com/Cosmo-Tech/azure-sample-webapp/tree/main/src/components/ScenarioParameters)
+
 ## Learn More
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
@@ -78,5 +91,3 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `yarn build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-
-test
