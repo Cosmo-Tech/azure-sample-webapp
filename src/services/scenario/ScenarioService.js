@@ -2,6 +2,10 @@
 // Licensed under the MIT license.
 
 import { CosmotechApiService } from '../../configs/Api.config';
+import {
+  formatParametersForApi,
+  formatParametersFromApi
+} from '../../utils/ApiUtils';
 
 const ScenarioApi = new CosmotechApiService.ScenarioApi();
 
@@ -37,9 +41,11 @@ function createScenario (organizationId, workspaceId, scenario) {
   });
 }
 
-function updateAndLaunchScenario (organizationId, workspaceId, scenariodId, scenarioParameters) {
+function updateScenarioParameters (organizationId, workspaceId, scenarioId, scenarioParameters) {
+  const formattedParameters = formatParametersForApi(scenarioParameters);
   return new Promise((resolve) => {
-    ScenarioApi.addOrReplaceScenarioParameterValues(organizationId, workspaceId, scenariodId, scenarioParameters, (error, data, response) => {
+    ScenarioApi.addOrReplaceScenarioParameterValues(organizationId, workspaceId, scenarioId, formattedParameters, (error, data, response) => {
+      data = formatParametersFromApi(data);
       resolve({ error, data, response });
     });
   });
@@ -50,7 +56,7 @@ const ScenarioService = {
   getScenariosTree,
   findScenarioById,
   createScenario,
-  updateAndLaunchScenario
+  updateScenarioParameters
 };
 
 export default ScenarioService;

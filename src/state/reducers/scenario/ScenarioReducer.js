@@ -47,7 +47,10 @@ export const currentScenarioInitialState = {
 export const currentScenarioReducer = createReducer(currentScenarioInitialState, (builder) => {
   builder
     .addCase(SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO, (state, action) => {
-      state.data = action.data.scenario;
+      state.data = {
+        ...state.data,
+        ...action.data.scenario
+      };
       state.status = action.data.status;
     });
 });
