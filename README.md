@@ -59,7 +59,8 @@ Feel free to add new supported languages or change the parser configuration. ( S
   - Run `yarn install && yarn start` in the project root folder
   - Run `prism mock https://csmphoenix.blob.core.windows.net/public/openapi.yaml`
   
-- Configure: 
+- Configuration: 
+  - [Global configuration](https://github.com/Cosmo-Tech/azure-sample-webapp/tree/main/src/configs) (tabs, internationalization, dashboards, authentication,...)
   - [Scenario Parameters](https://github.com/Cosmo-Tech/azure-sample-webapp/tree/main/src/components/ScenarioParameters)
 
 ## Learn More
