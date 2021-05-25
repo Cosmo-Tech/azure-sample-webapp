@@ -184,48 +184,10 @@
   "genericcomponent": {
     "uploadfile": {
       "button": {
-        "browse": "Browse"
-      }
-    }
-  },
-  "views": {
-    "common": {
-      "footer": {
-        "text": {
-          "companyname": "Cosmo Tech",
-          "poweredby": "Powered by Cosmo Tech"
-        }
-      },
-      "text": {
-        "loading": "Loading..."
+        "browse": "Browse",
+        "update": "Update"
       }
     },
-    "signin": {
-      "title": "Azure Sample Web Application"
-    },
-    "unauthorized": {
-      "scenario": {
-        "specialists": {
-          "title": "Scenario Specialists"
-        }
-      },
-      "title": "Azure Sample Web Application"
-    },
-    "scenario": {
-      "dropdown": {
-        "scenario" : {
-          "label" : "Scenario",
-          "tooltip": {
-            "disabled": "Please save or discard current modifications before selecting another scenario"
-          }
-        }
-      },
-      "text" : {
-        "scenariotype" : "Run type"
-      }
-    }
-  },
-  "genericcomponent": {
     "loading": {
       "line": {
         "workspace" : {
@@ -291,6 +253,43 @@
             "waiters": "Waiters number"
           }
         }
+      }
+    }
+  },
+  "views": {
+    "common": {
+      "footer": {
+        "text": {
+          "companyname": "Cosmo Tech",
+          "poweredby": "Powered by Cosmo Tech"
+        }
+      },
+      "text": {
+        "loading": "Loading..."
+      }
+    },
+    "signin": {
+      "title": "Azure Sample Web Application"
+    },
+    "unauthorized": {
+      "scenario": {
+        "specialists": {
+          "title": "Scenario Specialists"
+        }
+      },
+      "title": "Azure Sample Web Application"
+    },
+    "scenario": {
+      "dropdown": {
+        "scenario" : {
+          "label" : "Scenario",
+          "tooltip": {
+            "disabled": "Please save or discard current modifications before selecting another scenario"
+          }
+        }
+      },
+      "text" : {
+        "scenariotype" : "Run type"
       }
     }
   },
