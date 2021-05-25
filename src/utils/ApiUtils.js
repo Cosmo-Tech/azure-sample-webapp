@@ -5,9 +5,9 @@ import rfdc from 'rfdc';
 
 const clone = rfdc();
 
-export function formatScenarioParametersForApi (scenarioParameters) {
+export function formatParametersForApi (parameters) {
   // Reformat scenario parameters to match the API expected types
-  return scenarioParameters.map(param => {
+  return parameters.map(param => {
     // Clone the original parameter
     const newParam = clone(param);
     // Cast boolean values into string values
@@ -18,12 +18,12 @@ export function formatScenarioParametersForApi (scenarioParameters) {
   });
 }
 
-export function formatScenarioParametersFromApi (scenarioParameters) {
-  if (!scenarioParameters) {
+export function formatParametersFromApi (parameters) {
+  if (!parameters) {
     return undefined;
   }
   // Reformat scenario parameters to match the front-end expected types
-  return scenarioParameters.map(param => {
+  return parameters.map(param => {
     // Clone the original parameter
     const newParam = clone(param);
     // Cast string values into boolean values

@@ -3,8 +3,8 @@
 
 import { CosmotechApiService } from '../../configs/Api.config';
 import {
-  formatScenarioParametersForApi,
-  formatScenarioParametersFromApi
+  formatParametersForApi,
+  formatParametersFromApi
 } from '../../utils/ApiUtils';
 
 const ScenarioApi = new CosmotechApiService.ScenarioApi();
@@ -42,10 +42,10 @@ function createScenario (organizationId, workspaceId, scenario) {
 }
 
 function updateScenarioParameters (organizationId, workspaceId, scenarioId, scenarioParameters) {
-  const formattedParameters = formatScenarioParametersForApi(scenarioParameters);
+  const formattedParameters = formatParametersForApi(scenarioParameters);
   return new Promise((resolve) => {
     ScenarioApi.addOrReplaceScenarioParameterValues(organizationId, workspaceId, scenarioId, formattedParameters, (error, data, response) => {
-      data = formatScenarioParametersFromApi(data);
+      data = formatParametersFromApi(data);
       resolve({ error, data, response });
     });
   });
