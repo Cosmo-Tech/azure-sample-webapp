@@ -14,7 +14,8 @@ import {
   CREATE_SCENARIO_DIALOG_SCENARIO_TYPE_PLACEHOLDER_KEY,
   CREATE_SCENARIO_DIALOG_TITLE_LABEL_KEY,
   ERROR_SCENARIO_NAME_EMPTY_LABEL_KEY,
-  ERROR_SCENARIO_NAME_EXISTING_LABEL_KEY
+  ERROR_SCENARIO_NAME_EXISTING_LABEL_KEY,
+  ERROR_SCENARIO_NAME_FORBIDDEN_CHARS_KEY
 } from './CreateScenarioDialogButtonConstants';
 import { ScenarioUtils } from '@cosmotech/core';
 import {
@@ -114,10 +115,14 @@ const CreateScenarioDialog = ({
     if (newScenarioName.length === 0) {
       errorKey = ERROR_SCENARIO_NAME_EMPTY_LABEL_KEY;
       hasErrors = true;
-    }
-    if (ScenarioUtils.scenarioExistsInList(newScenarioName, scenarios)) {
-      errorKey = ERROR_SCENARIO_NAME_EXISTING_LABEL_KEY;
-      hasErrors = true;
+    } else {
+      if (newScenarioName.match(/^\w[\w\d\s-]*$/) === null) {
+        errorKey = ERROR_SCENARIO_NAME_FORBIDDEN_CHARS_KEY;
+        hasErrors = true;
+      } else if (ScenarioUtils.scenarioExists(newScenarioName, scenarios)) {
+        errorKey = ERROR_SCENARIO_NAME_EXISTING_LABEL_KEY;
+        hasErrors = true;
+      }
     }
     setScenarioNameFieldValues({
       ...scenarioNameFieldValues,

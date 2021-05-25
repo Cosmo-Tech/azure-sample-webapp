@@ -143,7 +143,8 @@
               "error": {
                 "label" : "Erreur",
                 "empty" : "Le nom du scénario ne doit pas être vide",
-                "existing": "Le nom du scénario existe déjà"
+                "existing": "Le nom du scénario existe déjà",
+                "forbiddenchars": "Le nom du scenario doit commencer par une lettre, et ne peut contenir que des lettres, chiffres, espaces, underscores et tirets."
               }
             }
           },

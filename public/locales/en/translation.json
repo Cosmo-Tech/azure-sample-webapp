@@ -143,7 +143,8 @@
               "error": {
                 "label" : "Error",
                 "empty" : "Scenario name cannot be empty",
-                "existing": "Scenario name already exists"
+                "existing": "Scenario name already exists",
+                "forbiddenchars": "Scenario name has to starts with a letter, and can only contains letters, digits, spaces, underscores and hyphens."
               }
             }
           },

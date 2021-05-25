@@ -4,6 +4,7 @@
 // Errors label key
 export const ERROR_SCENARIO_NAME_EMPTY_LABEL_KEY = 'commoncomponents.dialog.create.scenario.input.scenarioname.error.empty';
 export const ERROR_SCENARIO_NAME_EXISTING_LABEL_KEY = 'commoncomponents.dialog.create.scenario.input.scenarioname.error.existing';
+export const ERROR_SCENARIO_NAME_FORBIDDEN_CHARS_KEY = 'commoncomponents.dialog.create.scenario.input.scenarioname.error.forbiddenchars';
 
 // Dialog label key
 export const CREATE_SCENARIO_DIALOG_TITLE_LABEL_KEY = 'commoncomponents.dialog.create.scenario.text.title';
