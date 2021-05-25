@@ -2,6 +2,21 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Prerequisites
+
+- Install [Prism](https://github.com/stoplightio/prism)
+
+## How-to 
+
+- Start the application locally:
+  - Run `yarn install && yarn start` in the project root folder
+  - Run `prism mock https://csmphoenix.blob.core.windows.net/public/openapi.yaml`
+  
+- Configuration: 
+  - [Global configuration](https://github.com/Cosmo-Tech/azure-sample-webapp/tree/main/src/configs) (tabs, internationalization, dashboards, authentication,...)
+  - [Scenario Parameters](https://github.com/Cosmo-Tech/azure-sample-webapp/tree/main/src/components/ScenarioParameters)
+
+
 ## Available Scripts
 
 In the project directory, you can run:
@@ -48,20 +63,6 @@ This command will :
 - get all keys defined
 - add all keys into translation files (by default __public/locales/en/translation.json__ and __public/locales/fr/translation.json__)
 Feel free to add new supported languages or change the parser configuration. ( See [react-i18next](https://github.com/i18next/react-i18next) and [i18next-parser](https://github.com/i18next/i18next-parser) )
-
-## Prerequisites
-
-- Install [Prism](https://github.com/stoplightio/prism)
-
-## How-to 
-
-- Start the application locally:
-  - Run `yarn install && yarn start` in the project root folder
-  - Run `prism mock https://csmphoenix.blob.core.windows.net/public/openapi.yaml`
-  
-- Configuration: 
-  - [Global configuration](https://github.com/Cosmo-Tech/azure-sample-webapp/tree/main/src/configs) (tabs, internationalization, dashboards, authentication,...)
-  - [Scenario Parameters](https://github.com/Cosmo-Tech/azure-sample-webapp/tree/main/src/components/ScenarioParameters)
 
 ## Learn More
 
