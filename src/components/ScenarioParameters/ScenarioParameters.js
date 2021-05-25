@@ -80,13 +80,13 @@ const ScenarioParameters = ({
   const getBoolParameter = (params) => false;
 
   // States for parameters
-  const [textField, setTextField] = useState(
-    getTextParameter(currentScenario.data.parametersValues));
+  const parameters = currentScenario.data.parametersValues;
+  const [textField, setTextField] = useState(getTextParameter(parameters));
 
   // Update the parameters form when scenario paramaters change
   useEffect(() => {
-    setTextField(getTextParameter(currentScenario.data.parametersValues));
-  }, [currentScenario.data.parametersValues]);
+    setTextField(getTextParameter(parameters));
+  }, [parameters]);
 
   const [numberField, setNumberField] = useState('1000');
   const [enumField, setEnumField] = useState('EUR');
@@ -104,10 +104,10 @@ const ScenarioParameters = ({
     setDisplayPopup(false);
     changeEditMode(false);
     // Reset form values
-    setTextField(getTextParameter(currentScenario.data.parametersValues));
-    setNumberField(getNumberParameter(currentScenario.data.parametersValues));
-    setEnumField(getEnumParameter(currentScenario.data.parametersValues));
-    setSwitchType(getBoolParameter(currentScenario.data.parametersValues));
+    setTextField(getTextParameter(parameters));
+    setNumberField(getNumberParameter(parameters));
+    setEnumField(getEnumParameter(parameters));
+    setSwitchType(getBoolParameter(parameters));
   };
 
   // Normal Mode Screen
