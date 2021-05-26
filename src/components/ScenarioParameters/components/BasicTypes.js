@@ -22,8 +22,7 @@ const BasicTypes = ({
 
   const inputProps = {
     min: -999,
-    max: 9999,
-    name: 'sample-input-number-parameter'
+    max: 9999
   };
 
   const numberFieldsProps = {
