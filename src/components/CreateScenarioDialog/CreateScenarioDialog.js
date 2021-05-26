@@ -25,8 +25,7 @@ import {
   DialogTitle,
   FormControlLabel,
   Grid,
-  TextField,
-  Typography
+  TextField
 } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import HierarchicalComboBox from '../HierarchicalComboBox/HierarchicalComboBox';
@@ -190,10 +189,8 @@ const CreateScenarioDialog = ({
                 maxWidth={'sm'}
                 fullWidth={true}
                 disableBackdropClick >
-                <DialogTitle id="form-dialog-title" className={classes.dialogContent} >
-                    <Typography variant='subtitle1'>
-                        {t(CREATE_SCENARIO_DIALOG_TITLE_LABEL_KEY, 'Create alternative scenario')}
-                    </Typography>
+                <DialogTitle id="form-dialog-title">
+                  {t(CREATE_SCENARIO_DIALOG_TITLE_LABEL_KEY)}
                 </DialogTitle>
                 <DialogContent className={classes.dialogContent}>
                     <Grid container spacing={2}>
