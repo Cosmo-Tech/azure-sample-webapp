@@ -195,7 +195,7 @@ const CreateScenarioDialog = ({
                 fullWidth={true}
                 disableBackdropClick >
                 <DialogTitle id="form-dialog-title">
-                  {t(CREATE_SCENARIO_DIALOG_TITLE_LABEL_KEY)}
+                  {t(CREATE_SCENARIO_DIALOG_TITLE_LABEL_KEY, 'Create alternative scenario')}
                 </DialogTitle>
                 <DialogContent className={classes.dialogContent}>
                     <Grid container spacing={2}>
