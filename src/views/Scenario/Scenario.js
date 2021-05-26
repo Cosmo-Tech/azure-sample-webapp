@@ -92,7 +92,7 @@ const Scenario = (props) => {
             </Grid>
           </Grid>
           <Grid item xs={3}>
-            <Grid container spacing={2} justify="flex-end" className={props.classes.mainGrid}>
+            <Grid container spacing={0} justify="flex-end" className={props.classes.mainGrid}>
               <Grid item>
                 <CreateScenarioButton
                   solution={solution}
