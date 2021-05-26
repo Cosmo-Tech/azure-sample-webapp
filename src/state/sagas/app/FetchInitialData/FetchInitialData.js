@@ -15,7 +15,7 @@ import { fetchScenarioByIdForInitialData } from '../../scenario/FindScenarioById
 
 // Selectors
 const selectSolutionIdFromCurrentWorkspace = (state) => state.workspace.current.data.solution.solutionId;
-const selectRunTemplatesFromCurrentSolution = (state) => state.solution.current.data.run_templates;
+const selectRunTemplatesFromCurrentSolution = (state) => state.solution.current.data.runTemplates;
 const selectFirstScenarioFromScenarioTree = (state) => state.scenario.tree.data;
 
 // generators function
