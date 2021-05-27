@@ -17,11 +17,15 @@ describe('UserInfo features', () => {
   });
 
   it('can change the application language', () => {
+    // Set lang to fr
     cy.get('[data-cy=user-profile-menu]').click();
     cy.get('[data-cy=change-language]').click();
     cy.get('[data-cy=set-lang-fr]').click().should(() => {
       expect(localStorage.getItem('locale')).to.eq('fr');
     });
+    // Set lang to en
+    cy.get('[data-cy=user-profile-menu]').click();
+    cy.get('[data-cy=change-language]').click();
     cy.get('[data-cy=set-lang-en]').click().should(() => {
       expect(localStorage.getItem('locale')).to.eq('en');
     });
