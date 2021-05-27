@@ -19,6 +19,16 @@ export const scenarioListReducer = createReducer(scenarioListInitialState, (buil
     .addCase(SCENARIO_ACTIONS_KEY.SET_ALL_SCENARIOS, (state, action) => {
       state.data = action.list;
       state.status = STATUSES.SUCCESS;
+    })
+    .addCase(SCENARIO_ACTIONS_KEY.UPDATE_SCENARIO_STATE, (state, action) => {
+      state.data = state.data.map(scenarioData => {
+        // Replace state in data for the scenario to update
+        if (scenarioData.id === action.data.scenarioId) {
+          return { ...scenarioData, state: action.data.scenarioState };
+        }
+        // Otherwise, use the original data
+        return scenarioData;
+      });
     });
 });
 
@@ -34,6 +44,16 @@ export const scenarioTreeReducer = createReducer(scenarioTreeInitialState, (buil
     .addCase(SCENARIO_ACTIONS_KEY.SET_SCENARIO_TREE, (state, action) => {
       state.data = action.tree;
       state.status = STATUSES.SUCCESS;
+    })
+    .addCase(SCENARIO_ACTIONS_KEY.UPDATE_SCENARIO_STATE, (state, action) => {
+      state.data = state.data.map(scenarioData => {
+        // Replace state in data for the scenario to update
+        if (scenarioData.id === action.data.scenarioId) {
+          return { ...scenarioData, state: action.data.scenarioState };
+        }
+        // Otherwise, use the original data
+        return scenarioData;
+      });
     });
 });
 
@@ -52,6 +72,15 @@ export const currentScenarioReducer = createReducer(currentScenarioInitialState,
         ...action.data.scenario
       };
       state.status = action.data.status;
+    })
+    .addCase(SCENARIO_ACTIONS_KEY.UPDATE_SCENARIO_STATE, (state, action) => {
+      // Replace state in data if the scenario to update is currently selected
+      if (state.data.id === action.data.scenarioId) {
+        state.data = {
+          ...state.data,
+          state: action.data.scenarioState
+        };
+      }
     });
 });
 

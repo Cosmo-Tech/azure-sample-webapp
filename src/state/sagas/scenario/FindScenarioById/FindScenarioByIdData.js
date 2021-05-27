@@ -6,6 +6,7 @@ import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { STATUSES } from '../../../commons/Constants';
 import ScenarioService from '../../../../services/scenario/ScenarioService';
 import { ORGANISATION_ID } from '../../../../configs/App.config';
+import { SCENARIO_RUN_STATE } from '../../../../utils/ApiUtils';
 
 // generators function
 export function * fetchScenarioByIdForInitialData (workspaceId, scenarioId) {
@@ -13,9 +14,16 @@ export function * fetchScenarioByIdForInitialData (workspaceId, scenarioId) {
   const { error, data } = yield call(ScenarioService.findScenarioById, ORGANISATION_ID, workspaceId, scenarioId);
   if (error) {
     // TODO handle error management
+    yield put({
+      type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
+      data: { status: STATUSES.ERROR }
+    });
   } else {
     // Here is an effect named put that indicate to the middleware that it can dispatch a SET_CURRENT_SCENARIO action with data as payload
-    yield put({ type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO, data: { status: STATUSES.SUCCESS, scenario: data } });
+    yield put({
+      type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
+      data: { status: STATUSES.IDLE, scenario: data }
+    });
   }
 }
 
@@ -24,9 +32,24 @@ export function * fetchScenarioByIdData (action) {
   const { error, data } = yield call(ScenarioService.findScenarioById, ORGANISATION_ID, action.workspaceId, action.scenarioId);
   if (error) {
     // TODO handle error management
+    yield put({
+      type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
+      data: { status: STATUSES.ERROR }
+    });
   } else {
     // Here is an effect named put that indicate to the middleware that it can dispatch a SET_CURRENT_SCENARIO action with data as payload
-    yield put({ type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO, data: { status: STATUSES.SUCCESS, scenario: data } });
+    yield put({
+      type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
+      data: { status: STATUSES.IDLE, scenario: data }
+    });
+    // Start state polling for running scenarios
+    if (data.state === SCENARIO_RUN_STATE.RUNNING) {
+      yield put({
+        type: SCENARIO_ACTIONS_KEY.START_SCENARIO_STATUS_POLLING,
+        workspaceId: action.workspaceId,
+        scenarioId: data.id
+      });
+    }
   }
 }
 
