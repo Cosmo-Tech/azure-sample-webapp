@@ -92,7 +92,10 @@
           "text": {
             "no": {
               "result": "Pas de dashboard pour ce scénario"
-            }
+            },
+            "error": "Une erreur est survenue lors de la simulation de ce scénario",
+            "running": "Scénario en cours de simulation...",
+            "uninitialized": "Le scénario n'a pas encore tourné"
           }
         }
       }
