@@ -5,6 +5,13 @@ import rfdc from 'rfdc';
 
 const clone = rfdc();
 
+export const SCENARIO_RUN_STATE = {
+  CREATED: 'Created',
+  RUNNING: 'Running',
+  SUCCESSFUL: 'Successful',
+  FAILED: 'Failed'
+};
+
 export function formatParametersForApi (parameters) {
   // Reformat scenario parameters to match the API expected types
   return parameters.map(param => {

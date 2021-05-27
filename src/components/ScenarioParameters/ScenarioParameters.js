@@ -9,6 +9,7 @@ import {
   Typography
 } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
+import { SCENARIO_RUN_STATE } from '../../utils/ApiUtils';
 import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 import { useTranslation } from 'react-i18next';
 import { BasicTypes, EditModeButton, NormalModeButton } from './components';
@@ -112,6 +113,7 @@ const ScenarioParameters = ({
 
   // Normal Mode Screen
   const handleClickOnEditButton = () => changeEditMode(true);
+  const isCurrentScenarioRunning = () => currentScenario.data.state === SCENARIO_RUN_STATE.RUNNING;
 
   // TODO: Launch scenario
   const handleClickOnLaunchScenarioButton = () => alert('TODO');
@@ -163,14 +165,16 @@ const ScenarioParameters = ({
                       <Typography variant='subtitle1' >Scenario parameters</Typography>
                   </Grid>
                   <Grid item >
-                      {editMode
-                        ? (<EditModeButton classes={classes}
-                                             handleClickOnDiscardChange={handleClickOnDiscardChangeButton}
-                                             handleClickOnUpdateAndLaunchScenario={handleClickOnUpdateAndLaunchScenarioButton}/>)
-                        : (<NormalModeButton classes={classes}
-                                               handleClickOnEdit={handleClickOnEditButton}
-                                               handleClickOnLaunchScenario={handleClickOnLaunchScenarioButton}/>)
-                      }
+                    {editMode
+                      ? (<EditModeButton classes={classes}
+                         handleClickOnDiscardChange={handleClickOnDiscardChangeButton}
+                         handleClickOnUpdateAndLaunchScenario={handleClickOnUpdateAndLaunchScenarioButton}/>)
+                      : (<NormalModeButton classes={classes}
+                         handleClickOnEdit={handleClickOnEditButton}
+                         handleClickOnLaunchScenario={handleClickOnLaunchScenarioButton}
+                         editDisabled={isCurrentScenarioRunning()}
+                         runDisabled={isCurrentScenarioRunning()}/>)
+                    }
                   </Grid>
               </Grid>
           </Grid>
