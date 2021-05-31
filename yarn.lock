@@ -1259,10 +1259,10 @@
   resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.1.3-beta.1.tgz#f504e4951d83ba5515fccb59158bba09c1c441cf"
   integrity sha512-oWJ+qDwtCFTiC8eLwVC6xhVRXkR60TE/JQHF/nmFgodnWKEXkViagoSMvxH/eb1W2QfmxMYL14tXu3mvaG3bCw==
 
-"@cosmotech/ui@^0.2.7-beta.5":
-  version "0.2.7-beta.5"
-  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-0.2.7-beta.5.tgz#d940a10c53fdfaccff721828b537abe3a24f553b"
-  integrity sha512-ZLAaEHsfsEFqaVm+DSwMTxeKw2cB5YOu0NuzwCLOw5jCafK3ydJzahd8ffEbf1/yu6bJ7HGHZc+uymvptBGJ6w==
+"@cosmotech/ui@^0.2.7-beta.6":
+  version "0.2.7-beta.6"
+  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-0.2.7-beta.6.tgz#8e097a15d2f29f20689b2d5549e7972d4a487324"
+  integrity sha512-VIyy3+qkjTa98uRhjxENrUiUSWEJ18sbJumCWJ9CTCmjUablecVHyC4LAl+1cAQ1QTFnjNueDPtWKJAKJ/35SQ==
   dependencies:
     react-number-format "^4.5.5"
 

@@ -11,7 +11,13 @@ import { useTranslation } from 'react-i18next';
 import EditIcon from '@material-ui/icons/Edit';
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 
-const NormalModeButton = ({ classes, handleClickOnEdit, handleClickOnLaunchScenario }) => {
+const NormalModeButton = ({
+  classes,
+  handleClickOnEdit,
+  handleClickOnLaunchScenario,
+  editDisabled,
+  runDisabled
+}) => {
   const { t } = useTranslation();
   return (
         <Grid container spacing={1} alignItems="center">
@@ -20,7 +26,8 @@ const NormalModeButton = ({ classes, handleClickOnEdit, handleClickOnLaunchScena
                 startIcon={<EditIcon />}
                 variant="contained"
                 color="primary"
-                onClick={handleClickOnEdit}>
+                onClick={handleClickOnEdit}
+                disabled={editDisabled}>
                 {t('commoncomponents.button.scenario.parameters.edit', 'Edit')}
             </Button>
           </Grid>
@@ -29,7 +36,8 @@ const NormalModeButton = ({ classes, handleClickOnEdit, handleClickOnLaunchScena
                 startIcon={<PlayCircleOutlineIcon />}
                 variant="contained"
                 color="primary"
-                onClick={handleClickOnLaunchScenario}>
+                onClick={handleClickOnLaunchScenario}
+                disabled={runDisabled}>
                 {t('commoncomponents.button.scenario.parameters.launch', 'Launch Scenario')}
             </Button>
           </Grid>
@@ -40,8 +48,9 @@ const NormalModeButton = ({ classes, handleClickOnEdit, handleClickOnLaunchScena
 NormalModeButton.propTypes = {
   classes: PropTypes.any.isRequired,
   handleClickOnEdit: PropTypes.func.isRequired,
-  handleClickOnLaunchScenario: PropTypes.func.isRequired
-
+  handleClickOnLaunchScenario: PropTypes.func.isRequired,
+  editDisabled: PropTypes.bool.isRequired,
+  runDisabled: PropTypes.bool.isRequired
 };
 
 export default NormalModeButton;

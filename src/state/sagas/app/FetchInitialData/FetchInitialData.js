@@ -3,7 +3,9 @@
 
 import { put, takeEvery, call, select } from 'redux-saga/effects';
 import { APPLICATION_ACTIONS_KEY } from '../../../commons/ApplicationConstants';
+import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { STATUSES } from '../../../commons/Constants';
+import { SCENARIO_RUN_STATE } from '../../../../utils/ApiUtils';
 import { getAllScenariosData } from '../../scenario/FindAllScenarios/FindAllScenariosData';
 import { fetchAllDatasetsData } from '../../datasets/FindAllDatasets/FindAllDatasets';
 import { fetchScenarioTreeData } from '../../scenario/GetScenariosTree/GetScenariosTreeData';
@@ -33,6 +35,16 @@ export function * fetchAllInitialData (action) {
     const scenarioTree = yield select(selectFirstScenarioFromScenarioTree);
     if (scenarioTree.length !== 0) {
       yield call(fetchScenarioByIdForInitialData, workspaceId, scenarioTree[0].id);
+      // Start state polling for running scenarios
+      for (let i = 0; i < scenarioTree.length; ++i) {
+        if (scenarioTree[i].state === SCENARIO_RUN_STATE.RUNNING) {
+          yield put({
+            type: SCENARIO_ACTIONS_KEY.START_SCENARIO_STATUS_POLLING,
+            workspaceId: workspaceId,
+            scenarioId: scenarioTree[i].id
+          });
+        }
+      }
     }
     const runTemplates = yield select(selectRunTemplatesFromCurrentSolution);
     yield put({ type: RUN_TEMPLATE_ACTIONS_KEY.SET_RUN_TEMPLATE_LIST, data: { list: runTemplates, status: STATUSES.SUCCESS } });

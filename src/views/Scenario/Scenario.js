@@ -115,6 +115,7 @@ const Scenario = (props) => {
             iframeTitle={t('commoncomponents.iframe.scenario.results.card.title', 'Results')}
             url={formattedUrl}
             scenarioName={currentScenario.data.name}
+            scenarioState={currentScenario.data.state}
           />
         </Card>
       </Grid>
