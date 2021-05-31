@@ -19,7 +19,7 @@
     "i18next": "^20.3.0",
     "i18next-browser-languagedetector": "^6.1.0",
     "i18next-http-backend": "^1.2.0",
-    "i18next-parser": "^4.0.1",
+    "i18next-parser": "^4.2.0",
     "lodash": "^4.17.21",
     "node-sass": "^6.0.0",
     "prop-types": "^15.7.2",

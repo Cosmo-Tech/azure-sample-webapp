@@ -6955,10 +6955,10 @@ i18next-http-backend@^1.2.0:
   dependencies:
     cross-fetch "3.1.4"
 
-i18next-parser@^4.0.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/i18next-parser/-/i18next-parser-4.1.1.tgz#c0c2f01ad08314e2a9f97ce2097ff515c0c25d50"
-  integrity sha512-/dB66aRuLBX7b1vcEZ88rzYEEVMud/7MX4+A6JiNa15H+GeswXWGXUGVM/PwbjXYpPQb6tOKOAHgo8X4pRMixQ==
+i18next-parser@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/i18next-parser/-/i18next-parser-4.2.0.tgz#d08762abab29bb1685f53928a2172f9fdf3a01fc"
+  integrity sha512-WxkMTtVcowQzr+tL0DLw95ko5s3MSd/p3VOc1edPVinlVTSxVO2dS4+XrrHdOIyhF99R0melRkH2F7741gKJ5w==
   dependencies:
     broccoli-plugin "^4.0.5"
     cheerio "^1.0.0-rc.2"
