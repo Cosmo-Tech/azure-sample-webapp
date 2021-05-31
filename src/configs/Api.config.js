@@ -5,9 +5,16 @@ const CosmotechApi = require('@cosmotech/api');
 
 const DEFAULT_COSMOTECH_API_INSTANCE = CosmotechApi.ApiClient.instance;
 
-// TODO read the token from localStorage
 // Configure OAuth2 access token for authorization: oAuth2AuthCode
-DEFAULT_COSMOTECH_API_INSTANCE.authentications.oAuth2AuthCode.accessToken = '12345';
+export function setAccessToken (token) {
+  DEFAULT_COSMOTECH_API_INSTANCE.authentications.oAuth2AuthCode.accessToken = token;
+}
+
+export function resetAccessToken () {
+  // Use a non-empty string to be compatible with the expected API format
+  // when using a local mock server in dev mode
+  DEFAULT_COSMOTECH_API_INSTANCE.authentications.oAuth2AuthCode.accessToken = 'none';
+}
 
 // Configure OAuth2 access token for authorization: oAuth2AuthCode
 DEFAULT_COSMOTECH_API_INSTANCE.basePath = 'http://localhost:4010';
