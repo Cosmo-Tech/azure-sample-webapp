@@ -3,7 +3,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { BasicTextInput, BasicNumberInput, BasicEnumTypes, BasicToggleInput } from '@cosmotech/ui';
+import { BasicDateInput, BasicTextInput, BasicNumberInput, BasicEnumTypes, BasicToggleInput } from '@cosmotech/ui';
 
 const BasicTypes = ({
   classes,
@@ -12,11 +12,13 @@ const BasicTypes = ({
   changeNumberField,
   changeEnumField,
   changeSwitchType,
+  changeSelectedDate,
+  selectedDate,
   editMode
 }) => {
   const textFieldProps = {
     disabled: !editMode,
-    id: 'standard-required',
+    id: 'basic-text-input-id',
     value: initTextFieldValue
   };
 
@@ -27,7 +29,7 @@ const BasicTypes = ({
 
   const numberFieldsProps = {
     disabled: !editMode,
-    id: 'standard-required',
+    id: 'basic-number-input-id',
     defaultValue: 1000
   };
 
@@ -52,13 +54,19 @@ const BasicTypes = ({
 
   const enumFieldProps = {
     disabled: !editMode,
-    id: 'standard-required',
+    id: 'basic-enum-input-id',
     defaultValue: '€'
   };
 
   const switchFieldProps = {
     disabled: !editMode,
-    id: 'standard-required'
+    id: 'basic-switch-input-id'
+  };
+
+  const dateProps = {
+    disabled: !editMode,
+    id: 'basic-date-input-id',
+    value: selectedDate
   };
 
   return (
@@ -89,6 +97,12 @@ const BasicTypes = ({
           changeSwitchType={changeSwitchType}
           switchProps={switchFieldProps}
         />
+        <BasicDateInput
+          classes={classes}
+          label='Pick a date'
+          changeSelectedDate={changeSelectedDate}
+          dateProps={dateProps}
+        />
       </div>);
 };
 
@@ -99,6 +113,8 @@ BasicTypes.propTypes = {
   changeNumberField: PropTypes.func.isRequired,
   changeEnumField: PropTypes.func.isRequired,
   changeSwitchType: PropTypes.func.isRequired,
+  changeSelectedDate: PropTypes.func.isRequired,
+  selectedDate: PropTypes.object.isRequired,
   editMode: PropTypes.bool.isRequired
 };
 

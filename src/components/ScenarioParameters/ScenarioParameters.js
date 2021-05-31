@@ -79,6 +79,7 @@ const ScenarioParameters = ({
   const getNumberParameter = (params) => '1000';
   const getEnumParameter = (params) => 'EUR';
   const getBoolParameter = (params) => false;
+  const getSelectedDate = (params) => new Date('2014-08-18T21:11:54');
 
   // States for parameters
   const parameters = currentScenario.data.parametersValues;
@@ -92,6 +93,7 @@ const ScenarioParameters = ({
   const [numberField, setNumberField] = useState('1000');
   const [enumField, setEnumField] = useState('EUR');
   const [switchType, setSwitchType] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(new Date('2021-08-18T21:11:54'));
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -109,6 +111,7 @@ const ScenarioParameters = ({
     setNumberField(getNumberParameter(parameters));
     setEnumField(getEnumParameter(parameters));
     setSwitchType(getBoolParameter(parameters));
+    setSelectedDate(getSelectedDate(parameters));
   };
 
   // Normal Mode Screen
@@ -144,6 +147,12 @@ const ScenarioParameters = ({
         parameterId: 'currency used',
         varType: 'bool',
         value: switchType,
+        isInherited: 'true'
+      },
+      {
+        parameterId: 'Date',
+        varType: 'string',
+        value: '' + selectedDate,
         isInherited: 'true'
       }
     ];
@@ -204,6 +213,8 @@ const ScenarioParameters = ({
                             changeNumberField={setNumberField}
                             changeEnumField={setEnumField}
                             changeSwitchType={setSwitchType}
+                            changeSelectedDate={setSelectedDate}
+                            selectedDate={selectedDate}
                             editMode={editMode}
                           />
                       </TabPanel>
