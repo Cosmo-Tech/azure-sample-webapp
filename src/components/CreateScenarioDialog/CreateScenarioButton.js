@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Button, Typography, makeStyles
-} from '@material-ui/core';
+import { Button, Tooltip, makeStyles } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import { useTranslation } from 'react-i18next';
 import CreateScenarioDialog from './CreateScenarioDialog';
@@ -30,7 +28,9 @@ const CreateScenarioButton = ({
   user,
   createScenario,
   workspaceId,
-  solution
+  solution,
+  disabled,
+  buttonTooltip
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -40,9 +40,20 @@ const CreateScenarioButton = ({
 
   return (
     <div>
-      <Button size="medium" startIcon={<AddIcon />} variant="text" onClick={openDialog} color="primary">
-        <Typography noWrap color="primary">{t('commoncomponents.button.create.scenario', 'Create Alternative Scenario')}</Typography>
-      </Button>
+      <Tooltip arrow title={buttonTooltip}>
+        <div>
+          <Button
+            size="medium"
+            startIcon={<AddIcon />}
+            variant="text"
+            onClick={openDialog}
+            color="primary"
+            disabled={disabled}
+          >
+            {t('commoncomponents.button.create.scenario.label', 'Create Alternative Scenario')}
+          </Button>
+        </div>
+      </Tooltip>
       <CreateScenarioDialog
           createScenario={createScenario}
           workspaceId={workspaceId}
@@ -67,7 +78,13 @@ CreateScenarioButton.propTypes = {
   user: PropTypes.object.isRequired,
   createScenario: PropTypes.func.isRequired,
   workspaceId: PropTypes.string.isRequired,
-  solution: PropTypes.object.isRequired
+  solution: PropTypes.object.isRequired,
+  buttonTooltip: PropTypes.string.isRequired,
+  disabled: PropTypes.bool.isRequired
+};
+
+CreateScenarioButton.defaultProps = {
+  disabled: false
 };
 
 export default CreateScenarioButton;
