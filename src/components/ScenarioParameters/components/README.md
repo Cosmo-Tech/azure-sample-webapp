@@ -1,4 +1,4 @@
-# Add a new tab in Scenario Parameters
+# Add a new input field in Scenario Parameters
 
 - Open *app_folder*/src/components/ScenarioParameters/component/BasicTypes.js
 - Look for the `<div>` tag directly below the `return` statement
