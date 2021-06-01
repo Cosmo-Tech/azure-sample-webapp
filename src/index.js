@@ -14,6 +14,7 @@ import { I18nextProvider } from 'react-i18next';
 import { ThemeProvider } from '@material-ui/styles';
 import theme from './theme';
 import { dispatchLogIn, dispatchLogOut } from './state/dispatchers/auth/AuthDispatcher';
+import { CircularProgress } from '@material-ui/core';
 
 const mapStateToProps = (state) => ({
   authStatus: state.auth.status
@@ -26,7 +27,7 @@ const mapDispatchToProps = {
 const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App);
 
 ReactDOM.render(
-    <Suspense fallback="loading">
+    <Suspense fallback={<CircularProgress />}>
       <React.StrictMode>
           <BrowserRouter>
               <Provider store={applicationStore}>
