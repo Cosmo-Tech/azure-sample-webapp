@@ -34,6 +34,9 @@ i18n
     detection: langDetectorOptions,
     backend: {
       loadPath: '/locales/{{lng}}/{{ns}}.json'
+    },
+    react: {
+      useSuspense: false
     }
   });
 
