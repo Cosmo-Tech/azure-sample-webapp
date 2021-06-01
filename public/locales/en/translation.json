@@ -186,6 +186,9 @@
       "button": {
         "browse": "Browse",
         "update": "Update"
+      },
+      "tooltip": {
+        "isvalidfile": "Error: column name must be a string"
       }
     },
     "loading": {

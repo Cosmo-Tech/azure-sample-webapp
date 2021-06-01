@@ -186,6 +186,9 @@
       "button": {
         "browse": "Parcourir",
         "update": "Mettre à jour"
+      },
+      "tooltip": {
+        "isvalidfile": "Erreur: la colonne requiert une chaine de caractères"
       }
     },
     "loading": {
