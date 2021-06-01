@@ -26,7 +26,6 @@ const Loading = (
     logout,
     tabs,
     scenarioList,
-    scenarioTree,
     workspace,
     solution,
     datasetList,
@@ -56,7 +55,6 @@ const Loading = (
     ? (<div className={classes.panel} data-cy="loading-component">
           <FadeIn delay={200}>
             <LoadingLine titleKey={'genericcomponent.loading.line.scenario.list.title'} hasError={hasErrors(scenarioList)} isLoading={isLoading(scenarioList)} height={120} width={120}/>
-            <LoadingLine titleKey={'genericcomponent.loading.line.scenario.tree.title'} hasError={hasErrors(scenarioTree)} isLoading={isLoading(scenarioTree)} height={120} width={120}/>
             <LoadingLine titleKey={'genericcomponent.loading.line.dataset.list.title'} hasError={hasErrors(datasetList)} isLoading={isLoading(datasetList)} height={120} width={120}/>
             <LoadingLine titleKey={'genericcomponent.loading.line.workspace.current.title'} hasError={hasErrors(workspace)} isLoading={isLoading(workspace)} height={120} width={120}/>
               <LoadingLine titleKey={'genericcomponent.loading.line.solution.current.title'} hasError={hasErrors(solution)} isLoading={isLoading(solution)} height={120} width={120}/>
@@ -73,7 +71,6 @@ Loading.propTypes = {
   logout: PropTypes.func.isRequired,
   tabs: PropTypes.array.isRequired,
   scenarioList: PropTypes.object.isRequired,
-  scenarioTree: PropTypes.object.isRequired,
   workspace: PropTypes.object.isRequired,
   solution: PropTypes.object.isRequired,
   datasetList: PropTypes.object.isRequired,

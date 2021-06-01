@@ -32,31 +32,6 @@ export const scenarioListReducer = createReducer(scenarioListInitialState, (buil
     });
 });
 
-// Scenario Tree
-
-export const scenarioTreeInitialState = {
-  data: [],
-  status: STATUSES.IDLE
-};
-
-export const scenarioTreeReducer = createReducer(scenarioTreeInitialState, (builder) => {
-  builder
-    .addCase(SCENARIO_ACTIONS_KEY.SET_SCENARIO_TREE, (state, action) => {
-      state.data = action.tree;
-      state.status = STATUSES.SUCCESS;
-    })
-    .addCase(SCENARIO_ACTIONS_KEY.UPDATE_SCENARIO_STATE, (state, action) => {
-      state.data = state.data.map(scenarioData => {
-        // Replace state in data for the scenario to update
-        if (scenarioData.id === action.data.scenarioId) {
-          return { ...scenarioData, state: action.data.scenarioState };
-        }
-        // Otherwise, use the original data
-        return scenarioData;
-      });
-    });
-});
-
 // Current Scenario
 
 export const currentScenarioInitialState = {
@@ -86,6 +61,5 @@ export const currentScenarioReducer = createReducer(currentScenarioInitialState,
 
 export const scenarioReducer = combineReducers({
   list: scenarioListReducer,
-  current: currentScenarioReducer,
-  tree: scenarioTreeReducer
+  current: currentScenarioReducer
 });

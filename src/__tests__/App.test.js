@@ -21,10 +21,6 @@ const initialStore = {
     current: {
       data: null,
       status: 'IDLE'
-    },
-    tree: {
-      data: [],
-      status: 'IDLE'
     }
   },
   application: {

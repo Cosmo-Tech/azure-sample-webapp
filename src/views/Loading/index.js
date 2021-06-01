@@ -15,7 +15,6 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state) => ({
   scenarioList: state.scenario.list,
-  scenarioTree: state.scenario.tree,
   workspace: state.workspace.current,
   solution: state.solution.current,
   datasetList: state.dataset.list,

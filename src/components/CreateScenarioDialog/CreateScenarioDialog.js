@@ -115,7 +115,7 @@ const CreateScenarioDialog = ({
       errorKey = ERROR_SCENARIO_NAME_EMPTY_LABEL_KEY;
       hasErrors = true;
     }
-    if (ScenarioUtils.scenarioExists(newScenarioName, scenarios)) {
+    if (ScenarioUtils.scenarioExistsInList(newScenarioName, scenarios)) {
       errorKey = ERROR_SCENARIO_NAME_EXISTING_LABEL_KEY;
       hasErrors = true;
     }
@@ -239,7 +239,7 @@ const CreateScenarioDialog = ({
                                                 variant="outlined"/>)
                                     }/>)
                               : (<HierarchicalComboBox
-                                        tree={scenarios}
+                                        values={scenarios}
                                         defaultValue={defaultParentScenario.current}
                                         label={CREATE_SCENARIO_DIALOG_PARENT_SCENARIO_LABEL_KEY}
                                         handleChange={
