@@ -3,6 +3,8 @@
 import { Auth } from '@cosmotech/core';
 import { put, takeEvery } from 'redux-saga/effects';
 import { AUTH_ACTIONS_KEY, AUTH_STATUS } from '../../../commons/AuthConstants';
+import { setAccessToken, resetAccessToken } from '../../../../configs/Api.config';
+import { readFromStorage } from '../../../../utils/StorageUtils';
 
 // Generator function to fetch authentication data
 export function * tryLogIn (action) {
@@ -16,6 +18,14 @@ export function * tryLogIn (action) {
     const authenticated = yield Auth.isUserSignedIn();
     if (authenticated) {
       // If the user is authenticated, set the auth data
+      const accessToken = readFromStorage('authAccessToken');
+      if (accessToken !== null) {
+        setAccessToken(accessToken);
+      } else {
+        resetAccessToken();
+        console.warn('This authentication provider does not provide any ' +
+          'access token.');
+      }
       yield put({
         type: AUTH_ACTIONS_KEY.SET_AUTH_DATA,
         userId: Auth.getUserId(),
@@ -24,6 +34,7 @@ export function * tryLogIn (action) {
         status: AUTH_STATUS.AUTHENTICATED
       });
     } else {
+      resetAccessToken();
       yield put({
         type: AUTH_ACTIONS_KEY.SET_AUTH_DATA,
         userId: '',
