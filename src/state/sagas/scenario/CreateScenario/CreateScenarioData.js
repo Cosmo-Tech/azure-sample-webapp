@@ -7,7 +7,6 @@ import { STATUSES } from '../../../commons/Constants';
 import { ORGANISATION_ID } from '../../../../configs/App.config';
 import ScenarioService from '../../../../services/scenario/ScenarioService';
 import { getAllScenariosData } from '../FindAllScenarios/FindAllScenariosData';
-import { fetchScenarioTreeData } from '../GetScenariosTree/GetScenariosTreeData';
 
 // generators function
 export function * createScenario (action) {
@@ -22,7 +21,6 @@ export function * createScenario (action) {
     });
   } else {
     yield call(getAllScenariosData, workspaceId);
-    yield call(fetchScenarioTreeData, workspaceId);
     // Here is an effect named put that indicate to the middleware that it can dispatch a SET_CURRENT_SCENARIO action with list as payload
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,

@@ -49,7 +49,6 @@ const Scenario = (props) => {
     // eslint-disable-next-line no-unused-vars
     scenarioList,
     findScenarioById,
-    scenarioTree,
     datasetList,
     runTemplateList,
     user,
@@ -79,7 +78,7 @@ const Scenario = (props) => {
                 <HierarchicalComboBox
                   value={currentScenario.data}
                   maxCharLength={36}
-                  tree={scenarioTree.data}
+                  values={scenarioList.data}
                   label='views.scenario.dropdown.scenario.label'
                   handleChange={handleScenarioChange}
                 />
@@ -101,7 +100,7 @@ const Scenario = (props) => {
                   currentScenario={currentScenario}
                   runTemplates={runTemplateList.data}
                   datasets={datasetList.data}
-                  scenarios={scenarioTree.data}
+                  scenarios={scenarioList.data}
                   user={user}
                 />
               </Grid>
@@ -136,7 +135,6 @@ const Scenario = (props) => {
 
 Scenario.propTypes = {
   classes: PropTypes.any,
-  scenarioTree: PropTypes.object.isRequired,
   scenarioList: PropTypes.object.isRequired,
   datasetList: PropTypes.object.isRequired,
   runTemplateList: PropTypes.object.isRequired,

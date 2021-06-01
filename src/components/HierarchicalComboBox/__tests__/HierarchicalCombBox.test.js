@@ -4,7 +4,7 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 import HierarchicalComboBox from '../HierarchicalComboBox';
-import videoGamesList from './treeForTests.json';
+import videoGamesList from './valuesList.json';
 
 describe('HierarchicalComboBox test suite', () => {
   console.error = jest.fn();
@@ -17,7 +17,7 @@ describe('HierarchicalComboBox test suite', () => {
     const { container, getByRole, getByTestId } = render(
       <HierarchicalComboBox
         label="Video Games"
-        tree={videoGamesList}
+        values={videoGamesList}
         separator={separator}
         maxCharLength={maxLengthChar}
         handleChange={jest.fn()}

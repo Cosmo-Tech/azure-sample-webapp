@@ -229,9 +229,6 @@
         "scenario": {
           "list" : {
             "title" : "Fetching scenario list"
-          },
-          "tree" : {
-            "title" : "Fetching scenario tree"
           }
         }
       }

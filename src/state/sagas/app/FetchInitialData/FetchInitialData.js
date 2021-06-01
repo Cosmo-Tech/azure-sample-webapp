@@ -8,7 +8,6 @@ import { STATUSES } from '../../../commons/Constants';
 import { SCENARIO_RUN_STATE } from '../../../../utils/ApiUtils';
 import { getAllScenariosData } from '../../scenario/FindAllScenarios/FindAllScenariosData';
 import { fetchAllDatasetsData } from '../../datasets/FindAllDatasets/FindAllDatasets';
-import { fetchScenarioTreeData } from '../../scenario/GetScenariosTree/GetScenariosTreeData';
 import { fetchWorkspaceByIdData } from '../../workspace/FindWorkspaceById/FindWorkspaceByIdData';
 import { fetchSolutionByIdData }
   from '../../solution/FindSolutionById/FindSolutionByIdData';
@@ -18,7 +17,7 @@ import { fetchScenarioByIdForInitialData } from '../../scenario/FindScenarioById
 // Selectors
 const selectSolutionIdFromCurrentWorkspace = (state) => state.workspace.current.data.solution.solutionId;
 const selectRunTemplatesFromCurrentSolution = (state) => state.solution.current.data.runTemplates;
-const selectFirstScenarioFromScenarioTree = (state) => state.scenario.tree.data;
+const selectScenarioList = (state) => state.scenario.list.data;
 
 // generators function
 export function * fetchAllInitialData (action) {
@@ -27,21 +26,20 @@ export function * fetchAllInitialData (action) {
     yield put({ type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS, status: STATUSES.LOADING });
     // Fetch all scenarios
     yield call(getAllScenariosData, workspaceId);
-    yield call(fetchScenarioTreeData, workspaceId);
     yield call(fetchAllDatasetsData);
     yield call(fetchWorkspaceByIdData, workspaceId);
     const solutionId = yield select(selectSolutionIdFromCurrentWorkspace);
     yield call(fetchSolutionByIdData, workspaceId, solutionId);
-    const scenarioTree = yield select(selectFirstScenarioFromScenarioTree);
-    if (scenarioTree.length !== 0) {
-      yield call(fetchScenarioByIdForInitialData, workspaceId, scenarioTree[0].id);
+    const scenarioList = yield select(selectScenarioList);
+    if (scenarioList.length !== 0) {
+      yield call(fetchScenarioByIdForInitialData, workspaceId, scenarioList[0].id);
       // Start state polling for running scenarios
-      for (let i = 0; i < scenarioTree.length; ++i) {
-        if (scenarioTree[i].state === SCENARIO_RUN_STATE.RUNNING) {
+      for (let i = 0; i < scenarioList.length; ++i) {
+        if (scenarioList[i].state === SCENARIO_RUN_STATE.RUNNING) {
           yield put({
             type: SCENARIO_ACTIONS_KEY.START_SCENARIO_STATUS_POLLING,
             workspaceId: workspaceId,
-            scenarioId: scenarioTree[i].id
+            scenarioId: scenarioList[i].id
           });
         }
       }

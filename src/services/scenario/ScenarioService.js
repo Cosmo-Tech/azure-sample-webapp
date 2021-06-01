@@ -17,14 +17,6 @@ function findAllScenarios (organizationId, workspaceId) {
   });
 }
 
-function getScenariosTree (organizationId, workspaceId) {
-  return new Promise((resolve) => {
-    ScenarioApi.getScenariosTree(organizationId, workspaceId, (error, data, response) => {
-      resolve({ error, data, response });
-    });
-  });
-}
-
 function findScenarioById (organizationId, workspaceId, scenarioId) {
   return new Promise((resolve) => {
     ScenarioApi.findScenarioById(organizationId, workspaceId, scenarioId, (error, data, response) => {
@@ -53,7 +45,6 @@ function updateScenarioParameters (organizationId, workspaceId, scenarioId, scen
 
 const ScenarioService = {
   findAllScenarios,
-  getScenariosTree,
   findScenarioById,
   createScenario,
   updateScenarioParameters

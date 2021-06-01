@@ -8,7 +8,6 @@ import { applicationInitialState, applicationReducer } from '../../../../reducer
 import getAllInitialData from '../FetchInitialData';
 import { APPLICATION_ACTIONS_KEY } from '../../../../commons/ApplicationConstants';
 import { STATUSES } from '../../../../commons/Constants';
-import getScenarioTreeSampleTest from '../../../scenario/GetScenariosTree/__tests__/GetScenariosTree.json';
 import { SCENARIO_ENDPOINT } from '../../../../commons/ScenarioConstants';
 import findAllScenarioSampleTest from '../../../scenario/FindAllScenarios/__tests__/FindAllScenarios.json';
 
@@ -30,7 +29,6 @@ describe('FetchInitialData saga', () => {
   // eslint-disable-next-line jest/no-disabled-tests
   it.skip('Is working as expected', async () => {
     // define mocks on axios.get calls
-    mock.onGet(SCENARIO_ENDPOINT.GET_SCENARIO_TREE).reply(200, { data: getScenarioTreeSampleTest });
     mock.onGet(SCENARIO_ENDPOINT.FIND_ALL_SCENARIOS).reply(200, { data: findAllScenarioSampleTest });
 
     const sagaTester = new SagaTester(

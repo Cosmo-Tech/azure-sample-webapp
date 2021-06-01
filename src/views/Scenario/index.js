@@ -13,7 +13,6 @@ const mapStateToProps = (state) => ({
   datasetList: state.dataset.list,
   runTemplateList: state.runTemplate.list,
   currentScenario: state.scenario.current,
-  scenarioTree: state.scenario.tree,
   user: state.auth,
   workspace: state.workspace.current,
   solution: state.solution.current

@@ -12,11 +12,11 @@ import { withStyles } from '@material-ui/styles';
 const useStyles = theme => ({
 });
 
-const HierarchicalComboBox = ({ tree, label, disabled, handleChange, separator, maxCharLength, ...props }) => {
+const HierarchicalComboBox = ({ values, label, disabled, handleChange, separator, maxCharLength, ...props }) => {
   const { t } = useTranslation();
 
   const optionsList = [];
-  getFormattedOptionsList(optionsList, tree, 0, separator, maxCharLength);
+  getFormattedOptionsList(optionsList, values, 0, separator, maxCharLength);
 
   return (
     <Autocomplete
@@ -54,7 +54,7 @@ HierarchicalComboBox.propTypes = {
   label: PropTypes.string,
   handleChange: PropTypes.func,
   disabled: PropTypes.bool,
-  tree: PropTypes.array,
+  values: PropTypes.array,
   separator: PropTypes.string,
   maxCharLength: PropTypes.number
 };
