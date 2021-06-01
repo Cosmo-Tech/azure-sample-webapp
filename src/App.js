@@ -11,7 +11,7 @@ import { applicationInsightConfig, tabs } from './configs/App.config';
 import Loading from './views/Loading';
 
 const App = (props) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('translation', { useSuspense: false });
   document.title = t('commoncomponents.text.application.title', 'Cosmo Tech Web Application Sample');
 
   const { authStatus, logOutAction, logInAction } = props;
