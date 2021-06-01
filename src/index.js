@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { Suspense } from 'react';
+import React from 'react';
 import { Provider, connect } from 'react-redux';
 import ReactDOM from 'react-dom';
 import './index.css';
@@ -14,7 +14,6 @@ import { I18nextProvider } from 'react-i18next';
 import { ThemeProvider } from '@material-ui/styles';
 import theme from './theme';
 import { dispatchLogIn, dispatchLogOut } from './state/dispatchers/auth/AuthDispatcher';
-import { CircularProgress } from '@material-ui/core';
 
 const mapStateToProps = (state) => ({
   authStatus: state.auth.status
@@ -27,7 +26,6 @@ const mapDispatchToProps = {
 const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App);
 
 ReactDOM.render(
-    <Suspense fallback={<CircularProgress />}>
       <React.StrictMode>
           <BrowserRouter>
               <Provider store={applicationStore}>
@@ -38,9 +36,8 @@ ReactDOM.render(
                   </I18nextProvider>
               </Provider>
           </BrowserRouter>
-      </React.StrictMode>
-    </Suspense>,
-    document.getElementById('root')
+      </React.StrictMode>,
+      document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function

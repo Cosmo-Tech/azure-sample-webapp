@@ -9,9 +9,10 @@ import './assets/scss/index.scss';
 import './configs/Auth.config.js';
 import { applicationInsightConfig, tabs } from './configs/App.config';
 import Loading from './views/Loading';
+import { CircularProgress } from '@material-ui/core';
 
 const App = (props) => {
-  const { t } = useTranslation();
+  const { t, ready } = useTranslation();
   document.title = t('commoncomponents.text.application.title', 'Cosmo Tech Web Application Sample');
 
   const { authStatus, logOutAction, logInAction } = props;
@@ -27,10 +28,10 @@ const App = (props) => {
     }
   });
 
-  return (authStatus === 'CONNECTING')
+  return (authStatus === 'CONNECTING' || !ready)
     ? (
       <div className="spinner-border text-success" role="status">
-        <span className="sr-only">{t('views.common.text.loading', 'Loading...')}</span>
+        <CircularProgress/>
       </div>
       )
     : (
