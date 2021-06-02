@@ -105,7 +105,6 @@ const ScenarioParametersTabs = ({
 };
 
 ScenarioParametersTabs.propTypes = {
-  scenarioId: PropTypes.string.isRequired,
   currentScenario: PropTypes.object.isRequired,
   initTextFieldValue: PropTypes.string.isRequired,
   changeTextField: PropTypes.func.isRequired,
