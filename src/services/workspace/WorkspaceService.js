@@ -13,9 +13,9 @@ function findWorkspaceById (organizationId, workspaceId) {
   });
 }
 
-function uploadWorkspaceFile (organizationId, workspaceId, file) {
+function uploadWorkspaceFile (organizationId, workspaceId, file, overwrite, destination) {
   return new Promise((resolve) => {
-    WorkspaceApi.uploadWorkspaceFile(organizationId, workspaceId, file, (error, data, response) => {
+    WorkspaceApi.uploadWorkspaceFile(organizationId, workspaceId, file, { overwrite: overwrite, destination: destination }, (error, data, response) => {
       resolve({ error, data, response });
     });
   });
