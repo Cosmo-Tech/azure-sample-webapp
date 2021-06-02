@@ -10,7 +10,7 @@ import SolutionService from '../../../../services/solution/SolutionService';
 // generators function
 export function * fetchSolutionByIdData (workspaceId, solutionId) {
   // yield keyword is here to milestone and save the action
-  const { error, data } = yield call(SolutionService.findSolutionById, ORGANISATION_ID, workspaceId, solutionId);
+  const { error, data } = yield call(SolutionService.findSolutionById, ORGANISATION_ID, solutionId);
   if (error) {
     // TODO handle error management
   } else {

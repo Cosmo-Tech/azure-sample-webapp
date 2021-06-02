@@ -5,9 +5,9 @@ import { CosmotechApiService } from '../../configs/Api.config';
 
 const SolutionApi = new CosmotechApiService.SolutionApi();
 
-function findSolutionById (organizationId, workspaceId) {
+function findSolutionById (organizationId, solutionId) {
   return new Promise((resolve) => {
-    SolutionApi.findSolutionById(organizationId, workspaceId, (error, data, response) => {
+    SolutionApi.findSolutionById(organizationId, solutionId, (error, data, response) => {
       resolve({ error, data, response });
     });
   });
