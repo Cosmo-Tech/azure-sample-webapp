@@ -1247,10 +1247,10 @@
     "@babel/cli" "^7.0.0"
     superagent "^5.3.0"
 
-"@cosmotech/azure@^0.8.1-beta.4":
-  version "0.8.1"
-  resolved "https://registry.yarnpkg.com/@cosmotech/azure/-/azure-0.8.1.tgz#e4121cbf2a98efa5c5f44be7b353edb80deb9e7e"
-  integrity sha512-EPRb9F4jgHp0mNnVTfo8YMULoOlDRJWlVxQHRF1R6t/U8Eg5RmQzXn/SywfrxPgzYa0y/xM6Vhb6DP2F8roYpA==
+"@cosmotech/azure@^0.8.2-beta.0":
+  version "0.8.2-beta.0"
+  resolved "https://registry.yarnpkg.com/@cosmotech/azure/-/azure-0.8.2-beta.0.tgz#b8c095ae057238c9387bbc6f516e25aea32bb3cd"
+  integrity sha512-OoZKrcrHNsYcH9aFRkQECMwDzaP6C6AUnraQ3aN6CWzfyn5XNkwqS7q2T9On2/EkyfrVOmvIqYmy4EP0o5J5rg==
   dependencies:
     "@azure/msal-browser" "^2.8.0"
 
