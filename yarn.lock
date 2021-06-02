@@ -1239,15 +1239,15 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@cosmotech/api@^0.0.7":
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/@cosmotech/api/-/api-0.0.7.tgz#d5bf3fa4c97f78c16ff75a92fadf93cb3fe9425b"
-  integrity sha512-b4Ik1uaqhxsRuoo+igj/ph/ty0coZQDs9TXBDubaUQbD9arvC5Cdxqoa3Qhgax67bJNGVLwc0Ulq6iOkLiGFBQ==
+"@cosmotech/api@^0.0.8":
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/@cosmotech/api/-/api-0.0.8.tgz#45c425a48948fd0c4d656b6bc1f9a9e27f4fa035"
+  integrity sha512-XCk6B61D7yVKqSuxCy5vMGFIq1fhqc6HZ0CXx/upCrL4Acis3zzAnAgaA6vxkWF+4HGccgHrkCYmQ9JL2mplIw==
   dependencies:
     "@babel/cli" "^7.0.0"
     superagent "^5.3.0"
 
-"@cosmotech/azure@^0.8.1":
+"@cosmotech/azure@^0.8.1-beta.4":
   version "0.8.1"
   resolved "https://registry.yarnpkg.com/@cosmotech/azure/-/azure-0.8.1.tgz#e4121cbf2a98efa5c5f44be7b353edb80deb9e7e"
   integrity sha512-EPRb9F4jgHp0mNnVTfo8YMULoOlDRJWlVxQHRF1R6t/U8Eg5RmQzXn/SywfrxPgzYa0y/xM6Vhb6DP2F8roYpA==
