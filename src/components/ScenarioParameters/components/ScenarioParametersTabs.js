@@ -46,6 +46,7 @@ const ScenarioParametersTabs = ({
   changeEnumField,
   changeSwitchType,
   changeSelectedDate,
+  selectedDate,
   editMode
 }) => {
   const classes = useStyles();
@@ -61,6 +62,7 @@ const ScenarioParametersTabs = ({
       changeEnumField={changeEnumField}
       changeSwitchType={changeSwitchType}
       changeSelectedDate={changeSelectedDate}
+      selectedDate={selectedDate}
       editMode={editMode}
     />
   ];
@@ -105,7 +107,6 @@ const ScenarioParametersTabs = ({
 };
 
 ScenarioParametersTabs.propTypes = {
-  scenarioId: PropTypes.string.isRequired,
   currentScenario: PropTypes.object.isRequired,
   initTextFieldValue: PropTypes.string.isRequired,
   changeTextField: PropTypes.func.isRequired,
@@ -113,6 +114,7 @@ ScenarioParametersTabs.propTypes = {
   changeEnumField: PropTypes.func.isRequired,
   changeSwitchType: PropTypes.func.isRequired,
   changeSelectedDate: PropTypes.func.isRequired,
+  selectedDate: PropTypes.object.isRequired,
   editMode: PropTypes.bool.isRequired
 };
 
