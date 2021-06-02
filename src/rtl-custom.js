@@ -3,7 +3,7 @@
 
 import React, { Suspense } from 'react';
 import { render as rtlRender } from '@testing-library/react';
-import { ThemeProvider } from '@material-ui/styles';
+import { ThemeProvider } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';

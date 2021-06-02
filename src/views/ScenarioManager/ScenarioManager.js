@@ -2,26 +2,22 @@
 // Licensed under the MIT license.
 
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core';
 
-const useStyles = theme => ({
+const useStyles = makeStyles(theme => ({
   root: {
     margin: 'auto',
     width: '100%'
   }
-});
+}));
 
 const ScenarioManager = (props) => {
+  const classes = useStyles();
   return (
-      <div className={props.classes.root}>
+      <div className={classes.root}>
         SCENARIO MANAGER
       </div>
   );
 };
 
-ScenarioManager.propTypes = {
-  classes: PropTypes.any
-};
-
-export default withStyles(useStyles)(ScenarioManager);
+export default ScenarioManager;

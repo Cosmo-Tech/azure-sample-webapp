@@ -10,7 +10,7 @@ import { signIn } from '../utils/SignUtils';
 import { Provider } from 'react-redux';
 import theme from '../theme';
 import { BrowserRouter } from 'react-router-dom';
-import { ThemeProvider } from '@material-ui/styles';
+import { ThemeProvider } from '@material-ui/core';
 
 const initialStore = {
   scenario: {

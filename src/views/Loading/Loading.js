@@ -7,20 +7,19 @@ import Routes from '../../Routes';
 import FadeIn from 'react-fade-in';
 import LoadingLine from '../../components/LoadingLine';
 import { STATUSES } from '../../state/commons/Constants';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core';
 
-const useStyles = theme => ({
+const useStyles = makeStyles(theme => ({
   panel: {
     position: 'absolute',
     left: '50%',
     top: '50%',
     transform: 'translate(-50%, -50%)'
   }
-});
+}));
 
 const Loading = (
   {
-    classes,
     authenticated,
     authorized,
     logout,
@@ -33,6 +32,8 @@ const Loading = (
     getAllInitialDataAction,
     setApplicationStatusAction
   }) => {
+  const classes = useStyles();
+
   useEffect(() => {
     if (authenticated) {
       getAllInitialDataAction();
@@ -65,7 +66,6 @@ const Loading = (
 };
 
 Loading.propTypes = {
-  classes: PropTypes.any,
   authenticated: PropTypes.bool.isRequired,
   authorized: PropTypes.bool.isRequired,
   logout: PropTypes.func.isRequired,
@@ -79,4 +79,4 @@ Loading.propTypes = {
   setApplicationStatusAction: PropTypes.func.isRequired
 };
 
-export default withStyles(useStyles)(Loading);
+export default Loading;

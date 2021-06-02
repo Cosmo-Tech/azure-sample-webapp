@@ -25,14 +25,14 @@ import {
   DialogTitle,
   FormControlLabel,
   Grid,
-  TextField
+  TextField,
+  makeStyles
 } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import HierarchicalComboBox from '../HierarchicalComboBox/HierarchicalComboBox';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 
-const useStyles = theme => ({
+const useStyles = makeStyles(theme => ({
   root: {
     height: '100%'
   },
@@ -43,7 +43,7 @@ const useStyles = theme => ({
     marginRight: '4px',
     marginBottom: '4px'
   }
-});
+}));
 
 const getCurrentScenarioRunType = (currentScenario, runTemplates) => {
   const runTemplateId = currentScenario?.data?.runTemplateId;
@@ -67,7 +67,6 @@ const isDialogDataValid = (scenarioName, isMaster, scenarioType, parentScenario,
 };
 
 const CreateScenarioDialog = ({
-  classes,
   open,
   closeDialog,
   scenarios,
@@ -79,6 +78,7 @@ const CreateScenarioDialog = ({
   workspaceId,
   solution
 }) => {
+  const classes = useStyles();
   const { t } = useTranslation();
 
   const scenarioNameInitialState = {
@@ -288,7 +288,6 @@ const CreateScenarioDialog = ({
 };
 
 CreateScenarioDialog.propTypes = {
-  classes: PropTypes.object.isRequired,
   open: PropTypes.bool.isRequired,
   closeDialog: PropTypes.func.isRequired,
   scenarios: PropTypes.array.isRequired,
@@ -301,4 +300,4 @@ CreateScenarioDialog.propTypes = {
   solution: PropTypes.object.isRequired
 };
 
-export default withStyles(useStyles)(CreateScenarioDialog);
+export default CreateScenarioDialog;

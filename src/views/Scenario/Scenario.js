@@ -3,8 +3,7 @@
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import { Grid, Typography, Card } from '@material-ui/core';
+import { Grid, Typography, Card, makeStyles } from '@material-ui/core';
 import HierarchicalComboBox from '../../components/HierarchicalComboBox';
 import { ScenarioParameters } from '../../components';
 import { useTranslation } from 'react-i18next';
@@ -12,7 +11,7 @@ import { CreateScenarioButton } from '../../components/CreateScenarioDialog';
 import { Dashboard } from '@cosmotech/ui';
 import { SCENARIO_DASHBOARD_CONFIG } from '../../configs/ScenarioDashboard.config';
 
-const useStyles = theme => ({
+const useStyles = makeStyles(theme => ({
   root: {
     height: '100%'
   },
@@ -39,9 +38,10 @@ const useStyles = theme => ({
     flexGrow: 1,
     height: '100%'
   }
-});
+}));
 
 const Scenario = (props) => {
+  const classes = useStyles();
   const { t } = useTranslation();
 
   const {
@@ -55,7 +55,6 @@ const Scenario = (props) => {
     workspace,
     solution,
     createScenario,
-    classes,
     updateAndLaunchScenario
   } = props;
 
@@ -73,8 +72,8 @@ const Scenario = (props) => {
       <Grid item xs={12}>
         <Grid container alignItems="center" className={classes.mainGrid}>
           <Grid item xs={9}>
-            <Grid container spacing={0} alignItems="center" className={props.classes.mainGrid}>
-              <Grid item xs={5} className={props.classes.scenarioList}>
+            <Grid container spacing={0} alignItems="center" className={classes.mainGrid}>
+              <Grid item xs={5} className={classes.scenarioList}>
                 <HierarchicalComboBox
                   value={currentScenario.data}
                   maxCharLength={36}
@@ -91,7 +90,7 @@ const Scenario = (props) => {
             </Grid>
           </Grid>
           <Grid item xs={3}>
-            <Grid container spacing={0} justify="flex-end" className={props.classes.mainGrid}>
+            <Grid container spacing={0} justify="flex-end" className={classes.mainGrid}>
               <Grid item>
                 <CreateScenarioButton
                   solution={solution}
@@ -134,7 +133,6 @@ const Scenario = (props) => {
 };
 
 Scenario.propTypes = {
-  classes: PropTypes.any,
   scenarioList: PropTypes.object.isRequired,
   datasetList: PropTypes.object.isRequired,
   runTemplateList: PropTypes.object.isRequired,
@@ -147,4 +145,4 @@ Scenario.propTypes = {
   updateAndLaunchScenario: PropTypes.func.isRequired
 };
 
-export default withStyles(useStyles)(Scenario);
+export default Scenario;

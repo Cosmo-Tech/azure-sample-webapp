@@ -2,17 +2,16 @@
 // Licensed under the MIT license.
 
 import React from 'react';
-import { AppBar, Tabs, Tab, Box } from '@material-ui/core';
+import { AppBar, Tabs, Tab, Box, makeStyles } from '@material-ui/core';
 import { Switch, Route, Link, Redirect, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
 import { PrivateRoute } from '../../components';
 import { Auth } from '@cosmotech/core';
 import { UserInfo } from '@cosmotech/ui';
 import { useTranslation } from 'react-i18next';
 import { applicationLanguages } from '../../configs/App.config';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   content: {
     height: 'calc(100% - 36px)', // footer height = 36px
     paddingTop: theme.spacing(6),
@@ -65,15 +64,14 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between'
   }
-}
-));
+}));
 
 const TabLayout = props => {
+  const classes = useStyles();
   const {
     tabs, authenticated, authorized, signInPath,
     unauthorizedPath
   } = props;
-  const classes = useStyles();
   const { t } = useTranslation();
   const location = useLocation();
 

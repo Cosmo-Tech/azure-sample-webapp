@@ -4,8 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/styles';
-import { Typography } from '@material-ui/core';
+import { Typography, makeStyles } from '@material-ui/core';
 import { Trans, useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(theme => ({
@@ -18,9 +17,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Footer = (props) => {
+  const classes = useStyles();
   const { t } = useTranslation();
   const { className, ...rest } = props;
-  const classes = useStyles();
   const year = new Date().getFullYear();
 
   return (

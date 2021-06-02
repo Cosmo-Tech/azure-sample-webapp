@@ -8,7 +8,6 @@ import { Trans, useTranslation } from 'react-i18next';
 import { Auth, AuthDev } from '@cosmotech/core';
 import { AuthMSAL } from '@cosmotech/azure';
 import validate from 'validate.js';
-import { makeStyles } from '@material-ui/styles';
 import {
   Grid,
   Button,
@@ -16,7 +15,8 @@ import {
   Box,
   Select,
   FormControl,
-  MenuItem
+  MenuItem,
+  makeStyles
 } from '@material-ui/core';
 import { SignInButton } from '@cosmotech/ui';
 import { i18nUtils } from '../../utils';
@@ -132,10 +132,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const SignIn = ({ logInAction }) => {
-  const { t, i18n } = useTranslation();
-
   const classes = useStyles();
-
+  const { t, i18n } = useTranslation();
   const [formState, setFormState] = useState({
     isValid: false,
     values: {},

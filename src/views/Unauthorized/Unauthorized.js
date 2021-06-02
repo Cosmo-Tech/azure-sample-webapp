@@ -3,12 +3,12 @@
 
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { makeStyles } from '@material-ui/styles';
 import {
   Grid,
   Typography,
   AppBar,
-  Link as RefLink
+  Link as RefLink,
+  makeStyles
 } from '@material-ui/core';
 import { UserInfo } from '@cosmotech/ui';
 import { useTranslation } from 'react-i18next';
