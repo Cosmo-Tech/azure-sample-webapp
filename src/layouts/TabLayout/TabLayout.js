@@ -11,7 +11,7 @@ import { UserInfo } from '@cosmotech/ui';
 import { useTranslation } from 'react-i18next';
 import { applicationLanguages } from '../../configs/App.config';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   content: {
     height: 'calc(100% - 36px)', // footer height = 36px
     paddingTop: theme.spacing(6),
@@ -64,15 +64,14 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between'
   }
-}
-));
+}));
 
 const TabLayout = props => {
+  const classes = useStyles();
   const {
     tabs, authenticated, authorized, signInPath,
     unauthorizedPath
   } = props;
-  const classes = useStyles();
   const { t } = useTranslation();
   const location = useLocation();
 

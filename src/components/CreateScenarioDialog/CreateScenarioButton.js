@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Button, Typography, withStyles
+  Button, Typography, makeStyles
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import { useTranslation } from 'react-i18next';
 import CreateScenarioDialog from './CreateScenarioDialog';
 
-const useStyles = theme => ({
+const useStyles = makeStyles(theme => ({
   root: {
     height: '100%'
   },
@@ -20,10 +20,9 @@ const useStyles = theme => ({
     marginTop: '20px',
     marginBottom: '5px'
   }
-});
+}));
 
 const CreateScenarioButton = ({
-  classes,
   currentScenario,
   datasets,
   scenarios,
@@ -33,6 +32,7 @@ const CreateScenarioButton = ({
   workspaceId,
   solution
 }) => {
+  const classes = useStyles();
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const openDialog = () => setOpen(true);
@@ -60,7 +60,6 @@ const CreateScenarioButton = ({
 };
 
 CreateScenarioButton.propTypes = {
-  classes: PropTypes.any,
   currentScenario: PropTypes.object,
   scenarios: PropTypes.array.isRequired,
   datasets: PropTypes.array.isRequired,
@@ -71,4 +70,4 @@ CreateScenarioButton.propTypes = {
   solution: PropTypes.object.isRequired
 };
 
-export default withStyles(useStyles)(CreateScenarioButton);
+export default CreateScenarioButton;

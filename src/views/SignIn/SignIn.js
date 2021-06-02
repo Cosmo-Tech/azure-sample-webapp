@@ -132,10 +132,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const SignIn = ({ logInAction }) => {
-  const { t, i18n } = useTranslation();
-
   const classes = useStyles();
-
+  const { t, i18n } = useTranslation();
   const [formState, setFormState] = useState({
     isValid: false,
     values: {},

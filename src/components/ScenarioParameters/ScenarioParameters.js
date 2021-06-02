@@ -6,13 +6,13 @@ import PropTypes from 'prop-types';
 import {
   Grid,
   Typography,
-  withStyles
+  makeStyles
 } from '@material-ui/core';
 import { SCENARIO_RUN_STATE } from '../../utils/ApiUtils';
 import { EditModeButton, NormalModeButton, ScenarioParametersTabs } from './components';
 import { SimpleTwoActionsDialog } from '@cosmotech/ui';
 
-const useStyles = theme => ({
+const useStyles = makeStyles(theme => ({
   header: {
     display: 'flex',
     background: theme.palette.background.secondary,
@@ -27,10 +27,9 @@ const useStyles = theme => ({
     alignItems: 'center',
     margin: `0 ${theme.spacing(3)}px`
   }
-});
+}));
 
 const ScenarioParameters = ({
-  classes,
   editMode,
   changeEditMode,
   updateAndLaunchScenario,
@@ -38,6 +37,7 @@ const ScenarioParameters = ({
   currentScenario,
   scenarioId
 }) => {
+  const classes = useStyles();
   // General states
   const [displayPopup, setDisplayPopup] = useState(false);
 
@@ -183,11 +183,10 @@ const ScenarioParameters = ({
 ScenarioParameters.propTypes = {
   editMode: PropTypes.bool.isRequired,
   changeEditMode: PropTypes.func.isRequired,
-  classes: PropTypes.any,
   updateAndLaunchScenario: PropTypes.func.isRequired,
   workspaceId: PropTypes.string.isRequired,
   scenarioId: PropTypes.string.isRequired,
   currentScenario: PropTypes.object.isRequired
 };
 
-export default withStyles(useStyles)(ScenarioParameters);
+export default ScenarioParameters;

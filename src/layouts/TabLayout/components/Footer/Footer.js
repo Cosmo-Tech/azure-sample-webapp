@@ -17,9 +17,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Footer = (props) => {
+  const classes = useStyles();
   const { t } = useTranslation();
   const { className, ...rest } = props;
-  const classes = useStyles();
   const year = new Date().getFullYear();
 
   return (

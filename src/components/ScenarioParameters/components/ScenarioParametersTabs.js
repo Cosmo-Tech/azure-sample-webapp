@@ -6,14 +6,14 @@ import PropTypes from 'prop-types';
 import {
   Typography,
   Tab,
-  withStyles
+  makeStyles
 } from '@material-ui/core';
 import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 import { useTranslation } from 'react-i18next';
 import { BasicTypes } from '../components';
 import { SCENARIO_PARAMETERS_TABS_CONFIG } from '../../../configs/ScenarioParametersTabs.config';
 
-const useStyles = theme => ({
+const useStyles = makeStyles(theme => ({
   tabPanel: {
     maxHeight: 450,
     overflow: 'auto'
@@ -36,11 +36,10 @@ const useStyles = theme => ({
       color: theme.palette.primary.contrastText
     }
   }
-});
+}));
 
 const ScenarioParametersTabs = ({
   currentScenario,
-  classes,
   initTextFieldValue,
   changeTextField,
   changeNumberField,
@@ -48,6 +47,7 @@ const ScenarioParametersTabs = ({
   changeSwitchType,
   editMode
 }) => {
+  const classes = useStyles();
   const [value, setValue] = useState('basic_types');
 
   const SCENARIO_PARAMETERS = [
@@ -103,7 +103,6 @@ const ScenarioParametersTabs = ({
 };
 
 ScenarioParametersTabs.propTypes = {
-  classes: PropTypes.any,
   scenarioId: PropTypes.string.isRequired,
   currentScenario: PropTypes.object.isRequired,
   initTextFieldValue: PropTypes.string.isRequired,
@@ -114,4 +113,4 @@ ScenarioParametersTabs.propTypes = {
   editMode: PropTypes.bool.isRequired
 };
 
-export default withStyles(useStyles)(ScenarioParametersTabs);
+export default ScenarioParametersTabs;

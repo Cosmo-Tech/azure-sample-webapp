@@ -3,13 +3,10 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TextField, withStyles } from '@material-ui/core';
+import { TextField } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useTranslation } from 'react-i18next';
 import { getFormattedOptionsList } from './utils';
-
-const useStyles = theme => ({
-});
 
 const HierarchicalComboBox = ({ values, label, disabled, handleChange, separator, maxCharLength, ...props }) => {
   const { t } = useTranslation();
@@ -49,7 +46,6 @@ const HierarchicalComboBox = ({ values, label, disabled, handleChange, separator
 };
 
 HierarchicalComboBox.propTypes = {
-  classes: PropTypes.any,
   label: PropTypes.string,
   handleChange: PropTypes.func,
   disabled: PropTypes.bool,
@@ -64,4 +60,4 @@ HierarchicalComboBox.defaultProps = {
   maxCharLength: -1
 };
 
-export default withStyles(useStyles)(HierarchicalComboBox);
+export default HierarchicalComboBox;
