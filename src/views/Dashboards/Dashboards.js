@@ -32,7 +32,7 @@ function a11yProps (index) {
   };
 }
 
-const Dashboards = ({ scenarioName, scenarioId }) => {
+const Dashboards = ({ currentScenario }) => {
   const classes = useStyles();
   const [value, setValue] = useState(0);
 
@@ -61,6 +61,7 @@ const Dashboards = ({ scenarioName, scenarioId }) => {
         </Card>
       </Grid>
       <Grid item sm={10}>
+        { currentScenario &&
         <Card className={classes.dashboard}>
             {DASHBOARDS_LIST_CONFIG.map(dashboard => (
               <TabPanel
@@ -70,11 +71,12 @@ const Dashboards = ({ scenarioName, scenarioId }) => {
                 key={dashboard.id}
                 src={dashboard.url}
                 title={dashboard.title}
-                scenarioName={scenarioName}
-                scenarioId={scenarioId}
+                scenarioName={currentScenario.name}
+                scenarioId={currentScenario.id}
               />
             ))}
         </Card>
+          }
       </Grid>
     </Grid>
   );
@@ -82,8 +84,7 @@ const Dashboards = ({ scenarioName, scenarioId }) => {
 
 Dashboards.propTypes = {
   classes: PropTypes.any,
-  scenarioName: PropTypes.string,
-  scenarioId: PropTypes.string
+  currentScenario: PropTypes.object
 };
 
 function TabPanel (props) {
