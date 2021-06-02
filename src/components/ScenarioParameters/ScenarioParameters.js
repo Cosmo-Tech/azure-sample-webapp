@@ -165,6 +165,7 @@ const ScenarioParameters = ({
               changeEnumField={setEnumField}
               changeSwitchType={setSwitchType}
               changeSelectedDate={setSelectedDate}
+              selectedDate={selectedDate}
               editMode={editMode}
             />
           </form>
