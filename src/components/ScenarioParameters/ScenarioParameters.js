@@ -5,9 +5,9 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   Grid,
-  Typography
+  Typography,
+  withStyles
 } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
 import { SCENARIO_RUN_STATE } from '../../utils/ApiUtils';
 import { EditModeButton, NormalModeButton, ScenarioParametersTabs } from './components';
 import { SimpleTwoActionsDialog } from '@cosmotech/ui';

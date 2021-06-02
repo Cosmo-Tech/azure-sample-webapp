@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 import {
-  Button, Typography
+  Button, Typography, withStyles
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import { useTranslation } from 'react-i18next';

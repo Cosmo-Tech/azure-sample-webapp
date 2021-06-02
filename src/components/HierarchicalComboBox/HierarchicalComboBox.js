@@ -3,11 +3,10 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TextField } from '@material-ui/core';
+import { TextField, withStyles } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useTranslation } from 'react-i18next';
 import { getFormattedOptionsList } from './utils';
-import { withStyles } from '@material-ui/styles';
 
 const useStyles = theme => ({
 });

@@ -2,13 +2,14 @@
 // Licensed under the MIT license.
 
 import React, { useState } from 'react';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import {
   Grid,
   Card,
   Tabs,
-  Tab
+  Tab,
+  makeStyles,
+  withStyles
 } from '@material-ui/core';
 import { DASHBOARDS_LIST_CONFIG } from '../../configs/DashboardsList.config';
 import { Dashboard } from '@cosmotech/ui';

@@ -5,10 +5,10 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   Typography,
-  Tab
+  Tab,
+  withStyles
 } from '@material-ui/core';
 import { TabContext, TabList, TabPanel } from '@material-ui/lab';
-import { withStyles } from '@material-ui/core/styles';
 import { useTranslation } from 'react-i18next';
 import { BasicTypes } from '../components';
 import { SCENARIO_PARAMETERS_TABS_CONFIG } from '../../../configs/ScenarioParametersTabs.config';

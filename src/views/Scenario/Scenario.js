@@ -3,8 +3,7 @@
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import { Grid, Typography, Card } from '@material-ui/core';
+import { Grid, Typography, Card, withStyles } from '@material-ui/core';
 import HierarchicalComboBox from '../../components/HierarchicalComboBox';
 import { ScenarioParameters } from '../../components';
 import { useTranslation } from 'react-i18next';

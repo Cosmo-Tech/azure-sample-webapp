@@ -7,7 +7,7 @@ import Routes from '../../Routes';
 import FadeIn from 'react-fade-in';
 import LoadingLine from '../../components/LoadingLine';
 import { STATUSES } from '../../state/commons/Constants';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core';
 
 const useStyles = theme => ({
   panel: {

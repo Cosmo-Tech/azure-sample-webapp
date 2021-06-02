@@ -2,10 +2,9 @@
 // Licensed under the MIT license.
 
 import React from 'react';
-import { AppBar, Tabs, Tab, Box } from '@material-ui/core';
+import { AppBar, Tabs, Tab, Box, makeStyles } from '@material-ui/core';
 import { Switch, Route, Link, Redirect, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
 import { PrivateRoute } from '../../components';
 import { Auth } from '@cosmotech/core';
 import { UserInfo } from '@cosmotech/ui';

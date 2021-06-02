@@ -25,12 +25,12 @@ import {
   DialogTitle,
   FormControlLabel,
   Grid,
-  TextField
+  TextField,
+  withStyles
 } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import HierarchicalComboBox from '../HierarchicalComboBox/HierarchicalComboBox';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 
 const useStyles = theme => ({
   root: {
