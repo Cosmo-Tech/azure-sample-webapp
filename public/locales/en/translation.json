@@ -262,6 +262,14 @@
           "body": "You will lose all your current changes made on the scenario parameters."
         }
       }
+    },
+    "text": {
+      "scenario": {
+        "parameters": {
+          "placeholder": "No parameters to edit.",
+          "title": "Scenario parameters"
+        }
+      }
     }
   },
   "layouts": {

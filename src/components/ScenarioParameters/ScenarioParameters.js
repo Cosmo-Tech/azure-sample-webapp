@@ -10,6 +10,7 @@ import {
 } from '@material-ui/core';
 import { SCENARIO_RUN_STATE } from '../../utils/ApiUtils';
 import { EditModeButton, NormalModeButton, ScenarioParametersTabs } from './components';
+import { useTranslation } from 'react-i18next';
 import { SimpleTwoActionsDialog } from '@cosmotech/ui';
 
 const useStyles = makeStyles(theme => ({
@@ -26,6 +27,9 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
     margin: `0 ${theme.spacing(3)}px`
+  },
+  placeholder: {
+    margin: `0 ${theme.spacing(3)}px`
   }
 }));
 
@@ -38,6 +42,7 @@ const ScenarioParameters = ({
   scenarioId
 }) => {
   const classes = useStyles();
+  const { t } = useTranslation();
   // General states
   const [displayPopup, setDisplayPopup] = useState(false);
 
@@ -45,7 +50,7 @@ const ScenarioParameters = ({
   // and it returns a string at the very first index. Therefore 0 is hardcoded
   // here, but this should be updated once a real connection with the backend is
   // established. A tag should be used here instead of the index.
-  const getTextParameter = (params) => params[0].value;
+  const getTextParameter = (params) => params ? params[0].value : '';
   // TODO: use actual scenario parameters
   const getNumberParameter = (params) => '1000';
   const getEnumParameter = (params) => 'EUR';
@@ -138,37 +143,45 @@ const ScenarioParameters = ({
         <Grid container direction="column" justify="center" alignContent="flex-start" >
           <Grid container className={classes.root} direction="row" justify="space-between" alignContent="flex-start" spacing={5}>
             <Grid item >
-              <Typography variant='subtitle1' >Scenario parameters</Typography>
+              <Typography variant='subtitle1'>
+                { t('genericcomponent.text.scenario.parameters.title', 'Scenario parameters') }
+
+              </Typography>
             </Grid>
             <Grid item >
-              {editMode
+              { parameters !== null && (editMode
                 ? (<EditModeButton classes={classes}
-                    handleClickOnDiscardChange={handleClickOnDiscardChangeButton}
-                    handleClickOnUpdateAndLaunchScenario={handleClickOnUpdateAndLaunchScenarioButton}/>)
+                  handleClickOnDiscardChange={handleClickOnDiscardChangeButton}
+                  handleClickOnUpdateAndLaunchScenario={handleClickOnUpdateAndLaunchScenarioButton}/>)
                 : (<NormalModeButton classes={classes}
-                    handleClickOnEdit={handleClickOnEditButton}
-                    handleClickOnLaunchScenario={handleClickOnLaunchScenarioButton}
-                    editDisabled={isCurrentScenarioRunning()}
-                    runDisabled={isCurrentScenarioRunning()}/>)
+                  handleClickOnEdit={handleClickOnEditButton}
+                  handleClickOnLaunchScenario={handleClickOnLaunchScenarioButton}
+                  editDisabled={isCurrentScenarioRunning()}
+                  runDisabled={isCurrentScenarioRunning()}/>))
               }
             </Grid>
           </Grid>
         </Grid>
         <Grid item className={classes.tabs}>
-          <form>
-            <ScenarioParametersTabs
-              currentScenario={currentScenario}
-              classes={classes}
-              initTextFieldValue={textField}
-              changeTextField={setTextField}
-              changeNumberField={setNumberField}
-              changeEnumField={setEnumField}
-              changeSwitchType={setSwitchType}
-              changeSelectedDate={setSelectedDate}
-              selectedDate={selectedDate}
-              editMode={editMode}
-            />
-          </form>
+          { parameters === null &&
+            <div className={classes.placeholder}>{ t('genericcomponent.text.scenario.parameters.placeholder', 'No parameters to edit.') }</div>
+          }
+          { parameters !== null &&
+            <form>
+              <ScenarioParametersTabs
+                currentScenario={currentScenario}
+                classes={classes}
+                initTextFieldValue={textField}
+                changeTextField={setTextField}
+                changeNumberField={setNumberField}
+                changeEnumField={setEnumField}
+                changeSwitchType={setSwitchType}
+                changeSelectedDate={setSelectedDate}
+                selectedDate={selectedDate}
+                editMode={editMode}
+              />
+            </form>
+          }
         </Grid>
         <SimpleTwoActionsDialog
             open={displayPopup}

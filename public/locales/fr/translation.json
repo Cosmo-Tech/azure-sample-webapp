@@ -262,6 +262,14 @@
            "body": "Vous allez perdre toutes les modifications que vous avez faites sur les paramètres de scénario."
         }
       }
+    },
+    "text": {
+      "scenario": {
+        "parameters": {
+          "placeholder": "Aucun paramètre à éditer.",
+          "title": "Paramètres de scénario"
+        }
+      }
     }
   },
   "layouts": {
