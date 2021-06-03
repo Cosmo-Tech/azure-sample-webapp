@@ -16,3 +16,8 @@ In order to filter the results, at the end of the PowerBI URL, just add the exac
 ```
 
 The `<ScenarioName>` string will be automatically replaced with the real current scenario name, each time a scenario is selected in the Scenario view, and the Dashboards will be updated.
+
+If you want to use an ID instead of a name, use the following:
+ ```
+/Scenario_x0020_ID%20eq%20%27<ScenarioId>%27
+```
