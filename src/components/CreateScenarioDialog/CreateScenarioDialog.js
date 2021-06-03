@@ -32,6 +32,7 @@ import {
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import HierarchicalComboBox from '../HierarchicalComboBox/HierarchicalComboBox';
 import PropTypes from 'prop-types';
+import { NAME_VALIDATOR } from '../../utils/ValidationUtils';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -116,7 +117,7 @@ const CreateScenarioDialog = ({
       errorKey = ERROR_SCENARIO_NAME_EMPTY_LABEL_KEY;
       hasErrors = true;
     } else {
-      if (newScenarioName.match(/^\w[\w\d\s-]*$/) === null) {
+      if (newScenarioName.match(NAME_VALIDATOR) === null) {
         errorKey = ERROR_SCENARIO_NAME_FORBIDDEN_CHARS_KEY;
         hasErrors = true;
       } else if (ScenarioUtils.scenarioExists(newScenarioName, scenarios)) {
