@@ -7,20 +7,21 @@ export const SCENARIO_PARAMETERS_TABS_CONFIG = [
     translationKey: 'commoncomponents.tab.scenario.parameters.upload.file',
     label: 'Upload File template',
     value: 'upload_file_template',
-    runTemplateIds: ['1', '2']
+    // TODO Add run template id compatible with file upload when created
+    runTemplateIds: []
   },
   {
     id: 1,
     translationKey: 'commoncomponents.tab.scenario.parameters.array.template',
     label: 'Array Template',
     value: 'array_template',
-    runTemplateIds: ['2', '3']
+    runTemplateIds: ['2', '4']
   },
   {
     id: 2,
     translationKey: 'commoncomponents.tab.scenario.parameters.basic.types',
     label: 'Basic Types template',
     value: 'basic_types',
-    runTemplateIds: ['1']
+    runTemplateIds: ['4']
   }
 ];

@@ -1,16 +1,14 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Typography,
   Tab,
   makeStyles
 } from '@material-ui/core';
 import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 import { useTranslation } from 'react-i18next';
-import { BasicTypes } from './tabs';
 import { SCENARIO_PARAMETERS_TABS_CONFIG } from '../../../configs/ScenarioParametersTabs.config';
 
 const useStyles = makeStyles(theme => ({
@@ -35,87 +33,88 @@ const useStyles = makeStyles(theme => ({
       fontWeight: 'bold',
       color: theme.palette.primary.contrastText
     }
+  },
+  placeholder: {
+    margin: `0 ${theme.spacing(3)}px`
   }
 }));
 
 const ScenarioParametersTabs = ({
-  currentScenario,
-  initTextFieldValue,
-  changeTextField,
-  changeNumberField,
-  changeEnumField,
-  changeSwitchType,
-  changeSelectedDate,
-  selectedDate,
-  editMode
+  tabs,
+  currentScenario
 }) => {
   const classes = useStyles();
-  const [value, setValue] = useState('basic_types');
-
-  const SCENARIO_PARAMETERS = [
-    <Typography key="0">Empty</Typography>,
-    <Typography key="1">Empty</Typography>,
-    <BasicTypes key="2"
-      initTextFieldValue={initTextFieldValue}
-      changeTextField={changeTextField}
-      changeNumberField={changeNumberField}
-      changeEnumField={changeEnumField}
-      changeSwitchType={changeSwitchType}
-      changeSelectedDate={changeSelectedDate}
-      selectedDate={selectedDate}
-      editMode={editMode}
-    />
-  ];
-
-  // Translation
   const { t } = useTranslation();
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  const [selectedTab, setSelectedTab] = useState('');
+  const [visibleTabs, setVisibleTabs] = useState([]);
+
+  const handleTabChange = (event, newTab) => {
+    setSelectedTab(newTab);
   };
 
-  // Create tabs lists
-  const renderedTabs = [];
-  const renderedTabsList = [];
-  let index = 0;
-  for (const tab of SCENARIO_PARAMETERS_TABS_CONFIG) {
-    if (tab.runTemplateIds.includes(currentScenario.data.runTemplateId)) {
-      renderedTabs.push((<Tab key={index} label={t(tab.translationKey, tab.label)} value={tab.value} className={classes.tab}/>));
-      renderedTabsList.push((
-        <TabPanel key={index} value={tab.value} index={index} className={classes.tabPanel}>
-          {SCENARIO_PARAMETERS[tab.id]}
-        </TabPanel>
-      ));
-    }
-    index++;
-  }
+  // Reset selected tab on scenario change
+  useEffect(() => {
+    let selectedTab = '';
+    const newVisibleTabs = [];
+    // Filter visible tabs based on current run template
+    SCENARIO_PARAMETERS_TABS_CONFIG.forEach(function (tab) {
+      if (tab.runTemplateIds.includes(currentScenario.data.runTemplateId)) {
+        newVisibleTabs.push(tab);
+        // Set selected tab if still unititialized
+        if (selectedTab === '') {
+          selectedTab = tab.value;
+        }
+      }
+    });
+    // Update component state
+    setSelectedTab(selectedTab);
+    setVisibleTabs(newVisibleTabs);
+  }, [currentScenario]);
 
   return (
-    <TabContext value={value}>
-      <TabList
-        value={value}
-        indicatorColor="primary"
-        textColor="primary"
-        onChange={handleChange}
-        aria-label="scenario parameters"
-      >
-        { renderedTabs }
-      </TabList>
-      { renderedTabsList }
-    </TabContext>
+    <React.Fragment>
+    { visibleTabs.length === 0
+      ? <div className={classes.placeholder}>{ t('genericcomponent.text.scenario.parameters.placeholder', 'No parameters to edit.') }</div>
+      : <TabContext value={selectedTab}>
+        <TabList
+          value={selectedTab}
+          indicatorColor="primary"
+          textColor="primary"
+          onChange={handleTabChange}
+          aria-label="scenario parameters"
+        >
+          {
+            visibleTabs.map((tab, index) => (
+              <Tab
+                key={index}
+                className={classes.tab}
+                label={t(tab.translationKey, tab.label)}
+                value={tab.value}/>
+            ))
+          }
+        </TabList>
+        {
+          visibleTabs.map((tab, index) => (
+            <TabPanel
+              key={index}
+              className={classes.tabPanel}
+              value={tab.value}
+              index={index}
+            >
+              {tabs[tab.id]}
+            </TabPanel>
+          ))
+        }
+      </TabContext>
+    }
+    </React.Fragment>
   );
 };
 
 ScenarioParametersTabs.propTypes = {
-  currentScenario: PropTypes.object.isRequired,
-  initTextFieldValue: PropTypes.string.isRequired,
-  changeTextField: PropTypes.func.isRequired,
-  changeNumberField: PropTypes.func.isRequired,
-  changeEnumField: PropTypes.func.isRequired,
-  changeSwitchType: PropTypes.func.isRequired,
-  changeSelectedDate: PropTypes.func.isRequired,
-  selectedDate: PropTypes.object.isRequired,
-  editMode: PropTypes.bool.isRequired
+  tabs: PropTypes.array.isRequired,
+  currentScenario: PropTypes.object.isRequired
 };
 
 export default ScenarioParametersTabs;

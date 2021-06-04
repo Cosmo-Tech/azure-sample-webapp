@@ -12,6 +12,7 @@ import { SCENARIO_RUN_STATE } from '../../utils/ApiUtils';
 import { EditModeButton, NormalModeButton, ScenarioParametersTabs } from './components';
 import { useTranslation } from 'react-i18next';
 import { SimpleTwoActionsDialog } from '@cosmotech/ui';
+import { BasicTypes } from './components/tabs';
 
 const useStyles = makeStyles(theme => ({
   header: {
@@ -26,9 +27,6 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'right',
     display: 'flex',
     alignItems: 'center',
-    margin: `0 ${theme.spacing(3)}px`
-  },
-  placeholder: {
     margin: `0 ${theme.spacing(3)}px`
   }
 }));
@@ -46,97 +44,129 @@ const ScenarioParameters = ({
   // General states
   const [displayPopup, setDisplayPopup] = useState(false);
 
-  // TODO: For now, backend is replaced with a mock server. It has limitations,
-  // and it returns a string at the very first index. Therefore 0 is hardcoded
-  // here, but this should be updated once a real connection with the backend is
-  // established. A tag should be used here instead of the index.
-  const getTextParameter = (params) => params ? params[0].value : '';
-  // TODO: use actual scenario parameters
-  const getNumberParameter = (params) => '1000';
-  const getEnumParameter = (params) => 'EUR';
-  const getBoolParameter = (params) => false;
-  const getSelectedDate = (params) => new Date('2014-08-18T21:11:54');
-
-  // States for parameters
+  // Current scenario parameters
   const parameters = currentScenario.data.parametersValues;
-  const [textField, setTextField] = useState(getTextParameter(parameters));
+  const getValueFromParameters = (parameterId, defaultValue) => {
+    if (parameters === null) {
+      return defaultValue;
+    }
+    const param = parameters.find(element => element.id === parameterId);
+    if (param !== undefined) {
+      return param.value;
+    }
+    return defaultValue;
+  };
 
-  // Update the parameters form when scenario paramaters change
+  // State for bar parameters
+  // const [stock, setStock] = useState(
+  //   getValueFromParameters('stock', 100));
+  // const [restockQuantity, setRestockQuantity] = useState(
+  //   getValueFromParameters('restock_qty', 25));
+  // const [waitersNumber, setWaitersNumber] = useState(
+  //   getValueFromParameters('nb_waiters', 5));
+  // State for basic input types examples parameters
+  const [currency, setCurrency] = useState(
+    getValueFromParameters('currency', '€'));
+  const [currencyName, setCurrencyName] = useState(
+    getValueFromParameters('currency_name', 'EUR'));
+  const [currencyValue, setCurrencyValue] = useState(
+    getValueFromParameters('currency_value', 1000));
+  const [currencyUsed, setCurrencyUsed] = useState(
+    getValueFromParameters('currency_used', false));
+  const [startDate, setStartDate] = useState(
+    getValueFromParameters('start_date', new Date('2014-08-18T21:11:54')));
+
+  const resetParameters = () => {
+    // setStock(getValueFromParameters('stock', 100));
+    // setRestockQuantity(getValueFromParameters('restock_qty', 25));
+    // setWaitersNumber(getValueFromParameters('nb_waiters', 5));
+    setCurrency(getValueFromParameters('currency', '€'));
+    setCurrencyName(getValueFromParameters('currency_name', 'EUR'));
+    setCurrencyValue(getValueFromParameters('currency_value', 1000));
+    setCurrencyUsed(getValueFromParameters('currency_used', false));
+    setStartDate(getValueFromParameters(
+      'start_date', new Date('2014-08-18T21:11:54')));
+  };
+
+  // Update the parameters form when scenario parameters change
   useEffect(() => {
-    setTextField(getTextParameter(parameters));
+    resetParameters();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [parameters]);
 
-  const [numberField, setNumberField] = useState('1000');
-  const [enumField, setEnumField] = useState('EUR');
-  const [switchType, setSwitchType] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(new Date('2021-08-18T21:11:54'));
-
   // Popup part
+  const handleClickOnDiscardChangeButton = () => setDisplayPopup(true);
   const handleClickOnPopupCancelButton = () => setDisplayPopup(false);
-
-  // TODO: Discard changes
   const handleClickOnPopupDiscardChangeButton = () => {
     setDisplayPopup(false);
     changeEditMode(false);
     // Reset form values
-    setTextField(getTextParameter(parameters));
-    setNumberField(getNumberParameter(parameters));
-    setEnumField(getEnumParameter(parameters));
-    setSwitchType(getBoolParameter(parameters));
-    setSelectedDate(getSelectedDate(parameters));
+    resetParameters();
   };
 
   // Normal Mode Screen
   const handleClickOnEditButton = () => changeEditMode(true);
-  const isCurrentScenarioRunning = () => currentScenario.data.state === SCENARIO_RUN_STATE.RUNNING;
+  const isCurrentScenarioRunning = () => (
+    currentScenario.data.state === SCENARIO_RUN_STATE.RUNNING);
 
   // TODO: Launch scenario
   const handleClickOnLaunchScenarioButton = () => alert('TODO');
 
   // Edit Mode Screen
-  // TODO: Update parameters and Launch scenario
   const handleClickOnUpdateAndLaunchScenarioButton = () => {
     const parametersData = [
       {
         parameterId: 'currency',
         varType: 'string',
-        value: enumField,
+        value: currency,
         isInherited: 'true'
       },
       {
         parameterId: 'currency name',
         varType: 'string',
-        value: textField,
+        value: currencyName,
         isInherited: 'true'
       },
       {
         parameterId: 'currency value',
         varType: 'string',
-        value: numberField,
+        value: currencyValue,
         isInherited: 'true'
       },
       {
         parameterId: 'currency used',
         varType: 'bool',
-        value: switchType,
+        value: currencyUsed,
         isInherited: 'true'
       },
       {
         parameterId: 'Date',
         varType: 'string',
-        value: '' + selectedDate,
+        value: '' + startDate,
         isInherited: 'true'
       }
     ];
 
-    // See https://github.com/jreynard-code/cosmotech-api-javascript-client/blob/master/docs/ScenarioApi.md#addorreplacescenarioparametervalues
     updateAndLaunchScenario(workspaceId, scenarioId, parametersData);
-
     changeEditMode(false);
   };
 
-  // Open the popup
-  const handleClickOnDiscardChangeButton = () => setDisplayPopup(true);
+  // Indices in this array must match indices in the tabs configuration file
+  // configs/ScenarioParametersTabs.config.js
+  const scenarioParametersTabs = [
+    <Typography key="0">Empty</Typography>,
+    <Typography key="1">Empty</Typography>,
+    <BasicTypes key="2"
+      initTextFieldValue={currencyName}
+      changeTextField={setCurrencyName}
+      changeNumberField={setCurrencyValue}
+      changeEnumField={setCurrency}
+      changeSwitchType={setCurrencyUsed}
+      changeSelectedDate={setStartDate}
+      selectedDate={startDate}
+      editMode={editMode}
+    />
+  ];
 
   return (
       <div>
@@ -149,7 +179,7 @@ const ScenarioParameters = ({
               </Typography>
             </Grid>
             <Grid item >
-              { parameters !== null && (editMode
+              { editMode
                 ? (<EditModeButton classes={classes}
                   handleClickOnDiscardChange={handleClickOnDiscardChangeButton}
                   handleClickOnUpdateAndLaunchScenario={handleClickOnUpdateAndLaunchScenarioButton}/>)
@@ -157,28 +187,17 @@ const ScenarioParameters = ({
                   handleClickOnEdit={handleClickOnEditButton}
                   handleClickOnLaunchScenario={handleClickOnLaunchScenarioButton}
                   editDisabled={isCurrentScenarioRunning()}
-                  runDisabled={isCurrentScenarioRunning()}/>))
+                  runDisabled={isCurrentScenarioRunning()}/>)
               }
             </Grid>
           </Grid>
         </Grid>
         <Grid item className={classes.tabs}>
-          { parameters === null &&
-            <div className={classes.placeholder}>{ t('genericcomponent.text.scenario.parameters.placeholder', 'No parameters to edit.') }</div>
-          }
-          { parameters !== null &&
+          {
             <form>
               <ScenarioParametersTabs
+                tabs={scenarioParametersTabs}
                 currentScenario={currentScenario}
-                classes={classes}
-                initTextFieldValue={textField}
-                changeTextField={setTextField}
-                changeNumberField={setNumberField}
-                changeEnumField={setEnumField}
-                changeSwitchType={setSwitchType}
-                changeSelectedDate={setSelectedDate}
-                selectedDate={selectedDate}
-                editMode={editMode}
               />
             </form>
           }
