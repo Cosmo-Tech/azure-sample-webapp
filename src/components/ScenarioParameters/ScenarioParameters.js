@@ -88,6 +88,73 @@ const ScenarioParameters = ({
       'start_date', new Date('2014-08-18T21:11:54')));
   };
 
+  const getParametersDataForApi = (runTemplateId) => {
+    let parametersData = [];
+    // Add bar parameters if necessary (run templates '1' and '2')
+    if (['1', '2'].indexOf(runTemplateId) !== -1) {
+      parametersData = parametersData.concat([
+        {
+          parameterId: 'stock',
+          varType: 'int',
+          value: stock,
+          isInherited: stock !== getValueFromParameters('stock')
+        },
+        {
+          parameterId: 'restock_qty',
+          varType: 'int',
+          value: restockQuantity,
+          isInherited: restockQuantity !== getValueFromParameters('restock_qty')
+        },
+        {
+          parameterId: 'nb_waiters',
+          varType: 'int',
+          value: waitersNumber,
+          isInherited: waitersNumber !== getValueFromParameters('nb_waiters')
+        }
+      ]);
+    }
+
+    // Add basic inputs examples parameters if necessary (run template '4')
+    if (['4'].indexOf(runTemplateId) !== -1) {
+      parametersData = parametersData.concat([
+        {
+          parameterId: 'currency',
+          varType: 'enum',
+          value: currency,
+          isInherited: currency !== getValueFromParameters('currency')
+        },
+        {
+          parameterId: 'currency_name',
+          varType: 'string',
+          value: currencyName,
+          isInherited: currencyName !== getValueFromParameters('currency_name')
+        },
+        {
+          parameterId: 'currency_value',
+          varType: 'number',
+          value: currencyValue,
+          isInherited: currencyValue !== getValueFromParameters('currency_value')
+        },
+        {
+          parameterId: 'currency_used',
+          varType: 'bool',
+          value: currencyUsed,
+          isInherited: currencyUsed !== getValueFromParameters('currency_used')
+        },
+        {
+          parameterId: 'start_date',
+          varType: 'date',
+          value: '' + startDate,
+          isInherited: startDate !== getValueFromParameters('start_date')
+        }
+      ]);
+    }
+
+    // TODO Add file upload parameters if necessary
+    // TODO Add array template parameters if necessary
+    return parametersData;
+  };
+
   // Update the parameters form when scenario parameters change
   useEffect(() => {
     resetParameters();
@@ -114,39 +181,8 @@ const ScenarioParameters = ({
 
   // Edit Mode Screen
   const handleClickOnUpdateAndLaunchScenarioButton = () => {
-    const parametersData = [
-      {
-        parameterId: 'currency',
-        varType: 'string',
-        value: currency,
-        isInherited: 'true'
-      },
-      {
-        parameterId: 'currency name',
-        varType: 'string',
-        value: currencyName,
-        isInherited: 'true'
-      },
-      {
-        parameterId: 'currency value',
-        varType: 'string',
-        value: currencyValue,
-        isInherited: 'true'
-      },
-      {
-        parameterId: 'currency used',
-        varType: 'bool',
-        value: currencyUsed,
-        isInherited: 'true'
-      },
-      {
-        parameterId: 'Date',
-        varType: 'string',
-        value: '' + startDate,
-        isInherited: 'true'
-      }
-    ];
-
+    const parametersData = getParametersDataForApi(
+      currentScenario.data.runTemplateId);
     updateAndLaunchScenario(workspaceId, scenarioId, parametersData);
     changeEditMode(false);
   };
