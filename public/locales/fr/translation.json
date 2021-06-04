@@ -103,6 +103,7 @@
     "tab": {
       "scenario": {
         "parameters": {
+          "bar": "Bar",
           "upload": {
             "file" : "Template d'upload de fichier"
           },
@@ -267,7 +268,12 @@
       "scenario": {
         "parameters": {
           "placeholder": "Aucun paramètre à éditer.",
-          "title": "Paramètres de scénario"
+          "title": "Paramètres de scénario",
+          "bar": {
+            "restock": "Seuil de réapprovisionnement",
+            "stock": "Stock",
+            "waiters": "Nombre de serveurs"
+          }
         }
       }
     }

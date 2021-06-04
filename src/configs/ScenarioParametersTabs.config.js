@@ -4,6 +4,20 @@
 export const SCENARIO_PARAMETERS_TABS_CONFIG = [
   {
     id: 0,
+    translationKey: 'commoncomponents.tab.scenario.parameters.bar',
+    label: 'Bar parameters',
+    value: 'bar_parameters',
+    runTemplateIds: ['2']
+  },
+  {
+    id: 1,
+    translationKey: 'commoncomponents.tab.scenario.parameters.basic.types',
+    label: 'Basic Types template',
+    value: 'basic_types',
+    runTemplateIds: ['4']
+  },
+  {
+    id: 2,
     translationKey: 'commoncomponents.tab.scenario.parameters.upload.file',
     label: 'Upload File template',
     value: 'upload_file_template',
@@ -11,17 +25,11 @@ export const SCENARIO_PARAMETERS_TABS_CONFIG = [
     runTemplateIds: []
   },
   {
-    id: 1,
+    id: 3,
     translationKey: 'commoncomponents.tab.scenario.parameters.array.template',
     label: 'Array Template',
     value: 'array_template',
-    runTemplateIds: ['2', '4']
-  },
-  {
-    id: 2,
-    translationKey: 'commoncomponents.tab.scenario.parameters.basic.types',
-    label: 'Basic Types template',
-    value: 'basic_types',
-    runTemplateIds: ['4']
+    // TODO Add run template id compatible with file upload when created
+    runTemplateIds: []
   }
 ];

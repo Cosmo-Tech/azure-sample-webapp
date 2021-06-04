@@ -12,7 +12,7 @@ import { SCENARIO_RUN_STATE } from '../../utils/ApiUtils';
 import { EditModeButton, NormalModeButton, ScenarioParametersTabs } from './components';
 import { useTranslation } from 'react-i18next';
 import { SimpleTwoActionsDialog } from '@cosmotech/ui';
-import { BasicTypes } from './components/tabs';
+import { BasicTypes, BarParameters } from './components/tabs';
 
 const useStyles = makeStyles(theme => ({
   header: {
@@ -58,12 +58,12 @@ const ScenarioParameters = ({
   };
 
   // State for bar parameters
-  // const [stock, setStock] = useState(
-  //   getValueFromParameters('stock', 100));
-  // const [restockQuantity, setRestockQuantity] = useState(
-  //   getValueFromParameters('restock_qty', 25));
-  // const [waitersNumber, setWaitersNumber] = useState(
-  //   getValueFromParameters('nb_waiters', 5));
+  const [stock, setStock] = useState(
+    getValueFromParameters('stock', 100));
+  const [restockQuantity, setRestockQuantity] = useState(
+    getValueFromParameters('restock_qty', 25));
+  const [waitersNumber, setWaitersNumber] = useState(
+    getValueFromParameters('nb_waiters', 5));
   // State for basic input types examples parameters
   const [currency, setCurrency] = useState(
     getValueFromParameters('currency', '€'));
@@ -77,9 +77,9 @@ const ScenarioParameters = ({
     getValueFromParameters('start_date', new Date('2014-08-18T21:11:54')));
 
   const resetParameters = () => {
-    // setStock(getValueFromParameters('stock', 100));
-    // setRestockQuantity(getValueFromParameters('restock_qty', 25));
-    // setWaitersNumber(getValueFromParameters('nb_waiters', 5));
+    setStock(getValueFromParameters('stock', 100));
+    setRestockQuantity(getValueFromParameters('restock_qty', 25));
+    setWaitersNumber(getValueFromParameters('nb_waiters', 5));
     setCurrency(getValueFromParameters('currency', '€'));
     setCurrencyName(getValueFromParameters('currency_name', 'EUR'));
     setCurrencyValue(getValueFromParameters('currency_value', 1000));
@@ -154,9 +154,16 @@ const ScenarioParameters = ({
   // Indices in this array must match indices in the tabs configuration file
   // configs/ScenarioParametersTabs.config.js
   const scenarioParametersTabs = [
-    <Typography key="0">Empty</Typography>,
-    <Typography key="1">Empty</Typography>,
-    <BasicTypes key="2"
+    <BarParameters key="0"
+      stock={stock}
+      changeStock={setStock}
+      restockQuantity={restockQuantity}
+      changeRestockQuantity={setRestockQuantity}
+      waitersNumber={waitersNumber}
+      changeWaitersNumber={setWaitersNumber}
+      editMode={editMode}
+    />,
+    <BasicTypes key="1"
       initTextFieldValue={currencyName}
       changeTextField={setCurrencyName}
       changeNumberField={setCurrencyValue}
@@ -165,7 +172,9 @@ const ScenarioParameters = ({
       changeSelectedDate={setStartDate}
       selectedDate={startDate}
       editMode={editMode}
-    />
+    />,
+    <Typography key="2">Empty</Typography>, // Upload file
+    <Typography key="3">Empty</Typography> // Array template
   ];
 
   return (

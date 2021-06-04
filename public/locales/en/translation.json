@@ -103,6 +103,7 @@
     "tab": {
       "scenario": {
         "parameters": {
+          "bar": "Bar",
           "upload": {
             "file" : "Upload File template"
           },
@@ -267,7 +268,12 @@
       "scenario": {
         "parameters": {
           "placeholder": "No parameters to edit.",
-          "title": "Scenario parameters"
+          "title": "Scenario parameters",
+          "bar": {
+            "restock": "Restock quantity",
+            "stock": "Stock",
+            "waiters": "Waiters number"
+          }
         }
       }
     }
