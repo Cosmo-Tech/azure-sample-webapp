@@ -15,9 +15,12 @@ In order to filter the results, at the end of the PowerBI URL, just add the exac
 /Scenario_x0020_Name%20eq%20%27<ScenarioName>%27
 ```
 
-The `<ScenarioName>` string will be automatically replaced with the real current scenario name, each time a scenario is selected in the Scenario view, and the Dashboards will be updated.
+`Scenario_x0020_Name` is a name in your ADX database, and can change according to your needs.
+For more information, please consult https://docs.microsoft.com/en-us/power-bi/collaborate-share/service-embed-secure#filter-report-content-using-url-filters and for more details about filtering, please consult https://docs.microsoft.com/en-us/power-bi/collaborate-share/service-url-filters .
 
-If you want to use an ID instead of a name, use the following:
+The `<ScenarioName>` string will be automatically replaced with the real current scenario name, each time a scenario is selected in the Scenario view, so that the Dashboards will be updated.
+
+If you want to use the ID returned by the platform when the scenario is created, instead of a name, use the following:
  ```
 /Scenario_x0020_ID%20eq%20%27<ScenarioId>%27
 ```
