@@ -4,7 +4,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Prerequisites
 
-- Install [Prism](https://github.com/stoplightio/prism)
+- To test the webapp without having a configured Digital Twin Solution, install [Prism](https://github.com/stoplightio/prism)
 
 ## How-to 
 
