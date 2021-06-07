@@ -52,7 +52,7 @@ const ScenarioParameters = ({
     if (parameters === null) {
       return defaultValue;
     }
-    const param = parameters.find(element => element.id === parameterId);
+    const param = parameters.find(element => element.parameterId === parameterId);
     if (param !== undefined) {
       return param.value;
     }
