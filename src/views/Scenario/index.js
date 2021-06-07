@@ -5,7 +5,8 @@ import Scenario from './Scenario';
 import {
   dispatchFindScenarioById,
   dispatchCreateScenario,
-  dispatchUpdateAndLaunchScenario
+  dispatchUpdateAndLaunchScenario,
+  dispatchLaunchScenario
 } from '../../state/dispatchers/scenario/ScenarioDispatcher';
 
 const mapStateToProps = (state) => ({
@@ -21,7 +22,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   findScenarioById: dispatchFindScenarioById,
   createScenario: dispatchCreateScenario,
-  updateAndLaunchScenario: dispatchUpdateAndLaunchScenario
+  updateAndLaunchScenario: dispatchUpdateAndLaunchScenario,
+  launchScenario: dispatchLaunchScenario
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Scenario);

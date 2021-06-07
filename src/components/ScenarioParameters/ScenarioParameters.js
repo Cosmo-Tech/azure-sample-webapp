@@ -35,6 +35,7 @@ const ScenarioParameters = ({
   editMode,
   changeEditMode,
   updateAndLaunchScenario,
+  launchScenario,
   workspaceId,
   currentScenario,
   scenarioId
@@ -176,8 +177,10 @@ const ScenarioParameters = ({
   const isCurrentScenarioRunning = () => (
     currentScenario.data.state === SCENARIO_RUN_STATE.RUNNING);
 
-  // TODO: Launch scenario
-  const handleClickOnLaunchScenarioButton = () => alert('TODO');
+  const handleClickOnLaunchScenarioButton = () => {
+    launchScenario(workspaceId, scenarioId);
+    changeEditMode(false);
+  };
 
   // Edit Mode Screen
   const handleClickOnUpdateAndLaunchScenarioButton = () => {
@@ -266,6 +269,7 @@ ScenarioParameters.propTypes = {
   editMode: PropTypes.bool.isRequired,
   changeEditMode: PropTypes.func.isRequired,
   updateAndLaunchScenario: PropTypes.func.isRequired,
+  launchScenario: PropTypes.func.isRequired,
   workspaceId: PropTypes.string.isRequired,
   scenarioId: PropTypes.string.isRequired,
   currentScenario: PropTypes.object.isRequired

@@ -55,7 +55,8 @@ const Scenario = (props) => {
     workspace,
     solution,
     createScenario,
-    updateAndLaunchScenario
+    updateAndLaunchScenario,
+    launchScenario
   } = props;
 
   const workspaceId = workspace.data.id;
@@ -124,6 +125,7 @@ const Scenario = (props) => {
             editMode={editMode}
             changeEditMode={setEditMode}
             updateAndLaunchScenario={updateAndLaunchScenario}
+            launchScenario={launchScenario}
             workspaceId={workspaceId}
             currentScenario={currentScenario}
             scenarioId={currentScenario.data.id}/>
@@ -144,7 +146,8 @@ Scenario.propTypes = {
   workspace: PropTypes.object.isRequired,
   solution: PropTypes.object.isRequired,
   createScenario: PropTypes.func.isRequired,
-  updateAndLaunchScenario: PropTypes.func.isRequired
+  updateAndLaunchScenario: PropTypes.func.isRequired,
+  launchScenario: PropTypes.func.isRequired
 };
 
 export default Scenario;

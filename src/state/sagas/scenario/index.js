@@ -7,6 +7,7 @@ import { findScenarioByIdData } from './FindScenarioById';
 import { pollScenarioStateSaga } from './PollScenarioState';
 import { createScenarioData } from './CreateScenario';
 import { updateAndLaunchScenarioSaga } from './UpdateAndLaunchScenario';
+import { launchScenarioSaga } from './LaunchScenario';
 
 export default function * scenarioSaga () {
   yield all([
@@ -14,6 +15,7 @@ export default function * scenarioSaga () {
     fork(findScenarioByIdData),
     fork(createScenarioData),
     fork(pollScenarioStateSaga),
-    fork(updateAndLaunchScenarioSaga)
+    fork(updateAndLaunchScenarioSaga),
+    fork(launchScenarioSaga)
   ]);
 }
