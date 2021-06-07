@@ -1,22 +1,38 @@
-
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-export const getFormattedOptionsList = (optionsList, nodesList, depth, separator, maxCharLength) => {
-  if (nodesList !== undefined) {
-    for (const node of nodesList) {
-      const option = { ...node };
-      option.fullName = node.name;
-      const subStringLenght = maxCharLength / 2;
-      option.id = node.id;
-      (maxCharLength === -1 || node.name.length <= maxCharLength)
-        ? option.name = node.name
-        : option.name = node.name.substring(0, subStringLenght) + separator + node.name.substring(node.name.length - subStringLenght);
-      option.depth = depth;
-      optionsList.push(option);
-      if (node.children !== undefined && node.children.length > 0) {
-        getFormattedOptionsList(optionsList, node.children, depth + 1, separator, maxCharLength);
-      }
+function addFormattedOption (dataObject, maxCharLength, separator, depth, formattedList) {
+  const option = { ...dataObject };
+  option.fullName = dataObject.name;
+  const subStringLength = maxCharLength / 2;
+  option.id = dataObject.id;
+  (maxCharLength === -1 || dataObject.name.length <= maxCharLength)
+    ? option.name = dataObject.name
+    : option.name = dataObject.name.substring(0, subStringLength) + separator + dataObject.name.substring(dataObject.name.length - subStringLength);
+  option.depth = depth;
+  formattedList.push(option);
+}
+
+function findDepthValue (dataList, currentObject, depth) {
+  if (currentObject !== undefined) {
+    if (currentObject.parentId !== null) {
+      const parent = dataList.find(element => element.id === currentObject.parentId);
+      return findDepthValue(dataList, parent, depth + 1);
     }
   }
+  return depth;
+}
+
+function compareScenarioName (a, b) {
+  return a.name.localeCompare(b.name);
+}
+
+export const getFormattedOptionsList = (formattedList, dataList, depth, separator, maxCharLength) => {
+  if (dataList !== undefined && dataList.length > 0) {
+    for (const dataObject of dataList) {
+      const depth = findDepthValue(dataList, dataObject, 0);
+      addFormattedOption(dataObject, maxCharLength, separator, depth, formattedList);
+    }
+  }
+  formattedList.sort(compareScenarioName);
 };
