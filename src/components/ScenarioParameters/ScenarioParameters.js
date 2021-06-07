@@ -66,7 +66,7 @@ const ScenarioParameters = ({
     getValueFromParameters('nb_waiters', 5));
   // State for basic input types examples parameters
   const [currency, setCurrency] = useState(
-    getValueFromParameters('currency', '€'));
+    getValueFromParameters('currency', 'USD'));
   const [currencyName, setCurrencyName] = useState(
     getValueFromParameters('currency_name', 'EUR'));
   const [currencyValue, setCurrencyValue] = useState(
@@ -80,7 +80,7 @@ const ScenarioParameters = ({
     setStock(getValueFromParameters('stock', 100));
     setRestockQuantity(getValueFromParameters('restock_qty', 25));
     setWaitersNumber(getValueFromParameters('nb_waiters', 5));
-    setCurrency(getValueFromParameters('currency', '€'));
+    setCurrency(getValueFromParameters('currency', 'USD'));
     setCurrencyName(getValueFromParameters('currency_name', 'EUR'));
     setCurrencyValue(getValueFromParameters('currency_value', 1000));
     setCurrencyUsed(getValueFromParameters('currency_used', false));
@@ -200,13 +200,16 @@ const ScenarioParameters = ({
       editMode={editMode}
     />,
     <BasicTypes key="1"
-      initTextFieldValue={currencyName}
+      textFieldValue={currencyName}
       changeTextField={setCurrencyName}
+      numberFieldValue={currencyValue}
       changeNumberField={setCurrencyValue}
+      enumFieldValue={currency}
       changeEnumField={setCurrency}
+      switchFieldValue={currencyUsed}
       changeSwitchType={setCurrencyUsed}
-      changeSelectedDate={setStartDate}
       selectedDate={startDate}
+      changeSelectedDate={setStartDate}
       editMode={editMode}
     />,
     <Typography key="2">Empty</Typography>, // Upload file
