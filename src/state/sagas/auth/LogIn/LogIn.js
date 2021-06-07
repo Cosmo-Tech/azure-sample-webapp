@@ -26,6 +26,7 @@ export function * tryLogIn (action) {
         console.warn('This authentication provider does not provide any ' +
           'access token.');
       }
+
       yield put({
         type: AUTH_ACTIONS_KEY.SET_AUTH_DATA,
         userId: Auth.getUserId(),

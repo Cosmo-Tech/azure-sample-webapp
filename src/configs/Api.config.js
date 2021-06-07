@@ -17,7 +17,7 @@ export function resetAccessToken () {
 }
 
 // Configure OAuth2 access token for authorization: oAuth2AuthCode
-DEFAULT_COSMOTECH_API_INSTANCE.basePath = 'http://localhost:4010';
+DEFAULT_COSMOTECH_API_INSTANCE.basePath = 'https://dev.api.cosmotech.com';
 
 // override render method
 export { CosmotechApi as CosmotechApiService };

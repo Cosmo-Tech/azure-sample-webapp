@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import { BasicDateInput, BasicTextInput, BasicNumberInput, BasicEnumTypes, BasicToggleInput } from '@cosmotech/ui';
 
 const BasicTypes = ({
-  classes,
   changeTextField,
   initTextFieldValue,
   changeNumberField,
@@ -72,33 +71,28 @@ const BasicTypes = ({
   return (
       <div>
         <BasicTextInput
-          classes={classes}
           label='Text Field'
           changeTextField={changeTextField}
           textFieldProps={textFieldProps}
         />
         <BasicNumberInput
-          classes={classes}
           label='Number Field'
           changeNumberField={changeNumberField}
           textFieldProps={numberFieldsProps}
           inputProps={inputProps}
         />
         <BasicEnumTypes
-          classes={classes}
           label='Enum Field'
           changeEnumField={changeEnumField}
           textFieldProps={enumFieldProps}
           enumValues={enumValues}
         />
         <BasicToggleInput
-          classes={classes}
           label='Switch type'
           changeSwitchType={changeSwitchType}
           switchProps={switchFieldProps}
         />
         <BasicDateInput
-          classes={classes}
           label='Pick a date'
           changeSelectedDate={changeSelectedDate}
           dateProps={dateProps}
@@ -107,7 +101,6 @@ const BasicTypes = ({
 };
 
 BasicTypes.propTypes = {
-  classes: PropTypes.any,
   initTextFieldValue: PropTypes.string.isRequired,
   changeTextField: PropTypes.func.isRequired,
   changeNumberField: PropTypes.func.isRequired,

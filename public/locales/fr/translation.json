@@ -103,6 +103,7 @@
     "tab": {
       "scenario": {
         "parameters": {
+          "bar": "Bar",
           "upload": {
             "file" : "Template d'upload de fichier"
           },
@@ -261,6 +262,19 @@
           },
            "title" : "Abandonner les modifications ?",
            "body": "Vous allez perdre toutes les modifications que vous avez faites sur les paramètres de scénario."
+        }
+      }
+    },
+    "text": {
+      "scenario": {
+        "parameters": {
+          "placeholder": "Aucun paramètre à éditer.",
+          "title": "Paramètres de scénario",
+          "bar": {
+            "restock": "Seuil de réapprovisionnement",
+            "stock": "Stock",
+            "waiters": "Nombre de serveurs"
+          }
         }
       }
     }

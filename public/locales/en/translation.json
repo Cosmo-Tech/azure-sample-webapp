@@ -103,6 +103,7 @@
     "tab": {
       "scenario": {
         "parameters": {
+          "bar": "Bar",
           "upload": {
             "file" : "Upload File template"
           },
@@ -261,6 +262,19 @@
           },
           "title" : "Discard current modifications ?",
           "body": "You will lose all your current changes made on the scenario parameters."
+        }
+      }
+    },
+    "text": {
+      "scenario": {
+        "parameters": {
+          "placeholder": "No parameters to edit.",
+          "title": "Scenario parameters",
+          "bar": {
+            "restock": "Restock quantity",
+            "stock": "Stock",
+            "waiters": "Waiters number"
+          }
         }
       }
     }
