@@ -7,7 +7,7 @@ export const SCENARIO_PARAMETERS_TABS_CONFIG = [
     translationKey: 'commoncomponents.tab.scenario.parameters.bar',
     label: 'Bar parameters',
     value: 'bar_parameters',
-    runTemplateIds: ['2']
+    runTemplateIds: ['1', '2']
   },
   {
     id: 1,
