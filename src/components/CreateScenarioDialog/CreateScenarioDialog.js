@@ -120,7 +120,7 @@ const CreateScenarioDialog = ({
       if (newScenarioName.match(NAME_VALIDATOR) === null) {
         errorKey = ERROR_SCENARIO_NAME_FORBIDDEN_CHARS_KEY;
         hasErrors = true;
-      } else if (ScenarioUtils.scenarioExists(newScenarioName, scenarios)) {
+      } else if (ScenarioUtils.scenarioExistsInList(newScenarioName, scenarios)) {
         errorKey = ERROR_SCENARIO_NAME_EXISTING_LABEL_KEY;
         hasErrors = true;
       }
