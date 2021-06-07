@@ -17,9 +17,15 @@ export function formatParametersForApi (parameters) {
   return parameters.map(param => {
     // Clone the original parameter
     const newParam = clone(param);
-    // Cast boolean values into string values
+    // Cast to string when necessary
     if (newParam.varType === 'bool') {
       newParam.value = newParam.value.toString();
+    } else if (newParam.varType === 'number') {
+      newParam.value = newParam.value.toString();
+    } else if (newParam.varType === 'int') {
+      newParam.value = newParam.value.toString();
+    } else if (newParam.varType === 'date') {
+      newParam.value = newParam.value.toISOString();
     }
     return newParam;
   });
@@ -33,9 +39,15 @@ export function formatParametersFromApi (parameters) {
   return parameters.map(param => {
     // Clone the original parameter
     const newParam = clone(param);
-    // Cast string values into boolean values
+    // Cast string values when necessary
     if (newParam.varType === 'bool') {
       newParam.value = (newParam.value === 'true');
+    } else if (newParam.varType === 'number') {
+      newParam.value = parseFloat(newParam.value);
+    } else if (newParam.varType === 'int') {
+      newParam.value = parseInt(newParam.value);
+    } else if (newParam.varType === 'date') {
+      newParam.value = new Date(newParam.value);
     }
     return newParam;
   });
