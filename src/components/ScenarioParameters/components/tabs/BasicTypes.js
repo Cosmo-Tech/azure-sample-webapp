@@ -3,22 +3,31 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { BasicDateInput, BasicTextInput, BasicNumberInput, BasicEnumTypes, BasicToggleInput } from '@cosmotech/ui';
+import {
+  BasicDateInput,
+  BasicTextInput,
+  BasicNumberInput,
+  BasicEnumTypes,
+  BasicToggleInput
+} from '@cosmotech/ui';
 
 const BasicTypes = ({
+  textFieldValue,
   changeTextField,
-  initTextFieldValue,
+  numberFieldValue,
   changeNumberField,
+  enumFieldValue,
   changeEnumField,
+  switchFieldValue,
   changeSwitchType,
-  changeSelectedDate,
   selectedDate,
+  changeSelectedDate,
   editMode
 }) => {
   const textFieldProps = {
     disabled: !editMode,
     id: 'basic-text-input-id',
-    value: initTextFieldValue
+    value: textFieldValue
   };
 
   const inputProps = {
@@ -29,7 +38,7 @@ const BasicTypes = ({
   const numberFieldsProps = {
     disabled: !editMode,
     id: 'basic-number-input-id',
-    defaultValue: 1000
+    value: numberFieldValue
   };
 
   const enumValues = [
@@ -54,12 +63,13 @@ const BasicTypes = ({
   const enumFieldProps = {
     disabled: !editMode,
     id: 'basic-enum-input-id',
-    defaultValue: '€'
+    value: enumFieldValue
   };
 
   const switchFieldProps = {
     disabled: !editMode,
-    id: 'basic-switch-input-id'
+    id: 'basic-switch-input-id',
+    checked: switchFieldValue
   };
 
   const dateProps = {
@@ -69,45 +79,49 @@ const BasicTypes = ({
   };
 
   return (
-      <div>
-        <BasicTextInput
-          label='Text Field'
-          changeTextField={changeTextField}
-          textFieldProps={textFieldProps}
-        />
-        <BasicNumberInput
-          label='Number Field'
-          changeNumberField={changeNumberField}
-          textFieldProps={numberFieldsProps}
-          inputProps={inputProps}
-        />
-        <BasicEnumTypes
-          label='Enum Field'
-          changeEnumField={changeEnumField}
-          textFieldProps={enumFieldProps}
-          enumValues={enumValues}
-        />
-        <BasicToggleInput
-          label='Switch type'
-          changeSwitchType={changeSwitchType}
-          switchProps={switchFieldProps}
-        />
-        <BasicDateInput
-          label='Pick a date'
-          changeSelectedDate={changeSelectedDate}
-          dateProps={dateProps}
-        />
-      </div>);
+    <div>
+      <BasicTextInput
+        label='Text Field'
+        changeTextField={changeTextField}
+        textFieldProps={textFieldProps}
+      />
+      <BasicNumberInput
+        label='Number Field'
+        changeNumberField={changeNumberField}
+        textFieldProps={numberFieldsProps}
+        inputProps={inputProps}
+      />
+      <BasicEnumTypes
+        label='Enum Field'
+        changeEnumField={changeEnumField}
+        textFieldProps={enumFieldProps}
+        enumValues={enumValues}
+      />
+      <BasicToggleInput
+        label='Switch type'
+        changeSwitchType={changeSwitchType}
+        switchProps={switchFieldProps}
+      />
+      <BasicDateInput
+        label='Pick a date'
+        changeSelectedDate={changeSelectedDate}
+        dateProps={dateProps}
+      />
+    </div>
+  );
 };
 
 BasicTypes.propTypes = {
-  initTextFieldValue: PropTypes.string.isRequired,
+  textFieldValue: PropTypes.string.isRequired,
   changeTextField: PropTypes.func.isRequired,
+  numberFieldValue: PropTypes.number.isRequired,
   changeNumberField: PropTypes.func.isRequired,
+  enumFieldValue: PropTypes.string.isRequired,
   changeEnumField: PropTypes.func.isRequired,
+  switchFieldValue: PropTypes.bool.isRequired,
   changeSwitchType: PropTypes.func.isRequired,
-  changeSelectedDate: PropTypes.func.isRequired,
   selectedDate: PropTypes.object.isRequired,
+  changeSelectedDate: PropTypes.func.isRequired,
   editMode: PropTypes.bool.isRequired
 };
 
