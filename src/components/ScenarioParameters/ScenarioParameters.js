@@ -9,6 +9,7 @@ import {
   makeStyles
 } from '@material-ui/core';
 import { SCENARIO_RUN_STATE } from '../../utils/ApiUtils';
+import { SCENARIO_PARAMETERS_TABS_CONFIG } from '../../configs/ScenarioParametersTabs.config';
 import { EditModeButton, NormalModeButton, ScenarioParametersTabs } from './components';
 import { useTranslation } from 'react-i18next';
 import { SimpleTwoActionsDialog } from '@cosmotech/ui';
@@ -219,6 +220,15 @@ const ScenarioParameters = ({
     <Typography key="3">Empty</Typography> // Array template
   ];
 
+  // Disable edit button if no tabs are shown
+  let tabsShown = false;
+  for (const tab of SCENARIO_PARAMETERS_TABS_CONFIG) {
+    if (tab.runTemplateIds.indexOf(currentScenario.data.runTemplateId) !== -1) {
+      tabsShown = true;
+      break;
+    }
+  }
+
   return (
       <div>
         <Grid container direction="column" justify="center" alignContent="flex-start" >
@@ -237,7 +247,7 @@ const ScenarioParameters = ({
                 : (<NormalModeButton classes={classes}
                   handleClickOnEdit={handleClickOnEditButton}
                   handleClickOnLaunchScenario={handleClickOnLaunchScenarioButton}
-                  editDisabled={isCurrentScenarioRunning()}
+                  editDisabled={!tabsShown || isCurrentScenarioRunning()}
                   runDisabled={isCurrentScenarioRunning()}/>)
               }
             </Grid>
