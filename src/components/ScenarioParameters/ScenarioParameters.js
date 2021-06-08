@@ -142,7 +142,7 @@ const ScenarioParameters = ({
     setCurrencyUsed(getValueFromParameters('currency_used', false));
     setStartDate(getValueFromParameters('start_date', new Date('2014-08-18T21:11:54')));
 
-    if (Object.keys(currentDataset.current).length !== 0) {
+    if (currentDataset.current && Object.keys(currentDataset.current).length !== 0) {
       setFileStatus(UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD);
       setFileName(constructFileNameFromDataset(currentDataset.current, ''));
     } else {
@@ -256,8 +256,10 @@ const ScenarioParameters = ({
 
   const handleClickOnUpdateAndLaunchScenarioButton = async () => {
     if (fileStatus === UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD) {
+      // File has been marked to be uploaded
       await uploadFile();
-      if (Object.keys(currentDataset.current).length !== 0) {
+      if (currentDataset.current && Object.keys(currentDataset.current).length !== 0) {
+        // Update existing dataset
         const fullName = constructFileNameFromDataset(currentDataset.current, destinationUploadFile);
         await deleteFile(fullName);
         const { error, data } = await DatasetService.updateDataset(ORGANISATION_ID, currentDataset.current.id, currentDataset.current);
@@ -268,18 +270,22 @@ const ScenarioParameters = ({
           setFileStatus(UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD);
         }
       } else {
+        // Create new dataset
+        // TODO Set the connector's file name info in a better way
+        connector.parametersValues.AZURE_STORAGE_CONTAINER_BLOB_PREFIX += fileCache.name;
         const { error, data } = await DatasetService.createDataset(ORGANISATION_ID, parameterName, 'Dataset with file', connector);
         if (error) {
           console.error(error);
         } else {
-          setFileStatus(UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD);
           currentDataset.current = data;
+          setFileStatus(UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD);
         }
-        const parametersData = getParametersDataForApi(currentScenario.data.runTemplateId);
-        updateAndLaunchScenario(workspaceId, scenarioId, parametersData);
-        changeEditMode(false);
       }
+      const parametersData = getParametersDataForApi(currentScenario.data.runTemplateId);
+      updateAndLaunchScenario(workspaceId, scenarioId, parametersData);
+      changeEditMode(false);
     } else if (fileStatus === UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE) {
+      // File has been marked to be deleted
       const fullName = constructFileNameFromDataset(currentDataset.current, destinationUploadFile);
       await deleteFile(fullName);
       const { error } = await DatasetService.deleteDataset(ORGANISATION_ID, currentDataset.current.id);
@@ -315,7 +321,11 @@ const ScenarioParameters = ({
       console.error(error);
     } else {
       console.log(data.fileName);
-      if (Object.keys(currentDataset.current).length !== 0) {
+      // Handle unlikely case where currentDataset.current is null or undefined
+      // which is most likely to require a manual clean on the backend.
+      if (!currentDataset.current) {
+        console.warn('Your previous file was in an awkward state. The backend may not be clean.');
+      } else if (Object.keys(currentDataset.current).length !== 0) {
         currentDataset.current.connector.parametersValues.AZURE_STORAGE_CONTAINER_BLOB_PREFIX = STORAGE_ROOT_DIR_PLACEHOLDER + '/' + data.fileName;
       }
       setFileName(fileCache.name);
@@ -341,14 +351,13 @@ const ScenarioParameters = ({
 
   const handleDownloadFile = async () => {
     setFileStatus(UPLOAD_FILE_STATUS_KEY.DOWNLOADING);
-    const fileName = constructFileNameFromDataset(currentDataset.current, destinationUploadFile);
-    const { error, data } = await WorkspaceService.downloadWorkspaceFile(ORGANISATION_ID, workspaceId, fileName);
+    const fullName = constructFileNameFromDataset(currentDataset.current, destinationUploadFile);
+    const { error, data } = await WorkspaceService.downloadWorkspaceFile(ORGANISATION_ID, workspaceId, fullName);
     if (error) {
       console.error(error);
     } else {
-      console.log(data);
       setFileCache(data);
-      fileDownload(data, fileCache.name);
+      fileDownload(data, fileName);
       setFileStatus(UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD);
     }
   };
