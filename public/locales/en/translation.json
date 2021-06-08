@@ -110,13 +110,13 @@
         "parameters": {
           "bar": "Bar",
           "upload": {
-            "file" : "Upload File template"
+            "file" : "Upload File Template"
           },
           "array": {
             "template": "Array Template"
           },
           "basic": {
-            "types": "Basic Types template"
+            "types": "Basic Types Template"
           }
         }
       }
@@ -131,7 +131,7 @@
         }
       },
       "link": {
-        "cosmotech": "Please contact CosmoTech"
+        "cosmotech": "Please contact Cosmo Tech"
       },
       "no": {
         "permission": "You don't have permission to view this page."
