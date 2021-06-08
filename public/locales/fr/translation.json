@@ -24,7 +24,7 @@
       },
       "create": {
         "scenario": {
-          "label": "Créer un scénario",
+          "label": "Créer un scénario alternatif",
           "tooltip": {
             "disabled": "Veuillez sauver ou annuler les modifications en cours avant de créer un nouveau scénario"
           }
@@ -33,10 +33,10 @@
       "scenario": {
         "parameters": {
           "discard": "Abandonner les modifications",
-          "edit": "Edition",
+          "edit": "Éditer",
           "launch": "Lancer le Scénario",
           "update" : {
-            "launch" : "Mise à jour et lancement du Scénario"
+            "launch" : "Mettre à jour et lancer le Scénario"
           }
         }
       }
@@ -96,11 +96,11 @@
           },
           "text": {
             "no": {
-              "result": "Pas de dashboard pour ce scénario"
+              "result": "Pas de résultats pour ce scénario"
             },
-            "error": "Une erreur est survenue lors de la simulation de ce scénario",
-            "running": "Scénario en cours de simulation...",
-            "uninitialized": "Le scénario n'a pas encore tourné"
+            "error": "Une erreur est survenue lors de l'exécution de ce scénario",
+            "running": "Scénario en cours d'exécution...",
+            "uninitialized": "Le scénario n'a pas encore été lancé"
           }
         }
       }
@@ -110,7 +110,7 @@
         "parameters": {
           "bar": "Bar",
           "upload": {
-            "file" : "Template d'upload de fichier"
+            "file" : "Template de chargement de fichier"
           },
           "array": {
             "template": "Template de tableau"
@@ -131,7 +131,7 @@
         }
       },
       "link": {
-        "cosmotech": "Veuillez contacter CosmoTech"
+        "cosmotech": "Veuillez contacter Cosmo Tech"
       },
       "no": {
         "permission": "Vous n'avez pas les droits suffisants pour accéder à cette page."
@@ -170,7 +170,7 @@
           },
           "checkbox": {
             "scenarioMaster" : {
-              "label": "Parent"
+              "label": "Master"
             }
           },
           "button": {
@@ -291,12 +291,12 @@
     "tabs": {
       "scenario": {
         "tab": {
-          "title": "Jumeaux numériques"
+          "title": "Vue scénario"
         }
       },
       "dashboards": {
         "tab": {
-          "title": "Résultats"
+          "title": "Tableaux de bord"
         }
       }
     }
