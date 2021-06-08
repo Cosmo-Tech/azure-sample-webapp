@@ -37,3 +37,6 @@ yarn-error.log*
 
 # npm: use only warn lock file
 package-lock.json
+
+# python
+__pycache__/
