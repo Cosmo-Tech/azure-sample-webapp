@@ -247,7 +247,7 @@ const CreateScenarioDialog = ({
                               : (<HierarchicalComboBox
                                         values={scenarios}
                                         defaultValue={defaultParentScenario.current}
-                                        label={CREATE_SCENARIO_DIALOG_PARENT_SCENARIO_LABEL_KEY}
+                                        label={t(CREATE_SCENARIO_DIALOG_PARENT_SCENARIO_LABEL_KEY)}
                                         handleChange={
                                             (event, newParentScenario) => (handleChangeParentScenario(newParentScenario))
                                         }/>

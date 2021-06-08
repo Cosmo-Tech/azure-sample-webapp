@@ -154,17 +154,17 @@
               }
             }
           },
-          "dropdown" : {
-            "parentscenario" : {
-              "label" : "Parent Scenario",
+          "dropdown": {
+            "parentscenario": {
+              "label": "Parent Scenario",
               "placeholder": "Select a parent Scenario"
             },
-            "scenariotype" : {
-              "label" : "Run Type",
+            "scenariotype": {
+              "label": "Run Type",
               "placeholder": "Select a run Type"
             },
-            "dataset" : {
-              "label" : "Dataset",
+            "dataset": {
+              "label": "Dataset",
               "placeholder": "Select a dataset"
             }
           },
