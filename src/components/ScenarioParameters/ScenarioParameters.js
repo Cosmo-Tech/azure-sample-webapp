@@ -146,7 +146,7 @@ const ScenarioParameters = ({
         {
           parameterId: 'start_date',
           varType: 'date',
-          value: '' + startDate,
+          value: startDate,
           isInherited: startDate !== getValueFromParameters('start_date')
         }
       ]);
