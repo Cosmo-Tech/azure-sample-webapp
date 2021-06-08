@@ -41,16 +41,10 @@ const useStyles = makeStyles(theme => ({
 const parameterName = 'initial_stock_dataset';
 const connectorId = 'C-XPv4LBVGAL';
 const STORAGE_ROOT_DIR_PLACEHOLDER = '%WORKSPACE_FILE%';
-const connector = {
-  id: connectorId,
-  parametersValues: {
-    AZURE_STORAGE_CONTAINER_BLOB_PREFIX: `${STORAGE_ROOT_DIR_PLACEHOLDER}/${parameterName}/`
-  }
-};
 
 // TODO move in utility file
 function constructFileNameFromDataset (dataset, destinationUploadFile) {
-  const fileName = dataset.connector.parametersValues.AZURE_STORAGE_CONTAINER_BLOB_PREFIX.split('/').pop();
+  const fileName = dataset?.connector.parametersValues.AZURE_STORAGE_CONTAINER_BLOB_PREFIX.split('/').pop();
   const fullName = destinationUploadFile + fileName;
   return fullName;
 }
@@ -68,10 +62,16 @@ const ScenarioParameters = ({
   const { t } = useTranslation();
 
   const destinationUploadFile = scenarioId + '/' + parameterName + '/';
+  const [fileName, setFileName] = useState('');
+  const connector = {
+    id: connectorId,
+    parametersValues: {
+      AZURE_STORAGE_CONTAINER_BLOB_PREFIX: `${STORAGE_ROOT_DIR_PLACEHOLDER}/${parameterName}/${fileName}`
+    }
+  };
 
   // General states
   const [displayPopup, setDisplayPopup] = useState(false);
-  const [fileName, setFileName] = useState('');
   // Current scenario scenarioParameters
   const scenarioParameters = useRef([]);
   const currentDataset = useRef({});
@@ -89,12 +89,17 @@ const ScenarioParameters = ({
       }
       currentDataset.current = data;
       setFileName(constructFileNameFromDataset(data, ''));
+      setFileStatus(UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD);
     };
 
     if (existingDatasetId) {
       fetchDatasetById();
-      setFileStatus(UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD);
+    } else {
+      currentDataset.current = {};
+      setFileStatus(UPLOAD_FILE_STATUS_KEY.EMPTY);
+      setFileName('');
     }
+
     scenarioParameters.current = parametersValues;
   }, [currentScenario, currentDataset, destinationUploadFile]);
 
@@ -130,15 +135,23 @@ const ScenarioParameters = ({
     setStock(getValueFromParameters('stock', 100));
     setRestockQuantity(getValueFromParameters('restock_qty', 25));
     setWaitersNumber(getValueFromParameters('nb_waiters', 5));
+
     setCurrency(getValueFromParameters('currency', 'USD'));
     setCurrencyName(getValueFromParameters('currency_name', 'EUR'));
     setCurrencyValue(getValueFromParameters('currency_value', 1000));
     setCurrencyUsed(getValueFromParameters('currency_used', false));
     setStartDate(getValueFromParameters('start_date', new Date('2014-08-18T21:11:54')));
 
-    // TODO: Replace these resets with backend calls to get file on server
+    if (Object.keys(currentDataset.current).length !== 0) {
+      setFileStatus(UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD);
+      setFileName(constructFileNameFromDataset(currentDataset.current, ''));
+    } else {
+      setFileStatus(UPLOAD_FILE_STATUS_KEY.EMPTY);
+      setFileName('');
+    }
     setFileCache(null);
   };
+
   // eslint-disable-next-line
   const getParametersDataForApi = (runTemplateId) => {
     let parametersData = [];
@@ -203,13 +216,15 @@ const ScenarioParameters = ({
     }
 
     if (['1', '2', '3', '4'].indexOf(runTemplateId) !== -1) {
-      parametersData = parametersData.concat([
-        {
-          parameterId: parameterName,
-          varType: '%DATASETID%',
-          value: currentDataset.current
-        }
-      ]);
+      if (Object.keys(currentDataset.current).length !== 0) {
+        parametersData = parametersData.concat([
+          {
+            parameterId: parameterName,
+            varType: '%DATASETID%',
+            value: currentDataset.current.id
+          }
+        ]);
+      }
     }
     // TODO Add array template scenarioParameters if necessary
     return parametersData;
@@ -242,7 +257,7 @@ const ScenarioParameters = ({
   const handleClickOnUpdateAndLaunchScenarioButton = async () => {
     if (fileStatus === UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD) {
       await uploadFile();
-      if (currentDataset.current) {
+      if (Object.keys(currentDataset.current).length !== 0) {
         const fullName = constructFileNameFromDataset(currentDataset.current, destinationUploadFile);
         await deleteFile(fullName);
         const { error, data } = await DatasetService.updateDataset(ORGANISATION_ID, currentDataset.current.id, currentDataset.current);
@@ -267,12 +282,16 @@ const ScenarioParameters = ({
     } else if (fileStatus === UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE) {
       const fullName = constructFileNameFromDataset(currentDataset.current, destinationUploadFile);
       await deleteFile(fullName);
-      const { error, data } = await DatasetService.deleteDataset(ORGANISATION_ID, currentDataset.current.id);
+      const { error } = await DatasetService.deleteDataset(ORGANISATION_ID, currentDataset.current.id);
       if (error) {
         console.error(error);
       } else {
-        console.log(data);
+        const { error } = await DatasetService.deleteDataset(ORGANISATION_ID, currentDataset.current.id);
+        if (error) {
+          console.error(error);
+        }
         currentDataset.current = {};
+        setFileName('');
         setFileStatus(UPLOAD_FILE_STATUS_KEY.EMPTY);
       }
     }
@@ -296,7 +315,10 @@ const ScenarioParameters = ({
       console.error(error);
     } else {
       console.log(data.fileName);
-      currentDataset.current.connector.parametersValues.AZURE_STORAGE_CONTAINER_BLOB_PREFIX = STORAGE_ROOT_DIR_PLACEHOLDER + '/' + data.fileName;
+      if (Object.keys(currentDataset.current).length !== 0) {
+        currentDataset.current.connector.parametersValues.AZURE_STORAGE_CONTAINER_BLOB_PREFIX = STORAGE_ROOT_DIR_PLACEHOLDER + '/' + data.fileName;
+      }
+      setFileName(fileCache.name);
       setFileStatus(UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD);
     }
   };
@@ -309,11 +331,10 @@ const ScenarioParameters = ({
 
   const deleteFile = async (connectorFilePath) => {
     setFileStatus(UPLOAD_FILE_STATUS_KEY.DELETING);
-    const { error, data } = await WorkspaceService.deleteWorkspaceFile(ORGANISATION_ID, workspaceId, connectorFilePath);
+    const { error } = await WorkspaceService.deleteWorkspaceFile(ORGANISATION_ID, workspaceId, connectorFilePath);
     if (error) {
       console.error(error);
     } else {
-      console.log(data);
       setFileStatus(UPLOAD_FILE_STATUS_KEY.EMPTY);
     }
   };
@@ -331,111 +352,6 @@ const ScenarioParameters = ({
       setFileStatus(UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD);
     }
   };
-
-  /*
-  const handleClickOnUpdateAndLaunchScenarioButton = () => {
-    const prepareToUpdatePromise = new Promise((resolve, reject) => {
-      if (fileStatus === UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD) {
-        uploadFile();
-        if (initialStockDataset) {
-          console.log('Do da update');
-        } else {
-          const connector = {
-            id: 'C-XPv4LBVGAL',
-            parametersValues: {
-              AZURE_STORAGE_CONTAINER_BLOB_PREFIX: '%WORKSPACE_FILE%/' + 'initial_stock_dataset/'
-            }
-          };
-          DatasetService.createDataset(ORGANISATION_ID, 'initial_stock_dataset', 'Dataset with file', connector)
-            .then(response => {
-              const currentDataset = response.data;
-              setFileStatus(UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD);
-              setInitialStockDataset(currentDataset.id);
-              resolve(currentDataset);
-            });
-        }
-      }
-    });
-
-    prepareToUpdatePromise
-      .then((dataset) => {
-        const parametersData = getParametersDataForApi(currentScenario.data.runTemplateId);
-        // TODO: FIX THAT UGLY HACK
-        parametersData.map(obj => {
-          if (obj.parameterId === 'initial_stock_dataset') {
-            obj.value = dataset.id;
-            obj.isInherited = (dataset.id !== getValueFromParameters('initial_stock_dataset')?.id);
-          }
-          return obj;
-        });
-        console.log('!!');
-        console.log(parametersData);
-        updateAndLaunchScenario(workspaceId, scenarioId, parametersData);
-        changeEditMode(false);
-      });
-  };
-*/
-
-  // Edit Mode Screen
-  // const handleClickOnUpdateAndLaunchScenarioButton = () => {
-  //   // Handle uploading-deleting file
-  //   const prepareToUpdatePromise = new Promise((resolve) => {
-  //     if (fileStatus === UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD) {
-  //       let currentDataset;
-  //       uploadFile();
-
-  //       console.log('1');
-
-  //       if (initialStockDataset) {
-  //         console.log('1.1');
-
-  //         deleteFile(initialStockDataset.connector.parametersValues.AZURE_STORAGE_CONTAINER_BLOB_PREFIX);
-  //         DatasetService.updateDataset(ORGANISATION_ID, initialStockDataset.id, initialStockDataset).then(result => {
-  //           currentDataset = result.data;
-  //           // TODO Synchro with uploadFile() then
-  //           setInitialStockDataset(currentDataset);
-  //           setFileStatus(UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD);
-  //         });
-  //       } else {
-  //         console.log('1.2');
-
-  //         const connector = {
-  //           id: 'C-XPv4LBVGAL',
-  //           paramatersValues: {
-  //             AZURE_STORAGE_CONTAINER_BLOB_PREFIX: '%WORKSPACE_FILE%/' + fileCache.name
-  //           }
-  //         };
-  //         DatasetService.createDataset(ORGANISATION_ID, 'datasetWithFile', 'Dataset with file', connector).then(result => {
-  //           currentDataset = result.data;
-  //           console.log('@@@@@@@@@@@@@@@@@@@@@@');
-  //           console.log(currentDataset.tags);
-  //           console.log('@@@@@@@@@@@@@@@@@@@@@@');
-  //           // TODO Synchro with uploadFile() then
-  //           setInitialStockDataset(currentDataset);
-  //           setFileStatus(UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD);
-  //         });
-  //       }
-  //     } else if (fileStatus === UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE && initialStockDataset) {
-  //       DatasetService.deleteDataset(ORGANISATION_ID, workspaceId, initialStockDataset.id);
-  //       deleteFile(initialStockDataset.connector.parametersValues.AZURE_STORAGE_CONTAINER_BLOB_PREFIX);
-  //       setFileStatus(UPLOAD_FILE_STATUS_KEY.IDLE);
-  //     }
-  //   });
-
-  //   // See https://github.com/jreynard-code/cosmotech-api-javascript-client/blob/master/docs/ScenarioApi.md#addorreplacescenarioparametervalues
-  //   prepareToUpdatePromise.then(result => {
-  //     const parametersData = getParametersDataForApi(
-  //       currentScenario.data.runTemplateId);
-  //     console.log('§§§§§§§§§§§§§§§');
-  //     console.log(parametersData);
-  //     console.log('§§§§§§§§§§§§§§§');
-  //     updateAndLaunchScenario(workspaceId, scenarioId, parametersData);
-  //     changeEditMode(false);
-  //   }).catch(error => {
-  //     console.log('ERROR ');
-  //     console.log(error);
-  //   });
-  // };
 
   // Indices in this array must match indices in the tabs configuration file
   // configs/ScenarioParametersTabs.config.js

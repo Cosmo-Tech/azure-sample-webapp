@@ -43,7 +43,7 @@ function updateDataset (organizationId, datasetId, dataset) {
 
 function deleteDataset (organizationId, datasetId) {
   return new Promise((resolve) => {
-    DatasetApi.createDataset(organizationId, datasetId, (error, data, response) => {
+    DatasetApi.deleteDataset(organizationId, datasetId, (error, data, response) => {
       resolve({ error, data, response });
     });
   });
