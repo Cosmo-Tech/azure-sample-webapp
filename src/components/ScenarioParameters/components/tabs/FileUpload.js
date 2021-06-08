@@ -10,7 +10,7 @@ const FileUpload = ({
   handleUploadFile,
   handleDeleteFile,
   handleDownloadFile,
-  fileToDownload,
+  fileName,
   fileCache,
   fileStatus,
   editMode
@@ -22,7 +22,7 @@ const FileUpload = ({
         handleUploadFile={handleUploadFile}
         handleDeleteFile={handleDeleteFile}
         handleDownloadFile={handleDownloadFile}
-        fileToDownload={fileToDownload}
+        fileName={fileName}
         fileCache={fileCache}
         fileStatus={fileStatus}
         editMode={editMode}
@@ -35,8 +35,8 @@ FileUpload.propTypes = {
   handleUploadFile: PropTypes.func.isRequired,
   handleDeleteFile: PropTypes.func.isRequired,
   handleDownloadFile: PropTypes.func.isRequired,
-  fileToDownload: PropTypes.object,
   fileCache: PropTypes.object,
+  fileName: PropTypes.string,
   fileStatus: PropTypes.string.isRequired,
   editMode: PropTypes.bool.isRequired
 };

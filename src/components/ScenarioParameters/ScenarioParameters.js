@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import {
   Grid,
@@ -37,13 +37,23 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const fetchDatasetById = async (existingDatasetId) => {
-  const { error, data } = await DatasetService.findDatasetById(ORGANISATION_ID, existingDatasetId);
-  if (error) {
-    console.log(error);
+// TODO Move in Constant file
+const parameterName = 'initial_stock_dataset';
+const connectorId = 'C-XPv4LBVGAL';
+const STORAGE_ROOT_DIR_PLACEHOLDER = '%WORKSPACE_FILE%';
+const connector = {
+  id: connectorId,
+  parametersValues: {
+    AZURE_STORAGE_CONTAINER_BLOB_PREFIX: `${STORAGE_ROOT_DIR_PLACEHOLDER}/${parameterName}/`
   }
-  return data;
 };
+
+// TODO move in utility file
+function constructFileNameFromDataset (dataset, destinationUploadFile) {
+  const fileName = dataset.connector.parametersValues.AZURE_STORAGE_CONTAINER_BLOB_PREFIX.split('/').pop();
+  const fullName = destinationUploadFile + fileName;
+  return fullName;
+}
 
 const ScenarioParameters = ({
   editMode,
@@ -57,59 +67,64 @@ const ScenarioParameters = ({
   const classes = useStyles();
   const { t } = useTranslation();
 
-  let currentDataset = {};
+  const destinationUploadFile = scenarioId + '/' + parameterName + '/';
 
   // General states
   const [displayPopup, setDisplayPopup] = useState(false);
+  const [fileName, setFileName] = useState('');
+  // Current scenario scenarioParameters
+  const scenarioParameters = useRef([]);
+  const currentDataset = useRef({});
 
-  // Current scenario parameters
-  const [parameters, setParameters] = useState([]);
-
-  // Update the parameters form when scenario parameters change
+  // Update the scenarioParameters form when scenario scenarioParameters change
   useEffect(() => {
-    const scenarioParameters = currentScenario.data.parametersValues;
-    const datasetParam = scenarioParameters?.find(el => el.parameterId === 'initial_stock_dataset');
+    const parametersValues = currentScenario.data.parametersValues;
+    const datasetParam = parametersValues?.find(el => el.parameterId === parameterName);
     const existingDatasetId = datasetParam?.value;
+
+    const fetchDatasetById = async () => {
+      const { error, data } = await DatasetService.findDatasetById(ORGANISATION_ID, existingDatasetId);
+      if (error) {
+        console.error(error);
+      }
+      currentDataset.current = data;
+      setFileName(constructFileNameFromDataset(data, ''));
+    };
+
     if (existingDatasetId) {
-      currentDataset = fetchDatasetById(existingDatasetId);
+      fetchDatasetById();
+      setFileStatus(UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD);
     }
-    setParameters(scenarioParameters);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentScenario, currentDataset, fetchDatasetById]);
+    scenarioParameters.current = parametersValues;
+  }, [currentScenario, currentDataset, destinationUploadFile]);
 
   const getValueFromParameters = (parameterId, defaultValue) => {
-    if (parameters === null || parameters === undefined) {
+    if (scenarioParameters.current === null || scenarioParameters === undefined) {
       return defaultValue;
     }
-    const param = parameters.find(element => element.parameterId === parameterId);
+    const param = scenarioParameters.current?.find(element => element.parameterId === parameterId);
     if (param !== undefined) {
       return param.value;
     }
     return defaultValue;
   };
 
-  // State for bar parameters
-  const [stock, setStock] = useState(
-    getValueFromParameters('stock', 100));
-  const [restockQuantity, setRestockQuantity] = useState(
-    getValueFromParameters('restock_qty', 25));
-  const [waitersNumber, setWaitersNumber] = useState(
-    getValueFromParameters('nb_waiters', 5));
-  // State for basic input types examples parameters
-  const [currency, setCurrency] = useState(
-    getValueFromParameters('currency', 'USD'));
-  const [currencyName, setCurrencyName] = useState(
-    getValueFromParameters('currency_name', 'EUR'));
-  const [currencyValue, setCurrencyValue] = useState(
-    getValueFromParameters('currency_value', 1000));
-  const [currencyUsed, setCurrencyUsed] = useState(
-    getValueFromParameters('currency_used', false));
-  const [startDate, setStartDate] = useState(
-    getValueFromParameters('start_date', new Date('2014-08-18T21:11:54')));
+  // TODO extract default value in constant file?
+  // State for bar scenarioParameters
+  const [stock, setStock] = useState(getValueFromParameters('stock', 100));
+  const [restockQuantity, setRestockQuantity] = useState(getValueFromParameters('restock_qty', 25));
+  const [waitersNumber, setWaitersNumber] = useState(getValueFromParameters('nb_waiters', 5));
+
+  // State for basic input types examples scenarioParameters
+  const [currency, setCurrency] = useState(getValueFromParameters('currency', 'USD'));
+  const [currencyName, setCurrencyName] = useState(getValueFromParameters('currency_name', 'EUR'));
+  const [currencyValue, setCurrencyValue] = useState(getValueFromParameters('currency_value', 1000));
+  const [currencyUsed, setCurrencyUsed] = useState(getValueFromParameters('currency_used', false));
+  const [startDate, setStartDate] = useState(getValueFromParameters('start_date', new Date('2014-08-18T21:11:54')));
+
   // State for File Upload
   const [fileCache, setFileCache] = useState(null);
-  const [fileToDownload, setFileToDownload] = useState(null);
-  const [fileStatus, setFileStatus] = useState(UPLOAD_FILE_STATUS_KEY.IDLE);
+  const [fileStatus, setFileStatus] = useState(UPLOAD_FILE_STATUS_KEY.EMPTY);
 
   const resetParameters = () => {
     setStock(getValueFromParameters('stock', 100));
@@ -119,17 +134,15 @@ const ScenarioParameters = ({
     setCurrencyName(getValueFromParameters('currency_name', 'EUR'));
     setCurrencyValue(getValueFromParameters('currency_value', 1000));
     setCurrencyUsed(getValueFromParameters('currency_used', false));
-    setStartDate(getValueFromParameters(
-      'start_date', new Date('2014-08-18T21:11:54')));
+    setStartDate(getValueFromParameters('start_date', new Date('2014-08-18T21:11:54')));
 
     // TODO: Replace these resets with backend calls to get file on server
     setFileCache(null);
-    setFileToDownload(null);
   };
   // eslint-disable-next-line
   const getParametersDataForApi = (runTemplateId) => {
     let parametersData = [];
-    // Add bar parameters if necessary (run templates '1' and '2')
+    // Add bar scenarioParameters if necessary (run templates '1' and '2')
     if (['1', '2'].indexOf(runTemplateId) !== -1) {
       parametersData = parametersData.concat([
         {
@@ -153,7 +166,7 @@ const ScenarioParameters = ({
       ]);
     }
 
-    // Add basic inputs examples parameters if necessary (run template '4')
+    // Add basic inputs examples scenarioParameters if necessary (run template '4')
     if (['3'].indexOf(runTemplateId) !== -1) {
       parametersData = parametersData.concat([
         {
@@ -192,13 +205,13 @@ const ScenarioParameters = ({
     if (['1', '2', '3', '4'].indexOf(runTemplateId) !== -1) {
       parametersData = parametersData.concat([
         {
-          parameterId: 'initial_stock_dataset',
+          parameterId: parameterName,
           varType: '%DATASETID%',
-          value: currentDataset
+          value: currentDataset.current
         }
       ]);
     }
-    // TODO Add array template parameters if necessary
+    // TODO Add array template scenarioParameters if necessary
     return parametersData;
   };
 
@@ -214,8 +227,7 @@ const ScenarioParameters = ({
 
   // Normal Mode Screen
   const handleClickOnEditButton = () => changeEditMode(true);
-  const isCurrentScenarioRunning = () => (
-    currentScenario.data.state === SCENARIO_RUN_STATE.RUNNING);
+  const isCurrentScenarioRunning = () => (currentScenario.data.state === SCENARIO_RUN_STATE.RUNNING);
 
   const handleClickOnLaunchScenarioButton = () => {
     // If scenario parameters have never been updated, do it now
@@ -230,33 +242,93 @@ const ScenarioParameters = ({
   const handleClickOnUpdateAndLaunchScenarioButton = async () => {
     if (fileStatus === UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD) {
       await uploadFile();
-      if (currentDataset) {
-        deleteFile(currentDataset.connector.parametersValues.AZURE_STORAGE_CONTAINER_BLOB_PREFIX);
-        const { error, data } = await DatasetService.updateDataset(ORGANISATION_ID, currentDataset.id, currentDataset);
+      if (currentDataset.current) {
+        const fullName = constructFileNameFromDataset(currentDataset.current, destinationUploadFile);
+        await deleteFile(fullName);
+        const { error, data } = await DatasetService.updateDataset(ORGANISATION_ID, currentDataset.current.id, currentDataset.current);
         if (error) {
           console.error(error);
         } else {
-          currentDataset = data;
+          currentDataset.current = data;
           setFileStatus(UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD);
         }
       } else {
-        const connector = {
-          id: 'C-XPv4LBVGAL',
-          parametersValues: {
-            AZURE_STORAGE_CONTAINER_BLOB_PREFIX: '%WORKSPACE_FILE%/' + 'initial_stock_dataset/'
-          }
-        };
-        const { error, data } = await DatasetService.createDataset(ORGANISATION_ID, 'initial_stock_dataset', 'Dataset with file', connector);
+        const { error, data } = await DatasetService.createDataset(ORGANISATION_ID, parameterName, 'Dataset with file', connector);
         if (error) {
-          console.log(error);
+          console.error(error);
         } else {
           setFileStatus(UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD);
-          currentDataset = data;
+          currentDataset.current = data;
         }
         const parametersData = getParametersDataForApi(currentScenario.data.runTemplateId);
         updateAndLaunchScenario(workspaceId, scenarioId, parametersData);
         changeEditMode(false);
       }
+    } else if (fileStatus === UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE) {
+      const fullName = constructFileNameFromDataset(currentDataset.current, destinationUploadFile);
+      await deleteFile(fullName);
+      const { error, data } = await DatasetService.deleteDataset(ORGANISATION_ID, currentDataset.current.id);
+      if (error) {
+        console.error(error);
+      } else {
+        console.log(data);
+        currentDataset.current = {};
+        setFileStatus(UPLOAD_FILE_STATUS_KEY.EMPTY);
+      }
+    }
+  };
+
+  // Methods to handle upload file tab
+  const handlePrepareToUpload = (event) => {
+    const file = event.target.files[0];
+    if (file === undefined) {
+      return;
+    }
+    setFileCache(file);
+    setFileStatus(UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD);
+  };
+
+  const uploadFile = async () => {
+    setFileStatus(UPLOAD_FILE_STATUS_KEY.UPLOADING);
+    const overwrite = true;
+    const { error, data } = await WorkspaceService.uploadWorkspaceFile(ORGANISATION_ID, workspaceId, fileCache, overwrite, destinationUploadFile);
+    if (error) {
+      console.error(error);
+    } else {
+      console.log(data.fileName);
+      currentDataset.current.connector.parametersValues.AZURE_STORAGE_CONTAINER_BLOB_PREFIX = STORAGE_ROOT_DIR_PLACEHOLDER + '/' + data.fileName;
+      setFileStatus(UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD);
+    }
+  };
+
+  const handlePrepareToDeleteFile = () => {
+    setFileName('');
+    setFileStatus(UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE);
+    setFileCache(null);
+  };
+
+  const deleteFile = async (connectorFilePath) => {
+    setFileStatus(UPLOAD_FILE_STATUS_KEY.DELETING);
+    const { error, data } = await WorkspaceService.deleteWorkspaceFile(ORGANISATION_ID, workspaceId, connectorFilePath);
+    if (error) {
+      console.error(error);
+    } else {
+      console.log(data);
+      setFileStatus(UPLOAD_FILE_STATUS_KEY.EMPTY);
+    }
+  };
+
+  const handleDownloadFile = async () => {
+    setFileStatus(UPLOAD_FILE_STATUS_KEY.DOWNLOADING);
+    const fileName = constructFileNameFromDataset(currentDataset.current, destinationUploadFile);
+    const { error, data } = await WorkspaceService.downloadWorkspaceFile(ORGANISATION_ID, workspaceId, fileName);
+    if (error) {
+      console.error(error);
+    } else {
+      console.log(data);
+      setFileCache(data);
+      fileDownload(data, fileCache.name);
+      setFileStatus(UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD);
     }
   };
 
@@ -365,63 +437,11 @@ const ScenarioParameters = ({
   //   });
   // };
 
-  // Methods to handle upload file tab
-  const handlePrepareToUpload = (event) => {
-    const file = event.target.files[0];
-    if (file === undefined) {
-      return;
-    }
-    setFileCache(file);
-    setFileStatus(UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD);
-  };
-
-  const uploadFile = () => {
-    setFileStatus(UPLOAD_FILE_STATUS_KEY.UPLOADING);
-    const overwrite = true;
-    const destination = scenarioId + '/initial_stock_dataset/';
-    WorkspaceService.uploadWorkspaceFile(ORGANISATION_ID, workspaceId, fileCache, overwrite, destination)
-      .then((error, data, response) => {
-        if (error) {
-          console.log(error);
-        } else {
-          setFileStatus(UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD);
-        }
-      });
-  };
-
-  const handlePrepareToDeleteFile = () => {
-    setFileStatus(UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE);
-    setFileCache(null);
-  };
-
-  // eslint-disable-next-line
-  const deleteFile = (connectorFilePath) => {
-    setFileStatus(UPLOAD_FILE_STATUS_KEY.DELETING);
-    WorkspaceService.deleteWorkspaceFile(ORGANISATION_ID, workspaceId, connectorFilePath);
-    // resolve('File ' + fileCache.name + ' succefully deleted');
-    // deletePromise.then(result => {
-    //   setFileStatus(UPLOAD_FILE_STATUS_KEY.IDLE);
-    // });
-  };
-
-  const handleDownloadFile = () => {
-    const downloadPromise = new Promise((resolve) => {
-      // setFileStatus(UPLOAD_FILE_STATUS_KEY.DOWNLOADING);
-      const fileToDownload = WorkspaceService.downloadWorkspaceFile(ORGANISATION_ID, workspaceId, fileCache.name);
-      setFileCache(fileToDownload);
-      resolve('File ' + fileToDownload.name + ' successfully downloaded');
-    });
-    downloadPromise.then(result => {
-      // setFileStatus(UPLOAD_FILE_STATUS_KEY.IDLE);
-      fileDownload(fileCache, fileCache.name);
-    });
-  };
-
   // Indices in this array must match indices in the tabs configuration file
   // configs/ScenarioParametersTabs.config.js
   const scenarioParametersTabs = [
     <FileUpload key="0"
-      fileToDownload={fileToDownload}
+      fileName={fileName}
       fileCache={fileCache}
       fileStatus={fileStatus}
       acceptedFileTypesToUpload={acceptedFileTypesToUpload}
