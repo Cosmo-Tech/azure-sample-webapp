@@ -23,15 +23,20 @@
         "language": "Change language"
       },
       "create": {
-        "scenario" : "Create Alternative Scenario"
+        "scenario": {
+          "label": "Create Alternative Scenario",
+          "tooltip": {
+            "disabled": "Please save or discard current modifications before creating a new scenario"
+          }
+        }
       },
       "scenario": {
         "parameters": {
           "discard": "Discard Modifications",
           "edit": "Edit",
           "launch": "Launch Scenario",
-          "update" : {
-            "launch" : "Update And Launch Scenario"
+          "update": {
+            "launch": "Update And Launch Scenario"
           }
         }
       }
@@ -202,7 +207,10 @@
     "scenario": {
       "dropdown": {
         "scenario" : {
-          "label" : "Scenario"
+          "label" : "Scenario",
+          "tooltip": {
+            "disabled": "Please save or discard current modifications before selecting another scenario"
+          }
         }
       },
       "text" : {

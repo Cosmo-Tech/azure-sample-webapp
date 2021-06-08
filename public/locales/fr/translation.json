@@ -23,7 +23,12 @@
         "language": "Changer de langue"
       },
       "create": {
-        "scenario" : "Créer un scénario"
+        "scenario": {
+          "label": "Créer un scénario",
+          "tooltip": {
+            "disabled": "Veuillez sauver ou annuler les modifications en cours avant de créer un nouveau scénario"
+          }
+        }
       },
       "scenario": {
         "parameters": {
@@ -202,7 +207,10 @@
     "scenario": {
       "dropdown": {
         "scenario" : {
-          "label" : "Scénario"
+          "label" : "Scénario",
+          "tooltip": {
+            "disabled": "Veuillez sauver ou annuler les modifications en cours avant de sélectionner un autre scénario"
+          }
         }
       },
       "text" : {

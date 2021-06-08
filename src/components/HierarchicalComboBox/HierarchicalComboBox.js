@@ -3,14 +3,20 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TextField } from '@material-ui/core';
+import { TextField, Tooltip } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { useTranslation } from 'react-i18next';
 import { getFormattedOptionsList } from './utils';
 
-const HierarchicalComboBox = ({ values, label, disabled, handleChange, separator, maxCharLength, ...props }) => {
-  const { t } = useTranslation();
-
+const HierarchicalComboBox = ({
+  values,
+  label,
+  disabled,
+  handleChange,
+  separator,
+  maxCharLength,
+  renderInputToolType,
+  ...props
+}) => {
   const optionsList = [];
   getFormattedOptionsList(optionsList, values, 0, separator, maxCharLength);
 
@@ -21,25 +27,25 @@ const HierarchicalComboBox = ({ values, label, disabled, handleChange, separator
       disabled={disabled}
       onChange={(event, node) => (handleChange(event, node))}
       options={optionsList}
-        getOptionLabel={(option) => Object.keys(option).length !== 0 ? option.name : ''}
-        getOptionSelected={(option, value) => option.id === value.id}
+      getOptionLabel={(option) => Object.keys(option).length !== 0 ? option.name : ''}
+      getOptionSelected={(option, value) => option.id === value.id}
       renderOption={(option) => (
-        <React.Fragment>
           <span
             data-testid={'option-' + option.id}
             style={{ marginLeft: option.depth * 20 }}
           >
             {option.fullName}
           </span>
-        </React.Fragment>
       )}
       renderInput={(params) => (
-        <TextField
-          {...params}
-          placeholder={t(label)}
-          label={t(label)}
-          variant="outlined"
-        />
+        <Tooltip arrow title={renderInputToolType}>
+          <TextField
+            {...params}
+            placeholder={label}
+            label={label}
+            variant="outlined"
+          />
+        </Tooltip>
       )}
     />
   );
@@ -51,13 +57,15 @@ HierarchicalComboBox.propTypes = {
   disabled: PropTypes.bool,
   values: PropTypes.array,
   separator: PropTypes.string,
-  maxCharLength: PropTypes.number
+  maxCharLength: PropTypes.number,
+  renderInputToolType: PropTypes.string
 };
 
 HierarchicalComboBox.defaultProps = {
   disabled: false,
   separator: ' ... ',
-  maxCharLength: -1
+  maxCharLength: -1,
+  renderInputToolType: ''
 };
 
 export default HierarchicalComboBox;

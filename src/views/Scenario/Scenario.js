@@ -62,9 +62,18 @@ const Scenario = (props) => {
   const workspaceId = workspace.data.id;
   const [editMode, setEditMode] = useState(false);
 
-  function handleScenarioChange (event, scenario) {
+  const currentScenarioRenderInputToolType = editMode
+    ? t('views.scenario.dropdown.scenario.tooltip.disabled',
+      'Please save or discard current modifications before selecting another scenario')
+    : '';
+  const createScenarioButtonToolType = editMode
+    ? t('commoncomponents.button.create.scenario.tooltip.disabled',
+      'Please save or discard current modifications before creating a new scenario')
+    : '';
+
+  const handleScenarioChange = (event, scenario) => {
     findScenarioById(workspaceId, scenario.id);
-  }
+  };
 
   return (
     <Grid container direction="column" className={classes.mainGrid}>
@@ -77,8 +86,10 @@ const Scenario = (props) => {
                   value={currentScenario.data}
                   maxCharLength={36}
                   values={scenarioList.data}
-                  label='views.scenario.dropdown.scenario.label'
+                  label={t('views.scenario.dropdown.scenario.label', Scenario)}
                   handleChange={handleScenarioChange}
+                  disabled={editMode}
+                  renderInputToolType={currentScenarioRenderInputToolType}
                 />
               </Grid>
               { currentScenario.data &&
@@ -100,6 +111,8 @@ const Scenario = (props) => {
                   datasets={datasetList.data}
                   scenarios={scenarioList.data}
                   user={user}
+                  disabled={editMode}
+                  buttonTooltip={createScenarioButtonToolType}
                 />
               </Grid>
             </Grid>
