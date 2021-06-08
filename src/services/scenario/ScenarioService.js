@@ -20,6 +20,8 @@ function findAllScenarios (organizationId, workspaceId) {
 function findScenarioById (organizationId, workspaceId, scenarioId) {
   return new Promise((resolve) => {
     ScenarioApi.findScenarioById(organizationId, workspaceId, scenarioId, (error, data, response) => {
+      // Parse scenario parameters
+      data.parametersValues = formatParametersFromApi(data.parametersValues);
       resolve({ error, data, response });
     });
   });

@@ -49,7 +49,7 @@ const ScenarioParameters = ({
   // Current scenario parameters
   const parameters = currentScenario.data.parametersValues;
   const getValueFromParameters = (parameterId, defaultValue) => {
-    if (parameters === null) {
+    if (parameters === null || parameters === undefined) {
       return defaultValue;
     }
     const param = parameters.find(element => element.parameterId === parameterId);
