@@ -271,8 +271,6 @@ const ScenarioParameters = ({
         }
       } else {
         // Create new dataset
-        // TODO Set the connector's file name info in a better way
-        connector.parametersValues.AZURE_STORAGE_CONTAINER_BLOB_PREFIX += fileCache.name;
         const { error, data } = await DatasetService.createDataset(ORGANISATION_ID, parameterName, 'Dataset with file', connector);
         if (error) {
           console.error(error);
@@ -310,6 +308,7 @@ const ScenarioParameters = ({
       return;
     }
     setFileCache(file);
+    setFileName(file.name);
     setFileStatus(UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD);
   };
 
@@ -356,7 +355,6 @@ const ScenarioParameters = ({
     if (error) {
       console.error(error);
     } else {
-      setFileCache(data);
       fileDownload(data, fileName);
       setFileStatus(UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD);
     }
