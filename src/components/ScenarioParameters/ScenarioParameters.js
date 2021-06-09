@@ -179,8 +179,13 @@ const ScenarioParameters = ({
     currentScenario.data.state === SCENARIO_RUN_STATE.RUNNING);
 
   const handleClickOnLaunchScenarioButton = () => {
-    launchScenario(workspaceId, scenarioId);
-    changeEditMode(false);
+    // If scenario parameters have never been updated, do it now
+    if (!currentScenario.data.parametersValues) {
+      handleClickOnUpdateAndLaunchScenarioButton();
+    } else {
+      launchScenario(workspaceId, scenarioId);
+      changeEditMode(false);
+    }
   };
 
   // Edit Mode Screen
