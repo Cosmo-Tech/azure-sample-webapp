@@ -73,6 +73,7 @@ const Dashboards = ({ currentScenario }) => {
                 title={dashboard.title}
                 scenarioName={currentScenario.name}
                 scenarioId={currentScenario.id}
+                csmSimulationRun={currentScenario.lastRun?.csmSimulationRun}
               />
             ))}
         </Card>
@@ -88,7 +89,17 @@ Dashboards.propTypes = {
 };
 
 function TabPanel (props) {
-  const { children, value, index, src, title, scenarioName, scenarioId, ...other } = props;
+  const {
+    children,
+    value,
+    index,
+    src,
+    title,
+    scenarioName,
+    scenarioId,
+    csmSimulationRun,
+    ...other
+  } = props;
 
   return (
     <div
@@ -104,6 +115,7 @@ function TabPanel (props) {
           url={src}
           scenarioName={scenarioName}
           scenarioId={scenarioId}
+          csmSimulationRun={csmSimulationRun}
         />
       )}
     </div>
@@ -117,7 +129,8 @@ TabPanel.propTypes = {
   src: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   scenarioName: PropTypes.string,
-  scenarioId: PropTypes.string
+  scenarioId: PropTypes.string,
+  csmSimulationRun: PropTypes.string
 };
 
 export default Dashboards;
