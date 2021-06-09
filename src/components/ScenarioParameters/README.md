@@ -1,55 +1,56 @@
 # Add a new tab in Scenario Parameters
 
-- Open azure-sample-webapp/src/components/ScenarioParameters/ScenarioParameters.js
-- Look for the `<TabContext>` tag
-- Add a new `<Tab>` in the `<TabList>`
+- Open <path_to_your_app>/src/components/ScenarioParameters/ScenarioParameters.js
+- Add your component in the array `scenarioParametersTabs` (look for the following variable: `const scenarioParametersTabs = [`)
 
 ```
-<TabContext value={value}>
-  <TabList
+const scenarioParametersTabs = [
+  ...
+  <MyComponent
+    key="42" // The index is important, must be unique, and incremental
     ...
-    </Tab>
-    <Tab label={t('commoncomponents.tab.scenario.parameters.newtab', 'New tab')}
-      value="new_tab"
-      className={classes.tab}
-    />
-  </TabList>
+  />
+  ...
+];
 ```
 
-- Add a new `<TabPanel>`
+- Open <path_to_your_app>/src/configs/ScenarioParametersTabs.config.js
+- Add the config associated to your new tab
 
 ```
-    ...
-  </TabList>
-  <TabPanel>
-    ...
-  </TabPanel>
-  <TabPanel value="new_tab" index={0} className={classes.tabPanel}>
-    Fill this with components
-  </TabPanel>
-</TabContext>
+{
+  id: 42,                                               // Same as your key
+  translationKey:
+    'commoncomponents.tab.scenario.parameters.mytab',   // See Note 2 below
+  label: 'My tab',                                      // The tab's title
+  value: 'my_component',
+  runTemplateIds: ['2', '3']                            // The template IDs that have to display your component
+}
 ```
+**Note 0:** if you inserted your component in existing ones, don't forget to update the keys of the other components in `scenarioParametersTabs`, as well as the ids in the ScenarioParametersTabs.config.js file, accordingly.
 
-**Note:** both `value=new_tab` attributes must be identical.
+**Note 1:** both `key` from `<MyComponent>` and `id` in ScenarioParametersTabs.config.js must have the same value (here 42).
 
-If you want to add a translation, complete every translation file as the following example:
-
+**Note 2:** If you want to add a translation, complete every translation file as the following example:
 ```
 "commoncomponents": {
   "tab": {
     "scenario": {
       "parameters": {
-        "newtab": "New tab"
+        "mytab": "My tab "
       }
     }
   }
 }
 ```
 
-**Note:** in the translation files, you may have to merge your "newtab" with other tab name translations, in case there are other tabs.
+**Note 3:** in the translation files, you may have to merge your "newtab" with other tab name translations, in case there are other tabs.
 
-# Remove
 
-Simply remove the undesired `<Tab>` and `<TabPanel>` tags within  the `<TabContext>` one.
-
-**Note:** don't forget to clean the several translation files if any, as well as the unnecessary imports due to removing the tab if any.
+# Remove a tab from Scenario Parameters
+- Open <path_to_your_app>/src/components/ScenarioParameters/ScenarioParameters.js
+- Remove your component
+- Open <path_to_your_app>/src/configs/ScenarioParametersTabs.config.js
+- Remove the config of your tab
+- Clean imports in ScenarioParameters, and the code no longer needed
+- Remove the keys from the translation files no longer used
