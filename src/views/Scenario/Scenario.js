@@ -124,9 +124,10 @@ const Scenario = (props) => {
           { currentScenario.data &&
             <Dashboard
               iframeTitle={t('commoncomponents.iframe.scenario.results.card.title', 'Results')}
-              url={SCENARIO_DASHBOARD_CONFIG.url.replaceAll('<ScenarioName>', currentScenario.data.name)}
+              url={SCENARIO_DASHBOARD_CONFIG.url}
               scenarioName={currentScenario.data.name}
               scenarioState={currentScenario.data.state}
+              csmSimulationRun={currentScenario.data.lastRun?.csmSimulationRun}
             />
           }
         </Card>
