@@ -13,7 +13,7 @@ function addFormattedOption (dataObject, maxCharLength, separator, depth, format
   formattedList.push(option);
 }
 
-function findDepthValue (dataList, currentObject, depth) {
+/* function findDepthValue (dataList, currentObject, depth) {
   if (currentObject !== undefined) {
     if (currentObject.parentId !== null) {
       const parent = dataList.find(element => element.id === currentObject.parentId);
@@ -21,13 +21,14 @@ function findDepthValue (dataList, currentObject, depth) {
     }
   }
   return depth;
-}
+} */
 
 export const getFormattedOptionsList = (formattedList, dataList, depth, separator, maxCharLength) => {
   if (dataList !== undefined && dataList.length > 0) {
     for (const dataObject of dataList) {
-      const depth = findDepthValue(dataList, dataObject, 0);
-      addFormattedOption(dataObject, maxCharLength, separator, depth, formattedList);
+      // const depth = findDepthValue(dataList, dataObject, 0);
+      addFormattedOption(dataObject, maxCharLength, separator, 0, formattedList);
     }
+    console.log(dataList.length);
   }
 };
