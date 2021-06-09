@@ -1,13 +1,12 @@
 # Add a new input field in Scenario Parameters
 
-- Open *app_folder*/src/components/ScenarioParameters/component/BasicTypes.js
+- Open *app_folder*/src/components/ScenarioParameters/component/tabs/BasicTypes.js
 - Look for the `<div>` tag directly below the `return` statement
 - Add a new input respecting the following templates
 
 ## Text Input
 ```
 <BasicTextInput
-  classes={classes}
   label='My Text Field'
   changeTextField={changeTextField}
   textFieldProps={textFieldProps}
@@ -17,7 +16,6 @@
 ## Number Input
 ```
 <BasicNumberInput
-  classes={classes}
   label='My Number Field'
   changeNumberField={changeNumberField}
   textFieldProps={numberFieldsProps}
@@ -28,7 +26,6 @@
 ## Enum Input
 ```
 <BasicEnumTypes
-  classes={classes}
   label='My Enum Field'
   changeEnumField={changeEnumField}
   textFieldProps={enumFieldProps}
@@ -39,10 +36,18 @@
 ## Toggle Input
 ```
 <BasicToggleInput
-  classes={classes}
   label='My Switch type'
   changeSwitchType={changeSwitchType}
   switchProps={switchFieldProps}
+/>
+```
+
+## Date Input
+```
+<BasicDateInput
+  label='My Date Input'
+  changeSelectedDate={changeSelectedDate}
+  dateProps={dateProps}
 />
 ```
 
@@ -77,22 +82,52 @@ BasicTypes.propTypes = {
 };
 ```
 
-- The real function is defined and called in the file azure-sample-webapp/src/components/ScenarioParameters/ScenarioParameters.js
+- Open azure-sample-webapp/src/components/ScenarioParameters/ScenarioParameters.js
+- Declare a state according to your input among others
 ```
-<TabPanel value="basic_types" index={0} className={classes.tabPanel}>
-  <BasicTypes
-    ...
-    changeMyInputField={setMyInputValue}
-    editMode={editMode}
-  />
-</TabPanel>
+const [myInputValue, setMyInputValue] = useState(
+  getValueFromParameters('my_input_name', <default_value>));
 ```
 
-- And finally, the `setMyInput` function is just a setter declared with a getter, before the return statement, as follow:
+- Reset accordingly your value so that discard button is effective
 ```
-// use the right init value, according to the input type
-const [myInputValue, setMyInputValue] = useState("Default value"); 
+const resetParameters = () => {
+  ...
+  setMyInputValue(getValueFromParameters('my_input_name', <default_value>));
+  ...
+};
 ```
+
+- Declare setter and getter in BasicTypes component
+```
+const scenarioParametersTabs = [
+  ...
+  <BasicTypes ...
+    ...
+    myInputField={myInputValue}
+    changeMyInputField={setMyInputValue}
+    ...
+  />
+  ..
+];
+```
+
+- Declare the value to send to backend when clicking on update and launch button
+```
+if ([<list of run template ids that need to display the scenario parameters tab>].indexOf(runTemplateId) !== -1) {
+  parametersData = parametersData.concat([
+    ...
+    {
+      parameterId: 'my_input_name',
+      varType: '<var type>',
+      value: myInputValue,
+      isInherited: myInputValue !== getValueFromParameters('my_input_name')
+    },
+    ...
+  ]);
+}
+```
+
 
 # Remove an existing tab in Scenario Parameters
 
