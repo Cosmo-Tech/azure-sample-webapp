@@ -47,17 +47,13 @@ export const currentScenarioReducer = createReducer(currentScenarioInitialState,
         ...action.data.scenario
       };
       state.status = action.data.status;
-      // TODO: remove this when scenario states are available via the REST API
-      state.data.state = 'Successful';
     })
     .addCase(SCENARIO_ACTIONS_KEY.UPDATE_SCENARIO_STATE, (state, action) => {
       // Replace state in data if the scenario to update is currently selected
       if (state.data.id === action.data.scenarioId) {
         state.data = {
           ...state.data,
-          // TODO: restore this when scenario states are available via the REST API
-          // state: action.data.scenarioState
-          state: 'Successful'
+          state: action.data.scenarioState
         };
       }
     });

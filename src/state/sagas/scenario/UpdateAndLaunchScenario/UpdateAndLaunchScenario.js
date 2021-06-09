@@ -41,35 +41,17 @@ export function * updateAndLaunchScenario (action) {
       }
     });
     // Launch scenario if parameters update succeeded
-    const { error: runError, data: runData } = yield call(
+    const { error: runError } = yield call(
       ScenariorunService.runScenario, ORGANISATION_ID, workspaceId, scenarioId);
     if (runError) {
       console.error(runError);
     } else {
-      // Get csmSimulationRun id
-      const csmSimulationRun = runData.csmSimulationRun;
-      if (csmSimulationRun === undefined) {
-        console.error('csmSimulationRun is undefined');
-        yield put({
-          type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
-          data: { status: STATUSES.ERROR }
-        });
-      } else {
-        // Update current scenario status to 'Running'
-        yield put({
-          type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
-          data: {
-            status: STATUSES.IDLE,
-            scenario: { state: SCENARIO_RUN_STATE.RUNNING, csmSimulationRun: csmSimulationRun }
-          }
-        });
-        // Start backend polling to update the scenario status
-        yield put({
-          type: SCENARIO_ACTIONS_KEY.START_SCENARIO_STATUS_POLLING,
-          workspaceId: workspaceId,
-          scenarioId: scenarioId
-        });
-      }
+      // Start backend polling to update the scenario status
+      yield put({
+        type: SCENARIO_ACTIONS_KEY.START_SCENARIO_STATUS_POLLING,
+        workspaceId: workspaceId,
+        scenarioId: scenarioId
+      });
     }
   }
 }
