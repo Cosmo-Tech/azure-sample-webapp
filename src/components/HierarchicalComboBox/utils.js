@@ -23,10 +23,6 @@ function findDepthValue (dataList, currentObject, depth) {
   return depth;
 }
 
-function compareScenarioName (a, b) {
-  return a.name.localeCompare(b.name);
-}
-
 export const getFormattedOptionsList = (formattedList, dataList, depth, separator, maxCharLength) => {
   if (dataList !== undefined && dataList.length > 0) {
     for (const dataObject of dataList) {
@@ -34,5 +30,4 @@ export const getFormattedOptionsList = (formattedList, dataList, depth, separato
       addFormattedOption(dataObject, maxCharLength, separator, depth, formattedList);
     }
   }
-  formattedList.sort(compareScenarioName);
 };
