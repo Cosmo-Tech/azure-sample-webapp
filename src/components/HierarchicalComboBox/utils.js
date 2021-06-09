@@ -23,12 +23,17 @@ function addFormattedOption (dataObject, maxCharLength, separator, depth, format
   return depth;
 } */
 
+const scenarioNameComparable = (scenario1, scenario2) => {
+  return scenario1.name.localeCompare(scenario2.name);
+};
+
 export const getFormattedOptionsList = (formattedList, dataList, depth, separator, maxCharLength) => {
   if (dataList !== undefined && dataList.length > 0) {
-    for (const dataObject of dataList) {
+    const mutableList = dataList.slice();
+    mutableList.sort(scenarioNameComparable);
+    for (const dataObject of mutableList) {
       // const depth = findDepthValue(dataList, dataObject, 0);
       addFormattedOption(dataObject, maxCharLength, separator, 0, formattedList);
     }
-    console.log(dataList.length);
   }
 };
