@@ -28,18 +28,7 @@ Feel free to add your own auth provider if you don't want to use MSAL authentica
 ## Dashboards screen configuration (DashboardsList.config.js)
 
 The aim of this file is to allow the dashboard screen configuration.
-You can add entries in the DASHBOARDS_LIST_CONFIG array.
-
-Sample with [PowerBI dashboard URL](https://powerbi.microsoft.com/fr-fr/getting-started-with-power-bi/):
-
-```
-  {
-    id: 0,
-    title: 'Dashboard 1',
-    url: 'https://app.powerbi.com/reportEmbed?reportId=4f064d6a-2238-4e8f-8fee-8340f5a4800f&autoAuth=true&ctid=e413b834-8be8-4822-a370-be619545cb49&config=eyJjbHVzdGVyVXJsIjoiaHR0cHM6Ly93YWJpLXdlc3QtZXVyb3BlLWItcHJpbWFyeS1yZWRpcmVjdC5hbmFseXNpcy53aW5kb3dzLm5ldC8ifQ%3D%3D&pageName=ReportSection&$filter=Demands/Scenario_x0020_Name%20eq%20%27<ScenarioName>%27'
-  }
-```
-In the URL, if you want to pass ScenarioName and ScenarioId as parameters (for filtering purpose), you can use respective tags `<ScenarioName>` and `<ScenarioId>` like above
+See [Configure Dashboards View](https://github.com/Cosmo-Tech/azure-sample-webapp/edit/main/src/views/Dashboards/README.md) for more details.
 
 ## Scenario screen dashboard configuration (ScenarioDashboard.config.js)
 
