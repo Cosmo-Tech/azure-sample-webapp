@@ -28,12 +28,12 @@ Feel free to add your own auth provider if you don't want to use MSAL authentica
 ## Dashboards screen configuration (DashboardsList.config.js)
 
 The aim of this file is to allow the dashboard screen configuration.
-See [Configure Dashboards View](https://github.com/Cosmo-Tech/azure-sample-webapp/edit/main/src/views/Dashboards/README.md) for more details.
+See [Configure Dashboards View](https://github.com/Cosmo-Tech/azure-sample-webapp/tree/main/src/views/Dashboards) for more details.
 
-## Scenario screen dashboard configuration (ScenarioDashboard.config.js)
+## Scenario view dashboard iframe configuration (ScenarioDashboard.config.js)
 
 The aim of this file is to allow the scenario screen dashboard configuration.
-Same behavior as **Dashboards screen configuration**, if you want to pass ScenarioName and ScenarioId as parameters (for filtering purpose), you can use respective tags `<ScenarioName>` and `<ScenarioId>` .
+Same behavior as described in [Configure Dashboards View](https://github.com/Cosmo-Tech/azure-sample-webapp/tree/main/src/views/Dashboards), except you only need a unique URL.
 
 ## i18next configuration (i18next.config.js)
 The aim of this file is to allow the react-i18next library configuration.
