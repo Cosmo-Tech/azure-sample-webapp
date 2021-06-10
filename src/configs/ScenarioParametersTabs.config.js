@@ -14,7 +14,7 @@ export const SCENARIO_PARAMETERS_TABS_CONFIG = [
     translationKey: 'commoncomponents.tab.scenario.parameters.basic.types',
     label: 'Basic Types template',
     value: 'basic_types',
-    runTemplateIds: ['4']
+    runTemplateIds: ['3']
   },
   {
     id: 2,
