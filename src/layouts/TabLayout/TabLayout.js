@@ -5,9 +5,8 @@ import React from 'react';
 import { AppBar, Tabs, Tab, Box, makeStyles } from '@material-ui/core';
 import { Switch, Route, Link, Redirect, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { PrivateRoute } from '../../components';
 import { Auth } from '@cosmotech/core';
-import { UserInfo } from '@cosmotech/ui';
+import { PrivateRoute, UserInfo } from '@cosmotech/ui';
 import { useTranslation } from 'react-i18next';
 import { applicationLanguages } from '../../configs/App.config';
 

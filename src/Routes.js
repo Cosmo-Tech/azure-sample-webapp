@@ -5,7 +5,7 @@ import React from 'react';
 import { Switch, Redirect, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import { PublicRoute, PrivateRoute } from './components';
+import { PublicRoute, PrivateRoute } from '@cosmotech/ui';
 import { TabLayout } from './layouts';
 import {
   SignIn as SignInView,

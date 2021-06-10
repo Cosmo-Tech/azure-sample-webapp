@@ -4,12 +4,15 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Typography, Card, makeStyles } from '@material-ui/core';
-import HierarchicalComboBox from '../../components/HierarchicalComboBox';
 import { ScenarioParameters } from '../../components';
 import { useTranslation } from 'react-i18next';
-import { CreateScenarioButton } from '../../components/CreateScenarioDialog';
-import { Dashboard } from '@cosmotech/ui';
+import {
+  CreateScenarioButton,
+  Dashboard,
+  HierarchicalComboBox
+} from '@cosmotech/ui';
 import { SCENARIO_DASHBOARD_CONFIG } from '../../configs/ScenarioDashboard.config';
+import { NAME_VALIDATOR } from '../../utils/ValidationUtils';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -113,6 +116,7 @@ const Scenario = (props) => {
                   user={user}
                   disabled={editMode}
                   buttonTooltip={createScenarioButtonToolType}
+                  nameValidator={NAME_VALIDATOR}
                 />
               </Grid>
             </Grid>
