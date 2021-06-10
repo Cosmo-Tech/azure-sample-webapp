@@ -1247,23 +1247,24 @@
     "@babel/cli" "^7.0.0"
     superagent "^5.3.0"
 
-"@cosmotech/azure@^0.8.2-beta.0":
-  version "0.8.2-beta.0"
-  resolved "https://registry.yarnpkg.com/@cosmotech/azure/-/azure-0.8.2-beta.0.tgz#b8c095ae057238c9387bbc6f516e25aea32bb3cd"
-  integrity sha512-OoZKrcrHNsYcH9aFRkQECMwDzaP6C6AUnraQ3aN6CWzfyn5XNkwqS7q2T9On2/EkyfrVOmvIqYmy4EP0o5J5rg==
+"@cosmotech/azure@^0.8.2":
+  version "0.8.2"
+  resolved "https://registry.yarnpkg.com/@cosmotech/azure/-/azure-0.8.2.tgz#a44f6d595f42c86737b570b2168a3c7862328721"
+  integrity sha512-50YCvITulEwK+CldFUUw5tFo3fFVl9cPh7gwIXz0kr89zf6QiyZfnrWNDC3Se+SBTeBI1cbtAmhJWd+YfYxHLQ==
   dependencies:
     "@azure/msal-browser" "^2.8.0"
 
-"@cosmotech/core@^1.1.3-beta.3":
-  version "1.1.3-beta.3"
-  resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.1.3-beta.3.tgz#065c68fc6cd810919fb53c29870395dabdf97b02"
-  integrity sha512-r8v0ZV/uh9RUrfuE534o2BorQHPAR3ZIBoYsOT+3WeSsBpigG+ah24YKl27gyNxM876p7EyMO4vVeLKPV4C+Rg==
+"@cosmotech/core@^1.1.3":
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.1.3.tgz#16c6a85dece14b9d8025907730b80fda8749b7bc"
+  integrity sha512-yU7CInddx6+Uvk2fu3vAEOvmdUC9uAUYKkfrNgopwpi4DNPklzDQ3zGwcG+a2vL9d8c3iuwseTk4sf8x53zHgQ==
 
-"@cosmotech/ui@^0.2.7-beta.11":
-  version "0.2.7-beta.11"
-  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-0.2.7-beta.11.tgz#ceab5077a49b886223d62828863bbfdc3c8c41e1"
-  integrity sha512-cQZ3CEshhzBPpxFMSlSR1qGUd8OOVUFceEtdV6dvO61c1LjG7RDBooV6k1Tjmviz7NKxuwPmmZj0/ygSucVphA==
+"@cosmotech/ui@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-0.3.0.tgz#3afb20f951570845407245a0e1b2bd3419f30182"
+  integrity sha512-qNZcOe8rvRKh5/vMragNpFoohqxpOkxR+sXABH07LhtETZBAuiDHqoanuaftzzvZNnA3AzGBmFJSIsLZ2fqHyA==
   dependencies:
+    "@cosmotech/core" "^1.1.3"
     "@date-io/date-fns" "^1.3.13"
     "@material-ui/pickers" "^3.3.10"
     date-fns "^2.22.1"
