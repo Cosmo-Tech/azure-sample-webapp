@@ -117,7 +117,7 @@ const ScenarioParameters = ({
     }
 
     // Add basic inputs examples parameters if necessary (run template '4')
-    if (['4'].indexOf(runTemplateId) !== -1) {
+    if (['3'].indexOf(runTemplateId) !== -1) {
       parametersData = parametersData.concat([
         {
           parameterId: 'currency',
