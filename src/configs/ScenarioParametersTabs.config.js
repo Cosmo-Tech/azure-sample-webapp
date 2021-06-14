@@ -32,3 +32,39 @@ export const SCENARIO_PARAMETERS_TABS_CONFIG = [
     runTemplateIds: []
   }
 ];
+
+// Bar Tab parameters
+export const STOCK_PARAM = {
+  id: 'stock',
+  defaultValue: 100
+};
+export const RESTOCK_PARAM = {
+  id: 'restock_qty',
+  defaultValue: 25
+};
+export const NBWAITERS_PARAM = {
+  id: 'nb_waiters',
+  defaultValue: 5
+};
+
+// Basic Types Tab parameters
+export const CURRENCY_PARAM = {
+  id: 'currency',
+  defaultValue: 'USD'
+};
+export const CURRENCY_NAME_PARAM = {
+  id: 'currency_name',
+  defaultValue: 'EUR'
+};
+export const CURRENCY_VALUE_PARAM = {
+  id: 'currency_value',
+  defaultValue: 1000
+};
+export const CURRENCY_USED_PARAM = {
+  id: 'currency_used',
+  defaultValue: false
+};
+export const START_DATE_PARAM = {
+  id: 'start_date',
+  defaultValue: '2014-08-18T21:11:54'
+};
