@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { INITIAL_STOCK_PARAM_ID, STORAGE_ROOT_DIR_PLACEHOLDER } from './UploadFileConfig';
+import { STORAGE_ROOT_DIR_PLACEHOLDER } from './UploadFileConfig';
 import { UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui/src/UploadFile/StatusConstants';
 import DatasetService from '../../services/dataset/DatasetService';
 import { ORGANISATION_ID } from '../../configs/App.config';
@@ -16,15 +16,15 @@ function constructFileNameFromDataset (dataset, destinationUploadFile) {
   return fullName;
 }
 
-const getValueFromParameters = (parameters, parameterId, defaultValue) => {
+const getValueFromParameters = (parameters, parameterToSelect) => {
   if (parameters.current === null) {
-    return defaultValue;
+    return parameterToSelect.defaultValue;
   }
-  const param = parameters.current?.find(element => element.parameterId === parameterId);
+  const param = parameters.current?.find(element => element.parameterId === parameterToSelect.id);
   if (param !== undefined) {
     return param.value;
   }
-  return defaultValue;
+  return parameterToSelect.defaultValue;
 };
 
 const createConnector = (connectorId, scenarioId, parameterName, fileName) => {
@@ -45,11 +45,11 @@ async function fileManagement (dataset, datasetFile, setDatasetFile, datasetId, 
 }
 
 async function updateFileWithUpload (datasetFile, setDatasetFile, dataset, datasetId, connectorId, scenarioId, workspaceId, destinationUploadFile) {
-  // File has been marked to be uploaded
-  await uploadFile(dataset.current, datasetFile, setDatasetFile, workspaceId, destinationUploadFile);
   if (dataset.current && Object.keys(dataset.current).length !== 0) {
-    // Update existing dataset
+    // Delete existing file
     await deleteFile(destinationUploadFile, datasetFile, setDatasetFile, workspaceId);
+    // File has been marked to be uploaded
+    await uploadFile(dataset.current, datasetFile, setDatasetFile, workspaceId, destinationUploadFile);
     const {
       error,
       data
@@ -61,6 +61,8 @@ async function updateFileWithUpload (datasetFile, setDatasetFile, dataset, datas
       setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD });
     }
   } else {
+    // File has been marked to be uploaded
+    await uploadFile(dataset.current, datasetFile, setDatasetFile, workspaceId, destinationUploadFile);
     // Create new dataset
     const {
       error,
@@ -71,8 +73,6 @@ async function updateFileWithUpload (datasetFile, setDatasetFile, dataset, datas
       console.error(error);
     } else {
       dataset.current = data;
-      console.log('New Dataset');
-      console.log(dataset.current);
       setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD });
     }
   }
@@ -90,7 +90,6 @@ async function updateFileWithDelete (datasetFile, setDatasetFile, dataset, datas
   }
 }
 
-// Methods to handle upload file tab
 const handlePrepareToUpload = (event, datasetFile, setDatasetFile) => {
   const file = event.target.files[0];
   if (file === undefined) {
@@ -131,19 +130,19 @@ const deleteFile = async (connectorFilePath, datasetFile, setDatasetFile, worksp
   }
 };
 
-const handleDownloadFile = async (dataset, datasetFile, setDatasetFile, scenarioId, workspaceId) => {
-  const destinationUploadFile = UploadFileUtils.constructDestinationFile(scenarioId, INITIAL_STOCK_PARAM_ID, datasetFile.name);
+const handleDownloadFile = async (dataset, datasetFile, setDatasetFile, scenarioId, parameterId, workspaceId) => {
+  const destinationUploadFile = UploadFileUtils.constructDestinationFile(scenarioId, parameterId, datasetFile.name);
   setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.DOWNLOADING });
   const { error, data } = await WorkspaceService.downloadWorkspaceFile(ORGANISATION_ID, workspaceId, destinationUploadFile);
   if (error) {
     console.error(error);
   } else {
     fileDownload(data, datasetFile.name);
-    setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD });
   }
+  setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD });
 };
 
-const constructFileUpload = (key, file, setFile, scenarioId, currentDataset, datasetId, workspaceId, acceptedFileTypesToUpload, editMode) => {
+const constructFileUpload = (key, file, setFile, scenarioId, currentDataset, datasetId, parameterId, workspaceId, acceptedFileTypesToUpload, editMode) => {
   return (
       <FileUpload key={key}
                   file={file}
@@ -151,10 +150,19 @@ const constructFileUpload = (key, file, setFile, scenarioId, currentDataset, dat
                   scenarioId={scenarioId}
                   currentDataset={currentDataset}
                   datasetId={datasetId}
+                  parameterId={parameterId}
                   workspaceId={workspaceId}
                   acceptedFileTypesToUpload={acceptedFileTypesToUpload}
                   editMode={editMode}
       />);
+};
+
+const resetUploadFile = (datasetId, file, setFile) => {
+  if (datasetId) {
+    setFile({ ...file, status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD });
+  } else {
+    setFile({ ...file, status: UPLOAD_FILE_STATUS_KEY.EMPTY });
+  }
 };
 
 const constructDestinationFile = (scenarioId, parameterId, fileName) => scenarioId + '/' + parameterId + '/' + fileName;
@@ -167,5 +175,6 @@ export const UploadFileUtils = {
   handlePrepareToDeleteFile,
   handlePrepareToUpload,
   fileManagement,
-  constructFileUpload
+  constructFileUpload,
+  resetUploadFile
 };

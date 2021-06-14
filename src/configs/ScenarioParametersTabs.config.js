@@ -28,7 +28,6 @@ export const SCENARIO_PARAMETERS_TABS_CONFIG = [
     translationKey: 'commoncomponents.tab.scenario.parameters.array.template',
     label: 'Array Template',
     value: 'array_template',
-    // TODO Add run template id compatible with file upload when created
     runTemplateIds: []
   }
 ];
@@ -36,35 +35,49 @@ export const SCENARIO_PARAMETERS_TABS_CONFIG = [
 // Bar Tab parameters
 export const STOCK_PARAM = {
   id: 'stock',
+  varType: 'int',
   defaultValue: 100
 };
+
 export const RESTOCK_PARAM = {
   id: 'restock_qty',
+  varType: 'int',
   defaultValue: 25
 };
+
 export const NBWAITERS_PARAM = {
   id: 'nb_waiters',
+  varType: 'int',
   defaultValue: 5
 };
 
 // Basic Types Tab parameters
 export const CURRENCY_PARAM = {
   id: 'currency',
+  varType: 'enum',
   defaultValue: 'USD'
 };
+
 export const CURRENCY_NAME_PARAM = {
   id: 'currency_name',
+  varType: 'string',
   defaultValue: 'EUR'
 };
+
 export const CURRENCY_VALUE_PARAM = {
   id: 'currency_value',
+  varType: 'number',
   defaultValue: 1000
 };
+
 export const CURRENCY_USED_PARAM = {
   id: 'currency_used',
+  varType: 'bool',
   defaultValue: false
 };
+
 export const START_DATE_PARAM = {
   id: 'start_date',
-  defaultValue: '2014-08-18T21:11:54'
+  varType: 'date',
+  defaultValue: new Date('2014-08-18T21:11:54')
 };

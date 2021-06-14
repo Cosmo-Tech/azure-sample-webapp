@@ -14,35 +14,41 @@ const FileUpload = ({
   currentDataset,
   datasetId,
   workspaceId,
+  parameterId,
   file,
   setFile,
   scenarioId,
   editMode
 }) => {
-  // eslint-disable-next-line no-unused-vars
-
   useEffect(() => {
-    const fetchDatasetById = async (dataset, datasetId, file) => {
+    const fetchDatasetById = async (dataset, datasetId) => {
       const { error, data } = await DatasetService.findDatasetById(ORGANISATION_ID, datasetId);
       if (error) {
-        console.error(error);
+        throw new Error('Dataset does not exist for this organisation');
       }
-      dataset.current = data;
-      const fileName = UploadFileUtils.constructFileNameFromDataset(data, '');
-      if (file.name !== fileName || file.status !== UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD) {
-        setFile({ ...file, name: fileName, status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD });
-      }
+      return data;
     };
-
-    if (datasetId) {
-      fetchDatasetById(currentDataset, datasetId, file);
-    } else {
+    if (datasetId !== undefined &&
+        (file.status === UPLOAD_FILE_STATUS_KEY.EMPTY ||
+        file.status === UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD)) {
+      fetchDatasetById(currentDataset, datasetId)
+        .then((data) => {
+          currentDataset.current = data;
+          const fileName = UploadFileUtils.constructFileNameFromDataset(currentDataset.current, '');
+          setFile({ ...file, name: fileName, status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD });
+        })
+        .catch((error) => {
+          console.error(error);
+          currentDataset.current = {};
+          setFile({ ...file, name: '', status: UPLOAD_FILE_STATUS_KEY.EMPTY });
+        });
+    } else if (datasetId === undefined &&
+        file.status !== UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD) {
       currentDataset.current = {};
-      if (file.name !== '' || file.status !== UPLOAD_FILE_STATUS_KEY.EMPTY || file.file !== null) {
-        setFile({ ...file, file: null, name: '', status: UPLOAD_FILE_STATUS_KEY.EMPTY });
-      }
+      setFile({ ...file, file: null, name: '', status: UPLOAD_FILE_STATUS_KEY.EMPTY });
     }
-  }, [currentDataset, datasetId, file, setFile]);
+    // eslint-disable-next-line
+  }, [currentDataset, datasetId, file.name, setFile]);
 
   return (
     <div>
@@ -50,7 +56,7 @@ const FileUpload = ({
         acceptedFileTypes={acceptedFileTypesToUpload}
         handleUploadFile={(event) => UploadFileUtils.handlePrepareToUpload(event, file, setFile)}
         handleDeleteFile={() => UploadFileUtils.handlePrepareToDeleteFile(file, setFile)}
-        handleDownloadFile={() => UploadFileUtils.handleDownloadFile(currentDataset, file, setFile, scenarioId, workspaceId)}
+        handleDownloadFile={() => UploadFileUtils.handleDownloadFile(currentDataset, file, setFile, scenarioId, parameterId, workspaceId)}
         file={file}
         editMode={editMode}
       />
@@ -64,6 +70,7 @@ FileUpload.propTypes = {
   file: PropTypes.object.isRequired,
   setFile: PropTypes.func.isRequired,
   scenarioId: PropTypes.string.isRequired,
+  parameterId: PropTypes.string.isRequired,
   currentDataset: PropTypes.object.isRequired,
   datasetId: PropTypes.string
 };

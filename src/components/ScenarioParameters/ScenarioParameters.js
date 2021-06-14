@@ -25,6 +25,7 @@ import { acceptedFileTypesToUpload } from '../../configs/App.config';
 import { UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui/src/UploadFile/StatusConstants';
 import { AZURE_STORAGE_CONNECTOR_ID, INITIAL_STOCK_PARAM_ID } from './UploadFileConfig';
 import { UploadFileUtils } from './UploadFileUtils';
+import { DATASET_PARAM_VARTYPE, ScenarioParametersUtils } from './ScenarioParametersUtils';
 
 const useStyles = makeStyles(theme => ({
   header: {
@@ -58,6 +59,7 @@ const ScenarioParameters = ({
   const [displayPopup, setDisplayPopup] = useState(false);
   const defaultScenarioParameters = useRef([]);
 
+  /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
   // State for File Upload
   const [initialStockFile, setInitialStockFile] = useState({
     parameterId: INITIAL_STOCK_PARAM_ID,
@@ -68,59 +70,61 @@ const ScenarioParameters = ({
   });
   const initialStockDataset = useRef({});
   const [initialStockDatasetId, setInitialStockDatasetId] = useState('');
+  /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
 
   useEffect(() => {
     defaultScenarioParameters.current = currentScenario.data.parametersValues;
+    /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
     const initialStockParameter = currentScenario.data?.parametersValues?.find(el => el.parameterId === INITIAL_STOCK_PARAM_ID);
     setInitialStockDatasetId(initialStockParameter?.value);
-  }, [currentScenario]);
+    /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
+    // eslint-disable-next-line
+  }, [currentScenario, changeEditMode, initialStockFile.status]);
 
   // State for bar defaultScenarioParameters
   const [stock, setStock] = useState(
-    UploadFileUtils.getValueFromParameters(
-      defaultScenarioParameters, STOCK_PARAM.id, STOCK_PARAM.defaultValue)
+    UploadFileUtils.getValueFromParameters(defaultScenarioParameters, STOCK_PARAM)
   );
 
   const [restockQuantity, setRestockQuantity] = useState(
-    UploadFileUtils.getValueFromParameters(
-      defaultScenarioParameters, RESTOCK_PARAM.id, RESTOCK_PARAM.defaultValue)
+    UploadFileUtils.getValueFromParameters(defaultScenarioParameters, RESTOCK_PARAM)
   );
   const [waitersNumber, setWaitersNumber] = useState(
-    UploadFileUtils.getValueFromParameters(
-      defaultScenarioParameters, NBWAITERS_PARAM.id, NBWAITERS_PARAM.defaultValue)
+    UploadFileUtils.getValueFromParameters(defaultScenarioParameters, NBWAITERS_PARAM)
   );
 
   // State for basic input types examples defaultScenarioParameters
   const [currency, setCurrency] = useState(
-    UploadFileUtils.getValueFromParameters(
-      defaultScenarioParameters, CURRENCY_PARAM.id, CURRENCY_PARAM.defaultValue)
+    UploadFileUtils.getValueFromParameters(defaultScenarioParameters, CURRENCY_PARAM)
   );
   const [currencyName, setCurrencyName] = useState(
-    UploadFileUtils.getValueFromParameters(
-      defaultScenarioParameters, CURRENCY_NAME_PARAM.id, CURRENCY_NAME_PARAM.defaultValue)
+    UploadFileUtils.getValueFromParameters(defaultScenarioParameters, CURRENCY_NAME_PARAM)
   );
   const [currencyValue, setCurrencyValue] = useState(
-    UploadFileUtils.getValueFromParameters(
-      defaultScenarioParameters, CURRENCY_VALUE_PARAM.id, CURRENCY_VALUE_PARAM.defaultValue)
+    UploadFileUtils.getValueFromParameters(defaultScenarioParameters, CURRENCY_VALUE_PARAM)
   );
   const [currencyUsed, setCurrencyUsed] = useState(
-    UploadFileUtils.getValueFromParameters(
-      defaultScenarioParameters, CURRENCY_USED_PARAM.id, CURRENCY_USED_PARAM.defaultValue)
+    UploadFileUtils.getValueFromParameters(defaultScenarioParameters, CURRENCY_USED_PARAM)
   );
   const [startDate, setStartDate] = useState(
-    UploadFileUtils.getValueFromParameters(
-      defaultScenarioParameters, START_DATE_PARAM.id, new Date(START_DATE_PARAM.defaultValue))
+    UploadFileUtils.getValueFromParameters(defaultScenarioParameters, START_DATE_PARAM)
   );
 
   const resetParameters = () => {
-    setStock(UploadFileUtils.getValueFromParameters(defaultScenarioParameters, 'stock', 100));
-    setRestockQuantity(UploadFileUtils.getValueFromParameters(defaultScenarioParameters, 'restock_qty', 25));
-    setWaitersNumber(UploadFileUtils.getValueFromParameters(defaultScenarioParameters, 'nb_waiters', 5));
-    setCurrency(UploadFileUtils.getValueFromParameters(defaultScenarioParameters, 'currency', 'USD'));
-    setCurrencyName(UploadFileUtils.getValueFromParameters(defaultScenarioParameters, 'currency_name', 'EUR'));
-    setCurrencyValue(UploadFileUtils.getValueFromParameters(defaultScenarioParameters, 'currency_value', 1000));
-    setCurrencyUsed(UploadFileUtils.getValueFromParameters(defaultScenarioParameters, 'currency_used', false));
-    setStartDate(UploadFileUtils.getValueFromParameters(defaultScenarioParameters, 'start_date', new Date('2014-08-18T21:11:54')));
+    // Bar parameters
+    setStock(UploadFileUtils.getValueFromParameters(defaultScenarioParameters, STOCK_PARAM));
+    setRestockQuantity(UploadFileUtils.getValueFromParameters(defaultScenarioParameters, RESTOCK_PARAM));
+    setWaitersNumber(UploadFileUtils.getValueFromParameters(defaultScenarioParameters, NBWAITERS_PARAM));
+
+    // Basic Types Sample
+    setCurrency(UploadFileUtils.getValueFromParameters(defaultScenarioParameters, CURRENCY_PARAM));
+    setCurrencyName(UploadFileUtils.getValueFromParameters(defaultScenarioParameters, CURRENCY_NAME_PARAM));
+    setCurrencyValue(UploadFileUtils.getValueFromParameters(defaultScenarioParameters, CURRENCY_VALUE_PARAM));
+    setCurrencyUsed(UploadFileUtils.getValueFromParameters(defaultScenarioParameters, CURRENCY_USED_PARAM));
+    setStartDate(UploadFileUtils.getValueFromParameters(defaultScenarioParameters, START_DATE_PARAM));
+    /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
+    UploadFileUtils.resetUploadFile(initialStockDatasetId, initialStockFile, setInitialStockFile);
+    /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
   };
 
   // TODO Change it in by a function using parameters values
@@ -129,82 +133,45 @@ const ScenarioParameters = ({
     let parametersData = [];
     // Add bar scenarioParameters if necessary (run templates '1' and '2')
     if (['1', '2'].indexOf(runTemplateId) !== -1) {
+      const stockParam = ScenarioParametersUtils.constructParameterData(STOCK_PARAM, stock);
+      const restockQuantityParam = ScenarioParametersUtils.constructParameterData(RESTOCK_PARAM, restockQuantity);
+      const waitersNumberParam = ScenarioParametersUtils.constructParameterData(NBWAITERS_PARAM, waitersNumber);
       parametersData = parametersData.concat([
-        {
-          parameterId: 'stock',
-          varType: 'int',
-          value: stock,
-          isInherited: stock !== UploadFileUtils.getValueFromParameters(defaultScenarioParameters, 'stock')
-        },
-        {
-          parameterId: 'restock_qty',
-          varType: 'int',
-          value: restockQuantity,
-          isInherited: restockQuantity !== UploadFileUtils.getValueFromParameters(defaultScenarioParameters, 'restock_qty')
-        },
-        {
-          parameterId: 'nb_waiters',
-          varType: 'int',
-          value: waitersNumber,
-          isInherited: waitersNumber !== UploadFileUtils.getValueFromParameters(defaultScenarioParameters, 'nb_waiters')
-        }
+        stockParam,
+        restockQuantityParam,
+        waitersNumberParam
       ]);
     }
 
-    // Add basic inputs examples defaultScenarioParameters if necessary (run template '4')
+    // Add basic inputs examples parameters if necessary (run template '3')
     if (['3'].indexOf(runTemplateId) !== -1) {
+      const currencyParam = ScenarioParametersUtils.constructParameterData(CURRENCY_PARAM, currency);
+      const currencyNameParam = ScenarioParametersUtils.constructParameterData(CURRENCY_NAME_PARAM, currencyName);
+      const currencyValueParam = ScenarioParametersUtils.constructParameterData(CURRENCY_VALUE_PARAM, currencyValue);
+      const currencyUsedParam = ScenarioParametersUtils.constructParameterData(CURRENCY_USED_PARAM, currencyUsed);
+      const startDateValueParam = ScenarioParametersUtils.constructParameterData(START_DATE_PARAM, startDate);
       parametersData = parametersData.concat([
-        {
-          parameterId: 'currency',
-          varType: 'enum',
-          value: currency,
-          isInherited: currency !== UploadFileUtils.getValueFromParameters(defaultScenarioParameters, 'currency')
-        },
-        {
-          parameterId: 'currency_name',
-          varType: 'string',
-          value: currencyName,
-          isInherited: currencyName !== UploadFileUtils.getValueFromParameters(defaultScenarioParameters, 'currency_name')
-        },
-        {
-          parameterId: 'currency_value',
-          varType: 'number',
-          value: currencyValue,
-          isInherited: currencyValue !== UploadFileUtils.getValueFromParameters(defaultScenarioParameters, 'currency_value')
-        },
-        {
-          parameterId: 'currency_used',
-          varType: 'bool',
-          value: currencyUsed,
-          isInherited: currencyUsed !== UploadFileUtils.getValueFromParameters(defaultScenarioParameters, 'currency_used')
-        },
-        {
-          parameterId: 'start_date',
-          varType: 'date',
-          value: startDate,
-          isInherited: startDate !== UploadFileUtils.getValueFromParameters(defaultScenarioParameters, 'start_date')
-        }
+        currencyParam,
+        currencyNameParam,
+        currencyValueParam,
+        currencyUsedParam,
+        startDateValueParam
       ]);
     }
+    /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
     // TODO Add initial stock parameters correctly!!!!
     if (['1', '2', '3', '4'].indexOf(runTemplateId) !== -1) {
-      console.log('Before');
-      console.log(initialStockDataset.current);
       if (initialStockDataset.current && Object.keys(initialStockDataset.current).length !== 0) {
-        console.log('during');
-        console.log(initialStockDataset.current);
         parametersData = parametersData.concat([
           {
             parameterId: INITIAL_STOCK_PARAM_ID,
-            varType: '%DATASETID%',
+            varType: DATASET_PARAM_VARTYPE,
             value: initialStockDataset.current.id
           }
         ]);
       }
     }
-    console.log('After');
-    console.log(parametersData);
-    // TODO Add array template defaultScenarioParameters if necessary
+    /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
     return parametersData;
   };
 
@@ -228,6 +195,7 @@ const ScenarioParameters = ({
   };
 
   const handleClickOnUpdateAndLaunchScenarioButton = async () => {
+    /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
     const destinationFilePath = UploadFileUtils.constructDestinationFile(currentScenario.data.id, INITIAL_STOCK_PARAM_ID, initialStockFile.name);
     await UploadFileUtils.fileManagement(initialStockDataset,
       initialStockFile,
@@ -237,21 +205,23 @@ const ScenarioParameters = ({
       currentScenario.data.id,
       workspaceId,
       destinationFilePath);
-
+    /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
     const parametersData = getParametersDataForApi(currentScenario.data.runTemplateId);
     defaultScenarioParameters.current = parametersData;
     updateAndLaunchScenario(workspaceId, scenarioId, parametersData);
     changeEditMode(false);
   };
-
+  /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
   const fileUploadComponent = UploadFileUtils.constructFileUpload('0',
     initialStockFile,
     setInitialStockFile,
     currentScenario.data.id,
-    initialStockDataset, initialStockDatasetId,
+    initialStockDataset,
+    initialStockDatasetId,
+    INITIAL_STOCK_PARAM_ID,
     workspaceId, acceptedFileTypesToUpload,
     editMode);
-
+  /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
   // Indices in this array must match indices in the tabs configuration file
   // configs/ScenarioParametersTabs.config.js
   const scenarioParametersTabs = [
