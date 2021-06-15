@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { STORAGE_ROOT_DIR_PLACEHOLDER } from './UploadFileConfig';
-import { UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui/src/UploadFile/StatusConstants';
+import { UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
 import DatasetService from '../../services/dataset/DatasetService';
 import { ORGANISATION_ID } from '../../configs/App.config';
 import WorkspaceService from '../../services/workspace/WorkspaceService';

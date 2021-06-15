@@ -19,9 +19,8 @@ import {
 } from '../../configs/ScenarioParametersTabs.config';
 import { EditModeButton, NormalModeButton, ScenarioParametersTabs } from './components';
 import { useTranslation } from 'react-i18next';
-import { SimpleTwoActionsDialog } from '@cosmotech/ui';
+import { SimpleTwoActionsDialog, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
 import { BasicTypes, BarParameters } from './components/tabs';
-import { UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui/src/UploadFile/StatusConstants';
 import { ACCEPT_FILE_TYPE_FILE_UPLOAD, AZURE_STORAGE_CONNECTOR_ID, INITIAL_STOCK_PARAM_ID } from './UploadFileConfig';
 import { UploadFileUtils } from './UploadFileUtils';
 import { DATASET_PARAM_VARTYPE, ScenarioParametersUtils } from './ScenarioParametersUtils';

@@ -3,11 +3,10 @@
 
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { UploadFile } from '@cosmotech/ui';
+import { UploadFile, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
 import { UploadFileUtils } from '../../UploadFileUtils';
 import DatasetService from '../../../../services/dataset/DatasetService';
 import { ORGANISATION_ID } from '../../../../configs/App.config';
-import { UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui/src/UploadFile/StatusConstants';
 
 const FileUpload = ({
   acceptedFileTypesToUpload,
