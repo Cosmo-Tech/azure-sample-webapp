@@ -21,9 +21,8 @@ import { EditModeButton, NormalModeButton, ScenarioParametersTabs } from './comp
 import { useTranslation } from 'react-i18next';
 import { SimpleTwoActionsDialog } from '@cosmotech/ui';
 import { BasicTypes, BarParameters } from './components/tabs';
-import { acceptedFileTypesToUpload } from '../../configs/App.config';
 import { UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui/src/UploadFile/StatusConstants';
-import { AZURE_STORAGE_CONNECTOR_ID, INITIAL_STOCK_PARAM_ID } from './UploadFileConfig';
+import { ACCEPT_FILE_TYPE_FILE_UPLOAD, AZURE_STORAGE_CONNECTOR_ID, INITIAL_STOCK_PARAM_ID } from './UploadFileConfig';
 import { UploadFileUtils } from './UploadFileUtils';
 import { DATASET_PARAM_VARTYPE, ScenarioParametersUtils } from './ScenarioParametersUtils';
 
@@ -219,7 +218,7 @@ const ScenarioParameters = ({
     initialStockDataset,
     initialStockDatasetId,
     INITIAL_STOCK_PARAM_ID,
-    workspaceId, acceptedFileTypesToUpload,
+    workspaceId, ACCEPT_FILE_TYPE_FILE_UPLOAD,
     editMode);
   /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
   // Indices in this array must match indices in the tabs configuration file

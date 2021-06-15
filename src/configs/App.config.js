@@ -46,6 +46,3 @@ export const applicationLanguages = {
   en: 'English',
   fr: 'Français'
 };
-
-export const acceptedFileTypesToUpload =
-  '.xlsx,.xls,.csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
