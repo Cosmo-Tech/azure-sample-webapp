@@ -133,11 +133,16 @@ const deleteFile = async (connectorFilePath, datasetFile, setDatasetFile, worksp
 const handleDownloadFile = async (dataset, datasetFile, setDatasetFile, scenarioId, parameterId, workspaceId) => {
   const destinationUploadFile = UploadFileUtils.constructDestinationFile(scenarioId, parameterId, datasetFile.name);
   setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.DOWNLOADING });
-  const { error, data } = await WorkspaceService.downloadWorkspaceFile(ORGANISATION_ID, workspaceId, destinationUploadFile);
+  const { error, data, response } = await WorkspaceService.downloadWorkspaceFile(ORGANISATION_ID, workspaceId, destinationUploadFile);
   if (error) {
     console.error(error);
   } else {
-    fileDownload(data, datasetFile.name);
+    if (response.type.includes('json')) {
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      fileDownload(blob, datasetFile.name);
+    } else {
+      fileDownload(data, datasetFile.name);
+    }
   }
   setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD });
 };
