@@ -21,7 +21,7 @@ import { EditModeButton, NormalModeButton, ScenarioParametersTabs } from './comp
 import { useTranslation } from 'react-i18next';
 import { SimpleTwoActionsDialog, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
 import { BasicTypes, BarParameters } from './components/tabs';
-import { ACCEPT_FILE_TYPE_FILE_UPLOAD, AZURE_STORAGE_CONNECTOR_ID, INITIAL_STOCK_PARAM_ID } from './UploadFileConfig';
+import { INITIAL_STOCK_PARAM_ACCEPT_FILE_TYPE, INITIAL_STOCK_PARAM_CONNECTOR_ID, INITIAL_STOCK_PARAM_ID } from './UploadFileConfig';
 import { UploadFileUtils } from './UploadFileUtils';
 import { DATASET_PARAM_VARTYPE, ScenarioParametersUtils } from './ScenarioParametersUtils';
 
@@ -81,45 +81,45 @@ const ScenarioParameters = ({
 
   // State for bar defaultScenarioParameters
   const [stock, setStock] = useState(
-    UploadFileUtils.getValueFromParameters(defaultScenarioParameters, STOCK_PARAM)
+    ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, STOCK_PARAM)
   );
 
   const [restockQuantity, setRestockQuantity] = useState(
-    UploadFileUtils.getValueFromParameters(defaultScenarioParameters, RESTOCK_PARAM)
+    ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, RESTOCK_PARAM)
   );
   const [waitersNumber, setWaitersNumber] = useState(
-    UploadFileUtils.getValueFromParameters(defaultScenarioParameters, NBWAITERS_PARAM)
+    ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, NBWAITERS_PARAM)
   );
 
   // State for basic input types examples defaultScenarioParameters
   const [currency, setCurrency] = useState(
-    UploadFileUtils.getValueFromParameters(defaultScenarioParameters, CURRENCY_PARAM)
+    ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, CURRENCY_PARAM)
   );
   const [currencyName, setCurrencyName] = useState(
-    UploadFileUtils.getValueFromParameters(defaultScenarioParameters, CURRENCY_NAME_PARAM)
+    ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, CURRENCY_NAME_PARAM)
   );
   const [currencyValue, setCurrencyValue] = useState(
-    UploadFileUtils.getValueFromParameters(defaultScenarioParameters, CURRENCY_VALUE_PARAM)
+    ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, CURRENCY_VALUE_PARAM)
   );
   const [currencyUsed, setCurrencyUsed] = useState(
-    UploadFileUtils.getValueFromParameters(defaultScenarioParameters, CURRENCY_USED_PARAM)
+    ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, CURRENCY_USED_PARAM)
   );
   const [startDate, setStartDate] = useState(
-    UploadFileUtils.getValueFromParameters(defaultScenarioParameters, START_DATE_PARAM)
+    ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, START_DATE_PARAM)
   );
 
   const resetParameters = () => {
     // Bar parameters
-    setStock(UploadFileUtils.getValueFromParameters(defaultScenarioParameters, STOCK_PARAM));
-    setRestockQuantity(UploadFileUtils.getValueFromParameters(defaultScenarioParameters, RESTOCK_PARAM));
-    setWaitersNumber(UploadFileUtils.getValueFromParameters(defaultScenarioParameters, NBWAITERS_PARAM));
+    setStock(ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, STOCK_PARAM));
+    setRestockQuantity(ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, RESTOCK_PARAM));
+    setWaitersNumber(ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, NBWAITERS_PARAM));
 
     // Basic Types Sample
-    setCurrency(UploadFileUtils.getValueFromParameters(defaultScenarioParameters, CURRENCY_PARAM));
-    setCurrencyName(UploadFileUtils.getValueFromParameters(defaultScenarioParameters, CURRENCY_NAME_PARAM));
-    setCurrencyValue(UploadFileUtils.getValueFromParameters(defaultScenarioParameters, CURRENCY_VALUE_PARAM));
-    setCurrencyUsed(UploadFileUtils.getValueFromParameters(defaultScenarioParameters, CURRENCY_USED_PARAM));
-    setStartDate(UploadFileUtils.getValueFromParameters(defaultScenarioParameters, START_DATE_PARAM));
+    setCurrency(ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, CURRENCY_PARAM));
+    setCurrencyName(ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, CURRENCY_NAME_PARAM));
+    setCurrencyValue(ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, CURRENCY_VALUE_PARAM));
+    setCurrencyUsed(ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, CURRENCY_USED_PARAM));
+    setStartDate(ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, START_DATE_PARAM));
     /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
     UploadFileUtils.resetUploadFile(initialStockDatasetId, initialStockFile, setInitialStockFile);
     /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
@@ -157,7 +157,6 @@ const ScenarioParameters = ({
       ]);
     }
     /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
-    // TODO Add initial stock parameters correctly!!!!
     if (['1', '2', '3', '4'].indexOf(runTemplateId) !== -1) {
       if (initialStockDataset.current && Object.keys(initialStockDataset.current).length !== 0) {
         parametersData = parametersData.concat([
@@ -188,8 +187,13 @@ const ScenarioParameters = ({
   const isCurrentScenarioRunning = () => (currentScenario.data.state === SCENARIO_RUN_STATE.RUNNING);
 
   const handleClickOnLaunchScenarioButton = () => {
-    launchScenario(workspaceId, scenarioId);
-    changeEditMode(false);
+    // If scenario parameters have never been updated, do it now
+    if (!currentScenario.data.parametersValues) {
+      handleClickOnUpdateAndLaunchScenarioButton();
+    } else {
+      launchScenario(workspaceId, scenarioId);
+      changeEditMode(false);
+    }
   };
 
   const handleClickOnUpdateAndLaunchScenarioButton = async () => {
@@ -199,7 +203,7 @@ const ScenarioParameters = ({
       initialStockFile,
       setInitialStockFile,
       initialStockDatasetId,
-      AZURE_STORAGE_CONNECTOR_ID,
+      INITIAL_STOCK_PARAM_CONNECTOR_ID,
       currentScenario.data.id,
       workspaceId,
       destinationFilePath);
@@ -217,7 +221,7 @@ const ScenarioParameters = ({
     initialStockDataset,
     initialStockDatasetId,
     INITIAL_STOCK_PARAM_ID,
-    workspaceId, ACCEPT_FILE_TYPE_FILE_UPLOAD,
+    workspaceId, INITIAL_STOCK_PARAM_ACCEPT_FILE_TYPE,
     editMode);
   /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
   // Indices in this array must match indices in the tabs configuration file
@@ -258,7 +262,6 @@ const ScenarioParameters = ({
     }
   }
 
-  // TODO check if genericcomponent.text.scenario.defaultScenarioParameters.title exists
   return (
       <div>
         <Grid container direction="column" justify="center" alignContent="flex-start" >

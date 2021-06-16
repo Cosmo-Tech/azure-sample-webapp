@@ -16,17 +16,6 @@ function constructFileNameFromDataset (dataset, destinationUploadFile) {
   return fullName;
 }
 
-const getValueFromParameters = (parameters, parameterToSelect) => {
-  if (parameters.current === null) {
-    return parameterToSelect.defaultValue;
-  }
-  const param = parameters.current?.find(element => element.parameterId === parameterToSelect.id);
-  if (param !== undefined) {
-    return param.value;
-  }
-  return parameterToSelect.defaultValue;
-};
-
 const createConnector = (connectorId, scenarioId, parameterName, fileName) => {
   return {
     id: connectorId,
@@ -173,7 +162,6 @@ const resetUploadFile = (datasetId, file, setFile) => {
 const constructDestinationFile = (scenarioId, parameterId, fileName) => scenarioId + '/' + parameterId + '/' + fileName;
 
 export const UploadFileUtils = {
-  getValueFromParameters,
   constructFileNameFromDataset,
   constructDestinationFile,
   handleDownloadFile,

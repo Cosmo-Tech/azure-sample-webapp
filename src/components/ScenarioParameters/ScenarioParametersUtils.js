@@ -11,6 +11,18 @@ const constructParameterData = (param, value) => {
   };
 };
 
+const getValueFromParameters = (parameters, parameterToSelect) => {
+  if (parameters.current === null) {
+    return parameterToSelect.defaultValue;
+  }
+  const param = parameters.current?.find(element => element.parameterId === parameterToSelect.id);
+  if (param !== undefined) {
+    return param.value;
+  }
+  return parameterToSelect.defaultValue;
+};
+
 export const ScenarioParametersUtils = {
-  constructParameterData
+  constructParameterData,
+  getValueFromParameters
 };
