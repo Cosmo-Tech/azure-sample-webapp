@@ -181,44 +181,16 @@
       }
     }
   },
-  "views": {
-    "common": {
-      "footer": {
-        "text": {
-          "companyname": "Cosmo Tech",
-          "poweredby": "Propulsé par Cosmo Tech"
-        }
-      },
-      "text": {
-        "loading": "Chargement..."
-      }
-    },
-    "signin": {
-      "title": "Exemple d'Application Web Azure"
-    },
-    "unauthorized": {
-      "scenario": {
-        "specialists": {
-          "title": "Spécialistes des jumeaux numériques"
-        }
-      },
-      "title": "Exemple d'Application Web Azure"
-    },
-    "scenario": {
-      "dropdown": {
-        "scenario" : {
-          "label" : "Scénario",
-          "tooltip": {
-            "disabled": "Veuillez sauver ou annuler les modifications en cours avant de sélectionner un autre scénario"
-          }
-        }
-      },
-      "text" : {
-        "scenariotype" : "Type de scénario"
-      }
-    }
-  },
   "genericcomponent": {
+    "uploadfile": {
+      "button": {
+        "browse": "Parcourir",
+        "update": "Mettre à jour"
+      },
+      "tooltip": {
+        "isvalidfile": "Erreur: la colonne requiert une chaine de caractères"
+      }
+    },
     "loading": {
       "line": {
         "workspace" : {
@@ -284,6 +256,43 @@
             "waiters": "Nombre de serveurs"
           }
         }
+      }
+    }
+  },
+  "views": {
+    "common": {
+      "footer": {
+        "text": {
+          "companyname": "Cosmo Tech",
+          "poweredby": "Propulsé par Cosmo Tech"
+        }
+      },
+      "text": {
+        "loading": "Chargement..."
+      }
+    },
+    "signin": {
+      "title": "Exemple d'Application Web Azure"
+    },
+    "unauthorized": {
+      "scenario": {
+        "specialists": {
+          "title": "Spécialistes des jumeaux numériques"
+        }
+      },
+      "title": "Exemple d'Application Web Azure"
+    },
+    "scenario": {
+      "dropdown": {
+        "scenario" : {
+          "label" : "Scénario",
+          "tooltip": {
+            "disabled": "Veuillez sauver ou annuler les modifications en cours avant de sélectionner un autre scénario"
+          }
+        }
+      },
+      "text" : {
+        "scenariotype" : "Type de scénario"
       }
     }
   },

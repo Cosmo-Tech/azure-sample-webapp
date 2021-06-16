@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import {
   Grid,
@@ -9,11 +9,21 @@ import {
   makeStyles
 } from '@material-ui/core';
 import { SCENARIO_RUN_STATE } from '../../utils/ApiUtils';
-import { SCENARIO_PARAMETERS_TABS_CONFIG } from '../../configs/ScenarioParametersTabs.config';
+import {
+  CURRENCY_NAME_PARAM,
+  CURRENCY_PARAM, CURRENCY_USED_PARAM, CURRENCY_VALUE_PARAM,
+  NBWAITERS_PARAM,
+  RESTOCK_PARAM,
+  SCENARIO_PARAMETERS_TABS_CONFIG, START_DATE_PARAM,
+  STOCK_PARAM
+} from '../../configs/ScenarioParametersTabs.config';
 import { EditModeButton, NormalModeButton, ScenarioParametersTabs } from './components';
 import { useTranslation } from 'react-i18next';
-import { SimpleTwoActionsDialog } from '@cosmotech/ui';
+import { SimpleTwoActionsDialog, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
 import { BasicTypes, BarParameters } from './components/tabs';
+import { INITIAL_STOCK_PARAM_ACCEPT_FILE_TYPE, INITIAL_STOCK_PARAM_CONNECTOR_ID, INITIAL_STOCK_PARAM_ID } from './UploadFileConfig';
+import { UploadFileUtils } from './UploadFileUtils';
+import { DATASET_PARAM_VARTYPE, ScenarioParametersUtils } from './ScenarioParametersUtils';
 
 const useStyles = makeStyles(theme => ({
   header: {
@@ -45,123 +55,122 @@ const ScenarioParameters = ({
   const { t } = useTranslation();
   // General states
   const [displayPopup, setDisplayPopup] = useState(false);
+  const defaultScenarioParameters = useRef([]);
 
-  // Current scenario parameters
-  const parameters = currentScenario.data.parametersValues;
-  const getValueFromParameters = (parameterId, defaultValue) => {
-    if (parameters === null || parameters === undefined) {
-      return defaultValue;
-    }
-    const param = parameters.find(element => element.parameterId === parameterId);
-    if (param !== undefined) {
-      return param.value;
-    }
-    return defaultValue;
-  };
+  /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
+  // State for File Upload
+  const [initialStockFile, setInitialStockFile] = useState({
+    parameterId: INITIAL_STOCK_PARAM_ID,
+    description: 'Initial stock dataset part',
+    name: '',
+    file: null,
+    status: UPLOAD_FILE_STATUS_KEY.EMPTY
+  });
+  const initialStockDataset = useRef({});
+  const [initialStockDatasetId, setInitialStockDatasetId] = useState('');
+  /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
 
-  // State for bar parameters
+  useEffect(() => {
+    defaultScenarioParameters.current = currentScenario.data.parametersValues;
+    /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
+    const initialStockParameter = currentScenario.data?.parametersValues?.find(el => el.parameterId === INITIAL_STOCK_PARAM_ID);
+    setInitialStockDatasetId(initialStockParameter?.value);
+    /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
+    // eslint-disable-next-line
+  }, [currentScenario, changeEditMode, initialStockFile.status]);
+
+  // State for bar defaultScenarioParameters
   const [stock, setStock] = useState(
-    getValueFromParameters('stock', 100));
+    ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, STOCK_PARAM)
+  );
+
   const [restockQuantity, setRestockQuantity] = useState(
-    getValueFromParameters('restock_qty', 25));
+    ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, RESTOCK_PARAM)
+  );
   const [waitersNumber, setWaitersNumber] = useState(
-    getValueFromParameters('nb_waiters', 5));
-  // State for basic input types examples parameters
+    ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, NBWAITERS_PARAM)
+  );
+
+  // State for basic input types examples defaultScenarioParameters
   const [currency, setCurrency] = useState(
-    getValueFromParameters('currency', 'USD'));
+    ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, CURRENCY_PARAM)
+  );
   const [currencyName, setCurrencyName] = useState(
-    getValueFromParameters('currency_name', 'EUR'));
+    ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, CURRENCY_NAME_PARAM)
+  );
   const [currencyValue, setCurrencyValue] = useState(
-    getValueFromParameters('currency_value', 1000));
+    ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, CURRENCY_VALUE_PARAM)
+  );
   const [currencyUsed, setCurrencyUsed] = useState(
-    getValueFromParameters('currency_used', false));
+    ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, CURRENCY_USED_PARAM)
+  );
   const [startDate, setStartDate] = useState(
-    getValueFromParameters('start_date', new Date('2014-08-18T21:11:54')));
+    ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, START_DATE_PARAM)
+  );
 
   const resetParameters = () => {
-    setStock(getValueFromParameters('stock', 100));
-    setRestockQuantity(getValueFromParameters('restock_qty', 25));
-    setWaitersNumber(getValueFromParameters('nb_waiters', 5));
-    setCurrency(getValueFromParameters('currency', 'USD'));
-    setCurrencyName(getValueFromParameters('currency_name', 'EUR'));
-    setCurrencyValue(getValueFromParameters('currency_value', 1000));
-    setCurrencyUsed(getValueFromParameters('currency_used', false));
-    setStartDate(getValueFromParameters(
-      'start_date', new Date('2014-08-18T21:11:54')));
+    // Bar parameters
+    setStock(ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, STOCK_PARAM));
+    setRestockQuantity(ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, RESTOCK_PARAM));
+    setWaitersNumber(ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, NBWAITERS_PARAM));
+
+    // Basic Types Sample
+    setCurrency(ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, CURRENCY_PARAM));
+    setCurrencyName(ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, CURRENCY_NAME_PARAM));
+    setCurrencyValue(ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, CURRENCY_VALUE_PARAM));
+    setCurrencyUsed(ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, CURRENCY_USED_PARAM));
+    setStartDate(ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, START_DATE_PARAM));
+    /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
+    UploadFileUtils.resetUploadFile(initialStockDatasetId, initialStockFile, setInitialStockFile);
+    /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
   };
 
+  // TODO Change it in by a function using parameters values
+  // eslint-disable-next-line
   const getParametersDataForApi = (runTemplateId) => {
     let parametersData = [];
-    // Add bar parameters if necessary (run templates '1' and '2')
+    // Add bar scenarioParameters if necessary (run templates '1' and '2')
     if (['1', '2'].indexOf(runTemplateId) !== -1) {
+      const stockParam = ScenarioParametersUtils.constructParameterData(STOCK_PARAM, stock);
+      const restockQuantityParam = ScenarioParametersUtils.constructParameterData(RESTOCK_PARAM, restockQuantity);
+      const waitersNumberParam = ScenarioParametersUtils.constructParameterData(NBWAITERS_PARAM, waitersNumber);
       parametersData = parametersData.concat([
-        {
-          parameterId: 'stock',
-          varType: 'int',
-          value: stock,
-          isInherited: stock !== getValueFromParameters('stock')
-        },
-        {
-          parameterId: 'restock_qty',
-          varType: 'int',
-          value: restockQuantity,
-          isInherited: restockQuantity !== getValueFromParameters('restock_qty')
-        },
-        {
-          parameterId: 'nb_waiters',
-          varType: 'int',
-          value: waitersNumber,
-          isInherited: waitersNumber !== getValueFromParameters('nb_waiters')
-        }
+        stockParam,
+        restockQuantityParam,
+        waitersNumberParam
       ]);
     }
 
-    // Add basic inputs examples parameters if necessary (run template '4')
+    // Add basic inputs examples parameters if necessary (run template '3')
     if (['3'].indexOf(runTemplateId) !== -1) {
+      const currencyParam = ScenarioParametersUtils.constructParameterData(CURRENCY_PARAM, currency);
+      const currencyNameParam = ScenarioParametersUtils.constructParameterData(CURRENCY_NAME_PARAM, currencyName);
+      const currencyValueParam = ScenarioParametersUtils.constructParameterData(CURRENCY_VALUE_PARAM, currencyValue);
+      const currencyUsedParam = ScenarioParametersUtils.constructParameterData(CURRENCY_USED_PARAM, currencyUsed);
+      const startDateValueParam = ScenarioParametersUtils.constructParameterData(START_DATE_PARAM, startDate);
       parametersData = parametersData.concat([
-        {
-          parameterId: 'currency',
-          varType: 'enum',
-          value: currency,
-          isInherited: currency !== getValueFromParameters('currency')
-        },
-        {
-          parameterId: 'currency_name',
-          varType: 'string',
-          value: currencyName,
-          isInherited: currencyName !== getValueFromParameters('currency_name')
-        },
-        {
-          parameterId: 'currency_value',
-          varType: 'number',
-          value: currencyValue,
-          isInherited: currencyValue !== getValueFromParameters('currency_value')
-        },
-        {
-          parameterId: 'currency_used',
-          varType: 'bool',
-          value: currencyUsed,
-          isInherited: currencyUsed !== getValueFromParameters('currency_used')
-        },
-        {
-          parameterId: 'start_date',
-          varType: 'date',
-          value: startDate,
-          isInherited: startDate !== getValueFromParameters('start_date')
-        }
+        currencyParam,
+        currencyNameParam,
+        currencyValueParam,
+        currencyUsedParam,
+        startDateValueParam
       ]);
     }
-
-    // TODO Add file upload parameters if necessary
-    // TODO Add array template parameters if necessary
+    /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
+    if (['1', '2', '3', '4'].indexOf(runTemplateId) !== -1) {
+      if (initialStockDataset.current && Object.keys(initialStockDataset.current).length !== 0) {
+        parametersData = parametersData.concat([
+          {
+            parameterId: INITIAL_STOCK_PARAM_ID,
+            varType: DATASET_PARAM_VARTYPE,
+            value: initialStockDataset.current.id
+          }
+        ]);
+      }
+    }
+    /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
     return parametersData;
   };
-
-  // Update the parameters form when scenario parameters change
-  useEffect(() => {
-    resetParameters();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [parameters]);
 
   // Popup part
   const handleClickOnDiscardChangeButton = () => setDisplayPopup(true);
@@ -175,8 +184,7 @@ const ScenarioParameters = ({
 
   // Normal Mode Screen
   const handleClickOnEditButton = () => changeEditMode(true);
-  const isCurrentScenarioRunning = () => (
-    currentScenario.data.state === SCENARIO_RUN_STATE.RUNNING);
+  const isCurrentScenarioRunning = () => (currentScenario.data.state === SCENARIO_RUN_STATE.RUNNING);
 
   const handleClickOnLaunchScenarioButton = () => {
     // If scenario parameters have never been updated, do it now
@@ -188,18 +196,39 @@ const ScenarioParameters = ({
     }
   };
 
-  // Edit Mode Screen
-  const handleClickOnUpdateAndLaunchScenarioButton = () => {
-    const parametersData = getParametersDataForApi(
-      currentScenario.data.runTemplateId);
+  const handleClickOnUpdateAndLaunchScenarioButton = async () => {
+    /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
+    const destinationFilePath = UploadFileUtils.constructDestinationFile(currentScenario.data.id, INITIAL_STOCK_PARAM_ID, initialStockFile.name);
+    await UploadFileUtils.fileManagement(initialStockDataset,
+      initialStockFile,
+      setInitialStockFile,
+      initialStockDatasetId,
+      INITIAL_STOCK_PARAM_CONNECTOR_ID,
+      currentScenario.data.id,
+      workspaceId,
+      destinationFilePath);
+    /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
+    const parametersData = getParametersDataForApi(currentScenario.data.runTemplateId);
+    defaultScenarioParameters.current = parametersData;
     updateAndLaunchScenario(workspaceId, scenarioId, parametersData);
     changeEditMode(false);
   };
-
+  /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
+  const fileUploadComponent = UploadFileUtils.constructFileUpload('0',
+    initialStockFile,
+    setInitialStockFile,
+    currentScenario.data.id,
+    initialStockDataset,
+    initialStockDatasetId,
+    INITIAL_STOCK_PARAM_ID,
+    workspaceId, INITIAL_STOCK_PARAM_ACCEPT_FILE_TYPE,
+    editMode);
+  /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
   // Indices in this array must match indices in the tabs configuration file
   // configs/ScenarioParametersTabs.config.js
   const scenarioParametersTabs = [
-    <BarParameters key="0"
+    fileUploadComponent,
+    <BarParameters key="1"
       stock={stock}
       changeStock={setStock}
       restockQuantity={restockQuantity}
@@ -208,7 +237,7 @@ const ScenarioParameters = ({
       changeWaitersNumber={setWaitersNumber}
       editMode={editMode}
     />,
-    <BasicTypes key="1"
+    <BasicTypes key="2"
       textFieldValue={currencyName}
       changeTextField={setCurrencyName}
       numberFieldValue={currencyValue}
@@ -221,7 +250,6 @@ const ScenarioParameters = ({
       changeSelectedDate={setStartDate}
       editMode={editMode}
     />,
-    <Typography key="2">Empty</Typography>, // Upload file
     <Typography key="3">Empty</Typography> // Array template
   ];
 
@@ -275,7 +303,8 @@ const ScenarioParameters = ({
             cancelLabelKey='genericcomponent.dialog.scenario.parameters.button.cancel'
             validateLabelKey='genericcomponent.dialog.scenario.parameters.button.validate'
             handleClickOnCancel={handleClickOnPopupCancelButton}
-            handleClickOnValidate={handleClickOnPopupDiscardChangeButton}/>
+            handleClickOnValidate={handleClickOnPopupDiscardChangeButton}
+          />
       </div>
   );
 };

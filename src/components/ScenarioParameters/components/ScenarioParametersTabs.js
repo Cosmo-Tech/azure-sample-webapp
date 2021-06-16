@@ -44,6 +44,8 @@ const ScenarioParametersTabs = ({
   currentScenario
 }) => {
   const classes = useStyles();
+
+  // Translation
   const { t } = useTranslation();
 
   const [selectedTab, setSelectedTab] = useState('');

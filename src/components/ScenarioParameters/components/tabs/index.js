@@ -3,4 +3,4 @@
 
 export { default as BasicTypes } from './BasicTypes';
 export { default as BarParameters } from './BarParameters';
-// export { default as UploadFile } from './UploadFile';
+export { default as FileUpload } from './FileUpload';
