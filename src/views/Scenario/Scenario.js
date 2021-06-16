@@ -13,6 +13,7 @@ import {
 } from '@cosmotech/ui';
 import { SCENARIO_DASHBOARD_CONFIG } from '../../configs/ScenarioDashboard.config';
 import { NAME_VALIDATOR } from '../../utils/ValidationUtils';
+import { sortScenarioList } from '../../utils/SortScenarioListUtils';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -78,6 +79,8 @@ const Scenario = (props) => {
     findScenarioById(workspaceId, scenario.id);
   };
 
+  const sortedScenarioList = sortScenarioList(scenarioList.data.slice());
+
   return (
     <Grid container direction="column" className={classes.mainGrid}>
       <Grid item xs={12}>
@@ -88,7 +91,7 @@ const Scenario = (props) => {
                 <HierarchicalComboBox
                   value={currentScenario.data}
                   maxCharLength={36}
-                  values={scenarioList.data}
+                  values={sortedScenarioList}
                   label={t('views.scenario.dropdown.scenario.label', Scenario)}
                   handleChange={handleScenarioChange}
                   disabled={editMode}
