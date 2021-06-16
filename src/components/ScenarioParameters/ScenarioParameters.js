@@ -76,6 +76,9 @@ const ScenarioParameters = ({
     const initialStockParameter = currentScenario.data?.parametersValues?.find(el => el.parameterId === INITIAL_STOCK_PARAM_ID);
     setInitialStockDatasetId(initialStockParameter?.value);
     /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
+
+    // Reset parameters
+    resetParameters();
     // eslint-disable-next-line
   }, [currentScenario, changeEditMode, initialStockFile.status]);
 
