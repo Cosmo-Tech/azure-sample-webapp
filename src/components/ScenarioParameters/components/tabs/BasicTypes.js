@@ -76,7 +76,7 @@ const BasicTypes = ({
     disabled: !editMode,
     id: 'basic-date-input-id',
     value: selectedDate,
-    minDate: new Date('2018-01-01'),
+    minDate: new Date('2014-01-01'),
     maxDate: new Date('2023-01-01'),
     minDateMessage: 'Minimum date is not respected',
     maxDateMessage: 'Maximum date is not respected',
