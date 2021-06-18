@@ -29,7 +29,8 @@ const createConnector = (connectorId, scenarioId, parameterName, fileName) => {
   };
 };
 
-async function fileManagement (dataset, datasetFile, setDatasetFile, datasetId, setDatasetId, parameterId, connectorId, scenarioId, workspaceId, destinationUploadFile) {
+async function fileManagement (dataset, datasetFile, setDatasetFile, datasetId, setDatasetId, parameterId, connectorId, scenarioId, workspaceId) {
+  const destinationUploadFile = constructDestinationFile(scenarioId, parameterId, datasetFile.name);
   if (datasetFile.status === UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD) {
     await updateFileWithUpload(datasetFile, setDatasetFile, dataset, datasetId, parameterId, connectorId, scenarioId, workspaceId, destinationUploadFile);
   } else if (datasetFile.status === UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE) {
@@ -169,7 +170,6 @@ const constructDestinationFile = (scenarioId, parameterId, fileName) => scenario
 
 export const UploadFileUtils = {
   constructFileNameFromDataset,
-  constructDestinationFile,
   handleDownloadFile,
   handlePrepareToDeleteFile,
   handlePrepareToUpload,
