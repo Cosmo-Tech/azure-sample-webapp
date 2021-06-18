@@ -75,7 +75,7 @@ const ScenarioParameters = ({
     defaultScenarioParameters.current = currentScenario.data.parametersValues;
     /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
     const initialStockParameter = currentScenario.data?.parametersValues?.find(el => el.parameterId === INITIAL_STOCK_PARAM_ID);
-    setInitialStockDatasetId(initialStockParameter?.value);
+    setInitialStockDatasetId(initialStockParameter?.value === undefined ? '' : initialStockParameter.value);
     /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
 
     // Reset parameters

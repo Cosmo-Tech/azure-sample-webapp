@@ -27,7 +27,7 @@ const FileUpload = ({
       }
       return data;
     };
-    if (datasetId !== undefined &&
+    if (datasetId !== '' &&
         (file.status === UPLOAD_FILE_STATUS_KEY.EMPTY ||
         file.status === UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD)) {
       fetchDatasetById(currentDataset, datasetId)
@@ -41,7 +41,7 @@ const FileUpload = ({
           currentDataset.current = {};
           setFile({ ...file, name: '', status: UPLOAD_FILE_STATUS_KEY.EMPTY });
         });
-    } else if (datasetId === undefined &&
+    } else if (datasetId === '' &&
         file.status !== UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD) {
       currentDataset.current = {};
       setFile({ ...file, file: null, name: '', status: UPLOAD_FILE_STATUS_KEY.EMPTY });
