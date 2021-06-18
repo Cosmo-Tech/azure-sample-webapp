@@ -22,7 +22,8 @@ function buildFileNameFromDataset (dataset, storageFilePath) {
   return fullName;
 }
 
-function updateStorageContainerBlobPrefix (dataset, storageFilePath) {
+// Update AZURE_STORAGE_CONTAINER_BLOB_PREFIX in a dataset reference
+function updatePathInDatasetRef (dataset, storageFilePath) {
   dataset.current.connector.parametersValues.AZURE_STORAGE_CONTAINER_BLOB_PREFIX = storageFilePath;
 }
 
@@ -52,7 +53,8 @@ async function updateFileWithUpload (datasetFile, setDatasetFile, dataset, datas
     await deleteFile(previousStorageFilePath, datasetFile, setDatasetFile, workspaceId);
     // File has been marked to be uploaded
     await uploadFile(dataset, datasetFile, setDatasetFile, workspaceId, newStorageFilePath);
-    updateStorageContainerBlobPrefix(dataset, newStorageFilePath);
+    // FIXME: missing workspace prefix ?
+    updatePathInDatasetRef(dataset, newStorageFilePath);
     const {
       error,
       data
@@ -94,7 +96,7 @@ async function updateFileWithDelete (datasetFile, setDatasetFile, dataset, datas
   }
 }
 
-const handlePrepareToUpload = (event, datasetFile, setDatasetFile) => {
+const prepareToUpload = (event, datasetFile, setDatasetFile) => {
   const file = event.target.files[0];
   if (file === undefined) {
     return;
@@ -114,13 +116,13 @@ const uploadFile = async (dataset, datasetFile, setDatasetFile, workspaceId, sto
     if (!dataset.current) {
       console.warn('Your previous file was in an awkward state. The backend may not be clean.');
     } else if (Object.keys(dataset.current).length !== 0) {
-      updateStorageContainerBlobPrefix(dataset, STORAGE_ROOT_DIR_PLACEHOLDER + '/' + data.fileName);
+      updatePathInDatasetRef(dataset, STORAGE_ROOT_DIR_PLACEHOLDER + '/' + data.fileName);
     }
     setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD });
   }
 };
 
-const handlePrepareToDeleteFile = (datasetFile, setDatasetFile) => {
+const prepareToDeleteFile = (datasetFile, setDatasetFile) => {
   setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE });
 };
 
@@ -134,7 +136,7 @@ const deleteFile = async (connectorFilePath, datasetFile, setDatasetFile, worksp
   }
 };
 
-const handleDownloadFile = async (dataset, datasetFile, setDatasetFile, scenarioId, parameterId, workspaceId) => {
+const downloadFile = async (dataset, datasetFile, setDatasetFile, scenarioId, parameterId, workspaceId) => {
   const storageFilePath = buildStorageFilePath(scenarioId, parameterId, datasetFile.name);
   setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.DOWNLOADING });
   const { error, data, response } = await WorkspaceService.downloadWorkspaceFile(ORGANISATION_ID, workspaceId, storageFilePath);
@@ -175,9 +177,9 @@ const resetUploadFile = (datasetId, file, setFile) => {
 
 export const UploadFileUtils = {
   buildFileNameFromDataset,
-  handleDownloadFile,
-  handlePrepareToDeleteFile,
-  handlePrepareToUpload,
+  downloadFile,
+  prepareToDeleteFile,
+  prepareToUpload,
   updateDatasetPartFile,
   constructFileUpload,
   resetUploadFile
