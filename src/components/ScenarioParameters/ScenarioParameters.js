@@ -206,7 +206,7 @@ const ScenarioParameters = ({
 
   const handleClickOnUpdateAndLaunchScenarioButton = async () => {
     /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
-    await UploadFileUtils.fileManagement(initialStockDataset,
+    await UploadFileUtils.updateDatasetPartFile(initialStockDataset,
       initialStockFile,
       setInitialStockFile,
       initialStockDatasetId,

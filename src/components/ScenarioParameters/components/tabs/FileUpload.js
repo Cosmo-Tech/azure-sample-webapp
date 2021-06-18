@@ -33,7 +33,7 @@ const FileUpload = ({
       fetchDatasetById(currentDataset, datasetId)
         .then((data) => {
           currentDataset.current = data;
-          const fileName = UploadFileUtils.constructFileNameFromDataset(currentDataset.current, '');
+          const fileName = UploadFileUtils.buildFileNameFromDataset(currentDataset.current, '');
           setFile({ ...file, initialName: fileName, name: fileName, status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD });
         })
         .catch((error) => {
