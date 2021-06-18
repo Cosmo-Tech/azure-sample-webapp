@@ -38,8 +38,8 @@ function createScenario (organizationId, workspaceId, scenario) {
 function updateScenarioParameters (organizationId, workspaceId, scenarioId, scenarioParameters) {
   const formattedParameters = formatParametersForApi(scenarioParameters);
   return new Promise((resolve) => {
-    ScenarioApi.addOrReplaceScenarioParameterValues(organizationId, workspaceId, scenarioId, formattedParameters, (error, data, response) => {
-      data = formatParametersFromApi(data);
+    ScenarioApi.updateScenario(organizationId, workspaceId, scenarioId, formattedParameters, (error, data, response) => {
+      data = formatParametersFromApi(data.parametersValues);
       resolve({ error, data, response });
     });
   });

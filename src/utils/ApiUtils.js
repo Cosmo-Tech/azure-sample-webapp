@@ -14,7 +14,7 @@ export const SCENARIO_RUN_STATE = {
 
 export function formatParametersForApi (parameters) {
   // Reformat scenario parameters to match the API expected types
-  return parameters.map(param => {
+  const newParams = parameters.map(param => {
     // Clone the original parameter
     const newParam = clone(param);
     // Cast to string when necessary
@@ -29,6 +29,7 @@ export function formatParametersForApi (parameters) {
     }
     return newParam;
   });
+  return { parametersValues: newParams };
 }
 
 export function formatParametersFromApi (parameters) {
