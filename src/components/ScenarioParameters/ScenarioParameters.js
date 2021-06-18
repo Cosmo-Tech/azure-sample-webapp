@@ -62,6 +62,7 @@ const ScenarioParameters = ({
   const [initialStockFile, setInitialStockFile] = useState({
     parameterId: INITIAL_STOCK_PARAM_ID,
     description: 'Initial stock dataset part',
+    initialName: '',
     name: '',
     file: null,
     status: UPLOAD_FILE_STATUS_KEY.EMPTY
@@ -78,7 +79,7 @@ const ScenarioParameters = ({
     /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
 
     // Reset parameters
-    resetParameters();
+    resetParameters(false);
     // eslint-disable-next-line
   }, [currentScenario, changeEditMode, initialStockFile.status]);
 
@@ -111,7 +112,7 @@ const ScenarioParameters = ({
     ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, START_DATE_PARAM)
   );
 
-  const resetParameters = () => {
+  const resetParameters = (resetFile) => {
     // Bar parameters
     setStock(ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, STOCK_PARAM));
     setRestockQuantity(ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, RESTOCK_PARAM));
@@ -123,9 +124,13 @@ const ScenarioParameters = ({
     setCurrencyValue(ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, CURRENCY_VALUE_PARAM));
     setCurrencyUsed(ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, CURRENCY_USED_PARAM));
     setStartDate(ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, START_DATE_PARAM));
-    /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
-    UploadFileUtils.resetUploadFile(initialStockDatasetId, initialStockFile, setInitialStockFile);
-    /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
+
+    // Upload file
+    if (resetFile) {
+      /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
+      UploadFileUtils.resetUploadFile(initialStockDatasetId, initialStockFile, setInitialStockFile);
+      /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
+    }
   };
 
   // TODO Change it in by a function using parameters values
@@ -182,7 +187,7 @@ const ScenarioParameters = ({
     setDisplayPopup(false);
     changeEditMode(false);
     // Reset form values
-    resetParameters();
+    resetParameters(true);
   };
 
   // Normal Mode Screen
@@ -206,6 +211,8 @@ const ScenarioParameters = ({
       initialStockFile,
       setInitialStockFile,
       initialStockDatasetId,
+      setInitialStockDatasetId,
+      INITIAL_STOCK_PARAM_ID,
       INITIAL_STOCK_PARAM_CONNECTOR_ID,
       currentScenario.data.id,
       workspaceId,

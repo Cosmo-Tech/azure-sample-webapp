@@ -34,7 +34,7 @@ const FileUpload = ({
         .then((data) => {
           currentDataset.current = data;
           const fileName = UploadFileUtils.constructFileNameFromDataset(currentDataset.current, '');
-          setFile({ ...file, name: fileName, status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD });
+          setFile({ ...file, initialName: fileName, name: fileName, status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD });
         })
         .catch((error) => {
           console.error(error);

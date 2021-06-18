@@ -25,18 +25,19 @@ const createConnector = (connectorId, scenarioId, parameterName, fileName) => {
   };
 };
 
-async function fileManagement (dataset, datasetFile, setDatasetFile, datasetId, connectorId, scenarioId, workspaceId, destinationUploadFile) {
+async function fileManagement (dataset, datasetFile, setDatasetFile, datasetId, setDatasetId, parameterId, connectorId, scenarioId, workspaceId, destinationUploadFile) {
   if (datasetFile.status === UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD) {
-    await updateFileWithUpload(datasetFile, setDatasetFile, dataset, datasetId, connectorId, scenarioId, workspaceId, destinationUploadFile);
+    await updateFileWithUpload(datasetFile, setDatasetFile, dataset, datasetId, parameterId, connectorId, scenarioId, workspaceId, destinationUploadFile);
   } else if (datasetFile.status === UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE) {
-    await updateFileWithDelete(datasetFile, setDatasetFile, dataset, datasetId, workspaceId, destinationUploadFile);
+    await updateFileWithDelete(datasetFile, setDatasetFile, dataset, datasetId, setDatasetId, workspaceId, destinationUploadFile);
   }
 }
 
-async function updateFileWithUpload (datasetFile, setDatasetFile, dataset, datasetId, connectorId, scenarioId, workspaceId, destinationUploadFile) {
+async function updateFileWithUpload (datasetFile, setDatasetFile, dataset, datasetId, parameterId, connectorId, scenarioId, workspaceId, destinationUploadFile) {
   if (dataset.current && Object.keys(dataset.current).length !== 0) {
+    const removeExistingFilePath = constructDestinationFile(scenarioId, parameterId, datasetFile.initialName);
     // Delete existing file
-    await deleteFile(destinationUploadFile, datasetFile, setDatasetFile, workspaceId);
+    await deleteFile(removeExistingFilePath, datasetFile, setDatasetFile, workspaceId);
     // File has been marked to be uploaded
     await uploadFile(dataset.current, datasetFile, setDatasetFile, workspaceId, destinationUploadFile);
     const {
@@ -67,7 +68,7 @@ async function updateFileWithUpload (datasetFile, setDatasetFile, dataset, datas
   }
 }
 
-async function updateFileWithDelete (datasetFile, setDatasetFile, dataset, datasetId, workspaceId, destinationUploadFile) {
+async function updateFileWithDelete (datasetFile, setDatasetFile, dataset, datasetId, setDatasetId, workspaceId, destinationUploadFile) {
   // File has been marked to be deleted
   await deleteFile(destinationUploadFile, datasetFile, setDatasetFile, workspaceId);
   const { error } = await DatasetService.deleteDataset(ORGANISATION_ID, datasetId);
@@ -76,6 +77,7 @@ async function updateFileWithDelete (datasetFile, setDatasetFile, dataset, datas
   } else {
     dataset.current = {};
     setDatasetFile({ ...datasetFile, file: null, name: '', status: UPLOAD_FILE_STATUS_KEY.EMPTY });
+    setDatasetId('');
   }
 }
 
@@ -152,8 +154,9 @@ const constructFileUpload = (key, file, setFile, scenarioId, currentDataset, dat
 };
 
 const resetUploadFile = (datasetId, file, setFile) => {
-  if (datasetId) {
-    setFile({ ...file, status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD });
+  const initialName = file.initialName;
+  if (file.initialName !== '') {
+    setFile({ ...file, name: initialName, status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD });
   } else {
     setFile({ ...file, status: UPLOAD_FILE_STATUS_KEY.EMPTY });
   }
