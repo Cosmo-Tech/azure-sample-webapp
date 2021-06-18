@@ -16,6 +16,10 @@ function constructFileNameFromDataset (dataset, destinationUploadFile) {
   return fullName;
 }
 
+function updateStorageContainerBlobPrefix (dataset, destinationUploadFile) {
+  dataset.current.connector.parametersValues.AZURE_STORAGE_CONTAINER_BLOB_PREFIX = destinationUploadFile;
+}
+
 const createConnector = (connectorId, scenarioId, parameterName, fileName) => {
   return {
     id: connectorId,
@@ -39,7 +43,8 @@ async function updateFileWithUpload (datasetFile, setDatasetFile, dataset, datas
     // Delete existing file
     await deleteFile(removeExistingFilePath, datasetFile, setDatasetFile, workspaceId);
     // File has been marked to be uploaded
-    await uploadFile(dataset.current, datasetFile, setDatasetFile, workspaceId, destinationUploadFile);
+    await uploadFile(dataset, datasetFile, setDatasetFile, workspaceId, destinationUploadFile);
+    updateStorageContainerBlobPrefix(dataset, destinationUploadFile);
     const {
       error,
       data
@@ -98,10 +103,10 @@ const uploadFile = async (dataset, datasetFile, setDatasetFile, workspaceId, des
   } else {
     // Handle unlikely case where currentDataset.current is null or undefined
     // which is most likely to require a manual clean on the backend.
-    if (!dataset) {
+    if (!dataset.current) {
       console.warn('Your previous file was in an awkward state. The backend may not be clean.');
-    } else if (Object.keys(dataset).length !== 0) {
-      dataset.connector.parametersValues.AZURE_STORAGE_CONTAINER_BLOB_PREFIX = STORAGE_ROOT_DIR_PLACEHOLDER + '/' + data.fileName;
+    } else if (Object.keys(dataset.current).length !== 0) {
+      updateStorageContainerBlobPrefix(dataset, STORAGE_ROOT_DIR_PLACEHOLDER + '/' + data.fileName);
     }
     setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD });
   }
@@ -128,12 +133,10 @@ const handleDownloadFile = async (dataset, datasetFile, setDatasetFile, scenario
   if (error) {
     console.error(error);
   } else {
-    if (response.type.includes('json')) {
-      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-      fileDownload(blob, datasetFile.name);
-    } else {
-      fileDownload(data, datasetFile.name);
-    }
+    console.log(response.type);
+    console.log(response);
+    const blob = new Blob([data], { type: response.type });
+    fileDownload(blob, datasetFile.name);
   }
   setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD });
 };
