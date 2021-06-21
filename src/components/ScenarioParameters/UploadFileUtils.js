@@ -154,9 +154,12 @@ const downloadFile = async (dataset, datasetFile, setDatasetFile, scenarioId, pa
   if (error) {
     console.error(error);
   } else {
-    console.log(response.type);
-    console.log(response);
-    const blob = new Blob([data], { type: response.type });
+    let blob;
+    if (response.type.includes('json')) {
+      blob = new Blob([JSON.stringify(data, null, 2)], { type: response.type });
+    } else {
+      blob = new Blob([data], { type: response.type });
+    }
     fileDownload(blob, datasetFile.name);
   }
   setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD });
