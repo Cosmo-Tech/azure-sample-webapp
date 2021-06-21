@@ -57,8 +57,7 @@ async function updateFileWithUpload (datasetFile, setDatasetFile, dataset,
     await deleteFile(previousStorageFilePath, datasetFile, setDatasetFile, workspaceId);
     // File has been marked to be uploaded
     await uploadFile(dataset, datasetFile, setDatasetFile, workspaceId, newStorageFilePath);
-    // FIXME: missing workspace prefix ?
-    updatePathInDatasetRef(dataset, newStorageFilePath);
+    updatePathInDatasetRef(dataset, STORAGE_ROOT_DIR_PLACEHOLDER + '/' + newStorageFilePath);
     const {
       error,
       data
