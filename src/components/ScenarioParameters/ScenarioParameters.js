@@ -206,8 +206,7 @@ const ScenarioParameters = ({
 
   const handleClickOnUpdateAndLaunchScenarioButton = async () => {
     /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
-    const destinationFilePath = UploadFileUtils.constructDestinationFile(currentScenario.data.id, INITIAL_STOCK_PARAM_ID, initialStockFile.name);
-    await UploadFileUtils.fileManagement(initialStockDataset,
+    await UploadFileUtils.updateDatasetPartFile(initialStockDataset,
       initialStockFile,
       setInitialStockFile,
       initialStockDatasetId,
@@ -215,8 +214,7 @@ const ScenarioParameters = ({
       INITIAL_STOCK_PARAM_ID,
       INITIAL_STOCK_PARAM_CONNECTOR_ID,
       currentScenario.data.id,
-      workspaceId,
-      destinationFilePath);
+      workspaceId);
     /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
     const parametersData = getParametersDataForApi(currentScenario.data.runTemplateId);
     defaultScenarioParameters.current = parametersData;

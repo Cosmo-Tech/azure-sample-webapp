@@ -33,7 +33,7 @@ const FileUpload = ({
       fetchDatasetById(currentDataset, datasetId)
         .then((data) => {
           currentDataset.current = data;
-          const fileName = UploadFileUtils.constructFileNameFromDataset(currentDataset.current, '');
+          const fileName = UploadFileUtils.buildFileNameFromDataset(currentDataset.current, '');
           setFile({ ...file, initialName: fileName, name: fileName, status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD });
         })
         .catch((error) => {
@@ -53,9 +53,9 @@ const FileUpload = ({
     <div>
       <UploadFile key="0"
         acceptedFileTypes={acceptedFileTypesToUpload}
-        handleUploadFile={(event) => UploadFileUtils.handlePrepareToUpload(event, file, setFile)}
-        handleDeleteFile={() => UploadFileUtils.handlePrepareToDeleteFile(file, setFile)}
-        handleDownloadFile={() => UploadFileUtils.handleDownloadFile(currentDataset, file, setFile, scenarioId, parameterId, workspaceId)}
+        handleUploadFile={(event) => UploadFileUtils.prepareToUpload(event, file, setFile)}
+        handleDeleteFile={() => UploadFileUtils.prepareToDeleteFile(file, setFile)}
+        handleDownloadFile={() => UploadFileUtils.downloadFile(currentDataset, file, setFile, scenarioId, parameterId, workspaceId)}
         file={file}
         editMode={editMode}
       />
