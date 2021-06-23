@@ -21,12 +21,13 @@ function findDatasetById (organizationId, datasetId) {
   });
 }
 
-function createDataset (organizationId, name, description, connector) {
+function createDataset (organizationId, name, description, connector, tags) {
   return new Promise((resolve) => {
     const newDataset = new CosmotechApiService.Dataset();
     newDataset.name = name;
     newDataset.description = description;
     newDataset.connector = connector;
+    newDataset.tags = tags;
     DatasetApi.createDataset(organizationId, newDataset, (error, data, response) => {
       resolve({ error, data, response });
     });
