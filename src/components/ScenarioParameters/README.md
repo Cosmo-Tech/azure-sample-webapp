@@ -27,11 +27,11 @@ const scenarioParametersTabs = [
   runTemplateIds: ['2', '3']                            // The template IDs that have to display your component
 }
 ```
-**Note 0:** if you inserted your component in existing ones, don't forget to update the keys of the other components in `scenarioParametersTabs`, as well as the ids in the ScenarioParametersTabs.config.js file, accordingly.
+**Note #1:** if you inserted your component in an existing ones, don't forget to update the keys of the other components in `scenarioParametersTabs`, as well as the ids in the ScenarioParametersTabs.config.js file, accordingly.
 
-**Note 1:** both `key` from `<MyComponent>` and `id` in ScenarioParametersTabs.config.js must have the same value (here 42).
+**Note #2:** *both* `key` from `<MyComponent>` *and* `id` in ScenarioParametersTabs.config.js must have the same value (here 42).
 
-**Note 2:** If you want to add a translation, complete every translation file as the following example:
+**Note #3:** If you want to add a translation, complete every translation file as the following example:
 ```
 "commoncomponents": {
   "tab": {
@@ -44,7 +44,7 @@ const scenarioParametersTabs = [
 }
 ```
 
-**Note 3:** in the translation files, you may have to merge your "newtab" with other tab name translations, in case there are other tabs.
+**Note #4:** in the translation files, you may have to merge your "newtab" with other tab name translations, in case there are other tabs.
 
 
 # Remove a tab from Scenario Parameters
