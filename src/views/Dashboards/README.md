@@ -43,3 +43,10 @@ Use the following syntax: `MyReportURL&$filter=MyTableName/MyIdentifierField%20e
 ## Other useful filter options
 * `&filterPaneEnabled=false`: hides the filter right pane
 * `&navContentPaneEnabled=false`: hides the pages bottom pane
+
+## Report page size recommendation for Scenario View iframe
+* Select option: View > fit to page
+* Select Format > Page size > Custom
+    * Width: 1580 px 
+    * Height: 350 px
+
