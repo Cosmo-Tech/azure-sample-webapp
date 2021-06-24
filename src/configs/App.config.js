@@ -4,6 +4,7 @@
 import { Scenario as ScenarioView, Dashboards } from '../views';
 import React from 'react';
 import { DistributedTracingModes } from '@microsoft/applicationinsights-web';
+import { LOG_TYPES } from '../services/scenariorun/ScenariorunConstants.js';
 
 // Tabs configuration
 export const tabs = [
@@ -40,6 +41,9 @@ export const applicationInsightConfig = {
 export const WORKSPACE_ID = 'W-rXeBwRa0PM';
 // Hardcoded value in V1
 export const ORGANISATION_ID = 'O-gZYpnd27G7';
+
+// Log type to download
+export const SCENARIORUN_LOG_TYPE = LOG_TYPES.CUMULATED_LOGS;
 
 // languages
 export const applicationLanguages = {
