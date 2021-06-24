@@ -2,9 +2,8 @@
 // Licensed under the MIT license.
 
 import React from 'react';
-import fileDownload from 'js-file-download';
 import { UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
-import { ORGANISATION_ID } from '../../configs/App.config';
+import { ORGANISATION_ID, WORKSPACE_ID } from '../../configs/App.config';
 import { STORAGE_ROOT_DIR_PLACEHOLDER } from './UploadFileConfig';
 import DatasetService from '../../services/dataset/DatasetService';
 import WorkspaceService from '../../services/workspace/WorkspaceService';
@@ -149,19 +148,7 @@ const deleteFile = async (connectorFilePath, datasetFile, setDatasetFile, worksp
 const downloadFile = async (dataset, datasetFile, setDatasetFile, scenarioId, parameterId, workspaceId) => {
   const storageFilePath = buildStorageFilePath(scenarioId, parameterId, datasetFile.name);
   setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.DOWNLOADING });
-  const { error, data, response } = await WorkspaceService.downloadWorkspaceFile(
-    ORGANISATION_ID, workspaceId, storageFilePath);
-  if (error) {
-    console.error(error);
-  } else {
-    let blob;
-    if (response.type.includes('json')) {
-      blob = new Blob([JSON.stringify(data, null, 2)], { type: response.type });
-    } else {
-      blob = new Blob([data], { type: response.type });
-    }
-    fileDownload(blob, datasetFile.name);
-  }
+  await WorkspaceService.fetchWorkspaceFile(ORGANISATION_ID, WORKSPACE_ID, storageFilePath);
   setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD });
 };
 

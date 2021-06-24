@@ -3,7 +3,12 @@
 
 const CosmotechApi = require('@cosmotech/api');
 
+const DEFAULT_BASE_PATH = 'https://dev.api.cosmotech.com';
+
 const DEFAULT_COSMOTECH_API_INSTANCE = CosmotechApi.ApiClient.instance;
+
+// Configure OAuth2 access token for authorization: oAuth2AuthCode
+DEFAULT_COSMOTECH_API_INSTANCE.basePath = DEFAULT_BASE_PATH;
 
 // Configure OAuth2 access token for authorization: oAuth2AuthCode
 export function setAccessToken (token) {
@@ -16,8 +21,7 @@ export function resetAccessToken () {
   DEFAULT_COSMOTECH_API_INSTANCE.authentications.oAuth2AuthCode.accessToken = 'none';
 }
 
-// Configure OAuth2 access token for authorization: oAuth2AuthCode
-DEFAULT_COSMOTECH_API_INSTANCE.basePath = 'https://dev.api.cosmotech.com';
+export const getDefaultBasePath = () => DEFAULT_BASE_PATH;
 
 // override render method
 export { CosmotechApi as CosmotechApiService };

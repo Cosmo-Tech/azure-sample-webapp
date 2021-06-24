@@ -1,7 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { CosmotechApiService } from '../../configs/Api.config';
+import { CosmotechApiService, getDefaultBasePath } from '../../configs/Api.config';
+import fileDownload from 'js-file-download';
+import { ACCESS_TOKEN_LOCAL_STORAGE_KEY, readFromStorage } from '../../utils/StorageUtils';
 
 const WorkspaceApi = new CosmotechApiService.WorkspaceApi();
 
@@ -37,6 +39,32 @@ function getAllWorkspaceFileName (organizationId, workspaceId) {
   });
 }
 
+async function fetchWorkspaceFile (organizationId, workspaceId, filePath) {
+  const accessToken = readFromStorage(ACCESS_TOKEN_LOCAL_STORAGE_KEY);
+
+  const fetchParams = {
+    method: 'GET',
+    headers: new Headers({
+      Authorization: `Bearer ${accessToken}`
+    })
+  };
+
+  fetch(getDefaultBasePath() + '/organizations/' + organizationId + '/workspaces/' + workspaceId + '/files/download?file_name=' + filePath,
+    fetchParams
+  )
+    .then(response => {
+      return response.blob();
+    })
+    .then(blob => {
+      fileDownload(blob, filePath.split('/').pop());
+    })
+    .catch((error) => console.error(error));
+}
+
+// FIXME: this method does not work correctly for the moment
+// This is apparently due to a parameter (responseType) in the WorkspaceAPI call.
+// For the moment, please use the method "fetchWorkspaceFile" instead.
+// eslint-disable-next-line no-unused-vars
 function downloadWorkspaceFile (organizationId, workspaceId, fileName) {
   return new Promise((resolve) => {
     WorkspaceApi.downloadWorkspaceFile(organizationId, workspaceId, fileName, (error, data, response) => {
@@ -50,7 +78,7 @@ const WorkspaceService = {
   uploadWorkspaceFile,
   deleteWorkspaceFile,
   getAllWorkspaceFileName,
-  downloadWorkspaceFile
+  fetchWorkspaceFile
 };
 
 export default WorkspaceService;

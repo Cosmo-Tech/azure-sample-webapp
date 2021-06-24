@@ -1,6 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
+export const ACCESS_TOKEN_LOCAL_STORAGE_KEY = 'authAccessToken';
+
 // Functions to read & write from storage.
 // Notes : local storage works on Chromium but not on Firefox if "Delete
 // cookies and site data when Firefox is closed" is selected (for more
