@@ -196,7 +196,8 @@ const ScenarioParameters = ({
 
   const handleClickOnLaunchScenarioButton = () => {
     // If scenario parameters have never been updated, do it now
-    if (!currentScenario.data.parametersValues) {
+    if (!currentScenario.data.parametersValues ||
+        currentScenario.data.parametersValues.length === 0) {
       handleClickOnUpdateAndLaunchScenarioButton();
     } else {
       launchScenario(workspaceId, scenarioId);
