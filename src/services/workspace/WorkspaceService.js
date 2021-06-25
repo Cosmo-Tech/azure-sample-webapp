@@ -3,7 +3,7 @@
 
 import { CosmotechApiService, getDefaultBasePath } from '../../configs/Api.config';
 import fileDownload from 'js-file-download';
-import { ACCESS_TOKEN_LOCAL_STORAGE_KEY, readFromStorage } from '../../utils/StorageUtils';
+import { getAccessToken } from '../../utils/StorageUtils';
 
 const WorkspaceApi = new CosmotechApiService.WorkspaceApi();
 
@@ -40,7 +40,7 @@ function getAllWorkspaceFileName (organizationId, workspaceId) {
 }
 
 async function fetchWorkspaceFile (organizationId, workspaceId, filePath) {
-  const accessToken = readFromStorage(ACCESS_TOKEN_LOCAL_STORAGE_KEY);
+  const accessToken = getAccessToken();
 
   const fetchParams = {
     method: 'GET',

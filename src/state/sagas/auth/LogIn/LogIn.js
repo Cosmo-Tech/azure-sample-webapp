@@ -4,7 +4,7 @@ import { Auth } from '@cosmotech/core';
 import { put, takeEvery } from 'redux-saga/effects';
 import { AUTH_ACTIONS_KEY, AUTH_STATUS } from '../../../commons/AuthConstants';
 import { setAccessToken, resetAccessToken } from '../../../../configs/Api.config';
-import { ACCESS_TOKEN_LOCAL_STORAGE_KEY, readFromStorage } from '../../../../utils/StorageUtils';
+import { getAccessToken } from '../../../../utils/StorageUtils';
 
 // Generator function to fetch authentication data
 export function * tryLogIn (action) {
@@ -18,7 +18,7 @@ export function * tryLogIn (action) {
     const authenticated = yield Auth.isUserSignedIn();
     if (authenticated) {
       // If the user is authenticated, set the auth data
-      const accessToken = readFromStorage(ACCESS_TOKEN_LOCAL_STORAGE_KEY);
+      const accessToken = getAccessToken();
       if (accessToken !== null) {
         setAccessToken(accessToken);
       } else {
