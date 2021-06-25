@@ -80,6 +80,11 @@ const Scenario = (props) => {
   };
 
   const sortedScenarioList = sortScenarioList(scenarioList.data.slice());
+  const noScenario = currentScenario.data === null;
+  const scenarioListDisabled = editMode || scenarioList === null || noScenario;
+  const scenarioListLabel = noScenario
+    ? null
+    : t('views.scenario.dropdown.scenario.label', Scenario);
 
   return (
     <Grid container direction="column" className={classes.mainGrid}>
@@ -92,9 +97,9 @@ const Scenario = (props) => {
                   value={currentScenario.data}
                   maxCharLength={36}
                   values={sortedScenarioList}
-                  label={t('views.scenario.dropdown.scenario.label', Scenario)}
+                  label={scenarioListLabel}
                   handleChange={handleScenarioChange}
-                  disabled={editMode}
+                  disabled={scenarioListDisabled}
                   renderInputToolType={currentScenarioRenderInputToolType}
                 />
               </Grid>
@@ -128,16 +133,14 @@ const Scenario = (props) => {
       </Grid>
       <Grid item xs={12}>
         <Card style={{ height: '400px' }}>
-          { currentScenario.data &&
             <Dashboard
               iframeTitle={t('commoncomponents.iframe.scenario.results.card.title', 'Results')}
               url={SCENARIO_DASHBOARD_CONFIG.url}
-              scenarioName={currentScenario.data.name}
-              scenarioId={currentScenario.data.id}
-              scenarioState={currentScenario.data.state}
-              csmSimulationRun={currentScenario.data.lastRun?.csmSimulationRun}
+              csmSimulationRun={currentScenario.data?.lastRun.csmSimulationRun}
+              scenarioName={currentScenario.data?.name}
+              scenarioState={currentScenario.data?.state}
+              noScenario={noScenario}
             />
-          }
         </Card>
       </Grid>
       <Grid item xs={12}>
