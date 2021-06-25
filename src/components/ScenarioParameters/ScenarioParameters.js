@@ -71,47 +71,6 @@ const ScenarioParameters = ({
   const [initialStockDatasetId, setInitialStockDatasetId] = useState('');
   /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
 
-  useEffect(() => {
-    defaultScenarioParameters.current = currentScenario.data.parametersValues;
-    /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
-    const initialStockParameter = currentScenario.data?.parametersValues?.find(el => el.parameterId === INITIAL_STOCK_PARAM_ID);
-    setInitialStockDatasetId(initialStockParameter?.value === undefined ? '' : initialStockParameter.value);
-    /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
-
-    // Reset parameters
-    resetParameters(false);
-    // eslint-disable-next-line
-  }, [currentScenario, changeEditMode, initialStockFile.status]);
-
-  // State for bar defaultScenarioParameters
-  const [stock, setStock] = useState(
-    ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, STOCK_PARAM)
-  );
-
-  const [restockQuantity, setRestockQuantity] = useState(
-    ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, RESTOCK_PARAM)
-  );
-  const [waitersNumber, setWaitersNumber] = useState(
-    ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, NBWAITERS_PARAM)
-  );
-
-  // State for basic input types examples defaultScenarioParameters
-  const [currency, setCurrency] = useState(
-    ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, CURRENCY_PARAM)
-  );
-  const [currencyName, setCurrencyName] = useState(
-    ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, CURRENCY_NAME_PARAM)
-  );
-  const [currencyValue, setCurrencyValue] = useState(
-    ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, CURRENCY_VALUE_PARAM)
-  );
-  const [currencyUsed, setCurrencyUsed] = useState(
-    ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, CURRENCY_USED_PARAM)
-  );
-  const [startDate, setStartDate] = useState(
-    ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, START_DATE_PARAM)
-  );
-
   const resetParameters = (resetFile) => {
     // Bar parameters
     setStock(ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters, STOCK_PARAM));
@@ -132,6 +91,33 @@ const ScenarioParameters = ({
       /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
     }
   };
+
+  useEffect(() => {
+    // Reset parameters
+    resetParameters(false);
+    // eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
+    defaultScenarioParameters.current = currentScenario.data.parametersValues;
+    /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
+    const initialStockParameter = currentScenario.data?.parametersValues?.find(el => el.parameterId === INITIAL_STOCK_PARAM_ID);
+    setInitialStockDatasetId(initialStockParameter?.value === undefined ? '' : initialStockParameter.value);
+    /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
+    // eslint-disable-next-line
+  }, [currentScenario, changeEditMode, initialStockFile.status]);
+
+  // State for bar defaultScenarioParameters
+  const [stock, setStock] = useState();
+  const [restockQuantity, setRestockQuantity] = useState();
+  const [waitersNumber, setWaitersNumber] = useState();
+
+  // State for basic input types examples defaultScenarioParameters
+  const [currency, setCurrency] = useState();
+  const [currencyName, setCurrencyName] = useState();
+  const [currencyValue, setCurrencyValue] = useState();
+  const [currencyUsed, setCurrencyUsed] = useState();
+  const [startDate, setStartDate] = useState();
 
   // TODO Change it in by a function using parameters values
   // eslint-disable-next-line
