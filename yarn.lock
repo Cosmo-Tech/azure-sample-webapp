@@ -1259,10 +1259,10 @@
   resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.1.5.tgz#36ab960bd80298d44690aa561906916745a69bbf"
   integrity sha512-FRXJSPto6YXGvrtYm03Xyh9CMsnEuDIi88KhAqxbCeuEHmHvjqjiYjYI2+XFy6PDpSlDhkTUWb3tIq3e++SGHg==
 
-"@cosmotech/ui@^0.3.7":
-  version "0.3.7"
-  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-0.3.7.tgz#a529fdd1af7003fa4404ca81e6d7ed667bde7c7d"
-  integrity sha512-2MgjBVE8Ouzd2I1wnPU274kp+he4P9bno7d+4PuJAU9x0fUW9ODHKzz1lqcMiIt8fTewqfnqFBVTcqN9wiwefA==
+"@cosmotech/ui@^0.3.8":
+  version "0.3.8"
+  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-0.3.8.tgz#3728c542b47c6db1c71f5a785f6fe304701a1f20"
+  integrity sha512-5/GwjiYNcEjXsvqzMIZkLOCW4K08hOiIqL1Bg/cskGNd3iXEfWH3FKo1C55Wy7AZiRGb5xb/UZb+WxQfQxAdyw==
   dependencies:
     "@cosmotech/core" "^1.1.3"
     "@date-io/date-fns" "^1.3.13"
