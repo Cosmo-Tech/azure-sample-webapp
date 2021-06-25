@@ -8,7 +8,4 @@ export const STORAGE_ROOT_DIR_PLACEHOLDER = '%WORKSPACE_FILE%';
 export const INITIAL_STOCK_PARAM_ID = 'initial_stock_dataset';
 export const INITIAL_STOCK_PARAM_CONNECTOR_ID = 'C-XPv4LBVGAL';
 
-export const INITIAL_STOCK_PARAM_ACCEPT_FILE_TYPE =
-    '.xlsx,.xls,.csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.json';
-
-export const MIME_TYPE_FILE_UPLOAD = 'application/json';
+export const INITIAL_STOCK_PARAM_ACCEPT_FILE_TYPE = '.zip,.csv,.json,.xls,.xlsx';

@@ -55,7 +55,10 @@ const FileUpload = ({
         acceptedFileTypes={acceptedFileTypesToUpload}
         handleUploadFile={(event) => UploadFileUtils.prepareToUpload(event, file, setFile)}
         handleDeleteFile={() => UploadFileUtils.prepareToDeleteFile(file, setFile)}
-        handleDownloadFile={() => UploadFileUtils.downloadFile(currentDataset, file, setFile, scenarioId, parameterId, workspaceId)}
+        handleDownloadFile={(event) => {
+          event.preventDefault();
+          UploadFileUtils.downloadFile(currentDataset, file, setFile, scenarioId, parameterId, workspaceId);
+        }}
         file={file}
         editMode={editMode}
       />
