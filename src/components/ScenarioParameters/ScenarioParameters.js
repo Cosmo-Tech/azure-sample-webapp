@@ -108,6 +108,7 @@ const ScenarioParameters = ({
     const initialStockParameter = currentScenario.data?.parametersValues?.find(el => el.parameterId === INITIAL_STOCK_PARAM_ID);
     setInitialStockDatasetId(initialStockParameter?.value === undefined ? '' : initialStockParameter.value);
     /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
+    // eslint-disable-next-line
   }, [currentScenario]);
 
   useEffect(() => {
