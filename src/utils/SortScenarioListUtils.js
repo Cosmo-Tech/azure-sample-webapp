@@ -1,11 +1,15 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
+import rfdc from 'rfdc';
+
+const clone = rfdc();
+
 export const sortScenarioList = (scenarioList) => {
   const sortedList = [];
   let hasMovedScenarios = true;
   while (hasMovedScenarios && scenarioList.length !== 0) {
-    const scenarioListCopy = scenarioList.slice();
+    const scenarioListCopy = clone(scenarioList);
     hasMovedScenarios = false;
     for (let i = 0; i < scenarioListCopy.length; ++i) {
       const scenario = scenarioListCopy[i];
