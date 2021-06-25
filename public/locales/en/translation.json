@@ -94,7 +94,7 @@
           "iframe": {
             "title": "Supply Chain results"
           },
-          "label": {
+          "text": {
             "no": {
               "result": "No dashboards for this scenario."
             },
@@ -102,10 +102,6 @@
             "running": "Scenario run in progress...",
             "uninitialized": "The scenario has not been run yet"
           }
-        },
-        "noscenario": {
-          "title": "No scenario yet",
-          "label": "You can create a scenario by clicking on"
         }
       }
     },

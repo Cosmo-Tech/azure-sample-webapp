@@ -35,7 +35,6 @@ function a11yProps (index) {
 const Dashboards = ({ currentScenario }) => {
   const classes = useStyles();
   const [value, setValue] = useState(0);
-  const noScenario = currentScenario === null;
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -62,6 +61,7 @@ const Dashboards = ({ currentScenario }) => {
         </Card>
       </Grid>
       <Grid item sm={10}>
+        { currentScenario &&
         <Card className={classes.dashboard}>
             {DASHBOARDS_LIST_CONFIG.map(dashboard => (
               <TabPanel
@@ -71,13 +71,13 @@ const Dashboards = ({ currentScenario }) => {
                 key={dashboard.id}
                 src={dashboard.url}
                 title={dashboard.title}
-                scenarioName={currentScenario?.name}
-                scenarioId={currentScenario?.id}
-                csmSimulationRun={currentScenario?.lastRun.csmSimulationRun}
-                noScenario={noScenario}
+                scenarioName={currentScenario.name}
+                scenarioId={currentScenario.id}
+                csmSimulationRun={currentScenario.lastRun?.csmSimulationRun}
               />
             ))}
         </Card>
+          }
       </Grid>
     </Grid>
   );
@@ -98,7 +98,6 @@ function TabPanel (props) {
     scenarioName,
     scenarioId,
     csmSimulationRun,
-    noScenario,
     ...other
   } = props;
 
@@ -117,7 +116,6 @@ function TabPanel (props) {
           scenarioName={scenarioName}
           scenarioId={scenarioId}
           csmSimulationRun={csmSimulationRun}
-          noScenario={noScenario}
         />
       )}
     </div>
@@ -132,12 +130,7 @@ TabPanel.propTypes = {
   title: PropTypes.string.isRequired,
   scenarioName: PropTypes.string,
   scenarioId: PropTypes.string,
-  csmSimulationRun: PropTypes.string,
-  noScenario: PropTypes.bool
-};
-
-TabPanel.defaultProps = {
-  noScenario: false
+  csmSimulationRun: PropTypes.string
 };
 
 export default Dashboards;
