@@ -27,8 +27,8 @@ export function * pollScenarioState (action) {
       } else if (data.state === 'Failed' || data.state === 'Successful') {
         // Update the scenario state in all scenario redux states
         yield put({
-          type: SCENARIO_ACTIONS_KEY.UPDATE_SCENARIO_STATE,
-          data: { scenarioState: data.state, scenarioId: action.scenarioId }
+          type: SCENARIO_ACTIONS_KEY.UPDATE_SCENARIO,
+          data: { scenarioState: data.state, scenarioId: action.scenarioId, lastRun: data.lastRun }
         });
         // Stop the polling for this scenario
         yield put(forgeStopPollingAction(action.scenarioId));
