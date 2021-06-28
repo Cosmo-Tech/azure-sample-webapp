@@ -231,11 +231,9 @@ const ScenarioParameters = ({
   const fileUploadComponent = UploadFileUtils.constructFileUpload('0',
     initialStockFile,
     setInitialStockFile,
-    currentScenario.data.id,
     initialStockDataset,
     initialStockDatasetId,
-    INITIAL_STOCK_PARAM_ID,
-    workspaceId, INITIAL_STOCK_PARAM_ACCEPT_FILE_TYPE,
+    INITIAL_STOCK_PARAM_ACCEPT_FILE_TYPE,
     editMode);
   /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
   // Indices in this array must match indices in the tabs configuration file

@@ -12,11 +12,8 @@ const FileUpload = ({
   acceptedFileTypesToUpload,
   currentDataset,
   datasetId,
-  workspaceId,
-  parameterId,
   file,
   setFile,
-  scenarioId,
   editMode
 }) => {
   useEffect(() => {
@@ -57,7 +54,7 @@ const FileUpload = ({
         handleDeleteFile={() => UploadFileUtils.prepareToDeleteFile(file, setFile)}
         handleDownloadFile={(event) => {
           event.preventDefault();
-          UploadFileUtils.downloadFile(currentDataset, file, setFile, scenarioId, parameterId, workspaceId);
+          UploadFileUtils.downloadFile(currentDataset, file, setFile);
         }}
         file={file}
         editMode={editMode}
@@ -67,12 +64,9 @@ const FileUpload = ({
 
 FileUpload.propTypes = {
   acceptedFileTypesToUpload: PropTypes.string,
-  workspaceId: PropTypes.string.isRequired,
   editMode: PropTypes.bool.isRequired,
   file: PropTypes.object.isRequired,
   setFile: PropTypes.func.isRequired,
-  scenarioId: PropTypes.string.isRequired,
-  parameterId: PropTypes.string.isRequired,
   currentDataset: PropTypes.object.isRequired,
   datasetId: PropTypes.string
 };
