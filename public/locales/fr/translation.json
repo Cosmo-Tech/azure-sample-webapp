@@ -101,6 +101,9 @@
             "error": "Une erreur est survenue lors de l'exécution de ce scénario",
             "running": "Scénario en cours d'exécution...",
             "uninitialized": "Le scénario n'a pas encore été lancé"
+          },
+          "button": {
+            "downloadlogs": "Télécharger les logs"
           }
         },
         "noscenario": {

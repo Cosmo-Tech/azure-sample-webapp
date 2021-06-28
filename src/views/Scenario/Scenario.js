@@ -14,6 +14,8 @@ import {
 import { SCENARIO_DASHBOARD_CONFIG } from '../../configs/ScenarioDashboard.config';
 import { NAME_VALIDATOR } from '../../utils/ValidationUtils';
 import { sortScenarioList } from '../../utils/SortScenarioListUtils';
+import ScenarioRunService from '../../services/scenarioRun/ScenarioRunService.js';
+import { SCENARIORUN_LOG_TYPE } from '../../configs/App.config.js';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -140,6 +142,13 @@ const Scenario = (props) => {
               scenarioName={currentScenario.data?.name}
               scenarioState={currentScenario.data?.state}
               noScenario={noScenario}
+              scenarioId={currentScenario.data?.id}
+              downloadLogsFile={() => {
+                ScenarioRunService.downloadLogsFile(
+                  currentScenario.data?.lastRun,
+                  SCENARIORUN_LOG_TYPE
+                );
+              }}
             />
         </Card>
       </Grid>
