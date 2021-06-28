@@ -14,7 +14,7 @@ import {
 import { SCENARIO_DASHBOARD_CONFIG } from '../../configs/ScenarioDashboard.config';
 import { NAME_VALIDATOR } from '../../utils/ValidationUtils';
 import { sortScenarioList } from '../../utils/SortScenarioListUtils';
-import ScenariorunService from '../../services/scenariorun/ScenariorunService.js';
+import ScenarioRunService from '../../services/scenarioRun/ScenarioRunService.js';
 import { SCENARIORUN_LOG_TYPE } from '../../configs/App.config.js';
 
 const useStyles = makeStyles(theme => ({
@@ -144,8 +144,8 @@ const Scenario = (props) => {
               noScenario={noScenario}
               scenarioId={currentScenario.data?.id}
               downloadLogsFile={() => {
-                ScenariorunService.downloadLogsFile(
-                  currentScenario.data.lastRun,
+                ScenarioRunService.downloadLogsFile(
+                  currentScenario.data?.lastRun,
                   SCENARIORUN_LOG_TYPE
                 );
               }}

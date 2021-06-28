@@ -4,7 +4,7 @@
 import { Scenario as ScenarioView, Dashboards } from '../views';
 import React from 'react';
 import { DistributedTracingModes } from '@microsoft/applicationinsights-web';
-import { LOG_TYPES } from '../services/scenariorun/ScenariorunConstants.js';
+import { LOG_TYPES } from '../services/scenarioRun/ScenarioRunConstants.js';
 
 // Tabs configuration
 export const tabs = [

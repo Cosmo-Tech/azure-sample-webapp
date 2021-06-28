@@ -3,7 +3,7 @@
 
 import { CosmotechApiService } from '../../configs/Api.config';
 import fileDownload from 'js-file-download';
-import { LOG_TYPES } from './ScenariorunConstants.js';
+import { LOG_TYPES } from './ScenarioRunConstants.js';
 import { ORGANISATION_ID } from '../../configs/App.config';
 
 const ScenariorunApi = new CosmotechApiService.ScenariorunApi();
@@ -71,7 +71,7 @@ function downloadLogsFile (lastRun, logType) {
   }
 }
 
-const ScenariorunService = {
+const ScenarioRunService = {
   runScenario,
   getScenarioRuns,
   getScenarioRunCumulatedLogs,
@@ -79,4 +79,4 @@ const ScenariorunService = {
   downloadLogsFile
 };
 
-export default ScenariorunService;
+export default ScenarioRunService;

@@ -7,7 +7,7 @@ import { STATUSES } from '../../../commons/Constants';
 import { SCENARIO_RUN_STATE } from '../../../../utils/ApiUtils';
 import { ORGANISATION_ID } from '../../../../configs/App.config';
 import ScenarioService from '../../../../services/scenario/ScenarioService';
-import ScenariorunService from '../../../../services/scenariorun/ScenariorunService';
+import ScenarioRunService from '../../../../services/scenarioRun/ScenarioRunService';
 
 // generators function
 export function * updateAndLaunchScenario (action) {
@@ -42,7 +42,7 @@ export function * updateAndLaunchScenario (action) {
     });
     // Launch scenario if parameters update succeeded
     const { error: runError } = yield call(
-      ScenariorunService.runScenario, ORGANISATION_ID, workspaceId, scenarioId);
+      ScenarioRunService.runScenario, ORGANISATION_ID, workspaceId, scenarioId);
     if (runError) {
       console.error(runError);
     } else {
