@@ -53,6 +53,9 @@ async function fetchWorkspaceFile (organizationId, workspaceId, filePath) {
     fetchParams
   )
     .then(response => {
+      if (response.status !== 200) {
+        throw new Error(`Error when fetching ${filePath}`);
+      }
       return response.blob();
     })
     .then(blob => {

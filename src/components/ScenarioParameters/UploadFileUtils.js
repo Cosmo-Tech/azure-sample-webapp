@@ -9,9 +9,9 @@ import DatasetService from '../../services/dataset/DatasetService';
 import WorkspaceService from '../../services/workspace/WorkspaceService';
 import { FileUpload } from './components/tabs';
 
-// Build file location in Azure Storage
-function buildStorageFilePath (scenarioId, parameterId, fileName) {
-  return scenarioId + '/' + parameterId + '/' + fileName;
+// Build dataset file location in Azure Storage
+function buildStorageFilePath (datasetId, fileName) {
+  return 'datasets/' + datasetId + '/' + fileName;
 }
 
 // Generate file name based on dataset information
@@ -30,73 +30,68 @@ function createConnector (connectorId, storageFilePath) {
   return {
     id: connectorId,
     parametersValues: {
-      AZURE_STORAGE_CONTAINER_BLOB_PREFIX: `${STORAGE_ROOT_DIR_PLACEHOLDER}/${storageFilePath}`
+      AZURE_STORAGE_CONTAINER_BLOB_PREFIX: `${STORAGE_ROOT_DIR_PLACEHOLDER}${storageFilePath}`
     }
   };
 }
 
 async function updateDatasetPartFile (dataset, datasetFile, setDatasetFile,
   datasetId, setDatasetId, parameterId, connectorId, scenarioId, workspaceId) {
-  const storageFilePath = buildStorageFilePath(scenarioId, parameterId, datasetFile.name);
   if (datasetFile.status === UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD) {
     await updateFileWithUpload(datasetFile, setDatasetFile, dataset, datasetId,
-      parameterId, connectorId, scenarioId, workspaceId, storageFilePath);
+      parameterId, connectorId, scenarioId, workspaceId, datasetFile.name);
   } else if (datasetFile.status === UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE) {
     await updateFileWithDelete(datasetFile, setDatasetFile, dataset, datasetId,
-      setDatasetId, workspaceId, storageFilePath);
+      setDatasetId);
   }
 }
 
 async function updateFileWithUpload (datasetFile, setDatasetFile, dataset,
-  datasetId, parameterId, connectorId, scenarioId, workspaceId, newStorageFilePath) {
-  if (dataset.current && Object.keys(dataset.current).length !== 0) {
-    const previousStorageFilePath = buildStorageFilePath(
-      scenarioId, parameterId, datasetFile.initialName);
-    // Delete existing file
-    await deleteFile(previousStorageFilePath, datasetFile, setDatasetFile, workspaceId);
-    // File has been marked to be uploaded
-    await uploadFile(dataset, datasetFile, setDatasetFile, workspaceId, newStorageFilePath);
-    updatePathInDatasetRef(dataset, STORAGE_ROOT_DIR_PLACEHOLDER + '/' + newStorageFilePath);
-    const {
-      error,
-      data
-    } = await DatasetService.updateDataset(ORGANISATION_ID, datasetId, dataset.current);
-    if (error) {
-      console.error(error);
-    } else {
-      dataset.current = data;
-      setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD });
-    }
+  datasetId, parameterId, connectorId, scenarioId, workspaceId, fileName) {
+  /*
+       FIXME:  Due to parametersValues inheritance, the workspace file deletion leads
+        to incoherent state when a dataset part file is uploaded.
+        For the moment, the workspace file deletion in omitted. This will be fixed in next version
+  */
+  // Create new dataset
+  const tags = ['dataset_part'];
+  const { error: creationError, data: createdData } = await DatasetService.createDataset(
+    ORGANISATION_ID, datasetFile.parameterId, datasetFile.description, { id: connectorId }, tags);
+
+  if (creationError) {
+    console.error(creationError);
   } else {
-    // File has been marked to be uploaded
-    await uploadFile(dataset.current, datasetFile, setDatasetFile, workspaceId,
-      newStorageFilePath);
-    // Create new dataset
-    const tags = ['dataset_part'];
-    const { error, data } = await DatasetService.createDataset(
-      ORGANISATION_ID, datasetFile.parameterId, datasetFile.description,
-      createConnector(connectorId, newStorageFilePath), tags);
-    if (error) {
-      console.error(error);
+    const datasetId = createdData.id;
+
+    const datasetTargetPath = buildStorageFilePath(datasetId, fileName);
+
+    const connectorInfo = createConnector(connectorId, datasetTargetPath);
+    createdData.connector = connectorInfo;
+
+    const { error: updateError, data: updateData } = await DatasetService.updateDataset(
+      ORGANISATION_ID, datasetId, createdData);
+
+    if (updateError) {
+      console.error(updateError);
     } else {
-      dataset.current = data;
+      dataset.current = updateData;
+      // File has been marked to be uploaded
+      await uploadFile(dataset, datasetFile, setDatasetFile, workspaceId, datasetTargetPath);
       setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD });
     }
   }
 }
 
 async function updateFileWithDelete (datasetFile, setDatasetFile, dataset,
-  datasetId, setDatasetId, workspaceId, storageFilePath) {
-  // File has been marked to be deleted
-  await deleteFile(storageFilePath, datasetFile, setDatasetFile, workspaceId);
-  const { error } = await DatasetService.deleteDataset(ORGANISATION_ID, datasetId);
-  if (error) {
-    console.error(error);
-  } else {
-    dataset.current = {};
-    setDatasetFile({ ...datasetFile, file: null, name: '', status: UPLOAD_FILE_STATUS_KEY.EMPTY });
-    setDatasetId('');
-  }
+  datasetId, setDatasetId) {
+  /*
+       FIXME:  Due to parametersValues inheritance, the workspace file deletion leads
+        to incoherent state when a dataset part file is uploaded.
+        For the moment, the workspace file deletion in omitted. This will be fixed in next version
+  */
+  dataset.current = {};
+  setDatasetFile({ ...datasetFile, file: null, name: '', status: UPLOAD_FILE_STATUS_KEY.EMPTY });
+  setDatasetId('');
 }
 
 const prepareToUpload = (event, datasetFile, setDatasetFile) => {
@@ -125,7 +120,7 @@ const uploadFile = async (dataset, datasetFile, setDatasetFile, workspaceId, sto
     if (!dataset.current) {
       console.warn('Your previous file was in an awkward state. The backend may not be clean.');
     } else if (Object.keys(dataset.current).length !== 0) {
-      updatePathInDatasetRef(dataset, STORAGE_ROOT_DIR_PLACEHOLDER + '/' + data.fileName);
+      updatePathInDatasetRef(dataset, STORAGE_ROOT_DIR_PLACEHOLDER + data.fileName);
     }
     setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD });
   }
@@ -135,38 +130,39 @@ const prepareToDeleteFile = (datasetFile, setDatasetFile) => {
   setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE });
 };
 
-const deleteFile = async (connectorFilePath, datasetFile, setDatasetFile, workspaceId) => {
-  setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.DELETING });
-  const { error } = await WorkspaceService.deleteWorkspaceFile(
-    ORGANISATION_ID, workspaceId, connectorFilePath);
+function getStorageFilePathFromDataset (data) {
+  const blobPrefix = data.connector?.parametersValues?.AZURE_STORAGE_CONTAINER_BLOB_PREFIX;
+  if (blobPrefix !== undefined) {
+    return blobPrefix.split(STORAGE_ROOT_DIR_PLACEHOLDER).pop();
+  }
+}
+
+const downloadFile = async (dataset, datasetFile, setDatasetFile) => {
+  const datasetId = dataset.current.id;
+  const { error, data } = await DatasetService.findDatasetById(ORGANISATION_ID, datasetId);
   if (error) {
     console.error(error);
+    throw new Error(`Error finding dataset ${datasetId}`);
   } else {
-    setDatasetFile({ ...datasetFile, file: null, name: '', status: UPLOAD_FILE_STATUS_KEY.EMPTY });
+    const storageFilePath = getStorageFilePathFromDataset(data);
+    if (storageFilePath !== undefined) {
+      setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.DOWNLOADING });
+      await WorkspaceService.fetchWorkspaceFile(ORGANISATION_ID, WORKSPACE_ID, storageFilePath);
+      setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD });
+    }
   }
 };
 
-const downloadFile = async (dataset, datasetFile, setDatasetFile, scenarioId, parameterId, workspaceId) => {
-  const storageFilePath = buildStorageFilePath(scenarioId, parameterId, datasetFile.name);
-  setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.DOWNLOADING });
-  await WorkspaceService.fetchWorkspaceFile(ORGANISATION_ID, WORKSPACE_ID, storageFilePath);
-  setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD });
-};
-
-const constructFileUpload = (key, file, setFile, scenarioId, currentDataset,
-  datasetId, parameterId, workspaceId, acceptedFileTypesToUpload, editMode) => {
+const constructFileUpload = (key, file, setFile, currentDataset, datasetId, acceptedFileTypesToUpload, editMode) => {
   return (
-    <FileUpload key={key}
-                file={file}
-                setFile={setFile}
-                scenarioId={scenarioId}
-                currentDataset={currentDataset}
-                datasetId={datasetId}
-                parameterId={parameterId}
-                workspaceId={workspaceId}
-                acceptedFileTypesToUpload={acceptedFileTypesToUpload}
-                editMode={editMode}
-    />);
+<FileUpload key={key}
+          file={file}
+          setFile={setFile}
+          currentDataset={currentDataset}
+          datasetId={datasetId}
+          acceptedFileTypesToUpload={acceptedFileTypesToUpload}
+          editMode={editMode}
+/>);
 };
 
 const resetUploadFile = (datasetId, file, setFile) => {
