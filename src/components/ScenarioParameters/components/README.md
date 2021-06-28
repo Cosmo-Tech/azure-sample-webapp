@@ -4,7 +4,9 @@
 - Look for the `<div>` tag directly below the `return` statement
 - Add a new input respecting the following templates
 
-## Text Input
+## Supported input types
+
+### Text Input
 ```
 <BasicTextInput
   label='My Text Field'
@@ -13,7 +15,7 @@
 />
 ```
 
-## Number Input
+### Number Input
 ```
 <BasicNumberInput
   label='My Number Field'
@@ -23,7 +25,7 @@
 />
 ```
 
-## Enum Input
+### Enum Input
 ```
 <BasicEnumTypes
   label='My Enum Field'
@@ -33,7 +35,7 @@
 />
 ```
 
-## Toggle Input
+### Toggle Input
 ```
 <BasicToggleInput
   label='My Switch type'
@@ -42,7 +44,7 @@
 />
 ```
 
-## Date Input
+### Date Input
 ```
 <BasicDateInput
   label='My Date Input'
@@ -51,6 +53,7 @@
 />
 ```
 
+## Component properties
 - The `textFieldProps` attribute expects a set of values as described below:
 ```
 const xxxFieldsProps = {         // numberFieldsProps, textFieldProps...
