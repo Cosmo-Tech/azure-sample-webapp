@@ -72,9 +72,10 @@ async function updateFileWithUpload (datasetFile, setDatasetFile, dataset,
     await uploadFile(dataset.current, datasetFile, setDatasetFile, workspaceId,
       newStorageFilePath);
     // Create new dataset
+    const tags = ['dataset_part'];
     const { error, data } = await DatasetService.createDataset(
       ORGANISATION_ID, datasetFile.parameterId, datasetFile.description,
-      createConnector(connectorId, newStorageFilePath));
+      createConnector(connectorId, newStorageFilePath), tags);
     if (error) {
       console.error(error);
     } else {
