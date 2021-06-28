@@ -72,7 +72,7 @@
     "@babel/preset-env": "^7.13.15",
     "@babel/preset-react": "^7.13.13",
     "@react-mock/state": "^0.1.8",
-    "@testing-library/dom": " ^7.30.3",
+    "@testing-library/dom": "^8.0.0",
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.2.2",
     "@testing-library/user-event": "^13.1.2",
