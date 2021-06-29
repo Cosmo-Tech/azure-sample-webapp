@@ -86,7 +86,6 @@ const ScenarioParameters = ({
     ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters.current, START_DATE_PARAM)
   );
 
-  /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
   // State for File Upload
   const [initialStockFile, setInitialStockFile] = useState({
     parameterId: INITIAL_STOCK_PARAM_ID,
@@ -98,16 +97,13 @@ const ScenarioParameters = ({
   });
   const initialStockDataset = useRef({});
   const [initialStockDatasetId, setInitialStockDatasetId] = useState('');
-  /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
 
   useEffect(() => {
     const scenarioParameters = currentScenario.data.parametersValues;
     defaultScenarioParameters.current = scenarioParameters;
     resetParameters(false, scenarioParameters);
-    /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
     const initialStockParameter = currentScenario.data?.parametersValues?.find(el => el.parameterId === INITIAL_STOCK_PARAM_ID);
     setInitialStockDatasetId(initialStockParameter?.value === undefined ? '' : initialStockParameter.value);
-    /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
     // eslint-disable-next-line
   }, [currentScenario]);
 
@@ -132,9 +128,7 @@ const ScenarioParameters = ({
 
     // Upload file
     if (resetFile) {
-      /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
       UploadFileUtils.resetUploadFile(initialStockDatasetId, initialStockFile, setInitialStockFile);
-      /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
     }
   };
 
@@ -169,7 +163,6 @@ const ScenarioParameters = ({
         startDateValueParam
       ]);
     }
-    /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
     if (['1', '2', '3', '4'].indexOf(runTemplateId) !== -1) {
       if (initialStockDataset.current && Object.keys(initialStockDataset.current).length !== 0) {
         parametersData = parametersData.concat([
@@ -181,7 +174,6 @@ const ScenarioParameters = ({
         ]);
       }
     }
-    /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
     return parametersData;
   };
 
@@ -211,7 +203,6 @@ const ScenarioParameters = ({
   };
 
   const handleClickOnUpdateAndLaunchScenarioButton = async () => {
-    /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
     await UploadFileUtils.updateDatasetPartFile(initialStockDataset,
       initialStockFile,
       setInitialStockFile,
@@ -221,13 +212,11 @@ const ScenarioParameters = ({
       INITIAL_STOCK_PARAM_CONNECTOR_ID,
       currentScenario.data.id,
       workspaceId);
-    /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
     const parametersData = getParametersDataForApi(currentScenario.data.runTemplateId);
     defaultScenarioParameters.current = parametersData;
     updateAndLaunchScenario(workspaceId, scenarioId, parametersData);
     changeEditMode(false);
   };
-  /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
   const fileUploadComponent = UploadFileUtils.constructFileUpload('0',
     initialStockFile,
     setInitialStockFile,
@@ -235,7 +224,6 @@ const ScenarioParameters = ({
     initialStockDatasetId,
     INITIAL_STOCK_PARAM_ACCEPT_FILE_TYPE,
     editMode);
-  /// //////////////////////////////////////////////////////////////////////// INITIAL STOCK
   // Indices in this array must match indices in the tabs configuration file
   // configs/ScenarioParametersTabs.config.js
   const scenarioParametersTabs = [
