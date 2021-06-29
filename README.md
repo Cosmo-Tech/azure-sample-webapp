@@ -10,6 +10,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - Configuration:
   - [Global configuration](https://github.com/Cosmo-Tech/azure-sample-webapp/tree/main/src/configs) (tabs, internationalization, dashboards, authentication,...)
   - [Scenario Parameters](https://github.com/Cosmo-Tech/azure-sample-webapp/tree/main/src/components/ScenarioParameters)
+    - [Input types](https://github.com/Cosmo-Tech/azure-sample-webapp/tree/main/src/components/ScenarioParameters/components)
+    - [Upload file](https://github.com/Cosmo-Tech/azure-sample-webapp/tree/main/src/components/ScenarioParameters/components/tabs)
 
 
 ## Available Scripts
