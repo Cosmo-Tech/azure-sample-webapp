@@ -1,20 +1,24 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
+// runTemplate id to name mapping :
+// '1' -> Run template with Brewery parameters
+// '2' -> Run template without parameters
+// '3' -> Run template with mock basic types
 export const SCENARIO_PARAMETERS_TABS_CONFIG = [
   {
     id: 0,
     translationKey: 'commoncomponents.tab.scenario.parameters.upload.file',
     label: 'Upload File template',
     value: 'upload_file_template',
-    runTemplateIds: ['1', '2', '3', '4']
+    runTemplateIds: ['3']
   },
   {
     id: 1,
     translationKey: 'commoncomponents.tab.scenario.parameters.bar',
     label: 'Bar parameters',
     value: 'bar_parameters',
-    runTemplateIds: ['1', '2']
+    runTemplateIds: ['1']
   },
   {
     id: 2,
