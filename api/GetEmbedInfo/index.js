@@ -22,6 +22,5 @@ module.exports = async function (context, req) {
     context.res = { status: 500, body: err };
   } finally {
     context.done();
-    return;
   }
 };

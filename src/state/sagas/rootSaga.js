@@ -8,6 +8,7 @@ import datasetSaga from './datasets';
 import workspaceSaga from './workspace';
 import solutionSaga from './solution';
 import authSaga from './auth';
+import powerBISaga from './powerbi';
 
 export default function * rootSaga () {
   yield all([
@@ -16,6 +17,7 @@ export default function * rootSaga () {
     fork(workspaceSaga),
     fork(solutionSaga),
     fork(scenarioSaga),
-    fork(datasetSaga)
+    fork(datasetSaga),
+    fork(powerBISaga)
   ]);
 }

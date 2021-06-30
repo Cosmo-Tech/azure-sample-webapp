@@ -27,10 +27,6 @@ function validateConfig () {
     return 'WorkspaceId must be a Guid object. Please select a workspace you own and fill its Id in the environment variables.';
   }
 
-  if (!process.env.POWER_BI_AUTHORITY_URI) {
-    return 'AuthorityUri is empty. Please fill valid AuthorityUri in the environment variables.';
-  }
-
   if (!process.env.POWER_BI_CLIENT_SECRET || !process.env.POWER_BI_CLIENT_SECRET.trim()) {
     return 'ClientSecret is empty. Please fill Power BI ServicePrincipal ClientSecret in the environment variables.';
   }

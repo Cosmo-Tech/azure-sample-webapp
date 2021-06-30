@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { put, takeEvery, call, select } from 'redux-saga/effects';
+import { put, takeEvery, call, select, fork } from 'redux-saga/effects';
 import { APPLICATION_ACTIONS_KEY } from '../../../commons/ApplicationConstants';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { STATUSES } from '../../../commons/Constants';
@@ -13,6 +13,7 @@ import { fetchSolutionByIdData }
   from '../../solution/FindSolutionById/FindSolutionByIdData';
 import { RUN_TEMPLATE_ACTIONS_KEY } from '../../../commons/RunTemplateConstants';
 import { fetchScenarioByIdForInitialData } from '../../scenario/FindScenarioById';
+import { getPowerBIEmbedInfoSaga } from '../../powerbi/GetPowerBIEmbedInfo/GetPowerBIEmbedInfoData';
 
 // Selectors
 const selectSolutionIdFromCurrentWorkspace = (state) => state.workspace.current.data.solution.solutionId;
@@ -45,6 +46,7 @@ export function * fetchAllInitialData (action) {
       }
     }
     const runTemplates = yield select(selectRunTemplatesFromCurrentSolution);
+    yield fork(getPowerBIEmbedInfoSaga);
     yield put({ type: RUN_TEMPLATE_ACTIONS_KEY.SET_RUN_TEMPLATE_LIST, data: { list: runTemplates, status: STATUSES.SUCCESS } });
     yield put({ type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS, status: STATUSES.SUCCESS });
   } catch (error) {

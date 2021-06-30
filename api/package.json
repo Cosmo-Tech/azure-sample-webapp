@@ -7,7 +7,7 @@
 		"test": "echo \"No tests yet...\""
 	},
 	"dependencies": {
-		"adal-node": "^0.2.1",
+		"@azure/msal-node": "^1.2.0",
 		"guid": "0.0.12",
 		"node-fetch": "^2.6.1"
 	}
