@@ -4,13 +4,13 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { SOLUTION_ACTIONS_KEY } from '../../../commons/SolutionConstants';
 import { STATUSES } from '../../../commons/Constants';
-import { ORGANISATION_ID } from '../../../../configs/App.config';
+import { ORGANIZATION_ID } from '../../../../configs/App.config';
 import SolutionService from '../../../../services/solution/SolutionService';
 
 // generators function
 export function * fetchSolutionByIdData (workspaceId, solutionId) {
   // yield keyword is here to milestone and save the action
-  const { error, data } = yield call(SolutionService.findSolutionById, ORGANISATION_ID, solutionId);
+  const { error, data } = yield call(SolutionService.findSolutionById, ORGANIZATION_ID, solutionId);
   if (error) {
     // TODO handle error management
   } else {

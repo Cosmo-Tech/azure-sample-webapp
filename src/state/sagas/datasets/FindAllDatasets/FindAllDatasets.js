@@ -3,13 +3,13 @@
 
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { DATASET_ACTIONS_KEY } from '../../../commons/DatasetConstants';
-import { ORGANISATION_ID } from '../../../../configs/App.config';
+import { ORGANIZATION_ID } from '../../../../configs/App.config';
 import DatasetService from '../../../../services/dataset/DatasetService';
 
 // generators function
 export function * fetchAllDatasetsData () {
   // yield keyword is here to milestone and save the action
-  const { error, data } = yield call(DatasetService.findAllDatasets, ORGANISATION_ID);
+  const { error, data } = yield call(DatasetService.findAllDatasets, ORGANIZATION_ID);
   if (error) {
     // TODO handle error management
   } else {

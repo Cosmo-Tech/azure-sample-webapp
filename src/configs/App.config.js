@@ -40,7 +40,7 @@ export const applicationInsightConfig = {
 //  We will have a sort of control panel right before login where it'll be possible to switch between workspace (and more)
 export const WORKSPACE_ID = 'W-rXeBwRa0PM';
 // Hardcoded value in V1
-export const ORGANISATION_ID = 'O-gZYpnd27G7';
+export const ORGANIZATION_ID = 'O-gZYpnd27G7';
 
 // Log type to download
 export const SCENARIORUN_LOG_TYPE = LOG_TYPES.CUMULATED_LOGS;

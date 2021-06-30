@@ -5,13 +5,13 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { STATUSES } from '../../../commons/Constants';
 import ScenarioService from '../../../../services/scenario/ScenarioService';
-import { ORGANISATION_ID } from '../../../../configs/App.config';
+import { ORGANIZATION_ID } from '../../../../configs/App.config';
 import { SCENARIO_RUN_STATE } from '../../../../utils/ApiUtils';
 
 // generators function
 export function * fetchScenarioByIdForInitialData (workspaceId, scenarioId) {
   // yield keyword is here to milestone and save the action
-  const { error, data } = yield call(ScenarioService.findScenarioById, ORGANISATION_ID, workspaceId, scenarioId);
+  const { error, data } = yield call(ScenarioService.findScenarioById, ORGANIZATION_ID, workspaceId, scenarioId);
   if (error) {
     // TODO handle error management
     yield put({
@@ -29,7 +29,7 @@ export function * fetchScenarioByIdForInitialData (workspaceId, scenarioId) {
 
 // generators function
 export function * fetchScenarioByIdData (action) {
-  const { error, data } = yield call(ScenarioService.findScenarioById, ORGANISATION_ID, action.workspaceId, action.scenarioId);
+  const { error, data } = yield call(ScenarioService.findScenarioById, ORGANIZATION_ID, action.workspaceId, action.scenarioId);
   if (error) {
     // TODO handle error management
     yield put({

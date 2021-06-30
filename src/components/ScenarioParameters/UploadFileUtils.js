@@ -3,7 +3,7 @@
 
 import React from 'react';
 import { UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
-import { ORGANISATION_ID, WORKSPACE_ID } from '../../configs/App.config';
+import { ORGANIZATION_ID, WORKSPACE_ID } from '../../configs/App.config';
 import { STORAGE_ROOT_DIR_PLACEHOLDER } from './UploadFileConfig';
 import DatasetService from '../../services/dataset/DatasetService';
 import WorkspaceService from '../../services/workspace/WorkspaceService';
@@ -56,7 +56,7 @@ async function updateFileWithUpload (datasetFile, setDatasetFile, dataset,
   // Create new dataset
   const tags = ['dataset_part'];
   const { error: creationError, data: createdData } = await DatasetService.createDataset(
-    ORGANISATION_ID, datasetFile.parameterId, datasetFile.description, { id: connectorId }, tags);
+    ORGANIZATION_ID, datasetFile.parameterId, datasetFile.description, { id: connectorId }, tags);
 
   if (creationError) {
     console.error(creationError);
@@ -69,7 +69,7 @@ async function updateFileWithUpload (datasetFile, setDatasetFile, dataset,
     createdData.connector = connectorInfo;
 
     const { error: updateError, data: updateData } = await DatasetService.updateDataset(
-      ORGANISATION_ID, datasetId, createdData);
+      ORGANIZATION_ID, datasetId, createdData);
 
     if (updateError) {
       console.error(updateError);
@@ -111,7 +111,7 @@ const uploadFile = async (dataset, datasetFile, setDatasetFile, workspaceId, sto
   setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.UPLOADING });
   const overwrite = true;
   const { error, data } = await WorkspaceService.uploadWorkspaceFile(
-    ORGANISATION_ID, workspaceId, datasetFile.file, overwrite, storageFilePath);
+    ORGANIZATION_ID, workspaceId, datasetFile.file, overwrite, storageFilePath);
   if (error) {
     console.error(error);
   } else {
@@ -139,7 +139,7 @@ function getStorageFilePathFromDataset (data) {
 
 const downloadFile = async (dataset, datasetFile, setDatasetFile) => {
   const datasetId = dataset.current.id;
-  const { error, data } = await DatasetService.findDatasetById(ORGANISATION_ID, datasetId);
+  const { error, data } = await DatasetService.findDatasetById(ORGANIZATION_ID, datasetId);
   if (error) {
     console.error(error);
     throw new Error(`Error finding dataset ${datasetId}`);
@@ -147,7 +147,7 @@ const downloadFile = async (dataset, datasetFile, setDatasetFile) => {
     const storageFilePath = getStorageFilePathFromDataset(data);
     if (storageFilePath !== undefined) {
       setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.DOWNLOADING });
-      await WorkspaceService.fetchWorkspaceFile(ORGANISATION_ID, WORKSPACE_ID, storageFilePath);
+      await WorkspaceService.fetchWorkspaceFile(ORGANIZATION_ID, WORKSPACE_ID, storageFilePath);
       setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD });
     }
   }

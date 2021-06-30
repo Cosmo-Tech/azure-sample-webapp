@@ -5,7 +5,7 @@ import { takeEvery, call, put } from 'redux-saga/effects';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { STATUSES } from '../../../commons/Constants';
 import { SCENARIO_RUN_STATE } from '../../../../utils/ApiUtils';
-import { ORGANISATION_ID } from '../../../../configs/App.config';
+import { ORGANIZATION_ID } from '../../../../configs/App.config';
 import ScenarioRunService from '../../../../services/scenarioRun/ScenarioRunService';
 
 // generators function
@@ -24,7 +24,7 @@ export function * launchScenario (action) {
 
   // Launch scenario if parameters update succeeded
   const { error: runError } = yield call(
-    ScenarioRunService.runScenario, ORGANISATION_ID, workspaceId, scenarioId);
+    ScenarioRunService.runScenario, ORGANIZATION_ID, workspaceId, scenarioId);
 
   if (runError) {
     console.error(runError);

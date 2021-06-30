@@ -6,7 +6,7 @@ Files are "domain" specific:
 - App.config.js for App configuration
 - Auth.config.js for authentication configuration
 - DashboardsList.config.js for Dashboard screen configuration
-- ScenarioDashboard.config.js for dashboard on Scenario screen 
+- ScenarioDashboard.config.js for dashboard on Scenario screen
 - i18next.config.js for translation configuration
 
 
@@ -18,7 +18,7 @@ You can set the API basePath for example.
 ## App configuration (App.config.js)
 
 The aim of this file is to allow the configuration of the Web App.
-In this file, you can find the Tab configuration, the application insight configuration, the languages list, the organisation id (V1.X only) and the workspace id (V1.X only) 
+In this file, you can find the Tab configuration, the application insight configuration, the languages list, the organization id (V1.X only) and the workspace id (V1.X only) 
 
 ## Auth configuration (Auth.config.js)
 

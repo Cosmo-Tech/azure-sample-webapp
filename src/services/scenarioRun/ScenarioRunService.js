@@ -4,7 +4,7 @@
 import { CosmotechApiService } from '../../configs/Api.config';
 import fileDownload from 'js-file-download';
 import { LOG_TYPES } from './ScenarioRunConstants.js';
-import { ORGANISATION_ID } from '../../configs/App.config';
+import { ORGANIZATION_ID } from '../../configs/App.config';
 
 const ScenariorunApi = new CosmotechApiService.ScenariorunApi();
 
@@ -41,7 +41,7 @@ function getScenarioRunLogs (organizationId, scenarioRunId) {
 }
 
 async function downloadCumulatedLogsFile (lastRun) {
-  const { error, data } = await getScenarioRunCumulatedLogs(ORGANISATION_ID, lastRun.scenarioRunId);
+  const { error, data } = await getScenarioRunCumulatedLogs(ORGANIZATION_ID, lastRun.scenarioRunId);
   if (error) {
     console.error(error);
   } else {
@@ -51,7 +51,7 @@ async function downloadCumulatedLogsFile (lastRun) {
 }
 
 async function downloadLogsSimpleFile (lastRun) {
-  const { error, data } = await getScenarioRunLogs(ORGANISATION_ID, lastRun.scenarioRunId);
+  const { error, data } = await getScenarioRunLogs(ORGANIZATION_ID, lastRun.scenarioRunId);
   if (error) {
     console.error(error);
   } else {

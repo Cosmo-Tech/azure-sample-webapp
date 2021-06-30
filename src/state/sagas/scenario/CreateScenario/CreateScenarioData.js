@@ -4,7 +4,7 @@
 import { put, takeEvery, call } from 'redux-saga/effects';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { STATUSES } from '../../../commons/Constants';
-import { ORGANISATION_ID } from '../../../../configs/App.config';
+import { ORGANIZATION_ID } from '../../../../configs/App.config';
 import ScenarioService from '../../../../services/scenario/ScenarioService';
 import { getAllScenariosData } from '../FindAllScenarios/FindAllScenariosData';
 
@@ -12,7 +12,7 @@ import { getAllScenariosData } from '../FindAllScenarios/FindAllScenariosData';
 export function * createScenario (action) {
   // yield keyword is here to milestone and save the action
   const workspaceId = action.workspaceId;
-  const { error, data } = yield call(ScenarioService.createScenario, ORGANISATION_ID, workspaceId, action.scenario);
+  const { error, data } = yield call(ScenarioService.createScenario, ORGANIZATION_ID, workspaceId, action.scenario);
   if (error) {
     // TODO handle error management
     yield put({

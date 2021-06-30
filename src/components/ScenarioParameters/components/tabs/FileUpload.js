@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { UploadFile, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
 import { UploadFileUtils } from '../../UploadFileUtils';
 import DatasetService from '../../../../services/dataset/DatasetService';
-import { ORGANISATION_ID } from '../../../../configs/App.config';
+import { ORGANIZATION_ID } from '../../../../configs/App.config';
 
 const FileUpload = ({
   acceptedFileTypesToUpload,
@@ -18,9 +18,9 @@ const FileUpload = ({
 }) => {
   useEffect(() => {
     const fetchDatasetById = async (dataset, datasetId) => {
-      const { error, data } = await DatasetService.findDatasetById(ORGANISATION_ID, datasetId);
+      const { error, data } = await DatasetService.findDatasetById(ORGANIZATION_ID, datasetId);
       if (error) {
-        throw new Error('Dataset does not exist for this organisation');
+        throw new Error('Dataset does not exist for this organization');
       }
       return data;
     };
