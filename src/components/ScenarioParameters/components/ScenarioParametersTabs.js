@@ -60,7 +60,7 @@ const ScenarioParametersTabs = ({
     let selectedTab = '';
     const newVisibleTabs = [];
     // Filter visible tabs based on current run template
-    SCENARIO_PARAMETERS_TABS_CONFIG.forEach(function (tab) {
+    SCENARIO_PARAMETERS_TABS_CONFIG.forEach((tab) => {
       if (tab.runTemplateIds.includes(currentScenario.data.runTemplateId)) {
         newVisibleTabs.push(tab);
         // Set selected tab if still unititialized
@@ -77,7 +77,9 @@ const ScenarioParametersTabs = ({
   return (
     <React.Fragment>
     { visibleTabs.length === 0
-      ? <div className={classes.placeholder}>{ t('genericcomponent.text.scenario.parameters.placeholder', 'No parameters to edit.') }</div>
+      ? <div className={classes.placeholder}>
+          { t('genericcomponent.text.scenario.parameters.placeholder', 'No parameters to edit.') }
+        </div>
       : <TabContext value={selectedTab}>
         <TabList
           value={selectedTab}
