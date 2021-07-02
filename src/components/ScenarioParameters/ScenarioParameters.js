@@ -170,6 +170,11 @@ const ScenarioParameters = ({
             parameterId: INITIAL_STOCK_PARAM_ID,
             varType: DATASET_PARAM_VARTYPE,
             value: initialStockDataset.current.id
+          },
+          {
+            parameterId: 'initial_stock_fileName',
+            varType: 'string',
+            value: initialStockFile.name
           }
         ]);
       }
