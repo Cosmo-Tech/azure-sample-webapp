@@ -26,7 +26,7 @@ export const tabs = [
 export const applicationInsightConfig = {
   name: 'Web Application Sample',
   config: {
-    instrumentationKey: '05ef985d-8209-46db-acb0-d035da80faa1',
+    instrumentationKey: 'f198a852-15d8-48da-9cd0-1e6d18708489',
     disableFetchTracking: false,
     enableCorsCorrelation: true,
     enableRequestHeaderTracking: true,
