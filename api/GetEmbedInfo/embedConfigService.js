@@ -77,7 +77,7 @@ async function getEmbedParamsForAllReportsInWorkspace (
     );
 
     // Create mapping for reports and Embed URLs
-    reportEmbedConfig.reportsDetail[reportInfo.name] = reportDetails;
+    reportEmbedConfig.reportsDetail[reportInfo.id] = reportDetails;
 
     // Push datasetId of the report into datasetIds array
     datasetIds.add(reportInfo.datasetId);

@@ -8,14 +8,14 @@ import { ScenarioParameters } from '../../components';
 import { useTranslation } from 'react-i18next';
 import {
   CreateScenarioButton,
-  Dashboard,
   HierarchicalComboBox
 } from '@cosmotech/ui';
-import { SCENARIO_DASHBOARD_CONFIG } from '../../configs/ScenarioDashboard.config';
 import { NAME_VALIDATOR } from '../../utils/ValidationUtils';
 import { sortScenarioList } from '../../utils/SortScenarioListUtils';
-import ScenarioRunService from '../../services/scenarioRun/ScenarioRunService.js';
-import { SCENARIORUN_LOG_TYPE } from '../../configs/App.config.js';
+import {
+  SimplePowerBIReportEmbed
+} from '../../components/SimplePowerBIReportEmbed';
+import { SCENARIO_DASHBOARD_CONFIG } from '../../configs/App.config';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -48,7 +48,7 @@ const useStyles = makeStyles(theme => ({
 
 const Scenario = (props) => {
   const classes = useStyles();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const {
     currentScenario,
@@ -62,7 +62,8 @@ const Scenario = (props) => {
     solution,
     createScenario,
     updateAndLaunchScenario,
-    launchScenario
+    launchScenario,
+    reports
   } = props;
 
   const workspaceId = workspace.data.id;
@@ -89,84 +90,75 @@ const Scenario = (props) => {
     : t('views.scenario.dropdown.scenario.label', Scenario);
 
   return (
-    <Grid container direction="column" className={classes.mainGrid}>
-      <Grid item xs={12}>
-        <Grid container alignItems="center" className={classes.mainGrid}>
-          <Grid item xs={9}>
-            <Grid container spacing={0} alignItems="center" className={classes.mainGrid}>
-              <Grid item xs={5} className={classes.scenarioList}>
-                <HierarchicalComboBox
-                  value={currentScenario.data}
-                  maxCharLength={36}
-                  values={sortedScenarioList}
-                  label={scenarioListLabel}
-                  handleChange={handleScenarioChange}
-                  disabled={scenarioListDisabled}
-                  renderInputToolType={currentScenarioRenderInputToolType}
-                />
-              </Grid>
-              { currentScenario.data &&
+      <Grid container direction="column" className={classes.mainGrid}>
+        <Grid item xs={12}>
+          <Grid container alignItems="center" className={classes.mainGrid}>
+            <Grid item xs={9}>
+              <Grid container spacing={0} alignItems="center" className={classes.mainGrid}>
+                <Grid item xs={5} className={classes.scenarioList}>
+                  <HierarchicalComboBox
+                      value={currentScenario.data}
+                      maxCharLength={36}
+                      values={sortedScenarioList}
+                      label={scenarioListLabel}
+                      handleChange={handleScenarioChange}
+                      disabled={scenarioListDisabled}
+                      renderInputToolType={currentScenarioRenderInputToolType}
+                  />
+                </Grid>
+                { currentScenario.data &&
                 (<Grid item xs={7}>
                   <Typography>{ t('views.scenario.text.scenariotype')}: { currentScenario.data.runTemplateName}</Typography>
                 </Grid>)
-              }
+                }
+              </Grid>
             </Grid>
-          </Grid>
-          <Grid item xs={3}>
-            <Grid container spacing={0} justify="flex-end" className={classes.mainGrid}>
-              <Grid item>
-                <CreateScenarioButton
-                  solution={solution}
-                  workspaceId={workspaceId}
-                  createScenario={createScenario}
-                  currentScenario={currentScenario}
-                  runTemplates={runTemplateList.data}
-                  datasets={datasetList.data}
-                  scenarios={scenarioList.data}
-                  user={user}
-                  disabled={editMode}
-                  buttonTooltip={createScenarioButtonToolType}
-                  nameValidator={NAME_VALIDATOR}
-                />
+            <Grid item xs={3}>
+              <Grid container spacing={0} justify="flex-end" className={classes.mainGrid}>
+                <Grid item>
+                  <CreateScenarioButton
+                      solution={solution}
+                      workspaceId={workspaceId}
+                      createScenario={createScenario}
+                      currentScenario={currentScenario}
+                      runTemplates={runTemplateList.data}
+                      datasets={datasetList.data}
+                      scenarios={scenarioList.data}
+                      user={user}
+                      disabled={editMode}
+                      buttonTooltip={createScenarioButtonToolType}
+                      nameValidator={NAME_VALIDATOR}
+                  />
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
         </Grid>
+        <Grid item xs={12}>
+          <Card style={{ height: '400px' }}>
+            {/* TODO Placeholder when error or not scenario */}
+            <SimplePowerBIReportEmbed
+                reports={reports}
+                reportConfiguration={SCENARIO_DASHBOARD_CONFIG}
+                scenario={currentScenario.data}
+                lang={i18n.language}/>
+          </Card>
+        </Grid>
+        <Grid item xs={12}>
+          <Card>
+            { currentScenario.data &&
+            <ScenarioParameters
+                editMode={editMode}
+                changeEditMode={setEditMode}
+                updateAndLaunchScenario={updateAndLaunchScenario}
+                launchScenario={launchScenario}
+                workspaceId={workspaceId}
+                currentScenario={currentScenario}
+                scenarioId={currentScenario.data.id}/>
+            }
+          </Card>
+        </Grid>
       </Grid>
-      <Grid item xs={12}>
-        <Card style={{ height: '400px' }}>
-            <Dashboard
-              iframeTitle={t('commoncomponents.iframe.scenario.results.card.title', 'Results')}
-              url={SCENARIO_DASHBOARD_CONFIG.url}
-              csmSimulationRun={currentScenario.data?.lastRun?.csmSimulationRun}
-              scenarioName={currentScenario.data?.name}
-              scenarioState={currentScenario.data?.state}
-              noScenario={noScenario}
-              scenarioId={currentScenario.data?.id}
-              downloadLogsFile={() => {
-                ScenarioRunService.downloadLogsFile(
-                  currentScenario.data?.lastRun,
-                  SCENARIORUN_LOG_TYPE
-                );
-              }}
-            />
-        </Card>
-      </Grid>
-      <Grid item xs={12}>
-        <Card>
-          { currentScenario.data &&
-          <ScenarioParameters
-            editMode={editMode}
-            changeEditMode={setEditMode}
-            updateAndLaunchScenario={updateAndLaunchScenario}
-            launchScenario={launchScenario}
-            workspaceId={workspaceId}
-            currentScenario={currentScenario}
-            scenarioId={currentScenario.data.id}/>
-          }
-        </Card>
-      </Grid>
-    </Grid>
   );
 };
 
@@ -181,7 +173,8 @@ Scenario.propTypes = {
   solution: PropTypes.object.isRequired,
   createScenario: PropTypes.func.isRequired,
   updateAndLaunchScenario: PropTypes.func.isRequired,
-  launchScenario: PropTypes.func.isRequired
+  launchScenario: PropTypes.func.isRequired,
+  reports: PropTypes.object.isRequired
 };
 
 export default Scenario;
