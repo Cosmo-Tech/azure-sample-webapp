@@ -8,7 +8,7 @@ import { LOG_TYPES } from '../services/scenarioRun/ScenarioRunConstants.js';
 import {
   PowerBIReportEmbedMultipleFilter,
   PowerBIReportEmbedSimpleFilter
-} from '../components/SimplePowerBIReportEmbed/PowerBIReportEmbedFilter';
+} from '@cosmotech/core';
 
 // Tabs configuration
 export const tabs = [
@@ -76,7 +76,7 @@ export const WORKSPACE_ID = 'W-rXeBwRa0PM';
 export const ORGANIZATION_ID = 'O-gZYpnd27G7';
 
 // Log type to download
-export const SCENARIORUN_LOG_TYPE = LOG_TYPES.CUMULATED_LOGS;
+export const SCENARIO_RUN_LOG_TYPE = LOG_TYPES.CUMULATED_LOGS;
 
 // languages
 export const applicationLanguages = {

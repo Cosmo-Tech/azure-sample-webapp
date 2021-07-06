@@ -8,14 +8,13 @@ import { ScenarioParameters } from '../../components';
 import { useTranslation } from 'react-i18next';
 import {
   CreateScenarioButton,
-  HierarchicalComboBox
+  HierarchicalComboBox,
+  SimplePowerBIReportEmbed
 } from '@cosmotech/ui';
 import { NAME_VALIDATOR } from '../../utils/ValidationUtils';
 import { sortScenarioList } from '../../utils/SortScenarioListUtils';
-import {
-  SimplePowerBIReportEmbed
-} from '../../components/SimplePowerBIReportEmbed';
-import { SCENARIO_DASHBOARD_CONFIG } from '../../configs/App.config';
+import { SCENARIO_DASHBOARD_CONFIG, SCENARIO_RUN_LOG_TYPE } from '../../configs/App.config';
+import ScenarioRunService from '../../services/scenarioRun/ScenarioRunService';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -141,7 +140,12 @@ const Scenario = (props) => {
                 reports={reports}
                 reportConfiguration={SCENARIO_DASHBOARD_CONFIG}
                 scenario={currentScenario.data}
-                lang={i18n.language}/>
+                lang={i18n.language}
+                downloadLogsFile={() => {
+                  ScenarioRunService.downloadLogsFile(
+                    currentScenario.data?.lastRun,
+                    SCENARIO_RUN_LOG_TYPE);
+                }}/>
           </Card>
         </Grid>
         <Grid item xs={12}>
