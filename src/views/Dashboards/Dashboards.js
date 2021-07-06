@@ -10,8 +10,9 @@ import {
   Tab,
   makeStyles
 } from '@material-ui/core';
-import { DASHBOARDS_LIST_CONFIG } from '../../configs/DashboardsList.config';
-import { Dashboard } from '@cosmotech/ui';
+import { SimplePowerBIReportEmbed } from '@cosmotech/ui';
+import { DASHBOARDS_LIST_CONFIG } from '../../configs/App.config';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -32,10 +33,10 @@ function a11yProps (index) {
   };
 }
 
-const Dashboards = ({ currentScenario }) => {
+const Dashboards = ({ currentScenario, scenarioList, reports }) => {
   const classes = useStyles();
+  const { i18n } = useTranslation();
   const [value, setValue] = useState(0);
-  const noScenario = currentScenario === null;
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -56,27 +57,25 @@ const Dashboards = ({ currentScenario }) => {
             className={classes.tabs}
           >
             {DASHBOARDS_LIST_CONFIG.map(dashboard => (
-              <Tab key={dashboard.id} label={dashboard.title} {...a11yProps(dashboard.id)} />
+              <Tab key={dashboard.title} label={dashboard.title} {...a11yProps(dashboard.id)} />
             ))}
           </Tabs>
         </Card>
       </Grid>
       <Grid item sm={10}>
         <Card className={classes.dashboard}>
-            {DASHBOARDS_LIST_CONFIG.map(dashboard => (
+            {
               <TabPanel
                 className={classes.dashboard}
-                value={value}
-                index={dashboard.id}
-                key={dashboard.id}
-                src={dashboard.url}
-                title={dashboard.title}
-                scenarioName={currentScenario?.name}
-                scenarioId={currentScenario?.id}
-                csmSimulationRun={currentScenario?.lastRun?.csmSimulationRun}
-                noScenario={noScenario}
+                index={value}
+                key={DASHBOARDS_LIST_CONFIG[value].id}
+                title={DASHBOARDS_LIST_CONFIG[value].title}
+                reports={reports}
+                scenario={currentScenario}
+                scenarioList={scenarioList.data}
+                lang={i18n.language}
               />
-            ))}
+            }
         </Card>
       </Grid>
     </Grid>
@@ -85,41 +84,37 @@ const Dashboards = ({ currentScenario }) => {
 
 Dashboards.propTypes = {
   classes: PropTypes.any,
-  currentScenario: PropTypes.object
+  currentScenario: PropTypes.object,
+  scenarioList: PropTypes.object.isRequired,
+  reports: PropTypes.object.isRequired
 };
 
 function TabPanel (props) {
   const {
     children,
-    value,
     index,
-    src,
     title,
-    scenarioName,
-    scenarioId,
-    csmSimulationRun,
-    noScenario,
+    reports,
+    scenario,
+    scenarioList,
+    lang,
     ...other
   } = props;
 
   return (
     <div
       role="tabpanel"
-      hidden={value !== index}
       id={`vertical-tabpanel-${index}`}
       aria-labelledby={`vertical-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Dashboard
-          iframeTitle={title}
-          url={src}
-          scenarioName={scenarioName}
-          scenarioId={scenarioId}
-          csmSimulationRun={csmSimulationRun}
-          noScenario={noScenario}
-        />
-      )}
+      <SimplePowerBIReportEmbed
+          index={index}
+          reports={reports}
+          reportConfiguration={DASHBOARDS_LIST_CONFIG}
+          scenario={scenario}
+          scenarioList={scenarioList}
+          lang={lang} />
     </div>
   );
 }
@@ -127,17 +122,11 @@ function TabPanel (props) {
 TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
-  src: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  scenarioName: PropTypes.string,
-  scenarioId: PropTypes.string,
-  csmSimulationRun: PropTypes.string,
-  noScenario: PropTypes.bool
-};
-
-TabPanel.defaultProps = {
-  noScenario: false
+  lang: PropTypes.string.isRequired,
+  scenarioList: PropTypes.array.isRequired,
+  scenario: PropTypes.object.isRequired,
+  reports: PropTypes.object.isRequired
 };
 
 export default Dashboards;

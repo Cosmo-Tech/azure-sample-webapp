@@ -4,7 +4,7 @@ The Dashboards view allows to embed multiple BI reports in the app using their U
 
 ## Dashboard entries structure
 To add an entry in the Dashboards view menu:
-- Open *webapp_folder*/src/configs/DashboardsList.config.js
+- Open *webapp_folder*/src/configs/App.config.js
 - Add a new object in the existing DASHBOARDS_LIST_CONFIG array, respecting the following pattern:
 ```
 {

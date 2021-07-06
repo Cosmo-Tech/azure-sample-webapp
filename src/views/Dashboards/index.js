@@ -4,7 +4,9 @@ import { connect } from 'react-redux';
 import Dashboards from './Dashboards';
 
 const mapStateToProps = (state) => ({
-  currentScenario: state.scenario.current.data
+  currentScenario: state.scenario.current.data,
+  scenarioList: state.scenario.list,
+  reports: state.powerBI
 });
 
 export default connect(mapStateToProps)(Dashboards);
