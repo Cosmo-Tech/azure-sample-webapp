@@ -50,8 +50,8 @@ export const SCENARIO_DASHBOARD_CONFIG = [
       navContentPaneEnabled: false,
       panes: {
         filters: {
-          expanded: true,
-          visible: true
+          expanded: false,
+          visible: false
         }
       }
     },
@@ -62,8 +62,8 @@ export const SCENARIO_DASHBOARD_CONFIG = [
       new PowerBIReportEmbedSimpleFilter('StockProbe', 'SimulationRun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN)
     ],
     pageName: {
-      en: 'ReportSectiond5265d03b73060af4244',
-      fr: 'ReportSectionca125957a3f5ea936a30'
+      en: 'ReportSection',
+      fr: 'ReportSection'
     }
   }
 ];
