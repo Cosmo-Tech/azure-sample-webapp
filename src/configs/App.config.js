@@ -42,6 +42,11 @@ export const applicationInsightConfig = {
 
 // For further information about settings or filters see:
 // https://github.com/microsoft/powerbi-client-react
+// based on
+// https://github.com/microsoft/PowerBI-JavaScript
+// using
+// https://github.com/microsoft/powerbi-models
+
 export const SCENARIO_DASHBOARD_CONFIG = [
   {
     title: 'Scenario dashboard',
@@ -68,6 +73,12 @@ export const SCENARIO_DASHBOARD_CONFIG = [
   }
 ];
 
+// For further information about settings or filters see:
+// https://github.com/microsoft/powerbi-client-react
+// based on
+// https://github.com/microsoft/PowerBI-JavaScript
+// using
+// https://github.com/microsoft/powerbi-models
 export const DASHBOARDS_LIST_CONFIG = [
   {
     title: 'Digital Twin Structure',

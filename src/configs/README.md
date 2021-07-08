@@ -16,7 +16,9 @@ You can set the API basePath for example.
 ## App configuration (App.config.js)
 
 The aim of this file is to allow the configuration of the Web App.
-In this file, you can find the Tab configuration, the application insight configuration, the languages list, the organization id (V1.X only), the workspace id (V1.X only), dashboards
+In this file, you can find the Tab configuration, the application insight configuration, the languages list, the organization id (V1.X only), the workspace id (V1.X only), dashboards,...
+
+About dashboards configuration (in Dashboards view or Scenario view respectively based on DASHBOARDS_LIST_CONFIG and SCENARIO_DASHBOARD_CONFIG constants) see the [detailed documentation](https://github.com/Cosmo-Tech/azure-sample-webapp/tree/main/src/views/Dashboards#readme)
 
 ## Auth configuration (Auth.config.js)
 
