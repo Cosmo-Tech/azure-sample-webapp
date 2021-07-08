@@ -27,7 +27,8 @@ To filter results on the current scenario (selected by user in Scenario view dro
 * a field in results database containing scenarios identifiers
 * a placeholder to use in URL which will be dynamically replaced with the current scenario's identifier. Available placeholders are:
   * `<ScenarioName>`: will be dynamically replaced with the user-given current scenario name
-  * `<ScenarioId>`: will be dynamically replaced with the unique Scenario identifier created returned by the platform at scenario creation
+  * `<ScenarioId>`: will be dynamically replaced with the unique Scenario identifier returned by the platform at scenario creation
+  * `<CsmSimulationRun>`: will be dynamically replaced with the unique ScenarioRun identifier returned by the platform at the scenario's most recent run
 
 Use the following syntax: `MyReportURL&$filter=MyTableName/MyIdentifierField%20eq%20%27<ScenarioName>%27` (%20 is " " and %27 is "'")
 
