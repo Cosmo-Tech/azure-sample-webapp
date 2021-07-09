@@ -1247,10 +1247,10 @@
     "@babel/cli" "^7.0.0"
     superagent "^5.3.0"
 
-"@cosmotech/azure@^0.8.3":
-  version "0.8.6"
-  resolved "https://registry.yarnpkg.com/@cosmotech/azure/-/azure-0.8.6.tgz#ea408ea1605b4fcb8a5cccf13b56499e00d56a92"
-  integrity sha512-c2mG8AlBtCzuHuyZSzFOU85WbJPl84CzhS7TDPWFZVzW7w2CEF4XWO4hVIfOcbGlhIom4iAC23C0Vwr/V3Mdng==
+"@cosmotech/azure@^0.8.7":
+  version "0.8.7"
+  resolved "https://registry.yarnpkg.com/@cosmotech/azure/-/azure-0.8.7.tgz#e44dac557aea9891ae1b84ca4f0e60bdc34b3b88"
+  integrity sha512-XBlkYLotwqS7Gx4e373pwUjOm6s1pDfUx2yckM1eabYeUVHOMWcUdc0sHjwe95pSM3zH0/wUi5VZKj0sQ/K8ng==
   dependencies:
     "@azure/msal-browser" "^2.8.0"
 
@@ -1259,15 +1259,17 @@
   resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.1.7.tgz#0bf2362fdbd361c5edb092bdbf460168e72386af"
   integrity sha512-bpkYJ3tvPJgw5bTVXQZZdi9uuqxG7/dRCaDoJPpyvB2rofsjrUvILaSBjED5rAmR9efe7ZSn/HgRKdlRCKsHLw==
 
-"@cosmotech/ui@^0.4.0":
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-0.4.2.tgz#15e2ea9145e8b4cf513b449baae1d517a6ca1b3e"
-  integrity sha512-uu4htteht4JhevDp6UIeA0s62u7EPRw3l5mtJO7WHRGTxizyc+nUwrwqmaH3s4Qmj10D+qPQxJKSPtBz8zyApg==
+"@cosmotech/ui@^0.4.3":
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-0.4.3.tgz#e7ab5a4de3b91f0c4813095e6382db220b8344bb"
+  integrity sha512-+AWnQywIEtatqyFv2v+SG6hVcXmLLuc/cGPoowfgqbBRo52nky14To+P1gRptT6+vR2JuPUDENJyNabnNkvnrg==
   dependencies:
+    "@cosmotech/azure" "^0.8.7"
     "@cosmotech/core" "^1.1.3"
     "@date-io/date-fns" "^1.3.13"
     "@material-ui/pickers" "^3.3.10"
     date-fns "^2.22.1"
+    powerbi-client-react "^1.3.3"
     react-number-format "^4.5.5"
 
 "@csstools/convert-colors@^1.4.0":
