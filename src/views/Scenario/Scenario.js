@@ -138,7 +138,6 @@ const Scenario = (props) => {
                 reports={reports}
                 reportConfiguration={SCENARIO_DASHBOARD_CONFIG}
                 scenario={currentScenario.data}
-                scenarioList={scenarioList.data}
                 lang={i18n.language}
                 downloadLogsFile={() => {
                   ScenarioRunService.downloadLogsFile(

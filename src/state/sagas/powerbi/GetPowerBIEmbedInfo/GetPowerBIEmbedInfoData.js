@@ -34,7 +34,7 @@ export function * getPowerBIEmbedInfoSaga () {
       type: POWER_BI_ACTIONS_KEY.SET_EMBED_INFO,
       embedInfo: {
         accessToken: '',
-        embedUrl: '',
+        reportsInfo: '',
         expiry: ''
       },
       status: STATUSES.ERROR

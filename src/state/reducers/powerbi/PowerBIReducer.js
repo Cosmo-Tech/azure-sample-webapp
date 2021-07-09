@@ -8,7 +8,7 @@ import { POWER_BI_ACTIONS_KEY } from '../../commons/PowerBIConstants';
 export const powerBiInitialState = {
   data: {
     accessToken: '',
-    embedUrl: '',
+    reportsInfo: '',
     expiry: ''
   },
   status: STATUSES.IDLE

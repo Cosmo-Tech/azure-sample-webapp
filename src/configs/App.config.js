@@ -8,7 +8,7 @@ import { LOG_TYPES } from '../services/scenarioRun/ScenarioRunConstants.js';
 import {
   POWER_BI_FIELD_ENUM, PowerBIReportEmbedMultipleFilter,
   PowerBIReportEmbedSimpleFilter
-} from '@cosmotech/core';
+} from '@cosmotech/azure';
 
 // Tabs configuration
 export const tabs = [
