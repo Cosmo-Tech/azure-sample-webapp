@@ -67,3 +67,12 @@ a {
 .google-visualization-orgchart-table {
   margin: 0 auto;
 }
+
+.MuiPaper-root.MuiCard-root {
+  div {
+    iframe {
+      border: none;
+      box-sizing: unset;
+    }
+  }
+}

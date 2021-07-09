@@ -16,15 +16,6 @@ export function * getPowerBIEmbedInfoSaga () {
 
       if (error) {
         console.error(error);
-        yield put({
-          type: POWER_BI_ACTIONS_KEY.SET_EMBED_INFO,
-          embedInfo: {
-            accessToken: '',
-            embedUrl: '',
-            expiry: ''
-          },
-          status: STATUSES.ERROR
-        });
       } else {
         yield put({
           type: POWER_BI_ACTIONS_KEY.SET_EMBED_INFO,
@@ -43,7 +34,7 @@ export function * getPowerBIEmbedInfoSaga () {
       type: POWER_BI_ACTIONS_KEY.SET_EMBED_INFO,
       embedInfo: {
         accessToken: '',
-        embedUrl: '',
+        reportsInfo: '',
         expiry: ''
       },
       status: STATUSES.ERROR

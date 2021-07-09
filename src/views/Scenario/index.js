@@ -16,7 +16,8 @@ const mapStateToProps = (state) => ({
   currentScenario: state.scenario.current,
   user: state.auth,
   workspace: state.workspace.current,
-  solution: state.solution.current
+  solution: state.solution.current,
+  reports: state.powerBI
 });
 
 const mapDispatchToProps = {

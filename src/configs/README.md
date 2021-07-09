@@ -5,8 +5,6 @@ Files are "domain" specific:
 - Api.config.js for API configuration
 - App.config.js for App configuration
 - Auth.config.js for authentication configuration
-- DashboardsList.config.js for Dashboard screen configuration
-- ScenarioDashboard.config.js for dashboard on Scenario screen
 - i18next.config.js for translation configuration
 
 
@@ -18,22 +16,14 @@ You can set the API basePath for example.
 ## App configuration (App.config.js)
 
 The aim of this file is to allow the configuration of the Web App.
-In this file, you can find the Tab configuration, the application insight configuration, the languages list, the organization id (V1.X only) and the workspace id (V1.X only) 
+In this file, you can find the Tab configuration, the application insight configuration, the languages list, the organization id (V1.X only), the workspace id (V1.X only), dashboards,...
+
+About dashboards configuration (in Dashboards view or Scenario view respectively based on DASHBOARDS_LIST_CONFIG and SCENARIO_DASHBOARD_CONFIG constants) see the [detailed documentation](https://github.com/Cosmo-Tech/azure-sample-webapp/tree/main/src/views/Dashboards#readme)
 
 ## Auth configuration (Auth.config.js)
 
 The aim of this file is to allow the configuration of the authentication based on [@cosmotech/core](https://www.npmjs.com/package/@cosmotech/core) and [@cosmotech/azure](https://www.npmjs.com/package/@cosmotech/azure)
 Feel free to add your own auth provider if you don't want to use MSAL authentication.
-
-## Dashboards screen configuration (DashboardsList.config.js)
-
-The aim of this file is to allow the dashboard screen configuration.
-See [Configure Dashboards View](https://github.com/Cosmo-Tech/azure-sample-webapp/tree/main/src/views/Dashboards) for more details.
-
-## Scenario view dashboard iframe configuration (ScenarioDashboard.config.js)
-
-The aim of this file is to allow the scenario screen dashboard configuration.
-Same behavior as described in [Configure Dashboards View](https://github.com/Cosmo-Tech/azure-sample-webapp/tree/main/src/views/Dashboards), except you only need a unique URL.
 
 ## i18next configuration (i18next.config.js)
 The aim of this file is to allow the react-i18next library configuration.

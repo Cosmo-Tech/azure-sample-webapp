@@ -18,7 +18,7 @@ async function getEmbedInfo () {
     const embedParams = await getEmbedParamsForAllReportsInWorkspace(process.env.POWER_BI_WORKSPACE_ID);
     return {
       accessToken: embedParams.embedToken.token,
-      embedUrl: embedParams.reportsDetail,
+      reportsInfo: embedParams.reportsDetail,
       expiry: embedParams.embedToken.expiration
     };
   } catch (err) {
@@ -77,7 +77,7 @@ async function getEmbedParamsForAllReportsInWorkspace (
     );
 
     // Create mapping for reports and Embed URLs
-    reportEmbedConfig.reportsDetail[reportInfo.name] = reportDetails;
+    reportEmbedConfig.reportsDetail[reportInfo.id] = reportDetails;
 
     // Push datasetId of the report into datasetIds array
     datasetIds.add(reportInfo.datasetId);

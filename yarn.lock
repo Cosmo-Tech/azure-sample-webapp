@@ -1239,18 +1239,18 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@cosmotech/api@^0.0.10":
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/@cosmotech/api/-/api-0.0.10.tgz#8830b238d99875bc4735f01d075e827840370318"
-  integrity sha512-vj4S8aRU25mX9ad6zGum6+CoKaGeihZUbYNkGRV6UEiG6knC1qC39/kM4DLEIMphQBpmyJNfE7Wjjq16UPviXg==
+"@cosmotech/api@^0.0.11":
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/@cosmotech/api/-/api-0.0.11.tgz#c92cc95064e4d64cb49bad15e71ca32eaaf5a50d"
+  integrity sha512-gKvZrC7ozgwvHNcDvh6wKVxBaZa8h3PZ4ObiyiTw0CNhhV17RN/RZkVc9OM7wELO1XQ+R9UA8qSAWWZQcWaphQ==
   dependencies:
     "@babel/cli" "^7.0.0"
     superagent "^5.3.0"
 
-"@cosmotech/azure@^0.8.3":
-  version "0.8.6"
-  resolved "https://registry.yarnpkg.com/@cosmotech/azure/-/azure-0.8.6.tgz#ea408ea1605b4fcb8a5cccf13b56499e00d56a92"
-  integrity sha512-c2mG8AlBtCzuHuyZSzFOU85WbJPl84CzhS7TDPWFZVzW7w2CEF4XWO4hVIfOcbGlhIom4iAC23C0Vwr/V3Mdng==
+"@cosmotech/azure@^0.8.7":
+  version "0.8.7"
+  resolved "https://registry.yarnpkg.com/@cosmotech/azure/-/azure-0.8.7.tgz#e44dac557aea9891ae1b84ca4f0e60bdc34b3b88"
+  integrity sha512-XBlkYLotwqS7Gx4e373pwUjOm6s1pDfUx2yckM1eabYeUVHOMWcUdc0sHjwe95pSM3zH0/wUi5VZKj0sQ/K8ng==
   dependencies:
     "@azure/msal-browser" "^2.8.0"
 
@@ -1259,15 +1259,17 @@
   resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.1.7.tgz#0bf2362fdbd361c5edb092bdbf460168e72386af"
   integrity sha512-bpkYJ3tvPJgw5bTVXQZZdi9uuqxG7/dRCaDoJPpyvB2rofsjrUvILaSBjED5rAmR9efe7ZSn/HgRKdlRCKsHLw==
 
-"@cosmotech/ui@^0.4.0":
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-0.4.2.tgz#15e2ea9145e8b4cf513b449baae1d517a6ca1b3e"
-  integrity sha512-uu4htteht4JhevDp6UIeA0s62u7EPRw3l5mtJO7WHRGTxizyc+nUwrwqmaH3s4Qmj10D+qPQxJKSPtBz8zyApg==
+"@cosmotech/ui@^0.4.3":
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-0.4.3.tgz#e7ab5a4de3b91f0c4813095e6382db220b8344bb"
+  integrity sha512-+AWnQywIEtatqyFv2v+SG6hVcXmLLuc/cGPoowfgqbBRo52nky14To+P1gRptT6+vR2JuPUDENJyNabnNkvnrg==
   dependencies:
+    "@cosmotech/azure" "^0.8.7"
     "@cosmotech/core" "^1.1.3"
     "@date-io/date-fns" "^1.3.13"
     "@material-ui/pickers" "^3.3.10"
     date-fns "^2.22.1"
+    powerbi-client-react "^1.3.3"
     react-number-format "^4.5.5"
 
 "@csstools/convert-colors@^1.4.0":
@@ -5338,6 +5340,11 @@ es6-iterator@2.0.3, es6-iterator@~2.0.3:
     es5-ext "^0.10.35"
     es6-symbol "^3.1.1"
 
+es6-promise@^3.1.2, es6-promise@^3.2.1:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-3.3.1.tgz#a08cdde84ccdbf34d027a1451bc91d4bcd28a613"
+  integrity sha1-oIzd6EzNvzTQJ6FFG8kdS80ophM=
+
 es6-symbol@^3.1.1, es6-symbol@~3.1.3:
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/es6-symbol/-/es6-symbol-3.1.3.tgz#bad5d3c1bcdac28269f4cb331e431c78ac705d18"
@@ -6808,6 +6815,13 @@ http-parser-js@>=0.5.1:
   version "0.5.3"
   resolved "https://registry.yarnpkg.com/http-parser-js/-/http-parser-js-0.5.3.tgz#01d2709c79d41698bb01d4decc5e9da4e4a033d9"
   integrity sha512-t7hjvef/5HEK7RWTdUzVUhl8zkEu+LlaE0IYzdMuvbSDipxBRpOn4Uhw8ZyECEa808iVT8XCjzo6xmYt4CiLZg==
+
+http-post-message@^0.2:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/http-post-message/-/http-post-message-0.2.3.tgz#32c560ac615f310a7e459ffc71277b579b242e1e"
+  integrity sha1-MsVgrGFfMQp+RZ/8cSd7V5skLh4=
+  dependencies:
+    es6-promise "^3.2.1"
 
 http-proxy-agent@^4.0.1:
   version "4.0.1"
@@ -8473,6 +8487,11 @@ lodash.debounce@^4.0.8:
   version "4.0.8"
   resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
   integrity sha1-gteb/zCmfEAF/9XiUVMArZyk168=
+
+lodash.isequal@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/lodash.isequal/-/lodash.isequal-4.5.0.tgz#415c4478f2bcc30120c22ce10ed3226f7d3e18e0"
+  integrity sha1-QVxEePK8wwEgwizhDtMib30+GOA=
 
 lodash.isplainobject@^4.0.6:
   version "4.0.6"
@@ -10483,6 +10502,37 @@ postcss@^8.1.0:
     nanoid "^3.1.23"
     source-map-js "^0.6.2"
 
+powerbi-client-react@^1.3.3:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/powerbi-client-react/-/powerbi-client-react-1.3.3.tgz#608cd1d6f6a58b5d5bea745457e09de881f8bc83"
+  integrity sha512-cIwdGUfljR6BBA5jhtwYkirdexnJMYtFOSiD9V65y6ZOAcjDD+q93rCvhECv+C2MQo/l/LCLZk98VUKKR67MLg==
+  dependencies:
+    lodash.isequal "^4.5.0"
+    powerbi-client "^2.18.0"
+
+powerbi-client@^2.18.0:
+  version "2.18.0"
+  resolved "https://registry.yarnpkg.com/powerbi-client/-/powerbi-client-2.18.0.tgz#eff7739b78c5c030f0ad8e6e8bd5b35431699115"
+  integrity sha512-LB7qGtu8od4lX1EKYMuyyCFRPr1R1Aba+4UaAF6JosCYkG7BgBJST7S88rJaXDiFkP1/LZN/5zLF771Xetb3dQ==
+  dependencies:
+    http-post-message "^0.2"
+    powerbi-models "^1.9"
+    powerbi-router "^0.1"
+    window-post-message-proxy "^0.2"
+
+powerbi-models@^1.9:
+  version "1.9.1"
+  resolved "https://registry.yarnpkg.com/powerbi-models/-/powerbi-models-1.9.1.tgz#28331b57d8b7430f13c28a0deeda425959601bca"
+  integrity sha512-cHJvwDgwJPI8xRDf3woOS/PuRwIaJZlbgOgznYyeH2AcoBni1ncHu/Rp1YopH0Yp6XOBwqkhRf7WQR/QxDTjJg==
+
+powerbi-router@^0.1:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/powerbi-router/-/powerbi-router-0.1.5.tgz#dd2d2d0474f8cb76690a85f6a51d8ca9fea93a32"
+  integrity sha1-3S0tBHT4y3ZpCoX2pR2Mqf6pOjI=
+  dependencies:
+    es6-promise "^3.2.1"
+    route-recognizer "^0.1.11"
+
 prelude-ls@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/prelude-ls/-/prelude-ls-1.2.1.tgz#debc6489d7a6e6b0e7611888cec880337d316396"
@@ -11528,6 +11578,11 @@ rollup@^1.31.1:
     "@types/estree" "*"
     "@types/node" "*"
     acorn "^7.1.0"
+
+route-recognizer@^0.1.11:
+  version "0.1.11"
+  resolved "https://registry.yarnpkg.com/route-recognizer/-/route-recognizer-0.1.11.tgz#810d8e5702abb4056d6dcb8e865c5685e7c14eb7"
+  integrity sha1-gQ2OVwKrtAVtbcuOhlxWhefBTrc=
 
 rsvp@^4.8.2, rsvp@^4.8.4:
   version "4.8.5"
@@ -13518,6 +13573,13 @@ wide-align@^1.1.0:
   integrity sha512-QGkOQc8XL6Bt5PwnsExKBPuMKBxnGxWWW3fU55Xt4feHozMUhdUMaBCk290qpm/wG5u/RSKzwdAC4i51YigihA==
   dependencies:
     string-width "^1.0.2 || 2"
+
+window-post-message-proxy@^0.2:
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/window-post-message-proxy/-/window-post-message-proxy-0.2.6.tgz#8d9800d441629c8bff0a8cb2bf9e0119702940ca"
+  integrity sha512-IwNWtUWVFarBa2F9vhmfv2yr0PfPm57QuOBCw3qSLaunhD3THcHUKQ4HrJQiCuYUT7LEjhUtaoA+hrV+wQzNmQ==
+  dependencies:
+    es6-promise "^3.1.2"
 
 word-wrap@^1.2.3, word-wrap@~1.2.3:
   version "1.2.3"
