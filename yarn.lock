@@ -1259,10 +1259,10 @@
   resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.1.8.tgz#08f7179185b43224a135be0755b3fabbd4c39f30"
   integrity sha512-Kb9/vVkgw9vZ8IsfO5mmryz+QjzOtMgCRx/09SA5xFxUvsIFOohZgDszHDrpYyRP/J41tL06lV0N2L8tH2yBOw==
 
-"@cosmotech/ui@^0.4.3":
-  version "0.4.4"
-  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-0.4.4.tgz#56526c548a54814a8145b280f8ba785a9efbcfc9"
-  integrity sha512-fCZx12QhLScqVZa7f4mKlsQWlReY54MJzcChsMNIrOV0ctI6Qq7KRm3sC/jZhpoXd0luHa8eLh5e4xKIu33YkA==
+"@cosmotech/ui@^0.4.5":
+  version "0.4.5"
+  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-0.4.5.tgz#f2720ddc6172e084648533b7e62ac6c7fb06c1e2"
+  integrity sha512-z+CS7p+pMx9s18PiHE5KTOVy/7YTkhg+AyQZFAHpVHsVc31iJL70vVgkQ8U+JDMvdyxhcv7exU148AazjuQg0w==
   dependencies:
     "@cosmotech/azure" "^0.8.7"
     "@cosmotech/core" "^1.1.3"
