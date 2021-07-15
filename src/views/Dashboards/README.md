@@ -8,7 +8,7 @@ To add an entry in the Dashboards view menu:
 - Add a new object in the existing DASHBOARDS_LIST_CONFIG array, respecting the following pattern:
 ```
   {
-    title: '<title>',                     // Dashboard's title that appears in left tabs,
+    title: '<title object>',              // Dashboard's title that appears in left tabs (e.g. {en: 'title in English', fr: 'Titre en français' } )
     reportId: <report unique id>,         // You can get the report Id in PowerBI 
     settings: '<settings object>',        // a settings object see https://github.com/microsoft/powerbi-models/blob/0d326572c4253fd9f89b73a0d8df1ae46318a860/src/models.ts#L1070
     staticFilters?: <filters array>,      // an array of PowerBIReportEmbedSimpleFilter and/or PowerBIReportEmbedMultipleFilter from @cosmotech/core dependency         

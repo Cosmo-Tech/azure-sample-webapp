@@ -49,7 +49,10 @@ export const applicationInsightConfig = {
 
 export const SCENARIO_DASHBOARD_CONFIG = [
   {
-    title: 'Scenario dashboard',
+    title: {
+      en: 'Scenario dashboard',
+      fr: 'Rapport du scenario'
+    },
     reportId: '608b7bef-f5e3-4aae-b8db-19bbb38325d5',
     settings: {
       navContentPaneEnabled: false,
@@ -81,7 +84,10 @@ export const SCENARIO_DASHBOARD_CONFIG = [
 // https://github.com/microsoft/powerbi-models
 export const DASHBOARDS_LIST_CONFIG = [
   {
-    title: 'Digital Twin Structure',
+    title: {
+      en: 'Digital Twin Structure',
+      fr: 'Structure du jumeau numérique'
+    },
     reportId: '608b7bef-f5e3-4aae-b8db-19bbb38325d5',
     settings: {
       navContentPaneEnabled: false,
@@ -106,7 +112,10 @@ export const DASHBOARDS_LIST_CONFIG = [
     }
   },
   {
-    title: 'Stocks Follow-up',
+    title: {
+      en: 'Stocks Follow-up',
+      fr: 'Suivi de stock'
+    },
     reportId: '608b7bef-f5e3-4aae-b8db-19bbb38325d5',
     settings: {
       navContentPaneEnabled: false,
@@ -131,7 +140,10 @@ export const DASHBOARDS_LIST_CONFIG = [
     }
   },
   {
-    title: 'Customer Satisfaction',
+    title: {
+      en: 'Customer Satisfaction',
+      fr: 'Satisfaction cliente'
+    },
     reportId: '608b7bef-f5e3-4aae-b8db-19bbb38325d5',
     settings: {
       navContentPaneEnabled: false,
