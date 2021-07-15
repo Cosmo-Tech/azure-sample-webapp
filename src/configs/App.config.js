@@ -142,7 +142,7 @@ export const DASHBOARDS_LIST_CONFIG = [
   {
     title: {
       en: 'Customer Satisfaction',
-      fr: 'Satisfaction cliente'
+      fr: 'Satisfaction client'
     },
     reportId: '608b7bef-f5e3-4aae-b8db-19bbb38325d5',
     settings: {
