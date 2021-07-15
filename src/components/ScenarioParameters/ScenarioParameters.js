@@ -17,9 +17,14 @@ import {
   SCENARIO_PARAMETERS_TABS_CONFIG, START_DATE_PARAM,
   STOCK_PARAM
 } from '../../configs/ScenarioParametersTabs.config';
-import { EditModeButton, NormalModeButton, ScenarioParametersTabs } from './components';
+import { ScenarioParametersTabs } from './components';
 import { useTranslation } from 'react-i18next';
-import { SimpleTwoActionsDialog, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
+import {
+  SimpleTwoActionsDialog,
+  EditModeButton,
+  NormalModeButton,
+  UPLOAD_FILE_STATUS_KEY
+} from '@cosmotech/ui';
 import { BasicTypes, BarParameters } from './components/tabs';
 import { INITIAL_STOCK_PARAM_ACCEPT_FILE_TYPE, INITIAL_STOCK_PARAM_CONNECTOR_ID, INITIAL_STOCK_PARAM_ID } from './UploadFileConfig';
 import { UploadFileUtils } from './UploadFileUtils';
