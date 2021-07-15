@@ -115,17 +115,17 @@ const Scenario = (props) => {
               <Grid container spacing={0} justify="flex-end" className={classes.mainGrid}>
                 <Grid item>
                   <CreateScenarioButton
-                      solution={solution}
-                      workspaceId={workspaceId}
-                      createScenario={createScenario}
-                      currentScenario={currentScenario}
-                      runTemplates={runTemplateList.data}
-                      datasets={datasetList.data}
-                      scenarios={scenarioList.data}
-                      user={user}
-                      disabled={editMode}
-                      buttonTooltip={createScenarioButtonToolType}
-                      nameValidator={NAME_VALIDATOR}
+                    solution={solution}
+                    workspaceId={workspaceId}
+                    createScenario={createScenario}
+                    currentScenario={currentScenario}
+                    runTemplates={runTemplateList.data}
+                    datasets={datasetList.data}
+                    scenarios={scenarioList.data}
+                    user={user}
+                    disabled={editMode}
+                    buttonTooltip={createScenarioButtonToolType}
+                    nameValidator={NAME_VALIDATOR}
                   />
                 </Grid>
               </Grid>

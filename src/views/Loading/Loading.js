@@ -53,7 +53,7 @@ const Loading = (
   }
 
   return (authenticated && application.status !== STATUSES.SUCCESS
-    ? (<div className={classes.panel} data-cy="loading-component">
+    ? (<div className={classes.panel} data-cy='loading-component'>
           <FadeIn delay={200}>
             <LoadingLine titleKey={'genericcomponent.loading.line.scenario.list.title'} hasError={hasErrors(scenarioList)} isLoading={isLoading(scenarioList)} height={120} width={120}/>
             <LoadingLine titleKey={'genericcomponent.loading.line.dataset.list.title'} hasError={hasErrors(datasetList)} isLoading={isLoading(datasetList)} height={120} width={120}/>

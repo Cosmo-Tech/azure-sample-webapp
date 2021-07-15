@@ -1,4 +1,10 @@
 {
   "baseUrl": "http://localhost:3000",
-  "video": false
+  "video": false,
+  "chromeWebSecurity": false,
+  "env": {
+    "cypress-react-selector": {
+      "root": "#root"
+    }
+  }
 }
