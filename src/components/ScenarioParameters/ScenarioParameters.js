@@ -17,12 +17,12 @@ import {
   SCENARIO_PARAMETERS_TABS_CONFIG, START_DATE_PARAM,
   STOCK_PARAM
 } from '../../configs/ScenarioParametersTabs.config';
-import { ScenarioParametersTabs } from './components';
 import { useTranslation } from 'react-i18next';
 import {
   SimpleTwoActionsDialog,
   EditModeButton,
   NormalModeButton,
+  ScenarioParametersTabs,
   UPLOAD_FILE_STATUS_KEY
 } from '@cosmotech/ui';
 import { BasicTypes, BarParameters } from './components/tabs';
@@ -301,6 +301,7 @@ const ScenarioParameters = ({
             <form>
               <ScenarioParametersTabs
                 tabs={scenarioParametersTabs}
+                tabsConfig={SCENARIO_PARAMETERS_TABS_CONFIG}
                 currentScenario={currentScenario}
               />
             </form>
