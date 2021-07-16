@@ -26,6 +26,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+const DEFAULT_MISSING_TITLE = 'MISSING_TITLE_IN_LANGUAGE';
+
 function a11yProps (index) {
   return {
     id: `vertical-tab-${index}`,
@@ -42,6 +44,8 @@ const Dashboards = ({ currentScenario, scenarioList, reports }) => {
     setValue(newValue);
   };
 
+  const dashboardTitle = DASHBOARDS_LIST_CONFIG[value].title[i18n.language] === undefined ? DEFAULT_MISSING_TITLE : DASHBOARDS_LIST_CONFIG[value].title[i18n.language];
+
   return (
     <Grid container className={classes.root} direction="row">
       <Grid item sm={2}>
@@ -56,9 +60,7 @@ const Dashboards = ({ currentScenario, scenarioList, reports }) => {
             aria-label="Dashboards list"
             className={classes.tabs}
           >
-            {DASHBOARDS_LIST_CONFIG.map(dashboard => (
-              <Tab key={dashboard.title} label={dashboard.title} {...a11yProps(dashboard.id)} />
-            ))}
+            {constructDashboardTabs(i18n)}
           </Tabs>
         </Card>
       </Grid>
@@ -68,8 +70,8 @@ const Dashboards = ({ currentScenario, scenarioList, reports }) => {
               <TabPanel
                 className={classes.dashboard}
                 index={value}
-                key={DASHBOARDS_LIST_CONFIG[value].id}
-                title={DASHBOARDS_LIST_CONFIG[value].title}
+                key={dashboardTitle}
+                title={dashboardTitle}
                 reports={reports}
                 scenario={currentScenario}
                 scenarioList={scenarioList.data}
@@ -118,6 +120,15 @@ function TabPanel (props) {
     </div>
   );
 }
+
+const constructDashboardTabs = (i18n) => {
+  const tabs = [];
+  for (const dashboardConf of DASHBOARDS_LIST_CONFIG) {
+    const dashboardTitle = dashboardConf.title[i18n.language] === undefined ? DEFAULT_MISSING_TITLE : dashboardConf.title[i18n.language];
+    tabs.push(<Tab key={dashboardTitle} label={dashboardTitle} {...a11yProps(dashboardConf.id)} />);
+  }
+  return tabs;
+};
 
 TabPanel.propTypes = {
   children: PropTypes.node,
