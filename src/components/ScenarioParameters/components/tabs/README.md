@@ -96,6 +96,7 @@ const getParametersDataForApi = (runTemplateId) => {
 ```
 const handleClickOnUpdateAndLaunchScenarioButton = async () => {
   await UploadFileUtils.updateDatasetPartFile(
+    organisationId,
     nbWaitersFile,
     setNbWaitersFile,
     nbWaitersDatasetId,
@@ -113,6 +114,7 @@ const handleClickOnUpdateAndLaunchScenarioButton = async () => {
 ```
 const nbWaitersFileUploadComponent = UploadFileUtils.constructFileUpload(
   <id defined previously in ScenarioParametersTabs.config.js | type: string>,
+  organisationId,
   nbWaitersFile,
   setNbWaitersFile,
   nbWaitersDataset,

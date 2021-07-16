@@ -29,6 +29,7 @@ import { BasicTypes, BarParameters } from './components/tabs';
 import { INITIAL_STOCK_PARAM_ACCEPT_FILE_TYPE, INITIAL_STOCK_PARAM_CONNECTOR_ID, INITIAL_STOCK_PARAM_ID } from './UploadFileConfig';
 import { UploadFileUtils } from './UploadFileUtils';
 import { DATASET_PARAM_VARTYPE, ScenarioParametersUtils } from './ScenarioParametersUtils';
+import { ORGANIZATION_ID, WORKSPACE_ID } from '../../configs/App.config';
 
 const useStyles = makeStyles(theme => ({
   header: {
@@ -213,7 +214,8 @@ const ScenarioParameters = ({
   };
 
   const handleClickOnUpdateAndLaunchScenarioButton = async () => {
-    await UploadFileUtils.updateDatasetPartFile(initialStockDataset,
+    await UploadFileUtils.updateDatasetPartFile(ORGANIZATION_ID,
+      initialStockDataset,
       initialStockFile,
       setInitialStockFile,
       initialStockDatasetId,
@@ -228,6 +230,8 @@ const ScenarioParameters = ({
     changeEditMode(false);
   };
   const fileUploadComponent = UploadFileUtils.constructFileUpload('0',
+    ORGANIZATION_ID,
+    WORKSPACE_ID,
     initialStockFile,
     setInitialStockFile,
     initialStockDataset,
