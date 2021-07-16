@@ -9,17 +9,22 @@ In this folder you'll find several files:
 ## GetEmbedInfo
 
 The aim of this AF is to retrieve reports information from PowerBI regarding a specific PowerBI workspace.
-Once deployed, you'll need to specify several environment variables used by the AF.
+Once deployed, you'll need to specify several environment variables used by the AF (Azure Portal > Static Web Apps > _name_of_your_webapp_ > Configuration).
 Here is the list of these environment variables:
 - POWER_BI_SCOPE : "https://analysis.windows.net/powerbi/api"
 - POWER_BI_CLIENT_ID : the client id
 - POWER_BI_WORKSPACE_ID : The Power BI workspace targeted
 - POWER_BI_AUTHORITY_URI : "https://login.microsoftonline.com/common/v2.0"
-- POWER_BI_CLIENT_SECRET : a client secret 
+- POWER_BI_CLIENT_SECRET : a client secret
 - POWER_BI_TENANT_ID : the tenant id
 
-_**N.B**_: If you want to deal with AF locally, you can follow this [page]("https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=linux%2Ccsharp%2Cbash")
- For local configuration, create a _**local.settings.json**_ file in **api** repository with the following content:
+Note:
+- Azure Portal > App Registrations > _name_of_your_app_registration_ > Overview -> displays Application (client) id and Directory (tenant) ID
+- Azure Portal > App Registrations > _name_of_your_app_registration_ > Certificates & secrets > create your client secret for PowerBI
+
+_**N.B**_: If you want to run the webapp locally and visualize the embedded dashboards, you need to install Azure Functions Core Tools: [instructions on this page]("https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=linux%2Ccsharp%2Cbash")
+
+ In particular, for local configuration, create a _**local.settings.json**_ file in **api** repository with the following content:
 
 ```json
 {
@@ -34,5 +39,4 @@ _**N.B**_: If you want to deal with AF locally, you can follow this [page]("http
     }
 }
 ```
-Don't forget to adapt the content of the local.settings.json file regarding your needs.
 
