@@ -58,9 +58,9 @@ new PowerBIReportEmbedSimpleFilter('Simulation', 'id', [POWER_BI_FIELD_ENUM.SCEN
 ```
 
 ### Custom filters
-If you want to add a custom filter (neither PowerBIReportEmbedSimpleFilter nor PowerBIReportEmbedMultipleFilter) in staticFilers or dynamicFilters fields, you can but need to follow the [syntax compatible with embedded reports](https://github.com/microsoft/powerbi-models/blob/0d326572c4253fd9f89b73a0d8df1ae46318a860/src/models.ts#L338).
+If you want to add a custom filter (neither PowerBIReportEmbedSimpleFilter nor PowerBIReportEmbedMultipleFilter) in staticFilters or dynamicFilters fields, you can but need to follow the [syntax compatible with embedded reports](https://github.com/microsoft/powerbi-models/blob/0d326572c4253fd9f89b73a0d8df1ae46318a860/src/models.ts#L338).
 For example, you can add a [IRelativeDateTimeFilter](https://github.com/microsoft/powerbi-models/blob/0d326572c4253fd9f89b73a0d8df1ae46318a860/src/models.ts#L373) following this pattern:
-``` json
+``` javascript
 {
     $schema: string,
     target: IFilterGeneralTarget,
