@@ -1248,21 +1248,21 @@
     superagent "^5.3.0"
 
 "@cosmotech/azure@^0.8.7":
-  version "0.8.8"
-  resolved "https://registry.yarnpkg.com/@cosmotech/azure/-/azure-0.8.8.tgz#19bdb6f7116cdd2f4cc216f3f0f972534bceac1a"
-  integrity sha512-ybNWyqmM6Zmy4mCqUxc6FmKuK4w9kt2yIbcVERzz/EOsbvXeThaSDcF87E2t9uXPF/DazT4GMQBoqOdNar11jQ==
+  version "0.8.9"
+  resolved "https://registry.yarnpkg.com/@cosmotech/azure/-/azure-0.8.9.tgz#40cb8d62848d81eef576676f176d9a147f2ad573"
+  integrity sha512-fBAcTnMGPQPeUVJtBKGvidckGBOXVDmEK8fPvhQWy72Uca81ViMs0/PmtgqE5FdkKeGZ2GJeOntue489Lo+t8A==
   dependencies:
     "@azure/msal-browser" "^2.8.0"
 
 "@cosmotech/core@^1.1.3", "@cosmotech/core@^1.1.4":
-  version "1.1.8"
-  resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.1.8.tgz#08f7179185b43224a135be0755b3fabbd4c39f30"
-  integrity sha512-Kb9/vVkgw9vZ8IsfO5mmryz+QjzOtMgCRx/09SA5xFxUvsIFOohZgDszHDrpYyRP/J41tL06lV0N2L8tH2yBOw==
+  version "1.1.9"
+  resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.1.9.tgz#8547a152952c7db593d0683a240f8aeb26e11600"
+  integrity sha512-rf14tVHCQLvSD5DrWAixgNSSW7oCDUqKzvY5EZKSk4lUz8QWgbhNlrOeq8pXP91lXhN6wMHF94fiw86v1YM2Ug==
 
 "@cosmotech/ui@^0.4.5":
-  version "0.4.5"
-  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-0.4.5.tgz#f2720ddc6172e084648533b7e62ac6c7fb06c1e2"
-  integrity sha512-z+CS7p+pMx9s18PiHE5KTOVy/7YTkhg+AyQZFAHpVHsVc31iJL70vVgkQ8U+JDMvdyxhcv7exU148AazjuQg0w==
+  version "0.4.6"
+  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-0.4.6.tgz#603314061790cbdf7f339dcaa7f8799f0527788e"
+  integrity sha512-yaK/F9ZuVCK/rN7PHhpJXrN5fwcB1CQ9gHNAxKMEElZAeGp7WI5XKzuQ7sK4ZTC3BbpGHljwNQemyqFjJ6sCuw==
   dependencies:
     "@cosmotech/azure" "^0.8.7"
     "@cosmotech/core" "^1.1.3"
