@@ -112,6 +112,24 @@
         }
       }
     },
+    "scenariomanager": {
+      "treelist": {
+        "node": {
+          "dataset": "Dataset",
+          "dataset_plural": "Datasets",
+          "status": {
+            "label": "Statut",
+            "successful": "Succès",
+            "failed": "Erreur",
+            "created": "Créé"
+          }
+        },
+        "search": {
+          "info": "{{count}} scénario trouvé",
+          "info_plural": "{{count}} scénarios trouvés"
+        }
+      }
+    },
     "tab": {
       "scenario": {
         "parameters": {
@@ -308,6 +326,11 @@
       "scenario": {
         "tab": {
           "title": "Vue scénario"
+        }
+      },
+      "scenariomanager": {
+        "tab": {
+          "title": "GESTIONNAIRE DE SCENARIOS"
         }
       },
       "dashboards": {
