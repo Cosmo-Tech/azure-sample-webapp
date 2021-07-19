@@ -6,7 +6,7 @@ import App from '../App';
 import { render } from '../rtl-custom';
 import configureStore from 'redux-mock-store';
 import renderer from 'react-test-renderer';
-import { signIn } from '../utils/SignUtils';
+import { SignInUtils } from '@cosmotech/core';
 import { Provider } from 'react-redux';
 import theme from '../theme';
 import { BrowserRouter } from 'react-router-dom';
@@ -43,7 +43,7 @@ describe('App test suite with state default value', () => {
     useStateMock
       .mockImplementation(init => [init, setState]);
 
-    signIn.mockImplementation(() => Promise.resolve(true));
+    SignInUtils.signIn.mockImplementation(() => Promise.resolve(true));
   });
 
   // TODO Fix following tests
@@ -75,7 +75,7 @@ describe('App test suite with loading value to false', () => {
       .mockImplementationOnce(init => [init, setState])
       .mockImplementationOnce(() => [false, setState]);
 
-    signIn.mockImplementation(() => Promise.resolve(true));
+    SignInUtils.signIn.mockImplementation(() => Promise.resolve(true));
   });
 
   // eslint-disable-next-line jest/no-disabled-tests
