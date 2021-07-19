@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
-import { Auth, AuthDev } from '@cosmotech/core';
+import { Auth, AuthDev, TranslationUtils } from '@cosmotech/core';
 import { AuthMSAL } from '@cosmotech/azure';
 import validate from 'validate.js';
 import {
@@ -19,7 +19,6 @@ import {
   makeStyles
 } from '@material-ui/core';
 import { SignInButton } from '@cosmotech/ui';
-import { i18nUtils } from '../../utils';
 
 const schema = {
   email: {
@@ -227,7 +226,7 @@ const SignIn = ({ logInAction }) => {
                     <Select
                       className={classes.languageSelect}
                       value={i18n.language}
-                      onChange={(event) => i18nUtils.changeLanguage(event.target.value, i18n)}
+                      onChange={(event) => TranslationUtils.changeLanguage(event.target.value, i18n)}
                     >
                       <MenuItem value={'en'}>English</MenuItem>
                       <MenuItem value={'fr'}>Français</MenuItem>
