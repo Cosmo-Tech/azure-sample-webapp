@@ -1,9 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { CosmotechApiService, getDefaultBasePath } from '../../configs/Api.config';
-import fileDownload from 'js-file-download';
-import { getAccessToken } from '../../utils/StorageUtils';
+import { CosmotechApiService } from '../../configs/Api.config';
 
 const WorkspaceApi = new CosmotechApiService.WorkspaceApi();
 
@@ -39,31 +37,6 @@ function getAllWorkspaceFileName (organizationId, workspaceId) {
   });
 }
 
-async function fetchWorkspaceFile (organizationId, workspaceId, filePath) {
-  const accessToken = getAccessToken();
-
-  const fetchParams = {
-    method: 'GET',
-    headers: new Headers({
-      Authorization: `Bearer ${accessToken}`
-    })
-  };
-
-  fetch(getDefaultBasePath() + '/organizations/' + organizationId + '/workspaces/' + workspaceId + '/files/download?file_name=' + filePath,
-    fetchParams
-  )
-    .then(response => {
-      if (response.status !== 200) {
-        throw new Error(`Error when fetching ${filePath}`);
-      }
-      return response.blob();
-    })
-    .then(blob => {
-      fileDownload(blob, filePath.split('/').pop());
-    })
-    .catch((error) => console.error(error));
-}
-
 // FIXME: this method does not work correctly for the moment
 // This is apparently due to a parameter (responseType) in the WorkspaceAPI call.
 // For the moment, please use the method "fetchWorkspaceFile" instead.
@@ -80,8 +53,7 @@ const WorkspaceService = {
   findWorkspaceById,
   uploadWorkspaceFile,
   deleteWorkspaceFile,
-  getAllWorkspaceFileName,
-  fetchWorkspaceFile
+  getAllWorkspaceFileName
 };
 
 export default WorkspaceService;

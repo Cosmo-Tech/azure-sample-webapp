@@ -8,6 +8,8 @@ import { UploadFileUtils } from '../../UploadFileUtils';
 import DatasetService from '../../../../services/dataset/DatasetService';
 
 const FileUpload = ({
+  defaultBasePath,
+  accessToken,
   organisationId,
   workspaceId,
   acceptedFileTypesToUpload,
@@ -55,7 +57,7 @@ const FileUpload = ({
         handleDeleteFile={() => UploadFileUtils.prepareToDeleteFile(file, setFile)}
         handleDownloadFile={(event) => {
           event.preventDefault();
-          UploadFileUtils.downloadFile(organisationId, workspaceId, currentDataset, file, setFile);
+          UploadFileUtils.downloadFile(defaultBasePath, accessToken, organisationId, workspaceId, currentDataset, file, setFile);
         }}
         file={file}
         editMode={editMode}
@@ -71,7 +73,9 @@ FileUpload.propTypes = {
   file: PropTypes.object.isRequired,
   setFile: PropTypes.func.isRequired,
   currentDataset: PropTypes.object.isRequired,
-  datasetId: PropTypes.string
+  datasetId: PropTypes.string,
+  defaultBasePath: PropTypes.string.isRequired,
+  accessToken: PropTypes.string.isRequired
 };
 
 export default FileUpload;

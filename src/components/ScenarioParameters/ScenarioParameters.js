@@ -28,8 +28,10 @@ import {
 import { BasicTypes, BarParameters } from './components/tabs';
 import { INITIAL_STOCK_PARAM_ACCEPT_FILE_TYPE, INITIAL_STOCK_PARAM_CONNECTOR_ID, INITIAL_STOCK_PARAM_ID } from './UploadFileConfig';
 import { UploadFileUtils } from './UploadFileUtils';
-import { DATASET_PARAM_VARTYPE, ScenarioParametersUtils } from './ScenarioParametersUtils';
+import { DATASET_PARAM_VARTYPE, ScenarioUtils } from '@cosmotech/core';
 import { ORGANIZATION_ID, WORKSPACE_ID } from '../../configs/App.config';
+import { getDefaultBasePath } from '../../configs/Api.config';
+import { getAccessToken } from '../../utils/StorageUtils';
 
 const useStyles = makeStyles(theme => ({
   header: {
@@ -65,31 +67,31 @@ const ScenarioParameters = ({
 
   // State for bar Parameters
   const [stock, setStock] = useState(
-    ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters.current, STOCK_PARAM)
+    ScenarioUtils.getValueFromParameters(defaultScenarioParameters.current, STOCK_PARAM)
   );
 
   const [restockQuantity, setRestockQuantity] = useState(
-    ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters.current, RESTOCK_PARAM)
+    ScenarioUtils.getValueFromParameters(defaultScenarioParameters.current, RESTOCK_PARAM)
   );
   const [waitersNumber, setWaitersNumber] = useState(
-    ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters.current, NBWAITERS_PARAM)
+    ScenarioUtils.getValueFromParameters(defaultScenarioParameters.current, NBWAITERS_PARAM)
   );
 
   // State for basic input types examples Parameters
   const [currency, setCurrency] = useState(
-    ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters.current, CURRENCY_PARAM)
+    ScenarioUtils.getValueFromParameters(defaultScenarioParameters.current, CURRENCY_PARAM)
   );
   const [currencyName, setCurrencyName] = useState(
-    ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters.current, CURRENCY_NAME_PARAM)
+    ScenarioUtils.getValueFromParameters(defaultScenarioParameters.current, CURRENCY_NAME_PARAM)
   );
   const [currencyValue, setCurrencyValue] = useState(
-    ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters.current, CURRENCY_VALUE_PARAM)
+    ScenarioUtils.getValueFromParameters(defaultScenarioParameters.current, CURRENCY_VALUE_PARAM)
   );
   const [currencyUsed, setCurrencyUsed] = useState(
-    ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters.current, CURRENCY_USED_PARAM)
+    ScenarioUtils.getValueFromParameters(defaultScenarioParameters.current, CURRENCY_USED_PARAM)
   );
   const [startDate, setStartDate] = useState(
-    ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters.current, START_DATE_PARAM)
+    ScenarioUtils.getValueFromParameters(defaultScenarioParameters.current, START_DATE_PARAM)
   );
 
   // State for File Upload
@@ -121,16 +123,16 @@ const ScenarioParameters = ({
 
   const resetParameters = (resetFile, parameters) => {
     // Bar parameters
-    setStock(ScenarioParametersUtils.getValueFromParameters(parameters, STOCK_PARAM));
-    setRestockQuantity(ScenarioParametersUtils.getValueFromParameters(parameters, RESTOCK_PARAM));
-    setWaitersNumber(ScenarioParametersUtils.getValueFromParameters(parameters, NBWAITERS_PARAM));
+    setStock(ScenarioUtils.getValueFromParameters(parameters, STOCK_PARAM));
+    setRestockQuantity(ScenarioUtils.getValueFromParameters(parameters, RESTOCK_PARAM));
+    setWaitersNumber(ScenarioUtils.getValueFromParameters(parameters, NBWAITERS_PARAM));
 
     // Basic Types Sample
-    setCurrency(ScenarioParametersUtils.getValueFromParameters(parameters, CURRENCY_PARAM));
-    setCurrencyName(ScenarioParametersUtils.getValueFromParameters(parameters, CURRENCY_NAME_PARAM));
-    setCurrencyValue(ScenarioParametersUtils.getValueFromParameters(parameters, CURRENCY_VALUE_PARAM));
-    setCurrencyUsed(ScenarioParametersUtils.getValueFromParameters(parameters, CURRENCY_USED_PARAM));
-    setStartDate(ScenarioParametersUtils.getValueFromParameters(parameters, START_DATE_PARAM));
+    setCurrency(ScenarioUtils.getValueFromParameters(parameters, CURRENCY_PARAM));
+    setCurrencyName(ScenarioUtils.getValueFromParameters(parameters, CURRENCY_NAME_PARAM));
+    setCurrencyValue(ScenarioUtils.getValueFromParameters(parameters, CURRENCY_VALUE_PARAM));
+    setCurrencyUsed(ScenarioUtils.getValueFromParameters(parameters, CURRENCY_USED_PARAM));
+    setStartDate(ScenarioUtils.getValueFromParameters(parameters, START_DATE_PARAM));
 
     // Upload file
     if (resetFile) {
@@ -144,9 +146,9 @@ const ScenarioParameters = ({
     let parametersData = [];
     // Add bar scenarioParameters if necessary (run templates '1' and '2')
     if (['1', '2'].indexOf(runTemplateId) !== -1) {
-      const stockParam = ScenarioParametersUtils.constructParameterData(STOCK_PARAM, stock);
-      const restockQuantityParam = ScenarioParametersUtils.constructParameterData(RESTOCK_PARAM, restockQuantity);
-      const waitersNumberParam = ScenarioParametersUtils.constructParameterData(NBWAITERS_PARAM, waitersNumber);
+      const stockParam = ScenarioUtils.constructParameterData(STOCK_PARAM, stock);
+      const restockQuantityParam = ScenarioUtils.constructParameterData(RESTOCK_PARAM, restockQuantity);
+      const waitersNumberParam = ScenarioUtils.constructParameterData(NBWAITERS_PARAM, waitersNumber);
       parametersData = parametersData.concat([
         stockParam,
         restockQuantityParam,
@@ -156,11 +158,11 @@ const ScenarioParameters = ({
 
     // Add basic inputs examples parameters if necessary (run template '3')
     if (['3'].indexOf(runTemplateId) !== -1) {
-      const currencyParam = ScenarioParametersUtils.constructParameterData(CURRENCY_PARAM, currency);
-      const currencyNameParam = ScenarioParametersUtils.constructParameterData(CURRENCY_NAME_PARAM, currencyName);
-      const currencyValueParam = ScenarioParametersUtils.constructParameterData(CURRENCY_VALUE_PARAM, currencyValue);
-      const currencyUsedParam = ScenarioParametersUtils.constructParameterData(CURRENCY_USED_PARAM, currencyUsed);
-      const startDateValueParam = ScenarioParametersUtils.constructParameterData(START_DATE_PARAM, startDate);
+      const currencyParam = ScenarioUtils.constructParameterData(CURRENCY_PARAM, currency);
+      const currencyNameParam = ScenarioUtils.constructParameterData(CURRENCY_NAME_PARAM, currencyName);
+      const currencyValueParam = ScenarioUtils.constructParameterData(CURRENCY_VALUE_PARAM, currencyValue);
+      const currencyUsedParam = ScenarioUtils.constructParameterData(CURRENCY_USED_PARAM, currencyUsed);
+      const startDateValueParam = ScenarioUtils.constructParameterData(START_DATE_PARAM, startDate);
       parametersData = parametersData.concat([
         currencyParam,
         currencyNameParam,
@@ -229,7 +231,11 @@ const ScenarioParameters = ({
     updateAndLaunchScenario(workspaceId, scenarioId, parametersData);
     changeEditMode(false);
   };
-  const fileUploadComponent = UploadFileUtils.constructFileUpload('0',
+
+  const fileUploadComponent = UploadFileUtils.constructFileUpload(
+    getAccessToken(),
+    getDefaultBasePath(),
+    '0',
     ORGANIZATION_ID,
     WORKSPACE_ID,
     initialStockFile,

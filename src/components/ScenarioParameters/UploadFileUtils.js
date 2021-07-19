@@ -5,6 +5,7 @@ import React from 'react';
 import { UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
 import DatasetService from '../../services/dataset/DatasetService';
 import WorkspaceService from '../../services/workspace/WorkspaceService';
+import { WorkspaceFileUtils } from '@cosmotech/core';
 import { FileUpload } from './components/tabs';
 
 // Constants
@@ -138,7 +139,7 @@ function getStorageFilePathFromDataset (data) {
   }
 }
 
-const downloadFile = async (organisationId, workspaceId, dataset, datasetFile, setDatasetFile) => {
+const downloadFile = async (defaultBasePath, accessToken, organisationId, workspaceId, dataset, datasetFile, setDatasetFile) => {
   const datasetId = dataset.current.id;
   const { error, data } = await DatasetService.findDatasetById(organisationId, datasetId);
   if (error) {
@@ -148,15 +149,27 @@ const downloadFile = async (organisationId, workspaceId, dataset, datasetFile, s
     const storageFilePath = getStorageFilePathFromDataset(data);
     if (storageFilePath !== undefined) {
       setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.DOWNLOADING });
-      await WorkspaceService.fetchWorkspaceFile(organisationId, workspaceId, storageFilePath);
+      await WorkspaceFileUtils.fetchWorkspaceFile(defaultBasePath, accessToken, organisationId, workspaceId, storageFilePath);
       setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD });
     }
   }
 };
 
-const constructFileUpload = (key, organisationId, workspaceId, file, setFile, currentDataset, datasetId, acceptedFileTypesToUpload, editMode) => {
+const constructFileUpload = (accessToken,
+  defaultBasePath,
+  key,
+  organisationId,
+  workspaceId,
+  file,
+  setFile,
+  currentDataset,
+  datasetId,
+  acceptedFileTypesToUpload,
+  editMode) => {
   return (
 <FileUpload key={key}
+          accessToken={accessToken}
+          defaultBasePath={defaultBasePath}
           organisationId={organisationId}
           workspaceId={workspaceId}
           file={file}
