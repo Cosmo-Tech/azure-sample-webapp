@@ -11,8 +11,7 @@ import {
   HierarchicalComboBox,
   SimplePowerBIReportEmbed
 } from '@cosmotech/ui';
-import { NAME_VALIDATOR } from '../../utils/ValidationUtils';
-import { sortScenarioList } from '../../utils/SortScenarioListUtils';
+import { ScenarioUtils, SCENARIO_NAME_REGEX_VALIDATOR } from '@cosmotech/core';
 import { SCENARIO_DASHBOARD_CONFIG, SCENARIO_RUN_LOG_TYPE } from '../../configs/App.config';
 import ScenarioRunService from '../../services/scenarioRun/ScenarioRunService';
 
@@ -80,7 +79,7 @@ const Scenario = (props) => {
     findScenarioById(workspaceId, scenario.id);
   };
 
-  const sortedScenarioList = sortScenarioList(scenarioList.data.slice());
+  const sortedScenarioList = ScenarioUtils.sortScenarioList(scenarioList.data.slice());
   const noScenario = currentScenario.data === null;
   const scenarioListDisabled = editMode || scenarioList === null || noScenario;
   const scenarioListLabel = noScenario
@@ -125,7 +124,7 @@ const Scenario = (props) => {
                       user={user}
                       disabled={editMode}
                       buttonTooltip={createScenarioButtonToolType}
-                      nameValidator={NAME_VALIDATOR}
+                      nameValidator={SCENARIO_NAME_REGEX_VALIDATOR}
                   />
                 </Grid>
               </Grid>
