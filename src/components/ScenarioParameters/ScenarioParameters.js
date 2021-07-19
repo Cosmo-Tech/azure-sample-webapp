@@ -8,7 +8,6 @@ import {
   Typography,
   makeStyles
 } from '@material-ui/core';
-import { SCENARIO_RUN_STATE } from '../../utils/ApiUtils';
 import {
   CURRENCY_NAME_PARAM,
   CURRENCY_PARAM, CURRENCY_USED_PARAM, CURRENCY_VALUE_PARAM,
@@ -28,7 +27,7 @@ import {
 import { BasicTypes, BarParameters } from './components/tabs';
 import { INITIAL_STOCK_PARAM_ACCEPT_FILE_TYPE, INITIAL_STOCK_PARAM_CONNECTOR_ID, INITIAL_STOCK_PARAM_ID } from './UploadFileConfig';
 import { UploadFileUtils } from './UploadFileUtils';
-import { DATASET_PARAM_VARTYPE, ScenarioUtils } from '@cosmotech/core';
+import { DATASET_PARAM_VARTYPE, SCENARIO_RUN_STATE, ScenarioUtils } from '@cosmotech/core';
 import { ORGANIZATION_ID, WORKSPACE_ID } from '../../configs/App.config';
 import { getDefaultBasePath } from '../../configs/Api.config';
 import { getAccessToken } from '../../utils/StorageUtils';

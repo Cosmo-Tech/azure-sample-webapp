@@ -4,7 +4,7 @@
 import { takeEvery, call, put } from 'redux-saga/effects';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { STATUSES } from '../../../commons/Constants';
-import { SCENARIO_RUN_STATE } from '../../../../utils/ApiUtils';
+import { SCENARIO_RUN_STATE } from '@cosmotech/core';
 import { ORGANIZATION_ID } from '../../../../configs/App.config';
 import ScenarioService from '../../../../services/scenario/ScenarioService';
 import ScenarioRunService from '../../../../services/scenarioRun/ScenarioRunService';

@@ -6,7 +6,7 @@ import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { STATUSES } from '../../../commons/Constants';
 import ScenarioService from '../../../../services/scenario/ScenarioService';
 import { ORGANIZATION_ID } from '../../../../configs/App.config';
-import { SCENARIO_RUN_STATE } from '../../../../utils/ApiUtils';
+import { SCENARIO_RUN_STATE } from '@cosmotech/core';
 
 // generators function
 export function * fetchScenarioByIdForInitialData (workspaceId, scenarioId) {

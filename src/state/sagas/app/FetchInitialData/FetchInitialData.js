@@ -5,7 +5,7 @@ import { put, takeEvery, call, select, fork } from 'redux-saga/effects';
 import { APPLICATION_ACTIONS_KEY } from '../../../commons/ApplicationConstants';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { STATUSES } from '../../../commons/Constants';
-import { SCENARIO_RUN_STATE } from '../../../../utils/ApiUtils';
+import { SCENARIO_RUN_STATE } from '@cosmotech/core';
 import { getAllScenariosData } from '../../scenario/FindAllScenarios/FindAllScenariosData';
 import { fetchAllDatasetsData } from '../../datasets/FindAllDatasets/FindAllDatasets';
 import { fetchWorkspaceByIdData } from '../../workspace/FindWorkspaceById/FindWorkspaceByIdData';
