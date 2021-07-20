@@ -12,7 +12,7 @@ const constructParameterData = (param, value) => {
 };
 
 const getValueFromParameters = (parameters, parameterToSelect) => {
-  if (parameters === null) {
+  if (!parameters) {
     return parameterToSelect.defaultValue;
   }
   const param = parameters.find(element => element.parameterId === parameterToSelect.id);
