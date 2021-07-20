@@ -10,21 +10,21 @@ import { getAllScenariosData } from '../FindAllScenarios/FindAllScenariosData';
 
 // generators function
 export function * createScenario (action) {
-  // yield keyword is here to milestone and save the action
-  const workspaceId = action.workspaceId;
-  const { error, data } = yield call(ScenarioService.createScenario, ORGANIZATION_ID, workspaceId, action.scenario);
-  if (error) {
-    // TODO handle error management
-    yield put({
-      type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
-      data: { status: STATUSES.ERROR }
-    });
-  } else {
+  try { // yield keyword is here to milestone and save the action
+    const workspaceId = action.workspaceId;
+    const createdScenario = yield call(ScenarioService.createScenario, ORGANIZATION_ID, workspaceId, action.scenario);
+
     yield call(getAllScenariosData, workspaceId);
     // Here is an effect named put that indicate to the middleware that it can dispatch a SET_CURRENT_SCENARIO action with list as payload
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
-      data: { status: STATUSES.IDLE, scenario: data }
+      data: { status: STATUSES.IDLE, scenario: createdScenario }
+    });
+  } catch (e) {
+    console.error(e);
+    yield put({
+      type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
+      data: { status: STATUSES.ERROR }
     });
   }
 }

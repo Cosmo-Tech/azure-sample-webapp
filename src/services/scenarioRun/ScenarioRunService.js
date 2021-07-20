@@ -1,47 +1,23 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { CosmotechApiService } from '../../configs/Api.config';
 import fileDownload from 'js-file-download';
 import { LOG_TYPES } from './ScenarioRunConstants.js';
 import { ORGANIZATION_ID } from '../../configs/App.config';
+import { ScenarioRunApi } from '../ServiceCommons';
 
-const ScenariorunApi = new CosmotechApiService.ScenariorunApi();
-
-function runScenario (organizationId, workspaceId, scenarioId) {
-  return new Promise((resolve) => {
-    ScenariorunApi.runScenario(organizationId, workspaceId, scenarioId, (error, data, response) => {
-      resolve({ error, data, response });
-    });
-  });
+async function runScenario (organizationId, workspaceId, scenarioId) {
+  const result = await ScenarioRunApi.runScenario(organizationId, workspaceId, scenarioId);
+  return result;
 }
 
-function getScenarioRuns (organizationId, workspaceId, scenarioId) {
-  return new Promise((resolve) => {
-    ScenariorunApi.getScenarioRuns(organizationId, workspaceId, scenarioId, (error, data, response) => {
-      resolve({ error, data, response });
-    });
-  });
-}
-
-function getScenarioRunCumulatedLogs (organizationId, scenarioRunId) {
-  return new Promise((resolve) => {
-    ScenariorunApi.getScenarioRunCumulatedLogs(organizationId, scenarioRunId, (error, data, response) => {
-      resolve({ error, data, response });
-    });
-  });
-}
-
-function getScenarioRunLogs (organizationId, scenarioRunId) {
-  return new Promise((resolve) => {
-    ScenariorunApi.getScenarioRunLogs(organizationId, scenarioRunId, (error, data, response) => {
-      resolve({ error, data, response });
-    });
-  });
+async function getScenarioRuns (organizationId, workspaceId, scenarioId) {
+  const result = await ScenarioRunApi.getScenarioRuns(organizationId, workspaceId, scenarioId);
+  return result;
 }
 
 async function downloadCumulatedLogsFile (lastRun) {
-  const { error, data } = await getScenarioRunCumulatedLogs(ORGANIZATION_ID, lastRun.scenarioRunId);
+  const { error, data } = await ScenarioRunApi.getScenarioRunCumulatedLogs(ORGANIZATION_ID, lastRun.scenarioRunId);
   if (error) {
     console.error(error);
   } else {
@@ -51,7 +27,7 @@ async function downloadCumulatedLogsFile (lastRun) {
 }
 
 async function downloadLogsSimpleFile (lastRun) {
-  const { error, data } = await getScenarioRunLogs(ORGANIZATION_ID, lastRun.scenarioRunId);
+  const { error, data } = await ScenarioRunApi.getScenarioRunLogs(ORGANIZATION_ID, lastRun.scenarioRunId);
   if (error) {
     console.error(error);
   } else {
@@ -74,8 +50,6 @@ function downloadLogsFile (lastRun, logType) {
 const ScenarioRunService = {
   runScenario,
   getScenarioRuns,
-  getScenarioRunCumulatedLogs,
-  getScenarioRunLogs,
   downloadLogsFile
 };
 

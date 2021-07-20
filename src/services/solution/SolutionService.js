@@ -1,16 +1,11 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { CosmotechApiService } from '../../configs/Api.config';
+import { SolutionApi } from '../ServiceCommons';
 
-const SolutionApi = new CosmotechApiService.SolutionApi();
-
-function findSolutionById (organizationId, solutionId) {
-  return new Promise((resolve) => {
-    SolutionApi.findSolutionById(organizationId, solutionId, (error, data, response) => {
-      resolve({ error, data, response });
-    });
-  });
+async function findSolutionById (organizationId, solutionId) {
+  const solution = await SolutionApi.findSolutionById(organizationId, solutionId);
+  return solution;
 }
 
 const SolutionService = {

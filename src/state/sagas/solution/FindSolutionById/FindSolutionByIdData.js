@@ -9,13 +9,12 @@ import SolutionService from '../../../../services/solution/SolutionService';
 
 // generators function
 export function * fetchSolutionByIdData (workspaceId, solutionId) {
-  // yield keyword is here to milestone and save the action
-  const { error, data } = yield call(SolutionService.findSolutionById, ORGANIZATION_ID, solutionId);
-  if (error) {
-    // TODO handle error management
-  } else {
+  try { // yield keyword is here to milestone and save the action
+    const solution = yield call(SolutionService.findSolutionById, ORGANIZATION_ID, solutionId);
     // Here is an effect named put that indicate to the middleware that it can dispatch a SET_CURRENT_SOLUTION action with data as payload
-    yield put({ type: SOLUTION_ACTIONS_KEY.SET_CURRENT_SOLUTION, data: { status: STATUSES.SUCCESS, solution: data } });
+    yield put({ type: SOLUTION_ACTIONS_KEY.SET_CURRENT_SOLUTION, data: { status: STATUSES.SUCCESS, solution: solution } });
+  } catch (e) {
+    console.error(e);
   }
 }
 

@@ -1,52 +1,35 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { CosmotechApiService } from '../../configs/Api.config';
+import { WorkspaceApi } from '../ServiceCommons';
 
-const WorkspaceApi = new CosmotechApiService.WorkspaceApi();
-
-function findWorkspaceById (organizationId, workspaceId) {
-  return new Promise((resolve) => {
-    WorkspaceApi.findWorkspaceById(organizationId, workspaceId, (error, data, response) => {
-      resolve({ error, data, response });
-    });
-  });
+async function findWorkspaceById (organizationId, workspaceId) {
+  const workspace = await WorkspaceApi.findWorkspaceById(organizationId, workspaceId);
+  return workspace;
 }
 
-function uploadWorkspaceFile (organizationId, workspaceId, file, overwrite, destination) {
-  return new Promise((resolve) => {
-    WorkspaceApi.uploadWorkspaceFile(organizationId, workspaceId, file, { overwrite: overwrite, destination: destination }, (error, data, response) => {
-      resolve({ error, data, response });
-    });
-  });
+async function uploadWorkspaceFile (organizationId, workspaceId, file, overwrite, destination) {
+  const workspace = await WorkspaceApi.uploadWorkspaceFile(organizationId, workspaceId, file, { overwrite: overwrite, destination: destination });
+  return workspace;
 }
 
-function deleteWorkspaceFile (organizationId, workspaceId, fileName) {
-  return new Promise((resolve) => {
-    WorkspaceApi.deleteWorkspaceFile(organizationId, workspaceId, fileName, (error, data, response) => {
-      resolve({ error, data, response });
-    });
-  });
+async function deleteWorkspaceFile (organizationId, workspaceId, fileName) {
+  const workspace = await WorkspaceApi.deleteWorkspaceFile(organizationId, workspaceId, fileName);
+  return workspace;
 }
 
-function getAllWorkspaceFileName (organizationId, workspaceId) {
-  return new Promise((resolve) => {
-    WorkspaceApi.getAllWorkspaceFile(organizationId, workspaceId, (error, data, response) => {
-      resolve({ error, data, response });
-    });
-  });
+async function getAllWorkspaceFileName (organizationId, workspaceId) {
+  const workspaces = await WorkspaceApi.getAllWorkspaceFile(organizationId, workspaceId);
+  return workspaces;
 }
 
 // FIXME: this method does not work correctly for the moment
 // This is apparently due to a parameter (responseType) in the WorkspaceAPI call.
 // For the moment, please use the method "fetchWorkspaceFile" instead.
 // eslint-disable-next-line no-unused-vars
-function downloadWorkspaceFile (organizationId, workspaceId, fileName) {
-  return new Promise((resolve) => {
-    WorkspaceApi.downloadWorkspaceFile(organizationId, workspaceId, fileName, (error, data, response) => {
-      resolve({ error, data, response });
-    });
-  });
+async function downloadWorkspaceFile (organizationId, workspaceId, fileName) {
+  const file = await WorkspaceApi.downloadWorkspaceFile(organizationId, workspaceId, fileName);
+  return file;
 }
 
 const WorkspaceService = {

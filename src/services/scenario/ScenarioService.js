@@ -1,45 +1,33 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
-import { CosmotechApiService } from '../../configs/Api.config';
 import { ScenarioRunUtils } from '@cosmotech/core';
+import { ScenarioApi } from '../ServiceCommons';
 
-const ScenarioApi = new CosmotechApiService.ScenarioApi();
-
-function findAllScenarios (organizationId, workspaceId) {
-  return new Promise((resolve) => {
-    ScenarioApi.findAllScenarios(organizationId, workspaceId, (error, data, response) => {
-      resolve({ error, data, response });
-    });
-  });
+async function findAllScenarios (organizationId, workspaceId) {
+  const result = await ScenarioApi.findAllScenarios(organizationId, workspaceId);
+  return result;
 }
 
-function findScenarioById (organizationId, workspaceId, scenarioId) {
-  return new Promise((resolve) => {
-    ScenarioApi.findScenarioById(organizationId, workspaceId, scenarioId, (error, data, response) => {
-      // Parse scenario parameters
-      data.parametersValues = ScenarioRunUtils.formatParametersFromApi(data.parametersValues);
-      resolve({ error, data, response });
-    });
-  });
+async function findScenarioById (organizationId, workspaceId, scenarioId) {
+  const response = await ScenarioApi.findScenarioById(organizationId, workspaceId, scenarioId);
+  if (response) {
+    response.parametersValues = ScenarioRunUtils.formatParametersFromApi(response.parametersValues);
+  }
+  return response;
 }
 
-function createScenario (organizationId, workspaceId, scenario) {
-  return new Promise((resolve) => {
-    ScenarioApi.createScenario(organizationId, workspaceId, scenario, (error, data, response) => {
-      resolve({ error, data, response });
-    });
-  });
+async function createScenario (organizationId, workspaceId, scenario) {
+  const result = await ScenarioApi.createScenario(organizationId, workspaceId, scenario);
+  return result;
 }
 
-function updateScenarioParameters (organizationId, workspaceId, scenarioId, scenarioParameters) {
+async function updateScenarioParameters (organizationId, workspaceId, scenarioId, scenarioParameters) {
   const formattedParameters = ScenarioRunUtils.formatParametersForApi(scenarioParameters);
-  return new Promise((resolve) => {
-    ScenarioApi.updateScenario(organizationId, workspaceId, scenarioId, formattedParameters, (error, data, response) => {
-      data = ScenarioRunUtils.formatParametersFromApi(data.parametersValues);
-      resolve({ error, data, response });
-    });
-  });
+  const response = await ScenarioApi.updateScenario(organizationId, workspaceId, scenarioId, formattedParameters);
+  if (response) {
+    response.parametersValues = ScenarioRunUtils.formatParametersFromApi(response.parametersValues);
+  }
+  return response;
 }
 
 const ScenarioService = {

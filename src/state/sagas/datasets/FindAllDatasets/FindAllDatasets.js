@@ -8,13 +8,11 @@ import DatasetService from '../../../../services/dataset/DatasetService';
 
 // generators function
 export function * fetchAllDatasetsData () {
-  // yield keyword is here to milestone and save the action
-  const { error, data } = yield call(DatasetService.findAllDatasets, ORGANIZATION_ID);
-  if (error) {
-    // TODO handle error management
-  } else {
-    // Here is an effect named put that indicate to the middleware that it can dispatch a SET_ALL_DATASETS action with list as payload
-    yield put({ type: DATASET_ACTIONS_KEY.SET_ALL_DATASETS, list: data });
+  try { // yield keyword is here to milestone and save the action
+    const datasetList = yield call(DatasetService.findAllDatasets, ORGANIZATION_ID);
+    yield put({ type: DATASET_ACTIONS_KEY.SET_ALL_DATASETS, list: datasetList });
+  } catch (e) {
+    console.error(e);
   }
 }
 

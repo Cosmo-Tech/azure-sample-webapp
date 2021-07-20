@@ -1,53 +1,37 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
+import { DatasetApi } from '../ServiceCommons';
 import { CosmotechApiService } from '../../configs/Api.config';
 
-const DatasetApi = new CosmotechApiService.DatasetApi();
-
-function findAllDatasets (organizationId) {
-  return new Promise((resolve) => {
-    DatasetApi.findAllDatasets(organizationId, (error, data, response) => {
-      resolve({ error, data, response });
-    });
-  });
+async function findAllDatasets (organizationId) {
+  const datasets = await DatasetApi.findAllDatasets(organizationId);
+  return datasets;
 }
 
-function findDatasetById (organizationId, datasetId) {
-  return new Promise((resolve) => {
-    DatasetApi.findDatasetById(organizationId, datasetId, (error, data, response) => {
-      resolve({ error, data, response });
-    });
-  });
+async function findDatasetById (organizationId, datasetId) {
+  const dataset = await DatasetApi.findDatasetById(organizationId, datasetId);
+  return dataset;
 }
 
-function createDataset (organizationId, name, description, connector, tags) {
-  return new Promise((resolve) => {
-    const newDataset = new CosmotechApiService.Dataset();
-    newDataset.name = name;
-    newDataset.description = description;
-    newDataset.connector = connector;
-    newDataset.tags = tags;
-    DatasetApi.createDataset(organizationId, newDataset, (error, data, response) => {
-      resolve({ error, data, response });
-    });
-  });
+async function createDataset (organizationId, name, description, connector, tags) {
+  const newDataset = new CosmotechApiService.Dataset();
+  newDataset.name = name;
+  newDataset.description = description;
+  newDataset.connector = connector;
+  newDataset.tags = tags;
+  const datasetCreated = await DatasetApi.createDataset(organizationId, newDataset);
+  return datasetCreated;
 }
 
-function updateDataset (organizationId, datasetId, dataset) {
-  return new Promise((resolve) => {
-    DatasetApi.updateDataset(organizationId, datasetId, dataset, (error, data, response) => {
-      resolve({ error, data, response });
-    });
-  });
+async function updateDataset (organizationId, datasetId, dataset) {
+  const updatedDataset = await DatasetApi.updateDataset(organizationId, datasetId, dataset);
+  return updatedDataset;
 }
 
-function deleteDataset (organizationId, datasetId) {
-  return new Promise((resolve) => {
-    DatasetApi.deleteDataset(organizationId, datasetId, (error, data, response) => {
-      resolve({ error, data, response });
-    });
-  });
+async function deleteDataset (organizationId, datasetId) {
+  const deletedDataset = await DatasetApi.deleteDataset(organizationId, datasetId);
+  return deletedDataset;
 }
 
 const DatasetService = {

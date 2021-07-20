@@ -22,37 +22,34 @@ export function * updateAndLaunchScenario (action) {
       scenario: { state: SCENARIO_RUN_STATE.RUNNING }
     }
   });
-  const { error: updateError, data: updateData } = yield call(
-    ScenarioService.updateScenarioParameters, ORGANIZATION_ID, workspaceId,
-    scenarioId, scenarioParameters);
-  if (updateError) {
-    console.error('Failed to update scenario parameters');
-    console.error(updateError);
-    yield put({
-      type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
-      data: { status: STATUSES.ERROR }
-    });
-  } else {
+
+  try {
+    const scenario = yield call(
+      ScenarioService.updateScenarioParameters, ORGANIZATION_ID, workspaceId,
+      scenarioId, scenarioParameters);
+
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
       data: {
         status: STATUSES.IDLE,
-        scenario: { state: SCENARIO_RUN_STATE.RUNNING, parametersValues: updateData }
+        scenario: { state: SCENARIO_RUN_STATE.RUNNING, parametersValues: scenario.parametersValues }
       }
     });
     // Launch scenario if parameters update succeeded
-    const { error: runError } = yield call(
-      ScenarioRunService.runScenario, ORGANIZATION_ID, workspaceId, scenarioId);
-    if (runError) {
-      console.error(runError);
-    } else {
-      // Start backend polling to update the scenario status
-      yield put({
-        type: SCENARIO_ACTIONS_KEY.START_SCENARIO_STATUS_POLLING,
-        workspaceId: workspaceId,
-        scenarioId: scenarioId
-      });
-    }
+    yield call(ScenarioRunService.runScenario, ORGANIZATION_ID, workspaceId, scenarioId);
+    // Start backend polling to update the scenario status
+    yield put({
+      type: SCENARIO_ACTIONS_KEY.START_SCENARIO_STATUS_POLLING,
+      workspaceId: workspaceId,
+      scenarioId: scenarioId
+    });
+  } catch (e) {
+    console.error('Failed to update scenario parameters');
+    console.error(e);
+    yield put({
+      type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
+      data: { status: STATUSES.ERROR }
+    });
   }
 }
 

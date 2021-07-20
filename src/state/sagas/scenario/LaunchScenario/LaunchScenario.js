@@ -22,13 +22,8 @@ export function * launchScenario (action) {
     }
   });
 
-  // Launch scenario if parameters update succeeded
-  const { error: runError } = yield call(
-    ScenarioRunService.runScenario, ORGANIZATION_ID, workspaceId, scenarioId);
-
-  if (runError) {
-    console.error(runError);
-  } else {
+  try { // Launch scenario if parameters update succeeded
+    yield call(ScenarioRunService.runScenario, ORGANIZATION_ID, workspaceId, scenarioId);
     // Update status to IDLE
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
@@ -42,6 +37,8 @@ export function * launchScenario (action) {
       workspaceId: workspaceId,
       scenarioId: scenarioId
     });
+  } catch (e) {
+    console.error(e);
   }
 }
 

@@ -10,46 +10,45 @@ import { SCENARIO_RUN_STATE } from '@cosmotech/core';
 
 // generators function
 export function * fetchScenarioByIdForInitialData (workspaceId, scenarioId) {
-  // yield keyword is here to milestone and save the action
-  const { error, data } = yield call(ScenarioService.findScenarioById, ORGANIZATION_ID, workspaceId, scenarioId);
-  if (error) {
-    // TODO handle error management
-    yield put({
-      type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
-      data: { status: STATUSES.ERROR }
-    });
-  } else {
+  try { // yield keyword is here to milestone and save the action
+    const scenario = yield call(ScenarioService.findScenarioById, ORGANIZATION_ID, workspaceId, scenarioId);
     // Here is an effect named put that indicate to the middleware that it can dispatch a SET_CURRENT_SCENARIO action with data as payload
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
-      data: { status: STATUSES.IDLE, scenario: data }
+      data: { status: STATUSES.IDLE, scenario: scenario }
+    });
+  } catch (e) {
+    console.error(e);
+    yield put({
+      type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
+      data: { status: STATUSES.ERROR }
     });
   }
 }
 
 // generators function
 export function * fetchScenarioByIdData (action) {
-  const { error, data } = yield call(ScenarioService.findScenarioById, ORGANIZATION_ID, action.workspaceId, action.scenarioId);
-  if (error) {
-    // TODO handle error management
+  try {
+    const scenario = yield call(ScenarioService.findScenarioById, ORGANIZATION_ID, action.workspaceId, action.scenarioId);
+    // Here is an effect named put that indicate to the middleware that it can dispatch a SET_CURRENT_SCENARIO action with data as payload
+    yield put({
+      type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
+      data: { status: STATUSES.IDLE, scenario: scenario }
+    });
+    // Start state polling for running scenarios
+    if (scenario.state === SCENARIO_RUN_STATE.RUNNING) {
+      yield put({
+        type: SCENARIO_ACTIONS_KEY.START_SCENARIO_STATUS_POLLING,
+        workspaceId: action.workspaceId,
+        scenarioId: scenario.id
+      });
+    }
+  } catch (e) {
+    console.error(e);
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
       data: { status: STATUSES.ERROR }
     });
-  } else {
-    // Here is an effect named put that indicate to the middleware that it can dispatch a SET_CURRENT_SCENARIO action with data as payload
-    yield put({
-      type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
-      data: { status: STATUSES.IDLE, scenario: data }
-    });
-    // Start state polling for running scenarios
-    if (data.state === SCENARIO_RUN_STATE.RUNNING) {
-      yield put({
-        type: SCENARIO_ACTIONS_KEY.START_SCENARIO_STATUS_POLLING,
-        workspaceId: action.workspaceId,
-        scenarioId: data.id
-      });
-    }
   }
 }
 

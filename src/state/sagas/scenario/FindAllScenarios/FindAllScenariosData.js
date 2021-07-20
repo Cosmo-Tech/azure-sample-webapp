@@ -8,13 +8,12 @@ import { ORGANIZATION_ID } from '../../../../configs/App.config';
 
 // generators function
 export function * getAllScenariosData (workspaceId) {
-  // yield keyword is here to milestone and save the action
-  const { error, data } = yield call(ScenarioService.findAllScenarios, ORGANIZATION_ID, workspaceId);
-  if (error) {
-    // TODO handle error management
-  } else {
+  try { // yield keyword is here to milestone and save the action
+    const scenarioList = yield call(ScenarioService.findAllScenarios, ORGANIZATION_ID, workspaceId);
     // Here is an effect named put that indicate to the middleware that it can dispatch a SET_ALL_SCENARIOS action with list as payload
-    yield put({ type: SCENARIO_ACTIONS_KEY.SET_ALL_SCENARIOS, list: data });
+    yield put({ type: SCENARIO_ACTIONS_KEY.SET_ALL_SCENARIOS, list: scenarioList });
+  } catch (e) {
+    console.error(e);
   }
 }
 

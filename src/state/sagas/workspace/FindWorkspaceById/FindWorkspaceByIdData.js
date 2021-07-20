@@ -9,13 +9,14 @@ import WorkspaceService from '../../../../services/workspace/WorkspaceService';
 
 // generators function
 export function * fetchWorkspaceByIdData (workspaceId) {
-  // yield keyword is here to milestone and save the action
-  const { error, data } = yield call(WorkspaceService.findWorkspaceById, ORGANIZATION_ID, workspaceId);
-  if (error) {
-    // TODO handle error management
-  } else {
-    // Here is an effect named put that indicate to the middleware that it can dispatch a SET_CURRENT_WORKSPACE action with data as payload
-    yield put({ type: WORKSPACE_ACTIONS_KEY.SET_CURRENT_WORKSPACE, data: { status: STATUSES.SUCCESS, workspace: data } });
+  try { // yield keyword is here to milestone and save the action
+    const workspace = yield call(WorkspaceService.findWorkspaceById, ORGANIZATION_ID, workspaceId);
+    yield put({
+      type: WORKSPACE_ACTIONS_KEY.SET_CURRENT_WORKSPACE,
+      data: { status: STATUSES.SUCCESS, workspace: workspace }
+    });
+  } catch (e) {
+    console.error(e);
   }
 }
 
