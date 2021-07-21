@@ -6,7 +6,7 @@ import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { STATUSES } from '../../../commons/Constants';
 import { ORGANIZATION_ID } from '../../../../configs/App.config';
 import { getAllScenariosData } from '../FindAllScenarios/FindAllScenariosData';
-import { ScenarioApi } from '../../../../services/ServiceCommons';
+import { ScenarioApi } from '../../../../configs/Api.config';
 
 // generators function
 export function * createScenario (action) {

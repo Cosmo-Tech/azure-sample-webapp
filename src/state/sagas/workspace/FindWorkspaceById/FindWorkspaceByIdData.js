@@ -5,7 +5,7 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 import { STATUSES } from '../../../commons/Constants';
 import { WORKSPACE_ACTIONS_KEY } from '../../../commons/WorkspaceConstants';
 import { ORGANIZATION_ID } from '../../../../configs/App.config';
-import { WorkspaceApi } from '../../../../services/ServiceCommons';
+import { WorkspaceApi } from '../../../../configs/Api.config';
 
 // generators function
 export function * fetchWorkspaceByIdData (workspaceId) {

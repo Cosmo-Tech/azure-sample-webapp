@@ -4,7 +4,7 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { DATASET_ACTIONS_KEY } from '../../../commons/DatasetConstants';
 import { ORGANIZATION_ID } from '../../../../configs/App.config';
-import { DatasetApi } from '../../../../services/ServiceCommons';
+import { DatasetApi } from '../../../../configs/Api.config';
 
 // generators function
 export function * fetchAllDatasetsData () {

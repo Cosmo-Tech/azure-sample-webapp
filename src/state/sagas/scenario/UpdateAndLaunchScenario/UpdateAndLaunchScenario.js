@@ -6,7 +6,7 @@ import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { STATUSES } from '../../../commons/Constants';
 import { SCENARIO_RUN_STATE, ScenarioRunUtils } from '@cosmotech/core';
 import { ORGANIZATION_ID } from '../../../../configs/App.config';
-import { ScenarioApi, ScenarioRunApi } from '../../../../services/ServiceCommons';
+import { ScenarioApi, ScenarioRunApi } from '../../../../configs/Api.config';
 
 // generators function
 export function * updateAndLaunchScenario (action) {
@@ -25,7 +25,7 @@ export function * updateAndLaunchScenario (action) {
   try {
     const scenario = yield call(
       [ScenarioApi, 'updateScenario'], ORGANIZATION_ID, workspaceId,
-      scenarioId, scenarioParameters);
+      scenarioId, { parametersValues: scenarioParameters });
     scenario.parametersValues = ScenarioRunUtils.formatParametersFromApi(scenario.parametersValues);
 
     yield put({

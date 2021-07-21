@@ -24,13 +24,15 @@ import {
   ScenarioParametersTabs,
   UPLOAD_FILE_STATUS_KEY
 } from '@cosmotech/ui';
-import { BasicTypes, BarParameters } from './components/tabs';
+import { BasicTypes, BarParameters, FileUpload } from './components/tabs';
 import { INITIAL_STOCK_PARAM_ACCEPT_FILE_TYPE, INITIAL_STOCK_PARAM_CONNECTOR_ID, INITIAL_STOCK_PARAM_ID } from './UploadFileConfig';
 import { UploadFileUtils } from './UploadFileUtils';
 import { DATASET_PARAM_VARTYPE, SCENARIO_RUN_STATE, ScenarioUtils } from '@cosmotech/core';
 import { ORGANIZATION_ID, WORKSPACE_ID } from '../../configs/App.config';
-import { getDefaultBasePath } from '../../configs/Api.config';
+import { CosmotechApiService, getDefaultBasePath } from '../../configs/Api.config';
 import { getAccessToken } from '../../utils/StorageUtils';
+import WorkspaceService from '../../services/workspace/WorkspaceService';
+import DatasetService from '../../services/dataset/DatasetService';
 
 const useStyles = makeStyles(theme => ({
   header: {
@@ -48,6 +50,8 @@ const useStyles = makeStyles(theme => ({
     margin: `0 ${theme.spacing(3)}px`
   }
 }));
+
+const workspaceService = new WorkspaceService(CosmotechApiService);
 
 const ScenarioParameters = ({
   editMode,
@@ -215,7 +219,7 @@ const ScenarioParameters = ({
   };
 
   const handleClickOnUpdateAndLaunchScenarioButton = async () => {
-    await UploadFileUtils.updateDatasetPartFile(ORGANIZATION_ID,
+    await workspaceService.updateDatasetPartFile(ORGANIZATION_ID,
       initialStockDataset,
       initialStockFile,
       setInitialStockFile,
@@ -231,22 +235,31 @@ const ScenarioParameters = ({
     changeEditMode(false);
   };
 
-  const fileUploadComponent = UploadFileUtils.constructFileUpload(
-    getAccessToken(),
-    getDefaultBasePath(),
-    '0',
-    ORGANIZATION_ID,
-    WORKSPACE_ID,
-    initialStockFile,
-    setInitialStockFile,
-    initialStockDataset,
-    initialStockDatasetId,
-    INITIAL_STOCK_PARAM_ACCEPT_FILE_TYPE,
-    editMode);
   // Indices in this array must match indices in the tabs configuration file
   // configs/ScenarioParametersTabs.config.js
   const scenarioParametersTabs = [
-    fileUploadComponent,
+    <FileUpload key={'0'}
+      organisationId={ORGANIZATION_ID}
+      file={initialStockFile}
+      setFile={setInitialStockFile}
+      currentDataset={initialStockDataset}
+      datasetId={initialStockDatasetId}
+      acceptedFileTypesToUpload={INITIAL_STOCK_PARAM_ACCEPT_FILE_TYPE}
+      editMode={editMode}
+      downloadFile={() => {
+        workspaceService.downloadFile(
+          getDefaultBasePath(),
+          getAccessToken(),
+          ORGANIZATION_ID,
+          WORKSPACE_ID,
+          initialStockDataset,
+          initialStockFile,
+          setInitialStockFile);
+      }}
+      fetchDataset={() =>
+        new DatasetService(CosmotechApiService)
+          .findDatasetById(ORGANIZATION_ID, initialStockDatasetId)}
+    />,
     <BarParameters key="1"
       stock={stock}
       changeStock={setStock}

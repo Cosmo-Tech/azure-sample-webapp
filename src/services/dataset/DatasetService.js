@@ -1,39 +1,36 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { DatasetApi } from '../ServiceCommons';
-import { CosmotechApiService } from '../../configs/Api.config';
+class DatasetService {
+  constructor (apiService) {
+    this.apiService = apiService;
+    this.datasetApi = new apiService.DatasetApi();
+  }
 
-async function findDatasetById (organizationId, datasetId) {
-  const dataset = await DatasetApi.findDatasetById(organizationId, datasetId);
-  return dataset;
+  async findDatasetById (organizationId, datasetId) {
+    const dataset = await this.datasetApi.findDatasetById(organizationId, datasetId);
+    return dataset;
+  }
+
+  async createDataset (organizationId, name, description, connector, tags) {
+    const newDataset = new this.apiService.Dataset();
+    newDataset.name = name;
+    newDataset.description = description;
+    newDataset.connector = connector;
+    newDataset.tags = tags;
+    const datasetCreated = await this.datasetApi.createDataset(organizationId, newDataset);
+    return datasetCreated;
+  }
+
+  async updateDataset (organizationId, datasetId, dataset) {
+    const updatedDataset = await this.datasetApi.updateDataset(organizationId, datasetId, dataset);
+    return updatedDataset;
+  }
+
+  async deleteDataset (organizationId, datasetId) {
+    const deletedDataset = await this.datasetApi.deleteDataset(organizationId, datasetId);
+    return deletedDataset;
+  }
 }
-
-async function createDataset (organizationId, name, description, connector, tags) {
-  const newDataset = new CosmotechApiService.Dataset();
-  newDataset.name = name;
-  newDataset.description = description;
-  newDataset.connector = connector;
-  newDataset.tags = tags;
-  const datasetCreated = await DatasetApi.createDataset(organizationId, newDataset);
-  return datasetCreated;
-}
-
-async function updateDataset (organizationId, datasetId, dataset) {
-  const updatedDataset = await DatasetApi.updateDataset(organizationId, datasetId, dataset);
-  return updatedDataset;
-}
-
-async function deleteDataset (organizationId, datasetId) {
-  const deletedDataset = await DatasetApi.deleteDataset(organizationId, datasetId);
-  return deletedDataset;
-}
-
-const DatasetService = {
-  findDatasetById,
-  createDataset,
-  updateDataset,
-  deleteDataset
-};
 
 export default DatasetService;

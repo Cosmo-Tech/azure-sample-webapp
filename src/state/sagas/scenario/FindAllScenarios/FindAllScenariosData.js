@@ -4,7 +4,7 @@
 import { put, takeEvery, call } from 'redux-saga/effects';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { ORGANIZATION_ID } from '../../../../configs/App.config';
-import { ScenarioApi } from '../../../../services/ServiceCommons';
+import { ScenarioApi } from '../../../../configs/Api.config';
 
 // generators function
 export function * getAllScenariosData (workspaceId) {

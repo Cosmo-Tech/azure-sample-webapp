@@ -5,32 +5,22 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { UploadFile, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
 import { UploadFileUtils } from '../../UploadFileUtils';
-import DatasetService from '../../../../services/dataset/DatasetService';
 
 const FileUpload = ({
-  defaultBasePath,
-  accessToken,
-  organisationId,
-  workspaceId,
   acceptedFileTypesToUpload,
   currentDataset,
   datasetId,
   file,
   setFile,
-  editMode
+  editMode,
+  downloadFile,
+  fetchDataset
 }) => {
   useEffect(() => {
-    const fetchDatasetById = async (dataset, datasetId) => {
-      const { error, data } = await DatasetService.findDatasetById(organisationId, datasetId);
-      if (error) {
-        throw new Error('Dataset does not exist for this organization');
-      }
-      return data;
-    };
     if (datasetId !== '' &&
         (file.status === UPLOAD_FILE_STATUS_KEY.EMPTY ||
         file.status === UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD)) {
-      fetchDatasetById(currentDataset, datasetId)
+      fetchDataset()
         .then((data) => {
           currentDataset.current = data;
           const fileName = UploadFileUtils.buildFileNameFromDataset(currentDataset.current, '');
@@ -57,7 +47,7 @@ const FileUpload = ({
         handleDeleteFile={() => UploadFileUtils.prepareToDeleteFile(file, setFile)}
         handleDownloadFile={(event) => {
           event.preventDefault();
-          UploadFileUtils.downloadFile(defaultBasePath, accessToken, organisationId, workspaceId, currentDataset, file, setFile);
+          downloadFile();
         }}
         file={file}
         editMode={editMode}
@@ -66,16 +56,14 @@ const FileUpload = ({
 };
 
 FileUpload.propTypes = {
-  organisationId: PropTypes.string.isRequired,
-  workspaceId: PropTypes.string.isRequired,
   acceptedFileTypesToUpload: PropTypes.string,
   editMode: PropTypes.bool.isRequired,
   file: PropTypes.object.isRequired,
   setFile: PropTypes.func.isRequired,
   currentDataset: PropTypes.object.isRequired,
   datasetId: PropTypes.string,
-  defaultBasePath: PropTypes.string.isRequired,
-  accessToken: PropTypes.string.isRequired
+  downloadFile: PropTypes.func.isRequired,
+  fetchDataset: PropTypes.func.isRequired
 };
 
 export default FileUpload;

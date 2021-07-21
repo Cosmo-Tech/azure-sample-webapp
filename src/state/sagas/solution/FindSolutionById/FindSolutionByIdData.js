@@ -5,7 +5,7 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 import { SOLUTION_ACTIONS_KEY } from '../../../commons/SolutionConstants';
 import { STATUSES } from '../../../commons/Constants';
 import { ORGANIZATION_ID } from '../../../../configs/App.config';
-import { SolutionApi } from '../../../../services/ServiceCommons';
+import { SolutionApi } from '../../../../configs/Api.config';
 
 // generators function
 export function * fetchSolutionByIdData (workspaceId, solutionId) {

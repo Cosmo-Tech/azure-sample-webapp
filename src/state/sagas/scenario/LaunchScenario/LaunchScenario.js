@@ -6,7 +6,7 @@ import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { STATUSES } from '../../../commons/Constants';
 import { SCENARIO_RUN_STATE } from '@cosmotech/core';
 import { ORGANIZATION_ID } from '../../../../configs/App.config';
-import { ScenarioRunApi } from '../../../../services/ServiceCommons';
+import { ScenarioRunApi } from '../../../../configs/Api.config';
 
 // generators function
 export function * launchScenario (action) {

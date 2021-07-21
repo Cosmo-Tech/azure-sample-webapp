@@ -4,8 +4,7 @@
 import { call, put, take, takeEvery, delay, race } from 'redux-saga/effects';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { ORGANIZATION_ID } from '../../../../configs/App.config';
-import API_CONFIG from '../../../../configs/Api.config';
-import { ScenarioApi } from '../../../../services/ServiceCommons';
+import { API_CONFIG, ScenarioApi } from '../../../../configs/Api.config';
 
 function forgeStopPollingAction (scenarioId) {
   let actionName = SCENARIO_ACTIONS_KEY.STOP_SCENARIO_STATUS_POLLING;
