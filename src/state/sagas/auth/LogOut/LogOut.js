@@ -1,15 +1,15 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { Auth } from '@cosmotech/core';
+import { Auth, ApiUtils } from '@cosmotech/core';
 import { takeEvery } from 'redux-saga/effects';
 import { AUTH_ACTIONS_KEY } from '../../../commons/AuthConstants';
-import { resetAccessToken } from '../../../../configs/Api.config';
+import { CosmotechApiService } from '../../../../configs/Api.config';
 
 // Generator function to fetch authentication data
 export function * tryLogOut () {
   try {
-    resetAccessToken();
+    ApiUtils.resetAccessToken(CosmotechApiService);
     yield Auth.signOut();
   } catch (error) {
     console.error(error);

@@ -39,18 +39,3 @@ const SCENARIO_STATUS_POLLING_DELAY = 10000;
 export const API_CONFIG = {
   scenarioStatusPollingDelay: SCENARIO_STATUS_POLLING_DELAY
 };
-
-// TODO move them to utility file
-// Configure OAuth2 access token for authorization: oAuth2AuthCode
-export function setAccessToken (token) {
-  DEFAULT_COSMOTECH_API_INSTANCE.authentications.oAuth2AuthCode.accessToken = token;
-}
-
-export function resetAccessToken () {
-  // Use a non-empty string to be compatible with the expected API format
-  // when using a local mock server in dev mode
-  DEFAULT_COSMOTECH_API_INSTANCE.authentications.oAuth2AuthCode.accessToken = 'none';
-}
-
-export const getDefaultBasePath = () => DEFAULT_BASE_PATH;
-// TODO move them to utility file

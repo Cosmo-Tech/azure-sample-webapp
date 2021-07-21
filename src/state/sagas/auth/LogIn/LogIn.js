@@ -1,9 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { Auth } from '@cosmotech/core';
+import { Auth, ApiUtils } from '@cosmotech/core';
 import { put, takeEvery } from 'redux-saga/effects';
 import { AUTH_ACTIONS_KEY, AUTH_STATUS } from '../../../commons/AuthConstants';
-import { setAccessToken, resetAccessToken } from '../../../../configs/Api.config';
+import { CosmotechApiService } from '../../../../configs/Api.config';
 import { getAccessToken } from '../../../../utils/StorageUtils';
 
 // Generator function to fetch authentication data
@@ -20,9 +20,9 @@ export function * tryLogIn (action) {
       // If the user is authenticated, set the auth data
       const accessToken = getAccessToken();
       if (accessToken !== null) {
-        setAccessToken(accessToken);
+        ApiUtils.setAccessToken(CosmotechApiService, accessToken);
       } else {
-        resetAccessToken();
+        ApiUtils.resetAccessToken(CosmotechApiService);
         console.warn('This authentication provider does not provide any ' +
           'access token.');
       }
@@ -35,7 +35,7 @@ export function * tryLogIn (action) {
         status: AUTH_STATUS.AUTHENTICATED
       });
     } else {
-      resetAccessToken();
+      ApiUtils.resetAccessToken(CosmotechApiService);
       yield put({
         type: AUTH_ACTIONS_KEY.SET_AUTH_DATA,
         userId: '',

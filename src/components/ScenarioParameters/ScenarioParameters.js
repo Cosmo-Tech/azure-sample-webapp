@@ -35,13 +35,13 @@ import {
   SCENARIO_RUN_STATE,
   UPLOAD_FILE_STATUS_KEY,
   ScenarioUtils,
-  UploadFileUtils
+  UploadFileUtils, ApiUtils
 } from '@cosmotech/core';
 import { ORGANIZATION_ID, WORKSPACE_ID } from '../../configs/App.config';
-import { CosmotechApiService, getDefaultBasePath } from '../../configs/Api.config';
-import { getAccessToken } from '../../utils/StorageUtils';
+import { CosmotechApiService } from '../../configs/Api.config';
 import WorkspaceService from '../../services/workspace/WorkspaceService';
 import DatasetService from '../../services/dataset/DatasetService';
+import { getAccessToken } from '../../utils/StorageUtils';
 
 const useStyles = makeStyles(theme => ({
   header: {
@@ -257,7 +257,7 @@ const ScenarioParameters = ({
       editMode={editMode}
       downloadFile={() => {
         workspaceService.downloadFile(
-          getDefaultBasePath(),
+          ApiUtils.getDefaultBasePath(CosmotechApiService),
           getAccessToken(),
           ORGANIZATION_ID,
           WORKSPACE_ID,
