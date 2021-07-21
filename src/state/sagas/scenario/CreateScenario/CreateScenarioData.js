@@ -5,14 +5,14 @@ import { put, takeEvery, call } from 'redux-saga/effects';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { STATUSES } from '../../../commons/Constants';
 import { ORGANIZATION_ID } from '../../../../configs/App.config';
-import ScenarioService from '../../../../services/scenario/ScenarioService';
 import { getAllScenariosData } from '../FindAllScenarios/FindAllScenariosData';
+import { ScenarioApi } from '../../../../services/ServiceCommons';
 
 // generators function
 export function * createScenario (action) {
   try { // yield keyword is here to milestone and save the action
     const workspaceId = action.workspaceId;
-    const createdScenario = yield call(ScenarioService.createScenario, ORGANIZATION_ID, workspaceId, action.scenario);
+    const createdScenario = yield call([ScenarioApi, 'createScenario'], ORGANIZATION_ID, workspaceId, action.scenario);
 
     yield call(getAllScenariosData, workspaceId);
     // Here is an effect named put that indicate to the middleware that it can dispatch a SET_CURRENT_SCENARIO action with list as payload

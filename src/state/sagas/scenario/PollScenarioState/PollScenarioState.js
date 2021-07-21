@@ -5,7 +5,7 @@ import { call, put, take, takeEvery, delay, race } from 'redux-saga/effects';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { ORGANIZATION_ID } from '../../../../configs/App.config';
 import API_CONFIG from '../../../../configs/Api.config';
-import ScenarioService from '../../../../services/scenario/ScenarioService';
+import { ScenarioApi } from '../../../../services/ServiceCommons';
 
 function forgeStopPollingAction (scenarioId) {
   let actionName = SCENARIO_ACTIONS_KEY.STOP_SCENARIO_STATUS_POLLING;
@@ -20,7 +20,7 @@ export function * pollScenarioState (action) {
     try {
       // Fetch data of the scenario with the provided id
       const scenario = yield call(
-        ScenarioService.findScenarioById,
+        [ScenarioApi, 'findScenarioById'],
         ORGANIZATION_ID,
         action.workspaceId,
         action.scenarioId);

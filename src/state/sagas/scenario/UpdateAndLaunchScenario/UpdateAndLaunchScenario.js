@@ -4,10 +4,10 @@
 import { takeEvery, call, put } from 'redux-saga/effects';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { STATUSES } from '../../../commons/Constants';
-import { SCENARIO_RUN_STATE } from '@cosmotech/core';
+import { SCENARIO_RUN_STATE, ScenarioRunUtils } from '@cosmotech/core';
 import { ORGANIZATION_ID } from '../../../../configs/App.config';
-import ScenarioService from '../../../../services/scenario/ScenarioService';
 import ScenarioRunService from '../../../../services/scenarioRun/ScenarioRunService';
+import { ScenarioApi } from '../../../../services/ServiceCommons';
 
 // generators function
 export function * updateAndLaunchScenario (action) {
@@ -25,8 +25,9 @@ export function * updateAndLaunchScenario (action) {
 
   try {
     const scenario = yield call(
-      ScenarioService.updateScenarioParameters, ORGANIZATION_ID, workspaceId,
+      [ScenarioApi, 'updateScenario'], ORGANIZATION_ID, workspaceId,
       scenarioId, scenarioParameters);
+    scenario.parametersValues = ScenarioRunUtils.formatParametersFromApi(scenario.parametersValues);
 
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
@@ -55,7 +56,7 @@ export function * updateAndLaunchScenario (action) {
 
 // generators function
 // Here is a watcher that takes EVERY action dispatched named CREATE_SCENARIO
-// and binds createScenario saga to it
+// and binds updateAndLaunchScenario saga to it
 function * updateAndLaunchScenarioSaga () {
   yield takeEvery(SCENARIO_ACTIONS_KEY.UPDATE_AND_LAUNCH_SCENARIO,
     updateAndLaunchScenario);

@@ -4,14 +4,15 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { STATUSES } from '../../../commons/Constants';
-import ScenarioService from '../../../../services/scenario/ScenarioService';
 import { ORGANIZATION_ID } from '../../../../configs/App.config';
-import { SCENARIO_RUN_STATE } from '@cosmotech/core';
+import { SCENARIO_RUN_STATE, ScenarioRunUtils } from '@cosmotech/core';
+import { ScenarioApi } from '../../../../services/ServiceCommons';
 
 // generators function
 export function * fetchScenarioByIdForInitialData (workspaceId, scenarioId) {
   try { // yield keyword is here to milestone and save the action
-    const scenario = yield call(ScenarioService.findScenarioById, ORGANIZATION_ID, workspaceId, scenarioId);
+    const scenario = yield call([ScenarioApi, 'findScenarioById'], ORGANIZATION_ID, workspaceId, scenarioId);
+    scenario.parametersValues = ScenarioRunUtils.formatParametersFromApi(scenario.parametersValues);
     // Here is an effect named put that indicate to the middleware that it can dispatch a SET_CURRENT_SCENARIO action with data as payload
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
@@ -29,7 +30,8 @@ export function * fetchScenarioByIdForInitialData (workspaceId, scenarioId) {
 // generators function
 export function * fetchScenarioByIdData (action) {
   try {
-    const scenario = yield call(ScenarioService.findScenarioById, ORGANIZATION_ID, action.workspaceId, action.scenarioId);
+    const scenario = yield call([ScenarioApi, 'findScenarioById'], ORGANIZATION_ID, action.workspaceId, action.scenarioId);
+    scenario.parametersValues = ScenarioRunUtils.formatParametersFromApi(scenario.parametersValues);
     // Here is an effect named put that indicate to the middleware that it can dispatch a SET_CURRENT_SCENARIO action with data as payload
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,

@@ -44,7 +44,7 @@ export function * launchScenario (action) {
 
 // generators function
 // Here is a watcher that takes EVERY action dispatched named CREATE_SCENARIO
-// and binds createScenario saga to it
+// and binds launchScenario saga to it
 function * launchScenarioSaga () {
   yield takeEvery(SCENARIO_ACTIONS_KEY.LAUNCH_SCENARIO, launchScenario);
 }

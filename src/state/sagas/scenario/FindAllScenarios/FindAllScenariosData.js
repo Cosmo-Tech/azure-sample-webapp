@@ -3,13 +3,13 @@
 
 import { put, takeEvery, call } from 'redux-saga/effects';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
-import ScenarioService from '../../../../services/scenario/ScenarioService';
 import { ORGANIZATION_ID } from '../../../../configs/App.config';
+import { ScenarioApi } from '../../../../services/ServiceCommons';
 
 // generators function
 export function * getAllScenariosData (workspaceId) {
   try { // yield keyword is here to milestone and save the action
-    const scenarioList = yield call(ScenarioService.findAllScenarios, ORGANIZATION_ID, workspaceId);
+    const scenarioList = yield call([ScenarioApi, 'findAllScenarios'], ORGANIZATION_ID, workspaceId);
     // Here is an effect named put that indicate to the middleware that it can dispatch a SET_ALL_SCENARIOS action with list as payload
     yield put({ type: SCENARIO_ACTIONS_KEY.SET_ALL_SCENARIOS, list: scenarioList });
   } catch (e) {
