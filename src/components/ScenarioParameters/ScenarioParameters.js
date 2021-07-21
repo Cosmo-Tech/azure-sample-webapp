@@ -22,12 +22,21 @@ import {
   EditModeButton,
   NormalModeButton,
   ScenarioParametersTabs,
-  UPLOAD_FILE_STATUS_KEY
+  FileUpload
 } from '@cosmotech/ui';
-import { BasicTypes, BarParameters, FileUpload } from './components/tabs';
-import { INITIAL_STOCK_PARAM_ACCEPT_FILE_TYPE, INITIAL_STOCK_PARAM_CONNECTOR_ID, INITIAL_STOCK_PARAM_ID } from './UploadFileConfig';
-import { UploadFileUtils } from './UploadFileUtils';
-import { DATASET_PARAM_VARTYPE, SCENARIO_RUN_STATE, ScenarioUtils } from '@cosmotech/core';
+import { BasicTypes, BarParameters } from './components/tabs';
+import {
+  INITIAL_STOCK_PARAM_ACCEPT_FILE_TYPE,
+  INITIAL_STOCK_PARAM_CONNECTOR_ID,
+  INITIAL_STOCK_PARAM_ID
+} from './UploadFileConfig';
+import {
+  DATASET_PARAM_VARTYPE,
+  SCENARIO_RUN_STATE,
+  UPLOAD_FILE_STATUS_KEY,
+  ScenarioUtils,
+  UploadFileUtils
+} from '@cosmotech/core';
 import { ORGANIZATION_ID, WORKSPACE_ID } from '../../configs/App.config';
 import { CosmotechApiService, getDefaultBasePath } from '../../configs/Api.config';
 import { getAccessToken } from '../../utils/StorageUtils';

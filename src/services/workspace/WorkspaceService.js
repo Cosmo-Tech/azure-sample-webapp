@@ -1,9 +1,12 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
-import { STORAGE_ROOT_DIR_PLACEHOLDER, UploadFileUtils } from '../../components/ScenarioParameters/UploadFileUtils';
-import { WorkspaceFileUtils } from '@cosmotech/core';
+import {
+  WorkspaceFileUtils,
+  UploadFileUtils,
+  UPLOAD_FILE_STATUS_KEY,
+  STORAGE_ROOT_DIR_PLACEHOLDER
+} from '@cosmotech/core';
 import DatasetService from '../dataset/DatasetService';
 
 class WorkspaceService {
