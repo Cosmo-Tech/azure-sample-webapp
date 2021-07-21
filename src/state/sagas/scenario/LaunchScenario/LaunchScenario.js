@@ -6,7 +6,7 @@ import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { STATUSES } from '../../../commons/Constants';
 import { SCENARIO_RUN_STATE } from '@cosmotech/core';
 import { ORGANIZATION_ID } from '../../../../configs/App.config';
-import ScenarioRunService from '../../../../services/scenarioRun/ScenarioRunService';
+import { ScenarioRunApi } from '../../../../services/ServiceCommons';
 
 // generators function
 export function * launchScenario (action) {
@@ -23,7 +23,7 @@ export function * launchScenario (action) {
   });
 
   try { // Launch scenario if parameters update succeeded
-    yield call(ScenarioRunService.runScenario, ORGANIZATION_ID, workspaceId, scenarioId);
+    yield call([ScenarioRunApi, 'runScenario'], ORGANIZATION_ID, workspaceId, scenarioId);
     // Update status to IDLE
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,

@@ -5,12 +5,12 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 import { STATUSES } from '../../../commons/Constants';
 import { WORKSPACE_ACTIONS_KEY } from '../../../commons/WorkspaceConstants';
 import { ORGANIZATION_ID } from '../../../../configs/App.config';
-import WorkspaceService from '../../../../services/workspace/WorkspaceService';
+import { WorkspaceApi } from '../../../../services/ServiceCommons';
 
 // generators function
 export function * fetchWorkspaceByIdData (workspaceId) {
   try { // yield keyword is here to milestone and save the action
-    const workspace = yield call(WorkspaceService.findWorkspaceById, ORGANIZATION_ID, workspaceId);
+    const workspace = yield call([WorkspaceApi, 'findWorkspaceById'], ORGANIZATION_ID, workspaceId);
     yield put({
       type: WORKSPACE_ACTIONS_KEY.SET_CURRENT_WORKSPACE,
       data: { status: STATUSES.SUCCESS, workspace: workspace }

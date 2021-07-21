@@ -6,33 +6,23 @@ import { LOG_TYPES } from './ScenarioRunConstants.js';
 import { ORGANIZATION_ID } from '../../configs/App.config';
 import { ScenarioRunApi } from '../ServiceCommons';
 
-async function runScenario (organizationId, workspaceId, scenarioId) {
-  const result = await ScenarioRunApi.runScenario(organizationId, workspaceId, scenarioId);
-  return result;
-}
-
-async function getScenarioRuns (organizationId, workspaceId, scenarioId) {
-  const result = await ScenarioRunApi.getScenarioRuns(organizationId, workspaceId, scenarioId);
-  return result;
-}
-
 async function downloadCumulatedLogsFile (lastRun) {
-  const { error, data } = await ScenarioRunApi.getScenarioRunCumulatedLogs(ORGANIZATION_ID, lastRun.scenarioRunId);
-  if (error) {
-    console.error(error);
-  } else {
-    const blob = new Blob([data]);
+  try {
+    const logs = await ScenarioRunApi.getScenarioRunCumulatedLogs(ORGANIZATION_ID, lastRun.scenarioRunId);
+    const blob = new Blob([logs]);
     fileDownload(blob, lastRun.scenarioRunId + '_cumulated_logs.txt');
+  } catch (e) {
+    console.error(e);
   }
 }
 
 async function downloadLogsSimpleFile (lastRun) {
-  const { error, data } = await ScenarioRunApi.getScenarioRunLogs(ORGANIZATION_ID, lastRun.scenarioRunId);
-  if (error) {
-    console.error(error);
-  } else {
-    const blob = new Blob([data]);
+  try {
+    const logs = await ScenarioRunApi.getScenarioRunLogs(ORGANIZATION_ID, lastRun.scenarioRunId);
+    const blob = new Blob([logs]);
     fileDownload(blob, lastRun.scenarioRunId + '_simple_logs.json');
+  } catch (e) {
+    console.error(e);
   }
 }
 
@@ -48,8 +38,6 @@ function downloadLogsFile (lastRun, logType) {
 }
 
 const ScenarioRunService = {
-  runScenario,
-  getScenarioRuns,
   downloadLogsFile
 };
 

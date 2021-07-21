@@ -4,11 +4,6 @@
 import { DatasetApi } from '../ServiceCommons';
 import { CosmotechApiService } from '../../configs/Api.config';
 
-async function findAllDatasets (organizationId) {
-  const datasets = await DatasetApi.findAllDatasets(organizationId);
-  return datasets;
-}
-
 async function findDatasetById (organizationId, datasetId) {
   const dataset = await DatasetApi.findDatasetById(organizationId, datasetId);
   return dataset;
@@ -35,7 +30,6 @@ async function deleteDataset (organizationId, datasetId) {
 }
 
 const DatasetService = {
-  findAllDatasets,
   findDatasetById,
   createDataset,
   updateDataset,

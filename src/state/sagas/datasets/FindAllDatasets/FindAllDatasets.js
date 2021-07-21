@@ -4,12 +4,12 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { DATASET_ACTIONS_KEY } from '../../../commons/DatasetConstants';
 import { ORGANIZATION_ID } from '../../../../configs/App.config';
-import DatasetService from '../../../../services/dataset/DatasetService';
+import { DatasetApi } from '../../../../services/ServiceCommons';
 
 // generators function
 export function * fetchAllDatasetsData () {
   try { // yield keyword is here to milestone and save the action
-    const datasetList = yield call(DatasetService.findAllDatasets, ORGANIZATION_ID);
+    const datasetList = yield call([DatasetApi, 'findAllDatasets'], ORGANIZATION_ID);
     yield put({ type: DATASET_ACTIONS_KEY.SET_ALL_DATASETS, list: datasetList });
   } catch (e) {
     console.error(e);
