@@ -149,7 +149,7 @@ export const DASHBOARDS_LIST_CONFIG = [
       navContentPaneEnabled: false,
       panes: {
         filters: {
-          expanded: true,
+          expanded: false,
           visible: true
         }
       }
