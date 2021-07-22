@@ -109,25 +109,31 @@ const handleClickOnUpdateAndLaunchScenarioButton = async () => {
 };
 ```
 
-
-- Just before `const scenarioParametersTabs = [` construct a file upload component for nb waiters:
-```
-const nbWaitersFileUploadComponent = UploadFileUtils.constructFileUpload(
-  <id defined previously in ScenarioParametersTabs.config.js | type: string>,
-  organisationId,
-  nbWaitersFile,
-  setNbWaitersFile,
-  nbWaitersDataset,
-  nbWaitersDatasetId,
-  NB_WAITERS_PARAM_ACCEPT_FILE_TYPE,
-  editMode
-);
-```
-
 - Use the component in tabs
 ```
 const scenarioParametersTabs = [
   ...
-  nbWaitersFileUploadComponent,
+      <FileUpload key={<id defined previously in ScenarioParametersTabs.config.js | type: string>}
+      organisationId={organisationId}
+      file={nbWaitersFile}
+      setFile={setNbWaitersFile}
+      currentDataset={nbWaitersDataset}
+      datasetId={nbWaitersDatasetId}
+      acceptedFileTypesToUpload={NB_WAITERS_PARAM_ACCEPT_FILE_TYPE}
+      editMode={editMode}
+      downloadFile={() => {
+        workspaceService.downloadFile(
+          ApiUtils.getDefaultBasePath(CosmotechApiService),
+          getAccessToken(),
+          organisationId,
+          workspaceId,
+          nbWaitersDataset,
+          nbWaitersFile,
+          setNbWaitersFile);
+      }}
+      fetchDataset={() =>
+        new DatasetService(CosmotechApiService)
+          .findDatasetById(organisationId, nbWaitersDatasetId)}
+    />,
   ...
 ```
