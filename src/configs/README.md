@@ -30,7 +30,9 @@ Steps to enable Application Insights in the webapp:
 
 ### Dashboards configuration
 
-About dashboards configuration (in Dashboards view or Scenario view respectively based on DASHBOARDS_LIST_CONFIG and SCENARIO_DASHBOARD_CONFIG constants) see the [detailed documentation](https://github.com/Cosmo-Tech/azure-sample-webapp/tree/main/src/views/Dashboards#readme)
+About dashboards configuration:
+- Dashboards view based on DASHBOARDS_LIST_CONFIG constant (see the [detailed documentation](https://github.com/Cosmo-Tech/azure-sample-webapp/tree/main/src/views/Dashboards#readme))
+- Scenario view based on SCENARIO_DASHBOARD_CONFIG constant (see the [detailed documentation](https://github.com/Cosmo-Tech/azure-sample-webapp/tree/main/src/views/Scenario#readme))
 
 ## Auth configuration (Auth.config.js)
 
