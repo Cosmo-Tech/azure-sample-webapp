@@ -11,9 +11,8 @@ import {
   HierarchicalComboBox,
   SimplePowerBIReportEmbed
 } from '@cosmotech/ui';
-import { ScenarioUtils, SCENARIO_NAME_REGEX_VALIDATOR } from '@cosmotech/core';
+import { ScenarioUtils, SCENARIO_NAME_REGEX_VALIDATOR, ScenarioRunService } from '@cosmotech/core';
 import { SCENARIO_DASHBOARD_CONFIG, SCENARIO_RUN_LOG_TYPE } from '../../configs/App.config';
-import ScenarioRunService from '../../services/scenarioRun/ScenarioRunService';
 
 const useStyles = makeStyles(theme => ({
   root: {

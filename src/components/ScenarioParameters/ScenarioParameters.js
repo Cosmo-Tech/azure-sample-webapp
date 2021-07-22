@@ -35,12 +35,13 @@ import {
   SCENARIO_RUN_STATE,
   UPLOAD_FILE_STATUS_KEY,
   ScenarioUtils,
-  UploadFileUtils, ApiUtils
+  UploadFileUtils,
+  ApiUtils,
+  DatasetService,
+  WorkspaceService
 } from '@cosmotech/core';
 import { ORGANIZATION_ID, WORKSPACE_ID } from '../../configs/App.config';
 import { CosmotechApiService } from '../../configs/Api.config';
-import WorkspaceService from '../../services/workspace/WorkspaceService';
-import DatasetService from '../../services/dataset/DatasetService';
 import { getAccessToken } from '../../utils/StorageUtils';
 
 const useStyles = makeStyles(theme => ({

@@ -4,7 +4,7 @@
 import { Scenario as ScenarioView, Dashboards } from '../views';
 import React from 'react';
 import { DistributedTracingModes } from '@microsoft/applicationinsights-web';
-import { LOG_TYPES } from '../services/scenarioRun/ScenarioRunConstants.js';
+import { LOG_TYPES } from '@cosmotech/core';
 import {
   POWER_BI_FIELD_ENUM, PowerBIReportEmbedMultipleFilter,
   PowerBIReportEmbedSimpleFilter
