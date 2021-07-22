@@ -18,11 +18,16 @@ Here is the list of these environment variables:
 - POWER_BI_CLIENT_SECRET : a client secret
 - POWER_BI_TENANT_ID : the tenant id
 
-Note:
+## How to get the information for POWER_BI_WORKSPACE_ID
+* Everything is available in PowerBI service URL
+* You get the embedded report URL `MyReportURL`
+* The values you need to use for `POWER_BI_WORKSPACE_ID` key is group part in report `MyReportURL` 
+
+_**N.B.1**_:
 - Azure Portal > App Registrations > _name_of_your_app_registration_ > Overview -> displays Application (client) id and Directory (tenant) ID
 - Azure Portal > App Registrations > _name_of_your_app_registration_ > Certificates & secrets > create your client secret for PowerBI
 
-_**N.B**_: If you want to run the webapp locally and visualize the embedded dashboards, you need to install Azure Functions Core Tools: [instructions on this page]("https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=linux%2Ccsharp%2Cbash")
+_**N.B.2**_: If you want to run the webapp locally and visualize the embedded dashboards, you need to install Azure Functions Core Tools: [instructions on this page]("https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=linux%2Ccsharp%2Cbash")
 
  In particular, for local configuration, create a _**local.settings.json**_ file in **api** repository with the following content:
 

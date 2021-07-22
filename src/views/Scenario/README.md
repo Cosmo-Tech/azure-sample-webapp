@@ -1,14 +1,14 @@
-# Configure Dashboards view
+# Configure Scenario view
 
-The Dashboards view allows to embed multiple [PowerBI](https://powerbi.microsoft.com/fr-fr/getting-started-with-power-bi/) reports in the app.
+The Scenario view allows to embed multiple [PowerBI](https://powerbi.microsoft.com/fr-fr/getting-started-with-power-bi/) reports in the app.
 
-## Dashboard entries structure
-To add an entry in the Dashboards view menu:
+## Scenario entry structure
+To modify entry in the Scenario view menu:
 - Open *webapp_folder*/src/configs/App.config.js
-- Add a new object in the existing DASHBOARDS_LIST_CONFIG array, respecting the following pattern:
+- Modify SCENARIO_DASHBOARD_CONFIG array, respecting the following pattern:
 ```
   {
-    title: '<title object>',              // Dashboard's title that appears in left tabs (e.g. {en: 'title in English', fr: 'Titre en français' } )
+    title: '<title object>',              // Scenario's title (not used here) (e.g. {en: 'title in English', fr: 'Titre en français' } )
     reportId: <report unique id>,         // You can get the report Id in PowerBI 
     settings: '<settings object>',        // a settings object see https://github.com/microsoft/powerbi-models/blob/0d326572c4253fd9f89b73a0d8df1ae46318a860/src/models.ts#L1070
     staticFilters?: <filters array>,      // an array of PowerBIReportEmbedSimpleFilter and/or PowerBIReportEmbedMultipleFilter from @cosmotech/core dependency         
@@ -41,7 +41,7 @@ Here is the list of all available scenario filters:
 - SCENARIO_CSM_SIMULATION_RUN       // The current last run scenario id
 - SCENARIO_STATE                    // The current scenario state
 - SCENARIO_NAME                     // The current scenario name
-- SCENARIO_MASTER_ID                // The current scenario master id (the id of the corresponding root scenario in the scenario tree)
+- SCENARIO_MASTER_ID                // The current scenario master id (the id of the corresponding root scenario in the scenario tree) 
 - SCENARIO_PARENT_ID                // The current scenario parent id (the id of the direct parent scenario in the scenario tree)
 - SCENARIO_OWNER_ID                 // The current scenario owner id
 - SCENARIO_SOLUTION_ID              // The current scenario solution id
@@ -88,8 +88,8 @@ new PowerBIReportEmbedSimpleFilter('Simulation', 'id', 5)
 [
   {
     title: {
-      fr: 'Exemple de rapport 1',
-      en: 'Report sample 1'
+        en: 'Scenario report',
+        fr: 'Rapport du Scenario'
     },
     reportId: '608b7bef-f5e3-4aae-b8db-19bbb38325d5',
     settings: {
@@ -114,4 +114,11 @@ new PowerBIReportEmbedSimpleFilter('Simulation', 'id', 5)
   }
 ]
 ```
+
+## Report page size recommendation for Scenario View iframe
+* Select option: View > fit to page
+* Select Format > Page size > Custom
+  * Width: 1580 px
+  * Height: 350 px
+
 
