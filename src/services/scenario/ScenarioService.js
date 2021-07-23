@@ -30,6 +30,7 @@ function findScenarioById (organizationId, workspaceId, scenarioId) {
 function createScenario (organizationId, workspaceId, scenario) {
   return new Promise((resolve) => {
     ScenarioApi.createScenario(organizationId, workspaceId, scenario, (error, data, response) => {
+      data.parametersValues = formatParametersFromApi(data.parametersValues);
       resolve({ error, data, response });
     });
   });
