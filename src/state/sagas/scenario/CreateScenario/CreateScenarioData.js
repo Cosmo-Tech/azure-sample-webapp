@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { put, takeEvery, call } from 'redux-saga/effects';
+import { ScenarioRunUtils } from '@cosmotech/core';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { STATUSES } from '../../../commons/Constants';
 import { ORGANIZATION_ID } from '../../../../configs/App.config';
@@ -13,6 +14,7 @@ export function * createScenario (action) {
   try { // yield keyword is here to milestone and save the action
     const workspaceId = action.workspaceId;
     const createdScenario = yield call([ScenarioApi, 'createScenario'], ORGANIZATION_ID, workspaceId, action.scenario);
+    createdScenario.parametersValues = ScenarioRunUtils.formatParametersFromApi(createdScenario.parametersValues);
 
     yield call(getAllScenariosData, workspaceId);
     // Here is an effect named put that indicate to the middleware that it can dispatch a SET_CURRENT_SCENARIO action with list as payload
