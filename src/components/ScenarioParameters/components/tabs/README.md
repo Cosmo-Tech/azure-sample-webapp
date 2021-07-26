@@ -51,7 +51,7 @@ const [nbWaitersFile, setNbWaitersFile] = useState({
   file: null,
   status: UPLOAD_FILE_STATUS_KEY.EMPTY
 });
-const nbWaitersDataset = useRef({});
+const [nbWaitersDataset, setNbWaitersDataset]  = useState({});
 const [nbWaitersDatasetId, setNbWaitersDatasetId] = useState('');
 ```
 
@@ -74,15 +74,15 @@ if (resetFile) {
 
 - Send data to backend:
 ```
-const getParametersDataForApi = (runTemplateId) => {
+const getParametersDataForApi = (newDataset, runTemplateId) => {
   ...
   if (<array of run templates that display this new upload file tab>.indexOf(runTemplateId) !== -1) {
-    if (nbWaitersDataset.current && Object.keys(nbWaitersDataset.current).length !== 0) {
+    if (newDataset && Object.keys(newDataset).length !== 0) {
       parametersData = parametersData.concat([
         {
           parameterId: NB_WAITERS_PARAM_ID,
           varType: DATASET_PARAM_VARTYPE,
-          value: nbWaitersDataset.current.id
+          value: newDataset.id
         }
       ]);
     }
@@ -115,7 +115,7 @@ const nbWaitersFileUploadComponent = UploadFileUtils.constructFileUpload(
   <id defined previously in ScenarioParametersTabs.config.js | type: string>,
   nbWaitersFile,
   setNbWaitersFile,
-  nbWaitersDataset,
+  nbWaitersDataset.id,
   nbWaitersDatasetId,
   NB_WAITERS_PARAM_ACCEPT_FILE_TYPE,
   editMode
