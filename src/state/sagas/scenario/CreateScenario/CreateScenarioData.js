@@ -15,7 +15,6 @@ export function * createScenario (action) {
     const workspaceId = action.workspaceId;
     const createdScenario = yield call([ScenarioApi, 'createScenario'], ORGANIZATION_ID, workspaceId, action.scenario);
     createdScenario.parametersValues = ScenarioRunUtils.formatParametersFromApi(createdScenario.parametersValues);
-
     yield call(getAllScenariosData, workspaceId);
     // Here is an effect named put that indicate to the middleware that it can dispatch a SET_CURRENT_SCENARIO action with list as payload
     yield put({
