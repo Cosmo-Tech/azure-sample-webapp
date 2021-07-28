@@ -111,13 +111,12 @@ const prepareToUpload = (event, datasetFile, setDatasetFile) => {
 };
 
 const uploadFile = async (dataset, datasetFile, setDatasetFile, workspaceId, storageFilePath) => {
-  setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.UPLOADING });
-  const overwrite = true;
-  const { error, data } = await WorkspaceService.uploadWorkspaceFile(
-    ORGANIZATION_ID, workspaceId, datasetFile.file, overwrite, storageFilePath);
-  if (error) {
-    console.error(error);
-  } else {
+  const previousState = datasetFile.status;
+  try {
+    setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.UPLOADING });
+    const overwrite = true;
+    const { data } = await WorkspaceService.uploadWorkspaceFile(
+      ORGANIZATION_ID, workspaceId, datasetFile.file, overwrite, storageFilePath);
     // Handle unlikely case where currentDataset is null or undefined
     // which is most likely to require a manual clean on the backend.
     if (!dataset) {
@@ -126,6 +125,9 @@ const uploadFile = async (dataset, datasetFile, setDatasetFile, workspaceId, sto
       updatePathInDatasetRef(dataset, STORAGE_ROOT_DIR_PLACEHOLDER + data.fileName);
     }
     setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD });
+  } catch (e) {
+    console.error(e);
+    setDatasetFile({ ...datasetFile, status: previousState });
   }
 };
 
@@ -149,7 +151,7 @@ const downloadFile = async (datasetId, datasetFile, setDatasetFile) => {
     const storageFilePath = getStorageFilePathFromDataset(data);
     if (storageFilePath !== undefined) {
       setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.DOWNLOADING });
-      await WorkspaceService.fetchWorkspaceFile(ORGANIZATION_ID, WORKSPACE_ID, storageFilePath);
+      await WorkspaceService.downloadWorkspaceFile(ORGANIZATION_ID, WORKSPACE_ID, storageFilePath);
       setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD });
     }
   }

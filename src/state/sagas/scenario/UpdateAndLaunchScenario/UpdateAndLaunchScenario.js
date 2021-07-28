@@ -4,55 +4,58 @@
 import { takeEvery, call, put } from 'redux-saga/effects';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { STATUSES } from '../../../commons/Constants';
-import { SCENARIO_RUN_STATE } from '../../../../utils/ApiUtils';
+import { formatParametersFromApi, SCENARIO_RUN_STATE } from '../../../../utils/ApiUtils';
 import { ORGANIZATION_ID } from '../../../../configs/App.config';
-import ScenarioService from '../../../../services/scenario/ScenarioService';
-import ScenarioRunService from '../../../../services/scenarioRun/ScenarioRunService';
+import { Api } from '../../../../configs/Api.config';
 
 // generators function
 export function * updateAndLaunchScenario (action) {
   const workspaceId = action.workspaceId;
   const scenarioId = action.scenarioId;
   const scenarioParameters = action.scenarioParameters;
-  // Update scenario parameters
-  yield put({
-    type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
-    data: {
-      status: STATUSES.SAVING,
-      scenario: { state: SCENARIO_RUN_STATE.RUNNING }
-    }
-  });
-  const { error: updateError, data: updateData } = yield call(
-    ScenarioService.updateScenarioParameters, ORGANIZATION_ID, workspaceId,
-    scenarioId, scenarioParameters);
-  if (updateError) {
-    console.error('Failed to update scenario parameters');
-    console.error(updateError);
+
+  try {
+    // Update scenario parameters
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
-      data: { status: STATUSES.ERROR }
+      data: {
+        status: STATUSES.SAVING,
+        scenario: { state: SCENARIO_RUN_STATE.RUNNING }
+      }
     });
-  } else {
+    const { data: updateData } = yield call(Api.Scenarios.updateScenario,
+      ORGANIZATION_ID,
+      workspaceId,
+      scenarioId,
+      { parametersValues: scenarioParameters });
+
+    updateData.parametersValues = formatParametersFromApi(updateData.parametersValues);
+
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
       data: {
         status: STATUSES.IDLE,
-        scenario: { state: SCENARIO_RUN_STATE.RUNNING, parametersValues: updateData }
+        scenario: { state: SCENARIO_RUN_STATE.RUNNING, parametersValues: updateData.parametersValues }
       }
     });
     // Launch scenario if parameters update succeeded
-    const { error: runError } = yield call(
-      ScenarioRunService.runScenario, ORGANIZATION_ID, workspaceId, scenarioId);
-    if (runError) {
-      console.error(runError);
-    } else {
-      // Start backend polling to update the scenario status
-      yield put({
-        type: SCENARIO_ACTIONS_KEY.START_SCENARIO_STATUS_POLLING,
-        workspaceId: workspaceId,
-        scenarioId: scenarioId
-      });
-    }
+    yield call(Api.ScenarioRuns.runScenario,
+      ORGANIZATION_ID,
+      workspaceId,
+      scenarioId);
+
+    // Start backend polling to update the scenario status
+    yield put({
+      type: SCENARIO_ACTIONS_KEY.START_SCENARIO_STATUS_POLLING,
+      workspaceId: workspaceId,
+      scenarioId: scenarioId
+    });
+  } catch (e) {
+    console.error(e);
+    yield put({
+      type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
+      data: { status: STATUSES.ERROR }
+    });
   }
 }
 

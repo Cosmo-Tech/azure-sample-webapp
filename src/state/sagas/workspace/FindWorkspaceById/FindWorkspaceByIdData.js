@@ -5,17 +5,16 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 import { STATUSES } from '../../../commons/Constants';
 import { WORKSPACE_ACTIONS_KEY } from '../../../commons/WorkspaceConstants';
 import { ORGANIZATION_ID } from '../../../../configs/App.config';
-import WorkspaceService from '../../../../services/workspace/WorkspaceService';
+import { Api } from '../../../../configs/Api.config';
 
 // generators function
 export function * fetchWorkspaceByIdData (workspaceId) {
-  // yield keyword is here to milestone and save the action
-  const { error, data } = yield call(WorkspaceService.findWorkspaceById, ORGANIZATION_ID, workspaceId);
-  if (error) {
-    // TODO handle error management
-  } else {
+  try { // yield keyword is here to milestone and save the action
+    const { data } = yield call(Api.Workspaces.findWorkspaceById, ORGANIZATION_ID, workspaceId);
     // Here is an effect named put that indicate to the middleware that it can dispatch a SET_CURRENT_WORKSPACE action with data as payload
     yield put({ type: WORKSPACE_ACTIONS_KEY.SET_CURRENT_WORKSPACE, data: { status: STATUSES.SUCCESS, workspace: data } });
+  } catch (e) {
+    console.error(e);
   }
 }
 

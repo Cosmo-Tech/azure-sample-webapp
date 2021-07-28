@@ -3,9 +3,8 @@
 
 import { call, put, take, takeEvery, delay, race } from 'redux-saga/effects';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
-import ScenarioService from '../../../../services/scenario/ScenarioService';
 import { ORGANIZATION_ID } from '../../../../configs/App.config';
-import API_CONFIG from '../../../../configs/Api.config';
+import API_CONFIG, { Api } from '../../../../configs/Api.config';
 
 function forgeStopPollingAction (scenarioId) {
   let actionName = SCENARIO_ACTIONS_KEY.STOP_SCENARIO_STATUS_POLLING;
@@ -19,12 +18,13 @@ export function * pollScenarioState (action) {
   while (true) {
     try {
       // Fetch data of the scenario with the provided id
-      const { error, data } = yield call(
-        ScenarioService.findScenarioById, ORGANIZATION_ID, action.workspaceId,
+      const response = yield call(Api.Scenarios.findScenarioById,
+        ORGANIZATION_ID,
+        action.workspaceId,
         action.scenarioId);
-      if (error) {
-        console.error(error); // Log error and keep trying
-      } else if (data.state === 'Failed' || data.state === 'Successful') {
+
+      const data = response.data;
+      if (data.state === 'Failed' || data.state === 'Successful') {
         // Update the scenario state in all scenario redux states
         yield put({
           type: SCENARIO_ACTIONS_KEY.UPDATE_SCENARIO,
@@ -36,7 +36,9 @@ export function * pollScenarioState (action) {
       // Wait before retrying
       yield delay(API_CONFIG.scenarioStatusPollingDelay);
     } catch (err) {
-      console.error(err); // Log error and keep trying
+      console.error(err);
+      // Stop the polling for this scenario
+      yield put(forgeStopPollingAction(action.scenarioId));
     }
   }
 }

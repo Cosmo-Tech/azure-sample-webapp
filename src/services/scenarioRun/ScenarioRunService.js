@@ -1,62 +1,34 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { CosmotechApiService } from '../../configs/Api.config';
 import fileDownload from 'js-file-download';
 import { LOG_TYPES } from './ScenarioRunConstants.js';
 import { ORGANIZATION_ID } from '../../configs/App.config';
-
-const ScenariorunApi = new CosmotechApiService.ScenariorunApi();
-
-function runScenario (organizationId, workspaceId, scenarioId) {
-  return new Promise((resolve) => {
-    ScenariorunApi.runScenario(organizationId, workspaceId, scenarioId, (error, data, response) => {
-      resolve({ error, data, response });
-    });
-  });
-}
-
-function getScenarioRuns (organizationId, workspaceId, scenarioId) {
-  return new Promise((resolve) => {
-    ScenariorunApi.getScenarioRuns(organizationId, workspaceId, scenarioId, (error, data, response) => {
-      resolve({ error, data, response });
-    });
-  });
-}
-
-function getScenarioRunCumulatedLogs (organizationId, scenarioRunId) {
-  return new Promise((resolve) => {
-    ScenariorunApi.getScenarioRunCumulatedLogs(organizationId, scenarioRunId, (error, data, response) => {
-      resolve({ error, data, response });
-    });
-  });
-}
-
-function getScenarioRunLogs (organizationId, scenarioRunId) {
-  return new Promise((resolve) => {
-    ScenariorunApi.getScenarioRunLogs(organizationId, scenarioRunId, (error, data, response) => {
-      resolve({ error, data, response });
-    });
-  });
-}
+import { Api } from '../../configs/Api.config';
 
 async function downloadCumulatedLogsFile (lastRun) {
-  const { error, data } = await getScenarioRunCumulatedLogs(ORGANIZATION_ID, lastRun.scenarioRunId);
-  if (error) {
-    console.error(error);
-  } else {
-    const blob = new Blob([data]);
-    fileDownload(blob, lastRun.scenarioRunId + '_cumulated_logs.txt');
+  try {
+    const fileName = lastRun.scenarioRunId + '_cumulated_logs.txt';
+    const { data, status } = await Api.ScenarioRuns.getScenarioRunCumulatedLogs(ORGANIZATION_ID, lastRun.scenarioRunId, { responseType: 'blob' });
+    if (status !== 200) {
+      throw new Error(`Error when fetching ${fileName}`);
+    }
+    fileDownload(data, fileName);
+  } catch (e) {
+    console.error(e);
   }
 }
 
 async function downloadLogsSimpleFile (lastRun) {
-  const { error, data } = await getScenarioRunLogs(ORGANIZATION_ID, lastRun.scenarioRunId);
-  if (error) {
-    console.error(error);
-  } else {
-    const blob = new Blob([data]);
-    fileDownload(blob, lastRun.scenarioRunId + '_simple_logs.json');
+  try {
+    const fileName = lastRun.scenarioRunId + '_simple_logs.json';
+    const { data, status } = await Api.ScenarioRuns.getScenarioRunLogs(ORGANIZATION_ID, lastRun.scenarioRunId, { responseType: 'blob' });
+    if (status !== 200) {
+      throw new Error(`Error when fetching ${fileName}`);
+    }
+    fileDownload(data, fileName);
+  } catch (e) {
+    console.error(e);
   }
 }
 
@@ -72,10 +44,6 @@ function downloadLogsFile (lastRun, logType) {
 }
 
 const ScenarioRunService = {
-  runScenario,
-  getScenarioRuns,
-  getScenarioRunCumulatedLogs,
-  getScenarioRunLogs,
   downloadLogsFile
 };
 

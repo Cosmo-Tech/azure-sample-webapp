@@ -192,13 +192,13 @@ const SignIn = ({ logInAction }) => {
                   <Grid item>
                     {
                       window.location.hostname === 'localhost' &&
-                        <Button
+                      <Button
                           color="primary"
                           onClick={event => handleSignIn(event, AuthDev.name)}
                           data-cy="sign-in-with-dev-account-button"
-                        >
-                          {t('commoncomponents.button.login.dev.account.login', 'Login with Dev account')}
-                        </Button>
+                      >
+                        {t('commoncomponents.button.login.dev.account.login', 'Login with Dev account')}
+                      </Button>
                     }
                   </Grid>
                 </Grid>

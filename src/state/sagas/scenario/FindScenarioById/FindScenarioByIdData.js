@@ -4,39 +4,34 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { STATUSES } from '../../../commons/Constants';
-import ScenarioService from '../../../../services/scenario/ScenarioService';
 import { ORGANIZATION_ID } from '../../../../configs/App.config';
-import { SCENARIO_RUN_STATE } from '../../../../utils/ApiUtils';
+import { formatParametersFromApi, SCENARIO_RUN_STATE } from '../../../../utils/ApiUtils';
+import { Api } from '../../../../configs/Api.config';
 
 // generators function
 export function * fetchScenarioByIdForInitialData (workspaceId, scenarioId) {
-  // yield keyword is here to milestone and save the action
-  const { error, data } = yield call(ScenarioService.findScenarioById, ORGANIZATION_ID, workspaceId, scenarioId);
-  if (error) {
-    // TODO handle error management
-    yield put({
-      type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
-      data: { status: STATUSES.ERROR }
-    });
-  } else {
+  try {
+    const { data } = yield call(Api.Scenarios.findScenarioById, ORGANIZATION_ID, workspaceId, scenarioId);
+    data.parametersValues = formatParametersFromApi(data.parametersValues);
     // Here is an effect named put that indicate to the middleware that it can dispatch a SET_CURRENT_SCENARIO action with data as payload
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
       data: { status: STATUSES.IDLE, scenario: data }
+    });
+  } catch (e) {
+    // TODO handle error management
+    yield put({
+      type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
+      data: { status: STATUSES.ERROR }
     });
   }
 }
 
 // generators function
 export function * fetchScenarioByIdData (action) {
-  const { error, data } = yield call(ScenarioService.findScenarioById, ORGANIZATION_ID, action.workspaceId, action.scenarioId);
-  if (error) {
-    // TODO handle error management
-    yield put({
-      type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
-      data: { status: STATUSES.ERROR }
-    });
-  } else {
+  try {
+    const { data } = yield call(Api.Scenarios.findScenarioById, ORGANIZATION_ID, action.workspaceId, action.scenarioId);
+    data.parametersValues = formatParametersFromApi(data.parametersValues);
     // Here is an effect named put that indicate to the middleware that it can dispatch a SET_CURRENT_SCENARIO action with data as payload
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
@@ -50,6 +45,12 @@ export function * fetchScenarioByIdData (action) {
         scenarioId: data.id
       });
     }
+  } catch (e) {
+    // TODO handle error management
+    yield put({
+      type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
+      data: { status: STATUSES.ERROR }
+    });
   }
 }
 
