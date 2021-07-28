@@ -23,7 +23,7 @@ function buildFileNameFromDataset (dataset, storageFilePath) {
 
 // Update AZURE_STORAGE_CONTAINER_BLOB_PREFIX in a dataset reference
 function updatePathInDatasetRef (dataset, storageFilePath) {
-  dataset.current.connector.parametersValues.AZURE_STORAGE_CONTAINER_BLOB_PREFIX = storageFilePath;
+  dataset.connector.parametersValues.AZURE_STORAGE_CONTAINER_BLOB_PREFIX = storageFilePath;
 }
 
 function createConnector (connectorId, storageFilePath) {
@@ -35,18 +35,18 @@ function createConnector (connectorId, storageFilePath) {
   };
 }
 
-async function updateDatasetPartFile (dataset, datasetFile, setDatasetFile,
+async function updateDatasetPartFile (dataset, setDataset, datasetFile, setDatasetFile,
   datasetId, setDatasetId, parameterId, connectorId, scenarioId, workspaceId) {
   if (datasetFile.status === UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD) {
-    await updateFileWithUpload(datasetFile, setDatasetFile, dataset, datasetId,
+    return await updateFileWithUpload(datasetFile, setDatasetFile, dataset, setDataset, datasetId,
       parameterId, connectorId, scenarioId, workspaceId, datasetFile.name);
   } else if (datasetFile.status === UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE) {
-    await updateFileWithDelete(datasetFile, setDatasetFile, dataset, datasetId,
+    return await updateFileWithDelete(datasetFile, setDatasetFile, dataset, setDataset, datasetId,
       setDatasetId);
   }
 }
 
-async function updateFileWithUpload (datasetFile, setDatasetFile, dataset,
+async function updateFileWithUpload (datasetFile, setDatasetFile, dataset, setDataset,
   datasetId, parameterId, connectorId, scenarioId, workspaceId, fileName) {
   /*
        FIXME:  Due to parametersValues inheritance, the workspace file deletion leads
@@ -73,25 +73,28 @@ async function updateFileWithUpload (datasetFile, setDatasetFile, dataset,
 
     if (updateError) {
       console.error(updateError);
+      return {};
     } else {
-      dataset.current = updateData;
+      setDataset(updateData);
       // File has been marked to be uploaded
       await uploadFile(dataset, datasetFile, setDatasetFile, workspaceId, datasetTargetPath);
       setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD });
+      return updateData;
     }
   }
 }
 
-async function updateFileWithDelete (datasetFile, setDatasetFile, dataset,
+async function updateFileWithDelete (datasetFile, setDatasetFile, dataset, setDataset,
   datasetId, setDatasetId) {
   /*
        FIXME:  Due to parametersValues inheritance, the workspace file deletion leads
         to incoherent state when a dataset part file is uploaded.
         For the moment, the workspace file deletion in omitted. This will be fixed in next version
   */
-  dataset.current = {};
+  setDataset({});
   setDatasetFile({ ...datasetFile, file: null, name: '', status: UPLOAD_FILE_STATUS_KEY.EMPTY });
   setDatasetId('');
+  return {};
 }
 
 const prepareToUpload = (event, datasetFile, setDatasetFile) => {
@@ -115,11 +118,11 @@ const uploadFile = async (dataset, datasetFile, setDatasetFile, workspaceId, sto
   if (error) {
     console.error(error);
   } else {
-    // Handle unlikely case where currentDataset.current is null or undefined
+    // Handle unlikely case where currentDataset is null or undefined
     // which is most likely to require a manual clean on the backend.
-    if (!dataset.current) {
+    if (!dataset) {
       console.warn('Your previous file was in an awkward state. The backend may not be clean.');
-    } else if (Object.keys(dataset.current).length !== 0) {
+    } else if (Object.keys(dataset).length !== 0) {
       updatePathInDatasetRef(dataset, STORAGE_ROOT_DIR_PLACEHOLDER + data.fileName);
     }
     setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD });
@@ -137,8 +140,7 @@ function getStorageFilePathFromDataset (data) {
   }
 }
 
-const downloadFile = async (dataset, datasetFile, setDatasetFile) => {
-  const datasetId = dataset.current.id;
+const downloadFile = async (datasetId, datasetFile, setDatasetFile) => {
   const { error, data } = await DatasetService.findDatasetById(ORGANIZATION_ID, datasetId);
   if (error) {
     console.error(error);
@@ -153,12 +155,11 @@ const downloadFile = async (dataset, datasetFile, setDatasetFile) => {
   }
 };
 
-const constructFileUpload = (key, file, setFile, currentDataset, datasetId, acceptedFileTypesToUpload, editMode) => {
+const constructFileUpload = (keyValue, file, setFile, datasetId, acceptedFileTypesToUpload, editMode) => {
   return (
-<FileUpload key={key}
+<FileUpload keyValue={keyValue}
           file={file}
           setFile={setFile}
-          currentDataset={currentDataset}
           datasetId={datasetId}
           acceptedFileTypesToUpload={acceptedFileTypesToUpload}
           editMode={editMode}
@@ -174,6 +175,39 @@ const resetUploadFile = (datasetId, file, setFile) => {
   }
 };
 
+function updateDatasetState (datasetId, file, fetchDataset, dataset, setDataset, setFile) {
+  if (datasetId !== '' &&
+      (file.status === UPLOAD_FILE_STATUS_KEY.EMPTY ||
+          file.status === UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD)) {
+    fetchDataset()
+      .then((data) => {
+        setDataset(data);
+        const fileName = UploadFileUtils.buildFileNameFromDataset(data, '');
+        setFile({
+          ...file,
+          initialName: fileName,
+          name: fileName,
+          status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+        setDataset({});
+        setFile({ ...file, name: '', status: UPLOAD_FILE_STATUS_KEY.EMPTY });
+      });
+  } else if (datasetId === '' &&
+      file.status !== UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD) {
+    setDataset({});
+    setFile({
+      ...file,
+      file: null,
+      initialName: '',
+      name: '',
+      status: UPLOAD_FILE_STATUS_KEY.EMPTY
+    });
+  }
+}
+
 export const UploadFileUtils = {
   buildFileNameFromDataset,
   downloadFile,
@@ -181,5 +215,6 @@ export const UploadFileUtils = {
   prepareToUpload,
   updateDatasetPartFile,
   constructFileUpload,
-  resetUploadFile
+  resetUploadFile,
+  updateDatasetState
 };

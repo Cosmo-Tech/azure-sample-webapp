@@ -24,6 +24,8 @@ import { BasicTypes, BarParameters } from './components/tabs';
 import { INITIAL_STOCK_PARAM_ACCEPT_FILE_TYPE, INITIAL_STOCK_PARAM_CONNECTOR_ID, INITIAL_STOCK_PARAM_ID } from './UploadFileConfig';
 import { UploadFileUtils } from './UploadFileUtils';
 import { DATASET_PARAM_VARTYPE, ScenarioParametersUtils } from './ScenarioParametersUtils';
+import DatasetService from '../../services/dataset/DatasetService';
+import { ORGANIZATION_ID } from '../../configs/App.config';
 
 const useStyles = makeStyles(theme => ({
   header: {
@@ -41,6 +43,14 @@ const useStyles = makeStyles(theme => ({
     margin: `0 ${theme.spacing(3)}px`
   }
 }));
+
+const fetchDatasetById = async (datasetId) => {
+  const { error, data } = await DatasetService.findDatasetById(ORGANIZATION_ID, datasetId);
+  if (error) {
+    throw new Error('Dataset does not exist for this organization');
+  }
+  return data;
+};
 
 const ScenarioParameters = ({
   editMode,
@@ -95,13 +105,13 @@ const ScenarioParameters = ({
     file: null,
     status: UPLOAD_FILE_STATUS_KEY.EMPTY
   });
-  const initialStockDataset = useRef({});
+
+  const [initialStockDataset, setInitialStockDataset] = useState({});
   const [initialStockDatasetId, setInitialStockDatasetId] = useState('');
 
   useEffect(() => {
     const scenarioParameters = currentScenario.data.parametersValues;
     defaultScenarioParameters.current = scenarioParameters;
-    resetParameters(false, scenarioParameters);
     const initialStockParameter = currentScenario.data?.parametersValues?.find(el => el.parameterId === INITIAL_STOCK_PARAM_ID);
     setInitialStockDatasetId(initialStockParameter?.value === undefined ? '' : initialStockParameter.value);
     // eslint-disable-next-line
@@ -111,7 +121,17 @@ const ScenarioParameters = ({
     // Reset parameters
     resetParameters(false, defaultScenarioParameters.current);
     // eslint-disable-next-line
-  }, [changeEditMode]);
+  }, [changeEditMode, currentScenario]);
+
+  useEffect(() => {
+    UploadFileUtils.updateDatasetState(initialStockDatasetId,
+      initialStockFile,
+      () => fetchDatasetById(initialStockDatasetId),
+      initialStockDataset,
+      setInitialStockDataset,
+      setInitialStockFile);
+    // eslint-disable-next-line
+  }, [initialStockDatasetId]);
 
   const resetParameters = (resetFile, parameters) => {
     // Bar parameters
@@ -134,7 +154,7 @@ const ScenarioParameters = ({
 
   // TODO Change it in by a function using parameters values
   // eslint-disable-next-line
-  const getParametersDataForApi = (runTemplateId) => {
+  const getParametersDataForApi = (newDataset, runTemplateId) => {
     let parametersData = [];
     // Add bar scenarioParameters if necessary (run templates '1' and '2')
     if (['1', '2'].indexOf(runTemplateId) !== -1) {
@@ -164,12 +184,12 @@ const ScenarioParameters = ({
       ]);
     }
     if (['1', '2', '3', '4'].indexOf(runTemplateId) !== -1) {
-      if (initialStockDataset.current && Object.keys(initialStockDataset.current).length !== 0) {
+      if (newDataset && Object.keys(newDataset).length !== 0) {
         parametersData = parametersData.concat([
           {
             parameterId: INITIAL_STOCK_PARAM_ID,
             varType: DATASET_PARAM_VARTYPE,
-            value: initialStockDataset.current.id
+            value: newDataset.id
           },
           {
             parameterId: 'initial_stock_fileName',
@@ -208,7 +228,8 @@ const ScenarioParameters = ({
   };
 
   const handleClickOnUpdateAndLaunchScenarioButton = async () => {
-    await UploadFileUtils.updateDatasetPartFile(initialStockDataset,
+    const newDataset = await UploadFileUtils.updateDatasetPartFile(initialStockDataset,
+      setInitialStockDataset,
       initialStockFile,
       setInitialStockFile,
       initialStockDatasetId,
@@ -217,7 +238,8 @@ const ScenarioParameters = ({
       INITIAL_STOCK_PARAM_CONNECTOR_ID,
       currentScenario.data.id,
       workspaceId);
-    const parametersData = getParametersDataForApi(currentScenario.data.runTemplateId);
+
+    const parametersData = getParametersDataForApi(newDataset, currentScenario.data.runTemplateId);
     defaultScenarioParameters.current = parametersData;
     updateAndLaunchScenario(workspaceId, scenarioId, parametersData);
     changeEditMode(false);
@@ -225,8 +247,7 @@ const ScenarioParameters = ({
   const fileUploadComponent = UploadFileUtils.constructFileUpload('0',
     initialStockFile,
     setInitialStockFile,
-    initialStockDataset,
-    initialStockDatasetId,
+    initialStockDataset.id,
     INITIAL_STOCK_PARAM_ACCEPT_FILE_TYPE,
     editMode);
   // Indices in this array must match indices in the tabs configuration file
