@@ -1248,26 +1248,27 @@
     superagent "^5.3.0"
 
 "@cosmotech/azure@^0.8.10":
-  version "0.8.11"
-  resolved "https://registry.yarnpkg.com/@cosmotech/azure/-/azure-0.8.11.tgz#09d53b7857915e7eafdf1ce726376cce2e04eb66"
-  integrity sha512-/4Yh8XleAveM4L5Riac5iHP1CCwdDcWzJIzYUXCgKmsEYpxWZpCOtrcLmmf1J+yK5kCVnJGQG3LIahq1LPiTMQ==
+  version "0.8.12"
+  resolved "https://registry.yarnpkg.com/@cosmotech/azure/-/azure-0.8.12.tgz#f0569ff2c5a6ceabaa70d793ffc8ccadeb8f1d81"
+  integrity sha512-MCW/y4cKjAli+VF52hQ6sc6/W630WzwDZlhKClufbjjF5V1o4ghhSuhi6EDPrFOl8o0UdlsAfrD//MBA4vZz2Q==
   dependencies:
     "@azure/msal-browser" "^2.8.0"
 
 "@cosmotech/core@^1.1.3", "@cosmotech/core@^1.1.4":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.2.0.tgz#87e2c2b4664360c93569e5766cf42482da32e69a"
-  integrity sha512-X4PQpG8fclYlwgVDK49D5q2P66q4/bsruSHaHOeJnnLHMFKkpO4pbJl5rb1O1Oi84DVSXDuliWxdsPjIlqB4pQ==
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.3.0.tgz#7fb8b16758b6cbea33b3c78c67c97e56cf0b6de9"
+  integrity sha512-JHzMV560uGSWoHOL7+djJ2vdl/hWZjVsNpIwZ8+IZu0+3MwJmLc8iVZk3wtZZ0ZUMk5ibXgUmgm3KecXXUJeyQ==
 
-"@cosmotech/ui@^0.4.7":
-  version "0.4.8"
-  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-0.4.8.tgz#80b13a606467eb34633f5512ae08fee9efff873a"
-  integrity sha512-IqWWqW0ByG9c32N5Vp2L2ecO/oZ2uihwjajBN0O9O4FaLrkXaVElFh8hElt/jwGwzQoNVQzhjqtGoQ2bt3MKUg==
+"@cosmotech/ui@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-0.5.0.tgz#d2c8939f2c4bf5c8ae3204b4de3491da483f700f"
+  integrity sha512-3zZbYyeeecIr5D50CSpYw0H+m+NZpqfoKrHuTsENBJE09+DzB0ZoyH4MZVULPtUOUeAH0BaO1thOR8GZj/1tBQ==
   dependencies:
     "@cosmotech/azure" "^0.8.10"
     "@cosmotech/core" "^1.1.3"
     "@date-io/date-fns" "^1.3.13"
     "@material-ui/pickers" "^3.3.10"
+    "@nosferatu500/react-sortable-tree" "^3.0.5"
     date-fns "^2.22.1"
     powerbi-client-react "^1.3.3"
     react-number-format "^4.5.5"
@@ -1805,6 +1806,30 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
+"@nosferatu500/react-dnd-scrollzone@^1.0.14":
+  version "1.0.14"
+  resolved "https://registry.yarnpkg.com/@nosferatu500/react-dnd-scrollzone/-/react-dnd-scrollzone-1.0.14.tgz#86dd7715bf8b49a1a29ba430a26c7ca13171e805"
+  integrity sha512-Uo62H9u0wsNI/29KKcBtkqFC2a4Z6jZwXaqJ7vKIswHTBEvBzpVImZlXMvcCHqNg216QQNr+Qq9BdPOjroY/eg==
+  dependencies:
+    hoist-non-react-statics "^3.3.2"
+    lodash.throttle "^4.1.1"
+    prop-types "^15.7.2"
+    raf "^3.4.1"
+    react-display-name "^0.2.5"
+
+"@nosferatu500/react-sortable-tree@^3.0.5":
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/@nosferatu500/react-sortable-tree/-/react-sortable-tree-3.0.5.tgz#48756ac94d9f4d031e3ee64590101ddda549a696"
+  integrity sha512-rhOuZOxhkaCU/uKf02zbJFATanqBRC7uB7vUm9DveXI4Y1yTwSRio7gvgto20mNA1M7ZOQX5eP8xKgx5Enf9ig==
+  dependencies:
+    "@nosferatu500/react-dnd-scrollzone" "^1.0.14"
+    lodash.isequal "^4.5.0"
+    prop-types "^15.7.2"
+    react-dnd "^14.0.2"
+    react-dnd-html5-backend "^14.0.0"
+    react-lifecycles-compat "^3.0.4"
+    react-virtualized "^9.22.3"
+
 "@npmcli/move-file@^1.0.1":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@npmcli/move-file/-/move-file-1.1.2.tgz#1a82c3e372f7cae9253eb66d72543d6b8685c674"
@@ -1824,6 +1849,21 @@
     native-url "^0.2.6"
     schema-utils "^2.6.5"
     source-map "^0.7.3"
+
+"@react-dnd/asap@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@react-dnd/asap/-/asap-4.0.0.tgz#b300eeed83e9801f51bd66b0337c9a6f04548651"
+  integrity sha512-0XhqJSc6pPoNnf8DhdsPHtUhRzZALVzYMTzRwV4VI6DJNJ/5xxfL9OQUwb8IH5/2x7lSf7nAZrnzUD+16VyOVQ==
+
+"@react-dnd/invariant@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@react-dnd/invariant/-/invariant-2.0.0.tgz#09d2e81cd39e0e767d7da62df9325860f24e517e"
+  integrity sha512-xL4RCQBCBDJ+GRwKTFhGUW8GXa4yoDfJrPbLblc3U09ciS+9ZJXJ3Qrcs/x2IODOdIE5kQxvMmE2UKyqUictUw==
+
+"@react-dnd/shallowequal@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@react-dnd/shallowequal/-/shallowequal-2.0.0.tgz#a3031eb54129f2c66b2753f8404266ec7bf67f0a"
+  integrity sha512-Pc/AFTdwZwEKJxFJvlxrSmGe/di+aAOBn60sremrpLo6VI/6cmiUYNNwlI5KNYttg7uypzA3ILPMPgxB2GYZEg==
 
 "@react-mock/state@^0.1.8":
   version "0.1.8"
@@ -4999,6 +5039,15 @@ dir-glob@^3.0.1:
   dependencies:
     path-type "^4.0.0"
 
+dnd-core@14.0.0:
+  version "14.0.0"
+  resolved "https://registry.yarnpkg.com/dnd-core/-/dnd-core-14.0.0.tgz#973ab3470d0a9ac5a0fa9021c4feba93ad12347d"
+  integrity sha512-wTDYKyjSqWuYw3ZG0GJ7k+UIfzxTNoZLjDrut37PbcPGNfwhlKYlPUqjAKUjOOv80izshUiqusaKgJPItXSevA==
+  dependencies:
+    "@react-dnd/asap" "^4.0.0"
+    "@react-dnd/invariant" "^2.0.0"
+    redux "^4.0.5"
+
 dns-equal@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/dns-equal/-/dns-equal-1.0.0.tgz#b39e7f1da6eb0a75ba9c17324b34753c47e0654d"
@@ -5045,7 +5094,7 @@ dom-converter@^0.2.0:
   dependencies:
     utila "~0.4"
 
-dom-helpers@^5.0.1:
+dom-helpers@^5.0.1, dom-helpers@^5.1.3:
   version "5.2.1"
   resolved "https://registry.yarnpkg.com/dom-helpers/-/dom-helpers-5.2.1.tgz#d9400536b2bf8225ad98fe052e029451ac40e902"
   integrity sha512-nRCa7CK3VTrM2NmGkIy4cbK7IZlgBE/PYMn55rrXefr5xXDP0LdtfPnblFDoVdcAfslJ7or6iqAUnx0CCGIWQA==
@@ -8528,6 +8577,11 @@ lodash.templatesettings@^4.0.0:
   dependencies:
     lodash._reinterpolate "^3.0.0"
 
+lodash.throttle@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
+  integrity sha1-wj6RtxAkKscMN/HhzaknTMOb8vQ=
+
 lodash.truncate@^4.4.2:
   version "4.4.2"
   resolved "https://registry.yarnpkg.com/lodash.truncate/-/lodash.truncate-4.4.2.tgz#5a350da0b1113b837ecfffd5812cbe58d6eae193"
@@ -10861,6 +10915,29 @@ react-dev-utils@^11.0.3:
     strip-ansi "6.0.0"
     text-table "0.2.0"
 
+react-display-name@^0.2.5:
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/react-display-name/-/react-display-name-0.2.5.tgz#304c7cbfb59ee40389d436e1a822c17fe27936c6"
+  integrity sha512-I+vcaK9t4+kypiSgaiVWAipqHRXYmZIuAiS8vzFvXHHXVigg/sMKwlRgLy6LH2i3rmP+0Vzfl5lFsFRwF1r3pg==
+
+react-dnd-html5-backend@^14.0.0:
+  version "14.0.0"
+  resolved "https://registry.yarnpkg.com/react-dnd-html5-backend/-/react-dnd-html5-backend-14.0.0.tgz#28d660a2ad1e07447c34a65cd25f7de8f1657194"
+  integrity sha512-2wAQqRFC1hbRGmk6+dKhOXsyQQOn3cN8PSZyOUeOun9J8t3tjZ7PS2+aFu7CVu2ujMDwTJR3VTwZh8pj2kCv7g==
+  dependencies:
+    dnd-core "14.0.0"
+
+react-dnd@^14.0.2:
+  version "14.0.2"
+  resolved "https://registry.yarnpkg.com/react-dnd/-/react-dnd-14.0.2.tgz#57266baec92b887301f81fa3b77f87168d159733"
+  integrity sha512-JoEL78sBCg8SzjOKMlkR70GWaPORudhWuTNqJ56lb2P8Vq0eM2+er3ZrMGiSDhOmzaRPuA9SNBz46nHCrjn11A==
+  dependencies:
+    "@react-dnd/invariant" "^2.0.0"
+    "@react-dnd/shallowequal" "^2.0.0"
+    dnd-core "14.0.0"
+    fast-deep-equal "^3.1.3"
+    hoist-non-react-statics "^3.3.2"
+
 react-dom@^17.0.1:
   version "17.0.2"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-17.0.2.tgz#ecffb6845e3ad8dbfcdc498f0d0a939736502c23"
@@ -10897,6 +10974,11 @@ react-is@^16.13.1, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
+
+react-lifecycles-compat@^3.0.4:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
+  integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
 react-lottie@^1.2.3:
   version "1.2.3"
@@ -11052,6 +11134,18 @@ react-transition-group@^4.0.0, react-transition-group@^4.4.0:
     dom-helpers "^5.0.1"
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
+
+react-virtualized@^9.22.3:
+  version "9.22.3"
+  resolved "https://registry.yarnpkg.com/react-virtualized/-/react-virtualized-9.22.3.tgz#f430f16beb0a42db420dbd4d340403c0de334421"
+  integrity sha512-MKovKMxWTcwPSxE1kK1HcheQTWfuCxAuBoSTf2gwyMM21NdX/PXUhnoP8Uc5dRKd+nKm8v41R36OellhdCpkrw==
+  dependencies:
+    "@babel/runtime" "^7.7.2"
+    clsx "^1.0.4"
+    dom-helpers "^5.1.3"
+    loose-envify "^1.4.0"
+    prop-types "^15.7.2"
+    react-lifecycles-compat "^3.0.4"
 
 react@^17.0.1:
   version "17.0.2"
