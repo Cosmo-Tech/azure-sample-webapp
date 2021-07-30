@@ -163,6 +163,16 @@
       }
     },
     "dialog": {
+      "confirm": {
+        "delete": {
+          "button": {
+            "cancel": "Cancel",
+            "confirm": "Confirm"
+          },
+          "description": "This operation is irreversible. Dataset(s) will not be removed, but the scenario parameters will be lost. If this scenario has children, they will be moved to a new parent. The new parent will be the parent of the deleted scenario.",
+          "title": "Remove selected scenario?"
+        }
+      },
       "create": {
         "scenario": {
           "text": {
