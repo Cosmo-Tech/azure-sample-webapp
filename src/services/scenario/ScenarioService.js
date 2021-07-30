@@ -36,6 +36,14 @@ function createScenario (organizationId, workspaceId, scenario) {
   });
 }
 
+function deleteScenario (organizationId, workspaceId, scenario) {
+  return new Promise((resolve) => {
+    ScenarioApi.deleteScenario(organizationId, workspaceId, scenario, (error, data, response) => {
+      resolve({ error, data, response });
+    });
+  });
+}
+
 function updateScenarioParameters (organizationId, workspaceId, scenarioId, scenarioParameters) {
   const formattedParameters = formatParametersForApi(scenarioParameters);
   return new Promise((resolve) => {
@@ -50,6 +58,7 @@ const ScenarioService = {
   findAllScenarios,
   findScenarioById,
   createScenario,
+  deleteScenario,
   updateScenarioParameters
 };
 

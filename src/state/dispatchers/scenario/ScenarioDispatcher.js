@@ -14,6 +14,10 @@ export const dispatchSetCurrentScenario = (payLoad) => ({
   ...payLoad
 });
 
+export const dispatchResetCurrentScenario = () => ({
+  type: SCENARIO_ACTIONS_KEY.RESET_CURRENT_SCENARIO
+});
+
 export const dispatchFindScenarioById = (workspaceId, scenarioId) => ({
   type: SCENARIO_ACTIONS_KEY.FIND_SCENARIO_BY_ID,
   workspaceId: workspaceId,
@@ -24,6 +28,12 @@ export const dispatchCreateScenario = (workspaceId, scenario) => ({
   type: SCENARIO_ACTIONS_KEY.CREATE_SCENARIO,
   workspaceId: workspaceId,
   scenario: scenario
+});
+
+export const dispatchDeleteScenario = (workspaceId, scenarioId) => ({
+  type: SCENARIO_ACTIONS_KEY.DELETE_SCENARIO,
+  workspaceId: workspaceId,
+  scenarioId: scenarioId
 });
 
 export const dispatchUpdateAndLaunchScenario = (workspaceId, scenarioId, scenarioParameters) => ({

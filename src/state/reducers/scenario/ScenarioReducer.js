@@ -22,7 +22,7 @@ export const scenarioListReducer = createReducer(scenarioListInitialState, (buil
     })
     .addCase(SCENARIO_ACTIONS_KEY.UPDATE_SCENARIO, (state, action) => {
       state.data = state.data.map(scenarioData => {
-        // Replace state and lastun in data for the scenario to update
+        // Replace state and lastRun in data for the scenario to update
         if (scenarioData.id === action.data.scenarioId) {
           return { ...scenarioData, state: action.data.scenarioState, lastRun: action.data.lastRun };
         }
@@ -41,6 +41,10 @@ export const currentScenarioInitialState = {
 
 export const currentScenarioReducer = createReducer(currentScenarioInitialState, (builder) => {
   builder
+    .addCase(SCENARIO_ACTIONS_KEY.RESET_CURRENT_SCENARIO, (state) => {
+      state.data = null;
+      state.status = STATUSES.IDLE;
+    })
     .addCase(SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO, (state, action) => {
       state.data = {
         ...state.data,
