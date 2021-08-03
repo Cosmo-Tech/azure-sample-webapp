@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { BasicNumberInput } from '@cosmotech/ui';
 import { useTranslation } from 'react-i18next';
 
-const BasicTypes = ({
+const BarParameters = ({
   stock,
   changeStock,
   restockQuantity,
@@ -70,7 +70,7 @@ const BasicTypes = ({
       </div>);
 };
 
-BasicTypes.propTypes = {
+BarParameters.propTypes = {
   stock: PropTypes.number.isRequired,
   changeStock: PropTypes.func.isRequired,
   restockQuantity: PropTypes.number.isRequired,
@@ -80,4 +80,4 @@ BasicTypes.propTypes = {
   editMode: PropTypes.bool.isRequired
 };
 
-export default BasicTypes;
+export default BarParameters;
