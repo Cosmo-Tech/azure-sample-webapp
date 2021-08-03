@@ -75,7 +75,7 @@ const ScenarioParametersTabs = ({
   }, [currentScenario]);
 
   return (
-    <React.Fragment>
+    <div data-cy="scenario-parameters-tabs">
     { visibleTabs.length === 0
       ? <div className={classes.placeholder}>
           { t('genericcomponent.text.scenario.parameters.placeholder', 'No parameters to edit.') }
@@ -112,7 +112,7 @@ const ScenarioParametersTabs = ({
         }
       </TabContext>
     }
-    </React.Fragment>
+    </div>
   );
 };
 

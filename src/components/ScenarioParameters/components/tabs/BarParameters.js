@@ -50,18 +50,21 @@ const BarParameters = ({
   return (
       <div>
         <BasicNumberInput
+          data-cy="stock-input"
           label={ t('genericcomponent.text.scenario.parameters.bar.stock', 'Stock') }
           changeNumberField={changeStock}
           textFieldProps={stockTextFieldProps}
           inputProps={stockInputProps}
         />
         <BasicNumberInput
+          data-cy="restock-input"
           label={ t('genericcomponent.text.scenario.parameters.bar.restock', 'Restock quantity') }
           changeNumberField={changeRestockQuantity}
           textFieldProps={restockQuantityTextFieldProps}
           inputProps={restockQuantityInputProps}
         />
         <BasicNumberInput
+          data-cy="waiters-input"
           label={ t('genericcomponent.text.scenario.parameters.bar.waiters', 'Waiters number') }
           changeNumberField={changeWaitersNumber}
           textFieldProps={waitersNumberTextFieldProps}

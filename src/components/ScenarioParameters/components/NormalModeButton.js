@@ -23,22 +23,24 @@ const NormalModeButton = ({
         <Grid container spacing={1} alignItems="center">
           <Grid item>
             <Button
-                startIcon={<EditIcon />}
-                variant="contained"
-                color="primary"
-                onClick={handleClickOnEdit}
-                disabled={editDisabled}>
-                {t('commoncomponents.button.scenario.parameters.edit', 'Edit')}
+              data-cy="edit-parameters-button"
+              startIcon={<EditIcon />}
+              variant="contained"
+              color="primary"
+              onClick={handleClickOnEdit}
+              disabled={editDisabled}>
+              {t('commoncomponents.button.scenario.parameters.edit', 'Edit')}
             </Button>
           </Grid>
           <Grid item>
             <Button
-                startIcon={<PlayCircleOutlineIcon />}
-                variant="contained"
-                color="primary"
-                onClick={handleClickOnLaunchScenario}
-                disabled={runDisabled}>
-                {t('commoncomponents.button.scenario.parameters.launch', 'Launch Scenario')}
+              data-cy="launch-scenario-button"
+              startIcon={<PlayCircleOutlineIcon />}
+              variant="contained"
+              color="primary"
+              onClick={handleClickOnLaunchScenario}
+              disabled={runDisabled}>
+              {t('commoncomponents.button.scenario.parameters.launch', 'Launch Scenario')}
             </Button>
           </Grid>
         </Grid>
