@@ -6,11 +6,12 @@ describe('Log in & log out', () => {
     // Login
     cy.visit('/');
     cy.url().should('include', '/sign-in');
-    cy.get('[data-cy=sign-in-with-dev-account-button]')
+    cy.get('[data-cy=sign-in-with-microsoft-button]')
       .click();
     cy.get('[data-cy=loading-component]').should('be.visible');
     cy.url().should('include', '/scenario');
-    cy.get('[data-cy=user-profile-menu]')
+
+    cy.get('[data-cy=user-profile-menu]', {timeout: 10_000})
       .click();
     // Logout
     cy.get('[data-cy=logout]')
