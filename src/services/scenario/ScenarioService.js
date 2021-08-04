@@ -20,8 +20,13 @@ function findAllScenarios (organizationId, workspaceId) {
 function findScenarioById (organizationId, workspaceId, scenarioId) {
   return new Promise((resolve) => {
     ScenarioApi.findScenarioById(organizationId, workspaceId, scenarioId, (error, data, response) => {
-      // Parse scenario parameters
-      data.parametersValues = formatParametersFromApi(data.parametersValues);
+      if (!data) {
+        // Data might be null if the scenario has been deleted in the meantime
+        console.warn(`Couldn't find scenario with id "${scenarioId}"`);
+      } else {
+        // Parse scenario parameters
+        data.parametersValues = formatParametersFromApi(data.parametersValues);
+      }
       resolve({ error, data, response });
     });
   });
