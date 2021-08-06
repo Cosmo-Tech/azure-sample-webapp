@@ -221,7 +221,7 @@ const SignIn = ({ logInAction }) => {
               </form>
             </div>
             <div className={classes.contentFooter}>
-              <Grid container direction="row" justify="center" alignItems="baseline">
+              <Grid container direction="row" justifyContent="center" alignItems="baseline">
                <Grid item>
                   <FormControl className={classes.formControl}>
                     <Select

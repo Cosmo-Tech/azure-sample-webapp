@@ -290,8 +290,8 @@ const ScenarioParameters = ({
 
   return (
       <div>
-        <Grid container direction="column" justify="center" alignContent="flex-start" >
-          <Grid container className={classes.root} direction="row" justify="space-between" alignContent="flex-start" spacing={5}>
+        <Grid container direction="column" justifyContent="center" alignContent="flex-start" >
+          <Grid container className={classes.root} direction="row" justifyContent="space-between" alignContent="flex-start" spacing={5}>
             <Grid item >
               <Typography variant='subtitle1'>
                 { t('genericcomponent.text.scenario.parameters.title', 'Scenario parameters') }
