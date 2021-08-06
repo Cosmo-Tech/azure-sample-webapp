@@ -11,7 +11,7 @@ In this folder you'll find several files:
 The aim of this AF is to retrieve reports information from PowerBI regarding a specific PowerBI workspace.
 Once deployed, you'll need to specify several environment variables used by the AF (Azure Portal > Static Web Apps > _name_of_your_webapp_ > Configuration).
 Here is the list of these environment variables:
-- POWER_BI_SCOPE : "https://analysis.windows.net/powerbi/api"
+- POWER_BI_SCOPE : "https://analysis.windows.net/powerbi/api/.default"
 - POWER_BI_CLIENT_ID : the client id
 - POWER_BI_WORKSPACE_ID : The Power BI workspace targeted
 - POWER_BI_AUTHORITY_URI : "https://login.microsoftonline.com/common/v2.0"
@@ -21,7 +21,7 @@ Here is the list of these environment variables:
 ## How to get the information for POWER_BI_WORKSPACE_ID
 * Everything is available in PowerBI service URL
 * You get the embedded report URL `MyReportURL`
-* The values you need to use for `POWER_BI_WORKSPACE_ID` key is group part in report `MyReportURL` 
+* The values you need to use for `POWER_BI_WORKSPACE_ID` key is group part in report `MyReportURL`
 
 _**N.B.1**_:
 - Azure Portal > App Registrations > _name_of_your_app_registration_ > Overview -> displays Application (client) id and Directory (tenant) ID
@@ -35,7 +35,7 @@ _**N.B.2**_: If you want to run the webapp locally and visualize the embedded da
 {
 "IsEncrypted": false,
     "Values": {
-    "POWER_BI_SCOPE": "https://analysis.windows.net/powerbi/api",
+    "POWER_BI_SCOPE": "https://analysis.windows.net/powerbi/api/.default",
     "POWER_BI_CLIENT_ID": "<CLIENT_ID>",
     "POWER_BI_WORKSPACE_ID": "<POWER_BI_ID>",
     "POWER_BI_AUTHORITY_URI": "https://login.microsoftonline.com/common/v2.0",
@@ -44,4 +44,3 @@ _**N.B.2**_: If you want to run the webapp locally and visualize the embedded da
     }
 }
 ```
-
