@@ -36,7 +36,7 @@ FileUpload.propTypes = {
   editMode: PropTypes.bool.isRequired,
   file: PropTypes.object.isRequired,
   setFile: PropTypes.func.isRequired,
-  datasetId: PropTypes.string.isRequired
+  datasetId: PropTypes.string
 };
 
 export default FileUpload;
