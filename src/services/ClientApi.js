@@ -9,7 +9,7 @@ const addInterceptors = (axiosInstance) => {
   axiosInstance.interceptors.request.use(
     async (request) => {
       const tokens = await Auth.acquireTokens();
-      if (tokens !== undefined && tokens.accessToken !== undefined) {
+      if (tokens?.accessToken) {
         request.headers.common.Authorization = 'Bearer ' + tokens.accessToken;
         return request;
       }

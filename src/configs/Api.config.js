@@ -8,7 +8,7 @@ import {
   SolutionApiFactory,
   WorkspaceApiFactory
 } from '@cosmotech/api-ts';
-import { clientApi } from '../services/Client.config';
+import { clientApi } from '../services/ClientApi';
 
 const DEFAULT_BASE_PATH = 'https://dev.api.cosmotech.com';
 

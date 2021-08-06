@@ -4,7 +4,7 @@
 import { takeEvery, put, delay } from 'redux-saga/effects';
 import { GET_EMBED_INFO_URL, POWER_BI_ACTIONS_KEY } from '../../../commons/PowerBIConstants';
 import { STATUSES } from '../../../commons/Constants';
-import { clientApi } from '../../../../services/Client.config';
+import { clientApi } from '../../../../services/ClientApi';
 
 // generators function
 export function * getPowerBIEmbedInfoSaga () {
