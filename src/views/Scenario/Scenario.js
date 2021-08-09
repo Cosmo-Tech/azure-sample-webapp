@@ -3,7 +3,14 @@
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Typography, Card, makeStyles } from '@material-ui/core';
+import {
+  Backdrop,
+  Card,
+  CircularProgress,
+  Grid,
+  Typography,
+  makeStyles
+} from '@material-ui/core';
 import { ScenarioParameters } from '../../components';
 import { useTranslation } from 'react-i18next';
 import {
@@ -15,10 +22,15 @@ import { NAME_VALIDATOR } from '../../utils/ValidationUtils';
 import { sortScenarioList } from '../../utils/SortScenarioListUtils';
 import { SCENARIO_DASHBOARD_CONFIG, SCENARIO_RUN_LOG_TYPE } from '../../configs/App.config';
 import ScenarioRunService from '../../services/scenarioRun/ScenarioRunService';
+import { STATUSES } from '../../state/commons/Constants';
 
 const useStyles = makeStyles(theme => ({
   root: {
     height: '100%'
+  },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff'
   },
   scenarioPanel: {
     height: '100%',
@@ -86,8 +98,13 @@ const Scenario = (props) => {
   const scenarioListLabel = noScenario
     ? null
     : t('views.scenario.dropdown.scenario.label', Scenario);
+  const showBackdrop = currentScenario.status === STATUSES.LOADING;
 
   return (
+    <>
+      <Backdrop className={classes.backdrop} open={showBackdrop}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <Grid container direction="column" className={classes.mainGrid}>
         <Grid item xs={12}>
           <Grid container alignItems="center" className={classes.mainGrid}>
@@ -161,6 +178,7 @@ const Scenario = (props) => {
           </Card>
         </Grid>
       </Grid>
+    </>
   );
 };
 
