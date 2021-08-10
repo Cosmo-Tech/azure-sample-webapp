@@ -13,6 +13,14 @@ function uploadWorkspaceFile (organizationId, workspaceId, file, overwrite, dest
     destination);
 }
 
+async function previewWorkspaceFile (organizationId, workspaceId, fileName) {
+  const { data, status } = await Api.Workspaces.downloadWorkspaceFile(organizationId, workspaceId, fileName, { responseType: 'blob' });
+  if (status !== 200) {
+    throw new Error(`Error when fetching ${fileName}`);
+  }
+  return new File([data], fileName, { size: data.size, type: data.type });
+}
+
 async function downloadWorkspaceFile (organizationId, workspaceId, fileName) {
   const { data, status } = await Api.Workspaces.downloadWorkspaceFile(
     organizationId, workspaceId, fileName, { responseType: 'blob' });
@@ -24,6 +32,7 @@ async function downloadWorkspaceFile (organizationId, workspaceId, fileName) {
 
 const WorkspaceService = {
   uploadWorkspaceFile,
+  previewWorkspaceFile,
   downloadWorkspaceFile
 };
 

@@ -97,7 +97,7 @@ async function updateFileWithDelete (datasetFile, setDatasetFile, dataset, setDa
   return {};
 }
 
-const prepareToUpload = (event, datasetFile, setDatasetFile) => {
+const prepareToUpload = (event, datasetFile, setDatasetFile, setShowPreview) => {
   const file = event.target.files[0];
   if (file === undefined) {
     return;
@@ -108,6 +108,7 @@ const prepareToUpload = (event, datasetFile, setDatasetFile) => {
     name: file.name,
     status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD
   });
+  setShowPreview(true);
 };
 
 const uploadFile = async (dataset, datasetFile, setDatasetFile, workspaceId, storageFilePath) => {
@@ -131,8 +132,9 @@ const uploadFile = async (dataset, datasetFile, setDatasetFile, workspaceId, sto
   }
 };
 
-const prepareToDeleteFile = (datasetFile, setDatasetFile) => {
-  setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE });
+const prepareToDeleteFile = (datasetFile, setDatasetFile, setShowPreview) => {
+  setDatasetFile({ ...datasetFile, file: null, status: UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE });
+  setShowPreview(null);
 };
 
 function getStorageFilePathFromDataset (data) {
@@ -153,6 +155,21 @@ const downloadFile = async (datasetId, datasetFile, setDatasetFile) => {
       setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.DOWNLOADING });
       await WorkspaceService.downloadWorkspaceFile(ORGANIZATION_ID, WORKSPACE_ID, storageFilePath);
       setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD });
+    }
+  }
+};
+
+const setPreviewFile = async (datasetId, datasetFile, setDatasetFile, setShowPreview) => {
+  const { error, data } = await DatasetService.findDatasetById(ORGANIZATION_ID, datasetId);
+  if (error) {
+    console.error(error);
+    throw new Error(`Error finding dataset ${datasetId}`);
+  } else {
+    const storageFilePath = getStorageFilePathFromDataset(data);
+    if (storageFilePath !== undefined) {
+      const file = await WorkspaceService.previewWorkspaceFile(ORGANIZATION_ID, WORKSPACE_ID, storageFilePath);
+      setDatasetFile({ ...datasetFile, file: file });
+      setShowPreview(true);
     }
   }
 };
@@ -213,6 +230,7 @@ function updateDatasetState (datasetId, file, fetchDataset, dataset, setDataset,
 export const UploadFileUtils = {
   buildFileNameFromDataset,
   downloadFile,
+  setPreviewFile,
   prepareToDeleteFile,
   prepareToUpload,
   updateDatasetPartFile,
