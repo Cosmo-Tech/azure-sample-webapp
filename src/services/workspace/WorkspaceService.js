@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import fileDownload from 'js-file-download';
-import { Api } from '../../configs/Api.config';
+import { Api } from '../../services/config/Api';
 
 function uploadWorkspaceFile (organizationId, workspaceId, file, overwrite, destination) {
   return Api.Workspaces.uploadWorkspaceFile(

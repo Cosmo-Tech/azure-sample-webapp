@@ -1,6 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { Api } from '../../configs/Api.config';
+import { Api } from '../../services/config/Api';
 
 function findDatasetById (organizationId, datasetId) {
   return Api.Datasets.findDatasetById(organizationId, datasetId);

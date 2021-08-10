@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core';
 import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 import { useTranslation } from 'react-i18next';
-import { SCENARIO_PARAMETERS_TABS_CONFIG } from '../../../configs/ScenarioParametersTabs.config';
+import { SCENARIO_PARAMETERS_TABS_CONFIG } from '../../../config/ScenarioParameters';
 
 const useStyles = makeStyles(theme => ({
   tabPanel: {

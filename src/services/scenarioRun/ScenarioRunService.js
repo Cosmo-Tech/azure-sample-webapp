@@ -3,8 +3,8 @@
 
 import fileDownload from 'js-file-download';
 import { LOG_TYPES } from './ScenarioRunConstants.js';
-import { ORGANIZATION_ID } from '../../configs/App.config';
-import { Api } from '../../configs/Api.config';
+import { ORGANIZATION_ID } from '../../config/AppInstance';
+import { Api } from '../../services/config/Api';
 
 async function downloadCumulatedLogsFile (lastRun) {
   try {

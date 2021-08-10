@@ -3,8 +3,9 @@
 
 import { call, put, take, takeEvery, delay, race } from 'redux-saga/effects';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
-import { ORGANIZATION_ID } from '../../../../configs/App.config';
-import API_CONFIG, { Api } from '../../../../configs/Api.config';
+import { ORGANIZATION_ID } from '../../../../config/AppInstance';
+import { Api } from '../../../../services/config/Api';
+import { SCENARIO_STATUS_POLLING_DELAY } from '../../../../config/AppConfiguration';
 
 function forgeStopPollingAction (scenarioId) {
   let actionName = SCENARIO_ACTIONS_KEY.STOP_SCENARIO_STATUS_POLLING;
@@ -34,7 +35,7 @@ export function * pollScenarioState (action) {
         yield put(forgeStopPollingAction(action.scenarioId));
       }
       // Wait before retrying
-      yield delay(API_CONFIG.scenarioStatusPollingDelay);
+      yield delay(SCENARIO_STATUS_POLLING_DELAY);
     } catch (err) {
       console.error(err);
       // Stop the polling for this scenario

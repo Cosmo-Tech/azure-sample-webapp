@@ -3,7 +3,7 @@
 
 import React from 'react';
 import { UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
-import { ORGANIZATION_ID, WORKSPACE_ID } from '../../configs/App.config';
+import { ORGANIZATION_ID, WORKSPACE_ID } from '../../config/AppInstance';
 import { STORAGE_ROOT_DIR_PLACEHOLDER } from './UploadFileConfig';
 import DatasetService from '../../services/dataset/DatasetService';
 import WorkspaceService from '../../services/workspace/WorkspaceService';

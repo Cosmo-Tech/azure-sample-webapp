@@ -4,8 +4,8 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { SOLUTION_ACTIONS_KEY } from '../../../commons/SolutionConstants';
 import { STATUSES } from '../../../commons/Constants';
-import { ORGANIZATION_ID } from '../../../../configs/App.config';
-import { Api } from '../../../../configs/Api.config';
+import { ORGANIZATION_ID } from '../../../../config/AppInstance';
+import { Api } from '../../../../services/config/Api';
 
 export function * fetchSolutionByIdData (workspaceId, solutionId) {
   try {

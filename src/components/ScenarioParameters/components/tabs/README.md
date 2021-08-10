@@ -2,7 +2,7 @@
 
 For the whole tutorial, let's assume you need a way to upload a file that change the numbers of waiters.
 
-- Open <path_to_your_app>/src/configs/ScenarioParametersTabs.config.js
+- Open <path_to_your_app>src/config/ScenarioParameters.js
 - Add a new object in the SCENARIO_PARAMETERS_TABS_CONFIG array:
 ```
 export const SCENARIO_PARAMETERS_TABS_CONFIG = [
@@ -112,7 +112,7 @@ const handleClickOnUpdateAndLaunchScenarioButton = async () => {
 - Just before `const scenarioParametersTabs = [` construct a file upload component for nb waiters:
 ```
 const nbWaitersFileUploadComponent = UploadFileUtils.constructFileUpload(
-  <id defined previously in ScenarioParametersTabs.config.js | type: string>,
+  <id defined previously in src/config/ScenarioParameters.js | type: string>,
   nbWaitersFile,
   setNbWaitersFile,
   nbWaitersDataset.id,

@@ -6,8 +6,9 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { ApplicationInsights } from '@microsoft/applicationinsights-web';
 import './assets/scss/index.scss';
-import './configs/Auth.config.js';
-import { applicationInsightConfig, tabs } from './configs/App.config';
+import './services/config/Auth';
+import { TABS } from './AppLayout';
+import { APPLICATION_INSIGHTS_CONFIG } from './services/config/ApplicationInsights';
 import Loading from './views/Loading';
 
 const App = (props) => {
@@ -17,7 +18,7 @@ const App = (props) => {
   const { authStatus, logOutAction, logInAction } = props;
 
   useEffect(() => {
-    const appInsights = new ApplicationInsights(applicationInsightConfig);
+    const appInsights = new ApplicationInsights(APPLICATION_INSIGHTS_CONFIG);
     appInsights.loadAppInsights();
     appInsights.trackPageView();
 
@@ -37,7 +38,7 @@ const App = (props) => {
         <Loading logout={logOutAction}
           authenticated={authStatus === 'AUTHENTICATED'}
           authorized={authStatus === 'AUTHENTICATED'}
-          tabs={tabs} />
+          tabs={TABS} />
       );
 };
 

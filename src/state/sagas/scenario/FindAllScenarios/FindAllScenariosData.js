@@ -3,8 +3,8 @@
 
 import { put, takeEvery, call } from 'redux-saga/effects';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
-import { ORGANIZATION_ID } from '../../../../configs/App.config';
-import { Api } from '../../../../configs/Api.config';
+import { ORGANIZATION_ID } from '../../../../config/AppInstance';
+import { Api } from '../../../../services/config/Api';
 
 // generators function
 export function * getAllScenariosData (workspaceId) {

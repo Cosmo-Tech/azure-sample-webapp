@@ -4,9 +4,9 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { STATUSES } from '../../../commons/Constants';
-import { ORGANIZATION_ID } from '../../../../configs/App.config';
+import { ORGANIZATION_ID } from '../../../../config/AppInstance';
 import { formatParametersFromApi, SCENARIO_RUN_STATE } from '../../../../utils/ApiUtils';
-import { Api } from '../../../../configs/Api.config';
+import { Api } from '../../../../services/config/Api';
 
 export function * fetchScenarioByIdForInitialData (workspaceId, scenarioId) {
   try {

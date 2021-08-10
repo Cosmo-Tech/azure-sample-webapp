@@ -16,7 +16,7 @@ import {
   RESTOCK_PARAM,
   SCENARIO_PARAMETERS_TABS_CONFIG, START_DATE_PARAM,
   STOCK_PARAM
-} from '../../configs/ScenarioParametersTabs.config';
+} from '../../config/ScenarioParameters';
 import { EditModeButton, NormalModeButton, ScenarioParametersTabs } from './components';
 import { useTranslation } from 'react-i18next';
 import { SimpleTwoActionsDialog, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
@@ -29,7 +29,7 @@ import {
 import { UploadFileUtils } from './UploadFileUtils';
 import { DATASET_PARAM_VARTYPE, ScenarioParametersUtils } from './ScenarioParametersUtils';
 import DatasetService from '../../services/dataset/DatasetService';
-import { ORGANIZATION_ID } from '../../configs/App.config';
+import { ORGANIZATION_ID } from '../../config/AppInstance';
 
 const useStyles = makeStyles(theme => ({
   header: {
@@ -255,8 +255,7 @@ const ScenarioParameters = ({
     initialStockDataset.id,
     INITIAL_STOCK_PARAM_ACCEPT_FILE_TYPE,
     editMode);
-  // Indices in this array must match indices in the tabs configuration file
-  // configs/ScenarioParametersTabs.config.js
+  // Indices in this array must match indices in the tabs configuration file src/config/ScenarioParameters.js
   const scenarioParametersTabs = [
     fileUploadComponent,
     <BarParameters key="1"

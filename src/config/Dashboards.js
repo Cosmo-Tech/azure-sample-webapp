@@ -1,50 +1,11 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { Dashboards, Scenario, ScenarioManager } from '../views';
-import React from 'react';
-import { DistributedTracingModes } from '@microsoft/applicationinsights-web';
-import { LOG_TYPES } from '../services/scenarioRun/ScenarioRunConstants.js';
 import {
-  POWER_BI_FIELD_ENUM, PowerBIReportEmbedMultipleFilter,
-  PowerBIReportEmbedSimpleFilter
+  POWER_BI_FIELD_ENUM,
+  PowerBIReportEmbedSimpleFilter,
+  PowerBIReportEmbedMultipleFilter
 } from '@cosmotech/azure';
-
-// Tabs configuration
-export const tabs = [
-  {
-    key: 'tabs.scenario.key',
-    label: 'layouts.tabs.scenario.tab.title',
-    to: '/scenario',
-      render: () => <Scenario /> // eslint-disable-line
-  },
-  {
-    key: 'tabs.scenariomanager.key',
-    label: 'layouts.tabs.scenariomanager.tab.title',
-    to: '/scenariomanager',
-      render: () => <ScenarioManager /> // eslint-disable-line
-  },
-  {
-    key: 'tabs.dashboards.key',
-    label: 'layouts.tabs.dashboards.tab.title',
-    to: '/dashboards',
-      render: () => <Dashboards /> // eslint-disable-line
-  }
-];
-
-// Application Insight configuration
-export const applicationInsightConfig = {
-  name: 'Web Application Sample',
-  config: {
-    instrumentationKey: 'f198a852-15d8-48da-9cd0-1e6d18708489',
-    disableFetchTracking: false,
-    enableCorsCorrelation: true,
-    enableRequestHeaderTracking: true,
-    enableResponseHeaderTracking: true,
-    enableAutoRouteTracking: true,
-    distributedTracingMode: DistributedTracingModes.AI_AND_W3C
-  }
-};
 
 // For further information about settings or filters see:
 // https://github.com/microsoft/powerbi-client-react
@@ -52,7 +13,6 @@ export const applicationInsightConfig = {
 // https://github.com/microsoft/PowerBI-JavaScript
 // using
 // https://github.com/microsoft/powerbi-models
-
 export const SCENARIO_DASHBOARD_CONFIG = [
   {
     title: {
@@ -191,21 +151,4 @@ export const DASHBOARDS_LIST_CONFIG = [
       fr: 'ReportSectiond5265d03b73060af4244'
     }
   }
-
 ];
-
-// TODO Theses parameters for the V1 will be hard-coded.
-//  We will have a sort of control panel right before login where it'll be possible to switch between
-// workspace (and more)
-export const WORKSPACE_ID = 'W-rXeBwRa0PM';
-// Hardcoded value in V1
-export const ORGANIZATION_ID = 'O-gZYpnd27G7';
-
-// Log type to download
-export const SCENARIO_RUN_LOG_TYPE = LOG_TYPES.CUMULATED_LOGS;
-
-// languages
-export const applicationLanguages = {
-  en: 'English',
-  fr: 'Français'
-};

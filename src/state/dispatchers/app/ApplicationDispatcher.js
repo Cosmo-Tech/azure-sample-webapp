@@ -3,7 +3,7 @@
 
 import { APPLICATION_ACTIONS_KEY } from '../../commons/ApplicationConstants';
 import { STATUSES } from '../../commons/Constants';
-import { WORKSPACE_ID } from '../../../configs/App.config';
+import { WORKSPACE_ID } from '../../../config/AppInstance';
 
 export const dispatchSetApplicationStatus = (payLoad) => ({
   type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS,

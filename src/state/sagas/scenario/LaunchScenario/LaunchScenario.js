@@ -5,8 +5,8 @@ import { takeEvery, call, put } from 'redux-saga/effects';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { STATUSES } from '../../../commons/Constants';
 import { SCENARIO_RUN_STATE } from '../../../../utils/ApiUtils';
-import { ORGANIZATION_ID } from '../../../../configs/App.config';
-import { Api } from '../../../../configs/Api.config';
+import { ORGANIZATION_ID } from '../../../../config/AppInstance';
+import { Api } from '../../../../services/config/Api';
 
 // generators function
 export function * launchScenario (action) {

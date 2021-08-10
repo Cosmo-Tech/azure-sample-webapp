@@ -3,9 +3,9 @@
 
 import { takeEvery, call } from 'redux-saga/effects';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
-import { ORGANIZATION_ID } from '../../../../configs/App.config';
+import { ORGANIZATION_ID } from '../../../../config/AppInstance';
 import { getAllScenariosData } from '../FindAllScenarios/FindAllScenariosData';
-import { Api } from '../../../../configs/Api.config';
+import { Api } from '../../../../services/config/Api';
 
 export function * deleteScenario (action) {
   try {

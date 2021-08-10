@@ -5,7 +5,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core';
 import { ScenarioManagerTreeList } from '@cosmotech/ui';
-import { WORKSPACE_ID } from '../../configs/App.config';
+import { WORKSPACE_ID } from '../../config/AppInstance';
 
 const useStyles = makeStyles(theme => ({
   root: {

@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import { Auth } from '@cosmotech/core';
 import { PrivateRoute, UserInfo } from '@cosmotech/ui';
 import { useTranslation } from 'react-i18next';
-import { applicationLanguages } from '../../configs/App.config';
+import { LANGUAGES } from '../../config/AppConfiguration';
 
 const useStyles = makeStyles(theme => ({
   content: {
@@ -92,7 +92,7 @@ const TabLayout = props => {
           </Tabs>
           <div className={classes.rightBar}>
             <div className={classes.rightBarElement}>
-              <UserInfo documentationUrl="doc.pdf" languages={applicationLanguages}
+              <UserInfo documentationUrl="doc.pdf" languages={LANGUAGES}
                 userName={props.userName}
                 profilePictureUrl={props.userProfilePic}
                 onLogout={Auth.signOut}

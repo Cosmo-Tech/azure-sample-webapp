@@ -11,7 +11,7 @@ import {
   makeStyles
 } from '@material-ui/core';
 import { SimplePowerBIReportEmbed } from '@cosmotech/ui';
-import { DASHBOARDS_LIST_CONFIG } from '../../configs/App.config';
+import { DASHBOARDS_LIST_CONFIG } from '../../config/Dashboards';
 import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(theme => ({

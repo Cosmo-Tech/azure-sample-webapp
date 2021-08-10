@@ -4,8 +4,8 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { STATUSES } from '../../../commons/Constants';
 import { WORKSPACE_ACTIONS_KEY } from '../../../commons/WorkspaceConstants';
-import { ORGANIZATION_ID } from '../../../../configs/App.config';
-import { Api } from '../../../../configs/Api.config';
+import { ORGANIZATION_ID } from '../../../../config/AppInstance';
+import { Api } from '../../../../services/config/Api';
 
 export function * fetchWorkspaceByIdData (workspaceId) {
   try {

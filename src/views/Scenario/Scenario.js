@@ -20,7 +20,9 @@ import {
 } from '@cosmotech/ui';
 import { NAME_VALIDATOR } from '../../utils/ValidationUtils';
 import { sortScenarioList } from '../../utils/SortScenarioListUtils';
-import { SCENARIO_DASHBOARD_CONFIG, SCENARIO_RUN_LOG_TYPE } from '../../configs/App.config';
+import { LOG_TYPES } from '../../services/scenarioRun/ScenarioRunConstants.js';
+import { SCENARIO_RUN_LOG_TYPE } from '../../config/AppConfiguration';
+import { SCENARIO_DASHBOARD_CONFIG } from '../../config/Dashboards';
 import ScenarioRunService from '../../services/scenarioRun/ScenarioRunService';
 import { STATUSES } from '../../state/commons/Constants';
 
@@ -160,7 +162,7 @@ const Scenario = (props) => {
                 downloadLogsFile={() => {
                   ScenarioRunService.downloadLogsFile(
                     currentScenario.data?.lastRun,
-                    SCENARIO_RUN_LOG_TYPE);
+                    LOG_TYPES[SCENARIO_RUN_LOG_TYPE]);
                 }}/>
           </Card>
         </Grid>

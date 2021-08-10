@@ -6,7 +6,7 @@ import { Provider, connect } from 'react-redux';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import i18n from './configs/i18next.config';
+import i18n from './services/config/i18next';
 import applicationStore from './state/Store.config';
 import { BrowserRouter } from 'react-router-dom';
 import { I18nextProvider } from 'react-i18next';

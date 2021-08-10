@@ -4,12 +4,12 @@ The Dashboards view allows to embed multiple [PowerBI](https://powerbi.microsoft
 
 ## Dashboard entries structure
 To add an entry in the Dashboards view menu:
-- Open *webapp_folder*/src/configs/App.config.js
+- Open *webapp_folder*/src/Dashboards.js
 - Add a new object in the existing DASHBOARDS_LIST_CONFIG array, respecting the following pattern:
 ```
   {
     title: '<title object>',              // Dashboard's title that appears in left tabs (e.g. {en: 'title in English', fr: 'Titre en français' } )
-    reportId: <report unique id>,         // You can get the report Id in PowerBI 
+    reportId: <report unique id>,         // You can get the report Id in PowerBI
     settings: '<settings object>',        // a settings object see https://github.com/microsoft/powerbi-models/blob/0d326572c4253fd9f89b73a0d8df1ae46318a860/src/models.ts#L1070
     staticFilters?: <filters array>,      // an array of PowerBIReportEmbedSimpleFilter and/or PowerBIReportEmbedMultipleFilter from @cosmotech/core dependency         
     dynamicFilters?: <filters array>,     // an array of PowerBIReportEmbedSimpleFilter and/or PowerBIReportEmbedMultipleFilter from @cosmotech/core dependency                    
@@ -29,7 +29,7 @@ To add an entry in the Dashboards view menu:
 
 ### PowerBIReportEmbedSimpleFilter
 
-You can filter a particular field on a value using the PowerBIReportEmbedSimpleFilter class. 
+You can filter a particular field on a value using the PowerBIReportEmbedSimpleFilter class.
 For example, you want to filter the SimulationRun column of StockProbe table on the current scenario last simulation run id.
 You can add the following filter in the dynamicFilters array:
 ```javascript
@@ -75,7 +75,7 @@ See [PowerBI models](https://github.com/microsoft/powerbi-models) for further de
 
 ## How to use static filters
 
-The static filters are based on the same mechanism that dynamic filters. 
+The static filters are based on the same mechanism that dynamic filters.
 The only exception is that they are not relative to the current scenario.
 It's recommended to use them when you have a constant value that you want to use for a specific column.
 For example, let us create a dummy one that filter on Simulation with exact id to 5. If you want to do that, you can add the following filter in the staticFilters array:
@@ -114,4 +114,3 @@ new PowerBIReportEmbedSimpleFilter('Simulation', 'id', 5)
   }
 ]
 ```
-

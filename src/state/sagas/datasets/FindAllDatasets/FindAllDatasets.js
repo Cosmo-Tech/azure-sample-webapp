@@ -3,8 +3,8 @@
 
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { DATASET_ACTIONS_KEY } from '../../../commons/DatasetConstants';
-import { ORGANIZATION_ID } from '../../../../configs/App.config';
-import { Api } from '../../../../configs/Api.config';
+import { ORGANIZATION_ID } from '../../../../config/AppInstance';
+import { Api } from '../../../../services/config/Api';
 
 export function * fetchAllDatasetsData () {
   try {
