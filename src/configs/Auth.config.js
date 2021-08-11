@@ -4,10 +4,8 @@
 import { Auth, AuthDev } from '@cosmotech/core';
 import { AuthMSAL } from '@cosmotech/azure';
 
-/*
 const AZURE_CLIENT_ID = 'd104fbd6-9464-45d5-a022-83c90ad56906';
 const AZURE_TENANT_ID = 'e413b834-8be8-4822-a370-be619545cb49';
-*/
 
 // AuthMSAL configuration
 const MSAL_CONFIG = {
@@ -19,10 +17,10 @@ const MSAL_CONFIG = {
   },
   msalConfig: {
     auth: {
-      clientId: 'd104fbd6-9464-45d5-a022-83c90ad56906',
+      clientId: AZURE_CLIENT_ID,
       redirectUri: window.location.protocol + '//' + window.location.host + '/scenario',
-      authority: 'https://login.microsoftonline.com/e413b834-8be8-4822-a370-be619545cb49',
-      knownAuthorities: ['https://login.microsoftonline.com/e413b834-8be8-4822-a370-be619545cb49']
+      authority: `https://login.microsoftonline.com/${AZURE_TENANT_ID}`,
+      knownAuthorities: [`https://login.microsoftonline.com/${AZURE_TENANT_ID}`]
     },
     cache: {
       cacheLocation: 'localStorage',

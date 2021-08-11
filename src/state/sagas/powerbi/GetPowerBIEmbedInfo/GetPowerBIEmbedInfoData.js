@@ -3,8 +3,8 @@
 
 import { takeEvery, put, delay } from 'redux-saga/effects';
 import { GET_EMBED_INFO_URL, POWER_BI_ACTIONS_KEY } from '../../../commons/PowerBIConstants';
-import axios from 'axios';
 import { STATUSES } from '../../../commons/Constants';
+import { clientApi } from '../../../../services/ClientApi';
 
 // generators function
 export function * getPowerBIEmbedInfoSaga () {
@@ -12,17 +12,13 @@ export function * getPowerBIEmbedInfoSaga () {
 
   try {
     do {
-      const { error, data } = yield axios.get(GET_EMBED_INFO_URL);
+      const { data } = yield clientApi.get(GET_EMBED_INFO_URL);
 
-      if (error) {
-        console.error(error);
-      } else {
-        yield put({
-          type: POWER_BI_ACTIONS_KEY.SET_EMBED_INFO,
-          embedInfo: data,
-          status: STATUSES.SUCCESS
-        });
-      }
+      yield put({
+        type: POWER_BI_ACTIONS_KEY.SET_EMBED_INFO,
+        embedInfo: data,
+        status: STATUSES.SUCCESS
+      });
 
       tokenDelay = Date.parse(data.expiry) - Date.now() - 120000;
 

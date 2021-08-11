@@ -1,57 +1,25 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
-import { CosmotechApiService } from '../../configs/Api.config';
-
-const DatasetApi = new CosmotechApiService.DatasetApi();
-
-function findAllDatasets (organizationId) {
-  return new Promise((resolve) => {
-    DatasetApi.findAllDatasets(organizationId, (error, data, response) => {
-      resolve({ error, data, response });
-    });
-  });
-}
+import { Api } from '../../configs/Api.config';
 
 function findDatasetById (organizationId, datasetId) {
-  return new Promise((resolve) => {
-    DatasetApi.findDatasetById(organizationId, datasetId, (error, data, response) => {
-      resolve({ error, data, response });
-    });
-  });
+  return Api.Datasets.findDatasetById(organizationId, datasetId);
 }
 
 function createDataset (organizationId, name, description, connector, tags) {
-  return new Promise((resolve) => {
-    const newDataset = new CosmotechApiService.Dataset();
-    newDataset.name = name;
-    newDataset.description = description;
-    newDataset.connector = connector;
-    newDataset.tags = tags;
-    DatasetApi.createDataset(organizationId, newDataset, (error, data, response) => {
-      resolve({ error, data, response });
-    });
-  });
+  const newDataset = { name: name, description: description, connector: connector, tags: tags };
+  return Api.Datasets.createDataset(organizationId, newDataset);
 }
 
 function updateDataset (organizationId, datasetId, dataset) {
-  return new Promise((resolve) => {
-    DatasetApi.updateDataset(organizationId, datasetId, dataset, (error, data, response) => {
-      resolve({ error, data, response });
-    });
-  });
+  return Api.Datasets.updateDataset(organizationId, datasetId, dataset);
 }
 
 function deleteDataset (organizationId, datasetId) {
-  return new Promise((resolve) => {
-    DatasetApi.deleteDataset(organizationId, datasetId, (error, data, response) => {
-      resolve({ error, data, response });
-    });
-  });
+  return Api.Datasets.deleteDataset(organizationId, datasetId);
 }
 
 const DatasetService = {
-  findAllDatasets,
   findDatasetById,
   createDataset,
   updateDataset,

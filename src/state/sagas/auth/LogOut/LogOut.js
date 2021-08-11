@@ -4,12 +4,10 @@
 import { Auth } from '@cosmotech/core';
 import { takeEvery } from 'redux-saga/effects';
 import { AUTH_ACTIONS_KEY } from '../../../commons/AuthConstants';
-import { resetAccessToken } from '../../../../configs/Api.config';
 
 // Generator function to fetch authentication data
 export function * tryLogOut () {
   try {
-    resetAccessToken();
     yield Auth.signOut();
   } catch (error) {
     console.error(error);

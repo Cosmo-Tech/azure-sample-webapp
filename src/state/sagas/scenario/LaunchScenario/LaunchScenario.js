@@ -6,29 +6,26 @@ import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { STATUSES } from '../../../commons/Constants';
 import { SCENARIO_RUN_STATE } from '../../../../utils/ApiUtils';
 import { ORGANIZATION_ID } from '../../../../configs/App.config';
-import ScenarioRunService from '../../../../services/scenarioRun/ScenarioRunService';
+import { Api } from '../../../../configs/Api.config';
 
 // generators function
 export function * launchScenario (action) {
-  const workspaceId = action.workspaceId;
-  const scenarioId = action.scenarioId;
+  try {
+    const workspaceId = action.workspaceId;
+    const scenarioId = action.scenarioId;
 
-  // Update scenario
-  yield put({
-    type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
-    data: {
-      status: STATUSES.SAVING,
-      scenario: { state: SCENARIO_RUN_STATE.RUNNING }
-    }
-  });
+    // Update scenario
+    yield put({
+      type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
+      data: {
+        status: STATUSES.SAVING,
+        scenario: { state: SCENARIO_RUN_STATE.RUNNING }
+      }
+    });
 
-  // Launch scenario if parameters update succeeded
-  const { error: runError } = yield call(
-    ScenarioRunService.runScenario, ORGANIZATION_ID, workspaceId, scenarioId);
+    // Launch scenario if parameters update succeeded
+    yield call(Api.ScenarioRuns.runScenario, ORGANIZATION_ID, workspaceId, scenarioId);
 
-  if (runError) {
-    console.error(runError);
-  } else {
     // Update status to IDLE
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
@@ -42,6 +39,8 @@ export function * launchScenario (action) {
       workspaceId: workspaceId,
       scenarioId: scenarioId
     });
+  } catch (e) {
+    console.error(e);
   }
 }
 

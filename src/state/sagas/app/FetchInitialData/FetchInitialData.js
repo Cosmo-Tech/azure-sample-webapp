@@ -50,6 +50,7 @@ export function * fetchAllInitialData (action) {
     yield put({ type: RUN_TEMPLATE_ACTIONS_KEY.SET_RUN_TEMPLATE_LIST, data: { list: runTemplates, status: STATUSES.SUCCESS } });
     yield put({ type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS, status: STATUSES.SUCCESS });
   } catch (error) {
+    console.error(error);
     yield put({ type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS, status: STATUSES.ERROR });
   }
 }

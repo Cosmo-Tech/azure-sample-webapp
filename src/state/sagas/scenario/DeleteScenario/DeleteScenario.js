@@ -4,16 +4,16 @@
 import { takeEvery, call } from 'redux-saga/effects';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { ORGANIZATION_ID } from '../../../../configs/App.config';
-import ScenarioService from '../../../../services/scenario/ScenarioService';
 import { getAllScenariosData } from '../FindAllScenarios/FindAllScenariosData';
+import { Api } from '../../../../configs/Api.config';
 
 export function * deleteScenario (action) {
-  const workspaceId = action.workspaceId;
-  const { error } = yield call(ScenarioService.deleteScenario, ORGANIZATION_ID, workspaceId, action.scenarioId);
-  if (error) {
-    throw new Error(`Error while deleting scenario "${action.scenarioId}"`);
-  } else {
+  try {
+    const workspaceId = action.workspaceId;
+    yield call(Api.Scenarios.deleteScenario, ORGANIZATION_ID, workspaceId, action.scenarioId);
     yield call(getAllScenariosData, workspaceId);
+  } catch (e) {
+    console.error(e);
   }
 }
 
