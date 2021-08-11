@@ -53,7 +53,7 @@ You can filter a particular field on values the PowerBIReportEmbedMultipleFilter
 For example, you want to filter the id column of Simulation table on the current scenario id, parent id or master id.
 You can add the following filter in the dynamicFilters array:
 ```javascript
-new PowerBIReportEmbedSimpleFilter('Simulation', 'id', [POWER_BI_FIELD_ENUM.SCENARIO_ID,POWER_BI_FIELD_ENUM.SCENARIO_PARENT_ID,POWER_BI_FIELD_ENUM.SCENARIO_MASTER_ID])
+new PowerBIReportEmbedMultipleFilter('Simulation', 'id', [POWER_BI_FIELD_ENUM.SCENARIO_ID,POWER_BI_FIELD_ENUM.SCENARIO_PARENT_ID,POWER_BI_FIELD_ENUM.SCENARIO_MASTER_ID])
 ```
 
 ### Custom filters
