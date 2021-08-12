@@ -58,7 +58,7 @@ const PreviewUploadFile = (props) => {
 
   useEffect(() => {
     if (file.status === UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD ||
-      file.preview === 'READY_TO_DISPLAY') {
+      file.preview === UPLOAD_FILE_STATUS_KEY.READY_TO_DISPLAY) {
       readFileData(file);
     } else {
       setGridData({ columnDefs: [], rowData: [] });
@@ -68,10 +68,13 @@ const PreviewUploadFile = (props) => {
 
   return (
     <>
-      { file.preview !== 'PREVIEW_NONE' &&
+      { file.preview !== UPLOAD_FILE_STATUS_KEY.PREVIEW_NONE &&
         <>
-          { file.preview === 'PREVIEW_AVAILABLE'
-            ? <Button onClick={setPreviewFile}>
+          { file.preview === UPLOAD_FILE_STATUS_KEY.PREVIEW_AVAILABLE
+            ? <Button
+              onClick={setPreviewFile}
+              variant="contained"
+              color="primary">
                 Show Preview
               </Button>
             : <PreviewContent
@@ -121,20 +124,37 @@ PreviewContent.propTypes = {
 const BlockContent = (props) => {
   const { isCSVFile, isJsonFile, gridData, rawContent } = props;
   const notDisplayableContent = !isCSVFile && !isJsonFile;
+  // eslint-disable-next-line no-unused-vars
+  const [gridApi, setGridApi] = useState(null);
+  // eslint-disable-next-line no-unused-vars
+  const [columnApi, setColumnApi] = useState(null);
+
+  const onGridReady = (params) => {
+    setGridApi(params.api);
+    setColumnApi(params.columnApi);
+    const columnDefs = params.api.getColumnDefs();
+    for (const columnDef of columnDefs) {
+      console.log(columnDef);
+    }
+  };
+
   return (
       <>
           { isCSVFile &&
-            <div
-              id="myGrid"
-              style={{
-                height: '100%',
-                width: '100%'
-              }}
-              className="ag-theme-balham-dark">
-              <AgGridReact
-                columnDefs={gridData.columnDefs}
-                rowData={gridData.rowData}/>
-            </div>
+          <div style={{ height: '100%' }}>
+              <div
+                id="myGrid"
+                style={{
+                  height: '100%'
+                }}
+                className="ag-theme-balham-dark">
+                <AgGridReact
+                  multiSortKey={'ctrl'}
+                  onGridReady={onGridReady}
+                  columnDefs={gridData.columnDefs}
+                  rowData={gridData.rowData}/>
+              </div>
+          </div>
           }
           { isJsonFile &&
             <div>

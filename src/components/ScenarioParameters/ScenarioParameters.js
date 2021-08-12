@@ -107,7 +107,7 @@ const ScenarioParameters = ({
     initialName: '',
     name: '',
     file: null,
-    preview: 'PREVIEW_NONE',
+    preview: UPLOAD_FILE_STATUS_KEY.PREVIEW_NONE,
     status: UPLOAD_FILE_STATUS_KEY.EMPTY
   });
 
