@@ -38,7 +38,8 @@
         "cypress/assertion-before-screenshot": "warn",
         "cypress/no-force": "error",
         "cypress/no-async-tests": "error",
-        "semi": [2, "always"]
+        "semi": [2, "always"],
+        "max-len": ["error", { "code": 120 }]
     },
     "settings": {
         "react": {
