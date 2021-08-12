@@ -23,6 +23,8 @@ const constructHeaderData = (headers) => {
     header.field = rawHeader;
     header.headerClass = 'resizable-header';
     header.resizable = true;
+    header.filter = 'agTextColumnFilter';
+    header.sortable = true;
     formattedHeaders.push(header);
   });
   return formattedHeaders;
