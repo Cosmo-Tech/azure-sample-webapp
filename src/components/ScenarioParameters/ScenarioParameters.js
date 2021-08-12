@@ -21,7 +21,11 @@ import { EditModeButton, NormalModeButton, ScenarioParametersTabs } from './comp
 import { useTranslation } from 'react-i18next';
 import { SimpleTwoActionsDialog, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
 import { BasicTypes, BarParameters } from './components/tabs';
-import { INITIAL_STOCK_PARAM_ACCEPT_FILE_TYPE, INITIAL_STOCK_PARAM_CONNECTOR_ID, INITIAL_STOCK_PARAM_ID } from './UploadFileConfig';
+import {
+  INITIAL_STOCK_PARAM_ACCEPT_FILE_TYPE,
+  INITIAL_STOCK_PARAM_CONNECTOR_ID,
+  INITIAL_STOCK_PARAM_ID
+} from './UploadFileConfig';
 import { UploadFileUtils } from './UploadFileUtils';
 import { DATASET_PARAM_VARTYPE, ScenarioParametersUtils } from './ScenarioParametersUtils';
 import DatasetService from '../../services/dataset/DatasetService';
@@ -112,7 +116,8 @@ const ScenarioParameters = ({
   useEffect(() => {
     const scenarioParameters = currentScenario.data.parametersValues;
     defaultScenarioParameters.current = scenarioParameters;
-    const initialStockParameter = currentScenario.data?.parametersValues?.find(el => el.parameterId === INITIAL_STOCK_PARAM_ID);
+    const initialStockParameter = currentScenario.data?.parametersValues?.find(
+      el => el.parameterId === INITIAL_STOCK_PARAM_ID);
     setInitialStockDatasetId(initialStockParameter?.value === undefined ? '' : initialStockParameter.value);
     // eslint-disable-next-line
   }, [currentScenario]);
@@ -291,7 +296,14 @@ const ScenarioParameters = ({
   return (
       <div>
         <Grid container direction="column" justifyContent="center" alignContent="flex-start" >
-          <Grid container className={classes.root} direction="row" justifyContent="space-between" alignContent="flex-start" spacing={5}>
+          <Grid
+            container
+            className={classes.root}
+            direction="row"
+            justifyContent="space-between"
+            alignContent="flex-start"
+            spacing={5}
+          >
             <Grid item >
               <Typography variant='subtitle1'>
                 { t('genericcomponent.text.scenario.parameters.title', 'Scenario parameters') }

@@ -105,12 +105,18 @@ export const DASHBOARDS_LIST_CONFIG = [
       }
     },
     dynamicFilters: [
-      new PowerBIReportEmbedSimpleFilter('StockProbe', 'SimulationRun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
-      new PowerBIReportEmbedSimpleFilter('Bar', 'simulationrun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
-      new PowerBIReportEmbedSimpleFilter('contains_Customer', 'simulationrun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
-      new PowerBIReportEmbedSimpleFilter('arc_to_Customer', 'simulationrun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
-      new PowerBIReportEmbedSimpleFilter('parameters', 'simulationrun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
-      new PowerBIReportEmbedSimpleFilter('CustomerSatisfactionProbe', 'SimulationRun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN)
+      new PowerBIReportEmbedSimpleFilter(
+        'StockProbe', 'SimulationRun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
+      new PowerBIReportEmbedSimpleFilter(
+        'Bar', 'simulationrun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
+      new PowerBIReportEmbedSimpleFilter(
+        'contains_Customer', 'simulationrun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
+      new PowerBIReportEmbedSimpleFilter(
+        'arc_to_Customer', 'simulationrun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
+      new PowerBIReportEmbedSimpleFilter(
+        'parameters', 'simulationrun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
+      new PowerBIReportEmbedSimpleFilter(
+        'CustomerSatisfactionProbe', 'SimulationRun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN)
     ],
     pageName: {
       en: 'ReportSectionf3ef30b8ad34c9c2e8c4',
@@ -133,12 +139,18 @@ export const DASHBOARDS_LIST_CONFIG = [
       }
     },
     dynamicFilters: [
-      new PowerBIReportEmbedSimpleFilter('StockProbe', 'SimulationRun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
-      new PowerBIReportEmbedSimpleFilter('Bar', 'simulationrun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
-      new PowerBIReportEmbedSimpleFilter('contains_Customer', 'simulationrun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
-      new PowerBIReportEmbedSimpleFilter('arc_to_Customer', 'simulationrun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
-      new PowerBIReportEmbedSimpleFilter('parameters', 'simulationrun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
-      new PowerBIReportEmbedSimpleFilter('CustomerSatisfactionProbe', 'SimulationRun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN)
+      new PowerBIReportEmbedSimpleFilter(
+        'StockProbe', 'SimulationRun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
+      new PowerBIReportEmbedSimpleFilter(
+        'Bar', 'simulationrun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
+      new PowerBIReportEmbedSimpleFilter(
+        'contains_Customer', 'simulationrun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
+      new PowerBIReportEmbedSimpleFilter(
+        'arc_to_Customer', 'simulationrun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
+      new PowerBIReportEmbedSimpleFilter(
+        'parameters', 'simulationrun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
+      new PowerBIReportEmbedSimpleFilter(
+        'CustomerSatisfactionProbe', 'SimulationRun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN)
     ],
     pageName: {
       en: 'ReportSectionca125957a3f5ea936a30',
@@ -161,12 +173,18 @@ export const DASHBOARDS_LIST_CONFIG = [
       }
     },
     dynamicFilters: [
-      new PowerBIReportEmbedSimpleFilter('StockProbe', 'SimulationRun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
-      new PowerBIReportEmbedSimpleFilter('Bar', 'simulationrun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
-      new PowerBIReportEmbedSimpleFilter('contains_Customer', 'simulationrun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
-      new PowerBIReportEmbedSimpleFilter('arc_to_Customer', 'simulationrun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
-      new PowerBIReportEmbedSimpleFilter('parameters', 'simulationrun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
-      new PowerBIReportEmbedSimpleFilter('CustomerSatisfactionProbe', 'SimulationRun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN)
+      new PowerBIReportEmbedSimpleFilter(
+        'StockProbe', 'SimulationRun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
+      new PowerBIReportEmbedSimpleFilter(
+        'Bar', 'simulationrun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
+      new PowerBIReportEmbedSimpleFilter(
+        'contains_Customer', 'simulationrun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
+      new PowerBIReportEmbedSimpleFilter(
+        'arc_to_Customer', 'simulationrun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
+      new PowerBIReportEmbedSimpleFilter(
+        'parameters', 'simulationrun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
+      new PowerBIReportEmbedSimpleFilter(
+        'CustomerSatisfactionProbe', 'SimulationRun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN)
     ],
     pageName: {
       en: 'ReportSectiond5265d03b73060af4244',
@@ -177,7 +195,8 @@ export const DASHBOARDS_LIST_CONFIG = [
 ];
 
 // TODO Theses parameters for the V1 will be hard-coded.
-//  We will have a sort of control panel right before login where it'll be possible to switch between workspace (and more)
+//  We will have a sort of control panel right before login where it'll be possible to switch between
+// workspace (and more)
 export const WORKSPACE_ID = 'W-rXeBwRa0PM';
 // Hardcoded value in V1
 export const ORGANIZATION_ID = 'O-gZYpnd27G7';

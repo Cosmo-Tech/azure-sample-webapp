@@ -123,7 +123,8 @@ const Scenario = (props) => {
                 </Grid>
                 { currentScenario.data &&
                 (<Grid item xs={7}>
-                  <Typography>{ t('views.scenario.text.scenariotype')}: { currentScenario.data.runTemplateName}</Typography>
+                  <Typography>
+                    { t('views.scenario.text.scenariotype')}: { currentScenario.data.runTemplateName}</Typography>
                 </Grid>)
                 }
               </Grid>

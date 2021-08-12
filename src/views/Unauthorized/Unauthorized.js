@@ -158,7 +158,8 @@ const Unauthorized = (props) => {
                   {t('commoncomponents.text.no.permission', 'You don\'t have permission to view this page.')}
                 </Typography>
                 <Typography color="textSecondary" variant="body1">
-                  {t('commoncomponents.text.contact.get.account', 'Please contact the application administrator to activate your account.')}
+                  {t('commoncomponents.text.contact.get.account',
+                    'Please contact the application administrator to activate your account.')}
                 </Typography>
               </div>
             </div>

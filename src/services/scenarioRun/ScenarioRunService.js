@@ -9,7 +9,8 @@ import { Api } from '../../configs/Api.config';
 async function downloadCumulatedLogsFile (lastRun) {
   try {
     const fileName = lastRun.scenarioRunId + '_cumulated_logs.txt';
-    const { data, status } = await Api.ScenarioRuns.getScenarioRunCumulatedLogs(ORGANIZATION_ID, lastRun.scenarioRunId, { responseType: 'blob' });
+    const { data, status } = await Api.ScenarioRuns.getScenarioRunCumulatedLogs(
+      ORGANIZATION_ID, lastRun.scenarioRunId, { responseType: 'blob' });
     if (status !== 200) {
       throw new Error(`Error when fetching ${fileName}`);
     }
@@ -22,7 +23,8 @@ async function downloadCumulatedLogsFile (lastRun) {
 async function downloadLogsSimpleFile (lastRun) {
   try {
     const fileName = lastRun.scenarioRunId + '_simple_logs.json';
-    const { data, status } = await Api.ScenarioRuns.getScenarioRunLogs(ORGANIZATION_ID, lastRun.scenarioRunId, { responseType: 'blob' });
+    const { data, status } = await Api.ScenarioRuns.getScenarioRunLogs(
+      ORGANIZATION_ID, lastRun.scenarioRunId, { responseType: 'blob' });
     if (status !== 200) {
       throw new Error(`Error when fetching ${fileName}`);
     }

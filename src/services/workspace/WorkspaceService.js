@@ -14,7 +14,8 @@ function uploadWorkspaceFile (organizationId, workspaceId, file, overwrite, dest
 }
 
 async function downloadWorkspaceFile (organizationId, workspaceId, fileName) {
-  const { data, status } = await Api.Workspaces.downloadWorkspaceFile(organizationId, workspaceId, fileName, { responseType: 'blob' });
+  const { data, status } = await Api.Workspaces.downloadWorkspaceFile(
+    organizationId, workspaceId, fileName, { responseType: 'blob' });
   if (status !== 200) {
     throw new Error(`Error when fetching ${fileName}`);
   }

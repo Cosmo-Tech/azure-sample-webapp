@@ -24,7 +24,8 @@ async function getEmbedInfo () {
   } catch (err) {
     return {
       status: err.status,
-      error: `Error while retrieving report embed details\r\n${err.statusText}\r\nRequestId: \n${err.headers.get('requestid')}`
+      error: `Error while retrieving report embed details\r\n${err.statusText}\r\nRequestId: \n` +
+        `${err.headers.get('requestid')}`
     };
   }
 }
@@ -206,7 +207,8 @@ async function getEmbedTokenForMultipleReportsSingleWorkspace (
   const embedTokenApi = 'https://api.powerbi.com/v1.0/myorg/GenerateToken';
   const headers = await getRequestHeader();
 
-  // Generate Embed token for multiple datasets, reports and single workspace. Refer https://aka.ms/MultiResourceEmbedToken
+  // Generate Embed token for multiple datasets, reports and single workspace.
+  // Refer https://aka.ms/MultiResourceEmbedToken
   const result = await fetch(embedTokenApi, {
     method: 'POST',
     headers: headers,

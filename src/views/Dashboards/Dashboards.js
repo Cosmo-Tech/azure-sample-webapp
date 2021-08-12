@@ -44,7 +44,9 @@ const Dashboards = ({ currentScenario, scenarioList, reports }) => {
     setValue(newValue);
   };
 
-  const dashboardTitle = DASHBOARDS_LIST_CONFIG[value].title[i18n.language] === undefined ? DEFAULT_MISSING_TITLE : DASHBOARDS_LIST_CONFIG[value].title[i18n.language];
+  const dashboardTitle = DASHBOARDS_LIST_CONFIG[value].title[i18n.language] === undefined
+    ? DEFAULT_MISSING_TITLE
+    : DASHBOARDS_LIST_CONFIG[value].title[i18n.language];
 
   return (
     <Grid container className={classes.root} direction="row">
@@ -124,7 +126,9 @@ function TabPanel (props) {
 const constructDashboardTabs = (i18n) => {
   const tabs = [];
   for (const dashboardConf of DASHBOARDS_LIST_CONFIG) {
-    const dashboardTitle = dashboardConf.title[i18n.language] === undefined ? DEFAULT_MISSING_TITLE : dashboardConf.title[i18n.language];
+    const dashboardTitle = dashboardConf.title[i18n.language] === undefined
+      ? DEFAULT_MISSING_TITLE
+      : dashboardConf.title[i18n.language];
     tabs.push(<Tab key={dashboardTitle} label={dashboardTitle} {...a11yProps(dashboardConf.id)} />);
   }
   return tabs;

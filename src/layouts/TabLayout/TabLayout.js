@@ -74,41 +74,52 @@ const TabLayout = props => {
   const { t } = useTranslation();
   const location = useLocation();
 
-  return (<>
-          <AppBar className={classes.bar}>
-            <Box className={classes.barDiv}>
-              <Tabs value={location.pathname} className={classes.tabs}>
-                {tabs.map(tab => (
-                    <Tab key={tab.key} value={tab.to} label= {t(tab.label, tab.key)} component={Link} to={tab.to} className={classes.tab}/>
-                ))}
-              </Tabs>
-              <div className={classes.rightBar}>
-                <div className={classes.rightBarElement}>
-                  <UserInfo documentationUrl="doc.pdf" languages={applicationLanguages}
-                    userName={props.userName}
-                    profilePictureUrl={props.userProfilePic}
-                    onLogout={Auth.signOut}
-                  />
-                </div>
-                <div className={classes.rightBarElement}>
-                  <img alt="Cosmo Tech" height="28px" src="cosmotech.png" className={classes.logo} />
-                </div>
-              </div>
-            </Box>
-          </AppBar>
-          <Box className={classes.content}>
-            <Switch>
-              {tabs.map(tab => (
-                  <PrivateRoute key={tab.key} path={tab.to} render={tab.render}
-                                authenticated={authenticated}
-                                authorized={authorized}
-                                noAuthRedirect={signInPath}
-                                noPermRedirect={unauthorizedPath} />
-              ))}
-              <Route render={() => <Redirect to="/scenario" />} />
-            </Switch>
-          </Box>
-      </>
+  return (
+    <>
+      <AppBar className={classes.bar}>
+        <Box className={classes.barDiv}>
+          <Tabs value={location.pathname} className={classes.tabs}>
+            {tabs.map(tab => (
+              <Tab
+                key={tab.key}
+                value={tab.to}
+                label= {t(tab.label, tab.key)}
+                component={Link}
+                to={tab.to}
+                className={classes.tab}
+              />
+            ))}
+          </Tabs>
+          <div className={classes.rightBar}>
+            <div className={classes.rightBarElement}>
+              <UserInfo documentationUrl="doc.pdf" languages={applicationLanguages}
+                userName={props.userName}
+                profilePictureUrl={props.userProfilePic}
+                onLogout={Auth.signOut}
+              />
+            </div>
+            <div className={classes.rightBarElement}>
+              <img alt="Cosmo Tech" height="28px" src="cosmotech.png" className={classes.logo} />
+            </div>
+          </div>
+        </Box>
+      </AppBar>
+      <Box className={classes.content}>
+        <Switch>
+          {tabs.map(tab => (
+            <PrivateRoute
+              key={tab.key}
+              path={tab.to}
+              render={tab.render}
+              authenticated={authenticated}
+              authorized={authorized}
+              noAuthRedirect={signInPath}
+              noPermRedirect={unauthorizedPath} />
+          ))}
+          <Route render={() => <Redirect to="/scenario" />} />
+        </Switch>
+      </Box>
+    </>
   );
 };
 

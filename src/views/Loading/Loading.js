@@ -43,7 +43,8 @@ const Loading = (
   }, [authenticated, getAllInitialDataAction, setApplicationStatusAction]);
 
   const isLoading = (entityStatus) => {
-    return entityStatus.status !== STATUSES.ERROR && (entityStatus.status === STATUSES.LOADING || entityStatus.status === STATUSES.IDLE);
+    return entityStatus.status !== STATUSES.ERROR &&
+      (entityStatus.status === STATUSES.LOADING || entityStatus.status === STATUSES.IDLE);
   };
 
   const hasErrors = (entityStatus) => entityStatus.status === STATUSES.ERROR;
@@ -55,10 +56,34 @@ const Loading = (
   return (authenticated && application.status !== STATUSES.SUCCESS
     ? (<div className={classes.panel} data-cy="loading-component">
           <FadeIn delay={200}>
-            <LoadingLine titleKey={'genericcomponent.loading.line.scenario.list.title'} hasError={hasErrors(scenarioList)} isLoading={isLoading(scenarioList)} height={120} width={120}/>
-            <LoadingLine titleKey={'genericcomponent.loading.line.dataset.list.title'} hasError={hasErrors(datasetList)} isLoading={isLoading(datasetList)} height={120} width={120}/>
-            <LoadingLine titleKey={'genericcomponent.loading.line.workspace.current.title'} hasError={hasErrors(workspace)} isLoading={isLoading(workspace)} height={120} width={120}/>
-              <LoadingLine titleKey={'genericcomponent.loading.line.solution.current.title'} hasError={hasErrors(solution)} isLoading={isLoading(solution)} height={120} width={120}/>
+            <LoadingLine
+              titleKey={'genericcomponent.loading.line.scenario.list.title'}
+              hasError={hasErrors(scenarioList)}
+              isLoading={isLoading(scenarioList)}
+              height={120}
+              width={120}
+            />
+            <LoadingLine
+              titleKey={'genericcomponent.loading.line.dataset.list.title'}
+              hasError={hasErrors(datasetList)}
+              isLoading={isLoading(datasetList)}
+              height={120}
+              width={120}
+            />
+            <LoadingLine
+              titleKey={'genericcomponent.loading.line.workspace.current.title'}
+              hasError={hasErrors(workspace)}
+              isLoading={isLoading(workspace)}
+              height={120}
+              width={120}
+            />
+            <LoadingLine
+              titleKey={'genericcomponent.loading.line.solution.current.title'}
+              hasError={hasErrors(solution)}
+              isLoading={isLoading(solution)}
+              height={120}
+              width={120}
+            />
           </FadeIn>
       </div>)
     : (<Routes authenticated={authenticated} authorized={authenticated} tabs={tabs}/>)
