@@ -3,8 +3,8 @@
 
 import React, { useImperativeHandle, useState } from 'react';
 import PropTypes from 'prop-types';
-import './AgGrid.css';
 import parse from 'html-react-parser';
+import './AgGrid.css';
 
 const CSS_TOOLTIP_CLASS = 'ag-grid-row-tooltip';
 
@@ -25,7 +25,7 @@ const AgGridRowTooltip = React.forwardRef((props, ref) => {
     for (const key in data) {
       tooltip = tooltip.concat(`
       <p>
-        <span>${key} : ${data[key]}</span>
+        <span style="font-weight: bold;">${key} :</span> ${data[key]}
       </p>`);
     }
     tooltip = tooltip.concat('</div>');
