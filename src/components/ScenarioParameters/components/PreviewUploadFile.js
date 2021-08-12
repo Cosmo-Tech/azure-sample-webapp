@@ -4,13 +4,16 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { AgGridReact } from 'ag-grid-react';
-import { CircularProgress } from '@material-ui/core';
-import 'ag-grid-community/dist/styles/ag-grid.css';
-import 'ag-grid-community/dist/styles/ag-theme-balham.css';
+import { Button, CircularProgress } from '@material-ui/core';
 import { AgGridUtils } from '../AgGridUtils';
+import { UploadFileUtils } from '../UploadFileUtils';
+import { UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
+import 'ag-grid-community/dist/styles/ag-grid.css';
+import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
 const PreviewUploadFile = (props) => {
-  const { isLoading, file, showPreview, setShowPreview } = props;
+  const { file, setFile, datasetId } = props;
+  const isDownloading = file.preview === UPLOAD_FILE_STATUS_KEY.DOWNLOADING;
   const isCSVFile = file.file?.type === 'text/csv';
   const isJsonFile = file.file?.type === 'application/json';
 
@@ -19,6 +22,11 @@ const PreviewUploadFile = (props) => {
     columnDefs: [],
     rowData: []
   });
+
+  const setPreviewFile = (event) => {
+    event.preventDefault();
+    UploadFileUtils.setPreviewFile(datasetId, file, setFile);
+  };
 
   const handleContent = useCallback((reader) => {
     if (isCSVFile) {
@@ -29,7 +37,6 @@ const PreviewUploadFile = (props) => {
           columnDefs: header,
           rowData: rowData
         });
-        setShowPreview(true);
       };
     } else {
       reader.onload = function (evt) {
@@ -38,9 +45,8 @@ const PreviewUploadFile = (props) => {
     }
     reader.onerror = function (evt) {
       console.error('error reading file');
-      setShowPreview(null);
     };
-  }, [isCSVFile, setShowPreview]);
+  }, [isCSVFile]);
 
   const readFileData = useCallback((file) => {
     if (file) {
@@ -51,18 +57,48 @@ const PreviewUploadFile = (props) => {
   }, [handleContent]);
 
   useEffect(() => {
-    if (showPreview) {
+    if (file.status === UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD ||
+      file.preview === 'READY_TO_DISPLAY') {
       readFileData(file);
     } else {
       setGridData({ columnDefs: [], rowData: [] });
       setRawContent('');
     }
-  }, [file, readFileData, showPreview]);
+  }, [file, readFileData]);
 
-  console.log(gridData);
   return (
     <>
-      { isLoading
+      { file.preview !== 'PREVIEW_NONE' &&
+        <>
+          { file.preview === 'PREVIEW_AVAILABLE'
+            ? <Button onClick={setPreviewFile}>
+                Show Preview
+              </Button>
+            : <PreviewContent
+                isDownloading={isDownloading}
+                gridData={gridData}
+                isCSVFile={isCSVFile}
+                isJsonFile={isJsonFile}
+                rawContent={rawContent}/>
+          }
+        </>
+      }
+    </>
+  );
+};
+
+PreviewUploadFile.propTypes = {
+  file: PropTypes.object.isRequired,
+  setFile: PropTypes.func.isRequired,
+  datasetId: PropTypes.string.isRequired
+};
+
+const PreviewContent = (props) => {
+  const { isDownloading, gridData, isCSVFile, isJsonFile, rawContent } = props;
+
+  return (
+    <>
+      { isDownloading
         ? <CircularProgress />
         : <BlockContent
           gridData={gridData}
@@ -74,39 +110,37 @@ const PreviewUploadFile = (props) => {
   );
 };
 
-PreviewUploadFile.propTypes = {
-  file: PropTypes.object.isRequired,
-  isLoading: PropTypes.bool.isRequired,
-  setFile: PropTypes.func.isRequired,
-  showPreview: PropTypes.bool.isRequired,
-  setShowPreview: PropTypes.func.isRequired
+PreviewContent.propTypes = {
+  isDownloading: PropTypes.bool.isRequired,
+  isCSVFile: PropTypes.bool.isRequired,
+  isJsonFile: PropTypes.bool.isRequired,
+  gridData: PropTypes.object.isRequired,
+  rawContent: PropTypes.string.isRequired
 };
 
 const BlockContent = (props) => {
   const { isCSVFile, isJsonFile, gridData, rawContent } = props;
-
   const notDisplayableContent = !isCSVFile && !isJsonFile;
-
   return (
-    <>
-      { isCSVFile &&
-      <AgGridReact
-        columnDefs={gridData.columnDefs}
-        rowData={gridData.rowData}/>
-      }
-      { isJsonFile &&
-      <div>
-        <pre>
-           {rawContent}
-        </pre>
-      </div>
-      }
-      { notDisplayableContent &&
-      <div>
-        {'Content not displayable'}
-      </div>
-      }
-    </>
+      <>
+          { isCSVFile &&
+            <AgGridReact
+              columnDefs={gridData.columnDefs}
+              rowData={gridData.rowData}/>
+          }
+          { isJsonFile &&
+            <div>
+              <pre>
+                 {rawContent}
+              </pre>
+            </div>
+          }
+          { notDisplayableContent &&
+            <div>
+              {'Content not displayable'}
+            </div>
+          }
+      </>
   );
 };
 

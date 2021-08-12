@@ -107,6 +107,7 @@ const ScenarioParameters = ({
     initialName: '',
     name: '',
     file: null,
+    preview: 'PREVIEW_NONE',
     status: UPLOAD_FILE_STATUS_KEY.EMPTY
   });
 
@@ -255,6 +256,7 @@ const ScenarioParameters = ({
     initialStockDataset.id,
     INITIAL_STOCK_PARAM_ACCEPT_FILE_TYPE,
     editMode);
+
   // Indices in this array must match indices in the tabs configuration file
   // configs/ScenarioParametersTabs.config.js
   const scenarioParametersTabs = [
