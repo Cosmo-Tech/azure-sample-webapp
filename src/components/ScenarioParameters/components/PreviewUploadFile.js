@@ -73,7 +73,7 @@ const PreviewUploadFile = (props) => {
         { file.preview === UPLOAD_FILE_STATUS_KEY.PREVIEW_AVAILABLE
           ? <Button
             onClick={setPreviewFile}
-            variant="contained"
+            variant="outlined"
             color="primary">
             Show Preview
           </Button>

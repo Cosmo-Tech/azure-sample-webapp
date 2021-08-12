@@ -10,7 +10,12 @@ import PreviewUploadFile from '../PreviewUploadFile';
 
 const useStyles = makeStyles((theme) => ({
   gridContainer: {
-    height: '200px',
+    width: '100%',
+    marginBottom: '32px'
+  },
+  displayContainer: {
+    minHeight: '400px',
+    maxHeight: '600px',
     width: '100%'
   }
 }));
@@ -31,29 +36,35 @@ const FileUpload = ({
   };
 
   return (
-    <Grid container direction="row" className={classes.gridContainer}>
-      <Grid item xs={5}>
-        <UploadFile
-          key={keyValue}
-          acceptedFileTypes={acceptedFileTypesToUpload}
-          handleUploadFile={(event) =>
-            UploadFileUtils.prepareToUpload(event, file, setFile)
-          }
-          handleDeleteFile={() =>
-            UploadFileUtils.prepareToDeleteFile(file, setFile)
-          }
-          handleDownloadFile={handleDownloadFile}
-          file={file}
-          editMode={editMode}
-        />
+    <>
+      <Grid container direction="row" className={classes.gridContainer}>
+        <Grid item xs={12}>
+          <UploadFile
+            key={keyValue}
+            acceptedFileTypes={acceptedFileTypesToUpload}
+            handleUploadFile={(event) =>
+              UploadFileUtils.prepareToUpload(event, file, setFile)
+            }
+            handleDeleteFile={() =>
+              UploadFileUtils.prepareToDeleteFile(file, setFile)
+            }
+            handleDownloadFile={handleDownloadFile}
+            file={file}
+            editMode={editMode}
+          />
+        </Grid>
       </Grid>
-      <Grid item xs={7}>
+      <Grid container direction="row" className={classes.displayContainer}>
+        <Grid item xs={12}>
           <PreviewUploadFile
             setFile={setFile}
             file={file}
-            datasetId={datasetId}/>
+            datasetId={datasetId}
+          />
+        </Grid>
       </Grid>
-    </Grid>);
+    </>
+  );
 };
 
 FileUpload.propTypes = {
