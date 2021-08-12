@@ -69,22 +69,22 @@ const PreviewUploadFile = (props) => {
   return (
     <>
       { file.preview !== UPLOAD_FILE_STATUS_KEY.PREVIEW_NONE &&
-        <>
-          { file.preview === UPLOAD_FILE_STATUS_KEY.PREVIEW_AVAILABLE
-            ? <Button
-              onClick={setPreviewFile}
-              variant="contained"
-              color="primary">
-                Show Preview
-              </Button>
-            : <PreviewContent
-                isDownloading={isDownloading}
-                gridData={gridData}
-                isCSVFile={isCSVFile}
-                isJsonFile={isJsonFile}
-                rawContent={rawContent}/>
-          }
-        </>
+      <>
+        { file.preview === UPLOAD_FILE_STATUS_KEY.PREVIEW_AVAILABLE
+          ? <Button
+            onClick={setPreviewFile}
+            variant="contained"
+            color="primary">
+            Show Preview
+          </Button>
+          : <PreviewContent
+            isDownloading={isDownloading}
+            gridData={gridData}
+            isCSVFile={isCSVFile}
+            isJsonFile={isJsonFile}
+            rawContent={rawContent}/>
+        }
+      </>
       }
     </>
   );
@@ -132,45 +132,41 @@ const BlockContent = (props) => {
   const onGridReady = (params) => {
     setGridApi(params.api);
     setColumnApi(params.columnApi);
-    const columnDefs = params.api.getColumnDefs();
-    for (const columnDef of columnDefs) {
-      console.log(columnDef);
-    }
   };
 
   return (
-      <>
-          { isCSVFile &&
-          <div style={{ height: '100%' }}>
-              <div
-                id="myGrid"
-                style={{
-                  height: '100%'
-                }}
-                className="ag-theme-balham-dark">
-                <AgGridReact
-                  multiSortKey={'ctrl'}
-                  pagination={true}
-                  paginationPageSize={10}
-                  onGridReady={onGridReady}
-                  columnDefs={gridData.columnDefs}
-                  rowData={gridData.rowData}/>
-              </div>
-          </div>
-          }
-          { isJsonFile &&
-            <div>
+    <>
+      { isCSVFile &&
+      <div style={{ height: '100%' }}>
+        <div
+          id="myGrid"
+          style={{
+            height: '100%'
+          }}
+          className="ag-theme-balham-dark">
+          <AgGridReact
+            multiSortKey={'ctrl'}
+            pagination={true}
+            paginationPageSize={10}
+            onGridReady={onGridReady}
+            columnDefs={gridData.columnDefs}
+            rowData={gridData.rowData}/>
+        </div>
+      </div>
+      }
+      { isJsonFile &&
+      <div>
               <pre>
                  {rawContent}
               </pre>
-            </div>
-          }
-          { notDisplayableContent &&
-            <div>
-              {'Content not displayable'}
-            </div>
-          }
-      </>
+      </div>
+      }
+      { notDisplayableContent &&
+      <div>
+        {'Content not displayable'}
+      </div>
+      }
+    </>
   );
 };
 
