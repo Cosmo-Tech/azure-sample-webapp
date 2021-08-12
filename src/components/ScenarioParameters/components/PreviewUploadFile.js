@@ -10,6 +10,7 @@ import { UploadFileUtils } from '../UploadFileUtils';
 import { UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-balham-dark.css';
+import AgGridRowTooltip from '../AgGridRowTooltip';
 
 const PreviewUploadFile = (props) => {
   const { file, setFile, datasetId } = props;
@@ -145,10 +146,15 @@ const BlockContent = (props) => {
           }}
           className="ag-theme-balham-dark">
           <AgGridReact
+            defaultColDef={{
+              tooltipComponent: 'customTooltip'
+            }}
             multiSortKey={'ctrl'}
             pagination={true}
             paginationPageSize={10}
             onGridReady={onGridReady}
+            frameworkComponents={{ customTooltip: AgGridRowTooltip }}
+            tooltipShowDelay={0}
             columnDefs={gridData.columnDefs}
             rowData={gridData.rowData}/>
         </div>

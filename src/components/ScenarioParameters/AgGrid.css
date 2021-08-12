@@ -1,0 +1,24 @@
+.ag-grid-row-tooltip {
+    background: floralwhite;
+    color: black;
+    position: absolute;
+    width: 150px;
+    height: 300px;
+    border: 1px solid cornflowerblue;
+    overflow: hidden;
+    pointer-events: none;
+    transition: opacity 1s;
+}
+
+.ag-grid-row-tooltip.ag-tooltip-hiding {
+    opacity: 0;
+}
+
+.ag-grid-row-tooltip p {
+    margin: 5px;
+    white-space: nowrap;
+}
+
+.ag-grid-row-tooltip p:first-of-type {
+    font-weight: bold;
+}

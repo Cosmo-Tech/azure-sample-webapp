@@ -25,6 +25,7 @@ const constructHeaderData = (headers) => {
     header.resizable = true;
     header.filter = 'agTextColumnFilter';
     header.sortable = true;
+    header.tooltipField = rawHeader;
     formattedHeaders.push(header);
   });
   return formattedHeaders;

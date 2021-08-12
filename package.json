@@ -19,6 +19,7 @@
     "axios": "^0.21.1",
     "clsx": "^1.1.1",
     "csv-string": "^4.0.1",
+    "html-react-parser": "^1.2.8",
     "i18next": "^20.3.0",
     "i18next-browser-languagedetector": "^6.1.0",
     "i18next-http-backend": "^1.2.0",
