@@ -150,6 +150,8 @@ const BlockContent = (props) => {
                 className="ag-theme-balham-dark">
                 <AgGridReact
                   multiSortKey={'ctrl'}
+                  pagination={true}
+                  paginationPageSize={10}
                   onGridReady={onGridReady}
                   columnDefs={gridData.columnDefs}
                   rowData={gridData.rowData}/>
