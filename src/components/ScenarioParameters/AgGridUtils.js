@@ -21,6 +21,8 @@ const constructHeaderData = (headers) => {
     const header = {};
     header.headerName = rawHeader;
     header.field = rawHeader;
+    header.headerClass = 'resizable-header';
+    header.resizable = true;
     formattedHeaders.push(header);
   });
   return formattedHeaders;

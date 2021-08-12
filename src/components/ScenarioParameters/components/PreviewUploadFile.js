@@ -9,7 +9,7 @@ import { AgGridUtils } from '../AgGridUtils';
 import { UploadFileUtils } from '../UploadFileUtils';
 import { UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
 import 'ag-grid-community/dist/styles/ag-grid.css';
-import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
+import 'ag-grid-community/dist/styles/ag-theme-balham-dark.css';
 
 const PreviewUploadFile = (props) => {
   const { file, setFile, datasetId } = props;
@@ -124,9 +124,17 @@ const BlockContent = (props) => {
   return (
       <>
           { isCSVFile &&
-            <AgGridReact
-              columnDefs={gridData.columnDefs}
-              rowData={gridData.rowData}/>
+            <div
+              id="myGrid"
+              style={{
+                height: '100%',
+                width: '100%'
+              }}
+              className="ag-theme-balham-dark">
+              <AgGridReact
+                columnDefs={gridData.columnDefs}
+                rowData={gridData.rowData}/>
+            </div>
           }
           { isJsonFile &&
             <div>
