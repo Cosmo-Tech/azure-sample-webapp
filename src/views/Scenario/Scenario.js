@@ -105,20 +105,20 @@ const Scenario = (props) => {
       <Backdrop className={classes.backdrop} open={showBackdrop}>
         <CircularProgress color="inherit" />
       </Backdrop>
-      <Grid container direction="column" className={classes.mainGrid}>
+      <Grid data-cy="scenario-view" container direction="column" className={classes.mainGrid}>
         <Grid item xs={12}>
           <Grid container alignItems="center" className={classes.mainGrid}>
             <Grid item xs={9}>
               <Grid container spacing={0} alignItems="center" className={classes.mainGrid}>
                 <Grid item xs={5} className={classes.scenarioList}>
                   <HierarchicalComboBox
-                      value={currentScenario.data}
-                      maxCharLength={36}
-                      values={sortedScenarioList}
-                      label={scenarioListLabel}
-                      handleChange={handleScenarioChange}
-                      disabled={scenarioListDisabled}
-                      renderInputToolType={currentScenarioRenderInputToolType}
+                    value={currentScenario.data}
+                    maxCharLength={36}
+                    values={sortedScenarioList}
+                    label={scenarioListLabel}
+                    handleChange={handleScenarioChange}
+                    disabled={scenarioListDisabled}
+                    renderInputToolType={currentScenarioRenderInputToolType}
                   />
                 </Grid>
                 { currentScenario.data &&
@@ -133,17 +133,17 @@ const Scenario = (props) => {
               <Grid container spacing={0} justifyContent="flex-end" className={classes.mainGrid}>
                 <Grid item>
                   <CreateScenarioButton
-                      solution={solution}
-                      workspaceId={workspaceId}
-                      createScenario={createScenario}
-                      currentScenario={currentScenario}
-                      runTemplates={runTemplateList.data}
-                      datasets={datasetList.data}
-                      scenarios={scenarioList.data}
-                      user={user}
-                      disabled={editMode}
-                      buttonTooltip={createScenarioButtonToolType}
-                      nameValidator={NAME_VALIDATOR}
+                    solution={solution}
+                    workspaceId={workspaceId}
+                    createScenario={createScenario}
+                    currentScenario={currentScenario}
+                    runTemplates={runTemplateList.data}
+                    datasets={datasetList.data}
+                    scenarios={scenarioList.data}
+                    user={user}
+                    disabled={editMode}
+                    buttonTooltip={createScenarioButtonToolType}
+                    nameValidator={NAME_VALIDATOR}
                   />
                 </Grid>
               </Grid>

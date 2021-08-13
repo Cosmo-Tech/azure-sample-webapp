@@ -1,20 +1,29 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
+import {
+  PAGE_NAME
+} from '../../constants/TestConstants';
+import { SELECTORS } from '../../constants/IdConstants';
+
 describe('Log in & log out', () => {
-  it('can log in and log out with dev account', () => {
-    // Login
+  it('can redirect automaticaly when not log', () => {
     cy.visit('/');
-    cy.url().should('include', '/sign-in');
-    cy.get('[data-cy=sign-in-with-dev-account-button]')
-      .click();
-    cy.get('[data-cy=loading-component]').should('be.visible');
-    cy.url().should('include', '/scenario');
-    cy.get('[data-cy=user-profile-menu]')
-      .click();
+    cy.url().should('include', PAGE_NAME.SIGN_IN);
+  });
+
+  it('can log in and log out', () => {
+    cy.visit('/');
+    cy.url().should('include', PAGE_NAME.SIGN_IN);
+    // Login
+    cy.visit(PAGE_NAME.SCENARIO);
+    cy.login();
+
     // Logout
-    cy.get('[data-cy=logout]')
-      .click();
-    cy.url().should('include', '/sign-in');
+    cy.get(SELECTORS.userProfileMenu.menu).click();
+    cy.get(SELECTORS.userProfileMenu.menu).should('be.visible');
+
+    // TO DO
+    // Found a solution to allow extern redirection and so handle logout
   });
 });

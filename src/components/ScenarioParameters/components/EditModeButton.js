@@ -16,18 +16,19 @@ const EditModeButton = ({ classes, handleClickOnDiscardChange, handleClickOnUpda
         <Grid container spacing={1}>
           <Grid item>
             <Button
-                color="primary"
-                onClick={handleClickOnDiscardChange}>
-                {t('commoncomponents.button.scenario.parameters.discard', 'Discard Modifications')}
+              color="primary"
+              onClick={handleClickOnDiscardChange}>
+              {t('commoncomponents.button.scenario.parameters.discard', 'Discard Modifications')}
             </Button>
           </Grid>
           <Grid item>
             <Button
-                startIcon={<PlayCircleOutlineIcon />}
-                variant="contained"
-                color="primary"
-                onClick={handleClickOnUpdateAndLaunchScenario}>
-                {t('commoncomponents.button.scenario.parameters.update.launch', 'Update And Launch Scenario')}
+              data-cy="update-and-launch-scenario"
+              startIcon={<PlayCircleOutlineIcon />}
+              variant="contained"
+              color="primary"
+              onClick={handleClickOnUpdateAndLaunchScenario}>
+              {t('commoncomponents.button.scenario.parameters.update.launch', 'Update And Launch Scenario')}
             </Button>
           </Grid>
         </Grid>

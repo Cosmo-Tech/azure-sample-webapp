@@ -86,17 +86,20 @@ const BasicTypes = ({
   return (
     <div>
       <BasicTextInput
+        data-cy="basic-text-input"
         label='Text Field'
         changeTextField={changeTextField}
         textFieldProps={textFieldProps}
       />
       <BasicNumberInput
+        data-cy="basic-number-input"
         label='Number Field'
         changeNumberField={changeNumberField}
         textFieldProps={numberFieldsProps}
         inputProps={inputProps}
       />
       <BasicEnumTypes
+        data-cy="basic-enum-input"
         label='Enum Field'
         changeEnumField={changeEnumField}
         textFieldProps={enumFieldProps}
