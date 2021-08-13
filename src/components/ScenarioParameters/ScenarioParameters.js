@@ -15,19 +15,15 @@ import {
   NBWAITERS_PARAM,
   RESTOCK_PARAM,
   SCENARIO_PARAMETERS_TABS_CONFIG, START_DATE_PARAM,
-  STOCK_PARAM
+  STOCK_PARAM,
+  INITIAL_STOCK_PARAM
 } from '../../config/ScenarioParameters';
 import { EditModeButton, NormalModeButton, ScenarioParametersTabs } from './components';
 import { useTranslation } from 'react-i18next';
 import { SimpleTwoActionsDialog, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
 import { BasicTypes, BarParameters } from './components/tabs';
-import {
-  INITIAL_STOCK_PARAM_ACCEPT_FILE_TYPE,
-  INITIAL_STOCK_PARAM_CONNECTOR_ID,
-  INITIAL_STOCK_PARAM_ID
-} from './UploadFileConfig';
 import { UploadFileUtils } from './UploadFileUtils';
-import { DATASET_PARAM_VARTYPE, ScenarioParametersUtils } from './ScenarioParametersUtils';
+import { ScenarioParametersUtils } from './ScenarioParametersUtils';
 import DatasetService from '../../services/dataset/DatasetService';
 import { ORGANIZATION_ID } from '../../config/AppInstance';
 
@@ -102,8 +98,8 @@ const ScenarioParameters = ({
 
   // State for File Upload
   const [initialStockFile, setInitialStockFile] = useState({
-    parameterId: INITIAL_STOCK_PARAM_ID,
-    description: 'Initial stock dataset part',
+    parameterId: INITIAL_STOCK_PARAM.id,
+    description: INITIAL_STOCK_PARAM.description,
     initialName: '',
     name: '',
     file: null,
@@ -117,7 +113,7 @@ const ScenarioParameters = ({
     const scenarioParameters = currentScenario.data.parametersValues;
     defaultScenarioParameters.current = scenarioParameters;
     const initialStockParameter = currentScenario.data?.parametersValues?.find(
-      el => el.parameterId === INITIAL_STOCK_PARAM_ID);
+      el => el.parameterId === INITIAL_STOCK_PARAM.id);
     setInitialStockDatasetId(initialStockParameter?.value === undefined ? '' : initialStockParameter.value);
     // eslint-disable-next-line
   }, [currentScenario]);
@@ -192,8 +188,8 @@ const ScenarioParameters = ({
       if (newDataset && Object.keys(newDataset).length !== 0) {
         parametersData = parametersData.concat([
           {
-            parameterId: INITIAL_STOCK_PARAM_ID,
-            varType: DATASET_PARAM_VARTYPE,
+            parameterId: INITIAL_STOCK_PARAM.id,
+            varType: INITIAL_STOCK_PARAM.varType,
             value: newDataset.id
           },
           {
@@ -239,8 +235,8 @@ const ScenarioParameters = ({
       setInitialStockFile,
       initialStockDatasetId,
       setInitialStockDatasetId,
-      INITIAL_STOCK_PARAM_ID,
-      INITIAL_STOCK_PARAM_CONNECTOR_ID,
+      INITIAL_STOCK_PARAM.id,
+      INITIAL_STOCK_PARAM.connectorId,
       currentScenario.data.id,
       workspaceId);
 
@@ -253,7 +249,7 @@ const ScenarioParameters = ({
     initialStockFile,
     setInitialStockFile,
     initialStockDataset.id,
-    INITIAL_STOCK_PARAM_ACCEPT_FILE_TYPE,
+    INITIAL_STOCK_PARAM.defaultFileTypeFilter,
     editMode);
   // Indices in this array must match indices in the tabs configuration file src/config/ScenarioParameters.js
   const scenarioParametersTabs = [

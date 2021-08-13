@@ -4,10 +4,11 @@
 import React from 'react';
 import { UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
 import { ORGANIZATION_ID, WORKSPACE_ID } from '../../config/AppInstance';
-import { STORAGE_ROOT_DIR_PLACEHOLDER } from './UploadFileConfig';
 import DatasetService from '../../services/dataset/DatasetService';
 import WorkspaceService from '../../services/workspace/WorkspaceService';
 import { FileUpload } from './components/tabs';
+
+export const STORAGE_ROOT_DIR_PLACEHOLDER = '%WORKSPACE_FILE%/';
 
 // Build dataset file location in Azure Storage
 function buildStorageFilePath (datasetId, fileName) {

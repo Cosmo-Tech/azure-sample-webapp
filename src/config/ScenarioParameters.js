@@ -45,6 +45,15 @@ export const START_DATE_PARAM = {
   defaultValue: new Date('2014-08-18T21:11:54')
 };
 
+// Dataset part (file) tab parameter
+export const INITIAL_STOCK_PARAM = {
+  id: 'initial_stock_dataset',
+  description: 'Initial stock dataset part',
+  varType: '%DATASETID%',
+  connectorId: 'C-XPv4LBVGAL',
+  defaultFileTypeFilter: '.zip,.csv,.json,.xls,.xlsx'
+};
+
 // runTemplate id to name mapping :
 // '1' -> Run template with Brewery parameters
 // '2' -> Run template without parameters
