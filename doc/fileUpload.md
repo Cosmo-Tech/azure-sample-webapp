@@ -2,7 +2,7 @@
 
 For the whole tutorial, let's assume you need a way to upload a file that change the numbers of waiters.
 
-- Open <path_to_your_app>src/config/ScenarioParameters.js
+- Open [src/config/ScenarioParameters.js](../src/config/ScenarioParameters.js)
 - Add a new object in the SCENARIO_PARAMETERS_TABS_CONFIG array:
 ```
 export const SCENARIO_PARAMETERS_TABS_CONFIG = [
@@ -18,7 +18,7 @@ export const SCENARIO_PARAMETERS_TABS_CONFIG = [
 ```
 
 
-- Open <path_to_your_app>/src/components/ScenarioParameters/UploadFileConfig.js
+- Open [src/components/ScenarioParameters/UploadFileConfig.js](../src/components/ScenarioParameters/UploadFileConfig.js)
 - Add the following constants:
 ```
 // Nb waiters configuration
@@ -28,7 +28,7 @@ export const NB_WAITERS_PARAM_ACCEPT_FILE_TYPE = <accepted file types, i.e. '.cs
 ```
 
 
-- Open <path_to_your_app>/src/components/ScenarioParameters/ScenarioParameters.js
+- Open [src/components/ScenarioParameters/ScenarioParameters.js](../src/components/ScenarioParameters/ScenarioParameters.js)
 - Import previous constants:
 ```
 import {

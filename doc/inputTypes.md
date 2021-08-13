@@ -1,6 +1,6 @@
 # Add a new input field in Scenario Parameters
 
-- Open *app_folder*/src/components/ScenarioParameters/component/tabs/BasicTypes.js
+- Open [src/components/ScenarioParameters/component/tabs/BasicTypes.js](../src/components/ScenarioParameters/components/tabs/BasicTypes.js)
 - Look for the `<div>` tag directly below the `return` statement
 - Add a new input respecting the following templates
 

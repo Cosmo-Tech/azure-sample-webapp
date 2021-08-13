@@ -1,29 +1,47 @@
-# Configure Scenario view
+# Configure Dashboards view
 
-The Scenario view allows to embed multiple [PowerBI](https://powerbi.microsoft.com/fr-fr/getting-started-with-power-bi/) reports in the app.
+In the web application, the *Scenario* and *Dashboards* pages allow you to embed [PowerBI](https://powerbi.microsoft.com/fr-fr/getting-started-with-power-bi/) reports.
 
-## Scenario entry structure
-To modify entry in the Scenario view menu:
-- Open *webapp_folder*/src/config/Dashboards.js
-- Modify SCENARIO_DASHBOARD_CONFIG array, respecting the following pattern:
+The Scenario view will allow a single report, that is supposed to display the results of the currently selected
+scenario, after it has run. The Dashboards view offers a menu to let users switch between several reports, that can
+typically be used for in-depth results analysis or to compare the results of several scenarios.
+
+## Dashboards configuration
+You can configure the dashboards to be used in your webapp by exporting the constants ***SCENARIO_DASHBOARD_CONFIG***
+(for the Scenario view) and ***DASHBOARDS_LIST_CONFIG*** (for the Dashboards view) in the file
+[src/config/Dashboards.js](../src/config/Dashboards.js). Both of these constants must be lists, but the
+*SCENARIO_DASHBOARD_CONFIG* is expected to have only one element.
+
+Configuration objects inside these lists are similar for the Scenario view and for the Dashboards view:
 ```
   {
-    title: '<title object>',              // Scenario's title (not used here) (e.g. {en: 'title in English', fr: 'Titre en français' } )
-    reportId: <report unique id>,         // You can get the report Id in PowerBI
-    settings: '<settings object>',        // a settings object see https://github.com/microsoft/powerbi-models/blob/0d326572c4253fd9f89b73a0d8df1ae46318a860/src/models.ts#L1070
+    title: {                              // report title in the Dashboards view (data not used for Scenario view)
+      en: <english title>,
+      fr: <french title>
+    },
+    reportId: <report unique id>,         // report Id can be found in PowerBI, in the URL of your report
+    settings: '<settings object>',        // a settings object (see https://github.com/microsoft/powerbi-models/blob/0d326572c4253fd9f89b73a0d8df1ae46318a860/src/models.ts#L1070)
     staticFilters?: <filters array>,      // an array of PowerBIReportEmbedSimpleFilter and/or PowerBIReportEmbedMultipleFilter from @cosmotech/core dependency         
     dynamicFilters?: <filters array>,     // an array of PowerBIReportEmbedSimpleFilter and/or PowerBIReportEmbedMultipleFilter from @cosmotech/core dependency                    
     pageName: {
-      en:                                 // The report section that you want to display when current language is English
-      fr:                                 // The report section that you want to display when current language is French
+      en: <english report section id>     // the report section that you want to display when current language is English
+      fr: <french report section id>      // the report section that you want to display when current language is French
     }
   }
 ```
+
 ## How to get the information for embedding with PowerBI
-* Everything is available in PowerBI service URL
-* You get the embedded report URL `MyReportURL`
-* In PowerBI online, look at the end of your report's URL to get the section name. It should look like `/ReportSection`
-* The values you need to use for `reportId` key and `pageName` key are then: `MyReportURL?reportId=<reportId>&pageName=<pageName>`
+Everything is available in PowerBI service URL:
+* you get the embedded report URL `MyReportURL`
+* in PowerBI online, look at the end of your report's URL to get the section name. It should look like `/ReportSection`
+* the values you need to use for `reportId` key and `pageName` key are then:\
+  `MyReportURL?reportId=<reportId>&pageName=<pageName>`
+
+## Report page size recommendation for Scenario View iframe
+* Select option: View > fit to page
+* Select Format > Page size > Custom
+  * Width: 1580 px
+  * Height: 350 px
 
 ## How to use filters on the current scenario (dynamic Filter)
 
@@ -88,8 +106,8 @@ new PowerBIReportEmbedSimpleFilter('Simulation', 'id', 5)
 [
   {
     title: {
-        en: 'Scenario report',
-        fr: 'Rapport du Scenario'
+      en: 'Report sample 1'
+      fr: 'Exemple de rapport 1',
     },
     reportId: '608b7bef-f5e3-4aae-b8db-19bbb38325d5',
     settings: {
@@ -114,9 +132,3 @@ new PowerBIReportEmbedSimpleFilter('Simulation', 'id', 5)
   }
 ]
 ```
-
-## Report page size recommendation for Scenario View iframe
-* Select option: View > fit to page
-* Select Format > Page size > Custom
-  * Width: 1580 px
-  * Height: 350 px

@@ -1,7 +1,7 @@
-# Add a new tab in Scenario Parameters
+# Scenario parameters customization
+## Add a new tab in Scenario Parameters
 
-- Open <path_to_your_app>/src/components/ScenarioParameters/ScenarioParameters.js
-- Add your component in the array `scenarioParametersTabs` (look for the following variable: `const scenarioParametersTabs = [`)
+Open [src/components/ScenarioParameters/ScenarioParameters.js](../src/components/ScenarioParameters/ScenarioParameters.js) and add your component in the array `scenarioParametersTabs` (look for the following variable: `const scenarioParametersTabs = [`)
 
 ```
 const scenarioParametersTabs = [
@@ -14,8 +14,7 @@ const scenarioParametersTabs = [
 ];
 ```
 
-- Open <path_to_your_app>/src/config/ScenarioParameters.js
-- Add the config associated to your new tab
+Open [src/config/ScenarioParameters.js](../src/config/ScenarioParameters.js) and add the config associated to your new tab
 
 ```
 {
@@ -46,11 +45,14 @@ const scenarioParametersTabs = [
 
 **Note #4:** in the translation files, you may have to merge your "newtab" with other tab name translations, in case there are other tabs.
 
-
-# Remove a tab from Scenario Parameters
-- Open <path_to_your_app>/src/components/ScenarioParameters/ScenarioParameters.js
+## Remove a tab from Scenario Parameters
+- Open [src/components/ScenarioParameters/ScenarioParameters.js](../src/components/ScenarioParameters/ScenarioParameters.js)
 - Remove your component
-- Open <path_to_your_app>/src/config/ScenarioParameters.js
+- Open [src/config/ScenarioParameters.js](../src/config/ScenarioParameters.js)
 - Remove the config of your tab
 - Clean imports in ScenarioParameters, and the code no longer needed
 - Remove the keys from the translation files no longer used
+
+## Scenario paramaters input
+
+See documentation pages [Input types](inputTypes.md) and [File upload](fileUpload.md).

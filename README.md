@@ -1,28 +1,64 @@
-# Getting Started with Azure Sample Webapp
+# Azure Sample Webapp
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The ***Azure Sample Webapp*** aims to be an example of a Cosmo Tech web application based on Azure cloud technology.\
+This project demonstrates how to setup a web application with authentication, scenario management features and BI tools.
+It thus provides a fully configured solution **based on a brewery model** to illustrate the possible features.
 
-## How-to
+You can use this project as a base to build a front-end for your own Cosmo Tech solution.
 
-- Start the application locally:
-  - Run `yarn install && yarn start` in the project root folder
+# Getting Started
 
-- Configuration:
-  - [Global configuration](https://github.com/Cosmo-Tech/azure-sample-webapp/tree/main/src/config)
-  - PowerBI Iframes configuration
-    - [Scenario view iframe](https://github.com/Cosmo-Tech/azure-sample-webapp/tree/main/src/views/Scenario)
-    - [Dashboards view iframes](https://github.com/Cosmo-Tech/azure-sample-webapp/tree/main/src/views/Dashboards)
-  - [Scenario Parameters](https://github.com/Cosmo-Tech/azure-sample-webapp/tree/main/src/components/ScenarioParameters)
-    - [Input types](https://github.com/Cosmo-Tech/azure-sample-webapp/tree/main/src/components/ScenarioParameters/components)
-    - [Upload file](https://github.com/Cosmo-Tech/azure-sample-webapp/tree/main/src/components/ScenarioParameters/components/tabs)
-  - [Azure Functions](https://github.com/Cosmo-Tech/azure-sample-webapp/tree/main/api)
+## Clone this project
 
+The instructions below explain how to clone this project to build your own customized front-end for a Cosmo Tech
+solution.
+
+First, from the GitHub interface, [create a new repository](https://github.com/new/import) by importing the
+azure-sample-webapp repository.
+
+![Create a new repository in GitHub by importing the project "https://github.com/Cosmo-Tech/azure-sample-webapp"](doc/assets/github_project_import.png)
+
+This will allow you to develop your own front-end using git, and still be able to receive the new features of the
+azure-sample-webapp project.
+
+You can now use the commands below to clone and configure your github project:
+```
+# Replace by the URL of your own repository (e.g. my-org/my-project.git)
+git clone git@github.com:<YOUR_GITHUB_REPOSITORY_URL>  
+cd <YOUR REPOSITORY_NAME>
+git remote add upstream git@github.com:Cosmo-Tech/azure-sample-webapp.git
+git remote set-url upstream --push "NO"
+git fetch upstream
+```
+
+## Configure the webapp
+
+Please refer to [Webapp configuration](doc/config.md)
+
+## Start the webapp locally
+
+First, you have to start your Azure Functions, that are required for the PowerBI embed reports to work correctly, with the commands below:
+```
+cd api
+yarn install
+yarn start
+```
+
+In another terminal, you can then start the webapp with:
+```
+yarn install
+yarn start
+```
+
+Please note that the `yarn install` command is only necessary if the dependencies have not been installed, you do not
+need to use this command every time.
 
 ## Available Scripts
 
-In the project directory, you can run:
+### React scripts
+This application has been created with *create-react-app*, that provides some scripts directly in the project directory.
 
-### `yarn start`
+#### `yarn start`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
@@ -30,12 +66,12 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
-### `yarn test`
+#### `yarn test`
 
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `yarn build`
+#### `yarn build`
 
 Builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
@@ -45,17 +81,8 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-### `i18next`
+### Other scripts
+#### `i18next`
 We have defined our own i18next-parser.config.js file.
 
 Once you had launched the command `yarn install`, you'll be able to run the command `i18next` in the project root folder.
