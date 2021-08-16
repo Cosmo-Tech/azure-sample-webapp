@@ -1231,21 +1231,21 @@
     axios "^0.21.1"
 
 "@cosmotech/azure@^0.8.15":
-  version "0.8.17"
-  resolved "https://registry.yarnpkg.com/@cosmotech/azure/-/azure-0.8.17.tgz#22f9d106b159ff749bd722c7050668c9903304ae"
-  integrity sha512-DVhm/n9qvBsn6Z7+zPbpJ10gkVwZs0TTf/MTkXFOM2BxM8Vu9DvyK7vxbRgEavGQ17MYSQSqP+K2LilRCYfwkw==
+  version "0.8.18"
+  resolved "https://registry.yarnpkg.com/@cosmotech/azure/-/azure-0.8.18.tgz#22bcbcfb41813ac2c6a646ffb60147e80da81244"
+  integrity sha512-T78NMT1ha9mxJ2NR0QEVy4yPiBbgkRjite3GJtDI5pbiUhT+74tK5ZUEtyY7bLNZric4ueXHMrzwmHP5MM2YJg==
   dependencies:
     "@azure/msal-browser" "^2.8.0"
 
 "@cosmotech/core@^1.3.2":
-  version "1.3.4"
-  resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.3.4.tgz#7b0bdff5d3f3ad1833297820b62b30706826da62"
-  integrity sha512-BDXk56fW/iAXo6mMgv8bGuTELUJan1rT6yOnVlPlj9jayWVCseLT7ylVU50FjHJgNoW3YiyNdoSutiSYRs38+A==
+  version "1.3.5"
+  resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.3.5.tgz#679d7279940587ac6b4bf042165892cbff93653b"
+  integrity sha512-Mi/9A+Tu72zbBO30bgK7mKY33k3IFsXFyCw8kd4CAgBWhxIhoPFRMhcU9CVJfQXEn6osGD3JLdhnTS5BkVD5GA==
 
 "@cosmotech/ui@^0.6.7":
-  version "0.6.7"
-  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-0.6.7.tgz#18639f644d5bf9fe437fa06a3b08b791d1d02a6f"
-  integrity sha512-g9HYjY4cn5q5IchRiWZSfO+ypnqYZdkHt1o3XVoYtSt3aNX9ZqqoL2dtqo6IWTC7cUop0+ADPFH620V+9P1BDw==
+  version "0.6.8"
+  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-0.6.8.tgz#6e0b83972a181733375df1c55053f5bdce7483f6"
+  integrity sha512-sUeWseHtSo0+ZksXQYCSNYVjroO1HAJxwTjWuVE6TmwYxhInmD222fRZ34TeXCHCFe3sF69vYVMadQm8FsKtpA==
   dependencies:
     "@cosmotech/azure" "^0.8.15"
     "@cosmotech/core" "^1.3.2"
