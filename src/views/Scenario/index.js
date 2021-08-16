@@ -12,7 +12,6 @@ import {
 const mapStateToProps = (state) => ({
   scenarioList: state.scenario.list,
   datasetList: state.dataset.list,
-  runTemplateList: state.runTemplate.list,
   currentScenario: state.scenario.current,
   user: state.auth,
   workspace: state.workspace.current,
