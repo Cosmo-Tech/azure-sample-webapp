@@ -1,6 +1,37 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
+const PARAMETERS = {
+  stock: {
+    defaultValue: 1000
+  },
+  restock_qty: {
+    defaultValue: 200
+  },
+  nb_waiters: {
+    defaultValue: 5
+  },
+  currency: {
+    defaultValue: 'USD'
+  },
+  currency_name: {
+    defaultValue: 'EUR'
+  },
+  currency_value: {
+    defaultValue: 1000
+  },
+  currency_used: {
+    defaultValue: false
+  },
+  start_date: {
+    defaultValue: new Date()
+  }
+};
+
+export const SCENARIO_PARAMETERS_CONFIG = {
+  parameters: PARAMETERS
+};
+
 // Bar Tab parameters
 export const STOCK_PARAM = {
   id: 'stock',

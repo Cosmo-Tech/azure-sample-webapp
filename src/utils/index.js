@@ -2,3 +2,4 @@
 // Licensed under the MIT license.
 
 export { default as i18nUtils } from './i18n';
+export { ScenarioParametersUtils } from './ScenarioParametersUtils';

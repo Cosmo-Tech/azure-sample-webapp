@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import {
   Grid,
@@ -10,6 +10,7 @@ import {
 } from '@material-ui/core';
 import { SCENARIO_RUN_STATE } from '../../utils/ApiUtils';
 import {
+  SCENARIO_PARAMETERS_CONFIG,
   CURRENCY_NAME_PARAM,
   CURRENCY_PARAM, CURRENCY_USED_PARAM, CURRENCY_VALUE_PARAM,
   NBWAITERS_PARAM,
@@ -23,7 +24,7 @@ import { useTranslation } from 'react-i18next';
 import { SimpleTwoActionsDialog, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
 import { BasicTypes, BarParameters } from './components/tabs';
 import { UploadFileUtils } from './UploadFileUtils';
-import { ScenarioParametersUtils } from './ScenarioParametersUtils';
+import { ScenarioParametersUtils } from '../../utils';
 import DatasetService from '../../services/dataset/DatasetService';
 import { ORGANIZATION_ID } from '../../config/AppInstance';
 
@@ -51,6 +52,14 @@ const fetchDatasetById = async (datasetId) => {
   return data;
 };
 
+const getRunTemplateParametersIds = (runTemplatesParametersIdsDict, runTemplateId) => {
+  let runTemplateParametersIds = [];
+  if (runTemplatesParametersIdsDict && runTemplateId) {
+    runTemplateParametersIds = runTemplatesParametersIdsDict[runTemplateId];
+  }
+  return runTemplateParametersIds;
+};
+
 const ScenarioParameters = ({
   editMode,
   changeEditMode,
@@ -58,6 +67,7 @@ const ScenarioParameters = ({
   launchScenario,
   workspaceId,
   currentScenario,
+  solution,
   scenarioId
 }) => {
   const classes = useStyles();
@@ -65,6 +75,33 @@ const ScenarioParameters = ({
   // General states
   const [displayPopup, setDisplayPopup] = useState(false);
   const defaultScenarioParameters = useRef([]);
+
+  // Memoize the parameters ids for the current run template
+  const runTemplateParametersIds = useMemo(
+    () => getRunTemplateParametersIds(solution.runTemplatesParametersIdsDict, currentScenario.data?.runTemplateId),
+    [solution.runTemplatesParametersIdsDict, currentScenario.data?.runTemplateId]);
+  // Memoize default values for run template parameters, based on config and solution description
+  const defaultParametersValues = useMemo(
+    () => ScenarioParametersUtils.getDefaultParametersValues(
+      runTemplateParametersIds,
+      solution.parameters,
+      SCENARIO_PARAMETERS_CONFIG.parameters
+    ), [runTemplateParametersIds, solution.parameters]);
+  // Memoize the reset values for the run template parameters, based on defaultParametersValues and scenario data
+  const parametersValuesForReset = useMemo(
+    () => ScenarioParametersUtils.getParametersValuesForReset(
+      runTemplateParametersIds,
+      defaultParametersValues,
+      currentScenario.data?.parametersValues
+    ), [runTemplateParametersIds, defaultParametersValues, currentScenario.data?.parametersValues]);
+
+  // Add scenario parameters data in state
+  const [parameters, setParameters] = useState(parametersValuesForReset);
+
+  useEffect(() => {
+    setParameters(parametersValuesForReset);
+    // eslint-disable-next-line
+  }, [currentScenario]);
 
   // State for bar Parameters
   const [stock, setStock] = useState(
@@ -356,6 +393,7 @@ ScenarioParameters.propTypes = {
   launchScenario: PropTypes.func.isRequired,
   workspaceId: PropTypes.string.isRequired,
   scenarioId: PropTypes.string.isRequired,
+  solution: PropTypes.object.isRequired,
   currentScenario: PropTypes.object.isRequired
 };
 
