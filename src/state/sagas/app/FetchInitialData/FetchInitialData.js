@@ -19,7 +19,6 @@ import { WORKSPACE_ACTIONS_KEY } from '../../../commons/WorkspaceConstants';
 import { SOLUTION_ACTIONS_KEY } from '../../../commons/SolutionConstants';
 
 const selectSolutionIdFromCurrentWorkspace = (state) => state.workspace.current.data.solution.solutionId;
-const selectRunTemplatesFromCurrentSolution = (state) => state.solution.current.data.runTemplates;
 const selectScenarioList = (state) => state.scenario.list.data;
 
 export function * fetchAllInitialData (action) {
@@ -55,12 +54,9 @@ export function * fetchAllInitialData (action) {
         status: STATUSES.SUCCESS
       });
     }
-
-    const runTemplates = yield select(selectRunTemplatesFromCurrentSolution);
     yield fork(getPowerBIEmbedInfoSaga);
     yield put({
-      type: RUN_TEMPLATE_ACTIONS_KEY.SET_RUN_TEMPLATE_LIST,
-      list: runTemplates,
+      type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS,
       status: STATUSES.SUCCESS
     });
   } catch (error) {

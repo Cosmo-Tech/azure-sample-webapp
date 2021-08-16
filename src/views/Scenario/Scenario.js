@@ -72,7 +72,6 @@ const Scenario = (props) => {
     scenarioList,
     findScenarioById,
     datasetList,
-    runTemplateList,
     user,
     workspace,
     solution,
@@ -82,6 +81,7 @@ const Scenario = (props) => {
     reports
   } = props;
 
+  const runTemplates = solution?.data?.runTemplates || [];
   const workspaceId = workspace.data.id;
   const [editMode, setEditMode] = useState(false);
 
@@ -202,7 +202,7 @@ const Scenario = (props) => {
                     workspaceId={workspaceId}
                     createScenario={createScenario}
                     currentScenario={currentScenario}
-                    runTemplates={runTemplateList.data}
+                    runTemplates={runTemplates}
                     datasets={datasetList.data}
                     scenarios={scenarioList.data}
                     user={user}
@@ -252,7 +252,6 @@ const Scenario = (props) => {
 Scenario.propTypes = {
   scenarioList: PropTypes.object.isRequired,
   datasetList: PropTypes.object.isRequired,
-  runTemplateList: PropTypes.object.isRequired,
   currentScenario: PropTypes.object.isRequired,
   findScenarioById: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
