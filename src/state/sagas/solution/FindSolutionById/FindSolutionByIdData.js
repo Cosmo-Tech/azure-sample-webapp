@@ -6,10 +6,12 @@ import { SOLUTION_ACTIONS_KEY } from '../../../commons/SolutionConstants';
 import { STATUSES } from '../../../commons/Constants';
 import { ORGANIZATION_ID } from '../../../../config/AppInstance';
 import { Api } from '../../../../services/config/Api';
+import { addRunTemplatesParametersIdsDict } from '../../../../utils/SolutionsUtils';
 
 export function * fetchSolutionByIdData (workspaceId, solutionId) {
   try {
     const { data } = yield call(Api.Solutions.findSolutionById, ORGANIZATION_ID, solutionId);
+    addRunTemplatesParametersIdsDict(data);
     yield put({
       type: SOLUTION_ACTIONS_KEY.SET_CURRENT_SOLUTION,
       status: STATUSES.SUCCESS,
