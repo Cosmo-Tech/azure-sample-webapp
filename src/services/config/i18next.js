@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import i18n from 'i18next';
+import i18next from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
 import HttpApi from 'i18next-http-backend';
@@ -23,7 +23,7 @@ const langDetectorOptions = {
   checkWhitelist: true
 };
 
-i18n
+i18next
   .use(HttpApi)
   .use(LanguageDetector)
 // connect with React
@@ -38,4 +38,4 @@ i18n
     }
   });
 
-export default i18n;
+export default i18next;
