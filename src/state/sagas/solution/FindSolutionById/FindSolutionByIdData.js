@@ -6,12 +6,16 @@ import { SOLUTION_ACTIONS_KEY } from '../../../commons/SolutionConstants';
 import { STATUSES } from '../../../commons/Constants';
 import { ORGANIZATION_ID } from '../../../../config/AppInstance';
 import { Api } from '../../../../services/config/Api';
-import { addRunTemplatesParametersIdsDict } from '../../../../utils/SolutionsUtils';
+import { ConfigUtils, SolutionsUtils } from '../../../../utils';
+import { SCENARIO_PARAMETERS_CONFIG } from '../../../../config/ScenarioParameters';
 
 export function * fetchSolutionByIdData (workspaceId, solutionId) {
   try {
     const { data } = yield call(Api.Solutions.findSolutionById, ORGANIZATION_ID, solutionId);
-    addRunTemplatesParametersIdsDict(data);
+    SolutionsUtils.addRunTemplatesParametersIdsDict(data);
+    SolutionsUtils.addTranslationLabels(data);
+    // Overwrite solution labels by local config
+    ConfigUtils.addTranslationLabels(SCENARIO_PARAMETERS_CONFIG);
     yield put({
       type: SOLUTION_ACTIONS_KEY.SET_CURRENT_SOLUTION,
       status: STATUSES.SUCCESS,
