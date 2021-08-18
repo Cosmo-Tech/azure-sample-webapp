@@ -1,18 +1,44 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
+// Use the PARAMETERS dict below to override or add information to the scenario parameters defined in your solution
+// description, such as:
+//  - a default value for each scenario parameter on scenario creation
+//  - lists of possible values for "enum" parameters
+//  - translation labels
 const PARAMETERS = {
-  stock: {
-    defaultValue: 1000
-  },
-  restock_qty: {
-    defaultValue: 200
-  },
   nb_waiters: {
+    dataCy: 'waiters-input',
     defaultValue: 5
   },
+  restock_qty: {
+    dataCy: 'restock-input',
+    defaultValue: 25
+  },
+  stock: {
+    dataCy: 'stock-input',
+    defaultValue: 100
+  },
   currency: {
-    defaultValue: 'USD'
+    defaultValue: 'USD',
+    enumValues: [
+      {
+        key: 'USD',
+        value: '$'
+      },
+      {
+        key: 'EUR',
+        value: '€'
+      },
+      {
+        key: 'BTC',
+        value: '฿'
+      },
+      {
+        key: 'JPY',
+        value: '¥'
+      }
+    ]
   },
   currency_name: {
     defaultValue: 'EUR'
@@ -21,15 +47,75 @@ const PARAMETERS = {
     defaultValue: 1000
   },
   currency_used: {
+    labels: {
+      en: 'Use currency',
+      fr: 'Activer la monnaie'
+    },
     defaultValue: false
   },
   start_date: {
-    defaultValue: new Date()
+    defaultValue: new Date('2014-08-18T21:11:54')
+  }
+};
+
+// Use the PARAMETERS_GROUPS dict below to override or add information to the parameters groups defined in your solution
+// description, such as:
+//  - translation labels
+//  - list and order of the parameters of a group
+// You can also create new groups that were not defined in the solution description: in this case don't forget to assign
+// these parameters groups to a run template in the RUN_TEMPLATES dict
+const PARAMETERS_GROUPS = {
+  bar_parameters: {
+    labels: {
+      en: 'My pub',
+      fr: 'Mon bar'
+    },
+    parameters: [
+      'stock',
+      'restock_qty',
+      'nb_waiters',
+      'initial_stock_dataset'
+    ]
+  },
+  basic_types: {
+    parameters: [
+      'currency',
+      'currency_name',
+      'currency_value',
+      'currency_used',
+      'start_date'
+    ]
+  },
+  file_upload: {
+    labels: {
+      en: 'File upload',
+      fr: 'Upload de fichier'
+    },
+    parameters: [
+      'initial_stock_dataset'
+    ]
+  }
+};
+
+// Use RUN_TEMPLATES dict below to override information of the run templates defined in your solution description, such
+// as:
+//  - list and order of the parameters group to display for this run template
+const RUN_TEMPLATES = {
+  3: {
+    // Use 'parameterGroups' instead of 'parametersGroups' in the run templates description to be consistent
+    // with back-end format
+    parameterGroups: [
+      'bar_parameters',
+      'basic_types',
+      'file_upload'
+    ]
   }
 };
 
 export const SCENARIO_PARAMETERS_CONFIG = {
-  parameters: PARAMETERS
+  parameters: PARAMETERS,
+  parametersGroups: PARAMETERS_GROUPS,
+  runTemplates: RUN_TEMPLATES
 };
 
 // Bar Tab parameters
@@ -84,38 +170,3 @@ export const INITIAL_STOCK_PARAM = {
   connectorId: 'C-XPv4LBVGAL',
   defaultFileTypeFilter: '.zip,.csv,.json,.xls,.xlsx'
 };
-
-// runTemplate id to name mapping :
-// '1' -> Run template with Brewery parameters
-// '2' -> Run template without parameters
-// '3' -> Run template with mock basic types
-export const SCENARIO_PARAMETERS_TABS_CONFIG = [
-  {
-    id: 0,
-    translationKey: 'commoncomponents.tab.scenario.parameters.upload.file',
-    label: 'Upload File template',
-    value: 'upload_file_template',
-    runTemplateIds: ['3']
-  },
-  {
-    id: 1,
-    translationKey: 'commoncomponents.tab.scenario.parameters.bar',
-    label: 'Bar parameters',
-    value: 'bar_parameters',
-    runTemplateIds: ['1']
-  },
-  {
-    id: 2,
-    translationKey: 'commoncomponents.tab.scenario.parameters.basic.types',
-    label: 'Basic Types template',
-    value: 'basic_types',
-    runTemplateIds: ['3']
-  },
-  {
-    id: 3,
-    translationKey: 'commoncomponents.tab.scenario.parameters.array.template',
-    label: 'Array Template',
-    value: 'array_template',
-    runTemplateIds: []
-  }
-];

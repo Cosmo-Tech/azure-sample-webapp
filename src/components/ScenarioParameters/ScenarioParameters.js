@@ -95,6 +95,12 @@ const ScenarioParameters = ({
       currentScenario.data?.parametersValues
     ), [runTemplateParametersIds, defaultParametersValues, currentScenario.data?.parametersValues]);
 
+  // Memoize the data of parameters groups (not including the current state of scenario parameters)
+  const parametersGroupsData = useMemo(
+    () => ScenarioParametersUtils.generateParametersGroupsData(
+      solution, SCENARIO_PARAMETERS_CONFIG, currentScenario.data?.runTemplateId),
+    [solution, currentScenario.data?.runTemplateId]);
+
   // Add scenario parameters data in state
   const [parameters, setParameters] = useState(parametersValuesForReset);
 
@@ -103,34 +109,10 @@ const ScenarioParameters = ({
     // eslint-disable-next-line
   }, [currentScenario]);
 
-  // State for bar Parameters
-  const [stock, setStock] = useState(
-    ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters.current, STOCK_PARAM)
-  );
-
-  const [restockQuantity, setRestockQuantity] = useState(
-    ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters.current, RESTOCK_PARAM)
-  );
-  const [waitersNumber, setWaitersNumber] = useState(
-    ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters.current, NBWAITERS_PARAM)
-  );
-
-  // State for basic input types examples Parameters
-  const [currency, setCurrency] = useState(
-    ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters.current, CURRENCY_PARAM)
-  );
-  const [currencyName, setCurrencyName] = useState(
-    ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters.current, CURRENCY_NAME_PARAM)
-  );
-  const [currencyValue, setCurrencyValue] = useState(
-    ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters.current, CURRENCY_VALUE_PARAM)
-  );
-  const [currencyUsed, setCurrencyUsed] = useState(
-    ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters.current, CURRENCY_USED_PARAM)
-  );
-  const [startDate, setStartDate] = useState(
-    ScenarioParametersUtils.getValueFromParameters(defaultScenarioParameters.current, START_DATE_PARAM)
-  );
+  for (const parametersGroupData of parametersGroupsData) {
+    parametersGroupData.tab = ScenarioParametersTabFactory.create(
+      t, parametersGroupData, parameters, setParameters, editMode);
+  }
 
   // State for File Upload
   const [initialStockFile, setInitialStockFile] = useState({
