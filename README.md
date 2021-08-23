@@ -8,7 +8,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
   - Run `yarn install && yarn start` in the project root folder
 
 - Configuration:
-  - [Global configuration](https://github.com/Cosmo-Tech/azure-sample-webapp/tree/main/src/configs) (tabs, internationalization, dashboards, authentication,...)
+  - [Global configuration](https://github.com/Cosmo-Tech/azure-sample-webapp/tree/main/src/config) (tabs, internationalization, dashboards, authentication,...)
+  - PowerBI Iframes configuration
+    - [Scenario view iframe](https://github.com/Cosmo-Tech/azure-sample-webapp/tree/main/src/views/Scenario)
+    - [Dashboards view iframes](https://github.com/Cosmo-Tech/azure-sample-webapp/tree/main/src/views/Dashboards)
   - [Scenario Parameters](https://github.com/Cosmo-Tech/azure-sample-webapp/tree/main/src/components/ScenarioParameters)
     - [Input types](https://github.com/Cosmo-Tech/azure-sample-webapp/tree/main/src/components/ScenarioParameters/components)
     - [Upload file](https://github.com/Cosmo-Tech/azure-sample-webapp/tree/main/src/components/ScenarioParameters/components/tabs)
