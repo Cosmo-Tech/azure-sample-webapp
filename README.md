@@ -8,7 +8,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
   - Run `yarn install && yarn start` in the project root folder
 
 - Configuration:
-  - [Global configuration](https://github.com/Cosmo-Tech/azure-sample-webapp/tree/main/src/config) (tabs, internationalization, dashboards, authentication,...)
+  - [Global configuration](https://github.com/Cosmo-Tech/azure-sample-webapp/tree/main/src/config)
   - PowerBI Iframes configuration
     - [Scenario view iframe](https://github.com/Cosmo-Tech/azure-sample-webapp/tree/main/src/views/Scenario)
     - [Dashboards view iframes](https://github.com/Cosmo-Tech/azure-sample-webapp/tree/main/src/views/Dashboards)
