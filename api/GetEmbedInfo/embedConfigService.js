@@ -23,9 +23,13 @@ async function getEmbedInfo () {
     };
   } catch (err) {
     return {
-      status: err.status,
-      error: `Error while retrieving report embed details\r\n${err.statusText}\r\nRequestId: \n` +
-        `${err.headers.get('requestid')}`
+      error: {
+        status: err.status,
+        statusText: err.statusText,
+        powerBIErrorInfo: err.headers.get('x-powerbi-error-info'),
+        description: `Error while retrieving report embed details\r\n${err.statusText}\r\nRequestId: \n` +
+          `${err.headers.get('requestid')}`
+      }
     };
   }
 }
