@@ -109,6 +109,12 @@
         "noscenario": {
           "title": "No scenario yet",
           "label": "You can create a scenario by clicking on"
+        },
+        "error": {
+          "unknown": {
+            "details": "Something went wrong when fetching PowerBI reports info",
+            "label": "Unknown error"
+          }
         }
       }
     },
