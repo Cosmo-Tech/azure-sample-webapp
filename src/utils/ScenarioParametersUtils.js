@@ -22,8 +22,12 @@ const _getDefaultParameterValueFromConfig = (parameterId, configParameters) => {
   return configParameters?.[parameterId]?.defaultValue;
 };
 
+const _findParameterInSolutionParametersById = (parameterId, solutionParameters) => {
+  return solutionParameters?.find(param => param.id === parameterId);
+};
+
 const _getDefaultParameterValueFromSolution = (parameterId, solutionParameters) => {
-  const solutionParameter = solutionParameters?.find(param => param.id === parameterId);
+  const solutionParameter = _findParameterInSolutionParametersById(parameterId, solutionParameters);
   if (!solutionParameter) {
     console.warn(`Unknown scenario parameter "${parameterId}"`);
     return undefined;
@@ -199,12 +203,27 @@ const generateParametersGroupsData = (solution, config, runTemplateId) => {
   return _generateParametersGroupsDataFromIds(runTemplateParametersGroupsIds, solution, config);
 };
 
-const constructParameterData = (param, value) => {
+const _buildParameterForUpdate = (solution, parameters, parameterId) => {
+  const parameterVarType = _findParameterInSolutionParametersById(parameterId, solution.parameters)?.varType;
+  const parameterValue = parameters[parameterId];
   return {
-    parameterId: param.id,
-    varType: param.varType,
-    value: value != null ? value : param.defaultValue
+    parameterId: parameterId,
+    varType: parameterVarType,
+    value: parameterValue
   };
+};
+
+const buildParametersForUpdate = (solution, parameters, runTemplateParametersIds) => {
+  let parametersData = [];
+  for (const parameterId of runTemplateParametersIds) {
+    const parameterData = _buildParameterForUpdate(solution, parameters, parameterId);
+    if (parameterData.value === null) {
+      console.log(`Skipping parameter ${parameterId} for update because its value is null`);
+    } else {
+      parametersData = parametersData.concat(parameterData);
+    }
+  }
+  return parametersData;
 };
 
 const getValueFromParameters = (parameters, parameterToSelect) => {
@@ -222,6 +241,6 @@ export const ScenarioParametersUtils = {
   generateParametersGroupsData,
   getDefaultParametersValues,
   getParametersValuesForReset,
-  constructParameterData,
+  buildParametersForUpdate,
   getValueFromParameters
 };

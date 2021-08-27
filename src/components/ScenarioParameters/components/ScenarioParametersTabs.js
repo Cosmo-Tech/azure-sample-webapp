@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core';
 import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 import { useTranslation } from 'react-i18next';
-import { SCENARIO_PARAMETERS_TABS_CONFIG } from '../../../config/ScenarioParameters';
+import { TranslationUtils } from '../../../utils/TranslationUtils';
 
 const useStyles = makeStyles(theme => ({
   tabPanel: {
@@ -40,86 +40,71 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const ScenarioParametersTabs = ({
-  tabs,
+  parametersGroupsData,
   currentScenario
 }) => {
   const classes = useStyles();
-
-  // Translation
   const { t } = useTranslation();
-
-  const [selectedTab, setSelectedTab] = useState('');
-  const [visibleTabs, setVisibleTabs] = useState([]);
-
-  const handleTabChange = (event, newTab) => {
-    setSelectedTab(newTab);
-  };
+  const [tabs, setTabs] = useState(parametersGroupsData);
+  const [selectedTab, setSelectedTab] = useState(parametersGroupsData?.[0]?.id);
 
   // Reset selected tab on scenario change
   useEffect(() => {
-    let selectedTab = '';
-    const newVisibleTabs = [];
-    // Filter visible tabs based on current run template
-    SCENARIO_PARAMETERS_TABS_CONFIG.forEach((tab) => {
-      if (tab.runTemplateIds.includes(currentScenario.data.runTemplateId)) {
-        newVisibleTabs.push(tab);
-        // Set selected tab if still unititialized
-        if (selectedTab === '') {
-          selectedTab = tab.value;
-        }
-      }
-    });
-    // Update component state
-    setSelectedTab(selectedTab);
-    setVisibleTabs(newVisibleTabs);
-  }, [currentScenario]);
+    setTabs(parametersGroupsData);
+    if (parametersGroupsData.find(groupData => groupData.id === selectedTab) === undefined) {
+      setSelectedTab(parametersGroupsData?.[0]?.id);
+    }
+    // eslint-disable-next-line
+  }, [parametersGroupsData]);
 
   return (
     <div data-cy="scenario-parameters-tabs">
-    { visibleTabs.length === 0
+    { (tabs.length === 0
       ? <div className={classes.placeholder}>
           { t('genericcomponent.text.scenario.parameters.placeholder', 'No parameters to edit.') }
         </div>
       : <TabContext value={selectedTab}>
-        <TabList
-          value={selectedTab}
-          variant="scrollable"
-          indicatorColor="primary"
-          textColor="primary"
-          onChange={handleTabChange}
-          aria-label="scenario parameters"
-        >
+          <TabList
+            value={selectedTab}
+            variant="scrollable"
+            indicatorColor="primary"
+            textColor="primary"
+            onChange={ (event, newTab) => { setSelectedTab(newTab); } }
+            aria-label="scenario parameters"
+          >
+            {
+              tabs.map((groupData, index) => (
+                <Tab
+                  key={groupData.id}
+                  value={groupData.id}
+                  data-cy={groupData.id + '_tab'}
+                  className={classes.tab}
+                  label={t(TranslationUtils.getParametersGroupTranslationKey(groupData.id), groupData.id)}
+                />
+              ))
+            }
+          </TabList>
           {
-            visibleTabs.map((tab, index) => (
-              <Tab
-                key={index}
-                data-cy={tab.value + '_tab'}
-                className={classes.tab}
-                label={t(tab.translationKey, tab.label)}
-                value={tab.value}/>
+            tabs.map((groupData, index) => (
+              <TabPanel
+                index={index}
+                key={groupData.id}
+                value={groupData.id}
+                className={classes.tabPanel}
+              >
+                {groupData.tab}
+              </TabPanel>
             ))
           }
-        </TabList>
-        {
-          visibleTabs.map((tab, index) => (
-            <TabPanel
-              key={index}
-              className={classes.tabPanel}
-              value={tab.value}
-              index={index}
-            >
-              {tabs[tab.id]}
-            </TabPanel>
-          ))
-        }
-      </TabContext>
+        </TabContext>
+      )
     }
     </div>
   );
 };
 
 ScenarioParametersTabs.propTypes = {
-  tabs: PropTypes.array.isRequired,
+  parametersGroupsData: PropTypes.array.isRequired,
   currentScenario: PropTypes.object.isRequired
 };
 
