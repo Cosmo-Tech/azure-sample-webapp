@@ -25,6 +25,7 @@ import { SCENARIO_RUN_LOG_TYPE } from '../../config/AppConfiguration';
 import { SCENARIO_DASHBOARD_CONFIG } from '../../config/Dashboards';
 import ScenarioRunService from '../../services/scenarioRun/ScenarioRunService';
 import { STATUSES } from '../../state/commons/Constants';
+import { AppInsights } from '../../services/AppInsights';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -103,6 +104,20 @@ const Scenario = (props) => {
     : t('views.scenario.dropdown.scenario.label', Scenario);
   const showBackdrop = currentScenario.status === STATUSES.LOADING;
 
+  // App Insigths
+  const appInsights = AppInsights.getInstance();
+  console.log(appInsights);
+  const trackCreateScenario = () => {
+    appInsights.trackEvent({ name: 'CreateScenario' }, { name: currentScenario.rootId });
+
+    appInsights.trackMetric({ name: 'CreateScenarioValue', average: 7, sampleCount: 1 });
+  };
+
+  const createTrackedScenario = (workspaceId, scenario) => {
+    trackCreateScenario();
+    createScenario(workspaceId, scenario);
+  };
+
   return (
     <>
       <Backdrop className={classes.backdrop} open={showBackdrop}>
@@ -138,7 +153,7 @@ const Scenario = (props) => {
                   <CreateScenarioButton
                     solution={solution}
                     workspaceId={workspaceId}
-                    createScenario={createScenario}
+                    createScenario={createTrackedScenario}
                     currentScenario={currentScenario}
                     runTemplates={runTemplateList.data}
                     datasets={datasetList.data}
