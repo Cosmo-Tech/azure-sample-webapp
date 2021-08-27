@@ -9,22 +9,17 @@ import {
   makeStyles
 } from '@material-ui/core';
 import { SCENARIO_RUN_STATE } from '../../utils/ApiUtils';
+
 import {
   SCENARIO_PARAMETERS_CONFIG,
-  CURRENCY_NAME_PARAM,
-  CURRENCY_PARAM, CURRENCY_USED_PARAM, CURRENCY_VALUE_PARAM,
-  NBWAITERS_PARAM,
-  RESTOCK_PARAM,
-  SCENARIO_PARAMETERS_TABS_CONFIG, START_DATE_PARAM,
-  STOCK_PARAM,
   INITIAL_STOCK_PARAM
 } from '../../config/ScenarioParameters';
 import { EditModeButton, NormalModeButton, ScenarioParametersTabs } from './components';
 import { useTranslation } from 'react-i18next';
 import { SimpleTwoActionsDialog, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
-import { BasicTypes, BarParameters } from './components/tabs';
 import { UploadFileUtils } from './UploadFileUtils';
 import { ScenarioParametersUtils } from '../../utils';
+import { ScenarioParametersTabFactory } from '../../utils/scenarioParameters/ScenarioParametersTabFactory';
 import DatasetService from '../../services/dataset/DatasetService';
 import { ORGANIZATION_ID } from '../../config/AppInstance';
 
@@ -53,11 +48,7 @@ const fetchDatasetById = async (datasetId) => {
 };
 
 const getRunTemplateParametersIds = (runTemplatesParametersIdsDict, runTemplateId) => {
-  let runTemplateParametersIds = [];
-  if (runTemplatesParametersIdsDict && runTemplateId) {
-    runTemplateParametersIds = runTemplatesParametersIdsDict[runTemplateId];
-  }
-  return runTemplateParametersIds;
+  return runTemplatesParametersIdsDict?.[runTemplateId] || [];
 };
 
 const ScenarioParameters = ({
@@ -74,7 +65,6 @@ const ScenarioParameters = ({
   const { t } = useTranslation();
   // General states
   const [displayPopup, setDisplayPopup] = useState(false);
-  const defaultScenarioParameters = useRef([]);
 
   // Memoize the parameters ids for the current run template
   const runTemplateParametersIds = useMemo(
@@ -87,31 +77,31 @@ const ScenarioParameters = ({
       solution.parameters,
       SCENARIO_PARAMETERS_CONFIG.parameters
     ), [runTemplateParametersIds, solution.parameters]);
-  // Memoize the reset values for the run template parameters, based on defaultParametersValues and scenario data
-  const parametersValuesForReset = useMemo(
-    () => ScenarioParametersUtils.getParametersValuesForReset(
-      runTemplateParametersIds,
-      defaultParametersValues,
-      currentScenario.data?.parametersValues
-    ), [runTemplateParametersIds, defaultParametersValues, currentScenario.data?.parametersValues]);
-
   // Memoize the data of parameters groups (not including the current state of scenario parameters)
   const parametersGroupsData = useMemo(
     () => ScenarioParametersUtils.generateParametersGroupsData(
       solution, SCENARIO_PARAMETERS_CONFIG, currentScenario.data?.runTemplateId),
     [solution, currentScenario.data?.runTemplateId]);
 
+  // Store the reset values for the run template parameters, based on defaultParametersValues and scenario data.
+  const parametersValuesRef = useRef({});
+  parametersValuesRef.current = ScenarioParametersUtils.getParametersValuesForReset(
+    runTemplateParametersIds,
+    defaultParametersValues,
+    currentScenario.data?.parametersValues
+  );
+
   // Add scenario parameters data in state
-  const [parameters, setParameters] = useState(parametersValuesForReset);
+  const [parametersValuesToRender, setParametersValuesToRender] = useState(parametersValuesRef.current);
 
   useEffect(() => {
-    setParameters(parametersValuesForReset);
+    resetParameters(false);
     // eslint-disable-next-line
   }, [currentScenario]);
 
   for (const parametersGroupData of parametersGroupsData) {
     parametersGroupData.tab = ScenarioParametersTabFactory.create(
-      t, parametersGroupData, parameters, setParameters, editMode);
+      t, parametersGroupData, parametersValuesToRender, setParametersValuesToRender, editMode);
   }
 
   // State for File Upload
@@ -123,24 +113,15 @@ const ScenarioParameters = ({
     file: null,
     status: UPLOAD_FILE_STATUS_KEY.EMPTY
   });
-
   const [initialStockDataset, setInitialStockDataset] = useState({});
   const [initialStockDatasetId, setInitialStockDatasetId] = useState('');
 
   useEffect(() => {
-    const scenarioParameters = currentScenario.data.parametersValues;
-    defaultScenarioParameters.current = scenarioParameters;
     const initialStockParameter = currentScenario.data?.parametersValues?.find(
       el => el.parameterId === INITIAL_STOCK_PARAM.id);
     setInitialStockDatasetId(initialStockParameter?.value === undefined ? '' : initialStockParameter.value);
     // eslint-disable-next-line
   }, [currentScenario]);
-
-  useEffect(() => {
-    // Reset parameters
-    resetParameters(false, defaultScenarioParameters.current);
-    // eslint-disable-next-line
-  }, [changeEditMode, currentScenario]);
 
   useEffect(() => {
     UploadFileUtils.updateDatasetState(initialStockDatasetId,
@@ -152,57 +133,25 @@ const ScenarioParameters = ({
     // eslint-disable-next-line
   }, [initialStockDatasetId]);
 
-  const resetParameters = (resetFile, parameters) => {
-    // Bar parameters
-    setStock(ScenarioParametersUtils.getValueFromParameters(parameters, STOCK_PARAM));
-    setRestockQuantity(ScenarioParametersUtils.getValueFromParameters(parameters, RESTOCK_PARAM));
-    setWaitersNumber(ScenarioParametersUtils.getValueFromParameters(parameters, NBWAITERS_PARAM));
-
-    // Basic Types Sample
-    setCurrency(ScenarioParametersUtils.getValueFromParameters(parameters, CURRENCY_PARAM));
-    setCurrencyName(ScenarioParametersUtils.getValueFromParameters(parameters, CURRENCY_NAME_PARAM));
-    setCurrencyValue(ScenarioParametersUtils.getValueFromParameters(parameters, CURRENCY_VALUE_PARAM));
-    setCurrencyUsed(ScenarioParametersUtils.getValueFromParameters(parameters, CURRENCY_USED_PARAM));
-    setStartDate(ScenarioParametersUtils.getValueFromParameters(parameters, START_DATE_PARAM));
-
+  const resetParameters = (resetFile) => {
+    setParametersValuesToRender(parametersValuesRef.current);
+    // TODO: adapt values for "file" parameters
     // Upload file
     if (resetFile) {
       UploadFileUtils.resetUploadFile(initialStockDatasetId, initialStockFile, setInitialStockFile);
     }
   };
 
-  // TODO Change it in by a function using parameters values
-  // eslint-disable-next-line
-  const getParametersDataForApi = (newDataset, runTemplateId) => {
-    let parametersData = [];
-    // Add bar scenarioParameters if necessary (run templates '1' and '2')
-    if (['1', '2'].indexOf(runTemplateId) !== -1) {
-      const stockParam = ScenarioParametersUtils.constructParameterData(STOCK_PARAM, stock);
-      const restockQuantityParam = ScenarioParametersUtils.constructParameterData(RESTOCK_PARAM, restockQuantity);
-      const waitersNumberParam = ScenarioParametersUtils.constructParameterData(NBWAITERS_PARAM, waitersNumber);
-      parametersData = parametersData.concat([
-        stockParam,
-        restockQuantityParam,
-        waitersNumberParam
-      ]);
-    }
+  const setParametersValuesRefFromState = () => {
+    parametersValuesRef.current = parametersValuesToRender;
+    // TODO: adapt values for "file" parameters
+  };
 
-    // Add basic inputs examples parameters if necessary (run template '3')
-    if (['3'].indexOf(runTemplateId) !== -1) {
-      const currencyParam = ScenarioParametersUtils.constructParameterData(CURRENCY_PARAM, currency);
-      const currencyNameParam = ScenarioParametersUtils.constructParameterData(CURRENCY_NAME_PARAM, currencyName);
-      const currencyValueParam = ScenarioParametersUtils.constructParameterData(CURRENCY_VALUE_PARAM, currencyValue);
-      const currencyUsedParam = ScenarioParametersUtils.constructParameterData(CURRENCY_USED_PARAM, currencyUsed);
-      const startDateValueParam = ScenarioParametersUtils.constructParameterData(START_DATE_PARAM, startDate);
-      parametersData = parametersData.concat([
-        currencyParam,
-        currencyNameParam,
-        currencyValueParam,
-        currencyUsedParam,
-        startDateValueParam
-      ]);
-    }
-    if (['1', '2', '3', '4'].indexOf(runTemplateId) !== -1) {
+  const getParametersForUpdate = (newDataset) => {
+    let parametersData = ScenarioParametersUtils.buildParametersForUpdate(
+      solution, parametersValuesRef.current, runTemplateParametersIds);
+
+    if (['1', '2', '3', '4'].indexOf(currentScenario.data.runTemplateId) !== -1) {
       if (newDataset && Object.keys(newDataset).length !== 0) {
         parametersData = parametersData.concat([
           {
@@ -227,8 +176,7 @@ const ScenarioParameters = ({
   const handleClickOnPopupDiscardChangeButton = () => {
     setDisplayPopup(false);
     changeEditMode(false);
-    // Reset form values
-    resetParameters(true, defaultScenarioParameters.current);
+    resetParameters(true);
   };
 
   // Normal Mode Screen
@@ -241,6 +189,7 @@ const ScenarioParameters = ({
         currentScenario.data.parametersValues.length === 0) {
       handleClickOnUpdateAndLaunchScenarioButton();
     } else {
+      setParametersValuesRefFromState();
       launchScenario(workspaceId, scenarioId);
       changeEditMode(false);
     }
@@ -257,12 +206,12 @@ const ScenarioParameters = ({
       INITIAL_STOCK_PARAM.connectorId,
       currentScenario.data.id,
       workspaceId);
-
-    const parametersData = getParametersDataForApi(newDataset, currentScenario.data.runTemplateId);
-    defaultScenarioParameters.current = parametersData;
-    updateAndLaunchScenario(workspaceId, scenarioId, parametersData);
+    setParametersValuesRefFromState();
+    const parametersForUpdate = getParametersForUpdate(newDataset);
+    updateAndLaunchScenario(workspaceId, scenarioId, parametersForUpdate);
     changeEditMode(false);
   };
+// eslint-disable-next-line
   const fileUploadComponent = UploadFileUtils.constructFileUpload(
     '0',
     initialStockFile,
@@ -298,15 +247,12 @@ const ScenarioParameters = ({
     />,
     <Typography key="3">Empty</Typography> // Array template
   ];
+=======
+    editMode);
+>>>>>>> feat: add tabs generation & automatic build of params data for update
 
   // Disable edit button if no tabs are shown
-  let tabsShown = false;
-  for (const tab of SCENARIO_PARAMETERS_TABS_CONFIG) {
-    if (tab.runTemplateIds.indexOf(currentScenario.data.runTemplateId) !== -1) {
-      tabsShown = true;
-      break;
-    }
-  }
+  const tabsShown = parametersGroupsData.length > 0;
 
   return (
       <div>
@@ -343,7 +289,7 @@ const ScenarioParameters = ({
           {
             <form>
               <ScenarioParametersTabs
-                tabs={scenarioParametersTabs}
+                parametersGroupsData={parametersGroupsData}
                 currentScenario={currentScenario}
               />
             </form>

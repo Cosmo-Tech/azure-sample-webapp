@@ -140,22 +140,6 @@
         }
       }
     },
-    "tab": {
-      "scenario": {
-        "parameters": {
-          "bar": "Bar",
-          "upload": {
-            "file" : "Template de chargement de fichier"
-          },
-          "array": {
-            "template": "Template de tableau"
-          },
-          "basic": {
-            "types": "Template de types basiques"
-          }
-        }
-      }
-    },
     "text": {
       "application": {
         "title": "Exemple d'Application Web Azure"
@@ -227,6 +211,13 @@
     }
   },
   "genericcomponent": {
+    "dateInput": {
+      "error": {
+        "minDateMessage": "La date minimale n'est pas respectée",
+        "maxDateMessage": "La date maximale n'est pas respectée",
+        "invalidDateMessage": "Format de date incorrect"
+      }
+    },
     "uploadfile": {
       "button": {
         "browse": "Parcourir",

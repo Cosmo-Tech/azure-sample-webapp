@@ -12,7 +12,7 @@ import { SCENARIO_PARAMETERS_CONFIG } from '../../../../config/ScenarioParameter
 export function * fetchSolutionByIdData (workspaceId, solutionId) {
   try {
     const { data } = yield call(Api.Solutions.findSolutionById, ORGANIZATION_ID, solutionId);
-    SolutionsUtils.addRunTemplatesParametersIdsDict(data);
+    SolutionsUtils.addRunTemplatesParametersIdsDict(data, SCENARIO_PARAMETERS_CONFIG);
     SolutionsUtils.addTranslationLabels(data);
     // Overwrite solution labels by local config
     ConfigUtils.addTranslationLabels(SCENARIO_PARAMETERS_CONFIG);

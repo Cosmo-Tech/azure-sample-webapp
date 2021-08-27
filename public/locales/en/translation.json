@@ -140,22 +140,6 @@
         }
       }
     },
-    "tab": {
-      "scenario": {
-        "parameters": {
-          "bar": "Bar",
-          "upload": {
-            "file" : "Upload File Template"
-          },
-          "array": {
-            "template": "Array Template"
-          },
-          "basic": {
-            "types": "Basic Types Template"
-          }
-        }
-      }
-    },
     "text": {
       "application": {
         "title": "Cosmo Tech Web Application Sample"
@@ -227,6 +211,13 @@
     }
   },
   "genericcomponent": {
+    "dateInput": {
+      "error": {
+        "minDateMessage": "Minimum date is not respected",
+        "maxDateMessage": "Maximum date is not respected",
+        "invalidDateMessage": "Date is invalid"
+      }
+    },
     "uploadfile": {
       "button": {
         "browse": "Browse",
