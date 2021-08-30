@@ -11,6 +11,7 @@ Please note that we provide detailed step-by-step tutorials on [our portal](http
 
 # Getting Started
 Recommended Operating System: Debian (other OS have not been tested)
+Supported browsers: Chromium 90, Chrome 91, Firefox 78
 
 ## Clone this project
 
@@ -91,6 +92,10 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
+#### `yarn cache clean --force && rm -rf node_modules && yarn install`
+
+Clean the cache being sure to avoid packages and dependencies issues.
+
 ### Other scripts
 #### [`i18next`](https://react.i18next.com/) - translation handling
 We have defined our own i18next-parser.config.js file.
@@ -104,4 +109,4 @@ Feel free to add new supported languages or change the parser configuration. ( S
 
 ## Deploy your webapp
 
-You can use continuous deployment to trigger deployment when committing. 
+You can use continuous deployment to trigger deployment when committing.
