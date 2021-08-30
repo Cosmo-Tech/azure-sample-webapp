@@ -33,11 +33,12 @@ describe('Create scenario', () => {
   const restock = randomNmbr(BAR_PARAMETERS_RANGE.RESTOCK.MIN, BAR_PARAMETERS_RANGE.RESTOCK.MAX);
   const waiters = randomNmbr(BAR_PARAMETERS_RANGE.WAITERS.MIN, BAR_PARAMETERS_RANGE.WAITERS.MAX);
 
+  const scenarioIdPattern = 's_.*';
   const urlRegexWithoutSuffix = new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}`);
-  const urlRegexWithUnknownIdScenarioSuffix = new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/S-.*`);
+  const urlRegexWithUnknownIdScenarioSuffix = new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/${scenarioIdPattern}`);
   const urlRegexWithOtherScenarioId =
     new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/${SCENARIO_ID.OTHER_SCENARIO}`);
-  const urlRegexWithRunSuffix = new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/S-.*/run`);
+  const urlRegexWithRunSuffix = new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/${scenarioIdPattern}/run`);
 
   Cypress.Keyboard.defaults({
     keystrokeDelay: 0
