@@ -10,7 +10,7 @@ export const SCENARIO_NAME = {
 };
 
 export const SCENARIO_ID = {
-  OTHER_SCENARIO: 'S-gqe14DqgVq5'
+  OTHER_SCENARIO: 's_l7g365o8ylzr'
 };
 
 export const BAR_PARAMETERS_RANGE = {

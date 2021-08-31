@@ -58,7 +58,7 @@ describe('Create scenario', () => {
     cy.get(SELECTORS.scenario.createDialog.datasetSelect).click().clear()
       .type(DATASET.BREWERY_ADT + '{downarrow}{enter}');
     cy.get(SELECTORS.scenario.createDialog.typeSelect).click().clear()
-      .type(SCENARIO_TYPE.BREWERY_PARAMETERS + '{enter}');
+      .type(SCENARIO_TYPE.BREWERY_PARAMETERS + '{downarrow}{enter}');
 
     cy.intercept('POST', urlRegexWithoutSuffix)
       .as('requestCreateScenario');
@@ -163,7 +163,8 @@ describe('Create scenario', () => {
     cy.get(SELECTORS.scenario.createDialog.dialog).click().find(SELECTORS.scenario.selectInput).clear()
       .type(scenarioMasterName + '{downarrow}{enter}');
 
-    cy.get(SELECTORS.scenario.createDialog.typeSelect).clear().type(SCENARIO_TYPE.BREWERY_PARAMETERS + '{enter}');
+    cy.get(SELECTORS.scenario.createDialog.typeSelect).clear().type(SCENARIO_TYPE.BREWERY_PARAMETERS
+      + '{downarrow}{enter}');
 
     cy.intercept('POST', urlRegexWithoutSuffix)
       .as('requestCreateScenario');
