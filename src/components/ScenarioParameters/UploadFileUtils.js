@@ -78,7 +78,11 @@ async function updateFileWithUpload (datasetFile, setDatasetFile, dataset, setDa
       setDataset(updateData);
       // File has been marked to be uploaded
       await uploadFile(dataset, datasetFile, setDatasetFile, workspaceId, datasetTargetPath);
-      setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD, preview: UPLOAD_FILE_STATUS_KEY.PREVIEW_AVAILABLE });
+      setDatasetFile({
+        ...datasetFile,
+        status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD,
+        preview: UPLOAD_FILE_STATUS_KEY.PREVIEW_AVAILABLE
+      });
       return updateData;
     }
   }
@@ -92,7 +96,13 @@ async function updateFileWithDelete (datasetFile, setDatasetFile, dataset, setDa
         For the moment, the workspace file deletion in omitted. This will be fixed in next version
   */
   setDataset({});
-  setDatasetFile({ ...datasetFile, file: null, name: '', status: UPLOAD_FILE_STATUS_KEY.EMPTY, preview: UPLOAD_FILE_STATUS_KEY.PREVIEW_NONE });
+  setDatasetFile({
+    ...datasetFile,
+    file: null,
+    name: '',
+    status: UPLOAD_FILE_STATUS_KEY.EMPTY,
+    preview: UPLOAD_FILE_STATUS_KEY.PREVIEW_NONE
+  });
   setDatasetId('');
   return {};
 }
@@ -125,7 +135,11 @@ const uploadFile = async (dataset, datasetFile, setDatasetFile, workspaceId, sto
     } else if (Object.keys(dataset).length !== 0) {
       updatePathInDatasetRef(dataset, STORAGE_ROOT_DIR_PLACEHOLDER + data.fileName);
     }
-    setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD, preview: UPLOAD_FILE_STATUS_KEY.PREVIEW_AVAILABLE });
+    setDatasetFile({
+      ...datasetFile,
+      status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD,
+      preview: UPLOAD_FILE_STATUS_KEY.PREVIEW_AVAILABLE
+    });
   } catch (e) {
     console.error(e);
     setDatasetFile({ ...datasetFile, status: status, preview: preview });
@@ -133,7 +147,12 @@ const uploadFile = async (dataset, datasetFile, setDatasetFile, workspaceId, sto
 };
 
 const prepareToDeleteFile = (datasetFile, setDatasetFile) => {
-  setDatasetFile({ ...datasetFile, file: null, status: UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE, preview: UPLOAD_FILE_STATUS_KEY.PREVIEW_NONE });
+  setDatasetFile({
+    ...datasetFile,
+    file: null,
+    status: UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE,
+    preview: UPLOAD_FILE_STATUS_KEY.PREVIEW_NONE
+  });
 };
 
 function getStorageFilePathFromDataset (data) {
@@ -173,7 +192,16 @@ const setPreviewFile = async (datasetId, datasetFile, setDatasetFile) => {
   }
 };
 
-const constructFileUpload = (keyValue, file, setFile, datasetId, acceptedFileTypesToUpload, editMode, showPreview, setShowPreview) => {
+const constructFileUpload = (
+  keyValue,
+  file,
+  setFile,
+  datasetId,
+  acceptedFileTypesToUpload,
+  editMode,
+  showPreview,
+  setShowPreview
+) => {
   return (
 <FileUpload keyValue={keyValue}
           file={file}
@@ -187,7 +215,12 @@ const constructFileUpload = (keyValue, file, setFile, datasetId, acceptedFileTyp
 const resetUploadFile = (datasetId, file, setFile) => {
   const initialName = file.initialName;
   if (file.initialName !== '') {
-    setFile({ ...file, name: initialName, status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD, preview: UPLOAD_FILE_STATUS_KEY.PREVIEW_AVAILABLE });
+    setFile({
+      ...file,
+      name: initialName,
+      status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD,
+      preview: UPLOAD_FILE_STATUS_KEY.PREVIEW_AVAILABLE
+    });
   } else {
     setFile({ ...file, status: UPLOAD_FILE_STATUS_KEY.EMPTY, preview: UPLOAD_FILE_STATUS_KEY.PREVIEW_NONE });
   }
