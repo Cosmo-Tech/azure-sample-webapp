@@ -1,3 +1,6 @@
+// Copyright (c) Cosmo Tech.
+// Licensed under the MIT license.
+
 export const SELECTORS = {
   login: {
     microsoftLoginButton: '[data-cy=sign-in-with-microsoft-button]'
@@ -21,10 +24,22 @@ export const SELECTORS = {
       tabs: '[data-cy=scenario-parameters-tabs]',
       editButton: '[data-cy=edit-parameters-button]',
       updateAndLaunchButton: '[data-cy=update-and-launch-scenario]',
-      stockInput: '[data-cy=stock-input]',
-      restockInput: '[data-cy=restock-input]',
-      waitersInput: '[data-cy=waiters-input]'
-
+      discardButton: '[data-cy=discard-button]',
+      dialogDiscardButton: '[data-cy=dialog-discard-button]',
+      brewery: {
+        stockInput: '[data-cy=stock-input]',
+        restockInput: '[data-cy=restock-input]',
+        waitersInput: '[data-cy=waiters-input]'
+      },
+      basicTypes: {
+        tabName: '[data-cy=basic_types_tab]',
+        textInput: 'input[id=basic-text-input-id]',
+        numberInput: 'input[id=basic-number-input-id]',
+        enumInput: 'div[id=basic-enum-input-id]'
+      },
+      uploadFile: {
+        tabName: '[data-cy=upload_file_template_tab]'
+      }
     },
     createButton: '[data-cy=create-scenario-button]',
     createDialog: {

@@ -92,6 +92,7 @@ const ScenarioParametersTabs = ({
             visibleTabs.map((tab, index) => (
               <Tab
                 key={index}
+                data-cy={tab.value + '_tab'}
                 className={classes.tab}
                 label={t(tab.translationKey, tab.label)}
                 value={tab.value}/>
