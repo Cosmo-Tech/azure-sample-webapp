@@ -50,6 +50,13 @@ export const PAGE_NAME = {
   SIGN_IN: '/sign-in'
 };
 
+export const URL_REGEX = {
+  WITHOUT_SUFFIX: new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}`),
+  WITH_UNKNOWN_ID_SCENARIO_SUFFIX: new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/.*`),
+  WITH_OTHER_SCENARIO_ID: new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/${SCENARIO_ID.OTHER_SCENARIO}`),
+  WITH_RUN_SUFFIX: new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/.*/run`)
+};
+
 export const FILE_NAME = {
   DOC: 'doc.pdf'
 };
