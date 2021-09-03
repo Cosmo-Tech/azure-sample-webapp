@@ -6,6 +6,7 @@ const TEST_CYPRESS = 'Test Cypress';
 export const SCENARIO_NAME = {
   SCENARIO_MASTER: TEST_CYPRESS + ' Master - ',
   SCENARIO_CHILD: TEST_CYPRESS + ' Child - ',
+  SCENARIO_WITH_BASIC_TYPES: TEST_CYPRESS + ' with basic types - ',
   OTHER_SCENARIO: TEST_CYPRESS + ' - another scenario'
 };
 
@@ -28,6 +29,19 @@ export const BAR_PARAMETERS_RANGE = {
   }
 };
 
+export const BASIC_PARAMETERS_CONST = {
+  NUMBER: {
+    MIN: -999,
+    MAX: 9999
+  },
+  ENUM: {
+    USD: '$',
+    EUR: '€',
+    BTC: '฿',
+    JPY: '¥'
+  }
+};
+
 export const URL_ROOT = 'https://dev.api.cosmotech.com';
 
 export const PAGE_NAME = {
@@ -45,7 +59,8 @@ export const DATASET = {
 };
 
 export const SCENARIO_TYPE = {
-  BREWERY_PARAMETERS: 'Run template with Brewery parameters'
+  BREWERY_PARAMETERS: 'Run template with Brewery parameters',
+  BASIC_TYPES: 'Run template with mock basic types parameters'
 };
 
 export const SCENARIO_RUN_IN_PROGRESS = 'Scenario run in progress...';

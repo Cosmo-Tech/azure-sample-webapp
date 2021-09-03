@@ -16,6 +16,7 @@ const EditModeButton = ({ classes, handleClickOnDiscardChange, handleClickOnUpda
         <Grid container spacing={1}>
           <Grid item>
             <Button
+              data-cy="discard-button"
               color="primary"
               onClick={handleClickOnDiscardChange}>
               {t('commoncomponents.button.scenario.parameters.discard', 'Discard Modifications')}

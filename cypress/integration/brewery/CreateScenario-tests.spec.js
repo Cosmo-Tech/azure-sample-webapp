@@ -9,7 +9,8 @@ import {
   URL_ROOT,
   DATASET,
   SCENARIO_TYPE,
-  SCENARIO_RUN_IN_PROGRESS
+  SCENARIO_RUN_IN_PROGRESS,
+  BASIC_PARAMETERS_CONST
 } from '../../constants/TestConstants.js';
 import { SELECTORS } from '../../constants/IdConstants';
 
@@ -24,21 +25,31 @@ const randomNmbr = (min, max) => {
   return Math.floor(Math.random() * (max - min) + min);
 };
 
+const randomEnum = (enumParam) => {
+  const rand = Math.floor(Math.random() * Object.keys(enumParam).length);
+
+  return enumParam[Object.keys(enumParam)[rand]];
+};
+
 describe('Create scenario', () => {
   const scenarioMasterName = SCENARIO_NAME.SCENARIO_MASTER + randomStr(7);
   const scenarioChildName = SCENARIO_NAME.SCENARIO_CHILD + randomStr(7);
+  const scenarioWithBasicTypes = SCENARIO_NAME.SCENARIO_WITH_BASIC_TYPES + randomStr(7);
   const otherScenarioName = SCENARIO_NAME.OTHER_SCENARIO;
 
   const stock = randomNmbr(BAR_PARAMETERS_RANGE.STOCK.MIN, BAR_PARAMETERS_RANGE.STOCK.MAX);
   const restock = randomNmbr(BAR_PARAMETERS_RANGE.RESTOCK.MIN, BAR_PARAMETERS_RANGE.RESTOCK.MAX);
   const waiters = randomNmbr(BAR_PARAMETERS_RANGE.WAITERS.MIN, BAR_PARAMETERS_RANGE.WAITERS.MAX);
 
-  const scenarioIdPattern = 's_.*';
+  const textValue = randomStr(8);
+  const numberValue = randomNmbr(BASIC_PARAMETERS_CONST.NUMBER.MIN, BASIC_PARAMETERS_CONST.NUMBER.MAX);
+  const enumValue = randomEnum(BASIC_PARAMETERS_CONST.ENUM);
+
   const urlRegexWithoutSuffix = new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}`);
-  const urlRegexWithUnknownIdScenarioSuffix = new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/${scenarioIdPattern}`);
+  const urlRegexWithUnknownIdScenarioSuffix = new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/.*`);
   const urlRegexWithOtherScenarioId =
     new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/${SCENARIO_ID.OTHER_SCENARIO}`);
-  const urlRegexWithRunSuffix = new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/${scenarioIdPattern}/run`);
+  const urlRegexWithRunSuffix = new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/.*/run`);
 
   Cypress.Keyboard.defaults({
     keystrokeDelay: 0
@@ -63,7 +74,7 @@ describe('Create scenario', () => {
     cy.intercept('POST', urlRegexWithoutSuffix)
       .as('requestCreateScenario');
     cy.intercept('GET', urlRegexWithoutSuffix)
-      .as('requestUpdateScenarioList2');
+      .as('requestUpdateScenarioList');
 
     cy.get(SELECTORS.scenario.createDialog.submitButton).click();
 
@@ -75,7 +86,7 @@ describe('Create scenario', () => {
       expect(scenarioCreatedName).equal(scenarioMasterName);
     });
 
-    cy.wait('@requestUpdateScenarioList2').should((req) => {
+    cy.wait('@requestUpdateScenarioList').should((req) => {
       const nameGet = req.response.body.find(obj => obj.id === scenarioCreatedId).name;
       expect(nameGet).equal(scenarioCreatedName);
       expect(nameGet).equal(scenarioMasterName);
@@ -86,17 +97,17 @@ describe('Create scenario', () => {
     // Edit master paramameters values
     cy.get(SELECTORS.scenario.parameters.editButton).click();
     cy.get(SELECTORS.scenario.parameters.tabs).should('be.visible');
-    cy.get(SELECTORS.scenario.parameters.stockInput).find('input').clear().type(stock);
-    cy.get(SELECTORS.scenario.parameters.restockInput).find('input').clear().type(restock);
-    cy.get(SELECTORS.scenario.parameters.waitersInput).find('input').clear().type(waiters);
+    cy.get(SELECTORS.scenario.parameters.brewery.stockInput).find('input').clear().type(stock);
+    cy.get(SELECTORS.scenario.parameters.brewery.restockInput).find('input').clear().type(restock);
+    cy.get(SELECTORS.scenario.parameters.brewery.waitersInput).find('input').clear().type(waiters);
 
-    // Launch scenario master
+    // Update and launch scenario master
     cy.intercept('PATCH', urlRegexWithUnknownIdScenarioSuffix)
       .as('requestEditScenario');
     cy.intercept('POST', urlRegexWithRunSuffix)
       .as('requestRunScenario');
 
-    cy.get('[data-cy=update-and-launch-scenario]').click();
+    cy.get(SELECTORS.scenario.parameters.updateAndLaunchButton).click();
 
     cy.wait('@requestEditScenario').should((req) => {
       const { name: nameGet, id: idGet, parametersValues: paramsGet, state } = req.response.body;
@@ -142,9 +153,9 @@ describe('Create scenario', () => {
 
     cy.get(SELECTORS.scenario.selectInput).find('input').should('have.value', scenarioMasterName);
 
-    cy.get(SELECTORS.scenario.parameters.stockInput).find('input').should('have.value', stock);
-    cy.get(SELECTORS.scenario.parameters.restockInput).find('input').should('have.value', restock);
-    cy.get(SELECTORS.scenario.parameters.waitersInput).find('input').should('have.value', waiters);
+    cy.get(SELECTORS.scenario.parameters.brewery.stockInput).find('input').should('have.value', stock);
+    cy.get(SELECTORS.scenario.parameters.brewery.restockInput).find('input').should('have.value', restock);
+    cy.get(SELECTORS.scenario.parameters.brewery.waitersInput).find('input').should('have.value', waiters);
   });
 
   it('can create scenario child', () => {
@@ -190,9 +201,9 @@ describe('Create scenario', () => {
 
     cy.get(SELECTORS.scenario.selectInput).find('input').should('have.value', scenarioChildName);
 
-    cy.get(SELECTORS.scenario.parameters.stockInput).find('input').should('have.value', stock);
-    cy.get(SELECTORS.scenario.parameters.restockInput).find('input').should('have.value', restock);
-    cy.get(SELECTORS.scenario.parameters.waitersInput).find('input').should('have.value', waiters);
+    cy.get(SELECTORS.scenario.parameters.brewery.stockInput).find('input').should('have.value', stock);
+    cy.get(SELECTORS.scenario.parameters.brewery.restockInput).find('input').should('have.value', restock);
+    cy.get(SELECTORS.scenario.parameters.brewery.waitersInput).find('input').should('have.value', waiters);
 
     // Edit child paramameters values
     const childStock = randomNmbr(BAR_PARAMETERS_RANGE.STOCK.MIN, BAR_PARAMETERS_RANGE.STOCK.MAX);
@@ -201,9 +212,9 @@ describe('Create scenario', () => {
 
     cy.get(SELECTORS.scenario.parameters.editButton).click();
     cy.get(SELECTORS.scenario.parameters.tabs).should('be.visible');
-    cy.get(SELECTORS.scenario.parameters.stockInput).find('input').clear().type(childStock);
-    cy.get(SELECTORS.scenario.parameters.restockInput).find('input').clear().type(childRestock);
-    cy.get(SELECTORS.scenario.parameters.waitersInput).find('input').clear().type(childWaiters);
+    cy.get(SELECTORS.scenario.parameters.brewery.stockInput).find('input').clear().type(childStock);
+    cy.get(SELECTORS.scenario.parameters.brewery.restockInput).find('input').clear().type(childRestock);
+    cy.get(SELECTORS.scenario.parameters.brewery.waitersInput).find('input').clear().type(childWaiters);
 
     // Launch scenario child
     cy.intercept('PATCH', urlRegexWithUnknownIdScenarioSuffix)
@@ -259,8 +270,123 @@ describe('Create scenario', () => {
 
     cy.get(SELECTORS.scenario.selectInput).find('input').should('have.value', scenarioChildName);
 
-    cy.get(SELECTORS.scenario.parameters.stockInput).find('input').should('have.value', childStock);
-    cy.get(SELECTORS.scenario.parameters.restockInput).find('input').should('have.value', childRestock);
-    cy.get(SELECTORS.scenario.parameters.waitersInput).find('input').should('have.value', childWaiters);
+    cy.get(SELECTORS.scenario.parameters.brewery.stockInput).find('input').should('have.value', childStock);
+    cy.get(SELECTORS.scenario.parameters.brewery.restockInput).find('input').should('have.value', childRestock);
+    cy.get(SELECTORS.scenario.parameters.brewery.waitersInput).find('input').should('have.value', childWaiters);
+  });
+
+  it('can create scenario, edit/discard parameters and switch between parameters tabs', () => {
+    // Log and launch app on scenario view
+    cy.visit(PAGE_NAME.SCENARIO);
+    cy.login();
+
+    // Create Scenario with some paramaters tabs
+    cy.get(SELECTORS.scenario.createButton).click();
+    cy.get(SELECTORS.scenario.createDialog.dialog).should('be.visible');
+    cy.get(SELECTORS.scenario.parameters.tabs).should('be.visible');
+
+    cy.get(SELECTORS.scenario.createDialog.masterCheckbox).click();
+    cy.get(SELECTORS.scenario.createDialog.nameTextfield).type(scenarioWithBasicTypes);
+    cy.get(SELECTORS.scenario.createDialog.datasetSelect).click().clear()
+      .type(DATASET.BREWERY_ADT + '{downarrow}{enter}');
+    cy.get(SELECTORS.scenario.createDialog.typeSelect).click().clear()
+      .type(SCENARIO_TYPE.BASIC_TYPES + '{downarrow}{enter}');
+
+    cy.intercept('POST', urlRegexWithoutSuffix)
+      .as('requestCreateScenario');
+    cy.intercept('GET', urlRegexWithoutSuffix)
+      .as('requestUpdateScenarioList');
+
+    cy.get(SELECTORS.scenario.createDialog.submitButton).click();
+
+    let scenarioCreatedId, scenarioCreatedName;
+    cy.wait('@requestCreateScenario').should((req) => {
+      scenarioCreatedName = req.response.body.name;
+      scenarioCreatedId = req.response.body.id;
+      cy.wrap(scenarioCreatedId).as('scenarioCreatedId');
+      expect(scenarioCreatedName).equal(scenarioWithBasicTypes);
+    });
+
+    cy.wait('@requestUpdateScenarioList').should((req) => {
+      const nameGet = req.response.body.find(obj => obj.id === scenarioCreatedId).name;
+      expect(nameGet).equal(scenarioCreatedName);
+    });
+
+    cy.get(SELECTORS.scenario.selectInput).find('input').should('have.value', scenarioWithBasicTypes);
+
+    // Edit paramameters values
+    cy.get(SELECTORS.scenario.parameters.editButton).click();
+    cy.get(SELECTORS.scenario.parameters.basicTypes.tabName).click();
+
+    cy.get(SELECTORS.scenario.parameters.basicTypes.textInput).invoke('attr', 'value').as('basic-text-input');
+    cy.get(SELECTORS.scenario.parameters.basicTypes.numberInput).invoke('attr', 'value').as('basic-number-input');
+    cy.get(SELECTORS.scenario.parameters.basicTypes.enumInput).next('input')
+      .invoke('attr', 'value').as('basic-enum-input');
+
+    cy.get(SELECTORS.scenario.parameters.basicTypes.textInput).click().clear().type(textValue);
+    cy.get(SELECTORS.scenario.parameters.basicTypes.numberInput).click().clear().type(numberValue);
+    cy.get(SELECTORS.scenario.parameters.basicTypes.enumInput).type(enumValue + ' {enter}');
+
+    // switch parameters tabs then back and check parameters,
+    cy.get(SELECTORS.scenario.parameters.uploadFile.tabName).click();
+    cy.get(SELECTORS.scenario.parameters.basicTypes.tabName).click();
+
+    cy.get(SELECTORS.scenario.parameters.basicTypes.textInput).should('value', textValue);
+    cy.get(SELECTORS.scenario.parameters.basicTypes.numberInput).should('value', numberValue);
+    cy.get(SELECTORS.scenario.parameters.basicTypes.enumInput).next('input').invoke('attr', 'value').then(value => {
+      expect(BASIC_PARAMETERS_CONST.ENUM[value], enumValue);
+    });
+
+    // discard
+    cy.get(SELECTORS.scenario.parameters.discardButton).click();
+    cy.get(SELECTORS.scenario.parameters.dialogDiscardButton).click();
+
+    cy.get('@basic-text-input').then(input => {
+      cy.get(SELECTORS.scenario.parameters.basicTypes.textInput).should('value', input);
+    });
+    cy.get('@basic-number-input').then(input => {
+      cy.get(SELECTORS.scenario.parameters.basicTypes.numberInput).should('value', input);
+    });
+    cy.get('@basic-enum-input').then(input => {
+      cy.get(SELECTORS.scenario.parameters.basicTypes.enumInput).next('input')
+        .invoke('attr', 'value').then(value => {
+          expect(BASIC_PARAMETERS_CONST.ENUM[value], enumValue);
+        });
+    });
+
+    // re-edit
+    cy.get(SELECTORS.scenario.parameters.editButton).click();
+    cy.get(SELECTORS.scenario.parameters.basicTypes.tabName).click();
+
+    cy.get(SELECTORS.scenario.parameters.basicTypes.textInput).click().clear().type(textValue);
+    cy.get(SELECTORS.scenario.parameters.basicTypes.numberInput).click().clear().type(numberValue);
+    cy.get(SELECTORS.scenario.parameters.basicTypes.enumInput).type(enumValue + ' {enter}');
+
+    // update and launch
+    cy.intercept('PATCH', urlRegexWithUnknownIdScenarioSuffix)
+      .as('requestEditScenario');
+    cy.intercept('POST', urlRegexWithRunSuffix)
+      .as('requestRunScenario');
+
+    cy.get(SELECTORS.scenario.parameters.updateAndLaunchButton).click();
+
+    cy.wait('@requestEditScenario').should((req) => {
+      const { name: nameGet, id: idGet, parametersValues: paramsGet, state } = req.response.body;
+      const textGet = paramsGet.find(obj => obj.parameterId === 'currency_name').value;
+      const numberGet = parseFloat(paramsGet.find(obj => obj.parameterId === 'currency_value').value);
+      const enumGet = paramsGet.find(obj => obj.parameterId === 'currency').value;
+      expect(nameGet).equal(scenarioCreatedName);
+      expect(state).equal('Created');
+      expect(idGet).equal(scenarioCreatedId);
+      expect(textGet).equal(textValue);
+      expect(numberGet).equal(numberValue);
+      expect(BASIC_PARAMETERS_CONST.ENUM[enumGet]).equal(enumValue);
+    });
+
+    cy.wait('@requestRunScenario').should((req) => {
+      expect(req.response.body.scenarioId).equal(scenarioCreatedId);
+    });
+
+    cy.get(SELECTORS.scenario.dashboard.placeholder).should('have.text', SCENARIO_RUN_IN_PROGRESS);
   });
 });
