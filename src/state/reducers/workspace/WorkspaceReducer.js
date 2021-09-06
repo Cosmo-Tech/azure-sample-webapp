@@ -16,8 +16,8 @@ export const currentWorkspaceInitialState = {
 export const currentWorkspaceReducer = createReducer(currentWorkspaceInitialState, (builder) => {
   builder
     .addCase(WORKSPACE_ACTIONS_KEY.SET_CURRENT_WORKSPACE, (state, action) => {
-      state.data = action.data.workspace;
-      state.status = action.data.status;
+      state.data = action.workspace;
+      state.status = action.status;
     });
 });
 
