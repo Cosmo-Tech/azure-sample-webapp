@@ -17,22 +17,18 @@ export function * launchScenario (action) {
     // Update scenario
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
-      data: {
-        status: STATUSES.SAVING,
-        scenario: { state: SCENARIO_RUN_STATE.RUNNING }
-      }
+      status: STATUSES.SAVING,
+      scenario: { state: SCENARIO_RUN_STATE.RUNNING }
     });
 
     // Launch scenario if parameters update succeeded
     yield call(Api.ScenarioRuns.runScenario, ORGANIZATION_ID, workspaceId, scenarioId);
 
-    // Update status to IDLE
+    /*    // Update status to IDLE
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
-      data: {
-        status: STATUSES.IDLE
-      }
-    });
+      status: STATUSES.IDLE
+    }); */
     // Start backend polling to update the scenario status
     yield put({
       type: SCENARIO_ACTIONS_KEY.START_SCENARIO_STATUS_POLLING,

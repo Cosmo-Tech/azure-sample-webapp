@@ -18,10 +18,8 @@ export function * updateAndLaunchScenario (action) {
     // Update scenario parameters
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
-      data: {
-        status: STATUSES.SAVING,
-        scenario: { state: SCENARIO_RUN_STATE.RUNNING }
-      }
+      status: STATUSES.SAVING,
+      scenario: { state: SCENARIO_RUN_STATE.RUNNING }
     });
     const { data: updateData } = yield call(Api.Scenarios.updateScenario,
       ORGANIZATION_ID,
@@ -33,10 +31,8 @@ export function * updateAndLaunchScenario (action) {
 
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
-      data: {
-        status: STATUSES.IDLE,
-        scenario: { state: SCENARIO_RUN_STATE.RUNNING, parametersValues: updateData.parametersValues }
-      }
+      status: STATUSES.IDLE,
+      scenario: { state: SCENARIO_RUN_STATE.RUNNING, parametersValues: updateData.parametersValues }
     });
     // Launch scenario if parameters update succeeded
     yield call(Api.ScenarioRuns.runScenario,
@@ -54,7 +50,8 @@ export function * updateAndLaunchScenario (action) {
     console.error(e);
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
-      data: { status: STATUSES.ERROR }
+      status: STATUSES.ERROR,
+      scenario: null
     });
   }
 }
