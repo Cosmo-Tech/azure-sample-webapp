@@ -25,6 +25,9 @@ const Loading = (
     logout,
     tabs,
     scenarioList,
+    currentScenario,
+    powerBiInfo,
+    runTemplateList,
     workspace,
     solution,
     datasetList,
@@ -60,28 +63,49 @@ const Loading = (
               titleKey={'genericcomponent.loading.line.scenario.list.title'}
               hasError={hasErrors(scenarioList)}
               isLoading={isLoading(scenarioList)}
-              height={120}
+              height={100}
               width={120}
             />
             <LoadingLine
               titleKey={'genericcomponent.loading.line.dataset.list.title'}
               hasError={hasErrors(datasetList)}
               isLoading={isLoading(datasetList)}
-              height={120}
+              height={100}
               width={120}
             />
             <LoadingLine
               titleKey={'genericcomponent.loading.line.workspace.current.title'}
               hasError={hasErrors(workspace)}
               isLoading={isLoading(workspace)}
-              height={120}
+              height={100}
               width={120}
             />
             <LoadingLine
               titleKey={'genericcomponent.loading.line.solution.current.title'}
               hasError={hasErrors(solution)}
               isLoading={isLoading(solution)}
-              height={120}
+              height={100}
+              width={120}
+            />
+            <LoadingLine
+              titleKey={'genericcomponent.loading.line.scenario.current.title'}
+              hasError={hasErrors(currentScenario)}
+              isLoading={isLoading(currentScenario)}
+              height={100}
+              width={120}
+            />
+            <LoadingLine
+              titleKey={'genericcomponent.loading.line.runtemplate.list.title'}
+              hasError={hasErrors(runTemplateList)}
+              isLoading={isLoading(runTemplateList)}
+              height={100}
+              width={120}
+            />
+            <LoadingLine
+              titleKey={'genericcomponent.loading.line.powerbi.title'}
+              hasError={hasErrors(powerBiInfo)}
+              isLoading={isLoading(powerBiInfo)}
+              height={100}
               width={120}
             />
           </FadeIn>
@@ -95,6 +119,9 @@ Loading.propTypes = {
   authorized: PropTypes.bool.isRequired,
   logout: PropTypes.func.isRequired,
   tabs: PropTypes.array.isRequired,
+  powerBiInfo: PropTypes.object.isRequired,
+  currentScenario: PropTypes.object.isRequired,
+  runTemplateList: PropTypes.object.isRequired,
   scenarioList: PropTypes.object.isRequired,
   workspace: PropTypes.object.isRequired,
   solution: PropTypes.object.isRequired,

@@ -252,6 +252,17 @@
         "scenario": {
           "list" : {
             "title" : "Fetching scenario list"
+          },
+          "current": {
+            "title" : "Set current scenario"
+          }
+        },
+        "powerbi": {
+          "title" : "Loading PowerBI"
+        },
+        "runtemplate": {
+          "list" : {
+            "title": "Loading run templates"
           }
         }
       }

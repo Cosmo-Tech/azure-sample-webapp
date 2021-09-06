@@ -252,6 +252,17 @@
         "scenario": {
           "list" : {
             "title" : "Récupération de la liste des scénarios"
+          },
+          "current": {
+            "title" : "Mise en place du scénario courant"
+          }
+        },
+        "powerbi": {
+          "title" : "Chargement PowerBI"
+        },
+        "runtemplate": {
+          "list" : {
+            "title": "Récupération des schéma de run"
           }
         }
       }
