@@ -50,7 +50,8 @@ export function * fetchAllInitialData (action) {
     yield fork(getPowerBIEmbedInfoSaga);
     yield put({
       type: RUN_TEMPLATE_ACTIONS_KEY.SET_RUN_TEMPLATE_LIST,
-      data: { list: runTemplates, status: STATUSES.SUCCESS }
+      list: runTemplates,
+      status: STATUSES.SUCCESS
     });
     yield put({
       type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS,
