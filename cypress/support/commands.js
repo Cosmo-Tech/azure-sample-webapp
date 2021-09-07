@@ -17,3 +17,50 @@ Cypress.Commands.add('login', () => {
   cy.get(SELECTORS.scenario.parameters.tabs).should('be.visible');
   cy.get(SELECTORS.scenario.view).should('be.visible');
 });
+
+// Create scenario
+Cypress.Commands.add('createScenario', (scenarioName, isMaster, datasetOrMasterName, scenarioType) => {
+  cy.get(SELECTORS.scenario.createButton).click();
+  cy.get(SELECTORS.scenario.createDialog.dialog).should('be.visible');
+
+  cy.get(SELECTORS.scenario.createDialog.nameTextfield).type(scenarioName);
+
+  if (isMaster === true) {
+    cy.get(SELECTORS.scenario.createDialog.masterCheckbox).click();
+    cy.get(SELECTORS.scenario.createDialog.datasetSelect).click();
+  } else {
+    cy.get(SELECTORS.scenario.createDialog.dialog).click().find(SELECTORS.scenario.selectInput).click();
+  }
+  cy.focused().type(datasetOrMasterName);
+  cy.contains(datasetOrMasterName).should('be.visible').click();
+
+  cy.get(SELECTORS.scenario.createDialog.typeSelect).click();
+  cy.focused().type(scenarioType);
+  /* eslint-disable cypress/no-force */
+  cy.contains(scenarioType).should('be.visible').click({ force: true });
+
+  cy.intercept('POST', URL_REGEX.WITHOUT_SUFFIX).as('requestCreateScenario');
+  cy.intercept('GET', URL_REGEX.WITHOUT_SUFFIX).as('requestUpdateScenarioList');
+
+  cy.get(SELECTORS.scenario.createDialog.submitButton).click();
+
+  let scenarioCreatedId, scenarioCreatedName;
+  cy.wait('@requestCreateScenario').then((req) => {
+    scenarioCreatedName = req.response.body.name;
+    scenarioCreatedId = req.response.body.id;
+    cy.wrap(scenarioCreatedId).as('scenarioCreatedId');
+    cy.wrap(scenarioCreatedName).should('equal', scenarioName);
+  });
+
+  cy.wait('@requestUpdateScenarioList').then((req) => {
+    const nameGet = req.response.body.find(obj => obj.id === scenarioCreatedId).name;
+    cy.wrap(nameGet).should('equal', scenarioCreatedName);
+  });
+
+  cy.get(SELECTORS.scenario.selectInput).find('input').should('have.value', scenarioName).then(() => {
+    return {
+      scenarioCreatedId,
+      scenarioCreatedName
+    };
+  });
+});
