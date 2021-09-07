@@ -20,6 +20,8 @@ describe('Create scenario', () => {
   const scenarioChildName = SCENARIO_NAME.SCENARIO_CHILD + utils.randomStr(7);
   const scenarioWithBasicTypes = SCENARIO_NAME.SCENARIO_WITH_BASIC_TYPES + utils.randomStr(7);
   const otherScenarioName = SCENARIO_NAME.OTHER_SCENARIO;
+  let otherScenarioId;
+  let urlRegexWithOtherScenarioId;
 
   const stock = utils.randomNmbr(BAR_PARAMETERS_RANGE.STOCK.MIN, BAR_PARAMETERS_RANGE.STOCK.MAX);
   const restock = utils.randomNmbr(BAR_PARAMETERS_RANGE.RESTOCK.MIN, BAR_PARAMETERS_RANGE.RESTOCK.MAX);
@@ -34,16 +36,13 @@ describe('Create scenario', () => {
   });
 
   it('can create and lauch scenario master', () => {
-    // Log and launch app on scenario view
-    cy.visit(PAGE_NAME.SCENARIO);
-    cy.login();
-
     // Create scenario master:
-    let scenarioCreatedId, scenarioCreatedName; 
-    cy.createScenario(scenarioMasterName, DATASET.BREWERY_ADT, SCENARIO_TYPE.BREWERY_PARAMETERS).then(value => {
-      scenarioCreatedId = value.scenarioCreatedId;
-      scenarioCreatedName = value.scenarioCreatedName;
-    });
+    let scenarioCreatedId, scenarioCreatedName;
+    cy.createScenario(scenarioMasterName, true, DATASET.BREWERY_ADT, SCENARIO_TYPE.BREWERY_PARAMETERS)
+      .then((value) => {
+        scenarioCreatedId = value.scenarioCreatedId;
+        scenarioCreatedName = value.scenarioCreatedName;
+      });
 
     // Edit master paramameters values
     cy.get(SELECTORS.scenario.parameters.editButton).click();
@@ -80,8 +79,7 @@ describe('Create scenario', () => {
     cy.get(SELECTORS.scenario.dashboard.placeholder).should('have.text', SCENARIO_RUN_IN_PROGRESS);
 
     // Switch to another scenario then come back to the first scenario
-    cy.intercept('GET', URL_REGEX.WITH_OTHER_SCENARIO_ID)
-      .as('requestUpdateCurrentScenario2');
+    cy.intercept('GET', urlRegexWithOtherScenarioId).as('requestUpdateCurrentScenario2');
 
     cy.get(SELECTORS.scenario.selectInput).click().clear().type(otherScenarioName + '{downarrow}{enter}');
 
@@ -90,10 +88,9 @@ describe('Create scenario', () => {
 
     cy.get(SELECTORS.scenario.selectInput).find('input').should('have.value', otherScenarioName);
 
-    let urlRegexWithICreatedScenarioIdSuffix;
     cy.get('@scenarioCreatedId').then(scenarioCreatedId => {
-      urlRegexWithICreatedScenarioIdSuffix = new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/${scenarioCreatedId}`);
-      cy.intercept('GET', urlRegexWithICreatedScenarioIdSuffix).as('requestUpdateCurrentScenario3');
+      cy.intercept('GET', new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/${scenarioCreatedId}`))
+        .as('requestUpdateCurrentScenario3');
     });
 
     cy.get(SELECTORS.scenario.selectInput).clear().type(scenarioMasterName + '{downarrow}{enter}');
@@ -114,42 +111,13 @@ describe('Create scenario', () => {
     cy.login();
 
     // Create Scenario Child
-    cy.visit(PAGE_NAME.SCENARIO);
-
-    cy.get(SELECTORS.scenario.createButton).click();
-    cy.get(SELECTORS.scenario.createDialog.dialog).should('be.visible');
-
-    cy.get(SELECTORS.scenario.createDialog.nameTextfield).type(scenarioChildName);
-
-    cy.get(SELECTORS.scenario.createDialog.dialog).click().find(SELECTORS.scenario.selectInput).clear()
-      .type(scenarioMasterName + '{downarrow}{enter}');
-
-    cy.get(SELECTORS.scenario.createDialog.typeSelect).clear().type(SCENARIO_TYPE.BREWERY_PARAMETERS +
-      '{downarrow}{enter}');
-
-    cy.intercept('POST', URL_REGEX.WITHOUT_SUFFIX)
-      .as('requestCreateScenario');
-    cy.intercept('GET', URL_REGEX.WITHOUT_SUFFIX)
-      .as('requestUpdateScenarioList');
-
-    cy.get(SELECTORS.scenario.createDialog.submitButton).click();
-
     let scenarioCreatedId, scenarioCreatedName;
-    cy.wait('@requestCreateScenario').should((req) => {
-      scenarioCreatedName = req.response.body.name;
-      scenarioCreatedId = req.response.body.id;
-      cy.wrap(scenarioCreatedId).as('scenarioCreatedId');
-      expect(scenarioCreatedName).equal(scenarioChildName);
+    cy.createScenario(scenarioChildName, false, scenarioMasterName, SCENARIO_TYPE.BREWERY_PARAMETERS).then(value => {
+      scenarioCreatedId = value.scenarioCreatedId;
+      scenarioCreatedName = value.scenarioCreatedName;
     });
 
-    cy.wait('@requestUpdateScenarioList').should((req) => {
-      const scenarioListGet = req.response.body;
-      const scenarioNameGet = scenarioListGet.find(obj => obj.id === scenarioCreatedId).name;
-      expect(scenarioNameGet).equal(scenarioCreatedName);
-    });
-
-    cy.get(SELECTORS.scenario.selectInput).find('input').should('have.value', scenarioChildName);
-
+    // Check inherited children parameters
     cy.get(SELECTORS.scenario.parameters.brewery.stockInput).find('input').should('have.value', stock);
     cy.get(SELECTORS.scenario.parameters.brewery.restockInput).find('input').should('have.value', restock);
     cy.get(SELECTORS.scenario.parameters.brewery.waitersInput).find('input').should('have.value', waiters);
@@ -192,7 +160,7 @@ describe('Create scenario', () => {
     cy.get(SELECTORS.scenario.dashboard.placeholder).should('have.text', SCENARIO_RUN_IN_PROGRESS);
 
     // Switch to another scenario then come back to the first scenario
-    cy.intercept('GET', URL_REGEX.WITH_OTHER_SCENARIO_ID)
+    cy.intercept('GET', urlRegexWithOtherScenarioId)
       .as('requestUpdateCurrentScenario2');
 
     cy.get(SELECTORS.scenario.selectInput).click().clear().type(otherScenarioName + '{downarrow}{enter}');
@@ -204,10 +172,9 @@ describe('Create scenario', () => {
 
     cy.get(SELECTORS.scenario.selectInput).find('input').should('have.value', otherScenarioName);
 
-    let urlRegexWithICreatedScenarioIdSuffix;
     cy.get('@scenarioCreatedId').then(scenarioCreatedId => {
-      urlRegexWithICreatedScenarioIdSuffix = new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/${scenarioCreatedId}`);
-      cy.intercept('GET', urlRegexWithICreatedScenarioIdSuffix).as('requestUpdateCurrentScenario3');
+      cy.intercept('GET', new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/${scenarioCreatedId}`))
+        .as('requestUpdateCurrentScenario3');
     });
 
     cy.get(SELECTORS.scenario.selectInput).clear().type(scenarioChildName + '{downarrow}{enter}');
@@ -230,38 +197,11 @@ describe('Create scenario', () => {
     cy.login();
 
     // Create Scenario with some paramaters tabs
-    cy.get(SELECTORS.scenario.createButton).click();
-    cy.get(SELECTORS.scenario.createDialog.dialog).should('be.visible');
-    cy.get(SELECTORS.scenario.parameters.tabs).should('be.visible');
-
-    cy.get(SELECTORS.scenario.createDialog.masterCheckbox).click();
-    cy.get(SELECTORS.scenario.createDialog.nameTextfield).type(scenarioWithBasicTypes);
-    cy.get(SELECTORS.scenario.createDialog.datasetSelect).click().clear()
-      .type(DATASET.BREWERY_ADT + '{downarrow}{enter}');
-    cy.get(SELECTORS.scenario.createDialog.typeSelect).click().clear()
-      .type(SCENARIO_TYPE.BASIC_TYPES + '{downarrow}{enter}');
-
-    cy.intercept('POST', URL_REGEX.WITHOUT_SUFFIX)
-      .as('requestCreateScenario');
-    cy.intercept('GET', URL_REGEX.WITHOUT_SUFFIX)
-      .as('requestUpdateScenarioList');
-
-    cy.get(SELECTORS.scenario.createDialog.submitButton).click();
-
     let scenarioCreatedId, scenarioCreatedName;
-    cy.wait('@requestCreateScenario').should((req) => {
-      scenarioCreatedName = req.response.body.name;
-      scenarioCreatedId = req.response.body.id;
-      cy.wrap(scenarioCreatedId).as('scenarioCreatedId');
-      expect(scenarioCreatedName).equal(scenarioWithBasicTypes);
+    cy.createScenario(scenarioWithBasicTypes, true, DATASET.BREWERY_ADT, SCENARIO_TYPE.BASIC_TYPES).then(value => {
+      scenarioCreatedId = value.scenarioCreatedId;
+      scenarioCreatedName = value.scenarioCreatedName;
     });
-
-    cy.wait('@requestUpdateScenarioList').should((req) => {
-      const nameGet = req.response.body.find(obj => obj.id === scenarioCreatedId).name;
-      expect(nameGet).equal(scenarioCreatedName);
-    });
-
-    cy.get(SELECTORS.scenario.selectInput).find('input').should('have.value', scenarioWithBasicTypes);
 
     // Edit paramameters values
     cy.get(SELECTORS.scenario.parameters.editButton).click();

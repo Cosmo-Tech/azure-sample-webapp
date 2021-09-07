@@ -10,10 +10,6 @@ export const SCENARIO_NAME = {
   OTHER_SCENARIO: TEST_CYPRESS + ' - another scenario'
 };
 
-export const SCENARIO_ID = {
-  OTHER_SCENARIO: 's_l7g365o8ylzr'
-};
-
 export const BAR_PARAMETERS_RANGE = {
   STOCK: {
     MIN: 0,
@@ -53,7 +49,6 @@ export const PAGE_NAME = {
 export const URL_REGEX = {
   WITHOUT_SUFFIX: new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}`),
   WITH_UNKNOWN_ID_SCENARIO_SUFFIX: new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/.*`),
-  WITH_OTHER_SCENARIO_ID: new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/${SCENARIO_ID.OTHER_SCENARIO}`),
   WITH_RUN_SUFFIX: new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/.*/run`)
 };
 
