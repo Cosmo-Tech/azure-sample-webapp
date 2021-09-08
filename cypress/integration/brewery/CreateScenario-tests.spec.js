@@ -35,6 +35,17 @@ describe('Create scenario', () => {
     keystrokeDelay: 0
   });
 
+  before(() => {
+    // Create "another scenario"
+    cy.visit(PAGE_NAME.SCENARIO);
+    cy.login();
+
+    cy.createScenario(otherScenarioName, true, DATASET.BREWERY_ADT, SCENARIO_TYPE.BREWERY_PARAMETERS).then((value) => {
+      otherScenarioId = value.scenarioCreatedId;
+      urlRegexWithOtherScenarioId = new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/${otherScenarioId}`);
+    });
+  });
+
   it('can create and lauch scenario master', () => {
     // Create scenario master:
     let scenarioCreatedId, scenarioCreatedName;
