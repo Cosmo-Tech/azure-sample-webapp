@@ -236,22 +236,33 @@
       "line": {
         "workspace" : {
           "current" : {
-            "title" : "Récupération du workspace"
+            "title" : "Chargement du workspace"
           }
         },
         "solution" : {
           "current" : {
-            "title" : "Récupération de la solution"
+            "title" : "Chargement de la solution"
           }
         },
         "dataset" : {
           "list" : {
-            "title" : "Récupération de la liste des datasets"
+            "title" : "Chargement de la liste des datasets"
           }
         },
         "scenario": {
           "list" : {
-            "title" : "Récupération de la liste des scénarios"
+            "title" : "Chargement de la liste des scénarios"
+          },
+          "current": {
+            "title" : "Mise en place du scénario courant"
+          }
+        },
+        "powerbi": {
+          "title" : "Connexion à PowerBI"
+        },
+        "runtemplate": {
+          "list" : {
+            "title": "Chargement des types de scénarios"
           }
         }
       }

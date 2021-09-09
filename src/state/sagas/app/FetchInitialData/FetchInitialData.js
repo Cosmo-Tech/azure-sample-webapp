@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { put, takeEvery, call, select, fork } from 'redux-saga/effects';
+import { put, takeEvery, call, select, fork, all, take } from 'redux-saga/effects';
 import { APPLICATION_ACTIONS_KEY } from '../../../commons/ApplicationConstants';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { STATUSES } from '../../../commons/Constants';
@@ -14,6 +14,10 @@ import { fetchSolutionByIdData }
 import { RUN_TEMPLATE_ACTIONS_KEY } from '../../../commons/RunTemplateConstants';
 import { fetchScenarioByIdForInitialData } from '../../scenario/FindScenarioById';
 import { getPowerBIEmbedInfoSaga } from '../../powerbi/GetPowerBIEmbedInfo/GetPowerBIEmbedInfoData';
+import { POWER_BI_ACTIONS_KEY } from '../../../commons/PowerBIConstants';
+import { DATASET_ACTIONS_KEY } from '../../../commons/DatasetConstants';
+import { WORKSPACE_ACTIONS_KEY } from '../../../commons/WorkspaceConstants';
+import { SOLUTION_ACTIONS_KEY } from '../../../commons/SolutionConstants';
 
 const selectSolutionIdFromCurrentWorkspace = (state) => state.workspace.current.data.solution.solutionId;
 const selectRunTemplatesFromCurrentSolution = (state) => state.solution.current.data.runTemplates;
@@ -50,10 +54,7 @@ export function * fetchAllInitialData (action) {
     yield fork(getPowerBIEmbedInfoSaga);
     yield put({
       type: RUN_TEMPLATE_ACTIONS_KEY.SET_RUN_TEMPLATE_LIST,
-      data: { list: runTemplates, status: STATUSES.SUCCESS }
-    });
-    yield put({
-      type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS,
+      list: runTemplates,
       status: STATUSES.SUCCESS
     });
   } catch (error) {
@@ -65,8 +66,31 @@ export function * fetchAllInitialData (action) {
   }
 }
 
-function * getAllInitialData () {
-  yield takeEvery(APPLICATION_ACTIONS_KEY.GET_ALL_INITIAL_DATA, fetchAllInitialData);
+export function * watchNeededApplicationData () {
+  const actions = yield all([
+    take(POWER_BI_ACTIONS_KEY.SET_EMBED_INFO),
+    take(SCENARIO_ACTIONS_KEY.SET_ALL_SCENARIOS),
+    take(DATASET_ACTIONS_KEY.SET_ALL_DATASETS),
+    take(WORKSPACE_ACTIONS_KEY.SET_CURRENT_WORKSPACE),
+    take(SOLUTION_ACTIONS_KEY.SET_CURRENT_SOLUTION),
+    take(SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO),
+    take(RUN_TEMPLATE_ACTIONS_KEY.SET_RUN_TEMPLATE_LIST)
+  ]);
+
+  const unSuccessfulActions = actions.filter(action => action.status !== STATUSES.SUCCESS);
+  if (unSuccessfulActions.length !== 0) {
+    yield put({
+      type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS,
+      status: STATUSES.ERROR
+    });
+  } else {
+    yield put({
+      type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS,
+      status: STATUSES.SUCCESS
+    });
+  }
 }
 
-export default getAllInitialData;
+export function * getAllInitialData () {
+  yield takeEvery(APPLICATION_ACTIONS_KEY.GET_ALL_INITIAL_DATA, fetchAllInitialData);
+}

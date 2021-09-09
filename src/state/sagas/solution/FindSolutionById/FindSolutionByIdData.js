@@ -12,7 +12,8 @@ export function * fetchSolutionByIdData (workspaceId, solutionId) {
     const { data } = yield call(Api.Solutions.findSolutionById, ORGANIZATION_ID, solutionId);
     yield put({
       type: SOLUTION_ACTIONS_KEY.SET_CURRENT_SOLUTION,
-      data: { status: STATUSES.SUCCESS, solution: data }
+      status: STATUSES.SUCCESS,
+      solution: data
     });
   } catch (e) {
     console.error(e);

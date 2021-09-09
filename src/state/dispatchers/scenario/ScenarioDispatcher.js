@@ -9,9 +9,9 @@ export const dispatchGetScenarioList = (payLoad) => ({
   ...payLoad
 });
 
-export const dispatchSetCurrentScenario = (payLoad) => ({
+export const dispatchSetCurrentScenario = (scenario) => ({
   type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
-  ...payLoad
+  scenario: scenario
 });
 
 export const dispatchResetCurrentScenario = () => ({

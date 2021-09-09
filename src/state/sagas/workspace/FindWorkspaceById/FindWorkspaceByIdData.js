@@ -12,7 +12,8 @@ export function * fetchWorkspaceByIdData (workspaceId) {
     const { data } = yield call(Api.Workspaces.findWorkspaceById, ORGANIZATION_ID, workspaceId);
     yield put({
       type: WORKSPACE_ACTIONS_KEY.SET_CURRENT_WORKSPACE,
-      data: { status: STATUSES.SUCCESS, workspace: data }
+      status: STATUSES.SUCCESS,
+      workspace: data
     });
   } catch (e) {
     console.error(e);

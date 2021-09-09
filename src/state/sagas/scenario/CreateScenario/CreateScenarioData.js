@@ -13,7 +13,7 @@ export function * createScenario (action) {
   try {
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
-      data: { status: STATUSES.LOADING }
+      status: STATUSES.LOADING
     });
     const workspaceId = action.workspaceId;
     const { data } = yield call(Api.Scenarios.createScenario, ORGANIZATION_ID, workspaceId, action.scenario);
@@ -21,13 +21,15 @@ export function * createScenario (action) {
     yield call(getAllScenariosData, workspaceId);
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
-      data: { status: STATUSES.IDLE, scenario: data }
+      status: STATUSES.SUCCESS,
+      scenario: data
     });
   } catch (e) {
     // TODO handle error management
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
-      data: { status: STATUSES.ERROR }
+      status: STATUSES.ERROR,
+      scenario: null
     });
   }
 }

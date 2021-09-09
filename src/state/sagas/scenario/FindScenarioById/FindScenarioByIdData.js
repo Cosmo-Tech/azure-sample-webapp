@@ -14,13 +14,15 @@ export function * fetchScenarioByIdForInitialData (workspaceId, scenarioId) {
     data.parametersValues = formatParametersFromApi(data.parametersValues);
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
-      data: { status: STATUSES.IDLE, scenario: data }
+      status: STATUSES.SUCCESS,
+      scenario: data
     });
   } catch (e) {
     // TODO handle error management
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
-      data: { status: STATUSES.ERROR }
+      status: STATUSES.ERROR,
+      scenario: null
     });
   }
 }
@@ -31,7 +33,8 @@ export function * fetchScenarioByIdData (action) {
     data.parametersValues = formatParametersFromApi(data.parametersValues);
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
-      data: { status: STATUSES.IDLE, scenario: data }
+      status: STATUSES.SUCCESS,
+      scenario: data
     });
     // Start state polling for running scenarios
     if (data.state === SCENARIO_RUN_STATE.RUNNING) {
@@ -45,7 +48,8 @@ export function * fetchScenarioByIdData (action) {
     // TODO handle error management
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
-      data: { status: STATUSES.ERROR }
+      status: STATUSES.ERROR,
+      scenario: null
     });
   }
 }
