@@ -49,7 +49,14 @@ export function * fetchAllInitialData (action) {
           });
         }
       }
+    } else {
+      yield put({
+        type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
+        scenario: null,
+        status: STATUSES.SUCCESS
+      });
     }
+
     const runTemplates = yield select(selectRunTemplatesFromCurrentSolution);
     yield fork(getPowerBIEmbedInfoSaga);
     yield put({
