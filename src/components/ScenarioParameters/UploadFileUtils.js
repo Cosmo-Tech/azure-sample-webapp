@@ -44,6 +44,8 @@ async function updateDatasetPartFile (dataset, setDataset, datasetFile, setDatas
   } else if (datasetFile.status === UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE) {
     return await updateFileWithDelete(datasetFile, setDatasetFile, dataset, setDataset, datasetId,
       setDatasetId);
+  } else if (datasetFile.status === UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD) {
+    return dataset;
   }
 }
 
