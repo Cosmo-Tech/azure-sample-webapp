@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@cosmotech/api-ts": "^0.1.0",
-    "@cosmotech/azure": "^0.8.15",
+    "@cosmotech/azure": "^0.8.21",
     "@cosmotech/core": "^1.3.2",
     "@cosmotech/ui": "^0.7.2",
     "@date-io/core": "^1.3.6",
