@@ -12,15 +12,15 @@ export const TABS = [
       render: () => <Scenario /> // eslint-disable-line
   },
   {
+    key: 'tabs.dashboards.key',
+    label: 'layouts.tabs.dashboards.tab.title',
+    to: '/dashboards',
+    render: () => <Dashboards /> // eslint-disable-line
+  },
+  {
     key: 'tabs.scenariomanager.key',
     label: 'layouts.tabs.scenariomanager.tab.title',
     to: '/scenariomanager',
       render: () => <ScenarioManager /> // eslint-disable-line
-  },
-  {
-    key: 'tabs.dashboards.key',
-    label: 'layouts.tabs.dashboards.tab.title',
-    to: '/dashboards',
-      render: () => <Dashboards /> // eslint-disable-line
   }
 ];
