@@ -37,7 +37,7 @@
     "redux-saga": "^1.1.3",
     "retry-axios": "^2.4.0",
     "rfdc": "^1.3.0",
-    "typescript": "^4.2.4",
+    "typescript": "^4.4.3",
     "validate.js": "^0.13.1"
   },
   "scripts": {
