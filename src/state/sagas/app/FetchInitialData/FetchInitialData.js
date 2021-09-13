@@ -10,7 +10,6 @@ import { getAllScenariosData } from '../../scenario/FindAllScenarios/FindAllScen
 import { fetchAllDatasetsData } from '../../datasets/FindAllDatasets/FindAllDatasets';
 import { fetchWorkspaceByIdData } from '../../workspace/FindWorkspaceById/FindWorkspaceByIdData';
 import { fetchSolutionByIdData } from '../../solution/FindSolutionById/FindSolutionByIdData';
-import { RUN_TEMPLATE_ACTIONS_KEY } from '../../../commons/RunTemplateConstants';
 import { fetchScenarioByIdForInitialData } from '../../scenario/FindScenarioById';
 import { getPowerBIEmbedInfoSaga } from '../../powerbi/GetPowerBIEmbedInfo/GetPowerBIEmbedInfoData';
 import { POWER_BI_ACTIONS_KEY } from '../../../commons/PowerBIConstants';
@@ -75,8 +74,7 @@ export function * watchNeededApplicationData () {
     take(DATASET_ACTIONS_KEY.SET_ALL_DATASETS),
     take(WORKSPACE_ACTIONS_KEY.SET_CURRENT_WORKSPACE),
     take(SOLUTION_ACTIONS_KEY.SET_CURRENT_SOLUTION),
-    take(SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO),
-    take(RUN_TEMPLATE_ACTIONS_KEY.SET_RUN_TEMPLATE_LIST)
+    take(SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO)
   ]);
 
   const unSuccessfulActions = actions.filter(action => action.status !== STATUSES.SUCCESS);
