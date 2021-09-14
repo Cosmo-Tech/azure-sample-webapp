@@ -39,6 +39,7 @@ export const BASIC_PARAMETERS_CONST = {
 };
 
 export const URL_ROOT = 'https://dev.api.cosmotech.com';
+export const URL_POWERBI = 'http://localhost:3000/api/get-embed-info';
 
 export const PAGE_NAME = {
   SCENARIO: '/scenario',

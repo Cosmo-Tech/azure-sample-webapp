@@ -1,13 +1,16 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { SELECTORS } from '../commons/IdConstants.js';
-import {
-  URL_REGEX
-} from '../commons/TestConstants.js';
+import { SELECTORS } from '../commons/IdConstants';
+import { URL_REGEX, URL_POWERBI } from '../commons/TestConstants';
 
 // For this moment, login is handle by clicking on Microsoft Login button
 Cypress.Commands.add('login', () => {
-  cy.intercept('GET', URL_REGEX.WITH_UNKNOWN_ID_SCENARIO_SUFFIX).as('requestUpdateCurrentScenario');
+  // Stub PowerBi request
+  cy.intercept('GET', URL_POWERBI, {
+    statusCode: 200
+  });
+
+  cy.intercept('GET', URL_REGEX.SCENARIO_PAGE_WITH_ID).as('requestUpdateCurrentScenario');
 
   cy.get(SELECTORS.login.microsoftLoginButton).click();
 
@@ -39,8 +42,8 @@ Cypress.Commands.add('createScenario', (scenarioName, isMaster, datasetOrMasterN
   /* eslint-disable cypress/no-force */
   cy.contains(scenarioType).should('be.visible').click({ force: true });
 
-  cy.intercept('POST', URL_REGEX.WITHOUT_SUFFIX).as('requestCreateScenario');
-  cy.intercept('GET', URL_REGEX.WITHOUT_SUFFIX).as('requestUpdateScenarioList');
+  cy.intercept('POST', URL_REGEX.SCENARIO_PAGE).as('requestCreateScenario');
+  cy.intercept('GET', URL_REGEX.SCENARIO_PAGE).as('requestUpdateScenarioList');
 
   cy.get(SELECTORS.scenario.createDialog.submitButton).click();
 
@@ -63,4 +66,11 @@ Cypress.Commands.add('createScenario', (scenarioName, isMaster, datasetOrMasterN
       scenarioCreatedName
     };
   });
+});
+
+// Delete scenario
+Cypress.Commands.add('deleteScenario', (scenarioName) => {
+  cy.get(SELECTORS.scenario.manager.search).clear().type(scenarioName);
+  cy.get(SELECTORS.scenario.manager.button.delete).click();
+  cy.get(SELECTORS.scenario.manager.confirmDeleteDialog).contains('button', 'Confirm').click();
 });
