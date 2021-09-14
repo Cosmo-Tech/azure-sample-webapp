@@ -66,3 +66,6 @@ export const SCENARIO_TYPE = {
 };
 
 export const SCENARIO_RUN_IN_PROGRESS = 'Scenario run in progress...';
+
+export const ORGANIZATION_ID = 'O-gZYpnd27G7';
+export const WORKSPACE_ID = 'W-rXeBwRa0PM';

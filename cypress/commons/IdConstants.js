@@ -49,6 +49,14 @@ export const SELECTORS = {
       datasetSelect: '[data-cy=create-scenario-dialog-dataset-select]',
       typeSelect: '[data-cy=create-scenario-dialog-type-select]',
       submitButton: '[data-cy=create-scenario-dialog-submit-button]'
+    },
+    manager: {
+      tabName: '[data-cy="tabs.scenariomanager.key"]',
+      confirmDeleteDialog: '[data-cy=confirm-scenario-delete-dialog]',
+      button: {
+        expand: 'button[aria-label=Expand]',
+        delete: '[data-cy=scenario-delete-button]'
+      }
     }
   }
 };
