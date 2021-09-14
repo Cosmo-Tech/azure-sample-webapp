@@ -81,9 +81,10 @@ const TabLayout = props => {
           <Tabs value={location.pathname} className={classes.tabs}>
             {tabs.map(tab => (
               <Tab
+                data-cy={tab.key}
                 key={tab.key}
                 value={tab.to}
-                label= {t(tab.label, tab.key)}
+                label={t(tab.label, tab.key)}
                 component={Link}
                 to={tab.to}
                 className={classes.tab}
