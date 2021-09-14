@@ -7,7 +7,7 @@ export const SCENARIO_NAME = {
   SCENARIO_MASTER: TEST_CYPRESS + ' Master - ',
   SCENARIO_CHILD: TEST_CYPRESS + ' Child - ',
   SCENARIO_WITH_BASIC_TYPES: TEST_CYPRESS + ' with basic types - ',
-  OTHER_SCENARIO: TEST_CYPRESS + ' - another scenario'
+  OTHER_SCENARIO: TEST_CYPRESS + ' another scenario - '
 };
 
 export const BAR_PARAMETERS_RANGE = {
@@ -66,3 +66,6 @@ export const SCENARIO_TYPE = {
 };
 
 export const SCENARIO_RUN_IN_PROGRESS = 'Scenario run in progress...';
+
+export const ORGANIZATION_ID = 'O-gZYpnd27G7';
+export const WORKSPACE_ID = 'W-rXeBwRa0PM';
