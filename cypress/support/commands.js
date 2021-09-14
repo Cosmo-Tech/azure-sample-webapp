@@ -64,3 +64,24 @@ Cypress.Commands.add('createScenario', (scenarioName, isMaster, datasetOrMasterN
     };
   });
 });
+
+// Delete scenario
+Cypress.Commands.add('deleteScenario', (scenarioToDelete) => {
+  const searchChildNode = (nodes) => {
+    for (const node of nodes) {
+      cy.get('[data-cy="' + node.name + '-node"]')
+        .parent().parent().parent().parent().parent().parent()
+        .find(SELECTORS.scenario.manager.button.expand).click();
+    }
+  };
+
+  cy.get(SELECTORS.scenario.manager.tabName).click();
+
+  if (scenarioToDelete.nodes !== undefined) {
+    searchChildNode(scenarioToDelete.nodes);
+  }
+
+  cy.get('[data-cy="' + scenarioToDelete.name + '-node"]')
+    .parent().find(SELECTORS.scenario.manager.button.delete).click();
+  cy.get(SELECTORS.scenario.manager.confirmDeleteDialog).contains('button', 'Confirm').click();
+});
