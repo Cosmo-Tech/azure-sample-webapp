@@ -1230,10 +1230,10 @@
   dependencies:
     axios "^0.21.1"
 
-"@cosmotech/azure@^0.8.15":
-  version "0.8.20"
-  resolved "https://registry.yarnpkg.com/@cosmotech/azure/-/azure-0.8.20.tgz#18d4221196bce6da3e79b797f060b28c6f814fde"
-  integrity sha512-YVo3oTFmxg2ceOjw3DxKoMtrY5s9g6QZvh5O9jMyzaJBkFWcpxYgAFyj9BNsNTECVgpNHDJ7MPV7OQbMCnWNfw==
+"@cosmotech/azure@^0.8.22":
+  version "0.8.22"
+  resolved "https://registry.yarnpkg.com/@cosmotech/azure/-/azure-0.8.22.tgz#807c715e9c90189122fb5d9544ab8efda52e613f"
+  integrity sha512-uwCo2A2OwiNA9mIkf8GogcFjOgBJuFjqVGnuqhTyG10taT4xDyJj6iJNH7g0SW4pZb1QoRe9QoaCFOMco1IoZw==
   dependencies:
     "@azure/msal-browser" "^2.8.0"
 
