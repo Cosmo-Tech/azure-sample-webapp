@@ -18,9 +18,9 @@ import utils from '../../commons/utils.js';
 describe('Create scenario', () => {
   const scenarioMasterName = SCENARIO_NAME.SCENARIO_MASTER + utils.randomStr(7);
   const scenarioChildName = SCENARIO_NAME.SCENARIO_CHILD + utils.randomStr(7);
-  const scenarioWithBasicTypes = SCENARIO_NAME.SCENARIO_WITH_BASIC_TYPES + utils.randomStr(7);
+  const scenarioWithBasicTypesName = SCENARIO_NAME.SCENARIO_WITH_BASIC_TYPES + utils.randomStr(7);
   const otherScenarioName = SCENARIO_NAME.OTHER_SCENARIO;
-  let otherScenarioId;
+  let scenarioMasterId, scenarioChildId, scenarioWithBasicTypesId, otherScenarioId;
   let urlRegexWithOtherScenarioId;
 
   const stock = utils.randomNmbr(BAR_PARAMETERS_RANGE.STOCK.MIN, BAR_PARAMETERS_RANGE.STOCK.MAX);
@@ -46,12 +46,37 @@ describe('Create scenario', () => {
     });
   });
 
+  after(() => {
+    // Delete all tests scenarios"
+    const scenarioMaster = {
+      name: scenarioMasterName
+    };
+
+    const scenarioChild = {
+      name: scenarioChildName,
+      nodes: [scenarioMaster]
+    };
+
+    const anotherScenario = {
+      name: otherScenarioName
+    };
+
+    const scenarioWithBasicTypes = {
+      name: scenarioWithBasicTypesName
+    };
+
+    const scenarioToDelete = [anotherScenario, scenarioChild, scenarioMaster, scenarioWithBasicTypes];
+    for (const scenario of scenarioToDelete) {
+      cy.deleteScenario(scenario);
+    }
+  });
+
   it('can create and lauch scenario master', () => {
     // Create scenario master:
-    let scenarioCreatedId, scenarioCreatedName;
+    let scenarioCreatedName;
     cy.createScenario(scenarioMasterName, true, DATASET.BREWERY_ADT, SCENARIO_TYPE.BREWERY_PARAMETERS)
       .then((value) => {
-        scenarioCreatedId = value.scenarioCreatedId;
+        scenarioMasterId = value.scenarioCreatedId;
         scenarioCreatedName = value.scenarioCreatedName;
       });
 
@@ -77,14 +102,14 @@ describe('Create scenario', () => {
       const waitersGet = parseFloat(paramsGet.find(obj => obj.parameterId === 'nb_waiters').value);
       expect(nameGet).equal(scenarioCreatedName);
       expect(state).equal('Created');
-      expect(idGet).equal(scenarioCreatedId);
+      expect(idGet).equal(scenarioMasterId);
       expect(stockGet).equal(stock);
       expect(restockGet).equal(restock);
       expect(waitersGet).equal(waiters);
     });
 
     cy.wait('@requestRunScenario').should((req) => {
-      expect(req.response.body.scenarioId).equal(scenarioCreatedId);
+      expect(req.response.body.scenarioId).equal(scenarioMasterId);
     });
 
     cy.get(SELECTORS.scenario.dashboard.placeholder).should('have.text', SCENARIO_RUN_IN_PROGRESS);
@@ -97,10 +122,8 @@ describe('Create scenario', () => {
     cy.wait('@requestUpdateCurrentScenario2').its('response').its('body')
       .its('name').should('equal', otherScenarioName);
 
-    cy.get(SELECTORS.scenario.selectInput).find('input').should('have.value', otherScenarioName);
-
-    cy.get('@scenarioCreatedId').then(scenarioCreatedId => {
-      cy.intercept('GET', new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/${scenarioCreatedId}`))
+    cy.get(SELECTORS.scenario.selectInput).find('input').should('have.value', otherScenarioName).then(() => {
+      cy.intercept('GET', new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/${scenarioMasterId}`))
         .as('requestUpdateCurrentScenario3');
     });
 
@@ -122,9 +145,9 @@ describe('Create scenario', () => {
     cy.login();
 
     // Create Scenario Child
-    let scenarioCreatedId, scenarioCreatedName;
+    let scenarioCreatedName;
     cy.createScenario(scenarioChildName, false, scenarioMasterName, SCENARIO_TYPE.BREWERY_PARAMETERS).then(value => {
-      scenarioCreatedId = value.scenarioCreatedId;
+      scenarioChildId = value.scenarioCreatedId;
       scenarioCreatedName = value.scenarioCreatedName;
     });
 
@@ -158,14 +181,14 @@ describe('Create scenario', () => {
       const restockGet = parseFloat(paramsGet.find(obj => obj.parameterId === 'restock_qty').value);
       const waitersGet = parseFloat(paramsGet.find(obj => obj.parameterId === 'nb_waiters').value);
       expect(nameGet).equal(scenarioCreatedName);
-      expect(idGet).equal(scenarioCreatedId);
+      expect(idGet).equal(scenarioChildId);
       expect(stockGet).equal(childStock);
       expect(restockGet).equal(childRestock);
       expect(waitersGet).equal(childWaiters);
     });
 
     cy.wait('@requestRunScenario').should((req) => {
-      expect(req.response.body.scenarioId).equal(scenarioCreatedId);
+      expect(req.response.body.scenarioId).equal(scenarioChildId);
     });
 
     cy.get(SELECTORS.scenario.dashboard.placeholder).should('have.text', SCENARIO_RUN_IN_PROGRESS);
@@ -181,10 +204,8 @@ describe('Create scenario', () => {
       expect(nameGet).equal(otherScenarioName);
     });
 
-    cy.get(SELECTORS.scenario.selectInput).find('input').should('have.value', otherScenarioName);
-
-    cy.get('@scenarioCreatedId').then(scenarioCreatedId => {
-      cy.intercept('GET', new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/${scenarioCreatedId}`))
+    cy.get(SELECTORS.scenario.selectInput).find('input').should('have.value', otherScenarioName).then(() => {
+      cy.intercept('GET', new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/${scenarioChildId}`))
         .as('requestUpdateCurrentScenario3');
     });
 
@@ -208,9 +229,9 @@ describe('Create scenario', () => {
     cy.login();
 
     // Create Scenario with some paramaters tabs
-    let scenarioCreatedId, scenarioCreatedName;
-    cy.createScenario(scenarioWithBasicTypes, true, DATASET.BREWERY_ADT, SCENARIO_TYPE.BASIC_TYPES).then(value => {
-      scenarioCreatedId = value.scenarioCreatedId;
+    let scenarioCreatedName;
+    cy.createScenario(scenarioWithBasicTypesName, true, DATASET.BREWERY_ADT, SCENARIO_TYPE.BASIC_TYPES).then(value => {
+      scenarioWithBasicTypesId = value.scenarioCreatedId;
       scenarioCreatedName = value.scenarioCreatedName;
     });
 
@@ -277,14 +298,14 @@ describe('Create scenario', () => {
       const enumGet = paramsGet.find(obj => obj.parameterId === 'currency').value;
       expect(nameGet).equal(scenarioCreatedName);
       expect(state).equal('Created');
-      expect(idGet).equal(scenarioCreatedId);
+      expect(idGet).equal(scenarioWithBasicTypesId);
       expect(textGet).equal(textValue);
       expect(numberGet).equal(numberValue);
       expect(BASIC_PARAMETERS_CONST.ENUM[enumGet]).equal(enumValue);
     });
 
     cy.wait('@requestRunScenario').should((req) => {
-      expect(req.response.body.scenarioId).equal(scenarioCreatedId);
+      expect(req.response.body.scenarioId).equal(scenarioWithBasicTypesId);
     });
 
     cy.get(SELECTORS.scenario.dashboard.placeholder).should('have.text', SCENARIO_RUN_IN_PROGRESS);
