@@ -85,11 +85,23 @@ export function * watchNeededApplicationData () {
   ]);
 
   const unSuccessfulActions = actions.filter(action => action.status !== STATUSES.SUCCESS);
+
   if (unSuccessfulActions.length !== 0) {
-    yield put({
-      type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS,
-      status: STATUSES.ERROR
-    });
+    const powerBIError = unSuccessfulActions.find(
+      action => action.type === POWER_BI_ACTIONS_KEY.SET_EMBED_INFO &&
+        action.status === STATUSES.ERROR);
+    // PowerBI Error should not block the web application
+    if (unSuccessfulActions.length === 1 && powerBIError !== undefined) {
+      yield put({
+        type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS,
+        status: STATUSES.SUCCESS
+      });
+    } else {
+      yield put({
+        type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS,
+        status: STATUSES.ERROR
+      });
+    }
   } else {
     yield put({
       type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS,
