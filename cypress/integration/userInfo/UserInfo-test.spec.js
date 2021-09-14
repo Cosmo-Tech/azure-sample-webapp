@@ -1,8 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { FILE_NAME } from '../../constants/TestConstants';
-import { SELECTORS } from '../../constants/IdConstants';
+import { FILE_NAME } from '../../commons/TestConstants';
+import { SELECTORS } from '../../commons/IdConstants';
 
 describe('UserInfo features', () => {
   const docFileLink = `a[href="${FILE_NAME.DOC}"]`;

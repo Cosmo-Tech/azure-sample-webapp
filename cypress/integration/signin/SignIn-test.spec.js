@@ -3,8 +3,8 @@
 
 import {
   PAGE_NAME
-} from '../../constants/TestConstants';
-import { SELECTORS } from '../../constants/IdConstants';
+} from '../../commons/TestConstants';
+import { SELECTORS } from '../../commons/IdConstants';
 
 describe('Log in & log out', () => {
   it('can redirect automaticaly when not log', () => {
