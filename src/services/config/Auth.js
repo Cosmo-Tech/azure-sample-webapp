@@ -3,18 +3,7 @@
 
 import { Auth, AuthDev } from '@cosmotech/core';
 import { AuthMSAL } from '@cosmotech/azure';
-import { AZURE_TENANT_ID, APP_REGISTRATION_CLIENT_ID, DEFAULT_BASE_PATH } from '../../config/AppInstance.js';
-
-// Expected input base path format: https://dev.api.cosmotech.com or https://dev.api.cosmotech.com/
-// Generated output: 'http://dev.api.cosmotech.com/platform'
-function forgeScopeFromBasePath (basePath) {
-  const domainNameRegexp = /^https:\/\/(.*)(\/)?$/;
-  const domainName = basePath.replace(/\/$/, '').match(domainNameRegexp);
-  if (!domainName) {
-    throw new Error('DEFAULT_BASE_PATH does not match the expected format (e.g. https://dev.api.cosmotech.com)');
-  }
-  return `http://${domainName[1]}/platform`;
-}
+import { AZURE_TENANT_ID, APP_REGISTRATION_CLIENT_ID, COSMOTECH_API_SCOPE } from '../../config/AppInstance.js';
 
 // AuthMSAL configuration
 const MSAL_CONFIG = {
@@ -22,7 +11,7 @@ const MSAL_CONFIG = {
     scopes: ['user.read']
   },
   accessRequest: {
-    scopes: [forgeScopeFromBasePath(DEFAULT_BASE_PATH)]
+    scopes: [COSMOTECH_API_SCOPE]
   },
   msalConfig: {
     auth: {
