@@ -44,7 +44,7 @@ export const SELECTORS = {
     createButton: '[data-cy=create-scenario-button]',
     createDialog: {
       dialog: '[data-cy=create-scenario-dialog]',
-      masterCheckbox: '[data-cy=create-scenario-dialog-master-checkbox]',
+      masterCheckbox: 'input[id=isScenarioMaster]',
       nameTextfield: '[data-cy=create-scenario-dialog-name-textfield]',
       datasetSelect: '[data-cy=create-scenario-dialog-dataset-select]',
       typeSelect: '[data-cy=create-scenario-dialog-type-select]',
