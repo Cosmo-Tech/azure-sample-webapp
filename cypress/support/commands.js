@@ -26,9 +26,10 @@ Cypress.Commands.add('createScenario', (scenarioName, isMaster, datasetOrMasterN
   cy.get(SELECTORS.scenario.createDialog.nameTextfield).type(scenarioName);
 
   if (isMaster === true) {
-    cy.get(SELECTORS.scenario.createDialog.masterCheckbox).click();
+    cy.get(SELECTORS.scenario.createDialog.masterCheckbox).check();
     cy.get(SELECTORS.scenario.createDialog.datasetSelect).click();
   } else {
+    cy.get(SELECTORS.scenario.createDialog.masterCheckbox).uncheck();
     cy.get(SELECTORS.scenario.createDialog.dialog).click().find(SELECTORS.scenario.selectInput).click();
   }
   cy.focused().type(datasetOrMasterName);
