@@ -107,15 +107,31 @@ const Scenario = (props) => {
   // App Insigths
   const appInsights = AppInsights.getInstance();
   console.log(appInsights);
+
+  // Track create scenario
   const trackCreateScenario = () => {
     appInsights.trackEvent({ name: 'CreateScenario' }, { name: currentScenario.rootId });
-
-    appInsights.trackMetric({ name: 'CreateScenarioValue', average: 7, sampleCount: 1 });
+    appInsights.trackMetric({ name: 'CreateScenarioValue', average: 1, sampleCount: 1 });
   };
-
   const createTrackedScenario = (workspaceId, scenario) => {
     trackCreateScenario();
     createScenario(workspaceId, scenario);
+  };
+
+  // Track launch scenario
+  const trackLaunchScenario = () => {
+    appInsights.trackEvent({ name: 'LaunchScenario' }, { scenarioId: currentScenario.rootId });
+    appInsights.trackMetric({ name: 'LaunchScenarioValue', average: 1, sampleCount: 1 });
+  };
+
+  const updateAndLaunchTrackedScenario = (workspaceId, scenarioId, scenarioParameters) => {
+    trackLaunchScenario();
+    updateAndLaunchScenario(workspaceId, scenarioId, scenarioParameters);
+  };
+
+  const launchTrackedScenario = (workspaceId, scenarioId) => {
+    trackLaunchScenario();
+    launchScenario(workspaceId, scenarioId);
   };
 
   return (
@@ -188,8 +204,8 @@ const Scenario = (props) => {
             <ScenarioParameters
                 editMode={editMode}
                 changeEditMode={setEditMode}
-                updateAndLaunchScenario={updateAndLaunchScenario}
-                launchScenario={launchScenario}
+                updateAndLaunchScenario={updateAndLaunchTrackedScenario}
+                launchScenario={launchTrackedScenario}
                 workspaceId={workspaceId}
                 currentScenario={currentScenario}
                 scenarioId={currentScenario.data.id}/>
