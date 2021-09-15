@@ -83,6 +83,7 @@ const ScenarioParametersTabs = ({
       : <TabContext value={selectedTab}>
         <TabList
           value={selectedTab}
+          variant="scrollable"
           indicatorColor="primary"
           textColor="primary"
           onChange={handleTabChange}
