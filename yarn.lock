@@ -1230,10 +1230,10 @@
   dependencies:
     axios "^0.21.1"
 
-"@cosmotech/azure@^0.8.15":
-  version "0.8.20"
-  resolved "https://registry.yarnpkg.com/@cosmotech/azure/-/azure-0.8.20.tgz#18d4221196bce6da3e79b797f060b28c6f814fde"
-  integrity sha512-YVo3oTFmxg2ceOjw3DxKoMtrY5s9g6QZvh5O9jMyzaJBkFWcpxYgAFyj9BNsNTECVgpNHDJ7MPV7OQbMCnWNfw==
+"@cosmotech/azure@^0.8.22":
+  version "0.8.22"
+  resolved "https://registry.yarnpkg.com/@cosmotech/azure/-/azure-0.8.22.tgz#807c715e9c90189122fb5d9544ab8efda52e613f"
+  integrity sha512-uwCo2A2OwiNA9mIkf8GogcFjOgBJuFjqVGnuqhTyG10taT4xDyJj6iJNH7g0SW4pZb1QoRe9QoaCFOMco1IoZw==
   dependencies:
     "@azure/msal-browser" "^2.8.0"
 
@@ -11046,10 +11046,10 @@ react-fade-in@^2.0.1:
   resolved "https://registry.yarnpkg.com/react-fade-in/-/react-fade-in-2.0.1.tgz#b4bcd7dac63d6857ebcd68facbff2f5f9616278f"
   integrity sha512-oqS/WT4znaXEHmL+yo0IDUDY7uC9K4RP35j1SdRUEBspR09B2iIC0i8oJ28tPOr6Ez/L2aktF9p89j+DbsTVNw==
 
-react-i18next@^11.9.0:
-  version "11.11.4"
-  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-11.11.4.tgz#f6f9a1c827e7a5271377de2bf14db04cb1c9e5ce"
-  integrity sha512-ayWFlu8Sc7GAxW1PzMaPtzq+yiozWMxs0P1WeITNVzXAVRhC0Httkzw/IiODBta6seJRBCLrtUeFUSXhAIxlRg==
+react-i18next@^11.12.0:
+  version "11.12.0"
+  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-11.12.0.tgz#2a053321b9b7a876d5baa7af55a12d986117bffc"
+  integrity sha512-M9BT+hqVG03ywrl+L7CK74ugK+4jIo7AeKJ17+g9BoqJz2+/aVbs8SIVXT4KMQ1rjIdcw+GcSRDy1CXjcz6tLQ==
   dependencies:
     "@babel/runtime" "^7.14.5"
     html-parse-stringify "^3.0.1"
