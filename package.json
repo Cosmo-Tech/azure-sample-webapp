@@ -31,7 +31,7 @@
     "react-fade-in": "^2.0.1",
     "react-i18next": "^11.9.0",
     "react-lottie": "^1.2.3",
-    "react-redux": "^7.2.3",
+    "react-redux": "^7.2.5",
     "react-router-dom": "^5.2.0",
     "redux": "^4.0.5",
     "redux-saga": "^1.1.3",
