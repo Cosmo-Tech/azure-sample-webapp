@@ -236,22 +236,33 @@
       "line": {
         "workspace" : {
           "current" : {
-            "title" : "Fetching workspace"
+            "title" : "Loading workspace"
           }
         },
         "solution" : {
           "current" : {
-            "title" : "Fetching solution"
+            "title" : "Loading solution"
           }
         },
         "dataset" : {
           "list" : {
-            "title" : "Fetching dataset list"
+            "title" : "Loading dataset list"
           }
         },
         "scenario": {
           "list" : {
-            "title" : "Fetching scenario list"
+            "title" : "Loading scenario list"
+          },
+          "current": {
+            "title" : "Setting current scenario"
+          }
+        },
+        "powerbi": {
+          "title" : "Connecting to PowerBI"
+        },
+        "runtemplate": {
+          "list" : {
+            "title": "Loading run types"
           }
         }
       }

@@ -14,7 +14,10 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state) => ({
+  powerBiInfo: state.powerBI,
   scenarioList: state.scenario.list,
+  runTemplateList: state.runTemplate.list,
+  currentScenario: state.scenario.current,
   workspace: state.workspace.current,
   solution: state.solution.current,
   datasetList: state.dataset.list,

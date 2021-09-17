@@ -16,8 +16,8 @@ export const runTemplateListInitialState = {
 export const runTemplateListReducer = createReducer(runTemplateListInitialState, (builder) => {
   builder
     .addCase(RUN_TEMPLATE_ACTIONS_KEY.SET_RUN_TEMPLATE_LIST, (state, action) => {
-      state.data = action.data.list;
-      state.status = action.data.status;
+      state.data = action.list;
+      state.status = action.status;
     });
 });
 
