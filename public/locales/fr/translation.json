@@ -103,7 +103,8 @@
             "uninitialized": "Le scénario n'a pas encore été lancé"
           },
           "button": {
-            "downloadlogs": "Télécharger les logs"
+            "downloadlogs": "Télécharger les logs",
+            "refresh": "Rafraîchir"
           }
         },
         "noscenario": {

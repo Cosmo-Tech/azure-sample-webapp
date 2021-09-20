@@ -103,7 +103,8 @@
             "uninitialized": "The scenario has not been run yet"
           },
           "button": {
-            "downloadlogs": "Download logs"
+            "downloadlogs": "Download logs",
+            "refresh": "Refresh"
           }
         },
         "noscenario": {
