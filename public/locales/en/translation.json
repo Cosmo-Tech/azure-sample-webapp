@@ -104,7 +104,7 @@
           },
           "button": {
             "downloadlogs": "Download logs",
-            "refresh": "Refresh"
+            "refresh": "Refresh (will then be disabled for 15 seconds)"
           }
         },
         "noscenario": {

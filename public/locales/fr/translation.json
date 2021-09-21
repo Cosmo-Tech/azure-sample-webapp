@@ -104,7 +104,7 @@
           },
           "button": {
             "downloadlogs": "Télécharger les logs",
-            "refresh": "Rafraîchir"
+            "refresh": "Rafraîchir (sera ensuite indisponible pendant 15 secondes)"
           }
         },
         "noscenario": {
