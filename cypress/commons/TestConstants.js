@@ -48,9 +48,9 @@ export const PAGE_NAME = {
 };
 
 export const URL_REGEX = {
-  WITHOUT_SUFFIX: new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}`),
-  WITH_UNKNOWN_ID_SCENARIO_SUFFIX: new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/.*`),
-  WITH_RUN_SUFFIX: new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/.*/run`)
+  SCENARIO_PAGE: new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}`),
+  SCENARIO_PAGE_WITH_ID: new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/.*`),
+  SCENARIO_PAGE_RUN_WITH_ID: new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/.*/run`)
 };
 
 export const FILE_NAME = {
