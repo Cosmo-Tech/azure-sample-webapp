@@ -22,7 +22,7 @@ describe('Create scenario', () => {
   const scenarioWithBasicTypesName = SCENARIO_NAME.SCENARIO_WITH_BASIC_TYPES + randomString;
   const otherScenarioName = SCENARIO_NAME.OTHER_SCENARIO + randomString;
   let scenarioMasterId, scenarioChildId, scenarioWithBasicTypesId, otherScenarioId;
-  let urlRegexWithOtherScenarioId;
+  let anotherScenarioUrlRegex;
 
   const stock = utils.randomNmbr(BAR_PARAMETERS_RANGE.STOCK.MIN, BAR_PARAMETERS_RANGE.STOCK.MAX);
   const restock = utils.randomNmbr(BAR_PARAMETERS_RANGE.RESTOCK.MIN, BAR_PARAMETERS_RANGE.RESTOCK.MAX);
@@ -43,7 +43,7 @@ describe('Create scenario', () => {
 
     cy.createScenario(otherScenarioName, true, DATASET.BREWERY_ADT, SCENARIO_TYPE.BREWERY_PARAMETERS).then((value) => {
       otherScenarioId = value.scenarioCreatedId;
-      urlRegexWithOtherScenarioId = new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/${otherScenarioId}`);
+      anotherScenarioUrlRegex = new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/${otherScenarioId}`);
     });
   });
 
@@ -75,9 +75,9 @@ describe('Create scenario', () => {
     cy.get(SELECTORS.scenario.parameters.brewery.waitersInput).find('input').clear().type(waiters);
 
     // Update and launch scenario master
-    cy.intercept('PATCH', URL_REGEX.WITH_UNKNOWN_ID_SCENARIO_SUFFIX)
+    cy.intercept('PATCH', URL_REGEX.SCENARIO_PAGE_WITH_ID)
       .as('requestEditScenario');
-    cy.intercept('POST', URL_REGEX.WITH_RUN_SUFFIX)
+    cy.intercept('POST', URL_REGEX.SCENARIO_PAGE_RUN_WITH_ID)
       .as('requestRunScenario');
 
     cy.get(SELECTORS.scenario.parameters.updateAndLaunchButton).click();
@@ -102,7 +102,7 @@ describe('Create scenario', () => {
     cy.get(SELECTORS.scenario.dashboard.placeholder).should('have.text', SCENARIO_RUN_IN_PROGRESS);
 
     // Switch to another scenario then come back to the first scenario
-    cy.intercept('GET', urlRegexWithOtherScenarioId).as('requestUpdateCurrentScenario2');
+    cy.intercept('GET', anotherScenarioUrlRegex).as('requestUpdateCurrentScenario2');
 
     cy.get(SELECTORS.scenario.selectInput).click().clear().type(otherScenarioName + '{downarrow}{enter}');
 
@@ -155,9 +155,9 @@ describe('Create scenario', () => {
     cy.get(SELECTORS.scenario.parameters.brewery.waitersInput).find('input').clear().type(childWaiters);
 
     // Launch scenario child
-    cy.intercept('PATCH', URL_REGEX.WITH_UNKNOWN_ID_SCENARIO_SUFFIX)
+    cy.intercept('PATCH', URL_REGEX.SCENARIO_PAGE_WITH_ID)
       .as('requestEditScenario');
-    cy.intercept('POST', URL_REGEX.WITH_RUN_SUFFIX)
+    cy.intercept('POST', URL_REGEX.SCENARIO_PAGE_RUN_WITH_ID)
       .as('requestRunScenario');
 
     cy.get(SELECTORS.scenario.parameters.updateAndLaunchButton).click();
@@ -181,7 +181,7 @@ describe('Create scenario', () => {
     cy.get(SELECTORS.scenario.dashboard.placeholder).should('have.text', SCENARIO_RUN_IN_PROGRESS);
 
     // Switch to another scenario then come back to the first scenario
-    cy.intercept('GET', urlRegexWithOtherScenarioId)
+    cy.intercept('GET', anotherScenarioUrlRegex)
       .as('requestUpdateCurrentScenario2');
 
     cy.get(SELECTORS.scenario.selectInput).click().clear().type(otherScenarioName + '{downarrow}{enter}');
@@ -271,9 +271,9 @@ describe('Create scenario', () => {
     cy.get(SELECTORS.scenario.parameters.basicTypes.enumInput).type(enumValue + ' {enter}');
 
     // update and launch
-    cy.intercept('PATCH', URL_REGEX.WITH_UNKNOWN_ID_SCENARIO_SUFFIX)
+    cy.intercept('PATCH', URL_REGEX.SCENARIO_PAGE_WITH_ID)
       .as('requestEditScenario');
-    cy.intercept('POST', URL_REGEX.WITH_RUN_SUFFIX)
+    cy.intercept('POST', URL_REGEX.SCENARIO_PAGE_RUN_WITH_ID)
       .as('requestRunScenario');
 
     cy.get(SELECTORS.scenario.parameters.updateAndLaunchButton).click();

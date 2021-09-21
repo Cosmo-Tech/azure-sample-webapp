@@ -14,8 +14,7 @@ Cypress.Commands.add('login', () => {
 
   cy.get(SELECTORS.login.microsoftLoginButton).click();
 
-  // TODO : Remove timeout due to loading page
-  cy.wait('@requestUpdateCurrentScenario', { timeout: 10_000 });
+  cy.wait('@requestUpdateCurrentScenario');
 
   cy.get(SELECTORS.scenario.parameters.tabs).should('be.visible');
   cy.get(SELECTORS.scenario.view).should('be.visible');
