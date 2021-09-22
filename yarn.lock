@@ -1242,10 +1242,10 @@
   resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.3.8.tgz#51f035de336006ca441e1daef974f9178baa23bb"
   integrity sha512-NgPz4hummn8SEZLCJuDIQO2GjQ1SrIIgjSrsSyOo8K39swTvQpjbDNSdehpcCK0aFqz1KGXJtcuZ9I6wbb0cRA==
 
-"@cosmotech/ui@^0.7.5":
-  version "0.7.6"
-  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-0.7.6.tgz#12f677aac538e693b706b91efde8bd5bd2f9fa96"
-  integrity sha512-Hk2H26pHH0Se4jJjw1IXwGwAxJe1hcqco5yu2ilOH8Kzdr+sz/liLenHKy7OUlhHbhWoXVlVJq7YnRihUThaAg==
+"@cosmotech/ui@^0.7.7":
+  version "0.7.7"
+  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-0.7.7.tgz#fde8ce4c7083b59135854beb4c05e62905b71db8"
+  integrity sha512-yLhC1hBUjmzbsQmh+/x6KrQYfXu4o12VPCXQyoJ/Xv60snsG7fmu7ev9TSzvo6cqnBcpaelIGobw+GZCDR9RxA==
   dependencies:
     "@date-io/date-fns" "^1.3.13"
     "@material-ui/pickers" "^3.3.10"
