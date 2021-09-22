@@ -6,7 +6,8 @@ import {
   BasicEnumInputFactory,
   BasicNumberInputFactory,
   BasicTextInputFactory,
-  BasicToggleInputFactory
+  BasicToggleInputFactory,
+  BasicUploadFileFactory
 } from './inputComponents';
 
 const VAR_TYPE_FACTORY_MAPPING = {
@@ -16,7 +17,7 @@ const VAR_TYPE_FACTORY_MAPPING = {
   int: BasicNumberInputFactory,
   number: BasicNumberInputFactory,
   string: BasicTextInputFactory,
-  '%DATASETID%': null
+  '%DATASETID%': BasicUploadFileFactory
 };
 
 const create = (t, parameterData, parametersState, setParametersState, editMode) => {
