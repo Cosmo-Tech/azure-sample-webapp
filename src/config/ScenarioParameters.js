@@ -83,13 +83,24 @@ const PARAMETERS_GROUPS = {
       'currency_name',
       'currency_value',
       'currency_used',
-      'start_date'
+      'start_date',
+      'example_dataset_part_1',
+      'example_dataset_part_2'
     ]
   },
   file_upload: {
     labels: {
       en: 'File upload',
       fr: 'Upload de fichier'
+    },
+    parameters: [
+      'initial_stock_dataset'
+    ]
+  },
+  extra_dataset_part_tab: {
+    labels: {
+      en: 'Additional dataset part',
+      fr: 'Fragment de dataset'
     },
     parameters: [
       'initial_stock_dataset'
@@ -105,9 +116,8 @@ const RUN_TEMPLATES = {
     // Use 'parameterGroups' instead of 'parametersGroups' in the run templates description to be consistent
     // with back-end format
     parameterGroups: [
-      'bar_parameters',
       'basic_types',
-      'file_upload'
+      'extra_dataset_part_tab'
     ]
   }
 };
