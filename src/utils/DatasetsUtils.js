@@ -31,14 +31,8 @@ function getFileNameFromDataset (dataset) {
   return '';
 }
 
-// Update AZURE_STORAGE_CONTAINER_BLOB_PREFIX property in the connector of the provided dataset
-function setFilePathInDataset (dataset, storageFilePath) {
-  // TODO: file path or blob prefix ?
-  dataset.connector.parametersValues.AZURE_STORAGE_CONTAINER_BLOB_PREFIX = `${STORAGE_ROOT_DIR}${storageFilePath}`;
-}
-
 // Create a connector object for Azure Storage with the provided id and storage file path
-function createAzureStorageConnector (connectorId, storageFilePath) {
+function buildAzureStorageConnector (connectorId, storageFilePath) {
   return {
     id: connectorId,
     name: 'Azure Storage Connector',
@@ -53,6 +47,5 @@ export const DatasetsUtils = {
   buildStorageFilePath,
   getStorageFilePathFromDataset,
   getFileNameFromDataset,
-  setFilePathInDataset,
-  createAzureStorageConnector
+  buildAzureStorageConnector
 };

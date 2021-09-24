@@ -7,7 +7,7 @@ import {
   BasicNumberInputFactory,
   BasicTextInputFactory,
   BasicToggleInputFactory,
-  BasicUploadFileFactory
+  UploadFileFactory
 } from './inputComponents';
 
 const VAR_TYPE_FACTORY_MAPPING = {
@@ -17,10 +17,10 @@ const VAR_TYPE_FACTORY_MAPPING = {
   int: BasicNumberInputFactory,
   number: BasicNumberInputFactory,
   string: BasicTextInputFactory,
-  '%DATASETID%': BasicUploadFileFactory
+  '%DATASETID%': UploadFileFactory
 };
 
-const create = (t, parameterData, parametersState, setParametersState, editMode) => {
+const create = (t, datasets, parameterData, parametersState, setParametersState, editMode) => {
   const varTypeFactory = VAR_TYPE_FACTORY_MAPPING[parameterData.varType];
   if (varTypeFactory === undefined) {
     console.warn('No factory defined for varType ' + parameterData.varType);
@@ -28,6 +28,10 @@ const create = (t, parameterData, parametersState, setParametersState, editMode)
   }
   if (varTypeFactory === null) {
     return null;
+  }
+
+  if (parameterData.varType === '%DATASETID%') {
+    return varTypeFactory.create(t, datasets, parameterData, parametersState, setParametersState, editMode);
   }
   return varTypeFactory.create(t, parameterData, parametersState, setParametersState, editMode);
 };

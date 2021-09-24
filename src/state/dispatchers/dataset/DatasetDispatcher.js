@@ -7,3 +7,10 @@ export const dispatchGetAllDatasets = (payLoad) => ({
   type: DATASET_ACTIONS_KEY.GET_ALL_DATASETS,
   ...payLoad
 });
+
+export const dispatchAddDatasetToStore = (payLoad) => {
+  return {
+    type: DATASET_ACTIONS_KEY.ADD_DATASET,
+    ...payLoad
+  };
+};

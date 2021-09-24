@@ -6,4 +6,4 @@ export { BasicEnumInputFactory } from './BasicEnumInputFactory';
 export { BasicNumberInputFactory } from './BasicNumberInputFactory';
 export { BasicTextInputFactory } from './BasicTextInputFactory';
 export { BasicToggleInputFactory } from './BasicToggleInputFactory';
-export { BasicUploadFileFactory } from './BasicUploadFileFactory';
+export { UploadFileFactory } from './UploadFileFactory';

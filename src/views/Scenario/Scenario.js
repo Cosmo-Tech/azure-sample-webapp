@@ -75,6 +75,7 @@ const Scenario = (props) => {
     user,
     workspace,
     solution,
+    addDatasetToStore,
     createScenario,
     updateAndLaunchScenario,
     launchScenario,
@@ -236,10 +237,12 @@ const Scenario = (props) => {
             <ScenarioParameters
                 editMode={editMode}
                 changeEditMode={setEditMode}
+                addDatasetToStore={addDatasetToStore}
                 updateAndLaunchScenario={updateAndLaunchScenario}
                 launchScenario={launchScenario}
                 workspaceId={workspaceId}
                 solution={solution.data}
+                datasets={datasetList.data}
                 currentScenario={currentScenario}
                 scenarioId={currentScenario.data.id}/>
             }
@@ -258,6 +261,7 @@ Scenario.propTypes = {
   user: PropTypes.object.isRequired,
   workspace: PropTypes.object.isRequired,
   solution: PropTypes.object.isRequired,
+  addDatasetToStore: PropTypes.func.isRequired,
   createScenario: PropTypes.func.isRequired,
   updateAndLaunchScenario: PropTypes.func.isRequired,
   launchScenario: PropTypes.func.isRequired,

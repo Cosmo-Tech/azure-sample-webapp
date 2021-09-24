@@ -9,19 +9,15 @@ import {
   makeStyles
 } from '@material-ui/core';
 import { SCENARIO_RUN_STATE } from '../../utils/ApiUtils';
-
-import {
-  SCENARIO_PARAMETERS_CONFIG,
-  INITIAL_STOCK_PARAM
-} from '../../config/ScenarioParameters';
+import { SCENARIO_PARAMETERS_CONFIG } from '../../config/ScenarioParameters';
 import { EditModeButton, NormalModeButton, ScenarioParametersTabs } from './components';
 import { useTranslation } from 'react-i18next';
-import { SimpleTwoActionsDialog, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
-import { UploadFileUtils } from './UploadFileUtils';
+import { SimpleTwoActionsDialog } from '@cosmotech/ui';
+import { FileManagementUtils } from './FileManagementUtils';
 import { ScenarioParametersUtils } from '../../utils';
 import { ScenarioParametersTabFactory } from '../../utils/scenarioParameters/ScenarioParametersTabFactory';
-import DatasetService from '../../services/dataset/DatasetService';
-import { ORGANIZATION_ID } from '../../config/AppInstance';
+
+const DATASET_ID_VARTYPE = '%DATASETID%';
 
 const useStyles = makeStyles(theme => ({
   header: {
@@ -39,14 +35,6 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const fetchDatasetById = async (datasetId) => {
-  const { error, data } = await DatasetService.findDatasetById(ORGANIZATION_ID, datasetId);
-  if (error) {
-    throw new Error('Dataset does not exist for this organization');
-  }
-  return data;
-};
-
 const getRunTemplateParametersIds = (runTemplatesParametersIdsDict, runTemplateId) => {
   return runTemplatesParametersIdsDict?.[runTemplateId] || [];
 };
@@ -54,17 +42,18 @@ const getRunTemplateParametersIds = (runTemplatesParametersIdsDict, runTemplateI
 const ScenarioParameters = ({
   editMode,
   changeEditMode,
+  addDatasetToStore,
   updateAndLaunchScenario,
   launchScenario,
   workspaceId,
   currentScenario,
   solution,
+  datasets,
   scenarioId
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
-  // General states
-  const [displayPopup, setDisplayPopup] = useState(false);
+  const [showDiscardConfirmationPopup, setShowDiscardConfirmationPopup] = useState(false);
 
   // Memoize the parameters ids for the current run template
   const runTemplateParametersIds = useMemo(
@@ -77,182 +66,131 @@ const ScenarioParameters = ({
       solution.parameters,
       SCENARIO_PARAMETERS_CONFIG.parameters
     ), [runTemplateParametersIds, solution.parameters]);
+  // Memoize the data of parameters (not including the current state of scenario parameters)
+  const parametersMetadata = useMemo(
+    () => ScenarioParametersUtils.generateParametersMetadata(
+      solution, SCENARIO_PARAMETERS_CONFIG, runTemplateParametersIds),
+    [solution, runTemplateParametersIds]);
   // Memoize the data of parameters groups (not including the current state of scenario parameters)
-  const parametersGroupsData = useMemo(
-    () => ScenarioParametersUtils.generateParametersGroupsData(
+  const parametersGroupsMetadata = useMemo(
+    () => ScenarioParametersUtils.generateParametersGroupsMetadata(
       solution, SCENARIO_PARAMETERS_CONFIG, currentScenario.data?.runTemplateId),
     [solution, currentScenario.data?.runTemplateId]);
+  // Memoize the parameters values for reset
+  const parametersValuesForReset = useMemo(
+    () => ScenarioParametersUtils.getParametersValuesForReset(
+      datasets,
+      runTemplateParametersIds,
+      defaultParametersValues,
+      currentScenario.data?.parametersValues
+    ),
+    [datasets, runTemplateParametersIds, defaultParametersValues, currentScenario.data]);
 
   // Store the reset values for the run template parameters, based on defaultParametersValues and scenario data.
   const parametersValuesRef = useRef({});
-  parametersValuesRef.current = ScenarioParametersUtils.getParametersValuesForReset(
-    runTemplateParametersIds,
-    defaultParametersValues,
-    currentScenario.data?.parametersValues
-  );
+  parametersValuesRef.current = parametersValuesForReset;
 
-  // Add scenario parameters data in state
-  const [parametersValuesToRender, setParametersValuesToRender] = useState(parametersValuesRef.current);
-
-  useEffect(() => {
-    resetParameters(false);
-    // eslint-disable-next-line
-  }, [currentScenario]);
-
-  for (const parametersGroupData of parametersGroupsData) {
-    parametersGroupData.tab = ScenarioParametersTabFactory.create(
-      t, parametersGroupData, parametersValuesToRender, setParametersValuesToRender, editMode);
-  }
-
-  // State for File Upload
-  const [initialStockFile, setInitialStockFile] = useState({
-    parameterId: INITIAL_STOCK_PARAM.id,
-    description: INITIAL_STOCK_PARAM.description,
-    initialName: '',
-    name: '',
-    file: null,
-    status: UPLOAD_FILE_STATUS_KEY.EMPTY
-  });
-  const [initialStockDataset, setInitialStockDataset] = useState({});
-  const [initialStockDatasetId, setInitialStockDatasetId] = useState('');
-
-  useEffect(() => {
-    const initialStockParameter = currentScenario.data?.parametersValues?.find(
-      el => el.parameterId === INITIAL_STOCK_PARAM.id);
-    setInitialStockDatasetId(initialStockParameter?.value === undefined ? '' : initialStockParameter.value);
-    // eslint-disable-next-line
-  }, [currentScenario]);
-
-  useEffect(() => {
-    UploadFileUtils.updateDatasetState(initialStockDatasetId,
-      initialStockFile,
-      () => fetchDatasetById(initialStockDatasetId),
-      initialStockDataset,
-      setInitialStockDataset,
-      setInitialStockFile);
-    // eslint-disable-next-line
-  }, [initialStockDatasetId]);
-
-  const resetParameters = (resetFile) => {
-    setParametersValuesToRender(parametersValuesRef.current);
-    // TODO: adapt values for "file" parameters
-    // Upload file
-    if (resetFile) {
-      UploadFileUtils.resetUploadFile(initialStockDatasetId, initialStockFile, setInitialStockFile);
-    }
-  };
-
-  const setParametersValuesRefFromState = () => {
-    parametersValuesRef.current = parametersValuesToRender;
-    // TODO: adapt values for "file" parameters
-  };
-
-  const getParametersForUpdate = (newDataset) => {
-    let parametersData = ScenarioParametersUtils.buildParametersForUpdate(
-      solution, parametersValuesRef.current, runTemplateParametersIds);
-
-    if (['1', '2', '3', '4'].indexOf(currentScenario.data.runTemplateId) !== -1) {
-      if (newDataset && Object.keys(newDataset).length !== 0) {
-        parametersData = parametersData.concat([
-          {
-            parameterId: INITIAL_STOCK_PARAM.id,
-            varType: INITIAL_STOCK_PARAM.varType,
-            value: newDataset.id
-          },
-          {
-            parameterId: 'initial_stock_fileName',
-            varType: 'string',
-            value: initialStockFile.name
-          }
-        ]);
+  const generateParametersValuesToRenderFromParametersValuesRef = () => {
+    const newParametersValuesToRender = {};
+    for (const parameterId in parametersValuesRef.current) {
+      if (parametersMetadata[parameterId]?.varType === DATASET_ID_VARTYPE) {
+        const datasetId = parametersValuesRef.current[parameterId];
+        newParametersValuesToRender[parameterId] = FileManagementUtils.buildClientFileDescriptorFromDataset(
+          datasets, datasetId);
+      } else {
+        newParametersValuesToRender[parameterId] = parametersValuesRef.current[parameterId];
       }
     }
+    return newParametersValuesToRender;
+  };
+
+  const setParametersValuesToRenderFromParametersValuesRef = () => {
+    setParametersValuesToRender(generateParametersValuesToRenderFromParametersValuesRef());
+  };
+
+  // Add scenario parameters data in state
+  const [parametersValuesToRender, setParametersValuesToRender] = useState(
+    generateParametersValuesToRenderFromParametersValuesRef());
+
+  // Generate input components for each scenario parameters tab
+  for (const parametersGroupMetadata of parametersGroupsMetadata) {
+    parametersGroupMetadata.tab = ScenarioParametersTabFactory.create(
+      t, datasets, parametersGroupMetadata, parametersValuesToRender, setParametersValuesToRender, editMode);
+  }
+
+  const discardLocalChanges = () => {
+    setParametersValuesToRenderFromParametersValuesRef();
+  };
+
+  const setParametersValuesRefFromParametersValuesToRender = async () => {
+    const newParametersValuesToPatch = {};
+    for (const parameterId in parametersValuesToRender) {
+      // Do not process "file" parameters, they will be handled in the function applyPendingOperationsOnFileParameters
+      if (parametersMetadata[parameterId]?.varType !== DATASET_ID_VARTYPE) {
+        newParametersValuesToPatch[parameterId] = parametersValuesToRender[parameterId];
+      }
+    }
+    parametersValuesRef.current = {
+      ...(parametersValuesRef.current),
+      ...newParametersValuesToPatch
+    };
+
+    await FileManagementUtils.applyPendingOperationsOnFileParameters(
+      solution,
+      parametersMetadata,
+      parametersValuesToRender,
+      setParametersValuesToRender,
+      parametersValuesRef,
+      addDatasetToStore
+    );
+  };
+
+  useEffect(() => {
+    setParametersValuesToRenderFromParametersValuesRef();
+    // eslint-disable-next-line
+  }, [parametersValuesRef]);
+
+  useEffect(() => {
+    discardLocalChanges();
+    // eslint-disable-next-line
+  }, [currentScenario]);
+  // }, [currentScenario.id]);
+
+  const getParametersForUpdate = () => {
+    const parametersData = ScenarioParametersUtils.buildParametersForUpdate(
+      solution, parametersValuesRef.current, runTemplateParametersIds);
     return parametersData;
   };
 
-  // Popup part
-  const handleClickOnDiscardChangeButton = () => setDisplayPopup(true);
-  const handleClickOnPopupCancelButton = () => setDisplayPopup(false);
-  const handleClickOnPopupDiscardChangeButton = () => {
-    setDisplayPopup(false);
+  const startParametersEdition = () => changeEditMode(true);
+  const askDiscardConfirmation = () => setShowDiscardConfirmationPopup(true);
+  const cancelDiscard = () => setShowDiscardConfirmationPopup(false);
+  const confirmDiscard = () => {
+    setShowDiscardConfirmationPopup(false);
     changeEditMode(false);
-    resetParameters(true);
+    discardLocalChanges();
   };
 
-  // Normal Mode Screen
-  const handleClickOnEditButton = () => changeEditMode(true);
-  const isCurrentScenarioRunning = () => (currentScenario.data.state === SCENARIO_RUN_STATE.RUNNING);
-
-  const handleClickOnLaunchScenarioButton = () => {
-    // If scenario parameters have never been updated, do it now
-    if (!currentScenario.data.parametersValues ||
-        currentScenario.data.parametersValues.length === 0) {
-      handleClickOnUpdateAndLaunchScenarioButton();
-    } else {
-      setParametersValuesRefFromState();
-      launchScenario(workspaceId, scenarioId);
-      changeEditMode(false);
+  const startScenarioLaunch = async () => { await processScenarioLaunch(false); };
+  const startScenarioUpdateAndLaunch = async () => { await processScenarioLaunch(true); };
+  const processScenarioLaunch = async (forceUpdate) => {
+    // If scenario parameters have never been updated, force parameters update
+    if (!currentScenario.data.parametersValues || currentScenario.data.parametersValues.length === 0) {
+      forceUpdate = true;
     }
-  };
 
-  const handleClickOnUpdateAndLaunchScenarioButton = async () => {
-    const newDataset = await UploadFileUtils.updateDatasetPartFile(initialStockDataset,
-      setInitialStockDataset,
-      initialStockFile,
-      setInitialStockFile,
-      initialStockDatasetId,
-      setInitialStockDatasetId,
-      INITIAL_STOCK_PARAM.id,
-      INITIAL_STOCK_PARAM.connectorId,
-      currentScenario.data.id,
-      workspaceId);
-    setParametersValuesRefFromState();
-    const parametersForUpdate = getParametersForUpdate(newDataset);
-    updateAndLaunchScenario(workspaceId, scenarioId, parametersForUpdate);
+    await setParametersValuesRefFromParametersValuesToRender();
+    if (forceUpdate) {
+      const parametersForUpdate = getParametersForUpdate();
+      updateAndLaunchScenario(workspaceId, scenarioId, parametersForUpdate);
+    } else {
+      launchScenario(workspaceId, scenarioId);
+    }
     changeEditMode(false);
   };
-// eslint-disable-next-line
-  const fileUploadComponent = UploadFileUtils.constructFileUpload(
-    '0',
-    initialStockFile,
-    setInitialStockFile,
-    initialStockDataset.id,
-    INITIAL_STOCK_PARAM.defaultFileTypeFilter,
-    editMode
-  );
-  // Indices in this array must match indices in the tabs configuration file src/config/ScenarioParameters.js
-  const scenarioParametersTabs = [
-    fileUploadComponent,
-    <BarParameters key="1"
-      stock={stock}
-      changeStock={setStock}
-      restockQuantity={restockQuantity}
-      changeRestockQuantity={setRestockQuantity}
-      waitersNumber={waitersNumber}
-      changeWaitersNumber={setWaitersNumber}
-      editMode={editMode}
-    />,
-    <BasicTypes key="2"
-      textFieldValue={currencyName}
-      changeTextField={setCurrencyName}
-      numberFieldValue={currencyValue}
-      changeNumberField={setCurrencyValue}
-      enumFieldValue={currency}
-      changeEnumField={setCurrency}
-      switchFieldValue={currencyUsed}
-      changeSwitchType={setCurrencyUsed}
-      selectedDate={startDate}
-      changeSelectedDate={setStartDate}
-      editMode={editMode}
-    />,
-    <Typography key="3">Empty</Typography> // Array template
-  ];
-=======
-    editMode);
->>>>>>> feat: add tabs generation & automatic build of params data for update
 
-  // Disable edit button if no tabs are shown
-  const tabsShown = parametersGroupsData.length > 0;
+  const noTabsShown = parametersGroupsMetadata.length === 0;
+  const isCurrentScenarioRunning = currentScenario.data.state === SCENARIO_RUN_STATE.RUNNING;
 
   return (
       <div>
@@ -274,13 +212,13 @@ const ScenarioParameters = ({
             <Grid item >
               { editMode
                 ? (<EditModeButton classes={classes}
-                  handleClickOnDiscardChange={handleClickOnDiscardChangeButton}
-                  handleClickOnUpdateAndLaunchScenario={handleClickOnUpdateAndLaunchScenarioButton}/>)
+                  handleClickOnDiscardChange={askDiscardConfirmation}
+                  handleClickOnUpdateAndLaunchScenario={startScenarioUpdateAndLaunch}/>)
                 : (<NormalModeButton classes={classes}
-                  handleClickOnEdit={handleClickOnEditButton}
-                  handleClickOnLaunchScenario={handleClickOnLaunchScenarioButton}
-                  editDisabled={!tabsShown || isCurrentScenarioRunning()}
-                  runDisabled={isCurrentScenarioRunning()}/>)
+                  handleClickOnEdit={startParametersEdition}
+                  handleClickOnLaunchScenario={startScenarioLaunch}
+                  editDisabled={noTabsShown || isCurrentScenarioRunning}
+                  runDisabled={isCurrentScenarioRunning}/>)
               }
             </Grid>
           </Grid>
@@ -289,7 +227,7 @@ const ScenarioParameters = ({
           {
             <form>
               <ScenarioParametersTabs
-                parametersGroupsData={parametersGroupsData}
+                parametersGroupsMetadata={parametersGroupsMetadata}
                 currentScenario={currentScenario}
               />
             </form>
@@ -297,7 +235,7 @@ const ScenarioParameters = ({
         </Grid>
         <SimpleTwoActionsDialog
             id={'discard-changes'}
-            open={displayPopup}
+            open={showDiscardConfirmationPopup}
             labels={
               {
                 title: t('genericcomponent.dialog.scenario.parameters.title'),
@@ -307,8 +245,8 @@ const ScenarioParameters = ({
                 ariaLabelledby: 'discard-changes-dialog'
               }
             }
-            handleClickOnButton1={handleClickOnPopupCancelButton}
-            handleClickOnButton2={handleClickOnPopupDiscardChangeButton}
+            handleClickOnButton1={cancelDiscard}
+            handleClickOnButton2={confirmDiscard}
           />
       </div>
   );
@@ -317,11 +255,13 @@ const ScenarioParameters = ({
 ScenarioParameters.propTypes = {
   editMode: PropTypes.bool.isRequired,
   changeEditMode: PropTypes.func.isRequired,
+  addDatasetToStore: PropTypes.func.isRequired,
   updateAndLaunchScenario: PropTypes.func.isRequired,
   launchScenario: PropTypes.func.isRequired,
   workspaceId: PropTypes.string.isRequired,
   scenarioId: PropTypes.string.isRequired,
   solution: PropTypes.object.isRequired,
+  datasets: PropTypes.array.isRequired,
   currentScenario: PropTypes.object.isRequired
 };
 

@@ -38,7 +38,7 @@ export const SELECTORS = {
         enumInput: 'div[id=currency]'
       },
       uploadFile: {
-        tabName: '[data-cy=upload_file_template_tab]'
+        tabName: '[data-cy=extra_dataset_part_tab]'
       }
     },
     createButton: '[data-cy=create-scenario-button]',
