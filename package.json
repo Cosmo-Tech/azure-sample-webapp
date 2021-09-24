@@ -43,7 +43,7 @@
   "scripts": {
     "start": "ESLINT_NO_DEV_ERRORS=true react-scripts start",
     "build": "DISABLE_ESLINT_PLUGIN=true react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --watchAll=false",
     "eject": "react-scripts eject",
     "cypress": "node_modules/.bin/cypress open",
     "eslint": "eslint $INIT_CWD"
@@ -99,12 +99,16 @@
   },
   "jest": {
     "moduleNameMapper": {
+      "^@cosmotech/azure$": "<rootDir>/node_modules/@cosmotech/azure",
       "^@cosmotech/core$": "<rootDir>/node_modules/@cosmotech/core",
       "^@material-ui/core": "<rootDir>/node_modules/@material-ui/core",
       "^@material-ui/icons": "<rootDir>/node_modules/@material-ui/icons",
+      "^@material-ui/lab": "<rootDir>/node_modules/@material-ui/lab",
       "^@material-ui/styles": "<rootDir>/node_modules/@material-ui/styles",
       "^react$": "<rootDir>/node_modules/react",
-      "^react-dom$": "<rootDir>/node_modules/react-dom"
+      "^react/": "<rootDir>/node_modules/react/",
+      "^react-dom$": "<rootDir>/node_modules/react-dom",
+      "^react-router-dom$": "<rootDir>/node_modules/react-router-dom"
     }
   }
 }

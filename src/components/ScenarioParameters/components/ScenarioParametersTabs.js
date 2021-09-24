@@ -40,22 +40,22 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const ScenarioParametersTabs = ({
-  parametersGroupsData,
+  parametersGroupsMetadata,
   currentScenario
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const [tabs, setTabs] = useState(parametersGroupsData);
-  const [selectedTab, setSelectedTab] = useState(parametersGroupsData?.[0]?.id);
+  const [tabs, setTabs] = useState(parametersGroupsMetadata);
+  const [selectedTab, setSelectedTab] = useState(parametersGroupsMetadata?.[0]?.id);
 
   // Reset selected tab on scenario change
   useEffect(() => {
-    setTabs(parametersGroupsData);
-    if (parametersGroupsData.find(groupData => groupData.id === selectedTab) === undefined) {
-      setSelectedTab(parametersGroupsData?.[0]?.id);
+    setTabs(parametersGroupsMetadata);
+    if (parametersGroupsMetadata.find(groupMetadata => groupMetadata.id === selectedTab) === undefined) {
+      setSelectedTab(parametersGroupsMetadata?.[0]?.id);
     }
     // eslint-disable-next-line
-  }, [parametersGroupsData]);
+  }, [parametersGroupsMetadata]);
 
   return (
     <div data-cy="scenario-parameters-tabs">
@@ -73,26 +73,26 @@ const ScenarioParametersTabs = ({
             aria-label="scenario parameters"
           >
             {
-              tabs.map((groupData, index) => (
+              tabs.map((groupMetadata, index) => (
                 <Tab
-                  key={groupData.id}
-                  value={groupData.id}
-                  data-cy={groupData.id + '_tab'}
+                  key={groupMetadata.id}
+                  value={groupMetadata.id}
+                  data-cy={groupMetadata.id + '_tab'}
                   className={classes.tab}
-                  label={t(TranslationUtils.getParametersGroupTranslationKey(groupData.id), groupData.id)}
+                  label={t(TranslationUtils.getParametersGroupTranslationKey(groupMetadata.id), groupMetadata.id)}
                 />
               ))
             }
           </TabList>
           {
-            tabs.map((groupData, index) => (
+            tabs.map((groupMetadata, index) => (
               <TabPanel
                 index={index}
-                key={groupData.id}
-                value={groupData.id}
+                key={groupMetadata.id}
+                value={groupMetadata.id}
                 className={classes.tabPanel}
               >
-                {groupData.tab}
+                {groupMetadata.tab}
               </TabPanel>
             ))
           }
@@ -104,7 +104,7 @@ const ScenarioParametersTabs = ({
 };
 
 ScenarioParametersTabs.propTypes = {
-  parametersGroupsData: PropTypes.array.isRequired,
+  parametersGroupsMetadata: PropTypes.array.isRequired,
   currentScenario: PropTypes.object.isRequired
 };
 

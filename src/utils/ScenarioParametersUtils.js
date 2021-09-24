@@ -13,7 +13,7 @@ const _getVarTypeDefaultValue = (varType) => {
     number: 0,
     bool: false,
     date: new Date(),
-    '%DATASETID%': null // no default value for datasets parts
+    '%DATASETID%': null
   };
   return varTypesDefaultValues[varType];
 };
@@ -52,16 +52,17 @@ const _getDefaultParameterValue = (parameterId, solutionParameters, configParame
   console.warn(`Couldn't find default value to use for scenario parameter "${parameterId}".`);
 };
 
-const _getValueFromScenarioParametersValues = (parameterId, scenarioParametersValues) => {
-  return scenarioParametersValues?.find(param => param.parameterId === parameterId)?.value;
+const _findParameterInScenarioParametersValues = (parameterId, scenarioParametersValues) => {
+  return scenarioParametersValues?.find(param => param.parameterId === parameterId);
 };
 
-const _getParameterValueForReset = (parameterId, defaultParametersValues, scenarioParametersValues) => {
-  const value = _getValueFromScenarioParametersValues(parameterId, scenarioParametersValues);
-  if (value !== undefined) {
-    return value;
+const _getParameterValueForReset = (datasets, parameterId, defaultParametersValues, scenarioParametersValues) => {
+  const parameter = _findParameterInScenarioParametersValues(parameterId, scenarioParametersValues);
+  const value = parameter?.value;
+  if (value === undefined) {
+    return defaultParametersValues?.[parameterId];
   }
-  return defaultParametersValues?.[parameterId];
+  return value;
 };
 
 const _getRunTemplateParametersGroupsIdsFromConfig = (runTemplateId, config) => {
@@ -86,12 +87,12 @@ const _getRunTemplateParametersGroupsIds = (runTemplateId, solution, config) => 
   return _getRunTemplateParametersGroupsIdsFromSolution(runTemplateId, solution);
 };
 
-const _getParameterDataFromSolution = (parameterId, solution) => {
+const _getParameterMetadataFromSolution = (parameterId, solution) => {
   const parameters = solution.parameters || [];
   return parameters.find(parameter => parameter.id === parameterId) || {};
 };
 
-const _patchParameterDataWithConfig = (parameter, parameterId, config) => {
+const _patchParameterMetadataWithConfig = (parameter, parameterId, config) => {
   const parameterInConfig = config.parameters?.[parameterId];
   if (!parameterInConfig) {
     return parameter;
@@ -102,9 +103,9 @@ const _patchParameterDataWithConfig = (parameter, parameterId, config) => {
   };
 };
 
-const _generateParameterData = (parameterId, solution, config) => {
-  let parameter = clone(_getParameterDataFromSolution(parameterId, solution));
-  parameter = _patchParameterDataWithConfig(parameter, parameterId, config);
+const _generateParameterMetadata = (parameterId, solution, config) => {
+  let parameter = clone(_getParameterMetadataFromSolution(parameterId, solution));
+  parameter = _patchParameterMetadataWithConfig(parameter, parameterId, config);
   if (Object.keys(parameter).length === 0) {
     console.warn(`Unknown parameter "${parameterId}"`);
     return undefined;
@@ -112,16 +113,8 @@ const _generateParameterData = (parameterId, solution, config) => {
   return parameter;
 };
 
-const _generateParametersDataForGroup = (group, solution, config) => {
-  const parametersData = [];
-  const parametersIds = group.parameters;
-  for (const parameterId of parametersIds) {
-    const parameterData = _generateParameterData(parameterId, solution, config);
-    if (parameterData !== undefined) {
-      parametersData.push(parameterData);
-    }
-  }
-  return parametersData;
+const _generateParametersMetadataForGroup = (group, solution, config) => {
+  return _generateParametersMetadataList(solution, config, group.parameters);
 };
 
 const _getParametersGroupFromSolution = (groupId, solution) => {
@@ -140,7 +133,7 @@ const _patchParametersGroupWithConfig = (parametersGroup, groupId, config) => {
   };
 };
 
-const _generateParametersGroupData = (groupId, solution, config) => {
+const _generateParametersGroupMetadata = (groupId, solution, config) => {
   let parametersGroup = _getParametersGroupFromSolution(groupId, solution);
   parametersGroup = _patchParametersGroupWithConfig(parametersGroup, groupId, config);
   if (Object.keys(parametersGroup).length === 0) {
@@ -150,19 +143,19 @@ const _generateParametersGroupData = (groupId, solution, config) => {
   return {
     id: groupId,
     labels: parametersGroup.labels,
-    parameters: _generateParametersDataForGroup(parametersGroup, solution, config)
+    parameters: _generateParametersMetadataForGroup(parametersGroup, solution, config)
   };
 };
 
-const _generateParametersGroupsDataFromIds = (groupIds, solution, config) => {
-  const groupsData = [];
+const _generateParametersGroupsMetadataFromIds = (groupIds, solution, config) => {
+  const groupsMetadata = [];
   for (const groupId of groupIds) {
-    const groupData = _generateParametersGroupData(groupId, solution, config);
-    if (groupData !== undefined) {
-      groupsData.push(groupData);
+    const groupMetadata = _generateParametersGroupMetadata(groupId, solution, config);
+    if (groupMetadata !== undefined) {
+      groupsMetadata.push(groupMetadata);
     }
   }
-  return groupsData;
+  return groupsMetadata;
 };
 
 // Generate a dict of parameters values for each parameter id in the parameters array, based on the data sources below,
@@ -182,13 +175,35 @@ const getDefaultParametersValues = (parametersIds, solutionParameters, configPar
 // in this order of priority (most important first):
 //  * the parameters values of the scenario
 //  * the default values provided in defaultParametersValues
-const getParametersValuesForReset = (parametersIds, defaultParametersValues, scenarioParametersValues) => {
+const getParametersValuesForReset = (datasets, parametersIds, defaultParametersValues, scenarioParametersValues) => {
   const paramValues = {};
   for (const parameterId of parametersIds) {
     paramValues[parameterId] = _getParameterValueForReset(
-      parameterId, defaultParametersValues, scenarioParametersValues);
+      datasets, parameterId, defaultParametersValues, scenarioParametersValues);
   }
   return paramValues;
+};
+
+const _generateParametersMetadataList = (solution, config, parametersIds) => {
+  const parametersMetadataList = [];
+  for (const parameterId of parametersIds) {
+    const parameterData = _generateParameterMetadata(parameterId, solution, config);
+    if (parameterData !== undefined) {
+      parametersMetadataList.push(parameterData);
+    }
+  }
+  return parametersMetadataList;
+};
+
+// Generate a map of objects containing the metadata of all parameters, from solution description and configuration
+// file.
+const generateParametersMetadata = (solution, config, parametersIds) => {
+  const parametersMetadataList = _generateParametersMetadataList(solution, config, parametersIds);
+  const parametersMetadataMap = {};
+  for (const parameterMetadata of parametersMetadataList) {
+    parametersMetadataMap[parameterMetadata.id] = parameterMetadata;
+  }
+  return parametersMetadataMap;
 };
 
 // Generate an array of objects that will be later used to generate tabs for each parameter group.
@@ -198,13 +213,17 @@ const getParametersValuesForReset = (parametersIds, defaultParametersValues, sce
 //   labels: dict_of_translation_labels,
 //   parameters: array_of_parameters_data (id, labels, varType, read-only state, setter, minValue, maxValue)
 // }
-const generateParametersGroupsData = (solution, config, runTemplateId) => {
+const generateParametersGroupsMetadata = (solution, config, runTemplateId) => {
   const runTemplateParametersGroupsIds = _getRunTemplateParametersGroupsIds(runTemplateId, solution, config) || [];
-  return _generateParametersGroupsDataFromIds(runTemplateParametersGroupsIds, solution, config);
+  return _generateParametersGroupsMetadataFromIds(runTemplateParametersGroupsIds, solution, config);
+};
+
+const getParameterVarType = (solution, parameterId) => {
+  return _findParameterInSolutionParametersById(parameterId, solution.parameters)?.varType;
 };
 
 const _buildParameterForUpdate = (solution, parameters, parameterId) => {
-  const parameterVarType = _findParameterInSolutionParametersById(parameterId, solution.parameters)?.varType;
+  const parameterVarType = getParameterVarType(solution, parameterId);
   const parameterValue = parameters[parameterId];
   return {
     parameterId: parameterId,
@@ -213,34 +232,22 @@ const _buildParameterForUpdate = (solution, parameters, parameterId) => {
   };
 };
 
-const buildParametersForUpdate = (solution, parameters, runTemplateParametersIds) => {
-  let parametersData = [];
+const buildParametersForUpdate = (solution, parametersValues, runTemplateParametersIds) => {
+  let parameters = [];
   for (const parameterId of runTemplateParametersIds) {
-    const parameterData = _buildParameterForUpdate(solution, parameters, parameterId);
-    if (parameterData.value === null) {
-      console.log(`Skipping parameter ${parameterId} for update because its value is null`);
-    } else {
-      parametersData = parametersData.concat(parameterData);
+    const parameter = _buildParameterForUpdate(solution, parametersValues, parameterId);
+    if (parameter.value !== null) {
+      parameters = parameters.concat(parameter);
     }
   }
-  return parametersData;
-};
-
-const getValueFromParameters = (parameters, parameterToSelect) => {
-  if (!parameters) {
-    return parameterToSelect.defaultValue;
-  }
-  const param = parameters.find(element => element.parameterId === parameterToSelect.id);
-  if (param !== undefined) {
-    return param.value;
-  }
-  return parameterToSelect.defaultValue;
+  return parameters;
 };
 
 export const ScenarioParametersUtils = {
-  generateParametersGroupsData,
+  generateParametersMetadata,
+  generateParametersGroupsMetadata,
   getDefaultParametersValues,
   getParametersValuesForReset,
   buildParametersForUpdate,
-  getValueFromParameters
+  getParameterVarType
 };
