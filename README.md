@@ -4,7 +4,7 @@ The ***Azure Sample Webapp*** aims to be an example of a [React](https://reactjs
 This project demonstrates how to setup a web application with authentication, scenario management features and [PowerBI](https://powerbi.microsoft.com/en-us/) visualization.
 It thus provides a fully configured solution **based on an example simulator** made using our Platform to illustrate the possible features (the example simulator, "Brewery", models customers satisfaction and beer stocks evolution in bars).
 
-You can use this project as a base to build a front-end for your own Digital Twin solution. 
+You can use this project as a base to build a front-end for your own Digital Twin solution.
 
 To do that, **you need the Simulation Digital Twin Platform to be deployed in your Azure tenant** with a ready-to-use simulator.
 Please note that we provide detailed step-by-step tutorials on [our portal](https://portal.cosmotech.com/) - Contact Cosmo Tech for access.
@@ -40,7 +40,7 @@ git fetch upstream
 You need an Azure Static Webapp resource in the tenant to deploy your webapp.
 For more information, see the [related Microsoft documentation](https://docs.microsoft.com/en-us/azure/static-web-apps/get-started-portal?tabs=vanilla-javascript#create-a-static-web-app)
 
-## Configure the webapp for you use-case
+## Configure the webapp for your use-case
 
 The webapp must be configured so that it fits your simulation use-case (tenant ID, scenario parameters, visualization...).
 Please refer to [Webapp configuration](doc/config.md)
