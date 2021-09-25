@@ -10,7 +10,7 @@ import i18n from './services/config/i18next';
 import applicationStore from './state/Store.config';
 import { BrowserRouter } from 'react-router-dom';
 import { I18nextProvider } from 'react-i18next';
-import { ThemeProvider } from '@material-ui/core';
+import { ThemeProvider, CssBaseline } from '@material-ui/core';
 import theme from './theme';
 import { dispatchLogIn, dispatchLogOut } from './state/dispatchers/auth/AuthDispatcher';
 
@@ -31,6 +31,7 @@ ReactDOM.render(
               <Provider store={applicationStore}>
                   <I18nextProvider i18n={i18n}>
                       <ThemeProvider theme={theme}>
+                        <CssBaseline />
                         <ConnectedApp />
                       </ThemeProvider>
                   </I18nextProvider>

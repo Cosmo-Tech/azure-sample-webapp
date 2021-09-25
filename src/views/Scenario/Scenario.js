@@ -51,7 +51,8 @@ const useStyles = makeStyles(theme => ({
     paddingLeft: '2px',
     paddingTop: '6px',
     paddingRight: '2px',
-    paddingBottom: '6px'
+    paddingBottom: '6px',
+    backgroundColor: theme.palette.background.paper
   },
   grid: {
     flexGrow: 1,

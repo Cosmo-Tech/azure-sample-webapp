@@ -10,8 +10,7 @@ import {
   unstable_createMuiStrictModeTheme
 } from '@material-ui/core';
 
-import palette from './palette';
-import typography from './typography';
+import { palette, typography, picture } from './custom';
 import overrides from './overrides';
 
 // REMOVE THIS WHEN USING MATERIAL UI v5.0
@@ -23,6 +22,7 @@ const createTheme = process.env.NODE_ENV === 'production' ? createMuiTheme : uns
 const theme = createTheme({
   palette,
   typography,
+  picture,
   overrides,
   zIndex: {
     appBar: 1200,

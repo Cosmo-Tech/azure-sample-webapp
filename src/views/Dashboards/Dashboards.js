@@ -18,8 +18,14 @@ const useStyles = makeStyles(theme => ({
   root: {
     margin: 'auto',
     width: '100%',
-    height: '100%',
-    backgroundColor: theme.palette.background.paper
+    height: '100%'
+  },
+  tabs: {
+    width: '100%',
+    maxWidth: '900px',
+    '& .MuiTabs-indicator': {
+      backgroundColor: theme.palette.primary.main
+    }
   },
   dashboard: {
     height: '100%'
