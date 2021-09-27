@@ -7,7 +7,7 @@ import {
   BasicDateInput,
   BasicTextInput,
   BasicNumberInput,
-  BasicEnumTypes,
+  BasicEnumInput,
   BasicToggleInput
 } from '@cosmotech/ui';
 
@@ -26,8 +26,7 @@ const BasicTypes = ({
 }) => {
   const textFieldProps = {
     disabled: !editMode,
-    id: 'basic-text-input-id',
-    value: textFieldValue
+    id: 'basic-text-input-id'
   };
 
   const inputProps = {
@@ -37,8 +36,7 @@ const BasicTypes = ({
 
   const numberFieldsProps = {
     disabled: !editMode,
-    id: 'basic-number-input-id',
-    value: numberFieldValue
+    id: 'basic-number-input-id'
   };
 
   const enumValues = [
@@ -62,20 +60,17 @@ const BasicTypes = ({
 
   const enumFieldProps = {
     disabled: !editMode,
-    id: 'basic-enum-input-id',
-    value: enumFieldValue
+    id: 'basic-enum-input-id'
   };
 
   const switchFieldProps = {
     disabled: !editMode,
-    id: 'basic-switch-input-id',
-    checked: switchFieldValue
+    id: 'basic-switch-input-id'
   };
 
   const dateProps = {
     disabled: !editMode,
     id: 'basic-date-input-id',
-    value: selectedDate,
     minDate: new Date('2014-01-01'),
     maxDate: new Date('2023-01-01'),
     minDateMessage: 'Minimum date is not respected',
@@ -90,30 +85,35 @@ const BasicTypes = ({
         label='Text Field'
         changeTextField={changeTextField}
         textFieldProps={textFieldProps}
+        value={textFieldValue}
       />
       <BasicNumberInput
         data-cy="basic-number-input"
         label='Number Field'
         changeNumberField={changeNumberField}
         textFieldProps={numberFieldsProps}
+        value={numberFieldValue}
         inputProps={inputProps}
       />
-      <BasicEnumTypes
+      <BasicEnumInput
         data-cy="basic-enum-input"
         label='Enum Field'
         changeEnumField={changeEnumField}
         textFieldProps={enumFieldProps}
+        value={enumFieldValue}
         enumValues={enumValues}
       />
       <BasicToggleInput
         label='Switch type'
         changeSwitchType={changeSwitchType}
         switchProps={switchFieldProps}
+        checked={switchFieldValue}
       />
       <BasicDateInput
         label='Pick a date'
         changeSelectedDate={changeSelectedDate}
         dateProps={dateProps}
+        value={selectedDate}
       />
     </div>
   );
