@@ -33,9 +33,9 @@ export const SELECTORS = {
       },
       basicTypes: {
         tabName: '[data-cy=basic_types_tab]',
-        textInput: 'input[id=basic-text-input-id]',
-        numberInput: 'input[id=basic-number-input-id]',
-        enumInput: 'div[id=basic-enum-input-id]'
+        textInput: 'input[id=currency_name]',
+        numberInput: 'input[id=currency_value]',
+        enumInput: 'div[id=currency]'
       },
       uploadFile: {
         tabName: '[data-cy=upload_file_template_tab]'
