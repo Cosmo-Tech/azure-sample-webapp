@@ -244,12 +244,15 @@ const ScenarioParameters = ({
     updateAndLaunchScenario(workspaceId, scenarioId, parametersData);
     changeEditMode(false);
   };
-  const fileUploadComponent = UploadFileUtils.constructFileUpload('0',
+  const fileUploadComponent = UploadFileUtils.constructFileUpload(
+    '0',
     initialStockFile,
     setInitialStockFile,
     initialStockDataset.id,
     INITIAL_STOCK_PARAM.defaultFileTypeFilter,
-    editMode);
+    editMode,
+    scenarioId
+  );
   // Indices in this array must match indices in the tabs configuration file src/config/ScenarioParameters.js
   const scenarioParametersTabs = [
     fileUploadComponent,

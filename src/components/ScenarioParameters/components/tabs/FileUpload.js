@@ -10,6 +10,7 @@ const FileUpload = ({
   keyValue,
   acceptedFileTypesToUpload,
   datasetId,
+  scenarioId,
   file,
   setFile,
   editMode
@@ -22,7 +23,7 @@ const FileUpload = ({
         handleDeleteFile={() => UploadFileUtils.prepareToDeleteFile(file, setFile)}
         handleDownloadFile={(event) => {
           event.preventDefault();
-          UploadFileUtils.downloadFile(datasetId, file, setFile);
+          UploadFileUtils.downloadFile(datasetId, file, setFile, scenarioId);
         }}
         file={file}
         editMode={editMode}
@@ -36,7 +37,8 @@ FileUpload.propTypes = {
   editMode: PropTypes.bool.isRequired,
   file: PropTypes.object.isRequired,
   setFile: PropTypes.func.isRequired,
-  datasetId: PropTypes.string
+  datasetId: PropTypes.string,
+  scenarioId: PropTypes.string.isRequired
 };
 
 export default FileUpload;
