@@ -331,13 +331,19 @@ const ScenarioParameters = ({
           }
         </Grid>
         <SimpleTwoActionsDialog
+            id={'discard-changes'}
             open={displayPopup}
-            dialogTitleKey='genericcomponent.dialog.scenario.parameters.title'
-            dialogBodyKey='genericcomponent.dialog.scenario.parameters.body'
-            cancelLabelKey='genericcomponent.dialog.scenario.parameters.button.cancel'
-            validateLabelKey='genericcomponent.dialog.scenario.parameters.button.validate'
-            handleClickOnCancel={handleClickOnPopupCancelButton}
-            handleClickOnValidate={handleClickOnPopupDiscardChangeButton}
+            labels={
+              {
+                title: t('genericcomponent.dialog.scenario.parameters.title'),
+                body: t('genericcomponent.dialog.scenario.parameters.body'),
+                button1: t('genericcomponent.dialog.scenario.parameters.button.cancel'),
+                button2: t('genericcomponent.dialog.scenario.parameters.button.validate'),
+                ariaLabelledby: 'discard-changes-dialog'
+              }
+            }
+            handleClickOnButton1={handleClickOnPopupCancelButton}
+            handleClickOnButton2={handleClickOnPopupDiscardChangeButton}
           />
       </div>
   );

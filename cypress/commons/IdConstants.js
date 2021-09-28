@@ -25,7 +25,7 @@ export const SELECTORS = {
       editButton: '[data-cy=edit-parameters-button]',
       updateAndLaunchButton: '[data-cy=update-and-launch-scenario]',
       discardButton: '[data-cy=discard-button]',
-      dialogDiscardButton: '[data-cy=dialog-discard-button]',
+      dialogDiscardButton: '[data-cy=discard-changes-button2]',
       brewery: {
         stockInput: '[data-cy=stock-input]',
         restockInput: '[data-cy=restock-input]',
