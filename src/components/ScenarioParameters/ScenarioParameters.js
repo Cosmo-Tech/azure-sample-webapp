@@ -250,8 +250,10 @@ const ScenarioParameters = ({
     setInitialStockFile,
     initialStockDataset.id,
     INITIAL_STOCK_PARAM.defaultFileTypeFilter,
-    editMode
-  );
+    editMode,
+    currentScenario.data,
+    workspaceId);
+
   // Indices in this array must match indices in the tabs configuration file src/config/ScenarioParameters.js
   const scenarioParametersTabs = [
     fileUploadComponent,

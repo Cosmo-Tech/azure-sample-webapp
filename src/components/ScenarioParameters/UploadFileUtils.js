@@ -164,7 +164,9 @@ const downloadFile = async (datasetId, datasetFile, setDatasetFile) => {
   }
 };
 
-const constructFileUpload = (keyValue, file, setFile, datasetId, acceptedFileTypesToUpload, editMode) => {
+const constructFileUpload = (
+  keyValue, file, setFile, datasetId, acceptedFileTypesToUpload, editMode, scenario, workspaceId
+) => {
   return (
 <FileUpload keyValue={keyValue}
           file={file}
@@ -172,6 +174,8 @@ const constructFileUpload = (keyValue, file, setFile, datasetId, acceptedFileTyp
           datasetId={datasetId}
           acceptedFileTypesToUpload={acceptedFileTypesToUpload}
           editMode={editMode}
+          scenario={scenario}
+          workspaceId={workspaceId}
 />);
 };
 
