@@ -8,9 +8,13 @@ import { ORGANIZATION_ID } from '../../../../config/AppInstance';
 import { getAllScenariosData } from '../FindAllScenarios/FindAllScenariosData';
 import { Api } from '../../../../services/config/Api';
 import { formatParametersFromApi } from '../../../../utils/ApiUtils';
+import { AppInsights } from '../../../../services/AppInsights';
+
+const appInsights = AppInsights.getInstance();
 
 export function * createScenario (action) {
   try {
+    appInsights.trackScenarioCreation();
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
       status: STATUSES.LOADING

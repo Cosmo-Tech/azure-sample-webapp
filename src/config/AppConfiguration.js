@@ -16,3 +16,6 @@ export const POWER_BI_INFO_POLLING_DELAY = 10000;
 
 // Type of logs to download for a scenario run (SIMPLE_LOGS or CUMULATED_LOGS)
 export const SCENARIO_RUN_LOG_TYPE = 'CUMULATED_LOGS';
+
+// Whether to enable Application Insights events tracking
+export const ENABLE_APPLICATION_INSIGHTS = true;

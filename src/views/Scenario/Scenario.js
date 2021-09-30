@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   Backdrop,
@@ -26,7 +26,8 @@ import { SCENARIO_DASHBOARD_CONFIG } from '../../config/Dashboards';
 import ScenarioRunService from '../../services/scenarioRun/ScenarioRunService';
 import { STATUSES } from '../../state/commons/Constants';
 import { AppInsights } from '../../services/AppInsights';
-import { ENABLE_APPLICATION_INSIGHTS } from '../../config/AppInstance';
+
+const appInsights = AppInsights.getInstance();
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -97,6 +98,10 @@ const Scenario = (props) => {
     findScenarioById(workspaceId, scenario.id);
   };
 
+  useEffect(() => {
+    appInsights.setScenarioData(currentScenario.data);
+  }, [currentScenario]);
+
   const sortedScenarioList = sortScenarioList(scenarioList.data.slice());
   const noScenario = currentScenario.data === null;
   const scenarioListDisabled = editMode || scenarioList === null || noScenario;
@@ -104,45 +109,6 @@ const Scenario = (props) => {
     ? null
     : t('views.scenario.dropdown.scenario.label', Scenario);
   const showBackdrop = currentScenario.status === STATUSES.LOADING;
-
-  // App Insigths
-  const appInsights =
-    ENABLE_APPLICATION_INSIGHTS
-      ? AppInsights.getInstance()
-      : undefined;
-
-  // Track create scenario
-  const trackCreateScenario = () => {
-    appInsights.trackEvent({ name: 'CreateScenario' }, { name: currentScenario.rootId });
-    appInsights.trackMetric({ name: 'CreateScenarioValue', average: 1, sampleCount: 1 });
-  };
-
-  const createTrackedScenario = (workspaceId, scenario) => {
-    if (appInsights) {
-      trackCreateScenario();
-    }
-    createScenario(workspaceId, scenario);
-  };
-
-  // Track launch scenario
-  const trackLaunchScenario = () => {
-    appInsights.trackEvent({ name: 'LaunchScenario' }, { scenarioId: currentScenario.rootId });
-    appInsights.trackMetric({ name: 'LaunchScenarioValue', average: 1, sampleCount: 1 });
-  };
-
-  const updateAndLaunchTrackedScenario = (workspaceId, scenarioId, scenarioParameters) => {
-    if (appInsights) {
-      trackLaunchScenario();
-    }
-    updateAndLaunchScenario(workspaceId, scenarioId, scenarioParameters);
-  };
-
-  const launchTrackedScenario = (workspaceId, scenarioId) => {
-    if (appInsights) {
-      trackLaunchScenario();
-    }
-    launchScenario(workspaceId, scenarioId);
-  };
 
   return (
     <>
@@ -179,7 +145,7 @@ const Scenario = (props) => {
                   <CreateScenarioButton
                     solution={solution}
                     workspaceId={workspaceId}
-                    createScenario={createTrackedScenario}
+                    createScenario={createScenario}
                     currentScenario={currentScenario}
                     runTemplates={runTemplateList.data}
                     datasets={datasetList.data}
@@ -214,8 +180,8 @@ const Scenario = (props) => {
             <ScenarioParameters
                 editMode={editMode}
                 changeEditMode={setEditMode}
-                updateAndLaunchScenario={updateAndLaunchTrackedScenario}
-                launchScenario={launchTrackedScenario}
+                updateAndLaunchScenario={updateAndLaunchScenario}
+                launchScenario={launchScenario}
                 workspaceId={workspaceId}
                 currentScenario={currentScenario}
                 scenarioId={currentScenario.data.id}/>

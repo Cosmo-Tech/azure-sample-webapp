@@ -3,37 +3,14 @@
 
 import React from 'react';
 import { UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
-import {
-  ORGANIZATION_ID, WORKSPACE_ID,
-  ENABLE_APPLICATION_INSIGHTS
-} from '../../config/AppInstance';
+import { ORGANIZATION_ID, WORKSPACE_ID } from '../../config/AppInstance';
 import DatasetService from '../../services/dataset/DatasetService';
 import WorkspaceService from '../../services/workspace/WorkspaceService';
 import { FileUpload } from './components/tabs';
 import { AppInsights } from '../../services/AppInsights';
 
 export const STORAGE_ROOT_DIR_PLACEHOLDER = '%WORKSPACE_FILE%/';
-
-// App Insigths
-const appInsights =
-  ENABLE_APPLICATION_INSIGHTS
-    ? AppInsights.getInstance()
-    : undefined;
-
-// Track upload
-const trackUpload = (scenarioId) => {
-  if (appInsights) {
-    appInsights.trackEvent({ name: 'UploadFile' }, { name: scenarioId });
-    appInsights.trackMetric({ name: 'UploadFileValue', average: 1, sampleCount: 1 });
-  }
-};
-  // Track download
-const trackDownload = (scenarioId) => {
-  if (appInsights) {
-    appInsights.trackEvent({ name: 'DownloadFile' }, { scenarioId: scenarioId });
-    appInsights.trackMetric({ name: 'DownloadFileValue', average: 1, sampleCount: 1 });
-  }
-};
+const appInsights = AppInsights.getInstance();
 
 // Build dataset file location in Azure Storage
 function buildStorageFilePath (datasetId, fileName) {
@@ -105,7 +82,7 @@ async function updateFileWithUpload (datasetFile, setDatasetFile, dataset, setDa
     } else {
       setDataset(updateData);
       // File has been marked to be uploaded
-      await uploadFile(dataset, datasetFile, setDatasetFile, workspaceId, datasetTargetPath, scenarioId);
+      await uploadFile(dataset, datasetFile, setDatasetFile, workspaceId, datasetTargetPath);
       setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD });
       return updateData;
     }
@@ -138,9 +115,7 @@ const prepareToUpload = (event, datasetFile, setDatasetFile) => {
   });
 };
 
-const uploadFile = async (
-  dataset, datasetFile, setDatasetFile, workspaceId, storageFilePath, scenarioId
-) => {
+const uploadFile = async (dataset, datasetFile, setDatasetFile, workspaceId, storageFilePath) => {
   const previousState = datasetFile.status;
   try {
     setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.UPLOADING });
@@ -155,7 +130,7 @@ const uploadFile = async (
       updatePathInDatasetRef(dataset, STORAGE_ROOT_DIR_PLACEHOLDER + data.fileName);
     }
     setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD });
-    trackUpload(scenarioId);
+    appInsights.trackUpload();
   } catch (e) {
     console.error(e);
     setDatasetFile({ ...datasetFile, status: previousState });
@@ -173,7 +148,7 @@ function getStorageFilePathFromDataset (data) {
   }
 }
 
-const downloadFile = async (datasetId, datasetFile, setDatasetFile, scenarioId) => {
+const downloadFile = async (datasetId, datasetFile, setDatasetFile) => {
   const { error, data } = await DatasetService.findDatasetById(ORGANIZATION_ID, datasetId);
   if (error) {
     console.error(error);
@@ -185,13 +160,11 @@ const downloadFile = async (datasetId, datasetFile, setDatasetFile, scenarioId) 
       await WorkspaceService.downloadWorkspaceFile(ORGANIZATION_ID, WORKSPACE_ID, storageFilePath);
       setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD });
     }
-    trackDownload(scenarioId);
+    appInsights.trackDownload();
   }
 };
 
-const constructFileUpload = (
-  keyValue, file, setFile, datasetId, acceptedFileTypesToUpload, editMode, scenarioId
-) => {
+const constructFileUpload = (keyValue, file, setFile, datasetId, acceptedFileTypesToUpload, editMode) => {
   return (
 <FileUpload keyValue={keyValue}
           file={file}
@@ -199,7 +172,6 @@ const constructFileUpload = (
           datasetId={datasetId}
           acceptedFileTypesToUpload={acceptedFileTypesToUpload}
           editMode={editMode}
-          scenarioId={scenarioId}
 />);
 };
 

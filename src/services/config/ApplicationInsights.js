@@ -5,20 +5,15 @@ import { DistributedTracingModes } from '@microsoft/applicationinsights-web';
 import { APPLICATION_INSIGHTS_INSTRUMENTATION_KEY } from '../../config/AppInstance.js';
 
 // Application Insight configuration
-export const getApplicationInsightsConfig = () => {
-  if (APPLICATION_INSIGHTS_INSTRUMENTATION_KEY) {
-    return {
-      name: 'Web Application Sample',
-      config: {
-        instrumentationKey: APPLICATION_INSIGHTS_INSTRUMENTATION_KEY,
-        disableFetchTracking: false,
-        enableCorsCorrelation: true,
-        enableRequestHeaderTracking: true,
-        enableResponseHeaderTracking: true,
-        enableAutoRouteTracking: true,
-        distributedTracingMode: DistributedTracingModes.AI_AND_W3C
-      }
-    };
+export const APPLICATION_INSIGHTS_CONFIG = {
+  name: 'Web Application Sample',
+  config: {
+    instrumentationKey: APPLICATION_INSIGHTS_INSTRUMENTATION_KEY,
+    disableFetchTracking: false,
+    enableCorsCorrelation: true,
+    enableRequestHeaderTracking: true,
+    enableResponseHeaderTracking: true,
+    enableAutoRouteTracking: true,
+    distributedTracingMode: DistributedTracingModes.AI_AND_W3C
   }
-  return undefined;
 };

@@ -250,8 +250,7 @@ const ScenarioParameters = ({
     setInitialStockFile,
     initialStockDataset.id,
     INITIAL_STOCK_PARAM.defaultFileTypeFilter,
-    editMode,
-    scenarioId
+    editMode
   );
   // Indices in this array must match indices in the tabs configuration file src/config/ScenarioParameters.js
   const scenarioParametersTabs = [

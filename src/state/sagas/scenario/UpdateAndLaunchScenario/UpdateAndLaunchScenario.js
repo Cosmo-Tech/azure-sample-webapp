@@ -7,6 +7,9 @@ import { STATUSES } from '../../../commons/Constants';
 import { formatParametersFromApi, SCENARIO_RUN_STATE } from '../../../../utils/ApiUtils';
 import { ORGANIZATION_ID } from '../../../../config/AppInstance';
 import { Api } from '../../../../services/config/Api';
+import { AppInsights } from '../../../../services/AppInsights';
+
+const appInsights = AppInsights.getInstance();
 
 // generators function
 export function * updateAndLaunchScenario (action) {
@@ -15,6 +18,7 @@ export function * updateAndLaunchScenario (action) {
   const scenarioParameters = action.scenarioParameters;
 
   try {
+    appInsights.trackScenarioLaunch();
     // Update scenario parameters
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
