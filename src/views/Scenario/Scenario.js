@@ -26,6 +26,7 @@ import { SCENARIO_DASHBOARD_CONFIG } from '../../config/Dashboards';
 import ScenarioRunService from '../../services/scenarioRun/ScenarioRunService';
 import { STATUSES } from '../../state/commons/Constants';
 import { AppInsights } from '../../services/AppInsights';
+import { ENABLE_APPLICATION_INSIGHTS } from '../../config/AppInstance';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -105,16 +106,21 @@ const Scenario = (props) => {
   const showBackdrop = currentScenario.status === STATUSES.LOADING;
 
   // App Insigths
-  const appInsights = AppInsights.getInstance();
-  console.log(appInsights);
+  const appInsights =
+    ENABLE_APPLICATION_INSIGHTS
+      ? AppInsights.getInstance()
+      : undefined;
 
   // Track create scenario
   const trackCreateScenario = () => {
     appInsights.trackEvent({ name: 'CreateScenario' }, { name: currentScenario.rootId });
     appInsights.trackMetric({ name: 'CreateScenarioValue', average: 1, sampleCount: 1 });
   };
+
   const createTrackedScenario = (workspaceId, scenario) => {
-    trackCreateScenario();
+    if (appInsights) {
+      trackCreateScenario();
+    }
     createScenario(workspaceId, scenario);
   };
 
@@ -125,12 +131,16 @@ const Scenario = (props) => {
   };
 
   const updateAndLaunchTrackedScenario = (workspaceId, scenarioId, scenarioParameters) => {
-    trackLaunchScenario();
+    if (appInsights) {
+      trackLaunchScenario();
+    }
     updateAndLaunchScenario(workspaceId, scenarioId, scenarioParameters);
   };
 
   const launchTrackedScenario = (workspaceId, scenarioId) => {
-    trackLaunchScenario();
+    if (appInsights) {
+      trackLaunchScenario();
+    }
     launchScenario(workspaceId, scenarioId);
   };
 

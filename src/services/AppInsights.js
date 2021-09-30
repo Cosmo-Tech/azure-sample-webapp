@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { ApplicationInsights } from '@microsoft/applicationinsights-web';
-import { APPLICATION_INSIGHTS_CONFIG } from './config/ApplicationInsights';
+import { getApplicationInsightsConfig } from './config/ApplicationInsights';
 
 class AppInsightsSingleton {
   constructor () {
@@ -11,7 +11,7 @@ class AppInsightsSingleton {
     }
     AppInsightsSingleton._instance = this;
 
-    this.appInsights = new ApplicationInsights(APPLICATION_INSIGHTS_CONFIG);
+    this.appInsights = new ApplicationInsights(getApplicationInsightsConfig());
     this.appInsights.loadAppInsights();
     this.appInsights.trackPageView();
   }

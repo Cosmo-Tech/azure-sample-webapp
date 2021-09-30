@@ -3,7 +3,10 @@
 
 import React from 'react';
 import { UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
-import { ORGANIZATION_ID, WORKSPACE_ID } from '../../config/AppInstance';
+import {
+  ORGANIZATION_ID, WORKSPACE_ID,
+  ENABLE_APPLICATION_INSIGHTS
+} from '../../config/AppInstance';
 import DatasetService from '../../services/dataset/DatasetService';
 import WorkspaceService from '../../services/workspace/WorkspaceService';
 import { FileUpload } from './components/tabs';
@@ -11,19 +14,26 @@ import { AppInsights } from '../../services/AppInsights';
 
 export const STORAGE_ROOT_DIR_PLACEHOLDER = '%WORKSPACE_FILE%/';
 
-  // App Insigths
-  const appInsights = AppInsights.getInstance();
-  console.log(appInsights);
-  // Track upload
-  const trackUpload = (scenarioId) => {
+// App Insigths
+const appInsights =
+  ENABLE_APPLICATION_INSIGHTS
+    ? AppInsights.getInstance()
+    : undefined;
+
+// Track upload
+const trackUpload = (scenarioId) => {
+  if (appInsights) {
     appInsights.trackEvent({ name: 'UploadFile' }, { name: scenarioId });
     appInsights.trackMetric({ name: 'UploadFileValue', average: 1, sampleCount: 1 });
-  };
+  }
+};
   // Track download
-  const trackDownload = (scenarioId) => {
+const trackDownload = (scenarioId) => {
+  if (appInsights) {
     appInsights.trackEvent({ name: 'DownloadFile' }, { scenarioId: scenarioId });
     appInsights.trackMetric({ name: 'DownloadFileValue', average: 1, sampleCount: 1 });
-  };
+  }
+};
 
 // Build dataset file location in Azure Storage
 function buildStorageFilePath (datasetId, fileName) {
