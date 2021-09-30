@@ -153,7 +153,6 @@ const Scenario = (props) => {
                 <Grid item xs={5} className={classes.scenarioList}>
                   <HierarchicalComboBox
                     value={currentScenario.data}
-                    maxCharLength={36}
                     values={sortedScenarioList}
                     label={scenarioListLabel}
                     handleChange={handleScenarioChange}
