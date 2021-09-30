@@ -1,8 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import palette from '../palette';
-import typography from '../typography';
+import { palette, typography } from '../custom';
 
 export default {
   root: {

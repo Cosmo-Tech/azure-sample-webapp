@@ -39,7 +39,7 @@ const schema = {
 
 const useStyles = makeStyles(theme => ({
   root: {
-    backgroundColor: theme.palette.signInPage.background,
+    backgroundColor: theme.palette.background.signInPage,
     height: '100%'
   },
   grid: {
@@ -51,12 +51,12 @@ const useStyles = makeStyles(theme => ({
     }
   },
   quote: {
-    backgroundColor: theme.palette.neutral,
+    backgroundColor: theme.palette.background.signInPage,
     height: '100%',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundImage: 'url(/auth.png)',
+    backgroundImage: `url(${theme.picture.auth})`,
     backgroundSize: 'contain',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center bottom'
@@ -67,12 +67,12 @@ const useStyles = makeStyles(theme => ({
     marginTop: '2%'
   },
   quoteText: {
-    color: theme.palette.white,
+    color: theme.palette.text.primary,
     fontWeight: 300
   },
   name: {
     marginTop: theme.spacing(3),
-    color: theme.palette.white
+    color: theme.palette.text.primary
   },
   contentContainer: {},
   content: {
@@ -111,23 +111,28 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'flex-end'
   },
   title: {
-    marginTop: theme.spacing(3)
+    marginTop: theme.spacing(3),
+    color: theme.palette.text.primary
   },
   socialButtons: {
     marginTop: theme.spacing(3)
   },
   contact: {
     marginLeft: '10px',
-    marginTop: '5px'
+    marginTop: '5px',
+    color: theme.palette.text.primary
   },
   formControl: {
     fontSize: '11px'
   },
   languageSelect: {
-    fontSize: '11px'
+    fontSize: '11px',
+    color: theme.palette.text.primary
+
   },
   copyrightText: {
-    marginLeft: '8px'
+    marginLeft: '8px',
+    color: theme.palette.text.primary
   }
 }));
 
@@ -193,9 +198,9 @@ const SignIn = ({ logInAction }) => {
                     {
                       window.location.hostname === 'localhost' &&
                       <Button
-                          color="primary"
                           onClick={event => handleSignIn(event, AuthDev.name)}
                           data-cy="sign-in-with-dev-account-button"
+                          className={classes.quoteText}
                       >
                         {t('commoncomponents.button.login.dev.account.login', 'Login with Dev account')}
                       </Button>
@@ -204,14 +209,14 @@ const SignIn = ({ logInAction }) => {
                 </Grid>
                 <Grid container spacing={1} className={classes.contact} direction="row">
                   <Grid item>
-                    <Typography color="textSecondary" variant="caption">
+                    <Typography variant="caption" className={classes.quoteText}>
                       <Box fontWeight="fontWeightLight">
                         {t('commoncomponents.text.contact.get.account', 'Don\'t have an account?')}
                       </Box>
                     </Typography>
                   </Grid>
                   <Grid item>
-                    <Typography color="textSecondary" variant="caption">
+                    <Typography variant="caption" className={classes.quoteText}>
                       <Box fontWeight="fontWeightBold">
                         {t('commoncomponents.text.link.cosmotech', 'Please contact CosmoTech')}
                       </Box>

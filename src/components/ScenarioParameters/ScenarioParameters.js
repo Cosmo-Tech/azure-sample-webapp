@@ -31,7 +31,6 @@ const useStyles = makeStyles(theme => ({
   header: {
     display: 'flex',
     background: theme.palette.background.secondary,
-    color: '#FFFFFF',
     marginLeft: '30px',
     height: '50px',
     paddingTop: '10px'

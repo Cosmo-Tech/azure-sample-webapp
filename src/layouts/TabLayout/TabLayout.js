@@ -9,6 +9,7 @@ import { Auth } from '@cosmotech/core';
 import { PrivateRoute, UserInfo } from '@cosmotech/ui';
 import { useTranslation } from 'react-i18next';
 import { LANGUAGES } from '../../config/AppConfiguration';
+import theme from '../../theme/';
 
 const useStyles = makeStyles(theme => ({
   content: {
@@ -24,7 +25,6 @@ const useStyles = makeStyles(theme => ({
   },
   bar: {
     background: theme.palette.background.secondary,
-    color: '#FFFFFF',
     display: 'flex',
     justifyContent: 'space-between',
     boxShadow: '0 2px 2px 0px rgba(0,0,0,0.6)'
@@ -41,7 +41,10 @@ const useStyles = makeStyles(theme => ({
   },
   tabs: {
     width: '100%',
-    maxWidth: '900px'
+    maxWidth: '900px',
+    '& .MuiTabs-indicator': {
+      backgroundColor: theme.palette.primary.main
+    }
   },
   tab: {
     minWidth: 0,
@@ -52,7 +55,7 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'center',
     flexGrow: 1,
     opacity: 1,
-    color: theme.palette.text.grey,
+    color: theme.palette.primary.contrastText,
     '&.Mui-selected': {
       fontWeight: 'bold',
       color: theme.palette.primary.contrastText
@@ -100,7 +103,7 @@ const TabLayout = props => {
               />
             </div>
             <div className={classes.rightBarElement}>
-              <img alt="Cosmo Tech" height="28px" src="cosmotech.png" className={classes.logo} />
+              <img alt="Cosmo Tech" height="28px" src={theme.picture.logo} className={classes.logo} />
             </div>
           </div>
         </Box>

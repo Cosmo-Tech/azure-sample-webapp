@@ -11,6 +11,7 @@ import { makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   panel: {
+    backgroundColor: theme.palette.background.paper,
     position: 'absolute',
     left: '50%',
     top: '50%',
