@@ -5,6 +5,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { UploadFile } from '@cosmotech/ui';
 import { UploadFileUtils } from '../../UploadFileUtils';
+import { useTranslation } from 'react-i18next';
 
 const FileUpload = ({
   keyValue,
@@ -14,6 +15,13 @@ const FileUpload = ({
   setFile,
   editMode
 }) => {
+  const { t } = useTranslation();
+
+  const labels = {
+    button: t('genericcomponent.uploadfile.button.browse'),
+    invalidFileMessage: t('genericcomponent.uploadfile.tooltip.isvalidfile')
+  };
+
   return (
     <div>
       <UploadFile key={keyValue}
@@ -26,6 +34,7 @@ const FileUpload = ({
         }}
         file={file}
         editMode={editMode}
+        labels={labels}
       />
     </div>);
 };
