@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'center',
     flexGrow: 1,
     opacity: 1,
-    color: theme.palette.primary.contrastText,
+    color: theme.palette.text.shaded,
     '&.Mui-selected': {
       fontWeight: 'bold',
       color: theme.palette.primary.contrastText
