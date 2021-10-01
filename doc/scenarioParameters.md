@@ -53,6 +53,6 @@ Open [src/config/ScenarioParameters.js](../src/config/ScenarioParameters.js) and
 - Clean imports in ScenarioParameters, and the code no longer needed
 - Remove the keys from the translation files no longer used
 
-## Scenario paramaters input
+## Scenario parameters input
 
 See documentation pages [Input types](inputTypes.md) and [File upload](fileUpload.md).
