@@ -7,29 +7,23 @@ const clone = rfdc();
 
 export const sortScenarioList = (scenarioList) => {
   const sortedList = [];
-  let hasMovedScenarios = true;
-  while (hasMovedScenarios && scenarioList.length !== 0) {
-    const scenarioListCopy = clone(scenarioList);
-    hasMovedScenarios = false;
-    for (let i = 0; i < scenarioListCopy.length; ++i) {
-      const scenario = scenarioListCopy[i];
-      if (scenario.parentId === null) {
+  let scenarioListCopy = clone(scenarioList);
+  scenarioListCopy.sort((a, b) => a.name.toUpperCase() < b.name.toUpperCase() ? -1 : 1);
+
+  const buildScenarioTree = (idParent, depth) => {
+    const scenarioListToFilter = [];
+    for (const scenario of scenarioListCopy) {
+      if (scenario.parentId === idParent) {
+        scenario.depth = depth;
         sortedList.push(scenario);
-        scenario.depth = 0;
-        const scenarioId = scenarioList.findIndex((current) => current.id === scenario.id);
-        scenarioList.splice(scenarioId, 1);
-      } else {
-        const parentScenarioId = scenario.parentId;
-        const parentPosInSortedList = sortedList.findIndex((current) => current.id === parentScenarioId);
-        if (parentPosInSortedList !== -1) {
-          scenario.depth = sortedList[parentPosInSortedList].depth + 1;
-          sortedList.splice(parentPosInSortedList + 1, 0, scenario);
-          const scenarioId = scenarioList.findIndex((current) => current.id === scenario.id);
-          scenarioList.splice(scenarioId, 1);
-          hasMovedScenarios = true;
-        }
+        scenarioListToFilter.push(scenario);
+        buildScenarioTree(scenario.id, depth + 1);
       }
     }
-  }
+    scenarioListCopy = scenarioListCopy.filter(scenario => !scenarioListToFilter.includes(scenario));
+  };
+
+  buildScenarioTree(null, 0);
+
   return sortedList;
 };
