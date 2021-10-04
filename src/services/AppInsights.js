@@ -24,6 +24,7 @@ class AppInsightsSingleton {
   }
 
   setScenarioData (scenario) {
+    if (!scenario) { return; }
     this.currentScenario = {
       id: scenario.id,
       parentId: scenario.parentId,
