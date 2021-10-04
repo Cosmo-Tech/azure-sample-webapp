@@ -58,7 +58,7 @@ const Dashboards = ({ currentScenario, scenarioList, reports }) => {
     noScenario: {
       title: t('commoncomponents.iframe.scenario.noscenario.title', 'No scenario yet'),
       label: t('commoncomponents.iframe.scenario.noscenario.label',
-        'You can create a scenario by clicking on Create Alternative Scenario')
+        'You can create a scenario by clicking on Create new Scenario')
     },
     noRun: {
       label: t('commoncomponents.iframe.scenario.results.label.uninitialized',

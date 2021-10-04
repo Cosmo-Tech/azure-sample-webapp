@@ -112,11 +112,11 @@ const Scenario = (props) => {
 
   const createScenarioDialogLabels = {
     button: {
-      title: t('commoncomponents.button.create.scenario.label', 'Create Alternative Scenario'),
+      title: t('commoncomponents.button.create.scenario.label', 'Create new Scenario'),
       tooltip: createScenarioButtonToolType
     },
     dialog: {
-      title: t('commoncomponents.dialog.create.scenario.text.title', 'Create alternative scenario'),
+      title: t('commoncomponents.dialog.create.scenario.text.title', 'Create new Scenario'),
       scenarioName: t('commoncomponents.dialog.create.scenario.input.scenarioname.label'),
       scenarioMaster: t('commoncomponents.dialog.create.scenario.checkbox.scenarioMaster.label',
         'Master'),
@@ -144,7 +144,7 @@ const Scenario = (props) => {
     noScenario: {
       title: t('commoncomponents.iframe.scenario.noscenario.title', 'No scenario yet'),
       label: t('commoncomponents.iframe.scenario.noscenario.label',
-        'You can create a scenario by clicking on Create Alternative Scenario')
+        'You can create a scenario by clicking on Create new Scenario')
     },
     noRun: {
       label: t('commoncomponents.iframe.scenario.results.label.uninitialized',
