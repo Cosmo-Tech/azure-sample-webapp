@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core';
 import { ScenarioManagerTreeList } from '@cosmotech/ui';
 import { WORKSPACE_ID } from '../../config/AppInstance';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -24,6 +25,7 @@ function moveScenario (moveData) {
 
 const ScenarioManager = (props) => {
   const classes = useStyles();
+  const { t } = useTranslation();
 
   const {
     currentScenario,
@@ -47,6 +49,33 @@ const ScenarioManager = (props) => {
     }
   }
 
+  function buildSearchInfoLabel (scenarioCount) {
+    return t('commoncomponents.scenariomanager.treelist.search.info', '{{count}} scenarios found',
+      { count: scenarioCount });
+  }
+
+  function buildDatasetLabel (datasetList) {
+    return t('commoncomponents.scenariomanager.treelist.node.dataset',
+      { count: datasetList?.length || 0 }
+    );
+  }
+
+  const labels = {
+    status: t('commoncomponents.scenariomanager.treelist.node.status.label'),
+    successful: t('commoncomponents.scenariomanager.treelist.node.status.successful'),
+    failed: t('commoncomponents.scenariomanager.treelist.node.status.failed'),
+    created: t('commoncomponents.scenariomanager.treelist.node.status.created'),
+    deleteDialog: {
+      title: t('commoncomponents.dialog.confirm.delete.title', 'Confirm delete?'),
+      description: t('commoncomponents.dialog.confirm.delete.description',
+        'The scenario will be deleted. If this scenario has children, ' +
+        'then its parent will become the new parent of all these scenarios.'
+      ),
+      cancel: t('commoncomponents.dialog.confirm.delete.button.cancel', 'Cancel'),
+      confirm: t('commoncomponents.dialog.confirm.delete.button.confirm', 'Confirm')
+    }
+  };
+
   return (
     <div className={classes.root}>
       <ScenarioManagerTreeList
@@ -56,6 +85,9 @@ const ScenarioManager = (props) => {
         userId={userId}
         deleteScenario={onScenarioDelete}
         moveScenario={moveScenario}
+        buildSearchInfo={buildSearchInfoLabel}
+        buildDatasetInfo={buildDatasetLabel}
+        labels={labels}
       />
     </div>
   );
