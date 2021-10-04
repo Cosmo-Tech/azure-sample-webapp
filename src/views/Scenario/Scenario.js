@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   Backdrop,
@@ -25,6 +25,9 @@ import { SCENARIO_RUN_LOG_TYPE } from '../../config/AppConfiguration';
 import { SCENARIO_DASHBOARD_CONFIG } from '../../config/Dashboards';
 import ScenarioRunService from '../../services/scenarioRun/ScenarioRunService';
 import { STATUSES } from '../../state/commons/Constants';
+import { AppInsights } from '../../services/AppInsights';
+
+const appInsights = AppInsights.getInstance();
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -94,6 +97,10 @@ const Scenario = (props) => {
   const handleScenarioChange = (event, scenario) => {
     findScenarioById(workspaceId, scenario.id);
   };
+
+  useEffect(() => {
+    appInsights.setScenarioData(currentScenario.data);
+  }, [currentScenario]);
 
   const sortedScenarioList = sortScenarioList(scenarioList.data.slice());
   const noScenario = currentScenario.data === null;

@@ -7,10 +7,14 @@ import { STATUSES } from '../../../commons/Constants';
 import { SCENARIO_RUN_STATE } from '../../../../utils/ApiUtils';
 import { ORGANIZATION_ID } from '../../../../config/AppInstance';
 import { Api } from '../../../../services/config/Api';
+import { AppInsights } from '../../../../services/AppInsights';
+
+const appInsights = AppInsights.getInstance();
 
 // generators function
 export function * launchScenario (action) {
   try {
+    appInsights.trackScenarioLaunch();
     const workspaceId = action.workspaceId;
     const scenarioId = action.scenarioId;
 

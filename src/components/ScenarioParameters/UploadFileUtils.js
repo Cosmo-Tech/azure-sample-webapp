@@ -7,8 +7,10 @@ import { ORGANIZATION_ID, WORKSPACE_ID } from '../../config/AppInstance';
 import DatasetService from '../../services/dataset/DatasetService';
 import WorkspaceService from '../../services/workspace/WorkspaceService';
 import { FileUpload } from './components/tabs';
+import { AppInsights } from '../../services/AppInsights';
 
 export const STORAGE_ROOT_DIR_PLACEHOLDER = '%WORKSPACE_FILE%/';
+const appInsights = AppInsights.getInstance();
 
 // Build dataset file location in Azure Storage
 function buildStorageFilePath (datasetId, fileName) {
@@ -128,6 +130,7 @@ const uploadFile = async (dataset, datasetFile, setDatasetFile, workspaceId, sto
       updatePathInDatasetRef(dataset, STORAGE_ROOT_DIR_PLACEHOLDER + data.fileName);
     }
     setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD });
+    appInsights.trackUpload();
   } catch (e) {
     console.error(e);
     setDatasetFile({ ...datasetFile, status: previousState });
@@ -157,6 +160,7 @@ const downloadFile = async (datasetId, datasetFile, setDatasetFile) => {
       await WorkspaceService.downloadWorkspaceFile(ORGANIZATION_ID, WORKSPACE_ID, storageFilePath);
       setDatasetFile({ ...datasetFile, status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD });
     }
+    appInsights.trackDownload();
   }
 };
 
