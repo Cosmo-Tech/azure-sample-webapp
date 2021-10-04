@@ -24,7 +24,7 @@
       },
       "create": {
         "scenario": {
-          "label": "Create Alternative Scenario",
+          "label": "Create new scenario",
           "tooltip": {
             "disabled": "Please save or discard current modifications before creating a new scenario"
           }
@@ -183,7 +183,7 @@
       "create": {
         "scenario": {
           "text": {
-            "title": "Create a scenario"
+            "title": "Create new scenario"
           },
           "input" : {
             "scenarioname": {

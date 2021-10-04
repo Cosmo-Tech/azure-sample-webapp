@@ -24,7 +24,7 @@
       },
       "create": {
         "scenario": {
-          "label": "Créer un scénario alternatif",
+          "label": "Créer un scénario",
           "tooltip": {
             "disabled": "Veuillez sauver ou annuler les modifications en cours avant de créer un nouveau scénario"
           }
@@ -183,7 +183,7 @@
       "create": {
         "scenario": {
           "text": {
-            "title": "Création d'un scénario"
+            "title": "Créer un scénario"
           },
           "input" : {
             "scenarioname": {
