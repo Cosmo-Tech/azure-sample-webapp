@@ -43,7 +43,7 @@ function a11yProps (index) {
 
 const Dashboards = ({ currentScenario, scenarioList, reports }) => {
   const classes = useStyles();
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
@@ -53,6 +53,32 @@ const Dashboards = ({ currentScenario, scenarioList, reports }) => {
   const dashboardTitle = DASHBOARDS_LIST_CONFIG[value].title[i18n.language] === undefined
     ? DEFAULT_MISSING_TITLE
     : DASHBOARDS_LIST_CONFIG[value].title[i18n.language];
+
+  const labels = {
+    noScenario: {
+      title: t('commoncomponents.iframe.scenario.noscenario.title', 'No scenario yet'),
+      label: t('commoncomponents.iframe.scenario.noscenario.label',
+        'You can create a scenario by clicking on Create Alternative Scenario')
+    },
+    noRun: {
+      label: t('commoncomponents.iframe.scenario.results.label.uninitialized',
+        'The scenario has not been run yet')
+    },
+    inProgress: {
+      label: t('commoncomponents.iframe.scenario.results.label.running', 'Scenario run in progress...')
+    },
+    hasErrors: {
+      label: t('commoncomponents.iframe.scenario.results.text.error',
+        'An error occured during the scenario run')
+    },
+    downloadButton: t('commoncomponents.iframe.scenario.results.button.downloadLogs', 'Download logs'),
+    refreshButton: t('commoncomponents.iframe.scenario.results.button.refresh', 'Refresh'),
+    errors: {
+      unknown: t('commoncomponents.iframe.scenario.error.unknown.label', 'Unknown error'),
+      details: t('commoncomponents.iframe.scenario.error.unknown.details',
+        'Something went wrong when fetching PowerBI reports info')
+    }
+  };
 
   return (
     <Grid container className={classes.root} direction="row">
@@ -84,6 +110,7 @@ const Dashboards = ({ currentScenario, scenarioList, reports }) => {
                 scenario={currentScenario}
                 scenarioList={scenarioList.data}
                 lang={i18n.language}
+                labels={labels}
               />
             }
         </Card>
@@ -108,6 +135,7 @@ function TabPanel (props) {
     scenario,
     scenarioList,
     lang,
+    labels,
     ...other
   } = props;
 
@@ -124,7 +152,8 @@ function TabPanel (props) {
           reportConfiguration={DASHBOARDS_LIST_CONFIG}
           scenario={scenario}
           scenarioList={scenarioList}
-          lang={lang} />
+          lang={lang}
+          labels={labels}/>
     </div>
   );
 }
@@ -147,7 +176,8 @@ TabPanel.propTypes = {
   lang: PropTypes.string.isRequired,
   scenarioList: PropTypes.array.isRequired,
   scenario: PropTypes.object.isRequired,
-  reports: PropTypes.object.isRequired
+  reports: PropTypes.object.isRequired,
+  labels: PropTypes.object
 };
 
 export default Dashboards;
