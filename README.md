@@ -35,10 +35,10 @@ git remote add upstream git@github.com:Cosmo-Tech/azure-sample-webapp.git
 git remote set-url upstream --push "NO"
 git fetch upstream
 ```
-## Create an Azure Static Webapp resource & configure it for deployment
+## Create an App registration, Azure Static Webapp resource & configure it for deployment
 
 You need an Azure Static Webapp resource in the tenant to deploy your webapp.
-For more information, see the [related Microsoft documentation](https://docs.microsoft.com/en-us/azure/static-web-apps/get-started-portal?tabs=vanilla-javascript#create-a-static-web-app)
+For more information, follow our step-by-step tutorials on [our portal](https://portal.cosmotech.com/) - Contact Cosmo Tech for access.
 
 ## Configure the webapp for your use-case
 
