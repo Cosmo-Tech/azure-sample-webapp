@@ -26,8 +26,7 @@ const useStyles = makeStyles(theme => ({
   bar: {
     background: theme.palette.background.secondary,
     display: 'flex',
-    justifyContent: 'space-between',
-    boxShadow: '0 2px 2px 0px rgba(0,0,0,0.6)'
+    justifyContent: 'space-between'
   },
   rightBar: {
     textAlign: 'right',
