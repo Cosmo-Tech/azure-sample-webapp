@@ -73,7 +73,8 @@ const ScenarioManager = (props) => {
       ),
       cancel: t('commoncomponents.dialog.confirm.delete.button.cancel', 'Cancel'),
       confirm: t('commoncomponents.dialog.confirm.delete.button.confirm', 'Confirm')
-    }
+    },
+    searchField: t('commoncomponents.scenariomanager.treelist.node.text.search')
   };
 
   return (
