@@ -107,9 +107,10 @@ const BasicTypes = ({
         label='Switch type'
         changeSwitchType={changeSwitchType}
         switchProps={switchFieldProps}
-        checked={switchFieldValue}
+        value={switchFieldValue}
       />
       <BasicDateInput
+        id={'date-param'}
         label='Pick a date'
         changeSelectedDate={changeSelectedDate}
         dateProps={dateProps}

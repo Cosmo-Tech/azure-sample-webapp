@@ -72,7 +72,7 @@ const Dashboards = ({ currentScenario, scenarioList, reports }) => {
         'An error occured during the scenario run')
     },
     downloadButton: t('commoncomponents.iframe.scenario.results.button.downloadLogs', 'Download logs'),
-    refreshButton: t('commoncomponents.iframe.scenario.results.button.refresh', 'Refresh'),
+    refreshTooltip: t('commoncomponents.iframe.scenario.results.button.refresh', 'Refresh'),
     errors: {
       unknown: t('commoncomponents.iframe.scenario.error.unknown.label', 'Unknown error'),
       details: t('commoncomponents.iframe.scenario.error.unknown.details',
