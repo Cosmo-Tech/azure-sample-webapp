@@ -20,6 +20,7 @@ import {
 } from '@material-ui/core';
 import { SignInButton } from '@cosmotech/ui';
 import { i18nUtils } from '../../utils';
+import microsoftLogo from '../../assets/microsoft_logo.png';
 
 const schema = {
   email: {
@@ -138,6 +139,7 @@ const useStyles = makeStyles(theme => ({
 
 const SignIn = ({ logInAction }) => {
   const classes = useStyles();
+
   const { t, i18n } = useTranslation();
   const [formState, setFormState] = useState({
     isValid: false,
@@ -191,6 +193,9 @@ const SignIn = ({ logInAction }) => {
                 <Grid className={classes.socialButtons} container spacing={2} direction="column">
                   <Grid item>
                     <SignInButton
+                      logo={microsoftLogo}
+                      id={'microsoft'}
+                      label={t('genericcomponent.button.login.msal.title', 'Sign in with Microsoft')}
                       onClick={event => handleSignIn(event, AuthMSAL.name)}
                     />
                   </Grid>

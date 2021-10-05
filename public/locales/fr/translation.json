@@ -129,6 +129,9 @@
             "successful": "Succès",
             "failed": "Erreur",
             "created": "Créé"
+          },
+          "text": {
+            "search": "Rechercher"
           }
         },
         "search": {

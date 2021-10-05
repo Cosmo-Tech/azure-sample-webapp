@@ -20,18 +20,15 @@ const BarParameters = ({
   // Number input properties configuration
   const stockTextFieldProps = {
     disabled: !editMode,
-    id: 'basic-text-input-id',
-    value: stock
+    id: 'basic-text-input-id'
   };
   const restockQuantityTextFieldProps = {
     disabled: !editMode,
-    id: 'basic-text-input-id',
-    value: restockQuantity
+    id: 'basic-text-input-id'
   };
   const waitersNumberTextFieldProps = {
     disabled: !editMode,
-    id: 'basic-text-input-id',
-    value: waitersNumber
+    id: 'basic-text-input-id'
   };
 
   const stockInputProps = {
@@ -54,6 +51,7 @@ const BarParameters = ({
           label={ t('genericcomponent.text.scenario.parameters.bar.stock', 'Stock') }
           changeNumberField={changeStock}
           textFieldProps={stockTextFieldProps}
+          value={stock}
           inputProps={stockInputProps}
         />
         <BasicNumberInput
@@ -61,6 +59,7 @@ const BarParameters = ({
           label={ t('genericcomponent.text.scenario.parameters.bar.restock', 'Restock quantity') }
           changeNumberField={changeRestockQuantity}
           textFieldProps={restockQuantityTextFieldProps}
+          value={restockQuantity}
           inputProps={restockQuantityInputProps}
         />
         <BasicNumberInput
@@ -68,6 +67,7 @@ const BarParameters = ({
           label={ t('genericcomponent.text.scenario.parameters.bar.waiters', 'Waiters number') }
           changeNumberField={changeWaitersNumber}
           textFieldProps={waitersNumberTextFieldProps}
+          value={waitersNumber}
           inputProps={waitersNumberInputProps}
         />
       </div>);
