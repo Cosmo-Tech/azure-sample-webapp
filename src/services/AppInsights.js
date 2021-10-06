@@ -33,27 +33,27 @@ class AppInsightsSingleton {
   }
 
   trackUpload () {
-    if (!this.enabled) { return; }
-    this.appInsights.trackEvent({ name: 'UploadFile' }, { scenarioId: this.currentScenario.id });
-    this.appInsights.trackMetric({ name: 'UploadFileValue', average: 1, sampleCount: 1 });
+    if (this.enabled) {
+      this.appInsights.trackMetric({ name: 'UploadFileValue', average: 1, sampleCount: 1 });
+    }
   }
 
   trackDownload () {
-    if (!this.enabled) { return; }
-    this.appInsights.trackEvent({ name: 'DownloadFile' }, { scenarioId: this.currentScenario.id });
-    this.appInsights.trackMetric({ name: 'DownloadFileValue', average: 1, sampleCount: 1 });
+    if (this.enabled) {
+      this.appInsights.trackMetric({ name: 'DownloadFileValue', average: 1, sampleCount: 1 });
+    }
   }
 
   trackScenarioCreation () {
-    if (!this.enabled) { return; }
-    this.appInsights.trackEvent({ name: 'CreateScenario' }, { parentScenarioId: this.currentScenario.parentId });
-    this.appInsights.trackMetric({ name: 'CreateScenarioValue', average: 1, sampleCount: 1 });
+    if (this.enabled) {
+      this.appInsights.trackMetric({ name: 'CreateScenarioValue', average: 1, sampleCount: 1 });
+    }
   }
 
   trackScenarioLaunch () {
-    if (!this.enabled) { return; }
-    this.appInsights.trackEvent({ name: 'LaunchScenario' }, { scenarioId: this.currentScenario.id });
-    this.appInsights.trackMetric({ name: 'LaunchScenarioValue', average: 1, sampleCount: 1 });
+    if (this.enabled) {
+      this.appInsights.trackMetric({ name: 'LaunchScenarioValue', average: 1, sampleCount: 1 });
+    }
   }
 }
 
