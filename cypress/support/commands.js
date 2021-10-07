@@ -1,7 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { SELECTORS } from '../commons/IdConstants';
+
 import { URL_REGEX, URL_POWERBI } from '../commons/TestConstants';
+import { SELECTORS } from '../commons/IdConstants';
 
 // For this moment, login is handle by clicking on Microsoft Login button
 Cypress.Commands.add('login', () => {
@@ -11,9 +12,7 @@ Cypress.Commands.add('login', () => {
   });
 
   cy.intercept('GET', URL_REGEX.SCENARIO_PAGE_WITH_ID).as('requestUpdateCurrentScenario');
-
   cy.get(SELECTORS.login.microsoftLoginButton).click();
-
   cy.wait('@requestUpdateCurrentScenario');
 
   cy.get(SELECTORS.scenario.parameters.tabs).should('be.visible');
@@ -42,20 +41,22 @@ Cypress.Commands.add('createScenario', (scenarioName, isMaster, datasetOrMasterN
   /* eslint-disable cypress/no-force */
   cy.contains(scenarioType).should('be.visible').click({ force: true });
 
-  cy.intercept('POST', URL_REGEX.SCENARIO_PAGE).as('requestCreateScenario');
-  cy.intercept('GET', URL_REGEX.SCENARIO_PAGE).as('requestUpdateScenarioList');
+  const scenarioCreationAlias = 'requestCreateScenario_' + scenarioName.replaceAll(' ', '');
+  const scenarioListUpdateAlias = 'requestUpdateScenarioList_' + scenarioName.replaceAll(' ', '');
+  cy.intercept('POST', URL_REGEX.SCENARIO_PAGE).as(scenarioCreationAlias);
+  cy.intercept('GET', URL_REGEX.SCENARIO_PAGE).as(scenarioListUpdateAlias);
 
   cy.get(SELECTORS.scenario.createDialog.submitButton).click();
 
   let scenarioCreatedId, scenarioCreatedName;
-  cy.wait('@requestCreateScenario').then((req) => {
+  cy.wait('@' + scenarioCreationAlias).then((req) => {
     scenarioCreatedName = req.response.body.name;
     scenarioCreatedId = req.response.body.id;
     cy.wrap(scenarioCreatedId).as('scenarioCreatedId');
     cy.wrap(scenarioCreatedName).should('equal', scenarioName);
   });
 
-  cy.wait('@requestUpdateScenarioList').then((req) => {
+  cy.wait('@' + scenarioListUpdateAlias).then((req) => {
     const nameGet = req.response.body.find(obj => obj.id === scenarioCreatedId).name;
     cy.wrap(nameGet).should('equal', scenarioCreatedName);
   });

@@ -57,21 +57,25 @@ const PARAMETERS = {
     defaultValue: new Date('2014-08-18T21:11:54')
   },
   initial_stock_dataset: {
+    dataCy: 'initial_stock_dataset',
     connectorId: 'C-XPv4LBVGAL',
     defaultFileTypeFilter: '.zip,.csv,.json,.xls,.xlsx',
     description: 'Initial stock dataset part'
   },
   example_dataset_part_1: {
+    dataCy: 'example_dataset_part_1',
     connectorId: 'C-XPv4LBVGAL',
     defaultFileTypeFilter: '.zip,.csv,.json,.xls,.xlsx',
     description: '1st example of dataset part'
   },
   example_dataset_part_2: {
+    dataCy: 'example_dataset_part_2',
     connectorId: 'C-XPv4LBVGAL',
     defaultFileTypeFilter: '.zip,.csv,.json,.xls,.xlsx',
     description: '2nd example of dataset part'
   },
   example_dataset_part_3: {
+    dataCy: 'example_dataset_part_3',
     connectorId: 'C-XPv4LBVGAL',
     defaultFileTypeFilter: '.zip,.csv,.json,.xls,.xlsx',
     description: '3rd example of dataset part'
