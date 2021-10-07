@@ -1,0 +1,267 @@
+// Copyright (c) Cosmo Tech.
+// Licensed under the MIT license.
+
+import 'cypress-file-upload';
+import utils from '../../commons/TestUtils';
+import {
+  SCENARIO_NAME,
+  PAGE_NAME,
+  DATASET,
+  SCENARIO_TYPE
+} from '../../commons/TestConstants';
+import {
+  Scenarios,
+  ScenarioManager,
+  ScenarioParameters,
+  BreweryParameters
+} from '../../commons/actions';
+
+Cypress.Keyboard.defaults({
+  keystrokeDelay: 0
+});
+
+const SCENARIO_DATASET = DATASET.BREWERY_ADT;
+const SCENARIO_RUN_TYPE = SCENARIO_TYPE.BASIC_TYPES;
+const FILE_PATH_1 = 'dummy_dataset_1.csv';
+const FILE_PATH_2 = 'dummy_dataset_2.csv';
+
+function forgeScenarioName () {
+  return `${SCENARIO_NAME.SCENARIO_WITH_FILES}${utils.randomStr(7)}`;
+}
+
+describe('Simple operations on a file parameter', () => {
+  beforeEach(() => {
+    cy.visit(PAGE_NAME.SCENARIO);
+    cy.login();
+  });
+
+  const scenarioNamesToDelete = [];
+  after(() => {
+    // Delete all tests scenarios
+    ScenarioManager.switchToScenarioManager();
+    for (const scenarioName of scenarioNamesToDelete) {
+      ScenarioManager.deleteScenario(scenarioName);
+    }
+  });
+
+  let firstScenarioName;
+  let firstScenarioId;
+  it('can upload a file and run the scenario', () => {
+    firstScenarioName = forgeScenarioName();
+    scenarioNamesToDelete.push(firstScenarioName);
+    cy.createScenario(firstScenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TYPE).then((value) => {
+      firstScenarioId = value.scenarioCreatedId;
+    });
+    ScenarioParameters.edit();
+    BreweryParameters.switchToBasicTypesTab();
+    BreweryParameters.uploadExampleDatasetPart1(FILE_PATH_1);
+    ScenarioParameters.updateAndLaunch();
+    BreweryParameters.getExampleDatasetPart1DownloadButton().should('have.text', FILE_PATH_1);
+  });
+
+  it('can upload a file, delete it and run the scenario', () => {
+    const scenarioName = forgeScenarioName();
+    scenarioNamesToDelete.push(scenarioName);
+    cy.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TYPE);
+    ScenarioParameters.edit();
+    BreweryParameters.switchToBasicTypesTab();
+    BreweryParameters.getExampleDatasetPart1DownloadButton().should('not.exist');
+    BreweryParameters.uploadExampleDatasetPart1(FILE_PATH_1);
+    BreweryParameters.deleteExampleDatasetPart1();
+    ScenarioParameters.updateAndLaunch();
+    BreweryParameters.getExampleDatasetPart1DownloadButton().should('not.exist');
+  });
+
+  it('can upload a file, discard all modifications and run the scenario', () => {
+    const scenarioName = forgeScenarioName();
+    scenarioNamesToDelete.push(scenarioName);
+    cy.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TYPE);
+    ScenarioParameters.edit();
+    BreweryParameters.switchToBasicTypesTab();
+    BreweryParameters.uploadExampleDatasetPart1(FILE_PATH_1);
+    ScenarioParameters.discard();
+    BreweryParameters.getExampleDatasetPart1DownloadButton().should('not.exist');
+  });
+
+  it('can delete an uploaded file and run the scenario', () => {
+    Scenarios.select(firstScenarioName, firstScenarioId); // Expecting the first scenario to be done by then
+    ScenarioParameters.edit();
+    BreweryParameters.switchToBasicTypesTab();
+    BreweryParameters.getExampleDatasetPart1DownloadButton().should('have.text', FILE_PATH_1);
+    BreweryParameters.deleteExampleDatasetPart1();
+    ScenarioParameters.updateAndLaunch();
+    BreweryParameters.getExampleDatasetPart1DownloadButton().should('not.exist');
+  });
+});
+
+describe('Simple operations on a file parameter in a parameters tab that lost focus', () => {
+  beforeEach(() => {
+    cy.visit(PAGE_NAME.SCENARIO);
+    cy.login();
+  });
+
+  const scenarioNamesToDelete = [];
+  after(() => {
+    // Delete all tests scenarios
+    ScenarioManager.switchToScenarioManager();
+    for (const scenarioName of scenarioNamesToDelete) {
+      ScenarioManager.deleteScenario(scenarioName);
+    }
+  });
+
+  let firstScenarioName;
+  let firstScenarioId;
+  it('can upload a file and run the scenario', () => {
+    firstScenarioName = forgeScenarioName();
+    scenarioNamesToDelete.push(firstScenarioName);
+    cy.createScenario(firstScenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TYPE).then((value) => {
+      firstScenarioId = value.scenarioCreatedId;
+    });
+    ScenarioParameters.edit();
+    BreweryParameters.switchToUploadFileTab();
+    BreweryParameters.uploadExampleDatasetPart3(FILE_PATH_1);
+    BreweryParameters.switchToBasicTypesTab();
+    ScenarioParameters.updateAndLaunch();
+    BreweryParameters.switchToUploadFileTab();
+    BreweryParameters.getExampleDatasetPart3DownloadButton().should('have.text', FILE_PATH_1);
+  });
+
+  it('can upload a file, delete it and run the scenario', () => {
+    const scenarioName = forgeScenarioName();
+    scenarioNamesToDelete.push(scenarioName);
+    cy.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TYPE);
+    ScenarioParameters.edit();
+    BreweryParameters.switchToUploadFileTab();
+    BreweryParameters.getExampleDatasetPart3DownloadButton().should('not.exist');
+    BreweryParameters.uploadExampleDatasetPart3(FILE_PATH_1);
+    BreweryParameters.deleteExampleDatasetPart3();
+    BreweryParameters.switchToBasicTypesTab();
+    ScenarioParameters.updateAndLaunch();
+    BreweryParameters.switchToUploadFileTab();
+    BreweryParameters.getExampleDatasetPart3DownloadButton().should('not.exist');
+  });
+
+  it('can upload a file, discard all modifications and run the scenario', () => {
+    const scenarioName = forgeScenarioName();
+    scenarioNamesToDelete.push(scenarioName);
+    cy.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TYPE);
+    ScenarioParameters.edit();
+    BreweryParameters.switchToUploadFileTab();
+    BreweryParameters.uploadExampleDatasetPart3(FILE_PATH_1);
+    BreweryParameters.switchToBasicTypesTab();
+    ScenarioParameters.discard();
+    BreweryParameters.switchToUploadFileTab();
+    BreweryParameters.getExampleDatasetPart3DownloadButton().should('not.exist');
+  });
+
+  it('can delete an uploaded file and run the scenario', () => {
+    Scenarios.select(firstScenarioName, firstScenarioId); // Expecting the first scenario to be done by then
+    ScenarioParameters.edit();
+    BreweryParameters.switchToUploadFileTab();
+    BreweryParameters.getExampleDatasetPart3DownloadButton().should('have.text', FILE_PATH_1);
+    BreweryParameters.deleteExampleDatasetPart3();
+    BreweryParameters.switchToBasicTypesTab();
+    ScenarioParameters.updateAndLaunch();
+    BreweryParameters.switchToUploadFileTab();
+    BreweryParameters.getExampleDatasetPart3DownloadButton().should('not.exist');
+  });
+});
+
+describe('Scenario inheritance for file parameters', () => {
+  beforeEach(() => {
+    cy.visit(PAGE_NAME.SCENARIO);
+    cy.login();
+  });
+
+  const scenarioNamesToDelete = [];
+  after(() => {
+    // Delete all tests scenarios
+    ScenarioManager.switchToScenarioManager();
+    for (const scenarioName of scenarioNamesToDelete) {
+      ScenarioManager.deleteScenario(scenarioName);
+    }
+  });
+
+  const scenarioPrefix = forgeScenarioName();
+  const grandParentScenarioName = scenarioPrefix + ' - GrandParent';
+  const parentScenarioName = scenarioPrefix + ' - Parent';
+  const childScenarioName = scenarioPrefix + ' - Child';
+  scenarioNamesToDelete.push(grandParentScenarioName);
+  scenarioNamesToDelete.push(parentScenarioName);
+  scenarioNamesToDelete.push(childScenarioName);
+
+  let grandParentScenarioId;
+  let parentScenarioId;
+
+  it('can create a scenario, upload a file, create a child scenario and run it', () => {
+    cy.createScenario(grandParentScenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TYPE).then((value) => {
+      grandParentScenarioId = value.scenarioCreatedId;
+    });
+    ScenarioParameters.edit();
+    BreweryParameters.switchToBasicTypesTab();
+    BreweryParameters.uploadExampleDatasetPart1(FILE_PATH_1);
+    ScenarioParameters.updateAndLaunch();
+    BreweryParameters.getExampleDatasetPart1DownloadButton().should('have.text', FILE_PATH_1);
+
+    cy.createScenario(parentScenarioName, false, grandParentScenarioName, SCENARIO_RUN_TYPE).then((value) => {
+      parentScenarioId = value.scenarioCreatedId;
+    });
+    BreweryParameters.getExampleDatasetPart1DownloadButton().should('have.text', FILE_PATH_1);
+  });
+
+  it('can create a scenario, upload a file, create a child scenario, delete the file and run it', () => {
+    Scenarios.select(parentScenarioName, parentScenarioId);
+    ScenarioParameters.edit();
+    BreweryParameters.switchToBasicTypesTab();
+    BreweryParameters.getExampleDatasetPart1DownloadButton().should('have.text', FILE_PATH_1);
+    BreweryParameters.deleteExampleDatasetPart1();
+    ScenarioParameters.updateAndLaunch();
+    BreweryParameters.getExampleDatasetPart1DownloadButton().should('not.exist');
+
+    Scenarios.select(grandParentScenarioName, grandParentScenarioId);
+    BreweryParameters.getExampleDatasetPart1DownloadButton().should('have.text', FILE_PATH_1);
+  });
+
+  it('can create a scenario, upload a file, create a child scenario, delete the file, create a child scenario for ' +
+    'the first child scenario and run it',
+  () => {
+    cy.createScenario(childScenarioName, false, parentScenarioName, SCENARIO_RUN_TYPE);
+    BreweryParameters.getExampleDatasetPart1DownloadButton().should('not.exist');
+  }
+  );
+});
+
+describe('File parameters in multiple tabs', () => {
+  beforeEach(() => {
+    cy.visit(PAGE_NAME.SCENARIO);
+    cy.login();
+  });
+
+  const scenarioNamesToDelete = [];
+  after(() => {
+    // Delete all tests scenarios
+    ScenarioManager.switchToScenarioManager();
+    for (const scenarioName of scenarioNamesToDelete) {
+      ScenarioManager.deleteScenario(scenarioName);
+    }
+  });
+
+  it('can create a scenario and upload several files, in several tabs', () => {
+    const scenarioName = forgeScenarioName();
+    scenarioNamesToDelete.push(scenarioName);
+    cy.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TYPE);
+    ScenarioParameters.edit();
+    BreweryParameters.switchToBasicTypesTab();
+    BreweryParameters.uploadExampleDatasetPart1(FILE_PATH_1);
+    BreweryParameters.uploadExampleDatasetPart2(FILE_PATH_2);
+    BreweryParameters.switchToUploadFileTab();
+    BreweryParameters.uploadExampleDatasetPart3(FILE_PATH_1);
+    ScenarioParameters.updateAndLaunch();
+
+    BreweryParameters.switchToBasicTypesTab();
+    BreweryParameters.getExampleDatasetPart1DownloadButton().should('have.text', FILE_PATH_1);
+    BreweryParameters.getExampleDatasetPart2DownloadButton().should('have.text', FILE_PATH_2);
+    BreweryParameters.switchToUploadFileTab();
+    BreweryParameters.getExampleDatasetPart3DownloadButton().should('have.text', FILE_PATH_1);
+  });
+});
