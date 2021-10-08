@@ -58,5 +58,12 @@ export const SELECTORS = {
         delete: '[data-cy=scenario-delete-button]'
       }
     }
+  },
+  genericComponents: {
+    uploadFile: {
+      browseButtonInput: 'input[type=file]',
+      downloadButton: '[data-cy=download-button]',
+      deleteButton: '[data-cy=delete-button]'
+    }
   }
 };
