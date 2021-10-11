@@ -69,7 +69,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.15.5",
-    "@babel/preset-env": "^7.15.6",
+    "@babel/preset-env": "^7.15.8",
     "@babel/preset-react": "^7.13.13",
     "@react-mock/state": "^0.1.8",
     "@testing-library/dom": "^8.5.0",
