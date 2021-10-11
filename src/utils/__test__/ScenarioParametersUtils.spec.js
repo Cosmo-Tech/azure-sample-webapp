@@ -4,12 +4,136 @@
 import rfdc from 'rfdc';
 import { ScenarioParametersUtils } from '../ScenarioParametersUtils';
 import { STANDARD_SOLUTION } from './StandardSolutionData';
+import { STANDARD_DATASETS } from './StandardDatasetsData';
 
 const clone = rfdc();
 
 const getParamDataFromStandardSolution = (parameterId) => {
   return STANDARD_SOLUTION.parameters.find(param => param.id === parameterId);
 };
+
+describe('generateParametersMetadata with missing data in solution', () => {
+  let solution;
+  let spyConsoleWarn;
+
+  beforeAll(() => {
+    spyConsoleWarn = jest.spyOn(console, 'warn').mockImplementation();
+  });
+  afterAll(() => {
+    spyConsoleWarn.mockRestore();
+  });
+
+  beforeEach(() => {
+    solution = clone(STANDARD_SOLUTION);
+  });
+
+  const expectedParametersMetadata = {
+    param1: getParamDataFromStandardSolution('param1'),
+    param2: getParamDataFromStandardSolution('param2')
+  };
+
+  test.each`
+    field                   | fieldValue    | expectedWarnings    | expectedRes
+    ${'runTemplates'}       | ${undefined}  | ${0}                | ${expectedParametersMetadata}
+    ${'runTemplates'}       | ${null}       | ${0}                | ${expectedParametersMetadata}
+    ${'runTemplates'}       | ${[]}         | ${0}                | ${expectedParametersMetadata}
+    ${'parameterGroups'}    | ${undefined}  | ${0}                | ${expectedParametersMetadata}
+    ${'parameterGroups'}    | ${null}       | ${0}                | ${expectedParametersMetadata}
+    ${'parameterGroups'}    | ${[]}         | ${0}                | ${expectedParametersMetadata}
+    ${'parameters'}         | ${undefined}  | ${2}                | ${{}}
+    ${'parameters'}         | ${null}       | ${2}                | ${{}}
+    ${'parameters'}         | ${[]}         | ${2}                | ${{}}
+  `('if $field is $fieldValue', ({ field, fieldValue, expectedWarnings, expectedRes }) => {
+    solution[field] = fieldValue;
+    const res = ScenarioParametersUtils.generateParametersMetadata(solution, {}, ['param1', 'param2']);
+    expect(spyConsoleWarn).toHaveBeenCalledTimes(expectedWarnings);
+    expect(res).toStrictEqual(expectedRes);
+  });
+
+  test.each`
+    fieldsValue
+    ${undefined}
+    ${null}
+    ${[]}
+  `('if runTemplates, parameterGroups and parameters are $fieldsValue', ({ fieldsValue }) => {
+    solution.runTemplates = fieldsValue;
+    solution.parameterGroups = fieldsValue;
+    solution.parameters = fieldsValue;
+    const res = ScenarioParametersUtils.generateParametersMetadata(solution, {}, ['param1', 'param2']);
+    expect(spyConsoleWarn).toHaveBeenCalledTimes(2);
+    expect(res).toStrictEqual({});
+  });
+});
+
+describe('generateParametersMetadata with config overwrite', () => {
+  let solution;
+  beforeEach(() => {
+    solution = clone(STANDARD_SOLUTION);
+  });
+
+  test('to change parameters labels', () => {
+    const config = {
+      parameters: {
+        param1: {
+          labels: {
+            en: 'New EN label for param1',
+            fr: 'New FR label for param1'
+          }
+        },
+        param2: {
+          labels: {
+            en: 'New EN label for param2',
+            fr: 'New FR label for param2'
+          }
+        }
+      }
+    };
+
+    const param1Data = getParamDataFromStandardSolution('param1');
+    const param2Data = getParamDataFromStandardSolution('param2');
+    param1Data.labels = {
+      en: 'New EN label for param1',
+      fr: 'New FR label for param1'
+    };
+    param2Data.labels = {
+      en: 'New EN label for param2',
+      fr: 'New FR label for param2'
+    };
+    const expectedParametersMetadata = {
+      param1: param1Data,
+      param2: param2Data
+    };
+
+    const res = ScenarioParametersUtils.generateParametersMetadata(solution, config, ['param1', 'param2']);
+    expect(res).toStrictEqual(expectedParametersMetadata);
+  });
+
+  test('to add metadata to a file parameter', () => {
+    const config = {
+      parameters: {
+        dataset_param1: {
+          connectorId: 'C-0000000000',
+          defaultFileTypeFilter: '.zip,.csv,.json,.xls,.xlsx',
+          description: 'Dataset part description'
+        }
+      }
+    };
+
+    let datasetParam1Data = getParamDataFromStandardSolution('dataset_param1');
+    datasetParam1Data = {
+      ...datasetParam1Data,
+      connectorId: 'C-0000000000',
+      defaultFileTypeFilter: '.zip,.csv,.json,.xls,.xlsx',
+      description: 'Dataset part description'
+    };
+    const expectedParametersMetadata = {
+      dataset_param1: datasetParam1Data
+    };
+
+    const res = ScenarioParametersUtils.generateParametersMetadata(solution, config, ['dataset_param1']);
+    expect(res).toStrictEqual(expectedParametersMetadata);
+  });
+});
 
 describe('generateParametersGroupsMetadata with missing data in solution', () => {
   let solution;
@@ -450,62 +574,6 @@ describe('getDefaultParametersValues with solution or config', () => {
 });
 
 describe('getParametersValuesForReset', () => {
-  const datasets = [
-    {
-      id: 'dataset1',
-      name: 'Dataset 1',
-      description: 'Dataset description',
-      ownerId: '00000000-0000-0000-0000-000000000000',
-      fragmentsIds: null,
-      validatorId: null,
-      compatibility: null,
-      tags: [],
-      connector: {
-        id: 'c-0000000000000',
-        name: 'ADT Connector',
-        version: '2.3.0',
-        parametersValues: {
-          AZURE_STORAGE_CONTAINER_BLOB_PREFIX: '%WORKSPACE_FILE%/datasets/dataset1/dataset.csv'
-        }
-      }
-    },
-    {
-      id: 'dataset2',
-      name: 'Dataset 2',
-      description: 'Dataset description',
-      ownerId: '00000000-0000-0000-0000-000000000000',
-      fragmentsIds: null,
-      validatorId: null,
-      compatibility: null,
-      tags: [],
-      connector: {
-        id: 'c-0000000000000',
-        name: 'ADT Connector',
-        version: '2.3.0',
-        parametersValues: {
-          AZURE_STORAGE_CONTAINER_BLOB_PREFIX: '%WORKSPACE_FILE%/datasets/dataset2/dataset.csv'
-        }
-      }
-    },
-    {
-      id: 'dataset3',
-      name: 'Dataset 3',
-      description: 'Dataset description',
-      ownerId: '00000000-0000-0000-0000-000000000000',
-      fragmentsIds: null,
-      validatorId: null,
-      compatibility: null,
-      tags: [],
-      connector: {
-        id: 'c-0000000000000',
-        name: 'ADT Connector',
-        version: '2.3.0',
-        parametersValues: {
-          AZURE_STORAGE_CONTAINER_BLOB_PREFIX: '%WORKSPACE_FILE%/datasets/dataset3/dataset.csv'
-        }
-      }
-    }
-  ];
   const defaultParametersValues = {
     parameter1: 'defaultValue1',
     parameter2: 'defaultValue2',
@@ -528,7 +596,7 @@ describe('getParametersValuesForReset', () => {
 
   test('the scenario parameters values must overwrite the config default values', () => {
     const res = ScenarioParametersUtils.getParametersValuesForReset(
-      datasets, ['parameter1', 'parameter2', 'parameter3'], defaultParametersValues, scenarioParametersValues);
+      STANDARD_DATASETS, ['parameter1', 'parameter2', 'parameter3'], defaultParametersValues, scenarioParametersValues);
     expect(res).toStrictEqual({
       parameter1: 'value1',
       parameter2: 'value2',
@@ -544,7 +612,7 @@ describe('getParametersValuesForReset', () => {
   `('the scenario parameters values are used if defaultParametersValues is $defaultParametersValues', (
     { defaultParametersValues }) => {
     const res = ScenarioParametersUtils.getParametersValuesForReset(
-      datasets, ['parameter1', 'parameter2', 'parameter3'], defaultParametersValues, scenarioParametersValues);
+      STANDARD_DATASETS, ['parameter1', 'parameter2', 'parameter3'], defaultParametersValues, scenarioParametersValues);
     expect(res).toStrictEqual({
       parameter1: 'value1',
       parameter2: 'value2',
@@ -560,7 +628,7 @@ describe('getParametersValuesForReset', () => {
   `('the default parameters values are used if scenarioParametersValues is $scenarioParametersValues', (
     { scenarioParametersValues }) => {
     const res = ScenarioParametersUtils.getParametersValuesForReset(
-      datasets, ['parameter1', 'parameter2', 'parameter3'], defaultParametersValues, scenarioParametersValues);
+      STANDARD_DATASETS, ['parameter1', 'parameter2', 'parameter3'], defaultParametersValues, scenarioParametersValues);
     expect(res).toStrictEqual({
       parameter1: 'defaultValue1',
       parameter2: 'defaultValue2',
@@ -570,7 +638,7 @@ describe('getParametersValuesForReset', () => {
 
   test('an empty list is returned if there are no requested parameters', () => {
     const res = ScenarioParametersUtils.getParametersValuesForReset(
-      datasets, [], defaultParametersValues, scenarioParametersValues);
+      STANDARD_DATASETS, [], defaultParametersValues, scenarioParametersValues);
     expect(res).toStrictEqual({});
   });
 });
@@ -598,5 +666,18 @@ describe('buildParametersForUpdate', () => {
   test('parameters for update are properly built from solution data and parameters values', () => {
     const res = ScenarioParametersUtils.buildParametersForUpdate(solution, parametersValues, runTemplateParametersIds);
     expect(res).toStrictEqual(expectedParametersForUpdate);
+  });
+});
+
+describe('getParameterVarType', () => {
+  test.each`
+    parameterId          | expectedVarType
+    ${'param1'}          | ${'int'}
+    ${'param2'}          | ${'string'}
+    ${'dataset_param1'}  | ${'%DATASETID%'}
+  `('that parameter $parameterId is of varType $expectedVarType', (
+    { parameterId, expectedVarType }) => {
+    const res = ScenarioParametersUtils.getParameterVarType(STANDARD_SOLUTION, parameterId);
+    expect(res).toStrictEqual(expectedVarType);
   });
 });
