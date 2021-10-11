@@ -70,6 +70,19 @@ export const STANDARD_SOLUTION = {
       options: null,
       regexValidation: null,
       varType: 'string'
+    },
+    {
+      defaultValue: null,
+      id: 'dataset_param1',
+      labels: {
+        en: 'DatasetParam1 EN label',
+        fr: 'DatasetParam1 FR label'
+      },
+      maxValue: null,
+      minValue: null,
+      options: null,
+      regexValidation: null,
+      varType: '%DATASETID%'
     }
   ],
   runTemplates: [
