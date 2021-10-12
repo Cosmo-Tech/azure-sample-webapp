@@ -8,7 +8,7 @@ import {
   BasicTextInputFactory,
   BasicToggleInputFactory,
   UploadFileFactory
-} from './inputComponents';
+} from './inputComponentsFactories';
 import { DATASET_ID_VARTYPE } from '../../services/config/ApiConstants';
 
 const VAR_TYPE_FACTORY_MAPPING = {
