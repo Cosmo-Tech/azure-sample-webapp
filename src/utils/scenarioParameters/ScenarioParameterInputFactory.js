@@ -9,6 +9,7 @@ import {
   BasicToggleInputFactory,
   UploadFileFactory
 } from './inputComponents';
+import { DATASET_ID_VARTYPE } from '../../services/config/ApiConstants';
 
 const VAR_TYPE_FACTORY_MAPPING = {
   bool: BasicToggleInputFactory,
@@ -17,7 +18,7 @@ const VAR_TYPE_FACTORY_MAPPING = {
   int: BasicNumberInputFactory,
   number: BasicNumberInputFactory,
   string: BasicTextInputFactory,
-  '%DATASETID%': UploadFileFactory
+  [DATASET_ID_VARTYPE]: UploadFileFactory
 };
 
 const create = (t, datasets, parameterData, parametersState, setParametersState, editMode) => {
@@ -30,7 +31,7 @@ const create = (t, datasets, parameterData, parametersState, setParametersState,
     return null;
   }
 
-  if (parameterData.varType === '%DATASETID%') {
+  if (parameterData.varType === DATASET_ID_VARTYPE) {
     return varTypeFactory.create(t, datasets, parameterData, parametersState, setParametersState, editMode);
   }
   return varTypeFactory.create(t, parameterData, parametersState, setParametersState, editMode);
