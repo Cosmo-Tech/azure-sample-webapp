@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import rfdc from 'rfdc';
+import { DATASET_ID_VARTYPE } from '../services/config/ApiConstants';
 
 const clone = rfdc();
 
@@ -13,7 +14,7 @@ const _getVarTypeDefaultValue = (varType) => {
     number: 0,
     bool: false,
     date: new Date(),
-    '%DATASETID%': null
+    [DATASET_ID_VARTYPE]: null
   };
   return varTypesDefaultValues[varType];
 };

@@ -1,10 +1,12 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-const CONNECTOR_NAME_AZURE_STORAGE = 'Azure Storage Connector';
-const CONNECTOR_NAME_ADT = 'ADT Connector';
-
-export const STORAGE_ROOT_DIR = '%WORKSPACE_FILE%/';
+import {
+  CONNECTOR_VERSION_AZURE_STORAGE,
+  CONNECTOR_NAME_AZURE_STORAGE,
+  CONNECTOR_NAME_ADT,
+  STORAGE_ROOT_DIR_PLACEHOLDER
+} from '../services/config/ApiConstants';
 
 // Build dataset file location in Azure Storage
 function buildStorageFilePath (datasetId, fileName) {
@@ -15,7 +17,7 @@ function buildStorageFilePath (datasetId, fileName) {
 function getStorageFilePathFromDataset (dataset) {
   const blobPrefix = dataset?.connector?.parametersValues?.AZURE_STORAGE_CONTAINER_BLOB_PREFIX;
   if (blobPrefix !== undefined) {
-    return blobPrefix.split(STORAGE_ROOT_DIR).pop();
+    return blobPrefix.split(STORAGE_ROOT_DIR_PLACEHOLDER).pop();
   }
 }
 
@@ -35,11 +37,11 @@ function getFileNameFromDataset (dataset) {
 function buildAzureStorageConnector (connectorId, storageFilePath) {
   return {
     id: connectorId,
-    name: 'Azure Storage Connector',
+    name: CONNECTOR_NAME_AZURE_STORAGE,
     parametersValues: {
-      AZURE_STORAGE_CONTAINER_BLOB_PREFIX: `${STORAGE_ROOT_DIR}${storageFilePath}`
+      AZURE_STORAGE_CONTAINER_BLOB_PREFIX: `${STORAGE_ROOT_DIR_PLACEHOLDER}${storageFilePath}`
     },
-    version: '1.0.3'
+    version: CONNECTOR_VERSION_AZURE_STORAGE
   };
 }
 

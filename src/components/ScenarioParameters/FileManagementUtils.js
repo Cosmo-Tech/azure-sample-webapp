@@ -6,10 +6,9 @@ import { ORGANIZATION_ID, WORKSPACE_ID } from '../../config/AppInstance';
 import DatasetService from '../../services/dataset/DatasetService';
 import WorkspaceService from '../../services/workspace/WorkspaceService';
 import { AppInsights } from '../../services/AppInsights';
+import { DATASET_ID_VARTYPE } from '../../services/config/ApiConstants';
 import { DatasetsUtils, ScenarioParametersUtils } from '../../utils';
 
-export const STORAGE_ROOT_DIR_PLACEHOLDER = '%WORKSPACE_FILE%/';
-const DATASET_ID_VARTYPE = '%DATASETID%';
 const appInsights = AppInsights.getInstance();
 
 const _uploadFileToCloudStorage = async (dataset, clientFileDescriptor, storageFilePath) => {
@@ -57,8 +56,6 @@ async function _updateDatasetWithConnectorDataInCloudStorage (parameterMetadata,
   return updatedDataset;
 }
 
-// FIXME: Due to parametersValues inheritance, the workspace file deletion leads to incoherent state when a dataset
-// part file is uploaded. For the moment, the workspace file deletion is omitted. This will be fixed in next version
 async function _processFileUpload (
   parameterMetadata,
   clientFileDescriptor,
