@@ -153,7 +153,6 @@ const ScenarioParameters = ({
     discardLocalChanges();
     // eslint-disable-next-line
   }, [currentScenario]);
-  // }, [currentScenario.id]);
 
   const getParametersForUpdate = () => {
     const parametersData = ScenarioParametersUtils.buildParametersForUpdate(
@@ -225,10 +224,7 @@ const ScenarioParameters = ({
         <Grid item className={classes.tabs}>
           {
             <form>
-              <ScenarioParametersTabs
-                parametersGroupsMetadata={parametersGroupsMetadata}
-                currentScenario={currentScenario}
-              />
+              <ScenarioParametersTabs parametersGroupsMetadata={parametersGroupsMetadata}/>
             </form>
           }
         </Grid>

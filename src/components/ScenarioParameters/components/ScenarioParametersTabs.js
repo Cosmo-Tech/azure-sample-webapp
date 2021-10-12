@@ -40,8 +40,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const ScenarioParametersTabs = ({
-  parametersGroupsMetadata,
-  currentScenario
+  parametersGroupsMetadata
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -104,8 +103,7 @@ const ScenarioParametersTabs = ({
 };
 
 ScenarioParametersTabs.propTypes = {
-  parametersGroupsMetadata: PropTypes.array.isRequired,
-  currentScenario: PropTypes.object.isRequired
+  parametersGroupsMetadata: PropTypes.array.isRequired
 };
 
 export default ScenarioParametersTabs;
