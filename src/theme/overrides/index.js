@@ -3,8 +3,8 @@
 
 import MuiButton from './MuiButton';
 import MuiCard from './MuiCard';
+import MuiDialog from './MuiDialog';
 import MuiIconButton from './MuiIconButton';
-import MuiPaper from './MuiPaper';
 import MuiTableCell from './MuiTableCell';
 import MuiTableHead from './MuiTableHead';
 import MuiTypography from './MuiTypography';
@@ -13,13 +13,13 @@ import MuiTypography from './MuiTypography';
 export default {
   MuiButton,
   MuiCard,
+  MuiDialog,
   MuiCardHeader: {
     title: {
       fontSize: '14px'
     }
   },
   MuiIconButton,
-  MuiPaper,
   MuiTableCell,
   MuiTableHead,
   MuiTypography
