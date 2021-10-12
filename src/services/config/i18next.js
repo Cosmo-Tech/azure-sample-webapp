@@ -7,6 +7,8 @@ import { initReactI18next } from 'react-i18next';
 import HttpApi from 'i18next-http-backend';
 import { LANGUAGES, FALLBACK_LANGUAGE } from '../../config/AppConfiguration';
 
+const I18N_NAMESPACE = 'translation';
+
 const langDetectorOptions = {
   // order and from where user language should be detected
   order: ['cookie', 'localStorage', 'navigator'],
@@ -38,4 +40,4 @@ i18next
     }
   });
 
-export default i18next;
+export { i18next, I18N_NAMESPACE };
