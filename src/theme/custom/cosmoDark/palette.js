@@ -64,6 +64,7 @@ export default {
     paper: themeColors.background,
     secondary: themeColors.backgroundVariant,
     card: themeColors.surface,
+    dialogPaper: themeColors.surface,
     signInPage: themeColors.backgroundSignInPage,
     signInButton: themeColors.backgroundSignInButton
   }
