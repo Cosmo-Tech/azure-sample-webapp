@@ -46,7 +46,7 @@ export const currentScenarioReducer = createReducer(currentScenarioInitialState,
       state.status = STATUSES.IDLE;
     })
     .addCase(SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO, (state, action) => {
-      if (action.scenario != null) {
+      if (action.scenario !== null) {
         state.data = {
           ...state.data,
           ...action.scenario
