@@ -39,7 +39,12 @@ export const SELECTORS = {
         exampleDatasetPart1: '[data-cy=example_dataset_part_1]',
         exampleDatasetPart2: '[data-cy=example_dataset_part_2]'
       },
-      uploadFile: {
+      datasetParts: {
+        tabName: '[data-cy=dataset_parts_tab]',
+        exampleDatasetPart1: '[data-cy=example_dataset_part_1]',
+        exampleDatasetPart2: '[data-cy=example_dataset_part_2]'
+      },
+      extraDatasetPart: {
         tabName: '[data-cy=extra_dataset_part_tab]',
         exampleDatasetPart3: '[data-cy=example_dataset_part_3]'
       }

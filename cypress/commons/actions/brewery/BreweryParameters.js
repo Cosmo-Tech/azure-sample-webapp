@@ -5,8 +5,11 @@ import { SELECTORS } from '../../IdConstants';
 import { FileParameters } from '../generic';
 
 // Get tabs elements
-function getUploadFileTab () {
-  return cy.get(SELECTORS.scenario.parameters.uploadFile.tabName);
+function getDatasetPartsTab () {
+  return cy.get(SELECTORS.scenario.parameters.datasetParts.tabName);
+}
+function getExtraDatasetPartTab () {
+  return cy.get(SELECTORS.scenario.parameters.extraDatasetPart.tabName);
 }
 function getBasicTypesTab () {
   return cy.get(SELECTORS.scenario.parameters.basicTypes.tabName);
@@ -14,13 +17,13 @@ function getBasicTypesTab () {
 
 // Get file parameters input elements
 function getExampleDatasetPart1 () {
-  return cy.get(SELECTORS.scenario.parameters.basicTypes.exampleDatasetPart1);
+  return cy.get(SELECTORS.scenario.parameters.datasetParts.exampleDatasetPart1);
 }
 function getExampleDatasetPart2 () {
-  return cy.get(SELECTORS.scenario.parameters.basicTypes.exampleDatasetPart2);
+  return cy.get(SELECTORS.scenario.parameters.datasetParts.exampleDatasetPart2);
 }
 function getExampleDatasetPart3 () {
-  return cy.get(SELECTORS.scenario.parameters.uploadFile.exampleDatasetPart3);
+  return cy.get(SELECTORS.scenario.parameters.extraDatasetPart.exampleDatasetPart3);
 }
 
 function getExampleDatasetPart1DownloadButton () {
@@ -44,8 +47,11 @@ function getExampleDatasetPart3DeleteButton () {
 }
 
 // Switch to a scenario parameters tab
-function switchToUploadFileTab () {
-  getUploadFileTab().click();
+function switchToDatasetPartsTab () {
+  getDatasetPartsTab().click();
+}
+function switchToExtraDatasetPartTab () {
+  getExtraDatasetPartTab().click();
 }
 function switchToBasicTypesTab () {
   getBasicTypesTab().click();
@@ -85,7 +91,8 @@ function deleteExampleDatasetPart3 () {
 }
 
 export const BreweryParameters = {
-  getUploadFileTab,
+  getDatasetPartsTab,
+  getExtraDatasetPartTab,
   getBasicTypesTab,
   getExampleDatasetPart1,
   getExampleDatasetPart2,
@@ -96,7 +103,8 @@ export const BreweryParameters = {
   getExampleDatasetPart1DeleteButton,
   getExampleDatasetPart2DeleteButton,
   getExampleDatasetPart3DeleteButton,
-  switchToUploadFileTab,
+  switchToDatasetPartsTab,
+  switchToExtraDatasetPartTab,
   switchToBasicTypesTab,
   uploadExampleDatasetPart1,
   uploadExampleDatasetPart2,
