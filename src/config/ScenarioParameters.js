@@ -91,14 +91,13 @@ const PARAMETERS = {
 const PARAMETERS_GROUPS = {
   bar_parameters: {
     labels: {
-      en: 'My pub',
-      fr: 'Mon bar'
+      en: 'Pub parameters',
+      fr: 'Paramètres du bar'
     },
     parameters: [
       'stock',
       'restock_qty',
-      'nb_waiters',
-      'initial_stock_dataset'
+      'nb_waiters'
     ]
   },
   basic_types: {
@@ -107,24 +106,32 @@ const PARAMETERS_GROUPS = {
       'currency_name',
       'currency_value',
       'currency_used',
-      'start_date',
-      'example_dataset_part_1',
-      'example_dataset_part_2'
+      'start_date'
     ]
   },
   file_upload: {
     labels: {
-      en: 'File upload',
-      fr: 'Upload de fichier'
+      en: 'Initial values',
+      fr: 'Valeurs initiales'
     },
     parameters: [
       'initial_stock_dataset'
     ]
   },
+  dataset_parts: {
+    labels: {
+      en: 'Dataset parts',
+      fr: 'Fragments de dataset'
+    },
+    parameters: [
+      'example_dataset_part_1',
+      'example_dataset_part_2'
+    ]
+  },
   extra_dataset_part: {
     labels: {
       en: 'Additional dataset part',
-      fr: 'Fragment de dataset'
+      fr: 'Fragment additionel'
     },
     parameters: [
       'example_dataset_part_3'
@@ -136,11 +143,18 @@ const PARAMETERS_GROUPS = {
 // as:
 //  - list and order of the parameters group to display for this run template
 const RUN_TEMPLATES = {
-  3: {
+  1: {
     // Use 'parameterGroups' instead of 'parametersGroups' in the run templates description to be consistent
     // with back-end format
     parameterGroups: [
+      'bar_parameters',
+      'file_upload'
+    ]
+  },
+  3: {
+    parameterGroups: [
       'basic_types',
+      'dataset_parts',
       'extra_dataset_part'
     ]
   }
