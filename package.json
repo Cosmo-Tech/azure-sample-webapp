@@ -41,8 +41,8 @@
     "validate.js": "^0.13.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "ESLINT_NO_DEV_ERRORS=true react-scripts start",
+    "build": "ESLINT_NO_DEV_ERRORS=true react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "cypress": "node_modules/.bin/cypress open",
