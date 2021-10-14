@@ -9,8 +9,7 @@ import { SCENARIO_RUN_STATE } from '../../../../utils/ApiUtils';
 import { getAllScenariosData } from '../../scenario/FindAllScenarios/FindAllScenariosData';
 import { fetchAllDatasetsData } from '../../datasets/FindAllDatasets/FindAllDatasets';
 import { fetchWorkspaceByIdData } from '../../workspace/FindWorkspaceById/FindWorkspaceByIdData';
-import { fetchSolutionByIdData }
-  from '../../solution/FindSolutionById/FindSolutionByIdData';
+import { fetchSolutionByIdData } from '../../solution/FindSolutionById/FindSolutionByIdData';
 import { RUN_TEMPLATE_ACTIONS_KEY } from '../../../commons/RunTemplateConstants';
 import { fetchScenarioByIdForInitialData } from '../../scenario/FindScenarioById';
 import { getPowerBIEmbedInfoSaga } from '../../powerbi/GetPowerBIEmbedInfo/GetPowerBIEmbedInfoData';
