@@ -2,21 +2,12 @@
 // Licensed under the MIT license.
 
 import rfdc from 'rfdc';
-import { DATASET_ID_VARTYPE } from '../services/config/ApiConstants';
+import { VAR_TYPES_DEFAULT_VALUES } from './DefaultValues';
 
 const clone = rfdc();
 
 const _getVarTypeDefaultValue = (varType) => {
-  const varTypesDefaultValues = {
-    enum: null, // default value must be defined by integrator in config
-    string: '',
-    int: 0,
-    number: 0,
-    bool: false,
-    date: new Date(),
-    [DATASET_ID_VARTYPE]: null
-  };
-  return varTypesDefaultValues[varType];
+  return VAR_TYPES_DEFAULT_VALUES[varType];
 };
 
 const _getDefaultParameterValueFromConfig = (parameterId, configParameters) => {

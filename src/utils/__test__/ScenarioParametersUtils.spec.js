@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import rfdc from 'rfdc';
-import { ScenarioParametersUtils } from '../ScenarioParametersUtils';
+import { ScenarioParametersUtils } from '../scenarioParameters/ScenarioParametersUtils';
 import { STANDARD_SOLUTION } from './StandardSolutionData';
 import { STANDARD_DATASETS } from './StandardDatasetsData';
 

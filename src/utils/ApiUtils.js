@@ -2,46 +2,45 @@
 // Licensed under the MIT license.
 
 import rfdc from 'rfdc';
+import { VAR_TYPES_TO_STRING_FUNCTIONS } from './scenarioParameters/ConversionToString';
+import { VAR_TYPES_FROM_STRING_FUNCTIONS } from './scenarioParameters/ConversionFromString.js';
 
 const clone = rfdc();
 
+// Reformat scenario parameters to match the API expected types
 export function formatParametersForApi (parameters) {
-  // Reformat scenario parameters to match the API expected types
   const newParams = parameters.map(param => {
-    // Clone the original parameter
+    // Clone the original parameter to prevent undesired modifications
     const newParam = clone(param);
-    // Cast to string when necessary
-    if (newParam.varType === 'bool') {
-      newParam.value = newParam.value.toString();
-    } else if (newParam.varType === 'number') {
-      newParam.value = newParam.value.toString();
-    } else if (newParam.varType === 'int') {
-      newParam.value = newParam.value.toString();
-    } else if (newParam.varType === 'date') {
-      newParam.value = newParam.value.toISOString();
+
+    const paramVarType = param.varType;
+    if (paramVarType in VAR_TYPES_TO_STRING_FUNCTIONS) {
+      const convertToString = VAR_TYPES_TO_STRING_FUNCTIONS[paramVarType];
+      newParam.value = convertToString(newParam.value);
+    } else {
+      console.warn(`No conversion function (to string) defined for varType "${paramVarType}"`);
     }
     return newParam;
   });
+
   return { parametersValues: newParams };
 }
 
+// Reformat scenario parameters to match the front-end expected types
 export function formatParametersFromApi (parameters) {
   if (!parameters) {
     return undefined;
   }
-  // Reformat scenario parameters to match the front-end expected types
   return parameters.map(param => {
-    // Clone the original parameter
+    // Clone the original parameter to prevent undesired modifications
     const newParam = clone(param);
-    // Cast string values when necessary
-    if (newParam.varType === 'bool') {
-      newParam.value = (newParam.value === 'true');
-    } else if (newParam.varType === 'number') {
-      newParam.value = parseFloat(newParam.value);
-    } else if (newParam.varType === 'int') {
-      newParam.value = parseInt(newParam.value);
-    } else if (newParam.varType === 'date') {
-      newParam.value = new Date(newParam.value);
+
+    const paramVarType = param.varType;
+    if (paramVarType in VAR_TYPES_FROM_STRING_FUNCTIONS) {
+      const convertFromString = VAR_TYPES_FROM_STRING_FUNCTIONS[paramVarType];
+      newParam.value = convertFromString(newParam.value);
+    } else {
+      console.warn(`No conversion function (from string) defined for varType "${paramVarType}"`);
     }
     return newParam;
   });
