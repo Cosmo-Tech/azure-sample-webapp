@@ -42,7 +42,7 @@
   },
   "scripts": {
     "start": "ESLINT_NO_DEV_ERRORS=true react-scripts start",
-    "build": "ESLINT_NO_DEV_ERRORS=true react-scripts build",
+    "build": "DISABLE_ESLINT_PLUGIN=true react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "cypress": "node_modules/.bin/cypress open",
