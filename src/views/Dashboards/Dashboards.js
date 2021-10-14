@@ -25,6 +25,13 @@ const useStyles = makeStyles(theme => ({
     maxWidth: '900px',
     '& .MuiTabs-indicator': {
       backgroundColor: theme.palette.primary.main
+    },
+    '& .MuiButtonBase-root': {
+      maxWidth: '900px'
+    },
+    '& .MuiTab-wrapper': {
+      textAlign: 'center',
+      alignItems: 'center'
     }
   },
   dashboard: {
