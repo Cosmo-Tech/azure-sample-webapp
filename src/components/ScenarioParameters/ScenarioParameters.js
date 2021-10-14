@@ -15,7 +15,7 @@ import { useTranslation } from 'react-i18next';
 import { SimpleTwoActionsDialog } from '@cosmotech/ui';
 import { FileManagementUtils } from './FileManagementUtils';
 import { ScenarioParametersUtils } from '../../utils';
-import { ScenarioParametersTabFactory } from '../../utils/scenarioParametersFactories/ScenarioParametersTabFactory';
+import { ScenarioParametersTabFactory } from '../../utils/scenarioParameters/factories/ScenarioParametersTabFactory';
 
 const useStyles = makeStyles(theme => ({
   header: {
