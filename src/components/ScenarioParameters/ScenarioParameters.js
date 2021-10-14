@@ -8,9 +8,8 @@ import {
   Typography,
   makeStyles
 } from '@material-ui/core';
-import { SCENARIO_RUN_STATE } from '../../utils/ApiUtils';
 import { SCENARIO_PARAMETERS_CONFIG } from '../../config/ScenarioParameters';
-import { DATASET_ID_VARTYPE } from '../../services/config/ApiConstants';
+import { DATASET_ID_VARTYPE, SCENARIO_RUN_STATE } from '../../services/config/ApiConstants';
 import { EditModeButton, NormalModeButton, ScenarioParametersTabs } from './components';
 import { useTranslation } from 'react-i18next';
 import { SimpleTwoActionsDialog } from '@cosmotech/ui';
