@@ -122,8 +122,8 @@
     "scenariomanager": {
       "treelist": {
         "node": {
-          "dataset": "Dataset",
-          "dataset_plural": "Datasets",
+          "dataset_one": "Dataset",
+          "dataset_other": "Datasets",
           "status": {
             "label": "Statut",
             "successful": "Succès",
@@ -135,8 +135,8 @@
           }
         },
         "search": {
-          "info": "{{count}} scénario trouvé",
-          "info_plural": "{{count}} scénarios trouvés"
+          "info_one": "{{count}} scénario trouvé",
+          "info_other": "{{count}} scénarios trouvés"
         }
       }
     },
