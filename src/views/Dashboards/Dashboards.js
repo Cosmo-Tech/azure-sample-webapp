@@ -30,8 +30,8 @@ const useStyles = makeStyles(theme => ({
       maxWidth: '900px'
     },
     '& .MuiTab-wrapper': {
-      textAlign: 'center',
-      alignItems: 'center'
+      textAlign: 'right',
+      alignItems: 'flex-end'
     }
   },
   dashboard: {
