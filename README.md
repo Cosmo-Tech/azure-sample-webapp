@@ -46,7 +46,7 @@ For more information, follow our step-by-step tutorials on [our portal](https://
 ## Configure the webapp for your use-case
 
 The webapp must be configured so that it fits your simulation use-case (tenant ID, scenario parameters, visualization...).
-Please refer to [Webapp configuration](doc/config.md)
+Please refer to [Webapp configuration](doc/README.md)
 
 ## Start the webapp locally
 
