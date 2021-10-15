@@ -3,3 +3,4 @@ dist
 .docz
 .github
 node_modules
+stats.html

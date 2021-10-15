@@ -10,7 +10,9 @@
         "standard",
         "eslint:recommended",
         "plugin:jest/recommended",
-        "plugin:cypress/recommended"
+        "plugin:cypress/recommended",
+        "prettier",
+        "plugin:prettier/recommended"
     ],
     "parserOptions": {
         "ecmaFeatures": {
@@ -23,7 +25,8 @@
         "react",
         "react-hooks",
         "jest",
-        "cypress"
+        "cypress",
+        "prettier"
     ],
     "rules": {
         "react-hooks/rules-of-hooks": "error",
