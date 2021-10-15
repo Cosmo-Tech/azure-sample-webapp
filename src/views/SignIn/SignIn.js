@@ -8,16 +8,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import { Auth, AuthDev } from '@cosmotech/core';
 import { AuthMSAL } from '@cosmotech/azure';
 import validate from 'validate.js';
-import {
-  Grid,
-  Button,
-  Typography,
-  Box,
-  Select,
-  FormControl,
-  MenuItem,
-  makeStyles
-} from '@material-ui/core';
+import { Grid, Button, Typography, Box, Select, FormControl, MenuItem, makeStyles } from '@material-ui/core';
 import { SignInButton } from '@cosmotech/ui';
 import { TranslationUtils } from '../../utils';
 import microsoftLogo from '../../assets/microsoft_logo.png';
@@ -27,29 +18,29 @@ const schema = {
     presence: { allowEmpty: false, message: 'is required' },
     email: true,
     length: {
-      maximum: 64
-    }
+      maximum: 64,
+    },
   },
   password: {
     presence: { allowEmpty: false, message: 'is required' },
     length: {
-      maximum: 128
-    }
-  }
+      maximum: 128,
+    },
+  },
 };
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.signInPage,
-    height: '100%'
+    height: '100%',
   },
   grid: {
-    height: '100%'
+    height: '100%',
   },
   quoteContainer: {
     [theme.breakpoints.down('md')]: {
-      display: 'none'
-    }
+      display: 'none',
+    },
   },
   quote: {
     backgroundColor: theme.palette.background.signInPage,
@@ -60,26 +51,26 @@ const useStyles = makeStyles(theme => ({
     backgroundImage: `url(${theme.picture.auth})`,
     backgroundSize: 'contain',
     backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'center bottom'
+    backgroundPosition: 'center bottom',
   },
   quoteInner: {
     textAlign: 'center',
     flexBasis: '600px',
-    marginTop: '2%'
+    marginTop: '2%',
   },
   quoteText: {
     color: theme.palette.text.primary,
-    fontWeight: 300
+    fontWeight: 300,
   },
   name: {
     marginTop: theme.spacing(3),
-    color: theme.palette.text.primary
+    color: theme.palette.text.primary,
   },
   contentContainer: {},
   content: {
     height: '100%',
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   contentHeader: {
     display: 'flex',
@@ -87,15 +78,15 @@ const useStyles = makeStyles(theme => ({
     paddingTop: theme.spacing(5),
     paddingBototm: theme.spacing(2),
     paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2)
+    paddingRight: theme.spacing(2),
   },
   contentBody: {
     flexGrow: 1,
     display: 'flex',
     alignItems: 'flex-start',
     [theme.breakpoints.down('md')]: {
-      justifyContent: 'center'
-    }
+      justifyContent: 'center',
+    },
   },
   form: {
     paddingTop: 120,
@@ -104,37 +95,36 @@ const useStyles = makeStyles(theme => ({
     flexBasis: 700,
     [theme.breakpoints.down('sm')]: {
       paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(2)
-    }
+      paddingRight: theme.spacing(2),
+    },
   },
   contentFooter: {
     display: 'flex',
-    alignItems: 'flex-end'
+    alignItems: 'flex-end',
   },
   title: {
     marginTop: theme.spacing(3),
-    color: theme.palette.text.primary
+    color: theme.palette.text.primary,
   },
   socialButtons: {
-    marginTop: theme.spacing(3)
+    marginTop: theme.spacing(3),
   },
   contact: {
     marginLeft: '10px',
     marginTop: '5px',
-    color: theme.palette.text.primary
+    color: theme.palette.text.primary,
   },
   formControl: {
-    fontSize: '11px'
+    fontSize: '11px',
   },
   languageSelect: {
     fontSize: '11px',
-    color: theme.palette.text.primary
-
+    color: theme.palette.text.primary,
   },
   copyrightText: {
     marginLeft: '8px',
-    color: theme.palette.text.primary
-  }
+    color: theme.palette.text.primary,
+  },
 }));
 
 const SignIn = ({ logInAction }) => {
@@ -145,16 +135,16 @@ const SignIn = ({ logInAction }) => {
     isValid: false,
     values: {},
     touched: {},
-    errors: {}
+    errors: {},
   });
 
   useEffect(() => {
     const errors = validate(formState.values, schema);
 
-    setFormState(formState => ({
+    setFormState((formState) => ({
       ...formState,
       isValid: !errors,
-      errors: errors || {}
+      errors: errors || {},
     }));
   }, [formState.values]);
 
@@ -172,19 +162,15 @@ const SignIn = ({ logInAction }) => {
         <Grid className={classes.quoteContainer} item lg={5}>
           <div className={classes.quote}>
             <div className={classes.quoteInner}>
-              <Typography
-                className={classes.quoteText}
-                variant="h1"
-              >
-                  {t('views.signin.title', 'Azure Sample Web Application')}
+              <Typography className={classes.quoteText} variant="h1">
+                {t('views.signin.title', 'Azure Sample Web Application')}
               </Typography>
             </div>
           </div>
         </Grid>
-        <Grid className={classes.content} item lg={7} xs={12} >
+        <Grid className={classes.content} item lg={7} xs={12}>
           <div className={classes.content}>
-            <div className={classes.contentHeader}>
-            </div>
+            <div className={classes.contentHeader}></div>
             <div className={classes.contentBody}>
               <form className={classes.form}>
                 <Typography className={classes.title} variant="h2">
@@ -196,27 +182,26 @@ const SignIn = ({ logInAction }) => {
                       logo={microsoftLogo}
                       id={'microsoft'}
                       label={t('genericcomponent.button.login.msal.title', 'Sign in with Microsoft')}
-                      onClick={event => handleSignIn(event, AuthMSAL.name)}
+                      onClick={(event) => handleSignIn(event, AuthMSAL.name)}
                     />
                   </Grid>
                   <Grid item>
-                    {
-                      window.location.hostname === 'localhost' &&
+                    {window.location.hostname === 'localhost' && (
                       <Button
-                          onClick={event => handleSignIn(event, AuthDev.name)}
-                          data-cy="sign-in-with-dev-account-button"
-                          className={classes.quoteText}
+                        onClick={(event) => handleSignIn(event, AuthDev.name)}
+                        data-cy="sign-in-with-dev-account-button"
+                        className={classes.quoteText}
                       >
                         {t('commoncomponents.button.login.dev.account.login', 'Login with Dev account')}
                       </Button>
-                    }
+                    )}
                   </Grid>
                 </Grid>
                 <Grid container spacing={1} className={classes.contact} direction="row">
                   <Grid item>
                     <Typography variant="caption" className={classes.quoteText}>
                       <Box fontWeight="fontWeightLight">
-                        {t('commoncomponents.text.contact.get.account', 'Don\'t have an account?')}
+                        {t('commoncomponents.text.contact.get.account', "Don't have an account?")}
                       </Box>
                     </Typography>
                   </Grid>
@@ -232,7 +217,7 @@ const SignIn = ({ logInAction }) => {
             </div>
             <div className={classes.contentFooter}>
               <Grid container direction="row" justifyContent="center" alignItems="baseline">
-               <Grid item>
+                <Grid item>
                   <FormControl className={classes.formControl}>
                     <Select
                       className={classes.languageSelect}
@@ -245,11 +230,11 @@ const SignIn = ({ logInAction }) => {
                   </FormControl>
                 </Grid>
                 <Grid item>
-                <Typography variant="caption" component="div" className={classes.copyrightText}>
-                  <Trans i18nKey="copyrightMessage" year={year} >
-                    &copy; {{ year }} {t('views.common.footer.text.companyname', 'Cosmo Tech')}
-                  </Trans>
-                </Typography>
+                  <Typography variant="caption" component="div" className={classes.copyrightText}>
+                    <Trans i18nKey="copyrightMessage" year={year}>
+                      &copy; {{ year }} {t('views.common.footer.text.companyname', 'Cosmo Tech')}
+                    </Trans>
+                  </Typography>
                 </Grid>
               </Grid>
             </div>
@@ -261,7 +246,7 @@ const SignIn = ({ logInAction }) => {
 };
 
 SignIn.propTypes = {
-  logInAction: PropTypes.func.isRequired
+  logInAction: PropTypes.func.isRequired,
 };
 
 export default withRouter(SignIn);

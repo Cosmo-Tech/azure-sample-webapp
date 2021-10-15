@@ -8,41 +8,34 @@ export const STANDARD_SOLUTION = {
       isTable: null,
       labels: {
         en: 'GroupA EN label',
-        fr: 'GroupA FR label'
+        fr: 'GroupA FR label',
       },
       options: null,
-      parameters: [
-        'param1'
-      ],
-      parentId: null
+      parameters: ['param1'],
+      parentId: null,
     },
     {
       id: 'groupB',
       isTable: null,
       labels: {
         en: 'GroupB EN label',
-        fr: 'GroupB FR label'
+        fr: 'GroupB FR label',
       },
       options: null,
-      parameters: [
-        'param2'
-      ],
-      parentId: null
+      parameters: ['param2'],
+      parentId: null,
     },
     {
       id: 'groupC',
       isTable: null,
       labels: {
         en: 'GroupC EN label',
-        fr: 'GroupC FR label'
+        fr: 'GroupC FR label',
       },
       options: null,
-      parameters: [
-        'param1',
-        'param2'
-      ],
-      parentId: null
-    }
+      parameters: ['param1', 'param2'],
+      parentId: null,
+    },
   ],
   parameters: [
     {
@@ -50,40 +43,40 @@ export const STANDARD_SOLUTION = {
       id: 'param1',
       labels: {
         en: 'Param1 EN label',
-        fr: 'Param1 FR label'
+        fr: 'Param1 FR label',
       },
       maxValue: null,
       minValue: null,
       options: null,
       regexValidation: null,
-      varType: 'int'
+      varType: 'int',
     },
     {
       defaultValue: null,
       id: 'param2',
       labels: {
         en: 'Param2 EN label',
-        fr: 'Param2 FR label'
+        fr: 'Param2 FR label',
       },
       maxValue: null,
       minValue: null,
       options: null,
       regexValidation: null,
-      varType: 'string'
+      varType: 'string',
     },
     {
       defaultValue: null,
       id: 'dataset_param1',
       labels: {
         en: 'DatasetParam1 EN label',
-        fr: 'DatasetParam1 FR label'
+        fr: 'DatasetParam1 FR label',
       },
       maxValue: null,
       minValue: null,
       options: null,
       regexValidation: null,
-      varType: '%DATASETID%'
-    }
+      varType: '%DATASETID%',
+    },
   ],
   runTemplates: [
     {
@@ -96,9 +89,7 @@ export const STANDARD_SOLUTION = {
       fetchScenarioParameters: true,
       id: 'runTemplate1',
       name: 'Run template One',
-      parameterGroups: [
-        'groupA'
-      ],
+      parameterGroups: ['groupA'],
       parametersHandlerSource: null,
       parametersJson: null,
       postRun: false,
@@ -111,7 +102,7 @@ export const STANDARD_SOLUTION = {
       sendInputParametersToDataWarehouse: true,
       stackSteps: null,
       tags: [],
-      validateData: false
+      validateData: false,
     },
     {
       applyParameters: true,
@@ -123,10 +114,7 @@ export const STANDARD_SOLUTION = {
       fetchScenarioParameters: true,
       id: 'runTemplate2',
       name: 'Run template Two',
-      parameterGroups: [
-        'groupA',
-        'groupB'
-      ],
+      parameterGroups: ['groupA', 'groupB'],
       parametersHandlerSource: null,
       parametersJson: null,
       postRun: false,
@@ -139,7 +127,7 @@ export const STANDARD_SOLUTION = {
       sendInputParametersToDataWarehouse: true,
       stackSteps: null,
       tags: [],
-      validateData: false
+      validateData: false,
     },
     {
       applyParameters: true,
@@ -151,9 +139,7 @@ export const STANDARD_SOLUTION = {
       fetchScenarioParameters: true,
       id: 'runTemplate3',
       name: 'Run template Three',
-      parameterGroups: [
-        'groupC'
-      ],
+      parameterGroups: ['groupC'],
       parametersHandlerSource: null,
       parametersJson: null,
       postRun: false,
@@ -166,7 +152,7 @@ export const STANDARD_SOLUTION = {
       sendInputParametersToDataWarehouse: true,
       stackSteps: null,
       tags: [],
-      validateData: false
-    }
-  ]
+      validateData: false,
+    },
+  ],
 };

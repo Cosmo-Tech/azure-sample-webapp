@@ -5,6 +5,6 @@ import { palette } from '../custom';
 
 export default {
   paper: {
-    backgroundColor: palette.background.dialogPaper
-  }
+    backgroundColor: palette.background.dialogPaper,
+  },
 };

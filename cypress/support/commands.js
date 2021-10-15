@@ -8,7 +8,7 @@ import { SELECTORS } from '../commons/IdConstants';
 Cypress.Commands.add('login', () => {
   // Stub PowerBi request
   cy.intercept('GET', URL_POWERBI, {
-    statusCode: 200
+    statusCode: 200,
   });
 
   cy.intercept('GET', URL_REGEX.SCENARIO_PAGE_WITH_ID).as('requestUpdateCurrentScenario');
@@ -57,16 +57,19 @@ Cypress.Commands.add('createScenario', (scenarioName, isMaster, datasetOrMasterN
   });
 
   cy.wait('@' + scenarioListUpdateAlias).then((req) => {
-    const nameGet = req.response.body.find(obj => obj.id === scenarioCreatedId).name;
+    const nameGet = req.response.body.find((obj) => obj.id === scenarioCreatedId).name;
     cy.wrap(nameGet).should('equal', scenarioCreatedName);
   });
 
-  cy.get(SELECTORS.scenario.selectInput).find('input').should('have.value', scenarioName).then(() => {
-    return {
-      scenarioCreatedId,
-      scenarioCreatedName
-    };
-  });
+  cy.get(SELECTORS.scenario.selectInput)
+    .find('input')
+    .should('have.value', scenarioName)
+    .then(() => {
+      return {
+        scenarioCreatedId,
+        scenarioCreatedName,
+      };
+    });
 });
 
 // Delete scenario

@@ -3,11 +3,7 @@
 
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Grid,
-  Typography,
-  makeStyles
-} from '@material-ui/core';
+import { Grid, Typography, makeStyles } from '@material-ui/core';
 import { SCENARIO_PARAMETERS_CONFIG } from '../../config/ScenarioParameters';
 import { DATASET_ID_VARTYPE, SCENARIO_RUN_STATE } from '../../services/config/ApiConstants';
 import { EditModeButton, NormalModeButton, ScenarioParametersTabs } from './components';
@@ -17,20 +13,20 @@ import { FileManagementUtils } from './FileManagementUtils';
 import { ScenarioParametersUtils } from '../../utils';
 import { ScenarioParametersTabFactory } from '../../utils/scenarioParameters/factories/ScenarioParametersTabFactory';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   header: {
     display: 'flex',
     background: theme.palette.background.secondary,
     marginLeft: '30px',
     height: '50px',
-    paddingTop: '10px'
+    paddingTop: '10px',
   },
   rightBar: {
     textAlign: 'right',
     display: 'flex',
     alignItems: 'center',
-    margin: `0 ${theme.spacing(3)}px`
-  }
+    margin: `0 ${theme.spacing(3)}px`,
+  },
 }));
 
 const getRunTemplateParametersIds = (runTemplatesParametersIdsDict, runTemplateId) => {
@@ -47,7 +43,7 @@ const ScenarioParameters = ({
   currentScenario,
   solution,
   datasets,
-  scenarioId
+  scenarioId,
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -56,33 +52,49 @@ const ScenarioParameters = ({
   // Memoize the parameters ids for the current run template
   const runTemplateParametersIds = useMemo(
     () => getRunTemplateParametersIds(solution.runTemplatesParametersIdsDict, currentScenario.data?.runTemplateId),
-    [solution.runTemplatesParametersIdsDict, currentScenario.data?.runTemplateId]);
+    [solution.runTemplatesParametersIdsDict, currentScenario.data?.runTemplateId]
+  );
   // Memoize default values for run template parameters, based on config and solution description
   const defaultParametersValues = useMemo(
-    () => ScenarioParametersUtils.getDefaultParametersValues(
-      runTemplateParametersIds,
-      solution.parameters,
-      SCENARIO_PARAMETERS_CONFIG.parameters
-    ), [runTemplateParametersIds, solution.parameters]);
+    () =>
+      ScenarioParametersUtils.getDefaultParametersValues(
+        runTemplateParametersIds,
+        solution.parameters,
+        SCENARIO_PARAMETERS_CONFIG.parameters
+      ),
+    [runTemplateParametersIds, solution.parameters]
+  );
   // Memoize the data of parameters (not including the current state of scenario parameters)
   const parametersMetadata = useMemo(
-    () => ScenarioParametersUtils.generateParametersMetadata(
-      solution, SCENARIO_PARAMETERS_CONFIG, runTemplateParametersIds),
-    [solution, runTemplateParametersIds]);
+    () =>
+      ScenarioParametersUtils.generateParametersMetadata(
+        solution,
+        SCENARIO_PARAMETERS_CONFIG,
+        runTemplateParametersIds
+      ),
+    [solution, runTemplateParametersIds]
+  );
   // Memoize the data of parameters groups (not including the current state of scenario parameters)
   const parametersGroupsMetadata = useMemo(
-    () => ScenarioParametersUtils.generateParametersGroupsMetadata(
-      solution, SCENARIO_PARAMETERS_CONFIG, currentScenario.data?.runTemplateId),
-    [solution, currentScenario.data?.runTemplateId]);
+    () =>
+      ScenarioParametersUtils.generateParametersGroupsMetadata(
+        solution,
+        SCENARIO_PARAMETERS_CONFIG,
+        currentScenario.data?.runTemplateId
+      ),
+    [solution, currentScenario.data?.runTemplateId]
+  );
   // Memoize the parameters values for reset
   const parametersValuesForReset = useMemo(
-    () => ScenarioParametersUtils.getParametersValuesForReset(
-      datasets,
-      runTemplateParametersIds,
-      defaultParametersValues,
-      currentScenario.data?.parametersValues
-    ),
-    [datasets, runTemplateParametersIds, defaultParametersValues, currentScenario.data]);
+    () =>
+      ScenarioParametersUtils.getParametersValuesForReset(
+        datasets,
+        runTemplateParametersIds,
+        defaultParametersValues,
+        currentScenario.data?.parametersValues
+      ),
+    [datasets, runTemplateParametersIds, defaultParametersValues, currentScenario.data]
+  );
 
   // Store the reset values for the run template parameters, based on defaultParametersValues and scenario data.
   const parametersValuesRef = useRef({});
@@ -94,7 +106,9 @@ const ScenarioParameters = ({
       if (parametersMetadata[parameterId]?.varType === DATASET_ID_VARTYPE) {
         const datasetId = parametersValuesRef.current[parameterId];
         newParametersValuesToRender[parameterId] = FileManagementUtils.buildClientFileDescriptorFromDataset(
-          datasets, datasetId);
+          datasets,
+          datasetId
+        );
       } else {
         newParametersValuesToRender[parameterId] = parametersValuesRef.current[parameterId];
       }
@@ -108,12 +122,19 @@ const ScenarioParameters = ({
 
   // Add scenario parameters data in state
   const [parametersValuesToRender, setParametersValuesToRender] = useState(
-    generateParametersValuesToRenderFromParametersValuesRef());
+    generateParametersValuesToRenderFromParametersValuesRef()
+  );
 
   // Generate input components for each scenario parameters tab
   for (const parametersGroupMetadata of parametersGroupsMetadata) {
     parametersGroupMetadata.tab = ScenarioParametersTabFactory.create(
-      t, datasets, parametersGroupMetadata, parametersValuesToRender, setParametersValuesToRender, editMode);
+      t,
+      datasets,
+      parametersGroupMetadata,
+      parametersValuesToRender,
+      setParametersValuesToRender,
+      editMode
+    );
   }
 
   const discardLocalChanges = () => {
@@ -129,8 +150,8 @@ const ScenarioParameters = ({
       }
     }
     parametersValuesRef.current = {
-      ...(parametersValuesRef.current),
-      ...newParametersValuesToPatch
+      ...parametersValuesRef.current,
+      ...newParametersValuesToPatch,
     };
 
     await FileManagementUtils.applyPendingOperationsOnFileParameters(
@@ -155,7 +176,10 @@ const ScenarioParameters = ({
 
   const getParametersForUpdate = () => {
     const parametersData = ScenarioParametersUtils.buildParametersForUpdate(
-      solution, parametersValuesRef.current, runTemplateParametersIds);
+      solution,
+      parametersValuesRef.current,
+      runTemplateParametersIds
+    );
     return parametersData;
   };
 
@@ -168,8 +192,12 @@ const ScenarioParameters = ({
     discardLocalChanges();
   };
 
-  const startScenarioLaunch = async () => { await processScenarioLaunch(false); };
-  const startScenarioUpdateAndLaunch = async () => { await processScenarioLaunch(true); };
+  const startScenarioLaunch = async () => {
+    await processScenarioLaunch(false);
+  };
+  const startScenarioUpdateAndLaunch = async () => {
+    await processScenarioLaunch(true);
+  };
   const processScenarioLaunch = async (forceUpdate) => {
     // If scenario parameters have never been updated, force parameters update
     if (!currentScenario.data.parametersValues || currentScenario.data.parametersValues.length === 0) {
@@ -190,59 +218,61 @@ const ScenarioParameters = ({
   const isCurrentScenarioRunning = currentScenario.data.state === SCENARIO_RUN_STATE.RUNNING;
 
   return (
-      <div>
-        <Grid container direction="column" justifyContent="center" alignContent="flex-start" >
-          <Grid
-            container
-            className={classes.root}
-            direction="row"
-            justifyContent="space-between"
-            alignContent="flex-start"
-            spacing={5}
-          >
-            <Grid item >
-              <Typography variant='subtitle1'>
-                { t('genericcomponent.text.scenario.parameters.title', 'Scenario parameters') }
-
-              </Typography>
-            </Grid>
-            <Grid item >
-              { editMode
-                ? (<EditModeButton classes={classes}
-                  handleClickOnDiscardChange={askDiscardConfirmation}
-                  handleClickOnUpdateAndLaunchScenario={startScenarioUpdateAndLaunch}/>)
-                : (<NormalModeButton classes={classes}
-                  handleClickOnEdit={startParametersEdition}
-                  handleClickOnLaunchScenario={startScenarioLaunch}
-                  editDisabled={noTabsShown || isCurrentScenarioRunning}
-                  runDisabled={isCurrentScenarioRunning}/>)
-              }
-            </Grid>
+    <div>
+      <Grid container direction="column" justifyContent="center" alignContent="flex-start">
+        <Grid
+          container
+          className={classes.root}
+          direction="row"
+          justifyContent="space-between"
+          alignContent="flex-start"
+          spacing={5}
+        >
+          <Grid item>
+            <Typography variant="subtitle1">
+              {t('genericcomponent.text.scenario.parameters.title', 'Scenario parameters')}
+            </Typography>
+          </Grid>
+          <Grid item>
+            {editMode ? (
+              <EditModeButton
+                classes={classes}
+                handleClickOnDiscardChange={askDiscardConfirmation}
+                handleClickOnUpdateAndLaunchScenario={startScenarioUpdateAndLaunch}
+              />
+            ) : (
+              <NormalModeButton
+                classes={classes}
+                handleClickOnEdit={startParametersEdition}
+                handleClickOnLaunchScenario={startScenarioLaunch}
+                editDisabled={noTabsShown || isCurrentScenarioRunning}
+                runDisabled={isCurrentScenarioRunning}
+              />
+            )}
           </Grid>
         </Grid>
-        <Grid item className={classes.tabs}>
-          {
-            <form>
-              <ScenarioParametersTabs parametersGroupsMetadata={parametersGroupsMetadata}/>
-            </form>
-          }
-        </Grid>
-        <SimpleTwoActionsDialog
-            id={'discard-changes'}
-            open={showDiscardConfirmationPopup}
-            labels={
-              {
-                title: t('genericcomponent.dialog.scenario.parameters.title'),
-                body: t('genericcomponent.dialog.scenario.parameters.body'),
-                button1: t('genericcomponent.dialog.scenario.parameters.button.cancel'),
-                button2: t('genericcomponent.dialog.scenario.parameters.button.validate'),
-                ariaLabelledby: 'discard-changes-dialog'
-              }
-            }
-            handleClickOnButton1={cancelDiscard}
-            handleClickOnButton2={confirmDiscard}
-          />
-      </div>
+      </Grid>
+      <Grid item className={classes.tabs}>
+        {
+          <form>
+            <ScenarioParametersTabs parametersGroupsMetadata={parametersGroupsMetadata} />
+          </form>
+        }
+      </Grid>
+      <SimpleTwoActionsDialog
+        id={'discard-changes'}
+        open={showDiscardConfirmationPopup}
+        labels={{
+          title: t('genericcomponent.dialog.scenario.parameters.title'),
+          body: t('genericcomponent.dialog.scenario.parameters.body'),
+          button1: t('genericcomponent.dialog.scenario.parameters.button.cancel'),
+          button2: t('genericcomponent.dialog.scenario.parameters.button.validate'),
+          ariaLabelledby: 'discard-changes-dialog',
+        }}
+        handleClickOnButton1={cancelDiscard}
+        handleClickOnButton2={confirmDiscard}
+      />
+    </div>
   );
 };
 
@@ -256,7 +286,7 @@ ScenarioParameters.propTypes = {
   scenarioId: PropTypes.string.isRequired,
   solution: PropTypes.object.isRequired,
   datasets: PropTypes.array.isRequired,
-  currentScenario: PropTypes.object.isRequired
+  currentScenario: PropTypes.object.isRequired,
 };
 
 export default ScenarioParameters;

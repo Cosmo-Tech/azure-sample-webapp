@@ -6,7 +6,7 @@ import Dashboards from './Dashboards';
 const mapStateToProps = (state) => ({
   currentScenario: state.scenario.current.data,
   scenarioList: state.scenario.list,
-  reports: state.powerBI
+  reports: state.powerBI,
 });
 
 export default connect(mapStateToProps)(Dashboards);

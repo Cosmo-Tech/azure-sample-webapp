@@ -15,8 +15,8 @@ const dataLoaderOptions = {
   autoplay: true,
   animationData: dataLoading.default,
   rendererSettings: {
-    preserveAspectRatio: 'xMidYMid slice'
-  }
+    preserveAspectRatio: 'xMidYMid slice',
+  },
 };
 
 const dataLoadedOptions = {
@@ -24,36 +24,36 @@ const dataLoadedOptions = {
   autoplay: true,
   animationData: dataLoaded.default,
   rendererSettings: {
-    preserveAspectRatio: 'xMidYMid slice'
-  }
+    preserveAspectRatio: 'xMidYMid slice',
+  },
 };
 const errorDataOptions = {
   loop: false,
   autoplay: true,
   animationData: dataError.default,
   rendererSettings: {
-    preserveAspectRatio: 'xMidYMid slice'
-  }
+    preserveAspectRatio: 'xMidYMid slice',
+  },
 };
 
-const LoadingLine = props => {
+const LoadingLine = (props) => {
   const { t } = useTranslation();
   const { titleKey, isLoading, hasError, height, width } = props;
   return (
-      <>
-        <Grid container direction="row" alignItems={'center'}>
-          <Grid item >
-            <Typography variant="h2">
-              {t(titleKey, 'LoadingLine Title')}
-            </Typography>
-          </Grid>
-          <Grid item >
-            {isLoading
-              ? (<Lottie options={dataLoaderOptions} height={height} width={width} />)
-              : (<Lottie options={hasError ? errorDataOptions : dataLoadedOptions} height={height} width={width} />)}
-          </Grid>
+    <>
+      <Grid container direction="row" alignItems={'center'}>
+        <Grid item>
+          <Typography variant="h2">{t(titleKey, 'LoadingLine Title')}</Typography>
         </Grid>
-      </>
+        <Grid item>
+          {isLoading ? (
+            <Lottie options={dataLoaderOptions} height={height} width={width} />
+          ) : (
+            <Lottie options={hasError ? errorDataOptions : dataLoadedOptions} height={height} width={width} />
+          )}
+        </Grid>
+      </Grid>
+    </>
   );
 };
 
@@ -62,7 +62,7 @@ LoadingLine.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   hasError: PropTypes.bool.isRequired,
   height: PropTypes.number.isRequired,
-  width: PropTypes.number.isRequired
+  width: PropTypes.number.isRequired,
 };
 
 export default LoadingLine;

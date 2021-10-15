@@ -3,14 +3,14 @@
 
 import {
   dispatchGetAllInitialData,
-  dispatchSetApplicationStatus
+  dispatchSetApplicationStatus,
 } from '../../state/dispatchers/app/ApplicationDispatcher';
 import { connect } from 'react-redux';
 import Loading from './Loading';
 
 const mapDispatchToProps = {
   getAllInitialDataAction: dispatchGetAllInitialData,
-  setApplicationStatusAction: dispatchSetApplicationStatus
+  setApplicationStatusAction: dispatchSetApplicationStatus,
 };
 
 const mapStateToProps = (state) => ({
@@ -20,7 +20,7 @@ const mapStateToProps = (state) => ({
   workspace: state.workspace.current,
   solution: state.solution.current,
   datasetList: state.dataset.list,
-  application: state.application
+  application: state.application,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Loading);

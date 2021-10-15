@@ -5,5 +5,5 @@
 import { POWER_BI_ACTIONS_KEY } from '../../commons/PowerBIConstants';
 
 export const dispatchGetPowerBIEmbedInfo = () => ({
-  type: POWER_BI_ACTIONS_KEY.GET_EMBED_INFO
+  type: POWER_BI_ACTIONS_KEY.GET_EMBED_INFO,
 });

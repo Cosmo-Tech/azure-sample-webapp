@@ -4,8 +4,6 @@
 import { all, fork } from 'redux-saga/effects';
 import { getPowerBIEmbedInfoData } from './GetPowerBIEmbedInfo';
 
-export default function * powerBISaga () {
-  yield all([
-    fork(getPowerBIEmbedInfoData)
-  ]);
+export default function* powerBISaga() {
+  yield all([fork(getPowerBIEmbedInfoData)]);
 }

@@ -8,12 +8,14 @@ import { combineReducers } from 'redux';
 
 export const datasetListInitialState = {
   data: [],
-  status: STATUSES.IDLE
+  status: STATUSES.IDLE,
 };
 
 export const datasetListReducer = createReducer(datasetListInitialState, (builder) => {
   builder
-    .addCase(DATASET_ACTIONS_KEY.GET_ALL_DATASETS, (state, action) => { state.status = STATUSES.LOADING; })
+    .addCase(DATASET_ACTIONS_KEY.GET_ALL_DATASETS, (state, action) => {
+      state.status = STATUSES.LOADING;
+    })
     .addCase(DATASET_ACTIONS_KEY.SET_ALL_DATASETS, (state, action) => {
       state.data = action.list;
       state.status = action.status;

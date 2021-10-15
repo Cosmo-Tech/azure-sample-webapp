@@ -10,17 +10,16 @@ import { WORKSPACE_ACTIONS_KEY } from '../../commons/WorkspaceConstants';
 
 export const currentWorkspaceInitialState = {
   data: null,
-  status: STATUSES.IDLE
+  status: STATUSES.IDLE,
 };
 
 export const currentWorkspaceReducer = createReducer(currentWorkspaceInitialState, (builder) => {
-  builder
-    .addCase(WORKSPACE_ACTIONS_KEY.SET_CURRENT_WORKSPACE, (state, action) => {
-      state.data = action.workspace;
-      state.status = action.status;
-    });
+  builder.addCase(WORKSPACE_ACTIONS_KEY.SET_CURRENT_WORKSPACE, (state, action) => {
+    state.data = action.workspace;
+    state.status = action.status;
+  });
 });
 
 export const workspaceReducer = combineReducers({
-  current: currentWorkspaceReducer
+  current: currentWorkspaceReducer,
 });

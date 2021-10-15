@@ -8,7 +8,7 @@ const clone = rfdc();
 export const sortScenarioList = (scenarioList) => {
   const sortedList = [];
   let scenarioListCopy = clone(scenarioList);
-  scenarioListCopy.sort((a, b) => a.name.toUpperCase() < b.name.toUpperCase() ? -1 : 1);
+  scenarioListCopy.sort((a, b) => (a.name.toUpperCase() < b.name.toUpperCase() ? -1 : 1));
 
   const buildScenarioTree = (idParent, depth) => {
     const scenarioListToFilter = [];
@@ -20,7 +20,7 @@ export const sortScenarioList = (scenarioList) => {
         buildScenarioTree(scenario.id, depth + 1);
       }
     }
-    scenarioListCopy = scenarioListCopy.filter(scenario => !scenarioListToFilter.includes(scenario));
+    scenarioListCopy = scenarioListCopy.filter((scenario) => !scenarioListToFilter.includes(scenario));
   };
 
   buildScenarioTree(null, 0);

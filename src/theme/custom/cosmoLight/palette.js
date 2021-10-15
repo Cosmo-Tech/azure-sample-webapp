@@ -17,7 +17,7 @@ const themeColors = {
   black: '#000000',
   grey: '#999A9D',
   backgroundSignInPage: '#EBE7E2',
-  backgroundSignInButton: '#D7CCC8'
+  backgroundSignInButton: '#D7CCC8',
 };
 
 export default {
@@ -27,27 +27,27 @@ export default {
   primary: {
     contrastText: themeColors.black,
     main: themeColors.primary,
-    dark: themeColors.primaryVariant
+    dark: themeColors.primaryVariant,
   },
   secondary: {
     contrastText: themeColors.black,
-    main: themeColors.secondary
+    main: themeColors.secondary,
   },
   success: {
     contrastText: themeColors.black,
-    main: themeColors.success
+    main: themeColors.success,
   },
   info: {
     contrastText: themeColors.black,
-    main: themeColors.black
+    main: themeColors.black,
   },
   warning: {
     contrastText: themeColors.black,
-    main: themeColors.warning
+    main: themeColors.warning,
   },
   error: {
     contrastText: themeColors.black,
-    main: themeColors.error
+    main: themeColors.error,
   },
   text: {
     primary: themeColors.black,
@@ -57,7 +57,7 @@ export default {
     success: themeColors.success,
     warning: themeColors.warning,
     error: themeColors.error,
-    info: themeColors.info
+    info: themeColors.info,
   },
   background: {
     default: themeColors.background,
@@ -65,6 +65,6 @@ export default {
     secondary: themeColors.backgroundVariant,
     card: themeColors.surface,
     signInPage: themeColors.backgroundSignInPage,
-    signInButton: themeColors.backgroundSignInButton
-  }
+    signInButton: themeColors.backgroundSignInButton,
+  },
 };

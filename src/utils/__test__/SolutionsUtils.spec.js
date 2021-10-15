@@ -50,7 +50,7 @@ describe('addRunTemplatesParametersIdsDict for a minimal or incomplete solution'
     SolutionsUtils.addRunTemplatesParametersIdsDict(solution, emptyConfig);
     expect(solution).toStrictEqual({
       parameters: null,
-      runTemplatesParametersIdsDict: {}
+      runTemplatesParametersIdsDict: {},
     });
   });
 
@@ -59,7 +59,7 @@ describe('addRunTemplatesParametersIdsDict for a minimal or incomplete solution'
     SolutionsUtils.addRunTemplatesParametersIdsDict(solution, emptyConfig);
     expect(solution).toStrictEqual({
       parameterGroups: null,
-      runTemplatesParametersIdsDict: {}
+      runTemplatesParametersIdsDict: {},
     });
   });
 
@@ -68,7 +68,7 @@ describe('addRunTemplatesParametersIdsDict for a minimal or incomplete solution'
     SolutionsUtils.addRunTemplatesParametersIdsDict(solution, emptyConfig);
     expect(solution).toStrictEqual({
       runTemplates: null,
-      runTemplatesParametersIdsDict: {}
+      runTemplatesParametersIdsDict: {},
     });
   });
 
@@ -76,27 +76,27 @@ describe('addRunTemplatesParametersIdsDict for a minimal or incomplete solution'
     const solution = {
       parameters: null,
       parameterGroups: null,
-      runTemplates: null
+      runTemplates: null,
     };
     SolutionsUtils.addRunTemplatesParametersIdsDict(solution, emptyConfig);
     expect(solution).toStrictEqual({
       parameters: null,
       parameterGroups: null,
       runTemplates: null,
-      runTemplatesParametersIdsDict: {}
+      runTemplatesParametersIdsDict: {},
     });
   });
 
   test('if solution parameters and parameterGroups are empty', () => {
     const solution = {
       parameters: [],
-      parameterGroups: []
+      parameterGroups: [],
     };
     SolutionsUtils.addRunTemplatesParametersIdsDict(solution, emptyConfig);
     expect(solution).toStrictEqual({
       parameters: [],
       parameterGroups: [],
-      runTemplatesParametersIdsDict: {}
+      runTemplatesParametersIdsDict: {},
     });
   });
 });
@@ -112,8 +112,8 @@ describe('addRunTemplatesParametersIdsDict for a minimal or incomplete config', 
     runTemplatesParametersIdsDict: {
       runTemplate1: ['param1'],
       runTemplate2: ['param1', 'param2'],
-      runTemplate3: ['param1', 'param2']
-    }
+      runTemplate3: ['param1', 'param2'],
+    },
   };
 
   test.each`
@@ -135,7 +135,7 @@ describe('addRunTemplatesParametersIdsDict for a minimal or incomplete config', 
     const config = {
       parameters: dataValue,
       parametersGroups: dataValue,
-      runTemplates: dataValue
+      runTemplates: dataValue,
     };
     SolutionsUtils.addRunTemplatesParametersIdsDict(solution, config);
     expect(solution).toStrictEqual(expectedModifiedSolution);
@@ -153,25 +153,16 @@ describe('addRunTemplatesParametersIdsDict with config overwrite', () => {
       parameters: {},
       parametersGroups: {
         groupA: {
-          parameters: [
-            'param2'
-          ]
-        }
+          parameters: ['param2'],
+        },
       },
-      runTemplates: {}
+      runTemplates: {},
     };
 
     const expectedRunTemplatesParametersIdsDict = {
-      runTemplate1: [
-        'param2'
-      ],
-      runTemplate2: [
-        'param2'
-      ],
-      runTemplate3: [
-        'param1',
-        'param2'
-      ]
+      runTemplate1: ['param2'],
+      runTemplate2: ['param2'],
+      runTemplate3: ['param1', 'param2'],
     };
     SolutionsUtils.addRunTemplatesParametersIdsDict(solution, config);
     expect(solution.runTemplatesParametersIdsDict).toStrictEqual(expectedRunTemplatesParametersIdsDict);
@@ -183,25 +174,15 @@ describe('addRunTemplatesParametersIdsDict with config overwrite', () => {
       parametersGroups: {},
       runTemplates: {
         runTemplate3: {
-          parameterGroups: [
-            'groupA'
-          ]
-        }
-      }
+          parameterGroups: ['groupA'],
+        },
+      },
     };
 
     const expectedRunTemplatesParametersIdsDict = {
-      runTemplate1: [
-        'param1'
-      ],
-      runTemplate2: [
-        'param1',
-        'param2'
-      ],
-      runTemplate3: [
-        'param1'
-      ]
-
+      runTemplate1: ['param1'],
+      runTemplate2: ['param1', 'param2'],
+      runTemplate3: ['param1'],
     };
     SolutionsUtils.addRunTemplatesParametersIdsDict(solution, config);
     expect(solution.runTemplatesParametersIdsDict).toStrictEqual(expectedRunTemplatesParametersIdsDict);
@@ -212,29 +193,16 @@ describe('addRunTemplatesParametersIdsDict with config overwrite', () => {
       parameters: {},
       parametersGroups: {
         groupA: {
-          parameters: [
-            'param1',
-            'newParam'
-          ]
-        }
+          parameters: ['param1', 'newParam'],
+        },
       },
-      runTemplates: {}
+      runTemplates: {},
     };
 
     const expectedRunTemplatesParametersIdsDict = {
-      runTemplate1: [
-        'param1',
-        'newParam'
-      ],
-      runTemplate2: [
-        'param1',
-        'newParam',
-        'param2'
-      ],
-      runTemplate3: [
-        'param1',
-        'param2'
-      ]
+      runTemplate1: ['param1', 'newParam'],
+      runTemplate2: ['param1', 'newParam', 'param2'],
+      runTemplate3: ['param1', 'param2'],
     };
     SolutionsUtils.addRunTemplatesParametersIdsDict(solution, config);
     expect(solution.runTemplatesParametersIdsDict).toStrictEqual(expectedRunTemplatesParametersIdsDict);
@@ -246,28 +214,16 @@ describe('addRunTemplatesParametersIdsDict with config overwrite', () => {
       parametersGroups: {},
       runTemplates: {
         newRunTemplate: {
-          parameterGroups: [
-            'groupB'
-          ]
-        }
-      }
+          parameterGroups: ['groupB'],
+        },
+      },
     };
 
     const expectedRunTemplatesParametersIdsDict = {
-      runTemplate1: [
-        'param1'
-      ],
-      runTemplate2: [
-        'param1',
-        'param2'
-      ],
-      runTemplate3: [
-        'param1',
-        'param2'
-      ],
-      newRunTemplate: [
-        'param2'
-      ]
+      runTemplate1: ['param1'],
+      runTemplate2: ['param1', 'param2'],
+      runTemplate3: ['param1', 'param2'],
+      newRunTemplate: ['param2'],
     };
     SolutionsUtils.addRunTemplatesParametersIdsDict(solution, config);
     expect(solution.runTemplatesParametersIdsDict).toStrictEqual(expectedRunTemplatesParametersIdsDict);

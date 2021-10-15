@@ -1,9 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import {
-  PAGE_NAME
-} from '../../commons/TestConstants';
+import { PAGE_NAME } from '../../commons/TestConstants';
 import { SELECTORS } from '../../commons/IdConstants';
 
 describe('Log in & log out', () => {

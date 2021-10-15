@@ -4,8 +4,6 @@
 import { all, fork } from 'redux-saga/effects';
 import { findSolutionByIdData } from './FindSolutionById';
 
-export default function * solutionSaga () {
-  yield all([
-    fork(findSolutionByIdData)
-  ]);
+export default function* solutionSaga() {
+  yield all([fork(findSolutionByIdData)]);
 }

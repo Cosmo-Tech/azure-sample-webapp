@@ -9,7 +9,7 @@ export const authInitialState = {
   userId: '',
   userName: '',
   profilePic: '',
-  status: AUTH_STATUS.ANONYMOUS
+  status: AUTH_STATUS.ANONYMOUS,
 };
 
 export const authReducer = createReducer(authInitialState, (builder) => {

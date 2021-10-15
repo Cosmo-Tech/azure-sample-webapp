@@ -6,7 +6,7 @@ import { APPLICATION_INSIGHTS_CONFIG } from './config/ApplicationInsights';
 import { ENABLE_APPLICATION_INSIGHTS } from '../config/AppConfiguration';
 
 class AppInsightsSingleton {
-  constructor () {
+  constructor() {
     if (AppInsightsSingleton._instance) {
       return AppInsightsSingleton._instance;
     }
@@ -23,44 +23,46 @@ class AppInsightsSingleton {
     }
   }
 
-  setScenarioData (scenario) {
-    if (!scenario) { return; }
+  setScenarioData(scenario) {
+    if (!scenario) {
+      return;
+    }
     this.currentScenario = {
       id: scenario.id,
       parentId: scenario.parentId,
-      rootId: scenario.rootId
+      rootId: scenario.rootId,
     };
   }
 
-  trackUpload () {
+  trackUpload() {
     if (this.enabled) {
       this.appInsights.trackMetric({ name: 'UploadFileValue', average: 1, sampleCount: 1 });
     }
   }
 
-  trackDownload () {
+  trackDownload() {
     if (this.enabled) {
       this.appInsights.trackMetric({ name: 'DownloadFileValue', average: 1, sampleCount: 1 });
     }
   }
 
-  trackScenarioCreation () {
+  trackScenarioCreation() {
     if (this.enabled) {
       this.appInsights.trackMetric({ name: 'CreateScenarioValue', average: 1, sampleCount: 1 });
     }
   }
 
-  trackScenarioLaunch () {
+  trackScenarioLaunch() {
     if (this.enabled) {
       this.appInsights.trackMetric({ name: 'LaunchScenarioValue', average: 1, sampleCount: 1 });
     }
   }
 }
 
-function getInstance () {
+function getInstance() {
   return new AppInsightsSingleton();
 }
 
 export const AppInsights = {
-  getInstance: getInstance
+  getInstance: getInstance,
 };

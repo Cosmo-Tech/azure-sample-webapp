@@ -13,7 +13,7 @@ import { AppInsights } from '../../../../services/AppInsights';
 const appInsights = AppInsights.getInstance();
 
 // generators function
-export function * updateAndLaunchScenario (action) {
+export function* updateAndLaunchScenario(action) {
   const workspaceId = action.workspaceId;
   const scenarioId = action.scenarioId;
   const scenarioParameters = action.scenarioParameters;
@@ -24,39 +24,34 @@ export function * updateAndLaunchScenario (action) {
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
       status: STATUSES.SAVING,
-      scenario: { state: SCENARIO_RUN_STATE.RUNNING }
+      scenario: { state: SCENARIO_RUN_STATE.RUNNING },
     });
-    const { data: updateData } = yield call(Api.Scenarios.updateScenario,
-      ORGANIZATION_ID,
-      workspaceId,
-      scenarioId,
-      { parametersValues: scenarioParameters });
+    const { data: updateData } = yield call(Api.Scenarios.updateScenario, ORGANIZATION_ID, workspaceId, scenarioId, {
+      parametersValues: scenarioParameters,
+    });
 
     updateData.parametersValues = formatParametersFromApi(updateData.parametersValues);
 
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
       status: STATUSES.IDLE,
-      scenario: { state: SCENARIO_RUN_STATE.RUNNING, parametersValues: updateData.parametersValues }
+      scenario: { state: SCENARIO_RUN_STATE.RUNNING, parametersValues: updateData.parametersValues },
     });
     // Launch scenario if parameters update succeeded
-    yield call(Api.ScenarioRuns.runScenario,
-      ORGANIZATION_ID,
-      workspaceId,
-      scenarioId);
+    yield call(Api.ScenarioRuns.runScenario, ORGANIZATION_ID, workspaceId, scenarioId);
 
     // Start backend polling to update the scenario status
     yield put({
       type: SCENARIO_ACTIONS_KEY.START_SCENARIO_STATUS_POLLING,
       workspaceId: workspaceId,
-      scenarioId: scenarioId
+      scenarioId: scenarioId,
     });
   } catch (e) {
     console.error(e);
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
       status: STATUSES.ERROR,
-      scenario: null
+      scenario: null,
     });
   }
 }
@@ -64,9 +59,8 @@ export function * updateAndLaunchScenario (action) {
 // generators function
 // Here is a watcher that takes EVERY action dispatched named CREATE_SCENARIO
 // and binds createScenario saga to it
-function * updateAndLaunchScenarioSaga () {
-  yield takeEvery(SCENARIO_ACTIONS_KEY.UPDATE_AND_LAUNCH_SCENARIO,
-    updateAndLaunchScenario);
+function* updateAndLaunchScenarioSaga() {
+  yield takeEvery(SCENARIO_ACTIONS_KEY.UPDATE_AND_LAUNCH_SCENARIO, updateAndLaunchScenario);
 }
 
 export default updateAndLaunchScenarioSaga;

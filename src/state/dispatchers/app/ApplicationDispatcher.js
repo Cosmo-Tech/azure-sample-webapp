@@ -7,11 +7,11 @@ import { WORKSPACE_ID } from '../../../config/AppInstance';
 
 export const dispatchSetApplicationStatus = (payLoad) => ({
   type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS,
-  status: payLoad
+  status: payLoad,
 });
 
 export const dispatchGetAllInitialData = () => ({
   type: APPLICATION_ACTIONS_KEY.GET_ALL_INITIAL_DATA,
   status: STATUSES.LOADING,
-  workspaceId: WORKSPACE_ID
+  workspaceId: WORKSPACE_ID,
 });

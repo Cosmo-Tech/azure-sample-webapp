@@ -14,6 +14,6 @@ export const APPLICATION_INSIGHTS_CONFIG = {
     enableRequestHeaderTracking: true,
     enableResponseHeaderTracking: true,
     enableAutoRouteTracking: true,
-    distributedTracingMode: DistributedTracingModes.AI_AND_W3C
-  }
+    distributedTracingMode: DistributedTracingModes.AI_AND_W3C,
+  },
 };

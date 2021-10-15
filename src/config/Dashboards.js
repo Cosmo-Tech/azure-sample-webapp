@@ -4,7 +4,7 @@
 import {
   POWER_BI_FIELD_ENUM,
   PowerBIReportEmbedSimpleFilter,
-  PowerBIReportEmbedMultipleFilter
+  PowerBIReportEmbedMultipleFilter,
 } from '@cosmotech/azure';
 
 // For further information about settings or filters see:
@@ -17,7 +17,7 @@ export const SCENARIO_DASHBOARD_CONFIG = [
   {
     title: {
       en: 'Scenario dashboard',
-      fr: 'Rapport du scenario'
+      fr: 'Rapport du scenario',
     },
     reportId: '608b7bef-f5e3-4aae-b8db-19bbb38325d5',
     settings: {
@@ -25,21 +25,23 @@ export const SCENARIO_DASHBOARD_CONFIG = [
       panes: {
         filters: {
           expanded: false,
-          visible: false
-        }
-      }
+          visible: false,
+        },
+      },
     },
-    staticFilters: [
-      new PowerBIReportEmbedMultipleFilter('Bar', 'id', ['MyBar', 'MyBar2'])
-    ],
+    staticFilters: [new PowerBIReportEmbedMultipleFilter('Bar', 'id', ['MyBar', 'MyBar2'])],
     dynamicFilters: [
-      new PowerBIReportEmbedSimpleFilter('StockProbe', 'SimulationRun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN)
+      new PowerBIReportEmbedSimpleFilter(
+        'StockProbe',
+        'SimulationRun',
+        POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN
+      ),
     ],
     pageName: {
       en: 'ReportSection',
-      fr: 'ReportSection'
-    }
-  }
+      fr: 'ReportSection',
+    },
+  },
 ];
 
 // For further information about settings or filters see:
@@ -52,7 +54,7 @@ export const DASHBOARDS_LIST_CONFIG = [
   {
     title: {
       en: 'Digital Twin Structure',
-      fr: 'Structure du jumeau numérique'
+      fr: 'Structure du jumeau numérique',
     },
     reportId: '608b7bef-f5e3-4aae-b8db-19bbb38325d5',
     settings: {
@@ -60,33 +62,47 @@ export const DASHBOARDS_LIST_CONFIG = [
       panes: {
         filters: {
           expanded: true,
-          visible: true
-        }
-      }
+          visible: true,
+        },
+      },
     },
     dynamicFilters: [
       new PowerBIReportEmbedSimpleFilter(
-        'StockProbe', 'SimulationRun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
+        'StockProbe',
+        'SimulationRun',
+        POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN
+      ),
+      new PowerBIReportEmbedSimpleFilter('Bar', 'simulationrun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
       new PowerBIReportEmbedSimpleFilter(
-        'Bar', 'simulationrun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
+        'contains_Customer',
+        'simulationrun',
+        POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN
+      ),
       new PowerBIReportEmbedSimpleFilter(
-        'contains_Customer', 'simulationrun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
+        'arc_to_Customer',
+        'simulationrun',
+        POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN
+      ),
       new PowerBIReportEmbedSimpleFilter(
-        'arc_to_Customer', 'simulationrun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
+        'parameters',
+        'simulationrun',
+        POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN
+      ),
       new PowerBIReportEmbedSimpleFilter(
-        'parameters', 'simulationrun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
-      new PowerBIReportEmbedSimpleFilter(
-        'CustomerSatisfactionProbe', 'SimulationRun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN)
+        'CustomerSatisfactionProbe',
+        'SimulationRun',
+        POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN
+      ),
     ],
     pageName: {
       en: 'ReportSectionf3ef30b8ad34c9c2e8c4',
-      fr: 'ReportSectionf3ef30b8ad34c9c2e8c4'
-    }
+      fr: 'ReportSectionf3ef30b8ad34c9c2e8c4',
+    },
   },
   {
     title: {
       en: 'Stocks Follow-up',
-      fr: 'Suivi de stock'
+      fr: 'Suivi de stock',
     },
     reportId: '608b7bef-f5e3-4aae-b8db-19bbb38325d5',
     settings: {
@@ -94,33 +110,47 @@ export const DASHBOARDS_LIST_CONFIG = [
       panes: {
         filters: {
           expanded: true,
-          visible: true
-        }
-      }
+          visible: true,
+        },
+      },
     },
     dynamicFilters: [
       new PowerBIReportEmbedSimpleFilter(
-        'StockProbe', 'SimulationRun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
+        'StockProbe',
+        'SimulationRun',
+        POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN
+      ),
+      new PowerBIReportEmbedSimpleFilter('Bar', 'simulationrun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
       new PowerBIReportEmbedSimpleFilter(
-        'Bar', 'simulationrun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
+        'contains_Customer',
+        'simulationrun',
+        POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN
+      ),
       new PowerBIReportEmbedSimpleFilter(
-        'contains_Customer', 'simulationrun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
+        'arc_to_Customer',
+        'simulationrun',
+        POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN
+      ),
       new PowerBIReportEmbedSimpleFilter(
-        'arc_to_Customer', 'simulationrun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
+        'parameters',
+        'simulationrun',
+        POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN
+      ),
       new PowerBIReportEmbedSimpleFilter(
-        'parameters', 'simulationrun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
-      new PowerBIReportEmbedSimpleFilter(
-        'CustomerSatisfactionProbe', 'SimulationRun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN)
+        'CustomerSatisfactionProbe',
+        'SimulationRun',
+        POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN
+      ),
     ],
     pageName: {
       en: 'ReportSectionca125957a3f5ea936a30',
-      fr: 'ReportSectionca125957a3f5ea936a30'
-    }
+      fr: 'ReportSectionca125957a3f5ea936a30',
+    },
   },
   {
     title: {
       en: 'Customer Satisfaction',
-      fr: 'Satisfaction client'
+      fr: 'Satisfaction client',
     },
     reportId: '608b7bef-f5e3-4aae-b8db-19bbb38325d5',
     settings: {
@@ -128,27 +158,41 @@ export const DASHBOARDS_LIST_CONFIG = [
       panes: {
         filters: {
           expanded: false,
-          visible: true
-        }
-      }
+          visible: true,
+        },
+      },
     },
     dynamicFilters: [
       new PowerBIReportEmbedSimpleFilter(
-        'StockProbe', 'SimulationRun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
+        'StockProbe',
+        'SimulationRun',
+        POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN
+      ),
+      new PowerBIReportEmbedSimpleFilter('Bar', 'simulationrun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
       new PowerBIReportEmbedSimpleFilter(
-        'Bar', 'simulationrun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
+        'contains_Customer',
+        'simulationrun',
+        POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN
+      ),
       new PowerBIReportEmbedSimpleFilter(
-        'contains_Customer', 'simulationrun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
+        'arc_to_Customer',
+        'simulationrun',
+        POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN
+      ),
       new PowerBIReportEmbedSimpleFilter(
-        'arc_to_Customer', 'simulationrun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
+        'parameters',
+        'simulationrun',
+        POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN
+      ),
       new PowerBIReportEmbedSimpleFilter(
-        'parameters', 'simulationrun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
-      new PowerBIReportEmbedSimpleFilter(
-        'CustomerSatisfactionProbe', 'SimulationRun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN)
+        'CustomerSatisfactionProbe',
+        'SimulationRun',
+        POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN
+      ),
     ],
     pageName: {
       en: 'ReportSectiond5265d03b73060af4244',
-      fr: 'ReportSectiond5265d03b73060af4244'
-    }
-  }
+      fr: 'ReportSectiond5265d03b73060af4244',
+    },
+  },
 ];

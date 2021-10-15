@@ -9,6 +9,6 @@ export const SCENARIO_RUN_STATE = {
   CREATED: 'Created',
   RUNNING: 'Running',
   SUCCESSFUL: 'Successful',
-  FAILED: 'Failed'
+  FAILED: 'Failed',
 };
 export const STORAGE_ROOT_DIR_PLACEHOLDER = '%WORKSPACE_FILE%/';

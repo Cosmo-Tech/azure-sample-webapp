@@ -7,13 +7,13 @@ import { BasicToggleInput } from '@cosmotech/ui';
 const create = (t, parameterData, parametersState, setParametersState, editMode) => {
   const switchFieldProps = {
     disabled: !editMode,
-    id: parameterData.id
+    id: parameterData.id,
   };
 
-  function setValue (newValue) {
+  function setValue(newValue) {
     setParametersState({
       ...parametersState,
-      [parameterData.id]: newValue
+      [parameterData.id]: newValue,
     });
   }
 
@@ -21,8 +21,8 @@ const create = (t, parameterData, parametersState, setParametersState, editMode)
     <BasicToggleInput
       key={parameterData.id}
       data-cy={parameterData.dataCy}
-      label={ t(`solution.parameters.${parameterData.id}`, parameterData.id) }
-      value={ parametersState[parameterData.id] || false }
+      label={t(`solution.parameters.${parameterData.id}`, parameterData.id)}
+      value={parametersState[parameterData.id] || false}
       changeSwitchType={setValue}
       switchProps={switchFieldProps}
     />
@@ -30,5 +30,5 @@ const create = (t, parameterData, parametersState, setParametersState, editMode)
 };
 
 export const BasicToggleInputFactory = {
-  create
+  create,
 };

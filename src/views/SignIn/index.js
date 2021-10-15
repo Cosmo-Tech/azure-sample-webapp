@@ -6,7 +6,7 @@ import { dispatchLogIn } from '../../state/dispatchers/auth/AuthDispatcher';
 import SignIn from './SignIn';
 
 const mapDispatchToProps = {
-  logInAction: dispatchLogIn
+  logInAction: dispatchLogIn,
 };
 
 export default connect(null, mapDispatchToProps)(SignIn);

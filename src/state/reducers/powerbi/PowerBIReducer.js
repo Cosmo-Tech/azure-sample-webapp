@@ -9,16 +9,15 @@ export const powerBiInitialState = {
   data: {
     accessToken: '',
     reportsInfo: '',
-    expiry: ''
+    expiry: '',
   },
-  status: STATUSES.IDLE
+  status: STATUSES.IDLE,
 };
 
 export const powerBiReducer = createReducer(powerBiInitialState, (builder) => {
-  builder
-    .addCase(POWER_BI_ACTIONS_KEY.SET_EMBED_INFO, (state, action) => {
-      state.data = action.embedInfo;
-      state.error = action.error;
-      state.status = action.status;
-    });
+  builder.addCase(POWER_BI_ACTIONS_KEY.SET_EMBED_INFO, (state, action) => {
+    state.data = action.embedInfo;
+    state.error = action.error;
+    state.status = action.status;
+  });
 });

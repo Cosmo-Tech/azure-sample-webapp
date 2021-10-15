@@ -29,5 +29,5 @@ export const addTranslationLabels = (config) => {
 };
 
 export const ConfigUtils = {
-  addTranslationLabels
+  addTranslationLabels,
 };

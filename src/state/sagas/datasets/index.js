@@ -4,8 +4,6 @@
 import { all, fork } from 'redux-saga/effects';
 import { findAllDatasetsData } from './FindAllDatasets';
 
-export default function * datasetSaga () {
-  yield all([
-    fork(findAllDatasetsData)
-  ]);
+export default function* datasetSaga() {
+  yield all([fork(findAllDatasetsData)]);
 }

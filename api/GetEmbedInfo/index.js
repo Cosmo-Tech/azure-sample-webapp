@@ -11,7 +11,7 @@ module.exports = async function (context, req) {
     if (configCheckResult) {
       context.res = {
         status: 400,
-        body: configCheckResult
+        body: configCheckResult,
       };
     } else {
       // Get the details like Embed URL, Access token and Expiry

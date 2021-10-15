@@ -15,7 +15,7 @@ const _getDefaultParameterValueFromConfig = (parameterId, configParameters) => {
 };
 
 const _findParameterInSolutionParametersById = (parameterId, solutionParameters) => {
-  return solutionParameters?.find(param => param.id === parameterId);
+  return solutionParameters?.find((param) => param.id === parameterId);
 };
 
 const _getDefaultParameterValueFromSolution = (parameterId, solutionParameters) => {
@@ -25,7 +25,8 @@ const _getDefaultParameterValueFromSolution = (parameterId, solutionParameters) 
     return undefined;
   }
   let defaultValue = solutionParameter.defaultValue;
-  if (defaultValue === null) { // No default value defined in Solution description, or unknown parameter
+  if (defaultValue === null) {
+    // No default value defined in Solution description, or unknown parameter
     defaultValue = _getVarTypeDefaultValue(solutionParameter?.varType);
   }
   return defaultValue;
@@ -45,7 +46,7 @@ const _getDefaultParameterValue = (parameterId, solutionParameters, configParame
 };
 
 const _findParameterInScenarioParametersValues = (parameterId, scenarioParametersValues) => {
-  return scenarioParametersValues?.find(param => param.parameterId === parameterId);
+  return scenarioParametersValues?.find((param) => param.parameterId === parameterId);
 };
 
 const _getParameterValueForReset = (datasets, parameterId, defaultParametersValues, scenarioParametersValues) => {
@@ -62,8 +63,8 @@ const _getRunTemplateParametersGroupsIdsFromConfig = (runTemplateId, config) => 
 };
 
 const _getRunTemplateParametersGroupsIdsFromSolution = (runTemplateId, solution) => {
-  const solutionRunTemplate = solution?.runTemplates && solution?.runTemplates.find(
-    runTemplate => runTemplate.id === runTemplateId);
+  const solutionRunTemplate =
+    solution?.runTemplates && solution?.runTemplates.find((runTemplate) => runTemplate.id === runTemplateId);
   if (!solutionRunTemplate) {
     console.warn(`Unknown run template "${runTemplateId}"`);
     return [];
@@ -81,7 +82,7 @@ const _getRunTemplateParametersGroupsIds = (runTemplateId, solution, config) => 
 
 const _getParameterMetadataFromSolution = (parameterId, solution) => {
   const parameters = solution.parameters || [];
-  return parameters.find(parameter => parameter.id === parameterId) || {};
+  return parameters.find((parameter) => parameter.id === parameterId) || {};
 };
 
 const _patchParameterMetadataWithConfig = (parameter, parameterId, config) => {
@@ -91,7 +92,7 @@ const _patchParameterMetadataWithConfig = (parameter, parameterId, config) => {
   }
   return {
     ...parameter,
-    ...parameterInConfig
+    ...parameterInConfig,
   };
 };
 
@@ -111,7 +112,7 @@ const _generateParametersMetadataForGroup = (group, solution, config) => {
 
 const _getParametersGroupFromSolution = (groupId, solution) => {
   const parametersGroups = solution.parameterGroups || [];
-  return parametersGroups.find(group => group.id === groupId) || {};
+  return parametersGroups.find((group) => group.id === groupId) || {};
 };
 
 const _patchParametersGroupWithConfig = (parametersGroup, groupId, config) => {
@@ -121,7 +122,7 @@ const _patchParametersGroupWithConfig = (parametersGroup, groupId, config) => {
   }
   return {
     ...parametersGroup,
-    ...groupInConfig
+    ...groupInConfig,
   };
 };
 
@@ -135,7 +136,7 @@ const _generateParametersGroupMetadata = (groupId, solution, config) => {
   return {
     id: groupId,
     labels: parametersGroup.labels,
-    parameters: _generateParametersMetadataForGroup(parametersGroup, solution, config)
+    parameters: _generateParametersMetadataForGroup(parametersGroup, solution, config),
   };
 };
 
@@ -171,7 +172,11 @@ const getParametersValuesForReset = (datasets, parametersIds, defaultParametersV
   const paramValues = {};
   for (const parameterId of parametersIds) {
     paramValues[parameterId] = _getParameterValueForReset(
-      datasets, parameterId, defaultParametersValues, scenarioParametersValues);
+      datasets,
+      parameterId,
+      defaultParametersValues,
+      scenarioParametersValues
+    );
   }
   return paramValues;
 };
@@ -220,7 +225,7 @@ const _buildParameterForUpdate = (solution, parameters, parameterId) => {
   return {
     parameterId: parameterId,
     varType: parameterVarType,
-    value: parameterValue
+    value: parameterValue,
   };
 };
 
@@ -241,5 +246,5 @@ export const ScenarioParametersUtils = {
   getDefaultParametersValues,
   getParametersValuesForReset,
   buildParametersForUpdate,
-  getParameterVarType
+  getParameterVarType,
 };

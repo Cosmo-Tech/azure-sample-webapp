@@ -7,21 +7,14 @@ import PropTypes from 'prop-types';
 
 import { PublicRoute, PrivateRoute } from '@cosmotech/ui';
 import { TabLayout } from './layouts';
-import {
-  SignIn as SignInView,
-  Unauthorized as UnauthorizedView
-} from './views';
+import { SignIn as SignInView, Unauthorized as UnauthorizedView } from './views';
 
-const Routes = props => {
+const Routes = (props) => {
   const { authenticated, authorized, tabs } = props;
 
   return (
     <Switch>
-      <Redirect
-        exact
-        from="/"
-        to="/scenario"
-      />
+      <Redirect exact from="/" to="/scenario" />
       <PublicRoute
         exact
         path="/sign-in"
@@ -30,27 +23,28 @@ const Routes = props => {
         component={SignInView}
         redirectTo="/scenario"
         unauthorizedPath="/unauthorized"
-      >
-      </PublicRoute>
+      ></PublicRoute>
       <PrivateRoute
         exact
         path="/unauthorized"
         authenticated={authenticated}
         authorized={authorized}
-        render={() => <UnauthorizedView/>}
+        render={() => <UnauthorizedView />}
         redirectTo="/scenario"
-        >
-      </PrivateRoute>
-    <Route
+      ></PrivateRoute>
+      <Route
         path="/"
-        render={ routeProps =>
-            <TabLayout
-                {...routeProps}
-                tabs={tabs}
-                authenticated={authenticated}
-                authorized={authorized}
-                signInPath="/sign-in"
-                unauthorizedPath="/unauthorized"/>}/>
+        render={(routeProps) => (
+          <TabLayout
+            {...routeProps}
+            tabs={tabs}
+            authenticated={authenticated}
+            authorized={authorized}
+            signInPath="/sign-in"
+            unauthorizedPath="/unauthorized"
+          />
+        )}
+      />
     </Switch>
   );
 };
@@ -58,7 +52,7 @@ const Routes = props => {
 Routes.propTypes = {
   authenticated: PropTypes.bool.isRequired,
   authorized: PropTypes.bool,
-  tabs: PropTypes.any
+  tabs: PropTypes.any,
 };
 
 export default Routes;

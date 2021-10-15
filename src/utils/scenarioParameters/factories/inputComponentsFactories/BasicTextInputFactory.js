@@ -7,13 +7,13 @@ import { BasicTextInput } from '@cosmotech/ui';
 const create = (t, parameterData, parametersState, setParametersState, editMode) => {
   const textFieldProps = {
     disabled: !editMode,
-    id: parameterData.id
+    id: parameterData.id,
   };
 
-  function setValue (newValue) {
+  function setValue(newValue) {
     setParametersState({
       ...parametersState,
-      [parameterData.id]: newValue
+      [parameterData.id]: newValue,
     });
   }
 
@@ -21,8 +21,8 @@ const create = (t, parameterData, parametersState, setParametersState, editMode)
     <BasicTextInput
       key={parameterData.id}
       data-cy={parameterData.dataCy} // Optional data for cypress
-      label={ t(`solution.parameters.${parameterData.id}`, parameterData.id) }
-      value={ parametersState[parameterData.id] || '' }
+      label={t(`solution.parameters.${parameterData.id}`, parameterData.id)}
+      value={parametersState[parameterData.id] || ''}
       changeTextField={setValue}
       textFieldProps={textFieldProps}
     />
@@ -30,5 +30,5 @@ const create = (t, parameterData, parametersState, setParametersState, editMode)
 };
 
 export const BasicTextInputFactory = {
-  create
+  create,
 };

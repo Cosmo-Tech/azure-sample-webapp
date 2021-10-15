@@ -7,7 +7,7 @@ import {
   // see https://github.com/mui-org/material-ui/issues/13394 for more info on
   // Warning: findDOMNode is deprecated in StrictMode.
   // eslint-disable-next-line camelcase
-  unstable_createMuiStrictModeTheme
+  unstable_createMuiStrictModeTheme,
 } from '@material-ui/core';
 
 import { palette, typography, picture } from './custom';
@@ -26,8 +26,8 @@ const theme = createTheme({
   overrides,
   zIndex: {
     appBar: 1200,
-    drawer: 1100
-  }
+    drawer: 1100,
+  },
 });
 
 export default theme;

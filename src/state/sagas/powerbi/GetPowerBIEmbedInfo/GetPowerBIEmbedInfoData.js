@@ -8,7 +8,7 @@ import { clientApi } from '../../../../services/ClientApi';
 import { POWER_BI_INFO_POLLING_DELAY } from '../../../../config/AppConfiguration';
 
 // generators function
-export function * getPowerBIEmbedInfoSaga () {
+export function* getPowerBIEmbedInfoSaga() {
   let tokenDelay;
   do {
     try {
@@ -19,33 +19,33 @@ export function * getPowerBIEmbedInfoSaga () {
           embedInfo: {
             accessToken: '',
             reportsInfo: '',
-            expiry: ''
+            expiry: '',
           },
           error: data.error,
-          status: STATUSES.ERROR
+          status: STATUSES.ERROR,
         });
         tokenDelay = POWER_BI_INFO_POLLING_DELAY;
       } else {
         yield put({
           type: POWER_BI_ACTIONS_KEY.SET_EMBED_INFO,
           embedInfo: data,
-          status: STATUSES.SUCCESS
+          status: STATUSES.SUCCESS,
         });
         tokenDelay = Date.parse(data.expiry) - Date.now() - 120000;
       }
 
       yield delay(tokenDelay);
     } catch (error) {
-      console.error('Can\'t retrieve PowerBI token for embed reports');
+      console.error("Can't retrieve PowerBI token for embed reports");
       console.error(error);
       yield put({
         type: POWER_BI_ACTIONS_KEY.SET_EMBED_INFO,
         embedInfo: {
           accessToken: '',
           reportsInfo: '',
-          expiry: ''
+          expiry: '',
         },
-        status: STATUSES.ERROR
+        status: STATUSES.ERROR,
       });
       tokenDelay = POWER_BI_INFO_POLLING_DELAY;
       yield delay(tokenDelay);
@@ -55,7 +55,7 @@ export function * getPowerBIEmbedInfoSaga () {
 
 // generators function
 // Here is a watcher that takes EVERY action dispatched named GET_EMBED_INFO and binds getPowerBIEmbedInfo saga to it
-function * getPowerBIEmbedInfoData () {
+function* getPowerBIEmbedInfoData() {
   yield takeEvery(POWER_BI_ACTIONS_KEY.GET_EMBED_INFO, getPowerBIEmbedInfoSaga);
 }
 

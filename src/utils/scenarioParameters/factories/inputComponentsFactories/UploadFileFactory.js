@@ -10,24 +10,24 @@ const create = (t, datasets, parameterData, parametersState, setParametersState,
   const parameter = parametersState[parameterId] || {};
   const datasetId = parameter.id;
 
-  function setParameterInState (newValue) {
+  function setParameterInState(newValue) {
     setParametersState({
       ...parametersState,
-      [parameterId]: newValue
+      [parameterId]: newValue,
     });
   }
 
-  function setClientFileDescriptorStatus (newStatus) {
+  function setClientFileDescriptorStatus(newStatus) {
     setParameterInState({
       ...parameter,
-      status: newStatus
+      status: newStatus,
     });
   }
 
   const labels = {
     button: t('genericcomponent.uploadfile.button.browse'),
     invalidFileMessage: t('genericcomponent.uploadfile.tooltip.isvalidfile'),
-    label: t(`solution.parameters.${parameterId}`, parameterId)
+    label: t(`solution.parameters.${parameterId}`, parameterId),
   };
 
   return (
@@ -49,5 +49,5 @@ const create = (t, datasets, parameterData, parametersState, setParametersState,
 };
 
 export const UploadFileFactory = {
-  create
+  create,
 };

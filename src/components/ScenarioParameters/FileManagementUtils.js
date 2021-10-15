@@ -14,14 +14,19 @@ const appInsights = AppInsights.getInstance();
 const _uploadFileToCloudStorage = async (dataset, clientFileDescriptor, storageFilePath) => {
   const overwrite = true;
   const { error, data } = await WorkspaceService.uploadWorkspaceFile(
-    ORGANIZATION_ID, WORKSPACE_ID, clientFileDescriptor.content, overwrite, storageFilePath);
+    ORGANIZATION_ID,
+    WORKSPACE_ID,
+    clientFileDescriptor.content,
+    overwrite,
+    storageFilePath
+  );
   if (error) {
-    throw (error);
+    throw error;
   }
   return data;
 };
 
-async function _createEmptyDatasetInCloudStorage (parameterMetadata) {
+async function _createEmptyDatasetInCloudStorage(parameterMetadata) {
   const connectorId = parameterMetadata.connectorId;
   if (!connectorId) {
     throw new Error(`Missing connector id in configuration file for scenario parameter ${parameterMetadata.id}`);
@@ -31,32 +36,40 @@ async function _createEmptyDatasetInCloudStorage (parameterMetadata) {
   const connector = { id: connectorId };
   const tags = ['dataset_part'];
   const { error: creationError, data: createdDataset } = await DatasetService.createDataset(
-    ORGANIZATION_ID, name, description, connector, tags);
+    ORGANIZATION_ID,
+    name,
+    description,
+    connector,
+    tags
+  );
   if (creationError) {
-    throw (creationError);
+    throw creationError;
   }
   return createdDataset;
 }
 
-function _buildStorageFilePath (dataset, clientFileDescriptor) {
+function _buildStorageFilePath(dataset, clientFileDescriptor) {
   const datasetId = dataset.id;
   const fileName = clientFileDescriptor.name;
   return DatasetsUtils.buildStorageFilePath(datasetId, fileName);
 }
 
 // Update created dataset with connector data (including file path in Azure Storage, based on dataset id)
-async function _updateDatasetWithConnectorDataInCloudStorage (parameterMetadata, storageFilePath, dataset) {
+async function _updateDatasetWithConnectorDataInCloudStorage(parameterMetadata, storageFilePath, dataset) {
   const connectorId = parameterMetadata.connectorId;
   dataset.connector = DatasetsUtils.buildAzureStorageConnector(connectorId, storageFilePath);
   const { error: updateError, data: updatedDataset } = await DatasetService.updateDataset(
-    ORGANIZATION_ID, dataset.id, dataset);
+    ORGANIZATION_ID,
+    dataset.id,
+    dataset
+  );
   if (updateError) {
-    throw (updateError);
+    throw updateError;
   }
   return updatedDataset;
 }
 
-async function _processFileUpload (
+async function _processFileUpload(
   parameterMetadata,
   clientFileDescriptor,
   setClientFileDescriptorStatus,
@@ -67,7 +80,10 @@ async function _processFileUpload (
     const createdDataset = await _createEmptyDatasetInCloudStorage(parameterMetadata);
     const storageFilePath = _buildStorageFilePath(createdDataset, clientFileDescriptor);
     const updatedDataset = await _updateDatasetWithConnectorDataInCloudStorage(
-      parameterMetadata, storageFilePath, createdDataset);
+      parameterMetadata,
+      storageFilePath,
+      createdDataset
+    );
     addDatasetToStore(updatedDataset);
     await _uploadFileToCloudStorage(updatedDataset, clientFileDescriptor, storageFilePath);
     setClientFileDescriptorStatus(UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD);
@@ -81,11 +97,11 @@ async function _processFileUpload (
 
 // FIXME: Due to parametersValues inheritance, the workspace file deletion leads to incoherent state when a dataset
 // part file is uploaded. For the moment, the workspace file deletion is omitted. This will be fixed in next version
-async function _processFileDeletion () {
+async function _processFileDeletion() {
   return null;
 }
 
-async function _applyDatasetChange (
+async function _applyDatasetChange(
   parameterMetadata,
   clientFileDescriptor,
   setClientFileDescriptorStatus,
@@ -95,7 +111,11 @@ async function _applyDatasetChange (
   const fileStatus = clientFileDescriptor.status;
   if (fileStatus === UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD) {
     return await _processFileUpload(
-      parameterMetadata, clientFileDescriptor, setClientFileDescriptorStatus, addDatasetToStore);
+      parameterMetadata,
+      clientFileDescriptor,
+      setClientFileDescriptorStatus,
+      addDatasetToStore
+    );
   } else if (fileStatus === UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE) {
     return await _processFileDeletion();
   } else if (fileStatus === UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD || fileStatus === UPLOAD_FILE_STATUS_KEY.EMPTY) {
@@ -107,7 +127,7 @@ async function _applyDatasetChange (
 
 // This function updates entries in parametersValuesRef if their varType is %DATASETID%, based on the status of the
 // associated client file descriptor in parametersValuesToRender
-async function applyPendingOperationsOnFileParameters (
+async function applyPendingOperationsOnFileParameters(
   solution,
   parametersMetadata,
   parametersValuesToRender,
@@ -116,14 +136,14 @@ async function applyPendingOperationsOnFileParameters (
   addDatasetToStore
 ) {
   // Setter to update file descriptors status in the React component state
-  function setClientFileDescriptorStatus (parameterId, newStatus) {
+  function setClientFileDescriptorStatus(parameterId, newStatus) {
     const newValue = {
-      ...(parametersValuesToRender[parameterId]),
-      status: newStatus
+      ...parametersValuesToRender[parameterId],
+      status: newStatus,
     };
     setParametersValuesToRender({
       ...parametersValuesToRender,
-      [parameterId]: newValue
+      [parameterId]: newValue,
     });
   }
   // Apply pending operations on each dataset and keep track of the changes of datasets ids to patch parametersValuesRef
@@ -143,8 +163,8 @@ async function applyPendingOperationsOnFileParameters (
   }
   // Patch parametersValuesRef with changes
   parametersValuesRef.current = {
-    ...(parametersValuesRef.current),
-    ...parametersValuesPatch
+    ...parametersValuesRef.current,
+    ...parametersValuesPatch,
   };
 }
 
@@ -157,7 +177,7 @@ const prepareToUpload = (event, clientFileDescriptor, setClientFileDescriptor) =
     ...clientFileDescriptor,
     content: file,
     name: file.name,
-    status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD
+    status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD,
   });
 };
 
@@ -182,24 +202,24 @@ const downloadFile = async (datasetId, setClientFileDescriptorStatus) => {
 };
 
 const _findDatasetInDatasetsList = (datasets, datasetId) => {
-  return datasets?.find(dataset => dataset.id === datasetId);
+  return datasets?.find((dataset) => dataset.id === datasetId);
 };
 
-function buildClientFileDescriptorFromDataset (datasets, datasetId) {
+function buildClientFileDescriptorFromDataset(datasets, datasetId) {
   const dataset = _findDatasetInDatasetsList(datasets, datasetId);
   if (dataset === undefined) {
     return {
       id: datasetId,
       name: '',
       content: null,
-      status: UPLOAD_FILE_STATUS_KEY.EMPTY
+      status: UPLOAD_FILE_STATUS_KEY.EMPTY,
     };
   }
   return {
     id: datasetId,
     name: DatasetsUtils.getFileNameFromDataset(dataset),
     content: null,
-    status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD
+    status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD,
   };
 }
 
@@ -208,5 +228,5 @@ export const FileManagementUtils = {
   prepareToDeleteFile,
   prepareToUpload,
   applyPendingOperationsOnFileParameters,
-  buildClientFileDescriptorFromDataset
+  buildClientFileDescriptorFromDataset,
 };

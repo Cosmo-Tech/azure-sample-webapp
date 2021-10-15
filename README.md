@@ -1,6 +1,6 @@
 # Azure Sample Webapp
 
-The ***Azure Sample Webapp*** aims to be an example of a [React](https://reactjs.org/) web application based on the [Cosmo Tech](https://cosmotech.com/) [Simulation Digital Twin Platform](https://portal.cosmotech.com/) and Azure cloud technology.\
+The **_Azure Sample Webapp_** aims to be an example of a [React](https://reactjs.org/) web application based on the [Cosmo Tech](https://cosmotech.com/) [Simulation Digital Twin Platform](https://portal.cosmotech.com/) and Azure cloud technology.\
 This project demonstrates how to setup a web application with authentication, scenario management features and [PowerBI](https://powerbi.microsoft.com/en-us/) visualization.
 It thus provides a fully configured solution **based on an example simulator** made using our Platform to illustrate the possible features (the example simulator, "Brewery", models customers satisfaction and beer stocks evolution in bars).
 
@@ -10,6 +10,7 @@ To do that, **you need the Simulation Digital Twin Platform to be deployed in yo
 Please note that we provide detailed step-by-step tutorials on [our portal](https://portal.cosmotech.com/) - Contact Cosmo Tech for access.
 
 # Getting Started
+
 Recommended Operating System: Debian (other OS have not been tested)
 Supported browsers: Chromium 90, Chrome 91, Firefox 78
 
@@ -27,14 +28,16 @@ This will allow you to develop your own front-end using git, and still be able t
 azure-sample-webapp project.
 
 You can now use the commands below to clone and configure your github project:
+
 ```
 # Replace by the URL of your own repository (e.g. my-org/my-project.git)
-git clone git@github.com:<YOUR_GITHUB_REPOSITORY_URL>  
+git clone git@github.com:<YOUR_GITHUB_REPOSITORY_URL>
 cd <YOUR REPOSITORY_NAME>
 git remote add upstream git@github.com:Cosmo-Tech/azure-sample-webapp.git
 git remote set-url upstream --push "NO"
 git fetch upstream
 ```
+
 ## Create an App registration, Azure Static Webapp resource & configure it for deployment
 
 You need an Azure Static Webapp resource in the tenant to deploy your webapp.
@@ -49,6 +52,7 @@ Please refer to [Webapp configuration](doc/config.md)
 
 This project is configured to be used with the [Yarn](https://yarnpkg.com/getting-started/install) package manager.
 First, you have to start your Azure Functions, that are required for the PowerBI embedded reports to work correctly, with the commands below:
+
 ```
 cd api
 yarn install
@@ -56,6 +60,7 @@ yarn start
 ```
 
 In another terminal, you can then start the webapp with:
+
 ```
 yarn install
 yarn start
@@ -67,7 +72,8 @@ need to use this command every time.
 ## Available Scripts
 
 ### React scripts
-This application has been created with *create-react-app*, that provides some scripts directly in the project directory.
+
+This application has been created with _create-react-app_, that provides some scripts directly in the project directory.
 
 #### `yarn start`
 
@@ -97,15 +103,18 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 Clean the cache being sure to avoid packages and dependencies issues.
 
 ### Other scripts
+
 #### [`i18next`](https://react.i18next.com/) - translation handling
+
 We have defined our own i18next-parser.config.js file.
 
 Once you had launched the command `yarn install`, you'll be able to run the command `i18next` in the project root folder.
 This command will :
-- look for react-i18next usage within the __src/__ folder
+
+- look for react-i18next usage within the **src/** folder
 - get all keys defined
-- add all keys into translation files (by default __public/locales/en/translation.json__ and __public/locales/fr/translation.json__)
-Feel free to add new supported languages or change the parser configuration. ( See [react-i18next](https://github.com/i18next/react-i18next) and [i18next-parser](https://github.com/i18next/i18next-parser) )
+- add all keys into translation files (by default **public/locales/en/translation.json** and **public/locales/fr/translation.json**)
+  Feel free to add new supported languages or change the parser configuration. ( See [react-i18next](https://github.com/i18next/react-i18next) and [i18next-parser](https://github.com/i18next/i18next-parser) )
 
 ## Deploy your webapp
 

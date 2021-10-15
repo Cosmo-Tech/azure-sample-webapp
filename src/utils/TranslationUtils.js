@@ -64,5 +64,5 @@ export const TranslationUtils = {
   addTranslationParametersLabels,
   changeLanguage,
   getParametersGroupTranslationKey,
-  getParameterTranslationKey
+  getParameterTranslationKey,
 };

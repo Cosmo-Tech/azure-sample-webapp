@@ -22,14 +22,18 @@ describe('UserInfo features', () => {
     // Set lang to fr
     cy.get(SELECTORS.userProfileMenu.menu).click();
     cy.get(SELECTORS.userProfileMenu.language.change).click();
-    cy.get(SELECTORS.userProfileMenu.language.fr).click().should(() => {
-      expect(localStorage.getItem('locale')).to.eq('fr');
-    });
+    cy.get(SELECTORS.userProfileMenu.language.fr)
+      .click()
+      .should(() => {
+        expect(localStorage.getItem('locale')).to.eq('fr');
+      });
     // Set lang to en
     cy.get(SELECTORS.userProfileMenu.menu).click();
     cy.get(SELECTORS.userProfileMenu.language.change).click();
-    cy.get(SELECTORS.userProfileMenu.language.en).click().should(() => {
-      expect(localStorage.getItem('locale')).to.eq('en');
-    });
+    cy.get(SELECTORS.userProfileMenu.language.en)
+      .click()
+      .should(() => {
+        expect(localStorage.getItem('locale')).to.eq('en');
+      });
   });
 });

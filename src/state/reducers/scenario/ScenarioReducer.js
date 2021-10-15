@@ -10,18 +10,20 @@ import { createReducer } from '@reduxjs/toolkit';
 
 export const scenarioListInitialState = {
   data: [],
-  status: STATUSES.IDLE
+  status: STATUSES.IDLE,
 };
 
 export const scenarioListReducer = createReducer(scenarioListInitialState, (builder) => {
   builder
-    .addCase(SCENARIO_ACTIONS_KEY.GET_ALL_SCENARIOS, (state, action) => { state.status = STATUSES.LOADING; })
+    .addCase(SCENARIO_ACTIONS_KEY.GET_ALL_SCENARIOS, (state, action) => {
+      state.status = STATUSES.LOADING;
+    })
     .addCase(SCENARIO_ACTIONS_KEY.SET_ALL_SCENARIOS, (state, action) => {
       state.data = action.list;
       state.status = action.status;
     })
     .addCase(SCENARIO_ACTIONS_KEY.UPDATE_SCENARIO, (state, action) => {
-      state.data = state.data.map(scenarioData => {
+      state.data = state.data.map((scenarioData) => {
         // Replace state and lastRun in data for the scenario to update
         if (scenarioData.id === action.data.scenarioId) {
           return { ...scenarioData, state: action.data.scenarioState, lastRun: action.data.lastRun };
@@ -36,7 +38,7 @@ export const scenarioListReducer = createReducer(scenarioListInitialState, (buil
 
 export const currentScenarioInitialState = {
   data: null,
-  status: STATUSES.IDLE
+  status: STATUSES.IDLE,
 };
 
 export const currentScenarioReducer = createReducer(currentScenarioInitialState, (builder) => {
@@ -49,7 +51,7 @@ export const currentScenarioReducer = createReducer(currentScenarioInitialState,
       if (action.scenario !== null) {
         state.data = {
           ...state.data,
-          ...action.scenario
+          ...action.scenario,
         };
       } else {
         state.data = null;
@@ -62,7 +64,7 @@ export const currentScenarioReducer = createReducer(currentScenarioInitialState,
         state.data = {
           ...state.data,
           state: action.data.scenarioState,
-          lastRun: action.data.lastRun
+          lastRun: action.data.lastRun,
         };
       }
     });
@@ -70,5 +72,5 @@ export const currentScenarioReducer = createReducer(currentScenarioInitialState,
 
 export const scenarioReducer = combineReducers({
   list: scenarioListReducer,
-  current: currentScenarioReducer
+  current: currentScenarioReducer,
 });
