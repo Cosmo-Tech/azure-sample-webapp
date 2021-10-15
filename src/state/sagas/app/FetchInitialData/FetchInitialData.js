@@ -5,12 +5,11 @@ import { put, takeEvery, call, select, fork, all, take } from 'redux-saga/effect
 import { APPLICATION_ACTIONS_KEY } from '../../../commons/ApplicationConstants';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { STATUSES } from '../../../commons/Constants';
-import { SCENARIO_RUN_STATE } from '../../../../utils/ApiUtils';
+import { SCENARIO_RUN_STATE } from '../../../../services/config/ApiConstants';
 import { getAllScenariosData } from '../../scenario/FindAllScenarios/FindAllScenariosData';
 import { fetchAllDatasetsData } from '../../datasets/FindAllDatasets/FindAllDatasets';
 import { fetchWorkspaceByIdData } from '../../workspace/FindWorkspaceById/FindWorkspaceByIdData';
 import { fetchSolutionByIdData } from '../../solution/FindSolutionById/FindSolutionByIdData';
-import { RUN_TEMPLATE_ACTIONS_KEY } from '../../../commons/RunTemplateConstants';
 import { fetchScenarioByIdForInitialData } from '../../scenario/FindScenarioById';
 import { getPowerBIEmbedInfoSaga } from '../../powerbi/GetPowerBIEmbedInfo/GetPowerBIEmbedInfoData';
 import { POWER_BI_ACTIONS_KEY } from '../../../commons/PowerBIConstants';
@@ -19,7 +18,6 @@ import { WORKSPACE_ACTIONS_KEY } from '../../../commons/WorkspaceConstants';
 import { SOLUTION_ACTIONS_KEY } from '../../../commons/SolutionConstants';
 
 const selectSolutionIdFromCurrentWorkspace = (state) => state.workspace.current.data.solution.solutionId;
-const selectRunTemplatesFromCurrentSolution = (state) => state.solution.current.data.runTemplates;
 const selectScenarioList = (state) => state.scenario.list.data;
 
 export function * fetchAllInitialData (action) {
@@ -55,12 +53,9 @@ export function * fetchAllInitialData (action) {
         status: STATUSES.SUCCESS
       });
     }
-
-    const runTemplates = yield select(selectRunTemplatesFromCurrentSolution);
     yield fork(getPowerBIEmbedInfoSaga);
     yield put({
-      type: RUN_TEMPLATE_ACTIONS_KEY.SET_RUN_TEMPLATE_LIST,
-      list: runTemplates,
+      type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS,
       status: STATUSES.SUCCESS
     });
   } catch (error) {
@@ -79,8 +74,7 @@ export function * watchNeededApplicationData () {
     take(DATASET_ACTIONS_KEY.SET_ALL_DATASETS),
     take(WORKSPACE_ACTIONS_KEY.SET_CURRENT_WORKSPACE),
     take(SOLUTION_ACTIONS_KEY.SET_CURRENT_SOLUTION),
-    take(SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO),
-    take(RUN_TEMPLATE_ACTIONS_KEY.SET_RUN_TEMPLATE_LIST)
+    take(SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO)
   ]);
 
   const unSuccessfulActions = actions.filter(action => action.status !== STATUSES.SUCCESS);

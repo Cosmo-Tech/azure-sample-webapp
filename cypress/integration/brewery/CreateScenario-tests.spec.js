@@ -236,7 +236,7 @@ describe('Create scenario', () => {
     cy.get(SELECTORS.scenario.parameters.basicTypes.enumInput).type(enumValue + ' {enter}');
 
     // switch parameters tabs then back and check parameters,
-    cy.get(SELECTORS.scenario.parameters.uploadFile.tabName).click();
+    cy.get(SELECTORS.scenario.parameters.datasetParts.tabName).click();
     cy.get(SELECTORS.scenario.parameters.basicTypes.tabName).click();
 
     cy.get(SELECTORS.scenario.parameters.basicTypes.textInput).should('value', textValue);

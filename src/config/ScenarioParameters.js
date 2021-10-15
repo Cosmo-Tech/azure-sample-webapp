@@ -1,90 +1,167 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-// Bar Tab parameters
-export const STOCK_PARAM = {
-  id: 'stock',
-  varType: 'int',
-  defaultValue: 100
-};
-export const RESTOCK_PARAM = {
-  id: 'restock_qty',
-  varType: 'int',
-  defaultValue: 25
-};
-export const NBWAITERS_PARAM = {
-  id: 'nb_waiters',
-  varType: 'int',
-  defaultValue: 5
-};
-
-// Basic Types Tab parameters
-export const CURRENCY_PARAM = {
-  id: 'currency',
-  varType: 'enum',
-  defaultValue: 'USD'
-};
-export const CURRENCY_NAME_PARAM = {
-  id: 'currency_name',
-  varType: 'string',
-  defaultValue: 'EUR'
-};
-export const CURRENCY_VALUE_PARAM = {
-  id: 'currency_value',
-  varType: 'number',
-  defaultValue: 1000
-};
-export const CURRENCY_USED_PARAM = {
-  id: 'currency_used',
-  varType: 'bool',
-  defaultValue: false
-};
-export const START_DATE_PARAM = {
-  id: 'start_date',
-  varType: 'date',
-  defaultValue: new Date('2014-08-18T21:11:54')
-};
-
-// Dataset part (file) tab parameter
-export const INITIAL_STOCK_PARAM = {
-  id: 'initial_stock_dataset',
-  description: 'Initial stock dataset part',
-  varType: '%DATASETID%',
-  connectorId: 'C-XPv4LBVGAL',
-  defaultFileTypeFilter: '.zip,.csv,.json,.xls,.xlsx'
-};
-
-// runTemplate id to name mapping :
-// '1' -> Run template with Brewery parameters
-// '2' -> Run template without parameters
-// '3' -> Run template with mock basic types
-export const SCENARIO_PARAMETERS_TABS_CONFIG = [
-  {
-    id: 0,
-    translationKey: 'commoncomponents.tab.scenario.parameters.upload.file',
-    label: 'Upload File template',
-    value: 'upload_file_template',
-    runTemplateIds: ['3']
+// Use the PARAMETERS dict below to override or add information to the scenario parameters defined in your solution
+// description, such as:
+//  - a default value for each scenario parameter on scenario creation
+//  - lists of possible values for "enum" parameters
+//  - translation labels
+const PARAMETERS = {
+  nb_waiters: {
+    dataCy: 'waiters-input',
+    defaultValue: 5
   },
-  {
-    id: 1,
-    translationKey: 'commoncomponents.tab.scenario.parameters.bar',
-    label: 'Bar parameters',
-    value: 'bar_parameters',
-    runTemplateIds: ['1']
+  restock_qty: {
+    dataCy: 'restock-input',
+    defaultValue: 25
   },
-  {
-    id: 2,
-    translationKey: 'commoncomponents.tab.scenario.parameters.basic.types',
-    label: 'Basic Types template',
-    value: 'basic_types',
-    runTemplateIds: ['3']
+  stock: {
+    dataCy: 'stock-input',
+    defaultValue: 100
   },
-  {
-    id: 3,
-    translationKey: 'commoncomponents.tab.scenario.parameters.array.template',
-    label: 'Array Template',
-    value: 'array_template',
-    runTemplateIds: []
+  currency: {
+    defaultValue: 'USD',
+    enumValues: [
+      {
+        key: 'USD',
+        value: '$'
+      },
+      {
+        key: 'EUR',
+        value: '€'
+      },
+      {
+        key: 'BTC',
+        value: '฿'
+      },
+      {
+        key: 'JPY',
+        value: '¥'
+      }
+    ]
+  },
+  currency_name: {
+    defaultValue: 'EUR'
+  },
+  currency_value: {
+    defaultValue: 1000
+  },
+  currency_used: {
+    labels: {
+      en: 'Use currency',
+      fr: 'Activer la monnaie'
+    },
+    defaultValue: false
+  },
+  start_date: {
+    defaultValue: new Date('2014-08-18T21:11:54')
+  },
+  initial_stock_dataset: {
+    dataCy: 'initial_stock_dataset',
+    connectorId: 'C-XPv4LBVGAL',
+    defaultFileTypeFilter: '.zip,.csv,.json,.xls,.xlsx',
+    description: 'Initial stock dataset part'
+  },
+  example_dataset_part_1: {
+    dataCy: 'example_dataset_part_1',
+    connectorId: 'C-XPv4LBVGAL',
+    defaultFileTypeFilter: '.zip,.csv,.json,.xls,.xlsx',
+    description: '1st example of dataset part'
+  },
+  example_dataset_part_2: {
+    dataCy: 'example_dataset_part_2',
+    connectorId: 'C-XPv4LBVGAL',
+    defaultFileTypeFilter: '.zip,.csv,.json,.xls,.xlsx',
+    description: '2nd example of dataset part'
+  },
+  example_dataset_part_3: {
+    dataCy: 'example_dataset_part_3',
+    connectorId: 'C-XPv4LBVGAL',
+    defaultFileTypeFilter: '.zip,.csv,.json,.xls,.xlsx',
+    description: '3rd example of dataset part'
   }
-];
+};
+
+// Use the PARAMETERS_GROUPS dict below to override or add information to the parameters groups defined in your solution
+// description, such as:
+//  - translation labels
+//  - list and order of the parameters of a group
+// You can also create new groups that were not defined in the solution description: in this case don't forget to assign
+// these parameters groups to a run template in the RUN_TEMPLATES dict
+const PARAMETERS_GROUPS = {
+  bar_parameters: {
+    labels: {
+      en: 'Pub parameters',
+      fr: 'Paramètres du bar'
+    },
+    parameters: [
+      'stock',
+      'restock_qty',
+      'nb_waiters'
+    ]
+  },
+  basic_types: {
+    parameters: [
+      'currency',
+      'currency_name',
+      'currency_value',
+      'currency_used',
+      'start_date'
+    ]
+  },
+  file_upload: {
+    labels: {
+      en: 'Initial values',
+      fr: 'Valeurs initiales'
+    },
+    parameters: [
+      'initial_stock_dataset'
+    ]
+  },
+  dataset_parts: {
+    labels: {
+      en: 'Dataset parts',
+      fr: 'Fragments de dataset'
+    },
+    parameters: [
+      'example_dataset_part_1',
+      'example_dataset_part_2'
+    ]
+  },
+  extra_dataset_part: {
+    labels: {
+      en: 'Additional dataset part',
+      fr: 'Fragment additionel'
+    },
+    parameters: [
+      'example_dataset_part_3'
+    ]
+  }
+};
+
+// Use RUN_TEMPLATES dict below to override information of the run templates defined in your solution description, such
+// as:
+//  - list and order of the parameters group to display for this run template
+const RUN_TEMPLATES = {
+  1: {
+    // Use 'parameterGroups' instead of 'parametersGroups' in the run templates description to be consistent
+    // with back-end format
+    parameterGroups: [
+      'bar_parameters',
+      'file_upload'
+    ]
+  },
+  3: {
+    parameterGroups: [
+      'basic_types',
+      'dataset_parts',
+      'extra_dataset_part'
+    ]
+  }
+};
+
+export const SCENARIO_PARAMETERS_CONFIG = {
+  parameters: PARAMETERS,
+  parametersGroups: PARAMETERS_GROUPS,
+  runTemplates: RUN_TEMPLATES
+};

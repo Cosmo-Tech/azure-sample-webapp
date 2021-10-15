@@ -8,11 +8,11 @@ import {
   dispatchUpdateAndLaunchScenario,
   dispatchLaunchScenario
 } from '../../state/dispatchers/scenario/ScenarioDispatcher';
+import { dispatchAddDatasetToStore } from '../../state/dispatchers/dataset/DatasetDispatcher';
 
 const mapStateToProps = (state) => ({
   scenarioList: state.scenario.list,
   datasetList: state.dataset.list,
-  runTemplateList: state.runTemplate.list,
   currentScenario: state.scenario.current,
   user: state.auth,
   workspace: state.workspace.current,
@@ -21,6 +21,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
+  addDatasetToStore: dispatchAddDatasetToStore,
   findScenarioById: dispatchFindScenarioById,
   createScenario: dispatchCreateScenario,
   updateAndLaunchScenario: dispatchUpdateAndLaunchScenario,

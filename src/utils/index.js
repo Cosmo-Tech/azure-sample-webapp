@@ -1,4 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-export { default as i18nUtils } from './i18n';
+export { ConfigUtils } from './ConfigUtils';
+export { DatasetsUtils } from './DatasetsUtils';
+export { TranslationUtils } from './TranslationUtils';
+export { SolutionsUtils } from './SolutionsUtils';
+export { ScenarioParametersUtils } from './scenarioParameters/ScenarioParametersUtils';

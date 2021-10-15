@@ -19,7 +19,7 @@ import {
   makeStyles
 } from '@material-ui/core';
 import { SignInButton } from '@cosmotech/ui';
-import { i18nUtils } from '../../utils';
+import { TranslationUtils } from '../../utils';
 import microsoftLogo from '../../assets/microsoft_logo.png';
 
 const schema = {
@@ -237,7 +237,7 @@ const SignIn = ({ logInAction }) => {
                     <Select
                       className={classes.languageSelect}
                       value={i18n.language}
-                      onChange={(event) => i18nUtils.changeLanguage(event.target.value, i18n)}
+                      onChange={(event) => TranslationUtils.changeLanguage(event.target.value, i18n)}
                     >
                       <MenuItem value={'en'}>English</MenuItem>
                       <MenuItem value={'fr'}>Français</MenuItem>

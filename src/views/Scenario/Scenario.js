@@ -72,16 +72,17 @@ const Scenario = (props) => {
     scenarioList,
     findScenarioById,
     datasetList,
-    runTemplateList,
     user,
     workspace,
     solution,
+    addDatasetToStore,
     createScenario,
     updateAndLaunchScenario,
     launchScenario,
     reports
   } = props;
 
+  const runTemplates = solution?.data?.runTemplates || [];
   const workspaceId = workspace.data.id;
   const [editMode, setEditMode] = useState(false);
 
@@ -202,7 +203,7 @@ const Scenario = (props) => {
                     workspaceId={workspaceId}
                     createScenario={createScenario}
                     currentScenario={currentScenario}
-                    runTemplates={runTemplateList.data}
+                    runTemplates={runTemplates}
                     datasets={datasetList.data}
                     scenarios={scenarioList.data}
                     user={user}
@@ -236,9 +237,12 @@ const Scenario = (props) => {
             <ScenarioParameters
                 editMode={editMode}
                 changeEditMode={setEditMode}
+                addDatasetToStore={addDatasetToStore}
                 updateAndLaunchScenario={updateAndLaunchScenario}
                 launchScenario={launchScenario}
                 workspaceId={workspaceId}
+                solution={solution.data}
+                datasets={datasetList.data}
                 currentScenario={currentScenario}
                 scenarioId={currentScenario.data.id}/>
             }
@@ -252,12 +256,12 @@ const Scenario = (props) => {
 Scenario.propTypes = {
   scenarioList: PropTypes.object.isRequired,
   datasetList: PropTypes.object.isRequired,
-  runTemplateList: PropTypes.object.isRequired,
   currentScenario: PropTypes.object.isRequired,
   findScenarioById: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
   workspace: PropTypes.object.isRequired,
   solution: PropTypes.object.isRequired,
+  addDatasetToStore: PropTypes.func.isRequired,
   createScenario: PropTypes.func.isRequired,
   updateAndLaunchScenario: PropTypes.func.isRequired,
   launchScenario: PropTypes.func.isRequired,
