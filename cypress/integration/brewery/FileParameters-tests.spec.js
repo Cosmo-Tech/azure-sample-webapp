@@ -3,21 +3,11 @@
 
 import 'cypress-file-upload';
 import utils from '../../commons/TestUtils';
-import {
-  SCENARIO_NAME,
-  PAGE_NAME,
-  DATASET,
-  SCENARIO_TYPE
-} from '../../commons/TestConstants';
-import {
-  Scenarios,
-  ScenarioManager,
-  ScenarioParameters,
-  BreweryParameters
-} from '../../commons/actions';
+import { SCENARIO_NAME, PAGE_NAME, DATASET, SCENARIO_TYPE } from '../../commons/TestConstants';
+import { Scenarios, ScenarioManager, ScenarioParameters, BreweryParameters } from '../../commons/actions';
 
 Cypress.Keyboard.defaults({
-  keystrokeDelay: 0
+  keystrokeDelay: 0,
 });
 
 const SCENARIO_DATASET = DATASET.BREWERY_ADT;
@@ -25,7 +15,7 @@ const SCENARIO_RUN_TYPE = SCENARIO_TYPE.BASIC_TYPES;
 const FILE_PATH_1 = 'dummy_dataset_1.csv';
 const FILE_PATH_2 = 'dummy_dataset_2.csv';
 
-function forgeScenarioName () {
+function forgeScenarioName() {
   return `${SCENARIO_NAME.SCENARIO_WITH_FILES}${utils.randomStr(7)}`;
 }
 
@@ -224,13 +214,14 @@ describe('Scenario inheritance for file parameters', () => {
     BreweryParameters.getExampleDatasetPart1DownloadButton().should('have.text', FILE_PATH_1);
   });
 
-  it('can create a scenario, upload a file, create a child scenario, delete the file, create a child scenario for ' +
-    'the first child scenario and run it',
-  () => {
-    cy.createScenario(childScenarioName, false, parentScenarioName, SCENARIO_RUN_TYPE);
-    BreweryParameters.switchToDatasetPartsTab();
-    BreweryParameters.getExampleDatasetPart1DownloadButton().should('not.exist');
-  }
+  it(
+    'can create a scenario, upload a file, create a child scenario, delete the file, create a child scenario for ' +
+      'the first child scenario and run it',
+    () => {
+      cy.createScenario(childScenarioName, false, parentScenarioName, SCENARIO_RUN_TYPE);
+      BreweryParameters.switchToDatasetPartsTab();
+      BreweryParameters.getExampleDatasetPart1DownloadButton().should('not.exist');
+    }
   );
 });
 

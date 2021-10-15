@@ -3,21 +3,18 @@
 
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Tab,
-  makeStyles
-} from '@material-ui/core';
+import { Tab, makeStyles } from '@material-ui/core';
 import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 import { useTranslation } from 'react-i18next';
 import { TranslationUtils } from '../../../utils/TranslationUtils';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   tabPanel: {
     maxHeight: 450,
-    overflow: 'auto'
+    overflow: 'auto',
   },
   tabs: {
-    margin: '8px'
+    margin: '8px',
   },
   tab: {
     minWidth: 0,
@@ -31,17 +28,15 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.text.shaded,
     '&.Mui-selected': {
       fontWeight: 'bold',
-      color: theme.palette.primary.contrastText
-    }
+      color: theme.palette.primary.contrastText,
+    },
   },
   placeholder: {
-    margin: `0 ${theme.spacing(3)}px`
-  }
+    margin: `0 ${theme.spacing(3)}px`,
+  },
 }));
 
-const ScenarioParametersTabs = ({
-  parametersGroupsMetadata
-}) => {
+const ScenarioParametersTabs = ({ parametersGroupsMetadata }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const [tabs, setTabs] = useState(parametersGroupsMetadata);
@@ -50,7 +45,7 @@ const ScenarioParametersTabs = ({
   // Reset selected tab on scenario change
   useEffect(() => {
     setTabs(parametersGroupsMetadata);
-    if (parametersGroupsMetadata.find(groupMetadata => groupMetadata.id === selectedTab) === undefined) {
+    if (parametersGroupsMetadata.find((groupMetadata) => groupMetadata.id === selectedTab) === undefined) {
       setSelectedTab(parametersGroupsMetadata?.[0]?.id);
     }
     // eslint-disable-next-line
@@ -58,52 +53,45 @@ const ScenarioParametersTabs = ({
 
   return (
     <div data-cy="scenario-parameters-tabs">
-    { (tabs.length === 0
-      ? <div className={classes.placeholder}>
-          { t('genericcomponent.text.scenario.parameters.placeholder', 'No parameters to edit.') }
+      {tabs.length === 0 ? (
+        <div className={classes.placeholder}>
+          {t('genericcomponent.text.scenario.parameters.placeholder', 'No parameters to edit.')}
         </div>
-      : <TabContext value={selectedTab}>
+      ) : (
+        <TabContext value={selectedTab}>
           <TabList
             value={selectedTab}
             variant="scrollable"
             indicatorColor="primary"
             textColor="primary"
-            onChange={ (event, newTab) => { setSelectedTab(newTab); } }
+            onChange={(event, newTab) => {
+              setSelectedTab(newTab);
+            }}
             aria-label="scenario parameters"
           >
-            {
-              tabs.map((groupMetadata, index) => (
-                <Tab
-                  key={groupMetadata.id}
-                  value={groupMetadata.id}
-                  data-cy={groupMetadata.id + '_tab'}
-                  className={classes.tab}
-                  label={t(TranslationUtils.getParametersGroupTranslationKey(groupMetadata.id), groupMetadata.id)}
-                />
-              ))
-            }
-          </TabList>
-          {
-            tabs.map((groupMetadata, index) => (
-              <TabPanel
-                index={index}
+            {tabs.map((groupMetadata, index) => (
+              <Tab
                 key={groupMetadata.id}
                 value={groupMetadata.id}
-                className={classes.tabPanel}
-              >
-                {groupMetadata.tab}
-              </TabPanel>
-            ))
-          }
+                data-cy={groupMetadata.id + '_tab'}
+                className={classes.tab}
+                label={t(TranslationUtils.getParametersGroupTranslationKey(groupMetadata.id), groupMetadata.id)}
+              />
+            ))}
+          </TabList>
+          {tabs.map((groupMetadata, index) => (
+            <TabPanel index={index} key={groupMetadata.id} value={groupMetadata.id} className={classes.tabPanel}>
+              {groupMetadata.tab}
+            </TabPanel>
+          ))}
         </TabContext>
-      )
-    }
+      )}
     </div>
   );
 };
 
 ScenarioParametersTabs.propTypes = {
-  parametersGroupsMetadata: PropTypes.array.isRequired
+  parametersGroupsMetadata: PropTypes.array.isRequired,
 };
 
 export default ScenarioParametersTabs;

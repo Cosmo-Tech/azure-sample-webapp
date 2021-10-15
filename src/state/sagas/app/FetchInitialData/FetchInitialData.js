@@ -20,12 +20,12 @@ import { SOLUTION_ACTIONS_KEY } from '../../../commons/SolutionConstants';
 const selectSolutionIdFromCurrentWorkspace = (state) => state.workspace.current.data.solution.solutionId;
 const selectScenarioList = (state) => state.scenario.list.data;
 
-export function * fetchAllInitialData (action) {
+export function* fetchAllInitialData(action) {
   try {
     const workspaceId = action.workspaceId;
     yield put({
       type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS,
-      status: STATUSES.LOADING
+      status: STATUSES.LOADING,
     });
     // Fetch all scenarios
     yield call(getAllScenariosData, workspaceId);
@@ -42,7 +42,7 @@ export function * fetchAllInitialData (action) {
           yield put({
             type: SCENARIO_ACTIONS_KEY.START_SCENARIO_STATUS_POLLING,
             workspaceId: workspaceId,
-            scenarioId: scenarioList[i].id
+            scenarioId: scenarioList[i].id,
           });
         }
       }
@@ -50,59 +50,59 @@ export function * fetchAllInitialData (action) {
       yield put({
         type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
         scenario: null,
-        status: STATUSES.SUCCESS
+        status: STATUSES.SUCCESS,
       });
     }
     yield fork(getPowerBIEmbedInfoSaga);
     yield put({
       type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS,
-      status: STATUSES.SUCCESS
+      status: STATUSES.SUCCESS,
     });
   } catch (error) {
     console.error(error);
     yield put({
       type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS,
-      status: STATUSES.ERROR
+      status: STATUSES.ERROR,
     });
   }
 }
 
-export function * watchNeededApplicationData () {
+export function* watchNeededApplicationData() {
   const actions = yield all([
     take(POWER_BI_ACTIONS_KEY.SET_EMBED_INFO),
     take(SCENARIO_ACTIONS_KEY.SET_ALL_SCENARIOS),
     take(DATASET_ACTIONS_KEY.SET_ALL_DATASETS),
     take(WORKSPACE_ACTIONS_KEY.SET_CURRENT_WORKSPACE),
     take(SOLUTION_ACTIONS_KEY.SET_CURRENT_SOLUTION),
-    take(SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO)
+    take(SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO),
   ]);
 
-  const unSuccessfulActions = actions.filter(action => action.status !== STATUSES.SUCCESS);
+  const unSuccessfulActions = actions.filter((action) => action.status !== STATUSES.SUCCESS);
 
   if (unSuccessfulActions.length !== 0) {
     const powerBIError = unSuccessfulActions.find(
-      action => action.type === POWER_BI_ACTIONS_KEY.SET_EMBED_INFO &&
-        action.status === STATUSES.ERROR);
+      (action) => action.type === POWER_BI_ACTIONS_KEY.SET_EMBED_INFO && action.status === STATUSES.ERROR
+    );
     // PowerBI Error should not block the web application
     if (unSuccessfulActions.length === 1 && powerBIError !== undefined) {
       yield put({
         type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS,
-        status: STATUSES.SUCCESS
+        status: STATUSES.SUCCESS,
       });
     } else {
       yield put({
         type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS,
-        status: STATUSES.ERROR
+        status: STATUSES.ERROR,
       });
     }
   } else {
     yield put({
       type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS,
-      status: STATUSES.SUCCESS
+      status: STATUSES.SUCCESS,
     });
   }
 }
 
-export function * getAllInitialData () {
+export function* getAllInitialData() {
   yield takeEvery(APPLICATION_ACTIONS_KEY.GET_ALL_INITIAL_DATA, fetchAllInitialData);
 }

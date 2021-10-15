@@ -9,77 +9,77 @@
 const PARAMETERS = {
   nb_waiters: {
     dataCy: 'waiters-input',
-    defaultValue: 5
+    defaultValue: 5,
   },
   restock_qty: {
     dataCy: 'restock-input',
-    defaultValue: 25
+    defaultValue: 25,
   },
   stock: {
     dataCy: 'stock-input',
-    defaultValue: 100
+    defaultValue: 100,
   },
   currency: {
     defaultValue: 'USD',
     enumValues: [
       {
         key: 'USD',
-        value: '$'
+        value: '$',
       },
       {
         key: 'EUR',
-        value: '€'
+        value: '€',
       },
       {
         key: 'BTC',
-        value: '฿'
+        value: '฿',
       },
       {
         key: 'JPY',
-        value: '¥'
-      }
-    ]
+        value: '¥',
+      },
+    ],
   },
   currency_name: {
-    defaultValue: 'EUR'
+    defaultValue: 'EUR',
   },
   currency_value: {
-    defaultValue: 1000
+    defaultValue: 1000,
   },
   currency_used: {
     labels: {
       en: 'Use currency',
-      fr: 'Activer la monnaie'
+      fr: 'Activer la monnaie',
     },
-    defaultValue: false
+    defaultValue: false,
   },
   start_date: {
-    defaultValue: new Date('2014-08-18T21:11:54')
+    defaultValue: new Date('2014-08-18T21:11:54'),
   },
   initial_stock_dataset: {
     dataCy: 'initial_stock_dataset',
     connectorId: 'C-XPv4LBVGAL',
     defaultFileTypeFilter: '.zip,.csv,.json,.xls,.xlsx',
-    description: 'Initial stock dataset part'
+    description: 'Initial stock dataset part',
   },
   example_dataset_part_1: {
     dataCy: 'example_dataset_part_1',
     connectorId: 'C-XPv4LBVGAL',
     defaultFileTypeFilter: '.zip,.csv,.json,.xls,.xlsx',
-    description: '1st example of dataset part'
+    description: '1st example of dataset part',
   },
   example_dataset_part_2: {
     dataCy: 'example_dataset_part_2',
     connectorId: 'C-XPv4LBVGAL',
     defaultFileTypeFilter: '.zip,.csv,.json,.xls,.xlsx',
-    description: '2nd example of dataset part'
+    description: '2nd example of dataset part',
   },
   example_dataset_part_3: {
     dataCy: 'example_dataset_part_3',
     connectorId: 'C-XPv4LBVGAL',
     defaultFileTypeFilter: '.zip,.csv,.json,.xls,.xlsx',
-    description: '3rd example of dataset part'
-  }
+    description: '3rd example of dataset part',
+  },
 };
 
 // Use the PARAMETERS_GROUPS dict below to override or add information to the parameters groups defined in your solution
@@ -92,51 +92,34 @@ const PARAMETERS_GROUPS = {
   bar_parameters: {
     labels: {
       en: 'Pub parameters',
-      fr: 'Paramètres du bar'
+      fr: 'Paramètres du bar',
     },
-    parameters: [
-      'stock',
-      'restock_qty',
-      'nb_waiters'
-    ]
+    parameters: ['stock', 'restock_qty', 'nb_waiters'],
   },
   basic_types: {
-    parameters: [
-      'currency',
-      'currency_name',
-      'currency_value',
-      'currency_used',
-      'start_date'
-    ]
+    parameters: ['currency', 'currency_name', 'currency_value', 'currency_used', 'start_date'],
   },
   file_upload: {
     labels: {
       en: 'Initial values',
-      fr: 'Valeurs initiales'
+      fr: 'Valeurs initiales',
     },
-    parameters: [
-      'initial_stock_dataset'
-    ]
+    parameters: ['initial_stock_dataset'],
   },
   dataset_parts: {
     labels: {
       en: 'Dataset parts',
-      fr: 'Fragments de dataset'
+      fr: 'Fragments de dataset',
     },
-    parameters: [
-      'example_dataset_part_1',
-      'example_dataset_part_2'
-    ]
+    parameters: ['example_dataset_part_1', 'example_dataset_part_2'],
   },
   extra_dataset_part: {
     labels: {
       en: 'Additional dataset part',
-      fr: 'Fragment additionel'
+      fr: 'Fragment additionel',
     },
-    parameters: [
-      'example_dataset_part_3'
-    ]
-  }
+    parameters: ['example_dataset_part_3'],
+  },
 };
 
 // Use RUN_TEMPLATES dict below to override information of the run templates defined in your solution description, such
@@ -146,22 +129,15 @@ const RUN_TEMPLATES = {
   1: {
     // Use 'parameterGroups' instead of 'parametersGroups' in the run templates description to be consistent
     // with back-end format
-    parameterGroups: [
-      'bar_parameters',
-      'file_upload'
-    ]
+    parameterGroups: ['bar_parameters', 'file_upload'],
   },
   3: {
-    parameterGroups: [
-      'basic_types',
-      'dataset_parts',
-      'extra_dataset_part'
-    ]
-  }
+    parameterGroups: ['basic_types', 'dataset_parts', 'extra_dataset_part'],
+  },
 };
 
 export const SCENARIO_PARAMETERS_CONFIG = {
   parameters: PARAMETERS,
   parametersGroups: PARAMETERS_GROUPS,
-  runTemplates: RUN_TEMPLATES
+  runTemplates: RUN_TEMPLATES,
 };

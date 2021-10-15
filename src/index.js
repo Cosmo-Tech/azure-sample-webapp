@@ -15,29 +15,29 @@ import theme from './theme';
 import { dispatchLogIn, dispatchLogOut } from './state/dispatchers/auth/AuthDispatcher';
 
 const mapStateToProps = (state) => ({
-  authStatus: state.auth.status
+  authStatus: state.auth.status,
 });
 const mapDispatchToProps = {
   logInAction: dispatchLogIn,
-  logOutAction: dispatchLogOut
+  logOutAction: dispatchLogOut,
 };
 
 const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App);
 
 ReactDOM.render(
-    <Suspense fallback="loading">
-      <React.StrictMode>
-          <BrowserRouter>
-              <Provider store={applicationStore}>
-                  <I18nextProvider i18n={i18next}>
-                      <ThemeProvider theme={theme}>
-                        <CssBaseline />
-                        <ConnectedApp />
-                      </ThemeProvider>
-                  </I18nextProvider>
-              </Provider>
-          </BrowserRouter>
-      </React.StrictMode>
-    </Suspense>,
-    document.getElementById('root')
+  <Suspense fallback="loading">
+    <React.StrictMode>
+      <BrowserRouter>
+        <Provider store={applicationStore}>
+          <I18nextProvider i18n={i18next}>
+            <ThemeProvider theme={theme}>
+              <CssBaseline />
+              <ConnectedApp />
+            </ThemeProvider>
+          </I18nextProvider>
+        </Provider>
+      </BrowserRouter>
+    </React.StrictMode>
+  </Suspense>,
+  document.getElementById('root')
 );

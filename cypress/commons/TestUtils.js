@@ -21,7 +21,7 @@ const randomEnum = (enumParam) => {
 const utils = {
   randomStr,
   randomNmbr,
-  randomEnum
+  randomEnum,
 };
 
 export default utils;

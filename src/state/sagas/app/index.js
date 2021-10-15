@@ -4,9 +4,6 @@
 import { all, fork } from 'redux-saga/effects';
 import { getAllInitialData, watchNeededApplicationData } from './FetchInitialData';
 
-export default function * appSaga () {
-  yield all([
-    fork(getAllInitialData),
-    fork(watchNeededApplicationData)
-  ]);
+export default function* appSaga() {
+  yield all([fork(getAllInitialData), fork(watchNeededApplicationData)]);
 }

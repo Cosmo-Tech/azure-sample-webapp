@@ -3,6 +3,6 @@
 
 export default {
   gutterBottom: {
-    marginBottom: 8
-  }
+    marginBottom: 8,
+  },
 };

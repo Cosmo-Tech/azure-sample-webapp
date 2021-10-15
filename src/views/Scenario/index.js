@@ -6,7 +6,7 @@ import {
   dispatchFindScenarioById,
   dispatchCreateScenario,
   dispatchUpdateAndLaunchScenario,
-  dispatchLaunchScenario
+  dispatchLaunchScenario,
 } from '../../state/dispatchers/scenario/ScenarioDispatcher';
 import { dispatchAddDatasetToStore } from '../../state/dispatchers/dataset/DatasetDispatcher';
 
@@ -17,7 +17,7 @@ const mapStateToProps = (state) => ({
   user: state.auth,
   workspace: state.workspace.current,
   solution: state.solution.current,
-  reports: state.powerBI
+  reports: state.powerBI,
 });
 
 const mapDispatchToProps = {
@@ -25,7 +25,7 @@ const mapDispatchToProps = {
   findScenarioById: dispatchFindScenarioById,
   createScenario: dispatchCreateScenario,
   updateAndLaunchScenario: dispatchUpdateAndLaunchScenario,
-  launchScenario: dispatchLaunchScenario
+  launchScenario: dispatchLaunchScenario,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Scenario);

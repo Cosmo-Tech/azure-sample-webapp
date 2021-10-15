@@ -6,11 +6,14 @@ import { LOG_TYPES } from './ScenarioRunConstants.js';
 import { ORGANIZATION_ID } from '../../config/AppInstance';
 import { Api } from '../../services/config/Api';
 
-async function downloadCumulatedLogsFile (lastRun) {
+async function downloadCumulatedLogsFile(lastRun) {
   try {
     const fileName = lastRun.scenarioRunId + '_cumulated_logs.txt';
     const { data, status } = await Api.ScenarioRuns.getScenarioRunCumulatedLogs(
-      ORGANIZATION_ID, lastRun.scenarioRunId, { responseType: 'blob' });
+      ORGANIZATION_ID,
+      lastRun.scenarioRunId,
+      { responseType: 'blob' }
+    );
     if (status !== 200) {
       throw new Error(`Error when fetching ${fileName}`);
     }
@@ -20,11 +23,12 @@ async function downloadCumulatedLogsFile (lastRun) {
   }
 }
 
-async function downloadLogsSimpleFile (lastRun) {
+async function downloadLogsSimpleFile(lastRun) {
   try {
     const fileName = lastRun.scenarioRunId + '_simple_logs.json';
-    const { data, status } = await Api.ScenarioRuns.getScenarioRunLogs(
-      ORGANIZATION_ID, lastRun.scenarioRunId, { responseType: 'blob' });
+    const { data, status } = await Api.ScenarioRuns.getScenarioRunLogs(ORGANIZATION_ID, lastRun.scenarioRunId, {
+      responseType: 'blob',
+    });
     if (status !== 200) {
       throw new Error(`Error when fetching ${fileName}`);
     }
@@ -34,7 +38,7 @@ async function downloadLogsSimpleFile (lastRun) {
   }
 }
 
-function downloadLogsFile (lastRun, logType) {
+function downloadLogsFile(lastRun, logType) {
   switch (logType) {
     case LOG_TYPES.SIMPLE_LOGS:
       downloadLogsSimpleFile(lastRun);
@@ -46,7 +50,7 @@ function downloadLogsFile (lastRun, logType) {
 }
 
 const ScenarioRunService = {
-  downloadLogsFile
+  downloadLogsFile,
 };
 
 export default ScenarioRunService;

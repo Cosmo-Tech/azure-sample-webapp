@@ -10,7 +10,7 @@ import solutionSaga from './solution';
 import authSaga from './auth';
 import powerBISaga from './powerbi';
 
-export default function * rootSaga () {
+export default function* rootSaga() {
   yield all([
     fork(authSaga),
     fork(appSaga),
@@ -18,6 +18,6 @@ export default function * rootSaga () {
     fork(solutionSaga),
     fork(scenarioSaga),
     fork(datasetSaga),
-    fork(powerBISaga)
+    fork(powerBISaga),
   ]);
 }

@@ -5,7 +5,7 @@ import { put, takeEvery } from 'redux-saga/effects';
 import { AUTH_ACTIONS_KEY, AUTH_STATUS } from '../../../commons/AuthConstants';
 
 // Generator function to fetch authentication data
-export function * tryLogIn (action) {
+export function* tryLogIn(action) {
   try {
     // Start by signing in if an authentication provider is defined
     if (action.provider) {
@@ -21,7 +21,7 @@ export function * tryLogIn (action) {
         userId: Auth.getUserId(),
         userName: Auth.getUserName(),
         profilePic: Auth.getUserPicUrl(),
-        status: AUTH_STATUS.AUTHENTICATED
+        status: AUTH_STATUS.AUTHENTICATED,
       });
     } else {
       yield put({
@@ -29,7 +29,7 @@ export function * tryLogIn (action) {
         userId: '',
         userName: '',
         profilePic: '',
-        status: AUTH_STATUS.DENIED
+        status: AUTH_STATUS.DENIED,
       });
     }
   } catch (error) {
@@ -38,7 +38,7 @@ export function * tryLogIn (action) {
 }
 
 // Watch authentication actions
-function * logIn () {
+function* logIn() {
   yield takeEvery(AUTH_ACTIONS_KEY.REQUEST_LOG_IN, tryLogIn);
 }
 

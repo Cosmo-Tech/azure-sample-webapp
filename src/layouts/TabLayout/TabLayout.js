@@ -12,39 +12,39 @@ import { LANGUAGES } from '../../config/AppConfiguration';
 import theme from '../../theme/';
 import profilePlaceholder from '../../assets/profile_placeholder.png';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   content: {
     height: 'calc(100% - 36px)', // footer height = 36px
     paddingTop: theme.spacing(6),
     paddingLeft: theme.spacing(0),
     paddingRight: theme.spacing(0),
     paddingBottom: theme.spacing(0),
-    boxSizing: 'border-box'
+    boxSizing: 'border-box',
   },
   logo: {
-    display: 'block'
+    display: 'block',
   },
   bar: {
     background: theme.palette.background.secondary,
     display: 'flex',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   rightBar: {
     textAlign: 'right',
     display: 'flex',
     alignItems: 'center',
-    margin: `0 ${theme.spacing(3)}px`
+    margin: `0 ${theme.spacing(3)}px`,
   },
   rightBarElement: {
     display: 'block',
-    margin: `0 ${theme.spacing(1)}px`
+    margin: `0 ${theme.spacing(1)}px`,
   },
   tabs: {
     width: '100%',
     maxWidth: '900px',
     '& .MuiTabs-indicator': {
-      backgroundColor: theme.palette.primary.main
-    }
+      backgroundColor: theme.palette.primary.main,
+    },
   },
   tab: {
     minWidth: 0,
@@ -58,29 +58,26 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.text.shaded,
     '&.Mui-selected': {
       fontWeight: 'bold',
-      color: theme.palette.primary.contrastText
-    }
+      color: theme.palette.primary.contrastText,
+    },
   },
   barDiv: {
     minHeight: '48px',
     display: 'flex',
-    justifyContent: 'space-between'
-  }
+    justifyContent: 'space-between',
+  },
 }));
 
-const TabLayout = props => {
+const TabLayout = (props) => {
   const classes = useStyles();
-  const {
-    tabs, authenticated, authorized, signInPath,
-    unauthorizedPath
-  } = props;
+  const { tabs, authenticated, authorized, signInPath, unauthorizedPath } = props;
   const { t, i18n } = useTranslation();
   const location = useLocation();
 
   const userInfoLabels = {
     language: t('genericcomponent.userinfo.button.change.language'),
     documentation: t('genericcomponent.userinfo.button.download.documentation'),
-    logOut: t('genericcomponent.userinfo.button.logout')
+    logOut: t('genericcomponent.userinfo.button.logout'),
   };
 
   return (
@@ -88,7 +85,7 @@ const TabLayout = props => {
       <AppBar className={classes.bar}>
         <Box className={classes.barDiv}>
           <Tabs value={location.pathname} className={classes.tabs}>
-            {tabs.map(tab => (
+            {tabs.map((tab) => (
               <Tab
                 data-cy={tab.key}
                 key={tab.key}
@@ -102,7 +99,8 @@ const TabLayout = props => {
           </Tabs>
           <div className={classes.rightBar}>
             <div className={classes.rightBarElement}>
-              <UserInfo documentationUrl="doc.pdf"
+              <UserInfo
+                documentationUrl="doc.pdf"
                 languages={LANGUAGES}
                 changeLanguage={(lang) => i18n.changeLanguage(lang)}
                 language={i18n.language}
@@ -120,7 +118,7 @@ const TabLayout = props => {
       </AppBar>
       <Box className={classes.content}>
         <Switch>
-          {tabs.map(tab => (
+          {tabs.map((tab) => (
             <PrivateRoute
               key={tab.key}
               path={tab.to}
@@ -128,7 +126,8 @@ const TabLayout = props => {
               authenticated={authenticated}
               authorized={authorized}
               noAuthRedirect={signInPath}
-              noPermRedirect={unauthorizedPath} />
+              noPermRedirect={unauthorizedPath}
+            />
           ))}
           <Route render={() => <Redirect to="/scenario" />} />
         </Switch>
@@ -144,7 +143,7 @@ TabLayout.propTypes = {
   signInPath: PropTypes.string.isRequired,
   unauthorizedPath: PropTypes.string.isRequired,
   userName: PropTypes.string.isRequired,
-  userProfilePic: PropTypes.string.isRequired
+  userProfilePic: PropTypes.string.isRequired,
 };
 
 export default TabLayout;

@@ -11,7 +11,7 @@ const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fet
  * Generate embed token and embed urls for reports
  * @return Details like Embed URL, Access token and Expiry
  */
-async function getEmbedInfo () {
+async function getEmbedInfo() {
   // Get the Report Embed details
   try {
     // Get report details and embed token
@@ -19,7 +19,7 @@ async function getEmbedInfo () {
     return {
       accessToken: embedParams.embedToken.token,
       reportsInfo: embedParams.reportsDetail,
-      expiry: embedParams.embedToken.expiration
+      expiry: embedParams.embedToken.expiration,
     };
   } catch (err) {
     return {
@@ -27,9 +27,10 @@ async function getEmbedInfo () {
         status: err.status,
         statusText: err.statusText,
         powerBIErrorInfo: err.headers.get('x-powerbi-error-info'),
-        description: `Error while retrieving report embed details\r\n${err.statusText}\r\nRequestId: \n` +
-          `${err.headers.get('requestid')}`
-      }
+        description:
+          `Error while retrieving report embed details\r\n${err.statusText}\r\nRequestId: \n` +
+          `${err.headers.get('requestid')}`,
+      },
     };
   }
 }
@@ -40,10 +41,7 @@ async function getEmbedInfo () {
  * @param {Array<string>} additionalDatasetIds - Optional Parameter
  * @return EmbedConfig object
  */
-async function getEmbedParamsForAllReportsInWorkspace (
-  workspaceId,
-  additionalDatasetIds
-) {
+async function getEmbedParamsForAllReportsInWorkspace(workspaceId, additionalDatasetIds) {
   // EmbedConfig object
   const reportEmbedConfig = new EmbedConfig();
   // Create dictionary of embedReports for mapping
@@ -56,7 +54,7 @@ async function getEmbedParamsForAllReportsInWorkspace (
   // Get report info by calling the PowerBI REST API
   const result = await fetch(reportInGroupApi, {
     method: 'GET',
-    headers: headers
+    headers: headers,
   });
 
   if (!result.ok) {
@@ -75,11 +73,7 @@ async function getEmbedParamsForAllReportsInWorkspace (
 
   for (const reportInfo of reportsInfo) {
     // Store result into PowerBiReportDetails object
-    const reportDetails = new PowerBiReportDetails(
-      reportInfo.id,
-      reportInfo.name,
-      reportInfo.embedUrl
-    );
+    const reportDetails = new PowerBiReportDetails(reportInfo.id, reportInfo.name, reportInfo.embedUrl);
 
     // Create mapping for reports and Embed URLs
     reportEmbedConfig.reportsDetail[reportInfo.id] = reportDetails;
@@ -112,11 +106,7 @@ async function getEmbedParamsForAllReportsInWorkspace (
  * @return EmbedConfig object
  */
 // eslint-disable-next-line no-unused-vars
-async function getEmbedParamsForMultipleReports (
-  workspaceId,
-  reportIds,
-  additionalDatasetIds
-) {
+async function getEmbedParamsForMultipleReports(workspaceId, reportIds, additionalDatasetIds) {
   // EmbedConfig object
   const reportEmbedConfig = new EmbedConfig();
 
@@ -134,7 +124,7 @@ async function getEmbedParamsForMultipleReports (
     // Get report info by calling the PowerBI REST API
     const result = await fetch(reportInGroupApi, {
       method: 'GET',
-      headers: headers
+      headers: headers,
     });
 
     if (!result.ok) {
@@ -145,11 +135,7 @@ async function getEmbedParamsForMultipleReports (
     const resultJson = await result.json();
 
     // Store result into PowerBiReportDetails object
-    const reportDetails = new PowerBiReportDetails(
-      resultJson.id,
-      resultJson.name,
-      resultJson.embedUrl
-    );
+    const reportDetails = new PowerBiReportDetails(resultJson.id, resultJson.name, resultJson.embedUrl);
 
     // Create mapping for reports and Embed URLs
     reportEmbedConfig.reportsDetail[resultJson.name] = reportDetails;
@@ -179,16 +165,12 @@ async function getEmbedParamsForMultipleReports (
  * @param {String} targetWorkspaceId - Optional Parameter
  * @return EmbedToken
  */
-async function getEmbedTokenForMultipleReportsSingleWorkspace (
-  reportIds,
-  datasetIds,
-  targetWorkspaceId
-) {
+async function getEmbedTokenForMultipleReportsSingleWorkspace(reportIds, datasetIds, targetWorkspaceId) {
   // Add dataset ids in the request
   const formData = { datasets: [] };
   for (const datasetId of datasetIds) {
     formData.datasets.push({
-      id: datasetId
+      id: datasetId,
     });
   }
 
@@ -196,7 +178,7 @@ async function getEmbedTokenForMultipleReportsSingleWorkspace (
   formData.reports = [];
   for (const reportId of reportIds) {
     formData.reports.push({
-      id: reportId
+      id: reportId,
     });
   }
 
@@ -204,7 +186,7 @@ async function getEmbedTokenForMultipleReportsSingleWorkspace (
   if (targetWorkspaceId) {
     formData.targetWorkspaces = [];
     formData.targetWorkspaces.push({
-      id: targetWorkspaceId
+      id: targetWorkspaceId,
     });
   }
 
@@ -216,7 +198,7 @@ async function getEmbedTokenForMultipleReportsSingleWorkspace (
   const result = await fetch(embedTokenApi, {
     method: 'POST',
     headers: headers,
-    body: JSON.stringify(formData)
+    body: JSON.stringify(formData),
   });
 
   if (!result.ok) throw result;
@@ -227,7 +209,7 @@ async function getEmbedTokenForMultipleReportsSingleWorkspace (
  * Get Request header
  * @return Request header with Bearer token
  */
-async function getRequestHeader () {
+async function getRequestHeader() {
   // Store authentication token
   let tokenResponse;
 
@@ -239,8 +221,10 @@ async function getRequestHeader () {
     tokenResponse = await auth.getAccessToken();
   } catch (err) {
     if (
-    // eslint-disable-next-line no-prototype-builtins
-      err.hasOwnProperty('error_description') && err.hasOwnProperty('error')
+      // eslint-disable-next-line no-prototype-builtins
+      err.hasOwnProperty('error_description') &&
+      // eslint-disable-next-line no-prototype-builtins
+      err.hasOwnProperty('error')
     ) {
       errorResponse = err.error_description;
     } else {
@@ -249,7 +233,7 @@ async function getRequestHeader () {
     }
     return {
       status: 401,
-      error: errorResponse
+      error: errorResponse,
     };
   }
 
@@ -257,10 +241,10 @@ async function getRequestHeader () {
   const token = tokenResponse.accessToken;
   return {
     'Content-Type': 'application/json',
-    Authorization: utils.getAuthHeader(token)
+    Authorization: utils.getAuthHeader(token),
   };
 }
 
 module.exports = {
-  getEmbedInfo: getEmbedInfo
+  getEmbedInfo: getEmbedInfo,
 };

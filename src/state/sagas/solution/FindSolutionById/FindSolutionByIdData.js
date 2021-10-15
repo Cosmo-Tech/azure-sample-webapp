@@ -9,7 +9,7 @@ import { Api } from '../../../../services/config/Api';
 import { ConfigUtils, SolutionsUtils } from '../../../../utils';
 import { SCENARIO_PARAMETERS_CONFIG } from '../../../../config/ScenarioParameters';
 
-export function * fetchSolutionByIdData (workspaceId, solutionId) {
+export function* fetchSolutionByIdData(workspaceId, solutionId) {
   try {
     const { data } = yield call(Api.Solutions.findSolutionById, ORGANIZATION_ID, solutionId);
     SolutionsUtils.addRunTemplatesParametersIdsDict(data, SCENARIO_PARAMETERS_CONFIG);
@@ -19,14 +19,14 @@ export function * fetchSolutionByIdData (workspaceId, solutionId) {
     yield put({
       type: SOLUTION_ACTIONS_KEY.SET_CURRENT_SOLUTION,
       status: STATUSES.SUCCESS,
-      solution: data
+      solution: data,
     });
   } catch (e) {
     console.error(e);
   }
 }
 
-function * findSolutionByIdData () {
+function* findSolutionByIdData() {
   yield takeEvery(SOLUTION_ACTIONS_KEY.GET_SOLUTION_BY_ID, fetchSolutionByIdData);
 }
 

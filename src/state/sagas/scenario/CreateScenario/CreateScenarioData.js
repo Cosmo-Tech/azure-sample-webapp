@@ -12,12 +12,12 @@ import { AppInsights } from '../../../../services/AppInsights';
 
 const appInsights = AppInsights.getInstance();
 
-export function * createScenario (action) {
+export function* createScenario(action) {
   try {
     appInsights.trackScenarioCreation();
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
-      status: STATUSES.LOADING
+      status: STATUSES.LOADING,
     });
     const workspaceId = action.workspaceId;
     const { data } = yield call(Api.Scenarios.createScenario, ORGANIZATION_ID, workspaceId, action.scenario);
@@ -26,19 +26,19 @@ export function * createScenario (action) {
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
       status: STATUSES.SUCCESS,
-      scenario: data
+      scenario: data,
     });
   } catch (e) {
     // TODO handle error management
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
       status: STATUSES.ERROR,
-      scenario: null
+      scenario: null,
     });
   }
 }
 
-function * createScenarioData () {
+function* createScenarioData() {
   yield takeEvery(SCENARIO_ACTIONS_KEY.CREATE_SCENARIO, createScenario);
 }
 

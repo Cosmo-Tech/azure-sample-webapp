@@ -10,16 +10,14 @@ import { solutionReducer } from './solution/SolutionReducer';
 import { authReducer } from './auth/AuthReducer';
 import { powerBiReducer } from './powerbi/PowerBIReducer';
 
-const rootReducer = combineReducers(
-  {
-    scenario: scenarioReducer,
-    application: applicationReducer,
-    auth: authReducer,
-    dataset: datasetReducer,
-    workspace: workspaceReducer,
-    solution: solutionReducer,
-    powerBI: powerBiReducer
-  }
-);
+const rootReducer = combineReducers({
+  scenario: scenarioReducer,
+  application: applicationReducer,
+  auth: authReducer,
+  dataset: datasetReducer,
+  workspace: workspaceReducer,
+  solution: solutionReducer,
+  powerBI: powerBiReducer,
+});
 
 export default rootReducer;

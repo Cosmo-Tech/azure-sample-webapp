@@ -8,8 +8,8 @@ import { VAR_TYPES_FROM_STRING_FUNCTIONS } from './scenarioParameters/Conversion
 const clone = rfdc();
 
 // Reformat scenario parameters to match the API expected types
-export function formatParametersForApi (parameters) {
-  const newParams = parameters.map(param => {
+export function formatParametersForApi(parameters) {
+  const newParams = parameters.map((param) => {
     // Clone the original parameter to prevent undesired modifications
     const newParam = clone(param);
 
@@ -27,11 +27,11 @@ export function formatParametersForApi (parameters) {
 }
 
 // Reformat scenario parameters to match the front-end expected types
-export function formatParametersFromApi (parameters) {
+export function formatParametersFromApi(parameters) {
   if (!parameters) {
     return undefined;
   }
-  return parameters.map(param => {
+  return parameters.map((param) => {
     // Clone the original parameter to prevent undesired modifications
     const newParam = clone(param);
 

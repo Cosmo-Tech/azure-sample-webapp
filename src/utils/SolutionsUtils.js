@@ -36,7 +36,7 @@ const _getGroupsOfParameters = (solution, config) => {
   parametersGroups = {
     ...parametersGroups,
     // Let config overwrite parameters groups defined in solution description
-    ..._getParametersGroupsFromConfig(config)
+    ..._getParametersGroupsFromConfig(config),
   };
   return parametersGroups;
 };
@@ -46,12 +46,16 @@ const _getRunTemplatesParametersIdsDict = (solution, config) => {
   const runTemplatesParametersIdsDict = {};
   for (const runTemplate of solution.runTemplates || []) {
     runTemplatesParametersIdsDict[runTemplate.id] = _getRunTemplateParameters(
-      groupsOfParameters, runTemplate.parameterGroups);
+      groupsOfParameters,
+      runTemplate.parameterGroups
+    );
   }
   // Let config overwrite run templates groups defined in solution description
   for (const runTemplateId in config?.runTemplates || {}) {
     runTemplatesParametersIdsDict[runTemplateId] = _getRunTemplateParameters(
-      groupsOfParameters, config.runTemplates[runTemplateId].parameterGroups);
+      groupsOfParameters,
+      config.runTemplates[runTemplateId].parameterGroups
+    );
   }
   return runTemplatesParametersIdsDict;
 };
@@ -80,5 +84,5 @@ const addTranslationLabels = (solution) => {
 
 export const SolutionsUtils = {
   addRunTemplatesParametersIdsDict,
-  addTranslationLabels
+  addTranslationLabels,
 };

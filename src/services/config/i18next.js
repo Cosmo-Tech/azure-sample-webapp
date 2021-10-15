@@ -22,22 +22,22 @@ const langDetectorOptions = {
   excludeCacheFor: ['cimode'], // languages to not persist (cookie, localStorage)
 
   // only detect languages that are in the whitelist
-  checkWhitelist: true
+  checkWhitelist: true,
 };
 
 i18next
   .use(HttpApi)
   .use(LanguageDetector)
-// connect with React
+  // connect with React
   .use(initReactI18next)
-// for all options read: https://www.i18next.com/overview/configuration-options
+  // for all options read: https://www.i18next.com/overview/configuration-options
   .init({
     fallbackLng: FALLBACK_LANGUAGE,
     whitelist: Object.keys(LANGUAGES),
     detection: langDetectorOptions,
     backend: {
-      loadPath: '/locales/{{lng}}/{{ns}}.json'
-    }
+      loadPath: '/locales/{{lng}}/{{ns}}.json',
+    },
   });
 
 export { i18next, I18N_NAMESPACE };

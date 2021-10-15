@@ -10,16 +10,19 @@ const cca = new msal.ConfidentialClientApplication(msalConfig);
 // The scope is always in the format "<resource>/.default"
 const clientCredentialRequest = {
   scopes: [process.env.POWER_BI_SCOPE],
-  skipCache: true
+  skipCache: true,
 };
 
 const getAccessToken = async function () {
   return new Promise((resolve, reject) => {
-    cca.acquireTokenByClientCredential(clientCredentialRequest).then((response) => {
-      resolve(response);
-    }).catch((error) => {
-      reject(error);
-    });
+    cca
+      .acquireTokenByClientCredential(clientCredentialRequest)
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
   });
 };
 

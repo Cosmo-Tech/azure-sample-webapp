@@ -21,5 +21,5 @@ const create = (t, datasets, parameterData, parametersState, setParametersState,
 };
 
 export const ScenarioParameterInputFactory = {
-  create
+  create,
 };

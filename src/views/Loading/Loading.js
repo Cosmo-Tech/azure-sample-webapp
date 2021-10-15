@@ -9,32 +9,31 @@ import LoadingLine from '../../components/LoadingLine';
 import { STATUSES } from '../../state/commons/Constants';
 import { makeStyles } from '@material-ui/core';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   panel: {
     backgroundColor: theme.palette.background.paper,
     position: 'absolute',
     left: '50%',
     top: '50%',
-    transform: 'translate(-50%, -50%)'
-  }
+    transform: 'translate(-50%, -50%)',
+  },
 }));
 
-const Loading = (
-  {
-    authenticated,
-    authorized,
-    logout,
-    tabs,
-    scenarioList,
-    currentScenario,
-    powerBiInfo,
-    workspace,
-    solution,
-    datasetList,
-    application,
-    getAllInitialDataAction,
-    setApplicationStatusAction
-  }) => {
+const Loading = ({
+  authenticated,
+  authorized,
+  logout,
+  tabs,
+  scenarioList,
+  currentScenario,
+  powerBiInfo,
+  workspace,
+  solution,
+  datasetList,
+  application,
+  getAllInitialDataAction,
+  setApplicationStatusAction,
+}) => {
   const classes = useStyles();
 
   useEffect(() => {
@@ -46,8 +45,10 @@ const Loading = (
   }, [authenticated, getAllInitialDataAction, setApplicationStatusAction]);
 
   const isLoading = (entityStatus) => {
-    return entityStatus.status !== STATUSES.ERROR &&
-      (entityStatus.status === STATUSES.LOADING || entityStatus.status === STATUSES.IDLE);
+    return (
+      entityStatus.status !== STATUSES.ERROR &&
+      (entityStatus.status === STATUSES.LOADING || entityStatus.status === STATUSES.IDLE)
+    );
   };
 
   const hasErrors = (entityStatus) => entityStatus.status === STATUSES.ERROR;
@@ -56,54 +57,55 @@ const Loading = (
     logout();
   }
 
-  return (authenticated && application.status !== STATUSES.SUCCESS
-    ? (<div className={classes.panel} data-cy="loading-component">
-          <FadeIn delay={200}>
-            <LoadingLine
-              titleKey={'genericcomponent.loading.line.scenario.list.title'}
-              hasError={hasErrors(scenarioList)}
-              isLoading={isLoading(scenarioList)}
-              height={100}
-              width={120}
-            />
-            <LoadingLine
-              titleKey={'genericcomponent.loading.line.dataset.list.title'}
-              hasError={hasErrors(datasetList)}
-              isLoading={isLoading(datasetList)}
-              height={100}
-              width={120}
-            />
-            <LoadingLine
-              titleKey={'genericcomponent.loading.line.workspace.current.title'}
-              hasError={hasErrors(workspace)}
-              isLoading={isLoading(workspace)}
-              height={100}
-              width={120}
-            />
-            <LoadingLine
-              titleKey={'genericcomponent.loading.line.solution.current.title'}
-              hasError={hasErrors(solution)}
-              isLoading={isLoading(solution)}
-              height={100}
-              width={120}
-            />
-            <LoadingLine
-              titleKey={'genericcomponent.loading.line.scenario.current.title'}
-              hasError={hasErrors(currentScenario)}
-              isLoading={isLoading(currentScenario)}
-              height={100}
-              width={120}
-            />
-            <LoadingLine
-              titleKey={'genericcomponent.loading.line.powerbi.title'}
-              hasError={hasErrors(powerBiInfo)}
-              isLoading={isLoading(powerBiInfo)}
-              height={100}
-              width={120}
-            />
-          </FadeIn>
-      </div>)
-    : (<Routes authenticated={authenticated} authorized={authenticated} tabs={tabs}/>)
+  return authenticated && application.status !== STATUSES.SUCCESS ? (
+    <div className={classes.panel} data-cy="loading-component">
+      <FadeIn delay={200}>
+        <LoadingLine
+          titleKey={'genericcomponent.loading.line.scenario.list.title'}
+          hasError={hasErrors(scenarioList)}
+          isLoading={isLoading(scenarioList)}
+          height={100}
+          width={120}
+        />
+        <LoadingLine
+          titleKey={'genericcomponent.loading.line.dataset.list.title'}
+          hasError={hasErrors(datasetList)}
+          isLoading={isLoading(datasetList)}
+          height={100}
+          width={120}
+        />
+        <LoadingLine
+          titleKey={'genericcomponent.loading.line.workspace.current.title'}
+          hasError={hasErrors(workspace)}
+          isLoading={isLoading(workspace)}
+          height={100}
+          width={120}
+        />
+        <LoadingLine
+          titleKey={'genericcomponent.loading.line.solution.current.title'}
+          hasError={hasErrors(solution)}
+          isLoading={isLoading(solution)}
+          height={100}
+          width={120}
+        />
+        <LoadingLine
+          titleKey={'genericcomponent.loading.line.scenario.current.title'}
+          hasError={hasErrors(currentScenario)}
+          isLoading={isLoading(currentScenario)}
+          height={100}
+          width={120}
+        />
+        <LoadingLine
+          titleKey={'genericcomponent.loading.line.powerbi.title'}
+          hasError={hasErrors(powerBiInfo)}
+          isLoading={isLoading(powerBiInfo)}
+          height={100}
+          width={120}
+        />
+      </FadeIn>
+    </div>
+  ) : (
+    <Routes authenticated={authenticated} authorized={authenticated} tabs={tabs} />
   );
 };
 
@@ -120,7 +122,7 @@ Loading.propTypes = {
   datasetList: PropTypes.object.isRequired,
   application: PropTypes.object.isRequired,
   getAllInitialDataAction: PropTypes.func.isRequired,
-  setApplicationStatusAction: PropTypes.func.isRequired
+  setApplicationStatusAction: PropTypes.func.isRequired,
 };
 
 export default Loading;

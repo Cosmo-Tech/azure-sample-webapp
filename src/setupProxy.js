@@ -9,7 +9,7 @@ module.exports = function (app) {
     createProxyMiddleware({
       target: 'http://127.0.0.1:7071',
       secure: false,
-      changeOrigin: true
+      changeOrigin: true,
     })
   );
 };

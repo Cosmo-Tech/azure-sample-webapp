@@ -172,12 +172,12 @@
           "text": {
             "title": "Create new scenario"
           },
-          "input" : {
+          "input": {
             "scenarioname": {
               "label": "Scenario name",
               "error": {
-                "label" : "Error",
-                "empty" : "Scenario name cannot be empty",
+                "label": "Error",
+                "empty": "Scenario name cannot be empty",
                 "existing": "Scenario name already exists",
                 "forbiddenchars": "Scenario name has to start with a letter, and can only contains letters, digits, spaces, underscores and hyphens."
               }
@@ -198,7 +198,7 @@
             }
           },
           "checkbox": {
-            "scenarioMaster" : {
+            "scenarioMaster": {
               "label": "Master"
             }
           },
@@ -229,34 +229,34 @@
     },
     "loading": {
       "line": {
-        "workspace" : {
-          "current" : {
-            "title" : "Loading workspace"
+        "workspace": {
+          "current": {
+            "title": "Loading workspace"
           }
         },
-        "solution" : {
-          "current" : {
-            "title" : "Loading solution"
+        "solution": {
+          "current": {
+            "title": "Loading solution"
           }
         },
-        "dataset" : {
-          "list" : {
-            "title" : "Loading dataset list"
+        "dataset": {
+          "list": {
+            "title": "Loading dataset list"
           }
         },
         "scenario": {
-          "list" : {
-            "title" : "Loading scenario list"
+          "list": {
+            "title": "Loading scenario list"
           },
           "current": {
-            "title" : "Setting current scenario"
+            "title": "Setting current scenario"
           }
         },
         "powerbi": {
-          "title" : "Connecting to PowerBI"
+          "title": "Connecting to PowerBI"
         },
         "runtemplate": {
-          "list" : {
+          "list": {
             "title": "Loading run types"
           }
         }
@@ -280,14 +280,14 @@
         "logout": "Sign out"
       }
     },
-    "dialog" : {
-      "scenario" : {
-        "parameters" : {
+    "dialog": {
+      "scenario": {
+        "parameters": {
           "button": {
             "cancel": "Cancel",
             "validate": "Discard"
           },
-          "title" : "Discard current modifications ?",
+          "title": "Discard current modifications ?",
           "body": "You will lose all your current changes made on the scenario parameters."
         }
       }
@@ -331,15 +331,15 @@
     },
     "scenario": {
       "dropdown": {
-        "scenario" : {
-          "label" : "Scenario",
+        "scenario": {
+          "label": "Scenario",
           "tooltip": {
             "disabled": "Please save or discard current modifications before selecting another scenario"
           }
         }
       },
-      "text" : {
-        "scenariotype" : "Run type"
+      "text": {
+        "scenariotype": "Run type"
       }
     }
   },

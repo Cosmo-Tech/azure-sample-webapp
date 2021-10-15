@@ -6,6 +6,6 @@ import { palette, typography } from '../custom';
 export default {
   root: {
     ...typography.body1,
-    borderBottom: `1px solid ${palette.divider}`
-  }
+    borderBottom: `1px solid ${palette.divider}`,
+  },
 };

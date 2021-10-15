@@ -16,11 +16,11 @@ export default {
   MuiDialog,
   MuiCardHeader: {
     title: {
-      fontSize: '14px'
-    }
+      fontSize: '14px',
+    },
   },
   MuiIconButton,
   MuiTableCell,
   MuiTableHead,
-  MuiTypography
+  MuiTypography,
 };

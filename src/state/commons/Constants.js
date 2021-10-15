@@ -7,5 +7,5 @@ export const STATUSES = {
   LOADING: 'LOADING',
   SAVING: 'SAVING',
   ERROR: 'ERROR',
-  SUCCESS: 'SUCCESS'
+  SUCCESS: 'SUCCESS',
 };

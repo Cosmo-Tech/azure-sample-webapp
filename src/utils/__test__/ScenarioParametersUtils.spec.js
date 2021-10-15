@@ -9,7 +9,7 @@ import { STANDARD_DATASETS } from './StandardDatasetsData';
 const clone = rfdc();
 
 const getParamDataFromStandardSolution = (parameterId) => {
-  return STANDARD_SOLUTION.parameters.find(param => param.id === parameterId);
+  return STANDARD_SOLUTION.parameters.find((param) => param.id === parameterId);
 };
 
 describe('generateParametersMetadata with missing data in solution', () => {
@@ -29,20 +29,20 @@ describe('generateParametersMetadata with missing data in solution', () => {
 
   const expectedParametersMetadata = {
     param1: getParamDataFromStandardSolution('param1'),
-    param2: getParamDataFromStandardSolution('param2')
+    param2: getParamDataFromStandardSolution('param2'),
   };
 
   test.each`
-    field                   | fieldValue    | expectedWarnings    | expectedRes
-    ${'runTemplates'}       | ${undefined}  | ${0}                | ${expectedParametersMetadata}
-    ${'runTemplates'}       | ${null}       | ${0}                | ${expectedParametersMetadata}
-    ${'runTemplates'}       | ${[]}         | ${0}                | ${expectedParametersMetadata}
-    ${'parameterGroups'}    | ${undefined}  | ${0}                | ${expectedParametersMetadata}
-    ${'parameterGroups'}    | ${null}       | ${0}                | ${expectedParametersMetadata}
-    ${'parameterGroups'}    | ${[]}         | ${0}                | ${expectedParametersMetadata}
-    ${'parameters'}         | ${undefined}  | ${2}                | ${{}}
-    ${'parameters'}         | ${null}       | ${2}                | ${{}}
-    ${'parameters'}         | ${[]}         | ${2}                | ${{}}
+    field                | fieldValue   | expectedWarnings | expectedRes
+    ${'runTemplates'}    | ${undefined} | ${0}             | ${expectedParametersMetadata}
+    ${'runTemplates'}    | ${null}      | ${0}             | ${expectedParametersMetadata}
+    ${'runTemplates'}    | ${[]}        | ${0}             | ${expectedParametersMetadata}
+    ${'parameterGroups'} | ${undefined} | ${0}             | ${expectedParametersMetadata}
+    ${'parameterGroups'} | ${null}      | ${0}             | ${expectedParametersMetadata}
+    ${'parameterGroups'} | ${[]}        | ${0}             | ${expectedParametersMetadata}
+    ${'parameters'}      | ${undefined} | ${2}             | ${{}}
+    ${'parameters'}      | ${null}      | ${2}             | ${{}}
+    ${'parameters'}      | ${[]}        | ${2}             | ${{}}
   `('if $field is $fieldValue', ({ field, fieldValue, expectedWarnings, expectedRes }) => {
     solution[field] = fieldValue;
     const res = ScenarioParametersUtils.generateParametersMetadata(solution, {}, ['param1', 'param2']);
@@ -77,31 +77,31 @@ describe('generateParametersMetadata with config overwrite', () => {
         param1: {
           labels: {
             en: 'New EN label for param1',
-            fr: 'New FR label for param1'
-          }
+            fr: 'New FR label for param1',
+          },
         },
         param2: {
           labels: {
             en: 'New EN label for param2',
-            fr: 'New FR label for param2'
-          }
-        }
-      }
+            fr: 'New FR label for param2',
+          },
+        },
+      },
     };
 
     const param1Data = getParamDataFromStandardSolution('param1');
     const param2Data = getParamDataFromStandardSolution('param2');
     param1Data.labels = {
       en: 'New EN label for param1',
-      fr: 'New FR label for param1'
+      fr: 'New FR label for param1',
     };
     param2Data.labels = {
       en: 'New EN label for param2',
-      fr: 'New FR label for param2'
+      fr: 'New FR label for param2',
     };
     const expectedParametersMetadata = {
       param1: param1Data,
-      param2: param2Data
+      param2: param2Data,
     };
 
     const res = ScenarioParametersUtils.generateParametersMetadata(solution, config, ['param1', 'param2']);
@@ -114,9 +114,9 @@ describe('generateParametersMetadata with config overwrite', () => {
         dataset_param1: {
           connectorId: 'C-0000000000',
           defaultFileTypeFilter: '.zip,.csv,.json,.xls,.xlsx',
-          description: 'Dataset part description'
-        }
-      }
+          description: 'Dataset part description',
+        },
+      },
     };
 
     let datasetParam1Data = getParamDataFromStandardSolution('dataset_param1');
@@ -124,10 +124,10 @@ describe('generateParametersMetadata with config overwrite', () => {
       ...datasetParam1Data,
       connectorId: 'C-0000000000',
       defaultFileTypeFilter: '.zip,.csv,.json,.xls,.xlsx',
-      description: 'Dataset part description'
+      description: 'Dataset part description',
     };
     const expectedParametersMetadata = {
-      dataset_param1: datasetParam1Data
+      dataset_param1: datasetParam1Data,
     };
 
     const res = ScenarioParametersUtils.generateParametersMetadata(solution, config, ['dataset_param1']);
@@ -155,23 +155,23 @@ describe('generateParametersGroupsMetadata with missing data in solution', () =>
       id: 'groupA',
       labels: {
         en: 'GroupA EN label',
-        fr: 'GroupA FR label'
+        fr: 'GroupA FR label',
       },
-      parameters: []
-    }
+      parameters: [],
+    },
   ];
 
   test.each`
-    field                   | fieldValue    | expectedRes
-    ${'runTemplates'}       | ${undefined}  | ${[]}
-    ${'runTemplates'}       | ${null}       | ${[]}
-    ${'runTemplates'}       | ${[]}         | ${[]}
-    ${'parameterGroups'}    | ${undefined}  | ${[]}
-    ${'parameterGroups'}    | ${null}       | ${[]}
-    ${'parameterGroups'}    | ${[]}         | ${[]}
-    ${'parameters'}         | ${undefined}  | ${expectedGroupsDataForRunTemplate1WhenNoParameters}
-    ${'parameters'}         | ${null}       | ${expectedGroupsDataForRunTemplate1WhenNoParameters}
-    ${'parameters'}         | ${[]}         | ${expectedGroupsDataForRunTemplate1WhenNoParameters}
+    field                | fieldValue   | expectedRes
+    ${'runTemplates'}    | ${undefined} | ${[]}
+    ${'runTemplates'}    | ${null}      | ${[]}
+    ${'runTemplates'}    | ${[]}        | ${[]}
+    ${'parameterGroups'} | ${undefined} | ${[]}
+    ${'parameterGroups'} | ${null}      | ${[]}
+    ${'parameterGroups'} | ${[]}        | ${[]}
+    ${'parameters'}      | ${undefined} | ${expectedGroupsDataForRunTemplate1WhenNoParameters}
+    ${'parameters'}      | ${null}      | ${expectedGroupsDataForRunTemplate1WhenNoParameters}
+    ${'parameters'}      | ${[]}        | ${expectedGroupsDataForRunTemplate1WhenNoParameters}
   `('if $field is $fieldValue', ({ field, fieldValue, expectedRes }) => {
     solution[field] = fieldValue;
     const res = ScenarioParametersUtils.generateParametersGroupsMetadata(solution, {}, 'runTemplate1');
@@ -208,23 +208,23 @@ describe('generateParametersGroupsMetadata with missing data in config', () => {
       id: 'groupA',
       labels: {
         en: 'GroupA EN label',
-        fr: 'GroupA FR label'
+        fr: 'GroupA FR label',
       },
-      parameters: [getParamDataFromStandardSolution('param1')]
-    }
+      parameters: [getParamDataFromStandardSolution('param1')],
+    },
   ];
 
   test.each`
-    field                   | fieldValue
-    ${'runTemplates'}       | ${undefined}
-    ${'runTemplates'}       | ${null}
-    ${'runTemplates'}       | ${[]}
-    ${'parameterGroups'}    | ${undefined}
-    ${'parameterGroups'}    | ${null}
-    ${'parameterGroups'}    | ${[]}
-    ${'parameters'}         | ${undefined}
-    ${'parameters'}         | ${null}
-    ${'parameters'}         | ${[]}
+    field                | fieldValue
+    ${'runTemplates'}    | ${undefined}
+    ${'runTemplates'}    | ${null}
+    ${'runTemplates'}    | ${[]}
+    ${'parameterGroups'} | ${undefined}
+    ${'parameterGroups'} | ${null}
+    ${'parameterGroups'} | ${[]}
+    ${'parameters'}      | ${undefined}
+    ${'parameters'}      | ${null}
+    ${'parameters'}      | ${[]}
   `('if $field is $fieldValue', ({ field, fieldValue, expectedRes }) => {
     config[field] = fieldValue;
     const res = ScenarioParametersUtils.generateParametersGroupsMetadata(solution, config, 'runTemplate1');
@@ -248,25 +248,25 @@ describe('generateParametersGroupsMetadata with missing data in config', () => {
     const config = {
       parameters: {},
       parametersGroups: {},
-      runTemplates: {}
+      runTemplates: {},
     };
     const expectedGroupsDataForRunTemplate2 = [
       {
         id: 'groupA',
         labels: {
           en: 'GroupA EN label',
-          fr: 'GroupA FR label'
+          fr: 'GroupA FR label',
         },
-        parameters: [getParamDataFromStandardSolution('param1')]
+        parameters: [getParamDataFromStandardSolution('param1')],
       },
       {
         id: 'groupB',
         labels: {
           en: 'GroupB EN label',
-          fr: 'GroupB FR label'
+          fr: 'GroupB FR label',
         },
-        parameters: [getParamDataFromStandardSolution('param2')]
-      }
+        parameters: [getParamDataFromStandardSolution('param2')],
+      },
     ];
     const res = ScenarioParametersUtils.generateParametersGroupsMetadata(solution, config, 'runTemplate2');
     expect(res).toStrictEqual(expectedGroupsDataForRunTemplate2);
@@ -276,20 +276,17 @@ describe('generateParametersGroupsMetadata with missing data in config', () => {
     const config = {
       parameters: {},
       parametersGroups: {},
-      runTemplates: {}
+      runTemplates: {},
     };
     const expectedGroupsDataForRunTemplate3 = [
       {
         id: 'groupC',
         labels: {
           en: 'GroupC EN label',
-          fr: 'GroupC FR label'
+          fr: 'GroupC FR label',
         },
-        parameters: [
-          getParamDataFromStandardSolution('param1'),
-          getParamDataFromStandardSolution('param2')
-        ]
-      }
+        parameters: [getParamDataFromStandardSolution('param1'), getParamDataFromStandardSolution('param2')],
+      },
     ];
     const res = ScenarioParametersUtils.generateParametersGroupsMetadata(solution, config, 'runTemplate3');
     expect(res).toStrictEqual(expectedGroupsDataForRunTemplate3);
@@ -308,11 +305,9 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
       parametersGroups: {},
       runTemplates: {
         runTemplate1: {
-          parameterGroups: [
-            'groupB'
-          ]
-        }
-      }
+          parameterGroups: ['groupB'],
+        },
+      },
     };
 
     const expectedGroupsDataForRunTemplate1 = [
@@ -320,10 +315,10 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
         id: 'groupB',
         labels: {
           en: 'GroupB EN label',
-          fr: 'GroupB FR label'
+          fr: 'GroupB FR label',
         },
-        parameters: [getParamDataFromStandardSolution('param2')]
-      }
+        parameters: [getParamDataFromStandardSolution('param2')],
+      },
     ];
 
     const res = ScenarioParametersUtils.generateParametersGroupsMetadata(solution, config, 'runTemplate1');
@@ -336,35 +331,35 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
         param1: {
           labels: {
             en: 'New EN label for param1',
-            fr: 'New FR label for param1'
-          }
-        }
+            fr: 'New FR label for param1',
+          },
+        },
       },
       parametersGroups: {
         groupA: {
           labels: {
             en: 'New EN label for groupA',
-            fr: 'New FR label for groupA'
-          }
-        }
+            fr: 'New FR label for groupA',
+          },
+        },
       },
-      runTemplates: {}
+      runTemplates: {},
     };
 
     const param1Data = getParamDataFromStandardSolution('param1');
     param1Data.labels = {
       en: 'New EN label for param1',
-      fr: 'New FR label for param1'
+      fr: 'New FR label for param1',
     };
     const expectedGroupsDataForRunTemplate1 = [
       {
         id: 'groupA',
         labels: {
           en: 'New EN label for groupA',
-          fr: 'New FR label for groupA'
+          fr: 'New FR label for groupA',
         },
-        parameters: [param1Data]
-      }
+        parameters: [param1Data],
+      },
     ];
 
     const res = ScenarioParametersUtils.generateParametersGroupsMetadata(solution, config, 'runTemplate1');
@@ -377,12 +372,9 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
       parametersGroups: {},
       runTemplates: {
         runTemplate2: {
-          parameterGroups: [
-            'groupB',
-            'groupA'
-          ]
-        }
-      }
+          parameterGroups: ['groupB', 'groupA'],
+        },
+      },
     };
 
     const expectedGroupsDataForRunTemplate2 = [
@@ -390,18 +382,18 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
         id: 'groupB',
         labels: {
           en: 'GroupB EN label',
-          fr: 'GroupB FR label'
+          fr: 'GroupB FR label',
         },
-        parameters: [getParamDataFromStandardSolution('param2')]
+        parameters: [getParamDataFromStandardSolution('param2')],
       },
       {
         id: 'groupA',
         labels: {
           en: 'GroupA EN label',
-          fr: 'GroupA FR label'
+          fr: 'GroupA FR label',
         },
-        parameters: [getParamDataFromStandardSolution('param1')]
-      }
+        parameters: [getParamDataFromStandardSolution('param1')],
+      },
     ];
 
     const res = ScenarioParametersUtils.generateParametersGroupsMetadata(solution, config, 'runTemplate2');
@@ -413,13 +405,10 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
       parameters: {},
       parametersGroups: {
         groupC: {
-          parameters: [
-            'param2',
-            'param1'
-          ]
-        }
+          parameters: ['param2', 'param1'],
+        },
       },
-      runTemplates: {}
+      runTemplates: {},
     };
 
     const expectedGroupsDataForRunTemplate3 = [
@@ -427,13 +416,10 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
         id: 'groupC',
         labels: {
           en: 'GroupC EN label',
-          fr: 'GroupC FR label'
+          fr: 'GroupC FR label',
         },
-        parameters: [
-          getParamDataFromStandardSolution('param2'),
-          getParamDataFromStandardSolution('param1')
-        ]
-      }
+        parameters: [getParamDataFromStandardSolution('param2'), getParamDataFromStandardSolution('param1')],
+      },
     ];
 
     const res = ScenarioParametersUtils.generateParametersGroupsMetadata(solution, config, 'runTemplate3');
@@ -452,23 +438,28 @@ describe('getDefaultParametersValues with empty solution and empty config', () =
   });
 
   test.each`
-    solutionParameters  | configParameters
-    ${undefined}        | ${undefined}
-    ${undefined}        | ${null}
-    ${undefined}        | ${{}}
-    ${null}             | ${undefined}
-    ${null}             | ${null}
-    ${null}             | ${{}}
-    ${[]}               | ${undefined}
-    ${[]}               | ${null}
-    ${[]}               | ${{}}
-  `('if solutionParameters is $solutionParameters and configParameters is $configParameters', (
-    { solutionParameters, configParameters }) => {
-    const res = ScenarioParametersUtils.getDefaultParametersValues(
-      ['unknownParameter'], solutionParameters, configParameters);
-    expect(spyConsoleWarn).toHaveBeenCalledTimes(2);
-    expect(res).toStrictEqual({ unknownParameter: undefined });
-  });
+    solutionParameters | configParameters
+    ${undefined}       | ${undefined}
+    ${undefined}       | ${null}
+    ${undefined}       | ${{}}
+    ${null}            | ${undefined}
+    ${null}            | ${null}
+    ${null}            | ${{}}
+    ${[]}              | ${undefined}
+    ${[]}              | ${null}
+    ${[]}              | ${{}}
+  `(
+    'if solutionParameters is $solutionParameters and configParameters is $configParameters',
+    ({ solutionParameters, configParameters }) => {
+      const res = ScenarioParametersUtils.getDefaultParametersValues(
+        ['unknownParameter'],
+        solutionParameters,
+        configParameters
+      );
+      expect(spyConsoleWarn).toHaveBeenCalledTimes(2);
+      expect(res).toStrictEqual({ unknownParameter: undefined });
+    }
+  );
 });
 
 describe('getDefaultParametersValues with solution or config', () => {
@@ -484,27 +475,32 @@ describe('getDefaultParametersValues with solution or config', () => {
   const someSolutionParameter = [
     {
       id: 'someParameter',
-      defaultValue: 'someDefaultValue'
-    }
+      defaultValue: 'someDefaultValue',
+    },
   ];
   const someConfigParameter = {
     someParameter: {
-      defaultValue: 'someDefaultValue'
-    }
+      defaultValue: 'someDefaultValue',
+    },
   };
 
   test.each`
-    solutionParameters              | configParameters        | solutionParametersStr  | configParametersStr
-    ${undefined}                    | ${someConfigParameter}  | ${'undefined'}         | ${'defined'}
-    ${someSolutionParameter}        | ${null}                 | ${'defined'}           | ${'undefined'}
-    ${someSolutionParameter}        | ${someConfigParameter}  | ${'defined'}           | ${'defined'}
-  `('if solutionParameters is $solutionParametersStr and configParameters is $configParametersStr', (
-    { solutionParameters, configParameters }) => {
-    const res = ScenarioParametersUtils.getDefaultParametersValues(
-      ['someParameter'], solutionParameters, configParameters);
-    expect(spyConsoleWarn).toHaveBeenCalledTimes(0);
-    expect(res).toStrictEqual({ someParameter: 'someDefaultValue' });
-  });
+    solutionParameters       | configParameters       | solutionParametersStr | configParametersStr
+    ${undefined}             | ${someConfigParameter} | ${'undefined'}        | ${'defined'}
+    ${someSolutionParameter} | ${null}                | ${'defined'}          | ${'undefined'}
+    ${someSolutionParameter} | ${someConfigParameter} | ${'defined'}          | ${'defined'}
+  `(
+    'if solutionParameters is $solutionParametersStr and configParameters is $configParametersStr',
+    ({ solutionParameters, configParameters }) => {
+      const res = ScenarioParametersUtils.getDefaultParametersValues(
+        ['someParameter'],
+        solutionParameters,
+        configParameters
+      );
+      expect(spyConsoleWarn).toHaveBeenCalledTimes(0);
+      expect(res).toStrictEqual({ someParameter: 'someDefaultValue' });
+    }
+  );
 
   test('to get default values of zero parameters', () => {
     const res = ScenarioParametersUtils.getDefaultParametersValues([], someSolutionParameter, someConfigParameter);
@@ -515,92 +511,107 @@ describe('getDefaultParametersValues with solution or config', () => {
   test('to get default values of several parameters', () => {
     const anotherConfigParameter = {
       parameter1: {
-        defaultValue: 'defaultValue1'
+        defaultValue: 'defaultValue1',
       },
       parameter2: {
-        defaultValue: 'defaultValue2'
+        defaultValue: 'defaultValue2',
       },
       parameter3: {
-        defaultValue: 'defaultValue3'
-      }
+        defaultValue: 'defaultValue3',
+      },
     };
     const res = ScenarioParametersUtils.getDefaultParametersValues(
-      ['parameter1', 'parameter2', 'parameter3'], someSolutionParameter, anotherConfigParameter);
+      ['parameter1', 'parameter2', 'parameter3'],
+      someSolutionParameter,
+      anotherConfigParameter
+    );
     expect(spyConsoleWarn).toHaveBeenCalledTimes(0);
     expect(res).toStrictEqual({
       parameter1: 'defaultValue1',
       parameter2: 'defaultValue2',
-      parameter3: 'defaultValue3'
+      parameter3: 'defaultValue3',
     });
   });
 
   test('to overwrite with config the default value defined in solution', () => {
     const anotherConfigParameter = {
       someParameter: {
-        defaultValue: 'anotherDefaultValue'
-      }
+        defaultValue: 'anotherDefaultValue',
+      },
     };
     const res = ScenarioParametersUtils.getDefaultParametersValues(
-      ['someParameter'], someSolutionParameter, anotherConfigParameter);
+      ['someParameter'],
+      someSolutionParameter,
+      anotherConfigParameter
+    );
     expect(spyConsoleWarn).toHaveBeenCalledTimes(0);
     expect(res).toStrictEqual({ someParameter: 'anotherDefaultValue' });
   });
 
   test.each`
-    parameterVarType  | expectedDefaultValue  | expectedWarningsNumber
-    ${undefined}      | ${undefined}          | ${1}
-    ${null}           | ${undefined}          | ${1}
-    ${''}             | ${undefined}          | ${1}
-    ${'enum'}         | ${null}               | ${0}
-    ${'string'}       | ${''}                 | ${0}
-    ${'int'}          | ${0}                  | ${0}
-    ${'number'}       | ${0}                  | ${0}
-    ${'bool'}         | ${false}              | ${0}
-    ${'%DATASETID%'}  | ${null}               | ${0}
-  `('to infer default value when varType is "$parameterVarType"', (
-    { parameterVarType, expectedDefaultValue, expectedWarningsNumber }) => {
-    const someSolutionParameterWithoutDefaultValue = [
-      {
-        id: 'someParameter',
-        defaultValue: null,
-        varType: parameterVarType
-      }
-    ];
-    const res = ScenarioParametersUtils.getDefaultParametersValues(
-      ['someParameter'], someSolutionParameterWithoutDefaultValue, null);
-    expect(spyConsoleWarn).toHaveBeenCalledTimes(expectedWarningsNumber);
-    expect(res).toStrictEqual({ someParameter: expectedDefaultValue });
-  });
+    parameterVarType | expectedDefaultValue | expectedWarningsNumber
+    ${undefined}     | ${undefined}         | ${1}
+    ${null}          | ${undefined}         | ${1}
+    ${''}            | ${undefined}         | ${1}
+    ${'enum'}        | ${null}              | ${0}
+    ${'string'}      | ${''}                | ${0}
+    ${'int'}         | ${0}                 | ${0}
+    ${'number'}      | ${0}                 | ${0}
+    ${'bool'}        | ${false}             | ${0}
+    ${'%DATASETID%'} | ${null}              | ${0}
+  `(
+    'to infer default value when varType is "$parameterVarType"',
+    ({ parameterVarType, expectedDefaultValue, expectedWarningsNumber }) => {
+      const someSolutionParameterWithoutDefaultValue = [
+        {
+          id: 'someParameter',
+          defaultValue: null,
+          varType: parameterVarType,
+        },
+      ];
+      const res = ScenarioParametersUtils.getDefaultParametersValues(
+        ['someParameter'],
+        someSolutionParameterWithoutDefaultValue,
+        null
+      );
+      expect(spyConsoleWarn).toHaveBeenCalledTimes(expectedWarningsNumber);
+      expect(res).toStrictEqual({ someParameter: expectedDefaultValue });
+    }
+  );
 });
 
 describe('getParametersValuesForReset', () => {
   const defaultParametersValues = {
     parameter1: 'defaultValue1',
     parameter2: 'defaultValue2',
-    parameter3: 'defaultValue3'
+    parameter3: 'defaultValue3',
   };
   const scenarioParametersValues = [
     {
       parameterId: 'parameter1',
-      value: 'value1'
+      value: 'value1',
     },
     {
       parameterId: 'parameter2',
-      value: 'value2'
+      value: 'value2',
     },
     {
       parameterId: 'parameter3',
-      value: 'value3'
-    }
+      value: 'value3',
+    },
   ];
 
   test('the scenario parameters values must overwrite the config default values', () => {
     const res = ScenarioParametersUtils.getParametersValuesForReset(
-      STANDARD_DATASETS, ['parameter1', 'parameter2', 'parameter3'], defaultParametersValues, scenarioParametersValues);
+      STANDARD_DATASETS,
+      ['parameter1', 'parameter2', 'parameter3'],
+      defaultParametersValues,
+      scenarioParametersValues
+    );
     expect(res).toStrictEqual({
       parameter1: 'value1',
       parameter2: 'value2',
-      parameter3: 'value3'
+      parameter3: 'value3',
     });
   });
 
@@ -609,36 +620,52 @@ describe('getParametersValuesForReset', () => {
     ${undefined}
     ${null}
     ${[]}
-  `('the scenario parameters values are used if defaultParametersValues is $defaultParametersValues', (
-    { defaultParametersValues }) => {
-    const res = ScenarioParametersUtils.getParametersValuesForReset(
-      STANDARD_DATASETS, ['parameter1', 'parameter2', 'parameter3'], defaultParametersValues, scenarioParametersValues);
-    expect(res).toStrictEqual({
-      parameter1: 'value1',
-      parameter2: 'value2',
-      parameter3: 'value3'
-    });
-  });
+  `(
+    'the scenario parameters values are used if defaultParametersValues is $defaultParametersValues',
+    ({ defaultParametersValues }) => {
+      const res = ScenarioParametersUtils.getParametersValuesForReset(
+        STANDARD_DATASETS,
+        ['parameter1', 'parameter2', 'parameter3'],
+        defaultParametersValues,
+        scenarioParametersValues
+      );
+      expect(res).toStrictEqual({
+        parameter1: 'value1',
+        parameter2: 'value2',
+        parameter3: 'value3',
+      });
+    }
+  );
 
   test.each`
     scenarioParametersValues
     ${undefined}
     ${null}
     ${[]}
-  `('the default parameters values are used if scenarioParametersValues is $scenarioParametersValues', (
-    { scenarioParametersValues }) => {
-    const res = ScenarioParametersUtils.getParametersValuesForReset(
-      STANDARD_DATASETS, ['parameter1', 'parameter2', 'parameter3'], defaultParametersValues, scenarioParametersValues);
-    expect(res).toStrictEqual({
-      parameter1: 'defaultValue1',
-      parameter2: 'defaultValue2',
-      parameter3: 'defaultValue3'
-    });
-  });
+  `(
+    'the default parameters values are used if scenarioParametersValues is $scenarioParametersValues',
+    ({ scenarioParametersValues }) => {
+      const res = ScenarioParametersUtils.getParametersValuesForReset(
+        STANDARD_DATASETS,
+        ['parameter1', 'parameter2', 'parameter3'],
+        defaultParametersValues,
+        scenarioParametersValues
+      );
+      expect(res).toStrictEqual({
+        parameter1: 'defaultValue1',
+        parameter2: 'defaultValue2',
+        parameter3: 'defaultValue3',
+      });
+    }
+  );
 
   test('an empty list is returned if there are no requested parameters', () => {
     const res = ScenarioParametersUtils.getParametersValuesForReset(
-      STANDARD_DATASETS, [], defaultParametersValues, scenarioParametersValues);
+      STANDARD_DATASETS,
+      [],
+      defaultParametersValues,
+      scenarioParametersValues
+    );
     expect(res).toStrictEqual({});
   });
 });
@@ -654,13 +681,13 @@ describe('buildParametersForUpdate', () => {
     {
       parameterId: 'param1',
       value: 'value1',
-      varType: 'int'
+      varType: 'int',
     },
     {
       parameterId: 'param2',
       value: 'value2',
-      varType: 'string'
-    }
+      varType: 'string',
+    },
   ];
 
   test('parameters for update are properly built from solution data and parameters values', () => {
@@ -671,12 +698,11 @@ describe('buildParametersForUpdate', () => {
 
 describe('getParameterVarType', () => {
   test.each`
-    parameterId          | expectedVarType
-    ${'param1'}          | ${'int'}
-    ${'param2'}          | ${'string'}
-    ${'dataset_param1'}  | ${'%DATASETID%'}
-  `('that parameter $parameterId is of varType $expectedVarType', (
-    { parameterId, expectedVarType }) => {
+    parameterId         | expectedVarType
+    ${'param1'}         | ${'int'}
+    ${'param2'}         | ${'string'}
+    ${'dataset_param1'} | ${'%DATASETID%'}
+  `('that parameter $parameterId is of varType $expectedVarType', ({ parameterId, expectedVarType }) => {
     const res = ScenarioParametersUtils.getParameterVarType(STANDARD_SOLUTION, parameterId);
     expect(res).toStrictEqual(expectedVarType);
   });

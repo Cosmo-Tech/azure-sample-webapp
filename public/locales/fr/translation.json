@@ -35,8 +35,8 @@
           "discard": "Abandonner les modifications",
           "edit": "Éditer",
           "launch": "Lancer le Scénario",
-          "update" : {
-            "launch" : "Mettre à jour et lancer le Scénario"
+          "update": {
+            "launch": "Mettre à jour et lancer le Scénario"
           }
         }
       }
@@ -172,33 +172,33 @@
           "text": {
             "title": "Créer un scénario"
           },
-          "input" : {
+          "input": {
             "scenarioname": {
               "label": "Nom du scénario",
               "error": {
-                "label" : "Erreur",
-                "empty" : "Le nom du scénario ne doit pas être vide",
+                "label": "Erreur",
+                "empty": "Le nom du scénario ne doit pas être vide",
                 "existing": "Le nom du scénario existe déjà",
                 "forbiddenchars": "Le nom du scenario doit commencer par une lettre, et ne peut contenir que des lettres, chiffres, espaces, underscores et tirets."
               }
             }
           },
-          "dropdown" : {
-            "parentscenario" : {
-              "label" : "Scénario parent",
+          "dropdown": {
+            "parentscenario": {
+              "label": "Scénario parent",
               "placeholder": "Sélectionner un scénario parent"
             },
-            "scenariotype" : {
-              "label" : "Type de scénario",
+            "scenariotype": {
+              "label": "Type de scénario",
               "placeholder": "Sélectionner un type de scénario"
             },
-            "dataset" : {
-              "label" : "Dataset",
+            "dataset": {
+              "label": "Dataset",
               "placeholder": "Sélectionner un dataset"
             }
           },
           "checkbox": {
-            "scenarioMaster" : {
+            "scenarioMaster": {
               "label": "Master"
             }
           },
@@ -229,34 +229,34 @@
     },
     "loading": {
       "line": {
-        "workspace" : {
-          "current" : {
-            "title" : "Chargement du workspace"
+        "workspace": {
+          "current": {
+            "title": "Chargement du workspace"
           }
         },
-        "solution" : {
-          "current" : {
-            "title" : "Chargement de la solution"
+        "solution": {
+          "current": {
+            "title": "Chargement de la solution"
           }
         },
-        "dataset" : {
-          "list" : {
-            "title" : "Chargement de la liste des datasets"
+        "dataset": {
+          "list": {
+            "title": "Chargement de la liste des datasets"
           }
         },
         "scenario": {
-          "list" : {
-            "title" : "Chargement de la liste des scénarios"
+          "list": {
+            "title": "Chargement de la liste des scénarios"
           },
           "current": {
-            "title" : "Mise en place du scénario courant"
+            "title": "Mise en place du scénario courant"
           }
         },
         "powerbi": {
-          "title" : "Connexion à PowerBI"
+          "title": "Connexion à PowerBI"
         },
         "runtemplate": {
-          "list" : {
+          "list": {
             "title": "Chargement des types de scénarios"
           }
         }
@@ -280,15 +280,15 @@
         "logout": "Se déconnecter"
       }
     },
-    "dialog" : {
-      "scenario" : {
-        "parameters" : {
+    "dialog": {
+      "scenario": {
+        "parameters": {
           "button": {
             "cancel": "Annuler",
             "validate": "Abandonner"
           },
-           "title" : "Abandonner les modifications ?",
-           "body": "Vous allez perdre toutes les modifications que vous avez faites sur les paramètres de scénario."
+          "title": "Abandonner les modifications ?",
+          "body": "Vous allez perdre toutes les modifications que vous avez faites sur les paramètres de scénario."
         }
       }
     },
@@ -331,15 +331,15 @@
     },
     "scenario": {
       "dropdown": {
-        "scenario" : {
-          "label" : "Scénario",
+        "scenario": {
+          "label": "Scénario",
           "tooltip": {
             "disabled": "Veuillez sauver ou annuler les modifications en cours avant de sélectionner un autre scénario"
           }
         }
       },
-      "text" : {
-        "scenariotype" : "Type de scénario"
+      "text": {
+        "scenariotype": "Type de scénario"
       }
     }
   },

@@ -7,7 +7,7 @@ import { ORGANIZATION_ID } from '../../../../config/AppInstance';
 import { getAllScenariosData } from '../FindAllScenarios/FindAllScenariosData';
 import { Api } from '../../../../services/config/Api';
 
-export function * deleteScenario (action) {
+export function* deleteScenario(action) {
   try {
     const workspaceId = action.workspaceId;
     yield call(Api.Scenarios.deleteScenario, ORGANIZATION_ID, workspaceId, action.scenarioId);
@@ -17,7 +17,7 @@ export function * deleteScenario (action) {
   }
 }
 
-function * deleteScenarioSaga () {
+function* deleteScenarioSaga() {
   yield takeEvery(SCENARIO_ACTIONS_KEY.DELETE_SCENARIO, deleteScenario);
 }
 

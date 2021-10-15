@@ -6,7 +6,7 @@ import { takeEvery } from 'redux-saga/effects';
 import { AUTH_ACTIONS_KEY } from '../../../commons/AuthConstants';
 
 // Generator function to fetch authentication data
-export function * tryLogOut () {
+export function* tryLogOut() {
   try {
     yield Auth.signOut();
   } catch (error) {
@@ -15,7 +15,7 @@ export function * tryLogOut () {
 }
 
 // Watch authentication actions
-function * logOut () {
+function* logOut() {
   yield takeEvery(AUTH_ACTIONS_KEY.REQUEST_LOG_OUT, tryLogOut);
 }
 

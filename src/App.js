@@ -23,24 +23,24 @@ const App = (props) => {
     }
   });
 
-  return (authStatus === 'CONNECTING')
-    ? (
-      <div className="spinner-border text-success" role="status">
-        <span className="sr-only">{t('views.common.text.loading', 'Loading...')}</span>
-      </div>
-      )
-    : (
-        <Loading logout={logOutAction}
-          authenticated={authStatus === 'AUTHENTICATED'}
-          authorized={authStatus === 'AUTHENTICATED'}
-          tabs={TABS} />
-      );
+  return authStatus === 'CONNECTING' ? (
+    <div className="spinner-border text-success" role="status">
+      <span className="sr-only">{t('views.common.text.loading', 'Loading...')}</span>
+    </div>
+  ) : (
+    <Loading
+      logout={logOutAction}
+      authenticated={authStatus === 'AUTHENTICATED'}
+      authorized={authStatus === 'AUTHENTICATED'}
+      tabs={TABS}
+    />
+  );
 };
 
 App.propTypes = {
   authStatus: PropTypes.string.isRequired,
   logInAction: PropTypes.func.isRequired,
-  logOutAction: PropTypes.func.isRequired
+  logOutAction: PropTypes.func.isRequired,
 };
 
 export default App;

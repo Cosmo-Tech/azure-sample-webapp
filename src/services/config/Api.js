@@ -6,7 +6,7 @@ import {
   ScenarioApiFactory,
   ScenariorunApiFactory,
   SolutionApiFactory,
-  WorkspaceApiFactory
+  WorkspaceApiFactory,
 } from '@cosmotech/api-ts';
 import { clientApi } from '../ClientApi';
 import { DEFAULT_BASE_PATH } from '../../config/AppInstance';
@@ -16,5 +16,5 @@ export const Api = {
   ScenarioRuns: ScenariorunApiFactory(null, DEFAULT_BASE_PATH, clientApi),
   Solutions: SolutionApiFactory(null, DEFAULT_BASE_PATH, clientApi),
   Datasets: DatasetApiFactory(null, DEFAULT_BASE_PATH, clientApi),
-  Workspaces: WorkspaceApiFactory(null, DEFAULT_BASE_PATH, clientApi)
+  Workspaces: WorkspaceApiFactory(null, DEFAULT_BASE_PATH, clientApi),
 };

@@ -7,14 +7,14 @@ import { BasicNumberInput } from '@cosmotech/ui';
 const DEFAULT_MIN_VALUE = -1e10 + 1;
 const DEFAULT_MAX_VALUE = 1e10 - 1;
 
-function getMinValue (parameterData) {
+function getMinValue(parameterData) {
   if (parameterData.minValue === null || parameterData.minValue === undefined) {
     return DEFAULT_MIN_VALUE;
   }
   return parameterData.minValue;
 }
 
-function getMaxValue (parameterData) {
+function getMaxValue(parameterData) {
   if (parameterData.maxValue === null || parameterData.maxValue === undefined) {
     return DEFAULT_MAX_VALUE;
   }
@@ -24,17 +24,17 @@ function getMaxValue (parameterData) {
 const create = (t, parameterData, parametersState, setParametersState, editMode) => {
   const inputProps = {
     min: getMinValue(parameterData),
-    max: getMaxValue(parameterData)
+    max: getMaxValue(parameterData),
   };
   const textFieldProps = {
     disabled: !editMode,
-    id: parameterData.id
+    id: parameterData.id,
   };
 
-  function setValue (newValue) {
+  function setValue(newValue) {
     setParametersState({
       ...parametersState,
-      [parameterData.id]: newValue
+      [parameterData.id]: newValue,
     });
   }
 
@@ -42,8 +42,8 @@ const create = (t, parameterData, parametersState, setParametersState, editMode)
     <BasicNumberInput
       key={parameterData.id}
       data-cy={parameterData.dataCy}
-      label={ t(`solution.parameters.${parameterData.id}`, parameterData.id) }
-      value={ parametersState[parameterData.id] || NaN }
+      label={t(`solution.parameters.${parameterData.id}`, parameterData.id)}
+      value={parametersState[parameterData.id] || NaN}
       changeNumberField={setValue}
       textFieldProps={textFieldProps}
       inputProps={inputProps}
@@ -52,5 +52,5 @@ const create = (t, parameterData, parametersState, setParametersState, editMode)
 };
 
 export const BasicNumberInputFactory = {
-  create
+  create,
 };

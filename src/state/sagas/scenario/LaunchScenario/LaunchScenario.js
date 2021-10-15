@@ -12,7 +12,7 @@ import { AppInsights } from '../../../../services/AppInsights';
 const appInsights = AppInsights.getInstance();
 
 // generators function
-export function * launchScenario (action) {
+export function* launchScenario(action) {
   try {
     appInsights.trackScenarioLaunch();
     const workspaceId = action.workspaceId;
@@ -22,7 +22,7 @@ export function * launchScenario (action) {
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
       status: STATUSES.SAVING,
-      scenario: { state: SCENARIO_RUN_STATE.RUNNING }
+      scenario: { state: SCENARIO_RUN_STATE.RUNNING },
     });
 
     // Launch scenario if parameters update succeeded
@@ -32,7 +32,7 @@ export function * launchScenario (action) {
     yield put({
       type: SCENARIO_ACTIONS_KEY.START_SCENARIO_STATUS_POLLING,
       workspaceId: workspaceId,
-      scenarioId: scenarioId
+      scenarioId: scenarioId,
     });
   } catch (e) {
     console.error(e);
@@ -42,7 +42,7 @@ export function * launchScenario (action) {
 // generators function
 // Here is a watcher that takes EVERY action dispatched named CREATE_SCENARIO
 // and binds createScenario saga to it
-function * launchScenarioSaga () {
+function* launchScenarioSaga() {
   yield takeEvery(SCENARIO_ACTIONS_KEY.LAUNCH_SCENARIO, launchScenario);
 }
 

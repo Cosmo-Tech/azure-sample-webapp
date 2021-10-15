@@ -8,19 +8,21 @@ const create = (t, parameterData, parametersState, setParametersState, editMode)
   let enumValues = parameterData.enumValues;
   const textFieldProps = {
     disabled: !editMode,
-    id: parameterData.id
+    id: parameterData.id,
   };
 
   if (!enumValues) {
-    console.warn(`Enum values are not defined for scenario parameter "${parameterData.id}".\n` +
-      'Please provide an array in the "enumValues" field for this parameter in the parameters configuration file.');
+    console.warn(
+      `Enum values are not defined for scenario parameter "${parameterData.id}".\n` +
+        'Please provide an array in the "enumValues" field for this parameter in the parameters configuration file.'
+    );
     enumValues = [];
   }
 
-  function setValue (newValue) {
+  function setValue(newValue) {
     setParametersState({
       ...parametersState,
-      [parameterData.id]: newValue
+      [parameterData.id]: newValue,
     });
   }
 
@@ -28,8 +30,8 @@ const create = (t, parameterData, parametersState, setParametersState, editMode)
     <BasicEnumInput
       key={parameterData.id}
       data-cy={parameterData.dataCy} // Optional data for cypress
-      label={ t(`solution.parameters.${parameterData.id}`, parameterData.id) }
-      value={ parametersState[parameterData.id] || enumValues?.[0]?.key || '' }
+      label={t(`solution.parameters.${parameterData.id}`, parameterData.id)}
+      value={parametersState[parameterData.id] || enumValues?.[0]?.key || ''}
       changeEnumField={setValue}
       textFieldProps={textFieldProps}
       enumValues={enumValues}
@@ -38,5 +40,5 @@ const create = (t, parameterData, parametersState, setParametersState, editMode)
 };
 
 export const BasicEnumInputFactory = {
-  create
+  create,
 };

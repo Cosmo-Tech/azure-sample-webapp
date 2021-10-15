@@ -10,7 +10,7 @@ import { deleteScenarioSaga } from './DeleteScenario';
 import { updateAndLaunchScenarioSaga } from './UpdateAndLaunchScenario';
 import { launchScenarioSaga } from './LaunchScenario';
 
-export default function * scenarioSaga () {
+export default function* scenarioSaga() {
   yield all([
     fork(findAllScenariosData),
     fork(findScenarioByIdData),
@@ -18,6 +18,6 @@ export default function * scenarioSaga () {
     fork(deleteScenarioSaga),
     fork(pollScenarioStateSaga),
     fork(updateAndLaunchScenarioSaga),
-    fork(launchScenarioSaga)
+    fork(launchScenarioSaga),
   ]);
 }

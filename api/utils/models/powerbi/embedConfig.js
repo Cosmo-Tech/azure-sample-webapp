@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 class EmbedConfig {
-  constructor (type, reportsDetail, embedToken) {
+  constructor(type, reportsDetail, embedToken) {
     this.type = type;
     this.reportsDetail = reportsDetail;
     this.embedToken = embedToken;

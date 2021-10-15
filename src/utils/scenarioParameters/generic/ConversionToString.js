@@ -3,31 +3,31 @@
 
 import { DATASET_ID_VARTYPE } from '../../../services/config/ApiConstants';
 
-function _convertEnumToString (parameterValue) {
+function _convertEnumToString(parameterValue) {
   return parameterValue; // Already a string
 }
 
-function _convertStringToString (parameterValue) {
+function _convertStringToString(parameterValue) {
   return parameterValue; // Already a string
 }
 
-function _convertIntToString (parameterValue) {
+function _convertIntToString(parameterValue) {
   return parameterValue.toString();
 }
 
-function _convertNumberToString (parameterValue) {
+function _convertNumberToString(parameterValue) {
   return parameterValue.toString();
 }
 
-function _convertBoolToString (parameterValue) {
+function _convertBoolToString(parameterValue) {
   return parameterValue.toString();
 }
 
-function _convertDateToString (parameterValue) {
+function _convertDateToString(parameterValue) {
   return parameterValue.toISOString();
 }
 
-function _convertDatasetIdToString (parameterValue) {
+function _convertDatasetIdToString(parameterValue) {
   return parameterValue; // Already a string
 }
 
@@ -38,5 +38,5 @@ export const GENERIC_VAR_TYPES_TO_STRING_FUNCTIONS = {
   number: _convertNumberToString,
   bool: _convertBoolToString,
   date: _convertDateToString,
-  [DATASET_ID_VARTYPE]: _convertDatasetIdToString // "%DATASETID%" varType
+  [DATASET_ID_VARTYPE]: _convertDatasetIdToString, // "%DATASETID%" varType
 };
