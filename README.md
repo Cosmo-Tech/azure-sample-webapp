@@ -50,8 +50,9 @@ Please refer to [Webapp configuration](doc/README.md)
 
 ## Start the webapp locally
 
-This project is configured to be used with the [Yarn](https://yarnpkg.com/getting-started/install) package manager.
-First, you have to start your Azure Functions, that are required for the PowerBI embedded reports to work correctly, with the commands below:
+Note: this project is configured to be used with the [Yarn](https://yarnpkg.com/getting-started/install) package manager.
+
+First, you have to start the Azure Functions, that are required for the PowerBI embedded reports to work correctly. Install the [Azure Function Core Tools](https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=v3%2Clinux%2Ccsharp%2Cportal%2Cbash%2Ckeda), and then, run the commands below:
 
 ```
 cd api
