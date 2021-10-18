@@ -19,3 +19,9 @@ export const SCENARIO_RUN_LOG_TYPE = 'CUMULATED_LOGS';
 
 // Whether to enable Application Insights events tracking
 export const ENABLE_APPLICATION_INSIGHTS = true;
+
+// Support page url
+export const SUPPORT_URL = 'http://support.cosmotech.com';
+
+// Documentation url
+export const DOCUMENTATION_URL = 'doc.pdf';
