@@ -1,39 +1,28 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { FILE_NAME } from '../../commons/constants/generic/TestConstants';
-import { GENERIC_SELECTORS as SELECTORS } from '../../commons/constants/generic/IdConstants';
+import { AppBarMenu } from '../../commons/actions/generic/AppBarMenu';
+import { PAGE_NAME } from '../../commons/constants/generic/TestConstants';
 
 describe('UserInfo features', () => {
-  const docFileLink = `a[href="${FILE_NAME.DOC}"]`;
-
   it('can log in with Microsoft account account', () => {
-    cy.visit('/');
+    cy.visit(PAGE_NAME.SCENARIO);
     cy.login();
-  });
-
-  it('can download the documentation PDF', () => {
-    cy.get(SELECTORS.userProfileMenu.menu).click();
-    // Check that the link to the documentation PDF file exists
-    cy.get(docFileLink).should('have.attr', 'target', '_blank');
   });
 
   it('can change the application language', () => {
     // Set lang to fr
-    cy.get(SELECTORS.userProfileMenu.menu).click();
-    cy.get(SELECTORS.userProfileMenu.language.change).click();
-    cy.get(SELECTORS.userProfileMenu.language.fr)
-      .click()
-      .should(() => {
-        expect(localStorage.getItem('locale')).to.eq('fr');
-      });
+    AppBarMenu.getUserInfoMenu();
+    AppBarMenu.getLanguageChangeSelector();
+    AppBarMenu.selectLanguage('fr').should(() => {
+      expect(localStorage.getItem('locale')).to.eq('fr');
+    });
+
     // Set lang to en
-    cy.get(SELECTORS.userProfileMenu.menu).click();
-    cy.get(SELECTORS.userProfileMenu.language.change).click();
-    cy.get(SELECTORS.userProfileMenu.language.en)
-      .click()
-      .should(() => {
-        expect(localStorage.getItem('locale')).to.eq('en');
-      });
+    AppBarMenu.getUserInfoMenu();
+    AppBarMenu.getLanguageChangeSelector();
+    AppBarMenu.selectLanguage('en').should(() => {
+      expect(localStorage.getItem('locale')).to.eq('en');
+    });
   });
 });

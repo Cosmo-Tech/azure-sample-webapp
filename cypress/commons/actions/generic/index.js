@@ -5,3 +5,4 @@ export { FileParameters } from './FileParameters';
 export { ScenarioManager } from './ScenarioManager';
 export { Scenarios } from './Scenarios';
 export { ScenarioParameters } from './ScenarioParameters';
+export { AppBarMenu } from './AppBarMenu';
