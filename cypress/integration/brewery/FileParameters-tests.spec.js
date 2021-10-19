@@ -3,8 +3,11 @@
 
 import 'cypress-file-upload';
 import utils from '../../commons/TestUtils';
-import { SCENARIO_NAME, PAGE_NAME, DATASET, SCENARIO_TYPE } from '../../commons/TestConstants';
-import { Scenarios, ScenarioManager, ScenarioParameters, BreweryParameters } from '../../commons/actions';
+
+import { SCENARIO_NAME, DATASET, SCENARIO_TYPE } from '../../commons/constants/brewery/TestConstants';
+import { PAGE_NAME } from '../../commons/constants/generic/TestConstants';
+import { Scenarios, ScenarioManager, ScenarioParameters } from '../../commons/actions';
+import { BreweryParameters } from '../../commons/actions/brewery';
 
 Cypress.Keyboard.defaults({
   keystrokeDelay: 0,

@@ -1,29 +1,29 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { SELECTORS } from '../../IdConstants';
+import { BREWERY_SELECTORS } from '../../constants/brewery/IdConstants';
 import { FileParameters } from '../generic';
 
 // Get tabs elements
 function getDatasetPartsTab() {
-  return cy.get(SELECTORS.scenario.parameters.datasetParts.tabName);
+  return cy.get(BREWERY_SELECTORS.scenario.parameters.datasetParts.tabName);
 }
 function getExtraDatasetPartTab() {
-  return cy.get(SELECTORS.scenario.parameters.extraDatasetPart.tabName);
+  return cy.get(BREWERY_SELECTORS.scenario.parameters.extraDatasetPart.tabName);
 }
 function getBasicTypesTab() {
-  return cy.get(SELECTORS.scenario.parameters.basicTypes.tabName);
+  return cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.tabName);
 }
 
 // Get file parameters input elements
 function getExampleDatasetPart1() {
-  return cy.get(SELECTORS.scenario.parameters.datasetParts.exampleDatasetPart1);
+  return cy.get(BREWERY_SELECTORS.scenario.parameters.datasetParts.exampleDatasetPart1);
 }
 function getExampleDatasetPart2() {
-  return cy.get(SELECTORS.scenario.parameters.datasetParts.exampleDatasetPart2);
+  return cy.get(BREWERY_SELECTORS.scenario.parameters.datasetParts.exampleDatasetPart2);
 }
 function getExampleDatasetPart3() {
-  return cy.get(SELECTORS.scenario.parameters.extraDatasetPart.exampleDatasetPart3);
+  return cy.get(BREWERY_SELECTORS.scenario.parameters.extraDatasetPart.exampleDatasetPart3);
 }
 
 function getExampleDatasetPart1DownloadButton() {

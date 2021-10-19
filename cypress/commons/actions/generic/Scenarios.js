@@ -1,36 +1,36 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { PAGE_NAME, URL_ROOT } from '../../TestConstants';
-import { SELECTORS } from '../../IdConstants';
+import { PAGE_NAME, URL_ROOT } from '../../constants/generic/TestConstants';
+import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
 
 // Get elements in scenario view
 function getScenarioSelector() {
-  return cy.get(SELECTORS.scenario.selectInput);
+  return cy.get(GENERIC_SELECTORS.scenario.selectInput);
 }
 function getScenarioCreationButton() {
-  return cy.get(SELECTORS.scenario.createButton);
+  return cy.get(GENERIC_SELECTORS.scenario.createButton);
 }
 function getScenarioCreationDialog() {
-  return cy.get(SELECTORS.scenario.createDialog.dialog);
+  return cy.get(GENERIC_SELECTORS.scenario.createDialog.dialog);
 }
 function getScenarioCreationDialogNameField() {
-  return cy.get(SELECTORS.scenario.createDialog.nameTextfield);
+  return cy.get(GENERIC_SELECTORS.scenario.createDialog.nameTextfield);
 }
 function getScenarioCreationDialogMasterCheckbox() {
-  return cy.get(SELECTORS.scenario.createDialog.masterCheckbox);
+  return cy.get(GENERIC_SELECTORS.scenario.createDialog.masterCheckbox);
 }
 function getScenarioCreationDialogDatasetSelector() {
-  return cy.get(SELECTORS.scenario.createDialog.datasetSelect);
+  return cy.get(GENERIC_SELECTORS.scenario.createDialog.datasetSelect);
 }
 function getScenarioCreationDialogParentScenarioSelector() {
-  return getScenarioCreationDialog().find(SELECTORS.scenario.selectInput);
+  return getScenarioCreationDialog().find(GENERIC_SELECTORS.scenario.selectInput);
 }
 function getScenarioCreationDialogRunTypeSelector() {
-  return cy.get(SELECTORS.scenario.createDialog.typeSelect);
+  return cy.get(GENERIC_SELECTORS.scenario.createDialog.typeSelect);
 }
 function getScenarioCreationDialogSubmitButton() {
-  return cy.get(SELECTORS.scenario.createDialog.submitButton);
+  return cy.get(GENERIC_SELECTORS.scenario.createDialog.submitButton);
 }
 
 // From scenario view, select the scenario with the provided name and id

@@ -1,21 +1,21 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { URL_REGEX } from '../../TestConstants';
-import { SELECTORS } from '../../IdConstants';
+import { URL_REGEX } from '../../constants/generic/TestConstants';
+import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
 
 // Get elements in scenario parameters panel
 function getParametersEditButton() {
-  return cy.get(SELECTORS.scenario.parameters.editButton);
+  return cy.get(GENERIC_SELECTORS.scenario.parameters.editButton);
 }
 function getParametersDiscardButton() {
-  return cy.get(SELECTORS.scenario.parameters.discardButton);
+  return cy.get(GENERIC_SELECTORS.scenario.parameters.discardButton);
 }
 function getParametersConfirmDiscardButton() {
-  return cy.get(SELECTORS.scenario.parameters.dialogDiscardButton);
+  return cy.get(GENERIC_SELECTORS.scenario.parameters.dialogDiscardButton);
 }
 function getParametersUpdateAndLaunchButton() {
-  return cy.get(SELECTORS.scenario.parameters.updateAndLaunchButton);
+  return cy.get(GENERIC_SELECTORS.scenario.parameters.updateAndLaunchButton);
 }
 
 // Actions around scenario parameters
