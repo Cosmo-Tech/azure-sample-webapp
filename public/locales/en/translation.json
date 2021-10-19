@@ -274,11 +274,12 @@
         "change": {
           "language": "Change language"
         },
-        "download": {
-          "documentation": "Download documentation"
-        },
         "logout": "Sign out"
       }
+    },
+    "helpmenu": {
+      "documentation": "Documentation",
+      "support": "Contact support"
     },
     "dialog": {
       "scenario": {

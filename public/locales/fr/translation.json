@@ -274,11 +274,12 @@
         "change": {
           "language": "Changer la langue"
         },
-        "download": {
-          "documentation": "Télécharger la documentation"
-        },
         "logout": "Se déconnecter"
       }
+    },
+    "helpmenu": {
+      "documentation": "Documentation",
+      "support": "Contacter le support"
     },
     "dialog": {
       "scenario": {
