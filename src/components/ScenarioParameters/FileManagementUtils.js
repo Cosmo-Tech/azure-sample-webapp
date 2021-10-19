@@ -179,6 +179,9 @@ const prepareToUpload = (event, clientFileDescriptor, setClientFileDescriptor) =
     name: file.name,
     status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD,
   });
+  // Fix Chrome/Edge "cache" behaviour.
+  // HTML input is not triggered when the same file is selected twice
+  event.target.value = null;
 };
 
 const prepareToDeleteFile = (setClientFileDescriptorStatus) => {
