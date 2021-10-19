@@ -35,9 +35,8 @@ def parse_arguments():
 
 def check_all(version_brewery, version_vanilla):
     return (
-        # check_branch_is_main()
-        # and
-        pull()
+        check_branch_is_main()
+        and pull()
         and check_head()
         and not check_tag_exists(version_brewery)
         and not check_tag_exists(version_vanilla)
@@ -88,6 +87,10 @@ def main():
 The release script ran successfully. Please check created tags are correct, and push them with:
 
 git push --tags
+
+You can get the release changelog with:
+
+git-conventional-commits changelog
 ''')
     return
 
