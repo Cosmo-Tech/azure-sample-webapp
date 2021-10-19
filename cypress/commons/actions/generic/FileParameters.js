@@ -1,20 +1,20 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { SELECTORS } from '../../IdConstants';
+import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
 
 // Get the "browse" button from the provided parameterSelector and upload the file provided by filePath (path must be
 // relative to the cypress "fixtures" folder)
 function upload(fileParameterElement, filePath) {
-  fileParameterElement.find(SELECTORS.genericComponents.uploadFile.browseButtonInput).attachFile(filePath);
+  fileParameterElement.find(GENERIC_SELECTORS.genericComponents.uploadFile.browseButtonInput).attachFile(filePath);
 }
 
 function getDownloadButton(fileParameterElement) {
-  return fileParameterElement.find(SELECTORS.genericComponents.uploadFile.downloadButton);
+  return fileParameterElement.find(GENERIC_SELECTORS.genericComponents.uploadFile.downloadButton);
 }
 
 function getDeleteButton(fileParameterElement) {
-  return fileParameterElement.find(SELECTORS.genericComponents.uploadFile.deleteButton);
+  return fileParameterElement.find(GENERIC_SELECTORS.genericComponents.uploadFile.deleteButton);
 }
 
 function download(fileParameterElement) {

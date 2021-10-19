@@ -1,8 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { URL_REGEX, URL_POWERBI } from '../commons/TestConstants';
-import { SELECTORS } from '../commons/IdConstants';
+import { URL_REGEX, URL_POWERBI } from '../commons/constants/generic/TestConstants';
+import { GENERIC_SELECTORS as SELECTORS } from '../commons/constants/generic/IdConstants';
 
 // For this moment, login is handle by clicking on Microsoft Login button
 Cypress.Commands.add('login', () => {
