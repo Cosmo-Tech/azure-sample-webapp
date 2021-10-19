@@ -33,7 +33,7 @@ i18next
   // for all options read: https://www.i18next.com/overview/configuration-options
   .init({
     fallbackLng: FALLBACK_LANGUAGE,
-    whitelist: Object.keys(LANGUAGES),
+    supportedLngs: Object.keys(LANGUAGES),
     detection: langDetectorOptions,
     backend: {
       loadPath: '/locales/{{lng}}/{{ns}}.json',
