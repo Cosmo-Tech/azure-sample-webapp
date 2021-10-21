@@ -296,12 +296,7 @@
       "scenario": {
         "parameters": {
           "placeholder": "No parameters to edit.",
-          "title": "Scenario parameters",
-          "bar": {
-            "restock": "Restock quantity",
-            "stock": "Stock",
-            "waiters": "Waiters number"
-          }
+          "title": "Scenario parameters"
         }
       }
     }

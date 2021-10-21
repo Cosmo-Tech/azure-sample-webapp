@@ -296,12 +296,7 @@
       "scenario": {
         "parameters": {
           "placeholder": "Aucun paramètre à éditer.",
-          "title": "Paramètres de scénario",
-          "bar": {
-            "restock": "Seuil de réapprovisionnement",
-            "stock": "Stock",
-            "waiters": "Nombre de serveurs"
-          }
+          "title": "Paramètres de scénario"
         }
       }
     }
