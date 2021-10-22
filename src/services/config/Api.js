@@ -11,10 +11,13 @@ import {
 import { clientApi } from '../ClientApi';
 import { DEFAULT_BASE_PATH } from '../../config/AppInstance';
 
+// Remove trailing slash characters in default base path to prevent CORS errors
+const defaultBasePath = DEFAULT_BASE_PATH.replace(/\/+$/, '');
+
 export const Api = {
-  Scenarios: ScenarioApiFactory(null, DEFAULT_BASE_PATH, clientApi),
-  ScenarioRuns: ScenariorunApiFactory(null, DEFAULT_BASE_PATH, clientApi),
-  Solutions: SolutionApiFactory(null, DEFAULT_BASE_PATH, clientApi),
-  Datasets: DatasetApiFactory(null, DEFAULT_BASE_PATH, clientApi),
-  Workspaces: WorkspaceApiFactory(null, DEFAULT_BASE_PATH, clientApi),
+  Scenarios: ScenarioApiFactory(null, defaultBasePath, clientApi),
+  ScenarioRuns: ScenariorunApiFactory(null, defaultBasePath, clientApi),
+  Solutions: SolutionApiFactory(null, defaultBasePath, clientApi),
+  Datasets: DatasetApiFactory(null, defaultBasePath, clientApi),
+  Workspaces: WorkspaceApiFactory(null, defaultBasePath, clientApi),
 };
