@@ -257,7 +257,3 @@ const PARAMETERS = {
   }
 };
 ```
-
-## File upload
-
-See documentation in [File upload](fileUpload.md).
