@@ -24,7 +24,7 @@ export function* updateAndLaunchScenario(action) {
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
       status: STATUSES.SAVING,
-      scenario: { state: SCENARIO_RUN_STATE.RUNNING },
+      scenario: { state: SCENARIO_RUN_STATE.RUNNING, parametersValues: scenarioParameters },
     });
     const { data: updateData } = yield call(Api.Scenarios.updateScenario, ORGANIZATION_ID, workspaceId, scenarioId, {
       parametersValues: scenarioParameters,
