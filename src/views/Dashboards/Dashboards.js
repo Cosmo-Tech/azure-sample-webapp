@@ -164,7 +164,7 @@ TabPanel.propTypes = {
   title: PropTypes.string.isRequired,
   lang: PropTypes.string.isRequired,
   scenarioList: PropTypes.array.isRequired,
-  scenario: PropTypes.object.isRequired,
+  scenario: PropTypes.object,
   reports: PropTypes.object.isRequired,
   labels: PropTypes.object,
 };
