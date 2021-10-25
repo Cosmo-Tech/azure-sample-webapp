@@ -235,6 +235,32 @@ const PARAMETERS = {
 };
 ```
 
+### Improve mapping between varTypes and factories
+
+You may have to define a specific input component regarding a specific parameter.
+To do this, you can add a property to your parameter configuration:
+- `extendedVarType` (optional): define extra information on varType to enhance mapping between varType <-> InputFactory
+
+Example:
+
+```
+const PARAMETERS = {
+  initial_stock_dataset: {
+    connectorId: 'C-xxxxxxxxxx',
+    defaultFileTypeFilter: '.zip,.csv,.json,.xls,.xlsx',
+    description: 'Initial stock dataset part'
+    extendedVarType: 'TABLE'
+  },
+};
+```
+
+After that, you'll have to handle this `extendedVarType` properly by defining:
+- a conversion method in `ConversionFromString.js` file
+- a conversion method in `ConversionToString.js` file
+- an entry in `CUSTOM_VAR_TYPES_EXTENSION` constant in `DefaultValues.js` file
+- an entry in `CUSTOM_VAR_TYPES_FACTORIES_MAPPING` constant in `FactoriesMapping.js` file
+- define your own `inputComponentsFactories`
+
 ### Configure input components for Cypress tests
 
 If you want to add Cypress tests for your solution and test the scenario parameters input components, you can add a

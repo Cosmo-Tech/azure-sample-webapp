@@ -28,6 +28,17 @@ export const addTranslationLabels = (config) => {
   _addTranslationParametersLabels(config);
 };
 
+const buildExtendedVarType = (varType, extension) => {
+  if (varType) {
+    if (extension) {
+      return varType + '-' + extension;
+    }
+    return varType;
+  }
+  return undefined;
+};
+
 export const ConfigUtils = {
   addTranslationLabels,
+  buildExtendedVarType,
 };
