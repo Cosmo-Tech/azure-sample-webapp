@@ -11,12 +11,12 @@ const clone = rfdc();
 
 function _formatParameters(parameters, conversionArray) {
   const newParams = parameters.map((param) => {
-    const extendedVarType = ConfigUtils.getExtendedVarType(param.parameterId, SCENARIO_PARAMETERS_CONFIG?.parameters);
-    const convertMethod = ConfigUtils.getConversionMethod(param, extendedVarType, conversionArray);
+    const subType = ConfigUtils.getParameterSubType(param.parameterId, SCENARIO_PARAMETERS_CONFIG?.parameters);
+    const conversionMethod = ConfigUtils.getConversionMethod(param, subType, conversionArray);
     // Clone the original parameter to prevent undesired modifications
     const newParam = clone(param);
-    if (convertMethod) {
-      newParam.value = convertMethod(newParam.value);
+    if (conversionMethod) {
+      newParam.value = conversionMethod(newParam.value);
     }
     return newParam;
   });

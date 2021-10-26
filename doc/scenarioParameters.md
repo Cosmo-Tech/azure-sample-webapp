@@ -239,7 +239,7 @@ const PARAMETERS = {
 
 You may have to define a specific input component regarding a specific parameter.
 To do this, you can add a property to your parameter configuration:
-- `extendedVarType` (optional): define a varType suffix to handle this parameter as a custom varType
+- `subType` (optional): define a varType suffix to handle this parameter as a custom varType
 
 Example:
 
@@ -249,16 +249,16 @@ const PARAMETERS = {
     connectorId: 'C-xxxxxxxxxx',
     defaultFileTypeFilter: '.zip,.csv,.json,.xls,.xlsx',
     description: 'Initial stock dataset part'
-    extendedVarType: 'TABLE'
+    subType: 'TABLE'
   },
 };
 ```
 
-After that, you'll have to handle this `extendedVarType` properly by defining:
+After that, you'll have to handle this `subType` properly by defining:
 - a conversion method in `ConversionFromString.js` file (fallback on conversion method defined for the varType)
 - a conversion method in `ConversionToString.js` file (fallback on conversion method defined for the varType)
 - an entry in `CUSTOM_VAR_TYPES_DEFAULT_VALUES` constant in `DefaultValues.js` file (fallback on default value defined for the varType)
-- an entry in `CUSTOM_VAR_TYPES_FACTORIES_MAPPING` constant in `FactoriesMapping.js` file
+- an entry in `CUSTOM_VAR_TYPES_FACTORIES_MAPPING` constant in `FactoriesMapping.js` file (fallback on factory mapping defined for the varType)
 - define your own `inputComponentsFactories`
 
 ### Configure input components for Cypress tests

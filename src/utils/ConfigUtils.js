@@ -28,7 +28,7 @@ export const addTranslationLabels = (config) => {
   _addTranslationParametersLabels(config);
 };
 
-const buildCompleteExtendedVarType = (varType, extension) => {
+const buildExtendedVarType = (varType, extension) => {
   if (varType) {
     if (extension) {
       return varType + '-' + extension;
@@ -38,9 +38,10 @@ const buildCompleteExtendedVarType = (varType, extension) => {
   return undefined;
 };
 
-function getConversionMethod(param, extendedVarType, functionArray) {
+function getConversionMethod(param, subType, functionArray) {
   const varType = param?.varType;
   if (functionArray) {
+    const extendedVarType = ConfigUtils.buildExtendedVarType(varType, subType);
     if (extendedVarType in functionArray) {
       return functionArray[extendedVarType];
     } else if (varType in functionArray) {
@@ -48,18 +49,18 @@ function getConversionMethod(param, extendedVarType, functionArray) {
     }
   }
   console.warn(
-    `No conversion function (to/from string) defined for varType "${extendedVarType} or ${varType} in ${functionArray}"`
+    `No conversion function (to/from string) defined for varType "${varType} or subType ${subType} in ${functionArray}"`
   );
   return undefined;
 }
 
-const getExtendedVarType = (parameterId, configParameters) => {
-  return configParameters?.[parameterId]?.extendedVarType;
+const getParameterSubType = (parameterId, configParameters) => {
+  return configParameters?.[parameterId]?.subType;
 };
 
 export const ConfigUtils = {
   addTranslationLabels,
-  buildCompleteExtendedVarType,
+  buildExtendedVarType,
   getConversionMethod,
-  getExtendedVarType,
+  getParameterSubType,
 };

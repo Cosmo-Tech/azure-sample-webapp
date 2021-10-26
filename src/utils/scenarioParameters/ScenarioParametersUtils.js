@@ -7,7 +7,8 @@ import { ConfigUtils } from '../ConfigUtils';
 
 const clone = rfdc();
 
-const _getVarTypeDefaultValue = (varType, extendedVarType) => {
+const _getVarTypeDefaultValue = (varType, subType) => {
+  const extendedVarType = ConfigUtils.buildExtendedVarType(varType, subType);
   if (extendedVarType in VAR_TYPES_DEFAULT_VALUES) {
     return VAR_TYPES_DEFAULT_VALUES[extendedVarType];
   }
@@ -23,9 +24,8 @@ const _findParameterInSolutionParametersById = (parameterId, solutionParameters)
 };
 
 function _getDefaultParameterValueFromDefaultValues(parameterId, configParameters, parameterVarType) {
-  const extendedVarType = ConfigUtils.getExtendedVarType(parameterId, configParameters);
-  // No default value defined in Solution description, or unknown parameter
-  return _getVarTypeDefaultValue(parameterVarType, extendedVarType);
+  const subType = ConfigUtils.getParameterSubType(parameterId, configParameters);
+  return _getVarTypeDefaultValue(parameterVarType, subType);
 }
 
 const _getDefaultParameterValue = (parameterId, solutionParameters, configParameters) => {
