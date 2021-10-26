@@ -7,8 +7,13 @@ import { ConfigUtils } from '../../ConfigUtils';
 
 const create = (t, datasets, parameterData, parametersState, setParametersState, editMode) => {
   const parameterVarType = ConfigUtils.buildExtendedVarType(parameterData.varType, parameterData.subType);
+  let varTypeFactory;
 
-  const varTypeFactory = VAR_TYPES_FACTORIES_MAPPING[parameterVarType];
+  if (parameterVarType in VAR_TYPES_FACTORIES_MAPPING) {
+    varTypeFactory = VAR_TYPES_FACTORIES_MAPPING[parameterVarType];
+  } else {
+    varTypeFactory = VAR_TYPES_FACTORIES_MAPPING[parameterData.varType];
+  }
 
   if (varTypeFactory === undefined) {
     console.warn('No factory defined for varType ' + parameterVarType);
@@ -18,7 +23,7 @@ const create = (t, datasets, parameterData, parametersState, setParametersState,
     return null;
   }
 
-  if (parameterVarType === DATASET_ID_VARTYPE) {
+  if (parameterVarType.startsWith(DATASET_ID_VARTYPE)) {
     return varTypeFactory.create(t, datasets, parameterData, parametersState, setParametersState, editMode);
   }
   return varTypeFactory.create(t, parameterData, parametersState, setParametersState, editMode);
