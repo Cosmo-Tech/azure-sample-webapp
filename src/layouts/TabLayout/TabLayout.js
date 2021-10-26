@@ -6,9 +6,9 @@ import { AppBar, Tabs, Tab, Box, makeStyles } from '@material-ui/core';
 import { Switch, Route, Link, Redirect, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Auth } from '@cosmotech/core';
-import { PrivateRoute, UserInfo } from '@cosmotech/ui';
+import { PrivateRoute, UserInfo, HelpMenu } from '@cosmotech/ui';
 import { useTranslation } from 'react-i18next';
-import { LANGUAGES } from '../../config/AppConfiguration';
+import { LANGUAGES, SUPPORT_URL, DOCUMENTATION_URL } from '../../config/AppConfiguration';
 import theme from '../../theme/';
 import profilePlaceholder from '../../assets/profile_placeholder.png';
 
@@ -76,8 +76,12 @@ const TabLayout = (props) => {
 
   const userInfoLabels = {
     language: t('genericcomponent.userinfo.button.change.language'),
-    documentation: t('genericcomponent.userinfo.button.download.documentation'),
     logOut: t('genericcomponent.userinfo.button.logout'),
+  };
+
+  const helpLabels = {
+    documentation: t('genericcomponent.helpmenu.documentation'),
+    support: t('genericcomponent.helpmenu.support'),
   };
 
   return (
@@ -99,8 +103,10 @@ const TabLayout = (props) => {
           </Tabs>
           <div className={classes.rightBar}>
             <div className={classes.rightBarElement}>
+              <HelpMenu documentationUrl={DOCUMENTATION_URL} supportUrl={SUPPORT_URL} labels={helpLabels} />
+            </div>
+            <div className={classes.rightBarElement}>
               <UserInfo
-                documentationUrl="doc.pdf"
                 languages={LANGUAGES}
                 changeLanguage={(lang) => i18n.changeLanguage(lang)}
                 language={i18n.language}

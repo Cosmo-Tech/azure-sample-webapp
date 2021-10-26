@@ -1390,10 +1390,10 @@
     eslint-plugin-prettier "^4.0.0"
     prettier "^2.4.1"
 
-"@cosmotech/ui@^1.0.0":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-1.0.1.tgz#f1a5f610a235176bdfccb19741f2983826618520"
-  integrity sha512-qmUKF2tZTB4pRsrWshovrPyCYWmTdHNsuoi2+aqd58GW5wY75FPXkZxrbyqbaT6YmLSQKqVdVS9H+yAelzQHzQ==
+"@cosmotech/ui@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-1.0.2.tgz#2eac4dade75b08feb965a3039e3bc69755bd0c08"
+  integrity sha512-EixB7dpYKINy+0UIpZQHrh6jWQZL8qY7iq9xmT+nAX3Mw5ZLMCUN2TLoUxp+UF/x0QEqQVN8xg8952kHHAoXzw==
   dependencies:
     "@date-io/date-fns" "^1.3.13"
     "@material-ui/pickers" "^3.3.10"

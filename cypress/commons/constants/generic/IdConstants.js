@@ -14,6 +14,9 @@ export const GENERIC_SELECTORS = {
       fr: '[data-cy=set-lang-fr]',
     },
   },
+  helpMenu: {
+    menu: '[data-cy=help-menu]',
+  },
   scenario: {
     view: '[data-cy=scenario-view]',
     dashboard: {

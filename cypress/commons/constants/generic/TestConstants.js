@@ -18,6 +18,8 @@ export const URL_REGEX = {
   SCENARIO_PAGE_RUN_WITH_ID: new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/.*/run`),
 };
 
+export const SUPPORT_URL = 'http://support.cosmotech.com';
+
 export const FILE_NAME = {
   DOC: 'doc.pdf',
 };

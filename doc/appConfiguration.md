@@ -14,3 +14,6 @@ application.
   Its value is expressed in milliseconds
 - **SCENARIO_RUN_LOG_TYPE** is the type of logs to get, when downloading the logs of a scenario run (SIMPLE_LOGS or
   CUMULATED_LOGS)
+- **SUPPORT_URL** is the url (expressed as a string) of the support page that can be get in the help menu symbolysed by a "?".
+  If this value is set to null, the item is disabled and not displayed.
+  - **DOCUMENTION_URL** is the url (expressed as a string) of the documentation.
