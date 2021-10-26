@@ -38,7 +38,23 @@ const buildExtendedVarType = (varType, extension) => {
   return undefined;
 };
 
+function getConversionMethod(param, extendedVarType, functionArray) {
+  const varType = param?.varType;
+  if (functionArray) {
+    if (extendedVarType in functionArray) {
+      return functionArray[extendedVarType];
+    } else if (varType in functionArray) {
+      return functionArray[varType];
+    }
+  }
+  console.warn(
+    `No conversion function (to/from string) defined for varType "${extendedVarType} or ${varType} in ${functionArray}"`
+  );
+  return undefined;
+}
+
 export const ConfigUtils = {
   addTranslationLabels,
   buildExtendedVarType,
+  getConversionMethod,
 };

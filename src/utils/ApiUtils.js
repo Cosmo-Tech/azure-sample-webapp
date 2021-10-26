@@ -4,25 +4,32 @@
 import rfdc from 'rfdc';
 import { VAR_TYPES_TO_STRING_FUNCTIONS } from './scenarioParameters/ConversionToString';
 import { VAR_TYPES_FROM_STRING_FUNCTIONS } from './scenarioParameters/ConversionFromString.js';
+import { ConfigUtils } from './ConfigUtils';
+import { SCENARIO_PARAMETERS_CONFIG } from '../config/ScenarioParameters';
 
 const clone = rfdc();
 
-// Reformat scenario parameters to match the API expected types
-export function formatParametersForApi(parameters) {
+const _getExtendedVarType = (parameterId) => {
+  return SCENARIO_PARAMETERS_CONFIG?.parameters?.[parameterId]?.extendedVarType;
+};
+
+function _formatParameters(parameters, conversionArray) {
   const newParams = parameters.map((param) => {
+    const extendedVarType = _getExtendedVarType(param.parameterId);
+    const convertMethod = ConfigUtils.getConversionMethod(param, extendedVarType, conversionArray);
     // Clone the original parameter to prevent undesired modifications
     const newParam = clone(param);
-
-    const paramVarType = param.varType;
-    if (paramVarType in VAR_TYPES_TO_STRING_FUNCTIONS) {
-      const convertToString = VAR_TYPES_TO_STRING_FUNCTIONS[paramVarType];
-      newParam.value = convertToString(newParam.value);
-    } else {
-      console.warn(`No conversion function (to string) defined for varType "${paramVarType}"`);
+    if (convertMethod) {
+      newParam.value = convertMethod(newParam.value);
     }
     return newParam;
   });
+  return newParams;
+}
 
+// Reformat scenario parameters to match the API expected types
+export function formatParametersForApi(parameters) {
+  const newParams = _formatParameters(parameters, VAR_TYPES_TO_STRING_FUNCTIONS);
   return { parametersValues: newParams };
 }
 
@@ -31,17 +38,6 @@ export function formatParametersFromApi(parameters) {
   if (!parameters) {
     return undefined;
   }
-  return parameters.map((param) => {
-    // Clone the original parameter to prevent undesired modifications
-    const newParam = clone(param);
-
-    const paramVarType = param.varType;
-    if (paramVarType in VAR_TYPES_FROM_STRING_FUNCTIONS) {
-      const convertFromString = VAR_TYPES_FROM_STRING_FUNCTIONS[paramVarType];
-      newParam.value = convertFromString(newParam.value);
-    } else {
-      console.warn(`No conversion function (from string) defined for varType "${paramVarType}"`);
-    }
-    return newParam;
-  });
+  const newParams = _formatParameters(parameters, VAR_TYPES_FROM_STRING_FUNCTIONS);
+  return newParams;
 }

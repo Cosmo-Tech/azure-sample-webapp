@@ -23,3 +23,67 @@ describe('buildExtendedVarType with possible values', () => {
     expect(res).toStrictEqual(expectedRes);
   });
 });
+
+describe('getConversionMethod with possible values', () => {
+  let spyConsoleWarn;
+
+  beforeAll(() => {
+    spyConsoleWarn = jest.spyOn(console, 'warn').mockImplementation();
+  });
+  afterAll(() => {
+    spyConsoleWarn.mockRestore();
+  });
+
+  function mockMethod(param) {
+    return param;
+  }
+
+  function mockMethod2(param) {
+    return param;
+  }
+
+  const arrayWithoutTypes = { noConversionMethod: true };
+  const arrayWithVarType = { varType: mockMethod };
+  const arrayWithExtendedVarType = { extended: mockMethod2 };
+  const arrayWithBoth = { varType: mockMethod, extended: mockMethod2 };
+
+  test.each`
+    param                      | extendedVarType | functionArray               | consoleWarnCalls | expectedRes
+    ${null}                    | ${null}         | ${null}                     | ${1}             | ${undefined}
+    ${undefined}               | ${undefined}    | ${undefined}                | ${1}             | ${undefined}
+    ${{}}                      | ${undefined}    | ${undefined}                | ${1}             | ${undefined}
+    ${{}}                      | ${null}         | ${null}                     | ${1}             | ${undefined}
+    ${{}}                      | ${''}           | ${null}                     | ${1}             | ${undefined}
+    ${{}}                      | ${'extended'}   | ${null}                     | ${1}             | ${undefined}
+    ${{ noVarType: true }}     | ${undefined}    | ${null}                     | ${1}             | ${undefined}
+    ${{ noVarType: true }}     | ${null}         | ${null}                     | ${1}             | ${undefined}
+    ${{ varType: 'varType' }}  | ${null}         | ${null}                     | ${1}             | ${undefined}
+    ${{ varType: 'varType' }}  | ${undefined}    | ${null}                     | ${1}             | ${undefined}
+    ${{ varType: 'varType' }}  | ${null}         | ${undefined}                | ${1}             | ${undefined}
+    ${{ varType: 'varType' }}  | ${undefined}    | ${undefined}                | ${1}             | ${undefined}
+    ${{ varType: 'varType' }}  | ${null}         | ${[]}                       | ${1}             | ${undefined}
+    ${{ varType: 'varType' }}  | ${undefined}    | ${[]}                       | ${1}             | ${undefined}
+    ${{ varType: 'varType' }}  | ${null}         | ${{}}                       | ${1}             | ${undefined}
+    ${{ varType: 'varType' }}  | ${undefined}    | ${{}}                       | ${1}             | ${undefined}
+    ${{ varType: 'varType' }}  | ${null}         | ${arrayWithoutTypes}        | ${1}             | ${undefined}
+    ${{ varType: 'varType' }}  | ${undefined}    | ${arrayWithoutTypes}        | ${1}             | ${undefined}
+    ${{ varType: 'varType2' }} | ${null}         | ${arrayWithVarType}         | ${1}             | ${undefined}
+    ${{ varType: 'varType2' }} | ${undefined}    | ${arrayWithVarType}         | ${1}             | ${undefined}
+    ${{ varType: 'varType' }}  | ${'extended'}   | ${arrayWithoutTypes}        | ${1}             | ${undefined}
+    ${{ varType: 'varType' }}  | ${''}           | ${arrayWithoutTypes}        | ${1}             | ${undefined}
+    ${{ varType: 'varType' }}  | ${null}         | ${arrayWithVarType}         | ${0}             | ${mockMethod}
+    ${{ varType: 'varType' }}  | ${undefined}    | ${arrayWithVarType}         | ${0}             | ${mockMethod}
+    ${{ varType: 'varType' }}  | ${'extended'}   | ${arrayWithVarType}         | ${0}             | ${mockMethod}
+    ${{ varType: 'varType' }}  | ${''}           | ${arrayWithVarType}         | ${0}             | ${mockMethod}
+    ${{ varType: 'varType' }}  | ${'extended'}   | ${arrayWithExtendedVarType} | ${0}             | ${mockMethod2}
+    ${{ varType: 'varType' }}  | ${'extended'}   | ${arrayWithBoth}            | ${0}             | ${mockMethod2}
+  `(
+    'if param "$param",extendedVarType "$extendedVarType", functionArray "$functionArray"  ' +
+      'and consoleWarnCalls "$consoleWarnCalls" then expectedRes "$expectedRes"',
+    ({ param, extendedVarType, functionArray, consoleWarnCalls, expectedRes }) => {
+      const res = ConfigUtils.getConversionMethod(param, extendedVarType, functionArray);
+      expect(spyConsoleWarn).toHaveBeenCalledTimes(consoleWarnCalls);
+      expect(res).toStrictEqual(expectedRes);
+    }
+  );
+});
