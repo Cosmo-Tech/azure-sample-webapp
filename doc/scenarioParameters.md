@@ -255,9 +255,9 @@ const PARAMETERS = {
 ```
 
 After that, you'll have to handle this `extendedVarType` properly by defining:
-- a conversion method in `ConversionFromString.js` file
-- a conversion method in `ConversionToString.js` file
-- an entry in `CUSTOM_VAR_TYPES_EXTENSION` constant in `DefaultValues.js` file
+- a conversion method in `ConversionFromString.js` file (fallback on conversion method defined for the varType)
+- a conversion method in `ConversionToString.js` file (fallback on conversion method defined for the varType)
+- an entry in `CUSTOM_VAR_TYPES_DEFAULT_VALUES` constant in `DefaultValues.js` file (fallback on default value defined for the varType)
 - an entry in `CUSTOM_VAR_TYPES_FACTORIES_MAPPING` constant in `FactoriesMapping.js` file
 - define your own `inputComponentsFactories`
 
