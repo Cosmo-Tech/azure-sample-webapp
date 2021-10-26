@@ -3,10 +3,14 @@
 
 import rfdc from 'rfdc';
 import { VAR_TYPES_DEFAULT_VALUES } from './DefaultValues';
+import { ConfigUtils } from '../ConfigUtils';
 
 const clone = rfdc();
 
-const _getVarTypeDefaultValue = (varType) => {
+const _getVarTypeDefaultValue = (varType, extendedVarType) => {
+  if (extendedVarType in VAR_TYPES_DEFAULT_VALUES) {
+    return VAR_TYPES_DEFAULT_VALUES[extendedVarType];
+  }
   return VAR_TYPES_DEFAULT_VALUES[varType];
 };
 
@@ -18,19 +22,11 @@ const _findParameterInSolutionParametersById = (parameterId, solutionParameters)
   return solutionParameters?.find((param) => param.id === parameterId);
 };
 
-const _getDefaultParameterValueFromSolution = (parameterId, solutionParameters) => {
-  const solutionParameter = _findParameterInSolutionParametersById(parameterId, solutionParameters);
-  if (!solutionParameter) {
-    console.warn(`Unknown scenario parameter "${parameterId}"`);
-    return undefined;
-  }
-  let defaultValue = solutionParameter.defaultValue;
-  if (defaultValue === null) {
-    // No default value defined in Solution description, or unknown parameter
-    defaultValue = _getVarTypeDefaultValue(solutionParameter?.varType);
-  }
-  return defaultValue;
-};
+function _getDefaultParameterValueFromDefaultValues(parameterId, configParameters, parameterVarType) {
+  const extendedVarType = ConfigUtils.getExtendedVarType(parameterId, configParameters);
+  // No default value defined in Solution description, or unknown parameter
+  return _getVarTypeDefaultValue(parameterVarType, extendedVarType);
+}
 
 const _getDefaultParameterValue = (parameterId, solutionParameters, configParameters) => {
   let defaultValue = _getDefaultParameterValueFromConfig(parameterId, configParameters);
@@ -38,7 +34,18 @@ const _getDefaultParameterValue = (parameterId, solutionParameters, configParame
     return defaultValue;
   }
 
-  defaultValue = _getDefaultParameterValueFromSolution(parameterId, solutionParameters);
+  const solutionParameter = _findParameterInSolutionParametersById(parameterId, solutionParameters);
+  if (!solutionParameter) {
+    console.warn(`Unknown scenario parameter "${parameterId}"`);
+    return undefined;
+  }
+  defaultValue = solutionParameter.defaultValue;
+
+  if (defaultValue === null) {
+    const parameterVarType = solutionParameter?.varType;
+    defaultValue = _getDefaultParameterValueFromDefaultValues(parameterId, configParameters, parameterVarType);
+  }
+
   if (defaultValue !== undefined) {
     return defaultValue;
   }

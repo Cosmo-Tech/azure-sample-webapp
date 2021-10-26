@@ -28,7 +28,7 @@ export const addTranslationLabels = (config) => {
   _addTranslationParametersLabels(config);
 };
 
-const buildExtendedVarType = (varType, extension) => {
+const buildCompleteExtendedVarType = (varType, extension) => {
   if (varType) {
     if (extension) {
       return varType + '-' + extension;
@@ -53,8 +53,13 @@ function getConversionMethod(param, extendedVarType, functionArray) {
   return undefined;
 }
 
+const getExtendedVarType = (parameterId, configParameters) => {
+  return configParameters?.[parameterId]?.extendedVarType;
+};
+
 export const ConfigUtils = {
   addTranslationLabels,
-  buildExtendedVarType,
+  buildCompleteExtendedVarType,
   getConversionMethod,
+  getExtendedVarType,
 };

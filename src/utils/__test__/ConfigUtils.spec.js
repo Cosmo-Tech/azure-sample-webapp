@@ -3,7 +3,7 @@
 
 import { ConfigUtils } from '../ConfigUtils';
 
-describe('buildExtendedVarType with possible values', () => {
+describe('buildCompleteExtendedVarType with possible values', () => {
   test.each`
     varType      | extension      | expectedRes
     ${null}      | ${null}        | ${undefined}
@@ -19,7 +19,7 @@ describe('buildExtendedVarType with possible values', () => {
     ${'varType'} | ${''}          | ${'varType'}
     ${'varType'} | ${'extension'} | ${'varType-extension'}
   `('if "$varType" and "$extension" then "$expectedRes"', ({ varType, extension, expectedRes }) => {
-    const res = ConfigUtils.buildExtendedVarType(varType, extension);
+    const res = ConfigUtils.buildCompleteExtendedVarType(varType, extension);
     expect(res).toStrictEqual(expectedRes);
   });
 });
@@ -83,6 +83,40 @@ describe('getConversionMethod with possible values', () => {
     ({ param, extendedVarType, functionArray, consoleWarnCalls, expectedRes }) => {
       const res = ConfigUtils.getConversionMethod(param, extendedVarType, functionArray);
       expect(spyConsoleWarn).toHaveBeenCalledTimes(consoleWarnCalls);
+      expect(res).toStrictEqual(expectedRes);
+    }
+  );
+});
+
+describe('getExtendedVarType with possible values', () => {
+  const configWithExtended = { parameterId: { varType: 'varType', extendedVarType: 'extended' } };
+  const configWithoutExtended = { parameterId: { varType: 'varType' } };
+
+  test.each`
+    parameterId      | configParameters         | expectedRes
+    ${null}          | ${null}                  | ${undefined}
+    ${null}          | ${undefined}             | ${undefined}
+    ${null}          | ${''}                    | ${undefined}
+    ${null}          | ${{}}                    | ${undefined}
+    ${undefined}     | ${null}                  | ${undefined}
+    ${undefined}     | ${undefined}             | ${undefined}
+    ${undefined}     | ${''}                    | ${undefined}
+    ${undefined}     | ${{}}                    | ${undefined}
+    ${''}            | ${null}                  | ${undefined}
+    ${''}            | ${undefined}             | ${undefined}
+    ${''}            | ${''}                    | ${undefined}
+    ${''}            | ${{}}                    | ${undefined}
+    ${'parameter'}   | ${null}                  | ${undefined}
+    ${'parameter'}   | ${undefined}             | ${undefined}
+    ${'parameter'}   | ${''}                    | ${undefined}
+    ${'parameter'}   | ${{}}                    | ${undefined}
+    ${'parameter'}   | ${{ withoutParam: '' }}  | ${undefined}
+    ${'parameterId'} | ${configWithoutExtended} | ${undefined}
+    ${'parameterId'} | ${configWithExtended}    | ${'extended'}
+  `(
+    'if "$parameterId" and "$configParameters" then "$expectedRes"',
+    ({ parameterId, configParameters, expectedRes }) => {
+      const res = ConfigUtils.getExtendedVarType(parameterId, configParameters);
       expect(res).toStrictEqual(expectedRes);
     }
   );

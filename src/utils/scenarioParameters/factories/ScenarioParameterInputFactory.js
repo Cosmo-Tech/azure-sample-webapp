@@ -6,7 +6,10 @@ import { VAR_TYPES_FACTORIES_MAPPING } from '../FactoriesMapping';
 import { ConfigUtils } from '../../ConfigUtils';
 
 const create = (t, datasets, parameterData, parametersState, setParametersState, editMode) => {
-  const parameterVarType = ConfigUtils.buildExtendedVarType(parameterData.varType, parameterData.extendedVarType);
+  const parameterVarType = ConfigUtils.buildCompleteExtendedVarType(
+    parameterData.varType,
+    parameterData.extendedVarType
+  );
 
   const varTypeFactory = VAR_TYPES_FACTORIES_MAPPING[parameterVarType];
 

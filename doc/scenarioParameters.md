@@ -235,11 +235,11 @@ const PARAMETERS = {
 };
 ```
 
-### Improve mapping between varTypes and factories
+### Extended mapping between varTypes and factories
 
 You may have to define a specific input component regarding a specific parameter.
 To do this, you can add a property to your parameter configuration:
-- `extendedVarType` (optional): define extra information on varType to enhance mapping between varType <-> InputFactory
+- `extendedVarType` (optional): define a varType suffix to handle this parameter as a custom varType
 
 Example:
 

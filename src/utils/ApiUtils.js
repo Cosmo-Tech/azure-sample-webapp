@@ -9,13 +9,9 @@ import { SCENARIO_PARAMETERS_CONFIG } from '../config/ScenarioParameters';
 
 const clone = rfdc();
 
-const _getExtendedVarType = (parameterId) => {
-  return SCENARIO_PARAMETERS_CONFIG?.parameters?.[parameterId]?.extendedVarType;
-};
-
 function _formatParameters(parameters, conversionArray) {
   const newParams = parameters.map((param) => {
-    const extendedVarType = _getExtendedVarType(param.parameterId);
+    const extendedVarType = ConfigUtils.getExtendedVarType(param.parameterId, SCENARIO_PARAMETERS_CONFIG?.parameters);
     const convertMethod = ConfigUtils.getConversionMethod(param, extendedVarType, conversionArray);
     // Clone the original parameter to prevent undesired modifications
     const newParam = clone(param);
