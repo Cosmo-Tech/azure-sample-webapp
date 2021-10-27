@@ -3,18 +3,27 @@
 
 import { DATASET_ID_VARTYPE } from '../../../services/config/ApiConstants';
 import { VAR_TYPES_FACTORIES_MAPPING } from '../FactoriesMapping';
+import { ConfigUtils } from '../../ConfigUtils';
 
 const create = (t, datasets, parameterData, parametersState, setParametersState, editMode) => {
-  const varTypeFactory = VAR_TYPES_FACTORIES_MAPPING[parameterData.varType];
+  const parameterVarType = ConfigUtils.buildExtendedVarType(parameterData.varType, parameterData.subType);
+  let varTypeFactory;
+
+  if (parameterVarType in VAR_TYPES_FACTORIES_MAPPING) {
+    varTypeFactory = VAR_TYPES_FACTORIES_MAPPING[parameterVarType];
+  } else {
+    varTypeFactory = VAR_TYPES_FACTORIES_MAPPING[parameterData.varType];
+  }
+
   if (varTypeFactory === undefined) {
-    console.warn('No factory defined for varType ' + parameterData.varType);
+    console.warn('No factory defined for varType ' + parameterVarType);
     return null;
   }
   if (varTypeFactory === null) {
     return null;
   }
 
-  if (parameterData.varType === DATASET_ID_VARTYPE) {
+  if (parameterVarType.startsWith(DATASET_ID_VARTYPE)) {
     return varTypeFactory.create(t, datasets, parameterData, parametersState, setParametersState, editMode);
   }
   return varTypeFactory.create(t, parameterData, parametersState, setParametersState, editMode);
