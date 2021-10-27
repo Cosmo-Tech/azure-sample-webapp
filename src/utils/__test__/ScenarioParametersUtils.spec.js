@@ -456,7 +456,7 @@ describe('getDefaultParametersValues with empty solution and empty config', () =
         solutionParameters,
         configParameters
       );
-      expect(spyConsoleWarn).toHaveBeenCalledTimes(2);
+      expect(spyConsoleWarn).toHaveBeenCalledTimes(1);
       expect(res).toStrictEqual({ unknownParameter: undefined });
     }
   );
