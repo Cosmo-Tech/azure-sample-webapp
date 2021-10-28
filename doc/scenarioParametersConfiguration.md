@@ -41,12 +41,12 @@ parameters to display for each one. A tab is generated for each parameter group,
 component for each parameter of this group. **The type of input component rendered and its behavior depends on the
 varType of the parameter**.
 
-## Customization by configuration
+## Configuration
 
 The [ScenarioParameters.js configuration file](../src/config/ScenarioParameters/ScenarioParameters.js) lets you override
 all the values defined in your solution description. Please keep in mind though that changing some data _via_ this
 configuration file such as the variable types of parameters or the set of parameters associated to a run template might
-break things. Yet it is totally safe to use it to customize the following behaviors:
+break things. Yet it is totally safe to use it to modify the following behaviors:
 
 - changing translation labels of parameters, parameters groups
 - changing the min, max and default values of parameters
@@ -54,7 +54,7 @@ break things. Yet it is totally safe to use it to customize the following behavi
 - defining the possible values of a parameter of type _enum_
 - add `data-cy` properties to the input components for Cypress tests
 
-If you don't need to customize any of these, you don't nedd to edit the configuration file and can use its default
+If you don't need changes for these behaviors, you don't nedd to edit the configuration file and can use its default
 content:
 
 ```
@@ -69,7 +69,7 @@ export const SCENARIO_PARAMETERS_CONFIG = {
 };
 ```
 
-### Customize translation labels
+### Translation labels
 
 The constants `PARAMETERS` and `PARAMETERS_GROUPS` of the configuration file can be used to change the labels of
 parameters and parameters groups, by adding a field `labels` in the object that describe them. Note that you don't have
@@ -113,7 +113,7 @@ These labels will be loaded into the i18next translation dictionary used for tra
 you are writing your own input components and want to use these labels, you can retrieve them by reading the translation
 keys `solution.parameters.[PARAMETER_ID]` and `solution.parametersGroups.[PARAMETER_GROUP_ID]`.
 
-### Customize parameters min, max & default values
+### Parameters min, max & default values
 
 In the configuration file, you can use the `PARAMETERS` constant to override the properties `minValue`, `maxValue` and
 `defaultValue` of the parameters. Note that you don't have to rewrite all data that are already in your solution
@@ -139,7 +139,7 @@ const PARAMETERS = {
 };
 ```
 
-### Customize the order of parameters & parameters groups
+### Order of parameters & parameters groups
 
 By default, the orders of the parameters input components in a group follow the order they are defined in the solution
 description. If you want to change this order in the configuration file, you just need to re-order them in the field
@@ -174,7 +174,7 @@ const RUN_TEMPLATES = {
 };
 ```
 
-### Configure parameters of type enum
+### Parameters of type enum
 
 When using a scenario parameter of type enum, you have to declare in the webapp configuration the list of possible
 values the enum can take, and the labels that will displayed in the front-end interface for each value. This can be done
@@ -212,7 +212,7 @@ const PARAMETERS = {
 };
 ```
 
-### Configuration of file parameters
+### File parameters
 
 When using a scenario parameter with the _varType_ `%DATASETID%` (e.g. dataset parts), you have to declare some
 information about it in the `PARAMETERS` constant of the [scenario parameters configuration
@@ -235,33 +235,7 @@ const PARAMETERS = {
 };
 ```
 
-### Extended mapping between varTypes and factories
-
-You may have to define a specific input component regarding a specific parameter.
-To do this, you can add a property to your parameter configuration:
-- `subType` (optional): define a varType suffix to handle this parameter as a custom varType
-
-Example:
-
-```
-const PARAMETERS = {
-  initial_stock_dataset: {
-    connectorId: 'C-xxxxxxxxxx',
-    defaultFileTypeFilter: '.zip,.csv,.json,.xls,.xlsx',
-    description: 'Initial stock dataset part'
-    subType: 'TABLE'
-  },
-};
-```
-
-After that, you'll have to handle this `subType` properly by defining:
-- a conversion method in `ConversionFromString.js` file (fallback on conversion method defined for the varType)
-- a conversion method in `ConversionToString.js` file (fallback on conversion method defined for the varType)
-- an entry in `CUSTOM_VAR_TYPES_DEFAULT_VALUES` constant in `DefaultValues.js` file (fallback on default value defined for the varType)
-- an entry in `CUSTOM_VAR_TYPES_FACTORIES_MAPPING` constant in `FactoriesMapping.js` file (fallback on factory mapping defined for the varType)
-- define your own `inputComponentsFactories`
-
-### Configure input components for Cypress tests
+### Input components metadata for Cypress tests
 
 If you want to add Cypress tests for your solution and test the scenario parameters input components, you can add a
 `dataCy` field in the parameter object in your configuration file with a string value. This value will then be added as

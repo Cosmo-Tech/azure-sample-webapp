@@ -24,13 +24,13 @@ user session, they can thus be memoized in the React component to prevent unnece
 The parameters metadata are stored in the variable `parametersMetadata` in the ScenarioParameters component, declared
 thanks to the `useMemo` hook.
 
-Some examples of parameters metadata are the `varType`, default value, min and max values, or translation labels.
+Some examples of parameters metadata are the _varType_, default value, min and max values, or translation labels.
 
 #### Reference
 
 The parameters values reference represent a buffer for the data received by the Cosmo API, or that will be sent to the
 Cosmo API. Although the API uses strings to exchange parameters values, the parameters values reference store these
-values after having cast them to a more specific JS type when possible (e.g. a parameter with a `varType` "int" will be
+values after having cast them to a more specific JS type when possible (e.g. a parameter with a _varType_ "int" will be
 stored as a JS number).
 
 These data are stored in the variable `parametersValuesRef` in the ScenarioParameters component by using the `useRef`
@@ -43,7 +43,7 @@ components. Furthermore, because the data in this buffer reflect the data that i
 sometimes it is not sufficient for the needs of the React components responsible of the user input. Hence the need for
 the last type of parameters data: the rendering data.
 
-Example: for a parameter with `varType` "%DATASETID%", the parameter value reference only contains a string that
+Example: for a parameter with _varType_ "%DATASETID%", the parameter value reference only contains a string that
 represents the dataset identifier.
 
 #### Rendering data
@@ -55,7 +55,7 @@ allowing users to edit the parameters values.
 Thse data are declared in the ScenarioParameters component in a variable named `parametersValuesToRender`, with the
 `useState` hook.
 
-Example: for a parameter with `varType` "%DATASETID%", the rendering data contain the current status of the file
+Example: for a parameter with _varType_ "%DATASETID%", the rendering data contain the current status of the file
 parameter, and the name of the file if one has been uploaded.
 
 #### ScenarioParameters state structure schema
@@ -82,31 +82,62 @@ describe how you can create your own factories to customize the scenario paramet
 
 ## Customization
 
-### Define a custom `varType`
+### Define a custom _varType_
 
 Although basic standard types (enum, string, int, number, bool, date), and file parameters are already supported, you
 may want to define scenario parameters with your own custom types to change the default handling of a type. For each new
-`varType`, there are four information to provide:
+_varType_, there are four information to provide:
 
 - a default value for this type of parameter (used when a user creates a new scenario)
 - a serialization function to convert this type to string (used when sending the parameters values to the API)
 - a deserialization function to convert this type from a string (used when receiving the parameters values from the API)
 - a factory to generate a React component that will be used for user input for all parameters with this type
 
-These information must be defined in dicts, with your `varType` as key, in the following files:
+These information must be defined in dicts, with your _varType_ as key, in the following files:
 
 - [src/utils/scenarioParameters/custom/DefaultValues.js](../src/utils/scenarioParameters/custom/DefaultValues.js)
 - [src/utils/scenarioParameters/custom/ConversionFromString.js](../src/utils/scenarioParameters/custom/ConversionFromString.js)
 - [src/utils/scenarioParameters/custom/ConversionToString.js](../src/utils/scenarioParameters/custom/ConversionToString.js)
 - [src/utils/scenarioParameters/custom/FactoriesMapping.js](../src/utils/scenarioParameters/custom/FactoriesMapping.js)
 
-You will then be able to declare parameters with your custom `varType` in the YAML solution description, and the webapp
+You will then be able to declare parameters with your custom _varType_ in the YAML solution description, and the webapp
 will automatically generate the associated components.
+
+### Extended _varTypes_
+
+In some cases you may want to define a **sub-type** to have a distinction between several parameters with the same
+_varType_. For instance, the specific _varType_ `%DATASETID%` is used for all dataset parts, but you may need to display
+different component in the webapp for some file parameters (e.g; a file upload and a table that users can edit).
+
+To define an extended var type, you must add a `subType` property in your parameter configuration:
+
+- `subType` (optional): define a varType suffix to handle this parameter as a custom varType
+
+Example:
+
+```
+const PARAMETERS = {
+  my_dataset_part_paramaete: {
+    connectorId: 'C-xxxxxxxxxx',
+    defaultFileTypeFilter: '.zip,.csv,.json,.xls,.xlsx',
+    description: 'Initial stock dataset part',
+    subType: 'TABLE'
+  },
+};
+```
+
+If the _varType_ of the parameter above is `%DATASETID%`, then the extended _varType_ for this parameter will be
+`%DATASETID%-TABLE`.
+
+You will then be able to use this extended _varType_ in the four mapping files (see section "Define a custom
+_varType_"). For any of those files, if the extended _varType_ of a parameter is not found in the mapping dict, the
+webapp will fallback on its _varType_. This means that if you want to keep the same behavior for an extended _varType_
+as for the orgiinal _varType_, you can omit to declare the extended varType in the mapping dicts.
 
 ### Create custom input components
 
 Creating your own input components can be useful if you want to replace the existing factories for basic types, or if
-you want to add your own custom `varType`.
+you want to add your own custom _varType_.
 
 1. first you will need to create a React component to define the input UI and behavior (example:
    [BasicNumberInput](https://github.com/Cosmo-Tech/webapp-component-ui/blob/main/src/inputs/BasicInputs/BasicNumberInput/BasicNumberInput.js))
