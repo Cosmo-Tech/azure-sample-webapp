@@ -40,6 +40,7 @@ const ScenarioParameters = ({
   updateAndLaunchScenario,
   launchScenario,
   workspaceId,
+  scenarioList,
   currentScenario,
   solution,
   datasets,
@@ -180,7 +181,8 @@ const ScenarioParameters = ({
       parametersValuesRef.current,
       runTemplateParametersIds
     );
-    return parametersData;
+    const additionalParameters = ScenarioParametersUtils.buildAdditionalParameters(currentScenario, scenarioList?.data);
+    return parametersData.concat(additionalParameters);
   };
 
   const startParametersEdition = () => changeEditMode(true);
@@ -193,11 +195,13 @@ const ScenarioParameters = ({
   };
 
   const startScenarioLaunch = async () => {
-    await processScenarioLaunch(false);
+    await processScenarioLaunch(ScenarioParametersUtils.shouldForceUpdateScenarioParameters());
   };
+
   const startScenarioUpdateAndLaunch = async () => {
     await processScenarioLaunch(true);
   };
+
   const processScenarioLaunch = async (forceUpdate) => {
     // If scenario parameters have never been updated, force parameters update
     if (!currentScenario.data.parametersValues || currentScenario.data.parametersValues.length === 0) {
@@ -284,6 +288,7 @@ ScenarioParameters.propTypes = {
   launchScenario: PropTypes.func.isRequired,
   workspaceId: PropTypes.string.isRequired,
   scenarioId: PropTypes.string.isRequired,
+  scenarioList: PropTypes.object.isRequired,
   solution: PropTypes.object.isRequired,
   datasets: PropTypes.array.isRequired,
   currentScenario: PropTypes.object.isRequired,
