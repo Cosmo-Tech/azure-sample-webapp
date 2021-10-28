@@ -4,4 +4,5 @@
 - [App behavior configuration](appConfiguration.md)
 - [Azure functions configuration](apiAzureFunctions.md)
 - [Dashboards](dashboards.md)
-- [Scenario Parameters](scenarioParameters.md)
+- [Scenario Parameters configuration](scenarioParametersConfiguration.md)
+- [Scenario Parameters advanced customization](scenarioParametersCustomization.md)
