@@ -1,11 +1,17 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { URL_REGEX, URL_POWERBI } from '../commons/constants/generic/TestConstants';
+import 'cypress-localstorage-commands';
+import { PAGE_NAME, URL_REGEX, URL_POWERBI } from '../commons/constants/generic/TestConstants';
 import { GENERIC_SELECTORS as SELECTORS } from '../commons/constants/generic/IdConstants';
 
 // For this moment, login is handle by clicking on Microsoft Login button
+// Function for the 1st login, that will save a snapshot of the local storage after logging in
+// This function should be used in "before" statements
 Cypress.Commands.add('login', () => {
+  cy.clearLocalStorageSnapshot();
+  cy.visit(PAGE_NAME.SCENARIO);
+
   // Stub PowerBi request
   cy.intercept('GET', URL_POWERBI, {
     statusCode: 200,
@@ -17,6 +23,15 @@ Cypress.Commands.add('login', () => {
 
   cy.get(SELECTORS.scenario.parameters.tabs).should('be.visible');
   cy.get(SELECTORS.scenario.view).should('be.visible');
+  cy.saveLocalStorage();
+});
+
+// Function to resume an existing session by keeping the existing cookies and loading the last local storage snapshot
+// This function should be used in "beforeEach" statements
+Cypress.Commands.add('relogin', () => {
+  Cypress.Cookies.preserveOnce('ai_session', 'ai_user');
+  cy.restoreLocalStorage();
+  cy.visit(PAGE_NAME.SCENARIO);
 });
 
 // Create scenario
