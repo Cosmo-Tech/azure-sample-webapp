@@ -11,11 +11,11 @@ export const BREWERY_SELECTORS = {
       },
       basicTypes: {
         tabName: '[data-cy=basic_types_tab]',
-        textInput: 'input[id=currency_name]',
-        numberInput: 'input[id=currency_value]',
-        enumInput: 'div[id=currency]',
-        exampleDatasetPart1: '[data-cy=example_dataset_part_1]',
-        exampleDatasetPart2: '[data-cy=example_dataset_part_2]',
+        currency: '[data-cy=currency]',
+        currencyName: '[data-cy=currency_name]',
+        currencyValue: '[data-cy=currency_value]',
+        currencyUsed: '[data-cy=currency_used]',
+        startDate: '[data-cy=start_date]',
       },
       datasetParts: {
         tabName: '[data-cy=dataset_parts_tab]',

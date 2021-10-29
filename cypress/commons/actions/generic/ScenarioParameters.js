@@ -5,6 +5,9 @@ import { URL_REGEX } from '../../constants/generic/TestConstants';
 import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
 
 // Get elements in scenario parameters panel
+function getParametersTabs() {
+  return cy.get(GENERIC_SELECTORS.scenario.parameters.tabs);
+}
 function getParametersEditButton() {
   return cy.get(GENERIC_SELECTORS.scenario.parameters.editButton);
 }
@@ -32,11 +35,18 @@ function updateAndLaunch() {
   cy.wait('@requestRunScenario');
 }
 
+// Actions on input components
+function getInputValue(inputElement) {
+  return inputElement.invoke('attr', 'value');
+}
+
 export const ScenarioParameters = {
+  getParametersTabs,
   getParametersEditButton,
   getParametersDiscardButton,
   getParametersUpdateAndLaunchButton,
   edit,
   discard,
   updateAndLaunch,
+  getInputValue,
 };

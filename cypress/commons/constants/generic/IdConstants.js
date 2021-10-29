@@ -55,5 +55,15 @@ export const GENERIC_SELECTORS = {
       downloadButton: '[data-cy=download-button]',
       deleteButton: '[data-cy=delete-button]',
     },
+    basicEnumInput: {
+      input: 'input',
+      textField: '[data-cy=text_field]',
+    },
+    basicTextInput: {
+      input: 'input',
+    },
+    basicNumberInput: {
+      input: 'input',
+    },
   },
 };

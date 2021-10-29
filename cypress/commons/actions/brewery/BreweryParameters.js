@@ -1,6 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
+import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
 import { BREWERY_SELECTORS } from '../../constants/brewery/IdConstants';
 import { FileParameters } from '../generic';
 
@@ -15,7 +16,57 @@ function getBasicTypesTab() {
   return cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.tabName);
 }
 
-// Get file parameters input elements
+// Get bar parameters components & input fields
+function getStock() {
+  return cy.get(BREWERY_SELECTORS.scenario.parameters.brewery.stockInput);
+}
+function getRestock() {
+  return cy.get(BREWERY_SELECTORS.scenario.parameters.brewery.restockInput);
+}
+function getWaiters() {
+  return cy.get(BREWERY_SELECTORS.scenario.parameters.brewery.waitersInput);
+}
+function getStockInput() {
+  return getStock().find(GENERIC_SELECTORS.genericComponents.basicNumberInput.input);
+}
+function getRestockInput() {
+  return getRestock().find(GENERIC_SELECTORS.genericComponents.basicNumberInput.input);
+}
+function getWaitersInput() {
+  return getWaiters().find(GENERIC_SELECTORS.genericComponents.basicNumberInput.input);
+}
+
+// Get basic types components & input fields
+function getCurrency() {
+  return cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.currency);
+}
+function getCurrencyName() {
+  return cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.currencyName);
+}
+function getCurrencyValue() {
+  return cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.currencyValue);
+}
+function getCurrencyUsed() {
+  return cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.currencyUsed);
+}
+function getStartDate() {
+  return cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.startDate);
+}
+
+function getCurrencyInput() {
+  return getCurrency().find(GENERIC_SELECTORS.genericComponents.basicEnumInput.input);
+}
+function getCurrencyTextField() {
+  return getCurrency().find(GENERIC_SELECTORS.genericComponents.basicEnumInput.textField);
+}
+function getCurrencyNameInput() {
+  return getCurrencyName().find(GENERIC_SELECTORS.genericComponents.basicTextInput.input);
+}
+function getCurrencyValueInput() {
+  return getCurrencyValue().find(GENERIC_SELECTORS.genericComponents.basicNumberInput.input);
+}
+
+// Get file parameters elements & buttons
 function getExampleDatasetPart1() {
   return cy.get(BREWERY_SELECTORS.scenario.parameters.datasetParts.exampleDatasetPart1);
 }
@@ -97,6 +148,21 @@ export const BreweryParameters = {
   getExampleDatasetPart1,
   getExampleDatasetPart2,
   getExampleDatasetPart3,
+  getStock,
+  getRestock,
+  getWaiters,
+  getStockInput,
+  getRestockInput,
+  getWaitersInput,
+  getCurrency,
+  getCurrencyName,
+  getCurrencyValue,
+  getCurrencyUsed,
+  getStartDate,
+  getCurrencyInput,
+  getCurrencyTextField,
+  getCurrencyNameInput,
+  getCurrencyValueInput,
   getExampleDatasetPart1DownloadButton,
   getExampleDatasetPart2DownloadButton,
   getExampleDatasetPart3DownloadButton,

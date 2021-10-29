@@ -5,7 +5,6 @@ import 'cypress-file-upload';
 import utils from '../../commons/TestUtils';
 
 import { SCENARIO_NAME, DATASET, SCENARIO_TYPE } from '../../commons/constants/brewery/TestConstants';
-import { PAGE_NAME } from '../../commons/constants/generic/TestConstants';
 import { Scenarios, ScenarioManager, ScenarioParameters } from '../../commons/actions';
 import { BreweryParameters } from '../../commons/actions/brewery';
 

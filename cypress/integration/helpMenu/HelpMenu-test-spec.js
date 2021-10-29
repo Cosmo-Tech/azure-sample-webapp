@@ -2,7 +2,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { AppBar } from '../../commons/actions/generic/AppBar';
+import { AppBar } from '../../commons/actions';
 
 describe('UserInfo features', () => {
   before(() => {

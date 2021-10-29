@@ -15,8 +15,8 @@ import {
   URL_ROOT,
   SCENARIO_RUN_IN_PROGRESS,
 } from '../../commons/constants/generic/TestConstants';
-import { GENERIC_SELECTORS } from '../../commons/constants/generic/IdConstants';
-import { BREWERY_SELECTORS } from '../../commons/constants/brewery/IdConstants';
+import { Scenarios, ScenarioManager, ScenarioParameters } from '../../commons/actions';
+import { BreweryParameters } from '../../commons/actions/brewery';
 
 describe('Create scenario', () => {
   const randomString = utils.randomStr(7);
@@ -61,7 +61,8 @@ describe('Create scenario', () => {
       scenarioWithBasicTypesName,
     ];
 
-    cy.get(GENERIC_SELECTORS.scenario.manager.tabName).click();
+    // Delete all tests scenarios
+    ScenarioManager.switchToScenarioManager();
     for (const scenarioName of scenarioNamesToDelete) {
       cy.deleteScenario(scenarioName);
     }
@@ -76,17 +77,17 @@ describe('Create scenario', () => {
     });
 
     // Edit master paramameters values
-    cy.get(GENERIC_SELECTORS.scenario.parameters.editButton).click();
-    cy.get(GENERIC_SELECTORS.scenario.parameters.tabs).should('be.visible');
-    cy.get(BREWERY_SELECTORS.scenario.parameters.brewery.stockInput).find('input').clear().type(stock);
-    cy.get(BREWERY_SELECTORS.scenario.parameters.brewery.restockInput).find('input').clear().type(restock);
-    cy.get(BREWERY_SELECTORS.scenario.parameters.brewery.waitersInput).find('input').clear().type(waiters);
+    ScenarioParameters.edit();
+    ScenarioParameters.getParametersTabs().should('be.visible');
+    BreweryParameters.getStockInput().clear().type(stock);
+    BreweryParameters.getRestockInput().clear().type(restock);
+    BreweryParameters.getWaitersInput().clear().type(waiters);
 
     // Update and launch scenario master
     cy.intercept('PATCH', URL_REGEX.SCENARIO_PAGE_WITH_ID).as('requestEditScenario');
     cy.intercept('POST', URL_REGEX.SCENARIO_PAGE_RUN_WITH_ID).as('requestRunScenario');
 
-    cy.get(GENERIC_SELECTORS.scenario.parameters.updateAndLaunchButton).click();
+    ScenarioParameters.updateAndLaunch();
 
     cy.wait('@requestEditScenario').should((req) => {
       const { name: nameGet, id: idGet, parametersValues: paramsGet, state } = req.response.body;
@@ -105,12 +106,12 @@ describe('Create scenario', () => {
       expect(req.response.body.scenarioId).equal(scenarioMasterId);
     });
 
-    cy.get(GENERIC_SELECTORS.scenario.dashboard.placeholder).should('have.text', SCENARIO_RUN_IN_PROGRESS);
+    Scenarios.getDashboardPlaceholder().should('have.text', SCENARIO_RUN_IN_PROGRESS);
 
     // Switch to another scenario then come back to the first scenario
     cy.intercept('GET', anotherScenarioUrlRegex).as('requestUpdateCurrentScenario2');
 
-    cy.get(GENERIC_SELECTORS.scenario.selectInput)
+    Scenarios.getScenarioSelector()
       .click()
       .clear()
       .type(otherScenarioName + '{downarrow}{enter}');
@@ -121,8 +122,7 @@ describe('Create scenario', () => {
       .its('name')
       .should('equal', otherScenarioName);
 
-    cy.get(GENERIC_SELECTORS.scenario.selectInput)
-      .find('input')
+    Scenarios.getScenarioSelectorInput()
       .should('have.value', otherScenarioName)
       .then(() => {
         cy.intercept('GET', new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/${scenarioMasterId}`)).as(
@@ -130,7 +130,7 @@ describe('Create scenario', () => {
         );
       });
 
-    cy.get(GENERIC_SELECTORS.scenario.selectInput)
+    Scenarios.getScenarioSelector()
       .clear()
       .type(scenarioMasterName + '{downarrow}{enter}');
 
@@ -140,11 +140,11 @@ describe('Create scenario', () => {
       .its('name')
       .should('equal', scenarioMasterName);
 
-    cy.get(GENERIC_SELECTORS.scenario.selectInput).find('input').should('have.value', scenarioMasterName);
+    Scenarios.getScenarioSelectorInput().should('have.value', scenarioMasterName);
 
-    cy.get(BREWERY_SELECTORS.scenario.parameters.brewery.stockInput).find('input').should('have.value', stock);
-    cy.get(BREWERY_SELECTORS.scenario.parameters.brewery.restockInput).find('input').should('have.value', restock);
-    cy.get(BREWERY_SELECTORS.scenario.parameters.brewery.waitersInput).find('input').should('have.value', waiters);
+    BreweryParameters.getStockInput().should('have.value', stock);
+    BreweryParameters.getRestockInput().should('have.value', restock);
+    BreweryParameters.getWaitersInput().should('have.value', waiters);
   });
 
   it('can create scenario child', () => {
@@ -156,26 +156,26 @@ describe('Create scenario', () => {
     });
 
     // Check inherited children parameters
-    cy.get(BREWERY_SELECTORS.scenario.parameters.brewery.stockInput).find('input').should('have.value', stock);
-    cy.get(BREWERY_SELECTORS.scenario.parameters.brewery.restockInput).find('input').should('have.value', restock);
-    cy.get(BREWERY_SELECTORS.scenario.parameters.brewery.waitersInput).find('input').should('have.value', waiters);
+    BreweryParameters.getStockInput().should('have.value', stock);
+    BreweryParameters.getRestockInput().should('have.value', restock);
+    BreweryParameters.getWaitersInput().should('have.value', waiters);
 
     // Edit child paramameters values
     const childStock = utils.randomNmbr(BAR_PARAMETERS_RANGE.STOCK.MIN, BAR_PARAMETERS_RANGE.STOCK.MAX);
     const childRestock = utils.randomNmbr(BAR_PARAMETERS_RANGE.RESTOCK.MIN, BAR_PARAMETERS_RANGE.RESTOCK.MAX);
     const childWaiters = utils.randomNmbr(BAR_PARAMETERS_RANGE.WAITERS.MIN, BAR_PARAMETERS_RANGE.WAITERS.MAX);
 
-    cy.get(GENERIC_SELECTORS.scenario.parameters.editButton).click();
-    cy.get(GENERIC_SELECTORS.scenario.parameters.tabs).should('be.visible');
-    cy.get(BREWERY_SELECTORS.scenario.parameters.brewery.stockInput).find('input').clear().type(childStock);
-    cy.get(BREWERY_SELECTORS.scenario.parameters.brewery.restockInput).find('input').clear().type(childRestock);
-    cy.get(BREWERY_SELECTORS.scenario.parameters.brewery.waitersInput).find('input').clear().type(childWaiters);
+    ScenarioParameters.edit();
+    ScenarioParameters.getParametersTabs().should('be.visible');
+    BreweryParameters.getStockInput().clear().type(childStock);
+    BreweryParameters.getRestockInput().clear().type(childRestock);
+    BreweryParameters.getWaitersInput().clear().type(childWaiters);
 
     // Launch scenario child
     cy.intercept('PATCH', URL_REGEX.SCENARIO_PAGE_WITH_ID).as('requestEditScenario');
     cy.intercept('POST', URL_REGEX.SCENARIO_PAGE_RUN_WITH_ID).as('requestRunScenario');
 
-    cy.get(GENERIC_SELECTORS.scenario.parameters.updateAndLaunchButton).click();
+    ScenarioParameters.updateAndLaunch();
 
     cy.wait('@requestEditScenario').should((req) => {
       const { name: nameGet, id: idGet, parametersValues: paramsGet } = req.response.body;
@@ -193,12 +193,12 @@ describe('Create scenario', () => {
       expect(req.response.body.scenarioId).equal(scenarioChildId);
     });
 
-    cy.get(GENERIC_SELECTORS.scenario.dashboard.placeholder).should('have.text', SCENARIO_RUN_IN_PROGRESS);
+    Scenarios.getDashboardPlaceholder().should('have.text', SCENARIO_RUN_IN_PROGRESS);
 
     // Switch to another scenario then come back to the first scenario
     cy.intercept('GET', anotherScenarioUrlRegex).as('requestUpdateCurrentScenario2');
 
-    cy.get(GENERIC_SELECTORS.scenario.selectInput)
+    Scenarios.getScenarioSelector()
       .click()
       .clear()
       .type(otherScenarioName + '{downarrow}{enter}');
@@ -208,8 +208,7 @@ describe('Create scenario', () => {
       expect(nameGet).equal(otherScenarioName);
     });
 
-    cy.get(GENERIC_SELECTORS.scenario.selectInput)
-      .find('input')
+    Scenarios.getScenarioSelectorInput()
       .should('have.value', otherScenarioName)
       .then(() => {
         cy.intercept('GET', new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/${scenarioChildId}`)).as(
@@ -217,7 +216,7 @@ describe('Create scenario', () => {
         );
       });
 
-    cy.get(GENERIC_SELECTORS.scenario.selectInput)
+    Scenarios.getScenarioSelector()
       .clear()
       .type(scenarioChildName + '{downarrow}{enter}');
 
@@ -226,11 +225,11 @@ describe('Create scenario', () => {
       expect(nameGet).equal(scenarioChildName);
     });
 
-    cy.get(GENERIC_SELECTORS.scenario.selectInput).find('input').should('have.value', scenarioChildName);
+    Scenarios.getScenarioSelectorInput().should('have.value', scenarioChildName);
 
-    cy.get(BREWERY_SELECTORS.scenario.parameters.brewery.stockInput).find('input').should('have.value', childStock);
-    cy.get(BREWERY_SELECTORS.scenario.parameters.brewery.restockInput).find('input').should('have.value', childRestock);
-    cy.get(BREWERY_SELECTORS.scenario.parameters.brewery.waitersInput).find('input').should('have.value', childWaiters);
+    BreweryParameters.getStockInput().should('have.value', childStock);
+    BreweryParameters.getRestockInput().should('have.value', childRestock);
+    BreweryParameters.getWaitersInput().should('have.value', childWaiters);
   });
 
   it('can create scenario, edit/discard parameters and switch between parameters tabs', () => {
@@ -244,67 +243,55 @@ describe('Create scenario', () => {
     );
 
     // Edit paramameters values
-    cy.get(GENERIC_SELECTORS.scenario.parameters.editButton).click();
-    cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.tabName).click();
+    ScenarioParameters.edit();
+    BreweryParameters.switchToBasicTypesTab();
 
-    cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.textInput).invoke('attr', 'value').as('basic-text-input');
-    cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.numberInput)
-      .invoke('attr', 'value')
-      .as('basic-number-input');
-    cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.enumInput)
-      .next('input')
-      .invoke('attr', 'value')
-      .as('basic-enum-input');
+    ScenarioParameters.getInputValue(BreweryParameters.getCurrencyNameInput()).as('currency-name');
+    ScenarioParameters.getInputValue(BreweryParameters.getCurrencyValueInput()).as('currency-value');
+    ScenarioParameters.getInputValue(BreweryParameters.getCurrencyInput()).as('currency');
 
-    cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.textInput).click().clear().type(textValue);
-    cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.numberInput).click().clear().type(numberValue);
-    cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.enumInput).type(enumValue + ' {enter}');
+    BreweryParameters.getCurrencyNameInput().click().clear().type(textValue);
+    BreweryParameters.getCurrencyValueInput().click().clear().type(numberValue);
+    BreweryParameters.getCurrencyTextField().type(enumValue + ' {enter}');
 
-    // switch parameters tabs then back and check parameters,
-    cy.get(BREWERY_SELECTORS.scenario.parameters.datasetParts.tabName).click();
-    cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.tabName).click();
+    // Switch parameters tabs then back and check parameters,
+    BreweryParameters.switchToDatasetPartsTab();
+    BreweryParameters.switchToBasicTypesTab();
 
-    cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.textInput).should('value', textValue);
-    cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.numberInput).should('value', numberValue);
-    cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.enumInput)
-      .next('input')
-      .invoke('attr', 'value')
-      .then((value) => {
+    BreweryParameters.getCurrencyNameInput().should('value', textValue);
+    BreweryParameters.getCurrencyValueInput().should('value', numberValue);
+    ScenarioParameters.getInputValue(BreweryParameters.getCurrencyInput()).then((value) => {
+      expect(BASIC_PARAMETERS_CONST.ENUM[value], enumValue);
+    });
+
+    // Discard
+    ScenarioParameters.discard();
+
+    cy.get('@currency-name').then((input) => {
+      BreweryParameters.getCurrencyNameInput().should('value', input);
+    });
+    cy.get('@currency-value').then((input) => {
+      BreweryParameters.getCurrencyValueInput().should('value', input);
+    });
+    cy.get('@currency').then((input) => {
+      ScenarioParameters.getInputValue(BreweryParameters.getCurrencyInput()).then((value) => {
         expect(BASIC_PARAMETERS_CONST.ENUM[value], enumValue);
       });
-
-    // discard
-    cy.get(GENERIC_SELECTORS.scenario.parameters.discardButton).click();
-    cy.get(GENERIC_SELECTORS.scenario.parameters.dialogDiscardButton).click();
-
-    cy.get('@basic-text-input').then((input) => {
-      cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.textInput).should('value', input);
-    });
-    cy.get('@basic-number-input').then((input) => {
-      cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.numberInput).should('value', input);
-    });
-    cy.get('@basic-enum-input').then((input) => {
-      cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.enumInput)
-        .next('input')
-        .invoke('attr', 'value')
-        .then((value) => {
-          expect(BASIC_PARAMETERS_CONST.ENUM[value], enumValue);
-        });
     });
 
     // re-edit
-    cy.get(GENERIC_SELECTORS.scenario.parameters.editButton).click();
-    cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.tabName).click();
+    ScenarioParameters.edit();
+    BreweryParameters.switchToBasicTypesTab();
 
-    cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.textInput).click().clear().type(textValue);
-    cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.numberInput).click().clear().type(numberValue);
-    cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.enumInput).type(enumValue + ' {enter}');
+    BreweryParameters.getCurrencyNameInput().click().clear().type(textValue);
+    BreweryParameters.getCurrencyValueInput().click().clear().type(numberValue);
+    BreweryParameters.getCurrencyTextField().type(enumValue + ' {enter}');
 
     // update and launch
     cy.intercept('PATCH', URL_REGEX.SCENARIO_PAGE_WITH_ID).as('requestEditScenario');
     cy.intercept('POST', URL_REGEX.SCENARIO_PAGE_RUN_WITH_ID).as('requestRunScenario');
 
-    cy.get(GENERIC_SELECTORS.scenario.parameters.updateAndLaunchButton).click();
+    ScenarioParameters.updateAndLaunch();
 
     cy.wait('@requestEditScenario').should((req) => {
       const { name: nameGet, id: idGet, parametersValues: paramsGet, state } = req.response.body;
@@ -323,6 +310,6 @@ describe('Create scenario', () => {
       expect(req.response.body.scenarioId).equal(scenarioWithBasicTypesId);
     });
 
-    cy.get(GENERIC_SELECTORS.scenario.dashboard.placeholder).should('have.text', SCENARIO_RUN_IN_PROGRESS);
+    Scenarios.getDashboardPlaceholder().should('have.text', SCENARIO_RUN_IN_PROGRESS);
   });
 });

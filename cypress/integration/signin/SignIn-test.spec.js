@@ -2,8 +2,7 @@
 // Licensed under the MIT license.
 
 import { PAGE_NAME } from '../../commons/constants/generic/TestConstants';
-import { AppBar } from '../../commons/actions/generic/AppBar';
-import { GENERIC_SELECTORS as SELECTORS } from '../../commons/constants/generic/IdConstants';
+import { AppBar } from '../../commons/actions';
 
 describe('Redirection when not authenticated', () => {
   it('redirect automatically when not logged in', () => {

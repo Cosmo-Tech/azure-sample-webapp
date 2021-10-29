@@ -20,6 +20,7 @@ const PARAMETERS = {
     defaultValue: 100,
   },
   currency: {
+    dataCy: 'currency',
     defaultValue: 'USD',
     enumValues: [
       {
@@ -41,12 +42,15 @@ const PARAMETERS = {
     ],
   },
   currency_name: {
+    dataCy: 'currency_name',
     defaultValue: 'EUR',
   },
   currency_value: {
+    dataCy: 'currency_value',
     defaultValue: 1000,
   },
   currency_used: {
+    dataCy: 'currency_used',
     labels: {
       en: 'Use currency',
       fr: 'Activer la monnaie',
@@ -54,6 +58,7 @@ const PARAMETERS = {
     defaultValue: false,
   },
   start_date: {
+    dataCy: 'start_date',
     defaultValue: new Date('2014-08-18T21:11:54'),
   },
   initial_stock_dataset: {
