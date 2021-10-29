@@ -5,28 +5,28 @@ import rfdc from 'rfdc';
 import { VAR_TYPES_DEFAULT_VALUES } from './DefaultValues';
 import { ConfigUtils } from '../ConfigUtils';
 import {
-  ADD_SCENARIO_ID_PARAMETERS,
-  ADD_SCENARIO_LAST_RUN_ID_PARAMETERS,
-  ADD_SCENARIO_MASTER_ID_PARAMETERS,
-  ADD_SCENARIO_MASTER_LAST_RUN_ID_PARAMETERS,
-  ADD_SCENARIO_NAME_PARAMETERS,
-  ADD_SCENARIO_PARENT_ID_PARAMETERS,
-  ADD_SCENARIO_PARENT_LAST_RUN_ID_PARAMETERS,
-  ADD_SCENARIO_RUN_TEMPLATE_NAME_PARAMETERS,
+  ADD_SCENARIO_ID_PARAMETER,
+  ADD_SCENARIO_LAST_RUN_ID_PARAMETER,
+  ADD_SCENARIO_MASTER_ID_PARAMETER,
+  ADD_SCENARIO_MASTER_LAST_RUN_ID_PARAMETER,
+  ADD_SCENARIO_NAME_PARAMETER,
+  ADD_SCENARIO_PARENT_ID_PARAMETER,
+  ADD_SCENARIO_PARENT_LAST_RUN_ID_PARAMETER,
+  ADD_SCENARIO_RUN_TEMPLATE_NAME_PARAMETER,
 } from '../../config/AppConfiguration';
 
 const clone = rfdc();
 
 const shouldForceUpdateScenarioParameters = () => {
   const result =
-    ADD_SCENARIO_ID_PARAMETERS ||
-    ADD_SCENARIO_LAST_RUN_ID_PARAMETERS ||
-    ADD_SCENARIO_MASTER_ID_PARAMETERS ||
-    ADD_SCENARIO_MASTER_LAST_RUN_ID_PARAMETERS ||
-    ADD_SCENARIO_NAME_PARAMETERS ||
-    ADD_SCENARIO_PARENT_ID_PARAMETERS ||
-    ADD_SCENARIO_PARENT_LAST_RUN_ID_PARAMETERS ||
-    ADD_SCENARIO_RUN_TEMPLATE_NAME_PARAMETERS;
+    ADD_SCENARIO_ID_PARAMETER ||
+    ADD_SCENARIO_LAST_RUN_ID_PARAMETER ||
+    ADD_SCENARIO_MASTER_ID_PARAMETER ||
+    ADD_SCENARIO_MASTER_LAST_RUN_ID_PARAMETER ||
+    ADD_SCENARIO_NAME_PARAMETER ||
+    ADD_SCENARIO_PARENT_ID_PARAMETER ||
+    ADD_SCENARIO_PARENT_LAST_RUN_ID_PARAMETER ||
+    ADD_SCENARIO_RUN_TEMPLATE_NAME_PARAMETER;
   return result;
 };
 
@@ -58,7 +58,7 @@ function _addParentLastRunIdScenarioParameter(scenarioData, scenarioList, defaul
       );
     }
   } else {
-    _addScenarioParameter('ParentLastRunId', defaultVarType, scenarioData?.lastRun?.csmSimulationRun, parameters);
+    _addScenarioParameter('ParentLastRunId', defaultVarType, undefined, parameters);
   }
 }
 
@@ -74,36 +74,36 @@ function _addMasterLastRunIdScenarioParameter(scenarioData, scenarioList, defaul
       );
     }
   } else {
-    _addScenarioParameter('MasterLastRunId', defaultVarType, scenarioData?.lastRun?.csmSimulationRun, parameters);
+    _addScenarioParameter('MasterLastRunId', defaultVarType, undefined, parameters);
   }
 }
 
 function buildAdditionalParameters(scenario, scenarioList) {
   const scenarioData = scenario?.data;
   const parameters = [];
-  if (scenarioData && scenarioList.length > 0) {
-    if (ADD_SCENARIO_NAME_PARAMETERS) {
+  if (scenarioData && scenarioList?.length > 0) {
+    if (ADD_SCENARIO_NAME_PARAMETER) {
       _addScenarioParameter('ScenarioName', 'string', scenarioData.name, parameters);
     }
-    if (ADD_SCENARIO_ID_PARAMETERS) {
+    if (ADD_SCENARIO_ID_PARAMETER) {
       _addScenarioParameter('ScenarioId', 'string', scenarioData.id, parameters);
     }
-    if (ADD_SCENARIO_MASTER_ID_PARAMETERS) {
+    if (ADD_SCENARIO_MASTER_ID_PARAMETER) {
       _addScenarioParameter('MasterId', 'string', scenarioData.rootId, parameters);
     }
-    if (ADD_SCENARIO_RUN_TEMPLATE_NAME_PARAMETERS) {
+    if (ADD_SCENARIO_RUN_TEMPLATE_NAME_PARAMETER) {
       _addScenarioParameter('RunTemplateName', 'string', scenarioData.runTemplateName, parameters);
     }
-    if (ADD_SCENARIO_PARENT_ID_PARAMETERS) {
+    if (ADD_SCENARIO_PARENT_ID_PARAMETER) {
       _addScenarioParameter('ParentId', 'string', scenarioData.parentId, parameters);
     }
-    if (ADD_SCENARIO_LAST_RUN_ID_PARAMETERS) {
+    if (ADD_SCENARIO_LAST_RUN_ID_PARAMETER) {
       _addScenarioParameter('ScenarioLastRunId', 'string', scenarioData?.lastRun?.csmSimulationRun, parameters);
     }
-    if (ADD_SCENARIO_PARENT_LAST_RUN_ID_PARAMETERS) {
+    if (ADD_SCENARIO_PARENT_LAST_RUN_ID_PARAMETER) {
       _addParentLastRunIdScenarioParameter(scenarioData, scenarioList, 'string', parameters);
     }
-    if (ADD_SCENARIO_MASTER_LAST_RUN_ID_PARAMETERS) {
+    if (ADD_SCENARIO_MASTER_LAST_RUN_ID_PARAMETER) {
       _addMasterLastRunIdScenarioParameter(scenarioData, scenarioList, 'string', parameters);
     }
   }

@@ -237,7 +237,7 @@ const Scenario = (props) => {
                 datasets={datasetList.data}
                 currentScenario={currentScenario}
                 scenarioId={currentScenario.data.id}
-                scenarioList={scenarioList}
+                scenarioList={scenarioList.data}
               />
             )}
           </Card>

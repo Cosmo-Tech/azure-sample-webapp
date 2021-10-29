@@ -181,7 +181,7 @@ const ScenarioParameters = ({
       parametersValuesRef.current,
       runTemplateParametersIds
     );
-    const additionalParameters = ScenarioParametersUtils.buildAdditionalParameters(currentScenario, scenarioList?.data);
+    const additionalParameters = ScenarioParametersUtils.buildAdditionalParameters(currentScenario, scenarioList);
     return parametersData.concat(additionalParameters);
   };
 
@@ -288,7 +288,7 @@ ScenarioParameters.propTypes = {
   launchScenario: PropTypes.func.isRequired,
   workspaceId: PropTypes.string.isRequired,
   scenarioId: PropTypes.string.isRequired,
-  scenarioList: PropTypes.object.isRequired,
+  scenarioList: PropTypes.array.isRequired,
   solution: PropTypes.object.isRequired,
   datasets: PropTypes.array.isRequired,
   currentScenario: PropTypes.object.isRequired,
