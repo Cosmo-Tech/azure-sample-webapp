@@ -1398,7 +1398,7 @@
     eslint-plugin-prettier "^4.0.0"
     prettier "^2.4.1"
 
-"@cosmotech/ui@^1.0.3":
+"@cosmotech/ui@^1.0.4":
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-1.0.5.tgz#683a00ca88ab934630598083d6d563175b13b18d"
   integrity sha512-Nz/TX1WUOcqwgGoC34UWj8bEmT3TDFDqYlp8REXB6IzUuZwCIX3al/UKTYXDKepvLrBaEPaiSnQrFbGt/Ss7kw==
