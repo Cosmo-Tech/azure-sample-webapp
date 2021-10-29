@@ -2,8 +2,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { AppBarMenu } from '../../commons/actions/generic/AppBarMenu';
-import { PAGE_NAME } from '../../commons/constants/generic/TestConstants';
+import { AppBar } from '../../commons/actions/generic/AppBar';
 
 describe('UserInfo features', () => {
   before(() => {
@@ -15,13 +14,13 @@ describe('UserInfo features', () => {
   });
 
   it('can download the documentation PDF', () => {
-    AppBarMenu.getHelpMenu();
+    AppBar.openHelpMenu();
     // Check that the link to the documentation PDF file exists
-    AppBarMenu.getDocFileLinkSelector().should('have.attr', 'target', '_blank');
+    AppBar.getDocumentationLink().should('have.attr', 'target', '_blank');
   });
 
   it('can go support page', () => {
-    AppBarMenu.getHelpMenu();
-    AppBarMenu.getSupportPageLink().should('have.attr', 'target', '_blank');
+    AppBar.openHelpMenu();
+    AppBar.getSupportPageLink().should('have.attr', 'target', '_blank');
   });
 });

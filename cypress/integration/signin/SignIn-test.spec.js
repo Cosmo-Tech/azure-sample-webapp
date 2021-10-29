@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { PAGE_NAME } from '../../commons/constants/generic/TestConstants';
+import { AppBar } from '../../commons/actions/generic/AppBar';
 import { GENERIC_SELECTORS as SELECTORS } from '../../commons/constants/generic/IdConstants';
 
 describe('Redirection when not authenticated', () => {
@@ -22,8 +23,8 @@ describe('Log in & log out', () => {
 
   it('can log in and log out', () => {
     // Logout
-    cy.get(SELECTORS.userProfileMenu.menu).click();
-    cy.get(SELECTORS.userProfileMenu.menu).should('be.visible');
+    AppBar.openUserInfoMenu();
+    AppBar.getLogoutButton().should('be.visible');
 
     // TO DO
     // Find a solution to allow extern redirection and so handle logout

@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { AppBarMenu } from '../../commons/actions/generic/AppBarMenu';
+import { AppBar } from '../../commons/actions/generic/AppBar';
 import { PAGE_NAME } from '../../commons/constants/generic/TestConstants';
 
 describe('UserInfo features', () => {
@@ -15,16 +15,18 @@ describe('UserInfo features', () => {
 
   it('can change the application language', () => {
     // Set lang to fr
-    AppBarMenu.getUserInfoMenu();
-    AppBarMenu.getLanguageChangeSelector();
-    AppBarMenu.selectLanguage('fr').should(() => {
+    AppBar.getUserInfoMenu().should('not.be.visible');
+    AppBar.openUserInfoMenu();
+    AppBar.getUserInfoMenu().should('be.visible');
+    AppBar.openLanguageSelectorInMenu();
+    AppBar.getLanguageChangeButton('fr').should('be.visible');
+    AppBar.getLanguageChangeButton('en').should('be.visible');
+    AppBar.selectLanguageInMenu('fr').should(() => {
       expect(localStorage.getItem('locale')).to.eq('fr');
     });
 
     // Set lang to en
-    AppBarMenu.getUserInfoMenu();
-    AppBarMenu.getLanguageChangeSelector();
-    AppBarMenu.selectLanguage('en').should(() => {
+    AppBar.switchLanguageTo('en').should(() => {
       expect(localStorage.getItem('locale')).to.eq('en');
     });
   });
