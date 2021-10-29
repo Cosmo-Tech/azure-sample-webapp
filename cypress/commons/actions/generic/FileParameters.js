@@ -17,6 +17,10 @@ function getDeleteButton(fileParameterElement) {
   return fileParameterElement.find(GENERIC_SELECTORS.genericComponents.uploadFile.deleteButton);
 }
 
+function getFileName(fileParameterElement) {
+  return fileParameterElement.find(GENERIC_SELECTORS.genericComponents.uploadFile.fileName);
+}
+
 function download(fileParameterElement) {
   getDownloadButton(fileParameterElement).click();
 }
@@ -29,6 +33,7 @@ export const FileParameters = {
   upload,
   getDownloadButton,
   getDeleteButton,
+  getFileName,
   download,
   delete: _delete,
 };

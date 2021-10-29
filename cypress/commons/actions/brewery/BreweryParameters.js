@@ -77,6 +77,16 @@ function getExampleDatasetPart3() {
   return cy.get(BREWERY_SELECTORS.scenario.parameters.extraDatasetPart.exampleDatasetPart3);
 }
 
+function getExampleDatasetPart1FileName() {
+  return FileParameters.getFileName(getExampleDatasetPart1());
+}
+function getExampleDatasetPart2FileName() {
+  return FileParameters.getFileName(getExampleDatasetPart2());
+}
+function getExampleDatasetPart3FileName() {
+  return FileParameters.getFileName(getExampleDatasetPart3());
+}
+
 function getExampleDatasetPart1DownloadButton() {
   return FileParameters.getDownloadButton(getExampleDatasetPart1());
 }
@@ -163,6 +173,9 @@ export const BreweryParameters = {
   getCurrencyTextField,
   getCurrencyNameInput,
   getCurrencyValueInput,
+  getExampleDatasetPart1FileName,
+  getExampleDatasetPart2FileName,
+  getExampleDatasetPart3FileName,
   getExampleDatasetPart1DownloadButton,
   getExampleDatasetPart2DownloadButton,
   getExampleDatasetPart3DownloadButton,

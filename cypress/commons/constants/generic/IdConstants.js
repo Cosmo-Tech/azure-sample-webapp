@@ -54,6 +54,7 @@ export const GENERIC_SELECTORS = {
       browseButtonInput: 'input[type=file]',
       downloadButton: '[data-cy=download-button]',
       deleteButton: '[data-cy=delete-button]',
+      fileName: '[data-cy=file-name]',
     },
     basicEnumInput: {
       input: 'input',
