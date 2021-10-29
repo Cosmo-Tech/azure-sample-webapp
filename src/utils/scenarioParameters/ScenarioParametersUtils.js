@@ -4,8 +4,111 @@
 import rfdc from 'rfdc';
 import { VAR_TYPES_DEFAULT_VALUES } from './DefaultValues';
 import { ConfigUtils } from '../ConfigUtils';
+import {
+  ADD_SCENARIO_ID_PARAMETER,
+  ADD_SCENARIO_LAST_RUN_ID_PARAMETER,
+  ADD_SCENARIO_MASTER_ID_PARAMETER,
+  ADD_SCENARIO_MASTER_LAST_RUN_ID_PARAMETER,
+  ADD_SCENARIO_NAME_PARAMETER,
+  ADD_SCENARIO_PARENT_ID_PARAMETER,
+  ADD_SCENARIO_PARENT_LAST_RUN_ID_PARAMETER,
+  ADD_SCENARIO_RUN_TEMPLATE_NAME_PARAMETER,
+} from '../../config/AppConfiguration';
 
 const clone = rfdc();
+
+const shouldForceUpdateScenarioParameters = () => {
+  const result =
+    ADD_SCENARIO_ID_PARAMETER ||
+    ADD_SCENARIO_LAST_RUN_ID_PARAMETER ||
+    ADD_SCENARIO_MASTER_ID_PARAMETER ||
+    ADD_SCENARIO_MASTER_LAST_RUN_ID_PARAMETER ||
+    ADD_SCENARIO_NAME_PARAMETER ||
+    ADD_SCENARIO_PARENT_ID_PARAMETER ||
+    ADD_SCENARIO_PARENT_LAST_RUN_ID_PARAMETER ||
+    ADD_SCENARIO_RUN_TEMPLATE_NAME_PARAMETER;
+  return result;
+};
+
+const _buildScenarioParameter = (parameterId, varType, value) => {
+  if (parameterId && varType) {
+    return {
+      parameterId: parameterId,
+      varType: varType,
+      value: value || '',
+    };
+  }
+  return undefined;
+};
+
+function _addScenarioParameter(parameterId, varType, value, parameters) {
+  const parameter = _buildScenarioParameter(parameterId, varType, value);
+  if (parameter) parameters.push(parameter);
+}
+
+function _addParentLastRunIdScenarioParameter(scenarioData, scenarioList, defaultVarType, parameters) {
+  if (scenarioData.parentId) {
+    const parentScenario = scenarioList.find((scenario) => scenario.id === scenarioData.parentId);
+    if (parentScenario) {
+      _addScenarioParameter('ParentLastRunId', defaultVarType, parentScenario?.lastRun?.csmSimulationRun, parameters);
+    } else {
+      console.error(
+        `Scenario parent with id:${scenarioData.parentId} does not exist.\
+             Scenario Parameter ParentLastRunId cannot be built`
+      );
+    }
+  } else {
+    _addScenarioParameter('ParentLastRunId', defaultVarType, undefined, parameters);
+  }
+}
+
+function _addMasterLastRunIdScenarioParameter(scenarioData, scenarioList, defaultVarType, parameters) {
+  if (scenarioData.rootId) {
+    const masterScenario = scenarioList.find((scenario) => scenario.id === scenarioData.rootId);
+    if (masterScenario) {
+      _addScenarioParameter('MasterLastRunId', defaultVarType, masterScenario?.lastRun?.csmSimulationRun, parameters);
+    } else {
+      console.error(
+        `Scenario master with id:${scenarioData.rootId} does not exist.\
+             Scenario Parameter MasterLastRunId cannot be built`
+      );
+    }
+  } else {
+    _addScenarioParameter('MasterLastRunId', defaultVarType, undefined, parameters);
+  }
+}
+
+function buildAdditionalParameters(scenario, scenarioList) {
+  const scenarioData = scenario?.data;
+  const parameters = [];
+  if (scenarioData && scenarioList?.length > 0) {
+    if (ADD_SCENARIO_NAME_PARAMETER) {
+      _addScenarioParameter('ScenarioName', 'string', scenarioData.name, parameters);
+    }
+    if (ADD_SCENARIO_ID_PARAMETER) {
+      _addScenarioParameter('ScenarioId', 'string', scenarioData.id, parameters);
+    }
+    if (ADD_SCENARIO_MASTER_ID_PARAMETER) {
+      _addScenarioParameter('MasterId', 'string', scenarioData.rootId, parameters);
+    }
+    if (ADD_SCENARIO_RUN_TEMPLATE_NAME_PARAMETER) {
+      _addScenarioParameter('RunTemplateName', 'string', scenarioData.runTemplateName, parameters);
+    }
+    if (ADD_SCENARIO_PARENT_ID_PARAMETER) {
+      _addScenarioParameter('ParentId', 'string', scenarioData.parentId, parameters);
+    }
+    if (ADD_SCENARIO_LAST_RUN_ID_PARAMETER) {
+      _addScenarioParameter('ScenarioLastRunId', 'string', scenarioData?.lastRun?.csmSimulationRun, parameters);
+    }
+    if (ADD_SCENARIO_PARENT_LAST_RUN_ID_PARAMETER) {
+      _addParentLastRunIdScenarioParameter(scenarioData, scenarioList, 'string', parameters);
+    }
+    if (ADD_SCENARIO_MASTER_LAST_RUN_ID_PARAMETER) {
+      _addMasterLastRunIdScenarioParameter(scenarioData, scenarioList, 'string', parameters);
+    }
+  }
+  return parameters;
+}
 
 const _getVarTypeDefaultValue = (varType, subType) => {
   const extendedVarType = ConfigUtils.buildExtendedVarType(varType, subType);
@@ -248,10 +351,12 @@ const buildParametersForUpdate = (solution, parametersValues, runTemplateParamet
 };
 
 export const ScenarioParametersUtils = {
+  buildAdditionalParameters,
   generateParametersMetadata,
   generateParametersGroupsMetadata,
   getDefaultParametersValues,
   getParametersValuesForReset,
   buildParametersForUpdate,
   getParameterVarType,
+  shouldForceUpdateScenarioParameters,
 };
