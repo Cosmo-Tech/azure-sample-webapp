@@ -79,8 +79,9 @@ describe('Simple operations on a file parameter', () => {
   });
 
   it('can delete an uploaded file and run the scenario', () => {
-    Scenarios.select(firstScenarioName, firstScenarioId); // Expecting the first scenario to be done by then
-    ScenarioParameters.edit();
+    Scenarios.select(firstScenarioName, firstScenarioId);
+    BreweryParameters.switchToBasicTypesTab();
+    ScenarioParameters.edit(120);
     BreweryParameters.switchToDatasetPartsTab();
     BreweryParameters.getExampleDatasetPart1DownloadButton().should('have.text', FILE_PATH_1);
     BreweryParameters.deleteExampleDatasetPart1();
@@ -153,8 +154,9 @@ describe('Simple operations on a file parameter in a parameters tab that lost fo
   });
 
   it('can delete an uploaded file and run the scenario', () => {
-    Scenarios.select(firstScenarioName, firstScenarioId); // Expecting the first scenario to be done by then
-    ScenarioParameters.edit();
+    Scenarios.select(firstScenarioName, firstScenarioId);
+    BreweryParameters.switchToBasicTypesTab();
+    ScenarioParameters.edit(120);
     BreweryParameters.switchToExtraDatasetPartTab();
     BreweryParameters.getExampleDatasetPart3DownloadButton().should('have.text', FILE_PATH_1);
     BreweryParameters.deleteExampleDatasetPart3();

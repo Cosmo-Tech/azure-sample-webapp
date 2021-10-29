@@ -8,8 +8,9 @@ import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
 function getParametersTabs() {
   return cy.get(GENERIC_SELECTORS.scenario.parameters.tabs);
 }
-function getParametersEditButton() {
-  return cy.get(GENERIC_SELECTORS.scenario.parameters.editButton);
+//  - timeout: max time to wait before throwing an error (seconds)
+function getParametersEditButton(timeout = 5) {
+  return cy.get(GENERIC_SELECTORS.scenario.parameters.editButton, { timeout: timeout * 1000 });
 }
 function getParametersDiscardButton() {
   return cy.get(GENERIC_SELECTORS.scenario.parameters.discardButton);
@@ -22,8 +23,8 @@ function getParametersUpdateAndLaunchButton() {
 }
 
 // Actions around scenario parameters
-function edit() {
-  getParametersEditButton().click();
+function edit(timeout = 5) {
+  getParametersEditButton(timeout).should('not.be.disabled').click();
 }
 function discard() {
   getParametersDiscardButton().click();
