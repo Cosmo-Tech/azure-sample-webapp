@@ -23,9 +23,12 @@ function forgeScenarioName() {
 }
 
 describe('Simple operations on a file parameter', () => {
-  beforeEach(() => {
-    cy.visit(PAGE_NAME.SCENARIO);
+  before(() => {
     cy.login();
+  });
+
+  beforeEach(() => {
+    cy.relogin();
   });
 
   const scenarioNamesToDelete = [];
@@ -88,9 +91,12 @@ describe('Simple operations on a file parameter', () => {
 });
 
 describe('Simple operations on a file parameter in a parameters tab that lost focus', () => {
-  beforeEach(() => {
-    cy.visit(PAGE_NAME.SCENARIO);
+  before(() => {
     cy.login();
+  });
+
+  beforeEach(() => {
+    cy.relogin();
   });
 
   const scenarioNamesToDelete = [];
@@ -161,9 +167,12 @@ describe('Simple operations on a file parameter in a parameters tab that lost fo
 });
 
 describe('Scenario inheritance for file parameters', () => {
-  beforeEach(() => {
-    cy.visit(PAGE_NAME.SCENARIO);
+  before(() => {
     cy.login();
+  });
+
+  beforeEach(() => {
+    cy.relogin();
   });
 
   const scenarioNamesToDelete = [];
@@ -229,9 +238,12 @@ describe('Scenario inheritance for file parameters', () => {
 });
 
 describe('File parameters in multiple tabs', () => {
-  beforeEach(() => {
-    cy.visit(PAGE_NAME.SCENARIO);
+  before(() => {
     cy.login();
+  });
+
+  beforeEach(() => {
+    cy.relogin();
   });
 
   const scenarioNamesToDelete = [];

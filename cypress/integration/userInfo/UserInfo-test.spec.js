@@ -5,9 +5,12 @@ import { AppBarMenu } from '../../commons/actions/generic/AppBarMenu';
 import { PAGE_NAME } from '../../commons/constants/generic/TestConstants';
 
 describe('UserInfo features', () => {
-  it('can log in with Microsoft account account', () => {
-    cy.visit(PAGE_NAME.SCENARIO);
+  before(() => {
     cy.login();
+  });
+
+  beforeEach(() => {
+    cy.relogin();
   });
 
   it('can change the application language', () => {

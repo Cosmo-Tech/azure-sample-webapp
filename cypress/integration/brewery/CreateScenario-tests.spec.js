@@ -40,14 +40,16 @@ describe('Create scenario', () => {
   });
 
   before(() => {
-    // Create "another scenario"
-    cy.visit(PAGE_NAME.SCENARIO);
     cy.login();
-
+    // Create "another scenario"
     cy.createScenario(otherScenarioName, true, DATASET.BREWERY_ADT, SCENARIO_TYPE.BREWERY_PARAMETERS).then((value) => {
       otherScenarioId = value.scenarioCreatedId;
       anotherScenarioUrlRegex = new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/${otherScenarioId}`);
     });
+  });
+
+  beforeEach(() => {
+    cy.relogin();
   });
 
   after(() => {
@@ -146,10 +148,6 @@ describe('Create scenario', () => {
   });
 
   it('can create scenario child', () => {
-    // Log and launch app on scenario view
-    cy.visit(PAGE_NAME.SCENARIO);
-    cy.login();
-
     // Create Scenario Child
     let scenarioCreatedName;
     cy.createScenario(scenarioChildName, false, scenarioMasterName, SCENARIO_TYPE.BREWERY_PARAMETERS).then((value) => {
@@ -236,10 +234,6 @@ describe('Create scenario', () => {
   });
 
   it('can create scenario, edit/discard parameters and switch between parameters tabs', () => {
-    // Log and launch app on scenario view
-    cy.visit(PAGE_NAME.SCENARIO);
-    cy.login();
-
     // Create Scenario with some paramaters tabs
     let scenarioCreatedName;
     cy.createScenario(scenarioWithBasicTypesName, true, DATASET.BREWERY_ADT, SCENARIO_TYPE.BASIC_TYPES).then(
