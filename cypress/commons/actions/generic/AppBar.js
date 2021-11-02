@@ -6,19 +6,19 @@ import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
 
 // User profile menu elements
 function getUserInfoMenuButton() {
-  return cy.get(GENERIC_SELECTORS.userProfileMenu.button);
+  return cy.get(GENERIC_SELECTORS.userInfoMenu.button);
 }
 function getUserInfoMenu() {
-  return cy.get(GENERIC_SELECTORS.userProfileMenu.popover);
+  return cy.get(GENERIC_SELECTORS.userInfoMenu.popover);
 }
 function getLanguageSelectorButton() {
-  return cy.get(GENERIC_SELECTORS.userProfileMenu.language.change);
+  return cy.get(GENERIC_SELECTORS.userInfoMenu.language.change);
 }
 function getLanguageChangeButton(lang) {
-  return cy.get(GENERIC_SELECTORS.userProfileMenu.language[lang]);
+  return cy.get(GENERIC_SELECTORS.userInfoMenu.language[lang]);
 }
 function getLogoutButton() {
-  return cy.get(GENERIC_SELECTORS.userProfileMenu.logout);
+  return cy.get(GENERIC_SELECTORS.userInfoMenu.logout);
 }
 
 // Help menu elements

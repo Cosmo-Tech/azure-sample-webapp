@@ -5,7 +5,7 @@ export const GENERIC_SELECTORS = {
   login: {
     microsoftLoginButton: '[data-cy=sign-in-with-microsoft-button]',
   },
-  userProfileMenu: {
+  userInfoMenu: {
     button: '[data-cy=user-profile-menu]',
     popover: '[data-cy=main-menu]',
     logout: '[data-cy=logout]',
