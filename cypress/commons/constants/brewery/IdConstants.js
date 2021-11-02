@@ -4,7 +4,7 @@
 export const BREWERY_SELECTORS = {
   scenario: {
     parameters: {
-      brewery: {
+      bar: {
         stockInput: '[data-cy=stock-input]',
         restockInput: '[data-cy=restock-input]',
         waitersInput: '[data-cy=waiters-input]',

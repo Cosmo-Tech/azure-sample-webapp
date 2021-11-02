@@ -18,13 +18,13 @@ function getBasicTypesTab() {
 
 // Get bar parameters components & input fields
 function getStock() {
-  return cy.get(BREWERY_SELECTORS.scenario.parameters.brewery.stockInput);
+  return cy.get(BREWERY_SELECTORS.scenario.parameters.bar.stockInput);
 }
 function getRestock() {
-  return cy.get(BREWERY_SELECTORS.scenario.parameters.brewery.restockInput);
+  return cy.get(BREWERY_SELECTORS.scenario.parameters.bar.restockInput);
 }
 function getWaiters() {
-  return cy.get(BREWERY_SELECTORS.scenario.parameters.brewery.waitersInput);
+  return cy.get(BREWERY_SELECTORS.scenario.parameters.bar.waitersInput);
 }
 function getStockInput() {
   return getStock().find(GENERIC_SELECTORS.genericComponents.basicNumberInput.input);
