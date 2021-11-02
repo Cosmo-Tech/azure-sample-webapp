@@ -5,8 +5,12 @@ import { URL_REGEX } from '../../constants/generic/TestConstants';
 import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
 
 // Get elements in scenario parameters panel
-function getParametersEditButton() {
-  return cy.get(GENERIC_SELECTORS.scenario.parameters.editButton);
+function getParametersTabs() {
+  return cy.get(GENERIC_SELECTORS.scenario.parameters.tabs);
+}
+//  - timeout: max time to wait before throwing an error (seconds)
+function getParametersEditButton(timeout = 5) {
+  return cy.get(GENERIC_SELECTORS.scenario.parameters.editButton, { timeout: timeout * 1000 });
 }
 function getParametersDiscardButton() {
   return cy.get(GENERIC_SELECTORS.scenario.parameters.discardButton);
@@ -19,8 +23,8 @@ function getParametersUpdateAndLaunchButton() {
 }
 
 // Actions around scenario parameters
-function edit() {
-  getParametersEditButton().click();
+function edit(timeout = 5) {
+  getParametersEditButton(timeout).should('not.be.disabled').click();
 }
 function discard() {
   getParametersDiscardButton().click();
@@ -32,11 +36,18 @@ function updateAndLaunch() {
   cy.wait('@requestRunScenario');
 }
 
+// Actions on input components
+function getInputValue(inputElement) {
+  return inputElement.invoke('attr', 'value');
+}
+
 export const ScenarioParameters = {
+  getParametersTabs,
   getParametersEditButton,
   getParametersDiscardButton,
   getParametersUpdateAndLaunchButton,
   edit,
   discard,
   updateAndLaunch,
+  getInputValue,
 };

@@ -5,8 +5,9 @@ export const GENERIC_SELECTORS = {
   login: {
     microsoftLoginButton: '[data-cy=sign-in-with-microsoft-button]',
   },
-  userProfileMenu: {
-    menu: '[data-cy=user-profile-menu]',
+  userInfoMenu: {
+    button: '[data-cy=user-profile-menu]',
+    popover: '[data-cy=main-menu]',
     logout: '[data-cy=logout]',
     language: {
       change: '[data-cy=change-language]',
@@ -53,6 +54,17 @@ export const GENERIC_SELECTORS = {
       browseButtonInput: 'input[type=file]',
       downloadButton: '[data-cy=download-button]',
       deleteButton: '[data-cy=delete-button]',
+      fileName: '[data-cy=file-name]',
+    },
+    basicEnumInput: {
+      input: 'input',
+      textField: '[data-cy=text_field]',
+    },
+    basicTextInput: {
+      input: 'input',
+    },
+    basicNumberInput: {
+      input: 'input',
     },
   },
 };

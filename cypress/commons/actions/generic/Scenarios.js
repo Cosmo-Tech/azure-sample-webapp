@@ -8,6 +8,9 @@ import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
 function getScenarioSelector() {
   return cy.get(GENERIC_SELECTORS.scenario.selectInput);
 }
+function getScenarioSelectorInput() {
+  return getScenarioSelector().find('input');
+}
 function getScenarioCreationButton() {
   return cy.get(GENERIC_SELECTORS.scenario.createButton);
 }
@@ -32,6 +35,9 @@ function getScenarioCreationDialogRunTypeSelector() {
 function getScenarioCreationDialogSubmitButton() {
   return cy.get(GENERIC_SELECTORS.scenario.createDialog.submitButton);
 }
+function getDashboardPlaceholder() {
+  return cy.get(GENERIC_SELECTORS.scenario.dashboard.placeholder);
+}
 
 // From scenario view, select the scenario with the provided name and id
 function select(scenarioName, scenarioId) {
@@ -47,6 +53,7 @@ function select(scenarioName, scenarioId) {
 
 export const Scenarios = {
   getScenarioSelector,
+  getScenarioSelectorInput,
   getScenarioCreationButton,
   getScenarioCreationDialog,
   getScenarioCreationDialogNameField,
@@ -55,5 +62,6 @@ export const Scenarios = {
   getScenarioCreationDialogParentScenarioSelector,
   getScenarioCreationDialogRunTypeSelector,
   getScenarioCreationDialogSubmitButton,
+  getDashboardPlaceholder,
   select,
 };
