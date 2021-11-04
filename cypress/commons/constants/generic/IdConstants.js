@@ -56,6 +56,13 @@ export const GENERIC_SELECTORS = {
       deleteButton: '[data-cy=delete-button]',
       fileName: '[data-cy=file-name]',
     },
+    table: {
+      label: '[data-cy=label]',
+      grid: '[data-cy=grid]',
+      csvImportButton: '[data-cy=import-csv-button]',
+      csvExportButton: '[data-cy=export-csv-button]',
+      header: '[class=ag-header-viewport]',
+    },
     basicEnumInput: {
       input: 'input',
       textField: '[data-cy=text_field]',

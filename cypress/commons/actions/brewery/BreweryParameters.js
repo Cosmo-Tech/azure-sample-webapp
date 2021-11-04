@@ -3,7 +3,7 @@
 
 import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
 import { BREWERY_SELECTORS } from '../../constants/brewery/IdConstants';
-import { FileParameters } from '../generic';
+import { FileParameters, TableParameters } from '../generic';
 
 // Get tabs elements
 function getDatasetPartsTab() {
@@ -14,6 +14,9 @@ function getExtraDatasetPartTab() {
 }
 function getBasicTypesTab() {
   return cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.tabName);
+}
+function getCustomersTab() {
+  return cy.get(BREWERY_SELECTORS.scenario.parameters.customers.tabName);
 }
 
 // Get bar parameters components & input fields
@@ -76,6 +79,25 @@ function getExampleDatasetPart2() {
 function getExampleDatasetPart3() {
   return cy.get(BREWERY_SELECTORS.scenario.parameters.extraDatasetPart.exampleDatasetPart3);
 }
+function getCustomersTable() {
+  return cy.get(BREWERY_SELECTORS.scenario.parameters.customers.table);
+}
+
+function getCustomersTableLabel() {
+  return TableParameters.getLabel(getCustomersTable());
+}
+function getCustomersTableGrid() {
+  return TableParameters.getGrid(getCustomersTable());
+}
+function getCustomersImportButton() {
+  return TableParameters.getCSVImportButton(getCustomersTable());
+}
+function getCustomersExportButton() {
+  return TableParameters.getCSVExportButton(getCustomersTable());
+}
+function getHeaderCell(colName) {
+  return TableParameters.getHeaderCell(getCustomersTable(), colName);
+}
 
 function getExampleDatasetPart1FileName() {
   return FileParameters.getFileName(getExampleDatasetPart1());
@@ -117,6 +139,9 @@ function switchToExtraDatasetPartTab() {
 function switchToBasicTypesTab() {
   getBasicTypesTab().click();
 }
+function switchToCustomersTab() {
+  getCustomersTab().click();
+}
 
 // Upload a file parameter
 function uploadExampleDatasetPart1(filePath) {
@@ -155,9 +180,16 @@ export const BreweryParameters = {
   getDatasetPartsTab,
   getExtraDatasetPartTab,
   getBasicTypesTab,
+  getCustomersTab,
   getExampleDatasetPart1,
   getExampleDatasetPart2,
   getExampleDatasetPart3,
+  getCustomersTable,
+  getCustomersTableLabel,
+  getCustomersTableGrid,
+  getCustomersImportButton,
+  getCustomersExportButton,
+  getHeaderCell,
   getStock,
   getRestock,
   getWaiters,
@@ -185,6 +217,7 @@ export const BreweryParameters = {
   switchToDatasetPartsTab,
   switchToExtraDatasetPartTab,
   switchToBasicTypesTab,
+  switchToCustomersTab,
   uploadExampleDatasetPart1,
   uploadExampleDatasetPart2,
   uploadExampleDatasetPart3,
