@@ -3,10 +3,11 @@
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Card, Tabs, Tab, makeStyles } from '@material-ui/core';
+import { Card, Grid, makeStyles, Tab, Tabs } from '@material-ui/core';
 import { SimplePowerBIReportEmbed } from '@cosmotech/ui';
 import { DASHBOARDS_LIST_CONFIG } from '../../config/Dashboards';
 import { useTranslation } from 'react-i18next';
+import { POWER_BI_SSO } from '../../config/AppInstance';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -143,6 +144,7 @@ function TabPanel(props) {
         scenarioList={scenarioList}
         lang={lang}
         labels={labels}
+        useAAD={POWER_BI_SSO}
       />
     </div>
   );

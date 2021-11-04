@@ -1,19 +1,31 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { takeEvery, put, delay } from 'redux-saga/effects';
+import { delay, put, takeEvery } from 'redux-saga/effects';
 import { GET_EMBED_INFO_URL, POWER_BI_ACTIONS_KEY } from '../../../commons/PowerBIConstants';
 import { STATUSES } from '../../../commons/Constants';
 import { clientApi } from '../../../../services/ClientApi';
 import { POWER_BI_INFO_POLLING_DELAY } from '../../../../config/AppConfiguration';
+import { POWER_BI_SSO } from '../../../../config/AppInstance';
+import { PowerBIService } from '../../../../services/powerbi/PowerBIService';
 
 // generators function
 export function* getPowerBIEmbedInfoSaga() {
   let tokenDelay;
   do {
     try {
-      const { data } = yield clientApi.get(GET_EMBED_INFO_URL);
-      if (data.error) {
+      let data, error;
+      if (POWER_BI_SSO) {
+        const result = yield PowerBIService.getPowerBIData();
+        data = result?.data;
+        error = result?.error;
+      } else {
+        const result = yield clientApi.get(GET_EMBED_INFO_URL);
+        data = result?.data;
+        error = result?.data?.error;
+      }
+
+      if (error) {
         yield put({
           type: POWER_BI_ACTIONS_KEY.SET_EMBED_INFO,
           embedInfo: {
@@ -21,7 +33,7 @@ export function* getPowerBIEmbedInfoSaga() {
             reportsInfo: '',
             expiry: '',
           },
-          error: data.error,
+          error: error,
           status: STATUSES.ERROR,
         });
         tokenDelay = POWER_BI_INFO_POLLING_DELAY;

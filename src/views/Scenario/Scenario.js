@@ -1,9 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Backdrop, Card, CircularProgress, Grid, Typography, makeStyles } from '@material-ui/core';
+import { Backdrop, Card, CircularProgress, Grid, makeStyles, Typography } from '@material-ui/core';
 import { ScenarioParameters } from '../../components';
 import { useTranslation } from 'react-i18next';
 import { CreateScenarioButton, HierarchicalComboBox, SimplePowerBIReportEmbed } from '@cosmotech/ui';
@@ -15,6 +15,7 @@ import { SCENARIO_DASHBOARD_CONFIG } from '../../config/Dashboards';
 import ScenarioRunService from '../../services/scenarioRun/ScenarioRunService';
 import { STATUSES } from '../../state/commons/Constants';
 import { AppInsights } from '../../services/AppInsights';
+import { POWER_BI_SSO } from '../../config/AppInstance';
 
 const appInsights = AppInsights.getInstance();
 
@@ -220,6 +221,7 @@ const Scenario = (props) => {
                 ScenarioRunService.downloadLogsFile(currentScenario.data?.lastRun, LOG_TYPES[SCENARIO_RUN_LOG_TYPE]);
               }}
               labels={reportLabels}
+              useAAD={POWER_BI_SSO}
             />
           </Card>
         </Grid>
