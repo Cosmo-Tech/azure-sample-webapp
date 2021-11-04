@@ -303,6 +303,19 @@
           "title": "Scenario parameters"
         }
       }
+    },
+    "table": {
+      "button": {
+        "clearErrors": "Clear",
+        "csvImport": "Import CSV",
+        "csvExport": "Export CSV"
+      },
+      "labels": {
+        "loading": "Loading...",
+        "fileImportError": "File load failed.",
+        "errorsCount_one": "{{count}} error occurred:",
+        "errorsCount_other": "{{count}} errors occurred:"
+      }
     }
   },
   "views": {

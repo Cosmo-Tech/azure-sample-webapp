@@ -303,6 +303,19 @@
           "title": "Paramètres de scénario"
         }
       }
+    },
+    "table": {
+      "button": {
+        "clearErrors": "Effacer",
+        "csvImport": "Importer un CSV",
+        "csvExport": "Exporter en CSV"
+      },
+      "labels": {
+        "loading": "Chargement en cours...",
+        "fileImportError": "Échec du chargement du fichier.",
+        "errorsCount_one": "{{count}} erreur:",
+        "errorsCount_other": "{{count}} erreurs:"
+      }
     }
   },
   "views": {

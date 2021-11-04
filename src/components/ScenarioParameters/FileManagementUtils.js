@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
+import { TABLE_DATA_STATUS, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
 import { ORGANIZATION_ID, WORKSPACE_ID } from '../../config/AppInstance';
 import DatasetService from '../../services/dataset/DatasetService';
 import WorkspaceService from '../../services/workspace/WorkspaceService';
@@ -11,19 +11,44 @@ import { DatasetsUtils, ScenarioParametersUtils } from '../../utils';
 
 const appInsights = AppInsights.getInstance();
 
+const _applyUploadPreprocessToContent = (clientFileDescriptor) => {
+  if (clientFileDescriptor?.uploadPreprocess?.content) {
+    return clientFileDescriptor.uploadPreprocess.content(clientFileDescriptor);
+  }
+  return clientFileDescriptor.content;
+};
+
 const _uploadFileToCloudStorage = async (dataset, clientFileDescriptor, storageFilePath) => {
   const overwrite = true;
-  const { error, data } = await WorkspaceService.uploadWorkspaceFile(
-    ORGANIZATION_ID,
-    WORKSPACE_ID,
-    clientFileDescriptor.content,
-    overwrite,
-    storageFilePath
-  );
-  if (error) {
-    throw error;
+
+  if (clientFileDescriptor.file) {
+    const { error, data } = await WorkspaceService.uploadWorkspaceFile(
+      ORGANIZATION_ID,
+      WORKSPACE_ID,
+      clientFileDescriptor.file,
+      overwrite,
+      storageFilePath
+    );
+    if (error) {
+      throw error;
+    }
+    return data;
+  } else if (clientFileDescriptor.content) {
+    const fileContent = _applyUploadPreprocessToContent(clientFileDescriptor);
+    const { error, data } = await WorkspaceService.uploadWorkspaceFileFromData(
+      ORGANIZATION_ID,
+      WORKSPACE_ID,
+      fileContent,
+      'text/csv',
+      overwrite,
+      storageFilePath
+    );
+    if (error) {
+      throw error;
+    }
+    return data;
   }
-  return data;
+  throw new Error('No data to upload. Data must be present in client file descriptor "file" or "content" properties.');
 };
 
 async function _createEmptyDatasetInCloudStorage(parameterMetadata) {
@@ -170,18 +195,21 @@ async function applyPendingOperationsOnFileParameters(
 
 const prepareToUpload = (event, clientFileDescriptor, setClientFileDescriptor) => {
   const file = event.target.files[0];
-  if (file === undefined) {
-    return;
-  }
-  setClientFileDescriptor({
-    ...clientFileDescriptor,
-    content: file,
-    name: file.name,
-    status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD,
-  });
   // Fix Chrome/Edge "cache" behaviour.
   // HTML input is not triggered when the same file is selected twice
   event.target.value = null;
+  if (file === undefined) {
+    return;
+  }
+
+  setClientFileDescriptor({
+    ...clientFileDescriptor,
+    name: file.name,
+    file: file,
+    content: null,
+    status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD,
+  });
+  return file;
 };
 
 const prepareToDeleteFile = (setClientFileDescriptorStatus) => {
@@ -204,6 +232,22 @@ const downloadFile = async (datasetId, setClientFileDescriptorStatus) => {
   }
 };
 
+const downloadFileData = async (datasets, datasetId, setClientFileDescriptorStatuses) => {
+  const dataset = _findDatasetInDatasetsList(datasets, datasetId);
+  if (!dataset) {
+    throw new Error(`Error finding dataset ${datasetId}`);
+  }
+  const storageFilePath = DatasetsUtils.getStorageFilePathFromDataset(dataset);
+  if (!storageFilePath) {
+    return;
+  }
+
+  setClientFileDescriptorStatuses(UPLOAD_FILE_STATUS_KEY.DOWNLOADING, TABLE_DATA_STATUS.DOWNLOADING);
+  const data = await WorkspaceService.downloadWorkspaceFileData(ORGANIZATION_ID, WORKSPACE_ID, storageFilePath);
+  setClientFileDescriptorStatuses(UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD, TABLE_DATA_STATUS.PARSING);
+  return data;
+};
+
 const _findDatasetInDatasetsList = (datasets, datasetId) => {
   return datasets?.find((dataset) => dataset.id === datasetId);
 };
@@ -214,6 +258,7 @@ function buildClientFileDescriptorFromDataset(datasets, datasetId) {
     return {
       id: datasetId,
       name: '',
+      file: null,
       content: null,
       status: UPLOAD_FILE_STATUS_KEY.EMPTY,
     };
@@ -221,6 +266,7 @@ function buildClientFileDescriptorFromDataset(datasets, datasetId) {
   return {
     id: datasetId,
     name: DatasetsUtils.getFileNameFromDataset(dataset),
+    file: null,
     content: null,
     status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD,
   };
@@ -228,6 +274,7 @@ function buildClientFileDescriptorFromDataset(datasets, datasetId) {
 
 export const FileManagementUtils = {
   downloadFile,
+  downloadFileData,
   prepareToDeleteFile,
   prepareToUpload,
   applyPendingOperationsOnFileParameters,
