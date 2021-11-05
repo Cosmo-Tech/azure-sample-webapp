@@ -4,10 +4,9 @@
 import { Auth } from '@cosmotech/core';
 import { POWER_BI_WORKSPACE_ID } from '../../config/AppInstance';
 import { EmbedConfig, PowerBiReportDetails } from './PowerBIModels';
-import { POWER_BI_API_SCOPES_PREFIX } from '../config/Auth';
+import { POWER_BI_API_DEFAULT_SCOPE } from '../config/Auth';
 
 function _authHeader(accessToken) {
-  // Function to append Bearer against the Access Token
   return 'Bearer '.concat(accessToken);
 }
 
@@ -19,7 +18,7 @@ async function getPowerBIData() {
   try {
     const embedParams = await getEmbedParamsForAllReportsInWorkspace(POWER_BI_WORKSPACE_ID);
     const result = {
-      data: {
+      accesses: {
         accessToken: embedParams.accessToken,
         reportsInfo: embedParams.reportsDetail,
         expiry: embedParams.expiresOn,
@@ -29,7 +28,7 @@ async function getPowerBIData() {
     return result;
   } catch (err) {
     return {
-      data: null,
+      accesses: null,
       error: {
         status: err.status,
         statusText: err.statusText,
@@ -49,16 +48,11 @@ async function getPowerBIData() {
  * @return EmbedConfig object
  */
 async function getEmbedParamsForAllReportsInWorkspace(workspaceId, additionalDatasetIds) {
-  const reportEmbedConfig = new EmbedConfig('report');
-
-  // Get datasets and Embed URLs for all the reports
   const reportInGroupApi = `https://api.powerbi.com/v1.0/myorg/groups/${workspaceId}/reports`;
   const { headers, accessToken, expiresOn } = await getAuthenticationInfo();
-  reportEmbedConfig.accessToken = accessToken;
-  reportEmbedConfig.expiresOn = expiresOn;
-  reportEmbedConfig.reportsDetail = {};
 
-  // Get report info by calling the PowerBI REST API
+  const reportEmbedConfig = new EmbedConfig('report', {}, accessToken, expiresOn);
+
   const result = await fetch(reportInGroupApi, {
     method: 'GET',
     headers: headers,
@@ -68,28 +62,16 @@ async function getEmbedParamsForAllReportsInWorkspace(workspaceId, additionalDat
     throw result;
   }
 
-  // Convert result in json to retrieve values
   const resultJson = await result.json();
-
   const reportsInfo = resultJson.value;
-
-  // Create Set of datasets
   const datasetIds = new Set([]);
-  // Create Set of reportId
   const reportIds = new Set([]);
 
   for (const reportInfo of reportsInfo) {
-    // Store result into PowerBiReportDetails object
     const reportDetails = new PowerBiReportDetails(reportInfo.id, reportInfo.name, reportInfo.embedUrl);
-
-    // Create mapping for reports and Embed URLs
     reportEmbedConfig.reportsDetail[reportInfo.id] = reportDetails;
-
-    // Push datasetId of the report into datasetIds array
     datasetIds.add(reportInfo.datasetId);
     reportIds.add(reportInfo.id);
-
-    // Append to existing list of datasets to achieve dynamic binding later
     if (additionalDatasetIds) {
       datasetIds.add(...additionalDatasetIds);
     }
@@ -103,21 +85,11 @@ async function getEmbedParamsForAllReportsInWorkspace(workspaceId, additionalDat
  * @return Authentication Information with : request header with Bearer token, accessToken and token expiration date
  */
 async function getAuthenticationInfo() {
-  // Store authentication token
-  let tokenResponse;
+  let tokenResponse, errorResponse;
 
-  // Store the error thrown while getting authentication token
-  let errorResponse;
-
-  // Get the response from the authentication request
   try {
-    // TODO Extract scope in configuration variable (based on user roles)
     tokenResponse = await Auth.acquireTokensByRequest({
-      scopes: [
-        POWER_BI_API_SCOPES_PREFIX + 'Workspace.Read.All',
-        POWER_BI_API_SCOPES_PREFIX + 'Report.Read.All',
-        POWER_BI_API_SCOPES_PREFIX + 'Dataset.Read.All',
-      ],
+      scopes: [POWER_BI_API_DEFAULT_SCOPE],
     });
   } catch (err) {
     if (
@@ -128,7 +100,6 @@ async function getAuthenticationInfo() {
     ) {
       errorResponse = err.error_description;
     } else {
-      // Invalid PowerBI Username provided
       errorResponse = err.toString();
     }
     return {

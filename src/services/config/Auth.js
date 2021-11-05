@@ -5,7 +5,7 @@ import { Auth, AuthDev } from '@cosmotech/core';
 import { AuthMSAL } from '@cosmotech/azure';
 import { APP_REGISTRATION_CLIENT_ID, AZURE_TENANT_ID, COSMOTECH_API_SCOPE } from '../../config/AppInstance.js';
 
-export const POWER_BI_API_SCOPES_PREFIX = 'https://analysis.windows.net/powerbi/api/';
+export const POWER_BI_API_DEFAULT_SCOPE = 'https://analysis.windows.net/powerbi/api/.default';
 
 // AuthMSAL configuration
 const MSAL_CONFIG = {

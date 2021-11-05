@@ -15,6 +15,6 @@ export const ORGANIZATION_ID = 'O-gZYpnd27G7';
 export const WORKSPACE_ID = 'W-rXeBwRa0PM';
 
 // Power BI information
-// True => Aad False => Embed
-export const POWER_BI_SSO = true;
+// true => Aad false => Embed
+export const USE_POWER_BI_WITH_USER_CREDENTIALS = false;
 export const POWER_BI_WORKSPACE_ID = '290de699-9026-42c0-8c83-e4e87c3f22dd';

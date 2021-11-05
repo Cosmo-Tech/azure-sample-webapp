@@ -15,7 +15,7 @@ import { SCENARIO_DASHBOARD_CONFIG } from '../../config/Dashboards';
 import ScenarioRunService from '../../services/scenarioRun/ScenarioRunService';
 import { STATUSES } from '../../state/commons/Constants';
 import { AppInsights } from '../../services/AppInsights';
-import { POWER_BI_SSO } from '../../config/AppInstance';
+import { USE_POWER_BI_WITH_USER_CREDENTIALS } from '../../config/AppInstance';
 
 const appInsights = AppInsights.getInstance();
 
@@ -221,7 +221,7 @@ const Scenario = (props) => {
                 ScenarioRunService.downloadLogsFile(currentScenario.data?.lastRun, LOG_TYPES[SCENARIO_RUN_LOG_TYPE]);
               }}
               labels={reportLabels}
-              useAAD={POWER_BI_SSO}
+              useAAD={USE_POWER_BI_WITH_USER_CREDENTIALS}
             />
           </Card>
         </Grid>

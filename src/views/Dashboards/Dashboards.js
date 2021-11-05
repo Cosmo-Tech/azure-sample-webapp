@@ -7,7 +7,7 @@ import { Card, Grid, makeStyles, Tab, Tabs } from '@material-ui/core';
 import { SimplePowerBIReportEmbed } from '@cosmotech/ui';
 import { DASHBOARDS_LIST_CONFIG } from '../../config/Dashboards';
 import { useTranslation } from 'react-i18next';
-import { POWER_BI_SSO } from '../../config/AppInstance';
+import { USE_POWER_BI_WITH_USER_CREDENTIALS } from '../../config/AppInstance';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -144,7 +144,7 @@ function TabPanel(props) {
         scenarioList={scenarioList}
         lang={lang}
         labels={labels}
-        useAAD={POWER_BI_SSO}
+        useAAD={USE_POWER_BI_WITH_USER_CREDENTIALS}
       />
     </div>
   );
