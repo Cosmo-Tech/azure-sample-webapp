@@ -19,7 +19,7 @@ the parameters values in input components.
 
 The parameters metadata are obtained by merging data from the **solution description** (the webapp receives them on
 initialization) and from the **scenario parameter configuration file**. These data are not meant to change during the
-user session, they can thus be memoized in the React component to prevent unnecessary computations during each render.
+user session, they can thus be memorized in the React component to prevent unnecessary computations during each render.
 
 The parameters metadata are stored in the variable `parametersMetadata` in the ScenarioParameters component, declared
 thanks to the `useMemo` hook.
