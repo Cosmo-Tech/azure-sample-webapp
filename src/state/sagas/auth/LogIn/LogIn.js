@@ -21,6 +21,7 @@ export function* tryLogIn(action) {
         userId: Auth.getUserId(),
         userName: Auth.getUserName(),
         profilePic: Auth.getUserPicUrl(),
+        roles: Auth.getUserRoles(),
         status: AUTH_STATUS.AUTHENTICATED,
       });
     } else {
@@ -29,6 +30,7 @@ export function* tryLogIn(action) {
         userId: '',
         userName: '',
         profilePic: '',
+        roles: [],
         status: AUTH_STATUS.DENIED,
       });
     }
