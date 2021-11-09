@@ -10,12 +10,11 @@ import { CreateScenarioButton, HierarchicalComboBox, SimplePowerBIReportEmbed } 
 import { NAME_VALIDATOR } from '../../utils/ValidationUtils';
 import { sortScenarioList } from '../../utils/SortScenarioListUtils';
 import { LOG_TYPES } from '../../services/scenarioRun/ScenarioRunConstants.js';
-import { SCENARIO_RUN_LOG_TYPE } from '../../config/AppConfiguration';
+import { SCENARIO_RUN_LOG_TYPE, USE_POWER_BI_WITH_USER_CREDENTIALS } from '../../config/AppConfiguration';
 import { SCENARIO_DASHBOARD_CONFIG } from '../../config/Dashboards';
 import ScenarioRunService from '../../services/scenarioRun/ScenarioRunService';
 import { STATUSES } from '../../state/commons/Constants';
 import { AppInsights } from '../../services/AppInsights';
-import { USE_POWER_BI_WITH_USER_CREDENTIALS } from '../../config/AppInstance';
 
 const appInsights = AppInsights.getInstance();
 

@@ -35,10 +35,8 @@ Steps to enable Application Insights in the webapp:
   - replace the value of APPLICATION_INSIGHTS_INSTRUMENTATION_KEY with the instrumentation key that has been
     generated for your application
   
-### Power BI Embed
+### Power BI
 
-Steps to define Power BI usages:
-
-- **USE_POWER_BI_WITH_USER_CREDENTIALS** defines if the information sent to Power BI (mainly for authentication) are based on user credentials or based on a service account
-- **POWER_BI_WORKSPACE_ID** if USE_POWER_BI_WITH_USER_CREDENTIALS is set to `true`, it represents the Power BI workspace ID used
+Parameter to define Power BI usages:
+- **POWER_BI_WORKSPACE_ID** if _USE_POWER_BI_WITH_USER_CREDENTIALS_ (defined in [src/config/AppInstance.js](../src/config/AppInstance.js)) is set to `true`, it represents the Power BI workspace ID used
 

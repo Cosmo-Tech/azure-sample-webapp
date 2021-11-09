@@ -7,7 +7,7 @@ import { Card, Grid, makeStyles, Tab, Tabs } from '@material-ui/core';
 import { SimplePowerBIReportEmbed } from '@cosmotech/ui';
 import { DASHBOARDS_LIST_CONFIG } from '../../config/Dashboards';
 import { useTranslation } from 'react-i18next';
-import { USE_POWER_BI_WITH_USER_CREDENTIALS } from '../../config/AppInstance';
+import { USE_POWER_BI_WITH_USER_CREDENTIALS } from '../../config/AppConfiguration';
 
 const useStyles = makeStyles((theme) => ({
   root: {

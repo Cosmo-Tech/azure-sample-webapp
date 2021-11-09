@@ -6,7 +6,7 @@ import { POWER_BI_WORKSPACE_ID } from '../../config/AppInstance';
 import { EmbedConfig, PowerBiReportDetails } from './PowerBIModels';
 import { POWER_BI_API_DEFAULT_SCOPE } from '../config/Auth';
 
-function _authHeader(accessToken) {
+function _generateAuthorizationHeader(accessToken) {
   return 'Bearer '.concat(accessToken);
 }
 
@@ -42,12 +42,11 @@ async function getPowerBIData() {
 }
 
 /**
- * Get embed params for all reports for a single workspace
+ * Fetch Reports info regarding a workspace Id
  * @param {string} workspaceId
- * @param {Array<string>} additionalDatasetIds - Optional Parameter
- * @return EmbedConfig object
+ * @returns {Promise<{reportsInfo, reportEmbedConfig: EmbedConfig}>}
  */
-async function getEmbedParamsForAllReportsInWorkspace(workspaceId, additionalDatasetIds) {
+async function fetchReportEmbedInfo(workspaceId) {
   const reportInGroupApi = `https://api.powerbi.com/v1.0/myorg/groups/${workspaceId}/reports`;
   const { headers, accessToken, expiresOn } = await getAuthenticationInfo();
 
@@ -64,6 +63,21 @@ async function getEmbedParamsForAllReportsInWorkspace(workspaceId, additionalDat
 
   const resultJson = await result.json();
   const reportsInfo = resultJson.value;
+  return {
+    reportEmbedConfig,
+    reportsInfo,
+  };
+}
+
+/**
+ * Get embed params for all reports for a single workspace
+ * @param {string} workspaceId
+ * @param {Array<string>} additionalDatasetIds - Optional Parameter
+ * @return EmbedConfig object
+ */
+async function getEmbedParamsForAllReportsInWorkspace(workspaceId, additionalDatasetIds) {
+  const { reportEmbedConfig, reportsInfo } = await fetchReportEmbedInfo(workspaceId);
+
   const datasetIds = new Set([]);
   const reportIds = new Set([]);
 
@@ -114,7 +128,7 @@ async function getAuthenticationInfo() {
     expiresOn: tokenResponse.expiresOn,
     headers: {
       'Content-Type': 'application/json',
-      Authorization: _authHeader(accessToken),
+      Authorization: _generateAuthorizationHeader(accessToken),
     },
   };
 }

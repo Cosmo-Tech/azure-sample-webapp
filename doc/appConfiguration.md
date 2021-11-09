@@ -27,3 +27,8 @@ application.
 - **ADD_SCENARIO_LAST_RUN_ID_PARAMETER** send (or not) additional scenario parameter named `ScenarioLastRunId` (containing the last run id for the current scenario) when a scenario is launched (**false** by default, `''` if the scenario has not been launched yet)
 - **ADD_SCENARIO_PARENT_LAST_RUN_ID_PARAMETER** send (or not) additional scenario parameter named `ParentLastRunId` (containing the last run id for the parent of the current scenario) when a scenario is launched (**false** by default, `''` if the parent of the current scenario has not been launched yet)
 - **ADD_SCENARIO_MASTER_LAST_RUN_ID_PARAMETER** send (or not) additional scenario parameter named `MasterLastRunId` (containing the last run id for the master of the current scenario) when a scenario is launched (**false** by default, `''` if the master of the current scenario has not been launched yet)
+
+### Power BI
+Parameter to define Power BI usages:
+- **USE_POWER_BI_WITH_USER_CREDENTIALS** defines if the information sent to Power BI (mainly for authentication) are based on user credentials or based on a service account
+
