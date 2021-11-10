@@ -16,6 +16,7 @@
     "@reduxjs/toolkit": "^1.5.1",
     "axios": "^0.23.0",
     "clsx": "^1.1.1",
+    "cross-env": "^7.0.3",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "i18next": "^21.3.1",
@@ -44,8 +45,8 @@
     "validate.js": "^0.13.1"
   },
   "scripts": {
-    "start": "ESLINT_NO_DEV_ERRORS=true react-scripts start",
-    "build": "DISABLE_ESLINT_PLUGIN=true react-scripts build",
+    "start": "cross-env ESLINT_NO_DEV_ERRORS=true react-scripts start",
+    "build": "cross-env DISABLE_ESLINT_PLUGIN=true react-scripts build",
     "test": "react-scripts test --watchAll=false",
     "eject": "react-scripts eject",
     "cypress": "node_modules/.bin/cypress open",
