@@ -1,16 +1,16 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Backdrop, Card, CircularProgress, Grid, Typography, makeStyles } from '@material-ui/core';
+import { Backdrop, Card, CircularProgress, Grid, makeStyles, Typography } from '@material-ui/core';
 import { ScenarioParameters } from '../../components';
 import { useTranslation } from 'react-i18next';
 import { CreateScenarioButton, HierarchicalComboBox, SimplePowerBIReportEmbed } from '@cosmotech/ui';
 import { NAME_VALIDATOR } from '../../utils/ValidationUtils';
 import { sortScenarioList } from '../../utils/SortScenarioListUtils';
 import { LOG_TYPES } from '../../services/scenarioRun/ScenarioRunConstants.js';
-import { SCENARIO_RUN_LOG_TYPE } from '../../config/AppConfiguration';
+import { SCENARIO_RUN_LOG_TYPE, USE_POWER_BI_WITH_USER_CREDENTIALS } from '../../config/AppConfiguration';
 import { SCENARIO_DASHBOARD_CONFIG } from '../../config/Dashboards';
 import ScenarioRunService from '../../services/scenarioRun/ScenarioRunService';
 import { STATUSES } from '../../state/commons/Constants';
@@ -220,6 +220,7 @@ const Scenario = (props) => {
                 ScenarioRunService.downloadLogsFile(currentScenario.data?.lastRun, LOG_TYPES[SCENARIO_RUN_LOG_TYPE]);
               }}
               labels={reportLabels}
+              useAAD={USE_POWER_BI_WITH_USER_CREDENTIALS}
             />
           </Card>
         </Grid>

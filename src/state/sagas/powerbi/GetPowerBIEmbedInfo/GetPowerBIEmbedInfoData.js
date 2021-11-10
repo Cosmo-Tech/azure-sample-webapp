@@ -1,50 +1,60 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { takeEvery, put, delay } from 'redux-saga/effects';
+import { delay, put, takeEvery } from 'redux-saga/effects';
 import { GET_EMBED_INFO_URL, POWER_BI_ACTIONS_KEY } from '../../../commons/PowerBIConstants';
 import { STATUSES } from '../../../commons/Constants';
 import { clientApi } from '../../../../services/ClientApi';
-import { POWER_BI_INFO_POLLING_DELAY } from '../../../../config/AppConfiguration';
+import { POWER_BI_INFO_POLLING_DELAY, USE_POWER_BI_WITH_USER_CREDENTIALS } from '../../../../config/AppConfiguration';
+import { PowerBIService } from '../../../../services/powerbi/PowerBIService';
+
+const noAccess = {
+  accessToken: '',
+  reportsInfo: '',
+  expiry: '',
+};
 
 // generators function
 export function* getPowerBIEmbedInfoSaga() {
   let tokenDelay;
   do {
     try {
-      const { data } = yield clientApi.get(GET_EMBED_INFO_URL);
-      if (data.error) {
+      let accesses, error;
+      if (USE_POWER_BI_WITH_USER_CREDENTIALS) {
+        const response = yield PowerBIService.getPowerBIData();
+        accesses = response?.accesses;
+        error = response?.error;
+      } else {
+        const { data } = yield clientApi.get(GET_EMBED_INFO_URL);
+        accesses = data?.accesses;
+        error = data?.error;
+      }
+
+      if (error) {
         yield put({
           type: POWER_BI_ACTIONS_KEY.SET_EMBED_INFO,
-          embedInfo: {
-            accessToken: '',
-            reportsInfo: '',
-            expiry: '',
-          },
-          error: data.error,
+          data: noAccess,
+          error: error,
           status: STATUSES.ERROR,
         });
         tokenDelay = POWER_BI_INFO_POLLING_DELAY;
       } else {
         yield put({
           type: POWER_BI_ACTIONS_KEY.SET_EMBED_INFO,
-          embedInfo: data,
+          data: accesses,
+          error: null,
           status: STATUSES.SUCCESS,
         });
-        tokenDelay = Date.parse(data.expiry) - Date.now() - 120000;
+        tokenDelay = Date.parse(accesses.expiry) - Date.now() - 120000;
       }
 
       yield delay(tokenDelay);
     } catch (error) {
       console.error("Can't retrieve PowerBI token for embed reports");
-      console.error(error);
       yield put({
         type: POWER_BI_ACTIONS_KEY.SET_EMBED_INFO,
-        embedInfo: {
-          accessToken: '',
-          reportsInfo: '',
-          expiry: '',
-        },
+        data: noAccess,
+        error: error,
         status: STATUSES.ERROR,
       });
       tokenDelay = POWER_BI_INFO_POLLING_DELAY;

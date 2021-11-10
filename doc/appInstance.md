@@ -34,3 +34,9 @@ Steps to enable Application Insights in the webapp:
 - then, edit the configuration file _src/config/AppInstance.js_ in the source code of your webapp:
   - replace the value of APPLICATION_INSIGHTS_INSTRUMENTATION_KEY with the instrumentation key that has been
     generated for your application
+  
+### Power BI
+
+Parameter to define Power BI usages:
+- **POWER_BI_WORKSPACE_ID** if _USE_POWER_BI_WITH_USER_CREDENTIALS_ (defined in [src/config/AppInstance.js](../src/config/AppInstance.js)) is set to `true`, it represents the Power BI workspace ID used
+

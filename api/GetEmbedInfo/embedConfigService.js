@@ -17,12 +17,16 @@ async function getEmbedInfo() {
     // Get report details and embed token
     const embedParams = await getEmbedParamsForAllReportsInWorkspace(process.env.POWER_BI_WORKSPACE_ID);
     return {
-      accessToken: embedParams.embedToken.token,
-      reportsInfo: embedParams.reportsDetail,
-      expiry: embedParams.embedToken.expiration,
+      accesses: {
+        accessToken: embedParams.embedToken.token,
+        reportsInfo: embedParams.reportsDetail,
+        expiry: embedParams.embedToken.expiration,
+      },
+      error: null,
     };
   } catch (err) {
     return {
+      accesses: null,
       error: {
         status: err.status,
         statusText: err.statusText,
@@ -246,5 +250,5 @@ async function getRequestHeader() {
 }
 
 module.exports = {
-  getEmbedInfo: getEmbedInfo,
+  getEmbedInfo,
 };
