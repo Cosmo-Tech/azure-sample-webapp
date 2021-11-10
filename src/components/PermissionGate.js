@@ -34,7 +34,7 @@ export function PermissionsGate({ children, RenderErrorComponent = () => <></>, 
 }
 
 PermissionsGate.propTypes = {
-  children: PropTypes.object.isRequired,
+  children: PropTypes.object,
   RenderErrorComponent: PropTypes.object,
   errorProps: PropTypes.object,
   scopes: PropTypes.array,
