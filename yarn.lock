@@ -1380,9 +1380,9 @@
     axios "^0.21.1"
 
 "@cosmotech/azure@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@cosmotech/azure/-/azure-1.1.0.tgz#28de897385aef7e50f2ea64e645da88500fac520"
-  integrity sha512-j1745mNeY9oAbZV46g7xwBw71iKrNpiVuWfOMFa5Jolj+ElUUa8igo2Dak//Ngqk16tlbxNoaUvna2oGoVzjkg==
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@cosmotech/azure/-/azure-1.1.1.tgz#7f2c8d9476a06b919bc68fe7fc04cf4278d93aa7"
+  integrity sha512-+IZ8mO0Ho/qjxF4iXLa8KCODw9c+LBqs1Oyf2X13CijLUQwVkew70CHtN9F3SxcuHd2sKTzvoYYDzPKz9JZYYg==
   dependencies:
     "@azure/msal-browser" "^2.8.0"
     eslint-config-prettier "^8.3.0"
@@ -1390,18 +1390,18 @@
     prettier "^2.4.1"
 
 "@cosmotech/core@^1.4.0":
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.4.0.tgz#381e474382d8924d53b8ca9a4614608645913d33"
-  integrity sha512-MLI8G/6/1UtQ4S+/j7tZhcN0sVR6Xqc72ePOog/ORAzOW5wQ89txBW1kgL7hu5uUKFpLjBjLZ0RYPyl0+hag8Q==
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.4.1.tgz#739f792c0ba1e71c02013abd59393fba8d1a73b9"
+  integrity sha512-eD0q5wFtstwaAwDcHt+v8hHimXH5uHPBzaF+12JuuncAyU857Cw1YUnYrKvVpUzWkB3H09hWKhNecxZpYfdb1Q==
   dependencies:
     eslint-config-prettier "^8.3.0"
     eslint-plugin-prettier "^4.0.0"
     prettier "^2.4.1"
 
 "@cosmotech/ui@^1.0.7":
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-1.0.7.tgz#54e76fa730073e5ea75cc314e38b70ceb44ae85c"
-  integrity sha512-Hw/cv6wyvbhX73IIIy51PNCbxaYrxNi3na0UPjUTgQeifhr1oK+7jmDv971Z6Ggiq6XSKiWxZQohaElG6NEALg==
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-1.0.8.tgz#d0f906605af93d7f91928155f7817e1f9d44dd3c"
+  integrity sha512-aqQh9zMFdeuWinAYUc8m+ESceLtmA9Ve6iXHWlEkGM4oU/7904Ty29YcP6utzj81oMezAa/cfqfXCNgmy/uFoA==
   dependencies:
     "@date-io/date-fns" "^1.3.13"
     "@material-ui/pickers" "^3.3.10"
