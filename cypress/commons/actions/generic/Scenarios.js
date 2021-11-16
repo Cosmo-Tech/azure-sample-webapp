@@ -46,7 +46,7 @@ function openScenarioCreationDialog() {
 
 // From scenario creation dialog, select a run template
 function selectRunTemplate(runTemplate) {
-  cy.focused().clear().type(runTemplate);
+  getScenarioCreationDialogRunTypeSelector().clear().type(runTemplate);
   return cy.contains(runTemplate);
 }
 

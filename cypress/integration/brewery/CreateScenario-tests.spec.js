@@ -68,6 +68,23 @@ describe('Create scenario', () => {
     }
   });
 
+  it('run templates are correctly filtered', () => {
+    Scenarios.openScenarioCreationDialog();
+    Scenarios.getScenarioCreationDialogRunTypeSelector().click();
+
+    const visibleRunTemplates = [
+      SCENARIO_TYPE.BREWERY_PARAMETERS,
+      SCENARIO_TYPE.BASIC_TYPES,
+      SCENARIO_TYPE.WITHOUT_PARAMETERS,
+    ];
+
+    for (const runTemplate of visibleRunTemplates) {
+      Scenarios.selectRunTemplate(runTemplate).should('be.visible');
+    }
+
+    Scenarios.selectRunTemplate(SCENARIO_TYPE.HIDDEN).should('not.exist');
+  });
+
   it('can create and launch scenario master', () => {
     // Create scenario master:
     let scenarioCreatedName;
