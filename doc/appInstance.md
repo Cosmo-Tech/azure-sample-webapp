@@ -32,8 +32,9 @@ Steps to enable Application Insights in the webapp:
   - select "Yes" next to "Enable Application Insights"
   - click on "Save"
 - then, edit the configuration file _src/config/AppInstance.js_ in the source code of your webapp:
-  - replace the value of APPLICATION_INSIGHTS_INSTRUMENTATION_KEY with the instrumentation key that has been
+  - replace the value of **APPLICATION_INSIGHTS_INSTRUMENTATION_KEY** with the instrumentation key that has been
     generated for your application
+  - set **ENABLE_APPLICATION_INSIGHTS** to true (defined in [src/config/AppConfiguration.js](../src/config/AppConfiguration.js)) 
   
 ### Power BI
 

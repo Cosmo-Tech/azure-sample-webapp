@@ -32,3 +32,7 @@ application.
 Parameter to define Power BI usages:
 - **USE_POWER_BI_WITH_USER_CREDENTIALS** defines if the information sent to Power BI (mainly for authentication) are based on user credentials or based on a service account
 
+### Application Insights
+
+Parameter to enable Application Insights in the webapp:
+  - **ENABLE_APPLICATION_INSIGHTS** defines if Application Insights is enabled in WebApp 
