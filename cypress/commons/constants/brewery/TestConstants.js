@@ -46,4 +46,6 @@ export const DATASET = {
 export const SCENARIO_TYPE = {
   BREWERY_PARAMETERS: 'Run template with Brewery parameters',
   BASIC_TYPES: 'Run template with mock basic types parameters',
+  WITHOUT_PARAMETERS: 'Run template without parameters',
+  HIDDEN: 'Hidden test run template without parameters',
 };

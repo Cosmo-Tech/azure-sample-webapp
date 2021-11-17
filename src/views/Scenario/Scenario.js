@@ -71,7 +71,6 @@ const Scenario = (props) => {
     reports,
   } = props;
 
-  const runTemplates = solution?.data?.runTemplates || [];
   const workspaceId = workspace.data.id;
   const [editMode, setEditMode] = useState(false);
 
@@ -159,6 +158,14 @@ const Scenario = (props) => {
     },
   };
 
+  let filteredRunTemplates = solution?.data?.runTemplates || [];
+  const solutionRunTemplates = workspace.data?.solution?.runTemplateFilter;
+  if (solutionRunTemplates) {
+    filteredRunTemplates = filteredRunTemplates.filter(
+      (runTemplate) => solutionRunTemplates.indexOf(runTemplate.id) !== -1
+    );
+  }
+
   return (
     <>
       <Backdrop className={classes.backdrop} open={showBackdrop}>
@@ -196,7 +203,7 @@ const Scenario = (props) => {
                     workspaceId={workspaceId}
                     createScenario={createScenario}
                     currentScenario={currentScenario}
-                    runTemplates={runTemplates}
+                    runTemplates={filteredRunTemplates}
                     datasets={datasetList.data}
                     scenarios={scenarioList.data}
                     user={user}

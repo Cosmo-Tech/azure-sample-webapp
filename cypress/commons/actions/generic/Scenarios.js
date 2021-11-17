@@ -39,6 +39,17 @@ function getDashboardPlaceholder() {
   return cy.get(GENERIC_SELECTORS.scenario.dashboard.placeholder);
 }
 
+// Open scenario creation dialog
+function openScenarioCreationDialog() {
+  getScenarioCreationButton().click();
+}
+
+// From scenario creation dialog, select a run template
+function selectRunTemplate(runTemplate) {
+  getScenarioCreationDialogRunTypeSelector().clear().type(runTemplate);
+  return cy.contains(runTemplate);
+}
+
 // From scenario view, select the scenario with the provided name and id
 function select(scenarioName, scenarioId) {
   const reqName = `requestSelectScenario_${scenarioName}`.replaceAll(' ', '');
@@ -63,5 +74,7 @@ export const Scenarios = {
   getScenarioCreationDialogRunTypeSelector,
   getScenarioCreationDialogSubmitButton,
   getDashboardPlaceholder,
+  openScenarioCreationDialog,
+  selectRunTemplate,
   select,
 };
