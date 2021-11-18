@@ -164,7 +164,7 @@
             "confirm": "Confirmer"
           },
           "description": "Cette opération est irréversible. Les datasets ne seront pas supprimés, mais les paramètres du scénario seront perdus. Si le scénario a des enfants, ils seront remontés d'un niveau dans la hiérarchie des scénarios.",
-          "title": "Confirmer la suppression du scénario ?"
+          "title": "Confirmer la suppression du scénario '{{scenarioName}}' ?"
         }
       },
       "create": {

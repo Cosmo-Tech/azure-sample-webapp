@@ -57,13 +57,18 @@ const ScenarioManager = (props) => {
     return t('commoncomponents.scenariomanager.treelist.node.dataset', { count: datasetList?.length || 0 });
   }
 
+  function buildScenarioNameToDelete(scenarioName) {
+    return t('commoncomponents.dialog.confirm.delete.title', "Remove scenario '{{scenarioName}}'?", {
+      scenarioName,
+    });
+  }
+
   const labels = {
     status: t('commoncomponents.scenariomanager.treelist.node.status.label'),
     successful: t('commoncomponents.scenariomanager.treelist.node.status.successful'),
     failed: t('commoncomponents.scenariomanager.treelist.node.status.failed'),
     created: t('commoncomponents.scenariomanager.treelist.node.status.created'),
     deleteDialog: {
-      title: t('commoncomponents.dialog.confirm.delete.title', 'Confirm delete?'),
       description: t(
         'commoncomponents.dialog.confirm.delete.description',
         'The scenario will be deleted. If this scenario has children, ' +
@@ -87,6 +92,7 @@ const ScenarioManager = (props) => {
         buildSearchInfo={buildSearchInfoLabel}
         buildDatasetInfo={buildDatasetLabel}
         labels={labels}
+        buildScenarioNameToDelete={buildScenarioNameToDelete}
       />
     </div>
   );
