@@ -15,8 +15,8 @@ import { SCENARIO_DASHBOARD_CONFIG } from '../../config/Dashboards';
 import ScenarioRunService from '../../services/scenarioRun/ScenarioRunService';
 import { STATUSES } from '../../state/commons/Constants';
 import { AppInsights } from '../../services/AppInsights';
-import { PERMISSIONS } from '../../config/Permissions';
-import { PermissionsGate } from '../../components/PermissionGate';
+import { PERMISSIONS } from '../../config/AppPermissions';
+import { PermissionsGate } from '../../components/PermissionsGate';
 
 const appInsights = AppInsights.getInstance();
 
@@ -200,7 +200,7 @@ const Scenario = (props) => {
             <Grid item xs={3}>
               <Grid container spacing={0} justifyContent="flex-end" className={classes.mainGrid}>
                 <Grid item>
-                  <PermissionsGate scopes={[PERMISSIONS.canCreateScenario]}>
+                  <PermissionsGate requiredPermissions={[PERMISSIONS.canCreateScenario]}>
                     <CreateScenarioButton
                       solution={solution}
                       workspaceId={workspaceId}
