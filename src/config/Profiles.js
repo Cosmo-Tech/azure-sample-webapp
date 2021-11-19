@@ -3,27 +3,40 @@
 
 import { PERMISSIONS } from '../services/config/Permissions';
 
+export const APP_ROLES = {
+  OrganizationAdmin: 'Organization.Admin',
+  OrganizationCollaborator: 'Organization.Collaborator',
+  OrganizationModeler: 'Organization.Modeler',
+  OrganizationUser: 'Organization.User',
+  OrganizationViewer: 'Organization.Viewer',
+  PlatformAdmin: 'Platform.Admin',
+};
+
 export const PROFILES = {
-  'Organization.Admin': [
+  [APP_ROLES.OrganizationAdmin]: [
     PERMISSIONS.canCreateScenario,
     PERMISSIONS.canDeleteScenario,
     PERMISSIONS.canEditOrLaunchScenario,
   ],
-  'Organization.Collaborator': [
+  [APP_ROLES.OrganizationCollaborator]: [
     PERMISSIONS.canCreateScenario,
     PERMISSIONS.canDeleteScenario,
     PERMISSIONS.canEditOrLaunchScenario,
   ],
-  'Organization.Modeler': [
+  [APP_ROLES.OrganizationModeler]: [
     PERMISSIONS.canCreateScenario,
     PERMISSIONS.canDeleteScenario,
     PERMISSIONS.canEditOrLaunchScenario,
   ],
-  'Organization.User': [
+  [APP_ROLES.OrganizationUser]: [
     PERMISSIONS.canCreateScenario,
     PERMISSIONS.canDeleteScenario,
     PERMISSIONS.canEditOrLaunchScenario,
   ],
-  'Organization.Viewer': [],
-  'Platform.Admin': [PERMISSIONS.canCreateScenario, PERMISSIONS.canDeleteScenario, PERMISSIONS.canEditOrLaunchScenario],
+  [APP_ROLES.OrganizationViewer]: [],
+  [APP_ROLES.PlatformAdmin]: [
+    PERMISSIONS.canCreateScenario,
+    PERMISSIONS.canDeleteScenario,
+    PERMISSIONS.canEditOrLaunchScenario,
+  ],
 };

@@ -6,6 +6,8 @@
 //  - a default value for each scenario parameter on scenario creation
 //  - lists of possible values for "enum" parameters
 //  - translation labels
+import { APP_ROLES } from './Profiles';
+
 const PARAMETERS = {
   nb_waiters: {
     dataCy: 'waiters-input',
@@ -110,6 +112,7 @@ const PARAMETERS_GROUPS = {
       fr: 'Valeurs initiales',
     },
     parameters: ['initial_stock_dataset'],
+    requiredProfiles: [APP_ROLES.OrganizationUser, APP_ROLES.PlatformAdmin],
   },
   dataset_parts: {
     labels: {
@@ -117,6 +120,7 @@ const PARAMETERS_GROUPS = {
       fr: 'Fragments de dataset',
     },
     parameters: ['example_dataset_part_1', 'example_dataset_part_2'],
+    requiredProfiles: [APP_ROLES.OrganizationUser, APP_ROLES.PlatformAdmin],
   },
   extra_dataset_part: {
     labels: {
@@ -124,6 +128,7 @@ const PARAMETERS_GROUPS = {
       fr: 'Fragment additionel',
     },
     parameters: ['example_dataset_part_3'],
+    requiredProfiles: [APP_ROLES.OrganizationUser, APP_ROLES.PlatformAdmin],
   },
 };
 

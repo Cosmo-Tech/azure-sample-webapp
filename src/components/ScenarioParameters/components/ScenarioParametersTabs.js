@@ -1,12 +1,13 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Tab, makeStyles } from '@material-ui/core';
+import { makeStyles, Tab } from '@material-ui/core';
 import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 import { useTranslation } from 'react-i18next';
 import { TranslationUtils } from '../../../utils/TranslationUtils';
+import LockIcon from '@material-ui/icons/Lock';
 
 const useStyles = makeStyles((theme) => ({
   tabPanel: {
@@ -35,6 +36,25 @@ const useStyles = makeStyles((theme) => ({
     margin: `0 ${theme.spacing(3)}px`,
   },
 }));
+
+const RegularTab = ({ t, key, groupMetadataId, className }) => {
+  return (
+    <Tab
+      key={key}
+      value={groupMetadataId}
+      data-cy={groupMetadataId + '_tab'}
+      className={className}
+      label={t(TranslationUtils.getParametersGroupTranslationKey(groupMetadataId), groupMetadataId)}
+    />
+  );
+};
+
+RegularTab.propTypes = {
+  t: PropTypes.func.isRequired,
+  key: PropTypes.string.isRequired,
+  groupMetadataId: PropTypes.string.isRequired,
+  className: PropTypes.object.isRequired,
+};
 
 const ScenarioParametersTabs = ({ parametersGroupsMetadata }) => {
   const classes = useStyles();
@@ -71,6 +91,7 @@ const ScenarioParametersTabs = ({ parametersGroupsMetadata }) => {
           >
             {tabs.map((groupMetadata, index) => (
               <Tab
+                icon={<LockIcon />}
                 key={groupMetadata.id}
                 value={groupMetadata.id}
                 data-cy={groupMetadata.id + '_tab'}

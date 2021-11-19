@@ -7,8 +7,11 @@ import { PROFILES } from '../../config/Profiles';
 import { useSelector } from 'react-redux';
 
 const hasPermission = ({ permissions, requiredPermissions }) => {
-  const filteredPermissions = permissions.filter((permission) => requiredPermissions.includes(permission));
-  return filteredPermissions.length > 0;
+  if (requiredPermissions) {
+    const filteredPermissions = permissions.filter((permission) => requiredPermissions.includes(permission));
+    return filteredPermissions.length > 0;
+  }
+  return true;
 };
 
 export const PermissionsGate = ({ children, RenderNoPermissionComponent, noPermissionProps, requiredPermissions }) => {
