@@ -2,8 +2,9 @@
 // Licensed under the MIT license.
 
 import 'cypress-localstorage-commands';
-import { PAGE_NAME, URL_REGEX, URL_POWERBI } from '../commons/constants/generic/TestConstants';
-import { GENERIC_SELECTORS as SELECTORS } from '../commons/constants/generic/IdConstants';
+import { PAGE_NAME, URL_REGEX, URL_POWERBI } from '../commons/constants/GENERIC_SELECTORS/TestConstants';
+import { GENERIC_SELECTORS } from '../commons/constants/GENERIC_SELECTORS/IdConstants';
+import { Scenarios } from '../../commons/actions';
 
 // For this moment, login is handle by clicking on Microsoft Login button
 // Function for the 1st login, that will save a snapshot of the local storage after logging in
@@ -18,11 +19,11 @@ Cypress.Commands.add('login', () => {
   });
 
   cy.intercept('GET', URL_REGEX.SCENARIO_PAGE_WITH_ID).as('requestUpdateCurrentScenario');
-  cy.get(SELECTORS.login.microsoftLoginButton).click();
+  Scenarios.getMicrosoftLoginButton().click();
   cy.wait('@requestUpdateCurrentScenario');
 
-  cy.get(SELECTORS.scenario.parameters.tabs).should('be.visible');
-  cy.get(SELECTORS.scenario.view).should('be.visible');
+  cy.get(GENERIC_SELECTORS.scenario.parameters.tabs).should('be.visible');
+  cy.get(GENERIC_SELECTORS.scenario.view).should('be.visible');
   cy.saveLocalStorage();
 });
 
@@ -36,22 +37,22 @@ Cypress.Commands.add('relogin', () => {
 
 // Create scenario
 Cypress.Commands.add('createScenario', (scenarioName, isMaster, datasetOrMasterName, scenarioType) => {
-  cy.get(SELECTORS.scenario.createButton).click();
-  cy.get(SELECTORS.scenario.createDialog.dialog).should('be.visible');
+  cy.get(GENERIC_SELECTORS.scenario.createButton).click();
+  cy.get(GENERIC_SELECTORS.scenario.createDialog.dialog).should('be.visible');
 
-  cy.get(SELECTORS.scenario.createDialog.nameTextfield).type(scenarioName);
+  cy.get(GENERIC_SELECTORS.scenario.createDialog.nameTextfield).type(scenarioName);
 
   if (isMaster === true) {
-    cy.get(SELECTORS.scenario.createDialog.masterCheckbox).check();
-    cy.get(SELECTORS.scenario.createDialog.datasetSelect).click();
+    cy.get(GENERIC_SELECTORS.scenario.createDialog.masterCheckbox).check();
+    cy.get(GENERIC_SELECTORS.scenario.createDialog.datasetSelect).click();
   } else {
-    cy.get(SELECTORS.scenario.createDialog.masterCheckbox).uncheck();
-    cy.get(SELECTORS.scenario.createDialog.dialog).click().find(SELECTORS.scenario.selectInput).click();
+    cy.get(GENERIC_SELECTORS.scenario.createDialog.masterCheckbox).uncheck();
+    cy.get(GENERIC_SELECTORS.scenario.createDialog.dialog).click().find(GENERIC_SELECTORS.scenario.selectInput).click();
   }
   cy.focused().type(datasetOrMasterName);
   cy.contains(datasetOrMasterName).should('be.visible').click();
 
-  cy.get(SELECTORS.scenario.createDialog.typeSelect).click();
+  cy.get(GENERIC_SELECTORS.scenario.createDialog.typeSelect).click();
   cy.focused().type(scenarioType);
   /* eslint-disable cypress/no-force */
   cy.contains(scenarioType).should('be.visible').click({ force: true });
@@ -61,7 +62,7 @@ Cypress.Commands.add('createScenario', (scenarioName, isMaster, datasetOrMasterN
   cy.intercept('POST', URL_REGEX.SCENARIO_PAGE).as(scenarioCreationAlias);
   cy.intercept('GET', URL_REGEX.SCENARIO_PAGE).as(scenarioListUpdateAlias);
 
-  cy.get(SELECTORS.scenario.createDialog.submitButton).click();
+  cy.get(GENERIC_SELECTORS.scenario.createDialog.submitButton).click();
 
   let scenarioCreatedId, scenarioCreatedName;
   cy.wait('@' + scenarioCreationAlias).then((req) => {
@@ -76,7 +77,7 @@ Cypress.Commands.add('createScenario', (scenarioName, isMaster, datasetOrMasterN
     cy.wrap(nameGet).should('equal', scenarioCreatedName);
   });
 
-  cy.get(SELECTORS.scenario.selectInput)
+  cy.get(GENERIC_SELECTORS.scenario.selectInput)
     .find('input')
     .should('have.value', scenarioName)
     .then(() => {
@@ -89,7 +90,7 @@ Cypress.Commands.add('createScenario', (scenarioName, isMaster, datasetOrMasterN
 
 // Delete scenario
 Cypress.Commands.add('deleteScenario', (scenarioName) => {
-  cy.get(SELECTORS.scenario.manager.search).clear().type(scenarioName);
-  cy.get(SELECTORS.scenario.manager.button.delete).click();
-  cy.get(SELECTORS.scenario.manager.confirmDeleteDialog).contains('button', 'Confirm').click();
+  cy.get(GENERIC_SELECTORS.scenario.manager.search).clear().type(scenarioName);
+  cy.get(GENERIC_SELECTORS.scenario.manager.button.delete).click();
+  cy.get(GENERIC_SELECTORS.scenario.manager.confirmDeleteDialog).contains('button', 'Confirm').click();
 });
