@@ -1,9 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Typography, makeStyles } from '@material-ui/core';
+import { Grid, makeStyles, Typography } from '@material-ui/core';
 import { SCENARIO_PARAMETERS_CONFIG } from '../../config/ScenarioParameters';
 import { DATASET_ID_VARTYPE, SCENARIO_RUN_STATE } from '../../services/config/ApiConstants';
 import { EditModeButton, NormalModeButton, ScenarioParametersTabs } from './components';
@@ -12,6 +12,8 @@ import { SimpleTwoActionsDialog } from '@cosmotech/ui';
 import { FileManagementUtils } from './FileManagementUtils';
 import { ScenarioParametersUtils } from '../../utils';
 import { ScenarioParametersTabFactory } from '../../utils/scenarioParameters/factories/ScenarioParametersTabFactory';
+import { PERMISSIONS } from '../../services/config/Permissions';
+import { PermissionsGate } from '../PermissionsGate';
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -237,23 +239,25 @@ const ScenarioParameters = ({
               {t('genericcomponent.text.scenario.parameters.title', 'Scenario parameters')}
             </Typography>
           </Grid>
-          <Grid item>
-            {editMode ? (
-              <EditModeButton
-                classes={classes}
-                handleClickOnDiscardChange={askDiscardConfirmation}
-                handleClickOnUpdateAndLaunchScenario={startScenarioUpdateAndLaunch}
-              />
-            ) : (
-              <NormalModeButton
-                classes={classes}
-                handleClickOnEdit={startParametersEdition}
-                handleClickOnLaunchScenario={startScenarioLaunch}
-                editDisabled={noTabsShown || isCurrentScenarioRunning}
-                runDisabled={isCurrentScenarioRunning}
-              />
-            )}
-          </Grid>
+          <PermissionsGate requiredPermissions={[PERMISSIONS.canEditOrLaunchScenario]}>
+            <Grid item>
+              {editMode ? (
+                <EditModeButton
+                  classes={classes}
+                  handleClickOnDiscardChange={askDiscardConfirmation}
+                  handleClickOnUpdateAndLaunchScenario={startScenarioUpdateAndLaunch}
+                />
+              ) : (
+                <NormalModeButton
+                  classes={classes}
+                  handleClickOnEdit={startParametersEdition}
+                  handleClickOnLaunchScenario={startScenarioLaunch}
+                  editDisabled={noTabsShown || isCurrentScenarioRunning}
+                  runDisabled={isCurrentScenarioRunning}
+                />
+              )}
+            </Grid>
+          </PermissionsGate>
         </Grid>
       </Grid>
       <Grid item className={classes.tabs}>

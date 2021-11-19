@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { AUTH_STATUS, AUTH_ACTIONS_KEY } from '../../commons/AuthConstants';
+import { AUTH_ACTIONS_KEY, AUTH_STATUS } from '../../commons/AuthConstants';
 import { createReducer } from '@reduxjs/toolkit';
 
 // Authentication data
@@ -9,6 +9,7 @@ export const authInitialState = {
   userId: '',
   userName: '',
   profilePic: '',
+  roles: [],
   status: AUTH_STATUS.ANONYMOUS,
 };
 
@@ -24,6 +25,7 @@ export const authReducer = createReducer(authInitialState, (builder) => {
       state.status = action.status;
       state.userId = action.userId;
       state.userName = action.userName;
+      state.roles = action.roles;
       state.profilePic = action.profilePic;
     });
 });

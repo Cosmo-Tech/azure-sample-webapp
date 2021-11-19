@@ -15,6 +15,8 @@ import { SCENARIO_DASHBOARD_CONFIG } from '../../config/Dashboards';
 import ScenarioRunService from '../../services/scenarioRun/ScenarioRunService';
 import { STATUSES } from '../../state/commons/Constants';
 import { AppInsights } from '../../services/AppInsights';
+import { PERMISSIONS } from '../../services/config/Permissions';
+import { PermissionsGate } from '../../components/PermissionsGate';
 
 const appInsights = AppInsights.getInstance();
 
@@ -198,19 +200,21 @@ const Scenario = (props) => {
             <Grid item xs={3}>
               <Grid container spacing={0} justifyContent="flex-end" className={classes.mainGrid}>
                 <Grid item>
-                  <CreateScenarioButton
-                    solution={solution}
-                    workspaceId={workspaceId}
-                    createScenario={createScenario}
-                    currentScenario={currentScenario}
-                    runTemplates={filteredRunTemplates}
-                    datasets={datasetList.data}
-                    scenarios={scenarioList.data}
-                    user={user}
-                    disabled={editMode}
-                    nameValidator={NAME_VALIDATOR}
-                    labels={createScenarioDialogLabels}
-                  />
+                  <PermissionsGate requiredPermissions={[PERMISSIONS.canCreateScenario]}>
+                    <CreateScenarioButton
+                      solution={solution}
+                      workspaceId={workspaceId}
+                      createScenario={createScenario}
+                      currentScenario={currentScenario}
+                      runTemplates={filteredRunTemplates}
+                      datasets={datasetList.data}
+                      scenarios={scenarioList.data}
+                      user={user}
+                      disabled={editMode}
+                      nameValidator={NAME_VALIDATOR}
+                      labels={createScenarioDialogLabels}
+                    />
+                  </PermissionsGate>
                 </Grid>
               </Grid>
             </Grid>

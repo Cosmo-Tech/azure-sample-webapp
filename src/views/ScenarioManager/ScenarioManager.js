@@ -7,6 +7,8 @@ import { makeStyles } from '@material-ui/core';
 import { ScenarioManagerTreeList } from '@cosmotech/ui';
 import { WORKSPACE_ID } from '../../config/AppInstance';
 import { useTranslation } from 'react-i18next';
+import { PERMISSIONS } from '../../services/config/Permissions';
+import { PermissionsGate } from '../../components/PermissionsGate';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -82,18 +84,23 @@ const ScenarioManager = (props) => {
 
   return (
     <div className={classes.root}>
-      <ScenarioManagerTreeList
-        datasets={datasets}
-        scenarios={scenarios}
-        currentScenarioId={currentScenario?.id}
-        userId={userId}
-        deleteScenario={onScenarioDelete}
-        moveScenario={moveScenario}
-        buildSearchInfo={buildSearchInfoLabel}
-        buildDatasetInfo={buildDatasetLabel}
-        labels={labels}
-        buildScenarioNameToDelete={buildScenarioNameToDelete}
-      />
+      <PermissionsGate
+        noPermissionProps={{ showDeleteIcon: false }}
+        requiredPermissions={[PERMISSIONS.canDeleteScenario]}
+      >
+        <ScenarioManagerTreeList
+          datasets={datasets}
+          scenarios={scenarios}
+          currentScenarioId={currentScenario?.id}
+          userId={userId}
+          deleteScenario={onScenarioDelete}
+          moveScenario={moveScenario}
+          buildSearchInfo={buildSearchInfoLabel}
+          buildDatasetInfo={buildDatasetLabel}
+          labels={labels}
+          buildScenarioNameToDelete={buildScenarioNameToDelete}
+        />
+      </PermissionsGate>
     </div>
   );
 };

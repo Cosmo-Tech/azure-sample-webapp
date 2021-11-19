@@ -1379,29 +1379,29 @@
   dependencies:
     axios "^0.21.1"
 
-"@cosmotech/azure@^1.1.0":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@cosmotech/azure/-/azure-1.1.1.tgz#7f2c8d9476a06b919bc68fe7fc04cf4278d93aa7"
-  integrity sha512-+IZ8mO0Ho/qjxF4iXLa8KCODw9c+LBqs1Oyf2X13CijLUQwVkew70CHtN9F3SxcuHd2sKTzvoYYDzPKz9JZYYg==
+"@cosmotech/azure@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@cosmotech/azure/-/azure-1.1.2.tgz#b4c158c1f5d6bf9058ff9eb50bebdd12d28d0ca3"
+  integrity sha512-sbMHcFNYPudtkBAWM6BrRKrUgUHVsLMzrXq7bNUuQQ8S+Kt6y4EIHPpNT/+3SCS6o/FSi4AJnDttpkUlHDudIw==
   dependencies:
     "@azure/msal-browser" "^2.8.0"
     eslint-config-prettier "^8.3.0"
     eslint-plugin-prettier "^4.0.0"
     prettier "^2.4.1"
 
-"@cosmotech/core@^1.4.0":
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.4.1.tgz#739f792c0ba1e71c02013abd59393fba8d1a73b9"
-  integrity sha512-eD0q5wFtstwaAwDcHt+v8hHimXH5uHPBzaF+12JuuncAyU857Cw1YUnYrKvVpUzWkB3H09hWKhNecxZpYfdb1Q==
+"@cosmotech/core@^1.4.2":
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.4.2.tgz#38b853837f7f4957fddf835a024aff4df86dd7a0"
+  integrity sha512-V3LVkd6jNxPaips0PD6puacA5pEtjbcHjYFTUDn5Wa0FnyftBK4+OCMzyHnRDhXECgoj/NftDwuFA7DvvErLmw==
   dependencies:
     eslint-config-prettier "^8.3.0"
     eslint-plugin-prettier "^4.0.0"
     prettier "^2.4.1"
 
-"@cosmotech/ui@^1.0.7":
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-1.0.8.tgz#d0f906605af93d7f91928155f7817e1f9d44dd3c"
-  integrity sha512-aqQh9zMFdeuWinAYUc8m+ESceLtmA9Ve6iXHWlEkGM4oU/7904Ty29YcP6utzj81oMezAa/cfqfXCNgmy/uFoA==
+"@cosmotech/ui@^1.0.9":
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-1.0.9.tgz#187cbfb71b6056afd3fc512ad597b211e432048b"
+  integrity sha512-Ck4NipYBQ4fqZ5qVViA4BJ6N6oEI7amal8DycdNRhJRZ/JysYCJeYucLydWbj3iGRmARrEpPO5HFA2KOL0zVtw==
   dependencies:
     "@date-io/date-fns" "^1.3.13"
     "@material-ui/pickers" "^3.3.10"
@@ -1410,7 +1410,7 @@
     powerbi-client-react "^1.3.3"
     react-number-format "^4.5.5"
   optionalDependencies:
-    "@cosmotech/core" "^1.4.0"
+    "@cosmotech/core" "^1.4.2"
     "@material-ui/core" "^4.11.2"
     "@material-ui/icons" "^4.11.2"
     "@material-ui/lab" "^4.0.0-alpha.57"
