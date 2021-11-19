@@ -2,15 +2,15 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { AppBar } from '../../commons/actions';
+import { AppBar, Login } from '../../commons/actions';
 
 describe('UserInfo features', () => {
   before(() => {
-    cy.login();
+    Login.login();
   });
 
   beforeEach(() => {
-    cy.relogin();
+    Login.relogin();
   });
 
   it('can download the documentation PDF', () => {

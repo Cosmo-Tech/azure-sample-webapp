@@ -7,7 +7,7 @@ import {
   BAR_PARAMETERS_RANGE,
   BASIC_PARAMETERS_CONST,
   DATASET,
-  SCENARIO_TYPE,
+  RUN_TEMPLATE,
 } from '../../commons/constants/brewery/TestConstants';
 import {
   URL_REGEX,
@@ -15,7 +15,7 @@ import {
   URL_ROOT,
   SCENARIO_RUN_IN_PROGRESS,
 } from '../../commons/constants/generic/TestConstants';
-import { Scenarios, ScenarioManager, ScenarioParameters } from '../../commons/actions';
+import { Scenarios, ScenarioManager, ScenarioParameters, Login } from '../../commons/actions';
 import { BreweryParameters } from '../../commons/actions/brewery';
 
 describe('Create scenario', () => {
@@ -40,16 +40,18 @@ describe('Create scenario', () => {
   });
 
   before(() => {
-    cy.login();
+    Login.login();
     // Create "another scenario"
-    cy.createScenario(otherScenarioName, true, DATASET.BREWERY_ADT, SCENARIO_TYPE.BREWERY_PARAMETERS).then((value) => {
-      otherScenarioId = value.scenarioCreatedId;
-      anotherScenarioUrlRegex = new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/${otherScenarioId}`);
-    });
+    Scenarios.createScenario(otherScenarioName, true, DATASET.BREWERY_ADT, RUN_TEMPLATE.BREWERY_PARAMETERS).then(
+      (value) => {
+        otherScenarioId = value.scenarioCreatedId;
+        anotherScenarioUrlRegex = new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/${otherScenarioId}`);
+      }
+    );
   });
 
   beforeEach(() => {
-    cy.relogin();
+    Login.relogin();
   });
 
   after(() => {
@@ -64,7 +66,7 @@ describe('Create scenario', () => {
     // Delete all tests scenarios
     ScenarioManager.switchToScenarioManager();
     for (const scenarioName of scenarioNamesToDelete) {
-      cy.deleteScenario(scenarioName);
+      ScenarioManager.deleteScenario(scenarioName);
     }
   });
 
@@ -73,25 +75,27 @@ describe('Create scenario', () => {
     Scenarios.getScenarioCreationDialogRunTypeSelector().click();
 
     const visibleRunTemplates = [
-      SCENARIO_TYPE.BREWERY_PARAMETERS,
-      SCENARIO_TYPE.BASIC_TYPES,
-      SCENARIO_TYPE.WITHOUT_PARAMETERS,
+      RUN_TEMPLATE.BREWERY_PARAMETERS,
+      RUN_TEMPLATE.BASIC_TYPES,
+      RUN_TEMPLATE.WITHOUT_PARAMETERS,
     ];
 
     for (const runTemplate of visibleRunTemplates) {
       Scenarios.selectRunTemplate(runTemplate).should('be.visible');
     }
 
-    Scenarios.selectRunTemplate(SCENARIO_TYPE.HIDDEN).should('not.exist');
+    Scenarios.selectRunTemplate(RUN_TEMPLATE.HIDDEN).should('not.exist');
   });
 
   it('can create and launch scenario master', () => {
     // Create scenario master:
     let scenarioCreatedName;
-    cy.createScenario(scenarioMasterName, true, DATASET.BREWERY_ADT, SCENARIO_TYPE.BREWERY_PARAMETERS).then((value) => {
-      scenarioMasterId = value.scenarioCreatedId;
-      scenarioCreatedName = value.scenarioCreatedName;
-    });
+    Scenarios.createScenario(scenarioMasterName, true, DATASET.BREWERY_ADT, RUN_TEMPLATE.BREWERY_PARAMETERS).then(
+      (value) => {
+        scenarioMasterId = value.scenarioCreatedId;
+        scenarioCreatedName = value.scenarioCreatedName;
+      }
+    );
 
     // Edit master paramameters values
     ScenarioParameters.edit();
@@ -167,10 +171,12 @@ describe('Create scenario', () => {
   it('can create scenario child', () => {
     // Create Scenario Child
     let scenarioCreatedName;
-    cy.createScenario(scenarioChildName, false, scenarioMasterName, SCENARIO_TYPE.BREWERY_PARAMETERS).then((value) => {
-      scenarioChildId = value.scenarioCreatedId;
-      scenarioCreatedName = value.scenarioCreatedName;
-    });
+    Scenarios.createScenario(scenarioChildName, false, scenarioMasterName, RUN_TEMPLATE.BREWERY_PARAMETERS).then(
+      (value) => {
+        scenarioChildId = value.scenarioCreatedId;
+        scenarioCreatedName = value.scenarioCreatedName;
+      }
+    );
 
     // Check inherited children parameters
     BreweryParameters.getStockInput().should('have.value', stock);
@@ -252,7 +258,7 @@ describe('Create scenario', () => {
   it('can create scenario, edit/discard parameters and switch between parameters tabs', () => {
     // Create Scenario with some paramaters tabs
     let scenarioCreatedName;
-    cy.createScenario(scenarioWithBasicTypesName, true, DATASET.BREWERY_ADT, SCENARIO_TYPE.BASIC_TYPES).then(
+    Scenarios.createScenario(scenarioWithBasicTypesName, true, DATASET.BREWERY_ADT, RUN_TEMPLATE.BASIC_TYPES).then(
       (value) => {
         scenarioWithBasicTypesId = value.scenarioCreatedId;
         scenarioCreatedName = value.scenarioCreatedName;

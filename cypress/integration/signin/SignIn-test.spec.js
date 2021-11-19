@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { PAGE_NAME } from '../../commons/constants/generic/TestConstants';
-import { AppBar } from '../../commons/actions';
+import { AppBar, Login } from '../../commons/actions';
 
 describe('Redirection when not authenticated', () => {
   it('redirect automatically when not logged in', () => {
@@ -13,11 +13,11 @@ describe('Redirection when not authenticated', () => {
 
 describe('Log in & log out', () => {
   before(() => {
-    cy.login();
+    Login.login();
   });
 
   beforeEach(() => {
-    cy.relogin();
+    Login.relogin();
   });
 
   it('can log in and log out', () => {

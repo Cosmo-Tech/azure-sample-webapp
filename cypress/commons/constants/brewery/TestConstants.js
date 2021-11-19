@@ -43,7 +43,7 @@ export const DATASET = {
   BREWERY_ADT: 'Brewery ADT reference',
 };
 
-export const SCENARIO_TYPE = {
+export const RUN_TEMPLATE = {
   BREWERY_PARAMETERS: 'Run template with Brewery parameters',
   BASIC_TYPES: 'Run template with mock basic types parameters',
   WITHOUT_PARAMETERS: 'Run template without parameters',
