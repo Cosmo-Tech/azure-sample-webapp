@@ -15,7 +15,7 @@ import { SCENARIO_DASHBOARD_CONFIG } from '../../config/Dashboards';
 import ScenarioRunService from '../../services/scenarioRun/ScenarioRunService';
 import { STATUSES } from '../../state/commons/Constants';
 import { AppInsights } from '../../services/AppInsights';
-import { PERMISSIONS } from '../../config/AppPermissions';
+import { PERMISSIONS } from '../../services/config/Permissions';
 import { PermissionsGate } from '../../components/PermissionsGate';
 
 const appInsights = AppInsights.getInstance();

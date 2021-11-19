@@ -1,17 +1,14 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { useSelector } from 'react-redux';
 import React, { cloneElement } from 'react';
 import PropTypes from 'prop-types';
-import { PROFILES } from '../../config/AppPermissions';
+import { PROFILES } from '../../config/Profiles';
+import { useSelector } from 'react-redux';
 
 const hasPermission = ({ permissions, requiredPermissions }) => {
-  const requiredPermissionsMap = {};
-  requiredPermissions.forEach((requiredPermission) => {
-    requiredPermissionsMap[requiredPermission] = true;
-  });
-  return permissions.some((permission) => requiredPermissionsMap[permission]);
+  const filteredPermissions = permissions.filter((permission) => requiredPermissions.includes(permission));
+  return filteredPermissions.length > 0;
 };
 
 export const PermissionsGate = ({ children, RenderNoPermissionComponent, noPermissionProps, requiredPermissions }) => {
@@ -42,7 +39,7 @@ PermissionsGate.propTypes = {
   /**
    * Component to render if permissions are not sufficient
    */
-  RenderNoPermissionComponent: PropTypes.object,
+  RenderNoPermissionComponent: PropTypes.func,
   /**
    * Props spread to children component if permissions are not sufficient
    */

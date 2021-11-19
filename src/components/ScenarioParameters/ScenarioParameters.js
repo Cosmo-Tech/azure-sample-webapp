@@ -12,7 +12,7 @@ import { SimpleTwoActionsDialog } from '@cosmotech/ui';
 import { FileManagementUtils } from './FileManagementUtils';
 import { ScenarioParametersUtils } from '../../utils';
 import { ScenarioParametersTabFactory } from '../../utils/scenarioParameters/factories/ScenarioParametersTabFactory';
-import { PERMISSIONS } from '../../config/AppPermissions';
+import { PERMISSIONS } from '../../services/config/Permissions';
 import { PermissionsGate } from '../PermissionsGate';
 
 const useStyles = makeStyles((theme) => ({

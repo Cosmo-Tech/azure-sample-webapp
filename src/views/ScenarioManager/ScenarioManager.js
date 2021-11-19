@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/core';
 import { ScenarioManagerTreeList } from '@cosmotech/ui';
 import { WORKSPACE_ID } from '../../config/AppInstance';
 import { useTranslation } from 'react-i18next';
-import { PERMISSIONS } from '../../config/AppPermissions';
+import { PERMISSIONS } from '../../services/config/Permissions';
 import { PermissionsGate } from '../../components/PermissionsGate';
 
 const useStyles = makeStyles((theme) => ({
