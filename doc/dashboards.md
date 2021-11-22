@@ -1,4 +1,4 @@
-# Configure Dashboards view
+# Configure Scenario View and Dashboards view reports
 
 In the web application, the _Scenario_ and _Dashboards_ pages allow you to embed [PowerBI](https://powerbi.microsoft.com/fr-fr/getting-started-with-power-bi/) reports.
 
@@ -41,12 +41,18 @@ Everything is available in PowerBI service URL:
 - the values you need to use for `reportId` key and `pageName` key are then:\
   `MyReportURL?reportId=<reportId>&pageName=<pageName>`
 
-## Report page size recommendation for Scenario View iframe
-
+## Report page size recommendation
+for Scenario View iframe:
 - Select option: View > fit to page
 - Select Format > Page size > Custom
   - Width: 1580 px
   - Height: 350 px
+
+for Dashboard View iframes:
+- Select option: View > fit to page
+- Select Format > Page size > Custom
+  - Width: 1280 px
+  - Height: 795 px
 
 ## How to use filters on the current scenario (dynamic Filter)
 
