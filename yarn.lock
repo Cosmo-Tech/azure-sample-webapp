@@ -1398,16 +1398,17 @@
     eslint-plugin-prettier "^4.0.0"
     prettier "^2.4.1"
 
-"@cosmotech/ui@^1.0.9":
-  version "1.0.10"
-  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-1.0.10.tgz#bb5e8524478571e5e30483e03e843330fd9990f7"
-  integrity sha512-YLOMKeiEt/XYG9YN6drzH6+EnOGN1kk2IbzXt40i6g2t7Xql7XbH7SjwJXtcQhwasec0czBTyMJJgwuy5PhPpA==
+"@cosmotech/ui@^1.0.11":
+  version "1.0.11"
+  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-1.0.11.tgz#0ebbb128116fa56fbf2943b4626875dbbcf7b299"
+  integrity sha512-N+wqz9XKPo3GAwA+Fcq67AekrDiBCBs2wyXAVpNCM085j/wVzBN4VKo4YnG+islaiBrWmlycKGjLhctqPzoydQ==
   dependencies:
     "@date-io/date-fns" "^1.3.13"
     "@material-ui/pickers" "^3.3.10"
     "@nosferatu500/react-sortable-tree" "^3.0.5"
     date-fns "^2.22.1"
     powerbi-client-react "^1.3.3"
+    react-lottie-player "1.4.1"
     react-number-format "^4.5.5"
   optionalDependencies:
     "@cosmotech/core" "^1.4.2"
@@ -12450,7 +12451,7 @@ lodash.bind@^4.1.4:
   resolved "https://registry.yarnpkg.com/lodash.bind/-/lodash.bind-4.2.1.tgz#7ae3017e939622ac31b7d7d7dcb1b34db1690d35"
   integrity sha1-euMBfpOWIqwxt9fX3LGzTbFpDTU=
 
-lodash.clonedeep@4.5.0:
+lodash.clonedeep@4.5.0, lodash.clonedeep@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.clonedeep/-/lodash.clonedeep-4.5.0.tgz#e23f3f9c4f8fbdde872529c1071857a086e5ccef"
   integrity sha1-4j8/nE+Pvd6HJSnBBxhXoIblzO8=
@@ -12672,7 +12673,7 @@ loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.2.0, loose-envify@^1.3
   dependencies:
     js-tokens "^3.0.0 || ^4.0.0"
 
-lottie-web@^5.1.3:
+lottie-web@^5.7.6:
   version "5.8.1"
   resolved "https://registry.yarnpkg.com/lottie-web/-/lottie-web-5.8.1.tgz#807e0af0ad22b59bf867d964eb684cb3368da0ef"
   integrity sha512-9gIizWADlaHC2GCt+D+yNpk5l2clZQFqnVWWIVdY0LnxC/uLa39dYltAe3fcmC/hrZ2IUQ8dLlY0O934Npjs7Q==
@@ -16332,13 +16333,14 @@ react-live@^2.2.1:
     react-simple-code-editor "^0.11.0"
     unescape "^1.0.1"
 
-react-lottie@^1.2.3:
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/react-lottie/-/react-lottie-1.2.3.tgz#8544b96939e088658072eea5e12d912cdaa3acc1"
-  integrity sha512-qLCERxUr8M+4mm1LU0Ruxw5Y5Fn/OmYkGfnA+JDM/dZb3oKwVAJCjwnjkj9TMHtzR2U6sMEUD3ZZ1RaHagM7kA==
+react-lottie-player@1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/react-lottie-player/-/react-lottie-player-1.4.1.tgz#ddd448486b8e8a42f4ae149751c38a8539f80b77"
+  integrity sha512-8dw3Dt8h6iTIrA+Iz7N/rOZjY1ShEwoxsgFywW2hZPFf58mZL75NFFNXY6v95NNj/25kZQpMV/bDkNoxj4Sang==
   dependencies:
-    babel-runtime "^6.26.0"
-    lottie-web "^5.1.3"
+    fast-deep-equal "^3.1.3"
+    lodash.clonedeep "^4.5.0"
+    lottie-web "^5.7.6"
 
 react-number-format@^4.5.5:
   version "4.8.0"

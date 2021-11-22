@@ -5,9 +5,13 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Routes from '../../Routes';
 import FadeIn from 'react-fade-in';
-import LoadingLine from '../../components/LoadingLine';
+import { LoadingLine } from '@cosmotech/ui';
 import { STATUSES } from '../../state/commons/Constants';
+import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core';
+import * as dataLoading from '../../assets/loadingLine/dataLoading.json';
+import * as dataLoaded from '../../assets/loadingLine/dataLoaded.json';
+import * as dataError from '../../assets/loadingLine/dataError.json';
 
 const useStyles = makeStyles((theme) => ({
   panel: {
@@ -18,6 +22,12 @@ const useStyles = makeStyles((theme) => ({
     transform: 'translate(-50%, -50%)',
   },
 }));
+
+const animations = {
+  dataLoading: dataLoading.default,
+  dataError: dataError.default,
+  dataLoaded: dataLoaded.default,
+};
 
 const Loading = ({
   authenticated,
@@ -35,6 +45,8 @@ const Loading = ({
   setApplicationStatusAction,
 }) => {
   const classes = useStyles();
+  const { t } = useTranslation();
+  const defaultTitle = 'LoadingLine Title';
 
   useEffect(() => {
     if (authenticated) {
@@ -61,46 +73,40 @@ const Loading = ({
     <div className={classes.panel} data-cy="loading-component">
       <FadeIn delay={200}>
         <LoadingLine
-          titleKey={'genericcomponent.loading.line.scenario.list.title'}
+          title={t('genericcomponent.loading.line.scenario.list.title', defaultTitle)}
           hasError={hasErrors(scenarioList)}
           isLoading={isLoading(scenarioList)}
-          height={100}
-          width={120}
+          animations={animations}
         />
         <LoadingLine
-          titleKey={'genericcomponent.loading.line.dataset.list.title'}
+          title={t('genericcomponent.loading.line.dataset.list.title', defaultTitle)}
           hasError={hasErrors(datasetList)}
           isLoading={isLoading(datasetList)}
-          height={100}
-          width={120}
+          animations={animations}
         />
         <LoadingLine
-          titleKey={'genericcomponent.loading.line.workspace.current.title'}
+          title={t('genericcomponent.loading.line.workspace.current.title', defaultTitle)}
           hasError={hasErrors(workspace)}
           isLoading={isLoading(workspace)}
-          height={100}
-          width={120}
+          animations={animations}
         />
         <LoadingLine
-          titleKey={'genericcomponent.loading.line.solution.current.title'}
+          title={t('genericcomponent.loading.line.solution.current.title', defaultTitle)}
           hasError={hasErrors(solution)}
           isLoading={isLoading(solution)}
-          height={100}
-          width={120}
+          animations={animations}
         />
         <LoadingLine
-          titleKey={'genericcomponent.loading.line.scenario.current.title'}
+          title={t('genericcomponent.loading.line.scenario.current.title', defaultTitle)}
           hasError={hasErrors(currentScenario)}
           isLoading={isLoading(currentScenario)}
-          height={100}
-          width={120}
+          animations={animations}
         />
         <LoadingLine
-          titleKey={'genericcomponent.loading.line.powerbi.title'}
+          title={t('genericcomponent.loading.line.powerbi.title', defaultTitle)}
           hasError={hasErrors(powerBiInfo)}
           isLoading={isLoading(powerBiInfo)}
-          height={100}
-          width={120}
+          animations={animations}
         />
       </FadeIn>
     </div>
