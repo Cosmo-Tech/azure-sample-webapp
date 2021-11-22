@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { makeStyles, Tab } from '@material-ui/core';
 import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 import { useTranslation } from 'react-i18next';
-import { TranslationUtils } from '../../../utils/TranslationUtils';
 import LockIcon from '@material-ui/icons/Lock';
+import { TranslationUtils } from '../../../utils';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
   tabPanel: {
@@ -31,6 +31,9 @@ const useStyles = makeStyles((theme) => ({
       fontWeight: 'bold',
       color: theme.palette.primary.contrastText,
     },
+    '& .MuiTab-wrapper': {
+      flexDirection: 'row-reverse',
+    },
   },
   placeholder: {
     margin: `0 ${theme.spacing(3)}px`,
@@ -52,7 +55,7 @@ const ScenarioParametersTabs = ({ parametersGroupsMetadata, userRoles }) => {
     // eslint-disable-next-line
   }, [parametersGroupsMetadata]);
 
-  const hasRequiredProfiles = (userProfiles, requiredProfiles) => {
+  const hasRequiredProfile = (userProfiles, requiredProfiles) => {
     return requiredProfiles.some((profile) => userProfiles.includes(profile));
   };
 
@@ -79,7 +82,7 @@ const ScenarioParametersTabs = ({ parametersGroupsMetadata, userRoles }) => {
                 key={groupMetadata.id}
                 value={groupMetadata.id}
                 data-cy={groupMetadata.id + '_tab'}
-                icon={hasRequiredProfiles(userRoles, groupMetadata.requiredProfiles) ? null : <LockIcon />}
+                icon={!hasRequiredProfile(userRoles, groupMetadata.requiredProfiles) ? <LockIcon /> : null}
                 className={classes.tab}
                 label={t(TranslationUtils.getParametersGroupTranslationKey(groupMetadata.id), groupMetadata.id)}
               />
