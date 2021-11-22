@@ -37,26 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const RegularTab = ({ t, key, groupMetadataId, className }) => {
-  return (
-    <Tab
-      key={key}
-      value={groupMetadataId}
-      data-cy={groupMetadataId + '_tab'}
-      className={className}
-      label={t(TranslationUtils.getParametersGroupTranslationKey(groupMetadataId), groupMetadataId)}
-    />
-  );
-};
-
-RegularTab.propTypes = {
-  t: PropTypes.func.isRequired,
-  key: PropTypes.string.isRequired,
-  groupMetadataId: PropTypes.string.isRequired,
-  className: PropTypes.object.isRequired,
-};
-
-const ScenarioParametersTabs = ({ parametersGroupsMetadata }) => {
+const ScenarioParametersTabs = ({ parametersGroupsMetadata, userRoles }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const [tabs, setTabs] = useState(parametersGroupsMetadata);
@@ -70,6 +51,10 @@ const ScenarioParametersTabs = ({ parametersGroupsMetadata }) => {
     }
     // eslint-disable-next-line
   }, [parametersGroupsMetadata]);
+
+  const hasRequiredProfiles = (userProfiles, requiredProfiles) => {
+    return requiredProfiles.some((profile) => userProfiles.includes(profile));
+  };
 
   return (
     <div data-cy="scenario-parameters-tabs">
@@ -91,10 +76,10 @@ const ScenarioParametersTabs = ({ parametersGroupsMetadata }) => {
           >
             {tabs.map((groupMetadata, index) => (
               <Tab
-                icon={<LockIcon />}
                 key={groupMetadata.id}
                 value={groupMetadata.id}
                 data-cy={groupMetadata.id + '_tab'}
+                icon={hasRequiredProfiles(userRoles, groupMetadata.requiredProfiles) ? null : <LockIcon />}
                 className={classes.tab}
                 label={t(TranslationUtils.getParametersGroupTranslationKey(groupMetadata.id), groupMetadata.id)}
               />
@@ -113,6 +98,7 @@ const ScenarioParametersTabs = ({ parametersGroupsMetadata }) => {
 
 ScenarioParametersTabs.propTypes = {
   parametersGroupsMetadata: PropTypes.array.isRequired,
+  userRoles: PropTypes.array.isRequired,
 };
 
 export default ScenarioParametersTabs;

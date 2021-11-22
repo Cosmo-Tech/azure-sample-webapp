@@ -250,6 +250,7 @@ const Scenario = (props) => {
                 currentScenario={currentScenario}
                 scenarioId={currentScenario.data.id}
                 scenarioList={scenarioList.data}
+                userRoles={user.roles}
               />
             )}
           </Card>
