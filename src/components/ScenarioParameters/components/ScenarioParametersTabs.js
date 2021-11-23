@@ -32,6 +32,9 @@ const useStyles = makeStyles((theme) => ({
       color: theme.palette.primary.contrastText,
     },
     '& .MuiTab-wrapper': {
+      '& .MuiSvgIcon-root': {
+        marginLeft: '5px',
+      },
       flexDirection: 'row-reverse',
     },
   },
