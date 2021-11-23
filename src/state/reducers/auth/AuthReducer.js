@@ -10,6 +10,7 @@ export const authInitialState = {
   userName: '',
   profilePic: '',
   roles: [],
+  permissions: [],
   status: AUTH_STATUS.ANONYMOUS,
 };
 
@@ -26,6 +27,7 @@ export const authReducer = createReducer(authInitialState, (builder) => {
       state.userId = action.userId;
       state.userName = action.userName;
       state.roles = action.roles;
+      state.permissions = action.permissions;
       state.profilePic = action.profilePic;
     });
 });

@@ -3,6 +3,17 @@
 import { Auth } from '@cosmotech/core';
 import { put, takeEvery } from 'redux-saga/effects';
 import { AUTH_ACTIONS_KEY, AUTH_STATUS } from '../../../commons/AuthConstants';
+import { PROFILES } from '../../../../config/Profiles';
+
+const _extractPermissionsFromRoles = (roles) => {
+  let permissions = [];
+  if (roles) {
+    for (const role of roles) {
+      permissions = [...new Set([...permissions, ...PROFILES[role]])];
+    }
+  }
+  return permissions;
+};
 
 // Generator function to fetch authentication data
 export function* tryLogIn(action) {
@@ -15,13 +26,16 @@ export function* tryLogIn(action) {
     // Check if the user is authenticated
     const authenticated = yield Auth.isUserSignedIn();
     if (authenticated) {
+      const userRoles = Auth.getUserRoles();
+      const userPermissions = _extractPermissionsFromRoles(userRoles);
       // If the user is authenticated, set the auth data
       yield put({
         type: AUTH_ACTIONS_KEY.SET_AUTH_DATA,
         userId: Auth.getUserId(),
         userName: Auth.getUserName(),
         profilePic: Auth.getUserPicUrl(),
-        roles: Auth.getUserRoles(),
+        roles: userRoles,
+        permissions: userPermissions,
         status: AUTH_STATUS.AUTHENTICATED,
       });
     } else {
@@ -31,6 +45,7 @@ export function* tryLogIn(action) {
         userName: '',
         profilePic: '',
         roles: [],
+        permissions: [],
         status: AUTH_STATUS.DENIED,
       });
     }

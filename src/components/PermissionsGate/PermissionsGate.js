@@ -3,33 +3,43 @@
 
 import React, { cloneElement } from 'react';
 import PropTypes from 'prop-types';
-import { PROFILES } from '../../config/Profiles';
 import { useSelector } from 'react-redux';
 
-const hasPermission = ({ permissions, requiredPermissions }) => {
-  if (requiredPermissions) {
-    const filteredPermissions = permissions.filter((permission) => requiredPermissions.includes(permission));
-    return filteredPermissions.length > 0;
-  }
-  return true;
+const hasPermission = (userPermissions, requiredPermissions) => {
+  const filteredPermissions = userPermissions.filter((permission) => requiredPermissions.includes(permission));
+  return filteredPermissions.length > 0;
 };
 
-export const PermissionsGate = ({ children, RenderNoPermissionComponent, noPermissionProps, requiredPermissions }) => {
-  const roles = useSelector((state) => state.auth.roles);
+function hasSufficientRoles(userRoles, requiredRoles) {
+  return requiredRoles.some((profile) => userRoles.includes(profile));
+}
 
-  const permissions = [];
-  roles.forEach((role) => {
-    const rolePermissions = PROFILES[role];
-    if (rolePermissions) {
-      rolePermissions.forEach((role) => permissions.push(role));
-    }
-  });
+export const PermissionsGate = ({
+  children,
+  RenderNoPermissionComponent,
+  noPermissionProps,
+  authorizedPermissions,
+  authorizedRoles,
+}) => {
+  const userRoles = useSelector((state) => state.auth.roles);
 
-  const permissionGranted = hasPermission({ permissions, requiredPermissions });
+  const userPermissions = useSelector((state) => state.auth.permissions);
 
-  if (!permissionGranted && !noPermissionProps) return <RenderNoPermissionComponent />;
+  const noRequiredPermissions = Array.isArray(authorizedPermissions) && authorizedPermissions.length === 0;
 
-  if (!permissionGranted && noPermissionProps) return cloneElement(children, { ...noPermissionProps });
+  const noRequiredRoles = Array.isArray(authorizedRoles) && authorizedRoles.length === 0;
+
+  if (noRequiredPermissions && noRequiredRoles) {
+    return <>{children}</>;
+  }
+
+  const permissionGranted = hasPermission(userPermissions, authorizedPermissions);
+
+  const roleGranted = hasSufficientRoles(userRoles, authorizedRoles);
+
+  if (!(permissionGranted || roleGranted) && !noPermissionProps) return <RenderNoPermissionComponent />;
+
+  if (!(permissionGranted || roleGranted) && noPermissionProps) return cloneElement(children, { ...noPermissionProps });
 
   return <>{children}</>;
 };
@@ -40,21 +50,28 @@ PermissionsGate.propTypes = {
    */
   children: PropTypes.object,
   /**
-   * Component to render if permissions are not sufficient
+   * Component to render if permissions/roles are not sufficient
    */
   RenderNoPermissionComponent: PropTypes.func,
   /**
-   * Props spread to children component if permissions are not sufficient
+   * Props spread to children component if permissions/roles are not sufficient
    */
   noPermissionProps: PropTypes.object,
   /**
-   * Required permissions to render children component
+   * Required permissions to render children component:
+   * If connected user has one of the required permissions, children component will be displayed
    */
-  requiredPermissions: PropTypes.array,
+  authorizedPermissions: PropTypes.array,
+  /**
+   * Required roles to render children component
+   * If connected user has one of the required roles, children component will be displayed
+   */
+  authorizedRoles: PropTypes.array,
 };
 
 PermissionsGate.defaultProps = {
   RenderNoPermissionComponent: () => <></>,
   noPermissionProps: null,
-  requiredPermissions: [],
+  authorizedPermissions: [],
+  authorizedRoles: [],
 };

@@ -296,6 +296,9 @@
     "text": {
       "scenario": {
         "parameters": {
+          "tabs": {
+            "placeholder": "These parameters are confidential and you don't have permission to get access to them. If you think this is a mistake, please contact your application administrator."
+          },
           "placeholder": "No parameters to edit.",
           "title": "Scenario parameters"
         }

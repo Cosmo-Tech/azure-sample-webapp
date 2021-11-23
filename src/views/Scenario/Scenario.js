@@ -200,7 +200,7 @@ const Scenario = (props) => {
             <Grid item xs={3}>
               <Grid container spacing={0} justifyContent="flex-end" className={classes.mainGrid}>
                 <Grid item>
-                  <PermissionsGate requiredPermissions={[PERMISSIONS.canCreateScenario]}>
+                  <PermissionsGate authorizedPermissions={[PERMISSIONS.canCreateScenario]}>
                     <CreateScenarioButton
                       solution={solution}
                       workspaceId={workspaceId}

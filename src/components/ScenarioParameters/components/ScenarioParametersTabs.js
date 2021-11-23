@@ -56,6 +56,9 @@ const ScenarioParametersTabs = ({ parametersGroupsMetadata, userRoles }) => {
   }, [parametersGroupsMetadata]);
 
   const hasRequiredProfile = (userProfiles, requiredProfiles) => {
+    if (Array.isArray(requiredProfiles) && requiredProfiles.length === 0) {
+      return true;
+    }
     return requiredProfiles.some((profile) => userProfiles.includes(profile));
   };
 
@@ -82,7 +85,7 @@ const ScenarioParametersTabs = ({ parametersGroupsMetadata, userRoles }) => {
                 key={groupMetadata.id}
                 value={groupMetadata.id}
                 data-cy={groupMetadata.id + '_tab'}
-                icon={!hasRequiredProfile(userRoles, groupMetadata.requiredProfiles) ? <LockIcon /> : null}
+                icon={!hasRequiredProfile(userRoles, groupMetadata.authorizedRoles) ? <LockIcon /> : null}
                 className={classes.tab}
                 label={t(TranslationUtils.getParametersGroupTranslationKey(groupMetadata.id), groupMetadata.id)}
               />

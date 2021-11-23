@@ -240,7 +240,7 @@ const ScenarioParameters = ({
               {t('genericcomponent.text.scenario.parameters.title', 'Scenario parameters')}
             </Typography>
           </Grid>
-          <PermissionsGate requiredPermissions={[PERMISSIONS.canEditOrLaunchScenario]}>
+          <PermissionsGate authorizedPermissions={[PERMISSIONS.canEditOrLaunchScenario]}>
             <Grid item>
               {editMode ? (
                 <EditModeButton
