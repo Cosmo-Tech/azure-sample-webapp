@@ -347,7 +347,6 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
             en: 'New EN label for groupA',
             fr: 'New FR label for groupA',
           },
-          authorizedRoles: [],
         },
       },
       runTemplates: {},
@@ -419,7 +418,6 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
         },
       },
       runTemplates: {},
-      authorizedRoles: [],
     };
 
     const expectedGroupsDataForRunTemplate3 = [
@@ -430,6 +428,86 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
           fr: 'GroupC FR label',
         },
         parameters: [getParamDataFromStandardSolution('param2'), getParamDataFromStandardSolution('param1')],
+        authorizedRoles: [],
+      },
+    ];
+
+    const res = ScenarioParametersUtils.generateParametersGroupsMetadata(solution, config, 'runTemplate3');
+    expect(res).toStrictEqual(expectedGroupsDataForRunTemplate3);
+  });
+
+  test('to add single authorized role on parameters group', () => {
+    const role1 = 'This is a role';
+    const config = {
+      parameters: {},
+      parametersGroups: {
+        groupC: {
+          authorizedRoles: [role1],
+        },
+      },
+      runTemplates: {},
+    };
+
+    const expectedGroupsDataForRunTemplate3 = [
+      {
+        id: 'groupC',
+        labels: {
+          en: 'GroupC EN label',
+          fr: 'GroupC FR label',
+        },
+        parameters: [getParamDataFromStandardSolution('param1'), getParamDataFromStandardSolution('param2')],
+        authorizedRoles: [role1],
+      },
+    ];
+
+    const res = ScenarioParametersUtils.generateParametersGroupsMetadata(solution, config, 'runTemplate3');
+    expect(res).toStrictEqual(expectedGroupsDataForRunTemplate3);
+  });
+
+  test('to add multiple authorized roles on parameters group', () => {
+    const role1 = 'This is a role';
+    const role2 = 'This is another role';
+    const config = {
+      parameters: {},
+      parametersGroups: {
+        groupC: {
+          authorizedRoles: [role1, role2],
+        },
+      },
+      runTemplates: {},
+    };
+
+    const expectedGroupsDataForRunTemplate3 = [
+      {
+        id: 'groupC',
+        labels: {
+          en: 'GroupC EN label',
+          fr: 'GroupC FR label',
+        },
+        parameters: [getParamDataFromStandardSolution('param1'), getParamDataFromStandardSolution('param2')],
+        authorizedRoles: [role1, role2],
+      },
+    ];
+
+    const res = ScenarioParametersUtils.generateParametersGroupsMetadata(solution, config, 'runTemplate3');
+    expect(res).toStrictEqual(expectedGroupsDataForRunTemplate3);
+  });
+
+  test('without specify authorized role on parameters group', () => {
+    const config = {
+      parameters: {},
+      parametersGroups: {},
+      runTemplates: {},
+    };
+
+    const expectedGroupsDataForRunTemplate3 = [
+      {
+        id: 'groupC',
+        labels: {
+          en: 'GroupC EN label',
+          fr: 'GroupC FR label',
+        },
+        parameters: [getParamDataFromStandardSolution('param1'), getParamDataFromStandardSolution('param2')],
         authorizedRoles: [],
       },
     ];
