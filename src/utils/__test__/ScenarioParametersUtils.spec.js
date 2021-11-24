@@ -158,6 +158,7 @@ describe('generateParametersGroupsMetadata with missing data in solution', () =>
         fr: 'GroupA FR label',
       },
       parameters: [],
+      authorizedRoles: [],
     },
   ];
 
@@ -211,6 +212,7 @@ describe('generateParametersGroupsMetadata with missing data in config', () => {
         fr: 'GroupA FR label',
       },
       parameters: [getParamDataFromStandardSolution('param1')],
+      authorizedRoles: [],
     },
   ];
 
@@ -258,6 +260,7 @@ describe('generateParametersGroupsMetadata with missing data in config', () => {
           fr: 'GroupA FR label',
         },
         parameters: [getParamDataFromStandardSolution('param1')],
+        authorizedRoles: [],
       },
       {
         id: 'groupB',
@@ -266,6 +269,7 @@ describe('generateParametersGroupsMetadata with missing data in config', () => {
           fr: 'GroupB FR label',
         },
         parameters: [getParamDataFromStandardSolution('param2')],
+        authorizedRoles: [],
       },
     ];
     const res = ScenarioParametersUtils.generateParametersGroupsMetadata(solution, config, 'runTemplate2');
@@ -286,6 +290,7 @@ describe('generateParametersGroupsMetadata with missing data in config', () => {
           fr: 'GroupC FR label',
         },
         parameters: [getParamDataFromStandardSolution('param1'), getParamDataFromStandardSolution('param2')],
+        authorizedRoles: [],
       },
     ];
     const res = ScenarioParametersUtils.generateParametersGroupsMetadata(solution, config, 'runTemplate3');
@@ -318,6 +323,7 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
           fr: 'GroupB FR label',
         },
         parameters: [getParamDataFromStandardSolution('param2')],
+        authorizedRoles: [],
       },
     ];
 
@@ -341,6 +347,7 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
             en: 'New EN label for groupA',
             fr: 'New FR label for groupA',
           },
+          authorizedRoles: [],
         },
       },
       runTemplates: {},
@@ -359,6 +366,7 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
           fr: 'New FR label for groupA',
         },
         parameters: [param1Data],
+        authorizedRoles: [],
       },
     ];
 
@@ -385,6 +393,7 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
           fr: 'GroupB FR label',
         },
         parameters: [getParamDataFromStandardSolution('param2')],
+        authorizedRoles: [],
       },
       {
         id: 'groupA',
@@ -393,6 +402,7 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
           fr: 'GroupA FR label',
         },
         parameters: [getParamDataFromStandardSolution('param1')],
+        authorizedRoles: [],
       },
     ];
 
@@ -409,6 +419,7 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
         },
       },
       runTemplates: {},
+      authorizedRoles: [],
     };
 
     const expectedGroupsDataForRunTemplate3 = [
@@ -419,6 +430,7 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
           fr: 'GroupC FR label',
         },
         parameters: [getParamDataFromStandardSolution('param2'), getParamDataFromStandardSolution('param1')],
+        authorizedRoles: [],
       },
     ];
 

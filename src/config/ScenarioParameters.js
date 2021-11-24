@@ -7,8 +7,6 @@
 //  - lists of possible values for "enum" parameters
 //  - translation labels
 
-import { APP_ROLES } from './Profiles';
-
 const PARAMETERS = {
   nb_waiters: {
     dataCy: 'waiters-input',
@@ -120,7 +118,6 @@ const PARAMETERS_GROUPS = {
       fr: 'Fragments de dataset',
     },
     parameters: ['example_dataset_part_1', 'example_dataset_part_2'],
-    authorizedRoles: [APP_ROLES.PlatformAdmin],
   },
   extra_dataset_part: {
     labels: {
