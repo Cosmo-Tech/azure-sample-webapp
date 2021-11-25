@@ -159,6 +159,7 @@ describe('generateParametersGroupsMetadata with missing data in solution', () =>
       },
       parameters: [],
       authorizedRoles: [],
+      showParameterGroupIfNoPermission: false,
     },
   ];
 
@@ -213,6 +214,7 @@ describe('generateParametersGroupsMetadata with missing data in config', () => {
       },
       parameters: [getParamDataFromStandardSolution('param1')],
       authorizedRoles: [],
+      showParameterGroupIfNoPermission: false,
     },
   ];
 

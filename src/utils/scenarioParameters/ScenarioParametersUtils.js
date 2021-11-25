@@ -244,11 +244,15 @@ const _generateParametersGroupMetadata = (groupId, solution, config) => {
     console.warn(`Unknown parameters group "${groupId}"`);
     return undefined;
   }
+  const showParameterGroupIfNoPermission = parametersGroup?.showParameterGroupIfNoPermission
+    ? parametersGroup.showParameterGroupIfNoPermission
+    : false;
   return {
     id: groupId,
     labels: parametersGroup.labels,
     parameters: _generateParametersMetadataForGroup(parametersGroup, solution, config),
     authorizedRoles: parametersGroup.authorizedRoles || [],
+    showParameterGroupIfNoPermission: showParameterGroupIfNoPermission,
   };
 };
 

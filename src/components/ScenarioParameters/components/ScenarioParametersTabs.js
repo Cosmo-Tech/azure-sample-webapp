@@ -43,27 +43,100 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function _buildScenarioTabList(tabs, userRoles, classes, t) {
+  const tabListComponent = [];
+  for (const groupMetadata of tabs) {
+    const lockedTab = !hasRequiredProfile(userRoles, groupMetadata.authorizedRoles);
+    if (lockedTab) {
+      if (groupMetadata?.showParameterGroupIfNoPermission) {
+        tabListComponent.push(
+          <Tab
+            key={groupMetadata.id}
+            value={groupMetadata.id}
+            data-cy={groupMetadata.id + '_tab'}
+            icon={<LockIcon />}
+            className={classes.tab}
+            label={t(TranslationUtils.getParametersGroupTranslationKey(groupMetadata.id), groupMetadata.id)}
+          />
+        );
+      }
+    } else {
+      tabListComponent.push(
+        <Tab
+          key={groupMetadata.id}
+          value={groupMetadata.id}
+          data-cy={groupMetadata.id + '_tab'}
+          className={classes.tab}
+          label={t(TranslationUtils.getParametersGroupTranslationKey(groupMetadata.id), groupMetadata.id)}
+        />
+      );
+    }
+  }
+  return tabListComponent;
+}
+
+function _buildTabPanels(userRoles, tabs, classes) {
+  const tabPanelComponents = [];
+  for (let index = 0; index < tabs.length; index++) {
+    const groupMetadata = tabs[index];
+    const lockedTab = !hasRequiredProfile(userRoles, groupMetadata.authorizedRoles);
+    if (lockedTab) {
+      if (groupMetadata.showParameterGroupIfNoPermission) {
+        tabPanelComponents.push(
+          <TabPanel index={index} key={groupMetadata.id} value={groupMetadata.id} className={classes.tabPanel}>
+            {groupMetadata.tab}
+          </TabPanel>
+        );
+      }
+    } else {
+      tabPanelComponents.push(
+        <TabPanel index={index} key={groupMetadata.id} value={groupMetadata.id} className={classes.tabPanel}>
+          {groupMetadata.tab}
+        </TabPanel>
+      );
+    }
+  }
+  return tabPanelComponents;
+}
+
+const hasRequiredProfile = (userProfiles, requiredProfiles) => {
+  if (!requiredProfiles) {
+    return true;
+  }
+  if (Array.isArray(requiredProfiles) && requiredProfiles.length === 0) {
+    return true;
+  }
+  return requiredProfiles.some((profile) => userProfiles.includes(profile));
+};
+
+function chooseParametersTab(parametersGroupsMetadata, userRoles) {
+  const selectedTabId = '';
+  for (const groupMetadata of parametersGroupsMetadata) {
+    if (selectedTabId === '') {
+      const canViewTab = hasRequiredProfile(userRoles, groupMetadata.authorizedRoles);
+      if (canViewTab || groupMetadata.showParameterGroupIfNoPermission) {
+        return groupMetadata?.id;
+      }
+    }
+  }
+  return selectedTabId;
+}
+
 const ScenarioParametersTabs = ({ parametersGroupsMetadata, userRoles }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const [tabs, setTabs] = useState(parametersGroupsMetadata);
-  const [selectedTab, setSelectedTab] = useState(parametersGroupsMetadata?.[0]?.id);
+  const firstTab = chooseParametersTab(parametersGroupsMetadata, userRoles);
+  const [selectedTab, setSelectedTab] = useState(firstTab);
 
   // Reset selected tab on scenario change
   useEffect(() => {
     setTabs(parametersGroupsMetadata);
     if (parametersGroupsMetadata.find((groupMetadata) => groupMetadata.id === selectedTab) === undefined) {
-      setSelectedTab(parametersGroupsMetadata?.[0]?.id);
+      setSelectedTab(firstTab);
     }
     // eslint-disable-next-line
   }, [parametersGroupsMetadata]);
-
-  const hasRequiredProfile = (userProfiles, requiredProfiles) => {
-    if (Array.isArray(requiredProfiles) && requiredProfiles.length === 0) {
-      return true;
-    }
-    return requiredProfiles.some((profile) => userProfiles.includes(profile));
-  };
 
   return (
     <div data-cy="scenario-parameters-tabs">
@@ -83,22 +156,9 @@ const ScenarioParametersTabs = ({ parametersGroupsMetadata, userRoles }) => {
             }}
             aria-label="scenario parameters"
           >
-            {tabs.map((groupMetadata, index) => (
-              <Tab
-                key={groupMetadata.id}
-                value={groupMetadata.id}
-                data-cy={groupMetadata.id + '_tab'}
-                icon={!hasRequiredProfile(userRoles, groupMetadata.authorizedRoles) ? <LockIcon /> : null}
-                className={classes.tab}
-                label={t(TranslationUtils.getParametersGroupTranslationKey(groupMetadata.id), groupMetadata.id)}
-              />
-            ))}
+            {_buildScenarioTabList(tabs, userRoles, classes, t)}
           </TabList>
-          {tabs.map((groupMetadata, index) => (
-            <TabPanel index={index} key={groupMetadata.id} value={groupMetadata.id} className={classes.tabPanel}>
-              {groupMetadata.tab}
-            </TabPanel>
-          ))}
+          {_buildTabPanels(userRoles, tabs, classes)}
         </TabContext>
       )}
     </div>
