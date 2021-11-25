@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import fileDownload from 'js-file-download';
+import { FileBlobUtils } from '@cosmotech/core';
 import { LOG_TYPES } from './ScenarioRunConstants.js';
 import { ORGANIZATION_ID } from '../../config/AppInstance';
 import { Api } from '../../services/config/Api';
@@ -17,7 +17,7 @@ async function downloadCumulatedLogsFile(lastRun) {
     if (status !== 200) {
       throw new Error(`Error when fetching ${fileName}`);
     }
-    fileDownload(data, fileName);
+    FileBlobUtils.downloadFileFromData(data, fileName);
   } catch (e) {
     console.error(e);
   }
@@ -32,7 +32,7 @@ async function downloadLogsSimpleFile(lastRun) {
     if (status !== 200) {
       throw new Error(`Error when fetching ${fileName}`);
     }
-    fileDownload(data, fileName);
+    FileBlobUtils.downloadFileFromData(data, fileName);
   } catch (e) {
     console.error(e);
   }

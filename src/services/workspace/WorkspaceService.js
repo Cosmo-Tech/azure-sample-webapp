@@ -1,7 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import fileDownload from 'js-file-download';
 import { FileBlobUtils } from '@cosmotech/core';
 import { Api } from '../../services/config/Api';
 
@@ -21,7 +20,7 @@ async function downloadWorkspaceFile(organizationId, workspaceId, fileName) {
   if (status !== 200) {
     throw new Error(`Error when fetching ${fileName}`);
   }
-  fileDownload(data, fileName.split('/').pop());
+  FileBlobUtils.downloadFileFromData(data, fileName.split('/').pop());
 }
 
 async function downloadWorkspaceFileData(organizationId, workspaceId, fileName) {
