@@ -22,24 +22,17 @@ export const PermissionsGate = ({
   authorizedRoles,
 }) => {
   const userRoles = useSelector((state) => state.auth.roles);
-
   const userPermissions = useSelector((state) => state.auth.permissions);
 
   const noRequiredPermissions = Array.isArray(authorizedPermissions) && authorizedPermissions.length === 0;
-
   const noRequiredRoles = Array.isArray(authorizedRoles) && authorizedRoles.length === 0;
 
-  if (noRequiredPermissions && noRequiredRoles) {
-    return <>{children}</>;
-  }
+  const permissionGranted = hasPermission(userPermissions, authorizedPermissions) || noRequiredPermissions;
+  const roleGranted = hasSufficientRoles(userRoles, authorizedRoles) || noRequiredRoles;
 
-  const permissionGranted = hasPermission(userPermissions, authorizedPermissions);
+  if (!(permissionGranted && roleGranted) && !noPermissionProps) return <RenderNoPermissionComponent />;
 
-  const roleGranted = hasSufficientRoles(userRoles, authorizedRoles);
-
-  if (!(permissionGranted || roleGranted) && !noPermissionProps) return <RenderNoPermissionComponent />;
-
-  if (!(permissionGranted || roleGranted) && noPermissionProps) return cloneElement(children, { ...noPermissionProps });
+  if (!(permissionGranted && roleGranted) && noPermissionProps) return cloneElement(children, { ...noPermissionProps });
 
   return <>{children}</>;
 };

@@ -47,25 +47,14 @@ function _buildScenarioTabList(tabs, userRoles, classes, t) {
   const tabListComponent = [];
   for (const groupMetadata of tabs) {
     const lockedTab = !hasRequiredProfile(userRoles, groupMetadata.authorizedRoles);
-    if (lockedTab) {
-      if (groupMetadata.showParameterGroupIfNoPermission) {
-        tabListComponent.push(
-          <Tab
-            key={groupMetadata.id}
-            value={groupMetadata.id}
-            data-cy={groupMetadata.id + '_tab'}
-            icon={<LockIcon />}
-            className={classes.tab}
-            label={t(TranslationUtils.getParametersGroupTranslationKey(groupMetadata.id), groupMetadata.id)}
-          />
-        );
-      }
-    } else {
+    const lockIcon = lockedTab ? <LockIcon /> : undefined;
+    if (!lockedTab || groupMetadata.showParameterGroupIfNoPermission) {
       tabListComponent.push(
         <Tab
           key={groupMetadata.id}
           value={groupMetadata.id}
           data-cy={groupMetadata.id + '_tab'}
+          icon={lockIcon}
           className={classes.tab}
           label={t(TranslationUtils.getParametersGroupTranslationKey(groupMetadata.id), groupMetadata.id)}
         />
@@ -80,15 +69,7 @@ function _buildTabPanels(userRoles, tabs, classes) {
   for (let index = 0; index < tabs.length; index++) {
     const groupMetadata = tabs[index];
     const lockedTab = !hasRequiredProfile(userRoles, groupMetadata.authorizedRoles);
-    if (lockedTab) {
-      if (groupMetadata.showParameterGroupIfNoPermission) {
-        tabPanelComponents.push(
-          <TabPanel index={index} key={groupMetadata.id} value={groupMetadata.id} className={classes.tabPanel}>
-            {groupMetadata.tab}
-          </TabPanel>
-        );
-      }
-    } else {
+    if (!lockedTab || groupMetadata.showParameterGroupIfNoPermission) {
       tabPanelComponents.push(
         <TabPanel index={index} key={groupMetadata.id} value={groupMetadata.id} className={classes.tabPanel}>
           {groupMetadata.tab}
