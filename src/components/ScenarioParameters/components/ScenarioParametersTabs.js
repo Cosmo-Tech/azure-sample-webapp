@@ -48,7 +48,7 @@ function _buildScenarioTabList(tabs, userRoles, classes, t) {
   for (const groupMetadata of tabs) {
     const lockedTab = !hasRequiredProfile(userRoles, groupMetadata.authorizedRoles);
     if (lockedTab) {
-      if (groupMetadata?.showParameterGroupIfNoPermission) {
+      if (groupMetadata.showParameterGroupIfNoPermission) {
         tabListComponent.push(
           <Tab
             key={groupMetadata.id}

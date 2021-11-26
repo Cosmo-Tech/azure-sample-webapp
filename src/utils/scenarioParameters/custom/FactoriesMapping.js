@@ -5,5 +5,4 @@
 // See ../generic/FactoriesMapping.js for some examples
 export const CUSTOM_VAR_TYPES_FACTORIES_MAPPING = {
   // myVarType: myInputFactory
-  '%DATASETID-MAP': MyWonderFulFactory,
 };

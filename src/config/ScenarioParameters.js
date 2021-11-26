@@ -7,8 +7,6 @@
 //  - lists of possible values for "enum" parameters
 //  - translation labels
 
-import { APP_ROLES } from './Profiles';
-
 const PARAMETERS = {
   nb_waiters: {
     dataCy: 'waiters-input',
@@ -106,8 +104,6 @@ const PARAMETERS_GROUPS = {
   },
   basic_types: {
     parameters: ['currency', 'currency_name', 'currency_value', 'currency_used', 'start_date'],
-    authorizedRoles: [APP_ROLES.OrganizationViewer],
-    showParameterGroupIfNoPermission: true,
   },
   file_upload: {
     labels: {
