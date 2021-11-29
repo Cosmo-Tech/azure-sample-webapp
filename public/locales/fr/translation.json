@@ -296,6 +296,9 @@
     "text": {
       "scenario": {
         "parameters": {
+          "tabs": {
+            "placeholder": "Ces paramètres sont confidentiels et vous n'avez pas les accès nécessaires pour les voir. Si vous pensez que c'est une erreur, merci de contacter l'administrateur de l'application."
+          },
           "placeholder": "Aucun paramètre à éditer.",
           "title": "Paramètres de scénario"
         }

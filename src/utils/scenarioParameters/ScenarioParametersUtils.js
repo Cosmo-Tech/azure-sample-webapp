@@ -239,14 +239,20 @@ const _patchParametersGroupWithConfig = (parametersGroup, groupId, config) => {
 const _generateParametersGroupMetadata = (groupId, solution, config) => {
   let parametersGroup = _getParametersGroupFromSolution(groupId, solution);
   parametersGroup = _patchParametersGroupWithConfig(parametersGroup, groupId, config);
+
   if (Object.keys(parametersGroup).length === 0) {
     console.warn(`Unknown parameters group "${groupId}"`);
     return undefined;
   }
+  const hideParameterGroupIfNoPermission = parametersGroup?.hideParameterGroupIfNoPermission
+    ? parametersGroup.hideParameterGroupIfNoPermission
+    : false;
   return {
     id: groupId,
     labels: parametersGroup.labels,
     parameters: _generateParametersMetadataForGroup(parametersGroup, solution, config),
+    authorizedRoles: parametersGroup.authorizedRoles || [],
+    hideParameterGroupIfNoPermission: hideParameterGroupIfNoPermission,
   };
 };
 

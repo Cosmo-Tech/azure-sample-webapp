@@ -86,7 +86,7 @@ const ScenarioManager = (props) => {
     <div className={classes.root}>
       <PermissionsGate
         noPermissionProps={{ showDeleteIcon: false }}
-        requiredPermissions={[PERMISSIONS.canDeleteScenario]}
+        authorizedPermissions={[PERMISSIONS.canDeleteScenario]}
       >
         <ScenarioManagerTreeList
           datasets={datasets}

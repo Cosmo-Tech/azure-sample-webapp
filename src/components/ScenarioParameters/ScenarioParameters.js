@@ -47,6 +47,7 @@ const ScenarioParameters = ({
   solution,
   datasets,
   scenarioId,
+  userRoles,
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -239,7 +240,7 @@ const ScenarioParameters = ({
               {t('genericcomponent.text.scenario.parameters.title', 'Scenario parameters')}
             </Typography>
           </Grid>
-          <PermissionsGate requiredPermissions={[PERMISSIONS.canEditOrLaunchScenario]}>
+          <PermissionsGate authorizedPermissions={[PERMISSIONS.canEditOrLaunchScenario]}>
             <Grid item>
               {editMode ? (
                 <EditModeButton
@@ -263,7 +264,7 @@ const ScenarioParameters = ({
       <Grid item className={classes.tabs}>
         {
           <form>
-            <ScenarioParametersTabs parametersGroupsMetadata={parametersGroupsMetadata} />
+            <ScenarioParametersTabs parametersGroupsMetadata={parametersGroupsMetadata} userRoles={userRoles} />
           </form>
         }
       </Grid>
@@ -296,6 +297,7 @@ ScenarioParameters.propTypes = {
   solution: PropTypes.object.isRequired,
   datasets: PropTypes.array.isRequired,
   currentScenario: PropTypes.object.isRequired,
+  userRoles: PropTypes.array.isRequired,
 };
 
 export default ScenarioParameters;

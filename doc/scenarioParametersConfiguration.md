@@ -27,6 +27,9 @@ Your solution description must contain at least these three sets of information 
   - `parameters` fields to list the ids of the parameters that are part of this group
   - `labels`: a dict of labels for this parameter group, the keys of the dict being the code ISO 639-1 of the language,
     and the values being the corresponding label (optional)
+  - `authorizedRoles` : an array of [APP_ROLES](../src/config/Profiles.js) allowed to see the scenario parameters tab(optional). By default, all tabs are visible
+  - `hideParameterGroupIfNoPermission`: a boolean value that indicates, when the connected user has no sufficient roles to see the scenario parameters tab, if tab should be displayed or not (optional). 
+  By default, the scenario parameter tab is visible
 - `runTemplates`: a list of **run template** objects with these properties:
   - `id`
   - `parameterGroups` fields to list the ids of the groups of parameters to be displayed for this run template

@@ -6,6 +6,7 @@
 //  - a default value for each scenario parameter on scenario creation
 //  - lists of possible values for "enum" parameters
 //  - translation labels
+
 const PARAMETERS = {
   nb_waiters: {
     dataCy: 'waiters-input',

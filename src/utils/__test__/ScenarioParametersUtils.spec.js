@@ -158,6 +158,8 @@ describe('generateParametersGroupsMetadata with missing data in solution', () =>
         fr: 'GroupA FR label',
       },
       parameters: [],
+      authorizedRoles: [],
+      hideParameterGroupIfNoPermission: false,
     },
   ];
 
@@ -211,6 +213,8 @@ describe('generateParametersGroupsMetadata with missing data in config', () => {
         fr: 'GroupA FR label',
       },
       parameters: [getParamDataFromStandardSolution('param1')],
+      authorizedRoles: [],
+      hideParameterGroupIfNoPermission: false,
     },
   ];
 
@@ -258,6 +262,8 @@ describe('generateParametersGroupsMetadata with missing data in config', () => {
           fr: 'GroupA FR label',
         },
         parameters: [getParamDataFromStandardSolution('param1')],
+        authorizedRoles: [],
+        hideParameterGroupIfNoPermission: false,
       },
       {
         id: 'groupB',
@@ -266,6 +272,8 @@ describe('generateParametersGroupsMetadata with missing data in config', () => {
           fr: 'GroupB FR label',
         },
         parameters: [getParamDataFromStandardSolution('param2')],
+        authorizedRoles: [],
+        hideParameterGroupIfNoPermission: false,
       },
     ];
     const res = ScenarioParametersUtils.generateParametersGroupsMetadata(solution, config, 'runTemplate2');
@@ -286,6 +294,8 @@ describe('generateParametersGroupsMetadata with missing data in config', () => {
           fr: 'GroupC FR label',
         },
         parameters: [getParamDataFromStandardSolution('param1'), getParamDataFromStandardSolution('param2')],
+        authorizedRoles: [],
+        hideParameterGroupIfNoPermission: false,
       },
     ];
     const res = ScenarioParametersUtils.generateParametersGroupsMetadata(solution, config, 'runTemplate3');
@@ -318,6 +328,8 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
           fr: 'GroupB FR label',
         },
         parameters: [getParamDataFromStandardSolution('param2')],
+        authorizedRoles: [],
+        hideParameterGroupIfNoPermission: false,
       },
     ];
 
@@ -359,6 +371,8 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
           fr: 'New FR label for groupA',
         },
         parameters: [param1Data],
+        authorizedRoles: [],
+        hideParameterGroupIfNoPermission: false,
       },
     ];
 
@@ -385,6 +399,8 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
           fr: 'GroupB FR label',
         },
         parameters: [getParamDataFromStandardSolution('param2')],
+        authorizedRoles: [],
+        hideParameterGroupIfNoPermission: false,
       },
       {
         id: 'groupA',
@@ -393,6 +409,8 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
           fr: 'GroupA FR label',
         },
         parameters: [getParamDataFromStandardSolution('param1')],
+        authorizedRoles: [],
+        hideParameterGroupIfNoPermission: false,
       },
     ];
 
@@ -419,6 +437,177 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
           fr: 'GroupC FR label',
         },
         parameters: [getParamDataFromStandardSolution('param2'), getParamDataFromStandardSolution('param1')],
+        authorizedRoles: [],
+        hideParameterGroupIfNoPermission: false,
+      },
+    ];
+
+    const res = ScenarioParametersUtils.generateParametersGroupsMetadata(solution, config, 'runTemplate3');
+    expect(res).toStrictEqual(expectedGroupsDataForRunTemplate3);
+  });
+
+  test('to add single authorized role on parameters group', () => {
+    const role1 = 'This is a role';
+    const config = {
+      parameters: {},
+      parametersGroups: {
+        groupC: {
+          authorizedRoles: [role1],
+        },
+      },
+      runTemplates: {},
+    };
+
+    const expectedGroupsDataForRunTemplate3 = [
+      {
+        id: 'groupC',
+        labels: {
+          en: 'GroupC EN label',
+          fr: 'GroupC FR label',
+        },
+        parameters: [getParamDataFromStandardSolution('param1'), getParamDataFromStandardSolution('param2')],
+        authorizedRoles: [role1],
+        hideParameterGroupIfNoPermission: false,
+      },
+    ];
+
+    const res = ScenarioParametersUtils.generateParametersGroupsMetadata(solution, config, 'runTemplate3');
+    expect(res).toStrictEqual(expectedGroupsDataForRunTemplate3);
+  });
+
+  test('to add multiple authorized roles on parameters group', () => {
+    const role1 = 'This is a role';
+    const role2 = 'This is another role';
+    const config = {
+      parameters: {},
+      parametersGroups: {
+        groupC: {
+          authorizedRoles: [role1, role2],
+        },
+      },
+      runTemplates: {},
+    };
+
+    const expectedGroupsDataForRunTemplate3 = [
+      {
+        id: 'groupC',
+        labels: {
+          en: 'GroupC EN label',
+          fr: 'GroupC FR label',
+        },
+        parameters: [getParamDataFromStandardSolution('param1'), getParamDataFromStandardSolution('param2')],
+        authorizedRoles: [role1, role2],
+        hideParameterGroupIfNoPermission: false,
+      },
+    ];
+
+    const res = ScenarioParametersUtils.generateParametersGroupsMetadata(solution, config, 'runTemplate3');
+    expect(res).toStrictEqual(expectedGroupsDataForRunTemplate3);
+  });
+
+  test('without specify authorized role on parameters group', () => {
+    const config = {
+      parameters: {},
+      parametersGroups: {},
+      runTemplates: {},
+    };
+
+    const expectedGroupsDataForRunTemplate3 = [
+      {
+        id: 'groupC',
+        labels: {
+          en: 'GroupC EN label',
+          fr: 'GroupC FR label',
+        },
+        parameters: [getParamDataFromStandardSolution('param1'), getParamDataFromStandardSolution('param2')],
+        authorizedRoles: [],
+        hideParameterGroupIfNoPermission: false,
+      },
+    ];
+
+    const res = ScenarioParametersUtils.generateParametersGroupsMetadata(solution, config, 'runTemplate3');
+    expect(res).toStrictEqual(expectedGroupsDataForRunTemplate3);
+  });
+
+  test('to change hideParameterGroupIfNoPermission=true value on parameters group', () => {
+    const role1 = 'This is a role';
+    const config = {
+      parameters: {},
+      parametersGroups: {
+        groupC: {
+          authorizedRoles: [role1],
+          hideParameterGroupIfNoPermission: true,
+        },
+      },
+      runTemplates: {},
+    };
+
+    const expectedGroupsDataForRunTemplate3 = [
+      {
+        id: 'groupC',
+        labels: {
+          en: 'GroupC EN label',
+          fr: 'GroupC FR label',
+        },
+        parameters: [getParamDataFromStandardSolution('param1'), getParamDataFromStandardSolution('param2')],
+        authorizedRoles: [role1],
+        hideParameterGroupIfNoPermission: true,
+      },
+    ];
+
+    const res = ScenarioParametersUtils.generateParametersGroupsMetadata(solution, config, 'runTemplate3');
+    expect(res).toStrictEqual(expectedGroupsDataForRunTemplate3);
+  });
+
+  test('to change hideParameterGroupIfNoPermission=false value on parameters group', () => {
+    const role1 = 'This is a role';
+    const config = {
+      parameters: {},
+      parametersGroups: {
+        groupC: {
+          authorizedRoles: [role1],
+          hideParameterGroupIfNoPermission: false,
+        },
+      },
+      runTemplates: {},
+    };
+
+    const expectedGroupsDataForRunTemplate3 = [
+      {
+        id: 'groupC',
+        labels: {
+          en: 'GroupC EN label',
+          fr: 'GroupC FR label',
+        },
+        parameters: [getParamDataFromStandardSolution('param1'), getParamDataFromStandardSolution('param2')],
+        authorizedRoles: [role1],
+        hideParameterGroupIfNoPermission: false,
+      },
+    ];
+
+    const res = ScenarioParametersUtils.generateParametersGroupsMetadata(solution, config, 'runTemplate3');
+    expect(res).toStrictEqual(expectedGroupsDataForRunTemplate3);
+  });
+
+  test('without specify  hideParameterGroupIfNoPermission value on parameters group', () => {
+    const config = {
+      parameters: {},
+      parametersGroups: {
+        groupC: {},
+      },
+      runTemplates: {},
+    };
+
+    const expectedGroupsDataForRunTemplate3 = [
+      {
+        id: 'groupC',
+        labels: {
+          en: 'GroupC EN label',
+          fr: 'GroupC FR label',
+        },
+        parameters: [getParamDataFromStandardSolution('param1'), getParamDataFromStandardSolution('param2')],
+        authorizedRoles: [],
+        hideParameterGroupIfNoPermission: false,
       },
     ];
 
