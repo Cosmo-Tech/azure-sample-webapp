@@ -48,7 +48,7 @@ function _buildScenarioTabList(tabs, userRoles, classes, t) {
   for (const groupMetadata of tabs) {
     const lockedTab = !hasRequiredProfile(userRoles, groupMetadata.authorizedRoles);
     const lockIcon = lockedTab ? <LockIcon /> : undefined;
-    if (!lockedTab || groupMetadata.showParameterGroupIfNoPermission) {
+    if (!lockedTab || !groupMetadata.hideParameterGroupIfNoPermission) {
       tabListComponent.push(
         <Tab
           key={groupMetadata.id}
@@ -69,7 +69,7 @@ function _buildTabPanels(userRoles, tabs, classes) {
   for (let index = 0; index < tabs.length; index++) {
     const groupMetadata = tabs[index];
     const lockedTab = !hasRequiredProfile(userRoles, groupMetadata.authorizedRoles);
-    if (!lockedTab || groupMetadata.showParameterGroupIfNoPermission) {
+    if (!lockedTab || !groupMetadata.hideParameterGroupIfNoPermission) {
       tabPanelComponents.push(
         <TabPanel index={index} key={groupMetadata.id} value={groupMetadata.id} className={classes.tabPanel}>
           {groupMetadata.tab}
@@ -95,7 +95,7 @@ function chooseParametersTab(parametersGroupsMetadata, userRoles) {
   for (const groupMetadata of parametersGroupsMetadata) {
     if (selectedTabId === '') {
       const canViewTab = hasRequiredProfile(userRoles, groupMetadata.authorizedRoles);
-      if (canViewTab || groupMetadata.showParameterGroupIfNoPermission) {
+      if (canViewTab || !groupMetadata.hideParameterGroupIfNoPermission) {
         return groupMetadata?.id;
       }
     }

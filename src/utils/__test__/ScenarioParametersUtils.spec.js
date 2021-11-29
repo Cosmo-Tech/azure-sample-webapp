@@ -159,7 +159,7 @@ describe('generateParametersGroupsMetadata with missing data in solution', () =>
       },
       parameters: [],
       authorizedRoles: [],
-      showParameterGroupIfNoPermission: false,
+      hideParameterGroupIfNoPermission: false,
     },
   ];
 
@@ -214,7 +214,7 @@ describe('generateParametersGroupsMetadata with missing data in config', () => {
       },
       parameters: [getParamDataFromStandardSolution('param1')],
       authorizedRoles: [],
-      showParameterGroupIfNoPermission: false,
+      hideParameterGroupIfNoPermission: false,
     },
   ];
 
@@ -263,7 +263,7 @@ describe('generateParametersGroupsMetadata with missing data in config', () => {
         },
         parameters: [getParamDataFromStandardSolution('param1')],
         authorizedRoles: [],
-        showParameterGroupIfNoPermission: false,
+        hideParameterGroupIfNoPermission: false,
       },
       {
         id: 'groupB',
@@ -273,7 +273,7 @@ describe('generateParametersGroupsMetadata with missing data in config', () => {
         },
         parameters: [getParamDataFromStandardSolution('param2')],
         authorizedRoles: [],
-        showParameterGroupIfNoPermission: false,
+        hideParameterGroupIfNoPermission: false,
       },
     ];
     const res = ScenarioParametersUtils.generateParametersGroupsMetadata(solution, config, 'runTemplate2');
@@ -295,7 +295,7 @@ describe('generateParametersGroupsMetadata with missing data in config', () => {
         },
         parameters: [getParamDataFromStandardSolution('param1'), getParamDataFromStandardSolution('param2')],
         authorizedRoles: [],
-        showParameterGroupIfNoPermission: false,
+        hideParameterGroupIfNoPermission: false,
       },
     ];
     const res = ScenarioParametersUtils.generateParametersGroupsMetadata(solution, config, 'runTemplate3');
@@ -329,7 +329,7 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
         },
         parameters: [getParamDataFromStandardSolution('param2')],
         authorizedRoles: [],
-        showParameterGroupIfNoPermission: false,
+        hideParameterGroupIfNoPermission: false,
       },
     ];
 
@@ -372,7 +372,7 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
         },
         parameters: [param1Data],
         authorizedRoles: [],
-        showParameterGroupIfNoPermission: false,
+        hideParameterGroupIfNoPermission: false,
       },
     ];
 
@@ -400,7 +400,7 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
         },
         parameters: [getParamDataFromStandardSolution('param2')],
         authorizedRoles: [],
-        showParameterGroupIfNoPermission: false,
+        hideParameterGroupIfNoPermission: false,
       },
       {
         id: 'groupA',
@@ -410,7 +410,7 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
         },
         parameters: [getParamDataFromStandardSolution('param1')],
         authorizedRoles: [],
-        showParameterGroupIfNoPermission: false,
+        hideParameterGroupIfNoPermission: false,
       },
     ];
 
@@ -438,7 +438,7 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
         },
         parameters: [getParamDataFromStandardSolution('param2'), getParamDataFromStandardSolution('param1')],
         authorizedRoles: [],
-        showParameterGroupIfNoPermission: false,
+        hideParameterGroupIfNoPermission: false,
       },
     ];
 
@@ -467,7 +467,7 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
         },
         parameters: [getParamDataFromStandardSolution('param1'), getParamDataFromStandardSolution('param2')],
         authorizedRoles: [role1],
-        showParameterGroupIfNoPermission: false,
+        hideParameterGroupIfNoPermission: false,
       },
     ];
 
@@ -497,7 +497,7 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
         },
         parameters: [getParamDataFromStandardSolution('param1'), getParamDataFromStandardSolution('param2')],
         authorizedRoles: [role1, role2],
-        showParameterGroupIfNoPermission: false,
+        hideParameterGroupIfNoPermission: false,
       },
     ];
 
@@ -521,7 +521,7 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
         },
         parameters: [getParamDataFromStandardSolution('param1'), getParamDataFromStandardSolution('param2')],
         authorizedRoles: [],
-        showParameterGroupIfNoPermission: false,
+        hideParameterGroupIfNoPermission: false,
       },
     ];
 
@@ -529,14 +529,14 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
     expect(res).toStrictEqual(expectedGroupsDataForRunTemplate3);
   });
 
-  test('to change showParameterGroupIfNoPermission=true value on parameters group', () => {
+  test('to change hideParameterGroupIfNoPermission=true value on parameters group', () => {
     const role1 = 'This is a role';
     const config = {
       parameters: {},
       parametersGroups: {
         groupC: {
           authorizedRoles: [role1],
-          showParameterGroupIfNoPermission: true,
+          hideParameterGroupIfNoPermission: true,
         },
       },
       runTemplates: {},
@@ -551,7 +551,7 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
         },
         parameters: [getParamDataFromStandardSolution('param1'), getParamDataFromStandardSolution('param2')],
         authorizedRoles: [role1],
-        showParameterGroupIfNoPermission: true,
+        hideParameterGroupIfNoPermission: true,
       },
     ];
 
@@ -559,14 +559,14 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
     expect(res).toStrictEqual(expectedGroupsDataForRunTemplate3);
   });
 
-  test('to change showParameterGroupIfNoPermission=false value on parameters group', () => {
+  test('to change hideParameterGroupIfNoPermission=false value on parameters group', () => {
     const role1 = 'This is a role';
     const config = {
       parameters: {},
       parametersGroups: {
         groupC: {
           authorizedRoles: [role1],
-          showParameterGroupIfNoPermission: false,
+          hideParameterGroupIfNoPermission: false,
         },
       },
       runTemplates: {},
@@ -581,7 +581,7 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
         },
         parameters: [getParamDataFromStandardSolution('param1'), getParamDataFromStandardSolution('param2')],
         authorizedRoles: [role1],
-        showParameterGroupIfNoPermission: false,
+        hideParameterGroupIfNoPermission: false,
       },
     ];
 
@@ -589,7 +589,7 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
     expect(res).toStrictEqual(expectedGroupsDataForRunTemplate3);
   });
 
-  test('without specify  showParameterGroupIfNoPermission value on parameters group', () => {
+  test('without specify  hideParameterGroupIfNoPermission value on parameters group', () => {
     const config = {
       parameters: {},
       parametersGroups: {
@@ -607,7 +607,7 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
         },
         parameters: [getParamDataFromStandardSolution('param1'), getParamDataFromStandardSolution('param2')],
         authorizedRoles: [],
-        showParameterGroupIfNoPermission: false,
+        hideParameterGroupIfNoPermission: false,
       },
     ];
 
