@@ -238,6 +238,76 @@ const PARAMETERS = {
 };
 ```
 
+### Table parameters
+
+#### Description
+
+The sample webapp provides a component to let users edit a data table, with CSV import and export features.
+
+These "Table" scenario parameters use the same _varType_ as the "File" parameters (`%DATASETID%`) in your YAML solution
+description, but their attributes in the [scenario parameters configurationfile](../src/config/ScenarioParameters.js)
+are slightly different:
+
+- `connectorId`: the connector id to use in the dataset object that will be created with the Cosmo Tech API
+- `description`: the description to use in the dataset object that will be created with the Cosmo Tech API
+- `subType`: set its value to `TABLE` to make use of the _extended var type_ feature
+- `columns`: an array describing the expected columns of the table (see section below "Columns definition")
+- `dateFormat`: a string describing the expected format of dates in the table based on
+  [date-fns format patterns](https://date-fns.org/v2.25.0/docs/parse) (default: 'yyyy-MM-dd')
+
+#### Columns definition
+
+The description of the table columns consists of an array of objects with the following attributes:
+
+- **field** (_mandatory_) name of the column
+- **type** (_optional_) list of options defining the **value type** and **behavior** of the column (only one value type
+  is allowed); authorized options are:
+  - **string** (_value type_), this is the default value type if none is provided
+  - **int** (_value type_)
+  - **number** (_value type_)
+  - **enum** (_value type_)
+  - **bool** (_value type_)
+  - **date** (_value type_)
+  - **nonResizable** (_behavior_)
+  - **nonEditable** (_behavior_)
+  - **nonSortable** (_behavior_)
+- **minValue** (_optional_) minimum value accepted on edition (for column types _int_, _number_ and _date_)\*
+- **maxValue** (_optional_) maximum value accepted on edition (for column types _int_, _number_ and _date_)\*
+- **enumValues** (_optional_) list of known enum values, accepted on edition (for column type _enum_)
+
+\* _minValue_ and _maxValue_ specified for a column with the _date_ type will be provided to the standard JS Date
+constructor, mind the date format (ISO format is recommended)
+
+#### Example
+
+```
+const PARAMETERS = {
+  my_customers_table: {
+    connectorId: 'C-xxxxxxxxxx',
+    description: 'Customers file',
+    subType: 'TABLE',
+    dateFormat: 'dd/MM/yyyy',
+    columns: [
+      { field: 'name', type: ['nonResizable', 'nonEditable', 'nonSortable'] },
+      { field: 'age', type: ['int'], minValue: 0, maxValue: 120 },
+      { field: 'canDrinkAlcohol', type: ['bool'] },
+      {
+        field: 'favoriteDrink',
+        type: ['enum'],
+        enumValues: ['AppleJuice', 'Beer', 'OrangeJuice', 'Wine'],
+      },
+      { field: 'birthday', type: ['date'], minValue: '1900-01-01', maxValue: new Date().toISOString() },
+      { field: 'height', type: ['number'], minValue: 0, maxValue: 2.5 },
+    ],
+  },
+};
+```
+
+#### Notes
+
+- defining several times the same field will result in undefined behavior
+- setting different value types in the `type` attribute will result in undefined behavior
+
 ### Input components metadata for Cypress tests
 
 If you want to add Cypress tests for your solution and test the scenario parameters input components, you can add a
