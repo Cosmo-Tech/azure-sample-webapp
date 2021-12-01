@@ -240,6 +240,7 @@ const create = (t, datasets, parameterMetadata, parametersState, setParametersSt
 
   const csvExportButton = (
     <Button
+      style={{ marginLeft: '16px' }}
       key="export-csv-button"
       data-cy="export-csv-button"
       variant="outlined"
