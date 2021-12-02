@@ -34,19 +34,19 @@ export default {
     main: themeColors.secondary,
   },
   success: {
-    contrastText: themeColors.black,
+    contrastText: themeColors.white,
     main: themeColors.success,
   },
   info: {
-    contrastText: themeColors.black,
+    contrastText: themeColors.white,
     main: themeColors.black,
   },
   warning: {
-    contrastText: themeColors.black,
+    contrastText: themeColors.white,
     main: themeColors.warning,
   },
   error: {
-    contrastText: themeColors.black,
+    contrastText: themeColors.white,
     main: themeColors.error,
   },
   text: {
