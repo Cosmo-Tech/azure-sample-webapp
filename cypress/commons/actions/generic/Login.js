@@ -11,6 +11,7 @@ function getMicrosoftLoginButton() {
 }
 
 function login() {
+  login.reqIndex = login.reqIndex || 1;
   cy.clearLocalStorageSnapshot();
   cy.visit(PAGE_NAME.SCENARIO);
 
@@ -19,9 +20,11 @@ function login() {
     statusCode: 200,
   });
 
-  cy.intercept('GET', URL_REGEX.SCENARIO_PAGE_WITH_ID).as('requestUpdateCurrentScenario');
+  const reqName = `requestLoginGetScenario_${login.reqIndex}`;
+  cy.intercept('GET', URL_REGEX.SCENARIO_PAGE_WITH_ID).as(reqName);
+  ++login.reqIndex;
   Login.getMicrosoftLoginButton().click();
-  cy.wait('@requestUpdateCurrentScenario');
+  cy.wait('@' + reqName);
 
   Scenarios.getScenarioParametersTab().should('be.visible');
   Scenarios.getScenarioView().should('be.visible');
