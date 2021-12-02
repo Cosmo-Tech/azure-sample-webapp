@@ -30,7 +30,7 @@ export default {
     dark: themeColors.primaryVariant,
   },
   secondary: {
-    contrastText: themeColors.black,
+    contrastText: themeColors.white,
     main: themeColors.secondary,
   },
   success: {
@@ -38,7 +38,7 @@ export default {
     main: themeColors.success,
   },
   info: {
-    contrastText: themeColors.white,
+    contrastText: themeColors.black,
     main: themeColors.black,
   },
   warning: {
