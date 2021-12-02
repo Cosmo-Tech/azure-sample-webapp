@@ -95,8 +95,19 @@ function getCustomersImportButton() {
 function getCustomersExportButton() {
   return TableParameters.getCSVExportButton(getCustomersTable());
 }
-function getHeaderCell(colName) {
+function getCustomersTableHeader() {
+  return TableParameters.getHeader(getCustomersTable());
+}
+function getCustomersTableHeaderCell(colName) {
   return TableParameters.getHeaderCell(getCustomersTable(), colName);
+}
+
+function importCustomersTableDataFromCSV(filePath) {
+  return TableParameters.importCSV(getCustomersTable(), filePath);
+}
+
+function exportCustomersTableDataToCSV() {
+  return TableParameters.exportCSV(getCustomersTable());
 }
 
 function getExampleDatasetPart1FileName() {
@@ -189,7 +200,10 @@ export const BreweryParameters = {
   getCustomersTableGrid,
   getCustomersImportButton,
   getCustomersExportButton,
-  getHeaderCell,
+  getCustomersTableHeader,
+  getCustomersTableHeaderCell,
+  importCustomersTableDataFromCSV,
+  exportCustomersTableDataToCSV,
   getStock,
   getRestock,
   getWaiters,
