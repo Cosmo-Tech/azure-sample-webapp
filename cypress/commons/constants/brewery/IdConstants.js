@@ -26,6 +26,10 @@ export const BREWERY_SELECTORS = {
         tabName: '[data-cy=extra_dataset_part_tab]',
         exampleDatasetPart3: '[data-cy=example_dataset_part_3]',
       },
+      customers: {
+        tabName: '[data-cy=customers_tab]',
+        table: '[data-cy=customers_table]',
+      },
     },
   },
 };

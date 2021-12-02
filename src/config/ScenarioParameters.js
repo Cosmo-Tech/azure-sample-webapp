@@ -86,6 +86,25 @@ const PARAMETERS = {
     defaultFileTypeFilter: '.zip,.csv,.json,.xls,.xlsx',
     description: '3rd example of dataset part',
   },
+  customers: {
+    dataCy: 'customers_table',
+    connectorId: 'C-XPv4LBVGAL',
+    description: 'customers data',
+    subType: 'TABLE',
+    dateFormat: 'dd/MM/yyyy',
+    columns: [
+      { field: 'name', type: ['nonResizable', 'nonEditable', 'nonSortable'] },
+      { field: 'age', type: ['int'], minValue: 0, maxValue: 120 },
+      { field: 'canDrinkAlcohol', type: ['bool'] },
+      {
+        field: 'favoriteDrink',
+        type: ['enum'],
+        enumValues: ['AppleJuice', 'Beer', 'OrangeJuice', 'Wine'],
+      },
+      { field: 'birthday', type: ['date'], minValue: '1900-01-01', maxValue: new Date().toISOString() },
+      { field: 'height', type: ['number'], minValue: 0, maxValue: 2.5 },
+    ],
+  },
 };
 
 // Use the PARAMETERS_GROUPS dict below to override or add information to the parameters groups defined in your solution
@@ -126,6 +145,13 @@ const PARAMETERS_GROUPS = {
     },
     parameters: ['example_dataset_part_3'],
   },
+  customers: {
+    labels: {
+      en: 'Customers',
+      fr: 'Clients',
+    },
+    parameters: ['customers'],
+  },
 };
 
 // Use RUN_TEMPLATES dict below to override information of the run templates defined in your solution description, such
@@ -138,7 +164,7 @@ const RUN_TEMPLATES = {
     parameterGroups: ['bar_parameters', 'file_upload'],
   },
   3: {
-    parameterGroups: ['basic_types', 'dataset_parts', 'extra_dataset_part'],
+    parameterGroups: ['basic_types', 'dataset_parts', 'extra_dataset_part', 'customers'],
   },
 };
 

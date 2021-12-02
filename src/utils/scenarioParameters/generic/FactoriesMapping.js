@@ -9,6 +9,7 @@ import {
   BasicTextInputFactory,
   BasicToggleInputFactory,
   UploadFileFactory,
+  TableFactory,
 } from '../factories/inputComponentsFactories';
 
 export const GENERIC_VAR_TYPES_FACTORIES_MAPPING = {
@@ -19,4 +20,5 @@ export const GENERIC_VAR_TYPES_FACTORIES_MAPPING = {
   number: BasicNumberInputFactory,
   string: BasicTextInputFactory,
   [DATASET_ID_VARTYPE]: UploadFileFactory,
+  [DATASET_ID_VARTYPE + '-TABLE']: TableFactory,
 };

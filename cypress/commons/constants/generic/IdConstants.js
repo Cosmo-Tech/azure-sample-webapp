@@ -20,6 +20,7 @@ export const GENERIC_SELECTORS = {
   },
   scenario: {
     view: '[data-cy=scenario-view]',
+    tabName: '[data-cy="tabs.scenariomanager.key"]',
     dashboard: {
       placeholder: '[data-cy=dashboard-placeholder]',
     },
@@ -55,6 +56,13 @@ export const GENERIC_SELECTORS = {
       downloadButton: '[data-cy=download-button]',
       deleteButton: '[data-cy=delete-button]',
       fileName: '[data-cy=file-name]',
+    },
+    table: {
+      label: '[data-cy=label]',
+      grid: '[data-cy=grid]',
+      csvImportButton: '[data-cy=import-csv-button]',
+      csvExportButton: '[data-cy=export-csv-button]',
+      header: '[class=ag-header-viewport]',
     },
     basicEnumInput: {
       input: 'input',

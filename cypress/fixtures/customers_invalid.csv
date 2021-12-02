@@ -1,0 +1,9 @@
+name,age,canDrinkAlcohol,favoriteDrink,birthday,height
+MissingColumns
+Bob,bad_int,false,AppleJuice,01/01/2000,1.70
+Bob,15,bad_bool,AppleJuice,01/01/2000,1.70
+Bob,15,false,bad_enum,01/01/2000,1.70
+Bob,15,false,AppleJuice,bad_date,1.70
+Bob,15,false,AppleJuice,01/01/2000,bad_number
+Bob,bad_int,bad_bool,bad_enum,bad_date,bad_number
+Bob,15,false,AppleJuice,01/01/2000,1.70
