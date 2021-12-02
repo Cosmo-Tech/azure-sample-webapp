@@ -236,6 +236,7 @@ describe('Scenario inheritance for file parameters', () => {
   });
 
   it('can create a scenario, upload a file, create a child scenario, delete the file and run it', () => {
+    Scenarios.switchToScenarioView(); // Required to prevent some kind of race condition somehow
     Scenarios.selectScenario(parentScenarioName, parentScenarioId);
     ScenarioParameters.edit();
     BreweryParameters.switchToDatasetPartsTab();
