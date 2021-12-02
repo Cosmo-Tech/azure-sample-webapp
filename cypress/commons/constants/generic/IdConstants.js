@@ -61,8 +61,13 @@ export const GENERIC_SELECTORS = {
       label: '[data-cy=label]',
       grid: '[data-cy=grid]',
       csvImportButton: '[data-cy=import-csv-button]',
+      csvImportButtonInput: 'input[type=file]',
       csvExportButton: '[data-cy=export-csv-button]',
       header: '[class=ag-header-viewport]',
+      colByName: '[col-id=$COLNAME]',
+      rowsContainer: '[class=ag-center-cols-container]',
+      row: '.ag-row',
+      rowByIndex: '[row-index="$ROWINDEX"]',
     },
     basicEnumInput: {
       input: 'input',

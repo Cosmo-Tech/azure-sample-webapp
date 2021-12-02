@@ -3,6 +3,7 @@
 
 export {
   AppBar,
+  Downloads,
   FileParameters,
   TableParameters,
   ScenarioManager,

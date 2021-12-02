@@ -95,8 +95,36 @@ function getCustomersImportButton() {
 function getCustomersExportButton() {
   return TableParameters.getCSVExportButton(getCustomersTable());
 }
-function getHeaderCell(colName) {
+function getCustomersTableHeader() {
+  return TableParameters.getHeader(getCustomersTable());
+}
+function getCustomersTableHeaderCell(colName) {
   return TableParameters.getHeaderCell(getCustomersTable(), colName);
+}
+
+function getCustomersTableRowsContainer() {
+  return TableParameters.getRowsContainer(getCustomersTable());
+}
+function getCustomersTableRows() {
+  return TableParameters.getRows(getCustomersTable());
+}
+function getCustomersTableRow(rowIndex) {
+  return TableParameters.getRow(getCustomersTable(), rowIndex);
+}
+function getCustomersTableCell(colName, rowIndex) {
+  return TableParameters.getCell(getCustomersTable(), colName, rowIndex);
+}
+
+function importCustomersTableDataFromCSV(filePath) {
+  return TableParameters.importCSV(getCustomersTable(), filePath);
+}
+
+function exportCustomersTableDataToCSV() {
+  return TableParameters.exportCSV(getCustomersTable());
+}
+
+function editCustomersTableStringCell(colName, rowIndex, newValue) {
+  return TableParameters.editStringCell(getCustomersTable, colName, rowIndex, newValue);
 }
 
 function getExampleDatasetPart1FileName() {
@@ -189,7 +217,15 @@ export const BreweryParameters = {
   getCustomersTableGrid,
   getCustomersImportButton,
   getCustomersExportButton,
-  getHeaderCell,
+  getCustomersTableHeader,
+  getCustomersTableHeaderCell,
+  getCustomersTableRowsContainer,
+  getCustomersTableRows,
+  getCustomersTableRow,
+  getCustomersTableCell,
+  importCustomersTableDataFromCSV,
+  exportCustomersTableDataToCSV,
+  editCustomersTableStringCell,
   getStock,
   getRestock,
   getWaiters,
