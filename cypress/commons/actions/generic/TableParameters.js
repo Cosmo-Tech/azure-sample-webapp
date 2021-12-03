@@ -28,7 +28,26 @@ function getHeader(tableParameterElement) {
 }
 
 function getHeaderCell(tableParameterElement, colName) {
-  return getHeader(tableParameterElement).find(`[col-id=${colName}]`);
+  const colSelector = GENERIC_SELECTORS.genericComponents.table.colByName.replace('$COLNAME', colName);
+  return getHeader(tableParameterElement).find(colSelector);
+}
+
+function getRowsContainer(tableParameterElement) {
+  return getGrid(tableParameterElement).find(GENERIC_SELECTORS.genericComponents.table.rowsContainer);
+}
+
+function getRows(tableParameterElement) {
+  return getRowsContainer(tableParameterElement).find(GENERIC_SELECTORS.genericComponents.table.row);
+}
+
+function getRow(tableParameterElement, rowIndex) {
+  const rowSelector = GENERIC_SELECTORS.genericComponents.table.rowByIndex.replace('$ROWINDEX', rowIndex);
+  return getRowsContainer(tableParameterElement).find(rowSelector);
+}
+
+function getCell(tableParameterElement, colName, rowIndex) {
+  const colSelector = GENERIC_SELECTORS.genericComponents.table.colByName.replace('$COLNAME', colName);
+  return getRow(tableParameterElement, rowIndex).find(colSelector);
 }
 
 // Get the "Import CSV" button from the provided table element and upload the file provided by filePath (path must be
@@ -49,6 +68,10 @@ export const TableParameters = {
   getCSVExportButton,
   getHeader,
   getHeaderCell,
+  getRowsContainer,
+  getRows,
+  getRow,
+  getCell,
   importCSV,
   exportCSV,
 };

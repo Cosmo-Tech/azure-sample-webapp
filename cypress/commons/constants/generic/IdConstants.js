@@ -64,6 +64,10 @@ export const GENERIC_SELECTORS = {
       csvImportButtonInput: 'input[type=file]',
       csvExportButton: '[data-cy=export-csv-button]',
       header: '[class=ag-header-viewport]',
+      colByName: '[col-id=$COLNAME]',
+      rowsContainer: '[class=ag-center-cols-container]',
+      row: '.ag-row',
+      rowByIndex: '[row-index="$ROWINDEX"]',
     },
     basicEnumInput: {
       input: 'input',

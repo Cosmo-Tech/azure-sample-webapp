@@ -102,6 +102,19 @@ function getCustomersTableHeaderCell(colName) {
   return TableParameters.getHeaderCell(getCustomersTable(), colName);
 }
 
+function getCustomersTableRowsContainer() {
+  return TableParameters.getRowsContainer(getCustomersTable());
+}
+function getCustomersTableRows() {
+  return TableParameters.getRows(getCustomersTable());
+}
+function getCustomersTableRow(rowIndex) {
+  return TableParameters.getRow(getCustomersTable(), rowIndex);
+}
+function getCustomersTableCell(colName, rowIndex) {
+  return TableParameters.getCell(getCustomersTable(), colName, rowIndex);
+}
+
 function importCustomersTableDataFromCSV(filePath) {
   return TableParameters.importCSV(getCustomersTable(), filePath);
 }
@@ -202,6 +215,10 @@ export const BreweryParameters = {
   getCustomersExportButton,
   getCustomersTableHeader,
   getCustomersTableHeaderCell,
+  getCustomersTableRowsContainer,
+  getCustomersTableRows,
+  getCustomersTableRow,
+  getCustomersTableCell,
   importCustomersTableDataFromCSV,
   exportCustomersTableDataToCSV,
   getStock,
