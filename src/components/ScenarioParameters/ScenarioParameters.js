@@ -221,6 +221,10 @@ const ScenarioParameters = ({
     changeEditMode(false);
   };
 
+  const preventSubmit = (event) => {
+    event.preventDefault();
+  };
+
   const noTabsShown = parametersGroupsMetadata.length === 0;
   const isCurrentScenarioRunning = currentScenario.data.state === SCENARIO_RUN_STATE.RUNNING;
 
@@ -263,7 +267,7 @@ const ScenarioParameters = ({
       </Grid>
       <Grid item className={classes.tabs}>
         {
-          <form>
+          <form onSubmit={preventSubmit}>
             <ScenarioParametersTabs parametersGroupsMetadata={parametersGroupsMetadata} userRoles={userRoles} />
           </form>
         }
