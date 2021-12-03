@@ -123,6 +123,10 @@ function exportCustomersTableDataToCSV() {
   return TableParameters.exportCSV(getCustomersTable());
 }
 
+function editCustomersTableStringCell(colName, rowIndex, newValue) {
+  return TableParameters.editStringCell(getCustomersTable, colName, rowIndex, newValue);
+}
+
 function getExampleDatasetPart1FileName() {
   return FileParameters.getFileName(getExampleDatasetPart1());
 }
@@ -221,6 +225,7 @@ export const BreweryParameters = {
   getCustomersTableCell,
   importCustomersTableDataFromCSV,
   exportCustomersTableDataToCSV,
+  editCustomersTableStringCell,
   getStock,
   getRestock,
   getWaiters,

@@ -60,6 +60,13 @@ function exportCSV(tableParameterElement) {
   getCSVExportButton(tableParameterElement).click();
 }
 
+function editStringCell(getTableElement, colName, rowIndex, newValue) {
+  // Entering and leaving the edition mode cause re-renders of the cell element in the DOM, hence the need for multiple
+  // calls to getCell
+  getCell(getTableElement(), colName, rowIndex).dblclick();
+  return getCell(getTableElement(), colName, rowIndex).type(newValue + '{enter}');
+}
+
 export const TableParameters = {
   getLabel,
   getGrid,
@@ -74,4 +81,5 @@ export const TableParameters = {
   getCell,
   importCSV,
   exportCSV,
+  editStringCell,
 };
