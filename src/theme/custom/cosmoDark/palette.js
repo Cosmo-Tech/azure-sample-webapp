@@ -12,7 +12,7 @@ const themeColors = {
   error: '#D1440C',
   warning: '#FB8C00',
   success: '#87B84E',
-  info: '#bbbbbb',
+  info: '#ffe6c2',
   white: '#FFFFFF',
   black: '#000000',
   grey: '#999A9D',
