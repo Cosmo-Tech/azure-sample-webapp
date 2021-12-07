@@ -16,7 +16,7 @@ application.
   CUMULATED_LOGS)
 - **SUPPORT_URL** is the url (expressed as a string) of the support page that can be get in the help menu symbolysed by a "?".
   If this value is set to null, the item is disabled and not displayed.
-- **DOCUMENTION_URL** is the relative path to the documentation file from the 'public' folder, located at the project's root. _In this example the default doc.pdf file is located directly in the 'public' folder, so the DOCUMENTATION_URL path value is 'doc.pdf'_.
+- **DOCUMENTATION_URL** is the relative path to the documentation file from the 'public' folder, located at the project's root. _In this example the default doc.pdf file is located directly in the 'public' folder, so the DOCUMENTATION_URL path value is 'doc.pdf'_.
   
 ### Additional scenario run parameters  
 - **ADD_SCENARIO_NAME_PARAMETER** send (or not) additional scenario parameter named `ScenarioName` (containing the scenario name) when a scenario is launched (**false** by default)
