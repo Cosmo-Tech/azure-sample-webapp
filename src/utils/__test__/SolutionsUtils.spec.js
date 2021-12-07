@@ -99,6 +99,33 @@ describe('addRunTemplatesParametersIdsDict for a minimal or incomplete solution'
       runTemplatesParametersIdsDict: {},
     });
   });
+
+  test('if a parameters group from run templates is not defined in the solution', () => {
+    const spyConsoleWarn = jest.spyOn(console, 'warn').mockImplementation();
+    const solution = {
+      parameters: [],
+      parameterGroups: [],
+    };
+    const config = {
+      parameters: {},
+      parametersGroups: {},
+      runTemplates: {
+        runTemplate1: {
+          parameterGroups: ['groupA'],
+        },
+      },
+    };
+    SolutionsUtils.addRunTemplatesParametersIdsDict(solution, config);
+    expect(solution).toStrictEqual({
+      parameters: [],
+      parameterGroups: [],
+      runTemplatesParametersIdsDict: {
+        runTemplate1: [],
+      },
+    });
+    expect(spyConsoleWarn).toHaveBeenCalledTimes(1);
+    spyConsoleWarn.mockRestore();
+  });
 });
 
 describe('addRunTemplatesParametersIdsDict for a minimal or incomplete config', () => {

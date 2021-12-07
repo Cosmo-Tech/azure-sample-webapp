@@ -9,7 +9,13 @@ const _getRunTemplateParameters = (groupsOfParameters, runTemplateParametersGrou
   }
   const parameters = [];
   for (const parametersGroupId of runTemplateParametersGroupsIds) {
-    const newParameters = groupsOfParameters[parametersGroupId].parameters || [];
+    if (!groupsOfParameters[parametersGroupId]) {
+      console.warn(
+        `Parameters group "${parametersGroupId}" is referenced in the solution run templates ` +
+          'but it is not defined in the solution parameters groups'
+      );
+    }
+    const newParameters = groupsOfParameters?.[parametersGroupId]?.parameters || [];
     for (const newParameter of newParameters) {
       if (parameters.indexOf(newParameter) === -1) {
         parameters.push(newParameter);
