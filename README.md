@@ -4,7 +4,6 @@
 [![Lint](https://github.com/Cosmo-Tech/azure-sample-webapp/actions/workflows/eslint.yml/badge.svg)](https://github.com/Cosmo-Tech/azure-sample-webapp/actions/workflows/eslint.yml)
 [![Deploy](https://github.com/Cosmo-Tech/azure-sample-webapp/actions/workflows/azure-static-web-apps-nice-wave-0f618f503.yml/badge.svg)](https://github.com/Cosmo-Tech/azure-sample-webapp/actions/workflows/azure-static-web-apps-nice-wave-0f618f503.yml)
 
-
 The **_Azure Sample Webapp_** aims to be an example of a [React](https://reactjs.org/) web application based on the [Cosmo Tech](https://cosmotech.com/) [Simulation Digital Twin Platform](https://portal.cosmotech.com/) and Azure cloud technology.\
 This project demonstrates how to setup a web application with authentication, scenario management features and [PowerBI](https://powerbi.microsoft.com/en-us/) visualization.
 It thus provides a fully configured solution **based on an example simulator** made using our Platform to illustrate the possible features (the example simulator, "Brewery", models customers satisfaction and beer stocks evolution in bars).

@@ -106,7 +106,7 @@ const PARAMETERS = {
         type: ['enum'],
         enumValues: ['Electric Hybrid', 'SeaShip'],
       },
-      { field: 'Distance', type: ['number'], minValue: 0},
+      { field: 'Distance', type: ['number'], minValue: 0 },
       { field: 'Year of application', type: ['int'], minValue: 2021, maxValue: 2030 },
     ],
   },

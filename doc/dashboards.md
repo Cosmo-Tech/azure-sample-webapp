@@ -42,13 +42,16 @@ Everything is available in PowerBI service URL:
   `MyReportURL?reportId=<reportId>&pageName=<pageName>`
 
 ## Report page size recommendation
+
 for Scenario View iframe:
+
 - Select option: View > fit to page
 - Select Format > Page size > Custom
   - Width: 1580 px
   - Height: 350 px
 
 for Dashboard View iframes:
+
 - Select option: View > fit to page
 - Select Format > Page size > Custom
   - Width: 1280 px
