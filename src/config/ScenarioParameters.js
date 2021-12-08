@@ -90,21 +90,24 @@ const PARAMETERS = {
   },
   customers: {
     dataCy: 'customers_table',
+    labels: {
+      en: 'Transport levers',
+      fr: 'Leviers de transport',
+    },
     connectorId: 'C-XPv4LBVGAL',
-    description: 'customers data',
+    description: 'transport lever data',
     subType: 'TABLE',
     dateFormat: 'dd/MM/yyyy',
     columns: [
-      { field: 'name', type: ['nonResizable', 'nonEditable', 'nonSortable'] },
-      { field: 'age', type: ['int'], minValue: 0, maxValue: 120 },
-      { field: 'canDrinkAlcohol', type: ['bool'] },
+      { field: 'lever id', type: ['string'] },
+      { field: 'Number of deliveries', type: ['int'] },
       {
-        field: 'favoriteDrink',
+        field: 'Transport mode',
         type: ['enum'],
-        enumValues: ['AppleJuice', 'Beer', 'OrangeJuice', 'Wine'],
+        enumValues: ['Electric Hybrid', 'SeaShip'],
       },
-      { field: 'birthday', type: ['date'], minValue: '1900-01-01', maxValue: new Date().toISOString() },
-      { field: 'height', type: ['number'], minValue: 0, maxValue: 2.5 },
+      { field: 'Distance', type: ['number'], minValue: 0},
+      { field: 'Year of application', type: ['int'], minValue: 2021, maxValue: 2030 },
     ],
   },
 };
@@ -151,8 +154,8 @@ const PARAMETERS_GROUPS = {
   },
   customers: {
     labels: {
-      en: 'Customers',
-      fr: 'Clients',
+      en: 'Transport levers',
+      fr: 'Leviers de transport',
     },
     parameters: ['customers'],
   },
