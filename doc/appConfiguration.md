@@ -17,8 +17,9 @@ application.
 - **SUPPORT_URL** is the url (expressed as a string) of the support page that can be get in the help menu symbolysed by a "?".
   If this value is set to null, the item is disabled and not displayed.
 - **DOCUMENTATION_URL** is the relative path to the documentation file from the 'public' folder, located at the project's root. _In this example the default doc.pdf file is located directly in the 'public' folder, so the DOCUMENTATION_URL path value is 'doc.pdf'_.
-  
-### Additional scenario run parameters  
+
+### Additional scenario run parameters
+
 - **ADD_SCENARIO_NAME_PARAMETER** send (or not) additional scenario parameter named `ScenarioName` (containing the scenario name) when a scenario is launched (**false** by default)
 - **ADD_SCENARIO_ID_PARAMETER** send (or not) additional scenario parameter named `ScenarioId` (containing the scenario id) when a scenario is launched (**false** by default)
 - **ADD_SCENARIO_PARENT_ID_PARAMETER** send (or not) additional scenario parameter named `ParentId` (containing the scenario parent id of the current scenario) when a scenario is launched (**false** by default, `''` if the scenario has no parent)
@@ -29,10 +30,13 @@ application.
 - **ADD_SCENARIO_MASTER_LAST_RUN_ID_PARAMETER** send (or not) additional scenario parameter named `MasterLastRunId` (containing the last run id for the master of the current scenario) when a scenario is launched (**false** by default, `''` if the master of the current scenario has not been launched yet)
 
 ### Power BI
+
 Parameter to define Power BI usages:
+
 - **USE_POWER_BI_WITH_USER_CREDENTIALS** defines if the information sent to Power BI (mainly for authentication) are based on user credentials or based on a service account
 
 ### Application Insights
 
 Parameter to enable Application Insights in the webapp:
-  - **ENABLE_APPLICATION_INSIGHTS** defines if Application Insights is enabled in WebApp 
+
+- **ENABLE_APPLICATION_INSIGHTS** defines if Application Insights is enabled in WebApp
