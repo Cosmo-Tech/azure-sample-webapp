@@ -18,7 +18,7 @@ const SCENARIO_RUN_TEMPLATE = RUN_TEMPLATE.BASIC_TYPES;
 const VALID_FILE_PATH_EMPTY = 'customers_empty.csv';
 const VALID_FILE_PATH_WITH_SPACES = 'customers_with_spaces.csv';
 const VALID_FILE_PATH = 'customers.csv';
-// const INVALID_FILE_PATH = 'customers_invalid.csv';
+const INVALID_FILE_PATH = 'customers_invalid.csv';
 const COL_NAMES = ['name', 'age', 'canDrinkAlcohol', 'favoriteDrink', 'birthday', 'height'];
 const ENUM_VALUES = ['AppleJuice', 'OrangeJuice', 'Wine', 'Beer'];
 
@@ -44,6 +44,41 @@ describe('Table parameters standard operations', () => {
     for (const scenarioName of scenarioNamesToDelete) {
       ScenarioManager.deleteScenario(scenarioName);
     }
+  });
+
+  it('can import an invalid CSV file and display the errors panel', () => {
+    const scenarioName = forgeScenarioName();
+    scenarioNamesToDelete.push(scenarioName);
+    Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
+    BreweryParameters.switchToCustomersTab();
+    BreweryParameters.getCustomersImportButton().should('be.visible');
+    BreweryParameters.getCustomersExportButton().should('be.visible');
+    BreweryParameters.getCustomersErrorsPanel().should('not.exist');
+
+    ScenarioParameters.edit();
+    BreweryParameters.importCustomersTableDataFromCSV(INVALID_FILE_PATH);
+    BreweryParameters.getCustomersTableLabel().should('be.visible').should('have.text', 'Customers');
+    BreweryParameters.getCustomersErrorsPanel().should('be.visible');
+    BreweryParameters.getCustomersErrorsHeader().should('have.text', 'File load failed. 11 errors occurred:');
+    BreweryParameters.getCustomersErrorsAccordions().should('have.length', 11);
+
+    BreweryParameters.getCustomersErrorSummary(0).should('have.text', 'Missing columns');
+    BreweryParameters.getCustomersErrorSummary(1).should('have.text', 'Incorrect int value');
+    BreweryParameters.getCustomersErrorSummary(2).should('have.text', 'Incorrect bool value');
+    BreweryParameters.getCustomersErrorSummary(3).should('have.text', 'Incorrect enum value');
+    BreweryParameters.getCustomersErrorSummary(4).should('have.text', 'Incorrect date value');
+    BreweryParameters.getCustomersErrorSummary(5).should('have.text', 'Incorrect number value');
+    BreweryParameters.getCustomersErrorSummary(6).should('have.text', 'Incorrect int value');
+    BreweryParameters.getCustomersErrorSummary(7).should('have.text', 'Incorrect bool value');
+    BreweryParameters.getCustomersErrorSummary(8).should('have.text', 'Incorrect enum value');
+    BreweryParameters.getCustomersErrorSummary(9).should('have.text', 'Incorrect date value');
+    BreweryParameters.getCustomersErrorSummary(10).should('have.text', 'Incorrect number value');
+
+    BreweryParameters.getCustomersErrorLoc(0).should('have.text', 'Line 1');
+    BreweryParameters.getCustomersErrorLoc(1).should('have.text', 'Line 2 , Column 1 ("age")');
+
+    ScenarioParameters.discard();
+    BreweryParameters.getCustomersErrorsPanel().should('not.exist');
   });
 
   it('can open the customers scenario parameters tab, and export an empty file', () => {
@@ -301,29 +336,5 @@ describe('Table parameters standard operations', () => {
       .should('have.text', '1')
       .type('{ctrl}z')
       .should('have.text', '0');
-  });
-});
-
-describe('Table parameters errors handling', () => {
-  before(() => {
-    Login.login();
-  });
-
-  beforeEach(() => {
-    Login.relogin();
-  });
-
-  const scenarioNamesToDelete = [];
-  after(() => {
-    Downloads.clearDownloadsFolder();
-    // Delete all tests scenarios
-    ScenarioManager.switchToScenarioManager();
-    for (const scenarioName of scenarioNamesToDelete) {
-      ScenarioManager.deleteScenario(scenarioName);
-    }
-  });
-
-  it('can import an invalid CSV file and display the errors panel', () => {
-    // TBD
   });
 });
