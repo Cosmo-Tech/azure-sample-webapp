@@ -60,6 +60,12 @@ export const GENERIC_SELECTORS = {
     table: {
       label: '[data-cy=label]',
       grid: '[data-cy=grid]',
+      errorsPanel: '[data-cy=errors-panel]',
+      errorsHeader: '[data-cy=errors-header]',
+      errorAccordions: '[data-cy^=error-accordion-]',
+      errorAccordionByIndex: '[data-cy=error-accordion-$ERRORINDEX]',
+      errorSummary: '[data-cy=error-summary]',
+      errorLoc: '[data-cy=error-loc]',
       csvImportButton: '[data-cy=import-csv-button]',
       csvImportButtonInput: 'input[type=file]',
       csvExportButton: '[data-cy=export-csv-button]',
