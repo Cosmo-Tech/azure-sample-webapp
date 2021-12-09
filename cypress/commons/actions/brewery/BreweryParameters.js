@@ -115,6 +115,25 @@ function getCustomersTableCell(colName, rowIndex) {
   return TableParameters.getCell(getCustomersTable(), colName, rowIndex);
 }
 
+function getCustomersErrorsPanel() {
+  return TableParameters.getErrorsPanel(getCustomersTable());
+}
+function getCustomersErrorsHeader() {
+  return TableParameters.getErrorsHeader(getCustomersTable());
+}
+function getCustomersErrorsAccordions() {
+  return TableParameters.getErrorsAccordions(getCustomersTable());
+}
+function getCustomersErrorAccordion(errorIndex) {
+  return TableParameters.getErrorAccordion(getCustomersTable(), errorIndex);
+}
+function getCustomersErrorSummary(errorIndex) {
+  return TableParameters.getErrorSummary(getCustomersTable(), errorIndex);
+}
+function getCustomersErrorLoc(errorIndex) {
+  return TableParameters.getErrorLoc(getCustomersTable(), errorIndex);
+}
+
 function importCustomersTableDataFromCSV(filePath) {
   return TableParameters.importCSV(getCustomersTable(), filePath);
 }
@@ -223,6 +242,12 @@ export const BreweryParameters = {
   getCustomersTableRows,
   getCustomersTableRow,
   getCustomersTableCell,
+  getCustomersErrorsPanel,
+  getCustomersErrorsHeader,
+  getCustomersErrorsAccordions,
+  getCustomersErrorAccordion,
+  getCustomersErrorSummary,
+  getCustomersErrorLoc,
   importCustomersTableDataFromCSV,
   exportCustomersTableDataToCSV,
   editCustomersTableStringCell,

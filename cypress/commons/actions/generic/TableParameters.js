@@ -11,6 +11,36 @@ function getGrid(tableParameterElement) {
   return tableParameterElement.find(GENERIC_SELECTORS.genericComponents.table.grid);
 }
 
+function getErrorsPanel(tableParameterElement) {
+  return tableParameterElement.find(GENERIC_SELECTORS.genericComponents.table.errorsPanel);
+}
+
+function getErrorsHeader(tableParameterElement) {
+  return tableParameterElement.find(GENERIC_SELECTORS.genericComponents.table.errorsHeader);
+}
+
+function getErrorsAccordions(tableParameterElement) {
+  return tableParameterElement.find(GENERIC_SELECTORS.genericComponents.table.errorAccordions);
+}
+
+function getErrorAccordion(tableParameterElement, errorIndex) {
+  const errorSelector = GENERIC_SELECTORS.genericComponents.table.errorAccordionByIndex.replace(
+    '$ERRORINDEX',
+    errorIndex
+  );
+  return tableParameterElement.find(errorSelector);
+}
+
+function getErrorSummary(tableParameterElement, errorIndex) {
+  return getErrorAccordion(tableParameterElement, errorIndex).find(
+    GENERIC_SELECTORS.genericComponents.table.errorSummary
+  );
+}
+
+function getErrorLoc(tableParameterElement, errorIndex) {
+  return getErrorAccordion(tableParameterElement, errorIndex).find(GENERIC_SELECTORS.genericComponents.table.errorLoc);
+}
+
 function getCSVImportButton(tableParameterElement) {
   return tableParameterElement.find(GENERIC_SELECTORS.genericComponents.table.csvImportButton);
 }
@@ -70,6 +100,12 @@ function editStringCell(getTableElement, colName, rowIndex, newValue) {
 export const TableParameters = {
   getLabel,
   getGrid,
+  getErrorsPanel,
+  getErrorsHeader,
+  getErrorsAccordions,
+  getErrorAccordion,
+  getErrorSummary,
+  getErrorLoc,
   getCSVImportButton,
   getCSVImportButtonInput,
   getCSVExportButton,
