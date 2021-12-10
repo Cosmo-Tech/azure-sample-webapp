@@ -95,8 +95,55 @@ function getCustomersImportButton() {
 function getCustomersExportButton() {
   return TableParameters.getCSVExportButton(getCustomersTable());
 }
-function getHeaderCell(colName) {
+function getCustomersTableHeader() {
+  return TableParameters.getHeader(getCustomersTable());
+}
+function getCustomersTableHeaderCell(colName) {
   return TableParameters.getHeaderCell(getCustomersTable(), colName);
+}
+
+function getCustomersTableRowsContainer() {
+  return TableParameters.getRowsContainer(getCustomersTable());
+}
+function getCustomersTableRows() {
+  return TableParameters.getRows(getCustomersTable());
+}
+function getCustomersTableRow(rowIndex) {
+  return TableParameters.getRow(getCustomersTable(), rowIndex);
+}
+function getCustomersTableCell(colName, rowIndex) {
+  return TableParameters.getCell(getCustomersTable(), colName, rowIndex);
+}
+
+function getCustomersErrorsPanel() {
+  return TableParameters.getErrorsPanel(getCustomersTable());
+}
+function getCustomersErrorsHeader() {
+  return TableParameters.getErrorsHeader(getCustomersTable());
+}
+function getCustomersErrorsAccordions() {
+  return TableParameters.getErrorsAccordions(getCustomersTable());
+}
+function getCustomersErrorAccordion(errorIndex) {
+  return TableParameters.getErrorAccordion(getCustomersTable(), errorIndex);
+}
+function getCustomersErrorSummary(errorIndex) {
+  return TableParameters.getErrorSummary(getCustomersTable(), errorIndex);
+}
+function getCustomersErrorLoc(errorIndex) {
+  return TableParameters.getErrorLoc(getCustomersTable(), errorIndex);
+}
+
+function importCustomersTableDataFromCSV(filePath) {
+  return TableParameters.importCSV(getCustomersTable(), filePath);
+}
+
+function exportCustomersTableDataToCSV() {
+  return TableParameters.exportCSV(getCustomersTable());
+}
+
+function editCustomersTableStringCell(colName, rowIndex, newValue) {
+  return TableParameters.editStringCell(getCustomersTable, colName, rowIndex, newValue);
 }
 
 function getExampleDatasetPart1FileName() {
@@ -189,7 +236,21 @@ export const BreweryParameters = {
   getCustomersTableGrid,
   getCustomersImportButton,
   getCustomersExportButton,
-  getHeaderCell,
+  getCustomersTableHeader,
+  getCustomersTableHeaderCell,
+  getCustomersTableRowsContainer,
+  getCustomersTableRows,
+  getCustomersTableRow,
+  getCustomersTableCell,
+  getCustomersErrorsPanel,
+  getCustomersErrorsHeader,
+  getCustomersErrorsAccordions,
+  getCustomersErrorAccordion,
+  getCustomersErrorSummary,
+  getCustomersErrorLoc,
+  importCustomersTableDataFromCSV,
+  exportCustomersTableDataToCSV,
+  editCustomersTableStringCell,
   getStock,
   getRestock,
   getWaiters,
