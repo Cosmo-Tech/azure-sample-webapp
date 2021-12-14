@@ -7,7 +7,7 @@ import utils from '../../commons/TestUtils';
 import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
 import { Downloads, Login, Scenarios, ScenarioManager, ScenarioParameters } from '../../commons/actions';
 import { BreweryParameters } from '../../commons/actions/brewery';
-import { EXPECTED_CUSTOMERS_BASIC_EDITION } from '../fixtures/TableParametersData';
+import { EXPECTED_CUSTOMERS_BASIC_EDITION } from '../../fixtures/TableParametersData';
 
 Cypress.Keyboard.defaults({
   keystrokeDelay: 0,
