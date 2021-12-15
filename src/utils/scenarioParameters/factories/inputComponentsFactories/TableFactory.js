@@ -171,7 +171,7 @@ const create = (t, datasets, parameterMetadata, parametersState, setParametersSt
   };
 
   const exportCSV = (event) => {
-    const fileName = parameter.name || parameterId.concat('.csv');
+    const fileName = parameterId.concat('.csv');
     const fileContent = AgGridUtils.toCSV(parameter.agGridRows, columns, options);
     FileBlobUtils.downloadFileFromData(fileContent, fileName);
   };
