@@ -71,7 +71,7 @@ function getCurrencyValueInput() {
 
 // Get file parameters elements & buttons
 function getExampleDatasetPart1() {
-  return cy.get(BREWERY_SELECTORS.scenario.parameters.datasetParts.exampleDatasetPart1);
+  return cy.get(BREWERY_SELECTORS.scenario.parameters.datasetParts.exampleDatasetPart1, { timeout: 10000 });
 }
 function getExampleDatasetPart2() {
   return cy.get(BREWERY_SELECTORS.scenario.parameters.datasetParts.exampleDatasetPart2);

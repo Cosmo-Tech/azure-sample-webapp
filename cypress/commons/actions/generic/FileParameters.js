@@ -10,7 +10,7 @@ function upload(fileParameterElement, filePath) {
 }
 
 function getDownloadButton(fileParameterElement) {
-  return fileParameterElement.find(GENERIC_SELECTORS.genericComponents.uploadFile.downloadButton);
+  return fileParameterElement.find(GENERIC_SELECTORS.genericComponents.uploadFile.downloadButton, { timeout: 10000 });
 }
 
 function getDeleteButton(fileParameterElement) {
@@ -18,7 +18,7 @@ function getDeleteButton(fileParameterElement) {
 }
 
 function getFileName(fileParameterElement) {
-  return fileParameterElement.find(GENERIC_SELECTORS.genericComponents.uploadFile.fileName);
+  return fileParameterElement.find(GENERIC_SELECTORS.genericComponents.uploadFile.fileName, { timeout: 10000 });
 }
 
 function download(fileParameterElement) {
