@@ -96,9 +96,10 @@ describe('Simple operations on a file parameter', () => {
   });
 
   it('can delete an uploaded file and run the scenario', () => {
-    cy.wait(5000); // Required to prevent some kind of race condition somehow
+    // Wait required to prevent some kind of race condition somehow
+    cy.wait(5000); // eslint-disable-line cypress/no-unnecessary-waiting
     Scenarios.selectScenario(firstScenarioName, firstScenarioId);
-    cy.wait(5000);
+    cy.wait(5000); // eslint-disable-line cypress/no-unnecessary-waiting
     ScenarioParameters.edit(120);
     BreweryParameters.switchToDatasetPartsTab();
     BreweryParameters.getExampleDatasetPart1DownloadButton().should('have.text', FILE_PATH_1);
@@ -175,9 +176,10 @@ describe('Simple operations on a file parameter in a parameters tab that lost fo
   });
 
   it('can delete an uploaded file and run the scenario', () => {
-    cy.wait(5000); // Required to prevent some kind of race condition somehow
+    // Wait required to prevent some kind of race condition somehow
+    cy.wait(5000); // eslint-disable-line cypress/no-unnecessary-waiting
     Scenarios.selectScenario(firstScenarioName, firstScenarioId);
-    cy.wait(5000);
+    cy.wait(5000); // eslint-disable-line cypress/no-unnecessary-waiting
     BreweryParameters.switchToBasicTypesTab();
     ScenarioParameters.edit(120);
     BreweryParameters.switchToExtraDatasetPartTab();
@@ -239,9 +241,10 @@ describe('Scenario inheritance for file parameters', () => {
   });
 
   it('can create a scenario, upload a file, create a child scenario, delete the file and run it', () => {
-    cy.wait(5000); // Required to prevent some kind of race condition somehow
+    // Wait required to prevent some kind of race condition somehow
+    cy.wait(5000); // eslint-disable-line cypress/no-unnecessary-waiting
     Scenarios.selectScenario(parentScenarioName, parentScenarioId);
-    cy.wait(5000);
+    cy.wait(5000); // eslint-disable-line cypress/no-unnecessary-waiting
     ScenarioParameters.edit();
     BreweryParameters.switchToDatasetPartsTab();
     BreweryParameters.getExampleDatasetPart1DownloadButton().should('have.text', FILE_PATH_1);
