@@ -5,6 +5,7 @@ import React from 'react';
 import rfdc from 'rfdc';
 import { Table, TABLE_DATA_STATUS, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
 import { AgGridUtils, FileBlobUtils } from '@cosmotech/core';
+import theme from '../../../../theme';
 import { Button } from '@material-ui/core';
 import { FileManagementUtils } from '../../../../components/ScenarioParameters/FileManagementUtils';
 
@@ -264,6 +265,7 @@ const create = (t, datasets, parameterMetadata, parametersState, setParametersSt
       errors={parameter.errors}
       columns={columns}
       rows={parameter.agGridRows || []}
+      agTheme={theme.grid.agTheme}
       extraToolbarActions={extraToolbarActions}
       onCellChange={onCellChange}
       onClearErrors={onClearErrors}

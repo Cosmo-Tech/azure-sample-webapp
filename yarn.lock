@@ -1402,10 +1402,10 @@
     prettier "^2.4.1"
     validator "^13.7.0"
 
-"@cosmotech/ui@^1.1.5":
-  version "1.1.6"
-  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-1.1.6.tgz#ccc75113481efddc4c468c9c1d02783f69bd81bf"
-  integrity sha512-D046mxSVDIsklmDOJ+b+vaMWHSfjRG94lsPap62yyndfNji2lLaWBxe7mz+80uhsfAs5/pfcN3L1u07Kyvkoxw==
+"@cosmotech/ui@^1.1.7":
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-1.1.7.tgz#37773b2f6bd808305c631951f12425c8e6697d34"
+  integrity sha512-8tDxgxS5Z2ETCr3afy7nUm7nQ4VdyAZnpSSlozkZ/2LfXgLswR9jjX3gVrqtzN+9k/XeSa07cZXCW3If+dmXiQ==
   dependencies:
     "@date-io/date-fns" "^1.3.13"
     "@material-ui/pickers" "^3.3.10"

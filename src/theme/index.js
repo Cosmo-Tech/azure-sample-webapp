@@ -10,7 +10,7 @@ import {
   unstable_createMuiStrictModeTheme,
 } from '@material-ui/core';
 
-import { palette, typography, picture } from './custom';
+import { palette, typography, picture, grid } from './custom';
 import overrides from './overrides';
 
 // REMOVE THIS WHEN USING MATERIAL UI v5.0
@@ -23,6 +23,7 @@ const theme = createTheme({
   palette,
   typography,
   picture,
+  grid,
   overrides,
   zIndex: {
     appBar: 1200,
