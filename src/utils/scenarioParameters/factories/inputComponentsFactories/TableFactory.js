@@ -13,8 +13,12 @@ const clone = rfdc();
 
 const DEFAULT_DATE_FORMAT = 'yyyy-MM-dd';
 
-const _generateGridData = (fileContent, parameterMetadata, options) => {
+const _generateGridDataFromCSV = (fileContent, parameterMetadata, options) => {
   return AgGridUtils.fromCSV(fileContent, parameterMetadata.hasHeader || true, parameterMetadata.columns, options);
+};
+
+const _generateGridDataFromXLSX = async (fileBlob, parameterMetadata, options) => {
+  return await AgGridUtils.fromXLSX(fileBlob, parameterMetadata.hasHeader || true, parameterMetadata.columns, options);
 };
 
 const create = (t, datasets, parameterMetadata, parametersState, setParametersState, editMode) => {
@@ -46,7 +50,7 @@ const create = (t, datasets, parameterMetadata, parametersState, setParametersSt
     });
   };
 
-  const _downloadFileContent = async (datasets, clientFileDescriptor, setClientFileDescriptor) => {
+  const _downloadDatasetFileContentFromStorage = async (datasets, clientFileDescriptor, setClientFileDescriptor) => {
     if (typeof create.downloadLocked === 'undefined') {
       create.downloadLocked = false;
     } else if (create.downloadLocked) {
@@ -69,7 +73,7 @@ const create = (t, datasets, parameterMetadata, parametersState, setParametersSt
     if (data) {
       const fileName = clientFileDescriptor.name;
       const finalStatus = UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD;
-      _parseFileContent(data, fileName, clientFileDescriptor, setClientFileDescriptor, finalStatus);
+      _parseCSVFileContent(data, fileName, clientFileDescriptor, setClientFileDescriptor, finalStatus);
     } else {
       setClientFileDescriptor({
         ...clientFileDescriptor,
@@ -85,7 +89,7 @@ const create = (t, datasets, parameterMetadata, parametersState, setParametersSt
     create.downloadLocked = false;
   };
 
-  const _parseFileContent = (
+  const _parseCSVFileContent = (
     fileContent,
     fileName,
     clientFileDescriptor,
@@ -104,7 +108,7 @@ const create = (t, datasets, parameterMetadata, parametersState, setParametersSt
       tableDataStatus: TABLE_DATA_STATUS.PARSING,
     });
 
-    const agGridData = _generateGridData(fileContent, parameterMetadata, options);
+    const agGridData = _generateGridDataFromCSV(fileContent, parameterMetadata, options);
     if (agGridData.error) {
       if (clientFileDescriptorRestoreValue) {
         setClientFileDescriptor({
@@ -132,7 +136,12 @@ const create = (t, datasets, parameterMetadata, parametersState, setParametersSt
     }
   };
 
-  const uploadFileContent = (file, clientFileDescriptor, setClientFileDescriptor, clientFileDescriptorRestoreValue) => {
+  const _readAndParseCSVFile = (
+    file,
+    clientFileDescriptor,
+    setClientFileDescriptor,
+    clientFileDescriptorRestoreValue
+  ) => {
     if (!file) {
       return;
     }
@@ -151,7 +160,7 @@ const create = (t, datasets, parameterMetadata, parametersState, setParametersSt
     reader.onload = function (event) {
       const fileContent = event.target.result;
       const finalStatus = UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD;
-      _parseFileContent(
+      _parseCSVFileContent(
         fileContent,
         file.name,
         clientFileDescriptor,
@@ -164,11 +173,70 @@ const create = (t, datasets, parameterMetadata, parametersState, setParametersSt
     reader.readAsText(file);
   };
 
-  const importCSV = (event) => {
+  const _readAndParseXLSXFile = async (
+    file,
+    clientFileDescriptor,
+    setClientFileDescriptor,
+    clientFileDescriptorRestoreValue
+  ) => {
+    if (!file) {
+      return;
+    }
+
+    setClientFileDescriptor({
+      ...clientFileDescriptor,
+      agGridRows: null,
+      name: file.name,
+      file: file,
+      content: null,
+      errors: null,
+      status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD,
+      tableDataStatus: TABLE_DATA_STATUS.PARSING,
+    });
+
+    const agGridData = await _generateGridDataFromXLSX(file, parameterMetadata, options);
+    if (agGridData.error) {
+      if (clientFileDescriptorRestoreValue) {
+        setClientFileDescriptor({
+          ...clientFileDescriptorRestoreValue,
+          errors: agGridData.error,
+        });
+      } else {
+        setClientFileDescriptor({
+          ...clientFileDescriptor,
+          errors: agGridData.error,
+          tableDataStatus: TABLE_DATA_STATUS.ERROR,
+        });
+      }
+    } else {
+      const newFileContent = AgGridUtils.toCSV(agGridData.rows, parameterMetadata.columns, options);
+      setClientFileDescriptor({
+        ...clientFileDescriptor,
+        agGridRows: agGridData.rows,
+        name: file.name,
+        file: null,
+        content: newFileContent,
+        errors: agGridData.error,
+        status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD,
+        tableDataStatus: TABLE_DATA_STATUS.READY,
+      });
+    }
+  };
+
+  const importFile = (event) => {
     // TODO: ask confirmation if data already exist
     const previousFileBackup = clone(parameter);
     const file = FileManagementUtils.prepareToUpload(event, parameter, setParameterInState);
-    uploadFileContent(file, parameter, setParameterInState, previousFileBackup);
+    if (file.name.endsWith('.csv')) {
+      _readAndParseCSVFile(file, parameter, setParameterInState, previousFileBackup);
+    } else if (file.name.endsWith('.xlsx')) {
+      _readAndParseXLSXFile(file, parameter, setParameterInState, previousFileBackup);
+    } else {
+      setParameterInState({
+        ...parameter,
+        errors: [{ summary: 'Unknown file type, please provide a CSV or XLSX file.', loc: file.name }],
+      });
+    }
   };
 
   const exportCSV = (event) => {
@@ -222,20 +290,20 @@ const create = (t, datasets, parameterMetadata, parametersState, setParametersSt
     parameter.status === UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD &&
     !alreadyDownloaded
   ) {
-    _downloadFileContent(datasets, parameter, setParameterInState);
+    _downloadDatasetFileContentFromStorage(datasets, parameter, setParameterInState);
   }
 
   const csvImportButton = (
     <Button
-      key="import-csv-button"
-      data-cy="import-csv-button"
+      key="import-file-button"
+      data-cy="import-file-button"
       disabled={!editMode}
       variant="outlined"
       component="label"
-      onChange={importCSV}
+      onChange={importFile}
     >
-      {t('genericcomponent.table.button.csvImport')}
-      <input type="file" accept=".csv" hidden />
+      {t('genericcomponent.table.button.fileImport')}
+      <input type="file" accept=".csv, .xlsx" hidden />
     </Button>
   );
 

@@ -90,9 +90,9 @@ function getCustomersTableGrid() {
   return TableParameters.getGrid(getCustomersTable());
 }
 function getCustomersImportButton() {
-  return TableParameters.getCSVImportButton(getCustomersTable());
+  return TableParameters.getImportButton(getCustomersTable());
 }
-function getCustomersExportButton() {
+function getCustomersCSVExportButton() {
   return TableParameters.getCSVExportButton(getCustomersTable());
 }
 function getCustomersTableHeader() {
@@ -134,8 +134,8 @@ function getCustomersErrorLoc(errorIndex) {
   return TableParameters.getErrorLoc(getCustomersTable(), errorIndex);
 }
 
-function importCustomersTableDataFromCSV(filePath) {
-  return TableParameters.importCSV(getCustomersTable(), filePath);
+function importCustomersTableData(filePath) {
+  return TableParameters.importFile(getCustomersTable(), filePath);
 }
 
 function exportCustomersTableDataToCSV() {
@@ -235,7 +235,7 @@ export const BreweryParameters = {
   getCustomersTableLabel,
   getCustomersTableGrid,
   getCustomersImportButton,
-  getCustomersExportButton,
+  getCustomersCSVExportButton,
   getCustomersTableHeader,
   getCustomersTableHeaderCell,
   getCustomersTableRowsContainer,
@@ -248,7 +248,7 @@ export const BreweryParameters = {
   getCustomersErrorAccordion,
   getCustomersErrorSummary,
   getCustomersErrorLoc,
-  importCustomersTableDataFromCSV,
+  importCustomersTableData,
   exportCustomersTableDataToCSV,
   editCustomersTableStringCell,
   getStock,

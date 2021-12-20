@@ -307,7 +307,7 @@
     "table": {
       "button": {
         "clearErrors": "Effacer",
-        "csvImport": "Importer un CSV",
+        "fileImport": "Importer un fichier",
         "csvExport": "Exporter en CSV"
       },
       "labels": {
