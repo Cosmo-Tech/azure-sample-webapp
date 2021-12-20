@@ -51,7 +51,7 @@ const create = (t, datasets, parameterMetadata, parametersState, setParametersSt
   };
 
   const _downloadDatasetFileContentFromStorage = async (datasets, clientFileDescriptor, setClientFileDescriptor) => {
-    if (typeof create.downloadLocked === 'undefined') {
+    if (create.downloadLocked === undefined) {
       create.downloadLocked = false;
     } else if (create.downloadLocked) {
       return;
