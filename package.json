@@ -39,6 +39,7 @@
     "validate.js": "^0.13.1"
   },
   "scripts": {
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
     "start": "cross-env ESLINT_NO_DEV_ERRORS=true react-scripts start",
     "build": "cross-env DISABLE_ESLINT_PLUGIN=true react-scripts build",
     "test": "react-scripts test --watchAll=false",
