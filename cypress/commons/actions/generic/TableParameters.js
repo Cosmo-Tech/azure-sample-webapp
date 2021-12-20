@@ -41,12 +41,12 @@ function getErrorLoc(tableParameterElement, errorIndex) {
   return getErrorAccordion(tableParameterElement, errorIndex).find(GENERIC_SELECTORS.genericComponents.table.errorLoc);
 }
 
-function getImportButton(tableParameterElement) {
-  return tableParameterElement.find(GENERIC_SELECTORS.genericComponents.table.importButton);
+function getCSVImportButton(tableParameterElement) {
+  return tableParameterElement.find(GENERIC_SELECTORS.genericComponents.table.csvImportButton);
 }
 
-function getImportButtonInput(tableParameterElement) {
-  return getImportButton(tableParameterElement).find(GENERIC_SELECTORS.genericComponents.table.importButtonInput);
+function getCSVImportButtonInput(tableParameterElement) {
+  return tableParameterElement.find(GENERIC_SELECTORS.genericComponents.table.csvImportButtonInput);
 }
 
 function getCSVExportButton(tableParameterElement) {
@@ -80,10 +80,10 @@ function getCell(tableParameterElement, colName, rowIndex) {
   return getRow(tableParameterElement, rowIndex).find(colSelector);
 }
 
-// Get the "Import File" button from the provided table element and upload the file provided by filePath
-// (path must be relative to the cypress "fixtures" folder)
-function importFile(tableParameterElement, filePath) {
-  getImportButtonInput(tableParameterElement).attachFile(filePath);
+// Get the "Import CSV" button from the provided table element and upload the file provided by filePath (path must be
+// relative to the cypress "fixtures" folder)
+function importCSV(tableParameterElement, filePath) {
+  getCSVImportButtonInput(tableParameterElement).attachFile(filePath);
 }
 
 function exportCSV(tableParameterElement) {
@@ -106,8 +106,8 @@ export const TableParameters = {
   getErrorAccordion,
   getErrorSummary,
   getErrorLoc,
-  getImportButton,
-  getImportButtonInput,
+  getCSVImportButton,
+  getCSVImportButtonInput,
   getCSVExportButton,
   getHeader,
   getHeaderCell,
@@ -115,7 +115,7 @@ export const TableParameters = {
   getRows,
   getRow,
   getCell,
-  importFile,
+  importCSV,
   exportCSV,
   editStringCell,
 };
