@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-export const CONNECTOR_VERSION_AZURE_STORAGE = '1.1.0';
+export const CONNECTOR_VERSION_AZURE_STORAGE = '1.1.1';
 export const CONNECTOR_NAME_AZURE_STORAGE = 'Azure Storage Connector';
 export const CONNECTOR_NAME_ADT = 'ADT Connector';
 export const DATASET_ID_VARTYPE = '%DATASETID%';
