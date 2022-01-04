@@ -3,6 +3,6 @@
 
 // Set here the logo and the login wallpaper url
 export default {
-  logo: 'theme/cosmotechLight.png',
+  logo: 'theme/cosmotechDark.png',
   auth: 'theme/authLight.png',
 };
