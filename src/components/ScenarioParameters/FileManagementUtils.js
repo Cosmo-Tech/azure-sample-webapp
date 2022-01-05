@@ -133,7 +133,7 @@ async function _applyDatasetChange(
   parameterValue,
   addDatasetToStore
 ) {
-  const fileStatus = clientFileDescriptor.status;
+  const fileStatus = clientFileDescriptor?.status;
   if (fileStatus === UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD) {
     return await _processFileUpload(
       parameterMetadata,
