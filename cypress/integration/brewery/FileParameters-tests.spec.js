@@ -4,7 +4,12 @@
 import 'cypress-file-upload';
 import utils from '../../commons/TestUtils';
 
-import { SCENARIO_NAME, DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
+import {
+  BASIC_PARAMETERS_CONST,
+  SCENARIO_NAME,
+  DATASET,
+  RUN_TEMPLATE,
+} from '../../commons/constants/brewery/TestConstants';
 import { Scenarios, ScenarioManager, ScenarioParameters, Login } from '../../commons/actions';
 import { BreweryParameters } from '../../commons/actions/brewery';
 
@@ -42,16 +47,31 @@ describe('Simple operations on a file parameter', () => {
   let firstScenarioName;
   let firstScenarioId;
   it('can upload a file and run the scenario', () => {
+    const currencySymbol = utils.randomEnum(BASIC_PARAMETERS_CONST.ENUM);
+    const currencyName = utils.randomStr(8);
+    const currencyValue = utils.randomNmbr(BASIC_PARAMETERS_CONST.NUMBER.MIN, BASIC_PARAMETERS_CONST.NUMBER.MAX);
     firstScenarioName = forgeScenarioName();
     scenarioNamesToDelete.push(firstScenarioName);
     Scenarios.createScenario(firstScenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE).then((value) => {
       firstScenarioId = value.scenarioCreatedId;
     });
+
     ScenarioParameters.edit();
+    BreweryParameters.switchToBasicTypesTab();
+    BreweryParameters.getCurrencyNameInput().click().clear().type(currencyName);
+    BreweryParameters.getCurrencyValueInput().click().clear().type(currencyValue);
+    BreweryParameters.getCurrencyTextField().type(currencySymbol + ' {enter}');
     BreweryParameters.switchToDatasetPartsTab();
     BreweryParameters.uploadExampleDatasetPart1(FILE_PATH_1);
+
     ScenarioParameters.updateAndLaunch();
     BreweryParameters.getExampleDatasetPart1DownloadButton().should('have.text', FILE_PATH_1);
+    BreweryParameters.switchToBasicTypesTab();
+    BreweryParameters.getCurrencyNameInput().should('value', currencyName);
+    BreweryParameters.getCurrencyValueInput().should('value', currencyValue);
+    ScenarioParameters.getInputValue(BreweryParameters.getCurrencyInput()).then((value) => {
+      expect(BASIC_PARAMETERS_CONST.ENUM[value], currencySymbol);
+    });
   });
 
   it('can upload a file, delete it and run the scenario', () => {
