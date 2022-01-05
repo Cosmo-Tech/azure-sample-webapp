@@ -101,33 +101,38 @@ const ScenarioParameters = ({
   );
 
   // Store the reset values for the run template parameters, based on defaultParametersValues and scenario data.
-  const parametersValuesRef = useRef({});
-  parametersValuesRef.current = parametersValuesForReset;
+  const parametersValuesRef = useRef(null);
+  function getParametersValuesRef() {
+    if (parametersValuesRef.current === null) {
+      parametersValuesRef.current = parametersValuesForReset;
+    }
+    return parametersValuesRef.current;
+  }
 
   const generateParametersValuesToRenderFromParametersValuesRef = () => {
     const newParametersValuesToRender = {};
-    for (const parameterId in parametersValuesRef.current) {
+    for (const parameterId in getParametersValuesRef()) {
       if (parametersMetadata[parameterId]?.varType === DATASET_ID_VARTYPE) {
-        const datasetId = parametersValuesRef.current[parameterId];
+        const datasetId = getParametersValuesRef()[parameterId];
         newParametersValuesToRender[parameterId] = FileManagementUtils.buildClientFileDescriptorFromDataset(
           datasets,
           datasetId
         );
       } else {
-        newParametersValuesToRender[parameterId] = parametersValuesRef.current[parameterId];
+        newParametersValuesToRender[parameterId] = getParametersValuesRef()[parameterId];
       }
     }
     return newParametersValuesToRender;
-  };
-
-  const setParametersValuesToRenderFromParametersValuesRef = () => {
-    setParametersValuesToRender(generateParametersValuesToRenderFromParametersValuesRef());
   };
 
   // Add scenario parameters data in state
   const [parametersValuesToRender, setParametersValuesToRender] = useState(
     generateParametersValuesToRenderFromParametersValuesRef()
   );
+
+  const setParametersValuesToRenderFromParametersValuesRef = () => {
+    setParametersValuesToRender(generateParametersValuesToRenderFromParametersValuesRef());
+  };
 
   // Generate input components for each scenario parameters tab
   for (const parametersGroupMetadata of parametersGroupsMetadata) {
@@ -154,10 +159,9 @@ const ScenarioParameters = ({
       }
     }
     parametersValuesRef.current = {
-      ...parametersValuesRef.current,
+      ...getParametersValuesRef(),
       ...newParametersValuesToPatch,
     };
-
     await FileManagementUtils.applyPendingOperationsOnFileParameters(
       solution,
       parametersMetadata,
@@ -174,6 +178,7 @@ const ScenarioParameters = ({
   }, [parametersValuesRef]);
 
   useEffect(() => {
+    parametersValuesRef.current = parametersValuesForReset;
     discardLocalChanges();
     // eslint-disable-next-line
   }, [currentScenario]);
@@ -181,7 +186,7 @@ const ScenarioParameters = ({
   const getParametersForUpdate = () => {
     const parametersData = ScenarioParametersUtils.buildParametersForUpdate(
       solution,
-      parametersValuesRef.current,
+      getParametersValuesRef(),
       runTemplateParametersIds
     );
     const additionalParameters = ScenarioParametersUtils.buildAdditionalParameters(currentScenario, scenarioList);
