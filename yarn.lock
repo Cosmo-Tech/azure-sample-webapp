@@ -1234,10 +1234,10 @@
   dependencies:
     "@azure/msal-browser" "^2.8.0"
 
-"@cosmotech/core@^1.5.0", "@cosmotech/core@^1.6.1":
-  version "1.6.2"
-  resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.6.2.tgz#c359c57f6962ea3b6b8ee7f0c49bb9e1be3b22f7"
-  integrity sha512-bv1Sw/RQn/SZa1+15mR83MFKeNCa9ORf2LV5ErpsZa395H5ffdUwNrcFXxtYr5+HwBJhK16IMnTE7VY1jbWwiQ==
+"@cosmotech/core@^1.5.0", "@cosmotech/core@^1.6.3":
+  version "1.6.3"
+  resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.6.3.tgz#a969dd030a448a2aba5df81faa8eebcf134a3e32"
+  integrity sha512-LLRNLIQpXkeFQUmHULknfUqjd+iDLGHPcgwkrQUizJy2RIQmssDamX37gmxxibT6IffrF74DN4gwXneviyzsKg==
   dependencies:
     csv-string "^4.0.1"
     date-fns "^2.25.0"
