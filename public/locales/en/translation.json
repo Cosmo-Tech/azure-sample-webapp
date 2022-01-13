@@ -279,7 +279,8 @@
     },
     "helpmenu": {
       "documentation": "Documentation",
-      "support": "Contact support"
+      "support": "Contact support",
+      "about": "About"
     },
     "dialog": {
       "scenario": {
@@ -290,6 +291,13 @@
           },
           "title": "Discard current modifications ?",
           "body": "You will lose all your current changes made on the scenario parameters."
+        }
+      },
+      "about": {
+        "title": "Azure Sample Web Application",
+        "content": "The digital twin example solution is provided by Cosmo Tech. You can use this example to create your own digital twin solution",
+        "button": {
+          "close": "Close"
         }
       }
     },
