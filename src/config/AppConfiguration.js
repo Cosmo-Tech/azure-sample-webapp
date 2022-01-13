@@ -21,7 +21,10 @@ export const SCENARIO_RUN_LOG_TYPE = 'CUMULATED_LOGS';
 export const ENABLE_APPLICATION_INSIGHTS = true;
 
 // Support page url
-export const SUPPORT_URL = 'http://support.cosmotech.com';
+export const SUPPORT_URL = 'https://support.cosmotech.com';
+
+// Cosmotech website url
+export const COSMOTECH_URL = 'https://cosmotech.com';
 
 // Documentation url
 export const DOCUMENTATION_URL = 'doc.pdf';
