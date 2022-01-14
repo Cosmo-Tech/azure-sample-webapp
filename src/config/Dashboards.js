@@ -3,8 +3,8 @@
 
 import {
   POWER_BI_FIELD_ENUM,
-  PowerBIReportEmbedSimpleFilter,
   PowerBIReportEmbedMultipleFilter,
+  PowerBIReportEmbedSimpleFilter,
 } from '@cosmotech/azure';
 
 // For further information about settings or filters see:
@@ -19,7 +19,7 @@ export const SCENARIO_DASHBOARD_CONFIG = [
       en: 'Scenario dashboard',
       fr: 'Rapport du scenario',
     },
-    reportId: '608b7bef-f5e3-4aae-b8db-19bbb38325d5',
+    reportId: '41451c1e-a3c4-49f5-8860-18e7d8ee07d1',
     settings: {
       navContentPaneEnabled: false,
       panes: {
@@ -56,12 +56,17 @@ export const DASHBOARDS_LIST_CONFIG = [
       en: 'Digital Twin Structure',
       fr: 'Structure du jumeau numérique',
     },
-    reportId: '608b7bef-f5e3-4aae-b8db-19bbb38325d5',
+    reportId: '41451c1e-a3c4-49f5-8860-18e7d8ee07d1',
     settings: {
       navContentPaneEnabled: false,
       panes: {
         filters: {
           expanded: true,
+          visible: true,
+        },
+      },
+      bars: {
+        actionBar: {
           visible: true,
         },
       },
@@ -104,12 +109,17 @@ export const DASHBOARDS_LIST_CONFIG = [
       en: 'Stocks Follow-up',
       fr: 'Suivi de stock',
     },
-    reportId: '608b7bef-f5e3-4aae-b8db-19bbb38325d5',
+    reportId: '41451c1e-a3c4-49f5-8860-18e7d8ee07d1',
     settings: {
       navContentPaneEnabled: false,
       panes: {
         filters: {
           expanded: true,
+          visible: true,
+        },
+      },
+      bars: {
+        actionBar: {
           visible: true,
         },
       },
@@ -152,12 +162,17 @@ export const DASHBOARDS_LIST_CONFIG = [
       en: 'Customer Satisfaction',
       fr: 'Satisfaction client',
     },
-    reportId: '608b7bef-f5e3-4aae-b8db-19bbb38325d5',
+    reportId: '41451c1e-a3c4-49f5-8860-18e7d8ee07d1',
     settings: {
       navContentPaneEnabled: false,
       panes: {
         filters: {
           expanded: false,
+          visible: true,
+        },
+      },
+      bars: {
+        actionBar: {
           visible: true,
         },
       },

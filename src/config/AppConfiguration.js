@@ -37,4 +37,4 @@ export const ADD_SCENARIO_MASTER_LAST_RUN_ID_PARAMETER = false;
 export const ADD_SCENARIO_RUN_TEMPLATE_NAME_PARAMETER = false;
 
 // Power BI
-export const USE_POWER_BI_WITH_USER_CREDENTIALS = false;
+export const USE_POWER_BI_WITH_USER_CREDENTIALS = true;

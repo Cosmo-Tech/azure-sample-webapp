@@ -15,4 +15,4 @@ export const ORGANIZATION_ID = 'O-gZYpnd27G7';
 export const WORKSPACE_ID = 'W-rXeBwRa0PM';
 
 // Power BI information
-export const POWER_BI_WORKSPACE_ID = '290de699-9026-42c0-8c83-e4e87c3f22dd';
+export const POWER_BI_WORKSPACE_ID = '9f5ecc06-efa0-4e7d-b8f3-c9e313bcff6b';
