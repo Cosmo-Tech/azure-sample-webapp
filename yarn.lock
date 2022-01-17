@@ -1245,10 +1245,10 @@
     validator "^13.7.0"
     xlsx "^0.17.4"
 
-"@cosmotech/ui@^1.1.7":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-1.2.0.tgz#e440fbb57c88a62f7f811a37d31e4a1a5a936ddf"
-  integrity sha512-v3cL0k9iNdkpYpY4iG8CXH4s2e0NDZGvXJSFggSfLdgGps4MwaQYHnztlb9c8bEsbFwU+1LgGxIRtlQ3hYywyw==
+"@cosmotech/ui@^1.1.0":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-1.2.1.tgz#5e40530e03fbbb8b7d8d71bec8be3c8a90d736bb"
+  integrity sha512-pG6eN0SDW7GUaR7m8QUVdTWqptPx9TgG1wscM6iNUZfDHwVSKdYjWmKhepdt17+j2oLVKOp4u9CZ+1Ljna/wEQ==
   dependencies:
     "@date-io/date-fns" "^1.3.13"
     "@material-ui/pickers" "^3.3.10"
