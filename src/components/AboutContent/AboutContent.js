@@ -5,7 +5,7 @@ import React from 'react';
 import { Grid, makeStyles, ButtonBase, Link } from '@material-ui/core';
 import theme from '../../theme';
 import { useTranslation } from 'react-i18next';
-import { SUPPORT_URL, COSMOTECH_URL } from '../../config/AppConfiguration';
+import { SUPPORT_URL, COSMOTECH_URL, APP_VERSION } from '../../config/AppConfiguration';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,13 +17,13 @@ const useStyles = makeStyles((theme) => ({
   title: {
     fontWeight: 'bold',
     fontSize: '24px',
-    marginBottom: '16px',
   },
   version: {
+    marginTop: '16px',
     fontWeight: 'bold',
   },
   content: {
-    marginTop: '16px',
+    marginTop: '2px',
     marginBottom: '16px',
   },
 }));
@@ -40,12 +40,12 @@ export const AboutContent = () => {
         </ButtonBase>
       </Grid>
       <Grid item container xs>
-        <Grid item container direction="column" spacing={2}>
+        <Grid item container direction="column">
           <Grid className={classes.title} item>
             {t('genericcomponent.dialog.about.title')}
           </Grid>
           <Grid item className={classes.version}>
-            2.2.0-brewery
+            {APP_VERSION}
           </Grid>
           <Grid item className={classes.content}>
             {t('genericcomponent.dialog.about.content')}

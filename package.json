@@ -1,6 +1,6 @@
 {
   "name": "azure-sample-webapp",
-  "version": "2.1.0",
+  "version": "2.3.0",
   "private": true,
   "dependencies": {
     "@cosmotech/api-ts": "^0.1.0",
@@ -39,8 +39,8 @@
     "validate.js": "^0.13.1"
   },
   "scripts": {
-    "start": "cross-env ESLINT_NO_DEV_ERRORS=true react-scripts start",
-    "build": "cross-env DISABLE_ESLINT_PLUGIN=true react-scripts build",
+    "start": "cross-env ESLINT_NO_DEV_ERRORS=true REACT_APP_VERSION=$npm_package_version react-scripts start",
+    "build": "cross-env DISABLE_ESLINT_PLUGIN=true REACT_APP_VERSION=$npm_package_version react-scripts build",
     "test": "react-scripts test --watchAll=false",
     "eject": "react-scripts eject",
     "cypress": "node_modules/.bin/cypress open",

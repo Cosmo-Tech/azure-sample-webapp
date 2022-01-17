@@ -1,6 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
+// App version
+export const APP_VERSION = process.env.REACT_APP_VERSION;
+
 // App translation configuration
 export const LANGUAGES = {
   en: 'English',
