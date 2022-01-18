@@ -35,7 +35,7 @@ Parameter to define Power BI usages:
 
 - **USE_POWER_BI_WITH_USER_CREDENTIALS** defines if the information sent to Power BI (mainly for authentication) are based on user credentials or based on a service account
 
-**N.B:** Be sure that if you use authentication based on a Service Principal, none of reports/datasets of targeted Power BI workspace has restictions/roles setted.
+**N.B:** Make sure that if you use authentication based on a Service Principal, none of reports/datasets of targeted Power BI workspace have restictions/roles set.
 
 ### Application Insights
 
