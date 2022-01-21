@@ -13,14 +13,18 @@ const PARAMETERS = {
   nb_waiters: {
     dataCy: 'waiters-input',
     defaultValue: 5,
+    minValue: 0,
+    maxValue: 100,
   },
   restock_qty: {
     dataCy: 'restock-input',
     defaultValue: 25,
+    minValue: 0,
   },
   stock: {
     dataCy: 'stock-input',
     defaultValue: 100,
+    minValue: -100,
   },
   currency: {
     dataCy: 'currency',
