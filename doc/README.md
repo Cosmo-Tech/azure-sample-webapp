@@ -8,3 +8,4 @@
 - [Scenario Parameters configuration](scenarioParametersConfiguration.md)
 - [Scenario Parameters advanced customization](scenarioParametersCustomization.md)
 - [Theme Customization](themeCustomization.md)
+- [About Content Customization](aboutContentCustomization.md)
