@@ -141,6 +141,7 @@ function TabPanel(props) {
         reports={reports}
         reportConfiguration={DASHBOARDS_LIST_CONFIG}
         scenario={scenario}
+        alwaysShowReports={true}
         scenarioList={scenarioList}
         lang={lang}
         labels={labels}
