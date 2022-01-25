@@ -9,6 +9,7 @@ import { Auth } from '@cosmotech/core';
 import { PrivateRoute, UserInfo, HelpMenu } from '@cosmotech/ui';
 import { useTranslation } from 'react-i18next';
 import { LANGUAGES, SUPPORT_URL, DOCUMENTATION_URL } from '../../config/AppConfiguration';
+import { About } from '../../services/config/Menu';
 import theme from '../../theme/';
 import profilePlaceholder from '../../assets/profile_placeholder.png';
 
@@ -82,6 +83,8 @@ const TabLayout = (props) => {
   const helpLabels = {
     documentation: t('genericcomponent.helpmenu.documentation'),
     support: t('genericcomponent.helpmenu.support'),
+    aboutTitle: t('genericcomponent.helpmenu.about'),
+    close: t('genericcomponent.dialog.about.button.close'),
   };
 
   return (
@@ -103,7 +106,12 @@ const TabLayout = (props) => {
           </Tabs>
           <div className={classes.rightBar}>
             <div className={classes.rightBarElement}>
-              <HelpMenu documentationUrl={DOCUMENTATION_URL} supportUrl={SUPPORT_URL} labels={helpLabels} />
+              <HelpMenu
+                documentationUrl={DOCUMENTATION_URL}
+                supportUrl={SUPPORT_URL}
+                about={About ? <About /> : null}
+                labels={helpLabels}
+              />
             </div>
             <div className={classes.rightBarElement}>
               <UserInfo

@@ -279,7 +279,8 @@
     },
     "helpmenu": {
       "documentation": "Documentation",
-      "support": "Contacter le support"
+      "support": "Contacter le support",
+      "about": "A propos"
     },
     "dialog": {
       "scenario": {
@@ -290,6 +291,13 @@
           },
           "title": "Abandonner les modifications ?",
           "body": "Vous allez perdre toutes les modifications que vous avez faites sur les paramètres de scénario."
+        }
+      },
+      "about": {
+        "title": "Exemple d'Application Web Azure",
+        "content": "La solution d'exemple de jumeaux numériques est fournie par Cosmo Tech. Vous pouvez utiliser cet example pour créer votre propre solution de jumeaux numériques",
+        "button": {
+          "close": "Fermer"
         }
       }
     },

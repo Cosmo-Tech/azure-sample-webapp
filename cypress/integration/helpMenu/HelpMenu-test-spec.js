@@ -23,4 +23,13 @@ describe('UserInfo features', () => {
     AppBar.openHelpMenu();
     AppBar.getSupportPageLink().should('have.attr', 'target', '_blank');
   });
+
+  it('can display About dialog', () => {
+    AppBar.getAboutDialog().should('not.exist');
+    AppBar.openHelpMenu();
+    AppBar.openAboutDialog();
+    AppBar.getAboutDialog().should('be.visible');
+    AppBar.closeAboutDialog();
+    AppBar.getAboutDialog().should('not.exist');
+  });
 });

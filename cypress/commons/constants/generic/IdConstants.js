@@ -17,6 +17,9 @@ export const GENERIC_SELECTORS = {
   },
   helpMenu: {
     menu: '[data-cy=help-menu]',
+    aboutButton: '[data-cy=about-button]',
+    aboutDialog: '[data-cy=about-dialog]',
+    aboutDialogCloseButton: '[data-cy=about-dialog-close-button]',
   },
   scenario: {
     view: '[data-cy=scenario-view]',
