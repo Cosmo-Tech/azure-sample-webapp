@@ -45,7 +45,6 @@ def check_all(version_brewery, version_vanilla):
 
 def remove_specific_files():
     root_folder = get_top_level_folder()
-    print(root_folder)
     clean_cypress(root_folder)
     clean_config(root_folder)
 
@@ -82,7 +81,7 @@ def main():
     remove_specific_files()
     commit_all_changes(f'chore: prepare release {version_vanilla}')
     create_tag(version_vanilla)
-    switch('main')
+    switch('-')  # Switch back to the previous branch or commit
     print('''
 The release script ran successfully. Please check created tags are correct, and push them with:
 
