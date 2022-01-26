@@ -5,7 +5,6 @@
 # Licensed under the MIT license.
 
 
-import string
 from tools_common.exec import run_command
 
 
@@ -13,7 +12,7 @@ def check_head():
     """
     Check if current position is HEAD.
     """
-    out, err, ret_code, _ = run_command(f"git diff-index HEAD --")
+    out, err, ret_code, _ = run_command("git diff-index HEAD --")
     if len(out) > 0:
         print(out)
     if len(err) > 0:
@@ -28,7 +27,7 @@ def check_branch_is_main():
     """
     Check that current branch is main
     """
-    out, err, ret_code, _ = run_command(f"git rev-parse --abbrev-ref HEAD")
+    out, err, ret_code, _ = run_command("git rev-parse --abbrev-ref HEAD")
     out = out.strip()
     if ret_code != 0 or len(err) > 0:
         print(err)
@@ -53,7 +52,7 @@ def pull():
     """
     Perform a git pull on current branch
     """
-    _, err, ret_code, _ = run_command(f"git pull -q")
+    _, err, ret_code, _ = run_command("git pull -q")
     if len(err) > 0:
         print(err)
     return ret_code == 0

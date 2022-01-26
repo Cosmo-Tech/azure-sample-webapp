@@ -20,6 +20,7 @@ from tools_common.git import (
     switch,
 )
 from tools_common.os import rm_dir, mv_file
+from tools_common.jq import check_jq, get_npm_package_version, set_npm_package_version
 
 
 def parse_arguments():
@@ -28,14 +29,15 @@ def parse_arguments():
         operation must be done by the user.
         '''
     )
-    parser.add_argument("-v", "--version", help="Version to release (e.g. 2.0.0)", required=True)
+    parser.add_argument("version", help="Version to release (e.g. 2.0.0)")
     args = parser.parse_args()
     return args.version
 
 
 def check_all(version_brewery, version_vanilla):
     return (
-        check_branch_is_main()
+        check_jq()
+        and check_branch_is_main()
         and pull()
         and check_head()
         and not check_tag_exists(version_brewery)
@@ -43,9 +45,37 @@ def check_all(version_brewery, version_vanilla):
         )
 
 
+def update_package_version(new_version):
+    root_folder = get_top_level_folder()
+    current_version = get_npm_package_version(root_folder)
+    if current_version != new_version:
+        print(f'Updating package version: {current_version} -> {new_version}')
+        return set_npm_package_version(root_folder, new_version)
+    return False
+
+
+def update_package_version_pre_tag(new_version):
+    if update_package_version(new_version):
+        commit_all_changes(f"chore: bump webapp version to {new_version}")
+
+
+def update_package_version_post_tag(new_version):
+    try:
+        version_details = new_version.split(".")
+        if version_details[2] != '0':
+            print("Not tagging a new minor version. Dev version will NOT be set in package.json.")
+            return
+        version_details[1] = str(int(version_details[1]) + 1)
+        new_dev_version = '.'.join(version_details) + '-dev'
+        if update_package_version(new_dev_version):
+            commit_all_changes(f"chore: bump webapp version to {new_dev_version}")
+    except Exception:
+        print(f"Could not determine next version number from version '{new_version}'."
+              "Dev version will NOT be set in package.json.")
+
+
 def remove_specific_files():
     root_folder = get_top_level_folder()
-    print(root_folder)
     clean_cypress(root_folder)
     clean_config(root_folder)
 
@@ -74,22 +104,21 @@ def main():
     branch_vanilla = f"release/{version}-vanilla"
 
     if not check_all(version_brewery, version_vanilla):
-        print('error')
         sys.exit(1)
 
+    update_package_version_pre_tag(version)
     create_tag(version_brewery)
     create_branch(branch_vanilla)
     remove_specific_files()
     commit_all_changes(f'chore: prepare release {version_vanilla}')
     create_tag(version_vanilla)
-    switch('main')
+    switch('-')  # Switch back to the previous branch or commit
+    update_package_version_post_tag(version)
     print('''
 The release script ran successfully. Please check created tags are correct, and push them with:
-
 git push --tags
 
 You can get the release changelog with:
-
 git-conventional-commits changelog
 ''')
     return

@@ -26,8 +26,7 @@ def run_command(command, cwd=None, stdout=subprocess.PIPE,
     """
     # Measure time & run
     start = time.time()
-    p = subprocess.Popen(
-        shlex.split(command), stdout=stdout, stderr=stderr, cwd=cwd)
+    p = subprocess.Popen(shlex.split(command), stdout=stdout, stderr=stderr, cwd=cwd)
     out, err = p.communicate()
     duration = time.time() - start
     ret_code = p.returncode
@@ -35,3 +34,18 @@ def run_command(command, cwd=None, stdout=subprocess.PIPE,
     out = out.decode('utf-8') if out else out
     err = err.decode('utf-8') if err else err
     return out, err, ret_code, duration
+
+
+def has_command(command, cwd=None):
+    """
+    Check if a program exists to run the provided command. This is done by checking the return value of the 'which'
+    command.
+    :param command: Command to run
+    :param cwd: Working directory to run the command
+    """
+    which_cmd = f"which {shlex.quote(command)}"
+    p = subprocess.Popen(shlex.split(which_cmd), stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=cwd)
+    out, err = p.communicate()
+    if p.returncode == 1:
+        return False
+    return True
