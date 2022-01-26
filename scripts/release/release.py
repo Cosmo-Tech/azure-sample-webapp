@@ -29,7 +29,7 @@ def parse_arguments():
         operation must be done by the user.
         '''
     )
-    parser.add_argument("-v", "--version", help="Version to release (e.g. 2.0.0)", required=True)
+    parser.add_argument("version", help="Version to release (e.g. 2.0.0)")
     args = parser.parse_args()
     return args.version
 
