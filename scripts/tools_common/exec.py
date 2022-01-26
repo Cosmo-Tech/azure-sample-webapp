@@ -35,6 +35,7 @@ def run_command(command, cwd=None, stdout=subprocess.PIPE,
     err = err.decode('utf-8') if err else err
     return out, err, ret_code, duration
 
+
 def has_command(command, cwd=None):
     """
     Check if a program exists to run the provided command. This is done by checking the return value of the 'which'
