@@ -16,6 +16,7 @@ import { POWER_BI_ACTIONS_KEY } from '../../../commons/PowerBIConstants';
 import { DATASET_ACTIONS_KEY } from '../../../commons/DatasetConstants';
 import { WORKSPACE_ACTIONS_KEY } from '../../../commons/WorkspaceConstants';
 import { SOLUTION_ACTIONS_KEY } from '../../../commons/SolutionConstants';
+import { getFirstScenarioMaster } from '../../../../utils/SortScenarioListUtils';
 
 const selectSolutionIdFromCurrentWorkspace = (state) => state.workspace.current.data.solution.solutionId;
 const selectScenarioList = (state) => state.scenario.list.data;
@@ -35,7 +36,7 @@ export function* fetchAllInitialData(action) {
     yield call(fetchSolutionByIdData, workspaceId, solutionId);
     const scenarioList = yield select(selectScenarioList);
     if (scenarioList.length !== 0) {
-      yield call(fetchScenarioByIdForInitialData, workspaceId, scenarioList[0].id);
+      yield call(fetchScenarioByIdForInitialData, workspaceId, getFirstScenarioMaster(scenarioList).id);
       // Start state polling for running scenarios
       for (let i = 0; i < scenarioList.length; ++i) {
         if (scenarioList[i].state === SCENARIO_RUN_STATE.RUNNING) {
