@@ -9,6 +9,7 @@ import { WORKSPACE_ID } from '../../config/AppInstance';
 import { useTranslation } from 'react-i18next';
 import { PERMISSIONS } from '../../services/config/Permissions';
 import { PermissionsGate } from '../../components/PermissionsGate';
+import { getFirstScenarioMaster } from '../../utils/SortScenarioListUtils';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,6 +38,20 @@ const ScenarioManager = (props) => {
   const { currentScenario, datasets, deleteScenario, findScenarioById, scenarios, resetCurrentScenario, userId } =
     props;
 
+  const getScenariolistAfterDelete = (idOfScenarioToDelete) => {
+    const scenarioListAfterDelete = scenarios
+      .map((scenario) => {
+        const newScenario = { ...scenario };
+        if (newScenario.parentId === idOfScenarioToDelete) {
+          newScenario.parentId = currentScenario.parentId;
+        }
+        return newScenario;
+      })
+      .filter((scenario) => scenario.id !== idOfScenarioToDelete);
+
+    return scenarioListAfterDelete;
+  };
+
   function onScenarioDelete(scenarioId) {
     const lastScenarioDelete = scenarios.length === 1;
     deleteScenario(WORKSPACE_ID, scenarioId);
@@ -44,7 +59,7 @@ const ScenarioManager = (props) => {
       if (lastScenarioDelete) {
         resetCurrentScenario();
       } else {
-        findScenarioById(WORKSPACE_ID, scenarios[0].id);
+        findScenarioById(WORKSPACE_ID, getFirstScenarioMaster(getScenariolistAfterDelete(scenarioId)).id);
       }
     }
   }
