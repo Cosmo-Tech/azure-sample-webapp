@@ -21,6 +21,7 @@ const SCENARIO_RUN_TEMPLATE = RUN_TEMPLATE.BASIC_TYPES;
 const CSV_VALID_FILE_PATH_EMPTY = 'customers_empty.csv';
 const CSV_VALID_FILE_PATH_WITH_SPACES = 'customers_with_spaces.csv';
 const CSV_VALID_FILE_PATH = 'customers.csv';
+const CSV_ALTERNATE_VALID_FILE_PATH = 'customers2.csv';
 const CSV_INVALID_FILE_PATH = 'customers_invalid.csv';
 const XLSX_VALID_FILE_PATH_EMPTY = 'customers_empty.xlsx';
 const XLSX_VALID_FILE_PATH = 'customers.xlsx';
@@ -258,6 +259,41 @@ describe('Table parameters standard operations', () => {
     BreweryParameters.getCustomersTableCell('favoriteDrink', 2).should('have.text', 'Beer');
     BreweryParameters.getCustomersTableCell('birthday', 3).should('have.text', '01/01/1991');
     BreweryParameters.getCustomersTableCell('height', 3).should('have.text', '2.01');
+  });
+
+  it('can import a CSV file, edit it, import a new CSV file and override the former one, update and launch', () => {
+    const scenarioName = forgeScenarioName();
+    scenarioNamesToDelete.push(scenarioName);
+    Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
+    BreweryParameters.switchToCustomersTab();
+    ScenarioParameters.edit();
+    BreweryParameters.importCustomersTableData(CSV_VALID_FILE_PATH);
+    BreweryParameters.getCustomersTableRows().should('have.length', 4);
+    BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Bob');
+    BreweryParameters.getCustomersTableCell('canDrinkAlcohol', 0).should('have.text', 'false');
+    BreweryParameters.getCustomersTableCell('age', 0).should('have.text', '10');
+    BreweryParameters.getCustomersTableCell('favoriteDrink', 0).should('have.text', 'AppleJuice');
+
+    BreweryParameters.editCustomersTableStringCell('age', 0, '22').should('have.text', '22');
+    BreweryParameters.editCustomersTableStringCell('canDrinkAlcohol', 0, 'true').should('have.text', 'true');
+    BreweryParameters.editCustomersTableStringCell('favoriteDrink', 0, 'Beer').should('have.text', 'Beer');
+
+    BreweryParameters.importCustomersTableData(CSV_ALTERNATE_VALID_FILE_PATH);
+    BreweryParameters.getCustomersTableRows().should('have.length', 6);
+    BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Emmett');
+    BreweryParameters.getCustomersTableCell('age', 0).should('have.text', '69');
+    BreweryParameters.getCustomersTableCell('favoriteDrink', 0).should('have.text', 'OrangeJuice');
+    BreweryParameters.getCustomersTableCell('name', 4).should('have.text', 'Dwight');
+    BreweryParameters.getCustomersTableCell('name', 5).should('have.text', 'Arnold');
+    ScenarioParameters.updateAndLaunch();
+
+    // Check that imported file and its cells values are still correct
+    BreweryParameters.getCustomersTableRows().should('have.length', 6);
+    BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Emmett');
+    BreweryParameters.getCustomersTableCell('age', 0).should('have.text', '69');
+    BreweryParameters.getCustomersTableCell('favoriteDrink', 0).should('have.text', 'OrangeJuice');
+    BreweryParameters.getCustomersTableCell('name', 4).should('have.text', 'Dwight');
+    BreweryParameters.getCustomersTableCell('name', 5).should('have.text', 'Arnold');
   });
 
   it('can import an XLSX file, edit, export and launch a scenario with the modified data', () => {

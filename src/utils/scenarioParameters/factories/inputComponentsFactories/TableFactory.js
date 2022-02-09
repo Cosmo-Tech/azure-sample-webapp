@@ -132,6 +132,7 @@ const create = (t, datasets, parameterMetadata, parametersState, setParametersSt
         errors: agGridData.error,
         status: finalStatus,
         tableDataStatus: TABLE_DATA_STATUS.READY,
+        uploadPreprocess: null,
       });
     }
   };
@@ -219,6 +220,7 @@ const create = (t, datasets, parameterMetadata, parametersState, setParametersSt
         errors: agGridData.error,
         status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD,
         tableDataStatus: TABLE_DATA_STATUS.READY,
+        uploadPreprocess: null,
       });
     }
   };
