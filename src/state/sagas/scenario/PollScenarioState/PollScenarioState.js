@@ -6,6 +6,9 @@ import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { ORGANIZATION_ID } from '../../../../config/AppInstance';
 import { Api } from '../../../../services/config/Api';
 import { SCENARIO_STATUS_POLLING_DELAY } from '../../../../config/AppConfiguration';
+import { AppInsights } from '../../../../services/AppInsights';
+
+const appInsights = AppInsights.getInstance();
 
 function forgeStopPollingAction(scenarioId) {
   let actionName = SCENARIO_ACTIONS_KEY.STOP_SCENARIO_STATUS_POLLING;
@@ -31,8 +34,17 @@ export function* pollScenarioState(action) {
         // Update the scenario state in all scenario redux states
         yield put({
           type: SCENARIO_ACTIONS_KEY.UPDATE_SCENARIO,
-          data: { scenarioState: data.state, scenarioId: action.scenarioId, lastRun: data.lastRun },
+          data: {
+            scenarioState: data.state,
+            scenarioId: action.scenarioId,
+            lastRun: data.lastRun,
+          },
         });
+        if (action.startTime) {
+          const runFinishTime = new Date().getTime();
+          const runDuration = (runFinishTime - action.startTime) / 1000;
+          appInsights.trackScenarioRunDuration(runDuration);
+        }
         // Stop the polling for this scenario
         yield put(forgeStopPollingAction(action.scenarioId));
       }

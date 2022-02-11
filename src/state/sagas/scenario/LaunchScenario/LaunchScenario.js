@@ -29,10 +29,12 @@ export function* launchScenario(action) {
     yield call(Api.ScenarioRuns.runScenario, ORGANIZATION_ID, workspaceId, scenarioId);
 
     // Start backend polling to update the scenario status
+    const runStartTime = new Date().getTime();
     yield put({
       type: SCENARIO_ACTIONS_KEY.START_SCENARIO_STATUS_POLLING,
       workspaceId: workspaceId,
       scenarioId: scenarioId,
+      startTime: runStartTime,
     });
   } catch (e) {
     console.error(e);

@@ -60,7 +60,7 @@ class AppInsightsSingleton {
 
   trackScenarioRunDuration(runDuration) {
     if (this.enabled) {
-      this.appInsights.trackMetric({ name: 'RunDurationValue', average: runDuration, sampleCount: runDuration });
+      this.appInsights.trackMetric({ name: 'RunDurationValue', average: runDuration });
     }
   }
 }
