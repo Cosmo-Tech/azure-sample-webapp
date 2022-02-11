@@ -57,6 +57,12 @@ class AppInsightsSingleton {
       this.appInsights.trackMetric({ name: 'LaunchScenarioValue', average: 1, sampleCount: 1 });
     }
   }
+
+  trackScenarioRunDuration(runDuration) {
+    if (this.enabled) {
+      this.appInsights.trackMetric({ name: 'RunDurationValue', average: runDuration, sampleCount: runDuration });
+    }
+  }
 }
 
 function getInstance() {
