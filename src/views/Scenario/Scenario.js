@@ -22,6 +22,7 @@ const appInsights = AppInsights.getInstance();
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    position: 'fixed',
     height: '100%',
   },
   backdrop: {

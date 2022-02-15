@@ -13,6 +13,7 @@ import { getFirstScenarioMaster } from '../../utils/SortScenarioListUtils';
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    position: 'fixed',
     margin: 'auto',
     height: '100%',
     width: '100%',

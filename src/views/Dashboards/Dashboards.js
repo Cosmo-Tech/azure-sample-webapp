@@ -11,6 +11,7 @@ import { USE_POWER_BI_WITH_USER_CREDENTIALS } from '../../config/AppConfiguratio
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    position: 'fixed',
     margin: 'auto',
     width: '100%',
     height: '100%',

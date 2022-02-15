@@ -15,7 +15,7 @@ import profilePlaceholder from '../../assets/profile_placeholder.png';
 
 const useStyles = makeStyles((theme) => ({
   content: {
-    height: 'calc(100% - 36px)', // footer height = 36px
+    height: '100%',
     paddingTop: theme.spacing(6),
     paddingLeft: theme.spacing(0),
     paddingRight: theme.spacing(0),
