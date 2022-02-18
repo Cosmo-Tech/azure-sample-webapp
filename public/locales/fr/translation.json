@@ -125,19 +125,20 @@
           "dataset_one": "Dataset",
           "dataset_other": "Datasets",
           "status": {
-            "label": "Statut",
+            "label": "Statut :",
             "successful": "Succès",
+            "running": "En cours",
             "failed": "Erreur",
             "created": "Créé"
           },
           "text": {
-            "search": "Rechercher"
+            "search": "Filtrer..."
           }
-        },
-        "search": {
-          "info_one": "{{count}} scénario trouvé",
-          "info_other": "{{count}} scénarios trouvés"
         }
+      },
+      "toolbar": {
+        "expandAll": "Tout déplier",
+        "collapseAll": "Tout replier"
       }
     },
     "text": {
