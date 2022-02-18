@@ -65,12 +65,6 @@ const ScenarioManager = (props) => {
     }
   }
 
-  function buildSearchInfoLabel(scenarioCount) {
-    return t('commoncomponents.scenariomanager.treelist.search.info', '{{count}} scenarios found', {
-      count: scenarioCount,
-    });
-  }
-
   function buildDatasetLabel(datasetList) {
     return t('commoncomponents.scenariomanager.treelist.node.dataset', { count: datasetList?.length || 0 });
   }
@@ -84,6 +78,7 @@ const ScenarioManager = (props) => {
   const labels = {
     status: t('commoncomponents.scenariomanager.treelist.node.status.label'),
     successful: t('commoncomponents.scenariomanager.treelist.node.status.successful'),
+    running: t('commoncomponents.scenariomanager.treelist.node.status.running'),
     failed: t('commoncomponents.scenariomanager.treelist.node.status.failed'),
     created: t('commoncomponents.scenariomanager.treelist.node.status.created'),
     deleteDialog: {
@@ -96,6 +91,10 @@ const ScenarioManager = (props) => {
       confirm: t('commoncomponents.dialog.confirm.delete.button.confirm', 'Confirm'),
     },
     searchField: t('commoncomponents.scenariomanager.treelist.node.text.search'),
+    toolbar: {
+      expandAll: t('commoncomponents.scenariomanager.toolbar.expandAll', 'Expand all'),
+      collapseAll: t('commoncomponents.scenariomanager.toolbar.collapseAll', 'Collapse all'),
+    },
   };
 
   return (
@@ -111,7 +110,6 @@ const ScenarioManager = (props) => {
           userId={userId}
           deleteScenario={onScenarioDelete}
           moveScenario={moveScenario}
-          buildSearchInfo={buildSearchInfoLabel}
           buildDatasetInfo={buildDatasetLabel}
           labels={labels}
           buildScenarioNameToDelete={buildScenarioNameToDelete}

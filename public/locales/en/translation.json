@@ -125,19 +125,20 @@
           "dataset_one": "Dataset",
           "dataset_other": "Datasets",
           "status": {
-            "label": "Run status",
+            "label": "Run status:",
             "successful": "Successful",
+            "running": "Running",
             "failed": "Failed",
             "created": "Created"
           },
           "text": {
-            "search": "Search"
+            "search": "Filter..."
           }
-        },
-        "search": {
-          "info_one": "{{count}} scenario found",
-          "info_other": "{{count}} scenarios found"
         }
+      },
+      "toolbar": {
+        "expandAll": "Expand all",
+        "collapseAll": "Collapse all"
       }
     },
     "text": {
