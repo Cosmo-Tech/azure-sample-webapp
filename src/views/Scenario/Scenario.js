@@ -53,6 +53,9 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     height: '100%',
   },
+  powerBICard: {
+    height: '400px',
+  },
 }));
 
 const Scenario = (props) => {
@@ -220,24 +223,7 @@ const Scenario = (props) => {
               </Grid>
             </Grid>
           </Grid>
-        </Grid>
-        <Grid item xs={12}>
-          <Card style={{ height: '400px' }}>
-            <SimplePowerBIReportEmbed
-              reports={reports}
-              reportConfiguration={SCENARIO_DASHBOARD_CONFIG}
-              scenario={currentScenario.data}
-              lang={i18n.language}
-              downloadLogsFile={() => {
-                ScenarioRunService.downloadLogsFile(currentScenario.data?.lastRun, LOG_TYPES[SCENARIO_RUN_LOG_TYPE]);
-              }}
-              labels={reportLabels}
-              useAAD={USE_POWER_BI_WITH_USER_CREDENTIALS}
-            />
-          </Card>
-        </Grid>
-        <Grid item xs={12}>
-          <Card>
+          <Grid item xs={12}>
             {currentScenario.data && (
               <ScenarioParameters
                 editMode={editMode}
@@ -254,8 +240,23 @@ const Scenario = (props) => {
                 userRoles={user.roles}
               />
             )}
-          </Card>
+          </Grid>
         </Grid>
+      </Grid>
+      <Grid>
+        <Card className={classes.powerBICard}>
+          <SimplePowerBIReportEmbed
+            reports={reports}
+            reportConfiguration={SCENARIO_DASHBOARD_CONFIG}
+            scenario={currentScenario.data}
+            lang={i18n.language}
+            downloadLogsFile={() => {
+              ScenarioRunService.downloadLogsFile(currentScenario.data?.lastRun, LOG_TYPES[SCENARIO_RUN_LOG_TYPE]);
+            }}
+            labels={reportLabels}
+            useAAD={USE_POWER_BI_WITH_USER_CREDENTIALS}
+          />
+        </Card>
       </Grid>
     </>
   );
