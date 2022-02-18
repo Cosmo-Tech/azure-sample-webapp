@@ -30,6 +30,10 @@ export function* updateAndLaunchScenario(action) {
         parametersValues: scenarioParameters,
       },
     });
+    yield put({
+      type: SCENARIO_ACTIONS_KEY.UPDATE_SCENARIO,
+      data: { scenarioState: SCENARIO_RUN_STATE.RUNNING, scenarioId: scenarioId, lastRun: null },
+    });
     const { data: updateData } = yield call(
       Api.Scenarios.updateScenario,
       ORGANIZATION_ID,
