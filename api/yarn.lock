@@ -2,22 +2,30 @@
 # yarn lockfile v1
 
 
-"@azure/msal-common@^6.0.0":
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/@azure/msal-common/-/msal-common-6.0.0.tgz#9a60c27967ae6f6678015eb6dfb0ea7cc999eb3b"
-  integrity sha512-Vva3snqmWPHJNDCBb4lz3D0rvZsi/0QikAxHvVFNwtNg5pP4NZE4U34tNiXN+m9KhlQFrZBPkE5rk7dIEOGcWw==
+"@azure/msal-common@^6.1.0":
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/@azure/msal-common/-/msal-common-6.1.0.tgz#00b0c625d10f4c8e48e7b48a353f7d8d20a5ceca"
+  integrity sha512-IGjAHttOgKDPQr0Qxx1NjABR635ZNuN7LHjxI0Y7SEA2thcaRGTccy+oaXTFabM/rZLt4F2VrPKUX4BnR9hW9g==
   dependencies:
     debug "^4.1.1"
 
 "@azure/msal-node@^1.2.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@azure/msal-node/-/msal-node-1.5.0.tgz#d30e9f3af87d4e69f988dbe3e1cb7e174fea716d"
-  integrity sha512-FiCra/3ZyLXSQltoI9ndeN/lvXsPsFDsqVKgH7SWXVQjL3OpEXiqKkj0CB2UWGCk1U6bZGMJfkUZCXzhMQTObQ==
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@azure/msal-node/-/msal-node-1.6.0.tgz#59d6306979581fd9379d17d22047ada143ed56df"
+  integrity sha512-RCPXVWsjqYZh7NB1pAJLn4ypHlLBulOjw5nKPLsJiaJJIXnN8kc6SMkK3S9/80DZCEBstvoRMz6zF50QZJUeOQ==
   dependencies:
-    "@azure/msal-common" "^6.0.0"
+    "@azure/msal-common" "^6.1.0"
     axios "^0.21.4"
+    https-proxy-agent "^5.0.0"
     jsonwebtoken "^8.5.1"
     uuid "^8.3.0"
+
+agent-base@6:
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/agent-base/-/agent-base-6.0.2.tgz#49fff58577cfee3f37176feab4c22e00f86d7f77"
+  integrity sha512-RZNwNclF7+MS/8bDg70amg32dyeZGZxiDuQmZxKLAlQjr3jGyLx+4Kkk58UO7D2QdgFIQCovuSuZESne6RG6XQ==
+  dependencies:
+    debug "4"
 
 axios@^0.21.4:
   version "0.21.4"
@@ -36,7 +44,7 @@ data-uri-to-buffer@^4.0.0:
   resolved "https://registry.yarnpkg.com/data-uri-to-buffer/-/data-uri-to-buffer-4.0.0.tgz#b5db46aea50f6176428ac05b73be39a57701a64b"
   integrity sha512-Vr3mLBA8qWmcuschSLAOogKgQ/Jwxulv3RNE4FXnYWRGujzrRWQI4m12fQqRkwX06C0KanhLr4hK+GydchZsaA==
 
-debug@^4.1.1:
+debug@4, debug@^4.1.1:
   version "4.3.3"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.3.tgz#04266e0b70a98d4462e6e288e38259213332b664"
   integrity sha512-/zxw5+vh1Tfv+4Qn7a5nsbcJKPaSvCDhojn6FEl9vupwK2VCSDtEiEtqr8DFtzYFOdz63LBkxec7DYuc2jon6Q==
@@ -59,9 +67,9 @@ fetch-blob@^3.1.2, fetch-blob@^3.1.4:
     web-streams-polyfill "^3.0.3"
 
 follow-redirects@^1.14.0:
-  version "1.14.7"
-  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.7.tgz#2004c02eb9436eee9a21446a6477debf17e81685"
-  integrity sha512-+hbxoLbFMbRKDwohX8GkTataGqO6Jb7jGwpAlwgy2bIz25XtRm7KEzJM76R1WiNT5SwZkX4Y75SwBolkpmE7iQ==
+  version "1.14.9"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.9.tgz#dd4ea157de7bfaf9ea9b3fbd85aa16951f78d8d7"
+  integrity sha512-MQDfihBQYMcyy5dhRDJUHcw7lb2Pv/TuE6xP1vyraLukNDHKbDxDNaOE3NbCAdKQApno+GPRyo1YAp89yCjK4w==
 
 formdata-polyfill@^4.0.10:
   version "4.0.10"
@@ -74,6 +82,14 @@ guid@0.0.12:
   version "0.0.12"
   resolved "https://registry.yarnpkg.com/guid/-/guid-0.0.12.tgz#9137c52b185f7de12490b9bebcc1660b9025fe0c"
   integrity sha1-kTfFKxhffeEkkLm+vMFmC5Al/gw=
+
+https-proxy-agent@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/https-proxy-agent/-/https-proxy-agent-5.0.0.tgz#e2a90542abb68a762e0a0850f6c9edadfd8506b2"
+  integrity sha512-EkYm5BcKUGiduxzSt3Eppko+PiNWNEpa4ySk9vTC6wDsQJW9rHSa+UhGNJoRYp7bz6Ht1eaRIa6QaJqO5rCFbA==
+  dependencies:
+    agent-base "6"
+    debug "4"
 
 jsonwebtoken@^8.5.1:
   version "8.5.1"
