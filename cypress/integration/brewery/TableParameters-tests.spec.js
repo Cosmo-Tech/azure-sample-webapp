@@ -90,6 +90,7 @@ describe('Table parameters standard operations', () => {
     const scenarioName = forgeScenarioName();
     scenarioNamesToDelete.push(scenarioName);
     Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
+    ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.getCustomersImportButton().should('be.visible');
     BreweryParameters.getCustomersCSVExportButton().should('be.visible');
@@ -107,6 +108,7 @@ describe('Table parameters standard operations', () => {
     const scenarioName = forgeScenarioName();
     scenarioNamesToDelete.push(scenarioName);
     Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
+    ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.getCustomersTable().should('be.visible');
     BreweryParameters.getCustomersTableLabel().should('be.visible').should('have.text', 'Customers');
@@ -120,6 +122,7 @@ describe('Table parameters standard operations', () => {
 
   it('can import empty CSV & XLSX files and export the table afterwards', () => {
     const checkAndExport = () => {
+      ScenarioParameters.expandParametersAccordion();
       BreweryParameters.getCustomersErrorsPanel().should('not.exist');
       BreweryParameters.getCustomersTableHeader().should('be.visible');
       COL_NAMES.forEach((col) => {
@@ -132,8 +135,8 @@ describe('Table parameters standard operations', () => {
     const scenarioName = forgeScenarioName();
     scenarioNamesToDelete.push(scenarioName);
     Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
-    BreweryParameters.switchToCustomersTab();
     ScenarioParameters.edit();
+    BreweryParameters.switchToCustomersTab();
     BreweryParameters.getCustomersTableHeader().should('not.exist');
     BreweryParameters.importCustomersTableData(CSV_VALID_FILE_PATH_EMPTY);
     checkAndExport();
@@ -145,8 +148,8 @@ describe('Table parameters standard operations', () => {
     const scenarioName = forgeScenarioName();
     scenarioNamesToDelete.push(scenarioName);
     Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
-    BreweryParameters.switchToCustomersTab();
     ScenarioParameters.edit();
+    BreweryParameters.switchToCustomersTab();
     BreweryParameters.importCustomersTableData(CSV_VALID_FILE_PATH_WITH_SPACES);
     BreweryParameters.getCustomersTableRows().should('have.length', 4);
     BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Bob');
@@ -179,8 +182,8 @@ describe('Table parameters standard operations', () => {
     const scenarioName = forgeScenarioName();
     scenarioNamesToDelete.push(scenarioName);
     Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
-    BreweryParameters.switchToCustomersTab();
     ScenarioParameters.edit();
+    BreweryParameters.switchToCustomersTab();
     BreweryParameters.importCustomersTableData(CSV_VALID_FILE_PATH);
     BreweryParameters.getCustomersTableRows().should('have.length', 4);
     BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Bob');
@@ -233,8 +236,8 @@ describe('Table parameters standard operations', () => {
     const scenarioName = forgeScenarioName();
     scenarioNamesToDelete.push(scenarioName);
     Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
-    BreweryParameters.switchToCustomersTab();
     ScenarioParameters.edit();
+    BreweryParameters.switchToCustomersTab();
     BreweryParameters.importCustomersTableData(CSV_VALID_FILE_PATH);
     BreweryParameters.getCustomersTableRows().should('have.length', 4);
     BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Bob');
@@ -265,8 +268,8 @@ describe('Table parameters standard operations', () => {
     const scenarioName = forgeScenarioName();
     scenarioNamesToDelete.push(scenarioName);
     Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
-    BreweryParameters.switchToCustomersTab();
     ScenarioParameters.edit();
+    BreweryParameters.switchToCustomersTab();
     BreweryParameters.importCustomersTableData(CSV_VALID_FILE_PATH);
     BreweryParameters.getCustomersTableRows().should('have.length', 4);
     BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Bob');
@@ -300,8 +303,8 @@ describe('Table parameters standard operations', () => {
     const scenarioName = forgeScenarioName();
     scenarioNamesToDelete.push(scenarioName);
     Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
-    BreweryParameters.switchToCustomersTab();
     ScenarioParameters.edit();
+    BreweryParameters.switchToCustomersTab();
     BreweryParameters.importCustomersTableData(XLSX_VALID_FILE_PATH);
     BreweryParameters.getCustomersTableRows().should('have.length', 4);
     BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Bob');
@@ -332,8 +335,8 @@ describe('Table parameters standard operations', () => {
     const scenarioName = forgeScenarioName();
     scenarioNamesToDelete.push(scenarioName);
     Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
-    BreweryParameters.switchToCustomersTab();
     ScenarioParameters.edit();
+    BreweryParameters.switchToCustomersTab();
     BreweryParameters.importCustomersTableData(CSV_VALID_FILE_PATH);
     // Initial values
     BreweryParameters.getCustomersTableCell('age', 0).should('have.text', '10');
@@ -401,8 +404,8 @@ describe('Table parameters standard operations', () => {
     const scenarioName = forgeScenarioName();
     scenarioNamesToDelete.push(scenarioName);
     Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
-    BreweryParameters.switchToCustomersTab();
     ScenarioParameters.edit();
+    BreweryParameters.switchToCustomersTab();
     BreweryParameters.importCustomersTableData(CSV_VALID_FILE_PATH);
     BreweryParameters.getCustomersTableCell('canDrinkAlcohol', 1).should('have.text', 'false');
     BreweryParameters.editCustomersTableStringCell('canDrinkAlcohol', 1, 'true')

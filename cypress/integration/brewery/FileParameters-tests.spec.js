@@ -200,8 +200,8 @@ describe('Simple operations on a file parameter in a parameters tab that lost fo
     cy.wait(5000); // eslint-disable-line cypress/no-unnecessary-waiting
     Scenarios.selectScenario(firstScenarioName, firstScenarioId);
     cy.wait(5000); // eslint-disable-line cypress/no-unnecessary-waiting
-    BreweryParameters.switchToBasicTypesTab();
     ScenarioParameters.edit(120);
+    BreweryParameters.switchToBasicTypesTab();
     BreweryParameters.switchToExtraDatasetPartTab();
     BreweryParameters.getExampleDatasetPart3DownloadButton().should('have.text', FILE_PATH_1);
     BreweryParameters.deleteExampleDatasetPart3();
@@ -282,6 +282,7 @@ describe('Scenario inheritance for file parameters', () => {
       'the first child scenario and run it',
     () => {
       Scenarios.createScenario(childScenarioName, false, parentScenarioName, SCENARIO_RUN_TEMPLATE);
+      ScenarioParameters.expandParametersAccordion();
       BreweryParameters.switchToDatasetPartsTab();
       BreweryParameters.getExampleDatasetPart1DownloadButton().should('not.exist');
     }

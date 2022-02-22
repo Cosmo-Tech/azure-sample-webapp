@@ -8,6 +8,9 @@ import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
 function getParametersTabs() {
   return cy.get(GENERIC_SELECTORS.scenario.parameters.tabs);
 }
+function getParametersAccordionSummary() {
+  return cy.get(GENERIC_SELECTORS.scenario.parameters.accordionSummary);
+}
 //  - timeout: max time to wait before throwing an error (seconds)
 function getParametersEditButton(timeout = 5) {
   return cy.get(GENERIC_SELECTORS.scenario.parameters.editButton, { timeout: timeout * 1000 });
@@ -23,6 +26,24 @@ function getParametersUpdateAndLaunchButton() {
 }
 
 // Actions around scenario parameters
+function expandParametersAccordion() {
+  getParametersAccordionSummary()
+    .invoke('attr', 'aria-expanded')
+    .then(($val) => {
+      if ($val === 'false') {
+        getParametersAccordionSummary().click();
+      }
+    });
+}
+function collapseParametersAccordion() {
+  getParametersAccordionSummary()
+    .invoke('attr', 'aria-expanded')
+    .then(($val) => {
+      if ($val === 'true') {
+        getParametersAccordionSummary().click();
+      }
+    });
+}
 function edit(timeout = 5) {
   getParametersEditButton(timeout).should('not.be.disabled').click();
 }
@@ -43,9 +64,12 @@ function getInputValue(inputElement) {
 
 export const ScenarioParameters = {
   getParametersTabs,
+  getParametersAccordionSummary,
   getParametersEditButton,
   getParametersDiscardButton,
   getParametersUpdateAndLaunchButton,
+  expandParametersAccordion,
+  collapseParametersAccordion,
   edit,
   discard,
   updateAndLaunch,

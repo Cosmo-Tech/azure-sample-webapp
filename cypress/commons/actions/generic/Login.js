@@ -4,7 +4,7 @@
 import 'cypress-localstorage-commands';
 import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
 import { PAGE_NAME, URL_REGEX, URL_POWERBI } from '../../constants/generic/TestConstants';
-import { Scenarios } from './Scenarios';
+import { Scenarios, ScenarioParameters } from './..';
 
 function getMicrosoftLoginButton() {
   return cy.get(GENERIC_SELECTORS.login.microsoftLoginButton);
@@ -26,8 +26,8 @@ function login() {
   Login.getMicrosoftLoginButton().click();
   cy.wait('@' + reqName);
 
-  Scenarios.getScenarioParametersTab().should('be.visible');
   Scenarios.getScenarioView().should('be.visible');
+  ScenarioParameters.getParametersAccordionSummary().should('be.visible');
   cy.saveLocalStorage();
 }
 
