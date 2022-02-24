@@ -13,9 +13,8 @@ describe('UserInfo features', () => {
     Login.relogin();
   });
 
-  it('can download the documentation PDF', () => {
+  it('can go to documentation page', () => {
     AppBar.openHelpMenu();
-    // Check that the link to the documentation PDF file exists
     AppBar.getDocumentationLink().should('have.attr', 'target', '_blank');
   });
 

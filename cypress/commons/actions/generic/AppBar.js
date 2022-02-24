@@ -1,7 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { FILE_NAME, SUPPORT_URL } from '../../constants/generic/TestConstants';
 import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
 
 // User profile menu elements
@@ -26,12 +25,10 @@ function getHelpMenu() {
   return cy.get(GENERIC_SELECTORS.helpMenu.menu);
 }
 function getDocumentationLink() {
-  const docLink = `a[href="${FILE_NAME.DOC}"]`;
-  return cy.get(docLink);
+  return cy.get(GENERIC_SELECTORS.helpMenu.documentation).find('a');
 }
 function getSupportPageLink() {
-  const supportPageLink = `a[href="${SUPPORT_URL}"]`;
-  return cy.get(supportPageLink);
+  return cy.get(GENERIC_SELECTORS.helpMenu.support).find('a');
 }
 function getAboutButton() {
   return cy.get(GENERIC_SELECTORS.helpMenu.aboutButton);
