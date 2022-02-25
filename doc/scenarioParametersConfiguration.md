@@ -225,6 +225,7 @@ file](../src/config/ScenarioParameters.js):
   file browser
 - `connectorId`: the connector id to use in the dataset object that will be created with the Cosmo Tech API
 - `description`: the description to use in the dataset object that will be created with the Cosmo Tech API
+- `defaultValue`: if you want to have a default file instead of no file uploaded by default, you can provide the id of an existing dataset in the `defaultValue` property
 
 Example:
 
@@ -254,6 +255,7 @@ are slightly different:
 - `columns`: an array describing the expected columns of the table (see section below "Columns definition")
 - `dateFormat`: a string describing the expected format of dates in the table based on
   [date-fns format patterns](https://date-fns.org/v2.25.0/docs/parse) (default: 'yyyy-MM-dd')
+- `defaultValue`: if you want to have a default table instead of the default empty table, you can provide the id of an existing dataset in the `defaultValue` property (this dataset must be a CSV file, without header, values separated by commas)
 
 #### Columns definition
 
