@@ -97,6 +97,13 @@ describe('Create scenario', () => {
       }
     );
 
+    // Check parameters accordion
+    ScenarioParameters.getParametersTabs().should('not.be.visible');
+    ScenarioParameters.expandParametersAccordion();
+    ScenarioParameters.getParametersTabs().should('be.visible');
+    ScenarioParameters.collapseParametersAccordion();
+    ScenarioParameters.getParametersTabs().should('not.be.visible');
+
     // Edit master paramameters values
     ScenarioParameters.edit();
     ScenarioParameters.getParametersTabs().should('be.visible');

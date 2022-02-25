@@ -30,6 +30,7 @@ export const GENERIC_SELECTORS = {
     selectInput: '[data-cy=scenario-select-input]',
     parameters: {
       tabs: '[data-cy=scenario-parameters-tabs]',
+      accordionSummary: '[data-cy=scenario-params-accordion-summary]',
       editButton: '[data-cy=edit-parameters-button]',
       updateAndLaunchButton: '[data-cy=update-and-launch-scenario]',
       discardButton: '[data-cy=discard-button]',
