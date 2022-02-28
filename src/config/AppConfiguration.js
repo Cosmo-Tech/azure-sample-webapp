@@ -30,7 +30,7 @@ export const SUPPORT_URL = 'https://support.cosmotech.com';
 export const COSMOTECH_URL = 'https://cosmotech.com';
 
 // Documentation url
-export const DOCUMENTATION_URL = 'doc.pdf';
+export const DOCUMENTATION_URL = 'https://portal.cosmotech.com/resources/platform-resources/platform-help';
 
 // Additional parameters to put in scenario parameters
 export const ADD_SCENARIO_NAME_PARAMETER = false;

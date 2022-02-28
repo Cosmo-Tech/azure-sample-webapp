@@ -20,6 +20,8 @@ export const GENERIC_SELECTORS = {
     aboutButton: '[data-cy=about-button]',
     aboutDialog: '[data-cy=about-dialog]',
     aboutDialogCloseButton: '[data-cy=about-dialog-close-button]',
+    support: '[data-cy=support-link]',
+    documentation: '[data-cy=documentation-link]',
   },
   scenario: {
     view: '[data-cy=scenario-view]',
