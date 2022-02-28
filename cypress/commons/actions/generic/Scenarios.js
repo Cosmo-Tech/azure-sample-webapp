@@ -7,7 +7,7 @@ import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
 // From scenario View
 // Get elements
 function getScenarioViewTab() {
-  return cy.get(GENERIC_SELECTORS.scenario.view);
+  return cy.get(GENERIC_SELECTORS.scenario.tabName);
 }
 function getScenarioView() {
   return cy.get(GENERIC_SELECTORS.scenario.view);

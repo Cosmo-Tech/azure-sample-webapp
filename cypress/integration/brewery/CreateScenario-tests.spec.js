@@ -88,6 +88,32 @@ describe('Create scenario', () => {
   });
 
   it('can create and launch scenario master', () => {
+    // Check parameters accordion
+    ScenarioParameters.getParametersTabs().should('not.be.visible');
+    ScenarioParameters.expandParametersAccordion();
+    ScenarioParameters.getParametersTabs().should('be.visible');
+    ScenarioParameters.collapseParametersAccordion();
+    ScenarioParameters.getParametersTabs().should('not.be.visible');
+
+    // Check persistance of parameters accordion state
+    ScenarioManager.switchToScenarioManager();
+    Scenarios.switchToScenarioView();
+    ScenarioParameters.getParametersTabs().should('not.be.visible');
+    ScenarioParameters.expandParametersAccordion();
+    ScenarioParameters.getParametersTabs().should('be.visible');
+    ScenarioManager.switchToScenarioManager();
+    Scenarios.switchToScenarioView();
+    ScenarioParameters.getParametersTabs().should('be.visible');
+    cy.reload();
+    ScenarioParameters.getParametersTabs().should('be.visible');
+    ScenarioParameters.collapseParametersAccordion();
+    ScenarioParameters.getParametersTabs().should('not.be.visible');
+    ScenarioManager.switchToScenarioManager();
+    Scenarios.switchToScenarioView();
+    ScenarioParameters.getParametersTabs().should('not.be.visible');
+    cy.reload();
+    ScenarioParameters.getParametersTabs().should('not.be.visible');
+
     // Create scenario master:
     let scenarioCreatedName;
     Scenarios.createScenario(scenarioMasterName, true, DATASET.BREWERY_ADT, RUN_TEMPLATE.BREWERY_PARAMETERS).then(
@@ -96,13 +122,6 @@ describe('Create scenario', () => {
         scenarioCreatedName = value.scenarioCreatedName;
       }
     );
-
-    // Check parameters accordion
-    ScenarioParameters.getParametersTabs().should('not.be.visible');
-    ScenarioParameters.expandParametersAccordion();
-    ScenarioParameters.getParametersTabs().should('be.visible');
-    ScenarioParameters.collapseParametersAccordion();
-    ScenarioParameters.getParametersTabs().should('not.be.visible');
 
     // Edit master paramameters values
     ScenarioParameters.edit();

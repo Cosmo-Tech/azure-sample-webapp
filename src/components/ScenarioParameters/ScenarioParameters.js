@@ -155,7 +155,7 @@ const ScenarioParameters = ({
 
   // Add accordion expand status in state
   const [accordionSummaryExpanded, setAccordionSummaryExpanded] = useState(
-    localStorage.getItem('parametersAccordionExpanded') === 'true'
+    localStorage.getItem('scenarioParametersAccordionExpanded') === 'true'
   );
 
   // Generate input components for each scenario parameters tab

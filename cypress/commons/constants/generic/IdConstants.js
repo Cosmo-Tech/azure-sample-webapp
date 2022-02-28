@@ -23,7 +23,7 @@ export const GENERIC_SELECTORS = {
   },
   scenario: {
     view: '[data-cy=scenario-view]',
-    tabName: '[data-cy="tabs.scenariomanager.key"]',
+    tabName: '[data-cy="tabs.scenario.key"]',
     dashboard: {
       placeholder: '[data-cy=dashboard-placeholder]',
     },
