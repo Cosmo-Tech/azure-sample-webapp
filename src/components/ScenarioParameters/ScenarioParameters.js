@@ -313,7 +313,7 @@ const ScenarioParameters = ({
           </Grid>
         </AccordionSummary>
         <AccordionDetails>
-          <div item className={classes.accordionDetailsContent}>
+          <div className={classes.accordionDetailsContent}>
             {
               <form onSubmit={preventSubmit}>
                 <ScenarioParametersTabs parametersGroupsMetadata={parametersGroupsMetadata} userRoles={userRoles} />
