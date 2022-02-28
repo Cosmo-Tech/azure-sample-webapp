@@ -104,7 +104,7 @@ const Scenario = (props) => {
   const sortedScenarioList = sortScenarioList(scenarioList.data.slice());
   const noScenario = currentScenario.data === null;
   const scenarioListDisabled = editMode || scenarioList === null || noScenario;
-  const scenarioListLabel = noScenario ? null : t('views.scenario.dropdown.scenario.label', Scenario);
+  const scenarioListLabel = noScenario ? null : t('views.scenario.dropdown.scenario.label', 'Scenario');
   const showBackdrop = currentScenario.status === STATUSES.LOADING;
 
   const createScenarioDialogLabels = {
