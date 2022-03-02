@@ -287,10 +287,16 @@
         "parameters": {
           "button": {
             "cancel": "Annuler",
-            "validate": "Abandonner"
+            "validate": "Abandonner",
+            "launch": "Lancer"
           },
           "title": "Abandonner les modifications ?",
-          "body": "Vous allez perdre toutes les modifications que vous avez faites sur les paramètres de scénario."
+          "body": "Vous allez perdre toutes les modifications que vous avez faites sur les paramètres de scénario.",
+          "confirmLaunchDialog": {
+            "title": "Lancer le scenario ?",
+            "body": "Lancer un scénario peut prendre du temps. Tous les résultats existants pour ce scénario seront écrasés.",
+            "checkbox": "Ne pas demander la prochaine fois."
+          }
         }
       },
       "about": {
