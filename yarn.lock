@@ -1255,16 +1255,17 @@
     validator "^13.7.0"
     xlsx "^0.17.4"
 
-"@cosmotech/ui@^1.3.4":
-  version "1.3.4"
-  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-1.3.4.tgz#2300781e82a4f91ebbc6ee2988b08588976b005f"
-  integrity sha512-pzw6aYWg36EmvNEBeJp+Irq9Ves25weJRGET5Bk4ALGfaSyy0dYAN6ICyK1n/8QFpf1Jt2rJsVfGWdlHad1q5g==
+"@cosmotech/ui@^2.0.0-beta.0":
+  version "2.0.0-beta.0"
+  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-2.0.0-beta.0.tgz#20f34d96657fff951291e48ec2c16c49de368f90"
+  integrity sha512-Y7d72Lk0wC7BnuMhdwZaCD255bustSMBc5apn8p/j9Psn/m8tfnYVVa0QwhLC0LdQmb75fCfRMNJGJCDC7MGdQ==
   dependencies:
     "@date-io/date-fns" "^1.3.13"
     "@material-ui/pickers" "^3.3.10"
     "@nosferatu500/react-sortable-tree" "^3.0.5"
     ag-grid-community "^26.1.0"
     ag-grid-react "^26.1.0"
+    clsx "^1.1.1"
     cytoscape "^3.20.0"
     cytoscape-bubblesets "^3.1.0"
     cytoscape-dagre "^2.4.0"
