@@ -156,6 +156,13 @@ const PARAMETERS_GROUPS = {
     },
     parameters: ['customers'],
   },
+  training_tab_dates: {
+    labels: {
+      en: 'Simulation dates',
+      fr: 'Dates de simulation',
+    },
+    parameters: ['training_start_date', 'training_end_date'],
+  },
 };
 
 // Use RUN_TEMPLATES dict below to override information of the run templates defined in your solution description, such
@@ -168,7 +175,7 @@ const RUN_TEMPLATES = {
     parameterGroups: ['bar_parameters', 'file_upload'],
   },
   3: {
-    parameterGroups: ['basic_types', 'dataset_parts', 'extra_dataset_part', 'customers'],
+    parameterGroups: ['basic_types', 'dataset_parts', 'extra_dataset_part', 'customers', 'training_tab_dates'],
   },
 };
 
