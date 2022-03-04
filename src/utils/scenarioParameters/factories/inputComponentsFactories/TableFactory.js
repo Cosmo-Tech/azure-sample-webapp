@@ -35,20 +35,23 @@ const create = (t, datasets, parameterMetadata, parametersState, setParametersSt
   const dateFormat = parameterMetadata.dateFormat || DEFAULT_DATE_FORMAT;
   const options = { dateFormat: dateFormat };
 
-  const setParameterInState = (newValue) => {
-    setParametersState({
-      ...parametersState,
+  function setParameterInState(newValue) {
+    setParametersState((currentParametersState) => ({
+      ...currentParametersState,
       [parameterId]: newValue,
-    });
-  };
+    }));
+  }
 
-  const setClientFileDescriptorStatuses = (newFileStatus, newTableDataStatus) => {
-    setParameterInState({
-      ...parameter,
-      status: newFileStatus,
-      tableDataStatus: newTableDataStatus,
-    });
-  };
+  function setClientFileDescriptorStatuses(newFileStatus, newTableDataStatus) {
+    setParametersState((currentParametersState) => ({
+      ...currentParametersState,
+      [parameterId]: {
+        ...currentParametersState[parameterId],
+        status: newFileStatus,
+        tableDataStatus: newTableDataStatus,
+      },
+    }));
+  }
 
   const _checkForLock = () => {
     if (create.downloadLocked === undefined) {

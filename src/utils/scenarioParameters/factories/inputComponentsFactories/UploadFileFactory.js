@@ -11,17 +11,20 @@ const create = (t, datasets, parameterData, parametersState, setParametersState,
   const datasetId = parameter.id;
 
   function setParameterInState(newValue) {
-    setParametersState({
-      ...parametersState,
+    setParametersState((currentParametersState) => ({
+      ...currentParametersState,
       [parameterId]: newValue,
-    });
+    }));
   }
 
   function setClientFileDescriptorStatus(newStatus) {
-    setParameterInState({
-      ...parameter,
-      status: newStatus,
-    });
+    setParametersState((currentParametersState) => ({
+      ...currentParametersState,
+      [parameterId]: {
+        ...currentParametersState[parameterId],
+        status: newStatus,
+      },
+    }));
   }
 
   const labels = {

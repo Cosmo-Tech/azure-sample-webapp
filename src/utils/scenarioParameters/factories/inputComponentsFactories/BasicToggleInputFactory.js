@@ -11,10 +11,10 @@ const create = (t, parameterData, parametersState, setParametersState, editMode)
   };
 
   function setValue(newValue) {
-    setParametersState({
-      ...parametersState,
+    setParametersState((currentParametersState) => ({
+      ...currentParametersState,
       [parameterData.id]: newValue,
-    });
+    }));
   }
 
   return (
