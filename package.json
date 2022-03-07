@@ -14,7 +14,7 @@
     "@material-ui/styles": "^4.11.3",
     "@microsoft/applicationinsights-web": "^2.5.11",
     "@reduxjs/toolkit": "^1.5.1",
-    "axios": "^0.25.0",
+    "axios": "^0.26.0",
     "clsx": "^1.1.1",
     "i18next": "^21.3.1",
     "i18next-browser-languagedetector": "^6.1.0",
