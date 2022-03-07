@@ -15,6 +15,7 @@ import { ScenarioParametersUtils } from '../../utils';
 import { ScenarioParametersTabFactory } from '../../utils/scenarioParameters/factories/ScenarioParametersTabFactory';
 import { PERMISSIONS } from '../../services/config/Permissions';
 import { PermissionsGate } from '../PermissionsGate';
+import { TrainingDatesTabFactory } from '../../utils/scenarioParameters/factories/TrainingDatesTabFactory';
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -160,14 +161,25 @@ const ScenarioParameters = ({
 
   // Generate input components for each scenario parameters tab
   for (const parametersGroupMetadata of parametersGroupsMetadata) {
-    parametersGroupMetadata.tab = ScenarioParametersTabFactory.create(
-      t,
-      datasets,
-      parametersGroupMetadata,
-      parametersValuesToRender,
-      setParametersValuesToRender,
-      editMode
-    );
+    if (parametersGroupMetadata.id === 'training_tab_dates') {
+      parametersGroupMetadata.tab = TrainingDatesTabFactory.create(
+        t,
+        datasets,
+        parametersGroupMetadata,
+        parametersValuesToRender,
+        setParametersValuesToRender,
+        editMode
+      );
+    } else {
+      parametersGroupMetadata.tab = ScenarioParametersTabFactory.create(
+        t,
+        datasets,
+        parametersGroupMetadata,
+        parametersValuesToRender,
+        setParametersValuesToRender,
+        editMode
+      );
+    }
   }
 
   const discardLocalChanges = () => {
