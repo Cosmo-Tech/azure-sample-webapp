@@ -21,6 +21,7 @@ const PARAMETERS = {
   stock: {
     dataCy: 'stock-input',
     defaultValue: 100,
+    subType: 'ADT-connected',
   },
   currency: {
     dataCy: 'currency',
