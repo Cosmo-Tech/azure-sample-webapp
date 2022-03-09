@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 
 import React from 'react';
+import axios from 'axios';
+import { ORGANIZATION_ID, WORKSPACE_ID } from '../../../../config/AppInstance';
 import { Button } from '@material-ui/core';
 import { BasicNumberInput } from '@cosmotech/ui';
 
@@ -32,7 +34,8 @@ function getMaxValue(parameterData) {
   return parameterData.maxValue;
 }
 
-const create = (t, parameterData, parametersState, setParametersState, editMode) => {
+const create = (t, parameterData, parametersState, setParametersState, editMode, context) => {
+  const currentScenario = context.currentScenario;
   const inputProps = {
     min: getMinValue(parameterData),
     max: getMaxValue(parameterData),
@@ -54,8 +57,20 @@ const create = (t, parameterData, parametersState, setParametersState, editMode)
     value = NaN;
   }
 
-  const resetFromADT = () => {
-    setValue(0); // TODO: read value from ADT
+  const resetFromADT = async () => {
+    const azureFunctionAddress = 'http://localhost:8001/api/DownloadScenario';
+    const _data = await axios({
+      method: 'post',
+      url: azureFunctionAddress,
+      headers: {},
+      params: {
+        'organization-id': ORGANIZATION_ID,
+        'scenario-id': currentScenario.data.id,
+        'workspace-id': WORKSPACE_ID,
+      },
+    });
+    const customersCount = _data?.data?.Customer || 0;
+    setValue(customersCount);
   };
 
   return (
