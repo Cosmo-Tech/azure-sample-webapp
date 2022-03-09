@@ -22,6 +22,7 @@ const PARAMETERS = {
     dataCy: 'stock-input',
     defaultValue: 100,
     subType: 'ADT-connected',
+    azureFunctionAddress: 'http://localhost:8001/api/DownloadScenario',
   },
   currency: {
     dataCy: 'currency',

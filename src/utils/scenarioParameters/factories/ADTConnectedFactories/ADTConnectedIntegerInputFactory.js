@@ -58,7 +58,7 @@ const create = (t, parameterData, parametersState, setParametersState, editMode,
   }
 
   const resetFromADT = async () => {
-    const azureFunctionAddress = 'http://localhost:8001/api/DownloadScenario';
+    const azureFunctionAddress = parameterData?.azureFunctionAddress;
     const _data = await axios({
       method: 'post',
       url: azureFunctionAddress,
