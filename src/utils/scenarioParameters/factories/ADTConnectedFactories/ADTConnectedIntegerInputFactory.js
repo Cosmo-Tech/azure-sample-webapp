@@ -59,18 +59,26 @@ const create = (t, parameterData, parametersState, setParametersState, editMode,
 
   const resetFromADT = async () => {
     const azureFunctionAddress = parameterData?.azureFunctionAddress;
-    const _data = await axios({
-      method: 'post',
-      url: azureFunctionAddress,
-      headers: {},
-      params: {
-        'organization-id': ORGANIZATION_ID,
-        'scenario-id': currentScenario.data.id,
-        'workspace-id': WORKSPACE_ID,
-      },
-    });
-    const customersCount = _data?.data?.Customer || 0;
-    setValue(customersCount);
+    try {
+      const _data = await axios({
+        method: 'post',
+        url: azureFunctionAddress,
+        headers: {},
+        params: {
+          'organization-id': ORGANIZATION_ID,
+          'scenario-id': currentScenario.data.id,
+          'workspace-id': WORKSPACE_ID,
+        },
+      });
+      const customersCount = _data?.data?.Customer || 0;
+      setValue(customersCount);
+    } catch (err) {
+      console.error(err);
+      console.error(
+        'Could not read data from ADT instance. Please check that the Azure Function is properly configured and that ' +
+          'the scenario uses an ADT dataset. The error details can be found in the logs of the Azure Function.'
+      );
+    }
   };
 
   return (
