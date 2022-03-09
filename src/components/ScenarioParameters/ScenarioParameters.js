@@ -159,6 +159,7 @@ const ScenarioParameters = ({
     localStorage.getItem('scenarioParametersAccordionExpanded') === 'true'
   );
 
+  const context = { currentScenario: currentScenario };
   // Generate input components for each scenario parameters tab
   for (const parametersGroupMetadata of parametersGroupsMetadata) {
     if (parametersGroupMetadata.id === 'training_tab_dates') {
@@ -168,7 +169,8 @@ const ScenarioParameters = ({
         parametersGroupMetadata,
         parametersValuesToRender,
         setParametersValuesToRender,
-        editMode
+        editMode,
+        context
       );
     } else {
       parametersGroupMetadata.tab = ScenarioParametersTabFactory.create(
@@ -177,7 +179,8 @@ const ScenarioParameters = ({
         parametersGroupMetadata,
         parametersValuesToRender,
         setParametersValuesToRender,
-        editMode
+        editMode,
+        context
       );
     }
   }

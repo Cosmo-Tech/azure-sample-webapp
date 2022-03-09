@@ -5,7 +5,7 @@ import { DATASET_ID_VARTYPE } from '../../../services/config/ApiConstants';
 import { VAR_TYPES_FACTORIES_MAPPING } from '../FactoriesMapping';
 import { ConfigUtils } from '../../ConfigUtils';
 
-const create = (t, datasets, parameterData, parametersState, setParametersState, editMode) => {
+const create = (t, datasets, parameterData, parametersState, setParametersState, editMode, context) => {
   const parameterVarType = ConfigUtils.buildExtendedVarType(parameterData.varType, parameterData.subType);
   let varTypeFactory;
 
@@ -24,9 +24,9 @@ const create = (t, datasets, parameterData, parametersState, setParametersState,
   }
 
   if (parameterVarType.startsWith(DATASET_ID_VARTYPE)) {
-    return varTypeFactory.create(t, datasets, parameterData, parametersState, setParametersState, editMode);
+    return varTypeFactory.create(t, datasets, parameterData, parametersState, setParametersState, editMode, context);
   }
-  return varTypeFactory.create(t, parameterData, parametersState, setParametersState, editMode);
+  return varTypeFactory.create(t, parameterData, parametersState, setParametersState, editMode, context);
 };
 
 export const ScenarioParameterInputFactory = {

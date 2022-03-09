@@ -15,7 +15,7 @@ const groupContainerStyle = {
   alignItems: 'stretch',
 };
 
-const create = (t, datasets, parametersGroupData, parametersState, setParametersState, editMode) => {
+const create = (t, datasets, parametersGroupData, parametersState, setParametersState, editMode, context) => {
   return (
     <PermissionsGate
       RenderNoPermissionComponent={() => noPermissionsPlaceHolder(t)}
@@ -29,7 +29,8 @@ const create = (t, datasets, parametersGroupData, parametersState, setParameters
             parameterData,
             parametersState,
             setParametersState,
-            editMode
+            editMode,
+            context
           )
         )}
       </div>
