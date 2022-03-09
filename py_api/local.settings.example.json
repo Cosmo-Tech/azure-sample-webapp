@@ -1,0 +1,16 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "FUNCTIONS_WORKER_RUNTIME": "python",
+    "AzureWebJobsStorage": "",
+    "AZURE_TENANT_ID": "INSERT_VALUE_HERE",
+    "AZURE_CLIENT_ID": "INSERT_VALUE_HERE",
+    "AZURE_CLIENT_SECRET": "INSERT_VALUE_HERE",
+    "COSMOTECH_API_SCOPE": "http://dev.api.cosmotech.com/.default",
+    "COSMOTECH_API_HOST": "https://dev.api.cosmotech.com"
+  },
+  "Host": {
+    "LocalHttpPort": 8001,
+    "CORS": "*"
+  }
+}
