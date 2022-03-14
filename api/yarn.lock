@@ -10,9 +10,9 @@
     debug "^4.1.1"
 
 "@azure/msal-node@^1.2.0":
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/@azure/msal-node/-/msal-node-1.6.0.tgz#59d6306979581fd9379d17d22047ada143ed56df"
-  integrity sha512-RCPXVWsjqYZh7NB1pAJLn4ypHlLBulOjw5nKPLsJiaJJIXnN8kc6SMkK3S9/80DZCEBstvoRMz6zF50QZJUeOQ==
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/@azure/msal-node/-/msal-node-1.7.0.tgz#9026971b1fd953f15bfddde9c43e180356a80d77"
+  integrity sha512-qDkW+Z4b0SGkkYrM1x+0s5WJ3z96vgiNZ20iwpmtCUHVfSrDiGFB8s8REKVaz7JZJi2L1s0vQRbUahly8EoGnw==
   dependencies:
     "@azure/msal-common" "^6.1.0"
     axios "^0.21.4"
@@ -175,9 +175,9 @@ node-domexception@^1.0.0:
   integrity sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==
 
 node-fetch@^3.0.0:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-3.2.1.tgz#002177382810cfb77858857f69a3621a86c45f26"
-  integrity sha512-Ef3SPFtRWFCDyhvcwCSvacLpkwmYZcD57mmZzAsMiks9TpHpIghe32U9H06tMICnr+X7YCpzH7WvUlUoml2urA==
+  version "3.2.3"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-3.2.3.tgz#a03c9cc2044d21d1a021566bd52f080f333719a6"
+  integrity sha512-AXP18u4pidSZ1xYXRDPY/8jdv3RAozIt/WLNR/MBGZAz+xjtlr90RvCnsvHQRiXyWliZF/CpytExp32UU67/SA==
   dependencies:
     data-uri-to-buffer "^4.0.0"
     fetch-blob "^3.1.4"
