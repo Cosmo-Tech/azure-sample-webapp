@@ -9,7 +9,7 @@ import { SCENARIO_PARAMETERS_CONFIG } from '../../config/ScenarioParameters';
 import { DATASET_ID_VARTYPE, SCENARIO_RUN_STATE } from '../../services/config/ApiConstants';
 import { EditModeButton, NormalModeButton, ScenarioParametersTabs } from './components';
 import { useTranslation } from 'react-i18next';
-import { SimpleTwoActionsDialog } from '@cosmotech/ui';
+import { SimpleTwoActionsDialog, DontAskAgainDialog } from '@cosmotech/ui';
 import { FileManagementUtils } from './FileManagementUtils';
 import { ScenarioParametersUtils } from '../../utils';
 import { ScenarioParametersTabFactory } from '../../utils/scenarioParameters/factories/ScenarioParametersTabFactory';
@@ -225,19 +225,33 @@ const ScenarioParameters = ({
     }
     changeEditMode(true);
   };
+
+  const [showWarningBeforeLaunchPopup, setShowWarningBeforeLaunchPopup] = useState(false);
+  const closeConfirmLaunchDialog = () => {
+    setShowWarningBeforeLaunchPopup(false);
+  };
+
+  const updateBeforeLaunch = useRef(null);
+
+  const confirmAndLaunch = (event, updateBeforeLaunch_) => {
+    event.stopPropagation();
+    updateBeforeLaunch.current = updateBeforeLaunch_;
+    if (localStorage.getItem('dontAskAgainToConfirmLaunch') === 'true') {
+      startScenarioLaunch();
+    } else {
+      setShowWarningBeforeLaunchPopup(true);
+    }
+  };
+
+  const startScenarioLaunch = async () => {
+    const forceUpdate = ScenarioParametersUtils.shouldForceUpdateScenarioParameters();
+    await processScenarioLaunch(forceUpdate || updateBeforeLaunch.current);
+  };
+
   const askDiscardConfirmation = (event) => {
     event.stopPropagation();
     setShowDiscardConfirmationPopup(true);
   };
-  const startScenarioLaunch = async (event) => {
-    event.stopPropagation();
-    await processScenarioLaunch(ScenarioParametersUtils.shouldForceUpdateScenarioParameters());
-  };
-  const startScenarioUpdateAndLaunch = async (event) => {
-    event.stopPropagation();
-    await processScenarioLaunch(true);
-  };
-
   const cancelDiscard = () => {
     setShowDiscardConfirmationPopup(false);
   };
@@ -297,13 +311,13 @@ const ScenarioParameters = ({
                   <EditModeButton
                     classes={classes}
                     handleClickOnDiscardChange={(event) => askDiscardConfirmation(event)}
-                    handleClickOnUpdateAndLaunchScenario={(event) => startScenarioUpdateAndLaunch(event)}
+                    handleClickOnUpdateAndLaunchScenario={(event) => confirmAndLaunch(event, true)}
                   />
                 ) : (
                   <NormalModeButton
                     classes={classes}
                     handleClickOnEdit={(event) => startParametersEdition(event)}
-                    handleClickOnLaunchScenario={(event) => startScenarioLaunch(event)}
+                    handleClickOnLaunchScenario={(event) => confirmAndLaunch(event, false)}
                     editDisabled={noTabsShown || isCurrentScenarioRunning}
                     runDisabled={isCurrentScenarioRunning}
                   />
@@ -330,10 +344,25 @@ const ScenarioParameters = ({
           body: t('genericcomponent.dialog.scenario.parameters.body'),
           button1: t('genericcomponent.dialog.scenario.parameters.button.cancel'),
           button2: t('genericcomponent.dialog.scenario.parameters.button.validate'),
-          ariaLabelledby: 'discard-changes-dialog',
         }}
         handleClickOnButton1={cancelDiscard}
         handleClickOnButton2={confirmDiscard}
+      />
+      <DontAskAgainDialog
+        id={'launch'}
+        open={showWarningBeforeLaunchPopup}
+        labels={{
+          title: t('genericcomponent.dialog.scenario.parameters.confirmLaunchDialog.title'),
+          body: t('genericcomponent.dialog.scenario.parameters.confirmLaunchDialog.body'),
+          cancel: t('genericcomponent.dialog.scenario.parameters.button.cancel'),
+          confirm: t('genericcomponent.dialog.scenario.parameters.button.launch'),
+          checkbox: t('genericcomponent.dialog.scenario.parameters.confirmLaunchDialog.checkbox'),
+        }}
+        onClose={closeConfirmLaunchDialog}
+        onConfirm={(dontAskAgain) => {
+          localStorage.setItem('dontAskAgainToConfirmLaunch', dontAskAgain);
+          startScenarioLaunch();
+        }}
       />
     </div>
   );

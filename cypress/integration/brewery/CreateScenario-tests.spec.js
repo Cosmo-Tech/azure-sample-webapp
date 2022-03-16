@@ -24,8 +24,8 @@ describe('Create scenario', () => {
   const scenarioChildName = SCENARIO_NAME.SCENARIO_CHILD + randomString;
   const scenarioWithBasicTypesName = SCENARIO_NAME.SCENARIO_WITH_BASIC_TYPES + randomString;
   const otherScenarioName = SCENARIO_NAME.OTHER_SCENARIO + randomString;
-  let scenarioMasterId, scenarioChildId, scenarioWithBasicTypesId, otherScenarioId;
-  let anotherScenarioUrlRegex;
+
+  let scenarioMasterId, scenarioChildId, scenarioWithBasicTypesId, otherScenarioId, anotherScenarioUrlRegex;
 
   const stock = utils.randomNmbr(BAR_PARAMETERS_RANGE.STOCK.MIN, BAR_PARAMETERS_RANGE.STOCK.MAX);
   const restock = utils.randomNmbr(BAR_PARAMETERS_RANGE.RESTOCK.MIN, BAR_PARAMETERS_RANGE.RESTOCK.MAX);
@@ -41,7 +41,7 @@ describe('Create scenario', () => {
 
   before(() => {
     Login.login();
-    // Create "another scenario"
+    // Create "another scenarios"
     Scenarios.createScenario(otherScenarioName, true, DATASET.BREWERY_ADT, RUN_TEMPLATE.BREWERY_PARAMETERS).then(
       (value) => {
         otherScenarioId = value.scenarioCreatedId;
@@ -65,9 +65,9 @@ describe('Create scenario', () => {
 
     // Delete all tests scenarios
     ScenarioManager.switchToScenarioManager();
-    for (const scenarioName of scenarioNamesToDelete) {
+    scenarioNamesToDelete.forEach((scenarioName) => {
       ScenarioManager.deleteScenario(scenarioName);
-    }
+    });
   });
 
   it('run templates are correctly filtered', () => {
@@ -158,10 +158,7 @@ describe('Create scenario', () => {
     // Switch to another scenario then come back to the first scenario
     cy.intercept('GET', anotherScenarioUrlRegex).as('requestUpdateCurrentScenario2');
 
-    Scenarios.getScenarioSelector()
-      .click()
-      .clear()
-      .type(otherScenarioName + '{downarrow}{enter}');
+    Scenarios.selectScenario(otherScenarioName, otherScenarioId);
 
     cy.wait('@requestUpdateCurrentScenario2')
       .its('response')
@@ -247,10 +244,7 @@ describe('Create scenario', () => {
     // Switch to another scenario then come back to the first scenario
     cy.intercept('GET', anotherScenarioUrlRegex).as('requestUpdateCurrentScenario2');
 
-    Scenarios.getScenarioSelector()
-      .click()
-      .clear()
-      .type(otherScenarioName + '{downarrow}{enter}');
+    Scenarios.selectScenario(otherScenarioName, otherScenarioId);
 
     cy.wait('@requestUpdateCurrentScenario2').should((req) => {
       const nameGet = req.response.body.name;
@@ -322,7 +316,7 @@ describe('Create scenario', () => {
     cy.get('@currency-value').then((input) => {
       BreweryParameters.getCurrencyValueInput().should('value', input);
     });
-    cy.get('@currency').then((input) => {
+    cy.get('@currency').then(() => {
       ScenarioParameters.getInputValue(BreweryParameters.getCurrencyInput()).then((value) => {
         expect(BASIC_PARAMETERS_CONST.ENUM[value], enumValue);
       });

@@ -287,10 +287,16 @@
         "parameters": {
           "button": {
             "cancel": "Cancel",
-            "validate": "Discard"
+            "validate": "Discard",
+            "launch": "Launch"
           },
           "title": "Discard current modifications ?",
-          "body": "You will lose all your current changes made on the scenario parameters."
+          "body": "You will lose all your current changes made on the scenario parameters.", 
+          "confirmLaunchDialog": {
+            "title": "Launch scenario ?",
+            "body": "Running a scenario can take time. Any existing results for this scenario will be overwriten.",
+            "checkbox": "Don't ask again"
+          }
         }
       },
       "about": {
