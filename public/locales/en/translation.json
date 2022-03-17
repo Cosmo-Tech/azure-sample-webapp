@@ -109,7 +109,7 @@
         },
         "noscenario": {
           "title": "No scenario yet",
-          "label": "You can create a scenario by clicking on"
+          "label": "You can create a scenario by clicking on \"Create new scenario\""
         },
         "error": {
           "unknown": {
@@ -291,7 +291,7 @@
             "launch": "Launch"
           },
           "title": "Discard current modifications ?",
-          "body": "You will lose all your current changes made on the scenario parameters.", 
+          "body": "You will lose all your current changes made on the scenario parameters.",
           "confirmLaunchDialog": {
             "title": "Launch scenario ?",
             "body": "Running a scenario can take time. Any existing results for this scenario will be overwriten.",
