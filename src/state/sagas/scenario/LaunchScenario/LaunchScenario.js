@@ -17,6 +17,7 @@ export function* launchScenario(action) {
     appInsights.trackScenarioLaunch();
     const workspaceId = action.workspaceId;
     const scenarioId = action.scenarioId;
+    const runStartTime = new Date().getTime();
 
     // Update scenario
     yield put({
@@ -33,7 +34,6 @@ export function* launchScenario(action) {
     yield call(Api.ScenarioRuns.runScenario, ORGANIZATION_ID, workspaceId, scenarioId);
 
     // Start backend polling to update the scenario status
-    const runStartTime = new Date().getTime();
     yield put({
       type: SCENARIO_ACTIONS_KEY.START_SCENARIO_STATUS_POLLING,
       workspaceId: workspaceId,
