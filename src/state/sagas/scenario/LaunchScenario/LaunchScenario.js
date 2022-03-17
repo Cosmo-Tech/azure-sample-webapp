@@ -24,6 +24,10 @@ export function* launchScenario(action) {
       status: STATUSES.SAVING,
       scenario: { state: SCENARIO_RUN_STATE.RUNNING },
     });
+    yield put({
+      type: SCENARIO_ACTIONS_KEY.UPDATE_SCENARIO,
+      data: { scenarioState: SCENARIO_RUN_STATE.RUNNING, scenarioId: scenarioId, lastRun: null },
+    });
 
     // Launch scenario if parameters update succeeded
     yield call(Api.ScenarioRuns.runScenario, ORGANIZATION_ID, workspaceId, scenarioId);
