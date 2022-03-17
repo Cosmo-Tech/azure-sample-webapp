@@ -21,13 +21,12 @@
   },
 
   "changelog": {
-    "commitTypes": ["feat", "fix", "perf", "merge", "docs"],
+    "commitTypes": ["feat", "fix", "perf", "docs"],
     "commitIgnoreRegexPattern": "^WIP ",
     "headlines": {
       "feat": "Features",
       "fix": "Bug Fixes",
       "perf": "Performance Improvements",
-      "merge": "Merged Branches",
       "docs": "Documentation",
       "breakingChange": "BREAKING CHANGES"
     },
