@@ -80,6 +80,20 @@ const Scenario = (props) => {
   const workspaceId = workspace.data.id;
   const [editMode, setEditMode] = useState(false);
 
+  // Add accordion expand status in state
+  const [accordionSummaryExpanded, setAccordionSummaryExpanded] = useState(
+    localStorage.getItem('scenarioParametersAccordionExpanded') === 'true'
+  );
+
+  useEffect(() => {
+    localStorage.setItem('scenarioParametersAccordionExpanded', accordionSummaryExpanded);
+  }, [accordionSummaryExpanded]);
+
+  const expandParametersAndCreateScenario = (workspaceId, scenarioData) => {
+    createScenario(workspaceId, scenarioData);
+    setAccordionSummaryExpanded(true);
+  };
+
   const currentScenarioRenderInputToolType = editMode
     ? t(
         'views.scenario.dropdown.scenario.tooltip.disabled',
@@ -208,7 +222,7 @@ const Scenario = (props) => {
                     <CreateScenarioButton
                       solution={solution}
                       workspaceId={workspaceId}
-                      createScenario={createScenario}
+                      createScenario={expandParametersAndCreateScenario}
                       currentScenario={currentScenario}
                       runTemplates={filteredRunTemplates}
                       datasets={datasetList.data}
@@ -231,6 +245,8 @@ const Scenario = (props) => {
                 addDatasetToStore={addDatasetToStore}
                 updateAndLaunchScenario={updateAndLaunchScenario}
                 launchScenario={launchScenario}
+                accordionSummaryExpanded={accordionSummaryExpanded}
+                onChangeAccordionSummaryExpanded={setAccordionSummaryExpanded}
                 workspaceId={workspaceId}
                 solution={solution.data}
                 datasets={datasetList.data}

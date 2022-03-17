@@ -60,6 +60,8 @@ const ScenarioParameters = ({
   addDatasetToStore,
   updateAndLaunchScenario,
   launchScenario,
+  onChangeAccordionSummaryExpanded,
+  accordionSummaryExpanded,
   workspaceId,
   scenarioList,
   currentScenario,
@@ -153,11 +155,6 @@ const ScenarioParameters = ({
     setParametersValuesToRender(generateParametersValuesToRenderFromParametersValuesRef());
   };
 
-  // Add accordion expand status in state
-  const [accordionSummaryExpanded, setAccordionSummaryExpanded] = useState(
-    localStorage.getItem('scenarioParametersAccordionExpanded') === 'true'
-  );
-
   // Generate input components for each scenario parameters tab
   for (const parametersGroupMetadata of parametersGroupsMetadata) {
     parametersGroupMetadata.tab = ScenarioParametersTabFactory.create(
@@ -218,9 +215,7 @@ const ScenarioParameters = ({
   };
 
   const startParametersEdition = (event) => {
-    if (!accordionSummaryExpanded) {
-      setAccordionSummaryExpanded(true);
-    } else {
+    if (accordionSummaryExpanded) {
       event.stopPropagation();
     }
     changeEditMode(true);
@@ -287,7 +282,7 @@ const ScenarioParameters = ({
   const handleSummaryClick = () => {
     const expandedNewState = !accordionSummaryExpanded;
     localStorage.setItem('scenarioParametersAccordionExpanded', expandedNewState);
-    setAccordionSummaryExpanded(expandedNewState);
+    onChangeAccordionSummaryExpanded(expandedNewState);
   };
 
   return (
@@ -373,7 +368,9 @@ ScenarioParameters.propTypes = {
   changeEditMode: PropTypes.func.isRequired,
   addDatasetToStore: PropTypes.func.isRequired,
   updateAndLaunchScenario: PropTypes.func.isRequired,
+  onChangeAccordionSummaryExpanded: PropTypes.func.isRequired,
   launchScenario: PropTypes.func.isRequired,
+  accordionSummaryExpanded: PropTypes.bool.isRequired,
   workspaceId: PropTypes.string.isRequired,
   scenarioId: PropTypes.string.isRequired,
   scenarioList: PropTypes.array.isRequired,
