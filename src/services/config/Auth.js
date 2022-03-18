@@ -18,7 +18,7 @@ const MSAL_CONFIG = {
   msalConfig: {
     auth: {
       clientId: APP_REGISTRATION_CLIENT_ID,
-      redirectUri: window.location.protocol + '//' + window.location.host + '/scenario',
+      redirectUri: window.location.protocol + '//' + window.location.host + '/sign-in',
       authority: `https://login.microsoftonline.com/${AZURE_TENANT_ID}`,
       knownAuthorities: [`https://login.microsoftonline.com/${AZURE_TENANT_ID}`],
     },
