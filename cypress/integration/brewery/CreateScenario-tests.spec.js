@@ -123,7 +123,15 @@ describe('Create scenario', () => {
       }
     );
 
-    // Edit master paramameters values
+    // Check parameters accordion state after creating scenario
+    ScenarioParameters.getParametersTabs().should('be.visible');
+    ScenarioManager.switchToScenarioManager();
+    Scenarios.switchToScenarioView();
+    ScenarioParameters.getParametersTabs().should('be.visible');
+    ScenarioParameters.collapseParametersAccordion();
+    ScenarioParameters.getParametersTabs().should('not.be.visible');
+
+    // Edit master parameters values
     ScenarioParameters.edit();
     ScenarioParameters.getParametersTabs().should('be.visible');
     BreweryParameters.getStockInput().clear().type(stock);
