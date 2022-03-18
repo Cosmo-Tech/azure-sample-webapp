@@ -22,10 +22,8 @@ const CSV_VALID_FILE_PATH_EMPTY = 'customers_empty.csv';
 const CSV_VALID_FILE_PATH_WITH_SPACES = 'customers_with_spaces.csv';
 const CSV_VALID_FILE_PATH = 'customers.csv';
 const CSV_ALTERNATE_VALID_FILE_PATH = 'customers2.csv';
-const CSV_INVALID_FILE_PATH = 'customers_invalid.csv';
 const XLSX_VALID_FILE_PATH_EMPTY = 'customers_empty.xlsx';
 const XLSX_VALID_FILE_PATH = 'customers.xlsx';
-const XLSX_INVALID_FILE_PATH = 'customers_invalid.xlsx';
 
 const COL_NAMES = ['name', 'age', 'canDrinkAlcohol', 'favoriteDrink', 'birthday', 'height'];
 const ENUM_VALUES = ['AppleJuice', 'OrangeJuice', 'Wine', 'Beer'];
@@ -33,21 +31,6 @@ const ENUM_VALUES = ['AppleJuice', 'OrangeJuice', 'Wine', 'Beer'];
 function forgeScenarioName() {
   const prefix = 'Scenario with table - ';
   return `${prefix}${utils.randomStr(7)}`;
-}
-
-function checkErrorsPanelFromList(errors) {
-  const errorsCount = errors.length;
-  BreweryParameters.getCustomersErrorsPanel().should('be.visible');
-  BreweryParameters.getCustomersErrorsHeader().should('have.text', `File load failed. ${errorsCount} errors occurred:`);
-  BreweryParameters.getCustomersErrorsAccordions().should('have.length', errorsCount);
-  errors.forEach((error, index) => {
-    if (error.summary) {
-      BreweryParameters.getCustomersErrorSummary(index).should('have.text', error.summary);
-    }
-    if (error.loc) {
-      BreweryParameters.getCustomersErrorLoc(index).should('have.text', error.loc);
-    }
-  });
 }
 
 describe('Table parameters standard operations', () => {
@@ -67,41 +50,6 @@ describe('Table parameters standard operations', () => {
     for (const scenarioName of scenarioNamesToDelete) {
       ScenarioManager.deleteScenario(scenarioName);
     }
-  });
-
-  it('can import invalid files and display the errors panel', () => {
-    const checkErrorsPanel = () => {
-      const expectedErrors = [
-        { summary: 'Missing columns', loc: 'Line 1' },
-        { summary: 'Incorrect int value', loc: 'Line 2 , Column 1 ("age")' },
-        { summary: 'Incorrect bool value' },
-        { summary: 'Incorrect enum value' },
-        { summary: 'Incorrect date value' },
-        { summary: 'Incorrect number value' },
-        { summary: 'Incorrect int value' },
-        { summary: 'Incorrect bool value' },
-        { summary: 'Incorrect enum value' },
-        { summary: 'Incorrect date value' },
-        { summary: 'Incorrect number value' },
-      ];
-      checkErrorsPanelFromList(expectedErrors);
-    };
-
-    const scenarioName = forgeScenarioName();
-    scenarioNamesToDelete.push(scenarioName);
-    Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
-    ScenarioParameters.expandParametersAccordion();
-    BreweryParameters.switchToCustomersTab();
-    BreweryParameters.getCustomersImportButton().should('be.visible');
-    BreweryParameters.getCustomersCSVExportButton().should('be.visible');
-    BreweryParameters.getCustomersErrorsPanel().should('not.exist');
-    ScenarioParameters.edit();
-    BreweryParameters.importCustomersTableData(CSV_INVALID_FILE_PATH);
-    checkErrorsPanel();
-    BreweryParameters.importCustomersTableData(XLSX_INVALID_FILE_PATH);
-    checkErrorsPanel();
-    ScenarioParameters.discard();
-    BreweryParameters.getCustomersErrorsPanel().should('not.exist');
   });
 
   it('can open the customers scenario parameters tab, and export an empty grid', () => {
@@ -264,7 +212,7 @@ describe('Table parameters standard operations', () => {
     BreweryParameters.getCustomersTableCell('height', 3).should('have.text', '2.01');
   });
 
-  it('can import a CSV file, edit it, import a new CSV file and override the former one, update and launch', () => {
+  it('can import a CSV file, edit it, import a new CSV file and override the first one, update and launch', () => {
     const scenarioName = forgeScenarioName();
     scenarioNamesToDelete.push(scenarioName);
     Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
