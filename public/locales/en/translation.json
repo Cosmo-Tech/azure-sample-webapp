@@ -138,7 +138,8 @@
       },
       "toolbar": {
         "expandAll": "Expand all",
-        "collapseAll": "Collapse all"
+        "collapseAll": "Collapse all",
+        "expandTree": "Expand tree"
       }
     },
     "text": {

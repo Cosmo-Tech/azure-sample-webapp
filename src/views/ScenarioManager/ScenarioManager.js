@@ -93,6 +93,7 @@ const ScenarioManager = (props) => {
     searchField: t('commoncomponents.scenariomanager.treelist.node.text.search'),
     toolbar: {
       expandAll: t('commoncomponents.scenariomanager.toolbar.expandAll', 'Expand all'),
+      expandTree: t('commoncomponents.scenariomanager.toolbar.expandTree', 'Expand tree'),
       collapseAll: t('commoncomponents.scenariomanager.toolbar.collapseAll', 'Collapse all'),
     },
   };

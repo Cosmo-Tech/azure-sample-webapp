@@ -138,7 +138,8 @@
       },
       "toolbar": {
         "expandAll": "Tout déplier",
-        "collapseAll": "Tout replier"
+        "collapseAll": "Tout replier",
+        "expandTree": "Déplier l'arborescence"
       }
     },
     "text": {
