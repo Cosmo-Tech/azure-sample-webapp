@@ -82,6 +82,8 @@ const ScenarioManager = (props) => {
     running: t('commoncomponents.scenariomanager.treelist.node.status.running'),
     failed: t('commoncomponents.scenariomanager.treelist.node.status.failed'),
     created: t('commoncomponents.scenariomanager.treelist.node.status.created'),
+    delete: t('commoncomponents.scenariomanager.treelist.node.action.delete'),
+    redirect: t('commoncomponents.scenariomanager.treelist.node.action.redirect'),
     deleteDialog: {
       description: t(
         'commoncomponents.dialog.confirm.delete.description',
