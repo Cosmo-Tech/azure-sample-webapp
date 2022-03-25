@@ -131,6 +131,10 @@
             "failed": "Erreur",
             "created": "Créé"
           },
+          "action": {
+            "delete": "Supprimer ce scénario",
+            "redirect": "Ouvrir dans la vue scénario"
+          },
           "text": {
             "search": "Filtrer..."
           }
