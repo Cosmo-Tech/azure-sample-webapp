@@ -1134,10 +1134,10 @@
     validator "^13.7.0"
     xlsx "^0.18.3"
 
-"@cosmotech/ui@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-2.0.1.tgz#faf3b43f036491b5451a4dafc3570c35d317005c"
-  integrity sha512-zGG5WOutZ0uvJquBSD1jbAqgCmkuudVt9H9EN4WJyMRXOyL4GGP2WQTd1oo0g1/Dtm7y9JXyASj1bZGuWCgmtA==
+"@cosmotech/ui@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-2.1.0.tgz#b89c817d27c18a14948af87a3373effd8b5bbf0e"
+  integrity sha512-VxmdtSHAOrm5w6BMlTfEbgGa+ANdnuK6YmNXfc682y0pYO5fCdzGVEIcyWsr9Kde5m2Yg+bBh9PHdmFFS8GY4g==
   dependencies:
     "@date-io/date-fns" "^1.3.13"
     "@material-ui/pickers" "^3.3.10"
