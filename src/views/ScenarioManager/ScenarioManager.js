@@ -1,7 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core';
 import { ScenarioManagerTreeList } from '@cosmotech/ui';
@@ -81,6 +82,8 @@ const ScenarioManager = (props) => {
     running: t('commoncomponents.scenariomanager.treelist.node.status.running'),
     failed: t('commoncomponents.scenariomanager.treelist.node.status.failed'),
     created: t('commoncomponents.scenariomanager.treelist.node.status.created'),
+    delete: t('commoncomponents.scenariomanager.treelist.node.action.delete'),
+    redirect: t('commoncomponents.scenariomanager.treelist.node.action.redirect'),
     deleteDialog: {
       description: t(
         'commoncomponents.dialog.confirm.delete.description',
@@ -98,6 +101,22 @@ const ScenarioManager = (props) => {
     },
   };
 
+  const navigate = useHistory();
+
+  const isWaitingForRedirection = useRef(false);
+  useEffect(() => {
+    if (isWaitingForRedirection.current === true) {
+      navigate.push('/scenario');
+      isWaitingForRedirection.current = false;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentScenario]);
+
+  const onScenarioRedirect = (scenarioId) => {
+    isWaitingForRedirection.current = true;
+    findScenarioById(WORKSPACE_ID, scenarioId);
+  };
+
   return (
     <div className={classes.root}>
       <PermissionsGate
@@ -109,6 +128,7 @@ const ScenarioManager = (props) => {
           scenarios={scenarios}
           currentScenarioId={currentScenario?.id}
           userId={userId}
+          onScenarioRedirect={onScenarioRedirect}
           deleteScenario={onScenarioDelete}
           moveScenario={moveScenario}
           buildDatasetInfo={buildDatasetLabel}

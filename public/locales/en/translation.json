@@ -131,6 +131,10 @@
             "failed": "Failed",
             "created": "Created"
           },
+          "action": {
+            "delete": "Delete this scenario",
+            "redirect": "Open in scenario view"
+          },
           "text": {
             "search": "Filter..."
           }
