@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
   },
   powerBICard: {
-    height: '940px',
+    height: '400px',
   },
 }));
 
