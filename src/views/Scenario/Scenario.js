@@ -3,7 +3,7 @@
 
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Backdrop, Card, CircularProgress, Grid, makeStyles, Typography } from '@material-ui/core';
+import { Backdrop, Card, CircularProgress, Grid, Typography } from '@material-ui/core';
 import { ScenarioParameters } from '../../components';
 import { useTranslation } from 'react-i18next';
 import { CreateScenarioButton, HierarchicalComboBox, SimplePowerBIReportEmbed } from '@cosmotech/ui';
@@ -17,46 +17,10 @@ import { STATUSES } from '../../state/commons/Constants';
 import { AppInsights } from '../../services/AppInsights';
 import { PERMISSIONS } from '../../services/config/Permissions';
 import { PermissionsGate } from '../../components/PermissionsGate';
+import { getCreateScenarioDialogLabels, getReportLabels } from './labels';
+import useStyles from './style';
 
 const appInsights = AppInsights.getInstance();
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    position: 'fixed',
-    height: '100%',
-  },
-  backdrop: {
-    zIndex: theme.zIndex.drawer + 1,
-    color: '#fff',
-  },
-  scenarioPanel: {
-    height: '100%',
-    flexGrow: 1,
-    paddingRight: '4px',
-    display: 'flex',
-    flexDirection: 'column',
-    margin: '4px',
-  },
-  scenarioList: {
-    paddingRight: '20px',
-  },
-  mainGrid: {
-    display: 'flex',
-    flexGrow: 1,
-    paddingLeft: '2px',
-    paddingTop: '6px',
-    paddingRight: '2px',
-    paddingBottom: '6px',
-    backgroundColor: theme.palette.background.paper,
-  },
-  grid: {
-    flexGrow: 1,
-    height: '100%',
-  },
-  powerBICard: {
-    height: '400px',
-  },
-}));
 
 const Scenario = (props) => {
   const classes = useStyles();
@@ -80,6 +44,9 @@ const Scenario = (props) => {
   const workspaceId = workspace.data.id;
   const [editMode, setEditMode] = useState(false);
 
+  const createScenarioDialogLabels = getCreateScenarioDialogLabels(t, editMode);
+  const reportLabels = getReportLabels(t);
+
   // Add accordion expand status in state
   const [accordionSummaryExpanded, setAccordionSummaryExpanded] = useState(
     localStorage.getItem('scenarioParametersAccordionExpanded') === 'true'
@@ -94,16 +61,10 @@ const Scenario = (props) => {
     setAccordionSummaryExpanded(true);
   };
 
-  const currentScenarioRenderInputToolType = editMode
+  const currentScenarioRenderInputTooltip = editMode
     ? t(
         'views.scenario.dropdown.scenario.tooltip.disabled',
         'Please save or discard current modifications before selecting another scenario'
-      )
-    : '';
-  const createScenarioButtonToolType = editMode
-    ? t(
-        'commoncomponents.button.create.scenario.tooltip.disabled',
-        'Please save or discard current modifications before creating a new scenario'
       )
     : '';
 
@@ -120,63 +81,6 @@ const Scenario = (props) => {
   const scenarioListDisabled = editMode || scenarioList === null || noScenario;
   const scenarioListLabel = noScenario ? null : t('views.scenario.dropdown.scenario.label', 'Scenario');
   const showBackdrop = currentScenario.status === STATUSES.LOADING;
-
-  const createScenarioDialogLabels = {
-    button: {
-      title: t('commoncomponents.button.create.scenario.label', 'Create new Scenario'),
-      tooltip: createScenarioButtonToolType,
-    },
-    dialog: {
-      title: t('commoncomponents.dialog.create.scenario.text.title', 'Create new Scenario'),
-      scenarioName: t('commoncomponents.dialog.create.scenario.input.scenarioname.label'),
-      scenarioMaster: t('commoncomponents.dialog.create.scenario.checkbox.scenarioMaster.label', 'Master'),
-      scenarioParent: t('commoncomponents.dialog.create.scenario.dropdown.parentscenario.label', 'Parent scenario'),
-      datasetPlaceholder: t('commoncomponents.dialog.create.scenario.dropdown.dataset.placeholder', 'Dataset'),
-      dataset: t('commoncomponents.dialog.create.scenario.dropdown.dataset.label', 'Select a dataset'),
-      scenarioTypePlaceholder: t(
-        'commoncomponents.dialog.create.scenario.dropdown.scenariotype.placeholder',
-        'Scenario'
-      ),
-      scenarioType: t('commoncomponents.dialog.create.scenario.dropdown.scenariotype.label', 'Scenario Type'),
-      cancel: t('commoncomponents.dialog.create.scenario.button.cancel', 'Cancel'),
-      create: t('commoncomponents.dialog.create.scenario.button.create', 'Create'),
-    },
-    errors: {
-      emptyScenarioName: t('commoncomponents.dialog.create.scenario.input.scenarioname.error.empty'),
-      existingScenarioName: t('commoncomponents.dialog.create.scenario.input.scenarioname.error.existing'),
-      forbiddenCharsInScenarioName: t(
-        'commoncomponents.dialog.create.scenario.input.scenarioname.error.forbiddenchars'
-      ),
-    },
-  };
-
-  const reportLabels = {
-    noScenario: {
-      title: t('commoncomponents.iframe.scenario.noscenario.title', 'No scenario yet'),
-      label: t(
-        'commoncomponents.iframe.scenario.noscenario.label',
-        'You can create a scenario by clicking on Create new Scenario'
-      ),
-    },
-    noRun: {
-      label: t('commoncomponents.iframe.scenario.results.label.uninitialized', 'The scenario has not been run yet'),
-    },
-    inProgress: {
-      label: t('commoncomponents.iframe.scenario.results.label.running', 'Scenario run in progress...'),
-    },
-    hasErrors: {
-      label: t('commoncomponents.iframe.scenario.results.text.error', 'An error occured during the scenario run'),
-    },
-    downloadButton: t('commoncomponents.iframe.scenario.results.button.downloadLogs', 'Download logs'),
-    refreshTooltip: t('commoncomponents.iframe.scenario.results.button.refresh', 'Refresh'),
-    errors: {
-      unknown: t('commoncomponents.iframe.scenario.error.unknown.label', 'Unknown error'),
-      details: t(
-        'commoncomponents.iframe.scenario.error.unknown.details',
-        'Something went wrong when fetching PowerBI reports info'
-      ),
-    },
-  };
 
   let filteredRunTemplates = solution?.data?.runTemplates || [];
   const solutionRunTemplates = workspace.data?.solution?.runTemplateFilter;
@@ -203,7 +107,7 @@ const Scenario = (props) => {
                     label={scenarioListLabel}
                     handleChange={handleScenarioChange}
                     disabled={scenarioListDisabled}
-                    renderInputToolType={currentScenarioRenderInputToolType}
+                    renderInputToolType={currentScenarioRenderInputTooltip}
                   />
                 </Grid>
                 {currentScenario.data && (
