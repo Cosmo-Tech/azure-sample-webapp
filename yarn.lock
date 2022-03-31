@@ -1134,7 +1134,7 @@
     validator "^13.7.0"
     xlsx "^0.18.3"
 
-"@cosmotech/ui@^2.1.1":
+"@cosmotech/ui@^2.2.0":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-2.2.1.tgz#3f877eb6ec4e9dd221dd92b27dbbbcf8d0202e2f"
   integrity sha512-PzAE3M+C0cVSnUeuE/eSQa9t+ZSkkq5GI3vVrMMHUCDE6ZvANedIcg93yOkAVWwuDlI7S8K0ufQcl/u+HjNiFw==
