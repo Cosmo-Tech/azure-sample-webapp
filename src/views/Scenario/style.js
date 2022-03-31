@@ -36,9 +36,6 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     height: '100%',
   },
-  powerBICard: {
-    height: '400px',
-  },
 }));
 
 export default useStyles;

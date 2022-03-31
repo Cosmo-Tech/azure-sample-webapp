@@ -10,7 +10,11 @@ import { CreateScenarioButton, HierarchicalComboBox, SimplePowerBIReportEmbed } 
 import { NAME_VALIDATOR } from '../../utils/ValidationUtils';
 import { sortScenarioList } from '../../utils/SortScenarioListUtils';
 import { LOG_TYPES } from '../../services/scenarioRun/ScenarioRunConstants.js';
-import { SCENARIO_RUN_LOG_TYPE, USE_POWER_BI_WITH_USER_CREDENTIALS } from '../../config/AppConfiguration';
+import {
+  SCENARIO_RUN_LOG_TYPE,
+  USE_POWER_BI_WITH_USER_CREDENTIALS,
+  SCENARIO_VIEW_IFRAME_DISPLAY_RATIO,
+} from '../../config/AppConfiguration';
 import { SCENARIO_DASHBOARD_CONFIG } from '../../config/Dashboards';
 import ScenarioRunService from '../../services/scenarioRun/ScenarioRunService';
 import { STATUSES } from '../../state/commons/Constants';
@@ -163,21 +167,20 @@ const Scenario = (props) => {
           </Grid>
         </Grid>
       </Grid>
-      <Grid>
-        <Card className={classes.powerBICard}>
-          <SimplePowerBIReportEmbed
-            reports={reports}
-            reportConfiguration={SCENARIO_DASHBOARD_CONFIG}
-            scenario={currentScenario.data}
-            lang={i18n.language}
-            downloadLogsFile={() => {
-              ScenarioRunService.downloadLogsFile(currentScenario.data?.lastRun, LOG_TYPES[SCENARIO_RUN_LOG_TYPE]);
-            }}
-            labels={reportLabels}
-            useAAD={USE_POWER_BI_WITH_USER_CREDENTIALS}
-          />
-        </Card>
-      </Grid>
+      <Card>
+        <SimplePowerBIReportEmbed
+          reports={reports}
+          reportConfiguration={SCENARIO_DASHBOARD_CONFIG}
+          scenario={currentScenario.data}
+          lang={i18n.language}
+          downloadLogsFile={() => {
+            ScenarioRunService.downloadLogsFile(currentScenario.data?.lastRun, LOG_TYPES[SCENARIO_RUN_LOG_TYPE]);
+          }}
+          labels={reportLabels}
+          useAAD={USE_POWER_BI_WITH_USER_CREDENTIALS}
+          iframeRatio={SCENARIO_VIEW_IFRAME_DISPLAY_RATIO}
+        />
+      </Card>
     </>
   );
 };
