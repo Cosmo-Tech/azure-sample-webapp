@@ -12,7 +12,7 @@ function getParametersAccordionSummary() {
   return cy.get(GENERIC_SELECTORS.scenario.parameters.accordionSummary);
 }
 //  - timeout: max time to wait before throwing an error (seconds)
-function getParametersEditButton(timeout = 5) {
+function getParametersEditButton(timeout = 4) {
   return cy.get(GENERIC_SELECTORS.scenario.parameters.editButton, { timeout: timeout * 1000 });
 }
 function getParametersDiscardButton() {
@@ -62,7 +62,7 @@ function collapseParametersAccordion() {
       }
     });
 }
-function edit(timeout = 5) {
+function edit(timeout) {
   getParametersEditButton(timeout).should('not.be.disabled').click();
 }
 function discard() {
