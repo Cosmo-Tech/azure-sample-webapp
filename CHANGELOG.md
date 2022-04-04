@@ -1,4 +1,4 @@
-## **2.5.0-dev** <sub><sup>2022-03-17 ([65864b3...f6512b7](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/65864b3...f6512b7?diff=split))</sup></sub>
+## **2.5.0** <sub><sup>2022-04-04 ([65864b3...81c4e58](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/65864b3...81c4e58?diff=split))</sup></sub>
 
 ### Features
 
@@ -7,6 +7,9 @@
 - make scenario parameters collapsable and move it above dashboards ([04f971f](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/04f971f))
 - set Cosmo platform\-help URL page as documentation instead of previously used pdf file ([88db4a1](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/88db4a1))
 - add scenario launch confirmation dialog ([282d3ab](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/282d3ab))
+- add automatic expansion of the scenario parameters accordion when create scenario ([bf66e73](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/bf66e73))
+- add redirection to selected scenario view from scenario manager ([99c55d5](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/99c55d5))
+- add new webapp configuration parameter SCENARIO_VIEW_IFRAME_DISPLAY_RATIO ([920bbb8](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/920bbb8))
 
 ### Bug Fixes
 
