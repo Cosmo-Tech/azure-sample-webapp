@@ -33,6 +33,7 @@ application.
 
 Parameter to define Power BI usages:
 
+- **SCENARIO_VIEW_IFRAME_DISPLAY_RATIO** defines the width/height ratio for the PowerBI iframe in the _Scenario_ view. This value must be a number, but you can use JS to compute it in the configuration file (e.g. for a 16:9 ratio, you can write `export const SCENARIO_VIEW_IFRAME_DISPLAY_RATIO = 16 / 9;`)
 - **USE_POWER_BI_WITH_USER_CREDENTIALS** defines if the information sent to Power BI (mainly for authentication) are based on user credentials or based on a service account
 
 **N.B:** Make sure that if you use authentication based on a Service Principal, none of reports/datasets of targeted Power BI workspace have restictions/roles set.
