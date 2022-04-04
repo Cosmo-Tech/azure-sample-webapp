@@ -1135,9 +1135,9 @@
     xlsx "^0.18.3"
 
 "@cosmotech/ui@^2.2.0":
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-2.2.1.tgz#3f877eb6ec4e9dd221dd92b27dbbbcf8d0202e2f"
-  integrity sha512-PzAE3M+C0cVSnUeuE/eSQa9t+ZSkkq5GI3vVrMMHUCDE6ZvANedIcg93yOkAVWwuDlI7S8K0ufQcl/u+HjNiFw==
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-2.2.2.tgz#37d5ccdd659d18918d86ece4ac58045c0d7c9fa9"
+  integrity sha512-qAKEnYQys4b9z7S8pGtGJ9NUxlRL1/vlwYb8U1S1f1Vr8nz/GCDCtpJ69PmzueuFstnTqsrI4DJ36rmtCBsrUQ==
   dependencies:
     "@date-io/date-fns" "^1.3.13"
     "@material-ui/pickers" "^3.3.10"
