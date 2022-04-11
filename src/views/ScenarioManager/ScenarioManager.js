@@ -6,11 +6,11 @@ import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core';
 import { ScenarioManagerTreeList } from '@cosmotech/ui';
-import { WORKSPACE_ID } from '../../config/AppInstance';
+import { WORKSPACE_ID } from 'config/AppInstance';
 import { useTranslation } from 'react-i18next';
-import { PERMISSIONS } from '../../services/config/Permissions';
-import { PermissionsGate } from '../../components/PermissionsGate';
-import { getFirstScenarioMaster } from '../../utils/SortScenarioListUtils';
+import { PERMISSIONS } from 'services/config/Permissions';
+import { PermissionsGate } from 'components/PermissionsGate';
+import { getFirstScenarioMaster } from 'utils/SortScenarioListUtils';
 
 const useStyles = makeStyles((theme) => ({
   root: {
