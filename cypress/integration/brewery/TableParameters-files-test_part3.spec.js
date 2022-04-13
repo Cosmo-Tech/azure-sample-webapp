@@ -157,22 +157,10 @@ describe('Table parameters files standard operations part 3', () => {
       .should('have.text', 'true')
       .type('{ctrl}z')
       .should('have.text', 'false');
-    for (const i of Array(10).keys()) {
+    for (const i of Array(4).keys()) {
       BreweryParameters.editCustomersTableStringCell('age', 0, '' + i).should('have.text', '' + i);
     }
     BreweryParameters.getCustomersTableCell('age', 0)
-      .should('have.text', '9')
-      .type('{ctrl}z')
-      .should('have.text', '8')
-      .type('{ctrl}z')
-      .should('have.text', '7')
-      .type('{ctrl}z')
-      .should('have.text', '6')
-      .type('{ctrl}z')
-      .should('have.text', '5')
-      .type('{ctrl}z')
-      .should('have.text', '4')
-      .type('{ctrl}z')
       .should('have.text', '3')
       .type('{ctrl}z')
       .should('have.text', '2')
