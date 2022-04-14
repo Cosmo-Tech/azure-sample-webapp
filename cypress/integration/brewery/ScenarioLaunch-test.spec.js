@@ -6,6 +6,10 @@ import { SCENARIO_NAME, DATASET, RUN_TEMPLATE } from '../../commons/constants/br
 import { SCENARIO_RUN_IN_PROGRESS } from '../../commons/constants/generic/TestConstants';
 import { Scenarios, ScenarioManager, ScenarioParameters, Login } from '../../commons/actions';
 
+Cypress.Keyboard.defaults({
+  keystrokeDelay: 0,
+});
+
 describe('Launch scenario', () => {
   const randomString = utils.randomStr(7);
   const scenariosCount = 4;
