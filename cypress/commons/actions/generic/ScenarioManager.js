@@ -8,7 +8,7 @@ function switchToScenarioManager() {
 }
 
 function deleteScenario(scenarioName) {
-  cy.get(GENERIC_SELECTORS.scenario.manager.search).clear().type(scenarioName);
+  cy.get(GENERIC_SELECTORS.scenario.manager.search).find('input').clear().type(scenarioName);
   cy.get(GENERIC_SELECTORS.scenario.manager.button.delete).click();
   cy.get(GENERIC_SELECTORS.scenario.manager.confirmDeleteDialog).contains('button', 'Confirm').click();
 }
