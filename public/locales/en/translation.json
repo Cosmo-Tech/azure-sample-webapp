@@ -32,6 +32,12 @@
       },
       "scenario": {
         "parameters": {
+          "disabledEditTooltip": {
+            "running": "Parameters can not be edited while the scenario is running",
+            "rejected": "This scenario is rejected, you can not edit its parameters",
+            "validated": "This scenario is validated, you can not edit its parameters",
+            "noTabs": "No parameters to edit"
+          },
           "discard": "Discard Modifications",
           "edit": "Edit",
           "launch": "Launch Scenario",
@@ -372,6 +378,13 @@
       },
       "text": {
         "scenariotype": "Run type"
+      },
+      "validation": {
+        "reject": "Reject",
+        "rejected": "Rejected",
+        "validate": "Validate",
+        "validated": "Validated",
+        "disabledTooltip": "Please save or discard current modifications before changing the scenario validation status"
       }
     }
   },

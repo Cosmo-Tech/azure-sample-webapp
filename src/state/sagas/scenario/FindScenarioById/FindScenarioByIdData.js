@@ -33,10 +33,17 @@ export function* fetchScenarioByIdData(action) {
     const { data } = yield call(Api.Scenarios.findScenarioById, ORGANIZATION_ID, action.workspaceId, action.scenarioId);
     data.parametersValues = formatParametersFromApi(data.parametersValues);
     yield put({
+      type: SCENARIO_ACTIONS_KEY.SET_SCENARIO_VALIDATION_STATUS,
+      status: STATUSES.SUCCESS,
+      scenarioId: data.id,
+      validationStatus: data.validationStatus,
+    });
+    yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
       status: STATUSES.SUCCESS,
       scenario: data,
     });
+
     // Start state polling for running scenarios
     if (data.state === SCENARIO_RUN_STATE.RUNNING) {
       yield put({

@@ -11,4 +11,11 @@ export const SCENARIO_RUN_STATE = {
   SUCCESSFUL: 'Successful',
   FAILED: 'Failed',
 };
+export const SCENARIO_VALIDATION_STATUS = {
+  DRAFT: 'Draft',
+  LOADING: 'Loading', // Client-side only
+  REJECTED: 'Rejected',
+  VALIDATED: 'Validated',
+  UNKNOWN: 'Unknown',
+};
 export const STORAGE_ROOT_DIR_PLACEHOLDER = '%WORKSPACE_FILE%/';
