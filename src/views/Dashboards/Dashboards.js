@@ -7,14 +7,17 @@ import { Card, Grid, makeStyles, Tab, Tabs } from '@material-ui/core';
 import { SimplePowerBIReportEmbed } from '@cosmotech/ui';
 import { DASHBOARDS_LIST_CONFIG } from '../../config/Dashboards';
 import { useTranslation } from 'react-i18next';
-import { USE_POWER_BI_WITH_USER_CREDENTIALS } from '../../config/AppConfiguration';
+import {
+  USE_POWER_BI_WITH_USER_CREDENTIALS,
+  DASHBOARDS_VIEW_IFRAME_DISPLAY_RATIO,
+} from '../../config/AppConfiguration';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
+  dashboardsRoot: {
+    height: 'calc(100% - 36px)',
     position: 'fixed',
     margin: 'auto',
     width: '100%',
-    height: '100%',
   },
   tabs: {
     width: '100%',
@@ -30,7 +33,21 @@ const useStyles = makeStyles((theme) => ({
       alignItems: 'flex-end',
     },
   },
+  dashboardsTabsContainer: {
+    height: '100%',
+  },
+  dashboardsMainContainer: {
+    height: '100%',
+  },
+  dashboardsTabCard: {
+    height: '100%',
+    padding: '0px',
+    paddingTop: '8px',
+  },
   dashboard: {
+    marginTop: '0px',
+    marginBottom: '0px',
+    overflow: 'auto',
     height: '100%',
   },
 }));
@@ -87,11 +104,9 @@ const Dashboards = ({ currentScenario, scenarioList, reports }) => {
   };
 
   return (
-    <Grid container className={classes.root} direction="row">
-      <Grid item sm={2}>
-        {/* TODO: I don't know yet how to make a specific style for this card,
-        other than using style attribute. Update this whenever knowledge has been acquired. */}
-        <Card style={{ padding: '0px', height: '100%', paddingTop: '8px' }}>
+    <Grid container className={classes.dashboardsRoot} direction="row">
+      <Grid item sm={2} className={classes.dashboardsTabsContainer}>
+        <Card className={classes.dashboardsTabCard}>
           <Tabs
             orientation="vertical"
             variant="scrollable"
@@ -104,7 +119,7 @@ const Dashboards = ({ currentScenario, scenarioList, reports }) => {
           </Tabs>
         </Card>
       </Grid>
-      <Grid item sm={10}>
+      <Grid item sm={10} className={classes.dashboardsMainContainer}>
         <Card className={classes.dashboard}>
           {
             <TabPanel
@@ -147,6 +162,7 @@ function TabPanel(props) {
         lang={lang}
         labels={labels}
         useAAD={USE_POWER_BI_WITH_USER_CREDENTIALS}
+        iframeRatio={DASHBOARDS_VIEW_IFRAME_DISPLAY_RATIO}
       />
     </div>
   );
