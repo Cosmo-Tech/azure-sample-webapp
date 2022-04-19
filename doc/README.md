@@ -9,3 +9,4 @@
 - [Scenario Parameters advanced customization](scenarioParametersCustomization.md)
 - [Theme Customization](themeCustomization.md)
 - [About Content Customization](aboutContentCustomization.md)
+- [Custom metrics](customMetrics.md)
