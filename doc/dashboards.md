@@ -43,19 +43,23 @@ Everything is available in PowerBI service URL:
 
 ## Report page size recommendation
 
-for Scenario View iframe:
+For Scenario View iframe:
 
 - Select option: View > fit to page
 - Select Format > Page size > Custom
   - Width: 1580 px
   - Height: 350 px
 
-for Dashboard View iframes:
+For Dashboard View iframes:
 
 - Select option: View > fit to page
 - Select Format > Page size > Custom
   - Width: 1280 px
   - Height: 795 px
+
+Note that you can set a fixed display ratio for these PowerBI iframes by setting the parameters
+`SCENARIO_VIEW_IFRAME_DISPLAY_RATIO` and `DASHBOARDS_VIEW_IFRAME_DISPLAY_RATIO` in the file
+[src/config/AppConfiguration.js](../src/config/AppConfiguration.js). Documentation for these parameters can be found in file [doc/appConfiguration.md](../doc/appConfiguration.md).
 
 ## How to use filters on the current scenario (dynamic Filter)
 
@@ -90,7 +94,7 @@ You can add the following filter in the dynamicFilters array:
 new PowerBIReportEmbedMultipleFilter('Simulation', 'id', [
   POWER_BI_FIELD_ENUM.SCENARIO_ID,
   POWER_BI_FIELD_ENUM.SCENARIO_PARENT_ID,
-  POWER_BI_FIELD_ENUM.SCENARIO_MASTER_ID,
+  POWER_BI_FIELD_ENUM.SCENARIO_MASTER_ID
 ]);
 ```
 
