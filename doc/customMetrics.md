@@ -33,6 +33,6 @@ In Application Insights Portal, this event is labeled **LaunchScenarioValue**.
 
 The duration is measured between the moment the user has clicked on the `Launch` button, and the moment the application has detected the related scenario status to be either "Successful" or "Error".
 
-Note: The measured run duration can be higher than the real duration. Indeed, once the scenario has been launched, the application will check the scenario's status regularly, at a time interval set by the variable **SCENARIO_STATUS_POLLING_DELAY**; see [https://github.com/Cosmo-Tech/azure-sample-webapp/blob/main/doc/appConfiguration.md#edit-configuration-files](App Behavior configuration). Thus, the run duration measurement error is inferior or equal to **SCENARIO_STATUS_POLLING_DELAY**.
+Note: The measured run duration can be higher than the real duration. Indeed, once the scenario has been launched, the application will check the scenario's status regularly, at a time interval set by the variable **SCENARIO_STATUS_POLLING_DELAY**; see [App Behavior configuration](https://github.com/Cosmo-Tech/azure-sample-webapp/blob/main/doc/appConfiguration.md#edit-configuration-files). Thus, the run duration measurement error is inferior or equal to **SCENARIO_STATUS_POLLING_DELAY**.
 
 In Application Insights Portal, this event is labeled **RunDurationValue**.
