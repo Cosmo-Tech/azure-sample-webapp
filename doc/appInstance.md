@@ -29,12 +29,14 @@ Steps to enable Application Insights in the webapp:
 - in the Azure portal:
   - open the page of your Static Web Apps instance
   - select "Application Insights" in the left panel
-  - select "Yes" next to "Enable Application Insights"
+  - select "Yes" next to "Enable Application Insights" (see note below if you can't enable Application Insights)
   - click on "Save"
 - then, edit the configuration file _src/config/AppInstance.js_ in the source code of your webapp:
   - replace the value of **APPLICATION_INSIGHTS_INSTRUMENTATION_KEY** with the instrumentation key that has been
     generated for your application
   - set **ENABLE_APPLICATION_INSIGHTS** to true (defined in [src/config/AppConfiguration.js](../src/config/AppConfiguration.js))
+
+> :information*source: In the Azure portal, if you can't enable Application Insights and encounter an error message such as "\_App Insights is only applicable to Static Web Apps with at least one function*", please **check that the value of "api_location" parameter is set to "api"** in your GitHub Actions workflow file, in the .github/workflows folder.
 
 ### Power BI
 
