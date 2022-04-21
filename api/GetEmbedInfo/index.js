@@ -10,8 +10,16 @@ module.exports = async function (context, req) {
     const configCheckResult = utils.validateConfig();
     if (configCheckResult) {
       context.res = {
-        status: 400,
-        body: configCheckResult,
+        status: 200,
+        body: {
+          accesses: null,
+          error: {
+            status: 'Azure Function',
+            statusText: 'Configuration error',
+            powerBIErrorInfo: configCheckResult,
+            description: `Error while retrieving report embed details\r\n${configCheckResult}`,
+          },
+        },
       };
     } else {
       // Get the details like Embed URL, Access token and Expiry
