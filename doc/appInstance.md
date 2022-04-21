@@ -36,7 +36,9 @@ Steps to enable Application Insights in the webapp:
     generated for your application
   - set **ENABLE_APPLICATION_INSIGHTS** to true (defined in [src/config/AppConfiguration.js](../src/config/AppConfiguration.js))
 
-> :information*source: In the Azure portal, if you can't enable Application Insights and encounter an error message such as "\_App Insights is only applicable to Static Web Apps with at least one function*", please **check that the value of "api_location" parameter is set to "api"** in your GitHub Actions workflow file, in the .github/workflows folder.
+> Note: in the Azure portal, if you can't enable Application Insights and encounter an error message such as "_App
+> Insights is only applicable to Static Web Apps with at least one function_", please **check that the value of
+> "api_location" parameter is set to "api"** in your GitHub Actions workflow file, in the .github/workflows folder.
 
 ### Power BI
 
