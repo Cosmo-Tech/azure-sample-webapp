@@ -5,7 +5,7 @@ const msalConfig = require('./config');
 
 // Create msal application object
 let cca;
-if (msalConfig.auth?.clientId && msalConfig.auth?.clientSecret) {
+if (msalConfig.auth && msalConfig.auth.clientId && msalConfig.auth.clientSecret) {
   cca = new msal.ConfidentialClientApplication(msalConfig);
 }
 
