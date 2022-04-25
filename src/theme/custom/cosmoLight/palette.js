@@ -11,7 +11,7 @@ const themeColors = {
   surface: '#E9E9E9',
   error: '#D1440C',
   warning: '#FB8C00',
-  success: '#87B84E',
+  success: '#5D8D27',
   info: '#ffe6c2',
   white: '#FFFFFF',
   black: '#000000',
