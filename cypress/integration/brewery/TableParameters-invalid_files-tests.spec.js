@@ -59,7 +59,7 @@ describe('Table parameters invalid files operations', () => {
   it('can import invalid files and display the errors panel', () => {
     const checkErrorsPanel = () => {
       const expectedErrors = [
-        { summary: 'Missing columns', loc: 'Line 1' },
+        { summary: 'Missing fields', loc: 'Line 1' },
         { summary: 'Incorrect int value', loc: 'Line 2 , Column 1 ("age")' },
         { summary: 'Incorrect bool value' },
         { summary: 'Incorrect enum value' },
