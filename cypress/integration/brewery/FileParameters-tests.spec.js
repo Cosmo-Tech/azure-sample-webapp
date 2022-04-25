@@ -117,10 +117,8 @@ describe('Simple operations on a file parameter', () => {
 
   it('can delete an uploaded file and run the scenario', () => {
     // Wait required to prevent some kind of race condition somehow
-    cy.wait(5000); // eslint-disable-line cypress/no-unnecessary-waiting
     Scenarios.selectScenario(firstScenarioName, firstScenarioId);
-    cy.wait(5000); // eslint-disable-line cypress/no-unnecessary-waiting
-    ScenarioParameters.edit(120);
+    ScenarioParameters.edit(300);
     BreweryParameters.switchToDatasetPartsTab();
     BreweryParameters.getExampleDatasetPart1DownloadButton().should('have.text', FILE_PATH_1);
     BreweryParameters.deleteExampleDatasetPart1();
@@ -197,10 +195,8 @@ describe('Simple operations on a file parameter in a parameters tab that lost fo
 
   it('can delete an uploaded file and run the scenario', () => {
     // Wait required to prevent some kind of race condition somehow
-    cy.wait(5000); // eslint-disable-line cypress/no-unnecessary-waiting
     Scenarios.selectScenario(firstScenarioName, firstScenarioId);
-    cy.wait(5000); // eslint-disable-line cypress/no-unnecessary-waiting
-    ScenarioParameters.edit(120);
+    ScenarioParameters.edit(300);
     BreweryParameters.switchToBasicTypesTab();
     BreweryParameters.switchToExtraDatasetPartTab();
     BreweryParameters.getExampleDatasetPart3DownloadButton().should('have.text', FILE_PATH_1);
@@ -262,10 +258,8 @@ describe('Scenario inheritance for file parameters', () => {
 
   it('can create a scenario, upload a file, create a child scenario, delete the file and run it', () => {
     // Wait required to prevent some kind of race condition somehow
-    cy.wait(5000); // eslint-disable-line cypress/no-unnecessary-waiting
     Scenarios.selectScenario(parentScenarioName, parentScenarioId);
-    cy.wait(5000); // eslint-disable-line cypress/no-unnecessary-waiting
-    ScenarioParameters.edit();
+    ScenarioParameters.edit(180);
     BreweryParameters.switchToDatasetPartsTab();
     BreweryParameters.getExampleDatasetPart1DownloadButton().should('have.text', FILE_PATH_1);
     BreweryParameters.deleteExampleDatasetPart1();

@@ -3,6 +3,7 @@
 
 import { PAGE_NAME, URL_ROOT, URL_REGEX } from '../../constants/generic/TestConstants';
 import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
+import { ScenarioParameters } from './ScenarioParameters';
 
 // From scenario View
 // Get elements
@@ -12,11 +13,11 @@ function getScenarioViewTab() {
 function getScenarioView() {
   return cy.get(GENERIC_SELECTORS.scenario.view);
 }
-function getScenarioSelector() {
-  return cy.get(GENERIC_SELECTORS.scenario.selectInput);
+function getScenarioSelector(timeout = 5) {
+  return cy.get(GENERIC_SELECTORS.scenario.selectInput, { timeout: timeout * 1000 });
 }
-function getScenarioSelectorInput() {
-  return getScenarioSelector().find('input');
+function getScenarioSelectorInput(timeout) {
+  return getScenarioSelector(timeout).find('input');
 }
 function getScenarioCreationButton() {
   return cy.get(GENERIC_SELECTORS.scenario.createButton);
@@ -59,7 +60,17 @@ function selectScenario(scenarioName, scenarioId) {
     .click()
     .clear()
     .type(scenarioName + '{downarrow}{enter}');
-  cy.wait(`@${reqName}`).its('response').its('body').its('name').should('equal', scenarioName);
+  cy.wait(`@${reqName}`)
+    .its('response')
+    .its('body')
+    .then((req) => {
+      expect(req.name).equal(scenarioName);
+      if (req.state === 'Running') {
+        ScenarioParameters.getParametersEditButton().should('be.disabled');
+      } else {
+        ScenarioParameters.getParametersEditButton().should('not.be.disabled');
+      }
+    });
 }
 
 // Open scenario creation dialog

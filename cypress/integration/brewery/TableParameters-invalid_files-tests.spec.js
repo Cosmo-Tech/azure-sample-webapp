@@ -37,7 +37,7 @@ function checkErrorsPanelFromList(errors) {
   });
 }
 
-describe('Table parameters standard operations', () => {
+describe('Table parameters invalid files operations', () => {
   before(() => {
     Login.login();
   });
