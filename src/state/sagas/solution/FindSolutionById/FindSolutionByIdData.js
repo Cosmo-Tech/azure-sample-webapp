@@ -10,20 +10,16 @@ import { ConfigUtils, SolutionsUtils } from '../../../../utils';
 import { SCENARIO_PARAMETERS_CONFIG } from '../../../../config/ScenarioParameters';
 
 export function* fetchSolutionByIdData(workspaceId, solutionId) {
-  try {
-    const { data } = yield call(Api.Solutions.findSolutionById, ORGANIZATION_ID, solutionId);
-    SolutionsUtils.addRunTemplatesParametersIdsDict(data, SCENARIO_PARAMETERS_CONFIG);
-    SolutionsUtils.addTranslationLabels(data);
-    // Overwrite solution labels by local config
-    ConfigUtils.addTranslationLabels(SCENARIO_PARAMETERS_CONFIG);
-    yield put({
-      type: SOLUTION_ACTIONS_KEY.SET_CURRENT_SOLUTION,
-      status: STATUSES.SUCCESS,
-      solution: data,
-    });
-  } catch (e) {
-    console.error(e);
-  }
+  const { data } = yield call(Api.Solutions.findSolutionById, ORGANIZATION_ID, solutionId);
+  SolutionsUtils.addRunTemplatesParametersIdsDict(data, SCENARIO_PARAMETERS_CONFIG);
+  SolutionsUtils.addTranslationLabels(data);
+  // Overwrite solution labels by local config
+  ConfigUtils.addTranslationLabels(SCENARIO_PARAMETERS_CONFIG);
+  yield put({
+    type: SOLUTION_ACTIONS_KEY.SET_CURRENT_SOLUTION,
+    status: STATUSES.SUCCESS,
+    solution: data,
+  });
 }
 
 function* findSolutionByIdData() {

@@ -8,9 +8,10 @@ import { Trans, useTranslation } from 'react-i18next';
 import { Auth, AuthDev } from '@cosmotech/core';
 import { AuthMSAL } from '@cosmotech/azure';
 import validate from 'validate.js';
-import { Grid, Button, Typography, Box, Select, FormControl, MenuItem } from '@material-ui/core';
+import { Grid, Button, Typography, Box, Select, FormControl, MenuItem, Paper } from '@material-ui/core';
 import { SignInButton } from '@cosmotech/ui';
 import { TranslationUtils } from '../../utils';
+import { AUTH_STATUS } from '../../state/commons/AuthConstants.js';
 import microsoftLogo from '../../assets/microsoft_logo.png';
 import useStyles from './style';
 
@@ -30,7 +31,7 @@ const schema = {
   },
 };
 
-const SignIn = ({ logInAction }) => {
+const SignIn = ({ logInAction, auth }) => {
   const classes = useStyles();
 
   const { t, i18n } = useTranslation();
@@ -58,6 +59,15 @@ const SignIn = ({ logInAction }) => {
   };
 
   const year = new Date().getFullYear();
+  const accessDeniedError =
+    auth.status === AUTH_STATUS.DENIED ? (
+      <>
+        <Typography className={classes.errorTitle}>{t('views.signin.error.title', 'Authentication failed')}</Typography>
+        <Paper className={classes.errorPaper} elevation={0}>
+          <Typography className={classes.errorText}>{auth.error}</Typography>
+        </Paper>
+      </>
+    ) : null;
 
   return (
     <div className={classes.root}>
@@ -80,6 +90,7 @@ const SignIn = ({ logInAction }) => {
                   {t('commoncomponents.button.login.regular.login', 'Sign In')}
                 </Typography>
                 <Grid className={classes.socialButtons} container spacing={2} direction="column">
+                  {accessDeniedError}
                   <Grid item>
                     <SignInButton
                       logo={microsoftLogo}
@@ -150,6 +161,7 @@ const SignIn = ({ logInAction }) => {
 
 SignIn.propTypes = {
   logInAction: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
 };
 
 export default withRouter(SignIn);

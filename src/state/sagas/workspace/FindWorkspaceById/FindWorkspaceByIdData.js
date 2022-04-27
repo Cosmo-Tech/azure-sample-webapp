@@ -8,16 +8,12 @@ import { ORGANIZATION_ID } from '../../../../config/AppInstance';
 import { Api } from '../../../../services/config/Api';
 
 export function* fetchWorkspaceByIdData(workspaceId) {
-  try {
-    const { data } = yield call(Api.Workspaces.findWorkspaceById, ORGANIZATION_ID, workspaceId);
-    yield put({
-      type: WORKSPACE_ACTIONS_KEY.SET_CURRENT_WORKSPACE,
-      status: STATUSES.SUCCESS,
-      workspace: data,
-    });
-  } catch (e) {
-    console.error(e);
-  }
+  const { data } = yield call(Api.Workspaces.findWorkspaceById, ORGANIZATION_ID, workspaceId);
+  yield put({
+    type: WORKSPACE_ACTIONS_KEY.SET_CURRENT_WORKSPACE,
+    status: STATUSES.SUCCESS,
+    workspace: data,
+  });
 }
 
 function* findWorkspaceByIdData() {

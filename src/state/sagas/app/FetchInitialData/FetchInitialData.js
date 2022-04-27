@@ -60,10 +60,35 @@ export function* fetchAllInitialData(action) {
       status: STATUSES.SUCCESS,
     });
   } catch (error) {
-    console.error(error);
+    let errorDetails;
+    if (error?.response?.data) {
+      errorDetails = error.response.data;
+    } else if (error.message === 'Network Error') {
+      errorDetails = {
+        title: 'Network error',
+        status: null,
+        detail: 'No response received. If the problem persists, please contact your administrator.',
+      };
+    } else if (error.request) {
+      errorDetails = error.request;
+      errorDetails = {
+        title: error.request.statusText,
+        status: error.request.status,
+        detail: error.request.response,
+      };
+    } else {
+      errorDetails = {
+        title: 'Unexpected error',
+        status: null,
+        detail:
+          'An unexpected error happened during the app initialization. ' +
+          'If the problem persists, please contact your administrator',
+      };
+    }
     yield put({
       type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS,
       status: STATUSES.ERROR,
+      error: errorDetails,
     });
   }
 }
@@ -94,6 +119,11 @@ export function* watchNeededApplicationData() {
       yield put({
         type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS,
         status: STATUSES.ERROR,
+        error: {
+          title: 'App initialization error',
+          status: null,
+          detail: 'Something went wrong during the initialization of the webapp',
+        },
       });
     }
   } else {

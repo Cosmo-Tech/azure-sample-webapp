@@ -7,10 +7,18 @@ import { STATUSES } from '../../commons/Constants';
 
 export const applicationInitialState = {
   status: STATUSES.IDLE,
+  error: null,
 };
 
 export const applicationReducer = createReducer(applicationInitialState, (builder) => {
   builder.addCase(APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS, (state, action) => {
     state.status = action.status;
+    if (state.status === STATUSES.ERROR) {
+      if (action.error) {
+        state.error = action.error;
+      } else {
+        state.error = { title: 'Unknown error', status: null, detail: 'Something went wrong' };
+      }
+    }
   });
 });

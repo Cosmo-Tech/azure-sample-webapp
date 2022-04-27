@@ -19,12 +19,13 @@ export function* fetchScenarioByIdForInitialData(workspaceId, scenarioId) {
       scenario: data,
     });
   } catch (e) {
-    // TODO handle error management
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
       status: STATUSES.ERROR,
       scenario: null,
     });
+    // Rethrow for application error management
+    throw e;
   }
 }
 

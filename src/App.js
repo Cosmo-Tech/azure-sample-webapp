@@ -9,6 +9,7 @@ import './services/config/Auth';
 import { TABS } from './AppLayout';
 import Loading from './views/Loading';
 import './services/AppInsights';
+import { AUTH_STATUS } from './state/commons/AuthConstants.js';
 
 const App = (props) => {
   const { t } = useTranslation();
@@ -18,20 +19,20 @@ const App = (props) => {
 
   useEffect(() => {
     // Check if the user is already signed-in
-    if (authStatus === 'ANONYMOUS') {
+    if (authStatus === AUTH_STATUS.UNKNOWN) {
       logInAction();
     }
   });
 
-  return authStatus === 'CONNECTING' ? (
+  return authStatus === AUTH_STATUS.CONNECTING ? (
     <div className="spinner-border text-success" role="status">
       <span className="sr-only">{t('views.common.text.loading', 'Loading...')}</span>
     </div>
   ) : (
     <Loading
       logout={logOutAction}
-      authenticated={authStatus === 'AUTHENTICATED'}
-      authorized={authStatus === 'AUTHENTICATED'}
+      authenticated={authStatus === AUTH_STATUS.AUTHENTICATED}
+      authorized={authStatus === AUTH_STATUS.AUTHENTICATED}
       tabs={TABS}
     />
   );

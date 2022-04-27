@@ -357,15 +357,15 @@
       }
     },
     "signin": {
-      "title": "Azure Sample Web Application"
+      "title": "Azure Sample Web Application",
+      "error": {
+        "title": "Authentication failed"
+      }
     },
-    "unauthorized": {
-      "scenario": {
-        "specialists": {
-          "title": "Scenario Specialists"
-        }
-      },
-      "title": "Azure Sample Web Application"
+    "accessdenied": {
+      "title": "Access denied",
+      "errormessage": "Either the resources do not exist or you don't have permission to access them.",
+      "signouttimeout": "You will be automatically signed out in {{seconds}} seconds..."
     },
     "scenario": {
       "dropdown": {

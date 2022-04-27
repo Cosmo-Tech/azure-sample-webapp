@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 
 import { PublicRoute, PrivateRoute } from '@cosmotech/ui';
 import { TabLayout } from './layouts';
-import { SignIn as SignInView, Unauthorized as UnauthorizedView } from './views';
+import { SignIn as SignInView, AccessDenied as AccessDeniedView } from './views';
 
 const Routes = (props) => {
   const { authenticated, authorized, tabs } = props;
@@ -22,14 +22,14 @@ const Routes = (props) => {
         authorized={authorized}
         component={SignInView}
         redirectTo="/scenario"
-        unauthorizedPath="/unauthorized"
+        unauthorizedPath="/accessDenied"
       ></PublicRoute>
       <PrivateRoute
         exact
-        path="/unauthorized"
+        path="/accessDenied"
         authenticated={authenticated}
         authorized={authorized}
-        render={() => <UnauthorizedView />}
+        render={() => <AccessDeniedView />}
         redirectTo="/scenario"
       ></PrivateRoute>
       <Route
@@ -41,7 +41,7 @@ const Routes = (props) => {
             authenticated={authenticated}
             authorized={authorized}
             signInPath="/sign-in"
-            unauthorizedPath="/unauthorized"
+            unauthorizedPath="/accessDenied"
           />
         )}
       />

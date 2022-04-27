@@ -11,6 +11,34 @@ const useStyles = makeStyles((theme) => ({
   grid: {
     height: '100%',
   },
+  errorTitle: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+    fontWeight: 'bold',
+    fontSize: '16px',
+    color: theme.palette.text.primary,
+  },
+  errorText: {
+    color: theme.palette.error.contrastText,
+    fontSize: '14px',
+    fontWeight: 'bold',
+    maxWidth: '800px',
+    maxHeight: '150px',
+    overflow: 'auto',
+    paddingRight: 7,
+    paddingLeft: 7,
+    whiteSpace: 'pre-line',
+    overflowWrap: 'break-word',
+  },
+  errorPaper: {
+    background: theme.palette.error.main,
+    paddingBottom: 8,
+    paddingTop: 8,
+    paddingLeft: 6,
+    paddingRight: 6,
+    marginBottom: 10,
+    width: 'fit-content',
+  },
   quoteContainer: {
     [theme.breakpoints.down('md')]: {
       display: 'none',
