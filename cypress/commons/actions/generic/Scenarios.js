@@ -19,6 +19,60 @@ function getScenarioSelector(timeout = 5) {
 function getScenarioSelectorInput(timeout) {
   return getScenarioSelector(timeout).find('input');
 }
+function getScenarioSelectorOption(scenarioId) {
+  return cy.get(GENERIC_SELECTORS.scenario.scenarioSelectOption.replace('$SCENARIOID', scenarioId));
+}
+function getScenarioSelectorOptionValidationStatusChip(scenarioId) {
+  return getScenarioSelectorOption(scenarioId).find(GENERIC_SELECTORS.scenario.validationStatusChip);
+}
+function getScenarioSelectorOptionValidationStatusLoadingSpinner(scenarioId) {
+  return getScenarioSelectorOption(scenarioId).find(GENERIC_SELECTORS.scenario.validationStatusLoadingSpinner);
+}
+function checkValidationStatusInScenarioSelector(searchStr, scenarioId, expectedStatus) {
+  writeInScenarioSelectorInput(searchStr);
+  switch (expectedStatus) {
+    case 'Draft':
+    case 'Unknown':
+      getScenarioSelectorOptionValidationStatusChip(scenarioId).should('not.exist');
+      getScenarioSelectorOptionValidationStatusLoadingSpinner(scenarioId).should('not.exist');
+      break;
+    case 'Validated':
+      getScenarioSelectorOptionValidationStatusChip(scenarioId).should('be.visible');
+      getScenarioSelectorOptionValidationStatusChip(scenarioId).should('have.text', 'Validated');
+      getScenarioSelectorOptionValidationStatusLoadingSpinner(scenarioId).should('not.exist');
+      break;
+    case 'Rejected':
+      getScenarioSelectorOptionValidationStatusChip(scenarioId).should('be.visible');
+      getScenarioSelectorOptionValidationStatusChip(scenarioId).should('have.text', 'Rejected');
+      getScenarioSelectorOptionValidationStatusLoadingSpinner(scenarioId).should('not.exist');
+      break;
+    case 'Loading':
+      getScenarioSelectorOptionValidationStatusChip(scenarioId).should('not.exist');
+      getScenarioSelectorOptionValidationStatusLoadingSpinner(scenarioId).should('be.visible');
+      break;
+    default:
+      throw new Error(
+        `Unknown expected scenario status "${expectedStatus}". Please use one of ` +
+          'Draft, Unknown, Loading, Validated, Rejected.'
+      );
+  }
+  writeInScenarioSelectorInput('{esc}');
+}
+function getScenarioValidationStatusChip() {
+  return cy.get(GENERIC_SELECTORS.scenario.validationStatusChip);
+}
+function getScenarioValidationStatusChipDeleteIcon() {
+  return getScenarioValidationStatusChip().find(GENERIC_SELECTORS.scenario.validationStatusChipDeleteIcon);
+}
+function getScenarioValidationStatusLoadingSpinner() {
+  return cy.get(GENERIC_SELECTORS.scenario.validationStatusLoadingSpinner);
+}
+function getScenarioValidateButton() {
+  return cy.get(GENERIC_SELECTORS.scenario.validateButton);
+}
+function getScenarioRejectButton() {
+  return cy.get(GENERIC_SELECTORS.scenario.rejectButton);
+}
 function getScenarioCreationButton() {
   return cy.get(GENERIC_SELECTORS.scenario.createButton);
 }
@@ -71,6 +125,10 @@ function selectScenario(scenarioName, scenarioId) {
         ScenarioParameters.getParametersEditButton().should('not.be.disabled');
       }
     });
+}
+
+function writeInScenarioSelectorInput(searchStr) {
+  return getScenarioSelector().click().clear().type(searchStr);
 }
 
 // Open scenario creation dialog
@@ -145,10 +203,29 @@ function createScenario(scenarioName, isMaster, datasetOrMasterName, runTemplate
     });
 }
 
+function validateScenario() {
+  return getScenarioValidateButton().click();
+}
+function rejectScenario() {
+  return getScenarioRejectButton().click();
+}
+function resetScenarioValidationStatus() {
+  return getScenarioValidationStatusChipDeleteIcon().click();
+}
+
 export const Scenarios = {
   getScenarioView,
   getScenarioSelector,
   getScenarioSelectorInput,
+  getScenarioSelectorOption,
+  getScenarioSelectorOptionValidationStatusChip,
+  getScenarioSelectorOptionValidationStatusLoadingSpinner,
+  checkValidationStatusInScenarioSelector,
+  getScenarioValidationStatusChip,
+  getScenarioValidationStatusChipDeleteIcon,
+  getScenarioValidationStatusLoadingSpinner,
+  getScenarioValidateButton,
+  getScenarioRejectButton,
   getScenarioCreationButton,
   getScenarioCreationDialog,
   getScenarioCreationDialogNameField,
@@ -160,9 +237,13 @@ export const Scenarios = {
   getDashboardPlaceholder,
   switchToScenarioView,
   selectScenario,
+  writeInScenarioSelectorInput,
   openScenarioCreationDialog,
   selectParentScenario,
   selectDataset,
   selectRunTemplate,
   createScenario,
+  validateScenario,
+  rejectScenario,
+  resetScenarioValidationStatus,
 };

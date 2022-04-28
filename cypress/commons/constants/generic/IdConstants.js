@@ -30,6 +30,7 @@ export const GENERIC_SELECTORS = {
       placeholder: '[data-cy=dashboard-placeholder]',
     },
     selectInput: '[data-cy=scenario-select-input]',
+    scenarioSelectOption: 'span[data-testid=option-$SCENARIOID]',
     parameters: {
       tabs: '[data-cy=scenario-parameters-tabs]',
       accordionSummary: '[data-cy=scenario-params-accordion-summary]',
@@ -45,6 +46,11 @@ export const GENERIC_SELECTORS = {
       discardButton: '[data-cy=discard-button]',
       dialogDiscardButton: '[data-cy=discard-changes-button2]',
     },
+    validationStatusLoadingSpinner: '[data-cy=scenario-validation-status-loading-spinner]',
+    validationStatusChip: '[data-cy=scenario-validation-status]',
+    validationStatusChipDeleteIcon: 'svg',
+    validateButton: '[data-cy=validate-scenario-button]',
+    rejectButton: '[data-cy=reject-scenario-button]',
     createButton: '[data-cy=create-scenario-button]',
     createDialog: {
       dialog: '[data-cy=create-scenario-dialog]',
@@ -61,6 +67,8 @@ export const GENERIC_SELECTORS = {
       button: {
         delete: '[data-cy=scenario-delete-button]',
       },
+      scenarioAccordion: '[data-cy=scenario-accordion-$SCENARIOID]',
+      scenarioAccordionExpandButton: '[data-cy=expand-accordion-button]',
     },
   },
   genericComponents: {
