@@ -32,6 +32,12 @@
       },
       "scenario": {
         "parameters": {
+          "disabledEditTooltip": {
+            "running": "Les paramètres ne peuvent pas être édités pendant que la simulation tourne",
+            "rejected": "Ce scénario est rejeté, vous ne pouvez pas éditer ses paramètres",
+            "validated": "Ce scénario est validé, vous ne pouvez pas éditer ses paramètres",
+            "noTabs": "Pas de paramètres à éditer"
+          },
           "discard": "Abandonner les modifications",
           "edit": "Éditer",
           "launch": "Lancer le Scénario",
@@ -372,6 +378,13 @@
       },
       "text": {
         "scenariotype": "Type de scénario"
+      },
+      "validation": {
+        "reject": "Rejeter",
+        "rejected": "Rejeté",
+        "validate": "Valider",
+        "validated": "Validé",
+        "disabledTooltip": "Veuillez sauver ou annuler les modifications en cours avant de modifier le statut de validation du scénario"
       }
     }
   },

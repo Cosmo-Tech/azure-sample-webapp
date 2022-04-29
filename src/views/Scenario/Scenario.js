@@ -3,19 +3,26 @@
 
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Backdrop, Card, CircularProgress, Grid, Typography } from '@material-ui/core';
+import { Backdrop, Button, Card, CircularProgress, Grid, Tooltip, Typography } from '@material-ui/core';
 import { ScenarioParameters } from '../../components';
 import { useTranslation } from 'react-i18next';
-import { CreateScenarioButton, HierarchicalComboBox, SimplePowerBIReportEmbed } from '@cosmotech/ui';
+import {
+  CreateScenarioButton,
+  HierarchicalComboBox,
+  ScenarioValidationStatusChip,
+  SimplePowerBIReportEmbed,
+} from '@cosmotech/ui';
 import { NAME_VALIDATOR } from '../../utils/ValidationUtils';
 import { sortScenarioList } from '../../utils/SortScenarioListUtils';
 import { LOG_TYPES } from '../../services/scenarioRun/ScenarioRunConstants.js';
+import { SCENARIO_VALIDATION_STATUS } from '../../services/config/ApiConstants.js';
 import {
   SCENARIO_RUN_LOG_TYPE,
   USE_POWER_BI_WITH_USER_CREDENTIALS,
   SCENARIO_VIEW_IFRAME_DISPLAY_RATIO,
 } from '../../config/AppConfiguration';
 import { SCENARIO_DASHBOARD_CONFIG } from '../../config/Dashboards';
+import ScenarioService from '../../services/scenario/ScenarioService';
 import ScenarioRunService from '../../services/scenarioRun/ScenarioRunService';
 import { STATUSES } from '../../state/commons/Constants';
 import { AppInsights } from '../../services/AppInsights';
@@ -31,6 +38,7 @@ const Scenario = (props) => {
   const { t, i18n } = useTranslation();
 
   const {
+    setScenarioValidationStatus,
     currentScenario,
     scenarioList,
     findScenarioById,
@@ -94,6 +102,106 @@ const Scenario = (props) => {
     );
   }
 
+  const resetScenarioValidationStatus = async () => {
+    setScenarioValidationStatus(currentScenario.data.id, SCENARIO_VALIDATION_STATUS.LOADING);
+    await ScenarioService.resetValidationStatus(workspaceId, currentScenario.data.id);
+    findScenarioById(workspaceId, currentScenario.data.id);
+  };
+  const validateScenario = async () => {
+    setScenarioValidationStatus(currentScenario.data.id, SCENARIO_VALIDATION_STATUS.LOADING);
+    await ScenarioService.setScenarioValidationStatusToValidated(workspaceId, currentScenario.data.id);
+    findScenarioById(workspaceId, currentScenario.data.id);
+  };
+  const rejectScenario = async () => {
+    setScenarioValidationStatus(currentScenario.data.id, SCENARIO_VALIDATION_STATUS.LOADING);
+    await ScenarioService.setScenarioValidationStatusToRejected(workspaceId, currentScenario.data.id);
+    findScenarioById(workspaceId, currentScenario.data.id);
+  };
+
+  const scenarioValidationStatusLabels = {
+    rejected: t('views.scenario.validation.rejected', 'Rejected'),
+    validated: t('views.scenario.validation.validated', 'Validated'),
+  };
+  const currentScenarioValidationStatus = currentScenario.data.validationStatus || SCENARIO_VALIDATION_STATUS.UNKNOWN;
+  const showValidationChip =
+    [SCENARIO_VALIDATION_STATUS.DRAFT, SCENARIO_VALIDATION_STATUS.UNKNOWN].includes(currentScenarioValidationStatus) ===
+    false;
+
+  const validateButton = (
+    <Button
+      className={classes.scenarioValidationButton}
+      data-cy="validate-scenario-button"
+      disabled={editMode}
+      size="small"
+      variant="contained"
+      color="primary"
+      onClick={(event) => validateScenario()}
+    >
+      {t('views.scenario.validation.validate', 'Validate')}
+    </Button>
+  );
+  const rejectButton = (
+    <Button
+      className={classes.scenarioValidationButton}
+      data-cy="reject-scenario-button"
+      disabled={editMode}
+      size="small"
+      variant="contained"
+      color="primary"
+      onClick={(event) => rejectScenario()}
+    >
+      {t('views.scenario.validation.reject', 'Reject')}
+    </Button>
+  );
+
+  const validateButtonTooltipWrapper = editMode ? (
+    <Tooltip
+      title={t(
+        'views.scenario.validation.disabledTooltip',
+        'Please save or discard current modifications before changing the scenario validation status'
+      )}
+    >
+      <span>{validateButton}</span>
+    </Tooltip>
+  ) : (
+    validateButton
+  );
+
+  const rejectButtonTooltipWrapper = editMode ? (
+    <Tooltip
+      title={t(
+        'views.scenario.validation.disabledTooltip',
+        'Please save or discard current modifications before changing the scenario validation status'
+      )}
+    >
+      <span>{rejectButton}</span>
+    </Tooltip>
+  ) : (
+    rejectButton
+  );
+
+  const validationStatusButtons = (
+    <>
+      {validateButtonTooltipWrapper}
+      {rejectButtonTooltipWrapper}
+    </>
+  );
+
+  const scenarioValidationArea = showValidationChip ? (
+    <ScenarioValidationStatusChip
+      status={currentScenarioValidationStatus}
+      onDelete={resetScenarioValidationStatus}
+      labels={scenarioValidationStatusLabels}
+    />
+  ) : (
+    validationStatusButtons
+  );
+
+  const hierarchicalComboBoxLabels = {
+    label: scenarioListLabel,
+    validationStatus: scenarioValidationStatusLabels,
+  };
+
   return (
     <>
       <Backdrop className={classes.backdrop} open={showBackdrop}>
@@ -108,15 +216,16 @@ const Scenario = (props) => {
                   <HierarchicalComboBox
                     value={currentScenario.data}
                     values={sortedScenarioList}
-                    label={scenarioListLabel}
+                    labels={hierarchicalComboBoxLabels}
                     handleChange={handleScenarioChange}
                     disabled={scenarioListDisabled}
                     renderInputToolType={currentScenarioRenderInputTooltip}
                   />
                 </Grid>
                 {currentScenario.data && (
-                  <Grid item xs={7}>
-                    <Typography>
+                  <Grid item xs={7} className={classes.scenarioMetadata}>
+                    {scenarioValidationArea}
+                    <Typography className={classes.scenarioRunTemplateLabel}>
                       {t('views.scenario.text.scenariotype')}: {currentScenario.data.runTemplateName}
                     </Typography>
                   </Grid>
@@ -186,6 +295,7 @@ const Scenario = (props) => {
 };
 
 Scenario.propTypes = {
+  setScenarioValidationStatus: PropTypes.func.isRequired,
   scenarioList: PropTypes.object.isRequired,
   datasetList: PropTypes.object.isRequired,
   currentScenario: PropTypes.object.isRequired,

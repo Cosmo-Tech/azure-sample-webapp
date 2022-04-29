@@ -31,6 +31,14 @@ export const scenarioListReducer = createReducer(scenarioListInitialState, (buil
         // Otherwise, use the original data
         return scenarioData;
       });
+    })
+    .addCase(SCENARIO_ACTIONS_KEY.SET_SCENARIO_VALIDATION_STATUS, (state, action) => {
+      state.data = state.data.map((scenarioData) => {
+        if (scenarioData.id === action.scenarioId) {
+          return { ...scenarioData, validationStatus: action.validationStatus };
+        }
+        return scenarioData;
+      });
     });
 });
 
@@ -65,6 +73,14 @@ export const currentScenarioReducer = createReducer(currentScenarioInitialState,
           ...state.data,
           state: action.data.scenarioState,
           lastRun: action.data.lastRun,
+        };
+      }
+    })
+    .addCase(SCENARIO_ACTIONS_KEY.SET_SCENARIO_VALIDATION_STATUS, (state, action) => {
+      if (state.data.id === action.scenarioId) {
+        state.data = {
+          ...state.data,
+          validationStatus: action.validationStatus,
         };
       }
     });

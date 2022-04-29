@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { Grid, makeStyles, Typography, Accordion, AccordionSummary, AccordionDetails } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { SCENARIO_PARAMETERS_CONFIG } from '../../config/ScenarioParameters';
-import { DATASET_ID_VARTYPE, SCENARIO_RUN_STATE } from '../../services/config/ApiConstants';
+import { DATASET_ID_VARTYPE, SCENARIO_RUN_STATE, SCENARIO_VALIDATION_STATUS } from '../../services/config/ApiConstants';
 import { EditModeButton, NormalModeButton, ScenarioParametersTabs } from './components';
 import { useTranslation } from 'react-i18next';
 import { SimpleTwoActionsDialog, DontAskAgainDialog } from '@cosmotech/ui';
@@ -278,6 +278,33 @@ const ScenarioParameters = ({
 
   const noTabsShown = parametersGroupsMetadata.length === 0;
   const isCurrentScenarioRunning = currentScenario.data.state === SCENARIO_RUN_STATE.RUNNING;
+  const isCurrentScenarioRejected = currentScenario.data.validationStatus === SCENARIO_VALIDATION_STATUS.REJECTED;
+  const isCurrentScenarioValidated = currentScenario.data.validationStatus === SCENARIO_VALIDATION_STATUS.VALIDATED;
+  const isEditDisabled =
+    noTabsShown || isCurrentScenarioRunning || isCurrentScenarioRejected || isCurrentScenarioValidated;
+
+  let disabledEditTooltip;
+  if (isCurrentScenarioRunning) {
+    disabledEditTooltip = t(
+      'commoncomponents.button.scenario.parameters.disabledEditTooltip.running',
+      'Parameters can not be edited while the scenario is running'
+    );
+  } else if (isCurrentScenarioRejected) {
+    disabledEditTooltip = t(
+      'commoncomponents.button.scenario.parameters.disabledEditTooltip.rejected',
+      'This scenario is rejected, you can not edit its parameters'
+    );
+  } else if (isCurrentScenarioValidated) {
+    disabledEditTooltip = t(
+      'commoncomponents.button.scenario.parameters.disabledEditTooltip.validated',
+      'This scenario is validated, you can not edit its parameters'
+    );
+  } else if (noTabsShown) {
+    disabledEditTooltip = t(
+      'commoncomponents.button.scenario.parameters.disabledEditTooltip.noTabs',
+      'No parameters to edit'
+    );
+  }
 
   const handleSummaryClick = () => {
     const expandedNewState = !accordionSummaryExpanded;
@@ -313,8 +340,9 @@ const ScenarioParameters = ({
                     classes={classes}
                     handleClickOnEdit={(event) => startParametersEdition(event)}
                     handleClickOnLaunchScenario={(event) => confirmAndLaunch(event, false)}
-                    editDisabled={noTabsShown || isCurrentScenarioRunning}
+                    editDisabled={isEditDisabled}
                     runDisabled={isCurrentScenarioRunning}
+                    disabledEditTooltip={disabledEditTooltip}
                   />
                 )}
               </PermissionsGate>

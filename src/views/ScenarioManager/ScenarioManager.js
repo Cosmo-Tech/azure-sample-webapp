@@ -99,6 +99,10 @@ const ScenarioManager = (props) => {
       expandTree: t('commoncomponents.scenariomanager.toolbar.expandTree', 'Expand tree'),
       collapseAll: t('commoncomponents.scenariomanager.toolbar.collapseAll', 'Collapse all'),
     },
+    validationStatus: {
+      rejected: t('views.scenario.validation.rejected', 'Rejected'),
+      validated: t('views.scenario.validation.validated', 'Validated'),
+    },
   };
 
   const navigate = useHistory();
