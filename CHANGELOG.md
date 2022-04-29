@@ -1,3 +1,23 @@
+## **2.6.0** <sub><sup>2022-04-29 ([8bf8666...db6439a](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/8bf8666...db6439a?diff=split))</sup></sub>
+
+### Documentation
+
+- add doc for iframe ratio configuration ([cb4cbba](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/cb4cbba))
+- documentation for Azure custom metrics ([3ccd690](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/3ccd690))
+- fix broken link in doc for custom metrics ([cea8ad8](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/cea8ad8))
+- add note to fix possible AppInsights activation error message ([a177318](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/a177318))
+- minor improvements ([c87bdc9](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/c87bdc9))
+
+### Features
+
+- add DASHBOARDS_VIEW_IFRAME_DISPLAY_RATIO parameter in webapp config ([f264aa5](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/f264aa5))
+- add scenario validation status in scenario & scenario manager views ([91f7678](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/91f7678))
+
+### Bug Fixes
+
+- fix AzureFunction error on missing config ([b58fa48](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/b58fa48))
+- change success color value in theme ([fd0feaf](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/fd0feaf))
+
 ## **2.5.0** <sub><sup>2022-04-04 ([65864b3...81c4e58](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/65864b3...81c4e58?diff=split))</sup></sub>
 
 ### Features
