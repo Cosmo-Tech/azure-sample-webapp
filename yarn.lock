@@ -1114,16 +1114,16 @@
     axios "^0.21.4"
 
 "@cosmotech/azure@^1.1.2":
-  version "1.1.18"
-  resolved "https://registry.yarnpkg.com/@cosmotech/azure/-/azure-1.1.18.tgz#fe0a1b6804997393a5252f22eb03c896e11173a5"
-  integrity sha512-trLhIl0Pw9Tf5J1FWQk96K70mj+4vl7FxHp5HQYf8HD7atM+3EKMhXPyPSGyd4xMQqbxp19KAUVzr6p1/1sTdA==
+  version "1.1.19"
+  resolved "https://registry.yarnpkg.com/@cosmotech/azure/-/azure-1.1.19.tgz#2aa879ea67bc667fcfb0cf74978cee535bade7fd"
+  integrity sha512-fhJCxytwQBEYR6u/x9BwWJkVXovH85jR2mY8Wf4/ENOgKZA9wTLRpxyrLvMaZ0dooUQMLCgIYBPxSbKoobaIkg==
   dependencies:
     "@azure/msal-browser" "^2.8.0"
 
 "@cosmotech/core@^1.6.1":
-  version "1.7.1"
-  resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.7.1.tgz#dbb60ade2b0d71b83f97164f74fe4c52f530d3cb"
-  integrity sha512-b1qy5bA07LHdOFL7IilG7m8xKncYOLovA8OZZSckNgFAZIREHUi3QR9EP3yFawrk5oLesQpr54FCRU5XDrXLlA==
+  version "1.7.2"
+  resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.7.2.tgz#fa35c2682f87ebb2e7d3bafb95a0116f41ea8ac5"
+  integrity sha512-kDf9VTGEW6b1p5xTm2pvmy47dGJ45qqV8pEONv6IaRWvL6liu3YBEq+ozx8PKlFu9hPgqdqNNkthOJUWE+FdyQ==
   dependencies:
     csv-string "^4.0.1"
     date-fns "^2.25.0"
@@ -1132,9 +1132,9 @@
     xlsx "^0.18.3"
 
 "@cosmotech/ui@^2.4.0":
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-2.4.0.tgz#26b9b21dfc51cde0e7bc7e8d6cf1621ae51e0e53"
-  integrity sha512-jleiS0JbKwCnUfn/ZTzad3A0BbOYfjtOFbd7uF9vS/pFcwNs7qOD6XhH4eYZt+12A8C+FayjElpHK/LWEbnqmQ==
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-2.4.1.tgz#2c99512f1be5b09584df25496a1ad1928ce99bda"
+  integrity sha512-OEw+u9CNZjlrBZ4FQ66Gc44ttWe2Y8HbCy0RAqkqTMCXM5HSVSHplwq/ZJ6mZWHUoHuyvcSgjg4RCi/iC90cjg==
   dependencies:
     "@date-io/date-fns" "^1.3.13"
     "@material-ui/pickers" "^3.3.10"
