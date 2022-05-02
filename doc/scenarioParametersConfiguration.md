@@ -278,6 +278,7 @@ The description of the table columns consists of an array of objects with the fo
 - **minValue** (_optional_) minimum value accepted on edition (for column types _int_, _number_ and _date_)\*
 - **maxValue** (_optional_) maximum value accepted on edition (for column types _int_, _number_ and _date_)\*
 - **enumValues** (_optional_) list of known enum values, accepted on edition (for column type _enum_)
+- **acceptsEmptyFields** (_optional_) set to `true`, authorizes the column to accept empty fields (default `false`)
 
 \* _minValue_ and _maxValue_ specified for a column with the _date_ type will be provided to the standard JS Date
 constructor, mind the date format (ISO format is recommended)

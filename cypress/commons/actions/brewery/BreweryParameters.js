@@ -146,6 +146,10 @@ function editCustomersTableStringCell(colName, rowIndex, newValue) {
   return TableParameters.editStringCell(getCustomersTable, colName, rowIndex, newValue);
 }
 
+function clearCustomersTableStringCell(colName, rowIndex) {
+  return TableParameters.clearStringCell(getCustomersTable, colName, rowIndex);
+}
+
 function getExampleDatasetPart1FileName() {
   return FileParameters.getFileName(getExampleDatasetPart1());
 }
@@ -223,6 +227,21 @@ function deleteExampleDatasetPart3() {
   FileParameters.delete(getExampleDatasetPart3());
 }
 
+function checkErrorsPanelFromList(errors) {
+  const errorsCount = errors.length;
+  BreweryParameters.getCustomersErrorsPanel().should('be.visible');
+  BreweryParameters.getCustomersErrorsHeader().should('have.text', `File load failed. ${errorsCount} errors occurred:`);
+  BreweryParameters.getCustomersErrorsAccordions().should('have.length', errorsCount);
+  errors.forEach((error, index) => {
+    if (error.summary) {
+      BreweryParameters.getCustomersErrorSummary(index).should('have.text', error.summary);
+    }
+    if (error.loc) {
+      BreweryParameters.getCustomersErrorLoc(index).should('have.text', error.loc);
+    }
+  });
+}
+
 export const BreweryParameters = {
   getDatasetPartsTab,
   getExtraDatasetPartTab,
@@ -288,4 +307,6 @@ export const BreweryParameters = {
   deleteExampleDatasetPart1,
   deleteExampleDatasetPart2,
   deleteExampleDatasetPart3,
+  clearCustomersTableStringCell,
+  checkErrorsPanelFromList,
 };

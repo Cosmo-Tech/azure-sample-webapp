@@ -96,7 +96,7 @@ const PARAMETERS = {
     dateFormat: 'dd/MM/yyyy',
     columns: [
       { field: 'name', type: ['nonResizable', 'nonEditable', 'nonSortable'] },
-      { field: 'age', type: ['int'], minValue: 0, maxValue: 120 },
+      { field: 'age', type: ['int'], minValue: 0, maxValue: 120, acceptsEmptyFields: true },
       { field: 'canDrinkAlcohol', type: ['bool'] },
       {
         field: 'favoriteDrink',
@@ -108,8 +108,9 @@ const PARAMETERS = {
         type: ['date'],
         minValue: '1900-01-01',
         maxValue: new Date().toISOString(),
+        acceptsEmptyFields: true,
       },
-      { field: 'height', type: ['number'], minValue: 0, maxValue: 2.5 },
+      { field: 'height', type: ['number'], minValue: 0, maxValue: 2.5, acceptsEmptyFields: true },
     ],
   },
 };
