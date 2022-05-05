@@ -201,7 +201,7 @@ const prepareToUpload = (event, clientFileDescriptor, setClientFileDescriptor) =
   if (file === undefined) {
     return;
   }
-
+  appInsights.trackUpload();
   setClientFileDescriptor({
     ...clientFileDescriptor,
     name: file.name,
