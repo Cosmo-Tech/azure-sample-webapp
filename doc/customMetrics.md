@@ -7,7 +7,7 @@ For further information on how to consult these custom metrics, see: [How to vie
 
 ## Upload
 
-This event is triggered each time a user uploads a file, by clicking on the `Upload` button, within a Scenario Parameters tab. This does not apply to tabs containing an editable table. See [Scenario Parameters Configuration - File parameters](https://github.com/Cosmo-Tech/azure-sample-webapp/blob/main/doc/scenarioParametersConfiguration.md#file-parameters).
+This event is triggered each time a user uploads a file in datasets tab (`Browse` button) or editable table tab (`Import file` button) in Scenario parameters section. See [Scenario Parameters Configuration - File parameters](https://github.com/Cosmo-Tech/azure-sample-webapp/blob/main/doc/scenarioParametersConfiguration.md#file-parameters).
 
 In Application Insights Portal, this event is labeled **UploadFileValue**.
 
