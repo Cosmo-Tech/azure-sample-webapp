@@ -22,21 +22,6 @@ function forgeScenarioName() {
   return `${prefix}${utils.randomStr(7)}`;
 }
 
-function checkErrorsPanelFromList(errors) {
-  const errorsCount = errors.length;
-  BreweryParameters.getCustomersErrorsPanel().should('be.visible');
-  BreweryParameters.getCustomersErrorsHeader().should('have.text', `File load failed. ${errorsCount} errors occurred:`);
-  BreweryParameters.getCustomersErrorsAccordions().should('have.length', errorsCount);
-  errors.forEach((error, index) => {
-    if (error.summary) {
-      BreweryParameters.getCustomersErrorSummary(index).should('have.text', error.summary);
-    }
-    if (error.loc) {
-      BreweryParameters.getCustomersErrorLoc(index).should('have.text', error.loc);
-    }
-  });
-}
-
 describe('Table parameters invalid files operations', () => {
   before(() => {
     Login.login();
@@ -59,7 +44,7 @@ describe('Table parameters invalid files operations', () => {
   it('can import invalid files and display the errors panel', () => {
     const checkErrorsPanel = () => {
       const expectedErrors = [
-        { summary: 'Missing columns', loc: 'Line 1' },
+        { summary: 'Missing fields', loc: 'Line 1' },
         { summary: 'Incorrect int value', loc: 'Line 2 , Column 1 ("age")' },
         { summary: 'Incorrect bool value' },
         { summary: 'Incorrect enum value' },
@@ -71,7 +56,7 @@ describe('Table parameters invalid files operations', () => {
         { summary: 'Incorrect date value' },
         { summary: 'Incorrect number value' },
       ];
-      checkErrorsPanelFromList(expectedErrors);
+      BreweryParameters.checkErrorsPanelFromList(expectedErrors);
     };
 
     const scenarioName = forgeScenarioName();

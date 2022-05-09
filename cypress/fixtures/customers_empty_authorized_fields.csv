@@ -1,0 +1,9 @@
+name,age,canDrinkAlcohol,favoriteDrink,birthday,height
+Bob,22,1,Beer,01/01/2000,
+Sing,26,0,Beer,02/02/1994,1.9
+Clara,,no,Beer,,2
+Henda,,1,Beer,,1.8
+Pete,,yes,AppleJuice,09/09/1965,
+Mostefa,45,yes,Beer,,
+Anna,23,no,Beer,,
+Ewan,,0,Wine,,1.9
