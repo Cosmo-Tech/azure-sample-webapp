@@ -3,7 +3,7 @@
 
 import React, { Suspense } from 'react';
 import { Provider, connect } from 'react-redux';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App';
 import { i18next } from './services/config/i18next';
@@ -23,11 +23,12 @@ const mapDispatchToProps = {
 };
 
 const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App);
-
-ReactDOM.render(
+const container = document.getElementById('root');
+const root = createRoot(container);
+root.render(
   <Suspense fallback="loading">
-    <React.StrictMode>
-      <BrowserRouter>
+    <BrowserRouter>
+      <React.StrictMode>
         <Provider store={applicationStore}>
           <I18nextProvider i18n={i18next}>
             <ThemeProvider theme={theme}>
@@ -36,8 +37,7 @@ ReactDOM.render(
             </ThemeProvider>
           </I18nextProvider>
         </Provider>
-      </BrowserRouter>
-    </React.StrictMode>
-  </Suspense>,
-  document.getElementById('root')
+      </React.StrictMode>
+    </BrowserRouter>
+  </Suspense>
 );
