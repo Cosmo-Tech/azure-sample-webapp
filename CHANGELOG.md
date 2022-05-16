@@ -1,3 +1,11 @@
+## **2.6.1** <sub><sup>2022-05-16 ([5f97a59...5bc6879](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/5f97a59...5bc6879?diff=split))</sup></sub>
+
+### Bug Fixes
+
+- fix app crash when no scenarios exist ([dcf9cc5](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/dcf9cc5))
+- change PermissionGate children prop type from object to node ([01b1540](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/01b1540))
+- add & use new permission canChangeScenarioValidationStatus for validation status edition ([5bc6879](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/5bc6879))
+
 ## **2.6.0** <sub><sup>2022-05-11 ([8bf8666...196e124](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/8bf8666...196e124?diff=split))</sup></sub>
 
 ### Documentation
