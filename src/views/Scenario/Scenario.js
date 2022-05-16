@@ -122,7 +122,7 @@ const Scenario = (props) => {
     rejected: t('views.scenario.validation.rejected', 'Rejected'),
     validated: t('views.scenario.validation.validated', 'Validated'),
   };
-  const currentScenarioValidationStatus = currentScenario.data.validationStatus || SCENARIO_VALIDATION_STATUS.UNKNOWN;
+  const currentScenarioValidationStatus = currentScenario?.data?.validationStatus || SCENARIO_VALIDATION_STATUS.UNKNOWN;
   const showValidationChip =
     [SCENARIO_VALIDATION_STATUS.DRAFT, SCENARIO_VALIDATION_STATUS.UNKNOWN].includes(currentScenarioValidationStatus) ===
     false;
