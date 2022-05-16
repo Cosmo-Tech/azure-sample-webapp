@@ -41,7 +41,7 @@ PermissionsGate.propTypes = {
   /**
    * Component children
    */
-  children: PropTypes.object,
+  children: PropTypes.node,
   /**
    * Component to render if permissions/roles are not sufficient
    */
