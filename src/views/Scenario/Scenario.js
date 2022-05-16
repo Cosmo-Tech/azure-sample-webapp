@@ -181,21 +181,31 @@ const Scenario = (props) => {
   );
 
   const validationStatusButtons = (
-    <>
+    <PermissionsGate authorizedPermissions={[PERMISSIONS.canChangeScenarioValidationStatus]}>
       {validateButtonTooltipWrapper}
       {rejectButtonTooltipWrapper}
-    </>
+    </PermissionsGate>
   );
 
-  const scenarioValidationArea = showValidationChip ? (
-    <ScenarioValidationStatusChip
-      status={currentScenarioValidationStatus}
-      onDelete={resetScenarioValidationStatus}
-      labels={scenarioValidationStatusLabels}
-    />
-  ) : (
-    validationStatusButtons
+  const scenarioValidationStatusChip = (
+    <PermissionsGate
+      authorizedPermissions={[PERMISSIONS.canChangeScenarioValidationStatus]}
+      RenderNoPermissionComponent={ScenarioValidationStatusChip}
+      noPermissionProps={{
+        status: currentScenarioValidationStatus,
+        labels: scenarioValidationStatusLabels,
+        onDelete: null,
+      }}
+    >
+      <ScenarioValidationStatusChip
+        status={currentScenarioValidationStatus}
+        onDelete={resetScenarioValidationStatus}
+        labels={scenarioValidationStatusLabels}
+      />
+    </PermissionsGate>
   );
+
+  const scenarioValidationArea = showValidationChip ? scenarioValidationStatusChip : validationStatusButtons;
 
   const hierarchicalComboBoxLabels = {
     label: scenarioListLabel,
