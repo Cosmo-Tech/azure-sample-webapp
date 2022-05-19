@@ -30,6 +30,23 @@ const useStyles = makeStyles((theme) => ({
     whiteSpace: 'pre-line',
     overflowWrap: 'break-word',
   },
+  infoPaper: {
+    maxWidth: '800px',
+    maxHeight: '150px',
+  },
+  infoText: {
+    backgroundColor: '#0288D1',
+    color: theme.palette.error.contrastText,
+    fontSize: '12px',
+    overflow: 'auto',
+    paddingRight: 7,
+    paddingLeft: 7,
+    whiteSpace: 'pre-line',
+    overflowWrap: 'break-word',
+    fontWeight: 900,
+    letterSpacing: 0,
+    borderRadius: '4px',
+  },
   errorPaper: {
     background: theme.palette.error.main,
     paddingBottom: 8,

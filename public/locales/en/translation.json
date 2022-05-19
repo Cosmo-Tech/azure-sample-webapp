@@ -219,6 +219,13 @@
             "cancel": "Cancel"
           }
         }
+      },
+      "sessionTimeout": {
+        "body": "You have been idle for too long. You will be automatically signed out in {{seconds}} seconds...",
+        "cancel": "Stay connected",
+        "logOut": "Sign out",
+        "loggingOut": "Signing out...",
+        "title": "Session timeout"
       }
     }
   },
@@ -360,6 +367,9 @@
       "title": "Azure Sample Web Application",
       "error": {
         "title": "Authentication failed"
+      },
+      "info": {
+        "timeout": "For security reasons, your session has expired, due to inactivity."
       }
     },
     "accessdenied": {
