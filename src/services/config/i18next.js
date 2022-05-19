@@ -10,18 +10,10 @@ import { LANGUAGES, FALLBACK_LANGUAGE } from '../../config/AppConfiguration';
 const I18N_NAMESPACE = 'translation';
 
 const langDetectorOptions = {
-  // order and from where user language should be detected
-  order: ['cookie', 'localStorage', 'navigator'],
-
-  // keys or params to lookup language from
-  lookupCookie: 'locale',
+  order: ['localStorage', 'navigator'],
   lookupLocalStorage: 'locale',
-
-  // cache user language on
-  caches: ['localStorage', 'cookie'],
-  excludeCacheFor: ['cimode'], // languages to not persist (cookie, localStorage)
-
-  // only detect languages that are in the whitelist
+  caches: ['localStorage'],
+  excludeCacheFor: ['cimode'],
   checkWhitelist: true,
 };
 
