@@ -8,6 +8,7 @@ import { APPLICATION_INSIGHTS_INSTRUMENTATION_KEY } from '../../config/AppInstan
 export const APPLICATION_INSIGHTS_CONFIG = {
   name: 'Web Application Sample',
   config: {
+    disableCookiesUsage: true,
     instrumentationKey: APPLICATION_INSIGHTS_INSTRUMENTATION_KEY,
     disableFetchTracking: false,
     enableCorsCorrelation: true,
