@@ -357,15 +357,15 @@
       }
     },
     "signin": {
-      "title": "Exemple d'Application Web Azure"
+      "title": "Exemple d'Application Web Azure",
+      "error": {
+        "title": "Erreur d'authentification"
+      }
     },
-    "unauthorized": {
-      "scenario": {
-        "specialists": {
-          "title": "Spécialistes des jumeaux numériques"
-        }
-      },
-      "title": "Exemple d'Application Web Azure"
+    "accessdenied": {
+      "title": "Accès non autorisé",
+      "errormessage": "Les ressources n'existent pas ou vous n'avez pas la permission d'y accéder.",
+      "signouttimeout": "Vous allez être déconnecté automatiquement dans {{seconds}} secondes..."
     },
     "scenario": {
       "dropdown": {

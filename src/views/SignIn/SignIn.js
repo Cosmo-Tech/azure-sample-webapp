@@ -8,10 +8,12 @@ import { Trans, useTranslation } from 'react-i18next';
 import { Auth, AuthDev } from '@cosmotech/core';
 import { AuthMSAL } from '@cosmotech/azure';
 import validate from 'validate.js';
-import { Grid, Button, Typography, Box, Select, FormControl, MenuItem, makeStyles } from '@material-ui/core';
+import { Grid, Button, Typography, Box, Select, FormControl, MenuItem, Paper } from '@material-ui/core';
 import { SignInButton } from '@cosmotech/ui';
 import { TranslationUtils } from '../../utils';
+import { AUTH_STATUS } from '../../state/commons/AuthConstants.js';
 import microsoftLogo from '../../assets/microsoft_logo.png';
+import useStyles from './style';
 
 const schema = {
   email: {
@@ -29,105 +31,7 @@ const schema = {
   },
 };
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: theme.palette.background.signInPage,
-    height: '100%',
-  },
-  grid: {
-    height: '100%',
-  },
-  quoteContainer: {
-    [theme.breakpoints.down('md')]: {
-      display: 'none',
-    },
-  },
-  quote: {
-    backgroundColor: theme.palette.background.signInPage,
-    height: '100%',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundImage: `url(${theme.picture.auth})`,
-    backgroundSize: 'contain',
-    backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'center bottom',
-  },
-  quoteInner: {
-    textAlign: 'center',
-    flexBasis: '600px',
-    marginTop: '2%',
-  },
-  quoteText: {
-    color: theme.palette.text.primary,
-    fontWeight: 300,
-  },
-  name: {
-    marginTop: theme.spacing(3),
-    color: theme.palette.text.primary,
-  },
-  contentContainer: {},
-  content: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  contentHeader: {
-    display: 'flex',
-    alignItems: 'center',
-    paddingTop: theme.spacing(5),
-    paddingBototm: theme.spacing(2),
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2),
-  },
-  contentBody: {
-    flexGrow: 1,
-    display: 'flex',
-    alignItems: 'flex-start',
-    [theme.breakpoints.down('md')]: {
-      justifyContent: 'center',
-    },
-  },
-  form: {
-    paddingTop: 120,
-    paddingLeft: 100,
-    paddingRight: 100,
-    flexBasis: 700,
-    [theme.breakpoints.down('sm')]: {
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(2),
-    },
-  },
-  contentFooter: {
-    display: 'flex',
-    alignItems: 'flex-end',
-  },
-  title: {
-    marginTop: theme.spacing(3),
-    color: theme.palette.text.primary,
-  },
-  socialButtons: {
-    marginTop: theme.spacing(3),
-  },
-  contact: {
-    marginLeft: '10px',
-    marginTop: '5px',
-    color: theme.palette.text.primary,
-  },
-  formControl: {
-    fontSize: '11px',
-  },
-  languageSelect: {
-    fontSize: '11px',
-    color: theme.palette.text.primary,
-  },
-  copyrightText: {
-    marginLeft: '8px',
-    color: theme.palette.text.primary,
-  },
-}));
-
-const SignIn = ({ logInAction }) => {
+const SignIn = ({ logInAction, auth }) => {
   const classes = useStyles();
 
   const { t, i18n } = useTranslation();
@@ -155,6 +59,15 @@ const SignIn = ({ logInAction }) => {
   };
 
   const year = new Date().getFullYear();
+  const accessDeniedError =
+    auth.status === AUTH_STATUS.DENIED ? (
+      <>
+        <Typography className={classes.errorTitle}>{t('views.signin.error.title', 'Authentication failed')}</Typography>
+        <Paper className={classes.errorPaper} elevation={0}>
+          <Typography className={classes.errorText}>{auth.error}</Typography>
+        </Paper>
+      </>
+    ) : null;
 
   return (
     <div className={classes.root}>
@@ -177,6 +90,7 @@ const SignIn = ({ logInAction }) => {
                   {t('commoncomponents.button.login.regular.login', 'Sign In')}
                 </Typography>
                 <Grid className={classes.socialButtons} container spacing={2} direction="column">
+                  {accessDeniedError}
                   <Grid item>
                     <SignInButton
                       logo={microsoftLogo}
@@ -247,6 +161,7 @@ const SignIn = ({ logInAction }) => {
 
 SignIn.propTypes = {
   logInAction: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
 };
 
 export default withRouter(SignIn);

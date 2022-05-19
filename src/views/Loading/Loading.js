@@ -65,11 +65,7 @@ const Loading = ({
 
   const hasErrors = (entityStatus) => entityStatus.status === STATUSES.ERROR;
 
-  if (application.status === STATUSES.ERROR) {
-    logout();
-  }
-
-  return authenticated && application.status !== STATUSES.SUCCESS ? (
+  return authenticated && isLoading(application) ? (
     <div className={classes.panel} data-cy="loading-component">
       <FadeIn delay={200}>
         <LoadingLine
@@ -111,7 +107,7 @@ const Loading = ({
       </FadeIn>
     </div>
   ) : (
-    <Routes authenticated={authenticated} authorized={authenticated} tabs={tabs} />
+    <Routes authenticated={authenticated} authorized={application.status === STATUSES.SUCCESS} tabs={tabs} />
   );
 };
 

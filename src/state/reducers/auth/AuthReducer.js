@@ -6,12 +6,13 @@ import { createReducer } from '@reduxjs/toolkit';
 
 // Authentication data
 export const authInitialState = {
+  error: '',
   userId: '',
   userName: '',
   profilePic: '',
   roles: [],
   permissions: [],
-  status: AUTH_STATUS.ANONYMOUS,
+  status: AUTH_STATUS.UNKNOWN,
 };
 
 export const authReducer = createReducer(authInitialState, (builder) => {
@@ -23,6 +24,7 @@ export const authReducer = createReducer(authInitialState, (builder) => {
       state.status = AUTH_STATUS.ANONYMOUS;
     })
     .addCase(AUTH_ACTIONS_KEY.SET_AUTH_DATA, (state, action) => {
+      state.error = action.error;
       state.status = action.status;
       state.userId = action.userId;
       state.userName = action.userName;

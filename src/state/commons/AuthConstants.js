@@ -7,6 +7,7 @@ export const AUTH_STATUS = {
   AUTHENTICATED: 'AUTHENTICATED',
   CONNECTING: 'CONNECTING',
   DENIED: 'DENIED',
+  UNKNOWN: 'UNKNOWN',
 };
 
 // Available authentication actions

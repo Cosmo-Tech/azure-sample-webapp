@@ -10,14 +10,14 @@
     "@jridgewell/gen-mapping" "^0.1.0"
     "@jridgewell/trace-mapping" "^0.3.9"
 
-"@azure/msal-browser@^2.8.0":
-  version "2.24.0"
-  resolved "https://registry.yarnpkg.com/@azure/msal-browser/-/msal-browser-2.24.0.tgz#74db155a534764a5db275d98c5c95b9b6a1d0612"
-  integrity sha512-P4Z8mQ6hTuA9ss3HCltso7fRmuX1raaU6444G35c0FhaD6hfqViFYRa7hk16AiAs9HkUQHbBaL3gLjKMpX3heA==
+"@azure/msal-browser@~2.23.0":
+  version "2.23.0"
+  resolved "https://registry.yarnpkg.com/@azure/msal-browser/-/msal-browser-2.23.0.tgz#24fc58e9d1314833b09d3f52ba4e53f526cfe0de"
+  integrity sha512-qxyWmsP/pf+xJFEhMgiJ0r1v6TjF+x8iMWYU5R63Lb/fjQfKalaNX9f5D6GbJYJS5s9OF3abtdGtB/Lxea15mQ==
   dependencies:
-    "@azure/msal-common" "^6.3.0"
+    "@azure/msal-common" "^6.2.0"
 
-"@azure/msal-common@^6.3.0":
+"@azure/msal-common@^6.2.0":
   version "6.3.0"
   resolved "https://registry.yarnpkg.com/@azure/msal-common/-/msal-common-6.3.0.tgz#a0cdb6be1ae3cfdc5acf3c32979375a0fef433b2"
   integrity sha512-ZyLq9GdnLBi/83YpysE86TFKbA0TuvfNAN5Psqu20cdAjLo/4rw4ttiItdh1G//XeGErHk9qn57gi2AYU1b5/Q==
@@ -1113,12 +1113,12 @@
   dependencies:
     axios "^0.21.4"
 
-"@cosmotech/azure@^1.1.2":
-  version "1.1.19"
-  resolved "https://registry.yarnpkg.com/@cosmotech/azure/-/azure-1.1.19.tgz#2aa879ea67bc667fcfb0cf74978cee535bade7fd"
-  integrity sha512-fhJCxytwQBEYR6u/x9BwWJkVXovH85jR2mY8Wf4/ENOgKZA9wTLRpxyrLvMaZ0dooUQMLCgIYBPxSbKoobaIkg==
+"@cosmotech/azure@1.1.20":
+  version "1.1.20"
+  resolved "https://registry.yarnpkg.com/@cosmotech/azure/-/azure-1.1.20.tgz#c7e9462abee32fa445f6b8ec8579bb40a1994b8a"
+  integrity sha512-tJ/umM2qstyY9UxkMH+MRbjYCGQV0qUOzHd2WQ5VfMK+seeYabptXbeHF74XxEQL6Dr5uCvgN3/HskXGZ2zu8A==
   dependencies:
-    "@azure/msal-browser" "^2.8.0"
+    "@azure/msal-browser" "~2.23.0"
 
 "@cosmotech/core@^1.8.0":
   version "1.8.0"
@@ -11007,6 +11007,13 @@ react-app-polyfill@^2.0.0:
     raf "^3.4.1"
     regenerator-runtime "^0.13.7"
     whatwg-fetch "^3.4.1"
+
+react-countdown@^2.3.2:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/react-countdown/-/react-countdown-2.3.2.tgz#4cc27f28f2dcd47237ee66e4b9f6d2a21fc0b0ad"
+  integrity sha512-Q4SADotHtgOxNWhDdvgupmKVL0pMB9DvoFcxv5AzjsxVhzOVxnttMbAywgqeOdruwEAmnPhOhNv/awAgkwru2w==
+  dependencies:
+    prop-types "^15.7.2"
 
 react-cytoscapejs@^1.2.1:
   version "1.2.1"
