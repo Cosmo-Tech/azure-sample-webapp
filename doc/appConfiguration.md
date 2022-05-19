@@ -8,6 +8,7 @@ application.
 
 - **LANGUAGES** is a dict describing the languages available in your webapp (e.g. {en: 'English', fr: 'Français'})
 - **FALLBACK_LANGUAGE** is the default language to use when the user language can't be detected
+- **SESSION_INACTIVITY_TIMEOUT** is the duration of inactivity after which users are automatically logged out (in minutes)
 - **SCENARIO_STATUS_POLLING_DELAY** is the delay to wait between two requests to the Cosmo Tech API when a scenario is
   running and the webapp is polling for a status update. Its value is expressed in milliseconds
 - **POWER_BI_INFO_POLLING_DELAY** is the delay to wait between two requests to Power BI Services when Power BI information are fetched and an error occurs.
