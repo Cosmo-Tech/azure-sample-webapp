@@ -85,12 +85,11 @@ const useStyles = makeStyles((theme) => ({
   contentBody: {
     flexGrow: 1,
     display: 'flex',
+    flexDirection: 'column',
     alignItems: 'flex-start',
     [theme.breakpoints.down('md')]: {
       justifyContent: 'center',
     },
-  },
-  form: {
     paddingTop: 120,
     paddingLeft: 100,
     paddingRight: 100,
@@ -115,9 +114,6 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: '10px',
     marginTop: '5px',
     color: theme.palette.text.primary,
-  },
-  formControl: {
-    fontSize: '11px',
   },
   languageSelect: {
     fontSize: '11px',
