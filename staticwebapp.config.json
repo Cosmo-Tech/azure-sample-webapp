@@ -1,10 +1,13 @@
 {
   "globalHeaders": {
     "X-Frame-Options": "SAMEORIGIN",
-    "content-security-policy": "default-src https: 'unsafe-eval' 'unsafe-inline'; object-src 'none'",
+    "content-security-policy": "default-src 'none'; connect-src 'self' https://login.microsoftonline.com https://dev.api.cosmotech.com https://dc.services.visualstudio.com; script-src 'self' 'unsafe-inline'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src data:; frame-src https://app.powerbi.com; manifest-src 'self'; require-trusted-types-for 'script'",
     "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
     "X-XSS-Protection": "1; mode = block",
     "X-Content-Type-Options": "nosniff",
     "Referrer-Policy": "no-referrer"
+  },
+  "navigationFallback": {
+    "rewrite": "/index.html"
   }
 }

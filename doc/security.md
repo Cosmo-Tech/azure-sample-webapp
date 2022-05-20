@@ -1,0 +1,60 @@
+# Security
+
+This documentation page describes some security mechanisms used in the webapp.
+
+## Content Security Policy (CSP)
+
+### Goal
+
+The Content Security Policy is a set of whitelist filters that define what kind of content is acceptable when viewing pages in a browser. It can be useful to prevent or mitigate some attacks targeting the client browser, such as XSS attacks. For more information on CSP, you can visit https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP.
+
+### CSP location in the webapp code base
+
+It is important to note that CSP is defined twice in the webapp configuration:
+
+- the file **staticwebapp.config.json** is a json, whose property "_globalHeaders_" > "_content-security-policy_" is read by Azure Static WebApp instances to enforce the CSP
+- the file **public/index.html** also defines the same CSP, in a `meta` tag with `http-equiv="Content-Security-Policy"`; this is useful to test the CSP in a local development environment
+
+### CSP details
+
+#### default-src
+
+- `'none'` the default behavior is to prevent content with unknown type or from unknown origin: this rule is used as fallback for content that doesn't match other rules
+
+#### connect-src
+
+- `'self'` allow connections to the server of the webapp, to load the webapp files or for queries to Azure Functions
+- `https://login.microsoftonline.com` allow connection to the Microsoft login endpoint to log in with MSAL library
+- `https://dev.api.cosmotech.com` allow API requests to the Cosmo Tech API
+- `https://dc.services.visualstudio.com`: allow tracking API for Application Insights
+
+#### script-src
+
+- `'self'` allow scripts coming from the webapp domain
+- `'unsafe-inline'` allow use of inline scripts
+
+#### img-src
+
+- `'self'` allow images coming from the webapp domain (e.g. images located in the _public_ folder of the webapp)
+- `data:` allow images such as base64 encoded files
+
+#### style-src
+
+- `'self'` allow CSS files sent by the webapp domain
+- `'unsafe-inline'` allow styles declared inline
+
+#### font-src
+
+- `data:` allow embed base64 fonts
+
+#### frame-src
+
+- `https://app.powerbi.com` allow iframe for PowerBI
+
+#### manifest-src
+
+- `'self'` allow file manifest.json from the webapp domain
+
+#### require-trusted-types-for
+
+- `'script'` prevent some DOM XSS attacks
