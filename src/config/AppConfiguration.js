@@ -11,6 +11,9 @@ export const LANGUAGES = {
 };
 export const FALLBACK_LANGUAGE = 'en'; // Language used if detection fails
 
+// Duration of inactivity after which users are automatically logged out (minutes)
+export const SESSION_INACTIVITY_TIMEOUT = 30;
+
 // Polling delay to update running scenario status (milliseconds)
 export const SCENARIO_STATUS_POLLING_DELAY = 10000;
 

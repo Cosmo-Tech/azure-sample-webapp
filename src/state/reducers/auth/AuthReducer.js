@@ -21,7 +21,7 @@ export const authReducer = createReducer(authInitialState, (builder) => {
       state.status = AUTH_STATUS.CONNECTING;
     })
     .addCase(AUTH_ACTIONS_KEY.REQUEST_LOG_OUT, (state, action) => {
-      state.status = AUTH_STATUS.ANONYMOUS;
+      state.status = AUTH_STATUS.DISCONNECTING;
     })
     .addCase(AUTH_ACTIONS_KEY.SET_AUTH_DATA, (state, action) => {
       state.error = action.error;

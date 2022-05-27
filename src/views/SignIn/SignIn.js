@@ -34,6 +34,14 @@ const SignIn = ({ logInAction, auth }) => {
         </Paper>
       </>
     ) : null;
+  const infoMessage =
+    localStorage.getItem('logoutByTimeout') === 'true' ? (
+      <Paper className={classes.infoPaper} elevation={0}>
+        <Typography className={classes.infoText}>
+          {t('views.signin.info.timeout', 'For security reasons, your sessions has expired, due to inactivity.')}
+        </Typography>
+      </Paper>
+    ) : null;
 
   return (
     <div className={classes.root}>
@@ -55,6 +63,7 @@ const SignIn = ({ logInAction, auth }) => {
                 {t('commoncomponents.button.login.regular.login', 'Sign In')}
               </Typography>
               <Grid className={classes.socialButtons} container spacing={2} direction="column">
+                {infoMessage}
                 {accessDeniedError}
                 <Grid item>
                   <SignInButton

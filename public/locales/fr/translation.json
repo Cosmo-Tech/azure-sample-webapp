@@ -219,6 +219,13 @@
             "cancel": "Annuler"
           }
         }
+      },
+      "sessionTimeout": {
+        "body": "Aucune activité détectée. Vous allez être automatiquement déconnecté dans {{seconds}} secondes...",
+        "cancel": "Rester connecté",
+        "logOut": "Se déconnecter",
+        "loggingOut": "Déconnexion en cours...",
+        "title": "Session inactive"
       }
     }
   },
@@ -360,6 +367,9 @@
       "title": "Exemple d'Application Web Azure",
       "error": {
         "title": "Erreur d'authentification"
+      },
+      "info": {
+        "timeout": "Pour des raisons de sécurité, votre session a expiré, pour cause d'inactivité."
       }
     },
     "accessdenied": {

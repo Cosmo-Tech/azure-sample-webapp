@@ -9,8 +9,9 @@ export const dispatchLogIn = (authProvider) => ({
   provider: authProvider,
 });
 
-export const dispatchLogOut = () => ({
+export const dispatchLogOut = (data) => ({
   type: AUTH_ACTIONS_KEY.REQUEST_LOG_OUT,
+  data: data,
 });
 
 export const dispatchSetData = (payload) => ({

@@ -42,6 +42,7 @@ export function* tryLogIn(action) {
         permissions: userPermissions,
         status: AUTH_STATUS.AUTHENTICATED,
       });
+      localStorage.removeItem('logoutByTimeout');
     } else {
       yield put({
         error: '',
@@ -66,6 +67,7 @@ export function* tryLogIn(action) {
       permissions: [],
       status: AUTH_STATUS.DENIED,
     });
+    localStorage.removeItem('logoutByTimeout');
   }
 }
 
