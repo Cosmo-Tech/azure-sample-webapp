@@ -6,3 +6,4 @@ export { default as AccessDenied } from './AccessDenied';
 export { default as Scenario } from './Scenario';
 export { default as ScenarioManager } from './ScenarioManager';
 export { default as Dashboards } from './Dashboards';
+export { default as Instance } from './Instance';

@@ -91,6 +91,30 @@
         }
       }
     },
+    "cytoviz": {
+      "elementDetails": "Details",
+      "loading": "Loading...",
+      "noSelectedElement": "Select a node or edge to show its data",
+      "settings": {
+        "compactMode": "Compact layout",
+        "layout": "Layout",
+        "title": "Settings",
+        "spacingFactor": "Spacing factor",
+        "zoomLimits": "Min & max zoom"
+      },
+      "elementData": {
+        "dictKey": "Key",
+        "dictValue": "Value",
+        "noData": "No data to display for this element.",
+        "attributes": {
+          "PlantName": "Plant"
+        }
+      },
+      "placeholder": {
+        "error": "An error occured, cannot visualize data.",
+        "noScenario": "No scenario. You can create a new scenario in the Scenario view."
+      }
+    },
     "iframe": {
       "scenario": {
         "results": {
@@ -422,6 +446,11 @@
       "scenario": {
         "tab": {
           "title": "SCENARIO VIEW"
+        }
+      },
+      "instance": {
+        "tab": {
+          "title": "Instance"
         }
       },
       "scenariomanager": {
