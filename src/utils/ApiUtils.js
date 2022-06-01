@@ -6,6 +6,7 @@ import { VAR_TYPES_TO_STRING_FUNCTIONS } from './scenarioParameters/ConversionTo
 import { VAR_TYPES_FROM_STRING_FUNCTIONS } from './scenarioParameters/ConversionFromString.js';
 import { ConfigUtils } from './ConfigUtils';
 import { SCENARIO_PARAMETERS_CONFIG } from '../config/ScenarioParameters';
+import { APPLICATION_ACTIONS_KEY } from '../state/commons/ApplicationConstants';
 
 const clone = rfdc();
 
@@ -36,4 +37,20 @@ export function formatParametersFromApi(parameters) {
   }
   const newParams = _formatParameters(parameters, VAR_TYPES_FROM_STRING_FUNCTIONS);
   return newParams;
+}
+
+// Catch non-critical errors to display in error banner
+export function catchNonCriticalErrors(error, commentOnAppBehaviour) {
+  return {
+    type: APPLICATION_ACTIONS_KEY.GET_NON_CRITICAL_ERRORS,
+    error: {
+      title:
+        error.response?.message || error.response?.data?.title || navigator.onLine
+          ? 'Unknown error'
+          : 'Network problem, please check your internet connexion',
+      detail: error.response?.data?.detail || '',
+      status: error.response?.data?.status || '',
+      comment: commentOnAppBehaviour,
+    },
+  };
 }

@@ -39,6 +39,7 @@ const Scenario = (props) => {
 
   const {
     setScenarioValidationStatus,
+    setCurrentScenario,
     currentScenario,
     scenarioList,
     findScenarioById,
@@ -51,6 +52,7 @@ const Scenario = (props) => {
     updateAndLaunchScenario,
     launchScenario,
     reports,
+    catchNonCriticalErrors,
   } = props;
 
   const workspaceId = workspace.data.id;
@@ -68,6 +70,11 @@ const Scenario = (props) => {
     localStorage.setItem('scenarioParametersAccordionExpanded', accordionSummaryExpanded);
   }, [accordionSummaryExpanded]);
 
+  useEffect(() => {
+    if (currentScenario.data === null && sortedScenarioList.length > 0) {
+      setCurrentScenario(sortedScenarioList[0]);
+    }
+  });
   const expandParametersAndCreateScenario = (workspaceId, scenarioData) => {
     createScenario(workspaceId, scenarioData);
     setAccordionSummaryExpanded(true);
@@ -103,19 +110,38 @@ const Scenario = (props) => {
   }
 
   const resetScenarioValidationStatus = async () => {
-    setScenarioValidationStatus(currentScenario.data.id, SCENARIO_VALIDATION_STATUS.LOADING);
-    await ScenarioService.resetValidationStatus(workspaceId, currentScenario.data.id);
-    findScenarioById(workspaceId, currentScenario.data.id);
+    const currentStatus = currentScenario.data.validationStatus;
+    try {
+      setScenarioValidationStatus(currentScenario.data.id, SCENARIO_VALIDATION_STATUS.LOADING);
+      await ScenarioService.resetValidationStatus(workspaceId, currentScenario.data.id);
+      findScenarioById(workspaceId, currentScenario.data.id);
+    } catch (error) {
+      catchNonCriticalErrors(error, 'Impossible to reset validation');
+      setScenarioValidationStatus(
+        currentScenario.data.id,
+        currentStatus === 'Validated' ? SCENARIO_VALIDATION_STATUS.VALIDATED : SCENARIO_VALIDATION_STATUS.REJECTED
+      );
+    }
   };
   const validateScenario = async () => {
-    setScenarioValidationStatus(currentScenario.data.id, SCENARIO_VALIDATION_STATUS.LOADING);
-    await ScenarioService.setScenarioValidationStatusToValidated(workspaceId, currentScenario.data.id);
-    findScenarioById(workspaceId, currentScenario.data.id);
+    try {
+      setScenarioValidationStatus(currentScenario.data.id, SCENARIO_VALIDATION_STATUS.LOADING);
+      await ScenarioService.setScenarioValidationStatusToValidated(workspaceId, currentScenario.data.id);
+      findScenarioById(workspaceId, currentScenario.data.id);
+    } catch (error) {
+      catchNonCriticalErrors(error, 'Impossible to validate the scenario');
+      setScenarioValidationStatus(currentScenario.data.id, SCENARIO_VALIDATION_STATUS.DRAFT);
+    }
   };
   const rejectScenario = async () => {
-    setScenarioValidationStatus(currentScenario.data.id, SCENARIO_VALIDATION_STATUS.LOADING);
-    await ScenarioService.setScenarioValidationStatusToRejected(workspaceId, currentScenario.data.id);
-    findScenarioById(workspaceId, currentScenario.data.id);
+    try {
+      setScenarioValidationStatus(currentScenario.data.id, SCENARIO_VALIDATION_STATUS.LOADING);
+      await ScenarioService.setScenarioValidationStatusToRejected(workspaceId, currentScenario.data.id);
+      findScenarioById(workspaceId, currentScenario.data.id);
+    } catch (error) {
+      catchNonCriticalErrors(error, 'Impossible to reject the scenario');
+      setScenarioValidationStatus(currentScenario.data.id, SCENARIO_VALIDATION_STATUS.DRAFT);
+    }
   };
 
   const scenarioValidationStatusLabels = {
@@ -306,6 +332,7 @@ const Scenario = (props) => {
 
 Scenario.propTypes = {
   setScenarioValidationStatus: PropTypes.func.isRequired,
+  setCurrentScenario: PropTypes.func.isRequired,
   scenarioList: PropTypes.object.isRequired,
   datasetList: PropTypes.object.isRequired,
   currentScenario: PropTypes.object.isRequired,
@@ -318,6 +345,7 @@ Scenario.propTypes = {
   updateAndLaunchScenario: PropTypes.func.isRequired,
   launchScenario: PropTypes.func.isRequired,
   reports: PropTypes.object.isRequired,
+  catchNonCriticalErrors: PropTypes.func,
 };
 
 export default Scenario;

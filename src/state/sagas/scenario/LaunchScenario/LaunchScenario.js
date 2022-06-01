@@ -8,6 +8,7 @@ import { SCENARIO_RUN_STATE } from '../../../../services/config/ApiConstants';
 import { ORGANIZATION_ID } from '../../../../config/AppInstance';
 import { Api } from '../../../../services/config/Api';
 import { AppInsights } from '../../../../services/AppInsights';
+import { catchNonCriticalErrors } from '../../../../utils/ApiUtils';
 
 const appInsights = AppInsights.getInstance();
 
@@ -25,13 +26,13 @@ export function* launchScenario(action) {
       status: STATUSES.SAVING,
       scenario: { state: SCENARIO_RUN_STATE.RUNNING },
     });
+
+    // Launch scenario if parameters update succeeded
+    yield call(Api.ScenarioRuns.runScenario, ORGANIZATION_ID, workspaceId, scenarioId);
     yield put({
       type: SCENARIO_ACTIONS_KEY.UPDATE_SCENARIO,
       data: { scenarioState: SCENARIO_RUN_STATE.RUNNING, scenarioId: scenarioId, lastRun: null },
     });
-
-    // Launch scenario if parameters update succeeded
-    yield call(Api.ScenarioRuns.runScenario, ORGANIZATION_ID, workspaceId, scenarioId);
 
     // Start backend polling to update the scenario status
     yield put({
@@ -40,8 +41,13 @@ export function* launchScenario(action) {
       scenarioId: scenarioId,
       startTime: runStartTime,
     });
-  } catch (e) {
-    console.error(e);
+  } catch (error) {
+    yield put(catchNonCriticalErrors(error, 'Problem during scenario run'));
+    yield put({
+      type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
+      status: STATUSES.ERROR,
+      scenario: { state: 'Failed' },
+    });
   }
 }
 

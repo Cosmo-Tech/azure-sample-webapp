@@ -6,7 +6,7 @@ import { AppBar, Tabs, Tab, Box, makeStyles } from '@material-ui/core';
 import { Switch, Route, Link, Redirect, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Auth } from '@cosmotech/core';
-import { PrivateRoute, UserInfo, HelpMenu } from '@cosmotech/ui';
+import { PrivateRoute, UserInfo, HelpMenu, ErrorBanner } from '@cosmotech/ui';
 import { useTranslation } from 'react-i18next';
 import { LANGUAGES, SUPPORT_URL, DOCUMENTATION_URL } from '../../config/AppConfiguration';
 import { About } from '../../services/config/Menu';
@@ -71,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
 
 const TabLayout = (props) => {
   const classes = useStyles();
-  const { tabs, authenticated, authorized, signInPath, unauthorizedPath } = props;
+  const { tabs, authenticated, authorized, signInPath, unauthorizedPath, error, clearMinorErrors } = props;
   const { t, i18n } = useTranslation();
   const location = useLocation();
 
@@ -86,7 +86,6 @@ const TabLayout = (props) => {
     aboutTitle: t('genericcomponent.helpmenu.about'),
     close: t('genericcomponent.dialog.about.button.close'),
   };
-
   return (
     <>
       <AppBar className={classes.bar}>
@@ -131,6 +130,7 @@ const TabLayout = (props) => {
         </Box>
       </AppBar>
       <Box className={classes.content}>
+        {error && <ErrorBanner error={error} clearErrors={clearMinorErrors} />}
         <Switch>
           {tabs.map((tab) => (
             <PrivateRoute
@@ -158,6 +158,8 @@ TabLayout.propTypes = {
   unauthorizedPath: PropTypes.string.isRequired,
   userName: PropTypes.string.isRequired,
   userProfilePic: PropTypes.string.isRequired,
+  error: PropTypes.object,
+  clearMinorErrors: PropTypes.func,
 };
 
 export default TabLayout;

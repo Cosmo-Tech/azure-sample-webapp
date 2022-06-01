@@ -5,36 +5,30 @@ import { FileBlobUtils } from '@cosmotech/core';
 import { LOG_TYPES } from './ScenarioRunConstants.js';
 import { ORGANIZATION_ID } from '../../config/AppInstance';
 import { Api } from '../../services/config/Api';
+import applicationStore from '../../state/Store.config';
+import { catchNonCriticalErrors } from '../../utils/ApiUtils';
 
 async function downloadCumulatedLogsFile(lastRun) {
   try {
     const fileName = lastRun.scenarioRunId + '_cumulated_logs.txt';
-    const { data, status } = await Api.ScenarioRuns.getScenarioRunCumulatedLogs(
-      ORGANIZATION_ID,
-      lastRun.scenarioRunId,
-      { responseType: 'blob' }
-    );
-    if (status !== 200) {
-      throw new Error(`Error when fetching ${fileName}`);
-    }
+    const { data } = await Api.ScenarioRuns.getScenarioRunCumulatedLogs(ORGANIZATION_ID, lastRun.scenarioRunId, {
+      responseType: 'blob',
+    });
     FileBlobUtils.downloadFileFromData(data, fileName);
-  } catch (e) {
-    console.error(e);
+  } catch (error) {
+    applicationStore.dispatch(catchNonCriticalErrors(error, 'Impossible to download logs'));
   }
 }
 
 async function downloadLogsSimpleFile(lastRun) {
   try {
     const fileName = lastRun.scenarioRunId + '_simple_logs.json';
-    const { data, status } = await Api.ScenarioRuns.getScenarioRunLogs(ORGANIZATION_ID, lastRun.scenarioRunId, {
+    const { data } = await Api.ScenarioRuns.getScenarioRunLogs(ORGANIZATION_ID, lastRun.scenarioRunId, {
       responseType: 'blob',
     });
-    if (status !== 200) {
-      throw new Error(`Error when fetching ${fileName}`);
-    }
     FileBlobUtils.downloadFileFromData(data, fileName);
-  } catch (e) {
-    console.error(e);
+  } catch (error) {
+    applicationStore.dispatch(catchNonCriticalErrors(error, 'Impossible to download logs'));
   }
 }
 

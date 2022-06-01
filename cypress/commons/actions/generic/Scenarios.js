@@ -105,6 +105,14 @@ function switchToScenarioView() {
   getScenarioViewTab().click();
 }
 
+function getErrorBanner() {
+  return cy.get(GENERIC_SELECTORS.genericComponents.error.errorBanner);
+}
+
+function getDismissErrorButton() {
+  return cy.get(GENERIC_SELECTORS.genericComponents.error.dismissErrorButton);
+}
+
 // Select the scenario with the provided name and id
 function selectScenario(scenarioName, scenarioId) {
   const reqName = `requestSelectScenario_${scenarioName}`.replaceAll(' ', '');
@@ -246,4 +254,6 @@ export const Scenarios = {
   validateScenario,
   rejectScenario,
   resetScenarioValidationStatus,
+  getErrorBanner,
+  getDismissErrorButton,
 };

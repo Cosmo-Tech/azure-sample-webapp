@@ -4,7 +4,7 @@
 import { takeEvery, call, put } from 'redux-saga/effects';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { STATUSES } from '../../../commons/Constants';
-import { formatParametersForApi, formatParametersFromApi } from '../../../../utils/ApiUtils';
+import { catchNonCriticalErrors, formatParametersForApi, formatParametersFromApi } from '../../../../utils/ApiUtils';
 import { SCENARIO_RUN_STATE } from '../../../../services/config/ApiConstants';
 import { ORGANIZATION_ID } from '../../../../config/AppInstance';
 import { Api } from '../../../../services/config/Api';
@@ -17,11 +17,11 @@ export function* updateAndLaunchScenario(action) {
   const workspaceId = action.workspaceId;
   const scenarioId = action.scenarioId;
   const scenarioParameters = action.scenarioParameters;
+  const runStartTime = new Date().getTime();
 
   try {
     appInsights.trackScenarioLaunch();
     // Update scenario parameters
-    const runStartTime = new Date().getTime();
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
       status: STATUSES.SAVING,
@@ -30,10 +30,6 @@ export function* updateAndLaunchScenario(action) {
         parametersValues: scenarioParameters,
       },
     });
-    yield put({
-      type: SCENARIO_ACTIONS_KEY.UPDATE_SCENARIO,
-      data: { scenarioState: SCENARIO_RUN_STATE.RUNNING, scenarioId: scenarioId, lastRun: null },
-    });
     const { data: updateData } = yield call(
       Api.Scenarios.updateScenario,
       ORGANIZATION_ID,
@@ -41,16 +37,29 @@ export function* updateAndLaunchScenario(action) {
       scenarioId,
       formatParametersForApi(scenarioParameters)
     );
-
     updateData.parametersValues = formatParametersFromApi(updateData.parametersValues);
-
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
       status: STATUSES.IDLE,
       scenario: { state: SCENARIO_RUN_STATE.RUNNING, parametersValues: updateData.parametersValues },
     });
+  } catch (error) {
+    yield put(catchNonCriticalErrors(error, "Problem during scenario update : your new parameters aren't saved"));
+    yield put({
+      type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
+      status: STATUSES.ERROR,
+      scenario: { state: 'Failed' },
+    });
+    return;
+  }
+  try {
     // Launch scenario if parameters update succeeded
     yield call(Api.ScenarioRuns.runScenario, ORGANIZATION_ID, workspaceId, scenarioId);
+
+    yield put({
+      type: SCENARIO_ACTIONS_KEY.UPDATE_SCENARIO,
+      data: { scenarioState: SCENARIO_RUN_STATE.RUNNING, scenarioId: scenarioId, lastRun: null },
+    });
 
     // Start backend polling to update the scenario status
     yield put({
@@ -59,12 +68,12 @@ export function* updateAndLaunchScenario(action) {
       scenarioId: scenarioId,
       startTime: runStartTime,
     });
-  } catch (e) {
-    console.error(e);
+  } catch (error) {
+    yield put(catchNonCriticalErrors(error, 'Problem during scenario run'));
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
       status: STATUSES.ERROR,
-      scenario: null,
+      scenario: { state: 'Failed' },
     });
   }
 }

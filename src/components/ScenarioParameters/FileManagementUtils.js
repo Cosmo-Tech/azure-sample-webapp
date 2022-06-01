@@ -8,6 +8,8 @@ import WorkspaceService from '../../services/workspace/WorkspaceService';
 import { AppInsights } from '../../services/AppInsights';
 import { DATASET_ID_VARTYPE } from '../../services/config/ApiConstants';
 import { DatasetsUtils, ScenarioParametersUtils } from '../../utils';
+import applicationStore from '../../state/Store.config';
+import { catchNonCriticalErrors } from '../../utils/ApiUtils';
 
 const appInsights = AppInsights.getInstance();
 
@@ -217,11 +219,8 @@ const prepareToDeleteFile = (setClientFileDescriptorStatus) => {
 };
 
 const downloadFile = async (datasetId, setClientFileDescriptorStatus) => {
-  const { error, data } = await DatasetService.findDatasetById(ORGANIZATION_ID, datasetId);
-  if (error) {
-    console.error(error);
-    throw new Error(`Error finding dataset ${datasetId}`);
-  } else {
+  try {
+    const { data } = await DatasetService.findDatasetById(ORGANIZATION_ID, datasetId);
     const storageFilePath = DatasetsUtils.getStorageFilePathFromDataset(data);
     if (storageFilePath !== undefined) {
       setClientFileDescriptorStatus(UPLOAD_FILE_STATUS_KEY.DOWNLOADING);
@@ -229,6 +228,8 @@ const downloadFile = async (datasetId, setClientFileDescriptorStatus) => {
       setClientFileDescriptorStatus(UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD);
     }
     appInsights.trackDownload();
+  } catch (error) {
+    applicationStore.dispatch(catchNonCriticalErrors(error, 'Impossible to download dataset'));
   }
 };
 
@@ -241,7 +242,6 @@ const downloadFileData = async (datasets, datasetId, setClientFileDescriptorStat
   if (!storageFilePath) {
     return;
   }
-
   setClientFileDescriptorStatuses(UPLOAD_FILE_STATUS_KEY.DOWNLOADING, TABLE_DATA_STATUS.DOWNLOADING);
   const data = await WorkspaceService.downloadWorkspaceFileData(ORGANIZATION_ID, WORKSPACE_ID, storageFilePath);
   setClientFileDescriptorStatuses(UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD, TABLE_DATA_STATUS.PARSING);
