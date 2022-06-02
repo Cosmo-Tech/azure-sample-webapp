@@ -11,7 +11,7 @@ import {
   dispatchSetCurrentScenario,
 } from '../../state/dispatchers/scenario/ScenarioDispatcher';
 import { dispatchAddDatasetToStore } from '../../state/dispatchers/dataset/DatasetDispatcher';
-import { dispatchCatchNonCriticalErrors } from '../../state/dispatchers/app/ApplicationDispatcher';
+import { dispatchSetApplicationErrorMessage } from '../../state/dispatchers/app/ApplicationDispatcher';
 
 const mapStateToProps = (state) => ({
   scenarioList: state.scenario.list,
@@ -31,7 +31,7 @@ const mapDispatchToProps = {
   updateAndLaunchScenario: dispatchUpdateAndLaunchScenario,
   launchScenario: dispatchLaunchScenario,
   setCurrentScenario: dispatchSetCurrentScenario,
-  catchNonCriticalErrors: dispatchCatchNonCriticalErrors,
+  setApplicationErrorMessage: dispatchSetApplicationErrorMessage,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Scenario);

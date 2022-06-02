@@ -22,7 +22,8 @@ const ENUM_VALUES = ['AppleJuice', 'OrangeJuice', 'Wine', 'Beer'];
 
 function forgeScenarioName() {
   const prefix = 'Scenario with table - ';
-  return `${prefix}${utils.randomStr(7)}`;
+  const randomString = utils.randomStr(7);
+  return prefix + randomString;
 }
 
 describe('Table parameters files standard operations part 3', () => {

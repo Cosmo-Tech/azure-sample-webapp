@@ -7,8 +7,10 @@ import { ORGANIZATION_ID } from '../../../../config/AppInstance';
 import { Api } from '../../../../services/config/Api';
 import { SCENARIO_STATUS_POLLING_DELAY } from '../../../../config/AppConfiguration';
 import { AppInsights } from '../../../../services/AppInsights';
-import { catchNonCriticalErrors } from '../../../../utils/ApiUtils';
 import { STATUSES } from '../../../commons/Constants';
+import { t } from 'i18next';
+import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
+import { SCENARIO_RUN_STATE } from '../../../../services/config/ApiConstants';
 
 const appInsights = AppInsights.getInstance();
 
@@ -53,11 +55,16 @@ export function* pollScenarioState(action) {
       // Wait before retrying
       yield delay(SCENARIO_STATUS_POLLING_DELAY);
     } catch (error) {
-      yield put(catchNonCriticalErrors(error, 'Problem during scenario run'));
+      yield put(
+        dispatchSetApplicationErrorMessage(
+          error,
+          t('commoncomponents.banner.run', 'A problem occurred during the scenario run.')
+        )
+      );
       yield put({
         type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
         status: STATUSES.ERROR,
-        scenario: { state: 'Failed' },
+        scenario: { state: SCENARIO_RUN_STATE.FAILED },
       });
       // Stop the polling for this scenario
       yield put(forgeStopPollingAction(action.scenarioId));

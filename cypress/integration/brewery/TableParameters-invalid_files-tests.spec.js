@@ -19,7 +19,8 @@ const XLSX_INVALID_FILE_PATH = 'customers_invalid.xlsx';
 
 function forgeScenarioName() {
   const prefix = 'Scenario with table - ';
-  return `${prefix}${utils.randomStr(7)}`;
+  const randomString = utils.randomStr(7);
+  return prefix + randomString;
 }
 
 describe('Table parameters invalid files operations', () => {

@@ -7,8 +7,10 @@ import { STATUSES } from '../../../commons/Constants';
 import { ORGANIZATION_ID } from '../../../../config/AppInstance';
 import { getAllScenariosData } from '../FindAllScenarios/FindAllScenariosData';
 import { Api } from '../../../../services/config/Api';
-import { formatParametersFromApi, catchNonCriticalErrors } from '../../../../utils/ApiUtils';
+import { formatParametersFromApi } from '../../../../utils/ApiUtils';
 import { AppInsights } from '../../../../services/AppInsights';
+import { t } from 'i18next';
+import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
 
 const appInsights = AppInsights.getInstance();
 
@@ -30,7 +32,9 @@ export function* createScenario(action) {
     });
   } catch (error) {
     // TODO handle error management
-    yield put(catchNonCriticalErrors(error, 'Scenario not created'));
+    yield put(
+      dispatchSetApplicationErrorMessage(error, t('commoncomponents.banner.create', "Scenario hasn't been created."))
+    );
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
       status: STATUSES.ERROR,

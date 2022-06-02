@@ -12,10 +12,10 @@ export const applicationInitialState = {
 
 export const applicationReducer = createReducer(applicationInitialState, (builder) => {
   builder
-    .addCase(APPLICATION_ACTIONS_KEY.GET_NON_CRITICAL_ERRORS, (state, action) => {
+    .addCase(APPLICATION_ACTIONS_KEY.SET_APPLICATION_ERROR_MESSAGE, (state, action) => {
       state.error = action.error;
     })
-    .addCase(APPLICATION_ACTIONS_KEY.CLEAR_ALL_ERRORS, (state) => {
+    .addCase(APPLICATION_ACTIONS_KEY.CLEAR_APPLICATION_ERROR_MESSAGE, (state) => {
       state.error = null;
     })
     .addCase(APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS, (state, action) => {

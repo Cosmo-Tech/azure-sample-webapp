@@ -8,7 +8,8 @@ import { SCENARIO_RUN_STATE } from '../../../../services/config/ApiConstants';
 import { ORGANIZATION_ID } from '../../../../config/AppInstance';
 import { Api } from '../../../../services/config/Api';
 import { AppInsights } from '../../../../services/AppInsights';
-import { catchNonCriticalErrors } from '../../../../utils/ApiUtils';
+import { t } from 'i18next';
+import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
 
 const appInsights = AppInsights.getInstance();
 
@@ -42,11 +43,16 @@ export function* launchScenario(action) {
       startTime: runStartTime,
     });
   } catch (error) {
-    yield put(catchNonCriticalErrors(error, 'Problem during scenario run'));
+    yield put(
+      dispatchSetApplicationErrorMessage(
+        error,
+        t('commoncomponents.banner.run', 'A problem occurred during the scenario run.')
+      )
+    );
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
       status: STATUSES.ERROR,
-      scenario: { state: 'Failed' },
+      scenario: { state: SCENARIO_RUN_STATE.FAILED },
     });
   }
 }

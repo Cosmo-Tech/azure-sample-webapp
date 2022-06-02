@@ -52,7 +52,7 @@ const Scenario = (props) => {
     updateAndLaunchScenario,
     launchScenario,
     reports,
-    catchNonCriticalErrors,
+    setApplicationErrorMessage,
   } = props;
 
   const workspaceId = workspace.data.id;
@@ -74,7 +74,8 @@ const Scenario = (props) => {
     if (currentScenario.data === null && sortedScenarioList.length > 0) {
       setCurrentScenario(sortedScenarioList[0]);
     }
-  });
+    // eslint-disable-next-line
+  }, [currentScenario]);
   const expandParametersAndCreateScenario = (workspaceId, scenarioData) => {
     createScenario(workspaceId, scenarioData);
     setAccordionSummaryExpanded(true);
@@ -108,7 +109,9 @@ const Scenario = (props) => {
       (runTemplate) => solutionRunTemplates.indexOf(runTemplate.id) !== -1
     );
   }
-
+  const downloadLogsFile = () => {
+    return ScenarioRunService.downloadLogsFile(currentScenario.data?.lastRun, LOG_TYPES[SCENARIO_RUN_LOG_TYPE]);
+  };
   const resetScenarioValidationStatus = async () => {
     const currentStatus = currentScenario.data.validationStatus;
     try {
@@ -116,11 +119,11 @@ const Scenario = (props) => {
       await ScenarioService.resetValidationStatus(workspaceId, currentScenario.data.id);
       findScenarioById(workspaceId, currentScenario.data.id);
     } catch (error) {
-      catchNonCriticalErrors(error, 'Impossible to reset validation');
-      setScenarioValidationStatus(
-        currentScenario.data.id,
-        currentStatus === 'Validated' ? SCENARIO_VALIDATION_STATUS.VALIDATED : SCENARIO_VALIDATION_STATUS.REJECTED
+      setApplicationErrorMessage(
+        error,
+        t('commoncomponents.banner.resetStatusValidation', 'A problem occurred during validation status reset.')
       );
+      setScenarioValidationStatus(currentScenario.data.id, currentStatus);
     }
   };
   const validateScenario = async () => {
@@ -129,7 +132,10 @@ const Scenario = (props) => {
       await ScenarioService.setScenarioValidationStatusToValidated(workspaceId, currentScenario.data.id);
       findScenarioById(workspaceId, currentScenario.data.id);
     } catch (error) {
-      catchNonCriticalErrors(error, 'Impossible to validate the scenario');
+      setApplicationErrorMessage(
+        error,
+        t('commoncomponents.banner.validateScenario', 'A problem occurred during scenario validation.')
+      );
       setScenarioValidationStatus(currentScenario.data.id, SCENARIO_VALIDATION_STATUS.DRAFT);
     }
   };
@@ -139,7 +145,10 @@ const Scenario = (props) => {
       await ScenarioService.setScenarioValidationStatusToRejected(workspaceId, currentScenario.data.id);
       findScenarioById(workspaceId, currentScenario.data.id);
     } catch (error) {
-      catchNonCriticalErrors(error, 'Impossible to reject the scenario');
+      setApplicationErrorMessage(
+        error,
+        t('commoncomponents.banner.rejectScenario', 'A problem occurred during scenario rejection.')
+      );
       setScenarioValidationStatus(currentScenario.data.id, SCENARIO_VALIDATION_STATUS.DRAFT);
     }
   };
@@ -318,9 +327,7 @@ const Scenario = (props) => {
           reportConfiguration={SCENARIO_DASHBOARD_CONFIG}
           scenario={currentScenario.data}
           lang={i18n.language}
-          downloadLogsFile={() => {
-            ScenarioRunService.downloadLogsFile(currentScenario.data?.lastRun, LOG_TYPES[SCENARIO_RUN_LOG_TYPE]);
-          }}
+          downloadLogsFile={currentScenario.data?.lastRun ? downloadLogsFile : null}
           labels={reportLabels}
           useAAD={USE_POWER_BI_WITH_USER_CREDENTIALS}
           iframeRatio={SCENARIO_VIEW_IFRAME_DISPLAY_RATIO}
@@ -345,7 +352,7 @@ Scenario.propTypes = {
   updateAndLaunchScenario: PropTypes.func.isRequired,
   launchScenario: PropTypes.func.isRequired,
   reports: PropTypes.object.isRequired,
-  catchNonCriticalErrors: PropTypes.func,
+  setApplicationErrorMessage: PropTypes.func,
 };
 
 export default Scenario;

@@ -106,8 +106,8 @@ export const GENERIC_SELECTORS = {
     basicNumberInput: {
       input: 'input',
     },
-    error: {
-      errorBanner: '[data-cy=error-banner]',
+    errorBanner: {
+      banner: '[data-cy=error-banner]',
       dismissErrorButton: '[data-cy=dismiss-error-button]',
     },
   },

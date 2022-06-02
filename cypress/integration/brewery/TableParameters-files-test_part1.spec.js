@@ -22,7 +22,8 @@ const COL_NAMES = ['name', 'age', 'canDrinkAlcohol', 'favoriteDrink', 'birthday'
 
 function forgeScenarioName() {
   const prefix = 'Scenario with table - ';
-  return `${prefix}${utils.randomStr(7)}`;
+  const randomString = utils.randomStr(7);
+  return prefix + randomString;
 }
 
 describe('Table parameters files standard operations part 1', () => {

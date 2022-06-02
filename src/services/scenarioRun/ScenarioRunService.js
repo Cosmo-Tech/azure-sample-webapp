@@ -6,7 +6,8 @@ import { LOG_TYPES } from './ScenarioRunConstants.js';
 import { ORGANIZATION_ID } from '../../config/AppInstance';
 import { Api } from '../../services/config/Api';
 import applicationStore from '../../state/Store.config';
-import { catchNonCriticalErrors } from '../../utils/ApiUtils';
+import { t } from 'i18next';
+import { dispatchSetApplicationErrorMessage } from '../../state/dispatchers/app/ApplicationDispatcher';
 
 async function downloadCumulatedLogsFile(lastRun) {
   try {
@@ -16,7 +17,9 @@ async function downloadCumulatedLogsFile(lastRun) {
     });
     FileBlobUtils.downloadFileFromData(data, fileName);
   } catch (error) {
-    applicationStore.dispatch(catchNonCriticalErrors(error, 'Impossible to download logs'));
+    applicationStore.dispatch(
+      dispatchSetApplicationErrorMessage(error, t('commoncomponents.banner.logs', "Log file hasn't been downloaded."))
+    );
   }
 }
 
@@ -28,7 +31,9 @@ async function downloadLogsSimpleFile(lastRun) {
     });
     FileBlobUtils.downloadFileFromData(data, fileName);
   } catch (error) {
-    applicationStore.dispatch(catchNonCriticalErrors(error, 'Impossible to download logs'));
+    applicationStore.dispatch(
+      dispatchSetApplicationErrorMessage(error, t('commoncomponents.banner.logs', "Log file hasn't been downloaded."))
+    );
   }
 }
 

@@ -9,10 +9,10 @@ import { AppInsights } from '../../services/AppInsights';
 import { DATASET_ID_VARTYPE } from '../../services/config/ApiConstants';
 import { DatasetsUtils, ScenarioParametersUtils } from '../../utils';
 import applicationStore from '../../state/Store.config';
-import { catchNonCriticalErrors } from '../../utils/ApiUtils';
+import { t } from 'i18next';
+import { dispatchSetApplicationErrorMessage } from '../../state/dispatchers/app/ApplicationDispatcher';
 
 const appInsights = AppInsights.getInstance();
-
 const _applyUploadPreprocessToContent = (clientFileDescriptor) => {
   if (clientFileDescriptor?.uploadPreprocess?.content) {
     return clientFileDescriptor.uploadPreprocess.content(clientFileDescriptor);
@@ -115,8 +115,17 @@ async function _processFileUpload(
     await _uploadFileToCloudStorage(updatedDataset, clientFileDescriptor, storageFilePath);
     setClientFileDescriptorStatus(UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD);
     return updatedDataset.id;
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    applicationStore.dispatch(
+      dispatchSetApplicationErrorMessage(
+        error,
+        t(
+          'commoncomponents.banner.incompleteRun',
+          // eslint-disable-next-line max-len
+          "A problem occurred during dataset update; the scenario is running but your new parameters haven't been saved."
+        )
+      )
+    );
     setClientFileDescriptorStatus(UPLOAD_FILE_STATUS_KEY.EMPTY);
     return null;
   }
@@ -229,7 +238,9 @@ const downloadFile = async (datasetId, setClientFileDescriptorStatus) => {
     }
     appInsights.trackDownload();
   } catch (error) {
-    applicationStore.dispatch(catchNonCriticalErrors(error, 'Impossible to download dataset'));
+    applicationStore.dispatch(
+      dispatchSetApplicationErrorMessage(error, t('commoncomponents.banner.dataset', "Dataset hasn't been downloaded."))
+    );
   }
 };
 

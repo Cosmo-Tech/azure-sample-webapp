@@ -23,7 +23,8 @@ const FILE_PATH_1 = 'dummy_dataset_1.csv';
 const FILE_PATH_2 = 'dummy_dataset_2.csv';
 
 function forgeScenarioName() {
-  return `${SCENARIO_NAME.SCENARIO_WITH_FILES}${utils.randomStr(7)}`;
+  const randomString = utils.randomStr(7);
+  return SCENARIO_NAME.SCENARIO_WITH_FILES + randomString;
 }
 
 describe('Simple operations on a file parameter', () => {

@@ -71,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
 
 const TabLayout = (props) => {
   const classes = useStyles();
-  const { tabs, authenticated, authorized, signInPath, unauthorizedPath, error, clearMinorErrors } = props;
+  const { tabs, authenticated, authorized, signInPath, unauthorizedPath, error, clearApplicationErrorMessage } = props;
   const { t, i18n } = useTranslation();
   const location = useLocation();
 
@@ -130,7 +130,22 @@ const TabLayout = (props) => {
         </Box>
       </AppBar>
       <Box className={classes.content}>
-        {error && <ErrorBanner error={error} clearErrors={clearMinorErrors} />}
+        {error && (
+          <ErrorBanner
+            error={error}
+            labels={{
+              dismissButtonText: t('commoncomponents.banner.button.dismiss', 'Dismiss'),
+              tooLongErrorMessage: t(
+                'commoncomponents.banner.tooLongErrorMessage',
+                // eslint-disable-next-line max-len
+                'Detailed error message is too long to be displayed. To read it, please use the COPY button and paste it in your favorite text editor.'
+              ),
+              secondButtonText: t('commoncomponents.banner.button.copy.label', 'Copy'),
+              toggledButtonText: t('commoncomponents.banner.button.copy.copied', 'Copied'),
+            }}
+            clearErrors={clearApplicationErrorMessage}
+          />
+        )}
         <Switch>
           {tabs.map((tab) => (
             <PrivateRoute
@@ -159,7 +174,7 @@ TabLayout.propTypes = {
   userName: PropTypes.string.isRequired,
   userProfilePic: PropTypes.string.isRequired,
   error: PropTypes.object,
-  clearMinorErrors: PropTypes.func,
+  clearApplicationErrorMessage: PropTypes.func.isRequired,
 };
 
 export default TabLayout;
