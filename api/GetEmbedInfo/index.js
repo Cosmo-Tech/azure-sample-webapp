@@ -30,7 +30,5 @@ module.exports = async function (context, req) {
     console.error('Error during run of get-embed-info function');
     console.error(err);
     context.res = { status: 500, body: err };
-  } finally {
-    context.done();
   }
 };
