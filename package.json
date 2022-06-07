@@ -36,10 +36,10 @@
     "typescript": "^4.4.3"
   },
   "scripts": {
-    "start": "cross-env ESLINT_NO_DEV_ERRORS=true REACT_APP_VERSION=$npm_package_version react-scripts start",
-    "build": "cross-env DISABLE_ESLINT_PLUGIN=true REACT_APP_VERSION=$npm_package_version react-scripts build",
-    "test": "react-scripts test --watchAll=false",
-    "eject": "react-scripts eject",
+    "start": "cross-env ESLINT_NO_DEV_ERRORS=true REACT_APP_VERSION=$npm_package_version react-app-rewired start",
+    "build": "cross-env DISABLE_ESLINT_PLUGIN=true REACT_APP_VERSION=$npm_package_version react-app-rewired build",
+    "test": "react-app-rewired test --watchAll=false",
+    "eject": "react-app-rewired eject",
     "cypress": "node_modules/.bin/cypress open",
     "eslint": "eslint",
     "prettier": "npx prettier -w"
@@ -69,6 +69,8 @@
     "@babel/preset-react": "^7.13.13",
     "babel-jest": "^26.6.3",
     "cross-env": "^7.0.3",
+    "csp-html-webpack-plugin": "^5.1.0",
+    "customize-cra": "^1.0.0",
     "cypress": "^9.1.0",
     "cypress-file-upload": "^5.0.8",
     "cypress-localstorage-commands": "^1.5.0",
@@ -86,6 +88,7 @@
     "http-proxy-middleware": "^2.0.0",
     "i18next-parser": "^6.0.0",
     "prettier": "^2.5.1",
+    "react-app-rewired": "^2.2.1",
     "react-error-overlay": "6.0.9",
     "react-scripts": "^4.0.3",
     "redux-devtools-extension": "^2.13.9"

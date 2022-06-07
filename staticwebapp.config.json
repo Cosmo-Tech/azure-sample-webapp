@@ -1,0 +1,12 @@
+{
+  "globalHeaders": {
+    "X-Frame-Options": "SAMEORIGIN",
+    "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+    "X-XSS-Protection": "1; mode = block",
+    "X-Content-Type-Options": "nosniff",
+    "Referrer-Policy": "no-referrer"
+  },
+  "navigationFallback": {
+    "rewrite": "/index.html"
+  }
+}
