@@ -8,8 +8,10 @@ import {
   dispatchUpdateAndLaunchScenario,
   dispatchLaunchScenario,
   dispatchSetScenarioValidationStatus,
+  dispatchSetCurrentScenario,
 } from '../../state/dispatchers/scenario/ScenarioDispatcher';
 import { dispatchAddDatasetToStore } from '../../state/dispatchers/dataset/DatasetDispatcher';
+import { dispatchSetApplicationErrorMessage } from '../../state/dispatchers/app/ApplicationDispatcher';
 
 const mapStateToProps = (state) => ({
   scenarioList: state.scenario.list,
@@ -28,6 +30,8 @@ const mapDispatchToProps = {
   createScenario: dispatchCreateScenario,
   updateAndLaunchScenario: dispatchUpdateAndLaunchScenario,
   launchScenario: dispatchLaunchScenario,
+  setCurrentScenario: dispatchSetCurrentScenario,
+  setApplicationErrorMessage: dispatchSetApplicationErrorMessage,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Scenario);

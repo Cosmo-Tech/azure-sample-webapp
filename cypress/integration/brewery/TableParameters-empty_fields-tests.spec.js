@@ -20,7 +20,8 @@ const XLSX_INVALID_EMPTY_FIELDS = 'customers_empty_unauthorized_fields.xlsx';
 
 function forgeScenarioName() {
   const prefix = 'Scenario with table - ';
-  return `${prefix}${utils.randomStr(7)}`;
+  const randomString = utils.randomStr(7);
+  return prefix + randomString;
 }
 
 describe('Table parameters upload of valid and invalid files with empty fields', () => {

@@ -20,7 +20,8 @@ const CSV_ALTERNATE_VALID_FILE_PATH = 'customers2.csv';
 
 function forgeScenarioName() {
   const prefix = 'Scenario with table - ';
-  return `${prefix}${utils.randomStr(7)}`;
+  const randomString = utils.randomStr(7);
+  return prefix + randomString;
 }
 
 describe('Table parameters files standard operations part 2', () => {

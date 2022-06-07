@@ -227,6 +227,28 @@
         "loggingOut": "Signing out...",
         "title": "Session timeout"
       }
+    },
+    "banner": {
+      "unknownError": "Unknown error",
+      "dataset": "Dataset hasn't been downloaded.",
+      "logs": "Log file hasn't been downloaded.",
+      "create": "Scenario hasn't been created.",
+      "delete": "Scenario hasn't been deleted.",
+      "run": "A problem occurred during the scenario run.",
+      "update": "A problem occurred during scenario update; your new parameters haven't been saved.",
+      "incompleteRun": "A problem occurred during dataset update; the scenario is running but your new parameters haven't been saved.",
+      "network": "Network problem, please check your internet connection",
+      "resetStatusValidation": "A problem occurred during validation status reset.",
+      "validateScenario": "A problem occurred during scenario validation.",
+      "rejectScenario": "A problem occurred during scenario rejection.",
+      "tooLongErrorMessage": "Detailed error message is too long to be displayed. To read it, please use the COPY button and paste it in your favorite text editor.",
+      "button": {
+        "dismiss": "Dismiss",
+        "copy": {
+          "label": "Copy",
+          "copied": "Copied"
+        }
+      }
     }
   },
   "genericcomponent": {

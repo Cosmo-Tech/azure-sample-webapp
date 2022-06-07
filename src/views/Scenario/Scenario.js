@@ -39,6 +39,7 @@ const Scenario = (props) => {
 
   const {
     setScenarioValidationStatus,
+    setCurrentScenario,
     currentScenario,
     scenarioList,
     findScenarioById,
@@ -51,6 +52,7 @@ const Scenario = (props) => {
     updateAndLaunchScenario,
     launchScenario,
     reports,
+    setApplicationErrorMessage,
   } = props;
 
   const workspaceId = workspace.data.id;
@@ -68,6 +70,12 @@ const Scenario = (props) => {
     localStorage.setItem('scenarioParametersAccordionExpanded', accordionSummaryExpanded);
   }, [accordionSummaryExpanded]);
 
+  useEffect(() => {
+    if (currentScenario.data === null && sortedScenarioList.length > 0) {
+      setCurrentScenario(sortedScenarioList[0]);
+    }
+    // eslint-disable-next-line
+  }, [currentScenario]);
   const expandParametersAndCreateScenario = (workspaceId, scenarioData) => {
     createScenario(workspaceId, scenarioData);
     setAccordionSummaryExpanded(true);
@@ -101,21 +109,48 @@ const Scenario = (props) => {
       (runTemplate) => solutionRunTemplates.indexOf(runTemplate.id) !== -1
     );
   }
-
+  const downloadLogsFile = () => {
+    return ScenarioRunService.downloadLogsFile(currentScenario.data?.lastRun, LOG_TYPES[SCENARIO_RUN_LOG_TYPE]);
+  };
   const resetScenarioValidationStatus = async () => {
-    setScenarioValidationStatus(currentScenario.data.id, SCENARIO_VALIDATION_STATUS.LOADING);
-    await ScenarioService.resetValidationStatus(workspaceId, currentScenario.data.id);
-    findScenarioById(workspaceId, currentScenario.data.id);
+    const currentStatus = currentScenario.data.validationStatus;
+    try {
+      setScenarioValidationStatus(currentScenario.data.id, SCENARIO_VALIDATION_STATUS.LOADING);
+      await ScenarioService.resetValidationStatus(workspaceId, currentScenario.data.id);
+      findScenarioById(workspaceId, currentScenario.data.id);
+    } catch (error) {
+      setApplicationErrorMessage(
+        error,
+        t('commoncomponents.banner.resetStatusValidation', 'A problem occurred during validation status reset.')
+      );
+      setScenarioValidationStatus(currentScenario.data.id, currentStatus);
+    }
   };
   const validateScenario = async () => {
-    setScenarioValidationStatus(currentScenario.data.id, SCENARIO_VALIDATION_STATUS.LOADING);
-    await ScenarioService.setScenarioValidationStatusToValidated(workspaceId, currentScenario.data.id);
-    findScenarioById(workspaceId, currentScenario.data.id);
+    try {
+      setScenarioValidationStatus(currentScenario.data.id, SCENARIO_VALIDATION_STATUS.LOADING);
+      await ScenarioService.setScenarioValidationStatusToValidated(workspaceId, currentScenario.data.id);
+      findScenarioById(workspaceId, currentScenario.data.id);
+    } catch (error) {
+      setApplicationErrorMessage(
+        error,
+        t('commoncomponents.banner.validateScenario', 'A problem occurred during scenario validation.')
+      );
+      setScenarioValidationStatus(currentScenario.data.id, SCENARIO_VALIDATION_STATUS.DRAFT);
+    }
   };
   const rejectScenario = async () => {
-    setScenarioValidationStatus(currentScenario.data.id, SCENARIO_VALIDATION_STATUS.LOADING);
-    await ScenarioService.setScenarioValidationStatusToRejected(workspaceId, currentScenario.data.id);
-    findScenarioById(workspaceId, currentScenario.data.id);
+    try {
+      setScenarioValidationStatus(currentScenario.data.id, SCENARIO_VALIDATION_STATUS.LOADING);
+      await ScenarioService.setScenarioValidationStatusToRejected(workspaceId, currentScenario.data.id);
+      findScenarioById(workspaceId, currentScenario.data.id);
+    } catch (error) {
+      setApplicationErrorMessage(
+        error,
+        t('commoncomponents.banner.rejectScenario', 'A problem occurred during scenario rejection.')
+      );
+      setScenarioValidationStatus(currentScenario.data.id, SCENARIO_VALIDATION_STATUS.DRAFT);
+    }
   };
 
   const scenarioValidationStatusLabels = {
@@ -292,9 +327,7 @@ const Scenario = (props) => {
           reportConfiguration={SCENARIO_DASHBOARD_CONFIG}
           scenario={currentScenario.data}
           lang={i18n.language}
-          downloadLogsFile={() => {
-            ScenarioRunService.downloadLogsFile(currentScenario.data?.lastRun, LOG_TYPES[SCENARIO_RUN_LOG_TYPE]);
-          }}
+          downloadLogsFile={currentScenario.data?.lastRun ? downloadLogsFile : null}
           labels={reportLabels}
           useAAD={USE_POWER_BI_WITH_USER_CREDENTIALS}
           iframeRatio={SCENARIO_VIEW_IFRAME_DISPLAY_RATIO}
@@ -306,6 +339,7 @@ const Scenario = (props) => {
 
 Scenario.propTypes = {
   setScenarioValidationStatus: PropTypes.func.isRequired,
+  setCurrentScenario: PropTypes.func.isRequired,
   scenarioList: PropTypes.object.isRequired,
   datasetList: PropTypes.object.isRequired,
   currentScenario: PropTypes.object.isRequired,
@@ -318,6 +352,7 @@ Scenario.propTypes = {
   updateAndLaunchScenario: PropTypes.func.isRequired,
   launchScenario: PropTypes.func.isRequired,
   reports: PropTypes.object.isRequired,
+  setApplicationErrorMessage: PropTypes.func,
 };
 
 export default Scenario;

@@ -227,6 +227,28 @@
         "loggingOut": "Déconnexion en cours...",
         "title": "Session inactive"
       }
+    },
+    "banner": {
+      "unknownError": "Erreur inconnue",
+      "dataset": "Le dataset n'a pas pu être téléchargé.",
+      "logs": "Le fichier des logs n'a pas pu être téléchargé.",
+      "create": "Le scénario n'a pas pu être créé.",
+      "delete": "Le scénario n'a pas pu être supprimé.",
+      "run": "Un problème est survenu, le scénario n'a pas pu être lancé.",
+      "update": "Un problème est survenu pendant la modification du scénario, les nouveaux paramètres n'ont pas été sauvegardés.",
+      "incompleteRun": "Un problème est survenu pendant la modification du dataset; le scénario a été lancé mais les nouveaux paramètres ne sont pas pris en compte.",
+      "network": "Problème réseau, veuillez vérifier votre connexion Internet",
+      "resetStatusValidation": "Le statut du scénario n'a pas pu être réinitialisé.",
+      "validateScenario": "Le scénario n'a pas pu être validé.",
+      "rejectScenario": "Le scénario n'a pas pu être rejeté.",
+      "tooLongErrorMessage": "Le message d'erreur détaillé est trop long pour être affiché. Pour le lire, veuiller utiliser le bouton COPIER et le coller dans votre éditeur de texte préféré.",
+      "button": {
+        "dismiss": "Fermer",
+        "copy": {
+          "label": "Copier",
+          "copied": "Copié"
+        }
+      }
     }
   },
   "genericcomponent": {

@@ -31,7 +31,9 @@ describe('Scenario validation', () => {
 
   it('can validate & reject scenarios', () => {
     let scenarioId;
-    const scenarioName = `Scenario validation - ${utils.randomStr(7)}`;
+    const prefix = 'Scenario validation -';
+    const randomString = utils.randomStr(7);
+    const scenarioName = prefix + randomString;
     scenarioNamesToDelete.push(scenarioName);
     Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE).then((value) => {
       scenarioId = value.scenarioCreatedId;

@@ -9,3 +9,4 @@ export { ScenarioParameters } from './ScenarioParameters';
 export { AppBar } from './AppBar';
 export { Downloads } from './Downloads';
 export { Login } from './Login';
+export { ErrorBanner } from './ErrorBanner';
