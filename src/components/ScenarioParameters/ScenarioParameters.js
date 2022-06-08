@@ -118,7 +118,7 @@ const ScenarioParameters = ({
         defaultParametersValues,
         currentScenario.data?.parametersValues
       ),
-    [datasets, runTemplateParametersIds, defaultParametersValues, currentScenario.data]
+    [datasets, runTemplateParametersIds, defaultParametersValues, currentScenario.data?.parametersValues]
   );
 
   // Store the reset values for the run template parameters, based on defaultParametersValues and scenario data.
@@ -202,7 +202,7 @@ const ScenarioParameters = ({
     parametersValuesRef.current = parametersValuesForReset;
     discardLocalChanges();
     // eslint-disable-next-line
-  }, [currentScenario]);
+  }, [currentScenario.data.id]);
 
   const getParametersForUpdate = () => {
     const parametersData = ScenarioParametersUtils.buildParametersForUpdate(
