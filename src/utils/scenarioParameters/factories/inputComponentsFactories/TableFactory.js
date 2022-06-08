@@ -35,22 +35,21 @@ const create = (t, datasets, parameterMetadata, parametersState, setParametersSt
   const dateFormat = parameterMetadata.dateFormat || DEFAULT_DATE_FORMAT;
   const options = { dateFormat: dateFormat };
 
-  function setParameterInState(newValue) {
-    setParametersState((currentParametersState) => ({
-      ...currentParametersState,
-      [parameterId]: newValue,
-    }));
-  }
-
-  function setClientFileDescriptorStatuses(newFileStatus, newTableDataStatus) {
+  function setParameterInState(newValuePart) {
     setParametersState((currentParametersState) => ({
       ...currentParametersState,
       [parameterId]: {
         ...currentParametersState[parameterId],
-        status: newFileStatus,
-        tableDataStatus: newTableDataStatus,
+        ...newValuePart,
       },
     }));
+  }
+
+  function setClientFileDescriptorStatuses(newFileStatus, newTableDataStatus) {
+    setParameterInState({
+      status: newFileStatus,
+      tableDataStatus: newTableDataStatus,
+    });
   }
 
   const _checkForLock = () => {
@@ -65,20 +64,21 @@ const create = (t, datasets, parameterMetadata, parametersState, setParametersSt
   };
 
   const _downloadDatasetFileContentFromStorage = async (datasets, clientFileDescriptor, setClientFileDescriptor) => {
-    if (_checkForLock()) {
-      return;
-    }
-    create.downloadLocked[parameterId] = true;
+    // Setting the table status to DOWNLOADING again even when the download is already active (and thus locked) seems
+    // to fix a race condition in the table parameter state. This can be used to fix the missing loading spinner.
     setClientFileDescriptor({
-      ...clientFileDescriptor,
       agGridRows: null,
-      name: clientFileDescriptor.name,
       file: null,
       content: null,
       errors: null,
       status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD,
       tableDataStatus: TABLE_DATA_STATUS.DOWNLOADING,
     });
+
+    if (_checkForLock()) {
+      return;
+    }
+    create.downloadLocked[parameterId] = true;
 
     const datasetId = clientFileDescriptor.id;
     const data = await FileManagementUtils.downloadFileData(datasets, datasetId, setClientFileDescriptorStatuses);
@@ -88,9 +88,7 @@ const create = (t, datasets, parameterMetadata, parametersState, setParametersSt
       _parseCSVFileContent(data, fileName, clientFileDescriptor, setClientFileDescriptor, finalStatus);
     } else {
       setClientFileDescriptor({
-        ...clientFileDescriptor,
         agGridRows: null,
-        name: clientFileDescriptor.name,
         file: null,
         content: null,
         errors: null,
@@ -110,7 +108,6 @@ const create = (t, datasets, parameterMetadata, parametersState, setParametersSt
     clientFileDescriptorRestoreValue
   ) => {
     setClientFileDescriptor({
-      ...clientFileDescriptor,
       agGridRows: null,
       name: fileName,
       file: null,
@@ -129,14 +126,12 @@ const create = (t, datasets, parameterMetadata, parametersState, setParametersSt
         });
       } else {
         setClientFileDescriptor({
-          ...clientFileDescriptor,
           errors: agGridData.error,
           tableDataStatus: TABLE_DATA_STATUS.ERROR,
         });
       }
     } else {
       setClientFileDescriptor({
-        ...clientFileDescriptor,
         agGridRows: agGridData.rows,
         name: fileName,
         file: null,
@@ -160,7 +155,6 @@ const create = (t, datasets, parameterMetadata, parametersState, setParametersSt
     }
 
     setClientFileDescriptor({
-      ...clientFileDescriptor,
       agGridRows: null,
       name: file.name,
       file: null,
@@ -195,9 +189,7 @@ const create = (t, datasets, parameterMetadata, parametersState, setParametersSt
     if (!file) {
       return;
     }
-
     setClientFileDescriptor({
-      ...clientFileDescriptor,
       agGridRows: null,
       name: file.name,
       file: file,
@@ -216,7 +208,6 @@ const create = (t, datasets, parameterMetadata, parametersState, setParametersSt
         });
       } else {
         setClientFileDescriptor({
-          ...clientFileDescriptor,
           errors: agGridData.error,
           tableDataStatus: TABLE_DATA_STATUS.ERROR,
         });
@@ -224,7 +215,6 @@ const create = (t, datasets, parameterMetadata, parametersState, setParametersSt
     } else {
       const newFileContent = AgGridUtils.toCSV(agGridData.rows, parameterMetadata.columns, options);
       setClientFileDescriptor({
-        ...clientFileDescriptor,
         agGridRows: agGridData.rows,
         name: file.name,
         file: null,
@@ -247,7 +237,6 @@ const create = (t, datasets, parameterMetadata, parametersState, setParametersSt
       _readAndParseXLSXFile(file, parameter, setParameterInState, previousFileBackup);
     } else {
       setParameterInState({
-        ...parameter,
         errors: [{ summary: 'Unknown file type, please provide a CSV or XLSX file.', loc: file.name }],
       });
     }
@@ -262,7 +251,6 @@ const create = (t, datasets, parameterMetadata, parametersState, setParametersSt
   const _uploadPreprocess = (parameterMetadata, clientFileDescriptor, setClientFileDescriptorStatus) => {
     const newFileContent = AgGridUtils.toCSV(parameter.agGridRows, columns, options);
     setParameterInState({
-      ...parameter,
       content: newFileContent,
     });
     return newFileContent;
@@ -271,7 +259,6 @@ const create = (t, datasets, parameterMetadata, parametersState, setParametersSt
   const onCellChange = (event) => {
     if (!parameter.uploadPreprocess) {
       setParameterInState({
-        ...parameter,
         errors: [],
         status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD,
         tableDataStatus: TABLE_DATA_STATUS.READY,
@@ -282,7 +269,6 @@ const create = (t, datasets, parameterMetadata, parametersState, setParametersSt
 
   const onClearErrors = () => {
     setParameterInState({
-      ...parameter,
       errors: [],
     });
   };
@@ -295,9 +281,12 @@ const create = (t, datasets, parameterMetadata, parametersState, setParametersSt
 
   const alreadyDownloaded =
     parameter.tableDataStatus !== undefined &&
-    [TABLE_DATA_STATUS.ERROR, TABLE_DATA_STATUS.DOWNLOADING, TABLE_DATA_STATUS.PARSING].includes(
-      parameter.tableDataStatus
-    );
+    [
+      TABLE_DATA_STATUS.ERROR,
+      TABLE_DATA_STATUS.DOWNLOADING,
+      TABLE_DATA_STATUS.PARSING,
+      TABLE_DATA_STATUS.READY,
+    ].includes(parameter.tableDataStatus);
   if (
     parameter.id &&
     !parameter.content &&
@@ -343,7 +332,7 @@ const create = (t, datasets, parameterMetadata, parametersState, setParametersSt
       labels={labels}
       dateFormat={dateFormat}
       editMode={editMode}
-      dataStatus={parameter.tableDataStatus}
+      dataStatus={parameter.tableDataStatus || TABLE_DATA_STATUS.EMPTY}
       errors={parameter.errors}
       columns={columns}
       rows={parameter.agGridRows || []}

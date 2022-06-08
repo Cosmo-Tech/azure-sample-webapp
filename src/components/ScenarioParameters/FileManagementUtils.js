@@ -173,14 +173,13 @@ async function applyPendingOperationsOnFileParameters(
 ) {
   // Setter to update file descriptors status in the React component state
   function setClientFileDescriptorStatus(parameterId, newStatus) {
-    const newValue = {
-      ...parametersValuesToRender[parameterId],
-      status: newStatus,
-    };
-    setParametersValuesToRender({
-      ...parametersValuesToRender,
-      [parameterId]: newValue,
-    });
+    setParametersValuesToRender((currentParametersState) => ({
+      ...currentParametersState,
+      [parameterId]: {
+        ...currentParametersState[parameterId],
+        status: newStatus,
+      },
+    }));
   }
   // Apply pending operations on each dataset and keep track of the changes of datasets ids to patch parametersValuesRef
   const parametersValuesPatch = {};
@@ -214,7 +213,6 @@ const prepareToUpload = (event, clientFileDescriptor, setClientFileDescriptor) =
   }
   appInsights.trackUpload();
   setClientFileDescriptor({
-    ...clientFileDescriptor,
     name: file.name,
     file: file,
     content: null,
