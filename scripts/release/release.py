@@ -36,7 +36,7 @@ def parse_arguments():
 
 def check_all(version_brewery, version_vanilla):
     return (
-        check_jq()
+        check_jq(log_if_missing=True)
         and check_branch_is_main()
         and pull()
         and check_head()

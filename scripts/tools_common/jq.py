@@ -9,11 +9,14 @@ import os
 from tools_common.exec import has_command, run_command
 
 
-def check_jq():
+def check_jq(log_if_missing=False):
     """
     Check if jq is installed.
     """
-    return has_command("jq")
+    is_jq_installed = has_command("jq")
+    if is_jq_installed is False and log_if_missing:
+        print('jq is missing. Please install it with "sudo apt-get install jq"')
+    return is_jq_installed
 
 
 def _on_command_error(msg, out, err):
