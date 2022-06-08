@@ -4,6 +4,7 @@
 
 - add session timeout ([d7e7a8a](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/d7e7a8a))
 - allow dot in scenario names ([37f4b1c](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/37f4b1c))
+- add Content Security Policy and other security-related HTTP headers ([33aa147](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/33aa147))
 
 ### Bug Fixes
 
