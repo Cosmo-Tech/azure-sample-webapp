@@ -1,6 +1,6 @@
 {
   "name": "azure-sample-webapp",
-  "version": "2.7.0-dev",
+  "version": "2.7.0",
   "private": true,
   "dependencies": {
     "@cosmotech/api-ts": "^0.1.0",
