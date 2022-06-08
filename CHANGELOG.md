@@ -1,3 +1,17 @@
+## **2.7.0** <sub><sup>2022-06-08 ([31d11a9...33aa147](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/31d11a9...33aa147?diff=split))</sup></sub>
+
+### Features
+
+- add session timeout ([d7e7a8a](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/d7e7a8a))
+- allow dot in scenario names ([37f4b1c](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/37f4b1c))
+
+### Bug Fixes
+
+- improve errors handling during API requests ([eedc283](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/eedc283))
+- improve errors handling on sign-in page ([99f9e83](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/99f9e83))
+- disable insecure app insights cookies 'ai_session' and 'ai_user' ([d9314ec](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/d9314ec))
+- fix warning in Azure Function ([7a7f4e2](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/7a7f4e2))
+
 ## **2.6.1** <sub><sup>2022-05-16 ([5f97a59...5bc6879](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/5f97a59...5bc6879?diff=split))</sup></sub>
 
 ### Bug Fixes
