@@ -64,6 +64,66 @@ const PARAMETERS = {
     dataCy: 'start_date',
     defaultValue: new Date('2014-08-18T21:11:54'),
   },
+  additional_seats: {
+    dataCy: 'additional_seats',
+    defaultValue: -4,
+    minValue: -600,
+    maxValue: 2500,
+    labels: {
+      en: 'Additional seats (min -600, max 2500)',
+      fr: 'Sièges additionnels (min -600, max 2500)',
+    },
+  },
+  activated: {
+    dataCy: 'activated',
+    defaultValue: false,
+  },
+  additional_tables: {
+    dataCy: 'additional_tables',
+    defaultValue: 3,
+    minValue: -150,
+    maxValue: 12000,
+    labels: {
+      en: 'Additional tables (min -150, max 12000)',
+      fr: 'Tables additonnelles (min -150, max 12000)',
+    },
+  },
+  volume_unit: {
+    dataCy: 'volume_unit',
+    defaultValue: 'LITRE',
+    labels: {
+      en: 'Volume unit',
+      fr: 'Unité de volume',
+    },
+    enumValues: [
+      {
+        key: 'LITRE',
+        value: 'L',
+      },
+      {
+        key: 'BARREL',
+        value: 'bl',
+      },
+      {
+        key: 'CUBIC_METRE',
+        value: 'm³',
+      },
+    ],
+  },
+  evaluation: {
+    dataCy: 'evaluation',
+    defaultValue: 'Good',
+  },
+  comment: {
+    dataCy: 'comment',
+    defaultValue: 'None',
+  },
+  additional_date: {
+    dataCy: 'additional_date',
+    defaultValue: new Date('2022/06/22'),
+    minValue: new Date('2022/01/01'),
+    maxValue: new Date('2022/12/31'),
+  },
   initial_stock_dataset: {
     dataCy: 'initial_stock_dataset',
     connectorId: 'c-d7e5p9o0kjn9',
@@ -111,6 +171,39 @@ const PARAMETERS = {
         acceptsEmptyFields: true,
       },
       { field: 'height', type: ['number'], minValue: 0, maxValue: 2.5, acceptsEmptyFields: true },
+    ],
+  },
+  events: {
+    dataCy: 'events_table',
+    connectorId: 'c-d7e5p9o0kjn9',
+    description: 'events data',
+    subType: 'TABLE',
+    dateFormat: 'dd/MM/yyyy',
+    columns: [
+      { field: 'theme', type: ['string'] },
+      {
+        field: 'date',
+        type: ['date'],
+        minValue: '1900-01-01',
+        maxValue: '2999-12-31',
+      },
+      {
+        field: 'timeOfDay',
+        type: ['enum'],
+        enumValues: ['morning', 'midday', 'afternoon', 'evening'],
+      },
+      {
+        field: 'eventType',
+        type: ['string', 'nonResizable', 'nonEditable'],
+      },
+      {
+        field: 'reservationsNumber',
+        type: ['int'],
+        minValue: 0,
+        maxValue: 300,
+        acceptsEmptyFields: true,
+      },
+      { field: 'online', type: ['bool', 'nonSortable'] },
     ],
   },
 };
@@ -162,6 +255,20 @@ const PARAMETERS_GROUPS = {
     },
     parameters: ['customers'],
   },
+  events: {
+    labels: {
+      en: 'Events',
+      fr: 'Evènements',
+    },
+    parameters: ['events', 'additional_seats', 'activated', 'evaluation'],
+  },
+  additional_parameters: {
+    labels: {
+      en: 'Additional parameters',
+      fr: 'Paramètres additionnels',
+    },
+    parameters: ['volume_unit', 'additional_tables', 'comment', 'additional_date'],
+  },
 };
 
 // Use RUN_TEMPLATES dict below to override information of the run templates defined in your solution description, such
@@ -174,7 +281,14 @@ const RUN_TEMPLATES = {
     parameterGroups: ['bar_parameters', 'file_upload'],
   },
   3: {
-    parameterGroups: ['basic_types', 'dataset_parts', 'extra_dataset_part', 'customers'],
+    parameterGroups: [
+      'basic_types',
+      'dataset_parts',
+      'extra_dataset_part',
+      'customers',
+      'events',
+      'additional_parameters',
+    ],
   },
 };
 
