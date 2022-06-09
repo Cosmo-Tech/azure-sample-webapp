@@ -21,7 +21,7 @@ import {
   USE_POWER_BI_WITH_USER_CREDENTIALS,
   SCENARIO_VIEW_IFRAME_DISPLAY_RATIO,
 } from '../../config/AppConfiguration';
-import { SCENARIO_DASHBOARD_CONFIG } from '../../config/Dashboards';
+import { SCENARIO_VIEW_REPORTS_BY_RUNTEMPLATE } from '../../config/Dashboards';
 import ScenarioService from '../../services/scenario/ScenarioService';
 import ScenarioRunService from '../../services/scenarioRun/ScenarioRunService';
 import { STATUSES } from '../../state/commons/Constants';
@@ -61,6 +61,11 @@ const Scenario = (props) => {
   const createScenarioDialogLabels = getCreateScenarioDialogLabels(t, editMode);
   const reportLabels = getReportLabels(t);
 
+  // Get the right report for given run template
+  const defaultPowerBIREport = Object.keys(SCENARIO_VIEW_REPORTS_BY_RUNTEMPLATE)[0];
+  const currentScenarioRunTemplateReport = Array.isArray(SCENARIO_VIEW_REPORTS_BY_RUNTEMPLATE)
+    ? SCENARIO_VIEW_REPORTS_BY_RUNTEMPLATE
+    : [SCENARIO_VIEW_REPORTS_BY_RUNTEMPLATE[currentScenario?.data?.runTemplateId ?? defaultPowerBIREport]];
   // Add accordion expand status in state
   const [accordionSummaryExpanded, setAccordionSummaryExpanded] = useState(
     localStorage.getItem('scenarioParametersAccordionExpanded') === 'true'
@@ -323,8 +328,9 @@ const Scenario = (props) => {
       </Grid>
       <Card>
         <SimplePowerBIReportEmbed
+          key={currentScenario.data.id}
           reports={reports}
-          reportConfiguration={SCENARIO_DASHBOARD_CONFIG}
+          reportConfiguration={currentScenarioRunTemplateReport}
           scenario={currentScenario.data}
           lang={i18n.language}
           downloadLogsFile={currentScenario.data?.lastRun ? downloadLogsFile : null}
