@@ -23,6 +23,13 @@ from tools_common.os import rm_dir, mv_file
 from tools_common.jq import check_jq, get_npm_package_version, set_npm_package_version
 
 
+def is_patch_version(new_version):
+    version_details = new_version.split(".")
+    if version_details[2] != '0':
+        return True
+    return False
+
+
 def parse_arguments():
     parser = argparse.ArgumentParser(
         description='''Create release tags for Azure Sample Webapp. These tags will not be pushed by the script, this
@@ -34,14 +41,20 @@ def parse_arguments():
     return args.version
 
 
-def check_all(version_brewery, version_vanilla):
+def check_all(version, tag_brewery, tag_vanilla):
+    if is_patch_version(version):
+        return (
+            check_jq(log_if_missing=True)
+            and not check_tag_exists(tag_brewery)
+            and not check_tag_exists(tag_vanilla)
+            )
     return (
         check_jq(log_if_missing=True)
         and check_branch_is_main()
         and pull()
         and check_head()
-        and not check_tag_exists(version_brewery)
-        and not check_tag_exists(version_vanilla)
+        and not check_tag_exists(tag_brewery)
+        and not check_tag_exists(tag_vanilla)
         )
 
 
@@ -61,10 +74,10 @@ def update_package_version_pre_tag(new_version):
 
 def update_package_version_post_tag(new_version):
     try:
-        version_details = new_version.split(".")
-        if version_details[2] != '0':
+        if is_patch_version(new_version):
             print("Not tagging a new minor version. Dev version will NOT be set in package.json.")
             return
+        version_details = new_version.split(".")
         version_details[1] = str(int(version_details[1]) + 1)
         new_dev_version = '.'.join(version_details) + '-dev'
         if update_package_version(new_dev_version):
@@ -99,19 +112,19 @@ def clean_config(root_folder):
 
 def main():
     version = parse_arguments()
-    version_brewery = f"v{version}-brewery"
-    version_vanilla = f"v{version}-vanilla"
+    tag_brewery = f"v{version}-brewery"
+    tag_vanilla = f"v{version}-vanilla"
     branch_vanilla = f"release/{version}-vanilla"
 
-    if not check_all(version_brewery, version_vanilla):
+    if not check_all(version, tag_brewery, tag_vanilla):
         sys.exit(1)
 
     update_package_version_pre_tag(version)
-    create_tag(version_brewery)
+    create_tag(tag_brewery)
     create_branch(branch_vanilla)
     remove_specific_files()
-    commit_all_changes(f'chore: prepare release {version_vanilla}')
-    create_tag(version_vanilla)
+    commit_all_changes(f'chore: prepare release {tag_vanilla}')
+    create_tag(tag_vanilla)
     switch('-')  # Switch back to the previous branch or commit
     update_package_version_post_tag(version)
     print('''

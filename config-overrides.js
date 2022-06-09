@@ -6,6 +6,7 @@ const cspConfigPolicy = {
   'base-uri': "'self'",
   'connect-src': [
     "'self'",
+    'api.powerbi.com',
     '*.api.cosmotech.com',
     'https://login.microsoftonline.com',
     'https://dc.services.visualstudio.com',
@@ -16,7 +17,6 @@ const cspConfigPolicy = {
   'font-src': ['data:'],
   'frame-src': 'https://app.powerbi.com',
   'manifest-src': "'self'",
-  'require-trusted-types-for': "'script'",
 };
 
 // Disable hashes and nonces for scripts and styles
