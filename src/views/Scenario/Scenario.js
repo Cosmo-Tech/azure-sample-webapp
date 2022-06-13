@@ -21,7 +21,7 @@ import {
   USE_POWER_BI_WITH_USER_CREDENTIALS,
   SCENARIO_VIEW_IFRAME_DISPLAY_RATIO,
 } from '../../config/AppConfiguration';
-import { SCENARIO_VIEW_REPORTS_BY_RUNTEMPLATE } from '../../config/Dashboards';
+import { SCENARIO_DASHBOARD_CONFIG } from '../../config/Dashboards';
 import ScenarioService from '../../services/scenario/ScenarioService';
 import ScenarioRunService from '../../services/scenarioRun/ScenarioRunService';
 import { STATUSES } from '../../state/commons/Constants';
@@ -62,10 +62,10 @@ const Scenario = (props) => {
   const reportLabels = getReportLabels(t);
 
   // Get the right report for given run template
-  const defaultPowerBIREport = Object.keys(SCENARIO_VIEW_REPORTS_BY_RUNTEMPLATE)[0];
-  const currentScenarioRunTemplateReport = Array.isArray(SCENARIO_VIEW_REPORTS_BY_RUNTEMPLATE)
-    ? SCENARIO_VIEW_REPORTS_BY_RUNTEMPLATE
-    : [SCENARIO_VIEW_REPORTS_BY_RUNTEMPLATE[currentScenario?.data?.runTemplateId ?? defaultPowerBIREport]];
+  const defaultPowerBIReport = Object.keys(SCENARIO_DASHBOARD_CONFIG)[0];
+  const currentScenarioRunTemplateReport = Array.isArray(SCENARIO_DASHBOARD_CONFIG)
+    ? SCENARIO_DASHBOARD_CONFIG
+    : [SCENARIO_DASHBOARD_CONFIG[currentScenario?.data?.runTemplateId ?? defaultPowerBIReport]];
   // Add accordion expand status in state
   const [accordionSummaryExpanded, setAccordionSummaryExpanded] = useState(
     localStorage.getItem('scenarioParametersAccordionExpanded') === 'true'
@@ -328,7 +328,9 @@ const Scenario = (props) => {
       </Grid>
       <Card>
         <SimplePowerBIReportEmbed
-          key={currentScenario.data.id}
+          // key is used here to assure the complete re-rendering of the component when scenario changes ;
+          // we need to remount it to avoid errors in powerbi-client-react which throws an error if filters change
+          key={currentScenario?.data?.id}
           reports={reports}
           reportConfiguration={currentScenarioRunTemplateReport}
           scenario={currentScenario.data}

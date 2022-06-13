@@ -29,7 +29,7 @@ const defaultScenarioViewReport = {
       },
     },
   },
-  staticFilters: [new PowerBIReportEmbedMultipleFilter('Bar', 'Bar', ['MyBar'])],
+  staticFilters: [new PowerBIReportEmbedMultipleFilter('Bar', 'Bar', ['MyBar', 'MyBar2'])],
   dynamicFilters: [
     new PowerBIReportEmbedSimpleFilter('StockProbe', 'SimulationRun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
     new PowerBIReportEmbedSimpleFilter('Bar', 'simulationrun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
@@ -55,15 +55,15 @@ const defaultScenarioViewReport = {
     fr: 'ReportSection',
   },
 };
-export const SCENARIO_VIEW_REPORTS_BY_RUNTEMPLATE = {
+export const SCENARIO_DASHBOARD_CONFIG = {
   1: {
     title: {
       en: 'Scenario dashboard for run type 1',
       fr: 'Rapport du scenario du run type 1',
     },
-    reportId: '70ff6a53-04f9-4076-93c0-328426b78c8f',
+    reportId: '608b7bef-f5e3-4aae-b8db-19bbb38325d5',
     settings: {
-      navContentPaneEnabled: true,
+      navContentPaneEnabled: false,
       filterPaneEnabled: true,
       panes: {
         filters: {
@@ -72,7 +72,7 @@ export const SCENARIO_VIEW_REPORTS_BY_RUNTEMPLATE = {
         },
       },
     },
-    staticFilters: [new PowerBIReportEmbedMultipleFilter('Bar', 'Bar', ['MyBar'])],
+    staticFilters: [new PowerBIReportEmbedMultipleFilter('Bar', 'Bar', ['MyBar', 'MyBar2'])],
     dynamicFilters: [
       new PowerBIReportEmbedSimpleFilter(
         'StockProbe',
@@ -86,8 +86,8 @@ export const SCENARIO_VIEW_REPORTS_BY_RUNTEMPLATE = {
       ),
     ],
     pageName: {
-      en: 'ReportSection',
-      fr: 'ReportSection',
+      en: 'ReportSection937f9c72cc8f1062aa88',
+      fr: 'ReportSection937f9c72cc8f1062aa88',
     },
   },
   2: defaultScenarioViewReport,
