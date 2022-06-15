@@ -1,8 +1,14 @@
+## **2.7.2** <sub><sup>2022-06-15 ([f86ac6d...f86ac6d](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/f86ac6d...f86ac6d?diff=split))</sup></sub>
+
+### Bug Fixes
+
+- fix CSP\-related issue preventing token refresh ([f86ac6d](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/f86ac6d))
+
 ## **2.7.1** <sub><sup>2022-06-09 ([d98bc0f...14c95c6](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/d98bc0f...14c95c6?diff=split))</sup></sub>
 
 ### Bug Fixes
-*  fix CSP errors ([14c95c6](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/14c95c6))
 
+- fix CSP errors ([14c95c6](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/14c95c6))
 
 ## **2.7.0** <sub><sup>2022-06-08 ([31d11a9...33aa147](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/31d11a9...33aa147?diff=split))</sup></sub>
 

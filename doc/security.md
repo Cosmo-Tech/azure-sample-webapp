@@ -53,6 +53,7 @@ You can change the CSP rules by modifying the plugin configuration, in the file 
 #### frame-src
 
 - `https://app.powerbi.com` allow iframe for PowerBI
+- `https://login.microsoftonline.com` allow iframe to Microsoft login service (required to be able to refresh tokens)
 
 #### manifest-src
 
