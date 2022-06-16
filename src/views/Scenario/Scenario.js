@@ -61,6 +61,11 @@ const Scenario = (props) => {
   const createScenarioDialogLabels = getCreateScenarioDialogLabels(t, editMode);
   const reportLabels = getReportLabels(t);
 
+  // Get the right report for given run template
+  const defaultPowerBIReport = Object.keys(SCENARIO_DASHBOARD_CONFIG)[0];
+  const currentScenarioRunTemplateReport = Array.isArray(SCENARIO_DASHBOARD_CONFIG)
+    ? SCENARIO_DASHBOARD_CONFIG
+    : [SCENARIO_DASHBOARD_CONFIG[currentScenario?.data?.runTemplateId ?? defaultPowerBIReport]];
   // Add accordion expand status in state
   const [accordionSummaryExpanded, setAccordionSummaryExpanded] = useState(
     localStorage.getItem('scenarioParametersAccordionExpanded') === 'true'
@@ -323,8 +328,11 @@ const Scenario = (props) => {
       </Grid>
       <Card>
         <SimplePowerBIReportEmbed
+          // key is used here to assure the complete re-rendering of the component when scenario changes ;
+          // we need to remount it to avoid errors in powerbi-client-react which throws an error if filters change
+          key={currentScenario?.data?.id}
           reports={reports}
-          reportConfiguration={SCENARIO_DASHBOARD_CONFIG}
+          reportConfiguration={currentScenarioRunTemplateReport}
           scenario={currentScenario.data}
           lang={i18n.language}
           downloadLogsFile={currentScenario.data?.lastRun ? downloadLogsFile : null}

@@ -2,16 +2,17 @@
 
 In the web application, the _Scenario_ and _Dashboards_ pages allow you to embed [PowerBI](https://powerbi.microsoft.com/fr-fr/getting-started-with-power-bi/) reports.
 
-The Scenario view will allow a single report, that is supposed to display the results of the currently selected
-scenario, after it has run. The Dashboards view offers a menu to let users switch between several reports, that can
+In Scenario view PowerBI report is supposed to display the results of the currently selected scenario, after it has run; 
+you can set a specific configuration for each run template or a general one for all scenarios.
+
+The Dashboards view offers a menu to let users switch between several reports, that can
 typically be used for in-depth results analysis or to compare the results of several scenarios.
 
 ## Dashboards configuration
 
 You can configure the dashboards to be used in your webapp by exporting the constants **_SCENARIO_DASHBOARD_CONFIG_**
 (for the Scenario view) and **_DASHBOARDS_LIST_CONFIG_** (for the Dashboards view) in the file
-[src/config/Dashboards.js](../src/config/Dashboards.js). Both of these constants must be lists, but the
-_SCENARIO_DASHBOARD_CONFIG_ is expected to have only one element.
+[src/config/Dashboards.js](../src/config/Dashboards.js).
 
 Configuration objects inside these lists are similar for the Scenario view and for the Dashboards view:
 
@@ -26,10 +27,69 @@ Configuration objects inside these lists are similar for the Scenario view and f
     staticFilters?: <filters array>,      // an array of PowerBIReportEmbedSimpleFilter and/or PowerBIReportEmbedMultipleFilter from @cosmotech/core dependency
     dynamicFilters?: <filters array>,     // an array of PowerBIReportEmbedSimpleFilter and/or PowerBIReportEmbedMultipleFilter from @cosmotech/core dependency
     pageName: {
-      en: <english report section id>     // the report section that you want to display when current language is English
-      fr: <french report section id>      // the report section that you want to display when current language is French
+      en: <section id for english version>     // the report section that you want to display when current language is English; it can be found in the URL of your report
+      fr: <section id for french version>      // the report section that you want to display when current language is French; it can be found in the URL of your report
     }
   }
+```
+### Dashboard view
+**_DASHBOARDS_LIST_CONFIG_** must be an array with one or several configuration objects inside.
+### Scenario view
+If only one configuration will be used for all run templates, **_SCENARIO_DASHBOARD_CONFIG_** can be an array with the configuration object inside:
+```
+export const SCENARIO_DASHBOARD_CONFIG = [
+  {
+    title: {
+      en: <english title>,
+      fr: <french title>,
+      },
+    reportId: <report unique id>,
+    settings: <settings object>,
+    staticFilters: <filters array>,
+    dynamicFilters: <filters array>,
+    pageName: {
+      en: <section id for english version>,
+      fr: <section id for french version>,
+    },
+  },
+];
+```
+If the configuration differs from one run template to another, **_SCENARIO_DASHBOARD_CONFIG_** must be an object with all possible configuration objects 
+identified by runTemplateId. Note that each run template needs a specific configuration object; if the same configuration is used for several run templates,
+it can be declared in a special variable:
+```
+const defaultScenarioViewReport = {
+  title: {
+    en: <english title>,
+    fr: <french title>,
+  },
+  reportId: <report unique id>,
+  settings: <settings object>,
+  staticFilters: <filters array>,
+  dynamicFilters: <filters array>,
+  pageName: {
+    en: <section id for english version>,
+    fr: <section id for french version>,
+  },
+};
+export const SCENARIO_DASHBOARD_CONFIG = {
+  1: {
+    title: {
+      en: <english title>,
+      fr: <french title>,
+    },
+    reportId: <report unique id>,
+    settings: <settings object>,
+    staticFilters: <filters array>,
+    dynamicFilters: <filters array>,
+    pageName: {
+      en: <section id for english version>,
+      fr: <section id for french version>,
+    },
+  },
+  2: defaultScenarioViewReport,
+  3: defaultScenarioViewReport,
+};
 ```
 
 ## How to get the information for embedding with PowerBI
@@ -37,9 +97,8 @@ Configuration objects inside these lists are similar for the Scenario view and f
 Everything is available in PowerBI service URL:
 
 - you get the embedded report URL `MyReportURL`
-- in PowerBI online, look at the end of your report's URL to get the section name. It should look like `/ReportSection`
-- the values you need to use for `reportId` key and `pageName` key are then:\
-  `MyReportURL?reportId=<reportId>&pageName=<pageName>`
+- the value you need to use for `reportId` key is `MyReportURL?reportId=<reportId>`
+- to get the page name, open your report in PowerBI online, look at the end of your report's URL to get the page name. It should look like `/ReportSection`
 
 ## Report page size recommendation
 
