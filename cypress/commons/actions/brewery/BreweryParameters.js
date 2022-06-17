@@ -18,6 +18,12 @@ function getBasicTypesTab() {
 function getCustomersTab() {
   return cy.get(BREWERY_SELECTORS.scenario.parameters.customers.tabName);
 }
+function getEventsTab() {
+  return cy.get(BREWERY_SELECTORS.scenario.parameters.events.tabName);
+}
+function getAdditionalParametersTab() {
+  return cy.get(BREWERY_SELECTORS.scenario.parameters.additionalParameters.tabName);
+}
 
 // Get bar parameters components & input fields
 function getStock() {
@@ -55,6 +61,27 @@ function getCurrencyUsed() {
 function getStartDate() {
   return cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.startDate);
 }
+function getAdditionalSeats() {
+  return cy.get(BREWERY_SELECTORS.scenario.parameters.events.additionalSeats);
+}
+function getActivated() {
+  return cy.get(BREWERY_SELECTORS.scenario.parameters.events.activated);
+}
+function getEvaluation() {
+  return cy.get(BREWERY_SELECTORS.scenario.parameters.events.evaluation);
+}
+function getVolumeUnit() {
+  return cy.get(BREWERY_SELECTORS.scenario.parameters.additionalParameters.volumeUnit);
+}
+function getAdditionalTables() {
+  return cy.get(BREWERY_SELECTORS.scenario.parameters.additionalParameters.additionalTables);
+}
+function getComment() {
+  return cy.get(BREWERY_SELECTORS.scenario.parameters.additionalParameters.comment);
+}
+function getAdditionalDate() {
+  return cy.get(BREWERY_SELECTORS.scenario.parameters.additionalParameters.additionalDate);
+}
 
 function getCurrencyInput() {
   return getCurrency().find(GENERIC_SELECTORS.genericComponents.basicEnumInput.input);
@@ -73,6 +100,27 @@ function getCurrencyUsedInput() {
 }
 function getStartDateInput() {
   return getStartDate().find(GENERIC_SELECTORS.genericComponents.basicTextInput.input);
+}
+function getAdditionalSeatsInput() {
+  return getAdditionalSeats().find(GENERIC_SELECTORS.genericComponents.basicNumberInput.input);
+}
+function getActivatedInput() {
+  return getActivated().find(GENERIC_SELECTORS.genericComponents.basicNumberInput.input);
+}
+function getEvaluationInput() {
+  return getEvaluation().find(GENERIC_SELECTORS.genericComponents.basicTextInput.input);
+}
+function getVolumeUnitTextField() {
+  return getVolumeUnit().find(GENERIC_SELECTORS.genericComponents.basicEnumInput.textField);
+}
+function getAdditionalTablesInput() {
+  return getAdditionalTables().find(GENERIC_SELECTORS.genericComponents.basicNumberInput.input);
+}
+function getCommentInput() {
+  return getComment().find(GENERIC_SELECTORS.genericComponents.basicTextInput.input);
+}
+function getAdditionalDateInput() {
+  return getAdditionalDate().find(GENERIC_SELECTORS.genericComponents.basicTextInput.input);
 }
 
 // Get file parameters elements & buttons
@@ -156,6 +204,58 @@ function clearCustomersTableStringCell(colName, rowIndex) {
   return TableParameters.clearStringCell(getCustomersTable, colName, rowIndex);
 }
 
+function getEventsTable() {
+  return cy.get(BREWERY_SELECTORS.scenario.parameters.events.table);
+}
+
+function getEventsTableLabel() {
+  return TableParameters.getLabel(getEventsTable());
+}
+function getEventsTableGrid() {
+  return TableParameters.getGrid(getEventsTable());
+}
+function getEventsImportButton() {
+  return TableParameters.getImportButton(getEventsTable());
+}
+function getEventsCSVExportButton() {
+  return TableParameters.getCSVExportButton(getEventsTable());
+}
+function getEventsTableHeader() {
+  return TableParameters.getHeader(getEventsTable());
+}
+function getEventsTableHeaderCell(colName) {
+  return TableParameters.getHeaderCell(getEventsTable(), colName);
+}
+
+function getEventsTableRowsContainer() {
+  return TableParameters.getRowsContainer(getEventsTable());
+}
+function getEventsTableRows() {
+  return TableParameters.getRows(getEventsTable());
+}
+function getEventsTableRow(rowIndex) {
+  return TableParameters.getRow(getEventsTable(), rowIndex);
+}
+function getEventsTableCell(colName, rowIndex) {
+  return TableParameters.getCell(getEventsTable(), colName, rowIndex);
+}
+
+function importEventsTableData(filePath) {
+  return TableParameters.importFile(getEventsTable(), filePath);
+}
+
+function exportEventsTableDataToCSV() {
+  return TableParameters.exportCSV(getEventsTable());
+}
+
+function editEventsTableStringCell(colName, rowIndex, newValue) {
+  return TableParameters.editStringCell(getEventsTable, colName, rowIndex, newValue);
+}
+
+function clearEventsTableStringCell(colName, rowIndex) {
+  return TableParameters.clearStringCell(getEventsTable, colName, rowIndex);
+}
+
 function getExampleDatasetPart1FileName() {
   return FileParameters.getFileName(getExampleDatasetPart1());
 }
@@ -199,6 +299,12 @@ function switchToBasicTypesTab() {
 function switchToCustomersTab() {
   getCustomersTab().click();
 }
+function switchToEventsTab() {
+  getEventsTab().click();
+}
+function switchToAdditionalParametersTab() {
+  getAdditionalParametersTab().click();
+}
 
 // Upload a file parameter
 function uploadExampleDatasetPart1(filePath) {
@@ -233,19 +339,27 @@ function deleteExampleDatasetPart3() {
   FileParameters.delete(getExampleDatasetPart3());
 }
 
-function checkErrorsPanelFromList(errors) {
+function checkErrorsPanelFromList(errors, table) {
   const errorsCount = errors.length;
-  BreweryParameters.getCustomersErrorsPanel().should('be.visible');
-  BreweryParameters.getCustomersErrorsHeader().should('have.text', `File load failed. ${errorsCount} errors occurred:`);
-  BreweryParameters.getCustomersErrorsAccordions().should('have.length', errorsCount);
+  BreweryParameters.getErrorsPanel(table).should('be.visible');
+  BreweryParameters.getErrorsHeader(table).should('have.text', `File load failed. ${errorsCount} errors occurred:`);
+  BreweryParameters.getErrorsAccordions(table).should('have.length', errorsCount);
   errors.forEach((error, index) => {
     if (error.summary) {
-      BreweryParameters.getCustomersErrorSummary(index).should('have.text', error.summary);
+      BreweryParameters.getErrorSummary(table, index).should('have.text', error.summary);
     }
     if (error.loc) {
-      BreweryParameters.getCustomersErrorLoc(index).should('have.text', error.loc);
+      BreweryParameters.getErrorLoc(table, index).should('have.text', error.loc);
     }
   });
+}
+
+function checkCustomersErrorsPanelFromList(errors) {
+  checkErrorsPanelFromList(errors, getCustomersTable());
+}
+
+function checkEventsErrorsPanelFromList(errors) {
+  checkErrorsPanelFromList(errors, getEventsTable());
 }
 
 export const BreweryParameters = {
@@ -253,6 +367,8 @@ export const BreweryParameters = {
   getExtraDatasetPartTab,
   getBasicTypesTab,
   getCustomersTab,
+  getEventsTab,
+  getAdditionalParametersTab,
   getExampleDatasetPart1,
   getExampleDatasetPart2,
   getExampleDatasetPart3,
@@ -276,6 +392,19 @@ export const BreweryParameters = {
   importCustomersTableData,
   exportCustomersTableDataToCSV,
   editCustomersTableStringCell,
+  getEventsTableLabel,
+  getEventsTableGrid,
+  getEventsImportButton,
+  getEventsCSVExportButton,
+  getEventsTableHeader,
+  getEventsTableHeaderCell,
+  getEventsTableRowsContainer,
+  getEventsTableRows,
+  getEventsTableRow,
+  getEventsTableCell,
+  importEventsTableData,
+  exportEventsTableDataToCSV,
+  editEventsTableStringCell,
   getStock,
   getRestock,
   getWaiters,
@@ -287,12 +416,26 @@ export const BreweryParameters = {
   getCurrencyValue,
   getCurrencyUsed,
   getStartDate,
+  getAdditionalSeats,
+  getActivated,
+  getEvaluation,
+  getVolumeUnit,
+  getAdditionalTables,
+  getComment,
+  getAdditionalDate,
   getCurrencyInput,
   getCurrencyTextField,
   getCurrencyNameInput,
   getCurrencyValueInput,
   getCurrencyUsedInput,
   getStartDateInput,
+  getAdditionalSeatsInput,
+  getActivatedInput,
+  getEvaluationInput,
+  getVolumeUnitTextField,
+  getAdditionalTablesInput,
+  getCommentInput,
+  getAdditionalDateInput,
   getExampleDatasetPart1FileName,
   getExampleDatasetPart2FileName,
   getExampleDatasetPart3FileName,
@@ -306,6 +449,8 @@ export const BreweryParameters = {
   switchToExtraDatasetPartTab,
   switchToBasicTypesTab,
   switchToCustomersTab,
+  switchToEventsTab,
+  switchToAdditionalParametersTab,
   uploadExampleDatasetPart1,
   uploadExampleDatasetPart2,
   uploadExampleDatasetPart3,
@@ -316,5 +461,7 @@ export const BreweryParameters = {
   deleteExampleDatasetPart2,
   deleteExampleDatasetPart3,
   clearCustomersTableStringCell,
-  checkErrorsPanelFromList,
+  clearEventsTableStringCell,
+  checkCustomersErrorsPanelFromList,
+  checkEventsErrorsPanelFromList,
 };

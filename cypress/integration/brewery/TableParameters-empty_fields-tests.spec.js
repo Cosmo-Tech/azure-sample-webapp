@@ -82,7 +82,7 @@ describe('Table parameters upload of valid and invalid files with empty fields',
         { summary: 'Incorrect date value' },
         { summary: 'Missing fields' },
       ];
-      BreweryParameters.checkErrorsPanelFromList(expectedErrors);
+      BreweryParameters.checkCustomersErrorsPanelFromList(expectedErrors);
     };
 
     const scenarioName = forgeScenarioName();

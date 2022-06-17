@@ -1,0 +1,6 @@
+theme,date,timeOfDay,eventType,reservationsNumber,online
+complex systems,06/06/2022,evening,seminar,200,false
+IoT,02/10/2024,midday,conference,250,false
+supply chain,22/07/2020,evening,workshop,180,true
+asset Management,13/08/2022,morning,conference,220,false
+industry processes,18/09/2022,evening,workshop,150,false

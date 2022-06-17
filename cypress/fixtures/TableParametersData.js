@@ -26,3 +26,11 @@ export const EXPECTED_CUSTOMERS_AFTER_IMPORT_WITH_EMPTY_FIELDS =
   'Mostefa,,true,Beer,15/08/1994,\n' +
   'Anna,23,false,Beer,,1.8\n' +
   'Ewan,,false,Wine,,';
+
+export const EXPECTED_EVENTS_AFTER_XLSX_IMPORT =
+  'theme,date,timeOfDay,eventType,reservationsNumber,online\n' +
+  'complex systems,06/06/2022,evening,seminar,200,false\n' +
+  'IoT,02/10/2024,midday,conference,250,false\n' +
+  'supply chain,22/07/2020,evening,workshop,180,true\n' +
+  'asset Management,13/08/2022,morning,conference,220,false\n' +
+  'industry processes,18/09/2022,evening,workshop,150,false';

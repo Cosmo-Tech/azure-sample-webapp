@@ -54,7 +54,7 @@ describe('Table parameters invalid files operations', () => {
         { summary: 'Incorrect date value' },
         { summary: 'Incorrect number value' },
       ];
-      BreweryParameters.checkErrorsPanelFromList(expectedErrors);
+      BreweryParameters.checkCustomersErrorsPanelFromList(expectedErrors);
     };
 
     const scenarioName = forgeScenarioName();

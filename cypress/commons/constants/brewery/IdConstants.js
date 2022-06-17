@@ -30,6 +30,20 @@ export const BREWERY_SELECTORS = {
         tabName: '[data-cy=customers_tab]',
         table: '[data-cy=customers_table]',
       },
+      events: {
+        tabName: '[data-cy=events_tab]',
+        table: '[data-cy=events_table]',
+        additionalSeats: '[data-cy=additional_seats]',
+        activated: '[data-cy=activated]',
+        evaluation: '[data-cy=evaluation]',
+      },
+      additionalParameters: {
+        tabName: '[data-cy=additional_parameters_tab]',
+        volumeUnit: '[data-cy=volume_unit]',
+        additionalTables: '[data-cy=additional_tables]',
+        comment: '[data-cy=comment]',
+        additionalDate: '[data-cy=additional_date]',
+      },
     },
   },
 };
