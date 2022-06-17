@@ -17,6 +17,7 @@ import { DATASET_ACTIONS_KEY } from '../../../commons/DatasetConstants';
 import { WORKSPACE_ACTIONS_KEY } from '../../../commons/WorkspaceConstants';
 import { SOLUTION_ACTIONS_KEY } from '../../../commons/SolutionConstants';
 import { getFirstScenarioMaster } from '../../../../utils/SortScenarioListUtils';
+import { parseError } from '../../../../utils/ErrorsUtils';
 
 const selectSolutionIdFromCurrentWorkspace = (state) => state.workspace.current.data.solution.solutionId;
 const selectScenarioList = (state) => state.scenario.list.data;
@@ -60,31 +61,7 @@ export function* fetchAllInitialData(action) {
       status: STATUSES.SUCCESS,
     });
   } catch (error) {
-    let errorDetails;
-    if (error?.response?.data) {
-      errorDetails = error.response.data;
-    } else if (error.message === 'Network Error') {
-      errorDetails = {
-        title: 'Network error',
-        status: null,
-        detail: 'No response received. If the problem persists, please contact your administrator.',
-      };
-    } else if (error.request) {
-      errorDetails = error.request;
-      errorDetails = {
-        title: error.request.statusText,
-        status: error.request.status,
-        detail: error.request.response,
-      };
-    } else {
-      errorDetails = {
-        title: 'Unexpected error',
-        status: null,
-        detail:
-          'An unexpected error happened during the app initialization. ' +
-          'If the problem persists, please contact your administrator',
-      };
-    }
+    const errorDetails = parseError(error);
     yield put({
       type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS,
       status: STATUSES.ERROR,
