@@ -68,6 +68,12 @@ function getCurrencyNameInput() {
 function getCurrencyValueInput() {
   return getCurrencyValue().find(GENERIC_SELECTORS.genericComponents.basicNumberInput.input);
 }
+function getCurrencyUsedInput() {
+  return getCurrencyUsed().find(GENERIC_SELECTORS.genericComponents.basicNumberInput.input);
+}
+function getStartDateInput() {
+  return getStartDate().find(GENERIC_SELECTORS.genericComponents.basicTextInput.input);
+}
 
 // Get file parameters elements & buttons
 function getExampleDatasetPart1() {
@@ -285,6 +291,8 @@ export const BreweryParameters = {
   getCurrencyTextField,
   getCurrencyNameInput,
   getCurrencyValueInput,
+  getCurrencyUsedInput,
+  getStartDateInput,
   getExampleDatasetPart1FileName,
   getExampleDatasetPart2FileName,
   getExampleDatasetPart3FileName,

@@ -34,6 +34,7 @@ describe('Create scenario', () => {
   const textValue = utils.randomStr(8);
   const numberValue = utils.randomNmbr(BASIC_PARAMETERS_CONST.NUMBER.MIN, BASIC_PARAMETERS_CONST.NUMBER.MAX);
   const enumValue = utils.randomEnum(BASIC_PARAMETERS_CONST.ENUM);
+  const dateValue = utils.randomDate(BASIC_PARAMETERS_CONST.DATE.MIN, BASIC_PARAMETERS_CONST.DATE.MAX);
 
   Cypress.Keyboard.defaults({
     keystrokeDelay: 0,
@@ -169,7 +170,7 @@ describe('Create scenario', () => {
       .should('equal', otherScenarioName);
 
     Scenarios.getScenarioSelectorInput()
-      .should('have.value', otherScenarioName)
+      .should('value', otherScenarioName)
       .then(() => {
         cy.intercept('GET', new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/${scenarioMasterId}`)).as(
           'requestUpdateCurrentScenario3'
@@ -186,11 +187,11 @@ describe('Create scenario', () => {
       .its('name')
       .should('equal', scenarioMasterName);
 
-    Scenarios.getScenarioSelectorInput().should('have.value', scenarioMasterName);
+    Scenarios.getScenarioSelectorInput().should('value', scenarioMasterName);
 
-    BreweryParameters.getStockInput().should('have.value', stock);
-    BreweryParameters.getRestockInput().should('have.value', restock);
-    BreweryParameters.getWaitersInput().should('have.value', waiters);
+    BreweryParameters.getStockInput().should('value', stock);
+    BreweryParameters.getRestockInput().should('value', restock);
+    BreweryParameters.getWaitersInput().should('value', waiters);
   });
 
   it('can create scenario child', () => {
@@ -204,9 +205,9 @@ describe('Create scenario', () => {
     );
 
     // Check inherited children parameters
-    BreweryParameters.getStockInput().should('have.value', stock);
-    BreweryParameters.getRestockInput().should('have.value', restock);
-    BreweryParameters.getWaitersInput().should('have.value', waiters);
+    BreweryParameters.getStockInput().should('value', stock);
+    BreweryParameters.getRestockInput().should('value', restock);
+    BreweryParameters.getWaitersInput().should('value', waiters);
 
     // Edit child paramameters values
     const childStock = utils.randomNmbr(BAR_PARAMETERS_RANGE.STOCK.MIN, BAR_PARAMETERS_RANGE.STOCK.MAX);
@@ -254,7 +255,7 @@ describe('Create scenario', () => {
     });
 
     Scenarios.getScenarioSelectorInput()
-      .should('have.value', otherScenarioName)
+      .should('value', otherScenarioName)
       .then(() => {
         cy.intercept('GET', new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/${scenarioChildId}`)).as(
           'requestUpdateCurrentScenario3'
@@ -270,11 +271,11 @@ describe('Create scenario', () => {
       expect(nameGet).equal(scenarioChildName);
     });
 
-    Scenarios.getScenarioSelectorInput().should('have.value', scenarioChildName);
+    Scenarios.getScenarioSelectorInput().should('value', scenarioChildName);
 
-    BreweryParameters.getStockInput().should('have.value', childStock);
-    BreweryParameters.getRestockInput().should('have.value', childRestock);
-    BreweryParameters.getWaitersInput().should('have.value', childWaiters);
+    BreweryParameters.getStockInput().should('value', childStock);
+    BreweryParameters.getRestockInput().should('value', childRestock);
+    BreweryParameters.getWaitersInput().should('value', childWaiters);
   });
 
   it('can create scenario, edit/discard parameters and switch between parameters tabs', () => {
@@ -293,11 +294,17 @@ describe('Create scenario', () => {
 
     ScenarioParameters.getInputValue(BreweryParameters.getCurrencyNameInput()).as('currency-name');
     ScenarioParameters.getInputValue(BreweryParameters.getCurrencyValueInput()).as('currency-value');
-    ScenarioParameters.getInputValue(BreweryParameters.getCurrencyInput()).as('currency');
+    ScenarioParameters.getTextField(BreweryParameters.getCurrencyTextField()).as('currency');
+    ScenarioParameters.getInputValue(BreweryParameters.getCurrencyUsed()).as('currency-used');
+    ScenarioParameters.getInputValue(BreweryParameters.getStartDateInput()).as('start-date');
 
     BreweryParameters.getCurrencyNameInput().click().clear().type(textValue);
     BreweryParameters.getCurrencyValueInput().click().clear().type(numberValue);
     BreweryParameters.getCurrencyTextField().type(enumValue + ' {enter}');
+    BreweryParameters.getCurrencyUsedInput().check();
+    BreweryParameters.getStartDateInput()
+      .click()
+      .type('{moveToStart}' + dateValue);
 
     // Switch parameters tabs then back and check parameters,
     BreweryParameters.switchToDatasetPartsTab();
@@ -305,9 +312,9 @@ describe('Create scenario', () => {
 
     BreweryParameters.getCurrencyNameInput().should('value', textValue);
     BreweryParameters.getCurrencyValueInput().should('value', numberValue);
-    ScenarioParameters.getInputValue(BreweryParameters.getCurrencyInput()).then((value) => {
-      expect(BASIC_PARAMETERS_CONST.ENUM[value], enumValue);
-    });
+    BreweryParameters.getCurrencyTextField().should('have.text', enumValue);
+    BreweryParameters.getCurrencyUsedInput().should('be.checked');
+    BreweryParameters.getStartDateInput().should('value', dateValue);
 
     // Discard
     ScenarioParameters.discard();
@@ -318,10 +325,14 @@ describe('Create scenario', () => {
     cy.get('@currency-value').then((input) => {
       BreweryParameters.getCurrencyValueInput().should('value', input);
     });
-    cy.get('@currency').then(() => {
-      ScenarioParameters.getInputValue(BreweryParameters.getCurrencyInput()).then((value) => {
-        expect(BASIC_PARAMETERS_CONST.ENUM[value], enumValue);
-      });
+    cy.get('@currency').then((text) => {
+      BreweryParameters.getCurrencyTextField().should('have.text', text);
+    });
+    cy.get('@currency-used').then(() => {
+      BreweryParameters.getCurrencyUsedInput().should('not.be.checked');
+    });
+    cy.get('@start-date').then((input) => {
+      BreweryParameters.getStartDateInput().should('value', input);
     });
 
     // re-edit
@@ -331,6 +342,10 @@ describe('Create scenario', () => {
     BreweryParameters.getCurrencyNameInput().click().clear().type(textValue);
     BreweryParameters.getCurrencyValueInput().click().clear().type(numberValue);
     BreweryParameters.getCurrencyTextField().type(enumValue + ' {enter}');
+    BreweryParameters.getCurrencyUsedInput().check();
+    BreweryParameters.getStartDateInput()
+      .click()
+      .type('{moveToStart}' + dateValue);
 
     // update and launch
     cy.intercept('PATCH', URL_REGEX.SCENARIO_PAGE_WITH_ID).as('requestEditScenario');
@@ -343,12 +358,18 @@ describe('Create scenario', () => {
       const textGet = paramsGet.find((obj) => obj.parameterId === 'currency_name').value;
       const numberGet = parseFloat(paramsGet.find((obj) => obj.parameterId === 'currency_value').value);
       const enumGet = paramsGet.find((obj) => obj.parameterId === 'currency').value;
-      expect(nameGet).equal(scenarioCreatedName);
+      const boolGet = paramsGet.find((obj) => obj.parameterId === 'currency_used').value;
+      const dateGet = utils.stringToDateInputExpectedFormat(
+        new Date(paramsGet.find((obj) => obj.parameterId === 'start_date').value)
+      );
       expect(state).equal('Created');
+      expect(nameGet).equal(scenarioCreatedName);
       expect(idGet).equal(scenarioWithBasicTypesId);
       expect(textGet).equal(textValue);
       expect(numberGet).equal(numberValue);
       expect(BASIC_PARAMETERS_CONST.ENUM[enumGet]).equal(enumValue);
+      expect(boolGet).equal('true');
+      expect(dateGet).equal(dateValue);
     });
 
     cy.wait('@requestRunScenario').should((req) => {

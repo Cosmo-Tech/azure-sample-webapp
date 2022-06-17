@@ -85,6 +85,9 @@ function updateAndLaunch(dontAskAgain = false) {
 function getInputValue(inputElement) {
   return inputElement.invoke('attr', 'value');
 }
+function getTextField(textElement) {
+  return textElement.invoke('text');
+}
 
 export const ScenarioParameters = {
   getParametersTabs,
@@ -105,4 +108,5 @@ export const ScenarioParameters = {
   discard,
   updateAndLaunch,
   getInputValue,
+  getTextField,
 };

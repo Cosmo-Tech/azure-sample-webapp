@@ -18,10 +18,24 @@ const randomEnum = (enumParam) => {
   return enumParam[Object.keys(enumParam)[rand]];
 };
 
+const randomDate = (dateMin, dateMax) => {
+  return stringToDateInputExpectedFormat(dateMin.getTime() + Math.random() * (dateMax.getTime() - dateMin.getTime()));
+};
+
+const stringToDateInputExpectedFormat = (date) => {
+  return new Date(date).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  });
+};
+
 const utils = {
   randomStr,
   randomNmbr,
   randomEnum,
+  randomDate,
+  stringToDateInputExpectedFormat,
 };
 
 export default utils;

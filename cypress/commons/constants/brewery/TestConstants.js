@@ -37,6 +37,10 @@ export const BASIC_PARAMETERS_CONST = {
     BTC: '฿',
     JPY: '¥',
   },
+  DATE: {
+    MIN: new Date('01/01/1900'),
+    MAX: new Date('12/31/2099'),
+  },
 };
 
 export const DATASET = {
