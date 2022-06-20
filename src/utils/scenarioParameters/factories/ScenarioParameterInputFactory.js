@@ -2,17 +2,17 @@
 // Licensed under the MIT license.
 
 import { DATASET_ID_VARTYPE } from '../../../services/config/ApiConstants';
-import { VAR_TYPES_FACTORIES_MAPPING } from '../FactoriesMapping';
 import { ConfigUtils } from '../../ConfigUtils';
+import { GENERIC_VAR_TYPES_FACTORIES_MAPPING } from '../generic/FactoriesMapping';
 
 const create = (t, datasets, parameterData, parametersState, setParametersState, editMode) => {
   const parameterVarType = ConfigUtils.buildExtendedVarType(parameterData.varType, parameterData.subType);
   let varTypeFactory;
 
-  if (parameterVarType in VAR_TYPES_FACTORIES_MAPPING) {
-    varTypeFactory = VAR_TYPES_FACTORIES_MAPPING[parameterVarType];
+  if (parameterVarType in GENERIC_VAR_TYPES_FACTORIES_MAPPING) {
+    varTypeFactory = GENERIC_VAR_TYPES_FACTORIES_MAPPING[parameterVarType];
   } else {
-    varTypeFactory = VAR_TYPES_FACTORIES_MAPPING[parameterData.varType];
+    varTypeFactory = GENERIC_VAR_TYPES_FACTORIES_MAPPING[parameterData.varType];
   }
 
   if (varTypeFactory === undefined) {
