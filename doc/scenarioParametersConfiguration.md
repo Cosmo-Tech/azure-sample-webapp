@@ -46,7 +46,7 @@ varType of the parameter**.
 
 ## Configuration
 
-The [ScenarioParameters.js configuration file](../src/config/ScenarioParameters/ScenarioParameters.js) lets you override
+The [ScenarioParameters.js configuration file](../src/config/ScenarioParameters.js) lets you override
 all the values defined in your solution description. Please keep in mind though that changing some data _via_ this
 configuration file such as the variable types of parameters or the set of parameters associated to a run template might
 break things. Yet it is totally safe to use it to modify the following behaviors:
