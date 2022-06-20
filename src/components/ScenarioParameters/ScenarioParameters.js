@@ -7,14 +7,14 @@ import { Grid, makeStyles, Typography, Accordion, AccordionSummary, AccordionDet
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { SCENARIO_PARAMETERS_CONFIG } from '../../config/ScenarioParameters';
 import { DATASET_ID_VARTYPE, SCENARIO_RUN_STATE, SCENARIO_VALIDATION_STATUS } from '../../services/config/ApiConstants';
-import { EditModeButton, NormalModeButton, ScenarioParametersTabs } from './components';
+import { EditModeButton, NormalModeButton } from './components';
 import { useTranslation } from 'react-i18next';
 import { SimpleTwoActionsDialog, DontAskAgainDialog } from '@cosmotech/ui';
 import { FileManagementUtils } from './FileManagementUtils';
 import { ScenarioParametersUtils } from '../../utils';
-import { ScenarioParametersTabFactory } from '../../utils/scenarioParameters/factories/ScenarioParametersTabFactory';
 import { PERMISSIONS } from '../../services/config/Permissions';
 import { PermissionsGate } from '../PermissionsGate';
+import ScenarioParametersTabsWrapper from './components/ScenarioParametersTabsWrapper';
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -155,18 +155,6 @@ const ScenarioParameters = ({
     setParametersValuesToRender(generateParametersValuesToRenderFromParametersValuesRef());
   };
 
-  // Generate input components for each scenario parameters tab
-  for (const parametersGroupMetadata of parametersGroupsMetadata) {
-    parametersGroupMetadata.tab = ScenarioParametersTabFactory.create(
-      t,
-      datasets,
-      parametersGroupMetadata,
-      parametersValuesToRender,
-      setParametersValuesToRender,
-      editMode
-    );
-  }
-
   const discardLocalChanges = () => {
     setParametersValuesToRenderFromParametersValuesRef();
   };
@@ -197,6 +185,9 @@ const ScenarioParameters = ({
     setParametersValuesToRenderFromParametersValuesRef();
     // eslint-disable-next-line
   }, [parametersValuesRef]);
+
+  // Wrapper for all additional information necessary to generate a custom parameters tabs
+  const context = {};
 
   useEffect(() => {
     parametersValuesRef.current = parametersValuesForReset;
@@ -311,7 +302,6 @@ const ScenarioParameters = ({
     localStorage.setItem('scenarioParametersAccordionExpanded', expandedNewState);
     onChangeAccordionSummaryExpanded(expandedNewState);
   };
-
   return (
     <div>
       <Accordion className={classes.accordion} expanded={accordionSummaryExpanded}>
@@ -353,7 +343,14 @@ const ScenarioParameters = ({
           <div className={classes.accordionDetailsContent}>
             {
               <form onSubmit={preventSubmit}>
-                <ScenarioParametersTabs parametersGroupsMetadata={parametersGroupsMetadata} userRoles={userRoles} />
+                <ScenarioParametersTabsWrapper
+                  parametersGroupsMetadata={parametersGroupsMetadata}
+                  parametersValuesToRender={parametersValuesToRender}
+                  setParametersValuesToRender={setParametersValuesToRender}
+                  editMode={editMode}
+                  userRoles={userRoles}
+                  context={context}
+                />
               </form>
             }
           </div>
