@@ -287,17 +287,17 @@ const ScenarioParameters = ({
   if (isCurrentScenarioRunning) {
     disabledEditTooltip = t(
       'commoncomponents.button.scenario.parameters.disabledEditTooltip.running',
-      'Parameters can not be edited while the scenario is running'
+      'Parameters cannot be edited while the scenario is running'
     );
   } else if (isCurrentScenarioRejected) {
     disabledEditTooltip = t(
       'commoncomponents.button.scenario.parameters.disabledEditTooltip.rejected',
-      'This scenario is rejected, you can not edit its parameters'
+      'This scenario is rejected, you cannot edit its parameters'
     );
   } else if (isCurrentScenarioValidated) {
     disabledEditTooltip = t(
       'commoncomponents.button.scenario.parameters.disabledEditTooltip.validated',
-      'This scenario is validated, you can not edit its parameters'
+      'This scenario is validated, you cannot edit its parameters'
     );
   } else if (noTabsShown) {
     disabledEditTooltip = t(

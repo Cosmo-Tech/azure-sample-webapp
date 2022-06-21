@@ -33,9 +33,9 @@
       "scenario": {
         "parameters": {
           "disabledEditTooltip": {
-            "running": "Parameters can not be edited while the scenario is running",
-            "rejected": "This scenario is rejected, you can not edit its parameters",
-            "validated": "This scenario is validated, you can not edit its parameters",
+            "running": "Parameters cannot be edited while the scenario is running",
+            "rejected": "This scenario is rejected, you cannot edit its parameters",
+            "validated": "This scenario is validated, you cannot edit its parameters",
             "noTabs": "No parameters to edit"
           },
           "discard": "Discard Modifications",
