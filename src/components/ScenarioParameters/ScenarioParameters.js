@@ -7,14 +7,13 @@ import { Grid, makeStyles, Typography, Accordion, AccordionSummary, AccordionDet
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { SCENARIO_PARAMETERS_CONFIG } from '../../config/ScenarioParameters';
 import { DATASET_ID_VARTYPE, SCENARIO_RUN_STATE, SCENARIO_VALIDATION_STATUS } from '../../services/config/ApiConstants';
-import { EditModeButton, NormalModeButton } from './components';
+import { EditModeButton, NormalModeButton, ScenarioParametersTabsWrapper } from './components';
 import { useTranslation } from 'react-i18next';
 import { SimpleTwoActionsDialog, DontAskAgainDialog } from '@cosmotech/ui';
 import { FileManagementUtils } from './FileManagementUtils';
 import { ScenarioParametersUtils } from '../../utils';
 import { PERMISSIONS } from '../../services/config/Permissions';
 import { PermissionsGate } from '../PermissionsGate';
-import ScenarioParametersTabsWrapper from './components/ScenarioParametersTabsWrapper';
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -186,8 +185,10 @@ const ScenarioParameters = ({
     // eslint-disable-next-line
   }, [parametersValuesRef]);
 
-  // Wrapper for all additional information necessary to generate a custom parameters tabs
-  const context = {};
+  // You can use the context object to pass all additional information to custom tab factory
+  const context = {
+    editMode: editMode,
+  };
 
   useEffect(() => {
     parametersValuesRef.current = parametersValuesForReset;
@@ -347,7 +348,6 @@ const ScenarioParameters = ({
                   parametersGroupsMetadata={parametersGroupsMetadata}
                   parametersValuesToRender={parametersValuesToRender}
                   setParametersValuesToRender={setParametersValuesToRender}
-                  editMode={editMode}
                   userRoles={userRoles}
                   context={context}
                 />
