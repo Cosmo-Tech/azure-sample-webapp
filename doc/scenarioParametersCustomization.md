@@ -65,6 +65,8 @@ edit and update the scenario parameters values.
 
 ![ScenarioParameters state structure](./assets/scenario_parameters_state.png)
 
+In ScenarioParameters.js file all parameters data are rendered by ScenarioParametersTabsWrapper component which generate
+generic and custom tabs by calling the corresponding factory.
 ### Factories
 
 Factories are functions whose goal is to generate, for a given scenario parameter or parameter group, the React
@@ -75,7 +77,8 @@ component that will be used for user input. They usually take as arguments:
 - the parameters metadata
 - the parameters value in a React state (from the rendering data in the state of ScenarioParameters component)
 - a function to set the parameters state (in the rendering data too)
-- a boolean defining whether or not the edition mode is enabled (to disable user input if required)
+- a context object to pass all additional information. It always contains a
+boolean defining whether or not the edition mode is enabled (to disable user input if required)
 
 Generic factories are provided to support the file parameters and the basic types, but the following section will
 describe how you can create your own factories to customize the scenario parameters panel.
@@ -147,14 +150,9 @@ you want to add your own custom _varType_.
 
 ### Create custom scenario parameters tabs
 
-If you want to customize the layout of generated tabs, you can edit the
-[ScenarioParametersTabFactory](../src/utils/scenarioParameters/factories/ScenarioParametersTabFactory.js). The factory
-receives as arguments everything it needs to render React components based on the parameters values, edit the values by
-writing in the ScenarioParameters state, and translate labels by using the translation service of the webapp.
+If you want to customize the layout of generated tabs, you can create your own tab factory.
+You can add a specific behavior based on the id of the parameter group if you want a custom tab for only
+one parameter group. The ScenarioParametersTabsWrapper component calls a custom tabs factory if the parameters group id is declared in
+`CUSTOM_PARAMETERS_GROUPS_FACTORIES_MAPPING` in [src/utils/scenarioParameters/custom/FactoriesMapping.js](../src/utils/scenarioParameters/custom/FactoriesMapping.js). If your custom factory 
+needs other information than generic one, you can pass it through ScenarioParametersTabsWrapper component via `context` prop.
 
-For instance, you can add a specific behavior based on the name of the parameter group if you want a custom tab for only
-one parameter group.
-
-Please note though that modifications in this file may lead to conflicts with future versions of the azure sample
-webapp, so you should keep the modifications in this file as limited as possible. A good practice would be to create
-your own "tab factory" and to call it from the `ScenarioParametersTabFactory`.
