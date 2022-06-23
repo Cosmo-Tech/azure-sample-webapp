@@ -22,10 +22,11 @@ const defaultScenarioViewReport = {
   reportId: '608b7bef-f5e3-4aae-b8db-19bbb38325d5',
   settings: {
     navContentPaneEnabled: false,
+    filterPaneEnabled: true,
     panes: {
       filters: {
-        expanded: false,
-        visible: false,
+        expanded: true,
+        visible: true,
       },
     },
   },
@@ -110,39 +111,11 @@ export const DASHBOARDS_LIST_CONFIG = [
       navContentPaneEnabled: false,
       panes: {
         filters: {
-          expanded: true,
-          visible: true,
+          expanded: false,
+          visible: false,
         },
       },
     },
-    dynamicFilters: [
-      new PowerBIReportEmbedSimpleFilter(
-        'StockProbe',
-        'SimulationRun',
-        POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN
-      ),
-      new PowerBIReportEmbedSimpleFilter('Bar', 'simulationrun', POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN),
-      new PowerBIReportEmbedSimpleFilter(
-        'contains_Customer',
-        'simulationrun',
-        POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN
-      ),
-      new PowerBIReportEmbedSimpleFilter(
-        'arc_to_Customer',
-        'simulationrun',
-        POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN
-      ),
-      new PowerBIReportEmbedSimpleFilter(
-        'parameters',
-        'simulationrun',
-        POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN
-      ),
-      new PowerBIReportEmbedSimpleFilter(
-        'CustomerSatisfactionProbe',
-        'SimulationRun',
-        POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN
-      ),
-    ],
     pageName: {
       en: 'ReportSectionf3ef30b8ad34c9c2e8c4',
       fr: 'ReportSectionf3ef30b8ad34c9c2e8c4',
@@ -203,7 +176,7 @@ export const DASHBOARDS_LIST_CONFIG = [
     },
     reportId: '608b7bef-f5e3-4aae-b8db-19bbb38325d5',
     settings: {
-      navContentPaneEnabled: false,
+      navContentPaneEnabled: true,
       panes: {
         filters: {
           expanded: false,
