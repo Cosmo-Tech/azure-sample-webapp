@@ -1,6 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
+// To configure your scenario parameters see:
+// https://github.com/Cosmo-Tech/azure-sample-webapp/blob/main/doc/scenarioParametersConfiguration.md
+
 // Use the PARAMETERS dict below to override or add information to the scenario parameters defined in your solution
 // description, such as:
 //  - a default value for each scenario parameter on scenario creation
@@ -20,6 +23,16 @@ const PARAMETERS_GROUPS = {};
 // as:
 //  - list and order of the parameters group to display for this run template
 const RUN_TEMPLATES = {};
+
+// Additional parameters to put in scenario parameters
+export const ADD_SCENARIO_NAME_PARAMETER = false;
+export const ADD_SCENARIO_ID_PARAMETER = false;
+export const ADD_SCENARIO_LAST_RUN_ID_PARAMETER = false;
+export const ADD_SCENARIO_PARENT_ID_PARAMETER = false;
+export const ADD_SCENARIO_PARENT_LAST_RUN_ID_PARAMETER = false;
+export const ADD_SCENARIO_MASTER_ID_PARAMETER = false;
+export const ADD_SCENARIO_MASTER_LAST_RUN_ID_PARAMETER = false;
+export const ADD_SCENARIO_RUN_TEMPLATE_NAME_PARAMETER = false;
 
 export const SCENARIO_PARAMETERS_CONFIG = {
   parameters: PARAMETERS,

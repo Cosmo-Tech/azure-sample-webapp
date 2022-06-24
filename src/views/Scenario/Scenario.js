@@ -15,12 +15,12 @@ import {
 import { sortScenarioList } from '../../utils/SortScenarioListUtils';
 import { LOG_TYPES } from '../../services/scenarioRun/ScenarioRunConstants.js';
 import { SCENARIO_VALIDATION_STATUS } from '../../services/config/ApiConstants.js';
+import { SCENARIO_RUN_LOG_TYPE } from '../../services/config/FunctionalConstants';
 import {
-  SCENARIO_RUN_LOG_TYPE,
   USE_POWER_BI_WITH_USER_CREDENTIALS,
   SCENARIO_VIEW_IFRAME_DISPLAY_RATIO,
-} from '../../config/AppConfiguration';
-import { SCENARIO_DASHBOARD_CONFIG } from '../../config/Dashboards';
+  SCENARIO_DASHBOARD_CONFIG,
+} from '../../config/PowerBI';
 import ScenarioService from '../../services/scenario/ScenarioService';
 import ScenarioRunService from '../../services/scenarioRun/ScenarioRunService';
 import { STATUSES } from '../../state/commons/Constants';

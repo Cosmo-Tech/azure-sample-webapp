@@ -1,20 +1,69 @@
-# Configure Scenario View and Dashboards view reports
+# PowerBI configuration
+The embedded [PowerBI](https://powerbi.microsoft.com/fr-fr/getting-started-with-power-bi/) component
+displays the results of scenario runs. 
+## General configuration
 
-In the web application, the _Scenario_ and _Dashboards_ pages allow you to embed [PowerBI](https://powerbi.microsoft.com/fr-fr/getting-started-with-power-bi/) reports.
+### GetEmbedInfo
+To retrieve reports information from PowerBI regarding a specific PowerBI workspace, you'll need to specify several environment 
+variables used by the [Azure Functions](apiAzureFunctions.md) (Azure Portal > Static Web Apps > _name_of_your_webapp_ > Configuration).
+Here is the list of these variables:
 
-In Scenario view PowerBI report is supposed to display the results of the currently selected scenario, after it has run; 
+- POWER_BI_SCOPE : "https://analysis.windows.net/powerbi/api/.default"
+- POWER_BI_CLIENT_ID : the client id
+- POWER_BI_WORKSPACE_ID : The Power BI workspace targeted
+- POWER_BI_AUTHORITY_URI : "https://login.microsoftonline.com/common/v2.0"
+- POWER_BI_CLIENT_SECRET : a client secret
+- POWER_BI_TENANT_ID : the tenant id
+
+_**N.B.1**_:
+
+You can get the information for POWER_BI_WORKSPACE_ID in PowerBI service URL:
+- You get the embedded report URL `MyReportURL`
+- The values you need to use for `POWER_BI_WORKSPACE_ID` key is group part in report `MyReportURL`
+
+To get the information about POWER_BI_TENANT_ID and POWER_BI_CLIENT_SECRET:
+- Azure Portal > App Registrations > _name_of_your_app_registration_ > Overview -> displays Application (client) id and Directory (tenant) ID
+- Azure Portal > App Registrations > _name_of_your_app_registration_ > Certificates & secrets > create your client secret for PowerBI
+
+_**N.B.2**_:
+
+If you want to run the webapp locally and visualize the embedded dashboards, you need to install Azure Functions Core Tools: [instructions on this page](https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local)
+
+In particular, for local configuration, create a _**local.settings.json**_ file in **api** repository with the following content:
+
+```json
+{
+  "IsEncrypted": false,
+  "Values": {
+    "POWER_BI_SCOPE": "https://analysis.windows.net/powerbi/api/.default",
+    "POWER_BI_CLIENT_ID": "<CLIENT_ID>",
+    "POWER_BI_WORKSPACE_ID": "<POWER_BI_ID>",
+    "POWER_BI_AUTHORITY_URI": "https://login.microsoftonline.com/common/v2.0",
+    "POWER_BI_CLIENT_SECRET": "<CLIENT_SECRET>",
+    "POWER_BI_TENANT_ID": "<TENANT_ID>"
+  }
+}
+```
+
+Once you configured all Azure Functions variables, in the [src/config/PowerBI.js](/src/config/PowerBI.js) file define constants necessary
+to display PowerBI embedded component:
+
+- **USE_POWER_BI_WITH_USER_CREDENTIALS** defines if the information sent to Power BI (mainly for authentication) are based on user credentials or based on a service account
+- **POWER_BI_WORKSPACE_ID** if _USE_POWER_BI_WITH_USER_CREDENTIALS_ is set to `true`, it represents the Power BI workspace ID used
+- **SCENARIO_VIEW_IFRAME_DISPLAY_RATIO** defines the width/height ratio for the PowerBI iframe in the _Scenario_ view. This value must be a number, but you can use JS to compute it in the configuration file (e.g. for a 16:9 ratio, you can write `export const SCENARIO_VIEW_IFRAME_DISPLAY_RATIO = 16 / 9;`)
+- **DASHBOARDS_VIEW_IFRAME_DISPLAY_RATIO** defines the width/height ratio for the PowerBI iframe in the _Dashboards_ view. This value must be a number, but you can use JS to compute it in the configuration file (e.g. for a 16:9 ratio, you can write `export const DASHBOARDS_VIEW_IFRAME_DISPLAY_RATIO = 16 / 9;`)
+
+## Dashboards configuration
+PowerBI reports can be embedded in the _Scenario_ and _Dashboards_ pages.
+
+In Scenario view PowerBI report is supposed to display the results of the currently selected scenario, after it has run;
 you can set a specific configuration for each run template or a general one for all scenarios.
 
 The Dashboards view offers a menu to let users switch between several reports, that can
 typically be used for in-depth results analysis or to compare the results of several scenarios.
 
-## Dashboards configuration
-
-You can configure the dashboards to be used in your webapp by exporting the constants **_SCENARIO_DASHBOARD_CONFIG_**
-(for the Scenario view) and **_DASHBOARDS_LIST_CONFIG_** (for the Dashboards view) in the file
-[src/config/Dashboards.js](../src/config/Dashboards.js).
-
-Configuration objects inside these lists are similar for the Scenario view and for the Dashboards view:
+### Configuration object
+Configuration objects are similar for the Scenario view and for the Dashboards view:
 
 ```
   {
@@ -54,7 +103,7 @@ export const SCENARIO_DASHBOARD_CONFIG = [
   },
 ];
 ```
-If the configuration differs from one run template to another, **_SCENARIO_DASHBOARD_CONFIG_** must be an object with all possible configuration objects 
+If the configuration differs from one run template to another, **_SCENARIO_DASHBOARD_CONFIG_** must be an object with all possible configuration objects
 identified by runTemplateId. Note that each run template needs a specific configuration object; if the same configuration is used for several run templates,
 it can be declared in a special variable:
 ```
@@ -106,19 +155,18 @@ For Scenario View iframe:
 
 - Select option: View > fit to page
 - Select Format > Page size > Custom
-  - Width: 1580 px
-  - Height: 350 px
+    - Width: 1580 px
+    - Height: 350 px
 
 For Dashboard View iframes:
 
 - Select option: View > fit to page
 - Select Format > Page size > Custom
-  - Width: 1280 px
-  - Height: 795 px
+    - Width: 1280 px
+    - Height: 795 px
 
 Note that you can set a fixed display ratio for these PowerBI iframes by setting the parameters
-`SCENARIO_VIEW_IFRAME_DISPLAY_RATIO` and `DASHBOARDS_VIEW_IFRAME_DISPLAY_RATIO` in the file
-[src/config/AppConfiguration.js](../src/config/AppConfiguration.js). Documentation for these parameters can be found in file [doc/appConfiguration.md](../doc/appConfiguration.md).
+`SCENARIO_VIEW_IFRAME_DISPLAY_RATIO` and `DASHBOARDS_VIEW_IFRAME_DISPLAY_RATIO`.
 
 ## How to use filters on the current scenario (dynamic Filter)
 
@@ -193,7 +241,7 @@ new PowerBIReportEmbedSimpleFilter('Simulation', 'id', 5);
 [
   {
     title: {
-      en: 'Report sample 1'
+      en: 'Report sample 1',
       fr: 'Exemple de rapport 1',
     },
     reportId: '608b7bef-f5e3-4aae-b8db-19bbb38325d5',

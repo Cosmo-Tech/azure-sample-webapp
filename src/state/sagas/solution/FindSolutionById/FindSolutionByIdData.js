@@ -4,7 +4,7 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { SOLUTION_ACTIONS_KEY } from '../../../commons/SolutionConstants';
 import { STATUSES } from '../../../commons/Constants';
-import { ORGANIZATION_ID } from '../../../../config/AppInstance';
+import { ORGANIZATION_ID } from '../../../../config/GlobalConfiguration';
 import { Api } from '../../../../services/config/Api';
 import { ConfigUtils, SolutionsUtils } from '../../../../utils';
 import { SCENARIO_PARAMETERS_CONFIG } from '../../../../config/ScenarioParameters';

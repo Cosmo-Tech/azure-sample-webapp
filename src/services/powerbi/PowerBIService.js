@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { Auth } from '@cosmotech/core';
-import { POWER_BI_WORKSPACE_ID } from '../../config/AppInstance';
+import { POWER_BI_WORKSPACE_ID } from '../../config/PowerBI';
 import { EmbedConfig, PowerBiReportDetails } from './PowerBIModels';
 import { POWER_BI_API_DEFAULT_SCOPE } from '../config/Auth';
 

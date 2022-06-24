@@ -9,7 +9,7 @@ import {
   WorkspaceApiFactory,
 } from '@cosmotech/api-ts';
 import { clientApi } from '../ClientApi';
-import { DEFAULT_BASE_PATH } from '../../config/AppInstance';
+import { DEFAULT_BASE_PATH } from '../../config/GlobalConfiguration';
 
 // Remove trailing slash characters in default base path to prevent CORS errors
 const defaultBasePath = DEFAULT_BASE_PATH.replace(/\/+$/, '');
