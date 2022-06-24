@@ -4,7 +4,7 @@
 import { put, takeEvery, call } from 'redux-saga/effects';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { STATUSES } from '../../../commons/Constants';
-import { ORGANIZATION_ID } from '../../../../config/AppInstance';
+import { ORGANIZATION_ID } from '../../../../config/GlobalConfiguration';
 import { getAllScenariosData } from '../FindAllScenarios/FindAllScenariosData';
 import { Api } from '../../../../services/config/Api';
 import { formatParametersFromApi } from '../../../../utils/ApiUtils';

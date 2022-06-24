@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { TABLE_DATA_STATUS, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
-import { ORGANIZATION_ID, WORKSPACE_ID } from '../../config/AppInstance';
+import { ORGANIZATION_ID, WORKSPACE_ID } from '../../config/GlobalConfiguration';
 import DatasetService from '../../services/dataset/DatasetService';
 import WorkspaceService from '../../services/workspace/WorkspaceService';
 import { AppInsights } from '../../services/AppInsights';

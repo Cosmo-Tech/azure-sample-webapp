@@ -6,7 +6,7 @@ import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { STATUSES } from '../../../commons/Constants';
 import { formatParametersForApi, formatParametersFromApi } from '../../../../utils/ApiUtils';
 import { SCENARIO_RUN_STATE } from '../../../../services/config/ApiConstants';
-import { ORGANIZATION_ID } from '../../../../config/AppInstance';
+import { ORGANIZATION_ID } from '../../../../config/GlobalConfiguration';
 import { Api } from '../../../../services/config/Api';
 import { AppInsights } from '../../../../services/AppInsights';
 import { t } from 'i18next';

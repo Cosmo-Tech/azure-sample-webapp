@@ -3,7 +3,7 @@
 
 import { ApplicationInsights } from '@microsoft/applicationinsights-web';
 import { APPLICATION_INSIGHTS_CONFIG } from './config/ApplicationInsights';
-import { ENABLE_APPLICATION_INSIGHTS } from '../config/AppConfiguration';
+import { ENABLE_APPLICATION_INSIGHTS } from '../config/ApplicationInsights';
 
 class AppInsightsSingleton {
   constructor() {

@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-export { ORGANIZATION_ID, WORKSPACE_ID } from '../../../../src/config/AppInstance.js';
+export { ORGANIZATION_ID, WORKSPACE_ID } from '../../../../src/config/GlobalConfiguration';
 
 export const URL_ROOT = 'https://dev.api.cosmotech.com';
 export const URL_POWERBI = 'http://localhost:3000/api/get-embed-info';

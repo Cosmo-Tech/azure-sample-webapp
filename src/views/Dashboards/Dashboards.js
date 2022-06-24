@@ -5,13 +5,13 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Card, Grid, makeStyles, Tab, Tabs } from '@material-ui/core';
 import { SimplePowerBIReportEmbed } from '@cosmotech/ui';
-import { DASHBOARDS_LIST_CONFIG } from '../../config/Dashboards';
-import { useTranslation } from 'react-i18next';
 import {
+  DASHBOARDS_LIST_CONFIG,
   USE_POWER_BI_WITH_USER_CREDENTIALS,
   DASHBOARDS_VIEW_IFRAME_DISPLAY_RATIO,
-} from '../../config/AppConfiguration';
+} from '../../config/PowerBI';
 import { getReportLabels } from '../Scenario/labels';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles((theme) => ({
   dashboardsRoot: {
