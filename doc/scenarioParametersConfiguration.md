@@ -335,3 +335,13 @@ const PARAMETERS = {
   }
 };
 ```
+### Additional scenario run parameters
+
+- **ADD_SCENARIO_NAME_PARAMETER** send (or not) additional scenario parameter named `ScenarioName` (containing the scenario name) when a scenario is launched (**false** by default)
+- **ADD_SCENARIO_ID_PARAMETER** send (or not) additional scenario parameter named `ScenarioId` (containing the scenario id) when a scenario is launched (**false** by default)
+- **ADD_SCENARIO_PARENT_ID_PARAMETER** send (or not) additional scenario parameter named `ParentId` (containing the scenario parent id of the current scenario) when a scenario is launched (**false** by default, `''` if the scenario has no parent)
+- **ADD_SCENARIO_MASTER_ID_PARAMETER** send (or not) additional scenario parameter named `MasterId` (containing the scenario master id of the current scenario) when a scenario is launched (**false** by default, `''` if the scenario has no master)
+- **ADD_SCENARIO_RUN_TEMPLATE_NAME_PARAMETER** send (or not) additional scenario parameter named `RunTemplateName` (containing the run template name of the current scenario) when a scenario is launched (**false** by default)
+- **ADD_SCENARIO_LAST_RUN_ID_PARAMETER** send (or not) additional scenario parameter named `ScenarioLastRunId` (containing the last run id for the current scenario) when a scenario is launched (**false** by default, `''` if the scenario has not been launched yet)
+- **ADD_SCENARIO_PARENT_LAST_RUN_ID_PARAMETER** send (or not) additional scenario parameter named `ParentLastRunId` (containing the last run id for the parent of the current scenario) when a scenario is launched (**false** by default, `''` if the parent of the current scenario has not been launched yet)
+- **ADD_SCENARIO_MASTER_LAST_RUN_ID_PARAMETER** send (or not) additional scenario parameter named `MasterLastRunId` (containing the last run id for the master of the current scenario) when a scenario is launched (**false** by default, `''` if the master of the current scenario has not been launched yet)

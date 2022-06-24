@@ -13,7 +13,7 @@ import {
   ADD_SCENARIO_PARENT_ID_PARAMETER,
   ADD_SCENARIO_PARENT_LAST_RUN_ID_PARAMETER,
   ADD_SCENARIO_RUN_TEMPLATE_NAME_PARAMETER,
-} from '../../config/AppConfiguration';
+} from '../../config/ScenarioParameters';
 
 const clone = rfdc();
 

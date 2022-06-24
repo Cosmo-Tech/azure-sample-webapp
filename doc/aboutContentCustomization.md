@@ -1,6 +1,4 @@
-# About customization
-
-## Customization of About content component
+# About component customization
 
 By default, About content customization is set in the React component:
 [src/components/AboutContent/AboutContent.js](../src/components/AboutContent/AboutContent.js)
@@ -26,7 +24,7 @@ By default, About content customization is set in the React component:
 
   [public/locales/fr/translation.json](../public/locales/fr/translation.json)
 
-- Webapp **version number** is automaticaly fetched from [package.json](package.json) at deployment.
+- Webapp **version number** is automaticaly fetched from [package.json](../package.json) at deployment.
   So, don't forget to keep up-to-date the variable `version`:
 
   ```json
@@ -34,15 +32,13 @@ By default, About content customization is set in the React component:
     "name": "azure-sample-webapp",
     "version": "2.1.0",
     "private": true,
-    "dependencies": {
+  }
   ```
-
 ## Enable or disable About entry in help menu
 
-In file [src/services/config/Menu.js](../src/services/config/Menu.js):
+In [src/services/config/Menu.js](../src/services/config/Menu.js):
 
-- To **enable** About entry in help menu.
-  `About` constant must be set with **About content component**.
+- To **enable** About entry in help menu `About` constant must be set with **About content component**.
 
   By default, the constant is set like that:
 
@@ -54,8 +50,7 @@ In file [src/services/config/Menu.js](../src/services/config/Menu.js):
 
   If you want to use another component, don't forget to set correctly the `import` line.
 
-- To **disable** About entry in help menu.
-  `About` constant must be set as **_null_** :
+- To **disable** About entry in help menu `About` constant must be set as **_null_** :
 
   ```js
   // import { AboutContent } from '../../components/AboutContent';
