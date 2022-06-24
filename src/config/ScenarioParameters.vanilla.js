@@ -1,6 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
+// To configure your scenario parameters see:
+// https://github.com/Cosmo-Tech/azure-sample-webapp/blob/main/doc/scenarioParametersConfiguration.md
+
 // Use the PARAMETERS dict below to override or add information to the scenario parameters defined in your solution
 // description, such as:
 //  - a default value for each scenario parameter on scenario creation
