@@ -12,7 +12,7 @@ import { TABS } from './AppLayout';
 import Loading from './views/Loading';
 import './services/AppInsights';
 import { AUTH_STATUS } from './state/commons/AuthConstants';
-import { SESSION_INACTIVITY_TIMEOUT } from './config/AppConfiguration';
+import { SESSION_INACTIVITY_TIMEOUT } from './services/config/FunctionalConstants';
 import { SessionTimeoutDialog } from './components/SessionTimeoutDialog/SessionTimeoutDialog';
 
 const SESSION_TIMEOUT_PROMPT_DELAY_IN_SECONDS = 30;

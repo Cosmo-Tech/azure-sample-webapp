@@ -5,7 +5,7 @@ import React from 'react';
 import { Grid, makeStyles, ButtonBase, Link } from '@material-ui/core';
 import theme from '../../theme';
 import { useTranslation } from 'react-i18next';
-import { SUPPORT_URL, COSMOTECH_URL, APP_VERSION } from '../../config/AppConfiguration';
+import { SUPPORT_URL, COSMOTECH_URL, APP_VERSION } from '../../config/HelpMenuConfiguration';
 
 const useStyles = makeStyles((theme) => ({
   root: {
