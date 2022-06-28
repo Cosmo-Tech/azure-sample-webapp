@@ -10,7 +10,7 @@ import { i18next } from './services/config/i18next';
 import applicationStore from './state/Store.config';
 import { BrowserRouter } from 'react-router-dom';
 import { I18nextProvider } from 'react-i18next';
-import { ThemeProvider, CssBaseline } from '@material-ui/core';
+import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import theme from './theme';
 import { dispatchLogIn, dispatchLogOut } from './state/dispatchers/auth/AuthDispatcher';
 
@@ -25,7 +25,7 @@ const mapDispatchToProps = {
 const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App);
 
 ReactDOM.render(
-  <Suspense fallback="loading">
+  <Suspense fallback="">
     <React.StrictMode>
       <BrowserRouter>
         <Provider store={applicationStore}>

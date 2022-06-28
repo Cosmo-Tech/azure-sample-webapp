@@ -62,9 +62,7 @@ const App = ({ authStatus, logOutAction, logInAction }) => {
 
   const appContent =
     authStatus === AUTH_STATUS.CONNECTING ? (
-      <div className="spinner-border text-success" role="status">
-        <span className="sr-only">{t('views.common.text.loading', 'Loading...')}</span>
-      </div>
+      <div className="spinner-border text-success" role="status" />
     ) : (
       <Loading
         logout={logOutAction}
