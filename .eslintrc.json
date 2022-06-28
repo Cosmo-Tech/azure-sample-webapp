@@ -6,6 +6,7 @@
     "cypress/globals": true
   },
   "extends": [
+    "plugin:jsx-a11y/recommended",
     "plugin:react/recommended",
     "standard",
     "eslint:recommended",
@@ -21,7 +22,7 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": ["react", "react-hooks", "jest", "cypress", "prettier"],
+  "plugins": ["jsx-a11y", "react", "react-hooks", "jest", "cypress", "prettier"],
   "rules": {
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
