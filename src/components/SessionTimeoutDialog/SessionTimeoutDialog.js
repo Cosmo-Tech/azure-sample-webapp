@@ -51,7 +51,7 @@ export const SessionTimeoutDialog = ({ getRemainingTimeLabel, labels, onClose, o
         )}
       </DialogContent>
       <DialogActions className={classes.dialogActions}>
-        <Button id="logout" onClick={logOutAfterClick} color="primary" disabled={isLoggingOut}>
+        <Button autofocus id="logout" onClick={logOutAfterClick} color="primary" disabled={isLoggingOut}>
           {labels.logOut}
         </Button>
         <Button id="cancel" onClick={onClose} color="primary" variant="contained" disabled={isLoggingOut}>
