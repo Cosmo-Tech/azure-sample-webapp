@@ -38,11 +38,7 @@ describe('Simple operations on a file parameter', () => {
 
   const scenarioNamesToDelete = [];
   after(() => {
-    // Delete all tests scenarios
-    ScenarioManager.switchToScenarioManager();
-    for (const scenarioName of scenarioNamesToDelete) {
-      ScenarioManager.deleteScenario(scenarioName);
-    }
+    ScenarioManager.deleteScenarioList(scenarioNamesToDelete);
   });
 
   let firstScenarioName;
@@ -139,11 +135,7 @@ describe('Simple operations on a file parameter in a parameters tab that lost fo
 
   const scenarioNamesToDelete = [];
   after(() => {
-    // Delete all tests scenarios
-    ScenarioManager.switchToScenarioManager();
-    for (const scenarioName of scenarioNamesToDelete) {
-      ScenarioManager.deleteScenario(scenarioName);
-    }
+    ScenarioManager.deleteScenarioList(scenarioNamesToDelete);
   });
 
   let firstScenarioName;
@@ -220,11 +212,7 @@ describe('Scenario inheritance for file parameters', () => {
 
   const scenarioNamesToDelete = [];
   after(() => {
-    // Delete all tests scenarios
-    ScenarioManager.switchToScenarioManager();
-    for (const scenarioName of scenarioNamesToDelete) {
-      ScenarioManager.deleteScenario(scenarioName);
-    }
+    ScenarioManager.deleteScenarioList(scenarioNamesToDelete);
   });
 
   const scenarioPrefix = forgeScenarioName();
@@ -295,11 +283,7 @@ describe('File parameters in multiple tabs', () => {
 
   const scenarioNamesToDelete = [];
   after(() => {
-    // Delete all tests scenarios
-    ScenarioManager.switchToScenarioManager();
-    for (const scenarioName of scenarioNamesToDelete) {
-      ScenarioManager.deleteScenario(scenarioName);
-    }
+    ScenarioManager.deleteScenarioList(scenarioNamesToDelete);
   });
 
   it('can create a scenario and upload several files, in several tabs', () => {

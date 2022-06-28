@@ -38,11 +38,8 @@ describe('Table parameters files standard operations part 1', () => {
   const scenarioNamesToDelete = [];
   after(() => {
     Downloads.clearDownloadsFolder();
-    // Delete all tests scenarios
-    ScenarioManager.switchToScenarioManager();
-    for (const scenarioName of scenarioNamesToDelete) {
-      ScenarioManager.deleteScenario(scenarioName);
-    }
+
+    ScenarioManager.deleteScenarioList(scenarioNamesToDelete);
   });
 
   it('can open the customers scenario parameters tab, and export an empty grid', () => {

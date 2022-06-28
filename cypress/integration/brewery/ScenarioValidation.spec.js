@@ -23,10 +23,7 @@ describe('Scenario validation', () => {
 
   const scenarioNamesToDelete = [];
   after(() => {
-    ScenarioManager.switchToScenarioManager();
-    scenarioNamesToDelete.forEach((scenarioName) => {
-      ScenarioManager.deleteScenario(scenarioName);
-    });
+    ScenarioManager.deleteScenarioList(scenarioNamesToDelete);
   });
 
   it('can validate & reject scenarios', () => {

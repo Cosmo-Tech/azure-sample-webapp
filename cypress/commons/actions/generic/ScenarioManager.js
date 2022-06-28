@@ -13,6 +13,13 @@ function deleteScenario(scenarioName) {
   cy.get(GENERIC_SELECTORS.scenario.manager.confirmDeleteDialog).contains('button', 'Confirm').click();
 }
 
+function deleteScenarioList(scenarioNamesToDelete) {
+  ScenarioManager.switchToScenarioManager();
+  scenarioNamesToDelete.forEach((scenarioName) => {
+    ScenarioManager.deleteScenario(scenarioName);
+  });
+}
+
 function writeInFilter(searchStr) {
   cy.get(GENERIC_SELECTORS.scenario.manager.search).find('input').clear().type(searchStr);
 }
@@ -79,6 +86,7 @@ function triggerScenarioAccordionExpandOrCollapse(scenarioId) {
 export const ScenarioManager = {
   switchToScenarioManager,
   deleteScenario,
+  deleteScenarioList,
   writeInFilter,
   getScenarioAccordion,
   getScenarioValidationStatusChip,

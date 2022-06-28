@@ -36,7 +36,7 @@ describe('Table parameters files standard operations part 2', () => {
   const scenarioNamesToDelete = [];
   after(() => {
     Downloads.clearDownloadsFolder();
-    // Delete all tests scenarios
+
     ScenarioManager.switchToScenarioManager();
     for (const scenarioName of scenarioNamesToDelete) {
       ScenarioManager.deleteScenario(scenarioName);

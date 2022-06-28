@@ -38,11 +38,8 @@ describe('Table parameters files standard operations part 3', () => {
   const scenarioNamesToDelete = [];
   after(() => {
     Downloads.clearDownloadsFolder();
-    // Delete all tests scenarios
-    ScenarioManager.switchToScenarioManager();
-    for (const scenarioName of scenarioNamesToDelete) {
-      ScenarioManager.deleteScenario(scenarioName);
-    }
+
+    ScenarioManager.deleteScenarioList(scenarioNamesToDelete);
   });
 
   it('can import an XLSX file, edit, export and launch a scenario with the modified data', () => {

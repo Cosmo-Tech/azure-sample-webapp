@@ -36,11 +36,7 @@ describe('Launch scenario', () => {
   });
 
   after(() => {
-    // Delete all tests scenarios
-    ScenarioManager.switchToScenarioManager();
-    scenariosNames.forEach((scenarioName) => {
-      ScenarioManager.deleteScenario(scenarioName);
-    });
+    ScenarioManager.deleteScenarioList(scenariosNames);
   });
 
   it('confirmation launch dialog can be hidden', () => {

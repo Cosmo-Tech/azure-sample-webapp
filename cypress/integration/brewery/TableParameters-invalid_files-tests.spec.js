@@ -35,11 +35,8 @@ describe('Table parameters invalid files operations', () => {
   const scenarioNamesToDelete = [];
   after(() => {
     Downloads.clearDownloadsFolder();
-    // Delete all tests scenarios
-    ScenarioManager.switchToScenarioManager();
-    for (const scenarioName of scenarioNamesToDelete) {
-      ScenarioManager.deleteScenario(scenarioName);
-    }
+
+    ScenarioManager.deleteScenarioList(scenarioNamesToDelete);
   });
 
   it('can import invalid files and display the errors panel', () => {

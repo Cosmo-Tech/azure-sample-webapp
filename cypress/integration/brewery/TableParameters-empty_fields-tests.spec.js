@@ -36,7 +36,7 @@ describe('Table parameters upload of valid and invalid files with empty fields',
   const scenarioNamesToDelete = [];
   after(() => {
     Downloads.clearDownloadsFolder();
-    // Delete all tests scenarios
+
     ScenarioManager.switchToScenarioManager();
     for (const scenarioName of scenarioNamesToDelete) {
       ScenarioManager.deleteScenario(scenarioName);

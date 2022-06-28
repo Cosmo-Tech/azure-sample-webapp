@@ -55,19 +55,13 @@ describe('Create scenario', () => {
   });
 
   after(() => {
-    // Delete all tests scenarios
     const scenarioNamesToDelete = [
       scenarioMasterName,
       scenarioChildName,
       otherScenarioName,
       scenarioWithBasicTypesName,
     ];
-
-    // Delete all tests scenarios
-    ScenarioManager.switchToScenarioManager();
-    scenarioNamesToDelete.forEach((scenarioName) => {
-      ScenarioManager.deleteScenario(scenarioName);
-    });
+    ScenarioManager.deleteScenarioList(scenarioNamesToDelete);
   });
 
   it('run templates are correctly filtered', () => {
