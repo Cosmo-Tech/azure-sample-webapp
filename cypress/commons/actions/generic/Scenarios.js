@@ -112,8 +112,7 @@ function selectScenario(scenarioName, scenarioId) {
   cy.intercept('GET', scenarioUrlRegex).as(reqName);
   getScenarioSelector()
     .click()
-    .clear()
-    .type(scenarioName + '{downarrow}{enter}');
+    .type('{selectAll}{backspace}' + scenarioName + '{downarrow}{enter}');
   cy.wait(`@${reqName}`)
     .its('response')
     .its('body')
