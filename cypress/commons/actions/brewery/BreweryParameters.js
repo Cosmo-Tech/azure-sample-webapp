@@ -339,27 +339,28 @@ function deleteExampleDatasetPart3() {
   FileParameters.delete(getExampleDatasetPart3());
 }
 
-function checkErrorsPanelFromList(errors, table) {
+function checkErrorsPanelFromList(errors, getTable) {
   const errorsCount = errors.length;
-  BreweryParameters.getErrorsPanel(table).should('be.visible');
-  BreweryParameters.getErrorsHeader(table).should('have.text', `File load failed. ${errorsCount} errors occurred:`);
-  BreweryParameters.getErrorsAccordions(table).should('have.length', errorsCount);
+  // function call is absolutely required as parameter to avoid issue with regex selector in 'find'
+  TableParameters.getErrorsPanel(getTable()).should('be.visible');
+  TableParameters.getErrorsHeader(getTable()).should('have.text', `File load failed. ${errorsCount} errors occurred:`);
+  TableParameters.getErrorsAccordions(getTable()).should('have.length', errorsCount);
   errors.forEach((error, index) => {
     if (error.summary) {
-      BreweryParameters.getErrorSummary(table, index).should('have.text', error.summary);
+      TableParameters.getErrorSummary(getTable(), index).should('have.text', error.summary);
     }
     if (error.loc) {
-      BreweryParameters.getErrorLoc(table, index).should('have.text', error.loc);
+      TableParameters.getErrorLoc(getTable(), index).should('have.text', error.loc);
     }
   });
 }
 
 function checkCustomersErrorsPanelFromList(errors) {
-  checkErrorsPanelFromList(errors, getCustomersTable());
+  checkErrorsPanelFromList(errors, getCustomersTable);
 }
 
 function checkEventsErrorsPanelFromList(errors) {
-  checkErrorsPanelFromList(errors, getEventsTable());
+  checkErrorsPanelFromList(errors, getEventsTable);
 }
 
 export const BreweryParameters = {
