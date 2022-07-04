@@ -36,6 +36,13 @@ export const dispatchDeleteScenario = (workspaceId, scenarioId) => ({
   scenarioId: scenarioId,
 });
 
+export const dispatchRenameScenario = (workspaceId, scenarioId, newScenarioName) => ({
+  type: SCENARIO_ACTIONS_KEY.RENAME_SCENARIO,
+  workspaceId: workspaceId,
+  scenarioId: scenarioId,
+  scenarioName: newScenarioName,
+});
+
 export const dispatchUpdateAndLaunchScenario = (workspaceId, scenarioId, scenarioParameters) => ({
   type: SCENARIO_ACTIONS_KEY.UPDATE_AND_LAUNCH_SCENARIO,
   workspaceId: workspaceId,

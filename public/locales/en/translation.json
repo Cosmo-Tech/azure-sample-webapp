@@ -221,7 +221,7 @@
                 "label": "Error",
                 "empty": "Scenario name cannot be empty",
                 "existing": "Scenario name already exists",
-                "forbiddenchars": "Scenario name has to start with a letter, and can only contains letters, digits, spaces, underscores, hyphens and dots."
+                "forbiddenchars": "Scenario name has to start with a letter, and can only contain letters, digits, spaces, underscores, hyphens and dots."
               }
             }
           },
@@ -264,6 +264,7 @@
       "logs": "Log file hasn't been downloaded.",
       "create": "Scenario hasn't been created.",
       "delete": "Scenario hasn't been deleted.",
+      "rename": "Scenario hasn't been renamed",
       "run": "A problem occurred during the scenario run.",
       "update": "A problem occurred during scenario update; your new parameters haven't been saved.",
       "incompleteRun": "A problem occurred during dataset update; the scenario is running but your new parameters haven't been saved.",

@@ -264,6 +264,7 @@
       "logs": "Le fichier des logs n'a pas pu être téléchargé.",
       "create": "Le scénario n'a pas pu être créé.",
       "delete": "Le scénario n'a pas pu être supprimé.",
+      "rename": "Le scénario n'a pas pu être renommé.",
       "run": "Un problème est survenu, le scénario n'a pas pu être lancé.",
       "update": "Un problème est survenu pendant la modification du scénario, les nouveaux paramètres n'ont pas été sauvegardés.",
       "incompleteRun": "Un problème est survenu pendant la modification du dataset; le scénario a été lancé mais les nouveaux paramètres ne sont pas pris en compte.",

@@ -4,6 +4,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { ScenarioUtils } from '@cosmotech/core';
 import { makeStyles } from '@material-ui/core';
 import { ScenarioManagerTreeList } from '@cosmotech/ui';
 import { WORKSPACE_ID } from '../../config/AppInstance';
@@ -11,6 +12,8 @@ import { useTranslation } from 'react-i18next';
 import { PERMISSIONS } from '../../services/config/Permissions';
 import { PermissionsGate } from '../../components/PermissionsGate';
 import { getFirstScenarioMaster } from '../../utils/SortScenarioListUtils';
+import { NAME_VALIDATOR } from '../../utils/ValidationUtils';
+import { getScenarioManagerLabels } from './labels';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,9 +39,19 @@ function moveScenario(moveData) {
 const ScenarioManager = (props) => {
   const classes = useStyles();
   const { t } = useTranslation();
+  const labels = getScenarioManagerLabels(t);
 
-  const { currentScenario, datasets, deleteScenario, findScenarioById, scenarios, resetCurrentScenario, userId } =
-    props;
+  const {
+    currentScenario,
+    datasets,
+    deleteScenario,
+    renameScenario,
+    findScenarioById,
+    scenarios,
+    resetCurrentScenario,
+    setCurrentScenario,
+    userId,
+  } = props;
 
   const getScenariolistAfterDelete = (idOfScenarioToDelete) => {
     const scenarioListAfterDelete = scenarios
@@ -66,6 +79,26 @@ const ScenarioManager = (props) => {
     }
   }
 
+  function onScenarioRename(scenarioId, newScenarioName) {
+    if (scenarioId === currentScenario.id) {
+      setCurrentScenario({ name: newScenarioName });
+    }
+    renameScenario(WORKSPACE_ID, scenarioId, newScenarioName);
+  }
+
+  function checkScenarioNameValue(newScenarioName) {
+    if (newScenarioName.length === 0) {
+      return labels.scenarioRename.errors.emptyScenarioName;
+    } else {
+      if (newScenarioName.match(NAME_VALIDATOR) === null) {
+        return labels.scenarioRename.errors.forbiddenCharsInScenarioName;
+      } else if (ScenarioUtils.scenarioExistsInList(newScenarioName, scenarios)) {
+        return labels.scenarioRename.errors.existingScenarioName;
+      }
+    }
+    return null;
+  }
+
   function buildDatasetLabel(datasetList) {
     return t('commoncomponents.scenariomanager.treelist.node.dataset', { count: datasetList?.length || 0 });
   }
@@ -75,35 +108,6 @@ const ScenarioManager = (props) => {
       scenarioName,
     });
   }
-
-  const labels = {
-    status: t('commoncomponents.scenariomanager.treelist.node.status.label'),
-    successful: t('commoncomponents.scenariomanager.treelist.node.status.successful'),
-    running: t('commoncomponents.scenariomanager.treelist.node.status.running'),
-    failed: t('commoncomponents.scenariomanager.treelist.node.status.failed'),
-    created: t('commoncomponents.scenariomanager.treelist.node.status.created'),
-    delete: t('commoncomponents.scenariomanager.treelist.node.action.delete'),
-    redirect: t('commoncomponents.scenariomanager.treelist.node.action.redirect'),
-    deleteDialog: {
-      description: t(
-        'commoncomponents.dialog.confirm.delete.description',
-        'The scenario will be deleted. If this scenario has children, ' +
-          'then its parent will become the new parent of all these scenarios.'
-      ),
-      cancel: t('commoncomponents.dialog.confirm.delete.button.cancel', 'Cancel'),
-      confirm: t('commoncomponents.dialog.confirm.delete.button.confirm', 'Confirm'),
-    },
-    searchField: t('commoncomponents.scenariomanager.treelist.node.text.search'),
-    toolbar: {
-      expandAll: t('commoncomponents.scenariomanager.toolbar.expandAll', 'Expand all'),
-      expandTree: t('commoncomponents.scenariomanager.toolbar.expandTree', 'Expand tree'),
-      collapseAll: t('commoncomponents.scenariomanager.toolbar.collapseAll', 'Collapse all'),
-    },
-    validationStatus: {
-      rejected: t('views.scenario.validation.rejected', 'Rejected'),
-      validated: t('views.scenario.validation.validated', 'Validated'),
-    },
-  };
 
   const navigate = useHistory();
 
@@ -134,6 +138,8 @@ const ScenarioManager = (props) => {
           userId={userId}
           onScenarioRedirect={onScenarioRedirect}
           deleteScenario={onScenarioDelete}
+          onScenarioRename={onScenarioRename}
+          checkScenarioNameValue={checkScenarioNameValue}
           moveScenario={moveScenario}
           buildDatasetInfo={buildDatasetLabel}
           labels={labels}
@@ -148,9 +154,11 @@ ScenarioManager.propTypes = {
   currentScenario: PropTypes.object,
   datasets: PropTypes.array.isRequired,
   deleteScenario: PropTypes.func.isRequired,
+  renameScenario: PropTypes.func.isRequired,
   findScenarioById: PropTypes.func.isRequired,
   scenarios: PropTypes.array.isRequired,
   resetCurrentScenario: PropTypes.func.isRequired,
+  setCurrentScenario: PropTypes.func.isRequired,
   userId: PropTypes.string.isRequired,
 };
 
