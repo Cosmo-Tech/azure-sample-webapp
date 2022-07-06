@@ -4,8 +4,11 @@
 import React from 'react';
 import { UploadFile } from '@cosmotech/ui';
 import { FileManagementUtils } from '../../../../components/ScenarioParameters/FileManagementUtils';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
-const create = (t, datasets, parameterData, parametersState, setParametersState, editMode) => {
+export const GenericUploadFile = ({ parameterData, parametersState, setParametersState, context }) => {
+  const { t } = useTranslation();
   const parameterId = parameterData.id;
   const parameter = parametersState[parameterId] || {};
   const datasetId = parameter.id;
@@ -45,11 +48,13 @@ const create = (t, datasets, parameterData, parametersState, setParametersState,
         FileManagementUtils.downloadFile(datasetId, setClientFileDescriptorStatus);
       }}
       file={parameter}
-      editMode={editMode}
+      editMode={context.editMode}
     />
   );
 };
-
-export const UploadFileFactory = {
-  create,
+GenericUploadFile.propTypes = {
+  parameterData: PropTypes.object.isRequired,
+  parametersState: PropTypes.object.isRequired,
+  setParametersState: PropTypes.func.isRequired,
+  context: PropTypes.object.isRequired,
 };

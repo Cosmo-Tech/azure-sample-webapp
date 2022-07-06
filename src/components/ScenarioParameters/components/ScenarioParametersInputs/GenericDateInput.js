@@ -3,12 +3,15 @@
 
 import React from 'react';
 import { BasicDateInput } from '@cosmotech/ui';
+import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
-const create = (t, parameterData, parametersState, setParametersState, editMode) => {
+export const GenericDateInput = ({ parameterData, parametersState, setParametersState, context }) => {
+  const { t } = useTranslation();
   const minDate = parameterData.minValue ? new Date(parameterData.minValue) : undefined;
   const maxDate = parameterData.maxValue ? new Date(parameterData.maxValue) : undefined;
   const dateProps = {
-    disabled: !editMode,
+    disabled: !context.editMode,
     id: parameterData.id,
     minDate: minDate,
     maxDate: maxDate,
@@ -36,7 +39,9 @@ const create = (t, parameterData, parametersState, setParametersState, editMode)
     />
   );
 };
-
-export const BasicDateInputFactory = {
-  create,
+GenericDateInput.propTypes = {
+  parameterData: PropTypes.object.isRequired,
+  parametersState: PropTypes.object.isRequired,
+  setParametersState: PropTypes.func.isRequired,
+  context: PropTypes.object.isRequired,
 };

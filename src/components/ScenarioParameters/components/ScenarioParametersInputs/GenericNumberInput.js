@@ -3,6 +3,8 @@
 
 import React from 'react';
 import { BasicNumberInput } from '@cosmotech/ui';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
 const DEFAULT_MIN_VALUE = -1e10 + 1;
 const DEFAULT_MAX_VALUE = 1e10 - 1;
@@ -21,13 +23,14 @@ function getMaxValue(parameterData) {
   return parameterData.maxValue;
 }
 
-const create = (t, parameterData, parametersState, setParametersState, editMode) => {
+export const GenericNumberInput = ({ parameterData, parametersState, setParametersState, context }) => {
+  const { t } = useTranslation();
   const inputProps = {
     min: getMinValue(parameterData),
     max: getMaxValue(parameterData),
   };
   const textFieldProps = {
-    disabled: !editMode,
+    disabled: !context.editMode,
     id: parameterData.id,
   };
 
@@ -55,7 +58,9 @@ const create = (t, parameterData, parametersState, setParametersState, editMode)
     />
   );
 };
-
-export const BasicNumberInputFactory = {
-  create,
+GenericNumberInput.propTypes = {
+  parameterData: PropTypes.object.isRequired,
+  parametersState: PropTypes.object.isRequired,
+  setParametersState: PropTypes.func.isRequired,
+  context: PropTypes.object.isRequired,
 };

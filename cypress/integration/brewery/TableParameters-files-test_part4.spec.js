@@ -68,6 +68,7 @@ describe('Table parameters files standard operations part 4', () => {
     BreweryParameters.importCustomersTableData(CUSTOMERS_FILE_PATH);
 
     BreweryParameters.switchToEventsTab();
+    BreweryParameters.getEventsTableGrid().should('not.be.empty');
     BreweryParameters.importEventsTableData(EVENTS_FILE_PATH);
 
     BreweryParameters.switchToCustomersTab();

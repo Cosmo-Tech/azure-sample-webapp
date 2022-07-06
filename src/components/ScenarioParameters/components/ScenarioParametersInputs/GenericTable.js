@@ -1,29 +1,34 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import rfdc from 'rfdc';
 import { Table, TABLE_DATA_STATUS, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
 import { AgGridUtils, FileBlobUtils } from '@cosmotech/core';
 import theme from '../../../../theme';
 import { Button } from '@material-ui/core';
 import { FileManagementUtils } from '../../../../components/ScenarioParameters/FileManagementUtils';
+import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 const clone = rfdc();
 
 const DEFAULT_DATE_FORMAT = 'yyyy-MM-dd';
 
-const _generateGridDataFromCSV = (fileContent, parameterMetadata, options) => {
-  return AgGridUtils.fromCSV(fileContent, parameterMetadata.hasHeader || true, parameterMetadata.columns, options);
+const _generateGridDataFromCSV = (fileContent, parameterData, options) => {
+  return AgGridUtils.fromCSV(fileContent, parameterData.hasHeader || true, parameterData.columns, options);
 };
 
-const _generateGridDataFromXLSX = async (fileBlob, parameterMetadata, options) => {
-  return await AgGridUtils.fromXLSX(fileBlob, parameterMetadata.hasHeader || true, parameterMetadata.columns, options);
+const _generateGridDataFromXLSX = async (fileBlob, parameterData, options) => {
+  return await AgGridUtils.fromXLSX(fileBlob, parameterData.hasHeader || true, parameterData.columns, options);
 };
 
-const create = (t, datasets, parameterMetadata, parametersState, setParametersState, editMode) => {
-  const parameterId = parameterMetadata.id;
+export const GenericTable = ({ parameterData, parametersState, setParametersState, context }) => {
+  const { t } = useTranslation();
+  const parameterId = parameterData.id;
   const parameter = parametersState[parameterId] || {};
+  const datasets = useSelector((state) => state.dataset?.list?.data);
 
   const labels = {
     label: t(`solution.parameters.${parameterId}`, parameterId),
@@ -31,8 +36,8 @@ const create = (t, datasets, parameterMetadata, parametersState, setParametersSt
     clearErrors: t('genericcomponent.table.button.clearErrors', 'Clear'),
     errorsPanelMainError: t('genericcomponent.table.labels.fileImportError', 'File load failed.'),
   };
-  const columns = parameterMetadata.columns;
-  const dateFormat = parameterMetadata.dateFormat || DEFAULT_DATE_FORMAT;
+  const columns = parameterData.columns;
+  const dateFormat = parameterData.dateFormat || DEFAULT_DATE_FORMAT;
   const options = { dateFormat: dateFormat };
 
   function setParameterInState(newValuePart) {
@@ -53,11 +58,11 @@ const create = (t, datasets, parameterMetadata, parametersState, setParametersSt
   }
 
   const _checkForLock = () => {
-    if (create.downloadLocked === undefined) {
-      create.downloadLocked = {};
-    } else if (parameterId in create.downloadLocked === false) {
-      create.downloadLocked[parameterId] = false;
-    } else if (create.downloadLocked[parameterId]) {
+    if (GenericTable.downloadLocked === undefined) {
+      GenericTable.downloadLocked = {};
+    } else if (parameterId in GenericTable.downloadLocked === false) {
+      GenericTable.downloadLocked[parameterId] = false;
+    } else if (GenericTable.downloadLocked[parameterId]) {
       return true;
     }
     return false;
@@ -78,7 +83,7 @@ const create = (t, datasets, parameterMetadata, parametersState, setParametersSt
     if (_checkForLock()) {
       return;
     }
-    create.downloadLocked[parameterId] = true;
+    GenericTable.downloadLocked[parameterId] = true;
 
     const datasetId = clientFileDescriptor.id;
     const data = await FileManagementUtils.downloadFileData(datasets, datasetId, setClientFileDescriptorStatuses);
@@ -96,7 +101,7 @@ const create = (t, datasets, parameterMetadata, parametersState, setParametersSt
         tableDataStatus: TABLE_DATA_STATUS.ERROR,
       });
     }
-    create.downloadLocked[parameterId] = false;
+    GenericTable.downloadLocked[parameterId] = false;
   };
 
   const _parseCSVFileContent = (
@@ -117,7 +122,7 @@ const create = (t, datasets, parameterMetadata, parametersState, setParametersSt
       tableDataStatus: TABLE_DATA_STATUS.PARSING,
     });
 
-    const agGridData = _generateGridDataFromCSV(fileContent, parameterMetadata, options);
+    const agGridData = _generateGridDataFromCSV(fileContent, parameterData, options);
     if (agGridData.error) {
       if (clientFileDescriptorRestoreValue) {
         setClientFileDescriptor({
@@ -199,7 +204,7 @@ const create = (t, datasets, parameterMetadata, parametersState, setParametersSt
       tableDataStatus: TABLE_DATA_STATUS.PARSING,
     });
 
-    const agGridData = await _generateGridDataFromXLSX(file, parameterMetadata, options);
+    const agGridData = await _generateGridDataFromXLSX(file, parameterData, options);
     if (agGridData.error) {
       if (clientFileDescriptorRestoreValue) {
         setClientFileDescriptor({
@@ -213,7 +218,7 @@ const create = (t, datasets, parameterMetadata, parametersState, setParametersSt
         });
       }
     } else {
-      const newFileContent = AgGridUtils.toCSV(agGridData.rows, parameterMetadata.columns, options);
+      const newFileContent = AgGridUtils.toCSV(agGridData.rows, parameterData.columns, options);
       setClientFileDescriptor({
         agGridRows: agGridData.rows,
         name: file.name,
@@ -248,7 +253,7 @@ const create = (t, datasets, parameterMetadata, parametersState, setParametersSt
     FileBlobUtils.downloadFileFromData(fileContent, fileName);
   };
 
-  const _uploadPreprocess = (parameterMetadata, clientFileDescriptor, setClientFileDescriptorStatus) => {
+  const _uploadPreprocess = (parameterData, clientFileDescriptor, setClientFileDescriptorStatus) => {
     const newFileContent = AgGridUtils.toCSV(parameter.agGridRows, columns, options);
     setParameterInState({
       content: newFileContent,
@@ -287,20 +292,24 @@ const create = (t, datasets, parameterMetadata, parametersState, setParametersSt
       TABLE_DATA_STATUS.PARSING,
       TABLE_DATA_STATUS.READY,
     ].includes(parameter.tableDataStatus);
-  if (
-    parameter.id &&
-    !parameter.content &&
-    parameter.status === UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD &&
-    !alreadyDownloaded
-  ) {
-    _downloadDatasetFileContentFromStorage(datasets, parameter, setParameterInState);
-  }
+
+  // Trigger dataset download only when mounting the component
+  useEffect(() => {
+    if (
+      parameter.id &&
+      !parameter.content &&
+      parameter.status === UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD &&
+      !alreadyDownloaded
+    ) {
+      _downloadDatasetFileContentFromStorage(datasets, parameter, setParameterInState);
+    }
+  });
 
   const csvImportButton = (
     <Button
       key="import-file-button"
       data-cy="import-file-button"
-      disabled={!editMode}
+      disabled={!context.editMode}
       variant="outlined"
       component="label"
       onChange={importFile}
@@ -328,10 +337,10 @@ const create = (t, datasets, parameterMetadata, parametersState, setParametersSt
   return (
     <Table
       key={parameterId}
-      data-cy={parameterMetadata.dataCy}
+      data-cy={parameterData.dataCy}
       labels={labels}
       dateFormat={dateFormat}
-      editMode={editMode}
+      editMode={context.editMode}
       dataStatus={parameter.tableDataStatus || TABLE_DATA_STATUS.EMPTY}
       errors={parameter.errors}
       columns={columns}
@@ -344,7 +353,9 @@ const create = (t, datasets, parameterMetadata, parametersState, setParametersSt
     />
   );
 };
-
-export const TableFactory = {
-  create,
+GenericTable.propTypes = {
+  parameterData: PropTypes.object.isRequired,
+  parametersState: PropTypes.object.isRequired,
+  setParametersState: PropTypes.func.isRequired,
+  context: PropTypes.object.isRequired,
 };
