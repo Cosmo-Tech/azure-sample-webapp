@@ -65,23 +65,25 @@ edit and update the scenario parameters values.
 
 ![ScenarioParameters state structure](./assets/scenario_parameters_state.png)
 
+### Tabs and inputs components
 In ScenarioParameters.js file all parameters data are rendered by ScenarioParametersTabsWrapper component which generate
-generic and custom tabs by calling the corresponding factory.
-### Factories
-
-Factories are functions whose goal is to generate, for a given scenario parameter or parameter group, the React
-component that will be used for user input. They usually take as arguments:
-
-- a translation function to allow internationalization of the components
-- the list of all datasets information (tags, description, connector)
+generic and custom tabs by calling the corresponding component. Tab component has the following props:
 - the parameters metadata
 - the parameters value in a React state (from the rendering data in the state of ScenarioParameters component)
 - a function to set the parameters state (in the rendering data too)
 - a context object to pass all additional information. It always contains a
-boolean defining whether or not the edition mode is enabled (to disable user input if required)
+  boolean defining whether the edition mode is enabled (to disable user input if required)
 
-Generic factories are provided to support the file parameters and the basic types, but the following section will
-describe how you can create your own factories to customize the scenario parameters panel.
+Then, the tab component passes these props to the input components specific for each varType. 
+
+Generic tabs and inputs components are provided to support the file parameters and the basic types, but the following section will
+describe how you can create your own components to customize the scenario parameters panel.
+
+_**N.B.1**_
+
+Factories (functions whose goal is to generate, for a given scenario parameter or parameter group, the React
+component) used in the web app prior to v.3.0.0 are now deprecated and won't be supported
+in the next major version of the webapp; all generic tabs and inputs have been transformed into React components.
 
 ## Customization
 
@@ -94,14 +96,14 @@ _varType_, there are four information to provide:
 - a default value for this type of parameter (used when a user creates a new scenario)
 - a serialization function to convert this type to string (used when sending the parameters values to the API)
 - a deserialization function to convert this type from a string (used when receiving the parameters values from the API)
-- a factory to generate a React component that will be used for user input for all parameters with this type
+- a React component that will be used for user input for all parameters with this type
 
 These information must be defined in dicts, with your _varType_ as key, in the following files:
 
 - [src/utils/scenarioParameters/custom/DefaultValues.js](../src/utils/scenarioParameters/custom/DefaultValues.js)
 - [src/utils/scenarioParameters/custom/ConversionFromString.js](../src/utils/scenarioParameters/custom/ConversionFromString.js)
 - [src/utils/scenarioParameters/custom/ConversionToString.js](../src/utils/scenarioParameters/custom/ConversionToString.js)
-- [src/utils/scenarioParameters/custom/FactoriesMapping.js](../src/utils/scenarioParameters/custom/FactoriesMapping.js)
+- [src/utils/scenarioParameters/custom/VarTypesComponentsMapping.js](../src/utils/scenarioParameters/custom/VarTypesComponentsMapping.js)
 
 You will then be able to declare parameters with your custom _varType_ in the YAML solution description, and the webapp
 will automatically generate the associated components.
@@ -139,20 +141,20 @@ as for the orgiinal _varType_, you can omit to declare the extended varType in t
 
 ### Create custom input components
 
-Creating your own input components can be useful if you want to replace the existing factories for basic types, or if
+Creating your own input components can be useful if you want to replace the existing components for basic types, or if
 you want to add your own custom _varType_.
 
 1. first you will need to create a React component to define the input UI and behavior (example:
    [BasicNumberInput](https://github.com/Cosmo-Tech/webapp-component-ui/blob/main/src/inputs/BasicInputs/BasicNumberInput/BasicNumberInput.js))
-1. then you must define a factory, the function that will connect the parameter data to the props of your component (example: [BasicNumberInputFactory](../src/utils/scenarioParameters/factories/inputComponentsFactories/BasicNumberInputFactory.js))
-1. you can then import and use this factory in the [custom factories mapping configuration file](../src/utils/scenarioParameters/custom/FactoriesMapping.js) of your application (you can override the default factories by adding
+2. then you must define an input component that will connect the parameter data to the props of your component (example: [GenericNumberInput](../src/components/ScenarioParameters/components/ScenarioParametersInputs/GenericNumberInput.js))
+3. you can then import and use this component in the [custom varTypes components mapping file](../src/utils/scenarioParameters/custom/VarTypesComponentsMapping.js) of your application (you can override the default components by adding
    generic types in the custom mapping dict)
 
 ### Create custom scenario parameters tabs
 
-If you want to customize the layout of generated tabs, you can create your own tab factory.
+If you want to customize the layout of generated tabs, you can create your own tab component.
 You can add a specific behavior based on the id of the parameter group if you want a custom tab for only
-one parameter group. The ScenarioParametersTabsWrapper component calls a custom tabs factory if the parameters group id is declared in
-`CUSTOM_PARAMETERS_GROUPS_FACTORIES_MAPPING` in [src/utils/scenarioParameters/custom/FactoriesMapping.js](../src/utils/scenarioParameters/custom/FactoriesMapping.js). If your custom factory 
+one parameter group. The ScenarioParametersTabsWrapper component calls a custom tabs component if the parameters group id is declared in
+`CUSTOM_PARAMETERS_GROUPS_COMPONENTS_MAPPING` in [src/utils/scenarioParameters/custom/ParametersGroupsComponentsMapping.js](../src/utils/scenarioParameters/custom/ParametersGroupsComponentsMapping.js). If your custom tab 
 needs other information than generic one, you can pass it through ScenarioParametersTabsWrapper component via `context` prop.
 

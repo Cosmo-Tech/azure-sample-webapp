@@ -3,11 +3,14 @@
 
 import React from 'react';
 import { BasicEnumInput } from '@cosmotech/ui';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
-const create = (t, parameterData, parametersState, setParametersState, editMode) => {
+export const GenericEnumInput = ({ parameterData, parametersState, setParametersState, context }) => {
+  const { t } = useTranslation();
   let enumValues = parameterData.enumValues;
   const textFieldProps = {
-    disabled: !editMode,
+    disabled: !context.editMode,
     id: parameterData.id,
   };
 
@@ -38,7 +41,9 @@ const create = (t, parameterData, parametersState, setParametersState, editMode)
     />
   );
 };
-
-export const BasicEnumInputFactory = {
-  create,
+GenericEnumInput.propTypes = {
+  parameterData: PropTypes.object.isRequired,
+  parametersState: PropTypes.object.isRequired,
+  setParametersState: PropTypes.func.isRequired,
+  context: PropTypes.object.isRequired,
 };
