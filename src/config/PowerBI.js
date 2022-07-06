@@ -1,12 +1,20 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
+// Power BI information
 import {
-  POWER_BI_FIELD_ENUM,
-  PowerBIReportEmbedSimpleFilter,
   PowerBIReportEmbedMultipleFilter,
+  PowerBIReportEmbedSimpleFilter,
+  POWER_BI_FIELD_ENUM,
 } from '@cosmotech/azure';
 
+// Power BI embedding mode
+export const USE_POWER_BI_WITH_USER_CREDENTIALS = false;
+export const POWER_BI_WORKSPACE_ID = '290de699-9026-42c0-8c83-e4e87c3f22dd';
+export const SCENARIO_VIEW_IFRAME_DISPLAY_RATIO = 1580 / 350;
+export const DASHBOARDS_VIEW_IFRAME_DISPLAY_RATIO = 1280 / 795;
+
+// Dashboards configuration
 // For further information about settings or filters see:
 // https://github.com/microsoft/powerbi-client-react
 // based on
@@ -22,7 +30,6 @@ const defaultScenarioViewReport = {
   reportId: '608b7bef-f5e3-4aae-b8db-19bbb38325d5',
   settings: {
     navContentPaneEnabled: false,
-    filterPaneEnabled: true,
     panes: {
       filters: {
         expanded: true,
@@ -65,7 +72,6 @@ export const SCENARIO_DASHBOARD_CONFIG = {
     reportId: '608b7bef-f5e3-4aae-b8db-19bbb38325d5',
     settings: {
       navContentPaneEnabled: false,
-      filterPaneEnabled: true,
       panes: {
         filters: {
           expanded: true,
@@ -94,12 +100,7 @@ export const SCENARIO_DASHBOARD_CONFIG = {
   2: defaultScenarioViewReport,
   3: defaultScenarioViewReport,
 };
-// For further information about settings or filters see:
-// https://github.com/microsoft/powerbi-client-react
-// based on
-// https://github.com/microsoft/PowerBI-JavaScript
-// using
-// https://github.com/microsoft/powerbi-models
+
 export const DASHBOARDS_LIST_CONFIG = [
   {
     title: {

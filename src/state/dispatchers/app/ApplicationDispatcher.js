@@ -3,7 +3,7 @@
 
 import { APPLICATION_ACTIONS_KEY } from '../../commons/ApplicationConstants';
 import { STATUSES } from '../../commons/Constants';
-import { WORKSPACE_ID } from '../../../config/AppInstance';
+import { WORKSPACE_ID } from '../../../config/GlobalConfiguration';
 import { t } from 'i18next';
 
 export const dispatchSetApplicationStatus = (payLoad) => ({

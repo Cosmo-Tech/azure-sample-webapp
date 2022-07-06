@@ -8,7 +8,8 @@ import PropTypes from 'prop-types';
 import { Auth } from '@cosmotech/core';
 import { PrivateRoute, UserInfo, HelpMenu, ErrorBanner } from '@cosmotech/ui';
 import { useTranslation } from 'react-i18next';
-import { LANGUAGES, SUPPORT_URL, DOCUMENTATION_URL } from '../../config/AppConfiguration';
+import { LANGUAGES } from '../../config/Languages';
+import { SUPPORT_URL, DOCUMENTATION_URL } from '../../config/HelpMenuConfiguration';
 import { About } from '../../services/config/Menu';
 import theme from '../../theme/';
 import profilePlaceholder from '../../assets/profile_placeholder.png';
@@ -79,7 +80,6 @@ const TabLayout = (props) => {
     language: t('genericcomponent.userinfo.button.change.language'),
     logOut: t('genericcomponent.userinfo.button.logout'),
   };
-
   const helpLabels = {
     documentation: t('genericcomponent.helpmenu.documentation'),
     support: t('genericcomponent.helpmenu.support'),

@@ -3,7 +3,7 @@
 
 import { FileBlobUtils } from '@cosmotech/core';
 import { LOG_TYPES } from './ScenarioRunConstants.js';
-import { ORGANIZATION_ID } from '../../config/AppInstance';
+import { ORGANIZATION_ID } from '../../config/GlobalConfiguration';
 import { Api } from '../../services/config/Api';
 import applicationStore from '../../state/Store.config';
 import { t } from 'i18next';

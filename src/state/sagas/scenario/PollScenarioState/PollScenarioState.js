@@ -3,9 +3,9 @@
 
 import { call, put, take, takeEvery, delay, race } from 'redux-saga/effects';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
-import { ORGANIZATION_ID } from '../../../../config/AppInstance';
+import { ORGANIZATION_ID } from '../../../../config/GlobalConfiguration';
 import { Api } from '../../../../services/config/Api';
-import { SCENARIO_STATUS_POLLING_DELAY } from '../../../../config/AppConfiguration';
+import { SCENARIO_STATUS_POLLING_DELAY } from '../../../../services/config/FunctionalConstants';
 import { AppInsights } from '../../../../services/AppInsights';
 import { STATUSES } from '../../../commons/Constants';
 import { t } from 'i18next';
