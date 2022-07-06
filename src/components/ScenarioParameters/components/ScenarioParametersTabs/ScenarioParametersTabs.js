@@ -6,7 +6,7 @@ import { makeStyles, Tab } from '@material-ui/core';
 import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 import { useTranslation } from 'react-i18next';
 import LockIcon from '@material-ui/icons/Lock';
-import { TranslationUtils } from '../../../utils';
+import { TranslationUtils } from '../../../../utils';
 import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
