@@ -3,10 +3,13 @@
 
 import React from 'react';
 import { BasicToggleInput } from '@cosmotech/ui';
+import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
-const create = (t, parameterData, parametersState, setParametersState, editMode) => {
+export const GenericToggleInput = ({ parameterData, parametersState, setParametersState, context }) => {
+  const { t } = useTranslation();
   const switchFieldProps = {
-    disabled: !editMode,
+    disabled: !context.editMode,
     id: parameterData.id,
   };
 
@@ -28,7 +31,9 @@ const create = (t, parameterData, parametersState, setParametersState, editMode)
     />
   );
 };
-
-export const BasicToggleInputFactory = {
-  create,
+GenericToggleInput.propTypes = {
+  parameterData: PropTypes.object.isRequired,
+  parametersState: PropTypes.object.isRequired,
+  setParametersState: PropTypes.func.isRequired,
+  context: PropTypes.object.isRequired,
 };
