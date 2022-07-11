@@ -10,3 +10,4 @@
 - [Theme Customization](themeCustomization.md)
 - [About Content Customization](aboutContentCustomization.md)
 - [Custom metrics](customMetrics.md)
+- [Instance visualization](instanceVisualization.md)
