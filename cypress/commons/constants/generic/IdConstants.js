@@ -47,6 +47,7 @@ export const GENERIC_SELECTORS = {
       dialogDiscardButton: '[data-cy=discard-changes-button2]',
     },
     validationStatusLoadingSpinner: '[data-cy=scenario-validation-status-loading-spinner]',
+    scenarioViewRedirect: '[data-cy=scenario-view-redirect]',
     validationStatusChip: '[data-cy=scenario-validation-status]',
     validationStatusChipDeleteIcon: 'svg',
     validateButton: '[data-cy=validate-scenario-button]',
@@ -69,6 +70,7 @@ export const GENERIC_SELECTORS = {
       },
       scenarioAccordion: '[data-cy=scenario-accordion-$SCENARIOID]',
       scenarioAccordionExpandButton: '[data-cy=expand-accordion-button]',
+      editableLabel: '[data-cy=editable-label]',
     },
   },
   genericComponents: {
