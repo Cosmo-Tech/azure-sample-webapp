@@ -3,8 +3,6 @@
 
 export default {
   root: {
-    '&:hover': {
-      backgroundColor: 'rgba(0, 0, 0, 0.03)',
-    },
+    backgroundColor: '#000000',
   },
 };
