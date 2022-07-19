@@ -49,7 +49,7 @@ const SignIn = ({ logInAction, auth }) => {
         <Grid className={classes.quoteContainer} item lg={5}>
           <div className={classes.quote}>
             <div className={classes.quoteInner}>
-              <Typography className={classes.quoteText} variant="h1">
+              <Typography className={classes.quoteText} variant="h4">
                 {t('views.signin.title', 'Azure Sample Web Application')}
               </Typography>
             </div>
@@ -59,7 +59,7 @@ const SignIn = ({ logInAction, auth }) => {
           <div className={classes.content}>
             <div className={classes.contentHeader}></div>
             <div className={classes.contentBody}>
-              <Typography className={classes.title} variant="h2">
+              <Typography className={classes.title} variant="h5">
                 {t('commoncomponents.button.login.regular.login', 'Sign In')}
               </Typography>
               <Grid className={classes.socialButtons} container spacing={2} direction="column">

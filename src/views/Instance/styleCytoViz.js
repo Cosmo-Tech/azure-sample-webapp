@@ -1,8 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import theme from '../../theme/';
-
 // Nodes
 // const NODE_DEFAULT_COLOR = '#000000';
 const NODE_LABEL_SIZE = '11';
@@ -35,7 +33,7 @@ export const DEFAULT_NODE_STYLE = {
   'text-max-width': NODE_LABEL_MAX_WIDTH,
   'text-wrap': 'wrap',
   'min-zoomed-font-size': 5,
-  color: theme.palette.primary.contrastText,
+  color: '#000000',
   label: 'data(label)',
 };
 
