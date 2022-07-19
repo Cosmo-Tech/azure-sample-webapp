@@ -25,7 +25,7 @@ export default {
     main: '#29b6f6',
     light: '#4fc3f7',
     dark: '#0288d1',
-    contrastText: "#000000",
+    contrastText: '#000000',
   },
   success: {
     main: '#66bb6a',

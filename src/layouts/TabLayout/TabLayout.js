@@ -11,8 +11,8 @@ import { useTranslation } from 'react-i18next';
 import { LANGUAGES } from '../../config/Languages';
 import { SUPPORT_URL, DOCUMENTATION_URL } from '../../config/HelpMenuConfiguration';
 import { About } from '../../services/config/Menu';
-import theme from '../../theme/';
 import profilePlaceholder from '../../assets/profile_placeholder.png';
+import { pictureLight } from '../../theme';
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -27,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'block',
   },
   bar: {
-    background: theme.palette.background.secondary,
     display: 'flex',
     justifyContent: 'space-between',
   },
@@ -44,9 +43,6 @@ const useStyles = makeStyles((theme) => ({
   tabs: {
     width: '100%',
     maxWidth: '900px',
-    '& .MuiTabs-indicator': {
-      backgroundColor: theme.palette.primary.main,
-    },
   },
   tab: {
     minWidth: 0,
@@ -57,11 +53,6 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     flexGrow: 1,
     opacity: 1,
-    color: theme.palette.text.shaded,
-    '&.Mui-selected': {
-      fontWeight: 'bold',
-      color: theme.palette.primary.contrastText,
-    },
   },
   barDiv: {
     minHeight: '48px',
@@ -124,7 +115,7 @@ const TabLayout = (props) => {
               />
             </div>
             <div className={classes.rightBarElement}>
-              <img alt="Cosmo Tech" height="28px" src={theme.picture.logo} className={classes.logo} />
+              <img alt="Cosmo Tech" height="28px" src={pictureLight.darkLogo} className={classes.logo} />
             </div>
           </div>
         </Box>

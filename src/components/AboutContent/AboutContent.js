@@ -3,7 +3,7 @@
 
 import React from 'react';
 import { Grid, makeStyles, ButtonBase, Link } from '@material-ui/core';
-import theme from '../../theme';
+import { pictureLight } from '../../theme';
 import { useTranslation } from 'react-i18next';
 import { SUPPORT_URL, COSMOTECH_URL, APP_VERSION } from '../../config/HelpMenuConfiguration';
 
@@ -36,7 +36,7 @@ export const AboutContent = () => {
     <Grid container spacing={2} className={classes.root}>
       <Grid item className={classes.picture}>
         <ButtonBase>
-          <img alt="Cosmo Tech" src={theme.picture.logo} />
+          <img height="75" alt="Cosmo Tech" src={pictureLight.lightLogo} />
         </ButtonBase>
       </Grid>
       <Grid item container xs>

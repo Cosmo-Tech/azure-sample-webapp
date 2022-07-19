@@ -3,7 +3,7 @@
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Card, Grid, makeStyles, Tab, Tabs } from '@material-ui/core';
+import { Card, CardContent, Grid, makeStyles, Tab, Tabs } from '@material-ui/core';
 import { SimplePowerBIReportEmbed } from '@cosmotech/ui';
 import {
   DASHBOARDS_LIST_CONFIG,
@@ -41,12 +41,8 @@ const useStyles = makeStyles((theme) => ({
   },
   dashboardsTabCard: {
     height: '100%',
-    padding: '0px',
-    paddingTop: '8px',
   },
   dashboard: {
-    marginTop: '0px',
-    marginBottom: '0px',
     overflow: 'auto',
     height: '100%',
   },
@@ -120,20 +116,21 @@ const Dashboards = ({ currentScenario, scenarioList, reports }) => {
         </Card>
       </Grid>
       <Grid item sm={10} className={classes.dashboardsMainContainer}>
-        <Card className={classes.dashboard}>
-          {
-            <TabPanel
-              className={classes.dashboard}
-              index={value}
-              key={dashboardTitle}
-              title={dashboardTitle}
-              reports={reports}
-              scenario={currentScenario}
-              scenarioList={scenarioList.data}
-              lang={i18n.language}
-              labels={labels}
-            />
-          }
+        <Card>
+          <CardContent>
+            {
+              <TabPanel
+                index={value}
+                key={dashboardTitle}
+                title={dashboardTitle}
+                reports={reports}
+                scenario={currentScenario}
+                scenarioList={scenarioList.data}
+                lang={i18n.language}
+                labels={labels}
+              />
+            }
+          </CardContent>
         </Card>
       </Grid>
     </Grid>

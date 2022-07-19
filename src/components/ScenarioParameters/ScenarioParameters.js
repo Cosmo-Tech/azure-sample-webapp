@@ -18,7 +18,6 @@ import { PermissionsGate } from '../PermissionsGate';
 const useStyles = makeStyles((theme) => ({
   header: {
     display: 'flex',
-    background: theme.palette.background.secondary,
     marginLeft: '30px',
     height: '50px',
     paddingTop: '10px',
@@ -28,9 +27,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     margin: `0 ${theme.spacing(3)}px`,
-  },
-  accordion: {
-    backgroundColor: theme.palette.background.card,
   },
   accordionSummary: {
     flexDirection: 'row-reverse',
@@ -305,7 +301,7 @@ const ScenarioParameters = ({
   };
   return (
     <div>
-      <Accordion className={classes.accordion} expanded={accordionSummaryExpanded}>
+      <Accordion expanded={accordionSummaryExpanded}>
         <AccordionSummary
           data-cy="scenario-params-accordion-summary"
           className={classes.accordionSummary}
