@@ -50,7 +50,7 @@ const AccessDenied = ({ application }) => {
         <Grid className={classes.quoteContainer} item lg={5}>
           <div className={classes.quote}>
             <div className={classes.quoteInner}>
-              <Typography className={classes.quoteText} variant="h1">
+              <Typography className={classes.quoteText} variant="h4">
                 {t('views.signin.title', 'Azure Sample Web Application')}
               </Typography>
             </div>

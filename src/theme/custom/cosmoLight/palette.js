@@ -1,7 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-// Copyright (c) Cosmo Tech.
-// Licensed under the MIT license.
 
 export default {
   type: 'light',

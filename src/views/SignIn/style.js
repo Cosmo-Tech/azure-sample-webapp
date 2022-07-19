@@ -5,7 +5,8 @@ import { makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: theme.palette.background.signInPage,
+    // FIX THIS TO HANDLE THEME SWITCH
+    backgroundColor: '#EBE7E2',
     height: '100%',
   },
   grid: {
@@ -62,7 +63,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   quote: {
-    backgroundColor: theme.palette.background.signInPage,
     height: '100%',
     display: 'flex',
     justifyContent: 'center',

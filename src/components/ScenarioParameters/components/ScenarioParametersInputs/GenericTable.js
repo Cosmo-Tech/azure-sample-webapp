@@ -5,12 +5,12 @@ import React, { useEffect } from 'react';
 import rfdc from 'rfdc';
 import { Table, TABLE_DATA_STATUS, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
 import { AgGridUtils, FileBlobUtils } from '@cosmotech/core';
-import theme from '../../../../theme';
 import { Button } from '@material-ui/core';
 import { FileManagementUtils } from '../../../../components/ScenarioParameters/FileManagementUtils';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import { gridLight } from '../../../../theme/';
 
 const clone = rfdc();
 
@@ -345,7 +345,7 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
       errors={parameter.errors}
       columns={columns}
       rows={parameter.agGridRows || []}
-      agTheme={theme.grid.agTheme}
+      agTheme={gridLight.agTheme}
       extraToolbarActions={extraToolbarActions}
       onCellChange={onCellChange}
       onClearErrors={onClearErrors}

@@ -15,7 +15,6 @@ import * as dataError from '../../assets/loadingLine/dataError.json';
 
 const useStyles = makeStyles((theme) => ({
   panel: {
-    backgroundColor: theme.palette.background.paper,
     position: 'absolute',
     left: '50%',
     top: '50%',
@@ -65,6 +64,8 @@ const Loading = ({
 
   const hasErrors = (entityStatus) => entityStatus.status === STATUSES.ERROR;
 
+  const style = { variant: 'h6', height: '50px', width: '50px' };
+
   return authenticated && isLoading(application) ? (
     <div className={classes.panel} data-cy="loading-component">
       <FadeIn delay={200}>
@@ -73,36 +74,42 @@ const Loading = ({
           hasError={hasErrors(scenarioList)}
           isLoading={isLoading(scenarioList)}
           animations={animations}
+          style={style}
         />
         <LoadingLine
           title={t('genericcomponent.loading.line.dataset.list.title', defaultTitle)}
           hasError={hasErrors(datasetList)}
           isLoading={isLoading(datasetList)}
           animations={animations}
+          style={style}
         />
         <LoadingLine
           title={t('genericcomponent.loading.line.workspace.current.title', defaultTitle)}
           hasError={hasErrors(workspace)}
           isLoading={isLoading(workspace)}
           animations={animations}
+          style={style}
         />
         <LoadingLine
           title={t('genericcomponent.loading.line.solution.current.title', defaultTitle)}
           hasError={hasErrors(solution)}
           isLoading={isLoading(solution)}
           animations={animations}
+          style={style}
         />
         <LoadingLine
           title={t('genericcomponent.loading.line.scenario.current.title', defaultTitle)}
           hasError={hasErrors(currentScenario)}
           isLoading={isLoading(currentScenario)}
           animations={animations}
+          style={style}
         />
         <LoadingLine
           title={t('genericcomponent.loading.line.powerbi.title', defaultTitle)}
           hasError={hasErrors(powerBiInfo)}
           isLoading={isLoading(powerBiInfo)}
           animations={animations}
+          style={style}
         />
       </FadeIn>
     </div>

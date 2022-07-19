@@ -16,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: '6px',
     paddingRight: '2px',
     paddingBottom: '6px',
-    backgroundColor: theme.palette.background.paper,
   },
   scenarioSelectGridItem: {
     paddingLeft: '5px',
