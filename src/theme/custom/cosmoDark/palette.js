@@ -1,71 +1,39 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-// Baseline color theme
-const themeColors = {
-  primary: '#FFAD38',
-  primaryVariant: '#A16612',
-  secondary: '#466180',
-  background: '#191919',
-  backgroundVariant: '#1F1F1F',
-  surface: '#2E2E2E',
-  error: '#D1440C',
-  warning: '#FB8C00',
-  success: '#5D8D27',
-  info: '#ffe6c2',
-  white: '#FFFFFF',
-  black: '#000000',
-  grey: '#999A9D',
-  backgroundSignInPage: '#2f363b',
-  backgroundSignInButton: '#2F2F2F',
-};
-
 export default {
   type: 'dark',
-  white: themeColors.white,
-  black: themeColors.black,
   primary: {
-    contrastText: themeColors.white,
-    main: themeColors.primary,
-    dark: themeColors.primaryVariant,
+    main: '#a4bfe4',
+    light: '#d6f2ff',
+    dark: '#748fb2',
   },
   secondary: {
-    contrastText: themeColors.white,
-    main: themeColors.secondary,
-  },
-  success: {
-    contrastText: themeColors.white,
-    main: themeColors.success,
-  },
-  info: {
-    contrastText: themeColors.white,
-    main: themeColors.info,
-  },
-  warning: {
-    contrastText: themeColors.white,
-    main: themeColors.warning,
+    main: '#ffe26b',
+    dark: '#c9b03a',
+    light: '#ffff9c',
   },
   error: {
-    contrastText: themeColors.white,
-    main: themeColors.error,
+    main: '#e57373',
   },
-  text: {
-    primary: themeColors.white,
-    secondary: themeColors.white,
-    link: themeColors.primary,
-    shaded: themeColors.grey,
-    success: themeColors.success,
-    warning: themeColors.warning,
-    error: themeColors.error,
-    info: themeColors.info,
+  warning: {
+    main: '#ffa726',
+    dark: '#f57c00',
+    light: '#ffb74d',
   },
-  background: {
-    default: themeColors.background,
-    paper: themeColors.background,
-    secondary: themeColors.backgroundVariant,
-    card: themeColors.surface,
-    dialogPaper: themeColors.surface,
-    signInPage: themeColors.backgroundSignInPage,
-    signInButton: themeColors.backgroundSignInButton,
+  info: {
+    main: '#29b6f6',
+    light: '#4fc3f7',
+    dark: '#0288d1',
+    contrastText: "#000000",
+  },
+  success: {
+    main: '#66bb6a',
+    dark: '#388e3c',
+    light: '#81c784',
+  },
+  microsoft: {
+    main: '#2F2F2F',
+    contrastText: '#FFFFFF',
   },
 };
