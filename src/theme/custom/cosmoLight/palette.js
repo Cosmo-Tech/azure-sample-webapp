@@ -1,70 +1,45 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
-// Baseline color theme
-const themeColors = {
-  primary: '#FFAD38',
-  primaryVariant: '#F4831E',
-  secondary: '#466180',
-  background: '#FFFFFF',
-  backgroundVariant: '#F5F5F5',
-  surface: '#E9E9E9',
-  error: '#D1440C',
-  warning: '#FB8C00',
-  success: '#5D8D27',
-  info: '#ffe6c2',
-  white: '#FFFFFF',
-  black: '#000000',
-  grey: '#999A9D',
-  backgroundSignInPage: '#EBE7E2',
-  backgroundSignInButton: '#D7CCC8',
-};
+// Copyright (c) Cosmo Tech.
+// Licensed under the MIT license.
 
 export default {
   type: 'light',
-  white: themeColors.white,
-  black: themeColors.black,
   primary: {
-    contrastText: themeColors.black,
-    main: themeColors.primary,
-    dark: themeColors.primaryVariant,
+    main: '#292f33',
+    light: '#53585b',
   },
   secondary: {
-    contrastText: themeColors.white,
-    main: themeColors.secondary,
-  },
-  success: {
-    contrastText: themeColors.white,
-    main: themeColors.success,
-  },
-  info: {
-    contrastText: themeColors.black,
-    main: themeColors.info,
-  },
-  warning: {
-    contrastText: themeColors.white,
-    main: themeColors.warning,
-  },
-  error: {
-    contrastText: themeColors.white,
-    main: themeColors.error,
+    main: '#ffb039',
   },
   text: {
-    primary: themeColors.black,
-    secondary: themeColors.black,
-    link: themeColors.primaryVariant,
-    shaded: themeColors.grey,
-    success: themeColors.success,
-    warning: themeColors.warning,
-    error: themeColors.error,
-    info: themeColors.info,
+    secondary: 'rgba(0,0,0,0.6)',
+  },
+  error: {
+    main: '#d32f2f',
+    light: '#ef5350',
+    dark: '#c62828',
+  },
+  warning: {
+    main: '#ed6c02',
+    dark: '#e65100',
+    light: '#ff9800',
+  },
+  info: {
+    main: '#0288d1',
+    dark: '#01579b',
+    light: '#03a9f4',
+  },
+  success: {
+    main: '#2e7d32',
+    dark: '#1b5e20',
+    light: '#4caf50',
   },
   background: {
-    default: themeColors.background,
-    paper: themeColors.background,
-    secondary: themeColors.backgroundVariant,
-    card: themeColors.backgroundVariant,
-    signInPage: themeColors.backgroundSignInPage,
-    signInButton: themeColors.backgroundSignInButton,
+    default: '#F5F5F5',
+  },
+  microsoft: {
+    main: '#FFFFFF',
+    contrastText: '#5E5E5E',
   },
 };
