@@ -12,7 +12,6 @@ import { useTranslation } from 'react-i18next';
 import { PERMISSIONS } from '../../services/config/Permissions';
 import { PermissionsGate } from '../../components/PermissionsGate';
 import { getFirstScenarioMaster } from '../../utils/SortScenarioListUtils';
-import { NAME_VALIDATOR } from '../../utils/ValidationUtils';
 import { getScenarioManagerLabels } from './labels';
 
 const useStyles = makeStyles((theme) => ({
@@ -87,14 +86,14 @@ const ScenarioManager = (props) => {
   }
 
   function checkScenarioNameValue(newScenarioName) {
-    if (newScenarioName.length === 0) {
-      return labels.scenarioRename.errors.emptyScenarioName;
-    } else {
-      if (newScenarioName.match(NAME_VALIDATOR) === null) {
-        return labels.scenarioRename.errors.forbiddenCharsInScenarioName;
-      } else if (ScenarioUtils.scenarioExistsInList(newScenarioName, scenarios)) {
-        return labels.scenarioRename.errors.existingScenarioName;
+    const errorKey = ScenarioUtils.scenarioNameIsValid(newScenarioName, scenarios);
+    if (errorKey) {
+      const errorLabel = labels.scenarioRename.errors[errorKey];
+      if (!errorLabel) {
+        console.warn('Scenario error label key is broken !');
+        return 'Scenario name is invalid';
       }
+      return errorLabel;
     }
     return null;
   }

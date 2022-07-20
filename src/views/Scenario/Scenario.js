@@ -12,7 +12,6 @@ import {
   ScenarioValidationStatusChip,
   SimplePowerBIReportEmbed,
 } from '@cosmotech/ui';
-import { NAME_VALIDATOR } from '../../utils/ValidationUtils';
 import { sortScenarioList } from '../../utils/SortScenarioListUtils';
 import { LOG_TYPES } from '../../services/scenarioRun/ScenarioRunConstants.js';
 import { SCENARIO_VALIDATION_STATUS } from '../../services/config/ApiConstants.js';
@@ -297,7 +296,6 @@ const Scenario = (props) => {
                       scenarios={scenarioList.data}
                       user={user}
                       disabled={editMode}
-                      nameValidator={NAME_VALIDATOR}
                       labels={createScenarioDialogLabels}
                     />
                   </PermissionsGate>
