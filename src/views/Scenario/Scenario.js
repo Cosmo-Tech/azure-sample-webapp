@@ -62,10 +62,11 @@ const Scenario = (props) => {
   const reportLabels = getReportLabels(t);
 
   // Get the right report for given run template
-  const defaultPowerBIReport = Object.keys(SCENARIO_DASHBOARD_CONFIG)[0];
   const currentScenarioRunTemplateReport = Array.isArray(SCENARIO_DASHBOARD_CONFIG)
     ? SCENARIO_DASHBOARD_CONFIG
-    : [SCENARIO_DASHBOARD_CONFIG[currentScenario?.data?.runTemplateId ?? defaultPowerBIReport]];
+    : currentScenario?.data?.runTemplateId in SCENARIO_DASHBOARD_CONFIG
+    ? [SCENARIO_DASHBOARD_CONFIG[currentScenario.data.runTemplateId]]
+    : [];
   // Add accordion expand status in state
   const [accordionSummaryExpanded, setAccordionSummaryExpanded] = useState(
     localStorage.getItem('scenarioParametersAccordionExpanded') === 'true'
