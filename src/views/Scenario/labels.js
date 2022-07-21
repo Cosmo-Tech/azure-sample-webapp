@@ -50,6 +50,9 @@ export const getReportLabels = (t) => ({
   noRun: {
     label: t('commoncomponents.iframe.scenario.results.label.uninitialized', 'The scenario has not been run yet'),
   },
+  noDashboard: {
+    label: t('commoncomponents.iframe.scenario.nodashboard.label'),
+  },
   inProgress: {
     label: t('commoncomponents.iframe.scenario.results.label.running', 'Scenario run in progress...'),
   },

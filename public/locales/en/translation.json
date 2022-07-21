@@ -141,6 +141,9 @@
           "title": "No scenario yet",
           "label": "You can create a scenario by clicking on \"Create new scenario\""
         },
+        "nodashboard": {
+          "label": "There isn't any dashboard configured for this run template"
+        },
         "error": {
           "unknown": {
             "details": "Something went wrong when fetching PowerBI reports info",

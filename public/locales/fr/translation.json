@@ -141,6 +141,9 @@
           "title": "Aucun scénario n'a encore été créé",
           "label": "Vous pouvez créer un scénario en cliquant sur \"Créer un scénario\""
         },
+        "nodashboard": {
+          "label": "Aucun dashboard n'a pas été configuré pour ce type de scénario"
+        },
         "error": {
           "unknown": {
             "details": "Une erreur est survenue lors de la récupération des informations des rapports PowerBI",
