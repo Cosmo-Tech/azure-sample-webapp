@@ -144,6 +144,9 @@
         "nodashboard": {
           "label": "There isn't any dashboard configured for this run template"
         },
+        "unknownStatus": {
+          "label": "This scenario has an unknown state, if the problem persists, please, contact your administrator"
+        },
         "error": {
           "unknown": {
             "details": "Something went wrong when fetching PowerBI reports info",

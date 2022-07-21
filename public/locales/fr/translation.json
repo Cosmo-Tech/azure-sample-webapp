@@ -142,7 +142,10 @@
           "label": "Vous pouvez créer un scénario en cliquant sur \"Créer un scénario\""
         },
         "nodashboard": {
-          "label": "Aucun dashboard n'a pas été configuré pour ce type de scénario"
+          "label": "Aucun dashboard configuré pour ce type de scénario"
+        },
+        "unknownStatus": {
+          "label": "Le scénario a un statut inconnu, si le problème persiste, merci de contacter votre administrateur"
         },
         "error": {
           "unknown": {
