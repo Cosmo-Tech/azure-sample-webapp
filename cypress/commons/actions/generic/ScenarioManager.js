@@ -28,12 +28,26 @@ function getScenarioAccordion(scenarioId) {
   return cy.get(GENERIC_SELECTORS.scenario.manager.scenarioAccordion.replace('$SCENARIOID', scenarioId));
 }
 
+function getScenarioEditableLabel(scenarioId) {
+  return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.manager.editableLabel);
+}
+
+function renameScenario(scenarioId, newScenarioName) {
+  return ScenarioManager.getScenarioEditableLabel(scenarioId)
+    .click()
+    .type('{selectAll}{backspace}' + newScenarioName + '{enter}');
+}
+
 function getScenarioValidationStatusChip(scenarioId) {
   return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.validationStatusChip);
 }
 
 function getScenarioValidationStatusLoadingSpinner(scenarioId) {
   return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.validationStatusLoadingSpinner);
+}
+
+function getScenarioViewRedirect(scenarioId) {
+  return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.scenarioViewRedirect);
 }
 
 // This function expects the scenario card to be visible, and does not trigger the expanded / collapsed state of the
@@ -89,8 +103,11 @@ export const ScenarioManager = {
   deleteScenarioList,
   writeInFilter,
   getScenarioAccordion,
+  getScenarioEditableLabel,
+  renameScenario,
   getScenarioValidationStatusChip,
   getScenarioValidationStatusLoadingSpinner,
+  getScenarioViewRedirect,
   checkValidationStatus,
   getScenarioAccordionExpandButton,
   triggerScenarioAccordionExpandOrCollapse,
