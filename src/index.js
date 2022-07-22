@@ -20,7 +20,6 @@ const mapDispatchToProps = {
   logInAction: dispatchLogIn,
   logOutAction: dispatchLogOut,
 };
-
 const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App);
 
 ReactDOM.render(

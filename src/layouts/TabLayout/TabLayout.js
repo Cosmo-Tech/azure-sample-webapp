@@ -3,10 +3,10 @@
 
 import React, { useEffect, useState } from 'react';
 import { AppBar, Tabs, Tab, Box, Toolbar, IconButton, makeStyles } from '@material-ui/core';
-import { Switch, Route, Link, Redirect, useLocation } from 'react-router-dom';
+import { Routes, Route, Link, Navigate, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Auth } from '@cosmotech/core';
-import { PrivateRoute, UserInfo, HelpMenu, ErrorBanner } from '@cosmotech/ui';
+import { UserInfo, HelpMenu, ErrorBanner } from '@cosmotech/ui';
 import { useTranslation } from 'react-i18next';
 import { LANGUAGES } from '../../config/Languages';
 import { SUPPORT_URL, DOCUMENTATION_URL } from '../../config/HelpMenuConfiguration';
@@ -141,20 +141,23 @@ const TabLayout = (props) => {
             clearErrors={clearApplicationErrorMessage}
           />
         )}
-        <Switch>
+        <Routes>
           {tabs.map((tab) => (
-            <PrivateRoute
+            <Route
               key={tab.key}
               path={tab.to}
-              render={tab.render}
-              authenticated={authenticated}
-              authorized={authorized}
-              noAuthRedirect={signInPath}
-              noPermRedirect={unauthorizedPath}
+              element={
+                authenticated === false ? (
+                  <Navigate to={signInPath} state={{ from: tab.to }} />
+                ) : authorized === false ? (
+                  <Navigate to={unauthorizedPath} />
+                ) : (
+                  tab.render
+                )
+              }
             />
           ))}
-          <Route render={() => <Redirect to="/scenario" />} />
-        </Switch>
+        </Routes>
       </Box>
     </>
   );
