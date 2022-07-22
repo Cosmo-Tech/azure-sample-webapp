@@ -9,7 +9,7 @@ import {
   DEFAULT_SELECTED_EDGE_STYLE,
   DEFAULT_SELECTED_NODE_STYLE,
 } from './styleCytoViz';
-import { ORGANIZATION_ID, WORKSPACE_ID } from '../../config/AppInstance';
+import { ORGANIZATION_ID, WORKSPACE_ID } from '../../config/GlobalConfiguration';
 import instanceViewData from '../../config/InstanceVisualization.js';
 
 const IS_INSTANCE_VIEW_FUNCTION_CONFIG_VALID = !(instanceViewData.dataSource == null);
