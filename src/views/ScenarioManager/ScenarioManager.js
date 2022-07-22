@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import React, { useEffect, useRef } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { ScenarioUtils } from '@cosmotech/core';
 import { makeStyles } from '@material-ui/core';
@@ -108,12 +108,12 @@ const ScenarioManager = (props) => {
     });
   }
 
-  const navigate = useHistory();
+  const navigate = useNavigate();
 
   const isWaitingForRedirection = useRef(false);
   useEffect(() => {
     if (isWaitingForRedirection.current === true) {
-      navigate.push('/scenario');
+      navigate('/scenario');
       isWaitingForRedirection.current = false;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

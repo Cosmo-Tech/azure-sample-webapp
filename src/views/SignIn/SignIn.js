@@ -3,7 +3,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+// import { withRouter } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 import { Auth, AuthDev } from '@cosmotech/core';
 import { AuthMSAL } from '@cosmotech/azure';
@@ -13,17 +13,21 @@ import { TranslationUtils } from '../../utils';
 import { AUTH_STATUS } from '../../state/commons/AuthConstants.js';
 import microsoftLogo from '../../assets/microsoft_logo.png';
 import useStyles from './style';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const SignIn = ({ logInAction, auth }) => {
+  console.log(auth);
   const classes = useStyles();
   const { t, i18n } = useTranslation();
-
+  const location = useLocation();
+  const from = location?.state?.from || '/scenario';
+  const navigate = useNavigate();
   const handleSignIn = (event, authProvider) => {
     event.preventDefault();
     Auth.setProvider(authProvider);
     logInAction(authProvider);
+    navigate(from, { replace: true });
   };
-
   const year = new Date().getFullYear();
   const accessDeniedError =
     auth.status === AUTH_STATUS.DENIED ? (
@@ -135,4 +139,4 @@ SignIn.propTypes = {
   auth: PropTypes.object.isRequired,
 };
 
-export default withRouter(SignIn);
+export default SignIn;
