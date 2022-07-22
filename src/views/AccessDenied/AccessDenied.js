@@ -3,7 +3,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
 import { Grid, Button, Typography, Select, FormControl, MenuItem, Paper } from '@material-ui/core';
 import { Auth } from '@cosmotech/core';
 import { Trans, useTranslation } from 'react-i18next';
@@ -106,4 +105,4 @@ AccessDenied.propTypes = {
   application: PropTypes.object.isRequired,
 };
 
-export default withRouter(AccessDenied);
+export default AccessDenied;
