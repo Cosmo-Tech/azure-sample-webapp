@@ -11,6 +11,7 @@ import {
   USE_POWER_BI_WITH_USER_CREDENTIALS,
   DASHBOARDS_VIEW_IFRAME_DISPLAY_RATIO,
 } from '../../config/AppConfiguration';
+import { getReportLabels } from '../Scenario/labels';
 
 const useStyles = makeStyles((theme) => ({
   dashboardsRoot: {
@@ -75,33 +76,7 @@ const Dashboards = ({ currentScenario, scenarioList, reports }) => {
       ? DEFAULT_MISSING_TITLE
       : DASHBOARDS_LIST_CONFIG[value].title[i18n.language];
 
-  const labels = {
-    noScenario: {
-      title: t('commoncomponents.iframe.scenario.noscenario.title', 'No scenario yet'),
-      label: t(
-        'commoncomponents.iframe.scenario.noscenario.label',
-        'You can create a scenario by clicking on Create new Scenario'
-      ),
-    },
-    noRun: {
-      label: t('commoncomponents.iframe.scenario.results.label.uninitialized', 'The scenario has not been run yet'),
-    },
-    inProgress: {
-      label: t('commoncomponents.iframe.scenario.results.label.running', 'Scenario run in progress...'),
-    },
-    hasErrors: {
-      label: t('commoncomponents.iframe.scenario.results.text.error', 'An error occured during the scenario run'),
-    },
-    downloadButton: t('commoncomponents.iframe.scenario.results.button.downloadLogs', 'Download logs'),
-    refreshTooltip: t('commoncomponents.iframe.scenario.results.button.refresh', 'Refresh'),
-    errors: {
-      unknown: t('commoncomponents.iframe.scenario.error.unknown.label', 'Unknown error'),
-      details: t(
-        'commoncomponents.iframe.scenario.error.unknown.details',
-        'Something went wrong when fetching PowerBI reports info'
-      ),
-    },
-  };
+  const reportLabels = getReportLabels(t);
 
   return (
     <Grid container className={classes.dashboardsRoot} direction="row">
@@ -131,7 +106,7 @@ const Dashboards = ({ currentScenario, scenarioList, reports }) => {
               scenario={currentScenario}
               scenarioList={scenarioList.data}
               lang={i18n.language}
-              labels={labels}
+              labels={reportLabels}
             />
           }
         </Card>
