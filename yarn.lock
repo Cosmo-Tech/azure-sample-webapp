@@ -1141,9 +1141,9 @@
     xlsx "^0.18.3"
 
 "@cosmotech/ui@^3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-3.0.0.tgz#f51b46ea44e8b2251426bdd3fd72d36edb969f41"
-  integrity sha512-PVlqfVsgbk6bZ1dA6926diYI9HsvQ4DLhsZHg+Shs3ul36i6ooPH+9oo4JFi7BHb50AGm0QLBUEGp0gcY472OQ==
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-3.0.1.tgz#f7a22558c5f3b30611e43b6bdff50e737e904185"
+  integrity sha512-5sxvglvLUzpGK36JLAWARswN0cvd8YlPzEa0fpnaszw5pEv+U7mPyC3PvgvGirdQZ7peUjwV5m/zE2ls79MhQA==
   dependencies:
     "@date-io/date-fns" "^1.3.13"
     "@material-ui/pickers" "^3.3.10"
@@ -2030,9 +2030,9 @@
     "@babel/types" "^7.3.0"
 
 "@types/cytoscape@^3.19.0":
-  version "3.19.6"
-  resolved "https://registry.yarnpkg.com/@types/cytoscape/-/cytoscape-3.19.6.tgz#2545e54879d800ba66d95e3f3902f349ca6838df"
-  integrity sha512-dvfPRy3eAeuKWa28b9SxsvI3nkIpNfXklVPduNo23hQsQGPTbipva6SdbfKejZEwQmV8/FSKuRWCMuU6zZRiPQ==
+  version "3.19.7"
+  resolved "https://registry.yarnpkg.com/@types/cytoscape/-/cytoscape-3.19.7.tgz#a15f2905f6a0803f6efda60a00024a5974aeedba"
+  integrity sha512-JPM9gkXd302QvChbT7vnMli0QYbithROlQQQ9u0ur9YhmMkN0E/y++mKreHEhBvSf3ffiMH6RwemwPM5qbOGEw==
 
 "@types/eslint@^7.29.0":
   version "7.29.0"
@@ -4861,7 +4861,12 @@ data-urls@^2.0.0:
     whatwg-mimetype "^2.3.0"
     whatwg-url "^8.0.0"
 
-date-fns@^2.22.1, date-fns@^2.25.0:
+date-fns@^2.22.1:
+  version "2.29.1"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.29.1.tgz#9667c2615525e552b5135a3116b95b1961456e60"
+  integrity sha512-dlLD5rKaKxpFdnjrs+5azHDFOPEu4ANy/LTh04A1DTzMM7qoajmKCBc8pkKRFT41CNzw+4gQh79X5C+Jq27HAw==
+
+date-fns@^2.25.0:
   version "2.28.0"
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.28.0.tgz#9570d656f5fc13143e50c975a3b6bbeb46cd08b2"
   integrity sha512-8d35hViGYx/QH0icHYCeLmsLmMUheMmTyV9Fcm6gvNwdw31yXXH+O85sOBJ+OLnLQMKZowvpKb6FgMIQjcpvQw==
