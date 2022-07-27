@@ -12,6 +12,7 @@ import { STATUSES } from '../../state/commons/Constants';
 import { AppInsights } from '../../services/AppInsights';
 import { fetchData, processGraphElements } from './data';
 import useStyles from './style';
+import { useTheme } from '@material-ui/core/styles';
 
 const EXTRA_LAYOUTS = {
   breadthfirst: null,
@@ -20,6 +21,7 @@ const appInsights = AppInsights.getInstance();
 
 const Instance = (props) => {
   const classes = useStyles();
+  const theme = useTheme();
   const { t } = useTranslation();
   const { currentScenario, scenarioList, findScenarioById, workspace } = props;
   const [graphElements, setGraphElements] = useState([]);
@@ -63,7 +65,9 @@ const Instance = (props) => {
       } else {
         try {
           const scenario = await fetchData(currentScenario.data?.id);
-          const { graphElements: newGraphElements, stylesheet } = await processGraphElements(scenario.data);
+          // TODO: (refactor) to improve performance, we don't need to recompute the whole graph elements set when the
+          // theme is changed, we could rebuild only the stylesheet
+          const { graphElements: newGraphElements, stylesheet } = await processGraphElements(scenario.data, theme);
 
           if (active) {
             setGraphElements(newGraphElements);
@@ -77,7 +81,7 @@ const Instance = (props) => {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentScenario.data?.id]);
+  }, [currentScenario.data?.id, theme]);
 
   const cytoVizLabels = {
     elementDetails: t('commoncomponents.cytoviz.elementDetails', 'Details'),

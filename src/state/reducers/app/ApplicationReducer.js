@@ -8,6 +8,7 @@ import { STATUSES } from '../../commons/Constants';
 export const applicationInitialState = {
   status: STATUSES.IDLE,
   error: null,
+  isDarkTheme: localStorage.getItem('darkThemeUsed') === 'true',
 };
 
 export const applicationReducer = createReducer(applicationInitialState, (builder) => {
@@ -27,5 +28,8 @@ export const applicationReducer = createReducer(applicationInitialState, (builde
           state.error = { title: 'Unknown error', status: null, detail: 'Something went wrong' };
         }
       }
+    })
+    .addCase(APPLICATION_ACTIONS_KEY.SET_APPLICATION_THEME, (state, action) => {
+      state.isDarkTheme = action.isDarkTheme;
     });
 });

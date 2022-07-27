@@ -64,6 +64,7 @@ const ScenarioParameters = ({
   datasets,
   scenarioId,
   userRoles,
+  isDarkTheme,
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -184,6 +185,7 @@ const ScenarioParameters = ({
   // You can use the context object to pass all additional information to custom tab factory
   const context = {
     editMode: editMode,
+    isDarkTheme: isDarkTheme,
   };
 
   useEffect(() => {
@@ -399,6 +401,7 @@ ScenarioParameters.propTypes = {
   datasets: PropTypes.array.isRequired,
   currentScenario: PropTypes.object.isRequired,
   userRoles: PropTypes.array.isRequired,
+  isDarkTheme: PropTypes.bool.isRequired,
 };
 
 export default ScenarioParameters;

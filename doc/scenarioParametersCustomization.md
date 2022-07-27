@@ -66,15 +66,19 @@ edit and update the scenario parameters values.
 ![ScenarioParameters state structure](./assets/scenario_parameters_state.png)
 
 ### Tabs and inputs components
+
 In ScenarioParameters.js file all parameters data are rendered by ScenarioParametersTabsWrapper component which generate
 generic and custom tabs by calling the corresponding component. Tab component has the following props:
+
 - the parameters metadata
 - the parameters value in a React state (from the rendering data in the state of ScenarioParameters component)
 - a function to set the parameters state (in the rendering data too)
-- a context object to pass all additional information. It always contains a
-  boolean defining whether the edition mode is enabled (to disable user input if required)
+- a context object to pass all additional information; this object contains:
+  - editMode: a boolean defining whether the edition mode is enabled (to disable user input if required)
+  - isDarkTheme: a boolean defining whether or not the dark theme is enabled (can be used to adapt components to the
+    webapp current theme)
 
-Then, the tab component passes these props to the input components specific for each varType. 
+Then, the tab component passes these props to the input components specific for each varType.
 
 Generic tabs and inputs components are provided to support the file parameters and the basic types, but the following section will
 describe how you can create your own components to customize the scenario parameters panel.
@@ -155,6 +159,5 @@ you want to add your own custom _varType_.
 If you want to customize the layout of generated tabs, you can create your own tab component.
 You can add a specific behavior based on the id of the parameter group if you want a custom tab for only
 one parameter group. The ScenarioParametersTabsWrapper component calls a custom tabs component if the parameters group id is declared in
-`CUSTOM_PARAMETERS_GROUPS_COMPONENTS_MAPPING` in [src/utils/scenarioParameters/custom/ParametersGroupsComponentsMapping.js](../src/utils/scenarioParameters/custom/ParametersGroupsComponentsMapping.js). If your custom tab 
+`CUSTOM_PARAMETERS_GROUPS_COMPONENTS_MAPPING` in [src/utils/scenarioParameters/custom/ParametersGroupsComponentsMapping.js](../src/utils/scenarioParameters/custom/ParametersGroupsComponentsMapping.js). If your custom tab
 needs other information than generic one, you can pass it through ScenarioParametersTabsWrapper component via `context` prop.
-

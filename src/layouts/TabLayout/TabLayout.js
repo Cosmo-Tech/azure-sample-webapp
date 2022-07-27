@@ -1,8 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React from 'react';
-import { AppBar, Tabs, Tab, Box, makeStyles } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
+import { AppBar, Tabs, Tab, Box, Toolbar, IconButton, makeStyles } from '@material-ui/core';
 import { Switch, Route, Link, Redirect, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Auth } from '@cosmotech/core';
@@ -11,59 +11,46 @@ import { useTranslation } from 'react-i18next';
 import { LANGUAGES } from '../../config/Languages';
 import { SUPPORT_URL, DOCUMENTATION_URL } from '../../config/HelpMenuConfiguration';
 import { About } from '../../services/config/Menu';
-import profilePlaceholder from '../../assets/profile_placeholder.png';
-import { pictureLight } from '../../theme';
+import { Brightness2 as Brightness2Icon, WbSunny as WbSunnyIcon } from '@material-ui/icons';
+import { pictureDark, pictureLight } from '../../theme/';
 
 const useStyles = makeStyles((theme) => ({
   content: {
-    height: '100%',
-    paddingTop: theme.spacing(6),
+    height: 'calc(100% - 48px)',
+    paddingTop: theme.spacing(0),
     paddingLeft: theme.spacing(0),
     paddingRight: theme.spacing(0),
     paddingBottom: theme.spacing(0),
     boxSizing: 'border-box',
   },
-  logo: {
-    display: 'block',
-  },
-  bar: {
-    display: 'flex',
-    justifyContent: 'space-between',
-  },
-  rightBar: {
-    textAlign: 'right',
-    display: 'flex',
-    alignItems: 'center',
-    margin: `0 ${theme.spacing(3)}px`,
-  },
-  rightBarElement: {
-    display: 'block',
-    margin: `0 ${theme.spacing(1)}px`,
-  },
   tabs: {
-    width: '100%',
-    maxWidth: '900px',
-  },
-  tab: {
-    minWidth: 0,
-    fontSize: '14px',
-    fontWeight: '500',
-    letterSpacing: '0',
-    lineHeight: '15px',
-    textAlign: 'center',
     flexGrow: 1,
-    opacity: 1,
   },
-  barDiv: {
-    minHeight: '48px',
-    display: 'flex',
-    justifyContent: 'space-between',
+  appBar: {
+    backgroundColor: theme.palette.appbar.main,
+    color: theme.palette.appbar.contrastText,
+  },
+  switchToDarkTheme: {
+    color: theme.palette.appbar.contrastText,
+  },
+  logo: {
+    marginLeft: '8px',
+    marginRight: '8px',
   },
 }));
 
 const TabLayout = (props) => {
   const classes = useStyles();
-  const { tabs, authenticated, authorized, signInPath, unauthorizedPath, error, clearApplicationErrorMessage } = props;
+  const {
+    tabs,
+    authenticated,
+    authorized,
+    signInPath,
+    unauthorizedPath,
+    error,
+    clearApplicationErrorMessage,
+    setApplicationTheme,
+  } = props;
   const { t, i18n } = useTranslation();
   const location = useLocation();
 
@@ -77,10 +64,18 @@ const TabLayout = (props) => {
     aboutTitle: t('genericcomponent.helpmenu.about'),
     close: t('genericcomponent.dialog.about.button.close'),
   };
+
+  // Add theme light/dark status in state
+  const [darkThemeUsed, setDarkThemeUsed] = useState(localStorage.getItem('darkThemeUsed') === 'true');
+
+  useEffect(() => {
+    localStorage.setItem('darkThemeUsed', darkThemeUsed);
+  }, [darkThemeUsed]);
+
   return (
     <>
-      <AppBar className={classes.bar}>
-        <Box className={classes.barDiv}>
+      <AppBar position="static" className={classes.appBar}>
+        <Toolbar variant="dense" disableGutters={true}>
           <Tabs value={location.pathname} className={classes.tabs}>
             {tabs.map((tab) => (
               <Tab
@@ -94,31 +89,40 @@ const TabLayout = (props) => {
               />
             ))}
           </Tabs>
-          <div className={classes.rightBar}>
-            <div className={classes.rightBarElement}>
-              <HelpMenu
-                documentationUrl={DOCUMENTATION_URL}
-                supportUrl={SUPPORT_URL}
-                about={About ? <About /> : null}
-                labels={helpLabels}
-              />
-            </div>
-            <div className={classes.rightBarElement}>
-              <UserInfo
-                languages={LANGUAGES}
-                changeLanguage={(lang) => i18n.changeLanguage(lang)}
-                language={i18n.language}
-                labels={userInfoLabels}
-                userName={props.userName}
-                profilePlaceholder={props.userProfilePic ? props.userProfilePic : profilePlaceholder}
-                onLogout={Auth.signOut}
-              />
-            </div>
-            <div className={classes.rightBarElement}>
-              <img alt="Cosmo Tech" height="28px" src={pictureLight.darkLogo} className={classes.logo} />
-            </div>
-          </div>
-        </Box>
+          {
+            <IconButton
+              className={classes.switchToDarkTheme}
+              onClick={() => {
+                setDarkThemeUsed(!darkThemeUsed);
+                setApplicationTheme(!darkThemeUsed);
+              }}
+            >
+              {darkThemeUsed ? <WbSunnyIcon /> : <Brightness2Icon />}
+            </IconButton>
+          }
+          <HelpMenu
+            documentationUrl={DOCUMENTATION_URL}
+            supportUrl={SUPPORT_URL}
+            about={About ? <About /> : null}
+            labels={helpLabels}
+          />
+          <UserInfo
+            languages={LANGUAGES}
+            changeLanguage={(lang) => i18n.changeLanguage(lang)}
+            language={i18n.language}
+            labels={userInfoLabels}
+            userName={props.userName}
+            profilePlaceholder={props.userProfilePic ? props.userProfilePic : undefined}
+            onLogout={Auth.signOut}
+          />
+          <img
+            alt="Cosmo Tech"
+            height="28px"
+            // AppBar always has a dark background, use the theme dark logo
+            src={darkThemeUsed ? pictureDark.darkLogo : pictureLight.darkLogo}
+            className={classes.logo}
+          />
+        </Toolbar>
       </AppBar>
       <Box className={classes.content}>
         {error && (
@@ -166,6 +170,7 @@ TabLayout.propTypes = {
   userProfilePic: PropTypes.string.isRequired,
   error: PropTypes.object,
   clearApplicationErrorMessage: PropTypes.func.isRequired,
+  setApplicationTheme: PropTypes.func.isRequired,
 };
 
 export default TabLayout;

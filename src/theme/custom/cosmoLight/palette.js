@@ -40,4 +40,11 @@ export default {
     main: '#FFFFFF',
     contrastText: '#5E5E5E',
   },
+  appbar: {
+    main: '#424242',
+    contrastText: '#FFFFFF',
+  },
+  login: {
+    main: '#EBE7E2',
+  },
 };
