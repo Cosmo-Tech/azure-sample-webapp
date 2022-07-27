@@ -445,6 +445,11 @@
         "validate": "Valider",
         "validated": "Validé",
         "disabledTooltip": "Veuillez sauver ou annuler les modifications en cours avant de modifier le statut de validation du scénario"
+      },
+      "redirectError": {
+        "title": "Mauvaise URL",
+        "detail": "Le scénario avec l'id {{id}} n'existe plus.",
+        "comment": "Vous avez été redirigé vers la page Scénario par défaut."
       }
     }
   },

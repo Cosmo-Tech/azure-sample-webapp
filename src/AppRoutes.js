@@ -2,20 +2,21 @@
 // Licensed under the MIT license.
 
 import React from 'react';
-import { Routes as Routes_, Navigate, Route } from 'react-router-dom';
+import { Routes, Navigate, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { TabLayout } from './layouts';
 import { SignIn as SignInView, AccessDenied as AccessDeniedView } from './views';
 
-const Routes = (props) => {
+const AppRoutes = (props) => {
   const { authenticated, authorized, tabs } = props;
-
+  const previousUrl = sessionStorage.getItem('previousURL');
   return (
-    <Routes_>
-      {/*
-      <Route path={'/'} element={<Navigate to="/scenario" replace />}></Route>
-*/}
-      <Route path="/sign-in" element={authenticated === false ? <SignInView /> : <Navigate to="/scenario" />} />
+    <Routes>
+      <Route path={'/'} element={<Navigate to={previousUrl || '/scenario'} replace />}></Route>
+      <Route
+        path="/sign-in"
+        element={!authenticated ? <SignInView /> : <Navigate to={history.state.idx === 0 ? '/scenario' : -1} />}
+      />
       <Route path="/accessDenied" element={<AccessDeniedView />} />
       <Route
         path="/*"
@@ -29,14 +30,14 @@ const Routes = (props) => {
           />
         }
       />
-    </Routes_>
+    </Routes>
   );
 };
 
-Routes.propTypes = {
+AppRoutes.propTypes = {
   authenticated: PropTypes.bool.isRequired,
   authorized: PropTypes.bool,
   tabs: PropTypes.any,
 };
 
-export default Routes;
+export default AppRoutes;
