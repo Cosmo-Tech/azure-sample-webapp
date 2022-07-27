@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useIdleTimer } from 'react-idle-timer';
 import { Auth } from '@cosmotech/core';
+import { ThemeProvider, CssBaseline } from '@material-ui/core';
 import './assets/scss/index.scss';
 import './services/config/Auth';
 import { TABS } from './AppLayout';
@@ -14,12 +15,15 @@ import './services/AppInsights';
 import { AUTH_STATUS } from './state/commons/AuthConstants';
 import { SESSION_INACTIVITY_TIMEOUT } from './services/config/FunctionalConstants';
 import { SessionTimeoutDialog } from './components/SessionTimeoutDialog/SessionTimeoutDialog';
+import { getTheme } from './theme';
 
 const SESSION_TIMEOUT_PROMPT_DELAY_IN_SECONDS = 30;
 
-const App = ({ authStatus, logOutAction, logInAction }) => {
+const App = ({ authStatus, isDarkTheme, logOutAction, logInAction }) => {
   const { t } = useTranslation();
   document.title = t('commoncomponents.text.application.title', 'Cosmo Tech Web Application Sample');
+
+  const theme = React.useMemo(() => getTheme(isDarkTheme), [isDarkTheme]);
 
   useEffect(() => {
     // Check if the user is already signed-in
@@ -74,21 +78,25 @@ const App = ({ authStatus, logOutAction, logInAction }) => {
 
   return (
     <>
-      <SessionTimeoutDialog
-        getRemainingTimeLabel={getRemainingTimeLabel}
-        labels={sessionTimeoutLabels}
-        open={isSessionTimeoutDialogOpen}
-        onClose={closeSessionTimeoutDialog}
-        onLogOut={logOutAction}
-        timeout={SESSION_TIMEOUT_PROMPT_DELAY_IN_SECONDS}
-      />
-      {appContent}
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <SessionTimeoutDialog
+          getRemainingTimeLabel={getRemainingTimeLabel}
+          labels={sessionTimeoutLabels}
+          open={isSessionTimeoutDialogOpen}
+          onClose={closeSessionTimeoutDialog}
+          onLogOut={logOutAction}
+          timeout={SESSION_TIMEOUT_PROMPT_DELAY_IN_SECONDS}
+        />
+        {appContent}
+      </ThemeProvider>
     </>
   );
 };
 
 App.propTypes = {
   authStatus: PropTypes.string.isRequired,
+  isDarkTheme: PropTypes.bool.isRequired,
   logInAction: PropTypes.func.isRequired,
   logOutAction: PropTypes.func.isRequired,
 };
