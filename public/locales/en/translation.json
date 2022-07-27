@@ -445,6 +445,11 @@
         "validate": "Validate",
         "validated": "Validated",
         "disabledTooltip": "Please save or discard current modifications before changing the scenario validation status"
+      },
+      "redirectError": {
+        "title": "Wrong URL",
+        "detail": "The scenario with id {{id}} doesn't exist anymore.",
+        "comment": "You have been redirected to default Scenario view."
       }
     }
   },

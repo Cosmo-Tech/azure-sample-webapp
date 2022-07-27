@@ -3,7 +3,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { AppBar, Tabs, Tab, Box, Toolbar, IconButton, makeStyles } from '@material-ui/core';
-import { Routes, Route, Link, Navigate, useLocation } from 'react-router-dom';
+import { Routes, Route, Link, Navigate, useLocation, useMatch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Auth } from '@cosmotech/core';
 import { UserInfo, HelpMenu, ErrorBanner } from '@cosmotech/ui';
@@ -64,6 +64,8 @@ const TabLayout = (props) => {
     aboutTitle: t('genericcomponent.helpmenu.about'),
     close: t('genericcomponent.dialog.about.button.close'),
   };
+  const currentTabPathname = location?.pathname;
+  const scenarioViewUrl = useMatch('/scenario/:id');
 
   // Add theme light/dark status in state
   const [darkThemeUsed, setDarkThemeUsed] = useState(localStorage.getItem('darkThemeUsed') === 'true');
@@ -76,12 +78,12 @@ const TabLayout = (props) => {
     <>
       <AppBar position="static" className={classes.appBar}>
         <Toolbar variant="dense" disableGutters={true}>
-          <Tabs value={location.pathname} className={classes.tabs}>
+          <Tabs value={currentTabPathname} className={classes.tabs}>
             {tabs.map((tab) => (
               <Tab
                 data-cy={tab.key}
                 key={tab.key}
-                value={tab.to}
+                value={scenarioViewUrl != null && tab.to === '/scenario' ? scenarioViewUrl.pathname : tab.to}
                 label={t(tab.label, tab.key)}
                 component={Link}
                 to={tab.to}
@@ -147,15 +149,30 @@ const TabLayout = (props) => {
               key={tab.key}
               path={tab.to}
               element={
-                authenticated === false ? (
-                  <Navigate to={signInPath} state={{ from: tab.to }} />
-                ) : authorized === false ? (
+                !authenticated ? (
+                  <Navigate to={signInPath} state={{ from: currentTabPathname }} />
+                ) : !authorized ? (
                   <Navigate to={unauthorizedPath} />
                 ) : (
                   tab.render
                 )
               }
-            />
+            >
+              {tab.to === '/scenario' && (
+                <Route
+                  path="/scenario/:id"
+                  element={
+                    !authenticated ? (
+                      <Navigate to={signInPath} state={{ from: currentTabPathname }} />
+                    ) : !authorized ? (
+                      <Navigate to={unauthorizedPath} />
+                    ) : (
+                      tab.render
+                    )
+                  }
+                />
+              )}
+            </Route>
           ))}
         </Routes>
       </Box>

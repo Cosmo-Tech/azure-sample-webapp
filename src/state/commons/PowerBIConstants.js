@@ -7,4 +7,4 @@ export const POWER_BI_ACTIONS_KEY = {
   GET_EMBED_INFO: 'GET_EMBED_INFO',
 };
 
-export const GET_EMBED_INFO_URL = 'api/get-embed-info';
+export const GET_EMBED_INFO_URL = '/api/get-embed-info';
