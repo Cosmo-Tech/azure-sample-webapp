@@ -4,10 +4,10 @@
 import axios from 'axios';
 import { Auth } from '@cosmotech/core';
 import {
-  DEFAULT_EDGE_STYLE,
-  DEFAULT_NODE_STYLE,
-  DEFAULT_SELECTED_EDGE_STYLE,
-  DEFAULT_SELECTED_NODE_STYLE,
+  getDefaultEdgeStyle,
+  getDefaultNodeStyle,
+  getDefaultSelectedEdgeStyle,
+  getDefaultSelectedNodeStyle,
 } from './styleCytoViz';
 import { ORGANIZATION_ID, WORKSPACE_ID } from '../../config/GlobalConfiguration';
 import instanceViewData from '../../config/InstanceVisualization.js';
@@ -51,7 +51,7 @@ const _processGraphCompounds = (datasetContent, compoundsGroups) => {
   return nodesParentsDict;
 };
 
-const _processGraphNodes = (processedData, nodesParentsDict, datasetContent, nodesGroups) => {
+const _processGraphNodes = (processedData, nodesParentsDict, datasetContent, nodesGroups, theme) => {
   Object.entries(nodesGroups).forEach(([nodesGroupName, nodesGroupMetadata]) => {
     // Nodes data
     const nodesGroupFromDataset = datasetContent[nodesGroupName] || [];
@@ -63,16 +63,16 @@ const _processGraphNodes = (processedData, nodesParentsDict, datasetContent, nod
     // Nodes style
     processedData.stylesheet.push({
       selector: `node.${nodesGroupName}`,
-      style: { ...DEFAULT_NODE_STYLE, ...nodesGroupMetadata.style },
+      style: { ...getDefaultNodeStyle(theme), ...nodesGroupMetadata.style },
     });
     processedData.stylesheet.push({
       selector: `node.${nodesGroupName}:selected`,
-      style: { ...DEFAULT_SELECTED_NODE_STYLE, ...nodesGroupMetadata.style },
+      style: { ...getDefaultSelectedNodeStyle(theme), ...nodesGroupMetadata.style },
     });
   });
 };
 
-const _processGraphEdges = (processedData, datasetContent, edgesGroups) => {
+const _processGraphEdges = (processedData, datasetContent, edgesGroups, theme) => {
   Object.entries(edgesGroups).forEach(([edgesGroupName, edgesGroupMetadata]) => {
     // Edges data
     const edgesGroupFromDataset = datasetContent[edgesGroupName] || [];
@@ -82,16 +82,16 @@ const _processGraphEdges = (processedData, datasetContent, edgesGroups) => {
     // Edges style
     processedData.stylesheet.push({
       selector: `edge.${edgesGroupName}`,
-      style: { ...DEFAULT_EDGE_STYLE, ...edgesGroupMetadata.style },
+      style: { ...getDefaultEdgeStyle(theme), ...edgesGroupMetadata.style },
     });
     processedData.stylesheet.push({
       selector: `edge.${edgesGroupName}:selected`,
-      style: { ...DEFAULT_SELECTED_EDGE_STYLE, ...edgesGroupMetadata.style },
+      style: { ...getDefaultSelectedEdgeStyle(theme), ...edgesGroupMetadata.style },
     });
   });
 };
 
-export const processGraphElements = (scenario) => {
+export const processGraphElements = (scenario, theme) => {
   if (!IS_INSTANCE_VIEW_FUNCTION_CONFIG_VALID) return [];
   const processedData = {
     graphElements: [],
@@ -107,8 +107,14 @@ export const processGraphElements = (scenario) => {
   for (const dataset of Object.values(scenarioDatasets)) {
     const datasetContent = dataset.content;
     const nodesParentsDict = _processGraphCompounds(datasetContent, instanceViewData.dataContent.compounds || {});
-    _processGraphNodes(processedData, nodesParentsDict, datasetContent, instanceViewData.dataContent.nodes || {});
-    _processGraphEdges(processedData, datasetContent, instanceViewData.dataContent.edges || {});
+    _processGraphNodes(
+      processedData,
+      nodesParentsDict,
+      datasetContent,
+      instanceViewData.dataContent.nodes,
+      theme || {}
+    );
+    _processGraphEdges(processedData, datasetContent, instanceViewData.dataContent.edges, theme || {});
   }
   return processedData;
 };

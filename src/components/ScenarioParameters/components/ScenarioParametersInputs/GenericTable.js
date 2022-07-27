@@ -10,7 +10,7 @@ import { FileManagementUtils } from '../../../../components/ScenarioParameters/F
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { gridLight } from '../../../../theme/';
+import { gridLight, gridDark } from '../../../../theme/';
 
 const clone = rfdc();
 
@@ -345,7 +345,7 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
       errors={parameter.errors}
       columns={columns}
       rows={parameter.agGridRows || []}
-      agTheme={gridLight.agTheme}
+      agTheme={context.isDarkTheme ? gridDark.agTheme : gridLight.agTheme}
       extraToolbarActions={extraToolbarActions}
       onCellChange={onCellChange}
       onClearErrors={onClearErrors}

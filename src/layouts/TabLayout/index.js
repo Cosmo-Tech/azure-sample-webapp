@@ -3,7 +3,10 @@
 
 import { connect } from 'react-redux';
 import TabLayout from './TabLayout';
-import { dispatchClearApplicationErrorMessage } from '../../state/dispatchers/app/ApplicationDispatcher';
+import {
+  dispatchClearApplicationErrorMessage,
+  dispatchSetApplicationTheme,
+} from '../../state/dispatchers/app/ApplicationDispatcher';
 
 const mapStateToProps = (state) => ({
   userId: state.auth.userId,
@@ -15,5 +18,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   clearApplicationErrorMessage: dispatchClearApplicationErrorMessage,
+  setApplicationTheme: dispatchSetApplicationTheme,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(TabLayout);
