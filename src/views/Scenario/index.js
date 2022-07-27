@@ -8,7 +8,6 @@ import {
   dispatchUpdateAndLaunchScenario,
   dispatchLaunchScenario,
   dispatchSetScenarioValidationStatus,
-  dispatchSetCurrentScenario,
 } from '../../state/dispatchers/scenario/ScenarioDispatcher';
 import { dispatchAddDatasetToStore } from '../../state/dispatchers/dataset/DatasetDispatcher';
 import { dispatchSetApplicationErrorMessage } from '../../state/dispatchers/app/ApplicationDispatcher';
@@ -30,7 +29,6 @@ const mapDispatchToProps = {
   createScenario: dispatchCreateScenario,
   updateAndLaunchScenario: dispatchUpdateAndLaunchScenario,
   launchScenario: dispatchLaunchScenario,
-  setCurrentScenario: dispatchSetCurrentScenario,
   setApplicationErrorMessage: dispatchSetApplicationErrorMessage,
 };
 

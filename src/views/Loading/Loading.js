@@ -3,7 +3,7 @@
 
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import Routes from '../../Routes';
+import AppRoutes from '../../AppRoutes';
 import FadeIn from 'react-fade-in';
 import { LoadingLine } from '@cosmotech/ui';
 import { STATUSES } from '../../state/commons/Constants';
@@ -114,7 +114,7 @@ const Loading = ({
       </FadeIn>
     </div>
   ) : (
-    <Routes authenticated={authenticated} authorized={application.status === STATUSES.SUCCESS} tabs={tabs} />
+    <AppRoutes authenticated={authenticated} authorized={application.status === STATUSES.SUCCESS} tabs={tabs} />
   );
 };
 

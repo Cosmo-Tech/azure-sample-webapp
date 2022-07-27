@@ -8,6 +8,8 @@ import { ORGANIZATION_ID } from '../../../../config/GlobalConfiguration';
 import { formatParametersFromApi } from '../../../../utils/ApiUtils';
 import { SCENARIO_RUN_STATE } from '../../../../services/config/ApiConstants';
 import { Api } from '../../../../services/config/Api';
+import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
+import { t } from 'i18next';
 
 export function* fetchScenarioByIdForInitialData(workspaceId, scenarioId) {
   try {
@@ -18,14 +20,20 @@ export function* fetchScenarioByIdForInitialData(workspaceId, scenarioId) {
       status: STATUSES.SUCCESS,
       scenario: data,
     });
-  } catch (e) {
+  } catch (error) {
+    yield put(
+      dispatchSetApplicationErrorMessage(
+        error,
+        t('views.scenario.redirectError.comment', 'You have been redirected to default Scenario view')
+      )
+    );
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
       status: STATUSES.ERROR,
       scenario: null,
     });
     // Rethrow for application error management
-    throw e;
+    throw error;
   }
 }
 
@@ -53,13 +61,13 @@ export function* fetchScenarioByIdData(action) {
         scenarioId: data.id,
       });
     }
-  } catch (e) {
-    // TODO handle error management
-    yield put({
-      type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
-      status: STATUSES.ERROR,
-      scenario: null,
-    });
+  } catch (error) {
+    yield put(
+      dispatchSetApplicationErrorMessage(
+        error,
+        t('views.scenario.redirectError.comment', 'You have been redirected to default Scenario view')
+      )
+    );
   }
 }
 
