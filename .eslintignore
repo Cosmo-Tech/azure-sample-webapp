@@ -3,3 +3,4 @@ dist
 .docz
 .github
 node_modules
+scripts/migration/src/*/templates
