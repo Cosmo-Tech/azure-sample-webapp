@@ -147,7 +147,7 @@ function selectParentScenario(scenarioName) {
 function selectDataset(dataset) {
   getScenarioCreationDialogMasterCheckbox().check();
   getScenarioCreationDialogDatasetSelector().click();
-  cy.contains(dataset).should('be.visible').click();
+  cy.contains(dataset).should('be.visible').click({ force: true });
 }
 
 // Select a run template
