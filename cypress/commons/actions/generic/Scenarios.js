@@ -147,6 +147,7 @@ function selectParentScenario(scenarioName) {
 function selectDataset(dataset) {
   getScenarioCreationDialogMasterCheckbox().check();
   getScenarioCreationDialogDatasetSelector().click();
+  /* eslint-disable cypress/no-force */
   cy.contains(dataset).should('be.visible').click({ force: true });
 }
 
