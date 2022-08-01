@@ -4,8 +4,7 @@
 export default {
   type: 'light',
   primary: {
-    main: '#292f33',
-    light: '#53585b',
+    main: '#466282',
   },
   secondary: {
     main: '#ffb039',
@@ -41,7 +40,7 @@ export default {
     contrastText: '#5E5E5E',
   },
   appbar: {
-    main: '#424242',
+    main: '#242628',
     contrastText: '#FFFFFF',
   },
   login: {
