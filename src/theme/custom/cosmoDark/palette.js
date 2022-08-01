@@ -32,12 +32,16 @@ export default {
     dark: '#388e3c',
     light: '#81c784',
   },
+  background: {
+    default: '#131618',
+    paper: '#242628',
+  },
   microsoft: {
     main: '#2F2F2F',
     contrastText: '#FFFFFF',
   },
   appbar: {
-    main: '#424242',
+    main: '#242628',
     contrastText: '#FFFFFF',
   },
   login: {
