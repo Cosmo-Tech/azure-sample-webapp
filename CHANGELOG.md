@@ -1,3 +1,24 @@
+## **2.8.0** <sub><sup>2022-08-02 ([c56ce5d...29f3ae8](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/c56ce5db...29f3ae89?diff=split))</sup></sub>
+
+### Features
+
+- allow **run-type-based scenario reports** ([b2e3bc9](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/b2e3bc94))
+- new view for **ADT instance visualization** ([3993934](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/39939346))
+- add **scenario renaming** in scenario manager ([ab1df5c](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/ab1df5c9))
+
+### Bug Fixes
+
+- fix unnecessary state refresh of table components ([00cc9b8](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/00cc9b89))
+- fix english mistakes in labels ([5085848](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/50858482))
+- remove loading message before loading ([641d1d7](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/641d1d77))
+- add unknown state placeholder ([91feb14](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/91feb144))
+- fix crash in Dashboards view when a scenario with 'Unknown' status is selected ([193cf05](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/193cf05c))
+
+### Documentation
+
+- update dashboards documentation ([cb22cad](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/cb22cad1))
+- fix broken link in documentation ([329772f](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/329772fb))
+
 ## **2.7.2** <sub><sup>2022-06-15 ([f86ac6d...f86ac6d](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/f86ac6d...f86ac6d?diff=split))</sup></sub>
 
 ### Bug Fixes
