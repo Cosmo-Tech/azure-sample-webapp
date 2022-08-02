@@ -35,8 +35,8 @@ const useStyles = makeStyles((theme) => ({
     maxHeight: '150px',
   },
   infoText: {
-    backgroundColor: '#0288D1',
-    color: theme.palette.error.contrastText,
+    backgroundColor: theme.palette.info.main,
+    color: theme.palette.info.contrastText,
     fontSize: '12px',
     overflow: 'auto',
     paddingRight: 7,
