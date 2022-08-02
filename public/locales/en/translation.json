@@ -37,12 +37,6 @@
             "rejected": "This scenario is rejected, you cannot edit its parameters",
             "validated": "This scenario is validated, you cannot edit its parameters",
             "noTabs": "No parameters to edit"
-          },
-          "discard": "Discard Modifications",
-          "edit": "Edit",
-          "launch": "Launch Scenario",
-          "update": {
-            "launch": "Update And Launch Scenario"
           }
         }
       }

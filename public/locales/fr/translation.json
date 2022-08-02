@@ -37,12 +37,6 @@
             "rejected": "Ce scénario est rejeté, vous ne pouvez pas éditer ses paramètres",
             "validated": "Ce scénario est validé, vous ne pouvez pas éditer ses paramètres",
             "noTabs": "Pas de paramètres à éditer"
-          },
-          "discard": "Abandonner les modifications",
-          "edit": "Éditer",
-          "launch": "Lancer le Scénario",
-          "update": {
-            "launch": "Mettre à jour et lancer le Scénario"
           }
         }
       }

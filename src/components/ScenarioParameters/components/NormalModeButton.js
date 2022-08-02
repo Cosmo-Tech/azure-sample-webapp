@@ -3,8 +3,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Grid, Tooltip } from '@material-ui/core';
-import { useTranslation } from 'react-i18next';
+import { Grid, IconButton, Tooltip } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 
@@ -16,18 +15,10 @@ const NormalModeButton = ({
   runDisabled,
   disabledEditTooltip,
 }) => {
-  const { t } = useTranslation();
   const editButton = (
-    <Button
-      data-cy="edit-parameters-button"
-      startIcon={<EditIcon />}
-      variant="contained"
-      color="primary"
-      onClick={handleClickOnEdit}
-      disabled={editDisabled}
-    >
-      {t('commoncomponents.button.scenario.parameters.edit', 'Edit')}
-    </Button>
+    <IconButton data-cy="edit-parameters-button" color="primary" onClick={handleClickOnEdit} disabled={editDisabled}>
+      <EditIcon />
+    </IconButton>
   );
 
   const editButtonTooltipWrapper =
@@ -43,16 +34,14 @@ const NormalModeButton = ({
     <Grid container spacing={1} alignItems="center">
       <Grid item>{editButtonTooltipWrapper}</Grid>
       <Grid item>
-        <Button
+        <IconButton
           data-cy="launch-scenario-button"
-          startIcon={<PlayCircleOutlineIcon />}
-          variant="contained"
           color="primary"
           onClick={handleClickOnLaunchScenario}
           disabled={runDisabled}
         >
-          {t('commoncomponents.button.scenario.parameters.launch', 'Launch Scenario')}
-        </Button>
+          <PlayCircleOutlineIcon />
+        </IconButton>
       </Grid>
     </Grid>
   );
