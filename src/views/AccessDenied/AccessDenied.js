@@ -69,7 +69,7 @@ const AccessDenied = ({ application }) => {
                   onComplete={() => Auth.signOut()}
                 />
               </div>
-              <Button variant="outlined" className={classes.signoutButton} onClick={() => Auth.signOut()}>
+              <Button variant="contained" color="primary" onClick={() => Auth.signOut()}>
                 {t('genericcomponent.userinfo.button.logout', 'Sign Out')}
               </Button>
             </div>
