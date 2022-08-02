@@ -24,7 +24,7 @@
       },
       "create": {
         "scenario": {
-          "label": "Créer un scénario",
+          "label": "Créer",
           "tooltip": {
             "disabled": "Veuillez sauver ou annuler les modifications en cours avant de créer un nouveau scénario"
           }
@@ -139,7 +139,7 @@
         },
         "noscenario": {
           "title": "Aucun scénario n'a encore été créé",
-          "label": "Vous pouvez créer un scénario en cliquant sur \"Créer un scénario\""
+          "label": "Vous pouvez créer un scénario en cliquant sur le bouton \"CRÉER\""
         },
         "nodashboard": {
           "label": "Aucun dashboard configuré pour ce type de scénario"

@@ -11,7 +11,7 @@ export const getCreateScenarioDialogLabels = (t, editMode) => {
 
   return {
     button: {
-      title: t('commoncomponents.button.create.scenario.label', 'Create new Scenario'),
+      title: t('commoncomponents.button.create.scenario.label', 'Create'),
       tooltip: createScenarioButtonTooltip,
     },
     dialog: {
@@ -44,7 +44,7 @@ export const getReportLabels = (t) => ({
     title: t('commoncomponents.iframe.scenario.noscenario.title', 'No scenario yet'),
     label: t(
       'commoncomponents.iframe.scenario.noscenario.label',
-      'You can create a scenario by clicking on Create new Scenario'
+      'You can create a scenario by clicking on the CREATE button'
     ),
   },
   noRun: {

@@ -24,7 +24,7 @@
       },
       "create": {
         "scenario": {
-          "label": "Create new scenario",
+          "label": "Create",
           "tooltip": {
             "disabled": "Please save or discard current modifications before creating a new scenario"
           }
@@ -139,7 +139,7 @@
         },
         "noscenario": {
           "title": "No scenario yet",
-          "label": "You can create a scenario by clicking on \"Create new scenario\""
+          "label": "You can create a scenario by clicking on the \"CREATE\" button"
         },
         "nodashboard": {
           "label": "There isn't any dashboard configured for this run template"
