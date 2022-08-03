@@ -133,7 +133,7 @@
             "uninitialized": "The scenario has not been run yet"
           },
           "button": {
-            "downloadlogs": "Download logs",
+            "downloadLogs": "Download logs",
             "refresh": "Refresh (will then be disabled for 15 seconds)"
           }
         },

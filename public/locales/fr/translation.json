@@ -133,7 +133,7 @@
             "uninitialized": "Le scénario n'a pas encore été lancé"
           },
           "button": {
-            "downloadlogs": "Télécharger les logs",
+            "downloadLogs": "Télécharger les logs",
             "refresh": "Rafraîchir (sera ensuite indisponible pendant 15 secondes)"
           }
         },

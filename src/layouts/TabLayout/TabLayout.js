@@ -142,10 +142,6 @@ const TabLayout = (props) => {
 
 TabLayout.propTypes = {
   tabs: PropTypes.array.isRequired,
-  authenticated: PropTypes.bool.isRequired,
-  authorized: PropTypes.bool.isRequired,
-  signInPath: PropTypes.string.isRequired,
-  unauthorizedPath: PropTypes.string.isRequired,
   userName: PropTypes.string.isRequired,
   userProfilePic: PropTypes.string.isRequired,
   error: PropTypes.object,
