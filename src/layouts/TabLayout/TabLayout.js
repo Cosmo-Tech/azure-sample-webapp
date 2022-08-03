@@ -3,7 +3,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { AppBar, Tabs, Tab, Box, Toolbar, IconButton, makeStyles } from '@material-ui/core';
-import { Routes, Route, Link, Navigate, useLocation, useMatch } from 'react-router-dom';
+import { Link, useLocation, useMatch, Outlet } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Auth } from '@cosmotech/core';
 import { UserInfo, HelpMenu, ErrorBanner } from '@cosmotech/ui';
@@ -41,16 +41,7 @@ const useStyles = makeStyles((theme) => ({
 
 const TabLayout = (props) => {
   const classes = useStyles();
-  const {
-    tabs,
-    authenticated,
-    authorized,
-    signInPath,
-    unauthorizedPath,
-    error,
-    clearApplicationErrorMessage,
-    setApplicationTheme,
-  } = props;
+  const { tabs, error, clearApplicationErrorMessage, setApplicationTheme } = props;
   const { t, i18n } = useTranslation();
   const location = useLocation();
 
@@ -143,38 +134,7 @@ const TabLayout = (props) => {
             clearErrors={clearApplicationErrorMessage}
           />
         )}
-        <Routes>
-          {tabs.map((tab) => (
-            <Route
-              key={tab.key}
-              path={tab.to}
-              element={
-                !authenticated ? (
-                  <Navigate to={signInPath} state={{ from: currentTabPathname }} />
-                ) : !authorized ? (
-                  <Navigate to={unauthorizedPath} />
-                ) : (
-                  tab.render
-                )
-              }
-            >
-              {tab.to === '/scenario' && (
-                <Route
-                  path="/scenario/:id"
-                  element={
-                    !authenticated ? (
-                      <Navigate to={signInPath} state={{ from: currentTabPathname }} />
-                    ) : !authorized ? (
-                      <Navigate to={unauthorizedPath} />
-                    ) : (
-                      tab.render
-                    )
-                  }
-                />
-              )}
-            </Route>
-          ))}
-        </Routes>
+        <Outlet />
       </Box>
     </>
   );
