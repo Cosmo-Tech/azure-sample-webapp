@@ -45,6 +45,7 @@ export const GENERIC_SELECTORS = {
       },
       discardButton: '[data-cy=discard-button]',
       dialogDiscardButton: '[data-cy=discard-changes-button2]',
+      noParametersPlaceholder: '[data-cy=no-parameters-placeholder]',
     },
     ownerName: '[data-cy=scenario-owner-name]',
     creationDate: '[data-cy=scenario-creation-date]',
