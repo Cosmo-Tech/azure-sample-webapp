@@ -28,7 +28,7 @@ describe('Scenario validation', () => {
 
   it('can validate & reject scenarios', () => {
     let scenarioId;
-    const prefix = 'Scenario validation -';
+    const prefix = 'Test Cypress - Scenario validation - ';
     const randomString = utils.randomStr(7);
     const scenarioName = prefix + randomString;
     scenarioNamesToDelete.push(scenarioName);
