@@ -1141,9 +1141,9 @@
     xlsx "^0.18.3"
 
 "@cosmotech/ui@^3.0.0":
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-3.0.2.tgz#d70090b4a56a55eaf0d4dd616582487ad1038013"
-  integrity sha512-RRccDj++r7SvBBPA8rysvY5PZLAyfoJ3A5OBOuvfuV3RzLk41/4UBHowbl8Dh1bRLxfIX6tSW+Rp/eiu25zD+g==
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-3.0.3.tgz#c5c68bd34b26792fc5dda658272f4aaf986afd93"
+  integrity sha512-dz9bIr60xjANyUhc0w3+iNL0VbEpNzo0SamKOJH6HciLpm4QKHalapFRcPlNe8H9UArqbwqcTeDPPGJcxVs3tg==
   dependencies:
     "@date-io/date-fns" "^1.3.13"
     "@material-ui/pickers" "^3.3.10"
@@ -11350,9 +11350,9 @@ react-scripts@^4.0.3:
     fsevents "^2.1.3"
 
 react-transition-group@^4.0.0:
-  version "4.4.4"
-  resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-4.4.4.tgz#9af1707487e39006658afc0150b2c5230fb75f0c"
-  integrity sha512-TKS7/dTpwBKEG9nrzVK3qNzvaJyKzEIFB5xVtnKdjEk5wTstklWnNJ/N3RM6uKG8wm36nlgHTT7+UZT3LIFHLA==
+  version "4.4.5"
+  resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-4.4.5.tgz#e53d4e3f3344da8521489fbef8f2581d42becdd1"
+  integrity sha512-pZcd1MCJoiKiBR2NRxeCRg13uCXbydPnmB4EOeRrY7480qNWO8IIgQG6zlDkm6uRMsURXPuKq0GWtiM59a5Q6g==
   dependencies:
     "@babel/runtime" "^7.5.5"
     dom-helpers "^5.0.1"
