@@ -4,7 +4,7 @@ import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConst
 
 describe('check scenario sorted list after reload', () => {
   const scenarios = Array(3)
-    .fill('A - ' + utils.randomStr(7), 0)
+    .fill('A - Test Cypress - ' + utils.randomStr(7), 0)
     .map((scenarioName, index) => scenarioName + index);
   const scenariosIds = [];
   before(() => {
@@ -30,9 +30,9 @@ describe('check scenario sorted list after reload', () => {
 });
 
 describe('check the list of sorted scenarios after deleting the current scenario', () => {
-  const masterScenarioA = 'AA - master scenario - ' + utils.randomStr(7);
-  const childScenarioA = 'AA - child scenario - ' + utils.randomStr(7);
-  const masterScenarioB = 'BB - master scenario - ' + utils.randomStr(7);
+  const masterScenarioA = 'AA - master scenario - Test Cypress - ' + utils.randomStr(7);
+  const childScenarioA = 'AA - child scenario - Test Cypress - ' + utils.randomStr(7);
+  const masterScenarioB = 'BB - master scenario - Test Cypress - ' + utils.randomStr(7);
 
   before(() => {
     Login.login();

@@ -4,7 +4,7 @@ import utils from '../../commons/TestUtils';
 import { SCENARIO_RUN_IN_PROGRESS } from '../../commons/constants/generic/TestConstants';
 
 describe('checks the placeholder text before and while running', () => {
-  const scenario = 'Test Placeholder - ' + utils.randomStr(7);
+  const scenario = 'Test Cypress - Placeholder - ' + utils.randomStr(7);
   before(() => {
     Login.login();
   });

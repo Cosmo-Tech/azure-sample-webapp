@@ -11,17 +11,13 @@ describe('Check error label when invalid scenario name', () => {
     Scenarios.openScenarioCreationDialog();
     Scenarios.getScenarioCreationDialogMasterCheckbox().click();
     Scenarios.getScenarioCreationDialogNameInputErrorLabel().should('be.visible');
-    Scenarios.getScenarioCreationDialogNameInputErrorLabel().should('have.text', 'Scenario name cannot be empty');
+    Scenarios.getScenarioCreationDialogNameInputErrorLabel().contains('empty');
   });
 
   it('check error label when scenario name contains invalid characters', () => {
     Scenarios.openScenarioCreationDialog();
     Scenarios.getScenarioCreationDialogNameField().type('InvalidScenarioName&');
     Scenarios.getScenarioCreationDialogNameInputErrorLabel().should('be.visible');
-    Scenarios.getScenarioCreationDialogNameInputErrorLabel().should(
-      'have.text',
-      'Scenario name has to start with a letter or a digit, and can only ' +
-        'contain letters, digits, spaces, underscores, hyphens and dots.'
-    );
+    Scenarios.getScenarioCreationDialogNameInputErrorLabel().contains('underscores');
   });
 });
