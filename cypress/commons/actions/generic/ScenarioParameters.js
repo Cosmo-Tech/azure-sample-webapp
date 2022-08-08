@@ -69,9 +69,13 @@ function discard() {
   getParametersDiscardButton().click();
   getParametersConfirmDiscardButton().click();
 }
-function updateAndLaunch(dontAskAgain = false) {
+function launch(dontAskAgain = false, withUpdate = false) {
   cy.intercept('POST', URL_REGEX.SCENARIO_PAGE_RUN_WITH_ID).as('requestRunScenario');
-  getParametersUpdateAndLaunchButton().click();
+  if (withUpdate) {
+    getParametersUpdateAndLaunchButton().click();
+  } else {
+    getLaunchButton().click();
+  }
   if (localStorage.getItem('dontAskAgainToConfirmLaunch') !== 'true') {
     if (dontAskAgain) {
       checkDontAskAgain();
@@ -79,6 +83,10 @@ function updateAndLaunch(dontAskAgain = false) {
     getLaunchConfirmButton().click();
   }
   cy.wait('@requestRunScenario');
+}
+
+function updateAndLaunch(dontAskAgain = false) {
+  launch(dontAskAgain, true);
 }
 
 // Actions on input components
@@ -107,6 +115,7 @@ export const ScenarioParameters = {
   edit,
   discard,
   updateAndLaunch,
+  launch,
   getInputValue,
   getTextField,
 };
