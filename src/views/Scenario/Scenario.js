@@ -275,7 +275,7 @@ const Scenario = (props) => {
                 {currentScenario.data && (
                   <Grid item xs={7} className={classes.scenarioMetadata}>
                     {scenarioValidationArea}
-                    <Typography className={classes.scenarioRunTemplateLabel}>
+                    <Typography data-cy="run-template-name" className={classes.scenarioRunTemplateLabel}>
                       {t('views.scenario.text.scenariotype')}: {currentScenario.data.runTemplateName}
                     </Typography>
                   </Grid>

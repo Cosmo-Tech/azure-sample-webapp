@@ -110,11 +110,14 @@ describe('Create scenario', () => {
     ScenarioParameters.getParametersTabs().should('not.be.visible');
 
     // Create scenario master:
-    let scenarioCreatedName;
+    let scenarioName, scenarioRunTemplateName;
     Scenarios.createScenario(scenarioMasterName, true, DATASET.BREWERY_ADT, RUN_TEMPLATE.BREWERY_PARAMETERS).then(
       (value) => {
         scenarioMasterId = value.scenarioCreatedId;
-        scenarioCreatedName = value.scenarioCreatedName;
+        scenarioName = value.scenarioCreatedName;
+        scenarioRunTemplateName = value.scenarioCreatedRunTemplateName;
+
+        Scenarios.getScenarioRunTemplate().contains(scenarioRunTemplateName, { matchCase: false });
       }
     );
 
@@ -139,12 +142,12 @@ describe('Create scenario', () => {
 
     ScenarioParameters.updateAndLaunch();
 
-    cy.wait('@requestEditScenario').should((req) => {
-      const { name: nameGet, id: idGet, parametersValues: paramsGet, state } = req.response.body;
+    cy.wait('@requestEditScenario').should((value) => {
+      const { name: nameGet, id: idGet, parametersValues: paramsGet, state } = value.response.body;
       const stockGet = parseFloat(paramsGet.find((obj) => obj.parameterId === 'stock').value);
       const restockGet = parseFloat(paramsGet.find((obj) => obj.parameterId === 'restock_qty').value);
       const waitersGet = parseFloat(paramsGet.find((obj) => obj.parameterId === 'nb_waiters').value);
-      expect(nameGet).equal(scenarioCreatedName);
+      expect(nameGet).equal(scenarioName);
       expect(state).equal('Created');
       expect(idGet).equal(scenarioMasterId);
       expect(stockGet).equal(stock);
@@ -152,8 +155,8 @@ describe('Create scenario', () => {
       expect(waitersGet).equal(waiters);
     });
 
-    cy.wait('@requestRunScenario').should((req) => {
-      expect(req.response.body.scenarioId).equal(scenarioMasterId);
+    cy.wait('@requestRunScenario').should((value) => {
+      expect(value.response.body.scenarioId).equal(scenarioMasterId);
     });
 
     Scenarios.getDashboardPlaceholder().should('have.text', SCENARIO_RUN_IN_PROGRESS);
@@ -226,8 +229,8 @@ describe('Create scenario', () => {
 
     ScenarioParameters.updateAndLaunch();
 
-    cy.wait('@requestEditScenario').should((req) => {
-      const { name: nameGet, id: idGet, parametersValues: paramsGet } = req.response.body;
+    cy.wait('@requestEditScenario').should((value) => {
+      const { name: nameGet, id: idGet, parametersValues: paramsGet } = value.response.body;
       const stockGet = parseFloat(paramsGet.find((obj) => obj.parameterId === 'stock').value);
       const restockGet = parseFloat(paramsGet.find((obj) => obj.parameterId === 'restock_qty').value);
       const waitersGet = parseFloat(paramsGet.find((obj) => obj.parameterId === 'nb_waiters').value);
@@ -238,8 +241,8 @@ describe('Create scenario', () => {
       expect(waitersGet).equal(childWaiters);
     });
 
-    cy.wait('@requestRunScenario').should((req) => {
-      expect(req.response.body.scenarioId).equal(scenarioChildId);
+    cy.wait('@requestRunScenario').should((value) => {
+      expect(value.response.body.scenarioId).equal(scenarioChildId);
     });
 
     Scenarios.getDashboardPlaceholder().should('have.text', SCENARIO_RUN_IN_PROGRESS);
@@ -249,8 +252,8 @@ describe('Create scenario', () => {
 
     Scenarios.selectScenario(otherScenarioName, otherScenarioId);
 
-    cy.wait('@requestUpdateCurrentScenario2').should((req) => {
-      const nameGet = req.response.body.name;
+    cy.wait('@requestUpdateCurrentScenario2').should((value) => {
+      const nameGet = value.response.body.name;
       expect(nameGet).equal(otherScenarioName);
     });
 
@@ -266,8 +269,8 @@ describe('Create scenario', () => {
       .clear()
       .type(scenarioChildName + '{downarrow}{enter}');
 
-    cy.wait('@requestUpdateCurrentScenario3').should((req) => {
-      const nameGet = req.response.body.name;
+    cy.wait('@requestUpdateCurrentScenario3').should((value) => {
+      const nameGet = value.response.body.name;
       expect(nameGet).equal(scenarioChildName);
     });
 
@@ -353,8 +356,8 @@ describe('Create scenario', () => {
 
     ScenarioParameters.updateAndLaunch();
 
-    cy.wait('@requestEditScenario').should((req) => {
-      const { name: nameGet, id: idGet, parametersValues: paramsGet, state } = req.response.body;
+    cy.wait('@requestEditScenario').should((value) => {
+      const { name: nameGet, id: idGet, parametersValues: paramsGet, state } = value.response.body;
       const textGet = paramsGet.find((obj) => obj.parameterId === 'currency_name').value;
       const numberGet = parseFloat(paramsGet.find((obj) => obj.parameterId === 'currency_value').value);
       const enumGet = paramsGet.find((obj) => obj.parameterId === 'currency').value;
@@ -372,8 +375,8 @@ describe('Create scenario', () => {
       expect(dateGet).equal(dateValue);
     });
 
-    cy.wait('@requestRunScenario').should((req) => {
-      expect(req.response.body.scenarioId).equal(scenarioWithBasicTypesId);
+    cy.wait('@requestRunScenario').should((value) => {
+      expect(value.response.body.scenarioId).equal(scenarioWithBasicTypesId);
     });
 
     Scenarios.getDashboardPlaceholder().should('have.text', SCENARIO_RUN_IN_PROGRESS);

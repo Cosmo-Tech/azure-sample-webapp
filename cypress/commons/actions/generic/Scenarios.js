@@ -73,6 +73,9 @@ function getScenarioValidateButton() {
 function getScenarioRejectButton() {
   return cy.get(GENERIC_SELECTORS.scenario.rejectButton);
 }
+function getScenarioRunTemplate() {
+  return cy.get(GENERIC_SELECTORS.scenario.runTemplateName);
+}
 function getScenarioCreationButton() {
   return cy.get(GENERIC_SELECTORS.scenario.createButton);
 }
@@ -229,6 +232,7 @@ export const Scenarios = {
   getScenarioValidationStatusLoadingSpinner,
   getScenarioValidateButton,
   getScenarioRejectButton,
+  getScenarioRunTemplate,
   getScenarioCreationButton,
   getScenarioCreationDialog,
   getScenarioCreationDialogNameField,

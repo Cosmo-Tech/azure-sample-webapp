@@ -52,6 +52,7 @@ export const GENERIC_SELECTORS = {
     validationStatusChipDeleteIcon: 'svg',
     validateButton: '[data-cy=validate-scenario-button]',
     rejectButton: '[data-cy=reject-scenario-button]',
+    runTemplateName: '[data-cy=run-template-name]',
     createButton: '[data-cy=create-scenario-button]',
     createDialog: {
       dialog: '[data-cy=create-scenario-dialog]',
