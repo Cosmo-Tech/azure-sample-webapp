@@ -4,6 +4,7 @@
 export {
   AppBar,
   Downloads,
+  InstanceVisualization,
   FileParameters,
   TableParameters,
   ScenarioManager,

@@ -53,6 +53,7 @@ export const BASIC_PARAMETERS_CONST = {
 
 export const DATASET = {
   BREWERY_ADT: 'Demo Brewery ADT reference',
+  BREWERY_STORAGE: 'Demo Brewery Storage reference',
 };
 
 export const RUN_TEMPLATE = {
