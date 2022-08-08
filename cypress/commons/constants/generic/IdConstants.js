@@ -57,6 +57,7 @@ export const GENERIC_SELECTORS = {
       dialog: '[data-cy=create-scenario-dialog]',
       masterCheckbox: 'input[id=isScenarioMaster]',
       nameTextfield: '[data-cy=create-scenario-dialog-name-textfield]',
+      errorLabel: '[id=scenarioName-helper-text]',
       datasetSelect: '[data-cy=create-scenario-dialog-dataset-select]',
       typeSelect: '[data-cy=create-scenario-dialog-type-select]',
       submitButton: '[data-cy=create-scenario-dialog-submit-button]',

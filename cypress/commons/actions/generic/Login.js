@@ -13,7 +13,14 @@ function getMicrosoftLoginButton() {
 function login() {
   login.reqIndex = login.reqIndex || 1;
   cy.clearLocalStorageSnapshot();
-  cy.visit(PAGE_NAME.SCENARIO);
+  cy.visit(PAGE_NAME.SCENARIO, {
+    // next line defines English as default language for tests
+    onBeforeLoad(win) {
+      Object.defineProperty(win.navigator, 'languages', {
+        value: ['en-US'],
+      });
+    },
+  });
 
   // Stub PowerBi request
   cy.intercept('GET', URL_POWERBI, {
@@ -34,7 +41,14 @@ function login() {
 function relogin() {
   Cypress.Cookies.preserveOnce('ai_session', 'ai_user');
   cy.restoreLocalStorage();
-  cy.visit(PAGE_NAME.SCENARIO);
+  cy.visit(PAGE_NAME.SCENARIO, {
+    // next line defines English as default language for tests
+    onBeforeLoad(win) {
+      Object.defineProperty(win.navigator, 'languages', {
+        value: ['en-US'],
+      });
+    },
+  });
 }
 
 export const Login = {

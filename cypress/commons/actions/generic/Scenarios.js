@@ -82,6 +82,9 @@ function getScenarioCreationDialog() {
 function getScenarioCreationDialogNameField() {
   return cy.get(GENERIC_SELECTORS.scenario.createDialog.nameTextfield);
 }
+function getScenarioCreationDialogNameInputErrorLabel() {
+  return cy.get(GENERIC_SELECTORS.scenario.createDialog.errorLabel);
+}
 function getScenarioCreationDialogMasterCheckbox() {
   return cy.get(GENERIC_SELECTORS.scenario.createDialog.masterCheckbox);
 }
@@ -229,6 +232,7 @@ export const Scenarios = {
   getScenarioCreationButton,
   getScenarioCreationDialog,
   getScenarioCreationDialogNameField,
+  getScenarioCreationDialogNameInputErrorLabel,
   getScenarioCreationDialogMasterCheckbox,
   getScenarioCreationDialogDatasetSelector,
   getScenarioCreationDialogParentScenarioSelector,
