@@ -185,28 +185,26 @@ function createScenario(scenarioName, isMaster, datasetOrMasterName, runTemplate
 
   getScenarioCreationDialogSubmitButton().click();
 
-  let scenarioCreatedId, scenarioCreatedName;
+  let scenarioCreated;
   cy.wait('@' + scenarioCreationAlias).then((req) => {
-    scenarioCreatedName = req.response.body.name;
-    scenarioCreatedId = req.response.body.id;
-    cy.wrap(scenarioCreatedId).as('scenarioCreatedId');
-    cy.wrap(scenarioCreatedName).should('equal', scenarioName);
+    scenarioCreated = req.response.body;
+    expect(scenarioCreated.name.toLowerCase()).to.equal(scenarioName.toLowerCase());
+    expect(scenarioCreated.runTemplateName.toLowerCase()).to.equal(runTemplate.toLowerCase());
   });
 
-  cy.wait('@' + scenarioListUpdateAlias).then((req) => {
-    const nameGet = req.response.body.find((obj) => obj.id === scenarioCreatedId).name;
-    cy.wrap(nameGet).should('equal', scenarioCreatedName);
-  });
+  return cy.wait('@' + scenarioListUpdateAlias).then((req) => {
+    const nameGet = req.response.body.find((obj) => obj.id === scenarioCreated.id).name;
+    expect(nameGet).to.equal(scenarioCreated.name);
 
-  return getScenarioSelector()
-    .find('input')
-    .should('have.value', scenarioName)
-    .then(() => {
-      return {
-        scenarioCreatedId,
-        scenarioCreatedName,
-      };
-    });
+    return {
+      scenarioCreatedId: scenarioCreated.id,
+      scenarioCreatedName: scenarioCreated.name,
+      scenarioCreatedOwnerName: scenarioCreated.ownerName,
+      scenarioCreatedCreationDate: scenarioCreated.creationDate,
+      scenarioCreatedRunTemplateName: runTemplate,
+      scenarioCratedDatasetOrMasterName: datasetOrMasterName,
+    };
+  });
 }
 
 function validateScenario() {

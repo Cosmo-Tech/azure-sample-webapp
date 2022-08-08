@@ -11,6 +11,14 @@ export const SCENARIO_NAME = {
   OTHER_SCENARIO: TEST_CYPRESS + ' another scenario - ',
 };
 
+export const SCENARIO_STATUS = {
+  CREATED: 'created',
+  RUNNING: 'running',
+  SUCCESSFUL: 'successful',
+  FAILED: 'failed',
+  UNKNOWN: 'unknown',
+};
+
 export const BAR_PARAMETERS_RANGE = {
   STOCK: {
     MIN: 0,
@@ -44,7 +52,7 @@ export const BASIC_PARAMETERS_CONST = {
 };
 
 export const DATASET = {
-  BREWERY_ADT: 'Brewery ADT reference',
+  BREWERY_ADT: 'Demo Brewery ADT reference',
 };
 
 export const RUN_TEMPLATE = {

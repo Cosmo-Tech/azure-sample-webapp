@@ -28,6 +28,14 @@ function getScenarioAccordion(scenarioId) {
   return cy.get(GENERIC_SELECTORS.scenario.manager.scenarioAccordion.replace('$SCENARIOID', scenarioId));
 }
 
+function getScenarioOwnerName(scenarioId) {
+  return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.ownerName);
+}
+
+function getScenarioCreationDate(scenarioId) {
+  return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.creationDate);
+}
+
 function getScenarioEditableLabel(scenarioId) {
   return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.manager.editableLabel);
 }
@@ -44,6 +52,16 @@ function getScenarioValidationStatusChip(scenarioId) {
 
 function getScenarioValidationStatusLoadingSpinner(scenarioId) {
   return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.validationStatusLoadingSpinner);
+}
+
+function getScenarioRunStatus(scenarioId, scenarioStatus, timeout = 5) {
+  return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.scenarioStatus[scenarioStatus], {
+    timeout: timeout * 1000,
+  });
+}
+
+function getScenarioDataset(scenarioId) {
+  return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.manager.scenarioDataset);
 }
 
 function getScenarioViewRedirect(scenarioId) {
@@ -103,10 +121,14 @@ export const ScenarioManager = {
   deleteScenarioList,
   writeInFilter,
   getScenarioAccordion,
+  getScenarioOwnerName,
+  getScenarioCreationDate,
   getScenarioEditableLabel,
   renameScenario,
   getScenarioValidationStatusChip,
   getScenarioValidationStatusLoadingSpinner,
+  getScenarioRunStatus,
+  getScenarioDataset,
   getScenarioViewRedirect,
   checkValidationStatus,
   getScenarioAccordionExpandButton,
