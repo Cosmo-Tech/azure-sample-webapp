@@ -8,6 +8,7 @@ import {
   getDefaultNodeStyle,
   getDefaultSelectedEdgeStyle,
   getDefaultSelectedNodeStyle,
+  getDefaultOutEdgeStyle,
 } from './styleCytoViz';
 import { ORGANIZATION_ID, WORKSPACE_ID } from '../../config/GlobalConfiguration';
 import instanceViewData from '../../config/InstanceVisualization.js';
@@ -87,6 +88,14 @@ const _processGraphEdges = (processedData, datasetContent, edgesGroups, theme) =
     processedData.stylesheet.push({
       selector: `edge.${edgesGroupName}:selected`,
       style: { ...getDefaultSelectedEdgeStyle(theme), ...edgesGroupMetadata.style },
+    });
+    processedData.stylesheet.push({
+      selector: 'edge[?asInEdgeHighlighted]',
+      style: { ...getDefaultSelectedEdgeStyle(theme), ...edgesGroupMetadata.style },
+    });
+    processedData.stylesheet.push({
+      selector: 'edge[?asOutEdgeHighlighted]',
+      style: { ...getDefaultOutEdgeStyle(theme), ...edgesGroupMetadata.style },
     });
   });
 };
