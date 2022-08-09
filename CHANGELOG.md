@@ -1,4 +1,4 @@
-## **2.8.0** <sub><sup>2022-08-02 ([c56ce5d...29f3ae8](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/c56ce5db...29f3ae89?diff=split))</sup></sub>
+## **2.8.0** <sub><sup>2022-08-09 ([c56ce5d...f7452e2](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/c56ce5d...f7452e2?diff=split))</sup></sub>
 
 ### Features
 
