@@ -21,7 +21,9 @@ function deleteScenarioList(scenarioNamesToDelete) {
 }
 
 function writeInFilter(searchStr) {
-  cy.get(GENERIC_SELECTORS.scenario.manager.search).find('input').clear().type(searchStr);
+  cy.get(GENERIC_SELECTORS.scenario.manager.search)
+    .find('input')
+    .type('{selectAll}{backspace}' + searchStr);
 }
 
 function getScenarioAccordion(scenarioId) {

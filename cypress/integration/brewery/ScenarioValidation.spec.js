@@ -28,7 +28,7 @@ describe('Scenario validation', () => {
 
   it('can validate & reject scenarios', () => {
     let scenarioId;
-    const prefix = 'Scenario validation -';
+    const prefix = 'Test Cypress - Scenario validation - ';
     const randomString = utils.randomStr(7);
     const scenarioName = prefix + randomString;
     scenarioNamesToDelete.push(scenarioName);
@@ -37,7 +37,7 @@ describe('Scenario validation', () => {
 
       // Default status - Draft or Unknwo
       Scenarios.getScenarioValidationStatusChip().should('not.exist');
-      Scenarios.getScenarioValidationStatusLoadingSpinner().should('not.exist');
+      Scenarios.getScenarioValidationStatusLoadingSpinner(10).should('not.exist');
       Scenarios.getScenarioValidateButton().should('be.visible').should('not.be.disabled');
       Scenarios.getScenarioRejectButton().should('be.visible').should('not.be.disabled');
       ScenarioParameters.getParametersEditButton().should('not.be.disabled');
@@ -49,7 +49,7 @@ describe('Scenario validation', () => {
       // Validate scenario
       Scenarios.validateScenario();
       Scenarios.getScenarioValidationStatusLoadingSpinner().should('be.visible');
-      Scenarios.getScenarioValidationStatusLoadingSpinner().should('not.exist');
+      Scenarios.getScenarioValidationStatusLoadingSpinner(10).should('not.exist');
       Scenarios.getScenarioValidationStatusChip().should('exist');
       Scenarios.getScenarioValidationStatusChip().should('have.text', 'Validated');
       Scenarios.getScenarioValidateButton().should('not.exist');
@@ -63,9 +63,8 @@ describe('Scenario validation', () => {
       // Reset status to Draft
       Scenarios.resetScenarioValidationStatus();
       Scenarios.getScenarioValidationStatusLoadingSpinner().should('be.visible');
-      Scenarios.getScenarioValidationStatusLoadingSpinner().should('not.exist');
+      Scenarios.getScenarioValidationStatusLoadingSpinner(10).should('not.exist');
       Scenarios.getScenarioValidationStatusChip().should('not.exist');
-      Scenarios.getScenarioValidationStatusLoadingSpinner().should('not.exist');
       Scenarios.getScenarioValidateButton().should('be.visible').should('not.be.disabled');
       Scenarios.getScenarioRejectButton().should('be.visible').should('not.be.disabled');
       ScenarioParameters.getParametersEditButton().should('not.be.disabled');
@@ -77,7 +76,7 @@ describe('Scenario validation', () => {
       // Reject scenario
       Scenarios.rejectScenario();
       Scenarios.getScenarioValidationStatusLoadingSpinner().should('be.visible');
-      Scenarios.getScenarioValidationStatusLoadingSpinner().should('not.exist');
+      Scenarios.getScenarioValidationStatusLoadingSpinner(10).should('not.exist');
       Scenarios.getScenarioValidationStatusChip().should('exist');
       Scenarios.getScenarioValidationStatusChip().should('have.text', 'Rejected');
       Scenarios.getScenarioValidateButton().should('not.exist');
@@ -91,7 +90,7 @@ describe('Scenario validation', () => {
       // Reset status to Draft
       Scenarios.resetScenarioValidationStatus();
       Scenarios.getScenarioValidationStatusLoadingSpinner().should('be.visible');
-      Scenarios.getScenarioValidationStatusLoadingSpinner().should('not.exist');
+      Scenarios.getScenarioValidationStatusLoadingSpinner(10).should('not.exist');
       Scenarios.getScenarioValidationStatusChip().should('not.exist');
       Scenarios.getScenarioValidateButton().should('be.visible');
       Scenarios.getScenarioRejectButton().should('be.visible');

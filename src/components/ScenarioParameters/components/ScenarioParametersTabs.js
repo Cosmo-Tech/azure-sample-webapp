@@ -122,7 +122,7 @@ const ScenarioParametersTabs = ({ parametersGroupsMetadata, userRoles }) => {
   return (
     <div data-cy="scenario-parameters-tabs">
       {tabs.length === 0 ? (
-        <div className={classes.placeholder}>
+        <div className={classes.placeholder} data-cy="no-parameters-placeholder">
           {t('genericcomponent.text.scenario.parameters.placeholder', 'No parameters to edit.')}
         </div>
       ) : (

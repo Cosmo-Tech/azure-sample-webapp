@@ -42,6 +42,9 @@ function getDontAskAgainCheckbox() {
 function checkDontAskAgain() {
   getDontAskAgainCheckbox().check();
 }
+function getNoParametersPlaceholder() {
+  return cy.get(GENERIC_SELECTORS.scenario.parameters.noParametersPlaceholder);
+}
 
 // Actions around scenario parameters
 function expandParametersAccordion() {
@@ -69,6 +72,7 @@ function discard() {
   getParametersDiscardButton().click();
   getParametersConfirmDiscardButton().click();
 }
+
 function launch(dontAskAgain = false, withUpdate = false) {
   cy.intercept('POST', URL_REGEX.SCENARIO_PAGE_RUN_WITH_ID).as('requestRunScenario');
   if (withUpdate) {
@@ -110,6 +114,7 @@ export const ScenarioParameters = {
   getLaunchCancelButton,
   getDontAskAgainCheckbox,
   checkDontAskAgain,
+  getNoParametersPlaceholder,
   expandParametersAccordion,
   collapseParametersAccordion,
   edit,
