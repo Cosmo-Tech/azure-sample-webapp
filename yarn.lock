@@ -1141,9 +1141,9 @@
     xlsx "^0.18.3"
 
 "@cosmotech/ui@^3.0.0":
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-3.0.3.tgz#c5c68bd34b26792fc5dda658272f4aaf986afd93"
-  integrity sha512-dz9bIr60xjANyUhc0w3+iNL0VbEpNzo0SamKOJH6HciLpm4QKHalapFRcPlNe8H9UArqbwqcTeDPPGJcxVs3tg==
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-3.0.4.tgz#387f36985bdc87c56c81357df1f0e74f404d8336"
+  integrity sha512-SFKitV1SxngxV3WQDbmvrxB6c8xUakTIr4uO2ihmfRfTsUZkUozxuNJr8IWyxiJ1Uufl0p840B5XC0vMM+WOdg==
   dependencies:
     "@date-io/date-fns" "^1.3.13"
     "@material-ui/pickers" "^3.3.10"
@@ -2191,9 +2191,9 @@
     "@types/react" "*"
 
 "@types/react@*":
-  version "18.0.15"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.0.15.tgz#d355644c26832dc27f3e6cbf0c4f4603fc4ab7fe"
-  integrity sha512-iz3BtLuIYH1uWdsv6wXYdhozhqj20oD4/Hk2DNXIn1kFsmp9x8d9QB6FnPhfkbhd2PgEONt9Q1x/ebkwjfFLow==
+  version "18.0.17"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.0.17.tgz#4583d9c322d67efe4b39a935d223edcc7050ccf4"
+  integrity sha512-38ETy4tL+rn4uQQi7mB81G7V1g0u2ryquNmsVIOKUAEIDK+3CUjZ6rSRpdvS99dNBnkLFL83qfmtLacGOTIhwQ==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
