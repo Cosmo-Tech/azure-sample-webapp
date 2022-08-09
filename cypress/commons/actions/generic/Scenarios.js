@@ -64,8 +64,8 @@ function getScenarioValidationStatusChip() {
 function getScenarioValidationStatusChipDeleteIcon() {
   return getScenarioValidationStatusChip().find(GENERIC_SELECTORS.scenario.validationStatusChipDeleteIcon);
 }
-function getScenarioValidationStatusLoadingSpinner() {
-  return cy.get(GENERIC_SELECTORS.scenario.validationStatusLoadingSpinner);
+function getScenarioValidationStatusLoadingSpinner(timeout = 5) {
+  return cy.get(GENERIC_SELECTORS.scenario.validationStatusLoadingSpinner, { timeout: timeout * 1000 });
 }
 function getScenarioValidateButton() {
   return cy.get(GENERIC_SELECTORS.scenario.validateButton);
@@ -133,7 +133,9 @@ function selectScenario(scenarioName, scenarioId) {
 }
 
 function writeInScenarioSelectorInput(searchStr) {
-  return getScenarioSelector().click().clear().type(searchStr);
+  return getScenarioSelector()
+    .click()
+    .type('{selectAll}{backspace}' + searchStr); // clear() does not always work, use "{selectAll}{backspace}" instead
 }
 
 // Open scenario creation dialog
