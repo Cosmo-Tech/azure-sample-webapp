@@ -24,7 +24,7 @@ describe('check scenario sorted list after reload', () => {
   });
   it('checks first scenario in the list after reload', () => {
     Scenarios.selectScenario(scenarios[1], scenariosIds[1]);
-    cy.reload();
+    cy.visit('/scenario');
     Scenarios.getScenarioSelectorInput().should('have.value', scenarios[0]);
   });
 });
