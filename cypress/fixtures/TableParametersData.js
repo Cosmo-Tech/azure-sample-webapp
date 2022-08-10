@@ -34,3 +34,10 @@ export const EXPECTED_EVENTS_AFTER_XLSX_IMPORT =
   'supply chain,22/07/2020,evening,workshop,180,true\n' +
   'asset Management,13/08/2022,morning,conference,220,false\n' +
   'industry processes,18/09/2022,evening,workshop,150,false';
+
+export const EXPECTED_CUSTOMERS_INHERITED_TABLE =
+  'name,age,canDrinkAlcohol,favoriteDrink,birthday,height\n' +
+  'Bob,78,false,AppleJuice,01/04/2011,2.01\n' +
+  'Lily,8,true,AppleJuice,09/05/2013,1.41\n' +
+  'Maria,34,true,Wine,19/03/1987,1.90\n' +
+  'Howard,34,true,Beer,12/05/1987,1.83';

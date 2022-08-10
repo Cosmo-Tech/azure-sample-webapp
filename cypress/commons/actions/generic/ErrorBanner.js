@@ -11,7 +11,16 @@ function getDismissErrorButton() {
   return cy.get(GENERIC_SELECTORS.genericComponents.errorBanner.dismissErrorButton);
 }
 
+function getErrorDetailText() {
+  return cy.get(GENERIC_SELECTORS.genericComponents.errorBanner.errorDetail);
+}
+
+function getErrorCommentText() {
+  return cy.get(GENERIC_SELECTORS.genericComponents.errorBanner.errorComment);
+}
 export const ErrorBanner = {
   getErrorBanner,
   getDismissErrorButton,
+  getErrorCommentText,
+  getErrorDetailText,
 };

@@ -98,6 +98,7 @@ export const GENERIC_SELECTORS = {
       submitButton: '[data-cy=create-scenario-dialog-submit-button]',
     },
     manager: {
+      view: '[data-cy=scenario-manager-view]',
       tabName: '[data-cy="tabs.scenariomanager.key"]',
       confirmDeleteDialog: '[data-cy=confirm-scenario-delete-dialog]',
       search: '[data-cy=scenario-manager-search-field]',
@@ -147,6 +148,8 @@ export const GENERIC_SELECTORS = {
     },
     errorBanner: {
       banner: '[data-cy=error-banner]',
+      errorDetail: '[data-cy=error-detail]',
+      errorComment: '[data-cy=error-comment]',
       dismissErrorButton: '[data-cy=dismiss-error-button]',
     },
     hierarchicalComboBox: {

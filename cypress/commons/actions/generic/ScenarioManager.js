@@ -2,7 +2,9 @@
 // Licensed under the MIT license.
 
 import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
-
+function getScenarioManagerView() {
+  return cy.get(GENERIC_SELECTORS.scenario.manager.view);
+}
 function switchToScenarioManager() {
   cy.get(GENERIC_SELECTORS.scenario.manager.tabName).click();
 }
@@ -118,6 +120,7 @@ function triggerScenarioAccordionExpandOrCollapse(scenarioId) {
 }
 
 export const ScenarioManager = {
+  getScenarioManagerView,
   switchToScenarioManager,
   deleteScenario,
   deleteScenarioList,
