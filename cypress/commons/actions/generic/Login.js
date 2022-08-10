@@ -3,9 +3,10 @@
 
 import 'cypress-localstorage-commands';
 import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
-import { PAGE_NAME, URL_REGEX, URL_POWERBI } from '../../constants/generic/TestConstants';
+import { URL_REGEX, URL_POWERBI } from '../../constants/generic/TestConstants';
 import { Scenarios, ScenarioParameters } from './..';
 
+const BASE_URL = Cypress.config().baseUrl;
 function getMicrosoftLoginButton() {
   return cy.get(GENERIC_SELECTORS.login.microsoftLoginButton);
 }
@@ -13,7 +14,7 @@ function getMicrosoftLoginButton() {
 function login() {
   login.reqIndex = login.reqIndex || 1;
   cy.clearLocalStorageSnapshot();
-  cy.visit(PAGE_NAME.SCENARIO, {
+  cy.visit(BASE_URL, {
     // next line defines English as default language for tests
     onBeforeLoad(win) {
       Object.defineProperty(win.navigator, 'languages', {
@@ -41,7 +42,7 @@ function login() {
 function relogin() {
   Cypress.Cookies.preserveOnce('ai_session', 'ai_user');
   cy.restoreLocalStorage();
-  cy.visit(PAGE_NAME.SCENARIO, {
+  cy.visit(BASE_URL, {
     // next line defines English as default language for tests
     onBeforeLoad(win) {
       Object.defineProperty(win.navigator, 'languages', {
