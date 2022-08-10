@@ -94,11 +94,21 @@ function getScenarioCreationDialogMasterCheckbox() {
 function getScenarioCreationDialogDatasetSelector() {
   return cy.get(GENERIC_SELECTORS.scenario.createDialog.datasetSelect);
 }
+function getScenarioCreationDialogDatasetSelectorOptions() {
+  return cy.get(GENERIC_SELECTORS.scenario.createDialog.datasetSelectorOptions);
+}
 function getScenarioCreationDialogParentScenarioSelector() {
-  return getScenarioCreationDialog().find(GENERIC_SELECTORS.scenario.selectInput);
+  return getScenarioCreationDialog().find(GENERIC_SELECTORS.genericComponents.hierarchicalComboBox.selector);
+}
+function getScenarioCreationDialogParentScenarioSelectorOptions() {
+  // ListBox component for selector options is not in its associated selector component in DOM, do not use .find() here
+  return cy.get(GENERIC_SELECTORS.genericComponents.hierarchicalComboBox.selectorOptions);
 }
 function getScenarioCreationDialogRunTypeSelector() {
   return cy.get(GENERIC_SELECTORS.scenario.createDialog.typeSelect);
+}
+function getScenarioCreationDialogRunTypeSelectorOptions() {
+  return cy.get(GENERIC_SELECTORS.scenario.createDialog.typeSelectorOptions);
 }
 function getScenarioCreationDialogSubmitButton() {
   return cy.get(GENERIC_SELECTORS.scenario.createDialog.submitButton);
@@ -147,22 +157,21 @@ function openScenarioCreationDialog() {
 // Select a parent scenario
 function selectParentScenario(scenarioName) {
   getScenarioCreationDialogMasterCheckbox().uncheck();
-  getScenarioCreationDialog().click().find(GENERIC_SELECTORS.scenario.selectInput).click();
-  cy.contains(scenarioName).should('be.visible').click();
+  getScenarioCreationDialogParentScenarioSelector().clear().type(scenarioName);
+  getScenarioCreationDialogParentScenarioSelectorOptions().contains(scenarioName).click();
 }
 
 // Select a dataset
 function selectDataset(dataset) {
   getScenarioCreationDialogMasterCheckbox().check();
-  getScenarioCreationDialogDatasetSelector().click();
-  /* eslint-disable-next-line cypress/no-force */
-  cy.contains(dataset).should('be.visible').click({ force: true });
+  getScenarioCreationDialogDatasetSelector().clear().type(dataset);
+  getScenarioCreationDialogDatasetSelectorOptions().contains(dataset).click();
 }
 
 // Select a run template
 function selectRunTemplate(runTemplate) {
   getScenarioCreationDialogRunTypeSelector().clear().type(runTemplate);
-  return cy.contains(runTemplate);
+  getScenarioCreationDialogRunTypeSelectorOptions().contains(runTemplate).click();
 }
 
 function createScenario(scenarioName, isMaster, datasetOrMasterName, runTemplate) {
@@ -177,8 +186,7 @@ function createScenario(scenarioName, isMaster, datasetOrMasterName, runTemplate
     selectParentScenario(datasetOrMasterName);
   }
 
-  /* eslint-disable-next-line cypress/no-force */
-  selectRunTemplate(runTemplate).should('be.visible').click({ force: true });
+  selectRunTemplate(runTemplate);
 
   const scenarioCreationAlias = 'requestCreateScenario_' + scenarioName.replaceAll(' ', '');
   const scenarioListUpdateAlias = 'requestUpdateScenarioList_' + scenarioName.replaceAll(' ', '');
@@ -239,8 +247,11 @@ export const Scenarios = {
   getScenarioCreationDialogNameInputErrorLabel,
   getScenarioCreationDialogMasterCheckbox,
   getScenarioCreationDialogDatasetSelector,
+  getScenarioCreationDialogDatasetSelectorOptions,
   getScenarioCreationDialogParentScenarioSelector,
+  getScenarioCreationDialogParentScenarioSelectorOptions,
   getScenarioCreationDialogRunTypeSelector,
+  getScenarioCreationDialogRunTypeSelectorOptions,
   getScenarioCreationDialogSubmitButton,
   getDashboardPlaceholder,
   switchToScenarioView,

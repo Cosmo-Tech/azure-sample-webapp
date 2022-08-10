@@ -92,7 +92,9 @@ export const GENERIC_SELECTORS = {
       nameTextfield: '[data-cy=create-scenario-dialog-name-textfield]',
       errorLabel: '[id=scenarioName-helper-text]',
       datasetSelect: '[data-cy=create-scenario-dialog-dataset-select]',
+      datasetSelectorOptions: '[data-cy=create-scenario-dialog-dataset-select-options]',
       typeSelect: '[data-cy=create-scenario-dialog-type-select]',
+      typeSelectorOptions: '[data-cy=create-scenario-dialog-type-select-options]',
       submitButton: '[data-cy=create-scenario-dialog-submit-button]',
     },
     manager: {
@@ -146,6 +148,10 @@ export const GENERIC_SELECTORS = {
     errorBanner: {
       banner: '[data-cy=error-banner]',
       dismissErrorButton: '[data-cy=dismiss-error-button]',
+    },
+    hierarchicalComboBox: {
+      selector: '[data-cy=scenario-selector]',
+      selectorOptions: '[data-cy=scenario-selector-options]',
     },
   },
 };
