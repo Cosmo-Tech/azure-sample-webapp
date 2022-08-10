@@ -10,6 +10,7 @@ export const PAGE_NAME = {
   SCENARIO: '/scenario',
   SCENARIOS: '/scenarios',
   SIGN_IN: '/sign-in',
+  SCENARIO_MANAGER: '/scenariomanager',
 };
 
 export const URL_REGEX = {
