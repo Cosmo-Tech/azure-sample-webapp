@@ -1,16 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-const TEST_CYPRESS = 'Test Cypress';
-
-export const SCENARIO_NAME = {
-  SCENARIO_MASTER: TEST_CYPRESS + ' Master - ',
-  SCENARIO_CHILD: TEST_CYPRESS + ' Child - ',
-  SCENARIO_WITH_BASIC_TYPES: TEST_CYPRESS + ' with basic types - ',
-  SCENARIO_WITH_FILES: TEST_CYPRESS + ' with files - ',
-  OTHER_SCENARIO: TEST_CYPRESS + ' another scenario - ',
-};
-
 export const SCENARIO_STATUS = {
   CREATED: 'created',
   RUNNING: 'running',

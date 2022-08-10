@@ -3,7 +3,6 @@
 
 import utils from '../../commons/TestUtils';
 import {
-  SCENARIO_NAME,
   BAR_PARAMETERS_RANGE,
   BASIC_PARAMETERS_CONST,
   DATASET,
@@ -20,17 +19,15 @@ import { BreweryParameters } from '../../commons/actions/brewery';
 
 describe('Create scenario', () => {
   const randomString = utils.randomStr(7);
-  const scenarioMasterName = SCENARIO_NAME.SCENARIO_MASTER + randomString;
-  const scenarioChildName = SCENARIO_NAME.SCENARIO_CHILD + randomString;
-  const scenarioWithBasicTypesName = SCENARIO_NAME.SCENARIO_WITH_BASIC_TYPES + randomString;
-  const otherScenarioName = SCENARIO_NAME.OTHER_SCENARIO + randomString;
-
+  const scenarioMasterName = 'Test Cypress - Scenario creation - Master - ' + randomString;
+  const scenarioChildName = 'Test Cypress - Scenario creation - Child - ' + randomString;
+  const scenarioWithBasicTypesName = 'Test Cypress - Scenario creation - Basic types - ' + randomString;
+  const otherScenarioName = 'Test Cypress - Scenario creation - Another scenario - ' + randomString;
   let scenarioMasterId, scenarioChildId, scenarioWithBasicTypesId, otherScenarioId, anotherScenarioUrlRegex;
 
   const stock = utils.randomNmbr(BAR_PARAMETERS_RANGE.STOCK.MIN, BAR_PARAMETERS_RANGE.STOCK.MAX);
   const restock = utils.randomNmbr(BAR_PARAMETERS_RANGE.RESTOCK.MIN, BAR_PARAMETERS_RANGE.RESTOCK.MAX);
   const waiters = utils.randomNmbr(BAR_PARAMETERS_RANGE.WAITERS.MIN, BAR_PARAMETERS_RANGE.WAITERS.MAX);
-
   const textValue = utils.randomStr(8);
   const numberValue = utils.randomNmbr(BASIC_PARAMETERS_CONST.NUMBER.MIN, BASIC_PARAMETERS_CONST.NUMBER.MAX);
   const enumValue = utils.randomEnum(BASIC_PARAMETERS_CONST.ENUM);

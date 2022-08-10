@@ -4,12 +4,7 @@
 import 'cypress-file-upload';
 import utils from '../../commons/TestUtils';
 
-import {
-  BASIC_PARAMETERS_CONST,
-  SCENARIO_NAME,
-  DATASET,
-  RUN_TEMPLATE,
-} from '../../commons/constants/brewery/TestConstants';
+import { BASIC_PARAMETERS_CONST, DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
 import { Scenarios, ScenarioManager, ScenarioParameters, Login } from '../../commons/actions';
 import { BreweryParameters } from '../../commons/actions/brewery';
 
@@ -23,8 +18,7 @@ const FILE_PATH_1 = 'dummy_dataset_1.csv';
 const FILE_PATH_2 = 'dummy_dataset_2.csv';
 
 function forgeScenarioName() {
-  const randomString = utils.randomStr(7);
-  return SCENARIO_NAME.SCENARIO_WITH_FILES + randomString;
+  return `Test Cypress - File parameters - ${utils.randomStr(7)}`;
 }
 
 describe('Simple operations on a file parameter', () => {

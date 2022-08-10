@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import utils from '../../commons/TestUtils';
-import { SCENARIO_NAME, DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
+import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
 import { SCENARIO_RUN_IN_PROGRESS } from '../../commons/constants/generic/TestConstants';
 import { Scenarios, ScenarioManager, ScenarioParameters, Login } from '../../commons/actions';
 
@@ -16,7 +16,7 @@ describe('Launch scenario', () => {
   const scenariosNames = new Array(scenariosCount);
   const scenariosIds = new Array(scenariosCount);
   for (let i = 0; i < scenariosCount; ++i) {
-    scenariosNames[i] = SCENARIO_NAME.SCENARIO_MASTER + i + ' - ' + randomString;
+    scenariosNames[i] = `Test Cypress - Launch scenario - ${randomString} - S${i}`;
   }
 
   before(() => {
