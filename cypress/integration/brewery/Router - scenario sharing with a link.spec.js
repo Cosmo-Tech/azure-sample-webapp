@@ -24,7 +24,7 @@ describe('Scenario sharing with a link', () => {
   });
   it('shares the scenario with a link', () => {
     cy.visit(`/scenario/${scenariosIds[1]}`);
+    cy.url({ timeout: 2000 }).should('include', `/scenario/${scenariosIds[1]}`);
     Scenarios.getScenarioSelectorInput().should('have.value', scenarios[1]);
-    cy.url().should('include', `/scenario/${scenariosIds[1]}`);
   });
 });
