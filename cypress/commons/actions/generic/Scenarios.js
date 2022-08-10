@@ -155,7 +155,7 @@ function selectParentScenario(scenarioName) {
 function selectDataset(dataset) {
   getScenarioCreationDialogMasterCheckbox().check();
   getScenarioCreationDialogDatasetSelector().click();
-  /* eslint-disable cypress/no-force */
+  /* eslint-disable-next-line cypress/no-force */
   cy.contains(dataset).should('be.visible').click({ force: true });
 }
 
@@ -177,7 +177,7 @@ function createScenario(scenarioName, isMaster, datasetOrMasterName, runTemplate
     selectParentScenario(datasetOrMasterName);
   }
 
-  /* eslint-disable cypress/no-force */
+  /* eslint-disable-next-line cypress/no-force */
   selectRunTemplate(runTemplate).should('be.visible').click({ force: true });
 
   const scenarioCreationAlias = 'requestCreateScenario_' + scenarioName.replaceAll(' ', '');
