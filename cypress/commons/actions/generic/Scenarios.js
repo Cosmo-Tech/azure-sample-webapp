@@ -191,7 +191,7 @@ function createScenario(scenarioName, isMaster, datasetOrMasterName, runTemplate
   const scenarioCreationAlias = 'requestCreateScenario_' + scenarioName.replaceAll(' ', '');
   const scenarioListUpdateAlias = 'requestUpdateScenarioList_' + scenarioName.replaceAll(' ', '');
   cy.intercept('POST', URL_REGEX.SCENARIO_PAGE).as(scenarioCreationAlias);
-  cy.intercept('GET', URL_REGEX.SCENARIO_PAGE).as(scenarioListUpdateAlias);
+  cy.intercept('GET', URL_REGEX.SCENARIOS_LIST).as(scenarioListUpdateAlias);
 
   getScenarioCreationDialogSubmitButton().click();
 
