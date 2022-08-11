@@ -12,7 +12,9 @@ const _extractPermissionsFromRoles = (roles) => {
   let permissions = [];
   if (roles) {
     for (const role of roles) {
-      permissions = [...new Set([...permissions, ...PROFILES[role]])];
+      if (role in PROFILES) {
+        permissions = [...new Set([...permissions, ...PROFILES[role]])];
+      }
     }
   }
   return permissions;
