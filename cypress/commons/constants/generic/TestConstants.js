@@ -13,6 +13,7 @@ export const PAGE_NAME = {
 };
 
 export const URL_REGEX = {
+  SCENARIOS_LIST: new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}$`),
   SCENARIO_PAGE: new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}`),
   SCENARIO_PAGE_WITH_ID: new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/.*`),
   SCENARIO_PAGE_RUN_WITH_ID: new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/.*/run`),
