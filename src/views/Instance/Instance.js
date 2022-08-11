@@ -93,6 +93,7 @@ const Instance = (props) => {
       title: t('commoncomponents.cytoviz.settings.title', 'Settings'),
       spacingFactor: t('commoncomponents.cytoviz.settings.spacingFactor', 'Spacing factor'),
       zoomLimits: t('commoncomponents.cytoviz.settings.zoomLimits', 'Min & max zoom'),
+      collapse: t('commoncomponents.cytoviz.settings.collapse', 'Compound nodes collapsed (Right click to open)'),
     },
     elementData: {
       dictKey: t('commoncomponents.cytoviz.elementData.dictKey', 'Key'),
@@ -118,6 +119,7 @@ const Instance = (props) => {
     maxZoom: 1,
     useCompactMode: true,
     spacingFactor: 1,
+    collapseAllCompounds: true,
   };
 
   let cytoVizPlaceholderMessage = null;
