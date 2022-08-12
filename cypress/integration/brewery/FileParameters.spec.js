@@ -107,7 +107,6 @@ describe('Simple operations on a file parameter', () => {
   });
 
   it('can delete an uploaded file and run the scenario', () => {
-    // Wait required to prevent some kind of race condition somehow
     Scenarios.selectScenario(firstScenarioName, firstScenarioId);
     ScenarioParameters.edit(300);
     BreweryParameters.switchToDatasetPartsTab();
@@ -181,7 +180,6 @@ describe('Simple operations on a file parameter in a parameters tab that lost fo
   });
 
   it('can delete an uploaded file and run the scenario', () => {
-    // Wait required to prevent some kind of race condition somehow
     Scenarios.selectScenario(firstScenarioName, firstScenarioId);
     ScenarioParameters.edit(300);
     BreweryParameters.switchToBasicTypesTab();
@@ -213,9 +211,6 @@ describe('Scenario inheritance for file parameters', () => {
   const grandParentScenarioName = scenarioPrefix + ' - GrandParent';
   const parentScenarioName = scenarioPrefix + ' - Parent';
   const childScenarioName = scenarioPrefix + ' - Child';
-  scenarioNamesToDelete.push(grandParentScenarioName);
-  scenarioNamesToDelete.push(parentScenarioName);
-  scenarioNamesToDelete.push(childScenarioName);
 
   let grandParentScenarioId;
   let parentScenarioId;
@@ -223,6 +218,7 @@ describe('Scenario inheritance for file parameters', () => {
   it('can create a scenario, upload a file, create a child scenario and run it', () => {
     Scenarios.createScenario(grandParentScenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE).then((value) => {
       grandParentScenarioId = value.scenarioCreatedId;
+      scenarioNamesToDelete.push(grandParentScenarioName);
     });
     ScenarioParameters.edit();
     BreweryParameters.switchToDatasetPartsTab();
@@ -233,6 +229,7 @@ describe('Scenario inheritance for file parameters', () => {
     Scenarios.createScenario(parentScenarioName, false, grandParentScenarioName, SCENARIO_RUN_TEMPLATE).then(
       (value) => {
         parentScenarioId = value.scenarioCreatedId;
+        scenarioNamesToDelete.push(parentScenarioName);
       }
     );
     BreweryParameters.switchToDatasetPartsTab();
@@ -240,7 +237,6 @@ describe('Scenario inheritance for file parameters', () => {
   });
 
   it('can create a scenario, upload a file, create a child scenario, delete the file and run it', () => {
-    // Wait required to prevent some kind of race condition somehow
     Scenarios.selectScenario(parentScenarioName, parentScenarioId);
     ScenarioParameters.edit(180);
     BreweryParameters.switchToDatasetPartsTab();
@@ -259,6 +255,7 @@ describe('Scenario inheritance for file parameters', () => {
       'the first child scenario and run it',
     () => {
       Scenarios.createScenario(childScenarioName, false, parentScenarioName, SCENARIO_RUN_TEMPLATE);
+      scenarioNamesToDelete.push(childScenarioName);
       ScenarioParameters.expandParametersAccordion();
       BreweryParameters.switchToDatasetPartsTab();
       BreweryParameters.getExampleDatasetPart1DownloadButton().should('not.exist');
