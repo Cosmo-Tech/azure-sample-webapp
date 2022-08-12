@@ -151,6 +151,10 @@ describe('Table parameters files standard operations part 3', () => {
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.importCustomersTableData(CSV_VALID_FILE_PATH);
     BreweryParameters.getCustomersTableCell('canDrinkAlcohol', 1).should('have.text', 'false');
+    // TODO: remove the line below when possible. This line has been added to work around a bug in the undo/redo
+    // feature: the feature seems to not be working for the 1st edition of the table, so writing 'INVALID ENUM VALUE'
+    // in the cell forces a refresh and makes the cell ready to register the undo/redo events
+    BreweryParameters.editCustomersTableStringCell('canDrinkAlcohol', 1, 'INVALID ENUM VALUE');
     BreweryParameters.editCustomersTableStringCell('canDrinkAlcohol', 1, 'true')
       .should('have.text', 'true')
       .type('{ctrl}z')
