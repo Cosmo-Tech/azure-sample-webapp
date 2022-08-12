@@ -158,6 +158,8 @@ function openScenarioCreationDialog() {
 function selectParentScenario(scenarioName) {
   getScenarioCreationDialogMasterCheckbox().uncheck();
   getScenarioCreationDialogParentScenarioSelector().clear().type(scenarioName);
+  // Try to prevent "detached from DOM" cypress error with these 2 instructions
+  getScenarioCreationDialogParentScenarioSelectorOptions().contains(scenarioName).should('be.visible');
   getScenarioCreationDialogParentScenarioSelectorOptions().contains(scenarioName).click();
 }
 
@@ -165,12 +167,16 @@ function selectParentScenario(scenarioName) {
 function selectDataset(dataset) {
   getScenarioCreationDialogMasterCheckbox().check();
   getScenarioCreationDialogDatasetSelector().clear().type(dataset);
+  // Try to prevent "detached from DOM" cypress error with these 2 instructions
+  getScenarioCreationDialogDatasetSelectorOptions().contains(dataset).should('be.visible');
   getScenarioCreationDialogDatasetSelectorOptions().contains(dataset).click();
 }
 
 // Select a run template
 function selectRunTemplate(runTemplate) {
   getScenarioCreationDialogRunTypeSelector().clear().type(runTemplate);
+  // Try to prevent "detached from DOM" cypress error with these 2 instructions
+  getScenarioCreationDialogRunTypeSelectorOptions().contains(runTemplate).should('be.visible');
   getScenarioCreationDialogRunTypeSelectorOptions().contains(runTemplate).click();
 }
 
