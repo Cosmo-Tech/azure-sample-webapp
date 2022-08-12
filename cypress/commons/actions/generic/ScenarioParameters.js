@@ -86,7 +86,7 @@ function launch(dontAskAgain = false, withUpdate = false) {
     }
     getLaunchConfirmButton().click();
   }
-  cy.wait('@requestRunScenario', { timeout: 20 * 1000 }); // 20 seconds timeout
+  cy.wait('@requestRunScenario', { timeout: 60 * 1000 }); // 60 seconds timeout
 }
 
 function updateAndLaunch(dontAskAgain = false) {
