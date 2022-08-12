@@ -1126,17 +1126,17 @@
   dependencies:
     axios "^0.21.4"
 
-"@cosmotech/azure@1.1.20":
-  version "1.1.20"
-  resolved "https://registry.yarnpkg.com/@cosmotech/azure/-/azure-1.1.20.tgz#c7e9462abee32fa445f6b8ec8579bb40a1994b8a"
-  integrity sha512-tJ/umM2qstyY9UxkMH+MRbjYCGQV0qUOzHd2WQ5VfMK+seeYabptXbeHF74XxEQL6Dr5uCvgN3/HskXGZ2zu8A==
+"@cosmotech/azure@1.1.21":
+  version "1.1.21"
+  resolved "https://registry.yarnpkg.com/@cosmotech/azure/-/azure-1.1.21.tgz#6415dcd13b5fd4683414e269a21a8c4634271c12"
+  integrity sha512-plQ0Zx45YlJHMOTUM1V8BBV2Avup47aEGsz1/q4ovvLkx4NN+hTcl1LXbMMjOYh1hqJRqFf54Ch+yX1q6+6VWw==
   dependencies:
     "@azure/msal-browser" "~2.23.0"
 
 "@cosmotech/core@^1.9.0":
-  version "1.9.0"
-  resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.9.0.tgz#d99acfa42609facbdc05a4e663b3e43d51c1ff58"
-  integrity sha512-O16cHlHiYs+QcCu/Rg1TLb2rBBPdA2TcgTs8eouZwAycGOSHzoHNIJAkXlLoaq93SE9wGYXhHONw2O2LMOBciw==
+  version "1.9.1"
+  resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.9.1.tgz#27db65517785d341505f3d50a030ac336b0a1ade"
+  integrity sha512-D3ghVlZaP1ap+UdfrXqFHZdEfWuJdqg/7mBddhkP3aVNNQRKew7Ewo5+2W2DZ9YkV9hoaCiriG3TwKDNFiUNNQ==
   dependencies:
     csv-string "^4.0.1"
     date-fns "^2.25.0"
@@ -1145,15 +1145,15 @@
     xlsx "^0.18.3"
 
 "@cosmotech/ui@^4.0.0-rc1":
-  version "4.0.0-rc1"
-  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-4.0.0-rc1.tgz#0a2cdf6a2c92c1afd03c2ce6cae7cf04cb1ade79"
-  integrity sha512-eQaFzQpx3mEnOCENwrMGbSAzRmz3djTl021RN0xyzzN3WwrNBeJFgzpWtvY74yL6HikcXm/s341qlPU15K4JRg==
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-4.0.1.tgz#996a75bb009154196bd0a9d9fe12bcc66e682189"
+  integrity sha512-qFesbT0URFAZkPpYeKKFWr3uT+1im88Sq7V8AlgF+yVmnzowhf2GRXwmpB7bWH6pxN4pIE8ap02lyM4D4gTK+g==
   dependencies:
     "@date-io/date-fns" "^1.3.13"
     "@material-ui/pickers" "^3.3.10"
     "@nosferatu500/react-sortable-tree" "^3.0.5"
-    ag-grid-community "^26.1.0"
-    ag-grid-react "^26.1.0"
+    ag-grid-community "^28.1.0"
+    ag-grid-react "^28.1.0"
     clsx "^1.1.1"
     cytoscape "^3.20.0"
     cytoscape-bubblesets "^3.1.0"
@@ -2688,17 +2688,17 @@ adler-32@~1.3.0:
   resolved "https://registry.yarnpkg.com/adler-32/-/adler-32-1.3.1.tgz#1dbf0b36dda0012189a32b3679061932df1821e2"
   integrity sha512-ynZ4w/nUUv5rrsR8UUGoe1VC9hZj6V5hU9Qw1HlMDJGEJw5S7TfTErWTjMys6M7vr0YWcPqs3qAr4ss0nDfP+A==
 
-ag-grid-community@^26.1.0:
-  version "26.2.1"
-  resolved "https://registry.yarnpkg.com/ag-grid-community/-/ag-grid-community-26.2.1.tgz#b217e1b62317817c7119511a1a8358992e3a2026"
-  integrity sha512-aChSGNdPkBda4BhOUUEAmAkRlIG7rFU8UTXx3NPStavrCOHKLDRV90djIKuiXfM6ONBqKmeqw2as0yuLnSN8dw==
+ag-grid-community@^28.1.0:
+  version "28.1.0"
+  resolved "https://registry.yarnpkg.com/ag-grid-community/-/ag-grid-community-28.1.0.tgz#a7b6f1c219d6fb7f777aaf39dd04639eb94f4bea"
+  integrity sha512-iCrdRWImvj6pOKaRQXdaPfZ0EI4fCQgTVv5PiCP9otbDPQBxyxjFVn+jEoV0umOqpqPAMoDIbG9poKyWuHl/EA==
 
-ag-grid-react@^26.1.0:
-  version "26.2.0"
-  resolved "https://registry.yarnpkg.com/ag-grid-react/-/ag-grid-react-26.2.0.tgz#79e851130a1806a5d3d3ba004ca0eecc7f344a63"
-  integrity sha512-sFU1C3OFWun/V5l5+93b4XQegT+RA21AUY1TqUcHActDY0myeEllPJkR0xKj82EZuKihNuH52WQjOrrhzAjoHA==
+ag-grid-react@^28.1.0:
+  version "28.1.0"
+  resolved "https://registry.yarnpkg.com/ag-grid-react/-/ag-grid-react-28.1.0.tgz#4119e236af63a0ded5f87714cfec1b6635c7d2e9"
+  integrity sha512-4Z/7T5kYKWqUhDrSY6bgseiKLiuMwjG4zHYIVtZwGwma7hb5e2CYwDdnfoWKArR6a7TzF86JiRpzd2WlLaARdQ==
   dependencies:
-    prop-types "^15.6.2"
+    prop-types "^15.8.1"
 
 agent-base@6:
   version "6.0.2"
