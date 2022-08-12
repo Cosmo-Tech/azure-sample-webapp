@@ -7,8 +7,8 @@ import { ScenarioParameters } from './ScenarioParameters';
 
 // From scenario View
 // Get elements
-function getScenarioViewTab() {
-  return cy.get(GENERIC_SELECTORS.scenario.tabName);
+function getScenarioViewTab(timeout = 5) {
+  return cy.get(GENERIC_SELECTORS.scenario.tabName, { timeout: timeout * 1000 });
 }
 function getScenarioView() {
   return cy.get(GENERIC_SELECTORS.scenario.view);
@@ -229,6 +229,7 @@ function resetScenarioValidationStatus() {
 
 export const Scenarios = {
   getScenarioView,
+  getScenarioViewTab,
   getScenarioSelector,
   getScenarioSelectorInput,
   getScenarioSelectorOption,

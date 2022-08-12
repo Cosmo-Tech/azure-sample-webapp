@@ -32,9 +32,9 @@ function login() {
   cy.intercept('GET', URL_REGEX.SCENARIO_PAGE_WITH_ID).as(reqName);
   ++login.reqIndex;
   Login.getMicrosoftLoginButton().click();
-  cy.wait('@' + reqName);
+  cy.wait('@' + reqName, { timeout: 60 * 1000 });
 
-  Scenarios.getScenarioView().should('be.visible');
+  Scenarios.getScenarioViewTab(60).should('be.visible');
   ScenarioParameters.getParametersAccordionSummary().should('be.visible');
   cy.saveLocalStorage();
 }
@@ -50,6 +50,7 @@ function relogin() {
       });
     },
   });
+  Scenarios.getScenarioViewTab(60).should('be.visible');
 }
 
 export const Login = {
