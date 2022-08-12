@@ -130,7 +130,7 @@ export const GENERIC_SELECTORS = {
       importButton: '[data-cy=import-file-button]',
       importButtonInput: 'input[type=file]',
       csvExportButton: '[data-cy=export-csv-button]',
-      header: '[class=ag-header-viewport]',
+      header: '[class=ag-header-container]',
       colByName: '[col-id=$COLNAME]',
       rowsContainer: '[class=ag-center-cols-container]',
       row: '.ag-row',
