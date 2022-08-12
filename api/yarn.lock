@@ -2,17 +2,17 @@
 # yarn lockfile v1
 
 
-"@azure/msal-common@^7.2.0":
-  version "7.2.0"
-  resolved "https://registry.yarnpkg.com/@azure/msal-common/-/msal-common-7.2.0.tgz#e186450866cb95f18bc558e0fe1673ab44b42d4f"
-  integrity sha512-+Oz8LKTOACDHqDmv+MZy/z+DZRH8RZbMjhadmvp0scQ0R75OrzZro+HkxifWhtDG8l1ViYkvV9NHb4pEZyajAQ==
+"@azure/msal-common@^7.3.0":
+  version "7.3.0"
+  resolved "https://registry.yarnpkg.com/@azure/msal-common/-/msal-common-7.3.0.tgz#63778ca00a41e3160842b0ee2134cfa92b524820"
+  integrity sha512-revxB3z+QLjwAtU1d04nC1voFr+i3LfqTpUfgrWZVqKh/sSgg0mZZUvw4vKVWB57qtL95sul06G+TfdFZny1Xw==
 
 "@azure/msal-node@^1.2.0":
-  version "1.12.0"
-  resolved "https://registry.yarnpkg.com/@azure/msal-node/-/msal-node-1.12.0.tgz#1ded9d38db23ad7f2e4cc093504a3ccbbbecf12f"
-  integrity sha512-bNJe5xx3YXj7lrj9wUYl7HX4g1Be7s8VHjDhKPzOnlI54JnRKI+nQ95EmFBs3ckUYM9u82HUsHumDcB21YIC9w==
+  version "1.12.1"
+  resolved "https://registry.yarnpkg.com/@azure/msal-node/-/msal-node-1.12.1.tgz#1e69189242709d59479fe1133f741ca6564f8020"
+  integrity sha512-m909lX9C8Ty01DBxbjr4KfAKWibohgRvY7hrdDo13U1ztlH+0Nbt7cPF1vrWonW/CRT4H4xtUa4LCNmivghggw==
   dependencies:
-    "@azure/msal-common" "^7.2.0"
+    "@azure/msal-common" "^7.3.0"
     jsonwebtoken "^8.5.1"
     uuid "^8.3.0"
 
@@ -132,9 +132,9 @@ node-domexception@^1.0.0:
   integrity sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==
 
 node-fetch@^3.0.0:
-  version "3.2.9"
-  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-3.2.9.tgz#3f6070bf854de20f21b9fe8479f823462e615d7d"
-  integrity sha512-/2lI+DBecVvVm9tDhjziTVjo2wmTsSxSk58saUYP0P/fRJ3xxtfMDY24+CKTkfm0Dlhyn3CSXNL0SoRiCZ8Rzg==
+  version "3.2.10"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-3.2.10.tgz#e8347f94b54ae18b57c9c049ef641cef398a85c8"
+  integrity sha512-MhuzNwdURnZ1Cp4XTazr69K0BTizsBroX7Zx3UgDSVcZYKF/6p0CBe4EUb/hLqmzVhl0UpYfgRljQ4yxE+iCxA==
   dependencies:
     data-uri-to-buffer "^4.0.0"
     fetch-blob "^3.1.4"
