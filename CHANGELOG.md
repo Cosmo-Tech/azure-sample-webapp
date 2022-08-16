@@ -1,3 +1,32 @@
+## **3.0.0** <sub><sup>2022-08-16</sup></sub>
+
+### Features
+
+- dark/light theme switch
+- scenarios ids are now included in URLs to let users share direct links to a specific scenario
+- migration script to migrate configuration folder to v3.0.0 format
+
+### Bug Fixes
+
+- after login, users are now properly redirected to the view given in the URL they tried to access
+- fix possible error after login pop-up with some browsers
+- fix error during authentication if profiles and permissions are empty in configuration files
+
+### BREAKING CHANGES
+
+_Note: a [migration guide](./doc/migrationGuides/v3.0.0.md) is available to help you migrate your solution to v3.0.0_
+
+- files in the webapp configuration folder have been reorganized
+- new theme structure:
+  - theme is dynamic and has to be imported from Redux from now on
+  - removed some material-ui overrides in palette.js
+  - removed custom theme variables in palette.js
+  - removed 'default' theme folder
+- username removed from top bar
+- react-router upgraded to v6 (PrivateRoute and PublicRoute components have been removed)
+- generic factories (for scenario parameters inputs and tabs) transformed from functions to React components: "function-shaped" factories are still supported but are now considered deprecated, please update your factories to React components (see migration guide for further instructions)
+- the redirection URL was changed from /scenario to /sign-in: you must update the accepted redirection URLs in the Azure portal page of your App Registration and replace /scenario by /sign-in (or only add /sign-in to keep supporting previous versions of your webapps)
+
 ## **2.8.0** <sub><sup>2022-08-09 ([c56ce5d...f7452e2](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/c56ce5d...f7452e2?diff=split))</sup></sub>
 
 ### Features
