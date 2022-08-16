@@ -1,6 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
+const APPLY_SHINY_STYLE = true;
 const DATA_SOURCE = {
   type: 'adt',
   // functionUrl: 'http://localhost:7071/api/ScenarioDownload', // Use for a local azure function
@@ -9,19 +9,17 @@ const DATA_SOURCE = {
 };
 
 const DATA_CONTENT = {
+  shinyStyle: APPLY_SHINY_STYLE,
   compounds: {
     contains_Customer: {},
   },
   edges: {
-    arc_to_Customer: { style: { 'line-color': '#999999' }, selectable: false },
+    arc_to_Customer: { selectable: true },
   },
   nodes: {
     Bar: {
       style: {
         shape: 'rectangle',
-        'background-color': '#466282',
-        'background-opacity': 0.2,
-        'border-width': 0,
       },
       pannable: true,
       selectable: true,
@@ -29,7 +27,6 @@ const DATA_CONTENT = {
     },
     Customer: {
       style: {
-        'background-color': '#005A31',
         shape: 'ellipse',
       },
     },

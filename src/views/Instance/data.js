@@ -6,8 +6,16 @@ import { Auth } from '@cosmotech/core';
 import {
   getDefaultEdgeStyle,
   getDefaultNodeStyle,
+  getDefaultCompoundNodeStyle,
   getDefaultSelectedEdgeStyle,
   getDefaultSelectedNodeStyle,
+  getAssociatedClassAttribute,
+  shinyColors,
+  getShinyEdgeStyle,
+  getShinyNodeStyle,
+  getShinySelectedEdgeStyle,
+  getShinySelectedNodeStyle,
+  getShinyCompoundNodeStyle,
 } from './styleCytoViz';
 import { ORGANIZATION_ID, WORKSPACE_ID } from '../../config/GlobalConfiguration';
 import instanceViewData from '../../config/InstanceVisualization.js';
@@ -38,7 +46,7 @@ const _forgeCytoscapeEdgeData = (edge, classes, edgesGroupMetadata = {}) => {
   };
 };
 
-const _processGraphCompounds = (datasetContent, compoundsGroups) => {
+const _processGraphCompounds = (datasetContent, compoundsGroups, shinyStyle) => {
   const nodesParentsDict = {};
 
   Object.entries(compoundsGroups).forEach(([compoundsGroupName, compoundsGroupMetadata]) => {
@@ -51,7 +59,8 @@ const _processGraphCompounds = (datasetContent, compoundsGroups) => {
   return nodesParentsDict;
 };
 
-const _processGraphNodes = (processedData, nodesParentsDict, datasetContent, nodesGroups, theme) => {
+const _processGraphNodes = (processedData, nodesParentsDict, datasetContent, nodesGroups, theme, shinyStyle) => {
+  const attrMap = new Map();
   Object.entries(nodesGroups).forEach(([nodesGroupName, nodesGroupMetadata]) => {
     // Nodes data
     const nodesGroupFromDataset = datasetContent[nodesGroupName] || [];
@@ -63,16 +72,31 @@ const _processGraphNodes = (processedData, nodesParentsDict, datasetContent, nod
     // Nodes style
     processedData.stylesheet.push({
       selector: `node.${nodesGroupName}`,
-      style: { ...getDefaultNodeStyle(theme), ...nodesGroupMetadata.style },
+      style: {
+        ...(shinyStyle ? { ...getShinyNodeStyle(theme) } : { ...getDefaultNodeStyle(theme) }),
+        'background-color': getAssociatedClassAttribute(shinyColors, nodesGroupName, attrMap),
+        'border-color': getAssociatedClassAttribute(shinyColors, nodesGroupName, attrMap),
+        ...nodesGroupMetadata.style,
+      },
     });
     processedData.stylesheet.push({
       selector: `node.${nodesGroupName}:selected`,
-      style: { ...getDefaultSelectedNodeStyle(theme), ...nodesGroupMetadata.style },
+      style: {
+        ...(shinyStyle ? { ...getShinySelectedNodeStyle(theme) } : { ...getDefaultSelectedNodeStyle(theme) }),
+        'background-color': getAssociatedClassAttribute(shinyColors, nodesGroupName, attrMap),
+        ...nodesGroupMetadata.style,
+      },
+    });
+    processedData.stylesheet.push({
+      selector: `node:parent`,
+      style: {
+        ...(shinyStyle ? { ...getShinyCompoundNodeStyle(theme) } : { ...getDefaultCompoundNodeStyle(theme) }),
+      },
     });
   });
 };
 
-const _processGraphEdges = (processedData, datasetContent, edgesGroups, theme) => {
+const _processGraphEdges = (processedData, datasetContent, edgesGroups, theme, shinyStyle) => {
   Object.entries(edgesGroups).forEach(([edgesGroupName, edgesGroupMetadata]) => {
     // Edges data
     const edgesGroupFromDataset = datasetContent[edgesGroupName] || [];
@@ -82,11 +106,17 @@ const _processGraphEdges = (processedData, datasetContent, edgesGroups, theme) =
     // Edges style
     processedData.stylesheet.push({
       selector: `edge.${edgesGroupName}`,
-      style: { ...getDefaultEdgeStyle(theme), ...edgesGroupMetadata.style },
+      style: {
+        ...(shinyStyle ? { ...getShinyEdgeStyle(theme) } : { ...getDefaultEdgeStyle(theme) }),
+        ...edgesGroupMetadata.style,
+      },
     });
     processedData.stylesheet.push({
       selector: `edge.${edgesGroupName}:selected`,
-      style: { ...getDefaultSelectedEdgeStyle(theme), ...edgesGroupMetadata.style },
+      style: {
+        ...(shinyStyle ? { ...getShinySelectedEdgeStyle(theme) } : { ...getDefaultSelectedEdgeStyle(theme) }),
+        ...edgesGroupMetadata.style,
+      },
     });
   });
 };
@@ -106,15 +136,26 @@ export const processGraphElements = (scenario, theme) => {
   const scenarioDatasets = scenario.datasets || [{ content: scenario }];
   for (const dataset of Object.values(scenarioDatasets)) {
     const datasetContent = dataset.content;
-    const nodesParentsDict = _processGraphCompounds(datasetContent, instanceViewData.dataContent.compounds || {});
+    const nodesParentsDict = _processGraphCompounds(
+      datasetContent,
+      instanceViewData.dataContent.compounds || {},
+      instanceViewData.dataContent.shinyStyle
+    );
     _processGraphNodes(
       processedData,
       nodesParentsDict,
       datasetContent,
       instanceViewData.dataContent.nodes,
-      theme || {}
+      theme || {},
+      instanceViewData.dataContent.shinyStyle
     );
-    _processGraphEdges(processedData, datasetContent, instanceViewData.dataContent.edges, theme || {});
+    _processGraphEdges(
+      processedData,
+      datasetContent,
+      instanceViewData.dataContent.edges,
+      theme || {},
+      instanceViewData.dataContent.shinyStyle
+    );
   }
   return processedData;
 };
