@@ -23,7 +23,7 @@ You can then run the migration script with `npx @cosmotech/migrate-azure-sample-
 
 # Dev notes
 
-##Run migration scripts from a local repository
+## Run migration scripts from a local repository
 
 - `cd` to the folder containing the migration scripts (with files `migrate.js` and `package.json`) and run `npm link`
 - `cd` to the folder where you want to run the migration scripts, and run `migrate-azure-sample-webapp v3`
