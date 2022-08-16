@@ -1,6 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
+// For more information see
+// https://github.com/Cosmo-Tech/azure-sample-webapp/blob/main/doc/applicationInsights.md
+
 // Whether to enable Application Insights events tracking
-export const ENABLE_APPLICATION_INSIGHTS = true;
-export const APPLICATION_INSIGHTS_INSTRUMENTATION_KEY = 'f198a852-15d8-48da-9cd0-1e6d18708489';
+export const ENABLE_APPLICATION_INSIGHTS = false;
+export const APPLICATION_INSIGHTS_INSTRUMENTATION_KEY = '';
