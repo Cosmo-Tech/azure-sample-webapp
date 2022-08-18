@@ -37,6 +37,12 @@
             "rejected": "Ce scénario est rejeté, vous ne pouvez pas éditer ses paramètres",
             "validated": "Ce scénario est validé, vous ne pouvez pas éditer ses paramètres",
             "noTabs": "Pas de paramètres à éditer"
+          },
+          "discard": "Abandonner les modifications",
+          "edit": "Éditer les parameters",
+          "launch": "Lancer le scénario",
+          "update": {
+            "launch": "Mettre à jour et lancer le scénario",
           }
         }
       }
@@ -94,7 +100,9 @@
         "layout": "Agencement",
         "title": "Paramètres",
         "spacingFactor": "Espacement",
-        "zoomLimits": "Zoom min/max"
+        "zoomLimits": "Zoom min/max",
+        "opensettings": "Ouvrir les paramètres",
+        "closesettings": "Fermer les paramètres"
       },
       "elementData": {
         "dictKey": "Clé",
@@ -290,7 +298,8 @@
         "update": "Mettre à jour"
       },
       "tooltip": {
-        "isvalidfile": "Erreur: la colonne requiert une chaine de caractères"
+        "isvalidfile": "Erreur: la colonne requiert une chaine de caractères",
+        "delete": "Supprimer le fichier"
       }
     },
     "loading": {
@@ -344,9 +353,14 @@
       }
     },
     "helpmenu": {
+      "title": "Aide",
       "documentation": "Documentation",
       "support": "Contacter le support",
       "about": "A propos"
+    },
+    "switchtheme": {
+      "light": "Passer en mode clair",
+      "dark": "Passer en mode sombre"
     },
     "dialog": {
       "scenario": {
@@ -461,7 +475,7 @@
       },
       "scenariomanager": {
         "tab": {
-          "title": "GESTIONNAIRE DE SCENARIOS"
+          "title": "Gestionnaire de scénarios"
         }
       },
       "dashboards": {

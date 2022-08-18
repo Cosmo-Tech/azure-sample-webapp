@@ -259,7 +259,7 @@ const PARAMETERS_GROUPS = {
   events: {
     labels: {
       en: 'Events',
-      fr: 'Evènements',
+      fr: 'Évènements',
     },
     parameters: ['events', 'additional_seats', 'activated', 'evaluation'],
   },

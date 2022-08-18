@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import React, { useEffect, useState } from 'react';
-import { AppBar, Tabs, Tab, Box, Toolbar, IconButton, makeStyles } from '@material-ui/core';
+import { AppBar, Fade, Tabs, Tab, Box, Toolbar, Tooltip, IconButton, makeStyles } from '@material-ui/core';
 import { Link, useLocation, useMatch, Outlet } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Auth } from '@cosmotech/core';
@@ -50,6 +50,7 @@ const TabLayout = (props) => {
     logOut: t('genericcomponent.userinfo.button.logout'),
   };
   const helpLabels = {
+    title: t('genericcomponent.helpmenu.title'),
     documentation: t('genericcomponent.helpmenu.documentation'),
     support: t('genericcomponent.helpmenu.support'),
     aboutTitle: t('genericcomponent.helpmenu.about'),
@@ -83,15 +84,25 @@ const TabLayout = (props) => {
             ))}
           </Tabs>
           {
-            <IconButton
-              className={classes.switchToDarkTheme}
-              onClick={() => {
-                setDarkThemeUsed(!darkThemeUsed);
-                setApplicationTheme(!darkThemeUsed);
-              }}
+            <Tooltip
+              TransitionComponent={Fade}
+              TransitionProps={{ timeout: 600 }}
+              title={
+                darkThemeUsed
+                  ? t('genericcomponent.switchtheme.light', 'Switch to light')
+                  : t('genericcomponent.switchtheme.dark', 'Switch to dark')
+              }
             >
-              {darkThemeUsed ? <WbSunnyIcon /> : <Brightness2Icon />}
-            </IconButton>
+              <IconButton
+                className={classes.switchToDarkTheme}
+                onClick={() => {
+                  setDarkThemeUsed(!darkThemeUsed);
+                  setApplicationTheme(!darkThemeUsed);
+                }}
+              >
+                {darkThemeUsed ? <WbSunnyIcon /> : <Brightness2Icon />}
+              </IconButton>
+            </Tooltip>
           }
           <HelpMenu
             documentationUrl={DOCUMENTATION_URL}
