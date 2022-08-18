@@ -3,7 +3,17 @@
 
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Backdrop, Button, Card, CircularProgress, Grid, Paper, Tooltip, Typography } from '@material-ui/core';
+import {
+  Backdrop,
+  Button,
+  Card,
+  CardContent,
+  CircularProgress,
+  Grid,
+  Paper,
+  Tooltip,
+  Typography,
+} from '@material-ui/core';
 import { ScenarioParameters } from '../../components';
 import { useTranslation } from 'react-i18next';
 import {
@@ -358,19 +368,21 @@ const Scenario = (props) => {
           </Grid>
           <Grid item xs={12}>
             <Card component={Paper} elevation={2}>
-              <SimplePowerBIReportEmbed
-                // key is used here to assure the complete re-rendering of the component when scenario changes ;
-                // we need to remount it to avoid errors in powerbi-client-react which throws an error if filters change
-                key={currentScenario?.data?.id}
-                reports={reports}
-                reportConfiguration={currentScenarioRunTemplateReport}
-                scenario={currentScenario.data}
-                lang={i18n.language}
-                downloadLogsFile={currentScenario.data?.lastRun ? downloadLogsFile : null}
-                labels={reportLabels}
-                useAAD={USE_POWER_BI_WITH_USER_CREDENTIALS}
-                iframeRatio={SCENARIO_VIEW_IFRAME_DISPLAY_RATIO}
-              />
+              <CardContent>
+                <SimplePowerBIReportEmbed
+                  // key is used here to assure the complete re-rendering of the component when scenario changes ; we
+                  // need to remount it to avoid errors in powerbi-client-react which throws an error if filters change
+                  key={currentScenario?.data?.id}
+                  reports={reports}
+                  reportConfiguration={currentScenarioRunTemplateReport}
+                  scenario={currentScenario.data}
+                  lang={i18n.language}
+                  downloadLogsFile={currentScenario.data?.lastRun ? downloadLogsFile : null}
+                  labels={reportLabels}
+                  useAAD={USE_POWER_BI_WITH_USER_CREDENTIALS}
+                  iframeRatio={SCENARIO_VIEW_IFRAME_DISPLAY_RATIO}
+                />
+              </CardContent>
             </Card>
           </Grid>
         </Grid>
