@@ -9,6 +9,8 @@ import {
   getDefaultSelectedEdgeStyle,
   getDefaultSelectedNodeStyle,
   getDefaultOutEdgeStyle,
+  getDefaultCompoundNodeStyle,
+  getDefaultCollapsedCompoundNodeStyle,
 } from './styleCytoViz';
 import { ORGANIZATION_ID, WORKSPACE_ID } from '../../config/GlobalConfiguration';
 import instanceViewData from '../../config/InstanceVisualization.js';
@@ -69,6 +71,14 @@ const _processGraphNodes = (processedData, nodesParentsDict, datasetContent, nod
     processedData.stylesheet.push({
       selector: `node.${nodesGroupName}:selected`,
       style: { ...getDefaultSelectedNodeStyle(theme), ...nodesGroupMetadata.style },
+    });
+    processedData.stylesheet.push({
+      selector: `node.${nodesGroupName}:parent`,
+      style: { ...getDefaultCompoundNodeStyle(theme), ...nodesGroupMetadata.style },
+    });
+    processedData.stylesheet.push({
+      selector: `node.cy-expand-collapse-collapsed-node`,
+      style: { ...getDefaultCollapsedCompoundNodeStyle(theme) },
     });
   });
 };

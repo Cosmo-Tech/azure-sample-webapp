@@ -100,7 +100,8 @@
         "layout": "Layout",
         "title": "Settings",
         "spacingFactor": "Spacing factor",
-        "zoomLimits": "Min & max zoom"
+        "zoomLimits": "Min & max zoom",
+        "collapse": "Compound nodes collapsed (Right click to open)"
       },
       "elementData": {
         "dictKey": "Key",

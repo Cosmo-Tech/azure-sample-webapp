@@ -100,7 +100,8 @@
         "layout": "Agencement",
         "title": "Paramètres",
         "spacingFactor": "Espacement",
-        "zoomLimits": "Zoom min/max"
+        "zoomLimits": "Zoom min/max",
+        "collapse": "Nœuds composés réduits (Clic droit up pour l'ouvrir)"
       },
       "elementData": {
         "dictKey": "Clé",

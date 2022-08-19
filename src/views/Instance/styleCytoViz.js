@@ -13,6 +13,8 @@ const EDGE_DEFAULT_COLOR = '#999999';
 const EDGE_SELECTED_COLOR = '#5b5b5b';
 const EDGE_SELECTED_WIDTH = 5;
 const EDGE_WIDTH = 2;
+// Compounds
+const COMPOUND_DEFAULT_BORDER_COLOR = '#999999';
 
 // Styles details
 export const getDefaultEdgeStyle = (theme) => ({
@@ -51,4 +53,15 @@ export const getDefaultSelectedNodeStyle = (theme) => ({
   width: NODE_SELECTED_ICON_SIZE,
   height: NODE_SELECTED_ICON_SIZE,
   'background-blacken': -NODE_SELECTED_BLACKEN_RATIO,
+});
+
+export const getDefaultCompoundNodeStyle = (theme) => ({
+  'border-style': 'dashed',
+  'border-color': COMPOUND_DEFAULT_BORDER_COLOR,
+  'border-width': 3,
+});
+export const getDefaultCollapsedCompoundNodeStyle = (theme) => ({
+  ...getDefaultCompoundNodeStyle(theme),
+  shape: 'ellipse',
+  'border-style': 'solid',
 });
