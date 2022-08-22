@@ -123,3 +123,310 @@ describe('getParameterSubType with possible values', () => {
     }
   );
 });
+
+describe('getPermissionsFromRoles', () => {
+  let spyConsoleWarn;
+  beforeAll(() => {
+    spyConsoleWarn = jest.spyOn(console, 'warn').mockImplementation();
+  });
+  afterAll(() => {
+    spyConsoleWarn.mockRestore();
+  });
+
+  const rolesToPermissionsMapping = {
+    admin: ['read', 'write', 'manage'],
+    writer: ['read', 'write'],
+    reader: ['read'],
+    guest: [],
+    other: ['other'],
+  };
+
+  test.each`
+    roles                  | rolesToPermissionsMapping    | consoleWarnCalls | expectedRes
+    ${null}                | ${null}                      | ${1}             | ${[]}
+    ${null}                | ${undefined}                 | ${1}             | ${[]}
+    ${undefined}           | ${null}                      | ${1}             | ${[]}
+    ${undefined}           | ${undefined}                 | ${1}             | ${[]}
+    ${null}                | ${{}}                        | ${1}             | ${[]}
+    ${[]}                  | ${null}                      | ${1}             | ${[]}
+    ${[]}                  | ${{}}                        | ${0}             | ${[]}
+    ${[]}                  | ${rolesToPermissionsMapping} | ${0}             | ${[]}
+    ${['admin']}           | ${rolesToPermissionsMapping} | ${0}             | ${['read', 'write', 'manage']}
+    ${['writer']}          | ${rolesToPermissionsMapping} | ${0}             | ${['read', 'write']}
+    ${['reader']}          | ${rolesToPermissionsMapping} | ${0}             | ${['read']}
+    ${['guest']}           | ${rolesToPermissionsMapping} | ${0}             | ${[]}
+    ${['admin', 'reader']} | ${rolesToPermissionsMapping} | ${0}             | ${['read', 'write', 'manage']}
+    ${['admin', 'guest']}  | ${rolesToPermissionsMapping} | ${0}             | ${['read', 'write', 'manage']}
+    ${['admin', 'other']}  | ${rolesToPermissionsMapping} | ${0}             | ${['read', 'write', 'manage', 'other']}
+  `(
+    'with parameters "$roles" and "$rolesToPermissionsMapping" then "$expectedRes"',
+    ({ roles, rolesToPermissionsMapping, consoleWarnCalls, expectedRes }) => {
+      const res = ConfigUtils.getPermissionsFromRoles(roles, rolesToPermissionsMapping);
+      expect(spyConsoleWarn).toHaveBeenCalledTimes(consoleWarnCalls);
+      expect(res).toStrictEqual(expectedRes);
+    }
+  );
+});
+
+describe('transposeMappingDict', () => {
+  let spyConsoleWarn;
+  beforeAll(() => {
+    spyConsoleWarn = jest.spyOn(console, 'warn').mockImplementation();
+  });
+  afterAll(() => {
+    spyConsoleWarn.mockRestore();
+  });
+
+  const rolesToPermissionsMapping = {
+    admin: ['read', 'write', 'manage'],
+    writer: ['read', 'write'],
+    reader: ['read'],
+    guest: [],
+    other: ['other'],
+  };
+  const expectedTransposedMapping = {
+    read: ['admin', 'writer', 'reader'],
+    write: ['admin', 'writer'],
+    manage: ['admin'],
+    other: ['other'],
+  };
+
+  test.each`
+    mappingDict                  | consoleWarnCalls | expectedRes
+    ${null}                      | ${1}             | ${{}}
+    ${undefined}                 | ${1}             | ${{}}
+    ${{}}                        | ${0}             | ${{}}
+    ${rolesToPermissionsMapping} | ${0}             | ${expectedTransposedMapping}
+  `('with mapping dict "$mappingDict" then "$expectedRes"', ({ mappingDict, consoleWarnCalls, expectedRes }) => {
+    const res = ConfigUtils.transposeMappingDict(mappingDict);
+    expect(spyConsoleWarn).toHaveBeenCalledTimes(consoleWarnCalls);
+    expect(res).toStrictEqual(expectedRes);
+  });
+});
+
+describe('getRolesGrantingPermission', () => {
+  let spyConsoleWarn;
+  beforeAll(() => {
+    spyConsoleWarn = jest.spyOn(console, 'warn').mockImplementation();
+  });
+  afterAll(() => {
+    spyConsoleWarn.mockRestore();
+  });
+
+  const rolesToPermissionsMapping = {
+    admin: ['read', 'write', 'manage'],
+    writer: ['read', 'write'],
+    reader: ['read'],
+    guest: [],
+    other: ['other'],
+  };
+  const transposedMapping = {
+    read: ['admin', 'writer', 'reader'],
+    write: ['admin', 'writer'],
+    manage: ['admin'],
+    other: ['other'],
+  };
+
+  test.each`
+    permission   | mappingDict                  | consoleWarnCalls | expectedRes
+    ${null}      | ${null}                      | ${1}             | ${[]}
+    ${null}      | ${undefined}                 | ${1}             | ${[]}
+    ${undefined} | ${null}                      | ${1}             | ${[]}
+    ${undefined} | ${undefined}                 | ${1}             | ${[]}
+    ${null}      | ${{}}                        | ${1}             | ${[]}
+    ${'read'}    | ${rolesToPermissionsMapping} | ${0}             | ${transposedMapping.read}
+    ${'write'}   | ${rolesToPermissionsMapping} | ${0}             | ${transposedMapping.write}
+    ${'manage'}  | ${rolesToPermissionsMapping} | ${0}             | ${transposedMapping.manage}
+    ${'other'}   | ${rolesToPermissionsMapping} | ${0}             | ${transposedMapping.other}
+    ${'unknown'} | ${rolesToPermissionsMapping} | ${1}             | ${[]}
+  `(
+    'with permission "$permission", mapping dict "$mappingDict" then "$expectedRes"',
+    ({ permission, mappingDict, consoleWarnCalls, expectedRes }) => {
+      const res = ConfigUtils.getRolesGrantingPermission(permission, mappingDict);
+      expect(spyConsoleWarn).toHaveBeenCalledTimes(consoleWarnCalls);
+      expect(res).toStrictEqual(expectedRes);
+    }
+  );
+});
+
+describe('getUserRolesForResource with invalid parameters', () => {
+  let spyConsoleWarn;
+  beforeAll(() => {
+    spyConsoleWarn = jest.spyOn(console, 'warn').mockImplementation();
+  });
+  afterAll(() => {
+    spyConsoleWarn.mockRestore();
+  });
+
+  const validUserId = 'unknownUser';
+  const validSecurity = ['reader'];
+  const validACL = [{ id: 'alice', roles: ['reader'] }];
+
+  for (const userIdentifier of [null, undefined, validUserId]) {
+    for (const defaultSecurity of [null, undefined, [], validSecurity]) {
+      for (const acl of [null, undefined, [], validACL]) {
+        const resourceSecurity = { default: defaultSecurity, accessControlList: acl };
+        test(`with
+          id: ${userIdentifier},
+          default security: ${JSON.stringify(defaultSecurity)},
+          acl: ${JSON.stringify(acl)}`, () => {
+          let expectedRes = [];
+          if (defaultSecurity === validSecurity && userIdentifier === validUserId) {
+            expectedRes = validSecurity;
+          }
+          expect(ConfigUtils.getUserRolesForResource(resourceSecurity, userIdentifier)).toStrictEqual(expectedRes);
+
+          // A warning must be shown when user id is invalid
+          let warnCounts = 0;
+          if (userIdentifier !== validUserId) ++warnCounts;
+          expect(spyConsoleWarn).toHaveBeenCalledTimes(warnCounts);
+        });
+      }
+    }
+  }
+});
+
+describe('getUserRolesForResource with valid parameters', () => {
+  const noRoles = [];
+  const readerLevelRoles = ['reader'];
+  const writerLevelRoles = ['reader', 'writer'];
+  const aclAliceNoRoles = [{ id: 'alice', roles: noRoles }];
+  const aclAliceReader = [{ id: 'alice', roles: readerLevelRoles }];
+  const aclAliceWriter = [{ id: 'alice', roles: writerLevelRoles }];
+  const aclAliceAndBobWriters = [
+    { id: 'alice', roles: writerLevelRoles },
+    { id: 'bob', roles: writerLevelRoles },
+  ];
+
+  test.each`
+    userIdentifier | defaultSecurity     | acl                      | expectedRes
+    ${'alice'}     | ${noRoles}          | ${noRoles}               | ${[]}
+    ${'alice'}     | ${readerLevelRoles} | ${noRoles}               | ${readerLevelRoles}
+    ${'alice'}     | ${writerLevelRoles} | ${noRoles}               | ${writerLevelRoles}
+    ${'alice'}     | ${noRoles}          | ${aclAliceNoRoles}       | ${[]}
+    ${'alice'}     | ${readerLevelRoles} | ${aclAliceNoRoles}       | ${[]}
+    ${'alice'}     | ${writerLevelRoles} | ${aclAliceNoRoles}       | ${[]}
+    ${'alice'}     | ${noRoles}          | ${aclAliceReader}        | ${readerLevelRoles}
+    ${'alice'}     | ${readerLevelRoles} | ${aclAliceReader}        | ${readerLevelRoles}
+    ${'alice'}     | ${writerLevelRoles} | ${aclAliceReader}        | ${readerLevelRoles}
+    ${'alice'}     | ${noRoles}          | ${aclAliceWriter}        | ${writerLevelRoles}
+    ${'alice'}     | ${readerLevelRoles} | ${aclAliceWriter}        | ${writerLevelRoles}
+    ${'alice'}     | ${writerLevelRoles} | ${aclAliceWriter}        | ${writerLevelRoles}
+    ${'alice'}     | ${noRoles}          | ${aclAliceAndBobWriters} | ${writerLevelRoles}
+    ${'alice'}     | ${readerLevelRoles} | ${aclAliceAndBobWriters} | ${writerLevelRoles}
+    ${'alice'}     | ${writerLevelRoles} | ${aclAliceAndBobWriters} | ${writerLevelRoles}
+    ${'bob'}       | ${noRoles}          | ${aclAliceNoRoles}       | ${[]}
+    ${'bob'}       | ${readerLevelRoles} | ${aclAliceNoRoles}       | ${readerLevelRoles}
+    ${'bob'}       | ${writerLevelRoles} | ${aclAliceNoRoles}       | ${writerLevelRoles}
+  `(
+    'with userIdentifier "$userIdentifier", defaultSecurity "$defaultSecurity", and acl "$acl", then "$expectedRes"',
+    ({ userIdentifier, defaultSecurity, acl, expectedRes }) => {
+      const resourceSecurity = { default: defaultSecurity, accessControlList: acl };
+      const res = ConfigUtils.getUserRolesForResource(resourceSecurity, userIdentifier);
+      expect(res).toStrictEqual(expectedRes);
+    }
+  );
+});
+
+describe('getUserPermissionsForResource with invalid parameters', () => {
+  let spyConsoleWarn;
+  beforeAll(() => {
+    spyConsoleWarn = jest.spyOn(console, 'warn').mockImplementation();
+  });
+  afterAll(() => {
+    spyConsoleWarn.mockRestore();
+  });
+
+  const validUserId = 'unknownUser';
+  const validSecurity = ['reader'];
+  const validACL = [{ id: 'alice', roles: ['reader'] }];
+  const validMapping = {
+    admin: ['read', 'write', 'manage'],
+    writer: ['read', 'write'],
+    reader: ['read'],
+    guest: [],
+    other: ['other'],
+  };
+
+  for (const userIdentifier of [null, undefined, validUserId]) {
+    for (const defaultSecurity of [null, undefined, [], validSecurity]) {
+      for (const acl of [null, undefined, [], validACL]) {
+        for (const mapping of [null, undefined, {}, validMapping]) {
+          const resourceSecurity = { default: defaultSecurity, accessControlList: acl };
+          test(`with
+            id: ${userIdentifier},
+            default security: ${JSON.stringify(defaultSecurity)},
+            acl: ${JSON.stringify(acl)}
+            mapping: ${JSON.stringify(mapping)}`, () => {
+            let expectedRes = [];
+            if (defaultSecurity === validSecurity && userIdentifier === validUserId && mapping === validMapping) {
+              expectedRes = ['read'];
+            }
+            expect(ConfigUtils.getUserPermissionsForResource(resourceSecurity, userIdentifier, mapping)).toStrictEqual(
+              expectedRes
+            );
+
+            // A first warning must be shown when user id is invalid, and another one when the mmapping is null
+            let warnCounts = 0;
+            if (userIdentifier !== validUserId) ++warnCounts;
+            if (mapping == null) ++warnCounts;
+            expect(spyConsoleWarn).toHaveBeenCalledTimes(warnCounts);
+          });
+        }
+      }
+    }
+  }
+});
+
+describe('getUserPermissionsForResource with valid parameters', () => {
+  const noRoles = [];
+  const readerLevelRoles = ['reader'];
+  const writerLevelRoles = ['reader', 'writer'];
+  const aclAliceNoRoles = [{ id: 'alice', roles: noRoles }];
+  const aclAliceReader = [{ id: 'alice', roles: readerLevelRoles }];
+  const aclAliceWriter = [{ id: 'alice', roles: writerLevelRoles }];
+  const aclAliceAndBobWriters = [
+    { id: 'alice', roles: writerLevelRoles },
+    { id: 'bob', roles: writerLevelRoles },
+  ];
+
+  const rolesToPermissionsMapping = {
+    writer: ['read', 'write'],
+    reader: ['read'],
+  };
+  const readerLevelPermissions = ['read'];
+  const writerLevelPermissions = ['read', 'write'];
+
+  test.each`
+    userIdentifier | defaultSecurity     | acl                      | expectedRes
+    ${'alice'}     | ${noRoles}          | ${noRoles}               | ${[]}
+    ${'alice'}     | ${readerLevelRoles} | ${noRoles}               | ${readerLevelPermissions}
+    ${'alice'}     | ${writerLevelRoles} | ${noRoles}               | ${writerLevelPermissions}
+    ${'alice'}     | ${noRoles}          | ${aclAliceNoRoles}       | ${[]}
+    ${'alice'}     | ${readerLevelRoles} | ${aclAliceNoRoles}       | ${[]}
+    ${'alice'}     | ${writerLevelRoles} | ${aclAliceNoRoles}       | ${[]}
+    ${'alice'}     | ${noRoles}          | ${aclAliceReader}        | ${readerLevelPermissions}
+    ${'alice'}     | ${readerLevelRoles} | ${aclAliceReader}        | ${readerLevelPermissions}
+    ${'alice'}     | ${writerLevelRoles} | ${aclAliceReader}        | ${readerLevelPermissions}
+    ${'alice'}     | ${noRoles}          | ${aclAliceWriter}        | ${writerLevelPermissions}
+    ${'alice'}     | ${readerLevelRoles} | ${aclAliceWriter}        | ${writerLevelPermissions}
+    ${'alice'}     | ${writerLevelRoles} | ${aclAliceWriter}        | ${writerLevelPermissions}
+    ${'alice'}     | ${noRoles}          | ${aclAliceAndBobWriters} | ${writerLevelPermissions}
+    ${'alice'}     | ${readerLevelRoles} | ${aclAliceAndBobWriters} | ${writerLevelPermissions}
+    ${'alice'}     | ${writerLevelRoles} | ${aclAliceAndBobWriters} | ${writerLevelPermissions}
+    ${'bob'}       | ${noRoles}          | ${aclAliceNoRoles}       | ${[]}
+    ${'bob'}       | ${readerLevelRoles} | ${aclAliceNoRoles}       | ${readerLevelPermissions}
+    ${'bob'}       | ${writerLevelRoles} | ${aclAliceNoRoles}       | ${writerLevelPermissions}
+  `(
+    'with userIdentifier "$userIdentifier", defaultSecurity "$defaultSecurity", and acl "$acl", then "$expectedRes"',
+    ({ userIdentifier, defaultSecurity, acl, expectedRes }) => {
+      const resourceSecurity = { default: defaultSecurity, accessControlList: acl };
+      const res = ConfigUtils.getUserPermissionsForResource(
+        resourceSecurity,
+        userIdentifier,
+        rolesToPermissionsMapping
+      );
+      expect(res).toStrictEqual(expectedRes);
+    }
+  );
+});
