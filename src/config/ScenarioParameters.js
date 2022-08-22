@@ -7,7 +7,7 @@
 //  - lists of possible values for "enum" parameters
 //  - translation labels
 
-import { APP_ROLES } from './Profiles';
+import { APP_ROLES } from '../services/config/accessControl';
 
 const PARAMETERS = {
   nb_waiters: {
@@ -225,7 +225,7 @@ const PARAMETERS_GROUPS = {
   },
   basic_types: {
     parameters: ['currency', 'currency_name', 'currency_value', 'currency_used', 'start_date'],
-    authorizedRoles: [APP_ROLES.PlatformAdmin, APP_ROLES.OrganizationUser],
+    authorizedRoles: [APP_ROLES.PLATFORM.ADMIN, APP_ROLES.ORGANIZATION.USER],
     hideParameterGroupIfNoPermission: false,
   },
   file_upload: {

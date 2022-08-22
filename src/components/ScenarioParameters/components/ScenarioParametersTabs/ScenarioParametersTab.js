@@ -2,13 +2,14 @@
 // Licensed under the MIT license.
 
 import React from 'react';
+
+import { connect, useSelector } from 'react-redux';
 import ScenarioParameterInput from './ScenarioParameterInput';
-import { PermissionsGate } from '../../../index';
+import { PermissionsGate } from '@cosmotech/ui';
 import PropTypes from 'prop-types';
 import { t } from 'i18next';
-import { useSelector } from 'react-redux';
 
-const ScenarioParametersTab = ({ parametersGroupData, parametersState, setParametersState, context }) => {
+const ScenarioParametersTab = ({ parametersGroupData, parametersState, setParametersState, context, userAppRoles }) => {
   const noPermissionsPlaceHolder = (t) => {
     return <div>{t('genericcomponent.text.scenario.parameters.tabs.placeholder')}</div>;
   };
@@ -23,7 +24,9 @@ const ScenarioParametersTab = ({ parametersGroupData, parametersState, setParame
   return (
     <PermissionsGate
       RenderNoPermissionComponent={() => noPermissionsPlaceHolder(t)}
-      authorizedRoles={parametersGroupData.authorizedRoles}
+      necessaryPermissions={parametersGroupData.authorizedRoles}
+      sufficientPermissions={parametersGroupData.authorizedRoles}
+      userPermissions={userAppRoles}
     >
       <div key={parametersGroupData.id} style={groupContainerStyle}>
         {parametersGroupData.parameters.map((parameterData) => (
@@ -39,10 +42,17 @@ const ScenarioParametersTab = ({ parametersGroupData, parametersState, setParame
     </PermissionsGate>
   );
 };
+
 ScenarioParametersTab.propTypes = {
   parametersGroupData: PropTypes.object.isRequired,
   parametersState: PropTypes.object.isRequired,
   setParametersState: PropTypes.func.isRequired,
   context: PropTypes.object.isRequired,
+  userAppRoles: PropTypes.array.isRequired,
 };
-export default ScenarioParametersTab;
+
+const mapStateToProps = (state) => ({
+  userAppRoles: state.auth.roles,
+});
+
+export default connect(mapStateToProps)(ScenarioParametersTab);

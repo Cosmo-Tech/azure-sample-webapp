@@ -9,8 +9,7 @@ import { makeStyles } from '@material-ui/core';
 import { ScenarioManagerTreeList } from '@cosmotech/ui';
 import { WORKSPACE_ID } from '../../config/GlobalConfiguration';
 import { useTranslation } from 'react-i18next';
-import { PERMISSIONS } from '../../services/config/Permissions';
-import { PermissionsGate } from '../../components/PermissionsGate';
+// import { ACL_PERMISSIONS, APP_ROLES } from '../../services/config/accessControl';
 import { getFirstScenarioMaster } from '../../utils/SortScenarioListUtils';
 import { getScenarioManagerLabels } from './labels';
 
@@ -126,25 +125,21 @@ const ScenarioManager = (props) => {
 
   return (
     <div className={classes.root}>
-      <PermissionsGate
-        noPermissionProps={{ showDeleteIcon: false }}
-        authorizedPermissions={[PERMISSIONS.canDeleteScenario]}
-      >
-        <ScenarioManagerTreeList
-          datasets={datasets}
-          scenarios={scenarios}
-          currentScenarioId={currentScenario?.id}
-          userId={userId}
-          onScenarioRedirect={onScenarioRedirect}
-          deleteScenario={onScenarioDelete}
-          onScenarioRename={onScenarioRename}
-          checkScenarioNameValue={checkScenarioNameValue}
-          moveScenario={moveScenario}
-          buildDatasetInfo={buildDatasetLabel}
-          labels={labels}
-          buildScenarioNameToDelete={buildScenarioNameToDelete}
-        />
-      </PermissionsGate>
+      {/* TODO: use function prop for showDeleteIcon */}
+      <ScenarioManagerTreeList
+        datasets={datasets}
+        scenarios={scenarios}
+        currentScenarioId={currentScenario?.id}
+        userId={userId}
+        onScenarioRedirect={onScenarioRedirect}
+        deleteScenario={onScenarioDelete}
+        onScenarioRename={onScenarioRename}
+        checkScenarioNameValue={checkScenarioNameValue}
+        moveScenario={moveScenario}
+        buildDatasetInfo={buildDatasetLabel}
+        labels={labels}
+        buildScenarioNameToDelete={buildScenarioNameToDelete}
+      />
     </div>
   );
 };

@@ -2,23 +2,12 @@
 // Licensed under the MIT license.
 import { Auth } from '@cosmotech/core';
 import { put, takeEvery } from 'redux-saga/effects';
+import { ConfigUtils } from '../../../../utils';
 import { AUTH_ACTIONS_KEY, AUTH_STATUS } from '../../../commons/AuthConstants';
-import { PROFILES } from '../../../../config/Profiles';
+import { PERMISSIONS_BY_APP_ROLE } from '../../../../services/config/accessControl';
 
 const UNKNOWN_ERROR_MESSAGE =
   'Unknown error. Authentication failed\nIf the problem persists, please contact your administrator.';
-
-const _extractPermissionsFromRoles = (roles) => {
-  let permissions = [];
-  if (roles) {
-    for (const role of roles) {
-      if (role in PROFILES) {
-        permissions = [...new Set([...permissions, ...PROFILES[role]])];
-      }
-    }
-  }
-  return permissions;
-};
 
 // Generator function to fetch authentication data
 export function* tryLogIn(action) {
@@ -32,7 +21,7 @@ export function* tryLogIn(action) {
     const authenticated = yield Auth.isUserSignedIn();
     if (authenticated) {
       const userRoles = Auth.getUserRoles();
-      const userPermissions = _extractPermissionsFromRoles(userRoles);
+      const userPermissions = ConfigUtils.getPermissionsFromRoles(userRoles, PERMISSIONS_BY_APP_ROLE);
       // If the user is authenticated, set the auth data
       yield put({
         error: '',

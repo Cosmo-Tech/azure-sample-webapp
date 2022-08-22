@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import React, { useEffect, useState, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import {
   Backdrop,
   Button,
@@ -15,14 +16,18 @@ import {
 } from '@material-ui/core';
 import { ScenarioParameters, SimplePowerBIReportEmbedWrapper } from '../../components';
 import { useTranslation } from 'react-i18next';
-import { CreateScenarioButton, HierarchicalComboBox, ScenarioValidationStatusChip } from '@cosmotech/ui';
+import {
+  CreateScenarioButton,
+  HierarchicalComboBox,
+  ScenarioValidationStatusChip,
+  PermissionsGate,
+} from '@cosmotech/ui';
 import { sortScenarioList } from '../../utils/SortScenarioListUtils';
 import { SCENARIO_VALIDATION_STATUS } from '../../services/config/ApiConstants.js';
 import ScenarioService from '../../services/scenario/ScenarioService';
 import { STATUSES } from '../../state/commons/Constants';
 import { AppInsights } from '../../services/AppInsights';
-import { PERMISSIONS } from '../../services/config/Permissions';
-import { PermissionsGate } from '../../components/PermissionsGate';
+import { APP_PERMISSIONS, ACL_PERMISSIONS } from '../../services/config/accessControl';
 import { getCreateScenarioDialogLabels } from './labels';
 import { useNavigate, useParams } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
@@ -257,8 +262,18 @@ const Scenario = () => {
     rejectButton
   );
 
+  const userPermissionsOnCurrentScenario = currentScenario?.data?.security?.currentUserPermissions || [];
+  const userAppPermissions = useSelector((state) => state.auth.permissions);
+  const userAppAndScenarioPermissions = userAppPermissions.concat(userPermissionsOnCurrentScenario);
   const validationStatusButtons = (
-    <PermissionsGate authorizedPermissions={[PERMISSIONS.canChangeScenarioValidationStatus]}>
+    <PermissionsGate
+      userPermissions={userAppAndScenarioPermissions}
+      necessaryPermissions={[
+        ACL_PERMISSIONS.SCENARIO.EDIT_VALIDATION_STATUS,
+        APP_PERMISSIONS.SCENARIO.EDIT_VALIDATION_STATUS,
+      ]}
+      sufficientPermissions={[APP_PERMISSIONS.ADMIN]}
+    >
       {validateButtonTooltipWrapper}
       {rejectButtonTooltipWrapper}
     </PermissionsGate>
@@ -266,12 +281,14 @@ const Scenario = () => {
 
   const scenarioValidationStatusChip = (
     <PermissionsGate
-      authorizedPermissions={[PERMISSIONS.canChangeScenarioValidationStatus]}
-      RenderNoPermissionComponent={ScenarioValidationStatusChip}
+      userPermissions={userAppAndScenarioPermissions}
+      necessaryPermissions={[
+        ACL_PERMISSIONS.SCENARIO.EDIT_VALIDATION_STATUS,
+        APP_PERMISSIONS.SCENARIO.EDIT_VALIDATION_STATUS,
+      ]}
+      sufficientPermissions={[APP_PERMISSIONS.ADMIN]}
       noPermissionProps={{
-        status: currentScenarioValidationStatus,
-        labels: scenarioValidationStatusLabels,
-        onDelete: null,
+        onDelete: null, // Prevent status edition if user has insufficient privileges
       }}
     >
       <ScenarioValidationStatusChip
@@ -296,7 +313,11 @@ const Scenario = () => {
       <div data-cy="scenario-view" className={classes.content}>
         <Grid container spacing={2} alignItems="center" justifyContent="space-between">
           <Grid item xs={4}>
-            <PermissionsGate authorizedPermissions={[PERMISSIONS.canCreateScenario]}>
+            <PermissionsGate
+              userPermissions={userAppPermissions}
+              necessaryPermissions={[APP_PERMISSIONS.SCENARIO.CREATE]}
+              sufficientPermissions={[APP_PERMISSIONS.ADMIN]}
+            >
               <CreateScenarioButton
                 solution={solution}
                 workspaceId={workspaceId}

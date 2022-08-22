@@ -12,8 +12,6 @@ import { useTranslation } from 'react-i18next';
 import { SimpleTwoActionsDialog, DontAskAgainDialog } from '@cosmotech/ui';
 import { FileManagementUtils } from './FileManagementUtils';
 import { ScenarioParametersUtils } from '../../utils';
-import { PERMISSIONS } from '../../services/config/Permissions';
-import { PermissionsGate } from '../PermissionsGate';
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -317,24 +315,22 @@ const ScenarioParameters = ({
               </Typography>
             </Grid>
             <Grid item>
-              <PermissionsGate authorizedPermissions={[PERMISSIONS.canEditOrLaunchScenario]}>
-                {editMode ? (
-                  <EditModeButton
-                    classes={classes}
-                    handleClickOnDiscardChange={(event) => askDiscardConfirmation(event)}
-                    handleClickOnUpdateAndLaunchScenario={(event) => confirmAndLaunch(event, true)}
-                  />
-                ) : (
-                  <NormalModeButton
-                    classes={classes}
-                    handleClickOnEdit={(event) => startParametersEdition(event)}
-                    handleClickOnLaunchScenario={(event) => confirmAndLaunch(event, false)}
-                    editDisabled={isEditDisabled}
-                    runDisabled={isCurrentScenarioRunning}
-                    disabledEditTooltip={disabledEditTooltip}
-                  />
-                )}
-              </PermissionsGate>
+              {editMode ? (
+                <EditModeButton
+                  classes={classes}
+                  handleClickOnDiscardChange={(event) => askDiscardConfirmation(event)}
+                  handleClickOnUpdateAndLaunchScenario={(event) => confirmAndLaunch(event, true)}
+                />
+              ) : (
+                <NormalModeButton
+                  classes={classes}
+                  handleClickOnEdit={(event) => startParametersEdition(event)}
+                  handleClickOnLaunchScenario={(event) => confirmAndLaunch(event, false)}
+                  editDisabled={isEditDisabled}
+                  runDisabled={isCurrentScenarioRunning}
+                  disabledEditTooltip={disabledEditTooltip}
+                />
+              )}
             </Grid>
           </Grid>
         </AccordionSummary>
