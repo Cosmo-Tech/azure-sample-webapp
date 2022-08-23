@@ -10,10 +10,10 @@ const DATA_SOURCE = {
 
 const DATA_CONTENT = {
   compounds: {
-    contains_Customer: {},
+    Bar_vertex: {},
   },
   edges: {
-    arc_to_Customer: { style: { 'line-color': '#999999' }, selectable: false },
+    arc_Satisfaction: { style: { 'line-color': '#999999' }, selectable: false },
   },
   nodes: {
     Bar: {
