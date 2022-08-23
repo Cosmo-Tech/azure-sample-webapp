@@ -54,6 +54,7 @@ export const SessionTimeoutDialog = ({ getRemainingTimeLabel, labels, onClose, o
         <Button id="logout" onClick={logOutAfterClick} color="primary" disabled={isLoggingOut}>
           {labels.logOut}
         </Button>
+        {/* TODO Replace 'cancel' with 'stay connected' which is more accurate */}
         <Button id="cancel" onClick={onClose} color="primary" variant="contained" disabled={isLoggingOut}>
           {labels.cancel}
         </Button>

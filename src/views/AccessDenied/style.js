@@ -57,15 +57,6 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 8,
     marginLeft: 8,
   },
-  signoutButton: {
-    marginRight: 10,
-    marginLeft: 15,
-    paddingLeft: 8,
-    paddingRight: 8,
-    paddingTop: 2,
-    paddingBottom: 2,
-    backgroundColor: 'white',
-  },
   content: {
     height: '100%',
     display: 'flex',

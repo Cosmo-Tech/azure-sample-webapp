@@ -307,12 +307,12 @@ const ScenarioParameters = ({
         <AccordionSummary
           data-cy="scenario-params-accordion-summary"
           className={classes.accordionSummary}
-          expandIcon={<ExpandMoreIcon />}
+          expandIcon={<ExpandMoreIcon color="secondary" />}
           onClick={handleSummaryClick}
         >
           <Grid container className={classes.gridContainerSummary}>
             <Grid className={classes.gridSummary}>
-              <Typography variant="subtitle1">
+              <Typography variant="subtitle1" color="secondary">
                 {t('genericcomponent.text.scenario.parameters.title', 'Scenario parameters')}
               </Typography>
             </Grid>

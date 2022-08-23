@@ -93,6 +93,8 @@ const Instance = (props) => {
       title: t('commoncomponents.cytoviz.settings.title', 'Settings'),
       spacingFactor: t('commoncomponents.cytoviz.settings.spacingFactor', 'Spacing factor'),
       zoomLimits: t('commoncomponents.cytoviz.settings.zoomLimits', 'Min & max zoom'),
+      open: t('commoncomponents.cytoviz.settings.opensettings', 'Open settings'),
+      close: t('commoncomponents.cytoviz.settings.closesettings', 'Close settings'),
     },
     elementData: {
       dictKey: t('commoncomponents.cytoviz.elementData.dictKey', 'Key'),

@@ -96,6 +96,7 @@ export const GENERIC_SELECTORS = {
       typeSelect: '[data-cy=create-scenario-dialog-type-select]',
       typeSelectorOptions: '[data-cy=create-scenario-dialog-type-select-options]',
       submitButton: '[data-cy=create-scenario-dialog-submit-button]',
+      cancelButton: '[data-cy=create-scenario-dialog-cancel-button]',
     },
     manager: {
       view: '[data-cy=scenario-manager-view]',

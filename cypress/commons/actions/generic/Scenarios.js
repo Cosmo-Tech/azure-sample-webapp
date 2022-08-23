@@ -113,6 +113,9 @@ function getScenarioCreationDialogRunTypeSelectorOptions() {
 function getScenarioCreationDialogSubmitButton() {
   return cy.get(GENERIC_SELECTORS.scenario.createDialog.submitButton);
 }
+function getScenarioCreationDialogCancelButton() {
+  return cy.get(GENERIC_SELECTORS.scenario.createDialog.cancelButton);
+}
 function getDashboardPlaceholder() {
   return cy.get(GENERIC_SELECTORS.scenario.dashboard.placeholder);
 }
@@ -178,6 +181,10 @@ function selectRunTemplate(runTemplate) {
   // Try to prevent "detached from DOM" cypress error with these 2 instructions
   getScenarioCreationDialogRunTypeSelectorOptions().contains(runTemplate).should('be.visible');
   getScenarioCreationDialogRunTypeSelectorOptions().contains(runTemplate).click();
+}
+
+function cancelCreateScenario() {
+  getScenarioCreationDialogCancelButton().click();
 }
 
 function createScenario(scenarioName, isMaster, datasetOrMasterName, runTemplate) {
@@ -260,6 +267,7 @@ export const Scenarios = {
   getScenarioCreationDialogRunTypeSelector,
   getScenarioCreationDialogRunTypeSelectorOptions,
   getScenarioCreationDialogSubmitButton,
+  getScenarioCreationDialogCancelButton,
   getDashboardPlaceholder,
   switchToScenarioView,
   selectScenario,
@@ -269,6 +277,7 @@ export const Scenarios = {
   selectDataset,
   selectRunTemplate,
   createScenario,
+  cancelCreateScenario,
   validateScenario,
   rejectScenario,
   resetScenarioValidationStatus,

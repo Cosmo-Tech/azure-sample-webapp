@@ -3,10 +3,10 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Grid, Tooltip } from '@material-ui/core';
-import { useTranslation } from 'react-i18next';
+import { Fade, Grid, IconButton, Tooltip } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
+import { useTranslation } from 'react-i18next';
 
 const NormalModeButton = ({
   classes,
@@ -17,42 +17,46 @@ const NormalModeButton = ({
   disabledEditTooltip,
 }) => {
   const { t } = useTranslation();
+
   const editButton = (
-    <Button
-      data-cy="edit-parameters-button"
-      startIcon={<EditIcon />}
-      variant="contained"
-      color="primary"
-      onClick={handleClickOnEdit}
-      disabled={editDisabled}
-    >
-      {t('commoncomponents.button.scenario.parameters.edit', 'Edit')}
-    </Button>
+    <IconButton data-cy="edit-parameters-button" color="primary" onClick={handleClickOnEdit} disabled={editDisabled}>
+      <EditIcon />
+    </IconButton>
   );
 
   const editButtonTooltipWrapper =
     disabledEditTooltip && disabledEditTooltip.length > 0 ? (
-      <Tooltip title={disabledEditTooltip}>
-        <span>{editButton}</span>
+      <Tooltip TransitionComponent={Fade} TransitionProps={{ timeout: 600 }} title={disabledEditTooltip}>
+        <div>{editButton}</div>
       </Tooltip>
     ) : (
-      editButton
+      <Tooltip
+        TransitionComponent={Fade}
+        TransitionProps={{ timeout: 600 }}
+        title={t('commoncomponents.button.scenario.parameters.edit', 'Edit parameters')}
+      >
+        {editButton}
+      </Tooltip>
     );
 
   return (
     <Grid container spacing={1} alignItems="center">
       <Grid item>{editButtonTooltipWrapper}</Grid>
       <Grid item>
-        <Button
-          data-cy="launch-scenario-button"
-          startIcon={<PlayCircleOutlineIcon />}
-          variant="contained"
-          color="primary"
-          onClick={handleClickOnLaunchScenario}
-          disabled={runDisabled}
+        <Tooltip
+          TransitionComponent={Fade}
+          TransitionProps={{ timeout: 600 }}
+          title={t('commoncomponents.button.scenario.parameters.launch', 'Launch scenario')}
         >
-          {t('commoncomponents.button.scenario.parameters.launch', 'Launch Scenario')}
-        </Button>
+          <IconButton
+            data-cy="launch-scenario-button"
+            color="primary"
+            onClick={handleClickOnLaunchScenario}
+            disabled={runDisabled}
+          >
+            <PlayCircleOutlineIcon />
+          </IconButton>
+        </Tooltip>
       </Grid>
     </Grid>
   );

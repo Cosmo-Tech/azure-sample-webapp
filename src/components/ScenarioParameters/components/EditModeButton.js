@@ -3,29 +3,41 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Button } from '@material-ui/core';
-import { useTranslation } from 'react-i18next';
+import { Fade, Grid, IconButton, Tooltip } from '@material-ui/core';
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
+import BackspaceIcon from '@material-ui/icons/Backspace';
+import { useTranslation } from 'react-i18next';
 
 const EditModeButton = ({ classes, handleClickOnDiscardChange, handleClickOnUpdateAndLaunchScenario }) => {
   const { t } = useTranslation();
+
   return (
     <Grid container spacing={1}>
       <Grid item>
-        <Button data-cy="discard-button" color="primary" onClick={handleClickOnDiscardChange}>
-          {t('commoncomponents.button.scenario.parameters.discard', 'Discard Modifications')}
-        </Button>
+        <Tooltip
+          TransitionComponent={Fade}
+          TransitionProps={{ timeout: 600 }}
+          title={t('commoncomponents.button.scenario.parameters.discard', 'Discard changes')}
+        >
+          <IconButton data-cy="discard-button" color="primary" onClick={handleClickOnDiscardChange}>
+            <BackspaceIcon />
+          </IconButton>
+        </Tooltip>
       </Grid>
       <Grid item>
-        <Button
-          data-cy="update-and-launch-scenario"
-          startIcon={<PlayCircleOutlineIcon />}
-          variant="contained"
-          color="primary"
-          onClick={handleClickOnUpdateAndLaunchScenario}
+        <Tooltip
+          TransitionComponent={Fade}
+          TransitionProps={{ timeout: 600 }}
+          title={t('commoncomponents.button.scenario.parameters.update.launch', 'Update and launch')}
         >
-          {t('commoncomponents.button.scenario.parameters.update.launch', 'Update And Launch Scenario')}
-        </Button>
+          <IconButton
+            data-cy="update-and-launch-scenario"
+            color="primary"
+            onClick={handleClickOnUpdateAndLaunchScenario}
+          >
+            <PlayCircleOutlineIcon />
+          </IconButton>
+        </Tooltip>
       </Grid>
     </Grid>
   );

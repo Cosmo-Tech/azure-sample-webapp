@@ -24,7 +24,7 @@
       },
       "create": {
         "scenario": {
-          "label": "Créer un scénario",
+          "label": "Créer",
           "tooltip": {
             "disabled": "Veuillez sauver ou annuler les modifications en cours avant de créer un nouveau scénario"
           }
@@ -39,10 +39,10 @@
             "noTabs": "Pas de paramètres à éditer"
           },
           "discard": "Abandonner les modifications",
-          "edit": "Éditer",
-          "launch": "Lancer le Scénario",
+          "edit": "Éditer les parameters",
+          "launch": "Lancer le scénario",
           "update": {
-            "launch": "Mettre à jour et lancer le Scénario"
+            "launch": "Mettre à jour et lancer le scénario",
           }
         }
       }
@@ -100,7 +100,9 @@
         "layout": "Agencement",
         "title": "Paramètres",
         "spacingFactor": "Espacement",
-        "zoomLimits": "Zoom min/max"
+        "zoomLimits": "Zoom min/max",
+        "opensettings": "Ouvrir les paramètres",
+        "closesettings": "Fermer les paramètres"
       },
       "elementData": {
         "dictKey": "Clé",
@@ -139,7 +141,7 @@
         },
         "noscenario": {
           "title": "Aucun scénario n'a encore été créé",
-          "label": "Vous pouvez créer un scénario en cliquant sur \"Créer un scénario\""
+          "label": "Vous pouvez créer un scénario en cliquant sur le bouton \"CRÉER\""
         },
         "nodashboard": {
           "label": "Aucun dashboard configuré pour ce type de scénario"
@@ -296,7 +298,8 @@
         "update": "Mettre à jour"
       },
       "tooltip": {
-        "isvalidfile": "Erreur: la colonne requiert une chaine de caractères"
+        "isvalidfile": "Erreur: la colonne requiert une chaine de caractères",
+        "delete": "Supprimer le fichier"
       }
     },
     "loading": {
@@ -350,9 +353,14 @@
       }
     },
     "helpmenu": {
+      "title": "Aide",
       "documentation": "Documentation",
       "support": "Contacter le support",
       "about": "A propos"
+    },
+    "switchtheme": {
+      "light": "Passer en mode clair",
+      "dark": "Passer en mode sombre"
     },
     "dialog": {
       "scenario": {
@@ -467,7 +475,7 @@
       },
       "scenariomanager": {
         "tab": {
-          "title": "GESTIONNAIRE DE SCENARIOS"
+          "title": "Gestionnaire de scénarios"
         }
       },
       "dashboards": {

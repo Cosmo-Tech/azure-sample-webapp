@@ -3,7 +3,17 @@
 
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Backdrop, Button, Card, CardContent, CircularProgress, Grid, Tooltip, Typography } from '@material-ui/core';
+import {
+  Backdrop,
+  Button,
+  Card,
+  CardContent,
+  CircularProgress,
+  Grid,
+  Paper,
+  Tooltip,
+  Typography,
+} from '@material-ui/core';
 import { ScenarioParameters } from '../../components';
 import { useTranslation } from 'react-i18next';
 import {
@@ -28,8 +38,25 @@ import { AppInsights } from '../../services/AppInsights';
 import { PERMISSIONS } from '../../services/config/Permissions';
 import { PermissionsGate } from '../../components/PermissionsGate';
 import { getCreateScenarioDialogLabels, getReportLabels } from './labels';
-import useStyles from './style';
 import { useNavigate, useParams } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+  content: {
+    paddingTop: '16px',
+    paddingLeft: '8px',
+    paddingRight: '8px',
+  },
+  rightButton: {
+    marginLeft: '8px',
+  },
+  alignRight: {
+    textAlign: 'right',
+  },
+  runTemplate: {
+    color: theme.palette.text.secondary,
+  },
+}));
 
 const appInsights = AppInsights.getInstance();
 
@@ -192,11 +219,10 @@ const Scenario = (props) => {
 
   const validateButton = (
     <Button
-      className={classes.scenarioValidationButton}
+      className={classes.rightButton}
       data-cy="validate-scenario-button"
       disabled={editMode}
-      size="small"
-      variant="contained"
+      variant="outlined"
       color="primary"
       onClick={(event) => validateScenario()}
     >
@@ -205,11 +231,10 @@ const Scenario = (props) => {
   );
   const rejectButton = (
     <Button
-      className={classes.scenarioValidationButton}
+      className={classes.rightButton}
       data-cy="reject-scenario-button"
       disabled={editMode}
-      size="small"
-      variant="contained"
+      variant="outlined"
       color="primary"
       onClick={(event) => rejectScenario()}
     >
@@ -276,94 +301,92 @@ const Scenario = (props) => {
   };
   return (
     <>
-      <Backdrop className={classes.backdrop} open={showBackdrop}>
+      <Backdrop open={showBackdrop}>
         <CircularProgress color="inherit" />
       </Backdrop>
-      <Grid data-cy="scenario-view" container direction="column" className={classes.mainGrid}>
-        <Grid item xs={12}>
-          <Grid container alignItems="center" className={classes.mainGrid}>
-            <Grid item xs={9}>
-              <Grid container spacing={0} alignItems="center" className={classes.mainGrid}>
-                <Grid item xs={5} className={classes.scenarioList}>
-                  <HierarchicalComboBox
-                    value={currentScenario.data}
-                    values={sortedScenarioList}
-                    labels={hierarchicalComboBoxLabels}
-                    handleChange={handleScenarioChange}
-                    disabled={scenarioListDisabled}
-                    renderInputToolType={currentScenarioRenderInputTooltip}
-                  />
-                </Grid>
-                {currentScenario.data && (
-                  <Grid item xs={7} className={classes.scenarioMetadata}>
-                    {scenarioValidationArea}
-                    <Typography data-cy="run-template-name" className={classes.scenarioRunTemplateLabel}>
-                      {t('views.scenario.text.scenariotype')}: {currentScenario.data.runTemplateName}
-                    </Typography>
-                  </Grid>
-                )}
-              </Grid>
+      <div data-cy="scenario-view" className={classes.content}>
+        <Grid container spacing={2} alignItems="center" justifyContent="space-between">
+          <Grid item xs={4}>
+            <PermissionsGate authorizedPermissions={[PERMISSIONS.canCreateScenario]}>
+              <CreateScenarioButton
+                solution={solution}
+                workspaceId={workspaceId}
+                createScenario={expandParametersAndCreateScenario}
+                currentScenario={currentScenario}
+                runTemplates={filteredRunTemplates}
+                datasets={datasetList.data}
+                scenarios={scenarioList.data}
+                user={user}
+                disabled={editMode}
+                labels={createScenarioDialogLabels}
+              />
+            </PermissionsGate>
+          </Grid>
+          <Grid item xs={4}>
+            <Grid container direction="column">
+              <HierarchicalComboBox
+                value={currentScenario.data}
+                values={sortedScenarioList}
+                labels={hierarchicalComboBoxLabels}
+                handleChange={handleScenarioChange}
+                disabled={scenarioListDisabled}
+                renderInputToolType={currentScenarioRenderInputTooltip}
+              />
+              {currentScenario.data && (
+                <Typography variant="caption" align="center" className={classes.runTemplate}>
+                  {t('views.scenario.text.scenariotype')}: {currentScenario.data.runTemplateName}
+                </Typography>
+              )}
             </Grid>
-            <Grid item xs={3}>
-              <Grid container spacing={0} justifyContent="flex-end" className={classes.mainGrid}>
-                <Grid item>
-                  <PermissionsGate authorizedPermissions={[PERMISSIONS.canCreateScenario]}>
-                    <CreateScenarioButton
-                      solution={solution}
-                      workspaceId={workspaceId}
-                      createScenario={expandParametersAndCreateScenario}
-                      currentScenario={currentScenario}
-                      runTemplates={filteredRunTemplates}
-                      datasets={datasetList.data}
-                      scenarios={scenarioList.data}
-                      user={user}
-                      disabled={editMode}
-                      labels={createScenarioDialogLabels}
-                    />
-                  </PermissionsGate>
-                </Grid>
-              </Grid>
+          </Grid>
+          {currentScenario.data && (
+            <Grid item xs={4} className={classes.alignRight}>
+              {scenarioValidationArea}
             </Grid>
+          )}
+          <Grid item xs={12}>
+            <Card component={Paper} elevation={2}>
+              {currentScenario.data && (
+                <ScenarioParameters
+                  editMode={editMode}
+                  changeEditMode={setEditMode}
+                  addDatasetToStore={addDatasetToStore}
+                  updateAndLaunchScenario={updateAndLaunchScenario}
+                  launchScenario={launchScenario}
+                  accordionSummaryExpanded={accordionSummaryExpanded}
+                  onChangeAccordionSummaryExpanded={setAccordionSummaryExpanded}
+                  workspaceId={workspaceId}
+                  solution={solution.data}
+                  datasets={datasetList.data}
+                  currentScenario={currentScenario}
+                  scenarioId={currentScenario.data.id}
+                  scenarioList={scenarioList.data}
+                  userRoles={user.roles}
+                />
+              )}
+            </Card>
           </Grid>
           <Grid item xs={12}>
-            {currentScenario.data && (
-              <ScenarioParameters
-                editMode={editMode}
-                changeEditMode={setEditMode}
-                addDatasetToStore={addDatasetToStore}
-                updateAndLaunchScenario={updateAndLaunchScenario}
-                launchScenario={launchScenario}
-                accordionSummaryExpanded={accordionSummaryExpanded}
-                onChangeAccordionSummaryExpanded={setAccordionSummaryExpanded}
-                workspaceId={workspaceId}
-                solution={solution.data}
-                datasets={datasetList.data}
-                currentScenario={currentScenario}
-                scenarioId={currentScenario.data.id}
-                scenarioList={scenarioList.data}
-                userRoles={user.roles}
-              />
-            )}
+            <Card component={Paper} elevation={2}>
+              <CardContent>
+                <SimplePowerBIReportEmbed
+                  // key is used here to assure the complete re-rendering of the component when scenario changes ; we
+                  // need to remount it to avoid errors in powerbi-client-react which throws an error if filters change
+                  key={currentScenario?.data?.id}
+                  reports={reports}
+                  reportConfiguration={currentScenarioRunTemplateReport}
+                  scenario={currentScenario.data}
+                  lang={i18n.language}
+                  downloadLogsFile={currentScenario.data?.lastRun ? downloadLogsFile : null}
+                  labels={reportLabels}
+                  useAAD={USE_POWER_BI_WITH_USER_CREDENTIALS}
+                  iframeRatio={SCENARIO_VIEW_IFRAME_DISPLAY_RATIO}
+                />
+              </CardContent>
+            </Card>
           </Grid>
         </Grid>
-      </Grid>
-      <Card>
-        <CardContent>
-          <SimplePowerBIReportEmbed
-            // key is used here to assure the complete re-rendering of the component when scenario changes ;
-            // we need to remount it to avoid errors in powerbi-client-react which throws an error if filters change
-            key={currentScenario?.data?.id}
-            reports={reports}
-            reportConfiguration={currentScenarioRunTemplateReport}
-            scenario={currentScenario.data}
-            lang={i18n.language}
-            downloadLogsFile={currentScenario.data?.lastRun ? downloadLogsFile : null}
-            labels={reportLabels}
-            useAAD={USE_POWER_BI_WITH_USER_CREDENTIALS}
-            iframeRatio={SCENARIO_VIEW_IFRAME_DISPLAY_RATIO}
-          />
-        </CardContent>
-      </Card>
+      </div>
     </>
   );
 };

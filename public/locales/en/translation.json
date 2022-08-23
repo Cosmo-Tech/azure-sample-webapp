@@ -24,7 +24,7 @@
       },
       "create": {
         "scenario": {
-          "label": "Create new scenario",
+          "label": "Create",
           "tooltip": {
             "disabled": "Please save or discard current modifications before creating a new scenario"
           }
@@ -38,11 +38,11 @@
             "validated": "This scenario is validated, you cannot edit its parameters",
             "noTabs": "No parameters to edit"
           },
-          "discard": "Discard Modifications",
-          "edit": "Edit",
-          "launch": "Launch Scenario",
+          "discard": "Discard modifications",
+          "edit": "Edit parameters",
+          "launch": "Launch scenario",
           "update": {
-            "launch": "Update And Launch Scenario"
+            "launch": "Update and launch scenario",
           }
         }
       }
@@ -100,7 +100,9 @@
         "layout": "Layout",
         "title": "Settings",
         "spacingFactor": "Spacing factor",
-        "zoomLimits": "Min & max zoom"
+        "zoomLimits": "Min & max zoom",
+        "opensettings": "Open settings",
+        "closesettings": "Close settings"
       },
       "elementData": {
         "dictKey": "Key",
@@ -139,7 +141,7 @@
         },
         "noscenario": {
           "title": "No scenario yet",
-          "label": "You can create a scenario by clicking on \"Create new scenario\""
+          "label": "You can create a scenario by clicking on the \"CREATE\" button"
         },
         "nodashboard": {
           "label": "There isn't any dashboard configured for this run template"
@@ -296,7 +298,8 @@
         "update": "Update"
       },
       "tooltip": {
-        "isvalidfile": "Error: column name must be a string"
+        "isvalidfile": "Error: column name must be a string",
+        "delete": "Delete file"
       }
     },
     "loading": {
@@ -350,9 +353,14 @@
       }
     },
     "helpmenu": {
+      "title": "Help",
       "documentation": "Documentation",
       "support": "Contact support",
       "about": "About"
+    },
+    "switchtheme": {
+      "light": "Switch to light",
+      "dark": "Switch to dark"
     },
     "dialog": {
       "scenario": {
