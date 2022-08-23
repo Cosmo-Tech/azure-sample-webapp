@@ -42,7 +42,7 @@
           "edit": "Éditer les parameters",
           "launch": "Lancer le scénario",
           "update": {
-            "launch": "Mettre à jour et lancer le scénario",
+            "launch": "Mettre à jour et lancer le scénario"
           }
         }
       }

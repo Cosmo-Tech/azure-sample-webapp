@@ -42,7 +42,7 @@
           "edit": "Edit parameters",
           "launch": "Launch scenario",
           "update": {
-            "launch": "Update and launch scenario",
+            "launch": "Update and launch scenario"
           }
         }
       }
