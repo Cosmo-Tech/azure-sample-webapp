@@ -7,6 +7,7 @@ import { createReducer } from '@reduxjs/toolkit';
 // Authentication data
 export const authInitialState = {
   error: '',
+  userEmail: '',
   userId: '',
   userName: '',
   profilePic: '',
@@ -26,6 +27,7 @@ export const authReducer = createReducer(authInitialState, (builder) => {
     .addCase(AUTH_ACTIONS_KEY.SET_AUTH_DATA, (state, action) => {
       state.error = action.error;
       state.status = action.status;
+      state.userEmail = action.userEmail;
       state.userId = action.userId;
       state.userName = action.userName;
       state.roles = action.roles;

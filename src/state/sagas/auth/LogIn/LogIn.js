@@ -37,6 +37,7 @@ export function* tryLogIn(action) {
       yield put({
         error: '',
         type: AUTH_ACTIONS_KEY.SET_AUTH_DATA,
+        userEmail: Auth.getUserEmail(),
         userId: Auth.getUserId(),
         userName: Auth.getUserName(),
         profilePic: Auth.getUserPicUrl(),
@@ -49,6 +50,7 @@ export function* tryLogIn(action) {
       yield put({
         error: '',
         type: AUTH_ACTIONS_KEY.SET_AUTH_DATA,
+        userEmail: '',
         userId: '',
         userName: '',
         profilePic: '',
@@ -63,6 +65,7 @@ export function* tryLogIn(action) {
     yield put({
       error: errorMessage,
       type: AUTH_ACTIONS_KEY.SET_AUTH_DATA,
+      userEmail: '',
       userId: '',
       userName: '',
       profilePic: '',
