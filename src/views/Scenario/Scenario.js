@@ -333,7 +333,12 @@ const Scenario = (props) => {
                 renderInputToolType={currentScenarioRenderInputTooltip}
               />
               {currentScenario.data && (
-                <Typography variant="caption" align="center" className={classes.runTemplate}>
+                <Typography
+                  data-cy="run-template-name"
+                  variant="caption"
+                  align="center"
+                  className={classes.runTemplate}
+                >
                   {t('views.scenario.text.scenariotype')}: {currentScenario.data.runTemplateName}
                 </Typography>
               )}
