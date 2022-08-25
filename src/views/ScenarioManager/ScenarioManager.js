@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import React, { useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { ScenarioUtils } from '@cosmotech/core';
@@ -9,7 +10,7 @@ import { makeStyles } from '@material-ui/core';
 import { ScenarioManagerTreeList } from '@cosmotech/ui';
 import { WORKSPACE_ID } from '../../config/GlobalConfiguration';
 import { useTranslation } from 'react-i18next';
-// import { ACL_PERMISSIONS, APP_ROLES } from '../../services/config/accessControl';
+import { APP_PERMISSIONS, ACL_PERMISSIONS } from '../../services/config/accessControl';
 import { getFirstScenarioMaster } from '../../utils/SortScenarioListUtils';
 import { getScenarioManagerLabels } from './labels';
 
@@ -35,6 +36,7 @@ function moveScenario(moveData) {
 }
 
 const ScenarioManager = (props) => {
+  const userAppPermissions = useSelector((state) => state.auth.permissions);
   const classes = useStyles();
   const { t } = useTranslation();
   const labels = getScenarioManagerLabels(t);
@@ -123,6 +125,26 @@ const ScenarioManager = (props) => {
     findScenarioById(WORKSPACE_ID, scenarioId);
   };
 
+  const canUserDeleteScenario = (scenario) => {
+    const userPermissionsOnCurrentScenario = scenario?.security?.currentUserPermissions || [];
+    const userAppAndScenarioPermissions = userAppPermissions.concat(userPermissionsOnCurrentScenario);
+    return (
+      userAppAndScenarioPermissions.includes(APP_PERMISSIONS.ADMIN) || // App admin
+      (userAppAndScenarioPermissions.includes(APP_PERMISSIONS.SCENARIO.DELETE) && // App permission to delete scenarios
+        userAppAndScenarioPermissions.includes(ACL_PERMISSIONS.SCENARIO.DELETE)) // ACL permission to delete scenarios
+    );
+  };
+
+  const canUserRenameScenario = (scenario) => {
+    const userPermissionsOnCurrentScenario = scenario?.security?.currentUserPermissions || [];
+    const userAppAndScenarioPermissions = userAppPermissions.concat(userPermissionsOnCurrentScenario);
+    return (
+      userAppAndScenarioPermissions.includes(APP_PERMISSIONS.ADMIN) || // App admin
+      (userAppAndScenarioPermissions.includes(APP_PERMISSIONS.SCENARIO.RENAME) && // App permission to delete scenarios
+        userAppAndScenarioPermissions.includes(ACL_PERMISSIONS.SCENARIO.RENAME)) // ACL permission to delete scenarios
+    );
+  };
+
   return (
     <div className={classes.root}>
       {/* TODO: use function prop for showDeleteIcon */}
@@ -139,6 +161,8 @@ const ScenarioManager = (props) => {
         buildDatasetInfo={buildDatasetLabel}
         labels={labels}
         buildScenarioNameToDelete={buildScenarioNameToDelete}
+        canUserDeleteScenario={canUserDeleteScenario}
+        canUserRenameScenario={canUserRenameScenario}
       />
     </div>
   );

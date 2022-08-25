@@ -17,9 +17,14 @@ import { t } from 'i18next';
 const getUserEmail = (state) => state.auth.userEmail;
 const getUserId = (state) => state.auth.userId;
 
-// TODO: Remove hard-coded values before mergiing branch
+// TODO: Remove hard-coded values before merging branch
 // vvvvvvvvv CODE TO REMOVE vvvvvvvvvvvvvvvv
-const USERS_EMAILS = ['alice@somecompany.com', 'bob@somecompany.com', 'tristan.huet@cosmotech.com'];
+const USERS_EMAILS = [
+  'alice@somecompany.com',
+  'bob@somecompany.com',
+  'tristan.huet@cosmotech.com',
+  'elena.sasova@cosmotech.com',
+];
 const FAKE_SECURITY_DATA_EMPTY = { default: [], accessControlList: [] };
 const FAKE_SECURITY_DATA_DEFAULT_READ_ONLY = {
   default: [ACL_ROLES.SCENARIO.READER],

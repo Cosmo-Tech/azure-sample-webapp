@@ -56,6 +56,14 @@ export const dispatchSetScenarioValidationStatus = (scenarioId, validationStatus
   validationStatus: validationStatus,
 });
 
+export const dispatchSetScenarioSecurity = (scenarioId, newScenarioSecurity, userEmail, userId) => ({
+  type: SCENARIO_ACTIONS_KEY.SET_SCENARIO_SECURITY,
+  scenarioId: scenarioId,
+  security: newScenarioSecurity,
+  userEmail: userEmail,
+  userId: userId,
+});
+
 export const dispatchLaunchScenario = (workspaceId, scenarioId) => ({
   type: SCENARIO_ACTIONS_KEY.LAUNCH_SCENARIO,
   workspaceId: workspaceId,

@@ -21,14 +21,25 @@ import {
   HierarchicalComboBox,
   ScenarioValidationStatusChip,
   PermissionsGate,
+  RolesEditionButton,
 } from '@cosmotech/ui';
 import { sortScenarioList } from '../../utils/SortScenarioListUtils';
 import { SCENARIO_VALIDATION_STATUS } from '../../services/config/ApiConstants.js';
 import ScenarioService from '../../services/scenario/ScenarioService';
 import { STATUSES } from '../../state/commons/Constants';
 import { AppInsights } from '../../services/AppInsights';
-import { APP_PERMISSIONS, ACL_PERMISSIONS } from '../../services/config/accessControl';
-import { getCreateScenarioDialogLabels } from './labels';
+import {
+  APP_PERMISSIONS,
+  ACL_PERMISSIONS,
+  PERMISSIONS_BY_ACL_ROLE,
+  ACL_ROLES,
+} from '../../services/config/accessControl';
+import {
+  getCreateScenarioDialogLabels,
+  getShareScenarioDialogLabels,
+  getPermissionsLabels,
+  getRolesLabels,
+} from './labels';
 import { useNavigate, useParams } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { useScenario } from './ScenarioHook';
@@ -64,6 +75,7 @@ const Scenario = () => {
     workspace,
     solution,
     addDatasetToStore,
+    setScenarioSecurity,
     setScenarioValidationStatus,
     findScenarioById,
     createScenario,
@@ -79,6 +91,7 @@ const Scenario = () => {
   const [editMode, setEditMode] = useState(false);
 
   const createScenarioDialogLabels = getCreateScenarioDialogLabels(t, editMode);
+  const shareScenarioDialogLabels = getShareScenarioDialogLabels(t, currentScenario?.data?.name);
 
   // Add accordion expand status in state
   const [accordionSummaryExpanded, setAccordionSummaryExpanded] = useState(
@@ -131,7 +144,6 @@ const Scenario = () => {
     createScenario(workspaceId, scenarioData);
     setAccordionSummaryExpanded(true);
   };
-
   const currentScenarioRenderInputTooltip = editMode
     ? t(
         'views.scenario.dropdown.scenario.tooltip.disabled',
@@ -263,7 +275,10 @@ const Scenario = () => {
   );
 
   const userPermissionsOnCurrentScenario = currentScenario?.data?.security?.currentUserPermissions || [];
+  // const userPermissionsOnCurrentScenario = currentScenario?.security?.currentUserPermissions || [];
   const userAppPermissions = useSelector((state) => state.auth.permissions);
+  const userEmail = useSelector((state) => state.auth.userEmail);
+  const userId = useSelector((state) => state.auth.userId);
   const userAppAndScenarioPermissions = userAppPermissions.concat(userPermissionsOnCurrentScenario);
   const validationStatusButtons = (
     <PermissionsGate
@@ -305,6 +320,99 @@ const Scenario = () => {
     label: scenarioListLabel,
     validationStatus: scenarioValidationStatusLabels,
   };
+
+  const createScenarioButton = (
+    <PermissionsGate
+      userPermissions={userAppPermissions}
+      necessaryPermissions={[APP_PERMISSIONS.SCENARIO.CREATE]}
+      sufficientPermissions={[APP_PERMISSIONS.ADMIN]}
+    >
+      <CreateScenarioButton
+        solution={solution}
+        workspaceId={workspaceId}
+        createScenario={expandParametersAndCreateScenario}
+        currentScenario={currentScenario}
+        runTemplates={filteredRunTemplates}
+        datasets={datasetList.data}
+        scenarios={scenarioList.data}
+        user={user}
+        disabled={editMode}
+        labels={createScenarioDialogLabels}
+      />
+    </PermissionsGate>
+  );
+
+  const applyScenarioSecurityChanges = (newScenarioSecurity) => {
+    // TODO: compute diff & call API
+    setScenarioSecurity(currentScenario.data.id, newScenarioSecurity, userEmail, userId);
+  };
+
+  const FAKE_USERS_LIST = [
+    { id: 'alice@somecompany.com' },
+    { id: 'bob@somecompany.com' },
+    { id: 'tristan.huet@cosmotech.com' },
+    { id: 'elena.sasova@cosmotech.com' },
+  ];
+  const accessListSpecific = currentScenario?.data?.security?.accessControlList.map((agent) => ({
+    id: agent.id,
+    roles: agent.roles[0],
+  }));
+  const defaultAccessList = currentScenario?.data?.security?.default[0];
+
+  const rolesNames = Object.values(ACL_ROLES.SCENARIO);
+  const rolesLabels = getRolesLabels(t, rolesNames);
+  const permissionsNames = Object.values(ACL_PERMISSIONS.SCENARIO);
+  const permissionsLabels = getPermissionsLabels(t, permissionsNames);
+
+  const shareScenarioButton = (
+    <PermissionsGate
+      userPermissions={userAppAndScenarioPermissions}
+      necessaryPermissions={[APP_PERMISSIONS.SCENARIO.VIEW_PERMISSIONS]}
+      sufficientPermissions={[APP_PERMISSIONS.ADMIN]}
+    >
+      <PermissionsGate
+        userPermissions={userAppAndScenarioPermissions}
+        necessaryPermissions={[APP_PERMISSIONS.SCENARIO.EDIT_PERMISSIONS]}
+        sufficientPermissions={[APP_PERMISSIONS.ADMIN]}
+        noPermissionProps={{ isReadOnly: true }}
+      >
+        <Button
+          size="medium"
+          variant="outlined"
+          color="primary"
+          onClick={() => {
+            applyScenarioSecurityChanges({
+              ...currentScenario.data.security,
+              // default: ['commonroleadmin'],
+              default: 'commonroleadmin',
+              accessControlList: [],
+            });
+          }}
+        >
+          🚀 Escalate to admin 🚀
+        </Button>
+        <RolesEditionButton
+          data-cy="share-scenario-button"
+          labels={shareScenarioDialogLabels}
+          // scenarioId={currentScenario?.data?.id}
+          onConfirmChanges={(updateScenarioAgentsList) => {
+            applyScenarioSecurityChanges(updateScenarioAgentsList);
+            console.log(updateScenarioAgentsList);
+          }}
+          // resourceRolesPermissionsMapping={permissionsByRoles}
+          resourceRolesPermissionsMapping={PERMISSIONS_BY_ACL_ROLE}
+          agents={FAKE_USERS_LIST}
+          specificAccessByAgent={accessListSpecific}
+          defaultAccess={defaultAccessList}
+          defaultAccessScope="Workspace"
+          allRoles={rolesLabels}
+          allPermissions={permissionsLabels}
+          resourceId={currentScenario?.data?.id}
+        />
+      </PermissionsGate>
+    </PermissionsGate>
+  );
+
   return (
     <>
       <Backdrop open={showBackdrop} style={{ zIndex: '10000' }}>
@@ -313,24 +421,12 @@ const Scenario = () => {
       <div data-cy="scenario-view" className={classes.content}>
         <Grid container spacing={2} alignItems="center" justifyContent="space-between">
           <Grid item xs={4}>
-            <PermissionsGate
-              userPermissions={userAppPermissions}
-              necessaryPermissions={[APP_PERMISSIONS.SCENARIO.CREATE]}
-              sufficientPermissions={[APP_PERMISSIONS.ADMIN]}
-            >
-              <CreateScenarioButton
-                solution={solution}
-                workspaceId={workspaceId}
-                createScenario={expandParametersAndCreateScenario}
-                currentScenario={currentScenario}
-                runTemplates={filteredRunTemplates}
-                datasets={datasetList.data}
-                scenarios={scenarioList.data}
-                user={user}
-                disabled={editMode}
-                labels={createScenarioDialogLabels}
-              />
-            </PermissionsGate>
+            <div>
+              <Grid container spacing={1} alignItems="center" justifyContent="flex-start">
+                <Grid item>{createScenarioButton}</Grid>
+                <Grid item>{shareScenarioButton}</Grid>
+              </Grid>
+            </div>
           </Grid>
           <Grid item xs={4}>
             <Grid container direction="column">
@@ -343,12 +439,7 @@ const Scenario = () => {
                 renderInputToolType={currentScenarioRenderInputTooltip}
               />
               {currentScenario.data && (
-                <Typography
-                  data-cy="run-template-name"
-                  variant="caption"
-                  align="center"
-                  className={classes.runTemplate}
-                >
+                <Typography variant="caption" align="center" className={classes.runTemplate}>
                   {t('views.scenario.text.scenariotype')}: {currentScenario.data.runTemplateName}
                 </Typography>
               )}

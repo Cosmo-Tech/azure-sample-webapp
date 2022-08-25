@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { combineReducers } from 'redux';
+import { ScenariosUtils } from '../../../utils';
 import { SCENARIO_ACTIONS_KEY } from '../../commons/ScenarioConstants';
 import { STATUSES } from '../../commons/Constants';
 import { createReducer } from '@reduxjs/toolkit';
@@ -36,6 +37,16 @@ export const scenarioListReducer = createReducer(scenarioListInitialState, (buil
       state.data = state.data.map((scenarioData) => {
         if (scenarioData.id === action.scenarioId) {
           return { ...scenarioData, validationStatus: action.validationStatus };
+        }
+        return scenarioData;
+      });
+    })
+    .addCase(SCENARIO_ACTIONS_KEY.SET_SCENARIO_SECURITY, (state, action) => {
+      state.data = state.data.map((scenarioData) => {
+        if (scenarioData.id === action.scenarioId) {
+          const scenarioWithNewSecurity = { ...scenarioData, security: action.security };
+          ScenariosUtils.patchScenarioWithUserPermissions(scenarioWithNewSecurity, action.userEmail, action.userId);
+          return { ...scenarioData, security: scenarioWithNewSecurity.security };
         }
         return scenarioData;
       });
@@ -89,6 +100,16 @@ export const currentScenarioReducer = createReducer(currentScenarioInitialState,
         state.data = {
           ...state.data,
           validationStatus: action.validationStatus,
+        };
+      }
+    })
+    .addCase(SCENARIO_ACTIONS_KEY.SET_SCENARIO_SECURITY, (state, action) => {
+      if (state.data.id === action.scenarioId) {
+        const scenarioWithNewSecurity = { ...state.data, security: action.security };
+        ScenariosUtils.patchScenarioWithUserPermissions(scenarioWithNewSecurity, action.userEmail, action.userId);
+        state.data = {
+          ...state.data,
+          security: scenarioWithNewSecurity.security,
         };
       }
     });

@@ -78,3 +78,67 @@ export const getReportLabels = (t) => ({
     ),
   },
 });
+export const getShareScenarioDialogLabels = (t, currentScenarioName) => ({
+  button: {
+    title: t('commoncomponents.dialog.share.button.label', 'Share'),
+    tooltip: t('commoncomponents.dialog.share.button.tooltip', 'Modify access'),
+  },
+  dialog: {
+    title: t('commoncomponents.dialog.share.dialog.title', 'Share ') + currentScenarioName,
+    addPeople: t('commoncomponents.dialog.share.dialog.select.addPeople', 'Add people'),
+    cancel: t('commoncomponents.dialog.share.dialog.buttons.cancel', 'Cancel'),
+    share: t('commoncomponents.dialog.share.dialog.buttons.share', 'Share'),
+    userSelected: t('commoncomponents.dialog.share.dialog.select.userSelected', 'Selected user'),
+    usersAccess: t('commoncomponents.dialog.share.dialog.editor.usersAccess', 'Users access'),
+    generalAccess: t('commoncomponents.dialog.share.dialog.editor.generalAccess', 'General access'),
+    removeAccess: t('commoncomponents.dialog.share.dialog.editor.removeAccess', 'Remove specific access'),
+    editor: {
+      helperText: {
+        commonroleadmin: t(
+          'commoncomponents.dialog.share.dialog.editor.helperText.commonroleadmin',
+          'Anyone in this workspace can view, create, launch, edit the scenario and modify access to it'
+        ),
+        commonroleviewer: t(
+          'commoncomponents.dialog.share.dialog.editor.helperText.commonroleviewer',
+          'Anyone in this workspace can view scenario and its results'
+        ),
+        scenariorolevalidator: t(
+          'commoncomponents.dialog.share.dialog.editor.helperText.commonrolevalidator',
+          'Anyone in this workspace can view, create, launch, edit the scenario and change its validation status'
+        ),
+        commonroleditor: t(
+          'commoncomponents.dialog.share.dialog.editor.helperText.commonroleditor',
+          'Anyone in this workspace can view, launch, edit the scenario'
+        ),
+      },
+    },
+    add: {
+      cancel: t('commoncomponents.dialog.share.dialog.buttons.cancel', 'Cancel'),
+      deniedPermissions: t('commoncomponents.dialog.share.dialog.add.deniedPermissions', 'Not granted permissions'),
+      done: t('commoncomponents.dialog.share.dialog.buttons.done', 'Done'),
+      grantedPermissions: t('commoncomponents.dialog.share.dialog.add.grantedPermissions', 'Granted permissions'),
+      rolesTitle: t('commoncomponents.dialog.share.dialog.add.rolesTitle', 'Roles'),
+      userSelected: t('commoncomponents.dialog.share.dialog.select.userSelected', 'Selected user'),
+      rolesHelperText: t('commoncomponents.dialog.share.dialog.add.rolesHelperText', 'Select one role'),
+    },
+  },
+});
+export const getRolesLabels = (t, rolesNames) => {
+  const rolesLabels = [];
+  rolesNames.forEach((roleName) =>
+    rolesLabels.push({ value: roleName, label: t(`commoncomponents.dialog.share.roles.${roleName}`, roleName) })
+  );
+  return rolesLabels;
+};
+
+export const getPermissionsLabels = (t, permissionsNames) => {
+  const permissionsLabels = {};
+  permissionsNames.forEach(
+    (permissionName) =>
+      (permissionsLabels[permissionName] = t(
+        `commoncomponents.dialog.share.permissions.${permissionName}`,
+        permissionName
+      ))
+  );
+  return permissionsLabels;
+};

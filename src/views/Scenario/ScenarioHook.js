@@ -4,6 +4,7 @@
 import {
   useCurrentScenario,
   useScenarioList,
+  useSetScenarioSecurity,
   useSetScenarioValidationStatus,
   useFindScenarioById,
   useCreateScenario,
@@ -27,6 +28,7 @@ export const useScenario = () => {
 
   const addDatasetToStore = useAddDatasetToStore();
 
+  const setScenarioSecurity = useSetScenarioSecurity();
   const setScenarioValidationStatus = useSetScenarioValidationStatus();
   const findScenarioById = useFindScenarioById();
   const createScenario = useCreateScenario();
@@ -46,6 +48,7 @@ export const useScenario = () => {
     workspace,
     solution,
     addDatasetToStore,
+    setScenarioSecurity,
     setScenarioValidationStatus,
     findScenarioById,
     createScenario,
