@@ -5,6 +5,11 @@ import React, { cloneElement } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
+// DEPRECATED ! The component PermissionsGate is deprecated and will be removed in a future update. Please consider
+// using the component PermissionsGate from the @cosmotech/ui package instead
+
+let hasDeprecatedWarningBeenShown = false;
+
 const hasPermission = (userPermissions, requiredPermissions) => {
   const filteredPermissions = userPermissions.filter((permission) => requiredPermissions.includes(permission));
   return filteredPermissions.length > 0;
@@ -21,6 +26,13 @@ export const PermissionsGate = ({
   authorizedPermissions,
   authorizedRoles,
 }) => {
+  if (!hasDeprecatedWarningBeenShown) {
+    console.warn(
+      'The component PermissionsGate is deprecated and will be removed in a future update. Please consider using ' +
+        'the component PermissionsGate from the @cosmotech/ui package instead.'
+    );
+    hasDeprecatedWarningBeenShown = true;
+  }
   const userRoles = useSelector((state) => state.auth.roles);
   const userPermissions = useSelector((state) => state.auth.permissions);
 
