@@ -3,6 +3,7 @@
 
 import { URL_REGEX } from '../../constants/generic/TestConstants';
 import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
+import { apiUtils as api } from '../../utils';
 
 // Get elements in scenario parameters panel
 function getParametersTabs() {
@@ -74,7 +75,9 @@ function discard() {
 }
 
 function launch(dontAskAgain = false, withUpdate = false) {
-  cy.intercept('POST', URL_REGEX.SCENARIO_PAGE_RUN_WITH_ID).as('requestRunScenario');
+  const alias = api.forgeAlias('reqRunScenarioAlias');
+  cy.intercept('POST', URL_REGEX.SCENARIO_PAGE_RUN_WITH_ID).as(alias);
+
   if (withUpdate) {
     getParametersUpdateAndLaunchButton().click();
   } else {
@@ -86,7 +89,8 @@ function launch(dontAskAgain = false, withUpdate = false) {
     }
     getLaunchConfirmButton().click();
   }
-  cy.wait('@requestRunScenario', { timeout: 60 * 1000 }); // 60 seconds timeout
+
+  api.waitAlias(alias, { timeout: 60 * 1000 }); // 60 seconds timeout
 }
 
 function updateAndLaunch(dontAskAgain = false) {

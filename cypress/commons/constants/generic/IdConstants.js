@@ -107,6 +107,7 @@ export const GENERIC_SELECTORS = {
         delete: '[data-cy=scenario-delete-button]',
       },
       scenarioAccordion: '[data-cy=scenario-accordion-$SCENARIOID]',
+      scenarioAccordions: '[data-cy^=scenario-accordion-]',
       scenarioAccordionExpandButton: '[data-cy=expand-accordion-button]',
       scenarioDataset: '[data-cy=scenario-datasets]',
       editableLabel: '[data-cy=editable-label]',

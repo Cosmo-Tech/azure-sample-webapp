@@ -3,8 +3,8 @@
 
 import 'cypress-localstorage-commands';
 import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
-import { URL_REGEX, URL_POWERBI } from '../../constants/generic/TestConstants';
-import { Scenarios, ScenarioParameters } from './..';
+import { Scenarios } from './Scenarios';
+import { apiUtils as api } from '../../utils';
 
 const BASE_URL = Cypress.config().baseUrl;
 function getMicrosoftLoginButton() {
@@ -12,7 +12,10 @@ function getMicrosoftLoginButton() {
 }
 
 function login() {
-  login.reqIndex = login.reqIndex || 1;
+  const reqAuthAlias = api.interceptAuthentication();
+  const reqPowerBIAlias = api.interceptPowerBIAzureFunction();
+  const reqGetScenariosAlias = api.interceptGetScenarios();
+
   cy.clearLocalStorageSnapshot();
   cy.visit(BASE_URL, {
     // next line defines English as default language for tests
@@ -22,26 +25,20 @@ function login() {
       });
     },
   });
-
-  // Stub PowerBi request
-  cy.intercept('GET', URL_POWERBI, {
-    statusCode: 200,
-  });
-
-  const reqName = `requestLoginGetScenarios_${login.reqIndex}`;
-  cy.intercept('GET', URL_REGEX.SCENARIOS_LIST).as(reqName);
-  ++login.reqIndex;
   Login.getMicrosoftLoginButton().click();
-  cy.wait('@' + reqName, { timeout: 60 * 1000 });
 
+  api.waitAlias(reqAuthAlias);
+  api.waitAlias(reqGetScenariosAlias, { timeout: 60 * 1000 });
+  api.waitAlias(reqPowerBIAlias);
   Scenarios.getScenarioViewTab(60).should('be.visible');
-  ScenarioParameters.getParametersAccordionSummary().should('be.visible');
   cy.saveLocalStorage();
 }
 
 function relogin() {
   Cypress.Cookies.preserveOnce('ai_session', 'ai_user');
   cy.restoreLocalStorage();
+
+  const reqGetScenariosAlias = api.interceptGetScenarios();
   cy.visit(BASE_URL, {
     // next line defines English as default language for tests
     onBeforeLoad(win) {
@@ -50,6 +47,7 @@ function relogin() {
       });
     },
   });
+  api.waitAlias(reqGetScenariosAlias, { timeout: 60 * 1000 });
   Scenarios.getScenarioViewTab(60).should('be.visible');
 }
 
