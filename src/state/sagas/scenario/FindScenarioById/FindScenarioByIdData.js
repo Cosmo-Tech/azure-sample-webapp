@@ -39,6 +39,10 @@ export function* fetchScenarioByIdForInitialData(workspaceId, scenarioId) {
 
 export function* fetchScenarioByIdData(action) {
   try {
+    yield put({
+      type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
+      status: STATUSES.LOADING,
+    });
     const { data } = yield call(Api.Scenarios.findScenarioById, ORGANIZATION_ID, action.workspaceId, action.scenarioId);
     data.parametersValues = formatParametersFromApi(data.parametersValues);
     yield put({
