@@ -60,22 +60,20 @@ const Workspaces = () => {
   return (
     <>
       <AppBar />
-      {applicationError && (
-        <ErrorBanner
-          error={applicationError}
-          labels={{
-            dismissButtonText: t('commoncomponents.banner.button.dismiss', 'Dismiss'),
-            tooLongErrorMessage: t(
-              'commoncomponents.banner.tooLongErrorMessage',
-              // eslint-disable-next-line max-len
-              'Detailed error message is too long to be displayed. To read it, please use the COPY button and paste it in your favorite text editor.'
-            ),
-            secondButtonText: t('commoncomponents.banner.button.copy.label', 'Copy'),
-            toggledButtonText: t('commoncomponents.banner.button.copy.copied', 'Copied'),
-          }}
-          clearErrors={clearApplicationErrorMessage}
-        />
-      )}
+      <ErrorBanner
+        error={applicationError}
+        labels={{
+          dismissButtonText: t('commoncomponents.banner.button.dismiss', 'Dismiss'),
+          tooLongErrorMessage: t(
+            'commoncomponents.banner.tooLongErrorMessage',
+            // eslint-disable-next-line max-len
+            'Detailed error message is too long to be displayed. To read it, please use the COPY button and paste it in your favorite text editor.'
+          ),
+          secondButtonText: t('commoncomponents.banner.button.copy.label', 'Copy'),
+          toggledButtonText: t('commoncomponents.banner.button.copy.copied', 'Copied'),
+        }}
+        clearErrors={clearApplicationErrorMessage}
+      />
       <div data-cy="workspaces-view">
         {workspacesList?.data?.length === 0 ? (
           <Grid container justifyContent="center" alignItems="center" style={{ padding: '18px', height: '90%' }}>
