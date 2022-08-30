@@ -1,11 +1,6 @@
-Dev Review rules:
-- 3 PR max
-- at the second feedback, prefer meet instead of github conversation
-
-Definition of Done:
-- [ ] Testing
-- [ ] No error logs in web console (except iFrame errors)
-- [ ] Create or Update documentation (README file for users/integrators)
-- [ ] Identify breaking changes with [conventional commits](https://kapeli.com/cheat_sheets/Conventional_Commits.docset/Contents/Resources/Documents/index)
-- [ ] Check the [test page](https://spaceport.cosmotech.com/confluence/pages/viewpage.action?spaceKey=QA&title=Azure+Sample+Webapp) in order to manually validate the feature
-- [ ] Clean code (regroup configuration variable, typos, no console.log...)
+Before creating a PR, please check that:
+- [ ] Code is clean
+- [ ] Tests are still working (cypress tests and `yarn test`)
+- [ ] Changes don't cause new errors or warnings in browser console
+- [ ] Documentation is up-to-date
+- [ ] Breaking changes are clearly identified with [conventional commits](https://kapeli.com/cheat_sheets/Conventional_Commits.docset/Contents/Resources/Documents/index)
