@@ -9,6 +9,7 @@ import { USE_POWER_BI_WITH_USER_CREDENTIALS } from '../../../../config/PowerBI';
 import { POWER_BI_INFO_POLLING_DELAY } from '../../../../services/config/FunctionalConstants';
 import { PowerBIService } from '../../../../services/powerbi/PowerBIService';
 
+const IS_POWERBI_POLLING_DISABLED = !!process.env.REACT_APP_NO_POWERBI_POLLING;
 const noAccess = {
   accessToken: '',
   reportsInfo: '',
@@ -58,8 +59,11 @@ export function* getPowerBIEmbedInfoSaga() {
         error: error,
         status: STATUSES.ERROR,
       });
-      tokenDelay = POWER_BI_INFO_POLLING_DELAY;
-      yield delay(tokenDelay);
+      if (IS_POWERBI_POLLING_DISABLED) tokenDelay = 0;
+      else {
+        tokenDelay = POWER_BI_INFO_POLLING_DELAY;
+        yield delay(tokenDelay);
+      }
     }
   } while (tokenDelay);
 }
