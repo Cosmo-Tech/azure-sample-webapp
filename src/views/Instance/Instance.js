@@ -5,7 +5,6 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { CytoViz, HierarchicalComboBox } from '@cosmotech/ui';
-import { Backdrop, CircularProgress } from '@material-ui/core';
 import { sortScenarioList } from '../../utils/SortScenarioListUtils';
 import { parseError } from '../../utils/ErrorsUtils';
 import { STATUSES } from '../../state/commons/Constants';
@@ -44,7 +43,7 @@ const Instance = (props) => {
   const noScenario = currentScenario.data === null;
   const scenarioListDisabled = scenarioList === null || noScenario;
   const scenarioListLabel = noScenario ? null : t('views.scenario.dropdown.scenario.label', 'Scenario');
-  const showBackdrop = currentScenario.status === STATUSES.LOADING;
+  const isSwitchingScenario = currentScenario.status === STATUSES.LOADING;
 
   useEffect(() => {
     // Note that the "active" variable is necessary to prevent race conditions when the effect is called several times
@@ -138,9 +137,6 @@ const Instance = (props) => {
 
   return (
     <>
-      <Backdrop className={classes.backdrop} open={showBackdrop}>
-        <CircularProgress color="inherit" />
-      </Backdrop>
       <div className={classes.mainGrid}>
         <div className={classes.scenarioSelectGridItem}>
           <HierarchicalComboBox
@@ -157,7 +153,7 @@ const Instance = (props) => {
             elements={graphElements}
             error={errorBannerMessage}
             labels={cytoVizLabels}
-            loading={isLoadingData}
+            loading={isSwitchingScenario || isLoadingData}
             extraLayouts={EXTRA_LAYOUTS}
             defaultSettings={defaultSettings}
             placeholderMessage={cytoVizPlaceholderMessage}

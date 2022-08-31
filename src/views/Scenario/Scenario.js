@@ -301,7 +301,7 @@ const Scenario = (props) => {
   };
   return (
     <>
-      <Backdrop open={showBackdrop}>
+      <Backdrop open={showBackdrop} style={{ zIndex: '10000' }}>
         <CircularProgress color="inherit" />
       </Backdrop>
       <div data-cy="scenario-view" className={classes.content}>
