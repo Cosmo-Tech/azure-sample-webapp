@@ -50,13 +50,6 @@ export const dispatchUpdateAndLaunchScenario = (workspaceId, scenarioId, scenari
   scenarioParameters: scenarioParameters,
 });
 
-export const dispatchSetScenarioState = (workspaceId, scenarioId, state) => ({
-  type: SCENARIO_ACTIONS_KEY.SET_SCENARIO_STATE,
-  workspaceId: workspaceId,
-  scenarioId: scenarioId,
-  state: state,
-});
-
 export const dispatchSetScenarioValidationStatus = (scenarioId, validationStatus) => ({
   type: SCENARIO_ACTIONS_KEY.SET_SCENARIO_VALIDATION_STATUS,
   scenarioId: scenarioId,
