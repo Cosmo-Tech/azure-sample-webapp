@@ -5,6 +5,7 @@ import Scenario from './Scenario';
 import {
   dispatchFindScenarioById,
   dispatchCreateScenario,
+  dispatchSetCurrentScenario,
   dispatchUpdateAndLaunchScenario,
   dispatchLaunchScenario,
   dispatchSetScenarioValidationStatus,
@@ -27,6 +28,7 @@ const mapDispatchToProps = {
   setScenarioValidationStatus: dispatchSetScenarioValidationStatus,
   findScenarioById: dispatchFindScenarioById,
   createScenario: dispatchCreateScenario,
+  updateCurrentScenario: dispatchSetCurrentScenario,
   updateAndLaunchScenario: dispatchUpdateAndLaunchScenario,
   launchScenario: dispatchLaunchScenario,
   setApplicationErrorMessage: dispatchSetApplicationErrorMessage,

@@ -75,6 +75,7 @@ const Scenario = (props) => {
     solution,
     addDatasetToStore,
     createScenario,
+    updateCurrentScenario,
     updateAndLaunchScenario,
     launchScenario,
     reports,
@@ -99,12 +100,15 @@ const Scenario = (props) => {
   const [accordionSummaryExpanded, setAccordionSummaryExpanded] = useState(
     localStorage.getItem('scenarioParametersAccordionExpanded') === 'true'
   );
+
   const handleScenarioChange = (event, scenario) => {
     findScenarioById(workspaceId, scenario.id);
   };
+
   useEffect(() => {
     localStorage.setItem('scenarioParametersAccordionExpanded', accordionSummaryExpanded);
   }, [accordionSummaryExpanded]);
+
   useEffect(() => {
     if (sortedScenarioList.length !== 0) {
       if (routerParameters.id === undefined) {
@@ -119,11 +123,13 @@ const Scenario = (props) => {
     }
     // eslint-disable-next-line
   }, []);
+
   // this function enables backwards navigation between scenario's URLs
   window.onpopstate = (e) => {
     const scenarioFromUrl = scenarioList.data.find((el) => el.id === routerParameters.id);
     if (scenarioFromUrl) handleScenarioChange(event, scenarioFromUrl);
   };
+
   useEffect(() => {
     if (sortedScenarioList.length > 0) {
       if (currentScenario.data === null) {
@@ -131,10 +137,12 @@ const Scenario = (props) => {
         navigate(`/scenario/${sortedScenarioList[0].id}`);
       } else if (currentScenario.data.id !== routerParameters.id) {
         navigate(`/scenario/${currentScenario.data.id}`);
+        updateCurrentScenario({ status: STATUSES.SUCCESS });
       }
     }
     // eslint-disable-next-line
   }, [currentScenario]);
+
   const expandParametersAndCreateScenario = (workspaceId, scenarioData) => {
     createScenario(workspaceId, scenarioData);
     setAccordionSummaryExpanded(true);
@@ -407,6 +415,7 @@ Scenario.propTypes = {
   solution: PropTypes.object.isRequired,
   addDatasetToStore: PropTypes.func.isRequired,
   createScenario: PropTypes.func.isRequired,
+  updateCurrentScenario: PropTypes.func.isRequired,
   updateAndLaunchScenario: PropTypes.func.isRequired,
   launchScenario: PropTypes.func.isRequired,
   reports: PropTypes.object.isRequired,
