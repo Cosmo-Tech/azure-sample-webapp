@@ -64,7 +64,7 @@ export const currentScenarioReducer = createReducer(currentScenarioInitialState,
       state.status = STATUSES.IDLE;
     })
     .addCase(SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO, (state, action) => {
-      if (action.scenario !== null) {
+      if ((state.data !== null && action.scenario !== null) || (state.data === null && action.scenario != null)) {
         state.data = {
           ...state.data,
           ...action.scenario,
@@ -72,7 +72,7 @@ export const currentScenarioReducer = createReducer(currentScenarioInitialState,
       } else {
         state.data = null;
       }
-      state.status = action.status;
+      state.status = action.status ?? state.status;
     })
     .addCase(SCENARIO_ACTIONS_KEY.UPDATE_SCENARIO, (state, action) => {
       // Replace state and lastRun in data if the scenario to update is currently selected
