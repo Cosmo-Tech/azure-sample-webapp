@@ -8,7 +8,8 @@ import {
   getDefaultNodeStyle,
   getDefaultSelectedEdgeStyle,
   getDefaultSelectedNodeStyle,
-  getDefaultOutEdgeStyle,
+  getDefaultInEdgeStyle,
+  getDefaultHiddenStyle,
 } from './styleCytoViz';
 import { ORGANIZATION_ID, WORKSPACE_ID } from '../../config/GlobalConfiguration';
 import instanceViewData from '../../config/InstanceVisualization.js';
@@ -70,6 +71,10 @@ const _processGraphNodes = (processedData, nodesParentsDict, datasetContent, nod
       selector: `node.${nodesGroupName}:selected`,
       style: { ...getDefaultSelectedNodeStyle(theme), ...nodesGroupMetadata.style },
     });
+    processedData.stylesheet.push({
+      selector: 'node[?hidden]',
+      style: { ...getDefaultHiddenStyle(theme) },
+    });
   });
 };
 
@@ -91,11 +96,15 @@ const _processGraphEdges = (processedData, datasetContent, edgesGroups, theme) =
     });
     processedData.stylesheet.push({
       selector: 'edge[?asInEdgeHighlighted]',
-      style: { ...getDefaultSelectedEdgeStyle(theme), ...edgesGroupMetadata.style },
+      style: { ...getDefaultInEdgeStyle(theme), ...edgesGroupMetadata.style },
     });
     processedData.stylesheet.push({
       selector: 'edge[?asOutEdgeHighlighted]',
-      style: { ...getDefaultOutEdgeStyle(theme), ...edgesGroupMetadata.style },
+      style: { ...getDefaultSelectedEdgeStyle(theme), ...edgesGroupMetadata.style },
+    });
+    processedData.stylesheet.push({
+      selector: 'edge[?hidden]',
+      style: { ...getDefaultHiddenStyle(theme) },
     });
   });
 };

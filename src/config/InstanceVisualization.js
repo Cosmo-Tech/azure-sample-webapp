@@ -13,7 +13,7 @@ const DATA_CONTENT = {
     Bar_vertex: {},
   },
   edges: {
-    arc_Satisfaction: { style: { 'line-color': '#999999' }, selectable: false },
+    arc_Satisfaction: { style: {}, selectable: false },
   },
   nodes: {
     Bar: {
