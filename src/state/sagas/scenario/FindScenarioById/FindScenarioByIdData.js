@@ -72,6 +72,12 @@ export function* fetchScenarioByIdData(action) {
         t('views.scenario.redirectError.comment', 'You have been redirected to default Scenario view')
       )
     );
+    // Redirection is handled by a useEffect in the Scenario view. For this saga, we can consider that the status is
+    // now SUCCESS in the redux state for current scenario
+    yield put({
+      type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
+      status: STATUSES.SUCCESS,
+    });
   }
 }
 

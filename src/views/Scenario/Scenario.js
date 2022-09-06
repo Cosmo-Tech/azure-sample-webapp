@@ -352,11 +352,9 @@ const Scenario = (props) => {
               )}
             </Grid>
           </Grid>
-          {currentScenario.data && (
-            <Grid item xs={4} className={classes.alignRight}>
-              {scenarioValidationArea}
-            </Grid>
-          )}
+          <Grid item xs={4} className={classes.alignRight}>
+            {currentScenario.data && scenarioValidationArea}
+          </Grid>
           <Grid item xs={12}>
             <Card component={Paper} elevation={2}>
               {currentScenario.data && (
