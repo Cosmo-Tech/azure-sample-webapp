@@ -10,7 +10,6 @@ import { getAllScenariosData } from '../../scenario/FindAllScenarios/FindAllScen
 import { fetchAllDatasetsData } from '../../datasets/FindAllDatasets/FindAllDatasets';
 import { fetchWorkspaceByIdData } from '../../workspace/FindWorkspaceById/FindWorkspaceByIdData';
 import { fetchSolutionByIdData } from '../../solution/FindSolutionById/FindSolutionByIdData';
-import { fetchScenarioByIdForInitialData } from '../../scenario/FindScenarioById';
 import { getPowerBIEmbedInfoSaga } from '../../powerbi/GetPowerBIEmbedInfo/GetPowerBIEmbedInfoData';
 import { POWER_BI_ACTIONS_KEY } from '../../../commons/PowerBIConstants';
 import { DATASET_ACTIONS_KEY } from '../../../commons/DatasetConstants';
@@ -36,9 +35,13 @@ export function* fetchAllInitialData(action) {
     const solutionId = yield select(selectSolutionIdFromCurrentWorkspace);
     yield call(fetchSolutionByIdData, workspaceId, solutionId);
     const scenarioList = yield select(selectScenarioList);
+    yield put({
+      type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
+      scenario: getFirstScenarioMaster(scenarioList), // Function returns null if list is empty
+      status: STATUSES.SUCCESS,
+    });
     if (scenarioList.length !== 0) {
-      yield call(fetchScenarioByIdForInitialData, workspaceId, getFirstScenarioMaster(scenarioList).id);
-      // Start state polling for running scenarios
+      // Start run status polling for running scenarios
       for (let i = 0; i < scenarioList.length; ++i) {
         if (scenarioList[i].state === SCENARIO_RUN_STATE.RUNNING) {
           yield put({
@@ -48,13 +51,8 @@ export function* fetchAllInitialData(action) {
           });
         }
       }
-    } else {
-      yield put({
-        type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
-        scenario: null,
-        status: STATUSES.SUCCESS,
-      });
     }
+
     yield fork(getPowerBIEmbedInfoSaga);
     yield put({
       type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS,

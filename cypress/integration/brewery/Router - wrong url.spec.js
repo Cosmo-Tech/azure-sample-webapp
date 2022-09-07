@@ -10,8 +10,8 @@ describe('Sharing with wrong URL', () => {
       statusCode: 200,
     });
 
-    const reqName = 'requestLoginGetScenario_1';
-    cy.intercept('GET', URL_REGEX.SCENARIO_PAGE_WITH_ID).as(reqName);
+    const reqName = 'requestLoginGetScenarios';
+    cy.intercept('GET', URL_REGEX.SCENARIOS_LIST).as(reqName);
     Login.getMicrosoftLoginButton().click();
     cy.wait('@' + reqName);
 

@@ -73,7 +73,7 @@ const ScenarioManager = (props) => {
       if (lastScenarioDelete) {
         resetCurrentScenario();
       } else {
-        findScenarioById(WORKSPACE_ID, getFirstScenarioMaster(getScenariolistAfterDelete(scenarioId)).id);
+        setCurrentScenario(getFirstScenarioMaster(getScenariolistAfterDelete(scenarioId)));
       }
     }
   }

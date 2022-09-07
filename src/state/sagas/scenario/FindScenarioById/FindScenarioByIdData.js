@@ -11,32 +11,6 @@ import { Api } from '../../../../services/config/Api';
 import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
 import { t } from 'i18next';
 
-export function* fetchScenarioByIdForInitialData(workspaceId, scenarioId) {
-  try {
-    const { data } = yield call(Api.Scenarios.findScenarioById, ORGANIZATION_ID, workspaceId, scenarioId);
-    data.parametersValues = formatParametersFromApi(data.parametersValues);
-    yield put({
-      type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
-      status: STATUSES.SUCCESS,
-      scenario: data,
-    });
-  } catch (error) {
-    yield put(
-      dispatchSetApplicationErrorMessage(
-        error,
-        t('views.scenario.redirectError.comment', 'You have been redirected to default Scenario view')
-      )
-    );
-    yield put({
-      type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
-      status: STATUSES.ERROR,
-      scenario: null,
-    });
-    // Rethrow for application error management
-    throw error;
-  }
-}
-
 export function* fetchScenarioByIdData(action) {
   try {
     yield put({

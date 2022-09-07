@@ -28,8 +28,8 @@ function login() {
     statusCode: 200,
   });
 
-  const reqName = `requestLoginGetScenario_${login.reqIndex}`;
-  cy.intercept('GET', URL_REGEX.SCENARIO_PAGE_WITH_ID).as(reqName);
+  const reqName = `requestLoginGetScenarios_${login.reqIndex}`;
+  cy.intercept('GET', URL_REGEX.SCENARIOS_LIST).as(reqName);
   ++login.reqIndex;
   Login.getMicrosoftLoginButton().click();
   cy.wait('@' + reqName, { timeout: 60 * 1000 });
