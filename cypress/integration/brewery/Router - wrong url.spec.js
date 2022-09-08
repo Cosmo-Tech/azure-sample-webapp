@@ -1,19 +1,16 @@
 import { ErrorBanner, Login } from '../../commons/actions';
-import { URL_POWERBI, URL_REGEX } from '../../commons/constants/generic/TestConstants';
+import { apiUtils as api } from '../../commons/utils';
+
 describe('Sharing with wrong URL', () => {
   it("can display error banner when scenario doesn't exist", () => {
     cy.clearLocalStorageSnapshot();
     cy.visit('scenario/invalidurl');
 
-    // Stub PowerBi request
-    cy.intercept('GET', URL_POWERBI, {
-      statusCode: 200,
-    });
-
-    const reqName = 'requestLoginGetScenarios';
-    cy.intercept('GET', URL_REGEX.SCENARIOS_LIST).as(reqName);
+    const reqPowerBIAlias = api.interceptPowerBIAzureFunction();
+    const reqGetScenariosAlias = api.interceptGetScenarios();
     Login.getMicrosoftLoginButton().click();
-    cy.wait('@' + reqName);
+    api.waitAlias(reqGetScenariosAlias, { timeout: 60 * 1000 });
+    api.waitAlias(reqPowerBIAlias);
 
     ErrorBanner.getErrorBanner().should('be.visible');
     ErrorBanner.getErrorDetailText().contains('Scenario #invalidurl not found');
