@@ -35,7 +35,7 @@ const NormalModeButton = ({
         TransitionProps={{ timeout: 600 }}
         title={t('commoncomponents.button.scenario.parameters.edit', 'Edit parameters')}
       >
-        {editButton}
+        <div>{editButton}</div>
       </Tooltip>
     );
 
@@ -48,14 +48,16 @@ const NormalModeButton = ({
           TransitionProps={{ timeout: 600 }}
           title={t('commoncomponents.button.scenario.parameters.launch', 'Launch scenario')}
         >
-          <IconButton
-            data-cy="launch-scenario-button"
-            color="primary"
-            onClick={handleClickOnLaunchScenario}
-            disabled={runDisabled}
-          >
-            <PlayCircleOutlineIcon />
-          </IconButton>
+          <div>
+            <IconButton
+              data-cy="launch-scenario-button"
+              color="primary"
+              onClick={handleClickOnLaunchScenario}
+              disabled={runDisabled}
+            >
+              <PlayCircleOutlineIcon />
+            </IconButton>
+          </div>
         </Tooltip>
       </Grid>
     </Grid>
