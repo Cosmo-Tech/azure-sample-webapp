@@ -151,6 +151,11 @@ describe('Table parameters files standard operations part 3', () => {
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.importCustomersTableData(CSV_VALID_FILE_PATH);
     BreweryParameters.getCustomersTableCell('canDrinkAlcohol', 1).should('have.text', 'false');
+    // Add 1 edit to circumvent bug in ag-grid (the first edit seems not to be in the undo history)
+    // TODO: remove work-around when bug is fixed
+    BreweryParameters.editCustomersTableStringCell('canDrinkAlcohol', 1, 'true');
+    BreweryParameters.editCustomersTableStringCell('canDrinkAlcohol', 1, 'false');
+
     BreweryParameters.editCustomersTableStringCell('canDrinkAlcohol', 1, 'true')
       .should('have.text', 'true')
       .type('{ctrl}z')
