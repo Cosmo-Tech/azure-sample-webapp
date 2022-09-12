@@ -58,6 +58,7 @@ export function* tryLogIn(action) {
       });
     }
   } catch (error) {
+    if (!error.errorMessage) console.error(error);
     const errorMessage = error.errorMessage || UNKNOWN_ERROR_MESSAGE;
     yield put({
       error: errorMessage,
