@@ -1,9 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { PAGE_NAME, URL_ROOT, URL_REGEX } from '../../constants/generic/TestConstants';
 import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
 import { ScenarioParameters } from './ScenarioParameters';
+import { apiUtils as api } from '../../utils';
 
 // From scenario View
 // Get elements
@@ -126,13 +126,13 @@ function switchToScenarioView() {
 
 // Select the scenario with the provided name and id
 function selectScenario(scenarioName, scenarioId) {
-  const reqName = `requestSelectScenario_${scenarioName}`.replaceAll(' ', '');
-  const scenarioUrlRegex = new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/${scenarioId}`);
-  cy.intercept('GET', scenarioUrlRegex).as(reqName);
-  getScenarioSelector()
-    .click()
-    .type('{selectAll}{backspace}' + scenarioName + '{downarrow}{enter}');
-  cy.wait(`@${reqName}`)
+  const getScenarioAlias = api.interceptGetScenario(scenarioId);
+  writeInScenarioSelectorInput(scenarioName);
+  getScenarioSelectorOption(scenarioId).should('be.visible').should('not.be.disabled');
+  getScenarioSelectorOption(scenarioId).click();
+
+  api
+    .waitAlias(getScenarioAlias)
     .its('response')
     .its('body')
     .then((req) => {
@@ -148,6 +148,7 @@ function selectScenario(scenarioName, scenarioId) {
 function writeInScenarioSelectorInput(searchStr) {
   return getScenarioSelector()
     .click()
+    .should('not.be.disabled')
     .type('{selectAll}{backspace}' + searchStr); // clear() does not always work, use "{selectAll}{backspace}" instead
 }
 
@@ -188,35 +189,31 @@ function cancelCreateScenario() {
 }
 
 function createScenario(scenarioName, isMaster, datasetOrMasterName, runTemplate) {
+  const createScenarioAlias = api.interceptCreateScenario();
+  const getScenariosAlias = api.interceptGetScenarios();
+
   openScenarioCreationDialog();
   getScenarioCreationDialog().should('be.visible');
-
   getScenarioCreationDialogNameField().type(scenarioName);
-
   if (isMaster === true) {
     selectDataset(datasetOrMasterName);
   } else {
     selectParentScenario(datasetOrMasterName);
   }
-
   selectRunTemplate(runTemplate);
 
-  const scenarioCreationAlias = 'requestCreateScenario_' + scenarioName.replaceAll(' ', '');
-  const scenarioListUpdateAlias = 'requestUpdateScenarioList_' + scenarioName.replaceAll(' ', '');
-  cy.intercept('POST', URL_REGEX.SCENARIO_PAGE).as(scenarioCreationAlias);
-  cy.intercept('GET', URL_REGEX.SCENARIOS_LIST).as(scenarioListUpdateAlias);
-
   getScenarioCreationDialogSubmitButton().click();
+  getScenarioCreationDialog().should('not.exist');
 
   let scenarioCreated;
-  cy.wait('@' + scenarioCreationAlias).then((req) => {
+  api.waitAlias(createScenarioAlias).then((req) => {
     scenarioCreated = req.response.body;
     expect(scenarioCreated.name.toLowerCase()).to.equal(scenarioName.toLowerCase());
     expect(scenarioCreated.runTemplateName.toLowerCase()).to.equal(runTemplate.toLowerCase());
   });
 
-  return cy.wait('@' + scenarioListUpdateAlias).then((req) => {
-    const nameGet = req.response.body.find((obj) => obj.id === scenarioCreated.id).name;
+  return api.waitAlias(getScenariosAlias).then((interception) => {
+    const nameGet = interception.response.body.find((obj) => obj.id === scenarioCreated.id).name;
     expect(nameGet).to.equal(scenarioCreated.name);
 
     return {

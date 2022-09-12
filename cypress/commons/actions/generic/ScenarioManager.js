@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 
 import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
+import { apiUtils as api } from '../../utils';
+
 function getScenarioManagerView() {
   return cy.get(GENERIC_SELECTORS.scenario.manager.view);
 }
@@ -10,9 +12,14 @@ function switchToScenarioManager() {
 }
 
 function deleteScenario(scenarioName) {
+  const deleteScenarioAlias = api.interceptDeleteScenario(scenarioName);
+  const getScenariosAlias = api.interceptGetScenarios();
+
   writeInFilter(scenarioName);
   cy.get(GENERIC_SELECTORS.scenario.manager.button.delete).click();
   cy.get(GENERIC_SELECTORS.scenario.manager.confirmDeleteDialog).contains('button', 'Confirm').click();
+  api.waitAlias(deleteScenarioAlias);
+  api.waitAlias(getScenariosAlias);
 }
 
 function deleteScenarioList(scenarioNamesToDelete) {
@@ -26,6 +33,10 @@ function writeInFilter(searchStr) {
   cy.get(GENERIC_SELECTORS.scenario.manager.search)
     .find('input')
     .type('{selectAll}{backspace}' + searchStr);
+}
+
+function getScenarioAccordions() {
+  return cy.get(GENERIC_SELECTORS.scenario.manager.scenarioAccordions);
 }
 
 function getScenarioAccordion(scenarioId) {
@@ -125,6 +136,7 @@ export const ScenarioManager = {
   deleteScenario,
   deleteScenarioList,
   writeInFilter,
+  getScenarioAccordions,
   getScenarioAccordion,
   getScenarioOwnerName,
   getScenarioCreationDate,
