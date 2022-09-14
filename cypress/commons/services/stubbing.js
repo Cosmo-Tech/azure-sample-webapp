@@ -85,6 +85,20 @@ class Stubbing {
     return assertStubTypeIsValid(stubType) && this.enabledStubs[stubType];
   };
 
+  _getResources = (resourceType) => this.resources[resourceType];
+  _setResources = (resourceType, newResources) => (this.resources[resourceType] = newResources);
+  _addResource = (resourceType, newResource) => this.resources[resourceType].push(newResource);
+  _getResourceById = (resourceType, resourceId) => {
+    return this.resources[resourceType].find((resource) => resource.id === resourceId);
+  };
+  _getResourceIndexByName = (resourceType, resourceName) => {
+    return this.resources[resourceType].findIndex((resource) => resource.name === resourceName);
+  };
+  _deleteResourceByName = (resourceType, resourceName) => {
+    const resourceToDeleteIndex = this._getResourceIndexByName(resourceType, resourceName);
+    if (resourceToDeleteIndex !== -1) this.resources[resourceType].splice(resourceToDeleteIndex, 1);
+  };
+
   setActualAccessToken = (token) => (this.auth.actualAccessToken = token);
   getActualAccessToken = () => this.auth.actualAccessToken;
   setAuthenticatedUser = (user) => (this.auth.actualUser = user);
@@ -94,27 +108,11 @@ class Stubbing {
   setFakeRoles = (roles) => (this.auth.fakeRoles = roles);
   getFakeRoles = () => this.auth.fakeRoles;
 
-  getScenarios = () => {
-    return this.resources.scenarios;
-  };
-  setScenarios = (newScenarios) => {
-    this.resources.scenarios = newScenarios;
-  };
-  addScenario = (newScenario) => {
-    this.resources.scenarios.push(newScenario);
-  };
-  deleteScenarioByName = (scenarioName) => {
-    const scenarioToDeleteIndex = this._getStubbedScenarioIndexByName(scenarioName);
-    this.resources.scenarios.splice(scenarioToDeleteIndex, 1);
-  };
-
-  getScenarioById = (scenarioId) => {
-    return this.resources.scenarios.find((scenario) => scenario.id === scenarioId);
-  };
-
-  _getStubbedScenarioIndexByName = (scenarioName) => {
-    return this.resources.scenarios.findIndex((scenario) => scenario.name === scenarioName);
-  };
+  getScenarios = () => this._getResources('scenarios');
+  setScenarios = (newScenarios) => this._setResources('scenarios', newScenarios);
+  addScenario = (newScenario) => this._addResource('scenarios', newScenario);
+  getScenarioById = (scenarioId) => this._getResourceById('scenarios', scenarioId);
+  deleteScenarioByName = (scenarioName) => this._deleteResourceByName('scenarios', scenarioName);
 }
 
 export const stub = new Stubbing();
