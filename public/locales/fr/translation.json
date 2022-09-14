@@ -252,6 +252,60 @@
           }
         }
       },
+      "share": {
+        "button": {
+          "label": "Partager",
+          "tooltip": "Modifier l'accès"
+        },
+        "dialog": {
+          "buttons": {
+            "share": "Partager",
+            "cancel": "Annuler",
+            "done": "Confirmer"
+          },
+          "title": "Partager ",
+          "select": {
+            "addPeople": "Ajouter un utilisateur",
+            "userSelected": "Utilisateur sélectionné"
+          },
+          "editor": {
+            "usersAccess": "Accès par utilisateur",
+            "generalAccess": "Accès général",
+            "removeAccess": "Supprimer l'accès spécifique",
+            "helperText": {
+              "commonroleadmin": "Tous les utilisateurs peuvent voir, lancer, éditer et modifier l'accès au scénario",
+              "commonroleviewer": "Tous les utilisateurs peuvent voir le scénario et ses résultats",
+              "scenariorolevalidator":
+              "Tous les utilisateurs peuvent voir, lancer, éditer le scénario et modifier le status de validation",
+              "commonroleditor": "Tous les utilisateurs peuvent voir, lancer et éditer le scénario"
+            }
+          },
+          "add": {
+            "deniedPermissions": "Permissions accordées",
+            "grantedPermissions": "Permissions non accordées",
+            "rolesTitle": "Rôles",
+            "rolesHelperText": "Sélectionnez un rôle"
+          }
+        },
+        "roles": {
+          "commonroleadmin": "Admin",
+          "commonroleviewer": "Visiteur",
+          "scenariorolevalidator": "Validateur",
+          "commonroleditor": "Editeur"
+
+        },
+        "permissions": {
+          "acl.scenario.editPermissions": "Modifier les permissions",
+          "acl.scenario.editValidationStatus": "Modifier le statut de validation",
+          "acl.scenario.editParameters": "Modifier les paramètres",
+          "acl.scenario.view": "Voir le scénario",
+          "acl.scenario.viewPermissions": "Voir les permissions des autres utilisateurs",
+          "acl.scenario.launch": "Lancer le scénario",
+          "acl.scenario.delete": "Supprimer le scénario",
+          "acl.scenario.rename": "Renommer le scénario",
+          "acl.scenario.viewResults": "Voir les résultats de la simulation"
+        }
+      },
       "sessionTimeout": {
         "body": "Aucune activité détectée. Vous allez être automatiquement déconnecté dans {{seconds}} secondes...",
         "cancel": "Rester connecté",

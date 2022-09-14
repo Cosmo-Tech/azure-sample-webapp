@@ -252,6 +252,60 @@
           }
         }
       },
+      "share": {
+        "button": {
+          "label": "Share",
+          "tooltip": "Modify access"
+        },
+        "dialog": {
+          "buttons": {
+            "share": "Share",
+            "cancel": "Cancel",
+            "done": "Done"
+          },
+          "title": "Share ",
+          "select": {
+            "addPeople": "Add people",
+            "userSelected": "Selected user"
+          },
+          "editor": {
+            "usersAccess": "Users access",
+            "generalAccess": "General access",
+            "removeAccess": "Remove specific access",
+            "helperText": {
+              "commonroleadmin": "Anyone in this workspace can view, create, launch, edit the scenario and modify access to it",
+              "commonroleviewer": "Anyone in this workspace can view scenario and its results",
+              "scenariorolevalidator":
+              "Anyone in this workspace can view, create, launch, edit the scenario and change its validation status",
+              "commonroleditor": "Anyone in this workspace can view, launch, edit the scenario"
+            }
+          },
+          "add": {
+            "deniedPermissions": "Not granted permissions",
+            "grantedPermissions": "Granted permissions",
+            "rolesTitle": "Roles",
+            "rolesHelperText": "Select one role"
+          }
+        },
+        "roles": {
+          "commonroleadmin": "Admin",
+          "commonroleviewer": "Viewer",
+          "scenariorolevalidator": "Validator",
+          "commonroleditor": "Editor"
+
+        },
+        "permissions": {
+          "acl.scenario.editPermissions": "Edit permissions",
+          "acl.scenario.editValidationStatus": "Change validation status",
+          "acl.scenario.editParameters": "Edit parameters",
+          "acl.scenario.view": "View scenario",
+          "acl.scenario.viewPermissions": "See other people's permissions",
+          "acl.scenario.launch": "Launch scenario",
+          "acl.scenario.delete": "Delete scenario",
+          "acl.scenario.rename": "Rename scenario",
+          "acl.scenario.viewResults": "View results of the simulation"
+        }
+      },
       "sessionTimeout": {
         "body": "You have been idle for too long. You will be automatically signed out in {{seconds}} seconds...",
         "cancel": "Stay connected",
