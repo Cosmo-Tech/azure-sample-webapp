@@ -14,6 +14,7 @@ describe('If there are no scenarios created yet', () => {
   before(() => {
     stub.start({
       CREATE_AND_DELETE_SCENARIO: true,
+      GET_DATASETS: true,
       GET_SCENARIOS: true,
     });
     Login.login();

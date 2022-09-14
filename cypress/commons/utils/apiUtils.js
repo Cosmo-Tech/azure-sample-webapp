@@ -110,6 +110,15 @@ const interceptGetScenario = (scenarioId) => {
   return alias;
 };
 
+const interceptGetDatasets = () => {
+  const alias = forgeAlias('reqGetDatasets');
+  cy.intercept({ method: 'GET', url: API_REGEX.DATASETS, times: 1 }, (req) => {
+    if (!stub.isEnabledFor('GET_DATASETS')) return;
+    req.reply(stub.getDatasets());
+  }).as(alias);
+  return alias;
+};
+
 const interceptGetScenarios = () => {
   const alias = forgeAlias('reqGetScenarios');
   cy.intercept({ method: 'GET', url: API_REGEX.SCENARIOS, times: 1 }, (req) => {
@@ -132,6 +141,7 @@ export const apiUtils = {
   interceptCreateScenario,
   interceptDeleteScenario,
   interceptGetScenario,
+  interceptGetDatasets,
   interceptGetScenarios,
   interceptPowerBIAzureFunction,
 };

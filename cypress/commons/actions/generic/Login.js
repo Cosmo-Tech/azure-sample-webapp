@@ -14,6 +14,7 @@ function getMicrosoftLoginButton() {
 function login() {
   const reqAuthAlias = api.interceptAuthentication();
   const reqPowerBIAlias = api.interceptPowerBIAzureFunction();
+  const reqGetDatasetsAlias = api.interceptGetDatasets();
   const reqGetScenariosAlias = api.interceptGetScenarios();
 
   cy.clearLocalStorageSnapshot();
@@ -28,6 +29,7 @@ function login() {
   Login.getMicrosoftLoginButton().click();
 
   api.waitAlias(reqAuthAlias);
+  api.waitAlias(reqGetDatasetsAlias, { timeout: 60 * 1000 });
   api.waitAlias(reqGetScenariosAlias, { timeout: 60 * 1000 });
   api.waitAlias(reqPowerBIAlias);
   Scenarios.getScenarioViewTab(60).should('be.visible');
@@ -38,6 +40,7 @@ function relogin() {
   Cypress.Cookies.preserveOnce('ai_session', 'ai_user');
   cy.restoreLocalStorage();
 
+  const reqGetDatasetsAlias = api.interceptGetDatasets();
   const reqGetScenariosAlias = api.interceptGetScenarios();
   cy.visit(BASE_URL, {
     // next line defines English as default language for tests
@@ -47,6 +50,7 @@ function relogin() {
       });
     },
   });
+  api.waitAlias(reqGetDatasetsAlias, { timeout: 60 * 1000 });
   api.waitAlias(reqGetScenariosAlias, { timeout: 60 * 1000 });
   Scenarios.getScenarioViewTab(60).should('be.visible');
 }

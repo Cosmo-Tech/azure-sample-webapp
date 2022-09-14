@@ -13,7 +13,7 @@ import { API_REGEX, LOCAL_WEBAPP_URL } from '../constants/generic/TestConstants'
 
 const STUB_TYPES = [
   'AUTHENTICATION',
-  'GET_DATASETS', // Not supported yet for stubbing
+  'GET_DATASETS', // Supports only initial datasets loading, doesn't work for files upload/download or table components
   'GET_SOLUTIONS', // Not supported yet for stubbing
   'GET_WORKSPACES', // Not supported yet for stubbing
   'GET_SCENARIOS',
@@ -30,7 +30,7 @@ const DEFAULT_AUTH_DATA = {
 };
 
 const DEFAULT_RESOURCES_DATA = {
-  datasets: [],
+  datasets: DEFAULT_DATASETS_LIST,
   scenarioRuns: [],
   scenarios: [],
   solutions: [],
@@ -113,6 +113,11 @@ class Stubbing {
   addScenario = (newScenario) => this._addResource('scenarios', newScenario);
   getScenarioById = (scenarioId) => this._getResourceById('scenarios', scenarioId);
   deleteScenarioByName = (scenarioName) => this._deleteResourceByName('scenarios', scenarioName);
+
+  getDatasets = () => this._getResources('datasets');
+  setDatasets = (newDatasets) => this._setResources('datasets', newDatasets);
+  addDataset = (newDataset) => this._addResource('datasets', newDataset);
+  getDatasetById = (datasetId) => this._getResourceById('datasets', datasetId);
 }
 
 export const stub = new Stubbing();

@@ -11,6 +11,7 @@ Cypress.Keyboard.defaults({
 describe('check scenario sorted list after reload', () => {
   before(() => {
     stub.start({
+      GET_DATASETS: true,
       GET_SCENARIOS: true,
     });
     stub.setScenarios(ALL_ROOT_SCENARIOS);
