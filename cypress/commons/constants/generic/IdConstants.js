@@ -159,5 +159,26 @@ export const GENERIC_SELECTORS = {
       selector: '[data-cy=scenario-selector]',
       selectorOptions: '[data-cy=scenario-selector-options]',
     },
+    rolesEdition: {
+      shareScenarioButton: '[data-cy=share-scenario-button]',
+      shareScenarioDialogAgentsSelect: '[data-cy=share-scenario-dialog-agents-select]',
+      shareScenarioDialogFirstCancelButton: '[data-cy=share-scenario-dialog-first-cancel-button]',
+      shareScenarioDialogSubmitButton: '[data-cy=share-scenario-dialog-submit-button]',
+      shareScenarioDialog: '[data-cy=share-scenario-dialog]',
+      shareScenarioDialogTitle: '[data-cy=share-scenario-dialog-title]',
+      shareScenarioDialogDisabledAgentsSelect: '[data-cy=share-scenario-dialog-disabled-agents-select]',
+      shareScenarioDialogRolesCheckboxByRole: '[data-cy=share-scenario-dialog-roles-checkbox-$ROLE]',
+      shareScenarioDialogGrantedPermissionChipByPermission:
+        '[data-cy=share-scenario-dialog-granted-permission-chip-$PERMISSION]',
+      shareScenarioDialogNotGrantedPermissionChipByPermission:
+        '[data-cy=share-scenario-dialog-not-granted-permission-chip-$PERMISSION]',
+      shareScenarioDialogSecondCancelButton: '[data-cy=share-scenario-dialog-second-cancel-button]',
+      shareScenarioDialogConfirmAddAccessButton: '[data-cy=share-scenario-dialog-confirm-add-access-button]',
+      roleEditorAgent: '[data-cy=role-editor-agent]',
+      selectWithAction: '[data-cy=select-with-action]',
+      selectCheckedIconByOption: '[data-cy=select-$OPTION-checked-icon]',
+      selectOptionByOption: '[data-cy=select-option-$OPTION]',
+      selectActionName: '[data-cy=select-action-name]',
+    },
   },
 };
