@@ -51,8 +51,10 @@ function getScenarioCreationDate(scenarioId) {
   return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.creationDate);
 }
 
-function getScenarioEditableLabel(scenarioId) {
-  return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.manager.editableLabel);
+function getScenarioEditableLabel(scenarioId, timeout = 5) {
+  return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.manager.editableLabel, {
+    timeout: timeout * 1000,
+  });
 }
 
 function renameScenario(scenarioId, newScenarioName) {
