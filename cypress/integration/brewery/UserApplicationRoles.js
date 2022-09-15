@@ -1,13 +1,11 @@
 import { Login, Scenarios, ScenarioParameters } from '../../commons/actions';
 import { DEFAULT_SCENARIOS_LIST, USER_EXAMPLE } from '../../fixtures/stubbing/default';
 import { stub } from '../../commons/services/stubbing';
-
-Cypress.Keyboard.defaults({
-  keystrokeDelay: 0,
-});
+import { setup } from '../../commons/utils/setup';
 
 describe('check accessible features for modeler application role', () => {
   before(() => {
+    setup.initCypressAndStubbing();
     stub.start({
       AUTHENTICATION: true,
       GET_SCENARIOS: true,
@@ -38,6 +36,7 @@ describe('check accessible features for modeler application role', () => {
 
 describe('check accessible features for viewer application role', () => {
   before(() => {
+    setup.initCypressAndStubbing();
     stub.start({
       AUTHENTICATION: true,
       GET_SCENARIOS: true,

@@ -18,15 +18,26 @@ const waitAlias = (alias, options) => {
   return cy.wait('@' + alias, options);
 };
 
-const interceptAuthentication = () => {
-  // If authentication stubbing is enabled, add a middleware to reset the access token in requests to CosmoTech API
-  // (required if it has been modified by stubbing roles, for instance)
+const startInterceptionMiddlewares = () => {
   cy.intercept({ url: API_REGEX.ALL, middleware: true }, (req) => {
+    // If authentication stubbing is enabled, use middleware to reset the access token in requests to the CosmoTech API
+    // (required if it has been modified by stubbing roles, for instance)
     if (stub.isEnabledFor('AUTHENTICATION') && stub.getActualAccessToken() !== null) {
       req.headers.authorization = 'Bearer ' + stub.getActualAccessToken();
     }
+    // If workspace stubbing is enabled, use middleware to reset the worskapce id in requests to the CosmoTech API
+    // (required if a fake worksapce id has been set, for instance)
+    if (
+      stub.isEnabledFor('GET_WORKSPACES') &&
+      stub.getActualWorkspaceId() !== null &&
+      stub.getFakeWorkspaceId() !== null
+    ) {
+      req.url = req.url.replace(stub.getFakeWorkspaceId(), stub.getActualWorkspaceId());
+    }
   });
+};
 
+const interceptAuthentication = () => {
   // Intercept login request
   const alias = forgeAlias('reqAuth');
   cy.intercept({ method: 'POST', url: AUTH_QUERY_URL, middleware: true }, (req) => {
@@ -128,6 +139,35 @@ const interceptGetScenarios = () => {
   return alias;
 };
 
+const interceptGetWorkspace = (workspaceId) => {
+  let interceptionURL = API_REGEX.WORKSPACE;
+  if (workspaceId) {
+    interceptionURL = new RegExp('^' + URL_ROOT + '/.*/workspaces/(' + workspaceId + ')' + '$');
+  }
+  const alias = forgeAlias('reqGetWorkspace');
+  cy.intercept({ method: 'GET', url: interceptionURL, times: 1 }, (req) => {
+    if (!stub.isEnabledFor('GET_WORKSPACES')) return;
+    let workspaceIdToGet = workspaceId;
+    if (!workspaceIdToGet) workspaceIdToGet = stub.getFakeWorkspaceId() ?? req.url.match(interceptionURL)?.[1];
+    req.reply(stub.getWorkspaceById(workspaceIdToGet));
+  }).as(alias);
+  return alias;
+};
+
+const interceptGetSolution = (solutionId) => {
+  let interceptionURL = API_REGEX.SOLUTION;
+  if (solutionId) {
+    interceptionURL = new RegExp('^' + URL_ROOT + '/.*/solutions/(' + solutionId + ')' + '$');
+  }
+  const alias = forgeAlias('reqGetSolution');
+  cy.intercept({ method: 'GET', url: interceptionURL, times: 1 }, (req) => {
+    if (!stub.isEnabledFor('GET_SOLUTIONS')) return;
+    const solutionIdToGet = solutionId ?? req.url.match(interceptionURL)?.[1];
+    req.reply(stub.getSolutionById(solutionIdToGet));
+  }).as(alias);
+  return alias;
+};
+
 const interceptPowerBIAzureFunction = () => {
   const alias = forgeAlias('reqPowerBI');
   cy.intercept('GET', URL_POWERBI, { statusCode: 200 }).as(alias);
@@ -137,11 +177,14 @@ const interceptPowerBIAzureFunction = () => {
 export const apiUtils = {
   forgeAlias,
   waitAlias,
+  startInterceptionMiddlewares,
   interceptAuthentication,
   interceptCreateScenario,
   interceptDeleteScenario,
-  interceptGetScenario,
   interceptGetDatasets,
+  interceptGetScenario,
   interceptGetScenarios,
+  interceptGetSolution,
+  interceptGetWorkspace,
   interceptPowerBIAzureFunction,
 };

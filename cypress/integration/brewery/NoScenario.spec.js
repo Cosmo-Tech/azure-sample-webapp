@@ -5,23 +5,24 @@ import utils from '../../commons/TestUtils';
 import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
 import { Scenarios, ScenarioManager, Login } from '../../commons/actions';
 import { stub } from '../../commons/services/stubbing';
+import { setup } from '../../commons/utils/setup';
 
 describe('If there are no scenarios created yet', () => {
-  Cypress.Keyboard.defaults({
-    keystrokeDelay: 0,
-  });
-
   before(() => {
+    setup.initCypressAndStubbing();
     stub.start({
       CREATE_AND_DELETE_SCENARIO: true,
       GET_DATASETS: true,
       GET_SCENARIOS: true,
+      GET_SOLUTIONS: true,
+      GET_WORKSPACES: true,
     });
     Login.login();
   });
 
   beforeEach(() => {
     stub.setScenarios([]);
+    stub.setFakeWorkspaceId('W-stbbdbrwry');
     Login.relogin();
   });
 

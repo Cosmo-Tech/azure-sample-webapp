@@ -5,7 +5,8 @@ import {
   DEFAULT_SCENARIOS_LIST,
   DEFAULT_DATASETS_LIST,
   DEFAULT_WORKSPACE,
-  DEFAULT_SOLUTION,
+  DEFAULT_WORKSPACES_LIST,
+  DEFAULT_SOLUTIONS_LIST,
   SCENARIO_EXAMPLE
 } from '../../fixtures/stubbing/default';
 import utils from '../TestUtils';
@@ -14,14 +15,33 @@ import { API_REGEX, LOCAL_WEBAPP_URL } from '../constants/generic/TestConstants'
 const STUB_TYPES = [
   'AUTHENTICATION',
   'GET_DATASETS', // Supports only initial datasets loading, doesn't work for files upload/download or table components
-  'GET_SOLUTIONS', // Not supported yet for stubbing
-  'GET_WORKSPACES', // Not supported yet for stubbing
+  'GET_SOLUTIONS',
+  'GET_WORKSPACES',
   'GET_SCENARIOS',
   'CREATE_AND_DELETE_SCENARIO',
   'UPDATE_SCENARIO', // Not supported yet for stubbing
   'LAUNCH_SCENARIO' // Not supported yet for stubbing
 ];
 
+// Fake API data makes us able to stub the received workspace data while still using a real workspace for back-end calls
+//  - actualWorkspaceId is retrieved from the first API call whose endpoint contains a workspace id (when
+//    GET_WORKSPACES is true)
+//  - fakeWorkspaceId can be set from the Cypress tests with stub.setFakeWorkspaceId( ... ) to stub all calls to
+//    getWorkspaceById and use mock data instead of the data of the actual workspace
+const DEFAULT_API_DATA = {
+  actualWorkspaceId: null,
+  fakeWorkspaceId: null,
+};
+
+// Fake authentication data makes us able to stub the webapp user identity while still using the token of the user
+// actually connected to the webapp to perform API calls to the back-end
+// - actualAccessToken is retrieved by intercepting the authentication query, and reused for subsequent calls to the
+//   API, allowing us to stub the user roles for local tests and keep a valid token
+// - actualUser is retrieved by intercepting the authentication query, and stored in the stubbing class for later use
+// - fakeUser can be set from the Cypress tests with stub.setFakeUser( ... ) to stub the response of the authentication
+//   queries
+// - fakeRoles can be set from the Cypress tests with stub.setFakeRoles( ... ) to stub the response of the authentication
+//   queries
 const DEFAULT_AUTH_DATA = {
   actualAccessToken: null,
   actualUser: null,
@@ -29,12 +49,14 @@ const DEFAULT_AUTH_DATA = {
   fakeRoles: null
 };
 
+// Fake resources data allows us to stub CRUD operations on different types of resources such as datasets, scenarios,
+// scenarios runs, solutions and workspaces
 const DEFAULT_RESOURCES_DATA = {
   datasets: DEFAULT_DATASETS_LIST,
   scenarioRuns: [],
-  scenarios: [],
-  solutions: [],
-  workspaces: []
+  scenarios: DEFAULT_SCENARIOS_LIST,
+  solutions: DEFAULT_SOLUTIONS_LIST,
+  workspaces: DEFAULT_WORKSPACES_LIST
 };
 
 export const isStubTypeValid = (stubType) => {
@@ -52,6 +74,7 @@ class Stubbing {
   constructor() {
     this.auth = DEFAULT_AUTH_DATA;
     this.resources = DEFAULT_RESOURCES_DATA;
+    this.api = DEFAULT_API_DATA;
 
     this.enabledStubs = {};
     STUB_TYPES.forEach((stubType) => {
@@ -79,6 +102,7 @@ class Stubbing {
   reset = () => {
     this.auth = DEFAULT_AUTH_DATA;
     this.resources = DEFAULT_RESOURCES_DATA;
+    this.api = DEFAULT_API_DATA;
   };
 
   isEnabledFor = (stubType) => {
@@ -108,6 +132,11 @@ class Stubbing {
   setFakeRoles = (roles) => (this.auth.fakeRoles = roles);
   getFakeRoles = () => this.auth.fakeRoles;
 
+  setActualWorkspaceId = (workspaceId) => (this.api.actualWorkspaceId = workspaceId);
+  getActualWorkspaceId = () => this.api.actualWorkspaceId;
+  setFakeWorkspaceId = (workspaceId) => (this.api.actualWorkspaceId = workspaceId);
+  getFakeWorkspaceId = () => this.api.actualWorkspaceId;
+
   getScenarios = () => this._getResources('scenarios');
   setScenarios = (newScenarios) => this._setResources('scenarios', newScenarios);
   addScenario = (newScenario) => this._addResource('scenarios', newScenario);
@@ -118,6 +147,14 @@ class Stubbing {
   setDatasets = (newDatasets) => this._setResources('datasets', newDatasets);
   addDataset = (newDataset) => this._addResource('datasets', newDataset);
   getDatasetById = (datasetId) => this._getResourceById('datasets', datasetId);
+
+  getSolutions = () => this._getResources('solutions');
+  setSolutions = (newSolutions) => this._setResources('solutions', newSolutions);
+  getSolutionById = (solutionId) => this._getResourceById('solutions', solutionId);
+
+  getWorkspaces = () => this._getResources('workspaces');
+  setWorkspaces = (newSolutions) => this._setResources('workspaces', newWorkspaces);
+  getWorkspaceById = (workspaceId) => this._getResourceById('workspaces', workspaceId);
 }
 
 export const stub = new Stubbing();

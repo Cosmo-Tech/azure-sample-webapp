@@ -293,3 +293,5 @@ export const DEFAULT_SOLUTION = {
     },
   ],
 };
+
+export const DEFAULT_SOLUTIONS_LIST = [DEFAULT_SOLUTION];

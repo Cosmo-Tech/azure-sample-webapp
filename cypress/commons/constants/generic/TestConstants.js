@@ -40,7 +40,7 @@ export const API_REGEX = {
   SCENARIO: new RegExp('^' + API_ENDPOINT.SCENARIO),
   RUN_SCENARIO: new RegExp('^' + API_ENDPOINT.RUN_SCENARIO),
   DATASETS: new RegExp('^' + API_ENDPOINT.DATASETS + '$'),
-  WORKSPACE: new RegExp('^' + API_ENDPOINT.WORKSPACE),
+  WORKSPACE: new RegExp('^' + API_ENDPOINT.WORKSPACE + '$'),
   SOLUTION: new RegExp('^' + API_ENDPOINT.SOLUTION),
 };
 
