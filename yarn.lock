@@ -1135,9 +1135,9 @@
     "@azure/msal-browser" "~2.23.0"
 
 "@cosmotech/core@^1.9.0":
-  version "1.9.1"
-  resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.9.1.tgz#27db65517785d341505f3d50a030ac336b0a1ade"
-  integrity sha512-D3ghVlZaP1ap+UdfrXqFHZdEfWuJdqg/7mBddhkP3aVNNQRKew7Ewo5+2W2DZ9YkV9hoaCiriG3TwKDNFiUNNQ==
+  version "1.9.2"
+  resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.9.2.tgz#fb8c4db2366df4cc83499561e712fbc9aae9cc1e"
+  integrity sha512-svHLsHqCrz0VluXE+KO6nLJ0+qF/Kvv0xZCIJKqfGMllThRzTCnfoNkD8IlyV4ALwJBfCQQGQApvAteTjJnRYA==
   dependencies:
     csv-string "^4.0.1"
     date-fns "^2.25.0"
@@ -1146,9 +1146,9 @@
     xlsx "^0.18.3"
 
 "@cosmotech/ui@^4.0.0-rc1":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-4.1.0.tgz#1e8495458b510c28d8b405b124d4018c72638704"
-  integrity sha512-GC1KDGx0ARZpzH2q8wXgbqLX4hpYvWJkDQB7sXPARcvYg3jmEeLZ7cGELCUqa4Y1IBb0lgyZKClRf56uE/a/AA==
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-4.1.1.tgz#3f3876c1fe786be43d66514c1020c7e3ef6b703e"
+  integrity sha512-5ElsDOKslg0tndBleFj/S74QKxuZdd2Ze2iPpD4QStd/XVG1pk5+w4UarjfHjpd3mx6WtbBBf+egssaAzz1FXw==
   dependencies:
     "@date-io/date-fns" "^1.3.13"
     "@material-ui/pickers" "^3.3.10"
