@@ -16,7 +16,7 @@ const AppRoutes = (props) => {
       <Route index element={<Navigate to={previousUrl || '/scenario'} replace />}></Route>
       <Route
         path="/sign-in"
-        element={!authenticated ? <SignInView /> : <Navigate to={history.state.idx === 0 ? '/scenario' : -1} />}
+        element={!authenticated ? <SignInView /> : <Navigate to={history?.state?.idx === 0 ? '/scenario' : -1} />}
       />
       <Route path="/accessDenied" element={<AccessDeniedView />} />
       <Route
