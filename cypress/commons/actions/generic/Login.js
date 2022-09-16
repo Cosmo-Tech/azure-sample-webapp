@@ -15,6 +15,9 @@ function login() {
   const reqAuthAlias = api.interceptAuthentication();
   const reqPowerBIAlias = api.interceptPowerBIAzureFunction();
   const reqGetScenariosAlias = api.interceptGetScenarios();
+  const reqGetDatasetsAlias = api.interceptGetDatasets();
+  const reqGetWorkspaceAlias = api.interceptGetWorkspace();
+  const reqGetSolutionAlias = api.interceptGetSolution();
 
   cy.clearLocalStorageSnapshot();
   cy.visit(BASE_URL, {
@@ -29,6 +32,9 @@ function login() {
 
   api.waitAlias(reqAuthAlias);
   api.waitAlias(reqGetScenariosAlias, { timeout: 60 * 1000 });
+  api.waitAlias(reqGetDatasetsAlias, { timeout: 60 * 1000 });
+  api.waitAlias(reqGetWorkspaceAlias, { timeout: 60 * 1000 });
+  api.waitAlias(reqGetSolutionAlias, { timeout: 60 * 1000 });
   api.waitAlias(reqPowerBIAlias);
   Scenarios.getScenarioViewTab(60).should('be.visible');
   cy.saveLocalStorage();
@@ -39,6 +45,9 @@ function relogin() {
   cy.restoreLocalStorage();
 
   const reqGetScenariosAlias = api.interceptGetScenarios();
+  const reqGetDatasetsAlias = api.interceptGetDatasets();
+  const reqGetWorkspaceAlias = api.interceptGetWorkspace();
+  const reqGetSolutionAlias = api.interceptGetSolution();
   cy.visit(BASE_URL, {
     // next line defines English as default language for tests
     onBeforeLoad(win) {
@@ -48,6 +57,9 @@ function relogin() {
     },
   });
   api.waitAlias(reqGetScenariosAlias, { timeout: 60 * 1000 });
+  api.waitAlias(reqGetDatasetsAlias, { timeout: 60 * 1000 });
+  api.waitAlias(reqGetWorkspaceAlias, { timeout: 60 * 1000 });
+  api.waitAlias(reqGetSolutionAlias, { timeout: 60 * 1000 });
   Scenarios.getScenarioViewTab(60).should('be.visible');
 }
 

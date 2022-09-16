@@ -3,17 +3,19 @@ import { ALL_ROOT_SCENARIOS, PARENT_AND_CHILD_SCENARIOS } from '../../fixtures/s
 import { USER_EXAMPLE } from '../../fixtures/stubbing/default';
 import { stub } from '../../commons/services/stubbing';
 import { routeUtils as route } from '../../commons/utils';
-
-Cypress.Keyboard.defaults({
-  keystrokeDelay: 0,
-});
+import { setup } from '../../commons/utils/setup';
 
 describe('check scenario sorted list after reload', () => {
   before(() => {
+    setup.initCypressAndStubbing();
     stub.start({
+      GET_DATASETS: true,
       GET_SCENARIOS: true,
+      GET_SOLUTIONS: true,
+      GET_WORKSPACES: true,
     });
     stub.setScenarios(ALL_ROOT_SCENARIOS);
+    stub.setFakeWorkspaceId('W-stbbdbrwry');
     Login.login();
   });
 
@@ -34,6 +36,7 @@ describe('check scenario sorted list after reload', () => {
 
 describe('check the list of sorted scenarios after deleting the current scenario', () => {
   before(() => {
+    setup.initCypressAndStubbing();
     stub.start({
       AUTHENTICATION: true,
       GET_SCENARIOS: true,
@@ -41,6 +44,7 @@ describe('check the list of sorted scenarios after deleting the current scenario
     });
     stub.setFakeUser(USER_EXAMPLE);
     stub.setFakeRoles(['Organization.Collaborator']);
+    stub.setFakeWorkspaceId('W-stbbdbrwry');
     stub.setScenarios(PARENT_AND_CHILD_SCENARIOS);
     Login.login();
   });
