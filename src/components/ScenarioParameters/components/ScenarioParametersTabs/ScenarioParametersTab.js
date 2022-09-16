@@ -37,8 +37,7 @@ const ScenarioParametersTab = ({ parametersGroupData, parametersState, setParame
   );
 };
 ScenarioParametersTab.propTypes = {
-  parametersGroupData: PropTypes.array.isRequired,
-  parameterData: PropTypes.object.isRequired,
+  parametersGroupData: PropTypes.object.isRequired,
   parametersState: PropTypes.object.isRequired,
   setParametersState: PropTypes.func.isRequired,
   context: PropTypes.object.isRequired,
