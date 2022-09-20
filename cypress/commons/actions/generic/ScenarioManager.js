@@ -23,9 +23,9 @@ function deleteScenario(scenarioName) {
 }
 
 function deleteScenarioList(scenarioNamesToDelete) {
-  ScenarioManager.switchToScenarioManager();
+  switchToScenarioManager();
   scenarioNamesToDelete.forEach((scenarioName) => {
-    ScenarioManager.deleteScenario(scenarioName);
+    deleteScenario(scenarioName);
   });
 }
 
