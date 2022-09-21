@@ -243,14 +243,35 @@ function createScenario(scenarioName, isMaster, datasetOrMasterName, runTemplate
   });
 }
 
-function validateScenario() {
-  return getScenarioValidateButton().click();
+function validateScenario(scenarioId) {
+  const validateScenarioAlias = api.interceptUpdateScenario(scenarioId);
+  const getScenarioAlias = api.interceptGetScenario(scenarioId);
+
+  getScenarioValidateButton().click();
+  Scenarios.getScenarioValidationStatusLoadingSpinner().should('be.visible');
+
+  api.waitAlias(validateScenarioAlias);
+  api.waitAlias(getScenarioAlias);
 }
-function rejectScenario() {
-  return getScenarioRejectButton().click();
+function rejectScenario(scenarioId) {
+  const rejectScenarioAlias = api.interceptUpdateScenario(scenarioId);
+  const getScenarioAlias = api.interceptGetScenario(scenarioId);
+
+  getScenarioRejectButton().click();
+  Scenarios.getScenarioValidationStatusLoadingSpinner().should('be.visible');
+
+  api.waitAlias(rejectScenarioAlias);
+  api.waitAlias(getScenarioAlias);
 }
-function resetScenarioValidationStatus() {
-  return getScenarioValidationStatusChipDeleteIcon().click();
+function resetScenarioValidationStatus(scenarioId) {
+  const resetScenarioAlias = api.interceptUpdateScenario(scenarioId);
+  const getScenarioAlias = api.interceptGetScenario(scenarioId);
+
+  getScenarioValidationStatusChipDeleteIcon().click();
+  Scenarios.getScenarioValidationStatusLoadingSpinner().should('be.visible');
+
+  api.waitAlias(resetScenarioAlias);
+  api.waitAlias(getScenarioAlias);
 }
 
 export const Scenarios = {

@@ -7,7 +7,7 @@ import {
   DEFAULT_WORKSPACE,
   DEFAULT_WORKSPACES_LIST,
   DEFAULT_SOLUTIONS_LIST,
-  SCENARIO_EXAMPLE
+  SCENARIO_EXAMPLE,
 } from '../../fixtures/stubbing/default';
 import utils from '../TestUtils';
 import { API_REGEX, LOCAL_WEBAPP_URL } from '../constants/generic/TestConstants';
@@ -19,8 +19,8 @@ const STUB_TYPES = [
   'GET_WORKSPACES',
   'GET_SCENARIOS',
   'CREATE_AND_DELETE_SCENARIO',
-  'UPDATE_SCENARIO', // Not supported yet for stubbing
-  'LAUNCH_SCENARIO' // Not supported yet for stubbing
+  'UPDATE_SCENARIO',
+  'LAUNCH_SCENARIO', // Not supported yet for stubbing
 ];
 
 // Fake API data makes us able to stub the received workspace data while still using a real workspace for back-end calls
@@ -46,7 +46,7 @@ const DEFAULT_AUTH_DATA = {
   actualAccessToken: null,
   actualUser: null,
   fakeUser: null,
-  fakeRoles: null
+  fakeRoles: null,
 };
 
 // Fake resources data allows us to stub CRUD operations on different types of resources such as datasets, scenarios,
@@ -56,7 +56,7 @@ const DEFAULT_RESOURCES_DATA = {
   scenarioRuns: [],
   scenarios: DEFAULT_SCENARIOS_LIST,
   solutions: DEFAULT_SOLUTIONS_LIST,
-  workspaces: DEFAULT_WORKSPACES_LIST
+  workspaces: DEFAULT_WORKSPACES_LIST,
 };
 
 export const isStubTypeValid = (stubType) => {
@@ -112,8 +112,19 @@ class Stubbing {
   _getResources = (resourceType) => this.resources[resourceType];
   _setResources = (resourceType, newResources) => (this.resources[resourceType] = newResources);
   _addResource = (resourceType, newResource) => this.resources[resourceType].push(newResource);
+  _patchResourceById = (resourceType, scenarioId, resourcePatch) => {
+    const resourceIndex = this._getResourceIndexById(resourceType, scenarioId);
+    if (resourceIndex !== -1)
+      this.resources[resourceType][resourceIndex] = {
+        ...this.resources[resourceType][resourceIndex],
+        ...resourcePatch,
+      };
+  };
   _getResourceById = (resourceType, resourceId) => {
     return this.resources[resourceType].find((resource) => resource.id === resourceId);
+  };
+  _getResourceIndexById = (resourceType, resourceId) => {
+    return this.resources[resourceType].findIndex((resource) => resource.id === resourceId);
   };
   _getResourceIndexByName = (resourceType, resourceName) => {
     return this.resources[resourceType].findIndex((resource) => resource.name === resourceName);
@@ -140,6 +151,7 @@ class Stubbing {
   getScenarios = () => this._getResources('scenarios');
   setScenarios = (newScenarios) => this._setResources('scenarios', newScenarios);
   addScenario = (newScenario) => this._addResource('scenarios', newScenario);
+  patchScenario = (scenarioId, scenarioPatch) => this._patchResourceById('scenarios', scenarioId, scenarioPatch);
   getScenarioById = (scenarioId) => this._getResourceById('scenarios', scenarioId);
   deleteScenarioByName = (scenarioName) => this._deleteResourceByName('scenarios', scenarioName);
 

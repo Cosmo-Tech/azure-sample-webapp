@@ -4,26 +4,30 @@
 import utils from '../../commons/TestUtils';
 import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
 import { Scenarios, ScenarioManager, ScenarioParameters, Login } from '../../commons/actions';
-
-Cypress.Keyboard.defaults({
-  keystrokeDelay: 0,
-});
+import { stub } from '../../commons/services/stubbing';
+import { setup } from '../../commons/utils/setup';
 
 const SCENARIO_DATASET = DATASET.BREWERY_ADT;
 const SCENARIO_RUN_TEMPLATE = RUN_TEMPLATE.BASIC_TYPES;
 
 describe('Scenario validation', () => {
   before(() => {
+    setup.initCypressAndStubbing();
+    stub.start({
+      AUTHENTICATION: true,
+      CREATE_AND_DELETE_SCENARIO: true,
+      GET_DATASETS: true,
+      GET_SCENARIOS: true,
+      GET_SOLUTIONS: true,
+      GET_WORKSPACES: true,
+      UPDATE_SCENARIO: true,
+    });
     Login.login();
   });
 
   beforeEach(() => {
+    stub.setFakeWorkspaceId('W-stbbdbrwry');
     Login.relogin();
-  });
-
-  const scenarioNamesToDelete = [];
-  after(() => {
-    ScenarioManager.deleteScenarioList(scenarioNamesToDelete);
   });
 
   it('can validate & reject scenarios', () => {
@@ -31,11 +35,10 @@ describe('Scenario validation', () => {
     const prefix = 'Test Cypress - Scenario validation - ';
     const randomString = utils.randomStr(7);
     const scenarioName = prefix + randomString;
-    scenarioNamesToDelete.push(scenarioName);
     Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE).then((value) => {
       scenarioId = value.scenarioCreatedId;
 
-      // Default status - Draft or Unknwo
+      // Default status - Draft or Unknown
       Scenarios.getScenarioValidationStatusChip().should('not.exist');
       Scenarios.getScenarioValidationStatusLoadingSpinner(10).should('not.exist');
       Scenarios.getScenarioValidateButton().should('be.visible').should('not.be.disabled');
@@ -47,8 +50,7 @@ describe('Scenario validation', () => {
       Scenarios.switchToScenarioView();
 
       // Validate scenario
-      Scenarios.validateScenario();
-      Scenarios.getScenarioValidationStatusLoadingSpinner().should('be.visible');
+      Scenarios.validateScenario(scenarioId);
       Scenarios.getScenarioValidationStatusLoadingSpinner(10).should('not.exist');
       Scenarios.getScenarioValidationStatusChip().should('exist');
       Scenarios.getScenarioValidationStatusChip().should('have.text', 'Validated');
@@ -61,8 +63,7 @@ describe('Scenario validation', () => {
       Scenarios.switchToScenarioView();
 
       // Reset status to Draft
-      Scenarios.resetScenarioValidationStatus();
-      Scenarios.getScenarioValidationStatusLoadingSpinner().should('be.visible');
+      Scenarios.resetScenarioValidationStatus(scenarioId);
       Scenarios.getScenarioValidationStatusLoadingSpinner(10).should('not.exist');
       Scenarios.getScenarioValidationStatusChip().should('not.exist');
       Scenarios.getScenarioValidateButton().should('be.visible').should('not.be.disabled');
@@ -74,8 +75,7 @@ describe('Scenario validation', () => {
       Scenarios.switchToScenarioView();
 
       // Reject scenario
-      Scenarios.rejectScenario();
-      Scenarios.getScenarioValidationStatusLoadingSpinner().should('be.visible');
+      Scenarios.rejectScenario(scenarioId);
       Scenarios.getScenarioValidationStatusLoadingSpinner(10).should('not.exist');
       Scenarios.getScenarioValidationStatusChip().should('exist');
       Scenarios.getScenarioValidationStatusChip().should('have.text', 'Rejected');
@@ -88,8 +88,7 @@ describe('Scenario validation', () => {
       Scenarios.switchToScenarioView();
 
       // Reset status to Draft
-      Scenarios.resetScenarioValidationStatus();
-      Scenarios.getScenarioValidationStatusLoadingSpinner().should('be.visible');
+      Scenarios.resetScenarioValidationStatus(scenarioId);
       Scenarios.getScenarioValidationStatusLoadingSpinner(10).should('not.exist');
       Scenarios.getScenarioValidationStatusChip().should('not.exist');
       Scenarios.getScenarioValidateButton().should('be.visible');

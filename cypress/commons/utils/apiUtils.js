@@ -96,6 +96,18 @@ const interceptCreateScenario = () => {
   return alias;
 };
 
+const interceptUpdateScenario = (scenarioId) => {
+  const alias = forgeAlias('reqUpdateScenario');
+  cy.intercept({ method: 'PATCH', url: API_REGEX.SCENARIO, times: 1 }, (req) => {
+    const scenarioPatch = req.body;
+    if (stub.isEnabledFor('GET_SCENARIOS')) stub.patchScenario(scenarioId, scenarioPatch);
+    if (stub.isEnabledFor('UPDATE_SCENARIO')) {
+      req.reply(scenarioPatch);
+    }
+  }).as(alias);
+  return alias;
+};
+
 const interceptDeleteScenario = (scenarioName) => {
   const alias = forgeAlias('reqDeleteScenario');
   cy.intercept({ method: 'DELETE', url: API_REGEX.SCENARIO, times: 1 }, (req) => {
@@ -180,6 +192,7 @@ export const apiUtils = {
   startInterceptionMiddlewares,
   interceptAuthentication,
   interceptCreateScenario,
+  interceptUpdateScenario,
   interceptDeleteScenario,
   interceptGetDatasets,
   interceptGetScenario,
