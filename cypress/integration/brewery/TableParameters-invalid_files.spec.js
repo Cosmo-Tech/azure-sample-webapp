@@ -1,29 +1,22 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import utils from '../../commons/TestUtils';
-
-import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
-import { Downloads, Login, Scenarios, ScenarioManager, ScenarioParameters } from '../../commons/actions';
+import { Login, Scenarios, ScenarioParameters } from '../../commons/actions';
 import { BreweryParameters } from '../../commons/actions/brewery';
+import { setup } from '../../commons/utils/setup';
+import { stub } from '../../commons/services/stubbing';
+import { DEFAULT_SCENARIOS_LIST } from '../../fixtures/stubbing/default';
 
-Cypress.Keyboard.defaults({
-  keystrokeDelay: 0,
-});
-
-const SCENARIO_DATASET = DATASET.BREWERY_ADT;
-const SCENARIO_RUN_TEMPLATE = RUN_TEMPLATE.BASIC_TYPES;
 const CSV_INVALID_FILE_PATH = 'customers_invalid.csv';
 const XLSX_INVALID_FILE_PATH = 'customers_invalid.xlsx';
 
-function forgeScenarioName() {
-  const prefix = 'Scenario with table - ';
-  const randomString = utils.randomStr(7);
-  return prefix + randomString;
-}
-
 describe('Table parameters invalid files operations', () => {
   before(() => {
+    setup.initCypressAndStubbing();
+    stub.start({
+      GET_SCENARIOS: true,
+      GET_DATASETS: true,
+    });
     Login.login();
   });
 
@@ -31,11 +24,8 @@ describe('Table parameters invalid files operations', () => {
     Login.relogin();
   });
 
-  const scenarioNamesToDelete = [];
   after(() => {
-    Downloads.clearDownloadsFolder();
-
-    ScenarioManager.deleteScenarioList(scenarioNamesToDelete);
+    stub.stop();
   });
 
   it('can import invalid files and display the errors panel', () => {
@@ -55,10 +45,7 @@ describe('Table parameters invalid files operations', () => {
       ];
       BreweryParameters.checkCustomersErrorsPanelFromList(expectedErrors);
     };
-
-    const scenarioName = forgeScenarioName();
-    scenarioNamesToDelete.push(scenarioName);
-    Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
+    Scenarios.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
     ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.getCustomersImportButton().should('be.visible');

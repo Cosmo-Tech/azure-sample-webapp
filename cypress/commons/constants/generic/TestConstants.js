@@ -45,3 +45,8 @@ export const API_REGEX = {
 };
 
 export const SCENARIO_RUN_IN_PROGRESS = 'Scenario run in progress...';
+
+export const WEBAPP_URL_REGEX = {
+  SCENARIO_PAGE: new RegExp(PAGE_NAME.SCENARIO + '$'),
+  SCENARIO_PAGE_WITH_ID: new RegExp(PAGE_NAME.SCENARIO + '/(s-[\\w]+)'),
+};

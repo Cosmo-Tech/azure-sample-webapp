@@ -25,8 +25,8 @@ const startInterceptionMiddlewares = () => {
     if (stub.isEnabledFor('AUTHENTICATION') && stub.getActualAccessToken() !== null) {
       req.headers.authorization = 'Bearer ' + stub.getActualAccessToken();
     }
-    // If workspace stubbing is enabled, use middleware to reset the worskapce id in requests to the CosmoTech API
-    // (required if a fake worksapce id has been set, for instance)
+    // If workspace stubbing is enabled, use middleware to reset the workspace id in requests to the CosmoTech API
+    // (required if a fake workspace id has been set, for instance)
     if (
       stub.isEnabledFor('GET_WORKSPACES') &&
       stub.getActualWorkspaceId() !== null &&

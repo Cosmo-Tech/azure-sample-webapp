@@ -25,7 +25,7 @@ export const EXPECTED_CUSTOMERS_AFTER_IMPORT_WITH_EMPTY_FIELDS =
   'Pete,,true,AppleJuice,09/09/1965,\n' +
   'Mostefa,,true,Beer,15/08/1994,\n' +
   'Anna,23,false,Beer,,1.8\n' +
-  'Ewan,,false,Wine,,';
+  'Ewan,,false,Wine,,1.9';
 
 export const EXPECTED_EVENTS_AFTER_XLSX_IMPORT =
   'theme,date,timeOfDay,eventType,reservationsNumber,online\n' +
