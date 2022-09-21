@@ -15,16 +15,16 @@ const ScenarioParameterInput = ({ parameterData, parametersState, setParametersS
 
   const store = useStore();
 
-  const currentScenarioId = useCallback(() => store.getState().scenario?.current?.data?.id, [store]);
-  const scenarioIdOnMount = useRef(currentScenarioId());
+  const getCurrentScenarioId = useCallback(() => store.getState().scenario?.current?.data?.id, [store]);
+  const scenarioIdOnMount = useRef(getCurrentScenarioId());
 
   const setParametersStateSecure = useCallback(
     (...args) => {
-      if (scenarioIdOnMount.current === currentScenarioId()) {
+      if (scenarioIdOnMount.current === getCurrentScenarioId()) {
         setParametersState(...args);
       }
     },
-    [currentScenarioId, setParametersState]
+    [getCurrentScenarioId, setParametersState]
   );
 
   if (parameterVarType in VAR_TYPES_COMPONENTS_MAPPING) {
