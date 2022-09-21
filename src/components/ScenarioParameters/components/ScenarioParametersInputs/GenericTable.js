@@ -29,6 +29,8 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
   const parameterId = parameterData.id;
   const parameter = parametersState[parameterId] || {};
   const datasets = useSelector((state) => state.dataset?.list?.data);
+  const scenarioId = useSelector((state) => state.scenario?.current?.data?.id);
+  const lockId = `${scenarioId}_${parameterId}`;
 
   const labels = {
     label: t(`solution.parameters.${parameterId}`, parameterId),
@@ -60,9 +62,9 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
   const _checkForLock = () => {
     if (GenericTable.downloadLocked === undefined) {
       GenericTable.downloadLocked = {};
-    } else if (parameterId in GenericTable.downloadLocked === false) {
-      GenericTable.downloadLocked[parameterId] = false;
-    } else if (GenericTable.downloadLocked[parameterId]) {
+    } else if (lockId in GenericTable.downloadLocked === false) {
+      GenericTable.downloadLocked[lockId] = false;
+    } else if (GenericTable.downloadLocked[lockId]) {
       return true;
     }
     return false;
@@ -83,10 +85,11 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
     if (_checkForLock()) {
       return;
     }
-    GenericTable.downloadLocked[parameterId] = true;
+    GenericTable.downloadLocked[lockId] = true;
 
     const datasetId = clientFileDescriptor.id;
     const data = await FileManagementUtils.downloadFileData(datasets, datasetId, setClientFileDescriptorStatuses);
+
     if (data) {
       const fileName = clientFileDescriptor.name;
       const finalStatus = UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD;
@@ -101,7 +104,7 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
         tableDataStatus: TABLE_DATA_STATUS.ERROR,
       });
     }
-    GenericTable.downloadLocked[parameterId] = false;
+    GenericTable.downloadLocked[lockId] = false;
   };
 
   const _parseCSVFileContent = (
