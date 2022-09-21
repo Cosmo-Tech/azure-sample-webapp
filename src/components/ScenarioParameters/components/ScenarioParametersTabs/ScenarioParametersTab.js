@@ -6,11 +6,14 @@ import ScenarioParameterInput from './ScenarioParameterInput';
 import { PermissionsGate } from '../../../index';
 import PropTypes from 'prop-types';
 import { t } from 'i18next';
+import { useSelector } from 'react-redux';
 
 const ScenarioParametersTab = ({ parametersGroupData, parametersState, setParametersState, context }) => {
   const noPermissionsPlaceHolder = (t) => {
     return <div>{t('genericcomponent.text.scenario.parameters.tabs.placeholder')}</div>;
   };
+
+  const scenarioId = useSelector((state) => state.scenario?.current?.data?.id);
 
   const groupContainerStyle = {
     display: 'flex',
@@ -25,7 +28,7 @@ const ScenarioParametersTab = ({ parametersGroupData, parametersState, setParame
       <div key={parametersGroupData.id} style={groupContainerStyle}>
         {parametersGroupData.parameters.map((parameterData) => (
           <ScenarioParameterInput
-            key={parameterData.id}
+            key={`${scenarioId}_${parameterData.id}`}
             parameterData={parameterData}
             parametersState={parametersState}
             setParametersState={setParametersState}
