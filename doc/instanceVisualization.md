@@ -347,3 +347,19 @@ If the error message is _“Access is denied”_:
 
 - check the Function App URL in the front-end configuration file
 - if you are using a local azure function, check that it is running and that the local port is correct
+
+## Maintenance
+
+### How to update your Function App
+
+You can redeploy the Function App with a newer version by changing the parameter `WEBSITE_RUN_FROM_PACKAGE`
+in the "_Configuration_" blade of your Function App page, in the Azure portal.
+
+Example:
+
+```
+Name: WEBSITE_RUN_FROM_PACKAGE
+Value: https://github.com/Cosmo-Tech/azure-function-scenario-download/releases/download/v1.0.1/artifact.zip
+```
+
+Click on "OK" to change the value of the parameter, and then on "**Save**" to confirm your changes and trigger the Functionn App update.
