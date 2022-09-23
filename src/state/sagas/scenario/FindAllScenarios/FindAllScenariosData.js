@@ -6,11 +6,13 @@ import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { ORGANIZATION_ID } from '../../../../config/GlobalConfiguration';
 import { Api } from '../../../../services/config/Api';
 import { STATUSES } from '../../../commons/Constants';
+import { formatParametersFromApi } from '../../../../utils/ApiUtils';
 
 // generators function
 export function* getAllScenariosData(workspaceId) {
   // yield keyword is here to milestone and save the action
   const { data } = yield call(Api.Scenarios.findAllScenarios, ORGANIZATION_ID, workspaceId);
+  data.forEach((scenario) => (scenario.parametersValues = formatParametersFromApi(scenario.parametersValues)));
   yield put({
     type: SCENARIO_ACTIONS_KEY.SET_ALL_SCENARIOS,
     list: data,
