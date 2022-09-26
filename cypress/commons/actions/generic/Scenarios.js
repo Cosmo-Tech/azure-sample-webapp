@@ -161,7 +161,11 @@ function openScenarioCreationDialog() {
 // Select a parent scenario
 function selectParentScenario(scenarioName) {
   getScenarioCreationDialogMasterCheckbox().uncheck();
-  getScenarioCreationDialogParentScenarioSelector().clear().type(scenarioName);
+  getScenarioCreationDialogParentScenarioSelector().click();
+  getScenarioCreationDialogParentScenarioSelector().should('not.be.disabled');
+  // clear() does not always work, use "{selectAll}{backspace}" instead
+  getScenarioCreationDialogParentScenarioSelector().type('{selectAll}{backspace}' + scenarioName);
+
   // Try to prevent "detached from DOM" cypress error with these 2 instructions
   getScenarioCreationDialogParentScenarioSelectorOptions().contains(scenarioName).should('be.visible');
   getScenarioCreationDialogParentScenarioSelectorOptions().contains(scenarioName).click();
@@ -170,7 +174,11 @@ function selectParentScenario(scenarioName) {
 // Select a dataset
 function selectDataset(dataset) {
   getScenarioCreationDialogMasterCheckbox().check();
-  getScenarioCreationDialogDatasetSelector().clear().type(dataset);
+  getScenarioCreationDialogDatasetSelector().click();
+  getScenarioCreationDialogDatasetSelector().should('not.be.disabled');
+  // clear() does not always work, use "{selectAll}{backspace}" instead
+  getScenarioCreationDialogDatasetSelector().type('{selectAll}{backspace}' + dataset);
+
   // Try to prevent "detached from DOM" cypress error with these 2 instructions
   getScenarioCreationDialogDatasetSelectorOptions().contains(dataset).should('be.visible');
   getScenarioCreationDialogDatasetSelectorOptions().contains(dataset).click();
@@ -178,7 +186,11 @@ function selectDataset(dataset) {
 
 // Select a run template
 function selectRunTemplate(runTemplate) {
-  getScenarioCreationDialogRunTypeSelector().clear().type(runTemplate);
+  getScenarioCreationDialogRunTypeSelector().click();
+  getScenarioCreationDialogRunTypeSelector().should('not.be.disabled');
+  // clear() does not always work, use "{selectAll}{backspace}" instead
+  getScenarioCreationDialogRunTypeSelector().type('{selectAll}{backspace}' + runTemplate);
+
   // Try to prevent "detached from DOM" cypress error with these 2 instructions
   getScenarioCreationDialogRunTypeSelectorOptions().contains(runTemplate).should('be.visible');
   getScenarioCreationDialogRunTypeSelectorOptions().contains(runTemplate).click();
