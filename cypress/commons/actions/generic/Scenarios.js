@@ -13,6 +13,9 @@ function getScenarioViewTab(timeout = 5) {
 function getScenarioView() {
   return cy.get(GENERIC_SELECTORS.scenario.view);
 }
+function getScenarioLoadingSpinner(timeout = 5) {
+  return cy.get(GENERIC_SELECTORS.scenario.loadingSpinner, { timeout: timeout * 1000 });
+}
 function getScenarioSelector(timeout = 5) {
   return cy.get(GENERIC_SELECTORS.scenario.selectInput, { timeout: timeout * 1000 });
 }
@@ -143,6 +146,7 @@ function selectScenario(scenarioName, scenarioId) {
         ScenarioParameters.getParametersEditButton().should('not.be.disabled');
       }
     });
+  getScenarioLoadingSpinner(15).should('exist').should('not.be.visible');
 }
 
 function writeInScenarioSelectorInput(searchStr) {
@@ -252,6 +256,7 @@ function resetScenarioValidationStatus() {
 export const Scenarios = {
   getScenarioView,
   getScenarioViewTab,
+  getScenarioLoadingSpinner,
   getScenarioSelector,
   getScenarioSelectorInput,
   getScenarioSelectorOption,

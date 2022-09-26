@@ -315,7 +315,7 @@ const Scenario = (props) => {
   return (
     <>
       <Backdrop open={showBackdrop} style={{ zIndex: '10000' }}>
-        <CircularProgress color="inherit" />
+        <CircularProgress data-cy="scenario-loading-spinner" color="inherit" />
       </Backdrop>
       <div data-cy="scenario-view" className={classes.content}>
         <Grid container spacing={2} alignItems="center" justifyContent="space-between">

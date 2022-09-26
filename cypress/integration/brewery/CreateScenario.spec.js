@@ -114,83 +114,66 @@ describe('Create scenario', () => {
         scenarioRunTemplateName = value.scenarioCreatedRunTemplateName;
 
         Scenarios.getScenarioRunTemplate().contains(scenarioRunTemplateName, { matchCase: false });
+
+        // Check parameters accordion state after creating scenario
+        ScenarioParameters.getParametersTabs().should('be.visible');
+        ScenarioManager.switchToScenarioManager();
+        Scenarios.switchToScenarioView();
+        ScenarioParameters.getParametersTabs().should('be.visible');
+        ScenarioParameters.collapseParametersAccordion();
+        ScenarioParameters.getParametersTabs().should('not.be.visible');
+
+        // Edit master parameters values
+        ScenarioParameters.edit();
+        ScenarioParameters.getParametersTabs().should('be.visible');
+        BreweryParameters.getStockInput().clear().type(stock);
+        BreweryParameters.getRestockInput().clear().type(restock);
+        BreweryParameters.getWaitersInput().clear().type(waiters);
+
+        // Update and launch scenario master
+        cy.intercept('PATCH', URL_REGEX.SCENARIO_PAGE_WITH_ID).as('requestEditScenario');
+        cy.intercept('POST', URL_REGEX.SCENARIO_PAGE_RUN_WITH_ID).as('requestRunScenario');
+
+        ScenarioParameters.updateAndLaunch();
+
+        cy.wait('@requestEditScenario').should((value) => {
+          const { name: nameGet, id: idGet, parametersValues: paramsGet, state } = value.response.body;
+          const stockGet = parseFloat(paramsGet.find((obj) => obj.parameterId === 'stock').value);
+          const restockGet = parseFloat(paramsGet.find((obj) => obj.parameterId === 'restock_qty').value);
+          const waitersGet = parseFloat(paramsGet.find((obj) => obj.parameterId === 'nb_waiters').value);
+          expect(nameGet).equal(scenarioName);
+          expect(state).equal('Created');
+          expect(idGet).equal(scenarioMasterId);
+          expect(stockGet).equal(stock);
+          expect(restockGet).equal(restock);
+          expect(waitersGet).equal(waiters);
+        });
+
+        cy.wait('@requestRunScenario').should((value) => {
+          expect(value.response.body.scenarioId).equal(scenarioMasterId);
+        });
+
+        Scenarios.getDashboardPlaceholder().should('have.text', SCENARIO_RUN_IN_PROGRESS);
+
+        // Switch to another scenario then come back to the first scenario
+        cy.intercept('GET', anotherScenarioUrlRegex).as('requestUpdateCurrentScenario2');
+        Scenarios.selectScenario(otherScenarioName, otherScenarioId);
+
+        cy.wait('@requestUpdateCurrentScenario2')
+          .its('response')
+          .its('body')
+          .its('name')
+          .should('equal', otherScenarioName);
+
+        Scenarios.getScenarioSelectorInput().should('value', otherScenarioName);
+        Scenarios.selectScenario(scenarioMasterName, scenarioMasterId);
+        Scenarios.getScenarioSelectorInput().should('value', scenarioMasterName);
+
+        BreweryParameters.getStockInput().should('value', stock);
+        BreweryParameters.getRestockInput().should('value', restock);
+        BreweryParameters.getWaitersInput().should('value', waiters);
       }
     );
-
-    // Check parameters accordion state after creating scenario
-    ScenarioParameters.getParametersTabs().should('be.visible');
-    ScenarioManager.switchToScenarioManager();
-    Scenarios.switchToScenarioView();
-    ScenarioParameters.getParametersTabs().should('be.visible');
-    ScenarioParameters.collapseParametersAccordion();
-    ScenarioParameters.getParametersTabs().should('not.be.visible');
-
-    // Edit master parameters values
-    ScenarioParameters.edit();
-    ScenarioParameters.getParametersTabs().should('be.visible');
-    BreweryParameters.getStockInput().clear().type(stock);
-    BreweryParameters.getRestockInput().clear().type(restock);
-    BreweryParameters.getWaitersInput().clear().type(waiters);
-
-    // Update and launch scenario master
-    cy.intercept('PATCH', URL_REGEX.SCENARIO_PAGE_WITH_ID).as('requestEditScenario');
-    cy.intercept('POST', URL_REGEX.SCENARIO_PAGE_RUN_WITH_ID).as('requestRunScenario');
-
-    ScenarioParameters.updateAndLaunch();
-
-    cy.wait('@requestEditScenario').should((value) => {
-      const { name: nameGet, id: idGet, parametersValues: paramsGet, state } = value.response.body;
-      const stockGet = parseFloat(paramsGet.find((obj) => obj.parameterId === 'stock').value);
-      const restockGet = parseFloat(paramsGet.find((obj) => obj.parameterId === 'restock_qty').value);
-      const waitersGet = parseFloat(paramsGet.find((obj) => obj.parameterId === 'nb_waiters').value);
-      expect(nameGet).equal(scenarioName);
-      expect(state).equal('Created');
-      expect(idGet).equal(scenarioMasterId);
-      expect(stockGet).equal(stock);
-      expect(restockGet).equal(restock);
-      expect(waitersGet).equal(waiters);
-    });
-
-    cy.wait('@requestRunScenario').should((value) => {
-      expect(value.response.body.scenarioId).equal(scenarioMasterId);
-    });
-
-    Scenarios.getDashboardPlaceholder().should('have.text', SCENARIO_RUN_IN_PROGRESS);
-
-    // Switch to another scenario then come back to the first scenario
-    cy.intercept('GET', anotherScenarioUrlRegex).as('requestUpdateCurrentScenario2');
-
-    Scenarios.selectScenario(otherScenarioName, otherScenarioId);
-
-    cy.wait('@requestUpdateCurrentScenario2')
-      .its('response')
-      .its('body')
-      .its('name')
-      .should('equal', otherScenarioName);
-
-    Scenarios.getScenarioSelectorInput()
-      .should('value', otherScenarioName)
-      .then(() => {
-        cy.intercept('GET', new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/${scenarioMasterId}`)).as(
-          'requestUpdateCurrentScenario3'
-        );
-      });
-
-    Scenarios.getScenarioSelector()
-      .clear()
-      .type(scenarioMasterName + '{downarrow}{enter}');
-
-    cy.wait('@requestUpdateCurrentScenario3')
-      .its('response')
-      .its('body')
-      .its('name')
-      .should('equal', scenarioMasterName);
-
-    Scenarios.getScenarioSelectorInput().should('value', scenarioMasterName);
-
-    BreweryParameters.getStockInput().should('value', stock);
-    BreweryParameters.getRestockInput().should('value', restock);
-    BreweryParameters.getWaitersInput().should('value', waiters);
   });
 
   it('can create scenario child', () => {
@@ -200,81 +183,67 @@ describe('Create scenario', () => {
       (value) => {
         scenarioChildId = value.scenarioCreatedId;
         scenarioCreatedName = value.scenarioCreatedName;
+
+        // Check inherited children parameters
+        Scenarios.getScenarioLoadingSpinner(15).should('exist').should('not.be.visible');
+        BreweryParameters.getStockInput().should('value', stock);
+        BreweryParameters.getRestockInput().should('value', restock);
+        BreweryParameters.getWaitersInput().should('value', waiters);
+
+        // Edit child paramameters values
+        const childStock = utils.randomNmbr(BAR_PARAMETERS_RANGE.STOCK.MIN, BAR_PARAMETERS_RANGE.STOCK.MAX);
+        const childRestock = utils.randomNmbr(BAR_PARAMETERS_RANGE.RESTOCK.MIN, BAR_PARAMETERS_RANGE.RESTOCK.MAX);
+        const childWaiters = utils.randomNmbr(BAR_PARAMETERS_RANGE.WAITERS.MIN, BAR_PARAMETERS_RANGE.WAITERS.MAX);
+
+        ScenarioParameters.edit();
+        ScenarioParameters.getParametersTabs().should('be.visible');
+        BreweryParameters.getStockInput().clear().type(childStock);
+        BreweryParameters.getRestockInput().clear().type(childRestock);
+        BreweryParameters.getWaitersInput().clear().type(childWaiters);
+
+        // Launch scenario child
+        cy.intercept('PATCH', URL_REGEX.SCENARIO_PAGE_WITH_ID).as('requestEditScenario');
+        cy.intercept('POST', URL_REGEX.SCENARIO_PAGE_RUN_WITH_ID).as('requestRunScenario');
+
+        ScenarioParameters.updateAndLaunch();
+
+        cy.wait('@requestEditScenario').should((value) => {
+          const { name: nameGet, id: idGet, parametersValues: paramsGet } = value.response.body;
+          const stockGet = parseFloat(paramsGet.find((obj) => obj.parameterId === 'stock').value);
+          const restockGet = parseFloat(paramsGet.find((obj) => obj.parameterId === 'restock_qty').value);
+          const waitersGet = parseFloat(paramsGet.find((obj) => obj.parameterId === 'nb_waiters').value);
+          expect(nameGet).equal(scenarioCreatedName);
+          expect(idGet).equal(scenarioChildId);
+          expect(stockGet).equal(childStock);
+          expect(restockGet).equal(childRestock);
+          expect(waitersGet).equal(childWaiters);
+        });
+
+        cy.wait('@requestRunScenario').should((value) => {
+          expect(value.response.body.scenarioId).equal(scenarioChildId);
+        });
+
+        Scenarios.getDashboardPlaceholder().should('have.text', SCENARIO_RUN_IN_PROGRESS);
+
+        // Switch to another scenario then come back to the first scenario
+        cy.intercept('GET', anotherScenarioUrlRegex).as('requestUpdateCurrentScenario2');
+
+        Scenarios.selectScenario(otherScenarioName, otherScenarioId);
+
+        cy.wait('@requestUpdateCurrentScenario2').should((value) => {
+          const nameGet = value.response.body.name;
+          expect(nameGet).equal(otherScenarioName);
+        });
+
+        Scenarios.getScenarioSelectorInput().should('value', otherScenarioName);
+        Scenarios.selectScenario(scenarioChildName, scenarioChildId);
+        Scenarios.getScenarioSelectorInput().should('value', scenarioChildName);
+
+        BreweryParameters.getStockInput().should('value', childStock);
+        BreweryParameters.getRestockInput().should('value', childRestock);
+        BreweryParameters.getWaitersInput().should('value', childWaiters);
       }
     );
-
-    // Check inherited children parameters
-    BreweryParameters.getStockInput().should('value', stock);
-    BreweryParameters.getRestockInput().should('value', restock);
-    BreweryParameters.getWaitersInput().should('value', waiters);
-
-    // Edit child paramameters values
-    const childStock = utils.randomNmbr(BAR_PARAMETERS_RANGE.STOCK.MIN, BAR_PARAMETERS_RANGE.STOCK.MAX);
-    const childRestock = utils.randomNmbr(BAR_PARAMETERS_RANGE.RESTOCK.MIN, BAR_PARAMETERS_RANGE.RESTOCK.MAX);
-    const childWaiters = utils.randomNmbr(BAR_PARAMETERS_RANGE.WAITERS.MIN, BAR_PARAMETERS_RANGE.WAITERS.MAX);
-
-    ScenarioParameters.edit();
-    ScenarioParameters.getParametersTabs().should('be.visible');
-    BreweryParameters.getStockInput().clear().type(childStock);
-    BreweryParameters.getRestockInput().clear().type(childRestock);
-    BreweryParameters.getWaitersInput().clear().type(childWaiters);
-
-    // Launch scenario child
-    cy.intercept('PATCH', URL_REGEX.SCENARIO_PAGE_WITH_ID).as('requestEditScenario');
-    cy.intercept('POST', URL_REGEX.SCENARIO_PAGE_RUN_WITH_ID).as('requestRunScenario');
-
-    ScenarioParameters.updateAndLaunch();
-
-    cy.wait('@requestEditScenario').should((value) => {
-      const { name: nameGet, id: idGet, parametersValues: paramsGet } = value.response.body;
-      const stockGet = parseFloat(paramsGet.find((obj) => obj.parameterId === 'stock').value);
-      const restockGet = parseFloat(paramsGet.find((obj) => obj.parameterId === 'restock_qty').value);
-      const waitersGet = parseFloat(paramsGet.find((obj) => obj.parameterId === 'nb_waiters').value);
-      expect(nameGet).equal(scenarioCreatedName);
-      expect(idGet).equal(scenarioChildId);
-      expect(stockGet).equal(childStock);
-      expect(restockGet).equal(childRestock);
-      expect(waitersGet).equal(childWaiters);
-    });
-
-    cy.wait('@requestRunScenario').should((value) => {
-      expect(value.response.body.scenarioId).equal(scenarioChildId);
-    });
-
-    Scenarios.getDashboardPlaceholder().should('have.text', SCENARIO_RUN_IN_PROGRESS);
-
-    // Switch to another scenario then come back to the first scenario
-    cy.intercept('GET', anotherScenarioUrlRegex).as('requestUpdateCurrentScenario2');
-
-    Scenarios.selectScenario(otherScenarioName, otherScenarioId);
-
-    cy.wait('@requestUpdateCurrentScenario2').should((value) => {
-      const nameGet = value.response.body.name;
-      expect(nameGet).equal(otherScenarioName);
-    });
-
-    Scenarios.getScenarioSelectorInput()
-      .should('value', otherScenarioName)
-      .then(() => {
-        cy.intercept('GET', new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/${scenarioChildId}`)).as(
-          'requestUpdateCurrentScenario3'
-        );
-      });
-
-    Scenarios.getScenarioSelector()
-      .clear()
-      .type(scenarioChildName + '{downarrow}{enter}');
-
-    cy.wait('@requestUpdateCurrentScenario3').should((value) => {
-      const nameGet = value.response.body.name;
-      expect(nameGet).equal(scenarioChildName);
-    });
-
-    Scenarios.getScenarioSelectorInput().should('value', scenarioChildName);
-
-    BreweryParameters.getStockInput().should('value', childStock);
-    BreweryParameters.getRestockInput().should('value', childRestock);
-    BreweryParameters.getWaitersInput().should('value', childWaiters);
   });
 
   it('can create scenario, edit/discard parameters and switch between parameters tabs', () => {
