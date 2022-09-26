@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import {
   Backdrop,
@@ -165,13 +165,18 @@ const Scenario = (props) => {
   const scenarioListLabel = noScenario ? null : t('views.scenario.dropdown.scenario.label', 'Scenario');
   const showBackdrop = currentScenario.status === STATUSES.LOADING;
 
-  let filteredRunTemplates = solution?.data?.runTemplates || [];
-  const solutionRunTemplates = workspace.data?.solution?.runTemplateFilter;
-  if (solutionRunTemplates) {
-    filteredRunTemplates = filteredRunTemplates.filter(
-      (runTemplate) => solutionRunTemplates.indexOf(runTemplate.id) !== -1
-    );
-  }
+  const getFilteredRunTemplates = (solution, workspace) => {
+    let filteredRunTemplates = solution?.data?.runTemplates || [];
+    const solutionRunTemplates = workspace.data?.solution?.runTemplateFilter;
+    if (solutionRunTemplates) {
+      filteredRunTemplates = filteredRunTemplates.filter(
+        (runTemplate) => solutionRunTemplates.indexOf(runTemplate.id) !== -1
+      );
+    }
+    return filteredRunTemplates;
+  };
+  const filteredRunTemplates = useMemo(() => getFilteredRunTemplates(solution, workspace), [solution, workspace]);
+
   const downloadLogsFile = () => {
     return ScenarioRunService.downloadLogsFile(currentScenario.data?.lastRun, LOG_TYPES[SCENARIO_RUN_LOG_TYPE]);
   };
