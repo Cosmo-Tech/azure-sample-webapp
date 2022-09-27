@@ -1,8 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useIdleTimer } from 'react-idle-timer';
 import { Auth } from '@cosmotech/core';
@@ -16,21 +15,37 @@ import { AUTH_STATUS } from './state/commons/AuthConstants';
 import { SESSION_INACTIVITY_TIMEOUT } from './services/config/FunctionalConstants';
 import { SessionTimeoutDialog } from './components/SessionTimeoutDialog/SessionTimeoutDialog';
 import { getTheme } from './theme';
+import AppRoutes from './AppRoutes';
+import { STATUSES } from './state/commons/Constants';
+import { useApp } from './AppHook';
 
 const SESSION_TIMEOUT_PROMPT_DELAY_IN_SECONDS = 30;
 
-const App = ({ authStatus, isDarkTheme, logOutAction, logInAction }) => {
+const App = () => {
   const { t } = useTranslation();
   document.title = t('commoncomponents.text.application.title', 'Cosmo Tech Web Application Sample');
 
+  const [applicationStatus, authStatus, isDarkTheme, getAllInitialData, setApplicationStatus, logIn, logOut] = useApp();
+
   const theme = React.useMemo(() => getTheme(isDarkTheme), [isDarkTheme]);
+
+  const isAuthenticated = authStatus === AUTH_STATUS.AUTHENTICATED || authStatus === AUTH_STATUS.DISCONNECTING;
+  const isConnecting = authStatus === AUTH_STATUS.CONNECTING;
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      getAllInitialData();
+    } else {
+      setApplicationStatus(STATUSES.IDLE);
+    }
+  }, [getAllInitialData, isAuthenticated, setApplicationStatus]);
 
   useEffect(() => {
     // Check if the user is already signed-in
     if (authStatus === AUTH_STATUS.UNKNOWN) {
-      logInAction();
+      logIn();
     }
-  });
+  }, [authStatus, logIn]);
 
   const [isSessionTimeoutDialogOpen, setIsSessionTimeoutDialogOpen] = useState(false);
   const closeSessionTimeoutDialog = () => {
@@ -64,17 +79,26 @@ const App = ({ authStatus, isDarkTheme, logOutAction, logInAction }) => {
   const timeout = 1000 * 60 * SESSION_INACTIVITY_TIMEOUT;
   idleTimer = useIdleTimer({ onIdle, timeout });
 
-  const appContent =
-    authStatus === AUTH_STATUS.CONNECTING ? (
-      <div className="spinner-border text-success" role="status" />
-    ) : (
-      <Loading
-        logout={logOutAction}
-        authenticated={authStatus === AUTH_STATUS.AUTHENTICATED || authStatus === AUTH_STATUS.DISCONNECTING}
-        authorized={authStatus === AUTH_STATUS.AUTHENTICATED || authStatus === AUTH_STATUS.DISCONNECTING}
-        tabs={TABS}
-      />
+  const isLoading = useMemo(
+    () =>
+      applicationStatus !== STATUSES.ERROR &&
+      (applicationStatus === STATUSES.LOADING || applicationStatus === STATUSES.IDLE),
+    [applicationStatus]
+  );
+
+  const getAppContent = useCallback(() => {
+    if (isConnecting) {
+      return <div className="spinner-border text-success" role="status" />;
+    }
+
+    if (isAuthenticated && isLoading) {
+      return <Loading />;
+    }
+
+    return (
+      <AppRoutes authenticated={isAuthenticated} authorized={applicationStatus === STATUSES.SUCCESS} tabs={TABS} />
     );
+  }, [isConnecting, isAuthenticated, isLoading, applicationStatus]);
 
   return (
     <>
@@ -85,20 +109,13 @@ const App = ({ authStatus, isDarkTheme, logOutAction, logInAction }) => {
           labels={sessionTimeoutLabels}
           open={isSessionTimeoutDialogOpen}
           onClose={closeSessionTimeoutDialog}
-          onLogOut={logOutAction}
+          onLogOut={logOut}
           timeout={SESSION_TIMEOUT_PROMPT_DELAY_IN_SECONDS}
         />
-        {appContent}
+        {getAppContent()}
       </ThemeProvider>
     </>
   );
-};
-
-App.propTypes = {
-  authStatus: PropTypes.string.isRequired,
-  isDarkTheme: PropTypes.bool.isRequired,
-  logInAction: PropTypes.func.isRequired,
-  logOutAction: PropTypes.func.isRequired,
 };
 
 export default App;

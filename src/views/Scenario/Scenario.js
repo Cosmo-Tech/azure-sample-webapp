@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import React, { useEffect, useState, useMemo } from 'react';
-import PropTypes from 'prop-types';
 import {
   Backdrop,
   Button,
@@ -14,32 +13,20 @@ import {
   Tooltip,
   Typography,
 } from '@material-ui/core';
-import { ScenarioParameters } from '../../components';
+import { ScenarioParameters, SimplePowerBIReportEmbedWrapper } from '../../components';
 import { useTranslation } from 'react-i18next';
-import {
-  CreateScenarioButton,
-  HierarchicalComboBox,
-  ScenarioValidationStatusChip,
-  SimplePowerBIReportEmbed,
-} from '@cosmotech/ui';
+import { CreateScenarioButton, HierarchicalComboBox, ScenarioValidationStatusChip } from '@cosmotech/ui';
 import { sortScenarioList } from '../../utils/SortScenarioListUtils';
-import { LOG_TYPES } from '../../services/scenarioRun/ScenarioRunConstants.js';
 import { SCENARIO_VALIDATION_STATUS } from '../../services/config/ApiConstants.js';
-import { SCENARIO_RUN_LOG_TYPE } from '../../services/config/FunctionalConstants';
-import {
-  USE_POWER_BI_WITH_USER_CREDENTIALS,
-  SCENARIO_VIEW_IFRAME_DISPLAY_RATIO,
-  SCENARIO_DASHBOARD_CONFIG,
-} from '../../config/PowerBI';
 import ScenarioService from '../../services/scenario/ScenarioService';
-import ScenarioRunService from '../../services/scenarioRun/ScenarioRunService';
 import { STATUSES } from '../../state/commons/Constants';
 import { AppInsights } from '../../services/AppInsights';
 import { PERMISSIONS } from '../../services/config/Permissions';
 import { PermissionsGate } from '../../components/PermissionsGate';
-import { getCreateScenarioDialogLabels, getReportLabels } from './labels';
+import { getCreateScenarioDialogLabels } from './labels';
 import { useNavigate, useParams } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
+import { useScenario } from './ScenarioHook';
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -60,27 +47,26 @@ const useStyles = makeStyles((theme) => ({
 
 const appInsights = AppInsights.getInstance();
 
-const Scenario = (props) => {
+const Scenario = () => {
   const classes = useStyles();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
-  const {
-    setScenarioValidationStatus,
-    currentScenario,
+  const [
     scenarioList,
-    findScenarioById,
     datasetList,
+    currentScenario,
     user,
     workspace,
     solution,
     addDatasetToStore,
+    setScenarioValidationStatus,
+    findScenarioById,
     createScenario,
     updateCurrentScenario,
     updateAndLaunchScenario,
     launchScenario,
-    reports,
     setApplicationErrorMessage,
-  } = props;
+  ] = useScenario();
 
   const routerParameters = useParams();
   const navigate = useNavigate();
@@ -88,14 +74,7 @@ const Scenario = (props) => {
   const [editMode, setEditMode] = useState(false);
 
   const createScenarioDialogLabels = getCreateScenarioDialogLabels(t, editMode);
-  const reportLabels = getReportLabels(t);
 
-  // Get the right report for given run template
-  const currentScenarioRunTemplateReport = Array.isArray(SCENARIO_DASHBOARD_CONFIG)
-    ? SCENARIO_DASHBOARD_CONFIG
-    : currentScenario?.data?.runTemplateId in SCENARIO_DASHBOARD_CONFIG
-    ? [SCENARIO_DASHBOARD_CONFIG[currentScenario.data.runTemplateId]]
-    : [];
   // Add accordion expand status in state
   const [accordionSummaryExpanded, setAccordionSummaryExpanded] = useState(
     localStorage.getItem('scenarioParametersAccordionExpanded') === 'true'
@@ -177,9 +156,6 @@ const Scenario = (props) => {
   };
   const filteredRunTemplates = useMemo(() => getFilteredRunTemplates(solution, workspace), [solution, workspace]);
 
-  const downloadLogsFile = () => {
-    return ScenarioRunService.downloadLogsFile(currentScenario.data?.lastRun, LOG_TYPES[SCENARIO_RUN_LOG_TYPE]);
-  };
   const resetScenarioValidationStatus = async () => {
     const currentStatus = currentScenario.data.validationStatus;
     try {
@@ -385,19 +361,7 @@ const Scenario = (props) => {
           <Grid item xs={12}>
             <Card component={Paper} elevation={2}>
               <CardContent>
-                <SimplePowerBIReportEmbed
-                  // key is used here to assure the complete re-rendering of the component when scenario changes ; we
-                  // need to remount it to avoid errors in powerbi-client-react which throws an error if filters change
-                  key={currentScenario?.data?.id}
-                  reports={reports}
-                  reportConfiguration={currentScenarioRunTemplateReport}
-                  scenario={currentScenario.data}
-                  lang={i18n.language}
-                  downloadLogsFile={currentScenario.data?.lastRun ? downloadLogsFile : null}
-                  labels={reportLabels}
-                  useAAD={USE_POWER_BI_WITH_USER_CREDENTIALS}
-                  iframeRatio={SCENARIO_VIEW_IFRAME_DISPLAY_RATIO}
-                />
+                <SimplePowerBIReportEmbedWrapper />
               </CardContent>
             </Card>
           </Grid>
@@ -405,24 +369,6 @@ const Scenario = (props) => {
       </div>
     </>
   );
-};
-
-Scenario.propTypes = {
-  setScenarioValidationStatus: PropTypes.func.isRequired,
-  scenarioList: PropTypes.object.isRequired,
-  datasetList: PropTypes.object.isRequired,
-  currentScenario: PropTypes.object.isRequired,
-  findScenarioById: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired,
-  workspace: PropTypes.object.isRequired,
-  solution: PropTypes.object.isRequired,
-  addDatasetToStore: PropTypes.func.isRequired,
-  createScenario: PropTypes.func.isRequired,
-  updateCurrentScenario: PropTypes.func.isRequired,
-  updateAndLaunchScenario: PropTypes.func.isRequired,
-  launchScenario: PropTypes.func.isRequired,
-  reports: PropTypes.object.isRequired,
-  setApplicationErrorMessage: PropTypes.func,
 };
 
 export default Scenario;

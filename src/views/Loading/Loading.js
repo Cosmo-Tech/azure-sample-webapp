@@ -1,9 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import AppRoutes from '../../AppRoutes';
+import React from 'react';
 import FadeIn from 'react-fade-in';
 import { LoadingLine } from '@cosmotech/ui';
 import { STATUSES } from '../../state/commons/Constants';
@@ -12,6 +10,7 @@ import { makeStyles } from '@material-ui/core';
 import * as dataLoading from '../../assets/loadingLine/dataLoading.json';
 import * as dataLoaded from '../../assets/loadingLine/dataLoaded.json';
 import * as dataError from '../../assets/loadingLine/dataError.json';
+import { useLoading } from './LoadingHook';
 
 const useStyles = makeStyles((theme) => ({
   panel: {
@@ -28,32 +27,11 @@ const animations = {
   dataLoaded: dataLoaded.default,
 };
 
-const Loading = ({
-  authenticated,
-  authorized,
-  logout,
-  tabs,
-  scenarioList,
-  currentScenario,
-  powerBiInfo,
-  workspace,
-  solution,
-  datasetList,
-  application,
-  getAllInitialDataAction,
-  setApplicationStatusAction,
-}) => {
+const Loading = () => {
   const classes = useStyles();
   const { t } = useTranslation();
   const defaultTitle = 'LoadingLine Title';
-
-  useEffect(() => {
-    if (authenticated) {
-      getAllInitialDataAction();
-    } else {
-      setApplicationStatusAction(STATUSES.IDLE);
-    }
-  }, [authenticated, getAllInitialDataAction, setApplicationStatusAction]);
+  const [powerBIInfo, scenarioList, currentScenario, workspace, solution, datasetList] = useLoading();
 
   const isLoading = (entityStatus) => {
     return (
@@ -66,7 +44,7 @@ const Loading = ({
 
   const style = { variant: 'h6', height: '50px', width: '50px' };
 
-  return authenticated && isLoading(application) ? (
+  return (
     <div className={classes.panel} data-cy="loading-component">
       <FadeIn delay={200}>
         <LoadingLine
@@ -106,32 +84,14 @@ const Loading = ({
         />
         <LoadingLine
           title={t('genericcomponent.loading.line.powerbi.title', defaultTitle)}
-          hasError={hasErrors(powerBiInfo)}
-          isLoading={isLoading(powerBiInfo)}
+          hasError={hasErrors(powerBIInfo)}
+          isLoading={isLoading(powerBIInfo)}
           animations={animations}
           style={style}
         />
       </FadeIn>
     </div>
-  ) : (
-    <AppRoutes authenticated={authenticated} authorized={application.status === STATUSES.SUCCESS} tabs={tabs} />
   );
-};
-
-Loading.propTypes = {
-  authenticated: PropTypes.bool.isRequired,
-  authorized: PropTypes.bool.isRequired,
-  logout: PropTypes.func.isRequired,
-  tabs: PropTypes.array.isRequired,
-  powerBiInfo: PropTypes.object.isRequired,
-  currentScenario: PropTypes.object.isRequired,
-  scenarioList: PropTypes.object.isRequired,
-  workspace: PropTypes.object.isRequired,
-  solution: PropTypes.object.isRequired,
-  datasetList: PropTypes.object.isRequired,
-  application: PropTypes.object.isRequired,
-  getAllInitialDataAction: PropTypes.func.isRequired,
-  setApplicationStatusAction: PropTypes.func.isRequired,
 };
 
 export default Loading;

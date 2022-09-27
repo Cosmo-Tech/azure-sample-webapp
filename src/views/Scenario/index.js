@@ -1,37 +1,3 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { connect } from 'react-redux';
-import Scenario from './Scenario';
-import {
-  dispatchFindScenarioById,
-  dispatchCreateScenario,
-  dispatchSetCurrentScenario,
-  dispatchUpdateAndLaunchScenario,
-  dispatchLaunchScenario,
-  dispatchSetScenarioValidationStatus,
-} from '../../state/dispatchers/scenario/ScenarioDispatcher';
-import { dispatchAddDatasetToStore } from '../../state/dispatchers/dataset/DatasetDispatcher';
-import { dispatchSetApplicationErrorMessage } from '../../state/dispatchers/app/ApplicationDispatcher';
-
-const mapStateToProps = (state) => ({
-  scenarioList: state.scenario.list,
-  datasetList: state.dataset.list,
-  currentScenario: state.scenario.current,
-  user: state.auth,
-  workspace: state.workspace.current,
-  solution: state.solution.current,
-  reports: state.powerBI,
-});
-
-const mapDispatchToProps = {
-  addDatasetToStore: dispatchAddDatasetToStore,
-  setScenarioValidationStatus: dispatchSetScenarioValidationStatus,
-  findScenarioById: dispatchFindScenarioById,
-  createScenario: dispatchCreateScenario,
-  updateCurrentScenario: dispatchSetCurrentScenario,
-  updateAndLaunchScenario: dispatchUpdateAndLaunchScenario,
-  launchScenario: dispatchLaunchScenario,
-  setApplicationErrorMessage: dispatchSetApplicationErrorMessage,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Scenario);
+export { default } from './Scenario';
