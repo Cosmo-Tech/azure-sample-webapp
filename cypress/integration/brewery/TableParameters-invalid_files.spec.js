@@ -14,8 +14,8 @@ describe('Table parameters invalid files operations', () => {
   before(() => {
     setup.initCypressAndStubbing();
     stub.start({
-      GET_SCENARIOS: true,
       GET_DATASETS: true,
+      GET_SCENARIOS: true,
     });
     Login.login();
   });

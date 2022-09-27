@@ -18,8 +18,8 @@ describe('Table parameters files standard operations part 1', () => {
   before(() => {
     setup.initCypressAndStubbing();
     stub.start({
-      GET_SCENARIOS: true,
       GET_DATASETS: true,
+      GET_SCENARIOS: true,
     });
     Login.login();
   });

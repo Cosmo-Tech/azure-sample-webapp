@@ -15,8 +15,8 @@ describe('Table parameters upload of valid and invalid files with empty fields',
   before(() => {
     setup.initCypressAndStubbing();
     stub.start({
-      GET_SCENARIOS: true,
       GET_DATASETS: true,
+      GET_SCENARIOS: true,
     });
     Login.login();
   });

@@ -9,6 +9,7 @@ describe('check accessible features for modeler application role', () => {
     stub.start({
       AUTHENTICATION: true,
       GET_SCENARIOS: true,
+      GET_DATASETS: true,
       CREATE_AND_DELETE_SCENARIO: true,
     });
     stub.setFakeUser(USER_EXAMPLE);
@@ -40,6 +41,7 @@ describe('check accessible features for viewer application role', () => {
     stub.start({
       AUTHENTICATION: true,
       GET_SCENARIOS: true,
+      GET_DATASETS: true,
       CREATE_AND_DELETE_SCENARIO: true,
     });
     stub.setFakeUser(USER_EXAMPLE);

@@ -1,7 +1,14 @@
 import { Login, Scenarios } from '../../commons/actions';
+import { setup } from '../../commons/utils/setup';
+import { stub } from '../../commons/services/stubbing';
 
 describe('Check error label when invalid scenario name', () => {
   before(() => {
+    setup.initCypressAndStubbing();
+    stub.start({
+      GET_DATASETS: true,
+      GET_SCENARIOS: true,
+    });
     Login.login();
   });
   beforeEach(() => {

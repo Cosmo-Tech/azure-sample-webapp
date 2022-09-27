@@ -184,6 +184,19 @@ const interceptPowerBIAzureFunction = () => {
   return alias;
 };
 
+const interceptNewPageQueries = () => {
+  const reqPowerBIAlias = interceptPowerBIAzureFunction();
+  const reqGetScenariosAlias = interceptGetScenarios();
+  const reqGetDatasetsAlias = interceptGetDatasets();
+  const reqGetWorkspaceAlias = interceptGetWorkspace();
+  const reqGetSolutionAlias = interceptGetSolution();
+  return [reqPowerBIAlias, reqGetScenariosAlias, reqGetDatasetsAlias, reqGetWorkspaceAlias, reqGetSolutionAlias];
+};
+const waitNewPageQueries = (aliases) => {
+  aliases.forEach((alias) => {
+    return waitAlias(alias, { timeout: 60 * 1000 });
+  });
+};
 export const apiUtils = {
   forgeAlias,
   waitAlias,
@@ -198,4 +211,6 @@ export const apiUtils = {
   interceptGetSolution,
   interceptGetWorkspace,
   interceptPowerBIAzureFunction,
+  interceptNewPageQueries,
+  waitNewPageQueries,
 };
