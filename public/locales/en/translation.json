@@ -273,11 +273,11 @@
             "generalAccess": "General access",
             "removeAccess": "Remove specific access",
             "helperText": {
-              "commonroleadmin": "Anyone in this workspace can view, create, launch, edit the scenario and modify access to it",
-              "commonroleviewer": "Anyone in this workspace can view scenario and its results",
+              "commonroleadmin": "Anyone in this workspace is admin",
+              "commonroleviewer": "Anyone in this workspace is viewer",
               "scenariorolevalidator":
-              "Anyone in this workspace can view, create, launch, edit the scenario and change its validation status",
-              "commonroleditor": "Anyone in this workspace can view, launch, edit the scenario"
+              "Anyone in this workspace is validator",
+              "commonroleditor": "Anyone in this workspace is editor"
             }
           },
           "add": {
