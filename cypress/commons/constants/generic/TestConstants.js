@@ -32,6 +32,12 @@ export const API_ENDPOINT = {
   WORKSPACE: URL_ROOT + '/.*/workspaces/((w|W)-[\\w]+)', // Capture workspace id
   SOLUTIONS: URL_ROOT + '/.*/solutions',
   SOLUTION: URL_ROOT + '/.*/solutions/((sol|SOL)-[\\w]+)', // Capture solution id
+  PERMISSIONS_MAPPING: URL_ROOT + '/organizations/permissions',
+  ORGANIZATION_USERS: URL_ROOT + '/organizations/((o|O)-[\\w]+)/security/users', // Capture organization id
+  // TODO ?
+  // /organizations/{organization_id}/workspaces/{workspace_id}/permissions/{role}:
+  // /organizations/{organization_id}/workspaces/{workspace_id}/scenarios/permissions/{role}
+  // /organizations/{organization_id}/workspaces/{workspace_id}/security/users
 };
 
 export const API_REGEX = {
@@ -42,6 +48,8 @@ export const API_REGEX = {
   DATASETS: new RegExp('^' + API_ENDPOINT.DATASETS + '$'),
   WORKSPACE: new RegExp('^' + API_ENDPOINT.WORKSPACE + '$'),
   SOLUTION: new RegExp('^' + API_ENDPOINT.SOLUTION),
+  PERMISSIONS_MAPPING: new RegExp('^' + API_ENDPOINT.PERMISSIONS_MAPPING + '$'),
+  ORGANIZATION_USERS: new RegExp('^' + API_ENDPOINT.ORGANIZATION_USERS + '$'),
 };
 
 export const SCENARIO_RUN_IN_PROGRESS = 'Scenario run in progress...';
