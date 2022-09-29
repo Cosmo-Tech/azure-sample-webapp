@@ -25,6 +25,7 @@ export const SCENARIO_EXAMPLE = {
   parentLastRun: null,
   rootLastRun: null,
   validationStatus: 'Draft',
+  security: { default: 'admin', accessControlList: [] },
 };
 
 export const DEFAULT_SCENARIOS_LIST = [

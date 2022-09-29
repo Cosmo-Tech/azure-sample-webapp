@@ -19,6 +19,7 @@ export const WORKSPACE_EXAMPLE = {
   sendInputToDataWarehouse: true,
   useDedicatedEventHubNamespace: true,
   sendScenarioMetadataToEventHub: true,
+  security: { default: 'admin', accessControlList: [] },
 };
 
 export const DEFAULT_WORKSPACE = WORKSPACE_EXAMPLE;
