@@ -11,16 +11,11 @@ function getMicrosoftLoginButton() {
   return cy.get(GENERIC_SELECTORS.login.microsoftLoginButton);
 }
 
-function login() {
+function login(url = BASE_URL) {
   const reqAuthAlias = api.interceptAuthentication();
-  const reqPowerBIAlias = api.interceptPowerBIAzureFunction();
-  const reqGetScenariosAlias = api.interceptGetScenarios();
-  const reqGetDatasetsAlias = api.interceptGetDatasets();
-  const reqGetWorkspaceAlias = api.interceptGetWorkspace();
-  const reqGetSolutionAlias = api.interceptGetSolution();
-
+  const newPageQueries = api.interceptNewPageQueries();
   cy.clearLocalStorageSnapshot();
-  cy.visit(BASE_URL, {
+  cy.visit(url, {
     // next line defines English as default language for tests
     onBeforeLoad(win) {
       Object.defineProperty(win.navigator, 'languages', {
@@ -29,26 +24,18 @@ function login() {
     },
   });
   Login.getMicrosoftLoginButton().click();
-
   api.waitAlias(reqAuthAlias);
-  api.waitAlias(reqGetScenariosAlias, { timeout: 60 * 1000 });
-  api.waitAlias(reqGetDatasetsAlias, { timeout: 60 * 1000 });
-  api.waitAlias(reqGetWorkspaceAlias, { timeout: 60 * 1000 });
-  api.waitAlias(reqGetSolutionAlias, { timeout: 60 * 1000 });
-  api.waitAlias(reqPowerBIAlias);
+  api.waitNewPageQueries(newPageQueries);
   Scenarios.getScenarioViewTab(60).should('be.visible');
   cy.saveLocalStorage();
 }
 
-function relogin() {
+function relogin(url = BASE_URL) {
   Cypress.Cookies.preserveOnce('ai_session', 'ai_user');
   cy.restoreLocalStorage();
+  const newPageQueries = api.interceptNewPageQueries();
 
-  const reqGetScenariosAlias = api.interceptGetScenarios();
-  const reqGetDatasetsAlias = api.interceptGetDatasets();
-  const reqGetWorkspaceAlias = api.interceptGetWorkspace();
-  const reqGetSolutionAlias = api.interceptGetSolution();
-  cy.visit(BASE_URL, {
+  cy.visit(url, {
     // next line defines English as default language for tests
     onBeforeLoad(win) {
       Object.defineProperty(win.navigator, 'languages', {
@@ -56,10 +43,7 @@ function relogin() {
       });
     },
   });
-  api.waitAlias(reqGetScenariosAlias, { timeout: 60 * 1000 });
-  api.waitAlias(reqGetDatasetsAlias, { timeout: 60 * 1000 });
-  api.waitAlias(reqGetWorkspaceAlias, { timeout: 60 * 1000 });
-  api.waitAlias(reqGetSolutionAlias, { timeout: 60 * 1000 });
+  api.waitNewPageQueries(newPageQueries);
   Scenarios.getScenarioViewTab(60).should('be.visible');
 }
 

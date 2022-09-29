@@ -11,11 +11,8 @@ describe('check scenario sorted list after reload', () => {
     stub.start({
       GET_DATASETS: true,
       GET_SCENARIOS: true,
-      GET_SOLUTIONS: true,
-      GET_WORKSPACES: true,
     });
     stub.setScenarios(ALL_ROOT_SCENARIOS);
-    stub.setFakeWorkspaceId('W-stbbdbrwry');
     Login.login();
   });
 

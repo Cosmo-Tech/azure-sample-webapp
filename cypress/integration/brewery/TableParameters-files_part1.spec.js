@@ -2,32 +2,25 @@
 // Licensed under the MIT license.
 
 import 'cypress-file-upload';
-import utils from '../../commons/TestUtils';
-
-import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
-import { Downloads, Login, Scenarios, ScenarioManager, ScenarioParameters } from '../../commons/actions';
+import { Downloads, Login, Scenarios, ScenarioParameters } from '../../commons/actions';
 import { BreweryParameters } from '../../commons/actions/brewery';
+import { setup } from '../../commons/utils/setup';
+import { stub } from '../../commons/services/stubbing';
+import { DEFAULT_SCENARIOS_LIST } from '../../fixtures/stubbing/default';
 
-Cypress.Keyboard.defaults({
-  keystrokeDelay: 0,
-});
-
-const SCENARIO_DATASET = DATASET.BREWERY_ADT;
-const SCENARIO_RUN_TEMPLATE = RUN_TEMPLATE.BASIC_TYPES;
 const CSV_VALID_FILE_PATH_EMPTY = 'customers_empty.csv';
 const CSV_VALID_FILE_PATH_WITH_SPACES = 'customers_with_spaces.csv';
 const XLSX_VALID_FILE_PATH_EMPTY = 'customers_empty.xlsx';
 
 const COL_NAMES = ['name', 'age', 'canDrinkAlcohol', 'favoriteDrink', 'birthday', 'height'];
 
-function forgeScenarioName() {
-  const prefix = 'Scenario with table - ';
-  const randomString = utils.randomStr(7);
-  return prefix + randomString;
-}
-
 describe('Table parameters files standard operations part 1', () => {
   before(() => {
+    setup.initCypressAndStubbing();
+    stub.start({
+      GET_DATASETS: true,
+      GET_SCENARIOS: true,
+    });
     Login.login();
   });
 
@@ -35,17 +28,13 @@ describe('Table parameters files standard operations part 1', () => {
     Login.relogin();
   });
 
-  const scenarioNamesToDelete = [];
   after(() => {
     Downloads.clearDownloadsFolder();
-
-    ScenarioManager.deleteScenarioList(scenarioNamesToDelete);
+    stub.stop();
   });
 
   it('can open the customers scenario parameters tab, and export an empty grid', () => {
-    const scenarioName = forgeScenarioName();
-    scenarioNamesToDelete.push(scenarioName);
-    Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
+    Scenarios.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
     ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.getCustomersTable().should('be.visible');
@@ -59,6 +48,7 @@ describe('Table parameters files standard operations part 1', () => {
   });
 
   it('can import empty CSV & XLSX files and export the table afterwards', () => {
+    Scenarios.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
     const checkAndExport = () => {
       ScenarioParameters.expandParametersAccordion();
       BreweryParameters.getCustomersErrorsPanel().should('not.exist');
@@ -69,10 +59,6 @@ describe('Table parameters files standard operations part 1', () => {
       BreweryParameters.exportCustomersTableDataToCSV();
       Downloads.checkByContent('customers.csv', COL_NAMES.join());
     };
-
-    const scenarioName = forgeScenarioName();
-    scenarioNamesToDelete.push(scenarioName);
-    Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
     ScenarioParameters.edit();
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.getCustomersTableHeader().should('not.exist');
@@ -83,9 +69,7 @@ describe('Table parameters files standard operations part 1', () => {
   });
 
   it('can import a CSV file with spaces and boolean values to re-format', () => {
-    const scenarioName = forgeScenarioName();
-    scenarioNamesToDelete.push(scenarioName);
-    Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
+    Scenarios.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
     ScenarioParameters.edit();
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.importCustomersTableData(CSV_VALID_FILE_PATH_WITH_SPACES);

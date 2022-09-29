@@ -1,30 +1,29 @@
-import utils from '../../commons/TestUtils';
-import { Login, ScenarioManager, Scenarios } from '../../commons/actions';
-import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
-
-Cypress.Keyboard.defaults({
-  keystrokeDelay: 0,
-});
+import { Login, Scenarios } from '../../commons/actions';
+import { setup } from '../../commons/utils/setup';
+import { stub } from '../../commons/services/stubbing';
+import { DEFAULT_SCENARIOS_LIST } from '../../fixtures/stubbing/default';
+import { routeUtils as route } from '../../commons/utils';
 
 describe('Scenario sharing with a link', () => {
-  const scenarios = Array(3)
-    .fill('Test Cypress - Router - ' + utils.randomStr(7), 0)
-    .map((scenarioName, index) => scenarioName + ' - ' + index);
-  const scenariosIds = [];
   before(() => {
+    setup.initCypressAndStubbing();
+    stub.start({
+      GET_DATASETS: true,
+      GET_SCENARIOS: true,
+    });
     Login.login();
-    scenarios.map((scenario, index) =>
-      Scenarios.createScenario(scenario, true, DATASET.BREWERY_ADT, RUN_TEMPLATE.BREWERY_PARAMETERS).then((data) => {
-        scenariosIds[index] = data.scenarioCreatedId;
-      })
-    );
   });
+  beforeEach(() => {
+    Login.relogin();
+  });
+
   after(() => {
-    ScenarioManager.deleteScenarioList(scenarios);
+    stub.stop();
   });
   it('shares the scenario with a link', () => {
-    cy.visit(`/scenario/${scenariosIds[1]}`);
-    cy.url({ timeout: 2000 }).should('include', `/scenario/${scenariosIds[1]}`);
-    Scenarios.getScenarioSelectorInput().should('have.value', scenarios[1]);
+    Scenarios.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
+    route.browse(`/scenario/${DEFAULT_SCENARIOS_LIST[3].id}`);
+    cy.url({ timeout: 5000 }).should('include', `/scenario/${DEFAULT_SCENARIOS_LIST[3].id}`);
+    Scenarios.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[3].name);
   });
 });
