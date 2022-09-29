@@ -2,25 +2,27 @@
 // Licensed under the MIT license
 
 import {
+  DEFAULT_ORGANIZATION_PERMISSIONS,
   DEFAULT_SCENARIOS_LIST,
   DEFAULT_DATASETS_LIST,
   DEFAULT_WORKSPACE,
   DEFAULT_WORKSPACES_LIST,
   DEFAULT_SOLUTIONS_LIST,
-  SCENARIO_EXAMPLE,
+  SCENARIO_EXAMPLE
 } from '../../fixtures/stubbing/default';
 import utils from '../TestUtils';
 import { API_REGEX, LOCAL_WEBAPP_URL } from '../constants/generic/TestConstants';
 
 const STUB_TYPES = [
   'AUTHENTICATION',
+  'CREATE_AND_DELETE_SCENARIO',
   'GET_DATASETS', // Supports only initial datasets loading, doesn't work for files upload/download or table components
   'GET_SOLUTIONS',
   'GET_WORKSPACES',
   'GET_SCENARIOS',
-  'CREATE_AND_DELETE_SCENARIO',
-  'UPDATE_SCENARIO',
   'LAUNCH_SCENARIO', // Not supported yet for stubbing
+  'PERMISSIONS_MAPPING',
+  'UPDATE_SCENARIO'
 ];
 
 // Fake API data makes us able to stub the received workspace data while still using a real workspace for back-end calls
@@ -28,9 +30,12 @@ const STUB_TYPES = [
 //    GET_WORKSPACES is true)
 //  - fakeWorkspaceId can be set from the Cypress tests with stub.setFakeWorkspaceId( ... ) to stub all calls to
 //    getWorkspaceById and use mock data instead of the data of the actual workspace
+//  - organizationPermissions define the roles/permissions mapping currently returned by an endpoint at the organization
+//    level
 const DEFAULT_API_DATA = {
   actualWorkspaceId: null,
   fakeWorkspaceId: null,
+  organizationPermissions: DEFAULT_ORGANIZATION_PERMISSIONS
 };
 
 // Fake authentication data makes us able to stub the webapp user identity while still using the token of the user
@@ -46,7 +51,7 @@ const DEFAULT_AUTH_DATA = {
   actualAccessToken: null,
   actualUser: null,
   fakeUser: null,
-  fakeRoles: null,
+  fakeRoles: null
 };
 
 // Fake resources data allows us to stub CRUD operations on different types of resources such as datasets, scenarios,
@@ -56,7 +61,7 @@ const DEFAULT_RESOURCES_DATA = {
   scenarioRuns: [],
   scenarios: DEFAULT_SCENARIOS_LIST,
   solutions: DEFAULT_SOLUTIONS_LIST,
-  workspaces: DEFAULT_WORKSPACES_LIST,
+  workspaces: DEFAULT_WORKSPACES_LIST
 };
 
 export const isStubTypeValid = (stubType) => {
@@ -85,7 +90,7 @@ class Stubbing {
   start = (enabledStubs) => {
     const stubAll = enabledStubs == null;
     // Check provided stub types
-    Object.keys(enabledStubs).forEach((stubType) => assertStubTypeIsValid(stubType));
+    Object.keys(enabledStubs ?? {}).forEach((stubType) => assertStubTypeIsValid(stubType));
     // Enable stubs individually based on parameters
     STUB_TYPES.forEach((stubType) => {
       this.enabledStubs[stubType] = stubAll || enabledStubs[stubType] || false;
@@ -117,7 +122,7 @@ class Stubbing {
     if (resourceIndex !== -1)
       this.resources[resourceType][resourceIndex] = {
         ...this.resources[resourceType][resourceIndex],
-        ...resourcePatch,
+        ...resourcePatch
       };
   };
   _getResourceById = (resourceType, resourceId) => {
@@ -143,10 +148,17 @@ class Stubbing {
   setFakeRoles = (roles) => (this.auth.fakeRoles = roles);
   getFakeRoles = () => this.auth.fakeRoles;
 
+  getUser = () =>
+    this.isEnabledFor('AUTHENTICATION') && this.getFakeUser() != null
+      ? this.getFakeUser()
+      : this.getAuthenticatedUser();
+
   setActualWorkspaceId = (workspaceId) => (this.api.actualWorkspaceId = workspaceId);
   getActualWorkspaceId = () => this.api.actualWorkspaceId;
   setFakeWorkspaceId = (workspaceId) => (this.api.actualWorkspaceId = workspaceId);
   getFakeWorkspaceId = () => this.api.actualWorkspaceId;
+  setOrganizationPermissions = (newMapping) => (this.api.organizationPermissions = newMapping);
+  getOrganizationPermissions = () => this.api.organizationPermissions;
 
   getScenarios = () => this._getResources('scenarios');
   setScenarios = (newScenarios) => this._setResources('scenarios', newScenarios);
@@ -154,6 +166,28 @@ class Stubbing {
   patchScenario = (scenarioId, scenarioPatch) => this._patchResourceById('scenarios', scenarioId, scenarioPatch);
   getScenarioById = (scenarioId) => this._getResourceById('scenarios', scenarioId);
   deleteScenarioByName = (scenarioName) => this._deleteResourceByName('scenarios', scenarioName);
+
+  patchScenarioDefaultSecurity = (scenarioId, newDefaultSecurity) => {
+    const scenario = this.getScenarioById(scenarioId);
+    const newScenarioSecurity = {
+      security: {
+        default: newDefaultSecurity,
+        accessControlList: scenario.security.accessControlList
+      }
+    };
+    patchScenario(scenarioId, newScenarioSecurity);
+  };
+
+  patchScenarioACLSecurity = (scenarioId, newACLSecurity) => {
+    const scenario = this.getScenarioById(scenarioId);
+    const newScenarioSecurity = {
+      security: {
+        default: scenario.security.default,
+        accessControlList: newACLSecurity
+      }
+    };
+    patchScenario(scenarioId, newScenarioSecurity);
+  };
 
   getDatasets = () => this._getResources('datasets');
   setDatasets = (newDatasets) => this._setResources('datasets', newDatasets);
