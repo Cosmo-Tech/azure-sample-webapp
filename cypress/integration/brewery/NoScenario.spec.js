@@ -5,11 +5,9 @@ import utils from '../../commons/TestUtils';
 import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
 import { Scenarios, ScenarioManager, Login, ScenarioSelector } from '../../commons/actions';
 import { stub } from '../../commons/services/stubbing';
-import { setup } from '../../commons/utils/setup';
 
 describe('If there are no scenarios created yet', () => {
   before(() => {
-    setup.initCypressAndStubbing();
     stub.start({
       CREATE_AND_DELETE_SCENARIO: true,
       GET_DATASETS: true,

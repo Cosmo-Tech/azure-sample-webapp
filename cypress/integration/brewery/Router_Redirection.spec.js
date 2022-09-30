@@ -1,12 +1,10 @@
 import { PAGE_NAME } from '../../commons/constants/generic/TestConstants';
 import { Login, ScenarioManager, Scenarios, ScenarioSelector } from '../../commons/actions';
-import { setup } from '../../commons/utils/setup';
 import { stub } from '../../commons/services/stubbing';
 import { DEFAULT_SCENARIOS_LIST } from '../../fixtures/stubbing/default';
 
 describe('Redirects to right page', () => {
   before(() => {
-    setup.initCypressAndStubbing();
     stub.start({
       GET_DATASETS: true,
       GET_SCENARIOS: true,

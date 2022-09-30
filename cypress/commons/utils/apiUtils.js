@@ -15,7 +15,7 @@ const forgeAlias = (prefix) => {
 };
 
 const waitAlias = (alias, options) => {
-  return cy.wait('@' + alias, options);
+  if (alias) return cy.wait('@' + alias, options);
 };
 
 const waitAliases = (aliases, options) => {

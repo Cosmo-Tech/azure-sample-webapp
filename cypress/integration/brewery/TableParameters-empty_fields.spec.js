@@ -4,7 +4,6 @@
 import { Downloads, ScenarioSelector, ScenarioParameters } from '../../commons/actions';
 import { BreweryParameters, Login } from '../../commons/actions/brewery';
 import { EXPECTED_CUSTOMERS_AFTER_IMPORT_WITH_EMPTY_FIELDS } from '../../fixtures/TableParametersData';
-import { setup } from '../../commons/utils/setup';
 import { stub } from '../../commons/services/stubbing';
 import { DEFAULT_SCENARIOS_LIST } from '../../fixtures/stubbing/default';
 
@@ -13,7 +12,6 @@ const XLSX_INVALID_EMPTY_FIELDS = 'customers_empty_unauthorized_fields.xlsx';
 
 describe('Table parameters upload of valid and invalid files with empty fields', () => {
   before(() => {
-    setup.initCypressAndStubbing();
     stub.start({
       GET_DATASETS: true,
       GET_SCENARIOS: true,

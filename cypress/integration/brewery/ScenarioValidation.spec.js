@@ -5,14 +5,12 @@ import utils from '../../commons/TestUtils';
 import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
 import { Scenarios, ScenarioManager, ScenarioParameters, ScenarioSelector, Login } from '../../commons/actions';
 import { stub } from '../../commons/services/stubbing';
-import { setup } from '../../commons/utils/setup';
 
 const SCENARIO_DATASET = DATASET.BREWERY_ADT;
 const SCENARIO_RUN_TEMPLATE = RUN_TEMPLATE.BASIC_TYPES;
 
 describe('Scenario validation', () => {
   before(() => {
-    setup.initCypressAndStubbing();
     stub.start({
       AUTHENTICATION: true,
       CREATE_AND_DELETE_SCENARIO: true,

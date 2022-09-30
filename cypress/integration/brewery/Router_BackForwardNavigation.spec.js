@@ -1,4 +1,3 @@
-import { setup } from '../../commons/utils/setup';
 import { stub } from '../../commons/services/stubbing';
 import {
   InstanceVisualization,
@@ -13,7 +12,6 @@ import { routeUtils as route } from '../../commons/utils';
 
 describe('Back and forward navigation between tabs, scenarios and workspaces', () => {
   before(() => {
-    setup.initCypressAndStubbing();
     stub.start({
       GET_DATASETS: true,
       GET_SCENARIOS: true,

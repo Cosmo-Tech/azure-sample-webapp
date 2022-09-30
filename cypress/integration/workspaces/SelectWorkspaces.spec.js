@@ -3,11 +3,9 @@
 import { Login, Workspaces, Scenarios } from '../../commons/actions';
 import { DEFAULT_WORKSPACES_LIST, EXTENDED_WORKSPACES_LIST } from '../../fixtures/stubbing/default';
 import { stub } from '../../commons/services/stubbing';
-import { setup } from '../../commons/utils/setup';
 
 describe('Check workspaces features', () => {
   before(() => {
-    setup.initCypressAndStubbing();
     stub.setWorkspaces(EXTENDED_WORKSPACES_LIST);
     stub.start();
   });

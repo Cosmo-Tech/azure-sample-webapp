@@ -1,11 +1,9 @@
 import { Login, Scenarios, ScenarioParameters } from '../../commons/actions';
 import { DEFAULT_SCENARIOS_LIST, USER_EXAMPLE } from '../../fixtures/stubbing/default';
 import { stub } from '../../commons/services/stubbing';
-import { setup } from '../../commons/utils/setup';
 
 describe('check accessible features for Organization.Modeler application role as workspace admin', () => {
   before(() => {
-    setup.initCypressAndStubbing();
     stub.start({
       AUTHENTICATION: true,
       GET_SCENARIOS: true,
@@ -39,7 +37,6 @@ describe('check accessible features for Organization.Modeler application role as
 
 describe('check accessible features for Organization.Viewer application role as workspace admin', () => {
   before(() => {
-    setup.initCypressAndStubbing();
     stub.start({
       AUTHENTICATION: true,
       GET_SCENARIOS: true,

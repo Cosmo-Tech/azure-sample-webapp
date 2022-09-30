@@ -4,7 +4,6 @@
 import { Login, Scenarios, ScenarioParameters, ScenarioManager, ScenarioSelector } from '../../commons/actions';
 import { RolesEdition } from '../../commons/actions/generic/RolesEdition';
 import { stub } from '../../commons/services/stubbing';
-import { setup } from '../../commons/utils/setup';
 import { USER_EXAMPLE, USERS_LIST } from '../../fixtures/stubbing/default';
 import {
   UNSHARED_SCENARIOS_LIST,
@@ -27,7 +26,6 @@ describe('Check workspace permissions for admin', () => {
   let stubbingResourcesArrayIndex = 0;
 
   before(() => {
-    setup.initCypressAndStubbing();
     stub.start();
   });
 
@@ -195,7 +193,6 @@ describe('Check workspace permissions for admin', () => {
 
 describe('Check scenario tree when root scenarios are not shared with user', () => {
   before(() => {
-    setup.initCypressAndStubbing();
     stub.start();
   });
 

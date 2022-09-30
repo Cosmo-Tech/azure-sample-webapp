@@ -1,10 +1,8 @@
 import { ErrorBanner, Login, Workspaces } from '../../commons/actions';
-import { setup } from '../../commons/utils/setup';
 import { stub } from '../../commons/services/stubbing';
 
 describe('Sharing with wrong URL', () => {
   before(() => {
-    setup.initCypressAndStubbing();
     stub.start({
       GET_DATASETS: true,
       GET_SCENARIOS: true,

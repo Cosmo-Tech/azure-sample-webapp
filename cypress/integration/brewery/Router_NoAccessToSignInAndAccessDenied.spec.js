@@ -1,11 +1,9 @@
-import { setup } from '../../commons/utils/setup';
 import { stub } from '../../commons/services/stubbing';
 import { Login, Scenarios } from '../../commons/actions';
 import { routeUtils as route } from '../../commons/utils';
 
 describe("User doesn't access SignIn and AccessDenied pages if authenticated or authorized", () => {
   before(() => {
-    setup.initCypressAndStubbing();
     stub.start({
       GET_DATASETS: true,
       GET_SCENARIOS: true,
