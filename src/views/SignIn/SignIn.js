@@ -4,7 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Trans, useTranslation } from 'react-i18next';
-import { Auth, AuthDev } from '@cosmotech/core';
+import { AuthDev } from '@cosmotech/core';
 import { AuthMSAL } from '@cosmotech/azure';
 import { Grid, Button, Typography, Box, Select, MenuItem } from '@mui/material';
 import { SignInButton } from '@cosmotech/ui';
@@ -22,7 +22,6 @@ const SignIn = ({ logInAction, auth }) => {
   if (providedUrlBeforeSignIn) sessionStorage.setItem('providedUrlBeforeSignIn', providedUrlBeforeSignIn);
   const handleSignIn = (event, authProvider) => {
     event.preventDefault();
-    Auth.setProvider(authProvider);
     logInAction(authProvider);
   };
   const year = new Date().getFullYear();
