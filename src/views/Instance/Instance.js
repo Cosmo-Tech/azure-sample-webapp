@@ -94,12 +94,49 @@ const Instance = (props) => {
       zoomLimits: t('commoncomponents.cytoviz.settings.zoomLimits', 'Min & max zoom'),
       open: t('commoncomponents.cytoviz.settings.opensettings', 'Open settings'),
       close: t('commoncomponents.cytoviz.settings.closesettings', 'Close settings'),
+      showStats: t('commoncomponents.cytoviz.settings.showStats', 'Cytoscape statistics'),
     },
     elementData: {
       dictKey: t('commoncomponents.cytoviz.elementData.dictKey', 'Key'),
       dictValue: t('commoncomponents.cytoviz.elementData.dictValue', 'Value'),
       noData: t('commoncomponents.cytoviz.elementData.noData', 'No data to display for this element.'),
       attributes: {},
+    },
+    accordion: {
+      nodeDetails: t('commoncomponents.cytoviz.accordion.nodeDetails', 'Node details'),
+      findNode: {
+        headline: t('commoncomponents.cytoviz.accordion.findNode.headline', 'Find a node'),
+        searchByID: t('commoncomponents.cytoviz.accordion.findNode.searchByID', 'Search by ID'),
+      },
+      exploreGraph: {
+        headline: t('commoncomponents.cytoviz.accordion.exploreGraph.headline', 'Explore a subgraph'),
+        startingNodes: t(
+          'commoncomponents.cytoviz.accordion.exploreGraph.startingNodes',
+          'Select the starting node(s)'
+        ),
+        startingNodesError: t(
+          'commoncomponents.cytoviz.accordion.exploreGraph.startingNodesError',
+          'Select at least one node'
+        ),
+        limitDepth: t('commoncomponents.cytoviz.accordion.exploreGraph.limitDepth', 'Limit the search depth'),
+        limitDepthError: t(
+          'commoncomponents.cytoviz.accordion.exploreGraph.limitDepthError',
+          'Enter a positive integer'
+        ),
+        flowDirection: t('commoncomponents.cytoviz.accordion.exploreGraph.flowDirection', 'Choose the flow direction'),
+        flowDirectionError: t(
+          'commoncomponents.cytoviz.accordion.exploreGraph.flowDirectionError',
+          'Select at least one'
+        ),
+        inEdges: t('commoncomponents.cytoviz.accordion.exploreGraph.inEdges', 'IN-Edges'),
+        outEdges: t('commoncomponents.cytoviz.accordion.exploreGraph.outEdges', 'OUT-Edges'),
+        excludeEdges: t('commoncomponents.cytoviz.accordion.exploreGraph.excludeEdges', 'Exclude relation types'),
+        compoundNeighbors: t(
+          'commoncomponents.cytoviz.accordion.exploreGraph.compoundNeighbors',
+          'Include the other entities of a compound'
+        ),
+        launch: t('commoncomponents.cytoviz.accordion.exploreGraph.launch', 'Explore'),
+      },
     },
     errorBanner: {
       dismissButtonText: t('commoncomponents.banner.button.dismiss', 'Dismiss'),
@@ -134,7 +171,6 @@ const Instance = (props) => {
       'An error occured, cannot visualize data.'
     );
   }
-
   return (
     <>
       <div className={classes.mainGrid}>

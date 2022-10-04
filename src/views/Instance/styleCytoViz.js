@@ -25,12 +25,20 @@ export const getDefaultSelectedEdgeStyle = (theme) => ({
   ...getDefaultEdgeStyle(theme),
   width: EDGE_SELECTED_WIDTH,
   'line-color': EDGE_SELECTED_COLOR,
+  'target-arrow-color': EDGE_SELECTED_COLOR,
+  'target-arrow-shape': 'triangle',
 });
-export const getDefaultOutEdgeStyle = (theme) => ({
+export const getDefaultInEdgeStyle = (theme) => ({
   ...getDefaultEdgeStyle(theme),
   width: EDGE_SELECTED_WIDTH,
   'line-color': EDGE_SELECTED_COLOR,
   'line-style': 'dashed',
+  'target-arrow-color': EDGE_SELECTED_COLOR,
+  'target-arrow-shape': 'triangle',
+});
+export const getDefaultHiddenStyle = (theme) => ({
+  visibility: 'hidden',
+  opacity: 1,
 });
 
 export const getDefaultNodeStyle = (theme) => ({

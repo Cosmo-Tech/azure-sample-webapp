@@ -102,7 +102,8 @@
         "spacingFactor": "Spacing factor",
         "zoomLimits": "Min & max zoom",
         "opensettings": "Open settings",
-        "closesettings": "Close settings"
+        "closesettings": "Close settings",
+        "showStats": "Cytoscape statistics"
       },
       "elementData": {
         "dictKey": "Key",
@@ -110,6 +111,27 @@
         "noData": "No data to display for this element.",
         "attributes": {
           "PlantName": "Plant"
+        }
+      },
+      "accordion": {
+        "nodeDetails": "Node details",
+        "findNode": {
+          "headline": "Find a node",
+          "searchByID": "Search by ID"
+        },
+        "exploreGraph": {
+          "headline": "Explore a subgraph",
+          "startingNodes": "Select the starting node(s)",
+          "startingNodesError": "Select at least one node",
+          "limitDepth": "Limit the search depth",
+          "limitDepthError": "Enter a positive integer",
+          "flowDirection": "Choose the flow direction",
+          "flowDirectionError": "Select at least one",
+          "inEdges": "IN-Edges",
+          "outEdges": "OUT-Edges",
+          "excludeEdges": "Exclude relation types",
+          "compoundNeighbors": "Include the other entities of a compound",
+          "launch": "Explore"
         }
       },
       "placeholder": {
