@@ -45,7 +45,11 @@ export const scenarioListReducer = createReducer(scenarioListInitialState, (buil
       state.data = state.data.map((scenarioData) => {
         if (scenarioData.id === action.scenarioId) {
           const scenarioWithNewSecurity = { ...scenarioData, security: action.security };
-          ScenariosUtils.patchScenarioWithUserPermissions(scenarioWithNewSecurity, action.userEmail, action.userId);
+          ScenariosUtils.patchScenarioWithCurrentUserPermissions(
+            scenarioWithNewSecurity,
+            action.userEmail,
+            action.userId
+          );
           return { ...scenarioData, security: scenarioWithNewSecurity.security };
         }
         return scenarioData;
@@ -106,7 +110,11 @@ export const currentScenarioReducer = createReducer(currentScenarioInitialState,
     .addCase(SCENARIO_ACTIONS_KEY.SET_SCENARIO_SECURITY, (state, action) => {
       if (state.data.id === action.scenarioId) {
         const scenarioWithNewSecurity = { ...state.data, security: action.security };
-        ScenariosUtils.patchScenarioWithUserPermissions(scenarioWithNewSecurity, action.userEmail, action.userId);
+        ScenariosUtils.patchScenarioWithCurrentUserPermissions(
+          scenarioWithNewSecurity,
+          action.userEmail,
+          action.userId
+        );
         state.data = {
           ...state.data,
           security: scenarioWithNewSecurity.security,

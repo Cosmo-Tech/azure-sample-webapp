@@ -8,7 +8,7 @@ import { Fade, Grid, IconButton, Tooltip } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import { useTranslation } from 'react-i18next';
-import { ACL_PERMISSIONS, APP_PERMISSIONS } from '../../../services/config/accessControl';
+import { ACL_PERMISSIONS } from '../../../services/config/accessControl';
 import { PermissionsGate } from '@cosmotech/ui';
 
 const NormalModeButton = ({
@@ -50,16 +50,14 @@ const NormalModeButton = ({
     <Grid container spacing={1} alignItems="center">
       <PermissionsGate
         userPermissions={userAppAndScenarioPermissions}
-        necessaryPermissions={[ACL_PERMISSIONS.SCENARIO.EDIT_PARAMETERS, APP_PERMISSIONS.SCENARIO.EDIT_PARAMETERS]}
-        sufficientPermissions={[APP_PERMISSIONS.ADMIN]}
+        necessaryPermissions={[ACL_PERMISSIONS.SCENARIO.EDIT_PARAMETERS]}
       >
         <Grid item>{editButtonTooltipWrapper}</Grid>
       </PermissionsGate>
       <Grid item>
         <PermissionsGate
           userPermissions={userAppAndScenarioPermissions}
-          necessaryPermissions={[ACL_PERMISSIONS.SCENARIO.LAUNCH, APP_PERMISSIONS.SCENARIO.LAUNCH]}
-          sufficientPermissions={[APP_PERMISSIONS.ADMIN]}
+          necessaryPermissions={[ACL_PERMISSIONS.SCENARIO.LAUNCH]}
         >
           <Tooltip
             TransitionComponent={Fade}

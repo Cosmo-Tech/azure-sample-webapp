@@ -41,10 +41,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function _buildScenarioTabList(tabs, userRoles, classes, t) {
+function _buildScenarioTabList(tabs, userRole, classes, t) {
   const tabListComponent = [];
   for (const groupMetadata of tabs) {
-    const lockedTab = !hasRequiredProfile(userRoles, groupMetadata.authorizedRoles);
+    // FIXME Keep authorizedRoles ?
+    const lockedTab = !hasRequiredProfile([userRole], groupMetadata.authorizedRoles);
     const lockIcon = lockedTab ? <LockIcon /> : undefined;
     if (!lockedTab || !groupMetadata.hideParameterGroupIfNoPermission) {
       tabListComponent.push(
@@ -62,11 +63,11 @@ function _buildScenarioTabList(tabs, userRoles, classes, t) {
   return tabListComponent;
 }
 
-function _buildTabPanels(userRoles, tabs, classes) {
+function _buildTabPanels(userRole, tabs, classes) {
   const tabPanelComponents = [];
   for (let index = 0; index < tabs.length; index++) {
     const groupMetadata = tabs[index];
-    const lockedTab = !hasRequiredProfile(userRoles, groupMetadata.authorizedRoles);
+    const lockedTab = !hasRequiredProfile([userRole], groupMetadata.authorizedRoles);
     if (!lockedTab || !groupMetadata.hideParameterGroupIfNoPermission) {
       tabPanelComponents.push(
         <TabPanel index={index} key={groupMetadata.id} value={groupMetadata.id} className={classes.tabPanel}>
@@ -88,11 +89,11 @@ const hasRequiredProfile = (userProfiles, requiredProfiles) => {
   return requiredProfiles.some((profile) => userProfiles.includes(profile));
 };
 
-function chooseParametersTab(parametersGroupsMetadata, userRoles) {
+function chooseParametersTab(parametersGroupsMetadata, userRole) {
   const selectedTabId = '';
   for (const groupMetadata of parametersGroupsMetadata) {
     if (selectedTabId === '') {
-      const canViewTab = hasRequiredProfile(userRoles, groupMetadata.authorizedRoles);
+      const canViewTab = hasRequiredProfile([userRole], groupMetadata.authorizedRoles);
       if (canViewTab || !groupMetadata.hideParameterGroupIfNoPermission) {
         return groupMetadata?.id;
       }
@@ -101,11 +102,11 @@ function chooseParametersTab(parametersGroupsMetadata, userRoles) {
   return selectedTabId;
 }
 
-const ScenarioParametersTabs = ({ parametersGroupsMetadata, userRoles }) => {
+const ScenarioParametersTabs = ({ parametersGroupsMetadata, userRole }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const [tabs, setTabs] = useState(parametersGroupsMetadata);
-  const firstTab = chooseParametersTab(parametersGroupsMetadata, userRoles);
+  const firstTab = chooseParametersTab(parametersGroupsMetadata, userRole);
   const [selectedTab, setSelectedTab] = useState(firstTab);
 
   // Reset selected tab on scenario change
@@ -135,9 +136,9 @@ const ScenarioParametersTabs = ({ parametersGroupsMetadata, userRoles }) => {
             }}
             aria-label="scenario parameters"
           >
-            {_buildScenarioTabList(tabs, userRoles, classes, t)}
+            {_buildScenarioTabList(tabs, userRole, classes, t)}
           </TabList>
-          {_buildTabPanels(userRoles, tabs, classes)}
+          {_buildTabPanels(userRole, tabs, classes)}
         </TabContext>
       )}
     </div>
@@ -146,7 +147,7 @@ const ScenarioParametersTabs = ({ parametersGroupsMetadata, userRoles }) => {
 
 ScenarioParametersTabs.propTypes = {
   parametersGroupsMetadata: PropTypes.array.isRequired,
-  userRoles: PropTypes.array.isRequired,
+  userRole: PropTypes.string.isRequired,
 };
 
 export default ScenarioParametersTabs;

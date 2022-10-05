@@ -251,6 +251,7 @@ const _generateParametersGroupMetadata = (groupId, solution, config) => {
     id: groupId,
     labels: parametersGroup.labels,
     parameters: _generateParametersMetadataForGroup(parametersGroup, solution, config),
+    // FIXME Keep authorizedRoles ?
     authorizedRoles: parametersGroup.authorizedRoles || [],
     hideParameterGroupIfNoPermission: hideParameterGroupIfNoPermission,
   };

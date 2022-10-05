@@ -10,7 +10,7 @@ import { makeStyles } from '@material-ui/core';
 import { ScenarioManagerTreeList } from '@cosmotech/ui';
 import { WORKSPACE_ID } from '../../config/GlobalConfiguration';
 import { useTranslation } from 'react-i18next';
-import { APP_PERMISSIONS, ACL_PERMISSIONS } from '../../services/config/accessControl';
+import { ACL_PERMISSIONS } from '../../services/config/accessControl';
 import { getFirstScenarioMaster } from '../../utils/SortScenarioListUtils';
 import { getScenarioManagerLabels } from './labels';
 
@@ -128,21 +128,13 @@ const ScenarioManager = (props) => {
   const canUserDeleteScenario = (scenario) => {
     const userPermissionsOnCurrentScenario = scenario?.security?.currentUserPermissions || [];
     const userAppAndScenarioPermissions = userAppPermissions.concat(userPermissionsOnCurrentScenario);
-    return (
-      userAppAndScenarioPermissions.includes(APP_PERMISSIONS.ADMIN) || // App admin
-      (userAppAndScenarioPermissions.includes(APP_PERMISSIONS.SCENARIO.DELETE) && // App permission to delete scenarios
-        userAppAndScenarioPermissions.includes(ACL_PERMISSIONS.SCENARIO.DELETE)) // ACL permission to delete scenarios
-    );
+    return userAppAndScenarioPermissions.includes(ACL_PERMISSIONS.SCENARIO.DELETE);
   };
 
   const canUserRenameScenario = (scenario) => {
     const userPermissionsOnCurrentScenario = scenario?.security?.currentUserPermissions || [];
     const userAppAndScenarioPermissions = userAppPermissions.concat(userPermissionsOnCurrentScenario);
-    return (
-      userAppAndScenarioPermissions.includes(APP_PERMISSIONS.ADMIN) || // App admin
-      (userAppAndScenarioPermissions.includes(APP_PERMISSIONS.SCENARIO.RENAME) && // App permission to delete scenarios
-        userAppAndScenarioPermissions.includes(ACL_PERMISSIONS.SCENARIO.RENAME)) // ACL permission to delete scenarios
-    );
+    return userAppAndScenarioPermissions.includes(ACL_PERMISSIONS.SCENARIO.RENAME);
   };
 
   return (

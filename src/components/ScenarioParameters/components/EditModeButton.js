@@ -8,7 +8,7 @@ import { Fade, Grid, IconButton, Tooltip } from '@material-ui/core';
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import BackspaceIcon from '@material-ui/icons/Backspace';
 import { useTranslation } from 'react-i18next';
-import { ACL_PERMISSIONS, APP_PERMISSIONS } from '../../../services/config/accessControl';
+import { ACL_PERMISSIONS } from '../../../services/config/accessControl';
 import { PermissionsGate } from '@cosmotech/ui';
 
 const EditModeButton = ({ classes, handleClickOnDiscardChange, handleClickOnUpdateAndLaunchScenario }) => {
@@ -21,8 +21,7 @@ const EditModeButton = ({ classes, handleClickOnDiscardChange, handleClickOnUpda
   return (
     <PermissionsGate
       userPermissions={userAppAndScenarioPermissions}
-      necessaryPermissions={[ACL_PERMISSIONS.SCENARIO.EDIT_PARAMETERS, APP_PERMISSIONS.SCENARIO.EDIT_PARAMETERS]}
-      sufficientPermissions={[APP_PERMISSIONS.ADMIN]}
+      necessaryPermissions={[ACL_PERMISSIONS.SCENARIO.EDIT_PARAMETERS]}
     >
       <Grid container spacing={1}>
         <Grid item>

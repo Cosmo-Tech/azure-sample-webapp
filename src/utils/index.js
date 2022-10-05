@@ -7,3 +7,4 @@ export { TranslationUtils } from './TranslationUtils';
 export { SolutionsUtils } from './SolutionsUtils';
 export { ScenariosUtils } from './ScenariosUtils';
 export { ScenarioParametersUtils } from './scenarioParameters/ScenarioParametersUtils';
+export { SecurityUtils } from './SecurityUtils';

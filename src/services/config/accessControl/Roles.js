@@ -1,6 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
+// FIXME roles should be sent by the back-end
+
 export const APP_ROLES = {
   ORGANIZATION: {
     ADMIN: 'Organization.Admin',

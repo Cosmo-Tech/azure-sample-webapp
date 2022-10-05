@@ -5,6 +5,9 @@ import React, { cloneElement } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
+// DEPRECATED ! The component PermissionsGate is deprecated and will be removed in a future update. Please consider
+// using the component PermissionsGate from the @cosmotech/ui package instead
+
 let hasDeprecatedWarningBeenShown = false;
 
 const hasPermission = (userPermissions, requiredPermissions) => {

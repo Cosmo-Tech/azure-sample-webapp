@@ -24,6 +24,7 @@ export const useCurrentScenario = () => {
 
 export const useSetScenarioSecurity = () => {
   const dispatch = useDispatch();
+  // TODO: use auth hook to get user id & email
   return useCallback(
     (scenarioId, security, userEmail, userId) =>
       dispatch(dispatchSetScenarioSecurity(scenarioId, security, userEmail, userId)),

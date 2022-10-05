@@ -14,7 +14,7 @@ const ScenarioParametersTabsWrapper = ({
   parametersGroupsMetadata,
   parametersValuesToRender,
   setParametersValuesToRender,
-  userRoles,
+  userRole,
   context,
 }) => {
   const { t } = useTranslation();
@@ -47,11 +47,11 @@ const ScenarioParametersTabsWrapper = ({
       );
     }
   }
-  return <ScenarioParametersTabs userRoles={userRoles} parametersGroupsMetadata={parametersGroupsMetadata} />;
+  return <ScenarioParametersTabs userRole={userRole} parametersGroupsMetadata={parametersGroupsMetadata} />;
 };
 ScenarioParametersTabsWrapper.propTypes = {
   parametersGroupsMetadata: PropTypes.array.isRequired,
-  userRoles: PropTypes.array.isRequired,
+  userRole: PropTypes.string.isRequired,
   parametersValuesToRender: PropTypes.object.isRequired,
   setParametersValuesToRender: PropTypes.func.isRequired,
   context: PropTypes.object.isRequired,

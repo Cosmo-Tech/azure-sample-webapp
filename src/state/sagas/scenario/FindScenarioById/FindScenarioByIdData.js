@@ -19,36 +19,31 @@ const getUserId = (state) => state.auth.userId;
 
 // TODO: Remove hard-coded values before merging branch
 // vvvvvvvvv CODE TO REMOVE vvvvvvvvvvvvvvvv
-const USERS_EMAILS = [
-  'alice@somecompany.com',
-  'bob@somecompany.com',
-  'tristan.huet@cosmotech.com',
-  'elena.sasova@cosmotech.com',
-];
-const FAKE_SECURITY_DATA_EMPTY = { default: [], accessControlList: [] };
+const USERS_EMAILS = ['alice@example.com', 'bob@example.com'];
+const FAKE_SECURITY_DATA_EMPTY = { default: null, accessControlList: [] };
 const FAKE_SECURITY_DATA_DEFAULT_READ_ONLY = {
-  default: [ACL_ROLES.SCENARIO.READER],
+  default: ACL_ROLES.SCENARIO.READER,
   accessControlList: [],
 };
 const FAKE_SECURITY_DATA_SPECIFIC_WRITERS = {
-  default: [ACL_ROLES.SCENARIO.READER],
+  default: ACL_ROLES.SCENARIO.READER,
   accessControlList: USERS_EMAILS.map((email) => ({
     id: email,
-    roles: [ACL_ROLES.SCENARIO.WRITER],
+    role: ACL_ROLES.SCENARIO.WRITER,
   })),
 };
 const FAKE_SECURITY_DATA_SPECIFIC_VALIDATORS = {
-  default: [ACL_ROLES.SCENARIO.READER],
+  default: ACL_ROLES.SCENARIO.READER,
   accessControlList: USERS_EMAILS.map((email) => ({
     id: email,
-    roles: [ACL_ROLES.SCENARIO.VALIDATOR],
+    role: ACL_ROLES.SCENARIO.VALIDATOR,
   })),
 };
 const FAKE_SECURITY_DATA_SPECIFIC_ADMINS = {
-  default: [ACL_ROLES.SCENARIO.READER],
+  default: ACL_ROLES.SCENARIO.READER,
   accessControlList: USERS_EMAILS.map((email) => ({
     id: email,
-    roles: [ACL_ROLES.SCENARIO.ADMIN],
+    role: ACL_ROLES.SCENARIO.ADMIN,
   })),
 };
 const FAKE_SECURITY_DATA_ARRAY = [
@@ -80,7 +75,7 @@ export function* fetchScenarioByIdData(action) {
     const { data } = yield call(Api.Scenarios.findScenarioById, ORGANIZATION_ID, action.workspaceId, action.scenarioId);
     data.parametersValues = formatParametersFromApi(data.parametersValues);
     devPatchScenarioWithFakeSecurityData(data);
-    ScenariosUtils.patchScenarioWithUserPermissions(data, userEmail, userId);
+    ScenariosUtils.patchScenarioWithCurrentUserPermissions(data, userEmail, userId);
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_SCENARIO_VALIDATION_STATUS,
       status: STATUSES.SUCCESS,

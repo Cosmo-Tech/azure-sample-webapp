@@ -61,7 +61,7 @@ const ScenarioParameters = ({
   solution,
   datasets,
   scenarioId,
-  userRoles,
+  userRole,
   isDarkTheme,
 }) => {
   const classes = useStyles();
@@ -342,7 +342,7 @@ const ScenarioParameters = ({
                   parametersGroupsMetadata={parametersGroupsMetadata}
                   parametersValuesToRender={parametersValuesToRender}
                   setParametersValuesToRender={setParametersValuesToRender}
-                  userRoles={userRoles}
+                  userRole={userRole}
                   context={context}
                 />
               </form>
@@ -396,7 +396,7 @@ ScenarioParameters.propTypes = {
   solution: PropTypes.object.isRequired,
   datasets: PropTypes.array.isRequired,
   currentScenario: PropTypes.object.isRequired,
-  userRoles: PropTypes.array.isRequired,
+  userRole: PropTypes.string.isRequired,
   isDarkTheme: PropTypes.bool.isRequired,
 };
 

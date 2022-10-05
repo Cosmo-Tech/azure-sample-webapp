@@ -158,6 +158,7 @@ describe('generateParametersGroupsMetadata with missing data in solution', () =>
         fr: 'GroupA FR label',
       },
       parameters: [],
+      // FIXME Keep authorizedRoles ?
       authorizedRoles: [],
       hideParameterGroupIfNoPermission: false,
     },
@@ -213,6 +214,7 @@ describe('generateParametersGroupsMetadata with missing data in config', () => {
         fr: 'GroupA FR label',
       },
       parameters: [getParamDataFromStandardSolution('param1')],
+      // FIXME Keep authorizedRoles ?
       authorizedRoles: [],
       hideParameterGroupIfNoPermission: false,
     },
@@ -262,6 +264,7 @@ describe('generateParametersGroupsMetadata with missing data in config', () => {
           fr: 'GroupA FR label',
         },
         parameters: [getParamDataFromStandardSolution('param1')],
+        // FIXME Keep authorizedRoles ?
         authorizedRoles: [],
         hideParameterGroupIfNoPermission: false,
       },
@@ -272,6 +275,7 @@ describe('generateParametersGroupsMetadata with missing data in config', () => {
           fr: 'GroupB FR label',
         },
         parameters: [getParamDataFromStandardSolution('param2')],
+        // FIXME Keep authorizedRoles ?
         authorizedRoles: [],
         hideParameterGroupIfNoPermission: false,
       },
@@ -294,6 +298,7 @@ describe('generateParametersGroupsMetadata with missing data in config', () => {
           fr: 'GroupC FR label',
         },
         parameters: [getParamDataFromStandardSolution('param1'), getParamDataFromStandardSolution('param2')],
+        // FIXME Keep authorizedRoles ?
         authorizedRoles: [],
         hideParameterGroupIfNoPermission: false,
       },
@@ -328,6 +333,7 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
           fr: 'GroupB FR label',
         },
         parameters: [getParamDataFromStandardSolution('param2')],
+        // FIXME Keep authorizedRoles ?
         authorizedRoles: [],
         hideParameterGroupIfNoPermission: false,
       },
@@ -371,6 +377,7 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
           fr: 'New FR label for groupA',
         },
         parameters: [param1Data],
+        // FIXME Keep authorizedRoles ?
         authorizedRoles: [],
         hideParameterGroupIfNoPermission: false,
       },
@@ -399,6 +406,7 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
           fr: 'GroupB FR label',
         },
         parameters: [getParamDataFromStandardSolution('param2')],
+        // FIXME Keep authorizedRoles ?
         authorizedRoles: [],
         hideParameterGroupIfNoPermission: false,
       },
@@ -409,6 +417,7 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
           fr: 'GroupA FR label',
         },
         parameters: [getParamDataFromStandardSolution('param1')],
+        // FIXME Keep authorizedRoles ?
         authorizedRoles: [],
         hideParameterGroupIfNoPermission: false,
       },
@@ -437,6 +446,7 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
           fr: 'GroupC FR label',
         },
         parameters: [getParamDataFromStandardSolution('param2'), getParamDataFromStandardSolution('param1')],
+        // FIXME Keep authorizedRoles ?
         authorizedRoles: [],
         hideParameterGroupIfNoPermission: false,
       },
@@ -452,6 +462,7 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
       parameters: {},
       parametersGroups: {
         groupC: {
+          // FIXME Keep authorizedRoles ?
           authorizedRoles: [role1],
         },
       },
@@ -466,6 +477,7 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
           fr: 'GroupC FR label',
         },
         parameters: [getParamDataFromStandardSolution('param1'), getParamDataFromStandardSolution('param2')],
+        // FIXME Keep authorizedRoles ?
         authorizedRoles: [role1],
         hideParameterGroupIfNoPermission: false,
       },
@@ -482,6 +494,7 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
       parameters: {},
       parametersGroups: {
         groupC: {
+          // FIXME Keep authorizedRoles ?
           authorizedRoles: [role1, role2],
         },
       },
@@ -496,6 +509,7 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
           fr: 'GroupC FR label',
         },
         parameters: [getParamDataFromStandardSolution('param1'), getParamDataFromStandardSolution('param2')],
+        // FIXME Keep authorizedRoles ?
         authorizedRoles: [role1, role2],
         hideParameterGroupIfNoPermission: false,
       },
@@ -520,6 +534,7 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
           fr: 'GroupC FR label',
         },
         parameters: [getParamDataFromStandardSolution('param1'), getParamDataFromStandardSolution('param2')],
+        // FIXME Keep authorizedRoles ?
         authorizedRoles: [],
         hideParameterGroupIfNoPermission: false,
       },
@@ -535,6 +550,7 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
       parameters: {},
       parametersGroups: {
         groupC: {
+          // FIXME Keep authorizedRoles ?
           authorizedRoles: [role1],
           hideParameterGroupIfNoPermission: true,
         },
@@ -550,6 +566,7 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
           fr: 'GroupC FR label',
         },
         parameters: [getParamDataFromStandardSolution('param1'), getParamDataFromStandardSolution('param2')],
+        // FIXME Keep authorizedRoles ?
         authorizedRoles: [role1],
         hideParameterGroupIfNoPermission: true,
       },
@@ -565,6 +582,7 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
       parameters: {},
       parametersGroups: {
         groupC: {
+          // FIXME Keep authorizedRoles ?
           authorizedRoles: [role1],
           hideParameterGroupIfNoPermission: false,
         },
@@ -580,6 +598,7 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
           fr: 'GroupC FR label',
         },
         parameters: [getParamDataFromStandardSolution('param1'), getParamDataFromStandardSolution('param2')],
+        // FIXME Keep authorizedRoles ?
         authorizedRoles: [role1],
         hideParameterGroupIfNoPermission: false,
       },
@@ -606,6 +625,7 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
           fr: 'GroupC FR label',
         },
         parameters: [getParamDataFromStandardSolution('param1'), getParamDataFromStandardSolution('param2')],
+        // FIXME Keep authorizedRoles ?
         authorizedRoles: [],
         hideParameterGroupIfNoPermission: false,
       },

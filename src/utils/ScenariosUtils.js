@@ -1,11 +1,11 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { ConfigUtils } from './ConfigUtils';
+import { SecurityUtils } from './SecurityUtils';
 import { ACL_ROLES, PERMISSIONS_BY_ACL_ROLE } from '../services/config/accessControl';
 
 const getUserPermissionsForScenario = (scenario, userEmail, userId) => {
-  let userPermissions = ConfigUtils.getUserPermissionsForResource(
+  let userPermissions = SecurityUtils.getUserPermissionsForResource(
     scenario.security,
     userEmail,
     PERMISSIONS_BY_ACL_ROLE
@@ -19,7 +19,7 @@ const getUserPermissionsForScenario = (scenario, userEmail, userId) => {
   return userPermissions;
 };
 
-const patchScenarioWithUserPermissions = (scenario, userEmail, userId) => {
+const patchScenarioWithCurrentUserPermissions = (scenario, userEmail, userId) => {
   scenario.security = {
     ...scenario.security,
     currentUserPermissions: getUserPermissionsForScenario(scenario, userEmail, userId),
@@ -28,5 +28,5 @@ const patchScenarioWithUserPermissions = (scenario, userEmail, userId) => {
 
 export const ScenariosUtils = {
   getUserPermissionsForScenario,
-  patchScenarioWithUserPermissions,
+  patchScenarioWithCurrentUserPermissions,
 };

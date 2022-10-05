@@ -9,7 +9,7 @@ import { PermissionsGate } from '@cosmotech/ui';
 import PropTypes from 'prop-types';
 import { t } from 'i18next';
 
-const ScenarioParametersTab = ({ parametersGroupData, parametersState, setParametersState, context, userAppRoles }) => {
+const ScenarioParametersTab = ({ parametersGroupData, parametersState, setParametersState, context, userAppRole }) => {
   const noPermissionsPlaceHolder = (t) => {
     return <div>{t('genericcomponent.text.scenario.parameters.tabs.placeholder')}</div>;
   };
@@ -24,9 +24,10 @@ const ScenarioParametersTab = ({ parametersGroupData, parametersState, setParame
   return (
     <PermissionsGate
       RenderNoPermissionComponent={() => noPermissionsPlaceHolder(t)}
+      // FIXME : check roles vs permissions usage
       necessaryPermissions={parametersGroupData.authorizedRoles}
       sufficientPermissions={parametersGroupData.authorizedRoles}
-      userPermissions={userAppRoles}
+      userPermissions={[userAppRole]}
     >
       <div key={parametersGroupData.id} style={groupContainerStyle}>
         {parametersGroupData.parameters.map((parameterData) => (
@@ -48,11 +49,11 @@ ScenarioParametersTab.propTypes = {
   parametersState: PropTypes.object.isRequired,
   setParametersState: PropTypes.func.isRequired,
   context: PropTypes.object.isRequired,
-  userAppRoles: PropTypes.array.isRequired,
+  userAppRole: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  userAppRoles: state.auth.roles,
+  userAppRole: state.auth.role,
 });
 
 export default connect(mapStateToProps)(ScenarioParametersTab);

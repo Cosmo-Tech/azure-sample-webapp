@@ -15,31 +15,31 @@ const getUserId = (state) => state.auth.userId;
 
 // TODO: Remove hard-coded values before mergiing branch
 // vvvvvvvvv CODE TO REMOVE vvvvvvvvvvvvvvvv
-const USERS_EMAILS = ['alice@somecompany.com', 'bob@somecompany.com', 'tristan.huet@cosmotech.com'];
-const FAKE_SECURITY_DATA_EMPTY = { default: [], accessControlList: [] };
+const USERS_EMAILS = ['alice@example.com', 'bob@example.com'];
+const FAKE_SECURITY_DATA_EMPTY = { default: null, accessControlList: [] };
 const FAKE_SECURITY_DATA_DEFAULT_READ_ONLY = {
-  default: [ACL_ROLES.SCENARIO.READER],
+  default: ACL_ROLES.SCENARIO.READER,
   accessControlList: [],
 };
 const FAKE_SECURITY_DATA_SPECIFIC_WRITERS = {
-  default: [ACL_ROLES.SCENARIO.READER],
+  default: ACL_ROLES.SCENARIO.READER,
   accessControlList: USERS_EMAILS.map((email) => ({
     id: email,
-    roles: [ACL_ROLES.SCENARIO.WRITER],
+    role: ACL_ROLES.SCENARIO.WRITER,
   })),
 };
 const FAKE_SECURITY_DATA_SPECIFIC_VALIDATORS = {
-  default: [ACL_ROLES.SCENARIO.READER],
+  default: ACL_ROLES.SCENARIO.READER,
   accessControlList: USERS_EMAILS.map((email) => ({
     id: email,
-    roles: [ACL_ROLES.SCENARIO.VALIDATOR],
+    role: ACL_ROLES.SCENARIO.VALIDATOR,
   })),
 };
 const FAKE_SECURITY_DATA_SPECIFIC_ADMINS = {
-  default: [ACL_ROLES.SCENARIO.READER],
+  default: ACL_ROLES.SCENARIO.READER,
   accessControlList: USERS_EMAILS.map((email) => ({
     id: email,
-    roles: [ACL_ROLES.SCENARIO.ADMIN],
+    role: ACL_ROLES.SCENARIO.ADMIN,
   })),
 };
 const FAKE_SECURITY_DATA_ARRAY = [
@@ -56,8 +56,6 @@ const devPatchScenarioWithFakeSecurityData = (scenario) => {
     ...scenario.security,
     ...fakeSecurityData,
   };
-
-  console.log(scenario.name + ' ' + (fakeSecurityData.accessControlList?.[0]?.roles?.[0] || 'none'));
 };
 // ^^^^^^^^^^ CODE TO REMOVE ^^^^^^^^^^
 
@@ -69,7 +67,7 @@ export function* getAllScenariosData(workspaceId) {
   const { data } = yield call(Api.Scenarios.findAllScenarios, ORGANIZATION_ID, workspaceId);
   data.forEach((scenario) => (scenario.parametersValues = formatParametersFromApi(scenario.parametersValues)));
   data.forEach((scenario) => devPatchScenarioWithFakeSecurityData(scenario));
-  data.forEach((scenario) => ScenariosUtils.patchScenarioWithUserPermissions(scenario, userEmail, userId));
+  data.forEach((scenario) => ScenariosUtils.patchScenarioWithCurrentUserPermissions(scenario, userEmail, userId));
   yield put({
     type: SCENARIO_ACTIONS_KEY.SET_ALL_SCENARIOS,
     list: data,

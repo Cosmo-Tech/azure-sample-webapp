@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import { Auth } from '@cosmotech/core';
 import { put, takeEvery } from 'redux-saga/effects';
-import { ConfigUtils } from '../../../../utils';
+import { SecurityUtils } from '../../../../utils';
 import { AUTH_ACTIONS_KEY, AUTH_STATUS } from '../../../commons/AuthConstants';
 import { PERMISSIONS_BY_APP_ROLE } from '../../../../services/config/accessControl';
 
@@ -20,8 +20,10 @@ export function* tryLogIn(action) {
     // Check if the user is authenticated
     const authenticated = yield Auth.isUserSignedIn();
     if (authenticated) {
-      const userRoles = Auth.getUserRoles();
-      const userPermissions = ConfigUtils.getPermissionsFromRoles(userRoles, PERMISSIONS_BY_APP_ROLE);
+      // TODO remove users roles reception on login ?
+      const userRole = Auth.getUserRoles()[0];
+      const userPermissions = SecurityUtils.getPermissionsFromRole(userRole, PERMISSIONS_BY_APP_ROLE);
+
       // If the user is authenticated, set the auth data
       yield put({
         error: '',
@@ -30,7 +32,7 @@ export function* tryLogIn(action) {
         userId: Auth.getUserId(),
         userName: Auth.getUserName(),
         profilePic: Auth.getUserPicUrl(),
-        roles: userRoles,
+        role: userRole,
         permissions: userPermissions,
         status: AUTH_STATUS.AUTHENTICATED,
       });
@@ -43,7 +45,7 @@ export function* tryLogIn(action) {
         userId: '',
         userName: '',
         profilePic: '',
-        roles: [],
+        role: null,
         permissions: [],
         status: AUTH_STATUS.ANONYMOUS,
       });
@@ -58,7 +60,7 @@ export function* tryLogIn(action) {
       userId: '',
       userName: '',
       profilePic: '',
-      roles: [],
+      role: null,
       permissions: [],
       status: AUTH_STATUS.DENIED,
     });

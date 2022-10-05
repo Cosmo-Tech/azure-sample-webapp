@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import React, { useEffect, useState, useMemo } from 'react';
-import { useSelector } from 'react-redux';
 import {
   Backdrop,
   Button,
@@ -28,12 +27,7 @@ import { SCENARIO_VALIDATION_STATUS } from '../../services/config/ApiConstants.j
 import ScenarioService from '../../services/scenario/ScenarioService';
 import { STATUSES } from '../../state/commons/Constants';
 import { AppInsights } from '../../services/AppInsights';
-import {
-  APP_PERMISSIONS,
-  ACL_PERMISSIONS,
-  PERMISSIONS_BY_ACL_ROLE,
-  ACL_ROLES,
-} from '../../services/config/accessControl';
+import { ACL_PERMISSIONS, PERMISSIONS_BY_ACL_ROLE, ACL_ROLES } from '../../services/config/accessControl';
 import {
   getCreateScenarioDialogLabels,
   getShareScenarioDialogLabels,
@@ -275,19 +269,12 @@ const Scenario = () => {
   );
 
   const userPermissionsOnCurrentScenario = currentScenario?.data?.security?.currentUserPermissions || [];
-  // const userPermissionsOnCurrentScenario = currentScenario?.security?.currentUserPermissions || [];
-  const userAppPermissions = useSelector((state) => state.auth.permissions);
-  const userEmail = useSelector((state) => state.auth.userEmail);
-  const userId = useSelector((state) => state.auth.userId);
-  const userAppAndScenarioPermissions = userAppPermissions.concat(userPermissionsOnCurrentScenario);
+  const userEmail = user.userEmail;
+  const userId = user.userId;
   const validationStatusButtons = (
     <PermissionsGate
-      userPermissions={userAppAndScenarioPermissions}
-      necessaryPermissions={[
-        ACL_PERMISSIONS.SCENARIO.EDIT_VALIDATION_STATUS,
-        APP_PERMISSIONS.SCENARIO.EDIT_VALIDATION_STATUS,
-      ]}
-      sufficientPermissions={[APP_PERMISSIONS.ADMIN]}
+      userPermissions={userPermissionsOnCurrentScenario}
+      necessaryPermissions={[ACL_PERMISSIONS.SCENARIO.EDIT_VALIDATION_STATUS]}
     >
       {validateButtonTooltipWrapper}
       {rejectButtonTooltipWrapper}
@@ -296,12 +283,8 @@ const Scenario = () => {
 
   const scenarioValidationStatusChip = (
     <PermissionsGate
-      userPermissions={userAppAndScenarioPermissions}
-      necessaryPermissions={[
-        ACL_PERMISSIONS.SCENARIO.EDIT_VALIDATION_STATUS,
-        APP_PERMISSIONS.SCENARIO.EDIT_VALIDATION_STATUS,
-      ]}
-      sufficientPermissions={[APP_PERMISSIONS.ADMIN]}
+      userPermissions={userPermissionsOnCurrentScenario}
+      necessaryPermissions={[ACL_PERMISSIONS.SCENARIO.EDIT_VALIDATION_STATUS]}
       noPermissionProps={{
         onDelete: null, // Prevent status edition if user has insufficient privileges
       }}
@@ -322,42 +305,31 @@ const Scenario = () => {
   };
 
   const createScenarioButton = (
-    <PermissionsGate
-      userPermissions={userAppPermissions}
-      necessaryPermissions={[APP_PERMISSIONS.SCENARIO.CREATE]}
-      sufficientPermissions={[APP_PERMISSIONS.ADMIN]}
-    >
-      <CreateScenarioButton
-        solution={solution}
-        workspaceId={workspaceId}
-        createScenario={expandParametersAndCreateScenario}
-        currentScenario={currentScenario}
-        runTemplates={filteredRunTemplates}
-        datasets={datasetList.data}
-        scenarios={scenarioList.data}
-        user={user}
-        disabled={editMode}
-        labels={createScenarioDialogLabels}
-      />
-    </PermissionsGate>
+    <CreateScenarioButton
+      solution={solution}
+      workspaceId={workspaceId}
+      createScenario={expandParametersAndCreateScenario}
+      currentScenario={currentScenario}
+      runTemplates={filteredRunTemplates}
+      datasets={datasetList.data}
+      scenarios={scenarioList.data}
+      user={user}
+      disabled={editMode}
+      labels={createScenarioDialogLabels}
+    />
   );
 
   const applyScenarioSecurityChanges = (newScenarioSecurity) => {
-    // TODO: compute diff & call API
+    // TODO: compute diff & call API, or call scenario PATCH endpoint
     setScenarioSecurity(currentScenario.data.id, newScenarioSecurity, userEmail, userId);
   };
 
-  const FAKE_USERS_LIST = [
-    { id: 'alice@somecompany.com' },
-    { id: 'bob@somecompany.com' },
-    { id: 'tristan.huet@cosmotech.com' },
-    { id: 'elena.sasova@cosmotech.com' },
-  ];
-  const accessListSpecific = currentScenario?.data?.security?.accessControlList.map((agent) => ({
-    id: agent.id,
-    roles: agent.roles[0],
-  }));
-  const defaultAccessList = currentScenario?.data?.security?.default[0];
+  const FAKE_USERS_LIST = [{ id: 'alice@example.com' }, { id: 'bob@example.com' }];
+  if (FAKE_USERS_LIST.find((user) => user.id === userEmail) === undefined) {
+    FAKE_USERS_LIST.push({ id: userEmail });
+  }
+  const accessListSpecific = currentScenario?.data?.security?.accessControlList;
+  const defaultRole = currentScenario?.data?.security?.default;
 
   const rolesNames = Object.values(ACL_ROLES.SCENARIO);
   const rolesLabels = getRolesLabels(t, rolesNames);
@@ -365,52 +337,58 @@ const Scenario = () => {
   const permissionsLabels = getPermissionsLabels(t, permissionsNames);
 
   const shareScenarioButton = (
-    <PermissionsGate
-      userPermissions={userAppAndScenarioPermissions}
-      necessaryPermissions={[APP_PERMISSIONS.SCENARIO.VIEW_PERMISSIONS]}
-      sufficientPermissions={[APP_PERMISSIONS.ADMIN]}
-    >
-      <PermissionsGate
-        userPermissions={userAppAndScenarioPermissions}
-        necessaryPermissions={[APP_PERMISSIONS.SCENARIO.EDIT_PERMISSIONS]}
-        sufficientPermissions={[APP_PERMISSIONS.ADMIN]}
-        noPermissionProps={{ isReadOnly: true }}
-      >
-        <Button
-          size="medium"
-          variant="outlined"
-          color="primary"
-          onClick={() => {
-            applyScenarioSecurityChanges({
-              ...currentScenario.data.security,
-              // default: ['commonroleadmin'],
-              default: 'commonroleadmin',
-              accessControlList: [],
+    <>
+      <Button
+        size="medium"
+        variant="outlined"
+        color="primary"
+        onClick={() => {
+          const currentUserEntryInACL = currentScenario.data.security.accessControlList.find(
+            (user) => user.id === userEmail
+          );
+          let newACL = [...currentScenario.data.security.accessControlList];
+          if (currentUserEntryInACL) {
+            newACL = currentScenario.data.security.accessControlList.map((entry) => {
+              if (entry.id === userEmail) {
+                return { id: userEmail, role: 'commonroleadmin' };
+              }
+              return entry;
             });
-          }}
+          } else newACL.push({ id: userEmail, role: 'commonroleadmin' });
+          applyScenarioSecurityChanges({
+            ...currentScenario.data.security,
+            accessControlList: newACL,
+          });
+        }}
+      >
+        🚀 Escalate to admin 🚀
+      </Button>
+      <PermissionsGate
+        userPermissions={userPermissionsOnCurrentScenario}
+        necessaryPermissions={[ACL_PERMISSIONS.SCENARIO.VIEW_PERMISSIONS]}
+      >
+        <PermissionsGate
+          userPermissions={userPermissionsOnCurrentScenario}
+          necessaryPermissions={[ACL_PERMISSIONS.SCENARIO.EDIT_PERMISSIONS]}
+          noPermissionProps={{ isReadOnly: true }}
         >
-          🚀 Escalate to admin 🚀
-        </Button>
-        <RolesEditionButton
-          data-cy="share-scenario-button"
-          labels={shareScenarioDialogLabels}
-          // scenarioId={currentScenario?.data?.id}
-          onConfirmChanges={(updateScenarioAgentsList) => {
-            applyScenarioSecurityChanges(updateScenarioAgentsList);
-            console.log(updateScenarioAgentsList);
-          }}
-          // resourceRolesPermissionsMapping={permissionsByRoles}
-          resourceRolesPermissionsMapping={PERMISSIONS_BY_ACL_ROLE}
-          agents={FAKE_USERS_LIST}
-          specificAccessByAgent={accessListSpecific}
-          defaultAccess={defaultAccessList}
-          defaultAccessScope="Workspace"
-          allRoles={rolesLabels}
-          allPermissions={permissionsLabels}
-          resourceId={currentScenario?.data?.id}
-        />
+          <RolesEditionButton
+            data-cy="share-scenario-button"
+            labels={shareScenarioDialogLabels}
+            onConfirmChanges={(updateScenarioAgentsList) => {
+              applyScenarioSecurityChanges(updateScenarioAgentsList);
+            }}
+            resourceRolesPermissionsMapping={PERMISSIONS_BY_ACL_ROLE}
+            agents={FAKE_USERS_LIST}
+            specificAccessByAgent={accessListSpecific}
+            defaultRole={defaultRole || ''}
+            defaultAccessScope="Workspace"
+            allRoles={rolesLabels}
+            allPermissions={permissionsLabels}
+          />
+        </PermissionsGate>
       </PermissionsGate>
-    </PermissionsGate>
+    </>
   );
 
   return (
@@ -465,7 +443,7 @@ const Scenario = () => {
                   currentScenario={currentScenario}
                   scenarioId={currentScenario.data.id}
                   scenarioList={scenarioList.data}
-                  userRoles={user.roles}
+                  userRole={user.role}
                 />
               )}
             </Card>

@@ -209,6 +209,8 @@ const PARAMETERS = {
   },
 };
 
+// FIXME Keep authorizedRoles ?
+
 // Use the PARAMETERS_GROUPS dict below to override or add information to the parameters groups defined in your solution
 // description, such as:
 //  - translation labels
