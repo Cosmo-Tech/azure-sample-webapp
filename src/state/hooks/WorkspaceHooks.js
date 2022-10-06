@@ -19,3 +19,7 @@ export const useUserPermissionsOnCurrentWorkspace = () => {
     [workspaceData?.security?.currentUserPermissions]
   );
 };
+
+export const useWorkspacesList = () => {
+  return useSelector((state) => state.workspace.list);
+};
