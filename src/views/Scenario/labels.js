@@ -132,13 +132,12 @@ export const getRolesLabels = (t, rolesNames) => {
 };
 
 export const getPermissionsLabels = (t, permissionsNames) => {
-  const permissionsLabels = {};
-  permissionsNames.forEach(
-    (permissionName) =>
-      (permissionsLabels[permissionName] = t(
-        `commoncomponents.dialog.share.permissions.${permissionName}`,
-        permissionName
-      ))
+  const permissionsLabels = [];
+  permissionsNames.forEach((permissionName) =>
+    permissionsLabels.push({
+      value: permissionName,
+      label: t(`commoncomponents.dialog.share.permissions.${permissionName}`, permissionName),
+    })
   );
   return permissionsLabels;
 };

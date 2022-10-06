@@ -28,14 +28,14 @@ export const APP_PERMISSIONS = {
 
 export const ACL_PERMISSIONS = {
   SCENARIO: {
-    DELETE: 'acl.scenario.delete',
-    EDIT_PARAMETERS: 'acl.scenario.editParameters',
-    EDIT_PERMISSIONS: 'acl.scenario.editPermissions',
-    EDIT_VALIDATION_STATUS: 'acl.scenario.editValidationStatus',
-    LAUNCH: 'acl.scenario.launch',
-    RENAME: 'acl.scenario.rename',
     VIEW: 'acl.scenario.view',
     VIEW_PERMISSIONS: 'acl.scenario.viewPermissions',
     VIEW_RESULTS: 'acl.scenario.viewResults',
+    EDIT_PARAMETERS: 'acl.scenario.editParameters',
+    LAUNCH: 'acl.scenario.launch',
+    RENAME: 'acl.scenario.rename',
+    EDIT_VALIDATION_STATUS: 'acl.scenario.editValidationStatus',
+    EDIT_PERMISSIONS: 'acl.scenario.editPermissions',
+    DELETE: 'acl.scenario.delete',
   },
 };
