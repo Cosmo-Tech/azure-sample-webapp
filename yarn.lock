@@ -1120,10 +1120,10 @@
   resolved "https://registry.yarnpkg.com/@colors/colors/-/colors-1.5.0.tgz#bb504579c1cae923e6576a4f5da43d25f97bdbd9"
   integrity sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==
 
-"@cosmotech/api-ts@^0.1.0":
-  version "0.1.14"
-  resolved "https://registry.yarnpkg.com/@cosmotech/api-ts/-/api-ts-0.1.14.tgz#de46b248ab76ca4b2f97f36a414e1088c8aaa68f"
-  integrity sha512-2/mhtOfKMc3Or+VdAeWVwToqQA6Bn52RG9nNhXwYk7PoR7TruJljNhqtqZAy+qILqvRVUCKTxBIvJNxzMmVI+Q==
+"@cosmotech/api-ts@^2.0.6":
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/@cosmotech/api-ts/-/api-ts-2.0.6.tgz#e7c1ecd8055c4ad5a680f24f243876c621cdabe5"
+  integrity sha512-GZ2V6DRumFLmlBA+HRu5yaBe84EEMdh0fHEH+MCuSuVKV+ysgUGvN0UWTYGnK8N1419ZGTngkyjwb9FjaByIeg==
   dependencies:
     axios "^0.21.4"
 
@@ -1145,10 +1145,10 @@
     validator "^13.7.0"
     xlsx "^0.18.3"
 
-"@cosmotech/ui@^4.0.0-rc1":
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-4.2.0.tgz#9dd8c9892b08ff0434c752001aeb0587318ac8cc"
-  integrity sha512-JOttY0U+EtZOzAhVzT3LrU6Jp3Zmr3dlsfLrr4cgctki11yBD9O/T9QBi/d/tcgwIIoVM5Z6lKo/NxD+0iYodQ==
+"@cosmotech/ui@4.3.0-dev.1":
+  version "4.3.0-dev.1"
+  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-4.3.0-dev.1.tgz#c396633a4b305f7e798cdc050a6bfd92217f1bf4"
+  integrity sha512-YVnkwzk9OqQeLy0cZXSur7I4Wh7uioVR0wN1tPr7JrSdKq89LptcZxqpSNtWMxViSVQi4+GzD/m4dZ8EmxMJag==
   dependencies:
     "@date-io/date-fns" "^1.3.13"
     "@material-ui/pickers" "^3.3.10"
@@ -1162,7 +1162,7 @@
     cytoscape-layers "^2.2.0"
     date-fns "^2.22.1"
     powerbi-client-react "^1.3.3"
-    react-cytoscapejs "^1.2.1"
+    react-cytoscapejs "^2.0.0"
     react-lottie-player "1.4.1"
     react-number-format "^4.5.5"
 
@@ -4732,9 +4732,9 @@ csstype@^3.0.2:
   integrity sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==
 
 csv-string@^4.0.1:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/csv-string/-/csv-string-4.1.0.tgz#3fd5101e67cfb4e0f428f40263837044737f1457"
-  integrity sha512-67UM45fosQvvh+HUvC8iNgg2B4UHWJ5Qud7TWy1EcbIQ9levAFKWudMk2k8U3LgXZP/Drr6eBwBwbSWq2N8HZA==
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/csv-string/-/csv-string-4.1.1.tgz#3ab81c702e15adb3396a9f98c3a703b77a0391cc"
+  integrity sha512-KGvaJEZEdh2O/EVvczwbPLqJZtSQaWQ4cEJbiOJEG4ALq+dBBqNmBkRXTF4NV79V25+XYtiqbco1IWrmHLm5FQ==
 
 customize-cra@^1.0.0:
   version "1.0.0"
@@ -4830,7 +4830,7 @@ cytoscape-layers@^2.2.0:
   dependencies:
     "@types/cytoscape" "^3.19.0"
 
-cytoscape@^3.2.19, cytoscape@^3.20.0:
+cytoscape@^3.20.0:
   version "3.23.0"
   resolved "https://registry.yarnpkg.com/cytoscape/-/cytoscape-3.23.0.tgz#054ee05a6d0aa3b4f139382bbf2f4e5226df3c6d"
   integrity sha512-gRZqJj/1kiAVPkrVFvz/GccxsXhF3Qwpptl32gKKypO4IlqnKBjTOu+HbXtEggSGzC5KCaHp3/F7GgENrtsFkA==
@@ -11060,13 +11060,12 @@ react-countdown@^2.3.2:
   dependencies:
     prop-types "^15.7.2"
 
-react-cytoscapejs@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/react-cytoscapejs/-/react-cytoscapejs-1.2.1.tgz#ccce46acabf4f0c41dce9070743854f92b0dc050"
-  integrity sha512-8exVCetpzyGCAKuRjXPWGjFCnb22boZ3SXUPpPB/+wQI8Q8BwkT1URN3A7J1Czvj1qAbShh5QQ514mBUp7i7kw==
+react-cytoscapejs@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/react-cytoscapejs/-/react-cytoscapejs-2.0.0.tgz#fdc2547626df0678acfbb48e73a437ddc1687b01"
+  integrity sha512-t3SSl1DQy7+JQjN+8QHi1anEJlM3i3aAeydHTsJwmjo/isyKK7Rs7oCvU6kZsB9NwZidzZQR21Vm2PcBLG/Tjg==
   dependencies:
-    cytoscape "^3.2.19"
-    prop-types "^15.6.2"
+    prop-types "^15.8.1"
 
 react-dev-utils@^11.0.3:
   version "11.0.4"
