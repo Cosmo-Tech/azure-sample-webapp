@@ -362,6 +362,7 @@
       "light": "Switch to light",
       "dark": "Switch to dark"
     },
+    "workspaceselector": "Workspaces",
     "dialog": {
       "scenario": {
         "parameters": {

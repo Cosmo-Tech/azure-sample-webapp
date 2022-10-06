@@ -362,6 +362,7 @@
       "light": "Passer en mode clair",
       "dark": "Passer en mode sombre"
     },
+    "workspaceselector": "Workspaces",
     "dialog": {
       "scenario": {
         "parameters": {

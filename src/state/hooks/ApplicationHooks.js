@@ -7,6 +7,7 @@ import {
   dispatchGetAllInitialData,
   dispatchSetApplicationStatus,
   dispatchSetApplicationErrorMessage,
+  dispatchSetApplicationTheme,
 } from '../dispatchers/app/ApplicationDispatcher';
 
 export const useApplicationStatus = () => {
@@ -37,4 +38,9 @@ export const useSetApplicationErrorMessage = () => {
     (error, errorMessage) => dispatch(dispatchSetApplicationErrorMessage(error, errorMessage)),
     [dispatch]
   );
+};
+
+export const useSetApplicationTheme = () => {
+  const dispatch = useDispatch();
+  return useCallback((payload) => dispatch(dispatchSetApplicationTheme(payload)), [dispatch]);
 };

@@ -6,3 +6,7 @@ import { useSelector } from 'react-redux';
 export const useWorkspace = () => {
   return useSelector((state) => state.workspace.current);
 };
+
+export const useWorkspacesList = () => {
+  return useSelector((state) => state.workspace.list);
+};
