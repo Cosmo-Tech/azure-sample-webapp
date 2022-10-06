@@ -19,7 +19,7 @@ const getUserId = (state) => state.auth.userId;
 
 // TODO: Remove hard-coded values before merging branch
 // vvvvvvvvv CODE TO REMOVE vvvvvvvvvvvvvvvv
-const USERS_EMAILS = ['alice@example.com', 'bob@example.com'];
+const USERS_EMAILS = ['zzz@example.com', 'alice@example.com', 'bob@example.com'];
 const FAKE_SECURITY_DATA_EMPTY = { default: null, accessControlList: [] };
 const FAKE_SECURITY_DATA_DEFAULT_READ_ONLY = {
   default: ACL_ROLES.SCENARIO.READER,

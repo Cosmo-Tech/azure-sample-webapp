@@ -324,7 +324,7 @@ const Scenario = () => {
     setScenarioSecurity(currentScenario.data.id, newScenarioSecurity, userEmail, userId);
   };
 
-  const FAKE_USERS_LIST = [{ id: 'alice@example.com' }, { id: 'bob@example.com' }];
+  const FAKE_USERS_LIST = [{ id: 'zzz@example.com' }, { id: 'alice@example.com' }, { id: 'bob@example.com' }];
   if (FAKE_USERS_LIST.find((user) => user.id === userEmail) === undefined) {
     FAKE_USERS_LIST.push({ id: userEmail });
   }
