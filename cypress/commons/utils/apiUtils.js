@@ -112,6 +112,40 @@ const interceptUpdateScenario = (scenarioId) => {
   return alias;
 };
 
+const interceptUpdateScenarioDefaultSecurity = () => {
+  const alias = forgeAlias('reqUpdateScenarioDefaultSecurity');
+  cy.intercept({ method: 'POST', url: API_REGEX.SCENARIO_DEFAULT_SECURITY, times: 1 }, (req) => {
+    const scenarioId = req.url.match(API_REGEX.SCENARIO_ACL_SECURITY)[1];
+    const newDefaultSecurity = req.body;
+    if (stub.isEnabledFor('GET_SCENARIOS')) stub.patchScenarioDefaultSecurity(scenarioId, newDefaultSecurity);
+    if (stub.isEnabledFor('UPDATE_SCENARIO')) req.reply(newDefaultSecurity);
+  }).as(alias);
+  return alias;
+};
+
+const interceptUpdateScenarioACLSecurity = () => {
+  const alias = forgeAlias('reqUpdateScenarioACLSecurity');
+  cy.intercept({ method: 'POST', url: API_REGEX.SCENARIO_ACL_SECURITY, times: 1 }, (req) => {
+    const scenarioId = req.url.match(API_REGEX.SCENARIO_ACL_SECURITY)[1];
+    const newACLSecurity = req.body;
+    if (stub.isEnabledFor('GET_SCENARIOS')) stub.patchScenarioACLSecurity(scenarioId, newACLSecurity);
+    if (stub.isEnabledFor('UPDATE_SCENARIO')) req.reply(newACLSecurity);
+  }).as(alias);
+  return alias;
+};
+
+// Parameters reppresent the expected numbers of requests to intercept & wwait for:
+//  - defaultSecurityChangesCount: 0 or 1, number of requests to change the scenario security default role
+//  - aclSecurityChangesCount: int >= 0, number of requests to change the scenario security ACL
+const interceptUpdateScenarioSecurity = (defaultSecurityChangesCount, aclSecurityChangesCount) => {
+  const aliases = [];
+  if (defaultSecurityChangesCount > 0) aliases.push(interceptUpdateScenarioDefaultSecurity());
+  for (const i = 0; i < aclSecurityChangesCount; ++i) {
+    aliases.push(interceptUpdateScenarioACLSecurity());
+  }
+  return aliases;
+};
+
 const interceptDeleteScenario = (scenarioName) => {
   const alias = forgeAlias('reqDeleteScenario');
   cy.intercept({ method: 'DELETE', url: API_REGEX.SCENARIO, times: 1 }, (req) => {

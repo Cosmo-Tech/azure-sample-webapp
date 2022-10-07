@@ -25,31 +25,36 @@ export const URL_REGEX = {
 
 export const API_ENDPOINT = {
   SCENARIOS: URL_ROOT + '/.*/scenarios',
-  SCENARIO: URL_ROOT + '/.*/scenarios/(s-[\\w]+)', // Capture scenario id
-  RUN_SCENARIO: URL_ROOT + '/.*/scenarios/(s-[\\w]+)/run', // Capture scenario id
+  SCENARIO: URL_ROOT + '/.*/scenarios/(s-[\\w]+)',
+  SCENARIO_DEFAULT_SECURITY: URL_ROOT + '/.*/scenarios/(s-[\\w]+)/security/default',
+  SCENARIO_ACL_SECURITY: URL_ROOT + '/.*/scenarios/(s-[\\w]+)/security/access',
+  RUN_SCENARIO: URL_ROOT + '/.*/scenarios/(s-[\\w]+)/run',
   DATASETS: URL_ROOT + '/.*/datasets',
   WORKSPACES: URL_ROOT + '/.*/workspaces',
-  WORKSPACE: URL_ROOT + '/.*/workspaces/((w|W)-[\\w]+)', // Capture workspace id
+  WORKSPACE: URL_ROOT + '/.*/workspaces/((w|W)-[\\w]+)',
   SOLUTIONS: URL_ROOT + '/.*/solutions',
-  SOLUTION: URL_ROOT + '/.*/solutions/((sol|SOL)-[\\w]+)', // Capture solution id
+  SOLUTION: URL_ROOT + '/.*/solutions/((sol|SOL)-[\\w]+)',
   PERMISSIONS_MAPPING: URL_ROOT + '/organizations/permissions',
-  ORGANIZATION_USERS: URL_ROOT + '/organizations/((o|O)-[\\w]+)/security/users', // Capture organization id
+  ORGANIZATION_USERS: URL_ROOT + '/organizations/((o|O)-[\\w]+)/security/users',
+  WORKSPACE_USERS: URL_ROOT + '/.*/workspaces/((w|W)-[\\w]+)/security/users',
   // TODO ?
   // /organizations/{organization_id}/workspaces/{workspace_id}/permissions/{role}:
   // /organizations/{organization_id}/workspaces/{workspace_id}/scenarios/permissions/{role}
-  // /organizations/{organization_id}/workspaces/{workspace_id}/security/users
 };
 
 export const API_REGEX = {
   ALL: new RegExp(URL_ROOT),
   SCENARIOS: new RegExp('^' + API_ENDPOINT.SCENARIOS + '$'),
   SCENARIO: new RegExp('^' + API_ENDPOINT.SCENARIO),
+  SCENARIO_DEFAULT_SECURITY: new RegExp('^' + API_ENDPOINT.SCENARIO_DEFAULT_SECURITY + '$'),
+  SCENARIO_SECURITY_ACL: new RegExp('^' + API_ENDPOINT.SCENARIO_ACL_SECURITY + '$'),
   RUN_SCENARIO: new RegExp('^' + API_ENDPOINT.RUN_SCENARIO),
   DATASETS: new RegExp('^' + API_ENDPOINT.DATASETS + '$'),
   WORKSPACE: new RegExp('^' + API_ENDPOINT.WORKSPACE + '$'),
   SOLUTION: new RegExp('^' + API_ENDPOINT.SOLUTION),
   PERMISSIONS_MAPPING: new RegExp('^' + API_ENDPOINT.PERMISSIONS_MAPPING + '$'),
   ORGANIZATION_USERS: new RegExp('^' + API_ENDPOINT.ORGANIZATION_USERS + '$'),
+  WORKSPACE_USERS: new RegExp('^' + API_ENDPOINT.WORKSPACE_USERS + '$'),
 };
 
 export const SCENARIO_RUN_IN_PROGRESS = 'Scenario run in progress...';

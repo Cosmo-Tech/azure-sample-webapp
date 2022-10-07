@@ -7,7 +7,7 @@ import {
   DEFAULT_WORKSPACE,
   DEFAULT_WORKSPACES_LIST,
   DEFAULT_SOLUTIONS_LIST,
-  SCENARIO_EXAMPLE,
+  SCENARIO_EXAMPLE
 } from '../../fixtures/stubbing/default';
 import utils from '../TestUtils';
 import { API_REGEX, LOCAL_WEBAPP_URL } from '../constants/generic/TestConstants';
@@ -20,7 +20,7 @@ const STUB_TYPES = [
   'GET_SCENARIOS',
   'CREATE_AND_DELETE_SCENARIO',
   'UPDATE_SCENARIO',
-  'LAUNCH_SCENARIO', // Not supported yet for stubbing
+  'LAUNCH_SCENARIO' // Not supported yet for stubbing
 ];
 
 // Fake API data makes us able to stub the received workspace data while still using a real workspace for back-end calls
@@ -30,7 +30,7 @@ const STUB_TYPES = [
 //    getWorkspaceById and use mock data instead of the data of the actual workspace
 const DEFAULT_API_DATA = {
   actualWorkspaceId: null,
-  fakeWorkspaceId: null,
+  fakeWorkspaceId: null
 };
 
 // Fake authentication data makes us able to stub the webapp user identity while still using the token of the user
@@ -46,7 +46,7 @@ const DEFAULT_AUTH_DATA = {
   actualAccessToken: null,
   actualUser: null,
   fakeUser: null,
-  fakeRoles: null,
+  fakeRoles: null
 };
 
 // Fake resources data allows us to stub CRUD operations on different types of resources such as datasets, scenarios,
@@ -56,7 +56,7 @@ const DEFAULT_RESOURCES_DATA = {
   scenarioRuns: [],
   scenarios: DEFAULT_SCENARIOS_LIST,
   solutions: DEFAULT_SOLUTIONS_LIST,
-  workspaces: DEFAULT_WORKSPACES_LIST,
+  workspaces: DEFAULT_WORKSPACES_LIST
 };
 
 export const isStubTypeValid = (stubType) => {
@@ -117,7 +117,7 @@ class Stubbing {
     if (resourceIndex !== -1)
       this.resources[resourceType][resourceIndex] = {
         ...this.resources[resourceType][resourceIndex],
-        ...resourcePatch,
+        ...resourcePatch
       };
   };
   _getResourceById = (resourceType, resourceId) => {
@@ -154,6 +154,28 @@ class Stubbing {
   patchScenario = (scenarioId, scenarioPatch) => this._patchResourceById('scenarios', scenarioId, scenarioPatch);
   getScenarioById = (scenarioId) => this._getResourceById('scenarios', scenarioId);
   deleteScenarioByName = (scenarioName) => this._deleteResourceByName('scenarios', scenarioName);
+
+  patchScenarioDefaultSecurity = (scenarioId, newDefaultSecurity) => {
+    const scenario = this.getScenarioById(scenarioId);
+    const newScenarioSecurity = {
+      security: {
+        default: newDefaultSecurity,
+        accessControlList: scenario.security.accessControlList
+      }
+    };
+    patchScenario(scenarioId, newScenarioSecurity);
+  };
+
+  patchScenarioACLSecurity = (scenarioId, newACLSecurity) => {
+    const scenario = this.getScenarioById(scenarioId);
+    const newScenarioSecurity = {
+      security: {
+        default: scenario.security.default,
+        accessControlList: newACLSecurity
+      }
+    };
+    patchScenario(scenarioId, newScenarioSecurity);
+  };
 
   getDatasets = () => this._getResources('datasets');
   setDatasets = (newDatasets) => this._setResources('datasets', newDatasets);
