@@ -18,6 +18,12 @@ const waitAlias = (alias, options) => {
   return cy.wait('@' + alias, options);
 };
 
+const waitAliases = (aliases, options) => {
+  aliases.forEach((alias) => {
+    return waitAlias(alias, options);
+  });
+};
+
 const startInterceptionMiddlewares = () => {
   cy.intercept({ url: API_REGEX.ALL, middleware: true }, (req) => {
     // If authentication stubbing is enabled, use middleware to reset the access token in requests to the CosmoTech API
@@ -192,14 +198,11 @@ const interceptNewPageQueries = () => {
   const reqGetSolutionAlias = interceptGetSolution();
   return [reqPowerBIAlias, reqGetScenariosAlias, reqGetDatasetsAlias, reqGetWorkspaceAlias, reqGetSolutionAlias];
 };
-const waitNewPageQueries = (aliases) => {
-  aliases.forEach((alias) => {
-    return waitAlias(alias, { timeout: 60 * 1000 });
-  });
-};
+
 export const apiUtils = {
   forgeAlias,
   waitAlias,
+  waitAliases,
   startInterceptionMiddlewares,
   interceptAuthentication,
   interceptCreateScenario,
@@ -212,5 +215,4 @@ export const apiUtils = {
   interceptGetWorkspace,
   interceptPowerBIAzureFunction,
   interceptNewPageQueries,
-  waitNewPageQueries,
 };

@@ -25,7 +25,7 @@ function login(url = BASE_URL) {
   });
   Login.getMicrosoftLoginButton().click();
   api.waitAlias(reqAuthAlias);
-  api.waitNewPageQueries(newPageQueries);
+  api.waitAliases(newPageQueries, { timeout: 60 * 1000 });
   Scenarios.getScenarioViewTab(60).should('be.visible');
   cy.saveLocalStorage();
 }
@@ -43,7 +43,7 @@ function relogin(url = BASE_URL) {
       });
     },
   });
-  api.waitNewPageQueries(newPageQueries);
+  api.waitAliases(newPageQueries, { timeout: 60 * 1000 });
   Scenarios.getScenarioViewTab(60).should('be.visible');
 }
 
