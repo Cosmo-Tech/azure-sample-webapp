@@ -8,6 +8,7 @@ import {
   dispatchSetApplicationStatus,
   dispatchSetApplicationErrorMessage,
   dispatchSetApplicationTheme,
+  dispatchClearApplicationErrorMessage,
 } from '../dispatchers/app/ApplicationDispatcher';
 
 export const useApplicationStatus = () => {
@@ -32,12 +33,21 @@ export const useSetApplicationStatus = () => {
   return useCallback((payload) => dispatch(dispatchSetApplicationStatus(payload)), [dispatch]);
 };
 
+export const useApplicationError = () => {
+  return useSelector((state) => state.application.error);
+};
+
 export const useSetApplicationErrorMessage = () => {
   const dispatch = useDispatch();
   return useCallback(
     (error, errorMessage) => dispatch(dispatchSetApplicationErrorMessage(error, errorMessage)),
     [dispatch]
   );
+};
+
+export const useClearApplicationErrorMessage = () => {
+  const dispatch = useDispatch();
+  return useCallback(() => dispatch(dispatchClearApplicationErrorMessage()), [dispatch]);
 };
 
 export const useSetApplicationTheme = () => {

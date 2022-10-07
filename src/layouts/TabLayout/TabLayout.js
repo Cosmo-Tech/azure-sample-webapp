@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import { ErrorBanner } from '@cosmotech/ui';
 import { useTranslation } from 'react-i18next';
 import { AppBar } from '../../components/AppBar';
+import { useApplicationError, useClearApplicationErrorMessage } from '../../state/hooks/ApplicationHooks';
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -20,13 +21,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const TabLayout = (props) => {
+export const TabLayout = (props) => {
   const classes = useStyles();
-  const { tabs, error, clearApplicationErrorMessage } = props;
+  const { tabs } = props;
   const { t } = useTranslation();
   const location = useLocation();
   const currentTabPathname = location?.pathname;
   const scenarioViewUrl = useMatch('/scenario/:id');
+  const applicationError = useApplicationError();
+  const clearApplicationErrorMessage = useClearApplicationErrorMessage();
 
   const viewTabs = (
     <MuiTabs value={currentTabPathname}>
@@ -46,9 +49,9 @@ const TabLayout = (props) => {
     <>
       <AppBar>{viewTabs}</AppBar>
       <Box className={classes.content}>
-        {error && (
+        {applicationError && (
           <ErrorBanner
-            error={error}
+            error={applicationError}
             labels={{
               dismissButtonText: t('commoncomponents.banner.button.dismiss', 'Dismiss'),
               tooLongErrorMessage: t(
@@ -70,11 +73,4 @@ const TabLayout = (props) => {
 
 TabLayout.propTypes = {
   tabs: PropTypes.array.isRequired,
-  userName: PropTypes.string.isRequired,
-  userProfilePic: PropTypes.string.isRequired,
-  error: PropTypes.object,
-  clearApplicationErrorMessage: PropTypes.func.isRequired,
-  setApplicationTheme: PropTypes.func.isRequired,
 };
-
-export default TabLayout;
