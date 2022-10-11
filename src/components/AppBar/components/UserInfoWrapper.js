@@ -6,7 +6,7 @@ import { UserInfo } from '@cosmotech/ui';
 import { Auth } from '@cosmotech/core';
 import { useTranslation } from 'react-i18next';
 import { LANGUAGES } from '../../../config/Languages';
-import { useUserName, useUserProfilePic } from '../../../state/hooks/AuthHooks';
+import { useUserInfoHook } from './hooks/UserInfoHook';
 
 export const UserInfoWrapper = () => {
   const { t, i18n } = useTranslation();
@@ -14,8 +14,7 @@ export const UserInfoWrapper = () => {
     language: t('genericcomponent.userinfo.button.change.language', 'Change language'),
     logOut: t('genericcomponent.userinfo.button.logout', 'Sign out'),
   };
-  const userName = useUserName();
-  const userProfilePic = useUserProfilePic();
+  const { userName, userProfilePic } = useUserInfoHook();
   return (
     <UserInfo
       onLogout={Auth.signOut}

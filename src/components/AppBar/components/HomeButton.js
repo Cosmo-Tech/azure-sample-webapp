@@ -6,7 +6,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import { Fade, IconButton, makeStyles, Tooltip } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useWorkspace, useWorkspacesList } from '../../../state/hooks/WorkspaceHooks';
+import { useHomeButton } from './hooks/HomeButtonHook';
 
 const useStyles = makeStyles((theme) => ({
   homeButton: {
@@ -17,8 +17,7 @@ export const HomeButton = () => {
   const classes = useStyles();
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const currentWorkspace = useWorkspace();
-  const workspacesList = useWorkspacesList();
+  const { currentWorkspace, workspacesList } = useHomeButton();
   return currentWorkspace && workspacesList?.length > 1 ? (
     <Tooltip
       TransitionComponent={Fade}
