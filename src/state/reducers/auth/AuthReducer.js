@@ -9,6 +9,7 @@ export const authInitialState = {
   error: '',
   userId: '',
   userName: '',
+  userEmail: '',
   profilePic: '',
   roles: [],
   permissions: [],
@@ -28,6 +29,7 @@ export const authReducer = createReducer(authInitialState, (builder) => {
       state.status = action.status;
       state.userId = action.userId;
       state.userName = action.userName;
+      state.userEmail = action.userEmail;
       state.roles = action.roles;
       state.permissions = action.permissions;
       state.profilePic = action.profilePic;

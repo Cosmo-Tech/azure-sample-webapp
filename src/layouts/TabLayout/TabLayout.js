@@ -115,7 +115,7 @@ const TabLayout = (props) => {
             changeLanguage={(lang) => i18n.changeLanguage(lang)}
             language={i18n.language}
             labels={userInfoLabels}
-            userName={props.userName}
+            userName={props.userEmail}
             profilePlaceholder={props.userProfilePic ? props.userProfilePic : undefined}
             onLogout={Auth.signOut}
           />
@@ -154,6 +154,7 @@ const TabLayout = (props) => {
 TabLayout.propTypes = {
   tabs: PropTypes.array.isRequired,
   userName: PropTypes.string.isRequired,
+  userEmail: PropTypes.string.isRequired,
   userProfilePic: PropTypes.string.isRequired,
   error: PropTypes.object,
   clearApplicationErrorMessage: PropTypes.func.isRequired,
