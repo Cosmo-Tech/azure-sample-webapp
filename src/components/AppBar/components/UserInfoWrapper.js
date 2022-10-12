@@ -14,14 +14,14 @@ export const UserInfoWrapper = () => {
     language: t('genericcomponent.userinfo.button.change.language', 'Change language'),
     logOut: t('genericcomponent.userinfo.button.logout', 'Sign out'),
   };
-  const { userName, userProfilePic } = useUserInfoHook();
+  const { userProfilePic, userEmail } = useUserInfoHook();
   return (
     <UserInfo
       onLogout={Auth.signOut}
       changeLanguage={(lang) => i18n.changeLanguage(lang)}
       languages={LANGUAGES}
       language={i18n.language}
-      userName={userName}
+      userName={userEmail}
       labels={labels}
       profilePlaceholder={userProfilePic}
     />
