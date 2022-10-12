@@ -3,22 +3,9 @@
 import { Auth } from '@cosmotech/core';
 import { put, takeEvery } from 'redux-saga/effects';
 import { AUTH_ACTIONS_KEY, AUTH_STATUS } from '../../../commons/AuthConstants';
-import { PROFILES } from '../../../../config/Profiles';
 
 const UNKNOWN_ERROR_MESSAGE =
   'Unknown error. Authentication failed\nIf the problem persists, please contact your administrator.';
-
-const _extractPermissionsFromRoles = (roles) => {
-  let permissions = [];
-  if (roles) {
-    for (const role of roles) {
-      if (role in PROFILES) {
-        permissions = [...new Set([...permissions, ...PROFILES[role]])];
-      }
-    }
-  }
-  return permissions;
-};
 
 // Generator function to fetch authentication data
 export function* tryLogIn(action) {
@@ -32,14 +19,15 @@ export function* tryLogIn(action) {
     const authenticated = yield Auth.isUserSignedIn();
     if (authenticated) {
       const userRoles = Auth.getUserRoles();
-      const userPermissions = _extractPermissionsFromRoles(userRoles);
+      const userPermissions = [];
+
       // If the user is authenticated, set the auth data
       yield put({
         error: '',
         type: AUTH_ACTIONS_KEY.SET_AUTH_DATA,
+        userEmail: Auth.getUserEmail(),
         userId: Auth.getUserId(),
         userName: Auth.getUserName(),
-        userEmail: Auth.getUserEmail(),
         profilePic: Auth.getUserPicUrl(),
         roles: userRoles,
         permissions: userPermissions,
@@ -50,9 +38,9 @@ export function* tryLogIn(action) {
       yield put({
         error: '',
         type: AUTH_ACTIONS_KEY.SET_AUTH_DATA,
+        userEmail: '',
         userId: '',
         userName: '',
-        userEmail: '',
         profilePic: '',
         roles: [],
         permissions: [],
@@ -65,9 +53,9 @@ export function* tryLogIn(action) {
     yield put({
       error: errorMessage,
       type: AUTH_ACTIONS_KEY.SET_AUTH_DATA,
+      userEmail: '',
       userId: '',
       userName: '',
-      userEmail: '',
       profilePic: '',
       roles: [],
       permissions: [],

@@ -17,12 +17,19 @@ import { WORKSPACE_ACTIONS_KEY } from '../../../commons/WorkspaceConstants';
 import { SOLUTION_ACTIONS_KEY } from '../../../commons/SolutionConstants';
 import { getFirstScenarioMaster } from '../../../../utils/SortScenarioListUtils';
 import { parseError } from '../../../../utils/ErrorsUtils';
+import { Api } from '../../../../services/config/Api';
 
 const selectSolutionIdFromCurrentWorkspace = (state) => state.workspace.current.data.solution.solutionId;
 const selectScenarioList = (state) => state.scenario.list.data;
 
 export function* fetchAllInitialData(action) {
   try {
+    const { data: organizationPermissions } = yield call(Api.Organization.getAllPermissions);
+    yield put({
+      type: APPLICATION_ACTIONS_KEY.SET_PERMISSIONS_MAPPING,
+      organizationPermissions: organizationPermissions,
+    });
+
     const workspaceId = action.workspaceId;
     yield put({
       type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS,
@@ -59,6 +66,7 @@ export function* fetchAllInitialData(action) {
       status: STATUSES.SUCCESS,
     });
   } catch (error) {
+    console.log(error);
     const errorDetails = parseError(error);
     yield put({
       type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS,

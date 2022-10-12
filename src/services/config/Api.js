@@ -7,6 +7,7 @@ import {
   ScenariorunApiFactory,
   SolutionApiFactory,
   WorkspaceApiFactory,
+  OrganizationApiFactory,
 } from '@cosmotech/api-ts';
 import { clientApi } from '../ClientApi';
 import { DEFAULT_BASE_PATH } from '../../config/GlobalConfiguration';
@@ -20,4 +21,5 @@ export const Api = {
   Solutions: SolutionApiFactory(null, defaultBasePath, clientApi),
   Datasets: DatasetApiFactory(null, defaultBasePath, clientApi),
   Workspaces: WorkspaceApiFactory(null, defaultBasePath, clientApi),
+  Organization: OrganizationApiFactory(null, defaultBasePath, clientApi),
 };

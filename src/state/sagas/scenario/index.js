@@ -8,6 +8,7 @@ import { pollScenarioStateSaga } from './PollScenarioState';
 import { createScenarioData } from './CreateScenario';
 import { deleteScenarioSaga } from './DeleteScenario';
 import { renameScenarioSaga } from './RenameScenario';
+import { applyScenarioSharingChangesSaga } from './ApplyScenarioSharingChanges';
 import { updateAndLaunchScenarioSaga } from './UpdateAndLaunchScenario';
 import { launchScenarioSaga } from './LaunchScenario';
 
@@ -18,6 +19,7 @@ export default function* scenarioSaga() {
     fork(createScenarioData),
     fork(deleteScenarioSaga),
     fork(renameScenarioSaga),
+    fork(applyScenarioSharingChangesSaga),
     fork(pollScenarioStateSaga),
     fork(updateAndLaunchScenarioSaga),
     fork(launchScenarioSaga),
