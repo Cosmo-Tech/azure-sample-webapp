@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import React, { useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { ScenarioUtils } from '@cosmotech/core';
@@ -9,8 +10,7 @@ import { makeStyles } from '@material-ui/core';
 import { ScenarioManagerTreeList } from '@cosmotech/ui';
 import { WORKSPACE_ID } from '../../config/GlobalConfiguration';
 import { useTranslation } from 'react-i18next';
-import { PERMISSIONS } from '../../services/config/Permissions';
-import { PermissionsGate } from '../../components/PermissionsGate';
+import { ACL_PERMISSIONS } from '../../services/config/accessControl';
 import { getFirstScenarioMaster } from '../../utils/SortScenarioListUtils';
 import { getScenarioManagerLabels } from './labels';
 
@@ -36,6 +36,7 @@ function moveScenario(moveData) {
 }
 
 const ScenarioManager = (props) => {
+  const userAppPermissions = useSelector((state) => state.auth.permissions);
   const classes = useStyles();
   const { t } = useTranslation();
   const labels = getScenarioManagerLabels(t);
@@ -124,27 +125,36 @@ const ScenarioManager = (props) => {
     findScenarioById(WORKSPACE_ID, scenarioId);
   };
 
+  const canUserDeleteScenario = (scenario) => {
+    const userPermissionsOnCurrentScenario = scenario?.security?.currentUserPermissions || [];
+    const userAppAndScenarioPermissions = userAppPermissions.concat(userPermissionsOnCurrentScenario);
+    return userAppAndScenarioPermissions.includes(ACL_PERMISSIONS.SCENARIO.DELETE);
+  };
+
+  const canUserRenameScenario = (scenario) => {
+    const userPermissionsOnCurrentScenario = scenario?.security?.currentUserPermissions || [];
+    const userAppAndScenarioPermissions = userAppPermissions.concat(userPermissionsOnCurrentScenario);
+    return userAppAndScenarioPermissions.includes(ACL_PERMISSIONS.SCENARIO.WRITE);
+  };
+
   return (
     <div className={classes.root}>
-      <PermissionsGate
-        noPermissionProps={{ showDeleteIcon: false }}
-        authorizedPermissions={[PERMISSIONS.canDeleteScenario]}
-      >
-        <ScenarioManagerTreeList
-          datasets={datasets}
-          scenarios={scenarios}
-          currentScenarioId={currentScenario?.id}
-          userId={userId}
-          onScenarioRedirect={onScenarioRedirect}
-          deleteScenario={onScenarioDelete}
-          onScenarioRename={onScenarioRename}
-          checkScenarioNameValue={checkScenarioNameValue}
-          moveScenario={moveScenario}
-          buildDatasetInfo={buildDatasetLabel}
-          labels={labels}
-          buildScenarioNameToDelete={buildScenarioNameToDelete}
-        />
-      </PermissionsGate>
+      <ScenarioManagerTreeList
+        datasets={datasets}
+        scenarios={scenarios}
+        currentScenarioId={currentScenario?.id}
+        userId={userId}
+        onScenarioRedirect={onScenarioRedirect}
+        deleteScenario={onScenarioDelete}
+        onScenarioRename={onScenarioRename}
+        checkScenarioNameValue={checkScenarioNameValue}
+        moveScenario={moveScenario}
+        buildDatasetInfo={buildDatasetLabel}
+        labels={labels}
+        buildScenarioNameToDelete={buildScenarioNameToDelete}
+        canUserDeleteScenario={canUserDeleteScenario}
+        canUserRenameScenario={canUserRenameScenario}
+      />
     </div>
   );
 };

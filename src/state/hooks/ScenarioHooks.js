@@ -5,6 +5,7 @@ import { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import {
+  dispatchApplyScenarioSharingChanges,
   dispatchSetScenarioValidationStatus,
   dispatchFindScenarioById,
   dispatchCreateScenario,
@@ -19,6 +20,14 @@ export const useScenarioList = () => {
 
 export const useCurrentScenario = () => {
   return useSelector((state) => state.scenario.current);
+};
+
+export const useApplyScenarioSharingSecurity = () => {
+  const dispatch = useDispatch();
+  return useCallback(
+    (scenarioId, security) => dispatch(dispatchApplyScenarioSharingChanges(scenarioId, security)),
+    [dispatch]
+  );
 };
 
 export const useSetScenarioValidationStatus = () => {

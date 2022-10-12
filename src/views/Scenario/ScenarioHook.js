@@ -4,6 +4,7 @@
 import {
   useCurrentScenario,
   useScenarioList,
+  useApplyScenarioSharingSecurity,
   useSetScenarioValidationStatus,
   useFindScenarioById,
   useCreateScenario,
@@ -15,7 +16,12 @@ import { useDatasetList, useAddDatasetToStore } from '../../state/hooks/DatasetH
 import { useUser } from '../../state/hooks/AuthHooks';
 import { useWorkspace } from '../../state/hooks/WorkspaceHooks';
 import { useSolution } from '../../state/hooks/SolutionHooks';
-import { useSetApplicationErrorMessage } from '../../state/hooks/ApplicationHooks';
+import {
+  useSetApplicationErrorMessage,
+  useApplicationRoles,
+  useApplicationPermissions,
+  useApplicationPermissionsMapping,
+} from '../../state/hooks/ApplicationHooks';
 
 export const useScenario = () => {
   const scenarioList = useScenarioList();
@@ -24,9 +30,13 @@ export const useScenario = () => {
   const user = useUser();
   const workspace = useWorkspace();
   const solution = useSolution();
+  const roles = useApplicationRoles();
+  const permissions = useApplicationPermissions();
+  const permissionsMapping = useApplicationPermissionsMapping();
 
   const addDatasetToStore = useAddDatasetToStore();
 
+  const applyScenarioSharingSecurity = useApplyScenarioSharingSecurity();
   const setScenarioValidationStatus = useSetScenarioValidationStatus();
   const findScenarioById = useFindScenarioById();
   const createScenario = useCreateScenario();
@@ -45,7 +55,11 @@ export const useScenario = () => {
     user,
     workspace,
     solution,
+    roles,
+    permissions,
+    permissionsMapping,
     addDatasetToStore,
+    applyScenarioSharingSecurity,
     setScenarioValidationStatus,
     findScenarioById,
     createScenario,
