@@ -17,6 +17,10 @@ export const useUserName = () => {
   return useSelector((state) => state.auth.userName);
 };
 
+export const useUserEmail = () => {
+  return useSelector((state) => state.auth.userEmail);
+};
+
 export const useUserProfilePic = () => {
   return useSelector((state) => state.auth.profilePic);
 };
