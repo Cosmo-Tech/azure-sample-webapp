@@ -3,7 +3,7 @@
 
 import rfdc from 'rfdc';
 import { SolutionsUtils } from '../SolutionsUtils';
-import { STANDARD_SOLUTION } from './StandardSolutionData';
+import { STANDARD_SOLUTION } from './fixtures/StandardSolutionData';
 
 const clone = rfdc();
 

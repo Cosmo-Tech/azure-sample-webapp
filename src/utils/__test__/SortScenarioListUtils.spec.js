@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { scenarioList, expectedSortedScenariolist } from './ScenarioListData.js';
+import { scenarioList, expectedSortedScenariolist } from './fixtures/ScenarioListData.js';
 import { sortScenarioList, getFirstScenarioMaster } from '../SortScenarioListUtils';
 
 describe('sortScenarioList', () => {
