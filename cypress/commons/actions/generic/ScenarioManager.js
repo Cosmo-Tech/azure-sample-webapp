@@ -10,13 +10,15 @@ function getScenarioManagerView() {
 function switchToScenarioManager() {
   cy.get(GENERIC_SELECTORS.scenario.manager.tabName).click();
 }
-
+function getDeleteScenarioButton() {
+  return cy.get(GENERIC_SELECTORS.scenario.manager.button.delete);
+}
 function deleteScenario(scenarioName) {
   const deleteScenarioAlias = api.interceptDeleteScenario(scenarioName);
   const getScenariosAlias = api.interceptGetScenarios();
 
   writeInFilter(scenarioName);
-  cy.get(GENERIC_SELECTORS.scenario.manager.button.delete).click();
+  getDeleteScenarioButton().click();
   cy.get(GENERIC_SELECTORS.scenario.manager.confirmDeleteDialog).contains('button', 'Confirm').click();
   api.waitAlias(deleteScenarioAlias);
   api.waitAlias(getScenariosAlias);
@@ -56,7 +58,11 @@ function getScenarioEditableLabel(scenarioId, timeout = 5) {
     timeout: timeout * 1000,
   });
 }
-
+function getScenarioEditableLabelInEditMode(scenarioId, timeout = 5) {
+  return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.manager.editableLabelInEditMode, {
+    timeout: timeout * 1000,
+  });
+}
 function renameScenario(scenarioId, newScenarioName) {
   return ScenarioManager.getScenarioEditableLabel(scenarioId)
     .click()
@@ -135,6 +141,7 @@ function triggerScenarioAccordionExpandOrCollapse(scenarioId) {
 export const ScenarioManager = {
   getScenarioManagerView,
   switchToScenarioManager,
+  getDeleteScenarioButton,
   deleteScenario,
   deleteScenarioList,
   writeInFilter,
@@ -143,6 +150,7 @@ export const ScenarioManager = {
   getScenarioOwnerName,
   getScenarioCreationDate,
   getScenarioEditableLabel,
+  getScenarioEditableLabelInEditMode,
   renameScenario,
   getScenarioValidationStatusChip,
   getScenarioValidationStatusLoadingSpinner,

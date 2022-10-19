@@ -112,6 +112,7 @@ export const GENERIC_SELECTORS = {
       scenarioAccordionExpandButton: '[data-cy=expand-accordion-button]',
       scenarioDataset: '[data-cy=scenario-datasets]',
       editableLabel: '[data-cy=editable-label]',
+      editableLabelInEditMode: '[data-cy=editable-label-in-edition-mode]',
     },
   },
   genericComponents: {
@@ -162,6 +163,7 @@ export const GENERIC_SELECTORS = {
     rolesEdition: {
       shareScenarioButton: '[data-cy=share-scenario-button]',
       shareScenarioDialogAgentsSelect: '[data-cy=share-scenario-dialog-agents-select]',
+      shareScenarioDialogAgentsSelectAgentName: '[data-cy=share-scenario-dialog-agents-select-$AGENT_NAME]',
       shareScenarioDialogFirstCancelButton: '[data-cy=share-scenario-dialog-first-cancel-button]',
       shareScenarioDialogSubmitButton: '[data-cy=share-scenario-dialog-submit-button]',
       shareScenarioDialog: '[data-cy=share-scenario-dialog]',
@@ -174,11 +176,13 @@ export const GENERIC_SELECTORS = {
         '[data-cy=share-scenario-dialog-not-granted-permission-chip-$PERMISSION]',
       shareScenarioDialogSecondCancelButton: '[data-cy=share-scenario-dialog-second-cancel-button]',
       shareScenarioDialogConfirmAddAccessButton: '[data-cy=share-scenario-dialog-confirm-add-access-button]',
-      roleEditorAgent: '[data-cy=role-editor-agent]',
+      roleEditorByAgent: '[data-cy=role-editor-$AGENT_NAME]',
+      roleEditorAgentName: '[data-cy=role-editor-agent-name]',
       selectWithAction: '[data-cy=select-with-action]',
       selectCheckedIconByOption: '[data-cy=select-$OPTION-checked-icon]',
-      selectOptionByOption: '[data-cy=select-option-$OPTION]',
+      selectOption: '[data-cy=select-option-$OPTION]',
       selectActionName: '[data-cy=select-action-name]',
+      noAdminErrorMessage: '[data-cy=no-admin-error-message]',
     },
   },
 };

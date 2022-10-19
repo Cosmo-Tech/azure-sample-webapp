@@ -11,4 +11,4 @@ export {
   DEFAULT_SOLUTIONS_LIST,
 } from './solutions';
 export { WORKSPACE_EXAMPLE, DEFAULT_WORKSPACE, DEFAULT_WORKSPACES_LIST } from './workspaces';
-export { USER_EXAMPLE } from './users';
+export { USER_EXAMPLE, USERS_LIST } from './users';

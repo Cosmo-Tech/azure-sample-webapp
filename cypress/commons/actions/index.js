@@ -12,4 +12,5 @@ export {
   ScenarioParameters,
   Login,
   ErrorBanner,
+  RolesEdition,
 } from './generic';
