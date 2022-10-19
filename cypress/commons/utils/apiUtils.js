@@ -120,22 +120,30 @@ const interceptUpdateScenario = (scenarioId) => {
   return alias;
 };
 
-const interceptUpdateScenarioDefaultSecurity = () => {
+const interceptUpdateScenarioDefaultSecurity = (expectedDefaultSecurity) => {
   const alias = forgeAlias('reqUpdateScenarioDefaultSecurity');
   cy.intercept({ method: 'POST', url: API_REGEX.SCENARIO_DEFAULT_SECURITY, times: 1 }, (req) => {
     const scenarioId = req.url.match(API_REGEX.SCENARIO_ACL_SECURITY)[1];
     const newDefaultSecurity = req.body;
+    if (expectedDefaultSecurity) expect(newDefaultSecurity).to.equal(expectedDefaultSecurity);
     if (stub.isEnabledFor('GET_SCENARIOS')) stub.patchScenarioDefaultSecurity(scenarioId, newDefaultSecurity);
     if (stub.isEnabledFor('UPDATE_SCENARIO')) req.reply(newDefaultSecurity);
   }).as(alias);
   return alias;
 };
 
-const interceptUpdateScenarioACLSecurity = () => {
+const interceptUpdateScenarioACLSecurity = (expectedACLSecurity) => {
   const alias = forgeAlias('reqUpdateScenarioACLSecurity');
   cy.intercept({ method: 'POST', url: API_REGEX.SCENARIO_ACL_SECURITY, times: 1 }, (req) => {
     const scenarioId = req.url.match(API_REGEX.SCENARIO_ACL_SECURITY)[1];
     const newACLSecurity = req.body;
+    console.log('***************intercept******************');
+    console.log('newACLSecurity');
+    console.log(newACLSecurity);
+    console.log('expectedACLSecurity');
+    console.log(expectedACLSecurity);
+
+    // if (expectedACLSecurity) expect(newACLSecurity).to.to.deep.equal(expectedACLSecurity);
     if (stub.isEnabledFor('GET_SCENARIOS')) stub.patchScenarioACLSecurity(scenarioId, newACLSecurity);
     if (stub.isEnabledFor('UPDATE_SCENARIO')) req.reply(newACLSecurity);
   }).as(alias);
@@ -156,7 +164,7 @@ const interceptUpdateScenarioSecurity = (defaultSecurityChangesCount, aclSecurit
 
 const interceptGetOrganizationPermissions = () => {
   const alias = forgeAlias('reqGetOrganizationPermissions');
-  cy.intercept({ method: 'GET', url: API_REGEX.PERMISSIONS_MAPPING, times: 1 }, (req) => {
+  cy.intercept({ method: 'GET', url: API_REGEX.PERMISSIONS_MAPPING }, (req) => {
     if (stub.isEnabledFor('PERMISSIONS_MAPPING')) req.reply(stub.getOrganizationPermissions());
   }).as(alias);
   return alias;

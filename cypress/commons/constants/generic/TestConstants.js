@@ -42,12 +42,46 @@ export const API_ENDPOINT = {
   // /organizations/{organization_id}/workspaces/{workspace_id}/scenarios/permissions/{role}
 };
 
+export const ROLES = {
+  ORGANIZATION: {
+    NONE: 'none',
+    VIEWER: 'viewer',
+    USER: 'user',
+    EDITOR: 'editor',
+    ADMIN: 'admin',
+  },
+  WORKSPACE: {
+    NONE: 'none',
+    VIEWER: 'viewer',
+    USER: 'user',
+    EDITOR: 'editor',
+    ADMIN: 'admin',
+  },
+  SCENARIO: {
+    NONE: 'none',
+    VIEWER: 'viewer',
+    EDITOR: 'editor',
+    VALIDATOR: 'validator',
+    ADMIN: 'admin',
+  },
+};
+
+export const PERMISSIONS = {
+  READ: 'read',
+  READ_SECURITY: 'read_security',
+  LAUNCH: 'launch',
+  WRITE: 'write',
+  VALIDATE: 'validate',
+  DELETE: 'delete',
+  WRITE_SECURITY: 'write_security',
+};
+
 export const API_REGEX = {
   ALL: new RegExp(URL_ROOT),
   SCENARIOS: new RegExp('^' + API_ENDPOINT.SCENARIOS + '$'),
   SCENARIO: new RegExp('^' + API_ENDPOINT.SCENARIO),
   SCENARIO_DEFAULT_SECURITY: new RegExp('^' + API_ENDPOINT.SCENARIO_DEFAULT_SECURITY + '$'),
-  SCENARIO_SECURITY_ACL: new RegExp('^' + API_ENDPOINT.SCENARIO_ACL_SECURITY + '$'),
+  SCENARIO_ACL_SECURITY: new RegExp('^' + API_ENDPOINT.SCENARIO_ACL_SECURITY + '$'),
   RUN_SCENARIO: new RegExp('^' + API_ENDPOINT.RUN_SCENARIO),
   DATASETS: new RegExp('^' + API_ENDPOINT.DATASETS + '$'),
   WORKSPACE: new RegExp('^' + API_ENDPOINT.WORKSPACE + '$'),

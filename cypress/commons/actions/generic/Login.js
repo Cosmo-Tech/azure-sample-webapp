@@ -5,6 +5,7 @@ import 'cypress-localstorage-commands';
 import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
 import { Scenarios } from './Scenarios';
 import { apiUtils as api } from '../../utils';
+import { AppBar } from './AppBar';
 
 const BASE_URL = Cypress.config().baseUrl;
 function getMicrosoftLoginButton() {
@@ -23,7 +24,7 @@ function login(url = BASE_URL) {
       });
     },
   });
-  Login.getMicrosoftLoginButton().click();
+  getMicrosoftLoginButton().click();
   api.waitAlias(reqAuthAlias);
   api.waitAliases(newPageQueries, { timeout: 60 * 1000 });
   Scenarios.getScenarioViewTab(60).should('be.visible');
@@ -47,8 +48,14 @@ function relogin(url = BASE_URL) {
   Scenarios.getScenarioViewTab(60).should('be.visible');
 }
 
+function logout(url = BASE_URL) {
+  AppBar.getUserInfoMenu();
+  AppBar.logout();
+}
+
 export const Login = {
   getMicrosoftLoginButton,
   login,
   relogin,
+  logout,
 };

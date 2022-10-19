@@ -1,6 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
+import { ROLES } from '../../../commons/constants/generic/TestConstants';
+
 export const SCENARIO_EXAMPLE = {
   id: 's-stubbedscnr00',
   name: 'Test Cypress - Stubbed scenario 0',
@@ -25,7 +27,7 @@ export const SCENARIO_EXAMPLE = {
   parentLastRun: null,
   rootLastRun: null,
   validationStatus: 'Draft',
-  security: { default: 'admin', accessControlList: [] },
+  security: { default: ROLES.SCENARIO.ADMIN, accessControlList: [] },
 };
 
 export const DEFAULT_SCENARIOS_LIST = [
