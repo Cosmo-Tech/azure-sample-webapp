@@ -8,7 +8,6 @@ import {
   useSetScenarioValidationStatus,
   useFindScenarioById,
   useCreateScenario,
-  useUpdateCurrentScenario,
   useUpdateAndLaunchScenario,
   useLaunchScenario,
 } from '../../state/hooks/ScenarioHooks';
@@ -41,7 +40,6 @@ export const useScenario = () => {
   const setScenarioValidationStatus = useSetScenarioValidationStatus();
   const findScenarioById = useFindScenarioById();
   const createScenario = useCreateScenario();
-  const updateCurrentScenario = useUpdateCurrentScenario();
 
   const updateAndLaunchScenario = useUpdateAndLaunchScenario();
 
@@ -65,7 +63,6 @@ export const useScenario = () => {
     setScenarioValidationStatus,
     findScenarioById,
     createScenario,
-    updateCurrentScenario,
     updateAndLaunchScenario,
     launchScenario,
     setApplicationErrorMessage,
