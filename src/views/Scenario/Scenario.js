@@ -34,9 +34,10 @@ import {
   getPermissionsLabels,
   getRolesLabels,
 } from './labels';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { useScenario } from './ScenarioHook';
+import { useRedirectionToScenario } from '../../state/hooks/RouterHooks';
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -77,14 +78,12 @@ const Scenario = () => {
     setScenarioValidationStatus,
     findScenarioById,
     createScenario,
-    updateCurrentScenario,
     updateAndLaunchScenario,
     launchScenario,
     setApplicationErrorMessage,
   ] = useScenario();
 
   const routerParameters = useParams();
-  const navigate = useNavigate();
   const workspaceId = workspace.data.id;
   const workspaceUsers = workspace.data.users.map((user) => ({ id: user }));
   const [editMode, setEditMode] = useState(false);
@@ -104,40 +103,6 @@ const Scenario = () => {
   useEffect(() => {
     localStorage.setItem('scenarioParametersAccordionExpanded', accordionSummaryExpanded);
   }, [accordionSummaryExpanded]);
-
-  useEffect(() => {
-    if (sortedScenarioList.length !== 0) {
-      if (routerParameters.id === undefined) {
-        navigate(`/scenario/${currentScenario.data.id}`);
-      } else if (currentScenario.data.id !== routerParameters.id) {
-        const scenarioFromUrl = { id: routerParameters.id };
-        handleScenarioChange(event, scenarioFromUrl);
-        navigate(`/scenario/${scenarioFromUrl.id}`);
-      }
-    } else {
-      navigate('/scenario');
-    }
-    // eslint-disable-next-line
-  }, []);
-
-  // this function enables backwards navigation between scenario's URLs
-  window.onpopstate = (e) => {
-    const scenarioFromUrl = scenarioList.data.find((el) => el.id === routerParameters.id);
-    if (scenarioFromUrl) handleScenarioChange(event, scenarioFromUrl);
-  };
-
-  useEffect(() => {
-    if (sortedScenarioList.length > 0) {
-      if (currentScenario.data === null) {
-        handleScenarioChange(event, sortedScenarioList[0]);
-        navigate(`/scenario/${sortedScenarioList[0].id}`);
-      } else if (currentScenario.data.id !== routerParameters.id) {
-        navigate(`/scenario/${currentScenario.data.id}`);
-        updateCurrentScenario({ status: STATUSES.SUCCESS });
-      }
-    }
-    // eslint-disable-next-line
-  }, [currentScenario]);
 
   const expandParametersAndCreateScenario = (workspaceId, scenarioData) => {
     createScenario(workspaceId, scenarioData);
@@ -159,7 +124,12 @@ const Scenario = () => {
   const scenarioListDisabled = editMode || scenarioList === null || noScenario;
   const scenarioListLabel = noScenario ? null : t('views.scenario.dropdown.scenario.label', 'Scenario');
   const showBackdrop = currentScenario.status === STATUSES.LOADING;
-
+  useRedirectionToScenario(sortedScenarioList);
+  // this function enables backwards navigation between scenario's URLs
+  window.onpopstate = (e) => {
+    const scenarioFromUrl = scenarioList.data.find((el) => el.id === routerParameters.scenarioId);
+    if (scenarioFromUrl) handleScenarioChange(event, scenarioFromUrl);
+  };
   const getFilteredRunTemplates = (solution, workspace) => {
     let filteredRunTemplates = solution?.data?.runTemplates || [];
     const solutionRunTemplates = workspace.data?.solution?.runTemplateFilter;
