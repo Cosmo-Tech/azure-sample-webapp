@@ -11,7 +11,10 @@ describe('check scenario sorted list after reload', () => {
     stub.start({
       GET_DATASETS: true,
       GET_SCENARIOS: true,
+      GET_WORKSPACES: true,
+      GET_SOLUTIONS: true,
     });
+    stub.setFakeWorkspaceId('W-stbbdbrwry');
     stub.setScenarios(ALL_ROOT_SCENARIOS);
     Login.login();
   });
@@ -26,7 +29,7 @@ describe('check scenario sorted list after reload', () => {
 
   it('checks first scenario in the list after reload', () => {
     Scenarios.selectScenario(ALL_ROOT_SCENARIOS[1].name, ALL_ROOT_SCENARIOS[1].id);
-    route.browse('/scenario');
+    route.browse('W-stbbdbrwry/scenario');
     Scenarios.getScenarioSelectorInput().should('have.value', ALL_ROOT_SCENARIOS[0].name);
   });
 });

@@ -22,10 +22,11 @@ import ScenarioService from '../../services/scenario/ScenarioService';
 import { STATUSES } from '../../state/commons/Constants';
 import { AppInsights } from '../../services/AppInsights';
 import { ACL_PERMISSIONS } from '../../services/config/accessControl';
-import { useNavigate, useParams } from 'react-router-dom';
+import { ScenarioPowerBiReport } from './components';
+import { useParams } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { useScenario } from './ScenarioHook';
-import { ScenarioPowerBiReport } from './components';
+import { useRedirectionToScenario } from '../../state/hooks/RouterHooks';
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -60,14 +61,12 @@ const Scenario = () => {
     addDatasetToStore,
     setScenarioValidationStatus,
     findScenarioById,
-    updateCurrentScenario,
     updateAndLaunchScenario,
     launchScenario,
     setApplicationErrorMessage,
   } = useScenario();
 
   const routerParameters = useParams();
-  const navigate = useNavigate();
   const workspaceId = workspace.data.id;
   const [editMode, setEditMode] = useState(false);
 
@@ -83,40 +82,6 @@ const Scenario = () => {
   useEffect(() => {
     localStorage.setItem('scenarioParametersAccordionExpanded', accordionSummaryExpanded);
   }, [accordionSummaryExpanded]);
-
-  useEffect(() => {
-    if (sortedScenarioList.length !== 0) {
-      if (routerParameters.id === undefined) {
-        navigate(`/scenario/${currentScenario.data.id}`);
-      } else if (currentScenario.data.id !== routerParameters.id) {
-        const scenarioFromUrl = { id: routerParameters.id };
-        handleScenarioChange(event, scenarioFromUrl);
-        navigate(`/scenario/${scenarioFromUrl.id}`);
-      }
-    } else {
-      navigate('/scenario');
-    }
-    // eslint-disable-next-line
-  }, []);
-
-  // this function enables backwards navigation between scenario's URLs
-  window.onpopstate = (e) => {
-    const scenarioFromUrl = scenarioList.data.find((el) => el.id === routerParameters.id);
-    if (scenarioFromUrl) handleScenarioChange(event, scenarioFromUrl);
-  };
-
-  useEffect(() => {
-    if (sortedScenarioList.length > 0) {
-      if (currentScenario.data === null) {
-        handleScenarioChange(event, sortedScenarioList[0]);
-        navigate(`/scenario/${sortedScenarioList[0].id}`);
-      } else if (currentScenario.data.id !== routerParameters.id) {
-        navigate(`/scenario/${currentScenario.data.id}`);
-        updateCurrentScenario({ status: STATUSES.SUCCESS });
-      }
-    }
-    // eslint-disable-next-line
-  }, [currentScenario]);
 
   const onScenarioCreated = useCallback(() => setAccordionSummaryExpanded(true), []);
 
@@ -136,6 +101,13 @@ const Scenario = () => {
   const scenarioListDisabled = editMode || scenarioList === null || noScenario;
   const scenarioListLabel = noScenario ? null : t('views.scenario.dropdown.scenario.label', 'Scenario');
   const showBackdrop = currentScenario.status === STATUSES.LOADING;
+
+  useRedirectionToScenario(sortedScenarioList);
+  // this function enables backwards navigation between scenario's URLs
+  window.onpopstate = (e) => {
+    const scenarioFromUrl = scenarioList.data.find((el) => el.id === routerParameters.scenarioId);
+    if (scenarioFromUrl) handleScenarioChange(event, scenarioFromUrl);
+  };
 
   const resetScenarioValidationStatus = async () => {
     const currentStatus = currentScenario.data.validationStatus;
