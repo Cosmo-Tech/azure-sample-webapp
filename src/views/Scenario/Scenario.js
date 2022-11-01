@@ -26,7 +26,7 @@ import { ScenarioPowerBiReport } from './components';
 import { useParams } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { useScenario } from './ScenarioHook';
-import { useRedirectionToScenario } from '../../state/hooks/RouterHooks';
+import { useRedirectionToScenario } from '../../hooks/RouterHooks';
 
 const useStyles = makeStyles((theme) => ({
   content: {
