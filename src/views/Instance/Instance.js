@@ -12,7 +12,7 @@ import { AppInsights } from '../../services/AppInsights';
 import { fetchData, processGraphElements } from './data';
 import useStyles from './style';
 import { useTheme } from '@material-ui/core/styles';
-import { useRedirectionToScenario } from '../../state/hooks/RouterHooks';
+import { useRedirectionToScenario } from '../../hooks/RouterHooks';
 
 const EXTRA_LAYOUTS = {
   breadthfirst: null,
