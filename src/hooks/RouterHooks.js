@@ -3,9 +3,9 @@
 
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useCurrentScenario, useFindScenarioById, useUpdateCurrentScenario } from './ScenarioHooks';
-import { useWorkspace } from './WorkspaceHooks';
-import { STATUSES } from '../commons/Constants';
+import { useCurrentScenario, useFindScenarioById, useUpdateCurrentScenario } from '../state/hooks/ScenarioHooks';
+import { useWorkspace } from '../state/hooks/WorkspaceHooks';
+import { STATUSES } from '../state/commons/Constants';
 
 export const useRedirectionToScenario = (sortedScenarioList) => {
   const routerParameters = useParams();
@@ -16,6 +16,7 @@ export const useRedirectionToScenario = (sortedScenarioList) => {
   const updateCurrentScenario = useUpdateCurrentScenario();
   useEffect(() => {
     if (sortedScenarioList.length !== 0) {
+      if (currentScenario?.data?.id === undefined) return;
       if (routerParameters.scenarioId === undefined) {
         navigate(`${currentScenario.data.id}`);
       } else if (currentScenario.data.id !== routerParameters.scenarioId) {
@@ -27,6 +28,7 @@ export const useRedirectionToScenario = (sortedScenarioList) => {
     }
   }, []);
   useEffect(() => {
+    if (currentScenario?.data?.id === undefined) return;
     if (sortedScenarioList.length > 0) {
       if (currentScenario.data === null) {
         handleScenarioChange(currentWorkspace.data.id, sortedScenarioList[0].id);
@@ -37,5 +39,5 @@ export const useRedirectionToScenario = (sortedScenarioList) => {
       }
     }
     // eslint-disable-next-line
-    }, [currentScenario.data.id]);
+    }, [currentScenario?.data?.id]);
 };
