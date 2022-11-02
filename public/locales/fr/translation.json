@@ -315,7 +315,7 @@
         "roles": {
           "admin": "Admin",
           "viewer": "Visiteur",
-          "none": "Aucun",
+          "none": "Restreint",
           "user": "Utilisateur",
           "validator": "Validateur",
           "editor": "Editeur"

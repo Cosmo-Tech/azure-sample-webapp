@@ -364,6 +364,7 @@ const Scenario = () => {
             specificAccessByAgent={accessListSpecific ?? []}
             defaultRole={defaultRole || ''}
             defaultAccessScope="Workspace"
+            preventNoneRoleForAgents={true}
             allRoles={rolesLabels}
             allPermissions={permissionsLabels}
           />

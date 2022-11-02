@@ -180,7 +180,7 @@ const _getPermissionsFromMapping = (permissionsMapping) => {
 //     roles: { ... },
 //   },
 // ];
-const parseOrganizationPermissions = (organizationPermissions) => {
+const parseOrganizationPermissions = (organizationPermissions, addNoneRole = false) => {
   if (organizationPermissions == null) {
     console.warn("Organization permissions value is null or undefined, can't parse it.");
     return null;
@@ -201,6 +201,15 @@ const parseOrganizationPermissions = (organizationPermissions) => {
     permissions[componentKey] = _getPermissionsFromMapping(mapping);
     permissionsMapping[componentKey] = mapping;
   }
+
+  if (addNoneRole === true) {
+    for (const componentPermissions of organizationPermissions) {
+      const componentKey = componentPermissions.component;
+      !roles[componentKey].includes('none') && roles[componentKey].unshift('none');
+      permissionsMapping[componentKey].none === undefined && (permissionsMapping[componentKey].none = []);
+    }
+  }
+
   return { roles, permissions, permissionsMapping };
 };
 

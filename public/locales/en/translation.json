@@ -315,7 +315,7 @@
         "roles": {
           "admin": "Admin",
           "editor": "Editor",
-          "none": "None",
+          "none": "Restricted",
           "validator": "Validator",
           "viewer": "Viewer"
         },

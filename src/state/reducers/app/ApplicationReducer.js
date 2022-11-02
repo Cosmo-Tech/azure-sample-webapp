@@ -19,8 +19,10 @@ export const applicationReducer = createReducer(applicationInitialState, (builde
   builder
     .addCase(APPLICATION_ACTIONS_KEY.SET_PERMISSIONS_MAPPING, (state, action) => {
       const { roles, permissions, permissionsMapping } = SecurityUtils.parseOrganizationPermissions(
-        action.organizationPermissions
+        action.organizationPermissions,
+        true // Add the role "none" that is not specified in roles sent by the back-end
       );
+
       state.roles = roles;
       state.permissions = permissions;
       state.permissionsMapping = permissionsMapping;
