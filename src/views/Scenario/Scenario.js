@@ -67,6 +67,7 @@ const Scenario = () => {
     currentScenario,
     user,
     workspace,
+    userPermissionsOnCurrentWorkspace,
     solution,
     roles,
     permissions,
@@ -306,7 +307,6 @@ const Scenario = () => {
     validationStatus: scenarioValidationStatusLabels,
   };
 
-  const userPermissionsOnCurrentWorkspace = workspace?.data?.security?.currentUserPermissions || [];
   const createScenarioButton = (
     <PermissionsGate
       userPermissions={userPermissionsOnCurrentWorkspace}

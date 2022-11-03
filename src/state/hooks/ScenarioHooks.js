@@ -22,6 +22,10 @@ export const useCurrentScenario = () => {
   return useSelector((state) => state.scenario.current);
 };
 
+export const useCurrentScenarioData = () => {
+  return useSelector((state) => state.scenario.current?.data);
+};
+
 export const useApplyScenarioSharingSecurity = () => {
   const dispatch = useDispatch();
   return useCallback(

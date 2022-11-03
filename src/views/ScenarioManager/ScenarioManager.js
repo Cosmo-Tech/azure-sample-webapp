@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import React, { useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { ScenarioUtils } from '@cosmotech/core';
@@ -11,6 +10,7 @@ import { ScenarioManagerTreeList } from '@cosmotech/ui';
 import { WORKSPACE_ID } from '../../config/GlobalConfiguration';
 import { useTranslation } from 'react-i18next';
 import { ACL_PERMISSIONS } from '../../services/config/accessControl';
+import { useHasUserPermissionOnScenario } from '../../state/hooks/SecurityHooks';
 import { getFirstScenarioMaster } from '../../utils/SortScenarioListUtils';
 import { getScenarioManagerLabels } from './labels';
 
@@ -36,9 +36,9 @@ function moveScenario(moveData) {
 }
 
 const ScenarioManager = (props) => {
-  const userAppPermissions = useSelector((state) => state.auth.permissions);
   const classes = useStyles();
   const { t } = useTranslation();
+  const hasUserPermissionOnScenario = useHasUserPermissionOnScenario();
   const labels = getScenarioManagerLabels(t);
 
   const {
@@ -125,17 +125,8 @@ const ScenarioManager = (props) => {
     findScenarioById(WORKSPACE_ID, scenarioId);
   };
 
-  const canUserDeleteScenario = (scenario) => {
-    const userPermissionsOnCurrentScenario = scenario?.security?.currentUserPermissions || [];
-    const userAppAndScenarioPermissions = userAppPermissions.concat(userPermissionsOnCurrentScenario);
-    return userAppAndScenarioPermissions.includes(ACL_PERMISSIONS.SCENARIO.DELETE);
-  };
-
-  const canUserRenameScenario = (scenario) => {
-    const userPermissionsOnCurrentScenario = scenario?.security?.currentUserPermissions || [];
-    const userAppAndScenarioPermissions = userAppPermissions.concat(userPermissionsOnCurrentScenario);
-    return userAppAndScenarioPermissions.includes(ACL_PERMISSIONS.SCENARIO.WRITE);
-  };
+  const canUserDeleteScenario = (scenario) => hasUserPermissionOnScenario(ACL_PERMISSIONS.SCENARIO.DELETE, scenario);
+  const canUserRenameScenario = (scenario) => hasUserPermissionOnScenario(ACL_PERMISSIONS.SCENARIO.WRITE, scenario);
 
   return (
     <div className={classes.root}>

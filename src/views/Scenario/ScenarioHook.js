@@ -14,7 +14,7 @@ import {
 } from '../../state/hooks/ScenarioHooks';
 import { useDatasetList, useAddDatasetToStore } from '../../state/hooks/DatasetHooks';
 import { useUser } from '../../state/hooks/AuthHooks';
-import { useWorkspace } from '../../state/hooks/WorkspaceHooks';
+import { useWorkspace, useUserPermissionsOnCurrentWorkspace } from '../../state/hooks/WorkspaceHooks';
 import { useSolution } from '../../state/hooks/SolutionHooks';
 import {
   useSetApplicationErrorMessage,
@@ -29,6 +29,7 @@ export const useScenario = () => {
   const currentScenario = useCurrentScenario();
   const user = useUser();
   const workspace = useWorkspace();
+  const userPermissionsOnCurrentWorkspace = useUserPermissionsOnCurrentWorkspace();
   const solution = useSolution();
   const roles = useApplicationRoles();
   const permissions = useApplicationPermissions();
@@ -54,6 +55,7 @@ export const useScenario = () => {
     currentScenario,
     user,
     workspace,
+    userPermissionsOnCurrentWorkspace,
     solution,
     roles,
     permissions,
