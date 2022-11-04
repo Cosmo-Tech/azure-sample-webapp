@@ -10,7 +10,7 @@ import { ScenarioManagerTreeList } from '@cosmotech/ui';
 import { WORKSPACE_ID } from '../../config/GlobalConfiguration';
 import { useTranslation } from 'react-i18next';
 import { ACL_PERMISSIONS } from '../../services/config/accessControl';
-import { useHasUserPermissionOnScenario } from '../../state/hooks/SecurityHooks';
+import { useHasUserPermissionOnScenario } from '../../hooks/SecurityHooks';
 import { getFirstScenarioMaster } from '../../utils/SortScenarioListUtils';
 import { getScenarioManagerLabels } from './labels';
 
@@ -38,8 +38,9 @@ function moveScenario(moveData) {
 const ScenarioManager = (props) => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const hasUserPermissionOnScenario = useHasUserPermissionOnScenario();
   const labels = getScenarioManagerLabels(t);
+
+  const hasUserPermissionOnScenario = useHasUserPermissionOnScenario();
 
   const {
     currentScenario,

@@ -8,7 +8,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import { useTranslation } from 'react-i18next';
 import { ACL_PERMISSIONS } from '../../../services/config/accessControl';
-import { useUserAppAndCurrentScenarioPermissions } from '../../../state/hooks/SecurityHooks.js';
+import { useUserAppAndCurrentScenarioPermissions } from '../../../hooks/SecurityHooks.js';
 import { PermissionsGate } from '@cosmotech/ui';
 
 const NormalModeButton = ({

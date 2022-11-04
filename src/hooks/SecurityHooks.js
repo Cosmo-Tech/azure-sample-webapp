@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { useCallback, useMemo } from 'react';
-import { useCurrentScenarioData } from './ScenarioHooks';
-import { useUserAppPermissions } from './AuthHooks';
+import { useCurrentScenarioData } from '../state/hooks/ScenarioHooks';
+import { useUserAppPermissions } from '../state/hooks/AuthHooks';
 
 const useGetUserPermissionOnScenarioData = () =>
   useCallback((scenarioData) => scenarioData?.security?.currentUserPermissions || [], []);
