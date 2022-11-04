@@ -2,17 +2,17 @@
 # yarn lockfile v1
 
 
-"@azure/msal-common@^7.4.1":
-  version "7.4.1"
-  resolved "https://registry.yarnpkg.com/@azure/msal-common/-/msal-common-7.4.1.tgz#204c32d247336d7e334984e599bfd63156554f83"
-  integrity sha512-zxcxg9pRdgGTS5mrRJeQvwA8aIjD8qSGzaAiz5SeTVkyhtjB0AeFnAcvBOKHv/TkswWNfYKpERxsXOAKXkXk0w==
+"@azure/msal-common@^7.6.0":
+  version "7.6.0"
+  resolved "https://registry.yarnpkg.com/@azure/msal-common/-/msal-common-7.6.0.tgz#b52e97ef540275f72611cff57937dfa0b34cdcca"
+  integrity sha512-XqfbglUTVLdkHQ8F9UQJtKseRr3sSnr9ysboxtoswvaMVaEfvyLtMoHv9XdKUfOc0qKGzNgRFd9yRjIWVepl6Q==
 
 "@azure/msal-node@^1.2.0":
-  version "1.14.0"
-  resolved "https://registry.yarnpkg.com/@azure/msal-node/-/msal-node-1.14.0.tgz#b1b6018e52e06c3789b434f636f5b632aa1d2ec7"
-  integrity sha512-3XB7FuHLhmGBjw7bxuz1LCHOXQgmNIO3J56tlbOjuJcyJtd4aBCgnYIXNKLed3uRcQNHEO0mlg24I4iGxAV/UA==
+  version "1.14.2"
+  resolved "https://registry.yarnpkg.com/@azure/msal-node/-/msal-node-1.14.2.tgz#8f236a19efa506133d6c715047393146af182e3a"
+  integrity sha512-t3whVhhLdZVVeDEtUPD2Wqfa8BDi3EDMnpWp8dbuRW0GhUpikBfs4AQU0Fe6P9zS87n9LpmUTLrIcPEEuzkvfA==
   dependencies:
-    "@azure/msal-common" "^7.4.1"
+    "@azure/msal-common" "^7.6.0"
     jsonwebtoken "^8.5.1"
     uuid "^8.3.0"
 
