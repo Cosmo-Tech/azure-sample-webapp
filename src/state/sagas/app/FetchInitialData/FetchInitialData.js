@@ -29,7 +29,21 @@ export function* fetchAllInitialData(action) {
       type: APPLICATION_ACTIONS_KEY.SET_PERMISSIONS_MAPPING,
       organizationPermissions: organizationPermissions,
     });
+  } catch (error) {
+    console.error(error);
+    const errorDetails = parseError(error);
+    if (error?.response?.status === 404) {
+      errorDetails.detail += '\nPlease make sure you are using at least v2 of Cosmo Tech API';
+    }
+    yield put({
+      type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS,
+      status: STATUSES.ERROR,
+      error: errorDetails,
+    });
+    return;
+  }
 
+  try {
     const workspaceId = action.workspaceId;
     yield put({
       type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS,
