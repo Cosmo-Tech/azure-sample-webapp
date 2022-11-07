@@ -1,4 +1,4 @@
-const { override } = require('customize-cra');
+const { override, addBabelPlugin } = require('customize-cra');
 const CspHtmlWebpackPlugin = require('csp-html-webpack-plugin');
 const instanceViewData = require('./src/config/InstanceVisualization.js');
 
@@ -49,6 +49,7 @@ function addCspHtmlWebpackPlugin(config) {
   return config;
 }
 
-module.exports = {
-  webpack: override(addCspHtmlWebpackPlugin),
-};
+module.exports = override(
+  addCspHtmlWebpackPlugin,
+  addBabelPlugin('@babel/plugin-proposal-logical-assignment-operators')
+);
