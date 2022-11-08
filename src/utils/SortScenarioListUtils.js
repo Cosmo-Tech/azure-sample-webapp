@@ -19,7 +19,8 @@ export const sortScenarioList = (scenarioList) => {
   const buildScenarioTree = (idParent, depth) => {
     const scenarioListToFilter = [];
     for (const scenario of scenarioListCopy) {
-      if (scenario.parentId === idParent) {
+      const parentNotFound = !scenarioList.some((parentScenario) => parentScenario.id === scenario.parentId);
+      if (scenario.parentId === idParent || (idParent === null && parentNotFound)) {
         scenario.depth = depth;
         sortedList.push(scenario);
         scenarioListToFilter.push(scenario);

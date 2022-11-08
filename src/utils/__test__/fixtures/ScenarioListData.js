@@ -226,3 +226,59 @@ export const expectedSortedScenariolist = [
     depth: 1,
   },
 ];
+
+export const scenariosWithMissingParent = [
+  {
+    id: 'A0',
+    name: 'A0',
+    parentId: null,
+  },
+  {
+    id: 'A1',
+    name: 'A1',
+    parentId: 'A0',
+  },
+  {
+    id: 'B1',
+    name: 'B1',
+    parentId: 'B0', // Missing parent (e.g. user has no read permission on this scenario)
+  },
+];
+
+export const expectedSortedScenariosWithMissingParent = [
+  {
+    id: 'A0',
+    name: 'A0',
+    parentId: null,
+    depth: 0,
+  },
+  {
+    id: 'A1',
+    name: 'A1',
+    parentId: 'A0',
+    depth: 1,
+  },
+  {
+    id: 'B1',
+    name: 'B1',
+    parentId: 'B0',
+    depth: 0,
+  },
+];
+
+export const listOfOneScenario = [
+  {
+    id: 'A0',
+    name: 'A0',
+    parentId: null,
+  },
+];
+
+export const expectedSortedListOfOneScenario = [
+  {
+    id: 'A0',
+    name: 'A0',
+    parentId: null,
+    depth: 0,
+  },
+];
