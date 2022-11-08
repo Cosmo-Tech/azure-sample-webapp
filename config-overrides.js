@@ -20,6 +20,7 @@ const cspConfigPolicy = {
     "'self'",
     'api.powerbi.com',
     '*.api.cosmotech.com',
+    '*.azurestaticapps.net',
     'https://login.microsoftonline.com',
     'https://dc.services.visualstudio.com',
   ].concat(extraConnectSources),
