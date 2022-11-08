@@ -23,7 +23,7 @@ const ScenarioParametersTabsWrapper = ({
     const tabFactory = CUSTOM_PARAMETERS_GROUPS_COMPONENTS_MAPPING[parametersGroupMetadata.id] || ScenarioParametersTab;
     // 'name' property helps distinguish React components from factories; we also need to check in WrappedComponent
     // for components connected to redux
-    if ('name' in tabFactory || 'name' in tabFactory?.WrappedComponent) {
+    if ('name' in tabFactory || (tabFactory?.WrappedComponent && 'name' in tabFactory.WrappedComponent)) {
       parametersGroupMetadata.tab = React.createElement(tabFactory, {
         parametersGroupData: parametersGroupMetadata,
         parametersState: parametersValuesToRender,
