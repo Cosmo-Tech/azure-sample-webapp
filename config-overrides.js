@@ -1,4 +1,6 @@
-const { override, addBabelPlugin } = require('customize-cra');
+const { override } = require('customize-cra');
+const webpack = require('webpack');
+
 const CspHtmlWebpackPlugin = require('csp-html-webpack-plugin');
 const instanceViewData = require('./src/config/InstanceVisualization.js');
 
@@ -49,7 +51,48 @@ function addCspHtmlWebpackPlugin(config) {
   return config;
 }
 
-module.exports = override(
-  addCspHtmlWebpackPlugin,
-  addBabelPlugin('@babel/plugin-proposal-logical-assignment-operators')
-);
+function addFallback(config) {
+  const fallback = config.resolve.fallback || {};
+  Object.assign(fallback, {
+    crypto: require.resolve('crypto-browserify'),
+    stream: require.resolve('stream-browserify'),
+    assert: require.resolve('assert'),
+    http: require.resolve('stream-http'),
+    https: require.resolve('https-browserify'),
+    os: require.resolve('os-browserify'),
+    url: require.resolve('url'),
+  });
+  config.resolve.fallback = fallback;
+  config.plugins = (config.plugins || []).concat([
+    new webpack.ProvidePlugin({
+      process: 'process/browser',
+      Buffer: ['buffer', 'Buffer'],
+    }),
+  ]);
+  return config;
+}
+
+function addSplitChunks(config) {
+  if (process.env.NODE_ENV !== 'production') {
+    return config;
+  }
+
+  config.optimization.splitChunks = {
+    chunks: 'all',
+    cacheGroups: {
+      vendor: {
+        test: /[\\/]node_modules[\\/]/,
+        name(module) {
+          const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+
+          // npm package names are URL-safe, but some servers don't like @ symbols
+          return `npm.${packageName.replace('@', '')}`;
+        },
+      },
+    },
+  };
+
+  return config;
+}
+
+module.exports = override(addCspHtmlWebpackPlugin, addFallback, addSplitChunks);
