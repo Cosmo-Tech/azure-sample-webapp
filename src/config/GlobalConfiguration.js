@@ -7,7 +7,7 @@ export const APP_REGISTRATION_CLIENT_ID = 'aa0096de-71da-47e5-aa7e-d6230e4183bd'
 
 // API information
 export const COSMOTECH_API_SCOPE = 'https://testmarketplace.azure.cosmo-platform.com/platform';
-export const DEFAULT_BASE_PATH = 'https://api.privatetest.com';
+export const DEFAULT_BASE_PATH = 'https://api.privatetest.com/v1';
 
 // Cosmo solution identifiers
 export const ORGANIZATION_ID = 'o-6qwx56qpye';
