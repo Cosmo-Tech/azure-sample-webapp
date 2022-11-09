@@ -23,7 +23,7 @@ const cspConfigPolicy = {
     'https://login.microsoftonline.com',
     'https://dc.services.visualstudio.com',
     'https://testmarketplace.azure.cosmo-platform.com',
-    'http://api.privatetest.com',
+    'https://api.privatetest.com/v1',
   ].concat(extraConnectSources),
   'script-src': ["'self'"],
   'img-src': ["'self'", 'data:'],
