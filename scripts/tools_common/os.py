@@ -26,7 +26,19 @@ def rm_dir(folder_path):
     :param folder_path: Path to the folder to remove
     """
     if os.path.isfile(folder_path):
-        print(f'Error: won\'t remove file "{folder_path}"')
+        print(f'Error: file "{folder_path}" is not a folder, not removing it')
         sys.exit(1)
     if os.path.isdir(folder_path):
         rmtree(folder_path)
+
+
+def rm_file(file_path):
+    """
+    Remove file whose path is provided. If the file does not exist, the function does nothing.
+    :param file_path: Path to the file to remove
+    """
+    if os.path.isdir(file_path):
+        print(f'Error: folder "{file_path}" is not a file, not removing it')
+        sys.exit(1)
+    if os.path.exists(file_path) and os.path.isfile(file_path):
+        os.remove(file_path)

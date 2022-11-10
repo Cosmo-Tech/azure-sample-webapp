@@ -19,7 +19,7 @@ from tools_common.git import (
     pull,
     switch,
 )
-from tools_common.os import rm_dir, mv_file
+from tools_common.os import rm_dir, rm_file, mv_file
 from tools_common.jq import check_jq, get_npm_package_version, set_npm_package_version
 
 
@@ -91,6 +91,7 @@ def remove_specific_files():
     root_folder = get_top_level_folder()
     clean_cypress(root_folder)
     clean_config(root_folder)
+    clean_ci(root_folder)
 
 
 def clean_cypress(root_folder):
@@ -115,6 +116,16 @@ def clean_config(root_folder):
             vanilla_config_file_path = os.path.join(config_folder_path, config_file_name)
             generic_config_file_path = os.path.join(config_folder_path, generic_config_file_name)
             mv_file(vanilla_config_file_path, generic_config_file_path)
+
+
+def clean_ci(root_folder):
+    '''
+    Remove brewery-specific CI files (e.g. Github Actions workflow file)
+    '''
+    ci_folder_path = os.path.join(root_folder, '.github', 'workflows')
+    for ci_file_name in os.listdir(ci_folder_path):
+        if ci_file_name.startswith('azure-static-web-apps-') and ci_file_name.endswith('.yml'):
+            rm_file(os.path.join(ci_folder_path, ci_file_name))
 
 
 def main():
