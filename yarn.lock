@@ -1315,10 +1315,10 @@
     validator "^13.7.0"
     xlsx "^0.18.3"
 
-"@cosmotech/ui@^4.0.0-rc1":
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-4.3.0.tgz#ca4bf3d09b232be3cdcd324f11451137de84332b"
-  integrity sha512-sOTmarNeXbohryc6TSmQ0srN5+rQdl15TgxoheHWuDQQt88HtENaAfDciV4DO+KRrefF3sN/eQ827TWScTfeqg==
+"@cosmotech/ui@^4.3.0":
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-4.3.1.tgz#aee3ea507c7b6589caccc2c3cfa6353095a5b32a"
+  integrity sha512-mM8MQA50ZwFQ0k+cxLdVVsQbnah05t2Kjs8gijUTbh1skGi2zRtw5j3XR5MEUz96uomdzUI/24S+/NX0RTr77w==
   dependencies:
     "@date-io/date-fns" "^1.3.13"
     "@material-ui/pickers" "^3.3.10"
