@@ -1,3 +1,42 @@
+## **4.0.0** <sub><sup>2022-11-10 ([6caa521...0b8e33c](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/6caa521b...0b8e33ca?diff=split))</sup></sub>
+
+### Documentation
+
+- add section to document how to update a Function App
+
+### Features
+
+- add scenario sharing feature & enforce RBAC/ACL security in webapp
+- add distinct styles for in & out edges in digital twin visualization
+- improve layout & style in Scenario view
+- add tooltips when using icon buttons
+
+### Bug Fixes
+
+- fix style of "Sign out" button in AccessDenied
+- fix z\-index of backdrop shown during scenario creation
+- restore missing backdrop when switching between scenarios
+- fix stuck loading screen on unknown scenario
+- fix scenario view layout when no scenarios exist
+- fix console warning about undefined scenarioId on scenario creation
+- fix console warning about Tooltip around disabled button
+- remove loading spinner stuck after 'wrong scenario URL' redirection
+- print errors details in browser console when the default error message is displayed on login
+- fix detection of connected React components in tabs wrapper
+- fix wrong propType in ScenarioParametersTab component & remove unused prop
+- fix crash related to undefined value reading after react\-router\-dom dependency update
+- secure table load on scenario change
+- format parameters values in redux scenarios list on reception
+- prevent undesired rerenders of scenario creation dialog
+- prevent re-rendering of the whole application on powerbi errors
+- fix scenarios sort function to include scenarios whose parent is not found
+- rename 'instance' view tab to 'digital twin'
+
+### BREAKING CHANGES
+
+- profiles permissions mapping previously defined in src/config/Profiles\.js is no longer supported, the back\-end now enforces permissions based on user profiles
+- the list of existing APP_ROLES has been moved to services/config/accessControl/Profiles\.js
+
 ## **3.0.0** <sub><sup>2022-08-16</sup></sub>
 
 ### Features
