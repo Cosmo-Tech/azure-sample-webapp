@@ -135,7 +135,7 @@
         }
       },
       "placeholder": {
-        "error": "Une erreur est survenue. Impossible de visualiser l'instance.",
+        "error": "Une erreur est survenue. Impossible de visualiser le jumeau numérique.",
         "noScenario": "Aucun scénario créé. Vous pouvez créer un scénario dans la vue Scénario."
       }
     },
@@ -550,7 +550,7 @@
       },
       "instance": {
         "tab": {
-          "title": "Instance"
+          "title": "Jumeau numérique"
         }
       },
       "scenariomanager": {
