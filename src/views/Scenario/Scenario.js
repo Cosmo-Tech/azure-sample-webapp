@@ -15,15 +15,25 @@ import {
 } from '@material-ui/core';
 import { ScenarioParameters, SimplePowerBIReportEmbedWrapper } from '../../components';
 import { useTranslation } from 'react-i18next';
-import { CreateScenarioButton, HierarchicalComboBox, ScenarioValidationStatusChip } from '@cosmotech/ui';
+import {
+  CreateScenarioButton,
+  HierarchicalComboBox,
+  ScenarioValidationStatusChip,
+  PermissionsGate,
+  RolesEditionButton,
+} from '@cosmotech/ui';
 import { sortScenarioList } from '../../utils/SortScenarioListUtils';
 import { SCENARIO_VALIDATION_STATUS } from '../../services/config/ApiConstants.js';
 import ScenarioService from '../../services/scenario/ScenarioService';
 import { STATUSES } from '../../state/commons/Constants';
 import { AppInsights } from '../../services/AppInsights';
-import { PERMISSIONS } from '../../services/config/Permissions';
-import { PermissionsGate } from '../../components/PermissionsGate';
-import { getCreateScenarioDialogLabels } from './labels';
+import { ACL_PERMISSIONS } from '../../services/config/accessControl';
+import {
+  getCreateScenarioDialogLabels,
+  getShareScenarioDialogLabels,
+  getPermissionsLabels,
+  getRolesLabels,
+} from './labels';
 import { useNavigate, useParams } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { useScenario } from './ScenarioHook';
@@ -57,8 +67,13 @@ const Scenario = () => {
     currentScenario,
     user,
     workspace,
+    userPermissionsOnCurrentWorkspace,
     solution,
+    roles,
+    permissions,
+    permissionsMapping,
     addDatasetToStore,
+    applyScenarioSharingSecurity,
     setScenarioValidationStatus,
     findScenarioById,
     createScenario,
@@ -71,9 +86,11 @@ const Scenario = () => {
   const routerParameters = useParams();
   const navigate = useNavigate();
   const workspaceId = workspace.data.id;
+  const workspaceUsers = workspace.data.users.map((user) => ({ id: user }));
   const [editMode, setEditMode] = useState(false);
 
   const createScenarioDialogLabels = getCreateScenarioDialogLabels(t, editMode);
+  const shareScenarioDialogLabels = getShareScenarioDialogLabels(t, currentScenario?.data?.name);
 
   // Add accordion expand status in state
   const [accordionSummaryExpanded, setAccordionSummaryExpanded] = useState(
@@ -126,7 +143,6 @@ const Scenario = () => {
     createScenario(workspaceId, scenarioData);
     setAccordionSummaryExpanded(true);
   };
-
   const currentScenarioRenderInputTooltip = editMode
     ? t(
         'views.scenario.dropdown.scenario.tooltip.disabled',
@@ -257,8 +273,12 @@ const Scenario = () => {
     rejectButton
   );
 
+  const userPermissionsOnCurrentScenario = currentScenario?.data?.security?.currentUserPermissions || [];
   const validationStatusButtons = (
-    <PermissionsGate authorizedPermissions={[PERMISSIONS.canChangeScenarioValidationStatus]}>
+    <PermissionsGate
+      userPermissions={userPermissionsOnCurrentScenario}
+      necessaryPermissions={[ACL_PERMISSIONS.SCENARIO.VALIDATE]}
+    >
       {validateButtonTooltipWrapper}
       {rejectButtonTooltipWrapper}
     </PermissionsGate>
@@ -266,12 +286,10 @@ const Scenario = () => {
 
   const scenarioValidationStatusChip = (
     <PermissionsGate
-      authorizedPermissions={[PERMISSIONS.canChangeScenarioValidationStatus]}
-      RenderNoPermissionComponent={ScenarioValidationStatusChip}
+      userPermissions={userPermissionsOnCurrentScenario}
+      necessaryPermissions={[ACL_PERMISSIONS.SCENARIO.VALIDATE]}
       noPermissionProps={{
-        status: currentScenarioValidationStatus,
-        labels: scenarioValidationStatusLabels,
-        onDelete: null,
+        onDelete: null, // Prevent status edition if user has insufficient privileges
       }}
     >
       <ScenarioValidationStatusChip
@@ -288,6 +306,73 @@ const Scenario = () => {
     label: scenarioListLabel,
     validationStatus: scenarioValidationStatusLabels,
   };
+
+  const createScenarioButton = (
+    <PermissionsGate
+      userPermissions={userPermissionsOnCurrentWorkspace}
+      necessaryPermissions={[ACL_PERMISSIONS.WORKSPACE.CREATE_CHILDREN]}
+      noPermissionProps={{
+        disabled: true, // Prevent scenario creation if user has insufficient privileges
+      }}
+    >
+      <CreateScenarioButton
+        solution={solution}
+        workspaceId={workspaceId}
+        createScenario={expandParametersAndCreateScenario}
+        currentScenario={currentScenario}
+        runTemplates={filteredRunTemplates}
+        datasets={datasetList.data}
+        scenarios={scenarioList.data}
+        user={user}
+        disabled={editMode}
+        labels={createScenarioDialogLabels}
+      />
+    </PermissionsGate>
+  );
+
+  const applyScenarioSecurityChanges = (newScenarioSecurity) => {
+    applyScenarioSharingSecurity(currentScenario.data.id, newScenarioSecurity);
+  };
+
+  const accessListSpecific = currentScenario?.data?.security?.accessControlList;
+  const defaultRole = currentScenario?.data?.security?.default;
+
+  const rolesNames = Object.values(roles.scenario);
+  const rolesLabels = getRolesLabels(t, rolesNames);
+  const permissionsNames = Object.values(permissions.scenario);
+  const permissionsLabels = getPermissionsLabels(t, permissionsNames);
+
+  const shareScenarioButton = (
+    <>
+      <PermissionsGate
+        userPermissions={userPermissionsOnCurrentScenario}
+        necessaryPermissions={[ACL_PERMISSIONS.SCENARIO.READ_SECURITY]}
+      >
+        <PermissionsGate
+          userPermissions={userPermissionsOnCurrentScenario}
+          necessaryPermissions={[ACL_PERMISSIONS.SCENARIO.WRITE_SECURITY]}
+          noPermissionProps={{ isReadOnly: true }}
+        >
+          <RolesEditionButton
+            data-cy="share-scenario-button"
+            labels={shareScenarioDialogLabels}
+            onConfirmChanges={(newScenarioSecurity) => {
+              applyScenarioSecurityChanges(newScenarioSecurity);
+            }}
+            resourceRolesPermissionsMapping={permissionsMapping.scenario}
+            agents={workspaceUsers}
+            specificAccessByAgent={accessListSpecific ?? []}
+            defaultRole={defaultRole || ''}
+            defaultAccessScope="Workspace"
+            preventNoneRoleForAgents={true}
+            allRoles={rolesLabels}
+            allPermissions={permissionsLabels}
+          />
+        </PermissionsGate>
+      </PermissionsGate>
+    </>
+  );
+
   return (
     <>
       <Backdrop open={showBackdrop} style={{ zIndex: '10000' }}>
@@ -296,20 +381,12 @@ const Scenario = () => {
       <div data-cy="scenario-view" className={classes.content}>
         <Grid container spacing={2} alignItems="center" justifyContent="space-between">
           <Grid item xs={4}>
-            <PermissionsGate authorizedPermissions={[PERMISSIONS.canCreateScenario]}>
-              <CreateScenarioButton
-                solution={solution}
-                workspaceId={workspaceId}
-                createScenario={expandParametersAndCreateScenario}
-                currentScenario={currentScenario}
-                runTemplates={filteredRunTemplates}
-                datasets={datasetList.data}
-                scenarios={scenarioList.data}
-                user={user}
-                disabled={editMode}
-                labels={createScenarioDialogLabels}
-              />
-            </PermissionsGate>
+            <div>
+              <Grid container spacing={1} alignItems="center" justifyContent="flex-start">
+                <Grid item>{createScenarioButton}</Grid>
+                <Grid item>{shareScenarioButton}</Grid>
+              </Grid>
+            </div>
           </Grid>
           <Grid item xs={4}>
             <Grid container direction="column">

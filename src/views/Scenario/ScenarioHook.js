@@ -4,6 +4,7 @@
 import {
   useCurrentScenario,
   useScenarioList,
+  useApplyScenarioSharingSecurity,
   useSetScenarioValidationStatus,
   useFindScenarioById,
   useCreateScenario,
@@ -13,9 +14,14 @@ import {
 } from '../../state/hooks/ScenarioHooks';
 import { useDatasetList, useAddDatasetToStore } from '../../state/hooks/DatasetHooks';
 import { useUser } from '../../state/hooks/AuthHooks';
-import { useWorkspace } from '../../state/hooks/WorkspaceHooks';
+import { useWorkspace, useUserPermissionsOnCurrentWorkspace } from '../../state/hooks/WorkspaceHooks';
 import { useSolution } from '../../state/hooks/SolutionHooks';
-import { useSetApplicationErrorMessage } from '../../state/hooks/ApplicationHooks';
+import {
+  useSetApplicationErrorMessage,
+  useApplicationRoles,
+  useApplicationPermissions,
+  useApplicationPermissionsMapping,
+} from '../../state/hooks/ApplicationHooks';
 
 export const useScenario = () => {
   const scenarioList = useScenarioList();
@@ -23,10 +29,15 @@ export const useScenario = () => {
   const currentScenario = useCurrentScenario();
   const user = useUser();
   const workspace = useWorkspace();
+  const userPermissionsOnCurrentWorkspace = useUserPermissionsOnCurrentWorkspace();
   const solution = useSolution();
+  const roles = useApplicationRoles();
+  const permissions = useApplicationPermissions();
+  const permissionsMapping = useApplicationPermissionsMapping();
 
   const addDatasetToStore = useAddDatasetToStore();
 
+  const applyScenarioSharingSecurity = useApplyScenarioSharingSecurity();
   const setScenarioValidationStatus = useSetScenarioValidationStatus();
   const findScenarioById = useFindScenarioById();
   const createScenario = useCreateScenario();
@@ -44,8 +55,13 @@ export const useScenario = () => {
     currentScenario,
     user,
     workspace,
+    userPermissionsOnCurrentWorkspace,
     solution,
+    roles,
+    permissions,
+    permissionsMapping,
     addDatasetToStore,
+    applyScenarioSharingSecurity,
     setScenarioValidationStatus,
     findScenarioById,
     createScenario,

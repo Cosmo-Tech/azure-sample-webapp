@@ -7,7 +7,7 @@ export const APP_REGISTRATION_CLIENT_ID = 'd104fbd6-9464-45d5-a022-83c90ad56906'
 
 // API information
 export const COSMOTECH_API_SCOPE = 'http://dev.api.cosmotech.com/platform';
-export const DEFAULT_BASE_PATH = 'https://dev.api.cosmotech.com';
+export const DEFAULT_BASE_PATH = 'https://dev.api.cosmotech.com/v2';
 
 // Cosmo solution identifiers
 export const ORGANIZATION_ID = 'O-gZYpnd27G7';

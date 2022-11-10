@@ -4,15 +4,30 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { APPLICATION_ACTIONS_KEY } from '../../commons/ApplicationConstants';
 import { STATUSES } from '../../commons/Constants';
+import { SecurityUtils } from '../../../utils';
 
 export const applicationInitialState = {
   status: STATUSES.IDLE,
   error: null,
   isDarkTheme: localStorage.getItem('darkThemeUsed') === 'true',
+  roles: {},
+  permissions: {},
+  permissionsMapping: {},
 };
 
 export const applicationReducer = createReducer(applicationInitialState, (builder) => {
   builder
+    .addCase(APPLICATION_ACTIONS_KEY.SET_PERMISSIONS_MAPPING, (state, action) => {
+      const { roles, permissions, permissionsMapping } = SecurityUtils.parseOrganizationPermissions(
+        action.organizationPermissions,
+        true // Add the role "none" that is not specified in roles sent by the back-end
+      );
+
+      state.roles = roles;
+      state.permissions = permissions;
+      state.permissionsMapping = permissionsMapping;
+    })
+
     .addCase(APPLICATION_ACTIONS_KEY.SET_APPLICATION_ERROR_MESSAGE, (state, action) => {
       state.error = action.error;
     })

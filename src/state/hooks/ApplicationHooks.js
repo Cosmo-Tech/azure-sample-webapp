@@ -21,6 +21,18 @@ export const useApplication = () => {
   return useSelector((state) => state.application);
 };
 
+export const useApplicationRoles = () => {
+  return useSelector((state) => state.application.roles);
+};
+
+export const useApplicationPermissions = () => {
+  return useSelector((state) => state.application.permissions);
+};
+
+export const useApplicationPermissionsMapping = () => {
+  return useSelector((state) => state.application.permissionsMapping);
+};
+
 export const useGetAllInitialData = () => {
   const dispatch = useDispatch();
   return useCallback(() => dispatch(dispatchGetAllInitialData()), [dispatch]);

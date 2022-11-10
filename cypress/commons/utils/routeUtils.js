@@ -15,7 +15,7 @@ const browse = (url) => {
   } else {
     cy.visit(url);
   }
-  api.waitNewPageQueries(newPageQueries);
+  api.waitAliases(newPageQueries, { timeout: 60 * 1000 });
 };
 export const routeUtils = {
   browse,

@@ -7,7 +7,7 @@
 //  - lists of possible values for "enum" parameters
 //  - translation labels
 
-import { APP_ROLES } from './Profiles';
+import { APP_ROLES } from '../services/config/accessControl';
 
 const PARAMETERS = {
   nb_waiters: {

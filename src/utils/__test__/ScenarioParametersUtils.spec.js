@@ -3,8 +3,8 @@
 
 import rfdc from 'rfdc';
 import { ScenarioParametersUtils } from '../scenarioParameters/ScenarioParametersUtils';
-import { STANDARD_SOLUTION } from './StandardSolutionData';
-import { STANDARD_DATASETS } from './StandardDatasetsData';
+import { STANDARD_SOLUTION } from './fixtures/StandardSolutionData';
+import { STANDARD_DATASETS } from './fixtures/StandardDatasetsData';
 
 const clone = rfdc();
 

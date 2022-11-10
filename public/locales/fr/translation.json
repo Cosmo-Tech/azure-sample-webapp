@@ -274,6 +274,63 @@
           }
         }
       },
+      "share": {
+        "button": {
+          "label": "Partager",
+          "tooltip": "Modifier l'accès"
+        },
+        "dialog": {
+          "buttons": {
+            "share": "Partager",
+            "cancel": "Annuler",
+            "done": "Confirmer"
+          },
+          "title": "Partager ",
+          "select": {
+            "addPeople": "Ajouter un utilisateur",
+            "userSelected": "Utilisateur sélectionné"
+          },
+          "editor": {
+            "usersAccess": "Accès par utilisateur",
+            "generalAccess": "Accès général",
+            "removeAccess": "Supprimer l'accès spécifique",
+            "helperText": {
+              "admin": "Tout le monde dans ce workspace est admin",
+              "viewer": "Tout le monde dans ce workspace est visiteur",
+              "validator": "Tout le monde dans ce workspace est validateur",
+              "editor": "Tout le monde est éditeur",
+              "none": "Le scénario n'est pas visible par les autres utilisateurs"
+            }
+          },
+          "error": {
+            "noAdmin": "Le scénario doit avoir au moins un admin"
+          },
+          "add": {
+            "deniedPermissions": "Permissions accordées",
+            "grantedPermissions": "Permissions non accordées",
+            "rolesTitle": "Rôles",
+            "rolesHelperText": "Sélectionnez un rôle"
+          }
+        },
+        "roles": {
+          "admin": "Admin",
+          "viewer": "Visiteur",
+          "none": "Restreint",
+          "user": "Utilisateur",
+          "validator": "Validateur",
+          "editor": "Editeur"
+        },
+        "permissions": {
+          "create_children": "Créer des scénarios enfants",
+          "write_security": "Modifier les permissions",
+          "validate": "Modifier le statut de validation",
+          "write": "Modifier les paramètres et renommer le scénario",
+          "read": "Voir le scénario et ses résultats",
+          "read_security": "Voir les permissions des autres utilisateurs",
+          "acl.scenario.launch": "Lancer le scénario",
+          "acl.scenario.delete": "Supprimer le scénario"
+        }
+      },
       "sessionTimeout": {
         "body": "Aucune activité détectée. Vous allez être automatiquement déconnecté dans {{seconds}} secondes...",
         "cancel": "Rester connecté",
@@ -289,6 +346,7 @@
       "create": "Le scénario n'a pas pu être créé.",
       "delete": "Le scénario n'a pas pu être supprimé.",
       "rename": "Le scénario n'a pas pu être renommé.",
+      "updatePermissions": "Certaines permissions du scénario n'ont pas pu être modifiées.",
       "run": "Un problème est survenu, le scénario n'a pas pu être lancé.",
       "update": "Un problème est survenu pendant la modification du scénario, les nouveaux paramètres n'ont pas été sauvegardés.",
       "incompleteRun": "Un problème est survenu pendant la modification du dataset; le scénario a été lancé mais les nouveaux paramètres ne sont pas pris en compte.",

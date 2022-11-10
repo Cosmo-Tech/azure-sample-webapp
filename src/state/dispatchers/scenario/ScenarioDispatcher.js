@@ -56,6 +56,27 @@ export const dispatchSetScenarioValidationStatus = (scenarioId, validationStatus
   validationStatus: validationStatus,
 });
 
+export const dispatchApplyScenarioSharingChanges = (scenarioId, newScenarioSecurity) => ({
+  type: SCENARIO_ACTIONS_KEY.APPLY_SCENARIO_SHARING_CHANGES,
+  scenarioId: scenarioId,
+  newScenarioSecurity: newScenarioSecurity,
+});
+
+export const dispatchSetScenarioSecurity = (
+  scenarioId,
+  newScenarioSecurity,
+  userEmail,
+  userId,
+  scenariosPermissionsMapping
+) => ({
+  type: SCENARIO_ACTIONS_KEY.SET_SCENARIO_SECURITY,
+  scenarioId: scenarioId,
+  security: newScenarioSecurity,
+  userEmail: userEmail,
+  userId: userId,
+  scenariosPermissionsMapping: scenariosPermissionsMapping,
+});
+
 export const dispatchLaunchScenario = (workspaceId, scenarioId) => ({
   type: SCENARIO_ACTIONS_KEY.LAUNCH_SCENARIO,
   workspaceId: workspaceId,

@@ -9,6 +9,14 @@ export const useAuthStatus = () => {
   return useSelector((state) => state.auth.status);
 };
 
+export const useUserAppPermissions = () => {
+  return useSelector((state) => state.auth.permissions);
+};
+
+export const useUserAppRoles = () => {
+  return useSelector((state) => state.auth.roles);
+};
+
 export const useUser = () => {
   return useSelector((state) => state.auth);
 };

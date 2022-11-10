@@ -17,11 +17,32 @@ import { WORKSPACE_ACTIONS_KEY } from '../../../commons/WorkspaceConstants';
 import { SOLUTION_ACTIONS_KEY } from '../../../commons/SolutionConstants';
 import { getFirstScenarioMaster } from '../../../../utils/SortScenarioListUtils';
 import { parseError } from '../../../../utils/ErrorsUtils';
+import { Api } from '../../../../services/config/Api';
 
 const selectSolutionIdFromCurrentWorkspace = (state) => state.workspace.current.data.solution.solutionId;
 const selectScenarioList = (state) => state.scenario.list.data;
 
 export function* fetchAllInitialData(action) {
+  try {
+    const { data: organizationPermissions } = yield call(Api.Organization.getAllPermissions);
+    yield put({
+      type: APPLICATION_ACTIONS_KEY.SET_PERMISSIONS_MAPPING,
+      organizationPermissions: organizationPermissions,
+    });
+  } catch (error) {
+    console.error(error);
+    const errorDetails = parseError(error);
+    if (error?.response?.status === 404) {
+      errorDetails.detail += '\nPlease make sure you are using at least v2 of Cosmo Tech API';
+    }
+    yield put({
+      type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS,
+      status: STATUSES.ERROR,
+      error: errorDetails,
+    });
+    return;
+  }
+
   try {
     const workspaceId = action.workspaceId;
     yield put({
@@ -59,6 +80,7 @@ export function* fetchAllInitialData(action) {
       status: STATUSES.SUCCESS,
     });
   } catch (error) {
+    console.log(error);
     const errorDetails = parseError(error);
     yield put({
       type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS,

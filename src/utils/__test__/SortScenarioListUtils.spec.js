@@ -1,7 +1,14 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { scenarioList, expectedSortedScenariolist } from './ScenarioListData.js';
+import {
+  scenarioList,
+  expectedSortedScenariolist,
+  scenariosWithMissingParent,
+  expectedSortedScenariosWithMissingParent,
+  listOfOneScenario,
+  expectedSortedListOfOneScenario,
+} from './fixtures/ScenarioListData.js';
 import { sortScenarioList, getFirstScenarioMaster } from '../SortScenarioListUtils';
 
 describe('sortScenarioList', () => {
@@ -13,6 +20,16 @@ describe('sortScenarioList', () => {
   test('sort scenario list function with empty list', () => {
     const sortedScenarioList = sortScenarioList([]);
     expect(sortedScenarioList).toStrictEqual([]);
+  });
+
+  test('sort scenarios list with a missing parent scenario', () => {
+    const sortedScenarioList = sortScenarioList(scenariosWithMissingParent);
+    expect(sortedScenarioList).toStrictEqual(expectedSortedScenariosWithMissingParent);
+  });
+
+  test('sort scenarios list with only one scenario', () => {
+    const sortedScenarioList = sortScenarioList(listOfOneScenario);
+    expect(sortedScenarioList).toStrictEqual(expectedSortedListOfOneScenario);
   });
 });
 

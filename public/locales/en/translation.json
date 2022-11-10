@@ -274,6 +274,62 @@
           }
         }
       },
+      "share": {
+        "button": {
+          "label": "Share",
+          "tooltip": "Modify access"
+        },
+        "dialog": {
+          "buttons": {
+            "share": "Share",
+            "cancel": "Cancel",
+            "done": "Done"
+          },
+          "title": "Share ",
+          "select": {
+            "addPeople": "Add people",
+            "userSelected": "Selected user"
+          },
+          "editor": {
+            "usersAccess": "Users access",
+            "generalAccess": "General access",
+            "removeAccess": "Remove specific access",
+            "helperText": {
+              "admin": "Anyone in this workspace is admin",
+              "viewer": "Anyone in this workspace is viewer",
+              "validator": "Anyone in this workspace is validator",
+              "editor": "Anyone in this workspace is editor",
+              "none": "Other users cannot view the scenario"
+            }
+          },
+          "error": {
+            "noAdmin": "The scenario must have at least one admin"
+          },
+          "add": {
+            "deniedPermissions": "Not granted permissions",
+            "grantedPermissions": "Granted permissions",
+            "rolesTitle": "Roles",
+            "rolesHelperText": "Select one role"
+          }
+        },
+        "roles": {
+          "admin": "Admin",
+          "editor": "Editor",
+          "none": "Restricted",
+          "validator": "Validator",
+          "viewer": "Viewer"
+        },
+        "permissions": {
+          "create_children": "Create children",
+          "write_security": "Edit permissions",
+          "validate": "Change validation status",
+          "write": "Edit parameters and rename scenario",
+          "read": "View scenario and its results",
+          "read_security": "See other people's permissions",
+          "launch": "Launch scenario",
+          "delete": "Delete scenario"
+        }
+      },
       "sessionTimeout": {
         "body": "You have been idle for too long. You will be automatically signed out in {{seconds}} seconds...",
         "cancel": "Stay connected",
@@ -289,6 +345,7 @@
       "create": "Scenario hasn't been created.",
       "delete": "Scenario hasn't been deleted.",
       "rename": "Scenario hasn't been renamed",
+      "updatePermissions": "Some scenario permissions have not been updated correctly.",
       "run": "A problem occurred during the scenario run.",
       "update": "A problem occurred during scenario update; your new parameters haven't been saved.",
       "incompleteRun": "A problem occurred during dataset update; the scenario is running but your new parameters haven't been saved.",
