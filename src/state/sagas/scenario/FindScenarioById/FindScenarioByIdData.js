@@ -5,8 +5,7 @@ import { call, put, select, takeEvery } from 'redux-saga/effects';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { STATUSES } from '../../../commons/Constants';
 import { ORGANIZATION_ID } from '../../../../config/GlobalConfiguration';
-import { formatParametersFromApi } from '../../../../utils/ApiUtils';
-import { ScenariosUtils } from '../../../../utils';
+import { ApiUtils, ScenariosUtils } from '../../../../utils';
 import { SCENARIO_RUN_STATE } from '../../../../services/config/ApiConstants';
 import { Api } from '../../../../services/config/Api';
 import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
@@ -27,7 +26,7 @@ export function* fetchScenarioByIdData(action) {
     });
 
     const { data } = yield call(Api.Scenarios.findScenarioById, ORGANIZATION_ID, action.workspaceId, action.scenarioId);
-    data.parametersValues = formatParametersFromApi(data.parametersValues);
+    data.parametersValues = ApiUtils.formatParametersFromApi(data.parametersValues);
     ScenariosUtils.patchScenarioWithCurrentUserPermissions(data, userEmail, userId, scenariosPermissionsMapping);
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_SCENARIO_VALIDATION_STATUS,

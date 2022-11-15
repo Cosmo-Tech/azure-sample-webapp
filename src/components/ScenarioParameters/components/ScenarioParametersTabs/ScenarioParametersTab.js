@@ -6,6 +6,7 @@ import React from 'react';
 import { connect, useSelector } from 'react-redux';
 import ScenarioParameterInput from './ScenarioParameterInput';
 import { PermissionsGate } from '@cosmotech/ui';
+import { ConfigUtils } from '../../../../utils';
 import PropTypes from 'prop-types';
 import { t } from 'i18next';
 
@@ -15,6 +16,7 @@ const ScenarioParametersTab = ({ parametersGroupData, parametersState, setParame
   };
 
   const scenarioId = useSelector((state) => state.scenario?.current?.data?.id);
+  const authorizedRoles = ConfigUtils.getParametersGroupAttribute(parametersGroupData, 'authorizedRoles');
 
   const groupContainerStyle = {
     display: 'flex',
@@ -24,8 +26,8 @@ const ScenarioParametersTab = ({ parametersGroupData, parametersState, setParame
   return (
     <PermissionsGate
       RenderNoPermissionComponent={() => noPermissionsPlaceHolder(t)}
-      necessaryPermissions={parametersGroupData.authorizedRoles}
-      sufficientPermissions={parametersGroupData.authorizedRoles}
+      necessaryPermissions={authorizedRoles}
+      sufficientPermissions={authorizedRoles}
       userPermissions={userAppRoles}
     >
       <div key={parametersGroupData.id} style={groupContainerStyle}>

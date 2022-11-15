@@ -21,24 +21,26 @@ const PARAMETERS = {
   },
   currency: {
     defaultValue: 'USD',
-    enumValues: [
-      {
-        key: 'USD',
-        value: '$',
-      },
-      {
-        key: 'EUR',
-        value: '€',
-      },
-      {
-        key: 'BTC',
-        value: '฿',
-      },
-      {
-        key: 'JPY',
-        value: '¥',
-      },
-    ],
+    options: {
+      enumValues: [
+        {
+          key: 'USD',
+          value: '$',
+        },
+        {
+          key: 'EUR',
+          value: '€',
+        },
+        {
+          key: 'BTC',
+          value: '฿',
+        },
+        {
+          key: 'JPY',
+          value: '¥',
+        },
+      ],
+    },
   },
   currency_name: {
     defaultValue: 'EUR',
@@ -83,20 +85,22 @@ const PARAMETERS = {
       en: 'Volume unit',
       fr: 'Unité de volume',
     },
-    enumValues: [
-      {
-        key: 'LITRE',
-        value: 'L',
-      },
-      {
-        key: 'BARREL',
-        value: 'bl',
-      },
-      {
-        key: 'CUBIC_METRE',
-        value: 'm³',
-      },
-    ],
+    options: {
+      enumValues: [
+        {
+          key: 'LITRE',
+          value: 'L',
+        },
+        {
+          key: 'BARREL',
+          value: 'bl',
+        },
+        {
+          key: 'CUBIC_METRE',
+          value: 'm³',
+        },
+      ],
+    },
   },
   evaluation: {
     defaultValue: 'Good',
@@ -110,81 +114,93 @@ const PARAMETERS = {
     maxValue: new Date('2022/12/31'),
   },
   initial_stock_dataset: {
-    connectorId: 'c-d7e5p9o0kjn9',
-    defaultFileTypeFilter: '.zip,.csv,.json,.xls,.xlsx',
-    description: 'Initial stock dataset part',
+    options: {
+      connectorId: 'c-d7e5p9o0kjn9',
+      defaultFileTypeFilter: '.zip,.csv,.json,.xls,.xlsx',
+      description: 'Initial stock dataset part',
+    },
   },
   example_dataset_part_1: {
-    connectorId: 'c-d7e5p9o0kjn9',
-    defaultFileTypeFilter: '.zip,.csv,.json,.xls,.xlsx',
-    description: '1st example of dataset part',
+    options: {
+      connectorId: 'c-d7e5p9o0kjn9',
+      defaultFileTypeFilter: '.zip,.csv,.json,.xls,.xlsx',
+      description: '1st example of dataset part',
+    },
   },
   example_dataset_part_2: {
-    connectorId: 'c-d7e5p9o0kjn9',
-    defaultFileTypeFilter: '.zip,.csv,.json,.xls,.xlsx',
-    description: '2nd example of dataset part',
+    options: {
+      connectorId: 'c-d7e5p9o0kjn9',
+      defaultFileTypeFilter: '.zip,.csv,.json,.xls,.xlsx',
+      description: '2nd example of dataset part',
+    },
   },
   example_dataset_part_3: {
-    connectorId: 'c-d7e5p9o0kjn9',
-    defaultFileTypeFilter: '.zip,.csv,.json,.xls,.xlsx',
-    description: '3rd example of dataset part',
+    options: {
+      connectorId: 'c-d7e5p9o0kjn9',
+      defaultFileTypeFilter: '.zip,.csv,.json,.xls,.xlsx',
+      description: '3rd example of dataset part',
+    },
   },
   customers: {
-    connectorId: 'c-d7e5p9o0kjn9',
-    description: 'customers data',
-    subType: 'TABLE',
-    dateFormat: 'dd/MM/yyyy',
-    columns: [
-      { field: 'name', type: ['nonResizable', 'nonEditable', 'nonSortable'] },
-      { field: 'age', type: ['int'], minValue: 0, maxValue: 120, acceptsEmptyFields: true },
-      { field: 'canDrinkAlcohol', type: ['bool'] },
-      {
-        field: 'favoriteDrink',
-        type: ['enum'],
-        enumValues: ['AppleJuice', 'Beer', 'OrangeJuice', 'Wine'],
-      },
-      {
-        field: 'birthday',
-        type: ['date'],
-        minValue: '1900-01-01',
-        maxValue: new Date().toISOString(),
-        acceptsEmptyFields: true,
-      },
-      { field: 'height', type: ['number'], minValue: 0, maxValue: 2.5, acceptsEmptyFields: true },
-    ],
+    options: {
+      connectorId: 'c-d7e5p9o0kjn9',
+      description: 'customers data',
+      subType: 'TABLE',
+      dateFormat: 'dd/MM/yyyy',
+      columns: [
+        { field: 'name', type: ['nonResizable', 'nonEditable', 'nonSortable'] },
+        { field: 'age', type: ['int'], minValue: 0, maxValue: 120, acceptsEmptyFields: true },
+        { field: 'canDrinkAlcohol', type: ['bool'] },
+        {
+          field: 'favoriteDrink',
+          type: ['enum'],
+          enumValues: ['AppleJuice', 'Beer', 'OrangeJuice', 'Wine'],
+        },
+        {
+          field: 'birthday',
+          type: ['date'],
+          minValue: '1900-01-01',
+          maxValue: new Date().toISOString(),
+          acceptsEmptyFields: true,
+        },
+        { field: 'height', type: ['number'], minValue: 0, maxValue: 2.5, acceptsEmptyFields: true },
+      ],
+    },
   },
   events: {
-    connectorId: 'c-d7e5p9o0kjn9',
-    description: 'events data',
-    subType: 'TABLE',
-    dateFormat: 'dd/MM/yyyy',
+    options: {
+      connectorId: 'c-d7e5p9o0kjn9',
+      description: 'events data',
+      subType: 'TABLE',
+      dateFormat: 'dd/MM/yyyy',
+      columns: [
+        { field: 'theme', type: ['string'] },
+        {
+          field: 'date',
+          type: ['date'],
+          minValue: '1900-01-01',
+          maxValue: '2999-12-31',
+        },
+        {
+          field: 'timeOfDay',
+          type: ['enum'],
+          enumValues: ['morning', 'midday', 'afternoon', 'evening'],
+        },
+        {
+          field: 'eventType',
+          type: ['string', 'nonResizable', 'nonEditable'],
+        },
+        {
+          field: 'reservationsNumber',
+          type: ['int'],
+          minValue: 0,
+          maxValue: 300,
+          acceptsEmptyFields: true,
+        },
+        { field: 'online', type: ['bool', 'nonSortable'] },
+      ],
+    },
     defaultValue: 'd-xolyln1kq85d',
-    columns: [
-      { field: 'theme', type: ['string'] },
-      {
-        field: 'date',
-        type: ['date'],
-        minValue: '1900-01-01',
-        maxValue: '2999-12-31',
-      },
-      {
-        field: 'timeOfDay',
-        type: ['enum'],
-        enumValues: ['morning', 'midday', 'afternoon', 'evening'],
-      },
-      {
-        field: 'eventType',
-        type: ['string', 'nonResizable', 'nonEditable'],
-      },
-      {
-        field: 'reservationsNumber',
-        type: ['int'],
-        minValue: 0,
-        maxValue: 300,
-        acceptsEmptyFields: true,
-      },
-      { field: 'online', type: ['bool', 'nonSortable'] },
-    ],
   },
 };
 
@@ -204,8 +220,10 @@ const PARAMETERS_GROUPS = {
   },
   basic_types: {
     parameters: ['currency', 'currency_name', 'currency_value', 'currency_used', 'start_date'],
-    authorizedRoles: [APP_ROLES.PlatformAdmin, APP_ROLES.OrganizationUser],
-    hideParameterGroupIfNoPermission: false,
+    options: {
+      authorizedRoles: [APP_ROLES.PlatformAdmin, APP_ROLES.OrganizationUser],
+      hideParameterGroupIfNoPermission: false,
+    },
   },
   file_upload: {
     labels: {
