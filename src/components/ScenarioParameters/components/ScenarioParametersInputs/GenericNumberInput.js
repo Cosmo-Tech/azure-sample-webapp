@@ -50,7 +50,7 @@ export const GenericNumberInput = ({ parameterData, parametersState, setParamete
   return (
     <BasicNumberInput
       key={parameterData.id}
-      data-cy={parameterData.dataCy}
+      data-cy={`number-input-${parameterData.id}`}
       label={t(`solution.parameters.${parameterData.id}`, parameterData.id)}
       tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
       value={value}
@@ -60,6 +60,7 @@ export const GenericNumberInput = ({ parameterData, parametersState, setParamete
     />
   );
 };
+
 GenericNumberInput.propTypes = {
   parameterData: PropTypes.object.isRequired,
   parametersState: PropTypes.object.isRequired,

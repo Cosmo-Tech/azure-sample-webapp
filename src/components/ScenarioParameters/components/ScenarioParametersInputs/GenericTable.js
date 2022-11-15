@@ -343,7 +343,7 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
   return (
     <Table
       key={parameterId}
-      data-cy={parameterData.dataCy}
+      data-cy={`table-${parameterData.id}`}
       labels={labels}
       tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
       dateFormat={dateFormat}
@@ -360,6 +360,7 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
     />
   );
 };
+
 GenericTable.propTypes = {
   parameterData: PropTypes.object.isRequired,
   parametersState: PropTypes.object.isRequired,

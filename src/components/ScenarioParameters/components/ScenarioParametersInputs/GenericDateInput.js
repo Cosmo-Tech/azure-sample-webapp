@@ -32,7 +32,7 @@ export const GenericDateInput = ({ parameterData, parametersState, setParameters
     <BasicDateInput
       key={parameterData.id}
       id={parameterData.id}
-      data-cy={parameterData.dataCy} // Optional data for cypress
+      data-cy={`date-input-${parameterData.id}`}
       label={t(`solution.parameters.${parameterData.id}`, parameterData.id)}
       tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
       value={parametersState[parameterData.id] || new Date()}
@@ -41,6 +41,7 @@ export const GenericDateInput = ({ parameterData, parametersState, setParameters
     />
   );
 };
+
 GenericDateInput.propTypes = {
   parameterData: PropTypes.object.isRequired,
   parametersState: PropTypes.object.isRequired,

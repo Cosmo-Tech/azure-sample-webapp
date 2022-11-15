@@ -24,7 +24,7 @@ export const GenericToggleInput = ({ parameterData, parametersState, setParamete
   return (
     <BasicToggleInput
       key={parameterData.id}
-      data-cy={parameterData.dataCy}
+      data-cy={`toggle-input-${parameterData.id}`}
       label={t(`solution.parameters.${parameterData.id}`, parameterData.id)}
       tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
       value={parametersState[parameterData.id] || false}
@@ -33,6 +33,7 @@ export const GenericToggleInput = ({ parameterData, parametersState, setParamete
     />
   );
 };
+
 GenericToggleInput.propTypes = {
   parameterData: PropTypes.object.isRequired,
   parametersState: PropTypes.object.isRequired,
