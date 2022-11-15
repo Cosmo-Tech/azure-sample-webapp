@@ -23,7 +23,7 @@ export const GenericTextInput = ({ parameterData, parametersState, setParameters
   return (
     <BasicTextInput
       key={parameterData.id}
-      data-cy={parameterData.dataCy} // Optional data for cypress
+      data-cy={`text-input-${parameterData.id}`}
       label={t(`solution.parameters.${parameterData.id}`, parameterData.id)}
       value={parametersState[parameterData.id] || ''}
       changeTextField={setValue}
@@ -31,6 +31,7 @@ export const GenericTextInput = ({ parameterData, parametersState, setParameters
     />
   );
 };
+
 GenericTextInput.propTypes = {
   parameterData: PropTypes.object.isRequired,
   parametersState: PropTypes.object.isRequired,
