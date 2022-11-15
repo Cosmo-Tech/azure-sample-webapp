@@ -6,8 +6,7 @@ import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { ORGANIZATION_ID } from '../../../../config/GlobalConfiguration';
 import { Api } from '../../../../services/config/Api';
 import { STATUSES } from '../../../commons/Constants';
-import { formatParametersFromApi } from '../../../../utils/ApiUtils';
-import { ScenariosUtils } from '../../../../utils';
+import { ApiUtils, ScenariosUtils } from '../../../../utils';
 import { ACL_PERMISSIONS } from '../../../../services/config/accessControl/Permissions';
 
 const getUserEmail = (state) => state.auth.userEmail;
@@ -24,7 +23,7 @@ export function* getAllScenariosData(workspaceId) {
   const userId = yield select(getUserId);
   const scenariosPermissionsMapping = yield select(getScenariosPermissionsMapping);
   const { data } = yield call(Api.Scenarios.findAllScenarios, ORGANIZATION_ID, workspaceId);
-  data.forEach((scenario) => (scenario.parametersValues = formatParametersFromApi(scenario.parametersValues)));
+  data.forEach((scenario) => (scenario.parametersValues = ApiUtils.formatParametersFromApi(scenario.parametersValues)));
   data.forEach((scenario) =>
     ScenariosUtils.patchScenarioWithCurrentUserPermissions(scenario, userEmail, userId, scenariosPermissionsMapping)
   );

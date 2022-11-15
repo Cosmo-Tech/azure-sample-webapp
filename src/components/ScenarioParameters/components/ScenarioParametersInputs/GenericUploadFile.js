@@ -6,12 +6,14 @@ import { UploadFile } from '@cosmotech/ui';
 import { FileManagementUtils } from '../../../../components/ScenarioParameters/FileManagementUtils';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { ConfigUtils } from '../../../../utils/ConfigUtils';
 
 export const GenericUploadFile = ({ parameterData, parametersState, setParametersState, context }) => {
   const { t } = useTranslation();
   const parameterId = parameterData.id;
   const parameter = parametersState[parameterId] || {};
   const datasetId = parameter.id;
+  const defaultFileTypeFilter = ConfigUtils.getParameterAttribute(parameterData, 'defaultFileTypeFilter');
 
   function setParameterInState(newValuePart) {
     setParametersState((currentParametersState) => ({
@@ -41,7 +43,7 @@ export const GenericUploadFile = ({ parameterData, parametersState, setParameter
       key={parameterId}
       data-cy={`file-upload-${parameterData.id}`}
       labels={labels}
-      acceptedFileTypes={parameterData.defaultFileTypeFilter}
+      acceptedFileTypes={defaultFileTypeFilter}
       handleUploadFile={(event) => FileManagementUtils.prepareToUpload(event, parameter, setParameterInState)}
       handleDeleteFile={() => FileManagementUtils.prepareToDeleteFile(setClientFileDescriptorStatus)}
       handleDownloadFile={(event) => {

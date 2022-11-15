@@ -4,7 +4,7 @@
 import { takeEvery, call, put } from 'redux-saga/effects';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { STATUSES } from '../../../commons/Constants';
-import { formatParametersForApi, formatParametersFromApi } from '../../../../utils/ApiUtils';
+import { ApiUtils } from '../../../../utils';
 import { SCENARIO_RUN_STATE } from '../../../../services/config/ApiConstants';
 import { ORGANIZATION_ID } from '../../../../config/GlobalConfiguration';
 import { Api } from '../../../../services/config/Api';
@@ -36,9 +36,9 @@ export function* updateAndLaunchScenario(action) {
       ORGANIZATION_ID,
       workspaceId,
       scenarioId,
-      formatParametersForApi(scenarioParameters)
+      ApiUtils.formatParametersForApi(scenarioParameters)
     );
-    updateData.parametersValues = formatParametersFromApi(updateData.parametersValues);
+    updateData.parametersValues = ApiUtils.formatParametersFromApi(updateData.parametersValues);
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
       status: STATUSES.IDLE,
