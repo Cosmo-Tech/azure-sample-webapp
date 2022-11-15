@@ -113,9 +113,11 @@ describe('generateParametersMetadata with config overwrite', () => {
     const config = {
       parameters: {
         dataset_param1: {
-          connectorId: 'C-0000000000',
-          defaultFileTypeFilter: '.zip,.csv,.json,.xls,.xlsx',
-          description: 'Dataset part description',
+          options: {
+            connectorId: 'C-0000000000',
+            defaultFileTypeFilter: '.zip,.csv,.json,.xls,.xlsx',
+            description: 'Dataset part description',
+          },
         },
       },
     };
@@ -123,9 +125,11 @@ describe('generateParametersMetadata with config overwrite', () => {
     let datasetParam1Data = getParamDataFromStandardSolution('dataset_param1');
     datasetParam1Data = {
       ...datasetParam1Data,
-      connectorId: 'C-0000000000',
-      defaultFileTypeFilter: '.zip,.csv,.json,.xls,.xlsx',
-      description: 'Dataset part description',
+      options: {
+        connectorId: 'C-0000000000',
+        defaultFileTypeFilter: '.zip,.csv,.json,.xls,.xlsx',
+        description: 'Dataset part description',
+      },
     };
     const expectedParametersMetadata = {
       dataset_param1: datasetParam1Data,
@@ -160,8 +164,10 @@ describe('generateParametersGroupsMetadata with missing data in solution', () =>
         fr: 'GroupA FR label',
       },
       parameters: [],
-      authorizedRoles: [],
-      hideParameterGroupIfNoPermission: false,
+      options: {
+        authorizedRoles: [],
+        hideParameterGroupIfNoPermission: false,
+      },
     },
   ];
 
@@ -215,8 +221,10 @@ describe('generateParametersGroupsMetadata with missing data in config', () => {
         fr: 'GroupA FR label',
       },
       parameters: [getParamDataFromStandardSolution('param1')],
-      authorizedRoles: [],
-      hideParameterGroupIfNoPermission: false,
+      options: {
+        authorizedRoles: [],
+        hideParameterGroupIfNoPermission: false,
+      },
     },
   ];
 
@@ -264,8 +272,10 @@ describe('generateParametersGroupsMetadata with missing data in config', () => {
           fr: 'GroupA FR label',
         },
         parameters: [getParamDataFromStandardSolution('param1')],
-        authorizedRoles: [],
-        hideParameterGroupIfNoPermission: false,
+        options: {
+          authorizedRoles: [],
+          hideParameterGroupIfNoPermission: false,
+        },
       },
       {
         id: 'groupB',
@@ -274,8 +284,10 @@ describe('generateParametersGroupsMetadata with missing data in config', () => {
           fr: 'GroupB FR label',
         },
         parameters: [getParamDataFromStandardSolution('param2')],
-        authorizedRoles: [],
-        hideParameterGroupIfNoPermission: false,
+        options: {
+          authorizedRoles: [],
+          hideParameterGroupIfNoPermission: false,
+        },
       },
     ];
     const res = ScenarioParametersUtils.generateParametersGroupsMetadata(solution, config, 'runTemplate2');
@@ -296,8 +308,10 @@ describe('generateParametersGroupsMetadata with missing data in config', () => {
           fr: 'GroupC FR label',
         },
         parameters: [getParamDataFromStandardSolution('param1'), getParamDataFromStandardSolution('param2')],
-        authorizedRoles: [],
-        hideParameterGroupIfNoPermission: false,
+        options: {
+          authorizedRoles: [],
+          hideParameterGroupIfNoPermission: false,
+        },
       },
     ];
     const res = ScenarioParametersUtils.generateParametersGroupsMetadata(solution, config, 'runTemplate3');
@@ -330,8 +344,10 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
           fr: 'GroupB FR label',
         },
         parameters: [getParamDataFromStandardSolution('param2')],
-        authorizedRoles: [],
-        hideParameterGroupIfNoPermission: false,
+        options: {
+          authorizedRoles: [],
+          hideParameterGroupIfNoPermission: false,
+        },
       },
     ];
 
@@ -373,8 +389,10 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
           fr: 'New FR label for groupA',
         },
         parameters: [param1Data],
-        authorizedRoles: [],
-        hideParameterGroupIfNoPermission: false,
+        options: {
+          authorizedRoles: [],
+          hideParameterGroupIfNoPermission: false,
+        },
       },
     ];
 
@@ -401,8 +419,10 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
           fr: 'GroupB FR label',
         },
         parameters: [getParamDataFromStandardSolution('param2')],
-        authorizedRoles: [],
-        hideParameterGroupIfNoPermission: false,
+        options: {
+          authorizedRoles: [],
+          hideParameterGroupIfNoPermission: false,
+        },
       },
       {
         id: 'groupA',
@@ -411,8 +431,10 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
           fr: 'GroupA FR label',
         },
         parameters: [getParamDataFromStandardSolution('param1')],
-        authorizedRoles: [],
-        hideParameterGroupIfNoPermission: false,
+        options: {
+          authorizedRoles: [],
+          hideParameterGroupIfNoPermission: false,
+        },
       },
     ];
 
@@ -439,8 +461,10 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
           fr: 'GroupC FR label',
         },
         parameters: [getParamDataFromStandardSolution('param2'), getParamDataFromStandardSolution('param1')],
-        authorizedRoles: [],
-        hideParameterGroupIfNoPermission: false,
+        options: {
+          authorizedRoles: [],
+          hideParameterGroupIfNoPermission: false,
+        },
       },
     ];
 
@@ -468,8 +492,10 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
           fr: 'GroupC FR label',
         },
         parameters: [getParamDataFromStandardSolution('param1'), getParamDataFromStandardSolution('param2')],
-        authorizedRoles: [role1],
-        hideParameterGroupIfNoPermission: false,
+        options: {
+          authorizedRoles: [role1],
+          hideParameterGroupIfNoPermission: false,
+        },
       },
     ];
 
@@ -498,8 +524,10 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
           fr: 'GroupC FR label',
         },
         parameters: [getParamDataFromStandardSolution('param1'), getParamDataFromStandardSolution('param2')],
-        authorizedRoles: [role1, role2],
-        hideParameterGroupIfNoPermission: false,
+        options: {
+          authorizedRoles: [role1, role2],
+          hideParameterGroupIfNoPermission: false,
+        },
       },
     ];
 
@@ -522,8 +550,10 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
           fr: 'GroupC FR label',
         },
         parameters: [getParamDataFromStandardSolution('param1'), getParamDataFromStandardSolution('param2')],
-        authorizedRoles: [],
-        hideParameterGroupIfNoPermission: false,
+        options: {
+          authorizedRoles: [],
+          hideParameterGroupIfNoPermission: false,
+        },
       },
     ];
 
@@ -537,8 +567,10 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
       parameters: {},
       parametersGroups: {
         groupC: {
-          authorizedRoles: [role1],
-          hideParameterGroupIfNoPermission: true,
+          options: {
+            authorizedRoles: [role1],
+            hideParameterGroupIfNoPermission: true,
+          },
         },
       },
       runTemplates: {},
@@ -552,8 +584,10 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
           fr: 'GroupC FR label',
         },
         parameters: [getParamDataFromStandardSolution('param1'), getParamDataFromStandardSolution('param2')],
-        authorizedRoles: [role1],
-        hideParameterGroupIfNoPermission: true,
+        options: {
+          authorizedRoles: [role1],
+          hideParameterGroupIfNoPermission: true,
+        },
       },
     ];
 
@@ -567,8 +601,10 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
       parameters: {},
       parametersGroups: {
         groupC: {
-          authorizedRoles: [role1],
-          hideParameterGroupIfNoPermission: false,
+          options: {
+            authorizedRoles: [role1],
+            hideParameterGroupIfNoPermission: false,
+          },
         },
       },
       runTemplates: {},
@@ -582,8 +618,10 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
           fr: 'GroupC FR label',
         },
         parameters: [getParamDataFromStandardSolution('param1'), getParamDataFromStandardSolution('param2')],
-        authorizedRoles: [role1],
-        hideParameterGroupIfNoPermission: false,
+        options: {
+          authorizedRoles: [role1],
+          hideParameterGroupIfNoPermission: false,
+        },
       },
     ];
 
@@ -608,8 +646,10 @@ describe('generateParametersGroupsMetadata with config overwrite', () => {
           fr: 'GroupC FR label',
         },
         parameters: [getParamDataFromStandardSolution('param1'), getParamDataFromStandardSolution('param2')],
-        authorizedRoles: [],
-        hideParameterGroupIfNoPermission: false,
+        options: {
+          authorizedRoles: [],
+          hideParameterGroupIfNoPermission: false,
+        },
       },
     ];
 

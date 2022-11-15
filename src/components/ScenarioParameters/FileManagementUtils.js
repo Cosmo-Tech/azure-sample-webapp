@@ -7,7 +7,7 @@ import DatasetService from '../../services/dataset/DatasetService';
 import WorkspaceService from '../../services/workspace/WorkspaceService';
 import { AppInsights } from '../../services/AppInsights';
 import { DATASET_ID_VARTYPE } from '../../services/config/ApiConstants';
-import { DatasetsUtils, ScenarioParametersUtils } from '../../utils';
+import { ConfigUtils, DatasetsUtils, ScenarioParametersUtils } from '../../utils';
 import applicationStore from '../../state/Store.config';
 import { t } from 'i18next';
 import { dispatchSetApplicationErrorMessage } from '../../state/dispatchers/app/ApplicationDispatcher';
@@ -54,12 +54,12 @@ const _uploadFileToCloudStorage = async (dataset, clientFileDescriptor, storageF
 };
 
 async function _createEmptyDatasetInCloudStorage(parameterMetadata) {
-  const connectorId = parameterMetadata.connectorId;
+  const connectorId = ConfigUtils.getParameterAttribute(parameterMetadata, 'connectorId');
   if (!connectorId) {
     throw new Error(`Missing connector id in configuration file for scenario parameter ${parameterMetadata.id}`);
   }
   const name = parameterMetadata.id;
-  const description = parameterMetadata.description || '';
+  const description = ConfigUtils.getParameterAttribute(parameterMetadata, 'description') ?? '';
   const connector = { id: connectorId };
   const tags = ['dataset_part'];
   const { error: creationError, data: createdDataset } = await DatasetService.createDataset(
@@ -83,7 +83,7 @@ function _buildStorageFilePath(dataset, clientFileDescriptor) {
 
 // Update created dataset with connector data (including file path in Azure Storage, based on dataset id)
 async function _updateDatasetWithConnectorDataInCloudStorage(parameterMetadata, storageFilePath, dataset) {
-  const connectorId = parameterMetadata.connectorId;
+  const connectorId = ConfigUtils.getParameterAttribute(parameterMetadata, 'connectorId');
   dataset.connector = DatasetsUtils.buildAzureStorageConnector(connectorId, storageFilePath);
   const { error: updateError, data: updatedDataset } = await DatasetService.updateDataset(
     ORGANIZATION_ID,
@@ -116,6 +116,7 @@ async function _processFileUpload(
     setClientFileDescriptorStatus(UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD);
     return updatedDataset.id;
   } catch (error) {
+    console.error(error);
     applicationStore.dispatch(
       dispatchSetApplicationErrorMessage(
         error,

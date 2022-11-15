@@ -15,6 +15,7 @@ export function* fetchSolutionByIdData(workspaceId, solutionId) {
   SolutionsUtils.addTranslationLabels(data);
   // Overwrite solution labels by local config
   ConfigUtils.addTranslationLabels(SCENARIO_PARAMETERS_CONFIG);
+  ConfigUtils.checkDeprecatedKeysInConfig(data);
   yield put({
     type: SOLUTION_ACTIONS_KEY.SET_CURRENT_SOLUTION,
     status: STATUSES.SUCCESS,
