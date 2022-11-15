@@ -33,7 +33,7 @@ export const GenericEnumInput = ({ parameterData, parametersState, setParameters
   return (
     <BasicEnumInput
       key={parameterData.id}
-      data-cy={parameterData.dataCy} // Optional data for cypress
+      data-cy={`enum-input-${parameterData.id}`}
       label={t(`solution.parameters.${parameterData.id}`, parameterData.id)}
       tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
       value={parametersState[parameterData.id] || enumValues?.[0]?.key || ''}
@@ -43,6 +43,7 @@ export const GenericEnumInput = ({ parameterData, parametersState, setParameters
     />
   );
 };
+
 GenericEnumInput.propTypes = {
   parameterData: PropTypes.object.isRequired,
   parametersState: PropTypes.object.isRequired,
