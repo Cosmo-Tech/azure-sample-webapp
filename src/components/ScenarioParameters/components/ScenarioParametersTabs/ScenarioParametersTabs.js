@@ -6,7 +6,7 @@ import { makeStyles, Tab } from '@material-ui/core';
 import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 import { useTranslation } from 'react-i18next';
 import LockIcon from '@material-ui/icons/Lock';
-import { TranslationUtils } from '../../../../utils';
+import { ConfigUtils, TranslationUtils } from '../../../../utils';
 import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
@@ -46,7 +46,7 @@ function _buildScenarioTabList(tabs, userRoles, classes, t) {
   for (const groupMetadata of tabs) {
     const lockedTab = !hasRequiredProfile(userRoles, groupMetadata.authorizedRoles);
     const lockIcon = lockedTab ? <LockIcon /> : undefined;
-    if (!lockedTab || !groupMetadata.hideParameterGroupIfNoPermission) {
+    if (!lockedTab || !ConfigUtils.getParametersGroupAttribute(groupMetadata, 'hideParameterGroupIfNoPermission')) {
       tabListComponent.push(
         <Tab
           key={groupMetadata.id}
@@ -67,7 +67,7 @@ function _buildTabPanels(userRoles, tabs, classes) {
   for (let index = 0; index < tabs.length; index++) {
     const groupMetadata = tabs[index];
     const lockedTab = !hasRequiredProfile(userRoles, groupMetadata.authorizedRoles);
-    if (!lockedTab || !groupMetadata.hideParameterGroupIfNoPermission) {
+    if (!lockedTab || !ConfigUtils.getParametersGroupAttribute(groupMetadata, 'hideParameterGroupIfNoPermission')) {
       tabPanelComponents.push(
         <TabPanel index={index} key={groupMetadata.id} value={groupMetadata.id} className={classes.tabPanel}>
           {groupMetadata.tab}
@@ -93,7 +93,7 @@ function chooseParametersTab(parametersGroupsMetadata, userRoles) {
   for (const groupMetadata of parametersGroupsMetadata) {
     if (selectedTabId === '') {
       const canViewTab = hasRequiredProfile(userRoles, groupMetadata.authorizedRoles);
-      if (canViewTab || !groupMetadata.hideParameterGroupIfNoPermission) {
+      if (canViewTab || !ConfigUtils.getParametersGroupAttribute(groupMetadata, 'hideParameterGroupIfNoPermission')) {
         return groupMetadata?.id;
       }
     }

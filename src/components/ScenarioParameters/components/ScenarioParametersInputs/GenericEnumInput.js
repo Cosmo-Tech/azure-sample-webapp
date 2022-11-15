@@ -5,20 +5,21 @@ import React from 'react';
 import { BasicEnumInput } from '@cosmotech/ui';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { TranslationUtils } from '../../../../utils';
+import { ConfigUtils, TranslationUtils } from '../../../../utils';
 
 export const GenericEnumInput = ({ parameterData, parametersState, setParametersState, context }) => {
   const { t } = useTranslation();
-  let enumValues = parameterData.enumValues;
   const textFieldProps = {
     disabled: !context.editMode,
     id: parameterData.id,
   };
 
+  let enumValues = ConfigUtils.getParameterAttribute(parameterData, 'enumValues');
   if (!enumValues) {
     console.warn(
       `Enum values are not defined for scenario parameter "${parameterData.id}".\n` +
-        'Please provide an array in the "enumValues" field for this parameter in the parameters configuration file.'
+        'Please provide an array in the "options.enumValues" field for this parameter in the parameters ' +
+        'configuration file.'
     );
     enumValues = [];
   }

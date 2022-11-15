@@ -127,7 +127,7 @@ const _findParameterInSolutionParametersById = (parameterId, solutionParameters)
 };
 
 function _getDefaultParameterValueFromDefaultValues(parameterId, configParameters, parameterVarType) {
-  const subType = ConfigUtils.getParameterSubType(parameterId, configParameters);
+  const subType = ConfigUtils.getParameterSubTypeFromConfig(parameterId, configParameters);
   return _getVarTypeDefaultValue(parameterVarType, subType);
 }
 
@@ -244,15 +244,16 @@ const _generateParametersGroupMetadata = (groupId, solution, config) => {
     console.warn(`Unknown parameters group "${groupId}"`);
     return undefined;
   }
-  const hideParameterGroupIfNoPermission = parametersGroup?.hideParameterGroupIfNoPermission
-    ? parametersGroup.hideParameterGroupIfNoPermission
-    : false;
   return {
     id: groupId,
     labels: parametersGroup.labels,
     parameters: _generateParametersMetadataForGroup(parametersGroup, solution, config),
-    authorizedRoles: parametersGroup.authorizedRoles || [],
-    hideParameterGroupIfNoPermission: hideParameterGroupIfNoPermission,
+    options: {
+      ...parametersGroup?.options,
+      authorizedRoles: ConfigUtils.getParametersGroupAttribute(parametersGroup, 'authorizedRoles') ?? [],
+      hideParameterGroupIfNoPermission:
+        ConfigUtils.getParametersGroupAttribute(parametersGroup, 'hideParameterGroupIfNoPermission') ?? false,
+    },
   };
 };
 
