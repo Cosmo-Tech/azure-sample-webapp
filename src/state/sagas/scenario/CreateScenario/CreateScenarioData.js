@@ -7,11 +7,10 @@ import { STATUSES } from '../../../commons/Constants';
 import { ORGANIZATION_ID } from '../../../../config/GlobalConfiguration';
 import { getAllScenariosData } from '../FindAllScenarios/FindAllScenariosData';
 import { Api } from '../../../../services/config/Api';
-import { formatParametersFromApi } from '../../../../utils/ApiUtils';
+import { ApiUtils, ScenariosUtils } from '../../../../utils';
 import { AppInsights } from '../../../../services/AppInsights';
 import { t } from 'i18next';
 import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
-import { ScenariosUtils } from '../../../../utils';
 
 const appInsights = AppInsights.getInstance();
 const getUserEmail = (state) => state.auth.userEmail;
@@ -31,7 +30,7 @@ export function* createScenario(action) {
     });
     const workspaceId = action.workspaceId;
     const { data } = yield call(Api.Scenarios.createScenario, ORGANIZATION_ID, workspaceId, action.scenario);
-    data.parametersValues = formatParametersFromApi(data.parametersValues);
+    data.parametersValues = ApiUtils.formatParametersFromApi(data.parametersValues);
     ScenariosUtils.patchScenarioWithCurrentUserPermissions(data, userEmail, userId, scenariosPermissionsMapping);
     yield call(getAllScenariosData, workspaceId);
     yield put({

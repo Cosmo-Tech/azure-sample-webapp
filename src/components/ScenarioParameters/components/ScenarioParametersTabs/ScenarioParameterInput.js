@@ -10,7 +10,8 @@ import { useStore } from 'react-redux';
 
 const ScenarioParameterInput = ({ parameterData, parametersState, setParametersState, context }) => {
   const { t } = useTranslation();
-  const parameterVarType = ConfigUtils.buildExtendedVarType(parameterData.varType, parameterData.subType);
+  const subType = ConfigUtils.getParameterAttribute(parameterData, 'subType');
+  const parameterVarType = ConfigUtils.buildExtendedVarType(parameterData.varType, subType);
   let varTypeFactory;
 
   const store = useStore();
