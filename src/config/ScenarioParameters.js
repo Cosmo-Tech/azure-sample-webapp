@@ -11,19 +11,15 @@ import { APP_ROLES } from '../services/config/accessControl';
 
 const PARAMETERS = {
   nb_waiters: {
-    dataCy: 'waiters-input',
     defaultValue: 5,
   },
   restock_qty: {
-    dataCy: 'restock-input',
     defaultValue: 25,
   },
   stock: {
-    dataCy: 'stock-input',
     defaultValue: 100,
   },
   currency: {
-    dataCy: 'currency',
     defaultValue: 'USD',
     enumValues: [
       {
@@ -45,15 +41,12 @@ const PARAMETERS = {
     ],
   },
   currency_name: {
-    dataCy: 'currency_name',
     defaultValue: 'EUR',
   },
   currency_value: {
-    dataCy: 'currency_value',
     defaultValue: 1000,
   },
   currency_used: {
-    dataCy: 'currency_used',
     labels: {
       en: 'Use currency',
       fr: 'Activer la monnaie',
@@ -61,11 +54,9 @@ const PARAMETERS = {
     defaultValue: false,
   },
   start_date: {
-    dataCy: 'start_date',
     defaultValue: new Date('2014-08-18T21:11:54'),
   },
   additional_seats: {
-    dataCy: 'additional_seats',
     defaultValue: -4,
     minValue: -600,
     maxValue: 2500,
@@ -75,11 +66,9 @@ const PARAMETERS = {
     },
   },
   activated: {
-    dataCy: 'activated',
     defaultValue: false,
   },
   additional_tables: {
-    dataCy: 'additional_tables',
     defaultValue: 3,
     minValue: -150,
     maxValue: 12000,
@@ -89,7 +78,6 @@ const PARAMETERS = {
     },
   },
   volume_unit: {
-    dataCy: 'volume_unit',
     defaultValue: 'LITRE',
     labels: {
       en: 'Volume unit',
@@ -111,45 +99,37 @@ const PARAMETERS = {
     ],
   },
   evaluation: {
-    dataCy: 'evaluation',
     defaultValue: 'Good',
   },
   comment: {
-    dataCy: 'comment',
     defaultValue: 'None',
   },
   additional_date: {
-    dataCy: 'additional_date',
     defaultValue: new Date('2022/06/22'),
     minValue: new Date('2022/01/01'),
     maxValue: new Date('2022/12/31'),
   },
   initial_stock_dataset: {
-    dataCy: 'initial_stock_dataset',
     connectorId: 'c-d7e5p9o0kjn9',
     defaultFileTypeFilter: '.zip,.csv,.json,.xls,.xlsx',
     description: 'Initial stock dataset part',
   },
   example_dataset_part_1: {
-    dataCy: 'example_dataset_part_1',
     connectorId: 'c-d7e5p9o0kjn9',
     defaultFileTypeFilter: '.zip,.csv,.json,.xls,.xlsx',
     description: '1st example of dataset part',
   },
   example_dataset_part_2: {
-    dataCy: 'example_dataset_part_2',
     connectorId: 'c-d7e5p9o0kjn9',
     defaultFileTypeFilter: '.zip,.csv,.json,.xls,.xlsx',
     description: '2nd example of dataset part',
   },
   example_dataset_part_3: {
-    dataCy: 'example_dataset_part_3',
     connectorId: 'c-d7e5p9o0kjn9',
     defaultFileTypeFilter: '.zip,.csv,.json,.xls,.xlsx',
     description: '3rd example of dataset part',
   },
   customers: {
-    dataCy: 'customers_table',
     connectorId: 'c-d7e5p9o0kjn9',
     description: 'customers data',
     subType: 'TABLE',
@@ -174,7 +154,6 @@ const PARAMETERS = {
     ],
   },
   events: {
-    dataCy: 'events_table',
     connectorId: 'c-d7e5p9o0kjn9',
     description: 'events data',
     subType: 'TABLE',
