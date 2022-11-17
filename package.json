@@ -6,7 +6,7 @@
     "@cosmotech/api-ts": "^2.0.6",
     "@cosmotech/azure": "^1.2.0",
     "@cosmotech/core": "^1.10.0",
-    "@cosmotech/ui": "^4.3.2",
+    "@cosmotech/ui": "^4.3.3",
     "@date-io/core": "^1.3.6",
     "@material-ui/core": "^4.11.2",
     "@material-ui/icons": "^4.11.2",

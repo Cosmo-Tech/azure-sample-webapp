@@ -27,7 +27,7 @@ export const API_ENDPOINT = {
   SCENARIOS: URL_ROOT + '/.*/scenarios',
   SCENARIO: URL_ROOT + '/.*/scenarios/(s-[\\w]+)',
   SCENARIO_DEFAULT_SECURITY: URL_ROOT + '/.*/scenarios/(s-[\\w]+)/security/default',
-  SCENARIO_ACL_SECURITY: URL_ROOT + '/.*/scenarios/(s-[\\w]+)/security/access',
+  SCENARIO_SECURITY_ACL: URL_ROOT + '/.*/scenarios/(s-[\\w]+)/security/access',
   RUN_SCENARIO: URL_ROOT + '/.*/scenarios/(s-[\\w]+)/run',
   DATASETS: URL_ROOT + '/.*/datasets',
   WORKSPACES: URL_ROOT + '/.*/workspaces',
@@ -42,12 +42,108 @@ export const API_ENDPOINT = {
   // /organizations/{organization_id}/workspaces/{workspace_id}/scenarios/permissions/{role}
 };
 
+export const ROLES = {
+  ORGANIZATION: {
+    NONE: 'none',
+    VIEWER: 'viewer',
+    USER: 'user',
+    EDITOR: 'editor',
+    ADMIN: 'admin',
+  },
+  WORKSPACE: {
+    NONE: 'none',
+    VIEWER: 'viewer',
+    USER: 'user',
+    EDITOR: 'editor',
+    ADMIN: 'admin',
+  },
+  SCENARIO: {
+    NONE: 'none',
+    VIEWER: 'viewer',
+    EDITOR: 'editor',
+    VALIDATOR: 'validator',
+    ADMIN: 'admin',
+  },
+};
+
+export const PERMISSIONS = {
+  ORGANIZATION: {
+    READ: 'read',
+    READ_SECURITY: 'read_security',
+    CREATE_CHILDREN: 'creaate_children',
+    WRITE: 'write',
+    WRITE_SECURITY: 'write_security',
+    DELETE: 'delete',
+  },
+  WORKSPACE: {
+    READ: 'read',
+    READ_SECURITY: 'read_security',
+    CREATE_CHILDREN: 'creaate_children',
+    WRITE: 'write',
+    WRITE_SECURITY: 'write_security',
+    DELETE: 'delete',
+  },
+  SCENARIO: {
+    READ: 'read',
+    READ_SECURITY: 'read_security',
+    LAUNCH: 'launch',
+    WRITE: 'write',
+    VALIDATE: 'validate',
+    WRITE_SECURITY: 'write_security',
+    DELETE: 'delete',
+  },
+};
+
+export const ROLES_PERMISSIONS_MAP = {
+  [ROLES.SCENARIO.VIEWER]: {
+    granted: [PERMISSIONS.SCENARIO.READ, PERMISSIONS.SCENARIO.READ_SECURITY],
+    notGranted: [
+      PERMISSIONS.SCENARIO.LAUNCH,
+      PERMISSIONS.SCENARIO.WRITE,
+      PERMISSIONS.SCENARIO.VALIDATE,
+      PERMISSIONS.SCENARIO.WRITE_SECURITY,
+      PERMISSIONS.SCENARIO.DELETE,
+    ],
+  },
+  [ROLES.SCENARIO.EDITOR]: {
+    granted: [
+      PERMISSIONS.SCENARIO.READ,
+      PERMISSIONS.SCENARIO.READ_SECURITY,
+      PERMISSIONS.SCENARIO.LAUNCH,
+      PERMISSIONS.SCENARIO.WRITE,
+    ],
+    notGranted: [PERMISSIONS.SCENARIO.VALIDATE, PERMISSIONS.SCENARIO.WRITE_SECURITY, PERMISSIONS.SCENARIO.DELETE],
+  },
+  [ROLES.SCENARIO.VALIDATOR]: {
+    granted: [
+      PERMISSIONS.SCENARIO.READ,
+      PERMISSIONS.SCENARIO.READ_SECURITY,
+      PERMISSIONS.SCENARIO.LAUNCH,
+      PERMISSIONS.SCENARIO.WRITE,
+      PERMISSIONS.SCENARIO.VALIDATE,
+    ],
+    notGranted: [PERMISSIONS.SCENARIO.WRITE_SECURITY, PERMISSIONS.SCENARIO.DELETE],
+  },
+  [ROLES.SCENARIO.ADMIN]: {
+    granted: [
+      PERMISSIONS.SCENARIO.READ,
+      PERMISSIONS.SCENARIO.READ_SECURITY,
+      PERMISSIONS.SCENARIO.LAUNCH,
+      PERMISSIONS.SCENARIO.WRITE,
+      PERMISSIONS.SCENARIO.VALIDATE,
+      PERMISSIONS.SCENARIO.WRITE_SECURITY,
+      PERMISSIONS.SCENARIO.DELETE,
+    ],
+    notGranted: [],
+  },
+};
+
 export const API_REGEX = {
   ALL: new RegExp(URL_ROOT),
   SCENARIOS: new RegExp('^' + API_ENDPOINT.SCENARIOS + '$'),
   SCENARIO: new RegExp('^' + API_ENDPOINT.SCENARIO),
   SCENARIO_DEFAULT_SECURITY: new RegExp('^' + API_ENDPOINT.SCENARIO_DEFAULT_SECURITY + '$'),
-  SCENARIO_SECURITY_ACL: new RegExp('^' + API_ENDPOINT.SCENARIO_ACL_SECURITY + '$'),
+  SCENARIO_SECURITY_ACL: new RegExp('^' + API_ENDPOINT.SCENARIO_SECURITY_ACL + '$'),
   RUN_SCENARIO: new RegExp('^' + API_ENDPOINT.RUN_SCENARIO),
   DATASETS: new RegExp('^' + API_ENDPOINT.DATASETS + '$'),
   WORKSPACE: new RegExp('^' + API_ENDPOINT.WORKSPACE + '$'),

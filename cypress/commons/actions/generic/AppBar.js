@@ -55,6 +55,10 @@ function switchLanguageTo(lang) {
   openLanguageSelectorInMenu();
   return selectLanguageInMenu(lang);
 }
+function logout() {
+  openUserInfoMenu();
+  getLogoutButton().click();
+}
 
 // Help menu actions
 function openHelpMenu() {
@@ -82,6 +86,7 @@ export const AppBar = {
   openLanguageSelectorInMenu,
   selectLanguageInMenu,
   switchLanguageTo,
+  logout,
   openHelpMenu,
   openAboutDialog,
   closeAboutDialog,

@@ -23,7 +23,7 @@ function login(url = BASE_URL) {
       });
     },
   });
-  Login.getMicrosoftLoginButton().click();
+  getMicrosoftLoginButton().click();
   api.waitAlias(reqAuthAlias);
   api.waitAliases(newPageQueries, { timeout: 60 * 1000 });
   Scenarios.getScenarioViewTab(60).should('be.visible');
