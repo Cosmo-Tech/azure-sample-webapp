@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { TranslationUtils } from './TranslationUtils';
+import { ApiUtils } from './ApiUtils';
 
 const _getRunTemplateParameters = (groupsOfParameters, runTemplateParametersGroupsIds) => {
   if (!runTemplateParametersGroupsIds) {
@@ -88,7 +89,12 @@ const addTranslationLabels = (solution) => {
   _addTranslationParametersLabels(solution);
 };
 
+const castMinMaxDefaultValuesInSolution = (solution) => {
+  solution?.parameters?.forEach((parameter) => ApiUtils.formatParameterMinMaxDefaultValuesFromString(parameter));
+};
+
 export const SolutionsUtils = {
   addRunTemplatesParametersIdsDict,
   addTranslationLabels,
+  castMinMaxDefaultValuesInSolution,
 };
