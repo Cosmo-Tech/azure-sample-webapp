@@ -9,6 +9,24 @@ import { SCENARIO_PARAMETERS_CONFIG } from '../config/ScenarioParameters';
 
 const clone = rfdc();
 
+const formatParameterMinMaxDefaultValuesFromString = (parameter) => {
+  const subType = ConfigUtils.getSubTypeFromParameter(parameter);
+  const castFunction = ConfigUtils.getConversionMethod(parameter, subType, VAR_TYPES_FROM_STRING_FUNCTIONS);
+  if (castFunction !== undefined) {
+    const keysToCast = ['defaultValue', 'minValue', 'maxValue'];
+    keysToCast.forEach((keyToCast) => {
+      try {
+        parameter[keyToCast] = parameter[keyToCast] != null ? castFunction(parameter[keyToCast]) : parameter[keyToCast];
+      } catch (error) {
+        console.log(
+          `Error when trying to cast "${keyToCast}" of parameter with id "${parameter?.id}": its value is` +
+            `${parameter[keyToCast]}`
+        );
+      }
+    });
+  }
+};
+
 const _formatParameters = (parameters, conversionArray) => {
   const newParams = parameters.map((param) => {
     const subType = ConfigUtils.getParameterSubTypeFromConfig(
@@ -42,6 +60,7 @@ const formatParametersFromApi = (parameters) => {
 };
 
 export const ApiUtils = {
+  formatParameterMinMaxDefaultValuesFromString,
   formatParametersForApi,
   formatParametersFromApi,
 };
