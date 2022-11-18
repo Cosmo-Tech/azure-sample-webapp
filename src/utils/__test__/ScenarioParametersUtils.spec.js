@@ -46,7 +46,7 @@ describe('generateParametersMetadata with missing data in solution', () => {
     ${'parameters'}      | ${[]}        | ${2}             | ${{}}
   `('if $field is $fieldValue', ({ field, fieldValue, expectedWarnings, expectedRes }) => {
     solution[field] = fieldValue;
-    const res = ScenarioParametersUtils.generateParametersMetadata(solution, {}, ['param1', 'param2']);
+    const res = ScenarioParametersUtils.generateParametersMetadata(solution, ['param1', 'param2']);
     expect(spyConsoleWarn).toHaveBeenCalledTimes(expectedWarnings);
     expect(res).toStrictEqual(expectedRes);
   });
@@ -60,83 +60,9 @@ describe('generateParametersMetadata with missing data in solution', () => {
     solution.runTemplates = fieldsValue;
     solution.parameterGroups = fieldsValue;
     solution.parameters = fieldsValue;
-    const res = ScenarioParametersUtils.generateParametersMetadata(solution, {}, ['param1', 'param2']);
+    const res = ScenarioParametersUtils.generateParametersMetadata(solution, ['param1', 'param2']);
     expect(spyConsoleWarn).toHaveBeenCalledTimes(2);
     expect(res).toStrictEqual({});
-  });
-});
-
-describe('generateParametersMetadata with config overwrite', () => {
-  let solution;
-  beforeEach(() => {
-    solution = clone(STANDARD_SOLUTION);
-  });
-
-  test('to change parameters labels', () => {
-    const config = {
-      parameters: {
-        param1: {
-          labels: {
-            en: 'New EN label for param1',
-            fr: 'New FR label for param1',
-          },
-        },
-        param2: {
-          labels: {
-            en: 'New EN label for param2',
-            fr: 'New FR label for param2',
-          },
-        },
-      },
-    };
-
-    const param1Data = getParamDataFromStandardSolution('param1');
-    const param2Data = getParamDataFromStandardSolution('param2');
-    param1Data.labels = {
-      en: 'New EN label for param1',
-      fr: 'New FR label for param1',
-    };
-    param2Data.labels = {
-      en: 'New EN label for param2',
-      fr: 'New FR label for param2',
-    };
-    const expectedParametersMetadata = {
-      param1: param1Data,
-      param2: param2Data,
-    };
-
-    const res = ScenarioParametersUtils.generateParametersMetadata(solution, config, ['param1', 'param2']);
-    expect(res).toStrictEqual(expectedParametersMetadata);
-  });
-
-  test('to add metadata to a file parameter', () => {
-    const config = {
-      parameters: {
-        dataset_param1: {
-          options: {
-            connectorId: 'C-0000000000',
-            defaultFileTypeFilter: '.zip,.csv,.json,.xls,.xlsx',
-            description: 'Dataset part description',
-          },
-        },
-      },
-    };
-
-    let datasetParam1Data = getParamDataFromStandardSolution('dataset_param1');
-    datasetParam1Data = {
-      ...datasetParam1Data,
-      options: {
-        connectorId: 'C-0000000000',
-        defaultFileTypeFilter: '.zip,.csv,.json,.xls,.xlsx',
-        description: 'Dataset part description',
-      },
-    };
-    const expectedParametersMetadata = {
-      dataset_param1: datasetParam1Data,
-    };
-
-    const res = ScenarioParametersUtils.generateParametersMetadata(solution, config, ['dataset_param1']);
-    expect(res).toStrictEqual(expectedParametersMetadata);
   });
 });
 
@@ -184,7 +110,7 @@ describe('generateParametersGroupsMetadata with missing data in solution', () =>
     ${'parameters'}      | ${[]}        | ${expectedGroupsDataForRunTemplate1WhenNoParameters}
   `('if $field is $fieldValue', ({ field, fieldValue, expectedRes }) => {
     solution[field] = fieldValue;
-    const res = ScenarioParametersUtils.generateParametersGroupsMetadata(solution, {}, 'runTemplate1');
+    const res = ScenarioParametersUtils.generateParametersGroupsMetadata(solution, 'runTemplate1');
     expect(spyConsoleWarn).toHaveBeenCalledTimes(1);
     expect(res).toStrictEqual(expectedRes);
   });
@@ -198,469 +124,14 @@ describe('generateParametersGroupsMetadata with missing data in solution', () =>
     solution.runTemplates = fieldsValue;
     solution.parameterGroups = fieldsValue;
     solution.parameters = fieldsValue;
-    const res = ScenarioParametersUtils.generateParametersGroupsMetadata(solution, {}, 'runTemplate1');
+    const res = ScenarioParametersUtils.generateParametersGroupsMetadata(solution, 'runTemplate1');
     expect(spyConsoleWarn).toHaveBeenCalledTimes(1);
     expect(res).toStrictEqual([]);
   });
 });
 
-describe('generateParametersGroupsMetadata with missing data in config', () => {
-  let solution;
-  let config;
-
-  beforeEach(() => {
-    solution = clone(STANDARD_SOLUTION);
-    config = clone({});
-  });
-
-  const expectedGroupsDataForRunTemplate1 = [
-    {
-      id: 'groupA',
-      labels: {
-        en: 'GroupA EN label',
-        fr: 'GroupA FR label',
-      },
-      parameters: [getParamDataFromStandardSolution('param1')],
-      options: {
-        authorizedRoles: [],
-        hideParameterGroupIfNoPermission: false,
-      },
-    },
-  ];
-
-  test.each`
-    field                | fieldValue
-    ${'runTemplates'}    | ${undefined}
-    ${'runTemplates'}    | ${null}
-    ${'runTemplates'}    | ${[]}
-    ${'parameterGroups'} | ${undefined}
-    ${'parameterGroups'} | ${null}
-    ${'parameterGroups'} | ${[]}
-    ${'parameters'}      | ${undefined}
-    ${'parameters'}      | ${null}
-    ${'parameters'}      | ${[]}
-  `('if $field is $fieldValue', ({ field, fieldValue, expectedRes }) => {
-    config[field] = fieldValue;
-    const res = ScenarioParametersUtils.generateParametersGroupsMetadata(solution, config, 'runTemplate1');
-    expect(res).toStrictEqual(expectedGroupsDataForRunTemplate1);
-  });
-
-  test.each`
-    fieldsValue
-    ${undefined}
-    ${null}
-    ${[]}
-  `('if runTemplates, parameterGroups and parameters are $fieldsValue', ({ fieldsValue }) => {
-    config.runTemplates = fieldsValue;
-    config.parameterGroups = fieldsValue;
-    config.parameters = fieldsValue;
-    const res = ScenarioParametersUtils.generateParametersGroupsMetadata(solution, config, 'runTemplate1');
-    expect(res).toStrictEqual(expectedGroupsDataForRunTemplate1);
-  });
-
-  test('must respect the parameters groups order defined in the solution', () => {
-    const config = {
-      parameters: {},
-      parametersGroups: {},
-      runTemplates: {},
-    };
-    const expectedGroupsDataForRunTemplate2 = [
-      {
-        id: 'groupA',
-        labels: {
-          en: 'GroupA EN label',
-          fr: 'GroupA FR label',
-        },
-        parameters: [getParamDataFromStandardSolution('param1')],
-        options: {
-          authorizedRoles: [],
-          hideParameterGroupIfNoPermission: false,
-        },
-      },
-      {
-        id: 'groupB',
-        labels: {
-          en: 'GroupB EN label',
-          fr: 'GroupB FR label',
-        },
-        parameters: [getParamDataFromStandardSolution('param2')],
-        options: {
-          authorizedRoles: [],
-          hideParameterGroupIfNoPermission: false,
-        },
-      },
-    ];
-    const res = ScenarioParametersUtils.generateParametersGroupsMetadata(solution, config, 'runTemplate2');
-    expect(res).toStrictEqual(expectedGroupsDataForRunTemplate2);
-  });
-
-  test('must respect the parameters order defined in the solution', () => {
-    const config = {
-      parameters: {},
-      parametersGroups: {},
-      runTemplates: {},
-    };
-    const expectedGroupsDataForRunTemplate3 = [
-      {
-        id: 'groupC',
-        labels: {
-          en: 'GroupC EN label',
-          fr: 'GroupC FR label',
-        },
-        parameters: [getParamDataFromStandardSolution('param1'), getParamDataFromStandardSolution('param2')],
-        options: {
-          authorizedRoles: [],
-          hideParameterGroupIfNoPermission: false,
-        },
-      },
-    ];
-    const res = ScenarioParametersUtils.generateParametersGroupsMetadata(solution, config, 'runTemplate3');
-    expect(res).toStrictEqual(expectedGroupsDataForRunTemplate3);
-  });
-});
-
-describe('generateParametersGroupsMetadata with config overwrite', () => {
-  let solution;
-  beforeEach(() => {
-    solution = clone(STANDARD_SOLUTION);
-  });
-
-  test('to change an existing run template to show a different parameter group', () => {
-    const config = {
-      parameters: {},
-      parametersGroups: {},
-      runTemplates: {
-        runTemplate1: {
-          parameterGroups: ['groupB'],
-        },
-      },
-    };
-
-    const expectedGroupsDataForRunTemplate1 = [
-      {
-        id: 'groupB',
-        labels: {
-          en: 'GroupB EN label',
-          fr: 'GroupB FR label',
-        },
-        parameters: [getParamDataFromStandardSolution('param2')],
-        options: {
-          authorizedRoles: [],
-          hideParameterGroupIfNoPermission: false,
-        },
-      },
-    ];
-
-    const res = ScenarioParametersUtils.generateParametersGroupsMetadata(solution, config, 'runTemplate1');
-    expect(res).toStrictEqual(expectedGroupsDataForRunTemplate1);
-  });
-
-  test('to change labels of parameters and parameters groups', () => {
-    const config = {
-      parameters: {
-        param1: {
-          labels: {
-            en: 'New EN label for param1',
-            fr: 'New FR label for param1',
-          },
-        },
-      },
-      parametersGroups: {
-        groupA: {
-          labels: {
-            en: 'New EN label for groupA',
-            fr: 'New FR label for groupA',
-          },
-        },
-      },
-      runTemplates: {},
-    };
-
-    const param1Data = getParamDataFromStandardSolution('param1');
-    param1Data.labels = {
-      en: 'New EN label for param1',
-      fr: 'New FR label for param1',
-    };
-    const expectedGroupsDataForRunTemplate1 = [
-      {
-        id: 'groupA',
-        labels: {
-          en: 'New EN label for groupA',
-          fr: 'New FR label for groupA',
-        },
-        parameters: [param1Data],
-        options: {
-          authorizedRoles: [],
-          hideParameterGroupIfNoPermission: false,
-        },
-      },
-    ];
-
-    const res = ScenarioParametersUtils.generateParametersGroupsMetadata(solution, config, 'runTemplate1');
-    expect(res).toStrictEqual(expectedGroupsDataForRunTemplate1);
-  });
-
-  test('to change display order of parameters groups', () => {
-    const config = {
-      parameters: {},
-      parametersGroups: {},
-      runTemplates: {
-        runTemplate2: {
-          parameterGroups: ['groupB', 'groupA'],
-        },
-      },
-    };
-
-    const expectedGroupsDataForRunTemplate2 = [
-      {
-        id: 'groupB',
-        labels: {
-          en: 'GroupB EN label',
-          fr: 'GroupB FR label',
-        },
-        parameters: [getParamDataFromStandardSolution('param2')],
-        options: {
-          authorizedRoles: [],
-          hideParameterGroupIfNoPermission: false,
-        },
-      },
-      {
-        id: 'groupA',
-        labels: {
-          en: 'GroupA EN label',
-          fr: 'GroupA FR label',
-        },
-        parameters: [getParamDataFromStandardSolution('param1')],
-        options: {
-          authorizedRoles: [],
-          hideParameterGroupIfNoPermission: false,
-        },
-      },
-    ];
-
-    const res = ScenarioParametersUtils.generateParametersGroupsMetadata(solution, config, 'runTemplate2');
-    expect(res).toStrictEqual(expectedGroupsDataForRunTemplate2);
-  });
-
-  test('to change display order of parameters', () => {
-    const config = {
-      parameters: {},
-      parametersGroups: {
-        groupC: {
-          parameters: ['param2', 'param1'],
-        },
-      },
-      runTemplates: {},
-    };
-
-    const expectedGroupsDataForRunTemplate3 = [
-      {
-        id: 'groupC',
-        labels: {
-          en: 'GroupC EN label',
-          fr: 'GroupC FR label',
-        },
-        parameters: [getParamDataFromStandardSolution('param2'), getParamDataFromStandardSolution('param1')],
-        options: {
-          authorizedRoles: [],
-          hideParameterGroupIfNoPermission: false,
-        },
-      },
-    ];
-
-    const res = ScenarioParametersUtils.generateParametersGroupsMetadata(solution, config, 'runTemplate3');
-    expect(res).toStrictEqual(expectedGroupsDataForRunTemplate3);
-  });
-
-  test('to add single authorized role on parameters group', () => {
-    const role1 = 'This is a role';
-    const config = {
-      parameters: {},
-      parametersGroups: {
-        groupC: {
-          authorizedRoles: [role1],
-        },
-      },
-      runTemplates: {},
-    };
-
-    const expectedGroupsDataForRunTemplate3 = [
-      {
-        id: 'groupC',
-        labels: {
-          en: 'GroupC EN label',
-          fr: 'GroupC FR label',
-        },
-        parameters: [getParamDataFromStandardSolution('param1'), getParamDataFromStandardSolution('param2')],
-        options: {
-          authorizedRoles: [role1],
-          hideParameterGroupIfNoPermission: false,
-        },
-      },
-    ];
-
-    const res = ScenarioParametersUtils.generateParametersGroupsMetadata(solution, config, 'runTemplate3');
-    expect(res).toStrictEqual(expectedGroupsDataForRunTemplate3);
-  });
-
-  test('to add multiple authorized roles on parameters group', () => {
-    const role1 = 'This is a role';
-    const role2 = 'This is another role';
-    const config = {
-      parameters: {},
-      parametersGroups: {
-        groupC: {
-          authorizedRoles: [role1, role2],
-        },
-      },
-      runTemplates: {},
-    };
-
-    const expectedGroupsDataForRunTemplate3 = [
-      {
-        id: 'groupC',
-        labels: {
-          en: 'GroupC EN label',
-          fr: 'GroupC FR label',
-        },
-        parameters: [getParamDataFromStandardSolution('param1'), getParamDataFromStandardSolution('param2')],
-        options: {
-          authorizedRoles: [role1, role2],
-          hideParameterGroupIfNoPermission: false,
-        },
-      },
-    ];
-
-    const res = ScenarioParametersUtils.generateParametersGroupsMetadata(solution, config, 'runTemplate3');
-    expect(res).toStrictEqual(expectedGroupsDataForRunTemplate3);
-  });
-
-  test('without specify authorized role on parameters group', () => {
-    const config = {
-      parameters: {},
-      parametersGroups: {},
-      runTemplates: {},
-    };
-
-    const expectedGroupsDataForRunTemplate3 = [
-      {
-        id: 'groupC',
-        labels: {
-          en: 'GroupC EN label',
-          fr: 'GroupC FR label',
-        },
-        parameters: [getParamDataFromStandardSolution('param1'), getParamDataFromStandardSolution('param2')],
-        options: {
-          authorizedRoles: [],
-          hideParameterGroupIfNoPermission: false,
-        },
-      },
-    ];
-
-    const res = ScenarioParametersUtils.generateParametersGroupsMetadata(solution, config, 'runTemplate3');
-    expect(res).toStrictEqual(expectedGroupsDataForRunTemplate3);
-  });
-
-  test('to change hideParameterGroupIfNoPermission=true value on parameters group', () => {
-    const role1 = 'This is a role';
-    const config = {
-      parameters: {},
-      parametersGroups: {
-        groupC: {
-          options: {
-            authorizedRoles: [role1],
-            hideParameterGroupIfNoPermission: true,
-          },
-        },
-      },
-      runTemplates: {},
-    };
-
-    const expectedGroupsDataForRunTemplate3 = [
-      {
-        id: 'groupC',
-        labels: {
-          en: 'GroupC EN label',
-          fr: 'GroupC FR label',
-        },
-        parameters: [getParamDataFromStandardSolution('param1'), getParamDataFromStandardSolution('param2')],
-        options: {
-          authorizedRoles: [role1],
-          hideParameterGroupIfNoPermission: true,
-        },
-      },
-    ];
-
-    const res = ScenarioParametersUtils.generateParametersGroupsMetadata(solution, config, 'runTemplate3');
-    expect(res).toStrictEqual(expectedGroupsDataForRunTemplate3);
-  });
-
-  test('to change hideParameterGroupIfNoPermission=false value on parameters group', () => {
-    const role1 = 'This is a role';
-    const config = {
-      parameters: {},
-      parametersGroups: {
-        groupC: {
-          options: {
-            authorizedRoles: [role1],
-            hideParameterGroupIfNoPermission: false,
-          },
-        },
-      },
-      runTemplates: {},
-    };
-
-    const expectedGroupsDataForRunTemplate3 = [
-      {
-        id: 'groupC',
-        labels: {
-          en: 'GroupC EN label',
-          fr: 'GroupC FR label',
-        },
-        parameters: [getParamDataFromStandardSolution('param1'), getParamDataFromStandardSolution('param2')],
-        options: {
-          authorizedRoles: [role1],
-          hideParameterGroupIfNoPermission: false,
-        },
-      },
-    ];
-
-    const res = ScenarioParametersUtils.generateParametersGroupsMetadata(solution, config, 'runTemplate3');
-    expect(res).toStrictEqual(expectedGroupsDataForRunTemplate3);
-  });
-
-  test('without specify  hideParameterGroupIfNoPermission value on parameters group', () => {
-    const config = {
-      parameters: {},
-      parametersGroups: {
-        groupC: {},
-      },
-      runTemplates: {},
-    };
-
-    const expectedGroupsDataForRunTemplate3 = [
-      {
-        id: 'groupC',
-        labels: {
-          en: 'GroupC EN label',
-          fr: 'GroupC FR label',
-        },
-        parameters: [getParamDataFromStandardSolution('param1'), getParamDataFromStandardSolution('param2')],
-        options: {
-          authorizedRoles: [],
-          hideParameterGroupIfNoPermission: false,
-        },
-      },
-    ];
-
-    const res = ScenarioParametersUtils.generateParametersGroupsMetadata(solution, config, 'runTemplate3');
-    expect(res).toStrictEqual(expectedGroupsDataForRunTemplate3);
-  });
-});
-
-describe('getDefaultParametersValues with empty solution and empty config', () => {
+describe('getDefaultParametersValues with empty solution', () => {
   let spyConsoleWarn;
-
   beforeAll(() => {
     spyConsoleWarn = jest.spyOn(console, 'warn').mockImplementation();
   });
@@ -670,33 +141,19 @@ describe('getDefaultParametersValues with empty solution and empty config', () =
   });
 
   test.each`
-    solutionParameters | configParameters
-    ${undefined}       | ${undefined}
-    ${undefined}       | ${null}
-    ${undefined}       | ${{}}
-    ${null}            | ${undefined}
-    ${null}            | ${null}
-    ${null}            | ${{}}
-    ${[]}              | ${undefined}
-    ${[]}              | ${null}
-    ${[]}              | ${{}}
-  `(
-    'if solutionParameters is $solutionParameters and configParameters is $configParameters',
-    ({ solutionParameters, configParameters }) => {
-      const res = ScenarioParametersUtils.getDefaultParametersValues(
-        ['unknownParameter'],
-        solutionParameters,
-        configParameters
-      );
-      expect(spyConsoleWarn).toHaveBeenCalledTimes(1);
-      expect(res).toStrictEqual({ unknownParameter: undefined });
-    }
-  );
+    solutionParameters
+    ${undefined}
+    ${null}
+    ${[]}
+  `('if solutionParameters is $solutionParameters', ({ solutionParameters }) => {
+    const res = ScenarioParametersUtils.getDefaultParametersValues(['unknownParameter'], solutionParameters);
+    expect(spyConsoleWarn).toHaveBeenCalledTimes(1);
+    expect(res).toStrictEqual({ unknownParameter: undefined });
+  });
 });
 
-describe('getDefaultParametersValues with solution or config', () => {
+describe('getDefaultParametersValues with solution', () => {
   let spyConsoleWarn;
-
   beforeAll(() => {
     spyConsoleWarn = jest.spyOn(console, 'warn').mockImplementation();
   });
@@ -711,74 +168,43 @@ describe('getDefaultParametersValues with solution or config', () => {
       defaultValue: 'someDefaultValue',
     },
   ];
-  const someConfigParameter = {
-    someParameter: {
-      defaultValue: 'someDefaultValue',
-    },
-  };
 
   test.each`
-    solutionParameters       | configParameters       | solutionParametersStr | configParametersStr
-    ${undefined}             | ${someConfigParameter} | ${'undefined'}        | ${'defined'}
-    ${someSolutionParameter} | ${null}                | ${'defined'}          | ${'undefined'}
-    ${someSolutionParameter} | ${someConfigParameter} | ${'defined'}          | ${'defined'}
+    solutionParameters       | solutionParametersStr | expectedDefaultValue  | expectedWarningsNumber
+    ${undefined}             | ${'undefined'}        | ${undefined}          | ${1}
+    ${someSolutionParameter} | ${'defined'}          | ${'someDefaultValue'} | ${0}
   `(
-    'if solutionParameters is $solutionParametersStr and configParameters is $configParametersStr',
-    ({ solutionParameters, configParameters }) => {
-      const res = ScenarioParametersUtils.getDefaultParametersValues(
-        ['someParameter'],
-        solutionParameters,
-        configParameters
-      );
-      expect(spyConsoleWarn).toHaveBeenCalledTimes(0);
-      expect(res).toStrictEqual({ someParameter: 'someDefaultValue' });
+    'if solutionParameters is $solutionParametersStr',
+    ({ solutionParameters, expectedDefaultValue, expectedWarningsNumber }) => {
+      const res = ScenarioParametersUtils.getDefaultParametersValues(['someParameter'], solutionParameters);
+      expect(spyConsoleWarn).toHaveBeenCalledTimes(expectedWarningsNumber);
+      expect(res).toStrictEqual({ someParameter: expectedDefaultValue });
     }
   );
 
-  test('to get default values of zero parameters', () => {
-    const res = ScenarioParametersUtils.getDefaultParametersValues([], someSolutionParameter, someConfigParameter);
+  test('to get default values with no parameters provided', () => {
+    const res = ScenarioParametersUtils.getDefaultParametersValues([], someSolutionParameter);
     expect(spyConsoleWarn).toHaveBeenCalledTimes(0);
     expect(res).toStrictEqual({});
   });
 
-  test('to get default values of several parameters', () => {
-    const anotherConfigParameter = {
-      parameter1: {
-        defaultValue: 'defaultValue1',
-      },
-      parameter2: {
-        defaultValue: 'defaultValue2',
-      },
-      parameter3: {
-        defaultValue: 'defaultValue3',
-      },
-    };
+  test('to get default values of several parameters not in solution', () => {
     const res = ScenarioParametersUtils.getDefaultParametersValues(
       ['parameter1', 'parameter2', 'parameter3'],
-      someSolutionParameter,
-      anotherConfigParameter
+      someSolutionParameter
     );
-    expect(spyConsoleWarn).toHaveBeenCalledTimes(0);
+    expect(spyConsoleWarn).toHaveBeenCalledTimes(3);
     expect(res).toStrictEqual({
-      parameter1: 'defaultValue1',
-      parameter2: 'defaultValue2',
-      parameter3: 'defaultValue3',
+      parameter1: undefined,
+      parameter2: undefined,
+      parameter3: undefined,
     });
   });
 
   test('to overwrite with config the default value defined in solution', () => {
-    const anotherConfigParameter = {
-      someParameter: {
-        defaultValue: 'anotherDefaultValue',
-      },
-    };
-    const res = ScenarioParametersUtils.getDefaultParametersValues(
-      ['someParameter'],
-      someSolutionParameter,
-      anotherConfigParameter
-    );
+    const res = ScenarioParametersUtils.getDefaultParametersValues(['someParameter'], someSolutionParameter);
     expect(spyConsoleWarn).toHaveBeenCalledTimes(0);
-    expect(res).toStrictEqual({ someParameter: 'anotherDefaultValue' });
+    expect(res).toStrictEqual({ someParameter: 'someDefaultValue' });
   });
 
   test.each`
@@ -804,8 +230,7 @@ describe('getDefaultParametersValues with solution or config', () => {
       ];
       const res = ScenarioParametersUtils.getDefaultParametersValues(
         ['someParameter'],
-        someSolutionParameterWithoutDefaultValue,
-        null
+        someSolutionParameterWithoutDefaultValue
       );
       expect(spyConsoleWarn).toHaveBeenCalledTimes(expectedWarningsNumber);
       expect(res).toStrictEqual({ someParameter: expectedDefaultValue });

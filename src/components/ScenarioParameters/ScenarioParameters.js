@@ -5,7 +5,6 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, makeStyles, Typography, Accordion, AccordionSummary, AccordionDetails } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { SCENARIO_PARAMETERS_CONFIG } from '../../config/ScenarioParameters';
 import { DATASET_ID_VARTYPE, SCENARIO_RUN_STATE, SCENARIO_VALIDATION_STATUS } from '../../services/config/ApiConstants';
 import { ACL_PERMISSIONS } from '../../services/config/accessControl';
 import { EditModeButton, NormalModeButton, ScenarioParametersTabsWrapper } from './components';
@@ -74,34 +73,19 @@ const ScenarioParameters = ({
     () => getRunTemplateParametersIds(solution.runTemplatesParametersIdsDict, currentScenario.data?.runTemplateId),
     [solution.runTemplatesParametersIdsDict, currentScenario.data?.runTemplateId]
   );
-  // Memoize default values for run template parameters, based on config and solution description
+  // Memoize default values for run template parameters, based on solution description
   const defaultParametersValues = useMemo(
-    () =>
-      ScenarioParametersUtils.getDefaultParametersValues(
-        runTemplateParametersIds,
-        solution.parameters,
-        SCENARIO_PARAMETERS_CONFIG.parameters
-      ),
+    () => ScenarioParametersUtils.getDefaultParametersValues(runTemplateParametersIds, solution.parameters),
     [runTemplateParametersIds, solution.parameters]
   );
   // Memoize the data of parameters (not including the current state of scenario parameters)
   const parametersMetadata = useMemo(
-    () =>
-      ScenarioParametersUtils.generateParametersMetadata(
-        solution,
-        SCENARIO_PARAMETERS_CONFIG,
-        runTemplateParametersIds
-      ),
+    () => ScenarioParametersUtils.generateParametersMetadata(solution, runTemplateParametersIds),
     [solution, runTemplateParametersIds]
   );
   // Memoize the data of parameters groups (not including the current state of scenario parameters)
   const parametersGroupsMetadata = useMemo(
-    () =>
-      ScenarioParametersUtils.generateParametersGroupsMetadata(
-        solution,
-        SCENARIO_PARAMETERS_CONFIG,
-        currentScenario.data?.runTemplateId
-      ),
+    () => ScenarioParametersUtils.generateParametersGroupsMetadata(solution, currentScenario.data?.runTemplateId),
     [solution, currentScenario.data?.runTemplateId]
   );
   // Memoize the parameters values for reset

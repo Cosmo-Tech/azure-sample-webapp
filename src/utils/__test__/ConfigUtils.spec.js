@@ -84,7 +84,8 @@ describe('getConversionMethod with possible values', () => {
     'if param "$param",subType "subType", functionArray "$functionArray"  ' +
       'and consoleWarnCalls "$consoleWarnCalls" then expectedRes "$expectedRes"',
     ({ param, subType, functionArray, consoleWarnCalls, expectedRes }) => {
-      const res = ConfigUtils.getConversionMethod(param, subType, functionArray);
+      const paramWithSubType = { ...param, options: { subType: subType } };
+      const res = ConfigUtils.getConversionMethod(paramWithSubType, functionArray);
       expect(spyConsoleWarn).toHaveBeenCalledTimes(consoleWarnCalls);
       expect(res).toStrictEqual(expectedRes);
     }
