@@ -3,98 +3,61 @@
 
 import { TranslationUtils } from './TranslationUtils';
 import { ApiUtils } from './ApiUtils';
+import { ArrayDictUtils } from './ArrayDictUtils';
+import { ConfigUtils } from './ConfigUtils';
+import { SOLUTIONS } from '../config/overrides/Solutions.js';
 
-const _getRunTemplateParameters = (groupsOfParameters, runTemplateParametersGroupsIds) => {
-  if (!runTemplateParametersGroupsIds) {
-    return [];
-  }
-  const parameters = [];
-  for (const parametersGroupId of runTemplateParametersGroupsIds) {
+const _getRunTemplateParametersIds = (groupsOfParameters, runTemplateParametersGroupsIds) => {
+  let parameters = [];
+  for (const parametersGroupId of runTemplateParametersGroupsIds ?? []) {
     if (!groupsOfParameters[parametersGroupId]) {
       console.warn(
         `Parameters group "${parametersGroupId}" is referenced in the solution run templates ` +
           'but it is not defined in the solution parameters groups'
       );
+      continue;
     }
-    const newParameters = groupsOfParameters?.[parametersGroupId]?.parameters || [];
-    for (const newParameter of newParameters) {
-      if (parameters.indexOf(newParameter) === -1) {
-        parameters.push(newParameter);
-      }
-    }
+    const newParameters = groupsOfParameters[parametersGroupId]?.parameters ?? [];
+    parameters = parameters.concat(newParameters.filter((newParameter) => !parameters.includes(newParameter)));
   }
   return parameters;
 };
 
-const _getParametersGroupsFromSolution = (solution) => {
-  const parametersGroups = {};
-  for (const group of solution.parameterGroups || []) {
-    parametersGroups[group.id] = group;
-  }
-  return parametersGroups;
-};
-
-const _getParametersGroupsFromConfig = (config) => {
-  return config?.parametersGroups;
-};
-
-const _getGroupsOfParameters = (solution, config) => {
-  let parametersGroups = _getParametersGroupsFromSolution(solution);
-  parametersGroups = {
-    ...parametersGroups,
-    // Let config overwrite parameters groups defined in solution description
-    ..._getParametersGroupsFromConfig(config),
-  };
-  return parametersGroups;
-};
-
-const _getRunTemplatesParametersIdsDict = (solution, config) => {
-  const groupsOfParameters = _getGroupsOfParameters(solution, config);
+const _createRunTemplatesParametersIdsDict = (solution) => {
+  const solutionParametersGroups = ArrayDictUtils.reshapeConfigArrayToDictById(solution.parameterGroups);
   const runTemplatesParametersIdsDict = {};
-  for (const runTemplate of solution.runTemplates || []) {
-    runTemplatesParametersIdsDict[runTemplate.id] = _getRunTemplateParameters(
-      groupsOfParameters,
+  solution?.runTemplates?.forEach((runTemplate) => {
+    runTemplatesParametersIdsDict[runTemplate.id] = _getRunTemplateParametersIds(
+      solutionParametersGroups,
       runTemplate.parameterGroups
     );
-  }
-  // Let config overwrite run templates groups defined in solution description
-  for (const runTemplateId in config?.runTemplates || {}) {
-    runTemplatesParametersIdsDict[runTemplateId] = _getRunTemplateParameters(
-      groupsOfParameters,
-      config.runTemplates[runTemplateId].parameterGroups
-    );
-  }
+  });
   return runTemplatesParametersIdsDict;
 };
 
-const addRunTemplatesParametersIdsDict = (solution, config) => {
-  if (!solution) {
-    return;
-  }
-  solution.runTemplatesParametersIdsDict = _getRunTemplatesParametersIdsDict(solution, config);
-};
-
-const _addTranslationParametersGroupsLabels = (solution) => {
-  const parametersGroups = solution?.parameterGroups || [];
-  TranslationUtils.addTranslationParametersGroupsLabels(parametersGroups);
-};
-
-const _addTranslationParametersLabels = (solution) => {
-  const parameters = solution?.parameters || [];
-  TranslationUtils.addTranslationParametersLabels(parameters);
+const addRunTemplatesParametersIdsDict = (solution) => {
+  if (!solution) return;
+  solution.runTemplatesParametersIdsDict = _createRunTemplatesParametersIdsDict(solution);
 };
 
 const addTranslationLabels = (solution) => {
-  _addTranslationParametersGroupsLabels(solution);
-  _addTranslationParametersLabels(solution);
+  TranslationUtils.addTranslationParametersGroupsLabels(solution?.parameterGroups ?? []);
+  TranslationUtils.addTranslationParametersLabels(solution?.parameters ?? []);
 };
 
 const castMinMaxDefaultValuesInSolution = (solution) => {
   solution?.parameters?.forEach((parameter) => ApiUtils.formatParameterMinMaxDefaultValuesFromString(parameter));
 };
 
+const patchSolutionIfLocalConfigExists = async (originalSolution) => {
+  if (SOLUTIONS.length > 0) console.log('Solutions content overridden by configuration file');
+  const overridingSolution = SOLUTIONS.find((solution) => solution.id === originalSolution.id);
+  ConfigUtils.patchSolution(originalSolution, overridingSolution);
+};
+
 export const SolutionsUtils = {
   addRunTemplatesParametersIdsDict,
   addTranslationLabels,
   castMinMaxDefaultValuesInSolution,
+  patchSolutionIfLocalConfigExists,
 };
