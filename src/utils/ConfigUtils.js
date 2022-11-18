@@ -1,32 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { TranslationUtils } from './TranslationUtils';
-
-const _reshapeConfigDictToArray = (elementsDict) => {
-  const elementsArray = [];
-  for (const elementId in elementsDict) {
-    const element = elementsDict[elementId];
-    element.id = elementId;
-    elementsArray.push(element);
-  }
-  return elementsArray;
-};
-
-const _addTranslationParametersGroupsLabels = (config) => {
-  const parametersGroupsDict = config?.parametersGroups || {};
-  TranslationUtils.addTranslationParametersGroupsLabels(_reshapeConfigDictToArray(parametersGroupsDict));
-};
-
-const _addTranslationParametersLabels = (config) => {
-  const parametersDict = config?.parameters || {};
-  TranslationUtils.addTranslationParametersLabels(_reshapeConfigDictToArray(parametersDict));
-};
-
-export const addTranslationLabels = (config) => {
-  _addTranslationParametersGroupsLabels(config);
-  _addTranslationParametersLabels(config);
-};
+import { ArrayDictUtils } from './ArrayDictUtils';
 
 const buildExtendedVarType = (varType, extension) => {
   if (varType) {
@@ -38,10 +13,11 @@ const buildExtendedVarType = (varType, extension) => {
   return undefined;
 };
 
-function getConversionMethod(param, subType, functionArray) {
+function getConversionMethod(param, functionArray) {
   const varType = param?.varType;
+  const subType = getParameterAttribute(param, 'subType');
   if (functionArray) {
-    const extendedVarType = ConfigUtils.buildExtendedVarType(varType, subType);
+    const extendedVarType = buildExtendedVarType(varType, subType);
     if (extendedVarType in functionArray) {
       return functionArray[extendedVarType];
     } else if (varType in functionArray) {
@@ -136,11 +112,23 @@ const checkDeprecatedKeysInConfig = (config) => {
     config.parameterGroups.forEach((parametersGroup) => _checkDeprecatedKeysInParametersGroupConfig(parametersGroup));
 };
 
+const patchSolution = (originalSolution, overridingSolution) => {
+  if (originalSolution == null || overridingSolution == null) return;
+
+  ['parameters', 'parameterGroups', 'runTemplates'].forEach(
+    (keyToMerge) =>
+      (originalSolution[keyToMerge] = ArrayDictUtils.mergeArraysByElementsIds(
+        originalSolution[keyToMerge],
+        overridingSolution[keyToMerge]
+      ))
+  );
+};
+
 export const ConfigUtils = {
-  addTranslationLabels,
   buildExtendedVarType,
   getConversionMethod,
   checkDeprecatedKeysInConfig,
   getParameterAttribute,
   getParametersGroupAttribute,
+  patchSolution,
 };
