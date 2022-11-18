@@ -1,0 +1,95 @@
+// Copyright (c) Cosmo Tech.
+// Licensed under the MIT license.
+
+import { ArrayDictUtils } from '../ArrayDictUtils';
+
+describe('mergeArraysByElementsIds', () => {
+  const defaultArray = [
+    { id: 'id1', value: 'value1' },
+    { id: 'id2', value: 'value2' },
+    { id: 'id3', value: 'value3' },
+  ];
+  const overridingArray = [
+    { id: 'id1', value: 'newValue1' },
+    { id: 'id2', newAttribute: 'attribute2' },
+    { id: 'id4', value: 'value4' },
+  ];
+  const mergedResult = [
+    { id: 'id1', value: 'newValue1' },
+    { id: 'id2', value: 'value2', newAttribute: 'attribute2' },
+    { id: 'id3', value: 'value3' },
+    { id: 'id4', value: 'value4' },
+  ];
+
+  test.each`
+    array1          | array1Str         | array2             | array2Str            | expectedRes
+    ${null}         | ${null}           | ${null}            | ${null}              | ${[]}
+    ${[]}           | ${[]}             | ${[]}              | ${[]}                | ${[]}
+    ${null}         | ${null}           | ${defaultArray}    | ${'defaultArray'}    | ${defaultArray}
+    ${defaultArray} | ${'defaultArray'} | ${null}            | ${null}              | ${defaultArray}
+    ${[]}           | ${[]}             | ${defaultArray}    | ${'defaultArray'}    | ${defaultArray}
+    ${defaultArray} | ${'defaultArray'} | ${[]}              | ${[]}                | ${defaultArray}
+    ${defaultArray} | ${'defaultArray'} | ${overridingArray} | ${'overridingArray'} | ${mergedResult}
+  `('if array1=$array1Str and array2=$array2Str, then $expectedRes', ({ array1, array2, expectedRes }) => {
+    const res = ArrayDictUtils.mergeArraysByElementsIds(array1, array2);
+    expect(res).toStrictEqual(expectedRes);
+  });
+});
+
+describe('reshapeConfigArrayToDictById', () => {
+  const arrayA = [{ id: 'id1', value: 'value1' }];
+  const arrayB = [
+    { id: 'id1', value: 'value1' },
+    { id: 'id2', value: 'value2' },
+    { id: 'id3', value: 'value3' },
+  ];
+  const dictA = {
+    id1: { id: 'id1', value: 'value1' },
+  };
+  const dictB = {
+    id1: { id: 'id1', value: 'value1' },
+    id2: { id: 'id2', value: 'value2' },
+    id3: { id: 'id3', value: 'value3' },
+  };
+
+  test.each`
+    array        | arrayStr     | expectedRes
+    ${null}      | ${null}      | ${{}}
+    ${undefined} | ${undefined} | ${{}}
+    ${[]}        | ${[]}        | ${{}}
+    ${arrayA}    | ${'arrayA'}  | ${dictA}
+    ${arrayB}    | ${'arrayB'}  | ${dictB}
+  `('if array=$arrayStr, then $expectedRes', ({ array, expectedRes }) => {
+    const res = ArrayDictUtils.reshapeConfigArrayToDictById(array);
+    expect(res).toStrictEqual(expectedRes);
+  });
+});
+
+describe('reshapeDictToArrayById', () => {
+  const arrayA = [{ id: 'id1', value: 'value1' }];
+  const arrayB = [
+    { id: 'id1', value: 'value1' },
+    { id: 'id2', value: 'value2' },
+    { id: 'id3', value: 'value3' },
+  ];
+  const dictA = {
+    id1: { id: 'id1', value: 'value1' },
+  };
+  const dictB = {
+    id1: { id: 'id1', value: 'value1' },
+    id2: { id: 'id2', value: 'value2' },
+    id3: { id: 'id3', value: 'value3' },
+  };
+
+  test.each`
+    dict         | dictStr      | expectedRes
+    ${null}      | ${null}      | ${[]}
+    ${undefined} | ${undefined} | ${[]}
+    ${{}}        | ${{}}        | ${[]}
+    ${dictA}     | ${'dictA'}   | ${arrayA}
+    ${dictB}     | ${'dictB'}   | ${arrayB}
+  `('if dict=$dictStr, then $expectedRes', ({ dict, expectedRes }) => {
+    const res = ArrayDictUtils.reshapeDictToArrayById(dict);
+    expect(res).toStrictEqual(expectedRes);
+  });
+});
