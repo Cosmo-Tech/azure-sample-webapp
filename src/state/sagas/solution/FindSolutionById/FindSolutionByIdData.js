@@ -13,6 +13,7 @@ export function* fetchSolutionByIdData(workspaceId, solutionId) {
   const { data } = yield call(Api.Solutions.findSolutionById, ORGANIZATION_ID, solutionId);
   SolutionsUtils.addRunTemplatesParametersIdsDict(data, SCENARIO_PARAMETERS_CONFIG);
   SolutionsUtils.addTranslationLabels(data);
+  SolutionsUtils.castMinMaxDefaultValuesInSolution(data);
   // Overwrite solution labels by local config
   ConfigUtils.addTranslationLabels(SCENARIO_PARAMETERS_CONFIG);
   ConfigUtils.checkDeprecatedKeysInConfig(data);
