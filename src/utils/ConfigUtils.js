@@ -68,6 +68,7 @@ const getParameterAttribute = (parameter, attributeName) => {
     'description',
     'enumValues',
     'hasHeader',
+    'hidden',
     'subType',
   ];
   if (!knownAttributesNames.includes(attributeName)) {
@@ -81,7 +82,7 @@ const getParameterAttribute = (parameter, attributeName) => {
 };
 
 const getParametersGroupAttribute = (parametersGroup, attributeName) => {
-  const knownAttributesNames = ['authorizedRoles', 'hideParameterGroupIfNoPermission'];
+  const knownAttributesNames = ['authorizedRoles', 'hideParameterGroupIfNoPermission', 'hidden'];
   if (!knownAttributesNames.includes(attributeName)) {
     console.warn(
       `The attribute "${attributeName}" is not a known attribute in the scenario parameters groups configuration.`
