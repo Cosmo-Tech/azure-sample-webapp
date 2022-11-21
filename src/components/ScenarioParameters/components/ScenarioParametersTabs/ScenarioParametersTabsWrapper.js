@@ -7,8 +7,16 @@ import ScenarioParametersTab from './ScenarioParametersTab';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { ScenarioParametersTabs } from '../index';
+import { ConfigUtils } from '../../../../utils';
 // eslint-disable-next-line max-len
 import { CUSTOM_PARAMETERS_GROUPS_COMPONENTS_MAPPING } from '../../../../utils/scenarioParameters/custom/ParametersGroupsComponentsMapping';
+
+const _hasOnlyHiddenParameters = (group) => {
+  return (
+    group.parameters.filter((parameter) => (ConfigUtils.getParameterAttribute(parameter, 'hidden') ?? false) !== true)
+      .length === 0
+  );
+};
 
 const ScenarioParametersTabsWrapper = ({
   parametersGroupsMetadata,
@@ -20,6 +28,15 @@ const ScenarioParametersTabsWrapper = ({
   const { t } = useTranslation();
   const datasets = useSelector((state) => state.dataset?.list?.data);
   for (const parametersGroupMetadata of parametersGroupsMetadata) {
+    if (
+      ConfigUtils.getParametersGroupAttribute(parametersGroupMetadata, 'hidden') === true ||
+      _hasOnlyHiddenParameters(parametersGroupMetadata)
+    ) {
+      parametersGroupMetadata.hidden = true;
+      parametersGroupMetadata.tab = null;
+      continue;
+    }
+
     const tabFactory = CUSTOM_PARAMETERS_GROUPS_COMPONENTS_MAPPING[parametersGroupMetadata.id] || ScenarioParametersTab;
     // 'name' property helps distinguish React components from factories; we also need to check in WrappedComponent
     // for components connected to redux
@@ -47,8 +64,11 @@ const ScenarioParametersTabsWrapper = ({
       );
     }
   }
-  return <ScenarioParametersTabs userRoles={userRoles} parametersGroupsMetadata={parametersGroupsMetadata} />;
+
+  const visibleGroups = parametersGroupsMetadata.filter((group) => group.hidden !== true);
+  return <ScenarioParametersTabs userRoles={userRoles} parametersGroupsMetadata={visibleGroups} />;
 };
+
 ScenarioParametersTabsWrapper.propTypes = {
   parametersGroupsMetadata: PropTypes.array.isRequired,
   userRoles: PropTypes.array.isRequired,
