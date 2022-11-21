@@ -17,12 +17,14 @@ const ScenarioParametersTab = ({ parametersGroupData, parametersState, setParame
 
   const scenarioId = useSelector((state) => state.scenario?.current?.data?.id);
   const authorizedRoles = ConfigUtils.getParametersGroupAttribute(parametersGroupData, 'authorizedRoles');
+  const isParameterVisible = (parameter) => ConfigUtils.getParameterAttribute(parameter, 'hidden') !== true;
 
   const groupContainerStyle = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'stretch',
   };
+
   return (
     <PermissionsGate
       RenderNoPermissionComponent={() => noPermissionsPlaceHolder(t)}
@@ -31,15 +33,17 @@ const ScenarioParametersTab = ({ parametersGroupData, parametersState, setParame
       userPermissions={userAppRoles}
     >
       <div key={parametersGroupData.id} style={groupContainerStyle}>
-        {parametersGroupData.parameters.map((parameterData) => (
-          <ScenarioParameterInput
-            key={`${scenarioId}_${parameterData.id}`}
-            parameterData={parameterData}
-            parametersState={parametersState}
-            setParametersState={setParametersState}
-            context={context}
-          />
-        ))}
+        {parametersGroupData.parameters
+          .filter((parameter) => isParameterVisible(parameter))
+          .map((parameterData) => (
+            <ScenarioParameterInput
+              key={`${scenarioId}_${parameterData.id}`}
+              parameterData={parameterData}
+              parametersState={parametersState}
+              setParametersState={setParametersState}
+              context={context}
+            />
+          ))}
       </div>
     </PermissionsGate>
   );
