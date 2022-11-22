@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import React from 'react';
-import { Routes, Navigate, Route, useLocation, matchPath } from 'react-router-dom';
+import { Routes, Navigate, Route, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { TabLayout } from './layouts';
 import { SignIn as SignInView, AccessDenied as AccessDeniedView } from './views';
@@ -13,9 +13,6 @@ const AppRoutes = (props) => {
   const { authenticated, authorized, tabs } = props;
   const location = useLocation();
   const previousUrl = sessionStorage.getItem('previousURL');
-  // TODO: the following constant gives access to workspaceId (sharedUrl?.params?.workspaceId) in url and can be
-  //  used to set currentWorkspace if user has a link to specific scenario
-  // const sharedUrl = matchPath(':workspaceId/:view/*', previousUrl);
   const currentWorkspace = useWorkspace();
   return (
     <Routes>
@@ -61,7 +58,7 @@ const AppRoutes = (props) => {
               )
             }
           >
-            {(tab.to === 'scenario' || 'instance') && (
+            {['scenario', 'instance'].includes(tab.to) && (
               <Route
                 path=":scenarioId"
                 element={
