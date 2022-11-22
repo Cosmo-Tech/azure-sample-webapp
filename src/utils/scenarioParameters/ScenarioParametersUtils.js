@@ -4,30 +4,21 @@
 import rfdc from 'rfdc';
 import { VAR_TYPES_DEFAULT_VALUES } from './DefaultValues';
 import { ConfigUtils } from '../ConfigUtils';
-import {
-  ADD_SCENARIO_ID_PARAMETER,
-  ADD_SCENARIO_LAST_RUN_ID_PARAMETER,
-  ADD_SCENARIO_MASTER_ID_PARAMETER,
-  ADD_SCENARIO_MASTER_LAST_RUN_ID_PARAMETER,
-  ADD_SCENARIO_NAME_PARAMETER,
-  ADD_SCENARIO_PARENT_ID_PARAMETER,
-  ADD_SCENARIO_PARENT_LAST_RUN_ID_PARAMETER,
-  ADD_SCENARIO_RUN_TEMPLATE_NAME_PARAMETER,
-} from '../../config/ScenarioParameters';
 
 const clone = rfdc();
 
-const shouldForceUpdateScenarioParameters = () => {
-  const result =
-    ADD_SCENARIO_ID_PARAMETER ||
-    ADD_SCENARIO_LAST_RUN_ID_PARAMETER ||
-    ADD_SCENARIO_MASTER_ID_PARAMETER ||
-    ADD_SCENARIO_MASTER_LAST_RUN_ID_PARAMETER ||
-    ADD_SCENARIO_NAME_PARAMETER ||
-    ADD_SCENARIO_PARENT_ID_PARAMETER ||
-    ADD_SCENARIO_PARENT_LAST_RUN_ID_PARAMETER ||
-    ADD_SCENARIO_RUN_TEMPLATE_NAME_PARAMETER;
-  return result;
+const shouldForceScenarioParametersUpdate = (runTemplateParametersIds) => {
+  const hiddenParametersIds = [
+    'ScenarioName',
+    'ScenarioId',
+    'MasterId',
+    'RunTemplateName',
+    'ParentId',
+    'ScenarioLastRunId',
+    'ParentLastRunId',
+    'MasterLastRunId',
+  ];
+  return runTemplateParametersIds.some((parameterId) => hiddenParametersIds.includes(parameterId));
 };
 
 const _buildScenarioParameter = (parameterId, varType, value) => {
@@ -35,77 +26,77 @@ const _buildScenarioParameter = (parameterId, varType, value) => {
     return {
       parameterId: parameterId,
       varType: varType,
-      value: value || '',
+      value: value ?? '',
     };
   }
   return undefined;
 };
 
-function _addScenarioParameter(parameterId, varType, value, parameters) {
-  const parameter = _buildScenarioParameter(parameterId, varType, value);
-  if (parameter) parameters.push(parameter);
+function _addOrReplaceScenarioParameter(parameterId, varType, value, parameters) {
+  const newParameter = _buildScenarioParameter(parameterId, varType, value);
+  if (newParameter === undefined) {
+    return;
+  }
+
+  const previousParameterIndex = parameters.findIndex((parameter) => parameter.parameterId === parameterId);
+  if (previousParameterIndex === -1) {
+    parameters.push(newParameter);
+  } else {
+    parameters[previousParameterIndex] = newParameter;
+  }
 }
 
-function _addParentLastRunIdScenarioParameter(scenarioData, scenarioList, defaultVarType, parameters) {
+function _getParentScenarioLastRunId(scenarioData, scenarios) {
   if (scenarioData.parentId) {
-    const parentScenario = scenarioList.find((scenario) => scenario.id === scenarioData.parentId);
+    const parentScenario = scenarios.find((scenario) => scenario.id === scenarioData.parentId);
     if (parentScenario) {
-      _addScenarioParameter('ParentLastRunId', defaultVarType, parentScenario?.lastRun?.csmSimulationRun, parameters);
+      return parentScenario?.lastRun?.csmSimulationRun;
     } else {
-      console.error(
-        `Scenario parent with id:${scenarioData.parentId} does not exist.\
-             Scenario Parameter ParentLastRunId cannot be built`
+      console.warn(
+        "Cannot build value for parameter 'ParentLastRunId', because scenario parent with id " +
+          `"${scenarioData.parentId}" could not be found. Either this parent scenario does not exist, or you don't ` +
+          'have access to it.'
       );
     }
-  } else {
-    _addScenarioParameter('ParentLastRunId', defaultVarType, undefined, parameters);
   }
+  return undefined;
 }
 
-function _addMasterLastRunIdScenarioParameter(scenarioData, scenarioList, defaultVarType, parameters) {
+function _getRootScenarioLastRunId(scenarioData, scenarios) {
   if (scenarioData.rootId) {
-    const masterScenario = scenarioList.find((scenario) => scenario.id === scenarioData.rootId);
-    if (masterScenario) {
-      _addScenarioParameter('MasterLastRunId', defaultVarType, masterScenario?.lastRun?.csmSimulationRun, parameters);
+    const rootScenario = scenarios.find((scenario) => scenario.id === scenarioData.rootId);
+    if (rootScenario) {
+      return rootScenario?.lastRun?.csmSimulationRun;
     } else {
-      console.error(
-        `Scenario master with id:${scenarioData.rootId} does not exist.\
-             Scenario Parameter MasterLastRunId cannot be built`
+      console.warn(
+        "Cannot build value for parameter 'MasterLastRunId', because root scenario with id " +
+          `"${scenarioData.rootId}" could not be found. Either this root scenario does not exist, or you don't ` +
+          'have access to it.'
       );
     }
-  } else {
-    _addScenarioParameter('MasterLastRunId', defaultVarType, undefined, parameters);
   }
+  return undefined;
 }
 
-function buildAdditionalParameters(scenario, scenarioList) {
-  const scenarioData = scenario?.data;
-  const parameters = [];
-  if (scenarioData && scenarioList?.length > 0) {
-    if (ADD_SCENARIO_NAME_PARAMETER) {
-      _addScenarioParameter('ScenarioName', 'string', scenarioData.name, parameters);
-    }
-    if (ADD_SCENARIO_ID_PARAMETER) {
-      _addScenarioParameter('ScenarioId', 'string', scenarioData.id, parameters);
-    }
-    if (ADD_SCENARIO_MASTER_ID_PARAMETER) {
-      _addScenarioParameter('MasterId', 'string', scenarioData.rootId, parameters);
-    }
-    if (ADD_SCENARIO_RUN_TEMPLATE_NAME_PARAMETER) {
-      _addScenarioParameter('RunTemplateName', 'string', scenarioData.runTemplateName, parameters);
-    }
-    if (ADD_SCENARIO_PARENT_ID_PARAMETER) {
-      _addScenarioParameter('ParentId', 'string', scenarioData.parentId, parameters);
-    }
-    if (ADD_SCENARIO_LAST_RUN_ID_PARAMETER) {
-      _addScenarioParameter('ScenarioLastRunId', 'string', scenarioData?.lastRun?.csmSimulationRun, parameters);
-    }
-    if (ADD_SCENARIO_PARENT_LAST_RUN_ID_PARAMETER) {
-      _addParentLastRunIdScenarioParameter(scenarioData, scenarioList, 'string', parameters);
-    }
-    if (ADD_SCENARIO_MASTER_LAST_RUN_ID_PARAMETER) {
-      _addMasterLastRunIdScenarioParameter(scenarioData, scenarioList, 'string', parameters);
-    }
+function _addHiddenParameters(parameters, scenarioData, scenarios, runTemplateParametersIds) {
+  if (scenarioData == null || scenarios == null || scenarios.length === 0) {
+    return parameters;
+  }
+
+  const parameterValueGetterFunctionMap = {
+    ScenarioName: () => scenarioData.name,
+    ScenarioId: () => scenarioData.id,
+    MasterId: () => scenarioData.rootId,
+    RunTemplateName: () => scenarioData.runTemplateName,
+    ParentId: () => scenarioData.parentId,
+    ScenarioLastRunId: () => scenarioData?.lastRun?.csmSimulationRun,
+    ParentLastRunId: () => _getParentScenarioLastRunId(scenarioData, scenarios),
+    MasterLastRunId: () => _getRootScenarioLastRunId(scenarioData, scenarios),
+  };
+
+  for (const [parameterId, getParameter] of Object.entries(parameterValueGetterFunctionMap)) {
+    if (runTemplateParametersIds.includes(parameterId))
+      _addOrReplaceScenarioParameter(parameterId, 'string', getParameter(), parameters);
   }
   return parameters;
 }
@@ -135,15 +126,19 @@ const _getDefaultParameterValue = (parameterId, solutionParameters) => {
   }
 
   let defaultValue = solutionParameter.defaultValue;
-  if (defaultValue === null) {
+  // defaultValue might not be in parameter data for parameters overridden by local config; when sent by the back-end,
+  // parameters should always have a defaultValue property, that will be set to 'null' by default
+  if (!('defaultValue' in solutionParameter) || defaultValue === null) {
     const parameterVarType = solutionParameter?.varType;
     defaultValue = _getDefaultParameterValueFromDefaultValues(solutionParameter, parameterVarType);
   }
-
   if (defaultValue !== undefined) {
     return defaultValue;
   }
-  console.warn(`Couldn't find default value to use for scenario parameter "${parameterId}".`);
+  console.warn(
+    `Couldn't find default value to use for scenario parameter "${parameterId}". Its varType may not be ` +
+      'defined, or its default value may be set to undefined (in this case, please use "null" instead of "undefined").'
+  );
 };
 
 const _findParameterInScenarioParametersValues = (parameterId, scenarioParametersValues) => {
@@ -171,7 +166,7 @@ const _getRunTemplateParametersGroupsIds = (runTemplateId, solution) => {
 
 const _getParameterMetadataFromSolution = (parameterId, solution) => {
   const parameters = solution.parameters ?? [];
-  return parameters.find((parameter) => parameter.id === parameterId) || {};
+  return parameters.find((parameter) => parameter.id === parameterId) ?? {};
 };
 
 const _generateParameterMetadata = (parameterId, solution) => {
@@ -188,8 +183,8 @@ const _generateParametersMetadataForGroup = (group, solution) => {
 };
 
 const _getParametersGroupFromSolution = (groupId, solution) => {
-  const parametersGroups = solution.parameterGroups || [];
-  return parametersGroups.find((group) => group.id === groupId) || {};
+  const parametersGroups = solution.parameterGroups ?? [];
+  return parametersGroups.find((group) => group.id === groupId) ?? {};
 };
 
 const _generateParametersGroupMetadata = (groupId, solution) => {
@@ -281,7 +276,7 @@ const generateParametersMetadata = (solution, parametersIds) => {
 //   parameters: array_of_parameters_data (id, labels, varType, read-only state, setter, minValue, maxValue)
 // }
 const generateParametersGroupsMetadata = (solution, runTemplateId) => {
-  const runTemplateParametersGroupsIds = _getRunTemplateParametersGroupsIds(runTemplateId, solution) || [];
+  const runTemplateParametersGroupsIds = _getRunTemplateParametersGroupsIds(runTemplateId, solution) ?? [];
   return _generateParametersGroupsMetadataFromIds(runTemplateParametersGroupsIds, solution);
 };
 
@@ -299,7 +294,7 @@ const _buildParameterForUpdate = (solution, parameters, parameterId) => {
   };
 };
 
-const buildParametersForUpdate = (solution, parametersValues, runTemplateParametersIds) => {
+const buildParametersForUpdate = (solution, parametersValues, runTemplateParametersIds, scenarioData, scenarios) => {
   let parameters = [];
   for (const parameterId of runTemplateParametersIds) {
     const parameter = _buildParameterForUpdate(solution, parametersValues, parameterId);
@@ -307,16 +302,16 @@ const buildParametersForUpdate = (solution, parametersValues, runTemplateParamet
       parameters = parameters.concat(parameter);
     }
   }
+  _addHiddenParameters(parameters, scenarioData, scenarios, runTemplateParametersIds);
   return parameters;
 };
 
 export const ScenarioParametersUtils = {
-  buildAdditionalParameters,
   generateParametersMetadata,
   generateParametersGroupsMetadata,
   getDefaultParametersValues,
   getParametersValuesForReset,
   buildParametersForUpdate,
   getParameterVarType,
-  shouldForceUpdateScenarioParameters,
+  shouldForceScenarioParametersUpdate,
 };
