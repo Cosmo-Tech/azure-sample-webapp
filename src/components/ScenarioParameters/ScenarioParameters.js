@@ -178,13 +178,13 @@ const ScenarioParameters = ({
   }, [currentScenario.data.id]);
 
   const getParametersForUpdate = () => {
-    const parametersData = ScenarioParametersUtils.buildParametersForUpdate(
+    return ScenarioParametersUtils.buildParametersForUpdate(
       solution,
       getParametersValuesRef(),
-      runTemplateParametersIds
+      runTemplateParametersIds,
+      currentScenario.data,
+      scenarioList
     );
-    const additionalParameters = ScenarioParametersUtils.buildAdditionalParameters(currentScenario, scenarioList);
-    return parametersData.concat(additionalParameters);
   };
 
   const startParametersEdition = (event) => {
@@ -212,7 +212,7 @@ const ScenarioParameters = ({
   };
 
   const startScenarioLaunch = async () => {
-    const forceUpdate = ScenarioParametersUtils.shouldForceUpdateScenarioParameters();
+    const forceUpdate = ScenarioParametersUtils.shouldForceScenarioParametersUpdate(runTemplateParametersIds);
     await processScenarioLaunch(forceUpdate || updateBeforeLaunch.current);
   };
 
