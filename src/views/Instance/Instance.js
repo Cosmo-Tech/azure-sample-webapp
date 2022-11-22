@@ -45,7 +45,7 @@ const Instance = (props) => {
   const scenarioListDisabled = scenarioList === null || noScenario;
   const scenarioListLabel = noScenario ? null : t('views.scenario.dropdown.scenario.label', 'Scenario');
   const isSwitchingScenario = currentScenario.status === STATUSES.LOADING;
-  useRedirectionToScenario(sortedScenarioList);
+  useRedirectionToScenario(sortedScenarioList, 'instance');
   useEffect(() => {
     // Note that the "active" variable is necessary to prevent race conditions when the effect is called several times
     // (see https://stackoverflow.com/questions/61751728 for more info)
