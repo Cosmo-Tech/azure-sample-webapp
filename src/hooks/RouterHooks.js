@@ -7,7 +7,7 @@ import { useCurrentScenario, useFindScenarioById, useUpdateCurrentScenario } fro
 import { useWorkspace } from '../state/hooks/WorkspaceHooks';
 import { STATUSES } from '../state/commons/Constants';
 
-export const useRedirectionToScenario = (sortedScenarioList) => {
+export const useRedirectionToScenario = (sortedScenarioList, view) => {
   const routerParameters = useParams();
   const currentScenario = useCurrentScenario();
   const navigate = useNavigate();
@@ -24,8 +24,9 @@ export const useRedirectionToScenario = (sortedScenarioList) => {
         navigate(`${routerParameters.scenarioId}`);
       }
     } else {
-      navigate(`/${routerParameters.workspaceId}/scenario`);
+      navigate(`/${routerParameters.workspaceId}/${view}`);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     if (currentScenario?.data?.id === undefined) return;
@@ -39,5 +40,5 @@ export const useRedirectionToScenario = (sortedScenarioList) => {
       }
     }
     // eslint-disable-next-line
-    }, [currentScenario?.data?.id]);
+  }, [currentScenario?.data?.id]);
 };
