@@ -3,7 +3,7 @@
 
 import React from 'react';
 import { Tabs as MuiTabs, Tab, Box, makeStyles } from '@material-ui/core';
-import { Link, useLocation, useMatch, Outlet } from 'react-router-dom';
+import { Link, useLocation, useMatch, Outlet, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { ErrorBanner } from '@cosmotech/ui';
 import { useTranslation } from 'react-i18next';
@@ -27,9 +27,12 @@ export const TabLayout = (props) => {
   const { t } = useTranslation();
   const location = useLocation();
   const currentTabPathname = location?.pathname;
-  const scenarioViewUrl = useMatch('/scenario/:id');
+  const scenarioViewUrl = useMatch(':workspaceId/scenario/:scenarioId');
+  const instanceViewUrl = useMatch(':workspaceId/instance/:scenarioId');
   const applicationError = useApplicationError();
   const clearApplicationErrorMessage = useClearApplicationErrorMessage();
+  const routerParameters = useParams();
+  sessionStorage.removeItem('previousURL');
 
   const viewTabs = (
     <MuiTabs value={currentTabPathname}>
@@ -37,7 +40,11 @@ export const TabLayout = (props) => {
         <Tab
           data-cy={tab.key}
           key={tab.key}
-          value={scenarioViewUrl != null && tab.to === '/scenario' ? scenarioViewUrl.pathname : tab.to}
+          value={
+            (tab.to === 'scenario' && scenarioViewUrl?.pathname) ||
+            (tab.to === 'instance' && instanceViewUrl?.pathname) ||
+            `/${routerParameters.workspaceId}/${tab.to}`
+          }
           label={t(tab.label, tab.key)}
           component={Link}
           to={tab.to}
