@@ -5,7 +5,9 @@ import { put, takeEvery, call, select, fork, all, take } from 'redux-saga/effect
 import { APPLICATION_ACTIONS_KEY } from '../../../commons/ApplicationConstants';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { STATUSES } from '../../../commons/Constants';
+import { ORGANIZATION_ID } from '../../../../config/GlobalConfiguration';
 import { SCENARIO_RUN_STATE } from '../../../../services/config/ApiConstants';
+import { getAllWorkspaces } from '../../workspace/GetAllWorkspaces/GetAllWorkspaces';
 import { getAllScenariosData } from '../../scenario/FindAllScenarios/FindAllScenariosData';
 import { fetchAllDatasetsData } from '../../datasets/FindAllDatasets/FindAllDatasets';
 import { fetchWorkspaceByIdData } from '../../workspace/FindWorkspaceById/FindWorkspaceByIdData';
@@ -49,7 +51,7 @@ export function* fetchAllInitialData(action) {
       type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS,
       status: STATUSES.LOADING,
     });
-    // Fetch all scenarios
+    yield call(getAllWorkspaces, ORGANIZATION_ID);
     yield call(getAllScenariosData, workspaceId);
     yield call(fetchAllDatasetsData);
     yield call(fetchWorkspaceByIdData, workspaceId);
