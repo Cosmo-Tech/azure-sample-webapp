@@ -1,8 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import { useMemo, useCallback } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { dispatchSelectWorkspace } from '../dispatchers/workspace/WorkspaceDispatcher';
 
 export const useWorkspace = () => {
   return useSelector((state) => state.workspace.current);
@@ -44,4 +45,9 @@ export const useUserPermissionsOnCurrentWorkspace = () => {
 
 export const useWorkspacesList = () => {
   return useSelector((state) => state.workspace?.list);
+};
+
+export const useSelectWorkspace = () => {
+  const dispatch = useDispatch();
+  return useCallback((workspaceId) => dispatch(dispatchSelectWorkspace(workspaceId)), [dispatch]);
 };
