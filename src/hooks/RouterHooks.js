@@ -40,5 +40,5 @@ export const useRedirectionToScenario = (sortedScenarioList, view) => {
       }
     }
     // eslint-disable-next-line
-    }, [currentScenario?.data?.id]);
+  }, [currentScenario?.data?.id]);
 };
