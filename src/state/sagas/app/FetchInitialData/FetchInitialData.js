@@ -3,12 +3,12 @@
 
 import { put, takeEvery, call, select } from 'redux-saga/effects';
 import { APPLICATION_ACTIONS_KEY } from '../../../commons/ApplicationConstants';
+import { WORKSPACE_ACTIONS_KEY } from '../../../commons/WorkspaceConstants';
 import { STATUSES } from '../../../commons/Constants';
 import { ORGANIZATION_ID } from '../../../../config/GlobalConfiguration';
 import { getAllWorkspaces } from '../../workspace/GetAllWorkspaces/GetAllWorkspaces';
 import { fetchAllDatasetsData } from '../../datasets/FindAllDatasets/FindAllDatasets';
 import { fetchOrganizationById } from '../../organization/FindOrganizationById/FindOrganizationById';
-import { selectWorkspace } from '../../workspace/SelectWorkspace/SelectWorkspace';
 import { parseError } from '../../../../utils/ErrorsUtils';
 import { Api } from '../../../../services/config/Api';
 import { matchPath } from 'react-router-dom';
@@ -58,9 +58,15 @@ export function* fetchAllInitialData() {
     yield call(getAllWorkspaces, ORGANIZATION_ID);
     const workspaces = yield select(getWorkspaces);
     if (providedWorkspaceId) {
-      yield call(selectWorkspace, providedWorkspaceId);
+      yield put({
+        type: WORKSPACE_ACTIONS_KEY.SELECT_WORKSPACE,
+        workspaceId: providedWorkspaceId,
+      });
     } else if (workspaces?.length === 1) {
-      yield call(selectWorkspace, workspaces[0].id);
+      yield put({
+        type: WORKSPACE_ACTIONS_KEY.SELECT_WORKSPACE,
+        workspaceId: workspaces[0].id,
+      });
     } else {
       yield put({
         type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS,
