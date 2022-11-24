@@ -8,14 +8,14 @@ import {
   useFindScenarioById,
 } from '../../state/hooks/ScenarioHooks';
 import { useOrganizationId } from '../../state/hooks/OrganizationHooks';
-import { useWorkspace } from '../../state/hooks/WorkspaceHooks';
+import { useWorkspaceId } from '../../state/hooks/WorkspaceHooks';
 import { useSetApplicationErrorMessage } from '../../state/hooks/ApplicationHooks';
 
 export const useScenario = () => {
   const scenarioList = useScenarioList();
   const currentScenario = useCurrentScenario();
   const organizationId = useOrganizationId();
-  const workspace = useWorkspace();
+  const workspaceId = useWorkspaceId();
 
   const setScenarioValidationStatus = useSetScenarioValidationStatus();
   const findScenarioById = useFindScenarioById();
@@ -26,7 +26,7 @@ export const useScenario = () => {
     scenarioList,
     currentScenario,
     organizationId,
-    workspace,
+    workspaceId,
     setScenarioValidationStatus,
     findScenarioById,
     setApplicationErrorMessage,
