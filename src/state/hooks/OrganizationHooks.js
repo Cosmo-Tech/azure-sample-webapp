@@ -14,3 +14,7 @@ export const useOrganizationData = () => {
 export const useOrganizationId = () => {
   return useSelector((state) => state.organization.current?.data?.id);
 };
+
+export const useOrganizationName = () => {
+  return useSelector((state) => state.organization.current?.data?.name);
+};

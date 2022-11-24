@@ -17,7 +17,8 @@ const selectSolutionIdFromCurrentWorkspace = (state) => state.workspace.current.
 const selectScenarioList = (state) => state.scenario.list.data;
 const getWorkspaces = (state) => state?.workspace?.list?.data;
 
-export function* selectWorkspace(selectedWorkspaceId) {
+export function* selectWorkspace(action) {
+  const selectedWorkspaceId = action.workspaceId;
   yield put({
     type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS,
     status: STATUSES.LOADING,
