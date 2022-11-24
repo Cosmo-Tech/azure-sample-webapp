@@ -8,3 +8,8 @@ export const dispatchGetWorkspaceById = (payLoad) => ({
   type: WORKSPACE_ACTIONS_KEY.GET_WORKSPACE_BY_ID,
   ...payLoad,
 });
+
+export const dispatchGetAllWorkspaces = (payLoad) => ({
+  type: WORKSPACE_ACTIONS_KEY.GET_ALL_WORKSPACES,
+  ...payLoad,
+});
