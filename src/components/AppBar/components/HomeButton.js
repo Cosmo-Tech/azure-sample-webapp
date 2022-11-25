@@ -3,10 +3,11 @@
 
 import React from 'react';
 import HomeIcon from '@material-ui/icons/Home';
-import { Fade, IconButton, makeStyles, Tooltip } from '@material-ui/core';
+import { IconButton, makeStyles } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useHomeButton } from './hooks/HomeButtonHook';
+import { FadingTooltip } from '@cosmotech/ui';
 
 const useStyles = makeStyles((theme) => ({
   homeButton: {
@@ -19,14 +20,10 @@ export const HomeButton = () => {
   const { t } = useTranslation();
   const { currentWorkspace, workspacesList } = useHomeButton();
   return currentWorkspace && workspacesList?.data?.length > 1 ? (
-    <Tooltip
-      TransitionComponent={Fade}
-      TransitionProps={{ timeout: 600 }}
-      title={t('genericcomponent.workspaceselector', 'Workspaces')}
-    >
-      <IconButton className={classes.homeButton} onClick={() => navigate('/workspaces')}>
+    <FadingTooltip title={t('genericcomponent.workspaceselector.homebutton', 'Workspaces')}>
+      <IconButton data-cy="home-button" className={classes.homeButton} onClick={() => navigate('/workspaces')}>
         <HomeIcon />
       </IconButton>
-    </Tooltip>
+    </FadingTooltip>
   ) : null;
 };
