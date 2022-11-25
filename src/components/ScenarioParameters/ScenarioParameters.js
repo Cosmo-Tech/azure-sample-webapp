@@ -55,7 +55,6 @@ const ScenarioParameters = ({
   launchScenario,
   onChangeAccordionSummaryExpanded,
   accordionSummaryExpanded,
-  workspaceId,
   scenarioList,
   currentScenario,
   solution,
@@ -238,9 +237,9 @@ const ScenarioParameters = ({
     await setParametersValuesRefFromParametersValuesToRender();
     if (forceUpdate) {
       const parametersForUpdate = getParametersForUpdate();
-      updateAndLaunchScenario(workspaceId, scenarioId, parametersForUpdate);
+      updateAndLaunchScenario(scenarioId, parametersForUpdate);
     } else {
-      launchScenario(workspaceId, scenarioId);
+      launchScenario(scenarioId);
     }
     changeEditMode(false);
   };
@@ -384,7 +383,6 @@ ScenarioParameters.propTypes = {
   onChangeAccordionSummaryExpanded: PropTypes.func.isRequired,
   launchScenario: PropTypes.func.isRequired,
   accordionSummaryExpanded: PropTypes.bool.isRequired,
-  workspaceId: PropTypes.string.isRequired,
   scenarioId: PropTypes.string.isRequired,
   scenarioList: PropTypes.array.isRequired,
   solution: PropTypes.object.isRequired,

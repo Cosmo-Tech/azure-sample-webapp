@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { CytoViz, HierarchicalComboBox } from '@cosmotech/ui';
 import { sortScenarioList } from '../../utils/SortScenarioListUtils';
@@ -12,7 +11,7 @@ import { AppInsights } from '../../services/AppInsights';
 import { fetchData, processGraphElements } from './data';
 import useStyles from './style';
 import { useTheme } from '@material-ui/core/styles';
-import { useRedirectionToScenario } from '../../hooks/RouterHooks';
+import { useInstance } from './InstanceHook';
 
 const EXTRA_LAYOUTS = {
   breadthfirst: null,
@@ -23,7 +22,8 @@ const Instance = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const { t } = useTranslation();
-  const { currentScenario, scenarioList, findScenarioById, workspace } = props;
+  const [workspaceId, scenarioList, currentScenario, findScenarioById, useRedirectionToScenario] = useInstance();
+
   const [graphElements, setGraphElements] = useState([]);
   const [cytoscapeStylesheet, setCytoscapeStylesheet] = useState([]);
   const [isLoadingData, setIsLoadingData] = useState(true);
@@ -33,12 +33,11 @@ const Instance = (props) => {
   useEffect(() => {
     appInsights.setScenarioData(currentScenario.data);
   }, [currentScenario]);
-  const workspaceId = workspace.data.id;
   const handleScenarioChange = (event, scenario) => {
     if (scenario.id !== currentScenario.data?.id) {
       setIsLoadingData(true);
     }
-    findScenarioById(workspaceId, scenario.id);
+    findScenarioById(scenario.id);
   };
   const sortedScenarioList = sortScenarioList(scenarioList.data.slice());
   const noScenario = currentScenario.data === null;
@@ -64,7 +63,7 @@ const Instance = (props) => {
         setIsLoadingData(false);
       } else {
         try {
-          const scenario = await fetchData(currentScenario.data?.id);
+          const scenario = await fetchData(workspaceId, currentScenario.data?.id);
           // TODO: (refactor) to improve performance, we don't need to recompute the whole graph elements set when the
           // theme is changed, we could rebuild only the stylesheet
           const { graphElements: newGraphElements, stylesheet } = await processGraphElements(scenario.data, theme);
@@ -201,11 +200,6 @@ const Instance = (props) => {
   );
 };
 
-Instance.propTypes = {
-  currentScenario: PropTypes.object.isRequired,
-  findScenarioById: PropTypes.func.isRequired,
-  scenarioList: PropTypes.object.isRequired,
-  workspace: PropTypes.object.isRequired,
-};
+Instance.propTypes = {};
 
 export default Instance;
