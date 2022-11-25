@@ -3,16 +3,14 @@
 
 import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import { ScenarioUtils } from '@cosmotech/core';
 import { makeStyles } from '@material-ui/core';
 import { ScenarioManagerTreeList } from '@cosmotech/ui';
-import { WORKSPACE_ID } from '../../config/GlobalConfiguration';
 import { useTranslation } from 'react-i18next';
 import { ACL_PERMISSIONS } from '../../services/config/accessControl';
-import { useHasUserPermissionOnScenario } from '../../hooks/SecurityHooks';
 import { getFirstScenarioMaster } from '../../utils/SortScenarioListUtils';
 import { getScenarioManagerLabels } from './labels';
+import { useScenarioManager } from './ScenarioManagerHook';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,11 +25,7 @@ function moveScenario(moveData) {
   const scenarioId = moveData.node?.id;
   const newParentId = moveData.nextParentNode?.id;
   console.warn(
-    'Trying to move scenario ' +
-      scenarioId +
-      ' under scenario ' +
-      newParentId +
-      '. This feature is not implemented yet.'
+    `Trying to move scenario "${scenarioId}" under scenario "${newParentId}". This feature is not implemented yet.`
   );
 }
 
@@ -40,19 +34,18 @@ const ScenarioManager = (props) => {
   const { t } = useTranslation();
   const labels = getScenarioManagerLabels(t);
 
-  const hasUserPermissionOnScenario = useHasUserPermissionOnScenario();
-
-  const {
-    currentScenario,
+  const [
+    scenarios,
     datasets,
+    currentScenario,
+    userId,
+    findScenarioById,
+    hasUserPermissionOnScenario,
+    setCurrentScenario,
     deleteScenario,
     renameScenario,
-    findScenarioById,
-    scenarios,
     resetCurrentScenario,
-    setCurrentScenario,
-    userId,
-  } = props;
+  ] = useScenarioManager();
 
   const getScenariolistAfterDelete = (idOfScenarioToDelete) => {
     const scenarioListAfterDelete = scenarios
@@ -70,7 +63,7 @@ const ScenarioManager = (props) => {
 
   function onScenarioDelete(scenarioId) {
     const lastScenarioDelete = scenarios.length === 1;
-    deleteScenario(WORKSPACE_ID, scenarioId);
+    deleteScenario(scenarioId);
     if (scenarioId === currentScenario.id) {
       if (lastScenarioDelete) {
         resetCurrentScenario();
@@ -84,7 +77,7 @@ const ScenarioManager = (props) => {
     if (scenarioId === currentScenario.id) {
       setCurrentScenario({ name: newScenarioName });
     }
-    renameScenario(WORKSPACE_ID, scenarioId, newScenarioName);
+    renameScenario(scenarioId, newScenarioName);
   }
 
   function checkScenarioNameValue(newScenarioName) {
@@ -123,7 +116,7 @@ const ScenarioManager = (props) => {
 
   const onScenarioRedirect = (scenarioId) => {
     isWaitingForRedirection.current = true;
-    findScenarioById(WORKSPACE_ID, scenarioId);
+    findScenarioById(scenarioId);
   };
 
   const canUserDeleteScenario = (scenario) => hasUserPermissionOnScenario(ACL_PERMISSIONS.SCENARIO.DELETE, scenario);
@@ -151,16 +144,6 @@ const ScenarioManager = (props) => {
   );
 };
 
-ScenarioManager.propTypes = {
-  currentScenario: PropTypes.object,
-  datasets: PropTypes.array.isRequired,
-  deleteScenario: PropTypes.func.isRequired,
-  renameScenario: PropTypes.func.isRequired,
-  findScenarioById: PropTypes.func.isRequired,
-  scenarios: PropTypes.array.isRequired,
-  resetCurrentScenario: PropTypes.func.isRequired,
-  setCurrentScenario: PropTypes.func.isRequired,
-  userId: PropTypes.string.isRequired,
-};
+ScenarioManager.propTypes = {};
 
 export default ScenarioManager;

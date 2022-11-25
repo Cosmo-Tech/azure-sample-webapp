@@ -76,7 +76,7 @@ const Scenario = () => {
   );
 
   const handleScenarioChange = (event, scenario) => {
-    findScenarioById(workspaceId, scenario.id);
+    findScenarioById(scenario.id);
   };
 
   useEffect(() => {
@@ -114,7 +114,7 @@ const Scenario = () => {
     try {
       setScenarioValidationStatus(currentScenario.data.id, SCENARIO_VALIDATION_STATUS.LOADING);
       await ScenarioService.resetValidationStatus(workspaceId, currentScenario.data.id);
-      findScenarioById(workspaceId, currentScenario.data.id);
+      findScenarioById(currentScenario.data.id);
     } catch (error) {
       setApplicationErrorMessage(
         error,
@@ -127,7 +127,7 @@ const Scenario = () => {
     try {
       setScenarioValidationStatus(currentScenario.data.id, SCENARIO_VALIDATION_STATUS.LOADING);
       await ScenarioService.setScenarioValidationStatusToValidated(workspaceId, currentScenario.data.id);
-      findScenarioById(workspaceId, currentScenario.data.id);
+      findScenarioById(currentScenario.data.id);
     } catch (error) {
       setApplicationErrorMessage(
         error,
@@ -140,7 +140,7 @@ const Scenario = () => {
     try {
       setScenarioValidationStatus(currentScenario.data.id, SCENARIO_VALIDATION_STATUS.LOADING);
       await ScenarioService.setScenarioValidationStatusToRejected(workspaceId, currentScenario.data.id);
-      findScenarioById(workspaceId, currentScenario.data.id);
+      findScenarioById(currentScenario.data.id);
     } catch (error) {
       setApplicationErrorMessage(
         error,
@@ -299,7 +299,6 @@ const Scenario = () => {
                   launchScenario={launchScenario}
                   accordionSummaryExpanded={accordionSummaryExpanded}
                   onChangeAccordionSummaryExpanded={setAccordionSummaryExpanded}
-                  workspaceId={workspaceId}
                   solution={solution.data}
                   datasets={datasetList.data}
                   currentScenario={currentScenario}
