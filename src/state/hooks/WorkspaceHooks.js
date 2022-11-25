@@ -12,6 +12,10 @@ export const useWorkspaceData = () => {
   return useSelector((state) => state.workspace.current?.data);
 };
 
+export const useWorkspaceId = () => {
+  return useSelector((state) => state.workspace.current?.data?.id);
+};
+
 export const useUserPermissionsOnCurrentWorkspace = () => {
   const workspaceData = useWorkspaceData();
   return useMemo(

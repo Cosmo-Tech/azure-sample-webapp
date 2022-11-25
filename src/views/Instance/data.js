@@ -11,7 +11,7 @@ import {
   getDefaultInEdgeStyle,
   getDefaultHiddenStyle,
 } from './styleCytoViz';
-import { ORGANIZATION_ID, WORKSPACE_ID } from '../../config/GlobalConfiguration';
+import { ORGANIZATION_ID } from '../../config/GlobalConfiguration';
 import instanceViewData from '../../config/InstanceVisualization.js';
 
 const IS_INSTANCE_VIEW_FUNCTION_CONFIG_VALID = !(instanceViewData.dataSource == null);
@@ -143,7 +143,7 @@ export const processGraphElements = (scenario, theme) => {
   return processedData;
 };
 
-async function _fetchDataFromADT(scenarioId, dataSource) {
+async function _fetchDataFromADT(workspaceId, scenarioId, dataSource) {
   const tokens = await Auth.acquireTokens();
   const headers = { 'x-functions-key': dataSource.functionKey };
   if (tokens?.accessToken) {
@@ -156,13 +156,13 @@ async function _fetchDataFromADT(scenarioId, dataSource) {
     headers: headers,
     params: {
       'organization-id': ORGANIZATION_ID,
-      'workspace-id': WORKSPACE_ID,
+      'workspace-id': workspaceId,
       'scenario-id': scenarioId,
     },
   });
 }
 
-export async function fetchData(scenarioId) {
+export async function fetchData(workspaceId, scenarioId) {
   if (!IS_INSTANCE_VIEW_FUNCTION_CONFIG_VALID) {
     return {
       error:
@@ -172,7 +172,7 @@ export async function fetchData(scenarioId) {
 
   switch (instanceViewData.dataSource.type) {
     case 'adt':
-      return _fetchDataFromADT(scenarioId, instanceViewData.dataSource);
+      return _fetchDataFromADT(workspaceId, scenarioId, instanceViewData.dataSource);
     default:
       return {
         error:
