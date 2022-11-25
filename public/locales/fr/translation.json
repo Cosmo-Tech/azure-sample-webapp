@@ -450,7 +450,23 @@
       "light": "Passer en mode clair",
       "dark": "Passer en mode sombre"
     },
-    "workspaceselector": "Espaces",
+    "workspaceselector": {
+      "homebutton": "Workspaces",
+      "card": {
+        "button": {
+          "open": "Ouvrir"
+        }
+      },
+      "placeholder": {
+        "noworkspace": {
+          "title": "Aucun workspace n'est accessible",
+          "description": {
+            "reason": "Ceci peut signifier que vous n'avez pas les permissions nécessaires pour accéder aux workspaces existants.",
+            "contact": "Si vous pensez qu'il s'agit d'une erreur, veuillez contacter votre administrateur."
+          }
+        }
+      }
+    },
     "dialog": {
       "scenario": {
         "parameters": {
