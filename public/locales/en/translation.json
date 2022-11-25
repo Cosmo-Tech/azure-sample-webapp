@@ -449,7 +449,23 @@
       "light": "Switch to light",
       "dark": "Switch to dark"
     },
-    "workspaceselector": "Workspaces",
+    "workspaceselector": {
+      "homebutton": "Workspaces",
+      "card": {
+        "button": {
+          "open": "Open"
+        }
+      },
+      "placeholder": {
+        "noworkspace": {
+          "title": "No workspace available",
+          "description": {
+            "reason": "This could mean you don't have permission to access existing workspaces.",
+            "contact": "If you think this is a mistake, please contact your administrator."
+          }
+        }
+      }
+    },
     "dialog": {
       "scenario": {
         "parameters": {
