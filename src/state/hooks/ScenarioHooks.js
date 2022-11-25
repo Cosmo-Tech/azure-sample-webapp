@@ -3,12 +3,16 @@
 
 import { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useWorkspaceId } from './WorkspaceHooks';
 
 import {
+  dispatchResetCurrentScenario,
   dispatchApplyScenarioSharingChanges,
   dispatchSetScenarioValidationStatus,
   dispatchFindScenarioById,
   dispatchCreateScenario,
+  dispatchDeleteScenario,
+  dispatchRenameScenario,
   dispatchSetCurrentScenario,
   dispatchUpdateAndLaunchScenario,
   dispatchLaunchScenario,
@@ -24,6 +28,11 @@ export const useCurrentScenario = () => {
 
 export const useCurrentScenarioData = () => {
   return useSelector((state) => state.scenario.current?.data);
+};
+
+export const useResetCurrentScenario = () => {
+  const dispatch = useDispatch();
+  return useCallback(() => dispatch(dispatchResetCurrentScenario()), [dispatch]);
 };
 
 export const useApplyScenarioSharingSecurity = () => {
@@ -44,15 +53,32 @@ export const useSetScenarioValidationStatus = () => {
 
 export const useFindScenarioById = () => {
   const dispatch = useDispatch();
+  const workspaceId = useWorkspaceId();
   return useCallback(
-    (workspaceId, scenarioId) => dispatch(dispatchFindScenarioById(workspaceId, scenarioId)),
-    [dispatch]
+    (scenarioId) => dispatch(dispatchFindScenarioById(workspaceId, scenarioId)),
+    [dispatch, workspaceId]
   );
 };
 
 export const useCreateScenario = () => {
   const dispatch = useDispatch();
-  return useCallback((workspaceId, scenario) => dispatch(dispatchCreateScenario(workspaceId, scenario)), [dispatch]);
+  const workspaceId = useWorkspaceId();
+  return useCallback((scenario) => dispatch(dispatchCreateScenario(workspaceId, scenario)), [dispatch, workspaceId]);
+};
+
+export const useDeleteScenario = () => {
+  const dispatch = useDispatch();
+  const workspaceId = useWorkspaceId();
+  return useCallback((scenario) => dispatch(dispatchDeleteScenario(workspaceId, scenario)), [dispatch, workspaceId]);
+};
+
+export const useRenameScenario = () => {
+  const dispatch = useDispatch();
+  const workspaceId = useWorkspaceId();
+  return useCallback(
+    (scenario, newScenarioName) => dispatch(dispatchRenameScenario(workspaceId, scenario, newScenarioName)),
+    [dispatch, workspaceId]
+  );
 };
 
 export const useUpdateCurrentScenario = () => {
@@ -62,17 +88,19 @@ export const useUpdateCurrentScenario = () => {
 
 export const useUpdateAndLaunchScenario = () => {
   const dispatch = useDispatch();
+  const workspaceId = useWorkspaceId();
   return useCallback(
-    (workspaceId, scenarioId, scenarioParameters) =>
+    (scenarioId, scenarioParameters) =>
       dispatch(dispatchUpdateAndLaunchScenario(workspaceId, scenarioId, scenarioParameters)),
-    [dispatch]
+    [dispatch, workspaceId]
   );
 };
 
 export const useLaunchScenario = () => {
   const dispatch = useDispatch();
+  const workspaceId = useWorkspaceId();
   return useCallback(
-    (workspaceId, scenarioId) => dispatch(dispatchLaunchScenario(workspaceId, scenarioId)),
-    [dispatch]
+    (scenarioId) => dispatch(dispatchLaunchScenario(workspaceId, scenarioId)),
+    [dispatch, workspaceId]
   );
 };
