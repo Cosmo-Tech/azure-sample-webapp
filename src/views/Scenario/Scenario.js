@@ -55,14 +55,13 @@ const Scenario = () => {
     scenarioList,
     currentScenario,
     organizationId,
-    workspace,
+    workspaceId,
     setScenarioValidationStatus,
     findScenarioById,
     setApplicationErrorMessage,
   } = useScenario();
 
   const routerParameters = useParams();
-  const workspaceId = workspace.data.id;
   const [editMode, setEditMode] = useState(false);
 
   // Add accordion expand status in state
