@@ -21,6 +21,10 @@ export const useUser = () => {
   return useSelector((state) => state.auth);
 };
 
+export const useUserId = () => {
+  return useSelector((state) => state.auth.userId);
+};
+
 export const useUserName = () => {
   return useSelector((state) => state.auth.userName);
 };
