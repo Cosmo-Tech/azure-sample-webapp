@@ -3,18 +3,16 @@
 
 import { APPLICATION_ACTIONS_KEY } from '../../commons/ApplicationConstants';
 import { STATUSES } from '../../commons/Constants';
-import { WORKSPACE_ID } from '../../../config/GlobalConfiguration';
 import { t } from 'i18next';
 
-export const dispatchSetApplicationStatus = (payLoad) => ({
+export const dispatchSetApplicationStatus = (payload) => ({
   type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS,
-  status: payLoad,
+  status: payload,
 });
 
-export const dispatchGetAllInitialData = () => ({
+export const dispatchGetAllInitialData = (payload) => ({
   type: APPLICATION_ACTIONS_KEY.GET_ALL_INITIAL_DATA,
   status: STATUSES.LOADING,
-  workspaceId: WORKSPACE_ID,
 });
 
 export const dispatchClearApplicationErrorMessage = () => ({

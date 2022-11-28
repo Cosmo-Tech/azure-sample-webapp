@@ -8,11 +8,10 @@ import {
   useSetScenarioValidationStatus,
   useFindScenarioById,
   useCreateScenario,
-  useUpdateAndLaunchScenario,
-  useLaunchScenario,
 } from '../../state/hooks/ScenarioHooks';
-import { useDatasetList, useAddDatasetToStore } from '../../state/hooks/DatasetHooks';
+import { useDatasetList } from '../../state/hooks/DatasetHooks';
 import { useUser } from '../../state/hooks/AuthHooks';
+import { useOrganizationId } from '../../state/hooks/OrganizationHooks';
 import { useWorkspace, useUserPermissionsOnCurrentWorkspace } from '../../state/hooks/WorkspaceHooks';
 import { useSolution } from '../../state/hooks/SolutionHooks';
 import {
@@ -27,6 +26,7 @@ export const useScenario = () => {
   const datasetList = useDatasetList();
   const currentScenario = useCurrentScenario();
   const user = useUser();
+  const organizationId = useOrganizationId();
   const workspace = useWorkspace();
   const userPermissionsOnCurrentWorkspace = useUserPermissionsOnCurrentWorkspace();
   const solution = useSolution();
@@ -34,37 +34,29 @@ export const useScenario = () => {
   const permissions = useApplicationPermissions();
   const permissionsMapping = useApplicationPermissionsMapping();
 
-  const addDatasetToStore = useAddDatasetToStore();
-
   const applyScenarioSharingSecurity = useApplyScenarioSharingSecurity();
   const setScenarioValidationStatus = useSetScenarioValidationStatus();
   const findScenarioById = useFindScenarioById();
   const createScenario = useCreateScenario();
 
-  const updateAndLaunchScenario = useUpdateAndLaunchScenario();
-
-  const launchScenario = useLaunchScenario();
-
   const setApplicationErrorMessage = useSetApplicationErrorMessage();
 
-  return [
+  return {
     scenarioList,
     datasetList,
     currentScenario,
     user,
+    organizationId,
     workspace,
     userPermissionsOnCurrentWorkspace,
     solution,
     roles,
     permissions,
     permissionsMapping,
-    addDatasetToStore,
     applyScenarioSharingSecurity,
     setScenarioValidationStatus,
     findScenarioById,
     createScenario,
-    updateAndLaunchScenario,
-    launchScenario,
     setApplicationErrorMessage,
-  ];
+  };
 };

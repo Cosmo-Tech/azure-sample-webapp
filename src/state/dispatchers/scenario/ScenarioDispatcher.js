@@ -18,33 +18,38 @@ export const dispatchResetCurrentScenario = () => ({
   type: SCENARIO_ACTIONS_KEY.RESET_CURRENT_SCENARIO,
 });
 
-export const dispatchFindScenarioById = (workspaceId, scenarioId) => ({
+export const dispatchFindScenarioById = (organizationId, workspaceId, scenarioId) => ({
   type: SCENARIO_ACTIONS_KEY.FIND_SCENARIO_BY_ID,
+  organizationId: organizationId,
   workspaceId: workspaceId,
   scenarioId: scenarioId,
 });
 
-export const dispatchCreateScenario = (workspaceId, scenario) => ({
+export const dispatchCreateScenario = (organizationId, workspaceId, scenario) => ({
   type: SCENARIO_ACTIONS_KEY.CREATE_SCENARIO,
+  organizationId: organizationId,
   workspaceId: workspaceId,
   scenario: scenario,
 });
 
-export const dispatchDeleteScenario = (workspaceId, scenarioId) => ({
+export const dispatchDeleteScenario = (organizationId, workspaceId, scenarioId) => ({
   type: SCENARIO_ACTIONS_KEY.DELETE_SCENARIO,
+  organizationId: organizationId,
   workspaceId: workspaceId,
   scenarioId: scenarioId,
 });
 
-export const dispatchRenameScenario = (workspaceId, scenarioId, newScenarioName) => ({
+export const dispatchRenameScenario = (organizationId, workspaceId, scenarioId, newScenarioName) => ({
   type: SCENARIO_ACTIONS_KEY.RENAME_SCENARIO,
+  organizationId: organizationId,
   workspaceId: workspaceId,
   scenarioId: scenarioId,
   scenarioName: newScenarioName,
 });
 
-export const dispatchUpdateAndLaunchScenario = (workspaceId, scenarioId, scenarioParameters) => ({
+export const dispatchUpdateAndLaunchScenario = (organizationId, workspaceId, scenarioId, scenarioParameters) => ({
   type: SCENARIO_ACTIONS_KEY.UPDATE_AND_LAUNCH_SCENARIO,
+  organizationId: organizationId,
   workspaceId: workspaceId,
   scenarioId: scenarioId,
   scenarioParameters: scenarioParameters,
@@ -77,8 +82,9 @@ export const dispatchSetScenarioSecurity = (
   scenariosPermissionsMapping: scenariosPermissionsMapping,
 });
 
-export const dispatchLaunchScenario = (workspaceId, scenarioId) => ({
+export const dispatchLaunchScenario = (organizationId, workspaceId, scenarioId) => ({
   type: SCENARIO_ACTIONS_KEY.LAUNCH_SCENARIO,
+  organizationId: organizationId,
   workspaceId: workspaceId,
   scenarioId: scenarioId,
 });

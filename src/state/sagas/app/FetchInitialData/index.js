@@ -1,4 +1,4 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-export { getAllInitialData, watchNeededApplicationData } from './FetchInitialData';
+export { default as watchGetAllInitialData } from './FetchInitialData';

@@ -7,9 +7,13 @@ import { FileManagementUtils } from '../../../../components/ScenarioParameters/F
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { ConfigUtils } from '../../../../utils/ConfigUtils';
+import { useOrganizationId } from '../../../../state/hooks/OrganizationHooks.js';
+import { useWorkspaceId } from '../../../../state/hooks/WorkspaceHooks.js';
 
 export const GenericUploadFile = ({ parameterData, parametersState, setParametersState, context }) => {
   const { t } = useTranslation();
+  const organizationId = useOrganizationId();
+  const workspaceId = useWorkspaceId();
   const parameterId = parameterData.id;
   const parameter = parametersState[parameterId] || {};
   const datasetId = parameter.id;
@@ -48,7 +52,7 @@ export const GenericUploadFile = ({ parameterData, parametersState, setParameter
       handleDeleteFile={() => FileManagementUtils.prepareToDeleteFile(setClientFileDescriptorStatus)}
       handleDownloadFile={(event) => {
         event.preventDefault();
-        FileManagementUtils.downloadFile(datasetId, setClientFileDescriptorStatus);
+        FileManagementUtils.downloadFile(organizationId, workspaceId, datasetId, setClientFileDescriptorStatus);
       }}
       file={parameter}
       editMode={context.editMode}

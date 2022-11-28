@@ -15,11 +15,13 @@ import { LOG_TYPES } from '../../../services/scenarioRun/ScenarioRunConstants';
 import { SCENARIO_RUN_LOG_TYPE } from '../../../services/config/FunctionalConstants';
 import { getReportLabels } from './labels';
 import { useCurrentScenario } from '../../../state/hooks/ScenarioHooks';
+import { useOrganizationId } from '../../../state/hooks/OrganizationHooks';
 import { usePowerBIInfo } from '../../../state/hooks/PowerBIHooks';
 
 const SimplePowerBIReportEmbedWrapper = () => {
   const { t, i18n } = useTranslation();
 
+  const organizationId = useOrganizationId();
   const currentScenario = useCurrentScenario();
   const reports = usePowerBIInfo();
 
@@ -31,7 +33,11 @@ const SimplePowerBIReportEmbedWrapper = () => {
     : [];
 
   const downloadLogsFile = () => {
-    return ScenarioRunService.downloadLogsFile(currentScenario.data?.lastRun, LOG_TYPES[SCENARIO_RUN_LOG_TYPE]);
+    return ScenarioRunService.downloadLogsFile(
+      organizationId,
+      currentScenario.data?.lastRun,
+      LOG_TYPES[SCENARIO_RUN_LOG_TYPE]
+    );
   };
 
   const reportLabels = getReportLabels(t);

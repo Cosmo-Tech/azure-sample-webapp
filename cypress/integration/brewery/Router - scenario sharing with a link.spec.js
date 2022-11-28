@@ -17,7 +17,6 @@ describe('Scenario sharing with a link', () => {
   });
   beforeEach(() => {
     Login.relogin();
-    stub.setFakeWorkspaceId('W-stbbdbrwry');
   });
 
   after(() => {

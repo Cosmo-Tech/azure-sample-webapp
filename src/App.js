@@ -79,12 +79,7 @@ const App = () => {
   const timeout = 1000 * 60 * SESSION_INACTIVITY_TIMEOUT;
   idleTimer = useIdleTimer({ onIdle, timeout });
 
-  const isLoading = useMemo(
-    () =>
-      applicationStatus !== STATUSES.ERROR &&
-      (applicationStatus === STATUSES.LOADING || applicationStatus === STATUSES.IDLE),
-    [applicationStatus]
-  );
+  const isLoading = useMemo(() => [STATUSES.LOADING, STATUSES.IDLE].includes(applicationStatus), [applicationStatus]);
 
   const getAppContent = useCallback(() => {
     if (isConnecting) {
