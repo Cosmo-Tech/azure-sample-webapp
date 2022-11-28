@@ -5,7 +5,6 @@ import { takeEvery, call, put } from 'redux-saga/effects';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { STATUSES } from '../../../commons/Constants';
 import { SCENARIO_RUN_STATE } from '../../../../services/config/ApiConstants';
-import { ORGANIZATION_ID } from '../../../../config/GlobalConfiguration';
 import { Api } from '../../../../services/config/Api';
 import { AppInsights } from '../../../../services/AppInsights';
 import { t } from 'i18next';
@@ -17,6 +16,7 @@ const appInsights = AppInsights.getInstance();
 export function* launchScenario(action) {
   try {
     appInsights.trackScenarioLaunch();
+    const organizationId = action.organizationId;
     const workspaceId = action.workspaceId;
     const scenarioId = action.scenarioId;
     const runStartTime = new Date().getTime();
@@ -29,7 +29,7 @@ export function* launchScenario(action) {
     });
 
     // Launch scenario if parameters update succeeded
-    yield call(Api.ScenarioRuns.runScenario, ORGANIZATION_ID, workspaceId, scenarioId);
+    yield call(Api.ScenarioRuns.runScenario, organizationId, workspaceId, scenarioId);
     yield put({
       type: SCENARIO_ACTIONS_KEY.UPDATE_SCENARIO,
       data: { scenarioState: SCENARIO_RUN_STATE.RUNNING, scenarioId: scenarioId, lastRun: null },
@@ -38,11 +38,13 @@ export function* launchScenario(action) {
     // Start backend polling to update the scenario status
     yield put({
       type: SCENARIO_ACTIONS_KEY.START_SCENARIO_STATUS_POLLING,
+      organizationId: organizationId,
       workspaceId: workspaceId,
       scenarioId: scenarioId,
       startTime: runStartTime,
     });
   } catch (error) {
+    console.error(error);
     yield put(
       dispatchSetApplicationErrorMessage(
         error,
@@ -58,7 +60,7 @@ export function* launchScenario(action) {
 }
 
 // generators function
-// Here is a watcher that takes EVERY action dispatched named CREATE_SCENARIO
+// Here is a watcher that takes EVERY action dispatched named LAUNCH_SCENARIO
 // and binds createScenario saga to it
 function* launchScenarioSaga() {
   yield takeEvery(SCENARIO_ACTIONS_KEY.LAUNCH_SCENARIO, launchScenario);

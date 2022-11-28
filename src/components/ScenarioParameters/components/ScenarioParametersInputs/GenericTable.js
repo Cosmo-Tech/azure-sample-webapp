@@ -12,6 +12,8 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { gridLight, gridDark } from '../../../../theme/';
 import { ConfigUtils } from '../../../../utils/ConfigUtils';
+import { useOrganizationId } from '../../../../state/hooks/OrganizationHooks.js';
+import { useWorkspaceId } from '../../../../state/hooks/WorkspaceHooks.js';
 
 const clone = rfdc();
 
@@ -37,10 +39,13 @@ const _generateGridDataFromXLSX = async (fileBlob, parameterData, options) => {
 
 export const GenericTable = ({ parameterData, parametersState, setParametersState, context }) => {
   const { t } = useTranslation();
-  const parameterId = parameterData.id;
-  const parameter = parametersState[parameterId] || {};
+  const organizationId = useOrganizationId();
+  const workspaceId = useWorkspaceId();
   const datasets = useSelector((state) => state.dataset?.list?.data);
   const scenarioId = useSelector((state) => state.scenario?.current?.data?.id);
+
+  const parameterId = parameterData.id;
+  const parameter = parametersState[parameterId] || {};
   const lockId = `${scenarioId}_${parameterId}`;
 
   const labels = {
@@ -81,7 +86,13 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
     return false;
   };
 
-  const _downloadDatasetFileContentFromStorage = async (datasets, clientFileDescriptor, setClientFileDescriptor) => {
+  const _downloadDatasetFileContentFromStorage = async (
+    organizationId,
+    workspaceId,
+    datasets,
+    clientFileDescriptor,
+    setClientFileDescriptor
+  ) => {
     // Setting the table status to DOWNLOADING again even when the download is already active (and thus locked) seems
     // to fix a race condition in the table parameter state. This can be used to fix the missing loading spinner.
     setClientFileDescriptor({
@@ -99,7 +110,13 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
     GenericTable.downloadLocked[lockId] = true;
 
     const datasetId = clientFileDescriptor.id;
-    const data = await FileManagementUtils.downloadFileData(datasets, datasetId, setClientFileDescriptorStatuses);
+    const data = await FileManagementUtils.downloadFileData(
+      organizationId,
+      workspaceId,
+      datasets,
+      datasetId,
+      setClientFileDescriptorStatuses
+    );
 
     if (data) {
       const fileName = clientFileDescriptor.name;
@@ -319,7 +336,7 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
       parameter.status === UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD &&
       !alreadyDownloaded
     ) {
-      _downloadDatasetFileContentFromStorage(datasets, parameter, setParameterInState);
+      _downloadDatasetFileContentFromStorage(organizationId, workspaceId, datasets, parameter, setParameterInState);
     }
   });
 

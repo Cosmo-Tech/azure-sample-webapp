@@ -3,16 +3,15 @@
 
 import { FileBlobUtils } from '@cosmotech/core';
 import { LOG_TYPES } from './ScenarioRunConstants.js';
-import { ORGANIZATION_ID } from '../../config/GlobalConfiguration';
 import { Api } from '../../services/config/Api';
 import applicationStore from '../../state/Store.config';
 import { t } from 'i18next';
 import { dispatchSetApplicationErrorMessage } from '../../state/dispatchers/app/ApplicationDispatcher';
 
-async function downloadCumulatedLogsFile(lastRun) {
+async function downloadCumulatedLogsFile(organizationId, lastRun) {
   try {
     const fileName = lastRun.scenarioRunId + '_cumulated_logs.txt';
-    const { data } = await Api.ScenarioRuns.getScenarioRunCumulatedLogs(ORGANIZATION_ID, lastRun.scenarioRunId, {
+    const { data } = await Api.ScenarioRuns.getScenarioRunCumulatedLogs(organizationId, lastRun.scenarioRunId, {
       responseType: 'blob',
     });
     FileBlobUtils.downloadFileFromData(data, fileName);
@@ -23,10 +22,10 @@ async function downloadCumulatedLogsFile(lastRun) {
   }
 }
 
-async function downloadLogsSimpleFile(lastRun) {
+async function downloadLogsSimpleFile(organizationId, lastRun) {
   try {
     const fileName = lastRun.scenarioRunId + '_simple_logs.json';
-    const { data } = await Api.ScenarioRuns.getScenarioRunLogs(ORGANIZATION_ID, lastRun.scenarioRunId, {
+    const { data } = await Api.ScenarioRuns.getScenarioRunLogs(organizationId, lastRun.scenarioRunId, {
       responseType: 'blob',
     });
     FileBlobUtils.downloadFileFromData(data, fileName);
@@ -37,13 +36,13 @@ async function downloadLogsSimpleFile(lastRun) {
   }
 }
 
-function downloadLogsFile(lastRun, logType) {
+function downloadLogsFile(organizationId, lastRun, logType) {
   switch (logType) {
     case LOG_TYPES.SIMPLE_LOGS:
-      downloadLogsSimpleFile(lastRun);
+      downloadLogsSimpleFile(organizationId, lastRun);
       break;
     case LOG_TYPES.CUMULATED_LOGS:
-      downloadCumulatedLogsFile(lastRun);
+      downloadCumulatedLogsFile(organizationId, lastRun);
       break;
   }
 }
