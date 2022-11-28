@@ -207,17 +207,11 @@ const interceptGetScenarios = () => {
   return alias;
 };
 
-const interceptGetWorkspace = (workspaceId) => {
-  let interceptionURL = API_REGEX.WORKSPACE;
-  if (workspaceId) {
-    interceptionURL = new RegExp('^' + URL_ROOT + '/.*/workspaces/(' + workspaceId + ')' + '$');
-  }
-  const alias = forgeAlias('reqGetWorkspace');
-  cy.intercept({ method: 'GET', url: interceptionURL, times: 1 }, (req) => {
+const interceptGetWorkspaces = () => {
+  const alias = forgeAlias('reqGetWorkspaces');
+  cy.intercept({ method: 'GET', url: API_REGEX.WORKSPACES, times: 1 }, (req) => {
     if (!stub.isEnabledFor('GET_WORKSPACES')) return;
-    let workspaceIdToGet = workspaceId;
-    if (!workspaceIdToGet) workspaceIdToGet = stub.getFakeWorkspaceId() ?? req.url.match(interceptionURL)?.[1];
-    req.reply(stub.getWorkspaceById(workspaceIdToGet));
+    req.reply(stub.getWorkspaces());
   }).as(alias);
   return alias;
 };
@@ -248,7 +242,7 @@ const interceptNewPageQueries = () => {
     interceptGetOrganizationPermissions(),
     interceptGetScenarios(),
     interceptGetDatasets(),
-    interceptGetWorkspace(),
+    interceptGetWorkspaces(),
     interceptGetSolution(),
   ];
 };
@@ -267,7 +261,7 @@ export const apiUtils = {
   interceptGetScenario,
   interceptGetScenarios,
   interceptGetSolution,
-  interceptGetWorkspace,
+  interceptGetWorkspaces,
   interceptNewPageQueries,
   interceptPowerBIAzureFunction,
   interceptUpdateScenarioACLSecurity,

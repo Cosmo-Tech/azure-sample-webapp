@@ -4,7 +4,6 @@
 import { put, select, takeEvery, call } from 'redux-saga/effects';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { STATUSES } from '../../../commons/Constants';
-import { ORGANIZATION_ID } from '../../../../config/GlobalConfiguration';
 import { getAllScenariosData } from '../FindAllScenarios/FindAllScenariosData';
 import { Api } from '../../../../services/config/Api';
 import { ApiUtils, ScenariosUtils } from '../../../../utils';
@@ -28,18 +27,19 @@ export function* createScenario(action) {
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
       status: STATUSES.LOADING,
     });
+    const organizationId = action.organizationId;
     const workspaceId = action.workspaceId;
-    const { data } = yield call(Api.Scenarios.createScenario, ORGANIZATION_ID, workspaceId, action.scenario);
+    const { data } = yield call(Api.Scenarios.createScenario, organizationId, workspaceId, action.scenario);
     data.parametersValues = ApiUtils.formatParametersFromApi(data.parametersValues);
     ScenariosUtils.patchScenarioWithCurrentUserPermissions(data, userEmail, userId, scenariosPermissionsMapping);
-    yield call(getAllScenariosData, workspaceId);
+    yield call(getAllScenariosData, organizationId, workspaceId);
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
       status: STATUSES.SUCCESS,
       scenario: data,
     });
   } catch (error) {
-    // TODO handle error management
+    console.error(error);
     yield put(
       dispatchSetApplicationErrorMessage(error, t('commoncomponents.banner.create', "Scenario hasn't been created."))
     );

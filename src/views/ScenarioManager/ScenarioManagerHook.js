@@ -15,28 +15,28 @@ import { useUserId } from '../../state/hooks/AuthHooks';
 import { useHasUserPermissionOnScenario } from '../../hooks/SecurityHooks';
 
 export const useScenarioManager = () => {
-  const scenarioList = useScenarioList();
-  const datasetList = useDatasetList();
+  const scenarios = useScenarioList().data;
+  const datasets = useDatasetList().data;
   const currentScenarioData = useCurrentScenarioData();
   const userId = useUserId();
 
   const findScenarioById = useFindScenarioById();
   const hasUserPermissionOnScenario = useHasUserPermissionOnScenario();
-  const updateCurrentScenario = useUpdateCurrentScenario();
+  const setCurrentScenario = useUpdateCurrentScenario();
   const deleteScenario = useDeleteScenario();
   const renameScenario = useRenameScenario();
   const resetCurrentScenario = useResetCurrentScenario();
 
-  return [
-    scenarioList.data,
-    datasetList.data,
+  return {
+    scenarios,
+    datasets,
     currentScenarioData,
     userId,
     findScenarioById,
     hasUserPermissionOnScenario,
-    updateCurrentScenario,
+    setCurrentScenario,
     deleteScenario,
     renameScenario,
     resetCurrentScenario,
-  ];
+  };
 };

@@ -11,6 +11,7 @@ import { EditModeButton, NormalModeButton, ScenarioParametersTabsWrapper } from 
 import { useTranslation } from 'react-i18next';
 import { SimpleTwoActionsDialog, DontAskAgainDialog, PermissionsGate } from '@cosmotech/ui';
 import { FileManagementUtils } from './FileManagementUtils';
+import { useScenarioParameters } from './ScenarioParametersHook';
 import { ScenarioParametersUtils } from '../../utils';
 
 const useStyles = makeStyles((theme) => ({
@@ -50,53 +51,58 @@ const getRunTemplateParametersIds = (runTemplatesParametersIdsDict, runTemplateI
 const ScenarioParameters = ({
   editMode,
   changeEditMode,
-  addDatasetToStore,
-  updateAndLaunchScenario,
-  launchScenario,
   onChangeAccordionSummaryExpanded,
   accordionSummaryExpanded,
-  scenarioList,
-  currentScenario,
-  solution,
-  datasets,
-  scenarioId,
-  userRoles,
-  isDarkTheme,
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
+  const {
+    scenariosData,
+    datasetsData,
+    addDatasetToStore,
+    currentScenarioData,
+    organizationId,
+    workspaceId,
+    solutionData,
+    userRoles,
+    launchScenario,
+    updateAndLaunchScenario,
+    userPermissionsOnCurrentScenario,
+    isDarkTheme,
+  } = useScenarioParameters();
+  const scenarioId = currentScenarioData?.id;
   const [showDiscardConfirmationPopup, setShowDiscardConfirmationPopup] = useState(false);
 
   // Memoize the parameters ids for the current run template
   const runTemplateParametersIds = useMemo(
-    () => getRunTemplateParametersIds(solution.runTemplatesParametersIdsDict, currentScenario.data?.runTemplateId),
-    [solution.runTemplatesParametersIdsDict, currentScenario.data?.runTemplateId]
+    () => getRunTemplateParametersIds(solutionData.runTemplatesParametersIdsDict, currentScenarioData?.runTemplateId),
+    [solutionData.runTemplatesParametersIdsDict, currentScenarioData?.runTemplateId]
   );
-  // Memoize default values for run template parameters, based on solution description
+  // Memoize default values for run template parameters, based on solutionData description
   const defaultParametersValues = useMemo(
-    () => ScenarioParametersUtils.getDefaultParametersValues(runTemplateParametersIds, solution.parameters),
-    [runTemplateParametersIds, solution.parameters]
+    () => ScenarioParametersUtils.getDefaultParametersValues(runTemplateParametersIds, solutionData.parameters),
+    [runTemplateParametersIds, solutionData.parameters]
   );
   // Memoize the data of parameters (not including the current state of scenario parameters)
   const parametersMetadata = useMemo(
-    () => ScenarioParametersUtils.generateParametersMetadata(solution, runTemplateParametersIds),
-    [solution, runTemplateParametersIds]
+    () => ScenarioParametersUtils.generateParametersMetadata(solutionData, runTemplateParametersIds),
+    [solutionData, runTemplateParametersIds]
   );
   // Memoize the data of parameters groups (not including the current state of scenario parameters)
   const parametersGroupsMetadata = useMemo(
-    () => ScenarioParametersUtils.generateParametersGroupsMetadata(solution, currentScenario.data?.runTemplateId),
-    [solution, currentScenario.data?.runTemplateId]
+    () => ScenarioParametersUtils.generateParametersGroupsMetadata(solutionData, currentScenarioData?.runTemplateId),
+    [solutionData, currentScenarioData?.runTemplateId]
   );
   // Memoize the parameters values for reset
   const parametersValuesForReset = useMemo(
     () =>
       ScenarioParametersUtils.getParametersValuesForReset(
-        datasets,
+        datasetsData,
         runTemplateParametersIds,
         defaultParametersValues,
-        currentScenario.data?.parametersValues
+        currentScenarioData?.parametersValues
       ),
-    [datasets, runTemplateParametersIds, defaultParametersValues, currentScenario.data?.parametersValues]
+    [datasetsData, runTemplateParametersIds, defaultParametersValues, currentScenarioData?.parametersValues]
   );
 
   // Store the reset values for the run template parameters, based on defaultParametersValues and scenario data.
@@ -114,7 +120,7 @@ const ScenarioParameters = ({
       if (parametersMetadata[parameterId]?.varType === DATASET_ID_VARTYPE) {
         const datasetId = getParametersValuesRef()[parameterId];
         newParametersValuesToRender[parameterId] = FileManagementUtils.buildClientFileDescriptorFromDataset(
-          datasets,
+          datasetsData,
           datasetId
         );
       } else {
@@ -150,7 +156,9 @@ const ScenarioParameters = ({
       ...newParametersValuesToPatch,
     };
     await FileManagementUtils.applyPendingOperationsOnFileParameters(
-      solution,
+      organizationId,
+      workspaceId,
+      solutionData,
       parametersMetadata,
       parametersValuesToRender,
       setParametersValuesToRender,
@@ -174,15 +182,15 @@ const ScenarioParameters = ({
     parametersValuesRef.current = parametersValuesForReset;
     discardLocalChanges();
     // eslint-disable-next-line
-  }, [currentScenario.data.id]);
+  }, [currentScenarioData?.id]);
 
   const getParametersForUpdate = () => {
     return ScenarioParametersUtils.buildParametersForUpdate(
-      solution,
+      solutionData,
       getParametersValuesRef(),
       runTemplateParametersIds,
-      currentScenario.data,
-      scenarioList
+      currentScenarioData,
+      scenariosData
     );
   };
 
@@ -230,7 +238,7 @@ const ScenarioParameters = ({
 
   const processScenarioLaunch = async (forceUpdate) => {
     // If scenario parameters have never been updated, force parameters update
-    if (!currentScenario.data.parametersValues || currentScenario.data.parametersValues.length === 0) {
+    if (!currentScenarioData?.parametersValues || currentScenarioData?.parametersValues.length === 0) {
       forceUpdate = true;
     }
 
@@ -249,9 +257,9 @@ const ScenarioParameters = ({
   };
 
   const noTabsShown = parametersGroupsMetadata.length === 0;
-  const isCurrentScenarioRunning = currentScenario.data.state === SCENARIO_RUN_STATE.RUNNING;
-  const isCurrentScenarioRejected = currentScenario.data.validationStatus === SCENARIO_VALIDATION_STATUS.REJECTED;
-  const isCurrentScenarioValidated = currentScenario.data.validationStatus === SCENARIO_VALIDATION_STATUS.VALIDATED;
+  const isCurrentScenarioRunning = currentScenarioData?.state === SCENARIO_RUN_STATE.RUNNING;
+  const isCurrentScenarioRejected = currentScenarioData?.validationStatus === SCENARIO_VALIDATION_STATUS.REJECTED;
+  const isCurrentScenarioValidated = currentScenarioData?.validationStatus === SCENARIO_VALIDATION_STATUS.VALIDATED;
   const isEditDisabled =
     noTabsShown || isCurrentScenarioRunning || isCurrentScenarioRejected || isCurrentScenarioValidated;
 
@@ -283,8 +291,6 @@ const ScenarioParameters = ({
     localStorage.setItem('scenarioParametersAccordionExpanded', expandedNewState);
     onChangeAccordionSummaryExpanded(expandedNewState);
   };
-
-  const userPermissionsOnCurrentScenario = currentScenario?.data?.security?.currentUserPermissions ?? [];
 
   return (
     <div>
@@ -378,18 +384,8 @@ const ScenarioParameters = ({
 ScenarioParameters.propTypes = {
   editMode: PropTypes.bool.isRequired,
   changeEditMode: PropTypes.func.isRequired,
-  addDatasetToStore: PropTypes.func.isRequired,
-  updateAndLaunchScenario: PropTypes.func.isRequired,
   onChangeAccordionSummaryExpanded: PropTypes.func.isRequired,
-  launchScenario: PropTypes.func.isRequired,
   accordionSummaryExpanded: PropTypes.bool.isRequired,
-  scenarioId: PropTypes.string.isRequired,
-  scenarioList: PropTypes.array.isRequired,
-  solution: PropTypes.object.isRequired,
-  datasets: PropTypes.array.isRequired,
-  currentScenario: PropTypes.object.isRequired,
-  userRoles: PropTypes.array.isRequired,
-  isDarkTheme: PropTypes.bool.isRequired,
 };
 
 export default ScenarioParameters;
