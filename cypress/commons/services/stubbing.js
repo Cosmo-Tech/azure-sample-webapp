@@ -155,8 +155,8 @@ class Stubbing {
 
   setActualWorkspaceId = (workspaceId) => (this.api.actualWorkspaceId = workspaceId);
   getActualWorkspaceId = () => this.api.actualWorkspaceId;
-  setFakeWorkspaceId = (workspaceId) => (this.api.actualWorkspaceId = workspaceId);
-  getFakeWorkspaceId = () => this.api.actualWorkspaceId;
+  setFakeWorkspaceId = (workspaceId) => (this.api.fakeWorkspaceId = workspaceId);
+  getFakeWorkspaceId = () => this.api.fakeWorkspaceId;
   setOrganizationPermissions = (newMapping) => (this.api.organizationPermissions = newMapping);
   getOrganizationPermissions = () => this.api.organizationPermissions;
 

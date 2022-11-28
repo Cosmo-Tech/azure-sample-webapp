@@ -6,7 +6,6 @@ import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { STATUSES } from '../../../commons/Constants';
 import { ApiUtils } from '../../../../utils';
 import { SCENARIO_RUN_STATE } from '../../../../services/config/ApiConstants';
-import { ORGANIZATION_ID } from '../../../../config/GlobalConfiguration';
 import { Api } from '../../../../services/config/Api';
 import { AppInsights } from '../../../../services/AppInsights';
 import { t } from 'i18next';
@@ -16,6 +15,7 @@ const appInsights = AppInsights.getInstance();
 
 // generators function
 export function* updateAndLaunchScenario(action) {
+  const organizationId = action.organizationId;
   const workspaceId = action.workspaceId;
   const scenarioId = action.scenarioId;
   const scenarioParameters = action.scenarioParameters;
@@ -33,7 +33,7 @@ export function* updateAndLaunchScenario(action) {
     });
     const { data: updateData } = yield call(
       Api.Scenarios.updateScenario,
-      ORGANIZATION_ID,
+      organizationId,
       workspaceId,
       scenarioId,
       ApiUtils.formatParametersForApi(scenarioParameters)
@@ -64,7 +64,7 @@ export function* updateAndLaunchScenario(action) {
   try {
     const runStartTime = new Date().getTime();
     // Launch scenario if parameters update succeeded
-    yield call(Api.ScenarioRuns.runScenario, ORGANIZATION_ID, workspaceId, scenarioId);
+    yield call(Api.ScenarioRuns.runScenario, organizationId, workspaceId, scenarioId);
 
     yield put({
       type: SCENARIO_ACTIONS_KEY.UPDATE_SCENARIO,
@@ -74,11 +74,13 @@ export function* updateAndLaunchScenario(action) {
     // Start backend polling to update the scenario status
     yield put({
       type: SCENARIO_ACTIONS_KEY.START_SCENARIO_STATUS_POLLING,
+      organizationId: organizationId,
       workspaceId: workspaceId,
       scenarioId: scenarioId,
       startTime: runStartTime,
     });
   } catch (error) {
+    console.error(error);
     yield put(
       dispatchSetApplicationErrorMessage(
         error,
@@ -94,7 +96,7 @@ export function* updateAndLaunchScenario(action) {
 }
 
 // generators function
-// Here is a watcher that takes EVERY action dispatched named CREATE_SCENARIO
+// Here is a watcher that takes EVERY action dispatched named UPDATE_AND_LAUNCH_SCENARIO
 // and binds createScenario saga to it
 function* updateAndLaunchScenarioSaga() {
   yield takeEvery(SCENARIO_ACTIONS_KEY.UPDATE_AND_LAUNCH_SCENARIO, updateAndLaunchScenario);

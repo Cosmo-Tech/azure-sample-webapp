@@ -386,8 +386,16 @@
     "loading": {
       "line": {
         "workspace": {
+          "list": {
+            "title": "Chargement des workspaces"
+          },
           "current": {
             "title": "Chargement du workspace"
+          }
+        },
+        "organization": {
+          "current": {
+            "title": "Chargement de l'organisation"
           }
         },
         "solution": {

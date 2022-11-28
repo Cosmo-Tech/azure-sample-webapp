@@ -385,8 +385,16 @@
     "loading": {
       "line": {
         "workspace": {
+          "list": {
+            "title": "Loading workspaces"
+          },
           "current": {
             "title": "Loading workspace"
+          }
+        },
+        "organization": {
+          "current": {
+            "title": "Loading organization"
           }
         },
         "solution": {

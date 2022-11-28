@@ -53,16 +53,11 @@ const Scenario = () => {
 
   const {
     scenarioList,
-    datasetList,
     currentScenario,
-    user,
+    organizationId,
     workspace,
-    solution,
-    addDatasetToStore,
     setScenarioValidationStatus,
     findScenarioById,
-    updateAndLaunchScenario,
-    launchScenario,
     setApplicationErrorMessage,
   } = useScenario();
 
@@ -113,7 +108,7 @@ const Scenario = () => {
     const currentStatus = currentScenario.data.validationStatus;
     try {
       setScenarioValidationStatus(currentScenario.data.id, SCENARIO_VALIDATION_STATUS.LOADING);
-      await ScenarioService.resetValidationStatus(workspaceId, currentScenario.data.id);
+      await ScenarioService.resetValidationStatus(organizationId, workspaceId, currentScenario.data.id);
       findScenarioById(currentScenario.data.id);
     } catch (error) {
       setApplicationErrorMessage(
@@ -126,7 +121,11 @@ const Scenario = () => {
   const validateScenario = async () => {
     try {
       setScenarioValidationStatus(currentScenario.data.id, SCENARIO_VALIDATION_STATUS.LOADING);
-      await ScenarioService.setScenarioValidationStatusToValidated(workspaceId, currentScenario.data.id);
+      await ScenarioService.setScenarioValidationStatusToValidated(
+        organizationId,
+        workspaceId,
+        currentScenario.data.id
+      );
       findScenarioById(currentScenario.data.id);
     } catch (error) {
       setApplicationErrorMessage(
@@ -139,7 +138,7 @@ const Scenario = () => {
   const rejectScenario = async () => {
     try {
       setScenarioValidationStatus(currentScenario.data.id, SCENARIO_VALIDATION_STATUS.LOADING);
-      await ScenarioService.setScenarioValidationStatusToRejected(workspaceId, currentScenario.data.id);
+      await ScenarioService.setScenarioValidationStatusToRejected(organizationId, workspaceId, currentScenario.data.id);
       findScenarioById(currentScenario.data.id);
     } catch (error) {
       setApplicationErrorMessage(
@@ -294,17 +293,8 @@ const Scenario = () => {
                 <ScenarioParameters
                   editMode={editMode}
                   changeEditMode={setEditMode}
-                  addDatasetToStore={addDatasetToStore}
-                  updateAndLaunchScenario={updateAndLaunchScenario}
-                  launchScenario={launchScenario}
                   accordionSummaryExpanded={accordionSummaryExpanded}
                   onChangeAccordionSummaryExpanded={setAccordionSummaryExpanded}
-                  solution={solution.data}
-                  datasets={datasetList.data}
-                  currentScenario={currentScenario}
-                  scenarioId={currentScenario.data.id}
-                  scenarioList={scenarioList.data}
-                  userRoles={user.roles}
                 />
               )}
             </Card>
