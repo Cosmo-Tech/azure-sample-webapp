@@ -4,18 +4,18 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { SOLUTION_ACTIONS_KEY } from '../../../commons/SolutionConstants';
 import { STATUSES } from '../../../commons/Constants';
-import { ORGANIZATION_ID } from '../../../../config/GlobalConfiguration';
 import { Api } from '../../../../services/config/Api';
 import { ConfigUtils, SolutionsUtils } from '../../../../utils';
 
-export function* fetchSolutionByIdData(workspaceId, solutionId) {
-  const { data } = yield call(Api.Solutions.findSolutionById, ORGANIZATION_ID, solutionId);
+export function* fetchSolutionByIdData(organizationId, workspaceId, solutionId) {
+  const { data } = yield call(Api.Solutions.findSolutionById, organizationId, solutionId);
   SolutionsUtils.castMinMaxDefaultValuesInSolution(data);
   SolutionsUtils.patchSolutionIfLocalConfigExists(data);
   ConfigUtils.checkDeprecatedKeysInConfig(data);
 
   SolutionsUtils.addRunTemplatesParametersIdsDict(data);
   SolutionsUtils.addTranslationLabels(data);
+
   yield put({
     type: SOLUTION_ACTIONS_KEY.SET_CURRENT_SOLUTION,
     status: STATUSES.SUCCESS,

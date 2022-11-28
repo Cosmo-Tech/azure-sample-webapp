@@ -31,65 +31,76 @@ const Loading = () => {
   const classes = useStyles();
   const { t } = useTranslation();
   const defaultTitle = 'LoadingLine Title';
-  const [powerBIInfo, scenarioList, currentScenario, workspace, solution, datasetList] = useLoading();
+  const { powerBIInfo, scenarioList, workspaces, currentWorkspace, solution, datasetList, organization } = useLoading();
 
-  const isLoading = (entityStatus) => {
-    return (
-      entityStatus.status !== STATUSES.ERROR &&
-      (entityStatus.status === STATUSES.LOADING || entityStatus.status === STATUSES.IDLE)
-    );
-  };
-
+  const isLoading = (entityStatus) => [STATUSES.LOADING, STATUSES.IDLE].includes(entityStatus.status);
   const hasErrors = (entityStatus) => entityStatus.status === STATUSES.ERROR;
+  const afterWorkspaceSelector = workspaces.status === STATUSES.SUCCESS;
+  const isWorkspaceAutoSelected = afterWorkspaceSelector && workspaces.data.length === 1;
+  const hidePreWorkspaceSelectorLoaders = afterWorkspaceSelector && !isWorkspaceAutoSelected;
+  const hidePostWorkspaceSelectorLoaders = !afterWorkspaceSelector && !isWorkspaceAutoSelected;
 
   const style = { variant: 'h6', height: '50px', width: '50px' };
 
   return (
     <div className={classes.panel} data-cy="loading-component">
-      <FadeIn delay={200}>
-        <LoadingLine
-          title={t('genericcomponent.loading.line.scenario.list.title', defaultTitle)}
-          hasError={hasErrors(scenarioList)}
-          isLoading={isLoading(scenarioList)}
-          animations={animations}
-          style={style}
-        />
-        <LoadingLine
-          title={t('genericcomponent.loading.line.dataset.list.title', defaultTitle)}
-          hasError={hasErrors(datasetList)}
-          isLoading={isLoading(datasetList)}
-          animations={animations}
-          style={style}
-        />
-        <LoadingLine
-          title={t('genericcomponent.loading.line.workspace.current.title', defaultTitle)}
-          hasError={hasErrors(workspace)}
-          isLoading={isLoading(workspace)}
-          animations={animations}
-          style={style}
-        />
-        <LoadingLine
-          title={t('genericcomponent.loading.line.solution.current.title', defaultTitle)}
-          hasError={hasErrors(solution)}
-          isLoading={isLoading(solution)}
-          animations={animations}
-          style={style}
-        />
-        <LoadingLine
-          title={t('genericcomponent.loading.line.scenario.current.title', defaultTitle)}
-          hasError={hasErrors(currentScenario)}
-          isLoading={isLoading(currentScenario)}
-          animations={animations}
-          style={style}
-        />
-        <LoadingLine
-          title={t('genericcomponent.loading.line.powerbi.title', defaultTitle)}
-          hasError={hasErrors(powerBIInfo)}
-          isLoading={isLoading(powerBIInfo)}
-          animations={animations}
-          style={style}
-        />
-      </FadeIn>
+      {!hidePreWorkspaceSelectorLoaders && (
+        <FadeIn delay={100}>
+          <LoadingLine
+            title={t('genericcomponent.loading.line.dataset.list.title', defaultTitle)}
+            hasError={hasErrors(datasetList)}
+            isLoading={isLoading(datasetList)}
+            animations={animations}
+            style={style}
+          />
+          <LoadingLine
+            title={t('genericcomponent.loading.line.organization.current.title', defaultTitle)}
+            hasError={hasErrors(organization)}
+            isLoading={isLoading(organization)}
+            animations={animations}
+            style={style}
+          />
+          <LoadingLine
+            title={t('genericcomponent.loading.line.workspace.list.title', defaultTitle)}
+            hasError={hasErrors(workspaces)}
+            isLoading={isLoading(workspaces)}
+            animations={animations}
+            style={style}
+          />
+        </FadeIn>
+      )}
+      {!hidePostWorkspaceSelectorLoaders && (
+        <FadeIn delay={100}>
+          <LoadingLine
+            title={t('genericcomponent.loading.line.workspace.current.title', defaultTitle)}
+            hasError={hasErrors(currentWorkspace)}
+            isLoading={isLoading(currentWorkspace)}
+            animations={animations}
+            style={style}
+          />
+          <LoadingLine
+            title={t('genericcomponent.loading.line.solution.current.title', defaultTitle)}
+            hasError={hasErrors(solution)}
+            isLoading={isLoading(solution)}
+            animations={animations}
+            style={style}
+          />
+          <LoadingLine
+            title={t('genericcomponent.loading.line.scenario.list.title', defaultTitle)}
+            hasError={hasErrors(scenarioList)}
+            isLoading={isLoading(scenarioList)}
+            animations={animations}
+            style={style}
+          />
+          <LoadingLine
+            title={t('genericcomponent.loading.line.powerbi.title', defaultTitle)}
+            hasError={hasErrors(powerBIInfo)}
+            isLoading={isLoading(powerBIInfo)}
+            animations={animations}
+            style={style}
+          />
+        </FadeIn>
+      )}
     </div>
   );
 };

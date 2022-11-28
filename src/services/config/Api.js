@@ -21,5 +21,5 @@ export const Api = {
   Solutions: SolutionApiFactory(null, defaultBasePath, clientApi),
   Datasets: DatasetApiFactory(null, defaultBasePath, clientApi),
   Workspaces: WorkspaceApiFactory(null, defaultBasePath, clientApi),
-  Organization: OrganizationApiFactory(null, defaultBasePath, clientApi),
+  Organizations: OrganizationApiFactory(null, defaultBasePath, clientApi),
 };

@@ -3,13 +3,15 @@
 
 import { useCurrentScenario, useScenarioList, useFindScenarioById } from '../../state/hooks/ScenarioHooks';
 import { useWorkspaceId } from '../../state/hooks/WorkspaceHooks';
+import { useOrganizationId } from '../../state/hooks/OrganizationHooks';
 import { useRedirectionToScenario } from '../../hooks/RouterHooks';
 
 export const useInstance = () => {
   const scenarioList = useScenarioList();
   const currentScenario = useCurrentScenario();
+  const organizationId = useOrganizationId();
   const workspaceId = useWorkspaceId();
   const findScenarioById = useFindScenarioById();
 
-  return [workspaceId, scenarioList, currentScenario, findScenarioById, useRedirectionToScenario];
+  return { organizationId, workspaceId, scenarioList, currentScenario, findScenarioById, useRedirectionToScenario };
 };

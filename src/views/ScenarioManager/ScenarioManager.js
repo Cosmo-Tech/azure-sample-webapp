@@ -34,10 +34,10 @@ const ScenarioManager = (props) => {
   const { t } = useTranslation();
   const labels = getScenarioManagerLabels(t);
 
-  const [
+  const {
     scenarios,
     datasets,
-    currentScenario,
+    currentScenarioData,
     userId,
     findScenarioById,
     hasUserPermissionOnScenario,
@@ -45,14 +45,14 @@ const ScenarioManager = (props) => {
     deleteScenario,
     renameScenario,
     resetCurrentScenario,
-  ] = useScenarioManager();
+  } = useScenarioManager();
 
   const getScenariolistAfterDelete = (idOfScenarioToDelete) => {
     const scenarioListAfterDelete = scenarios
       .map((scenario) => {
         const newScenario = { ...scenario };
         if (newScenario.parentId === idOfScenarioToDelete) {
-          newScenario.parentId = currentScenario.parentId;
+          newScenario.parentId = currentScenarioData.parentId;
         }
         return newScenario;
       })
@@ -64,7 +64,7 @@ const ScenarioManager = (props) => {
   function onScenarioDelete(scenarioId) {
     const lastScenarioDelete = scenarios.length === 1;
     deleteScenario(scenarioId);
-    if (scenarioId === currentScenario.id) {
+    if (scenarioId === currentScenarioData.id) {
       if (lastScenarioDelete) {
         resetCurrentScenario();
       } else {
@@ -74,7 +74,7 @@ const ScenarioManager = (props) => {
   }
 
   function onScenarioRename(scenarioId, newScenarioName) {
-    if (scenarioId === currentScenario.id) {
+    if (scenarioId === currentScenarioData.id) {
       setCurrentScenario({ name: newScenarioName });
     }
     renameScenario(scenarioId, newScenarioName);
@@ -112,7 +112,7 @@ const ScenarioManager = (props) => {
       isWaitingForRedirection.current = false;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentScenario]);
+  }, [currentScenarioData]);
 
   const onScenarioRedirect = (scenarioId) => {
     isWaitingForRedirection.current = true;
@@ -127,7 +127,7 @@ const ScenarioManager = (props) => {
       <ScenarioManagerTreeList
         datasets={datasets}
         scenarios={scenarios}
-        currentScenarioId={currentScenario?.id}
+        currentScenarioId={currentScenarioData?.id}
         userId={userId}
         onScenarioRedirect={onScenarioRedirect}
         deleteScenario={onScenarioDelete}

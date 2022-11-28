@@ -4,7 +4,6 @@
 import { call, put, select, takeEvery } from 'redux-saga/effects';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { STATUSES } from '../../../commons/Constants';
-import { ORGANIZATION_ID } from '../../../../config/GlobalConfiguration';
 import { ApiUtils, ScenariosUtils } from '../../../../utils';
 import { SCENARIO_RUN_STATE } from '../../../../services/config/ApiConstants';
 import { Api } from '../../../../services/config/Api';
@@ -25,8 +24,14 @@ export function* fetchScenarioByIdData(action) {
       status: STATUSES.LOADING,
     });
 
-    const { data } = yield call(Api.Scenarios.findScenarioById, ORGANIZATION_ID, action.workspaceId, action.scenarioId);
+    const { data } = yield call(
+      Api.Scenarios.findScenarioById,
+      action.organizationId,
+      action.workspaceId,
+      action.scenarioId
+    );
     data.parametersValues = ApiUtils.formatParametersFromApi(data.parametersValues);
+
     ScenariosUtils.patchScenarioWithCurrentUserPermissions(data, userEmail, userId, scenariosPermissionsMapping);
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_SCENARIO_VALIDATION_STATUS,
@@ -44,6 +49,7 @@ export function* fetchScenarioByIdData(action) {
     if (data.state === SCENARIO_RUN_STATE.RUNNING) {
       yield put({
         type: SCENARIO_ACTIONS_KEY.START_SCENARIO_STATUS_POLLING,
+        organizationId: action.organizationId,
         workspaceId: action.workspaceId,
         scenarioId: data.id,
       });

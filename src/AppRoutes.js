@@ -24,7 +24,7 @@ const AppRoutes = (props) => {
             <Navigate to={'/sign-in'} state={{ from: location.pathname }} />
           ) : !authorized ? (
             <Navigate to={'/accessDenied'} />
-          ) : currentWorkspace ? (
+          ) : currentWorkspace?.data ? (
             <Navigate to={`/${currentWorkspace.data.id}/scenario`} />
           ) : (
             <Workspaces />
