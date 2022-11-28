@@ -3,12 +3,11 @@
 
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { DATASET_ACTIONS_KEY } from '../../../commons/DatasetConstants';
-import { ORGANIZATION_ID } from '../../../../config/GlobalConfiguration';
 import { Api } from '../../../../services/config/Api';
 import { STATUSES } from '../../../commons/Constants';
 
-export function* fetchAllDatasetsData() {
-  const { data } = yield call(Api.Datasets.findAllDatasets, ORGANIZATION_ID);
+export function* fetchAllDatasetsData(organizationId) {
+  const { data } = yield call(Api.Datasets.findAllDatasets, organizationId);
   yield put({
     type: DATASET_ACTIONS_KEY.SET_ALL_DATASETS,
     list: data,

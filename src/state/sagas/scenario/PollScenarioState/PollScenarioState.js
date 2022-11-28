@@ -3,7 +3,6 @@
 
 import { call, put, take, takeEvery, delay, race } from 'redux-saga/effects';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
-import { ORGANIZATION_ID } from '../../../../config/GlobalConfiguration';
 import { Api } from '../../../../services/config/Api';
 import { SCENARIO_STATUS_POLLING_DELAY } from '../../../../services/config/FunctionalConstants';
 import { AppInsights } from '../../../../services/AppInsights';
@@ -28,7 +27,7 @@ export function* pollScenarioState(action) {
       // Fetch data of the scenario with the provided id
       const response = yield call(
         Api.Scenarios.findScenarioById,
-        ORGANIZATION_ID,
+        action.organizationId,
         action.workspaceId,
         action.scenarioId
       );
@@ -55,6 +54,7 @@ export function* pollScenarioState(action) {
       // Wait before retrying
       yield delay(SCENARIO_STATUS_POLLING_DELAY);
     } catch (error) {
+      console.error(error);
       yield put(
         dispatchSetApplicationErrorMessage(
           error,

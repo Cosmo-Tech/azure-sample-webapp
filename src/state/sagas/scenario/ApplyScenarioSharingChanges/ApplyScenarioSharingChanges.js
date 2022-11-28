@@ -3,7 +3,6 @@
 
 import { takeEvery, select, call, put } from 'redux-saga/effects';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
-import { ORGANIZATION_ID } from '../../../../config/GlobalConfiguration';
 import { Api } from '../../../../services/config/Api';
 import { t } from 'i18next';
 import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
@@ -12,11 +11,13 @@ import { SecurityUtils } from '../../../../utils';
 const getUserEmail = (state) => state.auth.userEmail;
 const getUserId = (state) => state.auth.userId;
 const getScenariosPermissionsMapping = (state) => state.application.permissionsMapping.scenario;
+const getOrganizationId = (state) => state.organization.current.data.id;
 const getWorkspaceId = (state) => state.workspace.current.data.id;
 const getCurrentScenarioSecurity = (state) => state.scenario.current?.data?.security;
 
 export function* applyScenarioSharingChanges(action) {
   try {
+    const organizationId = yield select(getOrganizationId);
     const workspaceId = yield select(getWorkspaceId);
     const currentScenarioSecurity = yield select(getCurrentScenarioSecurity);
     const { scenarioId, newScenarioSecurity } = action;
@@ -24,7 +25,7 @@ export function* applyScenarioSharingChanges(action) {
 
     if (currentScenarioSecurity.default !== newScenarioSecurity.default) {
       mustUpdateSecurity = true;
-      yield call(Api.Scenarios.setScenarioDefaultSecurity, ORGANIZATION_ID, workspaceId, scenarioId, {
+      yield call(Api.Scenarios.setScenarioDefaultSecurity, organizationId, workspaceId, scenarioId, {
         role: newScenarioSecurity.default,
       });
     }
@@ -45,13 +46,13 @@ export function* applyScenarioSharingChanges(action) {
       // Add new entries or existing entries whose role have changed
       const newAccesses = SecurityUtils.sortByNewAdminsFirst(usersToAdd.concat(usersToModify));
       for (const userToAdd of newAccesses) {
-        yield call(Api.Scenarios.addScenarioAccessControl, ORGANIZATION_ID, workspaceId, scenarioId, userToAdd);
+        yield call(Api.Scenarios.addScenarioAccessControl, organizationId, workspaceId, scenarioId, userToAdd);
       }
 
       // Remove entries that have been deleted
       const usersIdsToRemove = SecurityUtils.getUsersIdsFromACL(usersToRemove);
       for (const userIdToRemove of usersIdsToRemove) {
-        yield call(Api.Scenarios.removeScenarioAccessControl, ORGANIZATION_ID, workspaceId, scenarioId, userIdToRemove);
+        yield call(Api.Scenarios.removeScenarioAccessControl, organizationId, workspaceId, scenarioId, userIdToRemove);
       }
     }
 

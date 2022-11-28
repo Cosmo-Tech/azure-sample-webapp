@@ -22,7 +22,8 @@ const Instance = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const { t } = useTranslation();
-  const [workspaceId, scenarioList, currentScenario, findScenarioById, useRedirectionToScenario] = useInstance();
+  const { organizationId, workspaceId, scenarioList, currentScenario, findScenarioById, useRedirectionToScenario } =
+    useInstance();
 
   const [graphElements, setGraphElements] = useState([]);
   const [cytoscapeStylesheet, setCytoscapeStylesheet] = useState([]);
@@ -63,7 +64,7 @@ const Instance = (props) => {
         setIsLoadingData(false);
       } else {
         try {
-          const scenario = await fetchData(workspaceId, currentScenario.data?.id);
+          const scenario = await fetchData(organizationId, workspaceId, currentScenario.data?.id);
           // TODO: (refactor) to improve performance, we don't need to recompute the whole graph elements set when the
           // theme is changed, we could rebuild only the stylesheet
           const { graphElements: newGraphElements, stylesheet } = await processGraphElements(scenario.data, theme);
@@ -199,7 +200,5 @@ const Instance = (props) => {
     </>
   );
 };
-
-Instance.propTypes = {};
 
 export default Instance;
