@@ -1,3 +1,6 @@
+// Copyright (c) Cosmo Tech.
+// Licensed under the MIT license.
+
 export const getReportLabels = (t) => ({
   noScenario: {
     title: t('commoncomponents.iframe.scenario.noscenario.title', 'No scenario yet'),

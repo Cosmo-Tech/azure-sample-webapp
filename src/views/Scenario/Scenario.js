@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import {
   Backdrop,
   Button,
@@ -13,30 +13,19 @@ import {
   Tooltip,
   Typography,
 } from '@material-ui/core';
-import { ScenarioParameters, SimplePowerBIReportEmbedWrapper } from '../../components';
+import { ScenarioParameters, ShareCurrentScenarioButton, CreateScenarioButton } from '../../components';
 import { useTranslation } from 'react-i18next';
-import {
-  CreateScenarioButton,
-  HierarchicalComboBox,
-  ScenarioValidationStatusChip,
-  PermissionsGate,
-  RolesEditionButton,
-} from '@cosmotech/ui';
+import { HierarchicalComboBox, ScenarioValidationStatusChip, PermissionsGate } from '@cosmotech/ui';
 import { sortScenarioList } from '../../utils/SortScenarioListUtils';
 import { SCENARIO_VALIDATION_STATUS } from '../../services/config/ApiConstants.js';
 import ScenarioService from '../../services/scenario/ScenarioService';
 import { STATUSES } from '../../state/commons/Constants';
 import { AppInsights } from '../../services/AppInsights';
 import { ACL_PERMISSIONS } from '../../services/config/accessControl';
-import {
-  getCreateScenarioDialogLabels,
-  getShareScenarioDialogLabels,
-  getPermissionsLabels,
-  getRolesLabels,
-} from './labels';
 import { useNavigate, useParams } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { useScenario } from './ScenarioHook';
+import { ScenarioPowerBiReport } from './components';
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -61,36 +50,26 @@ const Scenario = () => {
   const classes = useStyles();
   const { t } = useTranslation();
 
-  const [
+  const {
     scenarioList,
     datasetList,
     currentScenario,
     user,
     workspace,
-    userPermissionsOnCurrentWorkspace,
     solution,
-    roles,
-    permissions,
-    permissionsMapping,
     addDatasetToStore,
-    applyScenarioSharingSecurity,
     setScenarioValidationStatus,
     findScenarioById,
-    createScenario,
     updateCurrentScenario,
     updateAndLaunchScenario,
     launchScenario,
     setApplicationErrorMessage,
-  ] = useScenario();
+  } = useScenario();
 
   const routerParameters = useParams();
   const navigate = useNavigate();
   const workspaceId = workspace.data.id;
-  const workspaceUsers = workspace.data.users.map((user) => ({ id: user }));
   const [editMode, setEditMode] = useState(false);
-
-  const createScenarioDialogLabels = getCreateScenarioDialogLabels(t, editMode);
-  const shareScenarioDialogLabels = getShareScenarioDialogLabels(t, currentScenario?.data?.name);
 
   // Add accordion expand status in state
   const [accordionSummaryExpanded, setAccordionSummaryExpanded] = useState(
@@ -139,10 +118,8 @@ const Scenario = () => {
     // eslint-disable-next-line
   }, [currentScenario]);
 
-  const expandParametersAndCreateScenario = (workspaceId, scenarioData) => {
-    createScenario(workspaceId, scenarioData);
-    setAccordionSummaryExpanded(true);
-  };
+  const onScenarioCreated = useCallback(() => setAccordionSummaryExpanded(true), []);
+
   const currentScenarioRenderInputTooltip = editMode
     ? t(
         'views.scenario.dropdown.scenario.tooltip.disabled',
@@ -159,18 +136,6 @@ const Scenario = () => {
   const scenarioListDisabled = editMode || scenarioList === null || noScenario;
   const scenarioListLabel = noScenario ? null : t('views.scenario.dropdown.scenario.label', 'Scenario');
   const showBackdrop = currentScenario.status === STATUSES.LOADING;
-
-  const getFilteredRunTemplates = (solution, workspace) => {
-    let filteredRunTemplates = solution?.data?.runTemplates || [];
-    const solutionRunTemplates = workspace.data?.solution?.runTemplateFilter;
-    if (solutionRunTemplates) {
-      filteredRunTemplates = filteredRunTemplates.filter(
-        (runTemplate) => solutionRunTemplates.indexOf(runTemplate.id) !== -1
-      );
-    }
-    return filteredRunTemplates;
-  };
-  const filteredRunTemplates = useMemo(() => getFilteredRunTemplates(solution, workspace), [solution, workspace]);
 
   const resetScenarioValidationStatus = async () => {
     const currentStatus = currentScenario.data.validationStatus;
@@ -307,72 +272,6 @@ const Scenario = () => {
     validationStatus: scenarioValidationStatusLabels,
   };
 
-  const createScenarioButton = (
-    <PermissionsGate
-      userPermissions={userPermissionsOnCurrentWorkspace}
-      necessaryPermissions={[ACL_PERMISSIONS.WORKSPACE.CREATE_CHILDREN]}
-      noPermissionProps={{
-        disabled: true, // Prevent scenario creation if user has insufficient privileges
-      }}
-    >
-      <CreateScenarioButton
-        solution={solution}
-        workspaceId={workspaceId}
-        createScenario={expandParametersAndCreateScenario}
-        currentScenario={currentScenario}
-        runTemplates={filteredRunTemplates}
-        datasets={datasetList.data}
-        scenarios={scenarioList.data}
-        user={user}
-        disabled={editMode}
-        labels={createScenarioDialogLabels}
-      />
-    </PermissionsGate>
-  );
-
-  const applyScenarioSecurityChanges = (newScenarioSecurity) => {
-    applyScenarioSharingSecurity(currentScenario.data.id, newScenarioSecurity);
-  };
-
-  const accessListSpecific = currentScenario?.data?.security?.accessControlList;
-  const defaultRole = currentScenario?.data?.security?.default;
-
-  const rolesNames = Object.values(roles.scenario);
-  const rolesLabels = getRolesLabels(t, rolesNames);
-  const permissionsNames = Object.values(permissions.scenario);
-  const permissionsLabels = getPermissionsLabels(t, permissionsNames);
-
-  const shareScenarioButton = (
-    <>
-      <PermissionsGate
-        userPermissions={userPermissionsOnCurrentScenario}
-        necessaryPermissions={[ACL_PERMISSIONS.SCENARIO.READ_SECURITY]}
-      >
-        <PermissionsGate
-          userPermissions={userPermissionsOnCurrentScenario}
-          necessaryPermissions={[ACL_PERMISSIONS.SCENARIO.WRITE_SECURITY]}
-          noPermissionProps={{ isReadOnly: true }}
-        >
-          <RolesEditionButton
-            data-cy="share-scenario-button"
-            labels={shareScenarioDialogLabels}
-            onConfirmChanges={(newScenarioSecurity) => {
-              applyScenarioSecurityChanges(newScenarioSecurity);
-            }}
-            resourceRolesPermissionsMapping={permissionsMapping.scenario}
-            agents={workspaceUsers}
-            specificAccessByAgent={accessListSpecific ?? []}
-            defaultRole={defaultRole || ''}
-            defaultAccessScope="Workspace"
-            preventNoneRoleForAgents={true}
-            allRoles={rolesLabels}
-            allPermissions={permissionsLabels}
-          />
-        </PermissionsGate>
-      </PermissionsGate>
-    </>
-  );
-
   return (
     <>
       <Backdrop open={showBackdrop} style={{ zIndex: '10000' }}>
@@ -383,8 +282,12 @@ const Scenario = () => {
           <Grid item xs={4}>
             <div>
               <Grid container spacing={1} alignItems="center" justifyContent="flex-start">
-                <Grid item>{createScenarioButton}</Grid>
-                <Grid item>{shareScenarioButton}</Grid>
+                <Grid item>
+                  <CreateScenarioButton disabled={editMode} onScenarioCreated={onScenarioCreated} />
+                </Grid>
+                <Grid item>
+                  <ShareCurrentScenarioButton />
+                </Grid>
               </Grid>
             </div>
           </Grid>
@@ -438,7 +341,7 @@ const Scenario = () => {
           <Grid item xs={12}>
             <Card component={Paper} elevation={2}>
               <CardContent>
-                <SimplePowerBIReportEmbedWrapper />
+                <ScenarioPowerBiReport />
               </CardContent>
             </Card>
           </Grid>

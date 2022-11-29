@@ -5,4 +5,7 @@ export { default as ScenarioParameters } from './ScenarioParameters';
 export { PermissionsGate } from './PermissionsGate';
 export { default as AboutContent } from './AboutContent';
 export { SessionTimeoutDialog } from './SessionTimeoutDialog';
-export { SimplePowerBIReportEmbedWrapper } from './Wrappers';
+
+export { default as ShareCurrentScenarioButton } from './ShareCurrentScenarioButton';
+export { default as CurrentScenarioPowerBiReport } from './CurrentScenarioPowerBIReport';
+export { default as CreateScenarioButton } from './CreateScenarioButton';
