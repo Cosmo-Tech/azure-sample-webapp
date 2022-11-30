@@ -80,7 +80,7 @@ describe('Create scenario', () => {
 
   it('can create and launch scenario master', () => {
     // Check parameters accordion
-    ScenarioParameters.getParametersTabs().should('not.be.visible');
+    ScenarioParameters.getParametersTabs(20).should('not.be.visible');
     ScenarioParameters.expandParametersAccordion();
     ScenarioParameters.getParametersTabs().should('be.visible');
     ScenarioParameters.collapseParametersAccordion();
@@ -96,14 +96,14 @@ describe('Create scenario', () => {
     Scenarios.switchToScenarioView();
     ScenarioParameters.getParametersTabs().should('be.visible');
     cy.reload();
-    ScenarioParameters.getParametersTabs().should('be.visible');
+    ScenarioParameters.getParametersTabs(20).should('be.visible');
     ScenarioParameters.collapseParametersAccordion();
     ScenarioParameters.getParametersTabs().should('not.be.visible');
     ScenarioManager.switchToScenarioManager();
     Scenarios.switchToScenarioView();
     ScenarioParameters.getParametersTabs().should('not.be.visible');
     cy.reload();
-    ScenarioParameters.getParametersTabs().should('not.be.visible');
+    ScenarioParameters.getParametersTabs(20).should('not.be.visible');
 
     // Create scenario master:
     let scenarioName, scenarioRunTemplateName;
