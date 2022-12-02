@@ -83,42 +83,9 @@ describe('getConversionMethod with possible values', () => {
     'if param "$param",subType "subType", functionArray "$functionArray"  ' +
       'and consoleWarnCalls "$consoleWarnCalls" then expectedRes "$expectedRes"',
     ({ param, subType, functionArray, consoleWarnCalls, expectedRes }) => {
-      const res = ConfigUtils.getConversionMethod(param, subType, functionArray);
+      const paramWithSubType = { ...param, options: { subType: subType } };
+      const res = ConfigUtils.getConversionMethod(paramWithSubType, functionArray);
       expect(spyConsoleWarn).toHaveBeenCalledTimes(consoleWarnCalls);
-      expect(res).toStrictEqual(expectedRes);
-    }
-  );
-});
-
-describe('getParameterSubType with possible values', () => {
-  const configWithExtended = { parameterId: { varType: 'varType', subType: 'extended' } };
-  const configWithoutExtended = { parameterId: { varType: 'varType' } };
-
-  test.each`
-    parameterId      | configParameters         | expectedRes
-    ${null}          | ${null}                  | ${undefined}
-    ${null}          | ${undefined}             | ${undefined}
-    ${null}          | ${''}                    | ${undefined}
-    ${null}          | ${{}}                    | ${undefined}
-    ${undefined}     | ${null}                  | ${undefined}
-    ${undefined}     | ${undefined}             | ${undefined}
-    ${undefined}     | ${''}                    | ${undefined}
-    ${undefined}     | ${{}}                    | ${undefined}
-    ${''}            | ${null}                  | ${undefined}
-    ${''}            | ${undefined}             | ${undefined}
-    ${''}            | ${''}                    | ${undefined}
-    ${''}            | ${{}}                    | ${undefined}
-    ${'parameter'}   | ${null}                  | ${undefined}
-    ${'parameter'}   | ${undefined}             | ${undefined}
-    ${'parameter'}   | ${''}                    | ${undefined}
-    ${'parameter'}   | ${{}}                    | ${undefined}
-    ${'parameter'}   | ${{ withoutParam: '' }}  | ${undefined}
-    ${'parameterId'} | ${configWithoutExtended} | ${undefined}
-    ${'parameterId'} | ${configWithExtended}    | ${'extended'}
-  `(
-    'if "$parameterId" and "$configParameters" then "$expectedRes"',
-    ({ parameterId, configParameters, expectedRes }) => {
-      const res = ConfigUtils.getParameterSubType(parameterId, configParameters);
       expect(res).toStrictEqual(expectedRes);
     }
   );

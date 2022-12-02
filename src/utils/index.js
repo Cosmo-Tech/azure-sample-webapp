@@ -1,6 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
+export { ApiUtils } from './ApiUtils';
+export { ArrayDictUtils } from './ArrayDictUtils';
 export { ConfigUtils } from './ConfigUtils';
 export { DatasetsUtils } from './DatasetsUtils';
 export { TranslationUtils } from './TranslationUtils';

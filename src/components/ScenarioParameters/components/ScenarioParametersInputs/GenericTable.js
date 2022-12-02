@@ -11,17 +11,28 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { gridLight, gridDark } from '../../../../theme/';
+import { ConfigUtils } from '../../../../utils/ConfigUtils';
 
 const clone = rfdc();
 
 const DEFAULT_DATE_FORMAT = 'yyyy-MM-dd';
 
 const _generateGridDataFromCSV = (fileContent, parameterData, options) => {
-  return AgGridUtils.fromCSV(fileContent, parameterData.hasHeader || true, parameterData.columns, options);
+  return AgGridUtils.fromCSV(
+    fileContent,
+    ConfigUtils.getParameterAttribute(parameterData, 'hasHeader') || true,
+    ConfigUtils.getParameterAttribute(parameterData, 'columns'),
+    options
+  );
 };
 
 const _generateGridDataFromXLSX = async (fileBlob, parameterData, options) => {
-  return await AgGridUtils.fromXLSX(fileBlob, parameterData.hasHeader || true, parameterData.columns, options);
+  return await AgGridUtils.fromXLSX(
+    fileBlob,
+    ConfigUtils.getParameterAttribute(parameterData, 'hasHeader') || true,
+    ConfigUtils.getParameterAttribute(parameterData, 'columns'),
+    options
+  );
 };
 
 export const GenericTable = ({ parameterData, parametersState, setParametersState, context }) => {
@@ -38,8 +49,8 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
     clearErrors: t('genericcomponent.table.button.clearErrors', 'Clear'),
     errorsPanelMainError: t('genericcomponent.table.labels.fileImportError', 'File load failed.'),
   };
-  const columns = parameterData.columns;
-  const dateFormat = parameterData.dateFormat || DEFAULT_DATE_FORMAT;
+  const columns = ConfigUtils.getParameterAttribute(parameterData, 'columns');
+  const dateFormat = ConfigUtils.getParameterAttribute(parameterData, 'dateFormat') || DEFAULT_DATE_FORMAT;
   const options = { dateFormat: dateFormat };
 
   function setParameterInState(newValuePart) {
@@ -221,7 +232,11 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
         });
       }
     } else {
-      const newFileContent = AgGridUtils.toCSV(agGridData.rows, parameterData.columns, options);
+      const newFileContent = AgGridUtils.toCSV(
+        agGridData.rows,
+        ConfigUtils.getParameterAttribute(parameterData, 'columns'),
+        options
+      );
       setClientFileDescriptor({
         agGridRows: agGridData.rows,
         name: file.name,
@@ -342,7 +357,7 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
   return (
     <Table
       key={parameterId}
-      data-cy={parameterData.dataCy}
+      data-cy={`table-${parameterData.id}`}
       labels={labels}
       dateFormat={dateFormat}
       editMode={context.editMode}
@@ -358,6 +373,7 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
     />
   );
 };
+
 GenericTable.propTypes = {
   parameterData: PropTypes.object.isRequired,
   parametersState: PropTypes.object.isRequired,
