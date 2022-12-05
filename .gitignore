@@ -40,3 +40,7 @@ package-lock.json
 
 # python
 __pycache__
+
+# yalc
+.yalc
+yalc.lock
