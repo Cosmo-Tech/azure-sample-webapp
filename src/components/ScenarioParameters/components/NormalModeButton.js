@@ -3,13 +3,13 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Fade, Grid, IconButton, Tooltip } from '@material-ui/core';
+import { Grid, IconButton } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import { useTranslation } from 'react-i18next';
 import { ACL_PERMISSIONS } from '../../../services/config/accessControl';
 import { useUserAppAndCurrentScenarioPermissions } from '../../../hooks/SecurityHooks.js';
-import { PermissionsGate } from '@cosmotech/ui';
+import { FadingTooltip, PermissionsGate } from '@cosmotech/ui';
 
 const NormalModeButton = ({
   classes,
@@ -30,17 +30,11 @@ const NormalModeButton = ({
 
   const editButtonTooltipWrapper =
     disabledEditTooltip && disabledEditTooltip.length > 0 ? (
-      <Tooltip TransitionComponent={Fade} TransitionProps={{ timeout: 600 }} title={disabledEditTooltip}>
-        <div>{editButton}</div>
-      </Tooltip>
+      <FadingTooltip title={disabledEditTooltip}>{editButton}</FadingTooltip>
     ) : (
-      <Tooltip
-        TransitionComponent={Fade}
-        TransitionProps={{ timeout: 600 }}
-        title={t('commoncomponents.button.scenario.parameters.edit', 'Edit parameters')}
-      >
-        <div>{editButton}</div>
-      </Tooltip>
+      <FadingTooltip title={t('commoncomponents.button.scenario.parameters.edit', 'Edit parameters')}>
+        {editButton}
+      </FadingTooltip>
     );
 
   return (
@@ -56,22 +50,16 @@ const NormalModeButton = ({
           userPermissions={userAppAndCurrentScenarioPermissions}
           necessaryPermissions={[ACL_PERMISSIONS.SCENARIO.LAUNCH]}
         >
-          <Tooltip
-            TransitionComponent={Fade}
-            TransitionProps={{ timeout: 600 }}
-            title={t('commoncomponents.button.scenario.parameters.launch', 'Launch scenario')}
-          >
-            <div>
-              <IconButton
-                data-cy="launch-scenario-button"
-                color="primary"
-                onClick={handleClickOnLaunchScenario}
-                disabled={runDisabled}
-              >
-                <PlayCircleOutlineIcon />
-              </IconButton>
-            </div>
-          </Tooltip>
+          <FadingTooltip title={t('commoncomponents.button.scenario.parameters.launch', 'Launch scenario')}>
+            <IconButton
+              data-cy="launch-scenario-button"
+              color="primary"
+              onClick={handleClickOnLaunchScenario}
+              disabled={runDisabled}
+            >
+              <PlayCircleOutlineIcon />
+            </IconButton>
+          </FadingTooltip>
         </PermissionsGate>
       </Grid>
     </Grid>

@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 import React, { useEffect, useState } from 'react';
-import { AppBar, Fade, Tabs, Tab, Box, Toolbar, Tooltip, IconButton, makeStyles } from '@material-ui/core';
+import { AppBar, Tabs, Tab, Box, Toolbar, IconButton, makeStyles } from '@material-ui/core';
 import { Link, useLocation, useMatch, Outlet } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Auth } from '@cosmotech/core';
-import { UserInfo, HelpMenu, ErrorBanner } from '@cosmotech/ui';
+import { UserInfo, HelpMenu, ErrorBanner, FadingTooltip } from '@cosmotech/ui';
 import { useTranslation } from 'react-i18next';
 import { LANGUAGES } from '../../config/Languages';
 import { SUPPORT_URL, DOCUMENTATION_URL } from '../../config/HelpMenuConfiguration';
@@ -84,9 +84,7 @@ const TabLayout = (props) => {
             ))}
           </Tabs>
           {
-            <Tooltip
-              TransitionComponent={Fade}
-              TransitionProps={{ timeout: 600 }}
+            <FadingTooltip
               title={
                 darkThemeUsed
                   ? t('genericcomponent.switchtheme.light', 'Switch to light')
@@ -102,7 +100,7 @@ const TabLayout = (props) => {
               >
                 {darkThemeUsed ? <WbSunnyIcon /> : <Brightness2Icon />}
               </IconButton>
-            </Tooltip>
+            </FadingTooltip>
           }
           <HelpMenu
             documentationUrl={DOCUMENTATION_URL}

@@ -2,21 +2,12 @@
 // Licensed under the MIT license.
 
 import React, { useEffect, useState, useMemo } from 'react';
-import {
-  Backdrop,
-  Button,
-  Card,
-  CardContent,
-  CircularProgress,
-  Grid,
-  Paper,
-  Tooltip,
-  Typography,
-} from '@material-ui/core';
+import { Backdrop, Button, Card, CardContent, CircularProgress, Grid, Paper, Typography } from '@material-ui/core';
 import { ScenarioParameters, SimplePowerBIReportEmbedWrapper } from '../../components';
 import { useTranslation } from 'react-i18next';
 import {
   CreateScenarioButton,
+  FadingTooltip,
   HierarchicalComboBox,
   ScenarioValidationStatusChip,
   PermissionsGate,
@@ -47,11 +38,13 @@ const useStyles = makeStyles((theme) => ({
   rightButton: {
     marginLeft: '8px',
   },
-  alignRight: {
-    textAlign: 'right',
-  },
   runTemplate: {
     color: theme.palette.text.secondary,
+  },
+  validationButtonsRow: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
   },
 }));
 
@@ -248,27 +241,27 @@ const Scenario = () => {
   );
 
   const validateButtonTooltipWrapper = editMode ? (
-    <Tooltip
+    <FadingTooltip
       title={t(
         'views.scenario.validation.disabledTooltip',
         'Please save or discard current modifications before changing the scenario validation status'
       )}
     >
       <span>{validateButton}</span>
-    </Tooltip>
+    </FadingTooltip>
   ) : (
     validateButton
   );
 
   const rejectButtonTooltipWrapper = editMode ? (
-    <Tooltip
+    <FadingTooltip
       title={t(
         'views.scenario.validation.disabledTooltip',
         'Please save or discard current modifications before changing the scenario validation status'
       )}
     >
       <span>{rejectButton}</span>
-    </Tooltip>
+    </FadingTooltip>
   ) : (
     rejectButton
   );
@@ -279,8 +272,10 @@ const Scenario = () => {
       userPermissions={userPermissionsOnCurrentScenario}
       necessaryPermissions={[ACL_PERMISSIONS.SCENARIO.VALIDATE]}
     >
-      {validateButtonTooltipWrapper}
-      {rejectButtonTooltipWrapper}
+      <div className={classes.validationButtonsRow}>
+        {validateButtonTooltipWrapper}
+        {rejectButtonTooltipWrapper}
+      </div>
     </PermissionsGate>
   );
 
@@ -410,7 +405,7 @@ const Scenario = () => {
               )}
             </Grid>
           </Grid>
-          <Grid item xs={4} className={classes.alignRight}>
+          <Grid item xs={4}>
             {currentScenario.data && scenarioValidationArea}
           </Grid>
           <Grid item xs={12}>
