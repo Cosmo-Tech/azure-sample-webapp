@@ -47,7 +47,7 @@ export const useCreateScenarioButton = ({ disabled, onScenarioCreated }) => {
 
   const createScenario = useCallback(
     (workspaceId, scenarioData) => {
-      createScenarioOnBackend(workspaceId, scenarioData);
+      createScenarioOnBackend(scenarioData);
       onScenarioCreated && onScenarioCreated();
     },
     [createScenarioOnBackend, onScenarioCreated]
