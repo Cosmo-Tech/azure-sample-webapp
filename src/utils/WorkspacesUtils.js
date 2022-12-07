@@ -1,7 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
+import { ArrayDictUtils } from './ArrayDictUtils';
 import { SecurityUtils } from './SecurityUtils';
+import { WORKSPACES } from '../config/overrides/Workspaces.js';
 
 const _getUserPermissionsForWorkspace = (workspace, userEmail, userId, permissionsMapping) => {
   if (workspace?.security == null || Object.keys(workspace?.security).length === 0) {
@@ -19,6 +21,11 @@ const patchWorkspaceWithCurrentUserPermissions = (workspace, userEmail, userId, 
   };
 };
 
+const patchWorkspacesIfLocalConfigExists = async (originalWorkspaces) => {
+  ArrayDictUtils.mergeArraysByElementsIds(originalWorkspaces, WORKSPACES);
+};
+
 export const WorkspacesUtils = {
+  patchWorkspacesIfLocalConfigExists,
   patchWorkspaceWithCurrentUserPermissions,
 };

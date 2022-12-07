@@ -3,11 +3,10 @@
 
 import React from 'react';
 import { CurrentScenarioPowerBiReport } from '../../../../components';
-import { SCENARIO_VIEW_IFRAME_DISPLAY_RATIO } from '../../../../config/PowerBI';
 import { useScenarioPowerBiReport } from './ScenarioPowerBiReportHook';
 
 const ScenarioPowerBiReport = () => {
-  const { currentScenarioData, currentScenarioRunTemplateReport } = useScenarioPowerBiReport();
+  const { currentScenarioData, currentScenarioRunTemplateReport, iframeRatio } = useScenarioPowerBiReport();
 
   return (
     <CurrentScenarioPowerBiReport
@@ -15,7 +14,7 @@ const ScenarioPowerBiReport = () => {
       // need to remount it to avoid errors in powerbi-client-react which throws an error if filters change
       key={currentScenarioData?.id}
       reportConfiguration={currentScenarioRunTemplateReport}
-      iframeRatio={SCENARIO_VIEW_IFRAME_DISPLAY_RATIO}
+      iframeRatio={iframeRatio}
     />
   );
 };

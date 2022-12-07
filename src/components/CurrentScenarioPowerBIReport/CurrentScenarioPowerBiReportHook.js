@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 import { useCurrentScenarioData } from '../../state/hooks/ScenarioHooks';
 import { usePowerBIInfo } from '../../state/hooks/PowerBIHooks';
+import { useWorkspaceChartsLogInWithUserCredentials } from '../../state/hooks/WorkspaceHooks';
 
 import ScenarioRunService from '../../services/scenarioRun/ScenarioRunService';
 import { LOG_TYPES } from '../../services/scenarioRun/ScenarioRunConstants';
@@ -18,6 +19,7 @@ export const useCurrentScenarioPowerBiReport = () => {
 
   const currentScenarioData = useCurrentScenarioData();
   const reports = usePowerBIInfo();
+  const logInWithUserCredentials = useWorkspaceChartsLogInWithUserCredentials();
 
   const downloadLogsFile = useCallback(
     () =>
@@ -36,5 +38,6 @@ export const useCurrentScenarioPowerBiReport = () => {
     reports,
     language,
     downloadLogsFile,
+    logInWithUserCredentials,
   };
 };
