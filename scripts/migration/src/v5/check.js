@@ -22,17 +22,18 @@ const checkConfigFolder = () => {
   }
 };
 
-const checkSolutionFile = (solutionFilePath) => {
-  if (solutionFilePath !== undefined && !fs.existsSync(solutionFilePath)) {
-    throw new Error(`Provided solution file does not exist: "${solutionFilePath}"`);
+const checkOptionalFile = (filePath) => {
+  if (filePath !== undefined && !fs.existsSync(filePath)) {
+    throw new Error(`Provided file does not exist: "${filePath}"`);
   }
 };
 
-const runAllChecks = (solutionFilePath) => {
+const runAllChecks = (solutionFilePath, workspaceFilePath) => {
   try {
     checkNodeVersion();
     checkConfigFolder();
-    checkSolutionFile(solutionFilePath);
+    checkOptionalFile(solutionFilePath);
+    checkOptionalFile(workspaceFilePath);
   } catch (e) {
     console.error('Error: ' + e.message);
     process.exit(1);

@@ -15,6 +15,7 @@ const readFromFile = (filePath, encoding = 'utf8') => {
 const writeToFile = (object, filePath, options) => {
   const defaultOptions = {
     forceQuotes: true,
+    noRefs: true,
   };
 
   try {
