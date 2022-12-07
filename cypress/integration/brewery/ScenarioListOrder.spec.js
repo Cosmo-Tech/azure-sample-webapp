@@ -40,6 +40,8 @@ describe('check the list of sorted scenarios after deleting the current scenario
     stub.start({
       AUTHENTICATION: true,
       GET_SCENARIOS: true,
+      GET_WORKSPACES: true,
+      GET_SOLUTIONS: true,
       CREATE_AND_DELETE_SCENARIO: true,
     });
     stub.setFakeUser(USER_EXAMPLE);
