@@ -34,17 +34,16 @@ export function* fetchScenarioByIdData(action) {
 
     ScenariosUtils.patchScenarioWithCurrentUserPermissions(data, userEmail, userId, scenariosPermissionsMapping);
     yield put({
+      type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
+      status: STATUSES.SUCCESS,
+      scenario: data,
+    });
+    yield put({
       type: SCENARIO_ACTIONS_KEY.SET_SCENARIO_VALIDATION_STATUS,
       status: STATUSES.SUCCESS,
       scenarioId: data.id,
       validationStatus: data.validationStatus,
     });
-    yield put({
-      type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
-      status: STATUSES.SUCCESS,
-      scenario: data,
-    });
-
     // Start state polling for running scenarios
     if (data.state === SCENARIO_RUN_STATE.RUNNING) {
       yield put({
