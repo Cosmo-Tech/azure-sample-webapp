@@ -15,6 +15,9 @@ parser.add_argument('-p', '--project-dir', { help: 'Root folder of the webapp to
 parser.add_argument('-s', '--solution', {
   help: 'Path to solution file (used when migrating to v5 to generate a new solution YAML file)',
 });
+parser.add_argument('-w', '--workspace', {
+  help: 'Path to workspace file (used when migrating to v5 to generate a new workspace YAML file)',
+});
 
 async function main() {
   const args = parser.parse_args();
