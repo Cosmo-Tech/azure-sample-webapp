@@ -2,21 +2,18 @@
 // Licensed under the MIT license.
 
 import { Auth } from '@cosmotech/core';
-import { POWER_BI_WORKSPACE_ID } from '../../config/PowerBI';
 import { EmbedConfig, PowerBiReportDetails } from './PowerBIModels';
 import { POWER_BI_API_DEFAULT_SCOPE } from '../config/Auth';
 
-function _generateAuthorizationHeader(accessToken) {
-  return 'Bearer '.concat(accessToken);
-}
+const _generateAuthorizationHeader = (accessToken) => 'Bearer '.concat(accessToken);
 
 /**
  * Get PowerBI accessible data
  * @return Details like Embed URL, Access token and Expiry, errors if any
  */
-async function getPowerBIData() {
+const getPowerBIData = async (powerBIWorkspaceId) => {
   try {
-    const embedParams = await getEmbedParamsForAllReportsInWorkspace(POWER_BI_WORKSPACE_ID);
+    const embedParams = await getEmbedParamsForAllReportsInWorkspace(powerBIWorkspaceId);
     const result = {
       accesses: {
         accessToken: embedParams.accessToken,
@@ -39,14 +36,14 @@ async function getPowerBIData() {
       },
     };
   }
-}
+};
 
 /**
  * Fetch Reports info regarding a workspace Id
  * @param {string} workspaceId
  * @returns {Promise<{reportsInfo, reportEmbedConfig: EmbedConfig}>}
  */
-async function fetchReportEmbedInfo(workspaceId) {
+const fetchReportEmbedInfo = async (workspaceId) => {
   const reportInGroupApi = `https://api.powerbi.com/v1.0/myorg/groups/${workspaceId}/reports`;
   const { headers, accessToken, expiresOn } = await getAuthenticationInfo();
 
@@ -67,7 +64,7 @@ async function fetchReportEmbedInfo(workspaceId) {
     reportEmbedConfig,
     reportsInfo,
   };
-}
+};
 
 /**
  * Get embed params for all reports for a single workspace
@@ -75,7 +72,7 @@ async function fetchReportEmbedInfo(workspaceId) {
  * @param {Array<string>} additionalDatasetIds - Optional Parameter
  * @return EmbedConfig object
  */
-async function getEmbedParamsForAllReportsInWorkspace(workspaceId, additionalDatasetIds) {
+const getEmbedParamsForAllReportsInWorkspace = async (workspaceId, additionalDatasetIds) => {
   const { reportEmbedConfig, reportsInfo } = await fetchReportEmbedInfo(workspaceId);
 
   const datasetIds = new Set([]);
@@ -92,13 +89,13 @@ async function getEmbedParamsForAllReportsInWorkspace(workspaceId, additionalDat
   }
 
   return reportEmbedConfig;
-}
+};
 
 /**
  * Get Authentication information
  * @return Authentication Information with : request header with Bearer token, accessToken and token expiration date
  */
-async function getAuthenticationInfo() {
+const getAuthenticationInfo = async () => {
   let tokenResponse, errorResponse;
 
   try {
@@ -131,7 +128,7 @@ async function getAuthenticationInfo() {
       Authorization: _generateAuthorizationHeader(accessToken),
     },
   };
-}
+};
 
 export const PowerBIService = {
   getPowerBIData,

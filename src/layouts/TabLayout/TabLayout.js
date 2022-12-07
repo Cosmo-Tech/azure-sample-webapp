@@ -9,6 +9,7 @@ import { ErrorBanner } from '@cosmotech/ui';
 import { useTranslation } from 'react-i18next';
 import { AppBar } from '../../components/AppBar';
 import { useApplicationError, useClearApplicationErrorMessage } from '../../state/hooks/ApplicationHooks';
+import { DashboardsManager } from '../../managers';
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -52,8 +53,10 @@ export const TabLayout = (props) => {
       ))}
     </MuiTabs>
   );
+
   return (
     <>
+      <DashboardsManager />
       <AppBar>{viewTabs}</AppBar>
       <Box className={classes.content}>
         {applicationError && (

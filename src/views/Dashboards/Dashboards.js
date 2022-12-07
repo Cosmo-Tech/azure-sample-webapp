@@ -4,9 +4,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Card, CardContent, Grid, makeStyles, Tab, Tabs } from '@material-ui/core';
-import { DASHBOARDS_LIST_CONFIG } from '../../config/PowerBI';
 
 import { useTranslation } from 'react-i18next';
+import { useDashboardsViewReportsConfig } from '../../state/hooks/PowerBIHooks';
 import { DashboardsPowerBiReport } from './components';
 
 const useStyles = makeStyles((theme) => ({
@@ -63,10 +63,8 @@ const Dashboards = () => {
     setValue(newValue);
   };
 
-  const dashboardTitle =
-    DASHBOARDS_LIST_CONFIG[value].title[i18n.language] === undefined
-      ? DEFAULT_MISSING_TITLE
-      : DASHBOARDS_LIST_CONFIG[value].title[i18n.language];
+  const dashboardsViewReportsConfig = useDashboardsViewReportsConfig();
+  const dashboardTitle = dashboardsViewReportsConfig?.[value]?.title?.[i18n.language] ?? DEFAULT_MISSING_TITLE;
 
   return (
     <Grid container className={classes.dashboardsRoot} direction="row">
@@ -80,7 +78,7 @@ const Dashboards = () => {
             aria-label="Dashboards list"
             className={classes.tabs}
           >
-            {constructDashboardTabs(i18n)}
+            {constructDashboardTabs(i18n, dashboardsViewReportsConfig)}
           </Tabs>
         </Card>
       </Grid>
@@ -103,11 +101,10 @@ function TabPanel(props) {
   );
 }
 
-const constructDashboardTabs = (i18n) => {
+const constructDashboardTabs = (i18n, dashboardsViewReportsConfig) => {
   const tabs = [];
-  for (const dashboardConf of DASHBOARDS_LIST_CONFIG) {
-    const dashboardTitle =
-      dashboardConf.title[i18n.language] === undefined ? DEFAULT_MISSING_TITLE : dashboardConf.title[i18n.language];
+  for (const dashboardConf of dashboardsViewReportsConfig) {
+    const dashboardTitle = dashboardConf.title[i18n.language] ?? DEFAULT_MISSING_TITLE;
     tabs.push(<Tab key={dashboardTitle} label={dashboardTitle} {...a11yProps(dashboardConf.id)} />);
   }
   return tabs;
