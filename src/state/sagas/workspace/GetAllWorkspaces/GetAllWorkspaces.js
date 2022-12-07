@@ -21,6 +21,7 @@ export function* getAllWorkspaces(organizationId) {
   const workspacesPermissionsMapping = yield select(getWorkspacesPermissionsMapping);
 
   const { data } = yield call(Api.Workspaces.findAllWorkspaces, organizationId);
+  WorkspacesUtils.patchWorkspacesIfLocalConfigExists(data);
   data.forEach((workspace) => {
     workspace.users = SecurityUtils.getUsersIdsFromACL(workspace?.security?.accessControlList ?? []);
     WorkspacesUtils.patchWorkspaceWithCurrentUserPermissions(

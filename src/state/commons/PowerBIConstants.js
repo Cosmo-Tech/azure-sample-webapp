@@ -4,6 +4,7 @@
 // Available Power BI actions
 export const POWER_BI_ACTIONS_KEY = {
   SET_EMBED_INFO: 'SET_EMBED_INFO',
+  SET_REPORTS_CONFIG: 'SET_REPORTS_CONFIG',
   GET_EMBED_INFO: 'GET_EMBED_INFO',
 };
 

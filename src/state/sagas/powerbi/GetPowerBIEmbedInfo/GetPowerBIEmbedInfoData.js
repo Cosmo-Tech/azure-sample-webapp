@@ -1,11 +1,10 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { delay, put, takeEvery } from 'redux-saga/effects';
+import { delay, put, select, takeEvery } from 'redux-saga/effects';
 import { GET_EMBED_INFO_URL, POWER_BI_ACTIONS_KEY } from '../../../commons/PowerBIConstants';
 import { STATUSES } from '../../../commons/Constants';
 import { clientApi } from '../../../../services/ClientApi';
-import { USE_POWER_BI_WITH_USER_CREDENTIALS } from '../../../../config/PowerBI';
 import { POWER_BI_INFO_POLLING_DELAY } from '../../../../services/config/FunctionalConstants';
 import { PowerBIService } from '../../../../services/powerbi/PowerBIService';
 
@@ -16,14 +15,28 @@ const noAccess = {
   expiry: '',
 };
 
+const getLogInWithUserCredentials = (state) =>
+  state?.workspace?.current?.data?.webApp?.options?.charts?.logInWithUserCredentials;
+const getPowerBIWorkspaceId = (state) => state?.workspace?.current?.data?.webApp?.options?.charts?.workspaceId;
+
 // generators function
 export function* getPowerBIEmbedInfoSaga() {
+  const logInWithUserCredentials = yield select(getLogInWithUserCredentials);
+  const powerBIWorkspaceId = yield select(getPowerBIWorkspaceId);
+  if (logInWithUserCredentials == null) {
+    console.warn(
+      '"logInWithUserCredentials" option is not set in the current workspace, trying to use account service...\n' +
+        'Please configure the following option in your workspace: ' +
+        '[workspace].webApp.options.charts.logInWithUserCredentials'
+    );
+  }
+
   let tokenDelay;
   do {
     try {
       let accesses, error;
-      if (USE_POWER_BI_WITH_USER_CREDENTIALS) {
-        const response = yield PowerBIService.getPowerBIData();
+      if (logInWithUserCredentials) {
+        const response = yield PowerBIService.getPowerBIData(powerBIWorkspaceId);
         accesses = response?.accesses;
         error = response?.error;
       } else {
