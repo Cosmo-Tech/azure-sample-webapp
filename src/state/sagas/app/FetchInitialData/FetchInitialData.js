@@ -11,9 +11,20 @@ import { fetchOrganizationById } from '../../organization/FindOrganizationById/F
 import { selectWorkspace } from '../../workspace/SelectWorkspace/SelectWorkspace';
 import { parseError } from '../../../../utils/ErrorsUtils';
 import { Api } from '../../../../services/config/Api';
+import { matchPath } from 'react-router-dom';
 
 const getWorkspaces = (state) => state?.workspace?.list?.data;
-
+const providedUrlBeforeSignIn = sessionStorage.getItem('providedUrlBeforeSignIn');
+const providedUrl = window.location.pathname;
+const path = matchPath(':firstParam/*', providedUrlBeforeSignIn || providedUrl);
+const firstParam = path?.params?.firstParam;
+const isRedirectedToWorkspaces = !firstParam || firstParam === 'workspaces';
+let providedWorkspaceId;
+if (!isRedirectedToWorkspaces) providedWorkspaceId = firstParam;
+sessionStorage.removeItem('providedUrl');
+if (firstParam) {
+  sessionStorage.setItem('providedUrl', providedUrl);
+}
 export function* fetchAllInitialData() {
   yield put({
     type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS,
@@ -46,8 +57,9 @@ export function* fetchAllInitialData() {
     yield call(fetchOrganizationById, ORGANIZATION_ID);
     yield call(getAllWorkspaces, ORGANIZATION_ID);
     const workspaces = yield select(getWorkspaces);
-
-    if (workspaces?.length === 1) {
+    if (providedWorkspaceId) {
+      yield call(selectWorkspace, providedWorkspaceId);
+    } else if (workspaces?.length === 1) {
       yield call(selectWorkspace, workspaces[0].id);
     } else {
       yield put({
@@ -56,7 +68,6 @@ export function* fetchAllInitialData() {
       });
     }
   } catch (error) {
-    console.log(error);
     const errorDetails = parseError(error);
     yield put({
       type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS,

@@ -18,8 +18,8 @@ const SignIn = ({ logInAction, auth }) => {
   const classes = useStyles();
   const { t, i18n } = useTranslation();
   const location = useLocation();
-  const previousURL = location?.state?.from || '/scenario';
-  sessionStorage.setItem('previousURL', previousURL);
+  const providedUrlBeforeSignIn = location?.state?.from;
+  if (providedUrlBeforeSignIn) sessionStorage.setItem('providedUrlBeforeSignIn', providedUrlBeforeSignIn);
   const handleSignIn = (event, authProvider) => {
     event.preventDefault();
     Auth.setProvider(authProvider);
