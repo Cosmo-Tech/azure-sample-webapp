@@ -3,12 +3,12 @@
 
 import React from 'react';
 import { SimplePowerBIReportEmbed } from '@cosmotech/ui';
-import { USE_POWER_BI_WITH_USER_CREDENTIALS } from '../../config/PowerBI';
 
 import { useCurrentScenarioPowerBiReport } from './CurrentScenarioPowerBiReportHook';
 
 const CurrentScenarioPowerBiReport = ({ reportConfiguration, iframeRatio, index }) => {
-  const { currentScenarioData, downloadLogsFile, language, reportLabels, reports } = useCurrentScenarioPowerBiReport();
+  const { currentScenarioData, downloadLogsFile, language, reportLabels, reports, logInWithUserCredentials } =
+    useCurrentScenarioPowerBiReport();
 
   return (
     <SimplePowerBIReportEmbed
@@ -18,7 +18,7 @@ const CurrentScenarioPowerBiReport = ({ reportConfiguration, iframeRatio, index 
       lang={language}
       downloadLogsFile={downloadLogsFile}
       labels={reportLabels}
-      useAAD={USE_POWER_BI_WITH_USER_CREDENTIALS}
+      useAAD={logInWithUserCredentials}
       iframeRatio={iframeRatio}
       index={index}
     />

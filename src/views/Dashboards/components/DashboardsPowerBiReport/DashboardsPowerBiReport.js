@@ -4,15 +4,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { CurrentScenarioPowerBiReport } from '../../../../components';
-import { DASHBOARDS_LIST_CONFIG, DASHBOARDS_VIEW_IFRAME_DISPLAY_RATIO } from '../../../../config/PowerBI';
+import { useDashboardsPowerBiReport } from './DashboardsPowerBiReportHook';
+
 const DashboardsPowerBiReport = ({ index }) => {
-  return (
-    <CurrentScenarioPowerBiReport
-      index={index}
-      reportConfiguration={DASHBOARDS_LIST_CONFIG}
-      iframeRatio={DASHBOARDS_VIEW_IFRAME_DISPLAY_RATIO}
-    />
-  );
+  const { reportsConfig, iframeRatio } = useDashboardsPowerBiReport();
+  return <CurrentScenarioPowerBiReport index={index} reportConfiguration={reportsConfig} iframeRatio={iframeRatio} />;
 };
 
 DashboardsPowerBiReport.propTypes = {
