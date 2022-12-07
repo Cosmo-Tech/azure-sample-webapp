@@ -3,22 +3,9 @@
 
 const { join } = require('path');
 const fs = require('fs');
-const { getConfigFolder, getOutputFolder } = require('./project.js');
-const { copyFileToMJS, parseESFile } = require('../common/js_modules.js');
+const { clearFileFromOutputFolder, copyConfigFileToMJS, getConfigFolder, getOutputFolder } = require('./project.js');
+const { parseESFile } = require('../common/js_modules.js');
 const yaml = require('../common/yaml.js');
-
-const createOutputFolder = () => {
-  fs.mkdirSync(getOutputFolder(), { recursive: true });
-};
-
-const clearFileFromOutputFolder = (fileName) => {
-  const filePath = join(getOutputFolder(), fileName);
-  if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
-};
-
-const copyConfigFileToMJS = (fileName) => {
-  return copyFileToMJS(getConfigFolder(), fileName, getOutputFolder());
-};
 
 const preventRolesImportInFile = (filePath) => {
   const rolesReplaceMapping = {
@@ -146,9 +133,16 @@ const mergeAndDumpSolutionYaml = (scenarioParametersConfig, solutionFilePath) =>
 };
 
 const dumpConfigToYaml = async (solutionFilePath) => {
-  try {
-    createOutputFolder();
+  const scenarioParametersConfigFilePath = join(getConfigFolder(), 'ScenarioParameters.js');
+  if (!fs.existsSync(scenarioParametersConfigFilePath)) {
+    console.warn(
+      'WARNING: file "ScenarioParameters.js" not found in configuration folder, skipping migration of ' +
+        'scenario parameters...'
+    );
+    return;
+  }
 
+  try {
     console.log('Parsing scenario parameters configuration file...');
     const scenarioParameters = await parseScenarioParametersConfigFile();
     const scenarioParametersConfig = reshapeSolutionConfig(scenarioParameters.SCENARIO_PARAMETERS_CONFIG);
@@ -157,36 +151,33 @@ const dumpConfigToYaml = async (solutionFilePath) => {
     if (solutionFilePath !== undefined) {
       console.log('Merging with existing solution file...');
       mergeAndDumpSolutionYaml(scenarioParametersConfig, solutionFilePath);
-    } else {
-      console.log('Dumping parameters...');
-      dumpParametersToYAML(scenarioParametersConfig);
-      console.log('Dumping parameters groups...');
-      dumpParametersGroupsToYAML(scenarioParametersConfig);
-      console.log('Dumping run templates...');
-      dumpRunTemplatesToYAML(scenarioParametersConfig);
-    }
-    console.log('Done.\n\n');
-
-    if (solutionFilePath !== undefined) {
       console.log(
-        `The YAML file "mergedSolution.yaml" has been generated in the output folder "${getOutputFolder()}" ` +
+        `Done.\n\nThe YAML file "mergedSolution.yaml" has been generated in the output folder "${getOutputFolder()}" ` +
           'based on your configuration file "src/config/ScenarioParameters.js". You can use its content to update ' +
           'your "Solution.yaml" file'
       );
-    } else {
-      console.log(
-        `The YAML files listed below have been generated in the output folder "${getOutputFolder()}" ` +
-          'based on the configuration file "src/config/ScenarioParameters.js". You can compare and manually merge ' +
-          'these files in your "Solution.yaml" file\n' +
-          '  - parameters.yaml\n' +
-          '  - parameterGroups.yaml\n' +
-          '  - runTemplates.yaml'
-      );
-      console.log(
-        '\nIf you want to merge these files in an existing "Solution.yaml" file, you can use the option -s ' +
-          ' (or --solution) of this script, followed by the path of your "Solution.yaml" file.'
-      );
+      return;
     }
+
+    console.log('Dumping parameters...');
+    dumpParametersToYAML(scenarioParametersConfig);
+    console.log('Dumping parameters groups...');
+    dumpParametersGroupsToYAML(scenarioParametersConfig);
+    console.log('Dumping run templates...');
+    dumpRunTemplatesToYAML(scenarioParametersConfig);
+
+    console.log(
+      `Done.\n\nThe YAML files listed below have been generated in the output folder "${getOutputFolder()}" ` +
+        'based on the configuration file "src/config/ScenarioParameters.js". You can compare and manually merge ' +
+        'these files in your "Solution.yaml" file\n' +
+        '  - parameters.yaml\n' +
+        '  - parameterGroups.yaml\n' +
+        '  - runTemplates.yaml'
+    );
+    console.log(
+      '\nIf you want to merge these files in an existing "Solution.yaml" file, you can use the option -s ' +
+        ' (or --solution) of this script, followed by the path to your "Solution.yaml" file.'
+    );
   } catch (e) {
     console.error('Error: ' + e.message);
     process.exit(1);
