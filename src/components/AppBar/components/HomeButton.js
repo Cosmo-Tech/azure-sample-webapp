@@ -18,7 +18,7 @@ export const HomeButton = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { currentWorkspace, workspacesList } = useHomeButton();
-  return currentWorkspace && workspacesList?.length > 1 ? (
+  return currentWorkspace && workspacesList?.data?.length > 1 ? (
     <Tooltip
       TransitionComponent={Fade}
       TransitionProps={{ timeout: 600 }}

@@ -29,7 +29,6 @@ export const useRedirectionToScenario = (sortedScenarioList, view) => {
   }, []);
 
   useEffect(() => {
-    if (currentScenario?.data?.id === undefined) return;
     if (sortedScenarioList.length > 0) {
       if (currentScenario.data === null) {
         handleScenarioChange(sortedScenarioList[0].id);

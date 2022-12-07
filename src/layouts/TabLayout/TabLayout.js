@@ -32,7 +32,7 @@ export const TabLayout = (props) => {
   const applicationError = useApplicationError();
   const clearApplicationErrorMessage = useClearApplicationErrorMessage();
   const routerParameters = useParams();
-  sessionStorage.removeItem('previousURL');
+  sessionStorage.removeItem('providedUrlBeforeSignIn');
 
   const viewTabs = (
     <MuiTabs value={currentTabPathname}>
