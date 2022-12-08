@@ -37,7 +37,7 @@
   "scripts": {
     "start": "cross-env ESLINT_NO_DEV_ERRORS=true REACT_APP_VERSION=$npm_package_version react-app-rewired start",
     "build": "cross-env DISABLE_ESLINT_PLUGIN=true REACT_APP_VERSION=$npm_package_version react-app-rewired build",
-    "test": "react-app-rewired test --watchAll=false",
+    "test": "jest",
     "eject": "react-app-rewired eject",
     "cypress": "node_modules/.bin/cypress open",
     "eslint": "eslint",
@@ -67,8 +67,10 @@
     "@babel/core": "^7.15.5",
     "@babel/preset-env": "^7.15.6",
     "@babel/preset-react": "^7.13.13",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^12.1.5",
     "assert": "^2.0.0",
-    "babel-jest": "^26.6.3",
+    "babel-jest": "^29.3.1",
     "cross-env": "^7.0.3",
     "crypto-browserify": "^3.12.0",
     "csp-html-webpack-plugin": "^5.1.0",
@@ -90,6 +92,9 @@
     "http-proxy-middleware": "^2.0.0",
     "https-browserify": "^1.0.0",
     "i18next-parser": "^6.0.0",
+    "jest": "^29.3.1",
+    "jest-canvas-mock": "^2.4.0",
+    "jest-environment-jsdom": "^29.3.1",
     "jwt-simple": "^0.5.6",
     "os-browserify": "^0.3.0",
     "prettier": "^2.5.1",
@@ -101,20 +106,6 @@
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
     "url": "^0.11.0"
-  },
-  "jest": {
-    "moduleNameMapper": {
-      "^@cosmotech/azure$": "<rootDir>/node_modules/@cosmotech/azure",
-      "^@cosmotech/core$": "<rootDir>/node_modules/@cosmotech/core",
-      "^@material-ui/core": "<rootDir>/node_modules/@material-ui/core",
-      "^@material-ui/icons": "<rootDir>/node_modules/@material-ui/icons",
-      "^@material-ui/lab": "<rootDir>/node_modules/@material-ui/lab",
-      "^@material-ui/styles": "<rootDir>/node_modules/@material-ui/styles",
-      "^react$": "<rootDir>/node_modules/react",
-      "^react/": "<rootDir>/node_modules/react/",
-      "^react-dom$": "<rootDir>/node_modules/react-dom",
-      "^react-router-dom$": "<rootDir>/node_modules/react-router-dom"
-    }
   },
   "resolutions": {
     "react-error-overlay": "6.0.9"

@@ -19,8 +19,9 @@ describe('generateParametersMetadata with missing data in solution', () => {
   beforeAll(() => {
     spyConsoleWarn = jest.spyOn(console, 'warn').mockImplementation();
   });
-  afterAll(() => {
-    spyConsoleWarn.mockRestore();
+
+  afterEach(() => {
+    spyConsoleWarn.mockClear();
   });
 
   beforeEach(() => {
@@ -142,8 +143,9 @@ describe('generateParametersGroupsMetadata with missing data in solution', () =>
   beforeAll(() => {
     spyConsoleWarn = jest.spyOn(console, 'warn').mockImplementation();
   });
-  afterAll(() => {
-    spyConsoleWarn.mockRestore();
+
+  afterEach(() => {
+    spyConsoleWarn.mockClear();
   });
 
   beforeEach(() => {
@@ -622,8 +624,9 @@ describe('getDefaultParametersValues with empty solution and empty config', () =
   beforeAll(() => {
     spyConsoleWarn = jest.spyOn(console, 'warn').mockImplementation();
   });
-  afterAll(() => {
-    spyConsoleWarn.mockRestore();
+
+  afterEach(() => {
+    spyConsoleWarn.mockClear();
   });
 
   test.each`
@@ -657,8 +660,9 @@ describe('getDefaultParametersValues with solution or config', () => {
   beforeAll(() => {
     spyConsoleWarn = jest.spyOn(console, 'warn').mockImplementation();
   });
-  afterAll(() => {
-    spyConsoleWarn.mockRestore();
+
+  afterEach(() => {
+    spyConsoleWarn.mockClear();
   });
 
   const someSolutionParameter = [
