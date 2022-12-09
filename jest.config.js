@@ -2,8 +2,18 @@
 // Licensed under the MIT license.
 
 module.exports = {
-  verbose: true,
-  setupFiles: ['./src/setupTests.js'],
-  moduleDirectories: ['node_modules', 'src'],
-  setupFilesAfterEnv: ['./rtl.setup.js'],
+  testMatch: ['**/src/**/*.spec.js'],
+  moduleNameMapper: {
+    '\\.(css|scss|less)$': 'identity-obj-proxy',
+  },
+  transform: {
+    '^.+\\.js?$': 'babel-jest',
+  },
+  testEnvironment: 'jest-environment-jsdom',
+  setupFiles: ['jest-canvas-mock'],
+  setupFilesAfterEnv: ['<rootDir>/jestSetup.js'],
+  collectCoverage: true,
+  collectCoverageFrom: ['src/**/*.js'],
+  coverageDirectory: '<rootDir>/coverage/',
+  coverageReporters: ['lcov', 'text-summary'],
 };

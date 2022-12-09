@@ -116,6 +116,11 @@ describe('getPermissionsFromRole', () => {
   beforeAll(() => {
     spyConsoleWarn = jest.spyOn(console, 'warn').mockImplementation();
   });
+
+  afterEach(() => {
+    spyConsoleWarn.mockClear();
+  });
+
   afterAll(() => {
     spyConsoleWarn.mockRestore();
   });
@@ -158,8 +163,9 @@ describe('transposeMappingDict', () => {
   beforeAll(() => {
     spyConsoleWarn = jest.spyOn(console, 'warn').mockImplementation();
   });
-  afterAll(() => {
-    spyConsoleWarn.mockRestore();
+
+  afterEach(() => {
+    spyConsoleWarn.mockClear();
   });
 
   const rolesToPermissionsMapping = {
@@ -194,8 +200,9 @@ describe('getRolesGrantingPermission', () => {
   beforeAll(() => {
     spyConsoleWarn = jest.spyOn(console, 'warn').mockImplementation();
   });
-  afterAll(() => {
-    spyConsoleWarn.mockRestore();
+
+  afterEach(() => {
+    spyConsoleWarn.mockClear();
   });
 
   const rolesToPermissionsMapping = {
@@ -239,8 +246,9 @@ describe('getUserRoleForResource with invalid parameters', () => {
   beforeAll(() => {
     spyConsoleWarn = jest.spyOn(console, 'warn').mockImplementation();
   });
-  afterAll(() => {
-    spyConsoleWarn.mockRestore();
+
+  afterEach(() => {
+    spyConsoleWarn.mockClear();
   });
 
   const validUserId = 'unknownUser';
@@ -315,8 +323,9 @@ describe('getUserPermissionsForResource with invalid parameters', () => {
   beforeAll(() => {
     spyConsoleWarn = jest.spyOn(console, 'warn').mockImplementation();
   });
-  afterAll(() => {
-    spyConsoleWarn.mockRestore();
+
+  afterEach(() => {
+    spyConsoleWarn.mockClear();
   });
 
   const validUserId = 'unknownUser';

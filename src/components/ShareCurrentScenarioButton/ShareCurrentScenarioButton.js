@@ -34,9 +34,7 @@ const ShareCurrentScenarioButton = () => {
           <RolesEditionButton
             data-cy="share-scenario-button"
             labels={shareScenarioDialogLabels}
-            onConfirmChanges={(newScenarioSecurity) => {
-              applyScenarioSecurityChanges(newScenarioSecurity);
-            }}
+            onConfirmChanges={applyScenarioSecurityChanges}
             resourceRolesPermissionsMapping={permissionsMapping.scenario}
             agents={workspaceUsers}
             specificAccessByAgent={accessListSpecific}

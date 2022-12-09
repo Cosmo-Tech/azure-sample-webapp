@@ -30,8 +30,9 @@ describe('getConversionMethod with possible values', () => {
   beforeAll(() => {
     spyConsoleWarn = jest.spyOn(console, 'warn').mockImplementation();
   });
-  afterAll(() => {
-    spyConsoleWarn.mockRestore();
+
+  afterEach(() => {
+    spyConsoleWarn.mockClear();
   });
 
   function mockMethod(param) {
