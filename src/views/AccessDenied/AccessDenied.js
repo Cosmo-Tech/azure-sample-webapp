@@ -60,7 +60,9 @@ const AccessDenied = ({ application }) => {
             <div className={classes.contentBody}>
               <Typography className={classes.title}>{t('views.accessdenied.title', 'Access denied')}</Typography>
               <Paper className={classes.errorPaper} elevation={0}>
-                <Typography className={classes.errorText}>{errorMessage}</Typography>
+                <Typography data-cy="access-denied-error-message" className={classes.errorText}>
+                  {errorMessage}
+                </Typography>
               </Paper>
               <div>
                 <Countdown

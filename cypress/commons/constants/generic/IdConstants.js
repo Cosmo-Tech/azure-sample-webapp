@@ -5,6 +5,9 @@ export const GENERIC_SELECTORS = {
   login: {
     microsoftLoginButton: '[data-cy=sign-in-with-microsoft-button]',
   },
+  accessDenied: {
+    errorMessage: '[data-cy=access-denied-error-message]',
+  },
   userInfoMenu: {
     button: '[data-cy=user-profile-menu]',
     popover: '[data-cy=main-menu]',
