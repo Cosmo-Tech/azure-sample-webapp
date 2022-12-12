@@ -1,6 +1,8 @@
 import { ErrorBanner, Login } from '../../commons/actions';
 import { setup } from '../../commons/utils/setup';
 import { stub } from '../../commons/services/stubbing';
+import { apiUtils as api } from '../../commons/utils';
+import { GENERIC_SELECTORS } from '../../commons/constants/generic/IdConstants';
 
 describe('Sharing with wrong URL', () => {
   before(() => {
@@ -25,5 +27,16 @@ describe('Sharing with wrong URL', () => {
     ErrorBanner.getErrorCommentText().contains('You have been redirected');
     ErrorBanner.getDismissErrorButton().click();
     ErrorBanner.getErrorBanner().should('not.exist');
+  });
+  it('redirects to access denied view if url contains wrong workspaceId', () => {
+    const reqAuthAlias = api.interceptAuthentication();
+    cy.clearLocalStorageSnapshot();
+    cy.visit('wrongworkspaceid/scenario/s-invalidurl');
+    cy.get(GENERIC_SELECTORS.login.microsoftLoginButton).click();
+    api.waitAlias(reqAuthAlias);
+    cy.url({ timeout: 10000 }).should('include', '/accessDenied');
+    cy.get(GENERIC_SELECTORS.accessDenied.errorMessage).contains(
+      'Could not find workspace with id wrongworkspaceid in workspaces list'
+    );
   });
 });
