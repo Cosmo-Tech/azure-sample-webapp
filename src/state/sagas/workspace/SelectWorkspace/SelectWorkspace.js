@@ -42,6 +42,7 @@ export function* selectWorkspace(selectedWorkspaceId) {
       status: STATUSES.ERROR,
       workspace: null,
     });
+    return;
   }
 
   yield put({
