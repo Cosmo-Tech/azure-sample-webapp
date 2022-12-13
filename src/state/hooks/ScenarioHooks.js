@@ -23,6 +23,10 @@ export const useScenarioList = () => {
   return useSelector((state) => state.scenario.list);
 };
 
+export const useScenarioListData = () => {
+  return useSelector((state) => state.scenario?.list?.data);
+};
+
 export const useCurrentScenario = () => {
   return useSelector((state) => state.scenario.current);
 };

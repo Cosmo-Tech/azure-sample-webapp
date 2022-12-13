@@ -70,7 +70,7 @@ export const PERMISSIONS = {
   ORGANIZATION: {
     READ: 'read',
     READ_SECURITY: 'read_security',
-    CREATE_CHILDREN: 'creaate_children',
+    CREATE_CHILDREN: 'create_children',
     WRITE: 'write',
     WRITE_SECURITY: 'write_security',
     DELETE: 'delete',
@@ -78,7 +78,7 @@ export const PERMISSIONS = {
   WORKSPACE: {
     READ: 'read',
     READ_SECURITY: 'read_security',
-    CREATE_CHILDREN: 'creaate_children',
+    CREATE_CHILDREN: 'create_children',
     WRITE: 'write',
     WRITE_SECURITY: 'write_security',
     DELETE: 'delete',
