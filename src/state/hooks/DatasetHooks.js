@@ -9,6 +9,10 @@ export const useDatasetList = () => {
   return useSelector((state) => state.dataset.list);
 };
 
+export const useDatasetListData = () => {
+  return useSelector((state) => state.dataset?.list?.data);
+};
+
 export const useAddDatasetToStore = () => {
   const dispatch = useDispatch();
   return useCallback((payLoad) => dispatch(dispatchAddDatasetToStore(payLoad)), [dispatch]);

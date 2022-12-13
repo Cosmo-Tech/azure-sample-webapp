@@ -6,12 +6,8 @@ import rfdc from 'rfdc';
 import { createMockStore } from '../../../tests/mocks';
 import { dispatchApplyScenarioSharingChanges } from '../../state/dispatchers/scenario/ScenarioDispatcher';
 import { ROLES } from '../../../tests/constants';
-import {
-  DEFAULT_APPLICATION,
-  SCENARIODATA_WITH_USERS,
-  WORKSPACEDATA_WITH_USERS,
-  USERS_LIST,
-} from '../../../tests/samples';
+import { DEFAULT_REDUX_STATE, USERS_LIST } from '../../../tests/samples';
+import { applyScenarioRoleToState } from '../../../tests/utils/security';
 
 import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
@@ -31,29 +27,15 @@ jest.mock('@cosmotech/ui', () => ({
 
 const getRolesEditionButton = () => screen.queryByTestId('role_edition_button');
 
-const DEFAULT_STATE = {
-  application: DEFAULT_APPLICATION,
-  workspace: {
-    current: {
-      data: WORKSPACEDATA_WITH_USERS,
-    },
-  },
-  scenario: {
-    current: {
-      data: SCENARIODATA_WITH_USERS,
-    },
-  },
-};
-
-const getStateWithRole = (role) => {
-  const state = clone(DEFAULT_STATE);
-  state.scenario.current.data.security.currentUserPermissions = DEFAULT_APPLICATION.permissionsMapping.scenario[role];
+const getStateWithScenarioRole = (role) => {
+  const state = clone(DEFAULT_REDUX_STATE);
+  applyScenarioRoleToState(state, role);
   return state;
 };
 
 let mockStore;
 const setUp = (role) => {
-  mockStore = createMockStore(getStateWithRole(role));
+  mockStore = createMockStore(getStateWithScenarioRole(role));
   render(
     <Provider store={mockStore}>
       <ShareCurrentScenarioButton />
@@ -62,7 +44,7 @@ const setUp = (role) => {
 };
 
 describe('ShareCurrentScenarioButton', () => {
-  describe('Roles', () => {
+  describe('Scenario Roles', () => {
     beforeEach(() => {
       mockRoleEditionButtonProps = undefined;
     });
