@@ -15,7 +15,7 @@ export const WORKSPACE_EXAMPLE = {
   tags: null,
   ownerId: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
   users: null,
-  webApp: { url: null, iframes: null, options: null },
+  webApp: { url: null, iframes: null, options: {} },
   sendInputToDataWarehouse: true,
   useDedicatedEventHubNamespace: true,
   sendScenarioMetadataToEventHub: true,

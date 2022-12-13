@@ -13,13 +13,13 @@ const CreateScenarioButton = ({ disabled, onScenarioCreated }) => {
     createScenario,
     createScenarioDialogLabels,
     currentScenario,
-    datasetList,
     filteredRunTemplates,
-    scenarioList,
     solution,
     user,
     userPermissionsOnCurrentWorkspace,
     workspaceId,
+    filteredDatasetList,
+    scenarioListData,
   } = useCreateScenarioButton({ disabled, onScenarioCreated });
 
   return (
@@ -36,8 +36,8 @@ const CreateScenarioButton = ({ disabled, onScenarioCreated }) => {
         createScenario={createScenario}
         currentScenario={currentScenario}
         runTemplates={filteredRunTemplates}
-        datasets={datasetList.data}
-        scenarios={scenarioList.data}
+        datasets={filteredDatasetList}
+        scenarios={scenarioListData}
         user={user}
         disabled={disabled}
         labels={createScenarioDialogLabels}
