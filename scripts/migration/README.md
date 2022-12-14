@@ -26,6 +26,7 @@ nvm use 16
 `npx @cosmotech/migrate-azure-sample-webapp v5 [-s path/to/your/solution.yaml] [-w path/to/your/workspace.yaml]`
 
 Optional parameters:
+
 - `-s/--solution`: provide the path to an existing YAML solution description file to merge its content with your webapp
   configuration file src/config/ScenarioParameters.js and write the result in a new YAML file
 - `-w/--workspace`: provide the path to an existing YAML workspace description file to merge its content with your
