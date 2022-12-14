@@ -1,7 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-const { join } = require('path');
+const merge = require('deepmerge');
+const { basename, join } = require('path');
 const fs = require('fs');
 const { clearFileFromOutputFolder, copyConfigFileToMJS, getConfigFolder, getOutputFolder } = require('./project.js');
 const { parseESFile } = require('../common/js_modules.js');
@@ -29,8 +30,8 @@ const replacePowerBIConstructorsInFile = (filePath) => {
   // Replace specific filters constructors by generic filter constructor
   const newContentArray = contentArray.map((line) => {
     let newLine = line;
-    for (const [key2, value2] of Object.entries(replaceMapping)) {
-      newLine = newLine.replaceAll(key2, value2);
+    for (const [key, value] of Object.entries(replaceMapping)) {
+      newLine = newLine.replaceAll(key, value);
     }
     return newLine;
   });
@@ -38,58 +39,50 @@ const replacePowerBIConstructorsInFile = (filePath) => {
   fs.writeFileSync(filePath, newContentArray.join('\n'));
 };
 
-const parsePBIConfigFile = async () => {
-  const mjsFilePath = copyConfigFileToMJS('PowerBI.js');
-  replacePowerBIConstructorsInFile(mjsFilePath);
-  const pbiConfig = await parseESFile(mjsFilePath);
-  clearFileFromOutputFolder('PowerBI.mjs');
-  return pbiConfig;
-};
+const fixExportsInInstanceConfigFile = (filePath) => {
+  let contentStr = fs.readFileSync(filePath, { encoding: 'utf8', flag: 'r' });
 
-const mergeAndDumpWorkspaceYaml = (powerBIConfig, workspaceFilePath) => {
-  const workspace = yaml.readFromFile(workspaceFilePath);
-
-  const newWorkspace = {
-    ...workspace,
-    webapp: {
-      options: {
-        charts: {
-          workspaceId: powerBIConfig.POWER_BI_WORKSPACE_ID,
-          logInWithUserCredentials: powerBIConfig.USE_POWER_BI_WITH_USER_CREDENTIALS,
-          scenarioViewIframeDisplayRatio: powerBIConfig.SCENARIO_VIEW_IFRAME_DISPLAY_RATIO,
-          dashboardsViewIframeDisplayRatio: powerBIConfig.DASHBOARDS_VIEW_IFRAME_DISPLAY_RATIO,
-          dashboardsView: powerBIConfig.DASHBOARDS_LIST_CONFIG,
-          scenarioView: powerBIConfig.SCENARIO_DASHBOARD_CONFIG,
-        },
-      },
-    },
+  const replaceMapping = {
+    'const DATA_SOURCE': 'export const DATA_SOURCE',
+    'const DATA_CONTENT': 'export const DATA_CONTENT',
   };
+  for (const [key, value] of Object.entries(replaceMapping)) {
+    contentStr = contentStr.replaceAll(key, value);
+  }
 
-  const newWorkspaceFilePath = join(getOutputFolder(), 'mergedWorkspace.yaml');
-  yaml.writeToFile(newWorkspace, newWorkspaceFilePath);
+  const contentArray = contentStr.split('\n');
+  const newContentArray = contentArray.map((line) => {
+    if (line.includes('module.exports')) return null;
+    return line;
+  });
+  // Overwrite content of the input file
+  fs.writeFileSync(filePath, newContentArray.join('\n'));
 };
 
-const dumpDashboardsViewReportsToJSON = (pbiConfig) => {
-  const filePath = join(getOutputFolder(), 'dashboardsViewReports.json');
-  json.writeToFile({ dashboardsView: pbiConfig.DASHBOARDS_LIST_CONFIG }, filePath);
+const parseInstanceConfigFile = async () => {
+  const instanceConfigFilePath = join(getConfigFolder(), 'InstanceVisualization.js');
+  if (!fs.existsSync(instanceConfigFilePath)) {
+    console.warn(
+      'WARNING: file "InstanceVisualization.js" not found in configuration folder, skipping migration of ' +
+        'instance view configuration...'
+    );
+    return;
+  }
+
+  try {
+    console.log('Parsing instance view configuration file...');
+    const mjsFilePath = copyConfigFileToMJS('InstanceVisualization.js');
+    fixExportsInInstanceConfigFile(mjsFilePath);
+    const instanceConfig = await parseESFile(mjsFilePath);
+    clearFileFromOutputFolder('InstanceVisualization.mjs');
+    return instanceConfig;
+  } catch (error) {
+    console.log('Failed to parse instance view configuration file');
+    throw error;
+  }
 };
 
-const dumpScenarioViewReportsToJSON = (pbiConfig) => {
-  const filePath = join(getOutputFolder(), 'scenarioViewReports.json');
-  json.writeToFile({ scenarioView: pbiConfig.SCENARIO_DASHBOARD_CONFIG }, filePath);
-};
-
-const dumpDashboardsViewReportsToYAML = (pbiConfig) => {
-  const filePath = join(getOutputFolder(), 'dashboardsViewReports.yaml');
-  yaml.writeToFile({ dashboardsView: pbiConfig.DASHBOARDS_LIST_CONFIG }, filePath);
-};
-
-const dumpScenarioViewReportsToYAML = (pbiConfig) => {
-  const filePath = join(getOutputFolder(), 'scenarioViewReports.yaml');
-  yaml.writeToFile({ scenarioView: pbiConfig.SCENARIO_DASHBOARD_CONFIG }, filePath);
-};
-
-const dumpConfigToYaml = async (workspaceFilePath) => {
+const parsePBIConfigFile = async () => {
   const pbiConfigFilePath = join(getConfigFolder(), 'PowerBI.js');
   if (!fs.existsSync(pbiConfigFilePath)) {
     console.warn('WARNING: file "PowerBI.js" not found in configuration folder, skipping migration of dashboards...');
@@ -98,39 +91,103 @@ const dumpConfigToYaml = async (workspaceFilePath) => {
 
   try {
     console.log('Parsing dashboards configuration file...');
-    const powerBIConfig = await parsePBIConfigFile();
+    const mjsFilePath = copyConfigFileToMJS('PowerBI.js');
+    replacePowerBIConstructorsInFile(mjsFilePath);
+    const pbiConfig = await parseESFile(mjsFilePath);
+    clearFileFromOutputFolder('PowerBI.mjs');
+    return pbiConfig;
+  } catch (error) {
+    console.log('Failed to parse PowerBI configuration file');
+    throw error;
+  }
+};
 
-    if (workspaceFilePath !== undefined) {
-      console.log('Merging with existing workspace file...');
-      mergeAndDumpWorkspaceYaml(powerBIConfig, workspaceFilePath);
-      console.log(
-        'Done.\n\nThe YAML file "mergedWorkspace.yaml" has been generated in the output folder ' +
-          `"${getOutputFolder()}" based on your configuration file "src/config/PowerBI.js". You can use its content ` +
-          'to update your "Workspace.yaml" file'
-      );
-      return;
-    }
+const mergeAndDumpWorkspaceYaml = (workspaceParts, workspaceFilePath) => {
+  console.log('Merging with existing workspace file...');
+  const workspace = yaml.readFromFile(workspaceFilePath);
+  const newWorkspace = merge(workspace, workspaceParts);
+  const newWorkspaceFilePath = join(getOutputFolder(), 'mergedWorkspace.yaml');
+  yaml.writeToFile(newWorkspace, newWorkspaceFilePath);
 
-    console.log('Dumping reports config...');
-    dumpDashboardsViewReportsToJSON(powerBIConfig);
-    dumpScenarioViewReportsToJSON(powerBIConfig);
-    dumpDashboardsViewReportsToYAML(powerBIConfig);
-    dumpScenarioViewReportsToYAML(powerBIConfig);
+  console.log(
+    'Done.\n\nThe YAML file "mergedWorkspace.yaml" has been generated in the output folder ' +
+      `"${getOutputFolder()}" based on your configuration file "src/config/PowerBI.js". You can use its content ` +
+      'to update your "Workspace.yaml" file'
+  );
+};
 
-    console.log(
-      `Done.\n\nThe files listed below have been generated in the output folder "${getOutputFolder()}" ` +
-        'based on the configuration file "src/config/PowerBI.js". You can compare and manually merge ' +
-        'these files in your "Workspace.yaml" file, or override your workspace file in the front-end ' +
-        'configuration file "src/config/overrides/Workspaces.js"\n' +
-        '  - dashboardsViewReports.json\n' +
-        '  - dashboardsViewReports.yaml\n' +
-        '  - scenarioViewReports.json\n' +
-        '  - scenarioViewReports.yaml'
-    );
-    console.log(
-      '\nIf you want to merge these files in an existing "Workspace.yaml" file, you can use the option -w ' +
-        ' (or --workspace) of this script, followed by the path to your "Workspace.yaml" file.'
-    );
+const parseLocalConfigFiles = async () => {
+  const instanceConfig = await parseInstanceConfigFile();
+  const powerBIConfig = await parsePBIConfigFile();
+  if (instanceConfig || powerBIConfig)
+    return {
+      instance: instanceConfig,
+      powerBI: powerBIConfig,
+    };
+  return null;
+};
+
+const dumpWorkspaceParts = (workspaceParts) => {
+  console.log('Dumping reports config...');
+  const jsonFilePath = join(getOutputFolder(), 'workspace.json');
+  const yamlFilePath = join(getOutputFolder(), 'workspace.yaml');
+  json.writeToFile(workspaceParts, jsonFilePath);
+  yaml.writeToFile(workspaceParts, yamlFilePath);
+  const generatedFiles = [jsonFilePath, yamlFilePath];
+
+  console.log(
+    `Done.\n\nThe files listed below have been generated in the output folder "${getOutputFolder()}" ` +
+      'based on the configuration files in "src/config". You can compare and manually merge ' +
+      'these files in your "Workspace.yaml" file, or override your workspace file in the front-end ' +
+      'configuration file "src/config/overrides/Workspaces.js"\n' +
+      generatedFiles.map((filePath) => `  - ${basename(filePath)}`).join('\n')
+  );
+  console.log(
+    '\nNote: if you want to merge these files with an existing "Workspace.yaml" file, you can use the option -w ' +
+      ' (or --workspace) of this script, followed by the path to your "Workspace.yaml" file.'
+  );
+};
+
+const forgeWorkspaceFromConfig = (config) => {
+  const workspace = {
+    webApp: {
+      options: {},
+    },
+  };
+
+  if (config.powerBI) {
+    workspace.webApp.options.charts = {
+      workspaceId: config.powerBI.POWER_BI_WORKSPACE_ID,
+      logInWithUserCredentials: config.powerBI.USE_POWER_BI_WITH_USER_CREDENTIALS,
+      scenarioViewIframeDisplayRatio: config.powerBI.SCENARIO_VIEW_IFRAME_DISPLAY_RATIO,
+      dashboardsViewIframeDisplayRatio: config.powerBI.DASHBOARDS_VIEW_IFRAME_DISPLAY_RATIO,
+      dashboardsView: config.powerBI.DASHBOARDS_LIST_CONFIG,
+      scenarioView: config.powerBI.SCENARIO_DASHBOARD_CONFIG,
+    };
+  }
+
+  if (config.instance) {
+    workspace.webApp.options.instanceView = {
+      dataSource: config.instance.DATA_SOURCE,
+      dataContent: config.instance.DATA_CONTENT,
+    };
+  }
+
+  return workspace;
+};
+
+const parseAndDumpWorkspaceConfig = async (workspaceFilePath) => {
+  const config = await parseLocalConfigFiles();
+  if (!config) {
+    console.log('No local configuration files to migrate to workspace data.');
+    return;
+  }
+
+  const workspaceParts = forgeWorkspaceFromConfig(config);
+
+  try {
+    if (workspaceFilePath !== undefined) mergeAndDumpWorkspaceYaml(workspaceParts, workspaceFilePath);
+    else dumpWorkspaceParts(workspaceParts);
   } catch (e) {
     console.error('Error: ' + e.message);
     console.error(e);
@@ -138,4 +195,4 @@ const dumpConfigToYaml = async (workspaceFilePath) => {
   }
 };
 
-module.exports = { dumpConfigToYaml };
+module.exports = { parseAndDumpWorkspaceConfig };
