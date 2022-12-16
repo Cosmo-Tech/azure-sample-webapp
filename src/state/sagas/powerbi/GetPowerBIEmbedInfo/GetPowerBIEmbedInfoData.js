@@ -16,8 +16,8 @@ const noAccess = {
 };
 
 const getLogInWithUserCredentials = (state) =>
-  state?.workspace?.current?.data?.options?.charts?.logInWithUserCredentials;
-const getPowerBIWorkspaceId = (state) => state?.workspace?.current?.data?.options?.charts?.workspaceId;
+  state?.workspace?.current?.data?.webapp?.options?.charts?.logInWithUserCredentials;
+const getPowerBIWorkspaceId = (state) => state?.workspace?.current?.data?.webapp?.options?.charts?.workspaceId;
 
 // generators function
 export function* getPowerBIEmbedInfoSaga() {
