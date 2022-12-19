@@ -9,7 +9,7 @@ import { USER_EXAMPLE, USERS_LIST } from '../../fixtures/stubbing/default';
 import {
   UNSHARED_SCENARIOS_LIST,
   SHARED_SCENARIOS_LIST,
-  WORKSPACES_LIST,
+  WORKSPACE_WITH_USERS_LIST,
 } from '../../fixtures/stubbing/ScenarioSharing';
 import { ROLES, ROLES_PERMISSIONS_MAP } from '../../commons/constants/generic/TestConstants';
 
@@ -25,19 +25,24 @@ const stubbingResourcesArray = [
 describe('Check workspace permissions for admin', () => {
   let stubbingResourcesArrayIndex = 0;
 
-  beforeEach(() => {
+  before(() => {
     setup.initCypressAndStubbing();
     stub.start();
+  });
+
+  beforeEach(() => {
     stub.setFakeUser(stubbingResourcesArray[stubbingResourcesArrayIndex].user);
-    stub.setWorkspaces(WORKSPACES_LIST);
-    stub.setFakeWorkspaceId('W-stbbdbwsx1');
+    stub.setWorkspaces([WORKSPACE_WITH_USERS_LIST]);
     stub.setScenarios(stubbingResourcesArray[stubbingResourcesArrayIndex].scenarioList);
     Login.login();
   });
 
   afterEach(() => {
-    stub.stop();
     ++stubbingResourcesArrayIndex;
+  });
+
+  after(() => {
+    stub.stop();
   });
 
   it('can create, edit, launch, validate, share, rename & delete a scenario', () => {

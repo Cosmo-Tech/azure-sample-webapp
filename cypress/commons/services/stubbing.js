@@ -28,8 +28,6 @@ const STUB_TYPES = [
 // Fake API data makes us able to stub the received workspace data while still using a real workspace for back-end calls
 //  - actualWorkspaceId is retrieved from the first API call whose endpoint contains a workspace id (when
 //    GET_WORKSPACES is true)
-//  - fakeWorkspaceId can be set from the Cypress tests with stub.setFakeWorkspaceId( ... ) to stub all calls to
-//    getWorkspaceById and use mock data instead of the data of the actual workspace
 //  - organizationPermissions define the roles/permissions mapping currently returned by an endpoint at the organization
 //    level
 const DEFAULT_API_DATA = {
@@ -155,7 +153,6 @@ class Stubbing {
 
   setActualWorkspaceId = (workspaceId) => (this.api.actualWorkspaceId = workspaceId);
   getActualWorkspaceId = () => this.api.actualWorkspaceId;
-  setFakeWorkspaceId = (workspaceId) => (this.api.fakeWorkspaceId = workspaceId);
   getFakeWorkspaceId = () => this.api.fakeWorkspaceId;
   setOrganizationPermissions = (newMapping) => (this.api.organizationPermissions = newMapping);
   getOrganizationPermissions = () => this.api.organizationPermissions;
@@ -201,6 +198,7 @@ class Stubbing {
   getWorkspaces = () => this._getResources('workspaces');
   setWorkspaces = (newWorkspaces) => this._setResources('workspaces', newWorkspaces);
   getWorkspaceById = (workspaceId) => this._getResourceById('workspaces', workspaceId);
+  getDefaultWorkspaceId = () => DEFAULT_WORKSPACE.id;
 }
 
 export const stub = new Stubbing();
