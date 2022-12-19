@@ -26,7 +26,8 @@ export function* getPowerBIEmbedInfoSaga() {
   if (logInWithUserCredentials == null) {
     console.warn(
       '"logInWithUserCredentials" option is not set in the current workspace, trying to use account service...\n' +
-        'Please configure the following option in your workspace: [workspace].options.charts.logInWithUserCredentials'
+        'Please configure the following option in your workspace: ' +
+        '[workspace].webapp.options.charts.logInWithUserCredentials'
     );
   }
 
