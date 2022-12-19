@@ -118,6 +118,13 @@ export const GENERIC_SELECTORS = {
       editableLabelInEditMode: '[data-cy=editable-label-in-edition-mode]',
     },
   },
+  workspace: {
+    view: '[data-cy=workspaces-view]',
+    workspaceCard: '[data-cy=resource-card-$WORKSPACEID]',
+    openButton: 'Button',
+    noWorkspacePlaceholder: '[data-cy=no-workspace-placeholder]',
+    homeButton: '[data-cy=home-button]',
+  },
   genericComponents: {
     uploadFile: {
       browseButtonInput: 'input[type=file]',
