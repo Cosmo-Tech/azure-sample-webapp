@@ -16,7 +16,6 @@ describe('check accessible features for Organization.Modeler application role as
     });
     stub.setFakeUser(USER_EXAMPLE);
     stub.setFakeRoles(['Organization.Modeler']);
-    stub.setFakeWorkspaceId('W-stbbdbrwry');
     stub.setScenarios(DEFAULT_SCENARIOS_LIST);
     Login.login();
   });
@@ -51,7 +50,6 @@ describe('check accessible features for Organization.Viewer application role as 
     });
     stub.setFakeUser(USER_EXAMPLE);
     stub.setFakeRoles(['Organization.Viewer']);
-    stub.setFakeWorkspaceId('W-stbbdbrwry');
     stub.setScenarios(DEFAULT_SCENARIOS_LIST);
     Login.login();
   });

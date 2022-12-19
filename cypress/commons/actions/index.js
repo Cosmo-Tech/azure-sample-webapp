@@ -13,4 +13,5 @@ export {
   Login,
   ErrorBanner,
   RolesEdition,
+  Workspaces,
 } from './generic';

@@ -26,7 +26,6 @@ describe('Scenario validation', () => {
   });
 
   beforeEach(() => {
-    stub.setFakeWorkspaceId('W-stbbdbrwry');
     Login.relogin();
   });
 
