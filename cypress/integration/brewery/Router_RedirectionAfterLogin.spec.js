@@ -13,12 +13,11 @@ describe('redirection after login', () => {
       GET_SOLUTIONS: true,
     });
   });
-  beforeEach(() => {
-    stub.setFakeWorkspaceId('W-stbbdbrwry');
-  });
+
   after(() => {
     stub.stop();
   });
+
   it('redirects to scenario manager view after login', () => {
     Login.login(`W-stbbdbrwry${PAGE_NAME.SCENARIO_MANAGER}`);
     ScenarioManager.getScenarioManagerView().should('be.visible');

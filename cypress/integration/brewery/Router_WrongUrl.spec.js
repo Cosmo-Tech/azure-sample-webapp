@@ -14,12 +14,11 @@ describe('Sharing with wrong URL', () => {
       GET_SOLUTIONS: true,
     });
   });
-  beforeEach(() => {
-    stub.setFakeWorkspaceId('W-stbbdbrwry');
-  });
+
   after(() => {
     stub.stop();
   });
+
   it("can display error banner when scenario doesn't exist", () => {
     Login.login('W-stbbdbrwry/scenario/s-invalidurl');
     ErrorBanner.getErrorBanner().should('be.visible');
@@ -28,6 +27,7 @@ describe('Sharing with wrong URL', () => {
     ErrorBanner.getDismissErrorButton().click();
     ErrorBanner.getErrorBanner().should('not.exist');
   });
+
   it('redirects to access denied view if url contains wrong workspaceId', () => {
     const reqAuthAlias = api.interceptAuthentication();
     cy.clearLocalStorageSnapshot();

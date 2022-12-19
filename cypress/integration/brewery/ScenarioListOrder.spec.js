@@ -14,7 +14,6 @@ describe('check scenario sorted list after reload', () => {
       GET_WORKSPACES: true,
       GET_SOLUTIONS: true,
     });
-    stub.setFakeWorkspaceId('W-stbbdbrwry');
     stub.setScenarios(ALL_ROOT_SCENARIOS);
     Login.login();
   });
@@ -46,7 +45,6 @@ describe('check the list of sorted scenarios after deleting the current scenario
     });
     stub.setFakeUser(USER_EXAMPLE);
     stub.setFakeRoles(['Organization.Collaborator']);
-    stub.setFakeWorkspaceId('W-stbbdbrwry');
     stub.setScenarios(PARENT_AND_CHILD_SCENARIOS);
     Login.login();
   });

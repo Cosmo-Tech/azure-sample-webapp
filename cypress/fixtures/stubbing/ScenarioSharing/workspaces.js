@@ -6,7 +6,6 @@ import { ROLES } from '../../../commons/constants/generic/TestConstants';
 
 export const WORKSPACE_NO_USERS = {
   ...WORKSPACE_EXAMPLE,
-  id: 'W-stbbdbwry0',
   key: 'DemoBreweryNoUsers',
   security: {
     default: 'none',
@@ -22,12 +21,9 @@ const usersAccess = [
 ];
 export const WORKSPACE_WITH_USERS_LIST = {
   ...WORKSPACE_EXAMPLE,
-  id: 'W-stbbdbwsx1',
-  key: 'DemoBreweryNoUsers',
+  key: 'DemoBreweryWithUsers',
   security: {
     default: 'none',
     accessControlList: usersAccess,
   },
 };
-
-export const WORKSPACES_LIST = [WORKSPACE_NO_USERS, WORKSPACE_WITH_USERS_LIST];

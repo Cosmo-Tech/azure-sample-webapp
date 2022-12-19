@@ -1,6 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
+import { ROLES } from '../../../commons/constants/generic/TestConstants';
+
 export const WORKSPACE_EXAMPLE = {
   key: 'DemoBrewery',
   name: 'Stubbed Demo Brewery Workspace',
@@ -19,8 +21,19 @@ export const WORKSPACE_EXAMPLE = {
   sendInputToDataWarehouse: true,
   useDedicatedEventHubNamespace: true,
   sendScenarioMetadataToEventHub: true,
-  security: { default: 'admin', accessControlList: [] },
+  security: { default: ROLES.SCENARIO.ADMIN, accessControlList: [] },
 };
 
 export const DEFAULT_WORKSPACE = WORKSPACE_EXAMPLE;
 export const DEFAULT_WORKSPACES_LIST = [DEFAULT_WORKSPACE];
+
+export const EXTENTED_WORKSPACES_LIST = [];
+for (let i = 0; i < 5; ++i) {
+  EXTENTED_WORKSPACES_LIST.push({
+    ...DEFAULT_WORKSPACE,
+    key: `StubbedWorkspace${i}`,
+    name: `Sample Stubbed Workspace ${i}`,
+    id: `W-splstbbdws${i}`,
+    description: `Stubbed workspace ${i} for test`,
+  });
+}

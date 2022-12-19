@@ -8,6 +8,7 @@ export const AUTH_QUERY_URL =
   'https://login.microsoftonline.com/e413b834-8be8-4822-a370-be619545cb49/oauth2/v2.0/token';
 export const LOCAL_WEBAPP_URL = 'http://localhost:3000';
 export const URL_POWERBI = `${LOCAL_WEBAPP_URL}/api/get-embed-info`;
+export const BREWERY_WORKSPACE_ID = 'W-rXeBwRa0PM';
 
 export const PAGE_NAME = {
   SCENARIO: '/scenario',
