@@ -13,6 +13,7 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
-    "argparse": "^2.0.1"
+    "argparse": "^2.0.1",
+    "deepmerge": "^4.2.2"
   }
 }
