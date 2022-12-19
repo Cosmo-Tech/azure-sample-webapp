@@ -15,6 +15,7 @@ describe('Scenario sharing with a link', () => {
     });
     Login.login();
   });
+
   beforeEach(() => {
     Login.relogin();
   });
@@ -22,6 +23,7 @@ describe('Scenario sharing with a link', () => {
   after(() => {
     stub.stop();
   });
+
   it('shares the scenario with a link', () => {
     Scenarios.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
     route.browse(`W-stbbdbrwry/scenario/${DEFAULT_SCENARIOS_LIST[3].id}`);

@@ -2,4 +2,4 @@
 // Licensed under the MIT license.
 
 export { UNSHARED_SCENARIOS_LIST, SHARED_SCENARIOS_LIST } from './scenarios';
-export { WORKSPACES_LIST } from './workspaces';
+export { WORKSPACE_WITH_USERS_LIST, WORKSPACE_NO_USERS } from './workspaces';
