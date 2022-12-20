@@ -7,14 +7,14 @@ import PropTypes from 'prop-types';
 import { TabLayout } from './layouts';
 import { SignIn as SignInView, AccessDenied as AccessDeniedView } from './views';
 import Workspaces from './views/Workspaces';
-import { useWorkspacesList } from './state/hooks/WorkspaceHooks';
+import { useWorkspaceId } from './state/hooks/WorkspaceHooks';
 
 const AppRoutes = (props) => {
   const { authenticated, authorized, tabs } = props;
   const location = useLocation();
   const providedUrl = sessionStorage.getItem('providedUrl');
   const providedUrlBeforeSignIn = sessionStorage.getItem('providedUrlBeforeSignIn');
-  const workspacesList = useWorkspacesList();
+  const currentWorkspaceId = useWorkspaceId();
 
   return (
     <Routes>
@@ -23,30 +23,36 @@ const AppRoutes = (props) => {
         path="/workspaces"
         element={
           !authenticated ? (
-            <Navigate to={'/sign-in'} state={{ from: location.pathname }} />
+            <Navigate to="/sign-in" state={{ from: location.pathname }} />
           ) : !authorized ? (
             <Navigate to="/accessDenied" replace />
-          ) : workspacesList?.data?.length !== 1 ? (
-            <Workspaces />
+          ) : currentWorkspaceId ? (
+            <Navigate to={`/${currentWorkspaceId}/scenario`} />
           ) : (
-            <Navigate to={`/${workspacesList.data[0]?.id}/scenario`} />
+            <Workspaces />
           )
         }
       />
+      <Route path=":workspaceId" element={!authenticated ? <Navigate to="/sign-in" /> : <Navigate to="scenario" />} />
       <Route
         path=":workspaceId"
         element={
-          authenticated ? <Navigate to="scenario" /> : <Navigate to={'/sign-in'} state={{ from: location.pathname }} />
+          !authenticated ? (
+            <Navigate to="/sign-in" state={{ from: location.pathname }} />
+          ) : !authorized ? (
+            <Navigate to="/accessDenied" replace />
+          ) : (
+            <TabLayout tabs={tabs} />
+          )
         }
-      />
-      <Route path=":workspaceId" element={<TabLayout tabs={tabs} />}>
+      >
         {tabs.map((tab) => (
           <Route
             key={tab.key}
             path={tab.to}
             element={
               !authenticated ? (
-                <Navigate to={'/sign-in'} state={{ from: location.pathname }} />
+                <Navigate to="/sign-in" state={{ from: location.pathname }} />
               ) : !authorized ? (
                 <Navigate to="/accessDenied" replace />
               ) : (
@@ -59,7 +65,7 @@ const AppRoutes = (props) => {
                 path=":scenarioId"
                 element={
                   !authenticated ? (
-                    <Navigate to={'/sign-in'} state={{ from: location.pathname }} />
+                    <Navigate to="/sign-in" state={{ from: location.pathname }} />
                   ) : !authorized ? (
                     <Navigate to="/accessDenied" replace />
                   ) : (
