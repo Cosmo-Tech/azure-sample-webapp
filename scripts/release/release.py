@@ -107,15 +107,19 @@ def clean_cypress(root_folder):
 
 def clean_config(root_folder):
     '''
-    Overwrite brewery config files in "src/config" when a file *.vanilla.js exists.
+    Overwrite brewery config files in "src/config" and in root folder when a file *.vanilla.js exists.
     '''
+    def restore_vanilla_files_in_folder(folder):
+        for config_file_name in os.listdir(folder):
+            if config_file_name.endswith('.vanilla.js'):
+                generic_config_file_name = config_file_name[:-11] + '.js'
+                vanilla_config_file_path = os.path.join(folder, config_file_name)
+                generic_config_file_path = os.path.join(folder, generic_config_file_name)
+                mv_file(vanilla_config_file_path, generic_config_file_path)
+
     config_folder_path = os.path.join(root_folder, 'src', 'config')
-    for config_file_name in os.listdir(config_folder_path):
-        if config_file_name.endswith('.vanilla.js'):
-            generic_config_file_name = config_file_name[:-11] + '.js'
-            vanilla_config_file_path = os.path.join(config_folder_path, config_file_name)
-            generic_config_file_path = os.path.join(config_folder_path, generic_config_file_name)
-            mv_file(vanilla_config_file_path, generic_config_file_path)
+    restore_vanilla_files_in_folder(config_folder_path)
+    restore_vanilla_files_in_folder(root_folder)
 
 
 def clean_ci(root_folder):
