@@ -16,8 +16,8 @@ const noAccess = {
 };
 
 const getLogInWithUserCredentials = (state) =>
-  state?.workspace?.current?.data?.webapp?.options?.charts?.logInWithUserCredentials;
-const getPowerBIWorkspaceId = (state) => state?.workspace?.current?.data?.webapp?.options?.charts?.workspaceId;
+  state?.workspace?.current?.data?.webApp?.options?.charts?.logInWithUserCredentials;
+const getPowerBIWorkspaceId = (state) => state?.workspace?.current?.data?.webApp?.options?.charts?.workspaceId;
 
 // generators function
 export function* getPowerBIEmbedInfoSaga() {
@@ -27,7 +27,7 @@ export function* getPowerBIEmbedInfoSaga() {
     console.warn(
       '"logInWithUserCredentials" option is not set in the current workspace, trying to use account service...\n' +
         'Please configure the following option in your workspace: ' +
-        '[workspace].webapp.options.charts.logInWithUserCredentials'
+        '[workspace].webApp.options.charts.logInWithUserCredentials'
     );
   }
 
