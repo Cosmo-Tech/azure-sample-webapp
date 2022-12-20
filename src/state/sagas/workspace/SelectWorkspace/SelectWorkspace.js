@@ -11,6 +11,8 @@ import { getAllScenariosData } from '../../scenario/FindAllScenarios/FindAllScen
 import { fetchSolutionByIdData } from '../../solution/FindSolutionById/FindSolutionByIdData';
 import { getPowerBIEmbedInfoSaga } from '../../powerbi/GetPowerBIEmbedInfo/GetPowerBIEmbedInfoData';
 import { getFirstScenarioMaster } from '../../../../utils/SortScenarioListUtils';
+import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
+import { t } from 'i18next';
 
 const getOrganizationId = (state) => state?.organization?.current?.data?.id;
 const selectSolutionIdFromCurrentWorkspace = (state) => state.workspace.current.data.solution.solutionId;
@@ -29,19 +31,31 @@ export function* selectWorkspace(action) {
   const selectedWorkspace = workspaces && workspaces.find((workspace) => workspace.id === selectedWorkspaceId);
 
   if (selectedWorkspace === undefined) {
-    yield put({
-      type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS,
-      status: STATUSES.ERROR,
-      error: {
-        title: 'App initialization error',
-        status: null,
-        detail: `Could not find workspace with id ${selectedWorkspaceId} in workspaces list.`,
-      },
-    });
+    yield put(
+      dispatchSetApplicationErrorMessage(
+        {
+          title: t('genericcomponent.workspaceselector.error.title', 'App initialization error'),
+          status: null,
+          detail: t(
+            'genericcomponent.workspaceselector.error.message',
+            'Could not find workspace with id {{workspaceId}} in workspaces list',
+            { workspaceId: selectedWorkspaceId }
+          ),
+        },
+        t(
+          'genericcomponent.workspaceselector.error.comment',
+          'You have been redirected to the list of available workspaces'
+        )
+      )
+    );
     yield put({
       type: WORKSPACE_ACTIONS_KEY.SET_CURRENT_WORKSPACE,
       status: STATUSES.ERROR,
       workspace: null,
+    });
+    yield put({
+      type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS,
+      status: STATUSES.SUCCESS,
     });
     return;
   }

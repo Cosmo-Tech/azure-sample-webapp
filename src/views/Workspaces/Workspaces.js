@@ -6,13 +6,16 @@ import { AppBar } from '../../components/AppBar';
 import { useNavigate } from 'react-router-dom';
 import { Grid, Accordion, AccordionSummary, AccordionDetails, Typography } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
-import { ResourceCard } from '@cosmotech/ui';
+import { ResourceCard, ErrorBanner } from '@cosmotech/ui';
 import { useWorkspaces } from './WorkspacesHook';
+import { useApplicationError, useClearApplicationErrorMessage } from '../../state/hooks/ApplicationHooks';
 
 const Workspaces = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { workspacesList, organizationName, selectWorkspace } = useWorkspaces();
+  const applicationError = useApplicationError();
+  const clearApplicationErrorMessage = useClearApplicationErrorMessage();
   sessionStorage.removeItem('providedUrlBeforeSignIn');
 
   const labels = {
@@ -52,6 +55,22 @@ const Workspaces = () => {
   return (
     <>
       <AppBar />
+      {applicationError && (
+        <ErrorBanner
+          error={applicationError}
+          labels={{
+            dismissButtonText: t('commoncomponents.banner.button.dismiss', 'Dismiss'),
+            tooLongErrorMessage: t(
+              'commoncomponents.banner.tooLongErrorMessage',
+              // eslint-disable-next-line max-len
+              'Detailed error message is too long to be displayed. To read it, please use the COPY button and paste it in your favorite text editor.'
+            ),
+            secondButtonText: t('commoncomponents.banner.button.copy.label', 'Copy'),
+            toggledButtonText: t('commoncomponents.banner.button.copy.copied', 'Copied'),
+          }}
+          clearErrors={clearApplicationErrorMessage}
+        />
+      )}
       <div data-cy="workspaces-view">
         {workspacesList?.data?.length === 0 ? (
           <Grid container justifyContent="center" alignItems="center" style={{ padding: '18px', height: '90%' }}>

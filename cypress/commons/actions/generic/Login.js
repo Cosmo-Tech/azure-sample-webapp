@@ -51,12 +51,12 @@ function login(url) {
   cy.saveLocalStorage();
 }
 
-function loginWithoutWorkspace() {
+function loginWithoutWorkspace(url = '/workspaces') {
   const reqAuthAlias = api.interceptAuthentication();
   api.interceptNewPageQueries();
   cy.clearLocalStorageSnapshot();
 
-  _visit('/workspaces');
+  _visit(url);
 
   getMicrosoftLoginButton().click();
   api.waitAlias(reqAuthAlias);

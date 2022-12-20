@@ -1,15 +1,16 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Tabs as MuiTabs, Tab, Box, makeStyles } from '@material-ui/core';
-import { Link, useLocation, useMatch, Outlet, useParams } from 'react-router-dom';
+import { Link, useLocation, useMatch, Outlet, useParams, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { ErrorBanner } from '@cosmotech/ui';
 import { useTranslation } from 'react-i18next';
 import { AppBar } from '../../components/AppBar';
 import { useApplicationError, useClearApplicationErrorMessage } from '../../state/hooks/ApplicationHooks';
 import { DashboardsManager } from '../../managers';
+import { useWorkspace } from '../../state/hooks/WorkspaceHooks';
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -34,6 +35,14 @@ export const TabLayout = (props) => {
   const clearApplicationErrorMessage = useClearApplicationErrorMessage();
   const routerParameters = useParams();
   sessionStorage.removeItem('providedUrlBeforeSignIn');
+  const currentWorkspace = useWorkspace();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (currentWorkspace?.status === 'ERROR') {
+      navigate('/workspaces');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentWorkspace?.status]);
 
   const viewTabs = (
     <MuiTabs value={currentTabPathname}>
@@ -54,7 +63,7 @@ export const TabLayout = (props) => {
     </MuiTabs>
   );
 
-  return (
+  return currentWorkspace?.data ? (
     <>
       <DashboardsManager />
       <AppBar>{viewTabs}</AppBar>
@@ -78,7 +87,7 @@ export const TabLayout = (props) => {
         <Outlet />
       </Box>
     </>
-  );
+  ) : null;
 };
 
 TabLayout.propTypes = {

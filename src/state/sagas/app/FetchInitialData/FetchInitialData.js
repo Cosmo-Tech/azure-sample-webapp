@@ -18,13 +18,14 @@ const providedUrlBeforeSignIn = sessionStorage.getItem('providedUrlBeforeSignIn'
 const providedUrl = window.location.pathname;
 const path = matchPath(':firstParam/*', providedUrlBeforeSignIn || providedUrl);
 const firstParam = path?.params?.firstParam;
-const isRedirectedToWorkspaces = !firstParam || firstParam === 'workspaces';
+const isRedirectedToWorkspaces = !firstParam || firstParam === 'workspaces' || firstParam === 'sign-in';
 let providedWorkspaceId;
-if (!isRedirectedToWorkspaces) providedWorkspaceId = firstParam;
 sessionStorage.removeItem('providedUrl');
-if (firstParam) {
+if (!isRedirectedToWorkspaces) {
+  providedWorkspaceId = firstParam;
   sessionStorage.setItem('providedUrl', providedUrl);
 }
+
 export function* fetchAllInitialData() {
   yield put({
     type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS,
@@ -56,29 +57,29 @@ export function* fetchAllInitialData() {
     yield call(fetchAllDatasetsData, ORGANIZATION_ID);
     yield call(fetchOrganizationById, ORGANIZATION_ID);
     yield call(getAllWorkspaces, ORGANIZATION_ID);
-    const workspaces = yield select(getWorkspaces);
-    if (providedWorkspaceId) {
-      yield put({
-        type: WORKSPACE_ACTIONS_KEY.SELECT_WORKSPACE,
-        workspaceId: providedWorkspaceId,
-      });
-    } else if (workspaces?.length === 1) {
-      yield put({
-        type: WORKSPACE_ACTIONS_KEY.SELECT_WORKSPACE,
-        workspaceId: workspaces[0].id,
-      });
-    } else {
-      yield put({
-        type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS,
-        status: STATUSES.SUCCESS,
-      });
-    }
   } catch (error) {
     const errorDetails = parseError(error);
     yield put({
       type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS,
       status: STATUSES.ERROR,
       error: errorDetails,
+    });
+  }
+  const workspaces = yield select(getWorkspaces);
+  if (providedWorkspaceId) {
+    yield put({
+      type: WORKSPACE_ACTIONS_KEY.SELECT_WORKSPACE,
+      workspaceId: providedWorkspaceId,
+    });
+  } else if (workspaces?.length === 1) {
+    yield put({
+      type: WORKSPACE_ACTIONS_KEY.SELECT_WORKSPACE,
+      workspaceId: workspaces[0].id,
+    });
+  } else {
+    yield put({
+      type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS,
+      status: STATUSES.SUCCESS,
     });
   }
 }
