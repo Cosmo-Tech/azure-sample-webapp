@@ -35,6 +35,10 @@ export const useWorkspaceChartsDashboardsViewDisplayIframeRatio = () => {
   );
 };
 
+export const useWorkspaceInstanceViewConfig = () => {
+  return useSelector((state) => state.workspace.current?.data?.webApp?.options?.instanceView);
+};
+
 export const useUserPermissionsOnCurrentWorkspace = () => {
   const workspaceData = useWorkspaceData();
   return useMemo(

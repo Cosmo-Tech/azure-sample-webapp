@@ -8,7 +8,6 @@ import { Auth } from '@cosmotech/core';
 import { ThemeProvider, CssBaseline } from '@material-ui/core';
 import './assets/scss/index.scss';
 import './services/config/Auth';
-import { TABS } from './AppLayout';
 import Loading from './views/Loading';
 import './services/AppInsights';
 import { AUTH_STATUS } from './state/commons/AuthConstants';
@@ -90,9 +89,7 @@ const App = () => {
       return <Loading />;
     }
 
-    return (
-      <AppRoutes authenticated={isAuthenticated} authorized={applicationStatus === STATUSES.SUCCESS} tabs={TABS} />
-    );
+    return <AppRoutes authenticated={isAuthenticated} authorized={applicationStatus === STATUSES.SUCCESS} />;
   }, [isConnecting, isAuthenticated, isLoading, applicationStatus]);
 
   return (
