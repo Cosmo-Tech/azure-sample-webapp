@@ -465,6 +465,11 @@
             "contact": "Si vous pensez qu'il s'agit d'une erreur, veuillez contacter votre administrateur."
           }
         }
+      },
+      "error": {
+        "title": "Erreur d'initialisation de la web app",
+        "message": "Le workspace avec l'identifiant {{workspaceId}} n'existe pas dans la liste des workspaces",
+        "comment": "Vous avez été redirigé vers la liste des workspaces disponibles"
       }
     },
     "dialog": {

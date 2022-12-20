@@ -3,7 +3,7 @@
 
 import { useMemo, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { dispatchSelectWorkspace } from '../dispatchers/workspace/WorkspaceDispatcher';
+import { dispatchResetCurrentWorkspace, dispatchSelectWorkspace } from '../dispatchers/workspace/WorkspaceDispatcher';
 
 export const useWorkspace = () => {
   return useSelector((state) => state.workspace.current);
@@ -50,4 +50,9 @@ export const useWorkspacesList = () => {
 export const useSelectWorkspace = () => {
   const dispatch = useDispatch();
   return useCallback((workspaceId) => dispatch(dispatchSelectWorkspace(workspaceId)), [dispatch]);
+};
+
+export const useResetCurrentWorkspace = () => {
+  const dispatch = useDispatch();
+  return useCallback(() => dispatch(dispatchResetCurrentWorkspace()), [dispatch]);
 };

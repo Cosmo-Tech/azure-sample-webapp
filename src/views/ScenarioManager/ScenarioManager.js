@@ -108,7 +108,7 @@ const ScenarioManager = (props) => {
   const isWaitingForRedirection = useRef(false);
   useEffect(() => {
     if (isWaitingForRedirection.current === true) {
-      navigate('/scenario');
+      navigate('scenario');
       isWaitingForRedirection.current = false;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
