@@ -12,10 +12,15 @@ const currentWorkspaceInitialState = {
 };
 
 const currentWorkspaceReducer = createReducer(currentWorkspaceInitialState, (builder) => {
-  builder.addCase(WORKSPACE_ACTIONS_KEY.SET_CURRENT_WORKSPACE, (state, action) => {
-    state.data = action.workspace;
-    state.status = action.status;
-  });
+  builder
+    .addCase(WORKSPACE_ACTIONS_KEY.SET_CURRENT_WORKSPACE, (state, action) => {
+      state.data = action.workspace;
+      state.status = action.status;
+    })
+    .addCase(WORKSPACE_ACTIONS_KEY.RESET_CURRENT_WORKSPACE, (state) => {
+      state.data = null;
+      state.status = STATUSES.IDLE;
+    });
 });
 
 const workspacesListInitialState = {

@@ -7,3 +7,7 @@ export const dispatchSelectWorkspace = (workspaceId) => ({
   type: WORKSPACE_ACTIONS_KEY.SELECT_WORKSPACE,
   workspaceId: workspaceId,
 });
+
+export const dispatchResetCurrentWorkspace = () => ({
+  type: WORKSPACE_ACTIONS_KEY.RESET_CURRENT_WORKSPACE,
+});

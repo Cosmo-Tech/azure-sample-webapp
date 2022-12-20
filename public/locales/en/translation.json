@@ -465,6 +465,11 @@
             "contact": "If you think this is a mistake, please contact your administrator."
           }
         }
+      },
+      "error": {
+        "title": "App initialization error",
+        "message": "Could not find workspace with id {{workspaceId}} in workspaces list",
+        "comment": "You have been redirected to the list of available workspaces"
       }
     },
     "dialog": {
