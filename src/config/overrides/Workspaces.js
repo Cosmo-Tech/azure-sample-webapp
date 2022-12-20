@@ -82,6 +82,31 @@ export const WORKSPACES = [
             3: defaultScenarioViewReport,
           },
         },
+        instanceView: {
+          dataSource: {
+            type: 'adt',
+            functionUrl: 'https://scenario-download-brewery-dev.azurewebsites.net/api/ScenarioDownload',
+            functionKey: 'sFGoW45A4TthGp9bunsKhzH7A8a4nR-JK82jjHQ6Ja-WAzFuFc-sOg==',
+          },
+          dataContent: {
+            compounds: { Bar_vertex: {} },
+            edges: { arc_Satisfaction: { style: {}, selectable: false } },
+            nodes: {
+              Bar: {
+                style: {
+                  shape: 'rectangle',
+                  'background-color': '#466282',
+                  'background-opacity': 0.2,
+                  'border-width': 0,
+                },
+                pannable: true,
+                selectable: true,
+                grabbable: false,
+              },
+              Customer: { style: { 'background-color': '#005A31', shape: 'ellipse' } },
+            },
+          },
+        },
       },
     },
   },

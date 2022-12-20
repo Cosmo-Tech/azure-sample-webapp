@@ -1,20 +1,23 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Routes, Navigate, Route, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { TabLayout } from './layouts';
 import { SignIn as SignInView, AccessDenied as AccessDeniedView } from './views';
 import Workspaces from './views/Workspaces';
-import { useWorkspaceId } from './state/hooks/WorkspaceHooks';
+import { useWorkspaceData, useWorkspaceId } from './state/hooks/WorkspaceHooks';
+import { getTabsForCurrentWorkspace } from './AppLayout';
 
 const AppRoutes = (props) => {
-  const { authenticated, authorized, tabs } = props;
+  const { authenticated, authorized } = props;
   const location = useLocation();
   const providedUrl = sessionStorage.getItem('providedUrl');
   const providedUrlBeforeSignIn = sessionStorage.getItem('providedUrlBeforeSignIn');
   const currentWorkspaceId = useWorkspaceId();
+  const currentWorkspaceData = useWorkspaceData();
+  const tabs = useMemo(() => getTabsForCurrentWorkspace(currentWorkspaceData), [currentWorkspaceData]);
 
   return (
     <Routes>
@@ -95,7 +98,6 @@ const AppRoutes = (props) => {
 AppRoutes.propTypes = {
   authenticated: PropTypes.bool.isRequired,
   authorized: PropTypes.bool,
-  tabs: PropTypes.any,
 };
 
 export default AppRoutes;
