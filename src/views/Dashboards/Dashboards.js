@@ -11,8 +11,7 @@ import { DashboardsPowerBiReport } from './components';
 
 const useStyles = makeStyles((theme) => ({
   dashboardsRoot: {
-    height: 'calc(100% - 36px)',
-    position: 'fixed',
+    height: '100%',
     margin: 'auto',
     width: '100%',
   },
@@ -85,7 +84,7 @@ const Dashboards = () => {
         </Card>
       </Grid>
       <Grid item sm={10} className={classes.dashboardsMainContainer}>
-        <Card>
+        <Card className={classes.dashboard}>
           <CardContent>{<TabPanel index={value} key={dashboardTitle} title={dashboardTitle} />}</CardContent>
         </Card>
       </Grid>
