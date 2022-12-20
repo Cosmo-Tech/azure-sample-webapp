@@ -11,10 +11,7 @@ import {
   getDefaultInEdgeStyle,
   getDefaultHiddenStyle,
 } from './styleCytoViz';
-import instanceViewData from '../../config/InstanceVisualization.js';
-
-const IS_INSTANCE_VIEW_FUNCTION_CONFIG_VALID = !(instanceViewData.dataSource == null);
-export { IS_INSTANCE_VIEW_FUNCTION_CONFIG_VALID };
+import { ConfigUtils } from '../../utils';
 
 const _formatLabelWithNewlines = (label) => label?.replace(/[_|\s]/g, '\n') || '';
 
@@ -114,8 +111,7 @@ const _processGraphEdges = (processedData, datasetContent, edgesGroups, theme) =
   });
 };
 
-export const processGraphElements = (scenario, theme) => {
-  if (!IS_INSTANCE_VIEW_FUNCTION_CONFIG_VALID) return [];
+export const processGraphElements = (instanceViewConfig, scenario, theme) => {
   const processedData = {
     graphElements: [],
     stylesheet: [],
@@ -129,15 +125,15 @@ export const processGraphElements = (scenario, theme) => {
   const scenarioDatasets = scenario.datasets || [{ content: scenario }];
   for (const dataset of Object.values(scenarioDatasets)) {
     const datasetContent = dataset.content;
-    const nodesParentsDict = _processGraphCompounds(datasetContent, instanceViewData.dataContent.compounds || {});
+    const nodesParentsDict = _processGraphCompounds(datasetContent, instanceViewConfig.dataContent.compounds || {});
     _processGraphNodes(
       processedData,
       nodesParentsDict,
       datasetContent,
-      instanceViewData.dataContent.nodes,
+      instanceViewConfig.dataContent.nodes,
       theme || {}
     );
-    _processGraphEdges(processedData, datasetContent, instanceViewData.dataContent.edges, theme || {});
+    _processGraphEdges(processedData, datasetContent, instanceViewConfig.dataContent.edges, theme || {});
   }
   return processedData;
 };
@@ -161,21 +157,21 @@ async function _fetchDataFromADT(organizationId, workspaceId, scenarioId, dataSo
   });
 }
 
-export async function fetchData(organizationId, workspaceId, scenarioId) {
-  if (!IS_INSTANCE_VIEW_FUNCTION_CONFIG_VALID) {
+export async function fetchData(instanceViewConfig, organizationId, workspaceId, scenarioId) {
+  if (!ConfigUtils.isInstanceViewConfigValid(instanceViewConfig)) {
     return {
       error:
         'Instance view Azure Function is not configured properly. Please check the Azure Function URL and secret key.',
     };
   }
 
-  switch (instanceViewData.dataSource.type) {
+  switch (instanceViewConfig.dataSource.type) {
     case 'adt':
-      return _fetchDataFromADT(organizationId, workspaceId, scenarioId, instanceViewData.dataSource);
+      return _fetchDataFromADT(organizationId, workspaceId, scenarioId, instanceViewConfig.dataSource);
     default:
       return {
         error:
-          `Data source type "${instanceViewData.dataSource.type}" is not supported in Instance view.` +
+          `Data source type "${instanceViewConfig.dataSource.type}" is not supported in Instance view.` +
           ' The only currently supported type is "adt"',
       };
   }

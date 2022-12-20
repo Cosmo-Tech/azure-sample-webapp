@@ -25,7 +25,8 @@ function getConversionMethod(param, functionArray) {
     }
   }
   console.warn(
-    `No conversion function (to/from string) defined for varType "${varType} or subType ${subType} in ${functionArray}"`
+    `Parameter "${param.id}": no conversion function (to/from string) defined for varType "${varType} or subType ` +
+      `${subType} in ${functionArray}"`
   );
   return undefined;
 }
@@ -125,6 +126,19 @@ const patchSolution = (originalSolution, overridingSolution) => {
   );
 };
 
+const isInstanceViewConfigValid = (instanceView) => {
+  if (instanceView?.dataSource == null) return false;
+  if (instanceView.dataSource.functionUrl == null) {
+    console.warn('Missing data for "webApp.options.instanceView.dataSource.functionUrl" in workspace');
+    return false;
+  }
+  if (instanceView.dataSource.functionKey == null) {
+    console.warn('Missing data for "webApp.options.instanceView.dataSource.functionKey" in workspace');
+    return false;
+  }
+  return true;
+};
+
 export const ConfigUtils = {
   buildExtendedVarType,
   getConversionMethod,
@@ -132,4 +146,5 @@ export const ConfigUtils = {
   getParameterAttribute,
   getParametersGroupAttribute,
   patchSolution,
+  isInstanceViewConfigValid,
 };
