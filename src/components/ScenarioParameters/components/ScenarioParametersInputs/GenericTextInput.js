@@ -5,6 +5,7 @@ import React from 'react';
 import { BasicTextInput } from '@cosmotech/ui';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
+import { TranslationUtils } from '../../../../utils';
 
 export const GenericTextInput = ({ parameterData, parametersState, setParametersState, context }) => {
   const { t } = useTranslation();
@@ -25,6 +26,7 @@ export const GenericTextInput = ({ parameterData, parametersState, setParameters
       key={parameterData.id}
       data-cy={parameterData.dataCy} // Optional data for cypress
       label={t(`solution.parameters.${parameterData.id}`, parameterData.id)}
+      tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
       value={parametersState[parameterData.id] || ''}
       changeTextField={setValue}
       textFieldProps={textFieldProps}

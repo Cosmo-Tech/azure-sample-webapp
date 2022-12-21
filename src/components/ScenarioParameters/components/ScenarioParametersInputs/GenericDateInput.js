@@ -5,6 +5,7 @@ import React from 'react';
 import { BasicDateInput } from '@cosmotech/ui';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
+import { TranslationUtils } from '../../../../utils';
 
 export const GenericDateInput = ({ parameterData, parametersState, setParametersState, context }) => {
   const { t } = useTranslation();
@@ -33,6 +34,7 @@ export const GenericDateInput = ({ parameterData, parametersState, setParameters
       id={parameterData.id}
       data-cy={parameterData.dataCy} // Optional data for cypress
       label={t(`solution.parameters.${parameterData.id}`, parameterData.id)}
+      tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
       value={parametersState[parameterData.id] || new Date()}
       changeSelectedDate={setValue}
       dateProps={dateProps}
