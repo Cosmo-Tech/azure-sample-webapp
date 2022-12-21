@@ -23,7 +23,7 @@ const defaultScenarioViewReport = {
 export const WORKSPACES = [
   {
     id: 'W-rXeBwRa0PM',
-    webapp: {
+    webApp: {
       options: {
         charts: {
           workspaceId: '290de699-9026-42c0-8c83-e4e87c3f22dd',
