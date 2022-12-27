@@ -13,6 +13,9 @@ export const SOLUTIONS = [
       {
         id: 'nb_waiters',
         dataCy: 'waiters-input',
+        subType: 'SLIDER',
+        minValue: 0,
+        maxValue: 35,
         defaultValue: 5,
       },
       {
