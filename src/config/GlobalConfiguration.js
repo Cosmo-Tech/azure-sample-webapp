@@ -12,3 +12,8 @@ export const DEFAULT_BASE_PATH = 'https://dev.api.cosmotech.com/v2';
 // Cosmo solution identifiers
 export const ORGANIZATION_ID = 'O-gZYpnd27G7';
 export const WORKSPACE_ID = 'W-rXeBwRa0PM';
+
+// List of workspaces the web app has access to. If you need to restrain access to
+// specific workspaces inside the web app, provide their ids in the array below; if
+// this constant is null, the web app will show all workspaces a user can access.
+export const WORKSPACES_IDS_FILTER = null;
