@@ -36,7 +36,12 @@ const AppRoutes = (props) => {
           )
         }
       />
-      <Route path=":workspaceId" element={!authenticated ? <Navigate to="/sign-in" /> : <Navigate to="scenario" />} />
+      <Route
+        path=":workspaceId"
+        element={
+          !authenticated ? <Navigate to="/sign-in" state={{ from: location.pathname }} /> : <Navigate to="scenario" />
+        }
+      />
       <Route
         path=":workspaceId"
         element={
