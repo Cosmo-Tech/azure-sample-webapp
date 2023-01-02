@@ -59,6 +59,28 @@ const fixExportsInInstanceConfigFile = (filePath) => {
   fs.writeFileSync(filePath, newContentArray.join('\n'));
 };
 
+const parseHelpMenuConfigFile = async () => {
+  const helpMenuConfigFilePath = join(getConfigFolder(), 'HelpMenuConfiguration.js');
+  if (!fs.existsSync(helpMenuConfigFilePath)) {
+    console.warn(
+      'WARNING: file "HelpMenuConfiguration.js" not found in configuration folder, skipping migration of ' +
+        'help menu configuration...'
+    );
+    return;
+  }
+
+  try {
+    console.log('Parsing help menu configuration file...');
+    const mjsFilePath = copyConfigFileToMJS('HelpMenuConfiguration.js');
+    const helpMenuConfig = await parseESFile(mjsFilePath);
+    clearFileFromOutputFolder('HelpMenuConfiguration.mjs');
+    return helpMenuConfig;
+  } catch (error) {
+    console.log('Failed to parse help menu configuration file');
+    throw error;
+  }
+};
+
 const parseInstanceConfigFile = async () => {
   const instanceConfigFilePath = join(getConfigFolder(), 'InstanceVisualization.js');
   if (!fs.existsSync(instanceConfigFilePath)) {
@@ -117,10 +139,12 @@ const mergeAndDumpWorkspaceYaml = (workspaceParts, workspaceFilePath) => {
 };
 
 const parseLocalConfigFiles = async () => {
+  const helpMenuConfig = await parseHelpMenuConfigFile();
   const instanceConfig = await parseInstanceConfigFile();
   const powerBIConfig = await parsePBIConfigFile();
-  if (instanceConfig || powerBIConfig)
+  if (helpMenuConfig || instanceConfig || powerBIConfig)
     return {
+      helpMenu: helpMenuConfig,
       instance: instanceConfig,
       powerBI: powerBIConfig,
     };
@@ -163,6 +187,14 @@ const forgeWorkspaceFromConfig = (config) => {
       dashboardsViewIframeDisplayRatio: config.powerBI.DASHBOARDS_VIEW_IFRAME_DISPLAY_RATIO,
       dashboardsView: config.powerBI.DASHBOARDS_LIST_CONFIG,
       scenarioView: config.powerBI.SCENARIO_DASHBOARD_CONFIG,
+    };
+  }
+
+  if (config.helpMenu) {
+    workspace.webApp.options.menu = {
+      documentationUrl: config.helpMenu.DOCUMENTATION_URL,
+      supportUrl: config.helpMenu.SUPPORT_URL,
+      organizationUrl: config.helpMenu.COSMOTECH_URL,
     };
   }
 
