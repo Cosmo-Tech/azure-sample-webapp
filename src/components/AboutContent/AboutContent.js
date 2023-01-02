@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { Grid, makeStyles, ButtonBase, Link } from '@material-ui/core';
 import { pictureLight, pictureDark } from '../../theme';
 import { useTranslation } from 'react-i18next';
+import { useWorkspaceData } from '../../state/hooks/WorkspaceHooks';
 import { SUPPORT_URL, COSMOTECH_URL, APP_VERSION } from '../../config/HelpMenuConfiguration';
 
 const useStyles = makeStyles((theme) => ({
@@ -34,6 +35,10 @@ export const AboutContent = ({ isDarkTheme }) => {
   const classes = useStyles();
   const logo = isDarkTheme ? pictureDark.darkLogo : pictureLight.lightLogo;
 
+  const currentWorkspaceData = useWorkspaceData();
+  const organizationUrl = currentWorkspaceData?.webApp?.options?.menu?.organizationUrl ?? COSMOTECH_URL;
+  const supportUrl = currentWorkspaceData?.webApp?.options?.menu?.supportUrl ?? SUPPORT_URL;
+
   return (
     <Grid container spacing={2} className={classes.root}>
       <Grid item className={classes.picture}>
@@ -53,13 +58,13 @@ export const AboutContent = ({ isDarkTheme }) => {
             {t('genericcomponent.dialog.about.content')}
           </Grid>
           <Grid item>
-            <Link href={SUPPORT_URL} target="_blank" rel="noreferrer">
-              {SUPPORT_URL}
+            <Link href={supportUrl} target="_blank" rel="noreferrer">
+              {supportUrl}
             </Link>
           </Grid>
           <Grid item>
-            <Link href={COSMOTECH_URL} target="_blank" rel="noreferrer">
-              {COSMOTECH_URL}
+            <Link href={organizationUrl} target="_blank" rel="noreferrer">
+              {organizationUrl}
             </Link>
           </Grid>
         </Grid>
