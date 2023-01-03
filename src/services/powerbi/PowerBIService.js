@@ -3,7 +3,9 @@
 
 import { Auth } from '@cosmotech/core';
 import { EmbedConfig, PowerBiReportDetails } from './PowerBIModels';
+import { GET_EMBED_INFO_URL } from '../../state/commons/PowerBIConstants';
 import { POWER_BI_API_DEFAULT_SCOPE } from '../config/Auth';
+import { clientApi } from '../ClientApi';
 
 const _generateAuthorizationHeader = (accessToken) => 'Bearer '.concat(accessToken);
 
@@ -11,10 +13,20 @@ const _generateAuthorizationHeader = (accessToken) => 'Bearer '.concat(accessTok
  * Get PowerBI accessible data
  * @return Details like Embed URL, Access token and Expiry, errors if any
  */
-const getPowerBIData = async (powerBIWorkspaceId) => {
+const getPowerBIData = async (powerBIWorkspaceId, reportsIds, logInWithUserCredentials) => {
+  return logInWithUserCredentials
+    ? await getPowerBIDataWithCurrentUserToken(powerBIWorkspaceId, reportsIds)
+    : await getPowerBIDataWithServiceAccount(powerBIWorkspaceId, reportsIds);
+};
+
+/**
+ * Get PowerBI accessible data
+ * @return Details like Embed URL, Access token and Expiry, errors if any
+ */
+const getPowerBIDataWithCurrentUserToken = async (powerBIWorkspaceId, reportsIds) => {
   try {
     const embedParams = await getEmbedParamsForAllReportsInWorkspace(powerBIWorkspaceId);
-    const result = {
+    return {
       accesses: {
         accessToken: embedParams.accessToken,
         reportsInfo: embedParams.reportsDetail,
@@ -22,7 +34,6 @@ const getPowerBIData = async (powerBIWorkspaceId) => {
       },
       error: null,
     };
-    return result;
   } catch (err) {
     return {
       accesses: null,
@@ -36,6 +47,18 @@ const getPowerBIData = async (powerBIWorkspaceId) => {
       },
     };
   }
+};
+
+const getPowerBIDataWithServiceAccount = async (powerBIWorkspaceId, reportsIds) => {
+  const { data } = await clientApi.post(GET_EMBED_INFO_URL, { reports: reportsIds });
+  return {
+    accesses: {
+      accessToken: data?.accesses?.accessToken,
+      reportsInfo: data?.accesses?.reportsInfo,
+      expiry: data?.accesses?.expiry,
+    },
+    error: data?.error,
+  };
 };
 
 /**
@@ -69,23 +92,18 @@ const fetchReportEmbedInfo = async (workspaceId) => {
 /**
  * Get embed params for all reports for a single workspace
  * @param {string} workspaceId
- * @param {Array<string>} additionalDatasetIds - Optional Parameter
  * @return EmbedConfig object
  */
-const getEmbedParamsForAllReportsInWorkspace = async (workspaceId, additionalDatasetIds) => {
+const getEmbedParamsForAllReportsInWorkspace = async (workspaceId) => {
   const { reportEmbedConfig, reportsInfo } = await fetchReportEmbedInfo(workspaceId);
 
   const datasetIds = new Set([]);
   const reportIds = new Set([]);
-
   for (const reportInfo of reportsInfo) {
     const reportDetails = new PowerBiReportDetails(reportInfo.id, reportInfo.name, reportInfo.embedUrl);
     reportEmbedConfig.reportsDetail[reportInfo.id] = reportDetails;
     datasetIds.add(reportInfo.datasetId);
     reportIds.add(reportInfo.id);
-    if (additionalDatasetIds) {
-      datasetIds.add(...additionalDatasetIds);
-    }
   }
 
   return reportEmbedConfig;
