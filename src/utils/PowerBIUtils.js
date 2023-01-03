@@ -51,7 +51,25 @@ const getScenarioViewReportConfig = (reportsConfig, runTemplateId) => {
     : [];
 };
 
+const _getReportsIdsFromDashboardsViewConfig = (reportsConfig) => reportsConfig.map((report) => report.reportId);
+const _getReportsIdsFromScenarioViewConfig = (reportsConfig) => {
+  if (Array.isArray(reportsConfig)) {
+    return reportsConfig.map((report) => report.reportId);
+  }
+  return Object.values(reportsConfig).map((report) => report.reportId);
+};
+
+const getReportsIdsFromConfig = (config) => {
+  return Array.from(
+    new Set([
+      ..._getReportsIdsFromDashboardsViewConfig(config.dashboardsView),
+      ..._getReportsIdsFromScenarioViewConfig(config.scenarioView),
+    ])
+  );
+};
+
 export const PowerBIUtils = {
   fillChartsConfig,
+  getReportsIdsFromConfig,
   getScenarioViewReportConfig,
 };

@@ -232,7 +232,7 @@ const interceptGetSolution = (solutionId) => {
 
 const interceptPowerBIAzureFunction = () => {
   const alias = forgeAlias('reqPowerBI');
-  cy.intercept('GET', URL_POWERBI, { statusCode: 200 }).as(alias);
+  cy.intercept('POST', URL_POWERBI, { statusCode: 200 }).as(alias);
   return alias;
 };
 
