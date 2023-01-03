@@ -23,8 +23,25 @@ module.exports = async function (context, req) {
       };
     } else {
       // Get the details like Embed URL, Access token and Expiry
-      const result = await embedToken.getEmbedInfo();
-      context.res = { status: 200, body: result };
+      const error = utils.validateQuery(req);
+      if (error) {
+        context.res = {
+          status: 200,
+          body: {
+            accesses: null,
+            error: {
+              status: 'Azure Function',
+              statusText: 'Configuration error',
+              powerBIErrorInfo: error,
+              description: `Error while retrieving report embed details\r\n${error}`,
+            },
+          },
+        };
+      } else {
+        const reportsIds = req?.body?.reports;
+        const result = await embedToken.getEmbedInfo(reportsIds);
+        context.res = { status: 200, body: result };
+      }
     }
   } catch (err) {
     console.error('Error during run of get-embed-info function');
