@@ -52,7 +52,19 @@ function validateConfig() {
   }
 }
 
+const validateQuery = (req) => {
+  const reportsIds = req?.body?.reports;
+  if (!Array.isArray(reportsIds)) {
+    return 'Query is invalid. Parameter "reports" must be an array.';
+  }
+
+  if (!reportsIds.length) {
+    return 'List of reports is empty. Please check your dashboards configuration.';
+  }
+};
+
 module.exports = {
-  getAuthHeader: getAuthHeader,
-  validateConfig: validateConfig,
+  getAuthHeader,
+  validateConfig,
+  validateQuery,
 };

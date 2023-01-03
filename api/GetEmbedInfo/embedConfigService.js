@@ -11,11 +11,11 @@ const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fet
  * Generate embed token and embed urls for reports
  * @return Details like Embed URL, Access token and Expiry
  */
-async function getEmbedInfo() {
+async function getEmbedInfo(reportsIds) {
   // Get the Report Embed details
   try {
     // Get report details and embed token
-    const embedParams = await getEmbedParamsForAllReportsInWorkspace(process.env.POWER_BI_WORKSPACE_ID);
+    const embedParams = await getEmbedParamsForSelectedReports(process.env.POWER_BI_WORKSPACE_ID, reportsIds);
     return {
       accesses: {
         accessToken: embedParams.embedToken.token,
@@ -41,123 +41,42 @@ async function getEmbedInfo() {
 }
 
 /**
- * Get embed params for all reports for a single workspace
+ * Get embed params for selected reports
  * @param {string} workspaceId
- * @param {Array<string>} additionalDatasetIds - Optional Parameter
+ * @param {Array} selectedReportsIds
  * @return EmbedConfig object
  */
-async function getEmbedParamsForAllReportsInWorkspace(workspaceId, additionalDatasetIds) {
-  // EmbedConfig object
+async function getEmbedParamsForSelectedReports(workspaceId, selectedReportsIds) {
   const reportEmbedConfig = new EmbedConfig();
-  // Create dictionary of embedReports for mapping
   reportEmbedConfig.reportsDetail = {};
 
-  // Get datasets and Embed URLs for all the reports
-  const reportInGroupApi = `https://api.powerbi.com/v1.0/myorg/groups/${workspaceId}/reports`;
+  // Get all reports from PowerBI workspace
+  const getAllReportsURL = `https://api.powerbi.com/v1.0/myorg/groups/${workspaceId}/reports`;
   const headers = await getRequestHeader();
-
-  // Get report info by calling the PowerBI REST API
-  const result = await fetch(reportInGroupApi, {
+  const res = await fetch(getAllReportsURL, {
     method: 'GET',
     headers: headers,
   });
 
-  if (!result.ok) {
-    throw result;
-  }
+  if (!res.ok) throw res;
+  const allReportsJSON = await res.json();
+  const allReports = allReportsJSON.value;
 
-  // Convert result in json to retrieve values
-  const resultJson = await result.json();
-
-  const reportsInfo = resultJson.value;
-
-  // Create Set of datasets
+  // Get datasets and embed URLs for selected reports
+  const selectedReports = allReports.filter((report) => selectedReportsIds.includes(report.id));
   const datasetIds = new Set([]);
-  // Create Set of reportId
   const reportIds = new Set([]);
-
-  for (const reportInfo of reportsInfo) {
-    // Store result into PowerBiReportDetails object
-    const reportDetails = new PowerBiReportDetails(reportInfo.id, reportInfo.name, reportInfo.embedUrl);
-
-    // Create mapping for reports and Embed URLs
-    reportEmbedConfig.reportsDetail[reportInfo.id] = reportDetails;
-
-    // Push datasetId of the report into datasetIds array
-    datasetIds.add(reportInfo.datasetId);
-    reportIds.add(reportInfo.id);
-
-    // Append to existing list of datasets to achieve dynamic binding later
-    if (additionalDatasetIds) {
-      datasetIds.add(...additionalDatasetIds);
-    }
+  for (const report of selectedReports) {
+    const reportDetails = new PowerBiReportDetails(report.id, report.name, report.embedUrl);
+    reportEmbedConfig.reportsDetail[report.id] = reportDetails;
+    datasetIds.add(report.datasetId);
+    reportIds.add(report.id);
   }
 
-  // Get Embed token multiple resources
+  // Get token granting access to selected reports & datasets
   reportEmbedConfig.embedToken = await getEmbedTokenForMultipleReportsSingleWorkspace(
     Array.from(reportIds),
     Array.from(datasetIds),
-    workspaceId
-  );
-
-  return reportEmbedConfig;
-}
-
-/**
- * Get embed params for multiple reports for a single workspace
- * @param {string} workspaceId
- * @param {Array<string>} reportIds
- * @param {Array<string>} additionalDatasetIds - Optional Parameter
- * @return EmbedConfig object
- */
-// eslint-disable-next-line no-unused-vars
-async function getEmbedParamsForMultipleReports(workspaceId, reportIds, additionalDatasetIds) {
-  // EmbedConfig object
-  const reportEmbedConfig = new EmbedConfig();
-
-  // Create dictionary of embedReports for mapping
-  reportEmbedConfig.reportsDetail = {};
-
-  // Create Array of datasets
-  const datasetIds = [];
-
-  // Get datasets and Embed URLs for all the reports
-  for (const reportId of reportIds) {
-    const reportInGroupApi = `https://api.powerbi.com/v1.0/myorg/groups/${workspaceId}/reports/${reportId}`;
-    const headers = await getRequestHeader();
-
-    // Get report info by calling the PowerBI REST API
-    const result = await fetch(reportInGroupApi, {
-      method: 'GET',
-      headers: headers,
-    });
-
-    if (!result.ok) {
-      throw result;
-    }
-
-    // Convert result in json to retrieve values
-    const resultJson = await result.json();
-
-    // Store result into PowerBiReportDetails object
-    const reportDetails = new PowerBiReportDetails(resultJson.id, resultJson.name, resultJson.embedUrl);
-
-    // Create mapping for reports and Embed URLs
-    reportEmbedConfig.reportsDetail[resultJson.name] = reportDetails;
-
-    // Push datasetId of the report into datasetIds array
-    datasetIds.push(resultJson.datasetId);
-  }
-
-  // Append to existing list of datasets to achieve dynamic binding later
-  if (additionalDatasetIds) {
-    datasetIds.push(...additionalDatasetIds);
-  }
-
-  // Get Embed token multiple resources
-  reportEmbedConfig.embedToken = await getEmbedTokenForMultipleReportsSingleWorkspace(
-    reportIds,
-    datasetIds,
     workspaceId
   );
   return reportEmbedConfig;
