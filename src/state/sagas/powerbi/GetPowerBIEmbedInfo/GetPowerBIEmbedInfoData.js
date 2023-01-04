@@ -62,6 +62,7 @@ export function* getPowerBIEmbedInfoSaga() {
       yield delay(tokenDelay);
     } catch (error) {
       console.error("Can't retrieve PowerBI token for embed reports");
+      console.error(error);
       yield put({
         type: POWER_BI_ACTIONS_KEY.SET_EMBED_INFO,
         data: noAccess,

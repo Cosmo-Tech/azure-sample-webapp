@@ -1,6 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
+const guid = require('guid');
+
 function getAuthHeader(accessToken) {
   // Function to append Bearer against the Access Token
   return 'Bearer '.concat(accessToken);
@@ -8,9 +10,6 @@ function getAuthHeader(accessToken) {
 
 function validateConfig() {
   // Validation function to check whether the Configurations are available in the environment variables or not
-
-  const guid = require('guid');
-
   if (!process.env.POWER_BI_CLIENT_ID) {
     return (
       'ClientId is empty. Please register your application as Native app in https://dev.powerbi.com/apps and ' +
@@ -60,6 +59,12 @@ const validateQuery = (req) => {
 
   if (!reportsIds.length) {
     return 'List of reports is empty. Please check your dashboards configuration.';
+  }
+
+  for (const reportId of reportsIds) {
+    if (!guid.isGuid(reportId)) {
+      return `Report id "${reportId}" is not a valid id. Please check your dashboards configuration.`;
+    }
   }
 };
 

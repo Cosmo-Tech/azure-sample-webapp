@@ -37,11 +37,11 @@ module.exports = async function (context, req) {
             },
           },
         };
+      } else {
+        const reportsIds = req?.body?.reports;
+        const result = await embedToken.getEmbedInfo(reportsIds);
+        context.res = { status: 200, body: result };
       }
-
-      const reportsIds = req?.body?.reports;
-      const result = await embedToken.getEmbedInfo(reportsIds);
-      context.res = { status: 200, body: result };
     }
   } catch (err) {
     console.error('Error during run of get-embed-info function');

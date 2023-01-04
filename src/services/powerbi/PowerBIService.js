@@ -53,9 +53,9 @@ const getPowerBIDataWithServiceAccount = async (powerBIWorkspaceId, reportsIds) 
   const { data } = await clientApi.post(GET_EMBED_INFO_URL, { reports: reportsIds });
   return {
     accesses: {
-      accessToken: data?.accesses.accessToken,
-      reportsInfo: data?.accesses.reportsInfo,
-      expiry: data?.accesses.expiry,
+      accessToken: data?.accesses?.accessToken,
+      reportsInfo: data?.accesses?.reportsInfo,
+      expiry: data?.accesses?.expiry,
     },
     error: data?.error,
   };
