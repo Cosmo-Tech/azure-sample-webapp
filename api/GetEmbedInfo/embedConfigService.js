@@ -67,8 +67,7 @@ async function getEmbedParamsForSelectedReports(workspaceId, selectedReportsIds)
   const datasetIds = new Set([]);
   const reportIds = new Set([]);
   for (const report of selectedReports) {
-    const reportDetails = new PowerBiReportDetails(report.id, report.name, report.embedUrl);
-    reportEmbedConfig.reportsDetail[report.id] = reportDetails;
+    reportEmbedConfig.reportsDetail[report.id] = new PowerBiReportDetails(report.id, report.name, report.embedUrl);
     datasetIds.add(report.datasetId);
     reportIds.add(report.id);
   }

@@ -54,7 +54,7 @@ const getScenarioViewReportConfig = (reportsConfig, runTemplateId) => {
 const _getReportsIdsFromDashboardsViewConfig = (reportsConfig) => reportsConfig.map((report) => report.reportId);
 const _getReportsIdsFromScenarioViewConfig = (reportsConfig) => {
   if (Array.isArray(reportsConfig)) {
-    return reportsConfig.map((reportConfig) => reportsConfig.map((report) => report.reportId));
+    return reportsConfig.map((report) => report.reportId);
   }
   return Object.values(reportsConfig).map((report) => report.reportId);
 };
