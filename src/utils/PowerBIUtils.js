@@ -60,10 +60,12 @@ const _getReportsIdsFromScenarioViewConfig = (reportsConfig) => {
 };
 
 const getReportsIdsFromConfig = (config) => {
-  const reportsIds = _getReportsIdsFromDashboardsViewConfig(config.dashboardsView).concat(
-    _getReportsIdsFromScenarioViewConfig(config.scenarioView)
+  return Array.from(
+    new Set([
+      ..._getReportsIdsFromDashboardsViewConfig(config.dashboardsView),
+      ..._getReportsIdsFromScenarioViewConfig(config.scenarioView),
+    ])
   );
-  return reportsIds.filter((reportId, pos) => reportsIds.indexOf(reportId) === pos);
 };
 
 export const PowerBIUtils = {
