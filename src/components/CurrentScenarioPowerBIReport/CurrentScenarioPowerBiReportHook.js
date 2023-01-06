@@ -32,7 +32,7 @@ export const useCurrentScenarioPowerBiReport = () => {
             LOG_TYPES[SCENARIO_RUN_LOG_TYPE]
           )
         : null,
-    [currentScenarioData?.lastRun]
+    [organizationId, currentScenarioData?.lastRun]
   );
 
   const reportLabels = useMemo(() => getReportLabels(t), [t]);
