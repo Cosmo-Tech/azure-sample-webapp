@@ -4,7 +4,7 @@
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { useCurrentScenarioData } from '../../state/hooks/ScenarioHooks';
+import { useCurrentScenarioData, useScenarioListData } from '../../state/hooks/ScenarioHooks';
 import { usePowerBIInfo } from '../../state/hooks/PowerBIHooks';
 import { useWorkspaceChartsLogInWithUserCredentials } from '../../state/hooks/WorkspaceHooks';
 import { useOrganizationId } from '../../state/hooks/OrganizationHooks';
@@ -19,6 +19,7 @@ export const useCurrentScenarioPowerBiReport = () => {
   const { t, i18n } = useTranslation();
 
   const currentScenarioData = useCurrentScenarioData();
+  const scenarioListData = useScenarioListData();
   const reports = usePowerBIInfo();
   const logInWithUserCredentials = useWorkspaceChartsLogInWithUserCredentials();
   const organizationId = useOrganizationId();
@@ -38,8 +39,19 @@ export const useCurrentScenarioPowerBiReport = () => {
   const reportLabels = useMemo(() => getReportLabels(t), [t]);
   const language = useMemo(() => i18n.language, [i18n.language]);
 
+  const visibleScenarios = useMemo(
+    () =>
+      scenarioListData.map((scenario) => ({
+        id: scenario.id,
+        runId: scenario.lastRun?.scenarioRunId,
+        csmSimulationRun: scenario.lastRun?.csmSimulationRun,
+      })),
+    [scenarioListData]
+  );
+
   return {
     currentScenarioData,
+    visibleScenarios,
     reportLabels,
     reports,
     language,

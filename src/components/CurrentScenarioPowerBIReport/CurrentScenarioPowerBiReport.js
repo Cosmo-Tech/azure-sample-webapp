@@ -7,14 +7,22 @@ import { SimplePowerBIReportEmbed } from '@cosmotech/ui';
 import { useCurrentScenarioPowerBiReport } from './CurrentScenarioPowerBiReportHook';
 
 const CurrentScenarioPowerBiReport = ({ reportConfiguration, iframeRatio, index }) => {
-  const { currentScenarioData, downloadLogsFile, language, reportLabels, reports, logInWithUserCredentials } =
-    useCurrentScenarioPowerBiReport();
+  const {
+    currentScenarioData,
+    visibleScenarios,
+    downloadLogsFile,
+    language,
+    reportLabels,
+    reports,
+    logInWithUserCredentials,
+  } = useCurrentScenarioPowerBiReport();
 
   return (
     <SimplePowerBIReportEmbed
       reports={reports}
       reportConfiguration={reportConfiguration}
       scenario={currentScenarioData}
+      visibleScenarios={visibleScenarios}
       lang={language}
       downloadLogsFile={downloadLogsFile}
       labels={reportLabels}
