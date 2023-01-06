@@ -44,6 +44,9 @@ function downloadLogsFile(organizationId, lastRun, logType) {
     case LOG_TYPES.CUMULATED_LOGS:
       downloadCumulatedLogsFile(organizationId, lastRun);
       break;
+    default:
+      console.warn(`Unknown log type option "${logType}"`);
+      break;
   }
 }
 
