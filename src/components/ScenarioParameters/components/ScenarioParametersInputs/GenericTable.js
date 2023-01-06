@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { gridLight, gridDark } from '../../../../theme/';
+import { TranslationUtils } from '../../../../utils';
 
 const clone = rfdc();
 
@@ -344,6 +345,7 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
       key={parameterId}
       data-cy={parameterData.dataCy}
       labels={labels}
+      tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
       dateFormat={dateFormat}
       editMode={context.editMode}
       dataStatus={parameter.tableDataStatus || TABLE_DATA_STATUS.EMPTY}

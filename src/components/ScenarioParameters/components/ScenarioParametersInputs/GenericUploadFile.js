@@ -6,6 +6,7 @@ import { UploadFile } from '@cosmotech/ui';
 import { FileManagementUtils } from '../../../../components/ScenarioParameters/FileManagementUtils';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { TranslationUtils } from '../../../../utils';
 
 export const GenericUploadFile = ({ parameterData, parametersState, setParametersState, context }) => {
   const { t } = useTranslation();
@@ -41,6 +42,7 @@ export const GenericUploadFile = ({ parameterData, parametersState, setParameter
       key={parameterId}
       data-cy={parameterData.dataCy}
       labels={labels}
+      tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
       acceptedFileTypes={parameterData.defaultFileTypeFilter}
       handleUploadFile={(event) => FileManagementUtils.prepareToUpload(event, parameter, setParameterInState)}
       handleDeleteFile={() => FileManagementUtils.prepareToDeleteFile(setClientFileDescriptorStatus)}

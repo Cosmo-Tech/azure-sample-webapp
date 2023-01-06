@@ -5,6 +5,7 @@ import React from 'react';
 import { BasicEnumInput } from '@cosmotech/ui';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { TranslationUtils } from '../../../../utils';
 
 export const GenericEnumInput = ({ parameterData, parametersState, setParametersState, context }) => {
   const { t } = useTranslation();
@@ -34,6 +35,7 @@ export const GenericEnumInput = ({ parameterData, parametersState, setParameters
       key={parameterData.id}
       data-cy={parameterData.dataCy} // Optional data for cypress
       label={t(`solution.parameters.${parameterData.id}`, parameterData.id)}
+      tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
       value={parametersState[parameterData.id] || enumValues?.[0]?.key || ''}
       changeEnumField={setValue}
       textFieldProps={textFieldProps}

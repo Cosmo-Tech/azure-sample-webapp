@@ -7,6 +7,10 @@ const getParameterTranslationKey = (parameterId) => {
   return `solution.parameters.${parameterId}`;
 };
 
+const getParameterTooltipTranslationKey = (parameterId) => {
+  return `solution.parameters.tooltip.${parameterId}`;
+};
+
 const getParametersGroupTranslationKey = (groupId) => {
   return `solution.parametersGroups.${groupId}`;
 };
@@ -34,8 +38,12 @@ const addTranslationParametersLabels = (parameters) => {
     for (const lang in parameter.labels) {
       resources[lang] = resources[lang] || {};
       const key = getParameterTranslationKey(parameter.id);
-      const label = parameter.labels[lang];
-      resources[lang][key] = label;
+      resources[lang][key] = parameter.labels[lang];
+    }
+    for (const lang in parameter?.options?.tooltipText) {
+      resources[lang] = resources[lang] || {};
+      const key = getParameterTooltipTranslationKey(parameter.id);
+      resources[lang][key] = parameter.options.tooltipText[lang];
     }
   }
   const langs = Object.keys(resources);
@@ -65,4 +73,5 @@ export const TranslationUtils = {
   changeLanguage,
   getParametersGroupTranslationKey,
   getParameterTranslationKey,
+  getParameterTooltipTranslationKey,
 };

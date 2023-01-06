@@ -5,6 +5,7 @@ import React from 'react';
 import { BasicNumberInput } from '@cosmotech/ui';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { TranslationUtils } from '../../../../utils';
 
 const DEFAULT_MIN_VALUE = -1e10 + 1;
 const DEFAULT_MAX_VALUE = 1e10 - 1;
@@ -51,6 +52,7 @@ export const GenericNumberInput = ({ parameterData, parametersState, setParamete
       key={parameterData.id}
       data-cy={parameterData.dataCy}
       label={t(`solution.parameters.${parameterData.id}`, parameterData.id)}
+      tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
       value={value}
       changeNumberField={setValue}
       textFieldProps={textFieldProps}
