@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { AppBar } from '../../components/AppBar';
 import { useApplicationError, useClearApplicationErrorMessage } from '../../state/hooks/ApplicationHooks';
 import { DashboardsManager } from '../../managers';
-import { useWorkspace } from '../../state/hooks/WorkspaceHooks';
+import { useSelectWorkspace, useWorkspace } from '../../state/hooks/WorkspaceHooks';
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -37,9 +37,12 @@ export const TabLayout = (props) => {
   sessionStorage.removeItem('providedUrlBeforeSignIn');
   const currentWorkspace = useWorkspace();
   const navigate = useNavigate();
+  const selectWorkspace = useSelectWorkspace();
   useEffect(() => {
     if (currentWorkspace?.status === 'ERROR') {
       navigate('/workspaces');
+    } else if (currentWorkspace?.status === 'IDLE' && routerParameters?.workspaceId) {
+      selectWorkspace(routerParameters.workspaceId);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentWorkspace?.status]);
@@ -57,7 +60,7 @@ export const TabLayout = (props) => {
           }
           label={t(tab.label, tab.key)}
           component={Link}
-          to={tab.to}
+          to={`${currentWorkspace?.data?.id}/${tab.to}`}
         />
       ))}
     </MuiTabs>

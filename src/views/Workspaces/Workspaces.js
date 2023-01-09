@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { AppBar } from '../../components/AppBar';
 import { useNavigate } from 'react-router-dom';
 import { Grid, Accordion, AccordionSummary, AccordionDetails, Typography } from '@material-ui/core';
@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { ResourceCard, ErrorBanner } from '@cosmotech/ui';
 import { useWorkspaces } from './WorkspacesHook';
 import { useApplicationError, useClearApplicationErrorMessage } from '../../state/hooks/ApplicationHooks';
+import { useResetCurrentWorkspace } from '../../state/hooks/WorkspaceHooks';
 
 const Workspaces = () => {
   const navigate = useNavigate();
@@ -37,7 +38,11 @@ const Workspaces = () => {
     selectWorkspace(workspaceId);
     navigate(`/${workspaceId}`);
   };
-
+  const resetWorkspace = useResetCurrentWorkspace();
+  useEffect(() => {
+    resetWorkspace();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const workspaceListRender = workspacesList.data.map((workspace) => (
     <Grid item key={workspace.id}>
       <ResourceCard

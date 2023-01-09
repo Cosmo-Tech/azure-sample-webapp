@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import React, { useMemo } from 'react';
-import { Routes, Navigate, Route, useLocation } from 'react-router-dom';
+import { Routes, Navigate, Route, useLocation, useNavigationType } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { TabLayout } from './layouts';
 import { SignIn as SignInView, AccessDenied as AccessDeniedView } from './views';
@@ -13,6 +13,7 @@ import { getTabsForCurrentWorkspace } from './AppLayout';
 const AppRoutes = (props) => {
   const { authenticated, authorized } = props;
   const location = useLocation();
+  const navigationType = useNavigationType();
   const providedUrl = sessionStorage.getItem('providedUrl');
   const providedUrlBeforeSignIn = sessionStorage.getItem('providedUrlBeforeSignIn');
   const currentWorkspaceId = useWorkspaceId();
@@ -29,7 +30,7 @@ const AppRoutes = (props) => {
             <Navigate to="/sign-in" state={{ from: location.pathname }} />
           ) : !authorized ? (
             <Navigate to="/accessDenied" replace />
-          ) : currentWorkspaceId ? (
+          ) : currentWorkspaceId && navigationType !== 'POP' ? (
             <Navigate to={`/${currentWorkspaceId}/scenario`} />
           ) : (
             <Workspaces />
@@ -39,11 +40,14 @@ const AppRoutes = (props) => {
       <Route
         path=":workspaceId"
         element={
-          !authenticated ? <Navigate to="/sign-in" state={{ from: location.pathname }} /> : <Navigate to="scenario" />
+          !authenticated ? (
+            <Navigate to="/sign-in" state={{ from: location.pathname }} />
+          ) : (
+            <Navigate to="scenario" replace />
+          )
         }
       />
       <Route
-        path=":workspaceId"
         element={
           !authenticated ? (
             <Navigate to="/sign-in" state={{ from: location.pathname }} />
@@ -57,7 +61,7 @@ const AppRoutes = (props) => {
         {tabs.map((tab) => (
           <Route
             key={tab.key}
-            path={tab.to}
+            path={`:workspaceId/${tab.to}`}
             element={
               !authenticated ? (
                 <Navigate to="/sign-in" state={{ from: location.pathname }} />
