@@ -25,6 +25,26 @@ export function* getPowerBIEmbedInfoSaga() {
   const logInWithUserCredentials = yield select(getLogInWithUserCredentials);
   const powerBIWorkspaceId = yield select(getPowerBIWorkspaceId);
   const powerBIChartsConfig = yield select(getPowerBIChartsConfig);
+
+  if (powerBIChartsConfig == null) {
+    console.error(
+      'PowerBI charts configuration could not be found. Please configure the dashboards to be displayed in your ' +
+        'workspace, in [workspace].webApp.options.charts'
+    );
+
+    yield put({
+      type: POWER_BI_ACTIONS_KEY.SET_EMBED_INFO,
+      data: noAccess,
+      error: {
+        status: 'Error',
+        statusText: 'Configuration error',
+        powerBIErrorInfo: 'Cannot find dashboards configuration in workspace',
+      },
+      status: STATUSES.ERROR,
+    });
+    return;
+  }
+
   if (logInWithUserCredentials == null) {
     console.warn(
       '"logInWithUserCredentials" option is not set in the current workspace, trying to use account service...\n' +

@@ -62,8 +62,8 @@ const _getReportsIdsFromScenarioViewConfig = (reportsConfig) => {
 const getReportsIdsFromConfig = (config) => {
   return Array.from(
     new Set([
-      ..._getReportsIdsFromDashboardsViewConfig(config.dashboardsView),
-      ..._getReportsIdsFromScenarioViewConfig(config.scenarioView),
+      ..._getReportsIdsFromDashboardsViewConfig(config?.dashboardsView ?? []),
+      ..._getReportsIdsFromScenarioViewConfig(config?.scenarioView ?? []),
     ])
   );
 };
