@@ -3,6 +3,22 @@
 
 import { ROLES } from '../../../commons/constants/generic/TestConstants';
 
+const defaultPowerBIReport = {
+  title: { en: 'Scenario dashboard', fr: 'Rapport du scénario' },
+  reportId: '608b7bef-f5e3-4aae-b8db-19bbb38325d5',
+  settings: { navContentPaneEnabled: false, panes: { filters: { expanded: true, visible: true } } },
+  staticFilters: [{ table: 'Bar', column: 'Bar', values: ['MyBar', 'MyBar2'] }],
+  dynamicFilters: [
+    { table: 'StockProbe', column: 'SimulationRun', values: 'csmSimulationRun' },
+    { table: 'Bar', column: 'simulationrun', values: 'csmSimulationRun' },
+    { table: 'contains_Customer', column: 'simulationrun', values: 'csmSimulationRun' },
+    { table: 'arc_to_Customer', column: 'simulationrun', values: 'csmSimulationRun' },
+    { table: 'parameters', column: 'simulationrun', values: 'csmSimulationRun' },
+    { table: 'CustomerSatisfactionProbe', column: 'SimulationRun', values: 'csmSimulationRun' },
+  ],
+  pageName: { en: 'ReportSection', fr: 'ReportSection' },
+};
+
 export const WORKSPACE_EXAMPLE = {
   key: 'DemoBrewery',
   name: 'Stubbed Demo Brewery Workspace',
@@ -22,6 +38,18 @@ export const WORKSPACE_EXAMPLE = {
   useDedicatedEventHubNamespace: true,
   sendScenarioMetadataToEventHub: true,
   security: { default: ROLES.SCENARIO.ADMIN, accessControlList: [] },
+  webApp: {
+    options: {
+      charts: {
+        workspaceId: '290de699-9026-42c0-8c83-e4e87c3f22dd',
+        logInWithUserCredentials: false,
+        scenarioViewIframeDisplayRatio: 1580 / 350,
+        dashboardsViewIframeDisplayRatio: 1280 / 795,
+        dashboardsView: [defaultPowerBIReport],
+        scenarioView: [defaultPowerBIReport],
+      },
+    },
+  },
 };
 
 export const DEFAULT_WORKSPACE = WORKSPACE_EXAMPLE;
