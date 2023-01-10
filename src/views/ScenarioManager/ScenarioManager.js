@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ScenarioUtils } from '@cosmotech/core';
 import { makeStyles } from '@material-ui/core';
@@ -39,12 +39,12 @@ const ScenarioManager = (props) => {
     datasets,
     currentScenarioData,
     userId,
-    findScenarioById,
     hasUserPermissionOnScenario,
     setCurrentScenario,
     deleteScenario,
     renameScenario,
     resetCurrentScenario,
+    workspaceId,
   } = useScenarioManager();
 
   const getScenariolistAfterDelete = (idOfScenarioToDelete) => {
@@ -104,19 +104,8 @@ const ScenarioManager = (props) => {
   }
 
   const navigate = useNavigate();
-
-  const isWaitingForRedirection = useRef(false);
-  useEffect(() => {
-    if (isWaitingForRedirection.current === true) {
-      navigate('scenario');
-      isWaitingForRedirection.current = false;
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentScenarioData]);
-
   const onScenarioRedirect = (scenarioId) => {
-    isWaitingForRedirection.current = true;
-    findScenarioById(scenarioId);
+    navigate(`/${workspaceId}/scenario/${scenarioId}`);
   };
 
   const canUserDeleteScenario = (scenario) => hasUserPermissionOnScenario(ACL_PERMISSIONS.SCENARIO.DELETE, scenario);
