@@ -21,10 +21,7 @@ export const useRedirectionToScenario = (sortedScenarioList, view) => {
         navigate(`${currentScenario.data.id}`, { replace: true });
       } else if (currentScenario.data.id !== routerParameters.scenarioId) {
         handleScenarioChange(routerParameters.scenarioId);
-        navigate(`${routerParameters.scenarioId}`);
       }
-    } else {
-      navigate(`/${routerParameters.workspaceId}/${view}`, { replace: true });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -34,7 +31,7 @@ export const useRedirectionToScenario = (sortedScenarioList, view) => {
       if (currentScenario.data === null) {
         handleScenarioChange(sortedScenarioList[0].id);
         navigate(`${sortedScenarioList[0].id}`);
-      } else if (currentScenario.data.id !== routerParameters.scenarioId && routerParameters.scenarioId !== undefined) {
+      } else if (currentScenario.data.id !== routerParameters.scenarioId) {
         navigate(`${currentScenario.data.id}`);
         updateCurrentScenario({ status: STATUSES.SUCCESS });
       }
