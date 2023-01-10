@@ -56,9 +56,9 @@ export const WORKSPACE_EXAMPLE = {
 export const DEFAULT_WORKSPACE = WORKSPACE_EXAMPLE;
 export const DEFAULT_WORKSPACES_LIST = [DEFAULT_WORKSPACE];
 
-export const EXTENTED_WORKSPACES_LIST = [];
+export const EXTENDED_WORKSPACES_LIST = [];
 for (let i = 0; i < 5; ++i) {
-  EXTENTED_WORKSPACES_LIST.push({
+  EXTENDED_WORKSPACES_LIST.push({
     ...DEFAULT_WORKSPACE,
     key: `StubbedWorkspace${i}`,
     name: `Sample Stubbed Workspace ${i}`,
