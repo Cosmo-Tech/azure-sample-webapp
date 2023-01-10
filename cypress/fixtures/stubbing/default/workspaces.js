@@ -33,12 +33,9 @@ export const WORKSPACE_EXAMPLE = {
   tags: null,
   ownerId: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
   users: null,
-  webApp: { url: null, iframes: null, options: {} },
-  sendInputToDataWarehouse: true,
-  useDedicatedEventHubNamespace: true,
-  sendScenarioMetadataToEventHub: true,
-  security: { default: ROLES.SCENARIO.ADMIN, accessControlList: [] },
   webApp: {
+    url: null,
+    iframes: null,
     options: {
       charts: {
         workspaceId: '290de699-9026-42c0-8c83-e4e87c3f22dd',
@@ -50,6 +47,10 @@ export const WORKSPACE_EXAMPLE = {
       },
     },
   },
+  sendInputToDataWarehouse: true,
+  useDedicatedEventHubNamespace: true,
+  sendScenarioMetadataToEventHub: true,
+  security: { default: ROLES.SCENARIO.ADMIN, accessControlList: [] },
 };
 
 export const DEFAULT_WORKSPACE = WORKSPACE_EXAMPLE;
