@@ -32,14 +32,22 @@ const useStyles = makeStyles((theme) => ({
   dashboardsTabsContainer: {
     height: '100%',
   },
+  dashboardsTabPanel: {
+    height: '100%',
+    overflowY: 'auto',
+    overflowX: 'hidden',
+  },
   dashboardsMainContainer: {
     height: '100%',
   },
-  dashboardsTabCard: {
+  dashboardsMainCard: {
     height: '100%',
   },
-  dashboard: {
+  dashboardsMainCardContent: {
+    height: '100%',
     overflow: 'auto',
+  },
+  dashboardsTabCard: {
     height: '100%',
   },
 }));
@@ -82,8 +90,15 @@ const Dashboards = () => {
         </Card>
       </Grid>
       <Grid item sm={10} className={classes.dashboardsMainContainer}>
-        <Card className={classes.dashboard}>
-          <CardContent>{<TabPanel index={value} key={dashboardTitle} title={dashboardTitle} />}</CardContent>
+        <Card className={classes.dashboardsMainCard}>
+          <CardContent className={classes.dashboardsMainCardContent}>
+            <TabPanel
+              className={classes.dashboardsTabPanel}
+              index={value}
+              key={dashboardTitle}
+              title={dashboardTitle}
+            />
+          </CardContent>
         </Card>
       </Grid>
     </Grid>
