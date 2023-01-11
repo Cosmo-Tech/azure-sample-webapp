@@ -177,6 +177,10 @@
             "label": "Unknown error"
           }
         }
+      },
+      "errorPlaceholder": {
+        "title": "Unexpected error",
+        "description": "Something went wrong when trying to display PowerBI dashboards. If the problem persists, please contact an administrator."
       }
     },
     "scenariomanager": {

@@ -177,6 +177,10 @@
             "label": "Erreur inconnue"
           }
         }
+      },
+      "errorPlaceholder": {
+        "title": "Erreur inattendue",
+        "description": "Une erreur est survenue lors de l'affichage des rapports PowerBI. Si le problème persiste, veuillez contacter un administrateur."
       }
     },
     "scenariomanager": {
