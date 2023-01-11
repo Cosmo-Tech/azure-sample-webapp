@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import React, { useEffect, useState, useCallback } from 'react';
+import { useForm, FormProvider } from 'react-hook-form';
 import {
   Backdrop,
   Button,
@@ -50,6 +51,9 @@ const appInsights = AppInsights.getInstance();
 const Scenario = () => {
   const classes = useStyles();
   const { t } = useTranslation();
+
+  // RHF
+  const methods = useForm();
 
   const {
     scenarioList,
@@ -243,7 +247,7 @@ const Scenario = () => {
   };
 
   return (
-    <>
+    <FormProvider {...methods}>
       <Backdrop open={showBackdrop} style={{ zIndex: '10000' }}>
         <CircularProgress data-cy="scenario-loading-spinner" color="inherit" />
       </Backdrop>
@@ -307,7 +311,7 @@ const Scenario = () => {
           </Grid>
         </Grid>
       </div>
-    </>
+    </FormProvider>
   );
 };
 

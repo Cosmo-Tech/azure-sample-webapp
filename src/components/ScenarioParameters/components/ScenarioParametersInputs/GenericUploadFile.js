@@ -10,27 +10,24 @@ import { ConfigUtils, TranslationUtils } from '../../../../utils';
 import { useOrganizationId } from '../../../../state/hooks/OrganizationHooks.js';
 import { useWorkspaceId } from '../../../../state/hooks/WorkspaceHooks.js';
 
-export const GenericUploadFile = ({ parameterData, parametersState, setParametersState, context }) => {
+export const GenericUploadFile = ({ parameterData, context, parameterValue, setParameterValue }) => {
   const { t } = useTranslation();
   const organizationId = useOrganizationId();
   const workspaceId = useWorkspaceId();
   const parameterId = parameterData.id;
-  const parameter = parametersState[parameterId] || {};
+  const parameter = parameterValue || {};
   const datasetId = parameter.id;
   const defaultFileTypeFilter = ConfigUtils.getParameterAttribute(parameterData, 'defaultFileTypeFilter');
 
-  function setParameterInState(newValuePart) {
-    setParametersState((currentParametersState) => ({
-      ...currentParametersState,
-      [parameterId]: {
-        ...currentParametersState[parameterId],
-        ...newValuePart,
-      },
-    }));
+  function updateParameterValue(newValuePart) {
+    setParameterValue({
+      ...parameterValue,
+      ...newValuePart,
+    });
   }
 
   function setClientFileDescriptorStatus(newFileStatus) {
-    setParameterInState({
+    updateParameterValue({
       status: newFileStatus,
     });
   }
@@ -49,7 +46,7 @@ export const GenericUploadFile = ({ parameterData, parametersState, setParameter
       labels={labels}
       tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
       acceptedFileTypes={defaultFileTypeFilter}
-      handleUploadFile={(event) => FileManagementUtils.prepareToUpload(event, parameter, setParameterInState)}
+      handleUploadFile={(event) => FileManagementUtils.prepareToUpload(event, parameter, updateParameterValue)}
       handleDeleteFile={() => FileManagementUtils.prepareToDeleteFile(setClientFileDescriptorStatus)}
       handleDownloadFile={(event) => {
         event.preventDefault();
@@ -63,7 +60,7 @@ export const GenericUploadFile = ({ parameterData, parametersState, setParameter
 
 GenericUploadFile.propTypes = {
   parameterData: PropTypes.object.isRequired,
-  parametersState: PropTypes.object.isRequired,
-  setParametersState: PropTypes.func.isRequired,
   context: PropTypes.object.isRequired,
+  parameterValue: PropTypes.any,
+  setParameterValue: PropTypes.func.isRequired,
 };

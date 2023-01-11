@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 import PropTypes from 'prop-types';
 import { Grid, makeStyles, Typography, Accordion, AccordionSummary, AccordionDetails } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -73,6 +74,8 @@ const ScenarioParameters = ({
   const scenarioId = currentScenarioData?.id;
   const [showDiscardConfirmationPopup, setShowDiscardConfirmationPopup] = useState(false);
 
+  const { reset, getValues, setValue } = useFormContext();
+
   // Memoize the parameters ids for the current run template
   const runTemplateParametersIds = useMemo(
     () => getRunTemplateParametersIds(solutionData.runTemplatesParametersIdsDict, currentScenarioData?.runTemplateId),
@@ -130,25 +133,26 @@ const ScenarioParameters = ({
     return newParametersValuesToRender;
   };
 
-  // Add scenario parameters data in state
-  const [parametersValuesToRender, setParametersValuesToRender] = useState(
-    generateParametersValuesToRenderFromParametersValuesRef()
-  );
-
   const setParametersValuesToRenderFromParametersValuesRef = () => {
-    setParametersValuesToRender(generateParametersValuesToRenderFromParametersValuesRef());
+    const resetValues = generateParametersValuesToRenderFromParametersValuesRef();
+    reset(resetValues);
   };
 
   const discardLocalChanges = () => {
     setParametersValuesToRenderFromParametersValuesRef();
   };
 
+  const setParameterValue = (parameterId, newValue) => {
+    setValue(parameterId, newValue);
+  };
+
   const setParametersValuesRefFromParametersValuesToRender = async () => {
     const newParametersValuesToPatch = {};
-    for (const parameterId in parametersValuesToRender) {
+    const parametersValues = getValues();
+    for (const parameterId in parametersValues) {
       // Do not process "file" parameters, they will be handled in the function applyPendingOperationsOnFileParameters
       if (parametersMetadata[parameterId]?.varType !== DATASET_ID_VARTYPE) {
-        newParametersValuesToPatch[parameterId] = parametersValuesToRender[parameterId];
+        newParametersValuesToPatch[parameterId] = parametersValues[parameterId];
       }
     }
     parametersValuesRef.current = {
@@ -160,17 +164,12 @@ const ScenarioParameters = ({
       workspaceId,
       solutionData,
       parametersMetadata,
-      parametersValuesToRender,
-      setParametersValuesToRender,
+      parametersValues,
+      setParameterValue,
       parametersValuesRef,
       addDatasetToStore
     );
   };
-
-  useEffect(() => {
-    setParametersValuesToRenderFromParametersValuesRef();
-    // eslint-disable-next-line
-  }, [parametersValuesRef]);
 
   // You can use the context object to pass all additional information to custom tab factory
   const context = {
@@ -339,8 +338,6 @@ const ScenarioParameters = ({
               <form onSubmit={preventSubmit}>
                 <ScenarioParametersTabsWrapper
                   parametersGroupsMetadata={parametersGroupsMetadata}
-                  parametersValuesToRender={parametersValuesToRender}
-                  setParametersValuesToRender={setParametersValuesToRender}
                   userRoles={userRoles}
                   context={context}
                 />

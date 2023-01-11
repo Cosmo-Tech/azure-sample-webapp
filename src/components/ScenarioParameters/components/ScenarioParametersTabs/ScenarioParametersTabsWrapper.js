@@ -18,13 +18,7 @@ const _hasOnlyHiddenParameters = (group) => {
   );
 };
 
-const ScenarioParametersTabsWrapper = ({
-  parametersGroupsMetadata,
-  parametersValuesToRender,
-  setParametersValuesToRender,
-  userRoles,
-  context,
-}) => {
+const ScenarioParametersTabsWrapper = ({ parametersGroupsMetadata, userRoles, context }) => {
   const { t } = useTranslation();
   const datasets = useSelector((state) => state.dataset?.list?.data);
   for (const parametersGroupMetadata of parametersGroupsMetadata) {
@@ -43,22 +37,13 @@ const ScenarioParametersTabsWrapper = ({
     if ('name' in tabFactory || (tabFactory?.WrappedComponent && 'name' in tabFactory.WrappedComponent)) {
       parametersGroupMetadata.tab = React.createElement(tabFactory, {
         parametersGroupData: parametersGroupMetadata,
-        parametersState: parametersValuesToRender,
-        setParametersState: setParametersValuesToRender,
         context: context,
       });
     }
     // Note that the factories are now deprecated and
     // won't be supported in the next major version of the webapp
     else {
-      parametersGroupMetadata.tab = tabFactory.create(
-        t,
-        datasets,
-        parametersGroupMetadata,
-        parametersValuesToRender,
-        setParametersValuesToRender,
-        context
-      );
+      parametersGroupMetadata.tab = tabFactory.create(t, datasets, parametersGroupMetadata, context);
       console.warn(
         "Warning: Factories are now deprecated and won't be supported in the next major version of the webapp"
       );
@@ -72,8 +57,6 @@ const ScenarioParametersTabsWrapper = ({
 ScenarioParametersTabsWrapper.propTypes = {
   parametersGroupsMetadata: PropTypes.array.isRequired,
   userRoles: PropTypes.array.isRequired,
-  parametersValuesToRender: PropTypes.object.isRequired,
-  setParametersValuesToRender: PropTypes.func.isRequired,
   context: PropTypes.object.isRequired,
 };
 export default ScenarioParametersTabsWrapper;

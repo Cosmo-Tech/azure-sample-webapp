@@ -186,31 +186,28 @@ async function applyPendingOperationsOnFileParameters(
   workspaceId,
   solution,
   parametersMetadata,
-  parametersValuesToRender,
-  setParametersValuesToRender,
+  parametersValues,
+  setParameterValue,
   parametersValuesRef,
   addDatasetToStore
 ) {
   // Setter to update file descriptors status in the React component state
   function setClientFileDescriptorStatus(parameterId, newStatus) {
-    setParametersValuesToRender((currentParametersState) => ({
-      ...currentParametersState,
-      [parameterId]: {
-        ...currentParametersState[parameterId],
-        status: newStatus,
-      },
-    }));
+    setParameterValue(parameterId, {
+      ...parametersValues[parameterId],
+      status: newStatus,
+    });
   }
   // Apply pending operations on each dataset and keep track of the changes of datasets ids to patch parametersValuesRef
   const parametersValuesPatch = {};
-  for (const parameterId in parametersValuesToRender) {
+  for (const parameterId in parametersValues) {
     const varType = ScenarioParametersUtils.getParameterVarType(solution, parameterId);
     if (varType === DATASET_ID_VARTYPE) {
       const newDatasetId = await _applyDatasetChange(
         organizationId,
         workspaceId,
         parametersMetadata[parameterId],
-        parametersValuesToRender[parameterId],
+        parametersValues[parameterId],
         (newStatus) => setClientFileDescriptorStatus(parameterId, newStatus),
         parametersValuesRef.current[parameterId],
         addDatasetToStore

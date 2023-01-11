@@ -37,7 +37,7 @@ const _generateGridDataFromXLSX = async (fileBlob, parameterData, options) => {
   );
 };
 
-export const GenericTable = ({ parameterData, parametersState, setParametersState, context }) => {
+export const GenericTable = ({ parameterData, context, parameterValue, setParameterValue }) => {
   const { t } = useTranslation();
   const organizationId = useOrganizationId();
   const workspaceId = useWorkspaceId();
@@ -45,7 +45,8 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
   const scenarioId = useSelector((state) => state.scenario?.current?.data?.id);
 
   const parameterId = parameterData.id;
-  const parameter = parametersState[parameterId] || {};
+  const parameter = parameterValue || {};
+
   const lockId = `${scenarioId}_${parameterId}`;
 
   const labels = {
@@ -58,18 +59,15 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
   const dateFormat = ConfigUtils.getParameterAttribute(parameterData, 'dateFormat') || DEFAULT_DATE_FORMAT;
   const options = { dateFormat: dateFormat };
 
-  function setParameterInState(newValuePart) {
-    setParametersState((currentParametersState) => ({
-      ...currentParametersState,
-      [parameterId]: {
-        ...currentParametersState[parameterId],
-        ...newValuePart,
-      },
-    }));
+  function updateParameterValue(newValuePart) {
+    setParameterValue({
+      ...parameterValue,
+      ...newValuePart,
+    });
   }
 
   function setClientFileDescriptorStatuses(newFileStatus, newTableDataStatus) {
-    setParameterInState({
+    updateParameterValue({
       status: newFileStatus,
       tableDataStatus: newTableDataStatus,
     });
@@ -270,13 +268,13 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
   const importFile = (event) => {
     // TODO: ask confirmation if data already exist
     const previousFileBackup = clone(parameter);
-    const file = FileManagementUtils.prepareToUpload(event, parameter, setParameterInState);
+    const file = FileManagementUtils.prepareToUpload(event, parameter, updateParameterValue);
     if (file.name.endsWith('.csv')) {
-      _readAndParseCSVFile(file, parameter, setParameterInState, previousFileBackup);
+      _readAndParseCSVFile(file, parameter, updateParameterValue, previousFileBackup);
     } else if (file.name.endsWith('.xlsx')) {
-      _readAndParseXLSXFile(file, parameter, setParameterInState, previousFileBackup);
+      _readAndParseXLSXFile(file, parameter, updateParameterValue, previousFileBackup);
     } else {
-      setParameterInState({
+      updateParameterValue({
         errors: [{ summary: 'Unknown file type, please provide a CSV or XLSX file.', loc: file.name }],
       });
     }
@@ -290,7 +288,7 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
 
   const _uploadPreprocess = (parameterData, clientFileDescriptor, setClientFileDescriptorStatus) => {
     const newFileContent = AgGridUtils.toCSV(parameter.agGridRows, columns, options);
-    setParameterInState({
+    updateParameterValue({
       content: newFileContent,
     });
     return newFileContent;
@@ -298,7 +296,7 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
 
   const onCellChange = (event) => {
     if (!parameter.uploadPreprocess) {
-      setParameterInState({
+      updateParameterValue({
         errors: [],
         status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD,
         tableDataStatus: TABLE_DATA_STATUS.READY,
@@ -308,7 +306,7 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
   };
 
   const onClearErrors = () => {
-    setParameterInState({
+    updateParameterValue({
       errors: [],
     });
   };
@@ -336,7 +334,7 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
       parameter.status === UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD &&
       !alreadyDownloaded
     ) {
-      _downloadDatasetFileContentFromStorage(organizationId, workspaceId, datasets, parameter, setParameterInState);
+      _downloadDatasetFileContentFromStorage(organizationId, workspaceId, datasets, parameter, updateParameterValue);
     }
   });
 
@@ -394,7 +392,7 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
 
 GenericTable.propTypes = {
   parameterData: PropTypes.object.isRequired,
-  parametersState: PropTypes.object.isRequired,
-  setParametersState: PropTypes.func.isRequired,
   context: PropTypes.object.isRequired,
+  parameterValue: PropTypes.any,
+  setParameterValue: PropTypes.func.isRequired,
 };

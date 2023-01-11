@@ -2,13 +2,14 @@
 // Licensed under the MIT license.
 
 import React, { useCallback, useRef } from 'react';
+import { Controller } from 'react-hook-form';
 import { ConfigUtils } from '../../../../utils/ConfigUtils';
 import { VAR_TYPES_COMPONENTS_MAPPING } from '../../../../utils/scenarioParameters/VarTypesComponentsMapping';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { useStore } from 'react-redux';
 
-const ScenarioParameterInput = ({ parameterData, parametersState, setParametersState, context }) => {
+const ScenarioParameterInput = ({ parameterData, context }) => {
   const { t } = useTranslation();
   const subType = ConfigUtils.getParameterAttribute(parameterData, 'subType');
   const parameterVarType = ConfigUtils.buildExtendedVarType(parameterData.varType, subType);
@@ -18,15 +19,6 @@ const ScenarioParameterInput = ({ parameterData, parametersState, setParametersS
 
   const getCurrentScenarioId = useCallback(() => store.getState().scenario?.current?.data?.id, [store]);
   const scenarioIdOnMount = useRef(getCurrentScenarioId());
-
-  const setParametersStateSecure = useCallback(
-    (...args) => {
-      if (scenarioIdOnMount.current === getCurrentScenarioId()) {
-        setParametersState(...args);
-      }
-    },
-    [getCurrentScenarioId, setParametersState]
-  );
 
   if (parameterVarType in VAR_TYPES_COMPONENTS_MAPPING) {
     varTypeFactory = VAR_TYPES_COMPONENTS_MAPPING[parameterVarType];
@@ -42,24 +34,41 @@ const ScenarioParameterInput = ({ parameterData, parametersState, setParametersS
     return null;
   }
 
-  const props = {
-    parameterData,
-    parametersState,
-    setParametersState: setParametersStateSecure,
-    context,
-    key: parameterData.id,
-  };
-  // name property helps distinguish React components from factories
-  if ('name' in varTypeFactory) {
-    return React.createElement(varTypeFactory, props);
-  }
-  console.warn("Warning: Factories are now deprecated and won't be supported in the next major version of the webapp");
-  return varTypeFactory.create(t, parameterData, parametersState, setParametersStateSecure, context);
+  return (
+    <Controller
+      name={parameterData.id}
+      render={(rhfProps) => {
+        const { value: parameterValue, onChange: setRhfValue } = rhfProps.field;
+        const { isDirty } = rhfProps.fieldState;
+
+        const setParameterValue = (newValue, updateDirty = true) => {
+          if (scenarioIdOnMount.current === getCurrentScenarioId()) {
+            setRhfValue(newValue);
+          }
+        };
+
+        const props = {
+          parameterData,
+          context,
+          key: parameterData.id,
+          parameterValue,
+          setParameterValue,
+          isDirty,
+        };
+        // name property helps distinguish React components from factories
+        if ('name' in varTypeFactory) {
+          return React.createElement(varTypeFactory, props);
+        }
+        console.warn(
+          "Warning: Factories are now deprecated and won't be supported in the next major version of the webapp"
+        );
+        return varTypeFactory.create(t, parameterData, context, parameterValue, setParameterValue);
+      }}
+    />
+  );
 };
 ScenarioParameterInput.propTypes = {
   parameterData: PropTypes.object.isRequired,
-  parametersState: PropTypes.object.isRequired,
-  setParametersState: PropTypes.func.isRequired,
   context: PropTypes.object.isRequired,
 };
 export default ScenarioParameterInput;
