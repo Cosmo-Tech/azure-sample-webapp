@@ -2,11 +2,12 @@
 // Licensed under the MIT license.
 
 import React from 'react';
-import { SimplePowerBIReportEmbed } from '@cosmotech/ui';
-
+import { ErrorBoundary, SimplePowerBIReportEmbed } from '@cosmotech/ui';
+import { useTranslation } from 'react-i18next';
 import { useCurrentScenarioPowerBiReport } from './CurrentScenarioPowerBiReportHook';
 
 const CurrentScenarioPowerBiReport = ({ reportConfiguration, iframeRatio, index }) => {
+  const { t } = useTranslation();
   const {
     currentScenarioData,
     visibleScenarios,
@@ -17,19 +18,28 @@ const CurrentScenarioPowerBiReport = ({ reportConfiguration, iframeRatio, index 
     logInWithUserCredentials,
   } = useCurrentScenarioPowerBiReport();
 
+  const defaultErrorDescription =
+    'Something went wrong when trying to display PowerBI dashboards. If the problem ' +
+    'persists, please contact an administrator.';
+
   return (
-    <SimplePowerBIReportEmbed
-      reports={reports}
-      reportConfiguration={reportConfiguration}
-      scenario={currentScenarioData}
-      visibleScenarios={visibleScenarios}
-      lang={language}
-      downloadLogsFile={downloadLogsFile}
-      labels={reportLabels}
-      useAAD={logInWithUserCredentials}
-      iframeRatio={iframeRatio}
-      index={index}
-    />
+    <ErrorBoundary
+      title={t('commoncomponents.iframe.errorPlaceholder.title', 'Unexpected error')}
+      description={t('commoncomponents.iframe.errorPlaceholder.description', defaultErrorDescription)}
+    >
+      <SimplePowerBIReportEmbed
+        reports={reports}
+        reportConfiguration={reportConfiguration}
+        scenario={currentScenarioData}
+        visibleScenarios={visibleScenarios}
+        lang={language}
+        downloadLogsFile={downloadLogsFile}
+        labels={reportLabels}
+        useAAD={logInWithUserCredentials}
+        iframeRatio={iframeRatio}
+        index={index}
+      />
+    </ErrorBoundary>
   );
 };
 
