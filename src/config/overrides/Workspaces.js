@@ -65,6 +65,15 @@ export const WORKSPACES = [
               ],
               pageName: { en: 'ReportSectiond5265d03b73060af4244', fr: 'ReportSectiond5265d03b73060af4244' },
             },
+            {
+              title: { en: 'Scenario comparison', fr: 'Comparaison de scénarios' },
+              reportId: '608b7bef-f5e3-4aae-b8db-19bbb38325d5',
+              settings: { navContentPaneEnabled: false, panes: { filters: { expanded: false, visible: true } } },
+              dynamicFilters: [
+                { table: 'StockProbe', column: 'SimulationRun', values: 'visibleScenariosCsmSimulationRunsIds' },
+              ],
+              pageName: { en: 'ReportSection99fca3e46d5107c9ddea', fr: 'ReportSection99fca3e46d5107c9ddea' },
+            },
           ],
           scenarioView: {
             1: {
