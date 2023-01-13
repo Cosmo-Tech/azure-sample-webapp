@@ -2,17 +2,14 @@
 // Licensed under the MIT license.
 
 import React, { useMemo } from 'react';
-import { Routes, Navigate, Route, useLocation, useNavigationType } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import { Routes, Navigate, Route, useNavigationType } from 'react-router-dom';
 import { TabLayout } from './layouts';
-import { SignIn as SignInView, AccessDenied as AccessDeniedView } from './views';
 import Workspaces from './views/Workspaces';
 import { useWorkspaceData, useWorkspaceId } from './state/hooks/WorkspaceHooks';
 import { getTabsForCurrentWorkspace } from './AppLayout';
+import { UserStatusGate } from './components';
 
-const AppRoutes = (props) => {
-  const { authenticated, authorized } = props;
-  const location = useLocation();
+const AppRoutes = () => {
   const navigationType = useNavigationType();
   const providedUrl = sessionStorage.getItem('providedUrl');
   const providedUrlBeforeSignIn = sessionStorage.getItem('providedUrlBeforeSignIn');
@@ -26,65 +23,34 @@ const AppRoutes = (props) => {
       <Route
         path="/workspaces"
         element={
-          !authenticated ? (
-            <Navigate to="/sign-in" state={{ from: location.pathname }} />
-          ) : !authorized ? (
-            <Navigate to="/accessDenied" replace />
-          ) : currentWorkspaceId && navigationType !== 'POP' ? (
-            <Navigate to={`/${currentWorkspaceId}/scenario`} />
-          ) : (
-            <Workspaces />
-          )
+          <UserStatusGate>
+            {currentWorkspaceId && navigationType !== 'POP' ? (
+              <Navigate to={`/${currentWorkspaceId}/scenario`} />
+            ) : (
+              <Workspaces />
+            )}
+          </UserStatusGate>
         }
       />
       <Route
         path=":workspaceId"
         element={
-          !authenticated ? (
-            <Navigate to="/sign-in" state={{ from: location.pathname }} />
-          ) : (
+          <UserStatusGate>
             <Navigate to="scenario" replace />
-          )
+          </UserStatusGate>
         }
       />
       <Route
         element={
-          !authenticated ? (
-            <Navigate to="/sign-in" state={{ from: location.pathname }} />
-          ) : !authorized ? (
-            <Navigate to="/accessDenied" replace />
-          ) : (
+          <UserStatusGate>
             <TabLayout tabs={tabs} />
-          )
+          </UserStatusGate>
         }
       >
-        {tabs.map((tab) => (
-          <Route
-            key={tab.key}
-            path={`:workspaceId/${tab.to}`}
-            element={
-              !authenticated ? (
-                <Navigate to="/sign-in" state={{ from: location.pathname }} />
-              ) : !authorized ? (
-                <Navigate to="/accessDenied" replace />
-              ) : (
-                tab.render
-              )
-            }
-          >
+        {tabs?.map((tab) => (
+          <Route key={tab.key} path={`:workspaceId/${tab.to}`} element={<UserStatusGate>{tab.render}</UserStatusGate>}>
             {['scenario', 'instance'].includes(tab.to) && (
-              <Route
-                path=":scenarioId"
-                element={
-                  !authenticated ? (
-                    <Navigate to="/sign-in" state={{ from: location.pathname }} />
-                  ) : !authorized ? (
-                    <Navigate to="/accessDenied" replace />
-                  ) : (
-                    tab.render
-                  )
-                }
-              />
+              <Route path=":scenarioId" element={<UserStatusGate>{tab.render}</UserStatusGate>} />
             )}
           </Route>
         ))}
@@ -92,21 +58,22 @@ const AppRoutes = (props) => {
       <Route
         path="/sign-in"
         element={
-          !authenticated ? <SignInView /> : <Navigate to={providedUrlBeforeSignIn || providedUrl || '/workspaces'} />
+          <UserStatusGate>
+            <Navigate to={providedUrlBeforeSignIn || providedUrl || '/workspaces'} />
+          </UserStatusGate>
         }
       />
       <Route
         path="/accessDenied"
-        element={!authenticated ? <SignInView /> : authorized ? <Navigate to="/workspaces" /> : <AccessDeniedView />}
+        element={
+          <UserStatusGate>
+            <Navigate to="/workspaces" />
+          </UserStatusGate>
+        }
       />
       <Route path="*" element={<Navigate to={'/workspaces'} />} />
     </Routes>
   );
-};
-
-AppRoutes.propTypes = {
-  authenticated: PropTypes.bool.isRequired,
-  authorized: PropTypes.bool,
 };
 
 export default AppRoutes;

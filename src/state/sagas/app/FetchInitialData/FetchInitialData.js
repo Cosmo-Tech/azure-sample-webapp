@@ -18,7 +18,7 @@ const providedUrlBeforeSignIn = sessionStorage.getItem('providedUrlBeforeSignIn'
 const providedUrl = window.location.pathname;
 const path = matchPath(':firstParam/*', providedUrlBeforeSignIn || providedUrl);
 const firstParam = path?.params?.firstParam;
-const isRedirectedToWorkspaces = !firstParam || firstParam === 'workspaces' || firstParam === 'sign-in';
+const isRedirectedToWorkspaces = !firstParam || ['workspaces', 'sign-in', 'accessDenied'].includes(firstParam);
 let providedWorkspaceId;
 sessionStorage.removeItem('providedUrl');
 if (!isRedirectedToWorkspaces) {

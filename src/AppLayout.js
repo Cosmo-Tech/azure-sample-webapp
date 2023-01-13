@@ -13,6 +13,12 @@ const DEFAULT_TABS = [
     render: <Scenario />,
   },
   {
+    key: 'tabs.instance.key',
+    label: 'layouts.tabs.instance.tab.title',
+    to: 'instance',
+    render: <Instance />,
+  },
+  {
     key: 'tabs.dashboards.key',
     label: 'layouts.tabs.dashboards.tab.title',
     to: 'dashboards',
@@ -29,13 +35,8 @@ const DEFAULT_TABS = [
 export const getTabsForCurrentWorkspace = (currentWorkspaceData) => {
   const tabs = [...DEFAULT_TABS];
 
-  if (ConfigUtils.isInstanceViewConfigValid(currentWorkspaceData?.webApp?.options?.instanceView)) {
-    tabs.splice(1, 0, {
-      key: 'tabs.instance.key',
-      label: 'layouts.tabs.instance.tab.title',
-      to: 'instance',
-      render: <Instance />,
-    });
+  if (!ConfigUtils.isInstanceViewConfigValid(currentWorkspaceData?.webApp?.options?.instanceView)) {
+    tabs.filter((tab) => tab.key !== 'tabs.instance.key');
   }
 
   return tabs;

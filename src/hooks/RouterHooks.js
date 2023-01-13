@@ -21,6 +21,8 @@ export const useRedirectionToScenario = (sortedScenarioList, view) => {
         navigate(`${currentScenario.data.id}`, { replace: true });
       } else if (currentScenario.data.id !== routerParameters.scenarioId) {
         handleScenarioChange(routerParameters.scenarioId);
+        if (!sortedScenarioList?.find((scenario) => scenario.id === routerParameters.scenarioId))
+          navigate(`${currentScenario.data.id}`);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
