@@ -154,6 +154,7 @@
             },
             "error": "An error occured during the scenario run",
             "running": "Scenario run in progress...",
+            "dataInTransfer": "Scenario results transfer in progress..",
             "uninitialized": "The scenario has not been run yet"
           },
           "button": {

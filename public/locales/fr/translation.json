@@ -154,6 +154,7 @@
             },
             "error": "Une erreur est survenue lors de l'exécution de ce scénario",
             "running": "Scénario en cours d'exécution...",
+            "dataInTransfer": "Transfert des résultats en cours...",
             "uninitialized": "Le scénario n'a pas encore été lancé"
           },
           "button": {
