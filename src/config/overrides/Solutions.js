@@ -13,9 +13,6 @@ export const SOLUTIONS = [
       {
         id: 'nb_waiters',
         dataCy: 'waiters-input',
-        subType: 'SLIDER',
-        minValue: 0,
-        maxValue: 35,
         defaultValue: 5,
       },
       {
@@ -74,6 +71,10 @@ export const SOLUTIONS = [
         id: 'start_date',
         dataCy: 'start_date',
         defaultValue: new Date('2014-08-18T21:11:54'),
+      },
+      {
+        id: 'average_consumption',
+        dataCy: 'average_consumption',
       },
       {
         id: 'additional_seats',
@@ -243,7 +244,14 @@ export const SOLUTIONS = [
       },
       {
         id: 'basic_types',
-        parameters: ['currency', 'currency_name', 'currency_value', 'currency_used', 'start_date'],
+        parameters: [
+          'currency',
+          'currency_name',
+          'currency_value',
+          'currency_used',
+          'start_date',
+          'average_consumption',
+        ],
         authorizedRoles: [APP_ROLES.PlatformAdmin, APP_ROLES.OrganizationUser],
         hideParameterGroupIfNoPermission: false,
       },

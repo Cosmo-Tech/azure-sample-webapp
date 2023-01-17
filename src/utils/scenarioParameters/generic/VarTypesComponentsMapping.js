@@ -18,7 +18,7 @@ export const GENERIC_VAR_TYPES_COMPONENTS_MAPPING = {
   date: GenericDateInput,
   enum: GenericEnumInput,
   int: GenericNumberInput,
-  'int-SLIDER': GenericSliderInput,
+  'number-SLIDER': GenericSliderInput,
   number: GenericNumberInput,
   string: GenericTextInput,
   [DATASET_ID_VARTYPE]: GenericUploadFile,

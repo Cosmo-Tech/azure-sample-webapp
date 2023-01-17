@@ -160,6 +160,9 @@ export const GENERIC_SELECTORS = {
     basicNumberInput: {
       input: 'input',
     },
+    basicSliderInput: {
+      input: 'input',
+    },
     errorBanner: {
       banner: '[data-cy=error-banner]',
       errorDetail: '[data-cy=error-detail]',

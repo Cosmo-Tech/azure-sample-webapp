@@ -16,6 +16,7 @@ export const BREWERY_SELECTORS = {
         currencyValue: '[data-cy=number-input-currency_value]',
         currencyUsed: '[data-cy=toggle-input-currency_used]',
         startDate: '[data-cy=date-input-start_date]',
+        averageConsumption: '[data-cy=slider-input-average_consumption]',
       },
       datasetParts: {
         tabName: '[data-cy=dataset_parts_tab]',

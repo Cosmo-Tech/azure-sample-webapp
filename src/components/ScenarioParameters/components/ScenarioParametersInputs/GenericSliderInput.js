@@ -9,19 +9,8 @@ import { TranslationUtils } from '../../../../utils';
 
 const DEFAULT_MIN_VALUE = 0;
 const DEFAULT_MAX_VALUE = 100;
-function getMinValue(parameterData) {
-  if (parameterData.minValue == null) {
-    return DEFAULT_MIN_VALUE;
-  }
-  return parameterData.minValue;
-}
-
-function getMaxValue(parameterData) {
-  if (parameterData.maxValue == null) {
-    return DEFAULT_MAX_VALUE;
-  }
-  return parameterData.maxValue;
-}
+const getMinValue = (parameterData) => parameterData.minValue ?? DEFAULT_MIN_VALUE;
+const getMaxValue = (parameterData) => parameterData.maxValue ?? DEFAULT_MAX_VALUE;
 
 export const GenericSliderInput = ({ parameterData, parametersState, setParametersState, context }) => {
   const min = getMinValue(parameterData);
@@ -41,7 +30,7 @@ export const GenericSliderInput = ({ parameterData, parametersState, setParamete
   return (
     <BasicSliderInput
       key={parameterData.id}
-      data-cy={parameterData.dataCy}
+      data-cy={`slider-input-${parameterData.id}`}
       label={t(`solution.parameters.${parameterData.id}`, parameterData.id)}
       tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
       value={value}
