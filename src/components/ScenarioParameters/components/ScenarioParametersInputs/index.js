@@ -3,6 +3,7 @@
 
 export { GenericDateInput } from './GenericDateInput';
 export { GenericEnumInput } from './GenericEnumInput';
+export { GenericRadioInput } from './GenericRadioInput';
 export { GenericNumberInput } from './GenericNumberInput';
 export { GenericTextInput } from './GenericTextInput';
 export { GenericToggleInput } from './GenericToggleInput';
