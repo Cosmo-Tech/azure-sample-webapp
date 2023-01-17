@@ -39,6 +39,10 @@ export const BASIC_PARAMETERS_CONST = {
     MIN: new Date('01/01/1900'),
     MAX: new Date('12/31/2099'),
   },
+  SLIDER: {
+    MIN: 0,
+    MAX: 10,
+  },
 };
 
 export const DATASET = {

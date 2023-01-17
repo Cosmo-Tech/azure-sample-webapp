@@ -61,6 +61,9 @@ function getCurrencyUsed() {
 function getStartDate() {
   return cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.startDate);
 }
+function getAverageConsumption() {
+  return cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.averageConsumption);
+}
 function getAdditionalSeats() {
   return cy.get(BREWERY_SELECTORS.scenario.parameters.events.additionalSeats);
 }
@@ -100,6 +103,23 @@ function getCurrencyUsedInput() {
 }
 function getStartDateInput() {
   return getStartDate().find(GENERIC_SELECTORS.genericComponents.basicTextInput.input);
+}
+function getAverageConsumptionInput() {
+  return getAverageConsumption().find(GENERIC_SELECTORS.genericComponents.basicSliderInput.input);
+}
+function getAverageConsumptionSlider() {
+  return getAverageConsumption().find('[role=slider]');
+}
+function moveAverageConsumptionSlider(sliderMovement) {
+  getAverageConsumptionInput().then((input) => {
+    if (parseInt(input[0].value) === sliderMovement) return;
+    const sliderStepsToMove = sliderMovement - parseInt(input[0].value);
+    const arrowsCount =
+      sliderStepsToMove > 0
+        ? '{rightArrow}-'.repeat(Math.abs(sliderStepsToMove))
+        : '{leftArrow}-'.repeat(Math.abs(sliderStepsToMove));
+    getAverageConsumptionSlider().click().type(arrowsCount);
+  });
 }
 function getAdditionalSeatsInput() {
   return getAdditionalSeats().find(GENERIC_SELECTORS.genericComponents.basicNumberInput.input);
@@ -417,6 +437,7 @@ export const BreweryParameters = {
   getCurrencyValue,
   getCurrencyUsed,
   getStartDate,
+  getAverageConsumption,
   getAdditionalSeats,
   getActivated,
   getEvaluation,
@@ -430,6 +451,9 @@ export const BreweryParameters = {
   getCurrencyValueInput,
   getCurrencyUsedInput,
   getStartDateInput,
+  getAverageConsumptionInput,
+  getAverageConsumptionSlider,
+  moveAverageConsumptionSlider,
   getAdditionalSeatsInput,
   getActivatedInput,
   getEvaluationInput,
