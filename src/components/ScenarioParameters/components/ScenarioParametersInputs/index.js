@@ -8,3 +8,4 @@ export { GenericTextInput } from './GenericTextInput';
 export { GenericToggleInput } from './GenericToggleInput';
 export { GenericUploadFile } from './GenericUploadFile';
 export { GenericTable } from './GenericTable';
+export { GenericSliderInput } from './GenericSliderInput';

@@ -248,6 +248,7 @@ describe('Create scenario', () => {
 
   it('can create scenario, edit/discard parameters and switch between parameters tabs', () => {
     // Create Scenario with some paramaters tabs
+    const sliderValue = utils.randomNmbr(BASIC_PARAMETERS_CONST.SLIDER.MIN, BASIC_PARAMETERS_CONST.SLIDER.MAX);
     let scenarioCreatedName;
     Scenarios.createScenario(scenarioWithBasicTypesName, true, DATASET.BREWERY_ADT, RUN_TEMPLATE.BASIC_TYPES).then(
       (value) => {
@@ -265,6 +266,7 @@ describe('Create scenario', () => {
     ScenarioParameters.getTextField(BreweryParameters.getCurrencyTextField()).as('currency');
     ScenarioParameters.getInputValue(BreweryParameters.getCurrencyUsed()).as('currency-used');
     ScenarioParameters.getInputValue(BreweryParameters.getStartDateInput()).as('start-date');
+    ScenarioParameters.getInputValue(BreweryParameters.getAverageConsumptionInput()).as('average-consumption');
 
     BreweryParameters.getCurrencyNameInput().click().clear().type(textValue);
     BreweryParameters.getCurrencyValueInput().click().clear().type(numberValue);
@@ -273,6 +275,7 @@ describe('Create scenario', () => {
     BreweryParameters.getStartDateInput()
       .click()
       .type('{moveToStart}' + dateValue);
+    BreweryParameters.moveAverageConsumptionSlider(sliderValue);
 
     // Switch parameters tabs then back and check parameters,
     BreweryParameters.switchToDatasetPartsTab();
@@ -283,6 +286,7 @@ describe('Create scenario', () => {
     BreweryParameters.getCurrencyTextField().should('have.text', enumValue);
     BreweryParameters.getCurrencyUsedInput().should('be.checked');
     BreweryParameters.getStartDateInput().should('value', dateValue);
+    BreweryParameters.getAverageConsumptionInput().should('value', sliderValue);
 
     // Discard
     ScenarioParameters.discard();
@@ -302,6 +306,9 @@ describe('Create scenario', () => {
     cy.get('@start-date').then((input) => {
       BreweryParameters.getStartDateInput().should('value', input);
     });
+    cy.get('@average-consumption').then((input) => {
+      BreweryParameters.getAverageConsumptionInput().should('value', input);
+    });
 
     // re-edit
     ScenarioParameters.edit();
@@ -314,7 +321,8 @@ describe('Create scenario', () => {
     BreweryParameters.getStartDateInput()
       .click()
       .type('{moveToStart}' + dateValue);
-
+    // BreweryParameters.getAverageConsumption().find('[role=slider]').click().type('{rightArrow}-{rightArrow}');
+    BreweryParameters.moveAverageConsumptionSlider(sliderValue);
     // update and launch
     cy.intercept('PATCH', URL_REGEX.SCENARIO_PAGE_WITH_ID).as('requestEditScenario');
     cy.intercept('POST', URL_REGEX.SCENARIO_PAGE_RUN_WITH_ID).as('requestRunScenario');
@@ -330,6 +338,7 @@ describe('Create scenario', () => {
       const dateGet = utils.stringToDateInputExpectedFormat(
         new Date(paramsGet.find((obj) => obj.parameterId === 'start_date').value)
       );
+      const sliderNumberGet = parseFloat(paramsGet.find((obj) => obj.parameterId === 'average_consumption').value);
       expect(state).equal('Created');
       expect(nameGet).equal(scenarioCreatedName);
       expect(idGet).equal(scenarioWithBasicTypesId);
@@ -338,6 +347,7 @@ describe('Create scenario', () => {
       expect(BASIC_PARAMETERS_CONST.ENUM[enumGet]).equal(enumValue);
       expect(boolGet).equal('true');
       expect(dateGet).equal(dateValue);
+      expect(sliderNumberGet).equal(sliderValue);
     });
 
     cy.wait('@requestRunScenario').should((value) => {
