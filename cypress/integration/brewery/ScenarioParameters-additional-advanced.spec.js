@@ -61,7 +61,7 @@ describe('Additional advanced scenario parameters tests', () => {
     BreweryParameters.getActivatedInput().should('not.be.checked');
 
     BreweryParameters.switchToAdditionalParametersTab();
-    BreweryParameters.getVolumeUnitTextField().should('have.text', INIT_VALUES.volumeUnit);
+    BreweryParameters.getVolumeUnitInput().should('value', INIT_VALUES.volumeUnit);
     BreweryParameters.getAdditionalTablesInput().should('value', INIT_VALUES.additionalTables);
 
     BreweryParameters.switchToEventsTab();
@@ -83,8 +83,7 @@ describe('Additional advanced scenario parameters tests', () => {
     BreweryParameters.getAdditionalSeatsInput().click().clear().type(2000).should('value', 2000);
 
     BreweryParameters.switchToAdditionalParametersTab();
-    BreweryParameters.getVolumeUnitTextField().type('m {enter}').should('have.text', 'm³');
-
+    BreweryParameters.getVolumeUnitRadioButton('m³').click();
     BreweryParameters.switchToEventsTab();
     BreweryParameters.getActivatedInput().check().should('be.checked');
 
@@ -113,7 +112,7 @@ describe('Additional advanced scenario parameters tests', () => {
     BreweryParameters.getActivatedInput().should('not.be.checked');
 
     BreweryParameters.switchToAdditionalParametersTab();
-    BreweryParameters.getVolumeUnitTextField().should('have.text', INIT_VALUES.volumeUnit);
+    BreweryParameters.getVolumeUnitInput().should('value', INIT_VALUES.volumeUnit);
     BreweryParameters.getAdditionalTablesInput().should('value', INIT_VALUES.additionalTables);
 
     BreweryParameters.switchToEventsTab();
@@ -133,9 +132,7 @@ describe('Additional advanced scenario parameters tests', () => {
       .should('value', VALUES_TO_UPDATE.additionalSeats);
 
     BreweryParameters.switchToAdditionalParametersTab();
-    BreweryParameters.getVolumeUnitTextField()
-      .type(VALUES_TO_UPDATE.volumeUnit + ' {enter}')
-      .should('have.text', VALUES_TO_UPDATE.volumeUnit);
+    BreweryParameters.getVolumeUnitRadioButton(VALUES_TO_UPDATE.volumeUnit).click();
 
     BreweryParameters.switchToEventsTab();
     BreweryParameters.getActivatedInput().uncheck();
@@ -161,7 +158,7 @@ describe('Additional advanced scenario parameters tests', () => {
 
     BreweryParameters.switchToAdditionalParametersTab();
     BreweryParameters.getAdditionalTablesInput().should('value', VALUES_TO_UPDATE.additionalTables);
-    BreweryParameters.getVolumeUnitTextField().should('have.text', VALUES_TO_UPDATE.volumeUnit);
+    BreweryParameters.getVolumeUnitInput().should('value', VALUES_TO_UPDATE.volumeUnit);
     BreweryParameters.getCommentInput().should('value', VALUES_TO_UPDATE.comment);
     BreweryParameters.getAdditionalDateInput().should('value', VALUES_TO_UPDATE.additionalDate);
   });
