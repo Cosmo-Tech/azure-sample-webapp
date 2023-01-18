@@ -130,8 +130,16 @@ function getActivatedInput() {
 function getEvaluationInput() {
   return getEvaluation().find(GENERIC_SELECTORS.genericComponents.basicTextInput.input);
 }
+function getVolumeUnitInput() {
+  return getVolumeUnit().find(GENERIC_SELECTORS.genericComponents.basicRadioInput.input);
+}
 function getVolumeUnitTextField() {
-  return getVolumeUnit().find(GENERIC_SELECTORS.genericComponents.basicEnumInput.textField);
+  return getVolumeUnit().find(GENERIC_SELECTORS.genericComponents.basicRadioInput.textField);
+}
+function getVolumeUnitRadioButton(volumeUnitValue) {
+  return getVolumeUnit().find(
+    GENERIC_SELECTORS.genericComponents.basicRadioInput.radioButtonByValue.replace('$VALUE', volumeUnitValue)
+  );
 }
 function getAdditionalTablesInput() {
   return getAdditionalTables().find(GENERIC_SELECTORS.genericComponents.basicNumberInput.input);
@@ -457,7 +465,9 @@ export const BreweryParameters = {
   getAdditionalSeatsInput,
   getActivatedInput,
   getEvaluationInput,
+  getVolumeUnitInput,
   getVolumeUnitTextField,
+  getVolumeUnitRadioButton,
   getAdditionalTablesInput,
   getCommentInput,
   getAdditionalDateInput,

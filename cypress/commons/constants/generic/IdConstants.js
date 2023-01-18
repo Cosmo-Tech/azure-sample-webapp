@@ -154,6 +154,11 @@ export const GENERIC_SELECTORS = {
       input: 'input',
       textField: '[data-cy=text_field]',
     },
+    basicRadioInput: {
+      radioButtonByValue: '[data-cy=radio-button-$VALUE]',
+      input: 'input',
+      textField: '[data-cy=text-field]',
+    },
     basicTextInput: {
       input: 'input',
     },

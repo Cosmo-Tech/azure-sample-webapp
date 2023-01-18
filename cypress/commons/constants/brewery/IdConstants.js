@@ -40,7 +40,7 @@ export const BREWERY_SELECTORS = {
       },
       additionalParameters: {
         tabName: '[data-cy=additional_parameters_tab]',
-        volumeUnit: '[data-cy=enum-input-volume_unit]',
+        volumeUnit: '[data-cy=radio-input-volume_unit]',
         additionalTables: '[data-cy=number-input-additional_tables]',
         comment: '[data-cy=text-input-comment]',
         additionalDate: '[data-cy=date-input-additional_date]',
