@@ -21,6 +21,12 @@ export const getReportLabels = (t) => ({
   inProgress: {
     label: t('commoncomponents.iframe.scenario.results.label.running', 'Scenario run in progress...'),
   },
+  dataInTransfer: {
+    label: t(
+      'commoncomponents.iframe.scenario.results.label.dataInTransfer',
+      'Scenario results transfer in progress...'
+    ),
+  },
   hasErrors: {
     label: t('commoncomponents.iframe.scenario.results.label.error', 'An error occured during the scenario run'),
   },
