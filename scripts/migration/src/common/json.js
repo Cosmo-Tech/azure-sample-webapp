@@ -2,6 +2,13 @@
 // Licensed under the MIT license.
 
 const fs = require('fs');
+const prettier = require('prettier');
+
+const PRETTIER_DEFAULT_OPTIONS = {
+  parser: 'json',
+  printWidth: 120,
+  singleQuote: true,
+};
 
 const readFromFile = (filePath, encoding = 'utf8') => {
   try {
@@ -15,7 +22,9 @@ const readFromFile = (filePath, encoding = 'utf8') => {
 
 const writeToFile = (object, filePath) => {
   try {
-    fs.writeFileSync(filePath, JSON.stringify(object));
+    let fileContent = JSON.stringify(object);
+    fileContent = prettier.format(fileContent, PRETTIER_DEFAULT_OPTIONS);
+    fs.writeFileSync(filePath, fileContent);
   } catch (e) {
     console.error(`Error when writing JSON file "${filePath}"`);
     console.error(e.message);
