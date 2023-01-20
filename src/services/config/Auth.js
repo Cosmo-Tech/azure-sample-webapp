@@ -3,9 +3,13 @@
 
 import { Auth, AuthDev } from '@cosmotech/core';
 import { AuthMSAL } from '@cosmotech/azure';
-import { APP_REGISTRATION_CLIENT_ID, AZURE_TENANT_ID, COSMOTECH_API_SCOPE } from '../../config/GlobalConfiguration.js';
+import ConfigService from '../../services/ConfigService';
 
 export const POWER_BI_API_DEFAULT_SCOPE = 'https://analysis.windows.net/powerbi/api/.default';
+
+const APP_REGISTRATION_CLIENT_ID = ConfigService.getParameterValue('APP_REGISTRATION_CLIENT_ID');
+const AZURE_TENANT_ID = ConfigService.getParameterValue('AZURE_TENANT_ID');
+const COSMOTECH_API_SCOPE = ConfigService.getParameterValue('COSMOTECH_API_SCOPE');
 
 // AuthMSAL configuration
 const MSAL_CONFIG = {

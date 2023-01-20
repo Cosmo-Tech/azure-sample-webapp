@@ -3,16 +3,19 @@
 
 import React from 'react';
 import { HelpMenu } from '@cosmotech/ui';
-import { SUPPORT_URL, DOCUMENTATION_URL } from '../../../config/HelpMenuConfiguration';
 import { About } from '../../../services/config/Menu';
 import { useTranslation } from 'react-i18next';
 import { useWorkspaceData } from '../../../state/hooks/WorkspaceHooks';
+import ConfigService from '../../../services/ConfigService';
 
 export const HelpMenuWrapper = () => {
   const { t } = useTranslation();
   const currentWorkspaceData = useWorkspaceData();
-  const docUrl = currentWorkspaceData?.webApp?.options?.menu?.documentationUrl ?? DOCUMENTATION_URL;
-  const supportUrl = currentWorkspaceData?.webApp?.options?.menu?.supportUrl ?? SUPPORT_URL;
+  const docUrl =
+    currentWorkspaceData?.webApp?.options?.menu?.documentationUrl ??
+    ConfigService.getParameterValue('DOCUMENTATION_URL');
+  const supportUrl =
+    currentWorkspaceData?.webApp?.options?.menu?.supportUrl ?? ConfigService.getParameterValue('SUPPORT_URL');
 
   const labels = {
     title: t('genericcomponent.helpmenu.title', 'Help'),

@@ -7,7 +7,7 @@ import { Grid, makeStyles, ButtonBase, Link } from '@material-ui/core';
 import { pictureLight, pictureDark } from '../../theme';
 import { useTranslation } from 'react-i18next';
 import { useWorkspaceData } from '../../state/hooks/WorkspaceHooks';
-import { SUPPORT_URL, COSMOTECH_URL, APP_VERSION } from '../../config/HelpMenuConfiguration';
+import ConfigService from '../../services/ConfigService';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,8 +36,10 @@ export const AboutContent = ({ isDarkTheme }) => {
   const logo = isDarkTheme ? pictureDark.darkLogo : pictureLight.lightLogo;
 
   const currentWorkspaceData = useWorkspaceData();
-  const organizationUrl = currentWorkspaceData?.webApp?.options?.menu?.organizationUrl ?? COSMOTECH_URL;
-  const supportUrl = currentWorkspaceData?.webApp?.options?.menu?.supportUrl ?? SUPPORT_URL;
+  const organizationUrl =
+    currentWorkspaceData?.webApp?.options?.menu?.organizationUrl ?? ConfigService.getParameterValue('COSMOTECH_URL');
+  const supportUrl =
+    currentWorkspaceData?.webApp?.options?.menu?.supportUrl ?? ConfigService.getParameterValue('SUPPORT_URL');
 
   return (
     <Grid container spacing={2} className={classes.root}>
@@ -52,7 +54,7 @@ export const AboutContent = ({ isDarkTheme }) => {
             {t('genericcomponent.dialog.about.title')}
           </Grid>
           <Grid item className={classes.version}>
-            {APP_VERSION}
+            {ConfigService.getParameterValue('APP_VERSION')}
           </Grid>
           <Grid item className={classes.content}>
             {t('genericcomponent.dialog.about.content')}

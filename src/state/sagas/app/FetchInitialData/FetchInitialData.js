@@ -5,13 +5,15 @@ import { put, takeEvery, call, select } from 'redux-saga/effects';
 import { APPLICATION_ACTIONS_KEY } from '../../../commons/ApplicationConstants';
 import { WORKSPACE_ACTIONS_KEY } from '../../../commons/WorkspaceConstants';
 import { STATUSES } from '../../../commons/Constants';
-import { ORGANIZATION_ID } from '../../../../config/GlobalConfiguration';
 import { getAllWorkspaces } from '../../workspace/GetAllWorkspaces/GetAllWorkspaces';
 import { fetchAllDatasetsData } from '../../datasets/FindAllDatasets/FindAllDatasets';
 import { fetchOrganizationById } from '../../organization/FindOrganizationById/FindOrganizationById';
 import { parseError } from '../../../../utils/ErrorsUtils';
 import { Api } from '../../../../services/config/Api';
 import { matchPath } from 'react-router-dom';
+import ConfigService from '../../../../services/ConfigService';
+
+const ORGANIZATION_ID = ConfigService.getParameterValue('ORGANIZATION_ID');
 
 const getWorkspaces = (state) => state?.workspace?.list?.data;
 const providedUrlBeforeSignIn = sessionStorage.getItem('providedUrlBeforeSignIn');

@@ -2,8 +2,10 @@
 // Licensed under the MIT license.
 
 import { ApplicationInsights } from '@microsoft/applicationinsights-web';
+import ConfigService from './ConfigService';
 import { APPLICATION_INSIGHTS_CONFIG } from './config/ApplicationInsights';
-import { ENABLE_APPLICATION_INSIGHTS } from '../config/ApplicationInsights';
+
+const ENABLE_APPLICATION_INSIGHTS = ConfigService.getParameterValue('ENABLE_APPLICATION_INSIGHTS');
 
 class AppInsightsSingleton {
   constructor() {

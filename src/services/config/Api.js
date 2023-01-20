@@ -10,10 +10,10 @@ import {
   OrganizationApiFactory,
 } from '@cosmotech/api-ts';
 import { clientApi } from '../ClientApi';
-import { DEFAULT_BASE_PATH } from '../../config/GlobalConfiguration';
+import ConfigService from '../ConfigService';
 
 // Remove trailing slash characters in default base path to prevent CORS errors
-const defaultBasePath = DEFAULT_BASE_PATH.replace(/\/+$/, '');
+const defaultBasePath = ConfigService.getParameterValue('DEFAULT_BASE_PATH').replace(/\/+$/, '');
 
 export const Api = {
   Scenarios: ScenarioApiFactory(null, defaultBasePath, clientApi),

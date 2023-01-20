@@ -7,7 +7,9 @@ import { Api } from '../../../../services/config/Api';
 import { STATUSES } from '../../../commons/Constants';
 import { SecurityUtils, WorkspacesUtils } from '../../../../utils';
 import { ACL_PERMISSIONS } from '../../../../services/config/accessControl/Permissions';
-import { WORKSPACES_IDS_FILTER } from '../../../../config/GlobalConfiguration';
+import ConfigService from '../../../../services/ConfigService';
+
+const WORKSPACES_IDS_FILTER = ConfigService.getParameterValue('WORKSPACES_IDS_FILTER');
 
 const getUserEmail = (state) => state.auth.userEmail;
 const getUserId = (state) => state.auth.userId;

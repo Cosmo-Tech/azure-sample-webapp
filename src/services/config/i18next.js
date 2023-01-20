@@ -5,7 +5,7 @@ import i18next from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
 import HttpApi from 'i18next-http-backend';
-import { LANGUAGES, FALLBACK_LANGUAGE } from '../../config/Languages';
+import ConfigService from '../../services/ConfigService';
 
 const I18N_NAMESPACE = 'translation';
 
@@ -24,8 +24,8 @@ i18next
   .use(initReactI18next)
   // for all options read: https://www.i18next.com/overview/configuration-options
   .init({
-    fallbackLng: FALLBACK_LANGUAGE,
-    supportedLngs: Object.keys(LANGUAGES),
+    fallbackLng: ConfigService.getParameterValue('FALLBACK_LANGUAGE'),
+    supportedLngs: Object.keys(ConfigService.getParameterValue('LANGUAGES')),
     detection: langDetectorOptions,
     backend: {
       loadPath: '/locales/{{lng}}/{{ns}}.json',
