@@ -6,7 +6,6 @@ const { join, resolve } = require('path');
 const { copyFileToMJS } = require('../common/js_modules.js');
 
 const MANDATORY_CONFIG_FILES = [];
-const OPTIONAL_CONFIG_FILES = ['ScenarioParameters.js'];
 let rootFolder = null;
 
 const setRootFolder = (newRootFolder) => {
@@ -42,5 +41,4 @@ module.exports = {
   clearFileFromOutputFolder,
   copyConfigFileToMJS,
   MANDATORY_CONFIG_FILES,
-  OPTIONAL_CONFIG_FILES,
 };
