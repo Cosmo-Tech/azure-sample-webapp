@@ -22,8 +22,9 @@ export const getScenarioManagerLabels = (t) => ({
   deleteDialog: {
     description: t(
       'commoncomponents.dialog.confirm.delete.description',
-      'The scenario will be deleted. If this scenario has children, ' +
-        'then its parent will become the new parent of all these scenarios.'
+      'This operation is irreversible. Dataset(s) will not be removed, but the scenario parameters will be lost. ' +
+        'If this scenario has children, they will be moved to a new parent. ' +
+        'The new parent will be the parent of the deleted scenario.'
     ),
     cancel: t('commoncomponents.dialog.confirm.delete.button.cancel', 'Cancel'),
     confirm: t('commoncomponents.dialog.confirm.delete.button.confirm', 'Confirm'),
