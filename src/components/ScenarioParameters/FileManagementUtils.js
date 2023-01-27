@@ -258,6 +258,7 @@ const downloadFile = async (organizationId, workspaceId, datasetId, setClientFil
     }
     appInsights.trackDownload();
   } catch (error) {
+    console.error(error);
     applicationStore.dispatch(
       dispatchSetApplicationErrorMessage(error, t('commoncomponents.banner.dataset', "Dataset hasn't been downloaded."))
     );

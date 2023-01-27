@@ -170,7 +170,7 @@ const ScenarioParameters = ({
   useEffect(() => {
     setParametersValuesToRenderFromParametersValuesRef();
     // eslint-disable-next-line
-  }, [parametersValuesRef]);
+  }, [parametersValuesRef.current]);
 
   // You can use the context object to pass all additional information to custom tab factory
   const context = {
