@@ -23,17 +23,13 @@ export const GenericSliderInput = ({ parameterData, parametersState, setParamete
     }));
   };
 
-  let value = parametersState[parameterData.id];
-  if (value == null) {
-    value = NaN;
-  }
   return (
     <BasicSliderInput
       key={parameterData.id}
       data-cy={`slider-input-${parameterData.id}`}
       label={t(`solution.parameters.${parameterData.id}`, parameterData.id)}
       tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
-      value={value}
+      value={parametersState[parameterData.id]}
       handleSliderValueChange={setValue}
       disabled={!context.editMode}
       min={min}
