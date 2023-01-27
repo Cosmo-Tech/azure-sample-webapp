@@ -5,8 +5,9 @@ import 'cypress-file-upload';
 import utils from '../../commons/TestUtils';
 
 import { BASIC_PARAMETERS_CONST, DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
-import { Scenarios, ScenarioManager, ScenarioParameters, Login } from '../../commons/actions';
+import { Downloads, Scenarios, ScenarioManager, ScenarioParameters, Login } from '../../commons/actions';
 import { BreweryParameters } from '../../commons/actions/brewery';
+import { EXPECTED_DATA_AFTER_DUMMY_DATASET_1_UPLOAD } from '../../fixtures/FileParametersData';
 
 Cypress.Keyboard.defaults({
   keystrokeDelay: 0,
@@ -32,12 +33,13 @@ describe('Simple operations on a file parameter', () => {
 
   const scenarioNamesToDelete = [];
   after(() => {
+    Downloads.clearDownloadsFolder();
     ScenarioManager.deleteScenarioList(scenarioNamesToDelete);
   });
 
   let firstScenarioName;
   let firstScenarioId;
-  it('can upload a file and run the scenario', () => {
+  it('can upload a file, run the scenario and download the uploaded file', () => {
     const currencySymbol = utils.randomEnum(BASIC_PARAMETERS_CONST.ENUM);
     const currencyName = utils.randomStr(8);
     const currencyValue = utils.randomNmbr(BASIC_PARAMETERS_CONST.NUMBER.MIN, BASIC_PARAMETERS_CONST.NUMBER.MAX);
@@ -57,6 +59,8 @@ describe('Simple operations on a file parameter', () => {
 
     ScenarioParameters.updateAndLaunch();
     BreweryParameters.getExampleDatasetPart1DownloadButton().should('have.text', FILE_PATH_1);
+    BreweryParameters.downloadExampleDatasetPart1();
+    Downloads.checkByContent('dummy_dataset_1.csv', EXPECTED_DATA_AFTER_DUMMY_DATASET_1_UPLOAD);
     BreweryParameters.switchToBasicTypesTab();
     BreweryParameters.getCurrencyNameInput().should('value', currencyName);
     BreweryParameters.getCurrencyValueInput().should('value', currencyValue);
