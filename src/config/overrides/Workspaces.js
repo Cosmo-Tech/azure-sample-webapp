@@ -22,7 +22,7 @@ const defaultScenarioViewReport = {
 // production environments.
 export const WORKSPACES = [
   {
-    id: 'W-rXeBwRa0PM',
+    id: 'w-81264wr3xw5q5',
     webApp: {
       options: {
         charts: {
