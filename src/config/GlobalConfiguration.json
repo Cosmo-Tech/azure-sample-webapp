@@ -4,6 +4,5 @@
   "COSMOTECH_API_SCOPE": "http://dev.api.cosmotech.com/platform",
   "DEFAULT_BASE_PATH": "https://dev.api.cosmotech.com/v2",
   "ORGANIZATION_ID": "O-gZYpnd27G7",
-  "WORKSPACES_IDS_FILTER": null,
-  "WORKSPACE_ID": "W-rXeBwRa0PM"
+  "WORKSPACES_IDS_FILTER": null
 }
