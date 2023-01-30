@@ -93,20 +93,18 @@ const App = () => {
   }, [isConnecting, isAuthenticated, isLoading, applicationStatus]);
 
   return (
-    <>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <SessionTimeoutDialog
-          getRemainingTimeLabel={getRemainingTimeLabel}
-          labels={sessionTimeoutLabels}
-          open={isSessionTimeoutDialogOpen}
-          onClose={closeSessionTimeoutDialog}
-          onLogOut={logOut}
-          timeout={SESSION_TIMEOUT_PROMPT_DELAY_IN_SECONDS}
-        />
-        {getAppContent()}
-      </ThemeProvider>
-    </>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <SessionTimeoutDialog
+        getRemainingTimeLabel={getRemainingTimeLabel}
+        labels={sessionTimeoutLabels}
+        open={isSessionTimeoutDialogOpen}
+        onClose={closeSessionTimeoutDialog}
+        onLogOut={logOut}
+        timeout={SESSION_TIMEOUT_PROMPT_DELAY_IN_SECONDS}
+      />
+      {getAppContent()}
+    </ThemeProvider>
   );
 };
 
