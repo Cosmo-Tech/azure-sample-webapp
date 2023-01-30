@@ -56,7 +56,7 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
   };
   const columns = ConfigUtils.getParameterAttribute(parameterData, 'columns');
   const dateFormat = ConfigUtils.getParameterAttribute(parameterData, 'dateFormat') || DEFAULT_DATE_FORMAT;
-  const options = { dateFormat: dateFormat };
+  const options = { dateFormat };
 
   function setParameterInState(newValuePart) {
     setParametersState((currentParametersState) => ({
@@ -228,7 +228,7 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
     setClientFileDescriptor({
       agGridRows: null,
       name: file.name,
-      file: file,
+      file,
       content: null,
       errors: null,
       status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD,

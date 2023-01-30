@@ -7,7 +7,7 @@ function findDatasetById(organizationId, datasetId) {
 }
 
 function createDataset(organizationId, name, description, connector, tags) {
-  const newDataset = { name: name, description: description, connector: connector, tags: tags };
+  const newDataset = { name, description, connector, tags };
   return Api.Datasets.createDataset(organizationId, newDataset);
 }
 

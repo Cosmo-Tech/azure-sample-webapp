@@ -72,5 +72,5 @@ function getInstance() {
 }
 
 export const AppInsights = {
-  getInstance: getInstance,
+  getInstance,
 };

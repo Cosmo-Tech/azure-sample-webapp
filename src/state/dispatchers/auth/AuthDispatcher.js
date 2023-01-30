@@ -11,7 +11,7 @@ export const dispatchLogIn = (authProvider) => ({
 
 export const dispatchLogOut = (data) => ({
   type: AUTH_ACTIONS_KEY.REQUEST_LOG_OUT,
-  data: data,
+  data,
 });
 
 export const dispatchSetData = (payload) => ({

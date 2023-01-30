@@ -55,7 +55,7 @@ async function getEmbedParamsForSelectedReports(workspaceId, selectedReportsIds)
   const headers = await getRequestHeader();
   const res = await fetch(getAllReportsURL, {
     method: 'GET',
-    headers: headers,
+    headers,
   });
 
   if (!res.ok) throw res;
@@ -120,7 +120,7 @@ async function getEmbedTokenForMultipleReportsSingleWorkspace(reportIds, dataset
   // Refer https://aka.ms/MultiResourceEmbedToken
   const result = await fetch(embedTokenApi, {
     method: 'POST',
-    headers: headers,
+    headers,
     body: JSON.stringify(formData),
   });
 

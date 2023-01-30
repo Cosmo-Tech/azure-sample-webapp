@@ -63,7 +63,7 @@ const App = () => {
   };
   const getRemainingTimeLabel = (seconds) =>
     t('views.accessdenied.signouttimeout', 'You will be automatically signed out in {{seconds}} seconds...', {
-      seconds: seconds,
+      seconds,
     });
 
   let idleTimer = {};

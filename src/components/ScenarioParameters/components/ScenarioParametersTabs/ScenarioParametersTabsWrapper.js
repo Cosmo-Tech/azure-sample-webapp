@@ -45,7 +45,7 @@ const ScenarioParametersTabsWrapper = ({
         parametersGroupData: parametersGroupMetadata,
         parametersState: parametersValuesToRender,
         setParametersState: setParametersValuesToRender,
-        context: context,
+        context,
       });
     }
     // Note that the factories are now deprecated and

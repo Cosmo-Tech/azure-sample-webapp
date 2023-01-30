@@ -174,8 +174,8 @@ const ScenarioParameters = ({
 
   // You can use the context object to pass all additional information to custom tab factory
   const context = {
-    editMode: editMode,
-    isDarkTheme: isDarkTheme,
+    editMode,
+    isDarkTheme,
   };
 
   useEffect(() => {

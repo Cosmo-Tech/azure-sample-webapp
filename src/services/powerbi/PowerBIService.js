@@ -74,7 +74,7 @@ const fetchReportEmbedInfo = async (workspaceId) => {
 
   const result = await fetch(reportInGroupApi, {
     method: 'GET',
-    headers: headers,
+    headers,
   });
 
   if (!result.ok) {
@@ -139,7 +139,7 @@ const getAuthenticationInfo = async () => {
 
   const accessToken = tokenResponse.accessToken;
   return {
-    accessToken: accessToken,
+    accessToken,
     expiresOn: tokenResponse.expiresOn,
     headers: {
       'Content-Type': 'application/json',

@@ -236,7 +236,7 @@ const prepareToUpload = (event, clientFileDescriptor, setClientFileDescriptor) =
   appInsights.trackUpload();
   setClientFileDescriptor({
     name: file.name,
-    file: file,
+    file,
     content: null,
     status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD,
   });

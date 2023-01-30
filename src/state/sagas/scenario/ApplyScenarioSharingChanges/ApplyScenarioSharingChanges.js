@@ -62,11 +62,11 @@ export function* applyScenarioSharingChanges(action) {
       const scenariosPermissionsMapping = yield select(getScenariosPermissionsMapping);
       yield put({
         type: SCENARIO_ACTIONS_KEY.SET_SCENARIO_SECURITY,
-        scenarioId: scenarioId,
+        scenarioId,
         security: newScenarioSecurity,
-        userEmail: userEmail,
-        userId: userId,
-        scenariosPermissionsMapping: scenariosPermissionsMapping,
+        userEmail,
+        userId,
+        scenariosPermissionsMapping,
       });
     }
   } catch (error) {

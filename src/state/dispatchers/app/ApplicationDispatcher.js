@@ -38,5 +38,5 @@ export const dispatchSetApplicationErrorMessage = (error, errorMessage) => ({
 
 export const dispatchSetApplicationTheme = (isDarkTheme) => ({
   type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_THEME,
-  isDarkTheme: isDarkTheme,
+  isDarkTheme,
 });

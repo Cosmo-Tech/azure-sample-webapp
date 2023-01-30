@@ -38,7 +38,7 @@ export function* fetchAllInitialData() {
     const { data: organizationPermissions } = yield call(Api.Organizations.getAllPermissions);
     yield put({
       type: APPLICATION_ACTIONS_KEY.SET_PERMISSIONS_MAPPING,
-      organizationPermissions: organizationPermissions,
+      organizationPermissions,
     });
   } catch (error) {
     console.error(error);

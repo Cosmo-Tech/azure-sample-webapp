@@ -13,7 +13,7 @@ export function* renameScenario(action) {
     yield call(Api.Scenarios.updateScenario, organizationId, workspaceId, scenarioId, { name: scenarioName });
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_SCENARIO_NAME,
-      scenarioId: scenarioId,
+      scenarioId,
       name: scenarioName,
     });
   } catch (error) {

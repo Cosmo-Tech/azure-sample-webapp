@@ -16,7 +16,7 @@ const appInsights = AppInsights.getInstance();
 function forgeStopPollingAction(scenarioId) {
   let actionName = SCENARIO_ACTIONS_KEY.STOP_SCENARIO_STATUS_POLLING;
   actionName += '_' + scenarioId;
-  return { type: actionName, data: { scenarioId: scenarioId } };
+  return { type: actionName, data: { scenarioId } };
 }
 
 // generators function

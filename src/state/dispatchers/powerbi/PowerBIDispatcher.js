@@ -10,5 +10,5 @@ export const dispatchGetPowerBIEmbedInfo = () => ({
 
 export const dispatchSetPowerBIReportsConfig = (reportsConfig) => ({
   type: POWER_BI_ACTIONS_KEY.SET_REPORTS_CONFIG,
-  reportsConfig: reportsConfig,
+  reportsConfig,
 });

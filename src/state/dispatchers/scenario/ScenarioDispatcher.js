@@ -11,7 +11,7 @@ export const dispatchGetScenarioList = (payLoad) => ({
 
 export const dispatchSetCurrentScenario = (scenario) => ({
   type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
-  scenario: scenario,
+  scenario,
 });
 
 export const dispatchResetCurrentScenario = () => ({
@@ -20,51 +20,51 @@ export const dispatchResetCurrentScenario = () => ({
 
 export const dispatchFindScenarioById = (organizationId, workspaceId, scenarioId) => ({
   type: SCENARIO_ACTIONS_KEY.FIND_SCENARIO_BY_ID,
-  organizationId: organizationId,
-  workspaceId: workspaceId,
-  scenarioId: scenarioId,
+  organizationId,
+  workspaceId,
+  scenarioId,
 });
 
 export const dispatchCreateScenario = (organizationId, workspaceId, scenario) => ({
   type: SCENARIO_ACTIONS_KEY.CREATE_SCENARIO,
-  organizationId: organizationId,
-  workspaceId: workspaceId,
-  scenario: scenario,
+  organizationId,
+  workspaceId,
+  scenario,
 });
 
 export const dispatchDeleteScenario = (organizationId, workspaceId, scenarioId) => ({
   type: SCENARIO_ACTIONS_KEY.DELETE_SCENARIO,
-  organizationId: organizationId,
-  workspaceId: workspaceId,
-  scenarioId: scenarioId,
+  organizationId,
+  workspaceId,
+  scenarioId,
 });
 
 export const dispatchRenameScenario = (organizationId, workspaceId, scenarioId, newScenarioName) => ({
   type: SCENARIO_ACTIONS_KEY.RENAME_SCENARIO,
-  organizationId: organizationId,
-  workspaceId: workspaceId,
-  scenarioId: scenarioId,
+  organizationId,
+  workspaceId,
+  scenarioId,
   scenarioName: newScenarioName,
 });
 
 export const dispatchUpdateAndLaunchScenario = (organizationId, workspaceId, scenarioId, scenarioParameters) => ({
   type: SCENARIO_ACTIONS_KEY.UPDATE_AND_LAUNCH_SCENARIO,
-  organizationId: organizationId,
-  workspaceId: workspaceId,
-  scenarioId: scenarioId,
-  scenarioParameters: scenarioParameters,
+  organizationId,
+  workspaceId,
+  scenarioId,
+  scenarioParameters,
 });
 
 export const dispatchSetScenarioValidationStatus = (scenarioId, validationStatus) => ({
   type: SCENARIO_ACTIONS_KEY.SET_SCENARIO_VALIDATION_STATUS,
-  scenarioId: scenarioId,
-  validationStatus: validationStatus,
+  scenarioId,
+  validationStatus,
 });
 
 export const dispatchApplyScenarioSharingChanges = (scenarioId, newScenarioSecurity) => ({
   type: SCENARIO_ACTIONS_KEY.APPLY_SCENARIO_SHARING_CHANGES,
-  scenarioId: scenarioId,
-  newScenarioSecurity: newScenarioSecurity,
+  scenarioId,
+  newScenarioSecurity,
 });
 
 export const dispatchSetScenarioSecurity = (
@@ -75,16 +75,16 @@ export const dispatchSetScenarioSecurity = (
   scenariosPermissionsMapping
 ) => ({
   type: SCENARIO_ACTIONS_KEY.SET_SCENARIO_SECURITY,
-  scenarioId: scenarioId,
+  scenarioId,
   security: newScenarioSecurity,
-  userEmail: userEmail,
-  userId: userId,
-  scenariosPermissionsMapping: scenariosPermissionsMapping,
+  userEmail,
+  userId,
+  scenariosPermissionsMapping,
 });
 
 export const dispatchLaunchScenario = (organizationId, workspaceId, scenarioId) => ({
   type: SCENARIO_ACTIONS_KEY.LAUNCH_SCENARIO,
-  organizationId: organizationId,
-  workspaceId: workspaceId,
-  scenarioId: scenarioId,
+  organizationId,
+  workspaceId,
+  scenarioId,
 });

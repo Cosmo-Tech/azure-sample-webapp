@@ -9,7 +9,7 @@ function uploadWorkspaceFile(organizationId, workspaceId, file, overwrite, desti
 }
 
 function uploadWorkspaceFileFromData(organizationId, workspaceId, data, type = 'text/csv', overwrite, destination) {
-  const blob = new Blob([data], { type: type });
+  const blob = new Blob([data], { type });
   return Api.Workspaces.uploadWorkspaceFile(organizationId, workspaceId, blob, overwrite, destination);
 }
 

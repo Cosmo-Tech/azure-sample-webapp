@@ -20,8 +20,8 @@ const _forgeCytoscapeNodeData = (node, classes, nodesGroupMetadata = {}, nodesPa
   const { style, ...otherMetadata } = nodesGroupMetadata;
   return {
     group: 'nodes',
-    data: { ...node, label: _formatLabelWithNewlines(node.id), parent: parent },
-    classes: classes,
+    data: { ...node, label: _formatLabelWithNewlines(node.id), parent },
+    classes,
     ...otherMetadata,
   };
 };
@@ -31,7 +31,7 @@ const _forgeCytoscapeEdgeData = (edge, classes, edgesGroupMetadata = {}) => {
   return {
     group: 'edges',
     data: edge,
-    classes: classes,
+    classes,
     ...otherMetadata,
   };
 };
@@ -148,7 +148,7 @@ async function _fetchDataFromADT(organizationId, workspaceId, scenarioId, dataSo
   return axios({
     method: 'post',
     url: dataSource.functionUrl,
-    headers: headers,
+    headers,
     params: {
       'organization-id': organizationId,
       'workspace-id': workspaceId,

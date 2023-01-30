@@ -82,7 +82,7 @@ export function* selectWorkspace(action) {
     runningScenarios.map((scenario) =>
       put({
         type: SCENARIO_ACTIONS_KEY.START_SCENARIO_STATUS_POLLING,
-        organizationId: organizationId,
+        organizationId,
         workspaceId: selectedWorkspaceId,
         scenarioId: scenario.id,
       })

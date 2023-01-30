@@ -24,8 +24,8 @@ const shouldForceScenarioParametersUpdate = (runTemplateParametersIds) => {
 const _buildScenarioParameter = (parameterId, varType, value) => {
   if (parameterId && varType) {
     return {
-      parameterId: parameterId,
-      varType: varType,
+      parameterId,
+      varType,
       value: value ?? '',
     };
   }
@@ -288,7 +288,7 @@ const _buildParameterForUpdate = (solution, parameters, parameterId) => {
   const parameterVarType = getParameterVarType(solution, parameterId);
   const parameterValue = parameters[parameterId];
   return {
-    parameterId: parameterId,
+    parameterId,
     varType: parameterVarType,
     value: parameterValue,
   };

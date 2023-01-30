@@ -14,8 +14,8 @@ export const GenericDateInput = ({ parameterData, parametersState, setParameters
   const dateProps = {
     disabled: !context.editMode,
     id: parameterData.id,
-    minDate: minDate,
-    maxDate: maxDate,
+    minDate,
+    maxDate,
     minDateMessage: t('genericcomponent.dateInput.error.minDateMessage', 'Minimum date is not respected'),
     maxDateMessage: t('genericcomponent.dateInput.error.maxDateMessage', 'Maximum date is not respected'),
     invalidDateMessage: t('genericcomponent.dateInput.error.invalidDateMessage', 'Date is invalid'),

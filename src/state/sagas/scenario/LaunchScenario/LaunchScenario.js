@@ -32,15 +32,15 @@ export function* launchScenario(action) {
     yield call(Api.ScenarioRuns.runScenario, organizationId, workspaceId, scenarioId);
     yield put({
       type: SCENARIO_ACTIONS_KEY.UPDATE_SCENARIO,
-      data: { scenarioState: SCENARIO_RUN_STATE.RUNNING, scenarioId: scenarioId, lastRun: null },
+      data: { scenarioState: SCENARIO_RUN_STATE.RUNNING, scenarioId, lastRun: null },
     });
 
     // Start backend polling to update the scenario status
     yield put({
       type: SCENARIO_ACTIONS_KEY.START_SCENARIO_STATUS_POLLING,
-      organizationId: organizationId,
-      workspaceId: workspaceId,
-      scenarioId: scenarioId,
+      organizationId,
+      workspaceId,
+      scenarioId,
       startTime: runStartTime,
     });
   } catch (error) {

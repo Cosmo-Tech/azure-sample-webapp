@@ -64,7 +64,7 @@ export function* getPowerBIEmbedInfoSaga() {
         yield put({
           type: POWER_BI_ACTIONS_KEY.SET_EMBED_INFO,
           data: noAccess,
-          error: error,
+          error,
           status: STATUSES.ERROR,
         });
         tokenDelay = POWER_BI_INFO_POLLING_DELAY;
@@ -86,7 +86,7 @@ export function* getPowerBIEmbedInfoSaga() {
       yield put({
         type: POWER_BI_ACTIONS_KEY.SET_EMBED_INFO,
         data: noAccess,
-        error: error,
+        error,
         status: STATUSES.ERROR,
       });
       if (IS_POWERBI_POLLING_DISABLED) tokenDelay = 0;

@@ -30,7 +30,7 @@ const AccessDenied = ({ application }) => {
     return (
       <Typography className={classes.timeout}>
         {t('views.accessdenied.signouttimeout', 'You will be automatically signed out in {{seconds}} seconds...', {
-          seconds: seconds,
+          seconds,
         })}
       </Typography>
     );

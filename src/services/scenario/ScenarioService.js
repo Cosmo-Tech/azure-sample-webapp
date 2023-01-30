@@ -17,7 +17,7 @@ async function setScenarioValidationStatusToRejected(organizationId, workspaceId
 }
 
 async function setValidationStatus(organizationId, workspaceId, scenarioId, validationStatus) {
-  const data = { validationStatus: validationStatus };
+  const data = { validationStatus };
   return Api.Scenarios.updateScenario(organizationId, workspaceId, scenarioId, data);
 }
 
