@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ScenarioUtils } from '@cosmotech/core';
 import { makeStyles } from '@material-ui/core';
@@ -47,69 +47,103 @@ const ScenarioManager = (props) => {
     workspaceId,
   } = useScenarioManager();
 
-  const getScenariolistAfterDelete = (idOfScenarioToDelete) => {
-    const scenarioListAfterDelete = scenarios
-      .map((scenario) => {
-        const newScenario = { ...scenario };
-        if (newScenario.parentId === idOfScenarioToDelete) {
-          newScenario.parentId = currentScenarioData.parentId;
+  const getScenarioListAfterDelete = useCallback(
+    (idOfScenarioToDelete) => {
+      const scenarioListAfterDelete = scenarios
+        .map((scenario) => {
+          const newScenario = { ...scenario };
+          if (newScenario.parentId === idOfScenarioToDelete) {
+            newScenario.parentId = currentScenarioData.parentId;
+          }
+          return newScenario;
+        })
+        .filter((scenario) => scenario.id !== idOfScenarioToDelete);
+
+      return scenarioListAfterDelete;
+    },
+    [currentScenarioData?.parentId, scenarios]
+  );
+
+  const onScenarioDelete = useCallback(
+    (scenarioId) => {
+      const lastScenarioDelete = scenarios.length === 1;
+      deleteScenario(scenarioId);
+      if (scenarioId === currentScenarioData?.id) {
+        if (lastScenarioDelete) {
+          resetCurrentScenario();
+        } else {
+          setCurrentScenario(getFirstScenarioMaster(getScenarioListAfterDelete(scenarioId)));
         }
-        return newScenario;
-      })
-      .filter((scenario) => scenario.id !== idOfScenarioToDelete);
-
-    return scenarioListAfterDelete;
-  };
-
-  function onScenarioDelete(scenarioId) {
-    const lastScenarioDelete = scenarios.length === 1;
-    deleteScenario(scenarioId);
-    if (scenarioId === currentScenarioData.id) {
-      if (lastScenarioDelete) {
-        resetCurrentScenario();
-      } else {
-        setCurrentScenario(getFirstScenarioMaster(getScenariolistAfterDelete(scenarioId)));
       }
-    }
-  }
+    },
+    [
+      currentScenarioData?.id,
+      deleteScenario,
+      getScenarioListAfterDelete,
+      resetCurrentScenario,
+      scenarios.length,
+      setCurrentScenario,
+    ]
+  );
 
-  function onScenarioRename(scenarioId, newScenarioName) {
-    if (scenarioId === currentScenarioData.id) {
-      setCurrentScenario({ name: newScenarioName });
-    }
-    renameScenario(scenarioId, newScenarioName);
-  }
-
-  function checkScenarioNameValue(newScenarioName) {
-    const errorKey = ScenarioUtils.scenarioNameIsValid(newScenarioName, scenarios);
-    if (errorKey) {
-      const errorLabel = labels.scenarioRename.errors[errorKey];
-      if (!errorLabel) {
-        console.warn('Scenario error label key is broken !');
-        return 'Scenario name is invalid';
+  const onScenarioRename = useCallback(
+    (scenarioId, newScenarioName) => {
+      if (scenarioId === currentScenarioData?.id) {
+        setCurrentScenario({ name: newScenarioName });
       }
-      return errorLabel;
-    }
-    return null;
-  }
+      renameScenario(scenarioId, newScenarioName);
+    },
+    [currentScenarioData?.id, renameScenario, setCurrentScenario]
+  );
 
-  function buildDatasetLabel(datasetList) {
-    return t('commoncomponents.scenariomanager.treelist.node.dataset', { count: datasetList?.length || 0 });
-  }
+  const checkScenarioNameValue = useCallback(
+    (newScenarioName) => {
+      const errorKey = ScenarioUtils.scenarioNameIsValid(newScenarioName, scenarios);
+      if (errorKey) {
+        const errorLabel = labels.scenarioRename.errors[errorKey];
+        if (!errorLabel) {
+          console.warn('Scenario error label key is broken!');
+          return 'Scenario name is invalid';
+        }
+        return errorLabel;
+      }
+      return null;
+    },
+    [labels.scenarioRename.errors, scenarios]
+  );
 
-  function buildScenarioNameToDelete(scenarioName) {
-    return t('commoncomponents.dialog.confirm.delete.title', "Remove scenario '{{scenarioName}}'?", {
-      scenarioName,
-    });
-  }
+  const buildDatasetLabel = useCallback(
+    (datasetList) => {
+      return t('commoncomponents.scenariomanager.treelist.node.dataset', { count: datasetList?.length || 0 });
+    },
+    [t]
+  );
+
+  const buildScenarioNameToDelete = useCallback(
+    (scenarioName) => {
+      return t('commoncomponents.dialog.confirm.delete.title', "Remove scenario '{{scenarioName}}'?", {
+        scenarioName,
+      });
+    },
+    [t]
+  );
 
   const navigate = useNavigate();
-  const onScenarioRedirect = (scenarioId) => {
-    navigate(`/${workspaceId}/scenario/${scenarioId}`);
-  };
+  const onScenarioRedirect = useCallback(
+    (scenarioId) => {
+      navigate(`/${workspaceId}/scenario/${scenarioId}`);
+    },
+    [navigate, workspaceId]
+  );
 
-  const canUserDeleteScenario = (scenario) => hasUserPermissionOnScenario(ACL_PERMISSIONS.SCENARIO.DELETE, scenario);
-  const canUserRenameScenario = (scenario) => hasUserPermissionOnScenario(ACL_PERMISSIONS.SCENARIO.WRITE, scenario);
+  const canUserDeleteScenario = useCallback(
+    (scenario) => hasUserPermissionOnScenario(ACL_PERMISSIONS.SCENARIO.DELETE, scenario),
+    [hasUserPermissionOnScenario]
+  );
+  const canUserRenameScenario = useCallback(
+    (scenario) => hasUserPermissionOnScenario(ACL_PERMISSIONS.SCENARIO.WRITE, scenario),
+    [hasUserPermissionOnScenario]
+  );
 
   return (
     <div className={classes.root}>
