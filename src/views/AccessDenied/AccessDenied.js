@@ -79,6 +79,7 @@ const AccessDenied = ({ application }) => {
               <Grid item>
                 <FormControl className={classes.formControl}>
                   <Select
+                    variant="standard"
                     className={classes.languageSelect}
                     value={i18n.language}
                     onChange={(event) => TranslationUtils.changeLanguage(event.target.value, i18n)}

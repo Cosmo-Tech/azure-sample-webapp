@@ -49,7 +49,7 @@ export const TabLayout = (props) => {
   }, [currentWorkspace?.status]);
 
   const viewTabs = (
-    <MuiTabs value={currentTabPathname}>
+    <MuiTabs value={currentTabPathname} indicatorColor="secondary" textColor="inherit">
       {tabs.map((tab) => (
         <Tab
           data-cy={tab.key}

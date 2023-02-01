@@ -110,7 +110,7 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: 100,
     paddingRight: 100,
     flexBasis: 700,
-    [theme.breakpoints.down('lg')]: {
+    [theme.breakpoints.down('xl')]: {
       paddingLeft: theme.spacing(2),
       paddingRight: theme.spacing(2),
     },

@@ -107,6 +107,7 @@ const SignIn = ({ logInAction, auth }) => {
               <Grid container direction="row" justifyContent="center" alignItems="baseline">
                 <Grid item>
                   <Select
+                    variant="standard"
                     className={classes.languageSelect}
                     value={i18n.language}
                     onChange={(event) => TranslationUtils.changeLanguage(event.target.value, i18n)}

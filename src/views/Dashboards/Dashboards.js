@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     '& .MuiButtonBase-root': {
       maxWidth: '900px',
     },
-    '& .MuiTab-wrapper': {
+    '& .MuiTab-root': {
       textAlign: 'right',
       alignItems: 'flex-end',
     },
@@ -84,6 +84,8 @@ const Dashboards = () => {
             onChange={handleChange}
             aria-label="Dashboards list"
             className={classes.tabs}
+            indicatorColor="primary"
+            textColor="inherit"
           >
             {constructDashboardTabs(i18n, dashboardsViewReportsConfig)}
           </Tabs>

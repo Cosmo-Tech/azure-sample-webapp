@@ -56,7 +56,7 @@ export const GENERIC_SELECTORS = {
       placeholder: '[data-cy=dashboard-placeholder]',
     },
     selectInput: '[data-cy=scenario-select-input]',
-    scenarioSelectOption: 'span[data-testid=option-$SCENARIOID]',
+    scenarioSelectOption: 'li[data-testid=option-$SCENARIOID]',
     parameters: {
       tabs: '[data-cy=scenario-parameters-tabs]',
       accordionSummary: '[data-cy=scenario-params-accordion-summary]',
@@ -167,6 +167,7 @@ export const GENERIC_SELECTORS = {
     },
     basicSliderInput: {
       input: 'input',
+      root: '[data-cy=slider-input]',
     },
     errorBanner: {
       banner: '[data-cy=error-banner]',

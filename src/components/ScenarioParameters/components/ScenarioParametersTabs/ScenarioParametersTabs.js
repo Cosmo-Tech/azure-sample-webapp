@@ -15,34 +15,12 @@ const useStyles = makeStyles((theme) => ({
     maxHeight: 450,
     overflow: 'auto',
   },
-  tabs: {
-    margin: '8px',
-  },
-  tab: {
-    minWidth: 0,
-    fontSize: '14px',
-    fontWeight: '500',
-    letterSpacing: '0',
-    lineHeight: '15px',
-    textAlign: 'center',
-    flexGrow: 1,
-    opacity: 1,
-    '&.Mui-selected': {
-      fontWeight: 'bold',
-    },
-    '& .MuiTab-wrapper': {
-      '& .MuiSvgIcon-root': {
-        marginLeft: '5px',
-      },
-      flexDirection: 'row-reverse',
-    },
-  },
   placeholder: {
     margin: `0 ${theme.spacing(3)}`,
   },
 }));
 
-function _buildScenarioTabList(tabs, userRoles, classes, t) {
+function _buildScenarioTabList(tabs, userRoles, t) {
   const tabListComponent = [];
   for (const groupMetadata of tabs) {
     const lockedTab = !hasRequiredProfile(userRoles, groupMetadata.authorizedRoles);
@@ -54,7 +32,6 @@ function _buildScenarioTabList(tabs, userRoles, classes, t) {
           value={groupMetadata.id}
           data-cy={groupMetadata.id + '_tab'}
           icon={lockIcon}
-          className={classes.tab}
           label={t(TranslationUtils.getParametersGroupTranslationKey(groupMetadata.id), groupMetadata.id)}
         />
       );
@@ -136,7 +113,7 @@ const ScenarioParametersTabs = ({ parametersGroupsMetadata, userRoles }) => {
             }}
             aria-label="scenario parameters"
           >
-            {_buildScenarioTabList(tabs, userRoles, classes, t)}
+            {_buildScenarioTabList(tabs, userRoles, t)}
           </TabList>
           {_buildTabPanels(userRoles, tabs, classes)}
         </TabContext>

@@ -108,18 +108,21 @@ function getAverageConsumptionInput() {
   return getAverageConsumption().find(GENERIC_SELECTORS.genericComponents.basicSliderInput.input);
 }
 function getAverageConsumptionSlider() {
-  return getAverageConsumption().find('[role=slider]');
+  return getAverageConsumption().find(GENERIC_SELECTORS.genericComponents.basicSliderInput.root);
 }
 function moveAverageConsumptionSlider(sliderMovement) {
-  getAverageConsumptionInput().then((input) => {
-    if (parseInt(input[0].value) === sliderMovement) return;
-    const sliderStepsToMove = sliderMovement - parseInt(input[0].value);
-    const arrowsCount =
-      sliderStepsToMove > 0
-        ? '{rightArrow}-'.repeat(Math.abs(sliderStepsToMove))
-        : '{leftArrow}-'.repeat(Math.abs(sliderStepsToMove));
-    getAverageConsumptionSlider().click().type(arrowsCount);
-  });
+  getAverageConsumptionSlider()
+    .invoke('width')
+    .then((value) => {
+      const x = (value * sliderMovement) / 10;
+      if (x === 0) {
+        getAverageConsumptionSlider().click('left');
+      } else if (x === value) {
+        getAverageConsumptionSlider().click('right');
+      } else {
+        getAverageConsumptionSlider().click(x, 0);
+      }
+    });
 }
 function getAdditionalSeatsInput() {
   return getAdditionalSeats().find(GENERIC_SELECTORS.genericComponents.basicNumberInput.input);

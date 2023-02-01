@@ -13,5 +13,10 @@ export const getTheme = (isDarkTheme) =>
       picture: isDarkTheme ? pictureDark : pictureLight,
       grid: isDarkTheme ? gridDark : gridLight,
       overrides,
+      components: {
+        MuiPaper: {
+          styleOverrides: { root: { backgroundImage: 'unset' } },
+        },
+      },
     })
   );

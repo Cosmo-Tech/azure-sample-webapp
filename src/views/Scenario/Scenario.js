@@ -270,7 +270,7 @@ const Scenario = () => {
             {currentScenario.data && scenarioValidationArea}
           </Grid>
           <Grid item xs={12}>
-            <Card component={Paper} elevation={2}>
+            <Card component={Paper}>
               {currentScenario.data && (
                 <ScenarioParameters
                   editMode={editMode}
@@ -282,7 +282,7 @@ const Scenario = () => {
             </Card>
           </Grid>
           <Grid item xs={12}>
-            <Card component={Paper} elevation={2}>
+            <Card component={Paper}>
               <CardContent>
                 <ScenarioPowerBiReport />
               </CardContent>
