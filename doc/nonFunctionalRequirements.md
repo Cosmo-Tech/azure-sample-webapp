@@ -1,4 +1,4 @@
 # Non functional requirements
 
-- There is currently no connection timeout
-- Supported browsers: Chromium 90, Chrome 91, Firefox 78
+- users are automatically logged out after **30 minutes** of inactivity
+- supported browsers: Chromium 90, Chrome 91, Firefox 78

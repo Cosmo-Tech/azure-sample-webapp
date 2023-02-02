@@ -1,8 +1,7 @@
 # Instance visualization
 
-An optional view can be enabled in the webapp to display a visualization of your ADT instance (this view is disabled by
-default). The view is enabled when the value of `DATA_SOURCE` in the file
-[src/config/InstanceVisualization.js](src/config/InstanceVisualization.js) is not null.
+An optional view can be enabled in the webapp to display a visualization of your ADT instance. This view is disabled by
+default, and it is enabled when the value of `dataSource` in the workspace configuration is not `null`.
 
 This document will explain how to properly set up some Azure resources (app registration and Function App) to read data
 from your ADX instance, and configure the webapp to receive instance data from your Function App.
@@ -49,7 +48,7 @@ App:
 
 - open the _“Certificates & secrets”_ blade
 - click on _“+ New client secret“_
-  - set a name for your secret (e.g. scenario-download-[solution_name]-dev)
+  - set a name for your secret (e.g. "scenario-download-[solution_name]-dev")
   - set an expiration time of 24 months
   - click on **_“Add“_** and **keep the secret value for section 2.1**
 
@@ -200,78 +199,163 @@ Now that the Function App is created, we can start its configuration:
 
 ## 3. Webapp configuration
 
-This section describes how to configure the Instance View in your webapp.
+This section describes how to configure the Instance View in your webapp. Since v5.0 of the azure-sample-webapp, this
+configuration is no longer stored in the webapp repository, it is now a part of **each workspace data**, and must be
+configured in an object, stored as `[workspace].webApp.options.instanceView`. This `instanceView` object must contain
+two objects `dataSource` and `dataContent`. Here is an example of a workspace YAML file defining the instance view
+configuration. The expected format of objects `dataSource` and `dataContent` will be detailed in the next sections.
+
+```yaml
+key: 'mybreweryworkspace'
+name: 'My Brewery Workspace'
+webApp:
+  url: 'https://mybreweryworkspace.example.com'
+  options:
+    instanceView:
+      dataSource:
+        type: 'adt'
+        functionUrl: 'https://scenario-download-brewery-dev.azurewebsites.net/api/ScenarioDownload',
+        functionKey: 'INSERT_FUNCTION_KEY_HERE'
+      dataContent:
+        compounds:
+          Bar_vertex: {}
+        edges:
+          arc_Satisfaction:
+            style: {}
+            selectable: false
+        nodes:
+          Bar:
+            style:
+              shape: 'rectangle'
+              background-color: '#466282'
+              background-opacity: 0.2
+              border-width: 0
+            pannable: true
+            selectable: true
+            grabbable: false
+          Customer:
+            style:
+              background-color: '#005A31'
+              shape: 'ellipse'
+```
 
 ### 3.1 Data source - Define how to reach your Function App
 
-In your webapp repository, open the file _src/config/InstanceVisualization.js_ and modify the `DATA_SOURCE` constant to
-set the following values:
+The `dataSource` object must define the following values:
 
-- type: adt
-- functionUrl: the url of your Function App, **followed by** `/api/ScenarioDownload`
-- functionKey: the function key that has been generated in section 2.2
+- `type`: the only supported value for now is `adt`
+- `functionUrl`: the url of your Function App, **followed by** `/api/ScenarioDownload`
+- `functionKey`: the function key that has been generated in section 2.2
 
 Example:
 
-```js
-const DATA_SOURCE = {
-  type: 'adt',
-  functionUrl: 'https://scenario-download-brewery-dev.azurewebsites.net/api/ScenarioDownload',
+```yaml
+dataSource:
+  type: 'adt'
+  functionUrl: 'https://scenario-download-mybreweryworkspace.azurewebsites.net/api/ScenarioDownload'
   functionKey: 'INSERT_FUNCTION_KEY_HERE'
-};
 ```
 
 ### 3.2 Data content - Describe the elements to display in the instance view
 
-The `DATA_CONTENT` object must describe the content you want to display, grouped by type of graph element:
-**compounds**, **edges** and **nodes**. These types are keys in the `DATA_CONTENT` object, and they must contain an
-object as value.
+The `dataContent` object must describe the content you want to display, grouped by type of graph element:
+**compounds**, **edges** and **nodes**. These types are the keys of the `dataContent` object, and each of them must
+contain objects as values.
 
 For all types of graph elements, the expected format of these object values is identical:
 
 - keys define the **name of ADX tables in your dataset**
 - values describe **style and other modifiers** to apply to this group of elements when displayed in cytoscape; these
   modifiers will be applied via a selector (c.f. the [cytoscape documentation](https://js.cytoscape.org/#style) for the
-  list of possible customization)
+  list of possible customization options)
 
-The example below illustrates how to use `Bar` and `Customer` entities as nodes, `arc_to_Customer` table as edges and
-`contains_Customer` table for the parent relations between bars and customers:
+The example below illustrates how to use `Bar` and `Customer` entities as nodes, `arc_Satisfaction` table as edges and
+`Bar_vertex` table for the parent relations between bars and customers:
 
-```js
-const DATA_CONTENT = {
-  compounds: {
-    contains_Customer: {}
-  },
-  edges: {
-    arc_to_Customer: { style: { 'line-color': '#999999' }, selectable: false }
-  },
-  nodes: {
-    Bar: {
-      style: {
-        shape: 'rectangle',
-        'background-color': '#466282',
-        'background-opacity': 0.2,
-        'border-width': 0
-      },
-      pannable: true,
-      selectable: true,
+```yaml
+dataContent:
+  compounds:
+    Bar_vertex: {}
+  edges:
+    arc_Satisfaction:
+      style: { 'line-color': '#999999' }
+      selectable: false
+  nodes:
+    Bar:
+      style:
+        shape: 'rectangle'
+        background-color: '#466282'
+        background-opacity: 0.2
+        border-width: 0
+      pannable: true
+      selectable: true
       grabbable: false
-    },
-    Customer: {
-      style: {
-        'background-color': '#005A31',
+    Customer:
+      style:
+        background-color: '#005A31'
         shape: 'ellipse'
-      }
-    }
-  }
-};
 ```
 
 ## Troubleshooting
 
+### Overriding the workspace configuration
+
+Updating the workspace configuration via the Cosmo Tech API (with restish or swagger) can be a slow, cumbersome and
+error-prone process. A simpler way to iterate on the instance view configuration during development is to use the file
+[src/config/overrides/Workspaces.js](../src/config/overrides/Workspaces.js). This file can be used to override the
+configuration of any workspace, by patching the workspace data sent by the Cosmo Tech API.
+
+Open the file and modify the `WORKSPACES` constant, that contains an array of workspace objects. These objects must
+contain an `id` property, that will be used to patch the matching workspace sent by the API.
+
+Here is an example of how to override the `instanceView` configuration via the
+[src/config/overrides/Workspaces.js](../src/config/overrides/Workspaces.js) file:
+
+```js
+export const WORKSPACES = [
+  {
+    id: 'w-000000000', // replace this id by your workspace id
+    webApp: {
+      options: {
+        instanceView: {
+          dataSource: {
+            type: 'adt',
+            functionUrl: 'https://scenario-download-brewery-dev.azurewebsites.net/api/ScenarioDownload',
+            functionKey: 'INSERT_FUNCTION_KEY_HERE',
+          },
+          dataContent: {
+            compounds: { Bar_vertex: {} },
+            edges: { arc_Satisfaction: { style: {}, selectable: false } },
+            nodes: {
+              Bar: {
+                style: {
+                  shape: 'rectangle',
+                  'background-color': '#466282',
+                  'background-opacity': 0.2,
+                  'border-width': 0,
+                },
+                pannable: true,
+                selectable: true,
+                grabbable: false,
+              },
+              Customer: { style: { 'background-color': '#005A31', shape: 'ellipse' } },
+            },
+          },
+        },
+      },
+    },
+  },
+];
+```
+
+This config will then be used when **running your webapp locally** and quickly iterate on the configuration to find the
+best styles and options for your instance visualization. You can even commit these changes in your webapp repository to
+keep using this "configuration patch" in **deployed webapps** (it can be useful for feature preview environments).
+
 ### Use a local Function App
 
-First, clone the code of the azure function from GitHub:
+For dev and debugging purposes, you may want to run the Function App locally. In order to do it, clone the repository of
+the azure function from GitHub:
 
 ```bash
 git clone https://github.com/Cosmo-Tech/azure-function-scenario-download.git
@@ -298,7 +382,8 @@ Then, create a file _local.settings.json_ for the configuration of the local azu
 ```
 
 Note:
-_don’t forget to change values for `COSMOTECH_API_HOST` and `COSMOTECH_API_SCOPE` if you are using the staging API._
+_don’t forget to change values for `COSMOTECH_API_HOST` and `COSMOTECH_API_SCOPE` if you are using the staging API or a
+custom API deployed for your organization._
 
 Finally, install the dependencies and run the function:
 
@@ -309,12 +394,14 @@ pip install -r requirements.txt
 func start
 ```
 
-Your local Azure Function should now be running. Change the `DATA_SOURCE` value in the front-end configuration file
-[src/config/InstanceVisualization.js](src/config/InstanceVisualization.js) to set:
+Your local Azure Function should now be running, but you still have to change the `dataSource` value in the workspace
+configuration to set:
 
 ```
 functionUrl: 'http://localhost:7071/api/ScenarioDownload',
 ```
+
+Note that you can use the file [src/config/overrides/Workspaces.js](../src/config/overrides/Workspaces.js) to override the Workspace configuration and switch temporarily the `functionUrl` value (see section "Overriding the workspace configuration" above).
 
 ### Getting the error logs of your deployed Function App
 
