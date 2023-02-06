@@ -6,7 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useCurrentScenario, useFindScenarioById, useUpdateCurrentScenario } from '../state/hooks/ScenarioHooks';
 import { STATUSES } from '../state/commons/Constants';
 
-export const useRedirectionToScenario = (sortedScenarioList, view) => {
+export const useRedirectionToScenario = (sortedScenarioList) => {
   const isMounted = useRef(false);
   const routerParameters = useParams();
   const currentScenario = useCurrentScenario();
@@ -41,4 +41,12 @@ export const useRedirectionToScenario = (sortedScenarioList, view) => {
     isMounted.current = true;
     // eslint-disable-next-line
   }, [currentScenario?.data?.id]);
+
+  // this function enables backwards navigation between scenario's URLs
+  window.onpopstate = (e) => {
+    if (currentScenario.data.id !== routerParameters.scenarioId) {
+      const scenarioFromUrl = sortedScenarioList.find((el) => el.id === routerParameters.scenarioId);
+      if (scenarioFromUrl) handleScenarioChange(scenarioFromUrl.id);
+    }
+  };
 };

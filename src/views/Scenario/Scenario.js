@@ -23,7 +23,6 @@ import { STATUSES } from '../../state/commons/Constants';
 import { AppInsights } from '../../services/AppInsights';
 import { ACL_PERMISSIONS } from '../../services/config/accessControl';
 import { ScenarioPowerBiReport } from './components';
-import { useParams } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { useScenario } from './ScenarioHook';
 import { useRedirectionToScenario } from '../../hooks/RouterHooks';
@@ -61,7 +60,6 @@ const Scenario = () => {
     setApplicationErrorMessage,
   } = useScenario();
 
-  const routerParameters = useParams();
   const [editMode, setEditMode] = useState(false);
 
   // Add accordion expand status in state
@@ -96,12 +94,7 @@ const Scenario = () => {
   const scenarioListLabel = noScenario ? null : t('views.scenario.dropdown.scenario.label', 'Scenario');
   const showBackdrop = currentScenario.status === STATUSES.LOADING;
 
-  useRedirectionToScenario(sortedScenarioList, 'scenario');
-  // this function enables backwards navigation between scenario's URLs
-  window.onpopstate = (e) => {
-    const scenarioFromUrl = scenarioList.data.find((el) => el.id === routerParameters.scenarioId);
-    if (scenarioFromUrl) handleScenarioChange(event, scenarioFromUrl);
-  };
+  useRedirectionToScenario(sortedScenarioList);
 
   const resetScenarioValidationStatus = async () => {
     const currentStatus = currentScenario.data.validationStatus;
