@@ -3,6 +3,7 @@ import { Downloads, Login, ScenarioManager, ScenarioParameters, Scenarios } from
 import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
 import { BreweryParameters } from '../../commons/actions/brewery';
 import { EXPECTED_CUSTOMERS_INHERITED_TABLE } from '../../fixtures/TableParametersData';
+import { ScenarioSelector } from '../../commons/actions/generic/ScenarioSelector';
 
 Cypress.Keyboard.defaults({
   keystrokeDelay: 0,
@@ -77,13 +78,13 @@ describe('Table parameters inheritance between master and child scenarios', () =
         BreweryParameters.getCustomersTableCell('age', 0).should('have.text', '69');
         BreweryParameters.getCustomersTableCell('favoriteDrink', 0).should('have.text', 'OrangeJuice');
         ScenarioParameters.updateAndLaunch();
-        Scenarios.selectScenario(masterScenario, masterScenarioId);
+        ScenarioSelector.selectScenario(masterScenario, masterScenarioId);
         BreweryParameters.switchToCustomersTab();
         BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Bob');
         BreweryParameters.getCustomersTableCell('age', 0).should('have.text', '78');
         BreweryParameters.getCustomersTableCell('favoriteDrink', 0).should('have.text', 'AppleJuice');
         BreweryParameters.exportCustomersTableDataToCSV();
-        Scenarios.selectScenario(firstChildScenario, firstChildScenarioId);
+        ScenarioSelector.selectScenario(firstChildScenario, firstChildScenarioId);
         BreweryParameters.switchToCustomersTab();
         BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Bob');
         BreweryParameters.getCustomersTableCell('age', 0).should('have.text', '56');

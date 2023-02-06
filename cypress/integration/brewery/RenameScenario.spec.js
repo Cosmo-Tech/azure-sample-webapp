@@ -4,6 +4,7 @@
 import utils from '../../commons/TestUtils';
 import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
 import { Scenarios, ScenarioManager, ScenarioParameters, Login } from '../../commons/actions';
+import { ScenarioSelector } from '../../commons/actions/generic/ScenarioSelector';
 
 describe('Create scenario and rename it', () => {
   Cypress.Keyboard.defaults({
@@ -55,8 +56,8 @@ describe('Create scenario and rename it', () => {
       ScenarioManager.renameScenario(scenarioId, newScenarioName);
       ScenarioManager.getScenarioEditableLabel(scenarioId, 15).should('have.text', newScenarioName);
       Scenarios.switchToScenarioView();
-      Scenarios.selectScenario(anotherScenario, anotherScenarioId);
-      Scenarios.selectScenario(newScenarioName, scenarioId);
+      ScenarioSelector.selectScenario(anotherScenario, anotherScenarioId);
+      ScenarioSelector.selectScenario(newScenarioName, scenarioId);
 
       newScenarioName = scenarioNamePrefix + '_C';
       scenarioNamesToDelete.push(newScenarioName);
@@ -66,8 +67,8 @@ describe('Create scenario and rename it', () => {
       ScenarioManager.renameScenario(scenarioId, newScenarioName);
       ScenarioManager.getScenarioEditableLabel(scenarioId, 15).should('have.text', newScenarioName);
       ScenarioManager.getScenarioViewRedirect(scenarioId).click();
-      Scenarios.selectScenario(anotherScenario, anotherScenarioId);
-      Scenarios.selectScenario(newScenarioName, scenarioId);
+      ScenarioSelector.selectScenario(anotherScenario, anotherScenarioId);
+      ScenarioSelector.selectScenario(newScenarioName, scenarioId);
     });
 
     ScenarioParameters.edit();
@@ -94,9 +95,9 @@ describe('Create scenario and rename it', () => {
         ScenarioManager.getScenarioEditableLabel(scenarioID2, 15).should('have.text', scenarioName1A);
 
         ScenarioManager.getScenarioViewRedirect(scenarioID2).click();
-        Scenarios.selectScenario(anotherScenario, anotherScenarioId);
-        Scenarios.selectScenario(scenarioName1B, scenarioID1);
-        Scenarios.selectScenario(scenarioName1A, scenarioID2);
+        ScenarioSelector.selectScenario(anotherScenario, anotherScenarioId);
+        ScenarioSelector.selectScenario(scenarioName1B, scenarioID1);
+        ScenarioSelector.selectScenario(scenarioName1A, scenarioID2);
       });
     });
 

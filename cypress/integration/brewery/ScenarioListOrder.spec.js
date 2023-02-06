@@ -4,6 +4,7 @@ import { USER_EXAMPLE } from '../../fixtures/stubbing/default';
 import { stub } from '../../commons/services/stubbing';
 import { routeUtils as route } from '../../commons/utils';
 import { setup } from '../../commons/utils/setup';
+import { ScenarioSelector } from '../../commons/actions/generic/ScenarioSelector';
 
 describe('check scenario sorted list after reload', () => {
   before(() => {
@@ -27,7 +28,7 @@ describe('check scenario sorted list after reload', () => {
   });
 
   it('checks first scenario in the list after reload', () => {
-    Scenarios.selectScenario(ALL_ROOT_SCENARIOS[1].name, ALL_ROOT_SCENARIOS[1].id);
+    ScenarioSelector.selectScenario(ALL_ROOT_SCENARIOS[1].name, ALL_ROOT_SCENARIOS[1].id);
     route.browse('W-stbbdbrwry/scenario');
     Scenarios.getScenarioSelectorInput().should('have.value', ALL_ROOT_SCENARIOS[0].name);
   });

@@ -1,9 +1,10 @@
 import { PAGE_NAME } from '../../commons/constants/generic/TestConstants';
-import { Login, ScenarioManager } from '../../commons/actions';
+import { Login, ScenarioManager, Scenarios } from '../../commons/actions';
 import { setup } from '../../commons/utils/setup';
 import { stub } from '../../commons/services/stubbing';
+import { DEFAULT_SCENARIOS_LIST } from '../../fixtures/stubbing/default';
 
-describe('redirection after login', () => {
+describe('Redirects to right page', () => {
   before(() => {
     setup.initCypressAndStubbing();
     stub.start({
@@ -21,5 +22,13 @@ describe('redirection after login', () => {
   it('redirects to scenario manager view after login', () => {
     Login.login(`W-stbbdbrwry${PAGE_NAME.SCENARIO_MANAGER}`);
     ScenarioManager.getScenarioManagerView().should('be.visible');
+  });
+
+  it('redirects from scenario manager to scenario view with chosen scenario as current', () => {
+    Login.login();
+    Scenarios.getScenarioView().should('be.visible');
+    ScenarioManager.switchToScenarioManager();
+    ScenarioManager.openScenarioFromScenarioManager(DEFAULT_SCENARIOS_LIST[3].id);
+    Scenarios.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[3].name);
   });
 });

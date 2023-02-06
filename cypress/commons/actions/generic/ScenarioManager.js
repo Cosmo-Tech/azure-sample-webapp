@@ -91,8 +91,15 @@ function getScenarioViewRedirect(scenarioId) {
   return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.scenarioViewRedirect);
 }
 
+function openScenarioFromScenarioManager(scenarioId) {
+  getScenarioViewRedirect(scenarioId).should('exist');
+  api.interceptGetScenario(scenarioId);
+  getScenarioViewRedirect(scenarioId).click();
+  cy.url({ timeout: 5000 }).should('include', `/scenario/${scenarioId}`);
+}
+
 // This function expects the scenario card to be visible, and does not trigger the expanded / collapsed state of the
-// scenari ocard. To check both validatin status in a single function clal, use checkValidationStatus
+// scenario card. To check both validation status in a single function call, use checkValidationStatus
 function _checkValidationStatusOnceUnsafe(scenarioId, expectedStatus) {
   switch (expectedStatus) {
     case 'Draft':
@@ -160,4 +167,5 @@ export const ScenarioManager = {
   checkValidationStatus,
   getScenarioAccordionExpandButton,
   triggerScenarioAccordionExpandOrCollapse,
+  openScenarioFromScenarioManager,
 };

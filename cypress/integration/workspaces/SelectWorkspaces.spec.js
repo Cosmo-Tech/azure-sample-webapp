@@ -4,6 +4,7 @@ import { Login, Workspaces, Scenarios } from '../../commons/actions';
 import { DEFAULT_WORKSPACES_LIST, EXTENDED_WORKSPACES_LIST } from '../../fixtures/stubbing/default';
 import { stub } from '../../commons/services/stubbing';
 import { setup } from '../../commons/utils/setup';
+import { routeUtils as route } from '../../commons/utils';
 
 describe('Check workspaces features', () => {
   before(() => {
@@ -41,5 +42,10 @@ describe('Check workspaces features', () => {
 
     Scenarios.getScenarioView().should('be.visible');
     Workspaces.getHomeButton().should('not.exist');
+  });
+  it('Shares a workspace with a link', () => {
+    Login.loginWithoutWorkspace();
+    route.browse(`W-stbbdbrwry`, 'W-stbbdbrwry/scenario');
+    Scenarios.getScenarioView().should('be.visible');
   });
 });

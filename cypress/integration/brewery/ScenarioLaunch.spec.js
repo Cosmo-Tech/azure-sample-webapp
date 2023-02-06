@@ -5,6 +5,7 @@ import utils from '../../commons/TestUtils';
 import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
 import { SCENARIO_RUN_IN_PROGRESS } from '../../commons/constants/generic/TestConstants';
 import { Scenarios, ScenarioManager, ScenarioParameters, Login } from '../../commons/actions';
+import { ScenarioSelector } from '../../commons/actions/generic/ScenarioSelector';
 
 Cypress.Keyboard.defaults({
   keystrokeDelay: 0,
@@ -40,7 +41,7 @@ describe('Launch scenario', () => {
   });
 
   it('confirmation launch dialog can be hidden', () => {
-    Scenarios.selectScenario(scenariosNames[0], scenariosIds[0]);
+    ScenarioSelector.selectScenario(scenariosNames[0], scenariosIds[0]);
 
     ScenarioParameters.getLaunchConfirmDialog().should('not.exist');
     ScenarioParameters.getLaunchButton().click();
@@ -56,7 +57,7 @@ describe('Launch scenario', () => {
     ScenarioParameters.getLaunchConfirmDialog().should('not.exist');
     Scenarios.getDashboardPlaceholder().should('have.text', SCENARIO_RUN_IN_PROGRESS);
 
-    Scenarios.selectScenario(scenariosNames[1], scenariosIds[1]);
+    ScenarioSelector.selectScenario(scenariosNames[1], scenariosIds[1]);
     ScenarioParameters.getLaunchButton().click();
     ScenarioParameters.getDontAskAgainCheckbox().should('not.be.checked');
     ScenarioParameters.checkDontAskAgain();
@@ -64,13 +65,13 @@ describe('Launch scenario', () => {
     ScenarioParameters.getLaunchConfirmDialog().should('not.exist');
     Scenarios.getDashboardPlaceholder().should('have.text', SCENARIO_RUN_IN_PROGRESS);
 
-    Scenarios.selectScenario(scenariosNames[2], scenariosIds[2]);
+    ScenarioSelector.selectScenario(scenariosNames[2], scenariosIds[2]);
     ScenarioParameters.getLaunchButton().click();
     ScenarioParameters.getLaunchConfirmDialog().should('not.exist');
     Scenarios.getDashboardPlaceholder().should('have.text', SCENARIO_RUN_IN_PROGRESS);
 
     cy.clearLocalStorage('dontAskAgainToConfirmLaunch');
-    Scenarios.selectScenario(scenariosNames[3], scenariosIds[3]);
+    ScenarioSelector.selectScenario(scenariosNames[3], scenariosIds[3]);
     ScenarioParameters.getLaunchButton().click();
     ScenarioParameters.getLaunchConfirmDialog().should('be.visible');
     ScenarioParameters.getDontAskAgainCheckbox().should('not.be.checked');

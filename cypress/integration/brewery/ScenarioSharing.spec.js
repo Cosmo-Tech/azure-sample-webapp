@@ -12,6 +12,7 @@ import {
   WORKSPACE_WITH_USERS_LIST,
 } from '../../fixtures/stubbing/ScenarioSharing';
 import { ROLES, ROLES_PERMISSIONS_MAP } from '../../commons/constants/generic/TestConstants';
+import { ScenarioSelector } from '../../commons/actions/generic/ScenarioSelector';
 
 const stubbingResourcesArray = [
   { user: USER_EXAMPLE, scenarioList: UNSHARED_SCENARIOS_LIST },
@@ -74,7 +75,7 @@ describe('Check workspace permissions for admin', () => {
   it('can add & remove people, and change roles in scenario sharing pop-up', () => {
     const scenario = UNSHARED_SCENARIOS_LIST[0];
 
-    Scenarios.selectScenario(scenario.name, scenario.id);
+    ScenarioSelector.selectScenario(scenario.name, scenario.id);
     RolesEdition.getShareScenarioButton().should('be.visible').should('not.be.disabled').click();
     RolesEdition.getShareScenarioDialogTitle().should('have.text', 'Share ' + scenario.name);
     RolesEdition.selectOptionByAgent('Workspace', ROLES.SCENARIO.EDITOR);
