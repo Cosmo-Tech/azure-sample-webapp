@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { makeStyles } from '@material-ui/core';
+import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
     width: 'fit-content',
   },
   quoteContainer: {
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('xl')]: {
       display: 'none',
     },
   },
@@ -103,14 +103,14 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('xl')]: {
       justifyContent: 'center',
     },
     paddingTop: 120,
     paddingLeft: 100,
     paddingRight: 100,
     flexBasis: 700,
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('lg')]: {
       paddingLeft: theme.spacing(2),
       paddingRight: theme.spacing(2),
     },

@@ -3,7 +3,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Button, Typography, Select, FormControl, MenuItem, Paper } from '@material-ui/core';
+import { Grid, Button, Typography, Select, FormControl, MenuItem, Paper } from '@mui/material';
 import { Auth } from '@cosmotech/core';
 import { Trans, useTranslation } from 'react-i18next';
 import { TranslationUtils } from '../../utils';

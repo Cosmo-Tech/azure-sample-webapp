@@ -2,7 +2,8 @@
 // Licensed under the MIT license.
 
 import React from 'react';
-import { AppBar as MuiAppBar, makeStyles, Toolbar } from '@material-ui/core';
+import { AppBar as MuiAppBar, Toolbar } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import PropTypes from 'prop-types';
 import { HelpMenuWrapper, HomeButton, Logo, ThemeSwitch, UserInfoWrapper } from './components';
 

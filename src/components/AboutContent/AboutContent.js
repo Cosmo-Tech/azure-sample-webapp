@@ -3,7 +3,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Grid, makeStyles, ButtonBase, Link } from '@material-ui/core';
+import { Grid, ButtonBase, Link } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import { pictureLight, pictureDark } from '../../theme';
 import { useTranslation } from 'react-i18next';
 import { useWorkspaceData } from '../../state/hooks/WorkspaceHooks';

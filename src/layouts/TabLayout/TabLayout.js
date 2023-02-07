@@ -2,7 +2,8 @@
 // Licensed under the MIT license.
 
 import React, { useEffect } from 'react';
-import { Tabs as MuiTabs, Tab, Box, makeStyles } from '@material-ui/core';
+import { Tabs as MuiTabs, Tab, Box } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import { Link, useLocation, useMatch, Outlet, useParams, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { ErrorBanner } from '@cosmotech/ui';

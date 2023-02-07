@@ -4,7 +4,7 @@
 import React, { useEffect } from 'react';
 import { AppBar } from '../../components/AppBar';
 import { useNavigate } from 'react-router-dom';
-import { Grid, Accordion, AccordionSummary, AccordionDetails, Typography } from '@material-ui/core';
+import { Grid, Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { ResourceCard, ErrorBanner } from '@cosmotech/ui';
 import { useWorkspaces } from './WorkspacesHook';

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { Trans, useTranslation } from 'react-i18next';
 import { Auth, AuthDev } from '@cosmotech/core';
 import { AuthMSAL } from '@cosmotech/azure';
-import { Grid, Button, Typography, Box, Select, MenuItem, Paper } from '@material-ui/core';
+import { Grid, Button, Typography, Box, Select, MenuItem, Paper } from '@mui/material';
 import { SignInButton } from '@cosmotech/ui';
 import { TranslationUtils } from '../../utils';
 import { AUTH_STATUS } from '../../state/commons/AuthConstants.js';

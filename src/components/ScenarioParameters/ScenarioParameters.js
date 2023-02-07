@@ -3,8 +3,9 @@
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Grid, makeStyles, Typography, Accordion, AccordionSummary, AccordionDetails } from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { Grid, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { DATASET_ID_VARTYPE, SCENARIO_RUN_STATE, SCENARIO_VALIDATION_STATUS } from '../../services/config/ApiConstants';
 import { ACL_PERMISSIONS } from '../../services/config/accessControl';
 import { EditModeButton, NormalModeButton, ScenarioParametersTabsWrapper } from './components';
@@ -25,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'right',
     display: 'flex',
     alignItems: 'center',
-    margin: `0 ${theme.spacing(3)}px`,
+    margin: `0 ${theme.spacing(3)}`,
   },
   accordionSummary: {
     flexDirection: 'row-reverse',
