@@ -274,10 +274,17 @@ const downloadFileData = async (organizationId, workspaceId, datasets, datasetId
   if (!storageFilePath) {
     return;
   }
-  setClientFileDescriptorStatuses(UPLOAD_FILE_STATUS_KEY.DOWNLOADING, TABLE_DATA_STATUS.DOWNLOADING);
-  const data = await WorkspaceService.downloadWorkspaceFileData(organizationId, workspaceId, storageFilePath);
-  setClientFileDescriptorStatuses(UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD, TABLE_DATA_STATUS.PARSING);
-  return data;
+  try {
+    setClientFileDescriptorStatuses(UPLOAD_FILE_STATUS_KEY.DOWNLOADING, TABLE_DATA_STATUS.DOWNLOADING);
+    const data = await WorkspaceService.downloadWorkspaceFileData(organizationId, workspaceId, storageFilePath);
+    setClientFileDescriptorStatuses(UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD, TABLE_DATA_STATUS.PARSING);
+    return data;
+  } catch (error) {
+    console.error(error);
+    applicationStore.dispatch(
+      dispatchSetApplicationErrorMessage(error, t('commoncomponents.banner.dataset', "Dataset hasn't been downloaded."))
+    );
+  }
 };
 
 const _findDatasetInDatasetsList = (datasets, datasetId) => {
