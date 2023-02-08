@@ -26,6 +26,7 @@ export const dispatchSetApplicationErrorMessage = (error, errorMessage) => ({
   error: {
     title: navigator.onLine
       ? error.title ||
+        error.message ||
         error.response?.message ||
         error.response?.data?.title ||
         t('commoncomponents.banner.unknownError', 'Unknown error')
