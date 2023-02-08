@@ -116,8 +116,15 @@ const checkDeprecatedKeysInConfig = (config) => {
 
 const patchSolution = (originalSolution, overridingSolution) => {
   if (originalSolution == null || overridingSolution == null) return;
+  const keysToMerge = ['parameters', 'parameterGroups', 'runTemplates'];
 
-  ['parameters', 'parameterGroups', 'runTemplates'].forEach(
+  const validKeys = ['id', ...keysToMerge];
+  Object.keys(overridingSolution).forEach((keyInSolutionpatch) => {
+    if (validKeys.includes(keyInSolutionpatch) === false)
+      console.warn(`Invalid key "${keyInSolutionpatch}" in solution override. Valid keys are: ${validKeys.join(',')}`);
+  });
+
+  keysToMerge.forEach(
     (keyToMerge) =>
       (originalSolution[keyToMerge] = ArrayDictUtils.mergeArraysByElementsIds(
         originalSolution[keyToMerge],
