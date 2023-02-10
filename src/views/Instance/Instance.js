@@ -12,7 +12,6 @@ import { fetchData, processGraphElements } from './data';
 import useStyles from './style';
 import { useTheme } from '@material-ui/core/styles';
 import { useInstance } from './InstanceHook';
-import { useParams } from 'react-router-dom';
 
 const EXTRA_LAYOUTS = {
   breadthfirst: null,
@@ -23,7 +22,6 @@ const Instance = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const { t } = useTranslation();
-  const routerParameters = useParams();
   const {
     organizationId,
     workspaceId,
@@ -54,12 +52,8 @@ const Instance = (props) => {
   const scenarioListDisabled = scenarioList === null || noScenario;
   const scenarioListLabel = noScenario ? null : t('views.scenario.dropdown.scenario.label', 'Scenario');
   const isSwitchingScenario = currentScenario.status === STATUSES.LOADING;
-  useRedirectionToScenario(sortedScenarioList, 'instance');
-  // this function enables backwards navigation between scenario's URLs
-  window.onpopstate = (e) => {
-    const scenarioFromUrl = scenarioList.data.find((el) => el.id === routerParameters.scenarioId);
-    if (scenarioFromUrl) handleScenarioChange(event, scenarioFromUrl);
-  };
+  useRedirectionToScenario(sortedScenarioList);
+
   useEffect(() => {
     // Note that the "active" variable is necessary to prevent race conditions when the effect is called several times
     // (see https://stackoverflow.com/questions/61751728 for more info)

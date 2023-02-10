@@ -16,6 +16,7 @@ import {
 } from '../../commons/constants/generic/TestConstants';
 import { Scenarios, ScenarioManager, ScenarioParameters, Login } from '../../commons/actions';
 import { BreweryParameters } from '../../commons/actions/brewery';
+import { ScenarioSelector } from '../../commons/actions/generic/ScenarioSelector';
 
 describe('Create scenario', () => {
   const randomString = utils.randomStr(7);
@@ -157,7 +158,7 @@ describe('Create scenario', () => {
 
         // Switch to another scenario then come back to the first scenario
         cy.intercept('GET', anotherScenarioUrlRegex).as('requestUpdateCurrentScenario2');
-        Scenarios.selectScenario(otherScenarioName, otherScenarioId);
+        ScenarioSelector.selectScenario(otherScenarioName, otherScenarioId);
 
         cy.wait('@requestUpdateCurrentScenario2')
           .its('response')
@@ -166,7 +167,7 @@ describe('Create scenario', () => {
           .should('equal', otherScenarioName);
 
         Scenarios.getScenarioSelectorInput().should('value', otherScenarioName);
-        Scenarios.selectScenario(scenarioMasterName, scenarioMasterId);
+        ScenarioSelector.selectScenario(scenarioMasterName, scenarioMasterId);
         Scenarios.getScenarioSelectorInput().should('value', scenarioMasterName);
 
         BreweryParameters.getStockInput().should('value', stock);
@@ -228,7 +229,7 @@ describe('Create scenario', () => {
         // Switch to another scenario then come back to the first scenario
         cy.intercept('GET', anotherScenarioUrlRegex).as('requestUpdateCurrentScenario2');
 
-        Scenarios.selectScenario(otherScenarioName, otherScenarioId);
+        ScenarioSelector.selectScenario(otherScenarioName, otherScenarioId);
 
         cy.wait('@requestUpdateCurrentScenario2').should((value) => {
           const nameGet = value.response.body.name;
@@ -236,7 +237,7 @@ describe('Create scenario', () => {
         });
 
         Scenarios.getScenarioSelectorInput().should('value', otherScenarioName);
-        Scenarios.selectScenario(scenarioChildName, scenarioChildId);
+        ScenarioSelector.selectScenario(scenarioChildName, scenarioChildId);
         Scenarios.getScenarioSelectorInput().should('value', scenarioChildName);
 
         BreweryParameters.getStockInput().should('value', childStock);

@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 
 import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
+import { apiUtils as api } from '../../utils';
+import { Scenarios } from './Scenarios';
 
 function switchToInstanceVisualization() {
   cy.get(GENERIC_SELECTORS.instance.tabName).click();
@@ -95,6 +97,19 @@ function switchToDrawerSettingsTab() {
   return getDrawerSettingsTabButton().click();
 }
 
+function selectScenario(scenarioId, scenarioName) {
+  const getScenarioAlias = api.interceptGetScenario(scenarioId);
+  Scenarios.writeInScenarioSelectorInput(scenarioName);
+  Scenarios.getScenarioSelectorOption(scenarioId).should('be.visible').should('not.be.disabled').click();
+  api
+    .waitAlias(getScenarioAlias, { timeout: 60 * 1000 })
+    .its('response')
+    .its('body')
+    .then((req) => {
+      expect(req.name).equal(scenarioName);
+    });
+}
+
 export const InstanceVisualization = {
   switchToInstanceVisualization,
   getCytoVizContainer,
@@ -120,4 +135,5 @@ export const InstanceVisualization = {
   closeDrawer,
   switchToDrawerDetailsTab,
   switchToDrawerSettingsTab,
+  selectScenario,
 };

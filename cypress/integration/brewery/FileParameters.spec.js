@@ -8,6 +8,7 @@ import { BASIC_PARAMETERS_CONST, DATASET, RUN_TEMPLATE } from '../../commons/con
 import { Downloads, Scenarios, ScenarioManager, ScenarioParameters, Login } from '../../commons/actions';
 import { BreweryParameters } from '../../commons/actions/brewery';
 import { EXPECTED_DATA_AFTER_DUMMY_DATASET_1_UPLOAD } from '../../fixtures/FileParametersData';
+import { ScenarioSelector } from '../../commons/actions/generic/ScenarioSelector';
 
 Cypress.Keyboard.defaults({
   keystrokeDelay: 0,
@@ -111,7 +112,7 @@ describe('Simple operations on a file parameter', () => {
   });
 
   it('can delete an uploaded file and run the scenario', () => {
-    Scenarios.selectScenario(firstScenarioName, firstScenarioId);
+    ScenarioSelector.selectScenario(firstScenarioName, firstScenarioId);
     ScenarioParameters.edit(300);
     BreweryParameters.switchToDatasetPartsTab();
     BreweryParameters.getExampleDatasetPart1DownloadButton().should('have.text', FILE_PATH_1);
@@ -184,7 +185,7 @@ describe('Simple operations on a file parameter in a parameters tab that lost fo
   });
 
   it('can delete an uploaded file and run the scenario', () => {
-    Scenarios.selectScenario(firstScenarioName, firstScenarioId);
+    ScenarioSelector.selectScenario(firstScenarioName, firstScenarioId);
     ScenarioParameters.edit(300);
     BreweryParameters.switchToBasicTypesTab();
     BreweryParameters.switchToExtraDatasetPartTab();
@@ -241,7 +242,7 @@ describe('Scenario inheritance for file parameters', () => {
   });
 
   it('can create a scenario, upload a file, create a child scenario, delete the file and run it', () => {
-    Scenarios.selectScenario(parentScenarioName, parentScenarioId);
+    ScenarioSelector.selectScenario(parentScenarioName, parentScenarioId);
     ScenarioParameters.edit(180);
     BreweryParameters.switchToDatasetPartsTab();
     BreweryParameters.getExampleDatasetPart1DownloadButton().should('have.text', FILE_PATH_1);
@@ -249,7 +250,7 @@ describe('Scenario inheritance for file parameters', () => {
     ScenarioParameters.updateAndLaunch();
     BreweryParameters.getExampleDatasetPart1DownloadButton().should('not.exist');
 
-    Scenarios.selectScenario(grandParentScenarioName, grandParentScenarioId);
+    ScenarioSelector.selectScenario(grandParentScenarioName, grandParentScenarioId);
     BreweryParameters.switchToDatasetPartsTab();
     BreweryParameters.getExampleDatasetPart1DownloadButton().should('have.text', FILE_PATH_1);
   });
