@@ -20,7 +20,7 @@ function selectScenario(scenarioName, scenarioId) {
       expect(req.name).equal(scenarioName);
       cy.location().then((location) => {
         if (location.href.includes('scenario')) {
-          if (req.state === 'Running') {
+          if (req.state === 'Running' || req.validationStatus !== 'Draft') {
             ScenarioParameters.getParametersEditButton().should('be.disabled');
           } else {
             ScenarioParameters.getParametersEditButton().should('not.be.disabled');

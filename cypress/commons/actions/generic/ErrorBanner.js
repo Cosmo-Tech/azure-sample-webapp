@@ -3,8 +3,8 @@
 
 import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
 
-function getErrorBanner() {
-  return cy.get(GENERIC_SELECTORS.genericComponents.errorBanner.banner);
+function getErrorBanner(timeout = 10000) {
+  return cy.get(GENERIC_SELECTORS.genericComponents.errorBanner.banner, { timeout });
 }
 
 function getDismissErrorButton() {
@@ -18,9 +18,16 @@ function getErrorDetailText() {
 function getErrorCommentText() {
   return cy.get(GENERIC_SELECTORS.genericComponents.errorBanner.errorComment);
 }
+
+function checkAnDismissErrorBanner() {
+  getErrorBanner().should('be.visible');
+  getDismissErrorButton().click();
+  getErrorBanner().should('not.exist');
+}
 export const ErrorBanner = {
   getErrorBanner,
   getDismissErrorButton,
   getErrorCommentText,
   getErrorDetailText,
+  checkAnDismissErrorBanner,
 };

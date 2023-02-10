@@ -4,8 +4,8 @@
 import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
 import { BREWERY_WORKSPACE_ID } from '../../constants/generic/TestConstants';
 
-function getWorkspacesView() {
-  return cy.get(GENERIC_SELECTORS.workspace.view);
+function getWorkspacesView(timeout = 1000) {
+  return cy.get(GENERIC_SELECTORS.workspace.view, { timeout });
 }
 
 function getWorkspaceCardById(workspaceId) {

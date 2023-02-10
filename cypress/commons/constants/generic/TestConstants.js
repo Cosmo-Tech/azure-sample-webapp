@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-export { ORGANIZATION_ID, WORKSPACE_ID } from '../../../../src/config/GlobalConfiguration';
+export { ORGANIZATION_ID } from '../../../../src/config/GlobalConfiguration';
 
 export const URL_ROOT = 'https://dev.api.cosmotech.com';
 export const AUTH_QUERY_URL =
@@ -9,6 +9,7 @@ export const AUTH_QUERY_URL =
 export const LOCAL_WEBAPP_URL = 'http://localhost:3000';
 export const URL_POWERBI = `${LOCAL_WEBAPP_URL}/api/get-embed-info`;
 export const BREWERY_WORKSPACE_ID = 'w-81264wr3xw5q5';
+export const REAL_BREWERY_WORKSPACE_ID = 'w-dq0jkrr0k6owl';
 
 export const PAGE_NAME = {
   SCENARIO: '/scenario',
