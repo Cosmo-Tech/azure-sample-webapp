@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { DEFAULT_SCENARIOS_LIST } from '../default/scenarios';
+import { DEFAULT_SCENARIOS_LIST, SCENARIO_EXAMPLE } from '../default/scenarios';
 import { USER_EXAMPLE, USERS_LIST } from '../default/users';
 import { ROLES } from '../../../commons/constants/generic/TestConstants';
 
@@ -28,3 +28,20 @@ export const SHARED_SCENARIOS_LIST = DEFAULT_SCENARIOS_LIST.map((scenario) => {
     },
   };
 });
+
+export const NO_ROOT_SCENARIOS_LIST = [
+  {
+    ...SCENARIO_EXAMPLE,
+    id: 's-stubbedscnr01',
+    name: 'Test Cypress - Stubbed child scenario 1',
+    parentId: 's-unknownscenario',
+    rootId: 's-unknownscenario',
+  },
+  {
+    ...SCENARIO_EXAMPLE,
+    id: 's-stubbedscnr02',
+    name: 'Test Cypress - Stubbed child scenario 2',
+    parentId: 's-unknownscenario',
+    rootId: 's-unknownscenario',
+  },
+];

@@ -9,6 +9,7 @@ import { USER_EXAMPLE, USERS_LIST } from '../../fixtures/stubbing/default';
 import {
   UNSHARED_SCENARIOS_LIST,
   SHARED_SCENARIOS_LIST,
+  NO_ROOT_SCENARIOS_LIST,
   WORKSPACE_WITH_USERS_LIST,
 } from '../../fixtures/stubbing/ScenarioSharing';
 import { ROLES, ROLES_PERMISSIONS_MAP } from '../../commons/constants/generic/TestConstants';
@@ -190,5 +191,27 @@ describe('Check workspace permissions for admin', () => {
     ScenarioManager.switchToScenarioManager();
     ScenarioManager.getScenarioAccordion(UNSHARED_SCENARIOS_LIST[0].id);
     ScenarioManager.getDeleteScenarioButton().should('not.exist');
+  });
+});
+
+describe('Check scenario tree when root scenarios are not shared with user', () => {
+  before(() => {
+    setup.initCypressAndStubbing();
+    stub.start();
+  });
+
+  beforeEach(() => {
+    stub.setFakeUser(USER_EXAMPLE);
+    stub.setWorkspaces([WORKSPACE_WITH_USERS_LIST]);
+    stub.setScenarios(NO_ROOT_SCENARIOS_LIST);
+    Login.login();
+  });
+
+  after(() => {
+    stub.stop();
+  });
+
+  it('should not crash when root scenarios are not shared', () => {
+    Scenarios.getScenarioSelectorInput().should('have.value', NO_ROOT_SCENARIOS_LIST[0].name);
   });
 });
