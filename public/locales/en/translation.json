@@ -516,13 +516,23 @@
       "button": {
         "clearErrors": "Clear",
         "fileImport": "Import file",
-        "csvExport": "Export CSV"
+        "csvExport": "Export"
       },
       "labels": {
         "loading": "Loading...",
         "fileImportError": "File load failed.",
         "errorsCount_one": "{{count}} error occurred:",
         "errorsCount_other": "{{count}} errors occurred:"
+      },
+      "export": {
+        "labels": {
+          "cancel": "Cancel",
+          "export": "Export",
+          "fileNameInputLabel": "Name",
+          "fileTypeSelectLabel": "Type",
+          "title": "Export file",
+          "exportDescription": "Your file will be saved on your computer."
+        }
       }
     }
   },

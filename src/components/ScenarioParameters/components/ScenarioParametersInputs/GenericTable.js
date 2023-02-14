@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import rfdc from 'rfdc';
 import { Table, TABLE_DATA_STATUS, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
 import { AgGridUtils, FileBlobUtils } from '@cosmotech/core';
@@ -10,6 +10,7 @@ import { FileManagementUtils } from '../../../../components/ScenarioParameters/F
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import { TableExportDialog } from './components';
 import { gridLight, gridDark } from '../../../../theme/';
 import { ConfigUtils, TranslationUtils } from '../../../../utils';
 import { useOrganizationId } from '../../../../state/hooks/OrganizationHooks.js';
@@ -48,12 +49,24 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
   const parameter = parametersState[parameterId] || {};
   const lockId = `${scenarioId}_${parameterId}`;
 
-  const labels = {
+  const tableLabels = {
     label: t(`solution.parameters.${parameterId}`, parameterId),
     loading: t('genericcomponent.table.labels.loading', 'Loading...'),
     clearErrors: t('genericcomponent.table.button.clearErrors', 'Clear'),
     errorsPanelMainError: t('genericcomponent.table.labels.fileImportError', 'File load failed.'),
   };
+  const tableExportDialogLabels = {
+    cancel: t('genericcomponent.table.export.labels.cancel', 'Cancel'),
+    export: t('genericcomponent.table.export.labels.export', 'Export'),
+    fileNameInputLabel: t('genericcomponent.table.export.labels.fileNameInputLabel', 'Name'),
+    fileTypeSelectLabel: t('genericcomponent.table.export.labels.fileTypeSelectLabel', 'Type'),
+    title: t('genericcomponent.table.export.labels.title', 'Export file'),
+    exportDescription: t(
+      'genericcomponent.table.export.labels.exportDescription',
+      'Your file will be saved on your computer.'
+    ),
+  };
+
   const columns = ConfigUtils.getParameterAttribute(parameterData, 'columns');
   const dateFormat = ConfigUtils.getParameterAttribute(parameterData, 'dateFormat') || DEFAULT_DATE_FORMAT;
   const options = { dateFormat };
@@ -282,9 +295,25 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
     }
   };
 
-  const exportCSV = (event) => {
-    const fileName = parameterId.concat('.csv');
+  const [isExportDialogOpen, setIsExportDialogOpen] = useState(false);
+  const openExportDialog = () => setIsExportDialogOpen(true);
+  const closeExportDialog = () => setIsExportDialogOpen(false);
+  const exportTable = (fileName) => {
+    closeExportDialog();
+    exportFile(fileName);
+  };
+
+  const exportFile = (fileName) => {
+    if (fileName.toLowerCase().endsWith('.xlsx')) exportXSLX(fileName);
+    else exportCSV(fileName);
+  };
+
+  const exportCSV = (fileName) => {
     const fileContent = AgGridUtils.toCSV(parameter.agGridRows, columns, options);
+    FileBlobUtils.downloadFileFromData(fileContent, fileName);
+  };
+  const exportXSLX = (fileName) => {
+    const fileContent = AgGridUtils.toXLSX(parameter.agGridRows, columns, options);
     FileBlobUtils.downloadFileFromData(fileContent, fileName);
   };
 
@@ -296,7 +325,7 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
     return newFileContent;
   };
 
-  const onCellChange = (event) => {
+  const onCellChange = () => {
     if (!parameter.uploadPreprocess) {
       setParameterInState({
         errors: [],
@@ -359,11 +388,11 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
     <Button
       style={{ marginLeft: '16px' }}
       key="export-csv-button"
-      data-cy="export-csv-button"
+      data-cy="export-button"
       color="primary"
       variant="outlined"
       component="label"
-      onClick={exportCSV}
+      onClick={openExportDialog}
     >
       {t('genericcomponent.table.button.csvExport')}
     </Button>
@@ -372,23 +401,32 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
   const extraToolbarActions = [csvImportButton, csvExportButton];
 
   return (
-    <Table
-      key={parameterId}
-      data-cy={`table-${parameterData.id}`}
-      labels={labels}
-      tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
-      dateFormat={dateFormat}
-      editMode={context.editMode}
-      dataStatus={parameter.tableDataStatus || TABLE_DATA_STATUS.EMPTY}
-      errors={parameter.errors}
-      columns={columns}
-      rows={parameter.agGridRows || []}
-      agTheme={context.isDarkTheme ? gridDark.agTheme : gridLight.agTheme}
-      extraToolbarActions={extraToolbarActions}
-      onCellChange={onCellChange}
-      onClearErrors={onClearErrors}
-      buildErrorsPanelTitle={buildErrorsPanelTitle}
-    />
+    <>
+      <TableExportDialog
+        defaultFileName={parameterId}
+        labels={tableExportDialogLabels}
+        open={isExportDialogOpen}
+        onClose={closeExportDialog}
+        onExport={exportTable}
+      />
+      <Table
+        key={parameterId}
+        data-cy={`table-${parameterData.id}`}
+        labels={tableLabels}
+        tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
+        dateFormat={dateFormat}
+        editMode={context.editMode}
+        dataStatus={parameter.tableDataStatus || TABLE_DATA_STATUS.EMPTY}
+        errors={parameter.errors}
+        columns={columns}
+        rows={parameter.agGridRows || []}
+        agTheme={context.isDarkTheme ? gridDark.agTheme : gridLight.agTheme}
+        extraToolbarActions={extraToolbarActions}
+        onCellChange={onCellChange}
+        onClearErrors={onClearErrors}
+        buildErrorsPanelTitle={buildErrorsPanelTitle}
+      />
+    </>
   );
 };
 
