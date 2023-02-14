@@ -1,18 +1,18 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import rfdc from 'rfdc';
+import equal from 'fast-deep-equal';
 import { Table, TABLE_DATA_STATUS, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
 import { AgGridUtils, FileBlobUtils } from '@cosmotech/core';
 import { Button } from '@mui/material';
-import { FileManagementUtils } from '../../../../components/ScenarioParameters/FileManagementUtils';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { TableExportDialog } from './components';
 import { gridLight, gridDark } from '../../../../theme/';
-import { ConfigUtils, TranslationUtils } from '../../../../utils';
+import { ConfigUtils, TranslationUtils, FileManagementUtils } from '../../../../utils';
 import { useOrganizationId } from '../../../../state/hooks/OrganizationHooks.js';
 import { useWorkspaceId } from '../../../../state/hooks/WorkspaceHooks.js';
 
@@ -38,7 +38,7 @@ const _generateGridDataFromXLSX = async (fileBlob, parameterData, options) => {
   );
 };
 
-export const GenericTable = ({ parameterData, parametersState, setParametersState, context }) => {
+export const GenericTable = ({ parameterData, context, parameterValue, setParameterValue }) => {
   const { t } = useTranslation();
   const organizationId = useOrganizationId();
   const workspaceId = useWorkspaceId();
@@ -46,7 +46,8 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
   const scenarioId = useSelector((state) => state.scenario?.current?.data?.id);
 
   const parameterId = parameterData.id;
-  const parameter = parametersState[parameterId] || {};
+  const [parameter, setParameter] = useState(parameterValue || {});
+
   const lockId = `${scenarioId}_${parameterId}`;
 
   const tableLabels = {
@@ -71,22 +72,60 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
   const dateFormat = ConfigUtils.getParameterAttribute(parameterData, 'dateFormat') || DEFAULT_DATE_FORMAT;
   const options = { dateFormat };
 
-  function setParameterInState(newValuePart) {
-    setParametersState((currentParametersState) => ({
-      ...currentParametersState,
-      [parameterId]: {
-        ...currentParametersState[parameterId],
-        ...newValuePart,
-      },
-    }));
-  }
+  const isUnmount = useRef(false);
+  const gridApiRef = useRef();
+  useEffect(() => {
+    return () => {
+      isUnmount.current = true;
+      gridApiRef.current = undefined;
+    };
+  }, []);
 
-  function setClientFileDescriptorStatuses(newFileStatus, newTableDataStatus) {
-    setParameterInState({
+  // Store last parameter in a ref
+  // Update a state is async, so, in case of multiple call of updateParameterValue in same function
+  // parameter state value will be update only in last call.
+  // We need here to use a ref value for be sure to have the good value.
+  const lastNewParameterValue = useRef(parameter);
+  const updateParameterValue = (newValuePart) => {
+    const newParameterValue = {
+      ...lastNewParameterValue.current,
+      ...newValuePart,
+    };
+
+    lastNewParameterValue.current = newParameterValue;
+
+    if (!isUnmount.current) {
+      setParameter(newParameterValue);
+    }
+
+    // Update parameterValue in another process to allow grid to update parameter before.
+    // if not, the parent should update parameterValue in same time that grid refreshing by update local parameter.
+    setTimeout(() => {
+      // Prevent useless update of parameterValue if multiple updateParameterValue was done before
+      if (lastNewParameterValue.current === newParameterValue) {
+        setParameterValue(newParameterValue);
+      }
+    });
+  };
+
+  useEffect(() => {
+    if (
+      parameterValue?.status !== parameter.status ||
+      !equal(parameterValue?.errors, parameter.errors) ||
+      !equal(parameterValue?.agGridRows, parameter.agGridRows)
+    ) {
+      lastNewParameterValue.current = parameterValue;
+      setParameter(parameterValue);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [parameterValue]);
+
+  const setClientFileDescriptorStatuses = (newFileStatus, newTableDataStatus) => {
+    updateParameterValue({
       status: newFileStatus,
       tableDataStatus: newTableDataStatus,
     });
-  }
+  };
 
   const _checkForLock = () => {
     if (GenericTable.downloadLocked === undefined) {
@@ -109,9 +148,9 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
     // Setting the table status to DOWNLOADING again even when the download is already active (and thus locked) seems
     // to fix a race condition in the table parameter state. This can be used to fix the missing loading spinner.
     setClientFileDescriptor({
-      agGridRows: null,
       file: null,
       content: null,
+      agGridRows: null,
       errors: null,
       status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD,
       tableDataStatus: TABLE_DATA_STATUS.DOWNLOADING,
@@ -137,10 +176,10 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
       _parseCSVFileContent(data, fileName, clientFileDescriptor, setClientFileDescriptor, finalStatus);
     } else {
       setClientFileDescriptor({
-        agGridRows: null,
         file: null,
         content: null,
         errors: null,
+        agGridRows: null,
         status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD,
         tableDataStatus: TABLE_DATA_STATUS.ERROR,
       });
@@ -157,11 +196,11 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
     clientFileDescriptorRestoreValue
   ) => {
     setClientFileDescriptor({
-      agGridRows: null,
       name: fileName,
       file: null,
-      content: fileContent,
+      agGridRows: null,
       errors: null,
+      content: fileContent,
       status: finalStatus,
       tableDataStatus: TABLE_DATA_STATUS.PARSING,
     });
@@ -175,17 +214,17 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
         });
       } else {
         setClientFileDescriptor({
-          errors: agGridData.error,
           tableDataStatus: TABLE_DATA_STATUS.ERROR,
+          errors: agGridData.error,
         });
       }
     } else {
       setClientFileDescriptor({
-        agGridRows: agGridData.rows,
         name: fileName,
         file: null,
-        content: fileContent,
+        agGridRows: agGridData.rows,
         errors: agGridData.error,
+        content: fileContent,
         status: finalStatus,
         tableDataStatus: TABLE_DATA_STATUS.READY,
         uploadPreprocess: null,
@@ -202,12 +241,11 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
     if (!file) {
       return;
     }
-
     setClientFileDescriptor({
-      agGridRows: null,
       name: file.name,
       file: null,
       content: null,
+      agGridRows: null,
       errors: null,
       status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD,
       tableDataStatus: TABLE_DATA_STATUS.UPLOADING,
@@ -239,10 +277,10 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
       return;
     }
     setClientFileDescriptor({
-      agGridRows: null,
       name: file.name,
       file,
       content: null,
+      agGridRows: null,
       errors: null,
       status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD,
       tableDataStatus: TABLE_DATA_STATUS.PARSING,
@@ -268,10 +306,10 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
         options
       );
       setClientFileDescriptor({
-        agGridRows: agGridData.rows,
         name: file.name,
         file: null,
         content: newFileContent,
+        agGridRows: agGridData.rows,
         errors: agGridData.error,
         status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD,
         tableDataStatus: TABLE_DATA_STATUS.READY,
@@ -283,13 +321,13 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
   const importFile = (event) => {
     // TODO: ask confirmation if data already exist
     const previousFileBackup = clone(parameter);
-    const file = FileManagementUtils.prepareToUpload(event, parameter, setParameterInState);
+    const file = FileManagementUtils.prepareToUpload(event, parameter, updateParameterValue);
     if (file.name.endsWith('.csv')) {
-      _readAndParseCSVFile(file, parameter, setParameterInState, previousFileBackup);
+      _readAndParseCSVFile(file, parameter, updateParameterValue, previousFileBackup);
     } else if (file.name.endsWith('.xlsx')) {
-      _readAndParseXLSXFile(file, parameter, setParameterInState, previousFileBackup);
+      _readAndParseXLSXFile(file, parameter, updateParameterValue, previousFileBackup);
     } else {
-      setParameterInState({
+      updateParameterValue({
         errors: [{ summary: 'Unknown file type, please provide a CSV or XLSX file.', loc: file.name }],
       });
     }
@@ -317,28 +355,30 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
     FileBlobUtils.downloadFileFromData(fileContent, fileName);
   };
 
-  const _uploadPreprocess = (parameterData, clientFileDescriptor, setClientFileDescriptorStatus) => {
+  const _uploadPreprocess = (clientFileDescriptor) => {
     const newFileContent = AgGridUtils.toCSV(parameter.agGridRows, columns, options);
-    setParameterInState({
+    updateParameterValue({
       content: newFileContent,
     });
+    gridApiRef.current?.stopEditing();
     return newFileContent;
   };
 
-  const onCellChange = () => {
+  const onCellChange = (event) => {
+    gridApiRef.current = event.api;
     if (!parameter.uploadPreprocess) {
-      setParameterInState({
-        errors: [],
+      updateParameterValue({
         status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD,
         tableDataStatus: TABLE_DATA_STATUS.READY,
+        errors: null,
         uploadPreprocess: { content: _uploadPreprocess },
       });
     }
   };
 
   const onClearErrors = () => {
-    setParameterInState({
-      errors: [],
+    updateParameterValue({
+      errors: null,
     });
   };
 
@@ -365,7 +405,7 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
       parameter.status === UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD &&
       !alreadyDownloaded
     ) {
-      _downloadDatasetFileContentFromStorage(organizationId, workspaceId, datasets, parameter, setParameterInState);
+      _downloadDatasetFileContentFromStorage(organizationId, workspaceId, datasets, parameter, updateParameterValue);
     }
   });
 
@@ -432,7 +472,7 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
 
 GenericTable.propTypes = {
   parameterData: PropTypes.object.isRequired,
-  parametersState: PropTypes.object.isRequired,
-  setParametersState: PropTypes.func.isRequired,
   context: PropTypes.object.isRequired,
+  parameterValue: PropTypes.any,
+  setParameterValue: PropTypes.func.isRequired,
 };

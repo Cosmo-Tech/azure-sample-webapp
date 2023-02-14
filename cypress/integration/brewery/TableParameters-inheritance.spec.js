@@ -43,6 +43,7 @@ describe('Table parameters inheritance between parent and child scenarios', () =
       BreweryParameters.switchToCustomersTab();
       ScenarioParameters.edit();
       BreweryParameters.importCustomersTableData(MASTER_CSV_FILE_PATH);
+      BreweryParameters.getCustomersTableRows().should('have.length', 4);
       BreweryParameters.editCustomersTableStringCell('age', 0, '78').should('have.text', '78');
       BreweryParameters.editCustomersTableStringCell('canDrinkAlcohol', 1, 'true').should('have.text', 'true');
       BreweryParameters.editCustomersTableStringCell('height', 0, '2.01').should('have.text', '2.01');

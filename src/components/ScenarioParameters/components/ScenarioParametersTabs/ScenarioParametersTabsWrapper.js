@@ -4,8 +4,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ScenarioParametersTab from './ScenarioParametersTab';
-import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import { ScenarioParametersTabs } from '../index';
 import { ConfigUtils } from '../../../../utils';
 // eslint-disable-next-line max-len
@@ -18,15 +16,7 @@ const _hasOnlyHiddenParameters = (group) => {
   );
 };
 
-const ScenarioParametersTabsWrapper = ({
-  parametersGroupsMetadata,
-  parametersValuesToRender,
-  setParametersValuesToRender,
-  userRoles,
-  context,
-}) => {
-  const { t } = useTranslation();
-  const datasets = useSelector((state) => state.dataset?.list?.data);
+const ScenarioParametersTabsWrapper = ({ parametersGroupsMetadata, userRoles, context }) => {
   for (const parametersGroupMetadata of parametersGroupsMetadata) {
     if (
       ConfigUtils.getParametersGroupAttribute(parametersGroupMetadata, 'hidden') === true ||
@@ -43,25 +33,15 @@ const ScenarioParametersTabsWrapper = ({
     if ('name' in tabFactory || (tabFactory?.WrappedComponent && 'name' in tabFactory.WrappedComponent)) {
       parametersGroupMetadata.tab = React.createElement(tabFactory, {
         parametersGroupData: parametersGroupMetadata,
-        parametersState: parametersValuesToRender,
-        setParametersState: setParametersValuesToRender,
         context,
       });
     }
-    // Note that the factories are now deprecated and
-    // won't be supported in the next major version of the webapp
+    // Factories as a function are not supported
     else {
-      parametersGroupMetadata.tab = tabFactory.create(
-        t,
-        datasets,
-        parametersGroupMetadata,
-        parametersValuesToRender,
-        setParametersValuesToRender,
-        context
-      );
-      console.warn(
-        "Warning: Factories are now deprecated and won't be supported in the next major version of the webapp"
-      );
+      throw new Error(`
+        Factories as a function are no longer supported for scenario parameter tab.
+        Please update your factories to React components (see migration guide for further instructions)
+      `);
     }
   }
 
@@ -72,8 +52,6 @@ const ScenarioParametersTabsWrapper = ({
 ScenarioParametersTabsWrapper.propTypes = {
   parametersGroupsMetadata: PropTypes.array.isRequired,
   userRoles: PropTypes.array.isRequired,
-  parametersValuesToRender: PropTypes.object.isRequired,
-  setParametersValuesToRender: PropTypes.func.isRequired,
   context: PropTypes.object.isRequired,
 };
 export default ScenarioParametersTabsWrapper;

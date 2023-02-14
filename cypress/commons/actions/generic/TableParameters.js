@@ -143,15 +143,25 @@ function setFileExportName(fileName) {
 }
 
 function editStringCell(getTableElement, colName, rowIndex, newValue) {
+  // Add a wait for allow grid to finish refreshing before getCell
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.wait(0);
+
   // Entering and leaving the edition mode cause re-renders of the cell element in the DOM, hence the need for multiple
   // calls to getCell
   getCell(getTableElement(), colName, rowIndex).dblclick();
-  return getCell(getTableElement(), colName, rowIndex).type(newValue + '{enter}');
+  getCell(getTableElement(), colName, rowIndex).type(newValue + '{enter}');
+  return getCell(getTableElement(), colName, rowIndex);
 }
 
 function clearStringCell(getTableElement, colName, rowIndex) {
+  // Add a wait for allow grid to finish refreshing before getCell
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.wait(0);
+
   getCell(getTableElement(), colName, rowIndex).dblclick();
-  return getCell(getTableElement(), colName, rowIndex).type('{backspace}' + '{enter}');
+  getCell(getTableElement(), colName, rowIndex).type('{backspace}' + '{enter}');
+  return getCell(getTableElement(), colName, rowIndex);
 }
 
 export const TableParameters = {

@@ -2,18 +2,18 @@
 // Licensed under the MIT license.
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 import PropTypes from 'prop-types';
 import { Grid, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { DATASET_ID_VARTYPE, SCENARIO_RUN_STATE, SCENARIO_VALIDATION_STATUS } from '../../services/config/ApiConstants';
+import { SCENARIO_RUN_STATE, SCENARIO_VALIDATION_STATUS } from '../../services/config/ApiConstants';
 import { ACL_PERMISSIONS } from '../../services/config/accessControl';
 import { EditModeButton, NormalModeButton, ScenarioParametersTabsWrapper } from './components';
 import { useTranslation } from 'react-i18next';
 import { SimpleTwoActionsDialog, DontAskAgainDialog, PermissionsGate } from '@cosmotech/ui';
-import { FileManagementUtils } from './FileManagementUtils';
 import { useScenarioParameters } from './ScenarioParametersHook';
-import { ScenarioParametersUtils } from '../../utils';
+import { ScenarioParametersUtils, FileManagementUtils } from '../../utils';
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -74,6 +74,8 @@ const ScenarioParameters = ({
   const scenarioId = currentScenarioData?.id;
   const [showDiscardConfirmationPopup, setShowDiscardConfirmationPopup] = useState(false);
 
+  const { reset, getValues, setValue } = useFormContext();
+
   // Memoize the parameters ids for the current run template
   const runTemplateParametersIds = useMemo(
     () => getRunTemplateParametersIds(solutionData.runTemplatesParametersIdsDict, currentScenarioData?.runTemplateId),
@@ -106,72 +108,44 @@ const ScenarioParameters = ({
     [datasetsData, runTemplateParametersIds, defaultParametersValues, currentScenarioData?.parametersValues]
   );
 
-  // Store the reset values for the run template parameters, based on defaultParametersValues and scenario data.
-  const parametersValuesRef = useRef(null);
-  function getParametersValuesRef() {
-    if (parametersValuesRef.current === null) {
-      parametersValuesRef.current = parametersValuesForReset;
-    }
-    return parametersValuesRef.current;
-  }
-
-  const generateParametersValuesToRenderFromParametersValuesRef = () => {
-    const newParametersValuesToRender = {};
-    for (const parameterId in getParametersValuesRef()) {
-      if (parametersMetadata[parameterId]?.varType === DATASET_ID_VARTYPE) {
-        const datasetId = getParametersValuesRef()[parameterId];
-        newParametersValuesToRender[parameterId] = FileManagementUtils.buildClientFileDescriptorFromDataset(
-          datasetsData,
-          datasetId
-        );
-      } else {
-        newParametersValuesToRender[parameterId] = getParametersValuesRef()[parameterId];
-      }
-    }
-    return newParametersValuesToRender;
+  const generateParametersValuesFromOriginalValues = () => {
+    return ScenarioParametersUtils.buildParametersValuesFromOriginalValues(
+      parametersValuesForReset,
+      parametersMetadata,
+      datasetsData,
+      FileManagementUtils.buildClientFileDescriptorFromDataset
+    );
   };
 
-  // Add scenario parameters data in state
-  const [parametersValuesToRender, setParametersValuesToRender] = useState(
-    generateParametersValuesToRenderFromParametersValuesRef()
-  );
-
-  const setParametersValuesToRenderFromParametersValuesRef = () => {
-    setParametersValuesToRender(generateParametersValuesToRenderFromParametersValuesRef());
+  const resetParametersValues = () => {
+    const resetValues = generateParametersValuesFromOriginalValues();
+    reset(resetValues);
   };
 
   const discardLocalChanges = () => {
-    setParametersValuesToRenderFromParametersValuesRef();
+    resetParametersValues();
   };
 
-  const setParametersValuesRefFromParametersValuesToRender = async () => {
-    const newParametersValuesToPatch = {};
-    for (const parameterId in parametersValuesToRender) {
-      // Do not process "file" parameters, they will be handled in the function applyPendingOperationsOnFileParameters
-      if (parametersMetadata[parameterId]?.varType !== DATASET_ID_VARTYPE) {
-        newParametersValuesToPatch[parameterId] = parametersValuesToRender[parameterId];
-      }
-    }
-    parametersValuesRef.current = {
-      ...getParametersValuesRef(),
-      ...newParametersValuesToPatch,
-    };
+  const updateParameterValue = (parameterId, keyToPatch, newValue) => {
+    const currentValue = getValues(parameterId);
+    setValue(parameterId, {
+      ...currentValue,
+      [keyToPatch]: newValue,
+    });
+  };
+
+  const processFilesParameters = async () => {
+    const parametersValues = getValues();
     await FileManagementUtils.applyPendingOperationsOnFileParameters(
       organizationId,
       workspaceId,
       solutionData,
       parametersMetadata,
-      parametersValuesToRender,
-      setParametersValuesToRender,
-      parametersValuesRef,
+      parametersValues,
+      updateParameterValue,
       addDatasetToStore
     );
   };
-
-  useEffect(() => {
-    setParametersValuesToRenderFromParametersValuesRef();
-    // eslint-disable-next-line
-  }, [parametersValuesRef.current]);
 
   // You can use the context object to pass all additional information to custom tab factory
   const context = {
@@ -180,15 +154,15 @@ const ScenarioParameters = ({
   };
 
   useEffect(() => {
-    parametersValuesRef.current = parametersValuesForReset;
     discardLocalChanges();
     // eslint-disable-next-line
   }, [currentScenarioData?.id]);
 
   const getParametersForUpdate = () => {
+    const parametersValues = getValues();
     return ScenarioParametersUtils.buildParametersForUpdate(
       solutionData,
-      getParametersValuesRef(),
+      parametersValues,
       runTemplateParametersIds,
       currentScenarioData,
       scenariosData
@@ -243,7 +217,7 @@ const ScenarioParameters = ({
       forceUpdate = true;
     }
 
-    await setParametersValuesRefFromParametersValuesToRender();
+    await processFilesParameters();
     if (forceUpdate) {
       const parametersForUpdate = getParametersForUpdate();
       updateAndLaunchScenario(scenarioId, parametersForUpdate);
@@ -340,8 +314,6 @@ const ScenarioParameters = ({
               <form onSubmit={preventSubmit}>
                 <ScenarioParametersTabsWrapper
                   parametersGroupsMetadata={parametersGroupsMetadata}
-                  parametersValuesToRender={parametersValuesToRender}
-                  setParametersValuesToRender={setParametersValuesToRender}
                   userRoles={userRoles}
                   context={context}
                 />

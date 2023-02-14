@@ -10,7 +10,7 @@ import { ConfigUtils } from '../../../../utils';
 import PropTypes from 'prop-types';
 import { t } from 'i18next';
 
-const ScenarioParametersTab = ({ parametersGroupData, parametersState, setParametersState, context, userAppRoles }) => {
+const ScenarioParametersTab = ({ parametersGroupData, context, userAppRoles }) => {
   const noPermissionsPlaceHolder = (t) => {
     return <div>{t('genericcomponent.text.scenario.parameters.tabs.placeholder')}</div>;
   };
@@ -39,8 +39,6 @@ const ScenarioParametersTab = ({ parametersGroupData, parametersState, setParame
             <ScenarioParameterInput
               key={`${scenarioId}_${parameterData.id}`}
               parameterData={parameterData}
-              parametersState={parametersState}
-              setParametersState={setParametersState}
               context={context}
             />
           ))}
@@ -51,8 +49,6 @@ const ScenarioParametersTab = ({ parametersGroupData, parametersState, setParame
 
 ScenarioParametersTab.propTypes = {
   parametersGroupData: PropTypes.object.isRequired,
-  parametersState: PropTypes.object.isRequired,
-  setParametersState: PropTypes.func.isRequired,
   context: PropTypes.object.isRequired,
   userAppRoles: PropTypes.array.isRequired,
 };
