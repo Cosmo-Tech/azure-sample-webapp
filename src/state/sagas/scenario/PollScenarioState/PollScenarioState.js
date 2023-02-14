@@ -21,7 +21,7 @@ function forgeStopPollingAction(scenarioId) {
 
 // generators function
 export function* pollScenarioState(action) {
-  // Loop until the scenario state is FAILED or SUCCESS
+  // Loop until the scenario state is FAILED, SUCCESS or UNKNOWN
   while (true) {
     try {
       // Fetch data of the scenario with the provided id
@@ -33,7 +33,7 @@ export function* pollScenarioState(action) {
       );
 
       const data = response.data;
-      if (data.state === 'Failed' || data.state === 'Successful') {
+      if (['Failed', 'Successful', 'Unknown'].includes(data.state)) {
         // Update the scenario state in all scenario redux states
         yield put({
           type: SCENARIO_ACTIONS_KEY.UPDATE_SCENARIO,
