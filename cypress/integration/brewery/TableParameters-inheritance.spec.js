@@ -19,7 +19,7 @@ function forgeScenarioName() {
   const randomString = utils.randomStr(7);
   return prefix + randomString;
 }
-describe('Table parameters inheritance between master and child scenarios', () => {
+describe('Table parameters inheritance between parent and child scenarios', () => {
   let masterScenarioId, firstChildScenarioId;
   before(() => {
     Login.login();
@@ -34,7 +34,7 @@ describe('Table parameters inheritance between master and child scenarios', () =
 
     ScenarioManager.deleteScenarioList(scenarioNamesToDelete);
   });
-  it("checks that child scenario inherits it's masters table parameters with inline editing", () => {
+  it('checks that child scenario inherits from its parent table parameters with inline editing', () => {
     const masterScenario = 'Test Cypress - master scenario with table - ' + utils.randomStr(7);
     scenarioNamesToDelete.push(masterScenario);
     Scenarios.createScenario(masterScenario, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE).then((data) => {

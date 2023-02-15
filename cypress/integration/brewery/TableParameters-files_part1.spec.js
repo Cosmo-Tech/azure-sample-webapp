@@ -41,7 +41,7 @@ describe('Table parameters files standard operations part 1', () => {
     BreweryParameters.getCustomersTableLabel().should('be.visible').should('have.text', 'Customers');
     BreweryParameters.getCustomersTableGrid().should('be.visible');
     BreweryParameters.getCustomersImportButton().should('be.visible');
-    BreweryParameters.getCustomersCSVExportButton().should('be.visible');
+    BreweryParameters.getCustomersExportButton().should('be.visible');
     BreweryParameters.getCustomersTableHeader().should('not.exist');
     BreweryParameters.exportCustomersTableDataToCSV();
     Downloads.checkByContent('customers.csv', COL_NAMES.join());

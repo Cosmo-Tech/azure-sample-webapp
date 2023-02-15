@@ -177,8 +177,8 @@ function getCustomersTableGrid() {
 function getCustomersImportButton() {
   return TableParameters.getImportButton(getCustomersTable());
 }
-function getCustomersCSVExportButton() {
-  return TableParameters.getCSVExportButton(getCustomersTable());
+function getCustomersExportButton() {
+  return TableParameters.getExportButton(getCustomersTable());
 }
 function getCustomersTableHeader() {
   return TableParameters.getHeader(getCustomersTable());
@@ -248,8 +248,8 @@ function getEventsTableGrid() {
 function getEventsImportButton() {
   return TableParameters.getImportButton(getEventsTable());
 }
-function getEventsCSVExportButton() {
-  return TableParameters.getCSVExportButton(getEventsTable());
+function getEventsExportButton() {
+  return TableParameters.getExportButton(getEventsTable());
 }
 function getEventsTableHeader() {
   return TableParameters.getHeader(getEventsTable());
@@ -408,7 +408,7 @@ export const BreweryParameters = {
   getCustomersTableLabel,
   getCustomersTableGrid,
   getCustomersImportButton,
-  getCustomersCSVExportButton,
+  getCustomersExportButton,
   getCustomersTableHeader,
   getCustomersTableHeaderCell,
   getCustomersTableRowsContainer,
@@ -427,7 +427,7 @@ export const BreweryParameters = {
   getEventsTableLabel,
   getEventsTableGrid,
   getEventsImportButton,
-  getEventsCSVExportButton,
+  getEventsExportButton,
   getEventsTableHeader,
   getEventsTableHeaderCell,
   getEventsTableRowsContainer,

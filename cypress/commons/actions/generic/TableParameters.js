@@ -50,8 +50,33 @@ function getImportButtonInput(tableParameterElement) {
   return getImportButton(tableParameterElement).find(GENERIC_SELECTORS.genericComponents.table.importButtonInput);
 }
 
-function getCSVExportButton(tableParameterElement) {
-  return tableParameterElement.find(GENERIC_SELECTORS.genericComponents.table.csvExportButton);
+function getExportButton(tableParameterElement) {
+  return tableParameterElement.find(GENERIC_SELECTORS.genericComponents.table.export.openDialogButton);
+}
+function getExportDialog() {
+  return cy.get(GENERIC_SELECTORS.genericComponents.table.export.dialog);
+}
+function getExportFileTypeContainer() {
+  return getExportDialog().find(GENERIC_SELECTORS.genericComponents.table.export.fileTypeSelectContainer);
+}
+function getExportFileTypeSelect() {
+  return getExportDialog().find(GENERIC_SELECTORS.genericComponents.table.export.fileTypeSelect);
+}
+function getTableExportFileTypeSelectOption(extension) {
+  const optionSelector = GENERIC_SELECTORS.genericComponents.table.export.fileTypeSelectOptionByExtension.replace(
+    '$EXTENSION',
+    extension
+  );
+  return cy.get(optionSelector);
+}
+function getExportFileNameInput() {
+  return getExportDialog().find(GENERIC_SELECTORS.genericComponents.table.export.fileNameInput);
+}
+function getExportCancelButton() {
+  return getExportDialog().find(GENERIC_SELECTORS.genericComponents.table.export.cancelButton);
+}
+function getExportConfirmButton() {
+  return getExportDialog().find(GENERIC_SELECTORS.genericComponents.table.export.confirmButton);
 }
 
 function getHeader(tableParameterElement) {
@@ -87,8 +112,34 @@ function importFile(tableParameterElement, filePath) {
   getImportButtonInput(tableParameterElement).attachFile(filePath);
 }
 
-function exportCSV(tableParameterElement) {
-  getCSVExportButton(tableParameterElement).click();
+function exportFile(tableParameterElement, fileExtension = 'csv', fileName = null) {
+  if (['csv', 'xlsx'].includes(fileExtension) === false) {
+    console.error(`Unexpected Table export type "${fileExtension}"`);
+  }
+  getExportButton(tableParameterElement).click();
+  switchFileExportType(fileExtension);
+  if (fileName) setFileExportName(fileName);
+  confirmFileExport();
+}
+function exportCSV(tableParameterElement, fileName = null) {
+  exportFile(tableParameterElement, 'csv', fileName);
+}
+function exportXLSX(tableParameterElement, fileName = null) {
+  exportFile(tableParameterElement, 'xlsx', fileName);
+}
+
+function cancelFileExport() {
+  getExportCancelButton().click();
+}
+function confirmFileExport() {
+  getExportConfirmButton().click();
+}
+function switchFileExportType(fileExtension) {
+  getExportFileTypeSelect().click();
+  getTableExportFileTypeSelectOption(fileExtension).click();
+}
+function setFileExportName(fileName) {
+  getExportFileNameInput().type('{selectAll}{backspace}' + fileName + '{enter}');
 }
 
 function editStringCell(getTableElement, colName, rowIndex, newValue) {
@@ -114,7 +165,13 @@ export const TableParameters = {
   getErrorLoc,
   getImportButton,
   getImportButtonInput,
-  getCSVExportButton,
+  getExportButton,
+  getExportDialog,
+  getExportFileTypeContainer,
+  getExportFileTypeSelect,
+  getExportFileNameInput,
+  getExportCancelButton,
+  getExportConfirmButton,
   getHeader,
   getHeaderCell,
   getRowsContainer,
@@ -122,7 +179,13 @@ export const TableParameters = {
   getRow,
   getCell,
   importFile,
+  exportFile,
   exportCSV,
+  exportXLSX,
+  cancelFileExport,
+  confirmFileExport,
+  switchFileExportType,
+  setFileExportName,
   editStringCell,
   clearStringCell,
 };
