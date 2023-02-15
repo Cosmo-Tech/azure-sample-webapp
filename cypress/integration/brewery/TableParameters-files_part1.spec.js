@@ -45,6 +45,8 @@ describe('Table parameters files standard operations part 1', () => {
     BreweryParameters.getCustomersTableHeader().should('not.exist');
     BreweryParameters.exportCustomersTableDataToCSV();
     Downloads.checkByContent('customers.csv', COL_NAMES.join());
+    BreweryParameters.exportCustomersTableDataToXLSX();
+    Downloads.checkXLSXByContent('customers.xlsx', [COL_NAMES]);
   });
 
   it('can import empty CSV & XLSX files and export the table afterwards', () => {
@@ -58,6 +60,8 @@ describe('Table parameters files standard operations part 1', () => {
       });
       BreweryParameters.exportCustomersTableDataToCSV();
       Downloads.checkByContent('customers.csv', COL_NAMES.join());
+      BreweryParameters.exportCustomersTableDataToXLSX();
+      Downloads.checkXLSXByContent('customers.xlsx', [COL_NAMES]);
     };
     ScenarioParameters.edit();
     BreweryParameters.switchToCustomersTab();

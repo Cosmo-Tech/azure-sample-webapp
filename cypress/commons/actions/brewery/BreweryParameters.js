@@ -223,8 +223,11 @@ function importCustomersTableData(filePath) {
   return TableParameters.importFile(getCustomersTable(), filePath);
 }
 
-function exportCustomersTableDataToCSV() {
-  return TableParameters.exportCSV(getCustomersTable());
+function exportCustomersTableDataToCSV(fileName = null) {
+  return TableParameters.exportCSV(getCustomersTable(), fileName);
+}
+function exportCustomersTableDataToXLSX(fileName = null) {
+  return TableParameters.exportXLSX(getCustomersTable(), fileName);
 }
 
 function editCustomersTableStringCell(colName, rowIndex, newValue) {
@@ -275,8 +278,11 @@ function importEventsTableData(filePath) {
   return TableParameters.importFile(getEventsTable(), filePath);
 }
 
-function exportEventsTableDataToCSV() {
-  return TableParameters.exportCSV(getEventsTable());
+function exportEventsTableDataToCSV(fileName = null) {
+  return TableParameters.exportCSV(getEventsTable(), fileName);
+}
+function exportEventsTableDataToXLSX(fileName = null) {
+  return TableParameters.exportXLSX(getEventsTable(), fileName);
 }
 
 function editEventsTableStringCell(colName, rowIndex, newValue) {
@@ -423,6 +429,7 @@ export const BreweryParameters = {
   getCustomersErrorLoc,
   importCustomersTableData,
   exportCustomersTableDataToCSV,
+  exportCustomersTableDataToXLSX,
   editCustomersTableStringCell,
   getEventsTableLabel,
   getEventsTableGrid,
@@ -436,6 +443,7 @@ export const BreweryParameters = {
   getEventsTableCell,
   importEventsTableData,
   exportEventsTableDataToCSV,
+  exportEventsTableDataToXLSX,
   editEventsTableStringCell,
   getStock,
   getRestock,

@@ -7,7 +7,10 @@ import utils from '../../commons/TestUtils';
 import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
 import { Downloads, Login, Scenarios, ScenarioManager, ScenarioParameters } from '../../commons/actions';
 import { BreweryParameters } from '../../commons/actions/brewery';
-import { EXPECTED_CUSTOMERS_BASIC_EDITION } from '../../fixtures/TableParametersData';
+import {
+  EXPECTED_CUSTOMERS_BASIC_EDITION,
+  EXPECTED_CUSTOMERS_BASIC_EDITION_DATA,
+} from '../../fixtures/TableParametersData';
 
 Cypress.Keyboard.defaults({
   keystrokeDelay: 0,
@@ -97,7 +100,7 @@ describe('Table parameters files standard operations part 2', () => {
     BreweryParameters.editCustomersTableStringCell('height', 3, '1.55').should('have.text', '2.01');
   });
 
-  it('can import a CSV file, edit, export and launch a scenario with the modified data', () => {
+  it('can import a CSV file, edit, export, launch a scenario with the modified data and re-export', () => {
     const scenarioName = forgeScenarioName();
     scenarioNamesToDelete.push(scenarioName);
     Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
@@ -119,7 +122,11 @@ describe('Table parameters files standard operations part 2', () => {
     BreweryParameters.editCustomersTableStringCell('height', 3, '2.01').should('have.text', '2.01');
     BreweryParameters.exportCustomersTableDataToCSV();
     Downloads.checkByContent('customers.csv', EXPECTED_CUSTOMERS_BASIC_EDITION);
+    BreweryParameters.exportCustomersTableDataToXLSX();
+    Downloads.checkXLSXByContent('customers.xlsx', EXPECTED_CUSTOMERS_BASIC_EDITION_DATA);
+
     ScenarioParameters.updateAndLaunch();
+
     // Check that cells values have been saved
     BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Bob');
     BreweryParameters.getCustomersTableCell('age', 0).should('have.text', '11');
@@ -127,6 +134,10 @@ describe('Table parameters files standard operations part 2', () => {
     BreweryParameters.getCustomersTableCell('favoriteDrink', 2).should('have.text', 'Beer');
     BreweryParameters.getCustomersTableCell('birthday', 3).should('have.text', '01/01/1991');
     BreweryParameters.getCustomersTableCell('height', 3).should('have.text', '2.01');
+    BreweryParameters.exportCustomersTableDataToCSV('customFileName');
+    Downloads.checkByContent('customFileName.csv', EXPECTED_CUSTOMERS_BASIC_EDITION);
+    BreweryParameters.exportCustomersTableDataToXLSX('customFileName');
+    Downloads.checkXLSXByContent('customFileName.xlsx', EXPECTED_CUSTOMERS_BASIC_EDITION_DATA);
   });
 
   it('can import a CSV file, edit it, import a new CSV file and override the first one, update and launch', () => {

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 const { deleteFolder } = require('./deleteFolder');
+const { parseXlsx } = require('./parseXlsx');
 
 /**
  * @type {Cypress.PluginConfig}
@@ -11,5 +12,6 @@ module.exports = (on, config) => {
   // `config` is the resolved Cypress config
   on('task', {
     deleteFolder,
+    parseXlsx,
   });
 };
