@@ -288,9 +288,11 @@
           "buttons": {
             "share": "Partager",
             "cancel": "Annuler",
+            "close": "Fermer",
             "done": "Confirmer"
           },
           "title": "Partager ",
+          "readOnlyTitle": "Permissions pour ",
           "select": {
             "addPeople": "Ajouter un utilisateur",
             "userSelected": "Utilisateur sélectionné"

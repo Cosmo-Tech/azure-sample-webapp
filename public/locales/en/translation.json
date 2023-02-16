@@ -288,9 +288,11 @@
           "buttons": {
             "share": "Share",
             "cancel": "Cancel",
+            "close": "Close",
             "done": "Done"
           },
           "title": "Share ",
+          "readOnlyTitle": "Permissions for ",
           "select": {
             "addPeople": "Add people",
             "userSelected": "Selected user"

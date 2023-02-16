@@ -8,8 +8,10 @@ export const getShareScenarioDialogLabels = (t, currentScenarioName) => ({
   },
   dialog: {
     title: t('commoncomponents.dialog.share.dialog.title', 'Share ') + currentScenarioName,
+    readOnlyTitle: t('commoncomponents.dialog.share.dialog.readOnlyTitle', 'Permissions for ') + currentScenarioName,
     addPeople: t('commoncomponents.dialog.share.dialog.select.addPeople', 'Add people'),
     cancel: t('commoncomponents.dialog.share.dialog.buttons.cancel', 'Cancel'),
+    close: t('commoncomponents.dialog.share.dialog.buttons.close', 'Close'),
     share: t('commoncomponents.dialog.share.dialog.buttons.share', 'Share'),
     noAdminError: t(
       'commoncomponents.dialog.share.dialog.error.noAdmin',
