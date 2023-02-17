@@ -46,8 +46,6 @@ describe('Displaying error banner on run scenario fail', () => {
       },
     });
     ScenarioParameters.updateAndLaunch();
-    ErrorBanner.getErrorBanner().should('be.visible');
-    ErrorBanner.getDismissErrorButton().click();
-    ErrorBanner.getErrorBanner().should('not.exist');
+    ErrorBanner.checkAnDismissErrorBanner();
   });
 });
