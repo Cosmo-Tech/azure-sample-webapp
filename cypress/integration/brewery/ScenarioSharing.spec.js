@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { Login, Scenarios, ScenarioParameters, ScenarioManager } from '../../commons/actions';
+import { Login, Scenarios, ScenarioParameters, ScenarioManager, ScenarioSelector } from '../../commons/actions';
 import { RolesEdition } from '../../commons/actions/generic/RolesEdition';
 import { stub } from '../../commons/services/stubbing';
 import { setup } from '../../commons/utils/setup';
@@ -13,7 +13,6 @@ import {
   WORKSPACE_WITH_USERS_LIST,
 } from '../../fixtures/stubbing/ScenarioSharing';
 import { ROLES, ROLES_PERMISSIONS_MAP } from '../../commons/constants/generic/TestConstants';
-import { ScenarioSelector } from '../../commons/actions/generic/ScenarioSelector';
 
 const stubbingResourcesArray = [
   { user: USER_EXAMPLE, scenarioList: UNSHARED_SCENARIOS_LIST },
@@ -212,6 +211,6 @@ describe('Check scenario tree when root scenarios are not shared with user', () 
   });
 
   it('should not crash when root scenarios are not shared', () => {
-    Scenarios.getScenarioSelectorInput().should('have.value', NO_ROOT_SCENARIOS_LIST[0].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', NO_ROOT_SCENARIOS_LIST[0].name);
   });
 });

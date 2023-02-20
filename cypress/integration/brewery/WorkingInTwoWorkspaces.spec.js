@@ -1,7 +1,15 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { ErrorBanner, Login, ScenarioManager, ScenarioParameters, Scenarios, Workspaces } from '../../commons/actions';
+import {
+  ErrorBanner,
+  Login,
+  ScenarioManager,
+  ScenarioParameters,
+  Scenarios,
+  Workspaces,
+  ScenarioSelector,
+} from '../../commons/actions';
 import { setup } from '../../commons/utils/setup';
 import {
   BREWERY_WORKSPACE_ID,
@@ -11,7 +19,6 @@ import {
 import utils from '../../commons/TestUtils';
 import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
 import { BreweryParameters } from '../../commons/actions/brewery';
-import { ScenarioSelector } from '../../commons/actions/generic/ScenarioSelector';
 import { routeUtils as route } from '../../commons/utils';
 const CSV_VALID_WITH_EMPTY_FIELDS = 'customers_empty_authorized_fields.csv';
 const FILE_PATH_1 = 'dummy_dataset_1.csv';
@@ -301,14 +308,14 @@ describe('Switching between workspaces and running four scenarios at the same ti
 
             // browse to the first scenario, check its name and delete it
             route.browse(`${REAL_BREWERY_WORKSPACE_ID}/scenario/${firstWorkspaceSharedScenarioId}`);
-            Scenarios.getScenarioSelectorInput(10000).should('have.value', newSharedNameScenario);
+            ScenarioSelector.getScenarioSelectorInput(10000).should('have.value', newSharedNameScenario);
             ScenarioManager.switchToScenarioManager();
             ScenarioManager.deleteScenario(newSharedNameScenario);
             Workspaces.getHomeButton().should('be.visible').click();
             Workspaces.selectWorkspace(BREWERY_WORKSPACE_ID);
             // select second scenario, check its name and delete it
             ScenarioSelector.selectScenario(newSharedNameScenario, secondWorkspaceSharedScenarioId);
-            Scenarios.getScenarioSelectorInput(10000).should('have.value', newSharedNameScenario);
+            ScenarioSelector.getScenarioSelectorInput(10000).should('have.value', newSharedNameScenario);
             ScenarioManager.switchToScenarioManager();
             ScenarioManager.deleteScenario(newSharedNameScenario);
           }

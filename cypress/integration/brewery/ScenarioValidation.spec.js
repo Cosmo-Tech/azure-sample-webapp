@@ -3,7 +3,7 @@
 
 import utils from '../../commons/TestUtils';
 import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
-import { Scenarios, ScenarioManager, ScenarioParameters, Login } from '../../commons/actions';
+import { Scenarios, ScenarioManager, ScenarioParameters, ScenarioSelector, Login } from '../../commons/actions';
 import { stub } from '../../commons/services/stubbing';
 import { setup } from '../../commons/utils/setup';
 
@@ -43,7 +43,7 @@ describe('Scenario validation', () => {
       Scenarios.getScenarioValidateButton().should('be.visible').should('not.be.disabled');
       Scenarios.getScenarioRejectButton().should('be.visible').should('not.be.disabled');
       ScenarioParameters.getParametersEditButton().should('not.be.disabled');
-      Scenarios.checkValidationStatusInScenarioSelector(scenarioName, scenarioId, 'Draft');
+      ScenarioSelector.checkValidationStatusInScenarioSelector(scenarioName, scenarioId, 'Draft');
       ScenarioManager.switchToScenarioManager();
       ScenarioManager.checkValidationStatus(scenarioName, scenarioId, 'Draft');
       Scenarios.switchToScenarioView();
@@ -56,7 +56,7 @@ describe('Scenario validation', () => {
       Scenarios.getScenarioValidateButton().should('not.exist');
       Scenarios.getScenarioRejectButton().should('not.exist');
       ScenarioParameters.getParametersEditButton().should('be.disabled');
-      Scenarios.checkValidationStatusInScenarioSelector(scenarioName, scenarioId, 'Validated');
+      ScenarioSelector.checkValidationStatusInScenarioSelector(scenarioName, scenarioId, 'Validated');
       ScenarioManager.switchToScenarioManager();
       ScenarioManager.checkValidationStatus(scenarioName, scenarioId, 'Validated');
       Scenarios.switchToScenarioView();
@@ -68,7 +68,7 @@ describe('Scenario validation', () => {
       Scenarios.getScenarioValidateButton().should('be.visible').should('not.be.disabled');
       Scenarios.getScenarioRejectButton().should('be.visible').should('not.be.disabled');
       ScenarioParameters.getParametersEditButton().should('not.be.disabled');
-      Scenarios.checkValidationStatusInScenarioSelector(scenarioName, scenarioId, 'Draft');
+      ScenarioSelector.checkValidationStatusInScenarioSelector(scenarioName, scenarioId, 'Draft');
       ScenarioManager.switchToScenarioManager();
       ScenarioManager.checkValidationStatus(scenarioName, scenarioId, 'Draft');
       Scenarios.switchToScenarioView();
@@ -81,7 +81,7 @@ describe('Scenario validation', () => {
       Scenarios.getScenarioValidateButton().should('not.exist');
       Scenarios.getScenarioRejectButton().should('not.exist');
       ScenarioParameters.getParametersEditButton().should('be.disabled');
-      Scenarios.checkValidationStatusInScenarioSelector(scenarioName, scenarioId, 'Rejected');
+      ScenarioSelector.checkValidationStatusInScenarioSelector(scenarioName, scenarioId, 'Rejected');
       ScenarioManager.switchToScenarioManager();
       ScenarioManager.checkValidationStatus(scenarioName, scenarioId, 'Rejected');
       Scenarios.switchToScenarioView();
@@ -93,7 +93,7 @@ describe('Scenario validation', () => {
       Scenarios.getScenarioValidateButton().should('be.visible');
       Scenarios.getScenarioRejectButton().should('be.visible');
       ScenarioParameters.getParametersEditButton().should('not.be.disabled');
-      Scenarios.checkValidationStatusInScenarioSelector(scenarioName, scenarioId, 'Draft');
+      ScenarioSelector.checkValidationStatusInScenarioSelector(scenarioName, scenarioId, 'Draft');
       ScenarioManager.switchToScenarioManager();
       ScenarioManager.checkValidationStatus(scenarioName, scenarioId, 'Draft');
       Scenarios.switchToScenarioView();

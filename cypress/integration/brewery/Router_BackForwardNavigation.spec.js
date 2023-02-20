@@ -1,9 +1,15 @@
 import { setup } from '../../commons/utils/setup';
 import { stub } from '../../commons/services/stubbing';
-import { InstanceVisualization, Login, ScenarioManager, Scenarios, Workspaces } from '../../commons/actions';
+import {
+  InstanceVisualization,
+  Login,
+  ScenarioManager,
+  Scenarios,
+  Workspaces,
+  ScenarioSelector,
+} from '../../commons/actions';
 import { DEFAULT_SCENARIOS_LIST, EXTENDED_WORKSPACES_LIST } from '../../fixtures/stubbing/default';
 import { apiUtils as api, routeUtils as route } from '../../commons/utils';
-import { ScenarioSelector } from '../../commons/actions/generic/ScenarioSelector';
 
 describe('Back and forward navigation between tabs, scenarios and workspaces', () => {
   before(() => {
@@ -32,66 +38,66 @@ describe('Back and forward navigation between tabs, scenarios and workspaces', (
     ScenarioSelector.selectScenario(DEFAULT_SCENARIOS_LIST[4].name, DEFAULT_SCENARIOS_LIST[4].id);
 
     route.goBackToScenario(DEFAULT_SCENARIOS_LIST[2].id);
-    Scenarios.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[2].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[2].name);
 
     route.goBackToScenario(DEFAULT_SCENARIOS_LIST[3].id);
-    Scenarios.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[3].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[3].name);
 
     Workspaces.getHomeButton().should('be.visible').click();
     Workspaces.getWorkspacesView().should('exist');
 
     api.interceptNewPageQueries();
     route.goBackToScenario(DEFAULT_SCENARIOS_LIST[3].id);
-    Scenarios.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[3].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[3].name);
 
     InstanceVisualization.switchToInstanceVisualization();
     cy.url({ timeout: 3000 }).should('include', `/instance/${DEFAULT_SCENARIOS_LIST[3].id}`);
-    Scenarios.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[3].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[3].name);
 
     ScenarioSelector.selectScenario(DEFAULT_SCENARIOS_LIST[2].name, DEFAULT_SCENARIOS_LIST[2].id);
     ScenarioSelector.selectScenario(DEFAULT_SCENARIOS_LIST[4].name, DEFAULT_SCENARIOS_LIST[4].id);
 
     route.goBackToScenario(DEFAULT_SCENARIOS_LIST[2].id, 'instance');
-    Scenarios.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[2].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[2].name);
     route.goBackToScenario(DEFAULT_SCENARIOS_LIST[3].id, 'instance');
-    Scenarios.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[3].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[3].name);
 
     route.goForwardToScenario(DEFAULT_SCENARIOS_LIST[2].id, 'instance');
-    Scenarios.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[2].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[2].name);
     route.goForwardToScenario(DEFAULT_SCENARIOS_LIST[4].id, 'instance');
-    Scenarios.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[4].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[4].name);
 
     route.goBackToScenario(DEFAULT_SCENARIOS_LIST[2].id, 'instance');
-    Scenarios.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[2].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[2].name);
     route.goBackToScenario(DEFAULT_SCENARIOS_LIST[3].id, 'instance');
-    Scenarios.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[3].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[3].name);
 
     route.goBackToScenario(DEFAULT_SCENARIOS_LIST[3].id);
-    Scenarios.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[3].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[3].name);
     route.goBackToScenario(DEFAULT_SCENARIOS_LIST[0].id);
-    Scenarios.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
 
     cy.go('back');
     Workspaces.getWorkspacesView().should('exist');
 
     api.interceptNewPageQueries();
     route.goForwardToScenario(DEFAULT_SCENARIOS_LIST[0].id);
-    Scenarios.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
     route.goForwardToScenario(DEFAULT_SCENARIOS_LIST[3].id);
-    Scenarios.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[3].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[3].name);
     route.goForwardToScenario(DEFAULT_SCENARIOS_LIST[3].id, 'instance');
-    Scenarios.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[3].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[3].name);
 
     ScenarioManager.switchToScenarioManager();
     ScenarioManager.openScenarioFromScenarioManager(DEFAULT_SCENARIOS_LIST[2].id);
-    Scenarios.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[2].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[2].name);
     cy.go('back');
     ScenarioManager.getScenarioManagerView().should('be.visible');
     route.goForwardToScenario(DEFAULT_SCENARIOS_LIST[2].id);
-    Scenarios.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[2].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[2].name);
     ScenarioSelector.selectScenario(DEFAULT_SCENARIOS_LIST[3].name, DEFAULT_SCENARIOS_LIST[3].id);
     route.goBackToScenario(DEFAULT_SCENARIOS_LIST[2].id);
-    Scenarios.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[2].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[2].name);
     cy.go('back');
     ScenarioManager.getScenarioManagerView().should('be.visible');
 
@@ -113,19 +119,19 @@ describe('Back and forward navigation between tabs, scenarios and workspaces', (
     ScenarioSelector.selectScenario(DEFAULT_SCENARIOS_LIST[1].name, DEFAULT_SCENARIOS_LIST[1].id);
     ScenarioSelector.selectScenario(DEFAULT_SCENARIOS_LIST[3].name, DEFAULT_SCENARIOS_LIST[3].id);
     route.goBackToScenario(DEFAULT_SCENARIOS_LIST[1].id);
-    Scenarios.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[1].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[1].name);
     route.goBackToScenario(DEFAULT_SCENARIOS_LIST[0].id);
-    Scenarios.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
     cy.go('back');
     Workspaces.getWorkspacesView().should('exist');
 
     api.interceptNewPageQueries();
     route.goBackToScenario(DEFAULT_SCENARIOS_LIST[2].id);
-    Scenarios.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[2].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[2].name);
     route.goBackToScenario(DEFAULT_SCENARIOS_LIST[4].id);
-    Scenarios.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[4].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[4].name);
     route.goBackToScenario(DEFAULT_SCENARIOS_LIST[0].id);
-    Scenarios.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
     cy.go('back');
     Workspaces.getWorkspacesView().should('exist');
   });

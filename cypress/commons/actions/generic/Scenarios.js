@@ -15,51 +15,6 @@ function getScenarioView() {
 function getScenarioLoadingSpinner(timeout = 5) {
   return cy.get(GENERIC_SELECTORS.scenario.loadingSpinner, { timeout: timeout * 1000 });
 }
-function getScenarioSelector(timeout = 5) {
-  return cy.get(GENERIC_SELECTORS.scenario.selectInput, { timeout: timeout * 1000 });
-}
-function getScenarioSelectorInput(timeout) {
-  return getScenarioSelector(timeout).find('input');
-}
-function getScenarioSelectorOption(scenarioId) {
-  return cy.get(GENERIC_SELECTORS.scenario.scenarioSelectOption.replace('$SCENARIOID', scenarioId));
-}
-function getScenarioSelectorOptionValidationStatusChip(scenarioId) {
-  return getScenarioSelectorOption(scenarioId).find(GENERIC_SELECTORS.scenario.validationStatusChip);
-}
-function getScenarioSelectorOptionValidationStatusLoadingSpinner(scenarioId) {
-  return getScenarioSelectorOption(scenarioId).find(GENERIC_SELECTORS.scenario.validationStatusLoadingSpinner);
-}
-function checkValidationStatusInScenarioSelector(searchStr, scenarioId, expectedStatus) {
-  writeInScenarioSelectorInput(searchStr);
-  switch (expectedStatus) {
-    case 'Draft':
-    case 'Unknown':
-      getScenarioSelectorOptionValidationStatusChip(scenarioId).should('not.exist');
-      getScenarioSelectorOptionValidationStatusLoadingSpinner(scenarioId).should('not.exist');
-      break;
-    case 'Validated':
-      getScenarioSelectorOptionValidationStatusChip(scenarioId).should('be.visible');
-      getScenarioSelectorOptionValidationStatusChip(scenarioId).should('have.text', 'Validated');
-      getScenarioSelectorOptionValidationStatusLoadingSpinner(scenarioId).should('not.exist');
-      break;
-    case 'Rejected':
-      getScenarioSelectorOptionValidationStatusChip(scenarioId).should('be.visible');
-      getScenarioSelectorOptionValidationStatusChip(scenarioId).should('have.text', 'Rejected');
-      getScenarioSelectorOptionValidationStatusLoadingSpinner(scenarioId).should('not.exist');
-      break;
-    case 'Loading':
-      getScenarioSelectorOptionValidationStatusChip(scenarioId).should('not.exist');
-      getScenarioSelectorOptionValidationStatusLoadingSpinner(scenarioId).should('be.visible');
-      break;
-    default:
-      throw new Error(
-        `Unknown expected scenario status "${expectedStatus}". Please use one of ` +
-          'Draft, Unknown, Loading, Validated, Rejected.'
-      );
-  }
-  writeInScenarioSelectorInput('{esc}');
-}
 function getScenarioValidationStatusChip() {
   return cy.get(GENERIC_SELECTORS.scenario.validationStatusChip);
 }
@@ -124,35 +79,6 @@ function getDashboardPlaceholder() {
 
 function switchToScenarioView() {
   getScenarioViewTab().click();
-}
-
-// Select the scenario with the provided name and id
-function selectScenario(scenarioName, scenarioId) {
-  const getScenarioAlias = api.interceptGetScenario(scenarioId);
-  writeInScenarioSelectorInput(scenarioName);
-  getScenarioSelectorOption(scenarioId).should('be.visible').should('not.be.disabled');
-  getScenarioSelectorOption(scenarioId).click();
-
-  api
-    .waitAlias(getScenarioAlias)
-    .its('response')
-    .its('body')
-    .then((req) => {
-      expect(req.name).equal(scenarioName);
-      if (req.state === 'Running' || req.validationStatus !== 'Draft') {
-        ScenarioParameters.getParametersEditButton().should('be.disabled');
-      } else {
-        ScenarioParameters.getParametersEditButton().should('not.be.disabled');
-      }
-    });
-  getScenarioLoadingSpinner(15).should('exist').should('not.be.visible');
-}
-
-function writeInScenarioSelectorInput(searchStr) {
-  return getScenarioSelector()
-    .click()
-    .should('not.be.disabled')
-    .type('{selectAll}{backspace}' + searchStr); // clear() does not always work, use "{selectAll}{backspace}" instead
 }
 
 // Open scenario creation dialog
@@ -277,12 +203,6 @@ export const Scenarios = {
   getScenarioView,
   getScenarioViewTab,
   getScenarioLoadingSpinner,
-  getScenarioSelector,
-  getScenarioSelectorInput,
-  getScenarioSelectorOption,
-  getScenarioSelectorOptionValidationStatusChip,
-  getScenarioSelectorOptionValidationStatusLoadingSpinner,
-  checkValidationStatusInScenarioSelector,
   getScenarioValidationStatusChip,
   getScenarioValidationStatusChipDeleteIcon,
   getScenarioValidationStatusLoadingSpinner,
@@ -304,7 +224,6 @@ export const Scenarios = {
   getScenarioCreationDialogCancelButton,
   getDashboardPlaceholder,
   switchToScenarioView,
-  writeInScenarioSelectorInput,
   openScenarioCreationDialog,
   selectParentScenario,
   selectDataset,

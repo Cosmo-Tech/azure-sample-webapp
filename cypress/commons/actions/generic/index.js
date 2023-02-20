@@ -7,6 +7,7 @@ export { InstanceVisualization } from './InstanceVisualization';
 export { ScenarioManager } from './ScenarioManager';
 export { Scenarios } from './Scenarios';
 export { ScenarioParameters } from './ScenarioParameters';
+export { ScenarioSelector } from './ScenarioSelector';
 export { AppBar } from './AppBar';
 export { Downloads } from './Downloads';
 export { Login } from './Login';

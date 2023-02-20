@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import 'cypress-file-upload';
-import { Downloads, Login, Scenarios, ScenarioParameters } from '../../commons/actions';
+import { Downloads, Login, ScenarioParameters, ScenarioSelector } from '../../commons/actions';
 import { BreweryParameters } from '../../commons/actions/brewery';
 import { setup } from '../../commons/utils/setup';
 import { stub } from '../../commons/services/stubbing';
@@ -34,7 +34,7 @@ describe('Table parameters files standard operations part 1', () => {
   });
 
   it('can open the customers scenario parameters tab, and export an empty grid', () => {
-    Scenarios.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
     ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.getCustomersTable().should('be.visible');
@@ -50,7 +50,7 @@ describe('Table parameters files standard operations part 1', () => {
   });
 
   it('can import empty CSV & XLSX files and export the table afterwards', () => {
-    Scenarios.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
     const checkAndExport = () => {
       ScenarioParameters.expandParametersAccordion();
       BreweryParameters.getCustomersErrorsPanel().should('not.exist');
@@ -73,7 +73,7 @@ describe('Table parameters files standard operations part 1', () => {
   });
 
   it('can import a CSV file with spaces and boolean values to re-format', () => {
-    Scenarios.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
     ScenarioParameters.edit();
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.importCustomersTableData(CSV_VALID_FILE_PATH_WITH_SPACES);

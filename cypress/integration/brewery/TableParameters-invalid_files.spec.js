@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { Login, Scenarios, ScenarioParameters } from '../../commons/actions';
+import { Login, ScenarioSelector, ScenarioParameters } from '../../commons/actions';
 import { BreweryParameters } from '../../commons/actions/brewery';
 import { setup } from '../../commons/utils/setup';
 import { stub } from '../../commons/services/stubbing';
@@ -45,7 +45,7 @@ describe('Table parameters invalid files operations', () => {
       ];
       BreweryParameters.checkCustomersErrorsPanelFromList(expectedErrors);
     };
-    Scenarios.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
     ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.getCustomersImportButton().should('be.visible');
