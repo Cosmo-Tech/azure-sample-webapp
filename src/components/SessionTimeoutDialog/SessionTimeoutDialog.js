@@ -3,7 +3,8 @@
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography, makeStyles } from '@material-ui/core';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import Countdown from 'react-countdown';
 
 const useStyles = makeStyles((theme) => ({

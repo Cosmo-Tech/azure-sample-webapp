@@ -3,9 +3,9 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Fade, Grid, IconButton, Tooltip } from '@material-ui/core';
-import EditIcon from '@material-ui/icons/Edit';
-import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
+import { Fade, Grid, IconButton, Tooltip } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import { useTranslation } from 'react-i18next';
 import { ACL_PERMISSIONS } from '../../../services/config/accessControl';
 import { useUserAppAndCurrentScenarioPermissions } from '../../../hooks/SecurityHooks.js';
@@ -23,7 +23,13 @@ const NormalModeButton = ({
   const userAppAndCurrentScenarioPermissions = useUserAppAndCurrentScenarioPermissions();
 
   const editButton = (
-    <IconButton data-cy="edit-parameters-button" color="primary" onClick={handleClickOnEdit} disabled={editDisabled}>
+    <IconButton
+      data-cy="edit-parameters-button"
+      color="primary"
+      onClick={handleClickOnEdit}
+      disabled={editDisabled}
+      size="large"
+    >
       <EditIcon />
     </IconButton>
   );
@@ -67,6 +73,7 @@ const NormalModeButton = ({
                 color="primary"
                 onClick={handleClickOnLaunchScenario}
                 disabled={runDisabled}
+                size="large"
               >
                 <PlayCircleOutlineIcon />
               </IconButton>

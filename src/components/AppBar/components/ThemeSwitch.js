@@ -2,8 +2,9 @@
 // Licensed under the MIT license.
 
 import React, { useState, useEffect } from 'react';
-import { Fade, IconButton, makeStyles, Tooltip } from '@material-ui/core';
-import { Brightness2 as Brightness2Icon, WbSunny as WbSunnyIcon } from '@material-ui/icons';
+import { Fade, IconButton, Tooltip } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import { Brightness2 as Brightness2Icon, WbSunny as WbSunnyIcon } from '@mui/icons-material';
 import { useSetApplicationTheme } from '../../../state/hooks/ApplicationHooks';
 import { useTranslation } from 'react-i18next';
 
@@ -37,6 +38,7 @@ export const ThemeSwitch = () => {
           setIsDarkThemeUsed(!isDarkThemeUsed);
           setApplicationTheme(!isDarkThemeUsed);
         }}
+        size="large"
       >
         {isDarkThemeUsed ? <WbSunnyIcon /> : <Brightness2Icon />}
       </IconButton>

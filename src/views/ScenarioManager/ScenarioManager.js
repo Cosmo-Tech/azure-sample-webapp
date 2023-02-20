@@ -4,7 +4,8 @@
 import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ScenarioUtils } from '@cosmotech/core';
-import { makeStyles } from '@material-ui/core';
+import makeStyles from '@mui/styles/makeStyles';
+
 import { ScenarioManagerTreeList } from '@cosmotech/ui';
 import { useTranslation } from 'react-i18next';
 import { ACL_PERMISSIONS } from '../../services/config/accessControl';

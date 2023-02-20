@@ -39,16 +39,12 @@ export default {
     light: '#81c784',
     contrastText: '#000000',
   },
-  background: {
-    default: '#131618',
-    paper: '#242628',
-  },
   microsoft: {
     main: '#2F2F2F',
     contrastText: '#FFFFFF',
   },
   appbar: {
-    main: '#242628',
+    main: '#121212',
     contrastText: '#FFFFFF',
   },
   login: {

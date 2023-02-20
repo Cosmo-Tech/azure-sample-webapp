@@ -3,8 +3,8 @@
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Card, CardContent, Grid, makeStyles, Tab, Tabs } from '@material-ui/core';
-
+import { Card, CardContent, Grid, Tab, Tabs } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import { useTranslation } from 'react-i18next';
 import { useDashboardsViewReportsConfig } from '../../state/hooks/PowerBIHooks';
 import { DashboardsPowerBiReport } from './components';
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     '& .MuiButtonBase-root': {
       maxWidth: '900px',
     },
-    '& .MuiTab-wrapper': {
+    '& .MuiTab-root': {
       textAlign: 'right',
       alignItems: 'flex-end',
     },
@@ -84,6 +84,8 @@ const Dashboards = () => {
             onChange={handleChange}
             aria-label="Dashboards list"
             className={classes.tabs}
+            indicatorColor="primary"
+            textColor="inherit"
           >
             {constructDashboardTabs(i18n, dashboardsViewReportsConfig)}
           </Tabs>

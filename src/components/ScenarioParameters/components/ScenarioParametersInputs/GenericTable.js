@@ -5,7 +5,7 @@ import React, { useEffect } from 'react';
 import rfdc from 'rfdc';
 import { Table, TABLE_DATA_STATUS, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
 import { AgGridUtils, FileBlobUtils } from '@cosmotech/core';
-import { Button } from '@material-ui/core';
+import { Button } from '@mui/material';
 import { FileManagementUtils } from '../../../../components/ScenarioParameters/FileManagementUtils';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';

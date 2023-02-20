@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { makeStyles } from '@material-ui/core';
+import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
   },
   quoteContainer: {
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('xl')]: {
       display: 'none',
     },
   },

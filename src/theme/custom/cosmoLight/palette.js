@@ -39,14 +39,14 @@ export default {
     contrastText: '#FFFFFF',
   },
   background: {
-    default: '#F5F5F5',
+    default: '#FAFAFA',
   },
   microsoft: {
     main: '#FFFFFF',
     contrastText: '#5E5E5E',
   },
   appbar: {
-    main: '#242628',
+    main: '#121212',
     contrastText: '#FFFFFF',
   },
   login: {

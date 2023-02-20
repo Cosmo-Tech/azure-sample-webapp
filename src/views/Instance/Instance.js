@@ -10,7 +10,7 @@ import { STATUSES } from '../../state/commons/Constants';
 import { AppInsights } from '../../services/AppInsights';
 import { fetchData, processGraphElements } from './data';
 import useStyles from './style';
-import { useTheme } from '@material-ui/core/styles';
+import { useTheme } from '@mui/styles';
 import { useInstance } from './InstanceHook';
 
 const EXTRA_LAYOUTS = {

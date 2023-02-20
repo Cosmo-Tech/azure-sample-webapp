@@ -6,7 +6,8 @@ import FadeIn from 'react-fade-in';
 import { LoadingLine } from '@cosmotech/ui';
 import { STATUSES } from '../../state/commons/Constants';
 import { useTranslation } from 'react-i18next';
-import { makeStyles } from '@material-ui/core';
+import makeStyles from '@mui/styles/makeStyles';
+
 import * as dataLoading from '../../assets/loadingLine/dataLoading.json';
 import * as dataLoaded from '../../assets/loadingLine/dataLoaded.json';
 import * as dataError from '../../assets/loadingLine/dataError.json';

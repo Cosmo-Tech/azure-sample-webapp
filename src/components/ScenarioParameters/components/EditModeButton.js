@@ -3,9 +3,9 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Fade, Grid, IconButton, Tooltip } from '@material-ui/core';
-import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
-import BackspaceIcon from '@material-ui/icons/Backspace';
+import { Fade, Grid, IconButton, Tooltip } from '@mui/material';
+import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
+import BackspaceIcon from '@mui/icons-material/Backspace';
 import { useTranslation } from 'react-i18next';
 import { ACL_PERMISSIONS } from '../../../services/config/accessControl';
 import { useUserAppAndCurrentScenarioPermissions } from '../../../hooks/SecurityHooks';
@@ -27,7 +27,7 @@ const EditModeButton = ({ classes, handleClickOnDiscardChange, handleClickOnUpda
             TransitionProps={{ timeout: 600 }}
             title={t('commoncomponents.button.scenario.parameters.discard', 'Discard changes')}
           >
-            <IconButton data-cy="discard-button" color="primary" onClick={handleClickOnDiscardChange}>
+            <IconButton data-cy="discard-button" color="primary" onClick={handleClickOnDiscardChange} size="large">
               <BackspaceIcon />
             </IconButton>
           </Tooltip>
@@ -42,6 +42,7 @@ const EditModeButton = ({ classes, handleClickOnDiscardChange, handleClickOnUpda
               data-cy="update-and-launch-scenario"
               color="primary"
               onClick={handleClickOnUpdateAndLaunchScenario}
+              size="large"
             >
               <PlayCircleOutlineIcon />
             </IconButton>

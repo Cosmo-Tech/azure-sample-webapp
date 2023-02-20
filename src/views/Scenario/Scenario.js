@@ -2,17 +2,7 @@
 // Licensed under the MIT license.
 
 import React, { useEffect, useState, useCallback } from 'react';
-import {
-  Backdrop,
-  Button,
-  Card,
-  CardContent,
-  CircularProgress,
-  Grid,
-  Paper,
-  Tooltip,
-  Typography,
-} from '@material-ui/core';
+import { Backdrop, Button, Card, CardContent, CircularProgress, Grid, Paper, Tooltip, Typography } from '@mui/material';
 import { ScenarioParameters, ShareCurrentScenarioButton, CreateScenarioButton } from '../../components';
 import { useTranslation } from 'react-i18next';
 import { HierarchicalComboBox, ScenarioValidationStatusChip, PermissionsGate } from '@cosmotech/ui';
@@ -23,7 +13,7 @@ import { STATUSES } from '../../state/commons/Constants';
 import { AppInsights } from '../../services/AppInsights';
 import { ACL_PERMISSIONS } from '../../services/config/accessControl';
 import { ScenarioPowerBiReport } from './components';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 import { useScenario } from './ScenarioHook';
 import { useRedirectionToScenario } from '../../hooks/RouterHooks';
 
@@ -280,7 +270,7 @@ const Scenario = () => {
             {currentScenario.data && scenarioValidationArea}
           </Grid>
           <Grid item xs={12}>
-            <Card component={Paper} elevation={2}>
+            <Card component={Paper}>
               {currentScenario.data && (
                 <ScenarioParameters
                   editMode={editMode}
@@ -292,7 +282,7 @@ const Scenario = () => {
             </Card>
           </Grid>
           <Grid item xs={12}>
-            <Card component={Paper} elevation={2}>
+            <Card component={Paper}>
               <CardContent>
                 <ScenarioPowerBiReport />
               </CardContent>

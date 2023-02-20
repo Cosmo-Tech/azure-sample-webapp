@@ -3,7 +3,7 @@
 
 import React from 'react';
 import { pictureDark, pictureLight } from '../../../theme';
-import { makeStyles } from '@material-ui/core';
+import makeStyles from '@mui/styles/makeStyles';
 import { useIsDarkTheme } from '../../../state/hooks/ApplicationHooks';
 
 const useStyles = makeStyles((theme) => ({
