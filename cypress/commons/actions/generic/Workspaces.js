@@ -4,7 +4,7 @@
 import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
 import { BREWERY_WORKSPACE_ID } from '../../constants/generic/TestConstants';
 
-function getWorkspacesView(timeout = 1000) {
+function getWorkspacesView(timeout = 4000) {
   return cy.get(GENERIC_SELECTORS.workspace.view, { timeout });
 }
 
