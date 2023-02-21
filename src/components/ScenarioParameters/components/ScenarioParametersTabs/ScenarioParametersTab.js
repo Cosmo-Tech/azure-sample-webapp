@@ -4,6 +4,7 @@
 import React from 'react';
 
 import { connect, useSelector } from 'react-redux';
+import { Box, Grid, Stack } from '@mui/material';
 import ScenarioParameterInput from './ScenarioParameterInput';
 import { PermissionsGate } from '@cosmotech/ui';
 import { ConfigUtils } from '../../../../utils';
@@ -19,12 +20,6 @@ const ScenarioParametersTab = ({ parametersGroupData, context, userAppRoles }) =
   const authorizedRoles = ConfigUtils.getParametersGroupAttribute(parametersGroupData, 'authorizedRoles');
   const isParameterVisible = (parameter) => ConfigUtils.getParameterAttribute(parameter, 'hidden') !== true;
 
-  const groupContainerStyle = {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'stretch',
-  };
-
   return (
     <PermissionsGate
       RenderNoPermissionComponent={() => noPermissionsPlaceHolder(t)}
@@ -32,17 +27,21 @@ const ScenarioParametersTab = ({ parametersGroupData, context, userAppRoles }) =
       sufficientPermissions={authorizedRoles}
       userPermissions={userAppRoles}
     >
-      <div key={parametersGroupData.id} style={groupContainerStyle}>
-        {parametersGroupData.parameters
-          .filter((parameter) => isParameterVisible(parameter))
-          .map((parameterData) => (
-            <ScenarioParameterInput
-              key={`${scenarioId}_${parameterData.id}`}
-              parameterData={parameterData}
-              context={context}
-            />
-          ))}
-      </div>
+    <Grid container key={parametersGroupData.id}>
+      <Grid item xs={12}>
+        <Stack spacing={2} alignItems="stretch" direction="column" justifyContent="center">
+          {parametersGroupData.parameters
+            .filter((parameter) => isParameterVisible(parameter))
+            .map((parameterData) => (
+              <ScenarioParameterInput
+                key={`${scenarioId}_${parameterData.id}`}
+                parameterData={parameterData}
+                context={context}
+              />
+            ))}
+          </Stack>
+        </Grid>
+      </Grid>
     </PermissionsGate>
   );
 };
