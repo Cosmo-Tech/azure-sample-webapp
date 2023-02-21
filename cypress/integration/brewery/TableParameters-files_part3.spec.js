@@ -38,7 +38,6 @@ describe('Table parameters files standard operations part 3', () => {
   const scenarioNamesToDelete = [];
   after(() => {
     Downloads.clearDownloadsFolder();
-
     ScenarioManager.deleteScenarioList(scenarioNamesToDelete);
   });
 

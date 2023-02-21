@@ -177,8 +177,8 @@ function getCustomersTableGrid() {
 function getCustomersImportButton() {
   return TableParameters.getImportButton(getCustomersTable());
 }
-function getCustomersCSVExportButton() {
-  return TableParameters.getCSVExportButton(getCustomersTable());
+function getCustomersExportButton() {
+  return TableParameters.getExportButton(getCustomersTable());
 }
 function getCustomersTableHeader() {
   return TableParameters.getHeader(getCustomersTable());
@@ -223,8 +223,11 @@ function importCustomersTableData(filePath) {
   return TableParameters.importFile(getCustomersTable(), filePath);
 }
 
-function exportCustomersTableDataToCSV() {
-  return TableParameters.exportCSV(getCustomersTable());
+function exportCustomersTableDataToCSV(fileName = null) {
+  return TableParameters.exportCSV(getCustomersTable(), fileName);
+}
+function exportCustomersTableDataToXLSX(fileName = null) {
+  return TableParameters.exportXLSX(getCustomersTable(), fileName);
 }
 
 function editCustomersTableStringCell(colName, rowIndex, newValue) {
@@ -248,8 +251,8 @@ function getEventsTableGrid() {
 function getEventsImportButton() {
   return TableParameters.getImportButton(getEventsTable());
 }
-function getEventsCSVExportButton() {
-  return TableParameters.getCSVExportButton(getEventsTable());
+function getEventsExportButton() {
+  return TableParameters.getExportButton(getEventsTable());
 }
 function getEventsTableHeader() {
   return TableParameters.getHeader(getEventsTable());
@@ -275,8 +278,11 @@ function importEventsTableData(filePath) {
   return TableParameters.importFile(getEventsTable(), filePath);
 }
 
-function exportEventsTableDataToCSV() {
-  return TableParameters.exportCSV(getEventsTable());
+function exportEventsTableDataToCSV(fileName = null) {
+  return TableParameters.exportCSV(getEventsTable(), fileName);
+}
+function exportEventsTableDataToXLSX(fileName = null) {
+  return TableParameters.exportXLSX(getEventsTable(), fileName);
 }
 
 function editEventsTableStringCell(colName, rowIndex, newValue) {
@@ -408,7 +414,7 @@ export const BreweryParameters = {
   getCustomersTableLabel,
   getCustomersTableGrid,
   getCustomersImportButton,
-  getCustomersCSVExportButton,
+  getCustomersExportButton,
   getCustomersTableHeader,
   getCustomersTableHeaderCell,
   getCustomersTableRowsContainer,
@@ -423,11 +429,12 @@ export const BreweryParameters = {
   getCustomersErrorLoc,
   importCustomersTableData,
   exportCustomersTableDataToCSV,
+  exportCustomersTableDataToXLSX,
   editCustomersTableStringCell,
   getEventsTableLabel,
   getEventsTableGrid,
   getEventsImportButton,
-  getEventsCSVExportButton,
+  getEventsExportButton,
   getEventsTableHeader,
   getEventsTableHeaderCell,
   getEventsTableRowsContainer,
@@ -436,6 +443,7 @@ export const BreweryParameters = {
   getEventsTableCell,
   importEventsTableData,
   exportEventsTableDataToCSV,
+  exportEventsTableDataToXLSX,
   editEventsTableStringCell,
   getStock,
   getRestock,

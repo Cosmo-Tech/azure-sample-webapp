@@ -30,7 +30,7 @@ describe('Table parameters upload of valid and invalid files with empty fields',
     stub.stop();
   });
 
-  it('can import a table with authorised empty fields, clear and edit authorized field and export the table', () => {
+  it('can import a table with authorized empty fields, clear and edit authorized field and export the table', () => {
     Scenarios.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
     ScenarioParameters.edit();
     BreweryParameters.switchToCustomersTab();

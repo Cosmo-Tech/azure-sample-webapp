@@ -517,13 +517,23 @@
       "button": {
         "clearErrors": "Effacer",
         "fileImport": "Importer un fichier",
-        "csvExport": "Exporter en CSV"
+        "csvExport": "Exporter"
       },
       "labels": {
         "loading": "Chargement en cours...",
         "fileImportError": "Échec du chargement du fichier.",
         "errorsCount_one": "{{count}} erreur:",
         "errorsCount_other": "{{count}} erreurs:"
+      },
+      "export": {
+        "labels": {
+          "cancel": "Annuler",
+          "export": "Exporter",
+          "fileNameInputLabel": "Nom",
+          "fileTypeSelectLabel": "Type",
+          "title": "Exporter les données",
+          "exportDescription": "Le fichier sera sauvegardé sur votre ordinateur."
+        }
       }
     }
   },
