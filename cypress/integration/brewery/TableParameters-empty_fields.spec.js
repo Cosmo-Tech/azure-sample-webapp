@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { Downloads, Login, Scenarios, ScenarioParameters } from '../../commons/actions';
+import { Downloads, Login, ScenarioSelector, ScenarioParameters } from '../../commons/actions';
 import { BreweryParameters } from '../../commons/actions/brewery';
 import { EXPECTED_CUSTOMERS_AFTER_IMPORT_WITH_EMPTY_FIELDS } from '../../fixtures/TableParametersData';
 import { setup } from '../../commons/utils/setup';
@@ -31,7 +31,7 @@ describe('Table parameters upload of valid and invalid files with empty fields',
   });
 
   it('can import a table with authorized empty fields, clear and edit authorized field and export the table', () => {
-    Scenarios.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
     ScenarioParameters.edit();
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.importCustomersTableData(CSV_VALID_WITH_EMPTY_FIELDS);
@@ -68,7 +68,7 @@ describe('Table parameters upload of valid and invalid files with empty fields',
       ];
       BreweryParameters.checkCustomersErrorsPanelFromList(expectedErrors);
     };
-    Scenarios.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
     ScenarioParameters.edit();
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.importCustomersTableData(XLSX_INVALID_EMPTY_FIELDS);

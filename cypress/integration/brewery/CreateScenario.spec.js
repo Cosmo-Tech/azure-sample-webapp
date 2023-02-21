@@ -14,9 +14,8 @@ import {
   URL_ROOT,
   SCENARIO_RUN_IN_PROGRESS,
 } from '../../commons/constants/generic/TestConstants';
-import { Scenarios, ScenarioManager, ScenarioParameters, Login } from '../../commons/actions';
+import { Scenarios, ScenarioManager, ScenarioParameters, Login, ScenarioSelector } from '../../commons/actions';
 import { BreweryParameters } from '../../commons/actions/brewery';
-import { ScenarioSelector } from '../../commons/actions/generic/ScenarioSelector';
 
 describe('Create scenario', () => {
   const randomString = utils.randomStr(7);
@@ -166,9 +165,9 @@ describe('Create scenario', () => {
           .its('name')
           .should('equal', otherScenarioName);
 
-        Scenarios.getScenarioSelectorInput().should('value', otherScenarioName);
+        ScenarioSelector.getScenarioSelectorInput().should('value', otherScenarioName);
         ScenarioSelector.selectScenario(scenarioMasterName, scenarioMasterId);
-        Scenarios.getScenarioSelectorInput().should('value', scenarioMasterName);
+        ScenarioSelector.getScenarioSelectorInput().should('value', scenarioMasterName);
 
         BreweryParameters.getStockInput().should('value', stock);
         BreweryParameters.getRestockInput().should('value', restock);
@@ -236,9 +235,9 @@ describe('Create scenario', () => {
           expect(nameGet).equal(otherScenarioName);
         });
 
-        Scenarios.getScenarioSelectorInput().should('value', otherScenarioName);
+        ScenarioSelector.getScenarioSelectorInput().should('value', otherScenarioName);
         ScenarioSelector.selectScenario(scenarioChildName, scenarioChildId);
-        Scenarios.getScenarioSelectorInput().should('value', scenarioChildName);
+        ScenarioSelector.getScenarioSelectorInput().should('value', scenarioChildName);
 
         BreweryParameters.getStockInput().should('value', childStock);
         BreweryParameters.getRestockInput().should('value', childRestock);

@@ -1,5 +1,5 @@
 import { PAGE_NAME } from '../../commons/constants/generic/TestConstants';
-import { Login, ScenarioManager, Scenarios } from '../../commons/actions';
+import { Login, ScenarioManager, Scenarios, ScenarioSelector } from '../../commons/actions';
 import { setup } from '../../commons/utils/setup';
 import { stub } from '../../commons/services/stubbing';
 import { DEFAULT_SCENARIOS_LIST } from '../../fixtures/stubbing/default';
@@ -29,6 +29,6 @@ describe('Redirects to right page', () => {
     Scenarios.getScenarioView().should('be.visible');
     ScenarioManager.switchToScenarioManager();
     ScenarioManager.openScenarioFromScenarioManager(DEFAULT_SCENARIOS_LIST[3].id);
-    Scenarios.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[3].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[3].name);
   });
 });

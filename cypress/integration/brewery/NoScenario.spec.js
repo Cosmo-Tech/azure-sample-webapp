@@ -3,7 +3,7 @@
 
 import utils from '../../commons/TestUtils';
 import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
-import { Scenarios, ScenarioManager, Login } from '../../commons/actions';
+import { Scenarios, ScenarioManager, Login, ScenarioSelector } from '../../commons/actions';
 import { stub } from '../../commons/services/stubbing';
 import { setup } from '../../commons/utils/setup';
 
@@ -32,7 +32,7 @@ describe('If there are no scenarios created yet', () => {
       'have.text',
       'You can create a scenario by clicking on the "CREATE" button'
     );
-    Scenarios.getScenarioSelectorInput().should('be.disabled');
+    ScenarioSelector.getScenarioSelectorInput().should('be.disabled');
 
     ScenarioManager.switchToScenarioManager();
     ScenarioManager.getScenarioAccordions().should('have.length', 0);
@@ -50,7 +50,7 @@ describe('If there are no scenarios created yet', () => {
     ScenarioManager.getScenarioAccordions().should('have.length', 0);
 
     Scenarios.switchToScenarioView();
-    Scenarios.getScenarioSelectorInput().should('be.disabled');
+    ScenarioSelector.getScenarioSelectorInput().should('be.disabled');
     Scenarios.getDashboardPlaceholder().should(
       'have.text',
       'You can create a scenario by clicking on the "CREATE" button'
