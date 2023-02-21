@@ -524,6 +524,7 @@
       "labels": {
         "loading": "Chargement en cours...",
         "fileImportError": "Échec du chargement du fichier.",
+        "maxErrorsCount": "(seulement les {{maxCount}} premiers résultats)",
         "errorsCount_one": "{{count}} erreur:",
         "errorsCount_other": "{{count}} erreurs:"
       },

@@ -523,6 +523,7 @@
       "labels": {
         "loading": "Loading...",
         "fileImportError": "File load failed.",
+        "maxErrorsCount": "(only the top first {{maxCount}} results)",
         "errorsCount_one": "{{count}} error occurred:",
         "errorsCount_other": "{{count}} errors occurred:"
       },

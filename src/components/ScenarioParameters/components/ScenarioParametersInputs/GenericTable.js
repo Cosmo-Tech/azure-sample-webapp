@@ -19,6 +19,7 @@ import { useWorkspaceId } from '../../../../state/hooks/WorkspaceHooks.js';
 const clone = rfdc();
 
 const DEFAULT_DATE_FORMAT = 'yyyy-MM-dd';
+const MAX_ERRORS_COUNT = 100;
 
 const _generateGridDataFromCSV = (fileContent, parameterData, options) => {
   return AgGridUtils.fromCSV(
@@ -342,10 +343,18 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
     });
   };
 
-  const buildErrorsPanelTitle = (errorsCount) => {
-    return t('genericcomponent.table.labels.errorsCount', '{{count}} errors occured:', {
+  const buildErrorsPanelTitle = (errorsCount, maxErrorsCount) => {
+    let title = t('genericcomponent.table.labels.errorsCount', '{{count}} errors occured:', {
       count: errorsCount,
     });
+    if (errorsCount > maxErrorsCount) {
+      title +=
+        ' ' +
+        t('genericcomponent.table.labels.maxErrorsCount', '(only the top first {{maxCount}} results)', {
+          maxCount: maxErrorsCount,
+        });
+    }
+    return title;
   };
 
   const alreadyDownloaded =
@@ -425,6 +434,7 @@ export const GenericTable = ({ parameterData, parametersState, setParametersStat
         onCellChange={onCellChange}
         onClearErrors={onClearErrors}
         buildErrorsPanelTitle={buildErrorsPanelTitle}
+        maxErrorsCount={MAX_ERRORS_COUNT}
       />
     </>
   );
