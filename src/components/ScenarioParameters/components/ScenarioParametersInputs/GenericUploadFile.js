@@ -36,6 +36,7 @@ export const GenericUploadFile = ({ parameterData, context, parameterValue, setP
     invalidFileMessage: t('genericcomponent.uploadfile.tooltip.isvalidfile'),
     label: t(`solution.parameters.${parameterId}`, parameterId),
     delete: t('genericcomponent.uploadfile.tooltip.delete'),
+    noFileMessage: 'No file uploaded',
   };
 
   return (
