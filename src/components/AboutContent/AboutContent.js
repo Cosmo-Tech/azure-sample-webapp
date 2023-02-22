@@ -38,7 +38,7 @@ export const AboutContent = ({ isDarkTheme }) => {
 
   const currentWorkspaceData = useWorkspaceData();
   const organizationUrl =
-    currentWorkspaceData?.webApp?.options?.menu?.organizationUrl ?? ConfigService.getParameterValue('COSMOTECH_URL');
+    currentWorkspaceData?.webApp?.options?.menu?.organizationUrl ?? ConfigService.getParameterValue('ORGANIZATION_URL');
   const supportUrl =
     currentWorkspaceData?.webApp?.options?.menu?.supportUrl ?? ConfigService.getParameterValue('SUPPORT_URL');
 
