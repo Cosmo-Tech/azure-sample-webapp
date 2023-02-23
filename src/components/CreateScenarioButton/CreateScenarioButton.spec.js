@@ -27,9 +27,6 @@ jest.mock('@cosmotech/ui', () => ({
   },
 }));
 
-jest.mock('@mui/styles/makeStyles', () => () => ({}));
-jest.mock('@mui/styles/withStyles', () => () => () => ({}));
-
 const getCreateScenarioButtonUI = () => screen.queryByTestId('create_scenario_ui_button');
 
 const getStateWithWorkspaceRole = (role) => {

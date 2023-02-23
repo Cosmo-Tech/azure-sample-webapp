@@ -3,6 +3,7 @@
 
 import React, { useEffect, useState, useCallback } from 'react';
 import { Backdrop, Button, Card, CardContent, CircularProgress, Grid, Paper, Tooltip, Typography } from '@mui/material';
+import { useForm, FormProvider } from 'react-hook-form';
 import { ScenarioParameters, ShareCurrentScenarioButton, CreateScenarioButton } from '../../components';
 import { useTranslation } from 'react-i18next';
 import { HierarchicalComboBox, ScenarioValidationStatusChip, PermissionsGate } from '@cosmotech/ui';
@@ -39,6 +40,9 @@ const appInsights = AppInsights.getInstance();
 const Scenario = () => {
   const classes = useStyles();
   const { t } = useTranslation();
+
+  // RHF
+  const methods = useForm();
 
   const {
     scenarioList,
@@ -226,7 +230,7 @@ const Scenario = () => {
   };
 
   return (
-    <>
+    <FormProvider {...methods}>
       <Backdrop open={showBackdrop} style={{ zIndex: '10000' }}>
         <CircularProgress data-cy="scenario-loading-spinner" color="inherit" />
       </Backdrop>
@@ -290,7 +294,7 @@ const Scenario = () => {
           </Grid>
         </Grid>
       </div>
-    </>
+    </FormProvider>
   );
 };
 

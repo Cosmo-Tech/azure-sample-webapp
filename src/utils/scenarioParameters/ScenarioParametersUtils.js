@@ -3,7 +3,8 @@
 
 import rfdc from 'rfdc';
 import { VAR_TYPES_DEFAULT_VALUES } from './DefaultValues';
-import { ConfigUtils } from '../ConfigUtils';
+import { DATASET_ID_VARTYPE } from '../../services/config/ApiConstants';
+import { ConfigUtils } from '..';
 
 const clone = rfdc();
 
@@ -285,12 +286,14 @@ const getParameterVarType = (solution, parameterId) => {
 };
 
 const _buildParameterForUpdate = (solution, parameters, parameterId) => {
-  const parameterVarType = getParameterVarType(solution, parameterId);
+  const varType = getParameterVarType(solution, parameterId);
   const parameterValue = parameters[parameterId];
+
+  const value = varType === DATASET_ID_VARTYPE ? parameterValue?.id : parameterValue;
   return {
     parameterId,
-    varType: parameterVarType,
-    value: parameterValue,
+    varType,
+    value,
   };
 };
 
@@ -306,12 +309,31 @@ const buildParametersForUpdate = (solution, parametersValues, runTemplateParamet
   return parameters;
 };
 
+const buildParametersValuesFromOriginalValues = (
+  orignalValues,
+  parametersMetadata,
+  datasetsData,
+  buildClientFileDescriptorFromDatasetCallback
+) => {
+  const parametersValues = {};
+  for (const parameterId in orignalValues) {
+    if (parametersMetadata[parameterId]?.varType === DATASET_ID_VARTYPE) {
+      const datasetId = orignalValues[parameterId];
+      parametersValues[parameterId] = buildClientFileDescriptorFromDatasetCallback(datasetsData, datasetId);
+    } else {
+      parametersValues[parameterId] = orignalValues[parameterId];
+    }
+  }
+  return parametersValues;
+};
+
 export const ScenarioParametersUtils = {
   generateParametersMetadata,
   generateParametersGroupsMetadata,
   getDefaultParametersValues,
   getParametersValuesForReset,
   buildParametersForUpdate,
+  buildParametersValuesFromOriginalValues,
   getParameterVarType,
   shouldForceScenarioParametersUpdate,
 };

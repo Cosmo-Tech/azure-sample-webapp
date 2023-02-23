@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { TranslationUtils, ConfigUtils } from '../../../../utils';
 
-export const GenericRadioInput = ({ parameterData, parametersState, setParametersState, context }) => {
+export const GenericRadioInput = ({ parameterData, context, parameterValue, setParameterValue }) => {
   const { t } = useTranslation();
   let enumValues = ConfigUtils.getParameterAttribute(parameterData, 'enumValues');
   const textFieldProps = {
@@ -24,22 +24,15 @@ export const GenericRadioInput = ({ parameterData, parametersState, setParameter
     enumValues = [];
   }
 
-  function setValue(newValue) {
-    setParametersState((currentParametersState) => ({
-      ...currentParametersState,
-      [parameterData.id]: newValue,
-    }));
-  }
-
   return (
     <BasicRadioInput
       key={parameterData.id}
       data-cy={`radio-input-${parameterData.id}`}
       label={t(`solution.parameters.${parameterData.id}`, parameterData.id)}
-      value={parametersState[parameterData.id] || enumValues?.[0]?.key || ''}
+      value={parameterValue ?? enumValues?.[0]?.key ?? ''}
       tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
       disabled={!context.editMode}
-      changeRadioOption={setValue}
+      changeRadioOption={setParameterValue}
       textFieldProps={textFieldProps}
       enumValues={enumValues}
     />
@@ -47,7 +40,7 @@ export const GenericRadioInput = ({ parameterData, parametersState, setParameter
 };
 GenericRadioInput.propTypes = {
   parameterData: PropTypes.object.isRequired,
-  parametersState: PropTypes.object.isRequired,
-  setParametersState: PropTypes.func.isRequired,
   context: PropTypes.object.isRequired,
+  parameterValue: PropTypes.any,
+  setParameterValue: PropTypes.func.isRequired,
 };

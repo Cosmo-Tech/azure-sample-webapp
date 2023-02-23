@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 
 import { TABLE_DATA_STATUS, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
-import DatasetService from '../../services/dataset/DatasetService';
-import WorkspaceService from '../../services/workspace/WorkspaceService';
-import { AppInsights } from '../../services/AppInsights';
-import { DATASET_ID_VARTYPE } from '../../services/config/ApiConstants';
-import { ConfigUtils, DatasetsUtils, ScenarioParametersUtils } from '../../utils';
-import applicationStore from '../../state/Store.config';
+import DatasetService from '../services/dataset/DatasetService';
+import WorkspaceService from '../services/workspace/WorkspaceService';
+import { AppInsights } from '../services/AppInsights';
+import { DATASET_ID_VARTYPE } from '../services/config/ApiConstants';
+import { ConfigUtils, DatasetsUtils, ScenarioParametersUtils } from '.';
+import applicationStore from '../state/Store.config';
 import { t } from 'i18next';
-import { dispatchSetApplicationErrorMessage } from '../../state/dispatchers/app/ApplicationDispatcher';
+import { dispatchSetApplicationErrorMessage } from '../state/dispatchers/app/ApplicationDispatcher';
 
 const appInsights = AppInsights.getInstance();
 const _applyUploadPreprocessToContent = (clientFileDescriptor) => {
@@ -186,43 +186,35 @@ async function applyPendingOperationsOnFileParameters(
   workspaceId,
   solution,
   parametersMetadata,
-  parametersValuesToRender,
-  setParametersValuesToRender,
-  parametersValuesRef,
+  parametersValues,
+  updateParameterValue,
   addDatasetToStore
 ) {
   // Setter to update file descriptors status in the React component state
-  function setClientFileDescriptorStatus(parameterId, newStatus) {
-    setParametersValuesToRender((currentParametersState) => ({
-      ...currentParametersState,
-      [parameterId]: {
-        ...currentParametersState[parameterId],
-        status: newStatus,
-      },
-    }));
-  }
+  const setClientFileDescriptorStatus = (parameterId, newStatus) => {
+    updateParameterValue(parameterId, 'status', newStatus);
+  };
+
+  const setDatasetId = (parameterId, newDatasetId) => {
+    updateParameterValue(parameterId, 'id', newDatasetId);
+  };
+
   // Apply pending operations on each dataset and keep track of the changes of datasets ids to patch parametersValuesRef
-  const parametersValuesPatch = {};
-  for (const parameterId in parametersValuesToRender) {
+  for (const parameterId in parametersValues) {
     const varType = ScenarioParametersUtils.getParameterVarType(solution, parameterId);
     if (varType === DATASET_ID_VARTYPE) {
       const newDatasetId = await _applyDatasetChange(
         organizationId,
         workspaceId,
         parametersMetadata[parameterId],
-        parametersValuesToRender[parameterId],
+        parametersValues[parameterId],
         (newStatus) => setClientFileDescriptorStatus(parameterId, newStatus),
-        parametersValuesRef.current[parameterId],
+        parametersValues[parameterId].id,
         addDatasetToStore
       );
-      parametersValuesPatch[parameterId] = newDatasetId;
+      setDatasetId(parameterId, newDatasetId);
     }
   }
-  // Patch parametersValuesRef with changes
-  parametersValuesRef.current = {
-    ...parametersValuesRef.current,
-    ...parametersValuesPatch,
-  };
 }
 
 const prepareToUpload = (event, clientFileDescriptor, setClientFileDescriptor) => {

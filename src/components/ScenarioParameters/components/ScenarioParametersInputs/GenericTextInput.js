@@ -7,19 +7,12 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { TranslationUtils } from '../../../../utils';
 
-export const GenericTextInput = ({ parameterData, parametersState, setParametersState, context }) => {
+export const GenericTextInput = ({ parameterData, context, parameterValue, setParameterValue }) => {
   const { t } = useTranslation();
   const textFieldProps = {
     disabled: !context.editMode,
     id: parameterData.id,
   };
-
-  function setValue(newValue) {
-    setParametersState((currentParametersState) => ({
-      ...currentParametersState,
-      [parameterData.id]: newValue,
-    }));
-  }
 
   return (
     <BasicTextInput
@@ -27,8 +20,8 @@ export const GenericTextInput = ({ parameterData, parametersState, setParameters
       data-cy={`text-input-${parameterData.id}`}
       label={t(`solution.parameters.${parameterData.id}`, parameterData.id)}
       tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
-      value={parametersState[parameterData.id] || ''}
-      changeTextField={setValue}
+      value={parameterValue ?? ''}
+      changeTextField={setParameterValue}
       textFieldProps={textFieldProps}
     />
   );
@@ -36,7 +29,7 @@ export const GenericTextInput = ({ parameterData, parametersState, setParameters
 
 GenericTextInput.propTypes = {
   parameterData: PropTypes.object.isRequired,
-  parametersState: PropTypes.object.isRequired,
-  setParametersState: PropTypes.func.isRequired,
   context: PropTypes.object.isRequired,
+  parameterValue: PropTypes.any,
+  setParameterValue: PropTypes.func.isRequired,
 };

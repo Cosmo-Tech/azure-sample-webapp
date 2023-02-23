@@ -12,16 +12,10 @@ const DEFAULT_MAX_VALUE = 100;
 const getMinValue = (parameterData) => parameterData.minValue ?? DEFAULT_MIN_VALUE;
 const getMaxValue = (parameterData) => parameterData.maxValue ?? DEFAULT_MAX_VALUE;
 
-export const GenericSliderInput = ({ parameterData, parametersState, setParametersState, context }) => {
+export const GenericSliderInput = ({ parameterData, context, parameterValue, setParameterValue }) => {
   const min = getMinValue(parameterData);
   const max = getMaxValue(parameterData);
   const { t } = useTranslation();
-  const setValue = (newValue) => {
-    setParametersState((currentParametersState) => ({
-      ...currentParametersState,
-      [parameterData.id]: newValue,
-    }));
-  };
 
   return (
     <BasicSliderInput
@@ -29,8 +23,8 @@ export const GenericSliderInput = ({ parameterData, parametersState, setParamete
       data-cy={`slider-input-${parameterData.id}`}
       label={t(`solution.parameters.${parameterData.id}`, parameterData.id)}
       tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
-      value={parametersState[parameterData.id]}
-      handleSliderValueChange={setValue}
+      value={parameterValue}
+      handleSliderValueChange={setParameterValue}
       disabled={!context.editMode}
       min={min}
       max={max}
@@ -39,7 +33,7 @@ export const GenericSliderInput = ({ parameterData, parametersState, setParamete
 };
 GenericSliderInput.propTypes = {
   parameterData: PropTypes.object.isRequired,
-  parametersState: PropTypes.object.isRequired,
-  setParametersState: PropTypes.func.isRequired,
   context: PropTypes.object.isRequired,
+  parameterValue: PropTypes.any,
+  setParameterValue: PropTypes.func.isRequired,
 };

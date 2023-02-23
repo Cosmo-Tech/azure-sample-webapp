@@ -24,7 +24,7 @@ function getMaxValue(parameterData) {
   return parameterData.maxValue;
 }
 
-export const GenericNumberInput = ({ parameterData, parametersState, setParametersState, context }) => {
+export const GenericNumberInput = ({ parameterData, context, parameterValue, setParameterValue }) => {
   const { t } = useTranslation();
   const inputProps = {
     min: getMinValue(parameterData),
@@ -35,14 +35,7 @@ export const GenericNumberInput = ({ parameterData, parametersState, setParamete
     id: parameterData.id,
   };
 
-  function setValue(newValue) {
-    setParametersState((currentParametersState) => ({
-      ...currentParametersState,
-      [parameterData.id]: newValue,
-    }));
-  }
-
-  let value = parametersState[parameterData.id];
+  let value = parameterValue;
   if (value == null) {
     value = NaN;
   }
@@ -54,7 +47,7 @@ export const GenericNumberInput = ({ parameterData, parametersState, setParamete
       label={t(`solution.parameters.${parameterData.id}`, parameterData.id)}
       tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
       value={value}
-      changeNumberField={setValue}
+      changeNumberField={setParameterValue}
       textFieldProps={textFieldProps}
       inputProps={inputProps}
     />
@@ -63,7 +56,7 @@ export const GenericNumberInput = ({ parameterData, parametersState, setParamete
 
 GenericNumberInput.propTypes = {
   parameterData: PropTypes.object.isRequired,
-  parametersState: PropTypes.object.isRequired,
-  setParametersState: PropTypes.func.isRequired,
   context: PropTypes.object.isRequired,
+  parameterValue: PropTypes.any,
+  setParameterValue: PropTypes.func.isRequired,
 };
