@@ -386,7 +386,8 @@
       "tooltip": {
         "isvalidfile": "Error: column name must be a string",
         "delete": "Delete file"
-      }
+      },
+      "noFileMessage": "None"
     },
     "loading": {
       "line": {
