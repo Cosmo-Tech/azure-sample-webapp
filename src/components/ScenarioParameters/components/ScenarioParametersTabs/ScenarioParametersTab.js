@@ -4,7 +4,7 @@
 import React from 'react';
 
 import { connect, useSelector } from 'react-redux';
-import { Box, Grid, Stack } from '@mui/material';
+import { Grid, Stack } from '@mui/material';
 import ScenarioParameterInput from './ScenarioParameterInput';
 import { PermissionsGate } from '@cosmotech/ui';
 import { ConfigUtils } from '../../../../utils';
