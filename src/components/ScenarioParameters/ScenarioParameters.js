@@ -30,7 +30,6 @@ const useStyles = makeStyles((theme) => ({
   },
   accordionSummary: {
     flexDirection: 'row-reverse',
-    marginLeft: '-10px',
   },
   accordionDetailsContent: {
     width: '100%',
@@ -299,14 +298,12 @@ const ScenarioParameters = ({
         <AccordionSummary
           data-cy="scenario-params-accordion-summary"
           className={classes.accordionSummary}
-          expandIcon={<ExpandMoreIcon color="secondary" />}
+          expandIcon={<ExpandMoreIcon />}
           onClick={handleSummaryClick}
         >
           <Grid container className={classes.gridContainerSummary}>
             <Grid className={classes.gridSummary}>
-              <Typography variant="subtitle1" color="secondary">
-                {t('genericcomponent.text.scenario.parameters.title', 'Scenario parameters')}
-              </Typography>
+              <Typography>{t('genericcomponent.text.scenario.parameters.title', 'Scenario parameters')}</Typography>
             </Grid>
             <Grid item>
               {/* FIXME: add PLATFORM.ADMIN bypass */}
