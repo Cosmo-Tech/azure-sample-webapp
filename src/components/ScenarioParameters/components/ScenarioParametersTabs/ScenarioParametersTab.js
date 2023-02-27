@@ -27,18 +27,18 @@ const ScenarioParametersTab = ({ parametersGroupData, context, userAppRoles }) =
       sufficientPermissions={authorizedRoles}
       userPermissions={userAppRoles}
     >
-    <Grid container key={parametersGroupData.id}>
-      <Grid item xs={12}>
-        <Stack spacing={2} alignItems="stretch" direction="column" justifyContent="center">
-          {parametersGroupData.parameters
-            .filter((parameter) => isParameterVisible(parameter))
-            .map((parameterData) => (
-              <ScenarioParameterInput
-                key={`${scenarioId}_${parameterData.id}`}
-                parameterData={parameterData}
-                context={context}
-              />
-            ))}
+      <Grid container key={parametersGroupData.id}>
+        <Grid item xs={12}>
+          <Stack spacing={2} alignItems="stretch" direction="column" justifyContent="center">
+            {parametersGroupData.parameters
+              .filter((parameter) => isParameterVisible(parameter))
+              .map((parameterData) => (
+                <ScenarioParameterInput
+                  key={`${scenarioId}_${parameterData.id}`}
+                  parameterData={parameterData}
+                  context={context}
+                />
+              ))}
           </Stack>
         </Grid>
       </Grid>

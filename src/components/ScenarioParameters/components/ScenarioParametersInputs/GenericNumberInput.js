@@ -32,7 +32,7 @@ export const GenericNumberInput = ({ parameterData, context, parameterValue, set
   };
   const textFieldProps = {
     disabled: !context.editMode,
-    id: parameterData.id,
+    id: `number-input-${parameterData.id}`,
   };
 
   let value = parameterValue;
@@ -43,7 +43,7 @@ export const GenericNumberInput = ({ parameterData, context, parameterValue, set
   return (
     <BasicNumberInput
       key={parameterData.id}
-      data-cy={`number-input-${parameterData.id}`}
+      dataCy={parameterData.id}
       label={t(`solution.parameters.${parameterData.id}`, parameterData.id)}
       tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
       value={value}

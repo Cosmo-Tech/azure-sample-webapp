@@ -20,7 +20,7 @@ export const GenericSliderInput = ({ parameterData, context, parameterValue, set
   return (
     <BasicSliderInput
       key={parameterData.id}
-      data-cy={`slider-input-${parameterData.id}`}
+      dataCy={parameterData.id}
       label={t(`solution.parameters.${parameterData.id}`, parameterData.id)}
       tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
       value={parameterValue}

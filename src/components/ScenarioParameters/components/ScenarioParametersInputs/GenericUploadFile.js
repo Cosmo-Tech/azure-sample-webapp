@@ -42,7 +42,7 @@ export const GenericUploadFile = ({ parameterData, context, parameterValue, setP
   return (
     <UploadFile
       key={parameterId}
-      data-cy={`file-upload-${parameterData.id}`}
+      dataCy={`file-upload-${parameterData.id}`}
       labels={labels}
       tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
       acceptedFileTypes={defaultFileTypeFilter}

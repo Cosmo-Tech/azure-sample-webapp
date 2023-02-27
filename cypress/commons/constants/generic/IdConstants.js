@@ -178,6 +178,9 @@ export const GENERIC_SELECTORS = {
       input: 'input',
       root: '[data-cy=slider-input]',
     },
+    basicDateInput: {
+      input: 'input',
+    },
     errorBanner: {
       banner: '[data-cy=error-banner]',
       errorDetail: '[data-cy=error-detail]',

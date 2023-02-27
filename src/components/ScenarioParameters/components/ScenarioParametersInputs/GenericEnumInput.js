@@ -11,7 +11,7 @@ export const GenericEnumInput = ({ parameterData, context, parameterValue, setPa
   const { t } = useTranslation();
   const textFieldProps = {
     disabled: !context.editMode,
-    id: parameterData.id,
+    id: `enum-input-${parameterData.id}`,
   };
 
   let enumValues = ConfigUtils.getParameterAttribute(parameterData, 'enumValues');
@@ -26,7 +26,7 @@ export const GenericEnumInput = ({ parameterData, context, parameterValue, setPa
   return (
     <BasicEnumInput
       key={parameterData.id}
-      data-cy={`enum-input-${parameterData.id}`}
+      dataCy={parameterData.id}
       label={t(`solution.parameters.${parameterData.id}`, parameterData.id)}
       tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
       value={parameterValue ?? enumValues?.[0]?.key ?? ''}

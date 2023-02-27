@@ -41,7 +41,7 @@ describe('Additional advanced scenario parameters tests', () => {
       volumeUnit: 'L',
       additionalTables: 3,
       comment: 'None',
-      additionalDate: '06/22/2022',
+      additionalDate: new Date('06/22/2022').toLocaleDateString(),
     };
     const VALUES_TO_UPDATE = {
       additionalSeats: 888,
@@ -57,19 +57,19 @@ describe('Additional advanced scenario parameters tests', () => {
     Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
 
     BreweryParameters.switchToEventsTab();
-    BreweryParameters.getAdditionalSeatsInput().should('value', INIT_VALUES.additionalSeats);
-    BreweryParameters.getActivatedInput().should('not.be.checked');
+    BreweryParameters.getAdditionalSeatsValueInDisabledMode().should('have.text', INIT_VALUES.additionalSeats);
+    BreweryParameters.getActivatedValueInDisabledMode().should('have.text', 'OFF');
 
     BreweryParameters.switchToAdditionalParametersTab();
-    BreweryParameters.getVolumeUnitInput().should('value', INIT_VALUES.volumeUnit);
-    BreweryParameters.getAdditionalTablesInput().should('value', INIT_VALUES.additionalTables);
+    BreweryParameters.getVolumeUnitValueInDisabledMode().should('have.text', INIT_VALUES.volumeUnit);
+    BreweryParameters.getAdditionalTablesValueInDisabledMode().should('have.text', INIT_VALUES.additionalTables);
 
     BreweryParameters.switchToEventsTab();
-    BreweryParameters.getEvaluationInput().should('value', INIT_VALUES.evaluation);
+    BreweryParameters.getEvaluationValueInDisabledMode().should('have.text', INIT_VALUES.evaluation);
 
     BreweryParameters.switchToAdditionalParametersTab();
-    BreweryParameters.getCommentInput().should('value', INIT_VALUES.comment);
-    BreweryParameters.getAdditionalDateInput().should('value', INIT_VALUES.additionalDate);
+    BreweryParameters.getCommentValueInDisabledMode().should('have.text', INIT_VALUES.comment);
+    BreweryParameters.getAdditionalDateValueInDisabledMode().should('have.text', INIT_VALUES.additionalDate);
 
     ScenarioParameters.edit();
 
@@ -108,19 +108,19 @@ describe('Additional advanced scenario parameters tests', () => {
     ScenarioParameters.discard();
 
     BreweryParameters.switchToEventsTab();
-    BreweryParameters.getAdditionalSeatsInput().should('value', INIT_VALUES.additionalSeats);
-    BreweryParameters.getActivatedInput().should('not.be.checked');
+    BreweryParameters.getAdditionalSeatsValueInDisabledMode().should('have.text', INIT_VALUES.additionalSeats);
+    BreweryParameters.getActivatedValueInDisabledMode().should('have.text', 'OFF');
 
     BreweryParameters.switchToAdditionalParametersTab();
-    BreweryParameters.getVolumeUnitInput().should('value', INIT_VALUES.volumeUnit);
-    BreweryParameters.getAdditionalTablesInput().should('value', INIT_VALUES.additionalTables);
+    BreweryParameters.getVolumeUnitValueInDisabledMode().should('have.text', INIT_VALUES.volumeUnit);
+    BreweryParameters.getAdditionalTablesValueInDisabledMode().should('have.text', INIT_VALUES.additionalTables);
 
     BreweryParameters.switchToEventsTab();
-    BreweryParameters.getEvaluationInput().should('value', INIT_VALUES.evaluation);
+    BreweryParameters.getEvaluationValueInDisabledMode().should('have.text', INIT_VALUES.evaluation);
 
     BreweryParameters.switchToAdditionalParametersTab();
-    BreweryParameters.getCommentInput().should('value', INIT_VALUES.comment);
-    BreweryParameters.getAdditionalDateInput().should('value', INIT_VALUES.additionalDate);
+    BreweryParameters.getCommentValueInDisabledMode().should('have.text', INIT_VALUES.comment);
+    BreweryParameters.getAdditionalDateValueInDisabledMode().should('have.text', INIT_VALUES.additionalDate);
 
     ScenarioParameters.edit();
 
@@ -152,14 +152,17 @@ describe('Additional advanced scenario parameters tests', () => {
     ScenarioParameters.updateAndLaunch();
 
     BreweryParameters.switchToEventsTab();
-    BreweryParameters.getAdditionalSeatsInput().should('value', VALUES_TO_UPDATE.additionalSeats);
-    BreweryParameters.getActivatedInput().should('not.be.checked');
-    BreweryParameters.getEvaluationInput().should('value', VALUES_TO_UPDATE.evaluation);
+    BreweryParameters.getAdditionalSeatsValueInDisabledMode().should('have.text', VALUES_TO_UPDATE.additionalSeats);
+    BreweryParameters.getActivatedValueInDisabledMode().should('have.text', 'OFF');
+    BreweryParameters.getEvaluationValueInDisabledMode().should('have.text', VALUES_TO_UPDATE.evaluation);
 
     BreweryParameters.switchToAdditionalParametersTab();
-    BreweryParameters.getAdditionalTablesInput().should('value', VALUES_TO_UPDATE.additionalTables);
-    BreweryParameters.getVolumeUnitInput().should('value', VALUES_TO_UPDATE.volumeUnit);
-    BreweryParameters.getCommentInput().should('value', VALUES_TO_UPDATE.comment);
-    BreweryParameters.getAdditionalDateInput().should('value', VALUES_TO_UPDATE.additionalDate);
+    BreweryParameters.getAdditionalTablesValueInDisabledMode().should('have.text', VALUES_TO_UPDATE.additionalTables);
+    BreweryParameters.getVolumeUnitValueInDisabledMode().should('have.text', VALUES_TO_UPDATE.volumeUnit);
+    BreweryParameters.getCommentValueInDisabledMode().should('have.text', VALUES_TO_UPDATE.comment);
+    BreweryParameters.getAdditionalDateValueInDisabledMode().should(
+      'have.text',
+      new Date(VALUES_TO_UPDATE.additionalDate).toLocaleDateString()
+    );
   });
 });
