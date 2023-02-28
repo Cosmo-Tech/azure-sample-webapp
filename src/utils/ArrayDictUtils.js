@@ -1,6 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
+import merge from 'deepmerge';
+
 // Merge 2 arrays of elements based on their ids. If two elements with the same id have the same property, the property
 // value of the element in the merged array will be the property value from array2
 const mergeArraysByElementsIds = (array1, array2) => {
@@ -10,10 +12,7 @@ const mergeArraysByElementsIds = (array1, array2) => {
   array2.forEach((el2) => {
     const indexToPatch = array1.findIndex((el1) => el1.id === el2.id);
     if (indexToPatch !== -1) {
-      array1[indexToPatch] = {
-        ...array1[indexToPatch],
-        ...el2,
-      };
+      array1[indexToPatch] = merge(array1[indexToPatch], el2);
     } else {
       array1.push(el2);
     }
