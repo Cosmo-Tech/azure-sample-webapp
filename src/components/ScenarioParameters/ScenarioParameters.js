@@ -231,7 +231,9 @@ const ScenarioParameters = ({
   };
 
   const noTabsShown = parametersGroupsMetadata.length === 0;
-  const isCurrentScenarioRunning = currentScenarioData?.state === SCENARIO_RUN_STATE.RUNNING;
+  const isCurrentScenarioRunning =
+    currentScenarioData?.state === SCENARIO_RUN_STATE.RUNNING ||
+    currentScenarioData?.state === SCENARIO_RUN_STATE.DATA_INGESTION_IN_PROGRESS;
   const isCurrentScenarioRejected = currentScenarioData?.validationStatus === SCENARIO_VALIDATION_STATUS.REJECTED;
   const isCurrentScenarioValidated = currentScenarioData?.validationStatus === SCENARIO_VALIDATION_STATUS.VALIDATED;
   const isEditDisabled =
