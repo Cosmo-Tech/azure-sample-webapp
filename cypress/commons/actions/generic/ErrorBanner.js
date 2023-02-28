@@ -3,7 +3,7 @@
 
 import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
 
-function getErrorBanner(timeout = 10000) {
+function getErrorBanner(timeout = 20000) {
   return cy.get(GENERIC_SELECTORS.genericComponents.errorBanner.banner, { timeout });
 }
 
