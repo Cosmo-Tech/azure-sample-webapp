@@ -30,7 +30,7 @@ describe('Create scenario', () => {
   const waiters = utils.randomNmbr(BAR_PARAMETERS_RANGE.WAITERS.MIN, BAR_PARAMETERS_RANGE.WAITERS.MAX);
   const textValue = utils.randomStr(8);
   const numberValue = utils.randomNmbr(BASIC_PARAMETERS_CONST.NUMBER.MIN, BASIC_PARAMETERS_CONST.NUMBER.MAX);
-  const enumValue = utils.randomEnum(BASIC_PARAMETERS_CONST.ENUM);
+  const enumValue = utils.randomEnum(BASIC_PARAMETERS_CONST.ENUM_KEYS);
   const dateValue = utils.randomDate(BASIC_PARAMETERS_CONST.DATE.MIN, BASIC_PARAMETERS_CONST.DATE.MAX);
 
   Cypress.Keyboard.defaults({
@@ -169,9 +169,9 @@ describe('Create scenario', () => {
         ScenarioSelector.selectScenario(scenarioMasterName, scenarioMasterId);
         ScenarioSelector.getScenarioSelectorInput().should('value', scenarioMasterName);
 
-        BreweryParameters.getStockInput().should('value', stock);
-        BreweryParameters.getRestockInput().should('value', restock);
-        BreweryParameters.getWaitersInput().should('value', waiters);
+        BreweryParameters.getStock().should('have.text', stock.toString());
+        BreweryParameters.getRestock().should('have.text', restock.toString());
+        BreweryParameters.getWaiters().should('have.text', waiters.toString());
       }
     );
   });
@@ -186,9 +186,9 @@ describe('Create scenario', () => {
 
         // Check inherited children parameters
         Scenarios.getScenarioLoadingSpinner(15).should('exist').should('not.be.visible');
-        BreweryParameters.getStockInput().should('value', stock);
-        BreweryParameters.getRestockInput().should('value', restock);
-        BreweryParameters.getWaitersInput().should('value', waiters);
+        BreweryParameters.getStock().should('have.text', stock.toString());
+        BreweryParameters.getRestock().should('have.text', restock.toString());
+        BreweryParameters.getWaiters().should('have.text', waiters.toString());
 
         // Edit child paramameters values
         const childStock = utils.randomNmbr(BAR_PARAMETERS_RANGE.STOCK.MIN, BAR_PARAMETERS_RANGE.STOCK.MAX);
@@ -239,9 +239,9 @@ describe('Create scenario', () => {
         ScenarioSelector.selectScenario(scenarioChildName, scenarioChildId);
         ScenarioSelector.getScenarioSelectorInput().should('value', scenarioChildName);
 
-        BreweryParameters.getStockInput().should('value', childStock);
-        BreweryParameters.getRestockInput().should('value', childRestock);
-        BreweryParameters.getWaitersInput().should('value', childWaiters);
+        BreweryParameters.getStock().should('have.text', childStock.toString());
+        BreweryParameters.getRestock().should('have.text', childRestock.toString());
+        BreweryParameters.getWaiters().should('have.text', childWaiters.toString());
       }
     );
   });
@@ -263,14 +263,14 @@ describe('Create scenario', () => {
 
     ScenarioParameters.getInputValue(BreweryParameters.getCurrencyNameInput()).as('currency-name');
     ScenarioParameters.getInputValue(BreweryParameters.getCurrencyValueInput()).as('currency-value');
-    ScenarioParameters.getTextField(BreweryParameters.getCurrencyTextField()).as('currency');
-    ScenarioParameters.getInputValue(BreweryParameters.getCurrencyUsed()).as('currency-used');
+    ScenarioParameters.getInputValue(BreweryParameters.getCurrencySelectValue()).as('currency');
+    ScenarioParameters.getInputValue(BreweryParameters.getCurrencyUsedInput()).as('currency-used');
     ScenarioParameters.getInputValue(BreweryParameters.getStartDateInput()).as('start-date');
     ScenarioParameters.getInputValue(BreweryParameters.getAverageConsumptionInput()).as('average-consumption');
 
     BreweryParameters.getCurrencyNameInput().click().clear().type(textValue);
     BreweryParameters.getCurrencyValueInput().click().clear().type(numberValue);
-    BreweryParameters.getCurrencyTextField().type(enumValue + ' {enter}');
+    BreweryParameters.getCurrencySelectOption(enumValue);
     BreweryParameters.getCurrencyUsedInput().check();
     BreweryParameters.getStartDateInput()
       .click()
@@ -283,7 +283,7 @@ describe('Create scenario', () => {
 
     BreweryParameters.getCurrencyNameInput().should('value', textValue);
     BreweryParameters.getCurrencyValueInput().should('value', numberValue);
-    BreweryParameters.getCurrencyTextField().should('have.text', enumValue);
+    BreweryParameters.getCurrencySelectValue().should('value', enumValue);
     BreweryParameters.getCurrencyUsedInput().should('be.checked');
     BreweryParameters.getStartDateInput().should('value', dateValue);
     BreweryParameters.getAverageConsumptionInput().should('value', sliderValue);
@@ -292,22 +292,22 @@ describe('Create scenario', () => {
     ScenarioParameters.discard();
 
     cy.get('@currency-name').then((input) => {
-      BreweryParameters.getCurrencyNameInput().should('value', input);
+      BreweryParameters.getCurrencyName().should('have.text', input);
     });
     cy.get('@currency-value').then((input) => {
-      BreweryParameters.getCurrencyValueInput().should('value', input);
+      BreweryParameters.getCurrencyValue().should('have.text', input);
     });
     cy.get('@currency').then((text) => {
-      BreweryParameters.getCurrencyTextField().should('have.text', text);
+      BreweryParameters.getCurrency().should('have.text', text);
     });
     cy.get('@currency-used').then(() => {
-      BreweryParameters.getCurrencyUsedInput().should('not.be.checked');
+      BreweryParameters.getCurrencyUsed().should('have.text', 'OFF');
     });
     cy.get('@start-date').then((input) => {
-      BreweryParameters.getStartDateInput().should('value', input);
+      BreweryParameters.getStartDate().should('have.text', new Date(input).toLocaleDateString());
     });
     cy.get('@average-consumption').then((input) => {
-      BreweryParameters.getAverageConsumptionInput().should('value', input);
+      BreweryParameters.getAverageConsumption().should('have.text', input);
     });
 
     // re-edit
@@ -316,12 +316,11 @@ describe('Create scenario', () => {
 
     BreweryParameters.getCurrencyNameInput().click().clear().type(textValue);
     BreweryParameters.getCurrencyValueInput().click().clear().type(numberValue);
-    BreweryParameters.getCurrencyTextField().type(enumValue + ' {enter}');
+    BreweryParameters.getCurrencySelectOption(enumValue);
     BreweryParameters.getCurrencyUsedInput().check();
     BreweryParameters.getStartDateInput()
       .click()
       .type('{moveToStart}' + dateValue);
-    // BreweryParameters.getAverageConsumption().find('[role=slider]').click().type('{rightArrow}-{rightArrow}');
     BreweryParameters.moveAverageConsumptionSlider(sliderValue);
     // update and launch
     cy.intercept('PATCH', URL_REGEX.SCENARIO_PAGE_WITH_ID).as('requestEditScenario');
@@ -338,16 +337,16 @@ describe('Create scenario', () => {
       const dateGet = utils.stringToDateInputExpectedFormat(
         new Date(paramsGet.find((obj) => obj.parameterId === 'start_date').value)
       );
-      const sliderNumberGet = parseFloat(paramsGet.find((obj) => obj.parameterId === 'average_consumption').value);
+      const sliderNumberGet = paramsGet.find((obj) => obj.parameterId === 'average_consumption').value;
       expect(state).equal('Created');
       expect(nameGet).equal(scenarioCreatedName);
       expect(idGet).equal(scenarioWithBasicTypesId);
       expect(textGet).equal(textValue);
       expect(numberGet).equal(numberValue);
-      expect(BASIC_PARAMETERS_CONST.ENUM[enumGet]).equal(enumValue);
+      expect(enumGet).equal(enumValue);
       expect(boolGet).equal('true');
       expect(dateGet).equal(dateValue);
-      expect(sliderNumberGet).equal(sliderValue);
+      expect(sliderNumberGet).equal(sliderValue.toString());
     });
 
     cy.wait('@requestRunScenario').should((value) => {

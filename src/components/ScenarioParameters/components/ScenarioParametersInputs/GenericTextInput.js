@@ -11,13 +11,13 @@ export const GenericTextInput = ({ parameterData, context, parameterValue, setPa
   const { t } = useTranslation();
   const textFieldProps = {
     disabled: !context.editMode,
-    id: parameterData.id,
+    id: `text-input-${parameterData.id}`,
   };
 
   return (
     <BasicTextInput
       key={parameterData.id}
-      data-cy={`text-input-${parameterData.id}`}
+      id={parameterData.id}
       label={t(`solution.parameters.${parameterData.id}`, parameterData.id)}
       tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
       value={parameterValue ?? ''}

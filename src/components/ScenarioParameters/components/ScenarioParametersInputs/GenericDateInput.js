@@ -13,7 +13,7 @@ export const GenericDateInput = ({ parameterData, context, parameterValue, setPa
   const maxDate = parameterData.maxValue ? new Date(parameterData.maxValue) : undefined;
   const dateProps = {
     disabled: !context.editMode,
-    id: parameterData.id,
+    id: `date-input-${parameterData.id}`,
     minDate,
     maxDate,
     minDateMessage: t('genericcomponent.dateInput.error.minDateMessage', 'Minimum date is not respected'),
@@ -25,7 +25,6 @@ export const GenericDateInput = ({ parameterData, context, parameterValue, setPa
     <BasicDateInput
       key={parameterData.id}
       id={parameterData.id}
-      data-cy={`date-input-${parameterData.id}`}
       label={t(`solution.parameters.${parameterData.id}`, parameterData.id)}
       tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
       value={parameterValue ?? new Date()}

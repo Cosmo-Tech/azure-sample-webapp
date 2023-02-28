@@ -3,7 +3,7 @@
 
 import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
 import { BREWERY_SELECTORS } from '../../constants/brewery/IdConstants';
-import { FileParameters, TableParameters } from '../generic';
+import { FileParameters, TableParameters, ScenarioParameters } from '../generic';
 
 // Get tabs elements
 function getDatasetPartsTab() {
@@ -25,90 +25,103 @@ function getAdditionalParametersTab() {
   return cy.get(BREWERY_SELECTORS.scenario.parameters.additionalParameters.tabName);
 }
 
+// TODO: remove selector below from idConstants:
+// return cy.get(BREWERY_SELECTORS.scenario.parameters.bar.stockInput);
+// return cy.get(BREWERY_SELECTORS.scenario.parameters.bar.restockInput);
+// return cy.get(BREWERY_SELECTORS.scenario.parameters.bar.waitersInput);
+// return cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.currency);
+// return cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.currencyName);
+// return cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.currencyValue);
+// return cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.currencyUsed);
+// return cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.currencyNameInput);
+// return cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.currencyValueInput);
+// return cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.currencyUsedInput);
+// return cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.averageConsumption);
+// return cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.startDateInput);
+
+// return cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.currencyInDisabledMode);
+// return cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.currencyNameValueInDisabledMode);
+// return cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.currencyValueInDisabledMode);
+// return cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.currencyUsedValueInDisabledMode);
+// return cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.averageConsumptionValueInDisabledMode);
+
+// return cy.get(BREWERY_SELECTORS.scenario.parameters.events.additionalSeats);
+// return cy.get(BREWERY_SELECTORS.scenario.parameters.events.additionalSeatsDisabledValue);
+// return cy.get(BREWERY_SELECTORS.scenario.parameters.events.activated);
+// return cy.get(BREWERY_SELECTORS.scenario.parameters.events.activatedDisabledValue);
+// return cy.get(BREWERY_SELECTORS.scenario.parameters.events.evaluation);
+// return cy.get(BREWERY_SELECTORS.scenario.parameters.events.evaluationValueInDisabledMode);
+// return cy.get(BREWERY_SELECTORS.scenario.parameters.additionalParameters.volumeUnit);
+// return cy.get(BREWERY_SELECTORS.scenario.parameters.additionalParameters.volumeUnitDisabledValue);
+// return cy.get(BREWERY_SELECTORS.scenario.parameters.additionalParameters.additionalTables);
+// return cy.get(BREWERY_SELECTORS.scenario.parameters.additionalParameters.additionalTablesValueInDisabledMode);
+// return cy.get(BREWERY_SELECTORS.scenario.parameters.additionalParameters.comment);
+// return cy.get(BREWERY_SELECTORS.scenario.parameters.additionalParameters.commentValueInDisabledMode);
+
+// return cy.get(BREWERY_SELECTORS.scenario.parameters.additionalParameters.additionalDate);
+// return cy.get(BREWERY_SELECTORS.scenario.parameters.additionalParameters.additionalDateValueInDisabledMode);
+
+// return getCurrency().find(GENERIC_SELECTORS.genericComponents.basicEnumInput.input);
+// return getAverageConsumptionSlider().find(GENERIC_SELECTORS.genericComponents.basicSliderInput.input);
+// return getStartDate().find(GENERIC_SELECTORS.genericComponents.basicDateInput.input);
+
 // Get bar parameters components & input fields
-function getStock() {
-  return cy.get(BREWERY_SELECTORS.scenario.parameters.bar.stockInput);
-}
-function getRestock() {
-  return cy.get(BREWERY_SELECTORS.scenario.parameters.bar.restockInput);
-}
-function getWaiters() {
-  return cy.get(BREWERY_SELECTORS.scenario.parameters.bar.waitersInput);
-}
-function getStockInput() {
-  return getStock().find(GENERIC_SELECTORS.genericComponents.basicNumberInput.input);
-}
-function getRestockInput() {
-  return getRestock().find(GENERIC_SELECTORS.genericComponents.basicNumberInput.input);
-}
-function getWaitersInput() {
-  return getWaiters().find(GENERIC_SELECTORS.genericComponents.basicNumberInput.input);
-}
+const getStock = () => ScenarioParameters.getParameterValue('number-input-stock');
+const getStockInput = () => ScenarioParameters.getParameterInput('number-input-stock');
+const getRestock = () => ScenarioParameters.getParameterValue('number-input-restock_qty');
+const getRestockInput = () => ScenarioParameters.getParameterInput('number-input-restock_qty');
+const getWaiters = () => ScenarioParameters.getParameterValue('number-input-nb_waiters');
+const getWaitersInput = () => ScenarioParameters.getParameterInput('number-input-nb_waiters');
 
 // Get basic types components & input fields
-function getCurrency() {
-  return cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.currency);
-}
-function getCurrencyName() {
-  return cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.currencyName);
-}
-function getCurrencyValue() {
-  return cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.currencyValue);
-}
-function getCurrencyUsed() {
-  return cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.currencyUsed);
-}
-function getStartDate() {
-  return cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.startDate);
-}
-function getAverageConsumption() {
-  return cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.averageConsumption);
-}
-function getAdditionalSeats() {
-  return cy.get(BREWERY_SELECTORS.scenario.parameters.events.additionalSeats);
-}
-function getActivated() {
-  return cy.get(BREWERY_SELECTORS.scenario.parameters.events.activated);
-}
-function getEvaluation() {
-  return cy.get(BREWERY_SELECTORS.scenario.parameters.events.evaluation);
-}
-function getVolumeUnit() {
-  return cy.get(BREWERY_SELECTORS.scenario.parameters.additionalParameters.volumeUnit);
-}
-function getAdditionalTables() {
-  return cy.get(BREWERY_SELECTORS.scenario.parameters.additionalParameters.additionalTables);
-}
-function getComment() {
-  return cy.get(BREWERY_SELECTORS.scenario.parameters.additionalParameters.comment);
-}
-function getAdditionalDate() {
-  return cy.get(BREWERY_SELECTORS.scenario.parameters.additionalParameters.additionalDate);
-}
+const getCurrencyParameterContainer = () => ScenarioParameters.getParameterContainer('enum-input-currency');
+const getCurrency = () => ScenarioParameters.getParameterValue('enum-input-currency');
+const getCurrencyInput = () => ScenarioParameters.getParameterInput('enum-input-currency');
+const getCurrencyName = () => ScenarioParameters.getParameterValue('text-input-currency_name');
+const getCurrencyNameInput = () => ScenarioParameters.getParameterInput('text-input-currency_name');
+const getCurrencyValue = () => ScenarioParameters.getParameterValue('number-input-currency_value');
+const getCurrencyValueInput = () => ScenarioParameters.getParameterInput('number-input-currency_value');
+const getCurrencyUsed = () => ScenarioParameters.getParameterValue('toggle-input-currency_used');
+const getCurrencyUsedInput = () => ScenarioParameters.getParameterInput('toggle-input-currency_used');
+const getAverageConsumptionParameterContainer = () =>
+  ScenarioParameters.getParameterContainer('slider-input-average_consumption');
+const getAverageConsumption = () => ScenarioParameters.getParameterValue('slider-input-average_consumption');
+const getAverageConsumptionInput = () => ScenarioParameters.getParameterInput('slider-input-average_consumption');
+const getStartDate = () => ScenarioParameters.getParameterValue('date-input-start_date');
+const getStartDateInput = () => ScenarioParameters.getParameterInput('date-input-start_date');
 
-function getCurrencyInput() {
-  return getCurrency().find(GENERIC_SELECTORS.genericComponents.basicEnumInput.input);
-}
+// Get addition parameters components & input fields
+const getAdditionalSeats = () => ScenarioParameters.getParameterValue('number-input-additional_seats');
+const getAdditionalSeatsInput = () => ScenarioParameters.getParameterInput('number-input-additional_seats');
+const getActivated = () => ScenarioParameters.getParameterValue('toggle-input-activated');
+const getActivatedInput = () => ScenarioParameters.getParameterInput('toggle-input-activated');
+const getEvaluation = () => ScenarioParameters.getParameterValue('text-input-evaluation');
+const getEvaluationInput = () => ScenarioParameters.getParameterInput('text-input-evaluation');
+const getVolumeUnitParameterContainer = () => ScenarioParameters.getParameterContainer('radio-input-volume_unit');
+const getVolumeUnit = () => ScenarioParameters.getParameterValue('radio-input-volume_unit');
+const getVolumeUnitInput = () => ScenarioParameters.getParameterInput('radio-input-volume_unit');
+const getAdditionalTables = () => ScenarioParameters.getParameterValue('number-input-additional_tables');
+const getAdditionalTablesInput = () => ScenarioParameters.getParameterInput('number-input-additional_tables');
+const getComment = () => ScenarioParameters.getParameterValue('text-input-comment');
+const getCommentInput = () => ScenarioParameters.getParameterInput('text-input-comment');
+const getAdditionalDate = () => ScenarioParameters.getParameterValue('date-input-additional_date');
+const getAdditionalDateInput = () => ScenarioParameters.getParameterInput('date-input-additional_date');
+
 function getCurrencyTextField() {
-  return getCurrency().find(GENERIC_SELECTORS.genericComponents.basicEnumInput.textField);
+  return getCurrencyParameterContainer().find(GENERIC_SELECTORS.genericComponents.basicEnumInput.textField);
 }
-function getCurrencyNameInput() {
-  return getCurrencyName().find(GENERIC_SELECTORS.genericComponents.basicTextInput.input);
+function getCurrencySelect() {
+  return getCurrencyParameterContainer();
 }
-function getCurrencyValueInput() {
-  return getCurrencyValue().find(GENERIC_SELECTORS.genericComponents.basicNumberInput.input);
+function getCurrencySelectValue() {
+  return getCurrencyInput();
 }
-function getCurrencyUsedInput() {
-  return getCurrencyUsed().find(GENERIC_SELECTORS.genericComponents.basicNumberInput.input);
-}
-function getStartDateInput() {
-  return getStartDate().find(GENERIC_SELECTORS.genericComponents.basicTextInput.input);
-}
-function getAverageConsumptionInput() {
-  return getAverageConsumption().find(GENERIC_SELECTORS.genericComponents.basicSliderInput.input);
+function getCurrencySelectOption(option) {
+  getCurrencySelect().click();
+  cy.get(BREWERY_SELECTORS.scenario.parameters.basicTypes.currencyOption.replace('$OPTION', option)).click();
 }
 function getAverageConsumptionSlider() {
-  return getAverageConsumption().find(GENERIC_SELECTORS.genericComponents.basicSliderInput.root);
+  return getAverageConsumptionParameterContainer().find(GENERIC_SELECTORS.genericComponents.basicSliderInput.slider);
 }
 function moveAverageConsumptionSlider(sliderMovement) {
   getAverageConsumptionSlider()
@@ -124,34 +137,13 @@ function moveAverageConsumptionSlider(sliderMovement) {
       }
     });
 }
-function getAdditionalSeatsInput() {
-  return getAdditionalSeats().find(GENERIC_SELECTORS.genericComponents.basicNumberInput.input);
-}
-function getActivatedInput() {
-  return getActivated().find(GENERIC_SELECTORS.genericComponents.basicNumberInput.input);
-}
-function getEvaluationInput() {
-  return getEvaluation().find(GENERIC_SELECTORS.genericComponents.basicTextInput.input);
-}
-function getVolumeUnitInput() {
-  return getVolumeUnit().find(GENERIC_SELECTORS.genericComponents.basicRadioInput.input);
-}
 function getVolumeUnitTextField() {
-  return getVolumeUnit().find(GENERIC_SELECTORS.genericComponents.basicRadioInput.textField);
+  return getVolumeUnitParameterContainer().find(GENERIC_SELECTORS.genericComponents.basicRadioInput.textField);
 }
 function getVolumeUnitRadioButton(volumeUnitValue) {
-  return getVolumeUnit().find(
+  return cy.get(
     GENERIC_SELECTORS.genericComponents.basicRadioInput.radioButtonByValue.replace('$VALUE', volumeUnitValue)
   );
-}
-function getAdditionalTablesInput() {
-  return getAdditionalTables().find(GENERIC_SELECTORS.genericComponents.basicNumberInput.input);
-}
-function getCommentInput() {
-  return getComment().find(GENERIC_SELECTORS.genericComponents.basicTextInput.input);
-}
-function getAdditionalDateInput() {
-  return getAdditionalDate().find(GENERIC_SELECTORS.genericComponents.basicTextInput.input);
 }
 
 // Get file parameters elements & buttons
@@ -510,4 +502,6 @@ export const BreweryParameters = {
   clearEventsTableStringCell,
   checkCustomersErrorsPanelFromList,
   checkEventsErrorsPanelFromList,
+  getCurrencySelectOption,
+  getCurrencySelectValue,
 };

@@ -41,7 +41,7 @@ describe('Simple operations on a file parameter', () => {
   let firstScenarioName;
   let firstScenarioId;
   it('can upload a file, run the scenario and download the uploaded file', () => {
-    const currencySymbol = utils.randomEnum(BASIC_PARAMETERS_CONST.ENUM);
+    const currency = utils.randomEnum(BASIC_PARAMETERS_CONST.ENUM_KEYS);
     const currencyName = utils.randomStr(8);
     const currencyValue = utils.randomNmbr(BASIC_PARAMETERS_CONST.NUMBER.MIN, BASIC_PARAMETERS_CONST.NUMBER.MAX);
     firstScenarioName = forgeScenarioName();
@@ -54,7 +54,7 @@ describe('Simple operations on a file parameter', () => {
     BreweryParameters.switchToBasicTypesTab();
     BreweryParameters.getCurrencyNameInput().click().clear().type(currencyName);
     BreweryParameters.getCurrencyValueInput().click().clear().type(currencyValue);
-    BreweryParameters.getCurrencyTextField().type(currencySymbol + ' {enter}');
+    BreweryParameters.getCurrencySelectOption(currency);
     BreweryParameters.switchToDatasetPartsTab();
     BreweryParameters.uploadExampleDatasetPart1(FILE_PATH_1);
 
@@ -63,11 +63,9 @@ describe('Simple operations on a file parameter', () => {
     BreweryParameters.downloadExampleDatasetPart1();
     Downloads.checkByContent('dummy_dataset_1.csv', EXPECTED_DATA_AFTER_DUMMY_DATASET_1_UPLOAD);
     BreweryParameters.switchToBasicTypesTab();
-    BreweryParameters.getCurrencyNameInput().should('value', currencyName);
-    BreweryParameters.getCurrencyValueInput().should('value', currencyValue);
-    ScenarioParameters.getInputValue(BreweryParameters.getCurrencyInput()).then((value) => {
-      expect(BASIC_PARAMETERS_CONST.ENUM[value], currencySymbol);
-    });
+    BreweryParameters.getCurrencyName().should('have.text', currencyName);
+    BreweryParameters.getCurrencyValue().should('have.text', currencyValue);
+    BreweryParameters.getCurrency().should('have.text', currency);
   });
 
   it('can upload a file, delete it and run the scenario', () => {

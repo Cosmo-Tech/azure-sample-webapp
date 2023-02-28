@@ -36,12 +36,13 @@ export const GenericUploadFile = ({ parameterData, context, parameterValue, setP
     invalidFileMessage: t('genericcomponent.uploadfile.tooltip.isvalidfile'),
     label: t(`solution.parameters.${parameterId}`, parameterId),
     delete: t('genericcomponent.uploadfile.tooltip.delete'),
+    noFileMessage: t('genericcomponent.uploadfile.noFileMessage', 'None'),
   };
 
   return (
     <UploadFile
       key={parameterId}
-      data-cy={`file-upload-${parameterData.id}`}
+      id={parameterId}
       labels={labels}
       tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
       acceptedFileTypes={defaultFileTypeFilter}

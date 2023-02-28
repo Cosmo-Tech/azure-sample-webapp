@@ -387,7 +387,8 @@
       "tooltip": {
         "isvalidfile": "Erreur: la colonne requiert une chaine de caractères",
         "delete": "Supprimer le fichier"
-      }
+      },
+      "noFileMessage": "Aucun"
     },
     "loading": {
       "line": {

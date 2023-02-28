@@ -11,13 +11,13 @@ export const GenericToggleInput = ({ parameterData, context, parameterValue, set
   const { t } = useTranslation();
   const switchFieldProps = {
     disabled: !context.editMode,
-    id: parameterData.id,
+    id: `toggle-input-${parameterData.id}`,
   };
 
   return (
     <BasicToggleInput
       key={parameterData.id}
-      data-cy={`toggle-input-${parameterData.id}`}
+      id={parameterData.id}
       label={t(`solution.parameters.${parameterData.id}`, parameterData.id)}
       tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
       value={parameterValue ?? false}

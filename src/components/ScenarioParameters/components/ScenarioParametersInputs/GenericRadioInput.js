@@ -27,11 +27,10 @@ export const GenericRadioInput = ({ parameterData, context, parameterValue, setP
   return (
     <BasicRadioInput
       key={parameterData.id}
-      data-cy={`radio-input-${parameterData.id}`}
+      id={parameterData.id}
       label={t(`solution.parameters.${parameterData.id}`, parameterData.id)}
       value={parameterValue ?? enumValues?.[0]?.key ?? ''}
       tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
-      disabled={!context.editMode}
       changeRadioOption={setParameterValue}
       textFieldProps={textFieldProps}
       enumValues={enumValues}
