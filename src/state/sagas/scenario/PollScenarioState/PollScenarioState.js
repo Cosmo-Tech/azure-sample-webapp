@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { call, put, take, takeEvery, delay, race } from 'redux-saga/effects';
+import { call, put, take, takeEvery, delay, race, select } from 'redux-saga/effects';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { Api } from '../../../../services/config/Api';
 import { SCENARIO_STATUS_POLLING_DELAY } from '../../../../services/config/FunctionalConstants';
@@ -19,7 +19,8 @@ function forgeStopPollingAction(scenarioId) {
   return { type: actionName, data: { scenarioId } };
 }
 
-// generators function
+const getCurrentScenarioState = (state) => state.scenario.current?.data?.state;
+
 export function* pollScenarioState(action) {
   // Loop until the scenario state is FAILED, SUCCESS or UNKNOWN
   while (true) {
@@ -51,6 +52,19 @@ export function* pollScenarioState(action) {
         // Stop the polling for this scenario
         yield put(forgeStopPollingAction(action.scenarioId));
       }
+
+      // Update scenario on transition Running -> DataIngestionInProgress
+      const currentScenarioState = yield select(getCurrentScenarioState);
+      if (currentScenarioState !== data.state) {
+        yield put({
+          type: SCENARIO_ACTIONS_KEY.UPDATE_SCENARIO,
+          data: {
+            scenarioState: data.state,
+            scenarioId: action.scenarioId,
+          },
+        });
+      }
+
       // Wait before retrying
       yield delay(SCENARIO_STATUS_POLLING_DELAY);
     } catch (error) {
