@@ -159,6 +159,11 @@ export const GENERIC_SELECTORS = {
       row: '.ag-row',
       rowByIndex: '[row-index="$ROWINDEX"]',
     },
+    basicInput: {
+      disabledInputLabel: '[data-cy=disabled-input-label]',
+      disabledInputValue: '[data-cy=disabled-input-value]',
+      input: 'input',
+    },
     basicEnumInput: {
       input: 'input',
       textField: '[data-cy=text_field]',
@@ -177,6 +182,7 @@ export const GENERIC_SELECTORS = {
     basicSliderInput: {
       input: 'input',
       root: '[data-cy=slider-input]',
+      slider: '[class*=MuiSlider-root]',
     },
     basicDateInput: {
       input: 'input',

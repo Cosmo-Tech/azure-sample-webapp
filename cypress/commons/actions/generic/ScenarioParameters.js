@@ -12,6 +12,20 @@ function getParametersTabs(timeout = 4) {
 function getParametersAccordionSummary() {
   return cy.get(GENERIC_SELECTORS.scenario.parameters.accordionSummary);
 }
+
+// Generic get & set actions for scenario parameters
+function getParameterContainer(id) {
+  return cy.get(`[data-cy=${id}]`);
+}
+function getParameterValue(id) {
+  return getParameterContainer(id).find(GENERIC_SELECTORS.genericComponents.basicInput.disabledInputValue);
+}
+function getParameterInput(id) {
+  return getParameterContainer(id).find(GENERIC_SELECTORS.genericComponents.basicInput.input);
+}
+
+// TODO: add generic setters for scenario parameters input ()
+
 //  - timeout: max time to wait before throwing an error (seconds)
 function getParametersEditButton(timeout = 4) {
   return cy.get(GENERIC_SELECTORS.scenario.parameters.editButton, { timeout: timeout * 1000 });
@@ -108,6 +122,9 @@ function getTextField(textElement) {
 export const ScenarioParameters = {
   getParametersTabs,
   getParametersAccordionSummary,
+  getParameterContainer,
+  getParameterValue,
+  getParameterInput,
   getParametersEditButton,
   getParametersDiscardButton,
   getParametersConfirmDiscardButton,

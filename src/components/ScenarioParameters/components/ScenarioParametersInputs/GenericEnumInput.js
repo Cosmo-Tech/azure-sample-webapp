@@ -26,7 +26,7 @@ export const GenericEnumInput = ({ parameterData, context, parameterValue, setPa
   return (
     <BasicEnumInput
       key={parameterData.id}
-      dataCy={parameterData.id}
+      id={parameterData.id}
       label={t(`solution.parameters.${parameterData.id}`, parameterData.id)}
       tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
       value={parameterValue ?? enumValues?.[0]?.key ?? ''}
