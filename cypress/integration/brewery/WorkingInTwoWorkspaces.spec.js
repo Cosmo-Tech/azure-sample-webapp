@@ -84,9 +84,9 @@ describe('Switching between workspaces and running four scenarios at the same ti
         BreweryParameters.getWaitersInput().clear().type('15');
         Workspaces.getHomeButton().should('be.visible').click();
         cy.go('back');
-        BreweryParameters.getStockValueInDisabledMode().should('not.have.text', '400');
-        BreweryParameters.getRestockValueInDisabledMode().should('not.have.text', '10');
-        BreweryParameters.getWaitersValueInDisabledMode().should('not.have.text', '15');
+        BreweryParameters.getStock().should('not.have.text', '400');
+        BreweryParameters.getRestock().should('not.have.text', '10');
+        BreweryParameters.getWaiters().should('not.have.text', '15');
         ScenarioParameters.getParametersEditButton().should('not.be.disabled');
         ScenarioParameters.edit();
         BreweryParameters.getStockInput().clear().type('400');
@@ -106,9 +106,9 @@ describe('Switching between workspaces and running four scenarios at the same ti
         route.browse(`${BREWERY_WORKSPACE_ID}/scenario/${secondWorkspaceParentScenarioId}`);
         Scenarios.getDashboardPlaceholder().should('have.text', SCENARIO_RUN_IN_PROGRESS);
         ScenarioParameters.getLaunchButton().should('be.disabled');
-        BreweryParameters.getStockValueInDisabledMode().should('have.text', '400');
-        BreweryParameters.getRestockValueInDisabledMode().should('have.text', '10');
-        BreweryParameters.getWaitersValueInDisabledMode().should('have.text', '15');
+        BreweryParameters.getStock().should('have.text', '400');
+        BreweryParameters.getRestock().should('have.text', '10');
+        BreweryParameters.getWaiters().should('have.text', '15');
 
         Workspaces.getHomeButton().should('be.visible').click();
         Workspaces.selectWorkspace(REAL_BREWERY_WORKSPACE_ID);
@@ -250,15 +250,15 @@ describe('Switching between workspaces and running four scenarios at the same ti
 
             // browse to the first scenario and check its parameters
             route.browse(`${REAL_BREWERY_WORKSPACE_ID}/scenario/${firstWorkspaceSharedScenarioId}`);
-            BreweryParameters.getStockValueInDisabledMode().should('have.text', '400');
-            BreweryParameters.getRestockValueInDisabledMode().should('have.text', '10');
-            BreweryParameters.getWaitersValueInDisabledMode().should('have.text', '15');
+            BreweryParameters.getStock().should('have.text', '400');
+            BreweryParameters.getRestock().should('have.text', '10');
+            BreweryParameters.getWaiters().should('have.text', '15');
 
             // browse to the second scenario and check its parameters
             route.browse(`${BREWERY_WORKSPACE_ID}/scenario/${secondWorkspaceSharedScenarioId}`);
-            BreweryParameters.getStockValueInDisabledMode().should('have.text', '400');
-            BreweryParameters.getRestockValueInDisabledMode().should('have.text', '10');
-            BreweryParameters.getWaitersValueInDisabledMode().should('have.text', '15');
+            BreweryParameters.getStock().should('have.text', '400');
+            BreweryParameters.getRestock().should('have.text', '10');
+            BreweryParameters.getWaiters().should('have.text', '15');
 
             // trying to access second scenario in first workspace -> error
             cy.visit(`${REAL_BREWERY_WORKSPACE_ID}/scenario/${secondWorkspaceSharedScenarioId}`);

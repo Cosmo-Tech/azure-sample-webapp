@@ -63,9 +63,9 @@ describe('Simple operations on a file parameter', () => {
     BreweryParameters.downloadExampleDatasetPart1();
     Downloads.checkByContent('dummy_dataset_1.csv', EXPECTED_DATA_AFTER_DUMMY_DATASET_1_UPLOAD);
     BreweryParameters.switchToBasicTypesTab();
-    BreweryParameters.getCurrencyNameInDisabledMode().should('have.text', currencyName);
-    BreweryParameters.getCurrencyValueInDisabledMode().should('have.text', currencyValue);
-    BreweryParameters.getCurrencyInDisabledMode().should('have.text', currency);
+    BreweryParameters.getCurrencyName().should('have.text', currencyName);
+    BreweryParameters.getCurrencyValue().should('have.text', currencyValue);
+    BreweryParameters.getCurrency().should('have.text', currency);
   });
 
   it('can upload a file, delete it and run the scenario', () => {

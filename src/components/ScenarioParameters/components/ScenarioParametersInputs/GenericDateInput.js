@@ -24,8 +24,7 @@ export const GenericDateInput = ({ parameterData, context, parameterValue, setPa
   return (
     <BasicDateInput
       key={parameterData.id}
-      id={`date-input-${parameterData.id}`}
-      dataCy={parameterData.id}
+      id={parameterData.id}
       label={t(`solution.parameters.${parameterData.id}`, parameterData.id)}
       tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
       value={parameterValue ?? new Date()}

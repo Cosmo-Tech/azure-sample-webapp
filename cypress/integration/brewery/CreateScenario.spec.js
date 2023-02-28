@@ -169,9 +169,9 @@ describe('Create scenario', () => {
         ScenarioSelector.selectScenario(scenarioMasterName, scenarioMasterId);
         ScenarioSelector.getScenarioSelectorInput().should('value', scenarioMasterName);
 
-        BreweryParameters.getStockValueInDisabledMode().should('have.text', stock.toString());
-        BreweryParameters.getRestockValueInDisabledMode().should('have.text', restock.toString());
-        BreweryParameters.getWaitersValueInDisabledMode().should('have.text', waiters.toString());
+        BreweryParameters.getStock().should('have.text', stock.toString());
+        BreweryParameters.getRestock().should('have.text', restock.toString());
+        BreweryParameters.getWaiters().should('have.text', waiters.toString());
       }
     );
   });
@@ -186,9 +186,9 @@ describe('Create scenario', () => {
 
         // Check inherited children parameters
         Scenarios.getScenarioLoadingSpinner(15).should('exist').should('not.be.visible');
-        BreweryParameters.getStockValueInDisabledMode().should('have.text', stock.toString());
-        BreweryParameters.getRestockValueInDisabledMode().should('have.text', restock.toString());
-        BreweryParameters.getWaitersValueInDisabledMode().should('have.text', waiters.toString());
+        BreweryParameters.getStock().should('have.text', stock.toString());
+        BreweryParameters.getRestock().should('have.text', restock.toString());
+        BreweryParameters.getWaiters().should('have.text', waiters.toString());
 
         // Edit child paramameters values
         const childStock = utils.randomNmbr(BAR_PARAMETERS_RANGE.STOCK.MIN, BAR_PARAMETERS_RANGE.STOCK.MAX);
@@ -239,9 +239,9 @@ describe('Create scenario', () => {
         ScenarioSelector.selectScenario(scenarioChildName, scenarioChildId);
         ScenarioSelector.getScenarioSelectorInput().should('value', scenarioChildName);
 
-        BreweryParameters.getStockValueInDisabledMode().should('have.text', childStock.toString());
-        BreweryParameters.getRestockValueInDisabledMode().should('have.text', childRestock.toString());
-        BreweryParameters.getWaitersValueInDisabledMode().should('have.text', childWaiters.toString());
+        BreweryParameters.getStock().should('have.text', childStock.toString());
+        BreweryParameters.getRestock().should('have.text', childRestock.toString());
+        BreweryParameters.getWaiters().should('have.text', childWaiters.toString());
       }
     );
   });
@@ -292,22 +292,22 @@ describe('Create scenario', () => {
     ScenarioParameters.discard();
 
     cy.get('@currency-name').then((input) => {
-      BreweryParameters.getCurrencyNameInDisabledMode().should('have.text', input);
+      BreweryParameters.getCurrencyName().should('have.text', input);
     });
     cy.get('@currency-value').then((input) => {
-      BreweryParameters.getCurrencyValueInDisabledMode().should('have.text', input);
+      BreweryParameters.getCurrencyValue().should('have.text', input);
     });
     cy.get('@currency').then((text) => {
-      BreweryParameters.getCurrencyInDisabledMode().should('have.text', text);
+      BreweryParameters.getCurrency().should('have.text', text);
     });
     cy.get('@currency-used').then(() => {
-      BreweryParameters.getCurrencyUsedValueInDisabledMode().should('have.text', 'OFF');
+      BreweryParameters.getCurrencyUsed().should('have.text', 'OFF');
     });
     cy.get('@start-date').then((input) => {
-      BreweryParameters.getStartDateValueInDisabledMode().should('have.text', new Date(input).toLocaleDateString());
+      BreweryParameters.getStartDate().should('have.text', new Date(input).toLocaleDateString());
     });
     cy.get('@average-consumption').then((input) => {
-      BreweryParameters.getAverageConsumptionValueInDisabledMode().should('have.text', input);
+      BreweryParameters.getAverageConsumption().should('have.text', input);
     });
 
     // re-edit
