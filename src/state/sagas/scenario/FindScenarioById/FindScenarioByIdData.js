@@ -45,7 +45,7 @@ export function* fetchScenarioByIdData(action) {
       validationStatus: data.validationStatus,
     });
     // Start state polling for running scenarios
-    if (data.state === SCENARIO_RUN_STATE.RUNNING) {
+    if ([SCENARIO_RUN_STATE.RUNNING, SCENARIO_RUN_STATE.DATA_INGESTION_IN_PROGRESS].includes(data.state)) {
       yield put({
         type: SCENARIO_ACTIONS_KEY.START_SCENARIO_STATUS_POLLING,
         organizationId: action.organizationId,

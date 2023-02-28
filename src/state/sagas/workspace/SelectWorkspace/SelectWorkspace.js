@@ -77,7 +77,9 @@ export function* selectWorkspace(action) {
   });
 
   // Start run status polling for running scenarios
-  const runningScenarios = scenarioList.filter((scenario) => scenario.state === SCENARIO_RUN_STATE.RUNNING);
+  const runningScenarios = scenarioList.filter((scenario) =>
+    [SCENARIO_RUN_STATE.RUNNING, SCENARIO_RUN_STATE.DATA_INGESTION_IN_PROGRESS].includes(scenario.state)
+  );
   yield all(
     runningScenarios.map((scenario) =>
       put({
