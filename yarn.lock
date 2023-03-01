@@ -1131,10 +1131,10 @@
     validator "^13.7.0"
     xlsx "^0.18.3"
 
-"@cosmotech/ui@^5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-5.0.0.tgz#87fe64ff37b6e8ed5d3e8c230bac314515b99877"
-  integrity sha512-Y4uPuPxWmeX6giV/t1rvnlJeKB/uWQeTmGWyvZCNfWx7rokkBClg+Gzd2LZGq3k0UDLxpt4uQiD7XegpaRqSlQ==
+"@cosmotech/ui@^5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-5.0.1.tgz#57ac02d33b155bd45573b3fdd88bd8cd7162479c"
+  integrity sha512-YaxFKZS4XHmnBbeX+CyyXOIn3EvkBGswHTN4xvInsN+H0ci4AHizcrr4b3vQLi5tuql6Yju47XiUB/iq3vRXWQ==
   dependencies:
     "@emotion/react" "^11.10.5"
     "@emotion/styled" "^11.10.5"
