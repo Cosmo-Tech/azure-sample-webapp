@@ -5,17 +5,17 @@ import { ArrayDictUtils } from '../ArrayDictUtils';
 
 describe('mergeArraysByElementsIds', () => {
   const defaultArray = [
-    { id: 'id1', value: 'value1' },
+    { id: 'id1', value: 'value1', nested: { 1: 1, 2: 2 } },
     { id: 'id2', value: 'value2' },
     { id: 'id3', value: 'value3' },
   ];
   const overridingArray = [
-    { id: 'id1', value: 'newValue1' },
+    { id: 'id1', value: 'newValue1', nested: { 2: 'two', 3: 3 } },
     { id: 'id2', newAttribute: 'attribute2' },
     { id: 'id4', value: 'value4' },
   ];
   const mergedResult = [
-    { id: 'id1', value: 'newValue1' },
+    { id: 'id1', value: 'newValue1', nested: { 1: 1, 2: 'two', 3: 3 } },
     { id: 'id2', value: 'value2', newAttribute: 'attribute2' },
     { id: 'id3', value: 'value3' },
     { id: 'id4', value: 'value4' },
