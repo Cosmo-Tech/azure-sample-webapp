@@ -74,11 +74,11 @@ const Workspaces = () => {
         }}
         clearErrors={clearApplicationErrorMessage}
       />
-      <div data-cy="workspaces-view">
+      <div style={{height: '80%'}} data-cy="workspaces-view">
         {workspacesList?.data?.length === 0 ? (
           <Grid container justifyContent="center" alignItems="center" style={{ padding: '18px', height: '90%' }}>
             <Grid data-cy="no-workspace-placeholder" item xs={5} align="center">
-              <Typography variant="h3" gutterBottom={true}>
+              <Typography variant="h4" gutterBottom={true}>
                 {labels.titleNoWorkspacePlaceholder}
               </Typography>
               <Typography display="block" variant="caption" color="textSecondary">
