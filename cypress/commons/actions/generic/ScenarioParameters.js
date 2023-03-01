@@ -36,11 +36,14 @@ function getParametersDiscardButton() {
 function getParametersConfirmDiscardButton() {
   return cy.get(GENERIC_SELECTORS.scenario.parameters.dialogDiscardButton);
 }
-function getLaunchButton() {
-  return cy.get(GENERIC_SELECTORS.scenario.parameters.launchButton);
+function getLaunchButton(timeout) {
+  return cy.get(GENERIC_SELECTORS.scenario.parameters.launchButton, timeout ? { timeout: timeout * 1000 } : undefined);
 }
-function getParametersUpdateAndLaunchButton() {
-  return cy.get(GENERIC_SELECTORS.scenario.parameters.updateAndLaunchButton);
+function getParametersUpdateAndLaunchButton(timeout) {
+  return cy.get(
+    GENERIC_SELECTORS.scenario.parameters.updateAndLaunchButton,
+    timeout ? { timeout: timeout * 1000 } : undefined
+  );
 }
 function getLaunchConfirmDialog() {
   return cy.get(GENERIC_SELECTORS.scenario.parameters.dialogLaunch.dialogTitle);
@@ -88,14 +91,14 @@ function discard() {
   getParametersConfirmDiscardButton().click();
 }
 
-function launch(dontAskAgain = false, withUpdate = false) {
+function launch(dontAskAgain = false, withUpdate = false, timeoutGetLaunchButton = 180) {
   const alias = api.forgeAlias('reqRunScenarioAlias');
   cy.intercept('POST', URL_REGEX.SCENARIO_PAGE_RUN_WITH_ID).as(alias);
 
   if (withUpdate) {
-    getParametersUpdateAndLaunchButton().click();
+    getParametersUpdateAndLaunchButton(timeoutGetLaunchButton).should('not.be.disabled').click();
   } else {
-    getLaunchButton().click();
+    getLaunchButton(timeoutGetLaunchButton).should('not.be.disabled').click();
   }
   if (localStorage.getItem('dontAskAgainToConfirmLaunch') !== 'true') {
     if (dontAskAgain) {
