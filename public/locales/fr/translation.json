@@ -193,6 +193,7 @@
             "label": "Statut :",
             "successful": "Succès",
             "running": "En cours",
+            "dataingestioninprogress": "Transfert des résultats",
             "failed": "Erreur",
             "created": "Créé"
           },
