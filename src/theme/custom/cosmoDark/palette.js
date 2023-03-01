@@ -2,41 +2,53 @@
 // Licensed under the MIT license.
 
 export default {
-  type: 'dark',
+  mode: 'dark',
   primary: {
-    main: '#a4bfe4',
-    light: '#d6f2ff',
-    dark: '#748fb2',
-    contrastText: '#000000',
+    main: '#9dcaff',  //'#a4bfe4',
+    contrastText: '#003258',
+  },
+  primaryContainer: {
+    main: '#00497c',
+    contrastText: '#d1e4ff',
   },
   secondary: {
-    main: '#ffe26b',
-    dark: '#c9b03a',
-    light: '#ffff9c',
-    contrastText: '#000000',
+    main: '#ffb958',  //'#ffe26b',
+    contrastText: '#462b00',
+  },
+  secondaryContainer: {
+    main: '#643f00',
+    contrastText: '#ffddb5',
+  },
+  info: {
+    main: '#d6bee5',  //'#67B8E3',
+    contrastText: '#3b2948',
+  },
+  infoContainer: {
+    main: '#52405f',
+    contrastText: '#f2daff',
   },
   error: {
-    main: '#e57373',
-    dark: '#A05050',
-    light: '#EA8F8F',
-    contrastText: '#000000',
+    main: '#ffb4ab', //'#e57373',
+    contrastText: '#690005',
+  },
+  errorContainer: {
+    main: '#93000a',
+    contrastText: '#ffdad6',
+  },
+  text: {
+    main: '#e2e2e6',
+    secondary: '#c3c7cf'  //'rgba(0,0,0,0.6)',
+  },
+  surfaceVariant: {
+    main: '#42474e',
+    contrastText: '#c3c7cf',
   },
   warning: {
     main: '#ffa726',
-    dark: '#f57c00',
-    light: '#ffb74d',
-    contrastText: '#000000',
-  },
-  info: {
-    main: '#67B8E3',
-    dark: '#48809E',
-    light: '#85C6E8',
     contrastText: '#000000',
   },
   success: {
     main: '#66bb6a',
-    dark: '#388e3c',
-    light: '#81c784',
     contrastText: '#000000',
   },
   microsoft: {
