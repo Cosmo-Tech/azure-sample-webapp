@@ -193,6 +193,7 @@
             "label": "Run status:",
             "successful": "Successful",
             "running": "Running",
+            "dataingestioninprogress": "Transferring results",
             "failed": "Failed",
             "created": "Created"
           },

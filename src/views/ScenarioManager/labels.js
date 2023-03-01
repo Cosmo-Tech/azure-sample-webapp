@@ -5,6 +5,7 @@ export const getScenarioManagerLabels = (t) => ({
   status: t('commoncomponents.scenariomanager.treelist.node.status.label'),
   successful: t('commoncomponents.scenariomanager.treelist.node.status.successful'),
   running: t('commoncomponents.scenariomanager.treelist.node.status.running'),
+  dataingestioninprogress: t('commoncomponents.scenariomanager.treelist.node.status.dataingestioninprogress'),
   failed: t('commoncomponents.scenariomanager.treelist.node.status.failed'),
   created: t('commoncomponents.scenariomanager.treelist.node.status.created'),
   delete: t('commoncomponents.scenariomanager.treelist.node.action.delete'),
