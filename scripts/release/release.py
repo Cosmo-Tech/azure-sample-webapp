@@ -123,7 +123,9 @@ def clean_config(root_folder):
                     mv_file(vanilla_config_file_path, generic_config_file_path)
 
     config_folder_path = os.path.join(root_folder, 'src', 'config')
+    overrides_config_folder_path = os.path.join(root_folder, 'src', 'config', 'overrides')
     restore_vanilla_files_in_folder(config_folder_path)
+    restore_vanilla_files_in_folder(overrides_config_folder_path)
     restore_vanilla_files_in_folder(root_folder)
 
 
