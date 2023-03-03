@@ -149,7 +149,7 @@ const Scenario = () => {
       className={classes.rightButton}
       data-cy="validate-scenario-button"
       disabled={editMode}
-      variant="outlined"
+      variant="soft"
       color="primary"
       onClick={(event) => validateScenario()}
     >

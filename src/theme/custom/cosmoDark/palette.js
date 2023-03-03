@@ -4,7 +4,7 @@
 export default {
   mode: 'dark',
   primary: {
-    main: '#9dcaff',  //'#a4bfe4',
+    main: '#9dcaff', // '#a4bfe4',
     contrastText: '#003258',
   },
   primaryContainer: {
@@ -12,7 +12,7 @@ export default {
     contrastText: '#d1e4ff',
   },
   secondary: {
-    main: '#ffb958',  //'#ffe26b',
+    main: '#ffb958', // '#ffe26b',
     contrastText: '#462b00',
   },
   secondaryContainer: {
@@ -20,7 +20,7 @@ export default {
     contrastText: '#ffddb5',
   },
   info: {
-    main: '#d6bee5',  //'#67B8E3',
+    main: '#d6bee5', // '#67B8E3',
     contrastText: '#3b2948',
   },
   infoContainer: {
@@ -28,7 +28,7 @@ export default {
     contrastText: '#f2daff',
   },
   error: {
-    main: '#ffb4ab', //'#e57373',
+    main: '#ffb4ab', // '#e57373',
     contrastText: '#690005',
   },
   errorContainer: {
@@ -37,7 +37,7 @@ export default {
   },
   text: {
     main: '#e2e2e6',
-    secondary: '#c3c7cf'  //'rgba(0,0,0,0.6)',
+    secondary: '#c3c7cf', // 'rgba(0,0,0,0.6)',
   },
   surfaceVariant: {
     main: '#42474e',

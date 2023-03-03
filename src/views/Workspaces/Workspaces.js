@@ -14,10 +14,9 @@ import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme) => ({
   accordion: {
-    backgroundColor: `${theme.palette.surfaceVariant.main}`
+    backgroundColor: `${theme.palette.surfaceVariant.main}`,
   },
 }));
-
 
 const Workspaces = () => {
   const classes = useStyles();
@@ -83,7 +82,7 @@ const Workspaces = () => {
         }}
         clearErrors={clearApplicationErrorMessage}
       />
-      <div style={{height: '80%'}} data-cy="workspaces-view">
+      <div style={{ height: '80%' }} data-cy="workspaces-view">
         {workspacesList?.data?.length === 0 ? (
           <Grid container justifyContent="center" alignItems="center" style={{ padding: '18px', height: '90%' }}>
             <Grid data-cy="no-workspace-placeholder" item xs={5} align="center">

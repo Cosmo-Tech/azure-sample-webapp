@@ -2,8 +2,10 @@
 // Licensed under the MIT license.
 
 import MuiAppBar from './MuiAppBar';
+import MuiButton from './MuiButton';
 
 /* eslint import/no-anonymous-default-export: [2, {"allowObject": true}] */
 export default {
   MuiAppBar,
+  MuiButton,
 };

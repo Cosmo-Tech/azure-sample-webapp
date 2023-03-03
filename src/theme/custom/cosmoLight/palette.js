@@ -4,7 +4,7 @@
 export default {
   mode: 'light',
   primary: {
-    main: '#0061a3',  //'#466282',
+    main: '#0061a3', // '#466282',
     contrastText: '#ffffff',
   },
   primaryContainer: {
@@ -12,7 +12,7 @@ export default {
     contrastText: '#001d36',
   },
   secondary: {
-    main: '#e79c24', //'#845400',  //'#ffb039',
+    main: '#e79c24', // '#845400',  //'#ffb039',
     contrastText: '#000000',
   },
   secondaryContainer: {
@@ -20,7 +20,7 @@ export default {
     contrastText: '#2a1800',
   },
   info: {
-    main: '#6a5778',  //'#0288d1',
+    main: '#6a5778', // '#0288d1',
     contrastText: '#ffffff',
   },
   infoContainer: {
@@ -28,7 +28,7 @@ export default {
     contrastText: '#251432',
   },
   error: {
-    main: '#ba1a1a', //'#d32f2f',
+    main: '#ba1a1a', // '#d32f2f',
     contrastText: '#ffffff',
   },
   errorContainer: {
@@ -36,7 +36,7 @@ export default {
     contrastText: '#410002',
   },
   background: {
-    default: '#fdfcff', //'#fafafa',
+    default: '#fdfcff', // '#fafafa',
     paper: '#fdfcff',
   },
   surfaceVariant: {
@@ -45,7 +45,7 @@ export default {
   },
   text: {
     main: '#1a1c1e',
-    secondary: '#42474e'  //'rgba(0,0,0,0.6)',
+    secondary: '#42474e', // 'rgba(0,0,0,0.6)',
   },
   warning: {
     main: '#ed6c02',
