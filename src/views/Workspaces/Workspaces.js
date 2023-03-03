@@ -10,8 +10,17 @@ import { ResourceCard, ErrorBanner } from '@cosmotech/ui';
 import { useWorkspaces } from './WorkspacesHook';
 import { useApplicationError, useClearApplicationErrorMessage } from '../../state/hooks/ApplicationHooks';
 import { useResetCurrentWorkspace } from '../../state/hooks/WorkspaceHooks';
+import { makeStyles } from '@mui/styles';
+
+const useStyles = makeStyles((theme) => ({
+  accordion: {
+    backgroundColor: `${theme.palette.surfaceVariant.main}`
+  },
+}));
+
 
 const Workspaces = () => {
+  const classes = useStyles();
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { workspacesList, organizationName, selectWorkspace } = useWorkspaces();
@@ -92,7 +101,7 @@ const Workspaces = () => {
         ) : (
           <Grid container justifyContent="center" style={{ padding: '18px', height: '90%' }}>
             <Grid item xs={12}>
-              <Accordion defaultExpanded={true}>
+              <Accordion defaultExpanded={true} className={classes.accordion}>
                 <AccordionSummary>
                   <Typography variant="body1">{organizationName}</Typography>
                 </AccordionSummary>
