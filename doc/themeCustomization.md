@@ -2,76 +2,91 @@
 
 ## Create a new color theme
 
-- First, duplicate directory [/src/theme/custom/default](../src/theme/custom/default) and rename it as your wish,
-  exemple('fooDark', 'fooLight', etc.).
+- First, duplicate the directories `src/theme/custom/cosmoDark`
+ (resp. `src/theme/custom/cosmoLight`) and rename it fooDark (resp. fooLight) for instance.
 
-- Then, in the newly created dircetory open the matching file [/src/theme/custom/fooDark/palette.js](../src/theme/custom/fooDark/palette.js) and
-  set the colors dictionnary:
+- Then, in the newly created directory, create `src/theme/custom/fooDark/palette.js`
+ (resp. `src/theme/custom/fooLight/palette.js`)
+ and set the colors dictionary as follows (colors are given as an example):
 
 ```javascript
-const themeColors = {
-  primary: '#FFAD38',
-  primaryVariant: '#A16612',
-  secondary: '#466180',
-  background: '#191919',
-  backgroundVariant: '#1F1F1F',
-  surface: '#2E2E2E',
-  error: '#FF667F',
-  warning: '#FB8C00',
-  success: '#19E152',
-  info: '#1E88E5',
-  white: '#FFFFFF',
-  black: '#000000',
-  grey: '#999A9D',
-  backgroundSignInPage: '#2f363b',
-  backgroundSignInButton: '#2F2F2F',
+export default {
+  mode: 'dark',
+  primary: {
+    main: '#a4bfe4',
+    contrastText: '#000000',
+  },
+  secondary: {
+    main: '#ffe26b',
+    contrastText: '#000000',
+  },
+  error: {
+    main: '#e57373',
+    contrastText: '#000000',
+  },
+  warning: {
+    main: '#ffa726',
+    contrastText: '#000000',
+  },
+  info: {
+    main: '#67B8E3',
+    contrastText: '#000000',
+  },
+  success: {
+    main: '#66bb6a',
+    contrastText: '#000000',
+  },
+  microsoft: {
+    main: '#2F2F2F',
+    contrastText: '#FFFFFF',
+  },
+  appbar: {
+    main: '#121212',
+    contrastText: '#FFFFFF',
+  },
+  login: {
+    main: '#2F363B',
+  },
 };
 ```
 
-- Then you can recompose the correspondance between color and display elements:
+Do the same for your light theme.
 
-```javascript
-export default {
-  type: 'light',
-  white: themeColors.white,
-  black: themeColors.black,
-  primary: {
-    contrastText: themeColors.black,
-    main: themeColors.primary,
-    dark: themeColors.primaryVariant
-  },
-  secondary: {
-    contrastText: themeColors.black,
-    main: themeColors.secondary
-  },
-```
+NB: There are other colors that can be modified, and the listed colors above are not mandatory. MUI has its own colors,
+ and functions to compute missing ones, this is only to override the existing ones. For a complete theme file, see
+ [default theme from MUI](https://mui.com/material-ui/customization/default-theme/), especially the `palette` entry.
 
-- Don't forget to specify the type of your theme 'light' or 'dark':
+## Customize the webapp logo and the *sign in* wallpaper
 
-```javascript
-export default {
-  type: 'light',
-```
+- Put your logo (fooDark.png resp. fooLight.png for instance) and your *sign in* picture (authDark.png resp. authDark.png)
+  in the directory: `public/theme`
 
-## Select the current theme for the webapp
-
-- Open the file [src/theme/custom/index.js](../src/theme/custom/index.js) and set the required theme directory:
-
-```javascript
-export { palette, typography, image } from './fooDark';
-```
-
-## Customize webapp logo and sign in wallpaper
-
-- Put required logo and wallpaper picture in directory:
-  [public/theme](../public/theme)
-
-- Then, open the file [src/theme/custom/fooDark/picture.js](../src/theme/custom/cosmoDark/picture.js)
-  and set picture url:
+- Then, create `src/theme/custom/cosmoDark/picture.js` (resp. `src/theme/custom/cosmoDark/picture.js`) and set your picture paths in it:
 
 ```javascript
 export default {
   logo: 'theme/fooDark.png',
   auth: 'theme/authDark.png',
 };
+```
+
+- Do the same for your light theme.
+
+## Customize the AG grid Theme
+- From the [AG grid documentation](https://www.ag-grid.com/javascript-data-grid/themes/),
+ chose your favorite theme and specify it in `src/theme/custom/cosmoDark/picture.js`:
+
+```javascript
+export default {
+  agTheme: 'ag-theme-balham-dark',
+};
+```
+
+## Declare your overrides
+
+- Open `src/theme/custom/index.js` and set the required theme directories:
+
+```javascript
+export { palette as paletteLight, picture as pictureLight, grid as gridLight } from './fooLight';
+export { palette as paletteDark, picture as pictureDark, grid as gridDark } from './fooDark';
 ```
