@@ -14,8 +14,8 @@ import {
   URL_ROOT,
   SCENARIO_RUN_IN_PROGRESS,
 } from '../../commons/constants/generic/TestConstants';
-import { Scenarios, ScenarioManager, ScenarioParameters, Login, ScenarioSelector } from '../../commons/actions';
-import { BreweryParameters } from '../../commons/actions/brewery';
+import { Scenarios, ScenarioManager, ScenarioParameters, ScenarioSelector } from '../../commons/actions';
+import { BreweryParameters, Login } from '../../commons/actions/brewery';
 
 describe('Create scenario', () => {
   const randomString = utils.randomStr(7);

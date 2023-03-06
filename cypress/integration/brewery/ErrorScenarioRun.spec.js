@@ -4,7 +4,8 @@
 import utils from '../../commons/TestUtils';
 
 import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
-import { Login, Scenarios, ScenarioManager, ScenarioParameters, ErrorBanner } from '../../commons/actions';
+import { Scenarios, ScenarioManager, ScenarioParameters, ErrorBanner } from '../../commons/actions';
+import { Login } from '../../commons/actions/brewery';
 import { URL_REGEX } from '../../commons/constants/generic/TestConstants';
 
 Cypress.Keyboard.defaults({

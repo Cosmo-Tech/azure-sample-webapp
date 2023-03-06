@@ -27,13 +27,13 @@ describe('Scenario sharing with a link', () => {
 
   it('shares the scenario with a link to Scenario view', () => {
     ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
-    route.browse(`W-stbbdbrwry/scenario/${DEFAULT_SCENARIOS_LIST[3].id}`);
+    route.browse({ url: `W-stbbdbrwry/scenario/${DEFAULT_SCENARIOS_LIST[3].id}` });
     ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[3].name);
   });
 
   it('shares the scenario with a link to Instance view', () => {
     ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
-    route.browse(`W-stbbdbrwry/instance/${DEFAULT_SCENARIOS_LIST[3].id}`);
+    route.browse({ url: `W-stbbdbrwry/instance/${DEFAULT_SCENARIOS_LIST[3].id}` });
     ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[3].name);
   });
 });

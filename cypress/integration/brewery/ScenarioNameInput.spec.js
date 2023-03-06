@@ -1,4 +1,5 @@
-import { Login, Scenarios } from '../../commons/actions';
+import { Scenarios } from '../../commons/actions';
+import { Login } from '../../commons/actions/brewery';
 import { setup } from '../../commons/utils/setup';
 import { stub } from '../../commons/services/stubbing';
 

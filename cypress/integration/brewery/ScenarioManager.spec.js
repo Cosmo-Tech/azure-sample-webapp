@@ -3,7 +3,8 @@
 
 import utils from '../../commons/TestUtils';
 import { DATASET, RUN_TEMPLATE, SCENARIO_STATUS } from '../../commons/constants/brewery/TestConstants';
-import { Scenarios, ScenarioManager, ScenarioParameters, Login } from '../../commons/actions';
+import { Scenarios, ScenarioManager, ScenarioParameters } from '../../commons/actions';
+import { Login } from '../../commons/actions/brewery';
 
 describe('Create scenario and check its data in scenario manager', () => {
   Cypress.Keyboard.defaults({

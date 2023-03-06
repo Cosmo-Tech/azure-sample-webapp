@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import 'cypress-file-upload';
-import { Downloads, Login, ScenarioParameters, ScenarioSelector } from '../../commons/actions';
-import { BreweryParameters } from '../../commons/actions/brewery';
+import { Downloads, ScenarioParameters, ScenarioSelector } from '../../commons/actions';
+import { BreweryParameters, Login } from '../../commons/actions/brewery';
 import { setup } from '../../commons/utils/setup';
 import { stub } from '../../commons/services/stubbing';
 import { DEFAULT_SCENARIOS_LIST } from '../../fixtures/stubbing/default';

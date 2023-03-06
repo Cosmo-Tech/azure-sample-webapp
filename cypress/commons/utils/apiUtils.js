@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { API_REGEX, AUTH_QUERY_URL, URL_POWERBI, URL_ROOT } from '../constants/generic/TestConstants';
+import { API_ENDPOINT, API_REGEX, AUTH_QUERY_URL, URL_POWERBI, URL_ROOT } from '../constants/generic/TestConstants';
 import { stub } from '../services/stubbing';
 import { authUtils } from './authUtils';
 import utils from '../../commons/TestUtils';
@@ -179,8 +179,11 @@ const interceptGetScenario = (scenarioId) => {
   // scenarioId parameter if you can
   let interceptionURL = API_REGEX.SCENARIO;
   if (scenarioId) {
-    interceptionURL = new RegExp('^' + URL_ROOT + '/.*/scenarios/(' + scenarioId + ')' + '$');
+    interceptionURL = new RegExp(
+      '^' + API_ENDPOINT.WORKSPACES + '/((w|W)-[\\w]+)/scenarios/(' + scenarioId + ')' + '$'
+    );
   }
+
   const alias = forgeAlias('reqGetScenario');
   cy.intercept({ method: 'GET', url: interceptionURL, times: 1 }, (req) => {
     if (!stub.isEnabledFor('GET_SCENARIOS')) return;
@@ -210,8 +213,11 @@ const interceptGetScenarios = () => {
 const interceptGetWorkspaces = () => {
   const alias = forgeAlias('reqGetWorkspaces');
   cy.intercept({ method: 'GET', url: API_REGEX.WORKSPACES, times: 1 }, (req) => {
-    if (!stub.isEnabledFor('GET_WORKSPACES')) return;
-    req.reply(stub.getWorkspaces());
+    if (stub.isEnabledFor('GET_WORKSPACES')) {
+      req.reply(stub.getWorkspaces());
+    } else {
+      req.continue((res) => stub.setWorkspaces(res.body));
+    }
   }).as(alias);
   return alias;
 };
@@ -236,15 +242,12 @@ const interceptPowerBIAzureFunction = () => {
   return alias;
 };
 
-const interceptNewPageQueries = () => {
-  return [
-    interceptPowerBIAzureFunction(),
-    interceptGetOrganizationPermissions(),
-    interceptGetScenarios(),
-    interceptGetDatasets(),
-    interceptGetWorkspaces(),
-    interceptGetSolution(),
-  ];
+const interceptWorkspaceSelectorQueries = () => {
+  return [interceptGetDatasets(), interceptGetOrganizationPermissions(), interceptGetWorkspaces()];
+};
+
+const interceptSelectWorkspaceQueries = () => {
+  return [interceptPowerBIAzureFunction(), interceptGetScenarios(), interceptGetSolution()];
 };
 
 export const apiUtils = {
@@ -262,7 +265,8 @@ export const apiUtils = {
   interceptGetScenarios,
   interceptGetSolution,
   interceptGetWorkspaces,
-  interceptNewPageQueries,
+  interceptWorkspaceSelectorQueries,
+  interceptSelectWorkspaceQueries,
   interceptPowerBIAzureFunction,
   interceptUpdateScenarioACLSecurity,
   interceptUpdateScenarioDefaultSecurity,

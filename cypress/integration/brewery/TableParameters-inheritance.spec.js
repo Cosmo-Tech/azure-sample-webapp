@@ -1,7 +1,7 @@
 import utils from '../../commons/TestUtils';
-import { Downloads, Login, ScenarioManager, ScenarioParameters, Scenarios } from '../../commons/actions';
+import { Downloads, ScenarioManager, ScenarioParameters, Scenarios } from '../../commons/actions';
+import { BreweryParameters, Login } from '../../commons/actions/brewery';
 import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
-import { BreweryParameters } from '../../commons/actions/brewery';
 import { EXPECTED_CUSTOMERS_INHERITED_TABLE } from '../../fixtures/TableParametersData';
 import { ScenarioSelector } from '../../commons/actions/generic/ScenarioSelector';
 

@@ -1,13 +1,10 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import 'cypress-localstorage-commands';
-import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
-import { apiUtils as api, routeUtils as route } from '../../utils';
+import { Login as GenericLogin } from '../generic';
+import { BREWERY_WORKSPACE_ID } from '../../constants/brewery/TestConstants';
 
-function getMicrosoftLoginButton() {
-  return cy.get(GENERIC_SELECTORS.login.microsoftLoginButton);
-}
+const DEFAULT_URL = '/' + BREWERY_WORKSPACE_ID;
 
 // Parameters:
 //   - options: dict with properties:
@@ -18,17 +15,11 @@ function getMicrosoftLoginButton() {
 //     - expectedURL (optional): can be set if expected URL after navigation is different from options.url (checked
 //       with "include" assertion)
 function login(options) {
-  cy.clearLocalStorageSnapshot();
-
-  const reqAuthAlias = api.interceptAuthentication();
-  route.browse({
-    url: '/',
-    onBrowseCallback: () => getMicrosoftLoginButton().click(),
+  return GenericLogin.login({
+    url: DEFAULT_URL,
+    workspaceId: BREWERY_WORKSPACE_ID,
     ...options,
   });
-  api.waitAlias(reqAuthAlias, { timeout: 60 * 1000 });
-
-  cy.saveLocalStorage();
 }
 
 // Parameters:
@@ -40,13 +31,14 @@ function login(options) {
 //     - expectedURL (optional): can be set if expected URL after navigation is different from options.url (checked
 //       with "include" assertion)
 function relogin(options) {
-  Cypress.Cookies.preserveOnce('ai_session', 'ai_user');
-  cy.restoreLocalStorage();
-  route.browse({ url: '/', ...options });
+  return GenericLogin.relogin({
+    url: DEFAULT_URL,
+    workspaceId: BREWERY_WORKSPACE_ID,
+    ...options,
+  });
 }
 
 export const Login = {
-  getMicrosoftLoginButton,
   login,
   relogin,
 };

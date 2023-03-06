@@ -20,7 +20,7 @@ describe('Redirects to right page', () => {
   });
 
   it('redirects to scenario manager view after login', () => {
-    Login.login(`W-stbbdbrwry${PAGE_NAME.SCENARIO_MANAGER}`);
+    Login.login({ url: `W-stbbdbrwry${PAGE_NAME.SCENARIO_MANAGER}` });
     ScenarioManager.getScenarioManagerView().should('be.visible');
   });
 

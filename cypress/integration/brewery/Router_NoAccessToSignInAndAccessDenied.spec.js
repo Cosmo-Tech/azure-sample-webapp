@@ -14,13 +14,15 @@ describe("User doesn't access SignIn and AccessDenied pages if authenticated or 
     });
     Login.login();
   });
+
   after(() => {
     stub.stop();
   });
+
   it('redirects to scenario view if user is authenticated and authorized', () => {
-    route.browse('sign-in', '/scenario');
+    route.browse({ url: 'sign-in', expectedURL: '/scenario' });
     Scenarios.getScenarioView().should('be.visible');
-    route.browse('accessDenied', '/scenario');
+    route.browse({ url: 'accessDenied', expectedURL: '/scenario' });
     Scenarios.getScenarioView().should('be.visible');
   });
 });

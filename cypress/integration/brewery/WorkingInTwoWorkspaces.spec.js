@@ -11,13 +11,14 @@ import {
   ScenarioSelector,
 } from '../../commons/actions';
 import { setup } from '../../commons/utils/setup';
+import { SCENARIO_RUN_IN_PROGRESS } from '../../commons/constants/generic/TestConstants';
 import {
   BREWERY_WORKSPACE_ID,
+  DATASET,
   REAL_BREWERY_WORKSPACE_ID,
-  SCENARIO_RUN_IN_PROGRESS,
-} from '../../commons/constants/generic/TestConstants';
+  RUN_TEMPLATE,
+} from '../../commons/constants/brewery/TestConstants';
 import utils from '../../commons/TestUtils';
-import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
 import { BreweryParameters } from '../../commons/actions/brewery';
 import { routeUtils as route } from '../../commons/utils';
 const CSV_VALID_WITH_EMPTY_FIELDS = 'customers_empty_authorized_fields.csv';
@@ -43,7 +44,7 @@ describe('Switching between workspaces and running four scenarios at the same ti
   });
 
   it('can create, edit, upload files, create children and run four scenarios at the same time', () => {
-    Login.loginWithoutWorkspace();
+    Login.login();
     Workspaces.getWorkspacesView(10000).should('exist');
     Workspaces.selectWorkspace(REAL_BREWERY_WORKSPACE_ID);
 
@@ -62,7 +63,7 @@ describe('Switching between workspaces and running four scenarios at the same ti
       BreweryParameters.getWaitersInput().clear().type('1');
       ScenarioParameters.updateAndLaunch();
       Workspaces.getHomeButton().should('be.visible').click();
-      cy.go('back');
+      route.goBack({ expectedURL: firstWorkspaceParentScenarioId });
       Scenarios.getDashboardPlaceholder().should('have.text', SCENARIO_RUN_IN_PROGRESS);
       ScenarioParameters.getLaunchButton().should('be.disabled');
 
@@ -83,7 +84,11 @@ describe('Switching between workspaces and running four scenarios at the same ti
         BreweryParameters.getRestockInput().clear().type('10');
         BreweryParameters.getWaitersInput().clear().type('15');
         Workspaces.getHomeButton().should('be.visible').click();
-        cy.go('back');
+        route.goBack({ expectedURL: secondWorkspaceParentScenarioId });
+        // FIXME: find a better work-around to prevent "elements detached from DOM" error. Maybe some queries are
+        // causing a re-render of all scenario parameters ?
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
+        cy.wait(2000);
         BreweryParameters.getStock().should('not.have.text', '400');
         BreweryParameters.getRestock().should('not.have.text', '10');
         BreweryParameters.getWaiters().should('not.have.text', '15');
@@ -103,7 +108,7 @@ describe('Switching between workspaces and running four scenarios at the same ti
         ScenarioParameters.getLaunchButton().should('be.disabled');
 
         // browse to the second parent scenario and check it still running with right values
-        route.browse(`${BREWERY_WORKSPACE_ID}/scenario/${secondWorkspaceParentScenarioId}`);
+        route.browse({ url: `${BREWERY_WORKSPACE_ID}/scenario/${secondWorkspaceParentScenarioId}` });
         Scenarios.getDashboardPlaceholder().should('have.text', SCENARIO_RUN_IN_PROGRESS);
         ScenarioParameters.getLaunchButton().should('be.disabled');
         BreweryParameters.getStock().should('have.text', '400');
@@ -141,7 +146,7 @@ describe('Switching between workspaces and running four scenarios at the same ti
             BreweryParameters.uploadExampleDatasetPart1(FILE_PATH_1);
 
             // check the first child scenario hasn't been edited, edit it and launch
-            route.browse(`${REAL_BREWERY_WORKSPACE_ID}/scenario/${firstWorkspaceChildScenarioId}`);
+            route.browse({ url: `${REAL_BREWERY_WORKSPACE_ID}/scenario/${firstWorkspaceChildScenarioId}` });
             ScenarioParameters.edit();
             BreweryParameters.switchToCustomersTab();
             BreweryParameters.getCustomersTableGrid().should('be.empty');
@@ -149,7 +154,7 @@ describe('Switching between workspaces and running four scenarios at the same ti
             ScenarioParameters.updateAndLaunch();
 
             // browse to second child scenario, check its parameters haven't been edited, edit and launch it
-            route.browse(`${BREWERY_WORKSPACE_ID}/scenario/${secondWorkspaceChildScenarioId}`);
+            route.browse({ url: `${BREWERY_WORKSPACE_ID}/scenario/${secondWorkspaceChildScenarioId}` });
             ScenarioParameters.edit();
             BreweryParameters.switchToDatasetPartsTab();
             BreweryParameters.getExampleDatasetPart1DownloadButton().should('not.exist');
@@ -157,7 +162,7 @@ describe('Switching between workspaces and running four scenarios at the same ti
             ScenarioParameters.updateAndLaunch();
 
             // check the first child scenario is running with right parameters
-            route.browse(`${REAL_BREWERY_WORKSPACE_ID}/scenario/${firstWorkspaceChildScenarioId}`);
+            route.browse({ url: `${REAL_BREWERY_WORKSPACE_ID}/scenario/${firstWorkspaceChildScenarioId}` });
             Scenarios.getDashboardPlaceholder().should('exist');
             ScenarioParameters.getLaunchButton().should('be.disabled');
             BreweryParameters.switchToCustomersTab();
@@ -168,7 +173,7 @@ describe('Switching between workspaces and running four scenarios at the same ti
             ScenarioParameters.launch();
 
             // check second child scenario is running with right parameters
-            route.browse(`${BREWERY_WORKSPACE_ID}/scenario/${secondWorkspaceChildScenarioId}`);
+            route.browse({ url: `${BREWERY_WORKSPACE_ID}/scenario/${secondWorkspaceChildScenarioId}` });
             Scenarios.getDashboardPlaceholder().should('exist');
             ScenarioParameters.getLaunchButton().should('be.disabled');
             BreweryParameters.switchToDatasetPartsTab();
@@ -179,12 +184,12 @@ describe('Switching between workspaces and running four scenarios at the same ti
             ScenarioParameters.launch();
 
             // check the first parent scenario is running
-            route.browse(`${REAL_BREWERY_WORKSPACE_ID}/scenario/${firstWorkspaceParentScenarioId}`);
+            route.browse({ url: `${REAL_BREWERY_WORKSPACE_ID}/scenario/${firstWorkspaceParentScenarioId}` });
             Scenarios.getDashboardPlaceholder().should('exist');
             ScenarioParameters.getLaunchButton().should('be.disabled');
 
             // check the second parent scenario is running
-            route.browse(`${BREWERY_WORKSPACE_ID}/scenario/${secondWorkspaceParentScenarioId}`);
+            route.browse({ url: `${BREWERY_WORKSPACE_ID}/scenario/${secondWorkspaceParentScenarioId}` });
             Scenarios.getDashboardPlaceholder().should('exist');
             ScenarioParameters.getLaunchButton().should('be.disabled');
 
@@ -220,8 +225,9 @@ describe('Switching between workspaces and running four scenarios at the same ti
       });
     });
   });
+
   it('checks that two identical scenarios can exist in two workspaces', () => {
-    Login.loginWithoutWorkspace();
+    Login.login();
     Workspaces.getWorkspacesView(10000).should('exist');
     Workspaces.selectWorkspace(REAL_BREWERY_WORKSPACE_ID);
 
@@ -249,13 +255,17 @@ describe('Switching between workspaces and running four scenarios at the same ti
             ScenarioParameters.updateAndLaunch();
 
             // browse to the first scenario and check its parameters
-            route.browse(`${REAL_BREWERY_WORKSPACE_ID}/scenario/${firstWorkspaceSharedScenarioId}`);
+            route.browse({ url: `${REAL_BREWERY_WORKSPACE_ID}/scenario/${firstWorkspaceSharedScenarioId}` });
+            // FIXME: find a better work-around to prevent "elements detached from DOM" error. Maybe some queries are
+            // causing a re-render of all scenario parameters ?
+            // eslint-disable-next-line cypress/no-unnecessary-waiting
+            cy.wait(2000);
             BreweryParameters.getStock().should('have.text', '400');
             BreweryParameters.getRestock().should('have.text', '10');
             BreweryParameters.getWaiters().should('have.text', '15');
 
             // browse to the second scenario and check its parameters
-            route.browse(`${BREWERY_WORKSPACE_ID}/scenario/${secondWorkspaceSharedScenarioId}`);
+            route.browse({ url: `${BREWERY_WORKSPACE_ID}/scenario/${secondWorkspaceSharedScenarioId}` });
             BreweryParameters.getStock().should('have.text', '400');
             BreweryParameters.getRestock().should('have.text', '10');
             BreweryParameters.getWaiters().should('have.text', '15');
@@ -284,12 +294,15 @@ describe('Switching between workspaces and running four scenarios at the same ti
             Scenarios.validateScenario(firstWorkspaceSharedScenarioId);
 
             // reject second scenario
-            route.browse(`${BREWERY_WORKSPACE_ID}/scenario/${secondWorkspaceSharedScenarioId}`);
+            route.browse({ url: `${BREWERY_WORKSPACE_ID}/scenario/${secondWorkspaceSharedScenarioId}` });
             Scenarios.getScenarioRejectButton().should('be.visible').should('not.be.disabled');
             Scenarios.rejectScenario(secondWorkspaceSharedScenarioId);
 
             // browse to the first workspace scenario manager, check first scenario validation status and rename it
-            route.browse(`${REAL_BREWERY_WORKSPACE_ID}/scenariomanager`);
+            route.browse({
+              url: `${REAL_BREWERY_WORKSPACE_ID}/scenariomanager`,
+              workspaceId: REAL_BREWERY_WORKSPACE_ID,
+            });
             ScenarioManager.checkValidationStatus(sharedNameScenario, firstWorkspaceSharedScenarioId, 'Validated');
             ScenarioManager.renameScenario(firstWorkspaceSharedScenarioId, newSharedNameScenario);
             Scenarios.switchToScenarioView();
@@ -307,7 +320,7 @@ describe('Switching between workspaces and running four scenarios at the same ti
             ScenarioSelector.selectScenario(newSharedNameScenario, secondWorkspaceSharedScenarioId);
 
             // browse to the first scenario, check its name and delete it
-            route.browse(`${REAL_BREWERY_WORKSPACE_ID}/scenario/${firstWorkspaceSharedScenarioId}`);
+            route.browse({ url: `${REAL_BREWERY_WORKSPACE_ID}/scenario/${firstWorkspaceSharedScenarioId}` });
             ScenarioSelector.getScenarioSelectorInput(10000).should('have.value', newSharedNameScenario);
             ScenarioManager.switchToScenarioManager();
             ScenarioManager.deleteScenario(newSharedNameScenario);

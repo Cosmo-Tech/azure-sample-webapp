@@ -14,6 +14,9 @@ describe('If there are no scenarios created yet', () => {
       CREATE_AND_DELETE_SCENARIO: true,
       GET_DATASETS: true,
       GET_SCENARIOS: true,
+      GET_SOLUTIONS: true,
+      GET_WORKSPACES: true,
+      PERMISSIONS_MAPPING: true,
     });
     Login.login();
   });

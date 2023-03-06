@@ -6,7 +6,8 @@ import { setup } from '../../commons/utils/setup';
 import { stub } from '../../commons/services/stubbing';
 import { DEFAULT_WORKSPACE } from '../../fixtures/stubbing/default/workspaces';
 import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
-import { InstanceVisualization, Scenarios, ScenarioManager, Login } from '../../commons/actions';
+import { InstanceVisualization, Scenarios, ScenarioManager } from '../../commons/actions';
+import { Login } from '../../commons/actions/brewery';
 
 Cypress.Keyboard.defaults({
   keystrokeDelay: 0,

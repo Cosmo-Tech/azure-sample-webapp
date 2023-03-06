@@ -3,8 +3,8 @@
 
 import utils from '../../commons/TestUtils';
 import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
-import { Scenarios, ScenarioManager, ScenarioParameters, Login } from '../../commons/actions';
-import { BreweryParameters } from '../../commons/actions/brewery';
+import { Scenarios, ScenarioManager, ScenarioParameters } from '../../commons/actions';
+import { BreweryParameters, Login } from '../../commons/actions/brewery';
 
 Cypress.Keyboard.defaults({
   keystrokeDelay: 0,

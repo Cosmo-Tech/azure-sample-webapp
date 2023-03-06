@@ -4,7 +4,6 @@ import { Login, Workspaces, Scenarios } from '../../commons/actions';
 import { DEFAULT_WORKSPACES_LIST, EXTENDED_WORKSPACES_LIST } from '../../fixtures/stubbing/default';
 import { stub } from '../../commons/services/stubbing';
 import { setup } from '../../commons/utils/setup';
-import { routeUtils as route } from '../../commons/utils';
 
 describe('Check workspaces features', () => {
   before(() => {
@@ -18,7 +17,7 @@ describe('Check workspaces features', () => {
   });
 
   it('Can select one workspace then return to workspace selector by home button', () => {
-    Login.loginWithoutWorkspace();
+    Login.login();
     Workspaces.getWorkspacesView();
     stub.getWorkspaces().forEach((workspace) => {
       Workspaces.getWorkspaceCardById(workspace.id).should('be.visible');
@@ -32,20 +31,19 @@ describe('Check workspaces features', () => {
 
   it('Check routing behavior with no workspace available', () => {
     stub.setWorkspaces([]);
-    Login.loginWithoutWorkspace();
+    Login.login();
     Workspaces.getNoWorkspacePlaceholder().should('be.visible');
   });
 
   it('Check routing behavior with only one workspace available', () => {
     stub.setWorkspaces(DEFAULT_WORKSPACES_LIST);
-    Login.loginWithoutWorkspace();
+    Login.login();
 
     Scenarios.getScenarioView().should('be.visible');
     Workspaces.getHomeButton().should('not.exist');
   });
   it('Shares a workspace with a link', () => {
-    Login.loginWithoutWorkspace();
-    route.browse(`W-stbbdbrwry`, 'W-stbbdbrwry/scenario');
+    Login.login({ url: 'W-stbbdbrwry', expectedURL: 'W-stbbdbrwry/scenario' });
     Scenarios.getScenarioView().should('be.visible');
   });
 });
