@@ -2,7 +2,18 @@
 // Licensed under the MIT license.
 
 import React, { useEffect, useState, useCallback } from 'react';
-import { Backdrop, Button, Card, CardContent, CircularProgress, Grid, Paper, Tooltip, Typography } from '@mui/material';
+import {
+  Backdrop,
+  Button,
+  Card,
+  CardContent,
+  CircularProgress,
+  Grid,
+  Paper,
+  Tooltip,
+  Typography,
+  Stack,
+} from '@mui/material';
 import { useForm, FormProvider } from 'react-hook-form';
 import { ScenarioParameters, ShareCurrentScenarioButton, CreateScenarioButton } from '../../components';
 import { useTranslation } from 'react-i18next';
@@ -43,6 +54,7 @@ const Scenario = () => {
 
   // RHF
   const methods = useForm();
+  const isDirty = methods.formState.isDirty;
 
   const {
     scenarioList,
@@ -53,8 +65,6 @@ const Scenario = () => {
     findScenarioById,
     setApplicationErrorMessage,
   } = useScenario();
-
-  const [editMode, setEditMode] = useState(false);
 
   // Add accordion expand status in state
   const [accordionSummaryExpanded, setAccordionSummaryExpanded] = useState(
@@ -71,7 +81,7 @@ const Scenario = () => {
 
   const onScenarioCreated = useCallback(() => setAccordionSummaryExpanded(true), []);
 
-  const currentScenarioRenderInputTooltip = editMode
+  const currentScenarioRenderInputTooltip = isDirty
     ? t(
         'views.scenario.dropdown.scenario.tooltip.disabled',
         'Please save or discard current modifications before selecting another scenario'
@@ -84,9 +94,9 @@ const Scenario = () => {
 
   const sortedScenarioList = sortScenarioList(scenarioList.data.slice());
   const noScenario = currentScenario.data === null;
-  const scenarioListDisabled = editMode || scenarioList === null || noScenario;
+  const scenarioListDisabled = isDirty || scenarioList === null || noScenario;
   const scenarioListLabel = noScenario ? null : t('views.scenario.dropdown.scenario.label', 'Scenario');
-  const showBackdrop = currentScenario.status === STATUSES.LOADING;
+  const showBackdrop = currentScenario.status === STATUSES.LOADING || currentScenario.status === STATUSES.SAVING;
 
   useRedirectionToScenario(sortedScenarioList);
 
@@ -148,7 +158,7 @@ const Scenario = () => {
     <Button
       className={classes.rightButton}
       data-cy="validate-scenario-button"
-      disabled={editMode}
+      disabled={isDirty}
       variant="outlined"
       color="primary"
       onClick={(event) => validateScenario()}
@@ -160,7 +170,7 @@ const Scenario = () => {
     <Button
       className={classes.rightButton}
       data-cy="reject-scenario-button"
-      disabled={editMode}
+      disabled={isDirty}
       variant="outlined"
       color="primary"
       onClick={(event) => rejectScenario()}
@@ -169,7 +179,7 @@ const Scenario = () => {
     </Button>
   );
 
-  const validateButtonTooltipWrapper = editMode ? (
+  const validateButtonTooltipWrapper = isDirty ? (
     <Tooltip
       title={t(
         'views.scenario.validation.disabledTooltip',
@@ -182,7 +192,7 @@ const Scenario = () => {
     validateButton
   );
 
-  const rejectButtonTooltipWrapper = editMode ? (
+  const rejectButtonTooltipWrapper = isDirty ? (
     <Tooltip
       title={t(
         'views.scenario.validation.disabledTooltip',
@@ -232,7 +242,12 @@ const Scenario = () => {
   return (
     <FormProvider {...methods}>
       <Backdrop open={showBackdrop} style={{ zIndex: '10000' }}>
-        <CircularProgress data-cy="scenario-loading-spinner" color="inherit" />
+        <Stack spacing={2} alignItems="center">
+          <CircularProgress data-cy="scenario-loading-spinner" color="inherit" />
+          {currentScenario.status === STATUSES.SAVING && (
+            <Typography variant="h4">{t('genericcomponent.text.scenario.save', 'Saving your data')}</Typography>
+          )}
+        </Stack>
       </Backdrop>
       <div data-cy="scenario-view" className={classes.content}>
         <Grid container spacing={2} alignItems="center" justifyContent="space-between">
@@ -240,7 +255,7 @@ const Scenario = () => {
             <div>
               <Grid container spacing={1} alignItems="center" justifyContent="flex-start">
                 <Grid item>
-                  <CreateScenarioButton disabled={editMode} onScenarioCreated={onScenarioCreated} />
+                  <CreateScenarioButton disabled={isDirty} onScenarioCreated={onScenarioCreated} />
                 </Grid>
                 <Grid item>
                   <ShareCurrentScenarioButton />
@@ -277,8 +292,6 @@ const Scenario = () => {
             <Card component={Paper}>
               {currentScenario.data && (
                 <ScenarioParameters
-                  editMode={editMode}
-                  changeEditMode={setEditMode}
                   accordionSummaryExpanded={accordionSummaryExpanded}
                   onChangeAccordionSummaryExpanded={setAccordionSummaryExpanded}
                 />

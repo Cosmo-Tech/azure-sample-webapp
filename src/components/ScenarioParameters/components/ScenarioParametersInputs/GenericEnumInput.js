@@ -10,7 +10,7 @@ import { ConfigUtils, TranslationUtils } from '../../../../utils';
 export const GenericEnumInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty }) => {
   const { t } = useTranslation();
   const textFieldProps = {
-    disabled: !context.editMode,
+    disabled: context.isReadOnly,
     id: `enum-input-${parameterData.id}`,
   };
 

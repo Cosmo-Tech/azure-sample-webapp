@@ -68,7 +68,7 @@ export const GenericUploadFile = ({
         FileManagementUtils.downloadFile(organizationId, workspaceId, datasetId, setClientFileDescriptorStatus);
       }}
       file={parameter}
-      editMode={context.editMode}
+      editMode={!context.editMode}
       isDirty={isDirty}
     />
   );

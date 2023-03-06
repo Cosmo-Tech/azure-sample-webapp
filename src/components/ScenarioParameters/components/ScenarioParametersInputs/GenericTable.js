@@ -450,7 +450,7 @@ export const GenericTable = ({
     <Button
       key="import-file-button"
       data-cy="import-file-button"
-      disabled={!context.editMode}
+      disabled={context.isReadOnly}
       color="primary"
       variant="outlined"
       component="label"
@@ -492,7 +492,7 @@ export const GenericTable = ({
         labels={tableLabels}
         tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
         dateFormat={dateFormat}
-        editMode={context.editMode}
+        editMode={!context.isReadOnly}
         dataStatus={parameter.tableDataStatus || TABLE_DATA_STATUS.EMPTY}
         errors={parameter.errors}
         columns={columns}

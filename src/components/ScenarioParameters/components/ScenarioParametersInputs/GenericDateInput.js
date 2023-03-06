@@ -12,7 +12,7 @@ export const GenericDateInput = ({ parameterData, context, parameterValue, setPa
   const minDate = parameterData.minValue ? new Date(parameterData.minValue) : undefined;
   const maxDate = parameterData.maxValue ? new Date(parameterData.maxValue) : undefined;
   const dateProps = {
-    disabled: !context.editMode,
+    disabled: context.isReadOnly,
     id: `date-input-${parameterData.id}`,
     minDate,
     maxDate,

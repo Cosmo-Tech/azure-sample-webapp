@@ -11,7 +11,7 @@ export const GenericRadioInput = ({ parameterData, context, parameterValue, setP
   const { t } = useTranslation();
   let enumValues = ConfigUtils.getParameterAttribute(parameterData, 'enumValues');
   const textFieldProps = {
-    disabled: !context.editMode,
+    disabled: context.isReadOnly,
     id: parameterData.id,
   };
 

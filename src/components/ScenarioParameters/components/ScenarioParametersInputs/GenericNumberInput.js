@@ -31,7 +31,7 @@ export const GenericNumberInput = ({ parameterData, context, parameterValue, set
     max: getMaxValue(parameterData),
   };
   const textFieldProps = {
-    disabled: !context.editMode,
+    disabled: context.isReadOnly,
     id: `number-input-${parameterData.id}`,
   };
 

@@ -21,14 +21,10 @@ export function* launchScenario(action) {
     const scenarioId = action.scenarioId;
     const runStartTime = new Date().getTime();
 
-    // Update scenario
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
-      status: STATUSES.SAVING,
       scenario: { state: SCENARIO_RUN_STATE.RUNNING },
     });
-
-    // Launch scenario if parameters update succeeded
     yield call(Api.ScenarioRuns.runScenario, organizationId, workspaceId, scenarioId);
     yield put({
       type: SCENARIO_ACTIONS_KEY.UPDATE_SCENARIO,

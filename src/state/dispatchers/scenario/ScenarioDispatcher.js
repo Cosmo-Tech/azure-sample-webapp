@@ -47,8 +47,8 @@ export const dispatchRenameScenario = (organizationId, workspaceId, scenarioId, 
   scenarioName: newScenarioName,
 });
 
-export const dispatchUpdateAndLaunchScenario = (organizationId, workspaceId, scenarioId, scenarioParameters) => ({
-  type: SCENARIO_ACTIONS_KEY.UPDATE_AND_LAUNCH_SCENARIO,
+export const dispatchUpdateScenario = (organizationId, workspaceId, scenarioId, scenarioParameters) => ({
+  type: SCENARIO_ACTIONS_KEY.UPDATE_SCENARIO,
   organizationId,
   workspaceId,
   scenarioId,
@@ -82,9 +82,25 @@ export const dispatchSetScenarioSecurity = (
   scenariosPermissionsMapping,
 });
 
+export const dispatchSaveScenario = (organizationId, workspaceId, scenarioId, scenarioParameters) => ({
+  type: SCENARIO_ACTIONS_KEY.SAVE_SCENARIO,
+  organizationId,
+  workspaceId,
+  scenarioId,
+  scenarioParameters,
+});
+
 export const dispatchLaunchScenario = (organizationId, workspaceId, scenarioId) => ({
   type: SCENARIO_ACTIONS_KEY.LAUNCH_SCENARIO,
   organizationId,
   workspaceId,
   scenarioId,
+});
+
+export const dispatchSaveAndLaunchScenario = (organizationId, workspaceId, scenarioId, scenarioParameters) => ({
+  type: SCENARIO_ACTIONS_KEY.SAVE_AND_LAUNCH_SCENARIO,
+  organizationId,
+  workspaceId,
+  scenarioId,
+  scenarioParameters,
 });

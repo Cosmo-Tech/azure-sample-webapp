@@ -10,7 +10,7 @@ import { TranslationUtils } from '../../../../utils';
 export const GenericToggleInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty }) => {
   const { t } = useTranslation();
   const switchFieldProps = {
-    disabled: !context.editMode,
+    disabled: context.isReadOnly,
     id: `toggle-input-${parameterData.id}`,
   };
 

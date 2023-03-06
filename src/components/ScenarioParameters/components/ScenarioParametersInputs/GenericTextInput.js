@@ -10,7 +10,7 @@ import { TranslationUtils } from '../../../../utils';
 export const GenericTextInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty }) => {
   const { t } = useTranslation();
   const textFieldProps = {
-    disabled: !context.editMode,
+    disabled: context.isReadOnly,
     id: `text-input-${parameterData.id}`,
   };
 
