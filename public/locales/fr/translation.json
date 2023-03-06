@@ -38,11 +38,12 @@
             "validated": "Ce scénario est validé, vous ne pouvez pas éditer ses paramètres",
             "noTabs": "Pas de paramètres à éditer"
           },
-          "discard": "Abandonner les modifications",
+          "discard": "ABANDONNER",
           "edit": "Éditer les parameters",
-          "launch": "Lancer le scénario",
+          "launch": "LANCER",
+          "save": "SAUVEGARDER",
           "update": {
-            "launch": "Mettre à jour et lancer le scénario"
+            "launch": "SAUVEGARDER ET LANCER"
           }
         }
       }
@@ -366,6 +367,7 @@
       "resetStatusValidation": "Le statut du scénario n'a pas pu être réinitialisé.",
       "validateScenario": "Le scénario n'a pas pu être validé.",
       "rejectScenario": "Le scénario n'a pas pu être rejeté.",
+      "launchCanceled": "Une erreur est survenue pendant la sauvegarde ; les nouveaux paramètres n'ont pas pu être enregistrés et le scénario n'a pas été lancé.",
       "tooLongErrorMessage": "Le message d'erreur détaillé est trop long pour être affiché. Pour le lire, veuiller utiliser le bouton COPIER et le coller dans votre éditeur de texte préféré.",
       "button": {
         "dismiss": "Fermer",
@@ -512,6 +514,7 @@
     },
     "text": {
       "scenario": {
+        "saving": "Sauvegarde des données en cours",
         "parameters": {
           "tabs": {
             "placeholder": "Ces paramètres sont confidentiels et vous n'avez pas les accès nécessaires pour les voir. Si vous pensez que c'est une erreur, merci de contacter l'administrateur de l'application."

@@ -12,7 +12,6 @@ import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/App
 
 const appInsights = AppInsights.getInstance();
 
-// generators function
 export function* launchScenario(action) {
   try {
     appInsights.trackScenarioLaunch();
@@ -21,10 +20,8 @@ export function* launchScenario(action) {
     const scenarioId = action.scenarioId;
     const runStartTime = new Date().getTime();
 
-    // Update scenario
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
-      status: STATUSES.SAVING,
       scenario: { state: SCENARIO_RUN_STATE.RUNNING },
     });
 
@@ -66,9 +63,6 @@ export function* launchScenario(action) {
   }
 }
 
-// generators function
-// Here is a watcher that takes EVERY action dispatched named LAUNCH_SCENARIO
-// and binds createScenario saga to it
 function* launchScenarioSaga() {
   yield takeEvery(SCENARIO_ACTIONS_KEY.LAUNCH_SCENARIO, launchScenario);
 }

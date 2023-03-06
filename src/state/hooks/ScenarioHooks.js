@@ -15,7 +15,8 @@ import {
   dispatchDeleteScenario,
   dispatchRenameScenario,
   dispatchSetCurrentScenario,
-  dispatchUpdateAndLaunchScenario,
+  dispatchSaveScenario,
+  dispatchSaveAndLaunchScenario,
   dispatchLaunchScenario,
 } from '../dispatchers/scenario/ScenarioDispatcher';
 
@@ -118,13 +119,13 @@ export const useUpdateCurrentScenario = () => {
   return useCallback((scenario) => dispatch(dispatchSetCurrentScenario(scenario)), [dispatch]);
 };
 
-export const useUpdateAndLaunchScenario = () => {
+export const useSaveScenario = () => {
   const dispatch = useDispatch();
   const organizationId = useOrganizationId();
   const workspaceId = useWorkspaceId();
   return useCallback(
     (scenarioId, scenarioParameters) =>
-      dispatch(dispatchUpdateAndLaunchScenario(organizationId, workspaceId, scenarioId, scenarioParameters)),
+      dispatch(dispatchSaveScenario(organizationId, workspaceId, scenarioId, scenarioParameters)),
     [dispatch, organizationId, workspaceId]
   );
 };
@@ -135,6 +136,17 @@ export const useLaunchScenario = () => {
   const workspaceId = useWorkspaceId();
   return useCallback(
     (scenarioId) => dispatch(dispatchLaunchScenario(organizationId, workspaceId, scenarioId)),
+    [dispatch, organizationId, workspaceId]
+  );
+};
+
+export const useSaveAndLaunchScenario = () => {
+  const dispatch = useDispatch();
+  const organizationId = useOrganizationId();
+  const workspaceId = useWorkspaceId();
+  return useCallback(
+    (scenarioId, scenarioParameters) =>
+      dispatch(dispatchSaveAndLaunchScenario(organizationId, workspaceId, scenarioId, scenarioParameters)),
     [dispatch, organizationId, workspaceId]
   );
 };
