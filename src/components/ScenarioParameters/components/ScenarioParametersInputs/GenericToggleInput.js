@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { TranslationUtils } from '../../../../utils';
 
-export const GenericToggleInput = ({ parameterData, context, parameterValue, setParameterValue }) => {
+export const GenericToggleInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty }) => {
   const { t } = useTranslation();
   const switchFieldProps = {
     disabled: !context.editMode,
@@ -23,6 +23,7 @@ export const GenericToggleInput = ({ parameterData, context, parameterValue, set
       value={parameterValue ?? false}
       changeSwitchType={setParameterValue}
       switchProps={switchFieldProps}
+      isDirty={isDirty}
     />
   );
 };
@@ -32,4 +33,8 @@ GenericToggleInput.propTypes = {
   context: PropTypes.object.isRequired,
   parameterValue: PropTypes.any,
   setParameterValue: PropTypes.func.isRequired,
+  isDirty: PropTypes.bool,
+};
+GenericToggleInput.defaultProps = {
+  isDirty: false,
 };
