@@ -38,11 +38,12 @@
             "validated": "Ce scénario est validé, vous ne pouvez pas éditer ses paramètres",
             "noTabs": "Pas de paramètres à éditer"
           },
-          "discard": "Abandonner les modifications",
+          "discard": "ABANDONNER",
           "edit": "Éditer les parameters",
-          "launch": "Lancer le scénario",
+          "launch": "LANCER",
           "update": {
-            "launch": "Mettre à jour et lancer le scénario"
+            "update": "SAUVEGARDER",
+            "launch": "SAUVEGARDER ET LANCER"
           }
         }
       }

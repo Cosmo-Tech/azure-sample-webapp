@@ -38,11 +38,12 @@
             "validated": "This scenario is validated, you cannot edit its parameters",
             "noTabs": "No parameters to edit"
           },
-          "discard": "Discard modifications",
+          "discard": "DISCARD",
           "edit": "Edit parameters",
-          "launch": "Launch scenario",
+          "launch": "LAUNCH",
           "update": {
-            "launch": "Update and launch scenario"
+            "update": "SAVE",
+            "launch": "SAVE AND LAUNCH"
           }
         }
       }
@@ -193,7 +194,6 @@
             "label": "Run status:",
             "successful": "Successful",
             "running": "Running",
-            "dataingestioninprogress": "Transferring results",
             "failed": "Failed",
             "created": "Created"
           },
