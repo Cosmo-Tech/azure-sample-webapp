@@ -27,9 +27,15 @@ export function* createScenario(action) {
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
       status: STATUSES.LOADING,
     });
+
     const organizationId = action.organizationId;
     const workspaceId = action.workspaceId;
-    const { data } = yield call(Api.Scenarios.createScenario, organizationId, workspaceId, action.scenario);
+    const security = {
+      default: 'none',
+      accessControlList: [{ id: userEmail, role: 'admin' }],
+    };
+    const scenarioPayload = { ...action.scenario, security };
+    const { data } = yield call(Api.Scenarios.createScenario, organizationId, workspaceId, scenarioPayload);
     data.parametersValues = ApiUtils.formatParametersFromApi(data.parametersValues);
     ScenariosUtils.patchScenarioWithCurrentUserPermissions(data, userEmail, userId, scenariosPermissionsMapping);
     yield call(getAllScenariosData, organizationId, workspaceId);
