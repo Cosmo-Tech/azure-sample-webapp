@@ -37,9 +37,9 @@ You can now use the commands below to clone and configure your github project:
 # Replace by the URL of your own repository (e.g. my-org/my-project.git)
 git clone git@github.com:<YOUR_GITHUB_REPOSITORY_URL>
 cd <YOUR REPOSITORY_NAME>
-git remote add upstream git@github.com:Cosmo-Tech/azure-sample-webapp.git
+git remote add upstream https://github.com/Cosmo-Tech/azure-sample-webapp.git
 git remote set-url upstream --push "NO"
-git fetch upstream
+git fetch upstream --tags
 ```
 
 ## Create an App registration, Azure Static Webapp resource & configure it for deployment
