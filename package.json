@@ -77,6 +77,7 @@
     "cypress": "^9.1.0",
     "cypress-file-upload": "^5.0.8",
     "cypress-localstorage-commands": "^1.5.0",
+    "cypress-mochawesome-reporter": "^3.3.0",
     "eslint": "^8.33.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-standard": "^17.0.0",
