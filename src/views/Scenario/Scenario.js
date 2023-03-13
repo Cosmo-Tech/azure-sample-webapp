@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import React, { useEffect, useState, useCallback } from 'react';
-import { Backdrop, Button, Card, CardContent, CircularProgress, Grid, Paper, Tooltip, Typography } from '@mui/material';
+import { Backdrop, Button, Card, CircularProgress, Grid, Paper, Tooltip, Typography } from '@mui/material';
 import { useForm, FormProvider } from 'react-hook-form';
 import { ScenarioParameters, ShareCurrentScenarioButton, CreateScenarioButton } from '../../components';
 import { useTranslation } from 'react-i18next';
@@ -13,7 +13,7 @@ import ScenarioService from '../../services/scenario/ScenarioService';
 import { STATUSES } from '../../state/commons/Constants';
 import { AppInsights } from '../../services/AppInsights';
 import { ACL_PERMISSIONS } from '../../services/config/accessControl';
-import { ScenarioPowerBiReport } from './components';
+import { ScenarioDashboardCard } from './components';
 import { makeStyles } from '@mui/styles';
 import { useScenario } from './ScenarioHook';
 import { useRedirectionToScenario } from '../../hooks/RouterHooks';
@@ -47,11 +47,14 @@ const Scenario = () => {
   const {
     scenarioList,
     currentScenario,
+    currentScenarioRun,
+    currentScenarioRunId,
     organizationId,
     workspaceId,
     setScenarioValidationStatus,
     findScenarioById,
     setApplicationErrorMessage,
+    fetchScenarioRunById,
   } = useScenario();
 
   const [editMode, setEditMode] = useState(false);
@@ -81,6 +84,10 @@ const Scenario = () => {
   useEffect(() => {
     appInsights.setScenarioData(currentScenario.data);
   }, [currentScenario]);
+
+  useEffect(() => {
+    if (currentScenarioRunId != null && currentScenarioRun == null) fetchScenarioRunById(currentScenarioRunId);
+  }, [currentScenarioRunId, currentScenarioRun, fetchScenarioRunById]);
 
   const sortedScenarioList = sortScenarioList(scenarioList.data.slice());
   const noScenario = currentScenario.data === null;
@@ -286,11 +293,7 @@ const Scenario = () => {
             </Card>
           </Grid>
           <Grid item xs={12}>
-            <Card component={Paper}>
-              <CardContent>
-                <ScenarioPowerBiReport />
-              </CardContent>
-            </Card>
+            <ScenarioDashboardCard />
           </Grid>
         </Grid>
       </div>

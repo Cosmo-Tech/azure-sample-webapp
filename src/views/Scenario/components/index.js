@@ -2,3 +2,4 @@
 // Licensed under the MIT license.
 
 export { default as ScenarioPowerBiReport } from './ScenarioPowerBiReport';
+export { default as ScenarioDashboardCard } from './ScenarioDashboardCard';

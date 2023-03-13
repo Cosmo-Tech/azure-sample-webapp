@@ -140,6 +140,7 @@
       }
     },
     "iframe": {
+      "title": "Dashboard",
       "scenario": {
         "results": {
           "card": {
@@ -152,7 +153,7 @@
             "no": {
               "result": "No dashboards for this scenario."
             },
-            "error": "An error occured during the scenario run",
+            "error": "An error occurred during the scenario run",
             "running": "Scenario run in progress...",
             "dataInTransfer": "Scenario results transfer in progress..",
             "uninitialized": "The scenario has not been run yet"
@@ -160,6 +161,9 @@
           "button": {
             "downloadLogs": "Download logs",
             "refresh": "Refresh (will then be disabled for 15 seconds)"
+          },
+          "warning": {
+            "notSync": "Scenario parameters were updated since last launch, this dashboard may not be up to date anymore."
           }
         },
         "noscenario": {
@@ -587,6 +591,12 @@
         "title": "Wrong URL",
         "detail": "The scenario with id {{id}} doesn't exist anymore.",
         "comment": "You have been redirected to default Scenario view."
+      },
+      "scenarioRunQueryError": {
+        "comment": "Could not find scenario run with id \"{{id}}\"."
+      },
+      "scenarioRunStatusQueryError": {
+        "comment": "Could not get status of scenario run with id \"{{id}}\"."
       }
     }
   },

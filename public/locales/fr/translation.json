@@ -140,6 +140,7 @@
       }
     },
     "iframe": {
+      "title": "Dashboard",
       "scenario": {
         "results": {
           "card": {
@@ -160,6 +161,9 @@
           "button": {
             "downloadLogs": "Télécharger les logs",
             "refresh": "Rafraîchir (sera ensuite indisponible pendant 15 secondes)"
+          },
+          "warning": {
+            "notSync": "Les paramètres du scénario ont été modifiés depuis son dernier lancement, les données du dashboard risquent de ne plus être valides"
           }
         },
         "noscenario": {
@@ -588,6 +592,12 @@
         "title": "Mauvaise URL",
         "detail": "Le scénario avec l'id {{id}} n'existe plus.",
         "comment": "Vous avez été redirigé vers la page Scénario par défaut."
+      },
+      "scenarioRunQueryError": {
+        "comment": "Impossible de trouver le run de scénario avec l'id \"{{id}}\"."
+      },
+      "scenarioRunStatusQueryError": {
+        "comment": "Impossible de trouver le statut du run de scénario avec l'id \"{{id}}\"."
       }
     }
   },
