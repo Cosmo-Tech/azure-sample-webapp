@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 module.exports = {
-  testMatch: ['**/src/**/*.spec.js'],
+  testMatch: ['<rootDir>/src/**/*.spec.js'],
   moduleNameMapper: {
     '\\.(css|scss|less)$': 'identity-obj-proxy',
   },
@@ -13,7 +13,7 @@ module.exports = {
   setupFiles: ['jest-canvas-mock'],
   setupFilesAfterEnv: ['<rootDir>/jestSetup.js'],
   collectCoverage: true,
-  collectCoverageFrom: ['src/**/*.js'],
+  collectCoverageFrom: ['<rootDir>/src/**/*.js'],
   coverageDirectory: '<rootDir>/coverage/',
   coverageReporters: ['lcov', 'text-summary'],
 };
