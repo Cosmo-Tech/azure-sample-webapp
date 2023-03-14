@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { ConfigUtils, TranslationUtils } from '../../../../utils';
 
-export const GenericEnumInput = ({ parameterData, context, parameterValue, setParameterValue }) => {
+export const GenericEnumInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty }) => {
   const { t } = useTranslation();
   const textFieldProps = {
     disabled: !context.editMode,
@@ -33,6 +33,7 @@ export const GenericEnumInput = ({ parameterData, context, parameterValue, setPa
       changeEnumField={setParameterValue}
       textFieldProps={textFieldProps}
       enumValues={enumValues}
+      isDirty={isDirty}
     />
   );
 };
@@ -42,4 +43,8 @@ GenericEnumInput.propTypes = {
   context: PropTypes.object.isRequired,
   parameterValue: PropTypes.any,
   setParameterValue: PropTypes.func.isRequired,
+  isDirty: PropTypes.bool,
+};
+GenericEnumInput.defaultProps = {
+  isDirty: false,
 };

@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { TranslationUtils } from '../../../../utils';
 
-export const GenericDateInput = ({ parameterData, context, parameterValue, setParameterValue }) => {
+export const GenericDateInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty }) => {
   const { t } = useTranslation();
   const minDate = parameterData.minValue ? new Date(parameterData.minValue) : undefined;
   const maxDate = parameterData.maxValue ? new Date(parameterData.maxValue) : undefined;
@@ -30,6 +30,7 @@ export const GenericDateInput = ({ parameterData, context, parameterValue, setPa
       value={parameterValue ?? new Date()}
       changeSelectedDate={setParameterValue}
       dateProps={dateProps}
+      isDirty={isDirty}
     />
   );
 };
@@ -39,4 +40,8 @@ GenericDateInput.propTypes = {
   context: PropTypes.object.isRequired,
   parameterValue: PropTypes.any,
   setParameterValue: PropTypes.func.isRequired,
+  isDirty: PropTypes.bool,
+};
+GenericDateInput.defaultProps = {
+  isDirty: false,
 };

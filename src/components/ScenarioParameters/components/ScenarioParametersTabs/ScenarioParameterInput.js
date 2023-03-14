@@ -35,9 +35,9 @@ const ScenarioParameterInput = ({ parameterData, context }) => {
   return (
     <Controller
       name={parameterData.id}
-      render={({ field }) => {
+      render={({ field, fieldState }) => {
         const { value: parameterValue, onChange: setRhfValue } = field;
-
+        const { isDirty } = fieldState;
         const setParameterValue = (newValue) => {
           if (scenarioIdOnMount.current === getCurrentScenarioId()) {
             setRhfValue(newValue);
@@ -50,6 +50,7 @@ const ScenarioParameterInput = ({ parameterData, context }) => {
           key: parameterData.id,
           parameterValue,
           setParameterValue,
+          isDirty,
         };
         // name property helps distinguish React components from factories
         if ('name' in varTypeFactory) {

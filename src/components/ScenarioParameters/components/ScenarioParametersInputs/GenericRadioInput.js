@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { TranslationUtils, ConfigUtils } from '../../../../utils';
 
-export const GenericRadioInput = ({ parameterData, context, parameterValue, setParameterValue }) => {
+export const GenericRadioInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty }) => {
   const { t } = useTranslation();
   let enumValues = ConfigUtils.getParameterAttribute(parameterData, 'enumValues');
   const textFieldProps = {
@@ -34,6 +34,7 @@ export const GenericRadioInput = ({ parameterData, context, parameterValue, setP
       changeRadioOption={setParameterValue}
       textFieldProps={textFieldProps}
       enumValues={enumValues}
+      isDirty={isDirty}
     />
   );
 };
@@ -42,4 +43,8 @@ GenericRadioInput.propTypes = {
   context: PropTypes.object.isRequired,
   parameterValue: PropTypes.any,
   setParameterValue: PropTypes.func.isRequired,
+  isDirty: PropTypes.bool,
+};
+GenericRadioInput.defaultProps = {
+  isDirty: false,
 };

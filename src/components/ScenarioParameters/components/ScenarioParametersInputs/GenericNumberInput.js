@@ -24,7 +24,7 @@ function getMaxValue(parameterData) {
   return parameterData.maxValue;
 }
 
-export const GenericNumberInput = ({ parameterData, context, parameterValue, setParameterValue }) => {
+export const GenericNumberInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty }) => {
   const { t } = useTranslation();
   const inputProps = {
     min: getMinValue(parameterData),
@@ -50,6 +50,7 @@ export const GenericNumberInput = ({ parameterData, context, parameterValue, set
       changeNumberField={setParameterValue}
       textFieldProps={textFieldProps}
       inputProps={inputProps}
+      isDirty={isDirty}
     />
   );
 };
@@ -59,4 +60,8 @@ GenericNumberInput.propTypes = {
   context: PropTypes.object.isRequired,
   parameterValue: PropTypes.any,
   setParameterValue: PropTypes.func.isRequired,
+  isDirty: PropTypes.bool,
+};
+GenericNumberInput.defaultProps = {
+  isDirty: false,
 };
