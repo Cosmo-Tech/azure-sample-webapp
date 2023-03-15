@@ -37,6 +37,7 @@ export const WORKSPACE_EXAMPLE = {
     url: null,
     iframes: null,
     options: {
+      // Note: "instanceView" intentionally left undefined
       charts: {
         workspaceId: '290de699-9026-42c0-8c83-e4e87c3f22dd',
         logInWithUserCredentials: false,

@@ -2,6 +2,9 @@
 // Licensed under the MIT license.
 
 import utils from '../../commons/TestUtils';
+import { setup } from '../../commons/utils/setup';
+import { stub } from '../../commons/services/stubbing';
+import { DEFAULT_WORKSPACE } from '../../fixtures/stubbing/default/workspaces';
 import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
 import { InstanceVisualization, Scenarios, ScenarioManager, Login } from '../../commons/actions';
 
@@ -9,7 +12,30 @@ Cypress.Keyboard.defaults({
   keystrokeDelay: 0,
 });
 
-describe('Instance view', () => {
+const BASE_URL = Cypress.config().baseUrl;
+const url = BASE_URL + '/' + DEFAULT_WORKSPACE.id;
+
+describe('Instance view disabled', () => {
+  before(() => {
+    setup.initCypressAndStubbing();
+    Login.login(url);
+    stub.start();
+  });
+
+  beforeEach(() => {
+    Login.relogin(url);
+  });
+
+  after(() => {
+    stub.stop();
+  });
+
+  it('does not show the instance view tab if config is invalid', () => {
+    InstanceVisualization.getInstanceVisualizationViewTab().should('not.exist');
+  });
+});
+
+describe('Instance view when enabled', () => {
   before(() => {
     Login.login();
   });
