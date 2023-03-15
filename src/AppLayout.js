@@ -33,10 +33,10 @@ const DEFAULT_TABS = [
 ];
 
 export const getTabsForCurrentWorkspace = (currentWorkspaceData) => {
-  const tabs = [...DEFAULT_TABS];
+  let tabs = [...DEFAULT_TABS];
 
   if (!ConfigUtils.isInstanceViewConfigValid(currentWorkspaceData?.webApp?.options?.instanceView)) {
-    tabs.filter((tab) => tab.key !== 'tabs.instance.key');
+    tabs = tabs.filter((tab) => tab.key !== 'tabs.instance.key');
   }
 
   return tabs;
