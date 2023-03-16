@@ -1,3 +1,9 @@
+## **5.0.1** <sub><sup>2023-03-16 ([f366bc0...bf4971f](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/f366bc0d...bf4971f7?diff=split))</sup></sub>
+
+### Bug Fixes
+
+- fix "digital twin" view tab always visible in the application top bar ([f366bc0](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/f366bc0d))
+
 ## **5.0.0** <sub><sup>2023-03-02 ([bdf506e...c5f01cb](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/bdf506e0...c5f01cba?diff=split))</sup></sub>
 
 ### Features
