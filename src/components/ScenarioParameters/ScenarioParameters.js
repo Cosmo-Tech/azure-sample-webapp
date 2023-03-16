@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import PropTypes from 'prop-types';
 import { Grid, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
@@ -47,6 +47,8 @@ const useStyles = makeStyles((theme) => ({
 const getRunTemplateParametersIds = (runTemplatesParametersIdsDict, runTemplateId) => {
   return runTemplatesParametersIdsDict?.[runTemplateId] || [];
 };
+
+const ScenarioResetValuesContext = React.createContext();
 
 const ScenarioParameters = ({
   editMode,
@@ -107,26 +109,32 @@ const ScenarioParameters = ({
     [datasetsData, runTemplateParametersIds, defaultParametersValues, currentScenarioData?.parametersValues]
   );
 
-  const generateParametersValuesFromOriginalValues = () => {
+  const generateParametersValuesFromOriginalValues = useCallback(() => {
     return ScenarioParametersUtils.buildParametersValuesFromOriginalValues(
       parametersValuesForReset,
       parametersMetadata,
       datasetsData,
       FileManagementUtils.buildClientFileDescriptorFromDataset
     );
-  };
+  }, [datasetsData, parametersMetadata, parametersValuesForReset]);
 
-  const resetParametersValues = () => {
-    const resetValues = generateParametersValuesFromOriginalValues();
-    reset(resetValues);
-  };
+  const scenarioResetValues = useMemo(
+    () => generateParametersValuesFromOriginalValues(),
 
-  const discardLocalChanges = () => {
+    [generateParametersValuesFromOriginalValues]
+  );
+
+  const resetParametersValues = useCallback(() => {
+    reset(scenarioResetValues);
+  }, [reset, scenarioResetValues]);
+
+  const discardLocalChanges = useCallback(() => {
     resetParametersValues();
-  };
+  }, [resetParametersValues]);
 
   const updateParameterValue = (parameterId, keyToPatch, newValue) => {
     const currentValue = getValues(parameterId);
+
     setValue(parameterId, {
       ...currentValue,
       [keyToPatch]: newValue,
@@ -224,6 +232,7 @@ const ScenarioParameters = ({
       launchScenario(scenarioId);
     }
     changeEditMode(false);
+    reset({ ...getValues() });
   };
 
   const preventSubmit = (event) => {
@@ -270,85 +279,87 @@ const ScenarioParameters = ({
 
   return (
     <div>
-      <Accordion expanded={accordionSummaryExpanded}>
-        <AccordionSummary
-          data-cy="scenario-params-accordion-summary"
-          className={classes.accordionSummary}
-          expandIcon={<ExpandMoreIcon />}
-          onClick={handleSummaryClick}
-        >
-          <Grid container className={classes.gridContainerSummary}>
-            <Grid className={classes.gridSummary}>
-              <Typography>{t('genericcomponent.text.scenario.parameters.title', 'Scenario parameters')}</Typography>
+      <ScenarioResetValuesContext.Provider value={scenarioResetValues}>
+        <Accordion expanded={accordionSummaryExpanded}>
+          <AccordionSummary
+            data-cy="scenario-params-accordion-summary"
+            className={classes.accordionSummary}
+            expandIcon={<ExpandMoreIcon />}
+            onClick={handleSummaryClick}
+          >
+            <Grid container className={classes.gridContainerSummary}>
+              <Grid className={classes.gridSummary}>
+                <Typography>{t('genericcomponent.text.scenario.parameters.title', 'Scenario parameters')}</Typography>
+              </Grid>
+              <Grid item>
+                {/* FIXME: add PLATFORM.ADMIN bypass */}
+                <PermissionsGate
+                  userPermissions={userPermissionsOnCurrentScenario}
+                  necessaryPermissions={[ACL_PERMISSIONS.SCENARIO.WRITE, ACL_PERMISSIONS.SCENARIO.LAUNCH]}
+                >
+                  {editMode ? (
+                    <EditModeButton
+                      classes={classes}
+                      handleClickOnDiscardChange={(event) => askDiscardConfirmation(event)}
+                      handleClickOnUpdateAndLaunchScenario={(event) => confirmAndLaunch(event, true)}
+                    />
+                  ) : (
+                    <NormalModeButton
+                      classes={classes}
+                      handleClickOnEdit={(event) => startParametersEdition(event)}
+                      handleClickOnLaunchScenario={(event) => confirmAndLaunch(event, false)}
+                      editDisabled={isEditDisabled}
+                      runDisabled={isCurrentScenarioRunning}
+                      disabledEditTooltip={disabledEditTooltip}
+                    />
+                  )}
+                </PermissionsGate>
+              </Grid>
             </Grid>
-            <Grid item>
-              {/* FIXME: add PLATFORM.ADMIN bypass */}
-              <PermissionsGate
-                userPermissions={userPermissionsOnCurrentScenario}
-                necessaryPermissions={[ACL_PERMISSIONS.SCENARIO.WRITE, ACL_PERMISSIONS.SCENARIO.LAUNCH]}
-              >
-                {editMode ? (
-                  <EditModeButton
-                    classes={classes}
-                    handleClickOnDiscardChange={(event) => askDiscardConfirmation(event)}
-                    handleClickOnUpdateAndLaunchScenario={(event) => confirmAndLaunch(event, true)}
+          </AccordionSummary>
+          <AccordionDetails>
+            <div className={classes.accordionDetailsContent}>
+              {
+                <form onSubmit={preventSubmit}>
+                  <ScenarioParametersTabsWrapper
+                    parametersGroupsMetadata={parametersGroupsMetadata}
+                    userRoles={userRoles}
+                    context={context}
                   />
-                ) : (
-                  <NormalModeButton
-                    classes={classes}
-                    handleClickOnEdit={(event) => startParametersEdition(event)}
-                    handleClickOnLaunchScenario={(event) => confirmAndLaunch(event, false)}
-                    editDisabled={isEditDisabled}
-                    runDisabled={isCurrentScenarioRunning}
-                    disabledEditTooltip={disabledEditTooltip}
-                  />
-                )}
-              </PermissionsGate>
-            </Grid>
-          </Grid>
-        </AccordionSummary>
-        <AccordionDetails>
-          <div className={classes.accordionDetailsContent}>
-            {
-              <form onSubmit={preventSubmit}>
-                <ScenarioParametersTabsWrapper
-                  parametersGroupsMetadata={parametersGroupsMetadata}
-                  userRoles={userRoles}
-                  context={context}
-                />
-              </form>
-            }
-          </div>
-        </AccordionDetails>
-      </Accordion>
-      <SimpleTwoActionsDialog
-        id={'discard-changes'}
-        open={showDiscardConfirmationPopup}
-        labels={{
-          title: t('genericcomponent.dialog.scenario.parameters.title'),
-          body: t('genericcomponent.dialog.scenario.parameters.body'),
-          button1: t('genericcomponent.dialog.scenario.parameters.button.cancel'),
-          button2: t('genericcomponent.dialog.scenario.parameters.button.validate'),
-        }}
-        handleClickOnButton1={cancelDiscard}
-        handleClickOnButton2={confirmDiscard}
-      />
-      <DontAskAgainDialog
-        id={'launch'}
-        open={showWarningBeforeLaunchPopup}
-        labels={{
-          title: t('genericcomponent.dialog.scenario.parameters.confirmLaunchDialog.title'),
-          body: t('genericcomponent.dialog.scenario.parameters.confirmLaunchDialog.body'),
-          cancel: t('genericcomponent.dialog.scenario.parameters.button.cancel'),
-          confirm: t('genericcomponent.dialog.scenario.parameters.button.launch'),
-          checkbox: t('genericcomponent.dialog.scenario.parameters.confirmLaunchDialog.checkbox'),
-        }}
-        onClose={closeConfirmLaunchDialog}
-        onConfirm={(dontAskAgain) => {
-          localStorage.setItem('dontAskAgainToConfirmLaunch', dontAskAgain);
-          startScenarioLaunch();
-        }}
-      />
+                </form>
+              }
+            </div>
+          </AccordionDetails>
+        </Accordion>
+        <SimpleTwoActionsDialog
+          id={'discard-changes'}
+          open={showDiscardConfirmationPopup}
+          labels={{
+            title: t('genericcomponent.dialog.scenario.parameters.title'),
+            body: t('genericcomponent.dialog.scenario.parameters.body'),
+            button1: t('genericcomponent.dialog.scenario.parameters.button.cancel'),
+            button2: t('genericcomponent.dialog.scenario.parameters.button.validate'),
+          }}
+          handleClickOnButton1={cancelDiscard}
+          handleClickOnButton2={confirmDiscard}
+        />
+        <DontAskAgainDialog
+          id={'launch'}
+          open={showWarningBeforeLaunchPopup}
+          labels={{
+            title: t('genericcomponent.dialog.scenario.parameters.confirmLaunchDialog.title'),
+            body: t('genericcomponent.dialog.scenario.parameters.confirmLaunchDialog.body'),
+            cancel: t('genericcomponent.dialog.scenario.parameters.button.cancel'),
+            confirm: t('genericcomponent.dialog.scenario.parameters.button.launch'),
+            checkbox: t('genericcomponent.dialog.scenario.parameters.confirmLaunchDialog.checkbox'),
+          }}
+          onClose={closeConfirmLaunchDialog}
+          onConfirm={(dontAskAgain) => {
+            localStorage.setItem('dontAskAgainToConfirmLaunch', dontAskAgain);
+            startScenarioLaunch();
+          }}
+        />
+      </ScenarioResetValuesContext.Provider>
     </div>
   );
 };
@@ -361,3 +372,6 @@ ScenarioParameters.propTypes = {
 };
 
 export default ScenarioParameters;
+export const useScenarioResetValues = () => {
+  return useContext(ScenarioResetValuesContext);
+};

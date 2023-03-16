@@ -2,14 +2,22 @@
 // Licensed under the MIT license.
 
 import React from 'react';
-import { UploadFile } from '@cosmotech/ui';
+import { UploadFile, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { ConfigUtils, TranslationUtils, FileManagementUtils } from '../../../../utils';
 import { useOrganizationId } from '../../../../state/hooks/OrganizationHooks.js';
 import { useWorkspaceId } from '../../../../state/hooks/WorkspaceHooks.js';
 
-export const GenericUploadFile = ({ parameterData, context, parameterValue, setParameterValue }) => {
+export const GenericUploadFile = ({
+  parameterData,
+  context,
+  parameterValue,
+  setParameterValue,
+  defaultParameterValue,
+  resetParameterValue,
+  isDirty,
+}) => {
   const { t } = useTranslation();
   const organizationId = useOrganizationId();
   const workspaceId = useWorkspaceId();
@@ -26,9 +34,16 @@ export const GenericUploadFile = ({ parameterData, context, parameterValue, setP
   }
 
   function setClientFileDescriptorStatus(newFileStatus) {
-    updateParameterValue({
-      status: newFileStatus,
-    });
+    const shouldReset =
+      newFileStatus === UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE &&
+      defaultParameterValue?.status === UPLOAD_FILE_STATUS_KEY.EMPTY;
+    if (shouldReset) {
+      resetParameterValue(defaultParameterValue);
+    } else {
+      updateParameterValue({
+        status: newFileStatus,
+      });
+    }
   }
 
   const labels = {
@@ -54,6 +69,7 @@ export const GenericUploadFile = ({ parameterData, context, parameterValue, setP
       }}
       file={parameter}
       editMode={context.editMode}
+      isDirty={isDirty}
     />
   );
 };
@@ -63,4 +79,10 @@ GenericUploadFile.propTypes = {
   context: PropTypes.object.isRequired,
   parameterValue: PropTypes.any,
   setParameterValue: PropTypes.func.isRequired,
+  defaultParameterValue: PropTypes.any,
+  resetParameterValue: PropTypes.func.isRequired,
+  isDirty: PropTypes.bool,
+};
+GenericUploadFile.defaultProps = {
+  isDirty: false,
 };
