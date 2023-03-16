@@ -4,6 +4,10 @@
 
 - fix "digital twin" view tab always visible in the application top bar ([f366bc0](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/f366bc0d))
 
+### Dependencies
+
+- upgrade webpack to 5.76.2
+
 ## **5.0.0** <sub><sup>2023-03-02 ([bdf506e...c5f01cb](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/bdf506e0...c5f01cba?diff=split))</sup></sub>
 
 ### Features
