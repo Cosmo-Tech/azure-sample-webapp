@@ -39,7 +39,14 @@ const _generateGridDataFromXLSX = async (fileBlob, parameterData, options) => {
   );
 };
 
-export const GenericTable = ({ parameterData, context, parameterValue, setParameterValue }) => {
+export const GenericTable = ({
+  parameterData,
+  context,
+  parameterValue,
+  setParameterValue,
+  resetParameterValue,
+  isDirty,
+}) => {
   const { t } = useTranslation();
   const organizationId = useOrganizationId();
   const workspaceId = useWorkspaceId();
@@ -87,7 +94,7 @@ export const GenericTable = ({ parameterData, context, parameterValue, setParame
   // parameter state value will be update only in last call.
   // We need here to use a ref value for be sure to have the good value.
   const lastNewParameterValue = useRef(parameter);
-  const updateParameterValue = (newValuePart) => {
+  const updateParameterValue = (newValuePart, shouldReset = false) => {
     const newParameterValue = {
       ...lastNewParameterValue.current,
       ...newValuePart,
@@ -104,9 +111,17 @@ export const GenericTable = ({ parameterData, context, parameterValue, setParame
     setTimeout(() => {
       // Prevent useless update of parameterValue if multiple updateParameterValue was done before
       if (lastNewParameterValue.current === newParameterValue) {
-        setParameterValue(newParameterValue);
+        if (shouldReset) {
+          resetParameterValue(newParameterValue);
+        } else {
+          setParameterValue(newParameterValue);
+        }
       }
     });
+  };
+
+  const updateParameterValueWithReset = (newValuePart) => {
+    updateParameterValue(newValuePart, true);
   };
 
   useEffect(() => {
@@ -121,11 +136,18 @@ export const GenericTable = ({ parameterData, context, parameterValue, setParame
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [parameterValue]);
 
-  const setClientFileDescriptorStatuses = (newFileStatus, newTableDataStatus) => {
-    updateParameterValue({
-      status: newFileStatus,
-      tableDataStatus: newTableDataStatus,
-    });
+  const setClientFileDescriptorStatuses = (newFileStatus, newTableDataStatus, shouldReset = false) => {
+    updateParameterValue(
+      {
+        status: newFileStatus,
+        tableDataStatus: newTableDataStatus,
+      },
+      shouldReset
+    );
+  };
+
+  const setClientFileDescriptorStatusesWithReset = (newFileStatus, newTableDataStatus) => {
+    setClientFileDescriptorStatuses(newFileStatus, newTableDataStatus, true);
   };
 
   const _checkForLock = () => {
@@ -168,7 +190,7 @@ export const GenericTable = ({ parameterData, context, parameterValue, setParame
       workspaceId,
       datasets,
       datasetId,
-      setClientFileDescriptorStatuses
+      setClientFileDescriptorStatusesWithReset
     );
 
     if (data) {
@@ -414,7 +436,13 @@ export const GenericTable = ({ parameterData, context, parameterValue, setParame
       parameter.status === UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD &&
       !alreadyDownloaded
     ) {
-      _downloadDatasetFileContentFromStorage(organizationId, workspaceId, datasets, parameter, updateParameterValue);
+      _downloadDatasetFileContentFromStorage(
+        organizationId,
+        workspaceId,
+        datasets,
+        parameter,
+        updateParameterValueWithReset
+      );
     }
   });
 
@@ -475,6 +503,7 @@ export const GenericTable = ({ parameterData, context, parameterValue, setParame
         onClearErrors={onClearErrors}
         buildErrorsPanelTitle={buildErrorsPanelTitle}
         maxErrorsCount={MAX_ERRORS_COUNT}
+        isDirty={isDirty}
       />
     </>
   );
@@ -485,4 +514,9 @@ GenericTable.propTypes = {
   context: PropTypes.object.isRequired,
   parameterValue: PropTypes.any,
   setParameterValue: PropTypes.func.isRequired,
+  resetParameterValue: PropTypes.func.isRequired,
+  isDirty: PropTypes.bool,
+};
+GenericTable.defaultProps = {
+  isDirty: false,
 };

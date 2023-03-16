@@ -2,11 +2,12 @@
 // Licensed under the MIT license.
 
 import React, { useCallback, useRef } from 'react';
-import { Controller } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 import { ConfigUtils } from '../../../../utils/ConfigUtils';
 import { VAR_TYPES_COMPONENTS_MAPPING } from '../../../../utils/scenarioParameters/VarTypesComponentsMapping';
 import PropTypes from 'prop-types';
 import { useStore } from 'react-redux';
+import { useScenarioResetValues } from '../../ScenarioParameters';
 
 const ScenarioParameterInput = ({ parameterData, context }) => {
   const subType = ConfigUtils.getParameterAttribute(parameterData, 'subType');
@@ -14,6 +15,9 @@ const ScenarioParameterInput = ({ parameterData, context }) => {
   let varTypeFactory;
 
   const store = useStore();
+
+  const { resetField } = useFormContext();
+  const scenarioResetValues = useScenarioResetValues();
 
   const getCurrentScenarioId = useCallback(() => store.getState().scenario?.current?.data?.id, [store]);
   const scenarioIdOnMount = useRef(getCurrentScenarioId());
@@ -44,6 +48,12 @@ const ScenarioParameterInput = ({ parameterData, context }) => {
           }
         };
 
+        const resetParameterValue = (newDefaultValue) => {
+          if (scenarioIdOnMount.current === getCurrentScenarioId()) {
+            resetField(parameterData.id, { defaultValue: newDefaultValue });
+          }
+        };
+
         const props = {
           parameterData,
           context,
@@ -51,6 +61,8 @@ const ScenarioParameterInput = ({ parameterData, context }) => {
           parameterValue,
           setParameterValue,
           isDirty,
+          defaultParameterValue: scenarioResetValues[parameterData.id],
+          resetParameterValue,
         };
         // name property helps distinguish React components from factories
         if ('name' in varTypeFactory) {

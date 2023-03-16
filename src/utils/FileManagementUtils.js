@@ -147,7 +147,8 @@ async function _processFileUpload(
 
 // FIXME: Due to parametersValues inheritance, the workspace file deletion leads to incoherent state when a dataset
 // part file is uploaded. For the moment, the workspace file deletion is omitted. This will be fixed in next version
-async function _processFileDeletion() {
+async function _processFileDeletion(setClientFileDescriptorStatus) {
+  setClientFileDescriptorStatus(UPLOAD_FILE_STATUS_KEY.EMPTY);
   return null;
 }
 
@@ -171,7 +172,7 @@ async function _applyDatasetChange(
       addDatasetToStore
     );
   } else if (fileStatus === UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE) {
-    return await _processFileDeletion();
+    return await _processFileDeletion(setClientFileDescriptorStatus);
   } else if (fileStatus === UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD || fileStatus === UPLOAD_FILE_STATUS_KEY.EMPTY) {
     return parameterValue;
   }
