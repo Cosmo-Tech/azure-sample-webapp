@@ -45,7 +45,7 @@ describe('Switching between workspaces and running four scenarios at the same ti
 
   it('can create, edit, upload files, create children and run four scenarios at the same time', () => {
     Login.login();
-    Workspaces.getWorkspacesView(10000).should('exist');
+    Workspaces.getWorkspacesView(10).should('exist');
     Workspaces.selectWorkspace(REAL_BREWERY_WORKSPACE_ID);
 
     // create first parent scenario, edit and launch it
@@ -228,7 +228,7 @@ describe('Switching between workspaces and running four scenarios at the same ti
 
   it('checks that two identical scenarios can exist in two workspaces', () => {
     Login.login();
-    Workspaces.getWorkspacesView(10000).should('exist');
+    Workspaces.getWorkspacesView(10).should('exist');
     Workspaces.selectWorkspace(REAL_BREWERY_WORKSPACE_ID);
 
     // create first scenario, update its parameters and launch

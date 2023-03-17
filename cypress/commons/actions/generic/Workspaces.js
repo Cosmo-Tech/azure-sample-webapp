@@ -4,8 +4,8 @@
 import { apiUtils as api } from '../../utils';
 import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
 
-function getWorkspacesView(timeout = 4000) {
-  return cy.get(GENERIC_SELECTORS.workspace.view, { timeout });
+function getWorkspacesView(timeout = 5) {
+  return cy.get(GENERIC_SELECTORS.workspace.view, { timeout: timeout * 1000 });
 }
 
 function getWorkspaceCardById(workspaceId) {
