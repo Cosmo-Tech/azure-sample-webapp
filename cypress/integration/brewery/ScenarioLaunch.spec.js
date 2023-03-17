@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 import utils from '../../commons/TestUtils';
-import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
+import { routeUtils as route } from '../../commons/utils';
+import { BREWERY_WORKSPACE_ID, DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
 import { SCENARIO_RUN_IN_PROGRESS } from '../../commons/constants/generic/TestConstants';
 import { Scenarios, ScenarioManager, ScenarioParameters } from '../../commons/actions';
 import { Login } from '../../commons/actions/brewery';
-import { ScenarioSelector } from '../../commons/actions/generic/ScenarioSelector';
 
 Cypress.Keyboard.defaults({
   keystrokeDelay: 0,
@@ -42,7 +42,11 @@ describe('Launch scenario', () => {
   });
 
   it('confirmation launch dialog can be hidden', () => {
-    ScenarioSelector.selectScenario(scenariosNames[0], scenariosIds[0]);
+    route.browse({
+      url: `${BREWERY_WORKSPACE_ID}/scenario/${scenariosIds[0]}`,
+      workspaceId: BREWERY_WORKSPACE_ID,
+      scenarioId: scenariosIds[0],
+    });
 
     ScenarioParameters.getLaunchConfirmDialog().should('not.exist');
     ScenarioParameters.getLaunchButton().click();
@@ -58,7 +62,11 @@ describe('Launch scenario', () => {
     ScenarioParameters.getLaunchConfirmDialog().should('not.exist');
     Scenarios.getDashboardPlaceholder().should('have.text', SCENARIO_RUN_IN_PROGRESS);
 
-    ScenarioSelector.selectScenario(scenariosNames[1], scenariosIds[1]);
+    route.browse({
+      url: `${BREWERY_WORKSPACE_ID}/scenario/${scenariosIds[1]}`,
+      workspaceId: BREWERY_WORKSPACE_ID,
+      scenarioId: scenariosIds[1],
+    });
     ScenarioParameters.getLaunchButton().click();
     ScenarioParameters.getDontAskAgainCheckbox().should('not.be.checked');
     ScenarioParameters.checkDontAskAgain();
@@ -66,13 +74,22 @@ describe('Launch scenario', () => {
     ScenarioParameters.getLaunchConfirmDialog().should('not.exist');
     Scenarios.getDashboardPlaceholder().should('have.text', SCENARIO_RUN_IN_PROGRESS);
 
-    ScenarioSelector.selectScenario(scenariosNames[2], scenariosIds[2]);
+    route.browse({
+      url: `${BREWERY_WORKSPACE_ID}/scenario/${scenariosIds[2]}`,
+      workspaceId: BREWERY_WORKSPACE_ID,
+      scenarioId: scenariosIds[2],
+    });
     ScenarioParameters.getLaunchButton().click();
     ScenarioParameters.getLaunchConfirmDialog().should('not.exist');
     Scenarios.getDashboardPlaceholder().should('have.text', SCENARIO_RUN_IN_PROGRESS);
 
     cy.clearLocalStorage('dontAskAgainToConfirmLaunch');
-    ScenarioSelector.selectScenario(scenariosNames[3], scenariosIds[3]);
+
+    route.browse({
+      url: `${BREWERY_WORKSPACE_ID}/scenario/${scenariosIds[3]}`,
+      workspaceId: BREWERY_WORKSPACE_ID,
+      scenarioId: scenariosIds[3],
+    });
     ScenarioParameters.getLaunchButton().click();
     ScenarioParameters.getLaunchConfirmDialog().should('be.visible');
     ScenarioParameters.getDontAskAgainCheckbox().should('not.be.checked');
