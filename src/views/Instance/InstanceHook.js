@@ -4,7 +4,7 @@
 import { useCurrentScenario, useScenarioList, useFindScenarioById } from '../../state/hooks/ScenarioHooks';
 import { useWorkspaceId, useWorkspaceInstanceViewConfig } from '../../state/hooks/WorkspaceHooks';
 import { useOrganizationId } from '../../state/hooks/OrganizationHooks';
-import { useRedirectionToScenario } from '../../hooks/RouterHooks';
+import { useRedirectionToScenario, useRedirectFromInstanceToSenarioView } from '../../hooks/RouterHooks';
 
 export const useInstance = () => {
   const scenarioList = useScenarioList();
@@ -21,6 +21,7 @@ export const useInstance = () => {
     currentScenario,
     findScenarioById,
     useRedirectionToScenario,
+    useRedirectFromInstanceToSenarioView,
     instanceViewConfig,
   };
 };

@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Tabs as MuiTabs, Tab, Box } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { Link, useLocation, useMatch, Outlet, useParams, useNavigate } from 'react-router-dom';
@@ -12,6 +12,8 @@ import { AppBar } from '../../components/AppBar';
 import { useApplicationError, useClearApplicationErrorMessage } from '../../state/hooks/ApplicationHooks';
 import { DashboardsManager } from '../../managers';
 import { useSelectWorkspace, useWorkspace } from '../../state/hooks/WorkspaceHooks';
+import { filterTabsForCurrentWorkspace } from '../../AppLayout';
+import { ConfigUtils } from '../../utils';
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -39,6 +41,11 @@ export const TabLayout = (props) => {
   const currentWorkspace = useWorkspace();
   const navigate = useNavigate();
   const selectWorkspace = useSelectWorkspace();
+  const filteredTabs = useMemo(
+    () => filterTabsForCurrentWorkspace(tabs, currentWorkspace?.data),
+    [tabs, currentWorkspace?.data]
+  );
+
   useEffect(() => {
     if (currentWorkspace?.status === 'ERROR') {
       navigate('/workspaces');
@@ -46,11 +53,16 @@ export const TabLayout = (props) => {
       selectWorkspace(routerParameters.workspaceId);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentWorkspace?.status]);
+  }, [currentWorkspace?.status, currentWorkspace?.data?.webApp?.options?.instanceView, currentTabPathname]);
+
+  const isPathInvalid =
+    currentTabPathname.startsWith(`/${routerParameters.workspaceId}/instance`) &&
+    !ConfigUtils.isInstanceViewConfigValid(currentWorkspace?.data?.webApp?.options?.instanceView);
+  const tabValue = isPathInvalid ? `/${routerParameters.workspaceId}/scenario` : currentTabPathname;
 
   const viewTabs = (
-    <MuiTabs value={currentTabPathname} indicatorColor="secondary" textColor="inherit">
-      {tabs.map((tab) => (
+    <MuiTabs value={tabValue} indicatorColor="secondary" textColor="inherit">
+      {filteredTabs.map((tab) => (
         <Tab
           data-cy={tab.key}
           key={tab.key}

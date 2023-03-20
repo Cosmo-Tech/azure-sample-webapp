@@ -4,7 +4,30 @@
 import { useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useCurrentScenario, useFindScenarioById, useUpdateCurrentScenario } from '../state/hooks/ScenarioHooks';
+import { useWorkspaceData } from '../state/hooks/WorkspaceHooks';
 import { STATUSES } from '../state/commons/Constants';
+import { ConfigUtils } from '../utils';
+
+export const useRedirectFromInstanceToSenarioView = () => {
+  const isUnmounted = useRef(false);
+  const currentWorkspaceData = useWorkspaceData();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isUnmounted.current) {
+      return;
+    }
+    const isInstanceViewEnabled = ConfigUtils.isInstanceViewConfigValid(
+      currentWorkspaceData?.webApp?.options?.instanceView
+    );
+    if (isInstanceViewEnabled) return;
+    navigate('/workspaces');
+    return () => {
+      isUnmounted.current = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentWorkspaceData?.webApp?.options?.instanceView]);
+};
 
 export const useRedirectionToScenario = (sortedScenarioList) => {
   const isMounted = useRef(false);
@@ -39,7 +62,7 @@ export const useRedirectionToScenario = (sortedScenarioList) => {
       }
     }
     isMounted.current = true;
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentScenario?.data?.id]);
 
   // this function enables backwards navigation between scenario's URLs

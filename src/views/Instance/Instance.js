@@ -29,6 +29,7 @@ const Instance = (props) => {
     currentScenario,
     findScenarioById,
     useRedirectionToScenario,
+    useRedirectFromInstanceToSenarioView,
     instanceViewConfig,
   } = useInstance();
 
@@ -41,6 +42,7 @@ const Instance = (props) => {
   useEffect(() => {
     appInsights.setScenarioData(currentScenario.data);
   }, [currentScenario]);
+
   const handleScenarioChange = (event, scenario) => {
     if (scenario.id !== currentScenario.data?.id) {
       setIsLoadingData(true);
@@ -53,6 +55,7 @@ const Instance = (props) => {
   const scenarioListLabel = noScenario ? null : t('views.scenario.dropdown.scenario.label', 'Scenario');
   const isSwitchingScenario = currentScenario.status === STATUSES.LOADING;
   useRedirectionToScenario(sortedScenarioList);
+  useRedirectFromInstanceToSenarioView();
 
   useEffect(() => {
     // Note that the "active" variable is necessary to prevent race conditions when the effect is called several times

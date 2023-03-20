@@ -33,11 +33,16 @@ const DEFAULT_TABS = [
 ];
 
 export const getTabsForCurrentWorkspace = (currentWorkspaceData) => {
-  let tabs = [...DEFAULT_TABS];
+  return filterTabsForCurrentWorkspace([...DEFAULT_TABS], currentWorkspaceData);
+};
 
+export const filterTabsForCurrentWorkspace = (tabs, currentWorkspaceData) => {
   if (!ConfigUtils.isInstanceViewConfigValid(currentWorkspaceData?.webApp?.options?.instanceView)) {
-    tabs = tabs.filter((tab) => tab.key !== 'tabs.instance.key');
+    return tabs.filter((tab) => tab.key !== 'tabs.instance.key');
   }
-
   return tabs;
+};
+
+export const getAllTabs = () => {
+  return DEFAULT_TABS;
 };

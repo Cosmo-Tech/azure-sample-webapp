@@ -1,12 +1,12 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Routes, Navigate, Route, useNavigationType } from 'react-router-dom';
 import { TabLayout } from './layouts';
 import Workspaces from './views/Workspaces';
-import { useWorkspaceData, useWorkspaceId } from './state/hooks/WorkspaceHooks';
-import { getTabsForCurrentWorkspace } from './AppLayout';
+import { useWorkspaceId } from './state/hooks/WorkspaceHooks';
+import { getAllTabs } from './AppLayout';
 import { UserStatusGate } from './components';
 
 const AppRoutes = () => {
@@ -14,8 +14,7 @@ const AppRoutes = () => {
   const providedUrl = sessionStorage.getItem('providedUrl');
   const providedUrlBeforeSignIn = sessionStorage.getItem('providedUrlBeforeSignIn');
   const currentWorkspaceId = useWorkspaceId();
-  const currentWorkspaceData = useWorkspaceData();
-  const tabs = useMemo(() => getTabsForCurrentWorkspace(currentWorkspaceData), [currentWorkspaceData]);
+  const tabs = getAllTabs();
 
   return (
     <Routes>
