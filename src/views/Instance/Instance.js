@@ -76,6 +76,8 @@ const Instance = (props) => {
       } else {
         try {
           const scenario = await fetchData(instanceViewConfig, organizationId, workspaceId, currentScenario.data?.id);
+          if (!active) return;
+
           // TODO: (refactor) to improve performance, we don't need to recompute the whole graph elements set when the
           // theme is changed, we could rebuild only the stylesheet
           const { graphElements: newGraphElements, stylesheet } = processGraphElements(
@@ -84,12 +86,10 @@ const Instance = (props) => {
             theme
           );
 
-          if (active) {
-            setGraphElements(newGraphElements);
-            setCytoscapeStylesheet(stylesheet);
-            setErrorBannerMessage(null);
-            setIsLoadingData(false);
-          }
+          setGraphElements(newGraphElements);
+          setCytoscapeStylesheet(stylesheet);
+          setErrorBannerMessage(null);
+          setIsLoadingData(false);
         } catch (error) {
           setErrorBannerMessage(parseError(error));
         }
