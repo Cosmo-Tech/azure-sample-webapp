@@ -11,19 +11,6 @@ import {
 import { DEFAULT_SCENARIOS_LIST, EXTENDED_WORKSPACES_LIST } from '../../fixtures/stubbing/default';
 import { apiUtils as api, routeUtils as route } from '../../commons/utils';
 
-// Add dummy instance data in all workspaces to enable the instance view tab
-const WORKSPACES = EXTENDED_WORKSPACES_LIST.map((workspace) => {
-  workspace.webApp.options.instanceView = {
-    dataSource: {
-      type: 'adt',
-      functionUrl: 'dummy_function_url',
-      functionKey: 'dummy_function_key',
-    },
-    dataContent: {},
-  };
-  return workspace;
-});
-
 describe('Back and forward navigation between tabs, scenarios and workspaces', () => {
   before(() => {
     setup.initCypressAndStubbing();
@@ -33,7 +20,7 @@ describe('Back and forward navigation between tabs, scenarios and workspaces', (
       GET_WORKSPACES: true,
       GET_SOLUTIONS: true,
     });
-    stub.setWorkspaces(WORKSPACES);
+    stub.setWorkspaces(EXTENDED_WORKSPACES_LIST);
   });
   beforeEach(() => {
     Login.loginWithoutWorkspace();
@@ -43,7 +30,7 @@ describe('Back and forward navigation between tabs, scenarios and workspaces', (
   });
   it('checks back and forward navigation inside the web app', () => {
     Workspaces.getWorkspacesView().should('exist');
-    Workspaces.selectWorkspace(WORKSPACES[2].id);
+    Workspaces.selectWorkspace(EXTENDED_WORKSPACES_LIST[2].id);
 
     Scenarios.getScenarioViewTab(60).should('be.visible');
     ScenarioSelector.selectScenario(DEFAULT_SCENARIOS_LIST[3].name, DEFAULT_SCENARIOS_LIST[3].id);
@@ -117,7 +104,7 @@ describe('Back and forward navigation between tabs, scenarios and workspaces', (
     Workspaces.getHomeButton().should('be.visible').click();
     Workspaces.getWorkspacesView().should('exist');
     api.interceptNewPageQueries();
-    Workspaces.selectWorkspace(WORKSPACES[1].id);
+    Workspaces.selectWorkspace(EXTENDED_WORKSPACES_LIST[1].id);
     Scenarios.getScenarioViewTab(60).should('be.visible');
 
     ScenarioSelector.selectScenario(DEFAULT_SCENARIOS_LIST[4].name, DEFAULT_SCENARIOS_LIST[4].id);
@@ -126,7 +113,7 @@ describe('Back and forward navigation between tabs, scenarios and workspaces', (
     Workspaces.getHomeButton().should('be.visible').click();
     Workspaces.getWorkspacesView().should('exist');
     api.interceptNewPageQueries();
-    Workspaces.selectWorkspace(WORKSPACES[2].id);
+    Workspaces.selectWorkspace(EXTENDED_WORKSPACES_LIST[2].id);
     Scenarios.getScenarioViewTab(60).should('be.visible');
 
     ScenarioSelector.selectScenario(DEFAULT_SCENARIOS_LIST[1].name, DEFAULT_SCENARIOS_LIST[1].id);

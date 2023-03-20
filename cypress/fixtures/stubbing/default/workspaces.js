@@ -57,10 +57,21 @@ export const WORKSPACE_EXAMPLE = {
 export const DEFAULT_WORKSPACE = WORKSPACE_EXAMPLE;
 export const DEFAULT_WORKSPACES_LIST = [DEFAULT_WORKSPACE];
 
+const workspaceCopy = JSON.parse(JSON.stringify(DEFAULT_WORKSPACE));
+workspaceCopy.webApp.options.instanceView = {
+  dataSource: {
+    type: 'adt',
+    functionUrl: 'dummy_function_url',
+    functionKey: 'dummy_function_key',
+  },
+  dataContent: {},
+};
+export const WORKSPACE_WITH_INSTANCE_VIEW = workspaceCopy;
+
 export const EXTENDED_WORKSPACES_LIST = [];
 for (let i = 0; i < 5; ++i) {
   EXTENDED_WORKSPACES_LIST.push({
-    ...DEFAULT_WORKSPACE,
+    ...WORKSPACE_WITH_INSTANCE_VIEW,
     key: `StubbedWorkspace${i}`,
     name: `Sample Stubbed Workspace ${i}`,
     id: `W-splstbbdws${i}`,
