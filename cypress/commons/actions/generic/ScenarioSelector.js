@@ -60,7 +60,14 @@ function writeInScenarioSelectorInput(searchStr) {
     .type('{selectAll}{backspace}' + searchStr); // clear() does not always work, use "{selectAll}{backspace}" instead
 }
 
-function selectScenario(scenarioName, scenarioId) {
+// Parameters:
+// - scenarioName (string): character string to write in the scenario selector search field
+// - scenarioId (string): scenario id expected in the intercepted queries and elements metadata
+// - options (object):
+//   - skipEditButtonCheck (bool, default=false): if true, then the function does not perform checks on the state of
+//     the edit button after switching to the selected scenario; this option can be useful when the connected user does
+//     not have the edit permissions on the selected scenario (i.e. when the edit button is not visible)
+function selectScenario(scenarioName, scenarioId, options) {
   const getScenarioAlias = api.interceptGetScenario(scenarioId);
   writeInScenarioSelectorInput(scenarioName);
   getScenarioSelectorOption(scenarioId).should('be.visible').should('not.be.disabled');
@@ -74,10 +81,16 @@ function selectScenario(scenarioName, scenarioId) {
       expect(req.name).equal(scenarioName);
       cy.location().then((location) => {
         if (location.href.includes('scenario')) {
-          if (req.state === 'Running' || req.state === 'DataIngestionInProgress' || req.validationStatus !== 'Draft') {
-            ScenarioParameters.getParametersEditButton().should('be.disabled');
-          } else {
-            ScenarioParameters.getParametersEditButton().should('not.be.disabled');
+          if (options?.skipEditButtonCheck === true) {
+            if (
+              req.state === 'Running' ||
+              req.state === 'DataIngestionInProgress' ||
+              req.validationStatus !== 'Draft'
+            ) {
+              ScenarioParameters.getParametersEditButton().should('be.disabled');
+            } else {
+              ScenarioParameters.getParametersEditButton().should('not.be.disabled');
+            }
           }
           Scenarios.getScenarioLoadingSpinner(15).should('exist').should('not.be.visible');
         }
