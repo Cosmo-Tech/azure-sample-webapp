@@ -36,7 +36,6 @@ describe('Check workspace permissions for admin', () => {
     Scenarios.getScenarioValidateButton().should('be.visible').should('not.be.disabled');
     Scenarios.getScenarioRejectButton().should('be.visible').should('not.be.disabled');
     Scenarios.getScenarioCreationButton().should('be.visible').should('not.be.disabled');
-    ScenarioParameters.getParametersEditButton().should('be.visible').should('not.be.disabled');
     ScenarioParameters.getLaunchButton().should('be.visible').should('not.be.disabled');
     RolesEdition.getShareScenarioButton().should('be.visible').should('not.be.disabled').click();
     RolesEdition.addAgent(USERS_LIST[2].email);
@@ -165,7 +164,6 @@ describe('Check workspace permissions for Viewer, Editor & Validator', () => {
 
     Scenarios.getScenarioValidateButton().should('not.exist');
     Scenarios.getScenarioRejectButton().should('not.exist');
-    ScenarioParameters.getParametersEditButton().should('not.exist');
     ScenarioParameters.getLaunchButton().should('not.exist');
 
     ScenarioManager.switchToScenarioManager();
@@ -180,7 +178,6 @@ describe('Check workspace permissions for Viewer, Editor & Validator', () => {
 
     Scenarios.getScenarioValidateButton().should('not.exist');
     Scenarios.getScenarioRejectButton().should('not.exist');
-    ScenarioParameters.getParametersEditButton().should('be.visible').should('not.be.disabled');
     ScenarioParameters.getLaunchButton().should('be.visible').should('not.be.disabled');
 
     ScenarioManager.switchToScenarioManager();
@@ -197,7 +194,6 @@ describe('Check workspace permissions for Viewer, Editor & Validator', () => {
 
     Scenarios.getScenarioValidateButton().should('be.visible').should('not.be.disabled');
     Scenarios.getScenarioRejectButton().should('be.visible').should('not.be.disabled');
-    ScenarioParameters.getParametersEditButton().should('be.visible').should('not.be.disabled');
     ScenarioParameters.getLaunchButton().should('be.visible').should('not.be.disabled');
 
     ScenarioManager.switchToScenarioManager();

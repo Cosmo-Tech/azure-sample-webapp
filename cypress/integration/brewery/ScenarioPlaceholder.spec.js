@@ -23,8 +23,6 @@ describe('checks the placeholder text before and while running', () => {
     Scenarios.getDashboardPlaceholder().should('be.visible');
     Scenarios.getDashboardPlaceholder().should('have.text', 'The scenario has not been run yet');
     ScenarioParameters.getLaunchButton().click();
-    ScenarioParameters.getLaunchConfirmDialog().should('be.visible');
-    ScenarioParameters.getLaunchConfirmButton().click();
     Scenarios.getDashboardPlaceholder().should('have.text', SCENARIO_RUN_IN_PROGRESS);
     ScenarioParameters.getLaunchButton().should('be.disabled');
   });

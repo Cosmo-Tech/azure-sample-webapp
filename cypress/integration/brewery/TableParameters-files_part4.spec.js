@@ -59,11 +59,11 @@ describe('Table parameters files standard operations part 4', () => {
     BreweryParameters.getEventsTableCell('online', 4).should('have.text', 'false');
   });
 
-  it('can import two xlsx files, edit, upload, launch and export', () => {
+  it('can import two xlsx files, edit, upload, save and export', () => {
     const scenarioName = forgeScenarioName();
     scenarioNamesToDelete.push(scenarioName);
     Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
-    ScenarioParameters.edit();
+    ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.importCustomersTableData(CUSTOMERS_FILE_PATH);
 
@@ -130,7 +130,7 @@ describe('Table parameters files standard operations part 4', () => {
     BreweryParameters.exportEventsTableDataToCSV();
     Downloads.checkByContent('events.csv', EXPECTED_EVENTS_AFTER_XLSX_IMPORT);
 
-    ScenarioParameters.updateAndLaunch();
+    ScenarioParameters.save();
     // Check that cells values have been saved
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Bob');

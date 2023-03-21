@@ -15,6 +15,12 @@ function getScenarioView() {
 function getScenarioLoadingSpinner(timeout = 5) {
   return cy.get(GENERIC_SELECTORS.scenario.loadingSpinner, { timeout: timeout * 1000 });
 }
+function getScenarioBackdrop(timeout = 5) {
+  return cy.get(GENERIC_SELECTORS.scenario.backdrop, { timeout: timeout * 1000 });
+}
+function getScenarioBackdropSavingText() {
+  return cy.get(GENERIC_SELECTORS.scenario.savingText);
+}
 function getScenarioValidationStatusChip() {
   return cy.get(GENERIC_SELECTORS.scenario.validationStatusChip);
 }
@@ -95,7 +101,7 @@ function switchToScenarioView() {
 
 // Open scenario creation dialog
 function openScenarioCreationDialog() {
-  getScenarioCreationButton().click();
+  getScenarioCreationButton().should('not.be.disabled').click();
 }
 
 // From scenario creation dialog
@@ -215,6 +221,8 @@ export const Scenarios = {
   getScenarioView,
   getScenarioViewTab,
   getScenarioLoadingSpinner,
+  getScenarioBackdrop,
+  getScenarioBackdropSavingText,
   getScenarioValidationStatusChip,
   getScenarioValidationStatusChipDeleteIcon,
   getScenarioValidationStatusLoadingSpinner,

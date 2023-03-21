@@ -50,7 +50,6 @@ describe('Table parameters files standard operations part 1', () => {
   it('can import empty CSV & XLSX files and export the table afterwards', () => {
     ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
     const checkAndExport = () => {
-      ScenarioParameters.expandParametersAccordion();
       BreweryParameters.getCustomersErrorsPanel().should('not.exist');
       BreweryParameters.getCustomersTableHeader().should('be.visible');
       COL_NAMES.forEach((col) => {
@@ -61,7 +60,7 @@ describe('Table parameters files standard operations part 1', () => {
       BreweryParameters.exportCustomersTableDataToXLSX();
       Downloads.checkXLSXByContent('customers.xlsx', [COL_NAMES]);
     };
-    ScenarioParameters.edit();
+    ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.getCustomersTableHeader().should('not.exist');
     BreweryParameters.importCustomersTableData(CSV_VALID_FILE_PATH_EMPTY);
@@ -72,7 +71,7 @@ describe('Table parameters files standard operations part 1', () => {
 
   it('can import a CSV file with spaces and boolean values to re-format', () => {
     ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
-    ScenarioParameters.edit();
+    ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.importCustomersTableData(CSV_VALID_FILE_PATH_WITH_SPACES);
     BreweryParameters.getCustomersTableRows().should('have.length', 4);

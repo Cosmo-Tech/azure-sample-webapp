@@ -4,7 +4,6 @@
 // Select the scenario with the provided name and id
 import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
 import { apiUtils as api } from '../../utils';
-import { ScenarioParameters } from './ScenarioParameters';
 import { Scenarios } from './Scenarios';
 
 function getScenarioSelector(timeout = 5) {
@@ -84,17 +83,6 @@ function selectScenario(scenarioName, scenarioId, options) {
       expect(req.name).equal(scenarioName);
       cy.location().then((location) => {
         if (location.href.includes('scenario')) {
-          if (options?.skipEditButtonCheck === true) {
-            if (
-              req.state === 'Running' ||
-              req.state === 'DataIngestionInProgress' ||
-              req.validationStatus !== 'Draft'
-            ) {
-              ScenarioParameters.getParametersEditButton().should('be.disabled');
-            } else {
-              ScenarioParameters.getParametersEditButton().should('not.be.disabled');
-            }
-          }
           Scenarios.getScenarioLoadingSpinner(15).should('exist').should('not.be.visible');
         }
       });

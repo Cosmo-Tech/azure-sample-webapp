@@ -28,7 +28,7 @@ describe('Run templates without parameters', () => {
     const scenarioName = 'Test Cypress - Scenario without parameters - ' + utils.randomStr(7);
     scenarioNamesToDelete.push(scenarioName);
     Scenarios.createScenario(scenarioName, true, DATASET.BREWERY_ADT, RUN_TEMPLATE.WITHOUT_PARAMETERS).then((value) => {
-      ScenarioParameters.getParametersEditButton().should('be.disabled');
+      ScenarioParameters.expandParametersAccordion();
       BreweryParameters.getDatasetPartsTab().should('not.exist');
       BreweryParameters.getExtraDatasetPartTab().should('not.exist');
       BreweryParameters.getBasicTypesTab().should('not.exist');

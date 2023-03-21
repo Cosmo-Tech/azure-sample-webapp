@@ -41,11 +41,11 @@ describe('Table parameters files standard operations part 3', () => {
     ScenarioManager.deleteScenarioList(scenarioNamesToDelete);
   });
 
-  it('can import an XLSX file, edit, export and launch a scenario with the modified data', () => {
+  it('can import an XLSX file, edit, export and save a scenario with the modified data', () => {
     const scenarioName = forgeScenarioName();
     scenarioNamesToDelete.push(scenarioName);
     Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
-    ScenarioParameters.edit();
+    ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.importCustomersTableData(XLSX_VALID_FILE_PATH);
     BreweryParameters.getCustomersTableRows().should('have.length', 4);
@@ -63,7 +63,7 @@ describe('Table parameters files standard operations part 3', () => {
     BreweryParameters.editCustomersTableStringCell('height', 3, '2.01').should('have.text', '2.01');
     BreweryParameters.exportCustomersTableDataToCSV();
     Downloads.checkByContent('customers.csv', EXPECTED_CUSTOMERS_AFTER_XLSX_IMPORT);
-    ScenarioParameters.updateAndLaunch();
+    ScenarioParameters.save();
     // Check that cells values have been saved
     BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Bob');
     BreweryParameters.getCustomersTableCell('age', 0).should('have.text', '11');
@@ -77,7 +77,7 @@ describe('Table parameters files standard operations part 3', () => {
     const scenarioName = forgeScenarioName();
     scenarioNamesToDelete.push(scenarioName);
     Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
-    ScenarioParameters.edit();
+    ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.importCustomersTableData(CSV_VALID_FILE_PATH);
     // Initial values
@@ -146,7 +146,7 @@ describe('Table parameters files standard operations part 3', () => {
     const scenarioName = forgeScenarioName();
     scenarioNamesToDelete.push(scenarioName);
     Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
-    ScenarioParameters.edit();
+    ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.importCustomersTableData(CSV_VALID_FILE_PATH);
     BreweryParameters.getCustomersTableCell('canDrinkAlcohol', 1).should('have.text', 'false');

@@ -3,7 +3,7 @@
 
 import React from 'react';
 import rfdc from 'rfdc';
-import { createMockStore } from '../../../tests/mocks';
+import { createMockStore, MockFormProvider } from '../../../tests/mocks';
 import { dispatchApplyScenarioSharingChanges } from '../../state/dispatchers/scenario/ScenarioDispatcher';
 import { ROLES } from '../../../tests/constants';
 import { DEFAULT_REDUX_STATE, USERS_LIST } from '../../../tests/samples';
@@ -34,11 +34,15 @@ const getStateWithScenarioRole = (role) => {
 };
 
 let mockStore;
+
 const setUp = (role) => {
   mockStore = createMockStore(getStateWithScenarioRole(role));
+
   render(
     <Provider store={mockStore}>
-      <ShareCurrentScenarioButton />
+      <MockFormProvider>
+        <ShareCurrentScenarioButton />
+      </MockFormProvider>
     </Provider>
   );
 };

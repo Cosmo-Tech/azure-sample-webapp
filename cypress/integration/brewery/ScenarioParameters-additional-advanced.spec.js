@@ -41,7 +41,7 @@ describe('Additional advanced scenario parameters tests', () => {
       volumeUnit: 'L',
       additionalTables: 3,
       comment: 'None',
-      additionalDate: new Date('06/22/2022').toLocaleDateString(),
+      additionalDate: '06/22/2022',
     };
     const VALUES_TO_UPDATE = {
       additionalSeats: 888,
@@ -58,21 +58,19 @@ describe('Additional advanced scenario parameters tests', () => {
 
     BreweryParameters.switchToEventsTab();
     BreweryParameters.getEventsTableCell('reservationsNumber', 0).should('have.text', '200');
-    BreweryParameters.getAdditionalSeats().should('have.text', INIT_VALUES.additionalSeats);
-    BreweryParameters.getActivated().should('have.text', 'OFF');
+    BreweryParameters.getAdditionalSeatsInput().should('value', INIT_VALUES.additionalSeats);
+    BreweryParameters.getActivatedInput().should('not.be.checked');
 
     BreweryParameters.switchToAdditionalParametersTab();
-    BreweryParameters.getVolumeUnit().should('have.text', INIT_VALUES.volumeUnit);
-    BreweryParameters.getAdditionalTables().should('have.text', INIT_VALUES.additionalTables);
+    BreweryParameters.getVolumeUnitRadioButtonInput(INIT_VALUES.volumeUnit).should('be.checked');
+    BreweryParameters.getAdditionalTablesInput().should('value', INIT_VALUES.additionalTables);
 
     BreweryParameters.switchToEventsTab();
-    BreweryParameters.getEvaluation().should('have.text', INIT_VALUES.evaluation);
+    BreweryParameters.getEvaluationInput().should('value', INIT_VALUES.evaluation);
 
     BreweryParameters.switchToAdditionalParametersTab();
-    BreweryParameters.getComment().should('have.text', INIT_VALUES.comment);
-    BreweryParameters.getAdditionalDate().should('have.text', INIT_VALUES.additionalDate);
-
-    ScenarioParameters.edit();
+    BreweryParameters.getCommentInput().should('value', INIT_VALUES.comment);
+    BreweryParameters.getAdditionalDateInput().should('value', INIT_VALUES.additionalDate);
 
     BreweryParameters.switchToEventsTab();
     BreweryParameters.editEventsTableStringCell('reservationsNumber', 0, '199').should('have.text', '199');
@@ -85,7 +83,7 @@ describe('Additional advanced scenario parameters tests', () => {
     BreweryParameters.getAdditionalSeatsInput().click().clear().type(2000).should('value', 2000);
 
     BreweryParameters.switchToAdditionalParametersTab();
-    BreweryParameters.getVolumeUnitRadioButton('m³').click();
+    BreweryParameters.getVolumeUnitRadioButtonInput('m³').click();
     BreweryParameters.switchToEventsTab();
     BreweryParameters.getActivatedInput().check().should('be.checked');
 
@@ -111,21 +109,19 @@ describe('Additional advanced scenario parameters tests', () => {
 
     BreweryParameters.switchToEventsTab();
     BreweryParameters.getEventsTableCell('reservationsNumber', 0).should('have.text', '200');
-    BreweryParameters.getAdditionalSeats().should('have.text', INIT_VALUES.additionalSeats);
-    BreweryParameters.getActivated().should('have.text', 'OFF');
+    BreweryParameters.getAdditionalSeatsInput().should('value', INIT_VALUES.additionalSeats);
+    BreweryParameters.getActivatedInput().should('not.be.checked');
 
     BreweryParameters.switchToAdditionalParametersTab();
-    BreweryParameters.getVolumeUnit().should('have.text', INIT_VALUES.volumeUnit);
-    BreweryParameters.getAdditionalTables().should('have.text', INIT_VALUES.additionalTables);
+    BreweryParameters.getVolumeUnitRadioButtonInput(INIT_VALUES.volumeUnit).should('be.checked');
+    BreweryParameters.getAdditionalTablesInput().should('value', INIT_VALUES.additionalTables);
 
     BreweryParameters.switchToEventsTab();
-    BreweryParameters.getEvaluation().should('have.text', INIT_VALUES.evaluation);
+    BreweryParameters.getEvaluationInput().should('value', INIT_VALUES.evaluation);
 
     BreweryParameters.switchToAdditionalParametersTab();
-    BreweryParameters.getComment().should('have.text', INIT_VALUES.comment);
-    BreweryParameters.getAdditionalDate().should('have.text', INIT_VALUES.additionalDate);
-
-    ScenarioParameters.edit();
+    BreweryParameters.getCommentInput().should('value', INIT_VALUES.comment);
+    BreweryParameters.getAdditionalDateInput().should('value', INIT_VALUES.additionalDate);
 
     BreweryParameters.switchToEventsTab();
     BreweryParameters.editEventsTableStringCell('reservationsNumber', 0, '199').should('have.text', '199');
@@ -153,8 +149,9 @@ describe('Additional advanced scenario parameters tests', () => {
       .click()
       .type('{moveToStart}' + VALUES_TO_UPDATE.additionalDate);
 
-    ScenarioParameters.updateAndLaunch();
+    ScenarioParameters.launch();
 
+    // Test input in read only mode
     BreweryParameters.switchToEventsTab();
     BreweryParameters.getEventsTableCell('reservationsNumber', 0).should('have.text', '199');
     BreweryParameters.getAdditionalSeats().should('have.text', VALUES_TO_UPDATE.additionalSeats);

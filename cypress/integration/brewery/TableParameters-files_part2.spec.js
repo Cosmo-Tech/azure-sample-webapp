@@ -50,7 +50,8 @@ describe('Table parameters files standard operations part 2', () => {
     const scenarioName = forgeScenarioName();
     scenarioNamesToDelete.push(scenarioName);
     Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
-    ScenarioParameters.edit();
+
+    ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.importCustomersTableData(CSV_VALID_FILE_PATH);
     BreweryParameters.getCustomersTableRows().should('have.length', 4);
@@ -68,7 +69,8 @@ describe('Table parameters files standard operations part 2', () => {
     BreweryParameters.editCustomersTableStringCell('height', 3, '2.01').should('have.text', '2.01');
     ScenarioParameters.discard();
     BreweryParameters.getCustomersTableHeader().should('not.exist');
-    ScenarioParameters.edit();
+
+    ScenarioParameters.expandParametersAccordion();
     BreweryParameters.importCustomersTableData(CSV_VALID_FILE_PATH);
     BreweryParameters.getCustomersTableRows().should('have.length', 4);
     BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Bob');
@@ -83,7 +85,8 @@ describe('Table parameters files standard operations part 2', () => {
     BreweryParameters.editCustomersTableStringCell('favoriteDrink', 2, 'Beer').should('have.text', 'Beer');
     BreweryParameters.editCustomersTableStringCell('birthday', 3, '01/01/1991').should('have.text', '01/01/1991');
     BreweryParameters.editCustomersTableStringCell('height', 3, '2.01').should('have.text', '2.01');
-    ScenarioParameters.updateAndLaunch();
+    ScenarioParameters.save();
+
     // Check that cells values have been saved
     BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Bob');
     BreweryParameters.getCustomersTableCell('age', 0).should('have.text', '11');
@@ -91,7 +94,9 @@ describe('Table parameters files standard operations part 2', () => {
     BreweryParameters.getCustomersTableCell('favoriteDrink', 2).should('have.text', 'Beer');
     BreweryParameters.getCustomersTableCell('birthday', 3).should('have.text', '01/01/1991');
     BreweryParameters.getCustomersTableCell('height', 3).should('have.text', '2.01');
+
     // Check that cells are not editable when not in edition mode
+    Scenarios.validateScenario();
     BreweryParameters.editCustomersTableStringCell('name', 0, 'Bill').should('have.text', 'Bob');
     BreweryParameters.editCustomersTableStringCell('age', 0, '12').should('have.text', '11');
     BreweryParameters.editCustomersTableStringCell('canDrinkAlcohol', 1, 'false').should('have.text', 'true');
@@ -100,11 +105,11 @@ describe('Table parameters files standard operations part 2', () => {
     BreweryParameters.editCustomersTableStringCell('height', 3, '1.55').should('have.text', '2.01');
   });
 
-  it('can import a CSV file, edit, export, launch a scenario with the modified data and re-export', () => {
+  it('can import a CSV file, edit, export, save a scenario with the modified data and re-export', () => {
     const scenarioName = forgeScenarioName();
     scenarioNamesToDelete.push(scenarioName);
     Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
-    ScenarioParameters.edit();
+    ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.importCustomersTableData(CSV_VALID_FILE_PATH);
     BreweryParameters.getCustomersTableRows().should('have.length', 4);
@@ -125,7 +130,7 @@ describe('Table parameters files standard operations part 2', () => {
     BreweryParameters.exportCustomersTableDataToXLSX();
     Downloads.checkXLSXByContent('customers.xlsx', EXPECTED_CUSTOMERS_BASIC_EDITION_DATA);
 
-    ScenarioParameters.updateAndLaunch();
+    ScenarioParameters.save();
 
     // Check that cells values have been saved
     BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Bob');
@@ -140,11 +145,11 @@ describe('Table parameters files standard operations part 2', () => {
     Downloads.checkXLSXByContent('customFileName.xlsx', EXPECTED_CUSTOMERS_BASIC_EDITION_DATA);
   });
 
-  it('can import a CSV file, edit it, import a new CSV file and override the first one, update and launch', () => {
+  it('can import a CSV file, edit it, import a new CSV file and override the first one and save', () => {
     const scenarioName = forgeScenarioName();
     scenarioNamesToDelete.push(scenarioName);
     Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
-    ScenarioParameters.edit();
+    ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.importCustomersTableData(CSV_VALID_FILE_PATH);
     BreweryParameters.getCustomersTableRows().should('have.length', 4);
@@ -164,7 +169,7 @@ describe('Table parameters files standard operations part 2', () => {
     BreweryParameters.getCustomersTableCell('favoriteDrink', 0).should('have.text', 'OrangeJuice');
     BreweryParameters.getCustomersTableCell('name', 4).should('have.text', 'Dwight');
     BreweryParameters.getCustomersTableCell('name', 5).should('have.text', 'Arnold');
-    ScenarioParameters.updateAndLaunch();
+    ScenarioParameters.save();
 
     // Check that imported file and its cells values are still correct
     BreweryParameters.getCustomersTableRows().should('have.length', 6);
