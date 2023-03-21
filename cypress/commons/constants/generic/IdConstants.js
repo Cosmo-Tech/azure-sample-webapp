@@ -61,9 +61,8 @@ export const GENERIC_SELECTORS = {
     parameters: {
       tabs: '[data-cy=scenario-parameters-tabs]',
       accordionSummary: '[data-cy=scenario-params-accordion-summary]',
-      editButton: '[data-cy=edit-parameters-button]',
       launchButton: '[data-cy=launch-scenario-button]',
-      updateAndLaunchButton: '[data-cy=update-and-launch-scenario]',
+      saveButton: '[data-cy=save-button]',
       dialogLaunch: {
         dialogTitle: '[data-cy=launch-confirm-dialog-title]',
         confirmButton: '[data-cy=launch-confirm-button]',

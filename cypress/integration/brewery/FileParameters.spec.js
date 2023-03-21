@@ -49,7 +49,6 @@ describe('Simple operations on a file parameter', () => {
       firstScenarioId = value.scenarioCreatedId;
     });
 
-    ScenarioParameters.edit();
     BreweryParameters.switchToBasicTypesTab();
     BreweryParameters.getCurrencyNameInput().click().clear().type(currencyName);
     BreweryParameters.getCurrencyValueInput().click().clear().type(currencyValue);
@@ -57,7 +56,7 @@ describe('Simple operations on a file parameter', () => {
     BreweryParameters.switchToDatasetPartsTab();
     BreweryParameters.uploadExampleDatasetPart1(FILE_PATH_1);
 
-    ScenarioParameters.updateAndLaunch();
+    ScenarioParameters.update();
     BreweryParameters.getExampleDatasetPart1DownloadButton().should('have.text', FILE_PATH_1);
     BreweryParameters.downloadExampleDatasetPart1();
     Downloads.checkByContent('dummy_dataset_1.csv', EXPECTED_DATA_AFTER_DUMMY_DATASET_1_UPLOAD);
@@ -71,13 +70,12 @@ describe('Simple operations on a file parameter', () => {
     const scenarioName = forgeScenarioName();
     scenarioNamesToDelete.push(scenarioName);
     Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
-    ScenarioParameters.edit();
     BreweryParameters.switchToDatasetPartsTab();
     BreweryParameters.getExampleDatasetPart1DownloadButton().should('not.exist');
     BreweryParameters.getExampleDatasetPart1FileName().should('not.exist');
     BreweryParameters.uploadExampleDatasetPart1(FILE_PATH_1);
     BreweryParameters.deleteExampleDatasetPart1();
-    ScenarioParameters.updateAndLaunch();
+    ScenarioParameters.launch();
     BreweryParameters.getExampleDatasetPart1DownloadButton().should('not.exist');
     BreweryParameters.getExampleDatasetPart1FileName().should('not.exist');
   });
@@ -86,7 +84,6 @@ describe('Simple operations on a file parameter', () => {
     const scenarioName = forgeScenarioName();
     scenarioNamesToDelete.push(scenarioName);
     Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
-    ScenarioParameters.edit();
     BreweryParameters.switchToDatasetPartsTab();
     BreweryParameters.uploadExampleDatasetPart1(FILE_PATH_1);
     ScenarioParameters.discard();
@@ -98,7 +95,6 @@ describe('Simple operations on a file parameter', () => {
     const scenarioName = forgeScenarioName();
     scenarioNamesToDelete.push(scenarioName);
     Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
-    ScenarioParameters.edit();
     BreweryParameters.switchToDatasetPartsTab();
     BreweryParameters.uploadExampleDatasetPart1(FILE_PATH_1);
     BreweryParameters.getExampleDatasetPart1FileName().should('have.text', FILE_PATH_1);
@@ -110,11 +106,10 @@ describe('Simple operations on a file parameter', () => {
 
   it('can delete an uploaded file and run the scenario', () => {
     ScenarioSelector.selectScenario(firstScenarioName, firstScenarioId);
-    ScenarioParameters.edit(300);
     BreweryParameters.switchToDatasetPartsTab();
     BreweryParameters.getExampleDatasetPart1DownloadButton().should('have.text', FILE_PATH_1);
     BreweryParameters.deleteExampleDatasetPart1();
-    ScenarioParameters.updateAndLaunch();
+    ScenarioParameters.launch();
     BreweryParameters.getExampleDatasetPart1DownloadButton().should('not.exist');
   });
 });
@@ -141,11 +136,10 @@ describe('Simple operations on a file parameter in a parameters tab that lost fo
     Scenarios.createScenario(firstScenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE).then((value) => {
       firstScenarioId = value.scenarioCreatedId;
     });
-    ScenarioParameters.edit();
     BreweryParameters.switchToExtraDatasetPartTab();
     BreweryParameters.uploadExampleDatasetPart3(FILE_PATH_1);
     BreweryParameters.switchToDatasetPartsTab();
-    ScenarioParameters.updateAndLaunch();
+    ScenarioParameters.launch();
     BreweryParameters.switchToExtraDatasetPartTab();
     BreweryParameters.getExampleDatasetPart3DownloadButton().should('have.text', FILE_PATH_1);
   });
@@ -154,14 +148,13 @@ describe('Simple operations on a file parameter in a parameters tab that lost fo
     const scenarioName = forgeScenarioName();
     scenarioNamesToDelete.push(scenarioName);
     Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
-    ScenarioParameters.edit();
     BreweryParameters.switchToExtraDatasetPartTab();
     BreweryParameters.getExampleDatasetPart3DownloadButton().should('not.exist');
     BreweryParameters.getExampleDatasetPart3FileName().should('not.exist');
     BreweryParameters.uploadExampleDatasetPart3(FILE_PATH_1);
     BreweryParameters.deleteExampleDatasetPart3();
     BreweryParameters.switchToDatasetPartsTab();
-    ScenarioParameters.updateAndLaunch();
+    ScenarioParameters.launch();
     BreweryParameters.switchToExtraDatasetPartTab();
     BreweryParameters.getExampleDatasetPart3DownloadButton().should('not.exist');
     BreweryParameters.getExampleDatasetPart3FileName().should('not.exist');
@@ -171,7 +164,6 @@ describe('Simple operations on a file parameter in a parameters tab that lost fo
     const scenarioName = forgeScenarioName();
     scenarioNamesToDelete.push(scenarioName);
     Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
-    ScenarioParameters.edit();
     BreweryParameters.switchToExtraDatasetPartTab();
     BreweryParameters.uploadExampleDatasetPart3(FILE_PATH_1);
     BreweryParameters.switchToDatasetPartsTab();
@@ -183,7 +175,6 @@ describe('Simple operations on a file parameter in a parameters tab that lost fo
 
   it('can delete an uploaded file and run the scenario', () => {
     ScenarioSelector.selectScenario(firstScenarioName, firstScenarioId);
-    ScenarioParameters.edit(300);
     BreweryParameters.switchToBasicTypesTab();
     BreweryParameters.switchToExtraDatasetPartTab();
     BreweryParameters.getExampleDatasetPart3DownloadButton().should('have.text', FILE_PATH_1);
@@ -222,10 +213,9 @@ describe('Scenario inheritance for file parameters', () => {
       grandParentScenarioId = value.scenarioCreatedId;
       scenarioNamesToDelete.push(grandParentScenarioName);
     });
-    ScenarioParameters.edit();
     BreweryParameters.switchToDatasetPartsTab();
     BreweryParameters.uploadExampleDatasetPart1(FILE_PATH_1);
-    ScenarioParameters.updateAndLaunch();
+    ScenarioParameters.launch();
     BreweryParameters.getExampleDatasetPart1DownloadButton().should('have.text', FILE_PATH_1);
 
     Scenarios.createScenario(parentScenarioName, false, grandParentScenarioName, SCENARIO_RUN_TEMPLATE).then(
@@ -240,11 +230,10 @@ describe('Scenario inheritance for file parameters', () => {
 
   it('can create a scenario, upload a file, create a child scenario, delete the file and run it', () => {
     ScenarioSelector.selectScenario(parentScenarioName, parentScenarioId);
-    ScenarioParameters.edit(180);
     BreweryParameters.switchToDatasetPartsTab();
     BreweryParameters.getExampleDatasetPart1DownloadButton().should('have.text', FILE_PATH_1);
     BreweryParameters.deleteExampleDatasetPart1();
-    ScenarioParameters.updateAndLaunch();
+    ScenarioParameters.launch();
     BreweryParameters.getExampleDatasetPart1DownloadButton().should('not.exist');
 
     ScenarioSelector.selectScenario(grandParentScenarioName, grandParentScenarioId);
@@ -283,13 +272,12 @@ describe('File parameters in multiple tabs', () => {
     const scenarioName = forgeScenarioName();
     scenarioNamesToDelete.push(scenarioName);
     Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
-    ScenarioParameters.edit();
     BreweryParameters.switchToDatasetPartsTab();
     BreweryParameters.uploadExampleDatasetPart1(FILE_PATH_1);
     BreweryParameters.uploadExampleDatasetPart2(FILE_PATH_2);
     BreweryParameters.switchToExtraDatasetPartTab();
     BreweryParameters.uploadExampleDatasetPart3(FILE_PATH_1);
-    ScenarioParameters.updateAndLaunch();
+    ScenarioParameters.launch();
 
     BreweryParameters.switchToDatasetPartsTab();
     BreweryParameters.getExampleDatasetPart1DownloadButton().should('have.text', FILE_PATH_1);

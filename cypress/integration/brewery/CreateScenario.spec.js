@@ -124,7 +124,6 @@ describe('Create scenario', () => {
         ScenarioParameters.getParametersTabs().should('not.be.visible');
 
         // Edit master parameters values
-        ScenarioParameters.edit();
         ScenarioParameters.getParametersTabs().should('be.visible');
         BreweryParameters.getStockInput().clear().type(stock);
         BreweryParameters.getRestockInput().clear().type(restock);
@@ -134,7 +133,7 @@ describe('Create scenario', () => {
         cy.intercept('PATCH', URL_REGEX.SCENARIO_PAGE_WITH_ID).as('requestEditScenario');
         cy.intercept('POST', URL_REGEX.SCENARIO_PAGE_RUN_WITH_ID).as('requestRunScenario');
 
-        ScenarioParameters.updateAndLaunch();
+        ScenarioParameters.launch();
 
         cy.wait('@requestEditScenario').should((value) => {
           const { name: nameGet, id: idGet, parametersValues: paramsGet, state } = value.response.body;
@@ -195,7 +194,6 @@ describe('Create scenario', () => {
         const childRestock = utils.randomNmbr(BAR_PARAMETERS_RANGE.RESTOCK.MIN, BAR_PARAMETERS_RANGE.RESTOCK.MAX);
         const childWaiters = utils.randomNmbr(BAR_PARAMETERS_RANGE.WAITERS.MIN, BAR_PARAMETERS_RANGE.WAITERS.MAX);
 
-        ScenarioParameters.edit();
         ScenarioParameters.getParametersTabs().should('be.visible');
         BreweryParameters.getStockInput().clear().type(childStock);
         BreweryParameters.getRestockInput().clear().type(childRestock);
@@ -205,7 +203,7 @@ describe('Create scenario', () => {
         cy.intercept('PATCH', URL_REGEX.SCENARIO_PAGE_WITH_ID).as('requestEditScenario');
         cy.intercept('POST', URL_REGEX.SCENARIO_PAGE_RUN_WITH_ID).as('requestRunScenario');
 
-        ScenarioParameters.updateAndLaunch();
+        ScenarioParameters.launch();
 
         cy.wait('@requestEditScenario').should((value) => {
           const { name: nameGet, id: idGet, parametersValues: paramsGet } = value.response.body;
@@ -258,7 +256,6 @@ describe('Create scenario', () => {
     );
 
     // Edit paramameters values
-    ScenarioParameters.edit();
     BreweryParameters.switchToBasicTypesTab();
 
     ScenarioParameters.getInputValue(BreweryParameters.getCurrencyNameInput()).as('currency-name');
@@ -311,7 +308,6 @@ describe('Create scenario', () => {
     });
 
     // re-edit
-    ScenarioParameters.edit();
     BreweryParameters.switchToBasicTypesTab();
 
     BreweryParameters.getCurrencyNameInput().click().clear().type(textValue);
@@ -326,7 +322,7 @@ describe('Create scenario', () => {
     cy.intercept('PATCH', URL_REGEX.SCENARIO_PAGE_WITH_ID).as('requestEditScenario');
     cy.intercept('POST', URL_REGEX.SCENARIO_PAGE_RUN_WITH_ID).as('requestRunScenario');
 
-    ScenarioParameters.updateAndLaunch();
+    ScenarioParameters.launch();
 
     cy.wait('@requestEditScenario').should((value) => {
       const { name: nameGet, id: idGet, parametersValues: paramsGet, state } = value.response.body;
