@@ -1,3 +1,13 @@
+## **5.0.1** <sub><sup>2023-03-21 ([f366bc0...cad52a7](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/f366bc0d...cad52a73?diff=split))</sup></sub>
+
+### Bug Fixes
+
+- fix "digital twin" view tab always visible in the application top bar, and related router issues
+
+### Dependencies
+
+- upgrade webpack to 5.76.2
+
 ## **5.0.0** <sub><sup>2023-03-02 ([bdf506e...c5f01cb](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/bdf506e0...c5f01cba?diff=split))</sup></sub>
 
 ### Features

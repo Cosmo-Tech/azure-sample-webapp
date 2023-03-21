@@ -49,12 +49,6 @@
     "link:ui": "yalc add @cosmotech/ui && yalc link @cosmotech/ui && yarn install",
     "unlink:ui": "yalc remove @cosmotech/ui && yarn install"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -92,8 +86,8 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-promise": "^6.1.1",
-    "eslint-plugin-react": "^7.25.2",
-    "eslint-plugin-react-hooks": "^4.2.0",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "http-proxy-middleware": "^2.0.0",
     "https-browserify": "^1.0.0",
     "i18next-parser": "^6.0.0",

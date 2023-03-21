@@ -3,6 +3,10 @@
 
 import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
 
+function getInstanceVisualizationViewTab() {
+  return cy.get(GENERIC_SELECTORS.instance.tabName);
+}
+
 function switchToInstanceVisualization() {
   cy.get(GENERIC_SELECTORS.instance.tabName).click();
 }
@@ -96,6 +100,7 @@ function switchToDrawerSettingsTab() {
 }
 
 export const InstanceVisualization = {
+  getInstanceVisualizationViewTab,
   switchToInstanceVisualization,
   getCytoVizContainer,
   getLoadingSpinnerContainer,

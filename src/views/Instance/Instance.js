@@ -29,6 +29,7 @@ const Instance = (props) => {
     currentScenario,
     findScenarioById,
     useRedirectionToScenario,
+    useRedirectFromInstanceToSenarioView,
     instanceViewConfig,
   } = useInstance();
 
@@ -41,6 +42,7 @@ const Instance = (props) => {
   useEffect(() => {
     appInsights.setScenarioData(currentScenario.data);
   }, [currentScenario]);
+
   const handleScenarioChange = (event, scenario) => {
     if (scenario.id !== currentScenario.data?.id) {
       setIsLoadingData(true);
@@ -53,6 +55,7 @@ const Instance = (props) => {
   const scenarioListLabel = noScenario ? null : t('views.scenario.dropdown.scenario.label', 'Scenario');
   const isSwitchingScenario = currentScenario.status === STATUSES.LOADING;
   useRedirectionToScenario(sortedScenarioList);
+  useRedirectFromInstanceToSenarioView();
 
   useEffect(() => {
     // Note that the "active" variable is necessary to prevent race conditions when the effect is called several times
@@ -73,6 +76,8 @@ const Instance = (props) => {
       } else {
         try {
           const scenario = await fetchData(instanceViewConfig, organizationId, workspaceId, currentScenario.data?.id);
+          if (!active) return;
+
           // TODO: (refactor) to improve performance, we don't need to recompute the whole graph elements set when the
           // theme is changed, we could rebuild only the stylesheet
           const { graphElements: newGraphElements, stylesheet } = processGraphElements(
@@ -81,12 +86,10 @@ const Instance = (props) => {
             theme
           );
 
-          if (active) {
-            setGraphElements(newGraphElements);
-            setCytoscapeStylesheet(stylesheet);
-            setErrorBannerMessage(null);
-            setIsLoadingData(false);
-          }
+          setGraphElements(newGraphElements);
+          setCytoscapeStylesheet(stylesheet);
+          setErrorBannerMessage(null);
+          setIsLoadingData(false);
         } catch (error) {
           setErrorBannerMessage(parseError(error));
         }
