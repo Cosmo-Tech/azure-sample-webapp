@@ -161,8 +161,8 @@ const Scenario = () => {
       className={classes.rightButton}
       data-cy="reject-scenario-button"
       disabled={editMode}
-      variant="outlined"
-      color="primary"
+      variant="soft"
+      color="error"
       onClick={(event) => rejectScenario()}
     >
       {t('views.scenario.validation.reject', 'Reject')}

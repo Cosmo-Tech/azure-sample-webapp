@@ -342,6 +342,7 @@ const ScenarioParameters = ({
           }}
           handleClickOnButton1={cancelDiscard}
           handleClickOnButton2={confirmDiscard}
+          colorConfirm="error"
         />
         <DontAskAgainDialog
           id={'launch'}

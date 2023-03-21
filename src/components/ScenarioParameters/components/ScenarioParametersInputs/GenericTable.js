@@ -452,8 +452,7 @@ export const GenericTable = ({
       data-cy="import-file-button"
       disabled={!context.editMode}
       color="primary"
-      variant="outlined"
-      component="label"
+      variant="soft"
       onChange={importFile}
     >
       {t('genericcomponent.table.button.fileImport')}
@@ -467,8 +466,7 @@ export const GenericTable = ({
       key="export-csv-button"
       data-cy="export-button"
       color="primary"
-      variant="outlined"
-      component="label"
+      variant="soft"
       onClick={openExportDialog}
     >
       {t('genericcomponent.table.button.csvExport')}

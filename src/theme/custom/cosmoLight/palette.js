@@ -1,40 +1,47 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
+import { colorSwap } from '../../colorSwap.js';
+
 export default {
   mode: 'light',
   primary: {
-    main: '#0061a3', // '#466282',
-    contrastText: '#ffffff',
+    main: colorSwap.primary[40], // '#0061a3', // '#466282',
+    contrastText: colorSwap.primary[100],
   },
   primaryContainer: {
-    main: '#d1e4ff',
-    contrastText: '#001d36',
+    main: colorSwap.primary[90],
+    contrastText: colorSwap.primary[10],
   },
   secondary: {
-    main: '#e79c24', // '#845400',  //'#ffb039',
-    contrastText: '#000000',
+    main: colorSwap.secondary[40], // '#845400',  //'#ffb039',
+    contrastText: colorSwap.secondary[100],
   },
   secondaryContainer: {
-    main: '#ffddb5',
-    contrastText: '#2a1800',
+    main: colorSwap.secondary[90],
+    contrastText: colorSwap.secondary[10],
   },
   info: {
-    main: '#6a5778', // '#0288d1',
-    contrastText: '#ffffff',
+    main: colorSwap.tertiary[40], // '#0288d1',
+    contrastText: colorSwap.tertiary[100],
   },
   infoContainer: {
-    main: '#f2daff',
-    contrastText: '#251432',
+    main: colorSwap.tertiary[90],
+    contrastText: colorSwap.tertiary[10],
   },
   error: {
-    main: '#ba1a1a', // '#d32f2f',
-    contrastText: '#ffffff',
+    main: colorSwap.error[40], // '#d32f2f',
+    contrastText: colorSwap.error[100],
   },
   errorContainer: {
-    main: '#ffdad6',
-    contrastText: '#410002',
+    main: colorSwap.error[90],
+    contrastText: colorSwap.error[10],
   },
+  surface: {
+    main: colorSwap.neutral[70],
+    contrastText: colorSwap.neutral[10],
+  },
+
   background: {
     default: '#fdfcff', // '#fafafa',
     paper: '#fdfcff',
@@ -47,6 +54,7 @@ export default {
     main: '#1a1c1e',
     secondary: '#42474e', // 'rgba(0,0,0,0.6)',
   },
+
   warning: {
     main: '#ed6c02',
     contrastText: '#000000',
