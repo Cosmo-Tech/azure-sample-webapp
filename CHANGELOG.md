@@ -1,8 +1,8 @@
-## **5.0.1** <sub><sup>2023-03-16 ([f366bc0...bf4971f](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/f366bc0d...bf4971f7?diff=split))</sup></sub>
+## **5.0.1** <sub><sup>2023-03-21 ([f366bc0...cad52a7](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/f366bc0d...cad52a73?diff=split))</sup></sub>
 
 ### Bug Fixes
 
-- fix "digital twin" view tab always visible in the application top bar ([f366bc0](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/f366bc0d))
+- fix "digital twin" view tab always visible in the application top bar, and related router issues
 
 ### Dependencies
 
