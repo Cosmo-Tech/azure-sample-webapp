@@ -175,12 +175,13 @@ class Stubbing {
     this.patchScenario(scenarioId, newScenarioSecurity);
   };
 
-  patchScenarioACLSecurity = (scenarioId, newACLSecurity) => {
+  patchScenarioACLSecurity = (scenarioId, newACLSecurityItem) => {
     const scenario = this.getScenarioById(scenarioId);
+    const newACL = [...scenario.security.accessControlList, newACLSecurityItem];
     const newScenarioSecurity = {
       security: {
         default: scenario.security.default,
-        accessControlList: newACLSecurity,
+        accessControlList: newACL,
       },
     };
     this.patchScenario(scenarioId, newScenarioSecurity);

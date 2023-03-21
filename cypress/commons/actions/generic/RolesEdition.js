@@ -32,7 +32,7 @@ function getShareScenarioDialogTitle() {
 }
 
 function confirmNewPermissions(expectedSecurity) {
-  const expecteSecurityDefault = expectedSecurity?.default;
+  const expectedSecurityDefault = expectedSecurity?.default;
   const expectedSecurityAccessControlList = expectedSecurity?.accessControlList;
 
   expectedSecurityAccessControlList
@@ -46,8 +46,8 @@ function confirmNewPermissions(expectedSecurity) {
   let updateScenarioDefaultSecurityAlias;
   let interceptUpdateScenarioACLSecurityAlias = [];
 
-  if (expecteSecurityDefault) {
-    updateScenarioDefaultSecurityAlias = api.interceptUpdateScenarioDefaultSecurity(expecteSecurityDefault);
+  if (expectedSecurityDefault) {
+    updateScenarioDefaultSecurityAlias = api.interceptUpdateScenarioDefaultSecurity(expectedSecurityDefault);
   }
 
   interceptUpdateScenarioACLSecurityAlias = expectedSecurityAccessControlList.map((userSecurity) => {
@@ -56,12 +56,12 @@ function confirmNewPermissions(expectedSecurity) {
 
   getShareScenarioDialogSubmitButton().click();
 
-  if (expecteSecurityDefault) api.waitAlias(updateScenarioDefaultSecurityAlias);
+  if (expectedSecurityDefault) api.waitAlias(updateScenarioDefaultSecurityAlias);
   api.waitAliases(interceptUpdateScenarioACLSecurityAlias);
 }
 
-function getIdentifierFromUserEmail(userNAme) {
-  return userNAme.replace(/[@.]/g, '');
+function getIdentifierFromUserEmail(userName) {
+  return userName.replace(/[@.]/g, '');
 }
 
 function writeInAgentSelectorInput(searchStr) {

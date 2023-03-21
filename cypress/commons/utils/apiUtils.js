@@ -136,10 +136,10 @@ const interceptUpdateScenarioACLSecurity = (expectedACLSecurity) => {
   const alias = forgeAlias('reqUpdateScenarioACLSecurity');
   cy.intercept({ method: 'POST', url: API_REGEX.SCENARIO_SECURITY_ACL, times: 1 }, (req) => {
     const scenarioId = req.url.match(API_REGEX.SCENARIO_SECURITY_ACL)[1];
-    const newACLSecurity = req.body;
-    if (expectedACLSecurity) expect(newACLSecurity).to.deep.equal(expectedACLSecurity);
-    if (stub.isEnabledFor('GET_SCENARIOS')) stub.patchScenarioACLSecurity(scenarioId, newACLSecurity);
-    if (stub.isEnabledFor('UPDATE_SCENARIO')) req.reply(newACLSecurity);
+    const newACLSecurityItem = req.body;
+    if (expectedACLSecurity) expect(newACLSecurityItem).to.deep.equal(expectedACLSecurity);
+    if (stub.isEnabledFor('GET_SCENARIOS')) stub.patchScenarioACLSecurity(scenarioId, newACLSecurityItem);
+    if (stub.isEnabledFor('UPDATE_SCENARIO')) req.reply(newACLSecurityItem);
   }).as(alias);
   return alias;
 };
