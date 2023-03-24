@@ -17,11 +17,9 @@ describe('Sharing with wrong URL', () => {
 
   it("can display error banner when scenario doesn't exist", () => {
     Login.login({ url: 'W-stbbdbrwry/scenario/s-invalidurl', expectedURL: 'W-stbbdbrwry/scenario/s-stubbedscnr01' });
-    ErrorBanner.getErrorBanner().should('be.visible');
     ErrorBanner.getErrorDetailText().contains('Scenario #s-invalidurl not found');
     ErrorBanner.getErrorCommentText().contains('You have been redirected');
-    ErrorBanner.getDismissErrorButton().click();
-    ErrorBanner.getErrorBanner().should('not.exist');
+    ErrorBanner.checkAnDismissErrorBanner();
   });
 
   it('redirects to workspaces view if url contains wrong workspaceId', () => {
@@ -31,11 +29,9 @@ describe('Sharing with wrong URL', () => {
       workspaceId: null,
       scenarioId: null,
     });
-    ErrorBanner.getErrorBanner().should('be.visible');
     ErrorBanner.getErrorDetailText().contains('Could not find workspace with id invalidworkspaceId');
     ErrorBanner.getErrorCommentText().contains('You have been redirected');
-    ErrorBanner.getDismissErrorButton().click();
-    ErrorBanner.getErrorBanner().should('not.exist');
+    ErrorBanner.checkAnDismissErrorBanner();
     Workspaces.getWorkspaceCardById('W-stbbdbrwry').should('be.visible');
   });
 });
