@@ -4,26 +4,19 @@
 import utils from '../../commons/TestUtils';
 import { setup } from '../../commons/utils/setup';
 import { stub } from '../../commons/services/stubbing';
-import { DEFAULT_WORKSPACE } from '../../fixtures/stubbing/default/workspaces';
 import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
-import { InstanceVisualization, Scenarios, ScenarioManager, Login } from '../../commons/actions';
-
-Cypress.Keyboard.defaults({
-  keystrokeDelay: 0,
-});
-
-const BASE_URL = Cypress.config().baseUrl;
-const url = BASE_URL + '/' + DEFAULT_WORKSPACE.id;
+import { InstanceVisualization, Login, Scenarios, ScenarioManager } from '../../commons/actions';
+import { Login as BreweryLogin } from '../../commons/actions/brewery';
 
 describe('Instance view disabled', () => {
   before(() => {
     setup.initCypressAndStubbing();
-    Login.login(url);
     stub.start();
+    Login.login();
   });
 
   beforeEach(() => {
-    Login.relogin(url);
+    Login.relogin();
   });
 
   after(() => {
@@ -37,11 +30,11 @@ describe('Instance view disabled', () => {
 
 describe('Instance view when enabled', () => {
   before(() => {
-    Login.login();
+    BreweryLogin.login();
   });
 
   beforeEach(() => {
-    Login.relogin();
+    BreweryLogin.relogin();
   });
 
   const scenarioNamesToDelete = [];

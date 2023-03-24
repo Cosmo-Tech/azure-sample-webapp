@@ -3,11 +3,9 @@ import { ALL_ROOT_SCENARIOS, PARENT_AND_CHILD_SCENARIOS } from '../../fixtures/s
 import { USER_EXAMPLE } from '../../fixtures/stubbing/default';
 import { stub } from '../../commons/services/stubbing';
 import { routeUtils as route } from '../../commons/utils';
-import { setup } from '../../commons/utils/setup';
 
 describe('check scenario sorted list after reload', () => {
   before(() => {
-    setup.initCypressAndStubbing();
     stub.start({
       GET_DATASETS: true,
       GET_SCENARIOS: true,
@@ -28,14 +26,13 @@ describe('check scenario sorted list after reload', () => {
 
   it('checks first scenario in the list after reload', () => {
     ScenarioSelector.selectScenario(ALL_ROOT_SCENARIOS[1].name, ALL_ROOT_SCENARIOS[1].id);
-    route.browse('W-stbbdbrwry/scenario');
+    route.browse({ url: 'W-stbbdbrwry/scenario' });
     ScenarioSelector.getScenarioSelectorInput().should('have.value', ALL_ROOT_SCENARIOS[0].name);
   });
 });
 
 describe('check the list of sorted scenarios after deleting the current scenario', () => {
   before(() => {
-    setup.initCypressAndStubbing();
     stub.start({
       AUTHENTICATION: true,
       GET_SCENARIOS: true,

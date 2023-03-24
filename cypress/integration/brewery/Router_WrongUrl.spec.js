@@ -1,10 +1,8 @@
 import { ErrorBanner, Login, Workspaces } from '../../commons/actions';
-import { setup } from '../../commons/utils/setup';
 import { stub } from '../../commons/services/stubbing';
 
 describe('Sharing with wrong URL', () => {
   before(() => {
-    setup.initCypressAndStubbing();
     stub.start({
       GET_DATASETS: true,
       GET_SCENARIOS: true,
@@ -18,7 +16,7 @@ describe('Sharing with wrong URL', () => {
   });
 
   it("can display error banner when scenario doesn't exist", () => {
-    Login.login('W-stbbdbrwry/scenario/s-invalidurl');
+    Login.login({ url: 'W-stbbdbrwry/scenario/s-invalidurl', expectedURL: 'W-stbbdbrwry/scenario/s-stubbedscnr01' });
     ErrorBanner.getErrorBanner().should('be.visible');
     ErrorBanner.getErrorDetailText().contains('Scenario #s-invalidurl not found');
     ErrorBanner.getErrorCommentText().contains('You have been redirected');
@@ -27,8 +25,12 @@ describe('Sharing with wrong URL', () => {
   });
 
   it('redirects to workspaces view if url contains wrong workspaceId', () => {
-    Login.loginWithoutWorkspace('invalidworkspaceId/scenario/s-invalidurl');
-    cy.url({ timeout: 5000 }).should('include', '/workspaces');
+    Login.login({
+      url: 'invalidworkspaceId/scenario/s-invalidurl',
+      expectedURL: '/workspaces',
+      workspaceId: null,
+      scenarioId: null,
+    });
     ErrorBanner.getErrorBanner().should('be.visible');
     ErrorBanner.getErrorDetailText().contains('Could not find workspace with id invalidworkspaceId');
     ErrorBanner.getErrorCommentText().contains('You have been redirected');

@@ -1,11 +1,11 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
+import { apiUtils as api } from '../../utils';
 import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
-import { BREWERY_WORKSPACE_ID } from '../../constants/generic/TestConstants';
 
-function getWorkspacesView(timeout = 4000) {
-  return cy.get(GENERIC_SELECTORS.workspace.view, { timeout });
+function getWorkspacesView(timeout = 5) {
+  return cy.get(GENERIC_SELECTORS.workspace.view, { timeout: timeout * 1000 });
 }
 
 function getWorkspaceCardById(workspaceId) {
@@ -17,11 +17,9 @@ function getNoWorkspacePlaceholder() {
 }
 
 function selectWorkspace(workspaceId) {
+  const queries = api.interceptSelectWorkspaceQueries(workspaceId);
   getWorkspaceCardById(workspaceId).should('be.visible').find(GENERIC_SELECTORS.workspace.openButton).click();
-}
-
-function selectDefaultWorkspace() {
-  selectWorkspace(BREWERY_WORKSPACE_ID);
+  api.waitAliases(queries, { timeout: 60 * 1000 });
 }
 
 function getHomeButton() {
@@ -33,6 +31,5 @@ export const Workspaces = {
   getWorkspaceCardById,
   getNoWorkspacePlaceholder,
   selectWorkspace,
-  selectDefaultWorkspace,
   getHomeButton,
 };

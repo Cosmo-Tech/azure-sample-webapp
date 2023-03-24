@@ -8,10 +8,8 @@ import {
   DEFAULT_WORKSPACE,
   DEFAULT_WORKSPACES_LIST,
   DEFAULT_SOLUTIONS_LIST,
-  SCENARIO_EXAMPLE,
 } from '../../fixtures/stubbing/default';
-import utils from '../TestUtils';
-import { API_REGEX, LOCAL_WEBAPP_URL } from '../constants/generic/TestConstants';
+import { USE_SERVICE_ACCOUNT } from '../utils/authUtils';
 
 const STUB_TYPES = [
   'AUTHENTICATION',
@@ -93,6 +91,8 @@ class Stubbing {
     STUB_TYPES.forEach((stubType) => {
       this.enabledStubs[stubType] = stubAll || enabledStubs[stubType] || false;
     });
+    // Force authentication stubbing when using service account for authentication
+    if (USE_SERVICE_ACCOUNT) this.enabledStubs['AUTHENTICATION'] = true;
   };
 
   stop = () => {
@@ -175,12 +175,13 @@ class Stubbing {
     this.patchScenario(scenarioId, newScenarioSecurity);
   };
 
-  patchScenarioACLSecurity = (scenarioId, newACLSecurity) => {
+  patchScenarioACLSecurity = (scenarioId, newACLSecurityItem) => {
     const scenario = this.getScenarioById(scenarioId);
+    const newACL = [...scenario.security.accessControlList, newACLSecurityItem];
     const newScenarioSecurity = {
       security: {
         default: scenario.security.default,
-        accessControlList: newACLSecurity,
+        accessControlList: newACL,
       },
     };
     this.patchScenario(scenarioId, newScenarioSecurity);

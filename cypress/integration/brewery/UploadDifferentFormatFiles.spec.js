@@ -1,7 +1,7 @@
-import { Login, ScenarioManager, ScenarioParameters, Scenarios } from '../../commons/actions';
+import { ScenarioManager, ScenarioParameters, Scenarios } from '../../commons/actions';
 import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
 import utils from '../../commons/TestUtils';
-import { BreweryParameters } from '../../commons/actions/brewery';
+import { BreweryParameters, Login } from '../../commons/actions/brewery';
 
 const JSON_PATH = 'dummy_json.json';
 const ZIP_PATH = 'dummy_zip.zip';
@@ -9,12 +9,15 @@ const CSV_PATH = 'dummy_dataset_1.csv';
 describe('upload of files in different formats', () => {
   const scenario = 'Test Cypress - File Upload - ' + utils.randomStr(7);
   before(() => {
-    Login.login();
+    // Disable interception middlewares (in stubbing), because they seem to prevent zip files from being uploaded
+    Login.login({ noInterceptionMiddlewares: true });
   });
+
   after(() => {
     ScenarioManager.switchToScenarioManager();
     ScenarioManager.deleteScenario(scenario);
   });
+
   it('uploads csv, json, zip files and launch scenario', () => {
     Scenarios.createScenario(scenario, true, DATASET.BREWERY_ADT, RUN_TEMPLATE.BASIC_TYPES);
     ScenarioParameters.edit();

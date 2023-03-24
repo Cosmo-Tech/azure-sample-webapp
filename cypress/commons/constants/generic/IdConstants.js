@@ -4,6 +4,7 @@
 export const GENERIC_SELECTORS = {
   login: {
     microsoftLoginButton: '[data-cy=sign-in-with-microsoft-button]',
+    devLoginButton: '[data-cy=sign-in-with-dev-account-button]',
   },
   accessDenied: {
     errorMessage: '[data-cy=access-denied-error-message]',

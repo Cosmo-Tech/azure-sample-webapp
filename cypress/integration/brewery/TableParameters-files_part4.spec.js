@@ -5,8 +5,8 @@ import 'cypress-file-upload';
 import utils from '../../commons/TestUtils';
 
 import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
-import { Downloads, Login, Scenarios, ScenarioManager, ScenarioParameters } from '../../commons/actions';
-import { BreweryParameters } from '../../commons/actions/brewery';
+import { Downloads, Scenarios, ScenarioManager, ScenarioParameters } from '../../commons/actions';
+import { BreweryParameters, Login } from '../../commons/actions/brewery';
 import {
   EXPECTED_CUSTOMERS_AFTER_XLSX_IMPORT,
   EXPECTED_EVENTS_AFTER_XLSX_IMPORT,

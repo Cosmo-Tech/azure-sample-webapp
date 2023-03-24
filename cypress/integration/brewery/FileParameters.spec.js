@@ -5,10 +5,9 @@ import 'cypress-file-upload';
 import utils from '../../commons/TestUtils';
 
 import { BASIC_PARAMETERS_CONST, DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
-import { Downloads, Scenarios, ScenarioManager, ScenarioParameters, Login } from '../../commons/actions';
-import { BreweryParameters } from '../../commons/actions/brewery';
+import { Downloads, Scenarios, ScenarioManager, ScenarioParameters, ScenarioSelector } from '../../commons/actions';
+import { BreweryParameters, Login } from '../../commons/actions/brewery';
 import { EXPECTED_DATA_AFTER_DUMMY_DATASET_1_UPLOAD } from '../../fixtures/FileParametersData';
-import { ScenarioSelector } from '../../commons/actions/generic/ScenarioSelector';
 
 Cypress.Keyboard.defaults({
   keystrokeDelay: 0,

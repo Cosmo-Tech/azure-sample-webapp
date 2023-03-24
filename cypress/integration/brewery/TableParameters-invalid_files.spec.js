@@ -1,9 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { Login, ScenarioSelector, ScenarioParameters } from '../../commons/actions';
-import { BreweryParameters } from '../../commons/actions/brewery';
-import { setup } from '../../commons/utils/setup';
+import { ScenarioSelector, ScenarioParameters } from '../../commons/actions';
+import { BreweryParameters, Login } from '../../commons/actions/brewery';
 import { stub } from '../../commons/services/stubbing';
 import { DEFAULT_SCENARIOS_LIST } from '../../fixtures/stubbing/default';
 
@@ -12,7 +11,6 @@ const XLSX_INVALID_FILE_PATH = 'customers_invalid.xlsx';
 
 describe('Table parameters invalid files operations', () => {
   before(() => {
-    setup.initCypressAndStubbing();
     stub.start({
       GET_DATASETS: true,
       GET_SCENARIOS: true,

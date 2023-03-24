@@ -2,9 +2,8 @@
 // Licensed under the MIT license.
 
 import 'cypress-file-upload';
-import { Downloads, Login, ScenarioParameters, ScenarioSelector } from '../../commons/actions';
-import { BreweryParameters } from '../../commons/actions/brewery';
-import { setup } from '../../commons/utils/setup';
+import { Downloads, ScenarioParameters, ScenarioSelector } from '../../commons/actions';
+import { BreweryParameters, Login } from '../../commons/actions/brewery';
 import { stub } from '../../commons/services/stubbing';
 import { DEFAULT_SCENARIOS_LIST } from '../../fixtures/stubbing/default';
 
@@ -16,7 +15,6 @@ const COL_NAMES = ['name', 'age', 'canDrinkAlcohol', 'favoriteDrink', 'birthday'
 
 describe('Table parameters files standard operations part 1', () => {
   before(() => {
-    setup.initCypressAndStubbing();
     stub.start({
       GET_DATASETS: true,
       GET_SCENARIOS: true,
