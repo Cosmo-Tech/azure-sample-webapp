@@ -22,8 +22,9 @@ function getErrorCommentText() {
 function checkAnDismissErrorBanner() {
   getErrorBanner().should('be.visible');
   getDismissErrorButton().click();
-  getErrorBanner().should('not.exist');
+  getErrorBanner().should('not.be.visible');
 }
+
 export const ErrorBanner = {
   getErrorBanner,
   getDismissErrorButton,
