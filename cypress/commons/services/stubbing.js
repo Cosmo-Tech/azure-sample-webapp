@@ -9,7 +9,7 @@ import {
   DEFAULT_WORKSPACES_LIST,
   DEFAULT_SOLUTIONS_LIST,
 } from '../../fixtures/stubbing/default';
-import { USE_SERVICE_ACCOUNT } from '../utils/authUtils';
+import { authUtils as auth } from '../utils/authUtils';
 
 const STUB_TYPES = [
   'AUTHENTICATION',
@@ -92,7 +92,7 @@ class Stubbing {
       this.enabledStubs[stubType] = stubAll || enabledStubs[stubType] || false;
     });
     // Force authentication stubbing when using service account for authentication
-    if (USE_SERVICE_ACCOUNT) this.enabledStubs['AUTHENTICATION'] = true;
+    if (auth.USE_SERVICE_ACCOUNT) this.enabledStubs['AUTHENTICATION'] = true;
   };
 
   stop = () => {
