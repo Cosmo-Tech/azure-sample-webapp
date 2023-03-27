@@ -24,8 +24,7 @@ const forgeIdTokenWithFakeUser = (token, fakeUser) => {
 
 const getUserFromToken = (token) => {
   const idData = decodeJWT(token);
-  const user = { email: idData.preferred_username, id: idData.oid, name: idData.name };
-  return user;
+  return { email: idData.preferred_username, id: idData.oid, name: idData.name };
 };
 
 function _findAccessTokenFromMSALResponse(authResponse) {

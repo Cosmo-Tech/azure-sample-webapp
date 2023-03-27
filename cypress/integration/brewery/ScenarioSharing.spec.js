@@ -169,9 +169,9 @@ describe('Check workspace permissions for Viewer, Editor & Validator', () => {
     ScenarioParameters.getLaunchButton().should('not.exist');
 
     ScenarioManager.switchToScenarioManager();
-    ScenarioManager.getScenarioAccordion(SHARED_SCENARIOS_LIST[0].id);
+    ScenarioManager.getScenarioAccordion(scenario.id);
     ScenarioManager.getDeleteScenarioButton().should('not.exist');
-    ScenarioManager.getScenarioEditableLabel(SHARED_SCENARIOS_LIST[0].id).should('not.exist');
+    ScenarioManager.getScenarioEditableLabel(scenario.id).should('not.exist');
   });
 
   it('Check Editor permissions', () => {
@@ -184,11 +184,11 @@ describe('Check workspace permissions for Viewer, Editor & Validator', () => {
     ScenarioParameters.getLaunchButton().should('be.visible').should('not.be.disabled');
 
     ScenarioManager.switchToScenarioManager();
-    ScenarioManager.getScenarioAccordion(SHARED_SCENARIOS_LIST[1].id);
+    ScenarioManager.getScenarioAccordion(scenario.id);
     ScenarioManager.getDeleteScenarioButton().should('not.exist');
-    ScenarioManager.getScenarioEditableLabelInEditMode(SHARED_SCENARIOS_LIST[1].id).should('not.exist');
-    ScenarioManager.getScenarioEditableLabel(SHARED_SCENARIOS_LIST[1].id).click();
-    ScenarioManager.getScenarioEditableLabelInEditMode(SHARED_SCENARIOS_LIST[1].id).should('exist');
+    ScenarioManager.getScenarioEditableLabelInEditMode(scenario.id).should('not.exist');
+    ScenarioManager.getScenarioEditableLabel(scenario.id).click();
+    ScenarioManager.getScenarioEditableLabelInEditMode(scenario.id).should('exist');
   });
 
   it('Check Validator permissions', () => {
@@ -201,7 +201,7 @@ describe('Check workspace permissions for Viewer, Editor & Validator', () => {
     ScenarioParameters.getLaunchButton().should('be.visible').should('not.be.disabled');
 
     ScenarioManager.switchToScenarioManager();
-    ScenarioManager.getScenarioAccordion(SHARED_SCENARIOS_LIST[2].id);
+    ScenarioManager.getScenarioAccordion(scenario.id);
     ScenarioManager.getDeleteScenarioButton().should('not.exist');
   });
 });
