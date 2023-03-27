@@ -37,6 +37,8 @@ const useStyles = makeStyles((theme) => ({
 
 const appInsights = AppInsights.getInstance();
 
+const STORAGE_SCENARIO_PARAMETERS_ACCORDION_EXPANDED_KEY = 'scenarioParametersAccordionExpanded';
+
 const Scenario = () => {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -60,7 +62,7 @@ const Scenario = () => {
   const [editMode, setEditMode] = useState(false);
 
   const [isScenarioParametersAccordionExpanded, setIsScenarioParametersAccordionExpanded] = useState(
-    localStorage.getItem('scenarioParametersAccordionExpanded') === 'true'
+    localStorage.getItem(STORAGE_SCENARIO_PARAMETERS_ACCORDION_EXPANDED_KEY) === 'true'
   );
 
   const handleScenarioChange = (event, scenario) => {
@@ -70,7 +72,7 @@ const Scenario = () => {
   const toggleScenarioParametersAccordion = () => {
     const isExpanded = !isScenarioParametersAccordionExpanded;
     setIsScenarioParametersAccordionExpanded(isExpanded);
-    localStorage.setItem('scenarioParametersAccordionExpanded', isExpanded);
+    localStorage.setItem(STORAGE_SCENARIO_PARAMETERS_ACCORDION_EXPANDED_KEY, isExpanded);
   };
 
   const onScenarioCreated = useCallback(() => setIsScenarioParametersAccordionExpanded(true), []);
