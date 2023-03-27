@@ -1,6 +1,7 @@
 const { override } = require('customize-cra');
 const webpack = require('webpack');
 const CspHtmlWebpackPlugin = require('csp-html-webpack-plugin');
+const rewiredEsbuild = require('react-app-rewired-esbuild');
 
 const cspConfigPolicy = {
   'default-src': "'none'",
@@ -85,4 +86,4 @@ function addSplitChunks(config) {
   return config;
 }
 
-module.exports = override(addCspHtmlWebpackPlugin, addFallback, addSplitChunks);
+module.exports = override(addCspHtmlWebpackPlugin, addFallback, addSplitChunks, rewiredEsbuild());
