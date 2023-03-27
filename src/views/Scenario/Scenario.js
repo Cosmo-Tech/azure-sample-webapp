@@ -59,8 +59,7 @@ const Scenario = () => {
 
   const [editMode, setEditMode] = useState(false);
 
-  // Add accordion expand status in state
-  const [accordionSummaryExpanded, setAccordionSummaryExpanded] = useState(
+  const [isScenarioParametersAccordionExpanded, setIsScenarioParametersAccordionExpanded] = useState(
     localStorage.getItem('scenarioParametersAccordionExpanded') === 'true'
   );
 
@@ -68,11 +67,13 @@ const Scenario = () => {
     findScenarioById(scenario.id);
   };
 
-  useEffect(() => {
-    localStorage.setItem('scenarioParametersAccordionExpanded', accordionSummaryExpanded);
-  }, [accordionSummaryExpanded]);
+  const toggleScenarioParametersAccordion = () => {
+    const isExpanded = !isScenarioParametersAccordionExpanded;
+    setIsScenarioParametersAccordionExpanded(isExpanded);
+    localStorage.setItem('scenarioParametersAccordionExpanded', isExpanded);
+  };
 
-  const onScenarioCreated = useCallback(() => setAccordionSummaryExpanded(true), []);
+  const onScenarioCreated = useCallback(() => setIsScenarioParametersAccordionExpanded(true), []);
 
   const currentScenarioRenderInputTooltip = editMode
     ? t(
@@ -286,8 +287,8 @@ const Scenario = () => {
                 <ScenarioParameters
                   editMode={editMode}
                   changeEditMode={setEditMode}
-                  accordionSummaryExpanded={accordionSummaryExpanded}
-                  onChangeAccordionSummaryExpanded={setAccordionSummaryExpanded}
+                  isAccordionExpanded={isScenarioParametersAccordionExpanded}
+                  onToggleAccordion={toggleScenarioParametersAccordion}
                 />
               )}
             </Card>
