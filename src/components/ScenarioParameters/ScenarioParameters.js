@@ -275,17 +275,17 @@ const ScenarioParameters = ({ onChangeAccordionSummaryExpanded, accordionSummary
               <Grid className={classes.gridSummary}>
                 <Typography>{t('genericcomponent.text.scenario.parameters.title', 'Scenario parameters')}</Typography>
               </Grid>
-            </Grid>
-            <Grid item>
-              {/* FIXME: add PLATFORM.ADMIN bypass */}
-              <SaveLaunchDiscardButton
-                save={(event) => scenarioSave(event)}
-                discard={askDiscardConfirmation}
-                launch={(event) => scenarioLaunch(event, false)}
-                saveAndLauch={(event) => scenarioLaunch(event, true)}
-                isDirty={isDirty}
-                runDisabled={isCurrentScenarioRunning}
-              />
+              <Grid item>
+                {/* FIXME: add PLATFORM.ADMIN bypass */}
+                <SaveLaunchDiscardButton
+                  save={(event) => scenarioSave(event)}
+                  discard={askDiscardConfirmation}
+                  launch={(event) => scenarioLaunch(event, false)}
+                  saveAndLauch={(event) => scenarioLaunch(event, true)}
+                  isDirty={isDirty}
+                  runDisabled={isCurrentScenarioRunning}
+                />
+              </Grid>
             </Grid>
           </AccordionSummary>
           <AccordionDetails>
