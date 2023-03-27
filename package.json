@@ -39,6 +39,7 @@
     "typescript": "^4.4.3"
   },
   "scripts": {
+    "esbuild": "node run_esbuild.mjs",
     "start": "cross-env ESLINT_NO_DEV_ERRORS=true REACT_APP_APP_VERSION=$npm_package_version react-app-rewired start",
     "build": "cross-env DISABLE_ESLINT_PLUGIN=true REACT_APP_APP_VERSION=$npm_package_version react-app-rewired build",
     "test": "jest",
@@ -78,6 +79,8 @@
     "cypress-file-upload": "^5.0.8",
     "cypress-localstorage-commands": "^1.5.0",
     "cypress-mochawesome-reporter": "^3.3.0",
+    "esbuild": "^0.17.12",
+    "esbuild-plugin-polyfill-node": "^0.1.4",
     "eslint": "^8.33.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-standard": "^17.0.0",
