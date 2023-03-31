@@ -28,6 +28,8 @@ const ScenarioDashboardCard = () => {
     <Card component={Paper} sx={{ p: 0 }}>
       <Accordion
         expanded={isDashboardsAccordionExpanded}
+        data-cy="dashboards-accordion"
+        data-unsynced={hasScenarioBeenRun && !isDashboardSync ? 'true' : 'false'}
         sx={{ pb: 1.5, pt: 1.5, bgcolor: hasScenarioBeenRun && !isDashboardSync ? 'dashboard.warning' : undefined }}
       >
         <AccordionSummary
