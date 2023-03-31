@@ -76,6 +76,18 @@ function getScenarioCreationDialogCancelButton() {
 function getDashboardPlaceholder() {
   return cy.get(GENERIC_SELECTORS.scenario.dashboard.placeholder);
 }
+function getDashboardAccordion() {
+  return cy.get(GENERIC_SELECTORS.scenario.dashboard.accordion);
+}
+function getDashboardAccordionSummary() {
+  return cy.get(GENERIC_SELECTORS.scenario.dashboard.accordionSummary);
+}
+
+function checkIfReportIsUnsynced(expectedValue) {
+  return expectedValue
+    ? cy.get(GENERIC_SELECTORS.scenario.dashboard.unsynced).should('exist')
+    : cy.get(GENERIC_SELECTORS.scenario.dashboard.synced).should('exist');
+}
 
 function switchToScenarioView() {
   getScenarioViewTab().click();
@@ -223,6 +235,9 @@ export const Scenarios = {
   getScenarioCreationDialogSubmitButton,
   getScenarioCreationDialogCancelButton,
   getDashboardPlaceholder,
+  getDashboardAccordion,
+  getDashboardAccordionSummary,
+  checkIfReportIsUnsynced,
   switchToScenarioView,
   openScenarioCreationDialog,
   selectParentScenario,
