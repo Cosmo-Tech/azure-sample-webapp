@@ -64,6 +64,8 @@ describe('Switching between workspaces and running four scenarios at the same ti
       ScenarioParameters.updateAndLaunch();
       Workspaces.getHomeButton().should('be.visible').click();
       route.goBack({ expectedURL: firstWorkspaceParentScenarioId });
+      Scenarios.getDashboardAccordion().click();
+      Scenarios.getDashboardPlaceholder().should('be.visible');
       Scenarios.getDashboardPlaceholder().should('have.text', SCENARIO_RUN_IN_PROGRESS);
       ScenarioParameters.getLaunchButton().should('be.disabled');
 
@@ -104,11 +106,13 @@ describe('Switching between workspaces and running four scenarios at the same ti
         // check the first parent scenario is still running
         Workspaces.selectWorkspace(REAL_BREWERY_WORKSPACE_ID);
         ScenarioSelector.selectScenario(firstWorkspaceParentScenarioName, firstWorkspaceParentScenarioId);
+        Scenarios.getDashboardPlaceholder().should('be.visible');
         Scenarios.getDashboardPlaceholder().should('have.text', SCENARIO_RUN_IN_PROGRESS);
         ScenarioParameters.getLaunchButton().should('be.disabled');
 
         // browse to the second parent scenario and check it still running with right values
         route.browse({ url: `${BREWERY_WORKSPACE_ID}/scenario/${secondWorkspaceParentScenarioId}` });
+        Scenarios.getDashboardPlaceholder().should('be.visible');
         Scenarios.getDashboardPlaceholder().should('have.text', SCENARIO_RUN_IN_PROGRESS);
         ScenarioParameters.getLaunchButton().should('be.disabled');
         BreweryParameters.getStock().should('have.text', '400');
@@ -163,7 +167,7 @@ describe('Switching between workspaces and running four scenarios at the same ti
 
             // check the first child scenario is running with right parameters
             route.browse({ url: `${REAL_BREWERY_WORKSPACE_ID}/scenario/${firstWorkspaceChildScenarioId}` });
-            Scenarios.getDashboardPlaceholder().should('exist');
+            Scenarios.getDashboardPlaceholder().should('be.visible');
             ScenarioParameters.getLaunchButton().should('be.disabled');
             BreweryParameters.switchToCustomersTab();
             BreweryParameters.getCustomersTableGrid().should('not.be.empty');
@@ -174,7 +178,7 @@ describe('Switching between workspaces and running four scenarios at the same ti
 
             // check second child scenario is running with right parameters
             route.browse({ url: `${BREWERY_WORKSPACE_ID}/scenario/${secondWorkspaceChildScenarioId}` });
-            Scenarios.getDashboardPlaceholder().should('exist');
+            Scenarios.getDashboardPlaceholder().should('be.visible');
             ScenarioParameters.getLaunchButton().should('be.disabled');
             BreweryParameters.switchToDatasetPartsTab();
             BreweryParameters.getExampleDatasetPart1FileName().should('have.text', FILE_PATH_1);
@@ -185,12 +189,12 @@ describe('Switching between workspaces and running four scenarios at the same ti
 
             // check the first parent scenario is running
             route.browse({ url: `${REAL_BREWERY_WORKSPACE_ID}/scenario/${firstWorkspaceParentScenarioId}` });
-            Scenarios.getDashboardPlaceholder().should('exist');
+            Scenarios.getDashboardPlaceholder().should('be.visible');
             ScenarioParameters.getLaunchButton().should('be.disabled');
 
             // check the second parent scenario is running
             route.browse({ url: `${BREWERY_WORKSPACE_ID}/scenario/${secondWorkspaceParentScenarioId}` });
-            Scenarios.getDashboardPlaceholder().should('exist');
+            Scenarios.getDashboardPlaceholder().should('be.visible');
             ScenarioParameters.getLaunchButton().should('be.disabled');
 
             // check scenario can't be found with wrong workspaceId in url N1
