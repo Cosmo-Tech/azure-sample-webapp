@@ -75,7 +75,10 @@ const Scenario = () => {
     localStorage.setItem(STORAGE_SCENARIO_PARAMETERS_ACCORDION_EXPANDED_KEY, isExpanded);
   };
 
-  const onScenarioCreated = useCallback(() => setIsScenarioParametersAccordionExpanded(true), []);
+  const onScenarioCreated = useCallback(() => {
+    setIsScenarioParametersAccordionExpanded(true);
+    localStorage.setItem(STORAGE_SCENARIO_PARAMETERS_ACCORDION_EXPANDED_KEY, true);
+  }, []);
 
   const currentScenarioRenderInputTooltip = editMode
     ? t(
