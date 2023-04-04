@@ -57,6 +57,7 @@ describe('Additional advanced scenario parameters tests', () => {
     Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
 
     BreweryParameters.switchToEventsTab();
+    BreweryParameters.getEventsTableCell('reservationsNumber', 0).should('have.text', '200');
     BreweryParameters.getAdditionalSeats().should('have.text', INIT_VALUES.additionalSeats);
     BreweryParameters.getActivated().should('have.text', 'OFF');
 
@@ -74,6 +75,7 @@ describe('Additional advanced scenario parameters tests', () => {
     ScenarioParameters.edit();
 
     BreweryParameters.switchToEventsTab();
+    BreweryParameters.editEventsTableStringCell('reservationsNumber', 0, '199').should('have.text', '199');
     // Additional seats values ranged from -600 to 2500
     // If the value is out of range, the last digit is not displayed
     BreweryParameters.getAdditionalSeatsInput().click().clear().type(-800).should('value', -80);
@@ -108,6 +110,7 @@ describe('Additional advanced scenario parameters tests', () => {
     ScenarioParameters.discard();
 
     BreweryParameters.switchToEventsTab();
+    BreweryParameters.getEventsTableCell('reservationsNumber', 0).should('have.text', '200');
     BreweryParameters.getAdditionalSeats().should('have.text', INIT_VALUES.additionalSeats);
     BreweryParameters.getActivated().should('have.text', 'OFF');
 
@@ -125,6 +128,7 @@ describe('Additional advanced scenario parameters tests', () => {
     ScenarioParameters.edit();
 
     BreweryParameters.switchToEventsTab();
+    BreweryParameters.editEventsTableStringCell('reservationsNumber', 0, '199').should('have.text', '199');
     BreweryParameters.getAdditionalSeatsInput()
       .click()
       .clear()
@@ -152,6 +156,7 @@ describe('Additional advanced scenario parameters tests', () => {
     ScenarioParameters.updateAndLaunch();
 
     BreweryParameters.switchToEventsTab();
+    BreweryParameters.getEventsTableCell('reservationsNumber', 0).should('have.text', '199');
     BreweryParameters.getAdditionalSeats().should('have.text', VALUES_TO_UPDATE.additionalSeats);
     BreweryParameters.getActivated().should('have.text', 'OFF');
     BreweryParameters.getEvaluation().should('have.text', VALUES_TO_UPDATE.evaluation);
