@@ -55,6 +55,10 @@ export const GENERIC_SELECTORS = {
     loadingSpinner: '[data-cy="scenario-loading-spinner"]',
     dashboard: {
       placeholder: '[data-cy=dashboard-placeholder]',
+      accordion: '[data-cy=dashboards-accordion]',
+      accordionSummary: '[data-cy=dashboards-accordion-summary]',
+      unsynced: '[data-unsynced=true]',
+      synced: '[data-unsynced=false]',
     },
     selectInput: '[data-cy=scenario-select-input]',
     scenarioSelectOption: 'li[data-testid=option-$SCENARIOID]',

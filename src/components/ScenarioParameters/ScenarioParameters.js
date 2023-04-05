@@ -50,12 +50,7 @@ const getRunTemplateParametersIds = (runTemplatesParametersIdsDict, runTemplateI
 
 const ScenarioResetValuesContext = React.createContext();
 
-const ScenarioParameters = ({
-  editMode,
-  changeEditMode,
-  onChangeAccordionSummaryExpanded,
-  accordionSummaryExpanded,
-}) => {
+const ScenarioParameters = ({ editMode, changeEditMode, onToggleAccordion, isAccordionExpanded }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const {
@@ -177,7 +172,7 @@ const ScenarioParameters = ({
   };
 
   const startParametersEdition = (event) => {
-    if (accordionSummaryExpanded) {
+    if (isAccordionExpanded) {
       event.stopPropagation();
     }
     changeEditMode(true);
@@ -271,21 +266,15 @@ const ScenarioParameters = ({
     );
   }
 
-  const handleSummaryClick = () => {
-    const expandedNewState = !accordionSummaryExpanded;
-    localStorage.setItem('scenarioParametersAccordionExpanded', expandedNewState);
-    onChangeAccordionSummaryExpanded(expandedNewState);
-  };
-
   return (
     <div>
       <ScenarioResetValuesContext.Provider value={scenarioResetValues}>
-        <Accordion expanded={accordionSummaryExpanded}>
+        <Accordion expanded={isAccordionExpanded}>
           <AccordionSummary
             data-cy="scenario-params-accordion-summary"
             className={classes.accordionSummary}
             expandIcon={<ExpandMoreIcon />}
-            onClick={handleSummaryClick}
+            onClick={onToggleAccordion}
           >
             <Grid container className={classes.gridContainerSummary}>
               <Grid className={classes.gridSummary}>
@@ -367,8 +356,8 @@ const ScenarioParameters = ({
 ScenarioParameters.propTypes = {
   editMode: PropTypes.bool.isRequired,
   changeEditMode: PropTypes.func.isRequired,
-  onChangeAccordionSummaryExpanded: PropTypes.func.isRequired,
-  accordionSummaryExpanded: PropTypes.bool.isRequired,
+  onToggleAccordion: PropTypes.func.isRequired,
+  isAccordionExpanded: PropTypes.bool.isRequired,
 };
 
 export default ScenarioParameters;

@@ -54,10 +54,13 @@ function checkValidationStatusInScenarioSelector(searchStr, scenarioId, expected
 }
 
 function writeInScenarioSelectorInput(searchStr) {
-  return getScenarioSelector()
+  return getScenarioSelectorInput()
     .click()
     .should('not.be.disabled')
-    .type('{selectAll}{backspace}' + searchStr); // clear() does not always work, use "{selectAll}{backspace}" instead
+    .type(
+      '{selectAll}{backspace}' + searchStr, // clear() does not always work, use "{selectAll}{backspace}" instead
+      { force: true } // Force click to handle cases when the error banner is displayed above the selector options
+    );
 }
 
 // Parameters:

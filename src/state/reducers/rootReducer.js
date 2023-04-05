@@ -3,6 +3,7 @@
 
 import { combineReducers } from 'redux';
 import { scenarioReducer } from './scenario/ScenarioReducer';
+import { scenarioRunReducer } from './scenariorun/ScenarioRunReducer';
 import { applicationReducer } from './app/ApplicationReducer';
 import { datasetReducer } from './dataset/DatasetReducer';
 import { workspaceReducer } from './workspace/WorkspaceReducer';
@@ -13,6 +14,7 @@ import { powerBiReducer } from './powerbi/PowerBIReducer';
 
 const rootReducer = combineReducers({
   scenario: scenarioReducer,
+  scenarioRun: scenarioRunReducer,
   application: applicationReducer,
   auth: authReducer,
   dataset: datasetReducer,

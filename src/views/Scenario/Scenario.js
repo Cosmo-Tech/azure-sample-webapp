@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import React, { useEffect, useState, useCallback } from 'react';
-import { Backdrop, Button, Card, CardContent, CircularProgress, Grid, Paper, Tooltip, Typography } from '@mui/material';
+import { Backdrop, Button, Card, CircularProgress, Grid, Paper, Tooltip, Typography } from '@mui/material';
 import { useForm, FormProvider } from 'react-hook-form';
 import { ScenarioParameters, ShareCurrentScenarioButton, CreateScenarioButton } from '../../components';
 import { useTranslation } from 'react-i18next';
@@ -13,7 +13,7 @@ import ScenarioService from '../../services/scenario/ScenarioService';
 import { STATUSES } from '../../state/commons/Constants';
 import { AppInsights } from '../../services/AppInsights';
 import { ACL_PERMISSIONS } from '../../services/config/accessControl';
-import { ScenarioPowerBiReport } from './components';
+import { ScenarioDashboardCard } from './components';
 import { makeStyles } from '@mui/styles';
 import { useScenario } from './ScenarioHook';
 import { useRedirectionToScenario } from '../../hooks/RouterHooks';
@@ -37,6 +37,8 @@ const useStyles = makeStyles((theme) => ({
 
 const appInsights = AppInsights.getInstance();
 
+const STORAGE_SCENARIO_PARAMETERS_ACCORDION_EXPANDED_KEY = 'scenarioParametersAccordionExpanded';
+
 const Scenario = () => {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -47,29 +49,36 @@ const Scenario = () => {
   const {
     scenarioList,
     currentScenario,
+    currentScenarioRun,
+    currentScenarioRunId,
     organizationId,
     workspaceId,
     setScenarioValidationStatus,
     findScenarioById,
     setApplicationErrorMessage,
+    fetchScenarioRunById,
   } = useScenario();
 
   const [editMode, setEditMode] = useState(false);
 
-  // Add accordion expand status in state
-  const [accordionSummaryExpanded, setAccordionSummaryExpanded] = useState(
-    localStorage.getItem('scenarioParametersAccordionExpanded') === 'true'
+  const [isScenarioParametersAccordionExpanded, setIsScenarioParametersAccordionExpanded] = useState(
+    localStorage.getItem(STORAGE_SCENARIO_PARAMETERS_ACCORDION_EXPANDED_KEY) === 'true'
   );
 
   const handleScenarioChange = (event, scenario) => {
     findScenarioById(scenario.id);
   };
 
-  useEffect(() => {
-    localStorage.setItem('scenarioParametersAccordionExpanded', accordionSummaryExpanded);
-  }, [accordionSummaryExpanded]);
+  const toggleScenarioParametersAccordion = () => {
+    const isExpanded = !isScenarioParametersAccordionExpanded;
+    setIsScenarioParametersAccordionExpanded(isExpanded);
+    localStorage.setItem(STORAGE_SCENARIO_PARAMETERS_ACCORDION_EXPANDED_KEY, isExpanded);
+  };
 
-  const onScenarioCreated = useCallback(() => setAccordionSummaryExpanded(true), []);
+  const onScenarioCreated = useCallback(() => {
+    setIsScenarioParametersAccordionExpanded(true);
+    localStorage.setItem(STORAGE_SCENARIO_PARAMETERS_ACCORDION_EXPANDED_KEY, true);
+  }, []);
 
   const currentScenarioRenderInputTooltip = editMode
     ? t(
@@ -81,6 +90,10 @@ const Scenario = () => {
   useEffect(() => {
     appInsights.setScenarioData(currentScenario.data);
   }, [currentScenario]);
+
+  useEffect(() => {
+    if (currentScenarioRunId != null && currentScenarioRun == null) fetchScenarioRunById(currentScenarioRunId);
+  }, [currentScenarioRunId, currentScenarioRun, fetchScenarioRunById]);
 
   const sortedScenarioList = sortScenarioList(scenarioList.data.slice());
   const noScenario = currentScenario.data === null;
@@ -279,18 +292,14 @@ const Scenario = () => {
                 <ScenarioParameters
                   editMode={editMode}
                   changeEditMode={setEditMode}
-                  accordionSummaryExpanded={accordionSummaryExpanded}
-                  onChangeAccordionSummaryExpanded={setAccordionSummaryExpanded}
+                  isAccordionExpanded={isScenarioParametersAccordionExpanded}
+                  onToggleAccordion={toggleScenarioParametersAccordion}
                 />
               )}
             </Card>
           </Grid>
           <Grid item xs={12}>
-            <Card component={Paper}>
-              <CardContent>
-                <ScenarioPowerBiReport />
-              </CardContent>
-            </Card>
+            <ScenarioDashboardCard />
           </Grid>
         </Grid>
       </div>
