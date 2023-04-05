@@ -64,11 +64,17 @@ export function* updateAndLaunchScenario(action) {
   try {
     const runStartTime = new Date().getTime();
     // Launch scenario if parameters update succeeded
-    yield call(Api.ScenarioRuns.runScenario, organizationId, workspaceId, scenarioId);
+    const response = yield call(Api.ScenarioRuns.runScenario, organizationId, workspaceId, scenarioId);
+    const newLastRun = {
+      csmSimulationRun: response?.data?.csmSimulationRun,
+      scenarioRunId: response?.data?.id,
+      workflowId: response?.data?.workflowId,
+      workflowName: response?.data?.workflowName,
+    };
 
     yield put({
       type: SCENARIO_ACTIONS_KEY.UPDATE_SCENARIO,
-      data: { scenarioState: SCENARIO_RUN_STATE.RUNNING, scenarioId, lastRun: null },
+      data: { scenarioState: SCENARIO_RUN_STATE.RUNNING, scenarioId, lastRun: newLastRun },
     });
 
     // Start backend polling to update the scenario status
