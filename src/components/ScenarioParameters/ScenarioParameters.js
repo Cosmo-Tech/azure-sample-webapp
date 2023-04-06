@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import rfdc from 'rfdc';
 import { useFormContext } from 'react-hook-form';
 import PropTypes from 'prop-types';
 import { Grid, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
@@ -14,6 +15,8 @@ import { useTranslation } from 'react-i18next';
 import { SimpleTwoActionsDialog, DontAskAgainDialog, PermissionsGate } from '@cosmotech/ui';
 import { useScenarioParameters } from './ScenarioParametersHook';
 import { ScenarioParametersUtils, FileManagementUtils } from '../../utils';
+
+const clone = rfdc();
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -120,7 +123,7 @@ const ScenarioParameters = ({ editMode, changeEditMode, onToggleAccordion, isAcc
   );
 
   const resetParametersValues = useCallback(() => {
-    reset(scenarioResetValues);
+    reset(clone(scenarioResetValues));
   }, [reset, scenarioResetValues]);
 
   const discardLocalChanges = useCallback(() => {
