@@ -9,7 +9,7 @@ import { TranslationUtils, ConfigUtils } from '../../../../utils';
 
 export const GenericRadioInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty }) => {
   const { t } = useTranslation();
-  let enumValues = ConfigUtils.getParameterAttribute(parameterData, 'enumValues');
+  const enumValues = ConfigUtils.getParameterAttribute(parameterData, 'enumValues');
   const textFieldProps = {
     disabled: !context.editMode,
     id: parameterData.id,
@@ -21,7 +21,6 @@ export const GenericRadioInput = ({ parameterData, context, parameterValue, setP
         'Please provide an array in the "options.enumValues" field for this parameter in the parameters' +
         'configuration file.'
     );
-    enumValues = [];
   }
 
   return (
@@ -29,7 +28,7 @@ export const GenericRadioInput = ({ parameterData, context, parameterValue, setP
       key={parameterData.id}
       id={parameterData.id}
       label={t(`solution.parameters.${parameterData.id}`, parameterData.id)}
-      value={parameterValue ?? enumValues?.[0]?.key ?? ''}
+      value={parameterValue}
       tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
       changeRadioOption={setParameterValue}
       textFieldProps={textFieldProps}

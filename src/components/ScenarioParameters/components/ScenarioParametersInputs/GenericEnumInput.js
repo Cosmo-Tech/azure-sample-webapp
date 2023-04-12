@@ -14,14 +14,13 @@ export const GenericEnumInput = ({ parameterData, context, parameterValue, setPa
     id: `enum-input-${parameterData.id}`,
   };
 
-  let enumValues = ConfigUtils.getParameterAttribute(parameterData, 'enumValues');
+  const enumValues = ConfigUtils.getParameterAttribute(parameterData, 'enumValues');
   if (!enumValues) {
     console.warn(
       `Enum values are not defined for scenario parameter "${parameterData.id}".\n` +
         'Please provide an array in the "options.enumValues" field for this parameter in the parameters ' +
         'configuration file.'
     );
-    enumValues = [];
   }
   return (
     <BasicEnumInput
@@ -29,7 +28,7 @@ export const GenericEnumInput = ({ parameterData, context, parameterValue, setPa
       id={parameterData.id}
       label={t(`solution.parameters.${parameterData.id}`, parameterData.id)}
       tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
-      value={parameterValue ?? enumValues?.[0]?.key ?? ''}
+      value={parameterValue}
       changeEnumField={setParameterValue}
       textFieldProps={textFieldProps}
       enumValues={enumValues}
