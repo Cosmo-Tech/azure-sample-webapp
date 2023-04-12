@@ -35,18 +35,13 @@ export const GenericNumberInput = ({ parameterData, context, parameterValue, set
     id: `number-input-${parameterData.id}`,
   };
 
-  let value = parameterValue;
-  if (value == null) {
-    value = NaN;
-  }
-
   return (
     <BasicNumberInput
       key={parameterData.id}
       id={parameterData.id}
       label={t(`solution.parameters.${parameterData.id}`, parameterData.id)}
       tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
-      value={value}
+      value={parameterValue}
       changeNumberField={setParameterValue}
       textFieldProps={textFieldProps}
       inputProps={inputProps}
