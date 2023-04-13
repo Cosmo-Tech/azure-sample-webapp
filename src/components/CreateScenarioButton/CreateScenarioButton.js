@@ -7,6 +7,7 @@ import { PermissionsGate, CreateScenarioButton as CreateScenarioButtonUI } from 
 
 import { ACL_PERMISSIONS } from '../../services/config/accessControl';
 import { useCreateScenarioButton } from './CreateScenarioButtonHook';
+import { sortScenarioList } from '../../utils/SortScenarioListUtils';
 
 const CreateScenarioButton = ({ disabled, onScenarioCreated }) => {
   const {
@@ -21,6 +22,7 @@ const CreateScenarioButton = ({ disabled, onScenarioCreated }) => {
     filteredDatasetList,
     scenarioListData,
   } = useCreateScenarioButton({ disabled, onScenarioCreated });
+  const sortedScenarioList = sortScenarioList(scenarioListData);
 
   return (
     <PermissionsGate
@@ -37,7 +39,7 @@ const CreateScenarioButton = ({ disabled, onScenarioCreated }) => {
         currentScenario={currentScenario}
         runTemplates={filteredRunTemplates}
         datasets={filteredDatasetList}
-        scenarios={scenarioListData}
+        scenarios={sortedScenarioList}
         user={user}
         disabled={disabled}
         labels={createScenarioDialogLabels}

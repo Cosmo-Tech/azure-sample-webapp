@@ -5,7 +5,7 @@ import React from 'react';
 import rfdc from 'rfdc';
 import { createMockStore } from '../../../tests/mocks';
 import { ROLES } from '../../../tests/constants';
-import { DEFAULT_REDUX_STATE, SCENARIODATA_WITHOUT_USERS } from '../../../tests/samples';
+import { DEFAULT_REDUX_STATE, SCENARIODATA_WITHOUT_USERS, DEFAULT_SCENARIOS_LIST_DATA } from '../../../tests/samples';
 import { applyWorkspaceRoleToState } from '../../../tests/utils/security';
 import { dispatchCreateScenario } from '../../state/dispatchers/scenario/ScenarioDispatcher';
 
@@ -16,6 +16,10 @@ import CreateScenarioButton from '.';
 import { logsLabels } from './labels';
 
 const clone = rfdc();
+const DEFAULT_SCENARIOS_LIST_DATA_WITH_DEPTHS = DEFAULT_SCENARIOS_LIST_DATA.map((scenario) => ({
+  ...scenario,
+  depth: 0,
+}));
 
 const spyConsoleWarn = jest.spyOn(console, 'warn').mockImplementation(() => {});
 let mockCreateScenarioUIProps;
@@ -92,7 +96,7 @@ describe('CreateScenarioButton', () => {
     });
 
     test('scenarios prop match to scenario list data state', () => {
-      expect(mockCreateScenarioUIProps.scenarios).toEqual(DEFAULT_REDUX_STATE.scenario.list.data);
+      expect(mockCreateScenarioUIProps.scenarios).toEqual(DEFAULT_SCENARIOS_LIST_DATA_WITH_DEPTHS);
     });
 
     test('user prop match to auth state', () => {
