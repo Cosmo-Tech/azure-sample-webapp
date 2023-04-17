@@ -170,5 +170,7 @@ describe('Table parameters files standard operations part 3', () => {
       .should('have.text', '1')
       .type('{ctrl}z')
       .should('have.text', '0');
+
+    ScenarioParameters.discard();
   });
 });

@@ -13,3 +13,4 @@ export { ScenarioParametersUtils } from './scenarioParameters/ScenarioParameters
 export { SecurityUtils } from './SecurityUtils';
 export { WorkspacesUtils } from './WorkspacesUtils';
 export { FileManagementUtils } from './FileManagementUtils';
+export { Notifier } from './notifiers';

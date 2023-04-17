@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { put, takeEvery, call, select } from 'redux-saga/effects';
+import { put, takeEvery, call } from 'redux-saga/effects';
 import { APPLICATION_ACTIONS_KEY } from '../../../commons/ApplicationConstants';
 import { WORKSPACE_ACTIONS_KEY } from '../../../commons/WorkspaceConstants';
 import { STATUSES } from '../../../commons/Constants';
@@ -15,7 +15,6 @@ import ConfigService from '../../../../services/ConfigService';
 
 const ORGANIZATION_ID = ConfigService.getParameterValue('ORGANIZATION_ID');
 
-const getWorkspaces = (state) => state?.workspace?.list?.data;
 const providedUrlBeforeSignIn = sessionStorage.getItem('providedUrlBeforeSignIn');
 const providedUrl = window.location.pathname;
 const path = matchPath(':firstParam/*', providedUrlBeforeSignIn || providedUrl);
@@ -67,16 +66,10 @@ export function* fetchAllInitialData() {
       error: errorDetails,
     });
   }
-  const workspaces = yield select(getWorkspaces);
   if (providedWorkspaceId) {
     yield put({
       type: WORKSPACE_ACTIONS_KEY.SELECT_WORKSPACE,
       workspaceId: providedWorkspaceId,
-    });
-  } else if (workspaces?.length === 1) {
-    yield put({
-      type: WORKSPACE_ACTIONS_KEY.SELECT_WORKSPACE,
-      workspaceId: workspaces[0].id,
     });
   } else {
     yield put({

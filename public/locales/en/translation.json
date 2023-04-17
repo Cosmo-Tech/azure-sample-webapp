@@ -374,7 +374,9 @@
           "label": "Copy",
           "copied": "Copied"
         }
-      }
+      },
+      "openScenario": "Scenario can't be opened.",
+      "noPermissionDetail": "You don't have permission to access the scenario #{{scenarioId}} from workspace #{{workspaceId}} of organization #{{organizationId}}"
     }
   },
   "genericcomponent": {
@@ -494,12 +496,20 @@
             "validate": "Discard",
             "launch": "Launch"
           },
-          "title": "Discard current modifications ?",
+          "title": "Discard current modifications?",
           "body": "You will lose all your current changes made on the scenario parameters.",
           "confirmLaunchDialog": {
-            "title": "Launch scenario ?",
+            "title": "Launch scenario?",
             "body": "Running a scenario can take time. Any existing results for this scenario will be overwriten.",
             "checkbox": "Don't ask again"
+          }
+        },
+        "discardUnsaved": {
+          "title": "Discard unsaved parameters?",
+          "body": "You have unsaved parameters that will be lost if you continue.",
+          "buttons": {
+            "cancel": "Cancel",
+            "discardAndContinue": "Discard and continue"
           }
         }
       },

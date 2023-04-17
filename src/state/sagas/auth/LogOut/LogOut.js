@@ -8,6 +8,7 @@ import { AUTH_ACTIONS_KEY } from '../../../commons/AuthConstants';
 // Generator function to fetch authentication data
 export function* tryLogOut(action) {
   try {
+    sessionStorage.setItem('logoutInProgress', true);
     if (action.data.timeout) {
       localStorage.setItem('logoutByTimeout', true);
     }

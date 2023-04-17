@@ -375,7 +375,9 @@
           "label": "Copier",
           "copied": "Copié"
         }
-      }
+      },
+      "openScenario": "Le scénario n'a pu etre ouvert.",
+      "noPermissionDetail": "Vous n'avez pas la permission d'accéder au scénario #{{scenarioId}} du workspace #{{workspaceId}} de l'organisation #{{organizationId}}"
     }
   },
   "genericcomponent": {
@@ -501,6 +503,14 @@
             "title": "Lancer le scenario ?",
             "body": "Lancer un scénario peut prendre du temps. Tous les résultats existants pour ce scénario seront écrasés.",
             "checkbox": "Ne pas demander la prochaine fois."
+          }
+        },
+        "discardUnsaved": {
+          "title": "Abandonner les modifications ?",
+          "body": "Vous avez des paramètres non sauvegardés qui seront perdus si vous continuez.",
+          "buttons": {
+            "cancel": "Annuler",
+            "discardAndContinue": "Rejeter et continuer"
           }
         }
       },

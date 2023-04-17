@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { AppBar } from '../../components/AppBar';
 import { useNavigate } from 'react-router-dom';
 import { Grid, Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/material';
@@ -14,7 +14,7 @@ import { useResetCurrentWorkspace } from '../../state/hooks/WorkspaceHooks';
 const Workspaces = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { workspacesList, organizationName, selectWorkspace } = useWorkspaces();
+  const { workspacesList, organizationName, currentWorkspace } = useWorkspaces();
   const applicationError = useApplicationError();
   const clearApplicationErrorMessage = useClearApplicationErrorMessage();
   sessionStorage.removeItem('providedUrlBeforeSignIn');
@@ -34,15 +34,26 @@ const Workspaces = () => {
       `If you think this is a mistake, please contact your administrator.`
     ),
   };
-  const openWorkspace = (workspaceId) => {
-    selectWorkspace(workspaceId);
-    navigate(`/${workspaceId}`);
-  };
+  const openWorkspace = useCallback(
+    (workspaceId) => {
+      navigate(`/${workspaceId}`);
+    },
+    [navigate]
+  );
+
   const resetWorkspace = useResetCurrentWorkspace();
+  const isLoaded = useRef(false);
   useEffect(() => {
-    resetWorkspace();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    if (!isLoaded.current) {
+      isLoaded.current = true;
+      if (currentWorkspace?.status !== 'ERROR' && workspacesList?.data?.length === 1) {
+        openWorkspace(workspacesList?.data[0].id);
+      } else {
+        resetWorkspace();
+      }
+    }
+  }, [currentWorkspace?.status, openWorkspace, resetWorkspace, workspacesList?.data]);
+
   const workspaceListRender = workspacesList.data.map((workspace) => (
     <Grid item key={workspace.id}>
       <ResourceCard

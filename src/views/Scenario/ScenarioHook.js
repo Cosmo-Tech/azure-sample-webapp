@@ -2,11 +2,10 @@
 // Licensed under the MIT license.
 
 import {
-  useCurrentScenario,
   useCurrentScenarioLastRunId,
-  useScenarioList,
   useSetScenarioValidationStatus,
   useFindScenarioById,
+  useCurrentScenarioData,
 } from '../../state/hooks/ScenarioHooks';
 import { useCurrentScenarioRun, useFetchScenarioRunById } from '../../state/hooks/ScenarioRunHooks';
 import { useOrganizationId } from '../../state/hooks/OrganizationHooks';
@@ -14,10 +13,9 @@ import { useWorkspaceId } from '../../state/hooks/WorkspaceHooks';
 import { useSetApplicationErrorMessage } from '../../state/hooks/ApplicationHooks';
 
 export const useScenario = () => {
-  const scenarioList = useScenarioList();
-  const currentScenario = useCurrentScenario();
   const currentScenarioRunId = useCurrentScenarioLastRunId();
   const currentScenarioRun = useCurrentScenarioRun();
+  const currentScenarioData = useCurrentScenarioData();
   const organizationId = useOrganizationId();
   const workspaceId = useWorkspaceId();
 
@@ -28,10 +26,9 @@ export const useScenario = () => {
   const setApplicationErrorMessage = useSetApplicationErrorMessage();
 
   return {
-    scenarioList,
-    currentScenario,
     currentScenarioRun,
     currentScenarioRunId,
+    currentScenarioData,
     organizationId,
     workspaceId,
     setScenarioValidationStatus,

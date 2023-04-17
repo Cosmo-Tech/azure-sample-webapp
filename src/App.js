@@ -17,6 +17,7 @@ import { getTheme } from './theme';
 import AppRoutes from './AppRoutes';
 import { STATUSES } from './state/commons/Constants';
 import { useApp } from './AppHook';
+import { TwoActionsDialogGlobal } from './services/twoActionsDialog/twoActionsDialogService';
 
 const SESSION_TIMEOUT_PROMPT_DELAY_IN_SECONDS = 30;
 
@@ -95,6 +96,7 @@ const App = () => {
   return (
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={theme}>
+        <TwoActionsDialogGlobal />
         <CssBaseline />
         <SessionTimeoutDialog
           getRemainingTimeLabel={getRemainingTimeLabel}

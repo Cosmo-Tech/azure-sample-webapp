@@ -3,13 +3,13 @@
 
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { CytoViz, HierarchicalComboBox } from '@cosmotech/ui';
-import { sortScenarioList } from '../../utils/SortScenarioListUtils';
+import { CytoViz } from '@cosmotech/ui';
 import { parseError } from '../../utils/ErrorsUtils';
 import { STATUSES } from '../../state/commons/Constants';
 import { AppInsights } from '../../services/AppInsights';
 import { fetchData, processGraphElements } from './data';
 import useStyles from './style';
+import { CurrentScenarioSelector } from '../../components';
 import { useTheme } from '@mui/styles';
 import { useInstance } from './InstanceHook';
 
@@ -18,18 +18,16 @@ const EXTRA_LAYOUTS = {
 };
 const appInsights = AppInsights.getInstance();
 
-const Instance = (props) => {
+const Instance = () => {
   const classes = useStyles();
   const theme = useTheme();
   const { t } = useTranslation();
   const {
     organizationId,
     workspaceId,
-    scenarioList,
     currentScenario,
-    findScenarioById,
     useRedirectionToScenario,
-    useRedirectFromInstanceToSenarioView,
+    useRedirectFromInstanceToScenarioView,
     instanceViewConfig,
   } = useInstance();
 
@@ -43,19 +41,12 @@ const Instance = (props) => {
     appInsights.setScenarioData(currentScenario.data);
   }, [currentScenario]);
 
-  const handleScenarioChange = (event, scenario) => {
-    if (scenario.id !== currentScenario.data?.id) {
-      setIsLoadingData(true);
-    }
-    findScenarioById(scenario.id);
-  };
-  const sortedScenarioList = sortScenarioList(scenarioList.data.slice());
   const noScenario = currentScenario.data === null;
-  const scenarioListDisabled = scenarioList === null || noScenario;
-  const scenarioListLabel = noScenario ? null : t('views.scenario.dropdown.scenario.label', 'Scenario');
+
   const isSwitchingScenario = currentScenario.status === STATUSES.LOADING;
-  useRedirectionToScenario(sortedScenarioList);
-  useRedirectFromInstanceToSenarioView();
+
+  useRedirectionToScenario();
+  useRedirectFromInstanceToScenarioView();
 
   useEffect(() => {
     // Note that the "active" variable is necessary to prevent race conditions when the effect is called several times
@@ -191,13 +182,7 @@ const Instance = (props) => {
     <>
       <div className={classes.mainGrid}>
         <div className={classes.scenarioSelectGridItem}>
-          <HierarchicalComboBox
-            value={currentScenario.data}
-            values={sortedScenarioList}
-            label={scenarioListLabel}
-            handleChange={handleScenarioChange}
-            disabled={scenarioListDisabled}
-          />
+          <CurrentScenarioSelector />
         </div>
         <div className={classes.cytoscapeGridItem}>
           <CytoViz

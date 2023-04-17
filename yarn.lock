@@ -2395,10 +2395,10 @@
     redux-thunk "^2.4.2"
     reselect "^4.1.7"
 
-"@remix-run/router@1.2.1":
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/@remix-run/router/-/router-1.2.1.tgz#812edd4104a15a493dda1ccac0b352270d7a188c"
-  integrity sha512-XiY0IsyHR+DXYS5vBxpoBe/8veTeoRpMHP+vDosLZxL5bnpetzI0igkxkLZS235ldLzyfkxF+2divEwWHP3vMQ==
+"@remix-run/router@1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@remix-run/router/-/router-1.5.0.tgz#57618e57942a5f0131374a9fdb0167e25a117fdc"
+  integrity sha512-bkUDCp8o1MvFO+qxkODcbhSqRa6P2GXgrGZVpt0dCXNW2HCSCqYI0ZoAqEOSAjRWmmlKcYgFvN4B4S+zo/f8kg==
 
 "@rollup/plugin-babel@^5.2.0":
   version "5.3.1"
@@ -11572,20 +11572,20 @@ react-refresh@^0.11.0:
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.11.0.tgz#77198b944733f0f1f1a90e791de4541f9f074046"
   integrity sha512-F27qZr8uUqwhWZboondsPx8tnC3Ct3SxZA3V5WyEvujRyyNv0VYPhoBg1gZ8/MV5tubQp76Trw8lTv9hzRBa+A==
 
-react-router-dom@^6.3.0:
-  version "6.6.2"
-  resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-6.6.2.tgz#bbf1f9b45855b218d22fc2d294b79408a084740a"
-  integrity sha512-6SCDXxRQqW5af8ImOqKza7icmQ47/EMbz572uFjzvcArg3lZ+04PxSPp8qGs+p2Y+q+b+S/AjXv8m8dyLndIIA==
+react-router-dom@^6.10.0:
+  version "6.10.0"
+  resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-6.10.0.tgz#090ddc5c84dc41b583ce08468c4007c84245f61f"
+  integrity sha512-E5dfxRPuXKJqzwSe/qGcqdwa18QiWC6f3H3cWXM24qj4N0/beCIf/CWTipop2xm7mR0RCS99NnaqPNjHtrAzCg==
   dependencies:
-    "@remix-run/router" "1.2.1"
-    react-router "6.6.2"
+    "@remix-run/router" "1.5.0"
+    react-router "6.10.0"
 
-react-router@6.6.2:
-  version "6.6.2"
-  resolved "https://registry.yarnpkg.com/react-router/-/react-router-6.6.2.tgz#556f7b56cff7fe32c5c02429fef3fcb2ecd08111"
-  integrity sha512-uJPG55Pek3orClbURDvfljhqFvMgJRo59Pktywkk8hUUkTY2aRfza8Yhl/vZQXs+TNQyr6tu+uqz/fLxPICOGQ==
+react-router@6.10.0:
+  version "6.10.0"
+  resolved "https://registry.yarnpkg.com/react-router/-/react-router-6.10.0.tgz#230f824fde9dd0270781b5cb497912de32c0a971"
+  integrity sha512-Nrg0BWpQqrC3ZFFkyewrflCud9dio9ME3ojHCF/WLsprJVzkq3q3UeEhMCAW1dobjeGbWgjNn/PVF6m46ANxXQ==
   dependencies:
-    "@remix-run/router" "1.2.1"
+    "@remix-run/router" "1.5.0"
 
 react-scripts@^5.0.1:
   version "5.0.1"
@@ -12119,7 +12119,7 @@ run-parallel@^1.1.9:
   dependencies:
     queue-microtask "^1.2.2"
 
-rxjs@^7.5.1:
+rxjs@^7.5.1, rxjs@^7.8.0:
   version "7.8.0"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-7.8.0.tgz#90a938862a82888ff4c7359811a595e14e1e09a4"
   integrity sha512-F2+gxDshqmIub1KdvZkaEfGDwLNpPvk9Fs6LD/MyQxNgMds/WH9OdDDXOmxUZpME+iSK3rQCctkL0DYyytUqMg==

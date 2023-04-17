@@ -8,4 +8,5 @@ export const STATUSES = {
   SAVING: 'SAVING',
   ERROR: 'ERROR',
   SUCCESS: 'SUCCESS',
+  CREATED: 'CREATED',
 };

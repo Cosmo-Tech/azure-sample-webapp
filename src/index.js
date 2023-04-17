@@ -8,19 +8,16 @@ import './index.css';
 import App from './App';
 import { i18next } from './services/config/i18next';
 import applicationStore from './state/Store.config';
-import { BrowserRouter } from 'react-router-dom';
 import { I18nextProvider } from 'react-i18next';
 
 ReactDOM.render(
   <Suspense fallback="">
     <React.StrictMode>
-      <BrowserRouter>
-        <Provider store={applicationStore}>
-          <I18nextProvider i18n={i18next}>
-            <App />
-          </I18nextProvider>
-        </Provider>
-      </BrowserRouter>
+      <Provider store={applicationStore}>
+        <I18nextProvider i18n={i18next}>
+          <App />
+        </I18nextProvider>
+      </Provider>
     </React.StrictMode>
   </Suspense>,
   document.getElementById('root')

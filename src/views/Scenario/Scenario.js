@@ -2,21 +2,24 @@
 // Licensed under the MIT license.
 
 import React, { useEffect, useState, useCallback } from 'react';
-import { Backdrop, Button, Card, CircularProgress, Grid, Paper, Tooltip, Typography, Stack } from '@mui/material';
+import { Button, Card, Grid, Paper, Tooltip, Typography } from '@mui/material';
 import { useForm, FormProvider } from 'react-hook-form';
-import { ScenarioParameters, ShareCurrentScenarioButton, CreateScenarioButton } from '../../components';
+import {
+  ScenarioParameters,
+  ShareCurrentScenarioButton,
+  CreateScenarioButton,
+  CurrentScenarioSelector,
+} from '../../components';
 import { useTranslation } from 'react-i18next';
-import { HierarchicalComboBox, ScenarioValidationStatusChip, PermissionsGate } from '@cosmotech/ui';
-import { sortScenarioList } from '../../utils/SortScenarioListUtils';
+import { ScenarioValidationStatusChip, PermissionsGate } from '@cosmotech/ui';
 import { SCENARIO_VALIDATION_STATUS } from '../../services/config/ApiConstants.js';
 import ScenarioService from '../../services/scenario/ScenarioService';
-import { STATUSES } from '../../state/commons/Constants';
 import { AppInsights } from '../../services/AppInsights';
 import { ACL_PERMISSIONS } from '../../services/config/accessControl';
-import { ScenarioDashboardCard } from './components';
+import { ScenarioDashboardCard, BackdropLoadingScenario } from './components';
 import { makeStyles } from '@mui/styles';
 import { useScenario } from './ScenarioHook';
-import { useRedirectionToScenario } from '../../hooks/RouterHooks';
+import { useConfirmOnRouteChange, useRedirectionToScenario } from '../../hooks/RouterHooks';
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -45,13 +48,32 @@ const Scenario = () => {
 
   // RHF
   const methods = useForm();
-  const isDirty = methods.formState.isDirty;
+  const { isDirty } = methods.formState;
+
+  const confirmDiscardDialogProps = {
+    id: 'discard-and-continue',
+    labels: {
+      title: t('genericcomponent.dialog.scenario.discardUnsaved.title'),
+      body: t('genericcomponent.dialog.scenario.discardUnsaved.body'),
+      button1: t('genericcomponent.dialog.scenario.discardUnsaved.buttons.cancel'),
+      button2: t('genericcomponent.dialog.scenario.discardUnsaved.buttons.discardAndContinue'),
+    },
+    dialogProps: {
+      maxWidth: 'sm',
+    },
+    button2Props: {
+      color: 'error',
+    },
+    closeOnBackDropClick: true,
+  };
+
+  useRedirectionToScenario();
+  useConfirmOnRouteChange(confirmDiscardDialogProps, isDirty);
 
   const {
-    scenarioList,
-    currentScenario,
     currentScenarioRun,
     currentScenarioRunId,
+    currentScenarioData,
     organizationId,
     workspaceId,
     setScenarioValidationStatus,
@@ -65,15 +87,11 @@ const Scenario = () => {
     localStorage.getItem(STORAGE_SCENARIO_PARAMETERS_ACCORDION_EXPANDED_KEY) === 'true'
   );
 
-  const handleScenarioChange = (event, scenario) => {
-    findScenarioById(scenario.id);
-  };
-
-  const toggleScenarioParametersAccordion = () => {
+  const toggleScenarioParametersAccordion = useCallback(() => {
     const isExpanded = !isScenarioParametersAccordionExpanded;
     setIsScenarioParametersAccordionExpanded(isExpanded);
     localStorage.setItem(STORAGE_SCENARIO_PARAMETERS_ACCORDION_EXPANDED_KEY, isExpanded);
-  };
+  }, [isScenarioParametersAccordionExpanded]);
 
   const onScenarioCreated = useCallback(() => {
     setIsScenarioParametersAccordionExpanded(true);
@@ -88,63 +106,51 @@ const Scenario = () => {
     : '';
 
   useEffect(() => {
-    appInsights.setScenarioData(currentScenario.data);
-  }, [currentScenario]);
+    appInsights.setScenarioData(currentScenarioData);
+  }, [currentScenarioData]);
 
   useEffect(() => {
     if (currentScenarioRunId != null && currentScenarioRun == null) fetchScenarioRunById(currentScenarioRunId);
   }, [currentScenarioRunId, currentScenarioRun, fetchScenarioRunById]);
 
-  const sortedScenarioList = sortScenarioList(scenarioList.data.slice());
-  const noScenario = currentScenario.data === null;
-  const scenarioListDisabled = isDirty || scenarioList === null || noScenario;
-  const scenarioListLabel = noScenario ? null : t('views.scenario.dropdown.scenario.label', 'Scenario');
-  const showBackdrop = currentScenario.status === STATUSES.LOADING || currentScenario.status === STATUSES.SAVING;
-
-  useRedirectionToScenario(sortedScenarioList);
-
   const resetScenarioValidationStatus = async () => {
-    const currentStatus = currentScenario.data.validationStatus;
+    const currentStatus = currentScenarioData.validationStatus;
     try {
-      setScenarioValidationStatus(currentScenario.data.id, SCENARIO_VALIDATION_STATUS.LOADING);
-      await ScenarioService.resetValidationStatus(organizationId, workspaceId, currentScenario.data.id);
-      findScenarioById(currentScenario.data.id);
+      setScenarioValidationStatus(currentScenarioData.id, SCENARIO_VALIDATION_STATUS.LOADING);
+      await ScenarioService.resetValidationStatus(organizationId, workspaceId, currentScenarioData.id);
+      findScenarioById(currentScenarioData.id);
     } catch (error) {
       setApplicationErrorMessage(
         error,
         t('commoncomponents.banner.resetStatusValidation', 'A problem occurred during validation status reset.')
       );
-      setScenarioValidationStatus(currentScenario.data.id, currentStatus);
+      setScenarioValidationStatus(currentScenarioData.id, currentStatus);
     }
   };
   const validateScenario = async () => {
     try {
-      setScenarioValidationStatus(currentScenario.data.id, SCENARIO_VALIDATION_STATUS.LOADING);
-      await ScenarioService.setScenarioValidationStatusToValidated(
-        organizationId,
-        workspaceId,
-        currentScenario.data.id
-      );
-      findScenarioById(currentScenario.data.id);
+      setScenarioValidationStatus(currentScenarioData.id, SCENARIO_VALIDATION_STATUS.LOADING);
+      await ScenarioService.setScenarioValidationStatusToValidated(organizationId, workspaceId, currentScenarioData.id);
+      findScenarioById(currentScenarioData.id);
     } catch (error) {
       setApplicationErrorMessage(
         error,
         t('commoncomponents.banner.validateScenario', 'A problem occurred during scenario validation.')
       );
-      setScenarioValidationStatus(currentScenario.data.id, SCENARIO_VALIDATION_STATUS.DRAFT);
+      setScenarioValidationStatus(currentScenarioData.id, SCENARIO_VALIDATION_STATUS.DRAFT);
     }
   };
   const rejectScenario = async () => {
     try {
-      setScenarioValidationStatus(currentScenario.data.id, SCENARIO_VALIDATION_STATUS.LOADING);
-      await ScenarioService.setScenarioValidationStatusToRejected(organizationId, workspaceId, currentScenario.data.id);
-      findScenarioById(currentScenario.data.id);
+      setScenarioValidationStatus(currentScenarioData.id, SCENARIO_VALIDATION_STATUS.LOADING);
+      await ScenarioService.setScenarioValidationStatusToRejected(organizationId, workspaceId, currentScenarioData.id);
+      findScenarioById(currentScenarioData.id);
     } catch (error) {
       setApplicationErrorMessage(
         error,
         t('commoncomponents.banner.rejectScenario', 'A problem occurred during scenario rejection.')
       );
-      setScenarioValidationStatus(currentScenario.data.id, SCENARIO_VALIDATION_STATUS.DRAFT);
+      setScenarioValidationStatus(currentScenarioData.id, SCENARIO_VALIDATION_STATUS.DRAFT);
     }
   };
 
@@ -152,7 +158,7 @@ const Scenario = () => {
     rejected: t('views.scenario.validation.rejected', 'Rejected'),
     validated: t('views.scenario.validation.validated', 'Validated'),
   };
-  const currentScenarioValidationStatus = currentScenario?.data?.validationStatus || SCENARIO_VALIDATION_STATUS.UNKNOWN;
+  const currentScenarioValidationStatus = currentScenarioData?.validationStatus || SCENARIO_VALIDATION_STATUS.UNKNOWN;
   const showValidationChip =
     [SCENARIO_VALIDATION_STATUS.DRAFT, SCENARIO_VALIDATION_STATUS.UNKNOWN].includes(currentScenarioValidationStatus) ===
     false;
@@ -208,7 +214,7 @@ const Scenario = () => {
     rejectButton
   );
 
-  const userPermissionsOnCurrentScenario = currentScenario?.data?.security?.currentUserPermissions || [];
+  const userPermissionsOnCurrentScenario = currentScenarioData?.security?.currentUserPermissions || [];
   const validationStatusButtons = (
     <PermissionsGate
       userPermissions={userPermissionsOnCurrentScenario}
@@ -237,23 +243,9 @@ const Scenario = () => {
 
   const scenarioValidationArea = showValidationChip ? scenarioValidationStatusChip : validationStatusButtons;
 
-  const hierarchicalComboBoxLabels = {
-    label: scenarioListLabel,
-    validationStatus: scenarioValidationStatusLabels,
-  };
-
   return (
     <FormProvider {...methods}>
-      <Backdrop data-cy="scenario-backdrop" open={showBackdrop} style={{ zIndex: '10000' }}>
-        <Stack spacing={2} alignItems="center">
-          <CircularProgress data-cy="scenario-loading-spinner" color="inherit" />
-          {currentScenario.status === STATUSES.SAVING && (
-            <Typography data-cy="scenario-backdrop-saving-text" variant="h4">
-              {t('genericcomponent.text.scenario.saving', 'Saving your data')}
-            </Typography>
-          )}
-        </Stack>
-      </Backdrop>
+      <BackdropLoadingScenario />
       <div data-cy="scenario-view" className={classes.content}>
         <Grid container spacing={2} alignItems="center" justifyContent="space-between">
           <Grid item xs={4}>
@@ -270,32 +262,25 @@ const Scenario = () => {
           </Grid>
           <Grid item xs={4}>
             <Grid container direction="column">
-              <HierarchicalComboBox
-                value={currentScenario.data}
-                values={sortedScenarioList}
-                labels={hierarchicalComboBoxLabels}
-                handleChange={handleScenarioChange}
-                disabled={scenarioListDisabled}
-                renderInputToolType={currentScenarioRenderInputTooltip}
-              />
-              {currentScenario.data && (
+              <CurrentScenarioSelector disabled={isDirty} renderInputToolTip={currentScenarioRenderInputTooltip} />
+              {currentScenarioData && (
                 <Typography
                   data-cy="run-template-name"
                   variant="caption"
                   align="center"
                   className={classes.runTemplate}
                 >
-                  {t('views.scenario.text.scenariotype')}: {currentScenario.data.runTemplateName}
+                  {t('views.scenario.text.scenariotype')}: {currentScenarioData.runTemplateName}
                 </Typography>
               )}
             </Grid>
           </Grid>
           <Grid item xs={4} className={classes.alignRight}>
-            {currentScenario.data && scenarioValidationArea}
+            {currentScenarioData && scenarioValidationArea}
           </Grid>
           <Grid item xs={12}>
             <Card component={Paper}>
-              {currentScenario.data && (
+              {currentScenarioData && (
                 <ScenarioParameters
                   isAccordionExpanded={isScenarioParametersAccordionExpanded}
                   onToggleAccordion={toggleScenarioParametersAccordion}

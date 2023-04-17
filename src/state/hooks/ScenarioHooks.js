@@ -36,7 +36,7 @@ export const useCurrentScenarioData = () => {
   return useSelector((state) => state.scenario.current?.data);
 };
 
-export const useCurrentScenarioLasUpdate = () => {
+export const useCurrentScenarioLastUpdate = () => {
   return useSelector((state) => state.scenario.current?.data?.lastUpdate);
 };
 
@@ -50,6 +50,14 @@ export const useCurrentScenarioLastRunId = () => {
 
 export const useCurrentScenarioState = () => {
   return useSelector((state) => state.scenario.current?.data?.state);
+};
+
+export const useCurrentScenarioId = () => {
+  return useSelector((state) => state?.scenario?.current?.data?.id);
+};
+
+export const useCurrentScenarioReducerStatus = () => {
+  return useSelector((state) => state.scenario?.current?.status);
 };
 
 export const useResetCurrentScenario = () => {
