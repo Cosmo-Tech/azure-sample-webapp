@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { BasicNumberInput } from '@cosmotech/ui';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -24,7 +24,14 @@ function getMaxValue(parameterData) {
   return parameterData.maxValue;
 }
 
-export const GenericNumberInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty }) => {
+export const GenericNumberInput = ({
+  parameterData,
+  context,
+  parameterValue,
+  setParameterValue,
+  defaultParameterValue,
+  isDirty,
+}) => {
   const { t } = useTranslation();
   const inputProps = {
     min: getMinValue(parameterData),
@@ -40,6 +47,16 @@ export const GenericNumberInput = ({ parameterData, context, parameterValue, set
     value = NaN;
   }
 
+  // Intercept value setter to prevent setting null, undefined or NaN values and fallback to parameter default value
+  // instead
+  const changeValue = useCallback(
+    (newValue) => {
+      if (newValue != null && !isNaN(newValue)) setParameterValue(newValue);
+      else setParameterValue(defaultParameterValue);
+    },
+    [defaultParameterValue, setParameterValue]
+  );
+
   return (
     <BasicNumberInput
       key={parameterData.id}
@@ -47,7 +64,7 @@ export const GenericNumberInput = ({ parameterData, context, parameterValue, set
       label={t(`solution.parameters.${parameterData.id}`, parameterData.id)}
       tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
       value={value}
-      changeNumberField={setParameterValue}
+      changeNumberField={changeValue}
       textFieldProps={textFieldProps}
       inputProps={inputProps}
       isDirty={isDirty}
@@ -60,6 +77,7 @@ GenericNumberInput.propTypes = {
   context: PropTypes.object.isRequired,
   parameterValue: PropTypes.any,
   setParameterValue: PropTypes.func.isRequired,
+  defaultParameterValue: PropTypes.number.isRequired,
   isDirty: PropTypes.bool,
 };
 GenericNumberInput.defaultProps = {
