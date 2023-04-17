@@ -44,7 +44,8 @@
           "save": "SAVE",
           "update": {
             "launch": "SAVE AND LAUNCH"
-          }
+          },
+          "cancel": "Abort"
         }
       }
     },
@@ -511,6 +512,14 @@
             "cancel": "Cancel",
             "discardAndContinue": "Discard and continue"
           }
+        },
+        "stopRun": {
+          "title": "Abort simulation run?",
+          "body": "If you abort the simulation, its status will become Failed.\nNote: previous results are already lost and won't be displayed anymore.",
+          "button": {
+            "cancel": "Cancel",
+            "stop": "Abort"
+          }
         }
       },
       "about": {
@@ -610,6 +619,9 @@
       },
       "scenarioRunStatusQueryError": {
         "comment": "Could not get status of scenario run with id \"{{id}}\"."
+      },
+      "scenarioRunStopError": {
+        "comment": "Could not stop scenario run with id \"{{id}}\""
       }
     }
   },

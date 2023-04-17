@@ -5,7 +5,10 @@ import { useCallback, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useOrganizationId } from './OrganizationHooks';
 import { useCurrentScenarioLastRunId } from './ScenarioHooks';
-import { dispatchFetchScenarioRunById } from '../dispatchers/scenarioRun/ScenarioRunDispatcher';
+import {
+  dispatchFetchScenarioRunById,
+  dispatchStopScenarioRun,
+} from '../dispatchers/scenarioRun/ScenarioRunDispatcher';
 
 export const useScenarioRunsList = () => {
   return useSelector((state) => state.scenarioRun?.data);
@@ -31,6 +34,15 @@ export const useFetchScenarioRunById = () => {
   const organizationId = useOrganizationId();
   return useCallback(
     (scenarioRunId) => dispatch(dispatchFetchScenarioRunById(organizationId, scenarioRunId)),
+    [dispatch, organizationId]
+  );
+};
+
+export const useStopScenarioRun = () => {
+  const dispatch = useDispatch();
+  const organizationId = useOrganizationId();
+  return useCallback(
+    (scenarioRunId, scenarioId) => dispatch(dispatchStopScenarioRun(organizationId, scenarioRunId, scenarioId)),
     [dispatch, organizationId]
   );
 };

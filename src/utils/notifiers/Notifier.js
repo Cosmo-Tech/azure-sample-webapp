@@ -1,6 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
+import { useEffect, useRef } from 'react';
 import { Subject } from 'rxjs';
 
 export default class Notifier {
@@ -25,3 +26,11 @@ export default class Notifier {
     return this.subject.asObservable();
   }
 }
+
+export const useSubscribeToNotifier = (notifier, callback) => {
+  const subscription = useRef();
+  useEffect(() => {
+    subscription.current = notifier.subscribe(callback);
+    return () => subscription.current.unsubscribe();
+  }, [callback, notifier]);
+};

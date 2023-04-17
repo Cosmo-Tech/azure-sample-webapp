@@ -154,6 +154,7 @@ export const API_REGEX = {
 
 export const SCENARIO_RUN_IN_PROGRESS = 'Scenario run in progress...';
 export const SCENARIO_TRANSFER_IN_PROGRESS = 'Scenario results transfer in progress...';
+export const FAILED_SCENARIO_RUN = 'An error occurred during the scenario run';
 
 export const WEBAPP_URL_REGEX = {
   SCENARIO_PAGE: new RegExp(PAGE_NAME.SCENARIO + '$'),
