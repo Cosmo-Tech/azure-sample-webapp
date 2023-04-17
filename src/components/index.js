@@ -10,3 +10,4 @@ export { SessionTimeoutDialog } from './SessionTimeoutDialog';
 export { default as ShareCurrentScenarioButton } from './ShareCurrentScenarioButton';
 export { default as CurrentScenarioPowerBiReport } from './CurrentScenarioPowerBIReport';
 export { default as CreateScenarioButton } from './CreateScenarioButton';
+export { default as CurrentScenarioSelector } from './CurrentScenarioSelector';

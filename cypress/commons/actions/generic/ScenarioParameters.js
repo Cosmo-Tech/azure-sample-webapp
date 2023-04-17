@@ -41,6 +41,14 @@ function getSaveButton(timeout) {
   return cy.get(GENERIC_SELECTORS.scenario.parameters.saveButton, timeout ? { timeout: timeout * 1000 } : undefined);
 }
 
+function getParametersDiscardAndContinueButton() {
+  return cy.get(GENERIC_SELECTORS.scenario.parameters.dialogDiscardAndContinueButton);
+}
+
+function getParametersCancelDiscardAndContinueButton() {
+  return cy.get(GENERIC_SELECTORS.scenario.parameters.dialogDiscardAndContinueCancelButton);
+}
+
 function getNoParametersPlaceholder() {
   return cy.get(GENERIC_SELECTORS.scenario.parameters.noParametersPlaceholder);
 }
@@ -70,6 +78,14 @@ function discard() {
   getParametersConfirmDiscardButton().click();
 }
 
+function discardAndContinue() {
+  getParametersDiscardAndContinueButton().click();
+}
+
+function cancelDiscardAndContinue() {
+  getParametersCancelDiscardAndContinueButton().click();
+}
+
 function launch(timeoutGetLaunchButton = 180) {
   const alias = api.forgeAlias('reqRunScenarioAlias');
   cy.intercept('POST', URL_REGEX.SCENARIO_PAGE_RUN_WITH_ID).as(alias);
@@ -85,8 +101,10 @@ function save(wait = true) {
 
   getSaveButton().should('not.be.disabled').click();
 
-  api.waitAlias(alias, { timeout: 10 * 1000 }); // 10 seconds timeout
-  if (wait) Scenarios.getScenarioBackdrop(10).should('not.be.visible');
+  if (wait) {
+    Scenarios.getScenarioBackdrop(10).should('not.be.visible');
+    api.waitAlias(alias, { timeout: 10 * 1000 }); // 10 seconds timeout
+  }
 }
 
 // Actions on input components
@@ -115,4 +133,8 @@ export const ScenarioParameters = {
   save,
   getInputValue,
   getTextField,
+  discardAndContinue,
+  cancelDiscardAndContinue,
+  getParametersDiscardAndContinueButton,
+  getParametersCancelDiscardAndContinueButton,
 };

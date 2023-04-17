@@ -9,6 +9,7 @@ import { SCENARIO_RUN_STATE } from '../../../../services/config/ApiConstants';
 import { Api } from '../../../../services/config/Api';
 import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
 import { t } from 'i18next';
+import { ACL_PERMISSIONS } from '../../../../services/config/accessControl';
 
 const getUserEmail = (state) => state.auth.userEmail;
 const getUserId = (state) => state.auth.userId;
@@ -33,6 +34,18 @@ export function* fetchScenarioByIdData(action) {
     data.parametersValues = ApiUtils.formatParametersFromApi(data.parametersValues);
 
     ScenariosUtils.patchScenarioWithCurrentUserPermissions(data, userEmail, userId, scenariosPermissionsMapping);
+
+    if (!data.security.currentUserPermissions.includes(ACL_PERMISSIONS.SCENARIO.READ)) {
+      const err = new Error(t('commoncomponents.banner.openScenario', "Scenario can't be opened"));
+      err.detail = t(
+        'commoncomponents.banner.noPermissionDetail',
+        // eslint-disable-next-line max-len
+        "You don't have permission to access the scenario #{{scenarioId}} from workspace #{{workspaceId}} of organization #{{organizationId}}",
+        action
+      );
+      throw err;
+    }
+
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
       status: STATUSES.SUCCESS,

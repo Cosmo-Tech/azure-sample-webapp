@@ -3,3 +3,4 @@
 
 export { default as ScenarioPowerBiReport } from './ScenarioPowerBiReport';
 export { default as ScenarioDashboardCard } from './ScenarioDashboardCard';
+export { default as BackdropLoadingScenario } from './BackdropLoadingScenario';

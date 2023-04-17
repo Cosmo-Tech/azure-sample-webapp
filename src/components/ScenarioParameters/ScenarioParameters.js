@@ -1,12 +1,12 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 import rfdc from 'rfdc';
 import { useFormContext } from 'react-hook-form';
 import PropTypes from 'prop-types';
 import { Grid, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
-import { SimpleTwoActionsDialog, PermissionsGate } from '@cosmotech/ui';
+import { PermissionsGate } from '@cosmotech/ui';
 import makeStyles from '@mui/styles/makeStyles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { SCENARIO_RUN_STATE, SCENARIO_VALIDATION_STATUS } from '../../services/config/ApiConstants';
@@ -16,6 +16,7 @@ import { SaveLaunchDiscardButton, ScenarioParametersTabsWrapper } from './compon
 import { useTranslation } from 'react-i18next';
 import { useScenarioParameters } from './ScenarioParametersHook';
 import { ScenarioParametersUtils, FileManagementUtils } from '../../utils';
+import { TwoActionsDialogService } from '../../services/twoActionsDialog/twoActionsDialogService';
 
 const clone = rfdc();
 
@@ -207,21 +208,28 @@ const ScenarioParameters = ({ onToggleAccordion, isAccordionExpanded }) => {
     event.preventDefault();
   };
 
-  const [showDiscardConfirmationPopup, setShowDiscardConfirmationPopup] = useState(false);
+  const askDiscardConfirmation = useCallback(
+    async (event) => {
+      event.stopPropagation();
 
-  const askDiscardConfirmation = (event) => {
-    event.stopPropagation();
-    setShowDiscardConfirmationPopup(true);
-  };
+      const dialogProps = {
+        id: 'discard-changes',
+        labels: {
+          title: t('genericcomponent.dialog.scenario.parameters.title'),
+          body: t('genericcomponent.dialog.scenario.parameters.body'),
+          button1: t('genericcomponent.dialog.scenario.parameters.button.cancel'),
+          button2: t('genericcomponent.dialog.scenario.parameters.button.validate'),
+        },
+      };
 
-  const confirmDiscard = () => {
-    setShowDiscardConfirmationPopup(false);
-    discardLocalChanges();
-  };
+      const result = await TwoActionsDialogService.openDialog(dialogProps);
 
-  const cancelDiscard = () => {
-    setShowDiscardConfirmationPopup(false);
-  };
+      if (result === 2) {
+        discardLocalChanges();
+      }
+    },
+    [discardLocalChanges, t]
+  );
 
   const noTabsShown = parametersGroupsMetadata.length === 0;
   const isCurrentScenarioRunning =
@@ -288,18 +296,6 @@ const ScenarioParameters = ({ onToggleAccordion, isAccordionExpanded }) => {
             </div>
           </AccordionDetails>
         </Accordion>
-        <SimpleTwoActionsDialog
-          id={'discard-changes'}
-          open={showDiscardConfirmationPopup}
-          labels={{
-            title: t('genericcomponent.dialog.scenario.parameters.title'),
-            body: t('genericcomponent.dialog.scenario.parameters.body'),
-            button1: t('genericcomponent.dialog.scenario.parameters.button.cancel'),
-            button2: t('genericcomponent.dialog.scenario.parameters.button.validate'),
-          }}
-          handleClickOnButton1={cancelDiscard}
-          handleClickOnButton2={confirmDiscard}
-        />
       </ScenarioResetValuesContext.Provider>
     </div>
   );

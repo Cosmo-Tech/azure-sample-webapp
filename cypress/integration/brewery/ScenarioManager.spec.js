@@ -48,6 +48,10 @@ describe('Create scenario and check its data in scenario manager', () => {
 
       ScenarioManager.switchToScenarioManager();
 
+      // FIX TEMP for https://cosmo-tech.atlassian.net/browse/PROD-11566
+      // Remove this for test the fix.
+      ScenarioManager.writeInFilter(scenarioName);
+
       ScenarioManager.getScenarioAccordion(scenarioId).click();
       ScenarioManager.getScenarioOwnerName(scenarioId).should('have.text', scenarioOwnerName);
       ScenarioManager.getScenarioCreationDate(scenarioId).should('have.text', _formatDate(scenarioCreationDate));

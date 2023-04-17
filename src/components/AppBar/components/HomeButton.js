@@ -9,7 +9,6 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useHomeButton } from './hooks/HomeButtonHook';
 import { FadingTooltip } from '@cosmotech/ui';
-import { useResetCurrentWorkspace } from '../../../state/hooks/WorkspaceHooks';
 
 const useStyles = makeStyles((theme) => ({
   homeButton: {
@@ -17,9 +16,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 export const HomeButton = () => {
-  const resetWorkspace = useResetCurrentWorkspace();
   const navigateToWorkspaceSelector = () => {
-    resetWorkspace();
     navigate('/workspaces');
   };
   const classes = useStyles();

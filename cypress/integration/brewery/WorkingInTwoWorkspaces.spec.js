@@ -92,6 +92,7 @@ describe('Switching between workspaces and running four scenarios at the same ti
           Scenarios.getScenarioLoadingSpinner(15).should('exist').should('not.be.visible');
           BreweryParameters.switchToCustomersTab();
           BreweryParameters.importCustomersTableData(CSV_VALID_WITH_EMPTY_FIELDS);
+          BreweryParameters.getCustomersTableGrid().should('not.be.empty');
           ScenarioParameters.launch();
           Workspaces.getHomeButton().should('be.visible').click();
           Workspaces.selectWorkspace(BREWERY_WORKSPACE_ID);

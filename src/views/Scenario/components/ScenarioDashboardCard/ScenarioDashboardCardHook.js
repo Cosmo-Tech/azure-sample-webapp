@@ -3,7 +3,7 @@
 
 import {
   useCurrentScenarioLastRun,
-  useCurrentScenarioLasUpdate,
+  useCurrentScenarioLastUpdate,
   useCurrentScenarioState,
 } from '../../../../state/hooks/ScenarioHooks';
 import { useCurrentScenarioRunStartTime } from '../../../../state/hooks/ScenarioRunHooks';
@@ -11,7 +11,7 @@ import { useMemo } from 'react';
 import { useFormState } from 'react-hook-form';
 
 export const useScenarioDashboardCard = () => {
-  const currentScenarioLastUpdate = useCurrentScenarioLasUpdate();
+  const currentScenarioLastUpdate = useCurrentScenarioLastUpdate();
   const currentScenarioLastRun = useCurrentScenarioLastRun();
   const currentScenarioState = useCurrentScenarioState();
   const currentScenarioRunStartTime = useCurrentScenarioRunStartTime();
