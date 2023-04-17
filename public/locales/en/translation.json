@@ -38,11 +38,12 @@
             "validated": "This scenario is validated, you cannot edit its parameters",
             "noTabs": "No parameters to edit"
           },
-          "discard": "Discard modifications",
+          "discard": "DISCARD",
           "edit": "Edit parameters",
-          "launch": "Launch scenario",
+          "launch": "LAUNCH",
+          "save": "SAVE",
           "update": {
-            "launch": "Update and launch scenario"
+            "launch": "SAVE AND LAUNCH"
           }
         }
       }
@@ -155,7 +156,7 @@
             },
             "error": "An error occurred during the scenario run",
             "running": "Scenario run in progress...",
-            "dataInTransfer": "Scenario results transfer in progress..",
+            "dataInTransfer": "Scenario results transfer in progress...",
             "uninitialized": "The scenario has not been run yet"
           },
           "button": {
@@ -365,6 +366,7 @@
       "resetStatusValidation": "A problem occurred during validation status reset.",
       "validateScenario": "A problem occurred during scenario validation.",
       "rejectScenario": "A problem occurred during scenario rejection.",
+      "launchCanceled": "A problem occurred during scenario save; new parameters haven't been saved and launch has been canceled.",
       "tooLongErrorMessage": "Detailed error message is too long to be displayed. To read it, please use the COPY button and paste it in your favorite text editor.",
       "button": {
         "dismiss": "Dismiss",
@@ -511,6 +513,7 @@
     },
     "text": {
       "scenario": {
+        "saving": "Saving your data",
         "parameters": {
           "tabs": {
             "placeholder": "These parameters are confidential and you don't have permission to get access to them. If you think this is a mistake, please contact your application administrator."

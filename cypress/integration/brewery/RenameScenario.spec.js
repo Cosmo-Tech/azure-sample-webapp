@@ -72,8 +72,7 @@ describe('Create scenario and rename it', () => {
       ScenarioSelector.selectScenario(newScenarioName, scenarioId);
     });
 
-    ScenarioParameters.edit();
-    ScenarioParameters.updateAndLaunch();
+    ScenarioParameters.launch();
   });
 
   it('Rename two scenarios, setting the second with the former name of the first one', () => {
@@ -102,7 +101,6 @@ describe('Create scenario and rename it', () => {
       });
     });
 
-    ScenarioParameters.edit();
-    ScenarioParameters.updateAndLaunch();
+    ScenarioParameters.launch();
   });
 });

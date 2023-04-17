@@ -41,13 +41,13 @@ describe('Table parameters inheritance between parent and child scenarios', () =
       masterScenarioId = data.scenarioCreatedId;
       ScenarioParameters.expandParametersAccordion();
       BreweryParameters.switchToCustomersTab();
-      ScenarioParameters.edit();
+      ScenarioParameters.expandParametersAccordion();
       BreweryParameters.importCustomersTableData(MASTER_CSV_FILE_PATH);
       BreweryParameters.getCustomersTableRows().should('have.length', 4);
       BreweryParameters.editCustomersTableStringCell('age', 0, '78').should('have.text', '78');
       BreweryParameters.editCustomersTableStringCell('canDrinkAlcohol', 1, 'true').should('have.text', 'true');
       BreweryParameters.editCustomersTableStringCell('height', 0, '2.01').should('have.text', '2.01');
-      ScenarioParameters.updateAndLaunch();
+      ScenarioParameters.save();
       const firstChildScenario = forgeScenarioName();
       Scenarios.createScenario(firstChildScenario, false, masterScenario, SCENARIO_RUN_TEMPLATE).then((data) => {
         firstChildScenarioId = data.scenarioCreatedId;
@@ -58,11 +58,11 @@ describe('Table parameters inheritance between parent and child scenarios', () =
         BreweryParameters.getCustomersTableCell('height', 0).should('have.text', '2.01');
         BreweryParameters.exportCustomersTableDataToCSV();
         Downloads.checkByContent('customers.csv', EXPECTED_CUSTOMERS_INHERITED_TABLE);
-        ScenarioParameters.edit();
+        ScenarioParameters.expandParametersAccordion();
         BreweryParameters.editCustomersTableStringCell('age', 0, '56').should('have.text', '56');
         BreweryParameters.editCustomersTableStringCell('height', 0, '1.7').should('have.text', '1.7');
         BreweryParameters.editCustomersTableStringCell('favoriteDrink', 0, 'Wine').should('have.text', 'Wine');
-        ScenarioParameters.updateAndLaunch();
+        ScenarioParameters.save();
         const secondChildScenario = forgeScenarioName();
         scenarioNamesToDelete.push(secondChildScenario);
         Scenarios.createScenario(secondChildScenario, false, masterScenario, SCENARIO_RUN_TEMPLATE);
@@ -73,12 +73,12 @@ describe('Table parameters inheritance between parent and child scenarios', () =
         BreweryParameters.getCustomersTableCell('favoriteDrink', 0).should('have.text', 'AppleJuice');
         BreweryParameters.getCustomersTableCell('height', 0).should('not.have.text', '1.7');
         BreweryParameters.getCustomersTableCell('height', 0).should('have.text', '2.01');
-        ScenarioParameters.edit();
+        ScenarioParameters.expandParametersAccordion();
         BreweryParameters.importCustomersTableData(CHILD_CSV_FILE_PATH);
         BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Emmett');
         BreweryParameters.getCustomersTableCell('age', 0).should('have.text', '69');
         BreweryParameters.getCustomersTableCell('favoriteDrink', 0).should('have.text', 'OrangeJuice');
-        ScenarioParameters.updateAndLaunch();
+        ScenarioParameters.save();
         ScenarioSelector.selectScenario(masterScenario, masterScenarioId);
         BreweryParameters.switchToCustomersTab();
         BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Bob');

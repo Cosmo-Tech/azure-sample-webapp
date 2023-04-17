@@ -30,7 +30,7 @@ describe('Table parameters upload of valid and invalid files with empty fields',
 
   it('can import a table with authorized empty fields, clear and edit authorized field and export the table', () => {
     ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
-    ScenarioParameters.edit();
+    ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.importCustomersTableData(CSV_VALID_WITH_EMPTY_FIELDS);
     BreweryParameters.getCustomersTableRows().should('have.length', 8);
@@ -67,7 +67,7 @@ describe('Table parameters upload of valid and invalid files with empty fields',
       BreweryParameters.checkCustomersErrorsPanelFromList(expectedErrors);
     };
     ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
-    ScenarioParameters.edit();
+    ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.importCustomersTableData(XLSX_INVALID_EMPTY_FIELDS);
     checkErrorsPanel();

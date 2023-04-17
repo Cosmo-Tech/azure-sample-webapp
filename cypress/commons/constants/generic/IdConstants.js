@@ -53,6 +53,8 @@ export const GENERIC_SELECTORS = {
     view: '[data-cy=scenario-view]',
     tabName: '[data-cy="tabs.scenario.key"]',
     loadingSpinner: '[data-cy="scenario-loading-spinner"]',
+    backdrop: '[data-cy=scenario-backdrop]',
+    savingText: '[data-cy=scenario-backdrop-saving-text]',
     dashboard: {
       placeholder: '[data-cy=dashboard-placeholder]',
       accordion: '[data-cy=dashboards-accordion]',
@@ -65,15 +67,8 @@ export const GENERIC_SELECTORS = {
     parameters: {
       tabs: '[data-cy=scenario-parameters-tabs]',
       accordionSummary: '[data-cy=scenario-params-accordion-summary]',
-      editButton: '[data-cy=edit-parameters-button]',
       launchButton: '[data-cy=launch-scenario-button]',
-      updateAndLaunchButton: '[data-cy=update-and-launch-scenario]',
-      dialogLaunch: {
-        dialogTitle: '[data-cy=launch-confirm-dialog-title]',
-        confirmButton: '[data-cy=launch-confirm-button]',
-        cancelButton: '[data-cy=launch-cancel-button]',
-        dontAskAgainCheckbox: '[data-cy=launch-dontAskAgain-checkbox]',
-      },
+      saveButton: '[data-cy=save-button]',
       discardButton: '[data-cy=discard-button]',
       dialogDiscardButton: '[data-cy=discard-changes-button2]',
       noParametersPlaceholder: '[data-cy=no-parameters-placeholder]',

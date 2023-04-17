@@ -40,33 +40,43 @@ describe('Scenario view PowerBI report', () => {
 
       // First phase: warning is never visible until we first launch the scenario
       Scenarios.checkIfReportIsUnsynced(false);
-      ScenarioParameters.edit();
+      Scenarios.getScenarioBackdrop(10).should('not.be.visible');
       BreweryParameters.getCurrencyUsedInput().check();
       Scenarios.checkIfReportIsUnsynced(false);
 
       // Second phase: after a run, warning is only visible when the form is in a "dirty" state
-      ScenarioParameters.updateAndLaunch();
+      ScenarioParameters.launch();
       Scenarios.checkIfReportIsUnsynced(false);
       // TODO: add stubbing for scenario runs
-      ScenarioParameters.getParametersEditButton(120).should('not.be.disabled'); // Wait for end of run
+      ScenarioParameters.getLaunchButton(120).should('not.be.disabled'); // Wait for end of run
       Scenarios.checkIfReportIsUnsynced(false);
-      ScenarioParameters.edit();
       BreweryParameters.getCurrencyUsedInput().uncheck();
       Scenarios.checkIfReportIsUnsynced(true);
+
       BreweryParameters.getCurrencyUsedInput().check();
       Scenarios.checkIfReportIsUnsynced(false);
       BreweryParameters.getCurrencyUsedInput().uncheck();
       Scenarios.checkIfReportIsUnsynced(true);
       ScenarioParameters.discard();
       Scenarios.checkIfReportIsUnsynced(false);
-      ScenarioParameters.edit();
       BreweryParameters.getCurrencyUsedInput().uncheck();
       Scenarios.checkIfReportIsUnsynced(true);
-      ScenarioParameters.updateAndLaunch();
+      ScenarioParameters.launch();
       Scenarios.checkIfReportIsUnsynced(false);
 
-      // TODO: when "update & launch" button has been split, add steps to check that the warning is still visible after
-      // saving new parameters values, even if we "undo" local changes or discard them, until the scenario is run
+      // Third phase: warning is still visible after saving new parameters values, even if we "undo" local changes or
+      // discard them
+      ScenarioParameters.getLaunchButton(120).should('not.be.disabled'); // Wait for end of run
+      BreweryParameters.getCurrencyUsedInput().check();
+      ScenarioParameters.save();
+      Scenarios.getScenarioBackdrop(10).should('not.be.visible');
+      Scenarios.checkIfReportIsUnsynced(true);
+      BreweryParameters.getCurrencyUsedInput().uncheck();
+      BreweryParameters.getCurrencyUsedInput().check(); // "undo" local changes
+      Scenarios.checkIfReportIsUnsynced(true);
+      BreweryParameters.getCurrencyUsedInput().uncheck();
+      ScenarioParameters.discard();
+      Scenarios.checkIfReportIsUnsynced(true);
     });
   });
 });

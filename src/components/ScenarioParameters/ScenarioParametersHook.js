@@ -2,9 +2,10 @@
 // Licensed under the MIT license.
 
 import {
-  useCurrentScenarioData,
+  useCurrentScenario,
   useScenarioList,
-  useUpdateAndLaunchScenario,
+  useSaveScenario,
+  useSaveAndLaunchScenario,
   useLaunchScenario,
 } from '../../state/hooks/ScenarioHooks';
 import { useDatasetList, useAddDatasetToStore } from '../../state/hooks/DatasetHooks';
@@ -19,13 +20,14 @@ export const useScenarioParameters = () => {
   const scenariosData = useScenarioList().data;
   const datasetsData = useDatasetList().data;
   const addDatasetToStore = useAddDatasetToStore();
-  const currentScenarioData = useCurrentScenarioData();
+  const currentScenario = useCurrentScenario();
   const organizationId = useOrganizationId();
   const workspaceId = useWorkspaceId();
   const solutionData = useSolution().data;
   const userRoles = useUserAppRoles();
   const launchScenario = useLaunchScenario();
-  const updateAndLaunchScenario = useUpdateAndLaunchScenario();
+  const saveScenario = useSaveScenario();
+  const saveAndLaunchScenario = useSaveAndLaunchScenario();
   const userPermissionsOnCurrentScenario = useUserPermissionsOnCurrentScenario();
   const isDarkTheme = useIsDarkTheme();
 
@@ -33,13 +35,14 @@ export const useScenarioParameters = () => {
     scenariosData,
     datasetsData,
     addDatasetToStore,
-    currentScenarioData,
+    currentScenario,
     organizationId,
     workspaceId,
     solutionData,
     userRoles,
     launchScenario,
-    updateAndLaunchScenario,
+    saveScenario,
+    saveAndLaunchScenario,
     userPermissionsOnCurrentScenario,
     isDarkTheme,
   };

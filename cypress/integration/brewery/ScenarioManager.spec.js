@@ -57,7 +57,7 @@ describe('Create scenario and check its data in scenario manager', () => {
 
       Scenarios.switchToScenarioView();
 
-      ScenarioParameters.launch(false);
+      ScenarioParameters.launch();
 
       ScenarioManager.switchToScenarioManager();
 

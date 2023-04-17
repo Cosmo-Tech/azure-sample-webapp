@@ -18,15 +18,15 @@ describe('upload of files in different formats', () => {
     ScenarioManager.deleteScenario(scenario);
   });
 
-  it('uploads csv, json, zip files and launch scenario', () => {
+  it('uploads csv, json, zip files and save scenario', () => {
     Scenarios.createScenario(scenario, true, DATASET.BREWERY_ADT, RUN_TEMPLATE.BASIC_TYPES);
-    ScenarioParameters.edit();
+    ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToDatasetPartsTab();
     BreweryParameters.uploadExampleDatasetPart1(JSON_PATH);
     BreweryParameters.uploadExampleDatasetPart2(ZIP_PATH);
     BreweryParameters.switchToExtraDatasetPartTab();
     BreweryParameters.uploadExampleDatasetPart3(CSV_PATH);
-    ScenarioParameters.updateAndLaunch();
+    ScenarioParameters.save();
     BreweryParameters.switchToDatasetPartsTab();
     BreweryParameters.getExampleDatasetPart1DownloadButton().should('have.text', JSON_PATH);
     BreweryParameters.getExampleDatasetPart2DownloadButton().should('have.text', ZIP_PATH);

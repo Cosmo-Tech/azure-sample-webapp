@@ -49,7 +49,6 @@ describe('Table parameters invalid files operations', () => {
     BreweryParameters.getCustomersImportButton().should('be.visible');
     BreweryParameters.getCustomersExportButton().should('be.visible');
     BreweryParameters.getCustomersErrorsPanel().should('not.exist');
-    ScenarioParameters.edit();
     BreweryParameters.importCustomersTableData(CSV_INVALID_FILE_PATH);
     checkErrorsPanel();
     BreweryParameters.importCustomersTableData(XLSX_INVALID_FILE_PATH);

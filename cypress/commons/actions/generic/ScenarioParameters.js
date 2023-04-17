@@ -3,6 +3,7 @@
 
 import { URL_REGEX } from '../../constants/generic/TestConstants';
 import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
+import { Scenarios } from '../generic';
 import { apiUtils as api } from '../../utils';
 
 // Get elements in scenario parameters panel
@@ -27,9 +28,6 @@ function getParameterInput(id) {
 // TODO: add generic setters for scenario parameters input ()
 
 //  - timeout: max time to wait before throwing an error (seconds)
-function getParametersEditButton(timeout = 4) {
-  return cy.get(GENERIC_SELECTORS.scenario.parameters.editButton, { timeout: timeout * 1000 });
-}
 function getParametersDiscardButton() {
   return cy.get(GENERIC_SELECTORS.scenario.parameters.discardButton);
 }
@@ -39,27 +37,10 @@ function getParametersConfirmDiscardButton() {
 function getLaunchButton(timeout) {
   return cy.get(GENERIC_SELECTORS.scenario.parameters.launchButton, timeout ? { timeout: timeout * 1000 } : undefined);
 }
-function getParametersUpdateAndLaunchButton(timeout) {
-  return cy.get(
-    GENERIC_SELECTORS.scenario.parameters.updateAndLaunchButton,
-    timeout ? { timeout: timeout * 1000 } : undefined
-  );
+function getSaveButton(timeout) {
+  return cy.get(GENERIC_SELECTORS.scenario.parameters.saveButton, timeout ? { timeout: timeout * 1000 } : undefined);
 }
-function getLaunchConfirmDialog() {
-  return cy.get(GENERIC_SELECTORS.scenario.parameters.dialogLaunch.dialogTitle);
-}
-function getLaunchConfirmButton() {
-  return cy.get(GENERIC_SELECTORS.scenario.parameters.dialogLaunch.confirmButton);
-}
-function getLaunchCancelButton() {
-  return cy.get(GENERIC_SELECTORS.scenario.parameters.dialogLaunch.cancelButton);
-}
-function getDontAskAgainCheckbox() {
-  return cy.get(GENERIC_SELECTORS.scenario.parameters.dialogLaunch.dontAskAgainCheckbox).find('input');
-}
-function checkDontAskAgain() {
-  getDontAskAgainCheckbox().check();
-}
+
 function getNoParametersPlaceholder() {
   return cy.get(GENERIC_SELECTORS.scenario.parameters.noParametersPlaceholder);
 }
@@ -83,35 +64,29 @@ function collapseParametersAccordion() {
       }
     });
 }
-function edit(timeout) {
-  getParametersEditButton(timeout).should('not.be.disabled').click();
-}
+
 function discard() {
   getParametersDiscardButton().click();
   getParametersConfirmDiscardButton().click();
 }
 
-function launch(dontAskAgain = false, withUpdate = false, timeoutGetLaunchButton = 180) {
+function launch(timeoutGetLaunchButton = 180) {
   const alias = api.forgeAlias('reqRunScenarioAlias');
   cy.intercept('POST', URL_REGEX.SCENARIO_PAGE_RUN_WITH_ID).as(alias);
 
-  if (withUpdate) {
-    getParametersUpdateAndLaunchButton(timeoutGetLaunchButton).should('not.be.disabled').click();
-  } else {
-    getLaunchButton(timeoutGetLaunchButton).should('not.be.disabled').click();
-  }
-  if (localStorage.getItem('dontAskAgainToConfirmLaunch') !== 'true') {
-    if (dontAskAgain) {
-      checkDontAskAgain();
-    }
-    getLaunchConfirmButton().click();
-  }
+  getLaunchButton(timeoutGetLaunchButton).should('not.be.disabled').click();
 
   api.waitAlias(alias, { timeout: 60 * 1000 }); // 60 seconds timeout
 }
 
-function updateAndLaunch(dontAskAgain = false) {
-  launch(dontAskAgain, true);
+function save(wait = true) {
+  const alias = api.forgeAlias('reqSaveScenarioAlias');
+  cy.intercept('PATCH', URL_REGEX.SCENARIO_PAGE_WITH_ID).as(alias);
+
+  getSaveButton().should('not.be.disabled').click();
+
+  api.waitAlias(alias, { timeout: 10 * 1000 }); // 10 seconds timeout
+  if (wait) Scenarios.getScenarioBackdrop(10).should('not.be.visible');
 }
 
 // Actions on input components
@@ -128,23 +103,16 @@ export const ScenarioParameters = {
   getParameterContainer,
   getParameterValue,
   getParameterInput,
-  getParametersEditButton,
   getParametersDiscardButton,
   getParametersConfirmDiscardButton,
   getLaunchButton,
-  getParametersUpdateAndLaunchButton,
-  getLaunchConfirmDialog,
-  getLaunchConfirmButton,
-  getLaunchCancelButton,
-  getDontAskAgainCheckbox,
-  checkDontAskAgain,
+  getSaveButton,
   getNoParametersPlaceholder,
   expandParametersAccordion,
   collapseParametersAccordion,
-  edit,
   discard,
-  updateAndLaunch,
   launch,
+  save,
   getInputValue,
   getTextField,
 };

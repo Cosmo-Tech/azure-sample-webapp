@@ -145,6 +145,9 @@ function getVolumeUnitRadioButton(volumeUnitValue) {
     GENERIC_SELECTORS.genericComponents.basicRadioInput.radioButtonByValue.replace('$VALUE', volumeUnitValue)
   );
 }
+function getVolumeUnitRadioButtonInput(volumeUnitValue) {
+  return getVolumeUnitRadioButton(volumeUnitValue).find(GENERIC_SELECTORS.genericComponents.basicInput.input);
+}
 
 // Get file parameters elements & buttons
 function getExampleDatasetPart1() {
@@ -471,6 +474,7 @@ export const BreweryParameters = {
   getVolumeUnitInput,
   getVolumeUnitTextField,
   getVolumeUnitRadioButton,
+  getVolumeUnitRadioButtonInput,
   getAdditionalTablesInput,
   getCommentInput,
   getAdditionalDateInput,

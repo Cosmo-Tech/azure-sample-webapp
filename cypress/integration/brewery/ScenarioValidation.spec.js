@@ -3,8 +3,9 @@
 
 import utils from '../../commons/TestUtils';
 import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
-import { Scenarios, ScenarioManager, ScenarioParameters, ScenarioSelector, Login } from '../../commons/actions';
+import { Scenarios, ScenarioManager, ScenarioSelector, Login } from '../../commons/actions';
 import { stub } from '../../commons/services/stubbing';
+import { BreweryParameters } from '../../commons/actions/brewery';
 
 const SCENARIO_DATASET = DATASET.BREWERY_ADT;
 const SCENARIO_RUN_TEMPLATE = RUN_TEMPLATE.BASIC_TYPES;
@@ -40,7 +41,7 @@ describe('Scenario validation', () => {
       Scenarios.getScenarioValidationStatusLoadingSpinner(10).should('not.exist');
       Scenarios.getScenarioValidateButton().should('be.visible').should('not.be.disabled');
       Scenarios.getScenarioRejectButton().should('be.visible').should('not.be.disabled');
-      ScenarioParameters.getParametersEditButton().should('not.be.disabled');
+      BreweryParameters.getCurrencyNameInput().should('exist');
       ScenarioSelector.checkValidationStatusInScenarioSelector(scenarioName, scenarioId, 'Draft');
       ScenarioManager.switchToScenarioManager();
       ScenarioManager.checkValidationStatus(scenarioName, scenarioId, 'Draft');
@@ -53,7 +54,7 @@ describe('Scenario validation', () => {
       Scenarios.getScenarioValidationStatusChip().should('have.text', 'Validated');
       Scenarios.getScenarioValidateButton().should('not.exist');
       Scenarios.getScenarioRejectButton().should('not.exist');
-      ScenarioParameters.getParametersEditButton().should('be.disabled');
+      BreweryParameters.getCurrencyNameInput().should('not.exist');
       ScenarioSelector.checkValidationStatusInScenarioSelector(scenarioName, scenarioId, 'Validated');
       ScenarioManager.switchToScenarioManager();
       ScenarioManager.checkValidationStatus(scenarioName, scenarioId, 'Validated');
@@ -65,7 +66,7 @@ describe('Scenario validation', () => {
       Scenarios.getScenarioValidationStatusChip().should('not.exist');
       Scenarios.getScenarioValidateButton().should('be.visible').should('not.be.disabled');
       Scenarios.getScenarioRejectButton().should('be.visible').should('not.be.disabled');
-      ScenarioParameters.getParametersEditButton().should('not.be.disabled');
+      BreweryParameters.getCurrencyNameInput().should('exist');
       ScenarioSelector.checkValidationStatusInScenarioSelector(scenarioName, scenarioId, 'Draft');
       ScenarioManager.switchToScenarioManager();
       ScenarioManager.checkValidationStatus(scenarioName, scenarioId, 'Draft');
@@ -78,7 +79,7 @@ describe('Scenario validation', () => {
       Scenarios.getScenarioValidationStatusChip().should('have.text', 'Rejected');
       Scenarios.getScenarioValidateButton().should('not.exist');
       Scenarios.getScenarioRejectButton().should('not.exist');
-      ScenarioParameters.getParametersEditButton().should('be.disabled');
+      BreweryParameters.getCurrencyNameInput().should('not.exist');
       ScenarioSelector.checkValidationStatusInScenarioSelector(scenarioName, scenarioId, 'Rejected');
       ScenarioManager.switchToScenarioManager();
       ScenarioManager.checkValidationStatus(scenarioName, scenarioId, 'Rejected');
@@ -90,7 +91,7 @@ describe('Scenario validation', () => {
       Scenarios.getScenarioValidationStatusChip().should('not.exist');
       Scenarios.getScenarioValidateButton().should('be.visible');
       Scenarios.getScenarioRejectButton().should('be.visible');
-      ScenarioParameters.getParametersEditButton().should('not.be.disabled');
+      BreweryParameters.getCurrencyNameInput().should('exist');
       ScenarioSelector.checkValidationStatusInScenarioSelector(scenarioName, scenarioId, 'Draft');
       ScenarioManager.switchToScenarioManager();
       ScenarioManager.checkValidationStatus(scenarioName, scenarioId, 'Draft');

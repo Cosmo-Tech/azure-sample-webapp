@@ -1,18 +1,19 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import rfdc from 'rfdc';
 import { useFormContext } from 'react-hook-form';
 import PropTypes from 'prop-types';
 import { Grid, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+import { SimpleTwoActionsDialog, PermissionsGate } from '@cosmotech/ui';
 import makeStyles from '@mui/styles/makeStyles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { SCENARIO_RUN_STATE, SCENARIO_VALIDATION_STATUS } from '../../services/config/ApiConstants';
+import { STATUSES } from '../../state/commons/Constants';
 import { ACL_PERMISSIONS } from '../../services/config/accessControl';
-import { EditModeButton, NormalModeButton, ScenarioParametersTabsWrapper } from './components';
+import { SaveLaunchDiscardButton, ScenarioParametersTabsWrapper } from './components';
 import { useTranslation } from 'react-i18next';
-import { SimpleTwoActionsDialog, DontAskAgainDialog, PermissionsGate } from '@cosmotech/ui';
 import { useScenarioParameters } from './ScenarioParametersHook';
 import { ScenarioParametersUtils, FileManagementUtils } from '../../utils';
 
@@ -53,25 +54,27 @@ const getRunTemplateParametersIds = (runTemplatesParametersIdsDict, runTemplateI
 
 const ScenarioResetValuesContext = React.createContext();
 
-const ScenarioParameters = ({ editMode, changeEditMode, onToggleAccordion, isAccordionExpanded }) => {
+const ScenarioParameters = ({ onToggleAccordion, isAccordionExpanded }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const {
     scenariosData,
     datasetsData,
     addDatasetToStore,
-    currentScenarioData,
+    currentScenario,
     organizationId,
     workspaceId,
     solutionData,
     userRoles,
     launchScenario,
-    updateAndLaunchScenario,
+    saveScenario,
+    saveAndLaunchScenario,
     userPermissionsOnCurrentScenario,
     isDarkTheme,
   } = useScenarioParameters();
+  const scenarioStatus = currentScenario?.status;
+  const currentScenarioData = currentScenario?.data;
   const scenarioId = currentScenarioData?.id;
-  const [showDiscardConfirmationPopup, setShowDiscardConfirmationPopup] = useState(false);
 
   const { reset, getValues, setValue } = useFormContext();
 
@@ -152,16 +155,17 @@ const ScenarioParameters = ({ editMode, changeEditMode, onToggleAccordion, isAcc
     );
   };
 
-  // You can use the context object to pass all additional information to custom tab factory
-  const context = {
-    editMode,
-    isDarkTheme,
-  };
-
   useEffect(() => {
     discardLocalChanges();
     // eslint-disable-next-line
-  }, [currentScenarioData?.id]);
+  }, [scenarioId]);
+
+  // The useEffect below is currently necessary to prevent a glitch when saving scenario parameters values (without it,
+  // the table content briefly shows the previous rows before displaying the new ones)
+  useEffect(() => {
+    if (scenarioStatus === STATUSES.SUCCESS) reset({ ...getValues() });
+    // eslint-disable-next-line
+  }, [scenarioStatus]);
 
   const getParametersForUpdate = () => {
     const parametersValues = getValues();
@@ -174,67 +178,49 @@ const ScenarioParameters = ({ editMode, changeEditMode, onToggleAccordion, isAcc
     );
   };
 
-  const startParametersEdition = (event) => {
-    if (isAccordionExpanded) {
-      event.stopPropagation();
-    }
-    changeEditMode(true);
-  };
-
-  const [showWarningBeforeLaunchPopup, setShowWarningBeforeLaunchPopup] = useState(false);
-  const closeConfirmLaunchDialog = () => {
-    setShowWarningBeforeLaunchPopup(false);
-  };
-
-  const updateBeforeLaunch = useRef(null);
-
-  const confirmAndLaunch = (event, updateBeforeLaunch_) => {
+  const handleScenarioLaunchEvent = (event, saveBeforeLaunch) => {
     event.stopPropagation();
-    updateBeforeLaunch.current = updateBeforeLaunch_;
-    if (localStorage.getItem('dontAskAgainToConfirmLaunch') === 'true') {
-      startScenarioLaunch();
+    processScenarioLaunch(saveBeforeLaunch);
+  };
+
+  const handleScenarioSaveEvent = async (event) => {
+    event.stopPropagation();
+    await processFilesParameters();
+    saveScenario(scenarioId, getParametersForUpdate());
+  };
+
+  const processScenarioLaunch = async (saveBeforeLaunch) => {
+    // If scenario parameters have never been updated, force parameters update
+    const forceUpdate =
+      ScenarioParametersUtils.shouldForceScenarioParametersUpdate(runTemplateParametersIds) ||
+      !currentScenarioData?.parametersValues ||
+      currentScenarioData?.parametersValues.length === 0;
+    if (saveBeforeLaunch || forceUpdate) {
+      await processFilesParameters();
+      saveAndLaunchScenario(scenarioId, getParametersForUpdate());
     } else {
-      setShowWarningBeforeLaunchPopup(true);
+      launchScenario(scenarioId);
     }
   };
 
-  const startScenarioLaunch = async () => {
-    const forceUpdate = ScenarioParametersUtils.shouldForceScenarioParametersUpdate(runTemplateParametersIds);
-    await processScenarioLaunch(forceUpdate || updateBeforeLaunch.current);
+  const preventSubmit = (event) => {
+    event.preventDefault();
   };
+
+  const [showDiscardConfirmationPopup, setShowDiscardConfirmationPopup] = useState(false);
 
   const askDiscardConfirmation = (event) => {
     event.stopPropagation();
     setShowDiscardConfirmationPopup(true);
   };
-  const cancelDiscard = () => {
-    setShowDiscardConfirmationPopup(false);
-  };
+
   const confirmDiscard = () => {
     setShowDiscardConfirmationPopup(false);
-    changeEditMode(false);
     discardLocalChanges();
   };
 
-  const processScenarioLaunch = async (forceUpdate) => {
-    // If scenario parameters have never been updated, force parameters update
-    if (!currentScenarioData?.parametersValues || currentScenarioData?.parametersValues.length === 0) {
-      forceUpdate = true;
-    }
-
-    await processFilesParameters();
-    if (forceUpdate) {
-      const parametersForUpdate = getParametersForUpdate();
-      updateAndLaunchScenario(scenarioId, parametersForUpdate);
-    } else {
-      launchScenario(scenarioId);
-    }
-    changeEditMode(false);
-    reset({ ...getValues() });
-  };
-
-  const preventSubmit = (event) => {
-    event.preventDefault();
+  const cancelDiscard = () => {
+    setShowDiscardConfirmationPopup(false);
   };
 
   const noTabsShown = parametersGroupsMetadata.length === 0;
@@ -243,31 +229,19 @@ const ScenarioParameters = ({ editMode, changeEditMode, onToggleAccordion, isAcc
     currentScenarioData?.state === SCENARIO_RUN_STATE.DATA_INGESTION_IN_PROGRESS;
   const isCurrentScenarioRejected = currentScenarioData?.validationStatus === SCENARIO_VALIDATION_STATUS.REJECTED;
   const isCurrentScenarioValidated = currentScenarioData?.validationStatus === SCENARIO_VALIDATION_STATUS.VALIDATED;
-  const isEditDisabled =
-    noTabsShown || isCurrentScenarioRunning || isCurrentScenarioRejected || isCurrentScenarioValidated;
+  const hasUserWritePermission = userPermissionsOnCurrentScenario.includes(ACL_PERMISSIONS.SCENARIO.WRITE);
 
-  let disabledEditTooltip;
-  if (isCurrentScenarioRunning) {
-    disabledEditTooltip = t(
-      'commoncomponents.button.scenario.parameters.disabledEditTooltip.running',
-      'Parameters cannot be edited while the scenario is running'
-    );
-  } else if (isCurrentScenarioRejected) {
-    disabledEditTooltip = t(
-      'commoncomponents.button.scenario.parameters.disabledEditTooltip.rejected',
-      'This scenario is rejected, you cannot edit its parameters'
-    );
-  } else if (isCurrentScenarioValidated) {
-    disabledEditTooltip = t(
-      'commoncomponents.button.scenario.parameters.disabledEditTooltip.validated',
-      'This scenario is validated, you cannot edit its parameters'
-    );
-  } else if (noTabsShown) {
-    disabledEditTooltip = t(
-      'commoncomponents.button.scenario.parameters.disabledEditTooltip.noTabs',
-      'No parameters to edit'
-    );
-  }
+  // You can use the context object to pass all additional information to custom tab factory
+  const context = {
+    isDarkTheme,
+    editMode: !(
+      noTabsShown ||
+      isCurrentScenarioRunning ||
+      isCurrentScenarioRejected ||
+      isCurrentScenarioValidated ||
+      !hasUserWritePermission
+    ),
+  };
 
   return (
     <div>
@@ -285,27 +259,12 @@ const ScenarioParameters = ({ editMode, changeEditMode, onToggleAccordion, isAcc
               </Grid>
               <Grid item>
                 {/* FIXME: add PLATFORM.ADMIN bypass */}
-                <PermissionsGate
-                  userPermissions={userPermissionsOnCurrentScenario}
-                  necessaryPermissions={[ACL_PERMISSIONS.SCENARIO.WRITE, ACL_PERMISSIONS.SCENARIO.LAUNCH]}
-                >
-                  {editMode ? (
-                    <EditModeButton
-                      classes={classes}
-                      handleClickOnDiscardChange={(event) => askDiscardConfirmation(event)}
-                      handleClickOnUpdateAndLaunchScenario={(event) => confirmAndLaunch(event, true)}
-                    />
-                  ) : (
-                    <NormalModeButton
-                      classes={classes}
-                      handleClickOnEdit={(event) => startParametersEdition(event)}
-                      handleClickOnLaunchScenario={(event) => confirmAndLaunch(event, false)}
-                      editDisabled={isEditDisabled}
-                      runDisabled={isCurrentScenarioRunning}
-                      disabledEditTooltip={disabledEditTooltip}
-                    />
-                  )}
-                </PermissionsGate>
+                <SaveLaunchDiscardButton
+                  onSave={handleScenarioSaveEvent}
+                  onDiscard={askDiscardConfirmation}
+                  onLaunch={(event) => handleScenarioLaunchEvent(event, false)}
+                  onSaveAndLaunch={(event) => handleScenarioLaunchEvent(event, true)}
+                />
               </Grid>
             </Grid>
           </AccordionSummary>
@@ -313,11 +272,17 @@ const ScenarioParameters = ({ editMode, changeEditMode, onToggleAccordion, isAcc
             <div className={classes.accordionDetailsContent}>
               {
                 <form onSubmit={preventSubmit}>
-                  <ScenarioParametersTabsWrapper
-                    parametersGroupsMetadata={parametersGroupsMetadata}
-                    userRoles={userRoles}
-                    context={context}
-                  />
+                  <PermissionsGate
+                    userPermissions={userPermissionsOnCurrentScenario}
+                    necessaryPermissions={[ACL_PERMISSIONS.SCENARIO.LAUNCH]}
+                    noPermissionProps={{ context: { ...context, isReadOnly: true } }}
+                  >
+                    <ScenarioParametersTabsWrapper
+                      parametersGroupsMetadata={parametersGroupsMetadata}
+                      userRoles={userRoles}
+                      context={context}
+                    />
+                  </PermissionsGate>
                 </form>
               }
             </div>
@@ -335,30 +300,12 @@ const ScenarioParameters = ({ editMode, changeEditMode, onToggleAccordion, isAcc
           handleClickOnButton1={cancelDiscard}
           handleClickOnButton2={confirmDiscard}
         />
-        <DontAskAgainDialog
-          id={'launch'}
-          open={showWarningBeforeLaunchPopup}
-          labels={{
-            title: t('genericcomponent.dialog.scenario.parameters.confirmLaunchDialog.title'),
-            body: t('genericcomponent.dialog.scenario.parameters.confirmLaunchDialog.body'),
-            cancel: t('genericcomponent.dialog.scenario.parameters.button.cancel'),
-            confirm: t('genericcomponent.dialog.scenario.parameters.button.launch'),
-            checkbox: t('genericcomponent.dialog.scenario.parameters.confirmLaunchDialog.checkbox'),
-          }}
-          onClose={closeConfirmLaunchDialog}
-          onConfirm={(dontAskAgain) => {
-            localStorage.setItem('dontAskAgainToConfirmLaunch', dontAskAgain);
-            startScenarioLaunch();
-          }}
-        />
       </ScenarioResetValuesContext.Provider>
     </div>
   );
 };
 
 ScenarioParameters.propTypes = {
-  editMode: PropTypes.bool.isRequired,
-  changeEditMode: PropTypes.func.isRequired,
   onToggleAccordion: PropTypes.func.isRequired,
   isAccordionExpanded: PropTypes.bool.isRequired,
 };

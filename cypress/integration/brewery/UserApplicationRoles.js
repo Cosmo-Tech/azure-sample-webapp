@@ -30,7 +30,6 @@ describe('check accessible features for Organization.Modeler application role as
     Scenarios.getScenarioValidateButton().should('be.visible').should('not.be.disabled');
     Scenarios.getScenarioRejectButton().should('be.visible').should('not.be.disabled');
     Scenarios.getScenarioCreationButton().should('be.visible').should('not.be.disabled');
-    ScenarioParameters.getParametersEditButton().should('be.visible').should('not.be.disabled');
     ScenarioParameters.getLaunchButton().should('be.visible').should('not.be.disabled');
   });
 });
@@ -59,11 +58,10 @@ describe('check accessible features for Organization.Viewer application role as 
     stub.stop();
   });
 
-  it('does not show create, edit, launch & validate buttons', () => {
+  it('does not show create, edit, save and launch & validate buttons', () => {
     Scenarios.getScenarioValidateButton().should('be.visible').should('not.be.disabled');
     Scenarios.getScenarioRejectButton().should('be.visible').should('not.be.disabled');
     Scenarios.getScenarioCreationButton().should('be.visible').should('not.be.disabled');
-    ScenarioParameters.getParametersEditButton().should('be.visible').should('not.be.disabled');
     ScenarioParameters.getLaunchButton().should('be.visible').should('not.be.disabled');
   });
 });
@@ -72,5 +70,4 @@ describe('check accessible features for Organization.Viewer application role as 
 // Scenarios.getScenarioValidateButton().should('not.exist');
 // Scenarios.getScenarioRejectButton().should('not.exist');
 // Scenarios.getScenarioCreationButton().should('be.visible').should('be.disabled');
-// ScenarioParameters.getParametersEditButton().should('not.exist');
 // ScenarioParameters.getLaunchButton().should('not.exist');

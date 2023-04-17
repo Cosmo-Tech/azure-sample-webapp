@@ -37,7 +37,6 @@ describe('Displaying error banner on run scenario fail', () => {
   });
   it('can display error banner and dismiss it', () => {
     Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
-    ScenarioParameters.edit();
     cy.intercept('POST', URL_REGEX.SCENARIO_PAGE_RUN_WITH_ID, {
       statusCode: 400,
       body: {
@@ -46,7 +45,7 @@ describe('Displaying error banner on run scenario fail', () => {
         detail: 'Scenario #scenarioId not found in workspace #w-81264wr3xw5q5 in organization #O-gZYpnd27G7',
       },
     });
-    ScenarioParameters.updateAndLaunch();
+    ScenarioParameters.launch();
     ErrorBanner.checkAnDismissErrorBanner();
   });
 });
