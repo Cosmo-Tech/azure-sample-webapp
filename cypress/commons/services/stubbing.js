@@ -18,7 +18,7 @@ const STUB_TYPES = [
   'GET_SOLUTIONS',
   'GET_WORKSPACES',
   'GET_SCENARIOS',
-  'LAUNCH_SCENARIO', // Not supported yet for stubbing
+  'RUN_SCENARIO', // Supports only the scenario run request stubbing; the run status polling is not supported yet
   'PERMISSIONS_MAPPING',
   'UPDATE_SCENARIO',
 ];
