@@ -1,0 +1,7 @@
+name,age,canDrinkAlcohol,favoriteDrink,birthday,height
+,15,0,AppleJuice,01/04/2011,1.4,Bob,Too,much,fields
+,15,0,AppleJuice,01/04/2011,1.4,Bob
+Bob,15,0,AppleJuice,01/04/2011,1.4,Another one,Last one,Here to break,,,too many fields
+Bob,15,0,AppleJuice,01/04/2011,1.4,Another one
+Bob,15,0,AppleJuice,01/04/2011,1.4
+Bob,15,0,,01/04/2011

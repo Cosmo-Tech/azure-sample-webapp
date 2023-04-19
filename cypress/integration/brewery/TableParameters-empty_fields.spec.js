@@ -55,14 +55,16 @@ describe('Table parameters upload of valid and invalid files with empty fields',
   it('can import invalid files and display errors', () => {
     const checkErrorsPanel = () => {
       const expectedErrors = [
-        { summary: 'Missing field', loc: 'Line 1' },
-        { summary: 'Missing fields', loc: 'Line 3' },
-        { summary: 'Incorrect int value', loc: 'Line 3 , Column 1 ("age")' },
-        { summary: 'Missing field' },
-        { summary: 'Incorrect enum value', loc: 'Line 5 , Column 3 ("favoriteDrink")' },
+        { summary: 'Empty field', loc: 'Line 2, Column 1 ("name")' },
+        { summary: 'Empty field', loc: 'Line 4, Column 3 ("canDrinkAlcohol")' },
+        { summary: 'Empty field', loc: 'Line 4, Column 4 ("favoriteDrink")' },
+        { summary: 'Incorrect int value', loc: 'Line 4 , Column 2 ("age")' },
+        { summary: 'Empty field' },
+        { summary: 'Incorrect enum value', loc: 'Line 6 , Column 4 ("favoriteDrink")' },
         { summary: 'Incorrect number value' },
         { summary: 'Incorrect date value' },
-        { summary: 'Missing fields' },
+        { summary: 'Empty field' },
+        { summary: 'Empty field' },
       ];
       BreweryParameters.checkCustomersErrorsPanelFromList(expectedErrors);
     };

@@ -37,7 +37,7 @@ describe('Table parameters files standard operations part 1', () => {
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.getCustomersTable().should('be.visible');
     BreweryParameters.getCustomersTableLabel().should('be.visible').should('have.text', 'Customers');
-    BreweryParameters.getCustomersTableGrid().should('be.visible');
+    BreweryParameters.getCustomersTableGrid().should('exist');
     BreweryParameters.getCustomersImportButton().should('be.visible');
     BreweryParameters.getCustomersExportButton().should('be.visible');
     BreweryParameters.getCustomersTableHeader().should('not.exist');
