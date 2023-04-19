@@ -45,7 +45,7 @@ describe('Table parameters files standard operations part 4', () => {
     }
   });
 
-  it('can create a scenario with default table parameter', () => {
+  it('can create a scenario with default table parameter, edit it, save, re-edit, re-save', () => {
     const scenarioName = forgeScenarioName();
     scenarioNamesToDelete.push(scenarioName);
     Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
@@ -57,13 +57,24 @@ describe('Table parameters files standard operations part 4', () => {
     BreweryParameters.getEventsTableCell('timeOfDay', 2).should('have.text', 'evening');
     BreweryParameters.getEventsTableCell('reservationsNumber', 3).should('have.text', '220');
     BreweryParameters.getEventsTableCell('online', 4).should('have.text', 'false');
+
+    ScenarioParameters.getSaveButton().should('not.exist');
+    ScenarioParameters.getParametersDiscardButton().should('not.exist');
+    BreweryParameters.editEventsTableStringCell('reservationsNumber', 3, '77').should('have.text', '77');
+    ScenarioParameters.getParametersDiscardButton().should('be.visible');
+    ScenarioParameters.getSaveButton().should('be.visible');
+    ScenarioParameters.save();
+    BreweryParameters.getEventsTableCell('reservationsNumber', 3).should('have.text', '77');
+    ScenarioParameters.getParametersDiscardButton().should('not.exist');
+    ScenarioParameters.getSaveButton().should('not.exist');
+    BreweryParameters.editEventsTableStringCell('reservationsNumber', 3, '19').should('have.text', '19');
+    ScenarioParameters.save();
   });
 
   it('can import two xlsx files, edit, upload, save and export', () => {
     const scenarioName = forgeScenarioName();
     scenarioNamesToDelete.push(scenarioName);
     Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
-    ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.importCustomersTableData(CUSTOMERS_FILE_PATH);
 
