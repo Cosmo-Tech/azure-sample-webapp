@@ -1,3 +1,6 @@
+// Copyright (c) Cosmo Tech.
+// Licensed under the MIT license.
+
 import { PAGE_NAME } from '../../commons/constants/generic/TestConstants';
 import { Login, ScenarioManager, Scenarios, ScenarioSelector } from '../../commons/actions';
 import { stub } from '../../commons/services/stubbing';

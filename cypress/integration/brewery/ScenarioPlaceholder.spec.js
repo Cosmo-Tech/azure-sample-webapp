@@ -1,3 +1,6 @@
+// Copyright (c) Cosmo Tech.
+// Licensed under the MIT license.
+
 import { ScenarioManager, ScenarioParameters, Scenarios } from '../../commons/actions';
 import { Login } from '../../commons/actions/brewery';
 import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';

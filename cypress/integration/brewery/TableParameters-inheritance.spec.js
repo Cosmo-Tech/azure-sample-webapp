@@ -1,3 +1,6 @@
+// Copyright (c) Cosmo Tech.
+// Licensed under the MIT license.
+
 import utils from '../../commons/TestUtils';
 import { Downloads, ScenarioManager, ScenarioParameters, Scenarios } from '../../commons/actions';
 import { BreweryParameters, Login } from '../../commons/actions/brewery';

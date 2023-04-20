@@ -1,3 +1,6 @@
+// Copyright (c) Cosmo Tech.
+// Licensed under the MIT license.
+
 import { Scenarios } from '../../commons/actions';
 import { Login } from '../../commons/actions/brewery';
 import { stub } from '../../commons/services/stubbing';

@@ -1,3 +1,6 @@
+// Copyright (c) Cosmo Tech.
+// Licensed under the MIT license.
+
 import { Login, ScenarioManager, Scenarios, ScenarioSelector } from '../../commons/actions';
 import { ALL_ROOT_SCENARIOS, PARENT_AND_CHILD_SCENARIOS } from '../../fixtures/stubbing/ScenarioListOrder/scenarios';
 import { USER_EXAMPLE } from '../../fixtures/stubbing/default';

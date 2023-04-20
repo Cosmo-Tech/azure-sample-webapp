@@ -1,3 +1,6 @@
+// Copyright (c) Cosmo Tech.
+// Licensed under the MIT license.
+
 import { ErrorBanner, Login, Workspaces } from '../../commons/actions';
 import { stub } from '../../commons/services/stubbing';
 

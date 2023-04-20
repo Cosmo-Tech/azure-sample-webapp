@@ -1,3 +1,6 @@
+// Copyright (c) Cosmo Tech.
+// Licensed under the MIT license.
+
 import { stub } from '../../commons/services/stubbing';
 import {
   InstanceVisualization,
