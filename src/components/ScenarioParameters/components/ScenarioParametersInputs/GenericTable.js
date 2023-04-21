@@ -389,14 +389,12 @@ export const GenericTable = ({
 
   const onCellChange = (event) => {
     gridApiRef.current = event.api;
-    if (!parameter.uploadPreprocess) {
-      updateParameterValue({
-        status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD,
-        tableDataStatus: TABLE_DATA_STATUS.READY,
-        errors: null,
-        uploadPreprocess: { content: _uploadPreprocess },
-      });
-    }
+    updateParameterValue({
+      status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD,
+      tableDataStatus: TABLE_DATA_STATUS.READY,
+      errors: null,
+      uploadPreprocess: { content: _uploadPreprocess },
+    });
   };
 
   const onClearErrors = () => {
@@ -406,7 +404,7 @@ export const GenericTable = ({
   };
 
   const buildErrorsPanelTitle = (errorsCount, maxErrorsCount) => {
-    let title = t('genericcomponent.table.labels.errorsCount', '{{count}} errors occured:', {
+    let title = t('genericcomponent.table.labels.errorsCount', '{{count}} errors occurred:', {
       count: errorsCount,
     });
     if (errorsCount > maxErrorsCount) {
