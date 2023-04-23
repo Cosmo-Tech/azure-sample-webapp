@@ -164,7 +164,7 @@
             "refresh": "Rafraîchir (sera ensuite indisponible pendant 15 secondes)"
           },
           "warning": {
-            "notSync": "Les paramètres du scénario ont été modifiés depuis son dernier lancement, les données du dashboard risquent de ne plus être valides"
+            "notSync": "Le scénario a été modifié depuis son dernier lancement, les données du dashboard risquent de ne plus être valides"
           }
         },
         "noscenario": {

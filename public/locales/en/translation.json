@@ -164,7 +164,7 @@
             "refresh": "Refresh (will then be disabled for 15 seconds)"
           },
           "warning": {
-            "notSync": "Scenario parameters were updated since last launch, this dashboard may not be up to date anymore."
+            "notSync": "Scenario was updated since last launch, this dashboard may not be up to date anymore."
           }
         },
         "noscenario": {
