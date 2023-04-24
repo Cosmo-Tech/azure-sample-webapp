@@ -95,9 +95,13 @@ function launch(timeoutGetLaunchButton = 180) {
   api.waitAlias(alias, { timeout: 60 * 1000 }); // 60 seconds timeout
 }
 
-function save(wait = true) {
+function save(wait = true, responseDelay = 0) {
   const alias = api.forgeAlias('reqSaveScenarioAlias');
-  cy.intercept('PATCH', URL_REGEX.SCENARIO_PAGE_WITH_ID).as(alias);
+  cy.intercept('PATCH', URL_REGEX.SCENARIO_PAGE_WITH_ID, (req) => {
+    req.on('response', (res) => {
+      res.setDelay(responseDelay);
+    });
+  }).as(alias);
 
   getSaveButton().should('not.be.disabled').click();
 

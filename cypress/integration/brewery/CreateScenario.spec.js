@@ -206,7 +206,7 @@ describe('Create scenario', () => {
         // save scenario child
         cy.intercept('PATCH', URL_REGEX.SCENARIO_PAGE_WITH_ID).as('requestEditScenario');
 
-        ScenarioParameters.save(false);
+        ScenarioParameters.save(false, 500);
         // "saving" backdrop must be visible during save
         Scenarios.getScenarioBackdrop().should('exist').should('be.visible');
         Scenarios.getScenarioBackdropSavingText().should('be.visible');
