@@ -64,7 +64,7 @@ const Scenario = () => {
     button2Props: {
       color: 'error',
     },
-    closeOnBackDropClick: true,
+    closeOnBackdropClick: true,
   };
 
   useRedirectionToScenario();
