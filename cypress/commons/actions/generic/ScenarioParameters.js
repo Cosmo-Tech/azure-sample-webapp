@@ -85,8 +85,10 @@ function save(wait = true) {
 
   getSaveButton().should('not.be.disabled').click();
 
-  api.waitAlias(alias, { timeout: 10 * 1000 }); // 10 seconds timeout
-  if (wait) Scenarios.getScenarioBackdrop(10).should('not.be.visible');
+  if (wait) {
+    Scenarios.getScenarioBackdrop(10).should('not.be.visible');
+    api.waitAlias(alias, { timeout: 10 * 1000 }); // 10 seconds timeout
+  }
 }
 
 // Actions on input components
