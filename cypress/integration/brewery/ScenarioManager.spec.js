@@ -3,7 +3,7 @@
 
 import utils from '../../commons/TestUtils';
 import { DATASET, RUN_TEMPLATE, SCENARIO_STATUS } from '../../commons/constants/brewery/TestConstants';
-import { Scenarios, ScenarioManager, ScenarioParameters } from '../../commons/actions';
+import { Scenarios, ScenarioManager, ScenarioParameters, ErrorBanner } from '../../commons/actions';
 import { Login } from '../../commons/actions/brewery';
 
 describe('Create scenario and check its data in scenario manager', () => {
@@ -50,7 +50,7 @@ describe('Create scenario and check its data in scenario manager', () => {
 
       // FIX TEMP for https://cosmo-tech.atlassian.net/browse/PROD-11566
       // Remove this for test the fix.
-      ScenarioManager.writeInFilter(scenarioName);
+      ErrorBanner.dismissErrorIfVisible();
 
       ScenarioManager.getScenarioAccordion(scenarioId).click();
       ScenarioManager.getScenarioOwnerName(scenarioId).should('have.text', scenarioOwnerName);
@@ -65,6 +65,9 @@ describe('Create scenario and check its data in scenario manager', () => {
 
       ScenarioManager.switchToScenarioManager();
 
+      // FIX TEMP for https://cosmo-tech.atlassian.net/browse/PROD-11566
+      // Remove this for test the fix.
+      ErrorBanner.dismissErrorIfVisible();
       ScenarioManager.getScenarioAccordion(scenarioId).click();
       ScenarioManager.getScenarioRunStatus(scenarioId, SCENARIO_STATUS.RUNNING);
       ScenarioManager.getScenarioRunStatus(scenarioId, SCENARIO_STATUS.SUCCESSFUL, 300);

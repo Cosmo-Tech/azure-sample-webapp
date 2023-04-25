@@ -19,6 +19,15 @@ function getErrorCommentText() {
   return cy.get(GENERIC_SELECTORS.genericComponents.errorBanner.errorComment);
 }
 
+function dismissErrorIfVisible() {
+  getDismissErrorButton().then(($btn) => {
+    if ($btn.is(':visible')) {
+      $btn.trigger('click');
+      getErrorBanner().should('not.be.visible');
+    }
+  });
+}
+
 function checkAnDismissErrorBanner() {
   getErrorBanner().should('be.visible');
   getDismissErrorButton().click();
@@ -31,4 +40,5 @@ export const ErrorBanner = {
   getErrorCommentText,
   getErrorDetailText,
   checkAnDismissErrorBanner,
+  dismissErrorIfVisible,
 };
