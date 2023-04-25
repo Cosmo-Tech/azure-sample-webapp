@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { all, fork } from 'redux-saga/effects';
+import { all, spawn, call } from 'redux-saga/effects';
 import scenarioSaga from './scenario';
 import scenarioRunSaga from './scenarioRun';
 import appSaga from './app';
@@ -13,15 +13,30 @@ import authSaga from './auth';
 import powerBISaga from './powerbi';
 
 export default function* rootSaga() {
-  yield all([
-    fork(authSaga),
-    fork(appSaga),
-    fork(organizationSaga),
-    fork(workspaceSaga),
-    fork(solutionSaga),
-    fork(scenarioSaga),
-    fork(scenarioRunSaga),
-    fork(datasetSaga),
-    fork(powerBISaga),
-  ]);
+  const sagas = [
+    authSaga,
+    appSaga,
+    organizationSaga,
+    workspaceSaga,
+    solutionSaga,
+    scenarioSaga,
+    scenarioRunSaga,
+    datasetSaga,
+    powerBISaga,
+  ];
+
+  yield all(
+    sagas.map((saga) =>
+      spawn(function* () {
+        while (true) {
+          try {
+            yield call(saga);
+            break;
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      })
+    )
+  );
 }
