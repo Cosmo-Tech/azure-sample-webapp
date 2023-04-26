@@ -9,6 +9,9 @@ function upload(fileParameterElement, filePath) {
   fileParameterElement.find(GENERIC_SELECTORS.genericComponents.uploadFile.browseButtonInput).attachFile(filePath);
 }
 
+function getBrowseButton(fileParameterElement) {
+  return fileParameterElement.find(GENERIC_SELECTORS.genericComponents.uploadFile.browseButton, { timeout: 10000 });
+}
 function getDownloadButton(fileParameterElement) {
   return fileParameterElement.find(GENERIC_SELECTORS.genericComponents.uploadFile.fileName, { timeout: 10000 });
 }
@@ -31,6 +34,7 @@ function _delete(fileParameterElement) {
 
 export const FileParameters = {
   upload,
+  getBrowseButton,
   getDownloadButton,
   getDeleteButton,
   getFileName,
