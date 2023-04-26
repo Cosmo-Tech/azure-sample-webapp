@@ -44,7 +44,8 @@
           "save": "SAUVEGARDER",
           "update": {
             "launch": "SAUVEGARDER ET LANCER"
-          }
+          },
+          "cancel": "Arrêter"
         }
       }
     },
@@ -512,6 +513,14 @@
             "cancel": "Annuler",
             "discardAndContinue": "Rejeter et continuer"
           }
+        },
+        "stopRun": {
+          "title": "Arrêter la simulation ?",
+          "body": "Si vous arrêtez la simulation, son statut passera en Erreur.\nRemarque : les résultats précédents sont déjà perdus et ne pourront pas être affichés de nouveau.",
+          "button": {
+            "cancel": "Annuler",
+            "stop": "Arrêter"
+          }
         }
       },
       "about": {
@@ -611,6 +620,9 @@
       },
       "scenarioRunStatusQueryError": {
         "comment": "Impossible de trouver le statut du run de scénario avec l'id \"{{id}}\"."
+      },
+      "scenarioRunStopError": {
+        "comment": "Impossible d'arrêter le run de scénario avec l'id \"{{id}}\""
       }
     }
   },

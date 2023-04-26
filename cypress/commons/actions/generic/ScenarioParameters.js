@@ -40,6 +40,18 @@ function getLaunchButton(timeout) {
 function getSaveButton(timeout) {
   return cy.get(GENERIC_SELECTORS.scenario.parameters.saveButton, timeout ? { timeout: timeout * 1000 } : undefined);
 }
+function getStopScenarioRunButton(timeout) {
+  return cy.get(
+    GENERIC_SELECTORS.scenario.parameters.stopScenarioRunButton,
+    timeout ? { timeout: timeout * 1000 } : undefined
+  );
+}
+function getStopScenarioRunConfirmButton() {
+  return cy.get(GENERIC_SELECTORS.scenario.parameters.stopScenarioDialogButton2);
+}
+function getStopScenarioRunCancelButton() {
+  return cy.get(GENERIC_SELECTORS.scenario.parameters.stopScenarioDialogButton1);
+}
 
 function getParametersDiscardAndContinueButton() {
   return cy.get(GENERIC_SELECTORS.scenario.parameters.dialogDiscardAndContinueButton);
@@ -111,6 +123,11 @@ function save(wait = true, responseDelay = 0) {
   }
 }
 
+function cancelRun(confirm = true) {
+  getStopScenarioRunButton().click();
+  confirm ? getStopScenarioRunConfirmButton().click() : getStopScenarioRunCancelButton().click();
+}
+
 // Actions on input components
 function getInputValue(inputElement) {
   return inputElement.invoke('attr', 'value');
@@ -129,12 +146,16 @@ export const ScenarioParameters = {
   getParametersConfirmDiscardButton,
   getLaunchButton,
   getSaveButton,
+  getStopScenarioRunButton,
+  getStopScenarioRunConfirmButton,
+  getStopScenarioRunCancelButton,
   getNoParametersPlaceholder,
   expandParametersAccordion,
   collapseParametersAccordion,
   discard,
   launch,
   save,
+  cancelRun,
   getInputValue,
   getTextField,
   discardAndContinue,

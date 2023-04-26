@@ -115,7 +115,8 @@ describe('Switching between workspaces and running four scenarios at the same ti
             Scenarios.getDashboardAccordion().click();
             Scenarios.getDashboardAccordion().click();
             Scenarios.getDashboardPlaceholder().should('be.visible');
-            ScenarioParameters.getLaunchButton().should('be.disabled');
+            ScenarioParameters.getLaunchButton().should('not.exist');
+            ScenarioParameters.getStopScenarioRunButton().should('exist');
             BreweryParameters.switchToCustomersTab();
             BreweryParameters.getCustomersTableGrid().should('not.be.empty');
 

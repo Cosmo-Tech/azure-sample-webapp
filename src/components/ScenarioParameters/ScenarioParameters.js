@@ -12,11 +12,10 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { SCENARIO_RUN_STATE, SCENARIO_VALIDATION_STATUS } from '../../services/config/ApiConstants';
 import { STATUSES } from '../../state/commons/Constants';
 import { ACL_PERMISSIONS } from '../../services/config/accessControl';
-import { SaveLaunchDiscardButton, ScenarioParametersTabsWrapper } from './components';
+import { ScenarioParametersTabsWrapper, ScenarioActions } from './components';
 import { useTranslation } from 'react-i18next';
 import { useScenarioParameters } from './ScenarioParametersHook';
 import { ScenarioParametersUtils, FileManagementUtils } from '../../utils';
-import { TwoActionsDialogService } from '../../services/twoActionsDialog/twoActionsDialogService';
 
 const clone = rfdc();
 
@@ -58,26 +57,13 @@ const ScenarioResetValuesContext = React.createContext();
 const ScenarioParameters = ({ onToggleAccordion, isAccordionExpanded }) => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const {
-    scenariosData,
-    datasetsData,
-    addDatasetToStore,
-    currentScenario,
-    organizationId,
-    workspaceId,
-    solutionData,
-    userRoles,
-    launchScenario,
-    saveScenario,
-    saveAndLaunchScenario,
-    userPermissionsOnCurrentScenario,
-    isDarkTheme,
-  } = useScenarioParameters();
+  const { datasetsData, currentScenario, solutionData, userRoles, userPermissionsOnCurrentScenario, isDarkTheme } =
+    useScenarioParameters();
   const scenarioStatus = currentScenario?.status;
   const currentScenarioData = currentScenario?.data;
   const scenarioId = currentScenarioData?.id;
 
-  const { reset, getValues, setValue } = useFormContext();
+  const { reset, getValues } = useFormContext();
 
   // Memoize the parameters ids for the current run template
   const runTemplateParametersIds = useMemo(
@@ -134,28 +120,6 @@ const ScenarioParameters = ({ onToggleAccordion, isAccordionExpanded }) => {
     resetParametersValues();
   }, [resetParametersValues]);
 
-  const updateParameterValue = (parameterId, keyToPatch, newValue) => {
-    const currentValue = getValues(parameterId);
-
-    setValue(parameterId, {
-      ...currentValue,
-      [keyToPatch]: newValue,
-    });
-  };
-
-  const processFilesParameters = async () => {
-    const parametersValues = getValues();
-    await FileManagementUtils.applyPendingOperationsOnFileParameters(
-      organizationId,
-      workspaceId,
-      solutionData,
-      parametersMetadata,
-      parametersValues,
-      updateParameterValue,
-      addDatasetToStore
-    );
-  };
-
   useEffect(() => {
     discardLocalChanges();
     // eslint-disable-next-line
@@ -168,68 +132,9 @@ const ScenarioParameters = ({ onToggleAccordion, isAccordionExpanded }) => {
     // eslint-disable-next-line
   }, [scenarioStatus]);
 
-  const getParametersForUpdate = () => {
-    const parametersValues = getValues();
-    return ScenarioParametersUtils.buildParametersForUpdate(
-      solutionData,
-      parametersValues,
-      runTemplateParametersIds,
-      currentScenarioData,
-      scenariosData
-    );
-  };
-
-  const handleScenarioLaunchEvent = (event, saveBeforeLaunch) => {
-    event.stopPropagation();
-    processScenarioLaunch(saveBeforeLaunch);
-  };
-
-  const handleScenarioSaveEvent = async (event) => {
-    event.stopPropagation();
-    await processFilesParameters();
-    saveScenario(scenarioId, getParametersForUpdate());
-  };
-
-  const processScenarioLaunch = async (saveBeforeLaunch) => {
-    // If scenario parameters have never been updated, force parameters update
-    const forceUpdate =
-      ScenarioParametersUtils.shouldForceScenarioParametersUpdate(runTemplateParametersIds) ||
-      !currentScenarioData?.parametersValues ||
-      currentScenarioData?.parametersValues.length === 0;
-    if (saveBeforeLaunch || forceUpdate) {
-      await processFilesParameters();
-      saveAndLaunchScenario(scenarioId, getParametersForUpdate());
-    } else {
-      launchScenario(scenarioId);
-    }
-  };
-
   const preventSubmit = (event) => {
     event.preventDefault();
   };
-
-  const askDiscardConfirmation = useCallback(
-    async (event) => {
-      event.stopPropagation();
-
-      const dialogProps = {
-        id: 'discard-changes',
-        labels: {
-          title: t('genericcomponent.dialog.scenario.parameters.title'),
-          body: t('genericcomponent.dialog.scenario.parameters.body'),
-          button1: t('genericcomponent.dialog.scenario.parameters.button.cancel'),
-          button2: t('genericcomponent.dialog.scenario.parameters.button.validate'),
-        },
-      };
-
-      const result = await TwoActionsDialogService.openDialog(dialogProps);
-
-      if (result === 2) {
-        discardLocalChanges();
-      }
-    },
-    [discardLocalChanges, t]
-  );
 
   const noTabsShown = parametersGroupsMetadata.length === 0;
   const isCurrentScenarioRunning =
@@ -267,12 +172,7 @@ const ScenarioParameters = ({ onToggleAccordion, isAccordionExpanded }) => {
               </Grid>
               <Grid item>
                 {/* FIXME: add PLATFORM.ADMIN bypass */}
-                <SaveLaunchDiscardButton
-                  onSave={handleScenarioSaveEvent}
-                  onDiscard={askDiscardConfirmation}
-                  onLaunch={(event) => handleScenarioLaunchEvent(event, false)}
-                  onSaveAndLaunch={(event) => handleScenarioLaunchEvent(event, true)}
-                />
+                <ScenarioActions />
               </Grid>
             </Grid>
           </AccordionSummary>

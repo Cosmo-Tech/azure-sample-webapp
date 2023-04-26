@@ -1,24 +1,47 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useEffect, useRef, useState } from 'react';
-import { Notifier } from '../../utils';
+import React, { useCallback, useRef, useState } from 'react';
+import { Notifier, useSubscribeToNotifier } from '../../utils';
 import { SimpleTwoActionsDialog } from '@cosmotech/ui';
 
 const twoActionsDialogNotifier = new Notifier();
 
+const TwoActionsDialogActions = {
+  OPEN: 'Open',
+  CLOSE: 'Close',
+};
+
 class TwoActionsDialogClass {
   openDialog(dialogProps) {
     return new Promise((resolve) => {
-      dialogProps.resolve = resolve;
-      twoActionsDialogNotifier.send(dialogProps);
+      dialogProps.resolve = (index) => {
+        this._openedDialogId = '';
+        resolve(index);
+      };
+      this._openedDialogId = dialogProps.id;
+      twoActionsDialogNotifier.send({
+        resolve,
+        action: TwoActionsDialogActions.OPEN,
+        dialogProps,
+      });
     });
+  }
+
+  closeDialog() {
+    this._openedDialogId = '';
+
+    twoActionsDialogNotifier.send({
+      action: TwoActionsDialogActions.CLOSE,
+    });
+  }
+
+  get openedDialogId() {
+    return this._openedDialogId;
   }
 }
 
 const TwoActionsDialogGlobal = () => {
-  const subscription = useRef();
-
   const resolver = useRef();
   const [dialogProps, setDialogProps] = useState({});
   const [open, setOpen] = useState(false);
@@ -28,19 +51,35 @@ const TwoActionsDialogGlobal = () => {
     resolver.current(index);
   };
 
-  useEffect(() => {
-    function openDialog({ resolve, ...props }) {
-      resolver.current = resolve;
-      setDialogProps(props);
-      setOpen(true);
+  const closeDialog = useCallback(() => {
+    if (open) {
+      setOpen(false);
+      resolver.current(1);
     }
+  }, [open]);
 
-    subscription.current = twoActionsDialogNotifier.subscribe(openDialog);
-
-    return () => {
-      subscription.current.unsubscribe();
-    };
+  const openDialog = useCallback((resolve, dialogProps) => {
+    resolver.current = resolve;
+    setDialogProps(dialogProps);
+    setOpen(true);
   }, []);
+
+  const handleNotifier = useCallback(
+    (notification) => {
+      switch (notification.action) {
+        case TwoActionsDialogActions.OPEN:
+          openDialog(notification.resolve, notification.dialogProps);
+          break;
+
+        case TwoActionsDialogActions.CLOSE:
+          closeDialog();
+          break;
+      }
+    },
+    [closeDialog, openDialog]
+  );
+
+  useSubscribeToNotifier(twoActionsDialogNotifier, handleNotifier);
 
   return (
     <SimpleTwoActionsDialog
