@@ -9,7 +9,7 @@ import { Api } from '../../../../services/config/Api';
 import { t } from 'i18next';
 import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
 
-export function* saveScenario(action) {
+export function* saveScenario(action, throwOnError = false) {
   const organizationId = action.organizationId;
   const workspaceId = action.workspaceId;
   const scenarioId = action.scenarioId;
@@ -35,6 +35,13 @@ export function* saveScenario(action) {
       scenario: { parametersValues: updateData.parametersValues, lastUpdate: updateData.lastUpdate },
     });
   } catch (error) {
+    yield put({
+      type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
+      status: STATUSES.ERROR,
+    });
+
+    if (throwOnError) throw error;
+
     yield put(
       dispatchSetApplicationErrorMessage(
         error,
@@ -44,11 +51,6 @@ export function* saveScenario(action) {
         )
       )
     );
-    yield put({
-      type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
-      status: STATUSES.ERROR,
-    });
-    throw error;
   }
 }
 

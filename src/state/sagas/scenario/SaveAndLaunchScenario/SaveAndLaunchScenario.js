@@ -10,7 +10,8 @@ import { t } from 'i18next';
 
 export function* saveAndLaunchScenario(action) {
   try {
-    yield call(saveScenario, action);
+    yield call(saveScenario, action, true);
+    yield call(launchScenario, action);
   } catch (error) {
     console.error(error);
     yield put(
@@ -23,7 +24,6 @@ export function* saveAndLaunchScenario(action) {
       )
     );
   }
-  yield call(launchScenario, action);
 }
 
 function* saveAndLaunchScenarioSaga() {
