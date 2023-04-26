@@ -66,10 +66,15 @@ export function* selectWorkspace(action) {
     workspace: selectedWorkspace,
   });
 
+  yield put({
+    type: SCENARIO_ACTIONS_KEY.STOP_ALL_SCENARIO_STATUS_POLLINGS,
+  });
+
   yield call(getAllScenariosData, organizationId, selectedWorkspaceId);
   const solutionId = yield select(selectSolutionIdFromCurrentWorkspace);
   yield call(fetchSolutionByIdData, organizationId, selectedWorkspaceId, solutionId);
   const scenarioList = yield select(selectScenarioList);
+
   yield put({
     type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
     scenario: getFirstScenarioMaster(scenarioList), // Function returns null if list is empty

@@ -89,7 +89,14 @@ export function* pollScenarioState(action) {
 function* startPolling(action) {
   let stopActionName = SCENARIO_ACTIONS_KEY.STOP_SCENARIO_STATUS_POLLING;
   stopActionName += '_' + action.scenarioId;
-  yield race([call(pollScenarioState, action), take(stopActionName)]);
+
+  // Prevent double polling on same scenario
+  yield put(forgeStopPollingAction(action.scenarioId));
+
+  yield race([
+    call(pollScenarioState, action),
+    take([stopActionName, SCENARIO_ACTIONS_KEY.STOP_ALL_SCENARIO_STATUS_POLLINGS]),
+  ]);
 }
 
 function* pollScenarioStateSaga() {
