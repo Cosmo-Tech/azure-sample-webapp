@@ -389,12 +389,14 @@ export const GenericTable = ({
 
   const onCellChange = (event) => {
     gridApiRef.current = event.api;
-    updateParameterValue({
-      status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD,
-      tableDataStatus: TABLE_DATA_STATUS.READY,
-      errors: null,
-      uploadPreprocess: { content: _uploadPreprocess },
-    });
+    if (!parameter.uploadPreprocess || !isDirty) {
+      updateParameterValue({
+        status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD,
+        tableDataStatus: TABLE_DATA_STATUS.READY,
+        errors: null,
+        uploadPreprocess: { content: _uploadPreprocess },
+      });
+    }
   };
 
   const onClearErrors = () => {
