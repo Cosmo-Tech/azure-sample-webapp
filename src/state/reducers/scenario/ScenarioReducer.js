@@ -24,7 +24,7 @@ export const scenarioListReducer = createReducer(scenarioListInitialState, (buil
       state.status = action.status;
     })
     .addCase(SCENARIO_ACTIONS_KEY.UPDATE_SCENARIO, (state, action) => {
-      state.data = state.data.map((scenarioData) => {
+      state.data = state.data?.map((scenarioData) => {
         // Replace state and lastRun in data for the scenario to update
         if (scenarioData.id === action.data.scenarioId) {
           return {
@@ -38,7 +38,7 @@ export const scenarioListReducer = createReducer(scenarioListInitialState, (buil
       });
     })
     .addCase(SCENARIO_ACTIONS_KEY.SET_SCENARIO_VALIDATION_STATUS, (state, action) => {
-      state.data = state.data.map((scenarioData) => {
+      state.data = state.data?.map((scenarioData) => {
         if (scenarioData.id === action.scenarioId) {
           return { ...scenarioData, validationStatus: action.validationStatus };
         }
@@ -46,7 +46,7 @@ export const scenarioListReducer = createReducer(scenarioListInitialState, (buil
       });
     })
     .addCase(SCENARIO_ACTIONS_KEY.SET_SCENARIO_SECURITY, (state, action) => {
-      state.data = state.data.map((scenarioData) => {
+      state.data = state.data?.map((scenarioData) => {
         if (scenarioData.id === action.scenarioId) {
           const scenarioWithNewSecurity = { ...scenarioData, security: action.security };
           ScenariosUtils.patchScenarioWithCurrentUserPermissions(
@@ -61,7 +61,7 @@ export const scenarioListReducer = createReducer(scenarioListInitialState, (buil
       });
     })
     .addCase(SCENARIO_ACTIONS_KEY.SET_SCENARIO_NAME, (state, action) => {
-      state.data = state.data.map((scenarioData) => {
+      state.data = state.data?.map((scenarioData) => {
         if (scenarioData.id === action.scenarioId) {
           return { ...scenarioData, name: action.name };
         }
@@ -96,7 +96,7 @@ export const currentScenarioReducer = createReducer(currentScenarioInitialState,
     })
     .addCase(SCENARIO_ACTIONS_KEY.UPDATE_SCENARIO, (state, action) => {
       // Replace state and lastRun in data if the scenario to update is currently selected
-      if (state.data.id === action.data.scenarioId) {
+      if (state.data?.id === action.data.scenarioId) {
         state.data = {
           ...state.data,
           state: action.data.scenarioState ?? state.data.state,
@@ -105,7 +105,7 @@ export const currentScenarioReducer = createReducer(currentScenarioInitialState,
       }
     })
     .addCase(SCENARIO_ACTIONS_KEY.SET_SCENARIO_VALIDATION_STATUS, (state, action) => {
-      if (state.data.id === action.scenarioId) {
+      if (state.data?.id === action.scenarioId) {
         state.data = {
           ...state.data,
           validationStatus: action.validationStatus,
@@ -113,7 +113,7 @@ export const currentScenarioReducer = createReducer(currentScenarioInitialState,
       }
     })
     .addCase(SCENARIO_ACTIONS_KEY.SET_SCENARIO_SECURITY, (state, action) => {
-      if (state.data.id === action.scenarioId) {
+      if (state.data?.id === action.scenarioId) {
         const scenarioWithNewSecurity = { ...state.data, security: action.security };
         ScenariosUtils.patchScenarioWithCurrentUserPermissions(
           scenarioWithNewSecurity,
