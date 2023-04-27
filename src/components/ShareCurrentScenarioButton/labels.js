@@ -1,10 +1,15 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-export const getShareScenarioDialogLabels = (t, currentScenarioName) => ({
+export const getShareScenarioDialogLabels = (t, currentScenarioName, isDirty) => ({
   button: {
     title: t('commoncomponents.dialog.share.button.label', 'Share'),
-    tooltip: t('commoncomponents.dialog.share.button.tooltip', 'Modify access'),
+    tooltip: isDirty
+      ? t(
+          'commoncomponents.dialog.share.button.editModeTooltip',
+          'Please save or discard current modifications before changing the scenario access permissions'
+        )
+      : t('commoncomponents.dialog.share.button.tooltip', 'Modify access'),
   },
   dialog: {
     title: t('commoncomponents.dialog.share.dialog.title', 'Share ') + currentScenarioName,

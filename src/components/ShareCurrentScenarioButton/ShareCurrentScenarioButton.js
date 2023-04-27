@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import React from 'react';
-import { useFormState } from 'react-hook-form';
 import { PermissionsGate, RolesEditionButton } from '@cosmotech/ui';
 
 import { ACL_PERMISSIONS } from '../../services/config/accessControl';
@@ -10,6 +9,7 @@ import { useShareCurrentScenarioButton } from './ShareCurrentScenarioButtonHook'
 
 const ShareCurrentScenarioButton = () => {
   const {
+    isDirty,
     accessListSpecific,
     applyScenarioSecurityChanges,
     defaultRole,
@@ -20,8 +20,6 @@ const ShareCurrentScenarioButton = () => {
     userPermissionsOnCurrentScenario,
     workspaceUsers,
   } = useShareCurrentScenarioButton();
-
-  const { isDirty } = useFormState();
 
   return (
     <>

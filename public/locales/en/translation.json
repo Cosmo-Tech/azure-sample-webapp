@@ -289,7 +289,8 @@
       "share": {
         "button": {
           "label": "Share",
-          "tooltip": "Modify access"
+          "tooltip": "Modify access",
+          "editModeTooltip": "Please save or discard current modifications before changing the scenario access permissions"
         },
         "dialog": {
           "buttons": {

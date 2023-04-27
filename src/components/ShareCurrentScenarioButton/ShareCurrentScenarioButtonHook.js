@@ -3,6 +3,7 @@
 
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useFormState } from 'react-hook-form';
 
 import { useUserPermissionsOnCurrentScenario } from '../../hooks/SecurityHooks';
 import { useCurrentScenarioData, useApplyScenarioSharingSecurity } from '../../state/hooks/ScenarioHooks';
@@ -17,6 +18,7 @@ import { getShareScenarioDialogLabels, getPermissionsLabels, getRolesLabels } fr
 
 export const useShareCurrentScenarioButton = () => {
   const { t } = useTranslation();
+  const { isDirty } = useFormState();
 
   const currentScenarioData = useCurrentScenarioData();
   const workspaceData = useWorkspaceData();
@@ -30,8 +32,8 @@ export const useShareCurrentScenarioButton = () => {
   const applyScenarioSharingSecurity = useApplyScenarioSharingSecurity();
 
   const shareScenarioDialogLabels = useMemo(
-    () => getShareScenarioDialogLabels(t, currentScenarioData?.name),
-    [currentScenarioData?.name, t]
+    () => getShareScenarioDialogLabels(t, currentScenarioData?.name, isDirty),
+    [currentScenarioData?.name, t, isDirty]
   );
 
   const rolesLabels = useMemo(() => {
@@ -64,6 +66,7 @@ export const useShareCurrentScenarioButton = () => {
   );
 
   return {
+    isDirty,
     userPermissionsOnCurrentScenario,
     permissionsMapping,
     shareScenarioDialogLabels,
