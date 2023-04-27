@@ -59,13 +59,11 @@ export const useUpdateParameters = () => {
       scenariosListData
     );
   }, [currentScenarioData, getValues, runTemplateParametersIds, scenariosListData, solutionData]);
-  const forceUpdate = () => {
-    return (
-      ScenarioParametersUtils.shouldForceScenarioParametersUpdate(runTemplateParametersIds) ||
-      !currentScenarioData?.parametersValues ||
-      currentScenarioData?.parametersValues.length === 0
-    );
-  };
+  const forceUpdate =
+    ScenarioParametersUtils.shouldForceScenarioParametersUpdate(runTemplateParametersIds) ||
+    !currentScenarioData?.parametersValues ||
+    currentScenarioData?.parametersValues.length === 0;
+
   return {
     processFilesToUpload,
     getParametersToUpdate,
