@@ -53,9 +53,9 @@ function checkValidationStatusInScenarioSelector(searchStr, scenarioId, expected
 }
 
 function writeInScenarioSelectorInput(searchStr) {
-  return getScenarioSelectorInput()
+  getScenarioSelectorInput().should('not.be.disabled');
+  getScenarioSelectorInput()
     .click()
-    .should('not.be.disabled')
     .type(
       '{selectAll}{backspace}' + searchStr, // clear() does not always work, use "{selectAll}{backspace}" instead
       { force: true } // Force click to handle cases when the error banner is displayed above the selector options
