@@ -1,7 +1,14 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { Login, Scenarios, ScenarioParameters, ScenarioManager, ScenarioSelector } from '../../commons/actions';
+import {
+  Login,
+  Scenarios,
+  ScenarioParameters,
+  ScenarioManager,
+  ScenarioSelector,
+  FileParameters,
+} from '../../commons/actions';
 import { RolesEdition } from '../../commons/actions/generic/RolesEdition';
 import { setup } from '../../commons/utils/setup';
 import { stub } from '../../commons/services/stubbing';
@@ -13,6 +20,7 @@ import {
   WORKSPACE_WITH_USERS_LIST,
 } from '../../fixtures/stubbing/ScenarioSharing';
 import { ROLES, ROLES_PERMISSIONS_MAP } from '../../commons/constants/generic/TestConstants';
+import { BreweryParameters } from '../../commons/actions/brewery';
 
 describe('Check workspace permissions for admin', () => {
   before(() => {
@@ -165,6 +173,11 @@ describe('Check workspace permissions for Viewer, Editor & Validator', () => {
     Scenarios.getScenarioValidateButton().should('not.exist');
     Scenarios.getScenarioRejectButton().should('not.exist');
     ScenarioParameters.getLaunchButton().should('not.exist');
+    ScenarioParameters.expandParametersAccordion();
+    BreweryParameters.getCurrencyNameInput().should('not.exist');
+    BreweryParameters.getCurrencyValueInput().should('not.exist');
+    BreweryParameters.switchToDatasetPartsTab();
+    FileParameters.getBrowseButton(BreweryParameters.getExampleDatasetPart1()).should('not.exist');
 
     ScenarioManager.switchToScenarioManager();
     ScenarioManager.getScenarioAccordion(scenario.id);

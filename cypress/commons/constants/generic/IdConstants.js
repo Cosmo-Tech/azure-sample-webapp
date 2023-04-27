@@ -132,6 +132,7 @@ export const GENERIC_SELECTORS = {
   },
   genericComponents: {
     uploadFile: {
+      browseButton: '[data-cy=browse-button]',
       browseButtonInput: 'input[type=file]',
       downloadButton: '[data-cy=download-button]',
       deleteButton: '[data-cy=delete-button]',
