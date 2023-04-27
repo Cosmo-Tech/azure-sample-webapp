@@ -53,8 +53,8 @@ function checkValidationStatusInScenarioSelector(searchStr, scenarioId, expected
 }
 
 function writeInScenarioSelectorInput(searchStr) {
-  return getScenarioSelectorInput()
-    .should('not.be.disabled')
+  getScenarioSelectorInput().should('not.be.disabled');
+  getScenarioSelectorInput()
     .click()
     .type(
       '{selectAll}{backspace}' + searchStr, // clear() does not always work, use "{selectAll}{backspace}" instead
