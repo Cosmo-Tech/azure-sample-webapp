@@ -77,9 +77,10 @@ GenericNumberInput.propTypes = {
   context: PropTypes.object.isRequired,
   parameterValue: PropTypes.any,
   setParameterValue: PropTypes.func.isRequired,
-  defaultParameterValue: PropTypes.number.isRequired,
+  defaultParameterValue: PropTypes.number,
   isDirty: PropTypes.bool,
 };
+
 GenericNumberInput.defaultProps = {
   isDirty: false,
 };
