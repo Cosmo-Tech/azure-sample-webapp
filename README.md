@@ -54,15 +54,49 @@ Please refer to [Webapp configuration](doc/README.md)
 
 ## Start the webapp locally
 
-Note: this project is configured to be used with the [Yarn](https://yarnpkg.com/getting-started/install) package manager.
+### Pre-requisites: install `node` and `yarn`
 
-First, you have to start the Azure Functions, that are required for the PowerBI embedded reports to work correctly. Install the [Azure Function Core Tools](https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=v3%2Clinux%2Ccsharp%2Cportal%2Cbash%2Ckeda), and then, run the commands below:
+The _azure sample webapp_ currently requires **v16** of node. If you don't have NodeJS installed on your system, you
+first need to install it. It is recommended to use [nvm](https://github.com/nvm-sh/nvm) to install node.
+
+[Install nvm](https://github.com/nvm-sh/nvm#install--update-script):
+
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+```
+
+Install node 16:
+
+```bash
+nvm install 16
+nvm use 16
+# To define v16 as the default version of node when opening a new terminal, run:
+nvm alias default 16
+```
+
+This project is configured to be used with the [Yarn](https://yarnpkg.com/getting-started/install) package manager. You
+can use NPM (the node package manager) to install yarn globally with:
+
+```bash
+npm install --global yarn
+```
+
+### Local azure function
+
+This section describes how to run a local Azure Function, in order to provide the webapp users with a valid token for the PowerBI service. **This step is only necessary if you use the "service account" mode to share PowerBI charts**. If you prefer to let users communicate with PowerBI with their own accounts, then the Azure Function won't be necessary, and you can skip this section (please refer to [doc/powerBI.md](doc/powerBI.md) for the charts configuration documentation).
+
+First, install the
+[Azure Function Core Tools](https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=v3%2Clinux%2Ccsharp%2Cportal%2Cbash%2Ckeda).
+You can then start the Azure Functions, that are required for the PowerBI embedded reports to work correctly, by running
+the commands below:
 
 ```
 cd api
 yarn install
 yarn start
 ```
+
+### Local webapp server
 
 In another terminal, you can then start the webapp with:
 
