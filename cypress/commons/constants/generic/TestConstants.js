@@ -18,10 +18,10 @@ export const PAGE_NAME = {
 };
 
 export const URL_REGEX = {
-  SCENARIOS_LIST: new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}$`),
-  SCENARIO_PAGE: new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}`),
-  SCENARIO_PAGE_WITH_ID: new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/.*`),
-  SCENARIO_PAGE_RUN_WITH_ID: new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/.*/run`),
+  SCENARIOS_LIST: new RegExp(`^${URL_ROOT}(?:/.*)?${PAGE_NAME.SCENARIOS}$`),
+  SCENARIO_PAGE: new RegExp(`^${URL_ROOT}(?:/.*)?${PAGE_NAME.SCENARIOS}`),
+  SCENARIO_PAGE_WITH_ID: new RegExp(`^${URL_ROOT}(?:/.*)?${PAGE_NAME.SCENARIOS}/.*`),
+  SCENARIO_PAGE_RUN_WITH_ID: new RegExp(`^${URL_ROOT}(?:/.*)?${PAGE_NAME.SCENARIOS}/.*/run`),
 };
 
 export const API_ENDPOINT = {
@@ -35,8 +35,8 @@ export const API_ENDPOINT = {
   WORKSPACE: URL_ROOT + '/.*/workspaces/((w|W)-[\\w]+)',
   SOLUTIONS: URL_ROOT + '/.*/solutions',
   SOLUTION: URL_ROOT + '/.*/solutions/((sol|SOL)-[\\w]+)',
-  PERMISSIONS_MAPPING: URL_ROOT + '/.*/organizations/permissions',
-  ORGANIZATION_USERS: URL_ROOT + '/.*/organizations/((o|O)-[\\w]+)/security/users',
+  PERMISSIONS_MAPPING: URL_ROOT + '(?:/.*)?/organizations/permissions',
+  ORGANIZATION_USERS: URL_ROOT + '(?:/.*)?/organizations/((o|O)-[\\w]+)/security/users',
   WORKSPACE_USERS: URL_ROOT + '/.*/workspaces/((w|W)-[\\w]+)/security/users',
 };
 
