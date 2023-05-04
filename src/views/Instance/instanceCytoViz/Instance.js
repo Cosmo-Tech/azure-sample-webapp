@@ -2,14 +2,15 @@
 // Licensed under the MIT license.
 
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { CytoViz } from '@cosmotech/ui';
-import { parseError } from '../../utils/ErrorsUtils';
-import { STATUSES } from '../../state/commons/Constants';
-import { AppInsights } from '../../services/AppInsights';
+import { CytoViz, HierarchicalComboBox, BasicToggleInput } from '@cosmotech/ui';
+import { sortScenarioList } from '../../../utils/SortScenarioListUtils';
+import { parseError } from '../../../utils/ErrorsUtils';
+import { STATUSES } from '../../../state/commons/Constants';
+import { AppInsights } from '../../../services/AppInsights';
 import { fetchData, processGraphElements } from './data';
 import useStyles from './style';
-import { CurrentScenarioSelector } from '../../components';
 import { useTheme } from '@mui/styles';
 import { useInstance } from './InstanceHook';
 
@@ -18,16 +19,17 @@ const EXTRA_LAYOUTS = {
 };
 const appInsights = AppInsights.getInstance();
 
-const Instance = () => {
+const Instance = ({ setG6Viz }) => {
   const classes = useStyles();
   const theme = useTheme();
   const { t } = useTranslation();
   const {
     organizationId,
     workspaceId,
+    scenarioList,
     currentScenario,
+    findScenarioById,
     useRedirectionToScenario,
-    useRedirectFromInstanceToScenarioView,
     instanceViewConfig,
   } = useInstance();
 
@@ -40,13 +42,18 @@ const Instance = () => {
   useEffect(() => {
     appInsights.setScenarioData(currentScenario.data);
   }, [currentScenario]);
-
+  const handleScenarioChange = (event, scenario) => {
+    if (scenario.id !== currentScenario.data?.id) {
+      setIsLoadingData(true);
+    }
+    findScenarioById(scenario.id);
+  };
+  const sortedScenarioList = sortScenarioList(scenarioList.data.slice());
   const noScenario = currentScenario.data === null;
-
+  const scenarioListDisabled = scenarioList === null || noScenario;
+  const scenarioListLabel = noScenario ? null : t('views.scenario.dropdown.scenario.label', 'Scenario');
   const isSwitchingScenario = currentScenario.status === STATUSES.LOADING;
-
-  useRedirectionToScenario();
-  useRedirectFromInstanceToScenarioView();
+  useRedirectionToScenario(sortedScenarioList);
 
   useEffect(() => {
     // Note that the "active" variable is necessary to prevent race conditions when the effect is called several times
@@ -67,8 +74,6 @@ const Instance = () => {
       } else {
         try {
           const scenario = await fetchData(instanceViewConfig, organizationId, workspaceId, currentScenario.data?.id);
-          if (!active) return;
-
           // TODO: (refactor) to improve performance, we don't need to recompute the whole graph elements set when the
           // theme is changed, we could rebuild only the stylesheet
           const { graphElements: newGraphElements, stylesheet } = processGraphElements(
@@ -77,10 +82,12 @@ const Instance = () => {
             theme
           );
 
-          setGraphElements(newGraphElements);
-          setCytoscapeStylesheet(stylesheet);
-          setErrorBannerMessage(null);
-          setIsLoadingData(false);
+          if (active) {
+            setGraphElements(newGraphElements);
+            setCytoscapeStylesheet(stylesheet);
+            setErrorBannerMessage(null);
+            setIsLoadingData(false);
+          }
         } catch (error) {
           setErrorBannerMessage(parseError(error));
         }
@@ -182,7 +189,25 @@ const Instance = () => {
     <>
       <div className={classes.mainGrid}>
         <div className={classes.scenarioSelectGridItem}>
-          <CurrentScenarioSelector />
+          <div style={{ width: '400px' }}>
+            <HierarchicalComboBox
+              value={currentScenario.data}
+              values={sortedScenarioList}
+              label={scenarioListLabel}
+              handleChange={handleScenarioChange}
+              disabled={scenarioListDisabled}
+            />
+          </div>
+          <div style={{ flex: 1, paddingLeft: '15px' }}>
+            <BasicToggleInput
+              key="G6VizToogle"
+              id="G6VizToogle"
+              label="Use G6"
+              value={false}
+              changeSwitchType={setG6Viz}
+              switchProps={{ id: 'toggle-input-g6viz' }}
+            />
+          </div>
         </div>
         <div className={classes.cytoscapeGridItem}>
           <CytoViz
@@ -199,6 +224,10 @@ const Instance = () => {
       </div>
     </>
   );
+};
+
+Instance.propTypes = {
+  setG6Viz: PropTypes.func,
 };
 
 export default Instance;

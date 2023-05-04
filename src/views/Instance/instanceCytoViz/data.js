@@ -11,7 +11,7 @@ import {
   getDefaultInEdgeStyle,
   getDefaultHiddenStyle,
 } from './styleCytoViz';
-import { ConfigUtils } from '../../utils';
+import { ConfigUtils } from '../../../utils';
 
 const _formatLabelWithNewlines = (label) => label?.replace(/[_|\s]/g, '\n') || '';
 
@@ -153,6 +153,7 @@ async function _fetchDataFromADT(organizationId, workspaceId, scenarioId, dataSo
       'organization-id': organizationId,
       'workspace-id': workspaceId,
       'scenario-id': scenarioId,
+      'user-token': tokens.accessToken,
     },
   });
 }

@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: '5px',
     paddingTop: '12px',
     paddingBottom: '15px',
-    width: '400px',
+    display: 'flex',
   },
   cytoscapeGridItem: {
     flexGrow: 1,
