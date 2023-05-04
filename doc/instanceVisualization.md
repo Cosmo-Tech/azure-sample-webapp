@@ -22,12 +22,20 @@ To create this new App Registration:
   in the Azure Portal
 - click on the _“+ New registration”_ button
   - choose the name of your Function App (you can use the pattern
-    `<your_solution_name><staging_env>ScenarioDownloadFunctionApp` (e.g. _“BreweryDevScenarioDownloadFunctionApp”_)
+    `<your_solution_name><staging_env>ScenarioDownloadFunctionApp`, e.g. _“BreweryDevScenarioDownloadFunctionApp”_)
   - leave the redirect URL section empty
   - select “Single tenant”
   - click on **Register**
 
 ### 1.2. Permissions & secrets
+
+> **Warning**
+>
+> Known issue: since v2 of the Cosmo Tech API, an RBAC issue may prevent the App Registration from accessing
+> the scenarios data. Two work-arounds are possible:
+>
+> - if it is still available in your deployed platform, you can use the v1 endpoints of the Cosmo Tech API, but it won't work with API v2.4 or above
+> - otherwise, you must add the _Platform.Admin_ role to your app registration (see instructions below)
 
 You can now open your App Registration page in the Azure portal and configure its permissions:
 
@@ -40,6 +48,7 @@ You can now open your App Registration page in the Azure portal and configure it
     - _Dataset.Reader_
     - _Scenario.Reader_
     - _Workspace.Reader_
+    - _Platform.Admin_ (only necessary if using Cosmo Tech API v2 or above)
   - confirm by clicking on “**Add permissions**”
 - you must now **ask an administrator to grant the permissions of your webapp**
 
@@ -112,7 +121,10 @@ Example: _scenario-download-brewery-dev_
 
 Name of the storage account created for the Function App.
 
-:warning: Storage account name must be **between 3 and 24 characters** in length and use
+> **Warning**
+>
+> Storage account name must be **between 3 and 24 characters** in length and use
+
 **numbers and lower-case letters** only.
 
 Example: _storagesdlbrewerydev_
@@ -124,11 +136,17 @@ Example: _[resourceGroup().location]_
 
 #### CSM API host
 
-The address of the Cosmo Tech API.<br>
+The address of the Cosmo Tech API. Note that you can target a specific version of the API (provided it is available in your deployed platform) by adding its version number at the end of the URL (e.g. _"https://dev.api.cosmotech.com/v2"_).<br>
 Examples:
 
 - **dev**: https://dev.api.cosmotech.com
 - **staging**: https://staging.api.cosmotech.com
+
+> **Warning**
+>
+> Known issue: since v2.4 of the Cosmo Tech API, the scenarios created with v2 of the API can no longer be
+> accessed from the API v1. If your webapp is configured to use v2.4 or above of the API, then make sure that your
+> azure function is configured to use the same API version (at least v2).
 
 #### Az CLI id
 
@@ -425,10 +443,18 @@ Check the function **URL** and **secret** in the front-end configuration file.
 
 Check the error log in your Function App to get more information on the error.
 
-If the error message is _“Access is denied”_:
+If the error message is **_“Access is denied”_**:
 
 - check that your app registration has the permissions `Dataset.Reader`, `Scenario.Reader` and `Workspace.Reader`
 - check that these permissions have been granted by an administrator
+
+If the error message complains about a **scenario not found**:
+
+- check that your Azure Function is configured to use at least v2 of the Cosmo Tech API (see configuration of "CSM API host" above)
+
+If the error message is **_“authentication.token.tok…ization.mailJwtClaim [...] must not be null”_**:
+
+- check that your Azure Function is configured with the _Platform.Admin_ role (see section "Permissions & secrets" above, in the app registration configuration)
 
 #### Network error
 
