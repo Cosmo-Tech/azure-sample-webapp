@@ -159,7 +159,7 @@ const ScenarioParameters = ({ onToggleAccordion, isAccordionExpanded }) => {
   return (
     <div>
       <ScenarioResetValuesContext.Provider value={scenarioResetValues}>
-        <Accordion expanded={isAccordionExpanded}>
+        <Accordion data-cy="scenario-params-accordion" expanded={isAccordionExpanded}>
           <AccordionSummary
             data-cy="scenario-params-accordion-summary"
             className={classes.accordionSummary}

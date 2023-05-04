@@ -108,6 +108,26 @@ export const DEFAULT_SOLUTION = {
     },
     {
       ...SOLUTION_PARAMETER_EXAMPLE,
+      id: 'average_consumption',
+      labels: {
+        fr: 'Consommation moyenne',
+        en: 'Average consumption',
+      },
+      varType: 'number',
+      defaultValue: '3',
+      minValue: '0',
+      maxValue: '10',
+      regexValidation: null,
+      options: {
+        subType: 'SLIDER',
+        tooltipText: {
+          fr: 'En pintes',
+          en: 'In pints',
+        },
+      },
+    },
+    {
+      ...SOLUTION_PARAMETER_EXAMPLE,
       id: 'additional_seats',
       labels: { fr: 'Sièges additionnels', en: 'Additional seats' },
       varType: 'number',
