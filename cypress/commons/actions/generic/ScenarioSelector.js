@@ -53,6 +53,8 @@ function checkValidationStatusInScenarioSelector(searchStr, scenarioId, expected
 }
 
 function writeInScenarioSelectorInput(searchStr) {
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.wait(0); // Prevent refresh in progress
   getScenarioSelectorInput().should('not.be.disabled');
   getScenarioSelectorInput()
     .click()
