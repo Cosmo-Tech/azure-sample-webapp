@@ -4,6 +4,7 @@
 const guid = require('guid');
 const jwt = require('jsonwebtoken');
 const jwksClient = require('jwks-rsa');
+const msalConfig = require('./config');
 
 function getAuthHeader(accessToken) {
   // Function to append Bearer against the Access Token
@@ -58,6 +59,7 @@ const _validateAndDecodeQueryToken = async (req) => {
   const options = {
     // audience check is optional but strongly advised, it won't be checked if CSM_API_TOKEN_AUDIENCE is not defined
     audience: process.env.CSM_API_TOKEN_AUDIENCE,
+    iss: `${msalConfig.auth.authority}`,
   };
 
   const _getSigningKey = (header, callback) => {
