@@ -159,11 +159,15 @@ export const GENERIC_SELECTORS = {
         fileTypeSelectContainer: '[data-cy=table-export-file-type-container]',
         fileTypeSelectOptionByExtension: '[data-cy=table-export-file-type-select-option-$EXTENSION]',
       },
+      toolbar: {
+        fullscreenButton: '[data-cy=grid-fullscreen-button]',
+      },
       header: '[class=ag-header-container]',
       colByName: '[col-id=$COLNAME]',
       rowsContainer: '[class=ag-center-cols-container]',
       row: '.ag-row',
       rowByIndex: '[row-index="$ROWINDEX"]',
+      fullscreenTable: '[data-cy=fullscreen-table]',
     },
     basicInput: {
       disabledInputLabel: '[data-cy=disabled-input-label]',

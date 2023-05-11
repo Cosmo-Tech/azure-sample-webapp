@@ -4,6 +4,10 @@
 import 'cypress-file-upload'; // Required to call attachFile
 import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
 
+function getFullscreenTable() {
+  return cy.get(GENERIC_SELECTORS.genericComponents.table.fullscreenTable);
+}
+
 function getLabel(tableParameterElement) {
   return tableParameterElement.find(GENERIC_SELECTORS.genericComponents.table.label);
 }
@@ -79,6 +83,10 @@ function getExportConfirmButton() {
   return getExportDialog().find(GENERIC_SELECTORS.genericComponents.table.export.confirmButton);
 }
 
+function getFullscreenButton(tableParameterElement) {
+  return getGrid(tableParameterElement).find(GENERIC_SELECTORS.genericComponents.table.toolbar.fullscreenButton);
+}
+
 function getHeader(tableParameterElement) {
   return getGrid(tableParameterElement).find(GENERIC_SELECTORS.genericComponents.table.header);
 }
@@ -142,6 +150,10 @@ function setFileExportName(fileName) {
   getExportFileNameInput().type('{selectAll}{backspace}' + fileName + '{enter}');
 }
 
+function toggleFullscreenButton(tableParameterElement) {
+  getFullscreenButton(tableParameterElement).click();
+}
+
 function editStringCell(getTableElement, colName, rowIndex, newValue) {
   if (newValue.length === 0) return clearStringCell(getTableElement, colName, rowIndex);
 
@@ -166,6 +178,7 @@ function clearStringCell(getTableElement, colName, rowIndex) {
 }
 
 export const TableParameters = {
+  getFullscreenTable,
   getLabel,
   getGrid,
   getErrorsPanel,
@@ -183,6 +196,8 @@ export const TableParameters = {
   getExportFileNameInput,
   getExportCancelButton,
   getExportConfirmButton,
+  getFullscreenButton,
+  toggleFullscreenButton,
   getHeader,
   getHeaderCell,
   getRowsContainer,

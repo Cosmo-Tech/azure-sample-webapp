@@ -177,6 +177,15 @@ function getCustomersImportButton() {
 function getCustomersExportButton() {
   return TableParameters.getExportButton(getCustomersTable());
 }
+function getCustomersFullscreenButton() {
+  return TableParameters.getFullscreenButton(getCustomersTable());
+}
+function enterCustomersFullscreen() {
+  return TableParameters.toggleFullscreenButton(getCustomersTable());
+}
+function exitCustomersFullscreen() {
+  return TableParameters.toggleFullscreenButton(TableParameters.getFullscreenTable());
+}
 function getCustomersTableHeader() {
   return TableParameters.getHeader(getCustomersTable());
 }
@@ -412,6 +421,9 @@ export const BreweryParameters = {
   getCustomersTableGrid,
   getCustomersImportButton,
   getCustomersExportButton,
+  getCustomersFullscreenButton,
+  enterCustomersFullscreen,
+  exitCustomersFullscreen,
   getCustomersTableHeader,
   getCustomersTableHeaderCell,
   getCustomersTableRowsContainer,
