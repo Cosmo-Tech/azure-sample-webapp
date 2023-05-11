@@ -23,7 +23,7 @@ module.exports = async function (context, req) {
       };
     } else {
       // Get the details like Embed URL, Access token and Expiry
-      const error = utils.validateQuery(req);
+      const error = await utils.validateQuery(req);
       if (error) {
         context.res = {
           status: 200,

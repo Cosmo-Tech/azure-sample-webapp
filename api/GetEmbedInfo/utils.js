@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 
 const guid = require('guid');
+const jwt = require('jsonwebtoken');
+const jwksClient = require('jwks-rsa');
 
 function getAuthHeader(accessToken) {
   // Function to append Bearer against the Access Token
@@ -51,7 +53,46 @@ function validateConfig() {
   }
 }
 
-const validateQuery = (req) => {
+const _validateAndDecodeQueryToken = async (req) => {
+  const client = jwksClient({ jwksUri: 'https://login.microsoftonline.com/common/discovery/keys' });
+  const options = {
+    // audience check is optional but strongly advised, it won't be checked if CSM_API_TOKEN_AUDIENCE is not defined
+    audience: process.env.CSM_API_TOKEN_AUDIENCE,
+  };
+
+  const _getSigningKey = (header, callback) => {
+    client.getSigningKey(header.kid, (error, key) => {
+      if (error) {
+        console.error(error);
+        throw error;
+      }
+      const signingKey = key.publicKey || key.rsaPublicKey;
+      callback(null, signingKey);
+    });
+  };
+
+  const accessToken = req?.headers?.authorization?.replace('Bearer ', '');
+  if (!accessToken) {
+    throw new Error('token is missing in query.');
+  }
+
+  return new Promise((resolve, reject) =>
+    jwt.verify(accessToken, _getSigningKey, options, (err, decoded) => {
+      return err ? reject(err) : resolve(decoded);
+    })
+  );
+};
+
+const validateQuery = async (req) => {
+  try {
+    const token = await _validateAndDecodeQueryToken(req);
+    if (!token) return "Unauthorized: can't decode token";
+    if (!token.roles || token.roles.length === 0) return 'Unauthorized: missing roles for Cosmo Tech API';
+  } catch (error) {
+    console.error('Token validation error: ' + error);
+    return 'Unauthorized: ' + error;
+  }
+
   const reportsIds = req?.body?.reports;
   if (!Array.isArray(reportsIds)) {
     return 'Query is invalid. Parameter "reports" must be an array.';
