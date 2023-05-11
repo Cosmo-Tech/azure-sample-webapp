@@ -14,6 +14,7 @@ Here is the list of these variables:
 - POWER_BI_AUTHORITY_URI : "https://login.microsoftonline.com/common/v2.0"
 - POWER_BI_CLIENT_SECRET : a client secret
 - POWER_BI_TENANT_ID : the tenant id
+- CSM_API_TOKEN_AUDIENCE : (optional) if defined, queries whose token don't match this audience will be rejected
 
 _**N.B.1**_:
 
@@ -24,6 +25,10 @@ You can get the information for POWER_BI_WORKSPACE_ID in PowerBI service URL:
 To get the information about POWER_BI_TENANT_ID and POWER_BI_CLIENT_SECRET:
 - Azure Portal > App Registrations > _name_of_your_app_registration_ > Overview -> displays Application (client) id and Directory (tenant) ID
 - Azure Portal > App Registrations > _name_of_your_app_registration_ > Certificates & secrets > create your client secret for PowerBI
+
+Finally, `CSM_API_TOKEN_AUDIENCE` is optional but strongly recommended. It increases security by checking the audience
+field in the user access token. The expected value is the **application id** of the Cosmo Tech API enterprise
+application.
 
 _**N.B.2**_:
 
@@ -40,7 +45,8 @@ In particular, for local configuration, create a _**local.settings.json**_ file 
     "POWER_BI_WORKSPACE_ID": "<POWER_BI_ID>",
     "POWER_BI_AUTHORITY_URI": "https://login.microsoftonline.com/common/v2.0",
     "POWER_BI_CLIENT_SECRET": "<CLIENT_SECRET>",
-    "POWER_BI_TENANT_ID": "<TENANT_ID>"
+    "POWER_BI_TENANT_ID": "<TENANT_ID>",
+    "CSM_API_TOKEN_AUDIENCE": "<TOKEN_AUDIENCE>"
   }
 }
 ```
