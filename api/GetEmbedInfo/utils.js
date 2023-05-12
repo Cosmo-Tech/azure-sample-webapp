@@ -73,7 +73,7 @@ const _validateAndDecodeQueryToken = async (req) => {
     });
   };
 
-  const accessToken = req?.headers?.authorization?.replace('Bearer ', '');
+  const accessToken = req?.headers?.['csm-authorization']?.replace('Bearer ', '');
   if (!accessToken) {
     throw new Error('token is missing in query.');
   }

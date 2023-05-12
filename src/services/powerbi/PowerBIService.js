@@ -4,7 +4,7 @@
 import { Auth } from '@cosmotech/core';
 import { EmbedConfig, PowerBiReportDetails } from './PowerBIModels';
 import { GET_EMBED_INFO_URL } from '../../state/commons/PowerBIConstants';
-import { POWER_BI_API_DEFAULT_SCOPE } from '../config/Auth';
+import { COSMOTECH_API_SCOPE, POWER_BI_API_DEFAULT_SCOPE } from '../config/Auth';
 import { clientApi } from '../ClientApi';
 
 const _generateAuthorizationHeader = (accessToken) => 'Bearer '.concat(accessToken);
@@ -50,15 +50,26 @@ const getPowerBIDataWithCurrentUserToken = async (powerBIWorkspaceId, reportsIds
 };
 
 const getPowerBIDataWithServiceAccount = async (powerBIWorkspaceId, reportsIds) => {
-  const { data } = await clientApi.post(GET_EMBED_INFO_URL, { reports: reportsIds });
-  return {
-    accesses: {
-      accessToken: data?.accesses?.accessToken,
-      reportsInfo: data?.accesses?.reportsInfo,
-      expiry: data?.accesses?.expiry,
-    },
-    error: data?.error,
-  };
+  try {
+    const { headers } = await getAuthenticationInfo(COSMOTECH_API_SCOPE);
+    const { data } = await clientApi.post(
+      GET_EMBED_INFO_URL,
+      { reports: reportsIds },
+      { headers: { 'csm-authorization': headers.Authorization } }
+    );
+    return {
+      accesses: {
+        accessToken: data?.accesses?.accessToken,
+        reportsInfo: data?.accesses?.reportsInfo,
+        expiry: data?.accesses?.expiry,
+      },
+      error: data?.error,
+    };
+  } catch (error) {
+    return {
+      error,
+    };
+  }
 };
 
 /**
@@ -68,7 +79,7 @@ const getPowerBIDataWithServiceAccount = async (powerBIWorkspaceId, reportsIds) 
  */
 const fetchReportEmbedInfo = async (workspaceId) => {
   const reportInGroupApi = `https://api.powerbi.com/v1.0/myorg/groups/${workspaceId}/reports`;
-  const { headers, accessToken, expiresOn } = await getAuthenticationInfo();
+  const { headers, accessToken, expiresOn } = await getAuthenticationInfo(POWER_BI_API_DEFAULT_SCOPE);
 
   const reportEmbedConfig = new EmbedConfig('report', {}, accessToken, expiresOn);
 
@@ -113,12 +124,12 @@ const getEmbedParamsForAllReportsInWorkspace = async (workspaceId) => {
  * Get Authentication information
  * @return Authentication Information with : request header with Bearer token, accessToken and token expiration date
  */
-const getAuthenticationInfo = async () => {
+const getAuthenticationInfo = async (scope) => {
   let tokenResponse, errorResponse;
 
   try {
     tokenResponse = await Auth.acquireTokensByRequest({
-      scopes: [POWER_BI_API_DEFAULT_SCOPE],
+      scopes: [scope],
     });
   } catch (err) {
     if (
