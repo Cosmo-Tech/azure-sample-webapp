@@ -9,6 +9,8 @@
   "dependencies": {
     "@azure/msal-node": "^1.2.0",
     "guid": "0.0.12",
+    "jsonwebtoken": "^9.0.0",
+    "jwks-rsa": "^3.0.1",
     "node-fetch": "^3.0.0"
   }
 }
