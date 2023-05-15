@@ -3,4 +3,3 @@
 
 export { createMockStore } from './storeRedux.mock';
 export { default as MockFormProvider } from './MockFormProvider';
-export { localStorageMock } from './MockLocalStorage';
