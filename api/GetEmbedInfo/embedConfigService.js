@@ -11,11 +11,12 @@ const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fet
  * Generate embed token and embed urls for reports
  * @return Details like Embed URL, Access token and Expiry
  */
-async function getEmbedInfo(reportsIds) {
+async function getEmbedInfo(reportsIds, workspaceId) {
   // Get the Report Embed details
   try {
     // Get report details and embed token
-    const embedParams = await getEmbedParamsForSelectedReports(process.env.POWER_BI_WORKSPACE_ID, reportsIds);
+    const workspacePBIId = workspaceId ?? process.env.POWER_BI_WORKSPACE_ID;
+    const embedParams = await getEmbedParamsForSelectedReports(workspacePBIId, reportsIds);
     return {
       accesses: {
         accessToken: embedParams.embedToken.token,

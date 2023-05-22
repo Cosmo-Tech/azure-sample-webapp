@@ -39,7 +39,8 @@ module.exports = async function (context, req) {
         };
       } else {
         const reportsIds = req?.body?.reports;
-        const result = await embedToken.getEmbedInfo(reportsIds);
+        const workspaceId = req?.body?.workspaceId;
+        const result = await embedToken.getEmbedInfo(reportsIds, workspaceId);
         context.res = { status: 200, body: result };
       }
     }
