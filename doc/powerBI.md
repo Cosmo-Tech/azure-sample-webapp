@@ -632,14 +632,10 @@ below:
 | ------------------------ | ------------------------------------------------------------------------------------- |
 | `POWER_BI_SCOPE`         | "https://analysis.windows.net/powerbi/api/.default"                                   |
 | `POWER_BI_CLIENT_ID`     | client id of the webapp app registration (visible in the _Overview_ blade)            |
-| `POWER_BI_WORKSPACE_ID`  | id of the Power BI workspace containing your reports                                  |
 | `POWER_BI_AUTHORITY_URI` | "https://login.microsoftonline.com/common/v2.0"                                       |
 | `POWER_BI_CLIENT_SECRET` | a client secret generated in your app registration for PowerBI                        |
 | `POWER_BI_TENANT_ID`     | tenant id of your app registration (visible in the _Overview_ blade)                  |
 | `CSM_API_TOKEN_AUDIENCE` | (optional) if defined, queries whose token don't match this audience will be rejected |
-
-The value for `POWER_BI_WORKSPACE_ID` can be found in the PowerBI service URL: when your report is opened, the workspace
-id is visible after `/groups/` in the URL (e.g. "https://app.powerbi.com/groups/YOUR_WORKSPACE_ID/").
 
 For `POWER_BI_CLIENT_SECRET`, you can create a new client secret from
 _Azure Portal_ > _App Registrations_ > _[name of your webapp app registration]_ > _Certificates & secrets_.
@@ -661,7 +657,6 @@ JSON file. Create a _**local.settings.json**_ file in the **api** folder with th
   "Values": {
     "POWER_BI_SCOPE": "https://analysis.windows.net/powerbi/api/.default",
     "POWER_BI_CLIENT_ID": "INSERT CLIENT ID HERE",
-    "POWER_BI_WORKSPACE_ID": "INSERT POWER BI WORKSPACE ID HERE",
     "POWER_BI_AUTHORITY_URI": "https://login.microsoftonline.com/common/v2.0",
     "POWER_BI_CLIENT_SECRET": "INSERT CLIENT SECRET HERE",
     "POWER_BI_TENANT_ID": "INSERT TENANT ID HERE",

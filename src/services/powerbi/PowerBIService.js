@@ -54,7 +54,7 @@ const getPowerBIDataWithServiceAccount = async (powerBIWorkspaceId, reportsIds) 
     const { headers } = await getAuthenticationInfo(COSMOTECH_API_SCOPE);
     const { data } = await clientApi.post(
       GET_EMBED_INFO_URL,
-      { reports: reportsIds },
+      { reports: reportsIds, workspaceId: powerBIWorkspaceId },
       { headers: { 'csm-authorization': headers.Authorization } }
     );
     return {

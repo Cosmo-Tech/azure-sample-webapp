@@ -27,17 +27,6 @@ function validateConfig() {
     );
   }
 
-  if (!process.env.POWER_BI_WORKSPACE_ID) {
-    return 'WorkspaceId is empty. Please select a group you own and fill its Id in the environment variables.';
-  }
-
-  if (!guid.isGuid(process.env.POWER_BI_WORKSPACE_ID)) {
-    return (
-      'WorkspaceId must be a Guid object. Please select a workspace you own and fill its Id in the environment ' +
-      'variables.'
-    );
-  }
-
   if (!process.env.POWER_BI_CLIENT_SECRET || !process.env.POWER_BI_CLIENT_SECRET.trim()) {
     return 'ClientSecret is empty. Please fill Power BI ServicePrincipal ClientSecret in the environment variables.';
   }
