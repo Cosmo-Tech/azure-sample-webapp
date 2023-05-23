@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { HierarchicalComboBox, BasicToggleInput } from '@cosmotech/ui';
 import { sortScenarioList } from '../../../utils/SortScenarioListUtils';
 import { fetchData, processGraphElements } from './data';
+import { fetchDataTG, fetchDataSample, processGraphElementsTG } from './dataTwinGraph';
 import useStyles from './style';
 import { useTheme } from '@mui/styles';
 import { useInstance } from './InstanceHook';
@@ -45,10 +46,15 @@ const Instance = ({ setG6Viz }) => {
       if (noScenario) {
         setGraphData(null);
       } else {
+        /*
         const scenario = await fetchData(instanceViewConfig, organizationId, workspaceId, currentScenario.data?.id);
         // TODO: (refactor) to improve performance, we don't need to recompute the whole graph elements set when the
         // theme is changed, we could rebuild only the stylesheet
         const processedGraphData = processGraphElements(instanceViewConfig, scenario.data, theme);
+        setGraphData(processedGraphData);
+        */
+        const scenario = await fetchDataTG();
+        const processedGraphData = processGraphElementsTG(scenario, theme);
         setGraphData(processedGraphData);
       }
     }

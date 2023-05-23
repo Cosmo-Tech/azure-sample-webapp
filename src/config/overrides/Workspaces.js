@@ -115,6 +115,7 @@ export const WORKSPACES = [
               Customer: { style: { 'background-color': '#005A31', shape: 'ellipse' } },
             },
           },
+          dataG6: {},
         },
         menu: {
           supportUrl: 'https://support.cosmotech.com',

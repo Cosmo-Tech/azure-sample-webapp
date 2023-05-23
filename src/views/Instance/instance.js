@@ -3,7 +3,7 @@ import InstanceCytoViz from './instanceCytoViz';
 import InstanceG6 from './instanceG6';
 
 const Instance = () => {
-  const [G6Viz, setG6Viz] = useState(false);
+  const [G6Viz, setG6Viz] = useState(true);
 
   return G6Viz ? <InstanceG6 setG6Viz={setG6Viz} /> : <InstanceCytoViz setG6Viz={setG6Viz} />;
 };

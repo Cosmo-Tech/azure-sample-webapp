@@ -8,6 +8,7 @@ import {
   SolutionApiFactory,
   WorkspaceApiFactory,
   OrganizationApiFactory,
+  TwingraphApiFactory,
 } from '@cosmotech/api-ts';
 import { clientApi } from '../ClientApi';
 import ConfigService from '../ConfigService';
@@ -22,4 +23,5 @@ export const Api = {
   Datasets: DatasetApiFactory(null, defaultBasePath, clientApi),
   Workspaces: WorkspaceApiFactory(null, defaultBasePath, clientApi),
   Organizations: OrganizationApiFactory(null, defaultBasePath, clientApi),
+  Twingraph: TwingraphApiFactory(null, defaultBasePath, clientApi),
 };

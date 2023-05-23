@@ -2,6 +2,16 @@
 import React, { useEffect, useState, useRef } from 'react';
 import G6 from '@antv/g6';
 
+G6.registerNode(
+  'Stock',
+  {
+    options: {
+      direction: 'down',
+    },
+  },
+  'triangle'
+);
+
 const G6Viz = ({ graphData }) => {
   const ref = useRef(null);
   const startTime = useRef(Date.now());
@@ -21,7 +31,6 @@ const G6Viz = ({ graphData }) => {
           },
           layout: {
             type: 'dagre',
-            // gpuEnabled: true,
           },
           ...graphData.graphProps,
         })

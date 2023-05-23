@@ -1,0 +1,2475 @@
+[
+  {
+    "n": {
+      "id": "Factory_A_Component_Component1_Supply",
+      "label": "Stock",
+      "type": "NODE",
+      "properties": {
+        "CO2UnitEmissions": {
+          "0": 0
+        },
+        "BacklogWeight": 0,
+        "StorageUnitCosts": {
+          "0": 2
+        },
+        "DemandUncertainties": {
+          "0": 0
+        },
+        "IsInfinite": false,
+        "Demands": {
+          "0": 0
+        },
+        "MaximalStock": -1,
+        "Label": "Factory A_Component_Component1_Supply",
+        "PurchasingUnitCosts": {
+          "0": 0
+        },
+        "Step": "Supply",
+        "InitialStock": 0,
+        "PlantName": "Factory A",
+        "MaximizationWeight": 0,
+        "DemandWeights": {
+          "0": 0
+        },
+        "InitialValue": 0,
+        "MinimalStock": 0,
+        "UnitIncomes": {
+          "0": 0
+        },
+        "PartId": "Component_Component1"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_A_Product_Product4_Assemble",
+      "label": "Stock",
+      "type": "NODE",
+      "properties": {
+        "CO2UnitEmissions": {
+          "0": 0
+        },
+        "BacklogWeight": 0,
+        "StorageUnitCosts": {
+          "0": 2
+        },
+        "DemandUncertainties": {
+          "0": 0
+        },
+        "IsInfinite": false,
+        "Demands": {
+          "0": 0
+        },
+        "MaximalStock": -1,
+        "Label": "Factory A_Product_Product4_Assemble",
+        "PurchasingUnitCosts": {
+          "0": 0
+        },
+        "Step": "Assemble",
+        "InitialStock": 0,
+        "PlantName": "Factory A",
+        "MaximizationWeight": 0,
+        "DemandWeights": {
+          "0": 0
+        },
+        "InitialValue": 0,
+        "MinimalStock": 0,
+        "UnitIncomes": {
+          "0": 0
+        },
+        "PartId": "Orion Herb Chicken Tortellini Refrigerated Pasta 2"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_A_Product_Product4_Transform",
+      "label": "Stock",
+      "type": "NODE",
+      "properties": {
+        "CO2UnitEmissions": {
+          "0": 0
+        },
+        "BacklogWeight": 0,
+        "StorageUnitCosts": {
+          "0": 2
+        },
+        "DemandUncertainties": {
+          "0": 0
+        },
+        "IsInfinite": false,
+        "Demands": {
+          "0": 0
+        },
+        "MaximalStock": -1,
+        "Label": "Factory A_Product_Product4_Transform",
+        "PurchasingUnitCosts": {
+          "0": 0
+        },
+        "Step": "Transform",
+        "InitialStock": 0,
+        "PlantName": "Factory A",
+        "MaximizationWeight": 0,
+        "DemandWeights": {
+          "0": 0
+        },
+        "InitialValue": 0,
+        "MinimalStock": 0,
+        "UnitIncomes": {
+          "0": 0
+        },
+        "PartId": "Orion Herb Chicken Tortellini Refrigerated Pasta 2"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_A_Raw1_Raw_Raw",
+      "label": "Stock",
+      "type": "NODE",
+      "properties": {
+        "CO2UnitEmissions": {
+          "0": 0
+        },
+        "IsInfinite": true,
+        "Label": "Factory A_Raw1_Raw_Raw",
+        "PurchasingUnitCosts": {
+          "0": 0
+        },
+        "Step": "Raw",
+        "PlantName": "Factory A",
+        "PartId": "Raw1_Raw"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_A_Raw2_Raw_Raw",
+      "label": "Stock",
+      "type": "NODE",
+      "properties": {
+        "CO2UnitEmissions": {
+          "0": 0
+        },
+        "IsInfinite": true,
+        "Label": "Factory A_Raw2_Raw_Raw",
+        "PurchasingUnitCosts": {
+          "0": 0
+        },
+        "Step": "Raw",
+        "PlantName": "Factory A",
+        "PartId": "Raw2_Raw"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_B_Component_Component1_Supply",
+      "label": "Stock",
+      "type": "NODE",
+      "properties": {
+        "CO2UnitEmissions": {
+          "0": 0
+        },
+        "BacklogWeight": 0,
+        "StorageUnitCosts": {
+          "0": 2
+        },
+        "DemandUncertainties": {
+          "0": 0
+        },
+        "IsInfinite": false,
+        "Demands": {
+          "0": 0
+        },
+        "MaximalStock": -1,
+        "Label": "Factory B_Component_Component1_Supply",
+        "PurchasingUnitCosts": {
+          "0": 0
+        },
+        "Step": "Supply",
+        "InitialStock": 0,
+        "PlantName": "Factory B",
+        "MaximizationWeight": 0,
+        "DemandWeights": {
+          "0": 0
+        },
+        "InitialValue": 0,
+        "MinimalStock": 0,
+        "UnitIncomes": {
+          "0": 0
+        },
+        "PartId": "Component_Component1"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_B_Product_Product3_Assemble",
+      "label": "Stock",
+      "type": "NODE",
+      "properties": {
+        "CO2UnitEmissions": {
+          "0": 0
+        },
+        "BacklogWeight": 0,
+        "StorageUnitCosts": {
+          "0": 2
+        },
+        "DemandUncertainties": {
+          "0": 0
+        },
+        "IsInfinite": false,
+        "Demands": {
+          "0": 0
+        },
+        "MaximalStock": -1,
+        "Label": "Factory B_Product_Product3_Assemble",
+        "PurchasingUnitCosts": {
+          "0": 0
+        },
+        "Step": "Assemble",
+        "InitialStock": 0,
+        "PlantName": "Factory B",
+        "MaximizationWeight": 0,
+        "DemandWeights": {
+          "0": 0
+        },
+        "InitialValue": 0,
+        "MinimalStock": 0,
+        "UnitIncomes": {
+          "0": 0
+        },
+        "PartId": "Orion Alfredo Sauce 15oz"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_B_Product_Product3_Package",
+      "label": "Stock",
+      "type": "NODE",
+      "properties": {
+        "CO2UnitEmissions": {
+          "0": 0
+        },
+        "BacklogWeight": 0,
+        "StorageUnitCosts": {
+          "0": 2
+        },
+        "DemandUncertainties": {
+          "0": 0,
+          "5": 0,
+          "12": 0,
+          "19": 0,
+          "26": 0,
+          "33": 0,
+          "40": 0,
+          "47": 0,
+          "54": 0,
+          "61": 0,
+          "68": 0,
+          "75": 0,
+          "82": 0
+        },
+        "IsInfinite": false,
+        "Demands": {
+          "0": 0,
+          "5": 0,
+          "12": 44.65,
+          "19": 47,
+          "26": 47.12,
+          "33": 48.77,
+          "40": 50.04,
+          "47": 52,
+          "54": 53,
+          "61": 51.49,
+          "68": 51.08,
+          "75": 51.47,
+          "82": 51.76
+        },
+        "MaximalStock": -1,
+        "Label": "Factory B_Product_Product3_Package",
+        "PurchasingUnitCosts": {
+          "0": 0
+        },
+        "Step": "Package",
+        "InitialStock": 0,
+        "PlantName": "Factory B",
+        "MaximizationWeight": 0,
+        "DemandWeights": {
+          "0": 0,
+          "5": 1,
+          "12": 1,
+          "19": 1,
+          "26": 1,
+          "33": 1,
+          "40": 1,
+          "47": 1,
+          "54": 1,
+          "61": 1,
+          "68": 1,
+          "75": 1,
+          "82": 1
+        },
+        "InitialValue": 0,
+        "MinimalStock": 0,
+        "UnitIncomes": {
+          "0": 200
+        },
+        "PartId": "Orion Alfredo Sauce 15oz"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_B_Product_Product3_Transform",
+      "label": "Stock",
+      "type": "NODE",
+      "properties": {
+        "CO2UnitEmissions": {
+          "0": 0
+        },
+        "BacklogWeight": 0,
+        "StorageUnitCosts": {
+          "0": 2
+        },
+        "DemandUncertainties": {
+          "0": 0
+        },
+        "IsInfinite": false,
+        "Demands": {
+          "0": 0
+        },
+        "MaximalStock": -1,
+        "Label": "Factory B_Product_Product3_Transform",
+        "PurchasingUnitCosts": {
+          "0": 0
+        },
+        "Step": "Transform",
+        "InitialStock": 0,
+        "PlantName": "Factory B",
+        "MaximizationWeight": 0,
+        "DemandWeights": {
+          "0": 0
+        },
+        "InitialValue": 0,
+        "MinimalStock": 0,
+        "UnitIncomes": {
+          "0": 0
+        },
+        "PartId": "Orion Alfredo Sauce 15oz"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_B_Product_Product4_Assemble",
+      "label": "Stock",
+      "type": "NODE",
+      "properties": {
+        "CO2UnitEmissions": {
+          "0": 0
+        },
+        "BacklogWeight": 0,
+        "StorageUnitCosts": {
+          "0": 2
+        },
+        "DemandUncertainties": {
+          "0": 0
+        },
+        "IsInfinite": false,
+        "Demands": {
+          "0": 0
+        },
+        "MaximalStock": -1,
+        "Label": "Factory B_Product_Product4_Assemble",
+        "PurchasingUnitCosts": {
+          "0": 0
+        },
+        "Step": "Assemble",
+        "InitialStock": 0,
+        "PlantName": "Factory B",
+        "MaximizationWeight": 0,
+        "DemandWeights": {
+          "0": 0
+        },
+        "InitialValue": 0,
+        "MinimalStock": 0,
+        "UnitIncomes": {
+          "0": 0
+        },
+        "PartId": "Orion Herb Chicken Tortellini Refrigerated Pasta 2"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_B_Product_Product4_Package",
+      "label": "Stock",
+      "type": "NODE",
+      "properties": {
+        "CO2UnitEmissions": {
+          "0": 0
+        },
+        "BacklogWeight": 0,
+        "StorageUnitCosts": {
+          "0": 2
+        },
+        "DemandUncertainties": {
+          "0": 0,
+          "5": 0,
+          "12": 0,
+          "19": 0,
+          "26": 0,
+          "33": 0,
+          "40": 0,
+          "47": 0,
+          "54": 0,
+          "61": 0,
+          "68": 0,
+          "75": 0,
+          "82": 0
+        },
+        "IsInfinite": false,
+        "Demands": {
+          "0": 0,
+          "5": 0,
+          "12": 235,
+          "19": 241.6,
+          "26": 245.63,
+          "33": 256.25,
+          "40": 257.64,
+          "47": 263.08,
+          "54": 262.79,
+          "61": 262.71,
+          "68": 270.7,
+          "75": 273.6,
+          "82": 267.45
+        },
+        "MaximalStock": -1,
+        "Label": "Factory B_Product_Product4_Package",
+        "PurchasingUnitCosts": {
+          "0": 0
+        },
+        "Step": "Package",
+        "InitialStock": 0,
+        "PlantName": "Factory B",
+        "MaximizationWeight": 0,
+        "DemandWeights": {
+          "0": 0,
+          "5": 1,
+          "12": 1,
+          "19": 1,
+          "26": 1,
+          "33": 1,
+          "40": 1,
+          "47": 1,
+          "54": 1,
+          "61": 1,
+          "68": 1,
+          "75": 1,
+          "82": 1
+        },
+        "InitialValue": 0,
+        "MinimalStock": 0,
+        "UnitIncomes": {
+          "0": 200
+        },
+        "PartId": "Orion Herb Chicken Tortellini Refrigerated Pasta 2"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_B_Product_Product4_Transform",
+      "label": "Stock",
+      "type": "NODE",
+      "properties": {
+        "CO2UnitEmissions": {
+          "0": 0
+        },
+        "BacklogWeight": 0,
+        "StorageUnitCosts": {
+          "0": 2
+        },
+        "DemandUncertainties": {
+          "0": 0
+        },
+        "IsInfinite": false,
+        "Demands": {
+          "0": 0
+        },
+        "MaximalStock": -1,
+        "Label": "Factory B_Product_Product4_Transform",
+        "PurchasingUnitCosts": {
+          "0": 0
+        },
+        "Step": "Transform",
+        "InitialStock": 0,
+        "PlantName": "Factory B",
+        "MaximizationWeight": 0,
+        "DemandWeights": {
+          "0": 0
+        },
+        "InitialValue": 0,
+        "MinimalStock": 0,
+        "UnitIncomes": {
+          "0": 0
+        },
+        "PartId": "Orion Herb Chicken Tortellini Refrigerated Pasta 2"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_B_Raw3_Raw_Raw",
+      "label": "Stock",
+      "type": "NODE",
+      "properties": {
+        "CO2UnitEmissions": {
+          "0": 0
+        },
+        "IsInfinite": true,
+        "Label": "Factory B_Raw3_Raw_Raw",
+        "PurchasingUnitCosts": {
+          "0": 0
+        },
+        "Step": "Raw",
+        "PlantName": "Factory B",
+        "PartId": "Raw3_Raw"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_B_Raw4_Raw_Raw",
+      "label": "Stock",
+      "type": "NODE",
+      "properties": {
+        "CO2UnitEmissions": {
+          "0": 0
+        },
+        "IsInfinite": true,
+        "Label": "Factory B_Raw4_Raw_Raw",
+        "PurchasingUnitCosts": {
+          "0": 0
+        },
+        "Step": "Raw",
+        "PlantName": "Factory B",
+        "PartId": "Raw4_Raw"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_B_Raw5_Raw_Raw",
+      "label": "Stock",
+      "type": "NODE",
+      "properties": {
+        "CO2UnitEmissions": {
+          "0": 0
+        },
+        "IsInfinite": true,
+        "Label": "Factory B_Raw5_Raw_Raw",
+        "PurchasingUnitCosts": {
+          "0": 0
+        },
+        "Step": "Raw",
+        "PlantName": "Factory B",
+        "PartId": "Raw5_Raw"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_C_Component_Component1_Supply",
+      "label": "Stock",
+      "type": "NODE",
+      "properties": {
+        "CO2UnitEmissions": {
+          "0": 0
+        },
+        "BacklogWeight": 0,
+        "StorageUnitCosts": {
+          "0": 2
+        },
+        "DemandUncertainties": {
+          "0": 0
+        },
+        "IsInfinite": false,
+        "Demands": {
+          "0": 0
+        },
+        "MaximalStock": -1,
+        "Label": "Factory C_Component_Component1_Supply",
+        "PurchasingUnitCosts": {
+          "0": 0
+        },
+        "Step": "Supply",
+        "InitialStock": 0,
+        "PlantName": "Factory C",
+        "MaximizationWeight": 0,
+        "DemandWeights": {
+          "0": 0
+        },
+        "InitialValue": 0,
+        "MinimalStock": 0,
+        "UnitIncomes": {
+          "0": 0
+        },
+        "PartId": "Component_Component1"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_C_Product_Product1_Assemble",
+      "label": "Stock",
+      "type": "NODE",
+      "properties": {
+        "CO2UnitEmissions": {
+          "0": 0
+        },
+        "BacklogWeight": 0,
+        "StorageUnitCosts": {
+          "0": 2
+        },
+        "DemandUncertainties": {
+          "0": 0
+        },
+        "IsInfinite": false,
+        "Demands": {
+          "0": 0
+        },
+        "MaximalStock": -1,
+        "Label": "Factory C_Product_Product1_Assemble",
+        "PurchasingUnitCosts": {
+          "0": 0
+        },
+        "Step": "Assemble",
+        "InitialStock": 0,
+        "PlantName": "Factory C",
+        "MaximizationWeight": 0,
+        "DemandWeights": {
+          "0": 0
+        },
+        "InitialValue": 0,
+        "MinimalStock": 0,
+        "UnitIncomes": {
+          "0": 0
+        },
+        "PartId": "Orion Spinach & Artichoke Ravioli Refrigerated Pasta"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_C_Product_Product1_Package",
+      "label": "Stock",
+      "type": "NODE",
+      "properties": {
+        "CO2UnitEmissions": {
+          "0": 0
+        },
+        "BacklogWeight": 0,
+        "StorageUnitCosts": {
+          "0": 2
+        },
+        "DemandUncertainties": {
+          "0": 0,
+          "5": 0,
+          "12": 0,
+          "19": 0,
+          "26": 0,
+          "33": 0,
+          "40": 0,
+          "47": 0,
+          "54": 0,
+          "61": 0,
+          "68": 0,
+          "75": 0,
+          "82": 0
+        },
+        "IsInfinite": false,
+        "Demands": {
+          "0": 0,
+          "5": 0,
+          "12": 388.16,
+          "19": 403.3,
+          "26": 417.59,
+          "33": 429.48,
+          "40": 427.42,
+          "47": 459.7,
+          "54": 455.43,
+          "61": 432.91,
+          "68": 454.82,
+          "75": 464.78,
+          "82": 451.99
+        },
+        "MaximalStock": -1,
+        "Label": "Factory C_Product_Product1_Package",
+        "PurchasingUnitCosts": {
+          "0": 0
+        },
+        "Step": "Package",
+        "InitialStock": 0,
+        "PlantName": "Factory C",
+        "MaximizationWeight": 0,
+        "DemandWeights": {
+          "0": 0,
+          "5": 1,
+          "12": 1,
+          "19": 1,
+          "26": 1,
+          "33": 1,
+          "40": 1,
+          "47": 1,
+          "54": 1,
+          "61": 1,
+          "68": 1,
+          "75": 1,
+          "82": 1
+        },
+        "InitialValue": 0,
+        "MinimalStock": 0,
+        "UnitIncomes": {
+          "0": 400
+        },
+        "PartId": "Orion Spinach & Artichoke Ravioli Refrigerated Pasta"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_C_Product_Product1_Shape",
+      "label": "Stock",
+      "type": "NODE",
+      "properties": {
+        "CO2UnitEmissions": {
+          "0": 0
+        },
+        "BacklogWeight": 0,
+        "StorageUnitCosts": {
+          "0": 2
+        },
+        "DemandUncertainties": {
+          "0": 0
+        },
+        "IsInfinite": false,
+        "Demands": {
+          "0": 0
+        },
+        "MaximalStock": -1,
+        "Label": "Factory C_Product_Product1_Shape",
+        "PurchasingUnitCosts": {
+          "0": 0
+        },
+        "Step": "Shape",
+        "InitialStock": 0,
+        "PlantName": "Factory C",
+        "MaximizationWeight": 0,
+        "DemandWeights": {
+          "0": 0
+        },
+        "InitialValue": 0,
+        "MinimalStock": 0,
+        "UnitIncomes": {
+          "0": 0
+        },
+        "PartId": "Orion Spinach & Artichoke Ravioli Refrigerated Pasta"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_C_Product_Product1_Transform",
+      "label": "Stock",
+      "type": "NODE",
+      "properties": {
+        "CO2UnitEmissions": {
+          "0": 0
+        },
+        "BacklogWeight": 0,
+        "StorageUnitCosts": {
+          "0": 2
+        },
+        "DemandUncertainties": {
+          "0": 0
+        },
+        "IsInfinite": false,
+        "Demands": {
+          "0": 0
+        },
+        "MaximalStock": -1,
+        "Label": "Factory C_Product_Product1_Transform",
+        "PurchasingUnitCosts": {
+          "0": 0
+        },
+        "Step": "Transform",
+        "InitialStock": 0,
+        "PlantName": "Factory C",
+        "MaximizationWeight": 0,
+        "DemandWeights": {
+          "0": 0
+        },
+        "InitialValue": 0,
+        "MinimalStock": 0,
+        "UnitIncomes": {
+          "0": 0
+        },
+        "PartId": "Orion Spinach & Artichoke Ravioli Refrigerated Pasta"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_C_Product_Product2_Assemble",
+      "label": "Stock",
+      "type": "NODE",
+      "properties": {
+        "CO2UnitEmissions": {
+          "0": 0
+        },
+        "BacklogWeight": 0,
+        "StorageUnitCosts": {
+          "0": 2
+        },
+        "DemandUncertainties": {
+          "0": 0
+        },
+        "IsInfinite": false,
+        "Demands": {
+          "0": 0
+        },
+        "MaximalStock": -1,
+        "Label": "Factory C_Product_Product2_Assemble",
+        "PurchasingUnitCosts": {
+          "0": 0
+        },
+        "Step": "Assemble",
+        "InitialStock": 0,
+        "PlantName": "Factory C",
+        "MaximizationWeight": 0,
+        "DemandWeights": {
+          "0": 0
+        },
+        "InitialValue": 0,
+        "MinimalStock": 0,
+        "UnitIncomes": {
+          "0": 0
+        },
+        "PartId": "Orion Three Cheese Tortellini Refrigerated Pasta 9"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_C_Product_Product2_Package",
+      "label": "Stock",
+      "type": "NODE",
+      "properties": {
+        "CO2UnitEmissions": {
+          "0": 0
+        },
+        "BacklogWeight": 0,
+        "StorageUnitCosts": {
+          "0": 2
+        },
+        "DemandUncertainties": {
+          "0": 0,
+          "5": 0,
+          "12": 0,
+          "19": 0,
+          "26": 0,
+          "33": 0,
+          "40": 0,
+          "47": 0,
+          "54": 0,
+          "61": 0,
+          "68": 0,
+          "75": 0,
+          "82": 0
+        },
+        "IsInfinite": false,
+        "Demands": {
+          "0": 0,
+          "5": 0,
+          "12": 186.97,
+          "19": 212.88,
+          "26": 204.17,
+          "33": 222.73,
+          "40": 218.68,
+          "47": 229.85,
+          "54": 234.5,
+          "61": 228.73,
+          "68": 229.37,
+          "75": 237.2,
+          "82": 232.45
+        },
+        "MaximalStock": -1,
+        "Label": "Factory C_Product_Product2_Package",
+        "PurchasingUnitCosts": {
+          "0": 0
+        },
+        "Step": "Package",
+        "InitialStock": 0,
+        "PlantName": "Factory C",
+        "MaximizationWeight": 0,
+        "DemandWeights": {
+          "0": 0,
+          "5": 1,
+          "12": 1,
+          "19": 1,
+          "26": 1,
+          "33": 1,
+          "40": 1,
+          "47": 1,
+          "54": 1,
+          "61": 1,
+          "68": 1,
+          "75": 1,
+          "82": 1
+        },
+        "InitialValue": 0,
+        "MinimalStock": 0,
+        "UnitIncomes": {
+          "0": 200
+        },
+        "PartId": "Orion Three Cheese Tortellini Refrigerated Pasta 9"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_C_Product_Product2_Shape",
+      "label": "Stock",
+      "type": "NODE",
+      "properties": {
+        "CO2UnitEmissions": {
+          "0": 0
+        },
+        "BacklogWeight": 0,
+        "StorageUnitCosts": {
+          "0": 2
+        },
+        "DemandUncertainties": {
+          "0": 0
+        },
+        "IsInfinite": false,
+        "Demands": {
+          "0": 0
+        },
+        "MaximalStock": -1,
+        "Label": "Factory C_Product_Product2_Shape",
+        "PurchasingUnitCosts": {
+          "0": 0
+        },
+        "Step": "Shape",
+        "InitialStock": 0,
+        "PlantName": "Factory C",
+        "MaximizationWeight": 0,
+        "DemandWeights": {
+          "0": 0
+        },
+        "InitialValue": 0,
+        "MinimalStock": 0,
+        "UnitIncomes": {
+          "0": 0
+        },
+        "PartId": "Orion Three Cheese Tortellini Refrigerated Pasta 9"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_C_Product_Product2_Transform",
+      "label": "Stock",
+      "type": "NODE",
+      "properties": {
+        "CO2UnitEmissions": {
+          "0": 0
+        },
+        "BacklogWeight": 0,
+        "StorageUnitCosts": {
+          "0": 2
+        },
+        "DemandUncertainties": {
+          "0": 0
+        },
+        "IsInfinite": false,
+        "Demands": {
+          "0": 0
+        },
+        "MaximalStock": -1,
+        "Label": "Factory C_Product_Product2_Transform",
+        "PurchasingUnitCosts": {
+          "0": 0
+        },
+        "Step": "Transform",
+        "InitialStock": 0,
+        "PlantName": "Factory C",
+        "MaximizationWeight": 0,
+        "DemandWeights": {
+          "0": 0
+        },
+        "InitialValue": 0,
+        "MinimalStock": 0,
+        "UnitIncomes": {
+          "0": 0
+        },
+        "PartId": "Orion Three Cheese Tortellini Refrigerated Pasta 9"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_C_Product_Product3_Assemble",
+      "label": "Stock",
+      "type": "NODE",
+      "properties": {
+        "CO2UnitEmissions": {
+          "0": 0
+        },
+        "BacklogWeight": 0,
+        "StorageUnitCosts": {
+          "0": 2
+        },
+        "DemandUncertainties": {
+          "0": 0
+        },
+        "IsInfinite": false,
+        "Demands": {
+          "0": 0
+        },
+        "MaximalStock": -1,
+        "Label": "Factory C_Product_Product3_Assemble",
+        "PurchasingUnitCosts": {
+          "0": 0
+        },
+        "Step": "Assemble",
+        "InitialStock": 0,
+        "PlantName": "Factory C",
+        "MaximizationWeight": 0,
+        "DemandWeights": {
+          "0": 0
+        },
+        "InitialValue": 0,
+        "MinimalStock": 0,
+        "UnitIncomes": {
+          "0": 0
+        },
+        "PartId": "Orion Alfredo Sauce 15oz"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_C_Raw6_Raw_Raw",
+      "label": "Stock",
+      "type": "NODE",
+      "properties": {
+        "CO2UnitEmissions": {
+          "0": 0
+        },
+        "IsInfinite": true,
+        "Label": "Factory C_Raw6_Raw_Raw",
+        "PurchasingUnitCosts": {
+          "0": 0
+        },
+        "Step": "Raw",
+        "PlantName": "Factory C",
+        "PartId": "Raw6_Raw"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_C_Raw7_Raw_Raw",
+      "label": "Stock",
+      "type": "NODE",
+      "properties": {
+        "CO2UnitEmissions": {
+          "0": 0
+        },
+        "IsInfinite": true,
+        "Label": "Factory C_Raw7_Raw_Raw",
+        "PurchasingUnitCosts": {
+          "0": 0
+        },
+        "Step": "Raw",
+        "PlantName": "Factory C",
+        "PartId": "Raw7_Raw"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_C_Raw8_Raw_Raw",
+      "label": "Stock",
+      "type": "NODE",
+      "properties": {
+        "CO2UnitEmissions": {
+          "0": 0
+        },
+        "IsInfinite": true,
+        "Label": "Factory C_Raw8_Raw_Raw",
+        "PurchasingUnitCosts": {
+          "0": 0
+        },
+        "Step": "Raw",
+        "PlantName": "Factory C",
+        "PartId": "Raw8_Raw"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Supplier_Alpha_Component_Component1_Supply",
+      "label": "Stock",
+      "type": "NODE",
+      "properties": {
+        "CO2UnitEmissions": {
+          "0": 26
+        },
+        "BacklogWeight": 0,
+        "StorageUnitCosts": {
+          "0": 0
+        },
+        "DemandUncertainties": {
+          "0": 0
+        },
+        "IsInfinite": false,
+        "Demands": {
+          "0": 0
+        },
+        "MaximalStock": -1,
+        "Label": "Supplier Alpha_Component_Component1_Supply",
+        "PurchasingUnitCosts": {
+          "0": 20
+        },
+        "Step": "Supply",
+        "InitialStock": 0,
+        "PlantName": "Supplier Alpha",
+        "MaximizationWeight": 0,
+        "DemandWeights": {
+          "0": 0
+        },
+        "InitialValue": 0,
+        "MinimalStock": 0,
+        "UnitIncomes": {
+          "0": 0
+        },
+        "PartId": "Component_Component1"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Supplier_Alpha_Product_Product2_Shape",
+      "label": "Stock",
+      "type": "NODE",
+      "properties": {
+        "CO2UnitEmissions": {
+          "0": 0
+        },
+        "BacklogWeight": 0,
+        "StorageUnitCosts": {
+          "0": 2
+        },
+        "DemandUncertainties": {
+          "0": 0
+        },
+        "IsInfinite": false,
+        "Demands": {
+          "0": 0
+        },
+        "MaximalStock": -1,
+        "Label": "Supplier Alpha_Product_Product2_Shape",
+        "PurchasingUnitCosts": {
+          "0": 0
+        },
+        "Step": "Shape",
+        "InitialStock": 0,
+        "PlantName": "Supplier Alpha",
+        "MaximizationWeight": 0,
+        "DemandWeights": {
+          "0": 0
+        },
+        "InitialValue": 0,
+        "MinimalStock": 0,
+        "UnitIncomes": {
+          "0": 0
+        },
+        "PartId": "Orion Three Cheese Tortellini Refrigerated Pasta 9"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Supplier_Alpha_Product_Product2_Transform",
+      "label": "Stock",
+      "type": "NODE",
+      "properties": {
+        "CO2UnitEmissions": {
+          "0": 0
+        },
+        "BacklogWeight": 0,
+        "StorageUnitCosts": {
+          "0": 2
+        },
+        "DemandUncertainties": {
+          "0": 0
+        },
+        "IsInfinite": false,
+        "Demands": {
+          "0": 0
+        },
+        "MaximalStock": -1,
+        "Label": "Supplier Alpha_Product_Product2_Transform",
+        "PurchasingUnitCosts": {
+          "0": 0
+        },
+        "Step": "Transform",
+        "InitialStock": 0,
+        "PlantName": "Supplier Alpha",
+        "MaximizationWeight": 0,
+        "DemandWeights": {
+          "0": 0
+        },
+        "InitialValue": 0,
+        "MinimalStock": 0,
+        "UnitIncomes": {
+          "0": 0
+        },
+        "PartId": "Orion Three Cheese Tortellini Refrigerated Pasta 9"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Supplier_Alpha_Raw9_Raw_Raw",
+      "label": "Stock",
+      "type": "NODE",
+      "properties": {
+        "CO2UnitEmissions": {
+          "0": 0
+        },
+        "IsInfinite": true,
+        "Label": "Supplier Alpha_Raw9_Raw_Raw",
+        "PurchasingUnitCosts": {
+          "0": 0
+        },
+        "Step": "Raw",
+        "PlantName": "Supplier Alpha",
+        "PartId": "Raw9_Raw"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Supplier_Beta_Component_Component1_Supply",
+      "label": "Stock",
+      "type": "NODE",
+      "properties": {
+        "CO2UnitEmissions": {
+          "0": 26
+        },
+        "BacklogWeight": 0,
+        "StorageUnitCosts": {
+          "0": 0
+        },
+        "DemandUncertainties": {
+          "0": 0
+        },
+        "IsInfinite": false,
+        "Demands": {
+          "0": 0
+        },
+        "MaximalStock": -1,
+        "Label": "Supplier Beta_Component_Component1_Supply",
+        "PurchasingUnitCosts": {
+          "0": 20
+        },
+        "Step": "Supply",
+        "InitialStock": 2902,
+        "PlantName": "Supplier Beta",
+        "MaximizationWeight": 0,
+        "DemandWeights": {
+          "0": 0
+        },
+        "InitialValue": 2902,
+        "MinimalStock": 0,
+        "UnitIncomes": {
+          "0": 0
+        },
+        "PartId": "Component_Component1"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Supplier_Gamma_Component_Component1_Supply",
+      "label": "Stock",
+      "type": "NODE",
+      "properties": {
+        "CO2UnitEmissions": {
+          "0": 52
+        },
+        "BacklogWeight": 0,
+        "StorageUnitCosts": {
+          "0": 0
+        },
+        "DemandUncertainties": {
+          "0": 0
+        },
+        "IsInfinite": false,
+        "Demands": {
+          "0": 0
+        },
+        "MaximalStock": -1,
+        "Label": "Supplier Gamma_Component_Component1_Supply",
+        "PurchasingUnitCosts": {
+          "0": 40
+        },
+        "Step": "Supply",
+        "InitialStock": 726,
+        "PlantName": "Supplier Gamma",
+        "MaximizationWeight": 0,
+        "DemandWeights": {
+          "0": 0
+        },
+        "InitialValue": 726,
+        "MinimalStock": 0,
+        "UnitIncomes": {
+          "0": 0
+        },
+        "PartId": "Component_Component1"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_A_A1_Assemble",
+      "label": "ProductionResource",
+      "type": "NODE",
+      "properties": {
+        "OpeningTimes": {
+          "0": 960
+        },
+        "Label": "A1",
+        "PlantName": "Factory A",
+        "FixedProductionCosts": {
+          "0": 0
+        },
+        "ProductionStep": "Assemble"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_A_T1_Transform",
+      "label": "ProductionResource",
+      "type": "NODE",
+      "properties": {
+        "OpeningTimes": {
+          "0": 960
+        },
+        "Label": "T1",
+        "PlantName": "Factory A",
+        "FixedProductionCosts": {
+          "0": 0
+        },
+        "ProductionStep": "Transform"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_A_T2_Transform",
+      "label": "ProductionResource",
+      "type": "NODE",
+      "properties": {
+        "OpeningTimes": {
+          "0": 960
+        },
+        "Label": "T2",
+        "PlantName": "Factory A",
+        "FixedProductionCosts": {
+          "0": 0
+        },
+        "ProductionStep": "Transform"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_B_A2_Assemble",
+      "label": "ProductionResource",
+      "type": "NODE",
+      "properties": {
+        "OpeningTimes": {
+          "0": 960
+        },
+        "Label": "A2",
+        "PlantName": "Factory B",
+        "FixedProductionCosts": {
+          "0": 0
+        },
+        "ProductionStep": "Assemble"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_B_A3_Assemble",
+      "label": "ProductionResource",
+      "type": "NODE",
+      "properties": {
+        "OpeningTimes": {
+          "0": 960
+        },
+        "Label": "A3",
+        "PlantName": "Factory B",
+        "FixedProductionCosts": {
+          "0": 0
+        },
+        "ProductionStep": "Assemble"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_B_P1_Package",
+      "label": "ProductionResource",
+      "type": "NODE",
+      "properties": {
+        "OpeningTimes": {
+          "0": 960
+        },
+        "Label": "P1",
+        "PlantName": "Factory B",
+        "FixedProductionCosts": {
+          "0": 0
+        },
+        "ProductionStep": "Package"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_B_T3_Transform",
+      "label": "ProductionResource",
+      "type": "NODE",
+      "properties": {
+        "OpeningTimes": {
+          "0": 960
+        },
+        "Label": "T3",
+        "PlantName": "Factory B",
+        "FixedProductionCosts": {
+          "0": 0
+        },
+        "ProductionStep": "Transform"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_B_T4_Transform",
+      "label": "ProductionResource",
+      "type": "NODE",
+      "properties": {
+        "OpeningTimes": {
+          "0": 960
+        },
+        "Label": "T4",
+        "PlantName": "Factory B",
+        "FixedProductionCosts": {
+          "0": 0
+        },
+        "ProductionStep": "Transform"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_B_T5_Transform",
+      "label": "ProductionResource",
+      "type": "NODE",
+      "properties": {
+        "OpeningTimes": {
+          "0": 960
+        },
+        "Label": "T5",
+        "PlantName": "Factory B",
+        "FixedProductionCosts": {
+          "0": 0
+        },
+        "ProductionStep": "Transform"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_C_A4_Assemble",
+      "label": "ProductionResource",
+      "type": "NODE",
+      "properties": {
+        "OpeningTimes": {
+          "0": 960
+        },
+        "Label": "A4",
+        "PlantName": "Factory C",
+        "FixedProductionCosts": {
+          "0": 0
+        },
+        "ProductionStep": "Assemble"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_C_A5_Assemble",
+      "label": "ProductionResource",
+      "type": "NODE",
+      "properties": {
+        "OpeningTimes": {
+          "0": 960
+        },
+        "Label": "A5",
+        "PlantName": "Factory C",
+        "FixedProductionCosts": {
+          "0": 0
+        },
+        "ProductionStep": "Assemble"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_C_P2_Package",
+      "label": "ProductionResource",
+      "type": "NODE",
+      "properties": {
+        "OpeningTimes": {
+          "0": 960
+        },
+        "Label": "P2",
+        "PlantName": "Factory C",
+        "FixedProductionCosts": {
+          "0": 0
+        },
+        "ProductionStep": "Package"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_C_P3_Package",
+      "label": "ProductionResource",
+      "type": "NODE",
+      "properties": {
+        "OpeningTimes": {
+          "0": 960
+        },
+        "Label": "P3",
+        "PlantName": "Factory C",
+        "FixedProductionCosts": {
+          "0": 0
+        },
+        "ProductionStep": "Package"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_C_S1_Shape",
+      "label": "ProductionResource",
+      "type": "NODE",
+      "properties": {
+        "OpeningTimes": {
+          "0": 960
+        },
+        "Label": "S1",
+        "PlantName": "Factory C",
+        "FixedProductionCosts": {
+          "0": 0
+        },
+        "ProductionStep": "Shape"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_C_T6_Transform",
+      "label": "ProductionResource",
+      "type": "NODE",
+      "properties": {
+        "OpeningTimes": {
+          "0": 960
+        },
+        "Label": "T6",
+        "PlantName": "Factory C",
+        "FixedProductionCosts": {
+          "0": 0
+        },
+        "ProductionStep": "Transform"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_C_T7_Transform",
+      "label": "ProductionResource",
+      "type": "NODE",
+      "properties": {
+        "OpeningTimes": {
+          "0": 960
+        },
+        "Label": "T7",
+        "PlantName": "Factory C",
+        "FixedProductionCosts": {
+          "0": 0
+        },
+        "ProductionStep": "Transform"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_C_T8_Transform",
+      "label": "ProductionResource",
+      "type": "NODE",
+      "properties": {
+        "OpeningTimes": {
+          "0": 960
+        },
+        "Label": "T8",
+        "PlantName": "Factory C",
+        "FixedProductionCosts": {
+          "0": 0
+        },
+        "ProductionStep": "Transform"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Supplier_Alpha_C1_Supply",
+      "label": "ProductionResource",
+      "type": "NODE",
+      "properties": {
+        "OpeningTimes": {
+          "0": 960
+        },
+        "Label": "C1",
+        "PlantName": "Supplier Alpha",
+        "FixedProductionCosts": {
+          "0": 0
+        },
+        "ProductionStep": "Supply"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Supplier_Alpha_S2_Shape",
+      "label": "ProductionResource",
+      "type": "NODE",
+      "properties": {
+        "OpeningTimes": {
+          "0": 960
+        },
+        "Label": "S2",
+        "PlantName": "Supplier Alpha",
+        "FixedProductionCosts": {
+          "0": 0
+        },
+        "ProductionStep": "Shape"
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_A_A1_Product_Product4_Assemble",
+      "label": "ProductionOperation",
+      "type": "NODE",
+      "properties": {
+        "CycleTimes": {
+          "0": 6.451612903
+        },
+        "CO2UnitEmissions": {
+          "0": 24.5
+        },
+        "IsContractor": false,
+        "InvestmentCost": 0,
+        "OperatingPerformances": {
+          "0": 1
+        },
+        "RejectRates": {
+          "0": 0
+        },
+        "Label": "Factory A_A1_Product_Product4_Assemble",
+        "QuantitiesToProduce": {
+          "0": 0
+        },
+        "PlantName": "Factory A",
+        "OperatingPerformanceUncertainties": {
+          "0": 0
+        },
+        "ProductionUnitCosts": {
+          "0": 35
+        }
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_A_T1_Product_Product4_Transform",
+      "label": "ProductionOperation",
+      "type": "NODE",
+      "properties": {
+        "CycleTimes": {
+          "0": 27.09677419
+        },
+        "CO2UnitEmissions": {
+          "0": 24.5
+        },
+        "IsContractor": false,
+        "InvestmentCost": 0,
+        "OperatingPerformances": {
+          "0": 1
+        },
+        "RejectRates": {
+          "0": 0
+        },
+        "Label": "Factory A_T1_Product_Product4_Transform",
+        "QuantitiesToProduce": {
+          "0": 0
+        },
+        "PlantName": "Factory A",
+        "OperatingPerformanceUncertainties": {
+          "0": 0
+        },
+        "ProductionUnitCosts": {
+          "0": 35
+        }
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_A_T2_Product_Product4_Transform",
+      "label": "ProductionOperation",
+      "type": "NODE",
+      "properties": {
+        "CycleTimes": {
+          "0": 27.09677419
+        },
+        "CO2UnitEmissions": {
+          "0": 35
+        },
+        "IsContractor": false,
+        "InvestmentCost": 0,
+        "OperatingPerformances": {
+          "0": 1
+        },
+        "RejectRates": {
+          "0": 0
+        },
+        "Label": "Factory A_T2_Product_Product4_Transform",
+        "QuantitiesToProduce": {
+          "0": 0
+        },
+        "PlantName": "Factory A",
+        "OperatingPerformanceUncertainties": {
+          "0": 0
+        },
+        "ProductionUnitCosts": {
+          "0": 50
+        }
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_B_A2_Product_Product3_Assemble",
+      "label": "ProductionOperation",
+      "type": "NODE",
+      "properties": {
+        "CycleTimes": {
+          "0": 169.3548387
+        },
+        "CO2UnitEmissions": {
+          "0": 24.5
+        },
+        "IsContractor": false,
+        "InvestmentCost": 0,
+        "OperatingPerformances": {
+          "0": 1
+        },
+        "RejectRates": {
+          "0": 0
+        },
+        "Label": "Factory B_A2_Product_Product3_Assemble",
+        "QuantitiesToProduce": {
+          "0": 0
+        },
+        "PlantName": "Factory B",
+        "OperatingPerformanceUncertainties": {
+          "0": 0
+        },
+        "ProductionUnitCosts": {
+          "0": 35
+        }
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_B_A2_Product_Product4_Assemble",
+      "label": "ProductionOperation",
+      "type": "NODE",
+      "properties": {
+        "CycleTimes": {
+          "0": 13.5483871
+        },
+        "CO2UnitEmissions": {
+          "0": 24.5
+        },
+        "IsContractor": false,
+        "InvestmentCost": 0,
+        "OperatingPerformances": {
+          "0": 1
+        },
+        "RejectRates": {
+          "0": 0
+        },
+        "Label": "Factory B_A2_Product_Product4_Assemble",
+        "QuantitiesToProduce": {
+          "0": 0
+        },
+        "PlantName": "Factory B",
+        "OperatingPerformanceUncertainties": {
+          "0": 0
+        },
+        "ProductionUnitCosts": {
+          "0": 35
+        }
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_B_A3_Product_Product3_Assemble",
+      "label": "ProductionOperation",
+      "type": "NODE",
+      "properties": {
+        "CycleTimes": {
+          "0": 169.3548387
+        },
+        "CO2UnitEmissions": {
+          "0": 24.5
+        },
+        "IsContractor": false,
+        "InvestmentCost": 0,
+        "OperatingPerformances": {
+          "0": 1
+        },
+        "RejectRates": {
+          "0": 0
+        },
+        "Label": "Factory B_A3_Product_Product3_Assemble",
+        "QuantitiesToProduce": {
+          "0": 0
+        },
+        "PlantName": "Factory B",
+        "OperatingPerformanceUncertainties": {
+          "0": 0
+        },
+        "ProductionUnitCosts": {
+          "0": 35
+        }
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_B_P1_Product_Product3_Package",
+      "label": "ProductionOperation",
+      "type": "NODE",
+      "properties": {
+        "CycleTimes": {
+          "0": 84.67741935
+        },
+        "CO2UnitEmissions": {
+          "0": 24.5
+        },
+        "IsContractor": false,
+        "InvestmentCost": 0,
+        "OperatingPerformances": {
+          "0": 1
+        },
+        "RejectRates": {
+          "0": 0
+        },
+        "Label": "Factory B_P1_Product_Product3_Package",
+        "QuantitiesToProduce": {
+          "0": 0
+        },
+        "PlantName": "Factory B",
+        "OperatingPerformanceUncertainties": {
+          "0": 0
+        },
+        "ProductionUnitCosts": {
+          "0": 35
+        }
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_B_P1_Product_Product4_Package",
+      "label": "ProductionOperation",
+      "type": "NODE",
+      "properties": {
+        "CycleTimes": {
+          "0": 6.774193548
+        },
+        "CO2UnitEmissions": {
+          "0": 24.5
+        },
+        "IsContractor": false,
+        "InvestmentCost": 0,
+        "OperatingPerformances": {
+          "0": 1
+        },
+        "RejectRates": {
+          "0": 0
+        },
+        "Label": "Factory B_P1_Product_Product4_Package",
+        "QuantitiesToProduce": {
+          "0": 0
+        },
+        "PlantName": "Factory B",
+        "OperatingPerformanceUncertainties": {
+          "0": 0
+        },
+        "ProductionUnitCosts": {
+          "0": 35
+        }
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_B_T3_Product_Product3_Transform",
+      "label": "ProductionOperation",
+      "type": "NODE",
+      "properties": {
+        "CycleTimes": {
+          "0": 338.7096774
+        },
+        "CO2UnitEmissions": {
+          "0": 24.5
+        },
+        "IsContractor": false,
+        "InvestmentCost": 0,
+        "OperatingPerformances": {
+          "0": 1
+        },
+        "RejectRates": {
+          "0": 0
+        },
+        "Label": "Factory B_T3_Product_Product3_Transform",
+        "QuantitiesToProduce": {
+          "0": 0
+        },
+        "PlantName": "Factory B",
+        "OperatingPerformanceUncertainties": {
+          "0": 0
+        },
+        "ProductionUnitCosts": {
+          "0": 35
+        }
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_B_T4_Product_Product3_Transform",
+      "label": "ProductionOperation",
+      "type": "NODE",
+      "properties": {
+        "CycleTimes": {
+          "0": 338.7096774
+        },
+        "CO2UnitEmissions": {
+          "0": 24.5
+        },
+        "IsContractor": false,
+        "InvestmentCost": 0,
+        "OperatingPerformances": {
+          "0": 1
+        },
+        "RejectRates": {
+          "0": 0
+        },
+        "Label": "Factory B_T4_Product_Product3_Transform",
+        "QuantitiesToProduce": {
+          "0": 0
+        },
+        "PlantName": "Factory B",
+        "OperatingPerformanceUncertainties": {
+          "0": 0
+        },
+        "ProductionUnitCosts": {
+          "0": 35
+        }
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_B_T5_Product_Product3_Transform",
+      "label": "ProductionOperation",
+      "type": "NODE",
+      "properties": {
+        "CycleTimes": {
+          "0": 338.7096774
+        },
+        "CO2UnitEmissions": {
+          "0": 24.5
+        },
+        "IsContractor": false,
+        "InvestmentCost": 0,
+        "OperatingPerformances": {
+          "0": 1
+        },
+        "RejectRates": {
+          "0": 0
+        },
+        "Label": "Factory B_T5_Product_Product3_Transform",
+        "QuantitiesToProduce": {
+          "0": 0
+        },
+        "PlantName": "Factory B",
+        "OperatingPerformanceUncertainties": {
+          "0": 0
+        },
+        "ProductionUnitCosts": {
+          "0": 35
+        }
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_C_A4_Product_Product1_Assemble",
+      "label": "ProductionOperation",
+      "type": "NODE",
+      "properties": {
+        "CycleTimes": {
+          "0": 9.202453988
+        },
+        "CO2UnitEmissions": {
+          "0": 24.5
+        },
+        "IsContractor": false,
+        "InvestmentCost": 0,
+        "OperatingPerformances": {
+          "0": 0.8
+        },
+        "RejectRates": {
+          "0": 0
+        },
+        "Label": "Factory C_A4_Product_Product1_Assemble",
+        "QuantitiesToProduce": {
+          "0": 0
+        },
+        "PlantName": "Factory C",
+        "OperatingPerformanceUncertainties": {
+          "0": 0
+        },
+        "ProductionUnitCosts": {
+          "0": 35
+        }
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_C_A5_Product_Product2_Assemble",
+      "label": "ProductionOperation",
+      "type": "NODE",
+      "properties": {
+        "CycleTimes": {
+          "0": 7.472527473
+        },
+        "CO2UnitEmissions": {
+          "0": 24.5
+        },
+        "IsContractor": false,
+        "InvestmentCost": 0,
+        "OperatingPerformances": {
+          "0": 0.8
+        },
+        "RejectRates": {
+          "0": 0
+        },
+        "Label": "Factory C_A5_Product_Product2_Assemble",
+        "QuantitiesToProduce": {
+          "0": 0
+        },
+        "PlantName": "Factory C",
+        "OperatingPerformanceUncertainties": {
+          "0": 0
+        },
+        "ProductionUnitCosts": {
+          "0": 35
+        }
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_C_P2_Product_Product1_Package",
+      "label": "ProductionOperation",
+      "type": "NODE",
+      "properties": {
+        "CycleTimes": {
+          "0": 8.520790729
+        },
+        "CO2UnitEmissions": {
+          "0": 24.5
+        },
+        "IsContractor": false,
+        "InvestmentCost": 0,
+        "OperatingPerformances": {
+          "0": 0.8
+        },
+        "RejectRates": {
+          "0": 0
+        },
+        "Label": "Factory C_P2_Product_Product1_Package",
+        "QuantitiesToProduce": {
+          "0": 0
+        },
+        "PlantName": "Factory C",
+        "OperatingPerformanceUncertainties": {
+          "0": 0
+        },
+        "ProductionUnitCosts": {
+          "0": 35
+        }
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_C_P3_Product_Product2_Package",
+      "label": "ProductionOperation",
+      "type": "NODE",
+      "properties": {
+        "CycleTimes": {
+          "0": 13.18681319
+        },
+        "CO2UnitEmissions": {
+          "0": 24.5
+        },
+        "IsContractor": false,
+        "InvestmentCost": 0,
+        "OperatingPerformances": {
+          "0": 0.8
+        },
+        "RejectRates": {
+          "0": 0
+        },
+        "Label": "Factory C_P3_Product_Product2_Package",
+        "QuantitiesToProduce": {
+          "0": 0
+        },
+        "PlantName": "Factory C",
+        "OperatingPerformanceUncertainties": {
+          "0": 0
+        },
+        "ProductionUnitCosts": {
+          "0": 35
+        }
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_C_S1_Product_Product1_Shape",
+      "label": "ProductionOperation",
+      "type": "NODE",
+      "properties": {
+        "CycleTimes": {
+          "0": 11.58827539
+        },
+        "CO2UnitEmissions": {
+          "0": 24.5
+        },
+        "IsContractor": false,
+        "InvestmentCost": 0,
+        "OperatingPerformances": {
+          "0": 0.75
+        },
+        "RejectRates": {
+          "0": 0
+        },
+        "Label": "Factory C_S1_Product_Product1_Shape",
+        "QuantitiesToProduce": {
+          "0": 0
+        },
+        "PlantName": "Factory C",
+        "OperatingPerformanceUncertainties": {
+          "0": 0
+        },
+        "ProductionUnitCosts": {
+          "0": 35
+        }
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_C_S1_Product_Product2_Shape",
+      "label": "ProductionOperation",
+      "type": "NODE",
+      "properties": {
+        "CycleTimes": {
+          "0": 14.94505495
+        },
+        "CO2UnitEmissions": {
+          "0": 24.5
+        },
+        "IsContractor": false,
+        "InvestmentCost": 0,
+        "OperatingPerformances": {
+          "0": 0.75
+        },
+        "RejectRates": {
+          "0": 0
+        },
+        "Label": "Factory C_S1_Product_Product2_Shape",
+        "QuantitiesToProduce": {
+          "0": 0
+        },
+        "PlantName": "Factory C",
+        "OperatingPerformanceUncertainties": {
+          "0": 0
+        },
+        "ProductionUnitCosts": {
+          "0": 35
+        }
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_C_T6_Product_Product1_Transform",
+      "label": "ProductionOperation",
+      "type": "NODE",
+      "properties": {
+        "CycleTimes": {
+          "0": 17.38241309
+        },
+        "CO2UnitEmissions": {
+          "0": 24.5
+        },
+        "IsContractor": false,
+        "InvestmentCost": 0,
+        "OperatingPerformances": {
+          "0": 0.85
+        },
+        "RejectRates": {
+          "0": 0
+        },
+        "Label": "Factory C_T6_Product_Product1_Transform",
+        "QuantitiesToProduce": {
+          "0": 0
+        },
+        "PlantName": "Factory C",
+        "OperatingPerformanceUncertainties": {
+          "0": 0
+        },
+        "ProductionUnitCosts": {
+          "0": 35
+        }
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_C_T7_Product_Product1_Transform",
+      "label": "ProductionOperation",
+      "type": "NODE",
+      "properties": {
+        "CycleTimes": {
+          "0": 17.38241309
+        },
+        "CO2UnitEmissions": {
+          "0": 24.5
+        },
+        "IsContractor": false,
+        "InvestmentCost": 0,
+        "OperatingPerformances": {
+          "0": 0.85
+        },
+        "RejectRates": {
+          "0": 0
+        },
+        "Label": "Factory C_T7_Product_Product1_Transform",
+        "QuantitiesToProduce": {
+          "0": 0
+        },
+        "PlantName": "Factory C",
+        "OperatingPerformanceUncertainties": {
+          "0": 0
+        },
+        "ProductionUnitCosts": {
+          "0": 35
+        }
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_C_T7_Product_Product2_Transform",
+      "label": "ProductionOperation",
+      "type": "NODE",
+      "properties": {
+        "CycleTimes": {
+          "0": 22.41758242
+        },
+        "CO2UnitEmissions": {
+          "0": 24.5
+        },
+        "IsContractor": false,
+        "InvestmentCost": 0,
+        "OperatingPerformances": {
+          "0": 0.85
+        },
+        "RejectRates": {
+          "0": 0
+        },
+        "Label": "Factory C_T7_Product_Product2_Transform",
+        "QuantitiesToProduce": {
+          "0": 0
+        },
+        "PlantName": "Factory C",
+        "OperatingPerformanceUncertainties": {
+          "0": 0
+        },
+        "ProductionUnitCosts": {
+          "0": 35
+        }
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Factory_C_T8_Product_Product2_Transform",
+      "label": "ProductionOperation",
+      "type": "NODE",
+      "properties": {
+        "CycleTimes": {
+          "0": 22.41758242
+        },
+        "CO2UnitEmissions": {
+          "0": 24.5
+        },
+        "IsContractor": false,
+        "InvestmentCost": 0,
+        "OperatingPerformances": {
+          "0": 0.85
+        },
+        "RejectRates": {
+          "0": 0
+        },
+        "Label": "Factory C_T8_Product_Product2_Transform",
+        "QuantitiesToProduce": {
+          "0": 0
+        },
+        "PlantName": "Factory C",
+        "OperatingPerformanceUncertainties": {
+          "0": 0
+        },
+        "ProductionUnitCosts": {
+          "0": 35
+        }
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Supplier_Alpha_C1_Component_Component1_Supply",
+      "label": "ProductionOperation",
+      "type": "NODE",
+      "properties": {
+        "CycleTimes": {
+          "0": 7.730962505
+        },
+        "CO2UnitEmissions": {
+          "0": 0
+        },
+        "IsContractor": false,
+        "InvestmentCost": 0,
+        "OperatingPerformances": {
+          "0": 1
+        },
+        "RejectRates": {
+          "0": 0
+        },
+        "Label": "Supplier Alpha_C1_Component_Component1_Supply",
+        "QuantitiesToProduce": {
+          "0": 0
+        },
+        "PlantName": "Supplier Alpha",
+        "OperatingPerformanceUncertainties": {
+          "0": 0
+        },
+        "ProductionUnitCosts": {
+          "0": 0
+        }
+      }
+    }
+  },
+  {
+    "n": {
+      "id": "Supplier_Alpha_S2_Product_Product2_Shape",
+      "label": "ProductionOperation",
+      "type": "NODE",
+      "properties": {
+        "CycleTimes": {
+          "0": 17.58241758
+        },
+        "CO2UnitEmissions": {
+          "0": 24.5
+        },
+        "IsContractor": false,
+        "InvestmentCost": 0,
+        "OperatingPerformances": {
+          "0": 1
+        },
+        "RejectRates": {
+          "0": 0
+        },
+        "Label": "Supplier Alpha_S2_Product_Product2_Shape",
+        "QuantitiesToProduce": {
+          "0": 0
+        },
+        "PlantName": "Supplier Alpha",
+        "OperatingPerformanceUncertainties": {
+          "0": 0
+        },
+        "ProductionUnitCosts": {
+          "0": 35
+        }
+      }
+    }
+  }
+]
