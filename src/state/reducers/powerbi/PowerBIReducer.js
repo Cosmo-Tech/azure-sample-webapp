@@ -26,5 +26,9 @@ export const powerBiReducer = createReducer(powerBiInitialState, (builder) => {
     })
     .addCase(POWER_BI_ACTIONS_KEY.SET_REPORTS_CONFIG, (state, action) => {
       state.data.reportsConfig = action.reportsConfig;
+    })
+    .addCase(POWER_BI_ACTIONS_KEY.CLEAR_EMBED_INFO, (state) => {
+      state.data = powerBiInitialState.data;
+      state.status = powerBiInitialState.status;
     });
 });

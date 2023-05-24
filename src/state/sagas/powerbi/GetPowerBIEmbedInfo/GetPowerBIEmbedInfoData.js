@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { delay, put, select, takeEvery } from 'redux-saga/effects';
+import { delay, put, select, takeLatest } from 'redux-saga/effects';
 import { POWER_BI_ACTIONS_KEY } from '../../../commons/PowerBIConstants';
 import { STATUSES } from '../../../commons/Constants';
 import { POWER_BI_INFO_POLLING_DELAY } from '../../../../services/config/FunctionalConstants';
@@ -99,9 +99,8 @@ export function* getPowerBIEmbedInfoSaga() {
 }
 
 // generators function
-// Here is a watcher that takes EVERY action dispatched named GET_EMBED_INFO and binds getPowerBIEmbedInfo saga to it
+// Here is a watcher that takes the last action dispatched named GET_EMBED_INFO and binds getPowerBIEmbedInfo saga to it
 function* getPowerBIEmbedInfoData() {
-  yield takeEvery(POWER_BI_ACTIONS_KEY.GET_EMBED_INFO, getPowerBIEmbedInfoSaga);
+  yield takeLatest(POWER_BI_ACTIONS_KEY.GET_EMBED_INFO, getPowerBIEmbedInfoSaga);
 }
-
 export default getPowerBIEmbedInfoData;
