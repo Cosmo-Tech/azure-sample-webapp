@@ -29,7 +29,7 @@ const msalSecretConfig = {
 };
 
 const tokenRequest = {
-  scopes: [`http://${CY_MSAL_API_HOSTNAME_FOR_SCOPE}/.default`],
+  scopes: [`https://${CY_MSAL_API_HOSTNAME_FOR_SCOPE}/.default`],
 };
 
 module.exports = {

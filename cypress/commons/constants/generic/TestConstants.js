@@ -3,9 +3,9 @@
 
 export { ORGANIZATION_ID } from '../../../../src/config/GlobalConfiguration';
 
-export const URL_ROOT = 'https://dev.api.cosmotech.com';
+export const URL_ROOT = 'https://testmarketplace.azure.cosmo-platform.com';
 export const AUTH_QUERY_URL =
-  'https://login.microsoftonline.com/e413b834-8be8-4822-a370-be619545cb49/oauth2/v2.0/token';
+  'https://login.microsoftonline.com/e9641c78-d0d6-4d09-af63-168922724e7f/oauth2/v2.0/token';
 export const LOCAL_WEBAPP_URL = 'http://localhost:3000';
 export const URL_POWERBI = `${LOCAL_WEBAPP_URL}/api/get-embed-info`;
 
