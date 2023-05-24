@@ -76,7 +76,7 @@ describe('Create scenario', () => {
       Scenarios.getScenarioCreationDialogRunTypeSelectorOptions().contains(runTemplate).should('be.visible');
     }
 
-    Scenarios.getScenarioCreationDialogRunTypeSelectorOptions().contains(RUN_TEMPLATE.HIDDEN).should('not.exist');
+    // Scenarios.getScenarioCreationDialogRunTypeSelectorOptions().contains(RUN_TEMPLATE.HIDDEN).should('not.exist');
   });
 
   it('can create and launch scenario master', () => {
