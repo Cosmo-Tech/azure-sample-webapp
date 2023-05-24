@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { all, call, fork, select, takeEvery, put } from 'redux-saga/effects';
+import { all, call, select, takeEvery, put } from 'redux-saga/effects';
 import { STATUSES } from '../../../commons/Constants';
 import { APPLICATION_ACTIONS_KEY } from '../../../commons/ApplicationConstants';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
@@ -9,10 +9,11 @@ import { WORKSPACE_ACTIONS_KEY } from '../../../commons/WorkspaceConstants';
 import { SCENARIO_RUN_STATE } from '../../../../services/config/ApiConstants';
 import { getAllScenariosData } from '../../scenario/FindAllScenarios/FindAllScenariosData';
 import { fetchSolutionByIdData } from '../../solution/FindSolutionById/FindSolutionByIdData';
-import { getPowerBIEmbedInfoSaga } from '../../powerbi/GetPowerBIEmbedInfo/GetPowerBIEmbedInfoData';
 import { getFirstScenarioMaster } from '../../../../utils/SortScenarioListUtils';
 import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
 import { t } from 'i18next';
+import { POWER_BI_ACTIONS_KEY } from '../../../commons/PowerBIConstants';
+import { dispatchGetPowerBIEmbedInfo } from '../../../dispatchers/powerbi/PowerBIDispatcher';
 
 const getOrganizationId = (state) => state?.organization?.current?.data?.id;
 const selectSolutionIdFromCurrentWorkspace = (state) => state.workspace.current.data.solution.solutionId;
@@ -70,6 +71,8 @@ export function* selectWorkspace(action) {
     type: SCENARIO_ACTIONS_KEY.STOP_ALL_SCENARIO_STATUS_POLLINGS,
   });
 
+  yield put({ type: POWER_BI_ACTIONS_KEY.CLEAR_EMBED_INFO });
+
   yield call(getAllScenariosData, organizationId, selectedWorkspaceId);
   const solutionId = yield select(selectSolutionIdFromCurrentWorkspace);
   yield call(fetchSolutionByIdData, organizationId, selectedWorkspaceId, solutionId);
@@ -96,7 +99,7 @@ export function* selectWorkspace(action) {
     )
   );
 
-  yield fork(getPowerBIEmbedInfoSaga);
+  yield put(dispatchGetPowerBIEmbedInfo());
 
   yield put({
     type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS,
