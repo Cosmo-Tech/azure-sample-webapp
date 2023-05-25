@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 export const BREWERY_WORKSPACE_ID = 'w-81264wr3xw5q5';
-export const REAL_BREWERY_WORKSPACE_ID = 'w-ww55o3xd8l39j';
+export const REAL_BREWERY_WORKSPACE_ID = 'w-dq0jkrr0k6owl';
 
 export const SCENARIO_STATUS = {
   CREATED: 'created',
