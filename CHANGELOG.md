@@ -8,6 +8,7 @@
 - add visual indication around PowerBI charts when the visible results may not be up-to-date with the current scenario parameters
 - add confirmation pop-ups for some actions that can lead to loss of unsaved changes on scenario parameters (e.g. closing the window, switching to another tab in the webapp)
 - in the Scenario view, the PowerBI dashboards panel can now be folded to save some space
+- migrating node version from v14 to v16 for local development
 
 ### Bug Fixes
 
