@@ -1,3 +1,41 @@
+## **5.1.0** <sub><sup>2023-05-25 ([82dd6c3...88f3871](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/82dd6c37...88f3871d?diff=split))</sup></sub>
+
+### Features
+
+- allow users to save modified scenario parameters without launching a scenario run
+- allow users to abort a running scenario
+- add visual indicators in scenario parameters panel to identify fields that have been changed since last save
+- add visual indication around PowerBI charts when the visible results may not be up-to-date with the current scenario parameters
+- add confirmation pop-ups for some actions that can lead to loss of unsaved changes on scenario parameters (e.g. closing the window, switching to another tab in the webapp)
+- in the Scenario view, the PowerBI dashboards panel can now be folded to save some space
+
+### Bug Fixes
+
+- \[PROD\-11540\] allow usage of different PowerBI workspaces in the webapp workspaces ([7c9927e](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/7c9927e4), [d291812](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/d2918127))
+- \[PROD\-11537\] stop polling scenario status on workspace change ([b26aa59](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/b26aa590))
+- \[PROD\-11711\] add token validation in GetEmbedInfo azure function ([4ef6678](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/4ef66781), [86d1229](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/86d12297), [b6f5860](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/b6f5860b))
+- fix error banner's animation, handle error properly ([859a4e8](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/859a4e82))
+- prevent null or NaN values in number input fields ([1c40ae1](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/1c40ae1f))
+- fix console warning regarding undefined required prop ([2c4330d](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/2c4330de))
+- explicitly set scenario security on creation ([a21adbb](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/a21adbb7))
+- store data of new last run immediately when launching a new run ([15b9bd6](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/15b9bd68))
+
+### Documentation
+
+- add documentation for new optional parameter of GetEmbedInfo azure function ([413ae44](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/413ae445))
+- add migration guide for v5\.0\.0 ([44b55b2](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/44b55b2c))
+- add doc for v5.0.0 migration script ([6e81a97](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/6e81a97f))
+- update documentation to reflect configuration changes of last major version v5.0.0 ([d211cf2](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/d211cf2e))
+- update the documentation relative to themes customization ([1fad689](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/1fad6894))
+- update upstream definition commands in README file ([9ac46f1](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/9ac46f12))
+- update instructions to run the webapp locally ([1338da2](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/1338da2e))
+- add warnings related to API v2 and v2\.4 in instance view documentation ([c3333d0](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/c3333d0b))
+- remove link to deleted doc file ([4167da5](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/4167da5a))
+
+### Known issue
+
+- renaming, validating or rejecting a scenario will trigger the "not up-to-date" warning indicator around the PowerBI charts
+
 ## **5.0.1** <sub><sup>2023-03-21 ([f366bc0...cad52a7](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/f366bc0d...cad52a73?diff=split))</sup></sub>
 
 ### Bug Fixes
