@@ -267,10 +267,71 @@ parameters:
           acceptsEmptyFields: true
 ```
 
-#### Notes
+Notes:
 
 - defining several times the same field will result in undefined behavior
 - setting different value types in the `type` attribute will result in undefined behavior
+
+#### Columns grouping definition
+
+The description of the table groups consists of putting columns in the same group. Each group needs to have the following fields:
+
+- **headerName** Name of the column group
+- **children** Array of columns or columns groups belonging to this group
+
+Example:
+
+```yaml
+parameters:
+  - id: 'customers'
+    labels:
+      fr: 'Clients'
+      en: 'Customers'
+    varType: '%DATASETID%'
+    options:
+      connectorId: 'c-d7e5p9o0kjn9'
+      description: 'customers data'
+      subType: 'TABLE'
+      columns:
+        - headerName: 'First group'
+          children:
+            - field: 'name'
+              type:
+                - 'nonResizable'
+                - 'nonEditable'
+                - 'nonSortable'
+            - field: 'age'
+              type:
+                - 'int'
+              minValue: 0
+              maxValue: 120
+              acceptsEmptyFields: true
+        - field: 'canDrinkAlcohol'
+          type:
+            - 'bool'
+        - field: 'favoriteDrink'
+          type:
+            - 'enum'
+          enumValues:
+            - 'AppleJuice'
+            - 'Beer'
+            - 'OrangeJuice'
+            - 'Wine'
+        - headerName: 'Second Group'
+          children:
+            - field: 'birthday'
+              type:
+                - 'date'
+              minValue: '1900-01-01'
+              maxValue: '2022-12-19T13:46:15.223Z'
+              acceptsEmptyFields: true
+            - field: 'height'
+              type:
+                - 'number'
+              minValue: 0
+              maxValue: 2.5
+              acceptsEmptyFields: true
+```
 
 ### Information tooltips for scenario parameters
 

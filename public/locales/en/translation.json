@@ -556,7 +556,12 @@
         "fileImportError": "File load failed.",
         "maxErrorsCount": "(only the top first {{maxCount}} results)",
         "errorsCount_one": "{{count}} error occurred:",
-        "errorsCount_other": "{{count}} errors occurred:"
+        "errorsCount_other": "{{count}} errors occurred:",
+        "placeholderTitle": "Import your first data",
+        "placeholderBody": "After importing a valid csv or xlsx file, your data will be displayed in an interactive table.",
+        "import": "Import",
+        "export": "Export",
+        "fullscreen": "Fullscreen"
       },
       "export": {
         "labels": {
