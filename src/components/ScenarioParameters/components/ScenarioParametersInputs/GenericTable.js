@@ -21,7 +21,7 @@ const clone = rfdc();
 const DEFAULT_DATE_FORMAT = 'yyyy-MM-dd';
 const MAX_ERRORS_COUNT = 100;
 
-const _getColumnWithoutDepths = (columns) => {
+export const _getColumnWithoutDepths = (columns) => {
   return columns.flatMap((columnOrColumnGroup) => {
     return columnOrColumnGroup.children ? _getColumnWithoutDepths(columnOrColumnGroup.children) : columnOrColumnGroup;
   });
