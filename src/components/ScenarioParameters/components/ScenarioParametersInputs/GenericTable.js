@@ -14,6 +14,8 @@ import { gridLight, gridDark } from '../../../../theme/';
 import { ConfigUtils, TranslationUtils, FileManagementUtils } from '../../../../utils';
 import { useOrganizationId } from '../../../../state/hooks/OrganizationHooks.js';
 import { useWorkspaceId } from '../../../../state/hooks/WorkspaceHooks.js';
+import { TableUtils } from '../../../../utils/TableUtils';
+import { TableDeleteRowsDialog } from './components/TableDeleteRowsDialog';
 
 const clone = rfdc();
 
@@ -63,24 +65,38 @@ export const GenericTable = ({
   const workspaceId = useWorkspaceId();
   const datasets = useSelector((state) => state.dataset?.list?.data);
   const scenarioId = useSelector((state) => state.scenario?.current?.data?.id);
+  const canChangeRowsNumber = ConfigUtils.getParameterAttribute(parameterData, 'canChangeRowsNumber') ?? false;
 
   const parameterId = parameterData.id;
   const [parameter, setParameter] = useState(parameterValue || {});
 
   const lockId = `${scenarioId}_${parameterId}`;
 
+  const [isConfirmRowsDeletionDialogOpen, setConfirmRowsDeletionDialogOpen] = useState(false);
+  const selectedRows = useRef();
+
   const tableLabels = {
     label: t(TranslationUtils.getParameterTranslationKey(parameterId), parameterId),
     loading: t('genericcomponent.table.labels.loading', 'Loading...'),
     clearErrors: t('genericcomponent.table.button.clearErrors', 'Clear'),
     errorsPanelMainError: t('genericcomponent.table.labels.fileImportError', 'File load failed.'),
-    placeholderTitle: t('genericcomponent.table.labels.placeholderTitle', 'Import your first data'),
-    placeholderBody: t(
-      'genericcomponent.table.labels.placeholderBody',
-      'After importing a valid csv or xlsx file, your data will be displayed in an interactive table.'
-    ),
+    placeholderTitle: canChangeRowsNumber
+      ? t('genericcomponent.table.labels.addRowPlaceholderTitle', 'Import or create your first data')
+      : t('genericcomponent.table.labels.placeholderTitle', 'Import your first data'),
+    placeholderBody: canChangeRowsNumber
+      ? t(
+          'genericcomponent.table.labels.addRowPlaceholderBody',
+          'Import a valid csv or xlsx file,' +
+            'or add a new row, so that your data will be displayed in an interactive table.'
+        )
+      : t(
+          'genericcomponent.table.labels.placeholderBody',
+          'After importing a valid csv or xlsx file, your data will be displayed in an interactive table.'
+        ),
     import: t('genericcomponent.table.labels.import', 'Import'),
     export: t('genericcomponent.table.labels.export', 'Export'),
+    addRow: t('genericcomponent.table.labels.addRow', 'Add a new row'),
+    deleteRows: t('genericcomponent.table.labels.deleteRows', 'Remove selected rows'),
     fullscreen: t('genericcomponent.table.labels.fullscreen', 'Fullscreen'),
   };
   const tableExportDialogLabels = {
@@ -414,14 +430,17 @@ export const GenericTable = ({
     [exportFile]
   );
 
-  const _uploadPreprocess = (clientFileDescriptor) => {
-    const newFileContent = AgGridUtils.toCSV(parameter.agGridRows, columns, options);
-    updateParameterValue({
-      content: newFileContent,
-    });
-    gridApiRef.current?.stopEditing();
-    return newFileContent;
-  };
+  const _uploadPreprocess = useCallback(
+    (clientFileDescriptor) => {
+      const newFileContent = AgGridUtils.toCSV(lastNewParameterValue.current.agGridRows, columns, options);
+      updateParameterValue({
+        content: newFileContent,
+      });
+      gridApiRef.current?.stopEditing();
+      return newFileContent;
+    },
+    [columns, options, updateParameterValue]
+  );
 
   const onCellChange = (event) => {
     gridApiRef.current = event.api;
@@ -482,6 +501,57 @@ export const GenericTable = ({
     }
   });
 
+  const onAddRow = useCallback(
+    (agGridApi) => {
+      const newLine = TableUtils.createNewTableLine(parameterData.options.columns, parameterData.options.dateFormat);
+      const selectedLines = agGridApi?.getSelectedNodes();
+      let newLineArray = parameter?.agGridRows;
+      if (newLineArray && selectedLines?.length > 0) {
+        const lastSelectedLineIndex = selectedLines[selectedLines.length - 1].rowIndex;
+        newLineArray.splice(parseInt(lastSelectedLineIndex) + 1, 0, newLine);
+      } else if (newLineArray) newLineArray.unshift(newLine);
+      else newLineArray = [newLine];
+      updateParameterValue({
+        status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD,
+        tableDataStatus: TABLE_DATA_STATUS.READY,
+        errors: null,
+        uploadPreprocess: { content: _uploadPreprocess },
+        agGridRows: [...newLineArray],
+      });
+    },
+    [
+      _uploadPreprocess,
+      parameter?.agGridRows,
+      parameterData.options.columns,
+      parameterData.options.dateFormat,
+      updateParameterValue,
+    ]
+  );
+  const deleteRow = useCallback(() => {
+    if (selectedRows.current?.length > 0) {
+      const newRows = parameter.agGridRows;
+      for (let i = 0; selectedRows.current[i]; i++) {
+        newRows[selectedRows.current[i].rowIndex] = undefined;
+      }
+      updateParameterValue({
+        status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD,
+        tableDataStatus: TABLE_DATA_STATUS.READY,
+        errors: null,
+        uploadPreprocess: { content: _uploadPreprocess },
+        agGridRows: newRows.filter((row) => row),
+      });
+    }
+  }, [_uploadPreprocess, parameter.agGridRows, updateParameterValue]);
+  const onDeleteRow = useCallback(
+    (agGridApi) => {
+      selectedRows.current = agGridApi?.getSelectedNodes() ?? [];
+      if (selectedRows.current.length > 1 && localStorage.getItem('dontAskAgainToDeleteRow') === 'false') {
+        setConfirmRowsDeletionDialogOpen(true);
+      } else deleteRow(selectedRows.current);
+    },
+    [deleteRow]
+  );
+
   return (
     <>
       <TableExportDialog
@@ -494,6 +564,7 @@ export const GenericTable = ({
       <Table
         key={parameterId}
         data-cy={`table-${parameterData.id}`}
+        id={`table-${parameterData.id}`}
         labels={tableLabels}
         tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
         dateFormat={dateFormat}
@@ -505,11 +576,23 @@ export const GenericTable = ({
         agTheme={context.isDarkTheme ? gridDark.agTheme : gridLight.agTheme}
         onImport={importFile}
         onExport={openExportDialog}
+        onAddRow={canChangeRowsNumber ? onAddRow : null}
+        onDeleteRow={canChangeRowsNumber ? onDeleteRow : null}
         onCellChange={onCellChange}
         onClearErrors={onClearErrors}
         buildErrorsPanelTitle={buildErrorsPanelTitle}
         maxErrorsCount={MAX_ERRORS_COUNT}
         isDirty={isDirty}
+      />
+      <TableDeleteRowsDialog
+        open={isConfirmRowsDeletionDialogOpen}
+        onClose={() => setConfirmRowsDeletionDialogOpen(false)}
+        onConfirm={(isChecked) => {
+          setConfirmRowsDeletionDialogOpen(false);
+          localStorage.setItem('dontAskAgainToDeleteRow', isChecked);
+          deleteRow();
+        }}
+        selectedRowsCount={selectedRows.current?.length ?? 0}
       />
     </>
   );

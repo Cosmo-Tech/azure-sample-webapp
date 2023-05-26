@@ -50,10 +50,8 @@ describe('Table parameters files standard operations part 1', () => {
     ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
     const checkAndExport = () => {
       BreweryParameters.getCustomersErrorsPanel().should('not.exist');
-      BreweryParameters.getCustomersTableHeader().should('be.visible');
-      COL_NAMES.forEach((col) => {
-        BreweryParameters.getCustomersTableHeaderCell(col).should('be.visible');
-      });
+      BreweryParameters.getCustomersTableHeader().should('not.exist');
+      BreweryParameters.getCustomersTablePlaceholder().should('be.visible');
       BreweryParameters.exportCustomersTableDataToCSV();
       Downloads.checkByContent('customers.csv', COL_NAMES.join());
       BreweryParameters.exportCustomersTableDataToXLSX();
@@ -74,6 +72,9 @@ describe('Table parameters files standard operations part 1', () => {
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.importCustomersTableData(CSV_VALID_FILE_PATH_WITH_SPACES);
     BreweryParameters.getCustomersTableRows().should('have.length', 4);
+    COL_NAMES.forEach((col) => {
+      BreweryParameters.getCustomersTableHeaderCell(col).should('be.visible');
+    });
     BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Bob');
     BreweryParameters.getCustomersTableCell('name', 1).should('have.text', 'Lily');
     BreweryParameters.getCustomersTableCell('name', 2).should('have.text', 'Maria');

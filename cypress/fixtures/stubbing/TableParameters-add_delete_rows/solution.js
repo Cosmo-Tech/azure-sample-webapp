@@ -3,7 +3,7 @@
 
 import { DEFAULT_SOLUTION } from '../default';
 
-const SOLUTION_WITH_TWO_TABLES = {
+const SOLUTION_WITH_ADD_ROW_FEATURE = {
   ...DEFAULT_SOLUTION,
   parameters: [
     {
@@ -14,13 +14,15 @@ const SOLUTION_WITH_TWO_TABLES = {
       },
       varType: '%DATASETID%',
       options: {
+        canChangeRowsNumber: true,
         connectorId: 'c-d7e5p9o0kjn9',
         description: 'customers data',
         subType: 'TABLE',
         columns: [
           {
             field: 'name',
-            type: ['nonResizable', 'nonEditable', 'nonSortable'],
+            type: ['nonResizable', 'nonSortable'],
+            defaultValue: 'defaultName',
           },
           {
             field: 'age',
@@ -61,20 +63,22 @@ const SOLUTION_WITH_TWO_TABLES = {
       },
     },
     {
-      id: 'vipCustomers',
+      id: 'customers-stub',
       labels: {
-        fr: 'VipClients',
-        en: 'VipCustomers',
+        fr: 'Nouveau clients',
+        en: 'New clients',
       },
       varType: '%DATASETID%',
       options: {
+        canChangeRowsNumber: true,
         connectorId: 'c-d7e5p9o0kjn9',
-        description: 'customers vip data',
+        description: 'customers data',
         subType: 'TABLE',
         columns: [
           {
             field: 'name',
-            type: ['nonResizable', 'nonEditable', 'nonSortable'],
+            type: ['nonResizable', 'nonSortable'],
+            defaultValue: 'defaultName',
           },
           {
             field: 'age',
@@ -122,9 +126,17 @@ const SOLUTION_WITH_TWO_TABLES = {
         en: 'Customers',
         fr: 'Clients',
       },
-      parameters: ['customers', 'vipCustomers'],
+      parameters: ['customers'],
+    },
+    {
+      id: 'events',
+      labels: {
+        en: 'Events',
+        fr: 'Events',
+      },
+      parameters: ['customers-stub'],
     },
   ],
 };
 
-export const SOLUTIONS = [SOLUTION_WITH_TWO_TABLES];
+export const SOLUTIONS = [SOLUTION_WITH_ADD_ROW_FEATURE];

@@ -44,7 +44,7 @@ describe('Table parameters files standard operations part 3', () => {
     ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.importCustomersTableData(XLSX_VALID_FILE_PATH);
-    BreweryParameters.getCustomersTableRows().should('have.length', 4);
+    BreweryParameters.getCustomersTableRows().should('have.length', 5);
     BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Bob');
     BreweryParameters.getCustomersTableCell('age', 0).should('have.text', '10');
     BreweryParameters.getCustomersTableCell('canDrinkAlcohol', 1).should('have.text', 'false');
