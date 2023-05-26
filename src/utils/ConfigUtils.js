@@ -71,6 +71,7 @@ const getParameterAttribute = (parameter, attributeName) => {
     'hasHeader',
     'hidden',
     'subType',
+    'canChangeRowsNumber',
   ];
   if (!knownAttributesNames.includes(attributeName)) {
     console.warn(`The attribute "${attributeName}" is not a known attribute in the scenario parameters configuration.`);

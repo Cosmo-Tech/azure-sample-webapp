@@ -74,10 +74,27 @@ const checkParametersValidationConstraintsInSolution = (data) => {
   });
 };
 
+const patchIncompatibleValuesInSolution = (solution) => {
+  solution.parameters.forEach((parameter) => {
+    if (parameter.varType === '%DATASETID%' && parameter.options?.subType === 'TABLE')
+      if (parameter.options?.canChangeRowsNumber)
+        parameter.options.columns.forEach((column) => {
+          if (column?.type?.includes('nonEditable')) {
+            console.warn(
+              `parameter.options.canChangeRowsNumber can't be true on ${parameter.id} ` +
+                `if column ${column.field} is nonEditable, please fix it in the solution`
+            );
+            parameter.options.canChangeRowsNumber = false;
+          }
+        });
+  });
+};
+
 export const SolutionsUtils = {
   addRunTemplatesParametersIdsDict,
   addTranslationLabels,
   castMinMaxDefaultValuesInSolution,
   patchSolutionIfLocalConfigExists,
   checkParametersValidationConstraintsInSolution,
+  patchIncompatibleValuesInSolution,
 };

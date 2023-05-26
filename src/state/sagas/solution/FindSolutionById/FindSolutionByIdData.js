@@ -13,6 +13,7 @@ export function* fetchSolutionByIdData(organizationId, workspaceId, solutionId) 
   SolutionsUtils.patchSolutionIfLocalConfigExists(data);
   SolutionsUtils.checkParametersValidationConstraintsInSolution(data);
   ConfigUtils.checkDeprecatedKeysInConfig(data);
+  SolutionsUtils.patchIncompatibleValuesInSolution(data);
 
   SolutionsUtils.addRunTemplatesParametersIdsDict(data);
   SolutionsUtils.addTranslationLabels(data);

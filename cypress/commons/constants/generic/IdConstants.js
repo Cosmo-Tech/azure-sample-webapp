@@ -163,8 +163,12 @@ export const GENERIC_SELECTORS = {
       },
       toolbar: {
         fullscreenButton: '[data-cy=grid-fullscreen-button]',
+        addRowButton: '[data-cy=add-row-button]',
+        deleteRowsButton: '[data-cy=delete-rows-button]',
+        deleteRowsDialogConfirmButton: '[data-cy=delete-rows-dialog-confirm-button]',
       },
       header: '[class=ag-header-container]',
+      placeholder: '[data-cy=empty-table-placeholder]',
       colByName: '[col-id=$COLNAME]',
       rowsContainer: '[class=ag-center-cols-container]',
       row: '.ag-row',
