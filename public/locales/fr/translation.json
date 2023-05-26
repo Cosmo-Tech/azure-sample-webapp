@@ -558,7 +558,12 @@
         "fileImportError": "Échec du chargement du fichier.",
         "maxErrorsCount": "(seulement les {{maxCount}} premiers résultats)",
         "errorsCount_one": "{{count}} erreur:",
-        "errorsCount_other": "{{count}} erreurs:"
+        "errorsCount_other": "{{count}} erreurs:",
+        "placeholderTitle": "Importez votre premier fichier",
+        "placeholderBody": "Une fois votre fichier csv ou xlsx importé, vos données seront affichées dans un tableau interactif.",
+        "import": "Importer",
+        "export": "Exporter",
+        "fullscreen": "Plein écran"
       },
       "export": {
         "labels": {
