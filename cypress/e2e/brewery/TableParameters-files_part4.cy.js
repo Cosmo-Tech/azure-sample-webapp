@@ -75,11 +75,11 @@ describe('Table parameters files standard operations part 4', () => {
     BreweryParameters.importCustomersTableData(CUSTOMERS_FILE_PATH);
 
     BreweryParameters.switchToEventsTab();
-    BreweryParameters.getEventsTableGrid().should('not.be.empty');
+    BreweryParameters.getEventsTableCell('theme', 0).should('have.text', 'complex systems');
     BreweryParameters.importEventsTableData(EVENTS_FILE_PATH);
 
     BreweryParameters.switchToCustomersTab();
-    BreweryParameters.getCustomersTableRows().should('have.length', 4);
+    BreweryParameters.getCustomersTableRows().should('have.length', 5);
     BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Bob');
     BreweryParameters.getCustomersTableCell('canDrinkAlcohol', 1).should('have.text', 'false');
 

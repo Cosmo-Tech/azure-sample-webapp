@@ -560,8 +560,12 @@
         "errorsCount_other": "{{count}} erreurs:",
         "placeholderTitle": "Importez votre premier fichier",
         "placeholderBody": "Une fois votre fichier csv ou xlsx importé, vos données seront affichées dans un tableau interactif.",
+        "addRowPlaceholderTitle": "Importez ou créez\nvos premières données",
+        "addRowPlaceholderBody": "Importez un fichier csv ou xlsx valide, ou ajoutez une nouvelle ligne, et ainsi afficher vos données sur un tableau interactif.",
         "import": "Importer",
         "export": "Exporter",
+        "addRow": "Ajouter une nouvelle ligne",
+        "deleteRows": "Supprimer les lignes sélectionnées",
         "fullscreen": "Plein écran"
       },
       "export": {
@@ -573,6 +577,13 @@
           "title": "Exporter les données",
           "exportDescription": "Le fichier sera sauvegardé sur votre ordinateur."
         }
+      },
+      "deleteRowsDialog": {
+        "title": "Supprimer les lignes sélectionnées?",
+        "body": "Voulez-vous vraiment supprimer ces {{count}} lignes?",
+        "cancel": "Annuler",
+        "confirm": "Supprimer",
+        "checkbox": "Ne plus afficher ce message"
       }
     }
   },
