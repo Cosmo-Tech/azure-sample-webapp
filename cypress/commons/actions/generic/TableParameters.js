@@ -87,8 +87,24 @@ function getFullscreenButton(tableParameterElement) {
   return getGrid(tableParameterElement).find(GENERIC_SELECTORS.genericComponents.table.toolbar.fullscreenButton);
 }
 
+function getAddRowButton(tableParameterElement) {
+  return tableParameterElement.find(GENERIC_SELECTORS.genericComponents.table.toolbar.addRowButton);
+}
+
+function getDeleteRowsButton(tableParameterElement) {
+  return tableParameterElement.find(GENERIC_SELECTORS.genericComponents.table.toolbar.deleteRowsButton);
+}
+
+function getDeleteRowsDialogConfirmButton() {
+  return cy.get(GENERIC_SELECTORS.genericComponents.table.toolbar.deleteRowsDialogConfirmButton);
+}
+
 function getHeader(tableParameterElement) {
   return getGrid(tableParameterElement).find(GENERIC_SELECTORS.genericComponents.table.header);
+}
+
+function getPlaceholder(tableParameterElement) {
+  return getGrid(tableParameterElement).find(GENERIC_SELECTORS.genericComponents.table.placeholder);
 }
 
 function getHeaderCell(tableParameterElement, colName) {
@@ -134,6 +150,15 @@ function exportCSV(tableParameterElement, fileName = null) {
 }
 function exportXLSX(tableParameterElement, fileName = null) {
   exportFile(tableParameterElement, 'xlsx', fileName);
+}
+
+function addRow(tableParameterElement) {
+  getAddRowButton(tableParameterElement).click();
+}
+
+function deleteRows(tableParameterElement, confirm = false) {
+  getDeleteRowsButton(tableParameterElement).click();
+  if (confirm) getDeleteRowsDialogConfirmButton().click();
 }
 
 function cancelFileExport() {
@@ -204,9 +229,12 @@ export const TableParameters = {
   getExportFileNameInput,
   getExportCancelButton,
   getExportConfirmButton,
+  getAddRowButton,
+  getDeleteRowsButton,
   getFullscreenButton,
   toggleFullscreenButton,
   getHeader,
+  getPlaceholder,
   getHeaderCell,
   getRowsContainer,
   getRows,
@@ -216,6 +244,8 @@ export const TableParameters = {
   exportFile,
   exportCSV,
   exportXLSX,
+  addRow,
+  deleteRows,
   cancelFileExport,
   confirmFileExport,
   switchFileExportType,

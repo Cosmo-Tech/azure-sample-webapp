@@ -560,8 +560,12 @@
         "errorsCount_other": "{{count}} errors occurred:",
         "placeholderTitle": "Import your first data",
         "placeholderBody": "After importing a valid csv or xlsx file, your data will be displayed in an interactive table.",
+        "addRowPlaceholderTitle": "Import or create your first data",
+        "addRowPlaceholderBody": "Import a valid csv or xlsx file, or add a new row, so that your data will be displayed in an interactive table.",
         "import": "Import",
         "export": "Export",
+        "addRow": "Add a new row",
+        "deleteRows": "Remove selected rows",
         "fullscreen": "Fullscreen"
       },
       "export": {
@@ -573,6 +577,13 @@
           "title": "Export file",
           "exportDescription": "Your file will be saved on your computer."
         }
+      },
+      "deleteRowsDialog": {
+        "title": "Delete selected lines?",
+        "body": "Are you sure you want to delete these {{count}} lines?",
+        "cancel": "Cancel",
+        "confirm": "Delete",
+        "checkbox": "Don't show this message again"
       }
     }
   },

@@ -198,6 +198,9 @@ function exitCustomersFullscreen() {
 function getCustomersTableHeader() {
   return TableParameters.getHeader(getCustomersTable());
 }
+function getCustomersTablePlaceholder() {
+  return TableParameters.getPlaceholder(getCustomersTable());
+}
 function getCustomersTableHeaderCell(colName) {
   return TableParameters.getHeaderCell(getCustomersTable(), colName);
 }
@@ -243,6 +246,17 @@ function exportCustomersTableDataToCSV(fileName = null) {
 }
 function exportCustomersTableDataToXLSX(fileName = null) {
   return TableParameters.exportXLSX(getCustomersTable(), fileName);
+}
+
+function addRowCustomersTableData() {
+  TableParameters.addRow(getCustomersTable());
+}
+
+function deleteRowsCustomersTableData(confirm = false) {
+  TableParameters.deleteRows(getCustomersTable(), confirm);
+}
+function deleteRowsEventsTableData(confirm = false) {
+  TableParameters.deleteRows(getEventsTable(), confirm);
 }
 
 function editCustomersTableStringCell(colName, rowIndex, newValue) {
@@ -434,6 +448,7 @@ export const BreweryParameters = {
   enterCustomersFullscreen,
   exitCustomersFullscreen,
   getCustomersTableHeader,
+  getCustomersTablePlaceholder,
   getCustomersTableHeaderCell,
   getCustomersTableRowsContainer,
   getCustomersTableRows,
@@ -448,6 +463,9 @@ export const BreweryParameters = {
   importCustomersTableData,
   exportCustomersTableDataToCSV,
   exportCustomersTableDataToXLSX,
+  addRowCustomersTableData,
+  deleteRowsCustomersTableData,
+  deleteRowsEventsTableData,
   editCustomersTableStringCell,
   getEventsTableLabel,
   getEventsTableGrid,
