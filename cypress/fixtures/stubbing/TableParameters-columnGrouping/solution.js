@@ -14,6 +14,7 @@ const SOLUTION_WITH_COLUMN_GROUP = {
       },
       varType: '%DATASETID%',
       options: {
+        canChangeRowsNumber: true,
         connectorId: 'c-d7e5p9o0kjn9',
         description: 'customers data',
         subType: 'TABLE',
@@ -23,7 +24,8 @@ const SOLUTION_WITH_COLUMN_GROUP = {
             children: [
               {
                 field: 'name',
-                type: ['nonResizable', 'nonEditable', 'nonSortable'],
+                type: ['nonResizable', 'nonSortable'],
+                columnGroupShow: 'open',
               },
               {
                 field: 'age',
@@ -31,6 +33,7 @@ const SOLUTION_WITH_COLUMN_GROUP = {
                 minValue: 0,
                 maxValue: 120,
                 acceptsEmptyFields: true,
+                columnGroupShow: 'closed',
               },
             ],
           },
