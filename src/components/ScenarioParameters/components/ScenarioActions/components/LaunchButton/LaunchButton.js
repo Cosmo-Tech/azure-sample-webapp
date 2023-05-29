@@ -64,9 +64,13 @@ export const LaunchButton = () => {
           startIcon={<PlayCircleOutlineIcon />}
           onClick={launchCurrentScenario}
         >
-          {isDirty
-            ? t('commoncomponents.button.scenario.parameters.update.launch', 'SAVE AND LAUNCH')
-            : t('commoncomponents.button.scenario.parameters.launch', 'LAUNCH')}
+          {isDirty ? (
+            <span data-cy="save-and-launch-label">
+              {t('commoncomponents.button.scenario.parameters.update.launch', 'SAVE AND LAUNCH')}
+            </span>
+          ) : (
+            <span data-cy="launch-label">{t('commoncomponents.button.scenario.parameters.launch', 'LAUNCH')}</span>
+          )}
         </Button>
       </Grid>
     </PermissionsGate>
