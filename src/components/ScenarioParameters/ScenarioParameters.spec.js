@@ -5,7 +5,7 @@ import React from 'react';
 import { screen, fireEvent } from '@testing-library/react';
 import { ScenarioParameters } from '.';
 import { customRender } from '../../../tests/utils/renderInThemeAndStoreProviders';
-import { AccordionTesting } from '../../../tests/MuiComponentsTesting/AccordionTesting';
+import { AccordionTesting } from '../../../tests/MuiComponentsTesting';
 
 const mockOnToggleAccordion = jest.fn();
 

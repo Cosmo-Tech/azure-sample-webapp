@@ -5,7 +5,7 @@ import React from 'react';
 import ScenarioDashboardCard from '.';
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { customRender } from '../../../../../tests/utils/renderInThemeAndStoreProviders';
-import { AccordionTesting } from '../../../../../tests/MuiComponentsTesting/AccordionTesting';
+import { AccordionTesting } from '../../../../../tests/MuiComponentsTesting';
 
 jest.mock('../index', () => ({
   __esModule: true,

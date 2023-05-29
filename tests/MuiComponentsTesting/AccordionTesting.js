@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { getByDataCy } from '../utils/getElements';
+import { getByDataCy } from '../utils';
 import { getByRole } from '@testing-library/react';
 
 export class AccordionTesting {
