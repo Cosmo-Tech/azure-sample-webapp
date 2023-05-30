@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState, useRef } from 'react';
+/*
 import G6 from '@antv/g6';
 
 G6.registerNode(
@@ -65,6 +66,10 @@ const G6Viz = ({ graphData }) => {
   }, [graph, graphData]);
 
   return <div style={{ height: '100%' }} ref={ref}></div>;
+};
+*/
+const G6Viz = () => {
+  return null;
 };
 
 export default G6Viz;
