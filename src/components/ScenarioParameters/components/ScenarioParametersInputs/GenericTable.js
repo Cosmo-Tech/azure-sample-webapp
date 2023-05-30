@@ -21,9 +21,9 @@ const clone = rfdc();
 const DEFAULT_DATE_FORMAT = 'yyyy-MM-dd';
 const MAX_ERRORS_COUNT = 100;
 
-export const _getColumnWithoutDepths = (columns) => {
+export const _getColumnWithoutDepth = (columns) => {
   return columns.flatMap((columnOrColumnGroup) => {
-    return columnOrColumnGroup.children ? _getColumnWithoutDepths(columnOrColumnGroup.children) : columnOrColumnGroup;
+    return columnOrColumnGroup.children ? _getColumnWithoutDepth(columnOrColumnGroup.children) : columnOrColumnGroup;
   });
 };
 
@@ -31,7 +31,7 @@ const _generateGridDataFromCSV = (fileContent, parameterData, options) => {
   return AgGridUtils.fromCSV(
     fileContent,
     ConfigUtils.getParameterAttribute(parameterData, 'hasHeader') || true,
-    _getColumnWithoutDepths(ConfigUtils.getParameterAttribute(parameterData, 'columns')),
+    _getColumnWithoutDepth(ConfigUtils.getParameterAttribute(parameterData, 'columns')),
     options
   );
 };
@@ -40,7 +40,7 @@ const _generateGridDataFromXLSX = async (fileBlob, parameterData, options) => {
   return await AgGridUtils.fromXLSX(
     fileBlob,
     ConfigUtils.getParameterAttribute(parameterData, 'hasHeader') || true,
-    _getColumnWithoutDepths(ConfigUtils.getParameterAttribute(parameterData, 'columns')),
+    _getColumnWithoutDepth(ConfigUtils.getParameterAttribute(parameterData, 'columns')),
     options
   );
 };
@@ -61,7 +61,6 @@ export const GenericTable = ({
 
   const parameterId = parameterData.id;
   const [parameter, setParameter] = useState(parameterValue || {});
-  console.log(parameter);
 
   const lockId = `${scenarioId}_${parameterId}`;
 
