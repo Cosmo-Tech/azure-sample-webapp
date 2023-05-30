@@ -16,9 +16,11 @@ const ScenarioParameterInput = ({ parameterData, context }) => {
 
   const store = useStore();
 
-  const { resetField } = useFormContext();
+  const {
+    resetField,
+    // trigger,
+  } = useFormContext();
   const scenarioResetValues = useScenarioResetValues();
-
   const getCurrentScenarioId = useCallback(() => store.getState().scenario?.current?.data?.id, [store]);
   const scenarioIdOnMount = useRef(getCurrentScenarioId());
 
@@ -39,12 +41,16 @@ const ScenarioParameterInput = ({ parameterData, context }) => {
   return (
     <Controller
       name={parameterData.id}
+      rules={{ required: true }}
       render={({ field, fieldState }) => {
         const { value: parameterValue, onChange: setRhfValue } = field;
-        const { isDirty } = fieldState;
+        const { isDirty, error } = fieldState;
+        console.log(error);
         const setParameterValue = (newValue) => {
           if (scenarioIdOnMount.current === getCurrentScenarioId()) {
+            console.log(newValue);
             setRhfValue(newValue);
+            // trigger();
           }
         };
 
