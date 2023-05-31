@@ -24,14 +24,7 @@ function getMaxValue(parameterData) {
   return parameterData.maxValue;
 }
 
-export const GenericNumberInput = ({
-  parameterData,
-  context,
-  parameterValue,
-  setParameterValue,
-  defaultParameterValue,
-  isDirty,
-}) => {
+export const GenericNumberInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty, error }) => {
   const { t } = useTranslation();
   const inputProps = {
     min: getMinValue(parameterData),
@@ -47,14 +40,11 @@ export const GenericNumberInput = ({
     value = NaN;
   }
 
-  // Intercept value setter to prevent setting null, undefined or NaN values and fallback to parameter default value
-  // instead
   const changeValue = useCallback(
     (newValue) => {
-      if (newValue != null && !isNaN(newValue)) setParameterValue(newValue);
-      else setParameterValue(defaultParameterValue);
+      setParameterValue(newValue);
     },
-    [defaultParameterValue, setParameterValue]
+    [setParameterValue]
   );
 
   return (
@@ -68,6 +58,7 @@ export const GenericNumberInput = ({
       textFieldProps={textFieldProps}
       inputProps={inputProps}
       isDirty={isDirty}
+      error={error}
     />
   );
 };
@@ -79,8 +70,16 @@ GenericNumberInput.propTypes = {
   setParameterValue: PropTypes.func.isRequired,
   defaultParameterValue: PropTypes.number,
   isDirty: PropTypes.bool,
+  error: PropTypes.object,
 };
 
 GenericNumberInput.defaultProps = {
   isDirty: false,
+};
+
+GenericNumberInput.useValidationRules = () => {
+  const { t } = useTranslation();
+  return {
+    required: t('views.scenario.scenarioParametersValidationErrors.required', 'This field is required'),
+  };
 };

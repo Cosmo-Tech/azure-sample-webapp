@@ -14,8 +14,8 @@ import { useUpdateParameters } from '../../../../../../hooks/ScenarioParametersH
 
 export const SaveButton = () => {
   const { t } = useTranslation();
-  const { isDirty } = useFormState();
-
+  const { isDirty, errors } = useFormState();
+  const isValid = Object.keys(errors || {}).length === 0;
   const currentScenarioId = useCurrentScenarioId();
   const saveScenario = useSaveScenario();
   const { processFilesToUpload, getParametersToUpdate } = useUpdateParameters();
@@ -36,7 +36,7 @@ export const SaveButton = () => {
       necessaryPermissions={[ACL_PERMISSIONS.SCENARIO.WRITE]}
     >
       <Grid item>
-        <Button data-cy="save-button" startIcon={<SaveIcon />} onClick={saveScenarioParameters}>
+        <Button data-cy="save-button" startIcon={<SaveIcon />} onClick={saveScenarioParameters} disabled={!isValid}>
           {t('commoncomponents.button.scenario.parameters.save', 'SAVE')}
         </Button>
       </Grid>

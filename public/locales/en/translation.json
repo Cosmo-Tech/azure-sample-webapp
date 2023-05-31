@@ -623,6 +623,9 @@
       },
       "scenarioRunStopError": {
         "comment": "Could not stop scenario run with id \"{{id}}\""
+      },
+      "scenarioParametersValidationErrors": {
+        "required": "This field is required"
       }
     }
   },
