@@ -11,6 +11,13 @@ const tgParams = {
   graphId: 'Demo - Supplier crisis - 1_Baseline_SAS low demand',
 };
 
+/*
+const tgParams = {
+  organizationId: 'O-gZYpnd27G7',
+  graphId: 'supply_strategic_sourcing_M',
+};
+*/
+
 const _processGraphProps = (processedData, theme) => {
   // processedData.graphProps.defaultNode = getDefaultNodeStyle(theme);
   processedData.graphProps.defaultEdge = getDefaultEdgeStyle(theme);
