@@ -139,6 +139,7 @@ async function getRequestHeader() {
   // Store the error thrown while getting authentication token
   let errorResponse;
 
+  //
   // Get the response from the authentication request
   try {
     tokenResponse = await auth.getAccessToken();
