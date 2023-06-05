@@ -28,7 +28,8 @@ You can change the CSP rules by modifying the plugin configuration, in the file 
 
 - `'self'` allow connections to the server of the webapp, to load the webapp files or for queries to Azure Functions
 - `api.powerbi.com` allow requests to get PowerBI reports data when using SSO mode
-- `*.api.cosmotech.com` allow API requests to the Cosmo Tech API
+- `*.api.cosmotech.com` allow API requests to the Cosmo Tech API (if you're using a different Cosmo Tech API URL,
+  replace this value)
 - `https://login.microsoftonline.com` allow connection to the Microsoft login endpoint to log in with MSAL library
 - `https://dc.services.visualstudio.com` allow tracking API for Application Insights
 
