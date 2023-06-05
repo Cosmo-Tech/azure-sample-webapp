@@ -69,6 +69,8 @@ export const GenericTable = ({
     ),
     import: t('genericcomponent.table.labels.import', 'Import'),
     export: t('genericcomponent.table.labels.export', 'Export'),
+    addrow: t('genericcomponent.table.labels.addRow'),
+    deleterow: t('genericcomponent.table.labels.deleteRow'),
     fullscreen: t('genericcomponent.table.labels.fullscreen', 'Fullscreen'),
   };
   const tableExportDialogLabels = {
@@ -85,6 +87,7 @@ export const GenericTable = ({
 
   const columns = ConfigUtils.getParameterAttribute(parameterData, 'columns');
   const dateFormat = ConfigUtils.getParameterAttribute(parameterData, 'dateFormat') || DEFAULT_DATE_FORMAT;
+  const enableAddRow = ConfigUtils.getParameterAttribute(parameterData, 'enableAddRow') ?? false;
   const options = useMemo(() => {
     return { dateFormat };
   }, [dateFormat]);
@@ -403,7 +406,7 @@ export const GenericTable = ({
   );
 
   const _uploadPreprocess = (clientFileDescriptor) => {
-    const newFileContent = AgGridUtils.toCSV(parameter.agGridRows, columns, options);
+    const newFileContent = AgGridUtils.toCSV(lastNewParameterValue.current.agGridRows, columns, options);
     updateParameterValue({
       content: newFileContent,
     });
@@ -470,6 +473,44 @@ export const GenericTable = ({
     }
   });
 
+  const onAddRow = () => {
+    const newLine = ConfigUtils.createNewTableLine(parameterData.options.columns, parameterData.options.dateFormat);
+    const selectedLines = [
+      ...document.getElementById(`table-${parameterData.id}`).getElementsByClassName('ag-row-selected'),
+    ];
+    let newLineArray = parameter?.agGridRows;
+    if (newLineArray && selectedLines.length > 0) {
+      const lastSelectedLineIndex = selectedLines[selectedLines.length - 1].attributes['row-id'].value;
+      newLineArray.splice(parseInt(lastSelectedLineIndex) + 1, 0, newLine);
+    } else if (newLineArray) newLineArray.unshift(newLine);
+    else newLineArray = [newLine];
+    updateParameterValue({
+      status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD,
+      tableDataStatus: TABLE_DATA_STATUS.READY,
+      errors: null,
+      uploadPreprocess: { content: _uploadPreprocess },
+      agGridRows: [...newLineArray],
+    });
+  };
+  const onDeleteRow = () => {
+    const selectedLines = document
+      .getElementById(`table-${parameterData.id}`)
+      .getElementsByClassName('ag-row-selected');
+    if (selectedLines.length > 0) {
+      const newRows = parameter.agGridRows;
+      for (let i = 0; selectedLines[i]; i++) {
+        newRows[selectedLines[i].attributes['row-id'].value] = undefined;
+      }
+      updateParameterValue({
+        status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD,
+        tableDataStatus: TABLE_DATA_STATUS.READY,
+        errors: null,
+        uploadPreprocess: { content: _uploadPreprocess },
+        agGridRows: newRows.filter((row) => row),
+      });
+    }
+  };
+
   return (
     <>
       <TableExportDialog
@@ -482,6 +523,7 @@ export const GenericTable = ({
       <Table
         key={parameterId}
         data-cy={`table-${parameterData.id}`}
+        id={`table-${parameterData.id}`}
         labels={tableLabels}
         tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
         dateFormat={dateFormat}
@@ -493,11 +535,14 @@ export const GenericTable = ({
         agTheme={context.isDarkTheme ? gridDark.agTheme : gridLight.agTheme}
         onImport={importFile}
         onExport={openExportDialog}
+        onAddRow={onAddRow}
+        onDeleteRow={onDeleteRow}
         onCellChange={onCellChange}
         onClearErrors={onClearErrors}
         buildErrorsPanelTitle={buildErrorsPanelTitle}
         maxErrorsCount={MAX_ERRORS_COUNT}
         isDirty={isDirty}
+        enableAddRow={enableAddRow}
       />
     </>
   );

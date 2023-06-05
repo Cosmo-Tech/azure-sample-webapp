@@ -560,6 +560,8 @@
         "placeholderBody": "Une fois votre fichier csv ou xlsx importé, vos données seront affichées dans un tableau interactif.",
         "import": "Importer",
         "export": "Exporter",
+        "addRow": "Ajouter une nouvelle ligne",
+        "deleteRow": "Supprimer les lignes sélectionnées",
         "fullscreen": "Plein écran"
       },
       "export": {

@@ -87,6 +87,14 @@ function getFullscreenButton(tableParameterElement) {
   return getGrid(tableParameterElement).find(GENERIC_SELECTORS.genericComponents.table.toolbar.fullscreenButton);
 }
 
+function getAddRowButtonInput(tableParameterElement) {
+  return tableParameterElement.find(GENERIC_SELECTORS.genericComponents.table.toolbar.addRowButton);
+}
+
+function getDeleteRowsButtonInput(tableParameterElement) {
+  return tableParameterElement.find(GENERIC_SELECTORS.genericComponents.table.toolbar.deleteRowsButton);
+}
+
 function getHeader(tableParameterElement) {
   return getGrid(tableParameterElement).find(GENERIC_SELECTORS.genericComponents.table.header);
 }
@@ -134,6 +142,14 @@ function exportCSV(tableParameterElement, fileName = null) {
 }
 function exportXLSX(tableParameterElement, fileName = null) {
   exportFile(tableParameterElement, 'xlsx', fileName);
+}
+
+function addRow(tableParameterElement) {
+  getAddRowButtonInput(tableParameterElement).click();
+}
+
+function deleteRows(tableParameterElement) {
+  getDeleteRowsButtonInput(tableParameterElement).click();
 }
 
 function cancelFileExport() {
@@ -216,6 +232,8 @@ export const TableParameters = {
   exportFile,
   exportCSV,
   exportXLSX,
+  addRow,
+  deleteRows,
   cancelFileExport,
   confirmFileExport,
   switchFileExportType,

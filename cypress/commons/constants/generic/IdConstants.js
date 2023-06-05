@@ -161,6 +161,8 @@ export const GENERIC_SELECTORS = {
       },
       toolbar: {
         fullscreenButton: '[data-cy=grid-fullscreen-button]',
+        addRowButton: '[data-cy=add-row-button]',
+        deleteRowsButton: '[data-cy=delete-rows-button]',
       },
       header: '[class=ag-header-container]',
       colByName: '[col-id=$COLNAME]',

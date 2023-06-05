@@ -91,3 +91,119 @@ describe('getConversionMethod with possible values', () => {
     }
   );
 });
+
+describe('Check createNewTableLine returns value', () => {
+  const COLUMNS = [
+    // Basic webapp handler DONE
+    {
+      field: 'string',
+    },
+    {
+      field: 'integer',
+      type: ['int'],
+    },
+    {
+      field: 'boolean',
+      type: ['bool'],
+    },
+    {
+      field: 'enum',
+      type: ['enum'],
+    },
+    {
+      field: 'enumWithValues',
+      type: ['enum'],
+      cellEditorParams: { enumValues: ['First', 'Second', 'Third'] },
+    },
+    {
+      field: 'date',
+      type: ['date'],
+    },
+    {
+      field: 'number',
+      type: ['number'],
+    },
+    // Set DefaultValues
+    {
+      field: 'defaultValueString',
+      cellEditorParams: { defaultValue: 'defaultValue' },
+    },
+    {
+      field: 'defaultValueInteger',
+      type: ['int'],
+      cellEditorParams: { defaultValue: 10 },
+    },
+    {
+      field: 'defaultValueBoolean',
+      type: ['bool'],
+      cellEditorParams: { defaultValue: true },
+    },
+    {
+      field: 'defaultValueEnum',
+      type: ['enum'],
+      cellEditorParams: { defaultValue: 'Third' },
+    },
+    {
+      field: 'defaultValueDate',
+      type: ['date'],
+      cellEditorParams: { defaultValue: '01/01/2000' },
+    },
+    {
+      field: 'defaultValueNumber',
+      type: ['number'],
+      cellEditorParams: { defaultValue: '3.14' },
+    },
+    // Use of min values
+    {
+      field: 'minValueInteger',
+      type: ['int'],
+      cellEditorParams: { minValue: '42' },
+    },
+    {
+      field: 'minValueDate',
+      type: ['date'],
+      cellEditorParams: { minValue: '01/01/2030' },
+    },
+    {
+      field: 'minValueNumber',
+      type: ['number'],
+      cellEditorParams: { minValue: '3.14' },
+    },
+    // Webapp use maxValues because webapps values is higher
+    {
+      field: 'maxValueInteger',
+      type: ['int'],
+      cellEditorParams: { maxValue: '-42' },
+    },
+    {
+      field: 'maxValueNumber',
+      type: ['number'],
+      cellEditorParams: { maxValue: '-3.14' },
+    },
+  ];
+  const RESULT = {
+    string: 'value',
+    integer: '0',
+    boolean: 'false',
+    enum: '',
+    enumWithValues: 'First',
+    date: '01/01/1970',
+    number: '0',
+    defaultValueString: 'defaultValue',
+    defaultValueInteger: 10,
+    defaultValueBoolean: true,
+    defaultValueEnum: 'Third',
+    defaultValueDate: '01/01/2000',
+    defaultValueNumber: '3.14',
+    minValueInteger: '42',
+    minValueDate: '01/01/2030',
+    minValueNumber: '3.14',
+    maxValueInteger: '-42',
+    maxValueNumber: '-3.14',
+  };
+
+  test('if COLUMNS is given, RESULT should be return', () => {
+    const result = ConfigUtils.createNewTableLine(COLUMNS, 'dd/MM/yyyy');
+    expect(result).toStrictEqual(RESULT);
+  });
+});

@@ -55,9 +55,25 @@ const patchSolutionIfLocalConfigExists = async (originalSolution) => {
   ConfigUtils.patchSolution(originalSolution, overridingSolution);
 };
 
+const fixNotCompatibleValuesInSolution = (solution) => {
+  solution.parameters.forEach((parameter) => {
+    if (parameter.varType === '%DATASETID%' && parameter.options?.subType === 'TABLE')
+      if (parameter.options?.enableAddRow)
+        parameter.options.columns.forEach((column) => {
+          if (column.type.includes('nonEditable')) {
+            console.warn(
+              "parameter.options.enableAddRow can't be true if some columns is nonEditable, please fix it the solution"
+            );
+            parameter.options.enableAddRow = false;
+          }
+        });
+  });
+};
+
 export const SolutionsUtils = {
   addRunTemplatesParametersIdsDict,
   addTranslationLabels,
   castMinMaxDefaultValuesInSolution,
   patchSolutionIfLocalConfigExists,
+  fixNotCompatibleValuesInSolution,
 };

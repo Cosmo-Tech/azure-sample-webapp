@@ -155,6 +155,7 @@ mode is enabled by setting `options.subType` to `TABLE`. The `options` dict can 
 - `description`: the description to use in the dataset object that will be created with the Cosmo Tech API
 - `subType`: set its value to `TABLE` to make use of the _extended var type_ feature
 - `columns`: an array describing **the expected columns of the table** (see section below "Columns definition")
+- `enableAddRow`: a boolean deciding if the table can use the add row feature (can't be set to true if some column is non editable)
 - `dateFormat`: a string describing the expected format of dates in the table based on
   [date-fns format patterns](https://date-fns.org/v2.25.0/docs/parse) (default: 'yyyy-MM-dd')
 

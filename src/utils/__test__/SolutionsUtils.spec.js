@@ -95,3 +95,87 @@ describe('addRunTemplatesParametersIdsDict for a minimal or incomplete solution'
     });
   });
 });
+
+describe('fixNotCompatibleValuesInSolution function unit tests', () => {
+  const PARAMETER_LIST = {
+    parameters: [
+      {
+        varType: '%DATASETID%',
+        options: {
+          enableAddRow: false,
+          subType: 'TABLE',
+          columns: [
+            {
+              field: 'name',
+              type: ['nonResizable', 'nonSortable'],
+              defaultValue: 'TKT',
+            },
+            {
+              field: 'age',
+              type: ['int'],
+              minValue: 0,
+              maxValue: 120,
+              acceptsEmptyFields: true,
+            },
+          ],
+        },
+      },
+    ],
+  };
+  const PARAMETER_LIST_WITH_ADD_ROW = {
+    parameters: [
+      { ...PARAMETER_LIST.parameters[0], options: { ...PARAMETER_LIST.parameters[0].options, enableAddRow: true } },
+    ],
+  };
+  const PARAMETER_LIST_WITH_NON_EDITABLE_COLUMN = {
+    parameters: [
+      {
+        ...PARAMETER_LIST.parameters[0],
+        options: {
+          ...PARAMETER_LIST.parameters[0].options,
+          columns: [
+            {
+              field: 'name',
+              type: ['nonResizable', 'nonSortable', 'nonEditable'],
+              defaultValue: 'TKT',
+            },
+            { ...PARAMETER_LIST.parameters[0].options.columns[1] },
+          ],
+        },
+      },
+    ],
+  };
+  const PARAMETER_LIST_WITH_ADD_ROW_AND_NON_EDITABLE_COLUMN = {
+    parameters: [
+      {
+        ...PARAMETER_LIST.parameters[0],
+        options: {
+          ...PARAMETER_LIST.parameters[0].options,
+          enableAddRow: true,
+          columns: [
+            {
+              field: 'name',
+              type: ['nonResizable', 'nonSortable', 'nonEditable'],
+              defaultValue: 'TKT',
+            },
+            { ...PARAMETER_LIST.parameters[0].options.columns[1] },
+          ],
+        },
+      },
+    ],
+  };
+
+  test.each`
+    parameters                                             | expected                                   | warnCount
+    ${PARAMETER_LIST}                                      | ${PARAMETER_LIST}                          | ${0}
+    ${PARAMETER_LIST_WITH_ADD_ROW}                         | ${PARAMETER_LIST_WITH_ADD_ROW}             | ${0}
+    ${PARAMETER_LIST_WITH_NON_EDITABLE_COLUMN}             | ${PARAMETER_LIST_WITH_NON_EDITABLE_COLUMN} | ${0}
+    ${PARAMETER_LIST_WITH_ADD_ROW_AND_NON_EDITABLE_COLUMN} | ${PARAMETER_LIST_WITH_NON_EDITABLE_COLUMN} | ${1}
+  `('parse $parameters and fix it to get a good parameter list as $expected', ({ parameters, expected, warnCount }) => {
+    const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    SolutionsUtils.fixNotCompatibleValuesInSolution(parameters);
+    expect(parameters).toStrictEqual(expected);
+    expect(warn).toHaveBeenCalledTimes(warnCount);
+    warn.mockReset();
+  });
+});

@@ -12,6 +12,7 @@ export function* fetchSolutionByIdData(organizationId, workspaceId, solutionId) 
   SolutionsUtils.castMinMaxDefaultValuesInSolution(data);
   SolutionsUtils.patchSolutionIfLocalConfigExists(data);
   ConfigUtils.checkDeprecatedKeysInConfig(data);
+  SolutionsUtils.fixNotCompatibleValuesInSolution(data);
 
   SolutionsUtils.addRunTemplatesParametersIdsDict(data);
   SolutionsUtils.addTranslationLabels(data);

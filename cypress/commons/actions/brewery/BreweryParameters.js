@@ -236,6 +236,14 @@ function exportCustomersTableDataToXLSX(fileName = null) {
   return TableParameters.exportXLSX(getCustomersTable(), fileName);
 }
 
+function addRowCustomersTableData() {
+  TableParameters.addRow(getCustomersTable());
+}
+
+function deleteRowsCustomersTableData() {
+  TableParameters.deleteRows(getCustomersTable());
+}
+
 function editCustomersTableStringCell(colName, rowIndex, newValue) {
   return TableParameters.editStringCell(getCustomersTable, colName, rowIndex, newValue);
 }
@@ -439,6 +447,8 @@ export const BreweryParameters = {
   importCustomersTableData,
   exportCustomersTableDataToCSV,
   exportCustomersTableDataToXLSX,
+  addRowCustomersTableData,
+  deleteRowsCustomersTableData,
   editCustomersTableStringCell,
   getEventsTableLabel,
   getEventsTableGrid,

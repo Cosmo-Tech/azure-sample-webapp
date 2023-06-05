@@ -559,6 +559,8 @@
         "placeholderBody": "After importing a valid csv or xlsx file, your data will be displayed in an interactive table.",
         "import": "Import",
         "export": "Export",
+        "addRow": "Add a new row",
+        "deleteRow": "Remove selected rows",
         "fullscreen": "Fullscreen"
       },
       "export": {

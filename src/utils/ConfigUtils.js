@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { ArrayDictUtils } from './ArrayDictUtils';
+import { DateUtils } from '@cosmotech/core';
 
 const buildExtendedVarType = (varType, extension) => {
   if (varType) {
@@ -71,6 +72,7 @@ const getParameterAttribute = (parameter, attributeName) => {
     'hasHeader',
     'hidden',
     'subType',
+    'enableAddRow',
   ];
   if (!knownAttributesNames.includes(attributeName)) {
     console.warn(`The attribute "${attributeName}" is not a known attribute in the scenario parameters configuration.`);
@@ -106,6 +108,42 @@ const _checkDeprecatedKeysInParametersGroupConfig = (parametersGroup) => {
       );
     }
   });
+};
+
+const searchNewLineColumnDefaultValue = (column, dateFormat) => {
+  const params = column?.cellEditorParams;
+  switch (column?.type?.find((type) => ['number', 'int', 'bool', 'enum', 'date'].includes(type))) {
+    case 'number':
+    case 'int':
+      return (
+        params?.defaultValue ??
+        params?.minValue ??
+        (parseFloat(params?.maxValue) && parseFloat(params.maxValue) < 0 ? params?.maxValue : '0')
+      );
+    case 'bool':
+      return params?.defaultValue ?? 'false';
+    case 'enum':
+      return params?.defaultValue ?? params?.enumValues?.[0] ?? '';
+    case 'date':
+      return params?.defaultValue
+        ? DateUtils.format(new Date(params.defaultValue), dateFormat)
+        : params?.minValue
+        ? DateUtils.format(new Date(params.minValue), dateFormat)
+        : DateUtils.format(new Date(0), dateFormat);
+    default:
+      return params?.defaultValue ?? 'value';
+  }
+};
+
+const createNewTableLine = (columns, dateFormat) => {
+  const newLine = {};
+  columns.forEach((column) => {
+    newLine[column.field] = !column?.cellEditorParams?.acceptsEmptyFields
+      ? searchNewLineColumnDefaultValue(column, dateFormat)
+      : '';
+  });
+  console.log(newLine);
+  return newLine;
 };
 
 const checkDeprecatedKeysInConfig = (config) => {
@@ -154,4 +192,5 @@ export const ConfigUtils = {
   getParametersGroupAttribute,
   patchSolution,
   isInstanceViewConfigValid,
+  createNewTableLine,
 };
