@@ -6,7 +6,6 @@ import rfdc from 'rfdc';
 import equal from 'fast-deep-equal';
 import { Table, TABLE_DATA_STATUS, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
 import { AgGridUtils, FileBlobUtils } from '@cosmotech/core';
-import { Button } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
@@ -63,6 +62,11 @@ export const GenericTable = ({
     loading: t('genericcomponent.table.labels.loading', 'Loading...'),
     clearErrors: t('genericcomponent.table.button.clearErrors', 'Clear'),
     errorsPanelMainError: t('genericcomponent.table.labels.fileImportError', 'File load failed.'),
+    placeholderTitle: t('genericcomponent.table.labels.placeholdertitle'),
+    placeholderBody: t('genericcomponent.table.labels.placeholderbody'),
+    import: t('genericcomponent.table.labels.import'),
+    export: t('genericcomponent.table.labels.export'),
+    fullscreen: t('genericcomponent.table.labels.fullscreen'),
   };
   const tableExportDialogLabels = {
     cancel: t('genericcomponent.table.export.labels.cancel', 'Cancel'),
@@ -446,37 +450,6 @@ export const GenericTable = ({
     }
   });
 
-  const csvImportButton = (
-    <Button
-      key="import-file-button"
-      data-cy="import-file-button"
-      disabled={!context.editMode}
-      color="primary"
-      variant="outlined"
-      component="label"
-      onChange={importFile}
-    >
-      {t('genericcomponent.table.button.fileImport')}
-      <input type="file" accept=".csv, .xlsx" hidden />
-    </Button>
-  );
-
-  const csvExportButton = (
-    <Button
-      style={{ marginLeft: '16px' }}
-      key="export-csv-button"
-      data-cy="export-button"
-      color="primary"
-      variant="outlined"
-      component="label"
-      onClick={openExportDialog}
-    >
-      {t('genericcomponent.table.button.csvExport')}
-    </Button>
-  );
-
-  const extraToolbarActions = [csvImportButton, csvExportButton];
-
   return (
     <>
       <TableExportDialog
@@ -498,7 +471,8 @@ export const GenericTable = ({
         columns={columns}
         rows={parameter.agGridRows || []}
         agTheme={context.isDarkTheme ? gridDark.agTheme : gridLight.agTheme}
-        extraToolbarActions={extraToolbarActions}
+        onImport={importFile}
+        onExport={openExportDialog}
         onCellChange={onCellChange}
         onClearErrors={onClearErrors}
         buildErrorsPanelTitle={buildErrorsPanelTitle}
