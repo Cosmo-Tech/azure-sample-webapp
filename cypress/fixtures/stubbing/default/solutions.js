@@ -91,6 +91,7 @@ export const DEFAULT_SOLUTION = {
     {
       ...SOLUTION_PARAMETER_EXAMPLE,
       id: 'currency_value',
+      defaultValue: '1000',
       labels: { fr: 'Valeur', en: 'Value' },
       varType: 'number',
     },

@@ -81,6 +81,7 @@ const getCurrencyName = () => ScenarioParameters.getParameterValue('text-input-c
 const getCurrencyNameInput = () => ScenarioParameters.getParameterInput('text-input-currency_name');
 const getCurrencyValue = () => ScenarioParameters.getParameterValue('number-input-currency_value');
 const getCurrencyValueInput = () => ScenarioParameters.getParameterInput('number-input-currency_value');
+const getCurrencyValueHelperText = () => cy.get('[id=number-input-currency_value-helper-text]');
 const getCurrencyUsed = () => ScenarioParameters.getParameterValue('toggle-input-currency_used');
 const getCurrencyUsedInput = () => ScenarioParameters.getParameterInput('toggle-input-currency_used');
 const getAverageConsumptionParameterContainer = () =>
@@ -463,6 +464,7 @@ export const BreweryParameters = {
   getCurrencyTextField,
   getCurrencyNameInput,
   getCurrencyValueInput,
+  getCurrencyValueHelperText,
   getCurrencyUsedInput,
   getStartDateInput,
   getAverageConsumptionInput,
