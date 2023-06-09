@@ -150,7 +150,7 @@ function editStringCell(getTableElement, colName, rowIndex, newValue) {
   // Entering and leaving the edition mode cause re-renders of the cell element in the DOM, hence the need for multiple
   // calls to getCell
   getCell(getTableElement(), colName, rowIndex).dblclick();
-  getCell(getTableElement(), colName, rowIndex).type(newValue + '{enter}');
+  getCell(getTableElement(), colName, rowIndex).type('{selectAll}{backspace}' + newValue + '{enter}');
   return getCell(getTableElement(), colName, rowIndex);
 }
 
