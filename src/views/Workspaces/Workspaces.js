@@ -103,7 +103,8 @@ const Workspaces = () => {
         ) : (
           <Grid container justifyContent="center" style={{ padding: '18px', height: '90%' }}>
             <Grid item xs={12}>
-              <Accordion defaultExpanded={true}>
+              {/* Keep Accordion always open while we have only one organization, and reset default cursor */}
+              <Accordion expanded={true} sx={{ '& .MuiAccordionSummary-root:hover': { cursor: 'default !important' } }}>
                 <AccordionSummary>
                   <Typography variant="body1">{organizationName}</Typography>
                 </AccordionSummary>
