@@ -78,8 +78,6 @@ export function* getPowerBIEmbedInfoSaga() {
         });
         tokenDelay = Date.parse(accesses.expiry) - Date.now() - 120000;
       }
-
-      yield delay(tokenDelay);
     } catch (error) {
       console.error("Can't retrieve PowerBI token for embed reports");
       console.error(error);
@@ -89,12 +87,11 @@ export function* getPowerBIEmbedInfoSaga() {
         error,
         status: STATUSES.ERROR,
       });
-      if (IS_POWERBI_POLLING_DISABLED) tokenDelay = 0;
-      else {
-        tokenDelay = POWER_BI_INFO_POLLING_DELAY;
-        yield delay(tokenDelay);
-      }
+      tokenDelay = POWER_BI_INFO_POLLING_DELAY;
     }
+
+    if (IS_POWERBI_POLLING_DISABLED) tokenDelay = 0;
+    else yield delay(tokenDelay);
   } while (tokenDelay);
 }
 
