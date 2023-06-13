@@ -2,9 +2,8 @@
 // Licensed under the MIT license.
 
 import { delay, put, takeEvery } from 'redux-saga/effects';
-import { GET_EMBED_INFO_URL, POWER_BI_ACTIONS_KEY } from '../../../commons/PowerBIConstants';
+import { POWER_BI_ACTIONS_KEY } from '../../../commons/PowerBIConstants';
 import { STATUSES } from '../../../commons/Constants';
-import { clientApi } from '../../../../services/ClientApi';
 import { USE_POWER_BI_WITH_USER_CREDENTIALS } from '../../../../config/PowerBI';
 import { POWER_BI_INFO_POLLING_DELAY } from '../../../../services/config/FunctionalConstants';
 import { PowerBIService } from '../../../../services/powerbi/PowerBIService';
@@ -26,9 +25,9 @@ export function* getPowerBIEmbedInfoSaga() {
         accesses = response?.accesses;
         error = response?.error;
       } else {
-        const { data } = yield clientApi.get(GET_EMBED_INFO_URL);
-        accesses = data?.accesses;
-        error = data?.error;
+        const response = yield PowerBIService.getPowerBIDataWithServiceAccount();
+        accesses = response?.accesses;
+        error = response?.error;
       }
 
       if (error) {
