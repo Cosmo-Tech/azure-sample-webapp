@@ -42,7 +42,7 @@ describe('Displaying error banner on run scenario fail', () => {
       body: {
         title: 'Bad Request',
         status: 400,
-        detail: 'Scenario #scenarioId not found in workspace #W-rXeBwRa0PM in organization #O-gZYpnd27G7',
+        detail: 'Scenario #scenarioId not found in workspace #w-81264wr3xw5q5 in organization #O-gZYpnd27G7',
       },
     });
     ScenarioParameters.updateAndLaunch();

@@ -11,4 +11,4 @@ export const DEFAULT_BASE_PATH = 'https://dev.api.cosmotech.com';
 
 // Cosmo solution identifiers
 export const ORGANIZATION_ID = 'O-gZYpnd27G7';
-export const WORKSPACE_ID = 'W-rXeBwRa0PM';
+export const WORKSPACE_ID = 'w-81264wr3xw5q5';
