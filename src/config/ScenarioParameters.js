@@ -179,7 +179,7 @@ const PARAMETERS = {
     description: 'events data',
     subType: 'TABLE',
     dateFormat: 'dd/MM/yyyy',
-    defaultValue: 'd-xolyln1kq85d',
+    defaultValue: 'd-kpq7nw4m5rwng',
     columns: [
       { field: 'theme', type: ['string'] },
       {
