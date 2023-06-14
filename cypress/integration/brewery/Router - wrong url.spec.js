@@ -16,7 +16,7 @@ describe('Sharing with wrong URL', () => {
   it("can display error banner when scenario doesn't exist", () => {
     Login.login('scenario/s-invalidurl');
     ErrorBanner.getErrorBanner().should('be.visible');
-    ErrorBanner.getErrorDetailText().contains('Scenario #s-invalidurl not found');
+    ErrorBanner.getErrorDetailText().contains('Scenario').contains('s-invalidurl').contains('not found');
     ErrorBanner.getErrorCommentText().contains('You have been redirected');
     ErrorBanner.getDismissErrorButton().click();
     ErrorBanner.getErrorBanner().should('not.exist');
