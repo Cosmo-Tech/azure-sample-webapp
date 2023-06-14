@@ -22,9 +22,13 @@ const DEFAULT_DATE_FORMAT = 'yyyy-MM-dd';
 const MAX_ERRORS_COUNT = 100;
 
 export const _getColumnWithoutDepth = (columns) => {
-  return columns.flatMap((columnOrColumnGroup) => {
-    return columnOrColumnGroup.children ? _getColumnWithoutDepth(columnOrColumnGroup.children) : columnOrColumnGroup;
-  });
+  return columns
+    .flatMap((columnOrColumnGroup) => {
+      if (columnOrColumnGroup == null)
+        console.warn('Null or undefined values found in columns list, please check the solution configuration');
+      return columnOrColumnGroup?.children ? _getColumnWithoutDepth(columnOrColumnGroup.children) : columnOrColumnGroup;
+    })
+    .filter((columns) => columns);
 };
 
 const _generateGridDataFromCSV = (fileContent, parameterData, options) => {

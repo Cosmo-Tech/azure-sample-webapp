@@ -36,7 +36,7 @@ describe('Test if column parsing to error handling works', () => {
     },
   ];
 
-  const COLUMN_WITH_LOT_OF_DEPTHS = [
+  const COLUMN_WITH_LOT_OF_DEPTHS_AND_ERROR_VALUES = [
     {
       headerName: 'Athlete Details',
       children: [
@@ -53,7 +53,7 @@ describe('Test if column parsing to error handling works', () => {
           children: [
             {
               headerName: 'Sport',
-              children: [{ field: 'sport' }],
+              children: [{ field: 'sport' }, undefined],
             },
           ],
         },
@@ -65,16 +65,20 @@ describe('Test if column parsing to error handling works', () => {
         { field: 'gold', columnGroupShow: 'open' },
         { field: 'silver', columnGroupShow: 'open' },
         { field: 'bronze', columnGroupShow: 'open' },
+        null,
       ],
     },
   ];
 
   test.each`
-    columns                            | expected
-    ${COLUMN_DEFINITION_WITH_NO_DEPTH} | ${COLUMN_DEFINITION_WITH_NO_DEPTH}
-    ${COLUMN_WITH_ONE_DEPTH}           | ${COLUMN_DEFINITION_WITH_NO_DEPTH}
-    ${COLUMN_WITH_LOT_OF_DEPTHS}       | ${COLUMN_DEFINITION_WITH_NO_DEPTH}
-  `('$columns is parsed to no depths and be return as $expected', ({ columns, expected }) => {
+    columns                                       | expected                           | warningCount
+    ${COLUMN_DEFINITION_WITH_NO_DEPTH}            | ${COLUMN_DEFINITION_WITH_NO_DEPTH} | ${0}
+    ${COLUMN_WITH_ONE_DEPTH}                      | ${COLUMN_DEFINITION_WITH_NO_DEPTH} | ${0}
+    ${COLUMN_WITH_LOT_OF_DEPTHS_AND_ERROR_VALUES} | ${COLUMN_DEFINITION_WITH_NO_DEPTH} | ${2}
+  `('$columns is parsed to no depths and be return as $expected', ({ columns, expected, warningCount }) => {
+    const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
     expect(_getColumnWithoutDepth(columns)).toStrictEqual(expected);
+    expect(warn).toHaveBeenCalledTimes(warningCount);
+    warn.mockReset();
   });
 });
