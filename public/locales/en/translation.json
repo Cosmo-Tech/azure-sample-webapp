@@ -625,7 +625,8 @@
         "comment": "Could not stop scenario run with id \"{{id}}\""
       },
       "scenarioParametersValidationErrors": {
-        "required": "This field is required"
+        "required": "This field is required",
+        "integer": "This value must be an integer"
       }
     }
   },
