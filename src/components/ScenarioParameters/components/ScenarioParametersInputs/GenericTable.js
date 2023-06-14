@@ -23,10 +23,12 @@ const MAX_ERRORS_COUNT = 100;
 
 export const _getColumnWithoutDepth = (columns) => {
   return columns
-    .flatMap((columnOrColumnGroup) => {
-      if (columnOrColumnGroup == null)
+    .flatMap((columnOrColumnsGroup) => {
+      if (columnOrColumnsGroup == null)
         console.warn('Null or undefined values found in columns list, please check the solution configuration');
-      return columnOrColumnGroup?.children ? _getColumnWithoutDepth(columnOrColumnGroup.children) : columnOrColumnGroup;
+      return columnOrColumnsGroup?.children
+        ? _getColumnWithoutDepth(columnOrColumnsGroup.children)
+        : columnOrColumnsGroup;
     })
     .filter((columns) => columns);
 };
