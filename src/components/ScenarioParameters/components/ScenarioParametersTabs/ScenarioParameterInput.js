@@ -27,7 +27,6 @@ const ScenarioParameterInput = ({ parameterData, context }) => {
   } else {
     varTypeFactory = VAR_TYPES_COMPONENTS_MAPPING[parameterData.varType];
   }
-
   if (varTypeFactory === undefined) {
     console.warn('No factory defined for varType ' + parameterVarType);
     return null;
@@ -35,13 +34,15 @@ const ScenarioParameterInput = ({ parameterData, context }) => {
   if (varTypeFactory === null) {
     return null;
   }
+  const rules = varTypeFactory.useValidationRules ? varTypeFactory.useValidationRules() : null;
 
   return (
     <Controller
       name={parameterData.id}
+      rules={rules}
       render={({ field, fieldState }) => {
         const { value: parameterValue, onChange: setRhfValue } = field;
-        const { isDirty } = fieldState;
+        const { isDirty, error } = fieldState;
         const setParameterValue = (newValue) => {
           if (scenarioIdOnMount.current === getCurrentScenarioId()) {
             setRhfValue(newValue);
@@ -63,6 +64,7 @@ const ScenarioParameterInput = ({ parameterData, context }) => {
           isDirty,
           defaultParameterValue: scenarioResetValues[parameterData.id],
           resetParameterValue,
+          error,
         };
         // name property helps distinguish React components from factories
         if ('name' in varTypeFactory) {

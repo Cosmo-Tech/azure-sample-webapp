@@ -47,7 +47,7 @@ const Scenario = () => {
   const { t } = useTranslation();
 
   // RHF
-  const methods = useForm();
+  const methods = useForm({ mode: 'onChange' });
   const { isDirty } = methods.formState;
 
   const confirmDiscardDialogProps = {

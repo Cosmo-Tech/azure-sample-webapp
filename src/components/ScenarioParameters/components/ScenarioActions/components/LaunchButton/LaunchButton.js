@@ -20,7 +20,8 @@ import { useUpdateParameters } from '../../../../../../hooks/ScenarioParametersH
 
 export const LaunchButton = () => {
   const { t } = useTranslation();
-  const { isDirty } = useFormState();
+  const { isDirty, errors } = useFormState();
+  const isValid = Object.keys(errors || {}).length === 0;
   const { processFilesToUpload, getParametersToUpdate, forceUpdate } = useUpdateParameters();
   const saveAndLaunchScenario = useSaveAndLaunchScenario();
   const currentScenarioId = useCurrentScenarioId();
@@ -63,6 +64,7 @@ export const LaunchButton = () => {
           variant="contained"
           startIcon={<PlayCircleOutlineIcon />}
           onClick={launchCurrentScenario}
+          disabled={!isValid}
         >
           {isDirty ? (
             <span data-cy="save-and-launch-label">

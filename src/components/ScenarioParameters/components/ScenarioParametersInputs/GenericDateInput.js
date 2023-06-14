@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { TranslationUtils } from '../../../../utils';
 
-export const GenericDateInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty }) => {
+export const GenericDateInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty, error }) => {
   const { t } = useTranslation();
   const minDate = parameterData.minValue ? new Date(parameterData.minValue) : undefined;
   const maxDate = parameterData.maxValue ? new Date(parameterData.maxValue) : undefined;
@@ -20,17 +20,17 @@ export const GenericDateInput = ({ parameterData, context, parameterValue, setPa
     maxDateMessage: t('genericcomponent.dateInput.error.maxDateMessage', 'Maximum date is not respected'),
     invalidDateMessage: t('genericcomponent.dateInput.error.invalidDateMessage', 'Date is invalid'),
   };
-
   return (
     <BasicDateInput
       key={parameterData.id}
       id={parameterData.id}
       label={t(`solution.parameters.${parameterData.id}`, parameterData.id)}
       tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
-      value={parameterValue ?? new Date()}
+      value={parameterValue}
       changeSelectedDate={setParameterValue}
       dateProps={dateProps}
       isDirty={isDirty}
+      error={error}
     />
   );
 };
@@ -41,7 +41,14 @@ GenericDateInput.propTypes = {
   parameterValue: PropTypes.any,
   setParameterValue: PropTypes.func.isRequired,
   isDirty: PropTypes.bool,
+  error: PropTypes.object,
 };
 GenericDateInput.defaultProps = {
   isDirty: false,
+};
+GenericDateInput.useValidationRules = () => {
+  const { t } = useTranslation();
+  return {
+    required: t('views.scenario.scenarioParametersValidationErrors.required', 'This field is required'),
+  };
 };
