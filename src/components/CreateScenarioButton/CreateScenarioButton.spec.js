@@ -17,7 +17,7 @@ import { logsLabels } from './labels';
 
 const clone = rfdc();
 
-const spyConsoleWarn = jest.spyOn(console, 'warn');
+const spyConsoleWarn = jest.spyOn(console, 'warn').mockImplementation(() => {});
 let mockCreateScenarioUIProps;
 jest.mock('@cosmotech/ui', () => ({
   ...jest.requireActual('@cosmotech/ui'),
