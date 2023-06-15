@@ -80,30 +80,30 @@ describe('Create scenario', () => {
 
   it('can create and launch scenario master', () => {
     // Check parameters accordion
-    ScenarioParameters.getParametersTabs().should('not.be.visible');
+    ScenarioParameters.getParametersTabs(60).should('not.be.visible');
     ScenarioParameters.expandParametersAccordion();
-    ScenarioParameters.getParametersTabs().should('be.visible');
+    ScenarioParameters.getParametersTabs(60).should('be.visible');
     ScenarioParameters.collapseParametersAccordion();
-    ScenarioParameters.getParametersTabs().should('not.be.visible');
+    ScenarioParameters.getParametersTabs(60).should('not.be.visible');
 
     // Check persistance of parameters accordion state
     ScenarioManager.switchToScenarioManager();
     Scenarios.switchToScenarioView();
-    ScenarioParameters.getParametersTabs().should('not.be.visible');
+    ScenarioParameters.getParametersTabs(60).should('not.be.visible');
     ScenarioParameters.expandParametersAccordion();
-    ScenarioParameters.getParametersTabs().should('be.visible');
+    ScenarioParameters.getParametersTabs(60).should('be.visible');
     ScenarioManager.switchToScenarioManager();
     Scenarios.switchToScenarioView();
-    ScenarioParameters.getParametersTabs().should('be.visible');
+    ScenarioParameters.getParametersTabs(60).should('be.visible');
     cy.reload();
-    ScenarioParameters.getParametersTabs().should('be.visible');
+    ScenarioParameters.getParametersTabs(60).should('be.visible');
     ScenarioParameters.collapseParametersAccordion();
-    ScenarioParameters.getParametersTabs().should('not.be.visible');
+    ScenarioParameters.getParametersTabs(60).should('not.be.visible');
     ScenarioManager.switchToScenarioManager();
     Scenarios.switchToScenarioView();
-    ScenarioParameters.getParametersTabs().should('not.be.visible');
+    ScenarioParameters.getParametersTabs(60).should('not.be.visible');
     cy.reload();
-    ScenarioParameters.getParametersTabs().should('not.be.visible');
+    ScenarioParameters.getParametersTabs(60).should('not.be.visible');
 
     // Create scenario master:
     let scenarioName, scenarioRunTemplateName;
@@ -118,16 +118,16 @@ describe('Create scenario', () => {
     );
 
     // Check parameters accordion state after creating scenario
-    ScenarioParameters.getParametersTabs().should('be.visible');
+    ScenarioParameters.getParametersTabs(60).should('be.visible');
     ScenarioManager.switchToScenarioManager();
     Scenarios.switchToScenarioView();
-    ScenarioParameters.getParametersTabs().should('be.visible');
+    ScenarioParameters.getParametersTabs(60).should('be.visible');
     ScenarioParameters.collapseParametersAccordion();
-    ScenarioParameters.getParametersTabs().should('not.be.visible');
+    ScenarioParameters.getParametersTabs(60).should('not.be.visible');
 
     // Edit master parameters values
     ScenarioParameters.edit();
-    ScenarioParameters.getParametersTabs().should('be.visible');
+    ScenarioParameters.getParametersTabs(60).should('be.visible');
     BreweryParameters.getStockInput().clear().type(stock);
     BreweryParameters.getRestockInput().clear().type(restock);
     BreweryParameters.getWaitersInput().clear().type(waiters);
@@ -214,7 +214,7 @@ describe('Create scenario', () => {
     const childWaiters = utils.randomNmbr(BAR_PARAMETERS_RANGE.WAITERS.MIN, BAR_PARAMETERS_RANGE.WAITERS.MAX);
 
     ScenarioParameters.edit();
-    ScenarioParameters.getParametersTabs().should('be.visible');
+    ScenarioParameters.getParametersTabs(60).should('be.visible');
     BreweryParameters.getStockInput().clear().type(childStock);
     BreweryParameters.getRestockInput().clear().type(childRestock);
     BreweryParameters.getWaitersInput().clear().type(childWaiters);

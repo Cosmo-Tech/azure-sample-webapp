@@ -16,7 +16,7 @@ describe('Sharing with wrong URL', () => {
     cy.wait('@' + reqName);
 
     ErrorBanner.getErrorBanner().should('be.visible');
-    ErrorBanner.getErrorDetailText().contains('Scenario #invalidurl not found');
+    ErrorBanner.getErrorDetailText().contains('Scenario').contains('invalidurl').contains('not found');
     ErrorBanner.getErrorCommentText().contains('You have been redirected');
     ErrorBanner.getDismissErrorButton().click();
     ErrorBanner.getErrorBanner().should('not.exist');

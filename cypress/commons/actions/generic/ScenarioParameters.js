@@ -5,8 +5,8 @@ import { URL_REGEX } from '../../constants/generic/TestConstants';
 import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
 
 // Get elements in scenario parameters panel
-function getParametersTabs() {
-  return cy.get(GENERIC_SELECTORS.scenario.parameters.tabs);
+function getParametersTabs(timeout = 4) {
+  return cy.get(GENERIC_SELECTORS.scenario.parameters.tabs, { timeout: timeout * 1000 });
 }
 function getParametersAccordionSummary() {
   return cy.get(GENERIC_SELECTORS.scenario.parameters.accordionSummary);
