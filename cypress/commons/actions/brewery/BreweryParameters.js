@@ -67,8 +67,10 @@ function getAdditionalParametersTab() {
 
 // Get bar parameters components & input fields
 const getStock = () => ScenarioParameters.getParameterValue('number-input-stock');
+const getStockHelperText = () => cy.get('[id=number-input-stock-helper-text]');
 const getStockInput = () => ScenarioParameters.getParameterInput('number-input-stock');
 const getRestock = () => ScenarioParameters.getParameterValue('number-input-restock_qty');
+const getRestockHelperText = () => cy.get('[id=number-input-restock_qty-helper-text]');
 const getRestockInput = () => ScenarioParameters.getParameterInput('number-input-restock_qty');
 const getWaiters = () => ScenarioParameters.getParameterValue('number-input-nb_waiters');
 const getWaitersInput = () => ScenarioParameters.getParameterInput('number-input-nb_waiters');
@@ -81,7 +83,6 @@ const getCurrencyName = () => ScenarioParameters.getParameterValue('text-input-c
 const getCurrencyNameInput = () => ScenarioParameters.getParameterInput('text-input-currency_name');
 const getCurrencyValue = () => ScenarioParameters.getParameterValue('number-input-currency_value');
 const getCurrencyValueInput = () => ScenarioParameters.getParameterInput('number-input-currency_value');
-const getCurrencyValueHelperText = () => cy.get('[id=number-input-currency_value-helper-text]');
 const getCurrencyUsed = () => ScenarioParameters.getParameterValue('toggle-input-currency_used');
 const getCurrencyUsedInput = () => ScenarioParameters.getParameterInput('toggle-input-currency_used');
 const getAverageConsumptionParameterContainer = () =>
@@ -447,6 +448,8 @@ export const BreweryParameters = {
   getStockInput,
   getRestockInput,
   getWaitersInput,
+  getStockHelperText,
+  getRestockHelperText,
   getCurrency,
   getCurrencyName,
   getCurrencyValue,
@@ -464,7 +467,6 @@ export const BreweryParameters = {
   getCurrencyTextField,
   getCurrencyNameInput,
   getCurrencyValueInput,
-  getCurrencyValueHelperText,
   getCurrencyUsedInput,
   getStartDateInput,
   getAverageConsumptionInput,
