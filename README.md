@@ -86,7 +86,7 @@ npm install --global yarn
 This section describes how to run a local Azure Function, in order to provide the webapp users with a valid token for the PowerBI service. **This step is only necessary if you use the "service account" mode to share PowerBI charts**. If you prefer to let users communicate with PowerBI with their own accounts, then the Azure Function won't be necessary, and you can skip this section (please refer to [doc/powerBI.md](doc/powerBI.md) for the charts configuration documentation).
 
 First, install the
-[Azure Function Core Tools](https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=v3%2Clinux%2Ccsharp%2Cportal%2Cbash%2Ckeda).
+[Azure Function Core Tools](https://learn.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=v4).
 You can then start the Azure Functions, that are required for the PowerBI embedded reports to work correctly, by running
 the commands below:
 
