@@ -9,6 +9,6 @@ export const SCENARIOS = [
     id: 's-stubbedscnr01',
     name: 'Test Cypress - Stubbed scenario with int and number varTypes',
     runTemplateId: '1',
-    runTemplateName: 'Run template with both int and number varTypes parameters',
+    runTemplateName: 'Run template for scenario parameters input validation',
   },
 ];

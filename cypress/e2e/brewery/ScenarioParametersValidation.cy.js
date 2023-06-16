@@ -5,6 +5,12 @@ import { stub } from '../../commons/services/stubbing';
 import { Login, ScenarioParameters } from '../../commons/actions';
 import { BreweryParameters } from '../../commons/actions/brewery';
 import { SCENARIOS, SOLUTIONS } from '../../fixtures/stubbing/ScenarioParametersValidation';
+import utils from '../../commons/TestUtils';
+
+const currencyValueShort = 'E';
+const currencyValueLong = utils.randomStr(1);
+const evaluationValue = 'G';
+const commentValue = utils.randomStr(0).repeat(3);
 
 describe('scenario parameters inputs validation', () => {
   before(() => {
@@ -88,4 +94,45 @@ describe('scenario parameters inputs validation', () => {
       });
     }
   );
+  it('checks min and max length validation for string varType', () => {
+    ScenarioParameters.expandParametersAccordion();
+    BreweryParameters.switchToDatasetPartsTab();
+    ScenarioParameters.getInputValue(BreweryParameters.getCurrencyNameInput()).as('currency_name');
+    ScenarioParameters.getInputValue(BreweryParameters.getEvaluationInput()).as('evaluation');
+    ScenarioParameters.getInputValue(BreweryParameters.getCommentInput()).as('comment');
+
+    BreweryParameters.getCurrencyNameInput().clear();
+    BreweryParameters.getCurrencyNameHelperText().should('be.visible').contains('required');
+    BreweryParameters.getEvaluationInput().clear().type(evaluationValue);
+    BreweryParameters.getEvaluationHelperText().should('be.visible').contains('Minimum length');
+    BreweryParameters.getCommentInput().clear();
+    BreweryParameters.getCommentHelperText().should('not.exist');
+
+    ScenarioParameters.getSaveButton().should('be.disabled');
+    ScenarioParameters.getLaunchButton().should('be.disabled');
+
+    BreweryParameters.switchToBasicTypesTab();
+
+    ScenarioParameters.getSaveButton().should('be.disabled');
+    ScenarioParameters.getLaunchButton().should('be.disabled');
+
+    BreweryParameters.switchToDatasetPartsTab();
+
+    BreweryParameters.getCurrencyNameInput().type(currencyValueShort);
+    BreweryParameters.getCurrencyNameHelperText().should('exist').contains('Minimum length');
+    BreweryParameters.getCommentInput().type(commentValue);
+    BreweryParameters.getCommentHelperText().should('exist').contains('Maximum length');
+    BreweryParameters.getCurrencyNameInput().clear().type(currencyValueLong);
+    BreweryParameters.getCurrencyNameHelperText().should('exist').contains('Maximum length');
+    ScenarioParameters.discard();
+    cy.get('@currency_name').then((input) => {
+      BreweryParameters.getCurrencyNameInput().should('value', input);
+    });
+    cy.get('@comment').then((input) => {
+      BreweryParameters.getCommentInput().should('value', input);
+    });
+    cy.get('@evaluation').then((input) => {
+      BreweryParameters.getEvaluationInput().should('value', input);
+    });
+  });
 });

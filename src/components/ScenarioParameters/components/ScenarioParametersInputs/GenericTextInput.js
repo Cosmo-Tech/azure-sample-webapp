@@ -13,6 +13,7 @@ export const GenericTextInput = ({ parameterData, context, parameterValue, setPa
     disabled: !context.editMode,
     id: `text-input-${parameterData.id}`,
   };
+
   return (
     <BasicTextInput
       key={parameterData.id}
