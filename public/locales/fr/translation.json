@@ -626,7 +626,8 @@
         "comment": "Impossible d'arrêter le run de scénario avec l'id \"{{id}}\""
       },
       "scenarioParametersValidationErrors": {
-        "required": "Ce champs est obligatoire"
+        "required": "Ce champs est obligatoire",
+        "integer": "Cette valeur doit être un entier"
       }
     }
   },

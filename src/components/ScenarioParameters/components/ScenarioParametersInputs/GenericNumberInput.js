@@ -77,9 +77,17 @@ GenericNumberInput.defaultProps = {
   isDirty: false,
 };
 
-GenericNumberInput.useValidationRules = () => {
+GenericNumberInput.useValidationRules = (parameterData) => {
   const { t } = useTranslation();
   return {
     required: t('views.scenario.scenarioParametersValidationErrors.required', 'This field is required'),
+    validate: (v) => {
+      if (parameterData?.varType === 'int') {
+        return (
+          Number.isInteger(v) ||
+          t('views.scenario.scenarioParametersValidationErrors.integer', 'This value must be an integer')
+        );
+      }
+    },
   };
 };
