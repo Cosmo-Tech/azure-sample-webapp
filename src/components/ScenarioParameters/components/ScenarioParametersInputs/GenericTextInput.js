@@ -42,9 +42,8 @@ GenericTextInput.defaultProps = {
 };
 GenericTextInput.useValidationRules = (parameterData) => {
   const { t } = useTranslation();
+  const getStringSizeInBytes = (string) => new Blob([string]).size;
   const minLength = parameterData?.options?.minLength ?? 0;
-  // the max length of kotlin/java string is 65535 bytes (1 char = 1 byte)
-  const maxLength = parameterData?.options?.maxLength ?? 65535;
   return {
     required: {
       value: minLength > 0,
@@ -59,12 +58,22 @@ GenericTextInput.useValidationRules = (parameterData) => {
       ),
     },
     maxLength: {
-      value: maxLength,
+      value: parameterData?.options?.maxLength,
       message: t(
         'views.scenario.scenarioParametersValidationErrors.maxLength',
         'Maximum length of this field is {{length}} characters',
-        { length: maxLength }
+        { length: parameterData?.options?.maxLength }
       ),
+    },
+    validate: (v) => {
+      // 65535 is max length accepted by CosmoTech API
+      return (
+        getStringSizeInBytes(v) < 65535 ||
+        t(
+          'views.scenario.scenarioParametersValidationErrors.maxLengthForApi',
+          'This text exceeds the maximum possible length for a scenario parameter'
+        )
+      );
     },
   };
 };

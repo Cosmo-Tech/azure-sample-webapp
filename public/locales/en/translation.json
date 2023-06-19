@@ -628,7 +628,8 @@
         "required": "This field is required",
         "integer": "This value must be an integer",
         "minLength": "Minimum length of this field is {{length}} characters",
-        "maxLength": "Maximum length of this field is {{length}} characters"
+        "maxLength": "Maximum length of this field is {{length}} characters",
+        "maxLengthForApi": "This text exceeds the maximum possible length for a scenario parameter"
       }
     }
   },
