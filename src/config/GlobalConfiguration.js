@@ -1,14 +1,17 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
+// To configure your application instance see
+// https://github.com/Cosmo-Tech/azure-sample-webapp/blob/main/doc/globalConfiguration.md
+
 // Azure App registration details
-export const AZURE_TENANT_ID = 'e413b834-8be8-4822-a370-be619545cb49';
-export const APP_REGISTRATION_CLIENT_ID = 'd104fbd6-9464-45d5-a022-83c90ad56906';
+export const AZURE_TENANT_ID = '';
+export const APP_REGISTRATION_CLIENT_ID = '';
 
 // API information
-export const COSMOTECH_API_SCOPE = 'http://dev.api.cosmotech.com/platform';
-export const DEFAULT_BASE_PATH = 'https://dev.api.cosmotech.com/v2';
+export const COSMOTECH_API_SCOPE = '';
+export const DEFAULT_BASE_PATH = '';
 
 // Cosmo solution identifiers
-export const ORGANIZATION_ID = 'O-gZYpnd27G7';
-export const WORKSPACE_ID = 'w-81264wr3xw5q5';
+export const ORGANIZATION_ID = '';
+export const WORKSPACE_ID = '';
