@@ -1,3 +1,18 @@
+## **3.0.1** <sub><sup>2023-06-19 ([8e259e1...454f1d0](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/8e259e1a...454f1d01?diff=split))</sup></sub>
+
+### Bug Fixes
+
+- add token validation in GetEmbedInfo azure function ([5748ca9](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/5748ca94))
+
+### Documentation
+
+- add documentation for new optional parameter of GetEmbedInfo azure function ([73c486a](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/73c486ac))
+
+### Dependencies
+
+- update node version used in local dev mode from v14 to v16
+- update dependencies
+
 ## **3.0.0** <sub><sup>2022-08-16</sup></sub>
 
 ### Features
