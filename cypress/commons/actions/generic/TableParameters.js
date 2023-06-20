@@ -143,15 +143,16 @@ function setFileExportName(fileName) {
 }
 
 function editStringCell(getTableElement, colName, rowIndex, newValue) {
+  if (newValue.length === 0) return clearStringCell(getTableElement, colName, rowIndex);
+
   // Add a wait for allow grid to finish refreshing before getCell
   // eslint-disable-next-line cypress/no-unnecessary-waiting
   cy.wait(0);
 
   // Entering and leaving the edition mode cause re-renders of the cell element in the DOM, hence the need for multiple
   // calls to getCell
-  getCell(getTableElement(), colName, rowIndex).dblclick();
-  getCell(getTableElement(), colName, rowIndex).type('{selectAll}{backspace}' + newValue + '{enter}');
-  return getCell(getTableElement(), colName, rowIndex);
+  getCell(getTableElement(), colName, rowIndex).focus();
+  return cy.focused().type('{selectAll}{backspace}' + newValue + '{enter}', { delay: 100 });
 }
 
 function clearStringCell(getTableElement, colName, rowIndex) {
