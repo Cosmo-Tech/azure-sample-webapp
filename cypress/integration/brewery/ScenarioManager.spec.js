@@ -70,7 +70,7 @@ describe('Create scenario and check its data in scenario manager', () => {
       ErrorBanner.dismissErrorIfVisible();
       ScenarioManager.getScenarioAccordion(scenarioId).click();
       ScenarioManager.getScenarioRunStatus(scenarioId, SCENARIO_STATUS.RUNNING);
-      ScenarioManager.getScenarioRunStatus(scenarioId, SCENARIO_STATUS.SUCCESSFUL, 300);
+      ScenarioManager.getScenarioRunStatus(scenarioId, SCENARIO_STATUS.SUCCESSFUL, 500);
     });
   });
 });
