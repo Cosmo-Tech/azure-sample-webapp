@@ -198,14 +198,16 @@ Examples:
 
 ```json
 {
-  "scenarioView": {
-    "title": { "en": "Scenario dashboard for run type 1", "fr": "Rapport de scénario du run type 1" },
-    "reportId": "608b7bef-f5e3-4aae-b8db-19bbb38325d5",
-    "settings": { "navContentPaneEnabled": false, "panes": { "filters": { "expanded": false, "visible": false } } },
-    "staticFilters": [],
-    "dynamicFilters": [],
-    "pageName": { "en": "ReportSection937f9c72cc8f1062aa88", "fr": "ReportSection937f9c72cc8f1062aa88" }
-  }
+  "scenarioView": [
+    {
+      "title": { "en": "Scenario dashboard for run type 1", "fr": "Rapport de scénario du run type 1" },
+      "reportId": "608b7bef-f5e3-4aae-b8db-19bbb38325d5",
+      "settings": { "navContentPaneEnabled": false, "panes": { "filters": { "expanded": false, "visible": false } } },
+      "staticFilters": [],
+      "dynamicFilters": [],
+      "pageName": { "en": "ReportSection937f9c72cc8f1062aa88", "fr": "ReportSection937f9c72cc8f1062aa88" }
+    }
+  ]
 }
 ```
 
@@ -216,32 +218,32 @@ Examples:
 
 ```yaml
 scenarioView:
-  title:
-    en: 'Scenario dashboard for run type 1'
-    fr: 'Rapport du scenario du run type 1'
-  reportId: '608b7bef-f5e3-4aae-b8db-19bbb38325d5'
-  settings:
-    navContentPaneEnabled: false
-    panes:
-      filters:
-        expanded: true
-        visible: true
-  staticFilters:
-    - table: 'Bar'
-      column: 'Bar'
-      values:
-        - 'MyBar'
-        - 'MyBar2'
-  dynamicFilters:
-    - table: 'StockProbe'
-      column: 'SimulationRun'
-      values: 'csmSimulationRun'
-    - table: 'contains_Customer'
-      column: 'simulationrun'
-      values: 'csmSimulationRun'
-  pageName:
-    en: 'ReportSection937f9c72cc8f1062aa88'
-    fr: 'ReportSection937f9c72cc8f1062aa88'
+  - title:
+      en: 'Scenario dashboard for run type 1'
+      fr: 'Rapport du scenario du run type 1'
+    reportId: '608b7bef-f5e3-4aae-b8db-19bbb38325d5'
+    settings:
+      navContentPaneEnabled: false
+      panes:
+        filters:
+          expanded: true
+          visible: true
+    staticFilters:
+      - table: 'Bar'
+        column: 'Bar'
+        values:
+          - 'MyBar'
+          - 'MyBar2'
+    dynamicFilters:
+      - table: 'StockProbe'
+        column: 'SimulationRun'
+        values: 'csmSimulationRun'
+      - table: 'contains_Customer'
+        column: 'simulationrun'
+        values: 'csmSimulationRun'
+    pageName:
+      en: 'ReportSection937f9c72cc8f1062aa88'
+      fr: 'ReportSection937f9c72cc8f1062aa88'
 ```
 
 </details>
