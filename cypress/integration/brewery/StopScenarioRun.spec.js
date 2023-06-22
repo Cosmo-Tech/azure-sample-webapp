@@ -21,8 +21,8 @@ describe('can cancel simulation run', () => {
     ScenarioParameters.getLaunchButton().click();
     Scenarios.getDashboardAccordion().click();
     Scenarios.getDashboardPlaceholder().should('have.text', SCENARIO_RUN_IN_PROGRESS);
-    ScenarioParameters.getLaunchButton().should('not.exist');
-    ScenarioParameters.getStopScenarioRunButton().should('exist');
+    ScenarioParameters.getLaunchButton(15).should('not.exist');
+    ScenarioParameters.getStopScenarioRunButton().should('be.visible');
     Scenarios.getDashboardAccordion().click();
     ScenarioParameters.cancelRun(false);
     ScenarioParameters.getLaunchButton().should('not.exist');
@@ -31,7 +31,7 @@ describe('can cancel simulation run', () => {
     Scenarios.getDashboardAccordion().click();
     ScenarioParameters.cancelRun();
     ScenarioParameters.getStopScenarioRunButton().should('not.exist');
-    ScenarioParameters.getLaunchButton().should('exist');
+    ScenarioParameters.getLaunchButton().should('be.visible');
     Scenarios.getDashboardPlaceholder().should('have.text', FAILED_SCENARIO_RUN);
   });
 });
