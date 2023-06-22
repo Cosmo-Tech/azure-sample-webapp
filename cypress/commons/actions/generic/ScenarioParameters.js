@@ -128,6 +128,11 @@ function cancelRun(confirm = true) {
   confirm ? getStopScenarioRunConfirmButton().click() : getStopScenarioRunCancelButton().click();
 }
 
+function waitForScenarioRunEnd(timeout = 300) {
+  getStopScenarioRunButton().should('be.visible');
+  getStopScenarioRunButton(timeout).should('not.exist');
+}
+
 // Actions on input components
 function getInputValue(inputElement) {
   return inputElement.invoke('attr', 'value');
@@ -156,6 +161,7 @@ export const ScenarioParameters = {
   launch,
   save,
   cancelRun,
+  waitForScenarioRunEnd,
   getInputValue,
   getTextField,
   discardAndContinue,
