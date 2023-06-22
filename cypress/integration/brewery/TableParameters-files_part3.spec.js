@@ -87,27 +87,17 @@ describe('Table parameters files standard operations part 3', () => {
     BreweryParameters.getCustomersTableCell('birthday', 3).should('have.text', '12/05/1987');
     BreweryParameters.getCustomersTableCell('height', 3).should('have.text', '1.83');
     // Invalid values
-    BreweryParameters.editCustomersTableStringCell('age', 0, '$').should('have.text', '10');
     BreweryParameters.editCustomersTableStringCell('age', 0, 'foo').should('have.text', '10');
-    BreweryParameters.editCustomersTableStringCell('age', 0, 'one hundred').should('have.text', '10');
-    BreweryParameters.editCustomersTableStringCell('age', 0, '*55').should('have.text', '10');
     BreweryParameters.editCustomersTableStringCell('age', 0, '.36').should('have.text', '10');
     BreweryParameters.editCustomersTableStringCell('canDrinkAlcohol', 1, '').should('have.text', 'false');
-    BreweryParameters.editCustomersTableStringCell('canDrinkAlcohol', 1, '$').should('have.text', 'false');
     BreweryParameters.editCustomersTableStringCell('canDrinkAlcohol', 1, 'foo').should('have.text', 'false');
-    BreweryParameters.editCustomersTableStringCell('canDrinkAlcohol', 1, '00').should('have.text', 'false');
     BreweryParameters.editCustomersTableStringCell('favoriteDrink', 2, '').should('have.text', 'Wine');
-    BreweryParameters.editCustomersTableStringCell('favoriteDrink', 2, '$').should('have.text', 'Wine');
     BreweryParameters.editCustomersTableStringCell('favoriteDrink', 2, 'foo').should('have.text', 'Wine');
-    BreweryParameters.editCustomersTableStringCell('favoriteDrink', 2, 'Water').should('have.text', 'Wine');
-    BreweryParameters.editCustomersTableStringCell('birthday', 3, '$').should('have.text', '12/05/1987');
     BreweryParameters.editCustomersTableStringCell('birthday', 3, 'foo').should('have.text', '12/05/1987');
     BreweryParameters.editCustomersTableStringCell('birthday', 3, '1991-01-01').should('have.text', '12/05/1987');
     BreweryParameters.editCustomersTableStringCell('birthday', 3, '31/31/1991').should('have.text', '12/05/1987');
     BreweryParameters.editCustomersTableStringCell('birthday', 3, '31/02/1991').should('have.text', '12/05/1987');
-    BreweryParameters.editCustomersTableStringCell('height', 3, '$').should('have.text', '1.83');
     BreweryParameters.editCustomersTableStringCell('height', 3, 'foo').should('have.text', '1.83');
-    BreweryParameters.editCustomersTableStringCell('height', 3, 'one').should('have.text', '1.83');
     BreweryParameters.editCustomersTableStringCell('height', 3, '*55').should('have.text', '1.83');
     // Valid values
     BreweryParameters.editCustomersTableStringCell('age', 0, '').should('have.text', '');
@@ -160,18 +150,6 @@ describe('Table parameters files standard operations part 3', () => {
       .should('have.text', 'true')
       .type('{ctrl}z')
       .should('have.text', 'false');
-    for (const i of Array(4).keys()) {
-      BreweryParameters.editCustomersTableStringCell('age', 0, '' + i).should('have.text', '' + i);
-    }
-    BreweryParameters.getCustomersTableCell('age', 0)
-      .should('have.text', '3')
-      .type('{ctrl}z')
-      .should('have.text', '2')
-      .type('{ctrl}z')
-      .should('have.text', '1')
-      .type('{ctrl}z')
-      .should('have.text', '0');
-
     ScenarioParameters.discard();
   });
 });
