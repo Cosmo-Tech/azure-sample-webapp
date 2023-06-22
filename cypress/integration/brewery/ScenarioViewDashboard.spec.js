@@ -48,7 +48,7 @@ describe('Scenario view PowerBI report', () => {
       ScenarioParameters.launch();
       Scenarios.checkIfReportIsUnsynced(false);
       // TODO: add stubbing for scenario runs
-      ScenarioParameters.getLaunchButton(120).should('not.be.disabled'); // Wait for end of run
+      ScenarioParameters.waitForScenarioRunEnd();
       Scenarios.checkIfReportIsUnsynced(false);
       BreweryParameters.getCurrencyUsedInput().uncheck();
       Scenarios.checkIfReportIsUnsynced(true);
@@ -66,7 +66,7 @@ describe('Scenario view PowerBI report', () => {
 
       // Third phase: warning is still visible after saving new parameters values, even if we "undo" local changes or
       // discard them
-      ScenarioParameters.getLaunchButton(120).should('not.be.disabled'); // Wait for end of run
+      ScenarioParameters.waitForScenarioRunEnd();
       BreweryParameters.getCurrencyUsedInput().check();
       ScenarioParameters.save();
       Scenarios.getScenarioBackdrop(10).should('not.be.visible');
