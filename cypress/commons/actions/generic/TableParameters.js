@@ -167,13 +167,19 @@ function editStringCell(getTableElement, colName, rowIndex, newValue) {
   return cy.focused().type('{selectAll}{backspace}' + newValue + '{enter}', { delay: 100 });
 }
 
-function clearStringCell(getTableElement, colName, rowIndex) {
+function clearStringCell(getTableElement, colName, rowIndex, useDelKey = false) {
   // Add a wait for allow grid to finish refreshing before getCell
   // eslint-disable-next-line cypress/no-unnecessary-waiting
   cy.wait(0);
 
-  getCell(getTableElement(), colName, rowIndex).dblclick();
-  getCell(getTableElement(), colName, rowIndex).type('{backspace}' + '{enter}');
+  if (useDelKey) {
+    getCell(getTableElement(), colName, rowIndex).click();
+    getCell(getTableElement(), colName, rowIndex).type('{del}');
+  } else {
+    getCell(getTableElement(), colName, rowIndex).dblclick();
+    getCell(getTableElement(), colName, rowIndex).type('{backspace}' + '{enter}');
+  }
+
   return getCell(getTableElement(), colName, rowIndex);
 }
 

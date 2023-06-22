@@ -240,8 +240,8 @@ function editCustomersTableStringCell(colName, rowIndex, newValue) {
   return TableParameters.editStringCell(getCustomersTable, colName, rowIndex, newValue);
 }
 
-function clearCustomersTableStringCell(colName, rowIndex) {
-  return TableParameters.clearStringCell(getCustomersTable, colName, rowIndex);
+function clearCustomersTableStringCell(colName, rowIndex, useDelKey = false) {
+  return TableParameters.clearStringCell(getCustomersTable, colName, rowIndex, useDelKey);
 }
 
 function getEventsTable() {
@@ -295,8 +295,8 @@ function editEventsTableStringCell(colName, rowIndex, newValue) {
   return TableParameters.editStringCell(getEventsTable, colName, rowIndex, newValue);
 }
 
-function clearEventsTableStringCell(colName, rowIndex) {
-  return TableParameters.clearStringCell(getEventsTable, colName, rowIndex);
+function clearEventsTableStringCell(colName, rowIndex, useDelKey = false) {
+  return TableParameters.clearStringCell(getEventsTable, colName, rowIndex, useDelKey);
 }
 
 function getExampleDatasetPart1FileName() {
