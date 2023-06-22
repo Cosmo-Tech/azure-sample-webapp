@@ -630,7 +630,9 @@
         "integer": "Cette valeur doit être un entier",
         "minLength": "La longueur minimale de ce champ est de {{length}} caractères",
         "maxLength": "La longueur maximale de ce champ est de {{length}} caractères",
-        "maxLengthForApi": "Ce text dépasse la longueur maximale possible pour un paramètre"
+        "maxLengthForApi": "Ce text dépasse la longueur maximale possible pour un paramètre",
+        "minValue": "La valeur minimale de ce champ est {{minValue}}",
+        "maxValue": "La valeur maximale de ce champ est {{maxValue}}"
       }
     }
   },
