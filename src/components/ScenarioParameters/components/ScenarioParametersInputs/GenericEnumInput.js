@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { BasicEnumInput } from '@cosmotech/ui';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -14,15 +14,27 @@ export const GenericEnumInput = ({ parameterData, context, parameterValue, setPa
     id: `enum-input-${parameterData.id}`,
   };
 
-  let enumValues = ConfigUtils.getParameterAttribute(parameterData, 'enumValues');
-  if (!enumValues) {
-    console.warn(
-      `Enum values are not defined for scenario parameter "${parameterData.id}".\n` +
-        'Please provide an array in the "options.enumValues" field for this parameter in the parameters ' +
-        'configuration file.'
-    );
-    enumValues = [];
-  }
+  const enumValues = useMemo(() => {
+    const rawEnumValues = ConfigUtils.getParameterAttribute(parameterData, 'enumValues') ?? [];
+    if (rawEnumValues.length === 0) {
+      console.warn(
+        `Enum values are not defined for scenario parameter "${parameterData.id}".\n` +
+          'Please provide an array in the "options.enumValues" field for this parameter in the parameters ' +
+          'configuration file.'
+      );
+    }
+
+    for (const enumValue of rawEnumValues) {
+      const translationKey = TranslationUtils.getParameterEnumValueTooltipTranslationKey(
+        parameterData.id,
+        enumValue.key
+      );
+      enumValue.tooltip = t(translationKey, '');
+      delete enumValue.tooltipText;
+    }
+
+    return rawEnumValues;
+  }, [t, parameterData]);
 
   return (
     <BasicEnumInput
