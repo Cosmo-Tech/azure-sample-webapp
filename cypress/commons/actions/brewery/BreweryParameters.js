@@ -73,6 +73,7 @@ const getRestock = () => ScenarioParameters.getParameterValue('number-input-rest
 const getRestockHelperText = () => cy.get('[id=number-input-restock_qty-helper-text]');
 const getRestockInput = () => ScenarioParameters.getParameterInput('number-input-restock_qty');
 const getWaiters = () => ScenarioParameters.getParameterValue('number-input-nb_waiters');
+const getWaitersHelperText = () => cy.get('[id=number-input-nb_waiters-helper-text]');
 const getWaitersInput = () => ScenarioParameters.getParameterInput('number-input-nb_waiters');
 
 // Get basic types components & input fields
@@ -465,6 +466,7 @@ export const BreweryParameters = {
   getWaitersInput,
   getStockHelperText,
   getRestockHelperText,
+  getWaitersHelperText,
   getCurrency,
   getCurrencyName,
   getCurrencyValue,

@@ -12,6 +12,8 @@ const SOLUTION_WITH_MIXED_INT_NUMBER_PARAMETERS = {
       labels: { fr: 'Stock', en: 'Stock' },
       varType: 'int',
       defaultValue: '1O',
+      minValue: -10,
+      maxValue: 100,
     },
     {
       ...SOLUTION_PARAMETER_EXAMPLE,
@@ -19,6 +21,15 @@ const SOLUTION_WITH_MIXED_INT_NUMBER_PARAMETERS = {
       labels: { fr: 'Restock', en: 'Restock' },
       varType: 'number',
       defaultValue: '5',
+      maxValue: 25,
+    },
+    {
+      ...SOLUTION_PARAMETER_EXAMPLE,
+      id: 'nb_waiters',
+      labels: { fr: 'Serveurs', en: 'Waiters' },
+      varType: 'number',
+      defaultValue: '2',
+      minValue: 1,
     },
     {
       ...SOLUTION_PARAMETER_EXAMPLE,
@@ -59,7 +70,7 @@ const SOLUTION_WITH_MIXED_INT_NUMBER_PARAMETERS = {
       isTable: null,
       options: null,
       parentId: null,
-      parameters: ['stock', 'restock_qty'],
+      parameters: ['stock', 'restock_qty', 'nb_waiters'],
     },
     {
       id: 'dataset_parts',
