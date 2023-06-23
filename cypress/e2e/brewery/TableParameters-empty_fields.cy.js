@@ -9,6 +9,7 @@ import { DEFAULT_SCENARIOS_LIST } from '../../fixtures/stubbing/default';
 
 const CSV_VALID_WITH_EMPTY_FIELDS = 'customers_empty_authorized_fields.csv';
 const XLSX_INVALID_EMPTY_FIELDS = 'customers_empty_unauthorized_fields.xlsx';
+const CSV_EVENTS = 'events.csv';
 
 describe('Table parameters upload of valid and invalid files with empty fields', () => {
   before(() => {
@@ -49,6 +50,13 @@ describe('Table parameters upload of valid and invalid files with empty fields',
     BreweryParameters.editCustomersTableStringCell('height', 6, '1.8').should('have.text', '1.8');
     BreweryParameters.exportCustomersTableDataToCSV();
     Downloads.checkByContent('customers.csv', EXPECTED_CUSTOMERS_AFTER_IMPORT_WITH_EMPTY_FIELDS);
+
+    // Empty strings in columns of type "string"
+    BreweryParameters.switchToEventsTab();
+    BreweryParameters.importEventsTableData(CSV_EVENTS);
+    BreweryParameters.getEventsTableRows().should('have.length', 5);
+    BreweryParameters.getEventsTableCell('theme', 0).should('have.text', 'complex systems');
+    BreweryParameters.clearEventsTableStringCell('theme', 0).should('have.text', 'complex systems');
   });
 
   it('can import invalid files and display errors', () => {
