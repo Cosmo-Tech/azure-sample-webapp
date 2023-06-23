@@ -49,7 +49,7 @@ export const GenericUploadFile = ({
   const labels = {
     button: t('genericcomponent.uploadfile.button.browse'),
     invalidFileMessage: t('genericcomponent.uploadfile.tooltip.isvalidfile'),
-    label: t(`solution.parameters.${parameterId}`, parameterId),
+    label: t(TranslationUtils.getParameterTranslationKey(parameterId), parameterId),
     delete: t('genericcomponent.uploadfile.tooltip.delete'),
     noFileMessage: t('genericcomponent.uploadfile.noFileMessage', 'None'),
   };

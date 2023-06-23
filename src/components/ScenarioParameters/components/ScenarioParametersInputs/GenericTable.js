@@ -59,7 +59,7 @@ export const GenericTable = ({
   const lockId = `${scenarioId}_${parameterId}`;
 
   const tableLabels = {
-    label: t(`solution.parameters.${parameterId}`, parameterId),
+    label: t(TranslationUtils.getParameterTranslationKey(parameterId), parameterId),
     loading: t('genericcomponent.table.labels.loading', 'Loading...'),
     clearErrors: t('genericcomponent.table.button.clearErrors', 'Clear'),
     errorsPanelMainError: t('genericcomponent.table.labels.fileImportError', 'File load failed.'),

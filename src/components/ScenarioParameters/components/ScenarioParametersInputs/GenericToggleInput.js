@@ -18,7 +18,7 @@ export const GenericToggleInput = ({ parameterData, context, parameterValue, set
     <BasicToggleInput
       key={parameterData.id}
       id={parameterData.id}
-      label={t(`solution.parameters.${parameterData.id}`, parameterData.id)}
+      label={t(TranslationUtils.getParameterTranslationKey(parameterData.id), parameterData.id)}
       tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
       value={parameterValue ?? false}
       changeSwitchType={setParameterValue}

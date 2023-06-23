@@ -4,15 +4,15 @@
 import { i18next, I18N_NAMESPACE } from '../services/config/i18next';
 
 const getParameterTranslationKey = (parameterId) => {
-  return `solution.parameters.${parameterId}`;
+  return `solution.parameters.${parameterId}.name`;
 };
 
 const getParameterTooltipTranslationKey = (parameterId) => {
-  return `solution.parameters.tooltip.${parameterId}`;
+  return `solution.parameters.${parameterId}.tooltip`;
 };
 
 const getParametersGroupTranslationKey = (groupId) => {
-  return `solution.parametersGroups.${groupId}`;
+  return `solution.parametersGroups.${groupId}.name`;
 };
 
 const addTranslationParametersGroupsLabels = (parametersGroups) => {
