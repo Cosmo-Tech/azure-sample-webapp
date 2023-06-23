@@ -163,8 +163,10 @@ function editStringCell(getTableElement, colName, rowIndex, newValue) {
 
   // Entering and leaving the edition mode cause re-renders of the cell element in the DOM, hence the need for multiple
   // calls to getCell
-  getCell(getTableElement(), colName, rowIndex).focus();
-  return cy.focused().type('{selectAll}{backspace}' + newValue + '{enter}', { delay: 100 });
+  getCell(getTableElement(), colName, rowIndex).click();
+  getCell(getTableElement(), colName, rowIndex).type('{selectAll}{backspace}', { delay: 100 });
+  getCell(getTableElement(), colName, rowIndex).type(newValue + '{enter}', { delay: 100 });
+  return getCell(getTableElement(), colName, rowIndex);
 }
 
 function clearStringCell(getTableElement, colName, rowIndex, useDelKey = false) {
