@@ -65,6 +65,7 @@
   "devDependencies": {
     "@azure/msal-node": "^1.12.1",
     "@babel/core": "^7.15.5",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/preset-env": "^7.15.6",
     "@babel/preset-react": "^7.13.13",
     "@testing-library/jest-dom": "^5.16.5",
