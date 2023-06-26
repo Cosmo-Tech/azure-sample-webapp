@@ -34,7 +34,7 @@ const ScenarioParameterInput = ({ parameterData, context }) => {
   if (varTypeFactory === null) {
     return null;
   }
-  const rules = varTypeFactory.useValidationRules ? varTypeFactory.useValidationRules(parameterData) : null;
+  const rules = varTypeFactory.useValidationRules ? varTypeFactory.useValidationRules(parameterData) : undefined;
 
   return (
     <Controller
