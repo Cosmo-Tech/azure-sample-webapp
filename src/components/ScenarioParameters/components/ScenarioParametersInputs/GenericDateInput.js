@@ -6,6 +6,10 @@ import { BasicDateInput } from '@cosmotech/ui';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { TranslationUtils } from '../../../../utils';
+import isBefore from 'date-fns/isBefore';
+import isAfter from 'date-fns/isAfter';
+import isValid from 'date-fns/isValid';
+import format from 'date-fns/format';
 
 export const GenericDateInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty, error }) => {
   const { t } = useTranslation();
@@ -16,9 +20,6 @@ export const GenericDateInput = ({ parameterData, context, parameterValue, setPa
     id: `date-input-${parameterData.id}`,
     minDate,
     maxDate,
-    minDateMessage: t('genericcomponent.dateInput.error.minDateMessage', 'Minimum date is not respected'),
-    maxDateMessage: t('genericcomponent.dateInput.error.maxDateMessage', 'Maximum date is not respected'),
-    invalidDateMessage: t('genericcomponent.dateInput.error.invalidDateMessage', 'Date is invalid'),
   };
   return (
     <BasicDateInput
@@ -46,9 +47,37 @@ GenericDateInput.propTypes = {
 GenericDateInput.defaultProps = {
   isDirty: false,
 };
-GenericDateInput.useValidationRules = () => {
+GenericDateInput.useValidationRules = (parameterData) => {
   const { t } = useTranslation();
+  const minDate = parameterData.minValue ? new Date(parameterData.minValue) : undefined;
+  const maxDate = parameterData.maxValue ? new Date(parameterData.maxValue) : undefined;
   return {
     required: t('views.scenario.scenarioParametersValidationErrors.required', 'This field is required'),
+    validate: {
+      isValid: (v) =>
+        isValid(v) ||
+        t(
+          'views.scenario.scenarioParametersValidationErrors.notValid',
+          'The format is not valid, expected: MM/dd/YYYY'
+        ),
+      minDate: (v) =>
+        !isBefore(new Date(v), minDate) ||
+        TranslationUtils.getStringWithUnescapedCharacters(
+          t('views.scenario.scenarioParametersValidationErrors.minDate', 'Minimum date is {{minDate}}', {
+            minDate: format(new Date(minDate), 'MM/dd/yyyy'),
+            interpolation: {
+              escape: TranslationUtils.getStringWithEscapedCharacters,
+            },
+          })
+        ),
+      maxDate: (v) =>
+        !isAfter(new Date(v), maxDate) ||
+        TranslationUtils.getStringWithUnescapedCharacters(
+          t('views.scenario.scenarioParametersValidationErrors.maxDate', 'Maximum date is {{maxDate}}', {
+            maxDate: format(new Date(maxDate), 'MM/dd/yyyy'),
+            interpolation: { escape: TranslationUtils.getStringWithEscapedCharacters },
+          })
+        ),
+    },
   };
 };

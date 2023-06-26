@@ -632,7 +632,10 @@
         "maxLength": "La longueur maximale de ce champ est de {{length}} caractères",
         "maxLengthForApi": "Ce text dépasse la longueur maximale possible pour un paramètre",
         "minValue": "La valeur minimale de ce champ est {{minValue}}",
-        "maxValue": "La valeur maximale de ce champ est {{maxValue}}"
+        "maxValue": "La valeur maximale de ce champ est {{maxValue}}",
+        "minDate": "La date minimale est {{minDate}}",
+        "maxDate": "La date maximale est {{maxDate}}",
+        "notValid": "Le format ne correspond pas au format valide : MM/dd/YYYY"
       }
     }
   },

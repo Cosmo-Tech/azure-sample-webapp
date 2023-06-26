@@ -631,7 +631,10 @@
         "maxLength": "Maximum length of this field is {{length}} characters",
         "maxLengthForApi": "This text exceeds the maximum possible length for a scenario parameter",
         "minValue": "Minimum value for this field is {{minValue}}",
-        "maxValue": "Maximum value for this field is {{maxValue}}"
+        "maxValue": "Maximum value for this field is {{maxValue}}",
+        "minDate": "Minimum date is {{minDate}}",
+        "maxDate": "Maximum date is {{maxDate}}",
+        "notValid": "The format is not valid, expected: MM/dd/YYYY"
       }
     }
   },
