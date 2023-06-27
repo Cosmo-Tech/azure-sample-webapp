@@ -120,10 +120,11 @@ export const WORKSPACES = [
               fitView: true,
               fitViewPadding: 30,
               modes: {
-                default: ['drag-canvas', 'drag-node', 'zoom-canvas'],
+                default: ['drag-canvas', 'zoom-canvas', { type: 'click-select', multiple: false }],
               },
               layout: {
                 type: 'dagre',
+                sortByCombo: 'true',
               },
             },
           },

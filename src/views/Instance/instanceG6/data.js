@@ -6,12 +6,15 @@ import { Auth } from '@cosmotech/core';
 import { getDefaultEdgeStyle, getDefaultNodeStyle, getDefaultComboStyle } from './styleG6Viz';
 import { ConfigUtils } from '../../../utils';
 
-const _formatLabelWithNewlines = (label) => label?.replace(/[_|\s]/g, '\n') || '';
+const _formatLabelWithNewlines = (label) => label.split('_').join('\n');
 
 const _forgeG6NodeData = (node) => {
   return {
     ...node,
-    label: _formatLabelWithNewlines(node.id),
+    properties: {
+      ...node.properties,
+      label: _formatLabelWithNewlines(node.properties.label),
+    },
   };
 };
 

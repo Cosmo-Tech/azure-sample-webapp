@@ -11,11 +11,10 @@ const EDGE_WIDTH = 2;
 
 // Styles details
 export const getDefaultEdgeStyle = (theme) => ({
-  type: 'arc',
+  type: 'line',
   style: {
     stroke: EDGE_DEFAULT_COLOR,
     width: EDGE_WIDTH,
-    endArrow: true,
   },
 });
 
@@ -35,11 +34,6 @@ export const getDefaultComboStyle = (theme) => ({
 });
 
 export const getDefaultNodeStyle = (theme) => ({
-  type: 'circle',
-  style: {
-    lineWidth: 0,
-    fill: NODE_DEFAULT_COLOR,
-  },
   labelCfg: {
     position: 'top',
     style: {

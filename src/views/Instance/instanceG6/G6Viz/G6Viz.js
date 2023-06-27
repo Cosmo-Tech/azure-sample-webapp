@@ -9,17 +9,48 @@ G6.registerNode(
     options: {
       direction: 'down',
       style: {
-        fill: '#ff0000',
+        fill: '#BF4040',
+      },
+      stateStyles: {
+        selected: {
+          fill: '#FF0000',
+        },
+      },
+      labelCfg: {
+        position: 'top',
+        offset: 20,
       },
     },
   },
   'triangle'
 );
 
+G6.registerNode(
+  'ProductionOperation',
+  {
+    options: {
+      style: {
+        fill: '#249027',
+      },
+      stateStyles: {
+        selected: {
+          fill: '#00CC00',
+        },
+      },
+      labelCfg: {
+        position: 'top',
+        offset: 20,
+      },
+    },
+  },
+  'circle'
+);
+
 const G6Viz = ({ graphData }) => {
   const ref = useRef(null);
   const startTime = useRef(Date.now());
   const [graph, setGraph] = useState(null);
+  const [selectedNode, setSelectedNode] = useState(null);
 
   useEffect(() => {
     if (graphData) {
@@ -55,6 +86,10 @@ const G6Viz = ({ graphData }) => {
       graph.on('afterlayout', () => {
         console.log(Date.now() - startTime.current);
       });
+
+      graph.on('nodeselectchange', (e) => {
+        setSelectedNode(e.select ? e.target?._cfg.model.properties : null);
+      });
     }
   }, [graph]);
 
@@ -65,7 +100,14 @@ const G6Viz = ({ graphData }) => {
     }
   }, [graph, graphData]);
 
-  return <div style={{ height: '100%' }} ref={ref}></div>;
+  const detail = selectedNode ? JSON.stringify(selectedNode, null, 2) : '';
+
+  return (
+    <div style={{ display: 'flex', width: '100%', height: '100%' }}>
+      <div style={{ height: '100%', width: '200px' }}>{detail}</div>
+      <div style={{ height: '100%', flex: 1 }} ref={ref}></div>
+    </div>
+  );
 };
 
 export default G6Viz;
