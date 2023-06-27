@@ -92,6 +92,7 @@ const getAverageConsumptionParameterContainer = () =>
 const getAverageConsumption = () => ScenarioParameters.getParameterValue('slider-input-average_consumption');
 const getAverageConsumptionInput = () => ScenarioParameters.getParameterInput('slider-input-average_consumption');
 const getStartDate = () => ScenarioParameters.getParameterValue('date-input-start_date');
+const getStartDateHelperText = () => cy.get('[id=date-text-field-start_date-helper-text]');
 const getStartDateInput = () => ScenarioParameters.getParameterInput('date-input-start_date');
 
 // Get addition parameters components & input fields
@@ -111,6 +112,7 @@ const getComment = () => ScenarioParameters.getParameterValue('text-input-commen
 const getCommentHelperText = () => cy.get('[id=text-input-comment-helper-text]');
 const getCommentInput = () => ScenarioParameters.getParameterInput('text-input-comment');
 const getAdditionalDate = () => ScenarioParameters.getParameterValue('date-input-additional_date');
+const getAdditionalDateHelperText = () => cy.get('[id=date-text-field-additional_date-helper-text]');
 const getAdditionalDateInput = () => ScenarioParameters.getParameterInput('date-input-additional_date');
 
 function getCurrencyTextField() {
@@ -467,6 +469,8 @@ export const BreweryParameters = {
   getStockHelperText,
   getRestockHelperText,
   getWaitersHelperText,
+  getStartDateHelperText,
+  getAdditionalDateHelperText,
   getCurrency,
   getCurrencyName,
   getCurrencyValue,

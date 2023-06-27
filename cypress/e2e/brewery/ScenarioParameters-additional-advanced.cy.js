@@ -45,7 +45,7 @@ describe('Additional advanced scenario parameters tests', () => {
       volumeUnit: 'bl',
       additionalTables: 9090,
       comment: 'Strongly recommended',
-      additionalDate: '06/07/2029',
+      additionalDate: '12/07/2022',
     };
 
     const scenarioName = forgeScenarioName();
