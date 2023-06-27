@@ -54,7 +54,7 @@ const Instance = ({ setG6Viz }) => {
         setGraphData(processedGraphData);
         */
         const scenario = await fetchDataTG();
-        const processedGraphData = processGraphElementsTG(scenario, theme);
+        const processedGraphData = processGraphElementsTG(instanceViewConfig.configG6, scenario, theme);
         setGraphData(processedGraphData);
       }
     }

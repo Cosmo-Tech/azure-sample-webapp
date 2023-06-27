@@ -7,6 +7,9 @@ G6.registerNode(
   {
     options: {
       direction: 'down',
+      style: {
+        fill: '#ff0000',
+      },
     },
   },
   'triangle'
@@ -24,14 +27,6 @@ const G6Viz = ({ graphData }) => {
           container: ref.current,
           width: ref.current.scrollWidth,
           height: ref.current.scrollHeight,
-          fitView: true,
-          fitViewPadding: 30,
-          modes: {
-            default: ['drag-canvas', 'drag-node', 'zoom-canvas'],
-          },
-          layout: {
-            type: 'dagre',
-          },
           ...graphData.graphProps,
         })
       );

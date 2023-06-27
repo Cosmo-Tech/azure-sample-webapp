@@ -115,7 +115,18 @@ export const WORKSPACES = [
               Customer: { style: { 'background-color': '#005A31', shape: 'ellipse' } },
             },
           },
-          dataG6: {},
+          configG6: {
+            graphProps: {
+              fitView: true,
+              fitViewPadding: 30,
+              modes: {
+                default: ['drag-canvas', 'drag-node', 'zoom-canvas'],
+              },
+              layout: {
+                type: 'dagre',
+              },
+            },
+          },
         },
         menu: {
           supportUrl: 'https://support.cosmotech.com',

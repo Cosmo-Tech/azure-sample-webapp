@@ -12,7 +12,7 @@ const tgParams = {
 };
 
 const _processGraphProps = (processedData, theme) => {
-  processedData.graphProps.defaultNode = getDefaultNodeStyle(theme);
+  // processedData.graphProps.defaultNode = getDefaultNodeStyle(theme);
   processedData.graphProps.defaultEdge = getDefaultEdgeStyle(theme);
   processedData.graphProps.defaultCombo = getDefaultComboStyle(theme);
 };
@@ -48,20 +48,22 @@ const _processNodes = (processedData, scenario) => {
         id: nodeData.id,
         type: nodeData.label,
         label: nodeData.properties.Label,
-        ...nodeData.properties,
+        properties: nodeData.properties,
       });
     }
   });
 };
 
-export const processGraphElementsTG = (scenario, theme) => {
+export const processGraphElementsTG = (configG6, scenario, theme) => {
   const processedData = {
     graphElements: {
       nodes: [],
       edges: [],
       combos: [],
     },
-    graphProps: {},
+    graphProps: {
+      ...configG6.graphProps,
+    },
   };
 
   _processGraphProps(processedData, theme);
