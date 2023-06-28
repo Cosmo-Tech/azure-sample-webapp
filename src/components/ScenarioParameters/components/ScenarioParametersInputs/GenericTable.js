@@ -405,14 +405,17 @@ export const GenericTable = ({
     [exportFile]
   );
 
-  const _uploadPreprocess = (clientFileDescriptor) => {
-    const newFileContent = AgGridUtils.toCSV(lastNewParameterValue.current.agGridRows, columns, options);
-    updateParameterValue({
-      content: newFileContent,
-    });
-    gridApiRef.current?.stopEditing();
-    return newFileContent;
-  };
+  const _uploadPreprocess = useCallback(
+    (clientFileDescriptor) => {
+      const newFileContent = AgGridUtils.toCSV(lastNewParameterValue.current.agGridRows, columns, options);
+      updateParameterValue({
+        content: newFileContent,
+      });
+      gridApiRef.current?.stopEditing();
+      return newFileContent;
+    },
+    [columns, options, updateParameterValue]
+  );
 
   const onCellChange = (event) => {
     gridApiRef.current = event.api;
@@ -473,7 +476,7 @@ export const GenericTable = ({
     }
   });
 
-  const onAddRow = () => {
+  const onAddRow = useCallback(() => {
     const newLine = ConfigUtils.createNewTableLine(parameterData.options.columns, parameterData.options.dateFormat);
     const selectedLines = [
       ...document.getElementById(`table-${parameterData.id}`).getElementsByClassName('ag-row-selected'),
@@ -491,8 +494,15 @@ export const GenericTable = ({
       uploadPreprocess: { content: _uploadPreprocess },
       agGridRows: [...newLineArray],
     });
-  };
-  const onDeleteRow = () => {
+  }, [
+    _uploadPreprocess,
+    parameter?.agGridRows,
+    parameterData.id,
+    parameterData.options.columns,
+    parameterData.options.dateFormat,
+    updateParameterValue,
+  ]);
+  const onDeleteRow = useCallback(() => {
     const selectedLines = document
       .getElementById(`table-${parameterData.id}`)
       .getElementsByClassName('ag-row-selected');
@@ -509,7 +519,7 @@ export const GenericTable = ({
         agGridRows: newRows.filter((row) => row),
       });
     }
-  };
+  }, [_uploadPreprocess, parameter.agGridRows, parameterData.id, updateParameterValue]);
 
   return (
     <>
