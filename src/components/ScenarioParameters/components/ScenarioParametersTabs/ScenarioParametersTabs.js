@@ -2,13 +2,14 @@
 // Licensed under the MIT license.
 
 import React, { useEffect, useState } from 'react';
-import { Tab } from '@mui/material';
+import { Badge, Tab } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { useTranslation } from 'react-i18next';
 import LockIcon from '@mui/icons-material/Lock';
-import { ConfigUtils, TranslationUtils } from '../../../../utils';
+import { ConfigUtils, ScenarioParametersUtils, TranslationUtils } from '../../../../utils';
 import PropTypes from 'prop-types';
+import { useFormState } from 'react-hook-form';
 
 const useStyles = makeStyles((theme) => ({
   tabPanel: {
@@ -20,8 +21,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function _buildScenarioTabList(tabs, userRoles, t) {
+function _buildScenarioTabList(tabs, userRoles, t, errors) {
   const tabListComponent = [];
+  const errorsByTab = ScenarioParametersUtils.getErrorsCountByTab(tabs, errors);
   for (const groupMetadata of tabs) {
     const lockedTab = !hasRequiredProfile(userRoles, groupMetadata.authorizedRoles);
     const lockIcon = lockedTab ? <LockIcon /> : undefined;
@@ -32,7 +34,11 @@ function _buildScenarioTabList(tabs, userRoles, t) {
           value={groupMetadata.id}
           data-cy={groupMetadata.id + '_tab'}
           icon={lockIcon}
-          label={t(TranslationUtils.getParametersGroupTranslationKey(groupMetadata.id), groupMetadata.id)}
+          label={
+            <Badge data-cy="error-badge" badgeContent={errorsByTab[groupMetadata.id]} color="error">
+              {t(TranslationUtils.getParametersGroupTranslationKey(groupMetadata.id), groupMetadata.id)}
+            </Badge>
+          }
         />
       );
     }
@@ -85,6 +91,7 @@ const ScenarioParametersTabs = ({ parametersGroupsMetadata, userRoles }) => {
   const [tabs, setTabs] = useState(parametersGroupsMetadata);
   const firstTab = chooseParametersTab(parametersGroupsMetadata, userRoles);
   const [selectedTab, setSelectedTab] = useState(firstTab);
+  const { errors } = useFormState();
 
   // Reset selected tab on scenario change
   useEffect(() => {
@@ -113,7 +120,7 @@ const ScenarioParametersTabs = ({ parametersGroupsMetadata, userRoles }) => {
             }}
             aria-label="scenario parameters"
           >
-            {_buildScenarioTabList(tabs, userRoles, t)}
+            {_buildScenarioTabList(tabs, userRoles, t, errors)}
           </TabList>
           {_buildTabPanels(userRoles, tabs, classes)}
         </TabContext>
