@@ -26,11 +26,10 @@ describe('scenario metadata parameters', () => {
     });
     stub.setScenarios(SCENARIOS);
     stub.setSolutions(SOLUTIONS);
-    Login.login();
   });
 
   beforeEach(() => {
-    Login.relogin();
+    Login.login();
   });
 
   after(() => {

@@ -16,11 +16,10 @@ describe('check scenario sorted list after reload', () => {
       GET_SOLUTIONS: true,
     });
     stub.setScenarios(ALL_ROOT_SCENARIOS);
-    Login.login();
   });
 
   beforeEach(() => {
-    Login.relogin();
+    Login.login();
   });
 
   after(() => {
@@ -46,11 +45,10 @@ describe('check the list of sorted scenarios after deleting the current scenario
     stub.setFakeUser(USER_EXAMPLE);
     stub.setFakeRoles(['Organization.Collaborator']);
     stub.setScenarios(PARENT_AND_CHILD_SCENARIOS);
-    Login.login();
   });
 
   beforeEach(() => {
-    Login.relogin();
+    Login.login();
   });
 
   after(() => {

@@ -26,14 +26,13 @@ describe('Check workspace permissions for admin', () => {
   before(() => {
     setup.initCypressAndStubbing();
     stub.start();
-    Login.login();
   });
 
   beforeEach(() => {
     stub.setFakeUser(USER_EXAMPLE);
     stub.setWorkspaces([WORKSPACE_WITH_USERS_LIST]);
     stub.setScenarios(PRIVATE_SCENARIOS_LIST);
-    Login.relogin();
+    Login.login();
   });
 
   after(() => {
@@ -136,14 +135,13 @@ describe('Check workspace permissions for admin', () => {
 describe('Check workspace permissions for Viewer, Editor & Validator', () => {
   before(() => {
     stub.start();
-    Login.login();
   });
 
   beforeEach(() => {
     stub.setFakeUser(USER_EXAMPLE);
     stub.setWorkspaces([WORKSPACE_WITH_USERS_LIST]);
     stub.setScenarios(SHARED_SCENARIOS_LIST);
-    Login.relogin();
+    Login.login();
   });
 
   after(() => {
@@ -218,14 +216,13 @@ describe('Check workspace permissions for Viewer, Editor & Validator', () => {
 describe('Check scenario tree when root scenarios are not shared with user', () => {
   before(() => {
     stub.start();
-    Login.login();
   });
 
   beforeEach(() => {
     stub.setFakeUser(USER_EXAMPLE);
     stub.setWorkspaces([WORKSPACE_WITH_USERS_LIST]);
     stub.setScenarios(NO_ROOT_SCENARIOS_LIST);
-    Login.relogin();
+    Login.login();
   });
 
   after(() => {

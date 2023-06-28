@@ -12,11 +12,10 @@ describe('Instance view disabled', () => {
   before(() => {
     setup.initCypressAndStubbing();
     stub.start();
-    Login.login();
   });
 
   beforeEach(() => {
-    Login.relogin();
+    Login.login();
   });
 
   after(() => {
@@ -29,12 +28,8 @@ describe('Instance view disabled', () => {
 });
 
 describe('Instance view when enabled', () => {
-  before(() => {
-    BreweryLogin.login();
-  });
-
   beforeEach(() => {
-    BreweryLogin.relogin();
+    BreweryLogin.login();
   });
 
   const scenarioNamesToDelete = [];

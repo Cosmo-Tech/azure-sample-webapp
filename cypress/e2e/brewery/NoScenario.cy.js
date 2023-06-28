@@ -16,12 +16,11 @@ describe('If there are no scenarios created yet', () => {
       GET_WORKSPACES: true,
       PERMISSIONS_MAPPING: true,
     });
-    Login.login();
   });
 
   beforeEach(() => {
     stub.setScenarios([]);
-    Login.relogin();
+    Login.login();
   });
 
   after(() => {

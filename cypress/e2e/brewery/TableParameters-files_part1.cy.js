@@ -19,11 +19,10 @@ describe('Table parameters files standard operations part 1', () => {
       GET_DATASETS: true,
       GET_SCENARIOS: true,
     });
-    Login.login();
   });
 
   beforeEach(() => {
-    Login.relogin();
+    Login.login();
   });
 
   after(() => {

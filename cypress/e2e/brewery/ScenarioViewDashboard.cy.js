@@ -19,11 +19,10 @@ describe('Scenario view PowerBI report', () => {
       GET_SCENARIOS: true,
       GET_SOLUTIONS: true,
     });
-    BreweryLogin.login();
   });
 
   beforeEach(() => {
-    BreweryLogin.relogin();
+    BreweryLogin.login();
   });
 
   const scenarioNamesToDelete = [];

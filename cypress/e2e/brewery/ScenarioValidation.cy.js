@@ -21,11 +21,10 @@ describe('Scenario validation', () => {
       GET_WORKSPACES: true,
       UPDATE_SCENARIO: true,
     });
-    Login.login();
   });
 
   beforeEach(() => {
-    Login.relogin();
+    Login.login();
   });
 
   it('can validate & reject scenarios', () => {

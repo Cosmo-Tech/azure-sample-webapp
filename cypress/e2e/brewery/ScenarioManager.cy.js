@@ -21,12 +21,8 @@ describe('Create scenario and check its data in scenario manager', () => {
 
   const scenarioNamesToDelete = [];
 
-  before(() => {
-    Login.login();
-  });
-
   beforeEach(() => {
-    Login.relogin();
+    Login.login();
   });
 
   after(() => {

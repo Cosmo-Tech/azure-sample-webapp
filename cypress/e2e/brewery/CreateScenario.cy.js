@@ -50,7 +50,7 @@ describe('Create scenario', () => {
   });
 
   beforeEach(() => {
-    Login.relogin();
+    Login.login();
   });
 
   after(() => {

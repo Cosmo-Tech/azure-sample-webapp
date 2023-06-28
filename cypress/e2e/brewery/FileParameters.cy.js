@@ -23,12 +23,8 @@ function forgeScenarioName() {
 }
 
 describe('Simple operations on a file parameter', () => {
-  before(() => {
-    Login.login();
-  });
-
   beforeEach(() => {
-    Login.relogin();
+    Login.login();
   });
 
   const scenarioNamesToDelete = [];
@@ -110,12 +106,8 @@ describe('Simple operations on a file parameter', () => {
 });
 
 describe('Simple operations on a file parameter in a parameters tab that lost focus', () => {
-  before(() => {
-    Login.login();
-  });
-
   beforeEach(() => {
-    Login.relogin();
+    Login.login();
   });
 
   const scenarioNamesToDelete = [];
@@ -182,12 +174,8 @@ describe('Simple operations on a file parameter in a parameters tab that lost fo
 });
 
 describe('Scenario inheritance for file parameters', () => {
-  before(() => {
-    Login.login();
-  });
-
   beforeEach(() => {
-    Login.relogin();
+    Login.login();
   });
 
   const scenarioNamesToDelete = [];
@@ -249,12 +237,8 @@ describe('Scenario inheritance for file parameters', () => {
 });
 
 describe('File parameters in multiple tabs', () => {
-  before(() => {
-    Login.login();
-  });
-
   beforeEach(() => {
-    Login.relogin();
+    Login.login();
   });
 
   const scenarioNamesToDelete = [];

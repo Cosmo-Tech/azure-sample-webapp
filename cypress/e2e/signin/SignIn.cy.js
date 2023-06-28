@@ -12,12 +12,10 @@ describe('Redirection when not authenticated', () => {
 });
 
 describe('Log in & log out', () => {
-  before(() => {
-    Login.login();
-  });
+  before(() => {});
 
   beforeEach(() => {
-    Login.relogin();
+    Login.login();
   });
 
   it('can log in and log out', () => {

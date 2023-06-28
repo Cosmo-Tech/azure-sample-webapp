@@ -23,12 +23,9 @@ function forgeScenarioName() {
 
 describe('Displaying error banner on run scenario fail', () => {
   const scenarioName = forgeScenarioName();
-  before(() => {
-    Login.login();
-  });
 
   beforeEach(() => {
-    Login.relogin();
+    Login.login();
   });
 
   after(() => {

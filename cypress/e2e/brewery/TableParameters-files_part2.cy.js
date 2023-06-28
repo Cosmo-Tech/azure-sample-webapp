@@ -28,12 +28,8 @@ function forgeScenarioName() {
 }
 
 describe('Table parameters files standard operations part 2', () => {
-  before(() => {
-    Login.login();
-  });
-
   beforeEach(() => {
-    Login.relogin();
+    Login.login();
   });
 
   const scenarioNamesToDelete = [];

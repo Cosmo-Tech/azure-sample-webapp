@@ -59,11 +59,10 @@ describe('Table fields invalid files operations', () => {
       GET_DATASETS: true,
       GET_SCENARIOS: true,
     });
-    Login.login();
   });
 
   beforeEach(() => {
-    Login.relogin();
+    Login.login();
   });
 
   after(() => {

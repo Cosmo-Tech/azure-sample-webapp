@@ -11,12 +11,8 @@ Cypress.Keyboard.defaults({
 });
 
 describe('Run templates without parameters', () => {
-  before(() => {
-    Login.login();
-  });
-
   beforeEach(() => {
-    Login.relogin();
+    Login.login();
   });
 
   const scenarioNamesToDelete = [];

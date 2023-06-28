@@ -15,11 +15,10 @@ describe('Scenario sharing with a link', () => {
       GET_SOLUTIONS: true,
     });
     stub.setWorkspaces([WORKSPACE_WITH_INSTANCE_VIEW]);
-    Login.login();
   });
 
   beforeEach(() => {
-    Login.relogin();
+    Login.login();
   });
 
   after(() => {

@@ -24,12 +24,9 @@ function forgeScenarioName() {
 }
 describe('Table parameters inheritance between parent and child scenarios', () => {
   let masterScenarioId, firstChildScenarioId;
-  before(() => {
-    Login.login();
-  });
 
   beforeEach(() => {
-    Login.relogin();
+    Login.login();
   });
   const scenarioNamesToDelete = [];
   after(() => {

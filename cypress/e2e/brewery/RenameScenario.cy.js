@@ -34,7 +34,7 @@ describe('Create scenario and rename it', () => {
   });
 
   beforeEach(() => {
-    Login.relogin();
+    Login.login();
   });
 
   after(() => {

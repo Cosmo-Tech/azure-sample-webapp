@@ -21,12 +21,8 @@ function forgeScenarioName() {
 }
 
 describe('Additional advanced scenario parameters tests', () => {
-  before(() => {
-    Login.login();
-  });
-
   beforeEach(() => {
-    Login.relogin();
+    Login.login();
   });
 
   const scenarioNamesToDelete = [];

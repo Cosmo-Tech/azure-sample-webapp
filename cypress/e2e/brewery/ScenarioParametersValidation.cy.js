@@ -17,13 +17,12 @@ describe('scenario parameters inputs validation', () => {
       GET_WORKSPACES: true,
       UPDATE_SCENARIO: true,
     });
-    Login.login();
     stub.setSolutions(SOLUTIONS);
     stub.setScenarios(SCENARIOS);
   });
 
   beforeEach(() => {
-    Login.relogin();
+    Login.login();
   });
 
   it(

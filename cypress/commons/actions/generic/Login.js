@@ -29,40 +29,42 @@ function getMicrosoftLoginButton() {
 //     - expectedURL (optional): can be set if expected URL after navigation is different from options.url (checked
 //       with "include" assertion)
 function login(options) {
-  setup.initCypressAndStubbing({ noInterceptionMiddlewares: options?.noInterceptionMiddlewares });
-  cy.clearLocalStorageSnapshot();
+  Cypress.session.clearAllSavedSessions();
+  cy.session(
+    ['defaultLogin', cy.id],
+    () => {
+      setup.initCypressAndStubbing({ noInterceptionMiddlewares: options?.noInterceptionMiddlewares });
+      cy.clearLocalStorageSnapshot();
 
-  let reqAuthAlias;
-  let browseCallback;
-  if (auth.USE_SERVICE_ACCOUNT) {
-    // Note: login with the "dev" login button will only work if the access_token is already set in local storage
-    stub.setFakeUser(USER_EXAMPLE);
-  } else {
-    reqAuthAlias = api.interceptAuthentication();
-    browseCallback = () => Login.getMicrosoftLoginButton().click();
-  }
+      let reqAuthAlias;
+      let browseCallback;
+      if (auth.USE_SERVICE_ACCOUNT) {
+        // Note: login with the "dev" login button will only work if the access_token is already set in local storage
+        stub.setFakeUser(USER_EXAMPLE);
+      } else {
+        reqAuthAlias = api.interceptAuthentication();
+        browseCallback = () => Login.getMicrosoftLoginButton().click();
+      }
 
-  route.browse({
-    url: BASE_URL,
-    onBrowseCallback: browseCallback,
-    ...options,
-  });
-  api.waitAlias(reqAuthAlias, { timeout: 60 * 1000 });
-
-  cy.saveLocalStorage();
-}
-
-// Parameters:
-//   - options: c.f. "options" parameter of "login" function above
-function relogin(options) {
-  Cypress.Cookies.preserveOnce('ai_session', 'ai_user');
-  cy.restoreLocalStorage();
-  route.browse({ url: '/', ...options });
+      route.browse({ url: BASE_URL, onBrowseCallback: browseCallback, ...options });
+      api.waitAlias(reqAuthAlias, { timeout: 60 * 1000 });
+      cy.url().should('not.contain', '/sign-in');
+      cy.url().should('not.contain', '/denied');
+    },
+    {
+      validate() {
+        cy.getAllLocalStorage().then((localStorage) => {
+          expect(localStorage[BASE_URL].authProvider).not.to.eq(undefined);
+          expect(localStorage[BASE_URL].authAccessToken).not.to.eq(undefined);
+        });
+      },
+    }
+  );
+  route.browse({ url: BASE_URL, ...options });
 }
 
 export const Login = {
   getDevLoginButton,
   getMicrosoftLoginButton,
   login,
-  relogin,
 };

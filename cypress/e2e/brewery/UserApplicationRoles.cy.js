@@ -18,11 +18,10 @@ describe('check accessible features for Organization.Modeler application role as
     stub.setFakeUser(USER_EXAMPLE);
     stub.setFakeRoles(['Organization.Modeler']);
     stub.setScenarios(DEFAULT_SCENARIOS_LIST);
-    Login.login();
   });
 
   beforeEach(() => {
-    Login.relogin();
+    Login.login();
   });
 
   after(() => {
@@ -50,11 +49,10 @@ describe('check accessible features for Organization.Viewer application role as 
     stub.setFakeUser(USER_EXAMPLE);
     stub.setFakeRoles(['Organization.Viewer']);
     stub.setScenarios(DEFAULT_SCENARIOS_LIST);
-    Login.login();
   });
 
   beforeEach(() => {
-    Login.relogin();
+    Login.login();
   });
 
   after(() => {

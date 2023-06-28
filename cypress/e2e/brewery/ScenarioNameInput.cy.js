@@ -11,10 +11,9 @@ describe('Check error label when invalid scenario name', () => {
       GET_DATASETS: true,
       GET_SCENARIOS: true,
     });
-    Login.login();
   });
   beforeEach(() => {
-    Login.relogin();
+    Login.login();
   });
   it('check error label when scenario name field is empty', () => {
     Scenarios.openScenarioCreationDialog();

@@ -4,12 +4,8 @@
 import { AppBar, Login } from '../../commons/actions';
 
 describe('UserInfo features', () => {
-  before(() => {
-    Login.login();
-  });
-
   beforeEach(() => {
-    Login.relogin();
+    Login.login();
   });
 
   it('can go to documentation page', () => {
