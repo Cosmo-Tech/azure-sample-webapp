@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback, useMemo } from 'react';
 import rfdc from 'rfdc';
 import equal from 'fast-deep-equal';
 import { Table, TABLE_DATA_STATUS, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
@@ -82,7 +82,9 @@ export const GenericTable = ({
 
   const columns = ConfigUtils.getParameterAttribute(parameterData, 'columns');
   const dateFormat = ConfigUtils.getParameterAttribute(parameterData, 'dateFormat') || DEFAULT_DATE_FORMAT;
-  const options = { dateFormat };
+  const options = useMemo(() => {
+    return { dateFormat };
+  }, [dateFormat]);
 
   const isUnmount = useRef(false);
   const gridApiRef = useRef();
@@ -98,31 +100,34 @@ export const GenericTable = ({
   // parameter state value will be update only in last call.
   // We need here to use a ref value for be sure to have the good value.
   const lastNewParameterValue = useRef(parameter);
-  const updateParameterValue = (newValuePart, shouldReset = false) => {
-    const newParameterValue = {
-      ...lastNewParameterValue.current,
-      ...newValuePart,
-    };
+  const updateParameterValue = useCallback(
+    (newValuePart, shouldReset = false) => {
+      const newParameterValue = {
+        ...lastNewParameterValue.current,
+        ...newValuePart,
+      };
 
-    lastNewParameterValue.current = newParameterValue;
+      lastNewParameterValue.current = newParameterValue;
 
-    if (!isUnmount.current) {
-      setParameter(newParameterValue);
-    }
-
-    // Update parameterValue in another process to allow grid to update parameter before.
-    // if not, the parent should update parameterValue in same time that grid refreshing by update local parameter.
-    setTimeout(() => {
-      // Prevent useless update of parameterValue if multiple updateParameterValue was done before
-      if (lastNewParameterValue.current === newParameterValue) {
-        if (shouldReset) {
-          resetParameterValue(newParameterValue);
-        } else {
-          setParameterValue(newParameterValue);
-        }
+      if (!isUnmount.current) {
+        setParameter(newParameterValue);
       }
-    });
-  };
+
+      // Update parameterValue in another process to allow grid to update parameter before.
+      // if not, the parent should update parameterValue in same time that grid refreshing by update local parameter.
+      setTimeout(() => {
+        // Prevent useless update of parameterValue if multiple updateParameterValue was done before
+        if (lastNewParameterValue.current === newParameterValue) {
+          if (shouldReset) {
+            resetParameterValue(newParameterValue);
+          } else {
+            setParameterValue(newParameterValue);
+          }
+        }
+      });
+    },
+    [resetParameterValue, setParameterValue]
+  );
 
   const updateParameterValueWithReset = (newValuePart) => {
     updateParameterValue(newValuePart, true);
@@ -214,173 +219,185 @@ export const GenericTable = ({
     GenericTable.downloadLocked[lockId] = false;
   };
 
-  const _parseCSVFileContent = (
-    fileContent,
-    fileName,
-    clientFileDescriptor,
-    setClientFileDescriptor,
-    finalStatus,
-    clientFileDescriptorRestoreValue
-  ) => {
-    setClientFileDescriptor({
-      name: fileName,
-      file: null,
-      agGridRows: null,
-      errors: null,
-      content: fileContent,
-      status: finalStatus,
-      tableDataStatus: TABLE_DATA_STATUS.PARSING,
-    });
-
-    const agGridData = _generateGridDataFromCSV(fileContent, parameterData, options);
-    if (agGridData.error) {
-      if (clientFileDescriptorRestoreValue) {
-        setClientFileDescriptor({
-          ...clientFileDescriptorRestoreValue,
-          errors: agGridData.error,
-        });
-      } else {
-        setClientFileDescriptor({
-          tableDataStatus: TABLE_DATA_STATUS.ERROR,
-          errors: agGridData.error,
-        });
-      }
-    } else {
+  const _parseCSVFileContent = useCallback(
+    (
+      fileContent,
+      fileName,
+      clientFileDescriptor,
+      setClientFileDescriptor,
+      finalStatus,
+      clientFileDescriptorRestoreValue
+    ) => {
       setClientFileDescriptor({
         name: fileName,
         file: null,
-        agGridRows: agGridData.rows,
-        errors: agGridData.error,
+        agGridRows: null,
+        errors: null,
         content: fileContent,
         status: finalStatus,
-        tableDataStatus: TABLE_DATA_STATUS.READY,
-        uploadPreprocess: null,
+        tableDataStatus: TABLE_DATA_STATUS.PARSING,
       });
-    }
-  };
 
-  const _readAndParseCSVFile = (
-    file,
-    clientFileDescriptor,
-    setClientFileDescriptor,
-    clientFileDescriptorRestoreValue
-  ) => {
-    if (!file) {
-      return;
-    }
-    setClientFileDescriptor({
-      name: file.name,
-      file: null,
-      content: null,
-      agGridRows: null,
-      errors: null,
-      status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD,
-      tableDataStatus: TABLE_DATA_STATUS.UPLOADING,
-    });
-    const reader = new FileReader();
-    reader.onload = function (event) {
-      const fileContent = event.target.result;
-      const finalStatus = UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD;
-      _parseCSVFileContent(
-        fileContent,
-        file.name,
-        clientFileDescriptor,
-        setClientFileDescriptor,
-        finalStatus,
-        clientFileDescriptorRestoreValue
-      );
-    };
-
-    reader.readAsText(file);
-  };
-
-  const _readAndParseXLSXFile = async (
-    file,
-    clientFileDescriptor,
-    setClientFileDescriptor,
-    clientFileDescriptorRestoreValue
-  ) => {
-    if (!file) {
-      return;
-    }
-    setClientFileDescriptor({
-      name: file.name,
-      file,
-      content: null,
-      agGridRows: null,
-      errors: null,
-      status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD,
-      tableDataStatus: TABLE_DATA_STATUS.PARSING,
-    });
-
-    const agGridData = await _generateGridDataFromXLSX(file, parameterData, options);
-    if (agGridData.error) {
-      if (clientFileDescriptorRestoreValue) {
-        setClientFileDescriptor({
-          ...clientFileDescriptorRestoreValue,
-          errors: agGridData.error,
-        });
+      const agGridData = _generateGridDataFromCSV(fileContent, parameterData, options);
+      if (agGridData.error) {
+        if (clientFileDescriptorRestoreValue) {
+          setClientFileDescriptor({
+            ...clientFileDescriptorRestoreValue,
+            errors: agGridData.error,
+          });
+        } else {
+          setClientFileDescriptor({
+            tableDataStatus: TABLE_DATA_STATUS.ERROR,
+            errors: agGridData.error,
+          });
+        }
       } else {
         setClientFileDescriptor({
+          name: fileName,
+          file: null,
+          agGridRows: agGridData.rows,
           errors: agGridData.error,
-          tableDataStatus: TABLE_DATA_STATUS.ERROR,
+          content: fileContent,
+          status: finalStatus,
+          tableDataStatus: TABLE_DATA_STATUS.READY,
+          uploadPreprocess: null,
         });
       }
-    } else {
-      const newFileContent = AgGridUtils.toCSV(
-        agGridData.rows,
-        ConfigUtils.getParameterAttribute(parameterData, 'columns'),
-        options
-      );
+    },
+    [options, parameterData]
+  );
+
+  const _readAndParseCSVFile = useCallback(
+    (file, clientFileDescriptor, setClientFileDescriptor, clientFileDescriptorRestoreValue) => {
+      if (!file) {
+        return;
+      }
       setClientFileDescriptor({
         name: file.name,
         file: null,
-        content: newFileContent,
-        agGridRows: agGridData.rows,
-        errors: agGridData.error,
+        content: null,
+        agGridRows: null,
+        errors: null,
         status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD,
-        tableDataStatus: TABLE_DATA_STATUS.READY,
-        uploadPreprocess: null,
+        tableDataStatus: TABLE_DATA_STATUS.UPLOADING,
       });
-    }
-  };
+      const reader = new FileReader();
+      reader.onload = function (event) {
+        const fileContent = event.target.result;
+        const finalStatus = UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD;
+        _parseCSVFileContent(
+          fileContent,
+          file.name,
+          clientFileDescriptor,
+          setClientFileDescriptor,
+          finalStatus,
+          clientFileDescriptorRestoreValue
+        );
+      };
 
-  const importFile = (event) => {
-    // TODO: ask confirmation if data already exist
-    const previousFileBackup = clone(parameter);
-    const file = FileManagementUtils.prepareToUpload(event, parameter, updateParameterValue);
-    if (file.name.endsWith('.csv')) {
-      _readAndParseCSVFile(file, parameter, updateParameterValue, previousFileBackup);
-    } else if (file.name.endsWith('.xlsx')) {
-      _readAndParseXLSXFile(file, parameter, updateParameterValue, previousFileBackup);
-    } else {
-      updateParameterValue({
-        errors: [{ summary: 'Unknown file type, please provide a CSV or XLSX file.', loc: file.name }],
+      reader.readAsText(file);
+    },
+    [_parseCSVFileContent]
+  );
+
+  const _readAndParseXLSXFile = useCallback(
+    async (file, clientFileDescriptor, setClientFileDescriptor, clientFileDescriptorRestoreValue) => {
+      if (!file) {
+        return;
+      }
+      setClientFileDescriptor({
+        name: file.name,
+        file,
+        content: null,
+        agGridRows: null,
+        errors: null,
+        status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD,
+        tableDataStatus: TABLE_DATA_STATUS.PARSING,
       });
-    }
-  };
+
+      const agGridData = await _generateGridDataFromXLSX(file, parameterData, options);
+      if (agGridData.error) {
+        if (clientFileDescriptorRestoreValue) {
+          setClientFileDescriptor({
+            ...clientFileDescriptorRestoreValue,
+            errors: agGridData.error,
+          });
+        } else {
+          setClientFileDescriptor({
+            errors: agGridData.error,
+            tableDataStatus: TABLE_DATA_STATUS.ERROR,
+          });
+        }
+      } else {
+        const newFileContent = AgGridUtils.toCSV(
+          agGridData.rows,
+          ConfigUtils.getParameterAttribute(parameterData, 'columns'),
+          options
+        );
+        setClientFileDescriptor({
+          name: file.name,
+          file: null,
+          content: newFileContent,
+          agGridRows: agGridData.rows,
+          errors: agGridData.error,
+          status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD,
+          tableDataStatus: TABLE_DATA_STATUS.READY,
+          uploadPreprocess: null,
+        });
+      }
+    },
+    [options, parameterData]
+  );
+
+  const importFile = useCallback(
+    (event) => {
+      // TODO: ask confirmation if data already exist
+      const previousFileBackup = clone(parameter);
+      const file = FileManagementUtils.prepareToUpload(event, parameter, updateParameterValue);
+      if (file.name.endsWith('.csv')) {
+        _readAndParseCSVFile(file, parameter, updateParameterValue, previousFileBackup);
+      } else if (file.name.endsWith('.xlsx')) {
+        _readAndParseXLSXFile(file, parameter, updateParameterValue, previousFileBackup);
+      } else {
+        updateParameterValue({
+          errors: [{ summary: 'Unknown file type, please provide a CSV or XLSX file.', loc: file.name }],
+        });
+      }
+    },
+    [_readAndParseCSVFile, _readAndParseXLSXFile, parameter, updateParameterValue]
+  );
 
   const [isExportDialogOpen, setIsExportDialogOpen] = useState(false);
   const openExportDialog = () => setIsExportDialogOpen(true);
   const closeExportDialog = () => setIsExportDialogOpen(false);
-  const exportTable = (fileName) => {
-    closeExportDialog();
-    exportFile(fileName);
-  };
-
-  const exportFile = (fileName) => {
-    if (fileName.toLowerCase().endsWith('.xlsx')) exportXSLX(fileName);
-    else exportCSV(fileName);
-  };
-
-  const exportCSV = (fileName) => {
-    const fileContent = AgGridUtils.toCSV(parameter.agGridRows, columns, options);
-    FileBlobUtils.downloadFileFromData(fileContent, fileName);
-  };
-  const exportXSLX = (fileName) => {
-    const fileContent = AgGridUtils.toXLSX(parameter.agGridRows, columns, options);
-    FileBlobUtils.downloadFileFromData(fileContent, fileName);
-  };
+  const exportCSV = useCallback(
+    (fileName) => {
+      const fileContent = AgGridUtils.toCSV(parameter.agGridRows, columns, options);
+      FileBlobUtils.downloadFileFromData(fileContent, fileName);
+    },
+    [columns, options, parameter.agGridRows]
+  );
+  const exportXSLX = useCallback(
+    (fileName) => {
+      const fileContent = AgGridUtils.toXLSX(parameter.agGridRows, columns, options);
+      FileBlobUtils.downloadFileFromData(fileContent, fileName);
+    },
+    [columns, options, parameter.agGridRows]
+  );
+  const exportFile = useCallback(
+    (fileName) => {
+      if (fileName.toLowerCase().endsWith('.xlsx')) exportXSLX(fileName);
+      else exportCSV(fileName);
+    },
+    [exportCSV, exportXSLX]
+  );
+  const exportTable = useCallback(
+    (fileName) => {
+      closeExportDialog();
+      exportFile(fileName);
+    },
+    [exportFile]
+  );
 
   const _uploadPreprocess = (clientFileDescriptor) => {
     const newFileContent = AgGridUtils.toCSV(parameter.agGridRows, columns, options);
