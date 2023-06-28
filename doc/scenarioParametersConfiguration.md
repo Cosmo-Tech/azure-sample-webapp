@@ -191,6 +191,7 @@ parameters:
           minValue: '1900-01-01'
           maxValue: '2022-12-19T13:46:15.223Z'
           acceptsEmptyFields: true
+      enableAddRow: false
       dateFormat: 'dd/MM/yyyy'
 ```
 
