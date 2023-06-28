@@ -13,6 +13,9 @@ function getParametersTabs(timeout = 4) {
 function getParametersAccordionSummary() {
   return cy.get(GENERIC_SELECTORS.scenario.parameters.accordionSummary);
 }
+function getTabsErrorBadge(container) {
+  return container.find('[data-cy=error-badge]');
+}
 
 // Generic get & set actions for scenario parameters
 function getParameterContainer(id) {
@@ -168,4 +171,5 @@ export const ScenarioParameters = {
   cancelDiscardAndContinue,
   getParametersDiscardAndContinueButton,
   getParametersCancelDiscardAndContinueButton,
+  getTabsErrorBadge,
 };

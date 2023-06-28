@@ -67,10 +67,12 @@ describe('scenario parameters inputs validation', () => {
       ScenarioParameters.getInputValue(BreweryParameters.getRestockInput()).as('restock');
 
       ScenarioParameters.expandParametersAccordion();
+      ScenarioParameters.getTabsErrorBadge(BreweryParameters.getBasicTypesTab()).contains('0');
       BreweryParameters.getStockInput().clear();
       BreweryParameters.getStockInput().blur();
       BreweryParameters.getStockInput().should('value', '');
       BreweryParameters.getStockHelperText().should('be.visible').contains('required');
+      ScenarioParameters.getTabsErrorBadge(BreweryParameters.getBasicTypesTab()).contains('1');
       BreweryParameters.getStockInput().type('5.12');
       BreweryParameters.getStockInput().blur();
       BreweryParameters.getStockHelperText().should('be.visible').contains('integer');
@@ -78,6 +80,7 @@ describe('scenario parameters inputs validation', () => {
       BreweryParameters.getRestockInput().blur();
       BreweryParameters.getRestockInput().should('value', '');
       BreweryParameters.getRestockHelperText().should('be.visible').contains('required');
+      ScenarioParameters.getTabsErrorBadge(BreweryParameters.getBasicTypesTab()).contains('2');
       BreweryParameters.getRestockInput().type('5.12');
       BreweryParameters.getRestockInput().blur();
       BreweryParameters.getRestockHelperText().should('not.exist');
