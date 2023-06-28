@@ -6,7 +6,7 @@ import { BreweryParameters } from '../../commons/actions/brewery';
 import { stub } from '../../commons/services/stubbing';
 import { SOLUTIONS } from '../../fixtures/stubbing/TableParameters-columnGrouping/solution';
 
-describe('check if column grouping feature still up', () => {
+describe('check if column grouping is displayed in the stubbed Table component', () => {
   before(() => {
     stub.start({
       GET_DATASETS: true,
