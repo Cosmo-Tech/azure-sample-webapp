@@ -555,8 +555,8 @@
         "maxErrorsCount": "(only the top first {{maxCount}} results)",
         "errorsCount_one": "{{count}} error occurred:",
         "errorsCount_other": "{{count}} errors occurred:",
-        "placeholdertitle": "Import your first data",
-        "placeholderbody": "After importing a valid csv or xls file, your data will be displayed in an interactive table.",
+        "placeholderTitle": "Import your first data",
+        "placeholderBody": "After importing a valid csv or xlsx file, your data will be displayed in an interactive table.",
         "import": "Import",
         "export": "Export",
         "fullscreen": "Fullscreen"

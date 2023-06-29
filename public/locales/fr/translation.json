@@ -556,8 +556,8 @@
         "maxErrorsCount": "(seulement les {{maxCount}} premiers résultats)",
         "errorsCount_one": "{{count}} erreur:",
         "errorsCount_other": "{{count}} erreurs:",
-        "placeholdertitle": "Importer votre premier fichier",
-        "placeholderbody": "Une fois que vous ayez importé votre premier fichier csv ou xls, vos données vont être affichées dans un tableau interactif.",
+        "placeholderTitle": "Importez votre premier fichier",
+        "placeholderBody": "Une fois votre fichier csv ou xlsx importé, vos données seront affichées dans un tableau interactif.",
         "import": "Importer",
         "export": "Exporter",
         "fullscreen": "Plein écran"

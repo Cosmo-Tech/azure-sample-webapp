@@ -62,11 +62,14 @@ export const GenericTable = ({
     loading: t('genericcomponent.table.labels.loading', 'Loading...'),
     clearErrors: t('genericcomponent.table.button.clearErrors', 'Clear'),
     errorsPanelMainError: t('genericcomponent.table.labels.fileImportError', 'File load failed.'),
-    placeholderTitle: t('genericcomponent.table.labels.placeholdertitle'),
-    placeholderBody: t('genericcomponent.table.labels.placeholderbody'),
-    import: t('genericcomponent.table.labels.import'),
-    export: t('genericcomponent.table.labels.export'),
-    fullscreen: t('genericcomponent.table.labels.fullscreen'),
+    placeholderTitle: t('genericcomponent.table.labels.placeholderTitle', 'Import your first data'),
+    placeholderBody: t(
+      'genericcomponent.table.labels.placeholderBody',
+      'After importing a valid csv or xlsx file, your data will be displayed in an interactive table.'
+    ),
+    import: t('genericcomponent.table.labels.import', 'Import'),
+    export: t('genericcomponent.table.labels.export', 'Export'),
+    fullscreen: t('genericcomponent.table.labels.fullscreen', 'Fullscreen'),
   };
   const tableExportDialogLabels = {
     cancel: t('genericcomponent.table.export.labels.cancel', 'Cancel'),
