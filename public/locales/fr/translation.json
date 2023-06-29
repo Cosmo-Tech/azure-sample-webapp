@@ -561,7 +561,7 @@
         "import": "Importer",
         "export": "Exporter",
         "addRow": "Ajouter une nouvelle ligne",
-        "deleteRow": "Supprimer les lignes sélectionnées",
+        "deleteRows": "Supprimer les lignes sélectionnées",
         "fullscreen": "Plein écran"
       },
       "export": {

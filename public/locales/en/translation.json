@@ -560,7 +560,7 @@
         "import": "Import",
         "export": "Export",
         "addRow": "Add a new row",
-        "deleteRow": "Remove selected rows",
+        "deleteRows": "Remove selected rows",
         "fullscreen": "Fullscreen"
       },
       "export": {

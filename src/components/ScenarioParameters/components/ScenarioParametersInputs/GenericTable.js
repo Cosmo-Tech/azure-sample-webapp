@@ -69,8 +69,8 @@ export const GenericTable = ({
     ),
     import: t('genericcomponent.table.labels.import', 'Import'),
     export: t('genericcomponent.table.labels.export', 'Export'),
-    addrow: t('genericcomponent.table.labels.addRow'),
-    deleterow: t('genericcomponent.table.labels.deleteRow'),
+    addRow: t('genericcomponent.table.labels.addRow'),
+    deleteRows: t('genericcomponent.table.labels.deleteRows'),
     fullscreen: t('genericcomponent.table.labels.fullscreen', 'Fullscreen'),
   };
   const tableExportDialogLabels = {
