@@ -3,6 +3,7 @@
 
 export const getScenarioManagerLabels = (t) => ({
   status: t('commoncomponents.scenariomanager.treelist.node.status.label'),
+  runTemplateLabel: t('commoncomponents.scenariomanager.treelist.node.runTemplate'),
   successful: t('commoncomponents.scenariomanager.treelist.node.status.successful'),
   running: t('commoncomponents.scenariomanager.treelist.node.status.running'),
   dataingestioninprogress: t('commoncomponents.scenariomanager.treelist.node.status.dataingestioninprogress'),
