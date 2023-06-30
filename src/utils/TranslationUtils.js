@@ -4,15 +4,19 @@
 import { i18next, I18N_NAMESPACE } from '../services/config/i18next';
 
 const getParameterTranslationKey = (parameterId) => {
-  return `solution.parameters.${parameterId}`;
+  return `solution.parameters.${parameterId}.name`;
 };
 
 const getParameterTooltipTranslationKey = (parameterId) => {
-  return `solution.parameters.tooltip.${parameterId}`;
+  return `solution.parameters.${parameterId}.tooltip`;
+};
+
+const getParameterEnumValueTooltipTranslationKey = (parameterId, valueKey) => {
+  return `solution.parameters.${parameterId}.enum.value.${valueKey}.tooltip`;
 };
 
 const getParametersGroupTranslationKey = (groupId) => {
-  return `solution.parametersGroups.${groupId}`;
+  return `solution.parametersGroups.${groupId}.name`;
 };
 
 const addTranslationParametersGroupsLabels = (parametersGroups) => {
@@ -45,6 +49,13 @@ const addTranslationParametersLabels = (parameters) => {
       const key = getParameterTooltipTranslationKey(parameter.id);
       resources[lang][key] = parameter.options.tooltipText[lang];
     }
+    for (const enumValue of parameter?.options?.enumValues ?? []) {
+      for (const lang in enumValue.tooltipText) {
+        resources[lang] = resources[lang] || {};
+        const key = getParameterEnumValueTooltipTranslationKey(parameter.id, enumValue.key);
+        resources[lang][key] = enumValue.tooltipText?.[lang];
+      }
+    }
   }
   const langs = Object.keys(resources);
   for (const lang of langs) {
@@ -74,4 +85,5 @@ export const TranslationUtils = {
   getParametersGroupTranslationKey,
   getParameterTranslationKey,
   getParameterTooltipTranslationKey,
+  getParameterEnumValueTooltipTranslationKey,
 };

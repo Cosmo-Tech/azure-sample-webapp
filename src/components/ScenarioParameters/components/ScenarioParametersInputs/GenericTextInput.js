@@ -18,7 +18,7 @@ export const GenericTextInput = ({ parameterData, context, parameterValue, setPa
     <BasicTextInput
       key={parameterData.id}
       id={parameterData.id}
-      label={t(`solution.parameters.${parameterData.id}`, parameterData.id)}
+      label={t(TranslationUtils.getParameterTranslationKey(parameterData.id), parameterData.id)}
       tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
       value={parameterValue ?? ''}
       changeTextField={setParameterValue}

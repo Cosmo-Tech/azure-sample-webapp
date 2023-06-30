@@ -51,7 +51,7 @@ export const GenericNumberInput = ({ parameterData, context, parameterValue, set
     <BasicNumberInput
       key={parameterData.id}
       id={parameterData.id}
-      label={t(`solution.parameters.${parameterData.id}`, parameterData.id)}
+      label={t(TranslationUtils.getParameterTranslationKey(parameterData.id), parameterData.id)}
       tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
       value={value}
       changeNumberField={changeValue}
