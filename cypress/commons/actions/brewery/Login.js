@@ -16,17 +16,6 @@ function login(options) {
   });
 }
 
-// Parameters:
-//   - options: c.f. "options" parameter of "login" function, in ../generic/Login.js
-function relogin(options) {
-  return GenericLogin.relogin({
-    url: DEFAULT_URL,
-    workspaceId: BREWERY_WORKSPACE_ID,
-    ...options,
-  });
-}
-
 export const Login = {
   login,
-  relogin,
 };
