@@ -525,7 +525,8 @@
         }
       },
       "about": {
-        "title": "Exemple d'Application Web Azure",
+        "title": "Application web Brewery",
+        "genericAppVersion": "Basé sur la webapp générique {{version}}",
         "content": "La solution d'exemple de jumeaux numériques est fournie par Cosmo Tech. Vous pouvez utiliser cet example pour créer votre propre solution de jumeaux numériques",
         "button": {
           "close": "Fermer"

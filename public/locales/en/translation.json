@@ -524,7 +524,8 @@
         }
       },
       "about": {
-        "title": "Azure Sample Web Application",
+        "title": "Brewery Web Application",
+        "genericAppVersion": "Based on generic webapp {{version}}",
         "content": "The digital twin example solution is provided by Cosmo Tech. You can use this example to create your own digital twin solution",
         "button": {
           "close": "Close"

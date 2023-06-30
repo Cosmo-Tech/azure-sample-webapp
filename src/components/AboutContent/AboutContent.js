@@ -1,13 +1,14 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, ButtonBase, Link } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { pictureLight, pictureDark } from '../../theme';
 import { useTranslation } from 'react-i18next';
 import { useWorkspaceData } from '../../state/hooks/WorkspaceHooks';
+import { useSolutionData } from '../../state/hooks/SolutionHooks';
 import ConfigService from '../../services/ConfigService';
 
 const useStyles = makeStyles((theme) => ({
@@ -36,6 +37,13 @@ export const AboutContent = ({ isDarkTheme }) => {
   const classes = useStyles();
   const logo = isDarkTheme ? pictureDark.darkLogo : pictureLight.lightLogo;
 
+  const currentSolutionData = useSolutionData();
+  const simulatorDetails = useMemo(() => {
+    const simulatorVersion = currentSolutionData?.version;
+    const simulatorName = currentSolutionData?.name;
+    return simulatorVersion && simulatorName ? <div>{`${simulatorName}: ${simulatorVersion}`}</div> : null;
+  }, [currentSolutionData?.version, currentSolutionData?.name]);
+
   const currentWorkspaceData = useWorkspaceData();
   const organizationUrl =
     currentWorkspaceData?.webApp?.options?.menu?.organizationUrl ?? ConfigService.getParameterValue('ORGANIZATION_URL');
@@ -55,7 +63,10 @@ export const AboutContent = ({ isDarkTheme }) => {
             {t('genericcomponent.dialog.about.title')}
           </Grid>
           <Grid item className={classes.version}>
-            {ConfigService.getParameterValue('APP_VERSION')}
+            {t('genericcomponent.dialog.about.genericAppVersion', 'Based on generic webapp {{version}}', {
+              version: ConfigService.getParameterValue('APP_VERSION'),
+            })}
+            {simulatorDetails}
           </Grid>
           <Grid item className={classes.content}>
             {t('genericcomponent.dialog.about.content')}
