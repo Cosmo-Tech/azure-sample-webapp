@@ -1232,9 +1232,9 @@
     xlsx "https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz"
 
 "@cosmotech/ui@^5.2.0":
-  version "5.3.0"
-  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-5.3.0.tgz#2f9478fb0f324b60a21ca655b568746328a98d63"
-  integrity sha512-ipLsPC5mYJmHAQHwBUAyNvc/p01LD4xtElOb4LlXSwaxtxRnamcScexNjKVIHbOYluc1nqL4smpFsJQ3lUWBBA==
+  version "5.4.0"
+  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-5.4.0.tgz#82f98f77b97567e7724eded6155e949663d25e16"
+  integrity sha512-iDNR7ljQfthHx3MQ9j1cEbkO9TTh/k9xUT2vFJ2FdWO58MRHIlnkKHRtj7hFt40GyVbvO9wryhXJyo3mkirHvQ==
   dependencies:
     "@emotion/react" "^11.10.5"
     "@emotion/styled" "^11.10.5"
