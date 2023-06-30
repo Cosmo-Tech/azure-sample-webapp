@@ -3,7 +3,7 @@
 
 import { useOrganizationId } from '../state/hooks/OrganizationHooks';
 import { useWorkspaceId } from '../state/hooks/WorkspaceHooks';
-import { useSolution } from '../state/hooks/SolutionHooks';
+import { useSolutionData } from '../state/hooks/SolutionHooks';
 import { useCurrentScenarioData, useScenarioListData } from '../state/hooks/ScenarioHooks';
 import { useAddDatasetToStore } from '../state/hooks/DatasetHooks';
 import { useCallback, useMemo } from 'react';
@@ -15,7 +15,7 @@ const getRunTemplateParametersIds = (runTemplatesParametersIdsDict, runTemplateI
 };
 
 export const useUpdateParameters = () => {
-  const solutionData = useSolution().data;
+  const solutionData = useSolutionData();
   const currentScenarioData = useCurrentScenarioData();
   const organizationId = useOrganizationId();
   const workspaceId = useWorkspaceId();
