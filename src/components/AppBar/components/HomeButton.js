@@ -16,13 +16,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 export const HomeButton = () => {
-  const navigateToWorkspaceSelector = () => {
-    navigate('/workspaces');
-  };
   const classes = useStyles();
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { currentWorkspace, workspacesList } = useHomeButton();
+  const { currentWorkspace, workspacesList, resetCurrentSolution } = useHomeButton();
+
+  const navigateToWorkspaceSelector = () => {
+    resetCurrentSolution();
+    navigate('/workspaces');
+  };
+
   return currentWorkspace?.data && workspacesList?.data?.length > 1 ? (
     <FadingTooltip title={t('genericcomponent.workspaceselector.homebutton', 'Workspaces')}>
       <IconButton
