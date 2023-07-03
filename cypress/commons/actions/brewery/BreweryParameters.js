@@ -80,6 +80,7 @@ const getCurrencyParameterContainer = () => ScenarioParameters.getParameterConta
 const getCurrency = () => ScenarioParameters.getParameterValue('enum-input-currency');
 const getCurrencyInput = () => ScenarioParameters.getParameterInput('enum-input-currency');
 const getCurrencyName = () => ScenarioParameters.getParameterValue('text-input-currency_name');
+const getCurrencyNameHelperText = () => cy.get('[id=text-input-currency_name-helper-text]');
 const getCurrencyNameInput = () => ScenarioParameters.getParameterInput('text-input-currency_name');
 const getCurrencyValue = () => ScenarioParameters.getParameterValue('number-input-currency_value');
 const getCurrencyValueInput = () => ScenarioParameters.getParameterInput('number-input-currency_value');
@@ -98,6 +99,7 @@ const getAdditionalSeatsInput = () => ScenarioParameters.getParameterInput('numb
 const getActivated = () => ScenarioParameters.getParameterValue('toggle-input-activated');
 const getActivatedInput = () => ScenarioParameters.getParameterInput('toggle-input-activated');
 const getEvaluation = () => ScenarioParameters.getParameterValue('text-input-evaluation');
+const getEvaluationHelperText = () => cy.get('[id=text-input-evaluation-helper-text]');
 const getEvaluationInput = () => ScenarioParameters.getParameterInput('text-input-evaluation');
 const getVolumeUnitParameterContainer = () => ScenarioParameters.getParameterContainer('radio-input-volume_unit');
 const getVolumeUnit = () => ScenarioParameters.getParameterValue('radio-input-volume_unit');
@@ -105,6 +107,7 @@ const getVolumeUnitInput = () => ScenarioParameters.getParameterInput('radio-inp
 const getAdditionalTables = () => ScenarioParameters.getParameterValue('number-input-additional_tables');
 const getAdditionalTablesInput = () => ScenarioParameters.getParameterInput('number-input-additional_tables');
 const getComment = () => ScenarioParameters.getParameterValue('text-input-comment');
+const getCommentHelperText = () => cy.get('[id=text-input-comment-helper-text]');
 const getCommentInput = () => ScenarioParameters.getParameterInput('text-input-comment');
 const getAdditionalDate = () => ScenarioParameters.getParameterValue('date-input-additional_date');
 const getAdditionalDateInput = () => ScenarioParameters.getParameterInput('date-input-additional_date');
@@ -494,6 +497,9 @@ export const BreweryParameters = {
   getAdditionalTablesInput,
   getCommentInput,
   getAdditionalDateInput,
+  getCurrencyNameHelperText,
+  getEvaluationHelperText,
+  getCommentHelperText,
   getExampleDatasetPart1FileName,
   getExampleDatasetPart2FileName,
   getExampleDatasetPart3FileName,

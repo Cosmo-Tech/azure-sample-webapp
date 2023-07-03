@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { TranslationUtils } from '../../../../utils';
 
-export const GenericTextInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty }) => {
+export const GenericTextInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty, error }) => {
   const { t } = useTranslation();
   const textFieldProps = {
     disabled: !context.editMode,
@@ -24,6 +24,7 @@ export const GenericTextInput = ({ parameterData, context, parameterValue, setPa
       changeTextField={setParameterValue}
       textFieldProps={textFieldProps}
       isDirty={isDirty}
+      error={error}
     />
   );
 };
@@ -34,7 +35,45 @@ GenericTextInput.propTypes = {
   parameterValue: PropTypes.any,
   setParameterValue: PropTypes.func.isRequired,
   isDirty: PropTypes.bool,
+  error: PropTypes.object,
 };
 GenericTextInput.defaultProps = {
   isDirty: false,
+};
+GenericTextInput.useValidationRules = (parameterData) => {
+  const { t } = useTranslation();
+  const getStringSizeInBytes = (string) => new Blob([string]).size;
+  const minLength = parameterData?.options?.minLength ?? 0;
+  return {
+    required: {
+      value: minLength > 0,
+      message: t('views.scenario.scenarioParametersValidationErrors.required', 'This field is required'),
+    },
+    minLength: {
+      value: minLength,
+      message: t(
+        'views.scenario.scenarioParametersValidationErrors.minLength',
+        'Minimum length of this field is {{length}} characters',
+        { length: minLength }
+      ),
+    },
+    maxLength: {
+      value: parameterData?.options?.maxLength,
+      message: t(
+        'views.scenario.scenarioParametersValidationErrors.maxLength',
+        'Maximum length of this field is {{length}} characters',
+        { length: parameterData?.options?.maxLength }
+      ),
+    },
+    validate: (v) => {
+      // 65535 is max length accepted by CosmoTech API
+      return (
+        getStringSizeInBytes(v) < 65535 ||
+        t(
+          'views.scenario.scenarioParametersValidationErrors.maxLengthForApi',
+          'This text exceeds the maximum possible length for a scenario parameter'
+        )
+      );
+    },
+  };
 };
