@@ -70,26 +70,11 @@ describe('Additional advanced scenario parameters tests', () => {
 
     BreweryParameters.switchToEventsTab();
     BreweryParameters.editEventsTableStringCell('reservationsNumber', 0, '199').should('have.text', '199');
-    // Additional seats values ranged from -600 to 2500
-    // If the value is out of range, the last digit is not displayed
-    BreweryParameters.getAdditionalSeatsInput().click().clear().type(-800).should('value', -80);
-    BreweryParameters.getAdditionalSeatsInput().click().clear().type(200).should('value', 200);
-    BreweryParameters.getAdditionalSeatsInput().click().clear().type(-1000).should('value', -100);
-    BreweryParameters.getAdditionalSeatsInput().click().clear().type(3000).should('value', 300);
-    BreweryParameters.getAdditionalSeatsInput().click().clear().type(2000).should('value', 2000);
 
     BreweryParameters.switchToAdditionalParametersTab();
     BreweryParameters.getVolumeUnitRadioButtonInput('m³').click();
     BreweryParameters.switchToEventsTab();
     BreweryParameters.getActivatedInput().check().should('be.checked');
-
-    BreweryParameters.switchToAdditionalParametersTab();
-    // Additional tables values ranged from -150 to 12000
-    // If the value is out of range, the last digit is not displayed
-    BreweryParameters.getAdditionalTablesInput().click().clear().type(-250).should('value', -25);
-    BreweryParameters.getAdditionalTablesInput().click().clear().type(-120).should('value', -120);
-    BreweryParameters.getAdditionalTablesInput().click().clear().type(50000).should('value', 5000);
-    BreweryParameters.getAdditionalTablesInput().click().clear().type(6000).should('value', 6000);
 
     BreweryParameters.switchToEventsTab();
     BreweryParameters.getEvaluationInput().click().clear().type('Wonderful');
