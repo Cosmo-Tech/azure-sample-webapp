@@ -44,5 +44,6 @@ describe('Displaying error banner on run scenario fail', () => {
     });
     ScenarioParameters.launch();
     ErrorBanner.checkAnDismissErrorBanner();
+    Scenarios.getDashboardAccordionLogsDownloadButton().should('not.exist');
   });
 });

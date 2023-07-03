@@ -59,6 +59,7 @@ export const GENERIC_SELECTORS = {
       placeholder: '[data-cy=dashboard-placeholder]',
       accordion: '[data-cy=dashboards-accordion]',
       accordionSummary: '[data-cy=dashboards-accordion-summary]',
+      accordionLogsDownloadButton: '[data-cy=successful-run-logs-download-button]',
       unsynced: '[data-unsynced=true]',
       synced: '[data-unsynced=false]',
     },
