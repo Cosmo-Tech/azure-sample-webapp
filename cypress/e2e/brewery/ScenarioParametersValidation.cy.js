@@ -10,7 +10,7 @@ import utils from '../../commons/TestUtils';
 const currencyValueShort = 'E';
 const currencyValueLong = utils.randomStr(1);
 const evaluationValue = 'G';
-const commentValue = utils.randomStr(0).repeat(3);
+const commentValue = utils.randomStr(0).repeat(4);
 
 describe('scenario parameters inputs validation', () => {
   before(() => {
@@ -94,6 +94,54 @@ describe('scenario parameters inputs validation', () => {
       });
     }
   );
+  it(
+    'checks error message for date input when given value exceeds minimum and maximum value ' +
+      'or expected format is not respected',
+    () => {
+      ScenarioParameters.expandParametersAccordion();
+
+      BreweryParameters.switchToAdditionalParametersTab();
+
+      ScenarioParameters.getInputValue(BreweryParameters.getStartDateInput()).as('start_date');
+      ScenarioParameters.getInputValue(BreweryParameters.getAdditionalDateInput()).as('additional_date');
+
+      BreweryParameters.getStartDateInput().clear();
+      BreweryParameters.getStartDateHelperText().should('be.visible').contains('required');
+      BreweryParameters.getStartDateInput().type('22/22/2222');
+      BreweryParameters.getStartDateHelperText().should('be.visible').contains('format');
+      BreweryParameters.getStartDateInput().clear().type('05/18/2099');
+      BreweryParameters.getStartDateHelperText().should('not.exist');
+
+      BreweryParameters.getAdditionalDateInput().clear().type('05/05/2018');
+      BreweryParameters.getAdditionalDateHelperText().should('exist').contains('Minimum date');
+      BreweryParameters.getAdditionalDateInput().clear().type('05/05/2024');
+      BreweryParameters.getAdditionalDateHelperText().should('exist').contains('Maximum date');
+
+      BreweryParameters.getAdditionalDateInput().clear().type('12/31/2020');
+      BreweryParameters.getAdditionalDateHelperText().should('exist').contains('Minimum date');
+      BreweryParameters.getAdditionalDateInput().clear().type('01/01/2023');
+      BreweryParameters.getAdditionalDateHelperText().should('exist').contains('Maximum date');
+
+      ScenarioParameters.getSaveButton().should('be.disabled');
+      ScenarioParameters.getLaunchButton().should('be.disabled');
+
+      BreweryParameters.switchToDatasetPartsTab();
+      ScenarioParameters.getSaveButton().should('be.disabled');
+      ScenarioParameters.getLaunchButton().should('be.disabled');
+
+      BreweryParameters.switchToAdditionalParametersTab();
+      BreweryParameters.getAdditionalDateHelperText().should('exist').contains('Maximum date');
+      ScenarioParameters.discard();
+
+      cy.get('@start_date').then((input) => {
+        BreweryParameters.getStartDateInput().should('value', input);
+      });
+      cy.get('@additional_date').then((input) => {
+        BreweryParameters.getAdditionalDateInput().should('value', input);
+      });
+      BreweryParameters.getAdditionalDateHelperText().should('not.exist');
+    }
+  );
   it('checks min and max length validation for string varType', () => {
     ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToDatasetPartsTab();
@@ -120,9 +168,9 @@ describe('scenario parameters inputs validation', () => {
 
     BreweryParameters.getCurrencyNameInput().type(currencyValueShort);
     BreweryParameters.getCurrencyNameHelperText().should('exist').contains('Minimum length');
-    BreweryParameters.getCommentInput().type(commentValue);
+    BreweryParameters.getCommentInput().type(commentValue, { delay: 10 });
     BreweryParameters.getCommentHelperText().should('exist').contains('Maximum length');
-    BreweryParameters.getCurrencyNameInput().clear().type(currencyValueLong);
+    BreweryParameters.getCurrencyNameInput().clear().type(currencyValueLong, { delay: 10 });
     BreweryParameters.getCurrencyNameHelperText().should('exist').contains('Maximum length');
     ScenarioParameters.discard();
     cy.get('@currency_name').then((input) => {

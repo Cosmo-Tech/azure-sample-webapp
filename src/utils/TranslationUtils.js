@@ -78,6 +78,38 @@ const changeLanguage = (language, i18next) => {
   }
 };
 
+const charactersToEscapeMapping = {
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  "'": '&#39;',
+  '/': '&#x2F;',
+};
+const symbolsToDecodeMapping = {
+  '&amp;': '&',
+  '&lt;': '<',
+  '&gt;': '>',
+  '&quot;': '"',
+  '&#39;': "'",
+  '&#x2F;': '/',
+};
+
+const getStringWithEscapedCharacters = (data) => {
+  if (typeof data === 'string') {
+    return data.replace(/[&<>"'/]/g, (s) => charactersToEscapeMapping[s]);
+  }
+};
+
+const getStringWithUnescapedCharacters = (string) => {
+  let unescapedString = string;
+  Object.keys(symbolsToDecodeMapping).forEach((key) => {
+    const regex = new RegExp(key, 'g');
+    unescapedString = unescapedString.replace(regex, symbolsToDecodeMapping[key]);
+  });
+  return unescapedString;
+};
+
 export const TranslationUtils = {
   addTranslationParametersGroupsLabels,
   addTranslationParametersLabels,
@@ -86,4 +118,6 @@ export const TranslationUtils = {
   getParameterTranslationKey,
   getParameterTooltipTranslationKey,
   getParameterEnumValueTooltipTranslationKey,
+  getStringWithEscapedCharacters,
+  getStringWithUnescapedCharacters,
 };
