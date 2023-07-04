@@ -274,7 +274,7 @@ Notes:
 
 #### Columns grouping definition
 
-The description of the table groups consists of putting columns in the same group. Each group needs to have this following fields:
+The description of the table groups consists of putting columns in the same group. Each group needs to have the following fields:
 
 - **headerName** Name of the column group
 - **children** Array of columns or columns groups belonging to this group
