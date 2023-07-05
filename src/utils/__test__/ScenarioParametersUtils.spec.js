@@ -365,3 +365,119 @@ describe('getParameterVarType', () => {
     expect(res).toStrictEqual(expectedVarType);
   });
 });
+
+describe('get errors count by tab', () => {
+  const tabs = [
+    {
+      id: 'bar_parameters',
+      parameters: [{ id: 'stock' }, { id: 'restock_qty' }, { id: 'nb_waiters' }],
+    },
+    {
+      id: 'basic_types',
+      parameters: [
+        { id: 'currency' },
+        { id: 'currency_name' },
+        { id: 'currency_value' },
+        { id: 'currency_used' },
+        { id: 'start_date' },
+        { id: 'average_consumption' },
+      ],
+    },
+    {
+      id: 'additional_parameters',
+      parameters: [{ id: 'volume_unit' }, { id: 'additional_tables' }, { id: 'comment' }, { id: 'additional_date' }],
+    },
+  ];
+  const tabsWithNoParameters = [
+    {
+      id: 'bar_parameters',
+    },
+    {
+      id: 'basic_types',
+    },
+    {
+      id: 'additional_parameters',
+    },
+  ];
+
+  const errors = {
+    additional_tables: {
+      type: 'required',
+      message: 'This field is required',
+    },
+    currency: {
+      type: 'required',
+      message: 'This field is required',
+    },
+    stock: {
+      type: 'required',
+      message: 'This field is required',
+    },
+    comment: {
+      type: 'required',
+      message: 'This field is required',
+    },
+    start_date: {
+      type: 'required',
+      message: 'This field is required',
+    },
+    average_consumption: {
+      type: 'required',
+      message: 'This field is required',
+    },
+  };
+
+  const errorsWithAdditionalParameter = {
+    additional_tables: {
+      type: 'required',
+      message: 'This field is required',
+    },
+    currency: {
+      type: 'required',
+      message: 'This field is required',
+    },
+    stock: {
+      type: 'required',
+      message: 'This field is required',
+    },
+    comment: {
+      type: 'required',
+      message: 'This field is required',
+    },
+    start_date: {
+      type: 'required',
+      message: 'This field is required',
+    },
+    average_consumption: {
+      type: 'required',
+      message: 'This field is required',
+    },
+    customers: {
+      type: 'required',
+      message: 'This field is required',
+    },
+  };
+
+  const errorsCount = {
+    bar_parameters: 1,
+    basic_types: 3,
+    additional_parameters: 2,
+  };
+  const errorsCountZero = {
+    bar_parameters: 0,
+    basic_types: 0,
+    additional_parameters: 0,
+  };
+  test.each`
+    tabs                    | errors                           | errorsCount
+    ${tabs}                 | ${errors}                        | ${errorsCount}
+    ${tabs}                 | ${{}}                            | ${errorsCountZero}
+    ${tabs}                 | ${undefined}                     | ${errorsCountZero}
+    ${tabsWithNoParameters} | ${{}}                            | ${errorsCountZero}
+    ${tabsWithNoParameters} | ${errors}                        | ${errorsCountZero}
+    ${tabs}                 | ${errorsWithAdditionalParameter} | ${errorsCount}
+  `('errorsCount object is correctly created', ({ tabs, errors, errorsCount }) => {
+    const res = ScenarioParametersUtils.getErrorsCountByTab(tabs, errors);
+    expect(res).toStrictEqual(errorsCount);
+  });
+});

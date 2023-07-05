@@ -327,6 +327,17 @@ const buildParametersValuesFromOriginalValues = (
   return parametersValues;
 };
 
+const getErrorsCountByTab = (tabs, errors) => {
+  return Object.assign(
+    {},
+    ...tabs.map((tab) => ({
+      [tab.id]:
+        tab.parameters?.map((param) => param.id)?.filter((parameter) => Object.keys(errors ?? {}).includes(parameter))
+          ?.length ?? 0,
+    }))
+  );
+};
+
 export const ScenarioParametersUtils = {
   generateParametersMetadata,
   generateParametersGroupsMetadata,
@@ -336,4 +347,5 @@ export const ScenarioParametersUtils = {
   buildParametersValuesFromOriginalValues,
   getParameterVarType,
   shouldForceScenarioParametersUpdate,
+  getErrorsCountByTab,
 };
