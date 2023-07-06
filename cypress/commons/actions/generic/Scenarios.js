@@ -88,6 +88,9 @@ function getDashboardAccordion() {
 function getDashboardAccordionSummary() {
   return cy.get(GENERIC_SELECTORS.scenario.dashboard.accordionSummary);
 }
+function getDashboardAccordionLogsDownloadButton() {
+  return cy.get(GENERIC_SELECTORS.scenario.dashboard.accordionLogsDownloadButton);
+}
 
 function checkIfReportIsUnsynced(expectedValue) {
   return expectedValue
@@ -245,6 +248,7 @@ export const Scenarios = {
   getDashboardPlaceholder,
   getDashboardAccordion,
   getDashboardAccordionSummary,
+  getDashboardAccordionLogsDownloadButton,
   checkIfReportIsUnsynced,
   switchToScenarioView,
   openScenarioCreationDialog,

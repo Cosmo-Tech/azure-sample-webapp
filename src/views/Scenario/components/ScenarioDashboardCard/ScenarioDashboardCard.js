@@ -1,10 +1,11 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useState } from 'react';
-import { Accordion, AccordionSummary, AccordionDetails, Card, Grid, Paper, Typography } from '@mui/material';
+import React, { useMemo, useState } from 'react';
+import { Accordion, AccordionSummary, AccordionDetails, Button, Card, Grid, Paper, Typography } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import WarningAmberOutlinedIcon from '@mui/icons-material/WarningAmberOutlined';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { ScenarioPowerBiReport } from '../index';
 import { useScenarioDashboardCard } from './ScenarioDashboardCardHook';
 import { useTranslation } from 'react-i18next';
@@ -13,24 +14,46 @@ const STORAGE_DASHBOARDS_ACCORDION_EXPANDED_KEY = 'dashboardsAccordionExpanded';
 
 const ScenarioDashboardCard = () => {
   const { t } = useTranslation();
-  const { hasScenarioBeenRun, isDashboardSync } = useScenarioDashboardCard();
+  const { hasRunBeenSuccessful, isDashboardSync, downloadCurrentScenarioRunLogs } = useScenarioDashboardCard();
 
   const [isDashboardsAccordionExpanded, setIsDashboardsAccordionExpanded] = useState(
     localStorage.getItem(STORAGE_DASHBOARDS_ACCORDION_EXPANDED_KEY) === 'true'
   );
+
   const toggleDashboardsAccordion = () => {
     const isExpanded = !isDashboardsAccordionExpanded;
     setIsDashboardsAccordionExpanded(isExpanded);
     localStorage.setItem(STORAGE_DASHBOARDS_ACCORDION_EXPANDED_KEY, isExpanded);
   };
 
+  const downloadLogsButton = useMemo(() => {
+    if (!hasRunBeenSuccessful) return null;
+
+    const triggerLogsDownload = (event) => {
+      event.stopPropagation();
+      downloadCurrentScenarioRunLogs();
+    };
+
+    return (
+      <Button
+        data-cy={'successful-run-logs-download-button'}
+        color={isDashboardSync ? 'primary' : 'inherit'}
+        variant="outlined"
+        startIcon={<InfoOutlinedIcon />}
+        onClick={triggerLogsDownload}
+      >
+        {t('commoncomponents.iframe.scenario.results.button.logs', 'Logs')}
+      </Button>
+    );
+  }, [hasRunBeenSuccessful, isDashboardSync, downloadCurrentScenarioRunLogs, t]);
+
   return (
     <Card component={Paper} sx={{ p: 0 }}>
       <Accordion
         expanded={isDashboardsAccordionExpanded}
         data-cy="dashboards-accordion"
-        data-unsynced={hasScenarioBeenRun && !isDashboardSync ? 'true' : 'false'}
-        sx={{ pb: 1.5, pt: 1.5, bgcolor: hasScenarioBeenRun && !isDashboardSync ? 'dashboard.warning' : undefined }}
+        data-unsynced={hasRunBeenSuccessful && !isDashboardSync}
+        sx={{ pb: 1.5, pt: 1.5, bgcolor: hasRunBeenSuccessful && !isDashboardSync ? 'dashboard.warning' : undefined }}
       >
         <AccordionSummary
           data-cy="dashboards-accordion-summary"
@@ -46,7 +69,7 @@ const ScenarioDashboardCard = () => {
               <Typography>{t('commoncomponents.iframe.title', 'Dashboard')}</Typography>
             </Grid>
             <Grid item sx={{ flexGrow: '1' }}>
-              {!isDashboardSync && hasScenarioBeenRun && (
+              {!isDashboardSync && hasRunBeenSuccessful && (
                 <div>
                   <Typography sx={{ textAlign: 'center', width: '100%' }}>
                     <WarningAmberOutlinedIcon sx={{ mr: 1, verticalAlign: 'text-bottom' }} />
@@ -55,6 +78,7 @@ const ScenarioDashboardCard = () => {
                 </div>
               )}
             </Grid>
+            <Grid>{downloadLogsButton}</Grid>
           </Grid>
         </AccordionSummary>
         <AccordionDetails sx={{ pl: '0px', width: '100%' }}>

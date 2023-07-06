@@ -162,6 +162,7 @@
           },
           "button": {
             "downloadLogs": "Download logs",
+            "logs": "Logs",
             "refresh": "Refresh (will then be disabled for 15 seconds)"
           },
           "warning": {

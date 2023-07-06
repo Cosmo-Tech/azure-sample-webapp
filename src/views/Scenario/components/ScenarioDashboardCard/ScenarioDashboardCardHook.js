@@ -7,6 +7,7 @@ import {
   useCurrentScenarioState,
 } from '../../../../state/hooks/ScenarioHooks';
 import { useCurrentScenarioRunStartTime } from '../../../../state/hooks/ScenarioRunHooks';
+import { useDownloadLogsFile } from '../../../../hooks/ScenarioRunHooks';
 import { useMemo } from 'react';
 import { useFormState } from 'react-hook-form';
 
@@ -15,10 +16,11 @@ export const useScenarioDashboardCard = () => {
   const currentScenarioLastRun = useCurrentScenarioLastRun();
   const currentScenarioState = useCurrentScenarioState();
   const currentScenarioRunStartTime = useCurrentScenarioRunStartTime();
+  const downloadCurrentScenarioRunLogs = useDownloadLogsFile();
 
   const { isDirty } = useFormState();
 
-  const hasScenarioBeenRun = useMemo(
+  const hasRunBeenSuccessful = useMemo(
     () => currentScenarioLastRun !== null && currentScenarioState === 'Successful',
     [currentScenarioLastRun, currentScenarioState]
   );
@@ -35,5 +37,5 @@ export const useScenarioDashboardCard = () => {
     return lastUpdate <= startTime;
   }, [currentScenarioLastUpdate, currentScenarioRunStartTime, isDirty]);
 
-  return { hasScenarioBeenRun, isDashboardSync };
+  return { hasRunBeenSuccessful, isDashboardSync, downloadCurrentScenarioRunLogs };
 };

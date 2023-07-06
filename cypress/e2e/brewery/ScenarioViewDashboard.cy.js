@@ -30,7 +30,7 @@ describe('Scenario view PowerBI report', () => {
     ScenarioManager.deleteScenarioList(scenarioNamesToDelete);
   });
 
-  it('can correctly show "out of sync" dashboard warning', () => {
+  it('can correctly show "out of sync" dashboard warning & "logs download" button', () => {
     const prefix = 'Test Cypress - Scenario view dashboard - ';
     const randomString = utils.randomStr(7);
     const scenarioName = prefix + randomString;
@@ -40,17 +40,21 @@ describe('Scenario view PowerBI report', () => {
       // First phase: warning is never visible until we first launch the scenario
       Scenarios.checkIfReportIsUnsynced(false);
       Scenarios.getScenarioBackdrop(10).should('not.be.visible');
+      Scenarios.getDashboardAccordionLogsDownloadButton().should('not.exist');
       BreweryParameters.getCurrencyUsedInput().check();
       Scenarios.checkIfReportIsUnsynced(false);
 
       // Second phase: after a run, warning is only visible when the form is in a "dirty" state
       ScenarioParameters.launch();
       Scenarios.checkIfReportIsUnsynced(false);
+      Scenarios.getDashboardAccordionLogsDownloadButton().should('not.exist');
       // TODO: add stubbing for scenario runs
       ScenarioParameters.waitForScenarioRunEnd();
       Scenarios.checkIfReportIsUnsynced(false);
+      Scenarios.getDashboardAccordionLogsDownloadButton().should('be.visible');
       BreweryParameters.getCurrencyUsedInput().uncheck();
       Scenarios.checkIfReportIsUnsynced(true);
+      Scenarios.getDashboardAccordionLogsDownloadButton().should('be.visible');
 
       BreweryParameters.getCurrencyUsedInput().check();
       Scenarios.checkIfReportIsUnsynced(false);
@@ -62,6 +66,7 @@ describe('Scenario view PowerBI report', () => {
       Scenarios.checkIfReportIsUnsynced(true);
       ScenarioParameters.launch();
       Scenarios.checkIfReportIsUnsynced(false);
+      Scenarios.getDashboardAccordionLogsDownloadButton().should('not.exist');
 
       // Third phase: warning is still visible after saving new parameters values, even if we "undo" local changes or
       // discard them

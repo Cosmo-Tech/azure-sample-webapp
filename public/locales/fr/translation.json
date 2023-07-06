@@ -162,6 +162,7 @@
           },
           "button": {
             "downloadLogs": "Télécharger les logs",
+            "logs": "Logs",
             "refresh": "Rafraîchir (sera ensuite indisponible pendant 15 secondes)"
           },
           "warning": {
