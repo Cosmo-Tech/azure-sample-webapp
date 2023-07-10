@@ -230,7 +230,7 @@ export const GenericTable = ({
 
     const agGridData = _generateGridDataFromCSV(fileContent, parameterData, options);
     if (agGridData.error) {
-      if (clientFileDescriptorRestoreValue) {
+      if (clientFileDescriptorRestoreValue && clientFileDescriptorRestoreValue.status !== 'EMPTY') {
         setClientFileDescriptor({
           ...clientFileDescriptorRestoreValue,
           errors: agGridData.error,
@@ -311,7 +311,7 @@ export const GenericTable = ({
 
     const agGridData = await _generateGridDataFromXLSX(file, parameterData, options);
     if (agGridData.error) {
-      if (clientFileDescriptorRestoreValue) {
+      if (clientFileDescriptorRestoreValue && clientFileDescriptorRestoreValue.status !== 'EMPTY') {
         setClientFileDescriptor({
           ...clientFileDescriptorRestoreValue,
           errors: agGridData.error,
