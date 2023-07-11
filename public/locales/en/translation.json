@@ -196,6 +196,7 @@
         "node": {
           "dataset_one": "Dataset",
           "dataset_other": "Datasets",
+          "runTemplate": "Run type:",
           "status": {
             "label": "Run status:",
             "successful": "Successful",

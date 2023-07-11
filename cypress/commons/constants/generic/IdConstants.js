@@ -119,6 +119,7 @@ export const GENERIC_SELECTORS = {
       scenarioAccordion: '[data-cy=scenario-accordion-$SCENARIOID]',
       scenarioAccordions: '[data-cy^=scenario-accordion-]',
       scenarioAccordionExpandButton: '[data-cy=expand-accordion-button]',
+      scenarioRunTemplate: '[data-cy=scenario-run-template]',
       scenarioDataset: '[data-cy=scenario-datasets]',
       editableLabel: '[data-cy=editable-label]',
       editableLabelInEditMode: '[data-cy=editable-label-in-edition-mode]',

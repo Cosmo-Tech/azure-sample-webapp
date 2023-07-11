@@ -41,6 +41,7 @@ describe('Create scenario and check its data in scenario manager', () => {
       const scenarioId = value.scenarioCreatedId;
       const scenarioOwnerName = value.scenarioCreatedOwnerName;
       const scenarioCreationDate = value.scenarioCreatedCreationDate;
+      const scenarioRunTemplate = value.scenarioCreatedRunTemplateName;
 
       ScenarioManager.switchToScenarioManager();
 
@@ -53,6 +54,7 @@ describe('Create scenario and check its data in scenario manager', () => {
       ScenarioManager.getScenarioCreationDate(scenarioId).should('have.text', _formatDate(scenarioCreationDate));
       ScenarioManager.getScenarioEditableLabel(scenarioId).should('have.text', scenarioName);
       ScenarioManager.getScenarioRunStatus(scenarioId, SCENARIO_STATUS.CREATED);
+      ScenarioManager.getScenarioRunTemplate(scenarioId).should('have.text', scenarioRunTemplate);
       ScenarioManager.getScenarioDataset(scenarioId).should('have.text', DATASET.BREWERY_ADT, { matchCase: false });
 
       Scenarios.switchToScenarioView();

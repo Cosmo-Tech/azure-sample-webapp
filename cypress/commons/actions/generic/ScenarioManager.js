@@ -83,6 +83,10 @@ function getScenarioRunStatus(scenarioId, scenarioStatus, timeout = 5) {
   });
 }
 
+function getScenarioRunTemplate(scenarioId) {
+  return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.manager.scenarioRunTemplate);
+}
+
 function getScenarioDataset(scenarioId) {
   return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.manager.scenarioDataset);
 }
@@ -162,6 +166,7 @@ export const ScenarioManager = {
   getScenarioValidationStatusChip,
   getScenarioValidationStatusLoadingSpinner,
   getScenarioRunStatus,
+  getScenarioRunTemplate,
   getScenarioDataset,
   getScenarioViewRedirect,
   checkValidationStatus,
