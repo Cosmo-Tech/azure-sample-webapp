@@ -24,7 +24,7 @@ describe('Check createNewTableLine returns value', () => {
     {
       field: 'enumWithValues',
       type: ['enum'],
-      cellEditorParams: { enumValues: ['First', 'Second', 'Third'] },
+      enumValues: ['First', 'Second', 'Third'],
     },
     {
       field: 'date',
@@ -37,70 +37,70 @@ describe('Check createNewTableLine returns value', () => {
     // Set DefaultValues
     {
       field: 'defaultValueString',
-      cellEditorParams: { defaultValue: 'defaultValue' },
+      defaultValue: 'defaultValue',
     },
     {
       field: 'defaultValueInteger',
       type: ['int'],
-      cellEditorParams: { defaultValue: 10 },
+      defaultValue: 10,
     },
     {
       field: 'defaultValueBoolean',
       type: ['bool'],
-      cellEditorParams: { defaultValue: true },
+      defaultValue: true,
     },
     {
       field: 'defaultValueEnum',
       type: ['enum'],
-      cellEditorParams: { defaultValue: 'Third' },
+      defaultValue: 'Third',
     },
     {
       field: 'defaultValueDate',
       type: ['date'],
-      cellEditorParams: { defaultValue: '01/01/2000' },
+      defaultValue: '01/01/2000',
     },
     {
       field: 'defaultValueNumber',
       type: ['number'],
-      cellEditorParams: { defaultValue: '3.14' },
+      defaultValue: '3.14',
     },
     // Use of min values
     {
       field: 'minValueInteger',
       type: ['int'],
-      cellEditorParams: { minValue: '42' },
+      minValue: '42',
     },
     {
       field: 'minValueDate',
       type: ['date'],
-      cellEditorParams: { minValue: '01/01/2030' },
+      minValue: '01/01/2030',
     },
     {
       field: 'minValueNumber',
       type: ['number'],
-      cellEditorParams: { minValue: '3.14' },
+      minValue: '3.14',
     },
     // Webapp use maxValue because webapp's values are higher
     {
       field: 'maxValueNegativeInteger',
       type: ['int'],
-      cellEditorParams: { maxValue: '-42' },
+      maxValue: '-42',
     },
     {
       field: 'maxValueNegativeNumber',
       type: ['number'],
-      cellEditorParams: { maxValue: '-3.14' },
+      maxValue: '-3.14',
     },
     // Webapp does not use maxValue because webapp's values are lower
     {
       field: 'maxValuePositiveInteger',
       type: ['int'],
-      cellEditorParams: { maxValue: '42' },
+      maxValue: '42',
     },
     {
       field: 'maxValuePositiveNumber',
       type: ['number'],
-      cellEditorParams: { maxValue: '3.14' },
+      maxValue: '3.14',
     },
   ];
   const RESULT = {
