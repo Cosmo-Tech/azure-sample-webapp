@@ -331,10 +331,10 @@
         },
         "roles": {
           "admin": "Admin",
+          "viewer": "Viewer",
           "editor": "Editor",
           "none": "Restricted",
-          "validator": "Validator",
-          "viewer": "Viewer"
+          "validator": "Validator"
         },
         "permissions": {
           "create_children": "Create children",
@@ -659,8 +659,8 @@
         "afterOrEqual": "The field {{field}} must be after or equal to the field {{constraint}}",
         "beforeOrEqual": "The field {{field}} must be before or equal to the field {{constraint}}",
         "equalDate": "The field {{field}} must be equal to the field {{constraint}}",
-        "differentDate": "The field {{field}} must be different from the field {{constraint}}"
-
+        "differentDate": "The field {{field}} must be different from the field {{constraint}}",
+        "fileFormat": "File format not supported"
       }
     }
   },

@@ -5,7 +5,7 @@ import { TABLE_DATA_STATUS, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
 import DatasetService from '../services/dataset/DatasetService';
 import WorkspaceService from '../services/workspace/WorkspaceService';
 import { AppInsights } from '../services/AppInsights';
-import { DATASET_ID_VARTYPE } from '../services/config/ApiConstants';
+import { DATASET_ID_VARTYPE, VALID_MIME_TYPES } from '../services/config/ApiConstants';
 import { ConfigUtils, DatasetsUtils, ScenarioParametersUtils } from '.';
 import applicationStore from '../state/Store.config';
 import { t } from 'i18next';
@@ -209,7 +209,11 @@ async function applyPendingOperationsOnFileParameters(
   }
 }
 
-const prepareToUpload = (event, clientFileDescriptor, setClientFileDescriptor) => {
+const isFileFormatValid = (fileMIMEType) => {
+  return VALID_MIME_TYPES.length === 0 || VALID_MIME_TYPES.includes(fileMIMEType);
+};
+
+const prepareToUpload = (event, setClientFileDescriptor) => {
   const file = event.target.files[0];
   // Fix Chrome/Edge "cache" behaviour.
   // HTML input is not triggered when the same file is selected twice
@@ -299,6 +303,7 @@ export const FileManagementUtils = {
   downloadFile,
   downloadFileData,
   prepareToDeleteFile,
+  isFileFormatValid,
   prepareToUpload,
   applyPendingOperationsOnFileParameters,
   buildClientFileDescriptorFromDataset,

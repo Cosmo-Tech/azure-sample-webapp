@@ -384,7 +384,7 @@ export const GenericTable = ({
     (event) => {
       // TODO: ask confirmation if data already exist
       const previousFileBackup = clone(parameter);
-      const file = FileManagementUtils.prepareToUpload(event, parameter, updateParameterValue);
+      const file = FileManagementUtils.prepareToUpload(event, updateParameterValue);
       if (file.name.endsWith('.csv')) {
         _readAndParseCSVFile(file, parameter, updateParameterValue, previousFileBackup);
       } else if (file.name.endsWith('.xlsx')) {

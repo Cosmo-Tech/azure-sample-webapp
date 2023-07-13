@@ -331,11 +331,10 @@
         },
         "roles": {
           "admin": "Admin",
-          "viewer": "Visiteur",
+          "editor": "Editeur",
           "none": "Restreint",
-          "user": "Utilisateur",
-          "validator": "Validateur",
-          "editor": "Editeur"
+          "viewer": "Visiteur",
+          "validator": "Validateur"
         },
         "permissions": {
           "create_children": "Créer des scénarios enfants",
@@ -366,7 +365,7 @@
       "updatePermissions": "Certaines permissions du scénario n'ont pas pu être modifiées.",
       "run": "Un problème est survenu, le scénario n'a pas pu être lancé.",
       "update": "Un problème est survenu pendant la modification du scénario, les nouveaux paramètres n'ont pas été sauvegardés.",
-      "incompleteRun":"Un problème est survenu pendant la modification du dataset; les nouveaux paramètres ne sont pas pris en compte et le scénario n'a pas pu être lancé.",
+      "incompleteRun": "Un problème est survenu pendant la modification du dataset; les nouveaux paramètres ne sont pas pris en compte et le scénario n'a pas pu être lancé.",
       "datasetUpdate": "Un problème est survenu pendant la modification du dataset; les nouveaux paramètres ne sont pas pris en compte.",
       "network": "Problème réseau, veuillez vérifier votre connexion Internet",
       "resetStatusValidation": "Le statut du scénario n'a pas pu être réinitialisé.",
@@ -660,7 +659,8 @@
         "afterOrEqual": "Le champ {{field}} doit être postérieur ou égal au champ {{constraint}}",
         "beforeOrEqual": "Le champ {{field}} doit être antérieur ou égal au champ {{constraint}}",
         "equalDate": "Le champ {{field}} doit être égal au champ {{constraint}}",
-        "differentDate": "Le champ {{field}} doit être différent du champ {{constraint}}"
+        "differentDate": "Le champ {{field}} doit être différent du champ {{constraint}}",
+        "fileFormat": "Format de fichier non supporté"
       }
     }
   },
