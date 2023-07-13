@@ -4,36 +4,33 @@
 import { DateUtils } from '@cosmotech/core';
 
 const getTableCellDefaultValue = (column, dateFormat) => {
-  const params = column?.cellEditorParams;
   switch (column?.type?.find((type) => ['number', 'int', 'bool', 'enum', 'date'].includes(type))) {
     case 'number':
     case 'int':
       return (
-        params?.defaultValue ??
-        params?.minValue ??
-        (parseFloat(params?.maxValue) && parseFloat(params.maxValue) < 0 ? params.maxValue : '0')
+        column?.defaultValue ??
+        column?.minValue ??
+        (parseFloat(column?.maxValue) && parseFloat(column.maxValue) < 0 ? column.maxValue : '0')
       );
     case 'bool':
-      return params?.defaultValue ?? 'false';
+      return column?.defaultValue ?? 'false';
     case 'enum':
-      return params?.defaultValue ?? params?.enumValues?.[0] ?? '';
+      return column?.defaultValue ?? column?.enumValues?.[0] ?? '';
     case 'date':
-      return params?.defaultValue
-        ? DateUtils.format(new Date(params.defaultValue), dateFormat)
-        : params?.minValue
-        ? DateUtils.format(new Date(params.minValue), dateFormat)
+      return column?.defaultValue
+        ? DateUtils.format(new Date(column.defaultValue), dateFormat)
+        : column?.minValue
+        ? DateUtils.format(new Date(column.minValue), dateFormat)
         : DateUtils.format(new Date(0), dateFormat);
     default:
-      return params?.defaultValue ?? 'value';
+      return column?.defaultValue ?? 'value';
   }
 };
 
 const createNewTableLine = (columns, dateFormat) => {
   const newLine = {};
   columns.forEach((column) => {
-    newLine[column.field] = !column?.cellEditorParams?.acceptsEmptyFields
-      ? getTableCellDefaultValue(column, dateFormat)
-      : '';
+    newLine[column.field] = !column?.acceptsEmptyFields ? getTableCellDefaultValue(column, dateFormat) : '';
   });
   return newLine;
 };

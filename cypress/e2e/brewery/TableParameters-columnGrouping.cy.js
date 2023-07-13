@@ -26,7 +26,8 @@ describe('check if column grouping is displayed in the stubbed Table component',
     stub.stop();
   });
 
-  it('Look if column grouping is successfully displayed and visible', () => {
+  // eslint-disable-next-line max-len
+  it('looks if column grouping is successfully displayed and visible, and column property is written on cellEditorParams key', () => {
     Scenarios.getScenarioViewTab(60).should('be.visible');
     ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToCustomersTab();
@@ -35,5 +36,6 @@ describe('check if column grouping is displayed in the stubbed Table component',
     cy.get('.ag-header-group-cell-label:first').within(() => {
       cy.get('.ag-header-group-text').should('have.text', 'GroupToSearch');
     });
+    BreweryParameters.editCustomersTableStringCell('age', '0', 500).should('not.have.text', '500');
   });
 });
