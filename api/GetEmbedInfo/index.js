@@ -3,50 +3,25 @@
 
 const embedToken = require('./embedConfigService.js');
 const utils = require('./utils.js');
+const { forgeErrorResponse, ServiceAccountError } = require('./errors.js');
 
 module.exports = async function (context, req) {
   try {
-    // Validate whether all the required configurations are provided in the environment variables.
-    const configCheckResult = utils.validateConfig();
-    if (configCheckResult) {
-      context.res = {
-        status: 200,
-        body: {
-          accesses: null,
-          error: {
-            status: 'Azure Function',
-            statusText: 'Configuration error',
-            powerBIErrorInfo: configCheckResult,
-            description: `Error while retrieving report embed details\r\n${configCheckResult}`,
-          },
-        },
-      };
-    } else {
-      // Get the details like Embed URL, Access token and Expiry
-      const error = await utils.validateQuery(req);
-      if (error) {
-        context.res = {
-          status: 200,
-          body: {
-            accesses: null,
-            error: {
-              status: 'Azure Function',
-              statusText: 'Configuration error',
-              powerBIErrorInfo: error,
-              description: `Error while retrieving report embed details\r\n${error}`,
-            },
-          },
-        };
-      } else {
-        const reportsIds = req?.body?.reports;
-        const workspaceId = req?.body?.workspaceId;
-        const result = await embedToken.getEmbedInfo(reportsIds, workspaceId);
-        context.res = { status: 200, body: result };
-      }
-    }
+    utils.sanitizeAndValidateConfig();
+    await utils.validateQuery(req);
+
+    // Get the details like Embed URL, Access token and Expiry
+    const reportsIds = req?.body?.reports;
+    const workspaceId = req?.body?.workspaceId;
+    const result = await embedToken.getEmbedInfo(reportsIds, workspaceId);
+    context.res = { status: 200, body: result };
   } catch (err) {
-    console.error('Error during run of get-embed-info function');
-    console.error(err);
-    context.res = { status: 500, body: err };
+    if (err instanceof ServiceAccountError) {
+      context.res = err.asResponse();
+    } else {
+      console.error('Unknown error during run of get-embed-info function:');
+      console.error(err);
+      context.res = forgeErrorResponse(500, 'Internal server error', `${err.name}: ${err.message}`);
+    }
   }
 };

@@ -6,6 +6,7 @@ import { POWER_BI_ACTIONS_KEY } from '../../../commons/PowerBIConstants';
 import { STATUSES } from '../../../commons/Constants';
 import { POWER_BI_INFO_POLLING_DELAY } from '../../../../services/config/FunctionalConstants';
 import { PowerBIService } from '../../../../services/powerbi/PowerBIService';
+import { forgePowerBIError } from '../../../../services/powerbi/errors';
 import { PowerBIUtils } from '../../../../utils';
 
 const IS_POWERBI_POLLING_DISABLED = !!process.env.REACT_APP_NO_POWERBI_POLLING;
@@ -35,11 +36,7 @@ export function* getPowerBIEmbedInfoSaga() {
     yield put({
       type: POWER_BI_ACTIONS_KEY.SET_EMBED_INFO,
       data: noAccess,
-      error: {
-        status: 'Error',
-        statusText: 'Configuration error',
-        powerBIErrorInfo: 'Cannot find dashboards configuration in workspace',
-      },
+      error: forgePowerBIError('', 'Configuration error', 'Cannot find dashboards configuration in workspace data'),
       status: STATUSES.ERROR,
     });
     return;

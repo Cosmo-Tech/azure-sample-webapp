@@ -4,57 +4,41 @@
 const guid = require('guid');
 const jwt = require('jsonwebtoken');
 const jwksClient = require('jwks-rsa');
-const msalConfig = require('./config');
+const { MSAL_CONFIG, GUID_PARAMETERS, REQUIRED_PARAMETERS, getConfigValue } = require('./config');
+const { ServiceAccountError } = require('./errors');
 
-function getAuthHeader(accessToken) {
-  // Function to append Bearer against the Access Token
-  return 'Bearer '.concat(accessToken);
-}
-
-function validateConfig() {
-  // Validation function to check whether the Configurations are available in the environment variables or not
-  if (!process.env.POWER_BI_CLIENT_ID) {
-    return (
-      'ClientId is empty. Please register your application as Native app in https://dev.powerbi.com/apps and ' +
-      'fill Client Id in the environment variables.'
-    );
+const sanitizeAndValidateConfig = () => {
+  for (const parameter of REQUIRED_PARAMETERS) {
+    if (!getConfigValue(parameter) || getConfigValue(parameter).length === 0)
+      throw new ServiceAccountError(
+        500,
+        'Configuration error',
+        `Missing parameter "${parameter}" in PowerBI service account configuration: value is missing or empty.`
+      );
   }
 
-  if (!guid.isGuid(process.env.POWER_BI_CLIENT_ID)) {
-    return (
-      'ClientId must be a Guid object. Please register your application as Native app in ' +
-      'https://dev.powerbi.com/apps and fill Client Id in the environment variables.'
-    );
+  for (const parameter of GUID_PARAMETERS) {
+    const sanitizedValue = getConfigValue(parameter);
+    if (sanitizedValue && !guid.isGuid(sanitizedValue))
+      throw new ServiceAccountError(
+        500,
+        'Configuration error',
+        `The value of parameter "${parameter}" must be a guid.`
+      );
   }
-
-  if (!process.env.POWER_BI_CLIENT_SECRET || !process.env.POWER_BI_CLIENT_SECRET.trim()) {
-    return 'ClientSecret is empty. Please fill Power BI ServicePrincipal ClientSecret in the environment variables.';
-  }
-
-  if (!process.env.POWER_BI_TENANT_ID) {
-    return 'TenantId is empty. Please fill the TenantId in the environment variables.';
-  }
-
-  if (!guid.isGuid(process.env.POWER_BI_TENANT_ID)) {
-    return (
-      'TenantId must be a Guid object. Please select a workspace you own and fill its Id in the environment ' +
-      'variables.'
-    );
-  }
-}
+};
 
 const _validateAndDecodeQueryToken = async (req) => {
   const client = jwksClient({ jwksUri: 'https://login.microsoftonline.com/common/discovery/keys' });
   const options = {
     // audience check is optional but strongly advised, it won't be checked if CSM_API_TOKEN_AUDIENCE is not defined
-    audience: process.env.CSM_API_TOKEN_AUDIENCE,
-    iss: `${msalConfig.auth.authority}`,
+    audience: getConfigValue('CSM_API_TOKEN_AUDIENCE'),
+    iss: `${MSAL_CONFIG.auth.authority}`,
   };
 
   const _getSigningKey = (header, callback) => {
     client.getSigningKey(header.kid, (error, key) => {
       if (error) {
-        console.error(error);
         throw error;
       }
       const signingKey = key.publicKey || key.rsaPublicKey;
@@ -64,44 +48,66 @@ const _validateAndDecodeQueryToken = async (req) => {
 
   const accessToken = req?.headers?.['csm-authorization']?.replace('Bearer ', '');
   if (!accessToken) {
-    throw new Error('token is missing in query.');
+    throw new ServiceAccountError(401, 'Unauthorized', 'Token is missing in query.');
   }
 
-  return new Promise((resolve, reject) =>
+  const token = await new Promise((resolve, reject) =>
     jwt.verify(accessToken, _getSigningKey, options, (err, decoded) => {
       return err ? reject(err) : resolve(decoded);
     })
   );
+
+  if (!token) throw new ServiceAccountError(401, 'Unauthorized', "Can't decode token");
+  if (!token.roles || token.roles.length === 0)
+    throw new ServiceAccountError(401, 'Unauthorized', 'Missing roles for Cosmo Tech API');
+
+  return token;
 };
 
 const validateQuery = async (req) => {
+  // Check token sent by user
   try {
-    const token = await _validateAndDecodeQueryToken(req);
-    if (!token) return "Unauthorized: can't decode token";
-    if (!token.roles || token.roles.length === 0) return 'Unauthorized: missing roles for Cosmo Tech API';
+    await _validateAndDecodeQueryToken(req);
   } catch (error) {
-    console.error('Token validation error: ' + error);
-    return 'Unauthorized: ' + error;
+    if (error instanceof ServiceAccountError) {
+      throw error;
+    }
+    const errorMessage = `${error.name}: ${error.message}`;
+    throw new ServiceAccountError(401, 'Unauthorized', errorMessage);
   }
 
+  // Check reports parameter
   const reportsIds = req?.body?.reports;
-  if (!Array.isArray(reportsIds)) {
-    return 'Query is invalid. Parameter "reports" must be an array.';
-  }
-
-  if (!reportsIds.length) {
-    return 'List of reports is empty. Please check your dashboards configuration.';
-  }
+  if (!Array.isArray(reportsIds))
+    throw new ServiceAccountError(400, 'Bad request', 'Query is invalid. Parameter "reports" must be an array.');
+  if (reportsIds.length === 0)
+    throw new ServiceAccountError(
+      400,
+      'Bad request',
+      'List of reports is empty. Please check your dashboards configuration.'
+    );
 
   for (const reportId of reportsIds) {
-    if (!guid.isGuid(reportId)) {
-      return `Report id "${reportId}" is not a valid id. Please check your dashboards configuration.`;
-    }
+    if (!guid.isGuid(reportId))
+      throw new ServiceAccountError(
+        400,
+        'Bad request',
+        `PowerBI report id "${reportId}" is not a valid id. Please check your dashboards configuration.`
+      );
   }
+
+  // Check PowerBI workspace id parameter
+  const workspaceId = req?.body?.workspaceId;
+  if (workspaceId != null && !guid.isGuid(workspaceId))
+    throw new ServiceAccountError(
+      400,
+      'Bad request',
+      `PowerBI workspace id "${workspaceId}" is not a valid id. Please check your dashboards configuration.`
+    );
 };
 
 module.exports = {
-  getAuthHeader,
-  validateConfig,
+  getConfigValue,
+  sanitizeAndValidateConfig,
   validateQuery,
 };

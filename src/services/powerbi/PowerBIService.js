@@ -6,17 +6,16 @@ import { EmbedConfig, PowerBiReportDetails } from './PowerBIModels';
 import { GET_EMBED_INFO_URL } from '../../state/commons/PowerBIConstants';
 import { COSMOTECH_API_SCOPE, POWER_BI_API_DEFAULT_SCOPE } from '../config/Auth';
 import { clientApi } from '../ClientApi';
-
-const _generateAuthorizationHeader = (accessToken) => 'Bearer '.concat(accessToken);
+import { handleServiceAccountError, handleUserAccountError, PowerBIError } from './errors';
 
 /**
  * Get PowerBI accessible data
  * @return Details like Embed URL, Access token and Expiry, errors if any
  */
-const getPowerBIData = async (powerBIWorkspaceId, reportsIds, logInWithUserCredentials) => {
+const getPowerBIData = (powerBIWorkspaceId, reportsIds, logInWithUserCredentials) => {
   return logInWithUserCredentials
-    ? await getPowerBIDataWithCurrentUserToken(powerBIWorkspaceId, reportsIds)
-    : await getPowerBIDataWithServiceAccount(powerBIWorkspaceId, reportsIds);
+    ? getPowerBIDataWithCurrentUserToken(powerBIWorkspaceId, reportsIds)
+    : getPowerBIDataWithServiceAccount(powerBIWorkspaceId, reportsIds);
 };
 
 /**
@@ -25,7 +24,7 @@ const getPowerBIData = async (powerBIWorkspaceId, reportsIds, logInWithUserCrede
  */
 const getPowerBIDataWithCurrentUserToken = async (powerBIWorkspaceId, reportsIds) => {
   try {
-    const embedParams = await getEmbedParamsForAllReportsInWorkspace(powerBIWorkspaceId);
+    const embedParams = await fetchReportEmbedInfo(powerBIWorkspaceId, reportsIds);
     return {
       accesses: {
         accessToken: embedParams.accessToken,
@@ -34,88 +33,103 @@ const getPowerBIDataWithCurrentUserToken = async (powerBIWorkspaceId, reportsIds
       },
       error: null,
     };
-  } catch (err) {
+  } catch (error) {
     return {
       accesses: null,
-      error: {
-        status: err.status,
-        statusText: err.statusText,
-        powerBIErrorInfo: err.headers.get('x-powerbi-error-info'),
-        description:
-          `Error while retrieving report embed details\r\n${err.statusText}\r\nRequestId: \n` +
-          `${err.headers.get('requestid')}`,
-      },
+      error: handleUserAccountError(error),
     };
   }
 };
 
 const getPowerBIDataWithServiceAccount = async (powerBIWorkspaceId, reportsIds) => {
+  let headers;
   try {
-    const { headers } = await getAuthenticationInfo(COSMOTECH_API_SCOPE);
-    const { data } = await clientApi.post(
+    ({ headers } = await getAuthenticationInfo(COSMOTECH_API_SCOPE));
+  } catch (error) {
+    return handleServiceAccountError(
+      new PowerBIError(401, 'Unauthorized', 'Failed to retrieve user token with Cosmo Tech API scopes', error)
+    );
+  }
+
+  return clientApi
+    .post(
       GET_EMBED_INFO_URL,
       { reports: reportsIds, workspaceId: powerBIWorkspaceId },
       { headers: { 'csm-authorization': headers.Authorization } }
-    );
-    return {
-      accesses: {
-        accessToken: data?.accesses?.accessToken,
-        reportsInfo: data?.accesses?.reportsInfo,
-        expiry: data?.accesses?.expiry,
-      },
-      error: data?.error,
-    };
-  } catch (error) {
-    return {
-      error,
-    };
-  }
+    )
+    .then((response) => response?.data)
+    .catch((error) => ({
+      accesses: null,
+      error: handleServiceAccountError(error),
+    }));
 };
 
 /**
  * Fetch Reports info regarding a workspace Id
  * @param {string} workspaceId
+ * @param {string} requestedReportsIds
  * @returns {Promise<{reportsInfo, reportEmbedConfig: EmbedConfig}>}
  */
-const fetchReportEmbedInfo = async (workspaceId) => {
-  const reportInGroupApi = `https://api.powerbi.com/v1.0/myorg/groups/${workspaceId}/reports`;
-  const { headers, accessToken, expiresOn } = await getAuthenticationInfo(POWER_BI_API_DEFAULT_SCOPE);
+const fetchReportEmbedInfo = async (workspaceId, requestedReportsIds) => {
+  let headers, accessToken, expiresOn;
+  try {
+    ({ headers, accessToken, expiresOn } = await getAuthenticationInfo(POWER_BI_API_DEFAULT_SCOPE));
+  } catch (error) {
+    return handleServiceAccountError(
+      new PowerBIError(401, 'Unauthorized', 'Failed to retrieve user token with PowerBI API scopes', error)
+    );
+  }
 
-  const reportEmbedConfig = new EmbedConfig('report', {}, accessToken, expiresOn);
-
-  const result = await fetch(reportInGroupApi, {
-    method: 'GET',
-    headers,
-  });
-
+  const getAllReportsURL = `https://api.powerbi.com/v1.0/myorg/groups/${workspaceId}/reports`;
+  const result = await fetch(getAllReportsURL, { method: 'GET', headers });
   if (!result.ok) {
-    throw result;
+    const pbiErrorInfoHeader = result.headers?.get('x-powerbi-error-info');
+    let hint;
+    if (result.status === 401) {
+      if (pbiErrorInfoHeader === 'GroupNotAccessible')
+        hint =
+          `Can't access PowerBI workspace with id "${workspaceId}". ` +
+          'Please check your configuration and user permissions.';
+      else hint = `Can't access PowerBI workspace with id "${workspaceId}". Please check your configuration.`;
+    }
+    if (result.status === 404) {
+      hint = `Can't find PowerBI workspace with id "${workspaceId}". Please check your configuration.`;
+    }
+
+    const statusText = (result.statusText ?? '') + (pbiErrorInfoHeader ? ` (${pbiErrorInfoHeader})` : '');
+    throw new PowerBIError(
+      result.status,
+      statusText,
+      hint ?? result.headers?.get('x-powerbi-error-info'),
+      `Error while retrieving report embed details\r\n${result.statusText}`
+    );
   }
 
   const resultJson = await result.json();
-  const reportsInfo = resultJson.value;
-  return {
-    reportEmbedConfig,
-    reportsInfo,
-  };
-};
+  const allReports = resultJson.value;
+  if (allReports.length === 0)
+    throw new PowerBIError(
+      404,
+      'Not Found',
+      `Can't find reports. PowerBI workspace with id "${workspaceId}" does not contain any reports`
+    );
 
-/**
- * Get embed params for all reports for a single workspace
- * @param {string} workspaceId
- * @return EmbedConfig object
- */
-const getEmbedParamsForAllReportsInWorkspace = async (workspaceId) => {
-  const { reportEmbedConfig, reportsInfo } = await fetchReportEmbedInfo(workspaceId);
-
-  const datasetIds = new Set([]);
-  const reportIds = new Set([]);
-  for (const reportInfo of reportsInfo) {
-    const reportDetails = new PowerBiReportDetails(reportInfo.id, reportInfo.name, reportInfo.embedUrl);
-    reportEmbedConfig.reportsDetail[reportInfo.id] = reportDetails;
-    datasetIds.add(reportInfo.datasetId);
-    reportIds.add(reportInfo.id);
+  const selectedReports = allReports.filter((report) => requestedReportsIds.includes(report.id));
+  if (selectedReports.length === 0) {
+    const reportsIds = requestedReportsIds.map((reportId) => ` - ${reportId}`).join('\r\n');
+    const details = `PowerBI workspace "${workspaceId}" does not contain the following reports:\r\n${reportsIds}`;
+    throw new PowerBIError(
+      404,
+      'Not Found',
+      `Can't find requested reports in PowerBI workspace "${workspaceId}". Please check your dashboards configuration.`,
+      details
+    );
   }
+
+  const reportEmbedConfig = new EmbedConfig('report', {}, accessToken, expiresOn);
+  selectedReports.forEach((report) => {
+    reportEmbedConfig.reportsDetail[report.id] = new PowerBiReportDetails(report.id, report.name, report.embedUrl);
+  });
 
   return reportEmbedConfig;
 };
@@ -125,38 +139,23 @@ const getEmbedParamsForAllReportsInWorkspace = async (workspaceId) => {
  * @return Authentication Information with : request header with Bearer token, accessToken and token expiration date
  */
 const getAuthenticationInfo = async (scope) => {
-  let tokenResponse, errorResponse;
-
   try {
-    tokenResponse = await Auth.acquireTokensByRequest({
-      scopes: [scope],
-    });
-  } catch (err) {
-    if (
-      // eslint-disable-next-line no-prototype-builtins
-      err.hasOwnProperty('error_description') &&
-      // eslint-disable-next-line no-prototype-builtins
-      err.hasOwnProperty('error')
-    ) {
-      errorResponse = err.error_description;
-    } else {
-      errorResponse = err.toString();
-    }
+    const tokenResponse = await Auth.acquireTokensByRequest({ scopes: [scope] });
+    const accessToken = tokenResponse.accessToken;
     return {
-      status: 401,
-      error: errorResponse,
+      accessToken,
+      expiresOn: tokenResponse.expiresOn,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
     };
+  } catch (err) {
+    const errorResponse =
+      // eslint-disable-next-line no-prototype-builtins
+      err.hasOwnProperty('error_description') && err.hasOwnProperty('error') ? err.error_description : err.toString();
+    throw new Error(errorResponse);
   }
-
-  const accessToken = tokenResponse.accessToken;
-  return {
-    accessToken,
-    expiresOn: tokenResponse.expiresOn,
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: _generateAuthorizationHeader(accessToken),
-    },
-  };
 };
 
 export const PowerBIService = {
