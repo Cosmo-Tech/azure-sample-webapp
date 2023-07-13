@@ -114,35 +114,19 @@ async function _processFileUpload(
   setClientFileDescriptorStatus,
   addDatasetToStore
 ) {
-  try {
-    setClientFileDescriptorStatus(UPLOAD_FILE_STATUS_KEY.UPLOADING);
-    const createdDataset = await _createEmptyDatasetInCloudStorage(organizationId, parameterMetadata);
-    const storageFilePath = _buildStorageFilePath(createdDataset, clientFileDescriptor);
-    const updatedDataset = await _updateDatasetWithConnectorDataInCloudStorage(
-      organizationId,
-      parameterMetadata,
-      storageFilePath,
-      createdDataset
-    );
-    addDatasetToStore(updatedDataset);
-    await _uploadFileToCloudStorage(organizationId, workspaceId, updatedDataset, clientFileDescriptor, storageFilePath);
-    setClientFileDescriptorStatus(UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD);
-    return updatedDataset.id;
-  } catch (error) {
-    console.error(error);
-    applicationStore.dispatch(
-      dispatchSetApplicationErrorMessage(
-        error,
-        t(
-          'commoncomponents.banner.incompleteRun',
-          // eslint-disable-next-line max-len
-          "A problem occurred during dataset update; the scenario is running but your new parameters haven't been saved."
-        )
-      )
-    );
-    setClientFileDescriptorStatus(UPLOAD_FILE_STATUS_KEY.EMPTY);
-    return null;
-  }
+  setClientFileDescriptorStatus(UPLOAD_FILE_STATUS_KEY.UPLOADING);
+  const createdDataset = await _createEmptyDatasetInCloudStorage(organizationId, parameterMetadata);
+  const storageFilePath = _buildStorageFilePath(createdDataset, clientFileDescriptor);
+  const updatedDataset = await _updateDatasetWithConnectorDataInCloudStorage(
+    organizationId,
+    parameterMetadata,
+    storageFilePath,
+    createdDataset
+  );
+  addDatasetToStore(updatedDataset);
+  await _uploadFileToCloudStorage(organizationId, workspaceId, updatedDataset, clientFileDescriptor, storageFilePath);
+  setClientFileDescriptorStatus(UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD);
+  return updatedDataset.id;
 }
 
 // FIXME: Due to parametersValues inheritance, the workspace file deletion leads to incoherent state when a dataset
@@ -201,19 +185,26 @@ async function applyPendingOperationsOnFileParameters(
   };
 
   // Apply pending operations on each dataset and keep track of the changes of datasets ids to patch parametersValuesRef
+
   for (const parameterId in parametersValues) {
     const varType = ScenarioParametersUtils.getParameterVarType(solution, parameterId);
     if (varType === DATASET_ID_VARTYPE) {
-      const newDatasetId = await _applyDatasetChange(
-        organizationId,
-        workspaceId,
-        parametersMetadata[parameterId],
-        parametersValues[parameterId],
-        (newStatus) => setClientFileDescriptorStatus(parameterId, newStatus),
-        parametersValues[parameterId].id,
-        addDatasetToStore
-      );
-      setDatasetId(parameterId, newDatasetId);
+      try {
+        const newDatasetId = await _applyDatasetChange(
+          organizationId,
+          workspaceId,
+          parametersMetadata[parameterId],
+          parametersValues[parameterId],
+          (newStatus) => setClientFileDescriptorStatus(parameterId, newStatus),
+          parametersValues[parameterId].id,
+          addDatasetToStore
+        );
+        setDatasetId(parameterId, newDatasetId);
+      } catch (error) {
+        console.error(error);
+        setClientFileDescriptorStatus(parameterId, UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD);
+        return error;
+      }
     }
   }
 }

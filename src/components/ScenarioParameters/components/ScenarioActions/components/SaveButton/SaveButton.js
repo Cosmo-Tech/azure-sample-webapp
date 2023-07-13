@@ -11,6 +11,7 @@ import { ACL_PERMISSIONS } from '../../../../../../services/config/accessControl
 import { PermissionsGate } from '@cosmotech/ui';
 import { useUserAppAndCurrentScenarioPermissions } from '../../../../../../hooks/SecurityHooks';
 import { useUpdateParameters } from '../../../../../../hooks/ScenarioParametersHooks';
+import { useSetApplicationErrorMessage } from '../../../../../../state/hooks/ApplicationHooks';
 
 export const SaveButton = () => {
   const { t } = useTranslation();
@@ -19,15 +20,26 @@ export const SaveButton = () => {
   const currentScenarioId = useCurrentScenarioId();
   const saveScenario = useSaveScenario();
   const { processFilesToUpload, getParametersToUpdate } = useUpdateParameters();
+  const setApplicationErrorMessage = useSetApplicationErrorMessage();
   const userAppAndCurrentScenarioPermissions = useUserAppAndCurrentScenarioPermissions();
 
   const saveScenarioParameters = useCallback(
     async (event) => {
       event.stopPropagation();
-      await processFilesToUpload();
-      saveScenario(currentScenarioId, getParametersToUpdate());
+      const error = await processFilesToUpload();
+      if (error == null) {
+        saveScenario(currentScenarioId, getParametersToUpdate());
+      } else {
+        setApplicationErrorMessage(
+          error,
+          t(
+            'commoncomponents.banner.datasetUpdate',
+            "A problem occurred during dataset update; your new parameters haven't been saved."
+          )
+        );
+      }
     },
-    [currentScenarioId, getParametersToUpdate, processFilesToUpload, saveScenario]
+    [currentScenarioId, getParametersToUpdate, processFilesToUpload, saveScenario, t, setApplicationErrorMessage]
   );
 
   return isDirty ? (

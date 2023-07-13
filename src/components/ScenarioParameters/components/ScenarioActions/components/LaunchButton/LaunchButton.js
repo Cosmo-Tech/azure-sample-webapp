@@ -17,6 +17,7 @@ import { useUserAppAndCurrentScenarioPermissions } from '../../../../../../hooks
 import { ACL_PERMISSIONS } from '../../../../../../services/config/accessControl';
 import { PermissionsGate } from '@cosmotech/ui';
 import { useUpdateParameters } from '../../../../../../hooks/ScenarioParametersHooks';
+import { useSetApplicationErrorMessage } from '../../../../../../state/hooks/ApplicationHooks';
 
 export const LaunchButton = () => {
   const { t } = useTranslation();
@@ -26,6 +27,7 @@ export const LaunchButton = () => {
   const saveAndLaunchScenario = useSaveAndLaunchScenario();
   const currentScenarioId = useCurrentScenarioId();
   const currentScenarioState = useCurrentScenarioState();
+  const setApplicationErrorMessage = useSetApplicationErrorMessage();
   const launchScenario = useLaunchScenario();
   const userAppAndCurrentScenarioPermissions = useUserAppAndCurrentScenarioPermissions();
 
@@ -37,8 +39,19 @@ export const LaunchButton = () => {
     async (event) => {
       event.stopPropagation();
       if (isDirty || forceUpdate) {
-        await processFilesToUpload();
-        saveAndLaunchScenario(currentScenarioId, getParametersToUpdate());
+        const error = await processFilesToUpload();
+        if (error == null) {
+          saveAndLaunchScenario(currentScenarioId, getParametersToUpdate());
+        } else {
+          setApplicationErrorMessage(
+            error,
+            t(
+              'commoncomponents.banner.incompleteRun',
+              // eslint-disable-next-line max-len
+              "A problem occurred during dataset update; new parameters haven't been saved and launch has been canceled."
+            )
+          );
+        }
       } else {
         launchScenario(currentScenarioId);
       }
@@ -51,6 +64,8 @@ export const LaunchButton = () => {
       launchScenario,
       processFilesToUpload,
       saveAndLaunchScenario,
+      t,
+      setApplicationErrorMessage,
     ]
   );
   return !isCurrentScenarioRunning ? (
