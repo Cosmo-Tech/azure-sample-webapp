@@ -4,7 +4,11 @@
 import { stub } from '../../commons/services/stubbing';
 import { Login, ScenarioParameters } from '../../commons/actions';
 import { BreweryParameters } from '../../commons/actions/brewery';
-import { SCENARIOS, SOLUTIONS } from '../../fixtures/stubbing/ScenarioParametersValidation';
+import {
+  SCENARIOS,
+  SOLUTIONS,
+  SOLUTIONS_WITH_WRONG_CONSTRAINT,
+} from '../../fixtures/stubbing/ScenarioParametersValidation';
 import utils from '../../commons/TestUtils';
 
 const currencyValueShort = 'E';
@@ -207,5 +211,53 @@ describe('scenario parameters inputs validation', () => {
     ScenarioParameters.getSaveButton().should('not.be.disabled');
     ScenarioParameters.getLaunchButton().should('not.be.disabled');
     ScenarioParameters.discard();
+  });
+  it('checks validation constraints for dates', () => {
+    ScenarioParameters.expandParametersAccordion();
+    BreweryParameters.switchToAdditionalParametersTab();
+    BreweryParameters.getStartDateInput().clear().type('02/22/2022');
+    BreweryParameters.getEndDateHelperText().should('exist').contains('strictly after');
+    BreweryParameters.getEndDateInput().clear().type('02/26/2022');
+    BreweryParameters.getEndDateHelperText().should('not.exist');
+    BreweryParameters.getEndDateInput().clear().type('02/26/2021');
+    BreweryParameters.getEndDateHelperText().should('exist').contains('strictly after');
+    BreweryParameters.getStartDateInput().clear().type('02/22/2021');
+    BreweryParameters.getEndDateHelperText().should('not.exist');
+    BreweryParameters.getEndDateInput().clear().type('06/22/2022');
+    BreweryParameters.getAdditionalDateHelperText().should('exist').contains('must be different');
+    ScenarioParameters.getSaveButton().should('be.disabled');
+    ScenarioParameters.getLaunchButton().should('be.disabled');
+    BreweryParameters.getAdditionalDateInput().clear().type('06/21/2022');
+    BreweryParameters.getAdditionalDateHelperText().should('not.exist');
+    ScenarioParameters.discard();
+  });
+});
+
+describe('validation constraint with wrong configuration', () => {
+  before(() => {
+    stub.start({
+      AUTHENTICATION: true,
+      CREATE_AND_DELETE_SCENARIO: true,
+      GET_DATASETS: true,
+      GET_SCENARIOS: true,
+      GET_SOLUTIONS: true,
+      GET_WORKSPACES: true,
+      UPDATE_SCENARIO: true,
+    });
+    stub.setSolutions(SOLUTIONS_WITH_WRONG_CONSTRAINT);
+    stub.setScenarios(SCENARIOS);
+  });
+
+  beforeEach(() => {
+    Login.login();
+  });
+  it('checks error messages when there is an error in solution default values', () => {
+    ScenarioParameters.expandParametersAccordion();
+    BreweryParameters.getEndDateHelperText().should('exist').contains('strictly after');
+    ScenarioParameters.getTabsErrorBadge(BreweryParameters.getBasicTypesTab()).contains('1');
+    ScenarioParameters.getLaunchButton().should('be.disabled');
+    BreweryParameters.getEndDateInput().clear().type('08/20/2014');
+    ScenarioParameters.getSaveButton().should('exist').should('not.be.disabled');
+    ScenarioParameters.getLaunchButton().should('not.be.disabled');
   });
 });
