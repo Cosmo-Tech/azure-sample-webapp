@@ -35,11 +35,11 @@ const SOLUTION_WITH_COLUMN_GROUP = {
                 acceptsEmptyFields: true,
                 columnGroupShow: 'closed',
               },
+              {
+                field: 'canDrinkAlcohol',
+                type: ['bool'],
+              },
             ],
-          },
-          {
-            field: 'canDrinkAlcohol',
-            type: ['bool'],
           },
           {
             field: 'favoriteDrink',

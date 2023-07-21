@@ -37,5 +37,14 @@ describe('check if column grouping is displayed in the stubbed Table component',
       cy.get('.ag-header-group-text').should('have.text', 'GroupToSearch');
     });
     BreweryParameters.editCustomersTableStringCell('age', '0', 500).should('not.have.text', '500');
+    BreweryParameters.getCustomersTableCell('name', 0).should('exist');
+    BreweryParameters.getCustomersTableCell('age', 0).should('not.exist');
+    BreweryParameters.getCustomersTableCell('canDrinkAlcohol', 0).should('exist');
+    cy.get('.ag-header-group-cell-label:first').within(() => {
+      cy.get('.ag-header-expand-icon-collapsed').click();
+    });
+    BreweryParameters.getCustomersTableCell('name', 0).should('not.exist');
+    BreweryParameters.getCustomersTableCell('age', 0).should('exist');
+    BreweryParameters.getCustomersTableCell('canDrinkAlcohol', 0).should('exist');
   });
 });
