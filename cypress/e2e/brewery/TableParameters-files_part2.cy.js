@@ -57,7 +57,7 @@ describe('Table parameters files standard operations part 2', () => {
     BreweryParameters.getCustomersTableCell('favoriteDrink', 2).should('have.text', 'Wine');
     BreweryParameters.getCustomersTableCell('birthday', 3).should('have.text', '12/05/1987');
     BreweryParameters.getCustomersTableCell('height', 3).should('have.text', '1.83');
-    BreweryParameters.editCustomersTableStringCell('name', 0, 'Bill').should('have.text', 'Bob'); // notEditable
+    BreweryParameters.editCustomersTableStringCell('name', 0, 'Bill').should('have.text', 'Bill');
     BreweryParameters.editCustomersTableStringCell('age', 0, '11').should('have.text', '11');
     BreweryParameters.editCustomersTableStringCell('canDrinkAlcohol', 1, 'true').should('have.text', 'true');
     BreweryParameters.editCustomersTableStringCell('favoriteDrink', 2, 'Beer').should('have.text', 'Beer');
@@ -75,7 +75,7 @@ describe('Table parameters files standard operations part 2', () => {
     BreweryParameters.getCustomersTableCell('favoriteDrink', 2).should('have.text', 'Wine');
     BreweryParameters.getCustomersTableCell('birthday', 3).should('have.text', '12/05/1987');
     BreweryParameters.getCustomersTableCell('height', 3).should('have.text', '1.83');
-    BreweryParameters.editCustomersTableStringCell('name', 0, 'Bill').should('have.text', 'Bob'); // notEditable
+    BreweryParameters.editCustomersTableStringCell('name', 0, 'Bill').should('have.text', 'Bill');
     BreweryParameters.editCustomersTableStringCell('age', 0, '11').should('have.text', '11');
     BreweryParameters.editCustomersTableStringCell('canDrinkAlcohol', 1, 'true').should('have.text', 'true');
     BreweryParameters.editCustomersTableStringCell('favoriteDrink', 2, 'Beer').should('have.text', 'Beer');
@@ -84,7 +84,7 @@ describe('Table parameters files standard operations part 2', () => {
     ScenarioParameters.save();
 
     // Check that cells values have been saved
-    BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Bob');
+    BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Bill');
     BreweryParameters.getCustomersTableCell('age', 0).should('have.text', '11');
     BreweryParameters.getCustomersTableCell('canDrinkAlcohol', 1).should('have.text', 'true');
     BreweryParameters.getCustomersTableCell('favoriteDrink', 2).should('have.text', 'Beer');
@@ -93,7 +93,7 @@ describe('Table parameters files standard operations part 2', () => {
 
     // Check that cells are not editable when not in edition mode
     Scenarios.validateScenario();
-    BreweryParameters.editCustomersTableStringCell('name', 0, 'Bill').should('have.text', 'Bob');
+    BreweryParameters.editCustomersTableStringCell('name', 0, 'Bill').should('have.text', 'Bill');
     BreweryParameters.editCustomersTableStringCell('age', 0, '12').should('have.text', '11');
     BreweryParameters.editCustomersTableStringCell('canDrinkAlcohol', 1, 'false').should('have.text', 'true');
     BreweryParameters.editCustomersTableStringCell('favoriteDrink', 2, 'Wine').should('have.text', 'Beer');
@@ -115,7 +115,7 @@ describe('Table parameters files standard operations part 2', () => {
     BreweryParameters.getCustomersTableCell('favoriteDrink', 2).should('have.text', 'Wine');
     BreweryParameters.getCustomersTableCell('birthday', 3).should('have.text', '12/05/1987');
     BreweryParameters.getCustomersTableCell('height', 3).should('have.text', '1.83');
-    BreweryParameters.editCustomersTableStringCell('name', 0, 'Bill').should('have.text', 'Bob'); // notEditable
+    BreweryParameters.editCustomersTableStringCell('name', 0, 'Bill').should('have.text', 'Bill');
     BreweryParameters.editCustomersTableStringCell('age', 0, '11').should('have.text', '11');
     BreweryParameters.editCustomersTableStringCell('canDrinkAlcohol', 1, 'true').should('have.text', 'true');
     BreweryParameters.editCustomersTableStringCell('favoriteDrink', 2, 'Beer').should('have.text', 'Beer');
@@ -129,7 +129,7 @@ describe('Table parameters files standard operations part 2', () => {
     ScenarioParameters.save();
 
     // Check that cells values have been saved
-    BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Bob');
+    BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Bill');
     BreweryParameters.getCustomersTableCell('age', 0).should('have.text', '11');
     BreweryParameters.getCustomersTableCell('canDrinkAlcohol', 1).should('have.text', 'true');
     BreweryParameters.getCustomersTableCell('favoriteDrink', 2).should('have.text', 'Beer');
