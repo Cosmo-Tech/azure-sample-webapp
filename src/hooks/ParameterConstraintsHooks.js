@@ -12,35 +12,38 @@ import { useTranslation } from 'react-i18next';
 
 export const useParameterConstraint = (parameterData) => {
   const { t } = useTranslation();
+
   const parametersList = useSolutionParameters();
   const { trigger, watch } = useFormContext();
+
   const constraint = ParameterConstraintsUtils.getParameterValidationConstraint(
     parameterData?.options?.validation,
     parameterData.varType,
     parametersList
   );
+
   const constrainingValue = constraint ? watch(constraint?.id) : undefined;
+
+  const getTranslationLabel = (translationString, fallbackString) => {
+    return t(translationString, fallbackString, {
+      field: t(TranslationUtils.getParameterTranslationKey(parameterData?.id)),
+      constraint: t(TranslationUtils.getParameterTranslationKey(constraint?.id)),
+    });
+  };
 
   useEffect(() => {
     if (constraint) {
       trigger(parameterData.id);
     }
   }, [constraint, parameterData.id, trigger, constrainingValue]);
-  return { t, constraint, constrainingValue };
+  return { getTranslationLabel, constraint, constrainingValue };
 };
 
 export const useDateConstraintValidation = (parameterData) => {
-  const { t, constraint, constrainingValue } = useParameterConstraint(parameterData);
+  const { getTranslationLabel, constraint, constrainingValue } = useParameterConstraint(parameterData);
 
   const getDateConstraintValidation = useCallback(
     (value) => {
-      const getTranslationLabel = (translationString, fallbackString) => {
-        return t(translationString, fallbackString, {
-          field: t(TranslationUtils.getParameterTranslationKey(parameterData?.id)),
-          constraint: t(TranslationUtils.getParameterTranslationKey(constraint?.id)),
-        });
-      };
-
       if (constraint) {
         switch (constraint.operator) {
           case '>':
@@ -79,7 +82,7 @@ export const useDateConstraintValidation = (parameterData) => {
             return (
               isSameDay(new Date(value), new Date(constrainingValue)) ||
               getTranslationLabel(
-                'views.scenario.scenarioParametersValidationErrors.equalDate',
+                'views.scenario.scenarioParametersValidationErrors.equalTo',
                 'The field {{field}} must be equal to the field {{constraint}}'
               )
             );
@@ -87,7 +90,7 @@ export const useDateConstraintValidation = (parameterData) => {
             return (
               !isSameDay(new Date(value), new Date(constrainingValue)) ||
               getTranslationLabel(
-                'views.scenario.scenarioParametersValidationErrors.differentDate',
+                'views.scenario.scenarioParametersValidationErrors.differentFrom',
                 'The field {{field}} must be different from the field {{constraint}}'
               )
             );
@@ -97,7 +100,72 @@ export const useDateConstraintValidation = (parameterData) => {
       }
       return true;
     },
-    [constrainingValue, constraint, t, parameterData?.id]
+    [constrainingValue, constraint, getTranslationLabel]
   );
   return { getDateConstraintValidation };
+};
+
+export const useParameterConstraintValidation = (parameterData) => {
+  const { getTranslationLabel, constraint, constrainingValue } = useParameterConstraint(parameterData);
+  const getParameterConstraintValidation = useCallback(
+    (value) => {
+      if (constraint) {
+        switch (constraint.operator) {
+          case '>':
+            return (
+              value > constrainingValue ||
+              getTranslationLabel(
+                'views.scenario.scenarioParametersValidationErrors.greaterThan',
+                'The field {{field}} must be greater than the field {{constraint}}'
+              )
+            );
+          case '<':
+            return (
+              value < constrainingValue ||
+              getTranslationLabel(
+                'views.scenario.scenarioParametersValidationErrors.lessThan',
+                'The field {{field}} must be less than the field {{constraint}}'
+              )
+            );
+          case '>=':
+            return (
+              value >= constrainingValue ||
+              getTranslationLabel(
+                'views.scenario.scenarioParametersValidationErrors.greaterThanOrEqual',
+                'The field {{field}} must be greater than or equal to the field {{constraint}}'
+              )
+            );
+          case '<=':
+            return (
+              value <= constrainingValue ||
+              getTranslationLabel(
+                'views.scenario.scenarioParametersValidationErrors.lessThanOrEqual',
+                'The field {{field}} must be less than or equal to the field {{constraint}}'
+              )
+            );
+          case '!=':
+            return (
+              value !== constrainingValue ||
+              getTranslationLabel(
+                'views.scenario.scenarioParametersValidationErrors.differentFrom',
+                'The field {{field}} must be different from the field {{constraint}}'
+              )
+            );
+          case '==':
+            return (
+              value === constrainingValue ||
+              getTranslationLabel(
+                'views.scenario.scenarioParametersValidationErrors.equalTo',
+                'The field {{field}} must be equal to the field {{constraint}}'
+              )
+            );
+          default:
+            return true;
+        }
+      }
+      return true;
+    },
+    [constrainingValue, constraint, getTranslationLabel]
+  );
+  return { getParameterConstraintValidation };
 };
