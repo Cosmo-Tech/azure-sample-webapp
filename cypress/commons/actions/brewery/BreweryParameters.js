@@ -239,7 +239,7 @@ function getCustomersColumnsGroup(columnsGroupIndex) {
 }
 
 function openCustomersColumnsGroup(columnsGroupIndex) {
-  return TableParameters.openColumnGroup(getCustomersTable(), columnsGroupIndex);
+  return TableParameters.openColumnsGroup(getCustomersTable(), columnsGroupIndex);
 }
 
 function importCustomersTableData(filePath) {
