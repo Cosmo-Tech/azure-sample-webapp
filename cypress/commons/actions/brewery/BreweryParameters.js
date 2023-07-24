@@ -234,12 +234,12 @@ function getCustomersErrorLoc(errorIndex) {
   return TableParameters.getErrorLoc(getCustomersTable(), errorIndex);
 }
 
-function getCustomersColumnGroup(columnsGroupIndex) {
-  return TableParameters.getColumnGroup(getCustomersTable(), columnsGroupIndex);
+function getCustomersColumnGroup(columnGroupIndex) {
+  return TableParameters.getColumnGroup(getCustomersTable(), columnGroupIndex);
 }
 
-function openCustomersColumnGroup(columnsGroupIndex) {
-  return TableParameters.openColumnGroup(getCustomersTable(), columnsGroupIndex);
+function openCustomersColumnGroup(columnGroupIndex) {
+  return TableParameters.openColumnGroup(getCustomersTable(), columnGroupIndex);
 }
 
 function importCustomersTableData(filePath) {
