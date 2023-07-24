@@ -6,6 +6,7 @@ import { BasicNumberInput } from '@cosmotech/ui';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { TranslationUtils } from '../../../../utils';
+import { useParameterConstraintValidation } from '../../../../hooks/ParameterConstraintsHooks';
 
 export const GenericNumberInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty, error }) => {
   const { t } = useTranslation();
@@ -58,6 +59,7 @@ GenericNumberInput.defaultProps = {
 
 GenericNumberInput.useValidationRules = (parameterData) => {
   const { t } = useTranslation();
+  const { getParameterConstraintValidation } = useParameterConstraintValidation(parameterData);
   const DEFAULT_MIN_VALUE = -1e10 + 1;
   const DEFAULT_MAX_VALUE = 1e10 - 1;
   const min = parameterData?.minValue ?? DEFAULT_MIN_VALUE;
@@ -80,13 +82,16 @@ GenericNumberInput.useValidationRules = (parameterData) => {
         { maxValue: max }
       ),
     },
-    validate: (v) => {
-      if (parameterData?.varType === 'int') {
-        return (
-          Number.isInteger(v) ||
-          t('views.scenario.scenarioParametersValidationErrors.integer', 'This value must be an integer')
-        );
-      }
+    validate: {
+      integer: (v) => {
+        if (parameterData?.varType === 'int') {
+          return (
+            Number.isInteger(v) ||
+            t('views.scenario.scenarioParametersValidationErrors.integer', 'This value must be an integer')
+          );
+        }
+      },
+      constraint: (v) => getParameterConstraintValidation(v),
     },
   };
 };
