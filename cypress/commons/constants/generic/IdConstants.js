@@ -170,7 +170,7 @@ export const GENERIC_SELECTORS = {
       header: '[class=ag-header-container]',
       placeholder: '[data-cy=empty-table-placeholder]',
       columnGroupRow: '.ag-header-row-column-group',
-      openColumnGroup: '.ag-header-expand-icon-collapsed',
+      openColumnsGroup: '.ag-header-expand-icon-collapsed',
       columnGroup: '[aria-colindex=$COLGROUPNAME]',
       colByName: '[col-id=$COLNAME]',
       rowsContainer: '[class=ag-center-cols-container]',

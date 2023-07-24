@@ -140,8 +140,8 @@ function getColumnsGroup(tableParameterElement, colGroupIndex) {
   return getColumnsGroupRow(tableParameterElement).find(colGrpSelector);
 }
 
-function openColumnGroup(tableParameterElement, colGroupIndex) {
-  const openColGrpSelector = GENERIC_SELECTORS.genericComponents.table.openColumnGroup;
+function openColumnsGroup(tableParameterElement, colGroupIndex) {
+  const openColGrpSelector = GENERIC_SELECTORS.genericComponents.table.openColumnsGroup;
   return getColumnsGroup(tableParameterElement, colGroupIndex).find(openColGrpSelector).click();
 }
 
@@ -256,7 +256,7 @@ export const TableParameters = {
   getRow,
   getCell,
   getColumnsGroup,
-  openColumnGroup,
+  openColumnsGroup,
   importFile,
   exportFile,
   exportCSV,

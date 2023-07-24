@@ -238,7 +238,7 @@ function getCustomersColumnsGroup(columnsGroupIndex) {
   return TableParameters.getColumnsGroup(getCustomersTable(), columnsGroupIndex);
 }
 
-function openCutomersColumnGroup(columnsGroupIndex) {
+function openCustomersColumnsGroup(columnsGroupIndex) {
   return TableParameters.openColumnGroup(getCustomersTable(), columnsGroupIndex);
 }
 
@@ -466,7 +466,7 @@ export const BreweryParameters = {
   getCustomersErrorSummary,
   getCustomersErrorLoc,
   getCustomersColumnsGroup,
-  openCutomersColumnGroup,
+  openCustomersColumnsGroup,
   importCustomersTableData,
   exportCustomersTableDataToCSV,
   exportCustomersTableDataToXLSX,

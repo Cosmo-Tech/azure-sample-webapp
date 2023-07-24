@@ -37,7 +37,7 @@ describe('check if column grouping is displayed in the stubbed Table component',
     BreweryParameters.getCustomersTableCell('name', 0).should('exist');
     BreweryParameters.getCustomersTableCell('age', 0).should('not.exist');
     BreweryParameters.getCustomersTableCell('canDrinkAlcohol', 0).should('exist');
-    BreweryParameters.openCutomersColumnGroup(1);
+    BreweryParameters.openCustomersColumnsGroup(1);
     BreweryParameters.getCustomersTableCell('name', 0).should('not.exist');
     BreweryParameters.getCustomersTableCell('age', 0).should('exist');
     BreweryParameters.getCustomersTableCell('canDrinkAlcohol', 0).should('exist');
