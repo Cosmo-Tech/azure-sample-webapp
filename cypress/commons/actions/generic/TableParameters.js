@@ -130,19 +130,19 @@ function getCell(tableParameterElement, colName, rowIndex) {
   return getRow(tableParameterElement, rowIndex).find(colSelector);
 }
 
-function getColumnsGroupRow(tableParameterElement) {
+function getColumnGroupRow(tableParameterElement) {
   const colGrpRowSelector = GENERIC_SELECTORS.genericComponents.table.columnGroupRow;
   return getGrid(tableParameterElement).find(colGrpRowSelector);
 }
 
-function getColumnsGroup(tableParameterElement, colGroupIndex) {
+function getColumnGroup(tableParameterElement, colGroupIndex) {
   const colGrpSelector = GENERIC_SELECTORS.genericComponents.table.columnGroup.replace('$COLGROUPNAME', colGroupIndex);
-  return getColumnsGroupRow(tableParameterElement).find(colGrpSelector);
+  return getColumnGroupRow(tableParameterElement).find(colGrpSelector);
 }
 
-function openColumnsGroup(tableParameterElement, colGroupIndex) {
-  const openColGrpSelector = GENERIC_SELECTORS.genericComponents.table.openColumnsGroup;
-  return getColumnsGroup(tableParameterElement, colGroupIndex).find(openColGrpSelector).click();
+function openColumnGroup(tableParameterElement, colGroupIndex) {
+  const openColGrpSelector = GENERIC_SELECTORS.genericComponents.table.openColumnGroup;
+  return getColumnGroup(tableParameterElement, colGroupIndex).find(openColGrpSelector).click();
 }
 
 // Get the "Import File" button from the provided table element and upload the file provided by filePath
@@ -255,8 +255,8 @@ export const TableParameters = {
   getRows,
   getRow,
   getCell,
-  getColumnsGroup,
-  openColumnsGroup,
+  getColumnGroup,
+  openColumnGroup,
   importFile,
   exportFile,
   exportCSV,
