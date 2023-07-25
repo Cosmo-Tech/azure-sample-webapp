@@ -29,7 +29,9 @@ export const API_ENDPOINT = {
   SCENARIO: URL_ROOT + '/.*/scenarios/(s-[\\w]+)',
   SCENARIO_DEFAULT_SECURITY: URL_ROOT + '/.*/scenarios/(s-[\\w]+)/security/default',
   SCENARIO_SECURITY_ACL: URL_ROOT + '/.*/scenarios/(s-[\\w]+)/security/access',
-  RUN_SCENARIO: URL_ROOT + '/.*/scenarios/(s-[\\w]+)/run',
+  RUN_SCENARIO: URL_ROOT + '/.*/scenarios/(s-[\\w]+)/run', // Endpoint to start the run of a scenario
+  SCENARIO_RUN: URL_ROOT + '/.*/scenarioruns/(sr-[\\w]+)', // Endpoint to get the data of a specific scenario run
+  SCENARIO_RUN_STATUS: URL_ROOT + '/.*/scenarioruns/(sr-[\\w]+)/status',
   DATASETS: URL_ROOT + '/.*/datasets',
   WORKSPACES: URL_ROOT + '/.*/workspaces',
   WORKSPACE: URL_ROOT + '/.*/workspaces/((w|W)-[\\w]+)',
@@ -143,6 +145,8 @@ export const API_REGEX = {
   SCENARIO_DEFAULT_SECURITY: new RegExp('^' + API_ENDPOINT.SCENARIO_DEFAULT_SECURITY + '$'),
   SCENARIO_SECURITY_ACL: new RegExp('^' + API_ENDPOINT.SCENARIO_SECURITY_ACL + '$'),
   RUN_SCENARIO: new RegExp('^' + API_ENDPOINT.RUN_SCENARIO),
+  SCENARIO_RUN: new RegExp('^' + API_ENDPOINT.SCENARIO_RUN),
+  SCENARIO_RUN_STATUS: new RegExp('^' + API_ENDPOINT.SCENARIO_RUN_STATUS),
   DATASETS: new RegExp('^' + API_ENDPOINT.DATASETS + '$'),
   WORKSPACE: new RegExp('^' + API_ENDPOINT.WORKSPACE + '$'),
   WORKSPACES: new RegExp('^' + API_ENDPOINT.WORKSPACES + '$'),
