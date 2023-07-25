@@ -1,32 +1,33 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import utils from '../../commons/TestUtils';
-import { DATASET, RUN_TEMPLATE, SCENARIO_STATUS } from '../../commons/constants/brewery/TestConstants';
-import { Scenarios, ScenarioManager, ScenarioParameters, ErrorBanner } from '../../commons/actions';
-import { Login } from '../../commons/actions/brewery';
+import { DATASET, SCENARIO_STATUS } from '../../commons/constants/brewery/TestConstants';
+import { Login, Scenarios, ScenarioManager, ScenarioParameters, ErrorBanner } from '../../commons/actions';
+import { DEFAULT_SCENARIOS_LIST } from '../../fixtures/stubbing/default';
+import { stub } from '../../commons/services/stubbing';
+import { setup } from '../../commons/utils';
 
 describe('Create scenario and check its data in scenario manager', () => {
-  Cypress.Keyboard.defaults({
-    keystrokeDelay: 0,
+  before(() => {
+    setup.initCypressAndStubbing();
+    stub.start({
+      CREATE_AND_DELETE_SCENARIO: true,
+      GET_DATASETS: true,
+      GET_SOLUTIONS: true,
+      GET_WORKSPACES: true,
+      GET_SCENARIOS: true,
+      RUN_SCENARIO: true,
+      PERMISSIONS_MAPPING: true,
+      UPDATE_SCENARIO: true,
+    });
   });
-
-  const runTemplate = RUN_TEMPLATE.BASIC_TYPES;
-
-  function forgeScenarioName() {
-    const prefix = 'Test Cypress scenario manager - ';
-    const randomString = utils.randomStr(7);
-    return prefix + randomString;
-  }
-
-  const scenarioNamesToDelete = [];
 
   beforeEach(() => {
     Login.login();
   });
 
   after(() => {
-    ScenarioManager.deleteScenarioList(scenarioNamesToDelete);
+    stub.stop();
   });
 
   function _formatDate(date) {
@@ -34,41 +35,40 @@ describe('Create scenario and check its data in scenario manager', () => {
   }
 
   it('Check scenario in scenario manager', () => {
-    const scenarioName = forgeScenarioName();
-    scenarioNamesToDelete.push(scenarioName);
+    const scenarioId = DEFAULT_SCENARIOS_LIST[0].id;
+    const scenarioName = DEFAULT_SCENARIOS_LIST[0].name;
+    const scenarioOwnerName = DEFAULT_SCENARIOS_LIST[0].ownerName;
+    const scenarioCreationDate = DEFAULT_SCENARIOS_LIST[0].creationDate;
+    const scenarioRunTemplate = DEFAULT_SCENARIOS_LIST[0].runTemplateName;
+    const runOptions = {
+      runDuration: 1000,
+      dataIngestionDuration: 1000,
+      finalStatus: 'Successful',
+      expectedPollsCount: 2,
+    };
 
-    Scenarios.createScenario(scenarioName, true, DATASET.BREWERY_ADT, runTemplate).then((value) => {
-      const scenarioId = value.scenarioCreatedId;
-      const scenarioOwnerName = value.scenarioCreatedOwnerName;
-      const scenarioCreationDate = value.scenarioCreatedCreationDate;
-      const scenarioRunTemplate = value.scenarioCreatedRunTemplateName;
+    ScenarioManager.switchToScenarioManager();
+    // FIX TEMP for https://cosmo-tech.atlassian.net/browse/PROD-11566
+    // Remove this for test the fix.
+    ErrorBanner.dismissErrorIfVisible();
 
-      ScenarioManager.switchToScenarioManager();
+    ScenarioManager.getScenarioAccordion(scenarioId).click();
+    ScenarioManager.getScenarioOwnerName(scenarioId).should('have.text', scenarioOwnerName);
+    ScenarioManager.getScenarioCreationDate(scenarioId).should('have.text', _formatDate(scenarioCreationDate));
+    ScenarioManager.getScenarioEditableLabel(scenarioId).should('have.text', scenarioName);
+    ScenarioManager.getScenarioRunStatus(scenarioId, SCENARIO_STATUS.CREATED);
+    ScenarioManager.getScenarioRunTemplate(scenarioId).should('have.text', scenarioRunTemplate);
+    ScenarioManager.getScenarioDataset(scenarioId).should('have.text', DATASET.BREWERY_ADT, { matchCase: false });
 
-      // FIX TEMP for https://cosmo-tech.atlassian.net/browse/PROD-11566
-      // Remove this for test the fix.
-      ErrorBanner.dismissErrorIfVisible();
+    Scenarios.switchToScenarioView();
+    ScenarioParameters.launch({ scenarioId, runOptions, saveAndLaunch: true });
+    ScenarioManager.switchToScenarioManager();
 
-      ScenarioManager.getScenarioAccordion(scenarioId).click();
-      ScenarioManager.getScenarioOwnerName(scenarioId).should('have.text', scenarioOwnerName);
-      ScenarioManager.getScenarioCreationDate(scenarioId).should('have.text', _formatDate(scenarioCreationDate));
-      ScenarioManager.getScenarioEditableLabel(scenarioId).should('have.text', scenarioName);
-      ScenarioManager.getScenarioRunStatus(scenarioId, SCENARIO_STATUS.CREATED);
-      ScenarioManager.getScenarioRunTemplate(scenarioId).should('have.text', scenarioRunTemplate);
-      ScenarioManager.getScenarioDataset(scenarioId).should('have.text', DATASET.BREWERY_ADT, { matchCase: false });
-
-      Scenarios.switchToScenarioView();
-
-      ScenarioParameters.launch();
-
-      ScenarioManager.switchToScenarioManager();
-
-      // FIX TEMP for https://cosmo-tech.atlassian.net/browse/PROD-11566
-      // Remove this for test the fix.
-      ErrorBanner.dismissErrorIfVisible();
-      ScenarioManager.getScenarioAccordion(scenarioId).click();
-      ScenarioManager.getScenarioRunStatus(scenarioId, SCENARIO_STATUS.RUNNING);
-      ScenarioManager.getScenarioRunStatus(scenarioId, SCENARIO_STATUS.SUCCESSFUL, 500);
-    });
+    // FIX TEMP for https://cosmo-tech.atlassian.net/browse/PROD-11566
+    // Remove this for test the fix.
+    ErrorBanner.dismissErrorIfVisible();
+    ScenarioManager.getScenarioAccordion(scenarioId).click();
+    ScenarioManager.getScenarioRunStatus(scenarioId, SCENARIO_STATUS.RUNNING);
+    ScenarioManager.getScenarioRunStatus(scenarioId, SCENARIO_STATUS.SUCCESSFUL, 500);
   });
 });
