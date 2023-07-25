@@ -218,17 +218,7 @@ const SOLUTION_WITH_CONSTRAINTS_BETWEEN_PARAMETERS = {
       varType: 'string',
       options: {
         minLength: 2,
-      },
-    },
-    {
-      ...SOLUTION_PARAMETER_EXAMPLE,
-      id: 'currency_name',
-      defaultValue: 'EUR',
-      labels: { fr: 'Nom de la monnaie', en: 'Currency name' },
-      varType: 'string',
-      options: {
-        minLength: 2,
-        maxLength: 10,
+        validation: '!= comment',
       },
     },
     {
