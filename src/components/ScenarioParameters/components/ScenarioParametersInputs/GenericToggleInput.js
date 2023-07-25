@@ -6,8 +6,9 @@ import { BasicToggleInput } from '@cosmotech/ui';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { TranslationUtils } from '../../../../utils';
+import { useParameterConstraintValidation } from '../../../../hooks/ParameterConstraintsHooks';
 
-export const GenericToggleInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty }) => {
+export const GenericToggleInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty, error }) => {
   const { t } = useTranslation();
   const switchFieldProps = {
     disabled: !context.editMode,
@@ -24,6 +25,7 @@ export const GenericToggleInput = ({ parameterData, context, parameterValue, set
       changeSwitchType={setParameterValue}
       switchProps={switchFieldProps}
       isDirty={isDirty}
+      error={error}
     />
   );
 };
@@ -34,7 +36,16 @@ GenericToggleInput.propTypes = {
   parameterValue: PropTypes.any,
   setParameterValue: PropTypes.func.isRequired,
   isDirty: PropTypes.bool,
+  error: PropTypes.object,
 };
 GenericToggleInput.defaultProps = {
   isDirty: false,
+};
+GenericToggleInput.useValidationRules = (parameterData) => {
+  const { getParameterConstraintValidation } = useParameterConstraintValidation(parameterData);
+  return {
+    validate: {
+      constraint: (v) => getParameterConstraintValidation(v),
+    },
+  };
 };
