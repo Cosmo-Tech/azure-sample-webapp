@@ -281,7 +281,7 @@ The description of the table groups consists of putting columns in the same grou
 - **headerName** Name of the column group
 - **children** Array of columns or column groups belonging to this group
 
-A group can have children shown or hidden based on the open / closed state of the group. This is controlled by setting `columnGroupShow` on one or more of the children. This property can have two values, when set to `open`, the child is only shown when the group is open, and on `closed` the child is only shown when the group is open.
+A group can have children shown or hidden based on the open / closed state of the group. This is controlled by setting `columnGroupShow` on one or more of the children. This property can have two values, when set to `open`, the child is only shown when the group is open, and on `closed` the child is only shown when the group is closed.
 
 Example:
 

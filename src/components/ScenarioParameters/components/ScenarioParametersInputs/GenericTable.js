@@ -22,12 +22,12 @@ const clone = rfdc();
 const DEFAULT_DATE_FORMAT = 'yyyy-MM-dd';
 const MAX_ERRORS_COUNT = 100;
 
-export const _getColumnWithoutDepth = (columns) => {
+export const getColumnWithoutDepth = (columns) => {
   return columns
     .flatMap((columnOrColumnGroup) => {
       if (columnOrColumnGroup == null)
         console.warn('Null or undefined values found in columns list, please check the solution configuration');
-      return columnOrColumnGroup?.children ? _getColumnWithoutDepth(columnOrColumnGroup.children) : columnOrColumnGroup;
+      return columnOrColumnGroup?.children ? getColumnWithoutDepth(columnOrColumnGroup.children) : columnOrColumnGroup;
     })
     .filter((columns) => columns);
 };
@@ -36,7 +36,7 @@ const _generateGridDataFromCSV = (fileContent, parameterData, options) => {
   return AgGridUtils.fromCSV(
     fileContent,
     ConfigUtils.getParameterAttribute(parameterData, 'hasHeader') || true,
-    _getColumnWithoutDepth(ConfigUtils.getParameterAttribute(parameterData, 'columns')),
+    getColumnWithoutDepth(ConfigUtils.getParameterAttribute(parameterData, 'columns')),
     options
   );
 };
@@ -45,7 +45,7 @@ const _generateGridDataFromXLSX = async (fileBlob, parameterData, options) => {
   return await AgGridUtils.fromXLSX(
     fileBlob,
     ConfigUtils.getParameterAttribute(parameterData, 'hasHeader') || true,
-    _getColumnWithoutDepth(ConfigUtils.getParameterAttribute(parameterData, 'columns')),
+    getColumnWithoutDepth(ConfigUtils.getParameterAttribute(parameterData, 'columns')),
     options
   );
 };
