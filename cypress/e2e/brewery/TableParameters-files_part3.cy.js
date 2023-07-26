@@ -51,9 +51,7 @@ describe('Table parameters files standard operations part 3', () => {
     BreweryParameters.getCustomersTableCell('favoriteDrink', 2).should('have.text', 'Wine');
     BreweryParameters.getCustomersTableCell('birthday', 3).should('have.text', '12/05/1987');
     BreweryParameters.getCustomersTableCell('height', 3).should('have.text', '1.83');
-    BreweryParameters.editCustomersTableStringCell('name', 0, 'Bill').should('have.text', 'Bob'); // notEditable
-    BreweryParameters.clearCustomersTableStringCell('name', 0, false).should('have.text', 'Bob'); // notEditable
-    BreweryParameters.clearCustomersTableStringCell('name', 0, true).should('have.text', 'Bob'); // notEditable
+    BreweryParameters.editCustomersTableStringCell('name', 0, 'Bill').should('have.text', 'Bill');
     BreweryParameters.editCustomersTableStringCell('age', 0, '11').should('have.text', '11');
     BreweryParameters.editCustomersTableStringCell('canDrinkAlcohol', 1, 'true').should('have.text', 'true');
     BreweryParameters.editCustomersTableStringCell('favoriteDrink', 2, 'Beer').should('have.text', 'Beer');
@@ -63,7 +61,7 @@ describe('Table parameters files standard operations part 3', () => {
     Downloads.checkByContent('customers.csv', EXPECTED_CUSTOMERS_AFTER_XLSX_IMPORT);
     ScenarioParameters.save();
     // Check that cells values have been saved
-    BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Bob');
+    BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Bill');
     BreweryParameters.getCustomersTableCell('age', 0).should('have.text', '11');
     BreweryParameters.getCustomersTableCell('canDrinkAlcohol', 1).should('have.text', 'true');
     BreweryParameters.getCustomersTableCell('favoriteDrink', 2).should('have.text', 'Beer');
