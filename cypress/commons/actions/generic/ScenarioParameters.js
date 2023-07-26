@@ -112,7 +112,7 @@ function launch(options) {
   const expectedPollsCount = options?.runOptions?.expectedPollsCount ?? stub.getScenarioRunOptions().expectedPollsCount;
   const aliases = [
     options?.saveAndLaunch ? api.interceptUpdateScenario() : undefined,
-    api.interceptRunScenario(options?.runOptions),
+    api.interceptLaunchScenario(options?.runOptions),
     api.interceptGetScenario(options?.scenarioId, expectedPollsCount),
     api.interceptGetScenarioRun(),
     api.interceptGetScenarioRunStatus(),

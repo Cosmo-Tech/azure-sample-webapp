@@ -22,7 +22,7 @@ describe('scenario metadata parameters', () => {
       GET_WORKSPACES: true,
       GET_SOLUTIONS: true,
       UPDATE_SCENARIO: true,
-      RUN_SCENARIO: true,
+      LAUNCH_SCENARIO: true,
     });
     stub.setScenarios(SCENARIOS);
     stub.setSolutions(SOLUTIONS);

@@ -16,7 +16,7 @@ describe('Scenario view PowerBI report', () => {
       GET_SOLUTIONS: true,
       GET_WORKSPACES: true,
       GET_SCENARIOS: true,
-      RUN_SCENARIO: true,
+      LAUNCH_SCENARIO: true,
       PERMISSIONS_MAPPING: true,
       UPDATE_SCENARIO: true,
     });

@@ -112,11 +112,11 @@ const interceptCreateScenario = () => {
 
 // Parameter stubbingOptions must be an object or undefined.
 // See doc of 'DEFAULT_SCENARIO_RUNS_OPTIONS' in 'stubbing' service file.
-const interceptRunScenario = (stubbingOptions) => {
+const interceptLaunchScenario = (stubbingOptions) => {
   const alias = forgeAlias('reqRunScenario');
-  cy.intercept({ method: 'POST', url: API_REGEX.RUN_SCENARIO, times: 1 }, (req) => {
-    if (stub.isEnabledFor('RUN_SCENARIO')) {
-      const scenarioId = req.url.match(API_REGEX.RUN_SCENARIO)[1];
+  cy.intercept({ method: 'POST', url: API_REGEX.LAUNCH_SCENARIO, times: 1 }, (req) => {
+    if (stub.isEnabledFor('LAUNCH_SCENARIO')) {
+      const scenarioId = req.url.match(API_REGEX.LAUNCH_SCENARIO)[1];
       const runDuration = stubbingOptions?.runDuration ?? stub.getScenarioRunOptions().runDuration;
       const dataIngestionDuration =
         stubbingOptions?.dataIngestionDuration ?? stub.getScenarioRunOptions().dataIngestionDuration;
@@ -152,7 +152,7 @@ const interceptRunScenario = (stubbingOptions) => {
 const interceptGetScenarioRun = () => {
   const alias = forgeAlias('reqGetScenarioRun');
   cy.intercept({ method: 'GET', url: API_REGEX.SCENARIO_RUN, times: 1 }, (req) => {
-    if (!stub.isEnabledFor('RUN_SCENARIO')) return;
+    if (!stub.isEnabledFor('LAUNCH_SCENARIO')) return;
     const scenarioRunId = req.url.match(API_REGEX.SCENARIO_RUN)[1];
     req.reply(stub.getScenarioRunById(scenarioRunId));
   }).as(alias);
@@ -162,7 +162,7 @@ const interceptGetScenarioRun = () => {
 const interceptGetScenarioRunStatus = () => {
   const alias = forgeAlias('reqGetScenarioRunStatus');
   cy.intercept({ method: 'GET', url: API_REGEX.SCENARIO_RUN_STATUS, times: 1 }, (req) => {
-    if (!stub.isEnabledFor('RUN_SCENARIO')) return;
+    if (!stub.isEnabledFor('LAUNCH_SCENARIO')) return;
     const scenarioRunId = req.url.match(API_REGEX.SCENARIO_RUN_STATUS)[1];
     const runStatus = stub.getScenarioRunById(scenarioRunId).status;
     req.reply(runStatus);
@@ -324,7 +324,7 @@ export const apiUtils = {
   startInterceptionMiddlewares,
   interceptAuthentication,
   interceptCreateScenario,
-  interceptRunScenario,
+  interceptLaunchScenario,
   interceptGetScenarioRun,
   interceptGetScenarioRunStatus,
   interceptUpdateScenario,

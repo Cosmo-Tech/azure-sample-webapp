@@ -16,7 +16,7 @@ describe('Create scenario and check its data in scenario manager', () => {
       GET_SOLUTIONS: true,
       GET_WORKSPACES: true,
       GET_SCENARIOS: true,
-      RUN_SCENARIO: true,
+      LAUNCH_SCENARIO: true,
       PERMISSIONS_MAPPING: true,
       UPDATE_SCENARIO: true,
     });
