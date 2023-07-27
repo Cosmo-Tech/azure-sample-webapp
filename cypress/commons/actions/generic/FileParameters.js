@@ -24,6 +24,10 @@ function getFileName(fileParameterElement) {
   return fileParameterElement.find(GENERIC_SELECTORS.genericComponents.uploadFile.fileName, { timeout: 10000 });
 }
 
+function getErrorMessage(fileParameterElement) {
+  return fileParameterElement.find(GENERIC_SELECTORS.genericComponents.uploadFile.errorMessage);
+}
+
 function download(fileParameterElement) {
   getDownloadButton(fileParameterElement).click();
 }
@@ -38,6 +42,7 @@ export const FileParameters = {
   getDownloadButton,
   getDeleteButton,
   getFileName,
+  getErrorMessage,
   download,
   delete: _delete,
 };

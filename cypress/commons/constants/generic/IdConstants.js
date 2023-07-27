@@ -139,6 +139,7 @@ export const GENERIC_SELECTORS = {
       downloadButton: '[data-cy=download-button]',
       deleteButton: '[data-cy=delete-button]',
       fileName: '[data-cy=file-name]',
+      errorMessage: '[data-cy=file-error-message]',
     },
     table: {
       label: '[data-cy=label]',

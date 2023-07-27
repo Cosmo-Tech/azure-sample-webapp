@@ -108,6 +108,18 @@ const SOLUTION_WITH_ALL_TYPES_OF_PARAMETERS = {
         validation: '!= end_date',
       },
     },
+    {
+      ...SOLUTION_PARAMETER_EXAMPLE,
+      id: 'example_dataset_part_1',
+      labels: { fr: 'Exemple de sous-partie de dataset 1', en: 'Example dataset part 1' },
+      varType: '%DATASETID%',
+    },
+    {
+      ...SOLUTION_PARAMETER_EXAMPLE,
+      id: 'example_dataset_part_2',
+      labels: { fr: 'Exemple de sous-partie de dataset 2', en: 'Example dataset part 2' },
+      varType: '%DATASETID%',
+    },
   ],
   parameterGroups: [
     {
@@ -123,7 +135,7 @@ const SOLUTION_WITH_ALL_TYPES_OF_PARAMETERS = {
       labels: { fr: 'Valeurs initiales', en: 'Initial values' },
       isTable: null,
       options: null,
-      parameters: ['evaluation', 'comment', 'currency_name'],
+      parameters: ['evaluation', 'comment', 'currency_name', 'example_dataset_part_1', 'example_dataset_part_2'],
       parentId: null,
     },
     {
