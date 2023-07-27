@@ -190,7 +190,7 @@ function createScenario(scenarioName, isMaster, datasetOrMasterName, runTemplate
 }
 
 function validateScenario(scenarioId) {
-  const validateScenarioAlias = api.interceptUpdateScenario(scenarioId);
+  const validateScenarioAlias = api.interceptUpdateScenario({ scenarioId });
   const getScenarioAlias = api.interceptGetScenario(scenarioId);
 
   getScenarioValidateButton().click();
@@ -200,7 +200,7 @@ function validateScenario(scenarioId) {
   api.waitAlias(getScenarioAlias);
 }
 function rejectScenario(scenarioId) {
-  const rejectScenarioAlias = api.interceptUpdateScenario(scenarioId);
+  const rejectScenarioAlias = api.interceptUpdateScenario({ scenarioId });
   const getScenarioAlias = api.interceptGetScenario(scenarioId);
 
   getScenarioRejectButton().click();
@@ -210,7 +210,7 @@ function rejectScenario(scenarioId) {
   api.waitAlias(getScenarioAlias);
 }
 function resetScenarioValidationStatus(scenarioId) {
-  const resetScenarioAlias = api.interceptUpdateScenario(scenarioId);
+  const resetScenarioAlias = api.interceptUpdateScenario({ scenarioId });
   const getScenarioAlias = api.interceptGetScenario(scenarioId);
 
   getScenarioValidationStatusChipDeleteIcon().click();

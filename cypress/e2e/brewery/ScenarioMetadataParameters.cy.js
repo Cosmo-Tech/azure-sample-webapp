@@ -22,7 +22,7 @@ describe('scenario metadata parameters', () => {
       GET_WORKSPACES: true,
       GET_SOLUTIONS: true,
       UPDATE_SCENARIO: true,
-      RUN_SCENARIO: true,
+      LAUNCH_SCENARIO: true,
     });
     stub.setScenarios(SCENARIOS);
     stub.setSolutions(SOLUTIONS);
@@ -46,9 +46,11 @@ describe('scenario metadata parameters', () => {
     ScenarioParameters.getParameterContainer('number-input-stock').should('be.visible');
 
     // Check values of scenario metadata parameters are sent even when clicking on the "Launch" button (without saving)
-    const scenarioSaveAlias = apiUtils.interceptUpdateScenario(scenarioId, validateScenarioUpdateRequest);
-    const scenarioRunAlias = apiUtils.interceptRunScenario();
+    const scenarioSaveAlias = apiUtils.interceptUpdateScenario({
+      scenarioId,
+      validateRequest: validateScenarioUpdateRequest,
+    });
     ScenarioParameters.launch();
-    apiUtils.waitAliases([scenarioSaveAlias, scenarioRunAlias]);
+    apiUtils.waitAliases([scenarioSaveAlias]);
   });
 });

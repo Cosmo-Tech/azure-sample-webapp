@@ -1,10 +1,10 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { URL_REGEX } from '../../constants/generic/TestConstants';
 import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
 import { Scenarios } from '../generic';
 import { apiUtils as api } from '../../utils';
+import { stub } from '../../services/stubbing';
 
 // Get elements in scenario parameters panel
 function getParametersTabs(timeout = 4) {
@@ -101,28 +101,34 @@ function cancelDiscardAndContinue() {
   getParametersCancelDiscardAndContinueButton().click();
 }
 
-function launch(timeoutGetLaunchButton = 180) {
-  const alias = api.forgeAlias('reqRunScenarioAlias');
-  cy.intercept('POST', URL_REGEX.SCENARIO_PAGE_RUN_WITH_ID).as(alias);
-
-  getLaunchButton(timeoutGetLaunchButton).should('not.be.disabled').click();
-
-  api.waitAlias(alias, { timeout: 60 * 1000 }); // 60 seconds timeout
+// Parameter 'options' is an object with the following properties:
+//  - scenarioId: scenario id to provide to the interception of the "get scenario" query (default: undefined)
+//  - runOptions: options to provide to the interception of the "get scenario run" query (default: undefined)
+//  - saveAndLaunch: boolean defining whether the test will trigger a SAVE of the scenario parameters (default:
+//    false); used only when stubbing is enabled, to add interception of scenario updates
+//  - timeoutGetLaunchButton: maximum timeout, in seconds, before raising an error when waiting for the launch button
+//    to be enabled (default: 180)
+function launch(options) {
+  const expectedPollsCount = options?.runOptions?.expectedPollsCount ?? stub.getScenarioRunOptions().expectedPollsCount;
+  const aliases = [
+    options?.saveAndLaunch ? api.interceptUpdateScenario() : undefined,
+    api.interceptLaunchScenario(options?.runOptions),
+    api.interceptGetScenario(options?.scenarioId, expectedPollsCount),
+    api.interceptGetScenarioRun(),
+    api.interceptGetScenarioRunStatus(),
+  ];
+  getLaunchButton(options?.getLaunchButtonTimeout ?? 180)
+    .should('not.be.disabled')
+    .click();
+  api.waitAliases(aliases, { timeout: 60 * 1000 });
 }
 
-function save(wait = true, responseDelay = 0) {
-  const alias = api.forgeAlias('reqSaveScenarioAlias');
-  cy.intercept('PATCH', URL_REGEX.SCENARIO_PAGE_WITH_ID, (req) => {
-    req.on('response', (res) => {
-      res.setDelay(responseDelay);
-    });
-  }).as(alias);
-
+function save(wait = true, customScenarioPatch) {
+  const reqUpdateScenarioAlias = api.interceptUpdateScenario({ customScenarioPatch });
   getSaveButton().should('not.be.disabled').click();
-
   if (wait) {
     Scenarios.getScenarioBackdrop(10).should('not.be.visible');
-    api.waitAlias(alias, { timeout: 10 * 1000 }); // 10 seconds timeout
+    api.waitAlias(reqUpdateScenarioAlias, { timeout: 10 * 1000 });
   }
 }
 

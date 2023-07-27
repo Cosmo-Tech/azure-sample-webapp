@@ -42,7 +42,8 @@ describe('Displaying error banner on run scenario fail', () => {
         detail: 'Scenario #scenarioId not found in workspace #w-81264wr3xw5q5 in organization #O-gZYpnd27G7',
       },
     });
-    ScenarioParameters.launch();
+    // Do not use "launch" action to be able to use our custom 'intercept'
+    ScenarioParameters.getLaunchButton(180).should('not.be.disabled').click();
     ErrorBanner.checkAnDismissErrorBanner();
     Scenarios.getDashboardAccordionLogsDownloadButton().should('not.exist');
   });
