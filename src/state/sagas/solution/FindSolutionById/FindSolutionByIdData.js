@@ -11,6 +11,7 @@ export function* fetchSolutionByIdData(organizationId, workspaceId, solutionId) 
   const { data } = yield call(Api.Solutions.findSolutionById, organizationId, solutionId);
   SolutionsUtils.castMinMaxDefaultValuesInSolution(data);
   SolutionsUtils.patchSolutionIfLocalConfigExists(data);
+  SolutionsUtils.checkParametersValidationConstraintsInSolution(data);
   ConfigUtils.checkDeprecatedKeysInConfig(data);
 
   SolutionsUtils.addRunTemplatesParametersIdsDict(data);

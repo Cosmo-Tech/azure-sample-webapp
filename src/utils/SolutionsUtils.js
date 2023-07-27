@@ -6,6 +6,7 @@ import { ApiUtils } from './ApiUtils';
 import { ArrayDictUtils } from './ArrayDictUtils';
 import { ConfigUtils } from './ConfigUtils';
 import { SOLUTIONS } from '../config/overrides/Solutions.js';
+import { ParameterConstraintsUtils } from './ParameterConstraintsUtils';
 
 const _getRunTemplateParametersIds = (groupsOfParameters, runTemplateParametersGroupsIds) => {
   let parameters = [];
@@ -55,9 +56,28 @@ const patchSolutionIfLocalConfigExists = async (originalSolution) => {
   ConfigUtils.patchSolution(originalSolution, overridingSolution);
 };
 
+const checkParametersValidationConstraintsInSolution = (data) => {
+  const parametersWithConstraint = data?.parameters?.filter((parameter) => parameter.options?.validation);
+  parametersWithConstraint?.forEach((parameter) => {
+    const constraint = ParameterConstraintsUtils.getParameterValidationConstraint(
+      parameter.options.validation,
+      parameter.varType,
+      data.parameters
+    );
+    if (constraint === null) {
+      console.warn(
+        `Constraint "${parameter.options.validation}" cannot be applied to parameter 
+        with id "${parameter.id}", please check your solution configuration file`
+      );
+      delete data.parameters.find((param) => param.id === parameter.id)?.options?.validation;
+    }
+  });
+};
+
 export const SolutionsUtils = {
   addRunTemplatesParametersIdsDict,
   addTranslationLabels,
   castMinMaxDefaultValuesInSolution,
   patchSolutionIfLocalConfigExists,
+  checkParametersValidationConstraintsInSolution,
 };

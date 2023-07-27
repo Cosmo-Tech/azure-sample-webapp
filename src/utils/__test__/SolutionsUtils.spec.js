@@ -94,4 +94,48 @@ describe('addRunTemplatesParametersIdsDict for a minimal or incomplete solution'
       runTemplatesParametersIdsDict: {},
     });
   });
+  test('if parameters constraints are valid', () => {
+    const spyConsoleWarn = jest.spyOn(console, 'warn').mockImplementation();
+    const solution = {
+      parameters: [
+        {
+          id: 'parameter1',
+          varType: 'int',
+          options: {
+            validation: '> parameter2',
+          },
+        },
+        {
+          id: 'parameter2',
+          varType: 'int',
+          options: null,
+        },
+      ],
+    };
+    SolutionsUtils.checkParametersValidationConstraintsInSolution(solution);
+    expect(spyConsoleWarn).toHaveBeenCalledTimes(0);
+  });
+  test('if parameters constraints are not valid', () => {
+    const spyConsoleWarn = jest.spyOn(console, 'warn').mockImplementation();
+    const solution = {
+      parameters: [
+        {
+          id: 'parameter1',
+          varType: 'int',
+          options: {
+            validation: '> parameter2',
+          },
+        },
+        {
+          id: 'parameter2',
+          varType: 'string',
+          options: null,
+        },
+      ],
+    };
+    SolutionsUtils.checkParametersValidationConstraintsInSolution(solution);
+    expect(spyConsoleWarn).toHaveBeenCalledTimes(1);
+    expect(spyConsoleWarn).toHaveBeenCalledWith(expect.stringContaining('> parameter2'));
+    expect(spyConsoleWarn).toHaveBeenCalledWith(expect.stringContaining('cannot be applied'));
+  });
 });

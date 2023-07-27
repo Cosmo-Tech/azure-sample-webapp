@@ -31,7 +31,8 @@ describe('Create scenario', () => {
   const textValue = utils.randomStr(8);
   const numberValue = utils.randomNmbr(BASIC_PARAMETERS_CONST.NUMBER.MIN, BASIC_PARAMETERS_CONST.NUMBER.MAX);
   const enumValue = utils.randomEnum(BASIC_PARAMETERS_CONST.ENUM_KEYS);
-  const dateValue = utils.randomDate(BASIC_PARAMETERS_CONST.DATE.MIN, BASIC_PARAMETERS_CONST.DATE.MAX);
+  const startDateValue = utils.randomDate(BASIC_PARAMETERS_CONST.DATE.MIN, BASIC_PARAMETERS_CONST.DATE.MIDDLE);
+  const endDateValue = utils.randomDate(BASIC_PARAMETERS_CONST.DATE.MIDDLE, BASIC_PARAMETERS_CONST.DATE.MAX);
   const sliderValue = utils.randomNmbr(BASIC_PARAMETERS_CONST.SLIDER.MIN, BASIC_PARAMETERS_CONST.SLIDER.MAX);
 
   Cypress.Keyboard.defaults({
@@ -267,6 +268,7 @@ describe('Create scenario', () => {
     ScenarioParameters.getInputValue(BreweryParameters.getCurrencySelectValue()).as('currency');
     ScenarioParameters.getInputValue(BreweryParameters.getCurrencyUsedInput()).as('currency-used');
     ScenarioParameters.getInputValue(BreweryParameters.getStartDateInput()).as('start-date');
+    ScenarioParameters.getInputValue(BreweryParameters.getEndDateInput()).as('end-date');
     ScenarioParameters.getInputValue(BreweryParameters.getAverageConsumptionInput()).as('average-consumption');
 
     BreweryParameters.getCurrencyNameInput().click().clear().type(textValue);
@@ -275,7 +277,10 @@ describe('Create scenario', () => {
     BreweryParameters.getCurrencyUsedInput().check();
     BreweryParameters.getStartDateInput()
       .click()
-      .type('{moveToStart}' + dateValue);
+      .type('{moveToStart}' + startDateValue);
+    BreweryParameters.getEndDateInput()
+      .click()
+      .type('{moveToStart}' + endDateValue);
     BreweryParameters.moveAverageConsumptionSlider(sliderValue);
 
     // Switch parameters tabs then back and check parameters,
@@ -286,7 +291,8 @@ describe('Create scenario', () => {
     BreweryParameters.getCurrencyValueInput().should('value', numberValue);
     BreweryParameters.getCurrencyInput().should('value', enumValue);
     BreweryParameters.getCurrencyUsedInput().should('be.checked');
-    BreweryParameters.getStartDateInput().should('value', dateValue);
+    BreweryParameters.getStartDateInput().should('value', startDateValue);
+    BreweryParameters.getEndDateInput().should('value', endDateValue);
     BreweryParameters.getAverageConsumptionInput().should('value', sliderValue);
 
     // Discard
@@ -307,6 +313,9 @@ describe('Create scenario', () => {
     cy.get('@start-date').then((input) => {
       BreweryParameters.getStartDateInput().should('value', input);
     });
+    cy.get('@end-date').then((input) => {
+      BreweryParameters.getEndDateInput().should('value', input);
+    });
     cy.get('@average-consumption').then((input) => {
       BreweryParameters.getAverageConsumptionInput().should('value', input);
     });
@@ -320,7 +329,10 @@ describe('Create scenario', () => {
     BreweryParameters.getCurrencyUsedInput().check();
     BreweryParameters.getStartDateInput()
       .click()
-      .type('{moveToStart}' + dateValue);
+      .type('{moveToStart}' + startDateValue);
+    BreweryParameters.getEndDateInput()
+      .click()
+      .type('{moveToStart}' + endDateValue);
     BreweryParameters.moveAverageConsumptionSlider(sliderValue);
     // update and launch
     cy.intercept('PATCH', URL_REGEX.SCENARIO_PAGE_WITH_ID).as('requestEditScenario');
@@ -334,8 +346,11 @@ describe('Create scenario', () => {
       const numberGet = parseFloat(paramsGet.find((obj) => obj.parameterId === 'currency_value').value);
       const enumGet = paramsGet.find((obj) => obj.parameterId === 'currency').value;
       const boolGet = paramsGet.find((obj) => obj.parameterId === 'currency_used').value;
-      const dateGet = utils.stringToDateInputExpectedFormat(
+      const startDateGet = utils.stringToDateInputExpectedFormat(
         new Date(paramsGet.find((obj) => obj.parameterId === 'start_date').value)
+      );
+      const endDateGet = utils.stringToDateInputExpectedFormat(
+        new Date(paramsGet.find((obj) => obj.parameterId === 'end_date').value)
       );
       const sliderNumberGet = paramsGet.find((obj) => obj.parameterId === 'average_consumption').value;
       expect(state).equal('Created');
@@ -345,7 +360,8 @@ describe('Create scenario', () => {
       expect(numberGet).equal(numberValue);
       expect(enumGet).equal(enumValue);
       expect(boolGet).equal('true');
-      expect(dateGet).equal(dateValue);
+      expect(startDateGet).equal(startDateValue);
+      expect(endDateGet).equal(endDateValue);
       expect(sliderNumberGet).equal(sliderValue.toString());
     });
 
@@ -360,7 +376,8 @@ describe('Create scenario', () => {
     BreweryParameters.getCurrencyValue().should('have.text', numberValue);
     BreweryParameters.getCurrency().should('have.text', enumValue);
     BreweryParameters.getCurrencyUsed().should('have.text', 'ON');
-    BreweryParameters.getStartDate().should('have.text', new Date(dateValue).toLocaleDateString());
+    BreweryParameters.getStartDate().should('have.text', new Date(startDateValue).toLocaleDateString());
+    BreweryParameters.getEndDate().should('have.text', new Date(endDateValue).toLocaleDateString());
     BreweryParameters.getAverageConsumption().should('have.text', sliderValue);
 
     Scenarios.getDashboardPlaceholder().should('have.text', SCENARIO_RUN_IN_PROGRESS);

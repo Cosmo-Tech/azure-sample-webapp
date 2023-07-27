@@ -637,7 +637,14 @@
         "maxValue": "Maximum value for this field is {{maxValue}}",
         "minDate": "Minimum date is {{minDate}}",
         "maxDate": "Maximum date is {{maxDate}}",
-        "notValid": "The format is not valid, expected: MM/dd/YYYY"
+        "notValid": "The format is not valid, expected: MM/dd/YYYY",
+        "after": "The field {{field}} must be strictly after the field {{constraint}}",
+        "before": "The field {{field}} must be strictly before the field {{constraint}}",
+        "afterOrEqual": "The field {{field}} must be after or equal to the field {{constraint}}",
+        "beforeOrEqual": "The field {{field}} must be before or equal to the field {{constraint}}",
+        "equalDate": "The field {{field}} must be equal to the field {{constraint}}",
+        "differentDate": "The field {{field}} must be different from the field {{constraint}}"
+
       }
     }
   },

@@ -46,6 +46,7 @@ export const BASIC_PARAMETERS_CONST = {
   },
   DATE: {
     MIN: new Date('01/01/1900'),
+    MIDDLE: new Date('02/01/2000'),
     MAX: new Date('12/31/2099'),
   },
   SLIDER: {
