@@ -137,6 +137,7 @@ describe('addRunTemplatesParametersIdsDict for a minimal or incomplete solution'
     expect(spyConsoleWarn).toHaveBeenCalledTimes(1);
     expect(spyConsoleWarn).toHaveBeenCalledWith(expect.stringContaining('> parameter2'));
     expect(spyConsoleWarn).toHaveBeenCalledWith(expect.stringContaining('cannot be applied'));
+    spyConsoleWarn.mockReset();
   });
 });
 
