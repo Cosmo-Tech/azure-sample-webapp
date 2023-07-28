@@ -94,6 +94,135 @@ describe('addRunTemplatesParametersIdsDict for a minimal or incomplete solution'
       runTemplatesParametersIdsDict: {},
     });
   });
+  test('if parameters constraints are valid', () => {
+    const spyConsoleWarn = jest.spyOn(console, 'warn').mockImplementation();
+    const solution = {
+      parameters: [
+        {
+          id: 'parameter1',
+          varType: 'int',
+          options: {
+            validation: '> parameter2',
+          },
+        },
+        {
+          id: 'parameter2',
+          varType: 'int',
+          options: null,
+        },
+      ],
+    };
+    SolutionsUtils.checkParametersValidationConstraintsInSolution(solution);
+    expect(spyConsoleWarn).toHaveBeenCalledTimes(0);
+  });
+  test('if parameters constraints are not valid', () => {
+    const spyConsoleWarn = jest.spyOn(console, 'warn').mockImplementation();
+    const solution = {
+      parameters: [
+        {
+          id: 'parameter1',
+          varType: 'int',
+          options: {
+            validation: '> parameter2',
+          },
+        },
+        {
+          id: 'parameter2',
+          varType: 'string',
+          options: null,
+        },
+      ],
+    };
+    SolutionsUtils.checkParametersValidationConstraintsInSolution(solution);
+    expect(spyConsoleWarn).toHaveBeenCalledTimes(1);
+    expect(spyConsoleWarn).toHaveBeenCalledWith(expect.stringContaining('> parameter2'));
+    expect(spyConsoleWarn).toHaveBeenCalledWith(expect.stringContaining('cannot be applied'));
+    spyConsoleWarn.mockReset();
+  });
+});
+
+describe('patchIncompatibleValuesInSolution function unit tests', () => {
+  const TABLE_PARAMETER = {
+    varType: '%DATASETID%',
+    options: {
+      canChangeRowsNumber: false,
+      subType: 'TABLE',
+      columns: [
+        {
+          field: 'name',
+          type: ['nonResizable', 'nonSortable'],
+          defaultValue: 'TKT',
+        },
+        {
+          field: 'age',
+          type: ['int'],
+          minValue: 0,
+          maxValue: 120,
+          acceptsEmptyFields: true,
+        },
+      ],
+    },
+  };
+  const PARAMETER_LIST = {
+    parameters: [TABLE_PARAMETER],
+  };
+  const PARAMETER_LIST_WITH_ADD_ROW = {
+    parameters: [{ ...TABLE_PARAMETER, options: { ...TABLE_PARAMETER.options, canChangeRowsNumber: true } }],
+  };
+  const PARAMETER_LIST_WITH_NON_EDITABLE_COLUMN = {
+    parameters: [
+      {
+        ...TABLE_PARAMETER,
+        options: {
+          ...TABLE_PARAMETER.options,
+          columns: [
+            {
+              field: 'name',
+              type: ['nonResizable', 'nonSortable', 'nonEditable'],
+              defaultValue: 'TKT',
+            },
+            { ...TABLE_PARAMETER.options.columns[1] },
+          ],
+        },
+      },
+    ],
+  };
+  const PARAMETER_LIST_WITH_ALL_FEATURES = {
+    parameters: [
+      {
+        ...TABLE_PARAMETER,
+        options: {
+          ...TABLE_PARAMETER.options,
+          canChangeRowsNumber: true,
+          columns: [
+            {
+              field: 'name',
+              type: ['nonResizable', 'nonSortable', 'nonEditable'],
+              defaultValue: 'TKT',
+            },
+            { ...TABLE_PARAMETER.options.columns[1] },
+            {},
+            null,
+            undefined,
+          ],
+        },
+      },
+    ],
+  };
+
+  test.each`
+    parameters                                 | expected | warnCount
+    ${PARAMETER_LIST}                          | ${false} | ${0}
+    ${PARAMETER_LIST_WITH_ADD_ROW}             | ${true}  | ${0}
+    ${PARAMETER_LIST_WITH_NON_EDITABLE_COLUMN} | ${false} | ${0}
+    ${PARAMETER_LIST_WITH_ALL_FEATURES}        | ${false} | ${1}
+  `('parse $parameters and fix it to get a good parameter list as $expected', ({ parameters, expected, warnCount }) => {
+    const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    SolutionsUtils.patchIncompatibleValuesInSolution(parameters);
+    expect(parameters.parameters[0].options.canChangeRowsNumber).toStrictEqual(expected);
+    expect(warn).toHaveBeenCalledTimes(warnCount);
+    warn.mockReset();
+  });
 });
 
 describe('patchIncompatibleValuesInSolution function unit tests', () => {

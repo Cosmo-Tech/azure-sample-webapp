@@ -10,6 +10,7 @@ import isBefore from 'date-fns/isBefore';
 import isAfter from 'date-fns/isAfter';
 import isValid from 'date-fns/isValid';
 import format from 'date-fns/format';
+import { useDateConstraintValidation } from '../../../../hooks/ParameterConstraintsHooks';
 
 export const GenericDateInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty, error }) => {
   const { t } = useTranslation();
@@ -51,6 +52,8 @@ GenericDateInput.useValidationRules = (parameterData) => {
   const { t } = useTranslation();
   const minDate = parameterData.minValue ? new Date(parameterData.minValue) : undefined;
   const maxDate = parameterData.maxValue ? new Date(parameterData.maxValue) : undefined;
+  const { getDateConstraintValidation } = useDateConstraintValidation(parameterData);
+
   return {
     required: t('views.scenario.scenarioParametersValidationErrors.required', 'This field is required'),
     validate: {
@@ -78,6 +81,7 @@ GenericDateInput.useValidationRules = (parameterData) => {
             interpolation: { escape: TranslationUtils.getStringWithEscapedCharacters },
           })
         ),
+      constraint: (v) => getDateConstraintValidation(v),
     },
   };
 };

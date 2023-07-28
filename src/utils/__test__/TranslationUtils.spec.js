@@ -3,7 +3,7 @@
 
 import { TranslationUtils } from '../TranslationUtils';
 
-describe('strings are sucessfully escaped and decoded', () => {
+describe('strings are successfully escaped and decoded', () => {
   test.each`
     string          | expectedRes
     ${'26/12/2019'} | ${'26&#x2F;12&#x2F;2019'}

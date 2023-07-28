@@ -18,7 +18,7 @@ const STUB_TYPES = [
   'GET_SOLUTIONS',
   'GET_WORKSPACES',
   'GET_SCENARIOS',
-  'RUN_SCENARIO', // Supports only the scenario run request stubbing; the run status polling is not supported yet
+  'LAUNCH_SCENARIO',
   'PERMISSIONS_MAPPING',
   'UPDATE_SCENARIO',
 ];
@@ -60,6 +60,20 @@ const DEFAULT_RESOURCES_DATA = {
   workspaces: DEFAULT_WORKSPACES_LIST,
 };
 
+// Default stubbing options to fake scenario runs. By default, the scenario runs will end immediately with a
+// 'Successful' status. To change these default options in a test, use stubbing.setScenarioRunOptions(options)
+// - runDuration represents the duration (in ms) of the 'Running' status, before it changes to 'DataIngestionInProgress'
+// - dataIngestionDuration represents the duration (in ms) of the 'DataIngestionInProgress' status, before it changes
+//   to the final status
+// - finalStatus must be one of 'Failed', 'Successful' or 'Unknown'
+// - expectedPollsCount is an integer representing the number of polling requests to intercept
+const DEFAULT_SCENARIO_RUNS_OPTIONS = {
+  runDuration: 0,
+  dataIngestionDuration: 0,
+  finalStatus: 'Successful',
+  expectedPollsCount: 1,
+};
+
 export const isStubTypeValid = (stubType) => {
   return STUB_TYPES.includes(stubType);
 };
@@ -71,11 +85,24 @@ export const assertStubTypeIsValid = (stubType) => {
   return true;
 };
 
+const forgeScenarioRunStatus = (scenarioRun) => ({
+  id: scenarioRun.id,
+  organizationId: scenarioRun.organizationId,
+  workflowId: scenarioRun.workflowId,
+  workflowName: scenarioRun.workflowName,
+  startTime: new Date().toISOString(),
+  endTime: null,
+  phase: 'Running',
+  progress: '0/1',
+  state: 'Running',
+});
+
 class Stubbing {
   constructor() {
     this.auth = DEFAULT_AUTH_DATA;
     this.resources = DEFAULT_RESOURCES_DATA;
     this.api = DEFAULT_API_DATA;
+    this.scenarioRunOptions = DEFAULT_SCENARIO_RUNS_OPTIONS;
 
     this.enabledStubs = {};
     STUB_TYPES.forEach((stubType) => {
@@ -196,10 +223,21 @@ class Stubbing {
   setSolutions = (newSolutions) => this._setResources('solutions', newSolutions);
   getSolutionById = (solutionId) => this._getResourceById('solutions', solutionId);
 
+  getScenarioRuns = () => this._getResources('scenarioRuns');
+  setScenarioRuns = (newScenarioRuns) => this._setResources('scenarioRuns', newScenarioRuns);
+  addScenarioRun = (newScenarioRun) => {
+    newScenarioRun.status = forgeScenarioRunStatus(newScenarioRun);
+    this._addResource('scenarioRuns', newScenarioRun);
+  };
+  getScenarioRunById = (runId) => this._getResourceById('scenarioRuns', runId);
+
   getWorkspaces = () => this._getResources('workspaces');
   setWorkspaces = (newWorkspaces) => this._setResources('workspaces', newWorkspaces);
   getWorkspaceById = (workspaceId) => this._getResourceById('workspaces', workspaceId);
   getDefaultWorkspaceId = () => DEFAULT_WORKSPACE.id;
+
+  setScenarioRunOptions = (options) => (this.scenarioRunOptions = { ...this.scenarioRunOptions, ...options });
+  getScenarioRunOptions = () => this.scenarioRunOptions;
 }
 
 export const stub = new Stubbing();

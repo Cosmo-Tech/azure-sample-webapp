@@ -654,7 +654,13 @@
         "maxValue": "La valeur maximale de ce champ est {{maxValue}}",
         "minDate": "La date minimale est {{minDate}}",
         "maxDate": "La date maximale est {{maxDate}}",
-        "notValid": "Le format ne correspond pas au format valide : MM/dd/YYYY"
+        "notValid": "Le format ne correspond pas au format valide : MM/dd/YYYY",
+        "after": "Le champ {{field}} doit être strictement postérieur au champ {{constraint}}",
+        "before": "Le champ {{field}} doit être strictement antérieur au champ {{constraint}}",
+        "afterOrEqual": "Le champ {{field}} doit être postérieur ou égal au champ {{constraint}}",
+        "beforeOrEqual": "Le champ {{field}} doit être antérieur ou égal au champ {{constraint}}",
+        "equalDate": "Le champ {{field}} doit être égal au champ {{constraint}}",
+        "differentDate": "Le champ {{field}} doit être différent du champ {{constraint}}"
       }
     }
   },

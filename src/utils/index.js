@@ -14,3 +14,4 @@ export { SecurityUtils } from './SecurityUtils';
 export { WorkspacesUtils } from './WorkspacesUtils';
 export { FileManagementUtils } from './FileManagementUtils';
 export { Notifier, useSubscribeToNotifier } from './notifiers';
+export { ParameterConstraintsUtils } from './ParameterConstraintsUtils';

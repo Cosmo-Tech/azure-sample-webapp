@@ -92,8 +92,11 @@ const getAverageConsumptionParameterContainer = () =>
 const getAverageConsumption = () => ScenarioParameters.getParameterValue('slider-input-average_consumption');
 const getAverageConsumptionInput = () => ScenarioParameters.getParameterInput('slider-input-average_consumption');
 const getStartDate = () => ScenarioParameters.getParameterValue('date-input-start_date');
+const getEndDate = () => ScenarioParameters.getParameterValue('date-input-end_date');
 const getStartDateHelperText = () => cy.get('[id=date-text-field-start_date-helper-text]');
 const getStartDateInput = () => ScenarioParameters.getParameterInput('date-input-start_date');
+const getEndDateInput = () => ScenarioParameters.getParameterInput('date-input-end_date');
+const getEndDateHelperText = () => cy.get('[id=date-text-field-end_date-helper-text]');
 
 // Get addition parameters components & input fields
 const getAdditionalSeats = () => ScenarioParameters.getParameterValue('number-input-additional_seats');
@@ -498,12 +501,14 @@ export const BreweryParameters = {
   getRestockHelperText,
   getWaitersHelperText,
   getStartDateHelperText,
+  getEndDateHelperText,
   getAdditionalDateHelperText,
   getCurrency,
   getCurrencyName,
   getCurrencyValue,
   getCurrencyUsed,
   getStartDate,
+  getEndDate,
   getAverageConsumption,
   getAdditionalSeats,
   getActivated,
@@ -518,6 +523,7 @@ export const BreweryParameters = {
   getCurrencyValueInput,
   getCurrencyUsedInput,
   getStartDateInput,
+  getEndDateInput,
   getAverageConsumptionInput,
   getAverageConsumptionSlider,
   moveAverageConsumptionSlider,
