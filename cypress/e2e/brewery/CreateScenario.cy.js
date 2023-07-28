@@ -205,9 +205,7 @@ describe('Create scenario', () => {
         BreweryParameters.getWaitersInput().clear().type(childWaiters);
 
         // save scenario child
-        cy.intercept('PATCH', URL_REGEX.SCENARIO_PAGE_WITH_ID).as('requestEditScenario');
-
-        ScenarioParameters.save(false);
+        const reqUpdateScenarioAlias = ScenarioParameters.save(false);
         // "saving" backdrop must be visible during save
         Scenarios.getScenarioBackdrop().should('exist').should('be.visible');
         Scenarios.getScenarioBackdropSavingText().should('be.visible');
@@ -217,7 +215,7 @@ describe('Create scenario', () => {
         Scenarios.getScenarioBackdropSavingText().should('not.exist');
         Scenarios.getScenarioLoadingSpinner().should('not.be.visible');
 
-        cy.wait('@requestEditScenario').should((value) => {
+        cy.wait('@' + reqUpdateScenarioAlias).should((value) => {
           const { name: nameGet, id: idGet, parametersValues: paramsGet } = value.response.body;
           const stockGet = parseFloat(paramsGet.find((obj) => obj.parameterId === 'stock').value);
           const restockGet = parseFloat(paramsGet.find((obj) => obj.parameterId === 'restock_qty').value);

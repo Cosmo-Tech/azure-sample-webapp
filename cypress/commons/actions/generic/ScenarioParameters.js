@@ -129,7 +129,7 @@ function save(wait = true, customScenarioPatch) {
   if (wait) {
     Scenarios.getScenarioBackdrop(10).should('not.be.visible');
     api.waitAlias(reqUpdateScenarioAlias, { timeout: 10 * 1000 });
-  }
+  } else return reqUpdateScenarioAlias;
 }
 
 function cancelRun(confirm = true) {
