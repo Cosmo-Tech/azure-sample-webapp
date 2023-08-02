@@ -12,9 +12,9 @@ import {
 import utils from '../../commons/TestUtils';
 
 const currencyValueShort = 'E';
-const currencyValueLong = utils.randomStr(1);
+const currencyValueLong = utils.randomStr(15);
 const evaluationValue = 'G';
-const commentValue = utils.randomStr(0).repeat(4);
+const commentValue = utils.randomStr(10).repeat(4);
 const invalidFormatFilePath = 'file_with_invalid_format.png';
 
 describe('scenario parameters inputs validation', () => {

@@ -1,8 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-const randomStr = (figureNbr) => {
-  return Math.random().toString(36).substring(figureNbr);
+const randomStr = (stringLength) => {
+  return Array.from({ length: stringLength }, () => Math.random().toString(36).substring(2, 3)).join('');
 };
 
 const randomNmbr = (min, max) => {
