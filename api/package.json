@@ -2,6 +2,7 @@
   "name": "api",
   "version": "1.0.0",
   "description": "",
+  "license": "MIT",
   "scripts": {
     "start": "func start",
     "test": "echo \"No tests yet...\""
