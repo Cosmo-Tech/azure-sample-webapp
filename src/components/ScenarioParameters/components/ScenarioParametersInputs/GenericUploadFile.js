@@ -16,6 +16,7 @@ export const GenericUploadFile = ({
   setParameterValue,
   defaultParameterValue,
   resetParameterValue,
+  error,
   isDirty,
 }) => {
   const { t } = useTranslation();
@@ -61,13 +62,14 @@ export const GenericUploadFile = ({
       labels={labels}
       tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
       acceptedFileTypes={defaultFileTypeFilter}
-      handleUploadFile={(event) => FileManagementUtils.prepareToUpload(event, parameter, updateParameterValue)}
+      handleUploadFile={(event) => FileManagementUtils.prepareToUpload(event, updateParameterValue)}
       handleDeleteFile={() => FileManagementUtils.prepareToDeleteFile(setClientFileDescriptorStatus)}
       handleDownloadFile={(event) => {
         event.preventDefault();
         FileManagementUtils.downloadFile(organizationId, workspaceId, datasetId, setClientFileDescriptorStatus);
       }}
       file={parameter}
+      error={error}
       editMode={context.editMode}
       isDirty={isDirty}
     />
@@ -82,7 +84,22 @@ GenericUploadFile.propTypes = {
   defaultParameterValue: PropTypes.any,
   resetParameterValue: PropTypes.func.isRequired,
   isDirty: PropTypes.bool,
+  error: PropTypes.object,
 };
 GenericUploadFile.defaultProps = {
   isDirty: false,
+};
+GenericUploadFile.useValidationRules = () => {
+  const { t } = useTranslation();
+  return {
+    validate: {
+      fileFormat: (value) => {
+        return (
+          value?.file == null ||
+          FileManagementUtils.isFileFormatValid(value.file.type) ||
+          t('views.scenario.scenarioParametersValidationErrors.fileFormat', 'File format not supported')
+        );
+      },
+    },
+  };
 };

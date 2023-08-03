@@ -20,3 +20,14 @@ export const SCENARIO_VALIDATION_STATUS = {
   UNKNOWN: 'Unknown',
 };
 export const STORAGE_ROOT_DIR_PLACEHOLDER = '%WORKSPACE_FILE%/';
+export const VALID_MIME_TYPES = [
+  'application/json',
+  'application/zip',
+  'application/xml',
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  'mats-officedocument.spreadsheetml.sheet',
+  'application/x-tika-ooxml',
+  'text/csv',
+  'text/plain',
+  'text/x-yaml',
+];

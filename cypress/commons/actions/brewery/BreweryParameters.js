@@ -352,6 +352,10 @@ function getExampleDatasetPart3DeleteButton() {
   return FileParameters.getDeleteButton(getExampleDatasetPart3());
 }
 
+function getExampleDatasetPart2ErrorMessage() {
+  return FileParameters.getErrorMessage(getExampleDatasetPart2());
+}
+
 // Switch to a scenario parameters tab
 function switchToDatasetPartsTab() {
   getDatasetPartsTab().click();
@@ -539,6 +543,7 @@ export const BreweryParameters = {
   getExampleDatasetPart1DeleteButton,
   getExampleDatasetPart2DeleteButton,
   getExampleDatasetPart3DeleteButton,
+  getExampleDatasetPart2ErrorMessage,
   switchToDatasetPartsTab,
   switchToExtraDatasetPartTab,
   switchToBasicTypesTab,

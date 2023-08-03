@@ -87,7 +87,7 @@ const interceptCreateScenario = () => {
       const scenario = {
         ...SCENARIO_EXAMPLE,
         ...req.body,
-        id: `s-${utils.randomStr(3)}`,
+        id: `s-${utils.randomStr(8)}`,
       };
       if (req.body.parentId) {
         // FIXME no stub data if GET_SCENARIOS disabled ?

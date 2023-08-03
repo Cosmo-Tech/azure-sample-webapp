@@ -12,9 +12,10 @@ import {
 import utils from '../../commons/TestUtils';
 
 const currencyValueShort = 'E';
-const currencyValueLong = utils.randomStr(1);
+const currencyValueLong = utils.randomStr(15);
 const evaluationValue = 'G';
-const commentValue = utils.randomStr(0).repeat(4);
+const commentValue = utils.randomStr(10).repeat(4);
+const invalidFormatFilePath = 'file_with_invalid_format.png';
 
 describe('scenario parameters inputs validation', () => {
   before(() => {
@@ -230,6 +231,21 @@ describe('scenario parameters inputs validation', () => {
     BreweryParameters.getAdditionalDateInput().clear().type('06/21/2022');
     BreweryParameters.getAdditionalDateHelperText().should('not.exist');
     ScenarioParameters.discard();
+  });
+  it('checks error message for invalid file format in file upload input', () => {
+    ScenarioParameters.expandParametersAccordion();
+    BreweryParameters.switchToDatasetPartsTab();
+    BreweryParameters.getExampleDatasetPart2ErrorMessage().should('not.exist');
+    ScenarioParameters.getTabsErrorBadge(BreweryParameters.getDatasetPartsTab()).contains('0');
+    BreweryParameters.uploadExampleDatasetPart2(invalidFormatFilePath);
+    BreweryParameters.getExampleDatasetPart2ErrorMessage().should('be.visible').contains('File format not supported');
+    ScenarioParameters.getTabsErrorBadge(BreweryParameters.getDatasetPartsTab()).contains('1');
+    ScenarioParameters.getSaveButton().should('be.disabled');
+    ScenarioParameters.getLaunchButton().should('be.disabled');
+    ScenarioParameters.discard();
+    BreweryParameters.getExampleDatasetPart2ErrorMessage().should('not.exist');
+    ScenarioParameters.getLaunchButton().should('not.be.disabled');
+    ScenarioParameters.getTabsErrorBadge(BreweryParameters.getDatasetPartsTab()).contains('0');
   });
 });
 

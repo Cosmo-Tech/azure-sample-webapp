@@ -18,7 +18,7 @@ import { Scenarios, ScenarioManager, ScenarioParameters, ScenarioSelector } from
 import { BreweryParameters, Login } from '../../commons/actions/brewery';
 
 describe('Create scenario', () => {
-  const randomString = utils.randomStr(7);
+  const randomString = utils.randomStr(5);
   const scenarioMasterName = 'Test Cypress - Scenario creation - Master - ' + randomString;
   const scenarioChildName = 'Test Cypress - Scenario creation - Child - ' + randomString;
   const scenarioWithBasicTypesName = 'Test Cypress - Scenario creation - Basic types - ' + randomString;
