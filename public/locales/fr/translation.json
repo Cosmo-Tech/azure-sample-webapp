@@ -194,8 +194,8 @@
     "scenariomanager": {
       "treelist": {
         "node": {
-          "dataset_one": "Dataset",
-          "dataset_other": "Datasets",
+          "dataset_one": "Dataset :",
+          "dataset_other": "Datasets :",
           "runTemplate": "Type de scénario :",
           "status": {
             "label": "Statut :",
