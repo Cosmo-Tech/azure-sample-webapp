@@ -6,6 +6,7 @@ import { BasicTextInput } from '@cosmotech/ui';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { TranslationUtils } from '../../../../utils';
+import { useParameterConstraintValidation } from '../../../../hooks/ParameterConstraintsHooks';
 
 export const GenericTextInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty, error }) => {
   const { t } = useTranslation();
@@ -42,6 +43,7 @@ GenericTextInput.defaultProps = {
 };
 GenericTextInput.useValidationRules = (parameterData) => {
   const { t } = useTranslation();
+  const { getParameterConstraintValidation } = useParameterConstraintValidation(parameterData);
   const getStringSizeInBytes = (string) => new Blob([string]).size;
   const minLength = parameterData?.options?.minLength ?? 0;
   return {
@@ -65,15 +67,18 @@ GenericTextInput.useValidationRules = (parameterData) => {
         { length: parameterData?.options?.maxLength }
       ),
     },
-    validate: (v) => {
+    validate: {
       // 65535 is max length accepted by CosmoTech API
-      return (
-        getStringSizeInBytes(v) < 65535 ||
-        t(
-          'views.scenario.scenarioParametersValidationErrors.maxLengthForApi',
-          'This text exceeds the maximum possible length for a scenario parameter'
-        )
-      );
+      respectsStringSizeInBytes: (v) => {
+        return (
+          getStringSizeInBytes(v) < 65535 ||
+          t(
+            'views.scenario.scenarioParametersValidationErrors.maxLengthForApi',
+            'This text exceeds the maximum possible length for a scenario parameter'
+          )
+        );
+      },
+      constraint: (v) => getParameterConstraintValidation(v),
     },
   };
 };

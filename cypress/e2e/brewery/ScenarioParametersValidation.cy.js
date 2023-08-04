@@ -6,6 +6,7 @@ import { Login, ScenarioParameters } from '../../commons/actions';
 import { BreweryParameters } from '../../commons/actions/brewery';
 import {
   SCENARIOS,
+  SOLUTIONS_WITH_CONSTRAINTS,
   SOLUTIONS,
   SOLUTIONS_WITH_WRONG_CONSTRAINT,
 } from '../../fixtures/stubbing/ScenarioParametersValidation';
@@ -213,8 +214,52 @@ describe('scenario parameters inputs validation', () => {
     ScenarioParameters.getLaunchButton().should('not.be.disabled');
     ScenarioParameters.discard();
   });
-  it('checks validation constraints for dates', () => {
+  it('checks error message for invalid file format in file upload input', () => {
     ScenarioParameters.expandParametersAccordion();
+    BreweryParameters.switchToDatasetPartsTab();
+    BreweryParameters.getExampleDatasetPart2ErrorMessage().should('not.exist');
+    ScenarioParameters.getTabsErrorBadge(BreweryParameters.getDatasetPartsTab()).contains('0');
+    BreweryParameters.uploadExampleDatasetPart2(invalidFormatFilePath);
+    BreweryParameters.getExampleDatasetPart2ErrorMessage().should('be.visible').contains('File format not supported');
+    ScenarioParameters.getTabsErrorBadge(BreweryParameters.getDatasetPartsTab()).contains('1');
+    ScenarioParameters.getSaveButton().should('be.disabled');
+    ScenarioParameters.getLaunchButton().should('be.disabled');
+    ScenarioParameters.discard();
+    BreweryParameters.getExampleDatasetPart2ErrorMessage().should('not.exist');
+    ScenarioParameters.getLaunchButton().should('not.be.disabled');
+    ScenarioParameters.getTabsErrorBadge(BreweryParameters.getDatasetPartsTab()).contains('0');
+  });
+});
+
+describe('validation with constraints between parameters', () => {
+  before(() => {
+    stub.start({
+      AUTHENTICATION: true,
+      CREATE_AND_DELETE_SCENARIO: true,
+      GET_DATASETS: true,
+      GET_SCENARIOS: true,
+      GET_SOLUTIONS: true,
+      GET_WORKSPACES: true,
+      UPDATE_SCENARIO: true,
+    });
+    stub.setSolutions(SOLUTIONS_WITH_CONSTRAINTS);
+    stub.setScenarios(SCENARIOS);
+  });
+
+  beforeEach(() => {
+    Login.login();
+  });
+  it('checks validation constraints', () => {
+    ScenarioParameters.expandParametersAccordion();
+
+    BreweryParameters.getStockInput().clear().type('4');
+    BreweryParameters.getRestockHelperText().should('exist').contains('strictly less than the field Stock');
+    BreweryParameters.getRestockInput().clear().type('1');
+    BreweryParameters.getRestockHelperText().should('not.exist');
+    BreweryParameters.getWaitersHelperText().should('exist').contains('less than or equal to the field Restock');
+    BreweryParameters.getWaitersInput().clear().type('1');
+    BreweryParameters.getWaitersHelperText().should('not.exist');
+
     BreweryParameters.switchToAdditionalParametersTab();
     BreweryParameters.getStartDateInput().clear().type('02/22/2022');
     BreweryParameters.getEndDateHelperText().should('exist').contains('strictly after');
@@ -231,21 +276,12 @@ describe('scenario parameters inputs validation', () => {
     BreweryParameters.getAdditionalDateInput().clear().type('06/21/2022');
     BreweryParameters.getAdditionalDateHelperText().should('not.exist');
     ScenarioParameters.discard();
-  });
-  it('checks error message for invalid file format in file upload input', () => {
-    ScenarioParameters.expandParametersAccordion();
+
     BreweryParameters.switchToDatasetPartsTab();
-    BreweryParameters.getExampleDatasetPart2ErrorMessage().should('not.exist');
-    ScenarioParameters.getTabsErrorBadge(BreweryParameters.getDatasetPartsTab()).contains('0');
-    BreweryParameters.uploadExampleDatasetPart2(invalidFormatFilePath);
-    BreweryParameters.getExampleDatasetPart2ErrorMessage().should('be.visible').contains('File format not supported');
-    ScenarioParameters.getTabsErrorBadge(BreweryParameters.getDatasetPartsTab()).contains('1');
-    ScenarioParameters.getSaveButton().should('be.disabled');
-    ScenarioParameters.getLaunchButton().should('be.disabled');
-    ScenarioParameters.discard();
-    BreweryParameters.getExampleDatasetPart2ErrorMessage().should('not.exist');
-    ScenarioParameters.getLaunchButton().should('not.be.disabled');
-    ScenarioParameters.getTabsErrorBadge(BreweryParameters.getDatasetPartsTab()).contains('0');
+    BreweryParameters.getCommentInput().clear().type('Good');
+    BreweryParameters.getEvaluationHelperText().should('exist').contains('must be different from');
+    BreweryParameters.getEvaluationInput().clear().type('Super');
+    BreweryParameters.getEvaluationHelperText().should('not.exist');
   });
 });
 

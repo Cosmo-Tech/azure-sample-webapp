@@ -38,7 +38,7 @@ varType of the parameter**.
 Parameters can be defined with the following properties:
 
 | key            | mandatory/optional | description                                                                                                                                                                                  |
-| -------------- | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|----------------|--------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `id`           | mandatory          | unique id of the parameter                                                                                                                                                                   |
 | `varType`      | mandatory          | variable type of the scenario parameter. Supported types are **enum**, **string**, **int**, **number**, **bool**, **date**, **%DATASETID%**                                                  |
 | `defaultValue` | optional           | default value for this parameter when a new scenario is created                                                                                                                              |
@@ -52,7 +52,7 @@ Parameters can be defined with the following properties:
 Parameters groups can define the following properties:
 
 | key                                          | mandatory/optional | description                                                                                                                                                                                                                                                      |
-| -------------------------------------------- | ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|----------------------------------------------|--------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `id`                                         | mandatory          | unique id of the parameter group                                                                                                                                                                                                                                 |
 | `parameters`                                 | mandatory          | fields to list the ids of the parameters that are part of this group                                                                                                                                                                                             |
 | `labels`                                     | optional           | a dict of labels for this parameter group, the keys of the dict being the code ISO 639-1 of the language,                                                                                                                                                        |
@@ -63,7 +63,7 @@ Parameters groups can define the following properties:
 ### Run templates
 
 | key               | mandatory/optional | description                                                                          |
-| ----------------- | ------------------ | ------------------------------------------------------------------------------------ |
+|-------------------|--------------------|--------------------------------------------------------------------------------------|
 | `id`              | mandatory          | unique id of the run template                                                        |
 | `parameterGroups` | mandatory          | an array containing the ids of the parameters groups to display in this run template |
 
@@ -155,7 +155,7 @@ mode is enabled by setting `options.subType` to `TABLE`. The `options` dict can 
 - `description`: the description to use in the dataset object that will be created with the Cosmo Tech API
 - `subType`: set its value to `TABLE` to make use of the _extended var type_ feature
 - `columns`: an array describing **the expected columns of the table** (see section below "Columns definition")
-- `canChangeRowsNumber`: a boolean defining if the table can use the add row and delete rows features (can't be set to true if some columns are non editable)
+- `canChangeRowsNumber`: a boolean defining if the table can use the add row and delete rows features (can't be set to true if some columns are non-editable)
 - `dateFormat`: a string describing the expected format of dates in the table based on
   [date-fns format patterns](https://date-fns.org/v2.25.0/docs/parse) (default: 'yyyy-MM-dd')
 
@@ -365,6 +365,108 @@ parameters:
         fr: "Choisissez un symbole :\n\t- $\n\t- €\n\t- ฿\n\t- ¥"
         en: "Choose a symbol:\n\t- $\n\t- €\n\t- ฿\n\t- ¥"
 ```
+### Validation
+To prevent errors of user's input in front-end interface, generic components for parameters of type date, number, int, string and bool are implemented with some validation rules such as `required`, `isInteger`,
+`minValue` and `maxValue1`, `minDate` and `maxDate`, `minLength` and `maxLength`.
+
+Alongside basic validation, it is possible to configure some constraining rules between parameters
+which can be useful for parameters like _Start date_ and _End date_. Following constraints can be defined:
+
+| constraint               | symbol | acceptable varTypes             |
+|--------------------------|--------|---------------------------------|
+| greater than             | `>`    | date, number, int               |
+| less then                | `<`    | date, number, int               |
+| greater than or equal to | `>=`   | date, number, int               |
+| less than or equal to    | `<=`   | date, number, int               |
+| equal to                 | `==`   | date, number, int, string, bool |
+| different from           | `!=`   | date, number, int, string, bool |
+
+Constraints must be defined in options as a plain string and contain the type of the constraint and the id of constraining parameter:
+```yaml
+parameters:
+  - id: 'end_date'
+    options:
+      validation: '> start_date'
+```
+Declaring mutual constraints on two parameters like that:
+```yaml
+parameters:
+  - id: 'start_date'
+    options:
+      validation: '< end_date'
+  - id: 'end_date'
+    options:
+      validation: '> start_date'
+```
+can lead to a user-unfriendly behaviour, it is recommended to declare the constraint on one parameter. 
+
+Below are listed all validation rules for each varType.
+#### Date
+| validation rule | default/optional | description                                                |
+|-----------------|------------------|------------------------------------------------------------|
+| required        | default          |                                                            |
+| minDate         | optional         | can be declared as `minValue` key in parameter description |
+| maxDate         | optional         | can be declared as `maxValue` key in parameter description |
+| constraint      | optional         | can be defined between two parameters with `date` varType  |
+
+Example:
+```yaml
+parameters:
+  - id: 'end_date'
+    varType: date,
+    minValue: '2021-01-01T00:00:00.000Z',
+    maxValue: '2022-12-31T00:00:00.000Z',
+    options:
+      validation: '> start_date'
+```
+#### Number and Int
+| validation rule | default/optional | description                                                               |
+|-----------------|------------------|---------------------------------------------------------------------------|
+| required        | default          |                                                                           |
+| integer         | default          | parameters with varType `int` will be automatically validated as integers |
+| minValue        | optional         | can be declared as `minValue` key in parameter description                |
+| maxValue        | optional         | can be declared as `maxValue` key in parameter description                |
+| constraint      | optional         | can be defined between two parameters with `int` or `number` varType      |
+
+Example:
+```yaml
+parameters:
+  - id: 'restock'
+    varType: int,
+    minValue: 1,
+    maxValue: 1000,
+    options:
+      validation: '< stock'
+```
+#### String
+| validation rule | default/optional | description                                                                                                                                 |
+|-----------------|------------------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| required        | optional         | all strings are optional by default, to make a string parameter required, `minLength` option in `options.validation` must be greater than 0 |
+| minLength       | optional         | can be declared as `minLength` in parameter's `options`                                                                                     |
+| maxLength       | optional         | can be declared as `maxLength` in parameter's `options`                                                                                     |
+| constraint      | optional         | can be defined between two parameters with `string` varType                                                                                 |
+
+Example:
+```yaml
+parameters:
+  - id: 'comment'
+    options:
+      minLength: 1,
+      maxLength: 100,
+      validation: '!= evaluation'
+```
+#### Bool
+| validation rule | default/optional | description                                               |
+|-----------------|------------------|-----------------------------------------------------------|
+| constraint      | optional         | can be defined between two parameters with `bool` varType |
+
+Example:
+```yaml
+parameters:
+  - id: 'activated'
+    options:
+      validation: '!= inMaintenance'
+```
 
 ## Overriding the solution configuration
 
@@ -447,7 +549,7 @@ scenario parameter with a specific id for the webapp to automatically fill its v
 scenario parameters. Here is the list of reserved parameters ids you can use:
 
 | parameter id        | description                                           |
-| ------------------- | ----------------------------------------------------- |
+|---------------------|-------------------------------------------------------|
 | `ScenarioName`      | the name of the current scenario                      |
 | `ScenarioId`        | the id of the current scenario                        |
 | `ParentId`          | the id of the parent of the current scenario          |
@@ -467,7 +569,7 @@ components, whose value depend on the **input component type** and the **paramet
 Here is the list of `data-cy` patterns for all generic input components provided by the azure-sample-webapp:
 
 | varType       | subType  | input component      | `data-cy` pattern            |
-| ------------- | -------- | -------------------- | ---------------------------- |
+|---------------|----------|----------------------|------------------------------|
 | `bool`        |          | Switch boolean input | `toggle-input-<parameterId>` |
 | `date`        |          | Date picker          | `date-input-<parameterId>`   |
 | `enum`        |          | Dropdown list        | `enum-input-<parameterId>`   |

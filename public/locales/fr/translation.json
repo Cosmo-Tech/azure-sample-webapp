@@ -658,6 +658,12 @@
         "before": "Le champ {{field}} doit être strictement antérieur au champ {{constraint}}",
         "afterOrEqual": "Le champ {{field}} doit être postérieur ou égal au champ {{constraint}}",
         "beforeOrEqual": "Le champ {{field}} doit être antérieur ou égal au champ {{constraint}}",
+        "greaterThan": "Le champ {{field}} doit être strictement supérieur au champ {{constraint}}",
+        "lessThan": "Le champ {{field}} doit être strictement inférieur au champ {{constraint}}",
+        "greaterThanOrEqual": "Le champ {{field}} doit être supérieur ou égal au champ {{constraint}}",
+        "lessThanOrEqual": "Le champ {{field}} doit être inférieur ou égal au champ {{constraint}}",
+        "equalTo": "Le champ {{field}} doit être égal au champ {{constraint}}",
+        "differentFrom": "Le champ {{field}} doit être différent du champ {{constraint}}",
         "equalDate": "Le champ {{field}} doit être égal au champ {{constraint}}",
         "differentDate": "Le champ {{field}} doit être différent du champ {{constraint}}",
         "fileFormat": "Format de fichier non supporté"
