@@ -147,6 +147,49 @@ const isInstanceViewConfigValid = (instanceView) => {
   return true;
 };
 
+const checkUnknownKeysInConfig = (schema, data) => {
+  try {
+    schema.parse(data);
+  } catch (e) {
+    e.issues
+      .filter((issue) => issue.code === 'unrecognized_keys')
+      .forEach((issue) => {
+        if (issue.path?.length === 0) {
+          console.warn(
+            `Your solution contains one or more unrecognized keys: '${issue.keys.join(
+              ', '
+            )}', please, check your configuration`
+          );
+        } else {
+          if (issue.path?.includes('parameters')) {
+            const parameterId = data?.parameters[issue.path[1]]?.id;
+            console.warn(
+              `Parameter with id '${parameterId}' contains one or more unrecognized keys: '${issue.keys.join(
+                ', '
+              )}', please check your solution`
+            );
+          }
+          if (issue.path?.includes('parameterGroups')) {
+            const parameterGroupId = data?.parameterGroups[issue.path[1]]?.id;
+            console.warn(
+              `Parameter group with id '${parameterGroupId}' contains one or more unrecognized keys: '${issue.keys.join(
+                ', '
+              )}', please check your solution`
+            );
+          }
+          if (issue.path?.includes('runTemplates')) {
+            const parameterGroupId = data?.runTemplates[issue.path[1]]?.id;
+            console.warn(
+              `Run template with id '${parameterGroupId}' contains one or more unrecognized keys: '${issue.keys.join(
+                ', '
+              )}', please check your solution`
+            );
+          }
+        }
+      });
+  }
+};
+
 export const ConfigUtils = {
   buildExtendedVarType,
   getConversionMethod,
@@ -155,4 +198,5 @@ export const ConfigUtils = {
   getParametersGroupAttribute,
   patchSolution,
   isInstanceViewConfigValid,
+  checkUnknownKeysInConfig,
 };
