@@ -3,7 +3,8 @@
 
 import { ConfigUtils } from '../ConfigUtils';
 import merge from 'deepmerge';
-import { SolutionSchema } from '../schemas/SolutionSchema';
+import { SolutionSchema } from '../../services/config/SolutionSchema';
+import { WorkspaceSchema } from '../../services/config/WorkspaceSchema';
 
 describe('buildExtendedVarType with possible values', () => {
   test.each`
@@ -94,7 +95,7 @@ describe('getConversionMethod with possible values', () => {
   );
 });
 
-describe('warnings in case of solution misconfiguration', () => {
+describe('warnings in case of solution or workspace misconfiguration', () => {
   let spyConsoleWarn;
 
   beforeAll(() => {
@@ -145,8 +146,8 @@ describe('warnings in case of solution misconfiguration', () => {
       },
     ],
   };
-
-  const solutionWithWrongType = solution.parameterGroups[0].parameters.push(5);
+  const solutionWithWrongType = { ...solution };
+  solutionWithWrongType.parameterGroups[0].parameters.push(5);
   const solutionWithWrongKey = { ...solution, csmsimulator: 'csmsimulator' };
   const solutionWithWrongParameterKey = {
     ...solution,
@@ -183,7 +184,6 @@ describe('warnings in case of solution misconfiguration', () => {
     solutionWithWrongPGOptionsKey,
     solutionWithWrongRunTemplateKey,
   ]);
-
   const solutionWithDeeplyNestedColumnsGroup = {
     ...solution,
     parameters: [
@@ -247,6 +247,54 @@ describe('warnings in case of solution misconfiguration', () => {
     ],
   };
 
+  const workspace = {
+    id: 'W-workspace1',
+    webApp: {
+      options: {
+        charts: {
+          workspaceId: '12345',
+          dashboardsView: [
+            {
+              reportId: '123456',
+              settings: { navContentPaneEnabled: false, panes: { filters: { expanded: true, visible: true } } },
+              dynamicFilters: [{ table: 'StockProbe', column: 'SimulationRun', values: 'csmSimulationRun' }],
+            },
+          ],
+          scenarioView: {
+            1: {
+              reportId: '608b7bef-f5e3-4aae-b8db-19bbb38325d5',
+              staticFilters: [{ table: 'Bar', column: 'Bar', values: ['MyBar', 'MyBar2'] }],
+              dynamicFilters: [{ table: 'StockProbe', column: 'SimulationRun', values: 'csmSimulationRun' }],
+            },
+          },
+        },
+        instanceView: {
+          dataSource: {
+            type: 'adt',
+            functionUrl: 'url',
+          },
+          dataContent: {
+            compounds: {},
+            edges: {},
+            nodes: {},
+          },
+        },
+      },
+    },
+  };
+  const workspaceWithWrongKey = { ...workspace, dedicatedEventHubAuthenticationstrategy: 'someConfig' };
+  const workspaceWithWrongSolutionKey = { ...workspace, solution: { defaultrunTemplateDataset: {} } };
+  const workspaceWithTwoWrongKeys = {
+    ...workspace,
+    solution: { defaultrunDataset: {}, runtemplateFilter: [] },
+  };
+  const workspaceWithWrongWebAppKey = { ...workspace, webApp: { options: { datasetfilter: [] } } };
+  const workspaceWithWrongChartsKey = {
+    ...workspace,
+    webApp: { options: { charts: { scenarioViewiframeDisplayRatio: 1 } } },
+  };
+  const workspaceWithWrongIVKey = { ...workspace, webApp: { options: { instanceView: { datasource: {} } } } };
+
   test.each`
     solution
     ${solution}
@@ -255,9 +303,26 @@ describe('warnings in case of solution misconfiguration', () => {
     ${null}
     ${{}}
     ${solutionWithDeeplyNestedColumnsGroup}
-  `('checks console.warn is not displayed when no unknown keys in solution', ({ solution }) => {
-    ConfigUtils.checkUnknownKeysInConfig(SolutionSchema, solution);
+  `('checks console.warn is not displayed when no unknown keys in solution', ({ data }) => {
+    ConfigUtils.checkUnknownKeysInConfig(SolutionSchema, data);
     expect(spyConsoleWarn).toHaveBeenCalledTimes(0);
+  });
+
+  test('checks console.warn is not displayed when no unknown keys in workspace config', () => {
+    ConfigUtils.checkUnknownKeysInConfig(WorkspaceSchema, workspace);
+    expect(spyConsoleWarn).toHaveBeenCalledTimes(0);
+    workspace.webApp.options.charts.logInWithUserCredentials = 'false';
+    ConfigUtils.checkUnknownKeysInConfig(WorkspaceSchema, workspace);
+    expect(spyConsoleWarn).toHaveBeenCalledTimes(0);
+  });
+  test('parsing function sees the difference between solution and workspace object', () => {
+    ConfigUtils.checkUnknownKeysInConfig(SolutionSchema, solutionWithWrongKey);
+    expect(spyConsoleWarn).toHaveBeenCalledTimes(1);
+    expect(spyConsoleWarn).toHaveBeenCalledWith(expect.stringContaining('Your solution contains'));
+    spyConsoleWarn.mockClear();
+    ConfigUtils.checkUnknownKeysInConfig(WorkspaceSchema, workspaceWithWrongKey);
+    expect(spyConsoleWarn).toHaveBeenCalledTimes(1);
+    expect(spyConsoleWarn).toHaveBeenCalledWith(expect.stringContaining('Your workspace configuration contains'));
   });
 
   test.each`
@@ -300,5 +365,19 @@ describe('warnings in case of solution misconfiguration', () => {
     expect(spyConsoleWarn).toHaveBeenCalledTimes(1);
     expect(spyConsoleWarn).toHaveBeenCalledWith(expect.stringContaining("Parameter with id 'nestedColumnsTable'"));
     expect(spyConsoleWarn).toHaveBeenCalledWith(expect.stringContaining('headername'));
+  });
+  test.each`
+    workspace                        | expectedCalledWith                | expectedKey
+    ${workspaceWithWrongKey}         | ${'Your workspace configuration'} | ${'dedicatedEventHubAuthenticationstrategy'}
+    ${workspaceWithWrongWebAppKey}   | ${'WebApp section'}               | ${'datasetfilter'}
+    ${workspaceWithWrongSolutionKey} | ${'Solution section'}             | ${'defaultrunTemplateDataset'}
+    ${workspaceWithWrongChartsKey}   | ${'Charts section'}               | ${'scenarioViewiframeDisplayRatio'}
+    ${workspaceWithWrongIVKey}       | ${'Instance view section'}        | ${'datasource'}
+    ${workspaceWithTwoWrongKeys}     | ${'Solution section'}             | ${'defaultrunDataset, runtemplateFilter'}
+  `('checks console.warn with given workspace config', ({ workspace, expectedCalledWith, expectedKey }) => {
+    ConfigUtils.checkUnknownKeysInConfig(WorkspaceSchema, workspace);
+    expect(spyConsoleWarn).toHaveBeenCalledTimes(1);
+    expect(spyConsoleWarn).toHaveBeenCalledWith(expect.stringContaining(expectedCalledWith));
+    expect(spyConsoleWarn).toHaveBeenCalledWith(expect.stringContaining(expectedKey));
   });
 });
