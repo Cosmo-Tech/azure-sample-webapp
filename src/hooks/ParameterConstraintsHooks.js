@@ -7,14 +7,14 @@ import isBefore from 'date-fns/isBefore';
 import isAfter from 'date-fns/isAfter';
 import isSameDay from 'date-fns/isSameDay';
 import { useCallback, useEffect } from 'react';
-import { useFormContext } from 'react-hook-form';
+import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 export const useParameterConstraint = (parameterData) => {
   const { t } = useTranslation();
 
   const parametersList = useSolutionParameters();
-  const { trigger, watch } = useFormContext();
+  const { trigger } = useFormContext();
 
   const constraint = ParameterConstraintsUtils.getParameterValidationConstraint(
     parameterData?.options?.validation,
@@ -22,7 +22,7 @@ export const useParameterConstraint = (parameterData) => {
     parametersList
   );
 
-  const constrainingValue = constraint ? watch(constraint?.id) : undefined;
+  const constrainingValue = useWatch({ name: constraint?.id });
 
   const getTranslationLabel = (translationString, fallbackString) => {
     return t(translationString, fallbackString, {
