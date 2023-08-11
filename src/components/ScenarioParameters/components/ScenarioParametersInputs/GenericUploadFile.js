@@ -95,8 +95,8 @@ GenericUploadFile.useValidationRules = () => {
     validate: {
       fileFormat: (value) => {
         return (
-          value?.file == null ||
-          FileManagementUtils.isFileFormatValid(value.file.type) ||
+          value?.status === UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE ||
+          FileManagementUtils.isFileFormatValid(value?.file?.type) ||
           t('views.scenario.scenarioParametersValidationErrors.fileFormat', 'File format not supported')
         );
       },
