@@ -14,6 +14,8 @@ import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/App
 import { t } from 'i18next';
 import { POWER_BI_ACTIONS_KEY } from '../../../commons/PowerBIConstants';
 import { dispatchGetPowerBIEmbedInfo } from '../../../dispatchers/powerbi/PowerBIDispatcher';
+import { ConfigUtils } from '../../../../utils';
+import { WorkspaceSchema } from '../../../../services/config/WorkspaceSchema';
 
 const getOrganizationId = (state) => state?.organization?.current?.data?.id;
 const selectSolutionIdFromCurrentWorkspace = (state) => state.workspace.current.data.solution.solutionId;
@@ -66,6 +68,8 @@ export function* selectWorkspace(action) {
     status: STATUSES.SUCCESS,
     workspace: selectedWorkspace,
   });
+
+  ConfigUtils.checkUnknownKeysInConfig(WorkspaceSchema, selectedWorkspace);
 
   yield put({
     type: SCENARIO_ACTIONS_KEY.STOP_ALL_SCENARIO_STATUS_POLLINGS,
