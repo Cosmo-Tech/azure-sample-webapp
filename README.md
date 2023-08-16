@@ -56,7 +56,7 @@ Please refer to [Webapp configuration](doc/README.md)
 
 ### Pre-requisites: install `node` and `yarn`
 
-The _azure sample webapp_ currently requires **v16** of node. If you don't have NodeJS installed on your system, you
+The _azure sample webapp_ currently requires **v18** of node. If you don't have NodeJS installed on your system, you
 first need to install it. It is recommended to use [nvm](https://github.com/nvm-sh/nvm) to install node.
 
 [Install nvm](https://github.com/nvm-sh/nvm#install--update-script):
@@ -65,13 +65,13 @@ first need to install it. It is recommended to use [nvm](https://github.com/nvm-
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
 ```
 
-Install node 16:
+Install node 18:
 
 ```bash
-nvm install 16
-nvm use 16
-# To define v16 as the default version of node when opening a new terminal, run:
-nvm alias default 16
+nvm install 18
+nvm use 18
+# To define v18 as the default version of node when opening a new terminal, run:
+nvm alias default 18
 ```
 
 This project is configured to be used with the [Yarn](https://yarnpkg.com/getting-started/install) package manager. You
