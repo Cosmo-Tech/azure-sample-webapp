@@ -147,6 +147,74 @@ const isInstanceViewConfigValid = (instanceView) => {
   return true;
 };
 
+const checkUnknownKeysInConfig = (schema, data) => {
+  try {
+    schema.parse(data);
+  } catch (e) {
+    e.issues
+      .filter((issue) => issue.code === 'unrecognized_keys')
+      .forEach((issue) => {
+        const issueKeys = issue?.keys.join(', ');
+        if (issue.path.length === 0) {
+          if (data?.id?.toLowerCase().startsWith('w')) {
+            console.warn(
+              `Your workspace configuration contains unknown keys: '${issueKeys}', please check your configuration`
+            );
+          } else {
+            console.warn(
+              `Your solution contains unknown keys: '${issue.keys.join(', ')}', please check your configuration`
+            );
+          }
+        } else {
+          if (issue.path.includes('parameters')) {
+            const parameterId = data?.parameters[issue?.path[1]]?.id;
+            console.warn(
+              `Parameter with id '${parameterId}' contains unknown keys: '${issueKeys}', please check your solution`
+            );
+          }
+          if (issue.path.includes('parameterGroups')) {
+            const parameterGroupId = data?.parameterGroups[issue?.path[1]]?.id;
+            console.warn(
+              `Parameter group with id '${parameterGroupId}' contains
+              unknown keys: '${issueKeys}', please check your solution`
+            );
+          }
+          if (issue.path.includes('runTemplates')) {
+            const parameterGroupId = data?.runTemplates[issue?.path[1]]?.id;
+            console.warn(
+              `Run template with id '${parameterGroupId}' contains
+              unknown keys: '${issueKeys}', please check your solution`
+            );
+          }
+          if (issue.path.includes('solution')) {
+            console.warn(
+              `Solution section of your workspace configuration contains
+              unknown keys: '${issueKeys}', please check your configuration`
+            );
+          }
+          if (issue.path.includes('webApp')) {
+            if (issue.path.includes('charts')) {
+              console.warn(
+                `Charts section of your workspace configuration contains
+                unknown keys: '${issueKeys}', please check your configuration`
+              );
+            } else if (issue.path.includes('instanceView')) {
+              console.warn(
+                `Instance view section of your workspace configuration contains
+                unknown keys: '${issueKeys}', please check your configuration`
+              );
+            } else {
+              console.warn(
+                `WebApp section of your workspace configuration contains
+                unknown keys: '${issueKeys}', please check your configuration`
+              );
+            }
+          }
+        }
+      });
+  }
+};
+
 export const ConfigUtils = {
   buildExtendedVarType,
   getConversionMethod,
@@ -155,4 +223,5 @@ export const ConfigUtils = {
   getParametersGroupAttribute,
   patchSolution,
   isInstanceViewConfigValid,
+  checkUnknownKeysInConfig,
 };

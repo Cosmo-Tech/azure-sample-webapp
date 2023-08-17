@@ -6,11 +6,13 @@ import { SOLUTION_ACTIONS_KEY } from '../../../commons/SolutionConstants';
 import { STATUSES } from '../../../commons/Constants';
 import { Api } from '../../../../services/config/Api';
 import { ConfigUtils, SolutionsUtils } from '../../../../utils';
+import { SolutionSchema } from '../../../../services/config/SolutionSchema';
 
 export function* fetchSolutionByIdData(organizationId, workspaceId, solutionId) {
   const { data } = yield call(Api.Solutions.findSolutionById, organizationId, solutionId);
   SolutionsUtils.castMinMaxDefaultValuesInSolution(data);
   SolutionsUtils.patchSolutionIfLocalConfigExists(data);
+  ConfigUtils.checkUnknownKeysInConfig(SolutionSchema, data);
   SolutionsUtils.checkParametersValidationConstraintsInSolution(data);
   ConfigUtils.checkDeprecatedKeysInConfig(data);
   SolutionsUtils.patchIncompatibleValuesInSolution(data);
