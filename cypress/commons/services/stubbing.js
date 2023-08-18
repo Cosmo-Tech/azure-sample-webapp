@@ -7,6 +7,8 @@ import {
   DEFAULT_DATASETS_LIST,
   DEFAULT_WORKSPACE,
   DEFAULT_WORKSPACES_LIST,
+  DEFAULT_ORGANIZATION,
+  DEFAULT_ORGANIZATIONS_LIST,
   DEFAULT_SOLUTIONS_LIST,
 } from '../../fixtures/stubbing/default';
 import { authUtils as auth } from '../utils/authUtils';
@@ -15,6 +17,7 @@ const STUB_TYPES = [
   'AUTHENTICATION',
   'CREATE_AND_DELETE_SCENARIO',
   'GET_DATASETS', // Supports only initial datasets loading, doesn't work for files upload/download or table components
+  'GET_ORGANIZATION',
   'GET_SOLUTIONS',
   'GET_WORKSPACES',
   'GET_SCENARIOS',
@@ -58,6 +61,7 @@ const DEFAULT_RESOURCES_DATA = {
   scenarios: DEFAULT_SCENARIOS_LIST,
   solutions: DEFAULT_SOLUTIONS_LIST,
   workspaces: DEFAULT_WORKSPACES_LIST,
+  organizations: DEFAULT_ORGANIZATIONS_LIST,
 };
 
 // Default stubbing options to fake scenario runs. By default, the scenario runs will end immediately with a
@@ -183,6 +187,13 @@ class Stubbing {
   getFakeWorkspaceId = () => this.api.fakeWorkspaceId;
   setOrganizationPermissions = (newMapping) => (this.api.organizationPermissions = newMapping);
   getOrganizationPermissions = () => this.api.organizationPermissions;
+
+  getOrganizations = () => this._getResources('organizations');
+  setOrganizations = (newOrganizations) => this._setResources('organizations', newOrganizations);
+  patchOrganization = (organizationId, organizationPatch) =>
+    this._patchResourceById('organizations', organizationId, organizationPatch);
+  getOrganizationById = (organizationId) => this._getResourceById('organizations', organizationId);
+  getDefaultOrganizationId = () => this.getOrganizations()?.[0]?.id ?? DEFAULT_ORGANIZATION.id;
 
   getScenarios = () => this._getResources('scenarios');
   setScenarios = (newScenarios) => this._setResources('scenarios', newScenarios);
