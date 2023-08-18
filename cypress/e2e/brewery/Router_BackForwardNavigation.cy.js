@@ -20,6 +20,7 @@ describe('Back and forward navigation between tabs, scenarios and workspaces', (
       GET_SCENARIOS: true,
       GET_WORKSPACES: true,
       GET_SOLUTIONS: true,
+      GET_ORGANIZATION: true,
       PERMISSIONS_MAPPING: true,
     });
     stub.setWorkspaces(EXTENDED_WORKSPACES_LIST);

@@ -15,6 +15,7 @@ describe('Scenario view PowerBI report', () => {
       GET_DATASETS: true,
       GET_SOLUTIONS: true,
       GET_WORKSPACES: true,
+      GET_ORGANIZATION: true,
       GET_SCENARIOS: true,
       LAUNCH_SCENARIO: true,
       PERMISSIONS_MAPPING: true,
