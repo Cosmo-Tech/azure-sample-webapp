@@ -91,7 +91,7 @@ out
 bin
 obj
 appsettings.json
-local.settings.json
+local.settings*json
 
 # HTTP requests file for the REST Client extension
 # https://open-vsx.org/vscode/item?itemName=humao.rest-client
