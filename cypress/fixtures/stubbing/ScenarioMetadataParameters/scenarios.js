@@ -11,4 +11,11 @@ export const SCENARIOS = [
     runTemplateId: '1',
     runTemplateName: 'Run template with scenario metadata parameters',
   },
+  {
+    ...SCENARIO_EXAMPLE,
+    id: 's-stubbedscnr02',
+    name: 'Test Cypress - Stubbed scenario with hidden groups of parameters',
+    runTemplateId: 'runTemplateWithHiddenGroups',
+    runTemplateName: 'Run template with hidden groups of scenario parameters',
+  },
 ];

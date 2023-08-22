@@ -18,11 +18,13 @@ const SCENARIO_METADATA_PARAMETERS = SCENARIO_METADATA_PARAMETERS_IDS.map((param
   ...SOLUTION_PARAMETER_EXAMPLE,
   id: parameterId,
   varType: 'string',
-  hidden: true,
+  options: {
+    hidden: true,
+  },
   labels: null,
 }));
 
-const SOLUTION_WITH_SCENARIO_METADATA_PARAMETERS = {
+const CUSTOM_SOLUTION = {
   ...DEFAULT_SOLUTION,
   parameters: [
     {
@@ -42,6 +44,16 @@ const SOLUTION_WITH_SCENARIO_METADATA_PARAMETERS = {
       parentId: null,
       parameters: ['stock', ...SCENARIO_METADATA_PARAMETERS_IDS],
     },
+    {
+      id: 'explicitly_hidden_parameters_group',
+      options: { hidden: true },
+      parameters: ['stock'],
+    },
+    {
+      id: 'implicitly_hidden_parameters_group',
+      // This group will be hidden because all its parameters are defined as hidden
+      parameters: [...SCENARIO_METADATA_PARAMETERS_IDS],
+    },
   ],
   runTemplates: [
     {
@@ -50,13 +62,17 @@ const SOLUTION_WITH_SCENARIO_METADATA_PARAMETERS = {
       name: 'Run template with scenario metadata parameters',
       description: 'Run template with scenario metadata parameters',
       tags: ['1', 'metadata'],
-      fetchScenarioParameters: true,
-      applyParameters: true,
-      sendDatasetsToDataWarehouse: true,
-      sendInputParametersToDataWarehouse: true,
       parameterGroups: ['bar_parameters'],
+    },
+    {
+      ...RUN_TEMPLATE_EXAMPLE,
+      id: 'runTemplateWithHiddenGroups',
+      name: 'Run template with hidden groups of scenario parameters',
+      description: 'Run template with hidden groups of scenario parameters',
+      tags: ['hidden', 'groups'],
+      parameterGroups: ['explicitly_hidden_parameters_group', 'implicitly_hidden_parameters_group'],
     },
   ],
 };
 
-export const SOLUTIONS = [SOLUTION_WITH_SCENARIO_METADATA_PARAMETERS];
+export const SOLUTIONS = [CUSTOM_SOLUTION];
