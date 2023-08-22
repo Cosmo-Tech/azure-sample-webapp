@@ -11,7 +11,7 @@ async function fetchServiceAccountTokenWithMSAL() {
     return cca.getTokenCache().getKVStore();
   } catch (err) {
     console.log(`Error when trying to fetch token from application "${MSAL_AUTH.SECRET_CONFIG.auth.clientId}":`);
-    console.error(err);
+    console.log(err);
     return null;
   }
 }
