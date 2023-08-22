@@ -129,6 +129,13 @@ async function getEmbedTokenForMultipleReportsSingleWorkspace(reportIds, dataset
         'Please check the ids of PowerBI workspace and reports in your workspace configuration.',
         `Details of failing request:\r\n${body}`
       );
+    else if (result.status === 401)
+      throw new ServiceAccountError(
+        result.status,
+        result.statusText,
+        'Please check that the webapp app registration has been added with the role "Member" in the PowerBI workspace.',
+        `Details of failing request:\r\n${body}`
+      );
 
     throw new ServiceAccountError(
       result.status,
