@@ -277,6 +277,17 @@ const interceptGetScenarios = () => {
   return alias;
 };
 
+const interceptGetOrganization = () => {
+  const alias = forgeAlias('reqGetOrganization');
+  cy.intercept({ method: 'GET', url: API_REGEX.ORGANIZATION, times: 1 }, (req) => {
+    if (!stub.isEnabledFor('GET_ORGANIZATION')) return;
+    // TODO: when webapp supports multiple organizations, modify the line below to get the stubbed organization whose id
+    // matches the id in the intercepted query URL, instead of using a default organization id
+    req.reply(stub.getOrganizationById(stub.getDefaultOrganizationId()));
+  }).as(alias);
+  return alias;
+};
+
 const interceptGetWorkspaces = () => {
   const alias = forgeAlias('reqGetWorkspaces');
   cy.intercept({ method: 'GET', url: API_REGEX.WORKSPACES, times: 1 }, (req) => {
@@ -310,7 +321,12 @@ const interceptPowerBIAzureFunction = () => {
 };
 
 const interceptWorkspaceSelectorQueries = () => {
-  return [interceptGetDatasets(), interceptGetOrganizationPermissions(), interceptGetWorkspaces()];
+  return [
+    interceptGetOrganization(),
+    interceptGetDatasets(),
+    interceptGetOrganizationPermissions(),
+    interceptGetWorkspaces(),
+  ];
 };
 
 const interceptSelectWorkspaceQueries = () => {
@@ -334,6 +350,7 @@ export const apiUtils = {
   interceptGetScenario,
   interceptGetScenarios,
   interceptGetSolution,
+  interceptGetOrganization,
   interceptGetWorkspaces,
   interceptWorkspaceSelectorQueries,
   interceptSelectWorkspaceQueries,

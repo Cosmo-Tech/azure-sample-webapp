@@ -38,6 +38,8 @@ export const API_ENDPOINT = {
   SOLUTIONS: URL_ROOT + '/.*/solutions',
   SOLUTION: URL_ROOT + '/.*/solutions/((sol|SOL)-[\\w]+)',
   PERMISSIONS_MAPPING: URL_ROOT + '(?:/.*)?/organizations/permissions',
+  ORGANIZATIONS: URL_ROOT + '(?:/.*)?/organizations',
+  ORGANIZATION: URL_ROOT + '(?:/.*)?/organizations/((o|O)-[\\w]+)',
   ORGANIZATION_USERS: URL_ROOT + '(?:/.*)?/organizations/((o|O)-[\\w]+)/security/users',
   WORKSPACE_USERS: URL_ROOT + '/.*/workspaces/((w|W)-[\\w]+)/security/users',
 };
@@ -152,6 +154,8 @@ export const API_REGEX = {
   WORKSPACES: new RegExp('^' + API_ENDPOINT.WORKSPACES + '$'),
   SOLUTION: new RegExp('^' + API_ENDPOINT.SOLUTION),
   PERMISSIONS_MAPPING: new RegExp('^' + API_ENDPOINT.PERMISSIONS_MAPPING + '$'),
+  ORGANIZATIONS: new RegExp('^' + API_ENDPOINT.ORGANIZATIONS + '$'),
+  ORGANIZATION: new RegExp('^' + API_ENDPOINT.ORGANIZATION + '$'),
   ORGANIZATION_USERS: new RegExp('^' + API_ENDPOINT.ORGANIZATION_USERS + '$'),
   WORKSPACE_USERS: new RegExp('^' + API_ENDPOINT.WORKSPACE_USERS + '$'),
 };

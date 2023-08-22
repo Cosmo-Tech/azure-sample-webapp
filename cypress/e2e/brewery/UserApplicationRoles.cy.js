@@ -13,6 +13,7 @@ describe('check accessible features for Organization.Modeler application role as
       GET_DATASETS: true,
       GET_SOLUTIONS: true,
       GET_WORKSPACES: true,
+      GET_ORGANIZATION: true,
       CREATE_AND_DELETE_SCENARIO: true,
     });
     stub.setFakeUser(USER_EXAMPLE);
@@ -44,6 +45,7 @@ describe('check accessible features for Organization.Viewer application role as 
       GET_DATASETS: true,
       GET_SOLUTIONS: true,
       GET_WORKSPACES: true,
+      GET_ORGANIZATION: true,
       CREATE_AND_DELETE_SCENARIO: true,
     });
     stub.setFakeUser(USER_EXAMPLE);

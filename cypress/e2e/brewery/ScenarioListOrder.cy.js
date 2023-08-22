@@ -13,6 +13,7 @@ describe('check scenario sorted list after reload', () => {
       GET_DATASETS: true,
       GET_SCENARIOS: true,
       GET_WORKSPACES: true,
+      GET_ORGANIZATION: true,
       GET_SOLUTIONS: true,
     });
     stub.setScenarios(ALL_ROOT_SCENARIOS);
@@ -39,6 +40,7 @@ describe('check the list of sorted scenarios after deleting the current scenario
       AUTHENTICATION: true,
       GET_SCENARIOS: true,
       GET_WORKSPACES: true,
+      GET_ORGANIZATION: true,
       GET_SOLUTIONS: true,
       CREATE_AND_DELETE_SCENARIO: true,
     });

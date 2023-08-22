@@ -14,6 +14,7 @@ describe('If there are no scenarios created yet', () => {
       GET_SCENARIOS: true,
       GET_SOLUTIONS: true,
       GET_WORKSPACES: true,
+      GET_ORGANIZATION: true,
       PERMISSIONS_MAPPING: true,
     });
   });

@@ -19,6 +19,7 @@ describe('Scenario validation', () => {
       GET_SCENARIOS: true,
       GET_SOLUTIONS: true,
       GET_WORKSPACES: true,
+      GET_ORGANIZATION: true,
       UPDATE_SCENARIO: true,
     });
   });

@@ -12,6 +12,7 @@ describe("User doesn't access SignIn and AccessDenied pages if authenticated or 
       GET_SCENARIOS: true,
       GET_SOLUTIONS: true,
       GET_WORKSPACES: true,
+      GET_ORGANIZATION: true,
     });
     Login.login();
   });

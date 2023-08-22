@@ -27,6 +27,7 @@ describe('scenario parameters inputs validation', () => {
       GET_SCENARIOS: true,
       GET_SOLUTIONS: true,
       GET_WORKSPACES: true,
+      GET_ORGANIZATION: true,
       UPDATE_SCENARIO: true,
     });
     stub.setSolutions(SOLUTIONS);
@@ -240,6 +241,7 @@ describe('validation with constraints between parameters', () => {
       GET_SCENARIOS: true,
       GET_SOLUTIONS: true,
       GET_WORKSPACES: true,
+      GET_ORGANIZATION: true,
       UPDATE_SCENARIO: true,
     });
     stub.setSolutions(SOLUTIONS_WITH_CONSTRAINTS);
@@ -294,6 +296,7 @@ describe('validation constraint with wrong configuration', () => {
       GET_SCENARIOS: true,
       GET_SOLUTIONS: true,
       GET_WORKSPACES: true,
+      GET_ORGANIZATION: true,
       UPDATE_SCENARIO: true,
     });
     stub.setSolutions(SOLUTIONS_WITH_WRONG_CONSTRAINT);
