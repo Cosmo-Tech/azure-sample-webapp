@@ -59,6 +59,7 @@ Parameters groups can define the following properties:
 | and the values being the corresponding label |
 | `authorizedRoles`                            | optional           | an array of "_[Business roles](https://github.com/Cosmo-Tech/cosmotech-api-common/blob/main/src/main/kotlin/com/cosmotech/api/security/AbstractSecurityConfiguration.kt#L17-L23)_" allowed to see the scenario parameters tab (by default, all tabs are visible) |
 | `hideParameterGroupIfNoPermission`           | optional           | boolean value defining whether or not a tab should be displayed if the connected user roles do not match the `authorizedRoles` list (visible by default)                                                                                                         |
+| `options`                                    | optional           | a dict of additional properties to customize the behavior and rendering of the scenario parameters group in the webapp. Available options will be detailed in the next sections of the current page                                                              |
 
 ### Run templates
 
@@ -335,6 +336,51 @@ parameters:
               acceptsEmptyFields: true
 ```
 
+### Hidden scenario parameters & hidden parameters groups
+
+For some specific use cases, you may want to have **hidden** parameters or group of parameters:
+
+- these parameters are not visible and cannot be edited in the webapp
+- their values are sent to the Cosmo Tech API when saving changes
+
+Because their values cannot be edited by users, you must either set a default value in your solution for these
+parameters, or customize the webapp to set a dynamic value.
+
+The sample webapp already implements a specific behavior with dynamic values to easily add some "metadata" to the
+scenario parameters, such as the scenario id, its name or other data. More details can be found in the section
+"_Additional scenario run parameters_".
+
+In your solution description, the option to define whether a parameter is hidden is
+`parameters.[parameter].options.hidden`.
+
+Example:
+
+```yaml
+parameters:
+  - id: 'myHiddenParameter'
+    options:
+      hidden: true
+    varType: int
+    defaultValue: 100
+```
+
+Similarly, groups of parameters can be described as `hidden` to hide the associated group tab in the _Scenario_ view.
+Users won't be able to see or edit the parameters of this group, but the parameters values will be included in the
+scenario data when the scenario is saved.
+
+In your solution description, the option to hide a group of parameters is
+`parameterGroups.[parameterGroup].options.hidden`.
+
+Example:
+
+```yaml
+parameterGroups:
+  - id: 'myHiddenGroup'
+    options:
+      hidden: true
+    parameters: ['parameter1', 'parameter2']
+```
+
 ### Information tooltips for scenario parameters
 
 In order to help users of your solution, you can provide a short description of the scenario parameters that will be
@@ -365,7 +411,9 @@ parameters:
         fr: "Choisissez un symbole :\n\t- $\n\t- €\n\t- ฿\n\t- ¥"
         en: "Choose a symbol:\n\t- $\n\t- €\n\t- ฿\n\t- ¥"
 ```
+
 ### Validation
+
 To prevent errors of user's input in front-end interface, generic components for parameters of type date, number, int, string and bool are implemented with some validation rules such as `required`, `isInteger`,
 `minValue` and `maxValue1`, `minDate` and `maxDate`, `minLength` and `maxLength`.
 
@@ -382,13 +430,16 @@ which can be useful for parameters like _Start date_ and _End date_. Following c
 | different from           | `!=`   | date, number, int, string, bool |
 
 Constraints must be defined in options as a plain string and contain the type of the constraint and the id of constraining parameter:
+
 ```yaml
 parameters:
   - id: 'end_date'
     options:
       validation: '> start_date'
 ```
+
 Declaring mutual constraints on two parameters like that:
+
 ```yaml
 parameters:
   - id: 'start_date'
@@ -401,7 +452,9 @@ parameters:
 can lead to a user-unfriendly behaviour, it is recommended to declare the constraint on one parameter. 
 
 Below are listed all validation rules for each varType.
+
 #### Date
+
 | validation rule | default/optional | description                                                |
 |-----------------|------------------|------------------------------------------------------------|
 | required        | default          |                                                            |
@@ -410,6 +463,7 @@ Below are listed all validation rules for each varType.
 | constraint      | optional         | can be defined between two parameters with `date` varType  |
 
 Example:
+
 ```yaml
 parameters:
   - id: 'end_date'
@@ -419,7 +473,9 @@ parameters:
     options:
       validation: '> start_date'
 ```
+
 #### Number and Int
+
 | validation rule | default/optional | description                                                               |
 |-----------------|------------------|---------------------------------------------------------------------------|
 | required        | default          |                                                                           |
@@ -429,6 +485,7 @@ parameters:
 | constraint      | optional         | can be defined between two parameters with `int` or `number` varType      |
 
 Example:
+
 ```yaml
 parameters:
   - id: 'restock'
@@ -438,7 +495,9 @@ parameters:
     options:
       validation: '< stock'
 ```
+
 #### String
+
 | validation rule | default/optional | description                                                                                                                                 |
 |-----------------|------------------|---------------------------------------------------------------------------------------------------------------------------------------------|
 | required        | optional         | all strings are optional by default, to make a string parameter required, `minLength` option in `options.validation` must be greater than 0 |
@@ -447,6 +506,7 @@ parameters:
 | constraint      | optional         | can be defined between two parameters with `string` varType                                                                                 |
 
 Example:
+
 ```yaml
 parameters:
   - id: 'comment'
@@ -455,12 +515,15 @@ parameters:
       maxLength: 100,
       validation: '!= evaluation'
 ```
+
 #### Bool
+
 | validation rule | default/optional | description                                               |
 |-----------------|------------------|-----------------------------------------------------------|
 | constraint      | optional         | can be defined between two parameters with `bool` varType |
 
 Example:
+
 ```yaml
 parameters:
   - id: 'activated'
