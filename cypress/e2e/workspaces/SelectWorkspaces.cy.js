@@ -24,7 +24,12 @@ describe('Check workspaces features', () => {
     Scenarios.getScenarioViewTab(60).should('be.visible');
 
     Scenarios.getScenarioView().should('be.visible');
-    Workspaces.getHomeButton().should('be.visible').click();
+    Workspaces.getWorkspaceInfoAvatar().click();
+    Workspaces.getWorkspaceInfoPopover().should('exist');
+    Workspaces.getWorkspaceInfoName().should('have.text', EXTENDED_WORKSPACES_LIST[0].name);
+    Workspaces.getWorkspaceInfoDescription().should('have.text', EXTENDED_WORKSPACES_LIST[0].description);
+    Workspaces.getSwitchWorkspaceButton().click();
+    Workspaces.getWorkspacesView();
   });
 
   it('Check routing behavior with no workspace available', () => {
@@ -38,7 +43,7 @@ describe('Check workspaces features', () => {
     Login.login();
 
     Scenarios.getScenarioView().should('be.visible');
-    Workspaces.getHomeButton().should('not.exist');
+    Workspaces.getWorkspaceInfoAvatar().should('not.exist');
   });
   it('Shares a workspace with a link', () => {
     Login.login({ url: 'W-stbbdbrwry', expectedURL: 'W-stbbdbrwry/scenario' });

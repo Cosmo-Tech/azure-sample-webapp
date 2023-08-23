@@ -49,7 +49,7 @@ describe('Back and forward navigation between tabs, scenarios and workspaces', (
     route.goBack({ scenarioId: DEFAULT_SCENARIOS_LIST[3].id });
     ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[3].name);
 
-    Workspaces.getHomeButton().should('be.visible').click();
+    Workspaces.switchToWorkspaceView();
     Workspaces.getWorkspacesView().should('exist');
 
     route.goBack({ workspaceId: EXTENDED_WORKSPACES_LIST[2].id, scenarioId: DEFAULT_SCENARIOS_LIST[3].id });
@@ -104,7 +104,7 @@ describe('Back and forward navigation between tabs, scenarios and workspaces', (
     route.goBack();
     ScenarioManager.getScenarioManagerView().should('be.visible');
 
-    Workspaces.getHomeButton().should('be.visible').click();
+    Workspaces.switchToWorkspaceView();
     Workspaces.getWorkspacesView().should('exist');
     Workspaces.selectWorkspace(EXTENDED_WORKSPACES_LIST[1].id);
     Scenarios.getScenarioViewTab(60).should('be.visible');
@@ -112,7 +112,7 @@ describe('Back and forward navigation between tabs, scenarios and workspaces', (
     ScenarioSelector.selectScenario(DEFAULT_SCENARIOS_LIST[4].name, DEFAULT_SCENARIOS_LIST[4].id);
     ScenarioSelector.selectScenario(DEFAULT_SCENARIOS_LIST[2].name, DEFAULT_SCENARIOS_LIST[2].id);
 
-    Workspaces.getHomeButton().should('be.visible').click();
+    Workspaces.switchToWorkspaceView();
     Workspaces.getWorkspacesView().should('exist');
     Workspaces.selectWorkspace(EXTENDED_WORKSPACES_LIST[2].id);
     Scenarios.getScenarioViewTab(60).should('be.visible');

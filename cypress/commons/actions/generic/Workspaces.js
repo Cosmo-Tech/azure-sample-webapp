@@ -26,10 +26,41 @@ function getHomeButton() {
   return cy.get(GENERIC_SELECTORS.workspace.homeButton);
 }
 
+function getWorkspaceInfoAvatar() {
+  return cy.get(GENERIC_SELECTORS.workspace.workspaceInfoAvatar);
+}
+
+function getWorkspaceInfoPopover() {
+  return cy.get(GENERIC_SELECTORS.workspace.workspaceInfoPopover);
+}
+
+function getWorkspaceInfoName() {
+  return cy.get(GENERIC_SELECTORS.workspace.workspaceInfoName);
+}
+
+function getWorkspaceInfoDescription() {
+  return cy.get(GENERIC_SELECTORS.workspace.workspaceInfoDescription);
+}
+
+function getSwitchWorkspaceButton() {
+  return cy.get(GENERIC_SELECTORS.workspace.switchWorkspaceButton);
+}
+
+function switchToWorkspaceView() {
+  getWorkspaceInfoAvatar().trigger('mouseover');
+  getSwitchWorkspaceButton().should('exist').click();
+}
+
 export const Workspaces = {
   getWorkspacesView,
   getWorkspaceCardById,
   getNoWorkspacePlaceholder,
   selectWorkspace,
   getHomeButton,
+  getWorkspaceInfoAvatar,
+  getWorkspaceInfoPopover,
+  getWorkspaceInfoName,
+  getWorkspaceInfoDescription,
+  getSwitchWorkspaceButton,
+  switchToWorkspaceView,
 };
