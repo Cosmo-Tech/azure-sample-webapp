@@ -25,7 +25,7 @@ const SOLUTION_WITH_COLUMN_GROUP = {
               {
                 field: 'name',
                 type: ['nonResizable', 'nonSortable'],
-                columnGroupShow: 'open',
+                columnGroupShow: 'closed',
               },
               {
                 field: 'age',
@@ -33,13 +33,13 @@ const SOLUTION_WITH_COLUMN_GROUP = {
                 minValue: 0,
                 maxValue: 120,
                 acceptsEmptyFields: true,
-                columnGroupShow: 'closed',
+                columnGroupShow: 'open',
+              },
+              {
+                field: 'canDrinkAlcohol',
+                type: ['bool'],
               },
             ],
-          },
-          {
-            field: 'canDrinkAlcohol',
-            type: ['bool'],
           },
           {
             field: 'favoriteDrink',
