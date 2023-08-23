@@ -5,7 +5,7 @@ import React from 'react';
 import { AppBar as MuiAppBar, Toolbar } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import PropTypes from 'prop-types';
-import { HelpMenuWrapper, HomeButton, Logo, ThemeSwitch, UserInfoWrapper } from './components';
+import { HelpMenuWrapper, Logo, ThemeSwitch, UserInfoWrapper, WorkspaceInfo } from './components';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -21,7 +21,7 @@ export const AppBar = ({ children }) => {
   return (
     <MuiAppBar position="static" className={classes.appBar}>
       <Toolbar variant="dense" disableGutters={true}>
-        <HomeButton />
+        <WorkspaceInfo />
         <div className={classes.children}>{children}</div>
         <ThemeSwitch />
         <HelpMenuWrapper />

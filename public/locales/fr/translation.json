@@ -473,6 +473,7 @@
     },
     "workspaceselector": {
       "homebutton": "Workspaces",
+      "switch": "Changer",
       "card": {
         "button": {
           "open": "Ouvrir"
