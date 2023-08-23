@@ -18,6 +18,7 @@ const basicColumnField = z
     maxValue: z.unknown().optional(),
     acceptsEmptyFields: z.boolean().optional().nullable(),
     enumValues: z.array(z.string().optional().nullable()).optional().nullable(),
+    columnGroupShow: z.string().optional().nullable(),
   })
   .strict()
   .optional()
