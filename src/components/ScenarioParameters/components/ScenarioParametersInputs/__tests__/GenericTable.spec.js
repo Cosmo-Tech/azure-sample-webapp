@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { _getColumnWithoutDepth } from '../GenericTable';
+import { getColumnWithoutDepth } from '../GenericTable';
 
 describe('Test if column parsing to error handling works', () => {
   const COLUMN_DEFINITION_WITH_NO_DEPTH = [
@@ -79,7 +79,7 @@ describe('Test if column parsing to error handling works', () => {
     '$columns are parsed to no depth and the returned result equals $expected',
     ({ columns, expected, warningCount }) => {
       const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
-      expect(_getColumnWithoutDepth(columns)).toStrictEqual(expected);
+      expect(getColumnWithoutDepth(columns)).toStrictEqual(expected);
       expect(warn).toHaveBeenCalledTimes(warningCount);
       warn.mockReset();
     }
