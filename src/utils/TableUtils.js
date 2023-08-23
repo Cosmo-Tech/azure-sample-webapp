@@ -29,9 +29,15 @@ const getTableCellDefaultValue = (column, dateFormat) => {
 
 const createNewTableLine = (columns, dateFormat) => {
   const newLine = {};
-  columns.forEach((column) => {
-    newLine[column.field] = !column?.acceptsEmptyFields ? getTableCellDefaultValue(column, dateFormat) : '';
-  });
+
+  const browseColumns = (columns) => {
+    columns.forEach((column) => {
+      if (Array.isArray(column.children) && column.children.length > 0) browseColumns(column.children);
+      else newLine[column.field] = !column?.acceptsEmptyFields ? getTableCellDefaultValue(column, dateFormat) : '';
+    });
+  };
+
+  browseColumns(columns);
   return newLine;
 };
 
