@@ -71,7 +71,7 @@ export const GenericTable = ({
   const lockId = `${scenarioId}_${parameterId}`;
 
   const [isConfirmRowsDeletionDialogOpen, setConfirmRowsDeletionDialogOpen] = useState(false);
-  const selectedRows = useRef();
+  const selectedRowsRef = useRef();
 
   const tableLabels = {
     label: t(TranslationUtils.getParameterTranslationKey(parameterId), parameterId),
@@ -248,6 +248,16 @@ export const GenericTable = ({
     GenericTable.downloadLocked[lockId] = false;
   };
 
+  const _uploadPreprocess = useCallback(
+    (clientFileDescriptor) => {
+      const newFileContent = AgGridUtils.toCSV(lastNewParameterValue.current.agGridRows, columns, options);
+      updateParameterValue({ content: newFileContent });
+      gridApiRef.current?.stopEditing();
+      return newFileContent;
+    },
+    [columns, options, updateParameterValue]
+  );
+
   const _parseCSVFileContent = useCallback(
     (
       fileContent,
@@ -289,11 +299,11 @@ export const GenericTable = ({
           content: fileContent,
           status: finalStatus,
           tableDataStatus: TABLE_DATA_STATUS.READY,
-          uploadPreprocess: null,
+          uploadPreprocess: { content: _uploadPreprocess },
         });
       }
     },
-    [options, parameterData]
+    [options, parameterData, _uploadPreprocess]
   );
 
   const _readAndParseCSVFile = useCallback(
@@ -371,11 +381,11 @@ export const GenericTable = ({
           errors: agGridData.error,
           status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD,
           tableDataStatus: TABLE_DATA_STATUS.READY,
-          uploadPreprocess: null,
+          uploadPreprocess: { content: _uploadPreprocess },
         });
       }
     },
-    [options, parameterData]
+    [options, parameterData, _uploadPreprocess]
   );
 
   const importFile = useCallback(
@@ -428,20 +438,7 @@ export const GenericTable = ({
     [exportFile]
   );
 
-  const _uploadPreprocess = useCallback(
-    (clientFileDescriptor) => {
-      const newFileContent = AgGridUtils.toCSV(lastNewParameterValue.current.agGridRows, columns, options);
-      updateParameterValue({
-        content: newFileContent,
-      });
-      gridApiRef.current?.stopEditing();
-      return newFileContent;
-    },
-    [columns, options, updateParameterValue]
-  );
-
-  const onCellChange = (event) => {
-    gridApiRef.current = event.api;
+  const updateOnFirstEdition = useCallback(() => {
     if (!parameter.uploadPreprocess || !isDirty) {
       updateParameterValue({
         status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD,
@@ -450,6 +447,11 @@ export const GenericTable = ({
         uploadPreprocess: { content: _uploadPreprocess },
       });
     }
+  }, [parameter.uploadPreprocess, isDirty, _uploadPreprocess, updateParameterValue]);
+
+  const onCellChange = (event) => {
+    gridApiRef.current = event.api;
+    updateOnFirstEdition();
   };
 
   const onClearErrors = () => {
@@ -501,51 +503,60 @@ export const GenericTable = ({
 
   const onAddRow = useCallback(
     (agGridApi) => {
+      const rowsCountBeforeRowAddition = parameter?.agGridRows?.length ?? 0;
       const newLine = TableUtils.createNewTableLine(parameterData.options.columns, parameterData.options.dateFormat);
-      const selectedLines = agGridApi?.getSelectedNodes();
-      let newLineArray = parameter?.agGridRows;
-      if (newLineArray && selectedLines?.length > 0) {
-        const lastSelectedLineIndex = selectedLines[selectedLines.length - 1].rowIndex;
-        newLineArray.splice(parseInt(lastSelectedLineIndex) + 1, 0, newLine);
-      } else if (newLineArray) newLineArray.unshift(newLine);
-      else newLineArray = [newLine];
-      updateParameterValue({
-        status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD,
-        tableDataStatus: TABLE_DATA_STATUS.READY,
-        errors: null,
-        uploadPreprocess: { content: _uploadPreprocess },
-        agGridRows: [...newLineArray],
-      });
+      const selectedLines = agGridApi?.getSelectedNodes() ?? [];
+      const addIndex = selectedLines.length > 0 ? selectedLines[selectedLines.length - 1].rowIndex + 1 : 0;
+
+      if (rowsCountBeforeRowAddition === 0) {
+        updateParameterValue({ agGridRows: [newLine] });
+      } else if (selectedLines?.length > 0) {
+        parameter.agGridRows.splice(addIndex, 0, newLine);
+      } else {
+        parameter.agGridRows.unshift(newLine);
+      }
+
+      agGridApi?.applyTransaction({ add: [newLine], addIndex });
+      updateOnFirstEdition();
     },
     [
-      _uploadPreprocess,
-      parameter?.agGridRows,
+      updateOnFirstEdition,
+      parameter.agGridRows,
       parameterData.options.columns,
       parameterData.options.dateFormat,
       updateParameterValue,
     ]
   );
-  const deleteRow = useCallback(() => {
-    if (selectedRows.current?.length > 0) {
-      const newRows = parameter.agGridRows;
-      for (let i = 0; selectedRows.current[i]; i++) {
-        newRows[selectedRows.current[i].rowIndex] = undefined;
-      }
-      updateParameterValue({
-        status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD,
-        tableDataStatus: TABLE_DATA_STATUS.READY,
-        errors: null,
-        uploadPreprocess: { content: _uploadPreprocess },
-        agGridRows: newRows.filter((row) => row),
+
+  const deleteRow = useCallback(
+    (agGridApi) => {
+      const rowsIndexToRemove = agGridApi
+        .getSelectedNodes()
+        .map((node) => node.rowIndex)
+        .sort()
+        .reverse();
+      agGridApi.applyTransaction({ remove: agGridApi.getSelectedRows() });
+
+      rowsIndexToRemove.forEach((rowIndexToRemove) => {
+        parameter.agGridRows.splice(rowIndexToRemove, 1);
       });
-    }
-  }, [_uploadPreprocess, parameter.agGridRows, updateParameterValue]);
+
+      if (parameter.agGridRows.length === 0) {
+        updateParameterValue({ agGridRows: parameter.agGridRows });
+      }
+
+      updateOnFirstEdition();
+    },
+    [updateOnFirstEdition, parameter.agGridRows, updateParameterValue]
+  );
+
   const onDeleteRow = useCallback(
     (agGridApi) => {
-      selectedRows.current = agGridApi?.getSelectedNodes() ?? [];
-      if (selectedRows.current.length > 1 && localStorage.getItem('dontAskAgainToDeleteRow') === 'false') {
+      const selectedRows = agGridApi.getSelectedRows();
+      selectedRowsRef.current = selectedRows ?? [];
+      if (selectedRows.length > 1 && localStorage.getItem('dontAskAgainToDeleteRow') === 'false') {
         setConfirmRowsDeletionDialogOpen(true);
-      } else deleteRow(selectedRows.current);
+      } else deleteRow(agGridApi);
     },
     [deleteRow]
   );
@@ -590,7 +601,7 @@ export const GenericTable = ({
           localStorage.setItem('dontAskAgainToDeleteRow', isChecked);
           deleteRow();
         }}
-        selectedRowsCount={selectedRows.current?.length ?? 0}
+        selectedRowsCount={selectedRowsRef.current?.length ?? 0}
       />
     </>
   );
