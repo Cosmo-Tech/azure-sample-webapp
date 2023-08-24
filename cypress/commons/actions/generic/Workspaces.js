@@ -22,10 +22,6 @@ function selectWorkspace(workspaceId) {
   api.waitAliases(queries, { timeout: 60 * 1000 });
 }
 
-function getHomeButton() {
-  return cy.get(GENERIC_SELECTORS.workspace.homeButton);
-}
-
 function getWorkspaceInfoAvatar() {
   return cy.get(GENERIC_SELECTORS.workspace.workspaceInfoAvatar);
 }
@@ -56,7 +52,6 @@ export const Workspaces = {
   getWorkspaceCardById,
   getNoWorkspacePlaceholder,
   selectWorkspace,
-  getHomeButton,
   getWorkspaceInfoAvatar,
   getWorkspaceInfoPopover,
   getWorkspaceInfoName,

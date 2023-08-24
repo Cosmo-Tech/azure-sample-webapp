@@ -130,7 +130,6 @@ export const GENERIC_SELECTORS = {
     workspaceCard: '[data-cy=resource-card-$WORKSPACEID]',
     openButton: 'Button',
     noWorkspacePlaceholder: '[data-cy=no-workspace-placeholder]',
-    homeButton: '[data-cy=home-button]',
     workspaceInfoAvatar: '[data-cy=workspace-info-avatar]',
     workspaceInfoPopover: '[data-cy=workspace-info-popover]',
     workspaceInfoName: '[data-cy=workspace-info-name]',
