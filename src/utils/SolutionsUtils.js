@@ -74,19 +74,29 @@ const checkParametersValidationConstraintsInSolution = (data) => {
   });
 };
 
+const _getNonEditableColumn = (columns) => {
+  for (const column of columns) {
+    if (column?.type?.includes('nonEditable')) return column;
+    if (Array.isArray(column.children) && column.children.length > 0) {
+      const nonEditableColumn = _getNonEditableColumn(column.children);
+      if (nonEditableColumn != null) return nonEditableColumn;
+    }
+  }
+};
+
 const patchIncompatibleValuesInSolution = (solution) => {
   solution.parameters.forEach((parameter) => {
     if (parameter.varType === '%DATASETID%' && parameter.options?.subType === 'TABLE')
-      if (parameter.options?.canChangeRowsNumber)
-        parameter.options.columns.forEach((column) => {
-          if (column?.type?.includes('nonEditable')) {
-            console.warn(
-              `parameter.options.canChangeRowsNumber can't be true on ${parameter.id} ` +
-                `if column ${column.field} is nonEditable, please fix it in the solution`
-            );
-            parameter.options.canChangeRowsNumber = false;
-          }
-        });
+      if (parameter.options?.canChangeRowsNumber) {
+        const nonEditableColumn = _getNonEditableColumn(parameter.options.columns);
+        if (nonEditableColumn != null) {
+          console.warn(
+            `parameter.options.canChangeRowsNumber can't be true on ${parameter.id} ` +
+              `if column ${nonEditableColumn.field} is nonEditable, please fix it in the solution`
+          );
+          parameter.options.canChangeRowsNumber = false;
+        }
+      }
   });
 };
 
