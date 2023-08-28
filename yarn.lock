@@ -1201,16 +1201,16 @@
     axios "^0.21.4"
 
 "@cosmotech/azure@^1.3.0":
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/@cosmotech/azure/-/azure-1.3.1.tgz#833141334c8470dab23cc46b34d3c0946daf9dd4"
-  integrity sha512-QK5/TRq8gT7SKG1FIpzU0P1OQcu7UayN7divzwMC4R5DKML8Xr5gQD0F+CaBYVhbSAZppx4GLD1SpO9ohtxcqg==
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/@cosmotech/azure/-/azure-1.3.2.tgz#842387ec83253be84f39e9a0892ff8057c0d2cfb"
+  integrity sha512-Wca8GjSMND5qNLYmBcdWkRM2CbA2EbbW/lYEjf15T0ue2wNWBeMvHcsLG3d/54dGVQg3ZQ6taUjLKtVuBCt99g==
   dependencies:
     "@azure/msal-browser" "~2.23.0"
 
 "@cosmotech/core@^1.11.4":
-  version "1.11.4"
-  resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.11.4.tgz#ddb6a81d7e19155bad3999b86ee3e75a67da508c"
-  integrity sha512-khG6xZHzic3UxNk3BN+BEm0rRymE5QUwAPFDjzMxeUO9zovAB71vt28YhUA1/ViTRyXrGjfF5Ryi30uXnA8PCQ==
+  version "1.11.5"
+  resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.11.5.tgz#2ff2ed61be6247a551d0a14dfb76f79bbc782898"
+  integrity sha512-E0G5syMrFpp0hce14xf5o3yo0H44GR394OklHm4Rk23wLrzhw8Hbn5phrKzYCsLBacStBr66I0OoJriG7DjQxQ==
   dependencies:
     csv-string "^4.0.1"
     date-fns "^2.25.0"
@@ -1219,9 +1219,9 @@
     xlsx "https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz"
 
 "@cosmotech/ui@^5.7.0":
-  version "5.7.0"
-  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-5.7.0.tgz#e5a12df9a6c8b0afb65b807ad3b8519c219f6b5e"
-  integrity sha512-BSQ3+7ANsiI3Y3/nruwwSPvZAHA3qWhZ8mz2fYJ6oKyyBK49UgX9B/dAsIV8b2U9gAkBeorTU3WLZAllrese6g==
+  version "5.7.1"
+  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-5.7.1.tgz#900f9e375fc4c32702d3b8b83e52c19f0382232e"
+  integrity sha512-nqUnwq6snWg9k1jB0zVAR8EbcWAI+G+GLwQ6FPDfpaGnHG/44ce66VCOy7YzrjFlMLFq5sSOOXR8HYuhDkgSnA==
   dependencies:
     "@emotion/react" "^11.10.5"
     "@emotion/styled" "^11.10.5"
