@@ -106,7 +106,7 @@ function cancelDiscardAndContinue() {
 //  - runOptions: options to provide to the interception of the "get scenario run" query (default: undefined)
 //  - saveAndLaunch: boolean defining whether the test will trigger a SAVE of the scenario parameters (default:
 //    false); used only when stubbing is enabled, to add interception of scenario updates
-//  - timeoutGetLaunchButton: maximum timeout, in seconds, before raising an error when waiting for the launch button
+//  - getLaunchButtonTimeout: maximum timeout, in seconds, before raising an error when waiting for the launch button
 //    to be enabled (default: 180)
 function launch(options) {
   const expectedPollsCount = options?.runOptions?.expectedPollsCount ?? stub.getScenarioRunOptions().expectedPollsCount;
