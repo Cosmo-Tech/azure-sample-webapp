@@ -116,11 +116,11 @@ export const GenericTable = ({
   }, [dateFormat]);
 
   const isUnmount = useRef(false);
-  const gridApiRef = useRef();
+  const gridRef = useRef(null);
   useEffect(() => {
     return () => {
       isUnmount.current = true;
-      gridApiRef.current = undefined;
+      gridRef.current = null;
     };
   }, []);
 
@@ -252,7 +252,7 @@ export const GenericTable = ({
     (clientFileDescriptor) => {
       const newFileContent = AgGridUtils.toCSV(lastNewParameterValue.current.agGridRows, columns, options);
       updateParameterValue({ content: newFileContent });
-      gridApiRef.current?.stopEditing();
+      gridRef.current?.api?.stopEditing();
       return newFileContent;
     },
     [columns, options, updateParameterValue]
@@ -449,10 +449,7 @@ export const GenericTable = ({
     }
   }, [parameter.uploadPreprocess, isDirty, _uploadPreprocess, updateParameterValue]);
 
-  const onCellChange = (event) => {
-    gridApiRef.current = event.api;
-    updateOnFirstEdition();
-  };
+  const onCellChange = updateOnFirstEdition;
 
   const onClearErrors = () => {
     updateParameterValue({
@@ -501,65 +498,60 @@ export const GenericTable = ({
     }
   });
 
-  const onAddRow = useCallback(
-    (agGridApi) => {
-      const rowsCountBeforeRowAddition = parameter?.agGridRows?.length ?? 0;
-      const newLine = TableUtils.createNewTableLine(parameterData.options.columns, parameterData.options.dateFormat);
-      const selectedLines = agGridApi?.getSelectedNodes() ?? [];
-      const addIndex = selectedLines.length > 0 ? selectedLines[selectedLines.length - 1].rowIndex + 1 : 0;
+  const onAddRow = useCallback(() => {
+    const rowsCountBeforeRowAddition = parameter?.agGridRows?.length ?? 0;
+    const newLine = TableUtils.createNewTableLine(parameterData.options.columns, parameterData.options.dateFormat);
+    const selectedLines = gridRef.current?.api?.getSelectedNodes() ?? [];
+    const addIndex = selectedLines.length > 0 ? selectedLines[selectedLines.length - 1].rowIndex + 1 : 0;
 
-      if (rowsCountBeforeRowAddition === 0) {
-        updateParameterValue({ agGridRows: [newLine] });
-      } else if (selectedLines?.length > 0) {
-        parameter.agGridRows.splice(addIndex, 0, newLine);
-      } else {
-        parameter.agGridRows.unshift(newLine);
-      }
+    if (rowsCountBeforeRowAddition === 0) {
+      updateParameterValue({ agGridRows: [newLine] });
+    } else if (selectedLines?.length > 0) {
+      parameter.agGridRows.splice(addIndex, 0, newLine);
+    } else {
+      parameter.agGridRows.unshift(newLine);
+    }
 
-      agGridApi?.applyTransaction({ add: [newLine], addIndex });
-      updateOnFirstEdition();
-    },
-    [
-      updateOnFirstEdition,
-      parameter.agGridRows,
-      parameterData.options.columns,
-      parameterData.options.dateFormat,
-      updateParameterValue,
-    ]
-  );
+    gridRef.current?.api?.applyTransaction({ add: [newLine], addIndex });
+    gridRef.current?.api.deselectAll();
+    updateOnFirstEdition();
+  }, [
+    updateOnFirstEdition,
+    parameter.agGridRows,
+    parameterData.options.columns,
+    parameterData.options.dateFormat,
+    updateParameterValue,
+  ]);
 
-  const deleteRow = useCallback(
-    (agGridApi) => {
-      const rowsIndexToRemove = agGridApi
-        .getSelectedNodes()
-        .map((node) => node.rowIndex)
-        .sort()
-        .reverse();
-      agGridApi.applyTransaction({ remove: agGridApi.getSelectedRows() });
+  const deleteRow = useCallback(() => {
+    const gridApi = gridRef.current?.api;
+    if (!gridApi) return;
 
-      rowsIndexToRemove.forEach((rowIndexToRemove) => {
-        parameter.agGridRows.splice(rowIndexToRemove, 1);
-      });
+    const rowsIndexToRemove = gridRef.current.api
+      .getSelectedNodes()
+      .map((node) => node.rowIndex)
+      .sort()
+      .reverse();
+    gridApi.applyTransaction({ remove: gridApi.getSelectedNodes().map((rowNode) => rowNode.data) });
 
-      if (parameter.agGridRows.length === 0) {
-        updateParameterValue({ agGridRows: parameter.agGridRows });
-      }
+    rowsIndexToRemove.forEach((rowIndexToRemove) => {
+      parameter.agGridRows.splice(rowIndexToRemove, 1);
+    });
 
-      updateOnFirstEdition();
-    },
-    [updateOnFirstEdition, parameter.agGridRows, updateParameterValue]
-  );
+    if (parameter.agGridRows.length === 0) {
+      updateParameterValue({ agGridRows: parameter.agGridRows });
+    }
 
-  const onDeleteRow = useCallback(
-    (agGridApi) => {
-      const selectedRows = agGridApi.getSelectedRows();
-      selectedRowsRef.current = selectedRows ?? [];
-      if (selectedRows.length > 1 && localStorage.getItem('dontAskAgainToDeleteRow') === 'false') {
-        setConfirmRowsDeletionDialogOpen(true);
-      } else deleteRow(agGridApi);
-    },
-    [deleteRow]
-  );
+    updateOnFirstEdition();
+  }, [updateOnFirstEdition, parameter.agGridRows, updateParameterValue]);
+
+  const onDeleteRow = useCallback(() => {
+    const selectedRows = gridRef.current?.api?.getSelectedNodes();
+    selectedRowsRef.current = selectedRows ?? [];
+    if (selectedRows.length > 1 && localStorage.getItem('dontAskAgainToDeleteRow') !== 'true') {
+      setConfirmRowsDeletionDialogOpen(true);
+    } else deleteRow();
+  }, [deleteRow]);
 
   return (
     <>
@@ -574,6 +566,7 @@ export const GenericTable = ({
         key={parameterId}
         data-cy={`table-${parameterData.id}`}
         id={`table-${parameterData.id}`}
+        gridRef={gridRef}
         labels={tableLabels}
         tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
         dateFormat={dateFormat}
