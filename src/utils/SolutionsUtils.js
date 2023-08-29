@@ -66,7 +66,7 @@ const checkParametersValidationConstraintsInSolution = (data) => {
     );
     if (constraint === null) {
       console.warn(
-        `Constraint "${parameter.options.validation}" cannot be applied to parameter 
+        `Constraint "${parameter.options.validation}" cannot be applied to parameter
         with id "${parameter.id}", please check your solution configuration file`
       );
       delete data.parameters.find((param) => param.id === parameter.id)?.options?.validation;
@@ -85,7 +85,7 @@ const _getNonEditableColumn = (columns) => {
 };
 
 const patchIncompatibleValuesInSolution = (solution) => {
-  solution.parameters.forEach((parameter) => {
+  solution.parameters?.forEach((parameter) => {
     if (parameter.varType === '%DATASETID%' && parameter.options?.subType === 'TABLE')
       if (parameter.options?.canChangeRowsNumber) {
         const nonEditableColumn = _getNonEditableColumn(parameter.options.columns);

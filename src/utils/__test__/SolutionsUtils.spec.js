@@ -223,4 +223,14 @@ describe('patchIncompatibleValuesInSolution function unit tests', () => {
     expect(warn).toHaveBeenCalledTimes(warnCount);
     warn.mockReset();
   });
+
+  test.each`
+    parameters
+    ${null}
+    ${undefined}
+    ${[]}
+  `('should not fail when parameters are $parameters', ({ parameters }) => {
+    const solution = { parameters };
+    expect(() => SolutionsUtils.patchIncompatibleValuesInSolution(solution)).not.toThrow();
+  });
 });
