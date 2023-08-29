@@ -120,7 +120,7 @@ describe('Discard and continue go to workspaces', () => {
 
     Scenarios.getScenarioViewTab(60).should('be.visible');
 
-    Workspaces.getHomeButton().should('be.visible').click();
+    Workspaces.switchToWorkspaceView();
     Workspaces.getWorkspacesView().should('exist');
   });
 
@@ -135,7 +135,7 @@ describe('Discard and continue go to workspaces', () => {
     BreweryParameters.switchToBasicTypesTab();
     BreweryParameters.getCurrencyUsedInput().check();
     BreweryParameters.getCurrencyNameInput().click().clear().type(currencyName);
-    Workspaces.getHomeButton().should('be.visible').click();
+    Workspaces.switchToWorkspaceView();
 
     ScenarioParameters.discardAndContinue();
     Workspaces.getWorkspacesView().should('exist');

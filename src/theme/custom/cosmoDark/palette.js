@@ -46,6 +46,7 @@ export default {
   appbar: {
     main: '#121212',
     contrastText: '#FFFFFF',
+    contrastTextSoft: 'rgba(255, 255, 255, 0.7)',
   },
   login: {
     main: '#2F363B',

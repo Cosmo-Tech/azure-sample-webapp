@@ -61,7 +61,7 @@ describe('Switching between workspaces and running four scenarios at the same ti
       BreweryParameters.getWaitersInput().clear().type('1');
       ScenarioParameters.save();
 
-      Workspaces.getHomeButton().should('be.visible').click();
+      Workspaces.switchToWorkspaceView();
       Workspaces.selectWorkspace(BREWERY_WORKSPACE_ID);
 
       // create second parent scenario, edit it and save it
@@ -78,7 +78,7 @@ describe('Switching between workspaces and running four scenarios at the same ti
         BreweryParameters.getWaitersInput().clear().type('15');
         ScenarioParameters.save();
 
-        Workspaces.getHomeButton().should('be.visible').click();
+        Workspaces.switchToWorkspaceView();
         Workspaces.selectWorkspace(REAL_BREWERY_WORKSPACE_ID);
 
         // create first child scenario, edit and launch it
@@ -94,7 +94,7 @@ describe('Switching between workspaces and running four scenarios at the same ti
           BreweryParameters.importCustomersTableData(CSV_VALID_WITH_EMPTY_FIELDS);
           BreweryParameters.getCustomersTableGrid().should('not.be.empty');
           ScenarioParameters.launch();
-          Workspaces.getHomeButton().should('be.visible').click();
+          Workspaces.switchToWorkspaceView();
           Workspaces.selectWorkspace(BREWERY_WORKSPACE_ID);
 
           // create second child scenario, edit and launch it
@@ -150,12 +150,12 @@ describe('Switching between workspaces and running four scenarios at the same ti
             ErrorBanner.checkAnDismissErrorBanner();
 
             // delete all scenarios
-            Workspaces.getHomeButton().should('be.visible').click();
+            Workspaces.switchToWorkspaceView();
             Workspaces.selectWorkspace(REAL_BREWERY_WORKSPACE_ID);
             ScenarioManager.switchToScenarioManager();
             ScenarioManager.deleteScenario(firstWorkspaceParentScenarioName);
             ScenarioManager.deleteScenario(firstWorkspaceChildScenarioName);
-            Workspaces.getHomeButton().should('be.visible').click();
+            Workspaces.switchToWorkspaceView();
             Workspaces.selectWorkspace(BREWERY_WORKSPACE_ID);
             ScenarioManager.switchToScenarioManager();
             ScenarioManager.deleteScenario(secondWorkspaceParentScenarioName);
@@ -181,7 +181,7 @@ describe('Switching between workspaces and running four scenarios at the same ti
         BreweryParameters.getWaitersInput().clear().type('15');
         ScenarioParameters.save();
 
-        Workspaces.getHomeButton().should('be.visible').click();
+        Workspaces.switchToWorkspaceView();
         Workspaces.selectWorkspace(BREWERY_WORKSPACE_ID);
 
         // create second scenario, update its parameters (same as for the first one)
@@ -202,7 +202,7 @@ describe('Switching between workspaces and running four scenarios at the same ti
             ScenarioSelector.selectScenario(sharedNameScenario, secondWorkspaceSharedScenarioId);
             cy.url({ timeout: 3000 }).should('include', secondWorkspaceSharedScenarioId);
 
-            Workspaces.getHomeButton().should('be.visible').click();
+            Workspaces.switchToWorkspaceView();
             Workspaces.selectWorkspace(REAL_BREWERY_WORKSPACE_ID);
 
             // finding first scenario in scenarios' list and checking its url
@@ -228,7 +228,7 @@ describe('Switching between workspaces and running four scenarios at the same ti
             Scenarios.switchToScenarioView();
             ScenarioSelector.selectScenario(newSharedNameScenario, firstWorkspaceSharedScenarioId);
 
-            Workspaces.getHomeButton().should('be.visible').click();
+            Workspaces.switchToWorkspaceView();
             Workspaces.selectWorkspace(BREWERY_WORKSPACE_ID);
 
             // go to the second workspace, switch to the scenario manager,
@@ -244,7 +244,7 @@ describe('Switching between workspaces and running four scenarios at the same ti
             ScenarioSelector.getScenarioSelectorInput(10000).should('have.value', newSharedNameScenario);
             ScenarioManager.switchToScenarioManager();
             ScenarioManager.deleteScenario(newSharedNameScenario);
-            Workspaces.getHomeButton().should('be.visible').click();
+            Workspaces.switchToWorkspaceView();
             Workspaces.selectWorkspace(BREWERY_WORKSPACE_ID);
             // select second scenario, check its name and delete it
             ScenarioSelector.selectScenario(newSharedNameScenario, secondWorkspaceSharedScenarioId);
