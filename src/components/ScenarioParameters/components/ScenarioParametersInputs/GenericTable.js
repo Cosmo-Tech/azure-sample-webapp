@@ -248,15 +248,12 @@ export const GenericTable = ({
     GenericTable.downloadLocked[lockId] = false;
   };
 
-  const _uploadPreprocess = useCallback(
-    (clientFileDescriptor) => {
-      const newFileContent = AgGridUtils.toCSV(lastNewParameterValue.current.agGridRows, columns, options);
-      updateParameterValue({ content: newFileContent });
-      gridRef.current?.api?.stopEditing();
-      return newFileContent;
-    },
-    [columns, options, updateParameterValue]
-  );
+  const _uploadPreprocess = useCallback(() => {
+    const newFileContent = AgGridUtils.toCSV(lastNewParameterValue.current.agGridRows, columns, options);
+    updateParameterValue({ content: newFileContent });
+    gridRef.current?.api?.stopEditing();
+    return newFileContent;
+  }, [columns, options, updateParameterValue]);
 
   const _parseCSVFileContent = useCallback(
     (
