@@ -1,9 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { DefaultAvatar } from '@cosmotech/ui';
-import { Button, Grid, IconButton, Popover, Typography } from '@mui/material';
+import { Box, Button, Grid, Popover, Typography } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { useNavigate } from 'react-router-dom';
 import { useWorkspaceInfo } from './hooks/WorkspaceInfoHook';
@@ -24,35 +24,43 @@ export const WorkspaceInfo = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { currentWorkspaceData, workspacesList } = useWorkspaceInfo();
-  const [anchorEl, setAnchorEl] = useState(null);
+
+  const [isPopoverOpened, setIsPopoverOpened] = useState(false);
+  const anchorElement = useRef(null);
+
   const navigateToWorkspaceSelector = () => {
     navigate('/workspaces');
   };
+
   const handlePopoverOpen = (event) => {
-    setAnchorEl(event.currentTarget);
+    setIsPopoverOpened(true);
   };
 
   const handlePopoverClose = () => {
-    setAnchorEl(null);
+    setIsPopoverOpened(false);
   };
-
-  const open = Boolean(anchorEl);
 
   return currentWorkspaceData && workspacesList?.data?.length > 1 ? (
     <div>
-      <IconButton
+      <Box
         data-cy="workspace-info-avatar"
+        ref={anchorElement}
         onMouseEnter={handlePopoverOpen}
+        onMouseLeave={handlePopoverClose}
         aria-owns={open ? 'workspace-info-popover' : undefined}
         aria-haspopup="true"
+        sx={{ mx: 1 }}
       >
         <DefaultAvatar userName={currentWorkspaceData?.name ?? ''} variant="rounded" size={32} />
-      </IconButton>
+      </Box>
       <Popover
         id="workspace-info-popover"
         data-cy="workspace-info-popover"
-        open={open}
-        anchorEl={anchorEl}
+        open={isPopoverOpened}
+        anchorEl={anchorElement.current}
+        sx={{
+          pointerEvents: 'none',
+        }}
         anchorOrigin={{
           vertical: 'bottom',
           horizontal: 'left',
@@ -64,7 +72,11 @@ export const WorkspaceInfo = () => {
         onClose={handlePopoverClose}
         marginThreshold={0}
         slotProps={{
-          paper: { sx: { px: 2, pt: 1.5, pb: 1, maxWidth: 'min-content', minWidth: '200px' } },
+          paper: {
+            sx: { px: 2, pt: 1.5, pb: 1, maxWidth: 'min-content', minWidth: '200px', pointerEvents: 'auto' },
+            onMouseEnter: handlePopoverOpen,
+            onMouseLeave: handlePopoverClose,
+          },
         }}
       >
         <Typography
