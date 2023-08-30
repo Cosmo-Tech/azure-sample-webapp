@@ -237,6 +237,18 @@ function getCustomersErrorLoc(errorIndex) {
   return TableParameters.getErrorLoc(getCustomersTable(), errorIndex);
 }
 
+function getCustomersColumnGroup(columnGroupIndex) {
+  return TableParameters.getColumnGroup(getCustomersTable(), columnGroupIndex);
+}
+
+function openCustomersColumnGroup(columnGroupIndex) {
+  return TableParameters.openColumnGroup(getCustomersTable(), columnGroupIndex);
+}
+
+function closeCustomersColumnGroup(columnGroupIndex) {
+  return TableParameters.closeColumnGroup(getCustomersTable(), columnGroupIndex);
+}
+
 function importCustomersTableData(filePath) {
   return TableParameters.importFile(getCustomersTable(), filePath);
 }
@@ -464,6 +476,9 @@ export const BreweryParameters = {
   getCustomersErrorAccordion,
   getCustomersErrorSummary,
   getCustomersErrorLoc,
+  getCustomersColumnGroup,
+  openCustomersColumnGroup,
+  closeCustomersColumnGroup,
   importCustomersTableData,
   exportCustomersTableDataToCSV,
   exportCustomersTableDataToXLSX,

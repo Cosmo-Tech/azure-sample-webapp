@@ -27,16 +27,30 @@ describe('check if column grouping is displayed in the stubbed Table component',
     stub.stop();
   });
 
-  // eslint-disable-next-line max-len
-  it('looks if column grouping is successfully displayed and visible, and column property is written on cellEditorParams key', () => {
+  it('can collapse & expand columns in groups and keep their state when adding or removing lines', () => {
     Scenarios.getScenarioViewTab(60).should('be.visible');
     ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.getCustomersTableGrid().should('exist');
     BreweryParameters.importCustomersTableData('customers.csv');
-    cy.get('.ag-header-group-cell-label:first').within(() => {
-      cy.get('.ag-header-group-text').should('have.text', 'GroupToSearch');
-    });
-    BreweryParameters.editCustomersTableStringCell('age', '0', 500).should('not.have.text', '500');
+    BreweryParameters.getCustomersColumnGroup(1).should('exist');
+    BreweryParameters.getCustomersTableCell('name', 0).should('exist');
+    BreweryParameters.getCustomersTableCell('age', 0).should('not.exist');
+    BreweryParameters.getCustomersTableCell('canDrinkAlcohol', 0).should('exist');
+    BreweryParameters.openCustomersColumnGroup(1);
+    BreweryParameters.getCustomersTableCell('name', 0).should('not.exist');
+    BreweryParameters.getCustomersTableCell('age', 0).should('exist');
+    BreweryParameters.getCustomersTableCell('canDrinkAlcohol', 0).should('exist');
+
+    // Make sure that adding or deleting rows does not reset the state of columns groups
+    BreweryParameters.addRowCustomersTableData();
+    BreweryParameters.getCustomersTableCell('name', 0).should('not.exist');
+    BreweryParameters.closeCustomersColumnGroup(1);
+    BreweryParameters.getCustomersTableCell('name', 0).should('exist');
+
+    BreweryParameters.deleteRowsCustomersTableData();
+    BreweryParameters.getCustomersTableCell('name', 0).should('exist');
+    BreweryParameters.openCustomersColumnGroup(1);
+    BreweryParameters.getCustomersTableCell('name', 0).should('not.exist');
   });
 });

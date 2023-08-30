@@ -33,7 +33,7 @@ const createNewTableLine = (columns, dateFormat) => {
   const browseColumns = (columns) => {
     columns.forEach((column) => {
       if (Array.isArray(column.children) && column.children.length > 0) browseColumns(column.children);
-      else newLine[column.field] = !column?.acceptsEmptyFields ? getTableCellDefaultValue(column, dateFormat) : '';
+      else newLine[column.field] = column?.acceptsEmptyFields ? '' : getTableCellDefaultValue(column, dateFormat);
     });
   };
 

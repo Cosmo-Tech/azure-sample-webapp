@@ -275,12 +275,17 @@ Notes:
 - defining several times the same field will result in undefined behavior
 - setting different value types in the `type` attribute will result in undefined behavior
 
-#### Columns grouping definition
+#### Column grouping definition
 
 The description of the table groups consists of putting columns in the same group. Each group needs to have the following fields:
 
-- **headerName** Name of the column group
-- **children** Array of columns or columns groups belonging to this group
+- **headerName**: name of the column group
+- **children**: array of columns or column groups belonging to this group
+
+Columns inside a group can be conditionally shown or hidden based on the "open" or "closed" state of the group. This
+can be defined by setting the option `columnGroupShow` in the column definition to either `open` or `closed`:
+- when set to `open`, the child is only shown when the group is open
+- when set to `closed`, the child is only shown when the group is closed
 
 Example:
 
@@ -303,12 +308,14 @@ parameters:
                 - 'nonResizable'
                 - 'nonEditable'
                 - 'nonSortable'
+              columnGroupShow: 'open'
             - field: 'age'
               type:
                 - 'int'
               minValue: 0
               maxValue: 120
               acceptsEmptyFields: true
+              columnGroupShow: 'closed'
         - field: 'canDrinkAlcohol'
           type:
             - 'bool'
@@ -449,7 +456,7 @@ parameters:
     options:
       validation: '> start_date'
 ```
-can lead to a user-unfriendly behaviour, it is recommended to declare the constraint on one parameter. 
+can lead to a user-unfriendly behaviour, it is recommended to declare the constraint on one parameter.
 
 Below are listed all validation rules for each varType.
 

@@ -130,6 +130,30 @@ function getCell(tableParameterElement, colName, rowIndex) {
   return getRow(tableParameterElement, rowIndex).find(colSelector);
 }
 
+function getColumnGroupRow(tableParameterElement) {
+  return getGrid(tableParameterElement).find(GENERIC_SELECTORS.genericComponents.table.columnGroupRow);
+}
+
+function getColumnGroup(tableParameterElement, colGroupIndex) {
+  const columnGroupSelector = GENERIC_SELECTORS.genericComponents.table.columnGroup.replace(
+    '$COLGROUPNAME',
+    colGroupIndex
+  );
+  return getColumnGroupRow(tableParameterElement).find(columnGroupSelector);
+}
+
+function openColumnGroup(tableParameterElement, colGroupIndex) {
+  return getColumnGroup(tableParameterElement, colGroupIndex)
+    .find(GENERIC_SELECTORS.genericComponents.table.openColumnGroupIcon)
+    .click({ force: true }); // Force click to prevent being blocked by the tooltips of the table toolbar buttons
+}
+
+function closeColumnGroup(tableParameterElement, colGroupIndex) {
+  return getColumnGroup(tableParameterElement, colGroupIndex)
+    .find(GENERIC_SELECTORS.genericComponents.table.closeColumnGroupIcon)
+    .click({ force: true }); // Force click to prevent being blocked by the tooltips of the table toolbar buttons
+}
+
 // Get the "Import File" button from the provided table element and upload the file provided by filePath
 // (path must be relative to the cypress "fixtures" folder)
 function importFile(tableParameterElement, filePath) {
@@ -240,6 +264,9 @@ export const TableParameters = {
   getRows,
   getRow,
   getCell,
+  getColumnGroup,
+  openColumnGroup,
+  closeColumnGroup,
   importFile,
   exportFile,
   exportCSV,
