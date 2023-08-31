@@ -422,7 +422,7 @@ parameters:
 ### Validation
 
 To prevent errors of user's input in front-end interface, generic components for parameters of type date, number, int, string and bool are implemented with some validation rules such as `required`, `isInteger`,
-`minValue` and `maxValue1`, `minDate` and `maxDate`, `minLength` and `maxLength`.
+`minValue` and `maxValue`, `minDate` and `maxDate`, `minLength` and `maxLength`.
 
 Alongside basic validation, it is possible to configure some constraining rules between parameters
 which can be useful for parameters like _Start date_ and _End date_. Following constraints can be defined:
@@ -435,6 +435,8 @@ which can be useful for parameters like _Start date_ and _End date_. Following c
 | less than or equal to    | `<=`   | date, number, int               |
 | equal to                 | `==`   | date, number, int, string, bool |
 | different from           | `!=`   | date, number, int, string, bool |
+
+_Note: For this type of validation to work, both parameters must belong to the same parameter group_
 
 Constraints must be defined in options as a plain string and contain the type of the constraint and the id of constraining parameter:
 
