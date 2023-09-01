@@ -31,6 +31,7 @@ export const API_ENDPOINT = {
   SCENARIO_SECURITY_ACL: URL_ROOT + '/.*/scenarios/(s-[\\w]+)/security/access',
   LAUNCH_SCENARIO: URL_ROOT + '/.*/scenarios/(s-[\\w]+)/run', // Endpoint to start the run of a scenario
   SCENARIO_RUN: URL_ROOT + '/.*/scenarioruns/(sr-[\\w]+)', // Endpoint to get the data of a specific scenario run
+  STOP_SCENARIO_RUN: URL_ROOT + '/.*/scenarioruns/(sr-[\\w]+)/stop', // Endpoint to stop a scenario run
   SCENARIO_RUN_STATUS: URL_ROOT + '/.*/scenarioruns/(sr-[\\w]+)/status',
   DATASETS: URL_ROOT + '/.*/datasets',
   WORKSPACES: URL_ROOT + '/.*/workspaces',
@@ -148,6 +149,7 @@ export const API_REGEX = {
   SCENARIO_SECURITY_ACL: new RegExp('^' + API_ENDPOINT.SCENARIO_SECURITY_ACL + '$'),
   LAUNCH_SCENARIO: new RegExp('^' + API_ENDPOINT.LAUNCH_SCENARIO),
   SCENARIO_RUN: new RegExp('^' + API_ENDPOINT.SCENARIO_RUN),
+  STOP_SCENARIO_RUN: new RegExp('^' + API_ENDPOINT.STOP_SCENARIO_RUN),
   SCENARIO_RUN_STATUS: new RegExp('^' + API_ENDPOINT.SCENARIO_RUN_STATUS),
   DATASETS: new RegExp('^' + API_ENDPOINT.DATASETS + '$'),
   WORKSPACE: new RegExp('^' + API_ENDPOINT.WORKSPACE + '$'),

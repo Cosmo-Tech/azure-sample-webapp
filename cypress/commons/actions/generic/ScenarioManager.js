@@ -13,14 +13,19 @@ function switchToScenarioManager() {
 function getDeleteScenarioButton() {
   return cy.get(GENERIC_SELECTORS.scenario.manager.button.delete);
 }
-function deleteScenario(scenarioName) {
+function deleteScenario(scenarioName, isRunning = false) {
+  const getScenarioToDeleteAlias = api.interceptGetScenario();
   const deleteScenarioAlias = api.interceptDeleteScenario(scenarioName);
+  const reqStopScenarioRunAlias = isRunning && api.interceptStopScenarioRun();
   const getScenariosAlias = api.interceptGetScenarios();
 
   writeInFilter(scenarioName);
   getDeleteScenarioButton().click();
   cy.get(GENERIC_SELECTORS.scenario.manager.confirmDeleteDialog).contains('button', 'Confirm').click();
+
+  api.waitAlias(getScenarioToDeleteAlias);
   api.waitAlias(deleteScenarioAlias);
+  if (isRunning) api.waitAlias(reqStopScenarioRunAlias);
   api.waitAlias(getScenariosAlias);
 }
 

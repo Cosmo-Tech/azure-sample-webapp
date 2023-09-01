@@ -34,7 +34,7 @@ export function* pollScenarioState(action) {
       );
 
       const data = response.data;
-      if (['Failed', 'Successful', 'Unknown'].includes(data.state)) {
+      if ([SCENARIO_RUN_STATE.FAILED, SCENARIO_RUN_STATE.SUCCESSFUL, SCENARIO_RUN_STATE.UNKNOWN].includes(data.state)) {
         // Update the scenario state in all scenario redux states
         yield put({
           type: SCENARIO_ACTIONS_KEY.UPDATE_SCENARIO,

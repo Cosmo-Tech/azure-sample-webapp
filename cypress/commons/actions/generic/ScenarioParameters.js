@@ -133,8 +133,12 @@ function save(wait = true, customScenarioPatch) {
 }
 
 function cancelRun(confirm = true) {
+  const reqStopScenarioRunAlias = confirm && api.interceptStopScenarioRun();
   getStopScenarioRunButton().click();
-  confirm ? getStopScenarioRunConfirmButton().click() : getStopScenarioRunCancelButton().click();
+  if (confirm) {
+    getStopScenarioRunConfirmButton().click();
+    api.waitAlias(reqStopScenarioRunAlias);
+  } else getStopScenarioRunCancelButton().click();
 }
 
 function waitForScenarioRunEnd(timeout = 300) {

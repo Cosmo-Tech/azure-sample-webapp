@@ -149,6 +149,24 @@ const interceptLaunchScenario = (stubbingOptions) => {
   return alias;
 };
 
+const interceptStopScenarioRun = (scenarioId) => {
+  const alias = forgeAlias('reqStopScenarioRun');
+  cy.intercept({ method: 'POST', url: API_REGEX.STOP_SCENARIO_RUN, times: 1 }, (req) => {
+    if (stub.isEnabledFor('LAUNCH_SCENARIO')) {
+      const scenarioRunId = req.url.match(API_REGEX.SCENARIO_RUN)[1];
+      const scenarioLastRun = {
+        id: scenarioRunId,
+        endTime: null,
+        message: null,
+        estimatedDuration: null,
+      };
+
+      req.reply(scenarioLastRun);
+    }
+  }).as(alias);
+  return alias;
+};
+
 const interceptGetScenarioRun = () => {
   const alias = forgeAlias('reqGetScenarioRun');
   cy.intercept({ method: 'GET', url: API_REGEX.SCENARIO_RUN, times: 1 }, (req) => {
@@ -341,6 +359,7 @@ export const apiUtils = {
   interceptAuthentication,
   interceptCreateScenario,
   interceptLaunchScenario,
+  interceptStopScenarioRun,
   interceptGetScenarioRun,
   interceptGetScenarioRunStatus,
   interceptUpdateScenario,

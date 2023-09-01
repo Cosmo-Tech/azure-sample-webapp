@@ -3,8 +3,8 @@
 
 import { all, fork } from 'redux-saga/effects';
 import { FindScenarioRunById } from './FindScenarioRunById';
-import { StopScenarioRun } from './StopScenarioRun';
+import { stopScenarioRunSaga } from './StopScenarioRun';
 
 export default function* scenarioRunSaga() {
-  yield all([fork(FindScenarioRunById), fork(StopScenarioRun)]);
+  yield all([fork(FindScenarioRunById), fork(stopScenarioRunSaga)]);
 }

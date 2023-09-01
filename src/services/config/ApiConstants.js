@@ -11,6 +11,7 @@ export const SCENARIO_RUN_STATE = {
   SUCCESSFUL: 'Successful',
   FAILED: 'Failed',
   DATA_INGESTION_IN_PROGRESS: 'DataIngestionInProgress',
+  UNKNOWN: 'Unknown',
 };
 export const SCENARIO_VALIDATION_STATUS = {
   DRAFT: 'Draft',

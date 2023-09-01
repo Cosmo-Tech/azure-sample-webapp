@@ -4,15 +4,30 @@
 import { takeEvery, call, put } from 'redux-saga/effects';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { getAllScenariosData } from '../FindAllScenarios/FindAllScenariosData';
+import { stopScenarioRun } from '../../scenarioRun/StopScenarioRun/StopScenarioRun';
 import { Api } from '../../../../services/config/Api';
 import { t } from 'i18next';
 import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
+import { SCENARIO_RUN_STATE } from '../../../../services/config/ApiConstants';
 
 export function* deleteScenario(action) {
   try {
     const organizationId = action.organizationId;
     const workspaceId = action.workspaceId;
-    yield call(Api.Scenarios.deleteScenario, organizationId, workspaceId, action.scenarioId);
+    const scenarioId = action.scenarioId;
+
+    const response = yield call(Api.Scenarios.findScenarioById, organizationId, workspaceId, scenarioId);
+    action.scenarioRunId = response.data?.lastRun?.scenarioRunId;
+
+    if (
+      response.data.state === SCENARIO_RUN_STATE.RUNNING ||
+      response.data.state === SCENARIO_RUN_STATE.DATA_INGESTION_IN_PROGRESS
+    ) {
+      yield call(stopScenarioRun, action);
+    }
+
+    yield call(Api.Scenarios.deleteScenario, organizationId, workspaceId, scenarioId);
+
     yield call(getAllScenariosData, organizationId, workspaceId);
   } catch (error) {
     yield put(
