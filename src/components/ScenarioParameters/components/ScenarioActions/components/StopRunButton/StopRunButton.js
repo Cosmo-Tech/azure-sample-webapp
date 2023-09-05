@@ -13,13 +13,18 @@ import {
 } from '../../../../../../state/hooks/ScenarioHooks';
 import { SCENARIO_RUN_STATE } from '../../../../../../services/config/ApiConstants';
 import { TwoActionsDialogService } from '../../../../../../services/twoActionsDialog/twoActionsDialogService';
+import { ACL_PERMISSIONS } from '../../../../../../services/config/accessControl';
+import { PermissionsGate } from '@cosmotech/ui';
+import { useUserAppAndCurrentScenarioPermissions } from '../../../../../../hooks/SecurityHooks';
 
 export const StopRunButton = () => {
   const currentScenarioId = useCurrentScenarioId();
   const currentScenarioState = useCurrentScenarioState();
   const currentScenarioLastRunId = useCurrentScenarioLastRunId();
   const stopScenarioRun = useStopScenarioRun();
+  const userAppAndCurrentScenarioPermissions = useUserAppAndCurrentScenarioPermissions();
   const { t } = useTranslation();
+
   const isCurrentScenarioRunning =
     currentScenarioState === SCENARIO_RUN_STATE.RUNNING ||
     currentScenarioState === SCENARIO_RUN_STATE.DATA_INGESTION_IN_PROGRESS;
@@ -59,16 +64,21 @@ export const StopRunButton = () => {
   }, [isCurrentScenarioRunning]);
 
   return isCurrentScenarioRunning ? (
-    <Grid item>
-      <Button
-        data-cy="stop-scenario-run-button"
-        color="error"
-        variant="contained"
-        startIcon={<CancelIcon />}
-        onClick={askStopRunConfirmation}
-      >
-        {t('commoncomponents.button.scenario.parameters.cancel', 'Abort')}
-      </Button>
-    </Grid>
+    <PermissionsGate
+      userPermissions={userAppAndCurrentScenarioPermissions}
+      necessaryPermissions={[ACL_PERMISSIONS.SCENARIO.LAUNCH]}
+    >
+      <Grid item>
+        <Button
+          data-cy="stop-scenario-run-button"
+          color="error"
+          variant="contained"
+          startIcon={<CancelIcon />}
+          onClick={askStopRunConfirmation}
+        >
+          {t('commoncomponents.button.scenario.parameters.cancel', 'Abort')}
+        </Button>
+      </Grid>
+    </PermissionsGate>
   ) : null;
 };
