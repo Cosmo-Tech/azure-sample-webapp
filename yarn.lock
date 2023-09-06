@@ -1207,21 +1207,21 @@
   dependencies:
     "@azure/msal-browser" "~2.23.0"
 
-"@cosmotech/core@^1.11.4":
-  version "1.11.5"
-  resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.11.5.tgz#2ff2ed61be6247a551d0a14dfb76f79bbc782898"
-  integrity sha512-E0G5syMrFpp0hce14xf5o3yo0H44GR394OklHm4Rk23wLrzhw8Hbn5phrKzYCsLBacStBr66I0OoJriG7DjQxQ==
+"@cosmotech/core@^1.12.0":
+  version "1.12.0"
+  resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.12.0.tgz#9bdb2cba6fdc20ef10a872bb0e1b4e9ad657d755"
+  integrity sha512-175dFziF90RM9BpPy5xNUlyOihfNdga2OjUplD/tnAPpmwNZtOoMcYAIMXVW/l0gAArN+xQ+tVnK12WRK2eCtA==
   dependencies:
     csv-string "^4.0.1"
     date-fns "^2.25.0"
     js-file-download "^0.4.12"
     validator "^13.7.0"
-    xlsx "https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz"
+    xlsx "https://cdn.sheetjs.com/xlsx-0.20.0/xlsx-0.20.0.tgz"
 
-"@cosmotech/ui@^5.8.0":
-  version "5.8.0"
-  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-5.8.0.tgz#3fb400fda16f32147e5437e583a4ce68e2b29e0e"
-  integrity sha512-wojiMnyzTIeT+rwHrrYoVb7/4XzNGb/JcJDAjMZ1PPJvrSe9HdWYlQ6UAHuO+d0//gYnZViAu+VV7stat9l/mQ==
+"@cosmotech/ui@^5.8.1":
+  version "5.8.1"
+  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-5.8.1.tgz#fac247b1e2fa08a6bc216ee1de88e4770dd35541"
+  integrity sha512-yRboJzyOsRIdE/+gI0MiiK7S9yJdJTvhSH/zZl9txuT4xCVcgioR/9GJ9nQy55PKPBePJ191CdCKgAmSmtFjtg==
   dependencies:
     "@emotion/react" "^11.10.5"
     "@emotion/styled" "^11.10.5"
@@ -13737,9 +13737,9 @@ ws@^8.11.0, ws@^8.13.0:
   resolved "https://registry.yarnpkg.com/ws/-/ws-8.13.0.tgz#9a9fb92f93cf41512a0735c8f4dd09b8a1211cd0"
   integrity sha512-x9vcZYTrFPC7aSIbj7sRCYo7L/Xb8Iy+pW0ng0wt2vCJv7M9HOMy0UoN3rr+IFC7hb7vXoqS+P9ktyLLLhO+LA==
 
-"xlsx@https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz":
-  version "0.19.3"
-  resolved "https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz#f804c1850e2da5260165db0a059dc2a6099d55f3"
+"xlsx@https://cdn.sheetjs.com/xlsx-0.20.0/xlsx-0.20.0.tgz":
+  version "0.20.0"
+  resolved "https://cdn.sheetjs.com/xlsx-0.20.0/xlsx-0.20.0.tgz#ca1826e53a4fe32f8789ae6c584457e7bf10841e"
 
 xml-name-validator@^3.0.0:
   version "3.0.0"
