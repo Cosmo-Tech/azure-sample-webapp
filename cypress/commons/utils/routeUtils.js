@@ -6,15 +6,18 @@ import { stub } from '../services/stubbing';
 import { WEBAPP_URL_REGEX } from '../constants/generic/TestConstants';
 import { Scenarios, Workspaces } from '../actions/generic';
 
-const _navigateTo = (url) => {
-  cy.visit(url ?? '/', {
+const _navigateTo = (url, visitOptions) => {
+  console.log('--- _navigateTo');
+  console.log(visitOptions);
+
+  const defaultOptions = {
     // next line defines English as default language for tests
     onBeforeLoad(win) {
-      Object.defineProperty(win.navigator, 'languages', {
-        value: ['en-US'],
-      });
+      Object.defineProperty(win.navigator, 'languages', { value: ['en-US'] });
     },
-  });
+  };
+
+  cy.visit(url ?? '/', visitOptions ?? defaultOptions);
 };
 
 const getBrowseQueries = (workspaceId, scenarioId) => {
@@ -31,6 +34,7 @@ const waitBrowseQueries = (queries) => {
 // Parameters:
 //   - options: dict with properties:
 //     - url (mandatory): URL to navigate to
+//     - visitOptions (optional): object of options to provided to cy.visit when browsing the target URL
 //     - workspaceId (optional): id of the workspace to open (required for interceptions when stubbing is enabled)
 //     - scenarioId (optional): id of the scenario to open (required for interceptions when stubbing is enabled)
 //     - onBrowseCallback (optional): callback function that will be called after setting the interceptions
@@ -57,7 +61,7 @@ const browse = (options) => {
 
   // Intercept scenario only when explicitly specified in options (part 2 of WorkingInTwoWorkspaces)
   const queries = getBrowseQueries(workspaceId, options.scenarioId);
-  _navigateTo(options.url);
+  _navigateTo(options.url, options.visitOptions);
   if (options.onBrowseCallback) options.onBrowseCallback();
   waitBrowseQueries(queries);
 

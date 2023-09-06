@@ -21,6 +21,7 @@ function getMicrosoftLoginButton() {
 // Parameters:
 //   - options: dict with properties:
 //     - url (optional): URL to navigate to after login
+//     - visitOptions (optional): object of options to provided to cy.visit when browsing the target URL
 //     - workspaceId (optional): id of the workspace to open (required for interceptions when stubbing is enabled)
 //     - scenarioId (optional): id of the scenario to open (required for interceptions when stubbing is enabled)
 //     - noInterceptionMiddlewares (optional): if true, then middleware interception for authentication and workspace
