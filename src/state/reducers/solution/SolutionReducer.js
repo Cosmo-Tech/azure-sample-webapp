@@ -14,10 +14,15 @@ export const currentSolutionInitialState = {
 };
 
 export const currentSolutionReducer = createReducer(currentSolutionInitialState, (builder) => {
-  builder.addCase(SOLUTION_ACTIONS_KEY.SET_CURRENT_SOLUTION, (state, action) => {
-    state.data = action.solution;
-    state.status = action.status;
-  });
+  builder
+    .addCase(SOLUTION_ACTIONS_KEY.SET_CURRENT_SOLUTION, (state, action) => {
+      state.data = action.solution;
+      state.status = action.status;
+    })
+    .addCase(SOLUTION_ACTIONS_KEY.RESET_CURRENT_SOLUTION, (state) => {
+      state.data = currentSolutionInitialState.data;
+      state.status = currentSolutionInitialState.status;
+    });
 });
 
 export const solutionReducer = combineReducers({
