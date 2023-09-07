@@ -1,3 +1,9 @@
+## **5.1.1** <sub><sup>2023-09-07 ([8f66c56...8f66c56](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/8f66c56f...8f66c56f?diff=split))</sup></sub>
+
+### Bug Fixes
+
+- fix float numbers input when using FR locale
+
 ## **5.1.0** <sub><sup>2023-05-25 ([82dd6c3...88f3871](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/82dd6c37...88f3871d?diff=split))</sup></sub>
 
 ### Features
