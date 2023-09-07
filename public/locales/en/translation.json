@@ -533,6 +533,18 @@
         "button": {
           "close": "Close"
         }
+      },
+      "technicalInfo": {
+        "title": "Technical information",
+        "details": "Details",
+        "webAppVersion": "Webapp version:",
+        "apiVersion": "API version:",
+        "repositoryName": "Container registry repository name:",
+        "repositoryTag": "Container registry repository tag:",
+        "simulatorVersion": "Simulator version:",
+        "sdkVersion": "SDK version:",
+        "copyButton": "Copy to clipboard",
+        "notAvailable": "not available"
       }
     },
     "text": {

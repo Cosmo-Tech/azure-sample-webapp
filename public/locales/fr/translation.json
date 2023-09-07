@@ -533,6 +533,18 @@
         "button": {
           "close": "Fermer"
         }
+      },
+      "technicalInfo": {
+        "title": "Informations techniques",
+        "details": "Détails",
+        "webAppVersion": "Version de la webapp :",
+        "apiVersion": "Version de l'API :",
+        "repositoryName": "Nom du dépôt de registre de conteneur :",
+        "repositoryTag": "Tag du dépôt de registre de conteneur :",
+        "simulatorVersion": "Version du simulateur :",
+        "sdkVersion": "Version du SDK :",
+        "copyButton": "Copier dans le presse-papier",
+        "notAvailable": "pas disponible"
       }
     },
     "text": {

@@ -9,6 +9,10 @@ export const useSolution = () => {
   return useSelector((state) => state.solution.current);
 };
 
+export const useSolutionData = () => {
+  return useSelector((state) => state.solution.current.data);
+};
+
 export const useSolutionParameters = () => {
   return useSelector((state) => state.solution.current.data.parameters);
 };
