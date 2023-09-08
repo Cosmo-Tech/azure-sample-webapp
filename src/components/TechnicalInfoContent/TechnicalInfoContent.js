@@ -54,11 +54,15 @@ export const TechnicalInfoContent = () => {
     <Grid container spacing={2} direction="column">
       <Grid item>
         {solutionName && (
-          <Typography gutterBottom sx={{ fontWeight: '700' }}>
+          <Typography data-cy="technical-info-solution-name" gutterBottom sx={{ fontWeight: '700' }}>
             {solutionName}
           </Typography>
         )}
-        {solutionDescription && <Typography variant="body2">{solutionDescription}</Typography>}
+        {solutionDescription && (
+          <Typography data-cy="technical-info-solution-description" variant="body2">
+            {solutionDescription}
+          </Typography>
+        )}
       </Grid>
       <Grid item>
         <Typography gutterBottom={false}>{t('genericcomponent.dialog.technicalInfo.details', 'Details')}</Typography>
