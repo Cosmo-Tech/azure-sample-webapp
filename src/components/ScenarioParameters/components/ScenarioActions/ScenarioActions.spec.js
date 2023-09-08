@@ -3,10 +3,9 @@
 
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { ButtonTesting } from '../../../../../tests/MuiComponentsTesting';
-import { customRender } from '../../../../../tests/utils/renderInThemeAndStoreProviders';
+import { ButtonTesting, TypographyTesting } from '../../../../../tests/MuiComponentsTesting';
+import { customRender, getByDataCy } from '../../../../../tests/utils';
 import { ScenarioActions } from './';
-import { getByDataCy } from '../../../../../tests/utils';
 import { SCENARIO_RUN_STATE } from '../../../../services/config/ApiConstants';
 import { useFormState } from 'react-hook-form';
 import { useCurrentScenarioState } from '../../../../state/hooks/ScenarioHooks';
@@ -67,6 +66,7 @@ const launchScenarioButton = new ButtonTesting({ dataCy: 'launch-scenario-button
 const saveScenarioButton = new ButtonTesting({ dataCy: 'save-button' });
 const discardChangesButton = new ButtonTesting({ dataCy: 'discard-button' });
 const stopRunButton = new ButtonTesting({ dataCy: 'stop-scenario-run-button' });
+const runningStateLabel = new TypographyTesting({ dataCy: 'running-state-label' });
 
 describe('Test scenario buttons when scenario is not running', () => {
   beforeAll(() => {
@@ -92,6 +92,8 @@ describe('Test scenario buttons when scenario is not running', () => {
       expect(saveScenarioButton.Button).not.toBeInTheDocument();
       expect(discardChangesButton.Button).not.toBeInTheDocument();
       expect(stopRunButton.Button).not.toBeInTheDocument();
+      expect(getByDataCy('running-state-spinner')).not.toBeInTheDocument();
+      expect(runningStateLabel.Typography).not.toBeInTheDocument();
     });
   });
 
@@ -141,6 +143,8 @@ describe('Test scenario buttons when scenario is running', () => {
     expect(discardChangesButton.Button).not.toBeInTheDocument();
 
     expect(stopRunButton.Button).toBeVisible();
+    expect(getByDataCy('running-state-spinner')).toBeVisible();
+    expect(runningStateLabel.Typography).toBeVisible();
     await stopRunButton.click();
     await expect(mockOpenDialog).toHaveBeenCalled();
   });
