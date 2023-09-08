@@ -485,11 +485,25 @@ export const GenericTable = ({
     }
   });
 
+  const _getRowNodeIndex = (rowNode, fallbackValue = -1) => {
+    const childIndex = rowNode?.childIndex;
+    const id = parseInt(rowNode?.id);
+    const index = childIndex ?? id;
+    return isNaN(index) ? fallbackValue : index;
+  };
+
+  const _getRowNodeData = (rowNode) => rowNode.data;
+
   const onAddRow = useCallback(() => {
+    const gridApi = gridRef.current?.api;
+    if (!gridApi) return;
+
     const rowsCountBeforeRowAddition = parameter?.agGridRows?.length ?? 0;
     const newLine = TableUtils.createNewTableLine(parameterData.options.columns, parameterData.options.dateFormat);
-    const selectedLines = gridRef.current?.api?.getSelectedNodes() ?? [];
-    const addIndex = selectedLines.length > 0 ? selectedLines[selectedLines.length - 1].rowIndex + 1 : 0;
+    const selectedLines = gridApi.getSelectedNodes() ?? [];
+    const lastSelectedLine = selectedLines[selectedLines.length - 1];
+    const addIndexForTransaction = selectedLines.length > 0 ? lastSelectedLine.rowIndex + 1 : 0;
+    const addIndex = selectedLines.length > 0 ? _getRowNodeIndex(lastSelectedLine) + 1 : 0;
 
     if (rowsCountBeforeRowAddition === 0) {
       updateParameterValue({ agGridRows: [newLine] });
@@ -499,8 +513,8 @@ export const GenericTable = ({
       parameter.agGridRows.unshift(newLine);
     }
 
-    gridRef.current?.api?.applyTransaction({ add: [newLine], addIndex });
-    gridRef.current?.api.deselectAll();
+    gridApi.applyTransaction({ add: [newLine], addIndex: addIndexForTransaction });
+    gridApi.deselectAll();
     updateOnFirstEdition();
   }, [
     updateOnFirstEdition,
@@ -514,14 +528,12 @@ export const GenericTable = ({
     const gridApi = gridRef.current?.api;
     if (!gridApi) return;
 
-    const rowsIndexToRemove = gridRef.current.api
-      .getSelectedNodes()
-      .map((node) => node.rowIndex)
-      .sort()
-      .reverse();
-    gridApi.applyTransaction({ remove: gridApi.getSelectedNodes().map((rowNode) => rowNode.data) });
+    const nodesDataToRemove = gridApi.getSelectedNodes().map((rowNode) => rowNode.data);
+    gridApi.applyTransaction({ remove: nodesDataToRemove });
 
-    rowsIndexToRemove.forEach((rowIndexToRemove) => {
+    const _findRowIndexFromData = (nodeData) => parameter.agGridRows.findIndex((row) => row === nodeData);
+    nodesDataToRemove.forEach((nodeDataToRemove) => {
+      const rowIndexToRemove = _findRowIndexFromData(nodeDataToRemove);
       parameter.agGridRows.splice(rowIndexToRemove, 1);
     });
 
@@ -533,8 +545,8 @@ export const GenericTable = ({
   }, [updateOnFirstEdition, parameter.agGridRows, updateParameterValue]);
 
   const onDeleteRow = useCallback(() => {
-    const selectedRows = gridRef.current?.api?.getSelectedNodes();
-    selectedRowsRef.current = selectedRows ?? [];
+    const selectedRows = gridRef.current?.api?.getSelectedNodes() ?? [];
+    selectedRowsRef.current = selectedRows;
     if (selectedRows.length > 1 && localStorage.getItem('dontAskAgainToDeleteRow') !== 'true') {
       setConfirmRowsDeletionDialogOpen(true);
     } else deleteRow();
