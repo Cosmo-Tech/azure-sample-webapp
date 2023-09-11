@@ -485,28 +485,37 @@ export const GenericTable = ({
     }
   });
 
-  const _getRowNodeIndex = (rowNode, fallbackValue = -1) => {
-    const childIndex = rowNode?.childIndex;
-    const id = parseInt(rowNode?.id);
-    const index = childIndex ?? id;
-    return isNaN(index) ? fallbackValue : index;
-  };
-
-  const _getRowNodeData = (rowNode) => rowNode.data;
-
   const onAddRow = useCallback(() => {
-    const gridApi = gridRef.current?.api;
-    if (!gridApi) return;
-
-    const rowsCountBeforeRowAddition = parameter?.agGridRows?.length ?? 0;
     const newLine = TableUtils.createNewTableLine(parameterData.options.columns, parameterData.options.dateFormat);
-    const selectedLines = gridApi.getSelectedNodes() ?? [];
-    const lastSelectedLine = selectedLines[selectedLines.length - 1];
-    const addIndexForTransaction = selectedLines.length > 0 ? lastSelectedLine.rowIndex + 1 : 0;
-    const addIndex = selectedLines.length > 0 ? _getRowNodeIndex(lastSelectedLine) + 1 : 0;
-
+    const rowsCountBeforeRowAddition = parameter?.agGridRows?.length ?? 0;
     if (rowsCountBeforeRowAddition === 0) {
       updateParameterValue({ agGridRows: [newLine] });
+      updateOnFirstEdition();
+      return;
+    }
+
+    const gridApi = gridRef.current?.api;
+    const columnApi = gridRef.current?.columnApi;
+    if (!gridApi || !columnApi) return;
+
+    const getRowNodeIndex = (rowNode) => {
+      const index = rowNode?.childIndex ?? parseInt(rowNode?.id);
+      return isNaN(index) ? -1 : index;
+    };
+
+    const isSortEnabled = columnApi.getColumnState().find((column) => column.sort !== null) !== undefined;
+    const selectedLines = gridApi.getSelectedNodes() ?? [];
+    const lastSelectedLine = selectedLines[selectedLines.length - 1];
+
+    let addIndexForTransaction = rowsCountBeforeRowAddition;
+    let addIndex = rowsCountBeforeRowAddition;
+    if (!isSortEnabled) {
+      addIndexForTransaction = selectedLines.length > 0 ? lastSelectedLine.rowIndex + 1 : 0;
+      addIndex = selectedLines.length > 0 ? getRowNodeIndex(lastSelectedLine) + 1 : 0;
+    }
+
+    if (isSortEnabled) {
+      parameter.agGridRows.push(newLine);
     } else if (selectedLines?.length > 0) {
       parameter.agGridRows.splice(addIndex, 0, newLine);
     } else {
