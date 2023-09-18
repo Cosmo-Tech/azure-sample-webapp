@@ -8,3 +8,6 @@ export const dispatchGetSolutionById = (payLoad) => ({
   type: SOLUTION_ACTIONS_KEY.GET_SOLUTION_BY_ID,
   ...payLoad,
 });
+export const dispatchResetCurrentSolution = () => ({
+  type: SOLUTION_ACTIONS_KEY.RESET_CURRENT_SOLUTION,
+});

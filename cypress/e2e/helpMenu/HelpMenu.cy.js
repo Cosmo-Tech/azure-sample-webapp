@@ -1,7 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { AppBar, Login } from '../../commons/actions';
+import { AppBar, Login, Workspaces } from '../../commons/actions';
+import { REAL_BREWERY_WORKSPACE_ID } from '../../commons/constants/brewery/TestConstants';
 
 describe('UserInfo features', () => {
   beforeEach(() => {
@@ -25,5 +26,22 @@ describe('UserInfo features', () => {
     AppBar.getAboutDialog().should('be.visible');
     AppBar.closeAboutDialog();
     AppBar.getAboutDialog().should('not.exist');
+  });
+  it('can display Technical info dialog in Workspace and Scenario views', () => {
+    AppBar.getTechnicalInfoDialog().should('not.exist');
+    AppBar.openHelpMenu();
+    AppBar.openTechnicalInfoDialog();
+    AppBar.getTechnicalInfoDialog().should('be.visible');
+    AppBar.getTechnicalInfoSolutionName().should('not.exist');
+    AppBar.getTechnicalInfoSolutionDescription().should('not.exist');
+    AppBar.closeTechnicalInfoDialog();
+    Workspaces.selectWorkspace(REAL_BREWERY_WORKSPACE_ID);
+    AppBar.getTechnicalInfoDialog().should('not.exist');
+    AppBar.openHelpMenu();
+    AppBar.openTechnicalInfoDialog();
+    AppBar.getTechnicalInfoDialog().should('be.visible');
+    AppBar.getTechnicalInfoSolutionName().should('be.visible');
+    AppBar.getTechnicalInfoSolutionDescription().should('be.visible');
+    AppBar.closeTechnicalInfoDialog();
   });
 });

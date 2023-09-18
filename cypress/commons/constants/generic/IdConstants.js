@@ -26,6 +26,11 @@ export const GENERIC_SELECTORS = {
     aboutDialogCloseButton: '[data-cy=about-dialog-close-button]',
     support: '[data-cy=support-link]',
     documentation: '[data-cy=documentation-link]',
+    technicalInfoButton: '[data-cy=technical-info-button]',
+    technicalInfoDialog: '[data-cy=technical-info-dialog]',
+    technicalInfoSolutionName: '[data-cy=technical-info-solution-name]',
+    technicalInfoSolutionDescription: '[data-cy=technical-info-solution-description]',
+    technicalInfoDialogCloseButton: '[data-cy=technical-info-dialog-close-button]',
   },
   instance: {
     tabName: '[data-cy="tabs.instance.key"]',

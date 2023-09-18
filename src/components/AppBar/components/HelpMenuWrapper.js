@@ -3,7 +3,7 @@
 
 import React from 'react';
 import { HelpMenu } from '@cosmotech/ui';
-import { About } from '../../../services/config/Menu';
+import { About, TechnicalInfo } from '../../../services/config/Menu';
 import { useTranslation } from 'react-i18next';
 import { useWorkspaceData } from '../../../state/hooks/WorkspaceHooks';
 import ConfigService from '../../../services/ConfigService';
@@ -22,10 +22,17 @@ export const HelpMenuWrapper = () => {
     documentation: t('genericcomponent.helpmenu.documentation', 'Documentation'),
     support: t('genericcomponent.helpmenu.support', 'Contact support'),
     aboutTitle: t('genericcomponent.helpmenu.about', 'About'),
+    technicalInfoTitle: t('genericcomponent.dialog.technicalInfo.title', 'Technical information'),
     close: t('genericcomponent.dialog.about.button.close', 'Close'),
   };
 
   return (
-    <HelpMenu documentationUrl={docUrl} supportUrl={supportUrl} about={About ? <About /> : null} labels={labels} />
+    <HelpMenu
+      documentationUrl={docUrl}
+      supportUrl={supportUrl}
+      about={About ? <About /> : null}
+      technicalInfo={TechnicalInfo ? <TechnicalInfo /> : null}
+      labels={labels}
+    />
   );
 };

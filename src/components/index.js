@@ -6,6 +6,7 @@ export { PermissionsGate } from './PermissionsGate';
 export { UserStatusGate } from './UserStatusGate';
 export { default as AboutContent } from './AboutContent';
 export { SessionTimeoutDialog } from './SessionTimeoutDialog';
+export { TechnicalInfoContent } from './TechnicalInfoContent';
 
 export { default as ShareCurrentScenarioButton } from './ShareCurrentScenarioButton';
 export { default as CurrentScenarioPowerBiReport } from './CurrentScenarioPowerBIReport';
