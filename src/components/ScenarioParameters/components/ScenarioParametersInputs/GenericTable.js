@@ -9,6 +9,7 @@ import { AgGridUtils, FileBlobUtils } from '@cosmotech/core';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import { useFormContext } from 'react-hook-form';
 import { TableExportDialog } from './components';
 import { gridLight, gridDark } from '../../../../theme/';
 import { ConfigUtils, TranslationUtils, FileManagementUtils } from '../../../../utils';
@@ -49,6 +50,7 @@ export const GenericTable = ({
   isDirty,
 }) => {
   const { t } = useTranslation();
+  const { setValue } = useFormContext();
   const organizationId = useOrganizationId();
   const workspaceId = useWorkspaceId();
   const datasets = useSelector((state) => state.dataset?.list?.data);
@@ -439,9 +441,14 @@ export const GenericTable = ({
   const onCellChange = updateOnFirstEdition;
 
   const onClearErrors = () => {
-    updateParameterValue({
-      errors: null,
-    });
+    setValue(
+      parameterId,
+      {
+        ...parameterValue,
+        errors: null,
+      },
+      { shouldDirty: false }
+    );
   };
 
   const buildErrorsPanelTitle = (errorsCount, maxErrorsCount) => {
