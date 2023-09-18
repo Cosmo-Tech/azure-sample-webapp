@@ -16,8 +16,9 @@ const formatParameterMinMaxDefaultValuesFromString = (parameter) => {
       try {
         if (parameter[keyToCast] != null) parameter[keyToCast] = castFunction(parameter[keyToCast]);
       } catch (error) {
+        console.error(error);
         console.log(
-          `Error when trying to cast "${keyToCast}" of parameter with id "${parameter?.id}": its value is` +
+          `Error when trying to cast "${keyToCast}" of parameter with id "${parameter?.id}": its value is ` +
             `${parameter[keyToCast]}`
         );
       }
