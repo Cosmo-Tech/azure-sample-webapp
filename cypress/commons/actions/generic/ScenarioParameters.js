@@ -123,10 +123,14 @@ function launch(options) {
   api.waitAliases(aliases, { timeout: 60 * 1000 });
 }
 
-function save(wait = true, customScenarioPatch) {
-  const reqUpdateScenarioAlias = api.interceptUpdateScenario({ customScenarioPatch });
+// Parameter 'options' is an object with the following properties:
+//  - wait: whether the action must wait for the update request interception (true by default). Set this option to false
+//    if you want to handle the request interception in your test or if you want to ignore it?
+//  - updateOptions: options to provide to the interception of the "scenario update" query (default: undefined)
+function save(options) {
+  const reqUpdateScenarioAlias = api.interceptUpdateScenario(options?.updateOptions);
   getSaveButton().should('not.be.disabled').click();
-  if (wait) {
+  if (options?.wait ?? true) {
     Scenarios.getScenarioBackdrop(10).should('not.be.visible');
     api.waitAlias(reqUpdateScenarioAlias, { timeout: 10 * 1000 });
   } else return reqUpdateScenarioAlias;

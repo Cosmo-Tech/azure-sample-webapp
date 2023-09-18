@@ -73,7 +73,12 @@ export function* getPowerBIEmbedInfoSaga() {
           error: null,
           status: STATUSES.SUCCESS,
         });
-        tokenDelay = Date.parse(accesses.expiry) - Date.now() - 120000;
+        if (accesses?.expiry == null) {
+          console.warn('Expiration delay of PowerBI token not provided. Token refresh may not work as expected.');
+          tokenDelay = 0;
+        } else {
+          tokenDelay = Date.parse(accesses.expiry) - Date.now() - 120000;
+        }
       }
     } catch (error) {
       console.error("Can't retrieve PowerBI token for embed reports");

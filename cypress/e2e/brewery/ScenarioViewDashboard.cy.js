@@ -82,8 +82,8 @@ describe('Scenario view PowerBI report', () => {
     // run date
     const fakeLastUpdate = new Date();
     fakeLastUpdate.setMinutes(fakeLastUpdate.getMinutes() + 2);
-    const customScenarioPatch = { lastUpdate: fakeLastUpdate.toISOString() };
-    ScenarioParameters.save(true, customScenarioPatch);
+    const saveOptions = { updateOptions: { customScenarioPatch: { lastUpdate: fakeLastUpdate.toISOString() } } };
+    ScenarioParameters.save(saveOptions);
     Scenarios.getScenarioBackdrop(10).should('not.be.visible');
     Scenarios.checkIfReportIsUnsynced(true);
     BreweryParameters.getCurrencyUsedInput().uncheck();

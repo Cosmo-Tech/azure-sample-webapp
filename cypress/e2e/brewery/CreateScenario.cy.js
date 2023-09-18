@@ -205,7 +205,7 @@ describe('Create scenario', () => {
         BreweryParameters.getWaitersInput().clear().type(childWaiters);
 
         // save scenario child
-        const reqUpdateScenarioAlias = ScenarioParameters.save(false);
+        const reqUpdateScenarioAlias = ScenarioParameters.save({ wait: false });
         // "saving" backdrop must be visible during save
         Scenarios.getScenarioBackdrop().should('exist').should('be.visible');
         Scenarios.getScenarioBackdropSavingText().should('be.visible');
