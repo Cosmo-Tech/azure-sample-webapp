@@ -25,8 +25,8 @@ export const useUpdateParameters = () => {
   const { getValues, setValue } = useFormContext();
 
   const runTemplateParametersIds = useMemo(
-    () => getRunTemplateParametersIds(solutionData.runTemplatesParametersIdsDict, currentScenarioData?.runTemplateId),
-    [solutionData.runTemplatesParametersIdsDict, currentScenarioData?.runTemplateId]
+    () => getRunTemplateParametersIds(solutionData?.runTemplatesParametersIdsDict, currentScenarioData?.runTemplateId),
+    [solutionData?.runTemplatesParametersIdsDict, currentScenarioData?.runTemplateId]
   );
   const parametersMetadata = useMemo(
     () => ScenarioParametersUtils.generateParametersMetadata(solutionData, runTemplateParametersIds),
@@ -49,6 +49,7 @@ export const useUpdateParameters = () => {
       addDatasetToStore
     );
   }, [addDatasetToStore, setValue, getValues, organizationId, parametersMetadata, solutionData, workspaceId]);
+
   const getParametersToUpdate = useCallback(() => {
     const parametersValues = getValues();
     return ScenarioParametersUtils.buildParametersForUpdate(
@@ -59,12 +60,15 @@ export const useUpdateParameters = () => {
       scenariosListData
     );
   }, [currentScenarioData, getValues, runTemplateParametersIds, scenariosListData, solutionData]);
+
   const forceUpdate =
     ScenarioParametersUtils.shouldForceScenarioParametersUpdate(runTemplateParametersIds) ||
     !currentScenarioData?.parametersValues ||
     currentScenarioData?.parametersValues.length === 0;
 
   return {
+    runTemplateParametersIds,
+    parametersMetadata,
     processFilesToUpload,
     getParametersToUpdate,
     forceUpdate,

@@ -10,11 +10,11 @@ export const useSolution = () => {
 };
 
 export const useSolutionData = () => {
-  return useSelector((state) => state.solution.current.data);
+  return useSelector((state) => state?.solution?.current?.data);
 };
 
 export const useSolutionParameters = () => {
-  return useSelector((state) => state.solution.current.data.parameters);
+  return useSelector((state) => state?.solution?.current?.data?.parameters);
 };
 
 export const useResetCurrentSolution = () => {

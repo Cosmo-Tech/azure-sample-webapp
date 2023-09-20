@@ -7,8 +7,10 @@ import { useIsDarkTheme } from '../../state/hooks/ApplicationHooks';
 import { useUserAppRoles } from '../../state/hooks/AuthHooks';
 import { useSolution } from '../../state/hooks/SolutionHooks';
 import { useUserPermissionsOnCurrentScenario } from '../../hooks/SecurityHooks.js';
+import { useUpdateParameters } from '../../hooks/ScenarioParametersHooks.js';
 
 export const useScenarioParameters = () => {
+  const { runTemplateParametersIds, parametersMetadata } = useUpdateParameters();
   const datasetsData = useDatasetList().data;
   const currentScenario = useCurrentScenario();
   const solutionData = useSolution().data;
@@ -17,6 +19,8 @@ export const useScenarioParameters = () => {
   const isDarkTheme = useIsDarkTheme();
 
   return {
+    runTemplateParametersIds,
+    parametersMetadata,
     datasetsData,
     currentScenario,
     solutionData,

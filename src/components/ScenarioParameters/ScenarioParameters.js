@@ -48,37 +48,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const getRunTemplateParametersIds = (runTemplatesParametersIdsDict, runTemplateId) => {
-  return runTemplatesParametersIdsDict?.[runTemplateId] || [];
-};
-
 const ScenarioResetValuesContext = React.createContext();
 
 const ScenarioParameters = ({ onToggleAccordion, isAccordionExpanded }) => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const { datasetsData, currentScenario, solutionData, userRoles, userPermissionsOnCurrentScenario, isDarkTheme } =
-    useScenarioParameters();
+  const {
+    runTemplateParametersIds,
+    parametersMetadata,
+    datasetsData,
+    currentScenario,
+    solutionData,
+    userRoles,
+    userPermissionsOnCurrentScenario,
+    isDarkTheme,
+  } = useScenarioParameters();
   const scenarioStatus = currentScenario?.status;
   const currentScenarioData = currentScenario?.data;
   const scenarioId = currentScenarioData?.id;
 
   const { reset, getValues } = useFormContext();
 
-  // Memoize the parameters ids for the current run template
-  const runTemplateParametersIds = useMemo(
-    () => getRunTemplateParametersIds(solutionData.runTemplatesParametersIdsDict, currentScenarioData?.runTemplateId),
-    [solutionData.runTemplatesParametersIdsDict, currentScenarioData?.runTemplateId]
-  );
   // Memoize default values for run template parameters, based on solutionData description
   const defaultParametersValues = useMemo(
-    () => ScenarioParametersUtils.getDefaultParametersValues(runTemplateParametersIds, solutionData.parameters),
-    [runTemplateParametersIds, solutionData.parameters]
-  );
-  // Memoize the data of parameters (not including the current state of scenario parameters)
-  const parametersMetadata = useMemo(
-    () => ScenarioParametersUtils.generateParametersMetadata(solutionData, runTemplateParametersIds),
-    [solutionData, runTemplateParametersIds]
+    () => ScenarioParametersUtils.getDefaultParametersValues(runTemplateParametersIds, solutionData?.parameters),
+    [runTemplateParametersIds, solutionData?.parameters]
   );
   // Memoize the data of parameters groups (not including the current state of scenario parameters)
   const parametersGroupsMetadata = useMemo(
