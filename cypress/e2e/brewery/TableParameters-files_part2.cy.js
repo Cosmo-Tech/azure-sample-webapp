@@ -3,8 +3,8 @@
 
 import 'cypress-file-upload';
 import utils from '../../commons/TestUtils';
-
-import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
+import { routeUtils as route } from '../../commons/utils';
+import { BREWERY_WORKSPACE_ID, DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
 import { Downloads, Scenarios, ScenarioManager, ScenarioParameters } from '../../commons/actions';
 import { BreweryParameters, Login } from '../../commons/actions/brewery';
 import {
@@ -174,5 +174,33 @@ describe('Table parameters files standard operations part 2', () => {
     BreweryParameters.getCustomersTableCell('favoriteDrink', 0).should('have.text', 'OrangeJuice');
     BreweryParameters.getCustomersTableCell('name', 4).should('have.text', 'Dwight');
     BreweryParameters.getCustomersTableCell('name', 5).should('have.text', 'Arnold');
+  });
+
+  it('can add new lines in an empty table, save the changes and retrieve them after a page refresh', () => {
+    const scenarioName = forgeScenarioName();
+    scenarioNamesToDelete.push(scenarioName);
+    Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE).then((value) => {
+      const scenarioId = value.scenarioCreatedId;
+      const scenarioUrl = `${BREWERY_WORKSPACE_ID}/scenario/${scenarioId}`;
+
+      ScenarioParameters.expandParametersAccordion();
+      BreweryParameters.switchToCustomersTab();
+      BreweryParameters.getCustomersTableGrid().should('exist');
+
+      BreweryParameters.addRowCustomersTableData();
+      BreweryParameters.getCustomersTableRows().should('have.length', 1);
+      BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'value');
+      BreweryParameters.getCustomersTableCell('canDrinkAlcohol', 0).should('have.text', 'false');
+      BreweryParameters.getCustomersTableCell('age', 0).should('have.text', '');
+
+      ScenarioParameters.save();
+      route.browse({ url: scenarioUrl });
+
+      BreweryParameters.switchToCustomersTab();
+      BreweryParameters.getCustomersTableRows().should('have.length', 1);
+      BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'value');
+      BreweryParameters.getCustomersTableCell('canDrinkAlcohol', 0).should('have.text', 'false');
+      BreweryParameters.getCustomersTableCell('age', 0).should('have.text', '');
+    });
   });
 });
