@@ -1,0 +1,5 @@
+wrong_header_line,should_have_6_columns
+Bob,10,false,AppleJuice,01/04/2011,1.40
+Lily,8,false,AppleJuice,09/05/2013,1.41
+Maria,34,true,Wine,19/03/1987,1.90
+Howard,34,true,Beer,12/05/1987,1.83

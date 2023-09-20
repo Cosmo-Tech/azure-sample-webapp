@@ -5,6 +5,7 @@ import 'cypress-file-upload';
 import utils from '../../commons/TestUtils';
 import { routeUtils as route } from '../../commons/utils';
 import { BREWERY_WORKSPACE_ID, DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
+import { API_REGEX } from '../../commons/constants/generic/TestConstants';
 import { Downloads, Scenarios, ScenarioManager, ScenarioParameters } from '../../commons/actions';
 import { BreweryParameters, Login } from '../../commons/actions/brewery';
 import {
@@ -20,6 +21,7 @@ const SCENARIO_DATASET = DATASET.BREWERY_ADT;
 const SCENARIO_RUN_TEMPLATE = RUN_TEMPLATE.BASIC_TYPES;
 const CSV_VALID_FILE_PATH = 'customers.csv';
 const CSV_ALTERNATE_VALID_FILE_PATH = 'customers2.csv';
+const CSV_WRONG_HEADER_FILE_PATH = 'customers_valid_with_wrong_header.csv';
 
 function forgeScenarioName() {
   const prefix = 'Scenario with table - ';
@@ -201,6 +203,25 @@ describe('Table parameters files standard operations part 2', () => {
       BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'value');
       BreweryParameters.getCustomersTableCell('canDrinkAlcohol', 0).should('have.text', 'false');
       BreweryParameters.getCustomersTableCell('age', 0).should('have.text', '');
+    });
+  });
+
+  it('can import a CSV file that has a wrong header and overwrite the header before upload', () => {
+    const scenarioName = forgeScenarioName();
+    scenarioNamesToDelete.push(scenarioName);
+    Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
+    ScenarioParameters.expandParametersAccordion();
+    BreweryParameters.switchToCustomersTab();
+    BreweryParameters.importCustomersTableData(CSV_WRONG_HEADER_FILE_PATH);
+    BreweryParameters.getCustomersTableRows().should('have.length', 4);
+
+    cy.intercept('POST', API_REGEX.FILE_UPLOAD).as('fileUploadRequest');
+    ScenarioParameters.save();
+    // TODO: add support for stubbing of file upload queries
+    cy.wait('@fileUploadRequest').then((req) => {
+      expect(req.response.statusCode).to.equal(201);
+      expect(req.request.body).not.to.contain('wrong_header_line,should_have_6_columns');
+      expect(req.request.body).to.contain('name,age,canDrinkAlcohol,favoriteDrink,birthday,height');
     });
   });
 });
