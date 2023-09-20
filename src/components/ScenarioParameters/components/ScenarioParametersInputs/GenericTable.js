@@ -489,7 +489,7 @@ export const GenericTable = ({
     const newLine = TableUtils.createNewTableLine(parameterData.options.columns, parameterData.options.dateFormat);
     const rowsCountBeforeRowAddition = parameter?.agGridRows?.length ?? 0;
     if (rowsCountBeforeRowAddition === 0) {
-      updateParameterValue({ agGridRows: [newLine] });
+      updateParameterValue({ agGridRows: [newLine], name: parameter?.file?.name ?? `${parameterData.id}.csv` });
       updateOnFirstEdition();
       return;
     }
@@ -528,6 +528,8 @@ export const GenericTable = ({
   }, [
     updateOnFirstEdition,
     parameter.agGridRows,
+    parameter.file?.name,
+    parameterData.id,
     parameterData.options.columns,
     parameterData.options.dateFormat,
     updateParameterValue,

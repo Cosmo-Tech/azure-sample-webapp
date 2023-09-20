@@ -40,7 +40,7 @@ const _uploadFileToCloudStorage = async (
       throw error;
     }
     return data;
-  } else if (clientFileDescriptor.content) {
+  } else if (clientFileDescriptor.content || clientFileDescriptor?.uploadPreprocess?.content != null) {
     const fileContent = _applyUploadPreprocessToContent(clientFileDescriptor);
     const { error, data } = await WorkspaceService.uploadWorkspaceFileFromData(
       organizationId,
