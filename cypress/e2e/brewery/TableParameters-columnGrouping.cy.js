@@ -48,6 +48,7 @@ describe('check if column grouping is displayed in the stubbed Table component',
     BreweryParameters.closeCustomersColumnGroup(1);
     BreweryParameters.getCustomersTableCell('name', 0).should('exist');
 
+    BreweryParameters.getCustomersTableCell('name', 0).click();
     BreweryParameters.deleteRowsCustomersTableData();
     BreweryParameters.getCustomersTableCell('name', 0).should('exist');
     BreweryParameters.openCustomersColumnGroup(1);

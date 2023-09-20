@@ -48,6 +48,14 @@ describe('Testing add and delete features on different index', () => {
     BreweryParameters.getCustomersTableGrid().should('exist');
     BreweryParameters.importCustomersTableData('customers.csv');
     BreweryParameters.getCustomersTableRows().should('have.length', 4);
+
+    BreweryParameters.getCustomersDeleteRowButton().should('have.attr', 'aria-disabled');
+    BreweryParameters.getCustomersTableCell('name', 0).click();
+    BreweryParameters.getCustomersDeleteRowButton().should('not.have.attr', 'aria-disabled');
+    BreweryParameters.switchToEventsTab();
+    BreweryParameters.switchToCustomersTab();
+    BreweryParameters.getCustomersDeleteRowButton().should('have.attr', 'aria-disabled');
+
     BreweryParameters.switchToEventsTab();
     TableParameters.importFile(getCustomersStubbedTable(), 'customers2.csv');
     TableParameters.getRows(getCustomersStubbedTable()).should('have.length', 6);
@@ -63,9 +71,7 @@ describe('Testing add and delete features on different index', () => {
     BreweryParameters.getCustomersTableCell('name', 3).click({ ctrlKey: true });
     BreweryParameters.addRowCustomersTableData();
     BreweryParameters.getCustomersTableRows().should('have.length', 7);
-    // Test to delete with no selected rows (will delete no one)
-    BreweryParameters.deleteRowsCustomersTableData();
-    BreweryParameters.getCustomersTableRows().should('have.length', 7);
+
     // This part of the test uses shift to select 3 lines then deletes them
     BreweryParameters.getCustomersTableCell('name', 0).click({ shiftKey: true });
     BreweryParameters.getCustomersTableCell('name', 2).click({ shiftKey: true });

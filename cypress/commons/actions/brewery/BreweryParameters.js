@@ -264,6 +264,9 @@ function addRowCustomersTableData() {
   TableParameters.addRow(getCustomersTable());
 }
 
+function getCustomersDeleteRowButton() {
+  return TableParameters.getDeleteRowsButton(getCustomersTable());
+}
 function deleteRowsCustomersTableData(confirm = false) {
   TableParameters.deleteRows(getCustomersTable(), confirm);
 }
@@ -483,6 +486,7 @@ export const BreweryParameters = {
   exportCustomersTableDataToCSV,
   exportCustomersTableDataToXLSX,
   addRowCustomersTableData,
+  getCustomersDeleteRowButton,
   deleteRowsCustomersTableData,
   deleteRowsEventsTableData,
   editCustomersTableStringCell,
