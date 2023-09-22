@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import React from 'react';
+import { DateUtils } from '@cosmotech/core';
 import { BasicDateInput } from '@cosmotech/ui';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
@@ -9,7 +10,6 @@ import { TranslationUtils } from '../../../../utils';
 import isBefore from 'date-fns/isBefore';
 import isAfter from 'date-fns/isAfter';
 import isValid from 'date-fns/isValid';
-import format from 'date-fns/format';
 import { useDateConstraintValidation } from '../../../../hooks/ParameterConstraintsHooks';
 
 export const GenericDateInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty, error }) => {
@@ -33,6 +33,7 @@ export const GenericDateInput = ({ parameterData, context, parameterValue, setPa
       dateProps={dateProps}
       isDirty={isDirty}
       error={error}
+      reverseTimezoneOffset={true}
     />
   );
 };
@@ -67,7 +68,7 @@ GenericDateInput.useValidationRules = (parameterData) => {
         !isBefore(new Date(v), minDate) ||
         TranslationUtils.getStringWithUnescapedCharacters(
           t('views.scenario.scenarioParametersValidationErrors.minDate', 'Minimum date is {{minDate}}', {
-            minDate: format(new Date(minDate), 'MM/dd/yyyy'),
+            minDate: DateUtils.formatUTCDateAsLocal(minDate, 'MM/dd/yyyy'),
             interpolation: {
               escape: TranslationUtils.getStringWithEscapedCharacters,
             },
@@ -77,7 +78,7 @@ GenericDateInput.useValidationRules = (parameterData) => {
         !isAfter(new Date(v), maxDate) ||
         TranslationUtils.getStringWithUnescapedCharacters(
           t('views.scenario.scenarioParametersValidationErrors.maxDate', 'Maximum date is {{maxDate}}', {
-            maxDate: format(new Date(maxDate), 'MM/dd/yyyy'),
+            maxDate: DateUtils.formatUTCDateAsLocal(maxDate, 'MM/dd/yyyy'),
             interpolation: { escape: TranslationUtils.getStringWithEscapedCharacters },
           })
         ),

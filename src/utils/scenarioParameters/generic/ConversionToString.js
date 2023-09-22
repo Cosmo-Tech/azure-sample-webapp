@@ -1,6 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
+import { DateUtils } from '@cosmotech/core';
 import { DATASET_ID_VARTYPE } from '../../../services/config/ApiConstants';
 
 function _convertEnumToString(parameterValue) {
@@ -24,7 +25,7 @@ function _convertBoolToString(parameterValue) {
 }
 
 function _convertDateToString(parameterValue) {
-  return parameterValue.toISOString();
+  return DateUtils.getDateAtMidnightUTC(parameterValue).toISOString();
 }
 
 function _convertDatasetIdToString(parameterValue) {
