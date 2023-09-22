@@ -1207,10 +1207,10 @@
   dependencies:
     "@azure/msal-browser" "~2.23.0"
 
-"@cosmotech/core@^1.12.0":
-  version "1.12.0"
-  resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.12.0.tgz#9bdb2cba6fdc20ef10a872bb0e1b4e9ad657d755"
-  integrity sha512-175dFziF90RM9BpPy5xNUlyOihfNdga2OjUplD/tnAPpmwNZtOoMcYAIMXVW/l0gAArN+xQ+tVnK12WRK2eCtA==
+"@cosmotech/core@^1.13.0":
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.13.0.tgz#eaea2d73d60be7e6bf3dea9c9240f9b93e56ccb3"
+  integrity sha512-9o5N1ASSiWg+rWCbEz9dSTIPeuPd10mtOzOMU53X8k1bTFZMpEDfUvXUIhWQr2SXe3kIdDZbWPas6rUC74zxdQ==
   dependencies:
     csv-string "^4.0.1"
     date-fns "^2.25.0"
@@ -1218,10 +1218,10 @@
     validator "^13.7.0"
     xlsx "https://cdn.sheetjs.com/xlsx-0.20.0/xlsx-0.20.0.tgz"
 
-"@cosmotech/ui@^5.9.0":
-  version "5.9.0"
-  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-5.9.0.tgz#9284d7933e34ab89f5e899a447abe91e88172fdb"
-  integrity sha512-g7FstN+4vmwvohGQRItJn4GZjvKZzj/8wSWRlz3xupiy2XHA/HPZu9YB2d4K/hAAXrBxdIhKgpDVnwPsLQJWAg==
+"@cosmotech/ui@^5.9.1":
+  version "5.9.1"
+  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-5.9.1.tgz#6f28c4849f2d8f2752267d38202720bde2bcca56"
+  integrity sha512-HFT2hYRy7J6jrc/QVO+e1jwcp31uGo4Eul3CdIOxsd1j6FOEGAjfcL9s9AsV7/HLJGhgIWdV1BskRI68Vn2fdg==
   dependencies:
     "@emotion/react" "^11.10.5"
     "@emotion/styled" "^11.10.5"
