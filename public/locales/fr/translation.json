@@ -544,7 +544,7 @@
         "simulatorVersion": "Version du simulateur :",
         "sdkVersion": "Version du SDK :",
         "copyButton": "Copier dans le presse-papier",
-        "notAvailable": "pas disponible"
+        "notAvailableEntry": "pas disponible"
       }
     },
     "text": {

@@ -43,9 +43,9 @@ export const TechnicalInfoContent = () => {
     : technicalInformation.filter((infoItem) => ['webappVersion'].includes(infoItem.id));
 
   const copyInfoToClipboard = () => {
-    const notSpecifiedEntry = t('genericcomponent.dialog.technicalInfo.notSpecifiedEntry');
+    const notAvailableEntry = t('genericcomponent.dialog.technicalInfo.notAvailableEntry');
     const infoToDisplayList = infoToDisplay
-      .map((infoItem) => `${infoItem.label} ` + (infoItem.content ?? `${notSpecifiedEntry} (${infoItem.content})`))
+      .map((infoItem) => `${infoItem.label} ` + (infoItem.content ?? `${notAvailableEntry} (${infoItem.content})`))
       .join('\n');
     navigator.clipboard.writeText(solutionName + '\n' + solutionDescription + '\n' + infoToDisplayList);
   };
@@ -77,7 +77,7 @@ export const TechnicalInfoContent = () => {
               <Typography component="span" sx={{ fontWeight: 'bold' }}>
                 {infoItem.content ?? (
                   <>
-                    <i>{t('genericcomponent.dialog.technicalInfo.notAvailable')}</i> {`(${infoItem.content})`}
+                    <i>{t('genericcomponent.dialog.technicalInfo.notAvailableEntry')}</i> {`(${infoItem.content})`}
                   </>
                 )}
               </Typography>

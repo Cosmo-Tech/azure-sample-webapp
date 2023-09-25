@@ -544,7 +544,7 @@
         "simulatorVersion": "Simulator version:",
         "sdkVersion": "SDK version:",
         "copyButton": "Copy to clipboard",
-        "notAvailable": "not available"
+        "notAvailableEntry": "not available"
       }
     },
     "text": {
