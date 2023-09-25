@@ -328,11 +328,13 @@ export const GenericTable = ({
 
   const _readAndParseXLSXFile = useCallback(
     async (file, clientFileDescriptor, setClientFileDescriptor, clientFileDescriptorRestoreValue) => {
-      if (!file) {
-        return;
-      }
+      if (!file) return;
+
+      let fileName = file?.name ?? '';
+      if (fileName.endsWith('.xlsx')) fileName = fileName.replace(/.xlsx$/, '.csv');
+
       setClientFileDescriptor({
-        name: file.name,
+        name: fileName,
         file,
         content: null,
         agGridRows: null,
@@ -361,7 +363,7 @@ export const GenericTable = ({
           options
         );
         setClientFileDescriptor({
-          name: file.name,
+          name: fileName,
           file: null,
           content: newFileContent,
           agGridRows: agGridData.rows,
