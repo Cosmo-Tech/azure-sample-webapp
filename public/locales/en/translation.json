@@ -401,7 +401,8 @@
         "isvalidfile": "Error: column name must be a string",
         "delete": "Delete file"
       },
-      "noFileMessage": "None"
+      "noFileMessage": "None",
+      "fileNamePlaceholder": "{{fileExtension}} file"
     },
     "loading": {
       "line": {
