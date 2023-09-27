@@ -1,3 +1,9 @@
+## **5.2.0** <sub><sup>Not released yet</sup></sub>
+
+### Known issues
+
+- clearing the errors panel of a Table parameter does not reset the "dirty" state of the scenario parameters form
+
 ## **5.1.1** <sub><sup>2023-09-07 ([8f66c56...8f66c56](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/8f66c56f...8f66c56f?diff=split))</sup></sub>
 
 ### Bug Fixes
