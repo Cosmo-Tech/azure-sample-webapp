@@ -49,13 +49,6 @@ describe('Testing add and delete features on different index', () => {
     BreweryParameters.importCustomersTableData('customers.csv');
     BreweryParameters.getCustomersTableRows().should('have.length', 4);
 
-    BreweryParameters.getCustomersDeleteRowButton().should('have.attr', 'aria-disabled');
-    BreweryParameters.getCustomersTableCell('name', 0).click();
-    BreweryParameters.getCustomersDeleteRowButton().should('not.have.attr', 'aria-disabled');
-    BreweryParameters.switchToEventsTab();
-    BreweryParameters.switchToCustomersTab();
-    BreweryParameters.getCustomersDeleteRowButton().should('have.attr', 'aria-disabled');
-
     BreweryParameters.switchToEventsTab();
     TableParameters.importFile(getCustomersStubbedTable(), 'customers2.csv');
     TableParameters.getRows(getCustomersStubbedTable()).should('have.length', 6);

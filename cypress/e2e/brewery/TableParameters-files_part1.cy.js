@@ -1,7 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import 'cypress-file-upload';
 import { Downloads, ScenarioParameters, ScenarioSelector } from '../../commons/actions';
 import { BreweryParameters, Login } from '../../commons/actions/brewery';
 import { stub } from '../../commons/services/stubbing';
