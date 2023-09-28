@@ -5,7 +5,7 @@ import { API_ENDPOINT, API_REGEX, AUTH_QUERY_URL, URL_POWERBI, URL_ROOT } from '
 import { stub } from '../services/stubbing';
 import { authUtils } from './authUtils';
 import utils from '../../commons/TestUtils';
-import { SCENARIO_EXAMPLE, SCENARIO_RUN_EXAMPLE } from '../../fixtures/stubbing/default';
+import { DEFAULT_DATASET, SCENARIO_EXAMPLE, SCENARIO_RUN_EXAMPLE } from '../../fixtures/stubbing/default';
 
 const forgeAlias = (prefix) => {
   if (typeof forgeAlias.requestIndex === 'undefined') {
@@ -188,6 +188,14 @@ const interceptGetScenarioRunStatus = () => {
   return alias;
 };
 
+// Parameters:
+//   - options: dict with properties:
+//     - scenarioId (optional): id of the scenario to update; if this option is not provided, the function will try to
+//       detect the id from the query URL
+//     - validateRequest (optional): a function, taking the request object as argument, that can be used to perform
+//       cypress checks on the content of the intercepted query
+//     - customScenarioPatch (optional): data to set in the request body, you can use this option to replace the
+//       original content of the query
 const interceptUpdateScenario = (options) => {
   const alias = forgeAlias('reqUpdateScenario');
   cy.intercept({ method: 'PATCH', url: API_REGEX.SCENARIO, times: 1 }, (req) => {
@@ -286,6 +294,71 @@ const interceptGetDatasets = () => {
   return alias;
 };
 
+// Parameters:
+//   - options: dict with properties:
+//     - id (optional): id of the dataset to create
+//     - validateRequest (optional): a function, taking the request object as argument, that can be used to perform
+//       cypress checks on the content of the intercepted query
+const interceptCreateDataset = (options) => {
+  const alias = forgeAlias('reqCreateDataset');
+  cy.intercept({ method: 'POST', url: API_REGEX.DATASETS, times: 1 }, (req) => {
+    if (options?.validateRequest) options?.validateRequest(req);
+    if (stub.isEnabledFor('CREATE_DATASET')) {
+      const dataset = {
+        ...DEFAULT_DATASET,
+        ...req.body,
+        id: options.id ?? `d-stbd${utils.randomStr(4)}`,
+      };
+
+      if (stub.isEnabledFor('GET_DATASETS')) {
+        stub.addDataset(dataset);
+      }
+      req.reply(dataset);
+    } else if (stub.isEnabledFor('GET_DATASETS')) {
+      req.continue((res) => stub.addDataset(res.body));
+    }
+  }).as(alias);
+  return alias;
+};
+
+// Parameters:
+//   - options: dict with properties:
+//     - validateRequest (optional): a function, taking the request object as argument, that can be used to perform
+//       cypress checks on the content of the intercepted query
+//     - customDatasetPatch (optional): data to set in the request body, you can use this option to replace the original
+//       content of the query
+const interceptUpdateDataset = (options) => {
+  const alias = forgeAlias('reqUpdateDataset');
+  cy.intercept({ method: 'PATCH', url: API_REGEX.DATASET, times: 1 }, (req) => {
+    if (options?.validateRequest) options?.validateRequest(req);
+    const datasetPatch = {
+      ...req.body,
+      ...options?.customDatasetPatch,
+    };
+    // const datasetId = options?.datasetId ?? req.url.match(API_REGEX.DATASET)[1];
+    const datasetId = req.url.match(API_REGEX.DATASET)[1];
+    if (stub.isEnabledFor('GET_DATASETS')) stub.patchDataset(datasetId, datasetPatch);
+    if (stub.isEnabledFor('UPDATE_DATASET')) req.reply(datasetPatch);
+  }).as(alias);
+  return alias;
+};
+
+// Parameters:
+//   - fileName: name (or path in Storage) of the uploaded file
+//   - fileContent: content of the uploaded file
+const interceptUploadWorkspaceFile = (fileName, fileContent) => {
+  const alias = forgeAlias('reqUploadWorkspaceFile');
+  cy.intercept({ method: 'POST', url: API_REGEX.FILE_UPLOAD, times: 1 }, (req) => {
+    if (stub.isEnabledFor('CREATE_DATASET')) {
+      stub.addWorkspaceFile(fileName, fileContent);
+      req.reply(fileName);
+    } else if (stub.isEnabledFor('GET_DATASETS')) {
+      req.continue(() => stub.addWorkspaceFile(fileName, fileContent));
+    }
+  }).as(alias);
+  return alias;
+};
+
 const interceptGetScenarios = () => {
   const alias = forgeAlias('reqGetScenarios');
   cy.intercept({ method: 'GET', url: API_REGEX.SCENARIOS, times: 1 }, (req) => {
@@ -365,6 +438,9 @@ export const apiUtils = {
   interceptUpdateScenario,
   interceptDeleteScenario,
   interceptGetDatasets,
+  interceptCreateDataset,
+  interceptUpdateDataset,
+  interceptUploadWorkspaceFile,
   interceptGetOrganizationPermissions,
   interceptGetScenario,
   interceptGetScenarios,

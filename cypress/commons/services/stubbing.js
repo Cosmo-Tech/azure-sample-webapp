@@ -16,13 +16,15 @@ import { authUtils as auth } from '../utils/authUtils';
 const STUB_TYPES = [
   'AUTHENTICATION',
   'CREATE_AND_DELETE_SCENARIO',
-  'GET_DATASETS', // Supports only initial datasets loading, doesn't work for files upload/download or table components
+  'CREATE_DATASET', // Only supports datasets created after the "save" action, "save & launch" is not supported yet
+  'GET_DATASETS',
   'GET_ORGANIZATION',
   'GET_SOLUTIONS',
   'GET_WORKSPACES',
   'GET_SCENARIOS',
   'LAUNCH_SCENARIO',
   'PERMISSIONS_MAPPING',
+  'UPDATE_DATASET',
   'UPDATE_SCENARIO',
 ];
 
@@ -107,6 +109,7 @@ class Stubbing {
     this.resources = DEFAULT_RESOURCES_DATA;
     this.api = DEFAULT_API_DATA;
     this.scenarioRunOptions = DEFAULT_SCENARIO_RUNS_OPTIONS;
+    this.workspaceFiles = {}; // TODO: isolate each workspace instead of using only one Object
 
     this.enabledStubs = {};
     STUB_TYPES.forEach((stubType) => {
@@ -229,6 +232,7 @@ class Stubbing {
   setDatasets = (newDatasets) => this._setResources('datasets', newDatasets);
   addDataset = (newDataset) => this._addResource('datasets', newDataset);
   getDatasetById = (datasetId) => this._getResourceById('datasets', datasetId);
+  patchDataset = (datasetId, datasetPatch) => this._patchResourceById('datasets', datasetId, datasetPatch);
 
   getSolutions = () => this._getResources('solutions');
   setSolutions = (newSolutions) => this._setResources('solutions', newSolutions);
@@ -249,6 +253,11 @@ class Stubbing {
 
   setScenarioRunOptions = (options) => (this.scenarioRunOptions = { ...this.scenarioRunOptions, ...options });
   getScenarioRunOptions = () => this.scenarioRunOptions;
+
+  getWorkspaceFiles = () => this.workspaceFiles;
+  setWorkspaceFiles = (newWorkspaceFiles) => (this.workspaceFiles = newWorkspaceFiles);
+  addWorkspaceFile = (fileName, fileContent) => (this.workspaceFiles[fileName] = fileContent);
+  getWorkspaceFile = (fileName) => this.workspaceFiles[fileName];
 }
 
 export const stub = new Stubbing();

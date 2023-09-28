@@ -125,14 +125,30 @@ function launch(options) {
 
 // Parameter 'options' is an object with the following properties:
 //  - wait: whether the action must wait for the update request interception (true by default). Set this option to false
-//    if you want to handle the request interception in your test or if you want to ignore it?
+//    if you want to handle the request interception in your test or if you want to ignore it. This option is forced to
+//    true if the option 'datasetsEvents' is set.
 //  - updateOptions: options to provide to the interception of the "scenario update" query (default: undefined)
-function save(options) {
+//  - datasetsEvents: list of objects describing dataset-related queries to intercept; objects have this structure;
+//    - id (optional): id of the dataset to create
+//    - onDatasetCreation (optional): validation function to run on the dataset creation request
+//    - onDatasetUpdate (optional): validation function to run on the dataset update request
+function save(options = {}) {
+  const aliases = [];
+  // Events array is reversed to make tests easier to write and still match the order of cypress interceptions
+  // (c.f. cy.intercept doc: "cy.intercept() routes are matched in reverse order of definition")
+  options?.datasetsEvents?.reverse()?.forEach((datasetEvent) => {
+    aliases.push(api.interceptCreateDataset({ id: datasetEvent.id, validateRequest: datasetEvent.onDatasetCreation }));
+    aliases.push(api.interceptUpdateDataset({ id: datasetEvent.id, validateRequest: datasetEvent.onDatasetUpdate }));
+    aliases.push(api.interceptUploadWorkspaceFile('dummyName', 'dummyContent'));
+  });
+
   const reqUpdateScenarioAlias = api.interceptUpdateScenario(options?.updateOptions);
+  aliases.push(reqUpdateScenarioAlias);
+
   getSaveButton().should('not.be.disabled').click();
-  if (options?.wait ?? true) {
+  if (options?.datasetsEvents != null || (options?.wait ?? true)) {
     Scenarios.getScenarioBackdrop(10).should('not.be.visible');
-    api.waitAlias(reqUpdateScenarioAlias, { timeout: 10 * 1000 });
+    api.waitAliases(aliases, { timeout: 10 * 1000 });
   } else return reqUpdateScenarioAlias;
 }
 

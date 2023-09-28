@@ -34,6 +34,7 @@ export const API_ENDPOINT = {
   STOP_SCENARIO_RUN: URL_ROOT + '/.*/scenarioruns/(sr-[\\w]+)/stop', // Endpoint to stop a scenario run
   SCENARIO_RUN_STATUS: URL_ROOT + '/.*/scenarioruns/(sr-[\\w]+)/status',
   DATASETS: URL_ROOT + '/.*/datasets',
+  DATASET: URL_ROOT + '/.*/datasets/(d-[\\w]+)',
   WORKSPACES: URL_ROOT + '/.*/workspaces',
   WORKSPACE: URL_ROOT + '/.*/workspaces/((w|W)-[\\w]+)',
   SOLUTIONS: URL_ROOT + '/.*/solutions',
@@ -153,6 +154,7 @@ export const API_REGEX = {
   STOP_SCENARIO_RUN: new RegExp('^' + API_ENDPOINT.STOP_SCENARIO_RUN),
   SCENARIO_RUN_STATUS: new RegExp('^' + API_ENDPOINT.SCENARIO_RUN_STATUS),
   DATASETS: new RegExp('^' + API_ENDPOINT.DATASETS + '$'),
+  DATASET: new RegExp('^' + API_ENDPOINT.DATASET + '$'),
   WORKSPACE: new RegExp('^' + API_ENDPOINT.WORKSPACE + '$'),
   WORKSPACES: new RegExp('^' + API_ENDPOINT.WORKSPACES + '$'),
   SOLUTION: new RegExp('^' + API_ENDPOINT.SOLUTION),
