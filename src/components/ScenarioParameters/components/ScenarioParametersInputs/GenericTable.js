@@ -99,7 +99,7 @@ export const GenericTable = ({
     ),
   };
 
-  const columns = ConfigUtils.getParameterAttribute(parameterData, 'columns');
+  const columns = AgGridUtils.getColumnsWithHeaderName(ConfigUtils.getParameterAttribute(parameterData, 'columns'));
   const dateFormat = ConfigUtils.getParameterAttribute(parameterData, 'dateFormat') || DEFAULT_DATE_FORMAT;
   const options = useMemo(() => {
     return { dateFormat };
