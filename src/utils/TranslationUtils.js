@@ -11,6 +11,10 @@ const getParameterTooltipTranslationKey = (parameterId) => {
   return `solution.parameters.${parameterId}.tooltip`;
 };
 
+const getParameterEnumValueTranslationKey = (parameterId, valueKey) => {
+  return `solution.parameters.${parameterId}.enum.value.${valueKey}.label`;
+};
+
 const getParameterEnumValueTooltipTranslationKey = (parameterId, valueKey) => {
   return `solution.parameters.${parameterId}.enum.value.${valueKey}.tooltip`;
 };
@@ -38,25 +42,37 @@ const addTranslationParametersGroupsLabels = (parametersGroups) => {
 
 const addTranslationParametersLabels = (parameters) => {
   const resources = {};
+  const _addResource = (lang, key, value) => {
+    if (resources[lang] == null) resources[lang] = {};
+    resources[lang][key] = value;
+  };
+
   for (const parameter of parameters) {
     for (const lang in parameter.labels) {
-      resources[lang] = resources[lang] || {};
       const key = getParameterTranslationKey(parameter.id);
-      resources[lang][key] = parameter.labels[lang];
+      _addResource(lang, key, parameter.labels[lang]);
     }
+
     for (const lang in parameter?.options?.tooltipText) {
-      resources[lang] = resources[lang] || {};
       const key = getParameterTooltipTranslationKey(parameter.id);
-      resources[lang][key] = parameter.options.tooltipText[lang];
+      _addResource(lang, key, parameter.options.tooltipText[lang]);
     }
+
     for (const enumValue of parameter?.options?.enumValues ?? []) {
+      if (typeof enumValue.value === 'object') {
+        for (const lang in enumValue.value) {
+          const key = getParameterEnumValueTranslationKey(parameter.id, enumValue.key);
+          _addResource(lang, key, enumValue.value[lang]);
+        }
+      }
+
       for (const lang in enumValue.tooltipText) {
-        resources[lang] = resources[lang] || {};
         const key = getParameterEnumValueTooltipTranslationKey(parameter.id, enumValue.key);
-        resources[lang][key] = enumValue.tooltipText?.[lang];
+        _addResource(lang, key, enumValue.tooltipText[lang]);
       }
     }
   }
+
   const langs = Object.keys(resources);
   for (const lang of langs) {
     i18next.addResources(lang, I18N_NAMESPACE, resources[lang]);
@@ -117,6 +133,7 @@ export const TranslationUtils = {
   getParametersGroupTranslationKey,
   getParameterTranslationKey,
   getParameterTooltipTranslationKey,
+  getParameterEnumValueTranslationKey,
   getParameterEnumValueTooltipTranslationKey,
   getStringWithEscapedCharacters,
   getStringWithUnescapedCharacters,
