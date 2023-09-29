@@ -1,7 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import 'cypress-file-upload';
 import {
   FileParameters,
   Scenarios,

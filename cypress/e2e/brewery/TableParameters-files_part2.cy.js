@@ -1,7 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import 'cypress-file-upload';
 import utils from '../../commons/TestUtils';
 import { routeUtils as route } from '../../commons/utils';
 import { BREWERY_WORKSPACE_ID, DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
