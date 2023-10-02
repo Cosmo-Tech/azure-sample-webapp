@@ -516,6 +516,7 @@ export const BreweryParameters = {
   getStartDateHelperText,
   getEndDateHelperText,
   getAdditionalDateHelperText,
+  getCurrencyParameterContainer,
   getCurrency,
   getCurrencyName,
   getCurrencyValue,

@@ -30,7 +30,6 @@ describe('Create scenario', () => {
   const waiters = utils.randomNmbr(BAR_PARAMETERS_RANGE.WAITERS.MIN, BAR_PARAMETERS_RANGE.WAITERS.MAX);
   const textValue = utils.randomStr(8);
   const numberValue = utils.randomNmbr(BASIC_PARAMETERS_CONST.NUMBER.MIN, BASIC_PARAMETERS_CONST.NUMBER.MAX);
-  const enumValue = utils.randomEnum(BASIC_PARAMETERS_CONST.ENUM_KEYS);
   const startDateValue = utils.randomDate(BASIC_PARAMETERS_CONST.DATE.MIN, BASIC_PARAMETERS_CONST.DATE.MIDDLE);
   const endDateValue = utils.randomDate(BASIC_PARAMETERS_CONST.DATE.MIDDLE, BASIC_PARAMETERS_CONST.DATE.MAX);
   const sliderValue = utils.randomNmbr(BASIC_PARAMETERS_CONST.SLIDER.MIN, BASIC_PARAMETERS_CONST.SLIDER.MAX);
@@ -263,7 +262,6 @@ describe('Create scenario', () => {
 
     ScenarioParameters.getInputValue(BreweryParameters.getCurrencyNameInput()).as('currency-name');
     ScenarioParameters.getInputValue(BreweryParameters.getCurrencyValueInput()).as('currency-value');
-    ScenarioParameters.getInputValue(BreweryParameters.getCurrencySelectValue()).as('currency');
     ScenarioParameters.getInputValue(BreweryParameters.getCurrencyUsedInput()).as('currency-used');
     ScenarioParameters.getInputValue(BreweryParameters.getStartDateInput()).as('start-date');
     ScenarioParameters.getInputValue(BreweryParameters.getEndDateInput()).as('end-date');
@@ -271,7 +269,7 @@ describe('Create scenario', () => {
 
     BreweryParameters.getCurrencyNameInput().click().clear().type(textValue);
     BreweryParameters.getCurrencyValueInput().click().clear().type(numberValue);
-    BreweryParameters.getCurrencySelectOption(enumValue);
+    BreweryParameters.getCurrencySelectOption('JPY');
     BreweryParameters.getCurrencyUsedInput().check();
     BreweryParameters.getStartDateInput()
       .click()
@@ -287,7 +285,8 @@ describe('Create scenario', () => {
 
     BreweryParameters.getCurrencyNameInput().should('value', textValue);
     BreweryParameters.getCurrencyValueInput().should('value', numberValue);
-    BreweryParameters.getCurrencyInput().should('value', enumValue);
+    BreweryParameters.getCurrencyInput().should('value', 'JPY');
+    BreweryParameters.getCurrencyParameterContainer().contains('¥');
     BreweryParameters.getCurrencyUsedInput().should('be.checked');
     BreweryParameters.getStartDateInput().should('value', startDateValue);
     BreweryParameters.getEndDateInput().should('value', endDateValue);
@@ -302,9 +301,9 @@ describe('Create scenario', () => {
     cy.get('@currency-value').then((input) => {
       BreweryParameters.getCurrencyValueInput().should('value', input);
     });
-    cy.get('@currency').then((text) => {
-      BreweryParameters.getCurrencyInput().should('value', text);
-    });
+
+    BreweryParameters.getCurrencyParameterContainer().contains('$');
+
     cy.get('@currency-used').then(() => {
       BreweryParameters.getCurrencyUsedInput().should('not.be.checked');
     });
@@ -323,7 +322,7 @@ describe('Create scenario', () => {
 
     BreweryParameters.getCurrencyNameInput().click().clear().type(textValue);
     BreweryParameters.getCurrencyValueInput().click().clear().type(numberValue);
-    BreweryParameters.getCurrencySelectOption(enumValue);
+    BreweryParameters.getCurrencySelectOption('JPY');
     BreweryParameters.getCurrencyUsedInput().check();
     BreweryParameters.getStartDateInput()
       .click()
@@ -356,7 +355,7 @@ describe('Create scenario', () => {
       expect(idGet).equal(scenarioWithBasicTypesId);
       expect(textGet).equal(textValue);
       expect(numberGet).equal(numberValue);
-      expect(enumGet).equal(enumValue);
+      expect(enumGet).equal('JPY');
       expect(boolGet).equal('true');
       expect(startDateGet).equal(startDateValue);
       expect(endDateGet).equal(endDateValue);
@@ -372,7 +371,8 @@ describe('Create scenario', () => {
 
     BreweryParameters.getCurrencyName().should('have.text', textValue);
     BreweryParameters.getCurrencyValue().should('have.text', numberValue);
-    BreweryParameters.getCurrency().should('have.text', enumValue);
+
+    BreweryParameters.getCurrency().should('have.text', '¥');
     BreweryParameters.getCurrencyUsed().should('have.text', 'ON');
     BreweryParameters.getStartDate().should('have.text', new Date(startDateValue).toLocaleDateString());
     BreweryParameters.getEndDate().should('have.text', new Date(endDateValue).toLocaleDateString());
