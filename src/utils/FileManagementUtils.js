@@ -1,6 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
+import { t } from 'i18next';
+import { PathUtils } from '@cosmotech/core';
 import { TABLE_DATA_STATUS, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
 import DatasetService from '../services/dataset/DatasetService';
 import WorkspaceService from '../services/workspace/WorkspaceService';
@@ -8,7 +10,6 @@ import { AppInsights } from '../services/AppInsights';
 import { DATASET_ID_VARTYPE, VALID_MIME_TYPES } from '../services/config/ApiConstants';
 import { ConfigUtils, DatasetsUtils, ScenarioParametersUtils } from '.';
 import applicationStore from '../state/Store.config';
-import { t } from 'i18next';
 import { dispatchSetApplicationErrorMessage } from '../state/dispatchers/app/ApplicationDispatcher';
 
 const appInsights = AppInsights.getInstance();
@@ -78,6 +79,27 @@ async function _createEmptyDatasetInCloudStorage(organizationId, parameterMetada
     throw creationError;
   }
   return createdDataset;
+}
+
+function _forgeNameOfUploadedFile(file, parameterMetadata, defaultFileTypeFilter) {
+  const shouldRenameFile = ConfigUtils.getParameterAttribute(parameterMetadata, 'shouldRenameFileOnUpload');
+  if (!shouldRenameFile) return file?.name;
+  if (!file.name) return parameterMetadata.id;
+
+  const fileTypeFilter =
+    ConfigUtils.getParameterAttribute(parameterMetadata, 'defaultFileTypeFilter') ?? defaultFileTypeFilter;
+  const uploadedFileExtension = PathUtils.getExtensionFromFileName(file.name);
+  const isFileExtensionAllowed =
+    !fileTypeFilter || PathUtils.isExtensionInFileTypeFilter(uploadedFileExtension, fileTypeFilter);
+  const outputFileExtension = isFileExtensionAllowed ? `.${uploadedFileExtension}` : '';
+  const newFileName = `${parameterMetadata.id}${outputFileExtension}`;
+  if (!isFileExtensionAllowed) {
+    console.warn(
+      `The extension of the uploaded file "${file.name}" is not allowed by file type filter "${fileTypeFilter}". ` +
+        `File will be saved with the name "${newFileName}".`
+    );
+  }
+  return newFileName;
 }
 
 function _buildStorageFilePath(dataset, clientFileDescriptor) {
@@ -213,17 +235,16 @@ const isFileFormatValid = (fileMIMEType) => {
   return VALID_MIME_TYPES.length === 0 || VALID_MIME_TYPES.includes(fileMIMEType);
 };
 
-const prepareToUpload = (event, setClientFileDescriptor) => {
+const prepareToUpload = (event, setClientFileDescriptor, parameterData, options) => {
   const file = event.target.files[0];
   // Fix Chrome/Edge "cache" behaviour.
   // HTML input is not triggered when the same file is selected twice
   event.target.value = null;
-  if (file === undefined) {
-    return;
-  }
+  if (file == null) return;
+
   appInsights.trackUpload();
   setClientFileDescriptor({
-    name: file.name,
+    name: _forgeNameOfUploadedFile(file, parameterData, options?.defaultFileTypeFilter),
     file,
     content: null,
     status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD,

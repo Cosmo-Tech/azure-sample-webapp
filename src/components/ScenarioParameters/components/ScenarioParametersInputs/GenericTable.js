@@ -298,8 +298,9 @@ export const GenericTable = ({
       if (!file) {
         return;
       }
+      const fileName = lastNewParameterValue.current?.name ?? '';
       setClientFileDescriptor({
-        name: file.name,
+        name: fileName,
         file: null,
         content: null,
         agGridRows: null,
@@ -313,7 +314,7 @@ export const GenericTable = ({
         const finalStatus = UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD;
         _parseCSVFileContent(
           fileContent,
-          file.name,
+          fileName,
           clientFileDescriptor,
           setClientFileDescriptor,
           finalStatus,
@@ -328,11 +329,13 @@ export const GenericTable = ({
 
   const _readAndParseXLSXFile = useCallback(
     async (file, clientFileDescriptor, setClientFileDescriptor, clientFileDescriptorRestoreValue) => {
-      if (!file) {
-        return;
-      }
+      if (!file) return;
+
+      let fileName = lastNewParameterValue.current?.name ?? '';
+      if (fileName.endsWith('.xlsx')) fileName = fileName.replace(/.xlsx$/, '.csv');
+
       setClientFileDescriptor({
-        name: file.name,
+        name: fileName,
         file,
         content: null,
         agGridRows: null,
@@ -361,7 +364,7 @@ export const GenericTable = ({
           options
         );
         setClientFileDescriptor({
-          name: file.name,
+          name: fileName,
           file: null,
           content: newFileContent,
           agGridRows: agGridData.rows,
@@ -379,7 +382,8 @@ export const GenericTable = ({
     (event) => {
       // TODO: ask confirmation if data already exist
       const previousFileBackup = clone(parameter);
-      const file = FileManagementUtils.prepareToUpload(event, updateParameterValue);
+      const options = { defaultFileTypeFilter: '.csv, .xlsx' };
+      const file = FileManagementUtils.prepareToUpload(event, updateParameterValue, parameterData, options);
       if (file.name.endsWith('.csv')) {
         _readAndParseCSVFile(file, parameter, updateParameterValue, previousFileBackup);
       } else if (file.name.endsWith('.xlsx')) {
@@ -390,7 +394,7 @@ export const GenericTable = ({
         });
       }
     },
-    [_readAndParseCSVFile, _readAndParseXLSXFile, parameter, updateParameterValue]
+    [_readAndParseCSVFile, _readAndParseXLSXFile, parameter, updateParameterValue, parameterData]
   );
 
   const [isExportDialogOpen, setIsExportDialogOpen] = useState(false);

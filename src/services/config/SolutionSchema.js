@@ -47,6 +47,7 @@ const basicParameterOptions = z.object({
   canChangeRowsNumber: z.boolean().optional().nullable(),
   dateFormat: z.string().optional().nullable(),
   columns: z.array(basicColumnField).optional().nullable(),
+  shouldRenameFileOnUpload: z.string().optional().nullable(),
 });
 
 const basicParameterGroupOptions = z.object({

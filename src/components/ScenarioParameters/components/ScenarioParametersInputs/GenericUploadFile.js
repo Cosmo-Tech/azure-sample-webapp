@@ -26,6 +26,7 @@ export const GenericUploadFile = ({
   const parameter = parameterValue || {};
   const datasetId = parameter.id;
   const defaultFileTypeFilter = ConfigUtils.getParameterAttribute(parameterData, 'defaultFileTypeFilter');
+  const renameFileOnUpload = ConfigUtils.getParameterAttribute(parameterData, 'shouldRenameFileOnUpload');
 
   function updateParameterValue(newValuePart) {
     setParameterValue({
@@ -53,6 +54,8 @@ export const GenericUploadFile = ({
     label: t(TranslationUtils.getParameterTranslationKey(parameterId), parameterId),
     delete: t('genericcomponent.uploadfile.tooltip.delete'),
     noFileMessage: t('genericcomponent.uploadfile.noFileMessage', 'None'),
+    getFileNamePlaceholder: (fileExtension) =>
+      t('genericcomponent.uploadfile.fileNamePlaceholder', '{{fileExtension}} file', { fileExtension }),
   };
 
   return (
@@ -62,7 +65,8 @@ export const GenericUploadFile = ({
       labels={labels}
       tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
       acceptedFileTypes={defaultFileTypeFilter}
-      handleUploadFile={(event) => FileManagementUtils.prepareToUpload(event, updateParameterValue)}
+      shouldHideFileName={renameFileOnUpload}
+      handleUploadFile={(event) => FileManagementUtils.prepareToUpload(event, updateParameterValue, parameterData)}
       handleDeleteFile={() => FileManagementUtils.prepareToDeleteFile(setClientFileDescriptorStatus)}
       handleDownloadFile={(event) => {
         event.preventDefault();

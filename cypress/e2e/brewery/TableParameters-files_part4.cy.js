@@ -1,7 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import 'cypress-file-upload';
 import utils from '../../commons/TestUtils';
 
 import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
