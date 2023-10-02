@@ -264,12 +264,7 @@ const Scenario = () => {
             <Grid container direction="column">
               <CurrentScenarioSelector disabled={isDirty} renderInputToolTip={currentScenarioRenderInputTooltip} />
               {currentScenarioData && (
-                <Typography
-                  data-cy="run-template-name"
-                  variant="caption"
-                  align="center"
-                  className={classes.runTemplate}
-                >
+                <Typography data-cy="run-template-name" variant="body1" align="center" className={classes.runTemplate}>
                   {t('views.scenario.text.scenariotype')}: {currentScenarioData.runTemplateName}
                 </Typography>
               )}
