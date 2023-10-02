@@ -269,7 +269,7 @@ describe('Create scenario', () => {
 
     BreweryParameters.getCurrencyNameInput().click().clear().type(textValue);
     BreweryParameters.getCurrencyValueInput().click().clear().type(numberValue);
-    BreweryParameters.getCurrencySelectOption('JPY');
+    BreweryParameters.getCurrencySelectOption(BASIC_PARAMETERS_CONST.ENUM_KEYS.JPY);
     BreweryParameters.getCurrencyUsedInput().check();
     BreweryParameters.getStartDateInput()
       .click()
@@ -285,8 +285,8 @@ describe('Create scenario', () => {
 
     BreweryParameters.getCurrencyNameInput().should('value', textValue);
     BreweryParameters.getCurrencyValueInput().should('value', numberValue);
-    BreweryParameters.getCurrencyInput().should('value', 'JPY');
-    BreweryParameters.getCurrencyParameterContainer().contains('¥');
+    BreweryParameters.getCurrencyInput().should('value', BASIC_PARAMETERS_CONST.ENUM_KEYS.JPY);
+    BreweryParameters.getCurrencyParameterContainer().contains(BASIC_PARAMETERS_CONST.ENUM.JPY);
     BreweryParameters.getCurrencyUsedInput().should('be.checked');
     BreweryParameters.getStartDateInput().should('value', startDateValue);
     BreweryParameters.getEndDateInput().should('value', endDateValue);
@@ -302,7 +302,7 @@ describe('Create scenario', () => {
       BreweryParameters.getCurrencyValueInput().should('value', input);
     });
 
-    BreweryParameters.getCurrencyParameterContainer().contains('$');
+    BreweryParameters.getCurrencyParameterContainer().contains(BASIC_PARAMETERS_CONST.ENUM.USD);
 
     cy.get('@currency-used').then(() => {
       BreweryParameters.getCurrencyUsedInput().should('not.be.checked');
@@ -322,7 +322,7 @@ describe('Create scenario', () => {
 
     BreweryParameters.getCurrencyNameInput().click().clear().type(textValue);
     BreweryParameters.getCurrencyValueInput().click().clear().type(numberValue);
-    BreweryParameters.getCurrencySelectOption('JPY');
+    BreweryParameters.getCurrencySelectOption(BASIC_PARAMETERS_CONST.ENUM_KEYS.JPY);
     BreweryParameters.getCurrencyUsedInput().check();
     BreweryParameters.getStartDateInput()
       .click()
@@ -355,7 +355,7 @@ describe('Create scenario', () => {
       expect(idGet).equal(scenarioWithBasicTypesId);
       expect(textGet).equal(textValue);
       expect(numberGet).equal(numberValue);
-      expect(enumGet).equal('JPY');
+      expect(enumGet).equal(BASIC_PARAMETERS_CONST.ENUM_KEYS.JPY);
       expect(boolGet).equal('true');
       expect(startDateGet).equal(startDateValue);
       expect(endDateGet).equal(endDateValue);
@@ -372,7 +372,7 @@ describe('Create scenario', () => {
     BreweryParameters.getCurrencyName().should('have.text', textValue);
     BreweryParameters.getCurrencyValue().should('have.text', numberValue);
 
-    BreweryParameters.getCurrency().should('have.text', '¥');
+    BreweryParameters.getCurrency().should('have.text', BASIC_PARAMETERS_CONST.ENUM.JPY);
     BreweryParameters.getCurrencyUsed().should('have.text', 'ON');
     BreweryParameters.getStartDate().should('have.text', new Date(startDateValue).toLocaleDateString());
     BreweryParameters.getEndDate().should('have.text', new Date(endDateValue).toLocaleDateString());

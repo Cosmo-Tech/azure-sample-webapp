@@ -33,10 +33,11 @@ export const BASIC_PARAMETERS_CONST = {
     MAX: 9999,
   },
   ENUM: {
-    USD: '$',
-    EUR: '€',
-    BTC: '฿',
-    JPY: '¥',
+    // Note: some of these values are only compatible with the "en" language selected
+    USD: 'United States dollar ($)',
+    EUR: 'Euro (€)',
+    BTC: 'Bitcoin (฿)',
+    JPY: 'Japanese yen (¥)',
   },
   ENUM_KEYS: {
     USD: 'USD',
