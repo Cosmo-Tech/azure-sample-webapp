@@ -25,11 +25,13 @@ export const GenericEnumInput = ({ parameterData, context, parameterValue, setPa
     }
 
     for (const enumValue of rawEnumValues) {
-      const translationKey = TranslationUtils.getParameterEnumValueTooltipTranslationKey(
+      const valueTranslationKey = TranslationUtils.getParameterEnumValueTranslationKey(parameterData.id, enumValue.key);
+      const tooltipTranslationKey = TranslationUtils.getParameterEnumValueTooltipTranslationKey(
         parameterData.id,
         enumValue.key
       );
-      enumValue.tooltip = t(translationKey, '');
+      enumValue.value = t(valueTranslationKey, enumValue.value);
+      enumValue.tooltip = t(tooltipTranslationKey, '');
       delete enumValue.tooltipText;
     }
 
