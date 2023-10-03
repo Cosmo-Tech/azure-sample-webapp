@@ -6,6 +6,9 @@ import { BREWERY_SELECTORS } from '../../constants/brewery/IdConstants';
 import { FileParameters, TableParameters, ScenarioParameters } from '../generic';
 
 // Get tabs elements
+function getFileUploadTab() {
+  return cy.get(BREWERY_SELECTORS.scenario.parameters.fileUpload.tabName);
+}
 function getDatasetPartsTab() {
   return cy.get(BREWERY_SELECTORS.scenario.parameters.datasetParts.tabName);
 }
@@ -75,6 +78,15 @@ const getRestockInput = () => ScenarioParameters.getParameterInput('number-input
 const getWaiters = () => ScenarioParameters.getParameterValue('number-input-nb_waiters');
 const getWaitersHelperText = () => cy.get('[id=number-input-nb_waiters-helper-text]');
 const getWaitersInput = () => ScenarioParameters.getParameterInput('number-input-nb_waiters');
+
+const getInitialStock = () => cy.get(BREWERY_SELECTORS.scenario.parameters.fileUpload.initialStockDataset);
+const getInitialStockFileName = () => FileParameters.getFileName(getInitialStock());
+const getInitialStockDownloadButton = () => FileParameters.getDownloadButton(getInitialStock());
+const getInitialStockDeleteButton = () => FileParameters.getDeleteButton(getInitialStock());
+const getInitialStockErrorMessage = () => FileParameters.getErrorMessage(getInitialStock());
+const uploadInitialStock = (filePath) => FileParameters.upload(getInitialStock(), filePath);
+const downloadInitialStock = () => FileParameters.download(getInitialStock());
+const deleteInitialStock = () => FileParameters.delete(getInitialStock());
 
 // Get basic types components & input fields
 const getCurrencyParameterContainer = () => ScenarioParameters.getParameterContainer('enum-input-currency');
@@ -372,6 +384,9 @@ function getExampleDatasetPart2ErrorMessage() {
 }
 
 // Switch to a scenario parameters tab
+function switchToFileUploadTab() {
+  getFileUploadTab().click();
+}
 function switchToDatasetPartsTab() {
   getDatasetPartsTab().click();
 }
@@ -449,6 +464,7 @@ function checkEventsErrorsPanelFromList(errors) {
 }
 
 export const BreweryParameters = {
+  getFileUploadTab,
   getDatasetPartsTab,
   getExtraDatasetPartTab,
   getBasicTypesTab,
@@ -513,6 +529,16 @@ export const BreweryParameters = {
   getStockHelperText,
   getRestockHelperText,
   getWaitersHelperText,
+
+  getInitialStock,
+  getInitialStockFileName,
+  getInitialStockDownloadButton,
+  getInitialStockDeleteButton,
+  getInitialStockErrorMessage,
+  uploadInitialStock,
+  downloadInitialStock,
+  deleteInitialStock,
+
   getStartDateHelperText,
   getEndDateHelperText,
   getAdditionalDateHelperText,
@@ -564,6 +590,7 @@ export const BreweryParameters = {
   getExampleDatasetPart2DeleteButton,
   getExampleDatasetPart3DeleteButton,
   getExampleDatasetPart2ErrorMessage,
+  switchToFileUploadTab,
   switchToDatasetPartsTab,
   switchToExtraDatasetPartTab,
   switchToBasicTypesTab,
