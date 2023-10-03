@@ -5,6 +5,7 @@ import { API_ENDPOINT, API_REGEX, AUTH_QUERY_URL, URL_POWERBI, URL_ROOT } from '
 import { stub } from '../services/stubbing';
 import { authUtils } from './authUtils';
 import utils from '../../commons/TestUtils';
+import { fileUtils } from './fileUtils';
 import { DEFAULT_DATASET, SCENARIO_EXAMPLE, SCENARIO_RUN_EXAMPLE } from '../../fixtures/stubbing/default';
 
 const forgeAlias = (prefix) => {
@@ -294,6 +295,16 @@ const interceptGetDatasets = () => {
   return alias;
 };
 
+const interceptGetDataset = () => {
+  const alias = forgeAlias('reqGetDataset');
+  cy.intercept({ method: 'GET', url: API_REGEX.DATASET, times: 1 }, (req) => {
+    if (!stub.isEnabledFor('GET_DATASETS')) return;
+    const datasetId = req.url.match(API_REGEX.DATASET)?.[1];
+    req.reply(stub.getDatasetById(datasetId));
+  }).as(alias);
+  return alias;
+};
+
 // Parameters:
 //   - options: dict with properties:
 //     - id (optional): id of the dataset to create
@@ -335,10 +346,19 @@ const interceptUpdateDataset = (options) => {
       ...req.body,
       ...options?.customDatasetPatch,
     };
-    // const datasetId = options?.datasetId ?? req.url.match(API_REGEX.DATASET)[1];
-    const datasetId = req.url.match(API_REGEX.DATASET)[1];
+    const datasetId = req.url.match(API_REGEX.DATASET)?.[1];
     if (stub.isEnabledFor('GET_DATASETS')) stub.patchDataset(datasetId, datasetPatch);
     if (stub.isEnabledFor('UPDATE_DATASET')) req.reply(datasetPatch);
+  }).as(alias);
+  return alias;
+};
+
+const interceptDownloadWorkspaceFile = () => {
+  const alias = forgeAlias('reqDownloadWorkspaceFile');
+  cy.intercept({ method: 'GET', url: API_REGEX.FILE_DOWNLOAD, times: 1 }, (req) => {
+    if (!stub.isEnabledFor('GET_DATASETS')) return;
+    const fileName = decodeURIComponent(req.url.match(API_REGEX.FILE_DOWNLOAD)?.[1]);
+    req.reply(stub.getWorkspaceFile(fileName));
   }).as(alias);
   return alias;
 };
@@ -346,9 +366,12 @@ const interceptUpdateDataset = (options) => {
 // Parameters:
 //   - fileName: name (or path in Storage) of the uploaded file
 //   - fileContent: content of the uploaded file
-const interceptUploadWorkspaceFile = (fileName, fileContent) => {
+const interceptUploadWorkspaceFile = () => {
   const alias = forgeAlias('reqUploadWorkspaceFile');
   cy.intercept({ method: 'POST', url: API_REGEX.FILE_UPLOAD, times: 1 }, (req) => {
+    const form = fileUtils.parseMultipartFormData(req.body);
+    const fileName = form.destination;
+    const fileContent = form.file;
     if (stub.isEnabledFor('CREATE_DATASET')) {
       stub.addWorkspaceFile(fileName, fileContent);
       req.reply(fileName);
@@ -438,8 +461,10 @@ export const apiUtils = {
   interceptUpdateScenario,
   interceptDeleteScenario,
   interceptGetDatasets,
+  interceptGetDataset,
   interceptCreateDataset,
   interceptUpdateDataset,
+  interceptDownloadWorkspaceFile,
   interceptUploadWorkspaceFile,
   interceptGetOrganizationPermissions,
   interceptGetScenario,

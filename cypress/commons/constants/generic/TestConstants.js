@@ -45,6 +45,7 @@ export const API_ENDPOINT = {
   ORGANIZATION_USERS: URL_ROOT + '(?:/.*)?/organizations/((o|O)-[\\w]+)/security/users',
   WORKSPACE_USERS: URL_ROOT + '/.*/workspaces/((w|W)-[\\w]+)/security/users',
   FILE_UPLOAD: URL_ROOT + '(?:/.*)?/organizations/.*/workspaces/.*/files',
+  FILE_DOWNLOAD: URL_ROOT + '(?:/.*)?/organizations/.*/workspaces/.*/files/download\\?file_name=(.*)',
 };
 
 export const ROLES = {
@@ -164,6 +165,7 @@ export const API_REGEX = {
   ORGANIZATION_USERS: new RegExp('^' + API_ENDPOINT.ORGANIZATION_USERS + '$'),
   WORKSPACE_USERS: new RegExp('^' + API_ENDPOINT.WORKSPACE_USERS + '$'),
   FILE_UPLOAD: new RegExp('^' + API_ENDPOINT.FILE_UPLOAD + '$'),
+  FILE_DOWNLOAD: new RegExp('^' + API_ENDPOINT.FILE_DOWNLOAD + '$'),
 };
 
 export const SCENARIO_RUN_IN_PROGRESS = 'Scenario run in progress...';

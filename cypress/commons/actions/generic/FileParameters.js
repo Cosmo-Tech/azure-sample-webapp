@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
+import { apiUtils as api } from '../../utils';
 
 // Get the "browse" button from the provided parameterSelector and upload the file provided by filePath (path must be
 // relative to the cypress "fixtures" folder)
@@ -29,7 +30,9 @@ function getErrorMessage(fileParameterElement) {
 }
 
 function download(fileParameterElement) {
+  const aliases = [api.interceptGetDataset(), api.interceptDownloadWorkspaceFile()];
   getDownloadButton(fileParameterElement).click();
+  api.waitAliases(aliases, { timeout: 60 * 1000 });
 }
 
 function _delete(fileParameterElement) {
