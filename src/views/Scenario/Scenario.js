@@ -4,6 +4,8 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Button, Card, Grid, Paper, Tooltip, Typography } from '@mui/material';
 import { useForm, FormProvider } from 'react-hook-form';
+import { Layout, Model } from 'flexlayout-react';
+import 'flexlayout-react/style/light.css';
 import {
   ScenarioParameters,
   ShareCurrentScenarioButton,
@@ -20,6 +22,7 @@ import { ScenarioDashboardCard, BackdropLoadingScenario } from './components';
 import { makeStyles } from '@mui/styles';
 import { useScenario } from './ScenarioHook';
 import { useConfirmOnRouteChange, useRedirectionToScenario } from '../../hooks/RouterHooks';
+import viewConfigJSON from '../../config/views/scenarioView.json';
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -243,50 +246,47 @@ const Scenario = () => {
 
   const scenarioValidationArea = showValidationChip ? scenarioValidationStatusChip : validationStatusButtons;
 
+  const viewModel = Model.fromJson(viewConfigJSON);
+  const viewFactory = (node) => {
+    const component = node.getComponent();
+    if (component === 'validate') {
+      return currentScenarioData && scenarioValidationArea;
+    } else if (component === 'create') {
+      return <CreateScenarioButton disabled={isDirty} onScenarioCreated={onScenarioCreated} />;
+    } else if (component === 'share') {
+      return <ShareCurrentScenarioButton />;
+    } else if (component === 'select') {
+      return (
+        <Grid container direction="column">
+          <CurrentScenarioSelector disabled={isDirty} renderInputToolTip={currentScenarioRenderInputTooltip} />
+          {currentScenarioData && (
+            <Typography data-cy="run-template-name" variant="body1" align="center" className={classes.runTemplate}>
+              {t('views.scenario.text.scenariotype')}: {currentScenarioData.runTemplateName}
+            </Typography>
+          )}
+        </Grid>
+      );
+    } else if (component === 'parameters') {
+      return (
+        <Card component={Paper}>
+          {currentScenarioData && (
+            <ScenarioParameters
+              isAccordionExpanded={isScenarioParametersAccordionExpanded}
+              onToggleAccordion={toggleScenarioParametersAccordion}
+            />
+          )}
+        </Card>
+      );
+    } else if (component === 'dashboards') {
+      return <ScenarioDashboardCard />;
+    }
+  };
+
   return (
     <FormProvider {...methods}>
       <BackdropLoadingScenario />
       <div data-cy="scenario-view" className={classes.content}>
-        <Grid container spacing={2} alignItems="center" justifyContent="space-between">
-          <Grid item xs={4}>
-            <div>
-              <Grid container spacing={1} alignItems="center" justifyContent="flex-start">
-                <Grid item>
-                  <CreateScenarioButton disabled={isDirty} onScenarioCreated={onScenarioCreated} />
-                </Grid>
-                <Grid item>
-                  <ShareCurrentScenarioButton />
-                </Grid>
-              </Grid>
-            </div>
-          </Grid>
-          <Grid item xs={4}>
-            <Grid container direction="column">
-              <CurrentScenarioSelector disabled={isDirty} renderInputToolTip={currentScenarioRenderInputTooltip} />
-              {currentScenarioData && (
-                <Typography data-cy="run-template-name" variant="body1" align="center" className={classes.runTemplate}>
-                  {t('views.scenario.text.scenariotype')}: {currentScenarioData.runTemplateName}
-                </Typography>
-              )}
-            </Grid>
-          </Grid>
-          <Grid item xs={4} className={classes.alignRight}>
-            {currentScenarioData && scenarioValidationArea}
-          </Grid>
-          <Grid item xs={12}>
-            <Card component={Paper}>
-              {currentScenarioData && (
-                <ScenarioParameters
-                  isAccordionExpanded={isScenarioParametersAccordionExpanded}
-                  onToggleAccordion={toggleScenarioParametersAccordion}
-                />
-              )}
-            </Card>
-          </Grid>
-          <Grid item xs={12}>
-            <ScenarioDashboardCard />
-          </Grid>
-        </Grid>
+        <Layout model={viewModel} factory={viewFactory} />
       </div>
     </FormProvider>
   );
