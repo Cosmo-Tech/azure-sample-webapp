@@ -29,7 +29,7 @@ describe('areAccessControlListsIdentical', () => {
   ];
   const aclD = [];
 
-  test('with identicals ACLs', () => {
+  test('with identical ACLs', () => {
     expect(SecurityUtils.areAccessControlListsIdentical(aclA1, aclA1)).toStrictEqual(true);
     expect(SecurityUtils.areAccessControlListsIdentical(aclA1, aclA2)).toStrictEqual(true);
   });
@@ -61,7 +61,7 @@ describe('compareAccessControlLists', () => {
   ];
   const aclD = [];
 
-  test('with identicals ACLs', () => {
+  test('with identical ACLs', () => {
     let { usersToAdd, usersToModify, usersToRemove } = SecurityUtils.compareAccessControlLists(aclA1, aclA1);
     expect(usersToAdd).toStrictEqual([]);
     expect(usersToModify).toStrictEqual([]);
@@ -144,6 +144,7 @@ describe('getPermissionsFromRole', () => {
     ${[]}        | ${{}}                        | ${0}             | ${[]}
     ${[]}        | ${rolesToPermissionsMapping} | ${0}             | ${[]}
     ${'admin'}   | ${rolesToPermissionsMapping} | ${0}             | ${['read', 'write', 'manage']}
+    ${'AdMin'}   | ${rolesToPermissionsMapping} | ${0}             | ${['read', 'write', 'manage']}
     ${'writer'}  | ${rolesToPermissionsMapping} | ${0}             | ${['read', 'write']}
     ${'reader'}  | ${rolesToPermissionsMapping} | ${0}             | ${['read']}
     ${'guest'}   | ${rolesToPermissionsMapping} | ${0}             | ${[]}
@@ -358,7 +359,7 @@ describe('getUserPermissionsForResource with invalid parameters', () => {
               SecurityUtils.getUserPermissionsForResource(resourceSecurity, userIdentifier, mapping)
             ).toStrictEqual(expectedRes);
 
-            // A first warning must be shown when user id is invalid, and another one when the mmapping is null
+            // A first warning must be shown when user id is invalid, and another one when the mapping is null
             let warnCounts = 0;
             if (resourceSecurity == null || mapping == null || userIdentifier == null) ++warnCounts;
             expect(spyConsoleWarn).toHaveBeenCalledTimes(warnCounts);
@@ -420,7 +421,7 @@ describe('getUserPermissionsForResource with valid parameters', () => {
 });
 
 describe('parseOrganizationPermissions with valid parameters', () => {
-  test('with identicals ACLs', () => {
+  test('with identical ACLs', () => {
     const { roles, permissions, permissionsMapping } =
       SecurityUtils.parseOrganizationPermissions(ORGANIZATION_PERMISSIONS);
     expect(roles).toStrictEqual(EXPECTED_ROLES);
