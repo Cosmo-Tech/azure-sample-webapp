@@ -1,15 +1,13 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useEffect, useState } from 'react';
-import { Badge, Tab } from '@mui/material';
+import React, { useMemo } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
-import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { useTranslation } from 'react-i18next';
-import LockIcon from '@mui/icons-material/Lock';
-import { ConfigUtils, ScenarioParametersUtils, TranslationUtils } from '../../../../utils';
+import { TranslationUtils } from '../../../../utils';
 import PropTypes from 'prop-types';
-import { useFormState } from 'react-hook-form';
+import { Layout, Model } from 'flexlayout-react';
+import 'flexlayout-react/style/dark.css';
 
 const useStyles = makeStyles((theme) => ({
   tabPanel: {
@@ -20,110 +18,63 @@ const useStyles = makeStyles((theme) => ({
     margin: `0 ${theme.spacing(3)}`,
   },
 }));
-
-function _buildScenarioTabList(tabs, userRoles, t, errors) {
-  const tabListComponent = [];
-  const errorsByTab = ScenarioParametersUtils.getErrorsCountByTab(tabs, errors);
-  for (const groupMetadata of tabs) {
-    const lockedTab = !hasRequiredProfile(userRoles, groupMetadata.authorizedRoles);
-    const lockIcon = lockedTab ? <LockIcon /> : undefined;
-    if (!lockedTab || !ConfigUtils.getParametersGroupAttribute(groupMetadata, 'hideParameterGroupIfNoPermission')) {
-      tabListComponent.push(
-        <Tab
-          key={groupMetadata.id}
-          value={groupMetadata.id}
-          data-cy={groupMetadata.id + '_tab'}
-          icon={lockIcon}
-          label={
-            <Badge data-cy="error-badge" badgeContent={errorsByTab[groupMetadata.id]} color="error">
-              {t(TranslationUtils.getParametersGroupTranslationKey(groupMetadata.id), groupMetadata.id)}
-            </Badge>
-          }
-        />
-      );
-    }
-  }
-  return tabListComponent;
-}
-
-function _buildTabPanels(userRoles, tabs, classes) {
-  const tabPanelComponents = [];
-  for (let index = 0; index < tabs.length; index++) {
-    const groupMetadata = tabs[index];
-    const lockedTab = !hasRequiredProfile(userRoles, groupMetadata.authorizedRoles);
-    if (!lockedTab || !ConfigUtils.getParametersGroupAttribute(groupMetadata, 'hideParameterGroupIfNoPermission')) {
-      tabPanelComponents.push(
-        <TabPanel index={index} key={groupMetadata.id} value={groupMetadata.id} className={classes.tabPanel}>
-          {groupMetadata.tab}
-        </TabPanel>
-      );
-    }
-  }
-  return tabPanelComponents;
-}
-
-const hasRequiredProfile = (userProfiles, requiredProfiles) => {
-  if (!requiredProfiles) {
-    return true;
-  }
-  if (Array.isArray(requiredProfiles) && requiredProfiles.length === 0) {
-    return true;
-  }
-  return requiredProfiles.some((profile) => userProfiles.includes(profile));
+const DEFAULT_VIEW_CONFIG = {
+  global: {
+    enableEdgeDock: false,
+    tabEnableClose: false,
+    tabEnableRename: false,
+    tabEnableFloat: false,
+    tabSetMinWidth: 100,
+    tabSetMinHeight: 80,
+    borderMinSize: 100,
+    tabEnableRenderOnDemand: false,
+    rootOrientationVertical: true,
+  },
+  borders: [],
+  layout: {
+    type: 'row',
+    weight: 100,
+    children: [
+      {
+        type: 'tabset',
+        weight: 50,
+        children: [],
+      },
+    ],
+  },
 };
 
-function chooseParametersTab(parametersGroupsMetadata, userRoles) {
-  const selectedTabId = '';
-  for (const groupMetadata of parametersGroupsMetadata) {
-    if (selectedTabId === '') {
-      const canViewTab = hasRequiredProfile(userRoles, groupMetadata.authorizedRoles);
-      if (canViewTab || !ConfigUtils.getParametersGroupAttribute(groupMetadata, 'hideParameterGroupIfNoPermission')) {
-        return groupMetadata?.id;
-      }
-    }
+function getViewModel(tabs, t) {
+  const layoutChildren = [];
+  for (const groupMetadata of tabs) {
+    layoutChildren.push({
+      type: 'tab',
+      name: t(TranslationUtils.getParametersGroupTranslationKey(groupMetadata.id), groupMetadata.id),
+      component: groupMetadata.id,
+    });
   }
-  return selectedTabId;
+  DEFAULT_VIEW_CONFIG.layout.children[0].children = layoutChildren;
+  return Model.fromJson(DEFAULT_VIEW_CONFIG);
 }
 
 const ScenarioParametersTabs = ({ parametersGroupsMetadata, userRoles }) => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const [tabs, setTabs] = useState(parametersGroupsMetadata);
-  const firstTab = chooseParametersTab(parametersGroupsMetadata, userRoles);
-  const [selectedTab, setSelectedTab] = useState(firstTab);
-  const { errors } = useFormState();
+  const viewModel = useMemo(() => getViewModel(parametersGroupsMetadata, t), [t, parametersGroupsMetadata]);
 
-  // Reset selected tab on scenario change
-  useEffect(() => {
-    setTabs(parametersGroupsMetadata);
-    if (parametersGroupsMetadata.find((groupMetadata) => groupMetadata.id === selectedTab) === undefined) {
-      setSelectedTab(firstTab);
-    }
-    // eslint-disable-next-line
-  }, [parametersGroupsMetadata]);
+  const viewFactory = (node) => {
+    const component = node.getComponent();
+    return parametersGroupsMetadata.find((group) => group.id === component).tab;
+  };
 
   return (
     <div data-cy="scenario-parameters-tabs">
-      {tabs.length === 0 ? (
+      {parametersGroupsMetadata.length === 0 ? (
         <div className={classes.placeholder} data-cy="no-parameters-placeholder">
           {t('genericcomponent.text.scenario.parameters.placeholder', 'No parameters to edit.')}
         </div>
       ) : (
-        <TabContext value={selectedTab}>
-          <TabList
-            value={selectedTab}
-            variant="scrollable"
-            indicatorColor="primary"
-            textColor="primary"
-            onChange={(event, newTab) => {
-              setSelectedTab(newTab);
-            }}
-            aria-label="scenario parameters"
-          >
-            {_buildScenarioTabList(tabs, userRoles, t, errors)}
-          </TabList>
-          {_buildTabPanels(userRoles, tabs, classes)}
-        </TabContext>
+        <Layout model={viewModel} factory={viewFactory} />
       )}
     </div>
   );
