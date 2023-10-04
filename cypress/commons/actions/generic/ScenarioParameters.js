@@ -139,7 +139,7 @@ function save(options = {}) {
   options?.datasetsEvents?.reverse()?.forEach((datasetEvent) => {
     aliases.push(api.interceptCreateDataset({ id: datasetEvent.id, validateRequest: datasetEvent.onDatasetCreation }));
     aliases.push(api.interceptUpdateDataset({ id: datasetEvent.id, validateRequest: datasetEvent.onDatasetUpdate }));
-    aliases.push(api.interceptUploadWorkspaceFile('dummyName', 'dummyContent'));
+    aliases.push(api.interceptUploadWorkspaceFile());
   });
 
   const reqUpdateScenarioAlias = api.interceptUpdateScenario(options?.updateOptions);

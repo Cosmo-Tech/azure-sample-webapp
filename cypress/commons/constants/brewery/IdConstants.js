@@ -12,6 +12,10 @@ export const BREWERY_SELECTORS = {
         waitersDisabledValue: '[data-cy=nb_waiters-value-disabled-input]',
         waitersInput: '[id=number-input-nb_waiters]',
       },
+      fileUpload: {
+        tabName: '[data-cy=file_upload_tab]',
+        initialStockDataset: '[data-cy=file-upload-initial_stock_dataset]',
+      },
       basicTypes: {
         tabName: '[data-cy=basic_types_tab]',
         currency: '[data-cy=currency-textField]',

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import {
+  Downloads,
   FileParameters,
   Scenarios,
   ScenarioParameters,
@@ -10,6 +11,7 @@ import {
   Login,
 } from '../../commons/actions';
 import { SOLUTIONS, SCENARIOS } from '../../fixtures/stubbing/FileParametersNames';
+import { EXPECTED_DATA_AFTER_DUMMY_DATASET_1_UPLOAD } from '../../fixtures/FileParametersData';
 import { stub } from '../../commons/services/stubbing';
 
 const DUMMY_CSV = 'dummy_dataset_1.csv';
@@ -37,6 +39,7 @@ describe('Management of file names for scenario parameters of type file', () => 
   });
 
   after(() => {
+    Downloads.clearDownloadsFolder();
     stub.stop();
   });
 
@@ -64,6 +67,13 @@ describe('Management of file names for scenario parameters of type file', () => 
         },
       },
     });
+
+    FileParameters.getFileName(getFileNoRenaming()).should('have.text', DUMMY_CSV);
+    FileParameters.getFileName(getFileWithRenaming()).should('have.text', 'CSV file');
+    FileParameters.download(getFileNoRenaming());
+    FileParameters.download(getFileWithRenaming());
+    Downloads.checkByContent(DUMMY_CSV, EXPECTED_DATA_AFTER_DUMMY_DATASET_1_UPLOAD);
+    Downloads.checkByContent('file_with_renaming.csv', EXPECTED_DATA_AFTER_DUMMY_DATASET_1_UPLOAD);
 
     FileParameters.upload(getFileNoRenaming(), DUMMY_JSON);
     FileParameters.upload(getFileWithRenaming(), DUMMY_JSON);
