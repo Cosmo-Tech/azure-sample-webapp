@@ -9,7 +9,7 @@
     "@cosmotech/ui": "^5.10.0",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
-    "@microsoft/applicationinsights-web": "^2.5.11",
+    "@microsoft/applicationinsights-web": "^3.0.3",
     "@mui/icons-material": "^5.11.0",
     "@mui/lab": "^5.0.0-alpha.117",
     "@mui/material": "^5.11.6",
@@ -65,7 +65,7 @@
     ]
   },
   "devDependencies": {
-    "@azure/msal-node": "^1.12.1",
+    "@azure/msal-node": "^2.1.0",
     "@babel/core": "^7.15.5",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/preset-env": "^7.15.6",
