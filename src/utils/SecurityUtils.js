@@ -90,7 +90,7 @@ const getPermissionsFromRole = (role, rolesToPermissionsMapping) => {
     console.warn("Mapping between roles and permissions is null or undefined, can't retrieve permissions.");
     return [];
   }
-  return rolesToPermissionsMapping[role] ?? [];
+  return rolesToPermissionsMapping[typeof role === 'string' ? role.toLowerCase() : role] ?? [];
 };
 
 // Given a permission name and a roles to permissions mapping, this function returns the list of roles granting the
@@ -129,7 +129,7 @@ const getUserRoleForResource = (resourceSecurity, userIdentifier) => {
   if (resourceSecurity.accessControlList != null) {
     const acl = resourceSecurity.accessControlList;
     if (Array.isArray(acl)) {
-      const specificUserSecurity = acl.find((aclUser) => aclUser.id === userIdentifier);
+      const specificUserSecurity = acl.find((aclUser) => aclUser.id.toLowerCase() === userIdentifier.toLowerCase());
       if (specificUserSecurity !== undefined) {
         return specificUserSecurity.role;
       }
@@ -165,7 +165,7 @@ const _getPermissionsFromMapping = (permissionsMapping) => {
   return Array.from(permissionsSet);
 };
 
-// Example of format for orgzaniation permissions:
+// Example of format for organization permissions:
 // [
 //   {
 //     component: 'organization',
