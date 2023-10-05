@@ -51,6 +51,9 @@
     "link:ui": "yalc add @cosmotech/ui && yalc link @cosmotech/ui && yarn install",
     "unlink:ui": "yalc remove @cosmotech/ui && yarn install"
   },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "browserslist": {
     "production": [
       ">0.2%",

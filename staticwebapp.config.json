@@ -7,7 +7,7 @@
     "Referrer-Policy": "no-referrer"
   },
   "platform": {
-    "apiRuntime": "node:16"
+    "apiRuntime": "node:18"
   },
   "navigationFallback": {
     "rewrite": "/index.html"
