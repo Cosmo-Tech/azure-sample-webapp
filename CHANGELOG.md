@@ -1,8 +1,63 @@
-## **5.2.0** <sub><sup>Not released yet</sup></sub>
+## **5.2.0** <sub><sup>2023-10-06 ([238b554...e8fa794](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/238b5547...e8fa794a?diff=split))</sup></sub>
+
+### Features
+
+- improve **user input validation** for scenario parameters:
+  - type-checking
+  - required fields
+  - min/max length or values
+  - list of allowed file extensions
+  - comparison with other scenario parameters (e.g. _start date < end date_)
+  - **error badges** added to point out tabs with validation errors
+- improvements for **table** scenario parameters
+  - add **fullscreen** support for an improved user experience when working with tables
+  - when option `canChangeRowsNumber` is set, users will be able to manually **create and delete rows** in the table
+  - add support for **groups of columns**, with optional columns "collapse & expand"
+- improve checks & error messages to help integrators:
+  - show warnings in console when solution contains unrecognized keys
+  - show warnings in console when workspace contains unrecognized keys
+  - improved error messages context & format for PowerBI service account errors
+- more context shown to end-users:
+  - modify workspace selector button ("home" button) to make workspace information visible from scenario view
+  - scenario run types are now visible from scenario manager
+  - the technical details of the solution are shown in the "Help" menu
+  - simulation logs can now be downloaded even when scenario runs have succeeded
+- and more new features:
+  - when option `shouldRenameFileOnUpload` is set for files or tables parameters, uploaded files are renamed before being saved
+  - add optional tooltips to describe values of "enum" scenario parameters
+  - add translation support for enum values
+
+### Bug Fixes
+
+- force date values received from \(and sent to\) back\-end to be set to midnight UTC ([987f1cf](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/987f1cfb))
+- rename \.xlsx files imported in Table to \.csv before upload ([5e75dfc](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/5e75dfc0))
+- prevent aggrid from automatically renaming table columns ([9fcb439](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/9fcb4390))
+- make email & roles non\-case\-sensitive ([25ececb](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/25ececbd))
+- make running state more visible ([d07c6bc](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/d07c6bcd))
+- slightly increase size of run template name in Scenario view ([1c18af0](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/1c18af02))
+- add parent-child indentation in scenario dropdown list, in scenario creation pop-up ([9d23168](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/9d231682))
+- fix errors message mentioning "scenario run" when the "Save" action failed ([8efa3da](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/8efa3da6))
+- disable folding of organization Accordion in workspaces selector ([834f557](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/834f5576))
+- running scenarios are now stopped before being deleted ([2bae6fc](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/2bae6fc0))
+- show error in browser console when conversions of parameter values have failed ([08ff30f](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/08ff30f0))
+- fix possible errors in Powerbi reducer & saga ([fcd1929](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/fcd1929d))
+- fix broken behavior of REACT_APP_NO_POWERBI_POLLING option ([be87a09](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/be87a093))
+- and more minor bug fixes...
 
 ### Known issues
 
 - clearing the errors panel of a Table parameter does not reset the "dirty" state of the scenario parameters form
+- when using **chrome**-based browsers, for parameters of type `date`, depending on the user location and browser settings, some old dates and timezones may be misinterpreted: when saving the scenario, a date might be replaced by the previous day instead (e.g. dates before March 11, 1911, in France)
+
+### Documentation
+
+- describe validation configuration for scenario parameters ([d258e6c](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/d258e6c1))
+- add docs to explain solution and workspace schema validation ([5955678](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/5955678f))
+- add documentation for `hidden` option of parameters & groups ([5439b48](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/5439b484))
+- add documentation of new option `columnGroupShow` for table parameters ([799b9a4](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/799b9a46))
+- add documentation of new option `shouldRenameFileOnUpload` for files & tables parameters ([4d16789](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/4d16789f))
+- add instructions for webapp security when using custom API URL ([ec4e678](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/ec4e678a))
+- minor changes ([ecaf248](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/ecaf248a), [1b15290](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/1b15290a), [db0bb2e](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/db0bb2e3))
 
 ## **5.1.1** <sub><sup>2023-09-07 ([8f66c56...8f66c56](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/8f66c56f...8f66c56f?diff=split))</sup></sub>
 
@@ -24,9 +79,9 @@
 
 ### Bug Fixes
 
-- \[PROD\-11540\] allow usage of different PowerBI workspaces in the webapp workspaces ([7c9927e](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/7c9927e4), [d291812](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/d2918127))
-- \[PROD\-11537\] stop polling scenario status on workspace change ([b26aa59](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/b26aa590))
-- \[PROD\-11711\] add token validation in GetEmbedInfo azure function ([4ef6678](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/4ef66781), [86d1229](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/86d12297), [b6f5860](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/b6f5860b))
+- allow usage of different PowerBI workspaces in the webapp workspaces ([7c9927e](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/7c9927e4), [d291812](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/d2918127))
+- stop polling scenario status on workspace change ([b26aa59](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/b26aa590))
+- add token validation in GetEmbedInfo azure function ([4ef6678](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/4ef66781), [86d1229](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/86d12297), [b6f5860](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/b6f5860b))
 - fix error banner's animation, handle error properly ([859a4e8](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/859a4e82))
 - prevent null or NaN values in number input fields ([1c40ae1](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/1c40ae1f))
 - fix console warning regarding undefined required prop ([2c4330d](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/2c4330de))
@@ -287,7 +342,7 @@ _Note: a [migration guide](./doc/migrationGuides/v3.0.0.md) is available to help
 - force column layout for scenario parameters in tab ([9b34704](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/9b34704))
 - fix date input layout ([9b34704](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/9b34704))
 - fix missing part of label displayed when no scenarios exist ([478d659](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/478d659))
-- fix scenario state not updated in scenarios list when running \(PROD\-8039\) ([bc5c182](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/bc5c182))
+- fix scenario state not updated in scenarios list when running ([bc5c182](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/bc5c182))
 
 ### Documentation
 
