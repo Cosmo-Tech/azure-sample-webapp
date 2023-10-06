@@ -34,22 +34,17 @@
     jsonpointer "^5.0.0"
     leven "^3.1.0"
 
-"@azure/msal-browser@~2.23.0":
-  version "2.23.0"
-  resolved "https://registry.yarnpkg.com/@azure/msal-browser/-/msal-browser-2.23.0.tgz#24fc58e9d1314833b09d3f52ba4e53f526cfe0de"
-  integrity sha512-qxyWmsP/pf+xJFEhMgiJ0r1v6TjF+x8iMWYU5R63Lb/fjQfKalaNX9f5D6GbJYJS5s9OF3abtdGtB/Lxea15mQ==
+"@azure/msal-browser@~3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@azure/msal-browser/-/msal-browser-3.1.0.tgz#8addaaf67211302c1e64dba4975f3691ad390175"
+  integrity sha512-zQpL/mR6Xif+WltcRMej8wRsBQu+lW8e1/su8SMkF41i+Pnn/a/a/l+VoT4D+cQrBAq3PL5IaLfuUoNVTRUjKw==
   dependencies:
-    "@azure/msal-common" "^6.2.0"
+    "@azure/msal-common" "14.0.3"
 
 "@azure/msal-common@14.0.3":
   version "14.0.3"
   resolved "https://registry.yarnpkg.com/@azure/msal-common/-/msal-common-14.0.3.tgz#4e273c72b7a9dde4e79f84db0e6c51c1665fcd2f"
   integrity sha512-Vl5SsC3zvQ8913GnO5Typox+35M6CaXmO/2FXi35LfMAV3ZB/HLCsldLxylI01c3CmtOm7pICWpOjp/DlQ9RWA==
-
-"@azure/msal-common@^6.2.0":
-  version "6.4.0"
-  resolved "https://registry.yarnpkg.com/@azure/msal-common/-/msal-common-6.4.0.tgz#434a55be9639cb5c7910c0cc1a46555ff0bc6c39"
-  integrity sha512-WZdgq9f9O8cbxGzdRwLLMM5xjmLJ2mdtuzgXeiGxIRkVVlJ9nZ6sWnDFKa2TX8j72UXD1IfL0p/RYNoTXYoGfg==
 
 "@azure/msal-node@^2.1.0":
   version "2.1.0"
@@ -1142,7 +1137,7 @@
   resolved "https://registry.yarnpkg.com/@babel/regjsgen/-/regjsgen-0.8.0.tgz#f0ba69b075e1f05fb2825b7fad991e7adbb18310"
   integrity sha512-x/rqGMdzj+fWZvCOYForTghzbtqPDZ5gPwaoNGHdgDfF2QA/XZbCBp4Moo5scrkAMPhB7z26XM/AaHuIJdgauA==
 
-"@babel/runtime@^7.11.2", "@babel/runtime@^7.12.5", "@babel/runtime@^7.15.4", "@babel/runtime@^7.16.3", "@babel/runtime@^7.18.3", "@babel/runtime@^7.18.9", "@babel/runtime@^7.19.4", "@babel/runtime@^7.20.6", "@babel/runtime@^7.20.7", "@babel/runtime@^7.21.0", "@babel/runtime@^7.22.15", "@babel/runtime@^7.22.5", "@babel/runtime@^7.22.6", "@babel/runtime@^7.3.1", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.3", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.3", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2":
+"@babel/runtime@^7.11.2", "@babel/runtime@^7.12.5", "@babel/runtime@^7.15.4", "@babel/runtime@^7.16.3", "@babel/runtime@^7.18.3", "@babel/runtime@^7.18.9", "@babel/runtime@^7.19.4", "@babel/runtime@^7.20.6", "@babel/runtime@^7.20.7", "@babel/runtime@^7.21.0", "@babel/runtime@^7.22.15", "@babel/runtime@^7.22.5", "@babel/runtime@^7.22.6", "@babel/runtime@^7.23.1", "@babel/runtime@^7.3.1", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.3", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.3", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2":
   version "7.23.1"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.23.1.tgz#72741dc4d413338a91dcb044a86f3c0bc402646d"
   integrity sha512-hC2v6p8ZSI/W0HUzh3V8C5g+NwSKzKPtJwSpTjwl0o297GP9+ZLQSkdvHz46CM3LqyoXxq+5G9komY+eSqSO0g==
@@ -1201,16 +1196,16 @@
     axios "^0.21.4"
 
 "@cosmotech/azure@^1.3.0":
-  version "1.3.2"
-  resolved "https://registry.yarnpkg.com/@cosmotech/azure/-/azure-1.3.2.tgz#842387ec83253be84f39e9a0892ff8057c0d2cfb"
-  integrity sha512-Wca8GjSMND5qNLYmBcdWkRM2CbA2EbbW/lYEjf15T0ue2wNWBeMvHcsLG3d/54dGVQg3ZQ6taUjLKtVuBCt99g==
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/@cosmotech/azure/-/azure-1.3.3.tgz#895e4bb96787ea8bb69e81feadb1dc14ffbe5205"
+  integrity sha512-+DB4zBxdZ4dibdYXpsHgzORNkEKyWHxQHLO7ttdg6IPzQABWA90h5pPL0sT/VE2ADeDvHUCul3nmYQsEQ4/IFQ==
   dependencies:
-    "@azure/msal-browser" "~2.23.0"
+    "@azure/msal-browser" "~3.1.0"
 
 "@cosmotech/core@^1.14.0":
-  version "1.14.0"
-  resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.14.0.tgz#f5275f6ad2c7ddb9f26e14ca5471e346011253f5"
-  integrity sha512-OKC4R/RL7EgYJG+mIrwj14KsbBcgr8Ks7oOP0/rTr0vN9PSthq3hKKAraKrM7tFTREqdlRtI1yOlmT1sBoVGjg==
+  version "1.14.1"
+  resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.14.1.tgz#22f30149785373c82fd3bd723c5e81bbedf7d932"
+  integrity sha512-G2B+5nwWqa1VAl/GbqUljlnY7OgRJg0NmTslEmB31yaL1lXRIRXxqsgyJKevsHuHuyYqA1dbxVQcoa+K10+2Eg==
   dependencies:
     csv-string "^4.0.1"
     date-fns "^2.25.0"
@@ -1218,25 +1213,25 @@
     validator "^13.7.0"
     xlsx "https://cdn.sheetjs.com/xlsx-0.20.0/xlsx-0.20.0.tgz"
 
-"@cosmotech/ui@^5.10.0":
-  version "5.10.0"
-  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-5.10.0.tgz#221970a6f8e8b50000cf3d9e26cf32f92358d150"
-  integrity sha512-4fN/lzxRBI3ipPKLjiwWzS/fLhGLu6T/zMCvLbFVY2sWisD74IaM6yX7aYermNGvZ8s99BeSw3Ka3R6NLcTQDg==
+"@cosmotech/ui@^5.10.1":
+  version "5.10.1"
+  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-5.10.1.tgz#bfb6da93a5cc927567ab84725775cfb50cbbf7d0"
+  integrity sha512-+9qlVKiRUAXYB14lCXyXlc3p6MvU9dY4gj7N6oRgR31f7AxpP4H4wh6mxAqOqnKwoc65VAHJdg6tk2BC0fWtAg==
   dependencies:
     "@emotion/react" "^11.10.5"
     "@emotion/styled" "^11.10.5"
     "@mui/x-date-pickers" "^5.0.18"
     "@nosferatu500/react-sortable-tree" "^3.0.5"
-    ag-grid-community "~29.0.0"
-    ag-grid-react "~29.0.0"
-    clsx "^1.1.1"
+    ag-grid-community "~30.2.0"
+    ag-grid-react "~30.2.0"
+    clsx "^2.0.0"
     cytoscape "^3.20.0"
     cytoscape-bubblesets "^3.1.0"
     cytoscape-dagre "^2.4.0"
     cytoscape-layers "^2.2.0"
     powerbi-client-react "^1.3.3"
     react-cytoscapejs "^2.0.0"
-    react-lottie-player "1.4.1"
+    react-lottie-player "^1.4.1"
     react-number-format "^5.1.3"
     rfdc "^1.3.0"
 
@@ -2401,7 +2396,17 @@
   resolved "https://registry.yarnpkg.com/@mui/types/-/types-7.2.4.tgz#b6fade19323b754c5c6de679a38f068fd50b9328"
   integrity sha512-LBcwa8rN84bKF+f5sDyku42w1NTxaPgPyYKODsh01U1fVstTClbUoSA96oyRBnSNyEiAVjKm6Gwx9vjR+xyqHA==
 
-"@mui/utils@^5.10.3", "@mui/utils@^5.14.11", "@mui/utils@^5.14.3":
+"@mui/utils@^5.10.3":
+  version "5.14.12"
+  resolved "https://registry.yarnpkg.com/@mui/utils/-/utils-5.14.12.tgz#58b570839e22e0fba71e17d37d9c083fe233704d"
+  integrity sha512-RFNXnhKQlzIkIUig6mmv0r5VbtjPdWoaBPYicq25LETdZux59HAqoRdWw15T7lp3c7gXOoE8y67+hTB8C64m2g==
+  dependencies:
+    "@babel/runtime" "^7.23.1"
+    "@types/prop-types" "^15.7.7"
+    prop-types "^15.8.1"
+    react-is "^18.2.0"
+
+"@mui/utils@^5.14.11", "@mui/utils@^5.14.3":
   version "5.14.11"
   resolved "https://registry.yarnpkg.com/@mui/utils/-/utils-5.14.11.tgz#d19a1d8725ffd16c6c6817f00b5172931958fb9a"
   integrity sha512-fmkIiCPKyDssYrJ5qk+dime1nlO3dmWfCtaPY/uVBqCRMBZ11JhddB9m8sjI2mgqQQwRJG5bq3biaosNdU/s4Q==
@@ -3092,7 +3097,7 @@
   resolved "https://registry.yarnpkg.com/@types/prettier/-/prettier-2.7.3.tgz#3e51a17e291d01d17d3fc61422015a933af7a08f"
   integrity sha512-+68kP9yzs4LMp7VNh8gdzMSPZFL44MLGqiHWvttYJe+6qnuVr4Ek9wSBQoveqY/r+LwjCcU29kNVkidwim+kYA==
 
-"@types/prop-types@*", "@types/prop-types@^15.7.5":
+"@types/prop-types@*", "@types/prop-types@^15.7.5", "@types/prop-types@^15.7.7":
   version "15.7.8"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.8.tgz#805eae6e8f41bd19e88917d2ea200dc992f405d3"
   integrity sha512-kMpQpfZKSCBqltAJwskgePRaYRFukDkm1oItcAbC3gNELR20XIBcN9VRgg4+m8DKsTfkWeA4m4Imp4DDuWy7FQ==
@@ -3137,9 +3142,9 @@
     "@types/react" "*"
 
 "@types/react@*":
-  version "18.2.24"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.2.24.tgz#3c7d68c02e0205a472f04abe4a0c1df35d995c05"
-  integrity sha512-Ee0Jt4sbJxMu1iDcetZEIKQr99J1Zfb6D4F3qfUWoR1JpInkY1Wdg4WwCyBjL257D0+jGqSl1twBjV8iCaC0Aw==
+  version "18.2.25"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.2.25.tgz#99fa44154132979e870ff409dc5b6e67f06f0199"
+  integrity sha512-24xqse6+VByVLIr+xWaQ9muX1B4bXJKXBbjszbld/UEDslGLY53+ZucF44HCmLbMPejTzGG9XgR+3m2/Wqu1kw==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -3569,15 +3574,15 @@ adjust-sourcemap-loader@^4.0.0:
     loader-utils "^2.0.0"
     regex-parser "^2.2.11"
 
-ag-grid-community@~29.0.0:
-  version "29.0.0"
-  resolved "https://registry.yarnpkg.com/ag-grid-community/-/ag-grid-community-29.0.0.tgz#33c8de7b253af15986c343f6d6fd098f3e6d681b"
-  integrity sha512-onAQIqjhP1L93W5myAsfLBMBUyZPrWDb8FRulJuhjQKo8DEA4GSZ+oJHxwwLymm4biLu54zvZ+9GkTftha8gAg==
+ag-grid-community@~30.2.0:
+  version "30.2.0"
+  resolved "https://registry.yarnpkg.com/ag-grid-community/-/ag-grid-community-30.2.0.tgz#b831fc99df1bfee6f73669fd8b7d3e9bd4012e22"
+  integrity sha512-Gd6GXmtzEQSCDloBdRxxCDqnjTBRAOf/zzlaxxyyVBJgc+cePuNgGdplRUhT/rwIiDwvyuoynvxelVE/iYdXsA==
 
-ag-grid-react@~29.0.0:
-  version "29.0.0"
-  resolved "https://registry.yarnpkg.com/ag-grid-react/-/ag-grid-react-29.0.0.tgz#c26bd13a19993059e66cbbc8e262e9837a9cb4bc"
-  integrity sha512-R8rE6fXXzl1SocGhfQGkfdGWUN0KmYOCVwyn4ZPNu0Ofsxb7/KZd0RwuetvH1J8hSlHmSsoou6qzalPbSC4jLQ==
+ag-grid-react@~30.2.0:
+  version "30.2.0"
+  resolved "https://registry.yarnpkg.com/ag-grid-react/-/ag-grid-react-30.2.0.tgz#3130baaf7a7e6c743bb06d9c7ce4f06ad48a10c1"
+  integrity sha512-y4esND0ADJMw/aCyfiT1GA885sy2XvlnXUNQdiXijoxcGY6OSk3jE2DPtZfE+RsdmNdXimMpoRZHwJW/aPCegA==
   dependencies:
     prop-types "^15.8.1"
 
@@ -4734,7 +4739,7 @@ cloneable-readable@^1.0.0:
     process-nextick-args "^2.0.0"
     readable-stream "^2.3.5"
 
-clsx@^1.0.4, clsx@^1.1.1, clsx@^1.2.1:
+clsx@^1.0.4, clsx@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/clsx/-/clsx-1.2.1.tgz#0ddc4a20a549b59c93a4116bb26f5294ca17dc12"
   integrity sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg==
@@ -9616,11 +9621,6 @@ locate-path@^6.0.0:
   dependencies:
     p-locate "^5.0.0"
 
-lodash.clonedeep@^4.5.0:
-  version "4.5.0"
-  resolved "https://registry.yarnpkg.com/lodash.clonedeep/-/lodash.clonedeep-4.5.0.tgz#e23f3f9c4f8fbdde872529c1071857a086e5ccef"
-  integrity sha512-H5ZhCF25riFd9uB5UCkVKo61m3S/xZk1x4wA6yp/L3RFP6Z/eHH1ymQcGLo7J3GMPfm0V/7m1tryHuGVxpqEBQ==
-
 lodash.debounce@^4.0.8:
   version "4.0.8"
   resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
@@ -11570,14 +11570,14 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
-react-lottie-player@1.4.1:
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/react-lottie-player/-/react-lottie-player-1.4.1.tgz#ddd448486b8e8a42f4ae149751c38a8539f80b77"
-  integrity sha512-8dw3Dt8h6iTIrA+Iz7N/rOZjY1ShEwoxsgFywW2hZPFf58mZL75NFFNXY6v95NNj/25kZQpMV/bDkNoxj4Sang==
+react-lottie-player@^1.4.1:
+  version "1.5.5"
+  resolved "https://registry.yarnpkg.com/react-lottie-player/-/react-lottie-player-1.5.5.tgz#a06d3ae24fb69fd2eb5dcb4f7baa50b5040c8184"
+  integrity sha512-cPO+s1DapaZ09Ux0RponZjuwJAJxyyt9nM7Gwth5frEMJrSTBWK4jO6nYXV6ussvvbVUVH1FE6o2Ha9c89amQQ==
   dependencies:
     fast-deep-equal "^3.1.3"
-    lodash.clonedeep "^4.5.0"
     lottie-web "^5.7.6"
+    rfdc "^1.3.0"
 
 react-number-format@^5.1.3:
   version "5.3.1"
