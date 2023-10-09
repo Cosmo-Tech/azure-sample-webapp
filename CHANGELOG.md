@@ -1,3 +1,9 @@
+## **5.2.1** <sub><sup>2023-10-09 ([62b729b...bd062c7](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/62b729b9...bd062c70?diff=split))</sup></sub>
+
+### Bug Fixes
+
+- fix error preventing login with Azure
+
 ## **5.2.0** <sub><sup>2023-10-06 ([238b554...e8fa794](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/238b5547...e8fa794a?diff=split))</sup></sub>
 
 ### Features
