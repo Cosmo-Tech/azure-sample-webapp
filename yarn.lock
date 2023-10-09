@@ -34,17 +34,22 @@
     jsonpointer "^5.0.0"
     leven "^3.1.0"
 
-"@azure/msal-browser@~3.1.0":
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/@azure/msal-browser/-/msal-browser-3.1.0.tgz#8addaaf67211302c1e64dba4975f3691ad390175"
-  integrity sha512-zQpL/mR6Xif+WltcRMej8wRsBQu+lW8e1/su8SMkF41i+Pnn/a/a/l+VoT4D+cQrBAq3PL5IaLfuUoNVTRUjKw==
+"@azure/msal-browser@~2.23.0":
+  version "2.23.0"
+  resolved "https://registry.yarnpkg.com/@azure/msal-browser/-/msal-browser-2.23.0.tgz#24fc58e9d1314833b09d3f52ba4e53f526cfe0de"
+  integrity sha512-qxyWmsP/pf+xJFEhMgiJ0r1v6TjF+x8iMWYU5R63Lb/fjQfKalaNX9f5D6GbJYJS5s9OF3abtdGtB/Lxea15mQ==
   dependencies:
-    "@azure/msal-common" "14.0.3"
+    "@azure/msal-common" "^6.2.0"
 
 "@azure/msal-common@14.0.3":
   version "14.0.3"
   resolved "https://registry.yarnpkg.com/@azure/msal-common/-/msal-common-14.0.3.tgz#4e273c72b7a9dde4e79f84db0e6c51c1665fcd2f"
   integrity sha512-Vl5SsC3zvQ8913GnO5Typox+35M6CaXmO/2FXi35LfMAV3ZB/HLCsldLxylI01c3CmtOm7pICWpOjp/DlQ9RWA==
+
+"@azure/msal-common@^6.2.0":
+  version "6.4.0"
+  resolved "https://registry.yarnpkg.com/@azure/msal-common/-/msal-common-6.4.0.tgz#434a55be9639cb5c7910c0cc1a46555ff0bc6c39"
+  integrity sha512-WZdgq9f9O8cbxGzdRwLLMM5xjmLJ2mdtuzgXeiGxIRkVVlJ9nZ6sWnDFKa2TX8j72UXD1IfL0p/RYNoTXYoGfg==
 
 "@azure/msal-node@^2.1.0":
   version "2.1.0"
@@ -1195,12 +1200,12 @@
   dependencies:
     axios "^0.21.4"
 
-"@cosmotech/azure@^1.3.0":
-  version "1.3.3"
-  resolved "https://registry.yarnpkg.com/@cosmotech/azure/-/azure-1.3.3.tgz#895e4bb96787ea8bb69e81feadb1dc14ffbe5205"
-  integrity sha512-+DB4zBxdZ4dibdYXpsHgzORNkEKyWHxQHLO7ttdg6IPzQABWA90h5pPL0sT/VE2ADeDvHUCul3nmYQsEQ4/IFQ==
+"@cosmotech/azure@^1.3.4":
+  version "1.3.4"
+  resolved "https://registry.yarnpkg.com/@cosmotech/azure/-/azure-1.3.4.tgz#79c7738624ac02978676b4cd5ec4772cc3f79193"
+  integrity sha512-SW+4LSh6bzVABxPqXJlG1LgkFbMQOU2t8K+aH88P0uPnSIA1vLdzP/NATNV9RE4+OUXfAgInKoFWHNrOiuixhQ==
   dependencies:
-    "@azure/msal-browser" "~3.1.0"
+    "@azure/msal-browser" "~2.23.0"
 
 "@cosmotech/core@^1.14.0":
   version "1.14.1"
@@ -1213,10 +1218,10 @@
     validator "^13.7.0"
     xlsx "https://cdn.sheetjs.com/xlsx-0.20.0/xlsx-0.20.0.tgz"
 
-"@cosmotech/ui@^5.10.1":
-  version "5.10.1"
-  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-5.10.1.tgz#bfb6da93a5cc927567ab84725775cfb50cbbf7d0"
-  integrity sha512-+9qlVKiRUAXYB14lCXyXlc3p6MvU9dY4gj7N6oRgR31f7AxpP4H4wh6mxAqOqnKwoc65VAHJdg6tk2BC0fWtAg==
+"@cosmotech/ui@^5.10.2":
+  version "5.10.2"
+  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-5.10.2.tgz#547a8857a8fdd809f8ef70bafbb6c2e6b73665f2"
+  integrity sha512-WLnOjEZTBBp/QaGqJtKOcDlHxOr/q2ZO//sBN3FzzeeLhMO544SIK/h4ZH+gqbvXNGBLS0fa56+5SOAG7tAg/w==
   dependencies:
     "@emotion/react" "^11.10.5"
     "@emotion/styled" "^11.10.5"
