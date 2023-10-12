@@ -1,8 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-export const BREWERY_WORKSPACE_ID = 'w-81264wr3xw5q5';
-export const REAL_BREWERY_WORKSPACE_ID = 'w-dq0jkrr0k6owl';
+export const BREWERY_WORKSPACE_ID = 'w-gvogj1ln3dm';
+export const REAL_BREWERY_WORKSPACE_ID = 'w-gvogj1ln3dm';
 
 export const SCENARIO_STATUS = {
   CREATED: 'created',
@@ -57,8 +57,10 @@ export const BASIC_PARAMETERS_CONST = {
 };
 
 export const DATASET = {
-  BREWERY_ADT: 'Demo Brewery ADT reference',
-  BREWERY_STORAGE: 'Demo Brewery Storage reference',
+  // BREWERY_ADT: 'Demo Brewery ADT reference',
+  // BREWERY_STORAGE: 'Demo Brewery Storage reference',
+  BREWERY_ADT: 'Dataset Storage Brewery',
+  BREWERY_STORAGE: 'Dataset Storage Brewery',
 };
 
 export const RUN_TEMPLATE = {
