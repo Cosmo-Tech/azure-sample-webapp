@@ -2,10 +2,16 @@
 // Licensed under the MIT license.
 
 import React from 'react';
-import { Dashboards, Instance, Scenario, ScenarioManager } from './views';
+import { Dashboards, Instance, Scenario, ScenarioManager, DatasetManager } from './views';
 import { ConfigUtils } from './utils';
 
 const DEFAULT_TABS = [
+  {
+    key: 'tabs.datasetmanager.key',
+    label: 'layouts.tabs.datasetmanager.tab.title',
+    to: 'datasetmanager',
+    render: <DatasetManager />,
+  },
   {
     key: 'tabs.scenario.key',
     label: 'layouts.tabs.scenario.tab.title',
