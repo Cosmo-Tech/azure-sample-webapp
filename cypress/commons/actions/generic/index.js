@@ -14,3 +14,4 @@ export { Login } from './Login';
 export { ErrorBanner } from './ErrorBanner';
 export { RolesEdition } from './RolesEdition';
 export { Workspaces } from './Workspaces';
+export { DatasetManager } from './DatasetManager';
