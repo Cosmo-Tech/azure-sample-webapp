@@ -706,6 +706,11 @@
         "tab": {
           "title": "Tableaux de bord"
         }
+      },
+      "datasetmanager": {
+        "tab": {
+          "title": "Gestionnaire de datasets"
+        }
       }
     }
   }
