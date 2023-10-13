@@ -705,6 +705,11 @@
         "tab": {
           "title": "Dashboards"
         }
+      },
+      "datasetmanager": {
+        "tab": {
+          "title": "Dataset manager"
+        }
       }
     }
   }
