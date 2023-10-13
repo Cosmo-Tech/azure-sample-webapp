@@ -3,6 +3,7 @@
 
 export const CONNECTOR_VERSION_AZURE_STORAGE = '1.1.1';
 export const CONNECTOR_NAME_AZURE_STORAGE = 'Azure Storage Connector';
+export const CONNECTOR_NAME_AZURE_STORAGE_LTS = 'ConnectorStorageLTS';
 export const CONNECTOR_NAME_ADT = 'ADT Connector';
 export const DATASET_ID_VARTYPE = '%DATASETID%';
 export const SCENARIO_RUN_STATE = {

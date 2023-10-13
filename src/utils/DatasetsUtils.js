@@ -4,6 +4,7 @@
 import {
   CONNECTOR_VERSION_AZURE_STORAGE,
   CONNECTOR_NAME_AZURE_STORAGE,
+  CONNECTOR_NAME_AZURE_STORAGE_LTS,
   CONNECTOR_NAME_ADT,
   STORAGE_ROOT_DIR_PLACEHOLDER,
 } from '../services/config/ApiConstants';
@@ -24,7 +25,7 @@ function getStorageFilePathFromDataset(dataset) {
 // Retrieve file name from dataset information
 function getFileNameFromDataset(dataset) {
   const connectorName = dataset?.connector?.name;
-  if (connectorName === CONNECTOR_NAME_AZURE_STORAGE) {
+  if (connectorName === CONNECTOR_NAME_AZURE_STORAGE || connectorName === CONNECTOR_NAME_AZURE_STORAGE_LTS) {
     return dataset?.connector?.parametersValues.AZURE_STORAGE_CONTAINER_BLOB_PREFIX.split('/').pop();
   } else if (connectorName === CONNECTOR_NAME_ADT) {
     return dataset?.name;
