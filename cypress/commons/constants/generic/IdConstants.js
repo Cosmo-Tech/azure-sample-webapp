@@ -141,6 +141,10 @@ export const GENERIC_SELECTORS = {
     workspaceInfoDescription: '[data-cy=workspace-info-description]',
     switchWorkspaceButton: '[data-cy=switch-workspace-button]',
   },
+  datasetmanager: {
+    tabName: '[data-cy="tabs.datasetmanager.key"]',
+    view: '[data-cy=dataset-manager-view]',
+  },
   genericComponents: {
     uploadFile: {
       browseButton: '[data-cy=browse-button]',
