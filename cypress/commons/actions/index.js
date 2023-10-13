@@ -15,4 +15,5 @@ export {
   ErrorBanner,
   RolesEdition,
   Workspaces,
+  DatasetManager,
 } from './generic';
