@@ -9,6 +9,7 @@ import {
   Scenarios,
   Workspaces,
   ScenarioSelector,
+  DatasetManager,
 } from '../../commons/actions';
 import { DEFAULT_SCENARIOS_LIST, EXTENDED_WORKSPACES_LIST } from '../../fixtures/stubbing/default';
 import { routeUtils as route } from '../../commons/utils';
@@ -134,5 +135,15 @@ describe('Back and forward navigation between tabs, scenarios and workspaces', (
     ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
     route.goBack();
     Workspaces.getWorkspacesView().should('exist');
+    Workspaces.selectWorkspace(EXTENDED_WORKSPACES_LIST[2].id);
+    ScenarioSelector.selectScenario(DEFAULT_SCENARIOS_LIST[3].name, DEFAULT_SCENARIOS_LIST[3].id);
+    DatasetManager.switchToDatasetManagerView();
+    DatasetManager.getDatasetManagerView().should('exist');
+    route.goBack();
+    route.goForward();
+    DatasetManager.getDatasetManagerView().should('exist');
+    Workspaces.switchToWorkspaceView();
+    route.goBack({ workspaceId: EXTENDED_WORKSPACES_LIST[2].id });
+    DatasetManager.getDatasetManagerView(15).should('exist');
   });
 });
