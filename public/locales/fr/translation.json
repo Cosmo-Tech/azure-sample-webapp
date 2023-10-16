@@ -141,6 +141,19 @@
         "noScenario": "Aucun scénario créé. Vous pouvez créer un scénario dans la vue Scénario."
       }
     },
+    "datasetmanager": {
+      "metadata": {
+        "author": "Auteur",
+        "apiUrl": "URL de l'API",
+        "creationDate": "Date de création",
+        "description": "Description",
+        "descriptionPlaceholder": "Description du dataset",
+        "refreshDate": "Dernière modification",
+        "sourceType": "Source",
+        "tags": "Tags",
+        "tagsPlaceholder": "Nouveau tag"
+      }
+    },
     "iframe": {
       "title": "Dashboard",
       "scenario": {
