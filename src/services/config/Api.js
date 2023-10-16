@@ -16,6 +16,7 @@ import ConfigService from '../ConfigService';
 const defaultBasePath = ConfigService.getParameterValue('DEFAULT_BASE_PATH').replace(/\/+$/, '');
 
 export const Api = {
+  defaultBasePath,
   Scenarios: ScenarioApiFactory(null, defaultBasePath, clientApi),
   ScenarioRuns: ScenariorunApiFactory(null, defaultBasePath, clientApi),
   Solutions: SolutionApiFactory(null, defaultBasePath, clientApi),

@@ -2,9 +2,14 @@
 // Licensed under the MIT license.
 
 import React from 'react';
+import { DatasetMetadata } from './components';
 
 const DatasetManager = () => {
-  return <div data-cy="dataset-manager-view"></div>;
+  return (
+    <div data-cy="dataset-manager-view">
+      <DatasetMetadata />
+    </div>
+  );
 };
 
 export default DatasetManager;
