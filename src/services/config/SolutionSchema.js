@@ -164,6 +164,7 @@ export const SolutionSchema = z
             stackSteps: z.boolean().optional().nullable(),
             gitRepositoryUrl: z.string().optional().nullable(),
             gitBranchName: z.string().optional().nullable(),
+            orchestratorType: z.string().optional().nullable(),
             runTemplateSourceDir: z.string().optional().nullable(),
             executionTimeout: z.number().optional().nullable(),
             deleteHistoricalData: z
@@ -180,6 +181,24 @@ export const SolutionSchema = z
           .optional()
           .nullable()
       )
+      .optional()
+      .nullable(),
+    security: z
+      .object({
+        default: z.string().optional().nullable(),
+        currentUserPermissions: z.array(z.string().optional().nullable()).optional().nullable(),
+        accessControlList: z
+          .array(
+            z
+              .object({ id: z.string().optional().nullable(), role: z.string().optional().nullable() })
+              .strict()
+              .optional()
+              .nullable()
+          )
+          .optional()
+          .nullable(),
+      })
+      .strict()
       .optional()
       .nullable(),
   })
