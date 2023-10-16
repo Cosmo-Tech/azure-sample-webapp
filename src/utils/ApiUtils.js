@@ -5,6 +5,8 @@ import rfdc from 'rfdc';
 import { VAR_TYPES_TO_STRING_FUNCTIONS } from './scenarioParameters/ConversionToString';
 import { VAR_TYPES_FROM_STRING_FUNCTIONS } from './scenarioParameters/ConversionFromString.js';
 import { ConfigUtils } from './ConfigUtils';
+import { Api } from '../services/config/Api.js';
+import ConfigService from '../services/ConfigService';
 
 const clone = rfdc();
 
@@ -54,8 +56,14 @@ const formatParametersFromApi = (parameters) => {
   return newParams;
 };
 
+const getDatasetApiUrl = (datasetId) => {
+  const organizationId = ConfigService.getParameterValue('ORGANIZATION_ID');
+  return `${Api.defaultBasePath}/organizations/${organizationId}/datasets/${datasetId}`;
+};
+
 export const ApiUtils = {
   formatParameterMinMaxDefaultValuesFromString,
   formatParametersForApi,
   formatParametersFromApi,
+  getDatasetApiUrl,
 };
