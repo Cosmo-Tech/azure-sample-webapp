@@ -7,7 +7,7 @@ import { PermissionsGate, CreateScenarioButton as CreateScenarioButtonUI } from 
 
 import { ACL_PERMISSIONS } from '../../services/config/accessControl';
 import { useCreateScenarioButton } from './CreateScenarioButtonHook';
-import { sortScenarioList } from '../../utils/SortScenarioListUtils';
+import { ResourceUtils } from '@cosmotech/core';
 
 const CreateScenarioButton = ({ disabled, onScenarioCreated }) => {
   const {
@@ -22,7 +22,7 @@ const CreateScenarioButton = ({ disabled, onScenarioCreated }) => {
     filteredDatasetList,
     scenarioListData,
   } = useCreateScenarioButton({ disabled, onScenarioCreated });
-  const sortedScenarioList = sortScenarioList(scenarioListData);
+  const sortedScenarioList = ResourceUtils.getResourceTree(scenarioListData);
 
   return (
     <PermissionsGate
