@@ -3,13 +3,12 @@
 
 import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ScenarioUtils } from '@cosmotech/core';
+import { ScenarioUtils, ResourceUtils } from '@cosmotech/core';
 import makeStyles from '@mui/styles/makeStyles';
 
 import { ScenarioManagerTreeList } from '@cosmotech/ui';
 import { useTranslation } from 'react-i18next';
 import { ACL_PERMISSIONS } from '../../services/config/accessControl';
-import { getFirstScenarioMaster } from '../../utils/SortScenarioListUtils';
 import { getScenarioManagerLabels } from './labels';
 import { useScenarioManager } from './ScenarioManagerHook';
 
@@ -73,7 +72,7 @@ const ScenarioManager = (props) => {
         if (lastScenarioDelete) {
           resetCurrentScenario();
         } else {
-          setCurrentScenario(getFirstScenarioMaster(getScenarioListAfterDelete(scenarioId)));
+          setCurrentScenario(ResourceUtils.getFirstRootResource(getScenarioListAfterDelete(scenarioId)));
         }
       }
     },
