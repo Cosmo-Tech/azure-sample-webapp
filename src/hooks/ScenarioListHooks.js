@@ -1,10 +1,10 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { sortScenarioList } from '../utils/SortScenarioListUtils';
 import { useScenarioListData } from '../state/hooks/ScenarioHooks';
+import { ResourceUtils } from '@cosmotech/core';
 
 export const useSortedScenarioList = () => {
   const scenarioListData = useScenarioListData();
-  return scenarioListData ? sortScenarioList(scenarioListData.slice()) : [];
+  return scenarioListData ? ResourceUtils.getResourceTree(scenarioListData.slice()) : [];
 };
