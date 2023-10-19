@@ -152,6 +152,21 @@
         "sourceType": "Source",
         "tags": "Tags",
         "tagsPlaceholder": "Enter a new tag"
+      },
+      "dialogs": {
+        "refresh": {
+          "title": "Overwrite data?",
+          "body": "Your data will be lost, replaced with the imported one.",
+          "checkbox": "Do not ask me again",
+          "overwriteButton": "Overwrite"
+        },
+        "delete": {
+          "title": "Delete dataset?",
+          "body": "Do you really want to delete {{datasetName}}? This action is irreversible.",
+          "bodyWithChildren": "The following children datasets will also be permanently removed:",
+          "confirmButton": "Delete"
+        },
+        "cancel": "Cancel"
       }
     },
     "iframe": {
