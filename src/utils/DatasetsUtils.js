@@ -45,9 +45,26 @@ function buildAzureStorageConnector(connectorId, storageFilePath) {
   };
 }
 
+const getAllChildrenDatasetsNames = (initialDatasetId, datasets) => {
+  if (!Array.isArray(datasets) || !datasets.some((dataset) => dataset.parentId === initialDatasetId)) return [];
+  const childrenDatasets = datasets.filter((dataset) => dataset.parentId !== null);
+  const datasetTree = [];
+  const buildDatasetTree = (parentId) => {
+    childrenDatasets.forEach((dataset) => {
+      if (dataset.parentId === parentId) {
+        datasetTree.push(dataset.name);
+        buildDatasetTree(dataset.id);
+      }
+    });
+  };
+  buildDatasetTree(initialDatasetId);
+  return datasetTree;
+};
+
 export const DatasetsUtils = {
   buildStorageFilePath,
   getStorageFilePathFromDataset,
   getFileNameFromDataset,
   buildAzureStorageConnector,
+  getAllChildrenDatasetsNames,
 };
