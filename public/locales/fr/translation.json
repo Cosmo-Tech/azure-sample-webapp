@@ -152,6 +152,21 @@
         "sourceType": "Source",
         "tags": "Tags",
         "tagsPlaceholder": "Nouveau tag"
+      },
+      "dialogs": {
+        "refresh": {
+          "title": "Écraser les données ?",
+          "body": "Vos données seront perdues, écrasées par les données importées.",
+          "checkbox": "Ne plus me demander.",
+          "overwriteButton": "Écraser"
+        },
+        "delete": {
+          "title": "Supprimer un dataset ?",
+          "body": "Voulez-vous supprimer {{datasetName}} ? Cette action est irréversible.",
+          "bodyWithChildren": "Les datasets enfants suivants seront également supprimés:",
+          "confirmButton": "Supprimer"
+        },
+        "cancel": "Annuler"
       }
     },
     "iframe": {
