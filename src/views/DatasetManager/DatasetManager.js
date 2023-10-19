@@ -2,12 +2,17 @@
 // Licensed under the MIT license.
 
 import React from 'react';
-import { DatasetMetadata } from './components';
+import { DatasetBrowser } from './components';
+import { Grid } from '@mui/material';
 
 const DatasetManager = () => {
   return (
     <div data-cy="dataset-manager-view">
-      <DatasetMetadata />
+      <Grid container>
+        <Grid item>
+          <DatasetBrowser />
+        </Grid>
+      </Grid>
     </div>
   );
 };
