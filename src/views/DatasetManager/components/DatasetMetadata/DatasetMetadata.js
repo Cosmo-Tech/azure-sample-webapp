@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const DatasetMetadata = () => {
+export const DatasetMetadata = () => {
   const classes = useStyles();
   const { t } = useTranslation();
   const { dataset } = useDatasetMetadata();
@@ -103,5 +103,3 @@ const DatasetMetadata = () => {
     </Card>
   );
 };
-
-export default DatasetMetadata;
