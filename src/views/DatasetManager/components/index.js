@@ -1,4 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-export { default as DatasetMetadata } from './DatasetMetadata';
+export { DatasetMetadata } from './DatasetMetadata';
+export { DatasetList } from './DatasetList';
+export { DatasetBrowser } from './DatasetBrowser';
+export { CreateDatasetButton } from './CreateDatasetButton';
