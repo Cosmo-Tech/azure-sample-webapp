@@ -47,7 +47,7 @@ export const DatasetMetadata = () => {
   );
 
   return (
-    <Card component={Paper} sx={{ p: 1 }} data-cy="dataset-metadata-card">
+    <Card component={Paper} sx={{ p: 1, width: '100%', height: '100%' }} data-cy="dataset-metadata-card">
       <Grid
         container
         spacing={1}
