@@ -3,6 +3,7 @@
 
 import { ArrayDictUtils } from './ArrayDictUtils';
 import { SecurityUtils } from './SecurityUtils';
+import { TranslationUtils } from './TranslationUtils';
 import { WORKSPACES } from '../config/overrides/Workspaces.js';
 
 const _getUserPermissionsForWorkspace = (workspace, userEmail, userId, permissionsMapping) => {
@@ -25,7 +26,17 @@ const patchWorkspacesIfLocalConfigExists = async (originalWorkspaces) => {
   ArrayDictUtils.mergeArraysByElementsIds(originalWorkspaces, WORKSPACES);
 };
 
+const addTranslationLabels = (workspace) => {
+  try {
+    TranslationUtils.addTranslationOfDatasetManagerLabels(workspace?.webApp?.options?.datasetManager ?? {});
+  } catch (error) {
+    console.warn(`An error occurred when loading labels from workspace "${workspace.name}" (id "${workspace.id}")`);
+    console.error(error);
+  }
+};
+
 export const WorkspacesUtils = {
+  addTranslationLabels,
   patchWorkspacesIfLocalConfigExists,
   patchWorkspaceWithCurrentUserPermissions,
 };
