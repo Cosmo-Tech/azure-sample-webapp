@@ -43,7 +43,9 @@ export function* getAllWorkspaces(organizationId) {
       userId,
       workspacesPermissionsMapping
     );
+    WorkspacesUtils.addTranslationLabels(workspace);
   });
+
   yield put({
     type: WORKSPACE_ACTIONS_KEY.SET_ALL_WORKSPACES,
     list: keepOnlyReadableWorkspaces(data),
