@@ -167,6 +167,19 @@
           "confirmButton": "Supprimer"
         },
         "cancel": "Annuler"
+      },
+      "overview": {
+        "attributesLabel": "Attributs:",
+        "categoryTypes": {
+          "entity": "Entité",
+          "relationship": "Relations"
+        },
+        "kpiState": {
+          "failed": "La requête pour cet indicateur a échoué",
+          "loading": "Chargement",
+          "unknown": "État inconnu"
+        },
+        "title": "Aperçu"
       }
     },
     "iframe": {
