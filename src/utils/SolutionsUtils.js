@@ -42,8 +42,13 @@ const addRunTemplatesParametersIdsDict = (solution) => {
 };
 
 const addTranslationLabels = (solution) => {
-  TranslationUtils.addTranslationParametersGroupsLabels(solution?.parameterGroups ?? []);
-  TranslationUtils.addTranslationParametersLabels(solution?.parameters ?? []);
+  try {
+    TranslationUtils.addTranslationParametersGroupsLabels(solution?.parameterGroups ?? []);
+    TranslationUtils.addTranslationParametersLabels(solution?.parameters ?? []);
+  } catch (error) {
+    console.warn(`An error occurred when loading labels from solution "${solution.name}" (id "${solution.id}")`);
+    console.error(error);
+  }
 };
 
 const castMinMaxDefaultValuesInSolution = (solution) => {
