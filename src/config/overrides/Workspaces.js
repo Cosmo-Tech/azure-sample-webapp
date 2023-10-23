@@ -121,6 +121,93 @@ export const WORKSPACES = [
           organizationUrl: 'https://cosmotech.com',
           documentationUrl: 'https://portal.cosmotech.com/resources/platform-resources/platform-help',
         },
+        datasetManager: {
+          graphIndicators: [
+            { id: 'entities', name: { en: 'Entities', fr: 'Entités' } },
+            { id: 'relationships', name: { en: 'Relationships', fr: 'Relations' } },
+            { id: 'graphKpi0' },
+            { id: 'graphKpi1' },
+            { id: 'graphKpi2' },
+            { id: 'graphKpi3' },
+          ],
+          categories: [
+            {
+              id: 'transport',
+              name: { en: 'Transport', fr: 'Transport' },
+              type: 'relationship',
+              description: {
+                en:
+                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor  incididunt ut ' +
+                  'labore et dolore magna aliqua.',
+                fr:
+                  'Impedit impedit commodi laboriosam iusto voluptas itaque quisquam sint. Aut nemo reprehenderit ' +
+                  'rerum reiciendis.\nEarum repellat sit quia totam eligendi consectetur. Quo totam inventore ' +
+                  'possimus eveniet nobis. Dignissimos laudantium laborum et dolores itaque.',
+              },
+              kpis: [
+                { id: 'transport_kpi1', name: { en: 'My KPI #1', fr: 'Mon KPI n°1' } },
+                { id: 'transport_kpi2', name: { en: 'My KPI #2', fr: 'Mon KPI n°2' } },
+              ],
+              attributes: ['Name', 'Source', 'Destination'],
+            },
+            {
+              id: 'productionOperation',
+              name: { en: 'Production operation', fr: 'Opération de production' },
+              type: 'relationship',
+              kpis: [{ id: 'productionOperation_kpi1' }, { id: 'productionOperation_kpi2' }],
+            },
+            {
+              id: 'stock',
+              name: { en: 'Stock', fr: 'Stock' },
+              type: 'relationship',
+              description: {
+                en:
+                  'A stock is a supply chain model entity representing location of part between operations.\n' +
+                  'A stock contains one and only one part reference',
+                fr: "Le stock est l'entité du modèle Supply Chain représentant les biens entre les opérations.",
+              },
+              kpis: [
+                { id: 'stock_quantity', name: { en: 'Quantity', fr: 'Quantité' } },
+                { id: 'stock_initial_sum', name: { en: 'Initial sum', fr: 'Stock initial' } },
+                { id: 'stock_purchasing_cost', name: { en: 'Purchasing cost', fr: "Coût d'achat" } },
+                { id: 'stock_resource_quantity', name: { en: 'Resource quantity', fr: 'Ressources' } },
+              ],
+              attributes: ['Label', 'TransportUnit', 'Duration'],
+            },
+            {
+              id: 'configuration',
+              name: { en: 'Configuration', fr: 'Configuration' },
+              type: 'relationship',
+            },
+            {
+              id: 'demands',
+              name: { en: 'Demands', fr: 'Demandes' },
+              type: 'entity',
+              kpis: [
+                { id: 'demands_kpi1', name: { en: 'My KPI #1', fr: 'Mon KPI n°1' } },
+                { id: 'demands_kpi2', name: { en: 'My KPI #2', fr: 'Mon KPI n°2' } },
+                { id: 'demands_kpi3', name: { en: 'My KPI #3', fr: 'Mon KPI n°3' } },
+                { id: 'demands_kpi4', name: { en: 'My KPI #4', fr: 'Mon KPI n°4' } },
+              ],
+            },
+            {
+              id: 'input',
+              name: { en: 'Input', fr: 'Entrées' },
+              type: 'entity',
+              kpis: [{ id: 'input_kpi1', name: { en: 'My KPI #1', fr: 'Mon KPI n°1' } }],
+            },
+            {
+              id: 'output',
+              name: { en: 'Output', fr: 'Sorties' },
+              type: 'entity',
+              kpis: [
+                { id: 'output_kpi1', name: { en: 'My KPI #1', fr: 'Mon KPI n°1' } },
+                { id: 'output_kpi2', name: { en: 'My KPI #2', fr: 'Mon KPI n°2' } },
+                { id: 'output_kpi3', name: { en: 'My KPI #3', fr: 'Mon KPI n°3' } },
+              ],
+            },
+          ],
+        },
       },
     },
   },
