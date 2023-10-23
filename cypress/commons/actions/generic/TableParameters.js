@@ -145,13 +145,13 @@ function getColumnGroup(tableParameterElement, colGroupIndex) {
 function openColumnGroup(tableParameterElement, colGroupIndex) {
   return getColumnGroup(tableParameterElement, colGroupIndex)
     .find(GENERIC_SELECTORS.genericComponents.table.openColumnGroupIcon)
-    .click({ force: true }); // Force click to prevent being blocked by the tooltips of the table toolbar buttons
+    .click();
 }
 
 function closeColumnGroup(tableParameterElement, colGroupIndex) {
   return getColumnGroup(tableParameterElement, colGroupIndex)
     .find(GENERIC_SELECTORS.genericComponents.table.closeColumnGroupIcon)
-    .click({ force: true }); // Force click to prevent being blocked by the tooltips of the table toolbar buttons
+    .click();
 }
 
 // Get the "Import File" button from the provided table element and upload the file provided by filePath
