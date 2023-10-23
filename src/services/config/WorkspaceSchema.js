@@ -5,6 +5,8 @@ import { z } from 'zod';
 import { CUSTOM_WEB_APP_OPTIONS } from '../../utils/schemas/custom/customWorkspaceOptions';
 import { SchemasUtils } from '../../utils/schemas/SchemasUtils';
 
+const LABELS_DICT = z.array(z.object({}));
+
 const powerBIFilters = z
   .array(
     z
@@ -101,6 +103,49 @@ const basicWebAppOptions = z.object({
       documentationUrl: z.string().optional().nullable(),
       supportUrl: z.string().optional().nullable(),
       organizationUrl: z.string().optional().nullable(),
+    })
+    .strict()
+    .optional()
+    .nullable(),
+  datasetManager: z
+    .object({
+      graphIndicators: z
+        .array(
+          z
+            .object({
+              id: z.string(),
+              name: LABELS_DICT,
+            })
+            .strict()
+        )
+        .optional()
+        .nullable(),
+      categories: z
+        .array(
+          z
+            .object({
+              id: z.string(),
+              name: LABELS_DICT,
+              type: z.string().optional().nullable(),
+              description: LABELS_DICT,
+              kpis: z
+                .array(
+                  z
+                    .object({
+                      id: z.string(),
+                      name: LABELS_DICT,
+                    })
+                    .strict()
+                )
+                .optional()
+                .nullable(),
+              attributes: z.array(z.string().optional()).optional().nullable(),
+            })
+            .strict()
+            .required()
+        )
+        .optional()
+        .nullable(),
     })
     .strict()
     .optional()

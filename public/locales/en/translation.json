@@ -167,6 +167,19 @@
           "confirmButton": "Delete"
         },
         "cancel": "Cancel"
+      },
+      "overview": {
+        "attributesLabel": "Attributes:",
+        "categoryTypes": {
+          "entity": "Entity",
+          "relationship": "Relationship"
+        },
+        "kpiState": {
+          "failed": "The query to fetch this indicator has failed",
+          "loading": "Loading",
+          "unknown": "Unexpected state"
+        },
+        "title": "Overview"
       }
     },
     "iframe": {
