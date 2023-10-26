@@ -14,3 +14,10 @@ export const dispatchAddDatasetToStore = (payLoad) => {
     ...payLoad,
   };
 };
+
+export const dispatchSetCurrentDatasetIndex = (datasetIndex) => {
+  return {
+    type: DATASET_ACTIONS_KEY.SET_CURRENT_DATASET_INDEX,
+    selectedDatasetIndex: datasetIndex,
+  };
+};

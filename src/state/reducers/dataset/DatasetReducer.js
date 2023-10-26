@@ -26,4 +26,24 @@ export const datasetListReducer = createReducer(datasetListInitialState, (builde
     });
 });
 
-export const datasetReducer = combineReducers({ list: datasetListReducer });
+export const selectedDatasetInitialState = {
+  data: null,
+};
+
+export const selectedDatasetReducer = createReducer(selectedDatasetInitialState, (builder) => {
+  builder
+    .addCase(DATASET_ACTIONS_KEY.GET_ALL_DATASETS, (state, action) => {
+      state.data = null;
+    })
+    .addCase(DATASET_ACTIONS_KEY.SET_ALL_DATASETS, (state, action) => {
+      state.data = action.selectedDatasetIndex;
+    })
+    .addCase(DATASET_ACTIONS_KEY.SET_CURRENT_DATASET_INDEX, (state, action) => {
+      state.data = action.selectedDatasetIndex;
+    });
+});
+
+export const datasetReducer = combineReducers({
+  list: datasetListReducer,
+  selectedDatasetIndex: selectedDatasetReducer,
+});
