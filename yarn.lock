@@ -1142,10 +1142,17 @@
   resolved "https://registry.yarnpkg.com/@babel/regjsgen/-/regjsgen-0.8.0.tgz#f0ba69b075e1f05fb2825b7fad991e7adbb18310"
   integrity sha512-x/rqGMdzj+fWZvCOYForTghzbtqPDZ5gPwaoNGHdgDfF2QA/XZbCBp4Moo5scrkAMPhB7z26XM/AaHuIJdgauA==
 
-"@babel/runtime@^7.11.2", "@babel/runtime@^7.12.5", "@babel/runtime@^7.15.4", "@babel/runtime@^7.16.3", "@babel/runtime@^7.18.3", "@babel/runtime@^7.18.9", "@babel/runtime@^7.19.4", "@babel/runtime@^7.20.6", "@babel/runtime@^7.20.7", "@babel/runtime@^7.21.0", "@babel/runtime@^7.22.15", "@babel/runtime@^7.22.5", "@babel/runtime@^7.22.6", "@babel/runtime@^7.23.1", "@babel/runtime@^7.3.1", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.3", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.3", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2":
+"@babel/runtime@^7.11.2", "@babel/runtime@^7.12.5", "@babel/runtime@^7.15.4", "@babel/runtime@^7.16.3", "@babel/runtime@^7.18.3", "@babel/runtime@^7.18.9", "@babel/runtime@^7.19.4", "@babel/runtime@^7.20.6", "@babel/runtime@^7.20.7", "@babel/runtime@^7.22.15", "@babel/runtime@^7.22.5", "@babel/runtime@^7.22.6", "@babel/runtime@^7.23.1", "@babel/runtime@^7.3.1", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.3", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.3", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2":
   version "7.23.1"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.23.1.tgz#72741dc4d413338a91dcb044a86f3c0bc402646d"
   integrity sha512-hC2v6p8ZSI/W0HUzh3V8C5g+NwSKzKPtJwSpTjwl0o297GP9+ZLQSkdvHz46CM3LqyoXxq+5G9komY+eSqSO0g==
+  dependencies:
+    regenerator-runtime "^0.14.0"
+
+"@babel/runtime@^7.21.0":
+  version "7.23.2"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.23.2.tgz#062b0ac103261d68a966c4c7baf2ae3e62ec3885"
+  integrity sha512-mM8eg4yl5D6i3lu2QKPuPH4FArvJ8KhTofbE7jwMUv9KX5mBvwPAqnV3MlyBNqdp9RyRKP6Yck8TrfYrPvX3bg==
   dependencies:
     regenerator-runtime "^0.14.0"
 
@@ -1208,20 +1215,21 @@
     "@azure/msal-browser" "~2.23.0"
 
 "@cosmotech/core@^1.14.0":
-  version "1.14.1"
-  resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.14.1.tgz#22f30149785373c82fd3bd723c5e81bbedf7d932"
-  integrity sha512-G2B+5nwWqa1VAl/GbqUljlnY7OgRJg0NmTslEmB31yaL1lXRIRXxqsgyJKevsHuHuyYqA1dbxVQcoa+K10+2Eg==
+  version "1.15.0"
+  resolved "https://registry.yarnpkg.com/@cosmotech/core/-/core-1.15.0.tgz#885d5fad0373ccf43255b78cd94a9b8ce024abd2"
+  integrity sha512-6CKpDurTsTyq+JJ3u9V7Jrz4kMA2iBrcmfE86qhMbRaL6od83eIlNj2HnKp70WtYRzb0GvTLyxRoR9Cixfseqg==
   dependencies:
     csv-string "^4.0.1"
     date-fns "^2.25.0"
     js-file-download "^0.4.12"
+    rfdc "^1.3.0"
     validator "^13.7.0"
     xlsx "https://cdn.sheetjs.com/xlsx-0.20.0/xlsx-0.20.0.tgz"
 
-"@cosmotech/ui@^5.10.2":
-  version "5.10.2"
-  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-5.10.2.tgz#547a8857a8fdd809f8ef70bafbb6c2e6b73665f2"
-  integrity sha512-WLnOjEZTBBp/QaGqJtKOcDlHxOr/q2ZO//sBN3FzzeeLhMO544SIK/h4ZH+gqbvXNGBLS0fa56+5SOAG7tAg/w==
+"@cosmotech/ui@^5.11.0-dev.0":
+  version "5.11.0-dev.0"
+  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-5.11.0-dev.0.tgz#a70c4db5b99c34b27c812aed04c1038bf1ed3ba7"
+  integrity sha512-+D+fk4pGNs7tgWMZBybP3kiSGJmFFsNH21HYmkIEqljJpItcEERkxr09vBrcvpgcFO6nqmqukNiiceMgvzaKqQ==
   dependencies:
     "@emotion/react" "^11.10.5"
     "@emotion/styled" "^11.10.5"
