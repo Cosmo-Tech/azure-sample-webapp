@@ -106,7 +106,11 @@ export const DatasetList = () => {
       <List subheader={datasetListHeader}>
         <Divider />
         {sortedDatasetList.map((dataset) => (
-          <ListItemButton key={dataset.id} selected={dataset.id === currentDataset.id} onClick={selectDataset}>
+          <ListItemButton
+            key={dataset.id}
+            selected={dataset.id === currentDataset?.id}
+            onClick={(e) => selectDataset(dataset)}
+          >
             <ListItem
               secondaryAction={
                 <Box>
