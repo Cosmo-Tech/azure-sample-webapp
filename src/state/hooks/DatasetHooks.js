@@ -3,7 +3,7 @@
 
 import { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { dispatchAddDatasetToStore } from '../dispatchers/dataset/DatasetDispatcher';
+import { dispatchAddDatasetToStore, dispatchSetCurrentDatasetIndex } from '../dispatchers/dataset/DatasetDispatcher';
 
 export const useDatasetList = () => {
   return useSelector((state) => state.dataset.list);
@@ -13,41 +13,32 @@ export const useDatasetListData = () => {
   return useSelector((state) => state.dataset?.list?.data);
 };
 
+export const useSelectedDatasetIndex = () => {
+  return useSelector((state) => state.dataset?.selectedDatasetIndex.data);
+};
+
 export const useAddDatasetToStore = () => {
   const dispatch = useDispatch();
-  return useCallback((payLoad) => dispatch(dispatchAddDatasetToStore(payLoad)), [dispatch]);
+  return useCallback((payload) => dispatch(dispatchAddDatasetToStore(payload)), [dispatch]);
 };
 
 export const useCurrentDataset = () => {
-  // TODO implement the hook with real data
-  return {
-    creationDate: 1697444488457,
-    description: 'El pueblo unido jamas sara vencido',
-    fragmentsIds: null,
-    id: 'd-65rkx9r8ym2',
-    main: true,
-    name: 'Dataset 4',
-    organizationId: 'O-gZYpnd27G7',
-    ownerId: '848be2c3-a28d-42f9-af18-89343426315b',
-    parentId: 'd-65rkx9r8ym5',
-    queries: ['MATCH (n:Users) return n'],
-    refreshDate: 1697443823284,
-    security: null,
-    source: {
-      location: 'o-gzypnd27g7',
-      name: 'csmphoenixdev',
-      path: 'w-81264wr3xw5q5/demobrewery',
-    },
-    sourceType: 'Twincache',
-    status: 'READY',
-    tags: ['storage', 'file'],
-    twingraphId: 't-nyzr704dmor',
-    validatorId: null,
-  };
+  const datasets = useDatasetListData();
+  const selectedDatasetIndex = useSelectedDatasetIndex();
+  return datasets?.[selectedDatasetIndex] ?? null;
 };
 
 export const useSelectDataset = () => {
-  // TODO implement the hook that sets new currentDataset
+  const datasets = useDatasetListData();
+  const dispatch = useDispatch();
+
+  return useCallback(
+    (datasetToSelect) => {
+      const selectedDatasetIndex = datasets.findIndex((dataset) => dataset.id === datasetToSelect?.id);
+      dispatch(dispatchSetCurrentDatasetIndex(selectedDatasetIndex));
+    },
+    [datasets, dispatch]
+  );
 };
 
 export const useDeleteDataset = () => {
