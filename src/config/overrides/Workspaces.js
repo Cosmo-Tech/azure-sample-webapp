@@ -95,7 +95,7 @@ export const WORKSPACES = [
           dataSource: {
             type: 'adt',
             functionUrl: 'https://scenario-download-brewery-dev.azurewebsites.net/api/ScenarioDownload',
-            functionKey: 'sFGoW45A4TthGp9bunsKhzH7A8a4nR-JK82jjHQ6Ja-WAzFuFc-sOg==',
+            functionKey: 'o5Xlur_7s5c00KQKnl0QveXVEFC9DXeBiOkwQEdZGx9xAzFuLsPB5A==',
           },
           dataContent: {
             compounds: { Bar_vertex: {} },
