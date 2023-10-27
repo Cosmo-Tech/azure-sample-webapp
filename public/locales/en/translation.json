@@ -180,6 +180,41 @@
           "unknown": "Unexpected state"
         },
         "title": "Overview"
+      },
+      "wizard": {
+        "title": "Create dataset",
+        "stepOne": "Metadata",
+        "stepTwo": "Data source",
+        "stepThree": "Dataset source type",
+        "firstScreen": {
+          "title": "Please provide some metadata regarding your new dataset",
+          "name": "Name",
+          "tags": "Tags",
+          "description": "Description"
+        },
+        "secondScreen": {
+          "subtitle": "Do you already have data to import?",
+          "existingData": "Yes",
+          "fromScratch": "No, I want to create one from scratch"
+        },
+        "thirdScreen": {
+          "subtitle": "Please provide your data source",
+          "dataSourceType": {
+            "label": "Source",
+            "azureStorage": "Azure Storage",
+            "local": "Local file"
+          },
+          "azureStorage": {
+            "accountName": "Account name",
+            "containerName": "Container name",
+            "path": "Path"
+          }
+        },
+        "buttons": {
+          "previous": "Previous",
+          "next": "Next",
+          "create": "Create"
+        }
       }
     },
     "iframe": {
