@@ -6,6 +6,7 @@ import { BasicSliderInput } from '@cosmotech/ui';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { TranslationUtils } from '../../../../utils';
+import { Grid } from '@mui/material';
 
 const DEFAULT_MIN_VALUE = 0;
 const DEFAULT_MAX_VALUE = 100;
@@ -18,18 +19,20 @@ export const GenericSliderInput = ({ parameterData, context, parameterValue, set
   const { t } = useTranslation();
 
   return (
-    <BasicSliderInput
-      key={parameterData.id}
-      id={parameterData.id}
-      label={t(TranslationUtils.getParameterTranslationKey(parameterData.id), parameterData.id)}
-      tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
-      value={parameterValue}
-      handleSliderValueChange={setParameterValue}
-      disabled={!context.editMode}
-      min={min}
-      max={max}
-      isDirty={isDirty}
-    />
+    <Grid item xs={3}>
+      <BasicSliderInput
+        key={parameterData.id}
+        id={parameterData.id}
+        label={t(TranslationUtils.getParameterTranslationKey(parameterData.id), parameterData.id)}
+        tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
+        value={parameterValue}
+        handleSliderValueChange={setParameterValue}
+        disabled={!context.editMode}
+        min={min}
+        max={max}
+        isDirty={isDirty}
+      />
+    </Grid>
   );
 };
 GenericSliderInput.propTypes = {

@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { TranslationUtils } from '../../../../utils';
 import { useParameterConstraintValidation } from '../../../../hooks/ParameterConstraintsHooks';
+import { Grid } from '@mui/material';
 
 export const GenericNumberInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty, error }) => {
   const { t } = useTranslation();
@@ -29,17 +30,19 @@ export const GenericNumberInput = ({ parameterData, context, parameterValue, set
   );
 
   return (
-    <BasicNumberInput
-      key={parameterData.id}
-      id={parameterData.id}
-      label={t(TranslationUtils.getParameterTranslationKey(parameterData.id), parameterData.id)}
-      tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
-      value={value}
-      changeNumberField={changeValue}
-      textFieldProps={textFieldProps}
-      isDirty={isDirty}
-      error={error}
-    />
+    <Grid item xs={3}>
+      <BasicNumberInput
+        key={parameterData.id}
+        id={parameterData.id}
+        label={t(TranslationUtils.getParameterTranslationKey(parameterData.id), parameterData.id)}
+        tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
+        value={value}
+        changeNumberField={changeValue}
+        textFieldProps={textFieldProps}
+        isDirty={isDirty}
+        error={error}
+      />
+    </Grid>
   );
 };
 
