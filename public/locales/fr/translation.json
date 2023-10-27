@@ -180,6 +180,41 @@
           "unknown": "État inconnu"
         },
         "title": "Aperçu"
+      },
+      "wizard": {
+        "title": "Créer un dataset",
+        "stepOne": "Métadonnées",
+        "stepTwo": "Source des données",
+        "stepThree": "Type de la source du dataset",
+        "firstScreen": {
+          "title": "Veuillez renseigner des métadonnées de votre dataset",
+          "name": "Nom",
+          "tags": "Tags",
+          "description": "Description"
+        },
+        "secondScreen": {
+          "subtitle": "Avez-vous déjà des données à importer ?",
+          "existingData": "Oui",
+          "fromScratch": "Non, je veux en créer un à partir de zéro"
+        },
+        "thirdScreen": {
+          "subtitle": "Veuillez renseigner la source des données",
+          "dataSourceType": {
+            "label": "Source",
+            "azureStorage": "Azure Storage",
+            "local": "Fichier local"
+          },
+          "azureStorage": {
+            "accountName": "Nom du compte",
+            "containerName": "Nom du container",
+            "path": "Chemin"
+          }
+        },
+        "buttons": {
+          "previous": "Précédent",
+          "next": "Suivant",
+          "create": "Créer"
+        }
       }
     },
     "iframe": {
