@@ -11,6 +11,7 @@ import isBefore from 'date-fns/isBefore';
 import isAfter from 'date-fns/isAfter';
 import isValid from 'date-fns/isValid';
 import { useDateConstraintValidation } from '../../../../hooks/ParameterConstraintsHooks';
+import { Grid } from '@mui/material';
 
 export const GenericDateInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty, error }) => {
   const { t } = useTranslation();
@@ -23,18 +24,20 @@ export const GenericDateInput = ({ parameterData, context, parameterValue, setPa
     maxDate,
   };
   return (
-    <BasicDateInput
-      key={parameterData.id}
-      id={parameterData.id}
-      label={t(TranslationUtils.getParameterTranslationKey(parameterData.id), parameterData.id)}
-      tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
-      value={parameterValue}
-      changeSelectedDate={setParameterValue}
-      dateProps={dateProps}
-      isDirty={isDirty}
-      error={error}
-      reverseTimezoneOffset={true}
-    />
+    <Grid item id={`date-input-${parameterData.id}`} xs={3}>
+      <BasicDateInput
+        key={parameterData.id}
+        id={parameterData.id}
+        label={t(TranslationUtils.getParameterTranslationKey(parameterData.id), parameterData.id)}
+        tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
+        value={parameterValue}
+        changeSelectedDate={setParameterValue}
+        dateProps={dateProps}
+        isDirty={isDirty}
+        error={error}
+        reverseTimezoneOffset={true}
+      />
+    </Grid>
   );
 };
 
