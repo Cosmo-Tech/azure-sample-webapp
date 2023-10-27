@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { TranslationUtils } from '../../../../utils';
 import { useParameterConstraintValidation } from '../../../../hooks/ParameterConstraintsHooks';
+import { Grid } from '@mui/material';
 
 export const GenericToggleInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty, error }) => {
   const { t } = useTranslation();
@@ -16,17 +17,19 @@ export const GenericToggleInput = ({ parameterData, context, parameterValue, set
   };
 
   return (
-    <BasicToggleInput
-      key={parameterData.id}
-      id={parameterData.id}
-      label={t(TranslationUtils.getParameterTranslationKey(parameterData.id), parameterData.id)}
-      tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
-      value={parameterValue ?? false}
-      changeSwitchType={setParameterValue}
-      switchProps={switchFieldProps}
-      isDirty={isDirty}
-      error={error}
-    />
+    <Grid item xs={3}>
+      <BasicToggleInput
+        key={parameterData.id}
+        id={parameterData.id}
+        label={t(TranslationUtils.getParameterTranslationKey(parameterData.id), parameterData.id)}
+        tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
+        value={parameterValue ?? false}
+        changeSwitchType={setParameterValue}
+        switchProps={switchFieldProps}
+        isDirty={isDirty}
+        error={error}
+      />
+    </Grid>
   );
 };
 
