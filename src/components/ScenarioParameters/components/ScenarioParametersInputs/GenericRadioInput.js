@@ -6,6 +6,7 @@ import { BasicRadioInput } from '@cosmotech/ui';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { TranslationUtils, ConfigUtils } from '../../../../utils';
+import { Grid } from '@mui/material';
 
 export const GenericRadioInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty }) => {
   const { t } = useTranslation();
@@ -33,17 +34,19 @@ export const GenericRadioInput = ({ parameterData, context, parameterValue, setP
   };
 
   return (
-    <BasicRadioInput
-      key={parameterData.id}
-      id={parameterData.id}
-      label={t(TranslationUtils.getParameterTranslationKey(parameterData.id), parameterData.id)}
-      value={parameterValue ?? enumValues?.[0]?.key ?? ''}
-      tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
-      changeRadioOption={setParameterValue}
-      textFieldProps={textFieldProps}
-      enumValues={enumValues}
-      isDirty={isDirty}
-    />
+    <Grid item xs={3}>
+      <BasicRadioInput
+        key={parameterData.id}
+        id={parameterData.id}
+        label={t(TranslationUtils.getParameterTranslationKey(parameterData.id), parameterData.id)}
+        value={parameterValue ?? enumValues?.[0]?.key ?? ''}
+        tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
+        changeRadioOption={setParameterValue}
+        textFieldProps={textFieldProps}
+        enumValues={enumValues}
+        isDirty={isDirty}
+      />
+    </Grid>
   );
 };
 GenericRadioInput.propTypes = {
