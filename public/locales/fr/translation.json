@@ -142,11 +142,11 @@
       }
     },
     "iframe": {
-      "title": "Dashboard",
+      "title": "Tableau de bord",
       "scenario": {
         "results": {
           "card": {
-            "title": "Resultats"
+            "title": "Résultats"
           },
           "iframe": {
             "title": "Resultats simulation supply chain"
@@ -166,7 +166,7 @@
             "refresh": "Rafraîchir (sera ensuite indisponible pendant 15 secondes)"
           },
           "warning": {
-            "notSync": "Le scénario a été modifié depuis son dernier lancement, les données du dashboard risquent de ne plus être valides"
+            "notSync": "Le scénario a été modifié depuis son dernier lancement, les données du tableau de bord risquent de ne plus être valides"
           }
         },
         "noscenario": {
@@ -174,7 +174,7 @@
           "label": "Vous pouvez créer un scénario en cliquant sur le bouton \"CRÉER\""
         },
         "nodashboard": {
-          "label": "Aucun dashboard configuré pour ce type de scénario"
+          "label": "Aucun tableau de bord n'est configuré pour ce type de scénario"
         },
         "unknownStatus": {
           "label": "Le scénario a un statut inconnu, si le problème persiste, merci de contacter votre administrateur"
@@ -259,7 +259,7 @@
                 "label": "Erreur",
                 "empty": "Le nom du scénario ne doit pas être vide",
                 "existing": "Le nom du scénario existe déjà",
-                "forbiddenchars": "Le nom du scenario doit commencer par une lettre ou un chiffre, et ne peut contenir que des lettres, chiffres, espaces, underscores, tirets et points."
+                "forbiddenchars": "Le nom du scénario doit commencer par une lettre ou un chiffre, et ne peut contenir que des lettres, chiffres, espaces, underscores, tirets et points."
               }
             }
           },
@@ -506,7 +506,7 @@
           "title": "Abandonner les modifications ?",
           "body": "Vous allez perdre toutes les modifications que vous avez faites sur les paramètres de scénario.",
           "confirmLaunchDialog": {
-            "title": "Lancer le scenario ?",
+            "title": "Lancer le scénario ?",
             "body": "Lancer un scénario peut prendre du temps. Tous les résultats existants pour ce scénario seront écrasés.",
             "checkbox": "Ne pas demander la prochaine fois."
           }
