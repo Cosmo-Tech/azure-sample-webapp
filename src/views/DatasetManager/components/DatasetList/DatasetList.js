@@ -3,18 +3,44 @@
 
 import React, { useCallback, useState } from 'react';
 import { Box, Divider, IconButton, List, ListItem, ListItemButton, ListItemText, Typography } from '@mui/material';
-import { DeleteForever as DeleteForeverIcon, Refresh as RefreshIcon } from '@mui/icons-material';
-import { DontAskAgainDialog } from '@cosmotech/ui';
+import { DeleteForever as DeleteForeverIcon, Refresh as RefreshIcon, Search as SearchIcon } from '@mui/icons-material';
+import { DontAskAgainDialog, SearchBar } from '@cosmotech/ui';
 import { DatasetsUtils } from '../../../../utils';
 import { useTranslation } from 'react-i18next';
 import { useDatasetList } from './DatasetListHook';
 import { TwoActionsDialogService } from '../../../../services/twoActionsDialog/twoActionsDialogService';
 import { CreateDatasetButton } from '../CreateDatasetButton';
+import { makeStyles } from '@mui/styles';
+
+const useStyles = makeStyles(() => ({
+  searchBar: {
+    width: '100%',
+  },
+}));
 
 export const DatasetList = () => {
   const { t } = useTranslation();
+  const classes = useStyles();
   const [isRefreshConfirmationDialogOpen, setIsRefreshConfirmationDialogOpen] = useState(false);
   const { sortedDatasetList, currentDataset, selectDataset } = useDatasetList();
+  const [displayedDatasetList, setDisplayedDatasetList] = useState(sortedDatasetList);
+
+  const filterDatasets = useCallback(
+    (searchString) => {
+      if (!searchString) {
+        setDisplayedDatasetList(sortedDatasetList);
+      } else {
+        const datasets = sortedDatasetList.filter(
+          (dataset) =>
+            dataset.name.toLowerCase().includes(searchString.toLowerCase()) ||
+            dataset.tags?.some((tag) => tag.toLowerCase().includes(searchString.toLowerCase()))
+        );
+        setDisplayedDatasetList(datasets);
+      }
+    },
+    [sortedDatasetList]
+  );
+
   const refreshDialogLabels = {
     title: t('commoncomponents.datasetmanager.dialogs.refresh.title', 'Overwrite data?'),
     body: t(
@@ -102,10 +128,11 @@ export const DatasetList = () => {
   );
 
   return (
-    <>
+    <div>
+      <SearchBar label="Find..." onSearchChange={filterDatasets} icon={<SearchIcon />} className={classes.searchBar} />
       <List subheader={datasetListHeader}>
         <Divider />
-        {sortedDatasetList.map((dataset) => (
+        {displayedDatasetList.map((dataset) => (
           <ListItemButton
             key={dataset.id}
             selected={dataset.id === currentDataset?.id}
@@ -137,6 +164,6 @@ export const DatasetList = () => {
         onClose={() => setIsRefreshConfirmationDialogOpen(false)}
         onConfirm={(isChecked) => confirmRefreshDataset(isChecked)}
       />
-    </>
+    </div>
   );
 };
