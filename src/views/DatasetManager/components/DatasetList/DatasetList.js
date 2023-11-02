@@ -2,7 +2,17 @@
 // Licensed under the MIT license.
 
 import React, { useCallback, useState } from 'react';
-import { Box, Divider, IconButton, List, ListItem, ListItemButton, ListItemText, Typography } from '@mui/material';
+import {
+  Box,
+  Card,
+  Divider,
+  IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Typography,
+} from '@mui/material';
 import { DeleteForever as DeleteForeverIcon, Refresh as RefreshIcon, Search as SearchIcon } from '@mui/icons-material';
 import { DontAskAgainDialog, SearchBar } from '@cosmotech/ui';
 import { DatasetsUtils } from '../../../../utils';
@@ -121,7 +131,7 @@ export const DatasetList = () => {
   );
 
   const datasetListHeader = (
-    <Box sx={{ display: 'flex', justifyContent: 'space-between', px: 2 }}>
+    <Box sx={{ display: 'flex', justifyContent: 'space-between', p: 2 }}>
       <Typography variant="h6">Datasets</Typography>
       <CreateDatasetButton />
     </Box>
@@ -130,33 +140,35 @@ export const DatasetList = () => {
   return (
     <div>
       <SearchBar label="Find..." onSearchChange={filterDatasets} icon={<SearchIcon />} className={classes.searchBar} />
-      <List subheader={datasetListHeader}>
-        <Divider />
-        {displayedDatasetList.map((dataset) => (
-          <ListItemButton
-            key={dataset.id}
-            selected={dataset.id === currentDataset?.id}
-            onClick={(e) => selectDataset(dataset)}
-          >
-            <ListItem
-              secondaryAction={
-                <Box>
-                  <IconButton onClick={() => refreshDataset(dataset.id)}>
-                    <RefreshIcon />
-                  </IconButton>
-                  <IconButton onClick={(event) => askConfirmationToDeleteDialog(event, dataset.id)}>
-                    <DeleteForeverIcon />
-                  </IconButton>
-                </Box>
-              }
-              disableGutters
-              sx={{ pl: dataset.depth * 2 }}
+      <Card variant="outlined" square={true} sx={{ backgroundColor: 'transparent', mt: 1 }}>
+        <List subheader={datasetListHeader}>
+          <Divider />
+          {displayedDatasetList.map((dataset) => (
+            <ListItemButton
+              key={dataset.id}
+              selected={dataset.id === currentDataset?.id}
+              onClick={(e) => selectDataset(dataset)}
             >
-              <ListItemText primary={dataset.name} primaryTypographyProps={{ variant: 'body1' }} />
-            </ListItem>
-          </ListItemButton>
-        ))}
-      </List>
+              <ListItem
+                secondaryAction={
+                  <Box>
+                    <IconButton onClick={() => refreshDataset(dataset.id)}>
+                      <RefreshIcon />
+                    </IconButton>
+                    <IconButton onClick={(event) => askConfirmationToDeleteDialog(event, dataset.id)}>
+                      <DeleteForeverIcon />
+                    </IconButton>
+                  </Box>
+                }
+                disableGutters
+                sx={{ pl: dataset.depth * 2 }}
+              >
+                <ListItemText primary={dataset.name} primaryTypographyProps={{ variant: 'body1' }} />
+              </ListItem>
+            </ListItemButton>
+          ))}
+        </List>
+      </Card>
       <DontAskAgainDialog
         id="refresh-dataset-dialog"
         open={isRefreshConfirmationDialogOpen}
