@@ -162,7 +162,7 @@
         },
         "delete": {
           "title": "Delete dataset?",
-          "body": "Do you really want to delete {{datasetName}}? This action is irreversible.",
+          "body": "Do you really want to delete <i>{{datasetName}}</i>? This action is irreversible.",
           "bodyWithChildren": "The following children datasets will also be permanently removed:",
           "confirmButton": "Delete"
         },
@@ -215,6 +215,9 @@
           "next": "Next",
           "create": "Create"
         }
+      },
+      "searchBar": {
+        "label": "Find..."
       }
     },
     "iframe": {
