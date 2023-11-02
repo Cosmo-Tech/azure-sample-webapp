@@ -16,7 +16,7 @@ import {
 import { DeleteForever as DeleteForeverIcon, Refresh as RefreshIcon, Search as SearchIcon } from '@mui/icons-material';
 import { DontAskAgainDialog, SearchBar } from '@cosmotech/ui';
 import { DatasetsUtils } from '../../../../utils';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { useDatasetList } from './DatasetListHook';
 import { TwoActionsDialogService } from '../../../../services/twoActionsDialog/twoActionsDialogService';
 import { CreateDatasetButton } from '../CreateDatasetButton';
@@ -70,14 +70,15 @@ export const DatasetList = () => {
         id: 'delete-dataset',
         component: 'div',
         labels: {
-          title: t('commoncomponents.datasetmanager.dialogs.delete.title', 'Delete dataset'),
+          title: t('commoncomponents.datasetmanager.dialogs.delete.title', 'Delete dataset?'),
           body: (
             <>
-              {t(
-                'commoncomponents.datasetmanager.dialogs.delete.body',
-                'Do you really want to delete {{datasetName}}? This action is irreversible.',
-                { datasetName: initialDatasetName }
-              )}
+              <Trans
+                i18nKey="commoncomponents.datasetmanager.dialogs.delete.body"
+                defaultValue="Do you really want to delete <i>{{datasetName}}</i>?
+                This action is irreversible."
+                values={{ datasetName: initialDatasetName }}
+              />
               <p>
                 {childrenToDelete.length > 0 &&
                   t(
@@ -139,7 +140,12 @@ export const DatasetList = () => {
 
   return (
     <div>
-      <SearchBar label="Find..." onSearchChange={filterDatasets} icon={<SearchIcon />} className={classes.searchBar} />
+      <SearchBar
+        label={t('commoncomponents.datasetmanager.searchBar.label', 'Find...')}
+        onSearchChange={filterDatasets}
+        icon={<SearchIcon />}
+        className={classes.searchBar}
+      />
       <Card variant="outlined" square={true} sx={{ backgroundColor: 'transparent', mt: 1 }}>
         <List subheader={datasetListHeader}>
           <Divider />
