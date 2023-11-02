@@ -3,7 +3,7 @@
 
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Card, CardContent, CardHeader, Grid, Paper } from '@mui/material';
+import { Card, CardContent, CardHeader, Grid } from '@mui/material';
 import { useDatasetOverview } from './DatasetOverviewHook';
 import { CategoryAccordion, GraphIndicator } from './components';
 
@@ -19,7 +19,11 @@ export const DatasetOverview = () => {
   }, [graphIndicators, queriesResults]);
 
   return (
-    <Card component={Paper} sx={{ p: 1, width: '100%', height: '100%' }} data-cy="dataset-overview-card">
+    <Card
+      elevation={0}
+      sx={{ p: 1, width: '100%', height: '100%', backgroundColor: 'transparent' }}
+      data-cy="dataset-overview-card"
+    >
       <CardHeader title={t('commoncomponents.datasetmanager.overview.title', 'Overview')}></CardHeader>
       <CardContent>
         <Grid container sx={{ flexFlow: 'column wrap', gap: 4 }}>
