@@ -3,7 +3,7 @@
 
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Card, Grid, IconButton, Paper } from '@mui/material';
+import { Card, Grid, IconButton } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import { TagsEditor } from '@cosmotech/ui';
@@ -47,13 +47,23 @@ export const DatasetMetadata = () => {
   );
 
   return (
-    <Card component={Paper} sx={{ p: 1, width: '100%', height: '100%' }} data-cy="dataset-metadata-card">
+    <Card
+      variant="outlined"
+      square={true}
+      sx={{ backgroundColor: 'transparent', py: 3, px: 2 }}
+      data-cy="dataset-metadata-card"
+    >
       <Grid
         container
         spacing={1}
-        sx={{ flexDirection: 'column', alignItems: 'stretch', justifyContent: 'flex-start', flexWrap: 'nowrap' }}
+        sx={{
+          flexDirection: 'column',
+          alignItems: 'stretch',
+          justifyContent: 'flex-start',
+          flexWrap: 'nowrap',
+        }}
       >
-        {/* TODO: replace ownerId by owernName when available */}
+        {/* TODO: replace ownerId by ownerName when available */}
         <MetadataItem
           id="author"
           label={t('commoncomponents.datasetmanager.metadata.author', 'Author')}
