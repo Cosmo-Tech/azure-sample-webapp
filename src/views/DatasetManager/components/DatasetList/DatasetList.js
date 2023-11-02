@@ -2,19 +2,55 @@
 // Licensed under the MIT license.
 
 import React, { useCallback, useState } from 'react';
-import { Box, Divider, IconButton, List, ListItem, ListItemButton, ListItemText, Typography } from '@mui/material';
-import { DeleteForever as DeleteForeverIcon, Refresh as RefreshIcon } from '@mui/icons-material';
-import { DontAskAgainDialog } from '@cosmotech/ui';
+import {
+  Box,
+  Card,
+  Divider,
+  IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Typography,
+} from '@mui/material';
+import { DeleteForever as DeleteForeverIcon, Refresh as RefreshIcon, Search as SearchIcon } from '@mui/icons-material';
+import { DontAskAgainDialog, SearchBar } from '@cosmotech/ui';
 import { DatasetsUtils } from '../../../../utils';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { useDatasetList } from './DatasetListHook';
 import { TwoActionsDialogService } from '../../../../services/twoActionsDialog/twoActionsDialogService';
 import { CreateDatasetButton } from '../CreateDatasetButton';
+import { makeStyles } from '@mui/styles';
+
+const useStyles = makeStyles(() => ({
+  searchBar: {
+    width: '100%',
+  },
+}));
 
 export const DatasetList = () => {
   const { t } = useTranslation();
+  const classes = useStyles();
   const [isRefreshConfirmationDialogOpen, setIsRefreshConfirmationDialogOpen] = useState(false);
   const { sortedDatasetList, currentDataset, selectDataset } = useDatasetList();
+  const [displayedDatasetList, setDisplayedDatasetList] = useState(sortedDatasetList);
+
+  const filterDatasets = useCallback(
+    (searchString) => {
+      if (!searchString) {
+        setDisplayedDatasetList(sortedDatasetList);
+      } else {
+        const datasets = sortedDatasetList.filter(
+          (dataset) =>
+            dataset.name.toLowerCase().includes(searchString.toLowerCase()) ||
+            dataset.tags?.some((tag) => tag.toLowerCase().includes(searchString.toLowerCase()))
+        );
+        setDisplayedDatasetList(datasets);
+      }
+    },
+    [sortedDatasetList]
+  );
+
   const refreshDialogLabels = {
     title: t('commoncomponents.datasetmanager.dialogs.refresh.title', 'Overwrite data?'),
     body: t(
@@ -34,14 +70,15 @@ export const DatasetList = () => {
         id: 'delete-dataset',
         component: 'div',
         labels: {
-          title: t('commoncomponents.datasetmanager.dialogs.delete.title', 'Delete dataset'),
+          title: t('commoncomponents.datasetmanager.dialogs.delete.title', 'Delete dataset?'),
           body: (
             <>
-              {t(
-                'commoncomponents.datasetmanager.dialogs.delete.body',
-                'Do you really want to delete {{datasetName}}? This action is irreversible.',
-                { datasetName: initialDatasetName }
-              )}
+              <Trans
+                i18nKey="commoncomponents.datasetmanager.dialogs.delete.body"
+                defaultValue="Do you really want to delete <i>{{datasetName}}</i>?
+                This action is irreversible."
+                values={{ datasetName: initialDatasetName }}
+              />
               <p>
                 {childrenToDelete.length > 0 &&
                   t(
@@ -95,41 +132,49 @@ export const DatasetList = () => {
   );
 
   const datasetListHeader = (
-    <Box sx={{ display: 'flex', justifyContent: 'space-between', px: 2 }}>
+    <Box sx={{ display: 'flex', justifyContent: 'space-between', p: 2 }}>
       <Typography variant="h6">Datasets</Typography>
       <CreateDatasetButton />
     </Box>
   );
 
   return (
-    <>
-      <List subheader={datasetListHeader}>
-        <Divider />
-        {sortedDatasetList.map((dataset) => (
-          <ListItemButton
-            key={dataset.id}
-            selected={dataset.id === currentDataset?.id}
-            onClick={(e) => selectDataset(dataset)}
-          >
-            <ListItem
-              secondaryAction={
-                <Box>
-                  <IconButton onClick={() => refreshDataset(dataset.id)}>
-                    <RefreshIcon />
-                  </IconButton>
-                  <IconButton onClick={(event) => askConfirmationToDeleteDialog(event, dataset.id)}>
-                    <DeleteForeverIcon />
-                  </IconButton>
-                </Box>
-              }
-              disableGutters
-              sx={{ pl: dataset.depth * 2 }}
+    <div>
+      <SearchBar
+        label={t('commoncomponents.datasetmanager.searchBar.label', 'Find...')}
+        onSearchChange={filterDatasets}
+        icon={<SearchIcon />}
+        className={classes.searchBar}
+      />
+      <Card variant="outlined" square={true} sx={{ backgroundColor: 'transparent', mt: 1 }}>
+        <List subheader={datasetListHeader}>
+          <Divider />
+          {displayedDatasetList.map((dataset) => (
+            <ListItemButton
+              key={dataset.id}
+              selected={dataset.id === currentDataset?.id}
+              onClick={(e) => selectDataset(dataset)}
             >
-              <ListItemText primary={dataset.name} primaryTypographyProps={{ variant: 'body1' }} />
-            </ListItem>
-          </ListItemButton>
-        ))}
-      </List>
+              <ListItem
+                secondaryAction={
+                  <Box>
+                    <IconButton onClick={() => refreshDataset(dataset.id)}>
+                      <RefreshIcon />
+                    </IconButton>
+                    <IconButton onClick={(event) => askConfirmationToDeleteDialog(event, dataset.id)}>
+                      <DeleteForeverIcon />
+                    </IconButton>
+                  </Box>
+                }
+                disableGutters
+                sx={{ pl: dataset.depth * 2 }}
+              >
+                <ListItemText primary={dataset.name} primaryTypographyProps={{ variant: 'body1' }} />
+              </ListItem>
+            </ListItemButton>
+          ))}
+        </List>
+      </Card>
       <DontAskAgainDialog
         id="refresh-dataset-dialog"
         open={isRefreshConfirmationDialogOpen}
@@ -137,6 +182,6 @@ export const DatasetList = () => {
         onClose={() => setIsRefreshConfirmationDialogOpen(false)}
         onConfirm={(isChecked) => confirmRefreshDataset(isChecked)}
       />
-    </>
+    </div>
   );
 };
