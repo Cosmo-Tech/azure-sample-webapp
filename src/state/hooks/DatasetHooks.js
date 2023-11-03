@@ -13,6 +13,10 @@ export const useDatasetListData = () => {
   return useSelector((state) => state.dataset?.list?.data);
 };
 
+export const useMainDatasetListData = () => {
+  return useDatasetListData().filter((dataset) => dataset.main === true);
+};
+
 export const useSelectedDatasetIndex = () => {
   return useSelector((state) => state.dataset?.selectedDatasetIndex.data);
 };
