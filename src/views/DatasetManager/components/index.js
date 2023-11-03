@@ -5,3 +5,4 @@ export { CreateDatasetButton } from './CreateDatasetButton';
 export { DatasetList } from './DatasetList';
 export { DatasetMetadata } from './DatasetMetadata';
 export { DatasetOverview } from './DatasetOverview';
+export { NoDatasetsPlaceholder } from './NoDatasetsPlaceholder';
