@@ -2,22 +2,39 @@
 // Licensed under the MIT license.
 
 import React, { useCallback, useState } from 'react';
-import { IconButton } from '@mui/material';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
+import { Button, IconButton } from '@mui/material';
 import { Add as AddIcon } from '@mui/icons-material';
 import { CreateDatasetWizard } from './components/CreateDatasetWizard';
 
-export const CreateDatasetButton = () => {
+export const CreateDatasetButton = ({ isContainedButton }) => {
+  const { t } = useTranslation();
   const [isCreationWizardOpen, setIsCreationWizardOpen] = useState(false);
   const handleCloseDialog = useCallback(() => {
     setIsCreationWizardOpen(false);
   }, [setIsCreationWizardOpen]);
 
   return (
-    <div>
-      <IconButton onClick={() => setIsCreationWizardOpen(true)}>
-        <AddIcon color="primary" />
-      </IconButton>
+    <>
+      {isContainedButton ? (
+        <Button variant="contained" onClick={() => setIsCreationWizardOpen(true)}>
+          {t('commoncomponents.datasetmanager.create.label', 'Create')}
+        </Button>
+      ) : (
+        <IconButton onClick={() => setIsCreationWizardOpen(true)}>
+          <AddIcon color="primary" />
+        </IconButton>
+      )}
       <CreateDatasetWizard open={isCreationWizardOpen} closeDialog={handleCloseDialog} />
-    </div>
+    </>
   );
+};
+
+CreateDatasetButton.propTypes = {
+  isContainedButton: PropTypes.bool,
+};
+
+CreateDatasetButton.defaultProps = {
+  isContainedButton: false,
 };
