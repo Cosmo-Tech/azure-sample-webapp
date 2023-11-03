@@ -218,6 +218,13 @@
       },
       "searchBar": {
         "label": "Find..."
+      },
+      "noDatasets": {
+        "title": "You don't have any datasets yet",
+        "body": "Click on <createDatasetButton /> to import your first data"
+      },
+      "create": {
+        "label": "Create"
       }
     },
     "iframe": {
