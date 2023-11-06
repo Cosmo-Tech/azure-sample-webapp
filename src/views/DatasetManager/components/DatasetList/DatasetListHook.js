@@ -4,14 +4,14 @@
 import { ResourceUtils } from '@cosmotech/core';
 import {
   useCurrentDataset,
-  useDatasetListData,
   useDeleteDataset,
+  useMainDatasetListData,
   useRefreshDataset,
   useSelectDataset,
 } from '../../../../state/hooks/DatasetHooks';
 
 export const useDatasetList = () => {
-  const datasetList = useDatasetListData().filter((dataset) => dataset.main === true);
+  const datasetList = useMainDatasetListData();
   const sortedDatasetList = ResourceUtils.getResourceTree(datasetList);
   const currentDataset = useCurrentDataset();
   const selectDataset = useSelectDataset();
