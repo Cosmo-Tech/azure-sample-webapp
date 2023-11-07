@@ -1,7 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import {
   Box,
   Card,
@@ -14,13 +15,11 @@ import {
   Typography,
 } from '@mui/material';
 import { DeleteForever as DeleteForeverIcon, Refresh as RefreshIcon, Search as SearchIcon } from '@mui/icons-material';
+import { makeStyles } from '@mui/styles';
 import { DontAskAgainDialog, SearchBar } from '@cosmotech/ui';
-import { DatasetsUtils } from '../../../../utils';
-import { Trans, useTranslation } from 'react-i18next';
 import { useDatasetList } from './DatasetListHook';
 import { TwoActionsDialogService } from '../../../../services/twoActionsDialog/twoActionsDialogService';
 import { CreateDatasetButton } from '../CreateDatasetButton';
-import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles(() => ({
   searchBar: {
@@ -32,8 +31,13 @@ export const DatasetList = () => {
   const { t } = useTranslation();
   const classes = useStyles();
   const [isRefreshConfirmationDialogOpen, setIsRefreshConfirmationDialogOpen] = useState(false);
-  const { sortedDatasetList, currentDataset, selectDataset } = useDatasetList();
+  const { sortedDatasetList, currentDataset, selectDataset, deleteDataset } = useDatasetList();
   const [displayedDatasetList, setDisplayedDatasetList] = useState(sortedDatasetList);
+
+  useEffect(() => {
+    setDisplayedDatasetList(sortedDatasetList);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sortedDatasetList?.length]);
 
   const filterDatasets = useCallback(
     (searchString) => {
@@ -61,43 +65,22 @@ export const DatasetList = () => {
     confirm: t('commoncomponents.datasetmanager.dialogs.refresh.overwriteButton', 'Overwrite'),
     checkbox: t('commoncomponents.datasetmanager.dialogs.refresh.checkbox', 'Do not ask me again'),
   };
+
   const askConfirmationToDeleteDialog = useCallback(
-    async (event, datasetId) => {
+    async (event, dataset) => {
       event.stopPropagation();
-      const initialDatasetName = sortedDatasetList.find((dataset) => dataset.id === datasetId)?.name;
-      const childrenToDelete = DatasetsUtils.getAllChildrenDatasetsNames(datasetId, sortedDatasetList);
       const dialogProps = {
         id: 'delete-dataset',
         component: 'div',
         labels: {
           title: t('commoncomponents.datasetmanager.dialogs.delete.title', 'Delete dataset?'),
           body: (
-            <>
-              <Trans
-                i18nKey="commoncomponents.datasetmanager.dialogs.delete.body"
-                defaultValue="Do you really want to delete <i>{{datasetName}}</i>?
+            <Trans
+              i18nKey="commoncomponents.datasetmanager.dialogs.delete.body"
+              defaultValue="Do you really want to delete <i>{{datasetName}}</i>?
                 This action is irreversible."
-                values={{ datasetName: initialDatasetName }}
-              />
-              <p>
-                {childrenToDelete.length > 0 &&
-                  t(
-                    'commoncomponents.datasetmanager.dialogs.delete.bodyWithChildren',
-                    'The following children datasets will also be permanently removed:'
-                  )}
-              </p>
-              <List>
-                {childrenToDelete.map((dataset) => (
-                  <ListItem
-                    key={dataset}
-                    sx={{ display: 'list-item', listStyleType: 'disc', listStylePosition: 'inside' }}
-                    dense
-                  >
-                    {dataset}
-                  </ListItem>
-                ))}
-              </List>
-            </>
+              values={{ datasetName: dataset?.name }}
+            />
           ),
           button1: t('commoncomponents.datasetmanager.dialogs.cancel', 'Cancel'),
           button2: t('commoncomponents.datasetmanager.dialogs.delete.confirmButton', 'Delete'),
@@ -108,10 +91,10 @@ export const DatasetList = () => {
       };
       const result = await TwoActionsDialogService.openDialog(dialogProps);
       if (result === 2) {
-        // TODO deleteDataset(datasetId);
+        deleteDataset(dataset?.id);
       }
     },
-    [t, sortedDatasetList]
+    [t, deleteDataset]
   );
 
   const refreshDataset = useCallback((datasetId) => {
@@ -161,7 +144,7 @@ export const DatasetList = () => {
                     <IconButton onClick={() => refreshDataset(dataset.id)}>
                       <RefreshIcon />
                     </IconButton>
-                    <IconButton onClick={(event) => askConfirmationToDeleteDialog(event, dataset.id)}>
+                    <IconButton onClick={(event) => askConfirmationToDeleteDialog(event, dataset)}>
                       <DeleteForeverIcon />
                     </IconButton>
                   </Box>

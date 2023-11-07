@@ -225,6 +225,9 @@
       },
       "create": {
         "label": "Create"
+      },
+      "backdrop": {
+        "deleting": "Deleting dataset"
       }
     },
     "iframe": {
@@ -468,7 +471,8 @@
         }
       },
       "openScenario": "Scenario can't be opened.",
-      "noPermissionDetail": "You don't have permission to access the scenario #{{scenarioId}} from workspace #{{workspaceId}} of organization #{{organizationId}}"
+      "noPermissionDetail": "You don't have permission to access the scenario #{{scenarioId}} from workspace #{{workspaceId}} of organization #{{organizationId}}",
+      "datasetNotDeleted": "Dataset hasn't been deleted"
     }
   },
   "genericcomponent": {
