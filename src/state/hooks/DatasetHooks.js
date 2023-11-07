@@ -3,7 +3,13 @@
 
 import { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { dispatchAddDatasetToStore, dispatchSetCurrentDatasetIndex } from '../dispatchers/dataset/DatasetDispatcher';
+import {
+  dispatchAddDatasetToStore,
+  dispatchDeleteDataset,
+  dispatchSetCurrentDatasetIndex,
+} from '../dispatchers/dataset/DatasetDispatcher';
+import { useOrganizationId } from './OrganizationHooks';
+import { ResourceUtils } from '@cosmotech/core';
 
 export const useDatasetList = () => {
   return useSelector((state) => state.dataset.list);
@@ -11,10 +17,6 @@ export const useDatasetList = () => {
 
 export const useDatasetListData = () => {
   return useSelector((state) => state.dataset?.list?.data);
-};
-
-export const useMainDatasetListData = () => {
-  return useDatasetListData().filter((dataset) => dataset.main === true);
 };
 
 export const useSelectedDatasetIndex = () => {
@@ -29,7 +31,11 @@ export const useAddDatasetToStore = () => {
 export const useCurrentDataset = () => {
   const datasets = useDatasetListData();
   const selectedDatasetIndex = useSelectedDatasetIndex();
-  return datasets?.[selectedDatasetIndex] ?? null;
+  return (
+    datasets?.[selectedDatasetIndex] ??
+    ResourceUtils.getResourceTree(datasets?.filter((dataset) => dataset.main === true))?.[0] ??
+    null
+  );
 };
 
 export const useSelectDataset = () => {
@@ -46,7 +52,12 @@ export const useSelectDataset = () => {
 };
 
 export const useDeleteDataset = () => {
-  // TODO implement the hook that deletes specific dataset and its children
+  const dispatch = useDispatch();
+  const organizationId = useOrganizationId();
+  return useCallback(
+    (datasetId) => dispatch(dispatchDeleteDataset(organizationId, datasetId)),
+    [dispatch, organizationId]
+  );
 };
 
 export const useRefreshDataset = () => {

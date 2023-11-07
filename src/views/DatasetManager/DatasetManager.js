@@ -4,12 +4,12 @@
 import React from 'react';
 import { Card, Grid } from '@mui/material';
 import { DatasetList, DatasetMetadata, DatasetOverview, NoDatasetsPlaceholder } from './components';
-import { useMainDatasetListData } from '../../state/hooks/DatasetHooks';
+import { useDatasetManager } from './DatasetManagerHook';
 
 const DatasetManager = () => {
-  const datasetList = useMainDatasetListData();
+  const { mainDatasetsList } = useDatasetManager();
 
-  return datasetList?.length > 0 ? (
+  return mainDatasetsList?.length > 0 ? (
     <div data-cy="dataset-manager-view">
       <Card sx={{ m: 1, py: 3, px: 2 }}>
         <Grid container spacing={0} sx={{ alignItems: 'stretch', justifyContent: 'flex-start' }}>
