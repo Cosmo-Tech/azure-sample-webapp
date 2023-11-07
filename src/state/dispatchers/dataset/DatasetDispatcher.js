@@ -21,3 +21,9 @@ export const dispatchSetCurrentDatasetIndex = (datasetIndex) => {
     selectedDatasetIndex: datasetIndex,
   };
 };
+
+export const dispatchDeleteDataset = (organizationId, datasetId) => ({
+  type: DATASET_ACTIONS_KEY.DELETE_DATASET,
+  organizationId,
+  datasetId,
+});
