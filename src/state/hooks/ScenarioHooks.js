@@ -20,11 +20,11 @@ import {
   dispatchLaunchScenario,
 } from '../dispatchers/scenario/ScenarioDispatcher';
 
-export const useScenarioList = () => {
-  return useSelector((state) => state.scenario.list);
+export const useScenariosReducerStatus = () => {
+  return useSelector((state) => state.scenario.list?.status);
 };
 
-export const useScenarioListData = () => {
+export const useScenarios = () => {
   return useSelector((state) => state.scenario?.list?.data);
 };
 

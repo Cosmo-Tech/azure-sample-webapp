@@ -4,7 +4,7 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { useCurrentScenarioData, useScenarioListData } from '../../state/hooks/ScenarioHooks';
+import { useCurrentScenarioData, useScenarios } from '../../state/hooks/ScenarioHooks';
 import { usePowerBIInfo } from '../../state/hooks/PowerBIHooks';
 import { useWorkspaceChartsLogInWithUserCredentials } from '../../state/hooks/WorkspaceHooks';
 import { useDownloadLogsFile } from '../../hooks/ScenarioRunHooks';
@@ -15,7 +15,7 @@ export const useCurrentScenarioPowerBiReport = () => {
   const { t, i18n } = useTranslation();
 
   const currentScenarioData = useCurrentScenarioData();
-  const scenarioListData = useScenarioListData();
+  const scenarios = useScenarios();
   const reports = usePowerBIInfo();
   const logInWithUserCredentials = useWorkspaceChartsLogInWithUserCredentials();
   const downloadLogsFile = useDownloadLogsFile();
@@ -25,12 +25,12 @@ export const useCurrentScenarioPowerBiReport = () => {
 
   const visibleScenarios = useMemo(
     () =>
-      scenarioListData.map((scenario) => ({
+      scenarios.map((scenario) => ({
         id: scenario.id,
         runId: scenario.lastRun?.scenarioRunId,
         csmSimulationRun: scenario.lastRun?.csmSimulationRun,
       })),
-    [scenarioListData]
+    [scenarios]
   );
 
   return {
