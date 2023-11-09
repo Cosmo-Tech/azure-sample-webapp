@@ -11,12 +11,12 @@ import {
 import { useOrganizationId } from './OrganizationHooks';
 import { ResourceUtils } from '@cosmotech/core';
 
-export const useDatasetList = () => {
-  return useSelector((state) => state.dataset.list);
+export const useDatasets = () => {
+  return useSelector((state) => state.dataset?.list?.data);
 };
 
-export const useDatasetListData = () => {
-  return useSelector((state) => state.dataset?.list?.data);
+export const useDatasetsReducerStatus = () => {
+  return useSelector((state) => state.dataset.list?.status);
 };
 
 export const useSelectedDatasetIndex = () => {
@@ -29,7 +29,7 @@ export const useAddDatasetToStore = () => {
 };
 
 export const useCurrentDataset = () => {
-  const datasets = useDatasetListData();
+  const datasets = useDatasets();
   const selectedDatasetIndex = useSelectedDatasetIndex();
   return (
     datasets?.[selectedDatasetIndex] ??
@@ -39,7 +39,7 @@ export const useCurrentDataset = () => {
 };
 
 export const useSelectDataset = () => {
-  const datasets = useDatasetListData();
+  const datasets = useDatasets();
   const dispatch = useDispatch();
 
   return useCallback(
