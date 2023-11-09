@@ -23,6 +23,7 @@
   },
   "plugins": ["react", "react-hooks", "jest", "cypress", "prettier"],
   "rules": {
+    "no-constant-binary-expression": "error",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "jest/no-disabled-tests": "warn",
