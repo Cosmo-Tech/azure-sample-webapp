@@ -5,8 +5,8 @@ import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import rfdc from 'rfdc';
 import { useUser } from '../../state/hooks/AuthHooks';
-import { useDatasetListData } from '../../state/hooks/DatasetHooks';
-import { useCreateScenario, useCurrentScenario, useScenarioListData } from '../../state/hooks/ScenarioHooks';
+import { useDatasets } from '../../state/hooks/DatasetHooks';
+import { useCreateScenario, useCurrentScenario, useScenarios } from '../../state/hooks/ScenarioHooks';
 import { useSolution } from '../../state/hooks/SolutionHooks';
 import { useUserPermissionsOnCurrentWorkspace, useWorkspaceData } from '../../state/hooks/WorkspaceHooks';
 import { getCreateScenarioDialogLabels, logsLabels } from './labels';
@@ -26,8 +26,8 @@ export const useCreateScenarioButton = ({ disabled, onScenarioCreated }) => {
 
   const currentScenario = useCurrentScenario();
 
-  const scenarioListData = useScenarioListData();
-  const datasetListData = useDatasetListData();
+  const scenarios = useScenarios();
+  const datasets = useDatasets();
 
   const user = useUser();
 
@@ -56,12 +56,12 @@ export const useCreateScenarioButton = ({ disabled, onScenarioCreated }) => {
   const filteredDatasets = useMemo(() => {
     const datasetFilter = workspaceData?.webApp?.options?.datasetFilter;
     if (!datasetFilter) {
-      return datasetListData;
+      return datasets;
     }
 
     if (!Array.isArray(datasetFilter) || !datasetFilter.length) {
       console.warn(logsLabels.warning.datasetFilter.emptyOrNotArray);
-      return datasetListData;
+      return datasets;
     }
 
     const result = [];
@@ -69,7 +69,7 @@ export const useCreateScenarioButton = ({ disabled, onScenarioCreated }) => {
       if (typeof dsetFilter !== 'string') {
         console.warn(logsLabels.warning.datasetFilter.getNotAString(dsetFilter));
       } else {
-        const filteredDataset = datasetListData.find((dset) => dset.id === dsetFilter);
+        const filteredDataset = datasets.find((dset) => dset.id === dsetFilter);
         if (!filteredDataset) {
           console.warn(logsLabels.warning.datasetFilter.getDatasetNotFoundForFilter(dsetFilter));
         } else {
@@ -80,11 +80,11 @@ export const useCreateScenarioButton = ({ disabled, onScenarioCreated }) => {
 
     if (!result.length) {
       console.warn(logsLabels.warning.datasetFilter.noDatasetFound);
-      return datasetListData;
+      return datasets;
     }
 
     return result;
-  }, [datasetListData, workspaceData?.webApp?.options?.datasetFilter]);
+  }, [datasets, workspaceData?.webApp?.options?.datasetFilter]);
 
   const createScenarioDialogLabels = getCreateScenarioDialogLabels(t, disabled);
 
@@ -103,7 +103,7 @@ export const useCreateScenarioButton = ({ disabled, onScenarioCreated }) => {
     currentScenario,
     filteredAndTranslatedRunTemplates,
     filteredDatasets,
-    scenarioListData,
+    scenarios,
     user,
     disabled,
     createScenarioDialogLabels,
