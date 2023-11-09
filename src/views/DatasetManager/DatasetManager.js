@@ -7,9 +7,9 @@ import { DatasetList, DatasetMetadata, DatasetOverview, NoDatasetsPlaceholder } 
 import { useDatasetManager } from './DatasetManagerHook';
 
 const DatasetManager = () => {
-  const { mainDatasetsList } = useDatasetManager();
+  const { mainDatasets } = useDatasetManager();
 
-  return mainDatasetsList?.length > 0 ? (
+  return mainDatasets?.length > 0 ? (
     <div data-cy="dataset-manager-view">
       <Card sx={{ m: 1, py: 3, px: 2 }}>
         <Grid container spacing={0} sx={{ alignItems: 'stretch', justifyContent: 'flex-start' }}>

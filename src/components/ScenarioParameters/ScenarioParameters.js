@@ -56,7 +56,7 @@ const ScenarioParameters = ({ onToggleAccordion, isAccordionExpanded }) => {
   const {
     runTemplateParametersIds,
     parametersMetadata,
-    datasetsData,
+    datasets,
     currentScenario,
     solutionData,
     userRoles,
@@ -83,22 +83,22 @@ const ScenarioParameters = ({ onToggleAccordion, isAccordionExpanded }) => {
   const parametersValuesForReset = useMemo(
     () =>
       ScenarioParametersUtils.getParametersValuesForReset(
-        datasetsData,
+        datasets,
         runTemplateParametersIds,
         defaultParametersValues,
         currentScenarioData?.parametersValues
       ),
-    [datasetsData, runTemplateParametersIds, defaultParametersValues, currentScenarioData?.parametersValues]
+    [datasets, runTemplateParametersIds, defaultParametersValues, currentScenarioData?.parametersValues]
   );
 
   const generateParametersValuesFromOriginalValues = useCallback(() => {
     return ScenarioParametersUtils.buildParametersValuesFromOriginalValues(
       parametersValuesForReset,
       parametersMetadata,
-      datasetsData,
+      datasets,
       FileManagementUtils.buildClientFileDescriptorFromDataset
     );
-  }, [datasetsData, parametersMetadata, parametersValuesForReset]);
+  }, [datasets, parametersMetadata, parametersValuesForReset]);
 
   const scenarioResetValues = useMemo(
     () => generateParametersValuesFromOriginalValues(),
