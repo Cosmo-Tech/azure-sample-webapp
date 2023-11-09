@@ -20,9 +20,9 @@ const CreateScenarioButton = ({ disabled, onScenarioCreated }) => {
     userPermissionsOnCurrentWorkspace,
     workspaceId,
     filteredDatasets,
-    scenarioListData,
+    scenarios,
   } = useCreateScenarioButton({ disabled, onScenarioCreated });
-  const sortedScenarioList = ResourceUtils.getResourceTree(scenarioListData);
+  const sortedScenarioList = ResourceUtils.getResourceTree(scenarios);
 
   return (
     <PermissionsGate
