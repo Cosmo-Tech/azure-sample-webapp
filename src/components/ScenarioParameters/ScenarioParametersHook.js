@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { useCurrentScenario } from '../../state/hooks/ScenarioHooks';
-import { useDatasetList } from '../../state/hooks/DatasetHooks';
+import { useDatasets } from '../../state/hooks/DatasetHooks';
 import { useIsDarkTheme } from '../../state/hooks/ApplicationHooks';
 import { useUserAppRoles } from '../../state/hooks/AuthHooks';
 import { useSolution } from '../../state/hooks/SolutionHooks';
@@ -11,7 +11,7 @@ import { useUpdateParameters } from '../../hooks/ScenarioParametersHooks.js';
 
 export const useScenarioParameters = () => {
   const { runTemplateParametersIds, parametersMetadata } = useUpdateParameters();
-  const datasetsData = useDatasetList().data;
+  const datasets = useDatasets();
   const currentScenario = useCurrentScenario();
   const solutionData = useSolution().data;
   const userRoles = useUserAppRoles();
@@ -21,7 +21,7 @@ export const useScenarioParameters = () => {
   return {
     runTemplateParametersIds,
     parametersMetadata,
-    datasetsData,
+    datasets,
     currentScenario,
     solutionData,
     userRoles,

@@ -4,7 +4,7 @@
 import { useOrganizationId } from '../state/hooks/OrganizationHooks';
 import { useWorkspaceId } from '../state/hooks/WorkspaceHooks';
 import { useSolution } from '../state/hooks/SolutionHooks';
-import { useCurrentScenarioData, useScenarioListData } from '../state/hooks/ScenarioHooks';
+import { useCurrentScenarioData, useScenarios } from '../state/hooks/ScenarioHooks';
 import { useAddDatasetToStore } from '../state/hooks/DatasetHooks';
 import { useCallback, useMemo } from 'react';
 import { FileManagementUtils, ScenarioParametersUtils } from '../utils';
@@ -20,7 +20,7 @@ export const useUpdateParameters = () => {
   const organizationId = useOrganizationId();
   const workspaceId = useWorkspaceId();
   const addDatasetToStore = useAddDatasetToStore();
-  const scenariosListData = useScenarioListData();
+  const scenarios = useScenarios();
 
   const { getValues, setValue } = useFormContext();
 
@@ -57,9 +57,9 @@ export const useUpdateParameters = () => {
       parametersValues,
       runTemplateParametersIds,
       currentScenarioData,
-      scenariosListData
+      scenarios
     );
-  }, [currentScenarioData, getValues, runTemplateParametersIds, scenariosListData, solutionData]);
+  }, [currentScenarioData, getValues, runTemplateParametersIds, scenarios, solutionData]);
 
   const forceUpdate =
     ScenarioParametersUtils.shouldForceScenarioParametersUpdate(runTemplateParametersIds) ||
