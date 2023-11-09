@@ -11,6 +11,10 @@ export const usePowerBIInfo = () => {
   return useSelector((state) => state.powerBI);
 };
 
+export const usePowerBIReducerStatus = () => {
+  return useSelector((state) => state.powerBI.status);
+};
+
 export const usePowerBIReportsConfig = () => {
   return useSelector((state) => state.powerBI?.data?.reportsConfig);
 };

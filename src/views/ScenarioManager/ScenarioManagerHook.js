@@ -3,20 +3,20 @@
 
 import {
   useCurrentScenarioData,
-  useScenarioList,
+  useScenarios,
   useUpdateCurrentScenario,
   useDeleteScenario,
   useRenameScenario,
   useResetCurrentScenario,
 } from '../../state/hooks/ScenarioHooks';
-import { useDatasetList } from '../../state/hooks/DatasetHooks';
+import { useDatasets } from '../../state/hooks/DatasetHooks';
 import { useUserId } from '../../state/hooks/AuthHooks';
 import { useHasUserPermissionOnScenario } from '../../hooks/SecurityHooks';
 import { useWorkspaceId } from '../../state/hooks/WorkspaceHooks';
 
 export const useScenarioManager = () => {
-  const scenarios = useScenarioList().data;
-  const datasets = useDatasetList().data;
+  const scenarios = useScenarios();
+  const datasets = useDatasets();
   const currentScenarioData = useCurrentScenarioData();
   const userId = useUserId();
 

@@ -51,6 +51,10 @@ export const useWorkspacesList = () => {
   return useSelector((state) => state.workspace?.list);
 };
 
+export const useWorkspacesReducerStatus = () => {
+  return useSelector((state) => state.workspace?.list?.status);
+};
+
 export const useSelectWorkspace = () => {
   const dispatch = useDispatch();
   return useCallback((workspaceId) => dispatch(dispatchSelectWorkspace(workspaceId)), [dispatch]);
