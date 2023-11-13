@@ -80,7 +80,7 @@
     "crypto-browserify": "^3.12.0",
     "csp-html-webpack-plugin": "^5.1.0",
     "customize-cra": "^1.0.0",
-    "cypress": "^13.1.0",
+    "cypress": "^13.5.0",
     "cypress-file-upload": "^5.0.8",
     "cypress-localstorage-commands": "^2.2.4",
     "cypress-mochawesome-reporter": "^3.3.0",
