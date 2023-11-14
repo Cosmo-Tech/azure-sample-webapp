@@ -474,7 +474,8 @@
       "openScenario": "Le scénario n'a pu etre ouvert.",
       "noPermissionDetail": "Vous n'avez pas la permission d'accéder au scénario #{{scenarioId}} du workspace #{{workspaceId}} de l'organisation #{{organizationId}}",
       "datasetNotDeleted": "Le dataset n'a pas pu être supprimé",
-      "datasetNotCreated": "Le dataset n'a pas pu être créé"
+      "datasetNotCreated": "Le dataset n'a pas pu être créé",
+      "datasetNotUpdated": "Le dataset n'a pas pu être mis à jour"
     }
   },
   "genericcomponent": {
