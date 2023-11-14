@@ -23,9 +23,10 @@ const useStyles = makeStyles((theme) => ({
 export const DatasetMetadata = () => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const { dataset } = useDatasetMetadata();
+  const { dataset, updateDataset, selectedDatasetIndex } = useDatasetMetadata();
+  const datasetId = dataset?.id;
 
-  const apiUrl = useMemo(() => ApiUtils.getDatasetApiUrl(dataset?.id), [dataset?.id]);
+  const apiUrl = useMemo(() => ApiUtils.getDatasetApiUrl(datasetId), [datasetId]);
   const tagsEditorLabels = useMemo(
     () => ({
       header: t('commoncomponents.datasetmanager.metadata.tags', 'Tags'),
@@ -133,17 +134,13 @@ export const DatasetMetadata = () => {
             labels={tagsEditorLabels}
             values={dataset?.tags}
             readOnly={false}
-            onChange={(newTags) => {
-              // TODO: add saga & call back-end to update dataset tags
-            }}
+            onChange={(newTags) => updateDataset(datasetId, { tags: newTags }, selectedDatasetIndex)}
           />
         </Grid>
         <DescriptionEditor
           value={dataset?.description}
           readOnly={false}
-          onChange={(newDescription) => {
-            // TODO: add saga & call back-end to update dataset description
-          }}
+          onChange={(newDescription) => updateDataset(datasetId, { description: newDescription }, selectedDatasetIndex)}
         ></DescriptionEditor>
       </Grid>
     </Card>

@@ -1,5 +1,5 @@
 // Copyright (c) Cosmo Tech.
-// Licensed under the MIT licence.
+// Licensed under the MIT license.
 
 import { takeEvery, call, put } from 'redux-saga/effects';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
