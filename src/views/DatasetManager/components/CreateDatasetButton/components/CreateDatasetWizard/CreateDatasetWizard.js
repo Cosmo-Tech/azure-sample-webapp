@@ -21,10 +21,11 @@ import { BasicEnumInput, BasicRadioInput, BasicTextInput, UploadFile } from '@co
 import { useForm, FormProvider, Controller } from 'react-hook-form';
 import { FileManagementUtils } from '../../../../../../utils';
 import { useTranslation } from 'react-i18next';
+import { useCreateDataset } from '../../../../../../state/hooks/DatasetHooks';
 
 export const CreateDatasetWizard = ({ open, closeDialog }) => {
   const { t } = useTranslation();
-
+  const createDataset = useCreateDataset();
   const datasetLocationEnumValues = [
     { key: 'existingData', value: t('commoncomponents.datasetmanager.wizard.secondScreen.existingData', 'Yes') },
     {
@@ -50,6 +51,7 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
   const [datasetSourceType, setDatasetSourceType] = useState(datasetSourceTypeEnumValues[0].key);
 
   const methods = useForm({ mode: 'onChange' });
+  const { formState } = methods;
 
   useEffect(() => {
     if (open) {
@@ -61,10 +63,23 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
-  const createDataset = useCallback(() => {
-    // TODO: implement useCreateDatasetHook
+  const createDatasetAndCloseDialog = useCallback(() => {
+    const values = methods.getValues();
+    const datasetToCreate = {
+      main: true,
+      name: values.name,
+      tags: values.tags,
+      description: values.description,
+      sourceType: values.sourceType,
+      source: {
+        location: values.location,
+        name: values.sourceName,
+        path: values.path,
+      },
+    };
+    createDataset(datasetToCreate);
     closeDialog();
-  }, [closeDialog]);
+  }, [closeDialog, methods, createDataset]);
 
   const firstStep = (
     <>
@@ -78,7 +93,8 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
       </Grid>
       <Grid item xs={12}>
         <Controller
-          name="new-dataset-title"
+          name="name"
+          rules={{ required: true }}
           render={({ field }) => {
             const { value: titleValue, onChange: setTitleValue } = field;
             return (
@@ -95,7 +111,7 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
       </Grid>
       <Grid item xs={12}>
         <Controller
-          name="new-dataset-tags"
+          name="tags"
           render={({ field }) => {
             const { value: tagsValue, onChange: setTagsValue } = field;
 
@@ -119,7 +135,7 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
       </Grid>
       <Grid item xs={12}>
         <Controller
-          name="new-dataset-description"
+          name="description"
           render={({ field }) => {
             const { value: descriptionValue, onChange: setDescriptionValue } = field;
             return (
@@ -169,7 +185,8 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
       </Grid>
       <Grid item xs={4}>
         <Controller
-          name="new-dataset-sourceType"
+          name="sourceType"
+          defaultValue={datasetSourceTypeEnumValues[0].key}
           render={({ field }) => {
             const { value: datasetSourceTypeValue, onChange: setDatasetSourceTypeValue } = field;
             const setDatasetSource = (newValue) => {
@@ -211,7 +228,8 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
       {datasetSourceType === 'AzureStorage' && (
         <Grid container direction="column" gap={1} sx={{ px: 2 }}>
           <Controller
-            name="azure-storage-account-name"
+            name="sourceName"
+            rules={{ required: true }}
             render={({ field }) => {
               const { value: azureStorageAccountName, onChange: setAzureStorageAccountName } = field;
               return (
@@ -229,7 +247,8 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
             }}
           />
           <Controller
-            name="azure-storage-container-name"
+            name="location"
+            rules={{ required: true }}
             render={({ field }) => {
               const { value: azureStorageContainerName, onChange: setAzureStorageContainerName } = field;
               return (
@@ -247,7 +266,8 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
             }}
           />
           <Controller
-            name="azure-storage-path"
+            name="path"
+            rules={{ required: true }}
             render={({ field }) => {
               const { value: azureStoragePath, onChange: setAzureStoragePath } = field;
               return (
@@ -304,7 +324,7 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
           {activeStep !== 2 && datasetLocation !== 'fromScratch' && (
             <Button
               variant="contained"
-              disabled={datasetLocation === '' && activeStep === 1}
+              disabled={(datasetLocation === '' && activeStep === 1) || !formState.isValid}
               onClick={() => {
                 setActiveStep(activeStep + 1);
               }}
@@ -313,7 +333,7 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
             </Button>
           )}
           {(activeStep === 2 || datasetLocation === 'fromScratch') && (
-            <Button variant="contained" onClick={createDataset}>
+            <Button variant="contained" disabled={!formState.isValid} onClick={createDatasetAndCloseDialog}>
               {t('commoncomponents.datasetmanager.wizard.buttons.create', 'Create')}
             </Button>
           )}
