@@ -203,7 +203,8 @@
           "dataSourceType": {
             "label": "Source",
             "azureStorage": "Azure Storage",
-            "local": "Fichier local"
+            "local": "Fichier local",
+            "adt": "Azure Digital Twin"
           },
           "azureStorage": {
             "accountName": "Nom du compte",
