@@ -35,7 +35,7 @@ export function* deleteDataset(action) {
     yield put(
       dispatchSetApplicationErrorMessage(
         error,
-        t('commoncomponents.banner.datasetNotDeleted', "Dataset hasn't been deleted.")
+        t('commoncomponents.banner.datasetNotDeleted', "Dataset hasn't been deleted")
       )
     );
     yield put({
