@@ -44,6 +44,10 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
       value: t('commoncomponents.datasetmanager.wizard.thirdScreen.dataSourceType.azureStorage', 'Azure Storage'),
     },
     { key: 'local', value: t('commoncomponents.datasetmanager.wizard.thirdScreen.dataSourceType.local', 'Local file') },
+    {
+      key: 'ADT',
+      value: t('commoncomponents.datasetmanager.wizard.thirdScreen.dataSourceType.adt', 'Azure Digital Twin'),
+    },
   ];
 
   const [activeStep, setActiveStep] = useState(0);
@@ -226,7 +230,7 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
         </Grid>
       )}
       {datasetSourceType === 'AzureStorage' && (
-        <Grid container direction="column" gap={1} sx={{ px: 2 }}>
+        <Grid container direction="column" gap={1} sx={{ px: 2, pt: 4 }}>
           <Controller
             name="sourceName"
             rules={{ required: true }}
@@ -277,6 +281,26 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
                   size="medium"
                   value={azureStoragePath ?? ''}
                   changeTextField={(newValue) => setAzureStoragePath(newValue)}
+                />
+              );
+            }}
+          />
+        </Grid>
+      )}
+      {datasetSourceType === 'ADT' && (
+        <Grid item xs={12} sx={{ pt: 4, px: 2 }}>
+          <Controller
+            name="location"
+            rules={{ required: true }}
+            render={({ field }) => {
+              const { value: adtUrl, onChange: setAdtUrl } = field;
+              return (
+                <BasicTextInput
+                  id="adt-url"
+                  label="Url"
+                  size="medium"
+                  value={adtUrl ?? ''}
+                  changeTextField={(newValue) => setAdtUrl(newValue)}
                 />
               );
             }}
