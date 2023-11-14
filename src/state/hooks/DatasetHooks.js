@@ -8,6 +8,7 @@ import {
   dispatchCreateDataset,
   dispatchDeleteDataset,
   dispatchSetCurrentDatasetIndex,
+  dispatchUpdateDataset,
 } from '../dispatchers/dataset/DatasetDispatcher';
 import { useOrganizationId } from './OrganizationHooks';
 import { ResourceUtils } from '@cosmotech/core';
@@ -57,6 +58,16 @@ export const useDeleteDataset = () => {
   const organizationId = useOrganizationId();
   return useCallback(
     (datasetId) => dispatch(dispatchDeleteDataset(organizationId, datasetId)),
+    [dispatch, organizationId]
+  );
+};
+
+export const useUpdateDataset = () => {
+  const dispatch = useDispatch();
+  const organizationId = useOrganizationId();
+  return useCallback(
+    (datasetId, datasetData, datasetIndex) =>
+      dispatch(dispatchUpdateDataset(organizationId, datasetId, datasetData, datasetIndex)),
     [dispatch, organizationId]
   );
 };
