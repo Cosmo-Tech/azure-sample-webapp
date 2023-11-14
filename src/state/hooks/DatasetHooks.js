@@ -5,6 +5,7 @@ import { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   dispatchAddDatasetToStore,
+  dispatchCreateDataset,
   dispatchDeleteDataset,
   dispatchSetCurrentDatasetIndex,
 } from '../dispatchers/dataset/DatasetDispatcher';
@@ -62,4 +63,10 @@ export const useDeleteDataset = () => {
 
 export const useRefreshDataset = () => {
   // TODO implement the hook that refreshes dataset data
+};
+
+export const useCreateDataset = () => {
+  const dispatch = useDispatch();
+  const organizationId = useOrganizationId();
+  return useCallback((dataset) => dispatch(dispatchCreateDataset(organizationId, dataset)), [dispatch, organizationId]);
 };

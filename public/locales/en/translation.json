@@ -472,7 +472,8 @@
       },
       "openScenario": "Scenario can't be opened.",
       "noPermissionDetail": "You don't have permission to access the scenario #{{scenarioId}} from workspace #{{workspaceId}} of organization #{{organizationId}}",
-      "datasetNotDeleted": "Dataset hasn't been deleted"
+      "datasetNotDeleted": "Dataset hasn't been deleted",
+      "datasetNotCreated": "Dataset hasn't been created"
     }
   },
   "genericcomponent": {
