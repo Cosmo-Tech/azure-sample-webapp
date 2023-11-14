@@ -27,3 +27,9 @@ export const dispatchDeleteDataset = (organizationId, datasetId) => ({
   organizationId,
   datasetId,
 });
+
+export const dispatchCreateDataset = (organizationId, dataset) => ({
+  type: DATASET_ACTIONS_KEY.CREATE_DATASET,
+  organizationId,
+  dataset,
+});
