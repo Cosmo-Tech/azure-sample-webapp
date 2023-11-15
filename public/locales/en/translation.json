@@ -145,6 +145,7 @@
       "metadata": {
         "author": "Author",
         "apiUrl": "API URL",
+        "copied": "Copied",
         "creationDate": "Creation date",
         "description": "Description",
         "descriptionPlaceholder": "Enter the dataset description",
