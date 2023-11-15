@@ -1,15 +1,17 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Card, Grid, IconButton } from '@mui/material';
+import { Card, Grid, IconButton, Tooltip } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import { TagsEditor } from '@cosmotech/ui';
 import { useDatasetMetadata } from './DatasetMetadataHook';
 import { DescriptionEditor, MetadataItem } from './components';
 import { ApiUtils } from '../../../../utils';
+
+const COPIED_TOOLTIP_DURATION = 2000;
 
 const useStyles = makeStyles((theme) => ({
   copyIcon: {
@@ -32,19 +34,53 @@ export const DatasetMetadata = () => {
     [t]
   );
 
-  const copyApiUrlButton = useMemo(
-    () => (
-      <IconButton
-        size="small"
-        data-cy="dataset-metadata-copy-api-url-button"
-        aria-label="copy dataset API URL"
-        onClick={() => navigator.clipboard.writeText(apiUrl)}
-      >
-        <FileCopyOutlinedIcon className={classes.copyIcon} />
-      </IconButton>
-    ),
-    [apiUrl, classes.copyIcon]
-  );
+  const copiedTooltipTimeoutRef = useRef(null);
+  const [isCopiedTooltipOpen, setIsCopiedTooltipOpen] = useState(false);
+
+  const copyApiUrlButton = useMemo(() => {
+    const openCopiedTooltip = () => setIsCopiedTooltipOpen(true);
+    const closeCopiedTooltip = () => {
+      copiedTooltipTimeoutRef.current = null;
+      setIsCopiedTooltipOpen(false);
+    };
+    const handleClick = () => {
+      openCopiedTooltip();
+      navigator.clipboard.writeText(apiUrl);
+      copiedTooltipTimeoutRef.current = setTimeout(closeCopiedTooltip, COPIED_TOOLTIP_DURATION);
+    };
+
+    return (
+      <div>
+        <Tooltip
+          open={isCopiedTooltipOpen}
+          disableFocusListener
+          disableHoverListener
+          disableTouchListener
+          placement="right"
+          title={t('commoncomponents.datasetmanager.metadata.copied', 'Copied')}
+          leaveDelay={COPIED_TOOLTIP_DURATION}
+        >
+          <IconButton
+            size="small"
+            data-cy="dataset-metadata-copy-api-url-button"
+            aria-label="copy dataset API URL"
+            onClick={handleClick}
+          >
+            <FileCopyOutlinedIcon className={classes.copyIcon} />
+          </IconButton>
+        </Tooltip>
+      </div>
+    );
+  }, [apiUrl, classes.copyIcon, isCopiedTooltipOpen, t]);
+
+  useEffect(() => {
+    // Clear timeout on unmount
+    return () => {
+      if (copiedTooltipTimeoutRef.current !== null) {
+        clearTimeout(copiedTooltipTimeoutRef.current);
+      }
+    };
+  }, []);
 
   return (
     <Card
