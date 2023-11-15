@@ -232,7 +232,7 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
       {datasetSourceType === 'AzureStorage' && (
         <Grid container direction="column" gap={1} sx={{ px: 2, pt: 4 }}>
           <Controller
-            name="sourceName"
+            name="source.name"
             rules={{ required: true }}
             render={({ field }) => {
               const { value: azureStorageAccountName, onChange: setAzureStorageAccountName } = field;
@@ -251,7 +251,7 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
             }}
           />
           <Controller
-            name="location"
+            name="source.location"
             rules={{ required: true }}
             render={({ field }) => {
               const { value: azureStorageContainerName, onChange: setAzureStorageContainerName } = field;
@@ -270,7 +270,7 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
             }}
           />
           <Controller
-            name="path"
+            name="source.path"
             rules={{ required: true }}
             render={({ field }) => {
               const { value: azureStoragePath, onChange: setAzureStoragePath } = field;
@@ -290,7 +290,7 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
       {datasetSourceType === 'ADT' && (
         <Grid item xs={12} sx={{ pt: 4, px: 2 }}>
           <Controller
-            name="location"
+            name="source.location"
             rules={{ required: true }}
             render={({ field }) => {
               const { value: adtUrl, onChange: setAdtUrl } = field;
