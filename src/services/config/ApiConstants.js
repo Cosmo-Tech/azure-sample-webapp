@@ -32,3 +32,9 @@ export const VALID_MIME_TYPES = [
   'text/plain',
   'text/x-yaml',
 ];
+
+export const DATASET_SOURCE_TYPE = {
+  ADT: 'ADT',
+  AZURE_STORAGE: 'AzureStorage',
+  LOCAL_FILE: 'File',
+};
