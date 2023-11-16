@@ -142,8 +142,29 @@ export const GENERIC_SELECTORS = {
     switchWorkspaceButton: '[data-cy=switch-workspace-button]',
   },
   datasetmanager: {
+    createDatasetButton: '[data-cy=create-dataset-button]',
+    metadata: {
+      card: '[data-cy=dataset-metadata-card]',
+      author: '[data-cy=dataset-metadata-author]',
+      creationDate: '[data-cy=dataset-metadata-creation-date]',
+      refreshDate: '[data-cy=dataset-metadata-refresh-date]',
+      sourceType: '[data-cy=dataset-metadata-source-type]',
+      apiUrl: '[data-cy=dataset-metadata-api-url]',
+      apiUrlButton: '[data-cy=dataset-metadata-copy-api-url-button]',
+      editDescriptionButton: '[data-cy=edit-description]',
+      descriptionTextfield: '[data-cy=description-textfield]',
+      description: '[data-cy=dataset-metadata-description]',
+    },
+    noDatasetsPlaceholder: '[data-cy=no-datasets-placeholder]',
     tabName: '[data-cy="tabs.datasetmanager.key"]',
     view: '[data-cy=dataset-manager-view]',
+    wizard: {
+      dialog: '[data-cy=dataset-creation-dialog]',
+      cancelDatasetCreation: '[data-cy=cancel-dataset-creation]',
+      confirmDatasetCreation: '[data-cy=confirm-dataset-creation]',
+      next: '[data-cy=dataset-creation-next-step]',
+      previous: '[data-cy=dataset-creation-previous-step]',
+    },
   },
   genericComponents: {
     uploadFile: {
