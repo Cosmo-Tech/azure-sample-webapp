@@ -306,7 +306,7 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
 
   return (
     <FormProvider {...methods}>
-      <Dialog open={open} fullWidth>
+      <Dialog open={open} fullWidth data-cy="dataset-creation-dialog">
         <DialogTitle>{t('commoncomponents.datasetmanager.wizard.title', 'Create dataset')}</DialogTitle>
         <DialogContent>
           <Grid container gap={1}>
@@ -329,9 +329,12 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button onClick={closeDialog}>{t('commoncomponents.datasetmanager.dialogs.cancel', 'Cancel')}</Button>
+          <Button onClick={closeDialog} data-cy="cancel-dataset-creation">
+            {t('commoncomponents.datasetmanager.dialogs.cancel', 'Cancel')}
+          </Button>
           {activeStep !== 0 && (
             <Button
+              data-cy="dataset-creation-previous-step"
               onClick={() => {
                 setActiveStep(activeStep - 1);
               }}
@@ -341,6 +344,7 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
           )}
           {activeStep !== 2 && datasetLocation !== 'fromScratch' && (
             <Button
+              data-cy="dataset-creation-next-step"
               variant="contained"
               disabled={(datasetLocation === '' && activeStep === 1) || !formState.isValid}
               onClick={() => {
@@ -351,7 +355,12 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
             </Button>
           )}
           {(activeStep === 2 || datasetLocation === 'fromScratch') && (
-            <Button variant="contained" disabled={!formState.isValid} onClick={createDatasetAndCloseDialog}>
+            <Button
+              variant="contained"
+              disabled={!formState.isValid}
+              onClick={createDatasetAndCloseDialog}
+              data-cy="confirm-dataset-creation"
+            >
               {t('commoncomponents.datasetmanager.wizard.buttons.create', 'Create')}
             </Button>
           )}
