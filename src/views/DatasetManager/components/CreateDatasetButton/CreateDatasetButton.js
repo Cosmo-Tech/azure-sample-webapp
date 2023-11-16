@@ -18,11 +18,11 @@ export const CreateDatasetButton = ({ isContainedButton }) => {
   return (
     <>
       {isContainedButton ? (
-        <Button variant="contained" onClick={() => setIsCreationWizardOpen(true)}>
+        <Button variant="contained" onClick={() => setIsCreationWizardOpen(true)} data-cy="create-dataset-button">
           {t('commoncomponents.datasetmanager.create.label', 'Create')}
         </Button>
       ) : (
-        <IconButton onClick={() => setIsCreationWizardOpen(true)}>
+        <IconButton onClick={() => setIsCreationWizardOpen(true)} data-cy="create-dataset-button">
           <AddIcon color="primary" />
         </IconButton>
       )}
