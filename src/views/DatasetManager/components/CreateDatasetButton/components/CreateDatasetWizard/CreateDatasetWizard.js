@@ -19,9 +19,10 @@ import {
 } from '@mui/material';
 import { BasicEnumInput, BasicRadioInput, BasicTextInput, UploadFile } from '@cosmotech/ui';
 import { useForm, FormProvider, Controller } from 'react-hook-form';
-import { FileManagementUtils } from '../../../../../../utils';
+import { DatasetsUtils, FileManagementUtils } from '../../../../../../utils';
 import { useTranslation } from 'react-i18next';
 import { useCreateDataset } from '../../../../../../state/hooks/DatasetHooks';
+import { DATASET_SOURCE_TYPE } from '../../../../../../services/config/ApiConstants';
 
 export const CreateDatasetWizard = ({ open, closeDialog }) => {
   const { t } = useTranslation();
@@ -40,12 +41,15 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
   // TODO confirm real keys for sourceType
   const datasetSourceTypeEnumValues = [
     {
-      key: 'AzureStorage',
+      key: DATASET_SOURCE_TYPE.AZURE_STORAGE,
       value: t('commoncomponents.datasetmanager.wizard.thirdScreen.dataSourceType.azureStorage', 'Azure Storage'),
     },
-    { key: 'local', value: t('commoncomponents.datasetmanager.wizard.thirdScreen.dataSourceType.local', 'Local file') },
     {
-      key: 'ADT',
+      key: DATASET_SOURCE_TYPE.LOCAL_FILE,
+      value: t('commoncomponents.datasetmanager.wizard.thirdScreen.dataSourceType.local', 'Local file'),
+    },
+    {
+      key: DATASET_SOURCE_TYPE.ADT,
       value: t('commoncomponents.datasetmanager.wizard.thirdScreen.dataSourceType.adt', 'Azure Digital Twin'),
     },
   ];
@@ -69,21 +73,11 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
 
   const createDatasetAndCloseDialog = useCallback(() => {
     const values = methods.getValues();
-    const datasetToCreate = {
-      main: true,
-      name: values.name,
-      tags: values.tags,
-      description: values.description,
-      sourceType: values.sourceType,
-      source: {
-        location: values.location,
-        name: values.sourceName,
-        path: values.path,
-      },
-    };
-    createDataset(datasetToCreate);
+    if (datasetLocation === 'fromScratch') values.sourceType = 'None';
+    DatasetsUtils.removeUndefinedValuesBeforeCreatingDataset(values);
+    createDataset(values);
     closeDialog();
-  }, [closeDialog, methods, createDataset]);
+  }, [closeDialog, methods, createDataset, datasetLocation]);
 
   const firstStep = (
     <>
