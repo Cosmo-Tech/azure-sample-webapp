@@ -75,6 +75,16 @@ const getAllChildrenDatasetsNames = (initialDatasetId, datasets) => {
   return datasetTree;
 };
 
+const removeUndefinedValuesBeforeCreatingDataset = (values) => {
+  if (!values) return;
+  Object.keys(values).forEach((field) => {
+    if (values[field] === undefined) delete values[field];
+    else if (typeof values[field] === 'object') {
+      removeUndefinedValuesBeforeCreatingDataset(values[field]);
+    }
+  });
+};
+
 export const DatasetsUtils = {
   patchDatasetWithCurrentUserPermissions,
   buildStorageFilePath,
@@ -82,4 +92,5 @@ export const DatasetsUtils = {
   getFileNameFromDataset,
   buildAzureStorageConnector,
   getAllChildrenDatasetsNames,
+  removeUndefinedValuesBeforeCreatingDataset,
 };
