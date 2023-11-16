@@ -9,7 +9,7 @@ import { CreateDatasetButton } from '../CreateDatasetButton';
 export const NoDatasetsPlaceholder = () => {
   const { t } = useTranslation();
   return (
-    <Grid container sx={{ height: 1, p: 1 }}>
+    <Grid container sx={{ height: 1, p: 1 }} data-cy="no-datasets-placeholder">
       <Card sx={{ width: 1 }}>
         <Stack sx={{ height: 1 }} justifyContent="center" alignItems="center">
           <Typography variant="h4">
