@@ -81,6 +81,44 @@ export const DEFAULT_SOLUTION = {
       id: 'currency',
       labels: { fr: 'Symbole de la monnaie', en: 'Currency symbol' },
       varType: 'enum',
+      options: {
+        enumValues: [
+          {
+            key: 'USD',
+            value: {
+              en: 'United States dollar ($)',
+              fr: 'Dollar américain ($)',
+            },
+            tooltipText: {
+              fr: 'Le dollar américain est la monnaie nationale des États-Unis et de plusieurs autres pays',
+              en: 'The United States dollar is the official currency of the United States and several other countries',
+            },
+          },
+          {
+            key: 'EUR',
+            value: 'Euro (€)',
+            tooltipText: {
+              fr: "L'euro est la monnaie unique de 20 des 27 États membres de l'Union européenne",
+              en: 'Euro is the official currency of 20 of the 27 member states of the European Union',
+            },
+          },
+          {
+            key: 'BTC',
+            value: 'Bitcoin (฿)',
+            tooltipText: {
+              fr: "Le Bitcoin est une cryptomonnaie dont l'objectif est de créer un système financier décentralisé",
+              en: 'Bitcoin is a protocol which implements a public, permanent, and decentralized ledger',
+            },
+          },
+          {
+            key: 'JPY',
+            value: {
+              en: 'Japanese yen (¥)',
+              fr: 'Yen (¥)',
+            },
+          },
+        ],
+      },
     },
     {
       ...SOLUTION_PARAMETER_EXAMPLE,
