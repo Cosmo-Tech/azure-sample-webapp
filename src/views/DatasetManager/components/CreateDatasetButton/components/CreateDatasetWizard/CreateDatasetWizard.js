@@ -19,9 +19,10 @@ import {
 } from '@mui/material';
 import { BasicEnumInput, BasicRadioInput, BasicTextInput, UploadFile } from '@cosmotech/ui';
 import { useForm, FormProvider, Controller } from 'react-hook-form';
-import { FileManagementUtils } from '../../../../../../utils';
+import { DatasetsUtils, FileManagementUtils } from '../../../../../../utils';
 import { useTranslation } from 'react-i18next';
 import { useCreateDataset } from '../../../../../../state/hooks/DatasetHooks';
+import { DATASET_SOURCE_TYPE } from '../../../../../../services/config/ApiConstants';
 
 export const CreateDatasetWizard = ({ open, closeDialog }) => {
   const { t } = useTranslation();
@@ -40,10 +41,17 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
   // TODO confirm real keys for sourceType
   const datasetSourceTypeEnumValues = [
     {
-      key: 'AzureStorage',
+      key: DATASET_SOURCE_TYPE.AZURE_STORAGE,
       value: t('commoncomponents.datasetmanager.wizard.thirdScreen.dataSourceType.azureStorage', 'Azure Storage'),
     },
-    { key: 'local', value: t('commoncomponents.datasetmanager.wizard.thirdScreen.dataSourceType.local', 'Local file') },
+    {
+      key: DATASET_SOURCE_TYPE.LOCAL_FILE,
+      value: t('commoncomponents.datasetmanager.wizard.thirdScreen.dataSourceType.local', 'Local file'),
+    },
+    {
+      key: DATASET_SOURCE_TYPE.ADT,
+      value: t('commoncomponents.datasetmanager.wizard.thirdScreen.dataSourceType.adt', 'Azure Digital Twin'),
+    },
   ];
 
   const [activeStep, setActiveStep] = useState(0);
@@ -65,21 +73,11 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
 
   const createDatasetAndCloseDialog = useCallback(() => {
     const values = methods.getValues();
-    const datasetToCreate = {
-      main: true,
-      name: values.name,
-      tags: values.tags,
-      description: values.description,
-      sourceType: values.sourceType,
-      source: {
-        location: values.location,
-        name: values.sourceName,
-        path: values.path,
-      },
-    };
-    createDataset(datasetToCreate);
+    if (datasetLocation === 'fromScratch') values.sourceType = 'None';
+    DatasetsUtils.removeUndefinedValuesBeforeCreatingDataset(values);
+    createDataset(values);
     closeDialog();
-  }, [closeDialog, methods, createDataset]);
+  }, [closeDialog, methods, createDataset, datasetLocation]);
 
   const firstStep = (
     <>
@@ -226,9 +224,9 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
         </Grid>
       )}
       {datasetSourceType === 'AzureStorage' && (
-        <Grid container direction="column" gap={1} sx={{ px: 2 }}>
+        <Grid container direction="column" gap={1} sx={{ px: 2, pt: 4 }}>
           <Controller
-            name="sourceName"
+            name="source.name"
             rules={{ required: true }}
             render={({ field }) => {
               const { value: azureStorageAccountName, onChange: setAzureStorageAccountName } = field;
@@ -247,7 +245,7 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
             }}
           />
           <Controller
-            name="location"
+            name="source.location"
             rules={{ required: true }}
             render={({ field }) => {
               const { value: azureStorageContainerName, onChange: setAzureStorageContainerName } = field;
@@ -266,7 +264,7 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
             }}
           />
           <Controller
-            name="path"
+            name="source.path"
             rules={{ required: true }}
             render={({ field }) => {
               const { value: azureStoragePath, onChange: setAzureStoragePath } = field;
@@ -277,6 +275,26 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
                   size="medium"
                   value={azureStoragePath ?? ''}
                   changeTextField={(newValue) => setAzureStoragePath(newValue)}
+                />
+              );
+            }}
+          />
+        </Grid>
+      )}
+      {datasetSourceType === 'ADT' && (
+        <Grid item xs={12} sx={{ pt: 4, px: 2 }}>
+          <Controller
+            name="source.location"
+            rules={{ required: true }}
+            render={({ field }) => {
+              const { value: adtUrl, onChange: setAdtUrl } = field;
+              return (
+                <BasicTextInput
+                  id="adt-url"
+                  label="Url"
+                  size="medium"
+                  value={adtUrl ?? ''}
+                  changeTextField={(newValue) => setAdtUrl(newValue)}
                 />
               );
             }}
