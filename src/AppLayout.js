@@ -43,10 +43,17 @@ export const getTabsForCurrentWorkspace = (currentWorkspaceData) => {
 };
 
 export const filterTabsForCurrentWorkspace = (tabs, currentWorkspaceData) => {
-  if (!ConfigUtils.isInstanceViewConfigValid(currentWorkspaceData?.webApp?.options?.instanceView)) {
-    return tabs.filter((tab) => tab.key !== 'tabs.instance.key');
-  }
-  return tabs;
+  const hideInstanceView = !ConfigUtils.isInstanceViewConfigValid(currentWorkspaceData?.webApp?.options?.instanceView);
+  const hideDatasetManager = !ConfigUtils.isDatasetManagerEnabledInWorkspace(currentWorkspaceData);
+
+  return tabs.filter((tab) => {
+    if (
+      (hideInstanceView && tab.key === 'tabs.instance.key') ||
+      (hideDatasetManager && tab.key === 'tabs.datasetmanager.key')
+    )
+      return false;
+    return true;
+  });
 };
 
 export const getAllTabs = () => {

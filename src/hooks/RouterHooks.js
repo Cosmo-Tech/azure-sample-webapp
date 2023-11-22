@@ -30,6 +30,25 @@ export const useRedirectFromInstanceToScenarioView = () => {
   }, [currentWorkspaceData?.webApp?.options?.instanceView]);
 };
 
+export const useRedirectFromDatasetManagerToScenarioView = () => {
+  const isUnmounted = useRef(false);
+  const currentWorkspaceData = useWorkspaceData();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isUnmounted.current) {
+      return;
+    }
+    const isDatasetManagerViewEnabled = ConfigUtils.isDatasetManagerEnabledInWorkspace(currentWorkspaceData);
+    if (isDatasetManagerViewEnabled) return;
+    navigate('/workspaces');
+    return () => {
+      isUnmounted.current = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentWorkspaceData?.webApp?.options?.datasetmanager, navigate]);
+};
+
 export const useRouterScenarioId = () => {
   const routerParameters = useParams();
   return routerParameters?.scenarioId;
