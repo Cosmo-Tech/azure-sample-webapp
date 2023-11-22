@@ -7,7 +7,8 @@ import { DatasetList, DatasetMetadata, DatasetOverview, NoDatasetsPlaceholder } 
 import { useDatasetManager } from './DatasetManagerHook';
 
 const DatasetManager = () => {
-  const { mainDatasets } = useDatasetManager();
+  const { mainDatasets, useRedirectFromDatasetManagerToScenarioView } = useDatasetManager();
+  useRedirectFromDatasetManagerToScenarioView();
 
   return mainDatasets?.length > 0 ? (
     <div data-cy="dataset-manager-view">
