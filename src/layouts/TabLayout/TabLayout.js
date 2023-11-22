@@ -34,6 +34,7 @@ export const TabLayout = (props) => {
   const currentTabPathname = location?.pathname;
   const scenarioViewUrl = useMatch(':workspaceId/scenario/:scenarioId');
   const instanceViewUrl = useMatch(':workspaceId/instance/:scenarioId');
+  const datasetManagerViewUrl = useMatch(':workspaceId/datasetmanager');
   const applicationError = useApplicationError();
   const clearApplicationErrorMessage = useClearApplicationErrorMessage();
   const routerParameters = useParams();
@@ -53,12 +54,21 @@ export const TabLayout = (props) => {
       selectWorkspace(routerParameters.workspaceId);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentWorkspace?.status, currentWorkspace?.data?.webApp?.options?.instanceView, currentTabPathname]);
+  }, [
+    currentWorkspace?.status,
+    currentWorkspace?.data?.webApp?.options?.instanceView,
+    currentWorkspace?.data?.webApp?.options?.datasetManager,
+    currentTabPathname,
+  ]);
 
-  const isPathInvalid =
+  const shouldRedirectFromInstanceView =
     currentTabPathname.startsWith(`/${routerParameters.workspaceId}/instance`) &&
     !ConfigUtils.isInstanceViewConfigValid(currentWorkspace?.data?.webApp?.options?.instanceView);
-  const tabValue = isPathInvalid ? `/${routerParameters.workspaceId}/scenario` : currentTabPathname;
+  const shouldRedirectFromDatasetManager =
+    currentTabPathname.startsWith(`/${routerParameters.workspaceId}/datasetmanager`) &&
+    !ConfigUtils.isDatasetManagerEnabledInWorkspace(currentWorkspace?.data);
+  const shouldRedirect = shouldRedirectFromInstanceView || shouldRedirectFromDatasetManager;
+  const tabValue = shouldRedirect ? `/${routerParameters.workspaceId}/scenario` : currentTabPathname;
 
   const viewTabs = (
     <MuiTabs value={tabValue} indicatorColor="secondary" textColor="inherit">
@@ -69,6 +79,7 @@ export const TabLayout = (props) => {
           value={
             (tab.to === 'scenario' && scenarioViewUrl?.pathname) ||
             (tab.to === 'instance' && instanceViewUrl?.pathname) ||
+            (tab.to === 'datasetmanager' && datasetManagerViewUrl?.pathname) ||
             `/${routerParameters.workspaceId}/${tab.to}`
           }
           label={t(tab.label, tab.key)}
