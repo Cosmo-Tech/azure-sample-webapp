@@ -15,8 +15,8 @@ function switchToDatasetManagerView() {
   return getDatasetManagerTab().click();
 }
 
-function getNoDatasetsPlaceholder() {
-  return cy.get(GENERIC_SELECTORS.datasetmanager.noDatasetsPlaceholder);
+function getNoDatasetsPlaceholder(timeout = 5) {
+  return cy.get(GENERIC_SELECTORS.datasetmanager.noDatasetsPlaceholder, { timeout: timeout * 1000 });
 }
 
 function getCreateDatasetButton() {
