@@ -3,14 +3,37 @@
 
 import { Login, DatasetManager } from '../../commons/actions';
 import { stub } from '../../commons/services/stubbing';
+import { WORKSPACE, WORKSPACE_WITHOUT_CONFIG } from '../../fixtures/stubbing/DatasetManager';
+
+const WORKSPACES = [WORKSPACE, WORKSPACE_WITHOUT_CONFIG];
+
+describe('Dataset manager is optional', () => {
+  before(() => {
+    stub.start();
+    stub.setWorkspaces(WORKSPACES);
+  });
+
+  beforeEach(() => {
+    Login.login({ url: '/W-stbbdbrwryNoDM', workspaceId: 'W-stbbdbrwryNoDM' });
+  });
+
+  after(() => {
+    stub.stop();
+  });
+
+  it('should not show the Dataset Manager tab when its configuration is not defined', () => {
+    DatasetManager.getDatasetManagerTab().should('not.exist');
+  });
+});
 
 describe('Data read in dataset manager', () => {
   before(() => {
     stub.start();
+    stub.setWorkspaces(WORKSPACES);
   });
 
   beforeEach(() => {
-    Login.login();
+    Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' });
   });
 
   after(() => {

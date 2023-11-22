@@ -148,6 +148,12 @@ const isInstanceViewConfigValid = (instanceView) => {
   return true;
 };
 
+const isDatasetManagerEnabledInWorkspace = (workspace) => {
+  const datasetManagerConfig = workspace?.webApp?.options?.datasetManager;
+  if (datasetManagerConfig == null) return false;
+  return true;
+};
+
 const checkUnknownKeysInConfig = (schema, data) => {
   try {
     schema.parse(data);
@@ -224,5 +230,6 @@ export const ConfigUtils = {
   getParametersGroupAttribute,
   patchSolution,
   isInstanceViewConfigValid,
+  isDatasetManagerEnabledInWorkspace,
   checkUnknownKeysInConfig,
 };
