@@ -30,6 +30,12 @@ export const dispatchCreateDataset = (organizationId, dataset) => ({
   dataset,
 });
 
+export const dispatchRefreshDataset = (organizationId, datasetId) => ({
+  type: DATASET_ACTIONS_KEY.TRIGGER_SAGA_REFRESH_DATASET,
+  organizationId,
+  datasetId,
+});
+
 export const dispatchUpdateDataset = (organizationId, datasetId, datasetData, datasetIndex) => ({
   type: DATASET_ACTIONS_KEY.TRIGGER_SAGA_UPDATE_DATASET,
   organizationId,

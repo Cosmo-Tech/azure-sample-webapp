@@ -1,11 +1,12 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import {
   Box,
   Card,
+  CircularProgress,
   Divider,
   IconButton,
   List,
@@ -14,12 +15,19 @@ import {
   ListItemText,
   Typography,
 } from '@mui/material';
-import { DeleteForever as DeleteForeverIcon, Refresh as RefreshIcon, Search as SearchIcon } from '@mui/icons-material';
+import {
+  DeleteForever as DeleteForeverIcon,
+  Refresh as RefreshIcon,
+  Search as SearchIcon,
+  Error as ErrorIcon,
+} from '@mui/icons-material';
 import { makeStyles } from '@mui/styles';
 import { DontAskAgainDialog, SearchBar } from '@cosmotech/ui';
+import { ResourceUtils } from '@cosmotech/core';
 import { useDatasetList } from './DatasetListHook';
 import { TwoActionsDialogService } from '../../../../services/twoActionsDialog/twoActionsDialogService';
 import { CreateDatasetButton } from '../CreateDatasetButton';
+import { TWINGRAPH_STATUS } from '../../../../services/config/ApiConstants';
 
 const useStyles = makeStyles(() => ({
   searchBar: {
@@ -30,14 +38,31 @@ const useStyles = makeStyles(() => ({
 export const DatasetList = () => {
   const { t } = useTranslation();
   const classes = useStyles();
+  const refreshDialogLabels = {
+    title: t('commoncomponents.datasetmanager.dialogs.refresh.title', 'Overwrite data?'),
+    body: t(
+      'commoncomponents.datasetmanager.dialogs.refresh.body',
+      'Your data will be lost, replaced with the imported one.'
+    ),
+    cancel: t('commoncomponents.datasetmanager.dialogs.cancel', 'Cancel'),
+    confirm: t('commoncomponents.datasetmanager.dialogs.refresh.overwriteButton', 'Overwrite'),
+    checkbox: t('commoncomponents.datasetmanager.dialogs.refresh.checkbox', 'Do not ask me again'),
+  };
+
   const [isRefreshConfirmationDialogOpen, setIsRefreshConfirmationDialogOpen] = useState(false);
-  const { sortedDatasetList, currentDataset, selectDataset, deleteDataset } = useDatasetList();
+  const { datasets, currentDataset, selectDataset, deleteDataset, refreshDatasetById } = useDatasetList();
+
+  const sortedDatasetList = useMemo(() => {
+    return ResourceUtils.getResourceTree(datasets?.filter((dataset) => dataset.main === true));
+  }, [datasets]);
+
   const [displayedDatasetList, setDisplayedDatasetList] = useState(sortedDatasetList);
+  const datasetToRefresh = useRef('');
 
   useEffect(() => {
     setDisplayedDatasetList(sortedDatasetList);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sortedDatasetList?.length]);
+  }, [sortedDatasetList]);
 
   const filterDatasets = useCallback(
     (searchString) => {
@@ -54,17 +79,6 @@ export const DatasetList = () => {
     },
     [sortedDatasetList]
   );
-
-  const refreshDialogLabels = {
-    title: t('commoncomponents.datasetmanager.dialogs.refresh.title', 'Overwrite data?'),
-    body: t(
-      'commoncomponents.datasetmanager.dialogs.refresh.body',
-      'Your data will be lost, replaced with the imported one.'
-    ),
-    cancel: t('commoncomponents.datasetmanager.dialogs.cancel', 'Cancel'),
-    confirm: t('commoncomponents.datasetmanager.dialogs.refresh.overwriteButton', 'Overwrite'),
-    checkbox: t('commoncomponents.datasetmanager.dialogs.refresh.checkbox', 'Do not ask me again'),
-  };
 
   const askConfirmationToDeleteDialog = useCallback(
     async (event, dataset) => {
@@ -97,21 +111,26 @@ export const DatasetList = () => {
     [t, deleteDataset]
   );
 
-  const refreshDataset = useCallback((datasetId) => {
-    if (localStorage.getItem('dontAskAgainToRefreshDataset') !== 'true') {
-      setIsRefreshConfirmationDialogOpen(true);
-    } else {
-      // TODO refreshDatasetById(datasetId);
-    }
-  }, []);
+  const refreshDataset = useCallback(
+    (event, datasetId) => {
+      event.stopPropagation();
+      if (localStorage.getItem('dontAskAgainToRefreshDataset') !== 'true') {
+        datasetToRefresh.current = datasetId;
+        setIsRefreshConfirmationDialogOpen(true);
+      } else {
+        refreshDatasetById(datasetId);
+      }
+    },
+    [refreshDatasetById]
+  );
 
   const confirmRefreshDataset = useCallback(
-    (isChecked, datasetId) => {
+    (isChecked) => {
       localStorage.setItem('dontAskAgainToRefreshDataset', isChecked);
+      refreshDatasetById(datasetToRefresh.current);
       setIsRefreshConfirmationDialogOpen(false);
-      // TODO refreshDatasetById(datasetId);
     },
-    [setIsRefreshConfirmationDialogOpen]
+    [setIsRefreshConfirmationDialogOpen, refreshDatasetById, datasetToRefresh]
   );
 
   const datasetListHeader = (
@@ -141,9 +160,11 @@ export const DatasetList = () => {
               <ListItem
                 secondaryAction={
                   <Box>
-                    <IconButton onClick={() => refreshDataset(dataset.id)}>
-                      <RefreshIcon />
-                    </IconButton>
+                    {!['None', 'File'].includes(dataset.sourceType) && (
+                      <IconButton onClick={(event) => refreshDataset(event, dataset.id)}>
+                        <RefreshIcon />
+                      </IconButton>
+                    )}
                     <IconButton onClick={(event) => askConfirmationToDeleteDialog(event, dataset)}>
                       <DeleteForeverIcon />
                     </IconButton>
@@ -152,7 +173,18 @@ export const DatasetList = () => {
                 disableGutters
                 sx={{ pl: dataset.depth * 2 }}
               >
-                <ListItemText primary={dataset.name} primaryTypographyProps={{ variant: 'body1' }} />
+                <ListItemText
+                  primary={dataset.name}
+                  primaryTypographyProps={{ variant: 'body1' }}
+                  secondary={
+                    dataset.status === TWINGRAPH_STATUS.PENDING ? (
+                      <CircularProgress size="1rem" color="inherit" />
+                    ) : dataset.status === TWINGRAPH_STATUS.ERROR ? (
+                      <ErrorIcon color="error" />
+                    ) : null
+                  }
+                  sx={{ display: 'flex', gap: 1 }}
+                />
               </ListItem>
             </ListItemButton>
           ))}
