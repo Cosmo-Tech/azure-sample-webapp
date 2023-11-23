@@ -6,7 +6,6 @@ import { t } from 'i18next';
 import { Api } from '../../../../services/config/Api';
 import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
 import { DATASET_ACTIONS_KEY } from '../../../commons/DatasetConstants';
-import { STATUSES } from '../../../commons/Constants';
 
 const getDatasets = (state) => state.dataset.list.data;
 const getSelectedDatasetIndex = (state) => state.dataset.selectedDatasetIndex?.data;
@@ -26,10 +25,13 @@ export function* deleteDataset(action) {
     yield call(Api.Datasets.deleteDataset, organizationId, datasetId);
 
     yield put({
-      type: DATASET_ACTIONS_KEY.SET_ALL_DATASETS,
-      list: filteredDatasets,
+      type: DATASET_ACTIONS_KEY.DELETE_DATASET,
+      datasetId,
+    });
+
+    yield put({
+      type: DATASET_ACTIONS_KEY.SET_CURRENT_DATASET_INDEX,
       selectedDatasetIndex: newSelectedDatasetIndex,
-      status: STATUSES.SUCCESS,
     });
   } catch (error) {
     yield put(
@@ -38,15 +40,11 @@ export function* deleteDataset(action) {
         t('commoncomponents.banner.datasetNotDeleted', "Dataset hasn't been deleted")
       )
     );
-    yield put({
-      type: DATASET_ACTIONS_KEY.SET_ALL_DATASETS,
-      status: STATUSES.SUCCESS,
-    });
   }
 }
 
 function* deleteDatasetSaga() {
-  yield takeEvery(DATASET_ACTIONS_KEY.DELETE_DATASET, deleteDataset);
+  yield takeEvery(DATASET_ACTIONS_KEY.TRIGGER_SAGA_DELETE_DATASET, deleteDataset);
 }
 
 export default deleteDatasetSaga;
