@@ -123,88 +123,84 @@ export const WORKSPACES = [
         },
         datasetManager: {
           graphIndicators: [
-            { id: 'entities', name: { en: 'Entities', fr: 'Entités' } },
-            { id: 'relationships', name: { en: 'Relationships', fr: 'Relations' } },
-            { id: 'graphKpi0' },
-            { id: 'graphKpi1' },
-            { id: 'graphKpi2' },
-            { id: 'graphKpi3' },
+            { id: 'bars_count', name: { en: 'Bars', fr: 'Bars' }, queryId: 'bars' },
+            { id: 'customers_count', name: { en: 'Customers', fr: 'Clients' }, queryId: 'customers' },
+            {
+              id: 'satisfaction_links_count',
+              name: { en: 'Customers interactions', fr: 'Interactions clients' },
+              queryId: 'satisfaction_graph',
+            },
+            {
+              id: 'relationships_count',
+              name: { en: 'All relationships', fr: 'Tous les liens' },
+              queryId: 'relationships',
+            },
           ],
           categories: [
             {
-              id: 'transport',
-              name: { en: 'Transport', fr: 'Transport' },
-              type: 'relationship',
+              id: 'bars',
+              name: { en: 'Bars', fr: 'Bars' },
+              type: 'entity',
               description: {
                 en:
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor  incididunt ut ' +
-                  'labore et dolore magna aliqua.',
+                  'Bars are compound entities in the Brewery model. They are responsible of the stock management and ' +
+                  'the number of waiters.\n An entity of type Bar is the parent entity of Customers inside this bar.',
                 fr:
-                  'Impedit impedit commodi laboriosam iusto voluptas itaque quisquam sint. Aut nemo reprehenderit ' +
-                  'rerum reiciendis.\nEarum repellat sit quia totam eligendi consectetur. Quo totam inventore ' +
-                  'possimus eveniet nobis. Dignissimos laudantium laborum et dolores itaque.',
+                  'Les bars sont des entités composées du modèle Brewery. Ils sont responsables de la gestion du ' +
+                  "stock et du nombre de serveurs.\nUne entité de type Bar est l'entité parente des entités Customer " +
+                  'présentes dans ce bar.',
               },
               kpis: [
-                { id: 'transport_kpi1', name: { en: 'My KPI #1', fr: 'Mon KPI n°1' } },
-                { id: 'transport_kpi2', name: { en: 'My KPI #2', fr: 'Mon KPI n°2' } },
+                { id: 'average_stock', name: { en: 'Average stock', fr: 'Moyenne stock' }, queryId: 'bars' },
+                { id: 'average_waiters', name: { en: 'Average waiters', fr: 'Moyenne serveurs' }, queryId: 'bars' },
+                { id: 'min_waiters', name: { en: 'Min. waiters', fr: 'Min. serveurs' }, queryId: 'bars' },
+                { id: 'max_waiters', name: { en: 'Max. waiters', fr: 'Max. serveurs' }, queryId: 'bars' },
               ],
-              attributes: ['Name', 'Source', 'Destination'],
+              attributes: ['NbWaiters', 'RestockQty', 'Stock'],
             },
             {
-              id: 'productionOperation',
-              name: { en: 'Production operation', fr: 'Opération de production' },
-              type: 'relationship',
-              kpis: [{ id: 'productionOperation_kpi1' }, { id: 'productionOperation_kpi2' }],
-            },
-            {
-              id: 'stock',
-              name: { en: 'Stock', fr: 'Stock' },
-              type: 'relationship',
+              id: 'customers',
               description: {
                 en:
-                  'A stock is a supply chain model entity representing location of part between operations.\n' +
-                  'A stock contains one and only one part reference',
-                fr: "Le stock est l'entité du modèle Supply Chain représentant les biens entre les opérations.",
+                  'Customers are basic entities in the Brewery model. They are used to simulate beverage ' +
+                  'consumption inside Bar entities, with an influence graph between customers.',
+                fr:
+                  'Les clients sont des entités basiques du modèle Brewery. Ces entités permettent de simuler la ' +
+                  'consommation de boisson pour chaque entité de type Bar liée, et implémentent un graphe permettant ' +
+                  "d'influencer le comportement d'autres clients.",
               },
-              kpis: [
-                { id: 'stock_quantity', name: { en: 'Quantity', fr: 'Quantité' } },
-                { id: 'stock_initial_sum', name: { en: 'Initial sum', fr: 'Stock initial' } },
-                { id: 'stock_purchasing_cost', name: { en: 'Purchasing cost', fr: "Coût d'achat" } },
-                { id: 'stock_resource_quantity', name: { en: 'Resource quantity', fr: 'Ressources' } },
-              ],
-              attributes: ['Label', 'TransportUnit', 'Duration'],
-            },
-            {
-              id: 'configuration',
-              name: { en: 'Configuration', fr: 'Configuration' },
-              type: 'relationship',
-            },
-            {
-              id: 'demands',
-              name: { en: 'Demands', fr: 'Demandes' },
+              name: { en: 'Customers', fr: 'Clients' },
               type: 'entity',
               kpis: [
-                { id: 'demands_kpi1', name: { en: 'My KPI #1', fr: 'Mon KPI n°1' } },
-                { id: 'demands_kpi2', name: { en: 'My KPI #2', fr: 'Mon KPI n°2' } },
-                { id: 'demands_kpi3', name: { en: 'My KPI #3', fr: 'Mon KPI n°3' } },
-                { id: 'demands_kpi4', name: { en: 'My KPI #4', fr: 'Mon KPI n°4' } },
+                {
+                  id: 'avg_satisfaction',
+                  name: { en: 'Average satisfaction', fr: 'Satisfaction moyenne' },
+                  queryId: 'customers',
+                },
               ],
+              attributes: ['Satisfaction', 'SurroundingSatisfaction', 'Thirsty'],
+            },
+          ],
+          queries: [
+            {
+              id: 'bars',
+              query:
+                'OPTIONAL MATCH (b:Bar) RETURN COUNT(b) as bars_count, avg(b.Stock) as average_stock, ' +
+                'min(b.NbWaiters) as min_waiters, max(b.NbWaiters) as max_waiters, avg(b.NbWaiters) as average_waiters',
             },
             {
-              id: 'input',
-              name: { en: 'Input', fr: 'Entrées' },
-              type: 'entity',
-              kpis: [{ id: 'input_kpi1', name: { en: 'My KPI #1', fr: 'Mon KPI n°1' } }],
+              id: 'customers',
+              query:
+                'OPTIONAL MATCH (c:Customer) RETURN COUNT(c) as customers_count, avg(c.Satisfaction) as ' +
+                'avg_satisfaction',
             },
             {
-              id: 'output',
-              name: { en: 'Output', fr: 'Sorties' },
-              type: 'entity',
-              kpis: [
-                { id: 'output_kpi1', name: { en: 'My KPI #1', fr: 'Mon KPI n°1' } },
-                { id: 'output_kpi2', name: { en: 'My KPI #2', fr: 'Mon KPI n°2' } },
-                { id: 'output_kpi3', name: { en: 'My KPI #3', fr: 'Mon KPI n°3' } },
-              ],
+              id: 'satisfaction_graph',
+              query: 'OPTIONAL MATCH (:Customer)-[r]->(:Customer) RETURN COUNT(r) as satisfaction_links_count',
+            },
+            {
+              id: 'relationships',
+              query: 'OPTIONAL MATCH ()-[r]->() RETURN COUNT(r) as relationships_count',
             },
           ],
         },
