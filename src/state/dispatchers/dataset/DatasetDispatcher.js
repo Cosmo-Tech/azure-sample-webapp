@@ -19,7 +19,7 @@ export const dispatchSetCurrentDatasetIndex = (datasetIndex) => ({
 });
 
 export const dispatchDeleteDataset = (organizationId, datasetId) => ({
-  type: DATASET_ACTIONS_KEY.DELETE_DATASET,
+  type: DATASET_ACTIONS_KEY.TRIGGER_SAGA_DELETE_DATASET,
   organizationId,
   datasetId,
 });
