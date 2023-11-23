@@ -180,7 +180,14 @@
           "loading": "Chargement",
           "unknown": "État inconnu"
         },
-        "title": "Aperçu"
+        "title": "Aperçu",
+        "placeholder": {
+          "error": "Une erreur est survenue pendant l'import des données",
+          "empty": "Votre dataset est vide",
+          "loading": "Données en cours d'importation, veuillez patienter",
+          "unknown": "Le dataset a un statut inconnu, si le problème persiste, merci de contacter votre administrateur",
+          "retryButton": "Réessayer"
+        }
       },
       "wizard": {
         "title": "Créer un dataset",
@@ -475,8 +482,10 @@
       "openScenario": "Le scénario n'a pu etre ouvert.",
       "noPermissionDetail": "Vous n'avez pas la permission d'accéder au scénario #{{scenarioId}} du workspace #{{workspaceId}} de l'organisation #{{organizationId}}",
       "datasetNotDeleted": "Le dataset n'a pas pu être supprimé",
+      "datasetNotUpdated": "Le dataset n'a pas pu être mis à jour",
       "datasetNotCreated": "Le dataset n'a pas pu être créé",
-      "datasetNotUpdated": "Le dataset n'a pas pu être mis à jour"
+      "twingraphNotCreated": "Une erreur est survenue pendant la creation du twingraph",
+      "datasetNotRefreshed": "Une erreur est survenue pendant la mise à jour du dataset"
     }
   },
   "genericcomponent": {
