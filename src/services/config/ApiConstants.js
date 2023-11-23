@@ -33,6 +33,14 @@ export const VALID_MIME_TYPES = [
   'text/x-yaml',
 ];
 
+export const TWINGRAPH_STATUS = {
+  DRAFT: 'DRAFT',
+  PENDING: 'PENDING',
+  ERROR: 'ERROR',
+  READY: 'READY',
+  UNKNOWN: 'UNKNOWN',
+};
+
 export const DATASET_SOURCE_TYPE = {
   ADT: 'ADT',
   AZURE_STORAGE: 'AzureStorage',

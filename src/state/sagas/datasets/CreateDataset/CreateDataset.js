@@ -1,11 +1,12 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { put, select, takeEvery, call } from 'redux-saga/effects';
+
+import { put, takeEvery, call, select } from 'redux-saga/effects';
+import { t } from 'i18next';
 import { Api } from '../../../../services/config/Api';
 import { DATASET_ACTIONS_KEY } from '../../../commons/DatasetConstants';
-import { STATUSES } from '../../../commons/Constants';
 import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
-import { t } from 'i18next';
+import { dispatchSetCurrentDatasetIndex } from '../../../dispatchers/dataset/DatasetDispatcher';
 
 const getDatasets = (state) => state.dataset.list.data;
 
@@ -21,14 +22,17 @@ export function* createDataset(action) {
     });
 
     const datasets = yield select(getDatasets);
-    const createdDatasetIndex = datasets.findIndex((dataset) => dataset.id === data.id);
+    const newDatasetIndex = datasets.findIndex((dataset) => dataset.id === data.id);
 
-    yield put({
-      type: DATASET_ACTIONS_KEY.SET_ALL_DATASETS,
-      list: datasets,
-      selectedDatasetIndex: createdDatasetIndex,
-      status: STATUSES.SUCCESS,
-    });
+    yield put(dispatchSetCurrentDatasetIndex(newDatasetIndex));
+
+    if (dataset.sourceType !== 'None') {
+      yield put({
+        type: DATASET_ACTIONS_KEY.TRIGGER_SAGA_REFRESH_DATASET,
+        organizationId,
+        datasetId: data.id,
+      });
+    }
   } catch (error) {
     console.error(error);
     yield put(
