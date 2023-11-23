@@ -14,7 +14,7 @@ export const DatasetOverview = () => {
 
   const graphIndicatorsElements = useMemo(() => {
     return graphIndicators.map((kpi) => {
-      const result = queriesResults.graphIndicators.find((kpiResult) => kpiResult.id === kpi.id);
+      const result = queriesResults?.graphIndicators?.find((kpiResult) => kpiResult.id === kpi.id);
       return <GraphIndicator key={kpi.id} id={kpi.id} kpi={result}></GraphIndicator>;
     });
   }, [graphIndicators, queriesResults]);
