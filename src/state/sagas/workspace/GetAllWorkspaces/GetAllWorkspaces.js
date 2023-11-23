@@ -43,6 +43,7 @@ export function* getAllWorkspaces(organizationId) {
       userId,
       workspacesPermissionsMapping
     );
+    WorkspacesUtils.patchWorkspaceWithDatasetManagerConfiguration(workspace);
     WorkspacesUtils.addTranslationLabels(workspace);
   });
 
