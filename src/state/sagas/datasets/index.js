@@ -8,6 +8,7 @@ import { createDatasetSaga } from './CreateDataset';
 import { updateDatasetSaga } from './UpdateDataset';
 import { pollTwingraphStatusSaga } from './PollTwingraphStatus';
 import { refreshDatasetSaga } from './RefreshDataset';
+import { queryDatasetTwingraphSaga } from './QueryDatasetTwingraph';
 
 export default function* datasetSaga() {
   yield all([
@@ -17,5 +18,6 @@ export default function* datasetSaga() {
     fork(updateDatasetSaga),
     fork(refreshDatasetSaga),
     fork(pollTwingraphStatusSaga),
+    fork(queryDatasetTwingraphSaga),
   ]);
 }

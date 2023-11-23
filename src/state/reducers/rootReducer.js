@@ -11,6 +11,8 @@ import { organizationReducer } from './organization/OrganizationReducer';
 import { solutionReducer } from './solution/SolutionReducer';
 import { authReducer } from './auth/AuthReducer';
 import { powerBiReducer } from './powerbi/PowerBIReducer';
+// eslint-disable-next-line max-len
+import { datasetTwingraphQueriesResultsReducer } from './datasetTwingraphQueriesResults/DatasetTwingraphQueriesResultsReducer';
 
 const rootReducer = combineReducers({
   scenario: scenarioReducer,
@@ -18,6 +20,7 @@ const rootReducer = combineReducers({
   application: applicationReducer,
   auth: authReducer,
   dataset: datasetsReducer,
+  datasetTwingraph: datasetTwingraphQueriesResultsReducer,
   workspace: workspaceReducer,
   organization: organizationReducer,
   solution: solutionReducer,
