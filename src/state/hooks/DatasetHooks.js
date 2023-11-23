@@ -7,6 +7,7 @@ import {
   dispatchAddDatasetToStore,
   dispatchCreateDataset,
   dispatchDeleteDataset,
+  dispatchRefreshDataset,
   dispatchSetCurrentDatasetIndex,
   dispatchUpdateDataset,
 } from '../dispatchers/dataset/DatasetDispatcher';
@@ -38,6 +39,10 @@ export const useCurrentDataset = () => {
     ResourceUtils.getResourceTree(datasets?.filter((dataset) => dataset.main === true))?.[0] ??
     null
   );
+};
+export const useCurrentDatasetId = () => {
+  const currentDataset = useCurrentDataset();
+  return currentDataset?.id;
 };
 
 export const useSelectDataset = () => {
@@ -73,7 +78,12 @@ export const useUpdateDataset = () => {
 };
 
 export const useRefreshDataset = () => {
-  // TODO implement the hook that refreshes dataset data
+  const dispatch = useDispatch();
+  const organizationId = useOrganizationId();
+  return useCallback(
+    (datasetId) => dispatch(dispatchRefreshDataset(organizationId, datasetId)),
+    [dispatch, organizationId]
+  );
 };
 
 export const useCreateDataset = () => {
