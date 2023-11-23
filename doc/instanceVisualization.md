@@ -366,7 +366,8 @@ export const WORKSPACES = [
 ];
 ```
 
-This config will then be used when **running your webapp locally** and quickly iterate on the configuration to find the
+This configuration will then be used when **running your webapp locally** and quickly iterate on the configuration to
+find the
 best styles and options for your instance visualization. You can even commit these changes in your webapp repository to
 keep using this "configuration patch" in **deployed webapps** (it can be useful for feature preview environments).
 
@@ -439,6 +440,19 @@ App:
 
 Check the function **URL** and **secret** in the front-end configuration file.
 
+#### Audience validation failed
+
+If you encounter the following error:
+
+> IDX10214: Audience validation failed.
+>
+> Audiences: [...]
+>
+> Did not match: validationParameters.ValidAudience: [...]
+
+then you may need to change the list of allowed audiences in the Authentication panel of your Function App (refer to section 2.2 “Configuration“ of the current page).
+
+
 #### 500 Internal server error
 
 Check the error log in your Function App to get more information on the error.
@@ -475,4 +489,4 @@ Name: WEBSITE_RUN_FROM_PACKAGE
 Value: https://github.com/Cosmo-Tech/azure-function-scenario-download/releases/download/v1.0.1/artifact.zip
 ```
 
-Click on "OK" to change the value of the parameter, and then on "**Save**" to confirm your changes and trigger the Functionn App update.
+Click on "OK" to change the value of the parameter, and then on "**Save**" to confirm your changes and trigger the Function App update.
