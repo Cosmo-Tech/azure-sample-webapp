@@ -43,6 +43,10 @@ export const datasetListReducer = createReducer(datasetListInitialState, (builde
     .addCase(DATASET_ACTIONS_KEY.UPDATE_DATASET, (state, action) => {
       const index = action.datasetIndex ?? state.data.findIndex((dataset) => dataset.id === action.datasetId);
       state.data[index] = { ...state.data[index], ...action.datasetData };
+    })
+    .addCase(DATASET_ACTIONS_KEY.DELETE_DATASET, (state, action) => {
+      const index = state.data.findIndex((dataset) => dataset.id === action.datasetId);
+      state.data.splice(index, 1);
     });
 });
 
