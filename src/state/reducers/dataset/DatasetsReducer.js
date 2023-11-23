@@ -17,7 +17,7 @@ export const datasetInitialState = {
 
 export const datasetsReducer = createReducer(datasetInitialState, (builder) => {
   builder
-    .addCase(DATASET_ACTIONS_KEY.GET_ALL_DATASETS, (state, action) => {
+    .addCase(DATASET_ACTIONS_KEY.GET_ALL_DATASETS, (state) => {
       state.list.status = STATUSES.LOADING;
       state.selectedDatasetIndex = null;
     })
