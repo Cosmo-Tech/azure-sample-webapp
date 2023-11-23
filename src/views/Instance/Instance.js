@@ -82,6 +82,7 @@ const Instance = () => {
           setErrorBannerMessage(null);
           setIsLoadingData(false);
         } catch (error) {
+          console.error(error);
           setErrorBannerMessage(parseError(error));
         }
       }

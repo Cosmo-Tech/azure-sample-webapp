@@ -125,15 +125,15 @@ export const processGraphElements = (instanceViewConfig, scenario, theme) => {
   const scenarioDatasets = scenario.datasets || [{ content: scenario }];
   for (const dataset of Object.values(scenarioDatasets)) {
     const datasetContent = dataset.content;
-    const nodesParentsDict = _processGraphCompounds(datasetContent, instanceViewConfig.dataContent.compounds || {});
+    const nodesParentsDict = _processGraphCompounds(datasetContent, instanceViewConfig.dataContent?.compounds ?? {});
     _processGraphNodes(
       processedData,
       nodesParentsDict,
       datasetContent,
-      instanceViewConfig.dataContent.nodes,
+      instanceViewConfig.dataContent?.nodes ?? {},
       theme || {}
     );
-    _processGraphEdges(processedData, datasetContent, instanceViewConfig.dataContent.edges, theme || {});
+    _processGraphEdges(processedData, datasetContent, instanceViewConfig.dataContent?.edges ?? {}, theme || {});
   }
   return processedData;
 };
