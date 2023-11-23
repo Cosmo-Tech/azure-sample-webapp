@@ -3,7 +3,7 @@
 
 import { useMemo } from 'react';
 import { useWorkspaceData } from '../../../../state/hooks/WorkspaceHooks';
-// import { useCurrentDataset } from '../../../../state/hooks/DatasetHooks';
+import { useCurrentDataset } from '../../../../state/hooks/DatasetHooks';
 
 export const useDatasetOverview = () => {
   const workspaceData = useWorkspaceData();
@@ -16,7 +16,7 @@ export const useDatasetOverview = () => {
     return workspaceData?.webApp?.options?.datasetManager?.graphIndicators ?? [];
   }, [workspaceData?.webApp?.options?.datasetManager?.graphIndicators]);
 
-  // const dataset = useCurrentDataset();
+  const datasetStatus = useCurrentDataset()?.status;
 
   // TODO: remove hard-coded JSON below & add redux sagas to query the twingraph instead
   const queriesResults = {
@@ -48,5 +48,5 @@ export const useDatasetOverview = () => {
     ],
   };
 
-  return { categories, graphIndicators, queriesResults };
+  return { categories, graphIndicators, queriesResults, datasetStatus };
 };
