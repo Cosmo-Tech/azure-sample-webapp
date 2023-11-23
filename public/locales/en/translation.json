@@ -180,7 +180,14 @@
           "loading": "Loading",
           "unknown": "Unexpected state"
         },
-        "title": "Overview"
+        "title": "Overview",
+        "placeholder": {
+          "error": "An error occurred during import of your data",
+          "empty": "Your dataset is empty",
+          "loading": "Importing your data, please wait...",
+          "unknown": "The dataset has an unknown state, if the problem persists, please, contact your administrator",
+          "retryButton": "Retry"
+        }
       },
       "wizard": {
         "title": "Create dataset",
@@ -475,7 +482,9 @@
       "noPermissionDetail": "You don't have permission to access the scenario #{{scenarioId}} from workspace #{{workspaceId}} of organization #{{organizationId}}",
       "datasetNotDeleted": "Dataset hasn't been deleted",
       "datasetNotCreated": "Dataset hasn't been created",
-      "datasetNotUpdated": "Dataset hasn't been updated"
+      "datasetNotUpdated": "Dataset hasn't been updated",
+      "twingraphNotCreated": "A problem occurred during twingraph creation",
+      "datasetNotRefreshed": "A problem occurred during dataset refresh"
     }
   },
   "genericcomponent": {
