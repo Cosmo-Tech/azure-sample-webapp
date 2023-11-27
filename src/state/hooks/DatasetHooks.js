@@ -8,11 +8,10 @@ import {
   dispatchCreateDataset,
   dispatchDeleteDataset,
   dispatchRefreshDataset,
-  dispatchSetCurrentDatasetIndex,
+  dispatchSelectDatasetById,
   dispatchUpdateDataset,
 } from '../dispatchers/dataset/DatasetDispatcher';
 import { useOrganizationId } from './OrganizationHooks';
-import { ResourceUtils } from '@cosmotech/core';
 
 export const useDatasets = () => {
   return useSelector((state) => state.dataset?.list?.data);
@@ -23,7 +22,7 @@ export const useDatasetsReducerStatus = () => {
 };
 
 export const useSelectedDatasetIndex = () => {
-  return useSelector((state) => state.dataset?.selectedDatasetIndex.data);
+  return useSelector((state) => state.dataset?.selectedDatasetIndex);
 };
 
 export const useAddDatasetToStore = () => {
@@ -34,36 +33,32 @@ export const useAddDatasetToStore = () => {
 export const useCurrentDataset = () => {
   const datasets = useDatasets();
   const selectedDatasetIndex = useSelectedDatasetIndex();
-  return (
-    datasets?.[selectedDatasetIndex] ??
-    ResourceUtils.getResourceTree(datasets?.filter((dataset) => dataset.main === true))?.[0] ??
-    null
-  );
+  return datasets?.[selectedDatasetIndex] ?? null;
 };
+
 export const useCurrentDatasetId = () => {
   const currentDataset = useCurrentDataset();
   return currentDataset?.id;
 };
 
 export const useSelectDataset = () => {
-  const datasets = useDatasets();
   const dispatch = useDispatch();
 
   return useCallback(
     (datasetToSelect) => {
-      const selectedDatasetIndex = datasets.findIndex((dataset) => dataset.id === datasetToSelect?.id);
-      dispatch(dispatchSetCurrentDatasetIndex(selectedDatasetIndex));
+      dispatch(dispatchSelectDatasetById(datasetToSelect?.id));
     },
-    [datasets, dispatch]
+    [dispatch]
   );
 };
 
 export const useDeleteDataset = () => {
   const dispatch = useDispatch();
   const organizationId = useOrganizationId();
+  const selectedDatasetId = useCurrentDatasetId();
   return useCallback(
-    (datasetId) => dispatch(dispatchDeleteDataset(organizationId, datasetId)),
-    [dispatch, organizationId]
+    (datasetId) => dispatch(dispatchDeleteDataset(organizationId, datasetId, selectedDatasetId)),
+    [dispatch, organizationId, selectedDatasetId]
   );
 };
 
