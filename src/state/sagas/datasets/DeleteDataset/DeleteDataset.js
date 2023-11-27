@@ -1,26 +1,17 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { takeEvery, call, put, select } from 'redux-saga/effects';
+import { takeEvery, call, put } from 'redux-saga/effects';
 import { t } from 'i18next';
 import { Api } from '../../../../services/config/Api';
 import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
 import { DATASET_ACTIONS_KEY } from '../../../commons/DatasetConstants';
 
-const getDatasets = (state) => state.dataset.list.data;
-const getSelectedDatasetIndex = (state) => state.dataset.selectedDatasetIndex?.data;
-
 export function* deleteDataset(action) {
   try {
-    const datasets = yield select(getDatasets);
-    const selectedDatasetIndex = yield select(getSelectedDatasetIndex);
-    const selectedDatasetId = datasets[selectedDatasetIndex]?.id;
-
     const organizationId = action.organizationId;
     const datasetId = action.datasetId;
-
-    const filteredDatasets = datasets.filter((dataset) => dataset.id !== datasetId);
-    const newSelectedDatasetIndex = filteredDatasets.findIndex((dataset) => dataset.id === selectedDatasetId);
+    const selectedDatasetId = action.selectedDatasetId;
 
     yield call(Api.Datasets.deleteDataset, organizationId, datasetId);
 
@@ -31,7 +22,7 @@ export function* deleteDataset(action) {
 
     yield put({
       type: DATASET_ACTIONS_KEY.SET_CURRENT_DATASET_INDEX,
-      selectedDatasetIndex: newSelectedDatasetIndex,
+      selectedDatasetId: datasetId !== selectedDatasetId ? selectedDatasetId : null,
     });
   } catch (error) {
     yield put(
