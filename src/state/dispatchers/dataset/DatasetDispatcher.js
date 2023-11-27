@@ -13,15 +13,16 @@ export const dispatchAddDatasetToStore = (payLoad) => ({
   ...payLoad,
 });
 
-export const dispatchSetCurrentDatasetIndex = (datasetIndex) => ({
+export const dispatchSelectDatasetById = (datasetId) => ({
   type: DATASET_ACTIONS_KEY.SET_CURRENT_DATASET_INDEX,
-  selectedDatasetIndex: datasetIndex,
+  selectedDatasetId: datasetId,
 });
 
-export const dispatchDeleteDataset = (organizationId, datasetId) => ({
+export const dispatchDeleteDataset = (organizationId, datasetId, selectedDatasetId) => ({
   type: DATASET_ACTIONS_KEY.TRIGGER_SAGA_DELETE_DATASET,
   organizationId,
   datasetId,
+  selectedDatasetId,
 });
 
 export const dispatchCreateDataset = (organizationId, dataset) => ({
