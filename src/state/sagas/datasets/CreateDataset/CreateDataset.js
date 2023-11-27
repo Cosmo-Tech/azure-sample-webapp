@@ -1,14 +1,11 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { put, takeEvery, call, select } from 'redux-saga/effects';
+import { put, takeEvery, call } from 'redux-saga/effects';
 import { t } from 'i18next';
 import { Api } from '../../../../services/config/Api';
 import { DATASET_ACTIONS_KEY } from '../../../commons/DatasetConstants';
 import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
-import { dispatchSetCurrentDatasetIndex } from '../../../dispatchers/dataset/DatasetDispatcher';
-
-const getDatasets = (state) => state.dataset.list.data;
 
 export function* createDataset(action) {
   const dataset = action.dataset;
@@ -21,10 +18,10 @@ export function* createDataset(action) {
       ...data,
     });
 
-    const datasets = yield select(getDatasets);
-    const newDatasetIndex = datasets.findIndex((dataset) => dataset.id === data.id);
-
-    yield put(dispatchSetCurrentDatasetIndex(newDatasetIndex));
+    yield put({
+      type: DATASET_ACTIONS_KEY.SET_CURRENT_DATASET_INDEX,
+      selectedDatasetId: data.id,
+    });
 
     if (dataset.sourceType !== 'None') {
       yield put({

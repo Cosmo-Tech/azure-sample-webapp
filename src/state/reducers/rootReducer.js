@@ -5,7 +5,7 @@ import { combineReducers } from 'redux';
 import { scenarioReducer } from './scenario/ScenarioReducer';
 import { scenarioRunReducer } from './scenariorun/ScenarioRunReducer';
 import { applicationReducer } from './app/ApplicationReducer';
-import { datasetReducer } from './dataset/DatasetReducer';
+import { datasetsReducer } from './dataset/DatasetsReducer';
 import { workspaceReducer } from './workspace/WorkspaceReducer';
 import { organizationReducer } from './organization/OrganizationReducer';
 import { solutionReducer } from './solution/SolutionReducer';
@@ -17,7 +17,7 @@ const rootReducer = combineReducers({
   scenarioRun: scenarioRunReducer,
   application: applicationReducer,
   auth: authReducer,
-  dataset: datasetReducer,
+  dataset: datasetsReducer,
   workspace: workspaceReducer,
   organization: organizationReducer,
   solution: solutionReducer,
