@@ -29,6 +29,13 @@ export function* fetchAllDatasetsData(organizationId) {
     list: data,
     status: STATUSES.SUCCESS,
   });
+
+  if (data?.length > 0) {
+    yield put({
+      type: DATASET_ACTIONS_KEY.SET_CURRENT_DATASET_INDEX,
+      selectedDatasetId: null,
+    });
+  }
 }
 
 function* findAllDatasetsData() {
