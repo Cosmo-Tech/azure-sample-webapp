@@ -23,6 +23,32 @@ function getCreateDatasetButton() {
   return cy.get(GENERIC_SELECTORS.datasetmanager.createDatasetButton);
 }
 
+function getDatasetSearchBar() {
+  return cy.get(GENERIC_SELECTORS.datasetmanager.list.searchBar);
+}
+function getDatasetsList() {
+  return cy.get(GENERIC_SELECTORS.datasetmanager.list.container);
+}
+function getDatasetsListItemButtons(tableParameterElement) {
+  return getDatasetsList().find(GENERIC_SELECTORS.datasetmanager.list.listItemButtons);
+}
+function getDatasetsListItemButton(datasetId) {
+  return cy.get(GENERIC_SELECTORS.datasetmanager.list.listItemButtonByDatasetId.replace('$DATASETID', datasetId));
+}
+function getDatasetRefreshButton(datasetId) {
+  return cy.get(GENERIC_SELECTORS.datasetmanager.list.refreshButtonByDatasetId.replace('$DATASETID', datasetId));
+}
+function getDatasetDeleteButton(datasetId) {
+  return cy.get(GENERIC_SELECTORS.datasetmanager.list.deleteButtonByDatasetId.replace('$DATASETID', datasetId));
+}
+function getDatasetsListItemText(datasetId) {
+  return cy.get(GENERIC_SELECTORS.datasetmanager.list.listItemTextByDatasetId.replace('$DATASETID', datasetId));
+}
+
+function selectDatasetById(datasetId) {
+  return getDatasetsListItemButton(datasetId).click();
+}
+
 function getDatasetMetadataCard() {
   return cy.get(GENERIC_SELECTORS.datasetmanager.metadata.card);
 }
@@ -77,6 +103,14 @@ export const DatasetManager = {
   getDatasetManagerView,
   getNoDatasetsPlaceholder,
   getCreateDatasetButton,
+  getDatasetsList,
+  getDatasetSearchBar,
+  getDatasetsListItemButtons,
+  getDatasetsListItemButton,
+  getDatasetRefreshButton,
+  getDatasetDeleteButton,
+  getDatasetsListItemText,
+  selectDatasetById,
   getDatasetMetadataCard,
   getDatasetMetadataAuthor,
   getDatasetMetadataCreationDate,

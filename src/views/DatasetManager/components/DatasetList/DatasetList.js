@@ -147,13 +147,15 @@ export const DatasetList = () => {
         onSearchChange={filterDatasets}
         icon={<SearchIcon />}
         className={classes.searchBar}
+        id="dataset-search-bar"
       />
       <Card variant="outlined" square={true} sx={{ backgroundColor: 'transparent', mt: 1 }}>
-        <List subheader={datasetListHeader}>
+        <List subheader={datasetListHeader} data-cy="datasets-list">
           <Divider />
           {displayedDatasetList.map((dataset) => (
             <ListItemButton
               key={dataset.id}
+              data-cy={`datasets-list-item-button-${dataset.id}`}
               selected={dataset.id === currentDataset?.id}
               onClick={(e) => selectDataset(dataset)}
             >
@@ -161,11 +163,17 @@ export const DatasetList = () => {
                 secondaryAction={
                   <Box>
                     {!['None', 'File'].includes(dataset.sourceType) && (
-                      <IconButton onClick={(event) => refreshDataset(event, dataset.id)}>
+                      <IconButton
+                        onClick={(event) => refreshDataset(event, dataset.id)}
+                        data-cy={`dataset-refresh-button-${dataset.id}`}
+                      >
                         <RefreshIcon />
                       </IconButton>
                     )}
-                    <IconButton onClick={(event) => askConfirmationToDeleteDialog(event, dataset)}>
+                    <IconButton
+                      onClick={(event) => askConfirmationToDeleteDialog(event, dataset)}
+                      data-cy={`dataset-delete-button-${dataset.id}`}
+                    >
                       <DeleteForeverIcon />
                     </IconButton>
                   </Box>
@@ -174,6 +182,7 @@ export const DatasetList = () => {
                 sx={{ pl: dataset.depth * 2 }}
               >
                 <ListItemText
+                  data-cy={`datasets-list-item-text-${dataset.id}`}
                   primary={dataset.name}
                   primaryTypographyProps={{ variant: 'body1' }}
                   secondary={
