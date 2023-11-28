@@ -143,6 +143,15 @@ export const GENERIC_SELECTORS = {
   },
   datasetmanager: {
     createDatasetButton: '[data-cy=create-dataset-button]',
+    list: {
+      container: '[data-cy=datasets-list]',
+      deleteButtonByDatasetId: '[data-cy=dataset-delete-button-$DATASETID]',
+      listItemButtons: '[data-cy^=datasets-list-item-button-]',
+      listItemButtonByDatasetId: '[data-cy=datasets-list-item-button-$DATASETID]',
+      listItemTextByDatasetId: '[data-cy=datasets-list-item-text-$DATASETID]',
+      refreshButtonByDatasetId: '[data-cy=dataset-refresh-button-$DATASETID]',
+      searchBar: '[data-cy="dataset-search-bar"]',
+    },
     metadata: {
       card: '[data-cy=dataset-metadata-card]',
       author: '[data-cy=dataset-metadata-author]',
