@@ -46,7 +46,7 @@ function getScenarioCreationDialog() {
   return cy.get(GENERIC_SELECTORS.scenario.createDialog.dialog);
 }
 function getScenarioCreationDialogNameField() {
-  return cy.get(GENERIC_SELECTORS.scenario.createDialog.nameTextfield);
+  return cy.get(GENERIC_SELECTORS.scenario.createDialog.nameTextField);
 }
 function getScenarioCreationDialogNameInputErrorLabel() {
   return cy.get(GENERIC_SELECTORS.scenario.createDialog.errorLabel);

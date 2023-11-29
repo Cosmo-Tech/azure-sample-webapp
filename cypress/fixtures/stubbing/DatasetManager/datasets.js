@@ -9,6 +9,7 @@ const FILE_DATASET_MAIN_A = {
   id: 'D-stbdataset1',
   name: 'Dataset A',
   description: 'main dataset A from local file',
+  tags: ['dataset', 'A'],
 };
 const FILE_DATASET_MAIN_B = {
   ...DEFAULT_DATASET,
@@ -16,6 +17,7 @@ const FILE_DATASET_MAIN_B = {
   id: 'D-stbdataset2',
   name: 'Dataset B',
   description: 'main dataset B from local file',
+  tags: ['dataset', 'B'],
 };
 
 const FILE_DATASET_NON_MAIN = {
