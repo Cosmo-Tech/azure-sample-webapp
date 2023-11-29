@@ -80,6 +80,17 @@ const DEFAULT_SCENARIO_RUNS_OPTIONS = {
   expectedPollsCount: 1,
 };
 
+// Default stubbing options to fake dataset import jobs. By default, the dataset import will end immediately with a
+// 'READY' status. To change these default options in a test, use stubbing.setDatasetImportOptions(options)
+// - importJobDuration represents the duration (in ms) of the 'PENDING' status, before it changes to the final status
+// - finalStatus must be one of 'DRAFT', 'PENDING', 'ERROR', 'READY' or 'UNKNOWN'
+// - expectedPollsCount is an integer representing the number of polling requests to intercept
+const DEFAULT_DATASET_IMPORT_OPTIONS = {
+  importJobDuration: 0,
+  finalStatus: 'READY',
+  expectedPollsCount: 1,
+};
+
 export const isStubTypeValid = (stubType) => {
   return STUB_TYPES.includes(stubType);
 };
@@ -109,6 +120,7 @@ class Stubbing {
     this.resources = DEFAULT_RESOURCES_DATA;
     this.api = DEFAULT_API_DATA;
     this.scenarioRunOptions = DEFAULT_SCENARIO_RUNS_OPTIONS;
+    this.datasetImportOptions = DEFAULT_DATASET_IMPORT_OPTIONS;
     this.workspaceFiles = {}; // TODO: isolate each workspace instead of using only one Object
 
     this.enabledStubs = {};
@@ -253,6 +265,9 @@ class Stubbing {
 
   setScenarioRunOptions = (options) => (this.scenarioRunOptions = { ...this.scenarioRunOptions, ...options });
   getScenarioRunOptions = () => this.scenarioRunOptions;
+
+  setDatasetImportOptions = (options) => (this.datasetImportOptions = { ...this.datasetImportOptions, ...options });
+  getDatasetImportOptions = () => this.datasetImportOptions;
 
   getWorkspaceFiles = () => this.workspaceFiles;
   setWorkspaceFiles = (newWorkspaceFiles) => (this.workspaceFiles = newWorkspaceFiles);
