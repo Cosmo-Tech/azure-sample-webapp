@@ -107,7 +107,7 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
           }}
         />
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={12} data-cy="new-dataset-tags-container">
         <Controller
           name="tags"
           render={({ field }) => {
