@@ -321,28 +321,65 @@ const interceptGetDataset = () => {
   return alias;
 };
 
+const interceptGetDatasetStatus = (times = 1) => {
+  const alias = forgeAlias('reqGetDatasetStatus');
+  cy.intercept({ method: 'GET', url: API_REGEX.DATASET_STATUS, times }, (req) => {
+    const datasetId = req.url.match(API_REGEX.DATASET_STATUS)?.[1];
+    if (stub.isEnabledFor('CREATE_DATASET')) {
+      req.reply(stub.getDatasetById(datasetId).status);
+    } else if (stub.isEnabledFor('GET_DATASETS')) {
+      req.continue((res) => stub.patchDataset(datasetId, { status: res.body }));
+    }
+  }).as(alias);
+  return alias;
+};
+
 // Parameters:
 //   - options: dict with properties:
 //     - id (optional): id of the dataset to create
 //     - validateRequest (optional): a function, taking the request object as argument, that can be used to perform
 //       cypress checks on the content of the intercepted query
-const interceptCreateDataset = (options) => {
+//     - customDatasetPatch (optional): data to set in the request body, you can use this option to replace the original
+//       content of the query
+//   - stubbingOptions (optional): must be an object or undefined (see doc of 'DEFAULT_DATASET_IMPORT_OPTIONS' in
+//     'stubbing' service file).
+const interceptCreateDataset = (options, stubbingOptions = stub.getDatasetImportOptions()) => {
   const alias = forgeAlias('reqCreateDataset');
   cy.intercept({ method: 'POST', url: API_REGEX.DATASETS, times: 1 }, (req) => {
     if (options?.validateRequest) options?.validateRequest(req);
+    const datasetId = options.id ?? `d-stbd${utils.randomStr(4)}`;
     if (stub.isEnabledFor('CREATE_DATASET')) {
       const dataset = {
         ...DEFAULT_DATASET,
         ...req.body,
-        id: options.id ?? `d-stbd${utils.randomStr(4)}`,
+        id: datasetId,
+        status: 'PENDING',
+        ...options?.customDatasetPatch,
       };
 
-      if (stub.isEnabledFor('GET_DATASETS')) {
-        stub.addDataset(dataset);
-      }
+      stub.addDataset(dataset);
+      setTimeout(() => {
+        stub.patchDataset(datasetId, { status: stubbingOptions.finalStatus });
+      }, stubbingOptions.importJobDuration);
+
       req.reply(dataset);
     } else if (stub.isEnabledFor('GET_DATASETS')) {
       req.continue((res) => stub.addDataset(res.body));
+    }
+  }).as(alias);
+  return alias;
+};
+
+const interceptRefreshDataset = () => {
+  const alias = forgeAlias('reqRefreshDataset');
+  cy.intercept({ method: 'POST', url: API_REGEX.DATASET_REFRESH, times: 1 }, (req) => {
+    if (stub.isEnabledFor('CREATE_DATASET')) {
+      const datasetId = req.url.match(API_REGEX.DATASET_REFRESH)?.[1];
+      req.reply({
+        jobId: 'gdi-stbdimportjob',
+        datasetId,
+        status: stub.getDatasetById(datasetId).status,
+      });
     }
   }).as(alias);
   return alias;
@@ -549,7 +586,9 @@ export const apiUtils = {
   interceptDeleteScenario,
   interceptGetDatasets,
   interceptGetDataset,
+  interceptGetDatasetStatus,
   interceptCreateDataset,
+  interceptRefreshDataset,
   interceptUpdateDataset,
   interceptUpdateDatasetSecurity,
   interceptAddDatasetAccessControl,
