@@ -42,9 +42,10 @@ const DescriptionEditor = (props) => {
       event.stopPropagation();
       event.preventDefault();
       setIsEditing(false);
-      onChange && onChange(event.target.value);
+
+      if (onChange && event.target.value !== value) onChange(event.target.value);
     },
-    [onChange]
+    [onChange, value]
   );
 
   const editIcon = useMemo(() => {
