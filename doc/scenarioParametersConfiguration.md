@@ -123,6 +123,11 @@ information about it in the `options` field of the parameter description:
 - `connectorId`: the connector id to use in the dataset object that will be created with the Cosmo Tech API
 - `description`: the description to use in the dataset object that will be created with the Cosmo Tech API
 
+> **Warning**
+>
+> currently, the file scenario parameters (for "file upload" and "table" components) only work with Azure
+> Storage connectors. The connector whose id you provide **must have the exact name "Azure Storage Connector"**.
+
 When files uploaded by webapp users are sent to the back-end to be stored (for example in Azure Storage), the original
 file name is preserved. This behavior can be inconvenient when writing the parameters handler of your solution. If you
 want to have more predictable names for the files uploaded with the webapp, you can enable the option
