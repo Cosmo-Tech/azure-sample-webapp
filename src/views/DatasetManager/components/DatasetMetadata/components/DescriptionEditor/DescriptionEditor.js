@@ -60,13 +60,14 @@ const DescriptionEditor = (props) => {
           {value}
         </Typography>
       );
+
     return (
       <TextField
         data-cy="description-textfield"
         variant="outlined"
         fullWidth={true}
         multiline
-        value={descriptionText}
+        value={descriptionText ?? ''}
         onChange={(event) => setDescriptionText(event.target.value)}
         onKeyDown={(event) => {
           if (event.key === 'Escape') {
