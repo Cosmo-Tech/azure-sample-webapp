@@ -4,21 +4,21 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
+  Autocomplete,
+  Button,
   Dialog,
+  DialogActions,
   DialogContent,
   DialogTitle,
+  Grid,
   Step,
   StepLabel,
   Stepper,
-  Typography,
-  DialogActions,
-  Button,
-  Grid,
-  Autocomplete,
   TextField,
+  Typography,
 } from '@mui/material';
 import { BasicEnumInput, BasicRadioInput, BasicTextInput, UploadFile } from '@cosmotech/ui';
-import { useForm, FormProvider, Controller } from 'react-hook-form';
+import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { DatasetsUtils, FileManagementUtils } from '../../../../../../utils';
 import { useTranslation } from 'react-i18next';
 import { useCreateDataset } from '../../../../../../state/hooks/DatasetHooks';
@@ -73,8 +73,9 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
 
   const createDatasetAndCloseDialog = useCallback(() => {
     const values = methods.getValues();
-    if (datasetLocation === 'fromScratch') values.sourceType = 'None';
     DatasetsUtils.removeUndefinedValuesBeforeCreatingDataset(values);
+    if (datasetLocation === 'fromScratch') values.sourceType = 'None';
+    else if (values.sourceType === DATASET_SOURCE_TYPE.LOCAL_FILE) values.source = null;
     createDataset(values);
     closeDialog();
   }, [closeDialog, methods, createDataset, datasetLocation]);
@@ -204,10 +205,11 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
           }}
         />
       </Grid>
-      {datasetSourceType === 'local' && (
+      {datasetSourceType === DATASET_SOURCE_TYPE.LOCAL_FILE && (
         <Grid item xs={12} sx={{ pt: 4 }}>
           <Controller
-            name="new-dataset-file"
+            name="file"
+            rules={{ required: true }}
             render={({ field }) => {
               const { value: datasetLocalFile, onChange: setDatasetLocalFile } = field;
               return (
@@ -217,6 +219,7 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
                   editMode={true}
                   handleUploadFile={(event) => FileManagementUtils.prepareToUpload(event, setDatasetLocalFile)}
                   file={datasetLocalFile ?? {}}
+                  acceptedFileTypes="application/zip"
                 />
               );
             }}
