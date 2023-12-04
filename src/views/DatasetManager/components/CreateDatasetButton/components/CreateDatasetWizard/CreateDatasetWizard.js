@@ -4,21 +4,21 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
+  Autocomplete,
+  Button,
   Dialog,
+  DialogActions,
   DialogContent,
   DialogTitle,
+  Grid,
   Step,
   StepLabel,
   Stepper,
-  Typography,
-  DialogActions,
-  Button,
-  Grid,
-  Autocomplete,
   TextField,
+  Typography,
 } from '@mui/material';
 import { BasicEnumInput, BasicRadioInput, BasicTextInput, UploadFile } from '@cosmotech/ui';
-import { useForm, FormProvider, Controller } from 'react-hook-form';
+import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { DatasetsUtils, FileManagementUtils } from '../../../../../../utils';
 import { useTranslation } from 'react-i18next';
 import { useCreateDataset } from '../../../../../../state/hooks/DatasetHooks';
@@ -71,10 +71,30 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
-  const createDatasetAndCloseDialog = useCallback(() => {
+  const createDatasetAndCloseDialog = useCallback(async () => {
     const values = methods.getValues();
     if (datasetLocation === 'fromScratch') values.sourceType = 'None';
     DatasetsUtils.removeUndefinedValuesBeforeCreatingDataset(values);
+    // allows upload but twingraph is empty
+    // values.file = await values.file.file.text();
+
+    // const reader = new FileReader();
+    // allows upload but twingraph is empty
+    // await reader.readAsBinaryString(values.file.file);
+    // serialized to {}, No Archiver found for the stream signature error
+    // await reader.readAsArrayBuffer(values.file.file);
+    // not serialized, dataURL send but No Archiver found for the stream signature error
+    // await reader.readAsDataURL(values.file.file);
+    // allows upload but twingraph is empty
+    // await reader.readAsText(values.file.file);
+/*    reader.onerror = () => {
+      console.log(reader.error);
+    };
+    reader.onload = () => {
+      console.log(reader.result);
+      values.file = reader.result;
+      createDataset(values);
+    };*/
     createDataset(values);
     closeDialog();
   }, [closeDialog, methods, createDataset, datasetLocation]);
@@ -204,10 +224,10 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
           }}
         />
       </Grid>
-      {datasetSourceType === 'local' && (
+      {datasetSourceType === DATASET_SOURCE_TYPE.LOCAL_FILE && (
         <Grid item xs={12} sx={{ pt: 4 }}>
           <Controller
-            name="new-dataset-file"
+            name="file"
             render={({ field }) => {
               const { value: datasetLocalFile, onChange: setDatasetLocalFile } = field;
               return (
