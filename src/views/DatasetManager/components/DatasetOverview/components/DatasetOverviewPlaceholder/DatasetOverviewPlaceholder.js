@@ -2,10 +2,11 @@
 // Licensed under the MIT license.
 
 import React, { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Button, CardContent, Grid, Typography } from '@mui/material';
+import { Trans, useTranslation } from 'react-i18next';
+import { Button, CardContent, Grid, Link, Typography } from '@mui/material';
 import { useDatasetOverviewPlaceholder } from './DatasetOverviewPlaceholderHook';
 import { TWINGRAPH_STATUS } from '../../../../../../services/config/ApiConstants';
+import { ApiUtils } from '../../../../../../utils';
 
 export const DatasetOverviewPlaceholder = () => {
   const { t } = useTranslation();
@@ -38,6 +39,23 @@ export const DatasetOverviewPlaceholder = () => {
     ) : null;
   }, [currentDatasetId, currentDatasetStatus, refreshDataset, t]);
 
+  // This component uses node count to implement a link in the translation string,
+  // if the string is modified, need to check that the link is still the node N1
+  const swaggerLink = useMemo(() => {
+    return currentDatasetStatus === TWINGRAPH_STATUS.DRAFT ? (
+      <Typography variant="caption" color="appbar.contrastTextSoft">
+        <Trans i18nKey="commoncomponents.datasetmanager.overview.placeholder.apiLink">
+          You can use the
+          <Link href={ApiUtils.getDatasetTwingraphSwaggerSection()} color="inherit" target="blank">
+            Cosmo Tech API
+          </Link>
+          to populate it
+        </Trans>
+      </Typography>
+    ) : null;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentDatasetStatus, t]);
+
   return (
     <CardContent sx={{ height: '100vh' }}>
       <Grid
@@ -58,6 +76,7 @@ export const DatasetOverviewPlaceholder = () => {
           </Typography>
         </Grid>
         <Grid item>{retryButton}</Grid>
+        <Grid item>{swaggerLink}</Grid>
       </Grid>
     </CardContent>
   );
