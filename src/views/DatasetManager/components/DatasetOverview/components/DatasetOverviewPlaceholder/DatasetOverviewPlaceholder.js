@@ -39,14 +39,23 @@ export const DatasetOverviewPlaceholder = () => {
   }, [currentDatasetId, currentDatasetStatus, refreshDataset, t]);
 
   return (
-    <CardContent sx={{ height: '100%' }}>
+    <CardContent sx={{ height: '100vh' }}>
       <Grid
         container
         direction="column"
-        sx={{ justifyContent: 'center', alignItems: 'center', gap: 4, height: '100%' }}
+        sx={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: currentDatasetStatus === TWINGRAPH_STATUS.DRAFT ? 2 : 4,
+          height: '100%',
+          width: 'fill-available',
+          position: 'fixed',
+        }}
       >
         <Grid item>
-          <Typography variant="h5">{placeholderText}</Typography>
+          <Typography variant="h3" align="center">
+            {placeholderText}
+          </Typography>
         </Grid>
         <Grid item>{retryButton}</Grid>
       </Grid>
