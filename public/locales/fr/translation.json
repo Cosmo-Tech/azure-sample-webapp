@@ -184,6 +184,7 @@
         "placeholder": {
           "error": "Une erreur est survenue pendant l'import des données",
           "empty": "Votre dataset est vide",
+          "apiLink": "Vous pouvez utiliser l'<1>API Cosmo Tech</1> pour charger des données",
           "loading": "Données en cours d'importation, veuillez patienter",
           "unknown": "Le dataset a un statut inconnu, si le problème persiste, merci de contacter votre administrateur",
           "retryButton": "Réessayer"

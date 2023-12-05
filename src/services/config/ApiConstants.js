@@ -46,3 +46,5 @@ export const DATASET_SOURCE_TYPE = {
   AZURE_STORAGE: 'AzureStorage',
   LOCAL_FILE: 'File',
 };
+
+export const TWINGRAPH_SECTION_URL = '/swagger-ui/index.html#/dataset/twingraphQuery';
