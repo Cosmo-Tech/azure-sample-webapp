@@ -184,6 +184,7 @@
         "placeholder": {
           "error": "An error occurred during import of your data",
           "empty": "Your dataset is empty",
+          "apiLink": "You can use the <1>Cosmo Tech API</1> to populate it",
           "loading": "Importing your data, please wait...",
           "unknown": "The dataset has an unknown state, if the problem persists, please, contact your administrator",
           "retryButton": "Retry"
