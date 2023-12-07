@@ -3,7 +3,7 @@
 
 import utils from '../../commons/TestUtils';
 
-import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
+import { BREWERY_WORKSPACE_ID, DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
 import { Scenarios, ScenarioManager, ScenarioParameters, ErrorBanner } from '../../commons/actions';
 import { Login } from '../../commons/actions/brewery';
 import { URL_REGEX } from '../../commons/constants/generic/TestConstants';
@@ -39,7 +39,7 @@ describe('Displaying error banner on run scenario fail', () => {
       body: {
         title: 'Bad Request',
         status: 400,
-        detail: 'Scenario #scenarioId not found in workspace #w-81264wr3xw5q5 in organization #O-gZYpnd27G7',
+        detail: `Scenario #scenarioId not found in workspace #${BREWERY_WORKSPACE_ID} in organization #O-gZYpnd27G7`,
       },
     });
     // Do not use "launch" action to be able to use our custom 'intercept'
