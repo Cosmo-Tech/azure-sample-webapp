@@ -122,6 +122,7 @@ export const SolutionSchema = z
           .object({
             id: z.string().optional().nullable(),
             name: z.string().optional().nullable(),
+            labels: z.array(z.object({}).optional().nullable()).optional().nullable(),
             description: z.string().optional().nullable(),
             csmSimulation: z.string().optional().nullable(),
             tags: z.array(z.string().optional().nullable()).optional().nullable(),
