@@ -246,7 +246,9 @@ class Stubbing {
   setDatasets = (newDatasets) => this._setResources('datasets', newDatasets);
   addDataset = (newDataset) => this._addResource('datasets', newDataset);
   getDatasetById = (datasetId) => this._getResourceById('datasets', datasetId);
+  deleteDatasetByName = (datasetName) => this._deleteResourceByName('datasets', datasetName);
   patchDataset = (datasetId, datasetPatch) => this._patchResourceById('datasets', datasetId, datasetPatch);
+
   patchDatasetSecurity = (datasetId, defaultRole, accessControlList) =>
     this.patchDataset(datasetId, { security: { default: defaultRole, accessControlList: accessControlList } });
 
@@ -274,6 +276,8 @@ class Stubbing {
     const newACL = (dataset.security?.accessControlList ?? []).filter((entry) => entry.id !== idToRemove);
     this.patchDatasetSecurity(datasetId, dataset.security?.default, newACL);
   };
+
+
 
   getSolutions = () => this._getResources('solutions');
   setSolutions = (newSolutions) => this._setResources('solutions', newSolutions);

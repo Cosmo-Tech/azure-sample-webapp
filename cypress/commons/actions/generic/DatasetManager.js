@@ -14,14 +14,25 @@ export const getCreateDatasetButton = () => cy.get(SELECTORS.createDatasetButton
 export const startDatasetCreation = () => getCreateDatasetButton().click();
 
 export const getDatasetSearchBar = () => cy.get(SELECTORS.list.searchBar);
+export const getDatasetSearchBarInput = () =>
+  getDatasetSearchBar().find(GENERIC_SELECTORS.genericComponents.basicInput.input);
 export const getDatasetsList = () => cy.get(SELECTORS.list.container);
 export const getDatasetsListItemButtons = () => getDatasetsList().find(SELECTORS.list.listItemButtons);
 export const getDatasetsListItemButton = (datasetId) =>
   cy.get(SELECTORS.list.listItemButtonByDatasetId.replace('$DATASETID', datasetId));
 export const getDatasetRefreshButton = (datasetId) =>
   cy.get(SELECTORS.list.refreshButtonByDatasetId.replace('$DATASETID', datasetId));
+export const getRefreshDatasetSpinner = (datasetId) =>
+  cy.get(SELECTORS.list.refreshSpinnerByDatasetId.replace('$DATASETID', datasetId));
+export const getRefreshDatasetErrorIcon = (datasetId) =>
+  cy.get(SELECTORS.list.refreshErrorIconByDatasetId.replace('$DATASETID', datasetId));
+export const getConfirmDatasetRefreshButton = () => cy.get(SELECTORS.confirmRefreshButton);
 export const getDatasetDeleteButton = (datasetId) =>
   cy.get(SELECTORS.list.deleteButtonByDatasetId.replace('$DATASETID', datasetId));
+export const getDeleteDatasetDialog = () => cy.get(SELECTORS.delete.dialog);
+export const getDeleteDatasetDialogBody = () => cy.get(SELECTORS.delete.dialogBody);
+export const getDeleteDatasetCancelButton = () => cy.get(SELECTORS.delete.cancelButton);
+export const getDeleteDatasetConfirmButton = () => cy.get(SELECTORS.delete.confirmButton);
 export const getDatasetsListItemText = (datasetId) =>
   cy.get(SELECTORS.list.listItemTextByDatasetId.replace('$DATASETID', datasetId));
 export const selectDatasetById = (datasetId) => getDatasetsListItemButton(datasetId).click();
@@ -47,6 +58,13 @@ export const getDatasetMetadataTagsContainer = () => cy.get(SELECTORS.metadata.t
 export const getDatasetMetadataTags = () => cy.get(SELECTORS.metadata.tags);
 
 export const getDatasetMetadataTag = (index) => cy.get(SELECTORS.metadata.tagByIndex.replace('$INDEX', index));
+
+export const getDatasetOverviewPlaceholder = (timeout) =>
+  cy.get(SELECTORS.overview.placeholder.container, timeout ? { timeout: timeout * 1000 } : undefined);
+export const getDatasetOverviewPlaceholderTitle = (timeout) =>
+  cy.get(SELECTORS.overview.placeholder.title, timeout ? { timeout: timeout * 1000 } : undefined);
+export const getDatasetOverviewPlaceholderRetryButton = () => cy.get(SELECTORS.overview.placeholder.retryButton);
+export const getDatasetOverviewPlaceholderApiLink = () => cy.get(SELECTORS.overview.placeholder.apiLink);
 
 // Parameters
 //  - newDescription: string containing the new value for the dataset description
@@ -124,6 +142,8 @@ export const confirmDatasetCreation = (options = {}) => {
 export const getNewDatasetDescription = () => cy.get(SELECTORS.wizard.description);
 export const setNewDatasetDescription = (description) => getNewDatasetDescription().type(description);
 export const getNewDatasetName = () => cy.get(SELECTORS.wizard.name);
+export const getNewDatasetNameInput = () =>
+  getNewDatasetName().find(GENERIC_SELECTORS.genericComponents.basicInput.input);
 export const setNewDatasetName = (name) => getNewDatasetName().type(name + '{enter}');
 export const getNewDatasetTagsContainer = () => cy.get(SELECTORS.wizard.tagsContainer);
 export const getNewDatasetTagsInput = () => cy.get(SELECTORS.wizard.tagsInput);
@@ -150,3 +170,28 @@ export const setNewDatasetAzureStorageContainerName = (value) =>
 export const setNewDatasetAzureStoragePath = (value) =>
   getNewDatasetAzureStoragePath().type('{selectAll}{backspace}' + value);
 export const setNewDatasetADTURL = (value) => getNewDatasetADTURL().type('{selectAll}{backspace}' + value);
+
+export const closeDeleteDatasetDialog = () => {
+  getDeleteDatasetCancelButton().click();
+  getDeleteDatasetDialog().should('not.exist');
+};
+
+export const deleteDataset = (datasetId, datasetName) => {
+  const deleteDatasetAlias = api.interceptDeleteDataset(datasetName);
+  getDatasetDeleteButton(datasetId).click();
+  getDeleteDatasetDialog().should('be.visible');
+  getDeleteDatasetDialogBody().contains(datasetName);
+  getDeleteDatasetConfirmButton().click();
+  api.waitAlias(deleteDatasetAlias);
+};
+
+export const refreshDataset = (datasetId, options) => {
+  const aliases = [
+    api.interceptRefreshDatasetAndPollStatus(datasetId, options),
+    api.interceptGetDatasetStatus(options.expectedPollsCount),
+  ];
+  getDatasetRefreshButton(datasetId).click();
+  getConfirmDatasetRefreshButton().click();
+  getRefreshDatasetSpinner(datasetId).should('be.visible');
+  api.waitAliases(aliases);
+};
