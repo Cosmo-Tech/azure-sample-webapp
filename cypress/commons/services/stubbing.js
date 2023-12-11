@@ -247,6 +247,7 @@ class Stubbing {
   addDataset = (newDataset) => this._addResource('datasets', newDataset);
   getDatasetById = (datasetId) => this._getResourceById('datasets', datasetId);
   patchDataset = (datasetId, datasetPatch) => this._patchResourceById('datasets', datasetId, datasetPatch);
+  deleteDatasetByName = (datasetName) => this._deleteResourceByName('datasets', datasetName);
 
   getSolutions = () => this._getResources('solutions');
   setSolutions = (newSolutions) => this._setResources('solutions', newSolutions);
