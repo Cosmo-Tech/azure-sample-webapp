@@ -151,6 +151,8 @@ export const GENERIC_SELECTORS = {
       listItemTextByDatasetId: '[data-cy=datasets-list-item-text-$DATASETID]',
       refreshButtonByDatasetId: '[data-cy=dataset-refresh-button-$DATASETID]',
       searchBar: '[data-cy="dataset-search-bar"]',
+      refreshSpinnerByDatasetId: '[data-cy="refresh-spinner-$DATASETID"]',
+      refreshErrorIconByDatasetId: '[data-cy="refresh-error-icon-$DATASETID"]',
     },
     metadata: {
       card: '[data-cy=dataset-metadata-card]',
@@ -195,6 +197,21 @@ export const GENERIC_SELECTORS = {
       next: '[data-cy=dataset-creation-next-step]',
       previous: '[data-cy=dataset-creation-previous-step]',
     },
+    delete: {
+      dialog: '[data-cy=delete-dataset-dialog]',
+      dialogBody: '[data-cy=delete-dataset-dialog-body]',
+      cancelButton: '[data-cy=delete-dataset-button1]',
+      confirmButton: '[data-cy=delete-dataset-button2]',
+    },
+    overview: {
+      placeholder: {
+        container: '[data-cy=dataset-overview-placeholder]',
+        title: '[data-cy=dataset-overview-title]',
+        retryButton: '[data-cy=dataset-overview-retry-button]',
+        apiLink: '[data-cy=dataset-overview-api-link]',
+      },
+    },
+    confirmRefreshButton: '[data-cy=refresh-dataset-dialog-confirm-button]',
   },
   genericComponents: {
     uploadFile: {
