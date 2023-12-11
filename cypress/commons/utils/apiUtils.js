@@ -371,6 +371,25 @@ const interceptRefreshDataset = () => {
   return alias;
 };
 
+const interceptRefreshDatasetAndPollStatus = (datasetId, options) => {
+  const alias = forgeAlias('reqRefreshDatasetAndPollStatus');
+  cy.intercept({ method: 'POST', url: API_REGEX.DATASET_REFRESH, times: 1 }, (req) => {
+    if (datasetId !== req.url.match(API_REGEX.DATASET_REFRESH)?.[1]) return;
+    if (stub.isEnabledFor('CREATE_DATASET')) {
+      stub.patchDataset(datasetId, { status: 'PENDING' });
+      setTimeout(() => {
+        stub.patchDataset(datasetId, { status: options.finalStatus });
+      }, 5000 * options.expectedPollsCount);
+
+      req.reply({
+        jobId: 'gdi-stbdimportjob',
+        datasetId,
+        status: 'PENDING',
+      });
+    }
+  }).as(alias);
+  return alias;
+};
 // Parameters:
 //   - options: dict with properties:
 //     - validateRequest (optional): a function, taking the request object as argument, that can be used to perform
@@ -388,6 +407,17 @@ const interceptUpdateDataset = (options) => {
     const datasetId = req.url.match(API_REGEX.DATASET)?.[1];
     if (stub.isEnabledFor('GET_DATASETS')) stub.patchDataset(datasetId, datasetPatch);
     if (stub.isEnabledFor('UPDATE_DATASET')) req.reply(datasetPatch);
+  }).as(alias);
+  return alias;
+};
+
+const interceptDeleteDataset = (datasetName) => {
+  const alias = forgeAlias('reqDeleteDataset');
+  cy.intercept({ method: 'DELETE', url: API_REGEX.DATASET, times: 1 }, (req) => {
+    if (stub.isEnabledFor('CREATE_DATASET')) {
+      stub.deleteDatasetByName(datasetName);
+      req.reply(req);
+    }
   }).as(alias);
   return alias;
 };
@@ -504,7 +534,9 @@ export const apiUtils = {
   interceptGetDatasetStatus,
   interceptCreateDataset,
   interceptRefreshDataset,
+  interceptRefreshDatasetAndPollStatus,
   interceptUpdateDataset,
+  interceptDeleteDataset,
   interceptDownloadWorkspaceFile,
   interceptUploadWorkspaceFile,
   interceptGetOrganizationPermissions,

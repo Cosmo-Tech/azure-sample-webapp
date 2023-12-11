@@ -59,6 +59,7 @@ export const DatasetOverviewPlaceholder = () => {
   return (
     <CardContent sx={{ height: '100vh' }}>
       <Grid
+        data-cy="dataset-overview-placeholder"
         container
         direction="column"
         sx={{
@@ -71,12 +72,16 @@ export const DatasetOverviewPlaceholder = () => {
         }}
       >
         <Grid item>
-          <Typography variant="h3" align="center">
+          <Typography data-cy="dataset-overview-title" variant="h3" align="center">
             {placeholderText}
           </Typography>
         </Grid>
-        <Grid item>{retryButton}</Grid>
-        <Grid item>{swaggerLink}</Grid>
+        <Grid data-cy="dataset-overview-retry-button" item>
+          {retryButton}
+        </Grid>
+        <Grid data-cy="dataset-overview-api-link" item>
+          {swaggerLink}
+        </Grid>
       </Grid>
     </CardContent>
   );
