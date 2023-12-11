@@ -187,9 +187,9 @@ export const DatasetList = () => {
                   primaryTypographyProps={{ variant: 'body1' }}
                   secondary={
                     dataset.status === TWINGRAPH_STATUS.PENDING ? (
-                      <CircularProgress size="1rem" color="inherit" />
+                      <CircularProgress data-cy={`refresh-spinner-${dataset.id}`} size="1rem" color="inherit" />
                     ) : dataset.status === TWINGRAPH_STATUS.ERROR ? (
-                      <ErrorIcon color="error" />
+                      <ErrorIcon data-cy={`refresh-error-icon-${dataset.id}`} color="error" />
                     ) : null
                   }
                   sx={{ display: 'flex', gap: 1 }}
