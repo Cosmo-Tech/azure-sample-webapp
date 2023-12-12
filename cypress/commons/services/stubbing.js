@@ -1,6 +1,8 @@
 // Copyright (c) Cosmo Tech
 // Licensed under the MIT license
 
+import rfdc from 'rfdc';
+
 import {
   DEFAULT_ORGANIZATION_PERMISSIONS,
   DEFAULT_SCENARIOS_LIST,
@@ -27,6 +29,8 @@ const STUB_TYPES = [
   'UPDATE_DATASET',
   'UPDATE_SCENARIO',
 ];
+
+const clone = rfdc();
 
 // Fake API data makes us able to stub the received workspace data while still using a real workspace for back-end calls
 //  - actualWorkspaceId is retrieved from the first API call whose endpoint contains a workspace id (when
@@ -105,10 +109,7 @@ const forgeScenarioRunStatus = (scenarioRun) => ({
 
 class Stubbing {
   constructor() {
-    this.auth = DEFAULT_AUTH_DATA;
-    this.resources = DEFAULT_RESOURCES_DATA;
-    this.api = DEFAULT_API_DATA;
-    this.scenarioRunOptions = DEFAULT_SCENARIO_RUNS_OPTIONS;
+    this.reset();
     this.workspaceFiles = {}; // TODO: isolate each workspace instead of using only one Object
 
     this.enabledStubs = {};
@@ -137,9 +138,10 @@ class Stubbing {
   };
 
   reset = () => {
-    this.auth = DEFAULT_AUTH_DATA;
-    this.resources = DEFAULT_RESOURCES_DATA;
-    this.api = DEFAULT_API_DATA;
+    this.auth = clone(DEFAULT_AUTH_DATA);
+    this.resources = clone(DEFAULT_RESOURCES_DATA);
+    this.api = clone(DEFAULT_API_DATA);
+    this.scenarioRunOptions = clone(DEFAULT_SCENARIO_RUNS_OPTIONS);
   };
 
   isEnabledFor = (stubType) => {
