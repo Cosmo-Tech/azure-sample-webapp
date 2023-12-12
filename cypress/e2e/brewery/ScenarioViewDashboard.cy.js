@@ -5,42 +5,30 @@ import { Login, Scenarios, ScenarioParameters } from '../../commons/actions';
 import { BreweryParameters } from '../../commons/actions/brewery';
 import { DEFAULT_SCENARIOS_LIST } from '../../fixtures/stubbing/default';
 import { stub } from '../../commons/services/stubbing';
-import { setup } from '../../commons/utils/setup';
 
 describe('Scenario view PowerBI report', () => {
   before(() => {
-    setup.initCypressAndStubbing();
-    stub.start({
-      CREATE_AND_DELETE_SCENARIO: true,
-      GET_DATASETS: true,
-      GET_SOLUTIONS: true,
-      GET_WORKSPACES: true,
-      GET_ORGANIZATION: true,
-      GET_SCENARIOS: true,
-      LAUNCH_SCENARIO: true,
-      PERMISSIONS_MAPPING: true,
-      UPDATE_SCENARIO: true,
-    });
-    stub.setScenarios(DEFAULT_SCENARIOS_LIST);
+    stub.start();
   });
 
   beforeEach(() => {
     Login.login();
+    stub.reset();
   });
 
   after(() => {
     stub.stop();
   });
 
-  it('can correctly show "out of sync" dashboard warning & "logs download" button', () => {
-    const { id: scenarioId } = DEFAULT_SCENARIOS_LIST[0];
-    const runOptions = {
-      runDuration: 1000,
-      dataIngestionDuration: 1000,
-      finalStatus: 'Successful',
-      expectedPollsCount: 2,
-    };
+  const { id: scenarioId } = DEFAULT_SCENARIOS_LIST[0];
+  const runOptions = {
+    runDuration: 1000,
+    dataIngestionDuration: 1000,
+    finalStatus: 'Successful',
+    expectedPollsCount: 2,
+  };
 
+  it('can correctly show "out of sync" dashboard warning & "logs download" button', () => {
     ScenarioParameters.expandParametersAccordion();
 
     // First phase: warning is never visible until we first launch the scenario
@@ -92,5 +80,26 @@ describe('Scenario view PowerBI report', () => {
     BreweryParameters.getCurrencyUsedInput().uncheck();
     ScenarioParameters.discard();
     Scenarios.checkIfReportIsUnsynced(true);
+  });
+
+  it('If the back end returns a start time as null, out-of-sync is never displayed', () => {
+    const CURRENCY_VALUE_TO_UPDATE = 97779;
+    stub.setScenarioRunOptions({ startTime: null });
+
+    ScenarioParameters.expandParametersAccordion();
+    Scenarios.checkIfReportIsUnsynced(false);
+    Scenarios.getScenarioBackdrop(10).should('not.be.visible');
+    Scenarios.getDashboardAccordionLogsDownloadButton().should('not.exist');
+
+    ScenarioParameters.launch({ scenarioId, runOptions, saveAndLaunch: true });
+    Scenarios.checkIfReportIsUnsynced(false);
+    Scenarios.getDashboardAccordionLogsDownloadButton().should('not.exist');
+    ScenarioParameters.waitForScenarioRunEnd();
+    Scenarios.getDashboardAccordionLogsDownloadButton().should('be.visible');
+
+    BreweryParameters.getCurrencyValueInput().clear().type(CURRENCY_VALUE_TO_UPDATE);
+    Scenarios.checkIfReportIsUnsynced(false);
+    ScenarioParameters.save();
+    Scenarios.checkIfReportIsUnsynced(false);
   });
 });
