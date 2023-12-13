@@ -184,6 +184,8 @@ const interceptGetScenarioRunStatus = () => {
     if (!stub.isEnabledFor('LAUNCH_SCENARIO')) return;
     const scenarioRunId = req.url.match(API_REGEX.SCENARIO_RUN_STATUS)[1];
     const runStatus = stub.getScenarioRunById(scenarioRunId).status;
+    const stubbedStartTime = stub.getScenarioRunOptions().startTime;
+    if (stubbedStartTime !== undefined) runStatus.startTime = stubbedStartTime;
     req.reply(runStatus);
   }).as(alias);
   return alias;

@@ -26,8 +26,8 @@ export const useScenarioDashboardCard = () => {
   );
 
   const isDashboardSync = useMemo(() => {
-    if (isDirty) return false;
     if (!currentScenarioRunStartTime) return true;
+    if (isDirty) return false;
     const lastUpdate = new Date(currentScenarioLastUpdate);
     const startTime = new Date(currentScenarioRunStartTime);
     lastUpdate.setSeconds(0);
