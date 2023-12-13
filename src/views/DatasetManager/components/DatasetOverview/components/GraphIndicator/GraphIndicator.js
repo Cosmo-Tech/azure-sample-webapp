@@ -13,7 +13,7 @@ const GraphIndicator = (props) => {
   const { id, kpi } = props;
 
   return (
-    <Card sx={{ backgroundColor: '#ffe26b1c' }}>
+    <Card data-cy={`indicator-card-${kpi.id}`} sx={{ backgroundColor: '#ffe26b1c' }}>
       <Grid
         container
         sx={{
