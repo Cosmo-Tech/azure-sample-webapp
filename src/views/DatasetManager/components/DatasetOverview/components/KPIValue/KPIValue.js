@@ -21,13 +21,13 @@ export const KPIValue = (props) => {
           title={t('commoncomponents.datasetmanager.overview.kpiState.loading', 'Loading')}
           disableInteractive={true}
         >
-          <CircularProgress size={size} />
+          <CircularProgress data-cy="kpi-loading" size={size} />
         </FadingTooltip>
       );
 
     if (kpi.state === KPI_STATE.READY)
       return (
-        <Typography variant="body1" {...valueTypographyProps}>
+        <Typography data-cy="kpi-value" variant="body1" {...valueTypographyProps}>
           {kpi.value}
         </Typography>
       );
@@ -41,7 +41,7 @@ export const KPIValue = (props) => {
           )}
           disableInteractive={true}
         >
-          <ErrorIcon sx={{ height: size, width: size }} />
+          <ErrorIcon data-cy="kpi-error" sx={{ height: size, width: size }} />
         </FadingTooltip>
       );
 
@@ -50,7 +50,7 @@ export const KPIValue = (props) => {
         title={t('commoncomponents.datasetmanager.overview.kpiState.unknown', 'Unexpected state')}
         disableInteractive={true}
       >
-        <HelpIcon sx={{ height: size, width: size }} />
+        <HelpIcon data-cy="kpi-unknown-state" sx={{ height: size, width: size }} />
       </FadingTooltip>
     );
   }, [t, kpi.state, kpi.value, size, valueTypographyProps]);

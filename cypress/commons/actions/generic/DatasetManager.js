@@ -1,5 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
+import { FileParameters } from './FileParameters.js';
 import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
 import { apiUtils as api } from '../../utils';
 
@@ -22,11 +23,14 @@ export const getDatasetsListItemButton = (datasetId) =>
   cy.get(SELECTORS.list.listItemButtonByDatasetId.replace('$DATASETID', datasetId));
 export const getDatasetRefreshButton = (datasetId) =>
   cy.get(SELECTORS.list.refreshButtonByDatasetId.replace('$DATASETID', datasetId));
+export const getAllRefreshDatasetSpinners = (timeout) =>
+  cy.get(SELECTORS.list.refreshSpinners, timeout ? { timeout: timeout * 1000 } : undefined);
 export const getRefreshDatasetSpinner = (datasetId) =>
   cy.get(SELECTORS.list.refreshSpinnerByDatasetId.replace('$DATASETID', datasetId));
 export const getRefreshDatasetErrorIcon = (datasetId) =>
   cy.get(SELECTORS.list.refreshErrorIconByDatasetId.replace('$DATASETID', datasetId));
 export const getConfirmDatasetRefreshButton = () => cy.get(SELECTORS.confirmRefreshButton);
+export const getAllDeleteDatasetButtons = () => cy.get(SELECTORS.list.deleteButtons);
 export const getDatasetDeleteButton = (datasetId) =>
   cy.get(SELECTORS.list.deleteButtonByDatasetId.replace('$DATASETID', datasetId));
 export const getDeleteDatasetDialog = () => cy.get(SELECTORS.delete.dialog);
@@ -65,6 +69,12 @@ export const getDatasetOverviewPlaceholderTitle = (timeout) =>
   cy.get(SELECTORS.overview.placeholder.title, timeout ? { timeout: timeout * 1000 } : undefined);
 export const getDatasetOverviewPlaceholderRetryButton = () => cy.get(SELECTORS.overview.placeholder.retryButton);
 export const getDatasetOverviewPlaceholderApiLink = () => cy.get(SELECTORS.overview.placeholder.apiLink);
+
+export const getIndicatorCard = (kpiId) => cy.get(SELECTORS.overview.indicators.cardByKpiId.replace('$KPI_ID', kpiId));
+export const getKpiLoading = (parent) => parent.find(SELECTORS.overview.indicators.kpiLoading);
+export const getKpiValue = (parent) => parent.find(SELECTORS.overview.indicators.kpiValue);
+export const getKpiError = (parent) => parent.find(SELECTORS.overview.indicators.kpiError);
+export const getKpiUnknownState = (parent) => parent.find(SELECTORS.overview.indicators.kpiUnknownState);
 
 // Parameters
 //  - newDescription: string containing the new value for the dataset description
@@ -125,16 +135,18 @@ export const getConfirmDatasetCreation = () => cy.get(SELECTORS.wizard.confirmDa
 //    - id (optional): id of the created dataset (only used when stubbing is enabled; if undefined, a random id is used)
 //    - validateRequest (optional): validation function to run on the dataset update request
 //    - importJobOptions: options to provide to the interception of the "create dataset" query (default: undefined)
+//    - isFile: boolean defining if the created dataset is imported from a file upload (needs to be set to trigger the
+//      correct interceptions)
 export const confirmDatasetCreation = (options = {}) => {
   options.customDatasetPatch = {
     main: true,
     ...options.customDatasetPatch,
   };
-  const aliases = [
-    api.interceptCreateDataset(options, options.importJobOptions),
-    api.interceptRefreshDataset(),
-    api.interceptGetDatasetStatus(options.importJobOptions?.expectedPollsCount),
-  ];
+  const aliases = [api.interceptCreateDataset(options, options.importJobOptions)];
+  if (!options.isFile) {
+    aliases.push(api.interceptRefreshDataset());
+    aliases.push(api.interceptGetDatasetStatus(options.importJobOptions?.expectedPollsCount));
+  }
   getConfirmDatasetCreation().click();
   api.waitAliases(aliases);
 };
@@ -170,6 +182,8 @@ export const setNewDatasetAzureStorageContainerName = (value) =>
 export const setNewDatasetAzureStoragePath = (value) =>
   getNewDatasetAzureStoragePath().type('{selectAll}{backspace}' + value);
 export const setNewDatasetADTURL = (value) => getNewDatasetADTURL().type('{selectAll}{backspace}' + value);
+
+export const uploadFileInWizard = (filePath) => FileParameters.upload(getDatasetCreationDialog(), filePath);
 
 export const closeDeleteDatasetDialog = () => {
   getDeleteDatasetCancelButton().click();
