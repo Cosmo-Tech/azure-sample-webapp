@@ -7,7 +7,7 @@ The dataset manager view is an optional view of the webapp, where datasets can b
 webapp to **create their own datasets** that can then be used in new scenarios.
 
 The datasets resources are **stored at the organization level**: users will thus see the same list of datasets when
-switching between different workspaces. Yet the overview of datasets can be customized to display different indicators
+switching between different workspaces. Yet the **datasets overview** can be customized to display different indicators
 based on the currently selected workspace.
 **Integrators must configure the indicators to show in the workspace description.**
 
@@ -19,15 +19,89 @@ to prevent accidental changes or removal by the webapp users.
 ## Dataset manager configuration
 
 The configuration of the dataset manager must be defined in the **workspace description**. This description is usually
-defined in a file (e.g. _Workspace.yaml_) and this file is used to patch an existing workspace with the Cosmo Tech API
-(via Swagger or restish for example).
+defined in a file (e.g. _Workspace.yaml_) and this file is used to create a workspace (or patch an existing one) with
+the Cosmo Tech API (via Swagger or restish for example).
 
-The configuration contains two parts:
+The configuration contains three parts:
 
+- a list of **database queries** that will be run to compute indicators, in order to provide end-users with insights on
+  the existing datasets
 - the **graph indicators** represent macro indicators of the dataset content, displayed as small cards in the dataset
   overview
 - the **categories**, displayed below the graph indicators, are used to provide more detailed insights for the different
   types of elements inside the dataset
+
+### Queries
+
+When datasets are created in the dataset manager, the Cosmo Tech API will automatically import their data in a
+_twin graph_ resource, stored in a RedisGraph database. These data can then be queried with the
+[Cypher query language](https://neo4j.com/docs/getting-started/cypher-intro/). In order to display indicators in the
+dataset manager, **you have to provide the list of cypher queries to use**.
+
+Configuration for these queries must be defined with the key [workspace].webApp.options.datasetManager.queries.
+The value for this field must be an **array of objects**, where each object represents one query, with the
+following fields:
+
+- `id`: a unique identifier string for this query
+- `query`: the string value of the cypher query to send
+
+Each query can compute one or several indicators: each indicator must be a part of the `RETURN` statement, with the
+keyword `AS` followed by the identifier of the indicator.
+The examples below provide generic samples of configuration that you can use to display the
+**number of nodes and relationships** in your dataset.
+
+<details>
+<summary>JSON example</summary>
+
+```json
+{
+  "webApp": {
+    "options": {
+      "datasetManager": {
+        "queries": [
+          { "id": "nodes_query", "query": "OPTIONAL MATCH (n) RETURN count(n) AS nodes" },
+          { "id": "relationships_query", "query": "OPTIONAL MATCH ()-[r]->() RETURN COUNT(r) AS relationships" }
+        ]
+      }
+    }
+  }
+}
+```
+
+</details>
+
+<details>
+<summary>YAML example</summary>
+
+```yaml
+webApp:
+  options:
+    datasetManager:
+      queries:
+        - id: nodes_query
+          query: OPTIONAL MATCH (n) RETURN count(n) AS nodes
+        - id: relationships_query
+          query: 'OPTIONAL MATCH ()-[r]->() RETURN COUNT(r) AS relationships'
+```
+
+</details>
+
+#### Tips & queries examples
+
+- it is recommended to use `OPTIONAL MATCH` instead of `MATCH` in your queries, to have default values of "0" for your indicators when the query does not match anything in a dataset
+- you can filter on a specific type of node or relationship:
+  - `OPTIONAL MATCH (b:Bar) RETURN COUNT(b) AS bars_count`
+  - `OPTIONAL MATCH ()-[r:arc_Satisfaction]->() RETURN COUNT(r) AS customer_to_customer_links`
+  - `OPTIONAL MATCH ()-[r {name: "contains_Customer"}]->() RETURN COUNT(r) AS bar_to_customer_links`
+- a single request can be used to return several indicators:
+  ```
+  OPTIONAL MATCH (b:Bar) RETURN
+    COUNT(b) AS bars_count,
+    AVG(b.Stock) AS average_stock,
+    MIN(b.NbWaiters) AS min_waiters,
+    MAX(b.NbWaiters) AS max_waiters,
+    AVG(b.NbWaiters) AS average_waiters
+  ```
 
 ### Graph indicators
 
@@ -38,6 +112,7 @@ following fields:
 
 - `id`: a unique identifier string for this indicator
 - `name`: an object with translations of the indicator name
+- `queryId`: the identifier of the _query_ whose results contain the indicator (see section Queries above)
 
 <details>
 <summary>JSON example</summary>
@@ -48,8 +123,16 @@ following fields:
     "options": {
       "datasetManager": {
         "graphIndicators": [
-          { "id": "entities", "name": { "en": "Entities", "fr": "Entités" } },
-          { "id": "relationships", "name": { "en": "Relationships", "fr": "Relations" } }
+          {
+            "id": "nodes",
+            "name": { "en": "Nodes", "fr": "Noeuds" },
+            "queryId": "nodes_query"
+          },
+          {
+            "id": "relationships",
+            "name": { "en": "Relationships", "fr": "Relations" },
+            "queryId": "relationships_query"
+          }
         ]
       }
     }
@@ -67,14 +150,16 @@ webApp:
   options:
     datasetManager:
       graphIndicators:
-        - id: entities
+        - id: nodes
           name:
-            en: Entities
-            fr: Entités
+            en: Nodes
+            fr: Noeuds
+          queryId: nodes_query
         - id: relationships
           name:
             en: Relationships
             fr: Relations
+          queryId: relationships_query
 ```
 
 </details>
@@ -95,6 +180,7 @@ following fields:
   the fields:
   - `id`: a unique identifier string for this indicator
   - `name`: an object with translations of the indicator name
+  - `queryId`: the identifier of the _query_ whose results contain the indicator (see section Queries above)
 - `attributes` _(optional)_: an array of string values, to display the attributes of the category
 
 <details>
@@ -201,8 +287,8 @@ export const WORKSPACES = [
       options: {
         datasetManager: {
           graphIndicators: [
-            { id: 'entities', name: { en: 'Entities', fr: 'Entités' } },
-            { id: 'relationships', name: { en: 'Relationships', fr: 'Relations' } },
+            { id: 'nodes', name: { en: 'Nodes', fr: 'Noeuds' }, query: 'nodes_query' },
+            { id: 'relationships', name: { en: 'Relationships', fr: 'Relations' }, query: 'relationships_query' },
           ],
           categories: [
             {
