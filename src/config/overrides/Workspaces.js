@@ -185,22 +185,22 @@ export const WORKSPACES = [
             {
               id: 'bars',
               query:
-                'OPTIONAL MATCH (b:Bar) RETURN COUNT(b) as bars_count, avg(b.Stock) as average_stock, ' +
-                'min(b.NbWaiters) as min_waiters, max(b.NbWaiters) as max_waiters, avg(b.NbWaiters) as average_waiters',
+                'OPTIONAL MATCH (b:Bar) RETURN COUNT(b) AS bars_count, AVG(b.Stock) AS average_stock, ' +
+                'MIN(b.NbWaiters) AS min_waiters, MAX(b.NbWaiters) AS max_waiters, AVG(b.NbWaiters) AS average_waiters',
             },
             {
               id: 'customers',
               query:
-                'OPTIONAL MATCH (c:Customer) RETURN COUNT(c) as customers_count, avg(c.Satisfaction) as ' +
+                'OPTIONAL MATCH (c:Customer) RETURN COUNT(c) AS customers_count, AVG(c.Satisfaction) AS ' +
                 'avg_satisfaction',
             },
             {
               id: 'satisfaction_graph',
-              query: 'OPTIONAL MATCH (:Customer)-[r]->(:Customer) RETURN COUNT(r) as satisfaction_links_count',
+              query: 'OPTIONAL MATCH (:Customer)-[r]->(:Customer) RETURN COUNT(r) AS satisfaction_links_count',
             },
             {
               id: 'relationships',
-              query: 'OPTIONAL MATCH ()-[r]->() RETURN COUNT(r) as relationships_count',
+              query: 'OPTIONAL MATCH ()-[r]->() RETURN COUNT(r) AS relationships_count',
             },
           ],
         },

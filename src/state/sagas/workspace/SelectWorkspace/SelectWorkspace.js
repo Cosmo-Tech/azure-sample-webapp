@@ -13,7 +13,7 @@ import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/App
 import { t } from 'i18next';
 import { POWER_BI_ACTIONS_KEY } from '../../../commons/PowerBIConstants';
 import { dispatchGetPowerBIEmbedInfo } from '../../../dispatchers/powerbi/PowerBIDispatcher';
-import { ConfigUtils } from '../../../../utils';
+import { ConfigUtils, WorkspacesUtils } from '../../../../utils';
 import { ResourceUtils } from '@cosmotech/core';
 import { WorkspaceSchema } from '../../../../services/config/WorkspaceSchema';
 
@@ -70,6 +70,7 @@ export function* selectWorkspace(action) {
   });
 
   ConfigUtils.checkUnknownKeysInConfig(WorkspaceSchema, selectedWorkspace);
+  WorkspacesUtils.checkDatasetManagerConfiguration(selectedWorkspace);
 
   yield put({
     type: SCENARIO_ACTIONS_KEY.STOP_ALL_SCENARIO_STATUS_POLLINGS,
