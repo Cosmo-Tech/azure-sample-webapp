@@ -27,20 +27,32 @@ const patchWorkspacesIfLocalConfigExists = async (originalWorkspaces) => {
 };
 
 const forgeDatasetManagerConfiguration = (config) => {
-  if (config == null) return;
+  if (config == null || !(config instanceof Object)) return;
+
+  const { categories, graphIndicators } = config;
+  if (
+    (categories != null && !(categories instanceof Array)) ||
+    (graphIndicators != null && !(graphIndicators instanceof Array))
+  )
+    return;
+
   const indicators = {
-    graphIndicators: config?.graphIndicators.map((kpi) => kpi.id),
+    graphIndicators: [],
     categoriesKpis: [],
   };
-  config?.categories.forEach((category) => category.kpis?.forEach((kpi) => indicators.categoriesKpis.push(kpi.id)));
+  graphIndicators?.forEach((kpi) => kpi && indicators.graphIndicators.push(kpi.id));
+  categories?.forEach((category) => {
+    category.kpis instanceof Array && category.kpis?.forEach((kpi) => kpi.id && indicators.categoriesKpis.push(kpi.id));
+  });
 
   const queriesMapping = {};
   const addKpi = (kpi) => {
+    if (kpi.id == null || kpi.queryId == null) return;
     if (queriesMapping[kpi.queryId] === undefined) queriesMapping[kpi.queryId] = [kpi.id];
     else queriesMapping[kpi.queryId].push(kpi.id);
   };
-  config.graphIndicators.forEach(addKpi);
-  config.categories.forEach((category) => category.kpis?.forEach(addKpi));
+  graphIndicators?.forEach(addKpi);
+  categories?.forEach((category) => category.kpis instanceof Array && category.kpis?.forEach(addKpi));
   return { indicators, queriesMapping };
 };
 
@@ -55,6 +67,72 @@ const patchWorkspaceWithDatasetManagerConfiguration = (workspace) => {
   }
 };
 
+const checkDatasetManagerConfiguration = (workspace) => {
+  const logWarning = (warning) => console.warn(`Dataset manager configuration: ${warning}`);
+  const config = workspace?.webApp?.options?.datasetManager;
+  if (config == null) return;
+  if (!(config instanceof Object) || config instanceof Array) {
+    logWarning('"datasetManager" must be an Object');
+    return;
+  }
+
+  const { graphIndicators, categories, queries } = config;
+
+  const isQueriesValid = queries instanceof Array;
+  if (queries != null) {
+    if (!isQueriesValid) logWarning('property "queries" must be an Array');
+    else {
+      const allQueriesIds = [];
+      queries.forEach((query, index) => {
+        if (query.id == null) logWarning(`in queries, item #${index} has no id`);
+        else if (allQueriesIds.includes(query.id))
+          logWarning(`in queries, item #${index} uses a query id that already exists (id: ${query.id}).`);
+        else allQueriesIds.push(query.id);
+
+        if (query.query == null) logWarning(`in queries, item #${index} (id: ${query?.id}) has no query statement`);
+      });
+    }
+  }
+
+  const allKpisIds = [];
+  const checkKpisList = (kpis, propertyNameForWarnings) => {
+    kpis.forEach((kpi, index) => {
+      if (kpi.id == null) logWarning(`in ${propertyNameForWarnings}, item #${index} has no id`);
+      else if (allKpisIds.includes(kpi.id))
+        logWarning(`in ${propertyNameForWarnings}, item #${index} uses a KPI id that already exists (id: ${kpi.id}).`);
+      else allKpisIds.push(kpi.id);
+
+      if (kpi.queryId == null) {
+        logWarning(`in ${propertyNameForWarnings}, item #${index} (id: ${kpi?.id}) has no queryId`);
+      } else if (!isQueriesValid || queries.find((query) => query.id === kpi.queryId) === undefined) {
+        logWarning(
+          `in ${propertyNameForWarnings}, item #${index} (id: ${kpi?.id}) uses unknown query id "${kpi.queryId}". ` +
+            'Make sure this query id is defined in "queries".'
+        );
+      }
+    });
+  };
+
+  if (graphIndicators != null) {
+    if (!(graphIndicators instanceof Array)) logWarning('property "graphIndicators" must be an Array');
+    else checkKpisList(graphIndicators, 'graphIndicators');
+  }
+
+  if (categories != null) {
+    if (!(categories instanceof Array)) logWarning('property "categories" must be an Array');
+    else {
+      categories.forEach((category, index) => {
+        if (category.id == null) logWarning(`in categories, item #${index} has no id`);
+        if (category.kpis != null) {
+          if (!(category.kpis instanceof Array))
+            logWarning(`property "kpis" in category item #${index} must be an Array`);
+          else checkKpisList(category.kpis, 'categories kpis');
+        }
+      });
+    }
+  }
+};
+
 const addTranslationLabels = (workspace) => {
   try {
     TranslationUtils.addTranslationOfDatasetManagerLabels(workspace?.webApp?.options?.datasetManager ?? {});
@@ -66,6 +144,8 @@ const addTranslationLabels = (workspace) => {
 
 export const WorkspacesUtils = {
   addTranslationLabels,
+  checkDatasetManagerConfiguration,
+  forgeDatasetManagerConfiguration,
   patchWorkspacesIfLocalConfigExists,
   patchWorkspaceWithCurrentUserPermissions,
   patchWorkspaceWithDatasetManagerConfiguration,
