@@ -20,6 +20,7 @@ import { ScenarioDashboardCard, BackdropLoadingScenario } from './components';
 import { makeStyles } from '@mui/styles';
 import { useScenario } from './ScenarioHook';
 import { useConfirmOnRouteChange, useRedirectionToScenario } from '../../hooks/RouterHooks';
+import { TranslationUtils } from '../../utils/TranslationUtils';
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -265,7 +266,11 @@ const Scenario = () => {
               <CurrentScenarioSelector disabled={isDirty} renderInputToolTip={currentScenarioRenderInputTooltip} />
               {currentScenarioData && (
                 <Typography data-cy="run-template-name" variant="body1" align="center" className={classes.runTemplate}>
-                  {t('views.scenario.text.scenariotype')}: {currentScenarioData.runTemplateName}
+                  {t('views.scenario.text.scenariotype')}:{' '}
+                  {t(
+                    TranslationUtils.getRunTemplateTranslationKey(currentScenarioData.runTemplateId),
+                    currentScenarioData.runTemplateName
+                  )}
                 </Typography>
               )}
             </Grid>

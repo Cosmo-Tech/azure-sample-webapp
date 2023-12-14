@@ -3,15 +3,18 @@
 
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import rfdc from 'rfdc';
 import { useUser } from '../../state/hooks/AuthHooks';
 import { useDatasetListData } from '../../state/hooks/DatasetHooks';
 import { useCreateScenario, useCurrentScenario, useScenarioListData } from '../../state/hooks/ScenarioHooks';
 import { useSolution } from '../../state/hooks/SolutionHooks';
 import { useUserPermissionsOnCurrentWorkspace, useWorkspaceData } from '../../state/hooks/WorkspaceHooks';
 import { getCreateScenarioDialogLabels, logsLabels } from './labels';
+import { TranslationUtils } from '../../utils';
 
 export const useCreateScenarioButton = ({ disabled, onScenarioCreated }) => {
   const { t } = useTranslation();
+  const clone = rfdc();
 
   const userPermissionsOnCurrentWorkspace = useUserPermissionsOnCurrentWorkspace();
   const solution = useSolution();
@@ -28,7 +31,7 @@ export const useCreateScenarioButton = ({ disabled, onScenarioCreated }) => {
 
   const user = useUser();
 
-  const filteredRunTemplates = useMemo(() => {
+  const filteredAndTranslatedRunTemplates = useMemo(() => {
     const runTemplates = solution?.data?.runTemplates ?? [];
     const runTemplateFilter = workspaceData?.solution?.runTemplateFilter;
 
@@ -40,10 +43,17 @@ export const useCreateScenarioButton = ({ disabled, onScenarioCreated }) => {
       return [];
     }
 
-    return runTemplates.filter((rt) => runTemplateFilter.includes(rt.id));
-  }, [solution?.data?.runTemplates, workspaceData?.solution?.runTemplateFilter]);
+    const filteredRunTemplates = runTemplates.filter((rt) => runTemplateFilter.includes(rt.id));
+    const translatedRunTemplates = clone(filteredRunTemplates) ?? [];
+    translatedRunTemplates.forEach(
+      (runTemplate) =>
+        (runTemplate.name = t(TranslationUtils.getRunTemplateTranslationKey(runTemplate.id), runTemplate.name))
+    );
 
-  const filteredDatasetList = useMemo(() => {
+    return translatedRunTemplates;
+  }, [solution?.data?.runTemplates, workspaceData?.solution?.runTemplateFilter, t, clone]);
+
+  const filteredDatasets = useMemo(() => {
     const datasetFilter = workspaceData?.webApp?.options?.datasetFilter;
     if (!datasetFilter) {
       return datasetListData;
@@ -91,8 +101,8 @@ export const useCreateScenarioButton = ({ disabled, onScenarioCreated }) => {
     workspaceId,
     createScenario,
     currentScenario,
-    filteredRunTemplates,
-    filteredDatasetList,
+    filteredAndTranslatedRunTemplates,
+    filteredDatasets,
     scenarioListData,
     user,
     disabled,

@@ -44,6 +44,7 @@ const addRunTemplatesParametersIdsDict = (solution) => {
 const addTranslationLabels = (solution) => {
   TranslationUtils.addTranslationParametersGroupsLabels(solution?.parameterGroups ?? []);
   TranslationUtils.addTranslationParametersLabels(solution?.parameters ?? []);
+  TranslationUtils.addTranslationRunTemplateLabels(solution?.runTemplates ?? []);
 };
 
 const castMinMaxDefaultValuesInSolution = (solution) => {

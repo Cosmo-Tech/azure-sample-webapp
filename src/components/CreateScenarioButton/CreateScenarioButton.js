@@ -14,12 +14,12 @@ const CreateScenarioButton = ({ disabled, onScenarioCreated }) => {
     createScenario,
     createScenarioDialogLabels,
     currentScenario,
-    filteredRunTemplates,
+    filteredAndTranslatedRunTemplates,
     solution,
     user,
     userPermissionsOnCurrentWorkspace,
     workspaceId,
-    filteredDatasetList,
+    filteredDatasets,
     scenarioListData,
   } = useCreateScenarioButton({ disabled, onScenarioCreated });
   const sortedScenarioList = sortScenarioList(scenarioListData);
@@ -37,8 +37,8 @@ const CreateScenarioButton = ({ disabled, onScenarioCreated }) => {
         workspaceId={workspaceId}
         createScenario={createScenario}
         currentScenario={currentScenario}
-        runTemplates={filteredRunTemplates}
-        datasets={filteredDatasetList}
+        runTemplates={filteredAndTranslatedRunTemplates}
+        datasets={filteredDatasets}
         scenarios={sortedScenarioList}
         user={user}
         disabled={disabled}

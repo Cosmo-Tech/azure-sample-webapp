@@ -1,6 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
+import { useTranslation } from 'react-i18next';
+import rfdc from 'rfdc';
 import {
   useCurrentScenarioData,
   useScenarioList,
@@ -13,9 +15,21 @@ import { useDatasetList } from '../../state/hooks/DatasetHooks';
 import { useUserId } from '../../state/hooks/AuthHooks';
 import { useHasUserPermissionOnScenario } from '../../hooks/SecurityHooks';
 import { useWorkspaceId } from '../../state/hooks/WorkspaceHooks';
+import { TranslationUtils } from '../../utils';
 
 export const useScenarioManager = () => {
-  const scenarios = useScenarioList().data;
+  const { t } = useTranslation();
+  const clone = rfdc();
+
+  const scenarios = clone(useScenarioList().data);
+  scenarios.forEach(
+    (scenario) =>
+      (scenario.runTemplateName = t(
+        TranslationUtils.getRunTemplateTranslationKey(scenario.runTemplateId),
+        scenario.runTemplateName
+      ))
+  );
+
   const datasets = useDatasetList().data;
   const currentScenarioData = useCurrentScenarioData();
   const userId = useUserId();

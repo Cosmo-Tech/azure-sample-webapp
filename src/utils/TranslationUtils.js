@@ -23,21 +23,27 @@ const getParametersGroupTranslationKey = (groupId) => {
   return `solution.parametersGroups.${groupId}.name`;
 };
 
+const getRunTemplateTranslationKey = (runTemplateId) => {
+  return `solution.runTemplate.${runTemplateId}.name`;
+};
+
+const _addResourcesToi18next = (resources) => {
+  const langs = Object.keys(resources);
+  langs.forEach((lang) => i18next.addResources(lang, I18N_NAMESPACE, resources[lang]));
+  i18next.reloadResources(langs);
+};
+
 const addTranslationParametersGroupsLabels = (parametersGroups) => {
   const resources = {};
   for (const parametersGroup of parametersGroups) {
     for (const lang in parametersGroup.labels) {
-      resources[lang] = resources[lang] || {};
+      resources[lang] = resources[lang] ?? {};
       const key = getParametersGroupTranslationKey(parametersGroup.id);
-      const label = parametersGroup.labels[lang];
-      resources[lang][key] = label;
+      resources[lang][key] = parametersGroup.labels[lang];
     }
   }
-  const langs = Object.keys(resources);
-  for (const lang of langs) {
-    i18next.addResources(lang, I18N_NAMESPACE, resources[lang]);
-  }
-  i18next.reloadResources(langs);
+
+  _addResourcesToi18next(resources);
 };
 
 const addTranslationParametersLabels = (parameters) => {
@@ -73,11 +79,20 @@ const addTranslationParametersLabels = (parameters) => {
     }
   }
 
-  const langs = Object.keys(resources);
-  for (const lang of langs) {
-    i18next.addResources(lang, I18N_NAMESPACE, resources[lang]);
-  }
-  i18next.reloadResources(langs);
+  _addResourcesToi18next(resources);
+};
+
+const addTranslationRunTemplateLabels = (runTemplates) => {
+  const resources = {};
+  runTemplates.forEach((runTemplate) => {
+    for (const lang in runTemplate.labels) {
+      resources[lang] = resources[lang] ?? {};
+      const key = getRunTemplateTranslationKey(runTemplate.id);
+      resources[lang][key] = runTemplate.labels[lang];
+    }
+  });
+
+  _addResourcesToi18next(resources);
 };
 
 const changeLanguage = (language, i18next) => {
@@ -129,9 +144,11 @@ const getStringWithUnescapedCharacters = (string) => {
 export const TranslationUtils = {
   addTranslationParametersGroupsLabels,
   addTranslationParametersLabels,
+  addTranslationRunTemplateLabels,
   changeLanguage,
   getParametersGroupTranslationKey,
   getParameterTranslationKey,
+  getRunTemplateTranslationKey,
   getParameterTooltipTranslationKey,
   getParameterEnumValueTranslationKey,
   getParameterEnumValueTooltipTranslationKey,
