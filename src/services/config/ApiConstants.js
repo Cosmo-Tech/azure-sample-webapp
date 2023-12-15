@@ -33,11 +33,17 @@ export const VALID_MIME_TYPES = [
   'text/x-yaml',
 ];
 
-export const TWINGRAPH_STATUS = {
-  DRAFT: 'DRAFT',
+export const TWINCACHE_STATUS = {
+  EMPTY: 'EMPTY',
+  FULL: 'FULL',
+  UNKNOWN: 'UNKNOWN',
+};
+
+export const INGESTION_STATUS = {
+  NONE: 'NONE',
   PENDING: 'PENDING',
   ERROR: 'ERROR',
-  READY: 'READY',
+  SUCCESS: 'SUCCESS',
   UNKNOWN: 'UNKNOWN',
 };
 

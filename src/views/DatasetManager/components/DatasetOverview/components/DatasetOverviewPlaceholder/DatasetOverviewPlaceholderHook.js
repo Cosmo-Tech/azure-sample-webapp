@@ -4,8 +4,8 @@
 import { useCurrentDataset, useCurrentDatasetId, useRefreshDataset } from '../../../../../../state/hooks/DatasetHooks';
 
 export const useDatasetOverviewPlaceholder = () => {
-  const currentDatasetStatus = useCurrentDataset()?.status;
+  const currentDatasetIngestionStatus = useCurrentDataset()?.ingestionStatus;
   const currentDatasetId = useCurrentDatasetId();
   const refreshDataset = useRefreshDataset();
-  return { currentDatasetId, currentDatasetStatus, refreshDataset };
+  return { currentDatasetId, currentDatasetIngestionStatus, refreshDataset };
 };
