@@ -163,13 +163,11 @@ function moveAverageConsumptionSlider(sliderMovement) {
 function getVolumeUnitTextField() {
   return getVolumeUnitParameterContainer().find(GENERIC_SELECTORS.genericComponents.basicRadioInput.textField);
 }
-function getVolumeUnitRadioButton(volumeUnitValue) {
-  return cy.get(
-    GENERIC_SELECTORS.genericComponents.basicRadioInput.radioButtonByValue.replace('$VALUE', volumeUnitValue)
-  );
+function getVolumeUnitRadioButton(volumeUnitKey) {
+  return cy.get(GENERIC_SELECTORS.genericComponents.basicRadioInput.radioButtonByKey.replace('$KEY', volumeUnitKey));
 }
-function getVolumeUnitRadioButtonInput(volumeUnitValue) {
-  return getVolumeUnitRadioButton(volumeUnitValue).find(GENERIC_SELECTORS.genericComponents.basicInput.input);
+function getVolumeUnitRadioButtonInput(volumeUnitKey) {
+  return getVolumeUnitRadioButton(volumeUnitKey).find(GENERIC_SELECTORS.genericComponents.basicInput.input);
 }
 
 // Get file parameters elements & buttons
