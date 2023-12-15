@@ -6,7 +6,7 @@ import { ErrorBoundary, SimplePowerBIReportEmbed } from '@cosmotech/ui';
 import { useTranslation } from 'react-i18next';
 import { useCurrentScenarioPowerBiReport } from './CurrentScenarioPowerBiReportHook';
 
-const CurrentScenarioPowerBiReport = ({ reportConfiguration, iframeRatio, index }) => {
+const CurrentScenarioPowerBiReport = ({ reportConfiguration, iframeRatio, index, ...other }) => {
   const { t } = useTranslation();
   const {
     currentScenarioData,
@@ -38,6 +38,7 @@ const CurrentScenarioPowerBiReport = ({ reportConfiguration, iframeRatio, index 
         useAAD={logInWithUserCredentials}
         iframeRatio={iframeRatio}
         index={index}
+        {...other}
       />
     </ErrorBoundary>
   );
