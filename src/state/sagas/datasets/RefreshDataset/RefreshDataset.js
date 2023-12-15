@@ -15,7 +15,7 @@ export function* refreshDataset(action) {
     yield put({
       type: DATASET_ACTIONS_KEY.UPDATE_DATASET,
       datasetId,
-      datasetData: { status: refreshData.status },
+      datasetData: { ingestionStatus: refreshData.status },
     });
 
     yield put({
