@@ -30,6 +30,11 @@ describe('Additional advanced scenario parameters tests', () => {
   });
 
   it('additional advanced scenario parameters tests', () => {
+    const RADIO_BUTTON_KEYS = {
+      LITRE: 'LITRE',
+      BARREL: 'BARREL',
+      CUBIC_METRE: 'CUBIC_METRE',
+    };
     const INIT_VALUES = {
       additionalSeats: -4,
       evaluation: 'Good',
@@ -57,7 +62,7 @@ describe('Additional advanced scenario parameters tests', () => {
     BreweryParameters.getActivatedInput().should('not.be.checked');
 
     BreweryParameters.switchToAdditionalParametersTab();
-    BreweryParameters.getVolumeUnitRadioButtonInput(INIT_VALUES.volumeUnit).should('be.checked');
+    BreweryParameters.getVolumeUnitRadioButtonInput(RADIO_BUTTON_KEYS.LITRE).should('be.checked');
     BreweryParameters.getAdditionalTablesInput().should('value', INIT_VALUES.additionalTables);
 
     BreweryParameters.switchToEventsTab();
@@ -71,7 +76,7 @@ describe('Additional advanced scenario parameters tests', () => {
     BreweryParameters.editEventsTableStringCell('reservationsNumber', 0, '199').should('have.text', '199');
 
     BreweryParameters.switchToAdditionalParametersTab();
-    BreweryParameters.getVolumeUnitRadioButtonInput('m³').click();
+    BreweryParameters.getVolumeUnitRadioButtonInput(RADIO_BUTTON_KEYS.CUBIC_METRE).click();
     BreweryParameters.switchToEventsTab();
     BreweryParameters.getActivatedInput().check().should('be.checked');
 
@@ -93,7 +98,7 @@ describe('Additional advanced scenario parameters tests', () => {
     BreweryParameters.getActivatedInput().should('not.be.checked');
 
     BreweryParameters.switchToAdditionalParametersTab();
-    BreweryParameters.getVolumeUnitRadioButtonInput(INIT_VALUES.volumeUnit).should('be.checked');
+    BreweryParameters.getVolumeUnitRadioButtonInput(RADIO_BUTTON_KEYS.LITRE).should('be.checked');
     BreweryParameters.getAdditionalTablesInput().should('value', INIT_VALUES.additionalTables);
 
     BreweryParameters.switchToEventsTab();
@@ -112,7 +117,7 @@ describe('Additional advanced scenario parameters tests', () => {
       .should('value', VALUES_TO_UPDATE.additionalSeats);
 
     BreweryParameters.switchToAdditionalParametersTab();
-    BreweryParameters.getVolumeUnitRadioButton(VALUES_TO_UPDATE.volumeUnit).click();
+    BreweryParameters.getVolumeUnitRadioButton(RADIO_BUTTON_KEYS.BARREL).click();
 
     BreweryParameters.switchToEventsTab();
     BreweryParameters.getActivatedInput().uncheck();
