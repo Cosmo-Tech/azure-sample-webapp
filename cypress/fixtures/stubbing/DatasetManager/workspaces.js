@@ -21,6 +21,7 @@ export const WORKSPACE = {
 };
 
 WORKSPACE.webApp.options.datasetManager = {
+  queries: [],
   graphIndicators: [
     { id: 'entities', name: { en: 'Entities', fr: 'Entités' } },
     { id: 'relationships', name: { en: 'Relationships', fr: 'Relations' } },
