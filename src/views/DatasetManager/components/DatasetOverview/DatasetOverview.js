@@ -6,11 +6,11 @@ import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, Grid } from '@mui/material';
 import { useDatasetOverview } from './DatasetOverviewHook';
 import { CategoryAccordion, DatasetOverviewPlaceholder, GraphIndicator } from './components';
-import { TWINGRAPH_STATUS } from '../../../../services/config/ApiConstants';
+import { INGESTION_STATUS } from '../../../../services/config/ApiConstants';
 
 export const DatasetOverview = () => {
   const { t } = useTranslation();
-  const { categories, graphIndicators, queriesResults, datasetStatus } = useDatasetOverview();
+  const { categories, graphIndicators, queriesResults, datasetIngestionStatus } = useDatasetOverview();
 
   const graphIndicatorsElements = useMemo(() => {
     return graphIndicators.map((kpi) => {
@@ -25,7 +25,7 @@ export const DatasetOverview = () => {
       sx={{ p: 1, width: '100%', height: '100%', backgroundColor: 'transparent' }}
       data-cy="dataset-overview-card"
     >
-      {datasetStatus === TWINGRAPH_STATUS.READY ? (
+      {datasetIngestionStatus === INGESTION_STATUS.SUCCESS ? (
         <>
           <CardHeader title={t('commoncomponents.datasetmanager.overview.title', 'Overview')}></CardHeader>
           <CardContent>
