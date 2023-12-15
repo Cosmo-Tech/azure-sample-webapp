@@ -7,7 +7,7 @@ import { Auth } from '@cosmotech/core';
 import { Api } from '../../../../services/config/Api';
 import { DATASET_ACTIONS_KEY } from '../../../commons/DatasetConstants';
 import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
-import { TWINGRAPH_STATUS } from '../../../../services/config/ApiConstants';
+import { INGESTION_STATUS } from '../../../../services/config/ApiConstants';
 
 const uploadZipWithFetchApi = async (organizationId, datasetId, file) => {
   try {
@@ -39,6 +39,7 @@ export function* createDataset(action) {
     yield put({
       type: DATASET_ACTIONS_KEY.ADD_DATASET,
       ...data,
+      ingestionStatus: dataset.sourceType !== 'None' ? INGESTION_STATUS.PENDING : INGESTION_STATUS.NONE,
     });
 
     yield put({
@@ -54,11 +55,11 @@ export function* createDataset(action) {
       });
     } else if (dataset.sourceType === 'File') {
       const response = yield call(uploadZipWithFetchApi, organizationId, data.id, dataset.file.file);
-      if (response?.status === 201) {
+      if (response?.ok) {
         yield put({
-          type: DATASET_ACTIONS_KEY.UPDATE_DATASET,
+          type: DATASET_ACTIONS_KEY.TRIGGER_SAGA_START_TWINGRAPH_STATUS_POLLING,
           datasetId: data.id,
-          datasetData: { status: TWINGRAPH_STATUS.READY },
+          organizationId,
         });
       }
     }

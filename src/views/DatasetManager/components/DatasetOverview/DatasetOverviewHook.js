@@ -12,7 +12,7 @@ import {
 export const useDatasetOverview = () => {
   const workspaceData = useWorkspaceData();
   const currentDataset = useCurrentDataset();
-  const datasetStatus = currentDataset?.status;
+  const datasetIngestionStatus = useCurrentDataset()?.ingestionStatus;
   const datasetTwingraphQueriesResults = useDatasetTwingraphQueriesResults();
   const flatQueriesResults = useMemo(() => {
     return datasetTwingraphQueriesResults[currentDataset?.id] ?? {};
@@ -41,5 +41,5 @@ export const useDatasetOverview = () => {
     return result;
   }, [workspaceData?.indicators?.categoriesKpis, workspaceData?.indicators?.graphIndicators, flatQueriesResults]);
 
-  return { categories, graphIndicators, queriesResults, datasetStatus };
+  return { categories, graphIndicators, queriesResults, datasetIngestionStatus };
 };
