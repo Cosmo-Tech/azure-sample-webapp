@@ -8,7 +8,17 @@ import { useDashboardsPowerBiReport } from './DashboardsPowerBiReportHook';
 
 const DashboardsPowerBiReport = ({ index }) => {
   const { reportsConfig, iframeRatio } = useDashboardsPowerBiReport();
-  return <CurrentScenarioPowerBiReport index={index} reportConfiguration={reportsConfig} iframeRatio={iframeRatio} />;
+  const hasFiltersOnSimulationRun = reportsConfig[index]?.dynamicFilters
+    ?.flatMap((filter) => filter.values)
+    .includes('csmSimulationRun');
+  return (
+    <CurrentScenarioPowerBiReport
+      index={index}
+      reportConfiguration={reportsConfig}
+      iframeRatio={iframeRatio}
+      alwaysShowReports={!hasFiltersOnSimulationRun}
+    />
+  );
 };
 
 DashboardsPowerBiReport.propTypes = {
