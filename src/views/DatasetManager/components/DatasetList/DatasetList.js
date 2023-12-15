@@ -27,7 +27,7 @@ import { ResourceUtils } from '@cosmotech/core';
 import { useDatasetList } from './DatasetListHook';
 import { TwoActionsDialogService } from '../../../../services/twoActionsDialog/twoActionsDialogService';
 import { CreateDatasetButton } from '../CreateDatasetButton';
-import { TWINGRAPH_STATUS } from '../../../../services/config/ApiConstants';
+import { INGESTION_STATUS } from '../../../../services/config/ApiConstants';
 
 const useStyles = makeStyles(() => ({
   searchBar: {
@@ -186,9 +186,9 @@ export const DatasetList = () => {
                   primary={dataset.name}
                   primaryTypographyProps={{ variant: 'body1' }}
                   secondary={
-                    dataset.status === TWINGRAPH_STATUS.PENDING ? (
+                    dataset.ingestionStatus === INGESTION_STATUS.PENDING ? (
                       <CircularProgress data-cy={`refresh-spinner-${dataset.id}`} size="1rem" color="inherit" />
-                    ) : dataset.status === TWINGRAPH_STATUS.ERROR ? (
+                    ) : dataset.ingestionStatus === INGESTION_STATUS.ERROR ? (
                       <ErrorIcon data-cy={`refresh-error-icon-${dataset.id}`} color="error" />
                     ) : null
                   }

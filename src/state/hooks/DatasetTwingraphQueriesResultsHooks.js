@@ -7,7 +7,7 @@ import {
   dispatchResetDatasetTwingraphQueriesResults,
 } from '../dispatchers/datasetTwingraphQueriesResults/DatasetTwingraphQueryResultsDispatcher';
 import { useWorkspaceData } from './WorkspaceHooks';
-import { TWINGRAPH_STATUS } from '../../services/config/ApiConstants';
+import { INGESTION_STATUS } from '../../services/config/ApiConstants';
 
 export const useDatasetTwingraphQueriesResults = () => {
   return useSelector((state) => state.datasetTwingraph);
@@ -17,7 +17,7 @@ export const useInitializeDatasetTwingraphQueriesResults = (dataset) => {
   const dispatch = useDispatch();
   const workspace = useWorkspaceData();
   const queriesResults = useDatasetTwingraphQueriesResults();
-  if (dataset?.status === TWINGRAPH_STATUS.READY && queriesResults[dataset?.id] === undefined)
+  if (dataset?.ingestionStatus === INGESTION_STATUS.SUCCESS && queriesResults[dataset?.id] === undefined)
     dispatch(dispatchInitializeDatasetTwingraphQueriesResults(dataset?.id, workspace));
 };
 
