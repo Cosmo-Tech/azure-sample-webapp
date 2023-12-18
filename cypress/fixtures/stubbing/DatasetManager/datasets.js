@@ -74,7 +74,7 @@ const DATASET_ADT = {
   name: 'Dataset ADT',
   sourceType: 'ADT',
   source: { location: 'adt/url' },
-  status: 'READY',
+  ingestionStatus: 'SUCCESS',
 };
 
 const DATASET_AZURE_STORAGE = {
@@ -84,7 +84,7 @@ const DATASET_AZURE_STORAGE = {
   name: 'Dataset Azure Storage',
   sourceType: 'AzureStorage',
   source: { location: 'azureStorageLocation', name: 'containerName', path: 'azure/storage/path' },
-  status: 'READY',
+  ingestionStatus: 'SUCCESS',
 };
 
 const DATASET_FROM_SCRATCH = {
@@ -94,7 +94,7 @@ const DATASET_FROM_SCRATCH = {
   name: 'Dataset From Scratch',
   sourceType: 'None',
   source: {},
-  status: 'DRAFT',
+  ingestionStatus: 'NONE',
 };
 
 export const DATASETS = [FILE_DATASET_MAIN_A, FILE_DATASET_MAIN_B, FILE_DATASET_NON_MAIN];
