@@ -44,3 +44,9 @@ export const dispatchUpdateDataset = (organizationId, datasetId, datasetData, da
   datasetData,
   datasetIndex,
 });
+
+export const dispatchRollbackTwingraphData = (organizationId, datasetId) => ({
+  type: DATASET_ACTIONS_KEY.TRIGGER_SAGA_ROLLBACK_TWINGRAPH_DATA,
+  organizationId,
+  datasetId,
+});

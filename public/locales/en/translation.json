@@ -187,7 +187,8 @@
           "apiLink": "You can use the <1>Cosmo Tech API</1> to populate it",
           "loading": "Importing your data, please wait...",
           "unknown": "The dataset has an unknown state, if the problem persists, please, contact your administrator",
-          "retryButton": "Retry"
+          "retryButton": "Retry",
+          "rollbackButton": "Rollback"
         }
       },
       "wizard": {
@@ -485,7 +486,8 @@
       "datasetNotCreated": "Dataset hasn't been created",
       "datasetNotUpdated": "Dataset hasn't been updated",
       "twingraphNotCreated": "A problem occurred during twingraph creation",
-      "datasetNotRefreshed": "A problem occurred during dataset refresh"
+      "datasetNotRefreshed": "A problem occurred during dataset refresh",
+      "twingraphDataNotRestored": "Twingraph data hasn't been restored"
     }
   },
   "genericcomponent": {
