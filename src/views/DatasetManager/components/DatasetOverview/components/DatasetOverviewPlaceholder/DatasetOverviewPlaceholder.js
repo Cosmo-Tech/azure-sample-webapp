@@ -5,12 +5,18 @@ import React, { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { Button, CardContent, Grid, Link, Typography } from '@mui/material';
 import { useDatasetOverviewPlaceholder } from './DatasetOverviewPlaceholderHook';
-import { INGESTION_STATUS } from '../../../../../../services/config/ApiConstants';
+import { INGESTION_STATUS, TWINCACHE_STATUS } from '../../../../../../services/config/ApiConstants';
 import { ApiUtils } from '../../../../../../utils';
 
 export const DatasetOverviewPlaceholder = () => {
   const { t } = useTranslation();
-  const { currentDatasetId, currentDatasetIngestionStatus, refreshDataset } = useDatasetOverviewPlaceholder();
+  const {
+    currentDatasetId,
+    currentDatasetIngestionStatus,
+    currentDatasetTwincacheStatus,
+    refreshDataset,
+    rollbackTwingraphData,
+  } = useDatasetOverviewPlaceholder();
 
   const placeholderText = useMemo(() => {
     switch (currentDatasetIngestionStatus) {
@@ -33,11 +39,25 @@ export const DatasetOverviewPlaceholder = () => {
 
   const retryButton = useMemo(() => {
     return [INGESTION_STATUS.ERROR, INGESTION_STATUS.UNKNOWN].includes(currentDatasetIngestionStatus) ? (
-      <Button variant="contained" onClick={() => refreshDataset(currentDatasetId)}>
-        {t('commoncomponents.datasetmanager.overview.placeholder.retryButton', 'Retry')}
-      </Button>
+      <>
+        <Button variant="contained" onClick={() => refreshDataset(currentDatasetId)}>
+          {t('commoncomponents.datasetmanager.overview.placeholder.retryButton', 'Retry')}
+        </Button>
+        {currentDatasetTwincacheStatus === TWINCACHE_STATUS.FULL && (
+          <Button variant="contained" onClick={() => rollbackTwingraphData(currentDatasetId)} sx={{ ml: 1 }}>
+            {t('commoncomponents.datasetmanager.overview.placeholder.rollbackButton', 'Rollback')}
+          </Button>
+        )}
+      </>
     ) : null;
-  }, [currentDatasetId, currentDatasetIngestionStatus, refreshDataset, t]);
+  }, [
+    currentDatasetId,
+    currentDatasetIngestionStatus,
+    refreshDataset,
+    rollbackTwingraphData,
+    currentDatasetTwincacheStatus,
+    t,
+  ]);
 
   // This component uses node count to implement a link in the translation string,
   // if the string is modified, need to check that the link is still the node N1
