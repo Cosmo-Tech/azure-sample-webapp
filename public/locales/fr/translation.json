@@ -187,7 +187,8 @@
           "apiLink": "Vous pouvez utiliser l'<1>API Cosmo Tech</1> pour charger des données",
           "loading": "Données en cours d'importation, veuillez patienter",
           "unknown": "Le dataset a un statut inconnu, si le problème persiste, merci de contacter votre administrateur",
-          "retryButton": "Réessayer"
+          "retryButton": "Réessayer",
+          "rollbackButton": "Restaurer"
         }
       },
       "wizard": {
@@ -485,7 +486,8 @@
       "datasetNotUpdated": "Le dataset n'a pas pu être mis à jour",
       "datasetNotCreated": "Le dataset n'a pas pu être créé",
       "twingraphNotCreated": "Une erreur est survenue pendant la creation du twingraph",
-      "datasetNotRefreshed": "Une erreur est survenue pendant la mise à jour du dataset"
+      "datasetNotRefreshed": "Une erreur est survenue pendant la mise à jour du dataset",
+      "twingraphDataNotRestored": "Les données du twingraph n'ont pas pu être restaurées"
     }
   },
   "genericcomponent": {
