@@ -310,9 +310,9 @@ const interceptGetDatasetStatus = (times = 1) => {
   cy.intercept({ method: 'GET', url: API_REGEX.DATASET_STATUS, times }, (req) => {
     const datasetId = req.url.match(API_REGEX.DATASET_STATUS)?.[1];
     if (stub.isEnabledFor('CREATE_DATASET')) {
-      req.reply(stub.getDatasetById(datasetId).status);
+      req.reply(stub.getDatasetById(datasetId).ingestionStatus);
     } else if (stub.isEnabledFor('GET_DATASETS')) {
-      req.continue((res) => stub.patchDataset(datasetId, { status: res.body }));
+      req.continue((res) => stub.patchDataset(datasetId, { ingestionStatus: res.body }));
     }
   }).as(alias);
   return alias;
@@ -337,13 +337,13 @@ const interceptCreateDataset = (options, stubbingOptions = stub.getDatasetImport
         ...DEFAULT_DATASET,
         ...req.body,
         id: datasetId,
-        status: 'PENDING',
+        ingestionStatus: 'PENDING',
         ...options?.customDatasetPatch,
       };
 
       stub.addDataset(dataset);
       setTimeout(() => {
-        stub.patchDataset(datasetId, { status: stubbingOptions.finalStatus });
+        stub.patchDataset(datasetId, { ingestionStatus: stubbingOptions.finalStatus });
       }, stubbingOptions.importJobDuration);
 
       req.reply(dataset);
@@ -362,7 +362,7 @@ const interceptRefreshDataset = () => {
       req.reply({
         jobId: 'gdi-stbdimportjob',
         datasetId,
-        status: stub.getDatasetById(datasetId).status,
+        ingestionStatus: stub.getDatasetById(datasetId).ingestionStatus,
       });
     }
   }).as(alias);
@@ -374,9 +374,9 @@ const interceptRefreshDatasetAndPollStatus = (datasetId, options) => {
   cy.intercept({ method: 'POST', url: API_REGEX.DATASET_REFRESH, times: 1 }, (req) => {
     if (datasetId !== req.url.match(API_REGEX.DATASET_REFRESH)?.[1]) return;
     if (stub.isEnabledFor('CREATE_DATASET')) {
-      stub.patchDataset(datasetId, { status: 'PENDING' });
+      stub.patchDataset(datasetId, { ingestionStatus: 'PENDING' });
       setTimeout(() => {
-        stub.patchDataset(datasetId, { status: options.finalStatus });
+        stub.patchDataset(datasetId, { ingestionStatus: options.finalStatus });
       }, 5000 * options.expectedPollsCount);
 
       req.reply({

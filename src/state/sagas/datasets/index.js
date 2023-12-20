@@ -9,6 +9,7 @@ import { updateDatasetSaga } from './UpdateDataset';
 import { pollTwingraphStatusSaga } from './PollTwingraphStatus';
 import { refreshDatasetSaga } from './RefreshDataset';
 import { queryDatasetTwingraphSaga } from './QueryDatasetTwingraph';
+import { rollbackTwingraphDataSaga } from './RollbackTwingraphData';
 
 export default function* datasetSaga() {
   yield all([
@@ -19,5 +20,6 @@ export default function* datasetSaga() {
     fork(refreshDatasetSaga),
     fork(pollTwingraphStatusSaga),
     fork(queryDatasetTwingraphSaga),
+    fork(rollbackTwingraphDataSaga),
   ]);
 }

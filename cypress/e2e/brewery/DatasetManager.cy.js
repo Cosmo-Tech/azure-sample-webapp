@@ -314,7 +314,7 @@ describe('Refresh dataset', () => {
     () => {
       const refreshSuccessOptions = {
         expectedPollsCount: 2,
-        finalStatus: 'READY',
+        finalStatus: 'SUCCESS',
       };
 
       const refreshFailedOptions = {
