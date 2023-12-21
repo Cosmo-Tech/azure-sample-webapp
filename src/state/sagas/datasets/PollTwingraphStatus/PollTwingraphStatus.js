@@ -19,13 +19,12 @@ export function* pollTwingraphStatus(action) {
       const { data: newStatus } = yield call(Api.Datasets.getDatasetTwingraphStatus, organizationId, datasetId);
       if ([INGESTION_STATUS.SUCCESS, INGESTION_STATUS.ERROR, INGESTION_STATUS.UNKNOWN].includes(newStatus)) {
         twingraphStatus = newStatus;
+        const datasetData = { ingestionStatus: newStatus };
+        if (newStatus === INGESTION_STATUS.SUCCESS) datasetData.twincacheStatus = TWINCACHE_STATUS.FULL;
         yield put({
           type: DATASET_ACTIONS_KEY.UPDATE_DATASET,
           datasetId,
-          datasetData: {
-            ingestionStatus: newStatus,
-            twincacheStatus: newStatus === INGESTION_STATUS.SUCCESS ? TWINCACHE_STATUS.FULL : TWINCACHE_STATUS.EMPTY,
-          },
+          datasetData,
         });
       } else {
         yield delay(TWINGRAPH_STATUS_POLLING_DELAY);
