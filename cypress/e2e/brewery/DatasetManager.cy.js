@@ -314,12 +314,12 @@ describe('Refresh dataset', () => {
     () => {
       const refreshSuccessOptions = {
         expectedPollsCount: 2,
-        finalStatus: 'SUCCESS',
+        finalIngestionStatus: 'SUCCESS',
       };
 
       const refreshFailedOptions = {
         expectedPollsCount: 2,
-        finalStatus: 'ERROR',
+        finalIngestionStatus: 'ERROR',
       };
       DatasetManager.switchToDatasetManagerView();
       DatasetManager.getDatasetRefreshButton(DATASETS_TO_REFRESH[0].id).should('be.visible');
@@ -339,7 +339,10 @@ describe('Refresh dataset', () => {
       DatasetManager.selectDatasetById(DATASETS_TO_REFRESH[1].id);
       DatasetManager.getDatasetOverviewPlaceholderTitle().contains('An error', { timeout: 30000 });
       DatasetManager.getDatasetOverviewPlaceholderRetryButton().should('exist');
+      DatasetManager.getDatasetOverviewPlaceholderRollbackButton().should('exist');
       DatasetManager.getRefreshDatasetErrorIcon(DATASETS_TO_REFRESH[1].id).should('be.visible');
+      DatasetManager.rollbackDatasetStatus();
+      DatasetManager.getDatasetOverviewPlaceholderTitle().should('be.visible');
     }
   );
 });

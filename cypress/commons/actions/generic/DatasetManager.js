@@ -68,6 +68,7 @@ export const getDatasetOverviewPlaceholder = (timeout) =>
 export const getDatasetOverviewPlaceholderTitle = (timeout) =>
   cy.get(SELECTORS.overview.placeholder.title, timeout ? { timeout: timeout * 1000 } : undefined);
 export const getDatasetOverviewPlaceholderRetryButton = () => cy.get(SELECTORS.overview.placeholder.retryButton);
+export const getDatasetOverviewPlaceholderRollbackButton = () => cy.get(SELECTORS.overview.placeholder.rollbackButton);
 export const getDatasetOverviewPlaceholderApiLink = () => cy.get(SELECTORS.overview.placeholder.apiLink);
 
 export const getIndicatorCard = (kpiId) => cy.get(SELECTORS.overview.indicators.cardByKpiId.replace('$KPI_ID', kpiId));
@@ -208,4 +209,10 @@ export const refreshDataset = (datasetId, options) => {
   getConfirmDatasetRefreshButton().click();
   getRefreshDatasetSpinner(datasetId).should('be.visible');
   api.waitAliases(aliases);
+};
+
+export const rollbackDatasetStatus = () => {
+  const alias = api.interceptRollbackDatasetStatus();
+  getDatasetOverviewPlaceholderRollbackButton().click();
+  api.waitAlias(alias);
 };
