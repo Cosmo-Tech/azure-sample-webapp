@@ -40,11 +40,20 @@ export const DatasetOverviewPlaceholder = () => {
   const retryButton = useMemo(() => {
     return [INGESTION_STATUS.ERROR, INGESTION_STATUS.UNKNOWN].includes(currentDatasetIngestionStatus) ? (
       <>
-        <Button variant="contained" onClick={() => refreshDataset(currentDatasetId)}>
+        <Button
+          data-cy="dataset-overview-retry-button"
+          variant="contained"
+          onClick={() => refreshDataset(currentDatasetId)}
+        >
           {t('commoncomponents.datasetmanager.overview.placeholder.retryButton', 'Retry')}
         </Button>
         {currentDatasetTwincacheStatus === TWINCACHE_STATUS.FULL && (
-          <Button variant="contained" onClick={() => rollbackTwingraphData(currentDatasetId)} sx={{ ml: 1 }}>
+          <Button
+            data-cy="dataset-overview-rollback-button"
+            variant="contained"
+            onClick={() => rollbackTwingraphData(currentDatasetId)}
+            sx={{ ml: 1 }}
+          >
             {t('commoncomponents.datasetmanager.overview.placeholder.rollbackButton', 'Rollback')}
           </Button>
         )}
@@ -96,9 +105,7 @@ export const DatasetOverviewPlaceholder = () => {
             {placeholderText}
           </Typography>
         </Grid>
-        <Grid data-cy="dataset-overview-retry-button" item>
-          {retryButton}
-        </Grid>
+        <Grid item>{retryButton}</Grid>
         <Grid data-cy="dataset-overview-api-link" item>
           {swaggerLink}
         </Grid>
