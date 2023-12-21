@@ -94,6 +94,7 @@ export const DatasetList = () => {
               defaultValue="Do you really want to delete <i>{{datasetName}}</i>?
                 This action is irreversible."
               values={{ datasetName: dataset?.name }}
+              shouldUnescape={true}
             />
           ),
           button1: t('commoncomponents.datasetmanager.dialogs.cancel', 'Cancel'),
