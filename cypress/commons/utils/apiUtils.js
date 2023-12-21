@@ -320,6 +320,18 @@ const interceptGetDatasetStatus = (times = 1) => {
   return alias;
 };
 
+const interceptRollbackDatasetStatus = () => {
+  const alias = forgeAlias('reqRollbackDatasetStatus');
+  cy.intercept({ method: 'POST', url: API_REGEX.DATASET_ROLLBACK, times: 1 }, (req) => {
+    const datasetId = req.url.match(API_REGEX.DATASET_ROLLBACK)?.[1];
+    if (stub.isEnabledFor('CREATE_DATASET')) {
+      req.reply({ message: `Dataset ${datasetId} status is now SUCCESS` });
+      stub.patchDataset(datasetId, { ingestionStatus: 'SUCCESS' });
+    }
+  }).as(alias);
+  return alias;
+};
+
 // Parameters:
 //   - options: dict with properties:
 //     - id (optional): id of the dataset to create
@@ -378,7 +390,9 @@ const interceptRefreshDatasetAndPollStatus = (datasetId, options) => {
     if (stub.isEnabledFor('CREATE_DATASET')) {
       stub.patchDataset(datasetId, { ingestionStatus: 'PENDING' });
       setTimeout(() => {
-        stub.patchDataset(datasetId, { ingestionStatus: options.finalStatus });
+        stub.patchDataset(datasetId, {
+          ingestionStatus: options.finalIngestionStatus,
+        });
       }, 5000 * options.expectedPollsCount);
 
       req.reply({
@@ -532,6 +546,7 @@ export const apiUtils = {
   interceptGetDatasets,
   interceptGetDataset,
   interceptGetDatasetStatus,
+  interceptRollbackDatasetStatus,
   interceptCreateDataset,
   interceptRefreshDataset,
   interceptRefreshDatasetAndPollStatus,
