@@ -27,7 +27,10 @@ export const DatasetOverview = () => {
     >
       {datasetIngestionStatus === INGESTION_STATUS.SUCCESS ? (
         <>
-          <CardHeader title={t('commoncomponents.datasetmanager.overview.title', 'Overview')}></CardHeader>
+          <CardHeader
+            data-cy="dataset-overview-title"
+            title={t('commoncomponents.datasetmanager.overview.title', 'Overview')}
+          ></CardHeader>
           <CardContent>
             <Grid container sx={{ flexFlow: 'column wrap', gap: 4 }}>
               <Grid item>
