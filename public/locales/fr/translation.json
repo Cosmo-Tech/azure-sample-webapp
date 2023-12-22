@@ -152,7 +152,8 @@
         "refreshDate": "Dernière modification",
         "sourceType": "Source",
         "tags": "Tags",
-        "tagsPlaceholder": "Nouveau tag"
+        "tagsPlaceholder": "Nouveau tag",
+        "unknown": "inconnu"
       },
       "dialogs": {
         "refresh": {
