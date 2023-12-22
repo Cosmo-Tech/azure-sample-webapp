@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { call, put, takeEvery } from 'redux-saga/effects';
+import { call, put, takeEvery, select } from 'redux-saga/effects';
 import { t } from 'i18next';
 import { Api } from '../../../../services/config/Api';
 import { DATASET_ACTIONS_KEY } from '../../../commons/DatasetConstants';
@@ -9,15 +9,20 @@ import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/App
 import { INGESTION_STATUS } from '../../../../services/config/ApiConstants';
 import { DatasetsUtils } from '../../../../utils/DatasetsUtils';
 
+const getUserName = (state) => state.auth.userName;
+
 export function* createDataset(action) {
   const dataset = action.dataset;
   const organizationId = action.organizationId;
+  const ownerName = yield select(getUserName);
+  dataset.ownerName = ownerName;
   try {
     const { data } = yield call(Api.Datasets.createDataset, organizationId, dataset);
 
     yield put({
       type: DATASET_ACTIONS_KEY.ADD_DATASET,
       ...data,
+      ownerName,
       ingestionStatus: dataset.sourceType !== 'None' ? INGESTION_STATUS.PENDING : INGESTION_STATUS.NONE,
     });
 
