@@ -8,7 +8,7 @@ import { Api } from '../../../../services/config/Api';
 import { ConfigUtils, SolutionsUtils } from '../../../../utils';
 import { SolutionSchema } from '../../../../services/config/SolutionSchema';
 
-export function* fetchSolutionByIdData(organizationId, workspaceId, solutionId) {
+export function* fetchSolutionByIdData(organizationId, solutionId) {
   const { data } = yield call(Api.Solutions.findSolutionById, organizationId, solutionId);
   SolutionsUtils.castMinMaxDefaultValuesInSolution(data);
   SolutionsUtils.patchSolutionIfLocalConfigExists(data);

@@ -79,7 +79,7 @@ export function* selectWorkspace(action) {
 
   yield call(getAllScenariosData, organizationId, selectedWorkspaceId);
   const solutionId = yield select(selectSolutionIdFromCurrentWorkspace);
-  yield call(fetchSolutionByIdData, organizationId, selectedWorkspaceId, solutionId);
+  yield call(fetchSolutionByIdData, organizationId, solutionId);
   const scenarioList = yield select(selectScenarioList);
 
   yield put({
