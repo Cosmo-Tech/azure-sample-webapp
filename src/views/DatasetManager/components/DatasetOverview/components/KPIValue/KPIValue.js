@@ -4,7 +4,7 @@
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import { CircularProgress, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import ErrorIcon from '@mui/icons-material/Error';
 import HelpIcon from '@mui/icons-material/Help';
 import { FadingTooltip } from '@cosmotech/ui';
@@ -15,16 +15,6 @@ export const KPIValue = (props) => {
   const { kpi, size, valueTypographyProps } = props;
 
   return useMemo(() => {
-    if (kpi.state === KPI_STATE.IDLE || kpi.state === KPI_STATE.LOADING)
-      return (
-        <FadingTooltip
-          title={t('commoncomponents.datasetmanager.overview.kpiState.loading', 'Loading')}
-          disableInteractive={true}
-        >
-          <CircularProgress data-cy="kpi-loading" size={size} />
-        </FadingTooltip>
-      );
-
     if (kpi.state === KPI_STATE.READY)
       return (
         <Typography data-cy="kpi-value" variant="body1" {...valueTypographyProps}>
