@@ -4,9 +4,10 @@
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import { Grid, Typography } from '@mui/material';
+import { Grid, Skeleton, Typography } from '@mui/material';
 import { KPIValue } from '../../../KPIValue';
 import { TranslationUtils } from '../../../../../../../../utils';
+import { KPI_STATE } from '../../../../../../../../services/config/kpiConstants';
 
 const KPI = (props) => {
   const { t } = useTranslation();
@@ -34,7 +35,11 @@ const KPI = (props) => {
       <Grid item>{label}</Grid>
 
       <Grid item>
-        <KPIValue kpi={kpi} valueTypographyProps={{ ...valueProps }} />
+        {kpi.state === KPI_STATE.IDLE || kpi.state === KPI_STATE.LOADING ? (
+          <Skeleton width="24px" />
+        ) : (
+          <KPIValue kpi={kpi} valueTypographyProps={{ ...valueProps }} />
+        )}
       </Grid>
     </Grid>
   );
