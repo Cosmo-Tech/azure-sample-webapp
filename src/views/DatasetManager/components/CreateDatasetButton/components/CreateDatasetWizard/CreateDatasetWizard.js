@@ -186,6 +186,7 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
         <Controller
           name="sourceType"
           defaultValue={datasetSourceTypeEnumValues[0].key}
+          shouldUnregister={true}
           render={({ field }) => {
             const { value: datasetSourceTypeValue, onChange: setDatasetSourceTypeValue } = field;
             const setDatasetSource = (newValue) => {
