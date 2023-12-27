@@ -17,7 +17,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { BasicEnumInput, BasicRadioInput, BasicTextInput, UploadFile } from '@cosmotech/ui';
+import { BasicEnumInput, BasicTextInput, UploadFile } from '@cosmotech/ui';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { DatasetsUtils, FileManagementUtils } from '../../../../../../utils';
 import { useTranslation } from 'react-i18next';
@@ -27,35 +27,28 @@ import { DATASET_SOURCE_TYPE } from '../../../../../../services/config/ApiConsta
 export const CreateDatasetWizard = ({ open, closeDialog }) => {
   const { t } = useTranslation();
   const createDataset = useCreateDataset();
-  const datasetLocationEnumValues = [
-    { key: 'existingData', value: t('commoncomponents.datasetmanager.wizard.secondScreen.existingData', 'Yes') },
-    {
-      key: 'fromScratch',
-      value: t(
-        'commoncomponents.datasetmanager.wizard.secondScreen.fromScratch',
-        'No, I want to create one from scratch'
-      ),
-    },
-  ];
 
   // TODO confirm real keys for sourceType
   const datasetSourceTypeEnumValues = [
     {
       key: DATASET_SOURCE_TYPE.AZURE_STORAGE,
-      value: t('commoncomponents.datasetmanager.wizard.thirdScreen.dataSourceType.azureStorage', 'Azure Storage'),
+      value: t('commoncomponents.datasetmanager.wizard.secondScreen.dataSourceType.azureStorage', 'Azure Storage'),
     },
     {
       key: DATASET_SOURCE_TYPE.LOCAL_FILE,
-      value: t('commoncomponents.datasetmanager.wizard.thirdScreen.dataSourceType.local', 'Local file'),
+      value: t('commoncomponents.datasetmanager.wizard.secondScreen.dataSourceType.local', 'Local file'),
     },
     {
       key: DATASET_SOURCE_TYPE.ADT,
-      value: t('commoncomponents.datasetmanager.wizard.thirdScreen.dataSourceType.adt', 'Azure Digital Twin'),
+      value: t('commoncomponents.datasetmanager.wizard.secondScreen.dataSourceType.adt', 'Azure Digital Twin'),
+    },
+    {
+      key: DATASET_SOURCE_TYPE.NONE,
+      value: t('commoncomponents.datasetmanager.wizard.secondScreen.dataSourceType.none', 'Empty'),
     },
   ];
 
   const [activeStep, setActiveStep] = useState(0);
-  const [datasetLocation, setDatasetLocation] = useState('');
   const [datasetSourceType, setDatasetSourceType] = useState(datasetSourceTypeEnumValues[0].key);
 
   const methods = useForm({ mode: 'onChange' });
@@ -65,7 +58,6 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
     if (open) {
       methods.reset();
       setActiveStep(0);
-      setDatasetLocation('');
       setDatasetSourceType(datasetSourceTypeEnumValues[0].key);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -74,11 +66,10 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
   const createDatasetAndCloseDialog = useCallback(() => {
     const values = methods.getValues();
     DatasetsUtils.removeUndefinedValuesBeforeCreatingDataset(values);
-    if (datasetLocation === 'fromScratch') values.sourceType = 'None';
-    else if (values.sourceType === DATASET_SOURCE_TYPE.LOCAL_FILE) values.source = null;
+    if ([DATASET_SOURCE_TYPE.LOCAL_FILE, DATASET_SOURCE_TYPE.NONE].includes(values.sourceType)) values.source = null;
     createDataset(values);
     closeDialog();
-  }, [closeDialog, methods, createDataset, datasetLocation]);
+  }, [closeDialog, methods, createDataset]);
 
   const firstStep = (
     <>
@@ -160,26 +151,7 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
     <>
       <Grid item xs={12}>
         <Typography sx={{ py: 2 }}>
-          {t('commoncomponents.datasetmanager.wizard.secondScreen.subtitle', 'Do you already have data to import?')}
-        </Typography>
-      </Grid>
-
-      <Grid item xs={12}>
-        <BasicRadioInput
-          id="dataset-location"
-          row={false}
-          value={datasetLocation}
-          changeRadioOption={setDatasetLocation}
-          enumValues={datasetLocationEnumValues}
-        />
-      </Grid>
-    </>
-  );
-  const thirdStep = (
-    <>
-      <Grid item xs={12}>
-        <Typography sx={{ py: 2 }}>
-          {t('commoncomponents.datasetmanager.wizard.thirdScreen.subtitle', 'Please provide your data source')}
+          {t('commoncomponents.datasetmanager.wizard.secondScreen.subtitle', 'Please provide your data source')}
         </Typography>
       </Grid>
       <Grid item xs={4}>
@@ -196,7 +168,7 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
             return (
               <BasicEnumInput
                 id="new-dataset-sourceType"
-                label={t('commoncomponents.datasetmanager.wizard.thirdScreen.dataSourceType.label', 'Source')}
+                label={t('commoncomponents.datasetmanager.wizard.secondScreen.dataSourceType.label', 'Source')}
                 size="medium"
                 value={datasetSourceTypeValue ?? datasetSourceTypeEnumValues[0].key}
                 changeEnumField={(newValue) => setDatasetSource(newValue)}
@@ -238,7 +210,7 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
                 <BasicTextInput
                   id="azure-storage-account-name"
                   label={t(
-                    'commoncomponents.datasetmanager.wizard.thirdScreen.azureStorage.accountName',
+                    'commoncomponents.datasetmanager.wizard.secondScreen.azureStorage.accountName',
                     'Account name'
                   )}
                   size="medium"
@@ -257,7 +229,7 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
                 <BasicTextInput
                   id="azure-storage-container-name"
                   label={t(
-                    'commoncomponents.datasetmanager.wizard.thirdScreen.azureStorage.containerName',
+                    'commoncomponents.datasetmanager.wizard.secondScreen.azureStorage.containerName',
                     'Container name'
                   )}
                   size="medium"
@@ -275,7 +247,7 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
               return (
                 <BasicTextInput
                   id="azure-storage-path"
-                  label={t('commoncomponents.datasetmanager.wizard.thirdScreen.azureStorage.path', 'Path')}
+                  label={t('commoncomponents.datasetmanager.wizard.secondScreen.azureStorage.path', 'Path')}
                   size="medium"
                   value={azureStoragePath ?? ''}
                   changeTextField={(newValue) => setAzureStoragePath(newValue)}
@@ -320,16 +292,12 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
                   <StepLabel>{t('commoncomponents.datasetmanager.wizard.stepOne', 'Metadata')}</StepLabel>
                 </Step>
                 <Step>
-                  <StepLabel>{t('commoncomponents.datasetmanager.wizard.stepTwo', 'Data source')}</StepLabel>
-                </Step>
-                <Step>
-                  <StepLabel>{t('commoncomponents.datasetmanager.wizard.stepThree', 'Dataset type')}</StepLabel>
+                  <StepLabel>{t('commoncomponents.datasetmanager.wizard.stepTwo', 'Dataset type')}</StepLabel>
                 </Step>
               </Stepper>
             </Grid>
             {activeStep === 0 && firstStep}
             {activeStep === 1 && secondStep}
-            {activeStep === 2 && thirdStep}
           </Grid>
         </DialogContent>
         <DialogActions>
@@ -346,11 +314,11 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
               {t('commoncomponents.datasetmanager.wizard.buttons.previous', 'Previous')}
             </Button>
           )}
-          {activeStep !== 2 && datasetLocation !== 'fromScratch' && (
+          {activeStep !== 1 && (
             <Button
               data-cy="dataset-creation-next-step"
               variant="contained"
-              disabled={(datasetLocation === '' && activeStep === 1) || !formState.isValid}
+              disabled={!formState.isValid}
               onClick={() => {
                 setActiveStep(activeStep + 1);
               }}
@@ -358,7 +326,7 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
               {t('commoncomponents.datasetmanager.wizard.buttons.next', 'Next')}
             </Button>
           )}
-          {(activeStep === 2 || datasetLocation === 'fromScratch') && (
+          {activeStep === 1 && (
             <Button
               variant="contained"
               disabled={!formState.isValid}
