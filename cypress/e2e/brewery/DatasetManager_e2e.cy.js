@@ -40,17 +40,9 @@ describe('End-to-end test of the dataset manager view', () => {
     DatasetManager.getIndicatorCard('bars_count').should('be.visible');
     DatasetManager.getKpiValue(DatasetManager.getIndicatorCard('bars_count')).should('have.text', 1);
 
-    // PROD-12836: previous search filter gets ignored after a change of dataset status, we need to type the same filter
-    // again
-    DatasetManager.getDatasetSearchBarInput().click().clear();
-    DatasetManager.getDatasetSearchBarInput().click().type(storageDatasetName);
-    DatasetManager.getDatasetsListItemButtons().should('have.length', 1);
     DatasetManager.getAllDeleteDatasetButtons().click();
     DatasetManager.getDeleteDatasetDialogBody().contains(storageDatasetName);
     DatasetManager.getDeleteDatasetConfirmButton().click();
-    // PROD-12836: previous search filter gets ignored after deleting a dataset, we need to type the same filter again
-    DatasetManager.getDatasetSearchBarInput().click().clear();
-    DatasetManager.getDatasetSearchBarInput().click().type(storageDatasetName);
     DatasetManager.getDatasetsListItemButtons().should('not.exist');
   });
 
@@ -80,9 +72,6 @@ describe('End-to-end test of the dataset manager view', () => {
     DatasetManager.getAllDeleteDatasetButtons().click();
     DatasetManager.getDeleteDatasetDialogBody().contains(fileDatasetName);
     DatasetManager.getDeleteDatasetConfirmButton().click();
-    // PROD-12836: previous search filter gets ignored after deleting a dataset, we need to type the same filter again
-    DatasetManager.getDatasetSearchBarInput().click().clear();
-    DatasetManager.getDatasetSearchBarInput().click().type(fileDatasetName);
     DatasetManager.getDatasetsListItemButtons().should('not.exist');
   });
 });
