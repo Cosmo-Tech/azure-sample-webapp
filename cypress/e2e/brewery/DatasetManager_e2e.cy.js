@@ -26,9 +26,6 @@ describe('End-to-end test of the dataset manager view', () => {
     DatasetManager.setNewDatasetDescription('Dataset created from Storage, during cypress end-to-end test');
     DatasetManager.getDatasetCreationNextStep().click();
 
-    DatasetManager.selectNewDatasetFromExistingData();
-    DatasetManager.getDatasetCreationNextStep().click();
-
     DatasetManager.getNewDatasetSourceTypeSelect().click();
     DatasetManager.getNewDatasetSourceTypeOptionAzureStorage().click();
 
@@ -66,9 +63,6 @@ describe('End-to-end test of the dataset manager view', () => {
     DatasetManager.setNewDatasetName(fileDatasetName);
     DatasetManager.addNewDatasetTag('file');
     DatasetManager.setNewDatasetDescription('Dataset created from file upload, during cypress end-to-end test');
-    DatasetManager.getDatasetCreationNextStep().click();
-
-    DatasetManager.selectNewDatasetFromExistingData();
     DatasetManager.getDatasetCreationNextStep().click();
 
     DatasetManager.getNewDatasetSourceTypeSelect().click();
