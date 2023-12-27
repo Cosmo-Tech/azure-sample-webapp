@@ -194,8 +194,7 @@
       "wizard": {
         "title": "Create dataset",
         "stepOne": "Metadata",
-        "stepTwo": "Data source",
-        "stepThree": "Dataset source type",
+        "stepTwo": "Dataset source type",
         "firstScreen": {
           "title": "Please provide some metadata regarding your new dataset",
           "name": "Name",
@@ -203,17 +202,13 @@
           "description": "Description"
         },
         "secondScreen": {
-          "subtitle": "Do you already have data to import?",
-          "existingData": "Yes",
-          "fromScratch": "No, I want to create one from scratch"
-        },
-        "thirdScreen": {
           "subtitle": "Please provide your data source",
           "dataSourceType": {
             "label": "Source",
             "azureStorage": "Azure Storage",
             "local": "Local file",
-            "adt": "Azure Digital Twin"
+            "adt": "Azure Digital Twin",
+            "none": "Empty"
           },
           "azureStorage": {
             "accountName": "Account name",
