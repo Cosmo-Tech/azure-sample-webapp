@@ -168,11 +168,6 @@ describe('Dataset creation', () => {
     DatasetManager.setNewDatasetDescription(datasetDescription);
     DatasetManager.getDatasetCreationNextStep().click();
 
-    DatasetManager.selectNewDatasetFromExistingData();
-    DatasetManager.selectNewDatasetFromScratch();
-    DatasetManager.selectNewDatasetFromExistingData();
-    DatasetManager.getDatasetCreationNextStep().click();
-
     DatasetManager.getNewDatasetSourceTypeSelect().click();
     DatasetManager.getNewDatasetSourceTypeOptionFile().click();
     DatasetManager.getNewDatasetSourceTypeSelect().click();
@@ -216,9 +211,6 @@ describe('Dataset creation', () => {
     DatasetManager.getDatasetCreationPreviousStep().click();
     DatasetManager.getNewDatasetNameInput().should('value', datasetName);
 
-    DatasetManager.getDatasetCreationNextStep().click();
-
-    DatasetManager.selectNewDatasetFromExistingData();
     DatasetManager.getDatasetCreationNextStep().click();
 
     DatasetManager.getNewDatasetSourceTypeSelect().click();
