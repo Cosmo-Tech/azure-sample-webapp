@@ -57,6 +57,7 @@ export const DatasetList = () => {
   }, [datasets]);
 
   const [displayedDatasetList, setDisplayedDatasetList] = useState(sortedDatasetList);
+  const [searchString, setSearchString] = useState('');
   const datasetToRefresh = useRef('');
 
   useEffect(() => {
@@ -79,6 +80,10 @@ export const DatasetList = () => {
     },
     [sortedDatasetList]
   );
+
+  useEffect(() => {
+    filterDatasets(searchString);
+  }, [searchString, filterDatasets]);
 
   const askConfirmationToDeleteDialog = useCallback(
     async (event, dataset) => {
@@ -145,7 +150,7 @@ export const DatasetList = () => {
     <div>
       <SearchBar
         label={t('commoncomponents.datasetmanager.searchBar.label', 'Find...')}
-        onSearchChange={filterDatasets}
+        onSearchChange={setSearchString}
         icon={<SearchIcon />}
         className={classes.searchBar}
         id="dataset-search-bar"
