@@ -75,6 +75,7 @@ const DATASET_ADT = {
   sourceType: 'ADT',
   source: { location: 'adt/url' },
   ingestionStatus: 'SUCCESS',
+  twincacheStatus: 'FULL',
 };
 
 const DATASET_AZURE_STORAGE = {
@@ -85,6 +86,7 @@ const DATASET_AZURE_STORAGE = {
   sourceType: 'AzureStorage',
   source: { location: 'azureStorageLocation', name: 'containerName', path: 'azure/storage/path' },
   ingestionStatus: 'SUCCESS',
+  twincacheStatus: 'FULL',
 };
 
 const DATASET_FROM_SCRATCH = {

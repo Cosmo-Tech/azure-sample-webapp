@@ -210,6 +210,7 @@ export const GENERIC_SELECTORS = {
         container: '[data-cy=dataset-overview-placeholder]',
         title: '[data-cy=dataset-overview-title]',
         retryButton: '[data-cy=dataset-overview-retry-button]',
+        rollbackButton: '[data-cy=dataset-overview-rollback-button]',
         apiLink: '[data-cy=dataset-overview-api-link]',
       },
       indicators: {
