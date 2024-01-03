@@ -643,7 +643,9 @@ For `POWER_BI_CLIENT_SECRET`, you can create a new client secret from
 _Azure Portal_ > _App Registrations_ > _[name of your webapp app registration]_ > _Certificates & secrets_.
 
 `CSM_API_TOKEN_AUDIENCE` is optional but strongly recommended. It increases security by checking the audience field in
-the user access token. The expected value is the **application id** of the Cosmo Tech API enterprise application.
+the user access token. The expected value is the **application id** of the Cosmo Tech API enterprise application (you
+can find this value in the Azure portal, in the "_Overview_" blade of the Cosmo Tech API application that your webapp
+instance uses). The identifier value should have a pattern similar to `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`.
 
 #### Azure Function configuration for local run
 
