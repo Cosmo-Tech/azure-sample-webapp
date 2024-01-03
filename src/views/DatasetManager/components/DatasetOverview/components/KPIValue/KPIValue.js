@@ -4,7 +4,7 @@
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import { CircularProgress, Typography } from '@mui/material';
+import { Skeleton, Typography } from '@mui/material';
 import ErrorIcon from '@mui/icons-material/Error';
 import HelpIcon from '@mui/icons-material/Help';
 import { FadingTooltip } from '@cosmotech/ui';
@@ -21,7 +21,7 @@ export const KPIValue = (props) => {
           title={t('commoncomponents.datasetmanager.overview.kpiState.loading', 'Loading')}
           disableInteractive={true}
         >
-          <CircularProgress data-cy="kpi-loading" size={size} />
+          <Skeleton width="24px" />
         </FadingTooltip>
       );
 
