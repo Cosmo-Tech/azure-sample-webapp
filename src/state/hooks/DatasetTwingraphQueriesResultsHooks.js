@@ -1,6 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
+import { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   dispatchInitializeDatasetTwingraphQueriesResults,
@@ -17,12 +18,21 @@ export const useInitializeDatasetTwingraphQueriesResults = (dataset) => {
   const dispatch = useDispatch();
   const workspace = useWorkspaceData();
   const queriesResults = useDatasetTwingraphQueriesResults();
-  if (dataset?.ingestionStatus === INGESTION_STATUS.SUCCESS && queriesResults[dataset?.id] === undefined)
-    dispatch(dispatchInitializeDatasetTwingraphQueriesResults(dataset?.id, workspace));
+
+  return useCallback(
+    (dataset) => {
+      if (dataset?.ingestionStatus === INGESTION_STATUS.SUCCESS && queriesResults[dataset?.id] === undefined)
+        dispatch(dispatchInitializeDatasetTwingraphQueriesResults(dataset?.id, workspace));
+    },
+    [dispatch, queriesResults, workspace]
+  );
 };
 
-export const useResetDatasetTwingraphQueriesResults = (dataset) => {
+export const useResetDatasetTwingraphQueriesResults = () => {
   const dispatch = useDispatch();
   const workspace = useWorkspaceData();
-  dispatch(dispatchResetDatasetTwingraphQueriesResults(dataset?.id, workspace));
+  return useCallback(
+    (datasetId) => dispatch(dispatchResetDatasetTwingraphQueriesResults(datasetId, workspace)),
+    [dispatch, workspace]
+  );
 };
