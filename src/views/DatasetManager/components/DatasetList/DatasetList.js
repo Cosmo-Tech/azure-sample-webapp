@@ -27,7 +27,7 @@ import { ResourceUtils } from '@cosmotech/core';
 import { useDatasetList } from './DatasetListHook';
 import { TwoActionsDialogService } from '../../../../services/twoActionsDialog/twoActionsDialogService';
 import { CreateDatasetButton } from '../CreateDatasetButton';
-import { INGESTION_STATUS } from '../../../../services/config/ApiConstants';
+import { DATASET_SOURCE_TYPE, INGESTION_STATUS } from '../../../../services/config/ApiConstants';
 
 const useStyles = makeStyles(() => ({
   searchBar: {
@@ -58,7 +58,7 @@ export const DatasetList = () => {
 
   const [displayedDatasetList, setDisplayedDatasetList] = useState(sortedDatasetList);
   const [searchString, setSearchString] = useState('');
-  const datasetToRefresh = useRef('');
+  const datasetRefreshCallback = useRef();
 
   useEffect(() => {
     setDisplayedDatasetList(sortedDatasetList);
@@ -117,26 +117,23 @@ export const DatasetList = () => {
     [t, deleteDataset]
   );
 
-  const refreshDataset = useCallback(
-    (event, datasetId) => {
-      event.stopPropagation();
-      if (localStorage.getItem('dontAskAgainToRefreshDataset') !== 'true') {
-        datasetToRefresh.current = datasetId;
-        setIsRefreshConfirmationDialogOpen(true);
-      } else {
-        refreshDatasetById(datasetId);
-      }
-    },
-    [refreshDatasetById]
-  );
+  const confirmAndRefreshDataset = useCallback((event, callbackFunction) => {
+    event.stopPropagation();
+    if (localStorage.getItem('dontAskAgainToRefreshDataset') !== 'true') {
+      datasetRefreshCallback.current = callbackFunction;
+      setIsRefreshConfirmationDialogOpen(true);
+    } else {
+      callbackFunction();
+    }
+  }, []);
 
-  const confirmRefreshDataset = useCallback(
+  const onConfirmRefreshDataset = useCallback(
     (isChecked) => {
       localStorage.setItem('dontAskAgainToRefreshDataset', isChecked);
-      refreshDatasetById(datasetToRefresh.current);
+      datasetRefreshCallback.current();
       setIsRefreshConfirmationDialogOpen(false);
     },
-    [setIsRefreshConfirmationDialogOpen, refreshDatasetById, datasetToRefresh]
+    [setIsRefreshConfirmationDialogOpen, datasetRefreshCallback]
   );
 
   const datasetListHeader = (
@@ -144,6 +141,35 @@ export const DatasetList = () => {
       <Typography variant="h6">Datasets</Typography>
       <CreateDatasetButton />
     </Box>
+  );
+
+  const getDatasetListItemActions = useCallback(
+    (dataset) => {
+      let refreshButton = null;
+      if (![DATASET_SOURCE_TYPE.NONE, DATASET_SOURCE_TYPE.LOCAL_FILE].includes(dataset.sourceType)) {
+        refreshButton = (
+          <IconButton
+            onClick={(event) => confirmAndRefreshDataset(event, () => refreshDatasetById(dataset.id))}
+            data-cy={`dataset-refresh-button-${dataset.id}`}
+          >
+            <RefreshIcon />
+          </IconButton>
+        );
+      }
+
+      return (
+        <Box>
+          {refreshButton}
+          <IconButton
+            onClick={(event) => askConfirmationToDeleteDialog(event, dataset)}
+            data-cy={`dataset-delete-button-${dataset.id}`}
+          >
+            <DeleteForeverIcon />
+          </IconButton>
+        </Box>
+      );
+    },
+    [askConfirmationToDeleteDialog, confirmAndRefreshDataset, refreshDatasetById]
   );
 
   return (
@@ -166,24 +192,7 @@ export const DatasetList = () => {
               onClick={(e) => selectDataset(dataset)}
             >
               <ListItem
-                secondaryAction={
-                  <Box>
-                    {!['None', 'File'].includes(dataset.sourceType) && (
-                      <IconButton
-                        onClick={(event) => refreshDataset(event, dataset.id)}
-                        data-cy={`dataset-refresh-button-${dataset.id}`}
-                      >
-                        <RefreshIcon />
-                      </IconButton>
-                    )}
-                    <IconButton
-                      onClick={(event) => askConfirmationToDeleteDialog(event, dataset)}
-                      data-cy={`dataset-delete-button-${dataset.id}`}
-                    >
-                      <DeleteForeverIcon />
-                    </IconButton>
-                  </Box>
-                }
+                secondaryAction={getDatasetListItemActions(dataset)}
                 disableGutters
                 sx={{ pl: dataset.depth * 2 }}
               >
@@ -210,7 +219,7 @@ export const DatasetList = () => {
         open={isRefreshConfirmationDialogOpen}
         labels={refreshDialogLabels}
         onClose={() => setIsRefreshConfirmationDialogOpen(false)}
-        onConfirm={(isChecked) => confirmRefreshDataset(isChecked)}
+        onConfirm={onConfirmRefreshDataset}
       />
     </div>
   );
