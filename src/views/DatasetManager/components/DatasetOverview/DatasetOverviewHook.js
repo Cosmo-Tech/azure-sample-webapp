@@ -14,6 +14,7 @@ export const useDatasetOverview = () => {
   const currentDataset = useCurrentDataset();
   const datasetIngestionStatus = useCurrentDataset()?.ingestionStatus;
   const datasetTwingraphQueriesResults = useDatasetTwingraphQueriesResults();
+  const initializeDatasetTwingraphQueriesResults = useInitializeDatasetTwingraphQueriesResults();
   const flatQueriesResults = useMemo(() => {
     return datasetTwingraphQueriesResults[currentDataset?.id] ?? {};
   }, [currentDataset?.id, datasetTwingraphQueriesResults]);
@@ -28,7 +29,7 @@ export const useDatasetOverview = () => {
   const categories = useMemo(() => datasetManagerConfig.categories, [datasetManagerConfig]);
   const graphIndicators = useMemo(() => datasetManagerConfig.graphIndicators, [datasetManagerConfig]);
 
-  useInitializeDatasetTwingraphQueriesResults(currentDataset);
+  initializeDatasetTwingraphQueriesResults(currentDataset);
 
   const queriesResults = useMemo(() => {
     const result = { categoriesKpis: [], graphIndicators: [] };
