@@ -27,6 +27,7 @@ import { ResourceUtils } from '@cosmotech/core';
 import { useDatasetList } from './DatasetListHook';
 import { TwoActionsDialogService } from '../../../../services/twoActionsDialog/twoActionsDialogService';
 import { CreateDatasetButton } from '../CreateDatasetButton';
+import { ReuploadFileDatasetButton } from '../ReuploadFileDatasetButton';
 import { DATASET_SOURCE_TYPE, INGESTION_STATUS } from '../../../../services/config/ApiConstants';
 
 const useStyles = makeStyles(() => ({
@@ -146,7 +147,12 @@ export const DatasetList = () => {
   const getDatasetListItemActions = useCallback(
     (dataset) => {
       let refreshButton = null;
-      if (![DATASET_SOURCE_TYPE.NONE, DATASET_SOURCE_TYPE.LOCAL_FILE].includes(dataset.sourceType)) {
+
+      if (dataset.sourceType === DATASET_SOURCE_TYPE.LOCAL_FILE)
+        refreshButton = (
+          <ReuploadFileDatasetButton datasetId={dataset.id} confirmAndCallback={confirmAndRefreshDataset} />
+        );
+      else if (dataset.sourceType !== DATASET_SOURCE_TYPE.NONE) {
         refreshButton = (
           <IconButton
             onClick={(event) => confirmAndRefreshDataset(event, () => refreshDatasetById(dataset.id))}
