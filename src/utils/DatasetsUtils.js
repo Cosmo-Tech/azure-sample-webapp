@@ -1,12 +1,16 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
+import { t } from 'i18next';
+import { Auth } from '@cosmotech/core';
 import {
   CONNECTOR_VERSION_AZURE_STORAGE,
   CONNECTOR_NAME_AZURE_STORAGE,
   CONNECTOR_NAME_ADT,
   STORAGE_ROOT_DIR_PLACEHOLDER,
 } from '../services/config/ApiConstants';
+import { Api } from '../services/config/Api';
+import { dispatchSetApplicationErrorMessage } from '../state/dispatchers/app/ApplicationDispatcher';
 
 // Build dataset file location in Azure Storage
 function buildStorageFilePath(datasetId, fileName) {
@@ -71,6 +75,27 @@ const removeUndefinedValuesBeforeCreatingDataset = (values) => {
   });
 };
 
+const uploadZipWithFetchApi = async (organizationId, datasetId, file) => {
+  try {
+    const tokens = await Auth.acquireTokens();
+    const headers = {
+      Authorization: 'Bearer ' + tokens.accessToken,
+      'Content-Type': 'application/octet-stream',
+    };
+    return await fetch(`${Api.defaultBasePath}/organizations/${organizationId}/datasets/${datasetId}`, {
+      method: 'POST',
+      headers,
+      body: file,
+    });
+  } catch (error) {
+    console.error(error);
+    dispatchSetApplicationErrorMessage(
+      error,
+      t('commoncomponents.banner.twingraphNotCreated', 'A problem occurred during twingraph creation or update')
+    );
+  }
+};
+
 export const DatasetsUtils = {
   buildStorageFilePath,
   getStorageFilePathFromDataset,
@@ -78,4 +103,5 @@ export const DatasetsUtils = {
   buildAzureStorageConnector,
   getAllChildrenDatasetsNames,
   removeUndefinedValuesBeforeCreatingDataset,
+  uploadZipWithFetchApi,
 };
