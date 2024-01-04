@@ -23,6 +23,12 @@ export const getDatasetsListItemButton = (datasetId) =>
   cy.get(SELECTORS.list.listItemButtonByDatasetId.replace('$DATASETID', datasetId));
 export const getDatasetRefreshButton = (datasetId) =>
   cy.get(SELECTORS.list.refreshButtonByDatasetId.replace('$DATASETID', datasetId));
+export const getAllReuploadDatasetButtons = () => cy.get(SELECTORS.list.reuploadButtons);
+export const getDatasetReuploadButton = (datasetId) =>
+  cy.get(SELECTORS.list.reuploadButtonByDatasetId.replace('$DATASETID', datasetId));
+export const getAllReuploadDatasetInputs = () => cy.get(SELECTORS.list.reuploadInputs);
+export const getDatasetReuploadInput = (datasetId) =>
+  cy.get(SELECTORS.list.reuploadInputByDatasetId.replace('$DATASETID', datasetId));
 export const getAllRefreshDatasetSpinners = (timeout) =>
   cy.get(SELECTORS.list.refreshSpinners, timeout ? { timeout: timeout * 1000 } : undefined);
 export const getRefreshDatasetSpinner = (datasetId) =>

@@ -11,8 +11,6 @@ import {
 } from '../../commons/constants/brewery/TestConstants';
 
 describe('End-to-end test of the dataset manager view', () => {
-  before(() => {});
-
   beforeEach(() => {
     Login.login();
   });
@@ -47,7 +45,8 @@ describe('End-to-end test of the dataset manager view', () => {
   });
 
   it('can create a dataset from file upload', () => {
-    const DATASET_ZIP_FILE_PATH = 'datasets/reference_dataset.zip';
+    const REFERENCE_DATASET_ZIP_FILE_PATH = 'datasets/reference_dataset.zip';
+    const NINE_CUSTOMERS_DATASET_ZIP_FILE_PATH = 'datasets/nine_customers.zip';
     const fileDatasetName = `cypress dataset - e2e - ${utils.randomStr(5)}`;
 
     DatasetManager.switchToDatasetManagerView();
@@ -60,7 +59,7 @@ describe('End-to-end test of the dataset manager view', () => {
     DatasetManager.getNewDatasetSourceTypeSelect().click();
     DatasetManager.getNewDatasetSourceTypeOptionFile().click();
 
-    DatasetManager.uploadFileInWizard(DATASET_ZIP_FILE_PATH);
+    DatasetManager.uploadFileInWizard(REFERENCE_DATASET_ZIP_FILE_PATH);
     DatasetManager.confirmDatasetCreation({ isFile: true });
 
     DatasetManager.getDatasetSearchBarInput().click().type(fileDatasetName);
@@ -69,6 +68,11 @@ describe('End-to-end test of the dataset manager view', () => {
     DatasetManager.getKpiValue(DatasetManager.getIndicatorCard('satisfaction_links_count')).should('have.text', 8);
 
     DatasetManager.getDatasetsListItemButtons().should('have.length', 1);
+    DatasetManager.getAllReuploadDatasetButtons().click();
+    DatasetManager.getConfirmDatasetRefreshButton().click();
+    DatasetManager.getAllReuploadDatasetInputs().attachFile(NINE_CUSTOMERS_DATASET_ZIP_FILE_PATH);
+    DatasetManager.getKpiValue(DatasetManager.getIndicatorCard('satisfaction_links_count')).should('have.text', 16);
+
     DatasetManager.getAllDeleteDatasetButtons().click();
     DatasetManager.getDeleteDatasetDialogBody().contains(fileDatasetName);
     DatasetManager.getDeleteDatasetConfirmButton().click();
