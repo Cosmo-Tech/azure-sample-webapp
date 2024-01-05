@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 export const AppBar = ({ children }) => {
   const classes = useStyles();
   return (
-    <MuiAppBar position="static" className={classes.appBar}>
+    <MuiAppBar position="sticky" className={classes.appBar}>
       <Toolbar variant="dense" disableGutters={true}>
         <WorkspaceInfo />
         <div className={classes.children}>{children}</div>
