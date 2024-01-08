@@ -28,6 +28,7 @@ export const DEFAULT_DATASET = {
   name: 'Local file dataset',
   description: 'Local file dataset description',
   ownerId: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+  ownerName: 'Dave Lauper',
   tags: ['File', 'Brewery'],
   sourceType: 'File',
   source: { location: 'none', name: null, path: null, jobId: null },

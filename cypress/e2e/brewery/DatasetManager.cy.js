@@ -9,6 +9,7 @@ import {
   DATASETS_TO_FILTER,
   DATASETS_TO_REFRESH,
 } from '../../fixtures/stubbing/DatasetManager';
+import { USER_EXAMPLE } from '../../fixtures/stubbing/default';
 
 const WORKSPACES = [WORKSPACE, WORKSPACE_WITHOUT_CONFIG];
 
@@ -124,6 +125,8 @@ describe('Data edition in dataset manager', () => {
 });
 
 describe('Dataset creation', () => {
+  const datasetAuthor = USER_EXAMPLE.name;
+
   before(() => {
     stub.start();
     stub.setWorkspaces(WORKSPACES);
@@ -146,6 +149,7 @@ describe('Dataset creation', () => {
     const datasetStoragePath = 'my/storage/path';
     const expectedPayload = {
       name: datasetName,
+      ownerName: datasetAuthor,
       tags: ['A', 'C'],
       description: datasetDescription,
       sourceType: 'AzureStorage',
@@ -182,6 +186,7 @@ describe('Dataset creation', () => {
     DatasetManager.getDatasetMetadataTag(0).should('contain', 'A');
     DatasetManager.getDatasetMetadataTag(1).should('contain', 'C');
     DatasetManager.getDatasetMetadataDescription().should('contain', datasetDescription);
+    DatasetManager.getDatasetMetadataAuthor().should('contain', datasetAuthor);
   });
   it('can create a new ADT dataset', () => {
     const datasetName = 'My ADT dataset';
@@ -190,6 +195,7 @@ describe('Dataset creation', () => {
     const datasetADTUrl = 'adt/url';
     const expectedPayload = {
       name: datasetName,
+      ownerName: datasetAuthor,
       tags: ['adt', 'tag'],
       description: datasetDescription,
       sourceType: 'ADT',
@@ -223,6 +229,7 @@ describe('Dataset creation', () => {
     DatasetManager.getDatasetMetadataTag(0).should('contain', 'adt');
     DatasetManager.getDatasetMetadataTag(1).should('contain', 'tag');
     DatasetManager.getDatasetMetadataDescription().should('contain', datasetDescription);
+    DatasetManager.getDatasetMetadataAuthor().should('contain', datasetAuthor);
   });
 });
 
