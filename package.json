@@ -12,7 +12,7 @@
     "@microsoft/applicationinsights-web": "^3.0.3",
     "@mui/icons-material": "^5.11.0",
     "@mui/lab": "^5.0.0-alpha.117",
-    "@mui/material": "^5.11.6",
+    "@mui/material": "^5.15.3",
     "@mui/styles": "^5.11.2",
     "@reduxjs/toolkit": "^1.5.1",
     "axios": "^0.27.2",
