@@ -33,6 +33,7 @@ import { DATASET_SOURCE_TYPE, INGESTION_STATUS } from '../../../../services/conf
 const useStyles = makeStyles(() => ({
   searchBar: {
     width: '100%',
+    marginTop: '8px',
   },
 }));
 
@@ -138,7 +139,7 @@ export const DatasetList = () => {
   );
 
   const datasetListHeader = (
-    <Box sx={{ display: 'flex', justifyContent: 'space-between', p: 2 }}>
+    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', p: 2 }}>
       <Typography variant="h6">Datasets</Typography>
       <CreateDatasetButton />
     </Box>
@@ -179,7 +180,7 @@ export const DatasetList = () => {
   );
 
   return (
-    <div>
+    <div style={{ display: 'flex', flexFlow: 'column nowrap', height: '100%' }}>
       <SearchBar
         label={t('commoncomponents.datasetmanager.searchBar.label', 'Find...')}
         onSearchChange={setSearchString}
@@ -187,37 +188,39 @@ export const DatasetList = () => {
         className={classes.searchBar}
         id="dataset-search-bar"
       />
-      <Card variant="outlined" square={true} sx={{ backgroundColor: 'transparent', mt: 1 }}>
-        <List subheader={datasetListHeader} data-cy="datasets-list">
+      <Card variant="outlined" square={true} sx={{ backgroundColor: 'transparent', mt: 1, height: '100%' }}>
+        <List subheader={datasetListHeader} data-cy="datasets-list" sx={{ height: '100%' }}>
           <Divider />
-          {displayedDatasetList.map((dataset) => (
-            <ListItemButton
-              key={dataset.id}
-              data-cy={`datasets-list-item-button-${dataset.id}`}
-              selected={dataset.id === currentDataset?.id}
-              onClick={(e) => selectDataset(dataset)}
-            >
-              <ListItem
-                secondaryAction={getDatasetListItemActions(dataset)}
-                disableGutters
-                sx={{ pl: dataset.depth * 2 }}
+          <Box sx={{ height: '100%', overflow: 'auto' }}>
+            {displayedDatasetList.map((dataset) => (
+              <ListItemButton
+                key={dataset.id}
+                data-cy={`datasets-list-item-button-${dataset.id}`}
+                selected={dataset.id === currentDataset?.id}
+                onClick={(e) => selectDataset(dataset)}
               >
-                <ListItemText
-                  data-cy={`datasets-list-item-text-${dataset.id}`}
-                  primary={dataset.name}
-                  primaryTypographyProps={{ variant: 'body1' }}
-                  secondary={
-                    dataset.ingestionStatus === INGESTION_STATUS.PENDING ? (
-                      <CircularProgress data-cy={`refresh-spinner-${dataset.id}`} size="1rem" color="inherit" />
-                    ) : dataset.ingestionStatus === INGESTION_STATUS.ERROR ? (
-                      <ErrorIcon data-cy={`refresh-error-icon-${dataset.id}`} color="error" />
-                    ) : null
-                  }
-                  sx={{ display: 'flex', gap: 1 }}
-                />
-              </ListItem>
-            </ListItemButton>
-          ))}
+                <ListItem
+                  secondaryAction={getDatasetListItemActions(dataset)}
+                  disableGutters
+                  sx={{ pl: dataset.depth * 2 }}
+                >
+                  <ListItemText
+                    data-cy={`datasets-list-item-text-${dataset.id}`}
+                    primary={dataset.name}
+                    primaryTypographyProps={{ variant: 'body1', lineHeight: '22px' }}
+                    secondary={
+                      dataset.ingestionStatus === INGESTION_STATUS.PENDING ? (
+                        <CircularProgress data-cy={`refresh-spinner-${dataset.id}`} size="1rem" color="inherit" />
+                      ) : dataset.ingestionStatus === INGESTION_STATUS.ERROR ? (
+                        <ErrorIcon data-cy={`refresh-error-icon-${dataset.id}`} color="error" />
+                      ) : null
+                    }
+                    sx={{ display: 'flex', gap: 1, pr: '32px' }}
+                  />
+                </ListItem>
+              </ListItemButton>
+            ))}
+          </Box>
         </List>
       </Card>
       <DontAskAgainDialog
