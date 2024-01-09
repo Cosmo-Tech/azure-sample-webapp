@@ -86,7 +86,7 @@ export const DatasetOverviewPlaceholder = () => {
   }, [currentDatasetIngestionStatus, t]);
 
   return (
-    <CardContent sx={{ height: '100vh' }}>
+    <CardContent sx={{ height: '100%' }}>
       <Grid
         data-cy="dataset-overview-placeholder"
         container
