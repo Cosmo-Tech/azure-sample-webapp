@@ -100,11 +100,10 @@ export const DatasetMetadata = () => {
           flexWrap: 'nowrap',
         }}
       >
-        {/* TODO: replace ownerId by ownerName when available */}
         <MetadataItem
           id="author"
           label={t('commoncomponents.datasetmanager.metadata.author', 'Author')}
-          value={dataset?.ownerId}
+          value={dataset?.ownerName ?? t('commoncomponents.datasetmanager.metadata.unknown', 'unknown')}
         ></MetadataItem>
         <MetadataItem
           id="creation-date"
