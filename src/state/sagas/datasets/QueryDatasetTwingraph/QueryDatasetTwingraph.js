@@ -42,7 +42,7 @@ function* runDatasetTwingraphQuery(action, query, attemptsNumber = 0) {
   });
 }
 
-export function* startAllDatasetTwingraphQueries(action) {
+function* startAllDatasetTwingraphQueries(action) {
   const { workspace } = action.payload;
   const queries = workspace?.webApp?.options?.datasetManager?.queries ?? [];
   yield all(
@@ -54,7 +54,10 @@ export function* startAllDatasetTwingraphQueries(action) {
 }
 
 function* datasetTwingraphQuerySaga() {
-  yield takeEvery(DATASET_TWINGRAPH_QUERIES_RESULTS_ACTIONS.INITIALIZE, startAllDatasetTwingraphQueries);
+  yield takeEvery(
+    [DATASET_TWINGRAPH_QUERIES_RESULTS_ACTIONS.INITIALIZE, DATASET_TWINGRAPH_QUERIES_RESULTS_ACTIONS.RESET],
+    startAllDatasetTwingraphQueries
+  );
 }
 
 export default datasetTwingraphQuerySaga;
