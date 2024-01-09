@@ -22,7 +22,7 @@ export const DatasetOverview = () => {
   return (
     <Card
       elevation={0}
-      sx={{ p: 1, width: '100%', height: '100%', backgroundColor: 'transparent' }}
+      sx={{ p: 1, width: '100%', height: '100%', overflow: 'auto', backgroundColor: 'transparent' }}
       data-cy="dataset-overview-card"
     >
       {datasetIngestionStatus === INGESTION_STATUS.SUCCESS ? (
