@@ -139,7 +139,7 @@ export const DatasetList = () => {
   );
 
   const datasetListHeader = (
-    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', p: 2 }}>
+    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 2, py: 1, height: '48px' }}>
       <Typography variant="h6">Datasets</Typography>
       <CreateDatasetButton />
     </Box>
@@ -187,9 +187,10 @@ export const DatasetList = () => {
         icon={<SearchIcon />}
         className={classes.searchBar}
         id="dataset-search-bar"
+        size="small"
       />
       <Card variant="outlined" square={true} sx={{ backgroundColor: 'transparent', mt: 1, height: '100%' }}>
-        <List subheader={datasetListHeader} data-cy="datasets-list" sx={{ height: '100%' }}>
+        <List subheader={datasetListHeader} data-cy="datasets-list" sx={{ height: 'calc(100% - 48px)' }}>
           <Divider />
           <Box sx={{ height: '100%', overflow: 'auto' }}>
             {displayedDatasetList.map((dataset) => (
@@ -215,7 +216,7 @@ export const DatasetList = () => {
                         <ErrorIcon data-cy={`refresh-error-icon-${dataset.id}`} color="error" />
                       ) : null
                     }
-                    sx={{ display: 'flex', gap: 1, pr: '32px' }}
+                    sx={{ display: 'flex', gap: 1, pr: '32px', my: '0px' }}
                   />
                 </ListItem>
               </ListItemButton>
