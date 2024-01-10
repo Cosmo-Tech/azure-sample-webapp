@@ -87,7 +87,7 @@ export const DatasetMetadata = () => {
     <Card
       variant="outlined"
       square={true}
-      sx={{ backgroundColor: 'transparent', py: 3, px: 2, minHeight: '220px', overflow: 'auto' }}
+      sx={{ backgroundColor: 'transparent', py: 3, px: 2, minHeight: '40px', overflow: 'auto' }}
       data-cy="dataset-metadata-card"
     >
       <Grid
