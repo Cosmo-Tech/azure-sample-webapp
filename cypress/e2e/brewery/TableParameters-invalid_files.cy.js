@@ -14,7 +14,7 @@ const CSV_ONLY_NAME_FIELD = 'customers_only_name_field.csv';
 const XLSX_ONLY_NAME_FIELD = 'customers_only_name_field.xlsx';
 
 const expectedErrorsFew = [
-  { summary: 'Incorrect int value', loc: 'Line 3 , Column 2 ("age")' },
+  { summary: 'Incorrect int value', loc: 'Line 3, Column 2 ("age")' },
   { summary: 'Incorrect bool value' },
   { summary: 'Incorrect enum value' },
   { summary: 'Incorrect date value' },
