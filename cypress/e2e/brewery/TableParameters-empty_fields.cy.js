@@ -70,8 +70,9 @@ describe('Table parameters upload of valid and invalid files with empty fields',
         { summary: 'Incorrect enum value', loc: 'Line 6, Column 4 ("favoriteDrink")' },
         { summary: 'Incorrect number value' },
         { summary: 'Incorrect date value' },
-        { summary: 'Empty field' },
-        { summary: 'Empty field' },
+        { summary: 'Empty field', loc: 'Line 9, Column 3 ("canDrinkAlcohol")' },
+        { summary: 'Empty field', loc: 'Line 9, Column 4 ("favoriteDrink")' },
+        { summary: 'Empty field', loc: 'Line 10, Column 1 ("name")' },
       ];
       BreweryParameters.checkCustomersErrorsPanelFromList(expectedErrors);
     };
