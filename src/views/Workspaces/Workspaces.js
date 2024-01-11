@@ -10,7 +10,8 @@ import { ResourceCard, ErrorBanner } from '@cosmotech/ui';
 import { useWorkspaces } from './WorkspacesHook';
 import { useApplicationError, useClearApplicationErrorMessage } from '../../state/hooks/ApplicationHooks';
 import { useResetCurrentWorkspace } from '../../state/hooks/WorkspaceHooks';
-import { useResetCurrentSolution } from '../../state/hooks/SolutionHooks';
+import { useResetCurrentSolution, useSolution } from '../../state/hooks/SolutionHooks';
+import { STATUSES } from '../../state/commons/Constants';
 
 const Workspaces = () => {
   const navigate = useNavigate();
@@ -44,18 +45,30 @@ const Workspaces = () => {
 
   const resetWorkspace = useResetCurrentWorkspace();
   const resetCurrentSolution = useResetCurrentSolution();
+  const currentSolution = useSolution();
   const isLoaded = useRef(false);
   useEffect(() => {
     if (!isLoaded.current) {
       isLoaded.current = true;
-      if (currentWorkspace?.status !== 'ERROR' && workspacesList?.data?.length === 1) {
+      if (
+        currentWorkspace?.status !== STATUSES.ERROR &&
+        workspacesList?.data?.length === 1 &&
+        currentSolution?.status !== STATUSES.ERROR
+      ) {
         openWorkspace(workspacesList?.data[0].id);
       } else {
         resetWorkspace();
         resetCurrentSolution();
       }
     }
-  }, [currentWorkspace?.status, openWorkspace, resetWorkspace, workspacesList?.data, resetCurrentSolution]);
+  }, [
+    currentWorkspace?.status,
+    openWorkspace,
+    resetWorkspace,
+    workspacesList?.data,
+    resetCurrentSolution,
+    currentSolution,
+  ]);
 
   const workspaceListRender = workspacesList.data.map((workspace) => (
     <Grid item key={workspace.id}>
