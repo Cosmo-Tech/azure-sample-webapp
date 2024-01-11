@@ -483,6 +483,7 @@
       "datasetNotCreated": "Dataset hasn't been created",
       "datasetNotUpdated": "Dataset hasn't been updated",
       "twingraphNotCreated": "A problem occurred during twingraph creation",
+      "twingraphStatusPollingFailed": "A problem occurred when querying the status of dataset {{datasetDetails}}",
       "datasetNotRefreshed": "A problem occurred during dataset refresh",
       "twingraphDataNotRestored": "Twingraph data hasn't been restored"
     }
