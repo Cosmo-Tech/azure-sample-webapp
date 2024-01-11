@@ -287,8 +287,8 @@ export const WORKSPACES = [
       options: {
         datasetManager: {
           graphIndicators: [
-            { id: 'nodes', name: { en: 'Nodes', fr: 'Noeuds' }, query: 'nodes_query' },
-            { id: 'relationships', name: { en: 'Relationships', fr: 'Relations' }, query: 'relationships_query' },
+            { id: 'nodes', name: { en: 'Nodes', fr: 'Noeuds' }, queryId: 'nodes_query' },
+            { id: 'relationships', name: { en: 'Relationships', fr: 'Relations' }, queryId: 'relationships_query' },
           ],
           categories: [
             {
@@ -301,25 +301,14 @@ export const WORKSPACES = [
                   'A stock contains one and only one part reference',
                 fr: "Le stock est l'entité du modèle Supply Chain représentant les biens entre les opérations.",
               },
-              kpis: [
-                { id: 'stock_quantity', name: { en: 'Quantity', fr: 'Quantité' } },
-                { id: 'stock_initial_sum', name: { en: 'Initial sum', fr: 'Stock initial' } },
-                { id: 'stock_purchasing_cost', name: { en: 'Purchasing cost', fr: "Coût d'achat" } },
-                { id: 'stock_resource_quantity', name: { en: 'Resource quantity', fr: 'Ressources' } },
-              ],
+              kpis: [{ id: 'stock_average', name: { en: 'Quantity', fr: 'Quantité' }, queryId: 'stock_query' }],
               attributes: ['Label', 'TransportUnit', 'Duration'],
             },
-            {
-              id: 'demands',
-              name: { en: 'Demands', fr: 'Demandes' },
-              type: 'entity',
-              kpis: [
-                { name: { en: 'My KPI #1 that has no id and will thus never be shown', fr: 'Mon KPI n°1' } },
-                { id: 'demands_kpi2', name: { en: 'My KPI #2', fr: 'Mon KPI n°2' } },
-                { id: 'demands_kpi3', name: { en: 'My KPI #3', fr: 'Mon KPI n°3' } },
-                { id: 'demands_kpi4', name: { en: 'My KPI #4', fr: 'Mon KPI n°4' } },
-              ],
-            },
+          ],
+          queries: [
+            { id: 'nodes_query', query: 'OPTIONAL MATCH (n) RETURN COUNT(n) AS nodes' },
+            { id: 'relationships_query', query: 'OPTIONAL MATCH ()-[r]->() RETURN COUNT(r) AS relationships' },
+            { id: 'stock_query', query: 'OPTIONAL MATCH (n:MyNodeType) RETURN AVG(n.Stock) AS stock_average' },
           ],
         },
       },
@@ -328,6 +317,6 @@ export const WORKSPACES = [
 ];
 ```
 
-This config will then be used when **running your webapp locally**, to let you iterate quickly and tests different
+This config will then be used when **running your webapp locally**, to let you iterate quickly and test different
 configurations of the dataset manager. You can even commit these changes in your webapp repository to
-keep using this "configuration patch" in **deployed webapps** (it can be useful for feature preview environments).
+keep using this "configuration patch" in **deployed webapps** (it can be useful for "feature preview" environments).
