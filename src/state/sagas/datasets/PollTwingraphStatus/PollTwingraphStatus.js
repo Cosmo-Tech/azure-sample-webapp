@@ -10,6 +10,7 @@ import { TWINGRAPH_STATUS_POLLING_DELAY } from '../../../../services/config/Func
 import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
 
 const getWorkspace = (state) => state.workspace.current?.data;
+const getDatasets = (state) => state.dataset?.list?.data ?? [];
 
 export function* pollTwingraphStatus(action) {
   let twingraphStatus = INGESTION_STATUS.PENDING;
@@ -42,10 +43,20 @@ export function* pollTwingraphStatus(action) {
     } while (![INGESTION_STATUS.SUCCESS, INGESTION_STATUS.ERROR, INGESTION_STATUS.UNKNOWN].includes(twingraphStatus));
   } catch (error) {
     console.error(error);
+    const datasets = yield select(getDatasets);
+    const targetDataset = datasets.find((dataset) => dataset.id === datasetId);
+
+    let datasetDetails = datasetId;
+    if (targetDataset !== undefined && targetDataset.name != null) datasetDetails += `: ${targetDataset.name}`;
+
     yield put(
       dispatchSetApplicationErrorMessage(
         error,
-        t('commoncomponents.banner.twingraphNotCreated', 'A problem occurred during twingraph creation')
+        t(
+          'commoncomponents.banner.twingraphStatusPollingFailed',
+          'A problem occurred when querying the status of dataset {{datasetDetails}}',
+          { datasetDetails }
+        )
       )
     );
   }
