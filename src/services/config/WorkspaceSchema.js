@@ -158,6 +158,7 @@ export const WorkspaceSchema = z
       .strict()
       .optional()
       .nullable(),
+    linkedDatasetIdList: z.array(z.string().optional().nullable()).optional().nullable(),
     webApp: z
       .object({
         url: z.string().optional().nullable(),
