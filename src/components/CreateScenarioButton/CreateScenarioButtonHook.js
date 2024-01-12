@@ -8,8 +8,12 @@ import { useUser } from '../../state/hooks/AuthHooks';
 import { useDatasets } from '../../state/hooks/DatasetHooks';
 import { useCreateScenario, useCurrentScenario, useScenarios } from '../../state/hooks/ScenarioHooks';
 import { useSolution } from '../../state/hooks/SolutionHooks';
-import { useUserPermissionsOnCurrentWorkspace, useWorkspaceData } from '../../state/hooks/WorkspaceHooks';
-import { getCreateScenarioDialogLabels, logsLabels } from './labels';
+import {
+  useUserPermissionsOnCurrentWorkspace,
+  useWorkspaceData,
+  useWorkspaceDatasetsFilter,
+} from '../../state/hooks/WorkspaceHooks';
+import { getCreateScenarioDialogLabels } from './labels';
 import { TranslationUtils } from '../../utils';
 
 export const useCreateScenarioButton = ({ disabled, onScenarioCreated }) => {
@@ -20,6 +24,7 @@ export const useCreateScenarioButton = ({ disabled, onScenarioCreated }) => {
   const solution = useSolution();
 
   const workspaceData = useWorkspaceData();
+  const datasetsFilter = useWorkspaceDatasetsFilter();
   const workspaceId = workspaceData.id;
 
   const createScenarioOnBackend = useCreateScenario();
@@ -54,37 +59,27 @@ export const useCreateScenarioButton = ({ disabled, onScenarioCreated }) => {
   }, [solution?.data?.runTemplates, workspaceData?.solution?.runTemplateFilter, t, clone]);
 
   const filteredDatasets = useMemo(() => {
-    const datasetFilter = workspaceData?.webApp?.options?.datasetFilter;
-    if (!datasetFilter) {
-      return datasets;
-    }
-
-    if (!Array.isArray(datasetFilter) || !datasetFilter.length) {
-      console.warn(logsLabels.warning.datasetFilter.emptyOrNotArray);
-      return datasets;
-    }
+    const getMainDatasets = () => datasets.filter((dataset) => dataset.main === true);
+    if (!datasetsFilter) return getMainDatasets();
 
     const result = [];
-    datasetFilter.forEach((dsetFilter) => {
-      if (typeof dsetFilter !== 'string') {
-        console.warn(logsLabels.warning.datasetFilter.getNotAString(dsetFilter));
-      } else {
-        const filteredDataset = datasets.find((dset) => dset.id === dsetFilter);
-        if (!filteredDataset) {
-          console.warn(logsLabels.warning.datasetFilter.getDatasetNotFoundForFilter(dsetFilter));
-        } else {
-          result.push(filteredDataset);
-        }
+    datasetsFilter.forEach((filterItem) => {
+      if (typeof filterItem !== 'string')
+        console.warn(`Ignoring dataset filter entry ${filterItem} because it is not a string`);
+      else {
+        const filteredDataset = datasets.find((dset) => dset.id === filterItem);
+        if (!filteredDataset) console.warn(`No dataset found for filter entry ${filterItem}`);
+        else result.push(filteredDataset);
       }
     });
 
-    if (!result.length) {
-      console.warn(logsLabels.warning.datasetFilter.noDatasetFound);
-      return datasets;
+    if (datasetsFilter.length > 0 && result.length === 0) {
+      console.warn('Ignoring datasets filter because no matching datasets have been found');
+      return getMainDatasets();
     }
 
     return result;
-  }, [datasets, workspaceData?.webApp?.options?.datasetFilter]);
+  }, [datasets, datasetsFilter]);
 
   const createScenarioDialogLabels = getCreateScenarioDialogLabels(t, disabled);
 
