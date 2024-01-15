@@ -8,7 +8,7 @@ import DatasetService from '../services/dataset/DatasetService';
 import WorkspaceService from '../services/workspace/WorkspaceService';
 import { AppInsights } from '../services/AppInsights';
 import { DATASET_ID_VARTYPE, VALID_MIME_TYPES } from '../services/config/ApiConstants';
-import { ConfigUtils, DatasetsUtils, ScenarioParametersUtils } from '.';
+import { ConfigUtils, DatasetsUtils, ScenarioParametersUtils, SecurityUtils } from '.';
 import applicationStore from '../state/Store.config';
 import { dispatchSetApplicationErrorMessage } from '../state/dispatchers/app/ApplicationDispatcher';
 
@@ -134,7 +134,8 @@ async function _processFileUpload(
   parameterMetadata,
   clientFileDescriptor,
   setClientFileDescriptorStatus,
-  addDatasetToStore
+  addDatasetToStore,
+  scenarioSecurity
 ) {
   setClientFileDescriptorStatus(UPLOAD_FILE_STATUS_KEY.UPLOADING);
   const createdDataset = await _createEmptyDatasetInCloudStorage(organizationId, parameterMetadata);
@@ -145,6 +146,11 @@ async function _processFileUpload(
     storageFilePath,
     createdDataset
   );
+
+  const datasetSecurity = SecurityUtils.forgeDatasetSecurityFromScenarioSecurity(scenarioSecurity);
+  await DatasetService.updateSecurity(organizationId, createdDataset.id, createdDataset.security, datasetSecurity);
+  updatedDataset.security = datasetSecurity;
+
   addDatasetToStore(updatedDataset);
   await _uploadFileToCloudStorage(organizationId, workspaceId, updatedDataset, clientFileDescriptor, storageFilePath);
   setClientFileDescriptorStatus(UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD);
@@ -165,7 +171,8 @@ async function _applyDatasetChange(
   clientFileDescriptor,
   setClientFileDescriptorStatus,
   parameterValue,
-  addDatasetToStore
+  addDatasetToStore,
+  scenarioSecurity
 ) {
   const fileStatus = clientFileDescriptor?.status;
   if (fileStatus === UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD) {
@@ -175,7 +182,8 @@ async function _applyDatasetChange(
       parameterMetadata,
       clientFileDescriptor,
       setClientFileDescriptorStatus,
-      addDatasetToStore
+      addDatasetToStore,
+      scenarioSecurity
     );
   } else if (fileStatus === UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE) {
     return await _processFileDeletion(setClientFileDescriptorStatus);
@@ -195,7 +203,8 @@ async function applyPendingOperationsOnFileParameters(
   parametersMetadata,
   parametersValues,
   updateParameterValue,
-  addDatasetToStore
+  addDatasetToStore,
+  scenarioSecurity
 ) {
   // Setter to update file descriptors status in the React component state
   const setClientFileDescriptorStatus = (parameterId, newStatus) => {
@@ -219,7 +228,8 @@ async function applyPendingOperationsOnFileParameters(
           parametersValues[parameterId],
           (newStatus) => setClientFileDescriptorStatus(parameterId, newStatus),
           parametersValues[parameterId].id,
-          addDatasetToStore
+          addDatasetToStore,
+          scenarioSecurity
         );
         setDatasetId(parameterId, newDatasetId);
       } catch (error) {
