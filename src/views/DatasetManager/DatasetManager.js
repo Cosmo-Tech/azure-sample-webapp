@@ -7,10 +7,10 @@ import { DatasetList, DatasetMetadata, DatasetOverview, NoDatasetsPlaceholder } 
 import { useDatasetManager } from './DatasetManagerHook';
 
 const DatasetManager = () => {
-  const { mainDatasets, useRedirectFromDatasetManagerToScenarioView } = useDatasetManager();
+  const { datasets, useRedirectFromDatasetManagerToScenarioView } = useDatasetManager();
   useRedirectFromDatasetManagerToScenarioView();
 
-  return mainDatasets?.length > 0 ? (
+  return datasets?.length > 0 ? (
     <div data-cy="dataset-manager-view" style={{ height: '100%', overflow: 'auto' }}>
       <Card sx={{ m: 1, pt: 2, pb: 3, px: 2, height: 'calc(100% - 16px)' }}>
         <Grid container spacing={0} sx={{ alignItems: 'stretch', justifyContent: 'flex-start', height: '100%' }}>

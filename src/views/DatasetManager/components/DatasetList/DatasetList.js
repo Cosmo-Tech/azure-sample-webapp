@@ -63,7 +63,7 @@ export const DatasetList = () => {
   } = useDatasetList();
 
   const sortedDatasetList = useMemo(() => {
-    return ResourceUtils.getResourceTree(datasets?.filter((dataset) => dataset.main === true));
+    return ResourceUtils.getResourceTree(datasets);
   }, [datasets]);
 
   const [displayedDatasetList, setDisplayedDatasetList] = useState(sortedDatasetList);
@@ -77,16 +77,14 @@ export const DatasetList = () => {
 
   const filterDatasets = useCallback(
     (searchString) => {
-      if (!searchString) {
-        setDisplayedDatasetList(sortedDatasetList);
-      } else {
-        const datasets = sortedDatasetList.filter(
-          (dataset) =>
-            dataset.name.toLowerCase().includes(searchString.toLowerCase()) ||
-            dataset.tags?.some((tag) => tag.toLowerCase().includes(searchString.toLowerCase()))
-        );
-        setDisplayedDatasetList(datasets);
-      }
+      const datasetsToDisplay = !searchString
+        ? sortedDatasetList
+        : sortedDatasetList.filter(
+            (dataset) =>
+              dataset.name.toLowerCase().includes(searchString.toLowerCase()) ||
+              dataset.tags?.some((tag) => tag.toLowerCase().includes(searchString.toLowerCase()))
+          );
+      setDisplayedDatasetList(datasetsToDisplay);
     },
     [sortedDatasetList]
   );

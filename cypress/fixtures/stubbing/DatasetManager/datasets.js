@@ -2,8 +2,13 @@
 // Licensed under the MIT license.
 
 import { DEFAULT_DATASET } from '../default';
+import { WORKSPACE } from './workspaces';
 
-const EDITABLE_DATASET = { ...DEFAULT_DATASET, security: { default: 'admin', accessControlList: [] } };
+const EDITABLE_DATASET = {
+  ...DEFAULT_DATASET,
+  linkedWorkspaceIdList: [WORKSPACE.id],
+  security: { default: 'admin', accessControlList: [] },
+};
 
 const FILE_DATASET_MAIN_A = {
   ...EDITABLE_DATASET,
@@ -112,3 +117,7 @@ export const DATASETS_TO_FILTER = [
 ];
 
 export const DATASETS_TO_REFRESH = [DATASET_ADT, DATASET_AZURE_STORAGE, DATASET_FROM_SCRATCH];
+
+DATASETS.forEach((dataset) => WORKSPACE.linkedDatasetIdList.push(dataset.id));
+DATASETS_TO_FILTER.forEach((dataset) => WORKSPACE.linkedDatasetIdList.push(dataset.id));
+DATASETS_TO_REFRESH.forEach((dataset) => WORKSPACE.linkedDatasetIdList.push(dataset.id));
