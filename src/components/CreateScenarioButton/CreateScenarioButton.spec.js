@@ -131,15 +131,15 @@ describe('CreateScenarioButton', () => {
       setUp(initialState);
     };
 
-    test('when filter is missing, datasets are not filtered', () => {
+    test('when filter is missing, datasets are filtered', () => {
       setUpWithDatasetFilter(undefined);
-      expect(mockCreateScenarioUIProps.datasets).toEqual(DEFAULT_REDUX_STATE.dataset.list.data);
+      expect(mockCreateScenarioUIProps.datasets).toEqual([]);
     });
 
-    test('when filter is not an array, datasets are not filtered', () => {
+    test('when filter is not an array, datasets are filtered', () => {
       setUpWithDatasetFilter('notAnArrayFilter');
       expect(spyConsoleWarn).toHaveBeenCalledTimes(1);
-      expect(mockCreateScenarioUIProps.datasets).toEqual(DEFAULT_REDUX_STATE.dataset.list.data);
+      expect(mockCreateScenarioUIProps.datasets).toEqual([]);
     });
 
     test('must return an empty list of datasets if the filter is an empty list', () => {
@@ -152,7 +152,7 @@ describe('CreateScenarioButton', () => {
       const datasetFilter = ['fakeDatasetId1', 'fakeDatasetId2'];
       setUpWithDatasetFilter(datasetFilter);
 
-      expect(spyConsoleWarn).toHaveBeenCalledTimes(1 + datasetFilter.length);
+      expect(spyConsoleWarn).toHaveBeenCalledTimes(1);
       expect(mockCreateScenarioUIProps.datasets).toEqual(DEFAULT_REDUX_STATE.dataset.list.data);
     });
 

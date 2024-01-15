@@ -5,6 +5,7 @@ import { call, put, takeEvery, select } from 'redux-saga/effects';
 import { t } from 'i18next';
 import { Api } from '../../../../services/config/Api';
 import { DATASET_ACTIONS_KEY } from '../../../commons/DatasetConstants';
+import { WORKSPACE_ACTIONS_KEY } from '../../../commons/WorkspaceConstants';
 import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
 import { INGESTION_STATUS } from '../../../../services/config/ApiConstants';
 import { DatasetsUtils } from '../../../../utils/DatasetsUtils';
@@ -18,12 +19,15 @@ const DATASET_PERMISSIONS_MAPPING = {
 
 const getUserName = (state) => state.auth.userName;
 const getUserEmail = (state) => state.auth.userEmail;
+const getWorkspaceId = (state) => state.workspace.current?.data?.id;
 
 export function* createDataset(action) {
   const dataset = action.dataset;
   const organizationId = action.organizationId;
   const ownerName = yield select(getUserName);
   const userEmail = yield select(getUserEmail);
+  const workspaceId = yield select(getWorkspaceId);
+  dataset.ownerName = ownerName;
 
   try {
     const datasetWithAuthor = {
@@ -34,11 +38,33 @@ export function* createDataset(action) {
     const { data } = yield call(Api.Datasets.createDataset, organizationId, datasetWithAuthor);
     DatasetsUtils.patchDatasetWithCurrentUserPermissions(data, userEmail, DATASET_PERMISSIONS_MAPPING);
 
+    try {
+      yield call(Api.Datasets.linkWorkspace, organizationId, data.id, workspaceId);
+    } catch (error) {
+      console.error(error);
+      yield put(
+        dispatchSetApplicationErrorMessage(
+          error,
+          t(
+            'commoncomponents.banner.datasetNotLinked',
+            'An error occurred when trying to link the created dataset ({{datasetId}}) to the workspace.' +
+              'Please try to create a new dataset and contact your administrator if the problem persists.',
+            { datasetId: data.id }
+          )
+        )
+      );
+    }
+
     yield put({
       type: DATASET_ACTIONS_KEY.ADD_DATASET,
       ...data,
       ownerName,
       ingestionStatus: dataset.sourceType !== 'None' ? INGESTION_STATUS.PENDING : INGESTION_STATUS.NONE,
+    });
+
+    yield put({
+      type: WORKSPACE_ACTIONS_KEY.LINK_TO_DATASET,
+      datasetId: data.id,
     });
 
     yield put({
