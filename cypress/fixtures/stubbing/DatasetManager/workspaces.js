@@ -18,6 +18,7 @@ export const WORKSPACE = {
   ...DEFAULT_WORKSPACE,
   id: 'W-stbbdbrwryWithDM',
   name: 'Stubbed Demo Brewery Workspace with Dataset Manager config',
+  linkedDatasetIdList: [],
 };
 
 WORKSPACE.webApp.options.datasetManager = {

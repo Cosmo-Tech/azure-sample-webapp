@@ -1,12 +1,13 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { useDatasets, useDatasetsReducerStatus } from '../../state/hooks/DatasetHooks';
+import { useDatasetsReducerStatus } from '../../state/hooks/DatasetHooks';
 import { useRedirectFromDatasetManagerToScenarioView } from '../../hooks/RouterHooks';
+import { useWorkspaceMainDatasets } from '../../hooks/WorkspaceDatasetsHooks';
 
 export const useDatasetManager = () => {
-  const mainDatasets = useDatasets()?.filter((dataset) => dataset.main === true);
+  const datasets = useWorkspaceMainDatasets();
   const datasetsStatus = useDatasetsReducerStatus();
 
-  return { mainDatasets, datasetsStatus, useRedirectFromDatasetManagerToScenarioView };
+  return { datasets, datasetsStatus, useRedirectFromDatasetManagerToScenarioView };
 };
