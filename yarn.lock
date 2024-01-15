@@ -41,22 +41,22 @@
   dependencies:
     "@azure/msal-common" "^6.2.0"
 
-"@azure/msal-common@14.2.0":
-  version "14.2.0"
-  resolved "https://registry.yarnpkg.com/@azure/msal-common/-/msal-common-14.2.0.tgz#141c85cff59d3e6c89a0b2a3a475c2923dcdc70a"
-  integrity sha512-oUYJcdpmDlgs4DPthu8J1aWmOMhQanS/On6b22bpbZl+KOfVhgoF7dKlGuqaRXyH8GgnPy+vCyOyMva3Ge9UXA==
+"@azure/msal-common@14.6.0":
+  version "14.6.0"
+  resolved "https://registry.yarnpkg.com/@azure/msal-common/-/msal-common-14.6.0.tgz#3a565f94e810a67ecbaa2cd8250e658876af8329"
+  integrity sha512-AGusT/JvxdzJIYi5u0n97cmhd3pUT6UuI6rEkT5iDeT2FGcV0/EB8pk+dy6GLPpYg9vhDCuyoYrEZGd+2UeCCQ==
 
 "@azure/msal-common@^6.2.0":
   version "6.4.0"
   resolved "https://registry.yarnpkg.com/@azure/msal-common/-/msal-common-6.4.0.tgz#434a55be9639cb5c7910c0cc1a46555ff0bc6c39"
   integrity sha512-WZdgq9f9O8cbxGzdRwLLMM5xjmLJ2mdtuzgXeiGxIRkVVlJ9nZ6sWnDFKa2TX8j72UXD1IfL0p/RYNoTXYoGfg==
 
-"@azure/msal-node@^2.1.0":
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/@azure/msal-node/-/msal-node-2.3.0.tgz#508f01bc043cbd5f2a93e700abdfcfe79402e4a7"
-  integrity sha512-sgUXmbBTBUncAeeS1m399s77Cih0xQbLRvob8pfdBW45/LTfFko9V3mX41gjnPDB037Fl4hVtwJ92GVCrI7jgw==
+"@azure/msal-node@^2.6.1":
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/@azure/msal-node/-/msal-node-2.6.1.tgz#097f2def63b70acb11a84ee74d6989ba2315f4af"
+  integrity sha512-wYwz83pWatTNWUCkTi3cAOXbchad5FnZz/pbZz7b8Z6FuEqohXcTtg6BLip9SmcjN6FlbwUdJIZYOof2v1Gnrg==
   dependencies:
-    "@azure/msal-common" "14.2.0"
+    "@azure/msal-common" "14.6.0"
     jsonwebtoken "^9.0.0"
     uuid "^8.3.0"
 
