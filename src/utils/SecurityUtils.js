@@ -60,10 +60,19 @@ const sortByNewAdminsFirst = (usersToAddOrModify) => {
 //     async (newRole:string) => void
 // - addAccess: callback function to add a new entry in the resource ACL, the expected signature is
 //     async (newEntry:object) => void
+// - updateAccess: callback function to update a user role in the resource ACL, the expected signature is
+//     async (userIdToUpdate:string, newUserRole:string) => void
 // - removeAccess: callback function to remove a user from the resource ACL, the expected signature is
 //     async (userIdToRemove:string) => void
 // Return value: true if the resource security has been changed, false otherwise.
-const updateResourceSecurity = async (currentSecurity, newSecurity, setDefaultSecurity, addAccess, removeAccess) => {
+const updateResourceSecurity = async (
+  currentSecurity,
+  newSecurity,
+  setDefaultSecurity,
+  addAccess,
+  updateAccess,
+  removeAccess
+) => {
   let hasChanges = false;
 
   if (newSecurity.default && currentSecurity?.default !== newSecurity?.default) {
@@ -78,10 +87,8 @@ const updateResourceSecurity = async (currentSecurity, newSecurity, setDefaultSe
       newSecurity?.accessControlList ?? []
     );
 
-    const newAccesses = sortByNewAdminsFirst(usersToAdd.concat(usersToModify));
-    for (const userToAdd of newAccesses) {
-      await addAccess(userToAdd);
-    }
+    for (const userToAdd of usersToAdd) await addAccess(userToAdd);
+    for (const userToModify of usersToModify) await updateAccess(userToModify.id, userToModify.role);
 
     const usersIdsToRemove = getUsersIdsFromACL(usersToRemove);
     for (const userIdToRemove of usersIdsToRemove) {

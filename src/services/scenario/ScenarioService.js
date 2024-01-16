@@ -27,6 +27,10 @@ async function updateSecurity(organizationId, workspaceId, scenarioId, currentSe
     Api.Scenarios.setScenarioDefaultSecurity(organizationId, workspaceId, scenarioId, { role: newRole });
   const addAccess = async (newEntry) =>
     Api.Scenarios.addScenarioAccessControl(organizationId, workspaceId, scenarioId, newEntry);
+  const updateAccess = async (userIdToUpdate, newRole) =>
+    Api.Scenarios.updateScenarioAccessControl(organizationId, workspaceId, scenarioId, userIdToUpdate, {
+      role: newRole,
+    });
   const removeAccess = async (userIdToRemove) =>
     Api.Scenarios.removeScenarioAccessControl(organizationId, workspaceId, scenarioId, userIdToRemove);
 
@@ -35,6 +39,7 @@ async function updateSecurity(organizationId, workspaceId, scenarioId, currentSe
     newSecurity,
     setDefaultSecurity,
     addAccess,
+    updateAccess,
     removeAccess
   );
 }
