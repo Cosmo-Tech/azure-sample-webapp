@@ -3,10 +3,9 @@
 
 import { takeEvery, select, call, put } from 'redux-saga/effects';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
-import { Api } from '../../../../services/config/Api';
 import { t } from 'i18next';
 import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
-import { SecurityUtils } from '../../../../utils';
+import ScenarioService from '../../../../services/scenario/ScenarioService';
 
 const getUserEmail = (state) => state.auth.userEmail;
 const getUserId = (state) => state.auth.userId;
@@ -21,40 +20,15 @@ export function* applyScenarioSharingChanges(action) {
     const workspaceId = yield select(getWorkspaceId);
     const currentScenarioSecurity = yield select(getCurrentScenarioSecurity);
     const { scenarioId, newScenarioSecurity } = action;
-    let mustUpdateSecurity = false;
 
-    if (currentScenarioSecurity.default !== newScenarioSecurity.default) {
-      mustUpdateSecurity = true;
-      yield call(Api.Scenarios.setScenarioDefaultSecurity, organizationId, workspaceId, scenarioId, {
-        role: newScenarioSecurity.default,
-      });
-    }
-
-    if (
-      !SecurityUtils.areAccessControlListsIdentical(
-        currentScenarioSecurity.accessControlList,
-        newScenarioSecurity.accessControlList
-      )
-    ) {
-      mustUpdateSecurity = true;
-      // Compute diff
-      const { usersToAdd, usersToModify, usersToRemove } = SecurityUtils.compareAccessControlLists(
-        currentScenarioSecurity.accessControlList,
-        newScenarioSecurity.accessControlList
-      );
-
-      // Add new entries or existing entries whose role have changed
-      const newAccesses = SecurityUtils.sortByNewAdminsFirst(usersToAdd.concat(usersToModify));
-      for (const userToAdd of newAccesses) {
-        yield call(Api.Scenarios.addScenarioAccessControl, organizationId, workspaceId, scenarioId, userToAdd);
-      }
-
-      // Remove entries that have been deleted
-      const usersIdsToRemove = SecurityUtils.getUsersIdsFromACL(usersToRemove);
-      for (const userIdToRemove of usersIdsToRemove) {
-        yield call(Api.Scenarios.removeScenarioAccessControl, organizationId, workspaceId, scenarioId, userIdToRemove);
-      }
-    }
+    const mustUpdateSecurity = yield call(
+      ScenarioService.updateSecurity,
+      organizationId,
+      workspaceId,
+      scenarioId,
+      currentScenarioSecurity,
+      newScenarioSecurity
+    );
 
     if (mustUpdateSecurity) {
       const userEmail = yield select(getUserEmail);

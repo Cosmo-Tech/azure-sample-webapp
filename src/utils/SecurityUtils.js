@@ -7,7 +7,7 @@ const _findById = (array, idToFind) => {
   return array.find((element) => element.id === idToFind);
 };
 
-const areAccessControlListsIdentical = (aclA, aclB) => {
+const areAccessControlListsIdentical = (aclA = [], aclB = []) => {
   if (Object.keys(aclA).length !== Object.keys(aclB).length) return false;
   for (const userAccessA of aclA) {
     const userAccessB = _findById(aclB, userAccessA.id);
@@ -51,6 +51,45 @@ const sortByNewAdminsFirst = (usersToAddOrModify) => {
     if (userB.role === ACL_ROLES.SCENARIO.ADMIN) return 1;
     return 0;
   });
+};
+
+// Parameters:
+// - currentSecurity: current security object of the resource
+// - newSecurity: new security object of the resource
+// - setDefaultSecurity: callback function to update the resource default security, the expected signature is
+//     async (newRole:string) => void
+// - addAccess: callback function to add a new entry in the resource ACL, the expected signature is
+//     async (newEntry:object) => void
+// - removeAccess: callback function to remove a user from the resource ACL, the expected signature is
+//     async (userIdToRemove:string) => void
+// Return value: true if the resource security has been changed, false otherwise.
+const updateResourceSecurity = async (currentSecurity, newSecurity, setDefaultSecurity, addAccess, removeAccess) => {
+  let hasChanges = false;
+
+  if (newSecurity.default && currentSecurity?.default !== newSecurity?.default) {
+    hasChanges = true;
+    await setDefaultSecurity(newSecurity.default);
+  }
+
+  if (!areAccessControlListsIdentical(newSecurity?.accessControlList, currentSecurity?.accessControlList)) {
+    hasChanges = true;
+    const { usersToAdd, usersToModify, usersToRemove } = compareAccessControlLists(
+      currentSecurity?.accessControlList ?? [],
+      newSecurity?.accessControlList ?? []
+    );
+
+    const newAccesses = sortByNewAdminsFirst(usersToAdd.concat(usersToModify));
+    for (const userToAdd of newAccesses) {
+      await addAccess(userToAdd);
+    }
+
+    const usersIdsToRemove = getUsersIdsFromACL(usersToRemove);
+    for (const userIdToRemove of usersIdsToRemove) {
+      await removeAccess(userIdToRemove);
+    }
+  }
+
+  return hasChanges;
 };
 
 /*
@@ -224,4 +263,5 @@ export const SecurityUtils = {
   parseOrganizationPermissions,
   sortByNewAdminsFirst,
   transposeMappingDict,
+  updateResourceSecurity,
 };

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 import { Api } from '../../services/config/Api';
 import { SCENARIO_VALIDATION_STATUS } from '../config/ApiConstants.js';
+import { SecurityUtils } from '../../utils';
 
 async function resetValidationStatus(organizationId, workspaceId, scenarioId) {
   const data = { validationStatus: SCENARIO_VALIDATION_STATUS.DRAFT };
@@ -21,10 +22,28 @@ async function setValidationStatus(organizationId, workspaceId, scenarioId, vali
   return Api.Scenarios.updateScenario(organizationId, workspaceId, scenarioId, data);
 }
 
+async function updateSecurity(organizationId, workspaceId, scenarioId, currentSecurity, newSecurity) {
+  const setDefaultSecurity = async (newRole) =>
+    Api.Scenarios.setScenarioDefaultSecurity(organizationId, workspaceId, scenarioId, { role: newRole });
+  const addAccess = async (newEntry) =>
+    Api.Scenarios.addScenarioAccessControl(organizationId, workspaceId, scenarioId, newEntry);
+  const removeAccess = async (userIdToRemove) =>
+    Api.Scenarios.removeScenarioAccessControl(organizationId, workspaceId, scenarioId, userIdToRemove);
+
+  return SecurityUtils.updateResourceSecurity(
+    currentSecurity,
+    newSecurity,
+    setDefaultSecurity,
+    addAccess,
+    removeAccess
+  );
+}
+
 const ScenarioService = {
   resetValidationStatus,
   setScenarioValidationStatusToValidated,
   setScenarioValidationStatusToRejected,
+  updateSecurity,
 };
 
 export default ScenarioService;
