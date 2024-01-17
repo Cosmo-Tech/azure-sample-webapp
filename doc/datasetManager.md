@@ -16,6 +16,10 @@ datasets created by someone won't necessarily be visible by the other users. Als
 datasets created prior to API v3.0, you may want to check and update their field `security` (using the Cosmo Tech API)
 to prevent accidental changes or removal by the webapp users.
 
+> **Warning**
+>
+> The webapp users **must have at least the role `user` in the Organization** resource to be able to create datasets
+
 ## Dataset manager configuration
 
 The configuration of the dataset manager must be defined in the **workspace description**. This description is usually
