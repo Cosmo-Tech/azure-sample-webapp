@@ -9,15 +9,30 @@ import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/App
 import { INGESTION_STATUS } from '../../../../services/config/ApiConstants';
 import { DatasetsUtils } from '../../../../utils/DatasetsUtils';
 
+// TODO: replace by data from redux when dataset roles-permissions mapping is added in back-end /permissions endpoint
+const DATASET_PERMISSIONS_MAPPING = {
+  viewer: ['read', 'read_security'],
+  editor: ['read', 'read_security', 'write'],
+  admin: ['read', 'read_security', 'write', 'write_security', 'delete'],
+};
+
 const getUserName = (state) => state.auth.userName;
+const getUserEmail = (state) => state.auth.userEmail;
 
 export function* createDataset(action) {
   const dataset = action.dataset;
   const organizationId = action.organizationId;
   const ownerName = yield select(getUserName);
-  dataset.ownerName = ownerName;
+  const userEmail = yield select(getUserEmail);
+
   try {
-    const { data } = yield call(Api.Datasets.createDataset, organizationId, dataset);
+    const datasetWithAuthor = {
+      ...dataset,
+      ownerName,
+      security: { default: 'none', accessControlList: [{ id: userEmail, role: 'admin' }] },
+    };
+    const { data } = yield call(Api.Datasets.createDataset, organizationId, datasetWithAuthor);
+    DatasetsUtils.patchDatasetWithCurrentUserPermissions(data, userEmail, DATASET_PERMISSIONS_MAPPING);
 
     yield put({
       type: DATASET_ACTIONS_KEY.ADD_DATASET,
