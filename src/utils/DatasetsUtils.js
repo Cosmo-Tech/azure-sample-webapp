@@ -9,21 +9,20 @@ import {
   CONNECTOR_NAME_ADT,
   STORAGE_ROOT_DIR_PLACEHOLDER,
 } from '../services/config/ApiConstants';
-import { SecurityUtils } from './SecurityUtils';
 import { Api } from '../services/config/Api';
 import { dispatchSetApplicationErrorMessage } from '../state/dispatchers/app/ApplicationDispatcher';
+import { ACL_ROLES } from '../services/config/accessControl';
+import { SecurityUtils } from './SecurityUtils';
 
 const patchDatasetWithCurrentUserPermissions = (dataset, userEmail, permissionsMapping) => {
-  if (dataset?.security == null || Object.keys(dataset?.security).length === 0) return;
+  if (dataset == null) return;
 
-  dataset.security = {
-    ...dataset.security,
-    currentUserPermissions: SecurityUtils.getUserPermissionsForResource(
-      dataset.security,
-      userEmail,
-      permissionsMapping
-    ),
-  };
+  let userPermissions;
+  if (dataset.security == null)
+    userPermissions = SecurityUtils.getPermissionsFromRole(ACL_ROLES.DATASET.ADMIN, permissionsMapping);
+  else userPermissions = SecurityUtils.getUserPermissionsForResource(dataset.security, userEmail, permissionsMapping);
+
+  dataset.security = { ...dataset.security, currentUserPermissions: userPermissions };
 };
 
 // Build dataset file location in Azure Storage
