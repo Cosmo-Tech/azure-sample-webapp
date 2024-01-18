@@ -2,15 +2,13 @@
 // Licensed under the MIT license.
 
 import React, { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, Grid } from '@mui/material';
 import { useDatasetOverview } from './DatasetOverviewHook';
 import { CategoryAccordion, DatasetOverviewPlaceholder, GraphIndicator } from './components';
 import { INGESTION_STATUS } from '../../../../services/config/ApiConstants';
 
 export const DatasetOverview = () => {
-  const { t } = useTranslation();
-  const { categories, graphIndicators, queriesResults, datasetIngestionStatus } = useDatasetOverview();
+  const { categories, graphIndicators, queriesResults, datasetIngestionStatus, datasetName } = useDatasetOverview();
 
   const graphIndicatorsElements = useMemo(() => {
     return graphIndicators.map((kpi) => {
@@ -27,10 +25,7 @@ export const DatasetOverview = () => {
     >
       {datasetIngestionStatus === INGESTION_STATUS.SUCCESS ? (
         <>
-          <CardHeader
-            data-cy="dataset-overview-title"
-            title={t('commoncomponents.datasetmanager.overview.title', 'Overview')}
-          ></CardHeader>
+          <CardHeader data-cy="dataset-name" title={datasetName}></CardHeader>
           <CardContent>
             <Grid container sx={{ flexFlow: 'column wrap', gap: 4 }}>
               <Grid item>
