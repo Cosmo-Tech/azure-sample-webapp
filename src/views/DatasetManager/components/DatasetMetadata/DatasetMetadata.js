@@ -6,10 +6,11 @@ import { useTranslation } from 'react-i18next';
 import { Card, Grid, IconButton, Tooltip } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
-import { TagsEditor } from '@cosmotech/ui';
+import { PermissionsGate, TagsEditor } from '@cosmotech/ui';
 import { useDatasetMetadata } from './DatasetMetadataHook';
 import { DescriptionEditor, MetadataItem } from './components';
 import { ApiUtils } from '../../../../utils';
+import { ACL_PERMISSIONS } from '../../../../services/config/accessControl';
 
 const COPIED_TOOLTIP_DURATION = 2000;
 
@@ -25,6 +26,7 @@ export const DatasetMetadata = () => {
   const { t } = useTranslation();
   const { dataset, updateDataset, selectedDatasetIndex } = useDatasetMetadata();
   const datasetId = dataset?.id;
+  const userPermissionsOnDataset = dataset?.security?.currentUserPermissions ?? [];
 
   const apiUrl = useMemo(() => ApiUtils.getDatasetApiUrl(datasetId), [datasetId]);
   const tagsEditorLabels = useMemo(
@@ -126,21 +128,34 @@ export const DatasetMetadata = () => {
           value={`datasets/${dataset?.id}`}
           action={copyApiUrlButton}
         ></MetadataItem>
-
         <Grid item>
-          <TagsEditor
-            id="dataset-tags"
-            labels={tagsEditorLabels}
-            values={dataset?.tags}
-            readOnly={false}
-            onChange={(newTags) => updateDataset(datasetId, { tags: newTags }, selectedDatasetIndex)}
-          />
+          <PermissionsGate
+            userPermissions={userPermissionsOnDataset}
+            necessaryPermissions={[ACL_PERMISSIONS.DATASET.WRITE]}
+            noPermissionProps={{ readOnly: true }}
+          >
+            <TagsEditor
+              id="dataset-tags"
+              labels={tagsEditorLabels}
+              values={dataset?.tags}
+              readOnly={false}
+              onChange={(newTags) => updateDataset(datasetId, { tags: newTags }, selectedDatasetIndex)}
+            />
+          </PermissionsGate>
         </Grid>
-        <DescriptionEditor
-          value={dataset?.description}
-          readOnly={false}
-          onChange={(newDescription) => updateDataset(datasetId, { description: newDescription }, selectedDatasetIndex)}
-        ></DescriptionEditor>
+        <PermissionsGate
+          userPermissions={userPermissionsOnDataset}
+          necessaryPermissions={[ACL_PERMISSIONS.DATASET.WRITE]}
+          noPermissionProps={{ readOnly: true }}
+        >
+          <DescriptionEditor
+            value={dataset?.description}
+            readOnly={false}
+            onChange={(newDescription) =>
+              updateDataset(datasetId, { description: newDescription }, selectedDatasetIndex)
+            }
+          ></DescriptionEditor>
+        </PermissionsGate>
       </Grid>
     </Card>
   );
