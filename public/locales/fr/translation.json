@@ -454,6 +454,7 @@
     "banner": {
       "unknownError": "Erreur inconnue",
       "dataset": "Le dataset n'a pas pu être téléchargé.",
+      "datasetsFetchFailed": "Une erreur inconnue est survenue lors de la récupération des datasets.",
       "logs": "Le fichier des logs n'a pas pu être téléchargé.",
       "create": "Le scénario n'a pas pu être créé.",
       "delete": "Le scénario n'a pas pu être supprimé.",

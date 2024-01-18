@@ -2,11 +2,14 @@
 // Licensed under the MIT license.
 
 import { call, put, select, takeEvery } from 'redux-saga/effects';
+import { t } from 'i18next';
 import { DATASET_ACTIONS_KEY } from '../../../commons/DatasetConstants';
 import { Api } from '../../../../services/config/Api';
 import { INGESTION_STATUS } from '../../../../services/config/ApiConstants';
+import { ACL_PERMISSIONS } from '../../../../services/config/accessControl';
 import { STATUSES } from '../../../commons/Constants';
 import { DatasetsUtils } from '../../../../utils';
+import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
 
 // TODO: replace by data from redux when dataset roles-permissions mapping is added in back-end /permissions endpoint
 const DATASET_PERMISSIONS_MAPPING = {
@@ -16,37 +19,54 @@ const DATASET_PERMISSIONS_MAPPING = {
 };
 
 const getUserEmail = (state) => state.auth.userEmail;
-
-export function* fetchAllDatasetsData(organizationId) {
-  const userEmail = yield select(getUserEmail);
-  const { data } = yield call(Api.Datasets.findAllDatasets, organizationId);
-
-  data.forEach((dataset) =>
-    DatasetsUtils.patchDatasetWithCurrentUserPermissions(dataset, userEmail, DATASET_PERMISSIONS_MAPPING)
+const keepOnlyReadableDatasets = (datasets) =>
+  datasets.filter(
+    (dataset) =>
+      dataset.security?.currentUserPermissions == null ||
+      dataset.security.currentUserPermissions?.includes(ACL_PERMISSIONS.DATASET.READ)
   );
 
-  yield put({
-    type: DATASET_ACTIONS_KEY.SET_ALL_DATASETS,
-    list: data,
-    status: STATUSES.SUCCESS,
-  });
+export function* fetchAllDatasetsData(organizationId) {
+  try {
+    const userEmail = yield select(getUserEmail);
+    const { data } = yield call(Api.Datasets.findAllDatasets, organizationId);
 
-  if (data?.length > 0) {
-    yield put({
-      type: DATASET_ACTIONS_KEY.SET_CURRENT_DATASET_INDEX,
-      selectedDatasetId: null,
-    });
-    const datasetsToUpdate = data.filter(
-      (dataset) => dataset.main === true && dataset.ingestionStatus === INGESTION_STATUS.PENDING
+    data.forEach((dataset) =>
+      DatasetsUtils.patchDatasetWithCurrentUserPermissions(dataset, userEmail, DATASET_PERMISSIONS_MAPPING)
     );
+    const datasets = keepOnlyReadableDatasets(data);
 
-    for (const dataset of datasetsToUpdate) {
+    yield put({
+      type: DATASET_ACTIONS_KEY.SET_ALL_DATASETS,
+      list: datasets,
+      status: STATUSES.SUCCESS,
+    });
+
+    if (datasets?.length > 0) {
       yield put({
-        type: DATASET_ACTIONS_KEY.TRIGGER_SAGA_START_TWINGRAPH_STATUS_POLLING,
-        datasetId: dataset.id,
-        organizationId,
+        type: DATASET_ACTIONS_KEY.SET_CURRENT_DATASET_INDEX,
+        selectedDatasetId: null,
       });
+      const datasetsToUpdate = data.filter(
+        (dataset) => dataset.main === true && dataset.ingestionStatus === INGESTION_STATUS.PENDING
+      );
+
+      for (const dataset of datasetsToUpdate) {
+        yield put({
+          type: DATASET_ACTIONS_KEY.TRIGGER_SAGA_START_TWINGRAPH_STATUS_POLLING,
+          datasetId: dataset.id,
+          organizationId,
+        });
+      }
     }
+  } catch (error) {
+    console.error(error);
+    yield put(
+      dispatchSetApplicationErrorMessage(
+        error,
+        t('commoncomponents.banner.updatePermissions', 'Unexpected error while loading the datasets.')
+      )
+    );
   }
 }
 
