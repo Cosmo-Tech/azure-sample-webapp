@@ -373,6 +373,7 @@
       "rejectScenario": "Le scénario n'a pas pu être rejeté.",
       "launchCanceled": "Une erreur est survenue pendant la sauvegarde ; les nouveaux paramètres n'ont pas pu être enregistrés et le scénario n'a pas été lancé.",
       "tooLongErrorMessage": "Le message d'erreur détaillé est trop long pour être affiché. Pour le lire, veuiller utiliser le bouton COPIER et le coller dans votre éditeur de texte préféré.",
+      "fetchSolution": "Un problème est survenu lors de la tentative d'accès à la solution {{ solutionId }}.",
       "button": {
         "dismiss": "Fermer",
         "copy": {

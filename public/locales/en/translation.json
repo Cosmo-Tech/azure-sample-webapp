@@ -373,6 +373,7 @@
       "rejectScenario": "A problem occurred during scenario rejection.",
       "launchCanceled": "A problem occurred during scenario save; new parameters haven't been saved and launch has been canceled.",
       "tooLongErrorMessage": "Detailed error message is too long to be displayed. To read it, please use the COPY button and paste it in your favorite text editor.",
+      "fetchSolution": "A problem occurred when fetching the solution {{ solutionId }}.",
       "button": {
         "dismiss": "Dismiss",
         "copy": {
