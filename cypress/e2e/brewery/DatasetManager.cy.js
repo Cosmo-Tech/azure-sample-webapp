@@ -140,6 +140,7 @@ describe('Dataset creation', () => {
   after(() => {
     stub.stop();
   });
+
   it('can create a new Azure Storage dataset', () => {
     const datasetName = 'My new dataset';
     const datasetDescription = 'My dataset description';
@@ -187,7 +188,10 @@ describe('Dataset creation', () => {
     DatasetManager.getDatasetMetadataTag(1).should('contain', 'C');
     DatasetManager.getDatasetMetadataDescription().should('contain', datasetDescription);
     DatasetManager.getDatasetMetadataAuthor().should('contain', datasetAuthor);
+
+    DatasetManager.getDatasetNameInOverview().should('have.text', datasetName);
   });
+
   it('can create a new ADT dataset', () => {
     const datasetName = 'My ADT dataset';
     const datasetDescription = 'My ADT dataset description';
@@ -246,6 +250,7 @@ describe('Filtering datasets list', () => {
   after(() => {
     stub.stop();
   });
+
   it('can filter datasets by name and by tag', () => {
     DatasetManager.switchToDatasetManagerView();
     DatasetManager.getDatasetsListItemButtons().should('have.length', DATASETS_TO_FILTER.length);
@@ -279,6 +284,7 @@ describe('Dataset delete', () => {
   after(() => {
     stub.stop();
   });
+
   it('can delete all scenarios from the list and display noDatasets placeholder', () => {
     DatasetManager.switchToDatasetManagerView();
     DatasetManager.getDatasetsListItemButtons().should('have.length', 2);
@@ -307,6 +313,7 @@ describe('Refresh dataset', () => {
   after(() => {
     stub.stop();
   });
+
   it(
     'can refresh ADT and AzureStorage datasets and display en empty dataset placeholder ' +
       'for the one created from scratch',
@@ -341,7 +348,7 @@ describe('Refresh dataset', () => {
       DatasetManager.getDatasetOverviewPlaceholderRollbackButton().should('exist');
       DatasetManager.getRefreshDatasetErrorIcon(DATASETS_TO_REFRESH[1].id).should('be.visible');
       DatasetManager.rollbackDatasetStatus();
-      DatasetManager.getDatasetOverviewPlaceholderTitle().should('be.visible');
+      DatasetManager.getDatasetNameInOverview().should('be.visible');
     }
   );
 });
