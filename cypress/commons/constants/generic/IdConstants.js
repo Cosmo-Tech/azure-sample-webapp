@@ -210,6 +210,7 @@ export const GENERIC_SELECTORS = {
       confirmButton: '[data-cy=delete-dataset-button2]',
     },
     overview: {
+      datasetName: '[data-cy=dataset-name]',
       placeholder: {
         container: '[data-cy=dataset-overview-placeholder]',
         title: '[data-cy=dataset-overview-title]',

@@ -69,6 +69,8 @@ export const getDatasetMetadataTags = () => cy.get(SELECTORS.metadata.tags);
 
 export const getDatasetMetadataTag = (index) => cy.get(SELECTORS.metadata.tagByIndex.replace('$INDEX', index));
 
+export const getDatasetNameInOverview = (timeout) =>
+  cy.get(SELECTORS.overview.datasetName, timeout ? { timeout: timeout * 1000 } : undefined);
 export const getDatasetOverviewPlaceholder = (timeout) =>
   cy.get(SELECTORS.overview.placeholder.container, timeout ? { timeout: timeout * 1000 } : undefined);
 export const getDatasetOverviewPlaceholderTitle = (timeout) =>
