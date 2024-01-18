@@ -177,15 +177,26 @@ export const DatasetList = () => {
         );
       }
 
+      const userPermissionsOnDataset = dataset?.security?.currentUserPermissions ?? [];
       return (
         <Box>
-          {refreshButton}
-          <IconButton
-            onClick={(event) => askConfirmationToDeleteDialog(event, dataset)}
-            data-cy={`dataset-delete-button-${dataset.id}`}
+          <PermissionsGate
+            userPermissions={userPermissionsOnDataset}
+            necessaryPermissions={[ACL_PERMISSIONS.DATASET.WRITE]}
           >
-            <DeleteForeverIcon />
-          </IconButton>
+            {refreshButton}
+          </PermissionsGate>
+          <PermissionsGate
+            userPermissions={userPermissionsOnDataset}
+            necessaryPermissions={[ACL_PERMISSIONS.DATASET.DELETE]}
+          >
+            <IconButton
+              onClick={(event) => askConfirmationToDeleteDialog(event, dataset)}
+              data-cy={`dataset-delete-button-${dataset.id}`}
+            >
+              <DeleteForeverIcon />
+            </IconButton>
+          </PermissionsGate>
         </Box>
       );
     },
