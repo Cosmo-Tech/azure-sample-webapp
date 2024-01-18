@@ -42,5 +42,5 @@ export const useDatasetOverview = () => {
     return result;
   }, [workspaceData?.indicators?.categoriesKpis, workspaceData?.indicators?.graphIndicators, flatQueriesResults]);
 
-  return { categories, graphIndicators, queriesResults, datasetIngestionStatus };
+  return { categories, graphIndicators, queriesResults, datasetIngestionStatus, datasetName: currentDataset?.name };
 };
