@@ -5,8 +5,13 @@ import React, { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { Button, CardContent, Grid, Link, Typography } from '@mui/material';
 import { useDatasetOverviewPlaceholder } from './DatasetOverviewPlaceholderHook';
-import { INGESTION_STATUS, TWINCACHE_STATUS } from '../../../../../../services/config/ApiConstants';
+import {
+  DATASET_SOURCE_TYPE,
+  INGESTION_STATUS,
+  TWINCACHE_STATUS,
+} from '../../../../../../services/config/ApiConstants';
 import { ApiUtils } from '../../../../../../utils';
+import { ReuploadFileDatasetButton } from '../../../ReuploadFileDatasetButton';
 
 export const DatasetOverviewPlaceholder = () => {
   const { t } = useTranslation();
@@ -14,6 +19,7 @@ export const DatasetOverviewPlaceholder = () => {
     currentDatasetId,
     currentDatasetIngestionStatus,
     currentDatasetTwincacheStatus,
+    currentDatasetType,
     refreshDataset,
     rollbackTwingraphData,
   } = useDatasetOverviewPlaceholder();
@@ -39,25 +45,29 @@ export const DatasetOverviewPlaceholder = () => {
 
   const retryButton = useMemo(() => {
     return [INGESTION_STATUS.ERROR, INGESTION_STATUS.UNKNOWN].includes(currentDatasetIngestionStatus) ? (
-      <>
-        <Button
-          data-cy="dataset-overview-retry-button"
-          variant="contained"
-          onClick={() => refreshDataset(currentDatasetId)}
-        >
-          {t('commoncomponents.datasetmanager.overview.placeholder.retryButton', 'Retry')}
-        </Button>
-        {currentDatasetTwincacheStatus === TWINCACHE_STATUS.FULL && (
+      currentDatasetType === DATASET_SOURCE_TYPE.LOCAL_FILE ? (
+        <ReuploadFileDatasetButton datasetId={currentDatasetId} iconButton={false} />
+      ) : (
+        <>
           <Button
-            data-cy="dataset-overview-rollback-button"
+            data-cy="dataset-overview-retry-button"
             variant="contained"
-            onClick={() => rollbackTwingraphData(currentDatasetId)}
-            sx={{ ml: 1 }}
+            onClick={() => refreshDataset(currentDatasetId)}
           >
-            {t('commoncomponents.datasetmanager.overview.placeholder.rollbackButton', 'Rollback')}
+            {t('commoncomponents.datasetmanager.overview.placeholder.retryButton', 'Retry')}
           </Button>
-        )}
-      </>
+          {currentDatasetTwincacheStatus === TWINCACHE_STATUS.FULL && (
+            <Button
+              data-cy="dataset-overview-rollback-button"
+              variant="contained"
+              onClick={() => rollbackTwingraphData(currentDatasetId)}
+              sx={{ ml: 1 }}
+            >
+              {t('commoncomponents.datasetmanager.overview.placeholder.rollbackButton', 'Rollback')}
+            </Button>
+          )}
+        </>
+      )
     ) : null;
   }, [
     currentDatasetId,
@@ -65,6 +75,7 @@ export const DatasetOverviewPlaceholder = () => {
     refreshDataset,
     rollbackTwingraphData,
     currentDatasetTwincacheStatus,
+    currentDatasetType,
     t,
   ]);
 
