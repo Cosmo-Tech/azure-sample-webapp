@@ -7,6 +7,20 @@ import {
   CONNECTOR_NAME_ADT,
   STORAGE_ROOT_DIR_PLACEHOLDER,
 } from '../services/config/ApiConstants';
+import { SecurityUtils } from './SecurityUtils';
+
+const patchDatasetWithCurrentUserPermissions = (dataset, userEmail, permissionsMapping) => {
+  if (dataset?.security == null || Object.keys(dataset?.security).length === 0) return;
+
+  dataset.security = {
+    ...dataset.security,
+    currentUserPermissions: SecurityUtils.getUserPermissionsForResource(
+      dataset.security,
+      userEmail,
+      permissionsMapping
+    ),
+  };
+};
 
 // Build dataset file location in Azure Storage
 function buildStorageFilePath(datasetId, fileName) {
@@ -46,6 +60,7 @@ function buildAzureStorageConnector(connectorId, storageFilePath) {
 }
 
 export const DatasetsUtils = {
+  patchDatasetWithCurrentUserPermissions,
   buildStorageFilePath,
   getStorageFilePathFromDataset,
   getFileNameFromDataset,
