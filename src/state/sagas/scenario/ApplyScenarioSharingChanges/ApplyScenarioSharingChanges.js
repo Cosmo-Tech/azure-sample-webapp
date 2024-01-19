@@ -2,63 +2,82 @@
 // Licensed under the MIT licence.
 
 import { takeEvery, select, call, put } from 'redux-saga/effects';
+import { DATASET_ACTIONS_KEY } from '../../../commons/DatasetConstants';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
-import { Api } from '../../../../services/config/Api';
 import { t } from 'i18next';
+import { DATASET_ID_VARTYPE } from '../../../../services/config/ApiConstants';
 import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
+import DatasetService from '../../../../services/dataset/DatasetService';
+import ScenarioService from '../../../../services/scenario/ScenarioService';
 import { SecurityUtils } from '../../../../utils';
+
+// TODO: replace by data from redux when dataset roles-permissions mapping is added in back-end /permissions endpoint
+const DATASET_PERMISSIONS_MAPPING = {
+  viewer: ['read', 'read_security'],
+  editor: ['read', 'read_security', 'write'],
+  admin: ['read', 'read_security', 'write', 'write_security', 'delete'],
+};
 
 const getUserEmail = (state) => state.auth.userEmail;
 const getUserId = (state) => state.auth.userId;
 const getScenariosPermissionsMapping = (state) => state.application.permissionsMapping.scenario;
 const getOrganizationId = (state) => state.organization.current.data.id;
 const getWorkspaceId = (state) => state.workspace.current.data.id;
-const getCurrentScenarioSecurity = (state) => state.scenario.current?.data?.security;
+const getCurrentScenario = (state) => state.scenario.current?.data;
+const getDatasets = (state) => state.dataset.list?.data;
+const getSolutionParameters = (state) => state?.solution?.current?.data?.parameters ?? [];
 
 export function* applyScenarioSharingChanges(action) {
   try {
     const organizationId = yield select(getOrganizationId);
     const workspaceId = yield select(getWorkspaceId);
-    const currentScenarioSecurity = yield select(getCurrentScenarioSecurity);
+    const datasets = yield select(getDatasets);
+    const userEmail = yield select(getUserEmail);
+    const userId = yield select(getUserId);
+    const currentScenario = yield select(getCurrentScenario);
+    const currentScenarioSecurity = currentScenario?.security;
     const { scenarioId, newScenarioSecurity } = action;
-    let mustUpdateSecurity = false;
 
-    if (currentScenarioSecurity.default !== newScenarioSecurity.default) {
-      mustUpdateSecurity = true;
-      yield call(Api.Scenarios.setScenarioDefaultSecurity, organizationId, workspaceId, scenarioId, {
-        role: newScenarioSecurity.default,
+    const mustUpdateSecurity = yield call(
+      ScenarioService.updateSecurity,
+      organizationId,
+      workspaceId,
+      scenarioId,
+      currentScenarioSecurity,
+      newScenarioSecurity
+    );
+
+    const solutionParameters = yield select(getSolutionParameters);
+    const defaultDatasetsIds = solutionParameters
+      .filter((parameter) => parameter.varType === DATASET_ID_VARTYPE && parameter.defaultValue != null)
+      .map((parameter) => parameter.defaultValue);
+
+    const scenarioDatasetsIds = (currentScenario.parametersValues ?? [])
+      .filter((value) => value.varType === DATASET_ID_VARTYPE)
+      .map((dataset) => dataset.value);
+    for (const datasetId of scenarioDatasetsIds) {
+      if (defaultDatasetsIds.includes(datasetId)) continue; // Do not update access to common "default datasets"
+
+      const dataset = datasets.find((el) => el.id === datasetId);
+      if (!dataset) {
+        console.warn(`Unable to find dataset part ${datasetId}, you may lack "read" permission on this dataset.`);
+        continue;
+      }
+
+      const newDatasetSecurity = SecurityUtils.forgeDatasetSecurityFromScenarioSecurity(newScenarioSecurity);
+      yield call(DatasetService.updateSecurity, organizationId, datasetId, dataset.security, newDatasetSecurity);
+
+      yield put({
+        type: DATASET_ACTIONS_KEY.SET_DATASET_SECURITY,
+        datasetId,
+        security: newDatasetSecurity,
+        userEmail,
+        userId,
+        permissionsMapping: DATASET_PERMISSIONS_MAPPING,
       });
     }
 
-    if (
-      !SecurityUtils.areAccessControlListsIdentical(
-        currentScenarioSecurity.accessControlList,
-        newScenarioSecurity.accessControlList
-      )
-    ) {
-      mustUpdateSecurity = true;
-      // Compute diff
-      const { usersToAdd, usersToModify, usersToRemove } = SecurityUtils.compareAccessControlLists(
-        currentScenarioSecurity.accessControlList,
-        newScenarioSecurity.accessControlList
-      );
-
-      // Add new entries or existing entries whose role have changed
-      const newAccesses = SecurityUtils.sortByNewAdminsFirst(usersToAdd.concat(usersToModify));
-      for (const userToAdd of newAccesses) {
-        yield call(Api.Scenarios.addScenarioAccessControl, organizationId, workspaceId, scenarioId, userToAdd);
-      }
-
-      // Remove entries that have been deleted
-      const usersIdsToRemove = SecurityUtils.getUsersIdsFromACL(usersToRemove);
-      for (const userIdToRemove of usersIdsToRemove) {
-        yield call(Api.Scenarios.removeScenarioAccessControl, organizationId, workspaceId, scenarioId, userIdToRemove);
-      }
-    }
-
     if (mustUpdateSecurity) {
-      const userEmail = yield select(getUserEmail);
-      const userId = yield select(getUserId);
       const scenariosPermissionsMapping = yield select(getScenariosPermissionsMapping);
       yield put({
         type: SCENARIO_ACTIONS_KEY.SET_SCENARIO_SECURITY,

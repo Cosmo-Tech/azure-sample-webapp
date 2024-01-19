@@ -355,6 +355,77 @@ const interceptUpdateDataset = (options) => {
   return alias;
 };
 
+// Parameters:
+//   - options: dict with properties:
+//     - id (optional): id of the dataset to create
+//     - securityChanges (optional): object containing only the differences of security that are applied to the created
+//      dataset. This object defines how queries must be intercepted when stubbing is enabled. The expected format
+//      is the same as the security objects of API resources, with an additional field "type" with one of the values
+//      "post", "patch", or "delete". Example:
+//      {default: "viewer", accessControlList: [{id: "john.doe@example.com", role: "admin", type: "patch"}]}
+const interceptUpdateDatasetSecurity = ({ datasetId, securityChanges }) => {
+  const aliases = [];
+  if (securityChanges?.default) aliases.push(interceptSetDatasetDefaultSecurity(datasetId, securityChanges?.default));
+  securityChanges?.accessControlList?.forEach((entry) => {
+    const type = entry.type;
+    const aclEntry = { ...entry, type: undefined };
+
+    if (type === 'post') aliases.push(interceptAddDatasetAccessControl(datasetId, aclEntry));
+    else if (type === 'patch') aliases.push(interceptUpdateDatasetAccessControl(datasetId, aclEntry));
+    else if (type === 'delete') aliases.push(interceptRemoveDatasetAccessControl(datasetId, aclEntry));
+    else console.warn(`Unknown ACL entry type "${type}" in interceptUpdateDatasetSecurity`);
+  });
+  return aliases;
+};
+
+const interceptAddDatasetAccessControl = (optionalDatasetId, expectedNewEntry) => {
+  const alias = forgeAlias('reqAddDatasetAccessControl');
+  cy.intercept({ method: 'POST', url: API_REGEX.DATASET_SECURITY_ACL, times: 1 }, (req) => {
+    const datasetId = optionalDatasetId ?? req.url.match(API_REGEX.DATASET_SECURITY_ACL)[1];
+    const newEntry = req.body;
+    if (expectedNewEntry) expect(newEntry).to.deep.equal(expectedNewEntry);
+    if (stub.isEnabledFor('GET_DATASETS')) stub.addDatasetAccessControl(datasetId, newEntry);
+    if (stub.isEnabledFor('UPDATE_DATASET')) req.reply(newEntry);
+  }).as(alias);
+  return alias;
+};
+
+const interceptUpdateDatasetAccessControl = (optionalDatasetId, expectedUpdatedEntry) => {
+  const alias = forgeAlias('reqUpdateDatasetAccessControl');
+  cy.intercept({ method: 'PATCH', url: API_REGEX.DATASET_SECURITY_ACL, times: 1 }, (req) => {
+    const datasetId = optionalDatasetId ?? req.url.match(API_REGEX.DATASET_SECURITY_USER_ACCESS)[1];
+    const newAccess = { id: req.url.match(API_REGEX.DATASET_SECURITY_USER_ACCESS)[2], role: req.body.role };
+    if (expectedUpdatedEntry) expect(newAccess).to.deep.equal(expectedUpdatedEntry);
+    if (stub.isEnabledFor('GET_DATASETS')) stub.updateDatasetAccessControl(datasetId, newAccess);
+    if (stub.isEnabledFor('UPDATE_DATASET')) req.reply(newAccess);
+  }).as(alias);
+  return alias;
+};
+
+const interceptRemoveDatasetAccessControl = (optionalDatasetId, expectedIdToRemove) => {
+  const alias = forgeAlias('reqRemoveDatasetAccessControl');
+  cy.intercept({ method: 'DELETE', url: API_REGEX.DATASET_SECURITY_ACL, times: 1 }, (req) => {
+    const datasetId = optionalDatasetId ?? req.url.match(API_REGEX.DATASET_SECURITY_USER_ACCESS)[1];
+    const userId = req.url.match(API_REGEX.DATASET_SECURITY_USER_ACCESS)[2];
+    if (expectedIdToRemove) expect(userId).to.equal(expectedIdToRemove);
+    if (stub.isEnabledFor('GET_DATASETS')) stub.removeDatasetAccessControl(datasetId, userId);
+    if (stub.isEnabledFor('UPDATE_DATASET')) req.reply();
+  }).as(alias);
+  return alias;
+};
+
+const interceptSetDatasetDefaultSecurity = (optionalDatasetId, expectedDefaultSecurity) => {
+  const alias = forgeAlias('reqSetDatasetDefaultSecurity');
+  cy.intercept({ method: 'POST', url: API_REGEX.DATASET_DEFAULT_SECURITY, times: 1 }, (req) => {
+    const datasetId = optionalDatasetId ?? req.url.match(API_REGEX.DATASET_DEFAULT_SECURITY)[1];
+    const newDefaultSecurity = req.body.role;
+    if (expectedDefaultSecurity) expect(newDefaultSecurity).to.deep.equal(expectedDefaultSecurity);
+    if (stub.isEnabledFor('GET_DATASETS')) stub.patchDatasetDefaultSecurity(datasetId, newDefaultSecurity);
+    if (stub.isEnabledFor('UPDATE_DATASET')) req.reply(newDefaultSecurity);
+  }).as(alias);
+  return alias;
+};
+
 const interceptDownloadWorkspaceFile = () => {
   const alias = forgeAlias('reqDownloadWorkspaceFile');
   cy.intercept({ method: 'GET', url: API_REGEX.FILE_DOWNLOAD, times: 1 }, (req) => {
@@ -466,6 +537,11 @@ export const apiUtils = {
   interceptGetDataset,
   interceptCreateDataset,
   interceptUpdateDataset,
+  interceptUpdateDatasetSecurity,
+  interceptAddDatasetAccessControl,
+  interceptUpdateDatasetAccessControl,
+  interceptRemoveDatasetAccessControl,
+  interceptSetDatasetDefaultSecurity,
   interceptDownloadWorkspaceFile,
   interceptUploadWorkspaceFile,
   interceptGetOrganizationPermissions,

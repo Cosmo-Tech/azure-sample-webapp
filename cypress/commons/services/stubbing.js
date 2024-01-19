@@ -235,6 +235,33 @@ class Stubbing {
   addDataset = (newDataset) => this._addResource('datasets', newDataset);
   getDatasetById = (datasetId) => this._getResourceById('datasets', datasetId);
   patchDataset = (datasetId, datasetPatch) => this._patchResourceById('datasets', datasetId, datasetPatch);
+  patchDatasetSecurity = (datasetId, defaultRole, accessControlList) =>
+    this.patchDataset(datasetId, { security: { default: defaultRole, accessControlList: accessControlList } });
+
+  patchDatasetDefaultSecurity = (datasetId, newDefaultSecurity) => {
+    const dataset = this.getDatasetById(datasetId);
+    this.patchDatasetSecurity(datasetId, newDefaultSecurity, dataset.security?.accessControlList ?? []);
+  };
+
+  addDatasetAccessControl = (datasetId, newACLSecurityItem) => {
+    const dataset = this.getDatasetById(datasetId);
+    const newACL = [...dataset.security.accessControlList, newACLSecurityItem];
+    this.patchDatasetSecurity(datasetId, dataset.security?.default, newACL);
+  };
+
+  updateDatasetAccessControl = (datasetId, aclEntryToUpdate) => {
+    const dataset = this.getDatasetById(datasetId);
+    const newACL = (dataset.security?.accessControlList ?? []).map((entry) =>
+      entry.id === aclEntryToUpdate.id ? aclEntryToUpdate : entry
+    );
+    this.patchDatasetSecurity(datasetId, dataset.security?.default, newACL);
+  };
+
+  removeDatasetAccessControl = (datasetId, idToRemove) => {
+    const dataset = this.getDatasetById(datasetId);
+    const newACL = (dataset.security?.accessControlList ?? []).filter((entry) => entry.id !== idToRemove);
+    this.patchDatasetSecurity(datasetId, dataset.security?.default, newACL);
+  };
 
   getSolutions = () => this._getResources('solutions');
   setSolutions = (newSolutions) => this._setResources('solutions', newSolutions);

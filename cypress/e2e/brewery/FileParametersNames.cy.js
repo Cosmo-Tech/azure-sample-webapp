@@ -56,7 +56,10 @@ describe('Management of file names for scenario parameters of type file', () => 
     FileParameters.getFileName(getFileWithRenaming()).should('have.text', 'CSV file');
 
     ScenarioParameters.save({
-      datasetsEvents: [{ id: 'd-stbddst1' }, { id: 'd-stbddst2' }], // Force ids for stubbing of datasets creation
+      datasetsEvents: [
+        { id: 'd-stbddst1', securityChanges: { default: 'admin' } },
+        { id: 'd-stbddst2', securityChanges: { default: 'admin' } },
+      ], // Force ids for stubbing of datasets creation
       updateOptions: {
         validateRequest: (req) => {
           const values = req.body.parametersValues;
@@ -84,10 +87,12 @@ describe('Management of file names for scenario parameters of type file', () => 
       datasetsEvents: [
         {
           id: 'd-stbddst3',
+          securityChanges: { default: 'admin' },
           onDatasetUpdate: (req) => expect(getFilePathFromDataset(req.body)).to.have.string(DUMMY_JSON),
         },
         {
           id: 'd-stbddst4',
+          securityChanges: { default: 'admin' },
           onDatasetUpdate: (req) => expect(getFilePathFromDataset(req.body)).to.have.string('file_with_renaming.json'),
         },
       ],
@@ -108,7 +113,10 @@ describe('Management of file names for scenario parameters of type file', () => 
     TableParameters.getRows(getTableNoRenaming()).should('have.length', 2);
     TableParameters.getRows(getTableWithRenaming()).should('have.length', 2);
     ScenarioParameters.save({
-      datasetsEvents: [{ id: 'd-stbddst5' }, { id: 'd-stbddst6' }],
+      datasetsEvents: [
+        { id: 'd-stbddst5', securityChanges: { default: 'admin' } },
+        { id: 'd-stbddst6', securityChanges: { default: 'admin' } },
+      ],
       updateOptions: {
         validateRequest: (req) => {
           const values = req.body.parametersValues;
@@ -126,7 +134,10 @@ describe('Management of file names for scenario parameters of type file', () => 
     TableParameters.getRows(getTableNoRenaming()).should('have.length', 3);
     TableParameters.getRows(getTableWithRenaming()).should('have.length', 3);
     ScenarioParameters.save({
-      datasetsEvents: [{ id: 'd-stbddst7' }, { id: 'd-stbddst8' }],
+      datasetsEvents: [
+        { id: 'd-stbddst7', securityChanges: { default: 'admin' } },
+        { id: 'd-stbddst8', securityChanges: { default: 'admin' } },
+      ],
       updateOptions: {
         validateRequest: (req) => {
           const values = req.body.parametersValues;

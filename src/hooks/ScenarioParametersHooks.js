@@ -46,9 +46,19 @@ export const useUpdateParameters = () => {
       parametersMetadata,
       parametersValues,
       updateParameterValue,
-      addDatasetToStore
+      addDatasetToStore,
+      currentScenarioData?.security
     );
-  }, [addDatasetToStore, setValue, getValues, organizationId, parametersMetadata, solutionData, workspaceId]);
+  }, [
+    addDatasetToStore,
+    setValue,
+    getValues,
+    organizationId,
+    parametersMetadata,
+    solutionData,
+    workspaceId,
+    currentScenarioData,
+  ]);
 
   const getParametersToUpdate = useCallback(() => {
     const parametersValues = getValues();

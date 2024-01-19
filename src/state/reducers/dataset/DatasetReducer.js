@@ -5,6 +5,7 @@ import { DATASET_ACTIONS_KEY } from '../../commons/DatasetConstants';
 import { STATUSES } from '../../commons/Constants';
 import { createReducer } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
+import { DatasetsUtils } from '../../../utils';
 
 export const datasetListInitialState = {
   data: [],
@@ -23,6 +24,21 @@ export const datasetListReducer = createReducer(datasetListInitialState, (builde
     .addCase(DATASET_ACTIONS_KEY.ADD_DATASET, (state, action) => {
       delete action.type;
       state.data.push(action);
+    })
+    .addCase(DATASET_ACTIONS_KEY.SET_DATASET_SECURITY, (state, action) => {
+      state.data = state.data?.map((datasetData) => {
+        if (datasetData.id === action.datasetId) {
+          const datasetWithNewSecurity = { ...datasetData, security: action.security };
+          DatasetsUtils.patchDatasetWithCurrentUserPermissions(
+            datasetWithNewSecurity,
+            action.userEmail,
+            action.userId,
+            action.permissionsMapping
+          );
+          return { ...datasetData, security: datasetWithNewSecurity.security };
+        }
+        return datasetData;
+      });
     });
 });
 

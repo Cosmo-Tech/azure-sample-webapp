@@ -15,7 +15,8 @@ export const APP_ROLES = {
 };
 
 export const ACL_ROLES = {
-  ORGANIZATION: { ADMIN: 'admin' },
-  WORKSPACE: { ADMIN: 'admin' },
-  SCENARIO: { ADMIN: 'admin' },
+  DATASET: { NONE: 'none', VIEWER: 'viewer', USER: 'user', EDITOR: 'editor', ADMIN: 'admin' },
+  ORGANIZATION: { NONE: 'none', VIEWER: 'viewer', USER: 'user', EDITOR: 'editor', ADMIN: 'admin' },
+  WORKSPACE: { NONE: 'none', VIEWER: 'viewer', USER: 'user', EDITOR: 'editor', ADMIN: 'admin' },
+  SCENARIO: { NONE: 'none', VIEWER: 'viewer', EDITOR: 'editor', VALIDATOR: 'validator', ADMIN: 'admin' },
 };
