@@ -7,10 +7,12 @@ import {
   dispatchAddDatasetToStore,
   dispatchCreateDataset,
   dispatchDeleteDataset,
+  dispatchPollTwingraphStatus,
   dispatchRefreshDataset,
   dispatchRollbackTwingraphData,
   dispatchSelectDatasetById,
   dispatchUpdateDataset,
+  dispatchUpdateDatasetInStore,
 } from '../dispatchers/dataset/DatasetDispatcher';
 import { useOrganizationId } from './OrganizationHooks';
 
@@ -94,5 +96,23 @@ export const useRollbackTwingraphData = () => {
   return useCallback(
     (datasetId) => dispatch(dispatchRollbackTwingraphData(organizationId, datasetId)),
     [dispatch, organizationId]
+  );
+};
+
+export const usePollTwingraphStatus = () => {
+  const dispatch = useDispatch();
+  const organizationId = useOrganizationId();
+  return useCallback(
+    (datasetId) => dispatch(dispatchPollTwingraphStatus(organizationId, datasetId)),
+    [dispatch, organizationId]
+  );
+};
+
+export const useUpdateDatasetInStore = () => {
+  const dispatch = useDispatch();
+  return useCallback(
+    (datasetId, datasetData, datasetIndex = undefined) =>
+      dispatch(dispatchUpdateDatasetInStore(datasetId, datasetData, datasetIndex)),
+    [dispatch]
   );
 };
