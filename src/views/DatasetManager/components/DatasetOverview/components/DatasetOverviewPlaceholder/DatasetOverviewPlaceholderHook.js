@@ -12,6 +12,7 @@ export const useDatasetOverviewPlaceholder = () => {
   const currentDataset = useCurrentDataset();
   const currentDatasetIngestionStatus = currentDataset?.ingestionStatus;
   const currentDatasetTwincacheStatus = currentDataset?.twincacheStatus;
+  const currentDatasetType = currentDataset?.sourceType;
   const currentDatasetId = useCurrentDatasetId();
   const refreshDataset = useRefreshDataset();
   const rollbackTwingraphData = useRollbackTwingraphData();
@@ -21,5 +22,6 @@ export const useDatasetOverviewPlaceholder = () => {
     currentDatasetTwincacheStatus,
     refreshDataset,
     rollbackTwingraphData,
+    currentDatasetType,
   };
 };
