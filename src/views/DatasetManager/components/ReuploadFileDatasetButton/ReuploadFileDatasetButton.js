@@ -6,10 +6,11 @@ import PropTypes from 'prop-types';
 import { IconButton } from '@mui/material';
 import { Refresh as RefreshIcon } from '@mui/icons-material';
 import { useReuploadFileDatasetButton } from './ReuploadFileDatasetButtonHook';
-import { DatasetsUtils } from '../../../../utils/DatasetsUtils';
+import { DatasetsUtils } from '../../../../utils';
+import { INGESTION_STATUS } from '../../../../services/config/ApiConstants';
 
 export const ReuploadFileDatasetButton = ({ datasetId, confirmAndCallback }) => {
-  const { organizationId, resetDatasetTwingraphQueriesResults } = useReuploadFileDatasetButton();
+  const { organizationId, pollTwingraphStatus, updateDatasetInStore } = useReuploadFileDatasetButton();
 
   const handleFileUpload = useCallback(
     async (event) => {
@@ -17,9 +18,10 @@ export const ReuploadFileDatasetButton = ({ datasetId, confirmAndCallback }) => 
       if (file == null) return;
 
       await DatasetsUtils.uploadZipWithFetchApi(organizationId, datasetId, file);
-      resetDatasetTwingraphQueriesResults(datasetId);
+      updateDatasetInStore(datasetId, { ingestionStatus: INGESTION_STATUS.PENDING });
+      pollTwingraphStatus(datasetId);
     },
-    [datasetId, organizationId, resetDatasetTwingraphQueriesResults]
+    [datasetId, organizationId, pollTwingraphStatus, updateDatasetInStore]
   );
 
   const openFileBrowser = useCallback((inputElementId) => document.getElementById(inputElementId).click(), []);
