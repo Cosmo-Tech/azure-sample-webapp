@@ -8,6 +8,7 @@ import {
   WORKSPACE_WITHOUT_CONFIG,
   DATASETS_TO_FILTER,
   DATASETS_TO_REFRESH,
+  ORGANIZATION_WITH_DEFAULT_ROLE_USER,
 } from '../../fixtures/stubbing/DatasetManager';
 import { USER_EXAMPLE } from '../../fixtures/stubbing/default';
 
@@ -35,6 +36,7 @@ describe('Dataset manager view is optional', () => {
 describe('Dataset manager can be empty on start', () => {
   before(() => {
     stub.start();
+    stub.setOrganizations([ORGANIZATION_WITH_DEFAULT_ROLE_USER]);
     stub.setWorkspaces(WORKSPACES);
   });
 
@@ -129,6 +131,7 @@ describe('Dataset creation', () => {
 
   before(() => {
     stub.start();
+    stub.setOrganizations([ORGANIZATION_WITH_DEFAULT_ROLE_USER]);
     stub.setWorkspaces(WORKSPACES);
     stub.setDatasets([...DATASETS]);
   });
@@ -154,6 +157,7 @@ describe('Dataset creation', () => {
       tags: ['A', 'C'],
       description: datasetDescription,
       sourceType: 'AzureStorage',
+      security: { default: 'none', accessControlList: [{ id: 'dev.sample.webapp@example.com', role: 'admin' }] },
       source: {
         name: datasetStorageAccountName,
         location: datasetStorageContainerName,
@@ -203,6 +207,7 @@ describe('Dataset creation', () => {
       tags: ['adt', 'tag'],
       description: datasetDescription,
       sourceType: 'ADT',
+      security: { default: 'none', accessControlList: [{ id: 'dev.sample.webapp@example.com', role: 'admin' }] },
       source: {
         location: datasetADTUrl,
       },

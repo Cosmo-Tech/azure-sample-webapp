@@ -97,6 +97,7 @@ describe('Simple operations on a file parameter', () => {
     BreweryParameters.getExampleDatasetPart1FileName().should('not.exist');
     BreweryParameters.uploadExampleDatasetPart1(FILE_PATH_1);
     BreweryParameters.getExampleDatasetPart1FileName().should('have.text', FILE_PATH_1);
+    ScenarioParameters.discard();
   });
 
   it('can delete an uploaded file and save the scenario', () => {
