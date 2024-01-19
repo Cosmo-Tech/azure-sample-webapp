@@ -3,13 +3,15 @@
 
 import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { IconButton } from '@mui/material';
+import { useTranslation } from 'react-i18next';
+import { Button, IconButton } from '@mui/material';
 import { Refresh as RefreshIcon } from '@mui/icons-material';
 import { useReuploadFileDatasetButton } from './ReuploadFileDatasetButtonHook';
 import { DatasetsUtils } from '../../../../utils';
 import { INGESTION_STATUS } from '../../../../services/config/ApiConstants';
 
-export const ReuploadFileDatasetButton = ({ datasetId, confirmAndCallback }) => {
+export const ReuploadFileDatasetButton = ({ datasetId, confirmAndCallback, iconButton }) => {
+  const { t } = useTranslation();
   const { organizationId, pollTwingraphStatus, updateDatasetInStore } = useReuploadFileDatasetButton();
 
   const handleFileUpload = useCallback(
@@ -30,21 +32,39 @@ export const ReuploadFileDatasetButton = ({ datasetId, confirmAndCallback }) => 
   return (
     <>
       <input hidden type="file" accept="application/zip" id={inputId} onChange={handleFileUpload} />
-      <IconButton
-        component="span"
-        data-cy={`dataset-reupload-button-${datasetId}`}
-        onClick={(event) => {
-          event.stopPropagation();
-          confirmAndCallback(event, () => openFileBrowser(inputId));
-        }}
-      >
-        <RefreshIcon />
-      </IconButton>
+      {iconButton ? (
+        <IconButton
+          component="span"
+          data-cy={`dataset-reupload-button-${datasetId}`}
+          onClick={(event) => {
+            event.stopPropagation();
+            confirmAndCallback(event, () => openFileBrowser(inputId));
+          }}
+        >
+          <RefreshIcon />
+        </IconButton>
+      ) : (
+        <Button
+          data-cy={`dataset-reupload-button-${datasetId}`}
+          variant="contained"
+          onClick={(event) => {
+            event.stopPropagation();
+            openFileBrowser(inputId);
+          }}
+        >
+          {t('commoncomponents.datasetmanager.overview.placeholder.retryButton', 'Retry')}
+        </Button>
+      )}
     </>
   );
 };
 
 ReuploadFileDatasetButton.propTypes = {
   datasetId: PropTypes.string.isRequired,
-  confirmAndCallback: PropTypes.func.isRequired,
+  confirmAndCallback: PropTypes.func,
+  iconButton: PropTypes.bool,
+};
+
+ReuploadFileDatasetButton.defaultProps = {
+  iconButton: true,
 };
