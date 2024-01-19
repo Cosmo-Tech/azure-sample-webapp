@@ -45,8 +45,21 @@ export const dispatchUpdateDataset = (organizationId, datasetId, datasetData, da
   datasetIndex,
 });
 
+export const dispatchUpdateDatasetInStore = (datasetId, datasetData, datasetIndex) => ({
+  type: DATASET_ACTIONS_KEY.UPDATE_DATASET,
+  datasetId,
+  datasetData,
+  datasetIndex,
+});
+
 export const dispatchRollbackTwingraphData = (organizationId, datasetId) => ({
   type: DATASET_ACTIONS_KEY.TRIGGER_SAGA_ROLLBACK_TWINGRAPH_DATA,
+  organizationId,
+  datasetId,
+});
+
+export const dispatchPollTwingraphStatus = (organizationId, datasetId) => ({
+  type: DATASET_ACTIONS_KEY.TRIGGER_SAGA_START_TWINGRAPH_STATUS_POLLING,
   organizationId,
   datasetId,
 });
