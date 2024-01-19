@@ -3,8 +3,10 @@
 
 import { DEFAULT_DATASET } from '../default';
 
+const EDITABLE_DATASET = { ...DEFAULT_DATASET, security: { default: 'admin', accessControlList: [] } };
+
 const FILE_DATASET_MAIN_A = {
-  ...DEFAULT_DATASET,
+  ...EDITABLE_DATASET,
   main: true,
   id: 'D-stbdataset1',
   name: 'Dataset A',
@@ -12,7 +14,7 @@ const FILE_DATASET_MAIN_A = {
   tags: ['dataset', 'A'],
 };
 const FILE_DATASET_MAIN_B = {
-  ...DEFAULT_DATASET,
+  ...EDITABLE_DATASET,
   main: true,
   id: 'D-stbdataset2',
   name: 'Dataset B',
@@ -21,14 +23,14 @@ const FILE_DATASET_MAIN_B = {
 };
 
 const FILE_DATASET_NON_MAIN = {
-  ...DEFAULT_DATASET,
+  ...EDITABLE_DATASET,
   id: 'D-stbdataset0',
   name: 'Hidden dataset',
   description: 'hidden dataset',
 };
 
 const DATASET_AMSTERDAM = {
-  ...DEFAULT_DATASET,
+  ...EDITABLE_DATASET,
   id: 'D-stbdataset3',
   main: true,
   name: 'Dataset Amsterdam',
@@ -36,7 +38,7 @@ const DATASET_AMSTERDAM = {
 };
 
 const DATASET_BARCELONA = {
-  ...DEFAULT_DATASET,
+  ...EDITABLE_DATASET,
   id: 'D-stbdataset4',
   main: true,
   name: 'Dataset Barcelona',
@@ -44,7 +46,7 @@ const DATASET_BARCELONA = {
 };
 
 const DATASET_CAMBRIDGE = {
-  ...DEFAULT_DATASET,
+  ...EDITABLE_DATASET,
   id: 'D-stbdataset5',
   main: true,
   name: 'Dataset Cambridge',
@@ -52,7 +54,7 @@ const DATASET_CAMBRIDGE = {
 };
 
 const DATASET_DUSSELDORF = {
-  ...DEFAULT_DATASET,
+  ...EDITABLE_DATASET,
   id: 'D-stbdataset6',
   main: true,
   name: 'Dataset Dusseldorf',
@@ -60,7 +62,7 @@ const DATASET_DUSSELDORF = {
 };
 
 const DATASET_EDINBURGH = {
-  ...DEFAULT_DATASET,
+  ...EDITABLE_DATASET,
   id: 'D-stbdataset7',
   main: true,
   name: 'Dataset Edinburgh',
@@ -68,7 +70,7 @@ const DATASET_EDINBURGH = {
 };
 
 const DATASET_ADT = {
-  ...DEFAULT_DATASET,
+  ...EDITABLE_DATASET,
   id: 'D-stbdataset8',
   main: true,
   name: 'Dataset ADT',
@@ -79,7 +81,7 @@ const DATASET_ADT = {
 };
 
 const DATASET_AZURE_STORAGE = {
-  ...DEFAULT_DATASET,
+  ...EDITABLE_DATASET,
   id: 'D-stbdataset9',
   main: true,
   name: 'Dataset Azure Storage',
@@ -90,7 +92,7 @@ const DATASET_AZURE_STORAGE = {
 };
 
 const DATASET_FROM_SCRATCH = {
-  ...DEFAULT_DATASET,
+  ...EDITABLE_DATASET,
   id: 'D-stbdataset10',
   main: true,
   name: 'Dataset From Scratch',
