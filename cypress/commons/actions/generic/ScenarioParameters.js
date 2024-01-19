@@ -132,6 +132,11 @@ function launch(options) {
 //    - id (optional): id of the dataset to create
 //    - onDatasetCreation (optional): validation function to run on the dataset creation request
 //    - onDatasetUpdate (optional): validation function to run on the dataset update request
+//    - securityChanges (optional): object containing only the differences of security that are applied to the created
+//      dataset. This object defines how queries must be intercepted when stubbing is enabled. The expected format
+//      is the same as the security objects of API resources, with an additional field "type" with one of the values
+//      "post", "patch", or "delete". Example:
+//      {default: "viewer", accessControlList: [{id: "john.doe@example.com", role: "admin", type: "patch"}]}
 function save(options = {}) {
   const aliases = [];
   // Events array is reversed to make tests easier to write and still match the order of cypress interceptions
@@ -139,6 +144,9 @@ function save(options = {}) {
   options?.datasetsEvents?.reverse()?.forEach((datasetEvent) => {
     aliases.push(api.interceptCreateDataset({ id: datasetEvent.id, validateRequest: datasetEvent.onDatasetCreation }));
     aliases.push(api.interceptUpdateDataset({ id: datasetEvent.id, validateRequest: datasetEvent.onDatasetUpdate }));
+    aliases.push(
+      ...api.interceptUpdateDatasetSecurity({ id: datasetEvent.id, securityChanges: datasetEvent.securityChanges })
+    );
     aliases.push(api.interceptUploadWorkspaceFile());
   });
 
