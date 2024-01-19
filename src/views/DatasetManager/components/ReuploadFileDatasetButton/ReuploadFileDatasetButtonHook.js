@@ -2,10 +2,11 @@
 // Licensed under the MIT license.
 
 import { useOrganizationId } from '../../../../state/hooks/OrganizationHooks';
-import { useResetDatasetTwingraphQueriesResults } from '../../../../state/hooks/DatasetTwingraphQueriesResultsHooks';
+import { usePollTwingraphStatus, useUpdateDatasetInStore } from '../../../../state/hooks/DatasetHooks';
 
 export const useReuploadFileDatasetButton = () => {
   const organizationId = useOrganizationId();
-  const resetDatasetTwingraphQueriesResults = useResetDatasetTwingraphQueriesResults();
-  return { organizationId, resetDatasetTwingraphQueriesResults };
+  const pollTwingraphStatus = usePollTwingraphStatus();
+  const updateDatasetInStore = useUpdateDatasetInStore();
+  return { organizationId, pollTwingraphStatus, updateDatasetInStore };
 };
