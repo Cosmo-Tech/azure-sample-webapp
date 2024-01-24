@@ -36,6 +36,7 @@ export const DatasetOverviewPlaceholder = () => {
           'An error occurred during import of your data'
         );
       case INGESTION_STATUS.UNKNOWN:
+      default:
         return t(
           'commoncomponents.datasetmanager.overview.placeholder.unknown',
           'The dataset has an unknown state, if the problem persists, please, contact your administrator'
@@ -44,7 +45,8 @@ export const DatasetOverviewPlaceholder = () => {
   }, [currentDatasetIngestionStatus, t]);
 
   const retryButton = useMemo(() => {
-    return [INGESTION_STATUS.ERROR, INGESTION_STATUS.UNKNOWN].includes(currentDatasetIngestionStatus) ? (
+    return currentDatasetIngestionStatus == null ||
+      [INGESTION_STATUS.ERROR, INGESTION_STATUS.UNKNOWN].includes(currentDatasetIngestionStatus) ? (
       currentDatasetType === DATASET_SOURCE_TYPE.LOCAL_FILE ? (
         <ReuploadFileDatasetButton datasetId={currentDatasetId} iconButton={false} />
       ) : (
