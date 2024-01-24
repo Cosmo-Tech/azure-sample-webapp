@@ -110,11 +110,10 @@ export const DatasetOverviewPlaceholder = () => {
           gap: currentDatasetIngestionStatus === INGESTION_STATUS.NONE ? 2 : 4,
           height: '100%',
           width: 'fill-available',
-          position: 'fixed',
         }}
       >
         <Grid item>
-          <Typography data-cy="dataset-overview-title" variant="h3" align="center">
+          <Typography data-cy="dataset-overview-title" variant="h5" align="center">
             {placeholderText}
           </Typography>
         </Grid>
