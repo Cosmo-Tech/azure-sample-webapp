@@ -160,8 +160,14 @@ export const DatasetList = () => {
 
   const getDatasetListItemActions = useCallback(
     (dataset) => {
-      let refreshButton = null;
+      const statusIcon =
+        dataset.ingestionStatus === INGESTION_STATUS.PENDING ? (
+          <CircularProgress data-cy={`refresh-spinner-${dataset.id}`} size="1rem" color="inherit" />
+        ) : dataset.ingestionStatus === INGESTION_STATUS.ERROR ? (
+          <ErrorIcon data-cy={`refresh-error-icon-${dataset.id}`} color="error" />
+        ) : null;
 
+      let refreshButton = null;
       if (dataset.sourceType === DATASET_SOURCE_TYPE.LOCAL_FILE)
         refreshButton = (
           <ReuploadFileDatasetButton datasetId={dataset.id} confirmAndCallback={confirmAndRefreshDataset} />
@@ -180,6 +186,7 @@ export const DatasetList = () => {
       const userPermissionsOnDataset = dataset?.security?.currentUserPermissions ?? [];
       return (
         <Box>
+          <div style={{ display: 'inline-flex', padding: '8px', verticalAlign: 'middle' }}>{statusIcon}</div>
           <PermissionsGate
             userPermissions={userPermissionsOnDataset}
             necessaryPermissions={[ACL_PERMISSIONS.DATASET.WRITE]}
@@ -233,14 +240,7 @@ export const DatasetList = () => {
                     data-cy={`datasets-list-item-text-${dataset.id}`}
                     primary={dataset.name}
                     primaryTypographyProps={{ variant: 'body1', lineHeight: '22px' }}
-                    secondary={
-                      dataset.ingestionStatus === INGESTION_STATUS.PENDING ? (
-                        <CircularProgress data-cy={`refresh-spinner-${dataset.id}`} size="1rem" color="inherit" />
-                      ) : dataset.ingestionStatus === INGESTION_STATUS.ERROR ? (
-                        <ErrorIcon data-cy={`refresh-error-icon-${dataset.id}`} color="error" />
-                      ) : null
-                    }
-                    sx={{ display: 'flex', gap: 1, pr: '32px', my: '0px' }}
+                    sx={{ pr: '120px', my: '0px' }}
                   />
                 </ListItem>
               </ListItemButton>
