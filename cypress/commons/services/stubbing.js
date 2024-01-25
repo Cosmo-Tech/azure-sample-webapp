@@ -277,8 +277,6 @@ class Stubbing {
     this.patchDatasetSecurity(datasetId, dataset.security?.default, newACL);
   };
 
-
-
   getSolutions = () => this._getResources('solutions');
   setSolutions = (newSolutions) => this._setResources('solutions', newSolutions);
   getSolutionById = (solutionId) => this._getResourceById('solutions', solutionId);

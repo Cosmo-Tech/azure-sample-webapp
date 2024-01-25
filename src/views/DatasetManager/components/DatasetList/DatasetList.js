@@ -22,12 +22,13 @@ import {
   Error as ErrorIcon,
 } from '@mui/icons-material';
 import { makeStyles } from '@mui/styles';
-import { DontAskAgainDialog, SearchBar } from '@cosmotech/ui';
+import { DontAskAgainDialog, PermissionsGate, SearchBar } from '@cosmotech/ui';
 import { ResourceUtils } from '@cosmotech/core';
 import { useDatasetList } from './DatasetListHook';
 import { TwoActionsDialogService } from '../../../../services/twoActionsDialog/twoActionsDialogService';
 import { CreateDatasetButton } from '../CreateDatasetButton';
 import { ReuploadFileDatasetButton } from '../ReuploadFileDatasetButton';
+import { ACL_PERMISSIONS } from '../../../../services/config/accessControl';
 import { DATASET_SOURCE_TYPE, INGESTION_STATUS } from '../../../../services/config/ApiConstants';
 
 const useStyles = makeStyles(() => ({
@@ -52,7 +53,14 @@ export const DatasetList = () => {
   };
 
   const [isRefreshConfirmationDialogOpen, setIsRefreshConfirmationDialogOpen] = useState(false);
-  const { datasets, currentDataset, selectDataset, deleteDataset, refreshDatasetById } = useDatasetList();
+  const {
+    userPermissionsInCurrentOrganization,
+    datasets,
+    currentDataset,
+    selectDataset,
+    deleteDataset,
+    refreshDatasetById,
+  } = useDatasetList();
 
   const sortedDatasetList = useMemo(() => {
     return ResourceUtils.getResourceTree(datasets?.filter((dataset) => dataset.main === true));
@@ -141,7 +149,12 @@ export const DatasetList = () => {
   const datasetListHeader = (
     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 2, py: 1, height: '48px' }}>
       <Typography variant="h6">Datasets</Typography>
-      <CreateDatasetButton />
+      <PermissionsGate
+        userPermissions={userPermissionsInCurrentOrganization}
+        necessaryPermissions={[ACL_PERMISSIONS.ORGANIZATION.CREATE_CHILDREN]}
+      >
+        <CreateDatasetButton />
+      </PermissionsGate>
     </Box>
   );
 
@@ -164,15 +177,26 @@ export const DatasetList = () => {
         );
       }
 
+      const userPermissionsOnDataset = dataset?.security?.currentUserPermissions ?? [];
       return (
         <Box>
-          {refreshButton}
-          <IconButton
-            onClick={(event) => askConfirmationToDeleteDialog(event, dataset)}
-            data-cy={`dataset-delete-button-${dataset.id}`}
+          <PermissionsGate
+            userPermissions={userPermissionsOnDataset}
+            necessaryPermissions={[ACL_PERMISSIONS.DATASET.WRITE]}
           >
-            <DeleteForeverIcon />
-          </IconButton>
+            {refreshButton}
+          </PermissionsGate>
+          <PermissionsGate
+            userPermissions={userPermissionsOnDataset}
+            necessaryPermissions={[ACL_PERMISSIONS.DATASET.DELETE]}
+          >
+            <IconButton
+              onClick={(event) => askConfirmationToDeleteDialog(event, dataset)}
+              data-cy={`dataset-delete-button-${dataset.id}`}
+            >
+              <DeleteForeverIcon />
+            </IconButton>
+          </PermissionsGate>
         </Box>
       );
     },

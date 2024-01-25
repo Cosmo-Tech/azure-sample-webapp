@@ -203,6 +203,10 @@ const getUserPermissionsForResource = (resourceSecurity, userIdentifier, resourc
     console.warn("Resource security is null or undefined, can't retrieve user permissions.");
     return [];
   }
+  if (Object.keys(resourceSecurity).length === 0) {
+    console.warn("Resource security is an empty object, can't retrieve user permissions.");
+    return [];
+  }
   if (resourceRolesToPermissionsMapping == null) {
     console.warn("Mapping between roles and permissions is null or undefined, can't retrieve user permissions.");
     return [];
