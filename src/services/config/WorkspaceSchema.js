@@ -55,6 +55,7 @@ const dashboardReport = z
 
 const basicWebAppOptions = z.object({
   datasetFilter: z.array(z.string().optional().nullable()).optional().nullable(),
+  disableOutOfSyncWarningBanner: z.boolean().optional().nullable(),
   charts: z
     .object({
       workspaceId: z.string().optional().nullable(),
