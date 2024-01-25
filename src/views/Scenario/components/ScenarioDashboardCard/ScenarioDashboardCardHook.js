@@ -8,6 +8,7 @@ import {
 } from '../../../../state/hooks/ScenarioHooks';
 import { useCurrentScenarioRunStartTime } from '../../../../state/hooks/ScenarioRunHooks';
 import { useDownloadLogsFile } from '../../../../hooks/ScenarioRunHooks';
+import { useWorkspaceData } from '../../../../state/hooks/WorkspaceHooks';
 import { useMemo } from 'react';
 import { useFormState } from 'react-hook-form';
 
@@ -17,6 +18,7 @@ export const useScenarioDashboardCard = () => {
   const currentScenarioState = useCurrentScenarioState();
   const currentScenarioRunStartTime = useCurrentScenarioRunStartTime();
   const downloadCurrentScenarioRunLogs = useDownloadLogsFile();
+  const workspace = useWorkspaceData();
 
   const { isDirty } = useFormState();
 
@@ -26,8 +28,10 @@ export const useScenarioDashboardCard = () => {
   );
 
   const isDashboardSync = useMemo(() => {
-    if (!currentScenarioRunStartTime) return true;
+    const disableOutOfSyncWarningBanner = workspace?.webApp?.options?.disableOutOfSyncWarningBanner === true;
+    if (disableOutOfSyncWarningBanner || !currentScenarioRunStartTime) return true;
     if (isDirty) return false;
+
     const lastUpdate = new Date(currentScenarioLastUpdate);
     const startTime = new Date(currentScenarioRunStartTime);
     lastUpdate.setSeconds(0);
@@ -35,7 +39,12 @@ export const useScenarioDashboardCard = () => {
     startTime.setSeconds(0);
     startTime.setMilliseconds(0);
     return lastUpdate <= startTime;
-  }, [currentScenarioLastUpdate, currentScenarioRunStartTime, isDirty]);
+  }, [
+    currentScenarioLastUpdate,
+    currentScenarioRunStartTime,
+    isDirty,
+    workspace?.webApp?.options?.disableOutOfSyncWarningBanner,
+  ]);
 
   return { hasRunBeenSuccessful, isDashboardSync, downloadCurrentScenarioRunLogs };
 };
