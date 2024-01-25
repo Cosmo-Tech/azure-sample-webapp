@@ -128,6 +128,7 @@ export const WORKSPACES = [
     id: 'w-ww55o3xd8l39j',
     webApp: {
       options: {
+        disableOutOfSyncWarningBanner: true,
         datasetFilter: [
           'D-4jwyQnmv7jx',
           'D-9rp3EMPO2P2',
