@@ -10,4 +10,4 @@
 - [About Content Customization](aboutContentCustomization.md)
 - [Instance visualization](instanceVisualization.md)
 - [Languages configuration](languages.md)
-- [HelpMenu Configuration](helpMenuConfiguration.md)
+- [Workspace configuration](workspaceConfiguration.md)
