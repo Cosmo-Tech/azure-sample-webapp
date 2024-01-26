@@ -9,11 +9,13 @@ import {
   useSelectDataset,
 } from '../../../../state/hooks/DatasetHooks';
 import { useOrganizationData } from '../../../../state/hooks/OrganizationHooks';
+import { useWorkspaceData } from '../../../../state/hooks/WorkspaceHooks';
 import { useWorkspaceMainDatasets } from '../../../../hooks/WorkspaceDatasetsHooks';
 import { ACL_PERMISSIONS } from '../../../../services/config/accessControl';
 
 export const useDatasetList = () => {
   const userPermissionsInCurrentOrganization = useOrganizationData()?.security?.currentUserPermissions ?? [];
+  const isDatasetCopyEnabledInWorkspace = useWorkspaceData()?.datasetCopy ?? false;
   const datasets = useWorkspaceMainDatasets();
   const selectDataset = useSelectDataset();
   const currentDataset = useCurrentDataset();
@@ -34,5 +36,6 @@ export const useDatasetList = () => {
     selectDataset,
     deleteDataset,
     refreshDatasetById,
+    isDatasetCopyEnabledInWorkspace,
   };
 };

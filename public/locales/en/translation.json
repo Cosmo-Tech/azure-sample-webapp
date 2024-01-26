@@ -164,9 +164,10 @@
         },
         "delete": {
           "title": "Delete dataset?",
-          "body": "Do you really want to delete <i>{{datasetName}}</i>? This action is irreversible.",
+          "body": "Do you really want to delete <i>{{datasetName}}</i>? This action is irreversible.{{impactedScenariosWarning}}",
           "bodyWithChildren": "The following children datasets will also be permanently removed:",
-          "confirmButton": "Delete"
+          "confirmButton": "Delete",
+          "impactedScenariosWarning": "All the scenarios using this dataset will be impacted."
         },
         "cancel": "Cancel"
       },
