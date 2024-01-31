@@ -85,7 +85,7 @@ export const DatasetMetadata = () => {
     };
   }, []);
 
-  return (
+  return dataset == null ? null : (
     <Card
       variant="outlined"
       square={true}
