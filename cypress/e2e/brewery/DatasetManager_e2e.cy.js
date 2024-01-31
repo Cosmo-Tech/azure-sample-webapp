@@ -1,6 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { DatasetManager } from '../../commons/actions';
+import { DatasetManager, ErrorBanner } from '../../commons/actions';
 import { Login } from '../../commons/actions/brewery';
 import utils from '../../commons/TestUtils';
 import {
@@ -43,7 +43,7 @@ describe('End-to-end test of the dataset manager view', () => {
     DatasetManager.getAllDeleteDatasetButtons().click();
     DatasetManager.getDeleteDatasetDialogBody().contains(storageDatasetName);
     DatasetManager.getDeleteDatasetConfirmButton().click();
-    DatasetManager.getDatasetsListItemButtons().should('not.exist');
+    ErrorBanner.getErrorBanner().should('not.be.visible');
   });
 
   it('can create a dataset from file upload', () => {
@@ -78,6 +78,6 @@ describe('End-to-end test of the dataset manager view', () => {
     DatasetManager.getAllDeleteDatasetButtons().click();
     DatasetManager.getDeleteDatasetDialogBody().contains(fileDatasetName);
     DatasetManager.getDeleteDatasetConfirmButton().click();
-    DatasetManager.getDatasetsListItemButtons().should('not.exist');
+    ErrorBanner.getErrorBanner().should('not.be.visible');
   });
 });
