@@ -7,7 +7,10 @@ import { DatasetList, DatasetMetadata, DatasetOverview, NoDatasetsPlaceholder } 
 import { useDatasetManager } from './DatasetManagerHook';
 
 const DatasetManager = () => {
-  const { datasets, useRedirectFromDatasetManagerToScenarioView } = useDatasetManager();
+  const { datasets, useRedirectFromDatasetManagerToScenarioView, useResetSelectedDatasetIfNecessary } =
+    useDatasetManager();
+
+  useResetSelectedDatasetIfNecessary();
   useRedirectFromDatasetManagerToScenarioView();
 
   return datasets?.length > 0 ? (
