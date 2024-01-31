@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { ROLES } from '../../../commons/constants/generic/TestConstants';
+import { DEFAULT_DATASETS_LIST } from './datasets';
 
 const defaultPowerBIReport = {
   title: { en: 'Scenario dashboard', fr: 'Rapport du scénario' },
@@ -52,6 +53,7 @@ export const WORKSPACE_EXAMPLE = {
   useDedicatedEventHubNamespace: true,
   sendScenarioMetadataToEventHub: true,
   security: { default: ROLES.SCENARIO.ADMIN, accessControlList: [] },
+  linkedDatasetIdList: DEFAULT_DATASETS_LIST.map((dataset) => dataset.id),
 };
 
 export const DEFAULT_WORKSPACE = WORKSPACE_EXAMPLE;
