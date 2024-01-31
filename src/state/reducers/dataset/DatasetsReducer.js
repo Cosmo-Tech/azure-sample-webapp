@@ -52,7 +52,7 @@ export const datasetsReducer = createReducer(datasetInitialState, (builder) => {
       const index = state.list.data.findIndex((dataset) => dataset.id === action.datasetId);
       state.list.data.splice(index, 1);
     })
-    .addCase(DATASET_ACTIONS_KEY.SET_CURRENT_DATASET_INDEX, (state, action) => {
+    .addCase(DATASET_ACTIONS_KEY.SELECT_DATASET, (state, action) => {
       const datasetToSelect =
         action.selectedDatasetId ||
         ResourceUtils.getResourceTree(state.list.data?.filter((dataset) => dataset.main === true))?.[0]?.id;
