@@ -44,7 +44,7 @@ export function* fetchAllDatasetsData(organizationId) {
 
     if (datasets?.length > 0) {
       yield put({
-        type: DATASET_ACTIONS_KEY.SET_CURRENT_DATASET_INDEX,
+        type: DATASET_ACTIONS_KEY.SELECT_DATASET,
         selectedDatasetId: null,
       });
       const datasetsToUpdate = data.filter(

@@ -68,7 +68,7 @@ export function* createDataset(action) {
     });
 
     yield put({
-      type: DATASET_ACTIONS_KEY.SET_CURRENT_DATASET_INDEX,
+      type: DATASET_ACTIONS_KEY.SELECT_DATASET,
       selectedDatasetId: data.id,
     });
 
