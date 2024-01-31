@@ -18,6 +18,11 @@ export const dispatchSelectDatasetById = (datasetId) => ({
   selectedDatasetId: datasetId,
 });
 
+export const dispatchSelectDefaultDataset = (selectableDatasets) => ({
+  type: DATASET_ACTIONS_KEY.SELECT_DEFAULT_DATASET,
+  selectableDatasets,
+});
+
 export const dispatchDeleteDataset = (organizationId, datasetId, selectedDatasetId) => ({
   type: DATASET_ACTIONS_KEY.TRIGGER_SAGA_DELETE_DATASET,
   organizationId,

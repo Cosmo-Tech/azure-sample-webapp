@@ -48,7 +48,7 @@ export const DatasetOverviewPlaceholder = () => {
           'The dataset has an unknown state, if the problem persists, please, contact your administrator'
         );
     }
-  }, [currentDatasetIngestionStatus, t]);
+  }, [currentDatasetId, currentDatasetIngestionStatus, t]);
 
   const retryButton = useMemo(() => {
     if (currentDatasetId == null) return null;
