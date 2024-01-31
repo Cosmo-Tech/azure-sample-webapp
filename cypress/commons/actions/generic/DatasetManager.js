@@ -151,7 +151,7 @@ export const confirmDatasetCreation = (options = {}) => {
     main: true,
     ...options.customDatasetPatch,
   };
-  const aliases = [api.interceptCreateDataset(options, options.importJobOptions)];
+  const aliases = [api.interceptCreateDataset(options, options.importJobOptions), api.interceptLinkDataset()];
   if (!options.isFile) {
     aliases.push(api.interceptRefreshDataset());
     aliases.push(api.interceptGetDatasetStatus(options.importJobOptions?.expectedPollsCount));
