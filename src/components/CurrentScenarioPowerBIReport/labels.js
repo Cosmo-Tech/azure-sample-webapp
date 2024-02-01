@@ -15,7 +15,7 @@ export const getReportLabels = (t) => ({
   noDashboard: {
     label: t(
       'commoncomponents.iframe.scenario.nodashboard.label',
-      "There isn't any dashboard configured for this run template"
+      "There isn't any dashboard configured for this run type"
     ),
   },
   inProgress: {
@@ -24,7 +24,7 @@ export const getReportLabels = (t) => ({
   dataInTransfer: {
     label: t(
       'commoncomponents.iframe.scenario.results.label.dataInTransfer',
-      'Scenario results transfer in progress...'
+      'Transfer of scenario results in progress...'
     ),
   },
   hasErrors: {
