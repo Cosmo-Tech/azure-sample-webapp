@@ -80,6 +80,7 @@ const Workspaces = () => {
           label: labels.openButtonWorkspaceCard,
           callback: () => openWorkspace(workspace.id),
         }}
+        style={{ backgroundColor: '#ffffff08' }}
       />
     </Grid>
   ));
