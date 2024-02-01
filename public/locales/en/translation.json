@@ -157,7 +157,7 @@
             },
             "error": "An error occurred during the scenario run",
             "running": "Scenario run in progress...",
-            "dataInTransfer": "Scenario results transfer in progress...",
+            "dataInTransfer": "Transfer of scenario results in progress...",
             "uninitialized": "The scenario has not been run yet"
           },
           "button": {
@@ -174,7 +174,7 @@
           "label": "You can create a scenario by clicking on the \"CREATE\" button"
         },
         "nodashboard": {
-          "label": "There isn't any dashboard configured for this run template"
+          "label": "There isn't any dashboard configured for this run type"
         },
         "unknownStatus": {
           "label": "This scenario has an unknown state, if the problem persists, please, contact your administrator"
