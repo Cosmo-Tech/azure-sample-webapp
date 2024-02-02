@@ -3,7 +3,7 @@
 
 import React, { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { Button, CardContent, Grid, Link, Typography } from '@mui/material';
+import { Button, Grid, Link, Typography } from '@mui/material';
 import { useDatasetOverviewPlaceholder } from './DatasetOverviewPlaceholderHook';
 import {
   DATASET_SOURCE_TYPE,
@@ -99,29 +99,27 @@ export const DatasetOverviewPlaceholder = () => {
   }, [currentDatasetIngestionStatus, t]);
 
   return (
-    <CardContent sx={{ height: '100%' }}>
-      <Grid
-        data-cy="dataset-overview-placeholder"
-        container
-        direction="column"
-        sx={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          gap: currentDatasetIngestionStatus === INGESTION_STATUS.NONE ? 2 : 4,
-          height: '100%',
-          width: 'fill-available',
-        }}
-      >
-        <Grid item>
-          <Typography data-cy="dataset-overview-title" variant="h5" align="center">
-            {placeholderText}
-          </Typography>
-        </Grid>
-        <Grid item>{retryButton}</Grid>
-        <Grid data-cy="dataset-overview-api-link" item>
-          {swaggerLink}
-        </Grid>
+    <Grid
+      data-cy="dataset-overview-placeholder"
+      container
+      direction="column"
+      sx={{
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: currentDatasetIngestionStatus === INGESTION_STATUS.NONE ? 2 : 4,
+        height: '100%',
+        width: 'fill-available',
+      }}
+    >
+      <Grid item>
+        <Typography data-cy="dataset-overview-title" variant="h5" align="center">
+          {placeholderText}
+        </Typography>
       </Grid>
-    </CardContent>
+      <Grid item>{retryButton}</Grid>
+      <Grid data-cy="dataset-overview-api-link" item>
+        {swaggerLink}
+      </Grid>
+    </Grid>
   );
 };
