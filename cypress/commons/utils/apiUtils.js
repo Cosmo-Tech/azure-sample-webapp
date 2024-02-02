@@ -282,8 +282,22 @@ const interceptGetScenario = (optionalScenarioId, times = 1) => {
   const alias = forgeAlias('reqGetScenario');
   cy.intercept({ method: 'GET', url: interceptionURL, times }, (req) => {
     if (!stub.isEnabledFor('GET_SCENARIOS')) return;
-    const scenarioId = optionalScenarioId ?? req.url.match(API_REGEX.SCENARIO)[1];
-    req.reply(stub.getScenarioById(scenarioId));
+    let workspaceId = 'w-dummywkspce';
+    let scenarioId = req.url.match(interceptionURL)[1];
+    if (optionalScenarioId) {
+      // The 1st group is actually the workspace id with the regex used in this case
+      workspaceId = req.url.match(interceptionURL)[1];
+      scenarioId = optionalScenarioId ?? req.url.match(interceptionURL)[3];
+    }
+    const response = stub.getScenarioById(scenarioId) ?? {
+      statusCode: 404,
+      body: {
+        title: 'Not Found',
+        status: 404,
+        detail: `Resource of type 'Scenario' not found with workspaceId=${workspaceId}, scenarioId=${scenarioId}`,
+      },
+    };
+    req.reply(response);
   }).as(alias);
   return alias;
 };

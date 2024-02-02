@@ -20,7 +20,12 @@ describe('Sharing with wrong URL', () => {
   });
 
   it("can display error banner when scenario doesn't exist", () => {
-    Login.login({ url: 'W-stbbdbrwry/scenario/s-invalidurl', expectedURL: 'W-stbbdbrwry/scenario/s-stubbedscnr01' });
+    Login.login({
+      url: 'W-stbbdbrwry/scenario/s-invalidurl',
+      workspaceId: 'W-stbbdbrwry',
+      scenarioId: 's-invalidurl',
+      expectedURL: 'W-stbbdbrwry/scenario/s-stubbedscnr01',
+    });
     ErrorBanner.getErrorDetailText().contains('Scenario').contains('s-invalidurl').contains('not found');
     ErrorBanner.getErrorCommentText().contains('You have been redirected');
     ErrorBanner.checkAnDismissErrorBanner();
