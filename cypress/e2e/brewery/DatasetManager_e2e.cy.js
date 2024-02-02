@@ -10,6 +10,8 @@ import {
   DATASET_STORAGE_REFERENCE_FOLDER,
 } from '../../commons/constants/brewery/TestConstants';
 
+const DATA_INGESTION_DURATION = 180;
+
 describe('End-to-end test of the dataset manager view', () => {
   beforeEach(() => {
     Login.login();
@@ -34,7 +36,7 @@ describe('End-to-end test of the dataset manager view', () => {
 
     DatasetManager.getDatasetSearchBarInput().click().type(storageDatasetName);
     DatasetManager.getAllRefreshDatasetSpinners().should('be.visible');
-    DatasetManager.getAllRefreshDatasetSpinners(90).should('not.exist');
+    DatasetManager.getAllRefreshDatasetSpinners(DATA_INGESTION_DURATION).should('not.exist');
     DatasetManager.getIndicatorCard('bars_count').should('be.visible');
     DatasetManager.getKpiValue(DatasetManager.getIndicatorCard('bars_count')).should('have.text', 1);
 
@@ -63,7 +65,7 @@ describe('End-to-end test of the dataset manager view', () => {
     DatasetManager.confirmDatasetCreation({ isFile: true });
 
     DatasetManager.getDatasetSearchBarInput().click().type(fileDatasetName);
-    DatasetManager.getAllRefreshDatasetSpinners(90).should('not.exist');
+    DatasetManager.getAllRefreshDatasetSpinners(DATA_INGESTION_DURATION).should('not.exist');
     DatasetManager.getIndicatorCard('satisfaction_links_count').should('be.visible');
     DatasetManager.getKpiValue(DatasetManager.getIndicatorCard('satisfaction_links_count')).should('have.text', 8);
 
