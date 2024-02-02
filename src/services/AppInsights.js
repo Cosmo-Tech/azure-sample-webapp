@@ -5,7 +5,9 @@ import { ApplicationInsights } from '@microsoft/applicationinsights-web';
 import ConfigService from './ConfigService';
 import { APPLICATION_INSIGHTS_CONFIG } from './config/ApplicationInsights';
 
-const ENABLE_APPLICATION_INSIGHTS = ConfigService.getParameterValue('ENABLE_APPLICATION_INSIGHTS');
+const ENABLE_APPLICATION_INSIGHTS = [true, 'true', 'True', 1, '1'].includes(
+  ConfigService.getParameterValue('ENABLE_APPLICATION_INSIGHTS')
+);
 
 class AppInsightsSingleton {
   constructor() {
