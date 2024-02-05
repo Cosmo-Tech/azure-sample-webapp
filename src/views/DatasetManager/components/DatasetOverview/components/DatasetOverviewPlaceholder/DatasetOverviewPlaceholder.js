@@ -24,61 +24,104 @@ export const DatasetOverviewPlaceholder = () => {
     rollbackTwingraphData,
   } = useDatasetOverviewPlaceholder();
 
-  const placeholderText = useMemo(() => {
+  const placeholderLabels = useMemo(() => {
+    let title = null;
+    let subtitle = null;
+    let subtitleDataCy = 'dataset-overview-subtitle';
     if (currentDatasetId == null)
-      return t(
+      title = t(
         'commoncomponents.datasetmanager.overview.placeholder.noDatasetSelected',
         'No dataset selected. You can select a dataset in the left-side panel.'
       );
 
     switch (currentDatasetIngestionStatus) {
+      case INGESTION_STATUS.SUCCESS:
+        title = t('commoncomponents.datasetmanager.overview.placeholder.noKpis.title', 'Your dataset is ready');
+        subtitle = t(
+          'commoncomponents.datasetmanager.overview.placeholder.noKpis.subtitle',
+          'You can use it to create new scenarios'
+        );
+        break;
       case INGESTION_STATUS.PENDING:
-        return t('commoncomponents.datasetmanager.overview.placeholder.loading', 'Importing your data, please wait...');
+        title = t(
+          'commoncomponents.datasetmanager.overview.placeholder.loading',
+          'Importing your data, please wait...'
+        );
+        break;
       case INGESTION_STATUS.NONE:
-        return t('commoncomponents.datasetmanager.overview.placeholder.empty', 'Your dataset is empty');
+        subtitleDataCy = 'dataset-overview-api-link';
+        title = t('commoncomponents.datasetmanager.overview.placeholder.empty', 'Your dataset is empty');
+        subtitle = (
+          // This component uses node count to implement a link in the translation string,
+          // if the string is modified, need to check that the link is still the node N1
+          <Trans i18nKey="commoncomponents.datasetmanager.overview.placeholder.apiLink">
+            You can use the
+            <Link href={ApiUtils.getDatasetTwingraphSwaggerSection()} color="inherit" target="blank">
+              Cosmo Tech API
+            </Link>
+            to populate it
+          </Trans>
+        );
+        break;
       case INGESTION_STATUS.ERROR:
-        return t(
+        title = t(
           'commoncomponents.datasetmanager.overview.placeholder.error',
           'An error occurred during import of your data'
         );
+        break;
       case INGESTION_STATUS.UNKNOWN:
       default:
-        return t(
+        title = t(
           'commoncomponents.datasetmanager.overview.placeholder.unknown',
           'The dataset has an unknown state, if the problem persists, please, contact your administrator'
         );
     }
+
+    return {
+      title: (
+        <Typography data-cy="dataset-overview-title" variant="h5" align="center">
+          {title}
+        </Typography>
+      ),
+      subtitle: subtitle ? (
+        <Typography data-cy={subtitleDataCy} variant="body1" color="appbar.contrastTextSoft">
+          {subtitle}
+        </Typography>
+      ) : null,
+    };
   }, [currentDatasetId, currentDatasetIngestionStatus, t]);
 
-  const retryButton = useMemo(() => {
-    if (currentDatasetId == null) return null;
+  const buttonRow = useMemo(() => {
+    if (
+      currentDatasetId == null ||
+      !currentDatasetIngestionStatus ||
+      ![INGESTION_STATUS.ERROR, INGESTION_STATUS.UNKNOWN].includes(currentDatasetIngestionStatus)
+    )
+      return null;
 
-    return currentDatasetIngestionStatus == null ||
-      [INGESTION_STATUS.ERROR, INGESTION_STATUS.UNKNOWN].includes(currentDatasetIngestionStatus) ? (
-      currentDatasetType === DATASET_SOURCE_TYPE.LOCAL_FILE ? (
-        <ReuploadFileDatasetButton datasetId={currentDatasetId} iconButton={false} />
-      ) : (
-        <>
+    return currentDatasetType === DATASET_SOURCE_TYPE.LOCAL_FILE ? (
+      <ReuploadFileDatasetButton datasetId={currentDatasetId} iconButton={false} />
+    ) : (
+      <>
+        <Button
+          data-cy="dataset-overview-retry-button"
+          variant="contained"
+          onClick={() => refreshDataset(currentDatasetId)}
+        >
+          {t('commoncomponents.datasetmanager.overview.placeholder.retryButton', 'Retry')}
+        </Button>
+        {currentDatasetTwincacheStatus === TWINCACHE_STATUS.FULL && (
           <Button
-            data-cy="dataset-overview-retry-button"
+            data-cy="dataset-overview-rollback-button"
             variant="contained"
-            onClick={() => refreshDataset(currentDatasetId)}
+            onClick={() => rollbackTwingraphData(currentDatasetId)}
+            sx={{ ml: 1 }}
           >
-            {t('commoncomponents.datasetmanager.overview.placeholder.retryButton', 'Retry')}
+            {t('commoncomponents.datasetmanager.overview.placeholder.rollbackButton', 'Rollback')}
           </Button>
-          {currentDatasetTwincacheStatus === TWINCACHE_STATUS.FULL && (
-            <Button
-              data-cy="dataset-overview-rollback-button"
-              variant="contained"
-              onClick={() => rollbackTwingraphData(currentDatasetId)}
-              sx={{ ml: 1 }}
-            >
-              {t('commoncomponents.datasetmanager.overview.placeholder.rollbackButton', 'Rollback')}
-            </Button>
-          )}
-        </>
-      )
-    ) : null;
+        )}
+      </>
+    );
   }, [
     currentDatasetId,
     currentDatasetIngestionStatus,
@@ -89,23 +132,6 @@ export const DatasetOverviewPlaceholder = () => {
     t,
   ]);
 
-  // This component uses node count to implement a link in the translation string,
-  // if the string is modified, need to check that the link is still the node N1
-  const swaggerLink = useMemo(() => {
-    return currentDatasetIngestionStatus === INGESTION_STATUS.NONE ? (
-      <Typography variant="caption" color="appbar.contrastTextSoft">
-        <Trans i18nKey="commoncomponents.datasetmanager.overview.placeholder.apiLink">
-          You can use the
-          <Link href={ApiUtils.getDatasetTwingraphSwaggerSection()} color="inherit" target="blank">
-            Cosmo Tech API
-          </Link>
-          to populate it
-        </Trans>
-      </Typography>
-    ) : null;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentDatasetIngestionStatus, t]);
-
   return (
     <Grid
       data-cy="dataset-overview-placeholder"
@@ -114,20 +140,14 @@ export const DatasetOverviewPlaceholder = () => {
       sx={{
         justifyContent: 'center',
         alignItems: 'center',
-        gap: currentDatasetIngestionStatus === INGESTION_STATUS.NONE ? 2 : 4,
+        gap: buttonRow != null ? 4 : 2,
         height: '100%',
         width: 'fill-available',
       }}
     >
-      <Grid item>
-        <Typography data-cy="dataset-overview-title" variant="h5" align="center">
-          {placeholderText}
-        </Typography>
-      </Grid>
-      <Grid item>{retryButton}</Grid>
-      <Grid data-cy="dataset-overview-api-link" item>
-        {swaggerLink}
-      </Grid>
+      <Grid item>{placeholderLabels.title}</Grid>
+      {buttonRow && <Grid item>{buttonRow}</Grid>}
+      {placeholderLabels.subtitle && <Grid item>{placeholderLabels.subtitle}</Grid>}
     </Grid>
   );
 };

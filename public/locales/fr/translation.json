@@ -189,6 +189,10 @@
           "apiLink": "Vous pouvez utiliser l'<1>API Cosmo Tech</1> pour charger des données",
           "loading": "Données en cours d'importation, veuillez patienter",
           "noDatasetSelected": "Aucun dataset sélectionné. Vous pouvez sélectionner un dataset depuis le panneau latéral gauche.",
+          "noKpis": {
+            "title": "Le dataset est prêt",
+            "subtitle": "Vous pouvez l'utiliser pour créer de nouveaux scénarios"
+          },
           "unknown": "Le dataset a un statut inconnu, si le problème persiste, merci de contacter votre administrateur",
           "retryButton": "Réessayer",
           "rollbackButton": "Restaurer"

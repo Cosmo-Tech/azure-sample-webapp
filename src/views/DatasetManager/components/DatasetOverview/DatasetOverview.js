@@ -10,6 +10,12 @@ import { INGESTION_STATUS } from '../../../../services/config/ApiConstants';
 export const DatasetOverview = () => {
   const { categories, graphIndicators, queriesResults, datasetIngestionStatus, datasetName } = useDatasetOverview();
 
+  const showPlaceholder = useMemo(
+    () =>
+      datasetIngestionStatus !== INGESTION_STATUS.SUCCESS || (categories.length === 0 && graphIndicators.length === 0),
+    [categories, graphIndicators, datasetIngestionStatus]
+  );
+
   const graphIndicatorsElements = useMemo(() => {
     return graphIndicators.map((kpi) => {
       const result = queriesResults?.graphIndicators?.find((kpiResult) => kpiResult.id === kpi.id);
@@ -25,7 +31,9 @@ export const DatasetOverview = () => {
     >
       <CardHeader data-cy="dataset-name" title={datasetName} sx={{ height: '65px' }}></CardHeader>
       <CardContent sx={{ height: 'calc(100% - 65px)' }}>
-        {datasetIngestionStatus === INGESTION_STATUS.SUCCESS ? (
+        {showPlaceholder ? (
+          <DatasetOverviewPlaceholder />
+        ) : (
           <Grid container sx={{ flexFlow: 'column wrap', gap: 4 }}>
             <Grid item>
               <Grid container sx={{ flexFlow: 'row wrap', alignItems: 'stretch', justifyContent: 'center', gap: 4 }}>
@@ -38,8 +46,6 @@ export const DatasetOverview = () => {
               ))}
             </Grid>
           </Grid>
-        ) : (
-          <DatasetOverviewPlaceholder />
         )}
       </CardContent>
     </Card>

@@ -26,8 +26,6 @@ export const useDatasetOverview = () => {
     if (config.queries == null) config.queries = [];
     return config;
   }, [workspaceData?.webApp?.options?.datasetManager]);
-  const categories = useMemo(() => datasetManagerConfig.categories, [datasetManagerConfig]);
-  const graphIndicators = useMemo(() => datasetManagerConfig.graphIndicators, [datasetManagerConfig]);
 
   initializeDatasetTwingraphQueriesResults(currentDataset);
 
@@ -42,5 +40,11 @@ export const useDatasetOverview = () => {
     return result;
   }, [workspaceData?.indicators?.categoriesKpis, workspaceData?.indicators?.graphIndicators, flatQueriesResults]);
 
-  return { categories, graphIndicators, queriesResults, datasetIngestionStatus, datasetName: currentDataset?.name };
+  return {
+    categories: datasetManagerConfig.categories,
+    graphIndicators: datasetManagerConfig.graphIndicators,
+    queriesResults,
+    datasetIngestionStatus,
+    datasetName: currentDataset?.name,
+  };
 };
