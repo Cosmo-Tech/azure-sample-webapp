@@ -22,7 +22,8 @@ export const useDatasetManager = () => {
         workspaceMainDatasets.find((dataset) => dataset.id === currentDataset.id) === undefined;
 
       if (shouldReset) dispatch(dispatchSelectDefaultDataset(workspaceMainDatasets));
-    }, [workspaceMainDatasets, dispatch]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [currentDataset?.id, workspaceMainDatasets, dispatch]);
   };
 
   return { datasets, useResetSelectedDatasetIfNecessary, useRedirectFromDatasetManagerToScenarioView };
