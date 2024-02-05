@@ -65,6 +65,7 @@ export function* createDataset(action) {
     yield put({
       type: WORKSPACE_ACTIONS_KEY.LINK_TO_DATASET,
       datasetId: data.id,
+      workspaceId,
     });
 
     yield put({
