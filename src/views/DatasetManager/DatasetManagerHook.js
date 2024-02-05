@@ -1,12 +1,29 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { useDatasets, useDatasetsReducerStatus } from '../../state/hooks/DatasetHooks';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { dispatchSelectDefaultDataset } from '../../state/dispatchers/dataset/DatasetDispatcher';
+import { useCurrentDataset } from '../../state/hooks/DatasetHooks';
 import { useRedirectFromDatasetManagerToScenarioView } from '../../hooks/RouterHooks';
+import { useWorkspaceMainDatasets } from '../../hooks/WorkspaceDatasetsHooks';
 
 export const useDatasetManager = () => {
-  const mainDatasets = useDatasets()?.filter((dataset) => dataset.main === true);
-  const datasetsStatus = useDatasetsReducerStatus();
+  const datasets = useWorkspaceMainDatasets();
+  const currentDataset = useCurrentDataset();
 
-  return { mainDatasets, datasetsStatus, useRedirectFromDatasetManagerToScenarioView };
+  const useResetSelectedDatasetIfNecessary = () => {
+    const workspaceMainDatasets = useWorkspaceMainDatasets();
+    const dispatch = useDispatch();
+
+    return useEffect(() => {
+      const shouldReset =
+        currentDataset == null ||
+        workspaceMainDatasets.find((dataset) => dataset.id === currentDataset.id) === undefined;
+
+      if (shouldReset) dispatch(dispatchSelectDefaultDataset(workspaceMainDatasets));
+    }, [workspaceMainDatasets, dispatch]);
+  };
+
+  return { datasets, useResetSelectedDatasetIfNecessary, useRedirectFromDatasetManagerToScenarioView };
 };

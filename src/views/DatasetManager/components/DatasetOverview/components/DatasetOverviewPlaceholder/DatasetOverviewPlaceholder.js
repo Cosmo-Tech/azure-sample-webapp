@@ -25,6 +25,12 @@ export const DatasetOverviewPlaceholder = () => {
   } = useDatasetOverviewPlaceholder();
 
   const placeholderText = useMemo(() => {
+    if (currentDatasetId == null)
+      return t(
+        'commoncomponents.datasetmanager.overview.placeholder.noDatasetSelected',
+        'No dataset selected. You can select a dataset in the left-side panel.'
+      );
+
     switch (currentDatasetIngestionStatus) {
       case INGESTION_STATUS.PENDING:
         return t('commoncomponents.datasetmanager.overview.placeholder.loading', 'Importing your data, please wait...');
@@ -42,9 +48,11 @@ export const DatasetOverviewPlaceholder = () => {
           'The dataset has an unknown state, if the problem persists, please, contact your administrator'
         );
     }
-  }, [currentDatasetIngestionStatus, t]);
+  }, [currentDatasetId, currentDatasetIngestionStatus, t]);
 
   const retryButton = useMemo(() => {
+    if (currentDatasetId == null) return null;
+
     return currentDatasetIngestionStatus == null ||
       [INGESTION_STATUS.ERROR, INGESTION_STATUS.UNKNOWN].includes(currentDatasetIngestionStatus) ? (
       currentDatasetType === DATASET_SOURCE_TYPE.LOCAL_FILE ? (

@@ -13,6 +13,10 @@ const currentWorkspaceInitialState = {
 
 const currentWorkspaceReducer = createReducer(currentWorkspaceInitialState, (builder) => {
   builder
+    .addCase(WORKSPACE_ACTIONS_KEY.LINK_TO_DATASET, (state, action) => {
+      const linkedDatasets = state.data?.linkedDatasetIdList;
+      if (linkedDatasets != null && action.datasetId != null) linkedDatasets.push(action.datasetId);
+    })
     .addCase(WORKSPACE_ACTIONS_KEY.SET_CURRENT_WORKSPACE, (state, action) => {
       state.data = action.workspace;
       state.status = action.status;

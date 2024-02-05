@@ -60,10 +60,11 @@ export const DatasetList = () => {
     selectDataset,
     deleteDataset,
     refreshDatasetById,
+    isDatasetCopyEnabledInWorkspace,
   } = useDatasetList();
 
   const sortedDatasetList = useMemo(() => {
-    return ResourceUtils.getResourceTree(datasets?.filter((dataset) => dataset.main === true));
+    return ResourceUtils.getResourceTree(datasets);
   }, [datasets]);
 
   const [displayedDatasetList, setDisplayedDatasetList] = useState(sortedDatasetList);
@@ -77,16 +78,14 @@ export const DatasetList = () => {
 
   const filterDatasets = useCallback(
     (searchString) => {
-      if (!searchString) {
-        setDisplayedDatasetList(sortedDatasetList);
-      } else {
-        const datasets = sortedDatasetList.filter(
-          (dataset) =>
-            dataset.name.toLowerCase().includes(searchString.toLowerCase()) ||
-            dataset.tags?.some((tag) => tag.toLowerCase().includes(searchString.toLowerCase()))
-        );
-        setDisplayedDatasetList(datasets);
-      }
+      const datasetsToDisplay = !searchString
+        ? sortedDatasetList
+        : sortedDatasetList.filter(
+            (dataset) =>
+              dataset.name.toLowerCase().includes(searchString.toLowerCase()) ||
+              dataset.tags?.some((tag) => tag.toLowerCase().includes(searchString.toLowerCase()))
+          );
+      setDisplayedDatasetList(datasetsToDisplay);
     },
     [sortedDatasetList]
   );
@@ -98,6 +97,14 @@ export const DatasetList = () => {
   const askConfirmationToDeleteDialog = useCallback(
     async (event, dataset) => {
       event.stopPropagation();
+      const impactedScenariosWarning = isDatasetCopyEnabledInWorkspace
+        ? ''
+        : ' ' + // Space character is here on purpose, to separate concatenated sentences in confirmation dialog body
+          t(
+            'commoncomponents.datasetmanager.dialogs.delete.impactedScenariosWarning',
+            'All the scenarios using this dataset will be impacted.'
+          );
+
       const dialogProps = {
         id: 'delete-dataset',
         component: 'div',
@@ -107,8 +114,8 @@ export const DatasetList = () => {
             <Trans
               i18nKey="commoncomponents.datasetmanager.dialogs.delete.body"
               defaultValue="Do you really want to delete <i>{{datasetName}}</i>?
-                This action is irreversible."
-              values={{ datasetName: dataset?.name }}
+                This action is irreversible.{{impactedScenariosWarning}}"
+              values={{ datasetName: dataset?.name, impactedScenariosWarning }}
               shouldUnescape={true}
             />
           ),
@@ -124,7 +131,7 @@ export const DatasetList = () => {
         deleteDataset(dataset?.id);
       }
     },
-    [t, deleteDataset]
+    [t, deleteDataset, isDatasetCopyEnabledInWorkspace]
   );
 
   const confirmAndRefreshDataset = useCallback((event, callbackFunction) => {

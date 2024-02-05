@@ -382,6 +382,20 @@ const interceptCreateDataset = (options, stubbingOptions = stub.getDatasetImport
   return alias;
 };
 
+const interceptLinkDataset = () => {
+  const alias = forgeAlias('reqLinkDataset');
+  cy.intercept({ method: 'POST', url: API_REGEX.DATASET_LINK, times: 1 }, (req) => {
+    const regexResult = req.url.match(API_REGEX.DATASET_LINK);
+    const datasetId = regexResult?.[1];
+    if (stub.isEnabledFor('CREATE_DATASET') || stub.isEnabledFor('GET_DATASETS')) {
+      // TODO: patch dataset in stubbing object to add linked workspace
+      // const workspaceId = regexResult?.[3];
+      req.reply(stub.getDatasetById(datasetId));
+    }
+  }).as(alias);
+  return alias;
+};
+
 const interceptRefreshDataset = () => {
   const alias = forgeAlias('reqRefreshDataset');
   cy.intercept({ method: 'POST', url: API_REGEX.DATASET_REFRESH, times: 1 }, (req) => {
@@ -633,6 +647,7 @@ export const apiUtils = {
   interceptGetDatasetStatus,
   interceptRollbackDatasetStatus,
   interceptCreateDataset,
+  interceptLinkDataset,
   interceptRefreshDataset,
   interceptRefreshDatasetAndPollStatus,
   interceptUpdateDataset,

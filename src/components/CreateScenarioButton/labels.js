@@ -1,17 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-export const logsLabels = {
-  warning: {
-    datasetFilter: {
-      emptyOrNotArray: 'Datasets filter is ignored because is not a array or is empty',
-      getNotAString: (dsetFilter) => `Dataset filter entry ${dsetFilter} is ignored because is not a string`,
-      getDatasetNotFoundForFilter: (dsetFilter) => `No dataset found for dataset filter entry ${dsetFilter}`,
-      noDatasetFound: 'Datasets filter is ignored because no dataset match with filters',
-    },
-  },
-};
-
 export const getCreateScenarioDialogLabels = (t, disabled) => {
   const createScenarioButtonTooltip = disabled
     ? t(

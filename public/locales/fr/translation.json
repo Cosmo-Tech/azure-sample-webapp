@@ -164,9 +164,10 @@
         },
         "delete": {
           "title": "Supprimer un dataset ?",
-          "body": "Voulez-vous supprimer <i>{{datasetName}}</i> ? Cette action est irréversible.",
+          "body": "Voulez-vous supprimer <i>{{datasetName}}</i> ? Cette action est irréversible.{{impactedScenariosWarning}}",
           "bodyWithChildren": "Les datasets enfants suivants seront également supprimés:",
-          "confirmButton": "Supprimer"
+          "confirmButton": "Supprimer",
+          "impactedScenariosWarning": "Tous les scénarios utilisant ce dataset seront impactés."
         },
         "cancel": "Annuler"
       },
@@ -187,6 +188,7 @@
           "empty": "Votre dataset est vide",
           "apiLink": "Vous pouvez utiliser l'<1>API Cosmo Tech</1> pour charger des données",
           "loading": "Données en cours d'importation, veuillez patienter",
+          "noDatasetSelected": "Aucun dataset sélectionné. Vous pouvez sélectionner un dataset depuis le panneau latéral gauche.",
           "unknown": "Le dataset a un statut inconnu, si le problème persiste, merci de contacter votre administrateur",
           "retryButton": "Réessayer",
           "rollbackButton": "Restaurer"
@@ -483,6 +485,7 @@
       "datasetNotDeleted": "Le dataset n'a pas pu être supprimé",
       "datasetNotUpdated": "Le dataset n'a pas pu être mis à jour",
       "datasetNotCreated": "Le dataset n'a pas pu être créé",
+      "datasetNotLinked": "Une erreur est survenue lors de l'ajout dans le workspace du dataset nouvellement créé ({{datasetId}}). Veuillez créer un nouveau dataset, et contacter votre administrateur si le problème persiste.",
       "twingraphNotCreated": "Une erreur est survenue pendant la creation du twingraph",
       "twingraphStatusPollingFailed": "Une erreur est survenue lors de la mise à jour du statut du dataset {{datasetDetails}}",
       "datasetNotRefreshed": "Une erreur est survenue pendant la mise à jour du dataset",

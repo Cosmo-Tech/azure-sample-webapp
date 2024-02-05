@@ -164,9 +164,10 @@
         },
         "delete": {
           "title": "Delete dataset?",
-          "body": "Do you really want to delete <i>{{datasetName}}</i>? This action is irreversible.",
+          "body": "Do you really want to delete <i>{{datasetName}}</i>? This action is irreversible.{{impactedScenariosWarning}}",
           "bodyWithChildren": "The following children datasets will also be permanently removed:",
-          "confirmButton": "Delete"
+          "confirmButton": "Delete",
+          "impactedScenariosWarning": "All the scenarios using this dataset will be impacted."
         },
         "cancel": "Cancel"
       },
@@ -187,6 +188,7 @@
           "empty": "Your dataset is empty",
           "apiLink": "You can use the <1>Cosmo Tech API</1> to populate it",
           "loading": "Importing your data, please wait...",
+          "noDatasetSelected": "No dataset selected. You can select a dataset in the left-side panel.",
           "unknown": "The dataset has an unknown state, if the problem persists, please, contact your administrator",
           "retryButton": "Retry",
           "rollbackButton": "Rollback"
@@ -482,6 +484,7 @@
       "noPermissionDetail": "You don't have permission to access the scenario #{{scenarioId}} from workspace #{{workspaceId}} of organization #{{organizationId}}",
       "datasetNotDeleted": "Dataset hasn't been deleted",
       "datasetNotCreated": "Dataset hasn't been created",
+      "datasetNotLinked": "An error occurred when trying to link the created dataset ({{datasetId}}) to the workspace. Please try to create a new dataset and contact your administrator if the problem persists.",
       "datasetNotUpdated": "Dataset hasn't been updated",
       "twingraphNotCreated": "A problem occurred during twingraph creation",
       "twingraphStatusPollingFailed": "A problem occurred when querying the status of dataset {{datasetDetails}}",

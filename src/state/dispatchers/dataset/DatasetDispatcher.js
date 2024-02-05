@@ -14,8 +14,13 @@ export const dispatchAddDatasetToStore = (payLoad) => ({
 });
 
 export const dispatchSelectDatasetById = (datasetId) => ({
-  type: DATASET_ACTIONS_KEY.SET_CURRENT_DATASET_INDEX,
+  type: DATASET_ACTIONS_KEY.SELECT_DATASET,
   selectedDatasetId: datasetId,
+});
+
+export const dispatchSelectDefaultDataset = (selectableDatasets) => ({
+  type: DATASET_ACTIONS_KEY.SELECT_DEFAULT_DATASET,
+  selectableDatasets,
 });
 
 export const dispatchDeleteDataset = (organizationId, datasetId, selectedDatasetId) => ({

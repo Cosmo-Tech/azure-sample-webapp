@@ -52,10 +52,14 @@ export const datasetsReducer = createReducer(datasetInitialState, (builder) => {
       const index = state.list.data.findIndex((dataset) => dataset.id === action.datasetId);
       state.list.data.splice(index, 1);
     })
-    .addCase(DATASET_ACTIONS_KEY.SET_CURRENT_DATASET_INDEX, (state, action) => {
-      const datasetToSelect =
-        action.selectedDatasetId ||
-        ResourceUtils.getResourceTree(state.list.data?.filter((dataset) => dataset.main === true))?.[0]?.id;
-      state.selectedDatasetIndex = state.list.data.findIndex((dataset) => dataset.id === datasetToSelect);
+    .addCase(DATASET_ACTIONS_KEY.SELECT_DATASET, (state, action) => {
+      const targetDatasetIndex = state.list.data.findIndex((dataset) => dataset.id === action.selectedDatasetId);
+      state.selectedDatasetIndex = targetDatasetIndex !== -1 ? targetDatasetIndex : null;
+    })
+    .addCase(DATASET_ACTIONS_KEY.SELECT_DEFAULT_DATASET, (state, action) => {
+      const selectableDatasets = action.selectableDatasets ?? state.list.data;
+      const targetDatasetId = ResourceUtils.getResourceTree(selectableDatasets)?.[0]?.id;
+      const targetDatasetIndex = state.list.data.findIndex((dataset) => dataset.id === targetDatasetId);
+      state.selectedDatasetIndex = targetDatasetIndex !== -1 ? targetDatasetIndex : null;
     });
 });
