@@ -49,9 +49,9 @@ const ScenarioParameterInput = ({ parameterData, context }) => {
           }
         };
 
-        const resetParameterValue = (newDefaultValue) => {
+        const resetParameterValue = (newDefaultValue, keepDirty = false) => {
           if (scenarioIdOnMount.current === getCurrentScenarioId()) {
-            resetField(parameterData.id, { defaultValue: newDefaultValue });
+            resetField(parameterData.id, { defaultValue: newDefaultValue, keepDirty });
           }
         };
 
