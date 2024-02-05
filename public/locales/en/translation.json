@@ -189,6 +189,10 @@
           "apiLink": "You can use the <1>Cosmo Tech API</1> to populate it",
           "loading": "Importing your data, please wait...",
           "noDatasetSelected": "No dataset selected. You can select a dataset in the left-side panel.",
+          "noKpis": {
+            "title": "Your dataset is ready",
+            "subtitle": "You can use it to create new scenarios"
+          },
           "unknown": "The dataset has an unknown state, if the problem persists, please, contact your administrator",
           "retryButton": "Retry",
           "rollbackButton": "Rollback"
