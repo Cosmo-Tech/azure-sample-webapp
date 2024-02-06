@@ -177,13 +177,18 @@ export const DatasetList = () => {
       let refreshButton = null;
       if (dataset.sourceType === DATASET_SOURCE_TYPE.LOCAL_FILE)
         refreshButton = (
-          <ReuploadFileDatasetButton datasetId={dataset.id} confirmAndCallback={confirmAndRefreshDataset} />
+          <ReuploadFileDatasetButton
+            confirmAndCallback={confirmAndRefreshDataset}
+            datasetId={dataset.id}
+            disabled={dataset.ingestionStatus === INGESTION_STATUS.PENDING}
+          />
         );
       else if (dataset.sourceType !== DATASET_SOURCE_TYPE.NONE) {
         refreshButton = (
           <IconButton
             onClick={(event) => confirmAndRefreshDataset(event, () => refreshDatasetById(dataset.id))}
             data-cy={`dataset-refresh-button-${dataset.id}`}
+            disabled={dataset.ingestionStatus === INGESTION_STATUS.PENDING}
           >
             <RefreshIcon />
           </IconButton>
@@ -207,6 +212,7 @@ export const DatasetList = () => {
             <IconButton
               onClick={(event) => askConfirmationToDeleteDialog(event, dataset)}
               data-cy={`dataset-delete-button-${dataset.id}`}
+              disabled={dataset.ingestionStatus === INGESTION_STATUS.PENDING}
             >
               <DeleteForeverIcon />
             </IconButton>
