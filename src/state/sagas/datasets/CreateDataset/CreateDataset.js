@@ -87,6 +87,28 @@ export function* createDataset(action) {
           datasetId: data.id,
           organizationId,
         });
+      } else {
+        let error = null;
+        if (response?.status === 400) {
+          error = yield new Response(response.body).json();
+          console.error(error);
+        }
+
+        yield put(
+          dispatchSetApplicationErrorMessage(
+            error,
+            t(
+              'commoncomponents.banner.datasetCreationFileUploadFailed',
+              'The file upload for dataset creation has failed'
+            )
+          )
+        );
+
+        yield put({
+          type: DATASET_ACTIONS_KEY.UPDATE_DATASET,
+          datasetId: data.id,
+          datasetData: { ingestionStatus: INGESTION_STATUS.ERROR },
+        });
       }
     }
   } catch (error) {

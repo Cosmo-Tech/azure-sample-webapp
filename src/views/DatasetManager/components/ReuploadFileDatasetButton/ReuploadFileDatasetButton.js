@@ -12,18 +12,32 @@ import { INGESTION_STATUS } from '../../../../services/config/ApiConstants';
 
 export const ReuploadFileDatasetButton = ({ datasetId, confirmAndCallback, iconButton }) => {
   const { t } = useTranslation();
-  const { organizationId, pollTwingraphStatus, updateDatasetInStore } = useReuploadFileDatasetButton();
+  const { organizationId, pollTwingraphStatus, setApplicationErrorMessage, updateDatasetInStore } =
+    useReuploadFileDatasetButton();
 
   const handleFileUpload = useCallback(
     async (event) => {
       const file = event.target.files[0];
       if (file == null) return;
 
-      await DatasetsUtils.uploadZipWithFetchApi(organizationId, datasetId, file);
-      updateDatasetInStore(datasetId, { ingestionStatus: INGESTION_STATUS.PENDING });
-      pollTwingraphStatus(datasetId);
+      const response = await DatasetsUtils.uploadZipWithFetchApi(organizationId, datasetId, file);
+      if (response?.ok) {
+        updateDatasetInStore(datasetId, { ingestionStatus: INGESTION_STATUS.PENDING });
+        pollTwingraphStatus(datasetId);
+      } else {
+        let error = null;
+        if (response?.status === 400) {
+          error = await new Response(response.body).json();
+          console.error(error);
+        }
+        setApplicationErrorMessage(
+          error,
+          t('commoncomponents.banner.datasetFileReuploadFailed', 'The file upload for dataset update has failed')
+        );
+        updateDatasetInStore(datasetId, { ingestionStatus: INGESTION_STATUS.ERROR });
+      }
     },
-    [datasetId, organizationId, pollTwingraphStatus, updateDatasetInStore]
+    [datasetId, organizationId, pollTwingraphStatus, setApplicationErrorMessage, t, updateDatasetInStore]
   );
 
   const openFileBrowser = useCallback((inputElementId) => document.getElementById(inputElementId).click(), []);
