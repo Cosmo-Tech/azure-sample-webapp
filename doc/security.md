@@ -53,6 +53,8 @@ You can change the CSP rules by modifying the plugin configuration, in the file 
 
 #### frame-src
 
+- `'self'` required to avoid errors with MSAL authentication
+- `blob:` required to authorize file downloads from PowerBI dashboards (e.g. export of scenario results)
 - `https://app.powerbi.com` allow iframe for PowerBI
 - `https://login.microsoftonline.com` allow iframe to Microsoft login service (required to be able to refresh tokens)
 
