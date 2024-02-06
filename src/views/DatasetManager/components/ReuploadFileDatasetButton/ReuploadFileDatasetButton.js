@@ -10,7 +10,7 @@ import { useReuploadFileDatasetButton } from './ReuploadFileDatasetButtonHook';
 import { DatasetsUtils } from '../../../../utils';
 import { INGESTION_STATUS } from '../../../../services/config/ApiConstants';
 
-export const ReuploadFileDatasetButton = ({ datasetId, confirmAndCallback, iconButton }) => {
+export const ReuploadFileDatasetButton = ({ confirmAndCallback, datasetId, disabled, iconButton }) => {
   const { t } = useTranslation();
   const { organizationId, pollTwingraphStatus, setApplicationErrorMessage, updateDatasetInStore } =
     useReuploadFileDatasetButton();
@@ -50,6 +50,7 @@ export const ReuploadFileDatasetButton = ({ datasetId, confirmAndCallback, iconB
         <IconButton
           component="span"
           data-cy={`dataset-reupload-button-${datasetId}`}
+          disabled={disabled}
           onClick={(event) => {
             event.stopPropagation();
             confirmAndCallback(event, () => openFileBrowser(inputId));
@@ -60,6 +61,7 @@ export const ReuploadFileDatasetButton = ({ datasetId, confirmAndCallback, iconB
       ) : (
         <Button
           data-cy={`dataset-reupload-button-${datasetId}`}
+          disabled={disabled}
           variant="contained"
           onClick={(event) => {
             event.stopPropagation();
@@ -75,10 +77,12 @@ export const ReuploadFileDatasetButton = ({ datasetId, confirmAndCallback, iconB
 
 ReuploadFileDatasetButton.propTypes = {
   datasetId: PropTypes.string.isRequired,
+  disabled: PropTypes.bool,
   confirmAndCallback: PropTypes.func,
   iconButton: PropTypes.bool,
 };
 
 ReuploadFileDatasetButton.defaultProps = {
+  disabled: false,
   iconButton: true,
 };
