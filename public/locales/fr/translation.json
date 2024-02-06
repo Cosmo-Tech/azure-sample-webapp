@@ -489,6 +489,8 @@
       "datasetNotDeleted": "Le dataset n'a pas pu être supprimé",
       "datasetNotUpdated": "Le dataset n'a pas pu être mis à jour",
       "datasetNotCreated": "Le dataset n'a pas pu être créé",
+      "datasetCreationFileUploadFailed": "Échec de l'envoi des données lors de la création du dataset",
+      "datasetFileReuploadFailed": "Échec de l'envoi des données lors de la mise à jour du dataset",
       "datasetNotLinked": "Une erreur est survenue lors de l'ajout dans le workspace du dataset nouvellement créé ({{datasetId}}). Veuillez créer un nouveau dataset, et contacter votre administrateur si le problème persiste.",
       "twingraphNotCreated": "Une erreur est survenue pendant la creation du twingraph",
       "twingraphStatusPollingFailed": "Une erreur est survenue lors de la mise à jour du statut du dataset {{datasetDetails}}",

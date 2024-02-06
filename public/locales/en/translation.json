@@ -488,6 +488,8 @@
       "noPermissionDetail": "You don't have permission to access the scenario #{{scenarioId}} from workspace #{{workspaceId}} of organization #{{organizationId}}",
       "datasetNotDeleted": "Dataset hasn't been deleted",
       "datasetNotCreated": "Dataset hasn't been created",
+      "datasetCreationFileUploadFailed": "The file upload for dataset creation has failed",
+      "datasetFileReuploadFailed": "The file upload for dataset update has failed",
       "datasetNotLinked": "An error occurred when trying to link the created dataset ({{datasetId}}) to the workspace. Please try to create a new dataset and contact your administrator if the problem persists.",
       "datasetNotUpdated": "Dataset hasn't been updated",
       "twingraphNotCreated": "A problem occurred during twingraph creation",
