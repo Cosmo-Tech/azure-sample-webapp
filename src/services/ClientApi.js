@@ -10,7 +10,7 @@ const addInterceptors = (axiosInstance) => {
     async (request) => {
       const tokens = await Auth.acquireTokens();
       if (tokens?.accessToken) {
-        request.headers.common.Authorization = 'Bearer ' + tokens.accessToken;
+        request.headers.Authorization = 'Bearer ' + tokens.accessToken;
         return request;
       }
       Auth.signOut();
