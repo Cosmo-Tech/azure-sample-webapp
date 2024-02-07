@@ -20,8 +20,8 @@ const getTableCellDefaultValue = (column, dateFormat) => {
       return column?.defaultValue
         ? DateUtils.format(new Date(column.defaultValue), dateFormat)
         : column?.minValue
-        ? DateUtils.format(new Date(column.minValue), dateFormat)
-        : DateUtils.format(new Date(0), dateFormat);
+          ? DateUtils.format(new Date(column.minValue), dateFormat)
+          : DateUtils.format(new Date(0), dateFormat);
     default:
       return column?.defaultValue ?? 'value';
   }

@@ -47,8 +47,8 @@ const getScenarioViewReportConfig = (reportsConfig, runTemplateId) => {
   return Array.isArray(reportsConfig)
     ? reportsConfig
     : runTemplateId in reportsConfig
-    ? [reportsConfig[runTemplateId]]
-    : [];
+      ? [reportsConfig[runTemplateId]]
+      : [];
 };
 
 const _getReportsIdsFromDashboardsViewConfig = (reportsConfig) => reportsConfig.map((report) => report.reportId);

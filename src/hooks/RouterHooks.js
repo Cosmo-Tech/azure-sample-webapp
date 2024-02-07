@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { useCallback, useEffect, useRef } from 'react';
-import { useNavigate, useParams, unstable_useBlocker as useBlocker } from 'react-router-dom';
+import { useNavigate, useParams, useBlocker } from 'react-router-dom';
 import { useFindScenarioById, useCurrentScenarioId } from '../state/hooks/ScenarioHooks';
 import { useWorkspaceData } from '../state/hooks/WorkspaceHooks';
 import { ConfigUtils } from '../utils';
