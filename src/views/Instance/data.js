@@ -142,8 +142,7 @@ async function _fetchDataFromADT(organizationId, workspaceId, scenarioId, dataSo
   const tokens = await Auth.acquireTokens();
   const headers = { 'x-functions-key': dataSource.functionKey };
   if (tokens?.accessToken) {
-    headers.common = {};
-    headers.common.Authorization = 'Bearer ' + tokens.accessToken;
+    headers.Authorization = 'Bearer ' + tokens.accessToken;
   }
   return axios({
     method: 'post',
