@@ -47,8 +47,8 @@ const browse = (options) => {
     options.workspaceId !== undefined
       ? options.workspaceId
       : stub.isEnabledFor('GET_WORKSPACES') && workspaces.length === 1
-      ? workspaces[0].id // detect from stubbed workspace data
-      : options.url?.match(WEBAPP_URL_REGEX.WORKSPACE)?.[0]; // detect from URL
+        ? workspaces[0].id // detect from stubbed workspace data
+        : options.url?.match(WEBAPP_URL_REGEX.WORKSPACE)?.[0]; // detect from URL
   // Detect scenario id if not provided (and not explicitly null)
   const scenarioId =
     options.scenarioId !== undefined
