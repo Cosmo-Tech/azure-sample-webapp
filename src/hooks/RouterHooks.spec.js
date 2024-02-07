@@ -8,7 +8,7 @@ import { useConfirmOnRouteChange } from './RouterHooks';
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
-  unstable_useBlocker: () => jest.fn(),
+  useBlocker: () => jest.fn(),
 }));
 
 const confirmMessage = 'confirmMessage';
