@@ -2,10 +2,16 @@
 // Licensed under the MIT license.
 
 import React from 'react';
-import { Dashboards, Instance, Scenario, ScenarioManager } from './views';
+import { Dashboards, Instance, Scenario, ScenarioManager, DatasetManager } from './views';
 import { ConfigUtils } from './utils';
 
 const DEFAULT_TABS = [
+  {
+    key: 'tabs.datasetmanager.key',
+    label: 'layouts.tabs.datasetmanager.tab.title',
+    to: 'datasetmanager',
+    render: <DatasetManager />,
+  },
   {
     key: 'tabs.scenario.key',
     label: 'layouts.tabs.scenario.tab.title',
@@ -37,10 +43,17 @@ export const getTabsForCurrentWorkspace = (currentWorkspaceData) => {
 };
 
 export const filterTabsForCurrentWorkspace = (tabs, currentWorkspaceData) => {
-  if (!ConfigUtils.isInstanceViewConfigValid(currentWorkspaceData?.webApp?.options?.instanceView)) {
-    return tabs.filter((tab) => tab.key !== 'tabs.instance.key');
-  }
-  return tabs;
+  const hideInstanceView = !ConfigUtils.isInstanceViewConfigValid(currentWorkspaceData?.webApp?.options?.instanceView);
+  const hideDatasetManager = !ConfigUtils.isDatasetManagerEnabledInWorkspace(currentWorkspaceData);
+
+  return tabs.filter((tab) => {
+    if (
+      (hideInstanceView && tab.key === 'tabs.instance.key') ||
+      (hideDatasetManager && tab.key === 'tabs.datasetmanager.key')
+    )
+      return false;
+    return true;
+  });
 };
 
 export const getAllTabs = () => {

@@ -9,9 +9,13 @@ import {
   Scenarios,
   Workspaces,
   ScenarioSelector,
+  DatasetManager,
 } from '../../commons/actions';
 import { DEFAULT_SCENARIOS_LIST, EXTENDED_WORKSPACES_LIST } from '../../fixtures/stubbing/default';
 import { routeUtils as route } from '../../commons/utils';
+
+// Patch EXTENDED_WORKSPACES_LIST to enable datasetmanager
+EXTENDED_WORKSPACES_LIST.forEach((workspace) => (workspace.webApp.options.datasetManager = {}));
 
 describe('Back and forward navigation between tabs, scenarios and workspaces', () => {
   before(() => {
@@ -134,5 +138,15 @@ describe('Back and forward navigation between tabs, scenarios and workspaces', (
     ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
     route.goBack();
     Workspaces.getWorkspacesView().should('exist');
+    Workspaces.selectWorkspace(EXTENDED_WORKSPACES_LIST[2].id);
+    ScenarioSelector.selectScenario(DEFAULT_SCENARIOS_LIST[3].name, DEFAULT_SCENARIOS_LIST[3].id);
+    DatasetManager.switchToDatasetManagerView();
+    DatasetManager.getNoDatasetsPlaceholder().should('be.visible');
+    route.goBack();
+    route.goForward();
+    DatasetManager.getNoDatasetsPlaceholder().should('be.visible');
+    Workspaces.switchToWorkspaceView();
+    route.goBack({ workspaceId: EXTENDED_WORKSPACES_LIST[2].id });
+    DatasetManager.getNoDatasetsPlaceholder(15).should('be.visible');
   });
 });

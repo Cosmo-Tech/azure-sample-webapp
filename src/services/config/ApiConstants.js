@@ -32,3 +32,26 @@ export const VALID_MIME_TYPES = [
   'text/plain',
   'text/x-yaml',
 ];
+
+export const TWINCACHE_STATUS = {
+  EMPTY: 'EMPTY',
+  FULL: 'FULL',
+  UNKNOWN: 'UNKNOWN',
+};
+
+export const INGESTION_STATUS = {
+  NONE: 'NONE',
+  PENDING: 'PENDING',
+  ERROR: 'ERROR',
+  SUCCESS: 'SUCCESS',
+  UNKNOWN: 'UNKNOWN',
+};
+
+export const DATASET_SOURCE_TYPE = {
+  ADT: 'ADT',
+  AZURE_STORAGE: 'AzureStorage',
+  LOCAL_FILE: 'File',
+  NONE: 'None',
+};
+
+export const TWINGRAPH_SECTION_URL = '/swagger-ui/index.html#/dataset/twingraphQuery';

@@ -1,25 +1,28 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
+import { t } from 'i18next';
+import { Auth } from '@cosmotech/core';
 import {
   CONNECTOR_VERSION_AZURE_STORAGE,
   CONNECTOR_NAME_AZURE_STORAGE,
   CONNECTOR_NAME_ADT,
   STORAGE_ROOT_DIR_PLACEHOLDER,
 } from '../services/config/ApiConstants';
+import { Api } from '../services/config/Api';
+import { dispatchSetApplicationErrorMessage } from '../state/dispatchers/app/ApplicationDispatcher';
+import { ACL_ROLES } from '../services/config/accessControl';
 import { SecurityUtils } from './SecurityUtils';
 
 const patchDatasetWithCurrentUserPermissions = (dataset, userEmail, permissionsMapping) => {
-  if (dataset?.security == null || Object.keys(dataset?.security).length === 0) return;
+  if (dataset == null) return;
 
-  dataset.security = {
-    ...dataset.security,
-    currentUserPermissions: SecurityUtils.getUserPermissionsForResource(
-      dataset.security,
-      userEmail,
-      permissionsMapping
-    ),
-  };
+  let userPermissions;
+  if (dataset.security == null)
+    userPermissions = SecurityUtils.getPermissionsFromRole(ACL_ROLES.DATASET.ADMIN, permissionsMapping);
+  else userPermissions = SecurityUtils.getUserPermissionsForResource(dataset.security, userEmail, permissionsMapping);
+
+  dataset.security = { ...dataset.security, currentUserPermissions: userPermissions };
 };
 
 // Build dataset file location in Azure Storage
@@ -59,10 +62,60 @@ function buildAzureStorageConnector(connectorId, storageFilePath) {
   };
 }
 
+const getAllChildrenDatasetsNames = (initialDatasetId, datasets) => {
+  if (!Array.isArray(datasets) || !datasets.some((dataset) => dataset.parentId === initialDatasetId)) return [];
+  const childrenDatasets = datasets.filter((dataset) => dataset.parentId !== null);
+  const datasetTree = [];
+  const buildDatasetTree = (parentId) => {
+    childrenDatasets.forEach((dataset) => {
+      if (dataset.parentId === parentId) {
+        datasetTree.push(dataset.name);
+        buildDatasetTree(dataset.id);
+      }
+    });
+  };
+  buildDatasetTree(initialDatasetId);
+  return datasetTree;
+};
+
+const removeUndefinedValuesBeforeCreatingDataset = (values) => {
+  if (!values) return;
+  Object.keys(values).forEach((field) => {
+    if (values[field] === undefined) delete values[field];
+    else if (typeof values[field] === 'object') {
+      removeUndefinedValuesBeforeCreatingDataset(values[field]);
+    }
+  });
+};
+
+const uploadZipWithFetchApi = async (organizationId, datasetId, file) => {
+  try {
+    const tokens = await Auth.acquireTokens();
+    const headers = {
+      Authorization: 'Bearer ' + tokens.accessToken,
+      'Content-Type': 'application/octet-stream',
+    };
+    return await fetch(`${Api.defaultBasePath}/organizations/${organizationId}/datasets/${datasetId}`, {
+      method: 'POST',
+      headers,
+      body: file,
+    });
+  } catch (error) {
+    console.error(error);
+    dispatchSetApplicationErrorMessage(
+      error,
+      t('commoncomponents.banner.twingraphNotCreated', 'A problem occurred during twingraph creation or update')
+    );
+  }
+};
+
 export const DatasetsUtils = {
   patchDatasetWithCurrentUserPermissions,
   buildStorageFilePath,
   getStorageFilePathFromDataset,
   getFileNameFromDataset,
   buildAzureStorageConnector,
+  getAllChildrenDatasetsNames,
+  removeUndefinedValuesBeforeCreatingDataset,
+  uploadZipWithFetchApi,
 };

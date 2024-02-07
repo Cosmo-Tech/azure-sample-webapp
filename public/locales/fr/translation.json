@@ -141,6 +141,108 @@
         "noScenario": "Aucun scénario créé. Vous pouvez créer un scénario dans la vue Scénario."
       }
     },
+    "datasetmanager": {
+      "metadata": {
+        "author": "Auteur",
+        "apiUrl": "URL de l'API",
+        "copied": "Copié",
+        "creationDate": "Date de création",
+        "description": "Description",
+        "descriptionPlaceholder": "Description du dataset",
+        "refreshDate": "Dernière modification",
+        "sourceType": "Source",
+        "tags": "Tags",
+        "tagsPlaceholder": "Nouveau tag",
+        "unknown": "inconnu"
+      },
+      "dialogs": {
+        "refresh": {
+          "title": "Écraser les données ?",
+          "body": "Vos données seront perdues, écrasées par les données importées.",
+          "checkbox": "Ne plus me demander.",
+          "overwriteButton": "Écraser"
+        },
+        "delete": {
+          "title": "Supprimer un dataset ?",
+          "body": "Voulez-vous supprimer <i>{{datasetName}}</i> ? Cette action est irréversible.{{impactedScenariosWarning}}",
+          "bodyWithChildren": "Les datasets enfants suivants seront également supprimés:",
+          "confirmButton": "Supprimer",
+          "impactedScenariosWarning": "Tous les scénarios utilisant ce dataset seront impactés."
+        },
+        "cancel": "Annuler"
+      },
+      "overview": {
+        "attributesLabel": "Attributs:",
+        "categoryTypes": {
+          "entity": "Entité",
+          "relationship": "Relations"
+        },
+        "kpiState": {
+          "failed": "La requête pour cet indicateur a échoué",
+          "loading": "Chargement",
+          "unknown": "État inconnu"
+        },
+        "title": "Aperçu",
+        "placeholder": {
+          "error": "Une erreur est survenue pendant l'import des données",
+          "empty": "Votre dataset est vide",
+          "apiLink": "Vous pouvez utiliser l'<1>API Cosmo Tech</1> pour charger des données",
+          "loading": "Données en cours d'importation, veuillez patienter",
+          "noDatasetSelected": "Aucun dataset sélectionné. Vous pouvez sélectionner un dataset depuis le panneau latéral gauche.",
+          "noKpis": {
+            "title": "Le dataset est prêt",
+            "subtitle": "Vous pouvez l'utiliser pour créer de nouveaux scénarios"
+          },
+          "unknown": "Le dataset a un statut inconnu, si le problème persiste, merci de contacter votre administrateur",
+          "retryButton": "Réessayer",
+          "rollbackButton": "Restaurer"
+        }
+      },
+      "wizard": {
+        "title": "Créer un dataset",
+        "stepOne": "Métadonnées",
+        "stepTwo": "Type de la source du dataset",
+        "firstScreen": {
+          "title": "Veuillez renseigner des métadonnées de votre dataset",
+          "name": "Nom",
+          "tags": "Tags",
+          "description": "Description"
+        },
+        "secondScreen": {
+          "subtitle": "Veuillez renseigner la source des données",
+          "dataSourceType": {
+            "label": "Source",
+            "azureStorage": "Azure Storage",
+            "local": "Fichier local",
+            "adt": "Azure Digital Twin",
+            "none": "Dataset vide"
+          },
+          "azureStorage": {
+            "accountName": "Nom du compte",
+            "containerName": "Nom du container",
+            "path": "Chemin"
+          }
+        },
+        "buttons": {
+          "previous": "Précédent",
+          "next": "Suivant",
+          "create": "Créer"
+        }
+      },
+      "searchBar": {
+        "label": "Rechercher..."
+      },
+      "noDatasets": {
+        "title": "Vous n'avez aucun dataset pour le moment",
+        "body": "Cliquez sur <createDatasetButton /> pour importer vos premières données"
+      },
+      "create": {
+        "label": "Créer"
+      },
+      "backdrop": {
+        "deleting": "Suppression du dataset en cours"
+      }
+    },
     "iframe": {
       "title": "Tableau de bord",
       "scenario": {
@@ -358,6 +460,7 @@
     "banner": {
       "unknownError": "Erreur inconnue",
       "dataset": "Le dataset n'a pas pu être téléchargé.",
+      "datasetsFetchFailed": "Une erreur inconnue est survenue lors de la récupération des datasets.",
       "logs": "Le fichier des logs n'a pas pu être téléchargé.",
       "create": "Le scénario n'a pas pu être créé.",
       "delete": "Le scénario n'a pas pu être supprimé.",
@@ -382,7 +485,17 @@
         }
       },
       "openScenario": "Le scénario n'a pu etre ouvert.",
-      "noPermissionDetail": "Vous n'avez pas la permission d'accéder au scénario #{{scenarioId}} du workspace #{{workspaceId}} de l'organisation #{{organizationId}}"
+      "noPermissionDetail": "Vous n'avez pas la permission d'accéder au scénario #{{scenarioId}} du workspace #{{workspaceId}} de l'organisation #{{organizationId}}",
+      "datasetNotDeleted": "Le dataset n'a pas pu être supprimé",
+      "datasetNotUpdated": "Le dataset n'a pas pu être mis à jour",
+      "datasetNotCreated": "Le dataset n'a pas pu être créé",
+      "datasetCreationFileUploadFailed": "Échec de l'envoi des données lors de la création du dataset",
+      "datasetFileReuploadFailed": "Échec de l'envoi des données lors de la mise à jour du dataset",
+      "datasetNotLinked": "Une erreur est survenue lors de l'ajout dans le workspace du dataset nouvellement créé ({{datasetId}}). Veuillez créer un nouveau dataset, et contacter votre administrateur si le problème persiste.",
+      "twingraphNotCreated": "Une erreur est survenue pendant la creation du twingraph",
+      "twingraphStatusPollingFailed": "Une erreur est survenue lors de la mise à jour du statut du dataset {{datasetDetails}}",
+      "datasetNotRefreshed": "Une erreur est survenue pendant la mise à jour du dataset",
+      "twingraphDataNotRestored": "Les données du twingraph n'ont pas pu être restaurées"
     }
   },
   "genericcomponent": {
@@ -705,6 +818,11 @@
       "dashboards": {
         "tab": {
           "title": "Tableaux de bord"
+        }
+      },
+      "datasetmanager": {
+        "tab": {
+          "title": "Gestionnaire de datasets"
         }
       }
     }

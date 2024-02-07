@@ -5,12 +5,13 @@ import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import rfdc from 'rfdc';
 import { useUser } from '../../state/hooks/AuthHooks';
-import { useDatasetListData } from '../../state/hooks/DatasetHooks';
-import { useCreateScenario, useCurrentScenario, useScenarioListData } from '../../state/hooks/ScenarioHooks';
+import { useCreateScenario, useCurrentScenario, useScenarios } from '../../state/hooks/ScenarioHooks';
 import { useSolution } from '../../state/hooks/SolutionHooks';
 import { useUserPermissionsOnCurrentWorkspace, useWorkspaceData } from '../../state/hooks/WorkspaceHooks';
-import { getCreateScenarioDialogLabels, logsLabels } from './labels';
+import { useWorkspaceDatasets } from '../../hooks/WorkspaceDatasetsHooks';
+import { getCreateScenarioDialogLabels } from './labels';
 import { TranslationUtils } from '../../utils';
+import { INGESTION_STATUS, TWINCACHE_STATUS } from '../../services/config/ApiConstants';
 
 export const useCreateScenarioButton = ({ disabled, onScenarioCreated }) => {
   const { t } = useTranslation();
@@ -21,13 +22,18 @@ export const useCreateScenarioButton = ({ disabled, onScenarioCreated }) => {
 
   const workspaceData = useWorkspaceData();
   const workspaceId = workspaceData.id;
+  const workspaceDatasets = useWorkspaceDatasets();
+  const usableDatasets = workspaceDatasets.filter(
+    (dataset) =>
+      !dataset.main ||
+      (dataset.ingestionStatus === INGESTION_STATUS.SUCCESS && dataset.twincacheStatus === TWINCACHE_STATUS.FULL)
+  );
 
   const createScenarioOnBackend = useCreateScenario();
 
   const currentScenario = useCurrentScenario();
 
-  const scenarioListData = useScenarioListData();
-  const datasetListData = useDatasetListData();
+  const scenarios = useScenarios();
 
   const user = useUser();
 
@@ -53,39 +59,6 @@ export const useCreateScenarioButton = ({ disabled, onScenarioCreated }) => {
     return translatedRunTemplates;
   }, [solution?.data?.runTemplates, workspaceData?.solution?.runTemplateFilter, t, clone]);
 
-  const filteredDatasets = useMemo(() => {
-    const datasetFilter = workspaceData?.webApp?.options?.datasetFilter;
-    if (!datasetFilter) {
-      return datasetListData;
-    }
-
-    if (!Array.isArray(datasetFilter) || !datasetFilter.length) {
-      console.warn(logsLabels.warning.datasetFilter.emptyOrNotArray);
-      return datasetListData;
-    }
-
-    const result = [];
-    datasetFilter.forEach((dsetFilter) => {
-      if (typeof dsetFilter !== 'string') {
-        console.warn(logsLabels.warning.datasetFilter.getNotAString(dsetFilter));
-      } else {
-        const filteredDataset = datasetListData.find((dset) => dset.id === dsetFilter);
-        if (!filteredDataset) {
-          console.warn(logsLabels.warning.datasetFilter.getDatasetNotFoundForFilter(dsetFilter));
-        } else {
-          result.push(filteredDataset);
-        }
-      }
-    });
-
-    if (!result.length) {
-      console.warn(logsLabels.warning.datasetFilter.noDatasetFound);
-      return datasetListData;
-    }
-
-    return result;
-  }, [datasetListData, workspaceData?.webApp?.options?.datasetFilter]);
-
   const createScenarioDialogLabels = getCreateScenarioDialogLabels(t, disabled);
 
   const createScenario = useCallback(
@@ -102,8 +75,8 @@ export const useCreateScenarioButton = ({ disabled, onScenarioCreated }) => {
     createScenario,
     currentScenario,
     filteredAndTranslatedRunTemplates,
-    filteredDatasets,
-    scenarioListData,
+    filteredDatasets: usableDatasets,
+    scenarios,
     user,
     disabled,
     createScenarioDialogLabels,

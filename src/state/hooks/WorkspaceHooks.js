@@ -13,6 +13,38 @@ export const useWorkspaceData = () => {
   return useSelector((state) => state.workspace.current?.data);
 };
 
+export const useWorkspaceDatasetsFilter = () => {
+  const workspaceData = useWorkspaceData();
+
+  return useMemo(() => {
+    let filter = workspaceData?.linkedDatasetIdList ?? [];
+    if (!Array.isArray(filter)) {
+      console.warn('Ignoring datasets filter "linkedDatasetIdList" because it is not an array');
+      return [];
+    }
+
+    const deprecatedFilter = workspaceData?.webApp?.options?.datasetFilter;
+    if (deprecatedFilter != null) {
+      console.warn(
+        `Deprecated option used in configuration of workspace ${workspaceData?.id}` +
+          (workspaceData?.name ? ` (${workspaceData?.name})` : '') +
+          '.\nWorkspace key "webApp.options.datasetFilter" is deprecated. Please use the Cosmo Tech API to link ' +
+          'these datasets to your workspace instead.'
+      );
+      if (!Array.isArray(deprecatedFilter))
+        console.warn('Ignoring deprecated option "datasetFilter" because it is not an array');
+      else filter = filter.concat(deprecatedFilter);
+    }
+
+    return filter;
+  }, [
+    workspaceData?.id,
+    workspaceData?.name,
+    workspaceData?.linkedDatasetIdList,
+    workspaceData?.webApp?.options?.datasetFilter,
+  ]);
+};
+
 export const useWorkspaceId = () => {
   return useSelector((state) => state.workspace.current?.data?.id);
 };
@@ -49,6 +81,10 @@ export const useUserPermissionsOnCurrentWorkspace = () => {
 
 export const useWorkspacesList = () => {
   return useSelector((state) => state.workspace?.list);
+};
+
+export const useWorkspacesReducerStatus = () => {
+  return useSelector((state) => state.workspace?.list?.status);
 };
 
 export const useSelectWorkspace = () => {

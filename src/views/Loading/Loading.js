@@ -32,12 +32,21 @@ const Loading = () => {
   const classes = useStyles();
   const { t } = useTranslation();
   const defaultTitle = 'LoadingLine Title';
-  const { powerBIInfo, scenarioList, workspaces, currentWorkspace, solution, datasetList, organization } = useLoading();
+  const {
+    powerBIReducerStatus,
+    scenariosReducerStatus,
+    workspaces,
+    workspacesReducerStatus,
+    currentWorkspaceReducerStatus,
+    solutionReducerStatus,
+    datasetsReducerStatus,
+    organizationReducerStatus,
+  } = useLoading();
 
-  const isLoading = (entityStatus) => [STATUSES.LOADING, STATUSES.IDLE].includes(entityStatus.status);
-  const hasErrors = (entityStatus) => entityStatus.status === STATUSES.ERROR;
-  const afterWorkspaceSelector = workspaces.status === STATUSES.SUCCESS;
-  const isWorkspaceAutoSelected = afterWorkspaceSelector && workspaces.data.length === 1;
+  const isLoading = (entityStatus) => [STATUSES.LOADING, STATUSES.IDLE].includes(entityStatus);
+  const hasErrors = (entityStatus) => entityStatus === STATUSES.ERROR;
+  const afterWorkspaceSelector = workspacesReducerStatus === STATUSES.SUCCESS;
+  const isWorkspaceAutoSelected = afterWorkspaceSelector && workspaces?.length === 1;
   const hidePreWorkspaceSelectorLoaders = afterWorkspaceSelector && !isWorkspaceAutoSelected;
   const hidePostWorkspaceSelectorLoaders = !afterWorkspaceSelector && !isWorkspaceAutoSelected;
 
@@ -49,22 +58,22 @@ const Loading = () => {
         <FadeIn delay={100}>
           <LoadingLine
             title={t('genericcomponent.loading.line.dataset.list.title', defaultTitle)}
-            hasError={hasErrors(datasetList)}
-            isLoading={isLoading(datasetList)}
+            hasError={hasErrors(datasetsReducerStatus)}
+            isLoading={isLoading(datasetsReducerStatus)}
             animations={animations}
             style={style}
           />
           <LoadingLine
             title={t('genericcomponent.loading.line.organization.current.title', defaultTitle)}
-            hasError={hasErrors(organization)}
-            isLoading={isLoading(organization)}
+            hasError={hasErrors(organizationReducerStatus)}
+            isLoading={isLoading(organizationReducerStatus)}
             animations={animations}
             style={style}
           />
           <LoadingLine
             title={t('genericcomponent.loading.line.workspace.list.title', defaultTitle)}
-            hasError={hasErrors(workspaces)}
-            isLoading={isLoading(workspaces)}
+            hasError={hasErrors(workspacesReducerStatus)}
+            isLoading={isLoading(workspacesReducerStatus)}
             animations={animations}
             style={style}
           />
@@ -74,29 +83,29 @@ const Loading = () => {
         <FadeIn delay={100}>
           <LoadingLine
             title={t('genericcomponent.loading.line.workspace.current.title', defaultTitle)}
-            hasError={hasErrors(currentWorkspace)}
-            isLoading={isLoading(currentWorkspace)}
+            hasError={hasErrors(currentWorkspaceReducerStatus)}
+            isLoading={isLoading(currentWorkspaceReducerStatus)}
             animations={animations}
             style={style}
           />
           <LoadingLine
             title={t('genericcomponent.loading.line.solution.current.title', defaultTitle)}
-            hasError={hasErrors(solution)}
-            isLoading={isLoading(solution)}
+            hasError={hasErrors(solutionReducerStatus)}
+            isLoading={isLoading(solutionReducerStatus)}
             animations={animations}
             style={style}
           />
           <LoadingLine
             title={t('genericcomponent.loading.line.scenario.list.title', defaultTitle)}
-            hasError={hasErrors(scenarioList)}
-            isLoading={isLoading(scenarioList)}
+            hasError={hasErrors(scenariosReducerStatus)}
+            isLoading={isLoading(scenariosReducerStatus)}
             animations={animations}
             style={style}
           />
           <LoadingLine
             title={t('genericcomponent.loading.line.powerbi.title', defaultTitle)}
-            hasError={hasErrors(powerBIInfo)}
-            isLoading={isLoading(powerBIInfo)}
+            hasError={hasErrors(powerBIReducerStatus)}
+            isLoading={isLoading(powerBIReducerStatus)}
             animations={animations}
             style={style}
           />

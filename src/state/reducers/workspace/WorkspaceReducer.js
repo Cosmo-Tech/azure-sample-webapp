@@ -13,6 +13,10 @@ const currentWorkspaceInitialState = {
 
 const currentWorkspaceReducer = createReducer(currentWorkspaceInitialState, (builder) => {
   builder
+    .addCase(WORKSPACE_ACTIONS_KEY.LINK_TO_DATASET, (state, action) => {
+      const linkedDatasets = state.data?.linkedDatasetIdList;
+      if (linkedDatasets != null && action.datasetId != null) linkedDatasets.push(action.datasetId);
+    })
     .addCase(WORKSPACE_ACTIONS_KEY.SET_CURRENT_WORKSPACE, (state, action) => {
       state.data = action.workspace;
       state.status = action.status;
@@ -29,10 +33,18 @@ const workspacesListInitialState = {
 };
 
 const workspacesListReducer = createReducer(workspacesListInitialState, (builder) => {
-  builder.addCase(WORKSPACE_ACTIONS_KEY.SET_ALL_WORKSPACES, (state, action) => {
-    state.data = action.list;
-    state.status = action.status;
-  });
+  builder
+    .addCase(WORKSPACE_ACTIONS_KEY.LINK_TO_DATASET, (state, action) => {
+      if (action.datasetId == null) return;
+
+      const targetWorkspace = state.data.find((workspace) => workspace.id === action.workspaceId);
+      const linkedDatasets = targetWorkspace?.linkedDatasetIdList;
+      if (linkedDatasets != null) linkedDatasets.push(action.datasetId);
+    })
+    .addCase(WORKSPACE_ACTIONS_KEY.SET_ALL_WORKSPACES, (state, action) => {
+      state.data = action.list;
+      state.status = action.status;
+    });
 });
 
 export const workspaceReducer = combineReducers({

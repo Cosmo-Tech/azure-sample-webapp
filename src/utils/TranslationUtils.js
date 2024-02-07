@@ -27,10 +27,69 @@ const getRunTemplateTranslationKey = (runTemplateId) => {
   return `solution.runTemplate.${runTemplateId}.name`;
 };
 
+const getDatasetCategoryNameTranslationKey = (categoryId) => {
+  return `dataset.categories.${categoryId}.name`;
+};
+
+const getDatasetCategoryDescriptionTranslationKey = (categoryId) => {
+  return `dataset.categories.${categoryId}.description`;
+};
+
+const getDatasetCategoryKpiNameTranslationKey = (categoryId, kpiId) => {
+  return `dataset.categories.${categoryId}.kpis.${kpiId}.name`;
+};
+
+const getDatasetGraphIndicatorNameTranslationKey = (graphIndicatorId) => {
+  return `dataset.graphIndicators.${graphIndicatorId}.name`;
+};
+
 const _addResourcesToi18next = (resources) => {
   const langs = Object.keys(resources);
   langs.forEach((lang) => i18next.addResources(lang, I18N_NAMESPACE, resources[lang]));
   i18next.reloadResources(langs);
+};
+
+const addTranslationOfDatasetManagerLabels = (datasetManager) => {
+  const resources = {};
+  const _addResource = (lang, key, value) => {
+    if (resources[lang] == null) resources[lang] = {};
+    resources[lang][key] = value;
+  };
+
+  for (const indicator of datasetManager?.graphIndicators ?? []) {
+    if (indicator.id == null) continue;
+    for (const lang in indicator.name) {
+      const key = getDatasetGraphIndicatorNameTranslationKey(indicator.id);
+      _addResource(lang, key, indicator.name[lang]);
+    }
+  }
+
+  for (const category of datasetManager?.categories ?? []) {
+    if (category.id == null) {
+      console.warn(`Found category without id in dataset manager configuration`);
+      continue;
+    }
+    for (const lang in category.name) {
+      const key = getDatasetCategoryNameTranslationKey(category.id);
+      _addResource(lang, key, category.name[lang]);
+    }
+    for (const lang in category.description) {
+      const key = getDatasetCategoryDescriptionTranslationKey(category.id);
+      _addResource(lang, key, category.description[lang]);
+    }
+    for (const kpi of category?.kpis ?? []) {
+      if (kpi.id == null) {
+        console.warn(`Found KPI without id in category "${category.id}"`);
+        continue;
+      }
+      for (const lang in kpi.name) {
+        const key = getDatasetCategoryKpiNameTranslationKey(category.id, kpi.id);
+        _addResource(lang, key, kpi.name[lang]);
+      }
+    }
+  }
+
+  _addResourcesToi18next(resources);
 };
 
 const addTranslationParametersGroupsLabels = (parametersGroups) => {
@@ -142,6 +201,7 @@ const getStringWithUnescapedCharacters = (string) => {
 };
 
 export const TranslationUtils = {
+  addTranslationOfDatasetManagerLabels,
   addTranslationParametersGroupsLabels,
   addTranslationParametersLabels,
   addTranslationRunTemplateLabels,
@@ -152,6 +212,10 @@ export const TranslationUtils = {
   getParameterTooltipTranslationKey,
   getParameterEnumValueTranslationKey,
   getParameterEnumValueTooltipTranslationKey,
+  getDatasetCategoryNameTranslationKey,
+  getDatasetCategoryDescriptionTranslationKey,
+  getDatasetCategoryKpiNameTranslationKey,
+  getDatasetGraphIndicatorNameTranslationKey,
   getStringWithEscapedCharacters,
   getStringWithUnescapedCharacters,
 };

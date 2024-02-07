@@ -141,6 +141,108 @@
         "noScenario": "No scenario. You can create a new scenario in the Scenario view."
       }
     },
+    "datasetmanager": {
+      "metadata": {
+        "author": "Author",
+        "apiUrl": "API URL",
+        "copied": "Copied",
+        "creationDate": "Creation date",
+        "description": "Description",
+        "descriptionPlaceholder": "Enter the dataset description",
+        "refreshDate": "Last refresh",
+        "sourceType": "Source",
+        "tags": "Tags",
+        "tagsPlaceholder": "Enter a new tag",
+        "unknown": "unknown"
+      },
+      "dialogs": {
+        "refresh": {
+          "title": "Overwrite data?",
+          "body": "Your data will be lost, replaced with the imported one.",
+          "checkbox": "Do not ask me again",
+          "overwriteButton": "Overwrite"
+        },
+        "delete": {
+          "title": "Delete dataset?",
+          "body": "Do you really want to delete <i>{{datasetName}}</i>? This action is irreversible.{{impactedScenariosWarning}}",
+          "bodyWithChildren": "The following children datasets will also be permanently removed:",
+          "confirmButton": "Delete",
+          "impactedScenariosWarning": "All the scenarios using this dataset will be impacted."
+        },
+        "cancel": "Cancel"
+      },
+      "overview": {
+        "attributesLabel": "Attributes:",
+        "categoryTypes": {
+          "entity": "Entity",
+          "relationship": "Relationship"
+        },
+        "kpiState": {
+          "failed": "The query to fetch this indicator has failed",
+          "loading": "Loading",
+          "unknown": "Unexpected state"
+        },
+        "title": "Overview",
+        "placeholder": {
+          "error": "An error occurred during import of your data",
+          "empty": "Your dataset is empty",
+          "apiLink": "You can use the <1>Cosmo Tech API</1> to populate it",
+          "loading": "Importing your data, please wait...",
+          "noDatasetSelected": "No dataset selected. You can select a dataset in the left-side panel.",
+          "noKpis": {
+            "title": "Your dataset is ready",
+            "subtitle": "You can use it to create new scenarios"
+          },
+          "unknown": "The dataset has an unknown state, if the problem persists, please, contact your administrator",
+          "retryButton": "Retry",
+          "rollbackButton": "Rollback"
+        }
+      },
+      "wizard": {
+        "title": "Create dataset",
+        "stepOne": "Metadata",
+        "stepTwo": "Dataset source type",
+        "firstScreen": {
+          "title": "Please provide some metadata regarding your new dataset",
+          "name": "Name",
+          "tags": "Tags",
+          "description": "Description"
+        },
+        "secondScreen": {
+          "subtitle": "Please provide your data source",
+          "dataSourceType": {
+            "label": "Source",
+            "azureStorage": "Azure Storage",
+            "local": "Local file",
+            "adt": "Azure Digital Twin",
+            "none": "Empty"
+          },
+          "azureStorage": {
+            "accountName": "Account name",
+            "containerName": "Container name",
+            "path": "Path"
+          }
+        },
+        "buttons": {
+          "previous": "Previous",
+          "next": "Next",
+          "create": "Create"
+        }
+      },
+      "searchBar": {
+        "label": "Find..."
+      },
+      "noDatasets": {
+        "title": "You don't have any datasets yet",
+        "body": "Click on <createDatasetButton /> to import your first data"
+      },
+      "create": {
+        "label": "Create"
+      },
+      "backdrop": {
+        "deleting": "Deleting dataset"
+      }
+    },
     "iframe": {
       "title": "Dashboard",
       "scenario": {
@@ -358,6 +460,7 @@
     "banner": {
       "unknownError": "Unknown error",
       "dataset": "Dataset hasn't been downloaded.",
+      "datasetsFetchFailed": "Unexpected error while loading the datasets.",
       "logs": "Log file hasn't been downloaded.",
       "create": "Scenario hasn't been created.",
       "delete": "Scenario hasn't been deleted.",
@@ -382,7 +485,17 @@
         }
       },
       "openScenario": "Scenario can't be opened.",
-      "noPermissionDetail": "You don't have permission to access the scenario #{{scenarioId}} from workspace #{{workspaceId}} of organization #{{organizationId}}"
+      "noPermissionDetail": "You don't have permission to access the scenario #{{scenarioId}} from workspace #{{workspaceId}} of organization #{{organizationId}}",
+      "datasetNotDeleted": "Dataset hasn't been deleted",
+      "datasetNotCreated": "Dataset hasn't been created",
+      "datasetCreationFileUploadFailed": "The file upload for dataset creation has failed",
+      "datasetFileReuploadFailed": "The file upload for dataset update has failed",
+      "datasetNotLinked": "An error occurred when trying to link the created dataset ({{datasetId}}) to the workspace. Please try to create a new dataset and contact your administrator if the problem persists.",
+      "datasetNotUpdated": "Dataset hasn't been updated",
+      "twingraphNotCreated": "A problem occurred during twingraph creation",
+      "twingraphStatusPollingFailed": "A problem occurred when querying the status of dataset {{datasetDetails}}",
+      "datasetNotRefreshed": "A problem occurred during dataset refresh",
+      "twingraphDataNotRestored": "Twingraph data hasn't been restored"
     }
   },
   "genericcomponent": {
@@ -705,6 +818,11 @@
       "dashboards": {
         "tab": {
           "title": "Dashboards"
+        }
+      },
+      "datasetmanager": {
+        "tab": {
+          "title": "Dataset manager"
         }
       }
     }

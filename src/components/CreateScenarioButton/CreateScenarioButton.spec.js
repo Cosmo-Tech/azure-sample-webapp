@@ -13,7 +13,6 @@ import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 
 import CreateScenarioButton from '.';
-import { logsLabels } from './labels';
 
 const clone = rfdc();
 const DEFAULT_SCENARIOS_LIST_DATA_WITH_DEPTHS = DEFAULT_SCENARIOS_LIST_DATA.map((scenario) => ({
@@ -123,7 +122,7 @@ describe('CreateScenarioButton', () => {
 
   describe('Filter dataset List', () => {
     const applyDatasetFilterToState = (state, datasetFilter) => {
-      state.workspace.current.data.webApp.options.datasetFilter = datasetFilter;
+      state.workspace.current.data.linkedDatasetIdList = datasetFilter;
     };
 
     const setUpWithDatasetFilter = (datasetFilter) => {
@@ -132,34 +131,28 @@ describe('CreateScenarioButton', () => {
       setUp(initialState);
     };
 
-    test('when filter is missing, datasets are not filtered', () => {
+    test('when filter is missing, datasets are filtered', () => {
       setUpWithDatasetFilter(undefined);
-      expect(mockCreateScenarioUIProps.datasets).toEqual(DEFAULT_REDUX_STATE.dataset.list.data);
+      expect(mockCreateScenarioUIProps.datasets).toEqual([]);
     });
 
-    test('when filter is not a array, datasets are not filtered', () => {
-      setUpWithDatasetFilter('notAArrayFilter');
-      expect(spyConsoleWarn).toHaveBeenCalledWith(logsLabels.warning.datasetFilter.emptyOrNotArray);
-      expect(mockCreateScenarioUIProps.datasets).toEqual(DEFAULT_REDUX_STATE.dataset.list.data);
+    test('when filter is not an array, datasets are filtered', () => {
+      setUpWithDatasetFilter('notAnArrayFilter');
+      expect(spyConsoleWarn).toHaveBeenCalledTimes(1);
+      expect(mockCreateScenarioUIProps.datasets).toEqual([]);
     });
 
-    test('when filter is empty, datasets are not filtered', () => {
+    test('must return an empty list of datasets if the filter is an empty list', () => {
       setUpWithDatasetFilter([]);
-      expect(spyConsoleWarn).toHaveBeenCalledWith(logsLabels.warning.datasetFilter.emptyOrNotArray);
-      expect(mockCreateScenarioUIProps.datasets).toEqual(DEFAULT_REDUX_STATE.dataset.list.data);
+      expect(spyConsoleWarn).toHaveBeenCalledTimes(0);
+      expect(mockCreateScenarioUIProps.datasets).toEqual([]);
     });
 
     test('when dataset filter contains no dataset id on list it should be ignored', () => {
       const datasetFilter = ['fakeDatasetId1', 'fakeDatasetId2'];
       setUpWithDatasetFilter(datasetFilter);
 
-      expect(spyConsoleWarn).toHaveBeenCalledWith(logsLabels.warning.datasetFilter.noDatasetFound);
-      datasetFilter.forEach((dsetFilter) => {
-        expect(spyConsoleWarn).toHaveBeenCalledWith(
-          logsLabels.warning.datasetFilter.getDatasetNotFoundForFilter(dsetFilter)
-        );
-      });
-
+      expect(spyConsoleWarn).toHaveBeenCalledTimes(1);
       expect(mockCreateScenarioUIProps.datasets).toEqual(DEFAULT_REDUX_STATE.dataset.list.data);
     });
 
@@ -177,7 +170,7 @@ describe('CreateScenarioButton', () => {
     test('when a filter is not string it should be ignored', () => {
       const datasetFilter = [DEFAULT_REDUX_STATE.dataset.list.data[1].id, { id: 'fakeDatasetId' }];
       setUpWithDatasetFilter(datasetFilter);
-      expect(spyConsoleWarn).toHaveBeenCalledWith(logsLabels.warning.datasetFilter.getNotAString(datasetFilter[1]));
+      expect(spyConsoleWarn).toHaveBeenCalledTimes(1);
       expect(mockCreateScenarioUIProps.datasets).toHaveLength(1);
     });
   });

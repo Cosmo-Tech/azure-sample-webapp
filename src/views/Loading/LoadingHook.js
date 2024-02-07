@@ -1,21 +1,31 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { usePowerBIInfo } from '../../state/hooks/PowerBIHooks';
-import { useScenarioList } from '../../state/hooks/ScenarioHooks';
-import { useWorkspacesList, useWorkspace } from '../../state/hooks/WorkspaceHooks';
+import { usePowerBIReducerStatus } from '../../state/hooks/PowerBIHooks';
+import { useScenariosReducerStatus } from '../../state/hooks/ScenarioHooks';
+import { useWorkspacesReducerStatus, useWorkspace, useWorkspaceData } from '../../state/hooks/WorkspaceHooks';
 import { useSolution } from '../../state/hooks/SolutionHooks';
 import { useOrganization } from '../../state/hooks/OrganizationHooks';
-import { useDatasetList } from '../../state/hooks/DatasetHooks';
+import { useDatasetsReducerStatus } from '../../state/hooks/DatasetHooks';
 
 export const useLoading = () => {
-  const powerBIInfo = usePowerBIInfo();
-  const scenarioList = useScenarioList();
-  const workspaces = useWorkspacesList();
-  const currentWorkspace = useWorkspace();
-  const solution = useSolution();
-  const organization = useOrganization();
-  const datasetList = useDatasetList();
+  const powerBIReducerStatus = usePowerBIReducerStatus();
+  const scenariosReducerStatus = useScenariosReducerStatus();
+  const workspaces = useWorkspaceData();
+  const workspacesReducerStatus = useWorkspacesReducerStatus();
+  const currentWorkspaceReducerStatus = useWorkspace()?.status;
+  const solutionReducerStatus = useSolution()?.status;
+  const organizationReducerStatus = useOrganization()?.status;
+  const datasetsReducerStatus = useDatasetsReducerStatus();
 
-  return { powerBIInfo, scenarioList, workspaces, currentWorkspace, solution, datasetList, organization };
+  return {
+    powerBIReducerStatus,
+    scenariosReducerStatus,
+    workspaces,
+    workspacesReducerStatus,
+    currentWorkspaceReducerStatus,
+    solutionReducerStatus,
+    datasetsReducerStatus,
+    organizationReducerStatus,
+  };
 };

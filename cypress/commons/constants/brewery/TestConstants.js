@@ -4,6 +4,10 @@
 export const BREWERY_WORKSPACE_ID = 'w-70klgqeroooz';
 export const REAL_BREWERY_WORKSPACE_ID = 'w-dq0jkrr0k6owl';
 
+export const DATASET_STORAGE_ACCOUNT = 'csmphoenixdev';
+export const DATASET_STORAGE_CONTAINER = 'o-gzypnd27g7';
+export const DATASET_STORAGE_REFERENCE_FOLDER = 'demobrewery';
+
 export const SCENARIO_STATUS = {
   CREATED: 'created',
   RUNNING: 'running',

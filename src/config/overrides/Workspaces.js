@@ -121,6 +121,89 @@ export const WORKSPACES = [
           organizationUrl: 'https://cosmotech.com',
           documentationUrl: 'https://portal.cosmotech.com/resources/platform-resources/platform-help',
         },
+        datasetManager: {
+          graphIndicators: [
+            { id: 'bars_count', name: { en: 'Bars', fr: 'Bars' }, queryId: 'bars' },
+            { id: 'customers_count', name: { en: 'Customers', fr: 'Clients' }, queryId: 'customers' },
+            {
+              id: 'satisfaction_links_count',
+              name: { en: 'Customers interactions', fr: 'Interactions clients' },
+              queryId: 'satisfaction_graph',
+            },
+            {
+              id: 'relationships_count',
+              name: { en: 'All relationships', fr: 'Tous les liens' },
+              queryId: 'relationships',
+            },
+          ],
+          categories: [
+            {
+              id: 'bars',
+              name: { en: 'Bars', fr: 'Bars' },
+              type: 'entity',
+              description: {
+                en:
+                  'Bars are compound entities in the Brewery model. They are responsible of the stock management and ' +
+                  'the number of waiters.\n An entity of type Bar is the parent entity of Customers inside this bar.',
+                fr:
+                  'Les bars sont des entités composées du modèle Brewery. Ils sont responsables de la gestion du ' +
+                  "stock et du nombre de serveurs.\nUne entité de type Bar est l'entité parente des entités Customer " +
+                  'présentes dans ce bar.',
+              },
+              kpis: [
+                { id: 'average_stock', name: { en: 'Average stock', fr: 'Moyenne stock' }, queryId: 'bars' },
+                { id: 'average_waiters', name: { en: 'Average waiters', fr: 'Moyenne serveurs' }, queryId: 'bars' },
+                { id: 'min_waiters', name: { en: 'Min. waiters', fr: 'Min. serveurs' }, queryId: 'bars' },
+                { id: 'max_waiters', name: { en: 'Max. waiters', fr: 'Max. serveurs' }, queryId: 'bars' },
+              ],
+              attributes: ['NbWaiters', 'RestockQty', 'Stock'],
+            },
+            {
+              id: 'customers',
+              description: {
+                en:
+                  'Customers are basic entities in the Brewery model. They are used to simulate beverage ' +
+                  'consumption inside Bar entities, with an influence graph between customers.',
+                fr:
+                  'Les clients sont des entités basiques du modèle Brewery. Ces entités permettent de simuler la ' +
+                  'consommation de boisson pour chaque entité de type Bar liée, et implémentent un graphe permettant ' +
+                  "d'influencer le comportement d'autres clients.",
+              },
+              name: { en: 'Customers', fr: 'Clients' },
+              type: 'entity',
+              kpis: [
+                {
+                  id: 'avg_satisfaction',
+                  name: { en: 'Average satisfaction', fr: 'Satisfaction moyenne' },
+                  queryId: 'customers',
+                },
+              ],
+              attributes: ['Satisfaction', 'SurroundingSatisfaction', 'Thirsty'],
+            },
+          ],
+          queries: [
+            {
+              id: 'bars',
+              query:
+                'OPTIONAL MATCH (b:Bar) RETURN COUNT(b) AS bars_count, AVG(b.Stock) AS average_stock, ' +
+                'MIN(b.NbWaiters) AS min_waiters, MAX(b.NbWaiters) AS max_waiters, AVG(b.NbWaiters) AS average_waiters',
+            },
+            {
+              id: 'customers',
+              query:
+                'OPTIONAL MATCH (c:Customer) RETURN COUNT(c) AS customers_count, AVG(c.Satisfaction) AS ' +
+                'avg_satisfaction',
+            },
+            {
+              id: 'satisfaction_graph',
+              query: 'OPTIONAL MATCH (:Customer)-[r]->(:Customer) RETURN COUNT(r) AS satisfaction_links_count',
+            },
+            {
+              id: 'relationships',
+              query: 'OPTIONAL MATCH ()-[r]->() RETURN COUNT(r) AS relationships_count',
+            },
+          ],
+        },
       },
     },
   },

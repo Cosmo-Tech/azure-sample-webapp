@@ -5,6 +5,9 @@ import { z } from 'zod';
 import { CUSTOM_WEB_APP_OPTIONS } from '../../utils/schemas/custom/customWorkspaceOptions';
 import { SchemasUtils } from '../../utils/schemas/SchemasUtils';
 
+const LABELS_DICT = z.array(z.object({}));
+const TWINGRAPH_INDICATOR = z.object({ id: z.string(), name: LABELS_DICT, queryId: z.string() }).strict();
+
 const powerBIFilters = z
   .array(
     z
@@ -105,6 +108,33 @@ const basicWebAppOptions = z.object({
     .strict()
     .optional()
     .nullable(),
+  datasetManager: z
+    .object({
+      graphIndicators: z.array(TWINGRAPH_INDICATOR).optional().nullable(),
+      categories: z
+        .array(
+          z
+            .object({
+              id: z.string(),
+              name: LABELS_DICT,
+              type: z.string().optional().nullable(),
+              description: LABELS_DICT,
+              kpis: z.array(TWINGRAPH_INDICATOR).optional().nullable(),
+              attributes: z.array(z.string().optional()).optional().nullable(),
+            })
+            .strict()
+            .required()
+        )
+        .optional()
+        .nullable(),
+      queries: z
+        .array(z.object({ id: z.string(), query: z.string() }).strict())
+        .optional()
+        .nullable(),
+    })
+    .strict()
+    .optional()
+    .nullable(),
 });
 
 const webAppOptions = SchemasUtils.patchConfigWithCustomOptions(basicWebAppOptions, CUSTOM_WEB_APP_OPTIONS);
@@ -128,6 +158,7 @@ export const WorkspaceSchema = z
       .strict()
       .optional()
       .nullable(),
+    linkedDatasetIdList: z.array(z.string().optional().nullable()).optional().nullable(),
     webApp: z
       .object({
         url: z.string().optional().nullable(),
@@ -162,6 +193,8 @@ export const WorkspaceSchema = z
       .optional()
       .nullable(),
     users: z.array(z.string().optional().nullable()).optional().nullable(),
+    indicators: z.record(z.string(), z.array(z.string().optional().nullable()).optional().nullable()),
+    queriesMapping: z.record(z.string(), z.array(z.string().optional().nullable()).optional().nullable()),
   })
   .strict()
   .optional()

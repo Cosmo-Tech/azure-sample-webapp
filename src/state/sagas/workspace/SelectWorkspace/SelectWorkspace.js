@@ -9,12 +9,12 @@ import { WORKSPACE_ACTIONS_KEY } from '../../../commons/WorkspaceConstants';
 import { SCENARIO_RUN_STATE } from '../../../../services/config/ApiConstants';
 import { getAllScenariosData } from '../../scenario/FindAllScenarios/FindAllScenariosData';
 import { fetchSolutionByIdData } from '../../solution/FindSolutionById/FindSolutionByIdData';
-import { getFirstScenarioMaster } from '../../../../utils/SortScenarioListUtils';
 import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
 import { t } from 'i18next';
 import { POWER_BI_ACTIONS_KEY } from '../../../commons/PowerBIConstants';
 import { dispatchGetPowerBIEmbedInfo } from '../../../dispatchers/powerbi/PowerBIDispatcher';
-import { ConfigUtils } from '../../../../utils';
+import { ConfigUtils, WorkspacesUtils } from '../../../../utils';
+import { ResourceUtils } from '@cosmotech/core';
 import { WorkspaceSchema } from '../../../../services/config/WorkspaceSchema';
 
 const getOrganizationId = (state) => state?.organization?.current?.data?.id;
@@ -70,6 +70,7 @@ export function* selectWorkspace(action) {
   });
 
   ConfigUtils.checkUnknownKeysInConfig(WorkspaceSchema, selectedWorkspace);
+  WorkspacesUtils.checkDatasetManagerConfiguration(selectedWorkspace);
 
   yield put({
     type: SCENARIO_ACTIONS_KEY.STOP_ALL_SCENARIO_STATUS_POLLINGS,
@@ -84,7 +85,7 @@ export function* selectWorkspace(action) {
 
   yield put({
     type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
-    scenario: getFirstScenarioMaster(scenarioList), // Function returns null if list is empty
+    scenario: ResourceUtils.getFirstRootResource(scenarioList), // Function returns null if list is empty
     status: STATUSES.SUCCESS,
   });
 

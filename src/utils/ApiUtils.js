@@ -5,6 +5,9 @@ import rfdc from 'rfdc';
 import { VAR_TYPES_TO_STRING_FUNCTIONS } from './scenarioParameters/ConversionToString';
 import { VAR_TYPES_FROM_STRING_FUNCTIONS } from './scenarioParameters/ConversionFromString.js';
 import { ConfigUtils } from './ConfigUtils';
+import { Api } from '../services/config/Api.js';
+import ConfigService from '../services/ConfigService';
+import { TWINGRAPH_SECTION_URL } from '../services/config/ApiConstants';
 
 const clone = rfdc();
 
@@ -54,8 +57,19 @@ const formatParametersFromApi = (parameters) => {
   return newParams;
 };
 
+const getDatasetApiUrl = (datasetId) => {
+  const organizationId = ConfigService.getParameterValue('ORGANIZATION_ID');
+  return `${Api.defaultBasePath}/organizations/${organizationId}/datasets/${datasetId}`;
+};
+
+const getDatasetTwingraphSwaggerSection = () => {
+  return Api.defaultBasePath + TWINGRAPH_SECTION_URL;
+};
+
 export const ApiUtils = {
   formatParameterMinMaxDefaultValuesFromString,
   formatParametersForApi,
   formatParametersFromApi,
+  getDatasetApiUrl,
+  getDatasetTwingraphSwaggerSection,
 };
