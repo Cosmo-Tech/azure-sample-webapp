@@ -8,7 +8,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import { useTranslation } from 'react-i18next';
 import { PermissionsGate } from '@cosmotech/ui';
 import { useFormContext, useFormState } from 'react-hook-form';
-import { useScenarioResetValues } from '../../../../ScenarioParameters';
+import { useScenarioResetValues } from '../../../../ScenarioParametersContext';
 import { useUserAppAndCurrentScenarioPermissions } from '../../../../../../hooks/SecurityHooks';
 import { ACL_PERMISSIONS } from '../../../../../../services/config/accessControl';
 import { TwoActionsDialogService } from '../../../../../../services/twoActionsDialog/twoActionsDialogService';

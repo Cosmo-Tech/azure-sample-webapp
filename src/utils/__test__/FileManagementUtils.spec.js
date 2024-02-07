@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import { FileManagementUtils } from '../.';
+import { FileManagementUtils } from '../FileManagementUtils';
 
 describe('isFileValidFormat', () => {
   test.each`

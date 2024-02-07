@@ -19,7 +19,8 @@ import {
 } from '@mui/material';
 import { BasicEnumInput, BasicTextInput, UploadFile } from '@cosmotech/ui';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
-import { DatasetsUtils, FileManagementUtils } from '../../../../../../utils';
+import { DatasetsUtils } from '../../../../../../utils';
+import { FileManagementUtils } from '../../../../../../utils/FileManagementUtils';
 import { useTranslation } from 'react-i18next';
 import { useCreateDataset } from '../../../../../../state/hooks/DatasetHooks';
 import { DATASET_SOURCE_TYPE } from '../../../../../../services/config/ApiConstants';

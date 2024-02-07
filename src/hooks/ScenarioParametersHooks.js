@@ -7,7 +7,8 @@ import { useSolution } from '../state/hooks/SolutionHooks';
 import { useCurrentScenarioData, useScenarios } from '../state/hooks/ScenarioHooks';
 import { useAddDatasetToStore } from '../state/hooks/DatasetHooks';
 import { useCallback, useMemo } from 'react';
-import { FileManagementUtils, ScenarioParametersUtils } from '../utils';
+import { ScenarioParametersUtils } from '../utils';
+import { FileManagementUtils } from '../utils/FileManagementUtils';
 import { useFormContext } from 'react-hook-form';
 
 const getRunTemplateParametersIds = (runTemplatesParametersIdsDict, runTemplateId) => {

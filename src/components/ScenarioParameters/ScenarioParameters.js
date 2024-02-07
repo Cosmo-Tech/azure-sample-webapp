@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import React, { useCallback, useContext, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import rfdc from 'rfdc';
 import { useFormContext } from 'react-hook-form';
 import PropTypes from 'prop-types';
@@ -15,7 +15,9 @@ import { ACL_PERMISSIONS } from '../../services/config/accessControl';
 import { ScenarioParametersTabsWrapper, ScenarioActions } from './components';
 import { useTranslation } from 'react-i18next';
 import { useScenarioParameters } from './ScenarioParametersHook';
-import { ScenarioParametersUtils, FileManagementUtils } from '../../utils';
+import { ScenarioResetValuesContext } from './ScenarioParametersContext';
+import { ScenarioParametersUtils } from '../../utils';
+import { FileManagementUtils } from '../../utils/FileManagementUtils';
 
 const clone = rfdc();
 
@@ -47,8 +49,6 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: '10px',
   },
 }));
-
-const ScenarioResetValuesContext = React.createContext();
 
 const ScenarioParameters = ({ onToggleAccordion, isAccordionExpanded }) => {
   const classes = useStyles();
@@ -201,6 +201,3 @@ ScenarioParameters.propTypes = {
 };
 
 export default ScenarioParameters;
-export const useScenarioResetValues = () => {
-  return useContext(ScenarioResetValuesContext);
-};

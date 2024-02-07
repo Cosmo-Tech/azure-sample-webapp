@@ -1,16 +1,16 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-import {
-  DEFAULT_APPLICATION,
-  DEFAULT_ORGANIZATION_DATA,
-  DEFAULT_SCENARIOS_LIST_DATA,
-  DEFAULT_SOLUTION_DATA,
-  DEFAULT_DATASETS_LIST_DATA,
-  SCENARIODATA_WITH_USERS,
-  WORKSPACEDATA_WITH_USERS,
-  USER_AUTH_ADMIN,
-} from '.';
+// Copyright (c) Cosmo Tech.
+// Licensed under the MIT license.
+
+import { DEFAULT_APPLICATION } from './application';
+import { SCENARIODATA_WITH_USERS, DEFAULT_SCENARIOS_LIST_DATA } from './scenarios';
+import { WORKSPACEDATA_WITH_USERS } from './workspace';
+import { USER_AUTH_ADMIN } from './auth';
+import { DEFAULT_ORGANIZATION_DATA } from './organizations';
+import { DEFAULT_DATASETS_LIST_DATA } from './datasets';
+import { DEFAULT_SOLUTION_DATA } from './solution';
 
 export const DEFAULT_REDUX_STATE = {
   application: DEFAULT_APPLICATION,

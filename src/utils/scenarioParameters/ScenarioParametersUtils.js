@@ -4,7 +4,7 @@
 import rfdc from 'rfdc';
 import { VAR_TYPES_DEFAULT_VALUES } from './DefaultValues';
 import { DATASET_ID_VARTYPE } from '../../services/config/ApiConstants';
-import { ConfigUtils } from '..';
+import { ConfigUtils } from '../ConfigUtils';
 
 const clone = rfdc();
 

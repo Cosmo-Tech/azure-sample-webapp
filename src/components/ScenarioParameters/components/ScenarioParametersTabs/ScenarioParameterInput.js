@@ -7,7 +7,7 @@ import { ConfigUtils } from '../../../../utils/ConfigUtils';
 import { VAR_TYPES_COMPONENTS_MAPPING } from '../../../../utils/scenarioParameters/VarTypesComponentsMapping';
 import PropTypes from 'prop-types';
 import { useStore } from 'react-redux';
-import { useScenarioResetValues } from '../../ScenarioParameters';
+import { useScenarioResetValues } from '../../ScenarioParametersContext';
 
 const ScenarioParameterInput = ({ parameterData, context }) => {
   const subType = ConfigUtils.getParameterAttribute(parameterData, 'subType');

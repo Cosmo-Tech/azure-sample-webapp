@@ -4,7 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ScenarioParametersTab from './ScenarioParametersTab';
-import { ScenarioParametersTabs } from '../index';
+import ScenarioParametersTabs from './ScenarioParametersTabs';
 import { ConfigUtils } from '../../../../utils';
 // eslint-disable-next-line max-len
 import { CUSTOM_PARAMETERS_GROUPS_COMPONENTS_MAPPING } from '../../../../utils/scenarioParameters/custom/ParametersGroupsComponentsMapping';

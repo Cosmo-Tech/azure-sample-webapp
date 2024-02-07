@@ -6,7 +6,7 @@ import { Navigate, Route, createBrowserRouter, RouterProvider, createRoutesFromE
 import { TabLayout } from './layouts';
 import Workspaces from './views/Workspaces';
 import { getAllTabs } from './AppLayout';
-import { UserStatusGate } from './components';
+import { UserStatusGate } from './components/UserStatusGate';
 
 const AppRoutes = () => {
   const providedUrl = sessionStorage.getItem('providedUrl');

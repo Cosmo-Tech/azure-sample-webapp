@@ -6,7 +6,7 @@ import { Accordion, AccordionSummary, AccordionDetails, Button, Card, Grid, Pape
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import WarningAmberOutlinedIcon from '@mui/icons-material/WarningAmberOutlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import { ScenarioPowerBiReport } from '../index';
+import ScenarioPowerBiReport from '../ScenarioPowerBiReport';
 import { useScenarioDashboardCard } from './ScenarioDashboardCardHook';
 import { useTranslation } from 'react-i18next';
 

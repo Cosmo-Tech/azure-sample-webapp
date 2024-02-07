@@ -5,7 +5,8 @@ import React from 'react';
 import { UploadFile, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { ConfigUtils, TranslationUtils, FileManagementUtils } from '../../../../utils';
+import { ConfigUtils, TranslationUtils } from '../../../../utils';
+import { FileManagementUtils } from '../../../../utils/FileManagementUtils';
 import { useOrganizationId } from '../../../../state/hooks/OrganizationHooks.js';
 import { useWorkspaceId } from '../../../../state/hooks/WorkspaceHooks.js';
 
