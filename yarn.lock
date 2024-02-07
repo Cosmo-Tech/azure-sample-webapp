@@ -1199,10 +1199,10 @@
   resolved "https://registry.yarnpkg.com/@colors/colors/-/colors-1.5.0.tgz#bb504579c1cae923e6576a4f5da43d25f97bdbd9"
   integrity sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==
 
-"@cosmotech/api-ts@^3.0.15-dev":
-  version "3.0.15-dev"
-  resolved "https://registry.yarnpkg.com/@cosmotech/api-ts/-/api-ts-3.0.15-dev.tgz#0856cf0d89ef562511dbc4f108a04fc6690bdb83"
-  integrity sha512-5PFv5dG6234bP7W2tC1JTyDgMEGJRM5JVSjIU44trBna5EkwiC6pMFPmivRfyPggK9nxeJjaVi6pzK9rNu1eTw==
+"@cosmotech/api-ts@^3.0.1-SNAPSHOT":
+  version "3.0.1-SNAPSHOT"
+  resolved "https://registry.yarnpkg.com/@cosmotech/api-ts/-/api-ts-3.0.1-SNAPSHOT.tgz#e7d14143abf3f12fcdfe827cfc89ba3a965a91f3"
+  integrity sha512-PjVicxFHDnAq/nm/ocrSuAu7akuOQQ6HBcyV3KV6B/JFuoNEKrXcxnFb8pm3RD/kH8lzvlo43lbqcr4GOXNllA==
   dependencies:
     axios "^0.21.4"
 
