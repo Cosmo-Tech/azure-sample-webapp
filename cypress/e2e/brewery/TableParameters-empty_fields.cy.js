@@ -1,10 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { Downloads, ScenarioSelector, ScenarioParameters } from '../../commons/actions';
 import { BreweryParameters, Login } from '../../commons/actions/brewery';
-import { EXPECTED_CUSTOMERS_AFTER_IMPORT_WITH_EMPTY_FIELDS } from '../../fixtures/TableParametersData';
 import { stub } from '../../commons/services/stubbing';
+import { EXPECTED_CUSTOMERS_AFTER_IMPORT_WITH_EMPTY_FIELDS } from '../../fixtures/TableParametersData';
 import { DEFAULT_SCENARIOS_LIST } from '../../fixtures/stubbing/default';
 
 const CSV_VALID_WITH_EMPTY_FIELDS = 'customers_empty_authorized_fields.csv';

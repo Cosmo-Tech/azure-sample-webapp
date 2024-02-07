@@ -1,21 +1,20 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React, { useCallback, useEffect } from 'react';
-import { Button, Grid } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import CancelIcon from '@mui/icons-material/Cancel';
-import { useStopScenarioRun } from '../../../../../../state/hooks/ScenarioRunHooks';
+import { Button, Grid } from '@mui/material';
+import { PermissionsGate } from '@cosmotech/ui';
+import { useUserAppAndCurrentScenarioPermissions } from '../../../../../../hooks/SecurityHooks';
+import { SCENARIO_RUN_STATE } from '../../../../../../services/config/ApiConstants';
+import { ACL_PERMISSIONS } from '../../../../../../services/config/accessControl';
+import { TwoActionsDialogService } from '../../../../../../services/twoActionsDialog/twoActionsDialogService';
 import {
   useCurrentScenarioId,
   useCurrentScenarioLastRunId,
   useCurrentScenarioState,
 } from '../../../../../../state/hooks/ScenarioHooks';
-import { SCENARIO_RUN_STATE } from '../../../../../../services/config/ApiConstants';
-import { TwoActionsDialogService } from '../../../../../../services/twoActionsDialog/twoActionsDialogService';
-import { ACL_PERMISSIONS } from '../../../../../../services/config/accessControl';
-import { PermissionsGate } from '@cosmotech/ui';
-import { useUserAppAndCurrentScenarioPermissions } from '../../../../../../hooks/SecurityHooks';
+import { useStopScenarioRun } from '../../../../../../state/hooks/ScenarioRunHooks';
 
 export const StopRunButton = () => {
   const currentScenarioId = useCurrentScenarioId();

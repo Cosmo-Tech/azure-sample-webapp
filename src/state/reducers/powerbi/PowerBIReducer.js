@@ -1,8 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
-import { STATUSES } from '../../commons/Constants';
 import { createReducer } from '@reduxjs/toolkit';
+import { STATUSES } from '../../commons/Constants';
 import { POWER_BI_ACTIONS_KEY } from '../../commons/PowerBIConstants';
 
 export const powerBiInitialState = {

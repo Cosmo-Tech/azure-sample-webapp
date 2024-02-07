@@ -1,10 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React from 'react';
 import { Card, Grid } from '@mui/material';
-import { DatasetList, DatasetMetadata, DatasetOverview, NoDatasetsPlaceholder } from './components';
 import { useDatasetManager } from './DatasetManagerHook';
+import { DatasetList, DatasetMetadata, DatasetOverview, NoDatasetsPlaceholder } from './components';
 
 const DatasetManager = () => {
   const { datasets, useRedirectFromDatasetManagerToScenarioView, useResetSelectedDatasetIfNecessary } =

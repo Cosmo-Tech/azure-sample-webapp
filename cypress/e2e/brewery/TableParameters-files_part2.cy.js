@@ -1,12 +1,11 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import utils from '../../commons/TestUtils';
-import { routeUtils as route } from '../../commons/utils';
-import { BREWERY_WORKSPACE_ID, DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
-import { API_REGEX } from '../../commons/constants/generic/TestConstants';
 import { Downloads, Scenarios, ScenarioManager, ScenarioParameters } from '../../commons/actions';
 import { BreweryParameters, Login } from '../../commons/actions/brewery';
+import { BREWERY_WORKSPACE_ID, DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
+import { API_REGEX } from '../../commons/constants/generic/TestConstants';
+import { routeUtils as route } from '../../commons/utils';
 import {
   EXPECTED_CUSTOMERS_BASIC_EDITION,
   EXPECTED_CUSTOMERS_BASIC_EDITION_DATA,

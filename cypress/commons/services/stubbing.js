@@ -1,8 +1,6 @@
 // Copyright (c) Cosmo Tech
 // Licensed under the MIT license
-
 import rfdc from 'rfdc';
-
 import {
   DEFAULT_ORGANIZATION_PERMISSIONS,
   DEFAULT_SCENARIOS_LIST,

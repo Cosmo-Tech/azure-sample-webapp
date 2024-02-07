@@ -1,11 +1,10 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
+import { createReducer } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
 import { ScenariosUtils } from '../../../utils';
-import { SCENARIO_ACTIONS_KEY } from '../../commons/ScenarioConstants';
 import { STATUSES } from '../../commons/Constants';
-import { createReducer } from '@reduxjs/toolkit';
+import { SCENARIO_ACTIONS_KEY } from '../../commons/ScenarioConstants';
 
 // Scenario List
 

@@ -1,12 +1,11 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
+import utils from '../../commons/TestUtils';
+import { DEFAULT_DATASET, SCENARIO_EXAMPLE, SCENARIO_RUN_EXAMPLE } from '../../fixtures/stubbing/default';
 import { API_ENDPOINT, API_REGEX, AUTH_QUERY_URL, URL_POWERBI, URL_ROOT } from '../constants/generic/TestConstants';
 import { stub } from '../services/stubbing';
 import { authUtils } from './authUtils';
-import utils from '../../commons/TestUtils';
 import { fileUtils } from './fileUtils';
-import { DEFAULT_DATASET, SCENARIO_EXAMPLE, SCENARIO_RUN_EXAMPLE } from '../../fixtures/stubbing/default';
 
 const forgeAlias = (prefix) => {
   if (typeof forgeAlias.requestIndex === 'undefined') {

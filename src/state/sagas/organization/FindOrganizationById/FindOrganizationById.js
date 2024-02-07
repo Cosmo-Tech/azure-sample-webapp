@@ -1,11 +1,10 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { call, takeEvery, put, select } from 'redux-saga/effects';
-import { STATUSES } from '../../../commons/Constants';
-import { ORGANIZATION_ACTIONS_KEY } from '../../../commons/OrganizationConstants';
 import { Api } from '../../../../services/config/Api';
 import { OrganizationsUtils } from '../../../../utils';
+import { STATUSES } from '../../../commons/Constants';
+import { ORGANIZATION_ACTIONS_KEY } from '../../../commons/OrganizationConstants';
 
 const getUserEmail = (state) => state.auth.userEmail;
 const getOrganizationPermissionsMapping = (state) => state.application.permissionsMapping.organization;

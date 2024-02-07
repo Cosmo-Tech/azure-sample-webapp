@@ -1,6 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
+import { useSetApplicationErrorMessage } from '../../state/hooks/ApplicationHooks';
+import { useOrganizationId } from '../../state/hooks/OrganizationHooks';
 import {
   useCurrentScenarioLastRunId,
   useSetScenarioValidationStatus,
@@ -8,9 +9,7 @@ import {
   useCurrentScenarioData,
 } from '../../state/hooks/ScenarioHooks';
 import { useCurrentScenarioRun, useFetchScenarioRunById } from '../../state/hooks/ScenarioRunHooks';
-import { useOrganizationId } from '../../state/hooks/OrganizationHooks';
 import { useWorkspaceId } from '../../state/hooks/WorkspaceHooks';
-import { useSetApplicationErrorMessage } from '../../state/hooks/ApplicationHooks';
 
 export const useScenario = () => {
   const currentScenarioRunId = useCurrentScenarioLastRunId();

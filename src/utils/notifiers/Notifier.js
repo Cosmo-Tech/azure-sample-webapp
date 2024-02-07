@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { useEffect, useRef } from 'react';
 import { Subject } from 'rxjs';
 

@@ -1,18 +1,17 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Trans, useTranslation } from 'react-i18next';
-import { AuthDev } from '@cosmotech/core';
-import { AuthMSAL } from '@cosmotech/azure';
-import { Grid, Button, Typography, Box, Select, MenuItem } from '@mui/material';
-import { SignInButton } from '@cosmotech/ui';
-import { TranslationUtils } from '../../utils';
-import { AUTH_STATUS } from '../../state/commons/AuthConstants.js';
-import microsoftLogo from '../../assets/microsoft_logo.png';
-import useStyles from './style';
 import { useLocation } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { Grid, Button, Typography, Box, Select, MenuItem } from '@mui/material';
+import { AuthMSAL } from '@cosmotech/azure';
+import { AuthDev } from '@cosmotech/core';
+import { SignInButton } from '@cosmotech/ui';
+import microsoftLogo from '../../assets/microsoft_logo.png';
+import { AUTH_STATUS } from '../../state/commons/AuthConstants.js';
+import { TranslationUtils } from '../../utils';
+import useStyles from './style';
 
 const SignIn = ({ logInAction, auth }) => {
   const classes = useStyles();

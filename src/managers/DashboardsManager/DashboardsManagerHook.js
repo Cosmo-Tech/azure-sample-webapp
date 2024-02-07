@@ -1,10 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useWorkspaceCharts } from '../../state/hooks/WorkspaceHooks';
 import { useSetPowerBIReportsConfig } from '../../state/hooks/PowerBIHooks';
+import { useWorkspaceCharts } from '../../state/hooks/WorkspaceHooks';
 import { PowerBIUtils } from '../../utils';
 
 export const useDashboardsManager = () => {

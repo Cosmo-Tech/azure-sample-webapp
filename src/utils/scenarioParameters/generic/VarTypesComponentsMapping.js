@@ -1,7 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
-import { DATASET_ID_VARTYPE } from '../../../services/config/ApiConstants';
 import {
   GenericDateInput,
   GenericEnumInput,
@@ -13,6 +11,7 @@ import {
   GenericToggleInput,
   GenericUploadFile,
 } from '../../../components/ScenarioParameters/components/ScenarioParametersInputs';
+import { DATASET_ID_VARTYPE } from '../../../services/config/ApiConstants';
 
 export const GENERIC_VAR_TYPES_COMPONENTS_MAPPING = {
   bool: GenericToggleInput,

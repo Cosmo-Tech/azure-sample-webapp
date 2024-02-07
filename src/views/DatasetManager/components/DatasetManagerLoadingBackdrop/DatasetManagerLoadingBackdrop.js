@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Backdrop, CircularProgress, Stack, Typography } from '@mui/material';

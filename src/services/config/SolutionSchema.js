@@ -1,12 +1,11 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { z } from 'zod';
+import { SchemasUtils } from '../../utils/schemas/SchemasUtils';
 import {
   CUSTOM_PARAMETER_GROUPS_OPTIONS,
   CUSTOM_SCENARIO_PARAMETERS_OPTIONS,
 } from '../../utils/schemas/custom/customSolutionOptions';
-import { SchemasUtils } from '../../utils/schemas/SchemasUtils';
 
 const basicColumnField = z
   .object({

@@ -1,12 +1,11 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import { Skeleton, Typography } from '@mui/material';
 import ErrorIcon from '@mui/icons-material/Error';
 import HelpIcon from '@mui/icons-material/Help';
+import { Skeleton, Typography } from '@mui/material';
 import { FadingTooltip } from '@cosmotech/ui';
 import { KPI_STATE } from '../../../../../../services/config/kpiConstants';
 

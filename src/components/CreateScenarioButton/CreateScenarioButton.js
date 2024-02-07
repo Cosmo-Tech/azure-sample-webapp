@@ -1,13 +1,11 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React from 'react';
 import PropTypes from 'prop-types';
+import { ResourceUtils } from '@cosmotech/core';
 import { PermissionsGate, CreateScenarioButton as CreateScenarioButtonUI } from '@cosmotech/ui';
-
 import { ACL_PERMISSIONS } from '../../services/config/accessControl';
 import { useCreateScenarioButton } from './CreateScenarioButtonHook';
-import { ResourceUtils } from '@cosmotech/core';
 
 const CreateScenarioButton = ({ disabled, onScenarioCreated }) => {
   const {

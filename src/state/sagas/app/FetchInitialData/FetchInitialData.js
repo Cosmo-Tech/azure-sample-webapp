@@ -1,17 +1,16 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
+import { matchPath } from 'react-router-dom';
 import { put, takeEvery, call } from 'redux-saga/effects';
+import ConfigService from '../../../../services/ConfigService';
+import { Api } from '../../../../services/config/Api';
+import { parseError } from '../../../../utils/ErrorsUtils';
 import { APPLICATION_ACTIONS_KEY } from '../../../commons/ApplicationConstants';
-import { WORKSPACE_ACTIONS_KEY } from '../../../commons/WorkspaceConstants';
 import { STATUSES } from '../../../commons/Constants';
-import { getAllWorkspaces } from '../../workspace/GetAllWorkspaces/GetAllWorkspaces';
+import { WORKSPACE_ACTIONS_KEY } from '../../../commons/WorkspaceConstants';
 import { fetchAllDatasetsData } from '../../datasets/FindAllDatasets/FindAllDatasets';
 import { fetchOrganizationById } from '../../organization/FindOrganizationById/FindOrganizationById';
-import { parseError } from '../../../../utils/ErrorsUtils';
-import { Api } from '../../../../services/config/Api';
-import { matchPath } from 'react-router-dom';
-import ConfigService from '../../../../services/ConfigService';
+import { getAllWorkspaces } from '../../workspace/GetAllWorkspaces/GetAllWorkspaces';
 
 const ORGANIZATION_ID = ConfigService.getParameterValue('ORGANIZATION_ID');
 

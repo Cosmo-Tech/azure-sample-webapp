@@ -1,12 +1,11 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React from 'react';
-import { BasicSliderInput } from '@cosmotech/ui';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { TranslationUtils } from '../../../../utils';
+import PropTypes from 'prop-types';
 import { Grid } from '@mui/material';
+import { BasicSliderInput } from '@cosmotech/ui';
+import { TranslationUtils } from '../../../../utils';
 
 const DEFAULT_MIN_VALUE = 0;
 const DEFAULT_MAX_VALUE = 100;

@@ -1,8 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import axios from 'axios';
-
 import { Auth } from '@cosmotech/core';
 
 const addInterceptors = (axiosInstance) => {

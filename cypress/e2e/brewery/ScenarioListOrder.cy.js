@@ -1,11 +1,10 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { Login, ScenarioManager, Scenarios, ScenarioSelector } from '../../commons/actions';
-import { ALL_ROOT_SCENARIOS, PARENT_AND_CHILD_SCENARIOS } from '../../fixtures/stubbing/ScenarioListOrder/scenarios';
-import { USER_EXAMPLE } from '../../fixtures/stubbing/default';
 import { stub } from '../../commons/services/stubbing';
 import { routeUtils as route } from '../../commons/utils';
+import { ALL_ROOT_SCENARIOS, PARENT_AND_CHILD_SCENARIOS } from '../../fixtures/stubbing/ScenarioListOrder/scenarios';
+import { USER_EXAMPLE } from '../../fixtures/stubbing/default';
 
 describe('check scenario sorted list after reload', () => {
   before(() => {

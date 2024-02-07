@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { all, call, delay, put, select, spawn, takeEvery } from 'redux-saga/effects';
 import { Api } from '../../../../services/config/Api';
 import {

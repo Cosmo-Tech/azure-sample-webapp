@@ -1,23 +1,22 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React, { useCallback, useEffect, useMemo } from 'react';
-import rfdc from 'rfdc';
 import { useFormContext } from 'react-hook-form';
-import PropTypes from 'prop-types';
-import { Grid, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
-import { PermissionsGate } from '@cosmotech/ui';
-import makeStyles from '@mui/styles/makeStyles';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { SCENARIO_RUN_STATE, SCENARIO_VALIDATION_STATUS } from '../../services/config/ApiConstants';
-import { STATUSES } from '../../state/commons/Constants';
-import { ACL_PERMISSIONS } from '../../services/config/accessControl';
-import { ScenarioParametersTabsWrapper, ScenarioActions } from './components';
 import { useTranslation } from 'react-i18next';
-import { useScenarioParameters } from './ScenarioParametersHook';
-import { ScenarioResetValuesContext } from './ScenarioParametersContext';
+import PropTypes from 'prop-types';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Grid, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import rfdc from 'rfdc';
+import { PermissionsGate } from '@cosmotech/ui';
+import { SCENARIO_RUN_STATE, SCENARIO_VALIDATION_STATUS } from '../../services/config/ApiConstants';
+import { ACL_PERMISSIONS } from '../../services/config/accessControl';
+import { STATUSES } from '../../state/commons/Constants';
 import { ScenarioParametersUtils } from '../../utils';
 import { FileManagementUtils } from '../../utils/FileManagementUtils';
+import { ScenarioResetValuesContext } from './ScenarioParametersContext';
+import { useScenarioParameters } from './ScenarioParametersHook';
+import { ScenarioParametersTabsWrapper, ScenarioActions } from './components';
 
 const clone = rfdc();
 

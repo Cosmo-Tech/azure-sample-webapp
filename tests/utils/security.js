@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { DEFAULT_APPLICATION } from '../samples';
 
 export const applyScenarioRoleToState = (state, role) => {

@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { SchemasUtils } from '../schemas/SchemasUtils';
 
 describe('schema generation for custom options', () => {

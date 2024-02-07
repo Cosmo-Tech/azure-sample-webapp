@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { createReducer } from '@reduxjs/toolkit';
 import { KPI_STATE } from '../../../services/config/kpiConstants.js';
 import { DATASET_TWINGRAPH_QUERIES_RESULTS_ACTIONS } from '../../commons/DatasetConstants';

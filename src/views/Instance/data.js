@@ -1,8 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import axios from 'axios';
 import { Auth } from '@cosmotech/core';
+import { ConfigUtils } from '../../utils';
 import {
   getDefaultEdgeStyle,
   getDefaultNodeStyle,
@@ -11,7 +11,6 @@ import {
   getDefaultInEdgeStyle,
   getDefaultHiddenStyle,
 } from './styleCytoViz';
-import { ConfigUtils } from '../../utils';
 
 const _formatLabelWithNewlines = (label) => label?.replace(/[_|\s]/g, '\n') || '';
 

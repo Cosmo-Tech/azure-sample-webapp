@@ -1,10 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
-import { apiUtils as api } from './apiUtils';
-import { stub } from '../services/stubbing';
-import { WEBAPP_URL_REGEX } from '../constants/generic/TestConstants';
 import { Scenarios, Workspaces } from '../actions/generic';
+import { WEBAPP_URL_REGEX } from '../constants/generic/TestConstants';
+import { stub } from '../services/stubbing';
+import { apiUtils as api } from './apiUtils';
 
 const _navigateTo = (url) => {
   cy.visit(url ?? '/', {

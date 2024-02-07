@@ -1,14 +1,13 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { INGESTION_STATUS } from '../../services/config/ApiConstants';
 import {
   dispatchInitializeDatasetTwingraphQueriesResults,
   dispatchResetDatasetTwingraphQueriesResults,
 } from '../dispatchers/datasetTwingraphQueriesResults/DatasetTwingraphQueryResultsDispatcher';
 import { useWorkspaceData } from './WorkspaceHooks';
-import { INGESTION_STATUS } from '../../services/config/ApiConstants';
 
 export const useDatasetTwingraphQueriesResults = () => {
   return useSelector((state) => state.datasetTwingraph);

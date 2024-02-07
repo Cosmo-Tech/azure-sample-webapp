@@ -1,9 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { useCallback, useMemo } from 'react';
-import { useCurrentScenarioData } from '../state/hooks/ScenarioHooks';
 import { useUserAppPermissions } from '../state/hooks/AuthHooks';
+import { useCurrentScenarioData } from '../state/hooks/ScenarioHooks';
 
 const useGetUserPermissionOnScenarioData = () =>
   useCallback((scenarioData) => scenarioData?.security?.currentUserPermissions || [], []);

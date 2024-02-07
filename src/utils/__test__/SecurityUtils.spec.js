@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { SecurityUtils } from '../SecurityUtils';
 import {
   ORGANIZATION_PERMISSIONS,

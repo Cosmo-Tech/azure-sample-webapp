@@ -1,8 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
-import { PowerBIReportEmbedMultipleFilter, PowerBIReportEmbedSimpleFilter } from '@cosmotech/azure';
 import rfdc from 'rfdc';
+import { PowerBIReportEmbedMultipleFilter, PowerBIReportEmbedSimpleFilter } from '@cosmotech/azure';
 
 const clone = rfdc();
 

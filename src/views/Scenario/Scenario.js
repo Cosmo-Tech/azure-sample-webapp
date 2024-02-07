@@ -1,26 +1,25 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React, { useEffect, useState, useCallback } from 'react';
-import { Button, Card, Grid, Paper, Tooltip, Typography } from '@mui/material';
 import { useForm, FormProvider } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
+import { Button, Card, Grid, Paper, Tooltip, Typography } from '@mui/material';
+import { makeStyles } from '@mui/styles';
+import { ScenarioValidationStatusChip, PermissionsGate } from '@cosmotech/ui';
 import {
   ScenarioParameters,
   ShareCurrentScenarioButton,
   CreateScenarioButton,
   CurrentScenarioSelector,
 } from '../../components';
-import { useTranslation } from 'react-i18next';
-import { ScenarioValidationStatusChip, PermissionsGate } from '@cosmotech/ui';
-import { SCENARIO_VALIDATION_STATUS } from '../../services/config/ApiConstants.js';
-import ScenarioService from '../../services/scenario/ScenarioService';
-import { AppInsights } from '../../services/AppInsights';
-import { ACL_PERMISSIONS } from '../../services/config/accessControl';
-import { ScenarioDashboardCard, BackdropLoadingScenario } from './components';
-import { makeStyles } from '@mui/styles';
-import { useScenario } from './ScenarioHook';
 import { useConfirmOnRouteChange, useRedirectionToScenario } from '../../hooks/RouterHooks';
+import { AppInsights } from '../../services/AppInsights';
+import { SCENARIO_VALIDATION_STATUS } from '../../services/config/ApiConstants.js';
+import { ACL_PERMISSIONS } from '../../services/config/accessControl';
+import ScenarioService from '../../services/scenario/ScenarioService';
 import { TranslationUtils } from '../../utils/TranslationUtils';
+import { useScenario } from './ScenarioHook';
+import { ScenarioDashboardCard, BackdropLoadingScenario } from './components';
 
 const useStyles = makeStyles((theme) => ({
   content: {

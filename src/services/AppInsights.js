@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { ApplicationInsights } from '@microsoft/applicationinsights-web';
 import ConfigService from './ConfigService';
 import { APPLICATION_INSIGHTS_CONFIG } from './config/ApplicationInsights';

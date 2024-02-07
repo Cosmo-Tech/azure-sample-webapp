@@ -1,15 +1,13 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React from 'react';
-
 import { connect, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import { Grid, Stack } from '@mui/material';
-import ScenarioParameterInput from './ScenarioParameterInput';
+import { t } from 'i18next';
 import { PermissionsGate } from '@cosmotech/ui';
 import { ConfigUtils } from '../../../../utils';
-import PropTypes from 'prop-types';
-import { t } from 'i18next';
+import ScenarioParameterInput from './ScenarioParameterInput';
 
 const ScenarioParametersTab = ({ parametersGroupData, context, userAppRoles }) => {
   const noPermissionsPlaceHolder = (t) => {

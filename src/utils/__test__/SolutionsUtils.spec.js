@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { SolutionsUtils } from '../SolutionsUtils';
 
 describe('addTranslationLabels', () => {

@@ -1,10 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
-import { ConfigUtils } from '../ConfigUtils';
 import merge from 'deepmerge';
 import { SolutionSchema } from '../../services/config/SolutionSchema';
 import { WorkspaceSchema } from '../../services/config/WorkspaceSchema';
+import { ConfigUtils } from '../ConfigUtils';
 
 describe('buildExtendedVarType with possible values', () => {
   test.each`

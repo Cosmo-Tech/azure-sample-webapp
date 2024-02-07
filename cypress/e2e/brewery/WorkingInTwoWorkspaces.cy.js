@@ -1,6 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
+import utils from '../../commons/TestUtils';
 import {
   ErrorBanner,
   Login,
@@ -10,15 +10,15 @@ import {
   Workspaces,
   ScenarioSelector,
 } from '../../commons/actions';
-import { setup, routeUtils as route } from '../../commons/utils';
+import { BreweryParameters } from '../../commons/actions/brewery';
 import {
   BREWERY_WORKSPACE_ID,
   DATASET,
   REAL_BREWERY_WORKSPACE_ID,
   RUN_TEMPLATE,
 } from '../../commons/constants/brewery/TestConstants';
-import utils from '../../commons/TestUtils';
-import { BreweryParameters } from '../../commons/actions/brewery';
+import { setup, routeUtils as route } from '../../commons/utils';
+
 const CSV_VALID_WITH_EMPTY_FIELDS = 'customers_empty_authorized_fields.csv';
 const FILE_PATH_1 = 'dummy_dataset_1.csv';
 

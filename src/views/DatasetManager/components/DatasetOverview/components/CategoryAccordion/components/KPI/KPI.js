@@ -1,12 +1,11 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Grid, Typography } from '@mui/material';
-import { KPIValue } from '../../../KPIValue';
 import { TranslationUtils } from '../../../../../../../../utils';
+import { KPIValue } from '../../../KPIValue';
 
 const KPI = (props) => {
   const { t } = useTranslation();

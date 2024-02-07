@@ -1,8 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
-import { WORKSPACE_EXAMPLE, USERS_LIST } from '../default';
 import { ROLES } from '../../../commons/constants/generic/TestConstants';
+import { WORKSPACE_EXAMPLE, USERS_LIST } from '../default';
 
 export const WORKSPACE_NO_USERS = {
   ...WORKSPACE_EXAMPLE,

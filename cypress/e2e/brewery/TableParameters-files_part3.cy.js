@@ -1,11 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import utils from '../../commons/TestUtils';
-
-import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
 import { Downloads, Scenarios, ScenarioManager, ScenarioParameters } from '../../commons/actions';
 import { BreweryParameters, Login } from '../../commons/actions/brewery';
+import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
 import { EXPECTED_CUSTOMERS_AFTER_XLSX_IMPORT } from '../../fixtures/TableParametersData';
 
 Cypress.Keyboard.defaults({

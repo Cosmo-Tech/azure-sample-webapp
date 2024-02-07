@@ -1,15 +1,14 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
-import { call, put, take, takeEvery, delay, race, select } from 'redux-saga/effects';
-import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
-import { Api } from '../../../../services/config/Api';
-import { SCENARIO_STATUS_POLLING_DELAY } from '../../../../services/config/FunctionalConstants';
-import { AppInsights } from '../../../../services/AppInsights';
-import { STATUSES } from '../../../commons/Constants';
 import { t } from 'i18next';
-import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
+import { call, put, take, takeEvery, delay, race, select } from 'redux-saga/effects';
+import { AppInsights } from '../../../../services/AppInsights';
+import { Api } from '../../../../services/config/Api';
 import { SCENARIO_RUN_STATE } from '../../../../services/config/ApiConstants';
+import { SCENARIO_STATUS_POLLING_DELAY } from '../../../../services/config/FunctionalConstants';
+import { STATUSES } from '../../../commons/Constants';
+import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
+import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
 
 const appInsights = AppInsights.getInstance();
 

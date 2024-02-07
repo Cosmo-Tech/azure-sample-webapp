@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import {
   Login,
   Scenarios,
@@ -9,18 +8,18 @@ import {
   ScenarioSelector,
   FileParameters,
 } from '../../commons/actions';
+import { BreweryParameters } from '../../commons/actions/brewery';
 import { RolesEdition } from '../../commons/actions/generic/RolesEdition';
-import { setup } from '../../commons/utils/setup';
+import { ROLES, ROLES_PERMISSIONS_MAP } from '../../commons/constants/generic/TestConstants';
 import { stub } from '../../commons/services/stubbing';
-import { USER_EXAMPLE, USERS_LIST } from '../../fixtures/stubbing/default';
+import { setup } from '../../commons/utils/setup';
 import {
   PRIVATE_SCENARIOS_LIST,
   SHARED_SCENARIOS_LIST,
   NO_ROOT_SCENARIOS_LIST,
   WORKSPACE_WITH_USERS_LIST,
 } from '../../fixtures/stubbing/ScenarioSharing';
-import { ROLES, ROLES_PERMISSIONS_MAP } from '../../commons/constants/generic/TestConstants';
-import { BreweryParameters } from '../../commons/actions/brewery';
+import { USER_EXAMPLE, USERS_LIST } from '../../fixtures/stubbing/default';
 
 describe('Check workspace permissions for admin', () => {
   before(() => {

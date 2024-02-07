@@ -1,11 +1,10 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Card, CardContent, Grid, Tab, Tabs } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
-import { useTranslation } from 'react-i18next';
 import { useDashboardsViewReportsConfig } from '../../state/hooks/PowerBIHooks';
 import { DashboardsPowerBiReport } from './components';
 

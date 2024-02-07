@@ -1,16 +1,14 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React, { useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { ScenarioUtils, ResourceUtils } from '@cosmotech/core';
-import makeStyles from '@mui/styles/makeStyles';
-
-import { ScenarioManagerTreeList } from '@cosmotech/ui';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import makeStyles from '@mui/styles/makeStyles';
+import { ScenarioUtils, ResourceUtils } from '@cosmotech/core';
+import { ScenarioManagerTreeList } from '@cosmotech/ui';
 import { ACL_PERMISSIONS } from '../../services/config/accessControl';
-import { getScenarioManagerLabels } from './labels';
 import { useScenarioManager } from './ScenarioManagerHook';
+import { getScenarioManagerLabels } from './labels';
 
 const useStyles = makeStyles((theme) => ({
   root: {

@@ -1,8 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
-import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
 import { BREWERY_SELECTORS } from '../../constants/brewery/IdConstants';
+import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
 import { FileParameters, TableParameters, ScenarioParameters } from '../generic';
 
 // Get tabs elements

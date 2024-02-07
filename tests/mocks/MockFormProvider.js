@@ -1,9 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React from 'react';
-import PropTypes from 'prop-types';
 import { FormProvider, useForm } from 'react-hook-form';
+import PropTypes from 'prop-types';
 
 const MockFormProvider = ({ children }) => {
   const formMethods = useForm();

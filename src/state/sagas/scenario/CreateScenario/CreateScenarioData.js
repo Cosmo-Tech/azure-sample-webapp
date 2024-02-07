@@ -1,15 +1,14 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
+import { t } from 'i18next';
 import { put, select, takeEvery, call } from 'redux-saga/effects';
-import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
-import { STATUSES } from '../../../commons/Constants';
-import { getAllScenariosData } from '../FindAllScenarios/FindAllScenariosData';
+import { AppInsights } from '../../../../services/AppInsights';
 import { Api } from '../../../../services/config/Api';
 import { ApiUtils, ScenariosUtils } from '../../../../utils';
-import { AppInsights } from '../../../../services/AppInsights';
-import { t } from 'i18next';
+import { STATUSES } from '../../../commons/Constants';
+import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
+import { getAllScenariosData } from '../FindAllScenarios/FindAllScenariosData';
 
 const appInsights = AppInsights.getInstance();
 const getUserEmail = (state) => state.auth.userEmail;

@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { ParameterConstraintsUtils } from '../ParameterConstraintsUtils';
 import { DEFAULT_PARAMETERS_LIST } from './fixtures/ParametersLists';
 

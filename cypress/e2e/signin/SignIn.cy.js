@@ -1,8 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
-import { PAGE_NAME } from '../../commons/constants/generic/TestConstants';
 import { AppBar, Login } from '../../commons/actions';
+import { PAGE_NAME } from '../../commons/constants/generic/TestConstants';
 
 describe('Redirection when not authenticated', () => {
   it('redirect automatically when not logged in', () => {

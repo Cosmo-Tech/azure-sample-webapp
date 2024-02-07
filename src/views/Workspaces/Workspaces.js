@@ -1,17 +1,16 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React, { useCallback, useEffect, useRef } from 'react';
-import { AppBar } from '../../components/AppBar';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Grid, Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/material';
-import { useTranslation } from 'react-i18next';
 import { ResourceCard, ErrorBanner } from '@cosmotech/ui';
-import { useWorkspaces } from './WorkspacesHook';
-import { useApplicationError, useClearApplicationErrorMessage } from '../../state/hooks/ApplicationHooks';
-import { useResetCurrentWorkspace } from '../../state/hooks/WorkspaceHooks';
-import { useResetCurrentSolution, useSolution } from '../../state/hooks/SolutionHooks';
+import { AppBar } from '../../components/AppBar';
 import { STATUSES } from '../../state/commons/Constants';
+import { useApplicationError, useClearApplicationErrorMessage } from '../../state/hooks/ApplicationHooks';
+import { useResetCurrentSolution, useSolution } from '../../state/hooks/SolutionHooks';
+import { useResetCurrentWorkspace } from '../../state/hooks/WorkspaceHooks';
+import { useWorkspaces } from './WorkspacesHook';
 
 const Workspaces = () => {
   const navigate = useNavigate();

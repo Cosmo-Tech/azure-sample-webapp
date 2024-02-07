@@ -1,13 +1,12 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { call, put, select, takeEvery } from 'redux-saga/effects';
-import { WORKSPACE_ACTIONS_KEY } from '../../../commons/WorkspaceConstants';
-import { Api } from '../../../../services/config/Api';
-import { STATUSES } from '../../../commons/Constants';
-import { SecurityUtils, WorkspacesUtils } from '../../../../utils';
-import { ACL_PERMISSIONS } from '../../../../services/config/accessControl/Permissions';
 import ConfigService from '../../../../services/ConfigService';
+import { Api } from '../../../../services/config/Api';
+import { ACL_PERMISSIONS } from '../../../../services/config/accessControl/Permissions';
+import { SecurityUtils, WorkspacesUtils } from '../../../../utils';
+import { STATUSES } from '../../../commons/Constants';
+import { WORKSPACE_ACTIONS_KEY } from '../../../commons/WorkspaceConstants';
 
 const WORKSPACES_IDS_FILTER = ConfigService.getParameterValue('WORKSPACES_IDS_FILTER');
 

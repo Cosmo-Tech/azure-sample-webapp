@@ -1,12 +1,11 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React, { useMemo } from 'react';
-import { BasicRadioInput } from '@cosmotech/ui';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { TranslationUtils, ConfigUtils } from '../../../../utils';
+import PropTypes from 'prop-types';
 import { Grid } from '@mui/material';
+import { BasicRadioInput } from '@cosmotech/ui';
+import { TranslationUtils, ConfigUtils } from '../../../../utils';
 
 export const GenericRadioInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty }) => {
   const { t } = useTranslation();

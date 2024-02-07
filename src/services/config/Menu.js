@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import AboutContent from '../../components/AboutContent';
 import { TechnicalInfoContent } from '../../components/TechnicalInfoContent';
 

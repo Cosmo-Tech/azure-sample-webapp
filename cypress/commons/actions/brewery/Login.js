@@ -1,8 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
-import { Login as GenericLogin } from '../generic';
 import { BREWERY_WORKSPACE_ID } from '../../constants/brewery/TestConstants';
+import { Login as GenericLogin } from '../generic';
 
 const DEFAULT_URL = '/' + BREWERY_WORKSPACE_ID;
 

@@ -1,9 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React from 'react';
-import { ErrorBoundary, SimplePowerBIReportEmbed } from '@cosmotech/ui';
 import { useTranslation } from 'react-i18next';
+import { ErrorBoundary, SimplePowerBIReportEmbed } from '@cosmotech/ui';
 import { useCurrentScenarioPowerBiReport } from './CurrentScenarioPowerBiReportHook';
 
 const CurrentScenarioPowerBiReport = ({ reportConfiguration, iframeRatio, index, ...other }) => {

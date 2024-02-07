@@ -1,18 +1,17 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { combineReducers } from 'redux';
-import { scenarioReducer } from './scenario/ScenarioReducer';
-import { scenarioRunReducer } from './scenariorun/ScenarioRunReducer';
 import { applicationReducer } from './app/ApplicationReducer';
-import { datasetsReducer } from './dataset/DatasetsReducer';
-import { workspaceReducer } from './workspace/WorkspaceReducer';
-import { organizationReducer } from './organization/OrganizationReducer';
-import { solutionReducer } from './solution/SolutionReducer';
 import { authReducer } from './auth/AuthReducer';
-import { powerBiReducer } from './powerbi/PowerBIReducer';
+import { datasetsReducer } from './dataset/DatasetsReducer';
 // eslint-disable-next-line max-len
 import { datasetTwingraphQueriesResultsReducer } from './datasetTwingraphQueriesResults/DatasetTwingraphQueriesResultsReducer';
+import { organizationReducer } from './organization/OrganizationReducer';
+import { powerBiReducer } from './powerbi/PowerBIReducer';
+import { scenarioReducer } from './scenario/ScenarioReducer';
+import { scenarioRunReducer } from './scenariorun/ScenarioRunReducer';
+import { solutionReducer } from './solution/SolutionReducer';
+import { workspaceReducer } from './workspace/WorkspaceReducer';
 
 const rootReducer = combineReducers({
   scenario: scenarioReducer,

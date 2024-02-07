@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { apiUtils as api } from './apiUtils';
 import { authUtils as auth } from './authUtils';
 

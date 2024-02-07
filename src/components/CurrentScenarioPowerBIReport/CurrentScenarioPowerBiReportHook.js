@@ -1,14 +1,11 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-
-import { useCurrentScenarioData, useScenarios } from '../../state/hooks/ScenarioHooks';
-import { usePowerBIInfo } from '../../state/hooks/PowerBIHooks';
-import { useWorkspaceChartsLogInWithUserCredentials } from '../../state/hooks/WorkspaceHooks';
 import { useDownloadLogsFile } from '../../hooks/ScenarioRunHooks';
-
+import { usePowerBIInfo } from '../../state/hooks/PowerBIHooks';
+import { useCurrentScenarioData, useScenarios } from '../../state/hooks/ScenarioHooks';
+import { useWorkspaceChartsLogInWithUserCredentials } from '../../state/hooks/WorkspaceHooks';
 import { getReportLabels } from './labels';
 
 export const useCurrentScenarioPowerBiReport = () => {

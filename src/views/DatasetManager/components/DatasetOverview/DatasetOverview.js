@@ -1,11 +1,10 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React, { useMemo } from 'react';
 import { Card, CardContent, CardHeader, Grid } from '@mui/material';
+import { INGESTION_STATUS } from '../../../../services/config/ApiConstants';
 import { useDatasetOverview } from './DatasetOverviewHook';
 import { CategoryAccordion, DatasetOverviewPlaceholder, GraphIndicator } from './components';
-import { INGESTION_STATUS } from '../../../../services/config/ApiConstants';
 
 export const DatasetOverview = () => {
   const { categories, graphIndicators, queriesResults, datasetIngestionStatus, datasetName } = useDatasetOverview();

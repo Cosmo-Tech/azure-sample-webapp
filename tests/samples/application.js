@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { ROLES, PERMISSIONS } from '../constants';
 
 export const DEFAULT_APPLICATION = {

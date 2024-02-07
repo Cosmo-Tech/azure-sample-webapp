@@ -1,15 +1,14 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT licence.
-
-import { takeEvery, select, call, put } from 'redux-saga/effects';
-import { DATASET_ACTIONS_KEY } from '../../../commons/DatasetConstants';
-import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { t } from 'i18next';
+import { takeEvery, select, call, put } from 'redux-saga/effects';
 import { DATASET_ID_VARTYPE } from '../../../../services/config/ApiConstants';
-import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
 import DatasetService from '../../../../services/dataset/DatasetService';
 import ScenarioService from '../../../../services/scenario/ScenarioService';
 import { SecurityUtils } from '../../../../utils';
+import { DATASET_ACTIONS_KEY } from '../../../commons/DatasetConstants';
+import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
+import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
 
 // TODO: replace by data from redux when dataset roles-permissions mapping is added in back-end /permissions endpoint
 const DATASET_PERMISSIONS_MAPPING = {

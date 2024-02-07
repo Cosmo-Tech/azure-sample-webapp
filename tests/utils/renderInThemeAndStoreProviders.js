@@ -1,13 +1,13 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-/* eslint-disable react/prop-types */
 
-import { Provider } from 'react-redux';
-import MockTheme from '../mocks/MockThemeProvider';
-import { createMockStore, MockFormProvider } from '../mocks';
-import React from 'react';
-import { DEFAULT_REDUX_STATE } from '../samples';
+/* eslint-disable react/prop-types */
 import { render } from '@testing-library/react';
+import React from 'react';
+import { Provider } from 'react-redux';
+import { createMockStore, MockFormProvider } from '../mocks';
+import MockTheme from '../mocks/MockThemeProvider';
+import { DEFAULT_REDUX_STATE } from '../samples';
 
 const mockStore = createMockStore(DEFAULT_REDUX_STATE);
 

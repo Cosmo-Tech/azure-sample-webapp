@@ -1,9 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React from 'react';
-import { Dashboards, Instance, Scenario, ScenarioManager, DatasetManager } from './views';
 import { ConfigUtils } from './utils';
+import { Dashboards, Instance, Scenario, ScenarioManager, DatasetManager } from './views';
 
 const DEFAULT_TABS = [
   {

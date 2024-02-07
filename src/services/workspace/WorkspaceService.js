@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { FileBlobUtils } from '@cosmotech/core';
 import { Api } from '../../services/config/Api';
 

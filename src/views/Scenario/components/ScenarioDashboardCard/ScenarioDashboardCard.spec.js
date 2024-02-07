@@ -1,11 +1,10 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
+import { fireEvent, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 import ScenarioDashboardCard from '.';
-import { fireEvent, screen, waitFor } from '@testing-library/react';
-import { customRender } from '../../../../../tests/utils/renderInThemeAndStoreProviders';
 import { AccordionTesting, ButtonTesting } from '../../../../../tests/MuiComponentsTesting';
+import { customRender } from '../../../../../tests/utils/renderInThemeAndStoreProviders';
 import { useScenarioDashboardCard } from './ScenarioDashboardCardHook';
 
 beforeEach(() => {

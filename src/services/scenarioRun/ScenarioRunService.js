@@ -1,12 +1,11 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
+import { t } from 'i18next';
 import { FileBlobUtils } from '@cosmotech/core';
-import { LOG_TYPES } from './ScenarioRunConstants.js';
 import { Api } from '../../services/config/Api';
 import applicationStore from '../../state/Store.config';
-import { t } from 'i18next';
 import { dispatchSetApplicationErrorMessage } from '../../state/dispatchers/app/ApplicationDispatcher';
+import { LOG_TYPES } from './ScenarioRunConstants.js';
 
 async function downloadCumulatedLogsFile(organizationId, lastRun) {
   try {

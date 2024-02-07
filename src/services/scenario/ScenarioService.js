@@ -1,8 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { Api } from '../../services/config/Api';
-import { SCENARIO_VALIDATION_STATUS } from '../config/ApiConstants.js';
 import { SecurityUtils } from '../../utils';
+import { SCENARIO_VALIDATION_STATUS } from '../config/ApiConstants.js';
 
 async function resetValidationStatus(organizationId, workspaceId, scenarioId) {
   const data = { validationStatus: SCENARIO_VALIDATION_STATUS.DRAFT };

@@ -1,8 +1,10 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { useTranslation } from 'react-i18next';
 import rfdc from 'rfdc';
+import { useHasUserPermissionOnScenario } from '../../hooks/SecurityHooks';
+import { useUserId } from '../../state/hooks/AuthHooks';
+import { useDatasets } from '../../state/hooks/DatasetHooks';
 import {
   useCurrentScenarioData,
   useScenarios,
@@ -11,9 +13,6 @@ import {
   useRenameScenario,
   useResetCurrentScenario,
 } from '../../state/hooks/ScenarioHooks';
-import { useDatasets } from '../../state/hooks/DatasetHooks';
-import { useUserId } from '../../state/hooks/AuthHooks';
-import { useHasUserPermissionOnScenario } from '../../hooks/SecurityHooks';
 import { useWorkspaceId } from '../../state/hooks/WorkspaceHooks';
 import { TranslationUtils } from '../../utils';
 

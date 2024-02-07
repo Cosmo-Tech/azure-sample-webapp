@@ -1,11 +1,10 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { Login, Workspaces, ErrorBanner } from '../../commons/actions';
-import { stub } from '../../commons/services/stubbing';
 import { GENERIC_SELECTORS } from '../../commons/constants/generic/IdConstants';
-import { EXTENDED_WORKSPACES_LIST } from '../../fixtures/stubbing/default';
+import { stub } from '../../commons/services/stubbing';
 import { apiUtils } from '../../commons/utils';
+import { EXTENDED_WORKSPACES_LIST } from '../../fixtures/stubbing/default';
 
 describe('User has no access to the solution', () => {
   before(() => {

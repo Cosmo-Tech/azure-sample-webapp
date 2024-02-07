@@ -1,21 +1,20 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
+import { t } from 'i18next';
 import { all, call, select, takeEvery, put } from 'redux-saga/effects';
-import { STATUSES } from '../../../commons/Constants';
+import { ResourceUtils } from '@cosmotech/core';
+import { SCENARIO_RUN_STATE } from '../../../../services/config/ApiConstants';
+import { WorkspaceSchema } from '../../../../services/config/WorkspaceSchema';
+import { ConfigUtils, WorkspacesUtils } from '../../../../utils';
 import { APPLICATION_ACTIONS_KEY } from '../../../commons/ApplicationConstants';
+import { STATUSES } from '../../../commons/Constants';
+import { POWER_BI_ACTIONS_KEY } from '../../../commons/PowerBIConstants';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { WORKSPACE_ACTIONS_KEY } from '../../../commons/WorkspaceConstants';
-import { SCENARIO_RUN_STATE } from '../../../../services/config/ApiConstants';
+import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
+import { dispatchGetPowerBIEmbedInfo } from '../../../dispatchers/powerbi/PowerBIDispatcher';
 import { getAllScenariosData } from '../../scenario/FindAllScenarios/FindAllScenariosData';
 import { fetchSolutionByIdData } from '../../solution/FindSolutionById/FindSolutionByIdData';
-import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
-import { t } from 'i18next';
-import { POWER_BI_ACTIONS_KEY } from '../../../commons/PowerBIConstants';
-import { dispatchGetPowerBIEmbedInfo } from '../../../dispatchers/powerbi/PowerBIDispatcher';
-import { ConfigUtils, WorkspacesUtils } from '../../../../utils';
-import { ResourceUtils } from '@cosmotech/core';
-import { WorkspaceSchema } from '../../../../services/config/WorkspaceSchema';
 
 const getOrganizationId = (state) => state?.organization?.current?.data?.id;
 const selectSolutionIdFromCurrentWorkspace = (state) => state.workspace.current.data.solution.solutionId;

@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { AppBar, Login, Workspaces } from '../../commons/actions';
 import { REAL_BREWERY_WORKSPACE_ID } from '../../commons/constants/brewery/TestConstants';
 

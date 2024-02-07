@@ -1,9 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
-import { STATUSES } from '../../commons/Constants';
 import { createReducer } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
+import { STATUSES } from '../../commons/Constants';
 import { WORKSPACE_ACTIONS_KEY } from '../../commons/WorkspaceConstants';
 
 const currentWorkspaceInitialState = {

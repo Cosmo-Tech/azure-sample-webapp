@@ -1,14 +1,13 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React, { useMemo, useState } from 'react';
-import { Accordion, AccordionSummary, AccordionDetails, Button, Card, Grid, Paper, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import WarningAmberOutlinedIcon from '@mui/icons-material/WarningAmberOutlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import WarningAmberOutlinedIcon from '@mui/icons-material/WarningAmberOutlined';
+import { Accordion, AccordionSummary, AccordionDetails, Button, Card, Grid, Paper, Typography } from '@mui/material';
 import ScenarioPowerBiReport from '../ScenarioPowerBiReport';
 import { useScenarioDashboardCard } from './ScenarioDashboardCardHook';
-import { useTranslation } from 'react-i18next';
 
 const STORAGE_DASHBOARDS_ACCORDION_EXPANDED_KEY = 'dashboardsAccordionExpanded';
 

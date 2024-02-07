@@ -1,11 +1,10 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React from 'react';
-import { UserInfo } from '@cosmotech/ui';
 import { useTranslation } from 'react-i18next';
-import { useUserInfoHook } from './hooks/UserInfoHook';
+import { UserInfo } from '@cosmotech/ui';
 import ConfigService from '../../../services/ConfigService';
+import { useUserInfoHook } from './hooks/UserInfoHook';
 
 export const UserInfoWrapper = () => {
   const { t, i18n } = useTranslation();

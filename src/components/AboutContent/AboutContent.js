@@ -1,14 +1,13 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Grid, ButtonBase, Link } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
-import { pictureLight, pictureDark } from '../../theme';
-import { useTranslation } from 'react-i18next';
-import { useWorkspaceData } from '../../state/hooks/WorkspaceHooks';
 import ConfigService from '../../services/ConfigService';
+import { useWorkspaceData } from '../../state/hooks/WorkspaceHooks';
+import { pictureLight, pictureDark } from '../../theme';
 
 const useStyles = makeStyles((theme) => ({
   root: {

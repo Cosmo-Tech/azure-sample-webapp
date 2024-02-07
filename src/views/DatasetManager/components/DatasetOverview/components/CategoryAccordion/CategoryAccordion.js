@@ -1,15 +1,14 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { exists } from 'i18next';
 import PropTypes from 'prop-types';
-import { Accordion, AccordionDetails, AccordionSummary, Grid, Typography } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Accordion, AccordionDetails, AccordionSummary, Grid, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import { KPI } from './components';
+import { exists } from 'i18next';
 import { TranslationUtils } from '../../../../../../utils';
+import { KPI } from './components';
 
 const useStyles = makeStyles((theme) => ({
   categoryType: { opacity: '70%' },

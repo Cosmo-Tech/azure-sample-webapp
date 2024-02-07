@@ -1,12 +1,11 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button, Grid, List, ListItem, Typography } from '@mui/material';
 import ConfigService from '../../services/ConfigService';
 import { useSolutionData } from '../../state/hooks/SolutionHooks';
 import { useWorkspaceData } from '../../state/hooks/WorkspaceHooks';
-import { useTranslation } from 'react-i18next';
 
 export const TechnicalInfoContent = () => {
   const { t } = useTranslation();

@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { i18next, I18N_NAMESPACE } from '../services/config/i18next';
 
 const getParameterTranslationKey = (parameterId) => {

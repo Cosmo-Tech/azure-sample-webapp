@@ -1,10 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
-import { takeEvery, call, put } from 'redux-saga/effects';
-import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
-import { Api } from '../../../../services/config/Api';
 import { t } from 'i18next';
+import { takeEvery, call, put } from 'redux-saga/effects';
+import { Api } from '../../../../services/config/Api';
+import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
 
 export function* renameScenario(action) {

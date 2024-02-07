@@ -1,8 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
-import { Auth } from '@cosmotech/core';
 import { takeEvery } from 'redux-saga/effects';
+import { Auth } from '@cosmotech/core';
 import { AUTH_ACTIONS_KEY } from '../../../commons/AuthConstants';
 
 // Generator function to fetch authentication data

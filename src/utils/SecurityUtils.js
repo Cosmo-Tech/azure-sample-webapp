@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { ACL_ROLES } from '../services/config/accessControl';
 
 const _findById = (array, idToFind) => {

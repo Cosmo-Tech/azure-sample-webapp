@@ -1,11 +1,10 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { createReducer } from '@reduxjs/toolkit';
 import { ResourceUtils } from '@cosmotech/core';
+import { DatasetsUtils } from '../../../utils';
 import { STATUSES } from '../../commons/Constants';
 import { DATASET_ACTIONS_KEY } from '../../commons/DatasetConstants';
-import { DatasetsUtils } from '../../../utils';
 
 export const datasetInitialState = {
   list: {

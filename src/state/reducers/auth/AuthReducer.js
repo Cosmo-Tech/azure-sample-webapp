@@ -1,8 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
-import { AUTH_ACTIONS_KEY, AUTH_STATUS } from '../../commons/AuthConstants';
 import { createReducer } from '@reduxjs/toolkit';
+import { AUTH_ACTIONS_KEY, AUTH_STATUS } from '../../commons/AuthConstants';
 
 // Authentication data
 export const authInitialState = {

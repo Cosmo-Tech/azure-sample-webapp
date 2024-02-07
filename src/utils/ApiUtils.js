@@ -1,13 +1,12 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import rfdc from 'rfdc';
-import { VAR_TYPES_TO_STRING_FUNCTIONS } from './scenarioParameters/ConversionToString';
-import { VAR_TYPES_FROM_STRING_FUNCTIONS } from './scenarioParameters/ConversionFromString.js';
-import { ConfigUtils } from './ConfigUtils';
-import { Api } from '../services/config/Api.js';
 import ConfigService from '../services/ConfigService';
+import { Api } from '../services/config/Api.js';
 import { TWINGRAPH_SECTION_URL } from '../services/config/ApiConstants';
+import { ConfigUtils } from './ConfigUtils';
+import { VAR_TYPES_FROM_STRING_FUNCTIONS } from './scenarioParameters/ConversionFromString.js';
+import { VAR_TYPES_TO_STRING_FUNCTIONS } from './scenarioParameters/ConversionToString';
 
 const clone = rfdc();
 
