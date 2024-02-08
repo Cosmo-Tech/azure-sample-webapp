@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { ArrayDictUtils } from './ArrayDictUtils';
 
 const buildExtendedVarType = (varType, extension) => {

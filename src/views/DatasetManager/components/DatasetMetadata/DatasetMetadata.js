@@ -1,16 +1,15 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React, { useEffect, useMemo, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import { Card, Grid, IconButton, Tooltip } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import { PermissionsGate, TagsEditor } from '@cosmotech/ui';
+import { ACL_PERMISSIONS } from '../../../../services/config/accessControl';
+import { ApiUtils } from '../../../../utils';
 import { useDatasetMetadata } from './DatasetMetadataHook';
 import { DescriptionEditor, MetadataItem } from './components';
-import { ApiUtils } from '../../../../utils';
-import { ACL_PERMISSIONS } from '../../../../services/config/accessControl';
 
 const COPIED_TOOLTIP_DURATION = 2000;
 

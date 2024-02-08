@@ -1,8 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
-import { SCENARIO_EXAMPLE, DEFAULT_SCENARIOS_LIST } from '../../cypress/fixtures/stubbing/default';
 import { SHARED_SCENARIOS_LIST } from '../../cypress/fixtures/stubbing/ScenarioSharing';
+import { SCENARIO_EXAMPLE, DEFAULT_SCENARIOS_LIST } from '../../cypress/fixtures/stubbing/default';
 
 export const SCENARIODATA_WITHOUT_USERS = {
   ...SCENARIO_EXAMPLE,

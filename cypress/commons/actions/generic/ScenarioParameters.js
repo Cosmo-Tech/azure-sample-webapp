@@ -1,10 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
-import { Scenarios } from '../generic';
-import { apiUtils as api } from '../../utils';
 import { stub } from '../../services/stubbing';
+import { apiUtils as api } from '../../utils';
+import { Scenarios } from '../generic';
 
 // Get elements in scenario parameters panel
 function getParametersTabs(timeout = 4) {

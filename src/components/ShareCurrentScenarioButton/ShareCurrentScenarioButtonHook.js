@@ -1,19 +1,16 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { useCallback, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useFormState } from 'react-hook-form';
-
+import { useTranslation } from 'react-i18next';
 import { useUserPermissionsOnCurrentScenario } from '../../hooks/SecurityHooks';
-import { useCurrentScenarioData, useApplyScenarioSharingSecurity } from '../../state/hooks/ScenarioHooks';
 import {
   useApplicationPermissionsMapping,
   useApplicationRoles,
   useApplicationPermissions,
 } from '../../state/hooks/ApplicationHooks';
+import { useCurrentScenarioData, useApplyScenarioSharingSecurity } from '../../state/hooks/ScenarioHooks';
 import { useWorkspaceData } from '../../state/hooks/WorkspaceHooks';
-
 import { getShareScenarioDialogLabels, getPermissionsLabels, getRolesLabels } from './labels';
 
 export const useShareCurrentScenarioButton = () => {

@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { ROLES } from '../../../commons/constants/generic/TestConstants';
 
 export const SCENARIO_EXAMPLE = {

@@ -1,17 +1,16 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React, { useCallback } from 'react';
-import rfdc from 'rfdc';
-import { Button, Grid } from '@mui/material';
-import CancelIcon from '@mui/icons-material/Cancel';
-import { useTranslation } from 'react-i18next';
-import { PermissionsGate } from '@cosmotech/ui';
 import { useFormContext, useFormState } from 'react-hook-form';
-import { useScenarioResetValues } from '../../../../ScenarioParameters';
+import { useTranslation } from 'react-i18next';
+import CancelIcon from '@mui/icons-material/Cancel';
+import { Button, Grid } from '@mui/material';
+import rfdc from 'rfdc';
+import { PermissionsGate } from '@cosmotech/ui';
 import { useUserAppAndCurrentScenarioPermissions } from '../../../../../../hooks/SecurityHooks';
 import { ACL_PERMISSIONS } from '../../../../../../services/config/accessControl';
 import { TwoActionsDialogService } from '../../../../../../services/twoActionsDialog/twoActionsDialogService';
+import { useScenarioResetValues } from '../../../../ScenarioParametersContext';
 
 const clone = rfdc();
 export const DiscardChangesButton = () => {

@@ -1,12 +1,11 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import 'cypress-localstorage-commands';
-import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
-import { apiUtils as api, authUtils as auth, routeUtils as route } from '../../utils';
-import { stub } from '../../services/stubbing';
-import { setup } from '../../utils/setup';
 import { USER_EXAMPLE } from '../../../fixtures/stubbing/default/users';
+import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
+import { stub } from '../../services/stubbing';
+import { apiUtils as api, authUtils as auth, routeUtils as route } from '../../utils';
+import { setup } from '../../utils/setup';
 
 const BASE_URL = Cypress.config().baseUrl;
 

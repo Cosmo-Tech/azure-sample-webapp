@@ -1,12 +1,11 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
+import { useDatasetsReducerStatus } from '../../state/hooks/DatasetHooks';
+import { useOrganization } from '../../state/hooks/OrganizationHooks';
 import { usePowerBIReducerStatus } from '../../state/hooks/PowerBIHooks';
 import { useScenariosReducerStatus } from '../../state/hooks/ScenarioHooks';
-import { useWorkspacesReducerStatus, useWorkspace, useWorkspaceData } from '../../state/hooks/WorkspaceHooks';
 import { useSolution } from '../../state/hooks/SolutionHooks';
-import { useOrganization } from '../../state/hooks/OrganizationHooks';
-import { useDatasetsReducerStatus } from '../../state/hooks/DatasetHooks';
+import { useWorkspacesReducerStatus, useWorkspace, useWorkspaceData } from '../../state/hooks/WorkspaceHooks';
 
 export const useLoading = () => {
   const powerBIReducerStatus = usePowerBIReducerStatus();

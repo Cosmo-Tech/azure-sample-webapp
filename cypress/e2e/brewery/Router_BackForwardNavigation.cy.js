@@ -1,7 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
-import { stub } from '../../commons/services/stubbing';
 import {
   InstanceVisualization,
   Login,
@@ -11,8 +9,9 @@ import {
   ScenarioSelector,
   DatasetManager,
 } from '../../commons/actions';
-import { DEFAULT_SCENARIOS_LIST, EXTENDED_WORKSPACES_LIST } from '../../fixtures/stubbing/default';
+import { stub } from '../../commons/services/stubbing';
 import { routeUtils as route } from '../../commons/utils';
+import { DEFAULT_SCENARIOS_LIST, EXTENDED_WORKSPACES_LIST } from '../../fixtures/stubbing/default';
 
 // Patch EXTENDED_WORKSPACES_LIST to enable datasetmanager
 EXTENDED_WORKSPACES_LIST.forEach((workspace) => (workspace.webApp.options.datasetManager = {}));

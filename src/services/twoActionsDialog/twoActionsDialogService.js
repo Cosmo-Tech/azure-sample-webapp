@@ -1,9 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React, { useCallback, useRef, useState } from 'react';
-import { Notifier, useSubscribeToNotifier } from '../../utils';
 import { SimpleTwoActionsDialog } from '@cosmotech/ui';
+import { Notifier, useSubscribeToNotifier } from '../../utils';
 
 const twoActionsDialogNotifier = new Notifier();
 

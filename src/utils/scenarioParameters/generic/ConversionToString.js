@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { DateUtils } from '@cosmotech/core';
 import { DATASET_ID_VARTYPE } from '../../../services/config/ApiConstants';
 

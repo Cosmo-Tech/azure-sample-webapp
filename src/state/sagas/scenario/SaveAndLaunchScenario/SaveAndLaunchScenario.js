@@ -1,12 +1,11 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
+import { t } from 'i18next';
 import { takeEvery, call, put } from 'redux-saga/effects';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
-import { saveScenario } from '../SaveScenario';
-import { launchScenario } from '../LaunchScenario';
 import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
-import { t } from 'i18next';
+import { launchScenario } from '../LaunchScenario';
+import { saveScenario } from '../SaveScenario';
 
 export function* saveAndLaunchScenario(action) {
   try {

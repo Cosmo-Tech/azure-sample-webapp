@@ -1,12 +1,11 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React from 'react';
-import { HelpMenu } from '@cosmotech/ui';
-import { About, TechnicalInfo } from '../../../services/config/Menu';
 import { useTranslation } from 'react-i18next';
-import { useWorkspaceData } from '../../../state/hooks/WorkspaceHooks';
+import { HelpMenu } from '@cosmotech/ui';
 import ConfigService from '../../../services/ConfigService';
+import { About, TechnicalInfo } from '../../../services/config/Menu';
+import { useWorkspaceData } from '../../../state/hooks/WorkspaceHooks';
 
 export const HelpMenuWrapper = () => {
   const { t } = useTranslation();

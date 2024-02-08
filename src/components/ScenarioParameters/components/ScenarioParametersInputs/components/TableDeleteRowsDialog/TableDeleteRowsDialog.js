@@ -1,10 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { DontAskAgainDialog } from '@cosmotech/ui';
 import PropTypes from 'prop-types';
+import { DontAskAgainDialog } from '@cosmotech/ui';
 
 export const TableDeleteRowsDialog = (props) => {
   const { t } = useTranslation();

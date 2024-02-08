@@ -1,23 +1,21 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
+import { fireEvent, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 import ScenarioDashboardCard from '.';
-import { fireEvent, screen, waitFor } from '@testing-library/react';
-import { customRender } from '../../../../../tests/utils/renderInThemeAndStoreProviders';
 import { AccordionTesting, ButtonTesting } from '../../../../../tests/MuiComponentsTesting';
+import { customRender } from '../../../../../tests/utils/renderInThemeAndStoreProviders';
 import { useScenarioDashboardCard } from './ScenarioDashboardCardHook';
 
 beforeEach(() => {
   jest.resetModules();
 });
 
-jest.mock('../index', () => ({
-  __esModule: true,
-  ScenarioPowerBiReport: () => {
-    return <div data-testid="scenario-powerbi-report" />;
-  },
-}));
+// Mind the double arrow functions to mock the default export of a React component
+jest.mock('../ScenarioPowerBiReport', () => {
+  const ScenarioPowerBiReport = () => <div data-testid="scenario-powerbi-report" />;
+  return ScenarioPowerBiReport;
+});
 
 jest.mock('./ScenarioDashboardCardHook', () => ({
   useScenarioDashboardCard: jest.fn(),

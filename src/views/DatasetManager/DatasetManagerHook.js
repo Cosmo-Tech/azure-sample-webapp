@@ -1,12 +1,11 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { dispatchSelectDefaultDataset } from '../../state/dispatchers/dataset/DatasetDispatcher';
-import { useCurrentDataset } from '../../state/hooks/DatasetHooks';
 import { useRedirectFromDatasetManagerToScenarioView } from '../../hooks/RouterHooks';
 import { useWorkspaceMainDatasets } from '../../hooks/WorkspaceDatasetsHooks';
+import { dispatchSelectDefaultDataset } from '../../state/dispatchers/dataset/DatasetDispatcher';
+import { useCurrentDataset } from '../../state/hooks/DatasetHooks';
 
 export const useDatasetManager = () => {
   const datasets = useWorkspaceMainDatasets();

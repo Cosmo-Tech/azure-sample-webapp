@@ -1,11 +1,10 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React, { useState } from 'react';
+import Countdown from 'react-countdown';
 import PropTypes from 'prop-types';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
-import Countdown from 'react-countdown';
 
 const useStyles = makeStyles((theme) => ({
   dialogContent: {

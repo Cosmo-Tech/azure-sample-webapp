@@ -1,11 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import utils from '../../commons/TestUtils';
-
-import { BREWERY_WORKSPACE_ID, DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
 import { Scenarios, ScenarioManager, ScenarioParameters, ErrorBanner } from '../../commons/actions';
 import { Login } from '../../commons/actions/brewery';
+import { BREWERY_WORKSPACE_ID, DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
 import { URL_REGEX } from '../../commons/constants/generic/TestConstants';
 
 Cypress.Keyboard.defaults({

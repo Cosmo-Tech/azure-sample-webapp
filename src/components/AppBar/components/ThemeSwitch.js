@@ -1,12 +1,11 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Brightness2 as Brightness2Icon, WbSunny as WbSunnyIcon } from '@mui/icons-material';
 import { Fade, IconButton, Tooltip } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
-import { Brightness2 as Brightness2Icon, WbSunny as WbSunnyIcon } from '@mui/icons-material';
 import { useSetApplicationTheme } from '../../../state/hooks/ApplicationHooks';
-import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles((theme) => ({
   switchToDarkTheme: {

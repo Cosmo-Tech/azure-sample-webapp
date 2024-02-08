@@ -1,11 +1,10 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
-import React from 'react';
 import { screen, fireEvent } from '@testing-library/react';
+import React from 'react';
 import { ScenarioParameters } from '.';
-import { customRender } from '../../../tests/utils/renderInThemeAndStoreProviders';
 import { AccordionTesting } from '../../../tests/MuiComponentsTesting';
+import { customRender } from '../../../tests/utils/renderInThemeAndStoreProviders';
 
 const mockOnToggleAccordion = jest.fn();
 

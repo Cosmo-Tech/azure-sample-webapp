@@ -1,16 +1,15 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import utils from '../../commons/TestUtils';
-import { routeUtils as route } from '../../commons/utils';
+import { Downloads, Scenarios, ScenarioManager, ScenarioParameters, ScenarioSelector } from '../../commons/actions';
+import { BreweryParameters, Login } from '../../commons/actions/brewery';
 import {
   BASIC_PARAMETERS_CONST,
   BREWERY_WORKSPACE_ID,
   DATASET,
   RUN_TEMPLATE,
 } from '../../commons/constants/brewery/TestConstants';
-import { Downloads, Scenarios, ScenarioManager, ScenarioParameters, ScenarioSelector } from '../../commons/actions';
-import { BreweryParameters, Login } from '../../commons/actions/brewery';
+import { routeUtils as route } from '../../commons/utils';
 import { EXPECTED_DATA_AFTER_DUMMY_DATASET_1_UPLOAD } from '../../fixtures/FileParametersData';
 
 Cypress.Keyboard.defaults({

@@ -1,12 +1,11 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import utils from '../../commons/TestUtils';
-import { setup } from '../../commons/utils/setup';
-import { stub } from '../../commons/services/stubbing';
-import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
 import { InstanceVisualization, Login, Scenarios, ScenarioManager } from '../../commons/actions';
 import { Login as BreweryLogin } from '../../commons/actions/brewery';
+import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
+import { stub } from '../../commons/services/stubbing';
+import { setup } from '../../commons/utils/setup';
 
 describe('Instance view disabled', () => {
   before(() => {

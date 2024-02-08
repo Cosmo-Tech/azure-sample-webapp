@@ -1,10 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React from 'react';
+import PropTypes from 'prop-types';
 import { AppBar as MuiAppBar, Toolbar } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
-import PropTypes from 'prop-types';
 import { HelpMenuWrapper, Logo, ThemeSwitch, UserInfoWrapper, WorkspaceInfo } from './components';
 
 const useStyles = makeStyles((theme) => ({

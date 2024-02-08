@@ -1,11 +1,10 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React from 'react';
-import { CircularProgress, Grid, Stack, Typography } from '@mui/material';
-import { useCurrentScenarioState } from '../../../../../../state/hooks/ScenarioHooks';
-import { SCENARIO_RUN_STATE } from '../../../../../../services/config/ApiConstants';
 import { useTranslation } from 'react-i18next';
+import { CircularProgress, Grid, Stack, Typography } from '@mui/material';
+import { SCENARIO_RUN_STATE } from '../../../../../../services/config/ApiConstants';
+import { useCurrentScenarioState } from '../../../../../../state/hooks/ScenarioHooks';
 
 export const RunningStateSpinner = () => {
   const { t } = useTranslation();

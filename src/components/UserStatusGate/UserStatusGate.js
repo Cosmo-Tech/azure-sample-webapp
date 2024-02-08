@@ -1,15 +1,14 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React from 'react';
+import { Navigate, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { AUTH_STATUS } from '../../state/commons/AuthConstants';
 import { STATUSES } from '../../state/commons/Constants';
-import { useUserStatusGateHook } from './UserStatusGateHook';
 import { useSolution } from '../../state/hooks/SolutionHooks';
-import { Navigate, useLocation } from 'react-router-dom';
 import { AccessDenied, SignIn } from '../../views';
 import Workspaces from '../../views/Workspaces';
+import { useUserStatusGateHook } from './UserStatusGateHook';
 
 export const UserStatusGate = ({ children }) => {
   const { authStatus, applicationStatus } = useUserStatusGateHook();

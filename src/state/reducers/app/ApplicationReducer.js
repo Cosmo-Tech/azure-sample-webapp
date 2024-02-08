@@ -1,10 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { createReducer } from '@reduxjs/toolkit';
+import { SecurityUtils } from '../../../utils';
 import { APPLICATION_ACTIONS_KEY } from '../../commons/ApplicationConstants';
 import { STATUSES } from '../../commons/Constants';
-import { SecurityUtils } from '../../../utils';
 
 export const applicationInitialState = {
   status: STATUSES.IDLE,

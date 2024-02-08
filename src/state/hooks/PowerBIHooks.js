@@ -1,11 +1,10 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { PowerBIUtils } from '../../utils';
 import { dispatchSetPowerBIReportsConfig } from '../dispatchers/powerbi/PowerBIDispatcher';
 import { useCurrentScenarioData } from './ScenarioHooks';
-import { PowerBIUtils } from '../../utils';
 
 export const usePowerBIInfo = () => {
   return useSelector((state) => state.powerBI);

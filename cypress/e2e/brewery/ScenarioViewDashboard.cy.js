@@ -1,10 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { Login, Scenarios, ScenarioParameters } from '../../commons/actions';
 import { BreweryParameters } from '../../commons/actions/brewery';
-import { DEFAULT_SCENARIOS_LIST } from '../../fixtures/stubbing/default';
 import { stub } from '../../commons/services/stubbing';
+import { DEFAULT_SCENARIOS_LIST } from '../../fixtures/stubbing/default';
 
 describe('Scenario view PowerBI report', () => {
   before(() => {

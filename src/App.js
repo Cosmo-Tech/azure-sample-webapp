@@ -1,23 +1,22 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useIdleTimer } from 'react-idle-timer';
-import { Auth } from '@cosmotech/core';
 import { ThemeProvider, StyledEngineProvider, CssBaseline } from '@mui/material';
-import './assets/scss/index.scss';
-import './services/config/Auth';
-import Loading from './views/Loading';
-import './services/AppInsights';
-import { AUTH_STATUS } from './state/commons/AuthConstants';
-import { SESSION_INACTIVITY_TIMEOUT } from './services/config/FunctionalConstants';
-import { SessionTimeoutDialog } from './components/SessionTimeoutDialog/SessionTimeoutDialog';
-import { getTheme } from './theme';
-import AppRoutes from './AppRoutes';
-import { STATUSES } from './state/commons/Constants';
+import { Auth } from '@cosmotech/core';
 import { useApp } from './AppHook';
+import AppRoutes from './AppRoutes';
+import './assets/scss/index.scss';
+import { SessionTimeoutDialog } from './components/SessionTimeoutDialog/SessionTimeoutDialog';
+import './services/AppInsights';
+import './services/config/Auth';
+import { SESSION_INACTIVITY_TIMEOUT } from './services/config/FunctionalConstants';
 import { TwoActionsDialogGlobal } from './services/twoActionsDialog/twoActionsDialogService';
+import { AUTH_STATUS } from './state/commons/AuthConstants';
+import { STATUSES } from './state/commons/Constants';
+import { getTheme } from './theme';
+import Loading from './views/Loading';
 
 const SESSION_TIMEOUT_PROMPT_DELAY_IN_SECONDS = 30;
 

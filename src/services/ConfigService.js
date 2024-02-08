@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import applicationInsights from '../config/ApplicationInsights.json';
 import globalConfiguration from '../config/GlobalConfiguration.json';
 import helpMenuConfiguration from '../config/HelpMenuConfiguration.json';

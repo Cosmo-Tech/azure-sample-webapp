@@ -1,18 +1,15 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
+import { render, screen } from '@testing-library/react';
 import React from 'react';
+import { Provider } from 'react-redux';
 import rfdc from 'rfdc';
-import { createMockStore } from '../../../tests/mocks';
+import CreateScenarioButton from '.';
 import { ROLES } from '../../../tests/constants';
+import { createMockStore } from '../../../tests/mocks';
 import { DEFAULT_REDUX_STATE, SCENARIODATA_WITHOUT_USERS, DEFAULT_SCENARIOS_LIST_DATA } from '../../../tests/samples';
 import { applyWorkspaceRoleToState } from '../../../tests/utils/security';
 import { dispatchCreateScenario } from '../../state/dispatchers/scenario/ScenarioDispatcher';
-
-import { render, screen } from '@testing-library/react';
-import { Provider } from 'react-redux';
-
-import CreateScenarioButton from '.';
 
 const clone = rfdc();
 const DEFAULT_SCENARIOS_LIST_DATA_WITH_DEPTHS = DEFAULT_SCENARIOS_LIST_DATA.map((scenario) => ({

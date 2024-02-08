@@ -1,10 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { Login, ScenarioSelector } from '../../commons/actions';
 import { stub } from '../../commons/services/stubbing';
-import { DEFAULT_SCENARIOS_LIST, WORKSPACE_WITH_INSTANCE_VIEW } from '../../fixtures/stubbing/default';
 import { routeUtils as route } from '../../commons/utils';
+import { DEFAULT_SCENARIOS_LIST, WORKSPACE_WITH_INSTANCE_VIEW } from '../../fixtures/stubbing/default';
 
 describe('Scenario sharing with a link', () => {
   before(() => {

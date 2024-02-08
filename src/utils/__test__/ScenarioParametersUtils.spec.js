@@ -1,10 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import rfdc from 'rfdc';
 import { ScenarioParametersUtils } from '../scenarioParameters/ScenarioParametersUtils';
-import { STANDARD_SOLUTION } from './fixtures/StandardSolutionData';
 import { STANDARD_DATASETS } from './fixtures/StandardDatasetsData';
+import { STANDARD_SOLUTION } from './fixtures/StandardSolutionData';
 
 const clone = rfdc();
 

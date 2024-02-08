@@ -1,18 +1,15 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
+import { render, screen } from '@testing-library/react';
 import React from 'react';
+import { Provider } from 'react-redux';
 import rfdc from 'rfdc';
-import { createMockStore, MockFormProvider } from '../../../tests/mocks';
-import { dispatchApplyScenarioSharingChanges } from '../../state/dispatchers/scenario/ScenarioDispatcher';
+import ShareCurrentScenarioButton from '.';
 import { ROLES } from '../../../tests/constants';
+import { createMockStore, MockFormProvider } from '../../../tests/mocks';
 import { DEFAULT_REDUX_STATE, USERS_LIST } from '../../../tests/samples';
 import { applyScenarioRoleToState } from '../../../tests/utils/security';
-
-import { render, screen } from '@testing-library/react';
-import { Provider } from 'react-redux';
-
-import ShareCurrentScenarioButton from '.';
+import { dispatchApplyScenarioSharingChanges } from '../../state/dispatchers/scenario/ScenarioDispatcher';
 
 const clone = rfdc();
 

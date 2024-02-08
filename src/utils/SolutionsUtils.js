@@ -1,12 +1,11 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
-import { TranslationUtils } from './TranslationUtils';
+import { SOLUTIONS } from '../config/overrides/Solutions.js';
 import { ApiUtils } from './ApiUtils';
 import { ArrayDictUtils } from './ArrayDictUtils';
 import { ConfigUtils } from './ConfigUtils';
-import { SOLUTIONS } from '../config/overrides/Solutions.js';
 import { ParameterConstraintsUtils } from './ParameterConstraintsUtils';
+import { TranslationUtils } from './TranslationUtils';
 
 const _getRunTemplateParametersIds = (groupsOfParameters, runTemplateParametersGroupsIds) => {
   let parameters = [];

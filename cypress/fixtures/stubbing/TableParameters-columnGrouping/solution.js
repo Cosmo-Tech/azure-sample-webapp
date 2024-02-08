@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { DEFAULT_SOLUTION } from '../default';
 
 const SOLUTION_WITH_COLUMN_GROUP = {

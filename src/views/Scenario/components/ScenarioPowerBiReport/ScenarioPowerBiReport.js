@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React from 'react';
 import { CurrentScenarioPowerBiReport } from '../../../../components';
 import { useScenarioPowerBiReport } from './ScenarioPowerBiReportHook';

@@ -1,8 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
+import utils from '../../commons/TestUtils';
 import { DatasetManager, ErrorBanner } from '../../commons/actions';
 import { Login } from '../../commons/actions/brewery';
-import utils from '../../commons/TestUtils';
 import {
   BREWERY_WORKSPACE_ID,
   DATASET_STORAGE_ACCOUNT,

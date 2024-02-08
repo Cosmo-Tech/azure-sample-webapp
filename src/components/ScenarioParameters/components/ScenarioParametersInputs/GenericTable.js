@@ -1,20 +1,20 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React, { useEffect, useState, useRef, useCallback, useMemo } from 'react';
-import rfdc from 'rfdc';
-import equal from 'fast-deep-equal';
-import { Table, TABLE_DATA_STATUS, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
-import { AgGridUtils, FileBlobUtils } from '@cosmotech/core';
 import { useTranslation } from 'react-i18next';
-import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { TableExportDialog } from './components';
-import { gridLight, gridDark } from '../../../../theme/';
-import { ConfigUtils, TranslationUtils, FileManagementUtils } from '../../../../utils';
+import PropTypes from 'prop-types';
+import equal from 'fast-deep-equal';
+import rfdc from 'rfdc';
+import { AgGridUtils, FileBlobUtils } from '@cosmotech/core';
+import { Table, TABLE_DATA_STATUS, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
 import { useOrganizationId } from '../../../../state/hooks/OrganizationHooks.js';
 import { useWorkspaceId } from '../../../../state/hooks/WorkspaceHooks.js';
+import { gridLight, gridDark } from '../../../../theme/';
+import { ConfigUtils, TranslationUtils } from '../../../../utils';
+import { FileManagementUtils } from '../../../../utils/FileManagementUtils';
 import { TableUtils } from '../../../../utils/TableUtils';
+import { TableExportDialog } from './components';
 import { TableDeleteRowsDialog } from './components/TableDeleteRowsDialog';
 
 const clone = rfdc();

@@ -1,14 +1,13 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
-import { takeEvery, call, put } from 'redux-saga/effects';
-import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
-import { getAllScenariosData } from '../FindAllScenarios/FindAllScenariosData';
-import { stopScenarioRun } from '../../scenarioRun/StopScenarioRun/StopScenarioRun';
-import { Api } from '../../../../services/config/Api';
 import { t } from 'i18next';
-import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
+import { takeEvery, call, put } from 'redux-saga/effects';
+import { Api } from '../../../../services/config/Api';
 import { SCENARIO_RUN_STATE } from '../../../../services/config/ApiConstants';
+import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
+import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
+import { stopScenarioRun } from '../../scenarioRun/StopScenarioRun/StopScenarioRun';
+import { getAllScenariosData } from '../FindAllScenarios/FindAllScenariosData';
 
 export function* deleteScenario(action) {
   try {

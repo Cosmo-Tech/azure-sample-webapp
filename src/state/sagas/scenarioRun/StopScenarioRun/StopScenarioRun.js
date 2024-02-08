@@ -1,13 +1,12 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
+import { t } from 'i18next';
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { Api } from '../../../../services/config/Api';
-import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { SCENARIO_RUN_STATE } from '../../../../services/config/ApiConstants';
+import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { SCENARIO_RUN_ACTIONS } from '../../../commons/ScenarioRunConstants';
 import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
-import { t } from 'i18next';
 
 // generators function
 export function* stopScenarioRun(action) {

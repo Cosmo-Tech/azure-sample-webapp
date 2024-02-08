@@ -1,8 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
-import { SCENARIO_RUN_ACTIONS } from '../../commons/ScenarioRunConstants';
 import { createReducer } from '@reduxjs/toolkit';
+import { SCENARIO_RUN_ACTIONS } from '../../commons/ScenarioRunConstants';
 
 const scenarioRunsListInitialState = {
   data: [],

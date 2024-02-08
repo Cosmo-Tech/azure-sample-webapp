@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
-import 'cypress-file-upload'; // Required to call attachFile
+import 'cypress-file-upload';
+// Required to call attachFile
 import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
 
 function getFullscreenTable() {

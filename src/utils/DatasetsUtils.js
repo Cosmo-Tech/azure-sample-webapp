@@ -1,17 +1,16 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { t } from 'i18next';
 import { Auth } from '@cosmotech/core';
+import { Api } from '../services/config/Api';
 import {
   CONNECTOR_VERSION_AZURE_STORAGE,
   CONNECTOR_NAME_AZURE_STORAGE,
   CONNECTOR_NAME_ADT,
   STORAGE_ROOT_DIR_PLACEHOLDER,
 } from '../services/config/ApiConstants';
-import { Api } from '../services/config/Api';
-import { dispatchSetApplicationErrorMessage } from '../state/dispatchers/app/ApplicationDispatcher';
 import { ACL_ROLES } from '../services/config/accessControl';
+import { dispatchSetApplicationErrorMessage } from '../state/dispatchers/app/ApplicationDispatcher';
 import { SecurityUtils } from './SecurityUtils';
 
 const patchDatasetWithCurrentUserPermissions = (dataset, userEmail, permissionsMapping) => {

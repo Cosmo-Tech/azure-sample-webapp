@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { Card, Grid, Stack, Typography } from '@mui/material';

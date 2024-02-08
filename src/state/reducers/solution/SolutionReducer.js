@@ -1,11 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 // Current Solution
-
-import { STATUSES } from '../../commons/Constants';
 import { createReducer } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
+import { STATUSES } from '../../commons/Constants';
 import { SOLUTION_ACTIONS_KEY } from '../../commons/SolutionConstants';
 
 export const currentSolutionInitialState = {

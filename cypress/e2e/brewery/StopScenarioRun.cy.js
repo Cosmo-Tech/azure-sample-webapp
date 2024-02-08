@@ -1,11 +1,10 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
-import { stub } from '../../commons/services/stubbing';
 import utils from '../../commons/TestUtils';
 import { Scenarios, ScenarioManager, ScenarioParameters, Login } from '../../commons/actions';
 import { DATASET, RUN_TEMPLATE, SCENARIO_STATUS } from '../../commons/constants/brewery/TestConstants';
 import { FAILED_SCENARIO_RUN, SCENARIO_RUN_IN_PROGRESS } from '../../commons/constants/generic/TestConstants';
+import { stub } from '../../commons/services/stubbing';
 
 const firstScenarioName = 'Test Cypress - Cancel run - ' + utils.randomStr(7);
 const secondScenarioName = 'Test Cypress - delete during run - ' + utils.randomStr(7);

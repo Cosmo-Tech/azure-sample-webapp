@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { DEFAULT_WORKSPACE } from '../default';
 
 export const WORKSPACE_WITHOUT_CONFIG = {

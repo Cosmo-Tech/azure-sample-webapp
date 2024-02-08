@@ -1,15 +1,14 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
-import { call, put, select, takeEvery } from 'redux-saga/effects';
-import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
-import { STATUSES } from '../../../commons/Constants';
-import { ApiUtils, ScenariosUtils } from '../../../../utils';
-import { SCENARIO_RUN_STATE } from '../../../../services/config/ApiConstants';
-import { Api } from '../../../../services/config/Api';
-import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
 import { t } from 'i18next';
+import { call, put, select, takeEvery } from 'redux-saga/effects';
+import { Api } from '../../../../services/config/Api';
+import { SCENARIO_RUN_STATE } from '../../../../services/config/ApiConstants';
 import { ACL_PERMISSIONS } from '../../../../services/config/accessControl';
+import { ApiUtils, ScenariosUtils } from '../../../../utils';
+import { STATUSES } from '../../../commons/Constants';
+import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
+import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
 
 const getUserEmail = (state) => state.auth.userEmail;
 const getUserId = (state) => state.auth.userId;

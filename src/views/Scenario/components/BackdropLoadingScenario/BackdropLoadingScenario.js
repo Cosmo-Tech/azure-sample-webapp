@@ -1,11 +1,10 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React from 'react';
-import { Backdrop, CircularProgress, Stack, Typography } from '@mui/material';
-import { useBackdropLoadingScenario } from './BackdropLoadingScenarioHooks';
-import { STATUSES } from '../../../../state/commons/Constants';
 import { useTranslation } from 'react-i18next';
+import { Backdrop, CircularProgress, Stack, Typography } from '@mui/material';
+import { STATUSES } from '../../../../state/commons/Constants';
+import { useBackdropLoadingScenario } from './BackdropLoadingScenarioHooks';
 
 const BackdropLoadingScenario = () => {
   const { currentScenarioStatus } = useBackdropLoadingScenario();

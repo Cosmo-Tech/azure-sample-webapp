@@ -1,13 +1,12 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
-import { takeEvery, call, put } from 'redux-saga/effects';
-import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
-import { STATUSES } from '../../../commons/Constants';
-import { SCENARIO_RUN_STATE } from '../../../../services/config/ApiConstants';
-import { Api } from '../../../../services/config/Api';
-import { AppInsights } from '../../../../services/AppInsights';
 import { t } from 'i18next';
+import { takeEvery, call, put } from 'redux-saga/effects';
+import { AppInsights } from '../../../../services/AppInsights';
+import { Api } from '../../../../services/config/Api';
+import { SCENARIO_RUN_STATE } from '../../../../services/config/ApiConstants';
+import { STATUSES } from '../../../commons/Constants';
+import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
 
 const appInsights = AppInsights.getInstance();

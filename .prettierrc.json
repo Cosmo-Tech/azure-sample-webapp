@@ -1,5 +1,8 @@
 {
+  "plugins": ["@trivago/prettier-plugin-sort-imports"],
   "singleQuote": true,
   "printWidth": 120,
-  "trailingComma": "es5"
+  "trailingComma": "es5",
+  "importOrder": ["react", "prop-types", "<THIRD_PARTY_MODULES>", "^@cosmotech/(.*)$", "^[./]"],
+  "importOrderSeparation": false
 }

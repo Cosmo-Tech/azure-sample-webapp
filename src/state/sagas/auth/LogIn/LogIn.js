@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { put, takeEvery } from 'redux-saga/effects';
 import { Auth } from '@cosmotech/core';
 import { AUTH_ACTIONS_KEY, AUTH_STATUS } from '../../../commons/AuthConstants';

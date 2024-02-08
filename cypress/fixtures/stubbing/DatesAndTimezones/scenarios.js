@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { SCENARIO_EXAMPLE } from '../default';
 
 export const SCENARIOS = [

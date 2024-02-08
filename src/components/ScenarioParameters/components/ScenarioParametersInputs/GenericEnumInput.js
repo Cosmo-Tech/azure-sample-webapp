@@ -1,12 +1,11 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React, { useMemo } from 'react';
-import { BasicEnumInput } from '@cosmotech/ui';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { ConfigUtils, TranslationUtils } from '../../../../utils';
+import PropTypes from 'prop-types';
 import { Grid } from '@mui/material';
+import { BasicEnumInput } from '@cosmotech/ui';
+import { ConfigUtils, TranslationUtils } from '../../../../utils';
 
 export const GenericEnumInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty }) => {
   const { t } = useTranslation();

@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import {
   Downloads,
   FileParameters,
@@ -10,9 +9,9 @@ import {
   TableParameters,
   Login,
 } from '../../commons/actions';
-import { SOLUTIONS, SCENARIOS } from '../../fixtures/stubbing/FileParametersNames';
-import { EXPECTED_DATA_AFTER_DUMMY_DATASET_1_UPLOAD } from '../../fixtures/FileParametersData';
 import { stub } from '../../commons/services/stubbing';
+import { EXPECTED_DATA_AFTER_DUMMY_DATASET_1_UPLOAD } from '../../fixtures/FileParametersData';
+import { SOLUTIONS, SCENARIOS } from '../../fixtures/stubbing/FileParametersNames';
 
 const DUMMY_CSV = 'dummy_dataset_1.csv';
 const DUMMY_JSON = 'dummy_json.json';

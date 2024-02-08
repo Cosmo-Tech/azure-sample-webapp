@@ -1,16 +1,15 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { all, fork } from 'redux-saga/effects';
-import scenarioSaga from './scenario';
-import scenarioRunSaga from './scenarioRun';
 import appSaga from './app';
+import authSaga from './auth';
 import datasetSaga from './datasets';
 import organizationSaga from './organization';
-import workspaceSaga from './workspace';
-import solutionSaga from './solution';
-import authSaga from './auth';
 import powerBISaga from './powerbi';
+import scenarioSaga from './scenario';
+import scenarioRunSaga from './scenarioRun';
+import solutionSaga from './solution';
+import workspaceSaga from './workspace';
 
 export default function* rootSaga() {
   yield all([

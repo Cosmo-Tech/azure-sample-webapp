@@ -1,9 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
+import { ROLES } from '../../../commons/constants/generic/TestConstants';
 import { DEFAULT_SCENARIOS_LIST, SCENARIO_EXAMPLE } from '../default/scenarios';
 import { USER_EXAMPLE, USERS_LIST } from '../default/users';
-import { ROLES } from '../../../commons/constants/generic/TestConstants';
 
 const PRIVATE_SCENARIO = {
   ...SCENARIO_EXAMPLE,

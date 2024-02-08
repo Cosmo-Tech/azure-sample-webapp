@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { AppBar, Login } from '../../commons/actions';
 
 describe('UserInfo features', () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { createTheme } from '@mui/material/styles';
 import { ThemeProvider } from '@mui/material';
+import { createTheme } from '@mui/material/styles';
 
 const MockTheme = ({ children }) => {
   const theme = createTheme({});

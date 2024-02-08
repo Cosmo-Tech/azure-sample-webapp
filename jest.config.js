@@ -4,7 +4,7 @@
 module.exports = {
   testMatch: ['<rootDir>/src/**/*.spec.js'],
   moduleNameMapper: {
-    '\\.(css|scss|less)$': 'identity-obj-proxy',
+    '\\.(css|scss|less|png)$': 'identity-obj-proxy',
   },
   transform: {
     '^.+\\.js?$': 'babel-jest',

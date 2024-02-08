@@ -1,11 +1,10 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { Auth } from '@cosmotech/core';
-import { EmbedConfig, PowerBiReportDetails } from './PowerBIModels';
 import { GET_EMBED_INFO_URL } from '../../state/commons/PowerBIConstants';
-import { COSMOTECH_API_SCOPE, POWER_BI_API_DEFAULT_SCOPE } from '../config/Auth';
 import { clientApi } from '../ClientApi';
+import { COSMOTECH_API_SCOPE, POWER_BI_API_DEFAULT_SCOPE } from '../config/Auth';
+import { EmbedConfig, PowerBiReportDetails } from './PowerBIModels';
 import { handleServiceAccountError, handleUserAccountError, PowerBIError } from './errors';
 
 /**

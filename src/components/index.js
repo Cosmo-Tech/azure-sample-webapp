@@ -3,7 +3,6 @@
 
 export { ScenarioParameters } from './ScenarioParameters';
 export { PermissionsGate } from './PermissionsGate';
-export { UserStatusGate } from './UserStatusGate';
 export { default as AboutContent } from './AboutContent';
 export { SessionTimeoutDialog } from './SessionTimeoutDialog';
 export { TechnicalInfoContent } from './TechnicalInfoContent';

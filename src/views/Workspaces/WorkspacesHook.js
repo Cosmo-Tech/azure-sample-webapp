@@ -1,8 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
-import { useWorkspacesList, useSelectWorkspace, useWorkspace } from '../../state/hooks/WorkspaceHooks';
 import { useOrganizationName } from '../../state/hooks/OrganizationHooks';
+import { useWorkspacesList, useSelectWorkspace, useWorkspace } from '../../state/hooks/WorkspaceHooks';
 
 export const useWorkspaces = () => {
   const workspacesList = useWorkspacesList();

@@ -1,9 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { z } from 'zod';
-import { CUSTOM_WEB_APP_OPTIONS } from '../../utils/schemas/custom/customWorkspaceOptions';
 import { SchemasUtils } from '../../utils/schemas/SchemasUtils';
+import { CUSTOM_WEB_APP_OPTIONS } from '../../utils/schemas/custom/customWorkspaceOptions';
 
 const LABELS_DICT = z.array(z.object({}));
 const TWINGRAPH_INDICATOR = z.object({ id: z.string(), name: LABELS_DICT, queryId: z.string() }).strict();

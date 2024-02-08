@@ -1,8 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { FileParameters } from './FileParameters.js';
 import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
 import { apiUtils as api } from '../../utils';
+import { FileParameters } from './FileParameters.js';
 
 const SELECTORS = GENERIC_SELECTORS.datasetmanager;
 

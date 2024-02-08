@@ -1,13 +1,13 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React from 'react';
-import { UploadFile, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { ConfigUtils, TranslationUtils, FileManagementUtils } from '../../../../utils';
+import PropTypes from 'prop-types';
+import { UploadFile, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
 import { useOrganizationId } from '../../../../state/hooks/OrganizationHooks.js';
 import { useWorkspaceId } from '../../../../state/hooks/WorkspaceHooks.js';
+import { ConfigUtils, TranslationUtils } from '../../../../utils';
+import { FileManagementUtils } from '../../../../utils/FileManagementUtils';
 
 export const GenericUploadFile = ({
   parameterData,

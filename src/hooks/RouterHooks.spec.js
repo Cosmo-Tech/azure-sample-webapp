@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 /* eslint-disable react/prop-types */
-import React from 'react';
 import { render } from '@testing-library/react';
+import React from 'react';
 import { useConfirmOnRouteChange } from './RouterHooks';
 
 jest.mock('react-router-dom', () => ({

@@ -1,8 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { Login, Workspaces, Scenarios } from '../../commons/actions';
-import { DEFAULT_WORKSPACES_LIST, EXTENDED_WORKSPACES_LIST } from '../../fixtures/stubbing/default';
 import { stub } from '../../commons/services/stubbing';
+import { DEFAULT_WORKSPACES_LIST, EXTENDED_WORKSPACES_LIST } from '../../fixtures/stubbing/default';
 
 describe('Check workspaces features', () => {
   before(() => {

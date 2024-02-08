@@ -1,8 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
-import { getByDataCy } from '../utils';
 import { getByRole } from '@testing-library/react';
+import { getByDataCy } from '../utils';
 
 export class AccordionTesting {
   constructor({ dataCy, dataCyList }) {

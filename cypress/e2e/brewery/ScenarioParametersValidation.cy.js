@@ -1,16 +1,15 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
-import { stub } from '../../commons/services/stubbing';
+import utils from '../../commons/TestUtils';
 import { Login, ScenarioParameters } from '../../commons/actions';
 import { BreweryParameters } from '../../commons/actions/brewery';
+import { stub } from '../../commons/services/stubbing';
 import {
   SCENARIOS,
   SOLUTIONS_WITH_CONSTRAINTS,
   SOLUTIONS,
   SOLUTIONS_WITH_WRONG_CONSTRAINT,
 } from '../../fixtures/stubbing/ScenarioParametersValidation';
-import utils from '../../commons/TestUtils';
 
 const currencyValueShort = 'E';
 const currencyValueLong = utils.randomStr(15);

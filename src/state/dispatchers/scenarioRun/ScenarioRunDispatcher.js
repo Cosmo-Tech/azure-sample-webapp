@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { SCENARIO_RUN_ACTIONS } from '../../commons/ScenarioRunConstants';
 
 export const dispatchFetchScenarioRunById = (organizationId, scenarioRunId) => ({

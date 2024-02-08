@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { getByDataCy } from '../utils';
 
 export class TypographyTesting {

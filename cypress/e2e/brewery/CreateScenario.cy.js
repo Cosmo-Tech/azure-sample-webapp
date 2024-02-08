@@ -1,7 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import utils from '../../commons/TestUtils';
+import { Scenarios, ScenarioManager, ScenarioParameters, ScenarioSelector } from '../../commons/actions';
+import { BreweryParameters, Login } from '../../commons/actions/brewery';
 import {
   BAR_PARAMETERS_RANGE,
   BASIC_PARAMETERS_CONST,
@@ -14,8 +15,6 @@ import {
   URL_ROOT,
   SCENARIO_RUN_IN_PROGRESS,
 } from '../../commons/constants/generic/TestConstants';
-import { Scenarios, ScenarioManager, ScenarioParameters, ScenarioSelector } from '../../commons/actions';
-import { BreweryParameters, Login } from '../../commons/actions/brewery';
 
 describe('Create scenario', () => {
   const randomString = utils.randomStr(5);

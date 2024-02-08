@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { TableUtils } from '../TableUtils';
 
 describe('Check createNewTableLine returns value', () => {

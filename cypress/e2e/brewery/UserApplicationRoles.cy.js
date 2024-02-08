@@ -1,9 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { Login, Scenarios, ScenarioParameters } from '../../commons/actions';
-import { DEFAULT_SCENARIOS_LIST, USER_EXAMPLE } from '../../fixtures/stubbing/default';
 import { stub } from '../../commons/services/stubbing';
+import { DEFAULT_SCENARIOS_LIST, USER_EXAMPLE } from '../../fixtures/stubbing/default';
 
 describe('check accessible features for Organization.Modeler application role as workspace admin', () => {
   before(() => {

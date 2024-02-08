@@ -1,14 +1,13 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React from 'react';
+import Countdown from 'react-countdown';
+import { Trans, useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Grid, Button, Typography, Select, FormControl, MenuItem, Paper } from '@mui/material';
 import { Auth } from '@cosmotech/core';
-import { Trans, useTranslation } from 'react-i18next';
 import { TranslationUtils } from '../../utils';
 import useStyles from './style';
-import Countdown from 'react-countdown';
 
 const buildErrorMessage = (error) => {
   let errorMessage = error.status ? `${error.status} ` : '';

@@ -1,8 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
+import { t } from 'i18next';
 import { HierarchicalComboBox } from '@cosmotech/ui';
 import { useSortedScenarioList } from '../../hooks/ScenarioListHooks';
 import { STATUSES } from '../../state/commons/Constants';
@@ -11,7 +11,6 @@ import {
   useCurrentScenarioReducerStatus,
   useFindScenarioById,
 } from '../../state/hooks/ScenarioHooks';
-import { t } from 'i18next';
 
 const CurrentScenarioSelector = ({ disabled, renderInputToolTip }) => {
   const sortedScenarioList = useSortedScenarioList();

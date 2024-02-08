@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { DistributedTracingModes } from '@microsoft/applicationinsights-web';
 import ConfigService from '../../services/ConfigService';
 

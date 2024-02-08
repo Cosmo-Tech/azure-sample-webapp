@@ -1,8 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
-import { apiUtils as api } from '../../utils';
 import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
+import { apiUtils as api } from '../../utils';
 
 function getWorkspacesView(timeout = 5) {
   return cy.get(GENERIC_SELECTORS.workspace.view, { timeout: timeout * 1000 });

@@ -1,16 +1,18 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { t } from 'i18next';
 import { PathUtils } from '@cosmotech/core';
 import { TABLE_DATA_STATUS, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
-import DatasetService from '../services/dataset/DatasetService';
-import WorkspaceService from '../services/workspace/WorkspaceService';
 import { AppInsights } from '../services/AppInsights';
 import { DATASET_ID_VARTYPE, VALID_MIME_TYPES } from '../services/config/ApiConstants';
-import { ConfigUtils, DatasetsUtils, ScenarioParametersUtils, SecurityUtils } from '.';
+import DatasetService from '../services/dataset/DatasetService';
+import WorkspaceService from '../services/workspace/WorkspaceService';
 import applicationStore from '../state/Store.config';
 import { dispatchSetApplicationErrorMessage } from '../state/dispatchers/app/ApplicationDispatcher';
+import { ConfigUtils } from './ConfigUtils';
+import { DatasetsUtils } from './DatasetsUtils';
+import { SecurityUtils } from './SecurityUtils';
+import { ScenarioParametersUtils } from './scenarioParameters/ScenarioParametersUtils';
 
 const appInsights = AppInsights.getInstance();
 const _applyUploadPreprocessToContent = (clientFileDescriptor) => {

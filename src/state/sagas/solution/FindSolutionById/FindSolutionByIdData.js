@@ -1,13 +1,12 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
-import { call, put, takeEvery } from 'redux-saga/effects';
-import { SOLUTION_ACTIONS_KEY } from '../../../commons/SolutionConstants';
-import { STATUSES } from '../../../commons/Constants';
-import { Api } from '../../../../services/config/Api';
-import { ConfigUtils, SolutionsUtils } from '../../../../utils';
-import { SolutionSchema } from '../../../../services/config/SolutionSchema';
 import { t } from 'i18next';
+import { call, put, takeEvery } from 'redux-saga/effects';
+import { Api } from '../../../../services/config/Api';
+import { SolutionSchema } from '../../../../services/config/SolutionSchema';
+import { ConfigUtils, SolutionsUtils } from '../../../../utils';
+import { STATUSES } from '../../../commons/Constants';
+import { SOLUTION_ACTIONS_KEY } from '../../../commons/SolutionConstants';
 import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
 
 export function* fetchSolutionByIdData(organizationId, solutionId) {

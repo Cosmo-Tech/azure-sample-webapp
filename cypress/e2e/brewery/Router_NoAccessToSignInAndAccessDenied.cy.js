@@ -1,8 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
-import { stub } from '../../commons/services/stubbing';
 import { Login, Scenarios } from '../../commons/actions';
+import { stub } from '../../commons/services/stubbing';
 import { routeUtils as route } from '../../commons/utils';
 
 describe("User doesn't access SignIn and AccessDenied pages if authenticated or authorized", () => {

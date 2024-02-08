@@ -1,12 +1,11 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
+import EditIcon from '@mui/icons-material/Edit';
 import { Grid, TextField, Typography } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
-import EditIcon from '@mui/icons-material/Edit';
 import MetadataLabel from '../MetadataLabel';
 
 const useStyles = makeStyles((theme) => ({

@@ -1,14 +1,13 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { Login, ScenarioParameters, ScenarioSelector } from '../../commons/actions';
+import { stub } from '../../commons/services/stubbing';
+import { apiUtils } from '../../commons/utils';
 import {
   SCENARIOS,
   SOLUTIONS,
   SCENARIO_METADATA_PARAMETERS_IDS,
 } from '../../fixtures/stubbing/ScenarioMetadataParameters';
-import { stub } from '../../commons/services/stubbing';
-import { apiUtils } from '../../commons/utils';
 
 const validateScenarioUpdateRequest = (req) => {
   expect(req.body.parametersValues.map((el) => el.parameterId)).to.include.members(SCENARIO_METADATA_PARAMETERS_IDS);

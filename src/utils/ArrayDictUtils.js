@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import merge from 'deepmerge';
 
 // Merge 2 arrays of elements based on their ids. If two elements with the same id have the same property, the property

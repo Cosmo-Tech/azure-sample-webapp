@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { useMemo, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { dispatchResetCurrentWorkspace, dispatchSelectWorkspace } from '../dispatchers/workspace/WorkspaceDispatcher';

@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { createStore } from 'redux';
 
 export const MOCK_STORE_ACTIONS = {

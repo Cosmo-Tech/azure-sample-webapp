@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { SecurityUtils } from './SecurityUtils';
 
 const _getUserPermissionsForScenario = (scenario, userEmail, userId, permissionsMapping) => {

@@ -1,10 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React from 'react';
-import { pictureDark, pictureLight } from '../../../theme';
 import makeStyles from '@mui/styles/makeStyles';
 import { useIsDarkTheme } from '../../../state/hooks/ApplicationHooks';
+import { pictureDark, pictureLight } from '../../../theme';
 
 const useStyles = makeStyles((theme) => ({
   logo: {

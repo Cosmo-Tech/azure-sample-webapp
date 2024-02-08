@@ -1,18 +1,17 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React, { useEffect, useMemo } from 'react';
-import { Tabs as MuiTabs, Tab, Box } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
+import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useMatch, Outlet, useParams, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { Tabs as MuiTabs, Tab, Box } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import { ErrorBanner } from '@cosmotech/ui';
-import { useTranslation } from 'react-i18next';
-import { AppBar } from '../../components/AppBar';
-import { useApplicationError, useClearApplicationErrorMessage } from '../../state/hooks/ApplicationHooks';
-import { DashboardsManager } from '../../managers';
-import { useSelectWorkspace, useWorkspace } from '../../state/hooks/WorkspaceHooks';
 import { filterTabsForCurrentWorkspace } from '../../AppLayout';
+import { AppBar } from '../../components/AppBar';
+import { DashboardsManager } from '../../managers';
+import { useApplicationError, useClearApplicationErrorMessage } from '../../state/hooks/ApplicationHooks';
+import { useSelectWorkspace, useWorkspace } from '../../state/hooks/WorkspaceHooks';
 import { ConfigUtils } from '../../utils';
 
 const useStyles = makeStyles((theme) => ({

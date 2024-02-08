@@ -1,11 +1,10 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
-import { DATASET, SCENARIO_STATUS } from '../../commons/constants/brewery/TestConstants';
 import { Login, Scenarios, ScenarioManager, ScenarioParameters, ErrorBanner } from '../../commons/actions';
-import { DEFAULT_SCENARIOS_LIST } from '../../fixtures/stubbing/default';
+import { DATASET, SCENARIO_STATUS } from '../../commons/constants/brewery/TestConstants';
 import { stub } from '../../commons/services/stubbing';
 import { setup } from '../../commons/utils';
+import { DEFAULT_SCENARIOS_LIST } from '../../fixtures/stubbing/default';
 
 describe('Create scenario and check its data in scenario manager', () => {
   before(() => {

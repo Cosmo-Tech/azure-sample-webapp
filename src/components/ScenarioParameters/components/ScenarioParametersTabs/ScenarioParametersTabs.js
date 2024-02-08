@@ -1,15 +1,14 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React, { useEffect, useState } from 'react';
+import { useFormState } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
+import LockIcon from '@mui/icons-material/Lock';
+import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { Badge, Tab } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
-import { TabContext, TabList, TabPanel } from '@mui/lab';
-import { useTranslation } from 'react-i18next';
-import LockIcon from '@mui/icons-material/Lock';
 import { ConfigUtils, ScenarioParametersUtils, TranslationUtils } from '../../../../utils';
-import PropTypes from 'prop-types';
-import { useFormState } from 'react-hook-form';
 
 const useStyles = makeStyles((theme) => ({
   tabPanel: {

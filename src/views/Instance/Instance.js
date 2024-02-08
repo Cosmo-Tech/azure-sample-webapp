@@ -1,17 +1,16 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from '@mui/styles';
 import { CytoViz } from '@cosmotech/ui';
-import { parseError } from '../../utils/ErrorsUtils';
-import { STATUSES } from '../../state/commons/Constants';
+import { CurrentScenarioSelector } from '../../components';
 import { AppInsights } from '../../services/AppInsights';
+import { STATUSES } from '../../state/commons/Constants';
+import { parseError } from '../../utils/ErrorsUtils';
+import { useInstance } from './InstanceHook';
 import { fetchData, processGraphElements } from './data';
 import useStyles from './style';
-import { CurrentScenarioSelector } from '../../components';
-import { useTheme } from '@mui/styles';
-import { useInstance } from './InstanceHook';
 
 const EXTRA_LAYOUTS = {
   breadthfirst: null,

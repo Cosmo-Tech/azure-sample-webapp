@@ -1,10 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
+import utils from '../../commons/TestUtils';
 import { ScenarioManager, Scenarios, ScenarioParameters, Login, Workspaces } from '../../commons/actions';
 import { BreweryParameters } from '../../commons/actions/brewery';
 import { stub } from '../../commons/services/stubbing';
-import utils from '../../commons/TestUtils';
 import { routeUtils as route } from '../../commons/utils';
 import { EXTENDED_WORKSPACES_LIST } from '../../fixtures/stubbing/default';
 

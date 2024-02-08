@@ -1,10 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
+import utils from '../../commons/TestUtils';
 import { BreweryParameters, Login } from '../../commons/actions/brewery';
 import { ScenarioParameters, ScenarioManager, Scenarios, ScenarioSelector } from '../../commons/actions/generic';
 import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
-import utils from '../../commons/TestUtils';
 
 const SCENARIO_DATASET = DATASET.BREWERY_ADT;
 const SCENARIO_RUN_TEMPLATE = RUN_TEMPLATE.BASIC_TYPES;

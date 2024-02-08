@@ -1,13 +1,12 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import { useCallback, useEffect, useRef } from 'react';
 import { useNavigate, useParams, useBlocker } from 'react-router-dom';
+import { TwoActionsDialogService } from '../services/twoActionsDialog/twoActionsDialogService';
 import { useFindScenarioById, useCurrentScenarioId } from '../state/hooks/ScenarioHooks';
 import { useWorkspaceData } from '../state/hooks/WorkspaceHooks';
 import { ConfigUtils } from '../utils';
 import { useSortedScenarioList } from './ScenarioListHooks';
-import { TwoActionsDialogService } from '../services/twoActionsDialog/twoActionsDialogService';
 
 export const useRedirectFromInstanceToScenarioView = () => {
   const isUnmounted = useRef(false);

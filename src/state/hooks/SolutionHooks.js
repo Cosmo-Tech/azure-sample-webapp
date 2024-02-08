@@ -1,8 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
-import { useDispatch, useSelector } from 'react-redux';
 import { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { dispatchResetCurrentSolution } from '../dispatchers/solution/SolutionDispatcher';
 
 export const useSolution = () => {

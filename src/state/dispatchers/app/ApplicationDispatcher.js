@@ -1,9 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
+import { t } from 'i18next';
 import { APPLICATION_ACTIONS_KEY } from '../../commons/ApplicationConstants';
 import { STATUSES } from '../../commons/Constants';
-import { t } from 'i18next';
 
 export const dispatchSetApplicationStatus = (payload) => ({
   type: APPLICATION_ACTIONS_KEY.SET_APPLICATION_STATUS,

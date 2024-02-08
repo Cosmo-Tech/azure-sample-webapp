@@ -1,13 +1,12 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React, { useRef, useState } from 'react';
-import { DefaultAvatar } from '@cosmotech/ui';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { Box, Button, Grid, Popover, Typography } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
-import { useNavigate } from 'react-router-dom';
+import { DefaultAvatar } from '@cosmotech/ui';
 import { useWorkspaceInfo } from './hooks/WorkspaceInfoHook';
-import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles((theme) => ({
   workspaceDescription: {

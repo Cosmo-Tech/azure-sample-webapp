@@ -1,13 +1,12 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React from 'react';
-import { BasicToggleInput } from '@cosmotech/ui';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import { TranslationUtils } from '../../../../utils';
-import { useParameterConstraintValidation } from '../../../../hooks/ParameterConstraintsHooks';
 import { Grid } from '@mui/material';
+import { BasicToggleInput } from '@cosmotech/ui';
+import { useParameterConstraintValidation } from '../../../../hooks/ParameterConstraintsHooks';
+import { TranslationUtils } from '../../../../utils';
 
 export const GenericToggleInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty, error }) => {
   const { t } = useTranslation();

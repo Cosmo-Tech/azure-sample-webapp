@@ -1,11 +1,10 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import utils from '../../commons/TestUtils';
-import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
 import { Scenarios, ScenarioManager, ScenarioParameters } from '../../commons/actions';
 import { Login } from '../../commons/actions/brewery';
 import { ScenarioSelector } from '../../commons/actions/generic/ScenarioSelector';
+import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
 
 describe('Create scenario and rename it', () => {
   Cypress.Keyboard.defaults({

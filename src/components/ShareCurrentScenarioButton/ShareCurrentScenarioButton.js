@@ -1,9 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React from 'react';
 import { PermissionsGate, RolesEditionButton } from '@cosmotech/ui';
-
 import { ACL_PERMISSIONS } from '../../services/config/accessControl';
 import { useShareCurrentScenarioButton } from './ShareCurrentScenarioButtonHook';
 

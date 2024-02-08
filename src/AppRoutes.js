@@ -1,12 +1,11 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React from 'react';
 import { Navigate, Route, createBrowserRouter, RouterProvider, createRoutesFromElements } from 'react-router-dom';
+import { getAllTabs } from './AppLayout';
+import { UserStatusGate } from './components/UserStatusGate';
 import { TabLayout } from './layouts';
 import Workspaces from './views/Workspaces';
-import { getAllTabs } from './AppLayout';
-import { UserStatusGate } from './components';
 
 const AppRoutes = () => {
   const providedUrl = sessionStorage.getItem('providedUrl');

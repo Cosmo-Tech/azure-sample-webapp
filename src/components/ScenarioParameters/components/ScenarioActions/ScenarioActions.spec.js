@@ -3,12 +3,12 @@
 
 /* eslint-disable react/prop-types */
 import React from 'react';
+import { useFormState } from 'react-hook-form';
 import { ButtonTesting, TypographyTesting } from '../../../../../tests/MuiComponentsTesting';
 import { customRender, getByDataCy } from '../../../../../tests/utils';
-import { ScenarioActions } from './';
 import { SCENARIO_RUN_STATE } from '../../../../services/config/ApiConstants';
-import { useFormState } from 'react-hook-form';
 import { useCurrentScenarioState } from '../../../../state/hooks/ScenarioHooks';
+import { ScenarioActions } from './';
 
 jest.mock('react-hook-form', () => ({
   __esModule: true,

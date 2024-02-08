@@ -1,8 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
-import { paletteLight, pictureLight, gridLight, paletteDark, pictureDark, gridDark } from './custom';
 import { createTheme, adaptV4Theme } from '@mui/material/styles';
+import { paletteLight, pictureLight, gridLight, paletteDark, pictureDark, gridDark } from './custom';
 import overrides from './overrides';
 
 export { paletteLight, pictureLight, gridLight, paletteDark, pictureDark, gridDark, overrides };

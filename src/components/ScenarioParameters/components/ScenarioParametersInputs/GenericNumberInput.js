@@ -1,13 +1,12 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 import React, { useCallback } from 'react';
-import { BasicNumberInput } from '@cosmotech/ui';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { TranslationUtils } from '../../../../utils';
-import { useParameterConstraintValidation } from '../../../../hooks/ParameterConstraintsHooks';
+import PropTypes from 'prop-types';
 import { Grid } from '@mui/material';
+import { BasicNumberInput } from '@cosmotech/ui';
+import { useParameterConstraintValidation } from '../../../../hooks/ParameterConstraintsHooks';
+import { TranslationUtils } from '../../../../utils';
 
 export const GenericNumberInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty, error }) => {
   const { t } = useTranslation();
