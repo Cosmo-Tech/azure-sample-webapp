@@ -52,7 +52,7 @@ const ScenarioDashboardCard = () => {
         expanded={isDashboardsAccordionExpanded}
         data-cy="dashboards-accordion"
         data-unsynced={hasRunBeenSuccessful && !isDashboardSync}
-        sx={{ pb: 1.5, pt: 1.5, bgcolor: hasRunBeenSuccessful && !isDashboardSync ? 'dashboard.warning' : undefined }}
+        sx={{ pb: 1.5, pt: 1.5 }}
       >
         <AccordionSummary
           data-cy="dashboards-accordion-summary"
