@@ -2,7 +2,8 @@
 // Licensed under the MIT license.
 
 export default {
-  root: {
-    backgroundColor: '#000000',
-  },
+  // Example to change the background color of the AppBar:
+  // root: {
+  //   backgroundColor: '#000000',
+  // },
 };

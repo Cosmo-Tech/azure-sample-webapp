@@ -18,8 +18,7 @@ export const Logo = () => {
     <img
       alt="Cosmo Tech"
       height="28px"
-      // AppBar always has a dark background, use the theme dark logo
-      src={isDarkThemeUsed ? pictureDark.darkLogo : pictureLight.darkLogo}
+      src={isDarkThemeUsed ? pictureDark.darkLogo : pictureLight.lightLogo}
       className={classes.logo}
     />
   );
