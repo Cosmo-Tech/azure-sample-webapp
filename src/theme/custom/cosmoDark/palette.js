@@ -51,7 +51,4 @@ export default {
   login: {
     main: '#2F363B',
   },
-  dashboard: {
-    warning: 'rgba(255, 167, 38, 0.3)',
-  },
 };

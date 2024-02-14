@@ -46,13 +46,10 @@ export default {
     contrastText: '#5E5E5E',
   },
   appbar: {
-    main: '#121212',
-    contrastText: '#FFFFFF',
+    main: '#FFFFFF',
+    contrastText: '#000000',
   },
   login: {
     main: '#EBE7E2',
-  },
-  dashboard: {
-    warning: 'rgba(255, 167, 38, 0.3)',
   },
 };
