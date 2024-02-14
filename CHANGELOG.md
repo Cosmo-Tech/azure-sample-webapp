@@ -1,3 +1,47 @@
+## **6.0.0** <sub><sup>2024-02-14 ([62d17e0...fe55837](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/62d17e0a...fe558373?diff=split))</sup></sub>
+
+### BREAKING CHANGES
+
+- the property `dashboard.warning` has been removed from the theme files ([c3d5cb0](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/c3d5cb02))
+- the use of the dark-theme logo for light-theme was previously hard-coded in the `AppBar` component, the light-theme logo is now used, as expected ([4168f81](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/4168f81b))
+
+### Features
+
+- add new optional view: dataset manager
+- \[PROD\-8406\] allow translation of run templates ([79ffba6](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/79ffba65))
+- \[PROD\-13001\] add option to disable out of sync scenario results banner ([06591ab](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/06591ab5))
+- \[PROD\-12930\] add current user permissions in organization security in redux ([7251bf5](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/7251bf5f))
+- \[PROD\-12930\] add user permissions in datasets security in redux ([29ae855](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/29ae8556))
+- \[PROD\-12917\] replace deprecated workspace config key datasetFilter by linkedDatasetIdList ([fbc2bb6](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/fbc2bb62))
+- add `security` & `orchestratorType` keys in solution schema ([cc2659d](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/cc2659df))
+
+### Bug Fixes
+
+- \[PROD\-12798\] fix out\-of\-sync issue when the backend returns a startime as null ([0181a30](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/0181a302))
+- \[PROD\-12786\] decouple Dashboards view from currently selected scenario ([a3ae2f7](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/a3ae2f7b))
+- fix CSP issue preventing exports of results from PowerBI dashboards ([ae3210d](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/ae3210d4))
+- fix error in instance view when dataContent is null ([145f88e](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/145f88e0))
+- \[PROD\-12924\] redirect on workspaces selector when user has no access right to the solution ([a8cda33](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/a8cda330))
+- \[PROD\-12954\] set same security as scenario when creating dataset parts ([d2bb5df](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/d2bb5df3))
+- \[PROD\-12954\] update dataset parts security when scenario access is changed ([5273c0c](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/5273c0cb))
+- fix background color of cards in workspace selector ([3dd9b2b](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/3dd9b2b7))
+- replace default style of scrollbars for webkit browsers ([8423e09](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/8423e090))
+- change AppBar style to make it sticky ([deff93e](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/deff93ea))
+- remove color of warning frame around scenario results ([c3d5cb0](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/c3d5cb02))
+- change style of AppBar when using light theme ([4168f81](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/4168f81b))
+- minor fixes in translations & labels ([b6a37a2](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/b6a37a26), [bcbdbdb](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/bcbdbdb7), [b404716](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/b4047165), [e2d3c9b](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/e2d3c9b0))
+- fix API endpoint used when changing the role of users in scenario sharing options ([076f9b1](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/076f9b13))
+- fix parsing of env var option REACT_APP_ENABLE_APPLICATION_INSIGHTS ([89d091e](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/89d091e9))
+- fix circular dependencies ([1d08c29](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/1d08c29f))
+
+### Documentation
+
+- add documentation of dataset manager configuration ([ede14b3](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/ede14b3b))
+- add workspace configuration documentation ([cb4097d](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/cb4097da))
+- improve instance view documentation ([ed25d61](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/ed25d61e))
+- update Storage connector requirements in docs ([60cdf78](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/60cdf789))
+- add details for CSM_API_TOKEN_AUDIENCE parameter ([7af778b](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/7af778b4))
+
 ## **5.2.1** <sub><sup>2023-10-09 ([62b729b...bd062c7](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/62b729b9...bd062c70?diff=split))</sup></sub>
 
 ### Bug Fixes
