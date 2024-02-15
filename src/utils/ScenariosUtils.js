@@ -11,6 +11,20 @@ const _getUserPermissionsForScenario = (scenario, userEmail, userId, permissions
   return SecurityUtils.getUserPermissionsForResource(scenario.security, userEmail, permissionsMapping);
 };
 
+const patchScenarioParameterValues = (solutionParameters, parameterValues) => {
+  if (!Array.isArray(parameterValues) || !Array.isArray(solutionParameters)) return;
+
+  parameterValues.forEach((value) => {
+    if (value.varType != null || value.parameterId == null) return;
+
+    const parameterDefinition = solutionParameters.find(
+      (solutionParameter) => solutionParameter.id === value.parameterId
+    );
+    if (parameterDefinition) value.varType = parameterDefinition.varType;
+    else console.warn(`Unknown parameter value ${value.parameterId} without any varType found in scenario data`);
+  });
+};
+
 const patchScenarioWithCurrentUserPermissions = (scenario, userEmail, userId, permissionsMapping) => {
   // scenario.security seems to be read-only, we have to create a new object to add a "currentUserPermissions" key
   scenario.security = {
@@ -20,5 +34,6 @@ const patchScenarioWithCurrentUserPermissions = (scenario, userEmail, userId, pe
 };
 
 export const ScenariosUtils = {
+  patchScenarioParameterValues,
   patchScenarioWithCurrentUserPermissions,
 };

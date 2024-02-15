@@ -14,12 +14,15 @@ import { ACL_PERMISSIONS } from '../../../../services/config/accessControl';
 const getUserEmail = (state) => state.auth.userEmail;
 const getUserId = (state) => state.auth.userId;
 const getScenariosPermissionsMapping = (state) => state.application.permissionsMapping.scenario;
+const getSolutionParameters = (state) => state.solution?.current?.data?.parameters;
 
 export function* fetchScenarioByIdData(action) {
   try {
     const userEmail = yield select(getUserEmail);
     const userId = yield select(getUserId);
     const scenariosPermissionsMapping = yield select(getScenariosPermissionsMapping);
+    const solutionParameters = yield select(getSolutionParameters);
+
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
       status: STATUSES.LOADING,
@@ -31,6 +34,7 @@ export function* fetchScenarioByIdData(action) {
       action.workspaceId,
       action.scenarioId
     );
+    ScenariosUtils.patchScenarioParameterValues(solutionParameters, data.parametersValues);
     data.parametersValues = ApiUtils.formatParametersFromApi(data.parametersValues);
 
     ScenariosUtils.patchScenarioWithCurrentUserPermissions(data, userEmail, userId, scenariosPermissionsMapping);
