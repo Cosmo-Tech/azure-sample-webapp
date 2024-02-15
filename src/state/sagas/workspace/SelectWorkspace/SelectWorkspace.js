@@ -77,9 +77,10 @@ export function* selectWorkspace(action) {
 
   yield put({ type: POWER_BI_ACTIONS_KEY.CLEAR_EMBED_INFO });
 
-  yield call(getAllScenariosData, organizationId, selectedWorkspaceId);
   const solutionId = yield select(selectSolutionIdFromCurrentWorkspace);
   yield call(fetchSolutionByIdData, organizationId, solutionId);
+
+  yield call(getAllScenariosData, organizationId, selectedWorkspaceId);
   const scenarioList = yield select(selectScenarioList);
 
   yield put({
