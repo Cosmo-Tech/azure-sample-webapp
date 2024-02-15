@@ -173,6 +173,7 @@ export const WorkspaceSchema = z
     dedicatedEventHubAuthenticationStrategy: z.string().optional().nullable(),
     sendScenarioRunToEventHub: z.boolean().optional().nullable(),
     sendScenarioMetadataToEventHub: z.boolean().optional().nullable(),
+    datasetCopy: z.boolean().optional().nullable(),
     security: z
       .object({
         default: z.string().optional().nullable(),

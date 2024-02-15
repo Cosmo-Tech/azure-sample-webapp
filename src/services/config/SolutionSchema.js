@@ -73,6 +73,7 @@ export const SolutionSchema = z
     name: z.string().optional().nullable(),
     description: z.string().optional().nullable(),
     repository: z.string().optional().nullable(),
+    alwaysPull: z.boolean().optional().nullable(),
     csmSimulator: z.string().optional().nullable(),
     version: z.string().optional().nullable(),
     ownerId: z.string().optional().nullable(),
