@@ -625,7 +625,7 @@ const interceptWorkspaceSelectorQueries = () => {
 };
 
 const interceptSelectWorkspaceQueries = () => {
-  return [interceptPowerBIAzureFunction(), interceptGetScenarios(), interceptGetSolution()];
+  return [interceptPowerBIAzureFunction(), interceptGetSolution(), interceptGetScenarios()];
 };
 
 export const apiUtils = {
