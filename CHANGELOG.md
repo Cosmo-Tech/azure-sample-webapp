@@ -2,12 +2,15 @@
 
 ### Bug Fixes
 
+- fix Table crash when showing large files in fullscreen ([a901378](https://github.com/Cosmo-Tech/webapp-component-ui/commit/a901378))
 - add workspace option `disableOutOfSyncWarningBanner` to disable out-of-sync scenario results banner ([df8b07e](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/df8b07e2))
 - decouple some reports in Dashboards view from currently selected scenario ([100dc14](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/100dc141))
 - fix possible out\-of\-sync issue when receiving inconsistent scenario data ([b00cf18](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/b00cf18f))
 - fill missing varTypes in parameter values when receiving scenarios ([6a32484](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/6a324843))
+- trim spaces in cells when parsing XLSX files ([867c3a6](https://github.com/Cosmo-Tech/webapp-component-core/commit/867c3a6f26e344a68c1ee0940254731e1a2e45fe))
 - fix CSP issue preventing exports of results from PowerBI dashboards ([70fadc5](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/70fadc57))
 - fix background color of cards in workspace selector ([9fbe2e2](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/9fbe2e22))
+- make `Table` toolbar tooltips disappear when button hovering stops ([6760c6c](https://github.com/Cosmo-Tech/webapp-component-ui/commit/6760c6c))
 - fix possible error in instance view when dataContent is null ([028f8c7](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/028f8c76))
 - fix parsing of env var option REACT_APP_ENABLE_APPLICATION_INSIGHTS ([1c30995](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/1c309950))
 - minor fixes in translations & labels ([4b20d6f](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/4b20d6fe), [ca38d5e](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/ca38d5e8), [6c219f2](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/6c219f21))
