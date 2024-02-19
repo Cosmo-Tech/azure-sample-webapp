@@ -1,3 +1,9 @@
+## **5.2.3** <sub><sup>2024-02-19 ([c234613...7fedd0f](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/c2346135...7fedd0f2?diff=split))</sup></sub>
+
+### Bug Fixes
+
+- fix filter on tagged datasets in scenario creation pop-up ([7fedd0f](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/7fedd0f2))
+
 ## **5.2.2** <sub><sup>2024-02-16 ([b3b671d...bc4bf8d](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/b3b671da...bc4bf8dc?diff=split))</sup></sub>
 
 ### Bug Fixes
