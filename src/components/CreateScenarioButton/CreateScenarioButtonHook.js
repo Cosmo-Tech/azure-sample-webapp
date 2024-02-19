@@ -44,14 +44,18 @@ export const useCreateScenarioButton = ({ disabled, onScenarioCreated }) => {
   }, [solution?.data?.runTemplates, workspaceData?.solution?.runTemplateFilter]);
 
   const filteredDatasetList = useMemo(() => {
+    const taggedDatasets = datasetListData.filter(
+      (dataset) => dataset?.tags != null && dataset.tags.includes('dataset')
+    );
+
     const datasetFilter = workspaceData?.webApp?.options?.datasetFilter;
     if (!datasetFilter) {
-      return datasetListData;
+      return taggedDatasets;
     }
 
     if (!Array.isArray(datasetFilter) || !datasetFilter.length) {
       console.warn(logsLabels.warning.datasetFilter.emptyOrNotArray);
-      return datasetListData;
+      return taggedDatasets;
     }
 
     const result = [];
@@ -59,7 +63,7 @@ export const useCreateScenarioButton = ({ disabled, onScenarioCreated }) => {
       if (typeof dsetFilter !== 'string') {
         console.warn(logsLabels.warning.datasetFilter.getNotAString(dsetFilter));
       } else {
-        const filteredDataset = datasetListData.find((dset) => dset.id === dsetFilter);
+        const filteredDataset = taggedDatasets.find((dset) => dset.id === dsetFilter);
         if (!filteredDataset) {
           console.warn(logsLabels.warning.datasetFilter.getDatasetNotFoundForFilter(dsetFilter));
         } else {
@@ -70,7 +74,7 @@ export const useCreateScenarioButton = ({ disabled, onScenarioCreated }) => {
 
     if (!result.length) {
       console.warn(logsLabels.warning.datasetFilter.noDatasetFound);
-      return datasetListData;
+      return taggedDatasets;
     }
 
     return result;
