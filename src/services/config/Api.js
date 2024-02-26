@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 import {
   DatasetApiFactory,
+  RunnerApiFactory,
   ScenarioApiFactory,
   ScenariorunApiFactory,
   SolutionApiFactory,
@@ -20,6 +21,7 @@ export const Api = {
   ScenarioRuns: ScenariorunApiFactory(null, defaultBasePath, clientApi),
   Solutions: SolutionApiFactory(null, defaultBasePath, clientApi),
   Datasets: DatasetApiFactory(null, defaultBasePath, clientApi),
+  Runners: RunnerApiFactory(null, defaultBasePath, clientApi),
   Workspaces: WorkspaceApiFactory(null, defaultBasePath, clientApi),
   Organizations: OrganizationApiFactory(null, defaultBasePath, clientApi),
 };
