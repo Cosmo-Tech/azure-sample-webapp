@@ -1,5 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
+import { useDownloadLogsFile } from '../../../../../../hooks/RunnerRunHooks';
 import {
   useCurrentDataset,
   useCurrentDatasetId,
@@ -15,12 +16,15 @@ export const useDatasetOverviewPlaceholder = () => {
   const currentDatasetId = useCurrentDatasetId();
   const refreshDataset = useRefreshDataset();
   const rollbackTwingraphData = useRollbackTwingraphData();
+  const downloadLogsFile = useDownloadLogsFile();
+
   return {
     currentDatasetId,
     currentDatasetIngestionStatus,
     currentDatasetTwincacheStatus,
     refreshDataset,
     rollbackTwingraphData,
+    downloadLogsFile,
     currentDatasetType,
   };
 };

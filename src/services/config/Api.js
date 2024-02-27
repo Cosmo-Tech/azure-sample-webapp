@@ -3,6 +3,7 @@
 import {
   DatasetApiFactory,
   RunnerApiFactory,
+  RunApiFactory,
   ScenarioApiFactory,
   ScenariorunApiFactory,
   SolutionApiFactory,
@@ -22,6 +23,7 @@ export const Api = {
   Solutions: SolutionApiFactory(null, defaultBasePath, clientApi),
   Datasets: DatasetApiFactory(null, defaultBasePath, clientApi),
   Runners: RunnerApiFactory(null, defaultBasePath, clientApi),
+  RunnerRuns: RunApiFactory(null, defaultBasePath, clientApi),
   Workspaces: WorkspaceApiFactory(null, defaultBasePath, clientApi),
   Organizations: OrganizationApiFactory(null, defaultBasePath, clientApi),
 };

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 import React, { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { Button, Grid, Link, Typography } from '@mui/material';
 import {
   DATASET_SOURCE_TYPE,
@@ -20,6 +21,7 @@ export const DatasetOverviewPlaceholder = () => {
     currentDatasetTwincacheStatus,
     currentDatasetType,
     refreshDataset,
+    downloadLogsFile,
     rollbackTwingraphData,
   } = useDatasetOverviewPlaceholder();
 
@@ -102,6 +104,18 @@ export const DatasetOverviewPlaceholder = () => {
       <ReuploadFileDatasetButton datasetId={currentDatasetId} iconButton={false} />
     ) : (
       <>
+        {!Object.values(DATASET_SOURCE_TYPE).includes(currentDatasetType) && (
+          <Button
+            sx={{ mr: 1 }}
+            data-cy={'runner-run-logs-download-button'}
+            color={'inherit'}
+            variant="outlined"
+            startIcon={<InfoOutlinedIcon />}
+            onClick={downloadLogsFile}
+          >
+            {t('commoncomponents.iframe.scenario.results.button.logs', 'Logs')}
+          </Button>
+        )}
         <Button
           data-cy="dataset-overview-retry-button"
           variant="contained"
@@ -128,6 +142,7 @@ export const DatasetOverviewPlaceholder = () => {
     rollbackTwingraphData,
     currentDatasetTwincacheStatus,
     currentDatasetType,
+    downloadLogsFile,
     t,
   ]);
 

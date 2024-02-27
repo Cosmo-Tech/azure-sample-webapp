@@ -217,6 +217,7 @@ export const GENERIC_SELECTORS = {
         retryButton: '[data-cy=dataset-overview-retry-button]',
         rollbackButton: '[data-cy=dataset-overview-rollback-button]',
         apiLink: '[data-cy=dataset-overview-api-link]',
+        runnerRunLogsDownloadButton: '[data-cy=runner-run-logs-download-button]',
       },
       indicators: {
         cardByKpiId: '[data-cy=indicator-card-$KPI_ID]',
