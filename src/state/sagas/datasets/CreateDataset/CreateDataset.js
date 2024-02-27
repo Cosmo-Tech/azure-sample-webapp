@@ -28,12 +28,15 @@ export function* createDataset(action) {
   const workspaceId = yield select(getWorkspaceId);
   dataset.ownerName = ownerName;
 
+  const security = { default: 'none', accessControlList: [{ id: userEmail, role: 'admin' }] };
+
   try {
     const datasetWithAuthor = {
       ...dataset,
       ownerName,
-      security: { default: 'none', accessControlList: [{ id: userEmail, role: 'admin' }] },
+      security,
     };
+
     const { data } = yield call(Api.Datasets.createDataset, organizationId, datasetWithAuthor);
     DatasetsUtils.patchDatasetWithCurrentUserPermissions(data, userEmail, DATASET_PERMISSIONS_MAPPING);
 
@@ -72,7 +75,7 @@ export function* createDataset(action) {
       selectedDatasetId: data.id,
     });
 
-    if (!['None', 'File'].includes(dataset.sourceType)) {
+    if (!['None', 'File', 'ETL'].includes(dataset.sourceType)) {
       yield put({
         type: DATASET_ACTIONS_KEY.TRIGGER_SAGA_REFRESH_DATASET,
         organizationId,
@@ -109,7 +112,7 @@ export function* createDataset(action) {
           datasetData: { ingestionStatus: INGESTION_STATUS.ERROR },
         });
       }
-    }
+    } else if (dataset.sourceType === 'ETL') return data.id;
   } catch (error) {
     console.error(error);
     yield put(
