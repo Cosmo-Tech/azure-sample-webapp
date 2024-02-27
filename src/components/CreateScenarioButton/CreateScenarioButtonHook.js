@@ -48,7 +48,9 @@ export const useCreateScenarioButton = ({ disabled, onScenarioCreated }) => {
       return [];
     }
 
-    const filteredRunTemplates = runTemplates.filter((rt) => runTemplateFilter.includes(rt.id));
+    const filteredRunTemplates = runTemplates.filter(
+      (rt) => runTemplateFilter.includes(rt.id) && !rt?.tags.includes('datasource')
+    );
     const translatedRunTemplates = clone(filteredRunTemplates) ?? [];
     translatedRunTemplates.forEach(
       (runTemplate) =>

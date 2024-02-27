@@ -6,6 +6,7 @@ import authSaga from './auth';
 import datasetSaga from './datasets';
 import organizationSaga from './organization';
 import powerBISaga from './powerbi';
+import runnerSaga from './runner';
 import scenarioSaga from './scenario';
 import scenarioRunSaga from './scenarioRun';
 import solutionSaga from './solution';
@@ -21,6 +22,7 @@ export default function* rootSaga() {
     fork(scenarioSaga),
     fork(scenarioRunSaga),
     fork(datasetSaga),
+    fork(runnerSaga),
     fork(powerBISaga),
   ]);
 }

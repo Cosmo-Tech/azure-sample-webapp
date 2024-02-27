@@ -47,6 +47,8 @@ export const INGESTION_STATUS = {
   UNKNOWN: 'UNKNOWN',
 };
 
+export const TWINGRAPH_SECTION_URL = '/swagger-ui/index.html#/dataset/twingraphQuery';
+
 export const DATASET_SOURCE_TYPE = {
   ADT: 'ADT',
   AZURE_STORAGE: 'AzureStorage',
@@ -54,4 +56,59 @@ export const DATASET_SOURCE_TYPE = {
   NONE: 'None',
 };
 
-export const TWINGRAPH_SECTION_URL = '/swagger-ui/index.html#/dataset/twingraphQuery';
+export const DATASET_SOURCES = [
+  {
+    id: DATASET_SOURCE_TYPE.AZURE_STORAGE,
+    labels: {
+      en: 'Graph Format from Azure Storage',
+      fr: 'Format Graph depuis Azure Storage',
+    },
+    parameters: [
+      {
+        id: `name`,
+        varType: 'string',
+        labels: { en: 'Account name', fr: 'Nom du compte' },
+      },
+      {
+        id: `location`,
+        varType: 'string',
+        labels: { en: 'Container name', fr: 'Nom du container' },
+      },
+      {
+        id: `path`,
+        varType: 'string',
+        labels: { en: 'Path', fr: 'Chemin' },
+      },
+    ],
+  },
+  {
+    id: DATASET_SOURCE_TYPE.ADT,
+    labels: {
+      en: 'Azure Digital Twin',
+      fr: 'Azure Digital Twin',
+    },
+    parameters: [
+      {
+        id: `location`,
+        varType: 'string',
+        labels: { en: 'Path', fr: 'Chemin' },
+      },
+    ],
+  },
+  {
+    id: DATASET_SOURCE_TYPE.LOCAL_FILE,
+    labels: {
+      en: 'Graph Format from Local File',
+      fr: 'Format Graph depuis un fichier local',
+    },
+    parameters: [{ id: `file`, varType: '%DATASETID%', labels: { en: '', fr: '' } }],
+  },
+  {
+    id: DATASET_SOURCE_TYPE.NONE,
+    labels: {
+      en: 'Empty',
+      fr: 'Dataset vide',
+    },
+    parameters: [],
+  },
+];
