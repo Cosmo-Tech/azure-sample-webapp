@@ -13,6 +13,7 @@ import {
 import { USER_EXAMPLE } from '../../fixtures/stubbing/default';
 
 const WORKSPACES = [WORKSPACE, WORKSPACE_WITHOUT_CONFIG];
+const LOGIN_OPTIONS = { url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' };
 
 describe('Dataset manager view is optional', () => {
   before(() => {
@@ -41,7 +42,7 @@ describe('Dataset manager can be empty on start', () => {
   });
 
   beforeEach(() => {
-    Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' });
+    Login.login(LOGIN_OPTIONS);
   });
 
   after(() => {
@@ -76,7 +77,7 @@ describe('Data edition in dataset manager', () => {
   });
 
   beforeEach(() => {
-    Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' });
+    Login.login(LOGIN_OPTIONS);
   });
 
   after(() => {
@@ -137,7 +138,7 @@ describe('Dataset creation', () => {
   });
 
   beforeEach(() => {
-    Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' });
+    Login.login(LOGIN_OPTIONS);
   });
 
   after(() => {
@@ -249,7 +250,7 @@ describe('Filtering datasets list', () => {
     stub.setDatasets(DATASETS_TO_FILTER);
   });
   beforeEach(() => {
-    Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' });
+    Login.login(LOGIN_OPTIONS);
   });
 
   after(() => {
@@ -283,7 +284,7 @@ describe('Dataset delete', () => {
   });
 
   beforeEach(() => {
-    Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' });
+    Login.login(LOGIN_OPTIONS);
   });
 
   after(() => {
@@ -312,7 +313,7 @@ describe('Refresh dataset', () => {
   });
 
   beforeEach(() => {
-    Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' });
+    Login.login(LOGIN_OPTIONS);
   });
 
   after(() => {

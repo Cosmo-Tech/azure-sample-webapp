@@ -160,6 +160,26 @@ export const confirmDatasetCreation = (options = {}) => {
   api.waitAliases(aliases);
 };
 
+export const confirmRunnerCreation = (options = {}) => {
+  const fileParametersNumber = options.fileParametersNumber ?? 0;
+  const aliases = Array.from({ length: fileParametersNumber }, () => {
+    return [
+      api.interceptCreateDataset(options),
+      api.interceptUpdateDataset(options),
+      api.interceptUploadWorkspaceFile(),
+    ];
+  });
+  aliases.push(api.interceptCreateRunner(options));
+  aliases.push(api.interceptCreateDataset(options, options.importJobOptions));
+  aliases.push(api.interceptLinkDataset());
+  aliases.push(api.interceptUpdateRunner());
+  aliases.push(api.interceptRefreshDataset());
+  aliases.push(api.interceptGetDatasetStatus(options.importJobOptions?.expectedPollsCount));
+
+  getConfirmDatasetCreation().click();
+  api.waitAliases(aliases);
+};
+
 export const getNewDatasetDescription = () => cy.get(SELECTORS.wizard.description);
 export const setNewDatasetDescription = (description) => getNewDatasetDescription().type(description);
 export const getNewDatasetName = () => cy.get(SELECTORS.wizard.name);

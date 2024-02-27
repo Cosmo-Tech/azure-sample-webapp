@@ -48,3 +48,14 @@ WORKSPACE.webApp.options.datasetManager = {
     },
   ],
 };
+
+export const WORKSPACE_FOR_ETL = {
+  ...WORKSPACE,
+  id: 'W-stbbdbrwryForETL',
+  name: 'Stubbed Demo Brewery Workspace for ETL',
+  solution: {
+    solutionId: 'SOL-stubbedbrwyForETL',
+    runTemplateFilter: ['1', '2', '3'],
+    defaultRunTemplateDataset: null,
+  },
+};

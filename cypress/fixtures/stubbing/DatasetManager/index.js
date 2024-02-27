@@ -3,4 +3,5 @@
 
 export { DATASETS, DATASETS_TO_FILTER, DATASETS_TO_REFRESH } from './datasets';
 export { ORGANIZATION_WITH_DEFAULT_ROLE_USER } from './organizations';
-export { WORKSPACE, WORKSPACE_WITHOUT_CONFIG } from './workspaces';
+export { WORKSPACE, WORKSPACE_WITHOUT_CONFIG, WORKSPACE_FOR_ETL } from './workspaces';
+export { SOLUTION_FOR_ETL } from './solution';
