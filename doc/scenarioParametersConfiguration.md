@@ -169,9 +169,9 @@ mode is enabled by setting `options.subType` to `TABLE`. The `options` dict can 
 - `description`: the description to use in the dataset object that will be created with the Cosmo Tech API
 - `subType`: set its value to `TABLE` to make use of the _extended var type_ feature
 - `columns`: an array describing **the expected columns of the table** (see section below "Columns definition")
-- `canChangeRowsNumber`: a boolean defining if the table can use the add row and delete rows features (can't be set to true if some columns are non-editable)
+- `canChangeRowsNumber`: a boolean defining if the table can use the add row and delete rows features (default: `false`); this option is forced to `false` if some columns are non-editable
 - `dateFormat`: a string describing the expected format of dates in the table based on
-  [date-fns format patterns](https://date-fns.org/v2.25.0/docs/parse) (default: 'yyyy-MM-dd')
+  [date-fns format patterns](https://date-fns.org/v2.25.0/docs/parse) (default: `yyyy-MM-dd`)
 
 Also, if you want to have a default table content instead of the default empty table, you can provide the id of an
 existing dataset in the `defaultValue` property of the parameter description (this dataset must be a CSV file, with
