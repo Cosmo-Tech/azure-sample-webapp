@@ -118,25 +118,21 @@ describe('CreateScenarioButton', () => {
   });
 
   describe('Filter dataset List', () => {
-    const applyDatasetFilterToState = (state, datasetFilter) => {
-      state.workspace.current.data.linkedDatasetIdList = datasetFilter;
+    const setUpWithDatasetFilter = (linkedDatasetIdList) => {
+      const state = getStateWithWorkspaceRole(ROLES.WORKSPACE.ADMIN);
+      state.workspace.current.data.linkedDatasetIdList = linkedDatasetIdList;
+      setUp(state);
     };
 
-    const setUpWithDatasetFilter = (datasetFilter) => {
-      const initialState = getStateWithWorkspaceRole(ROLES.WORKSPACE.ADMIN);
-      applyDatasetFilterToState(initialState, datasetFilter);
-      setUp(initialState);
-    };
-
-    test('when filter is missing, datasets are filtered', () => {
+    test('when filter is missing, all datasets are shown', () => {
       setUpWithDatasetFilter(undefined);
-      expect(mockCreateScenarioUIProps.datasets).toEqual([]);
+      expect(mockCreateScenarioUIProps.datasets).toEqual(DEFAULT_REDUX_STATE.dataset.list.data);
     });
 
-    test('when filter is not an array, datasets are filtered', () => {
+    test('when filter is not an array, it is ignored and all datasets are shown', () => {
       setUpWithDatasetFilter('notAnArrayFilter');
       expect(spyConsoleWarn).toHaveBeenCalledTimes(1);
-      expect(mockCreateScenarioUIProps.datasets).toEqual([]);
+      expect(mockCreateScenarioUIProps.datasets).toEqual(DEFAULT_REDUX_STATE.dataset.list.data);
     });
 
     test('must return an empty list of datasets if the filter is an empty list', () => {
@@ -145,12 +141,10 @@ describe('CreateScenarioButton', () => {
       expect(mockCreateScenarioUIProps.datasets).toEqual([]);
     });
 
-    test('when dataset filter contains no dataset id on list it should be ignored', () => {
+    test('when dataset filter contains no dataset id on list, the resulting list should be empty', () => {
       const datasetFilter = ['fakeDatasetId1', 'fakeDatasetId2'];
       setUpWithDatasetFilter(datasetFilter);
-
-      expect(spyConsoleWarn).toHaveBeenCalledTimes(1);
-      expect(mockCreateScenarioUIProps.datasets).toEqual(DEFAULT_REDUX_STATE.dataset.list.data);
+      expect(mockCreateScenarioUIProps.datasets).toEqual([]);
     });
 
     test('when filter is present only datasets with id filtered should be present', () => {

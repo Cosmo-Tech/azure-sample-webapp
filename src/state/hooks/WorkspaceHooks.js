@@ -16,13 +16,13 @@ export const useWorkspaceDatasetsFilter = () => {
   const workspaceData = useWorkspaceData();
 
   return useMemo(() => {
-    let filter = workspaceData?.linkedDatasetIdList ?? [];
-    if (!Array.isArray(filter)) {
+    let filter = workspaceData?.linkedDatasetIdList;
+    if (filter != null && !Array.isArray(filter)) {
       console.warn('Ignoring datasets filter "linkedDatasetIdList" because it is not an array');
-      return [];
+      filter = undefined;
     }
 
-    const deprecatedFilter = workspaceData?.webApp?.options?.datasetFilter;
+    let deprecatedFilter = workspaceData?.webApp?.options?.datasetFilter;
     if (deprecatedFilter != null) {
       console.warn(
         `Deprecated option used in configuration of workspace ${workspaceData?.id}` +
@@ -30,12 +30,14 @@ export const useWorkspaceDatasetsFilter = () => {
           '.\nWorkspace key "webApp.options.datasetFilter" is deprecated. Please use the Cosmo Tech API to link ' +
           'these datasets to your workspace instead.'
       );
-      if (!Array.isArray(deprecatedFilter))
+      if (!Array.isArray(deprecatedFilter)) {
         console.warn('Ignoring deprecated option "datasetFilter" because it is not an array');
-      else filter = filter.concat(deprecatedFilter);
+        deprecatedFilter = undefined;
+      }
     }
 
-    return filter;
+    if (filter == null && deprecatedFilter == null) return undefined;
+    return (filter ?? []).concat(deprecatedFilter ?? []);
   }, [
     workspaceData?.id,
     workspaceData?.name,

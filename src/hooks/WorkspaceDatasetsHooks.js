@@ -9,8 +9,7 @@ export const useWorkspaceDatasets = () => {
   const workspaceDatasetsFilter = useWorkspaceDatasetsFilter();
 
   return useMemo(() => {
-    const getMainDatasets = () => datasets.filter((dataset) => dataset.main === true);
-    if (!workspaceDatasetsFilter) return getMainDatasets();
+    if (!workspaceDatasetsFilter) return datasets;
 
     const workspaceDatasets = [];
     workspaceDatasetsFilter.forEach((filterItem) => {
@@ -21,11 +20,6 @@ export const useWorkspaceDatasets = () => {
         if (readableDataset) workspaceDatasets.push(readableDataset);
       }
     });
-
-    if (workspaceDatasetsFilter.length > 0 && workspaceDatasets.length === 0) {
-      console.warn('Ignoring datasets filter because no matching datasets have been found');
-      return getMainDatasets();
-    }
 
     return workspaceDatasets;
   }, [datasets, workspaceDatasetsFilter]);
