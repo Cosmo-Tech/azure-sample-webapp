@@ -1258,17 +1258,17 @@
     validator "^13.7.0"
     xlsx "https://cdn.sheetjs.com/xlsx-0.20.0/xlsx-0.20.0.tgz"
 
-"@cosmotech/ui@^7.0.0":
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-7.0.0.tgz#b28ecf2394d543c2b3d84e1eccf52e3fb13c7e36"
-  integrity sha512-8PC0iZlfkDY/pThywI2BVK8RmfcOjUQbpMKq+eR+vF6X9jPEJUnTR5VX0pcRNWLiUBOhU3nO9cYy3CrA1qCAjw==
+"@cosmotech/ui@^8.0.0":
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-8.0.0.tgz#e79862a58e3c0280c6aa579c59faf46443b7d6f9"
+  integrity sha512-ZE/Y6XifTHuwQzMgtasTLjxw0UUicTzsxNmkSMsN+Hp0Hg6k2DNM5ior0/i879jrEM7V+vkupXw2hGgpnzl0HQ==
   dependencies:
     "@emotion/react" "^11.10.5"
     "@emotion/styled" "^11.10.5"
     "@mui/x-date-pickers" "^5.0.18"
     "@nosferatu500/react-sortable-tree" "^3.0.5"
-    ag-grid-community "~30.2.0"
-    ag-grid-react "~30.2.0"
+    ag-grid-community "~31.0.3"
+    ag-grid-react "~31.0.3"
     clsx "^2.0.0"
     cytoscape "^3.20.0"
     cytoscape-bubblesets "^3.1.0"
@@ -3651,16 +3651,17 @@ adjust-sourcemap-loader@^4.0.0:
     loader-utils "^2.0.0"
     regex-parser "^2.2.11"
 
-ag-grid-community@~30.2.0:
-  version "30.2.1"
-  resolved "https://registry.yarnpkg.com/ag-grid-community/-/ag-grid-community-30.2.1.tgz#a83d153ad1dbec46402ebe89f74ebb4b0710b3c7"
-  integrity sha512-1slonXskJbbI9ybhTx//4YKfJpZVAEnHL8dui1rQJRSXKByUi+/f7XtvkLsbgBkawoWbqvRAySjYtvz80+kBfA==
+ag-grid-community@~31.0.3:
+  version "31.0.3"
+  resolved "https://registry.yarnpkg.com/ag-grid-community/-/ag-grid-community-31.0.3.tgz#80870881a3be03aa5df890b4a70409ef5d781e7f"
+  integrity sha512-k81YmLaOQOab9BavYD+Pw2smZSl6TXOJqj9hRuf70XQl3EknOHCGcra7joJxZRJLMKE/HdR+u33TNyX4TCuWfg==
 
-ag-grid-react@~30.2.0:
-  version "30.2.1"
-  resolved "https://registry.yarnpkg.com/ag-grid-react/-/ag-grid-react-30.2.1.tgz#2005f93569d4101bc3751b20491f3560db7c8c54"
-  integrity sha512-WYt5ZstSoPEGAcTqXBdaonihXtapZdjTHZ3dc3xTK1xIdbF0/Vw4zDWCQSsG5H4M5CeUKjvbeHx7kKM1Yiah3g==
+ag-grid-react@~31.0.3:
+  version "31.0.3"
+  resolved "https://registry.yarnpkg.com/ag-grid-react/-/ag-grid-react-31.0.3.tgz#4f9634129f37bd59de34529d62dff158115ca225"
+  integrity sha512-CE4Z5Rdb0H3MFBhmge9854AyDvI4DoG7ZoUJRFB1p2pu5ANVe6tv7cwEI/ugHemEXRRP6s5uvW+ndv0Q6x1/+Q==
   dependencies:
+    ag-grid-community "~31.0.3"
     prop-types "^15.8.1"
 
 agent-base@6:
