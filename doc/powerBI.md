@@ -741,3 +741,18 @@ For Dashboard View iframes:
 
 Note that you can set a fixed display ratio for these PowerBI iframes by setting the parameters
 `scenarioViewIframeDisplayRatio` and `dashboardsViewIframeDisplayRatio`.
+
+## Customizing Power BI themes
+
+### Motivation
+This webapp comes with a dark theme and a light one. Having a unique theme for Power BI, either a dark or a light one, would clash when the other one is used for the webapp theme.
+The two themes switch according to the webapp theme switch, in order to give users a more unified experience, without having to duplicate any data.
+
+The files `darkTheme.json` and `lightTheme.json` are provided, which offer the bare minimum color palettes. These files can then be customized, to achieve specific goals, according to one's reports charts look and feel.
+
+### How to customize your own themes
+If you want to customize the provided light and dark themes, simply modify the `src/theme/powerBI/(dark|light)Theme.json` files, according to your needs.
+
+The Microsoft documentation on how to create report themes explains the overall syntax and general principles: [Use report themes in Power BI Desktop](https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-report-themes).
+
+To go further, the following GitHub has a lot of showcases, which teaches what can be customized in extensive details: [pro-power-bi-theme-creation](https://github.com/Apress/pro-power-bi-theme-creation/blob/main/FullTheme.json).

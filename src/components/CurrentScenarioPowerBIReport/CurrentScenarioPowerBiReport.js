@@ -15,6 +15,7 @@ const CurrentScenarioPowerBiReport = ({ reportConfiguration, iframeRatio, index,
     reportLabels,
     reports,
     logInWithUserCredentials,
+    theme,
   } = useCurrentScenarioPowerBiReport();
 
   const defaultErrorDescription =
@@ -37,6 +38,7 @@ const CurrentScenarioPowerBiReport = ({ reportConfiguration, iframeRatio, index,
         useAAD={logInWithUserCredentials}
         iframeRatio={iframeRatio}
         index={index}
+        theme={theme}
         {...other}
       />
     </ErrorBoundary>

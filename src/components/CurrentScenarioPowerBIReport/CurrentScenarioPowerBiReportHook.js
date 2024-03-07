@@ -3,9 +3,12 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDownloadLogsFile } from '../../hooks/ScenarioRunHooks';
+import { useIsDarkTheme } from '../../state/hooks/ApplicationHooks';
 import { usePowerBIInfo } from '../../state/hooks/PowerBIHooks';
 import { useCurrentScenarioData, useScenarios } from '../../state/hooks/ScenarioHooks';
 import { useWorkspaceChartsLogInWithUserCredentials } from '../../state/hooks/WorkspaceHooks';
+import darkTheme from '../../theme/powerbi/darkTheme.json';
+import lightTheme from '../../theme/powerbi/lightTheme.json';
 import { getReportLabels } from './labels';
 
 export const useCurrentScenarioPowerBiReport = () => {
@@ -30,6 +33,9 @@ export const useCurrentScenarioPowerBiReport = () => {
     [scenarios]
   );
 
+  const isDarkTheme = useIsDarkTheme();
+  const theme = useMemo(() => (isDarkTheme ? darkTheme : lightTheme), [isDarkTheme]);
+
   return {
     currentScenarioData,
     visibleScenarios,
@@ -38,5 +44,6 @@ export const useCurrentScenarioPowerBiReport = () => {
     language,
     downloadLogsFile,
     logInWithUserCredentials,
+    theme,
   };
 };
