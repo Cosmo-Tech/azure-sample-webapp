@@ -8,12 +8,15 @@
 ### Features
 
 - add new optional view: dataset manager
+- \[PROD\-12503\] add DatasetView ([8672a74](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/8672a74))
+- \[PROD\-13025\] generate dataset creation input parameters from solution config ([8adc8cb](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/8adc8cb))
 - \[PROD\-8406\] allow translation of run templates ([79ffba6](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/79ffba65))
 - \[PROD\-13001\] add option to disable out of sync scenario results banner ([06591ab](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/06591ab5))
 - \[PROD\-12930\] add current user permissions in organization security in redux ([7251bf5](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/7251bf5f))
 - \[PROD\-12930\] add user permissions in datasets security in redux ([29ae855](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/29ae8556))
 - \[PROD\-12917\] replace deprecated workspace config key datasetFilter by linkedDatasetIdList ([fbc2bb6](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/fbc2bb62))
 - add `security` & `orchestratorType` keys in solution schema ([cc2659d](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/cc2659df))
+- \[PROD\-13001\] add option to disable out of sync scenario results banner ([06591ab](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/06591ab))
 
 ### Bug Fixes
 
@@ -33,6 +36,9 @@
 - fix API endpoint used when changing the role of users in scenario sharing options ([076f9b1](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/076f9b13))
 - fix parsing of env var option REACT_APP_ENABLE_APPLICATION_INSIGHTS ([89d091e](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/89d091e9))
 - fix circular dependencies ([1d08c29](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/1d08c29f))
+- remove color of warning frame around scenario results ([c3d5cb0](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/c3d5cb0))
+- change style of AppBar when using light theme ([4168f81](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/4168f81))
+- fill missing varTypes in parameter values when receiving scenarios ([e08995b](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/e08995b))
 
 ### Documentation
 
@@ -41,6 +47,13 @@
 - improve instance view documentation ([ed25d61](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/ed25d61e))
 - update Storage connector requirements in docs ([60cdf78](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/60cdf789))
 - add details for CSM_API_TOKEN_AUDIENCE parameter ([7af778b](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/7af778b4))
+- add workspace configuration documentation ([cb4097d](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/cb4097d))
+- add documentation of dataset manager configuration ([ede14b3](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/ede14b3))
+- \[PROD\-12475\] add queries in dataset manager documentation ([f37a9c4](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/f37a9c4))
+- fix example of dataset manager config override ([ee6f83e](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/ee6f83e))
+- add warning on user organization role requirement for datasets creation ([2a4d314](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/2a4d314))
+- add default value of canChangeRowsNumber in documentation ([b414514](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/b414514))
+- add PowerBI themes customization ([3a8d6c2](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/3a8d6c2))
 
 ## **5.2.1** <sub><sup>2023-10-09 ([62b729b...bd062c7](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/62b729b9...bd062c70?diff=split))</sup></sub>
 
