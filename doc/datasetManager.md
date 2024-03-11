@@ -268,6 +268,36 @@ webApp:
 
 </details>
 
+### Runners
+
+A dataset can be linked with a runner. In order to do this, a run template need to be configured in the solution with tag `datasource`.
+
+<details>
+<summary>Solution.yaml example</summary>
+
+```yaml
+ "runTemplates": [
+    {
+      "id": "etl_with_azure_storage",
+      "name": null,
+      "labels": {
+        "fr": "Brewery (.csv) depuis Azure Storage",
+        "en": "Brewery (.csv) from Azure Storage"
+      },
+      "description": null,
+      "csmSimulation": null,
+      "tags": [
+        "datasource"
+      ],
+```
+
+</details>
+
+In this way, the run template will be selectable as source type for dataset creation.
+Source parameters need to be configured as usual run template parameters.
+
+Note : If the run template contains the tag `datasource`, it will not be selectable for scenario creation.
+
 ## Troubleshooting
 
 ### Overriding the workspace configuration
