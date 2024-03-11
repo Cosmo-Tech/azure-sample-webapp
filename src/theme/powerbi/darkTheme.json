@@ -1,5 +1,5 @@
-﻿{
-  "name": "Dark Theme",
+{
+  "name": "Minimal Dark Theme",
   "dataColors": [
     "#01B8AA",
     "#374649",
@@ -38,18 +38,16 @@
   "good": "#3BB44A",
   "neutral": "#F2C811",
   "bad": "#E81123",
-
-  "maximum": "#01B8AA",
-  "center": "#F5D33F",
-  "minimum": "#FD625E",
-
+  "maximum": "#2878BD",
+  "center": "#FCB714",
+  "minimum": "#D0E4F5",
   "null": "#FF7F48",
 
   "firstLevelElements": "#FFFFFF",
   "secondLevelElements": "#E6E6E6",
   "thirdLevelElements": "#333333",
   "fourthLevelElements": "#DDDDDD",
-  "background": "#1E1E1E",
+  "background": "#2A2A2A",
   "secondaryBackground": "#444444",
   "tableAccent": "#E6E6E6",
 
@@ -129,127 +127,6 @@
             "textSize": 9,
             "fontFamily": "'Segoe UI', wf_segoe-ui, helvetica, arial, sans-serif",
             "inputBoxColor": { "solid": { "color": "#2A2A2A" } }
-          }
-        ]
-      }
-    },
-    "card": {
-      "*": {
-        "categoryLabels": [
-          {
-            "show": true,
-            "color": { "solid": { "color": "#E6E6E6" } },
-            "fontFamily": "'Segoe UI', wf_segoe-ui, helvetica, arial, sans-serif",
-            "fontSize": 12
-          }
-        ]
-      }
-    },
-    "multiRowCard": {
-      "*": {
-        "dataLabels": [
-          {
-            "color": { "solid": { "color": "#FFFFFF" } },
-            "fontFamily": "'Segoe UI Bold', wf_segoe-ui_bold, helvetica, arial, sans-serif",
-            "fontSize": 14
-          }
-        ],
-        "categoryLabels": [
-          {
-            "show": true,
-            "color": { "solid": { "color": "#E6E6E6" } },
-            "fontFamily": "'Segoe UI', wf_segoe-ui, helvetica, arial, sans-serif",
-            "fontSize": 12
-          }
-        ]
-      }
-    },
-    "tableEx": {
-      "*": {
-        "title": [
-          {
-            "show": true,
-            "fontColor": { "solid": { "color": "#FFFFFF" } },
-            "alignment": "center",
-            "fontFamily": "'Segoe UI Bold', wf_segoe-ui_bold, helvetica, arial, sans-serif",
-            "fontSize": 12
-          }
-        ]
-      }
-    },
-    "pieChart": {
-      "*": {
-        "legend": [
-          {
-            "show": true,
-            "position": "Right",
-            "fontColor": { "solid": { "color": "#E6E6E6" } },
-            "fontFamily": "'Segoe UI', wf_segoe-ui, helvetica, arial, sans-serif",
-            "fontSize": 8
-          }
-        ],
-        "title": [
-          {
-            "show": true,
-            "fontColor": { "solid": { "color": "#FFFFFF" } },
-            "alignment": "center",
-            "fontFamily": "'Segoe UI Bold', wf_segoe-ui_bold, helvetica, arial, sans-serif",
-            "fontSize": 14
-          }
-        ]
-      }
-    },
-    "donutChart": {
-      "*": {
-        "legend": [
-          {
-            "show": true,
-            "position": "Right",
-            "fontColor": { "solid": { "color": "#E6E6E6" } },
-            "fontFamily": "'Segoe UI', wf_segoe-ui, helvetica, arial, sans-serif",
-            "fontSize": 8
-          }
-        ],
-        "title": [
-          {
-            "show": true,
-            "fontColor": { "solid": { "color": "#FFFFFF" } },
-            "alignment": "center",
-            "fontFamily": "'Segoe UI Bold', wf_segoe-ui_bold, helvetica, arial, sans-serif",
-            "fontSize": 14
-          }
-        ]
-      }
-    },
-    "lineClusteredColumnComboChart": {
-      "*": {
-        "categoryAxis": [
-          {
-            "show": true,
-            "showAxisTitle": true,
-            "axisStyle": "showTitleOnly",
-            "titleColor": { "solid": { "color": "#E6E6E6" } },
-            "titleFontFamily": "'Segoe UI', wf_segoe-ui, helvetica, arial, sans-serif",
-            "titleFontSize": 8,
-            "labelColor": { "solid": { "color": "#E6E6E6" } }
-          }
-        ],
-        "valueAxis": [
-          {
-            "show": true,
-            "titleColor": { "solid": { "color": "#E6E6E6" } },
-            "titleFontFamily": "'Segoe UI', wf_segoe-ui, helvetica, arial, sans-serif",
-            "titleFontSize": 8,
-            "labelColor": { "solid": { "color": "#E6E6E6" } }
-          }
-        ],
-        "title": [
-          {
-            "show": true,
-            "alignment": "center",
-            "fontColor": { "solid": { "color": "#FFFFFF" } },
-            "fontFamily": "'Segoe UI Bold', wf_segoe-ui_bold, helvetica, arial, sans-serif",
-            "fontSize": 14
           }
         ]
       }
