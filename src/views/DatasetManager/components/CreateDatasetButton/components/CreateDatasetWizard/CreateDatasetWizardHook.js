@@ -12,9 +12,6 @@ export const useCreateDatasetWizard = () => {
     (values) => {
       const solutionParameters = solutionData.parameters;
 
-      console.log('values'); // NBO log to remove
-      console.log(values); // NBO log to remove
-
       return Object.entries(values).map(([key, value]) => {
         const solutionParameter = solutionParameters.find((param) => param.id === key);
         const parameter = {
