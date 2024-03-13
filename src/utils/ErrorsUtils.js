@@ -16,9 +16,9 @@ export const parseError = (error) => {
       };
     }
     return {
-      title: errorData.title || errorData.statusText || error.response.statusText,
-      status: errorData.status || errorData.code || error.response.status,
-      detail: errorData.detail || errorData.message,
+      title: errorData.title ?? errorData.statusText ?? error.response.statusText,
+      status: errorData.status ?? errorData.code ?? error.response.status,
+      detail: errorData.detail ?? errorData.message ?? errorData.trace,
     };
   } else if (error?.message === 'Network Error' || error?.title === 'Network Error') {
     return {
