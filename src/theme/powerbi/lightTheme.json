@@ -38,42 +38,32 @@
   "good": "#3BB44A",
   "neutral": "#F2C811",
   "bad": "#E81123",
-
   "maximum": "#01B8AA",
   "center": "#F5D33F",
   "minimum": "#FD625E",
-
   "null": "#FF7F48",
-
-  "foreground": "#333333",
-  "foregroundNeutralSecondary": "#666666",
-  "foregroundNeutralTertiary": "#777777",
-
-  "background": "#FFFFFF",
-  "backgroundLight": "#D5D5D5",
-  "backgroundNeutral": "#E8E8E8",
-
-  "tableAccent": "#118DFF",
 
   "firstLevelElements": "#252423",
   "secondLevelElements": "#605E5C",
   "thirdLevelElements": "#F3F2F1",
   "fourthLevelElements": "#B3B0AD",
+  "background": "#FFFFFF",
   "secondaryBackground": "#C8C6C4",
+  "tableAccent": "#118DFF",
 
   "textClasses": {
     "callout": {
-      "color": "#333333",
+      "color": "#252423",
       "fontFace": "'Segoe UI Bold', wf_segoe-ui_bold, helvetica, arial, sans-serif",
       "fontSize": 21
     },
     "title": {
-      "color": "#333333",
+      "color": "#252423",
       "fontFace": "'Segoe UI Bold', wf_segoe-ui_bold, helvetica, arial, sans-serif",
       "fontSize": 12
     },
     "header": {
-      "color": "#FF0000"
+      "color": "#252423"
     }
   },
   "visualStyles": {
@@ -120,10 +110,10 @@
         "filterCard": [
           {
             "$id": "Applied",
-            "backgroundColor": { "solid": { "color": "#FFF1E5" } },
-            "transparency": 25,
+            "backgroundColor": { "solid": { "color": "#FFF5EC" } },
+            "transparency": 0,
             "border": true,
-            "borderColor": { "solid": { "color": "#FFF1E5" } },
+            "borderColor": { "solid": { "color": "#FFF5EC" } },
             "foregroundColor": { "solid": { "color": "#252423" } },
             "textSize": 10,
             "fontFamily": "'Segoe UI', wf_segoe-ui, helvetica, arial, sans-serif",
@@ -260,6 +250,32 @@
             "fontColor": { "solid": { "color": "#252423" } },
             "fontFamily": "'Segoe UI Bold', wf_segoe-ui_bold, helvetica, arial, sans-serif",
             "fontSize": 14
+          }
+        ]
+      }
+    },
+    "keyDriversVisual": {
+      "*": {
+        "keyInfluencersVisual": [
+          {
+            "primaryColor": { "solid": { "color": "#01B8AA" } },
+            "primaryFontColor": { "solid": { "color": "#252423" } },
+            "secondaryColor": { "solid": { "color": "#FD625E" } },
+            "secondaryFontColor": { "solid": { "color": "#1a1a1a" } },
+            "canvasColor": { "solid": { "color": "#FFF5EC" } },
+            "fontColor": { "solid": { "color": "#252423" } }
+          }
+        ],
+        "keyDriversDrillVisual": [
+          {
+            "defaultColor": { "solid": { "color": "#465437" } },
+            "referenceLineColor": { "solid": { "color": "#00AC98" } }
+          }
+        ],
+        "background": [
+          {
+            "show": true,
+            "color": { "solid": { "color": "#FFFFFF" } }
           }
         ]
       }

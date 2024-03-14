@@ -38,11 +38,9 @@
   "good": "#3BB44A",
   "neutral": "#F2C811",
   "bad": "#E81123",
-
   "maximum": "#01B8AA",
   "center": "#F5D33F",
   "minimum": "#FD625E",
-
   "null": "#FF7F48",
 
   "firstLevelElements": "#FFFFFF",
@@ -65,7 +63,7 @@
       "fontSize": 12
     },
     "header": {
-      "color": "#CCCCCC"
+      "color": "#FFFFFF"
     }
   },
   "visualStyles": {
@@ -102,7 +100,7 @@
             "headerSize": 10,
             "fontFamily": "'Segoe UI', wf_segoe-ui, helvetica, arial, sans-serif",
             "border": true,
-            "borderColor": { "solid": { "color": "#777777" } },
+            "borderColor": { "solid": { "color": "#444444" } },
             "width": 190,
             "checkboxAndApplyColor": { "solid": { "color": "#333333" } },
             "searchTextSize": 11,
@@ -250,6 +248,32 @@
             "fontColor": { "solid": { "color": "#FFFFFF" } },
             "fontFamily": "'Segoe UI Bold', wf_segoe-ui_bold, helvetica, arial, sans-serif",
             "fontSize": 14
+          }
+        ]
+      }
+    },
+    "keyDriversVisual": {
+      "*": {
+        "keyInfluencersVisual": [
+          {
+            "primaryColor": { "solid": { "color": "#01B8AA" } },
+            "primaryFontColor": { "solid": { "color": "#FFFFFF" } },
+            "secondaryColor": { "solid": { "color": "#FD625E" } },
+            "secondaryFontColor": { "solid": { "color": "#1a1a1a" } },
+            "canvasColor": { "solid": { "color": "#333333" } },
+            "fontColor": { "solid": { "color": "#FFFFFF" } }
+          }
+        ],
+        "keyDriversDrillVisual": [
+          {
+            "defaultColor": { "solid": { "color": "#465437" } },
+            "referenceLineColor": { "solid": { "color": "#00AC98" } }
+          }
+        ],
+        "background": [
+          {
+            "show": true,
+            "color": { "solid": { "color": "#2A2A2A" } }
           }
         ]
       }
