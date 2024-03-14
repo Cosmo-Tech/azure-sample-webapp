@@ -169,7 +169,10 @@ Examples:
 #### Package address
 
 The address of the package to be deployed (you can keep the default value).<br>
-Example: _https://github.com/Cosmo-Tech/azure-function-scenario-download/releases/download/test_v0/artifact.zip_
+
+Examples:
+ - for API v3: _https://github.com/Cosmo-Tech/azure-function-scenario-download/releases/download/v2.0.0/artifact.zip_
+ - for API v2: _https://github.com/Cosmo-Tech/azure-function-scenario-download/releases/download/v1.0.1/artifact.zip_
 
 You can then click on _“Review + create“_, and then on _“Create”_ after validation.
 
@@ -486,7 +489,7 @@ Example:
 
 ```
 Name: WEBSITE_RUN_FROM_PACKAGE
-Value: https://github.com/Cosmo-Tech/azure-function-scenario-download/releases/download/v1.0.1/artifact.zip
+Value: https://github.com/Cosmo-Tech/azure-function-scenario-download/releases/download/v2.0.0/artifact.zip
 ```
 
 Click on "OK" to change the value of the parameter, and then on "**Save**" to confirm your changes and trigger the Function App update.
