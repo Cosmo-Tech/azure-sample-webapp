@@ -10,6 +10,7 @@ export const useCreateDatasetWizard = () => {
 
   const getParametersForRunner = useCallback(
     (values) => {
+      if (values == null) return [];
       const solutionParameters = solutionData.parameters;
 
       return Object.entries(values).map(([key, value]) => {
