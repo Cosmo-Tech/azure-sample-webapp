@@ -28,7 +28,7 @@ export const useDatasetCreationParameters = () => {
   }, [clone]);
 
   const dataSourceRunTemplates = useMemo(() => {
-    const dataSources = solutionData.runTemplates.filter((runTemplate) => runTemplate?.tags.includes('datasource'));
+    const dataSources = solutionData.runTemplates.filter((runTemplate) => runTemplate?.tags?.includes('datasource'));
 
     const parameters = solutionData.parameters;
     const runTemplatesParameters = solutionData.runTemplatesParametersIdsDict;
