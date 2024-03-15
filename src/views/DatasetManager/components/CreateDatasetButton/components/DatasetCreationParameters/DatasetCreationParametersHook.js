@@ -54,7 +54,10 @@ export const useDatasetCreationParameters = () => {
       ...dataSourceRunTemplates.map((dataSource) => {
         return {
           key: dataSource.id,
-          value: t(TranslationUtils.getRunTemplateTranslationKey(dataSource.id), dataSource.label),
+          value: t(
+            TranslationUtils.getRunTemplateTranslationKey(dataSource.id),
+            dataSource.label ?? dataSource.name ?? dataSource.id
+          ),
         };
       }),
     ];
