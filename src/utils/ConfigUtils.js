@@ -43,7 +43,7 @@ const _checkDeprecatedKeysInParameterConfig = (parameter) => {
     'subType',
   ];
   keysToCheck.forEach((keyToCheck) => {
-    if (parameter[keyToCheck] !== undefined) {
+    if (parameter?.[keyToCheck] !== undefined) {
       if (keyToCheck === 'dataCy') {
         console.warn(
           'The "parameter.dataCy" key in the scenario parameters configuration is now deprecated, "data-cy" ' +
@@ -100,7 +100,7 @@ const getParametersGroupAttribute = (parametersGroup, attributeName) => {
 const _checkDeprecatedKeysInParametersGroupConfig = (parametersGroup) => {
   const keysToCheck = ['authorizedRoles', 'hideParameterGroupIfNoPermission'];
   keysToCheck.forEach((keyToCheck) => {
-    if (parametersGroup[keyToCheck] !== undefined) {
+    if (parametersGroup?.[keyToCheck] !== undefined) {
       console.warn(
         `The "parametersGroup.${keyToCheck}" key in the scenario parameters group configuration is now deprecated. ` +
           `Please use "parametersGroup.options.${keyToCheck}" key instead.`
