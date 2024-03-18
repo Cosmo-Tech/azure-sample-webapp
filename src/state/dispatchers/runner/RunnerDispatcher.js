@@ -8,3 +8,10 @@ export const dispatchCreateRunner = (organizationId, workspaceId, runner) => ({
   workspaceId,
   runner,
 });
+
+export const dispatchStopRunner = (organizationId, workspaceId, runnerId) => ({
+  type: RUNNER_ACTIONS_KEY.TRIGGER_SAGA_STOP_RUNNER,
+  organizationId,
+  workspaceId,
+  runnerId,
+});

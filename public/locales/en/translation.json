@@ -195,7 +195,8 @@
           },
           "unknown": "The dataset has an unknown state, if the problem persists, please, contact your administrator",
           "retryButton": "Retry",
-          "rollbackButton": "Rollback"
+          "rollbackButton": "Rollback",
+          "abortButton": "Abort"
         }
       },
       "wizard": {
@@ -494,6 +495,7 @@
       "datasetNotUpdated": "Dataset hasn't been updated",
       "runnerNotCreated": "Runner hasn't been created",
       "runnerFileNotUploaded": "Runner file {runnerFile} hasn't been uploaded",
+      "runnerStopError": "Could not stop runner {{runnerId}}",
       "twingraphNotCreated": "A problem occurred during twingraph creation",
       "twingraphStatusPollingFailed": "A problem occurred when querying the status of dataset {{datasetDetails}}",
       "datasetNotRefreshed": "A problem occurred during dataset refresh",

@@ -7,6 +7,7 @@ import {
   useRefreshDataset,
   useRollbackTwingraphData,
 } from '../../../../../../state/hooks/DatasetHooks';
+import { useStopRunner } from '../../../../../../state/hooks/RunnerHooks';
 
 export const useDatasetOverviewPlaceholder = () => {
   const currentDataset = useCurrentDataset();
@@ -17,7 +18,7 @@ export const useDatasetOverviewPlaceholder = () => {
   const refreshDataset = useRefreshDataset();
   const rollbackTwingraphData = useRollbackTwingraphData();
   const downloadLogsFile = useDownloadLogsFile();
-
+  const stopRunner = useStopRunner();
   return {
     currentDatasetId,
     currentDatasetIngestionStatus,
@@ -25,6 +26,7 @@ export const useDatasetOverviewPlaceholder = () => {
     refreshDataset,
     rollbackTwingraphData,
     downloadLogsFile,
+    stopRunner,
     currentDatasetType,
   };
 };
