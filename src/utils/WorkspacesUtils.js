@@ -21,7 +21,7 @@ const patchWorkspaceWithCurrentUserPermissions = (workspace, userEmail, userId, 
   };
 };
 
-const patchWorkspacesIfLocalConfigExists = async (originalWorkspaces) => {
+const patchWorkspacesIfLocalConfigExists = (originalWorkspaces) => {
   ArrayDictUtils.mergeArraysByElementsIds(originalWorkspaces, WORKSPACES);
 };
 

@@ -19,7 +19,8 @@ export const useDatasetOverview = () => {
   }, [currentDataset?.id, datasetTwingraphQueriesResults]);
 
   const datasetManagerConfig = useMemo(() => {
-    const config = workspaceData?.webApp?.options?.datasetManager ?? {};
+    // Make a shallow copy of config object to prevent error "Object is not extensible" when trying to set properties
+    const config = { ...workspaceData?.webApp?.options?.datasetManager };
     if (config.categories == null) config.categories = [];
     if (config.graphIndicators == null) config.graphIndicators = [];
     if (config.queries == null) config.queries = [];

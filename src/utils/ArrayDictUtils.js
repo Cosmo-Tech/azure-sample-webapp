@@ -9,12 +9,9 @@ const mergeArraysByElementsIds = (array1, array2) => {
   if (array2 == null) return array1;
 
   array2.forEach((el2) => {
-    const indexToPatch = array1.findIndex((el1) => el1.id === el2.id);
-    if (indexToPatch !== -1) {
-      array1[indexToPatch] = merge(array1[indexToPatch], el2);
-    } else {
-      array1.push(el2);
-    }
+    const indexToPatch = array1.findIndex((el1) => el1?.id === el2?.id);
+    if (el2 != null && indexToPatch !== -1) array1[indexToPatch] = merge(array1[indexToPatch], el2);
+    else array1.push(el2);
   });
 
   return array1;

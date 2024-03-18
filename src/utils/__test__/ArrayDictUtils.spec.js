@@ -7,17 +7,21 @@ describe('mergeArraysByElementsIds', () => {
     { id: 'id1', value: 'value1', nested: { 1: 1, 2: 2 } },
     { id: 'id2', value: 'value2' },
     { id: 'id3', value: 'value3' },
+    null,
   ];
   const overridingArray = [
     { id: 'id1', value: 'newValue1', nested: { 2: 'two', 3: 3 } },
     { id: 'id2', newAttribute: 'attribute2' },
     { id: 'id4', value: 'value4' },
+    undefined,
   ];
   const mergedResult = [
     { id: 'id1', value: 'newValue1', nested: { 1: 1, 2: 'two', 3: 3 } },
     { id: 'id2', value: 'value2', newAttribute: 'attribute2' },
     { id: 'id3', value: 'value3' },
+    null,
     { id: 'id4', value: 'value4' },
+    undefined,
   ];
 
   test.each`

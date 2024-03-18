@@ -62,7 +62,7 @@ const patchSolutionIfLocalConfigExists = async (originalSolution) => {
 };
 
 const checkParametersValidationConstraintsInSolution = (data) => {
-  const parametersWithConstraint = data?.parameters?.filter((parameter) => parameter.options?.validation);
+  const parametersWithConstraint = data?.parameters?.filter((parameter) => parameter?.options?.validation);
   parametersWithConstraint?.forEach((parameter) => {
     const constraint = ParameterConstraintsUtils.getParameterValidationConstraint(
       parameter.options.validation,
@@ -90,6 +90,10 @@ const _getNonEditableColumn = (columns) => {
 };
 
 const patchIncompatibleValuesInSolution = (solution) => {
+  solution.parameters = solution.parameters?.filter((parameter) => parameter != null);
+  solution.parameterGroups = solution.parameterGroups?.filter((group) => group != null);
+  solution.runTemplates = solution.runTemplates?.filter((runTemplate) => runTemplate != null);
+
   solution.parameters?.forEach((parameter) => {
     if (parameter.varType === '%DATASETID%' && parameter.options?.subType === 'TABLE')
       if (parameter.options?.canChangeRowsNumber) {
