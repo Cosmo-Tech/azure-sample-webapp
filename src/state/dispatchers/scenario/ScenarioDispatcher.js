@@ -53,7 +53,7 @@ export const dispatchSetScenarioValidationStatus = (scenarioId, validationStatus
 });
 
 export const dispatchApplyScenarioSharingChanges = (scenarioId, newScenarioSecurity) => ({
-  type: SCENARIO_ACTIONS_KEY.APPLY_SCENARIO_SHARING_CHANGES,
+  type: SCENARIO_ACTIONS_KEY.TRIGGER_SAGA_UPDATE_SCENARIO_SECURITY,
   scenarioId,
   newScenarioSecurity,
 });

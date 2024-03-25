@@ -99,7 +99,7 @@ export function* applyScenarioSharingChanges(action) {
 }
 
 function* applyScenarioSharingChangesSaga() {
-  yield takeEvery(SCENARIO_ACTIONS_KEY.APPLY_SCENARIO_SHARING_CHANGES, applyScenarioSharingChanges);
+  yield takeEvery(SCENARIO_ACTIONS_KEY.TRIGGER_SAGA_UPDATE_SCENARIO_SECURITY, applyScenarioSharingChanges);
 }
 
 export default applyScenarioSharingChangesSaga;
