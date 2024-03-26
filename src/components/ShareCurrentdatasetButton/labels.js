@@ -1,26 +1,21 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-export const getShareScenarioDialogLabels = (t, currentScenarioName, isDirty) => ({
+export const getShareDatasetDialogLabels = (t, currentDatasetName) => ({
   button: {
     title: t('commoncomponents.dialog.share.button.label', 'Share'),
-    tooltip: isDirty
-      ? t(
-          'commoncomponents.dialog.share.button.editModeTooltip',
-          'Please save or discard current modifications before changing the scenario access permissions'
-        )
-      : t('commoncomponents.dialog.share.button.tooltip', 'Modify access'),
+    tooltip: t('commoncomponents.dialog.share.button.tooltip', 'Modify access'),
   },
   dialog: {
-    title: t('commoncomponents.dialog.share.dialog.title', 'Share ') + currentScenarioName,
-    readOnlyTitle: t('commoncomponents.dialog.share.dialog.readOnlyTitle', 'Permissions for ') + currentScenarioName,
+    title: t('commoncomponents.dialog.share.dialog.title', 'Share ') + currentDatasetName,
+    readOnlyTitle: t('commoncomponents.dialog.share.dialog.readOnlyTitle', 'Permissions for ') + currentDatasetName,
     addPeople: t('commoncomponents.dialog.share.dialog.select.addPeople', 'Add people'),
     cancel: t('commoncomponents.dialog.share.dialog.buttons.cancel', 'Cancel'),
     close: t('commoncomponents.dialog.share.dialog.buttons.close', 'Close'),
     share: t('commoncomponents.dialog.share.dialog.buttons.share', 'Share'),
     noAdminError: t(
       'commoncomponents.dialog.share.dialog.error.noAdmin',
-      'The scenario must have at least one administrator'
+      'The dataset must have at least one administrator'
     ),
     userSelected: t('commoncomponents.dialog.share.dialog.select.userSelected', 'Selected user'),
     usersAccess: t('commoncomponents.dialog.share.dialog.editor.usersAccess', 'Users access'),
@@ -41,7 +36,7 @@ export const getShareScenarioDialogLabels = (t, currentScenarioName, isDirty) =>
           'commoncomponents.dialog.share.dialog.editor.helperText.editor',
           'Anyone in this workspace is editor'
         ),
-        none: t('commoncomponents.dialog.share.dialog.editor.helperText.none', 'Other users cannot view the scenario'),
+        none: t('commoncomponents.dialog.share.dialog.editor.helperText.none', 'Other users cannot view the dataset'),
       },
     },
     add: {

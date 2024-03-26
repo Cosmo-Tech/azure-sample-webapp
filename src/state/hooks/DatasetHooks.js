@@ -12,6 +12,7 @@ import {
   dispatchSelectDatasetById,
   dispatchUpdateDataset,
   dispatchUpdateDatasetInStore,
+  dispatchUpdateDatasetSecurity,
 } from '../dispatchers/dataset/DatasetDispatcher';
 import { useOrganizationId } from './OrganizationHooks';
 
@@ -114,4 +115,14 @@ export const useUpdateDatasetInStore = () => {
       dispatch(dispatchUpdateDatasetInStore(datasetId, datasetData, datasetIndex)),
     [dispatch]
   );
+};
+
+export const useDatasetSecurity = () => {
+  const currentDataset = useCurrentDataset();
+  return currentDataset?.security;
+};
+
+export const useUpdateDatasetSecurity = () => {
+  const dispatch = useDispatch();
+  return useCallback((datasetId, security) => dispatch(dispatchUpdateDatasetSecurity(datasetId, security)), [dispatch]);
 };

@@ -492,6 +492,7 @@
       "datasetFileReuploadFailed": "The file upload for dataset update has failed",
       "datasetNotLinked": "An error occurred when trying to link the created dataset ({{datasetId}}) to the workspace. Please try to create a new dataset and contact your administrator if the problem persists.",
       "datasetNotUpdated": "Dataset hasn't been updated",
+      "datasetSecurityNotUpdated": "Dataset {{currentDatasetId}} permissions have not been updated",
       "runnerNotCreated": "Runner hasn't been created",
       "runnerFileNotUploaded": "Runner file {runnerFile} hasn't been uploaded",
       "twingraphNotCreated": "A problem occurred during twingraph creation",

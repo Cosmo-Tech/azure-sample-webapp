@@ -67,3 +67,11 @@ export const dispatchPollTwingraphStatus = (organizationId, datasetId) => ({
   organizationId,
   datasetId,
 });
+
+export const dispatchUpdateDatasetSecurity = (organizationId, datasetId, datasetData, datasetIndex) => ({
+  type: DATASET_ACTIONS_KEY.TRIGGER_SAGA_UPDATE_DATASET_SECURITY,
+  organizationId,
+  datasetId,
+  datasetData,
+  datasetIndex,
+});
