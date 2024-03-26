@@ -84,14 +84,14 @@ export function* createRunner(action) {
     };
 
     const datasetId = yield call(createDataset, { dataset, organizationId });
-    const patchedRunner = { runTemplateId: runner.runTemplateId, datasetList: [datasetId] };
+    let datasetList = [datasetId]; // First entry of datasetList must be the "ETL" dataset
+    // Add additional datasets to the list (e.g. the parent dataset when creating subdatasets)
+    if (runner.datasetList != null) datasetList = datasetList.concat(runner.datasetList);
+
+    const patchedRunner = { runTemplateId: runner.runTemplateId, datasetList };
     yield call(Api.Runners.updateRunner, organizationId, workspaceId, runnerId, patchedRunner);
 
-    yield put({
-      type: DATASET_ACTIONS_KEY.TRIGGER_SAGA_REFRESH_DATASET,
-      organizationId,
-      datasetId,
-    });
+    yield put({ type: DATASET_ACTIONS_KEY.TRIGGER_SAGA_REFRESH_DATASET, organizationId, datasetId });
   } catch (error) {
     console.error(error);
     yield put(

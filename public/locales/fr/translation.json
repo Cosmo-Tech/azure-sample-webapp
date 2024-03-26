@@ -207,7 +207,10 @@
           "title": "Veuillez renseigner des métadonnées de votre dataset",
           "name": "Nom",
           "tags": "Tags",
-          "description": "Description"
+          "description": "Description",
+          "subtitle": {
+            "parentDataset": "Dataset parent : {{parentDatasetName}}"
+          }
         },
         "secondScreen": {
           "subtitle": "Veuillez renseigner la source des données",

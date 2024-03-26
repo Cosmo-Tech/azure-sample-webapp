@@ -207,7 +207,10 @@
           "title": "Please provide some metadata regarding your new dataset",
           "name": "Name",
           "tags": "Tags",
-          "description": "Description"
+          "description": "Description",
+          "subtitle": {
+            "parentDataset": "Parent dataset: {{parentDatasetName}}"
+          }
         },
         "secondScreen": {
           "subtitle": "Please provide your data source",

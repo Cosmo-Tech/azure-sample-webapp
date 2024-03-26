@@ -1,6 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
@@ -20,12 +20,16 @@ import {
 } from '@mui/material';
 import { BasicTextInput } from '@cosmotech/ui';
 import { DatasetCreationParameters } from '../DatasetCreationParameters';
+import { useDatasetWizard } from './DatasetWizardHook';
 
-export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTemplates }) => {
+export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTemplates, parentDatasetId }) => {
   const { t } = useTranslation();
   const methods = useForm({ mode: 'onChange' });
   const { formState } = methods;
   const [activeStep, setActiveStep] = useState(0);
+
+  const { getDatasetById } = useDatasetWizard();
+  const parentDataset = useMemo(() => getDatasetById(parentDatasetId), [parentDatasetId, getDatasetById]);
 
   useEffect(() => {
     if (open) {
@@ -39,19 +43,37 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
     onConfirm(values);
   };
 
+  const optionalSubTitle = useMemo(() => {
+    if (parentDataset == null) return null;
+
+    return (
+      <Grid item xs={12}>
+        <Typography sx={{ pb: 0.5, pt: 0, pl: 2 }}>
+          {t(
+            'commoncomponents.datasetmanager.wizard.firstScreen.subtitle.parentDataset',
+            'Parent dataset: {{parentDatasetName}}',
+            { parentDatasetName: parentDataset.name ?? 'N/A' }
+          )}
+        </Typography>
+      </Grid>
+    );
+  }, [t, parentDataset]);
+
   const firstStep = (
     <>
       <Grid item xs={12}>
-        <Typography sx={{ py: 2 }}>
+        <Typography sx={{ pt: 2, pb: 1 }}>
           {t(
             'commoncomponents.datasetmanager.wizard.firstScreen.title',
             'Please provide some metadata regarding your new dataset'
           )}
         </Typography>
       </Grid>
+      {optionalSubTitle}
       <Grid item xs={12}>
         <Controller
           name="name"
+          defaultValue={parentDataset?.name}
           rules={{ required: true }}
           render={({ field }) => {
             const { value: titleValue, onChange: setTitleValue } = field;
@@ -70,6 +92,7 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
       <Grid item xs={12} data-cy="new-dataset-tags-container">
         <Controller
           name="tags"
+          defaultValue={parentDataset?.tags}
           render={({ field }) => {
             const { value: tagsValue, onChange: setTagsValue } = field;
             return (
@@ -93,6 +116,7 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
       <Grid item xs={12}>
         <Controller
           name="description"
+          defaultValue={parentDataset?.description}
           render={({ field }) => {
             const { value: descriptionValue, onChange: setDescriptionValue } = field;
             return (
@@ -181,4 +205,5 @@ DatasetWizard.propTypes = {
   closeDialog: PropTypes.func.isRequired,
   onConfirm: PropTypes.func.isRequired,
   dataSourceRunTemplates: PropTypes.object.isRequired,
+  parentDatasetId: PropTypes.string,
 };
