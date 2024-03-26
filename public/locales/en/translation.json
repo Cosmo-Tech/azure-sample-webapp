@@ -452,6 +452,13 @@
           "read_security": "See other people's permissions",
           "launch": "Launch scenario",
           "delete": "Delete scenario"
+        },
+        "datasetPermissions": {
+          "read": "View dataset and its results",
+          "write": "Edit and refresh dataset",
+          "read_security": "See other people's permissions",
+          "write_security": "Edit permissions",
+          "delete": "Delete dataset"
         }
       },
       "sessionTimeout": {
@@ -502,6 +509,8 @@
       "runnerNotCreated": "Runner hasn't been created",
       "runnerFileNotUploaded": "Runner file {runnerFile} hasn't been uploaded",
       "runnerStopError": "Could not stop runner {{runnerId}}",
+      "datasetSecurityNotUpdated": "Dataset {{datasetId}} permissions have not been updated",
+      "runnerNotUpdated": "Runner hasn't been updated",
       "twingraphNotCreated": "A problem occurred during twingraph creation",
       "twingraphStatusPollingFailed": "A problem occurred when querying the status of dataset {{datasetDetails}}",
       "twingraphDataNotRestored": "Twingraph data hasn't been restored"

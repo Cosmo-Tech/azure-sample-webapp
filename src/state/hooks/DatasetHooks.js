@@ -12,11 +12,17 @@ import {
   dispatchSelectDatasetById,
   dispatchUpdateDataset,
   dispatchUpdateDatasetInStore,
+  dispatchUpdateDatasetSecurity,
 } from '../dispatchers/dataset/DatasetDispatcher';
 import { useOrganizationId } from './OrganizationHooks';
 
 export const useDatasets = () => {
   return useSelector((state) => state.dataset?.list?.data);
+};
+
+export const useFindDatasetById = () => {
+  const datasets = useDatasets();
+  return useCallback((datasetId) => datasets.find((dataset) => dataset.id === datasetId), [datasets]);
 };
 
 export const useDatasetsReducerStatus = () => {
@@ -112,6 +118,19 @@ export const useUpdateDatasetInStore = () => {
   return useCallback(
     (datasetId, datasetData, datasetIndex = undefined) =>
       dispatch(dispatchUpdateDatasetInStore(datasetId, datasetData, datasetIndex)),
+    [dispatch]
+  );
+};
+
+export const useGetDatasetSecurity = () => {
+  const findDatasetById = useFindDatasetById();
+  return useCallback((datasetId) => findDatasetById(datasetId)?.security, [findDatasetById]);
+};
+
+export const useUpdateDatasetSecurity = () => {
+  const dispatch = useDispatch();
+  return useCallback(
+    (datasetId, datasetSecurity) => dispatch(dispatchUpdateDatasetSecurity(datasetId, datasetSecurity)),
     [dispatch]
   );
 };
