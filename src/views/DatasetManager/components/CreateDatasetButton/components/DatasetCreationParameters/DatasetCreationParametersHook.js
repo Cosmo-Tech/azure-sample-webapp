@@ -4,11 +4,12 @@ import { useMemo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import rfdc from 'rfdc';
 import { DATASET_SOURCES } from '../../../../../../services/config/ApiConstants';
-import { useSolutionData } from '../../../../../../state/hooks/SolutionHooks';
+import { useDataSourceRunTemplates, useSolutionData } from '../../../../../../state/hooks/SolutionHooks';
 import { TranslationUtils, ConfigUtils } from '../../../../../../utils';
 
 export const useDatasetCreationParameters = () => {
   const solutionData = useSolutionData();
+  const customDataSourceRunTemplates = useDataSourceRunTemplates();
   const { t } = useTranslation();
   const clone = rfdc();
 
@@ -28,12 +29,10 @@ export const useDatasetCreationParameters = () => {
   }, [clone]);
 
   const dataSourceRunTemplates = useMemo(() => {
-    const dataSources = solutionData.runTemplates.filter((runTemplate) => runTemplate?.tags?.includes('datasource'));
-
     const parameters = solutionData.parameters;
     const runTemplatesParameters = solutionData.runTemplatesParametersIdsDict;
 
-    const dataSourcesWithParameters = dataSources.map((dataSource) => {
+    const dataSourcesWithParameters = customDataSourceRunTemplates.map((dataSource) => {
       const dataSourceWithParameters = { ...dataSource };
       dataSourceWithParameters.parameters = parameters.filter((parameter) =>
         runTemplatesParameters[dataSource.id].includes(parameter.id)
@@ -43,8 +42,8 @@ export const useDatasetCreationParameters = () => {
 
     return [...hardCodedDataSources, ...dataSourcesWithParameters];
   }, [
+    customDataSourceRunTemplates,
     solutionData.parameters,
-    solutionData.runTemplates,
     solutionData.runTemplatesParametersIdsDict,
     hardCodedDataSources,
   ]);

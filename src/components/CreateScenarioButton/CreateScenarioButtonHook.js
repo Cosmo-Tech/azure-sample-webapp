@@ -7,7 +7,7 @@ import { useWorkspaceDatasets } from '../../hooks/WorkspaceDatasetsHooks';
 import { INGESTION_STATUS, TWINCACHE_STATUS } from '../../services/config/ApiConstants';
 import { useUser } from '../../state/hooks/AuthHooks';
 import { useCreateScenario, useCurrentScenario, useScenarios } from '../../state/hooks/ScenarioHooks';
-import { useSolution } from '../../state/hooks/SolutionHooks';
+import { useScenarioRunTemplates, useSolution } from '../../state/hooks/SolutionHooks';
 import { useUserPermissionsOnCurrentWorkspace, useWorkspaceData } from '../../state/hooks/WorkspaceHooks';
 import { TranslationUtils } from '../../utils';
 import { getCreateScenarioDialogLabels } from './labels';
@@ -17,6 +17,7 @@ export const useCreateScenarioButton = ({ disabled, onScenarioCreated }) => {
   const clone = rfdc();
 
   const userPermissionsOnCurrentWorkspace = useUserPermissionsOnCurrentWorkspace();
+  const runTemplates = useScenarioRunTemplates();
   const solution = useSolution();
 
   const workspaceData = useWorkspaceData();
@@ -37,20 +38,11 @@ export const useCreateScenarioButton = ({ disabled, onScenarioCreated }) => {
   const user = useUser();
 
   const filteredAndTranslatedRunTemplates = useMemo(() => {
-    const runTemplates = solution?.data?.runTemplates ?? [];
     const runTemplateFilter = workspaceData?.solution?.runTemplateFilter;
+    if (!runTemplateFilter) return runTemplates;
+    if (!runTemplateFilter.length) return [];
 
-    if (!runTemplateFilter) {
-      return runTemplates;
-    }
-
-    if (!runTemplateFilter.length) {
-      return [];
-    }
-
-    const filteredRunTemplates = runTemplates.filter(
-      (rt) => runTemplateFilter.includes(rt.id) && !rt?.tags?.includes('datasource')
-    );
+    const filteredRunTemplates = runTemplates.filter((rt) => runTemplateFilter.includes(rt.id));
     const translatedRunTemplates = clone(filteredRunTemplates) ?? [];
     translatedRunTemplates.forEach(
       (runTemplate) =>
@@ -58,7 +50,7 @@ export const useCreateScenarioButton = ({ disabled, onScenarioCreated }) => {
     );
 
     return translatedRunTemplates;
-  }, [solution?.data?.runTemplates, workspaceData?.solution?.runTemplateFilter, t, clone]);
+  }, [runTemplates, workspaceData?.solution?.runTemplateFilter, t, clone]);
 
   const createScenarioDialogLabels = getCreateScenarioDialogLabels(t, disabled);
 
