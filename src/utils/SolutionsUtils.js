@@ -134,6 +134,7 @@ const forgeRunnerParameters = (solution, formValues) => {
 };
 
 const isDataSource = (runTemplate) => runTemplate?.tags?.includes('datasource');
+const isSubDataSource = (runTemplate) => runTemplate?.tags?.includes('subdatasource');
 
 export const SolutionsUtils = {
   addRunTemplatesParametersIdsDict,
@@ -144,4 +145,5 @@ export const SolutionsUtils = {
   patchIncompatibleValuesInSolution,
   forgeRunnerParameters,
   isDataSource,
+  isSubDataSource,
 };
