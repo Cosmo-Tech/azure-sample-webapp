@@ -24,10 +24,12 @@ import { useDatasetWizard } from './DatasetWizardHook';
 
 export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTemplates, parentDatasetId }) => {
   const { t } = useTranslation();
-  const { getDatasetById } = useDatasetWizard();
   const methods = useForm({ mode: 'onChange' });
   const { formState } = methods;
   const [activeStep, setActiveStep] = useState(0);
+
+  const { getDatasetById } = useDatasetWizard();
+  const parentDataset = useMemo(() => getDatasetById(parentDatasetId), [parentDatasetId, getDatasetById]);
 
   useEffect(() => {
     if (open) {
@@ -42,7 +44,6 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
   };
 
   const optionalSubTitle = useMemo(() => {
-    const parentDataset = getDatasetById(parentDatasetId);
     if (parentDataset == null) return null;
 
     return (
@@ -56,7 +57,7 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
         </Typography>
       </Grid>
     );
-  }, [t, getDatasetById, parentDatasetId]);
+  }, [t, parentDataset]);
 
   const firstStep = (
     <>
@@ -72,6 +73,7 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
       <Grid item xs={12}>
         <Controller
           name="name"
+          defaultValue={parentDataset?.name}
           rules={{ required: true }}
           render={({ field }) => {
             const { value: titleValue, onChange: setTitleValue } = field;
@@ -90,6 +92,7 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
       <Grid item xs={12} data-cy="new-dataset-tags-container">
         <Controller
           name="tags"
+          defaultValue={parentDataset?.tags}
           render={({ field }) => {
             const { value: tagsValue, onChange: setTagsValue } = field;
             return (
@@ -113,6 +116,7 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
       <Grid item xs={12}>
         <Controller
           name="description"
+          defaultValue={parentDataset?.description}
           render={({ field }) => {
             const { value: descriptionValue, onChange: setDescriptionValue } = field;
             return (

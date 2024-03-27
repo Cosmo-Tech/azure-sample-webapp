@@ -12,12 +12,21 @@ export const CreateSubDatasetButton = ({ parentDatasetId }) => {
     setIsCreationWizardOpen(false);
   }, [setIsCreationWizardOpen]);
 
+  const startRunnerAndCloseDialog = () => {
+    console.log('TODO');
+  };
+
   return (
     <>
       <IconButton onClick={() => setIsCreationWizardOpen(true)} data-cy="create-dataset-button">
         <AddIcon color="primary" />
       </IconButton>
-      <DatasetWizard open={isCreationWizardOpen} closeDialog={handleCloseDialog} parentDatasetId={parentDatasetId} />
+      <DatasetWizard
+        open={isCreationWizardOpen}
+        closeDialog={handleCloseDialog}
+        parentDatasetId={parentDatasetId}
+        onConfirm={startRunnerAndCloseDialog}
+      />
     </>
   );
 };
