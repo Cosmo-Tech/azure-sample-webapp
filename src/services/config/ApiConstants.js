@@ -112,3 +112,9 @@ export const DATASET_SOURCES = [
     parameters: [],
   },
 ];
+
+export const DATASET_PERMISSIONS_MAPPING = {
+  viewer: ['read', 'read_security'],
+  editor: ['read', 'read_security', 'write'],
+  admin: ['read', 'read_security', 'write', 'write_security', 'delete'],
+};

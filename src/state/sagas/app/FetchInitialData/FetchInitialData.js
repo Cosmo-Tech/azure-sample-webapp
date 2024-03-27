@@ -4,6 +4,7 @@ import { matchPath } from 'react-router-dom';
 import { put, takeEvery, call } from 'redux-saga/effects';
 import ConfigService from '../../../../services/ConfigService';
 import { Api } from '../../../../services/config/Api';
+import { DATASET_PERMISSIONS_MAPPING } from '../../../../services/config/ApiConstants';
 import { parseError } from '../../../../utils/ErrorsUtils';
 import { APPLICATION_ACTIONS_KEY } from '../../../commons/ApplicationConstants';
 import { STATUSES } from '../../../commons/Constants';
@@ -34,6 +35,7 @@ export function* fetchAllInitialData() {
 
   try {
     const { data: organizationPermissions } = yield call(Api.Organizations.getAllPermissions);
+    organizationPermissions.push({ component: 'dataset', roles: DATASET_PERMISSIONS_MAPPING });
     yield put({
       type: APPLICATION_ACTIONS_KEY.SET_PERMISSIONS_MAPPING,
       organizationPermissions,

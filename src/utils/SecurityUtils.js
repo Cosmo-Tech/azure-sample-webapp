@@ -275,6 +275,25 @@ const parseOrganizationPermissions = (organizationPermissions, addNoneRole = fal
   return { roles, permissions, permissionsMapping };
 };
 
+const getRolesLabels = (t, rolesNames) => {
+  const rolesLabels = [];
+  rolesNames.forEach((roleName) =>
+    rolesLabels.push({ value: roleName, label: t(`commoncomponents.dialog.share.roles.${roleName}`, roleName) })
+  );
+  return rolesLabels;
+};
+
+const getPermissionsLabels = (t, permissionsNames) => {
+  const permissionsLabels = [];
+  permissionsNames.forEach((permissionName) =>
+    permissionsLabels.push({
+      value: permissionName,
+      label: t(`commoncomponents.dialog.share.permissions.${permissionName}`, permissionName),
+    })
+  );
+  return permissionsLabels;
+};
+
 export const SecurityUtils = {
   areAccessControlListsIdentical,
   compareAccessControlLists,
@@ -288,4 +307,6 @@ export const SecurityUtils = {
   sortByNewAdminsFirst,
   transposeMappingDict,
   updateResourceSecurity,
+  getRolesLabels,
+  getPermissionsLabels,
 };

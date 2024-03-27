@@ -10,9 +10,10 @@ import {
 } from '../../state/hooks/ApplicationHooks';
 import { useCurrentDataset, useUpdateDatasetSecurity } from '../../state/hooks/DatasetHooks';
 import { useWorkspaceData } from '../../state/hooks/WorkspaceHooks';
-import { getShareScenarioDialogLabels, getPermissionsLabels, getRolesLabels } from './labels';
+import { SecurityUtils } from '../../utils/SecurityUtils';
+import { getShareDatasetDialogLabels } from './labels';
 
-export const useShareCurrentScenarioButton = () => {
+export const useShareCurrentDatasetButton = () => {
   const { t } = useTranslation();
 
   const currentDataset = useCurrentDataset();
@@ -27,19 +28,19 @@ export const useShareCurrentScenarioButton = () => {
   const updateDatasetSecurity = useUpdateDatasetSecurity();
 
   const shareUpdateDialogLabels = useMemo(
-    () => getShareScenarioDialogLabels(t, currentScenarioData?.name, isDirty),
-    [currentScenarioData?.name, t, isDirty]
+    () => getShareDatasetDialogLabels(t, currentDataset?.name),
+    [currentDataset?.name, t]
   );
 
   const rolesLabels = useMemo(() => {
-    const rolesNames = Object.values(roles.scenario);
-    return getRolesLabels(t, rolesNames);
-  }, [roles.scenario, t]);
+    const rolesNames = Object.values(roles.dataset);
+    return SecurityUtils.getRolesLabels(t, rolesNames);
+  }, [roles.dataset, t]);
 
   const permissionsLabels = useMemo(() => {
-    const permissionsNames = Object.values(permissions.scenario);
-    return getPermissionsLabels(t, permissionsNames);
-  }, [permissions.scenario, t]);
+    const permissionsNames = Object.values(permissions.dataset);
+    return SecurityUtils.getPermissionsLabels(t, permissionsNames);
+  }, [permissions.dataset, t]);
 
   const workspaceUsers = useMemo(() => workspaceData.users.map((user) => ({ id: user })), [workspaceData.users]);
 
@@ -50,11 +51,11 @@ export const useShareCurrentScenarioButton = () => {
 
   const defaultRole = useMemo(() => currentDataset?.security?.default || '', [currentDataset?.security?.default]);
 
-  const applyScenarioSecurityChanges = useCallback(
-    (newScenarioSecurity) => {
-      applyScenarioSharingSecurity(currentScenarioData.id, newScenarioSecurity);
+  const updateCurrentDatasetSecurity = useCallback(
+    (newDatasetSecurity) => {
+      updateDatasetSecurity(currentDataset.id, newDatasetSecurity);
     },
-    [applyScenarioSharingSecurity, currentScenarioData?.id]
+    [updateDatasetSecurity, currentDataset?.id]
   );
 
   return {
@@ -66,6 +67,6 @@ export const useShareCurrentScenarioButton = () => {
     workspaceUsers,
     accessListSpecific,
     defaultRole,
-    applyScenarioSecurityChanges,
+    updateCurrentDatasetSecurity,
   };
 };

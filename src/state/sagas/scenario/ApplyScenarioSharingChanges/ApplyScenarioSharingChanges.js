@@ -25,6 +25,7 @@ const getWorkspaceId = (state) => state.workspace.current.data.id;
 const getCurrentScenario = (state) => state.scenario.current?.data;
 const getDatasets = (state) => state.dataset.list?.data;
 const getSolutionParameters = (state) => state?.solution?.current?.data?.parameters ?? [];
+const getDatasetPermissionMapping = (state) => state.application.permissionsMapping.dataset;
 
 export function* applyScenarioSharingChanges(action) {
   try {
@@ -66,13 +67,14 @@ export function* applyScenarioSharingChanges(action) {
       const newDatasetSecurity = SecurityUtils.forgeDatasetSecurityFromScenarioSecurity(newScenarioSecurity);
       yield call(DatasetService.updateSecurity, organizationId, datasetId, dataset.security, newDatasetSecurity);
 
+      const datasetPermissionsMapping = yield select(getDatasetPermissionMapping);
       yield put({
         type: DATASET_ACTIONS_KEY.SET_DATASET_SECURITY,
         datasetId,
         security: newDatasetSecurity,
         userEmail,
         userId,
-        permissionsMapping: DATASET_PERMISSIONS_MAPPING,
+        datasetPermissionsMapping,
       });
     }
 
