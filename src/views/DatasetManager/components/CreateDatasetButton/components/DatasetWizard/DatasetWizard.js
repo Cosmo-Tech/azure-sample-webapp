@@ -1,6 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
@@ -20,9 +20,11 @@ import {
 } from '@mui/material';
 import { BasicTextInput } from '@cosmotech/ui';
 import { DatasetCreationParameters } from '../DatasetCreationParameters';
+import { useDatasetWizard } from './DatasetWizardHook';
 
-export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTemplates }) => {
+export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTemplates, parentDatasetId }) => {
   const { t } = useTranslation();
+  const { getDatasetById } = useDatasetWizard();
   const methods = useForm({ mode: 'onChange' });
   const { formState } = methods;
   const [activeStep, setActiveStep] = useState(0);
@@ -39,16 +41,34 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
     onConfirm(values);
   };
 
+  const optionalSubTitle = useMemo(() => {
+    const parentDataset = getDatasetById(parentDatasetId);
+    if (parentDataset == null) return null;
+
+    return (
+      <Grid item xs={12}>
+        <Typography sx={{ pb: 0.5, pt: 0, pl: 2 }}>
+          {t(
+            'commoncomponents.datasetmanager.wizard.firstScreen.subtitle.parentDataset',
+            'Parent dataset: {{parentDatasetName}}',
+            { parentDatasetName: parentDataset.name ?? 'N/A' }
+          )}
+        </Typography>
+      </Grid>
+    );
+  }, [t, getDatasetById, parentDatasetId]);
+
   const firstStep = (
     <>
       <Grid item xs={12}>
-        <Typography sx={{ py: 2 }}>
+        <Typography sx={{ pt: 2, pb: 1 }}>
           {t(
             'commoncomponents.datasetmanager.wizard.firstScreen.title',
             'Please provide some metadata regarding your new dataset'
           )}
         </Typography>
       </Grid>
+      {optionalSubTitle}
       <Grid item xs={12}>
         <Controller
           name="name"
@@ -181,4 +201,5 @@ DatasetWizard.propTypes = {
   closeDialog: PropTypes.func.isRequired,
   onConfirm: PropTypes.func.isRequired,
   dataSourceRunTemplates: PropTypes.object.isRequired,
+  parentDatasetId: PropTypes.string,
 };

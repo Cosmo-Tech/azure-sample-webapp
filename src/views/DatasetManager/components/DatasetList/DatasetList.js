@@ -213,7 +213,7 @@ export const DatasetList = () => {
             userPermissions={userPermissionsInCurrentOrganization}
             necessaryPermissions={[ACL_PERMISSIONS.ORGANIZATION.CREATE_CHILDREN]}
           >
-            <CreateSubDatasetButton />
+            <CreateSubDatasetButton parentDatasetId={dataset.id} />
           </PermissionsGate>
           <PermissionsGate
             userPermissions={userPermissionsOnDataset}

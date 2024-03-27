@@ -1,14 +1,12 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import React, { useCallback, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { AddCircle as AddIcon } from '@mui/icons-material';
-import { Button, IconButton } from '@mui/material';
+import { IconButton } from '@mui/material';
 import { DatasetWizard } from './components/DatasetWizard';
 
-export const CreateSubDatasetButton = () => {
-  const { t } = useTranslation();
+export const CreateSubDatasetButton = ({ parentDatasetId }) => {
   const [isCreationWizardOpen, setIsCreationWizardOpen] = useState(false);
   const handleCloseDialog = useCallback(() => {
     setIsCreationWizardOpen(false);
@@ -19,11 +17,11 @@ export const CreateSubDatasetButton = () => {
       <IconButton onClick={() => setIsCreationWizardOpen(true)} data-cy="create-dataset-button">
         <AddIcon color="primary" />
       </IconButton>
-      <DatasetWizard open={isCreationWizardOpen} closeDialog={handleCloseDialog} />
+      <DatasetWizard open={isCreationWizardOpen} closeDialog={handleCloseDialog} parentDatasetId={parentDatasetId} />
     </>
   );
 };
 
-CreateSubDatasetButton.propTypes = {};
-
-CreateSubDatasetButton.defaultProps = {};
+CreateSubDatasetButton.propTypes = {
+  parentDatasetId: PropTypes.string,
+};
