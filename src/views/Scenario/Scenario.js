@@ -11,6 +11,7 @@ import {
   ShareCurrentScenarioButton,
   CreateScenarioButton,
   CurrentScenarioSelector,
+  CopilotChat,
 } from '../../components';
 import { useConfirmOnRouteChange, useRedirectionToScenario } from '../../hooks/RouterHooks';
 import { AppInsights } from '../../services/AppInsights';
@@ -276,6 +277,11 @@ const Scenario = () => {
           </Grid>
           <Grid item xs={4} className={classes.alignRight}>
             {currentScenarioData && scenarioValidationArea}
+          </Grid>
+          <Grid item xs={12}>
+            <Card component={Paper}>
+              <CopilotChat />
+            </Card>
           </Grid>
           <Grid item xs={12}>
             <Card component={Paper}>

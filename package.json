@@ -16,6 +16,7 @@
     "@mui/styles": "^5.11.2",
     "@reduxjs/toolkit": "^1.5.1",
     "axios": "^1.6.7",
+    "botframework-webchat": "^4.16.0",
     "date-fns": "^2.30.0",
     "deepmerge": "^4.3.0",
     "fast-deep-equal": "^3.1.3",
