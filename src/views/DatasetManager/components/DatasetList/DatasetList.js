@@ -26,7 +26,7 @@ import { DontAskAgainDialog, PermissionsGate, SearchBar } from '@cosmotech/ui';
 import { DATASET_SOURCE_TYPE, INGESTION_STATUS } from '../../../../services/config/ApiConstants';
 import { ACL_PERMISSIONS } from '../../../../services/config/accessControl';
 import { TwoActionsDialogService } from '../../../../services/twoActionsDialog/twoActionsDialogService';
-import { CreateDatasetButton } from '../CreateDatasetButton';
+import { CreateDatasetButton, CreateSubDatasetButton } from '../CreateDatasetButton';
 import { ReuploadFileDatasetButton } from '../ReuploadFileDatasetButton';
 import { useDatasetList } from './DatasetListHook';
 
@@ -210,6 +210,12 @@ export const DatasetList = () => {
             {refreshButton}
           </PermissionsGate>
           <PermissionsGate
+            userPermissions={userPermissionsInCurrentOrganization}
+            necessaryPermissions={[ACL_PERMISSIONS.ORGANIZATION.CREATE_CHILDREN]}
+          >
+            <CreateSubDatasetButton />
+          </PermissionsGate>
+          <PermissionsGate
             userPermissions={userPermissionsOnDataset}
             necessaryPermissions={[ACL_PERMISSIONS.DATASET.DELETE]}
           >
@@ -224,7 +230,7 @@ export const DatasetList = () => {
         </Box>
       );
     },
-    [askConfirmationToDeleteDialog, confirmAndRefreshDataset, refreshDatasetById]
+    [askConfirmationToDeleteDialog, confirmAndRefreshDataset, refreshDatasetById, userPermissionsInCurrentOrganization]
   );
 
   return (
