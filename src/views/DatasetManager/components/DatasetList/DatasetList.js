@@ -86,11 +86,16 @@ export const DatasetList = () => {
         <ErrorIcon data-cy={`refresh-error-icon-${dataset.id}`} color="error" />
       ) : null;
 
+    const ignoreClick = (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+    };
+
     return (
-      <div style={{ display: 'flex', flexDirection: 'row' }}>
+      <Box onClick={ignoreClick} style={{ display: 'flex', flexDirection: 'row' }}>
         <div style={{ display: 'inline-flex', padding: '8px', verticalAlign: 'middle' }}>{statusIcon}</div>
         <DeleteDatasetButton dataset={dataset} location="" />
-      </div>
+      </Box>
     );
   }, []);
 
