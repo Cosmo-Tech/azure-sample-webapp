@@ -77,16 +77,6 @@ const getAllChildrenDatasetsNames = (initialDatasetId, datasets) => {
   return datasetTree;
 };
 
-const removeUndefinedValuesBeforeCreatingDataset = (values) => {
-  if (!values) return;
-  Object.keys(values).forEach((field) => {
-    if (values[field] === undefined) delete values[field];
-    else if (typeof values[field] === 'object') {
-      removeUndefinedValuesBeforeCreatingDataset(values[field]);
-    }
-  });
-};
-
 const uploadZipWithFetchApi = async (organizationId, datasetId, file) => {
   try {
     const tokens = await Auth.acquireTokens();
@@ -115,6 +105,5 @@ export const DatasetsUtils = {
   getFileNameFromDataset,
   buildAzureStorageConnector,
   getAllChildrenDatasetsNames,
-  removeUndefinedValuesBeforeCreatingDataset,
   uploadZipWithFetchApi,
 };

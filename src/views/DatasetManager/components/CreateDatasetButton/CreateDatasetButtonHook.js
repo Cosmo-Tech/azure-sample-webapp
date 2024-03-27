@@ -5,7 +5,7 @@ import { DATASET_SOURCE_TYPE } from '../../../../services/config/ApiConstants';
 import { useCreateDataset } from '../../../../state/hooks/DatasetHooks';
 import { useCreateRunner } from '../../../../state/hooks/RunnerHooks';
 import { useSolutionData } from '../../../../state/hooks/SolutionHooks';
-import { DatasetsUtils } from '../../../../utils';
+import { ArrayDictUtils } from '../../../../utils';
 
 export const useCreateDatasetOrRunner = () => {
   const createDataset = useCreateDataset();
@@ -31,7 +31,7 @@ export const useCreateDatasetOrRunner = () => {
         });
       };
 
-      DatasetsUtils.removeUndefinedValuesBeforeCreatingDataset(values);
+      ArrayDictUtils.removeUndefinedValuesFromDict(values);
 
       const sourceType = values.sourceType;
       const dataset = { name: values.name, tags: values.tags, description: values.description, sourceType };
