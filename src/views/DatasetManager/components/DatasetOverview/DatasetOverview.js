@@ -1,7 +1,14 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import React, { useMemo } from 'react';
-import { Card, CardContent, CardHeader, Grid } from '@mui/material';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import BabyChangingStationIcon from '@mui/icons-material/BabyChangingStation';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import EditIcon from '@mui/icons-material/Edit';
+import HeartBrokenIcon from '@mui/icons-material/HeartBroken';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import ShareIcon from '@mui/icons-material/Share';
+import { IconButton, Card, CardContent, CardHeader, Grid } from '@mui/material';
 import { INGESTION_STATUS } from '../../../../services/config/ApiConstants';
 import { useDatasetOverview } from './DatasetOverviewHook';
 import { CategoryAccordion, DatasetOverviewPlaceholder, GraphIndicator } from './components';
@@ -28,7 +35,36 @@ export const DatasetOverview = () => {
       sx={{ p: 1, width: '100%', height: '100%', overflow: 'auto', backgroundColor: 'transparent' }}
       data-cy="dataset-overview-card"
     >
-      <CardHeader data-cy="dataset-name" title={datasetName} sx={{ height: '65px' }}></CardHeader>
+      <CardHeader
+        data-cy="dataset-name"
+        title={datasetName}
+        sx={{ height: '65px' }}
+        action={
+          <div>
+            <IconButton>
+              <HeartBrokenIcon color="primary" />
+            </IconButton>
+            <IconButton>
+              <BabyChangingStationIcon color="primary" />
+            </IconButton>
+            <IconButton>
+              <RefreshIcon color="primary" />
+            </IconButton>
+            <IconButton>
+              <EditIcon color="primary" />
+            </IconButton>
+            <IconButton>
+              <AddCircleIcon color="primary" />
+            </IconButton>
+            <IconButton>
+              <ShareIcon color="primary" />
+            </IconButton>
+            <IconButton>
+              <DeleteForeverIcon color="primary" />
+            </IconButton>
+          </div>
+        }
+      />
       <CardContent sx={{ height: 'calc(100% - 65px)' }}>
         {showPlaceholder ? (
           <DatasetOverviewPlaceholder />
