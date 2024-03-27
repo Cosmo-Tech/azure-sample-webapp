@@ -195,8 +195,13 @@ export const DatasetList = () => {
       }
 
       const userPermissionsOnDataset = dataset?.security?.currentUserPermissions ?? [];
+      const ignoreClick = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+      };
+
       return (
-        <Box>
+        <Box onClick={ignoreClick}>
           <div style={{ display: 'inline-flex', padding: '8px', verticalAlign: 'middle' }}>{statusIcon}</div>
           <PermissionsGate
             userPermissions={userPermissionsOnDataset}
