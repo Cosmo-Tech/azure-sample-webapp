@@ -3,6 +3,7 @@
 import { combineReducers } from 'redux';
 import { applicationReducer } from './app/ApplicationReducer';
 import { authReducer } from './auth/AuthReducer';
+import { copilotReducer } from './copilot/CopilotReducer';
 import { datasetsReducer } from './dataset/DatasetsReducer';
 // eslint-disable-next-line max-len
 import { datasetTwingraphQueriesResultsReducer } from './datasetTwingraphQueriesResults/DatasetTwingraphQueriesResultsReducer';
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   organization: organizationReducer,
   solution: solutionReducer,
   powerBI: powerBiReducer,
+  copilot: copilotReducer,
 });
 
 export default rootReducer;
