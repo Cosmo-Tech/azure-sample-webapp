@@ -10,13 +10,6 @@ import { DATASET_ACTIONS_KEY } from '../../../commons/DatasetConstants';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
 
-// TODO: replace by data from redux when dataset roles-permissions mapping is added in back-end /permissions endpoint
-const DATASET_PERMISSIONS_MAPPING = {
-  viewer: ['read', 'read_security'],
-  editor: ['read', 'read_security', 'write'],
-  admin: ['read', 'read_security', 'write', 'write_security', 'delete'],
-};
-
 const getUserEmail = (state) => state.auth.userEmail;
 const getUserId = (state) => state.auth.userId;
 const getScenariosPermissionsMapping = (state) => state.application.permissionsMapping.scenario;
