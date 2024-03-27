@@ -11,6 +11,7 @@ import scenarioSaga from './scenario';
 import scenarioRunSaga from './scenarioRun';
 import solutionSaga from './solution';
 import workspaceSaga from './workspace';
+import copilotSaga from './copilot';
 
 export default function* rootSaga() {
   yield all([
@@ -24,5 +25,6 @@ export default function* rootSaga() {
     fork(datasetSaga),
     fork(runnerSaga),
     fork(powerBISaga),
+    fork(copilotSaga),
   ]);
 }
