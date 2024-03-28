@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Grid, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
-import ReactWebChat, { createDirectLine } from 'botframework-webchat';
+import ReactWebChat, { createDirectLine, createStyleSet } from 'botframework-webchat';
 import { useFetchToken, useGetCopilotToken } from '../../state/hooks/CopilotHooks';
+import { useUserEmail } from '../../state/hooks/AuthHooks';
+
 
 const useStyles = makeStyles((theme) => ({
   accordionSummary: {
@@ -41,6 +43,43 @@ const CopilotChat = ({ onToggleAccordion, isAccordionExpanded }) => {
   console.log(`REDUX COPILOT TOKEN: ${copilotToken}`);
   const directLine = useMemo(() => copilotToken ? createDirectLine({ token: copilotToken }) : null, [copilotToken]);
 
+  const userEmail = useUserEmail();
+  console.log(`USER EMAIL: ${userEmail}`);
+
+  // Black: 282f33
+  // Yellow: ffb118
+  // Light Grey : f2f2f2
+  // Orange: ed5400
+  // grey : 7f7f7f
+  // blue: 475c82
+  let styleSet = createStyleSet(
+    {
+      bubbleBackground: '#ed5400',
+      bubbleBorderRadius: 10,
+      bubbleTextColor: "white",
+      bubbleMaxWidth: 1000,
+      bubbleFromUserBackground: '#ffB118',
+      bubbleFromUserBorderRadius: 10,
+      bubbleFromUserMaxWidth: 1000,
+      rootHeight: '100%',
+      rootWidth: '100%',
+      backgroundColor: '#f2f2f2',
+    }
+);
+
+  styleSet.textContent = {
+    ...styleSet.textContent,
+    fontFamily: "'Arial', sans-serif",
+    fontWeight: 'bold',
+  };
+
+  const avatarOptions = {
+    botAvatarInitials: 'CSM',
+    botAvatarImage: '/cosmofavicon.png',
+    userAvatarImage: '/profile_placeholder.png',
+    userAvatarInitials: 'YOU',
+  };
+
   return (
     <div>
       <Accordion data-cy="scenario-params-accordion" expanded={isAccordionExpanded}>
@@ -52,12 +91,12 @@ const CopilotChat = ({ onToggleAccordion, isAccordionExpanded }) => {
         >
           <Grid container className={classes.gridContainerSummary}>
             <Grid className={classes.gridSummary}>
-              <Typography>Cosmo Tech Copilot</Typography>
+              <Typography>Cosmo Tech AI Copilot</Typography>
             </Grid>
           </Grid>
         </AccordionSummary>
         <AccordionDetails>
-          {copilotToken ? <div className={classes.copilotChat}><ReactWebChat directLine={directLine} userID="vince" /> </div> : <div>Waiting for token...</div> }
+          {(copilotToken && userEmail) ? <div className={classes.copilotChat}><ReactWebChat directLine={directLine} userID={userEmail} styleSet={styleSet} styleOptions={avatarOptions} /> </div> : <div>Waiting for token...</div> }
         </AccordionDetails>
       </Accordion>
     </div>
