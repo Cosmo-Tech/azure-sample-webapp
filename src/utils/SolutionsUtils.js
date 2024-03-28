@@ -1,6 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { SOLUTIONS } from '../config/overrides/Solutions.js';
+import { DATASET_SOURCES } from '../services/config/ApiConstants';
 import { ApiUtils } from './ApiUtils';
 import { ArrayDictUtils } from './ArrayDictUtils';
 import { ConfigUtils } from './ConfigUtils';
@@ -40,7 +41,15 @@ const addRunTemplatesParametersIdsDict = (solution) => {
   solution.runTemplatesParametersIdsDict = _createRunTemplatesParametersIdsDict(solution);
 };
 
+const addStaticTranslationLabels = () => {
+  if (typeof addStaticTranslationLabels.initialized !== 'undefined') return;
+  addStaticTranslationLabels.initialized = true;
+  TranslationUtils.addTranslationRunTemplateLabels(DATASET_SOURCES);
+  TranslationUtils.addTranslationParametersLabels(DATASET_SOURCES.flatMap((dataSource) => dataSource?.parameters));
+};
+
 const addTranslationLabels = (solution) => {
+  addStaticTranslationLabels();
   try {
     TranslationUtils.addTranslationParametersGroupsLabels(solution?.parameterGroups ?? []);
     TranslationUtils.addTranslationParametersLabels(solution?.parameters ?? []);
