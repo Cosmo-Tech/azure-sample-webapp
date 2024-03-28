@@ -42,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
 const appInsights = AppInsights.getInstance();
 
 const STORAGE_SCENARIO_PARAMETERS_ACCORDION_EXPANDED_KEY = 'scenarioParametersAccordionExpanded';
+const STORAGE_COPILOT_ACCORDION_EXPANDED_KEY = 'copilotAccordionExpanded';
 
 const Scenario = () => {
   const classes = useStyles();
@@ -94,9 +95,22 @@ const Scenario = () => {
     localStorage.setItem(STORAGE_SCENARIO_PARAMETERS_ACCORDION_EXPANDED_KEY, isExpanded);
   }, [isScenarioParametersAccordionExpanded]);
 
+  // Add copilot accordion expand status in state
+  const [isCopilotAccordionExpanded, setIsCopilotAccordionExpanded] = useState(
+    localStorage.getItem(STORAGE_COPILOT_ACCORDION_EXPANDED_KEY) === 'true'
+  );
+
+  const toggleCopilotAccordion = useCallback(() => {
+    const isExpanded = !isCopilotAccordionExpanded;
+    setIsCopilotAccordionExpanded(isExpanded);
+    localStorage.setItem(STORAGE_COPILOT_ACCORDION_EXPANDED_KEY, isExpanded);
+  }, [isCopilotAccordionExpanded]);
+
   const onScenarioCreated = useCallback(() => {
     setIsScenarioParametersAccordionExpanded(true);
     localStorage.setItem(STORAGE_SCENARIO_PARAMETERS_ACCORDION_EXPANDED_KEY, true);
+    setIsCopilotAccordionExpanded(true);
+    localStorage.setItem(STORAGE_COPILOT_ACCORDION_EXPANDED_KEY, true);
   }, []);
 
   const currentScenarioRenderInputTooltip = isDirty
@@ -280,7 +294,10 @@ const Scenario = () => {
           </Grid>
           <Grid item xs={12}>
             <Card component={Paper}>
-              <CopilotChat />
+              <CopilotChat
+                isAccordionExpanded={isCopilotAccordionExpanded}
+                onToggleAccordion={toggleCopilotAccordion}
+              />
             </Card>
           </Grid>
           <Grid item xs={12}>
