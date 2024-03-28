@@ -124,6 +124,8 @@ const forgeRunnerParameters = (solution, formValues) => {
   });
 };
 
+const isDataSource = (runTemplate) => runTemplate?.tags?.includes('datasource');
+
 export const SolutionsUtils = {
   addRunTemplatesParametersIdsDict,
   addTranslationLabels,
@@ -132,4 +134,5 @@ export const SolutionsUtils = {
   checkParametersValidationConstraintsInSolution,
   patchIncompatibleValuesInSolution,
   forgeRunnerParameters,
+  isDataSource,
 };
