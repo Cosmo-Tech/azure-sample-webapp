@@ -23,6 +23,7 @@ export const DatasetOverviewPlaceholder = () => {
     refreshDataset,
     downloadLogsFile,
     rollbackTwingraphData,
+    stopRunner,
   } = useDatasetOverviewPlaceholder();
 
   const placeholderLabels = useMemo(() => {
@@ -96,50 +97,75 @@ export const DatasetOverviewPlaceholder = () => {
     if (
       currentDatasetId == null ||
       !currentDatasetIngestionStatus ||
-      ![INGESTION_STATUS.ERROR, INGESTION_STATUS.UNKNOWN].includes(currentDatasetIngestionStatus)
+      ![INGESTION_STATUS.ERROR, INGESTION_STATUS.UNKNOWN, INGESTION_STATUS.PENDING].includes(
+        currentDatasetIngestionStatus
+      )
     )
       return null;
 
-    return currentDatasetType === DATASET_SOURCE_TYPE.LOCAL_FILE ? (
-      <ReuploadFileDatasetButton datasetId={currentDatasetId} iconButton={false} />
-    ) : (
-      <>
-        {!Object.values(DATASET_SOURCE_TYPE).includes(currentDatasetType) && (
-          <Button
-            sx={{ mr: 1 }}
-            data-cy={'runner-run-logs-download-button'}
-            color={'inherit'}
-            variant="outlined"
-            startIcon={<InfoOutlinedIcon />}
-            onClick={downloadLogsFile}
-          >
-            {t('commoncomponents.iframe.scenario.results.button.logs', 'Logs')}
-          </Button>
-        )}
-        <Button
-          data-cy="dataset-overview-retry-button"
-          variant="contained"
-          onClick={() => refreshDataset(currentDatasetId)}
-        >
-          {t('commoncomponents.datasetmanager.overview.placeholder.retryButton', 'Retry')}
-        </Button>
-        {currentDatasetTwincacheStatus === TWINCACHE_STATUS.FULL && (
-          <Button
-            data-cy="dataset-overview-rollback-button"
-            variant="contained"
-            onClick={() => rollbackTwingraphData(currentDatasetId)}
-            sx={{ ml: 1 }}
-          >
-            {t('commoncomponents.datasetmanager.overview.placeholder.rollbackButton', 'Rollback')}
-          </Button>
-        )}
-      </>
+    const abortButton = (
+      <Button
+        data-cy="dataset-overview-abort-button"
+        variant="contained"
+        color="error"
+        onClick={() => stopRunner(currentDatasetId)}
+      >
+        {t('commoncomponents.datasetmanager.overview.placeholder.abortButton', 'Abort')}
+      </Button>
     );
+
+    const runLogsDownloadButton = (
+      <Button
+        sx={{ mr: 1 }}
+        data-cy={'runner-run-logs-download-button'}
+        color={'inherit'}
+        variant="outlined"
+        startIcon={<InfoOutlinedIcon />}
+        onClick={downloadLogsFile}
+      >
+        {t('commoncomponents.iframe.scenario.results.button.logs', 'Logs')}
+      </Button>
+    );
+
+    const retryButton = (
+      <Button
+        data-cy="dataset-overview-retry-button"
+        variant="contained"
+        onClick={() => refreshDataset(currentDatasetId)}
+      >
+        {t('commoncomponents.datasetmanager.overview.placeholder.retryButton', 'Retry')}
+      </Button>
+    );
+
+    const rollBackButton = (
+      <Button
+        data-cy="dataset-overview-rollback-button"
+        variant="contained"
+        onClick={() => rollbackTwingraphData(currentDatasetId)}
+        sx={{ ml: 1 }}
+      >
+        {t('commoncomponents.datasetmanager.overview.placeholder.rollbackButton', 'Rollback')}
+      </Button>
+    );
+
+    if (currentDatasetIngestionStatus === INGESTION_STATUS.PENDING)
+      return !Object.values(DATASET_SOURCE_TYPE).includes(currentDatasetType) && abortButton;
+    else if (currentDatasetType === DATASET_SOURCE_TYPE.LOCAL_FILE)
+      return <ReuploadFileDatasetButton datasetId={currentDatasetId} iconButton={false} />;
+    else
+      return (
+        <>
+          {!Object.values(DATASET_SOURCE_TYPE).includes(currentDatasetType) && runLogsDownloadButton}
+          {retryButton}
+          {currentDatasetTwincacheStatus === TWINCACHE_STATUS.FULL && rollBackButton}
+        </>
+      );
   }, [
     currentDatasetId,
     currentDatasetIngestionStatus,
     refreshDataset,
     rollbackTwingraphData,
+    stopRunner,
     currentDatasetTwincacheStatus,
     currentDatasetType,
     downloadLogsFile,
