@@ -4,9 +4,14 @@ import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { AddCircle as AddIcon } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
+import { useSubDatasetCreationParameters } from './CreateSubDatasetButtonHook';
 import { DatasetWizard } from './components/DatasetWizard';
 
 export const CreateSubDatasetButton = ({ parentDatasetId }) => {
+  const {
+    dataSourceRunTemplates,
+    //, createSubDatasetRunner
+  } = useSubDatasetCreationParameters();
   const [isCreationWizardOpen, setIsCreationWizardOpen] = useState(false);
   const handleCloseDialog = useCallback(() => {
     setIsCreationWizardOpen(false);
@@ -26,6 +31,7 @@ export const CreateSubDatasetButton = ({ parentDatasetId }) => {
         closeDialog={handleCloseDialog}
         parentDatasetId={parentDatasetId}
         onConfirm={startRunnerAndCloseDialog}
+        dataSourceRunTemplates={dataSourceRunTemplates}
       />
     </>
   );
