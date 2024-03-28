@@ -1,6 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
@@ -19,16 +19,10 @@ import {
   Typography,
 } from '@mui/material';
 import { BasicTextInput } from '@cosmotech/ui';
-import { DATASET_SOURCE_TYPE } from '../../../../../../services/config/ApiConstants';
-import { DatasetsUtils } from '../../../../../../utils';
 import { DatasetCreationParameters } from '../DatasetCreationParameters';
-import { useCreateDatasetWizard } from './CreateDatasetWizardHook';
 
-export const CreateDatasetWizard = ({ open, closeDialog }) => {
+export const DatasetWizard = ({ open, closeDialog, onConfirm }) => {
   const { t } = useTranslation();
-  const { getParametersForRunner, useCreateDataset, useCreateRunner } = useCreateDatasetWizard();
-  const createDataset = useCreateDataset();
-  const createRunner = useCreateRunner();
 
   const [activeStep, setActiveStep] = useState(0);
   const [dataSourceType, setDataSourceType] = useState(null);
@@ -45,30 +39,10 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
-  const createDatasetAndCloseDialog = useCallback(() => {
+  const confirm = (event) => {
     const values = methods.getValues();
-    DatasetsUtils.removeUndefinedValuesBeforeCreatingDataset(values);
-
-    const sourceType = values.sourceType;
-    const dataset = { name: values.name, tags: values.tags, description: values.description, sourceType };
-
-    if (Object.values(DATASET_SOURCE_TYPE).includes(sourceType)) {
-      if (values.sourceType === DATASET_SOURCE_TYPE.LOCAL_FILE) {
-        dataset.file = values[sourceType].file;
-        dataset.source = null;
-      } else if (values.sourceType === DATASET_SOURCE_TYPE.NONE) {
-        dataset.source = null;
-      } else {
-        dataset.source = values[sourceType];
-      }
-      createDataset(dataset);
-    } else {
-      const runner = { ...dataset };
-      runner.parametersValues = getParametersForRunner(values[sourceType]);
-      createRunner(runner);
-    }
-    closeDialog();
-  }, [closeDialog, methods, createDataset, createRunner, getParametersForRunner]);
+    onConfirm(values);
+  };
 
   const firstStep = (
     <>
@@ -197,7 +171,7 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
             <Button
               variant="contained"
               disabled={!formState.isValid}
-              onClick={createDatasetAndCloseDialog}
+              onClick={confirm}
               data-cy="confirm-dataset-creation"
             >
               {t('commoncomponents.datasetmanager.wizard.buttons.create', 'Create')}
@@ -209,7 +183,8 @@ export const CreateDatasetWizard = ({ open, closeDialog }) => {
   );
 };
 
-CreateDatasetWizard.propTypes = {
+DatasetWizard.propTypes = {
   open: PropTypes.bool.isRequired,
   closeDialog: PropTypes.func.isRequired,
+  onConfirm: PropTypes.func.isRequired,
 };

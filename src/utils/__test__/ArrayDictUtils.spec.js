@@ -96,3 +96,50 @@ describe('reshapeDictToArrayById', () => {
     expect(res).toStrictEqual(expectedRes);
   });
 });
+
+describe('removeUndefinedValuesFromDict', () => {
+  const datasetObjectForFromScratch = {
+    name: 'Dataset1',
+    description: undefined,
+    tags: undefined,
+    sourceType: 'None',
+  };
+
+  const filteredDatasetObjectForFromScratch = {
+    name: 'Dataset1',
+    sourceType: 'None',
+  };
+
+  const datasetObjectForADT = {
+    name: 'Dataset1',
+    description: undefined,
+    tags: undefined,
+    sourceType: 'ADT',
+    source: {
+      path: undefined,
+      location: 'location',
+      name: undefined,
+    },
+  };
+
+  const filteredDatasetObjectForADT = {
+    name: 'Dataset1',
+    sourceType: 'ADT',
+    source: {
+      location: 'location',
+    },
+  };
+
+  test.each`
+    initialDatasetObject           | filteredDatasetObject
+    ${datasetObjectForFromScratch} | ${filteredDatasetObjectForFromScratch}
+    ${datasetObjectForADT}         | ${filteredDatasetObjectForADT}
+    ${{}}                          | ${{}}
+    ${null}                        | ${null}
+    ${undefined}                   | ${undefined}
+    ${[]}                          | ${[]}
+  `('dataset object is correctly filtered', ({ initialDatasetObject, filteredDatasetObject }) => {
+    ArrayDictUtils.removeUndefinedValuesFromDict(initialDatasetObject);
+    expect(initialDatasetObject).toStrictEqual(filteredDatasetObject);
+  });
+});

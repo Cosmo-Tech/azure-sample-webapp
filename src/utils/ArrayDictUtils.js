@@ -32,8 +32,19 @@ const reshapeDictToArrayById = (elementsDict) => {
   return elementsArray;
 };
 
+const removeUndefinedValuesFromDict = (values) => {
+  if (!values) return;
+  Object.keys(values).forEach((field) => {
+    if (values[field] === undefined) delete values[field];
+    else if (typeof values[field] === 'object') {
+      removeUndefinedValuesFromDict(values[field]);
+    }
+  });
+};
+
 export const ArrayDictUtils = {
   mergeArraysByElementsIds,
+  removeUndefinedValuesFromDict,
   reshapeConfigArrayToDictById,
   reshapeDictToArrayById,
 };

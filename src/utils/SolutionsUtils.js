@@ -109,6 +109,21 @@ const patchIncompatibleValuesInSolution = (solution) => {
   });
 };
 
+const forgeRunnerParameters = (solution, formValues) => {
+  if (formValues == null) return [];
+
+  return Object.entries(formValues).map(([key, value]) => {
+    const solutionParameter = solution?.parameters?.find((param) => param.id === key);
+    const parameter = {
+      parameterId: key,
+      varType: solutionParameter?.varType,
+      value,
+    };
+    if (solutionParameter?.varType === '%DATASETID%') parameter.connectorId = solutionParameter?.options?.connectorId;
+    return parameter;
+  });
+};
+
 export const SolutionsUtils = {
   addRunTemplatesParametersIdsDict,
   addTranslationLabels,
@@ -116,4 +131,5 @@ export const SolutionsUtils = {
   patchSolutionIfLocalConfigExists,
   checkParametersValidationConstraintsInSolution,
   patchIncompatibleValuesInSolution,
+  forgeRunnerParameters,
 };
