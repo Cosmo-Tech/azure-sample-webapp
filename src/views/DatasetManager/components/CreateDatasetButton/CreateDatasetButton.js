@@ -5,22 +5,22 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Add as AddIcon } from '@mui/icons-material';
 import { Button, IconButton } from '@mui/material';
-import { useCreateDatasetOrRunner } from './CreateDatasetButtonHook';
+import { useDatasetCreationParameters } from './CreateDatasetButtonHook';
 import { DatasetWizard } from './components/DatasetWizard';
 
 export const CreateDatasetButton = ({ isContainedButton }) => {
   const { t } = useTranslation();
-  const createDataset = useCreateDatasetOrRunner();
+  const { dataSourceRunTemplates, createDatasetOrRunner } = useDatasetCreationParameters();
 
   const [isDatasetWizardOpen, setIsDatasetWizardOpen] = useState(false);
   const closeDialog = useCallback(() => setIsDatasetWizardOpen(false), [setIsDatasetWizardOpen]);
 
   const createDatasetAndCloseDialog = useCallback(
     (values) => {
-      createDataset(values);
+      createDatasetOrRunner(values);
       closeDialog();
     },
-    [createDataset, closeDialog]
+    [createDatasetOrRunner, closeDialog]
   );
 
   return (
@@ -34,7 +34,12 @@ export const CreateDatasetButton = ({ isContainedButton }) => {
           <AddIcon color="primary" />
         </IconButton>
       )}
-      <DatasetWizard open={isDatasetWizardOpen} closeDialog={closeDialog} onConfirm={createDatasetAndCloseDialog} />
+      <DatasetWizard
+        open={isDatasetWizardOpen}
+        closeDialog={closeDialog}
+        onConfirm={createDatasetAndCloseDialog}
+        dataSourceRunTemplates={dataSourceRunTemplates}
+      />
     </>
   );
 };

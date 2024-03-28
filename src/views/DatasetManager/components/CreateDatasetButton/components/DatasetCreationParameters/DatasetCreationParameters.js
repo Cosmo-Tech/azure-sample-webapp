@@ -1,6 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
@@ -10,16 +10,16 @@ import { TranslationUtils } from '../../../../../../utils';
 import { FileManagementUtils } from '../../../../../../utils/FileManagementUtils';
 import { useDatasetCreationParameters } from './DatasetCreationParametersHook';
 
-export const DatasetCreationParameters = ({ setDataSourceType, dataSourceType }) => {
+export const DatasetCreationParameters = ({ dataSourceRunTemplates }) => {
   const { t } = useTranslation();
-  const {
-    dataSourceRunTemplates,
-    getParameterEnumValues,
-    dataSourceTypeEnumValues,
-    getUploadFileLabels,
-    getDefaultFileTypeFilter,
-  } = useDatasetCreationParameters();
+  const { getParameterEnumValues, getDataSourceTypeEnumValues, getUploadFileLabels, getDefaultFileTypeFilter } =
+    useDatasetCreationParameters();
 
+  const [dataSourceType, setDataSourceType] = useState(null);
+  const dataSourceTypeEnumValues = useMemo(
+    () => getDataSourceTypeEnumValues(dataSourceRunTemplates),
+    [getDataSourceTypeEnumValues, dataSourceRunTemplates]
+  );
   const defaultDataSourceTypeKey = useMemo(() => dataSourceTypeEnumValues?.[0]?.key ?? '', [dataSourceTypeEnumValues]);
 
   useEffect(() => {
@@ -53,7 +53,7 @@ export const DatasetCreationParameters = ({ setDataSourceType, dataSourceType })
                 </Grid>
               );
             } else if (inputType === 'enum') {
-              const enumValues = getParameterEnumValues(parameterId);
+              const enumValues = getParameterEnumValues(dataSourceRunTemplates, parameterId);
               return (
                 <Grid item xs={6} sx={{ pt: 2 }}>
                   <BasicEnumInput
@@ -92,7 +92,7 @@ export const DatasetCreationParameters = ({ setDataSourceType, dataSourceType })
         />
       );
     },
-    [t, getParameterEnumValues, getUploadFileLabels, getDefaultFileTypeFilter]
+    [t, getParameterEnumValues, getUploadFileLabels, getDefaultFileTypeFilter, dataSourceRunTemplates]
   );
 
   return (
@@ -135,6 +135,5 @@ export const DatasetCreationParameters = ({ setDataSourceType, dataSourceType })
 };
 
 DatasetCreationParameters.propTypes = {
-  setDataSourceType: PropTypes.func.isRequired,
-  dataSourceType: PropTypes.string,
+  dataSourceRunTemplates: PropTypes.object.isRequired,
 };
