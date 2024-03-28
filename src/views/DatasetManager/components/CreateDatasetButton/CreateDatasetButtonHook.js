@@ -1,18 +1,34 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { useCallback } from 'react';
-import { DATASET_SOURCE_TYPE } from '../../../../services/config/ApiConstants';
+import { useCallback, useMemo } from 'react';
+import { DATASET_SOURCE_TYPE, DATASET_SOURCES } from '../../../../services/config/ApiConstants';
 import { useCreateDataset } from '../../../../state/hooks/DatasetHooks';
 import { useCreateRunner } from '../../../../state/hooks/RunnerHooks';
-import { useSolutionData } from '../../../../state/hooks/SolutionHooks';
+import { useDataSourceRunTemplates, useSolutionData } from '../../../../state/hooks/SolutionHooks';
 import { ArrayDictUtils, SolutionsUtils } from '../../../../utils';
 
-export const useCreateDatasetOrRunner = () => {
+export const useDatasetCreationParameters = () => {
   const createDataset = useCreateDataset();
   const createRunner = useCreateRunner();
   const solutionData = useSolutionData();
+  const customDataSourceRunTemplates = useDataSourceRunTemplates();
 
-  return useCallback(
+  const dataSourceRunTemplates = useMemo(() => {
+    const parameters = solutionData.parameters;
+    const runTemplatesParameters = solutionData.runTemplatesParametersIdsDict;
+    const dataSourcesWithParameters = customDataSourceRunTemplates.map((dataSource) => ({
+      ...dataSource,
+      parameters: parameters.filter((parameter) => runTemplatesParameters[dataSource.id].includes(parameter.id)),
+    }));
+
+    const runTemplates = {};
+    [...DATASET_SOURCES, ...dataSourcesWithParameters].forEach(
+      (runTemplate) => (runTemplates[runTemplate.id] = runTemplate)
+    );
+    return runTemplates;
+  }, [customDataSourceRunTemplates, solutionData.parameters, solutionData.runTemplatesParametersIdsDict]);
+
+  const createDatasetOrRunner = useCallback(
     (values) => {
       ArrayDictUtils.removeUndefinedValuesFromDict(values);
       const sourceType = values.sourceType;
@@ -36,4 +52,9 @@ export const useCreateDatasetOrRunner = () => {
     },
     [createDataset, createRunner, solutionData]
   );
+
+  return {
+    dataSourceRunTemplates,
+    createDatasetOrRunner,
+  };
 };

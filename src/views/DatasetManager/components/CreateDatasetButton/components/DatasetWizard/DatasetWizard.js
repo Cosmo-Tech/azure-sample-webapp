@@ -21,23 +21,18 @@ import {
 import { BasicTextInput } from '@cosmotech/ui';
 import { DatasetCreationParameters } from '../DatasetCreationParameters';
 
-export const DatasetWizard = ({ open, closeDialog, onConfirm }) => {
+export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTemplates }) => {
   const { t } = useTranslation();
-
-  const [activeStep, setActiveStep] = useState(0);
-  const [dataSourceType, setDataSourceType] = useState(null);
-
   const methods = useForm({ mode: 'onChange' });
   const { formState } = methods;
+  const [activeStep, setActiveStep] = useState(0);
 
   useEffect(() => {
     if (open) {
       methods.reset();
       setActiveStep(0);
-      setDataSourceType(null);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open]);
+  }, [open, methods, setActiveStep]);
 
   const confirm = (event) => {
     const values = methods.getValues();
@@ -136,9 +131,7 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm }) => {
               </Stepper>
             </Grid>
             {activeStep === 0 && firstStep}
-            {activeStep === 1 && (
-              <DatasetCreationParameters dataSourceType={dataSourceType} setDataSourceType={setDataSourceType} />
-            )}
+            {activeStep === 1 && <DatasetCreationParameters dataSourceRunTemplates={dataSourceRunTemplates} />}
           </Grid>
         </DialogContent>
         <DialogActions>
@@ -187,4 +180,5 @@ DatasetWizard.propTypes = {
   open: PropTypes.bool.isRequired,
   closeDialog: PropTypes.func.isRequired,
   onConfirm: PropTypes.func.isRequired,
+  dataSourceRunTemplates: PropTypes.object.isRequired,
 };
