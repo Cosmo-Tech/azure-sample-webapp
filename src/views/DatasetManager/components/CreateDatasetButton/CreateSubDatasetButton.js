@@ -18,7 +18,7 @@ export const CreateSubDatasetButton = ({ parentDatasetId }) => {
 
   return (
     <>
-      <IconButton onClick={() => setIsCreationWizardOpen(true)} data-cy="create-dataset-button">
+      <IconButton onClick={() => setIsCreationWizardOpen(true)} data-cy="create-subdataset-button">
         <AddIcon color="primary" />
       </IconButton>
       <DatasetWizard
