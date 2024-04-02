@@ -9,9 +9,9 @@ export const dispatchCreateRunner = (organizationId, workspaceId, runner) => ({
   runner,
 });
 
-export const dispatchStopRunner = (organizationId, workspaceId, runnerId) => ({
+export const dispatchStopRunner = (organizationId, workspaceId, datasetId) => ({
   type: RUNNER_ACTIONS_KEY.TRIGGER_SAGA_STOP_RUNNER,
   organizationId,
   workspaceId,
-  runnerId,
+  datasetId,
 });
