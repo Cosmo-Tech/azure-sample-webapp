@@ -1,6 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
@@ -26,15 +26,16 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates }) => {
     if (dataSourceType == null) setDataSourceType(defaultDataSourceTypeKey);
   }, [dataSourceType, setDataSourceType, defaultDataSourceTypeKey]);
 
-  const forgeInput = useCallback(
-    (parameter) => {
+  const sourceParameters = useMemo(() => {
+    const forgeParameterInput = (parameter) => {
       const parameterId = parameter.id;
+      const fieldPath = `${dataSourceType}.${parameterId}`;
       const inputType = parameter.varType;
 
       return (
         <Controller
           key={parameterId}
-          name={parameterId}
+          name={fieldPath}
           rules={{ required: true }}
           render={({ field }) => {
             const { value, onChange } = field;
@@ -91,9 +92,18 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates }) => {
           }}
         />
       );
-    },
-    [t, getParameterEnumValues, getUploadFileLabels, getDefaultFileTypeFilter, dataSourceRunTemplates]
-  );
+    };
+
+    const runTemplate = dataSourceRunTemplates[dataSourceType];
+    return runTemplate?.parameters?.map((parameter) => forgeParameterInput(parameter));
+  }, [
+    t,
+    getParameterEnumValues,
+    getUploadFileLabels,
+    getDefaultFileTypeFilter,
+    dataSourceRunTemplates,
+    dataSourceType,
+  ]);
 
   return (
     <>
@@ -128,7 +138,7 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates }) => {
         />
       </Grid>
       <Grid item container xs={12} sx={{ px: 2, pt: 3 }}>
-        {dataSourceRunTemplates[dataSourceType]?.parameters?.map((parameter) => forgeInput(parameter))}
+        {sourceParameters}
       </Grid>
     </>
   );
