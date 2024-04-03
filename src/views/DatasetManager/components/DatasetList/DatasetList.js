@@ -63,7 +63,7 @@ export const DatasetList = () => {
   } = useDatasetList();
 
   const sortedDatasetList = useMemo(() => {
-    return ResourceUtils.getResourceTree(datasets);
+    return ResourceUtils.sortResourceListByName(datasets);
   }, [datasets]);
 
   const [displayedDatasetList, setDisplayedDatasetList] = useState(sortedDatasetList);
