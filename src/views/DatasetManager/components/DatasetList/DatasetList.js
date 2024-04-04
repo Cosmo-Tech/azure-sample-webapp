@@ -152,12 +152,7 @@ export const DatasetList = () => {
           >
             {refreshButton}
           </PermissionsGate>
-          <PermissionsGate
-            userPermissions={userPermissionsOnDataset}
-            necessaryPermissions={[ACL_PERMISSIONS.DATASET.DELETE]}
-          >
-            <DeleteDatasetButton dataset={dataset} location="" />
-          </PermissionsGate>
+          <DeleteDatasetButton dataset={dataset} location="" />
         </Box>
       );
     },

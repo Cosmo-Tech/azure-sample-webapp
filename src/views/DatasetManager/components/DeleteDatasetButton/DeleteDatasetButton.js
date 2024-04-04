@@ -3,18 +3,14 @@ import { Trans, useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { IconButton } from '@mui/material';
+import { PermissionsGate } from '@cosmotech/ui';
 import { INGESTION_STATUS } from '../../../../services/config/ApiConstants';
+import { ACL_PERMISSIONS } from '../../../../services/config/accessControl';
 import { TwoActionsDialogService } from '../../../../services/twoActionsDialog/twoActionsDialogService';
 import { useDeleteDatasetButton } from './DeleteDatasetButtonHooks';
 
 export const DeleteDatasetButton = ({ dataset, location }) => {
-  const isDisabled = () => {
-    if (dataset.ingestionStatus === INGESTION_STATUS.PENDING) {
-      return true;
-    } else {
-      return false;
-    }
-  };
+  const isDisabled = dataset.ingestionStatus === INGESTION_STATUS.PENDING;
   const { t } = useTranslation();
 
   const { deleteDataset, isDatasetCopyEnabledInWorkspace } = useDeleteDatasetButton();
@@ -58,18 +54,24 @@ export const DeleteDatasetButton = ({ dataset, location }) => {
     [t, deleteDataset, isDatasetCopyEnabledInWorkspace]
   );
 
+  const userPermissionsOnDataset = dataset?.security?.currentUserPermissions ?? [];
   return (
-    <IconButton
-      onClick={(event) => askConfirmationToDeleteDialog(event, dataset)}
-      data-cy={`dataset-delete-button-${location}${dataset.id}`}
-      disabled={isDisabled()}
-    >
-      <DeleteForeverIcon color={isDisabled() ? 'disabled' : 'primary'} />
-    </IconButton>
+    <PermissionsGate userPermissions={userPermissionsOnDataset} necessaryPermissions={[ACL_PERMISSIONS.DATASET.DELETE]}>
+      <IconButton
+        onClick={(event) => askConfirmationToDeleteDialog(event, dataset)}
+        data-cy={`dataset-delete-button-${location}${dataset.id}`}
+        disabled={isDisabled}
+      >
+        <DeleteForeverIcon color={isDisabled ? 'disabled' : 'primary'} />
+      </IconButton>
+    </PermissionsGate>
   );
 };
 
 DeleteDatasetButton.propTypes = {
   dataset: PropTypes.object.isRequired,
-  location: PropTypes.string.isRequired,
+  location: PropTypes.string,
+};
+DeleteDatasetButton.defaultProps = {
+  location: '',
 };
