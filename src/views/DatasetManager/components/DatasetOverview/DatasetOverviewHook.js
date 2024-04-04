@@ -45,6 +45,7 @@ export const useDatasetOverview = () => {
     graphIndicators: datasetManagerConfig.graphIndicators,
     queriesResults,
     datasetIngestionStatus,
+    dataset: currentDataset,
     datasetName: currentDataset?.name,
   };
 };

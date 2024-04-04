@@ -10,7 +10,7 @@ import { TwoActionsDialogService } from '../../../../services/twoActionsDialog/t
 import { useDeleteDatasetButton } from './DeleteDatasetButtonHooks';
 
 export const DeleteDatasetButton = ({ dataset, location }) => {
-  const isDisabled = dataset.ingestionStatus === INGESTION_STATUS.PENDING;
+  const isDisabled = !dataset || dataset.ingestionStatus === INGESTION_STATUS.PENDING;
   const { t } = useTranslation();
 
   const { deleteDataset, isDatasetCopyEnabledInWorkspace } = useDeleteDatasetButton();
@@ -59,7 +59,7 @@ export const DeleteDatasetButton = ({ dataset, location }) => {
     <PermissionsGate userPermissions={userPermissionsOnDataset} necessaryPermissions={[ACL_PERMISSIONS.DATASET.DELETE]}>
       <IconButton
         onClick={(event) => askConfirmationToDeleteDialog(event, dataset)}
-        data-cy={`dataset-delete-button-${location}${dataset.id}`}
+        data-cy={`${location}dataset-delete-button-${dataset?.id}`}
         disabled={isDisabled}
       >
         <DeleteForeverIcon color={isDisabled ? 'disabled' : 'primary'} />

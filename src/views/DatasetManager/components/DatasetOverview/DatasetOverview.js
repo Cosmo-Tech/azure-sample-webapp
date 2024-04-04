@@ -5,9 +5,11 @@ import { Card, CardContent, CardHeader, Grid } from '@mui/material';
 import { INGESTION_STATUS } from '../../../../services/config/ApiConstants';
 import { useDatasetOverview } from './DatasetOverviewHook';
 import { CategoryAccordion, DatasetOverviewPlaceholder, GraphIndicator } from './components';
+import DatasetActions from './components/DatasetActions/DatasetActions';
 
 export const DatasetOverview = () => {
-  const { categories, graphIndicators, queriesResults, datasetIngestionStatus, datasetName } = useDatasetOverview();
+  const { categories, graphIndicators, queriesResults, datasetIngestionStatus, dataset, datasetName } =
+    useDatasetOverview();
 
   const showPlaceholder = useMemo(
     () =>
@@ -28,7 +30,12 @@ export const DatasetOverview = () => {
       sx={{ p: 1, width: '100%', height: '100%', overflow: 'auto', backgroundColor: 'transparent' }}
       data-cy="dataset-overview-card"
     >
-      <CardHeader data-cy="dataset-name" title={datasetName} sx={{ height: '65px' }}></CardHeader>
+      <CardHeader
+        data-cy="dataset-name"
+        title={datasetName}
+        sx={{ height: '65px' }}
+        action={<DatasetActions dataset={dataset}></DatasetActions>}
+      ></CardHeader>
       <CardContent sx={{ height: 'calc(100% - 65px)' }}>
         {showPlaceholder ? (
           <DatasetOverviewPlaceholder />
