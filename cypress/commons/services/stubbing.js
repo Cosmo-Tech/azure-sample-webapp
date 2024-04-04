@@ -25,6 +25,7 @@ const STUB_TYPES = [
   'LAUNCH_SCENARIO',
   'PERMISSIONS_MAPPING',
   'UPDATE_DATASET',
+  'UPDATE_RUNNER',
   'UPDATE_SCENARIO',
 ];
 
@@ -245,6 +246,30 @@ class Stubbing {
   addDataset = (newDataset) => this._addResource('datasets', newDataset);
   getDatasetById = (datasetId) => this._getResourceById('datasets', datasetId);
   deleteDatasetByName = (datasetName) => this._deleteResourceByName('datasets', datasetName);
+
+  patchDatasetDefaultSecurity = (datasetId, newDefaultSecurity) => {
+    const dataset = this.getDatasetById(datasetId);
+    const newDatasetSecurity = {
+      security: {
+        default: newDefaultSecurity,
+        accessControlList: dataset.security.accessControlList,
+      },
+    };
+    this.patchDataset(datasetId, newDatasetSecurity);
+  };
+
+  patchDatasetACLSecurity = (datasetId, newACLSecurityItem) => {
+    const dataset = this.getDatasetById(datasetId);
+    const newACL = [...dataset.security.accessControlList, newACLSecurityItem];
+    const newDatasetSecurity = {
+      security: {
+        default: dataset.security.default,
+        accessControlList: newACL,
+      },
+    };
+    this.patchDataset(datasetId, newDatasetSecurity);
+  };
+
   patchDataset = (datasetId, datasetPatch) => this._patchResourceById('datasets', datasetId, datasetPatch);
 
   patchDatasetSecurity = (datasetId, defaultRole, accessControlList) =>

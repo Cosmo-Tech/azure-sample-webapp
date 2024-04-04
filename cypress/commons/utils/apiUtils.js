@@ -250,6 +250,50 @@ const interceptUpdateScenarioSecurity = (defaultSecurityChangesCount, aclSecurit
   return aliases;
 };
 
+const interceptUpdateDatasetDefaultSecurity = (expectedDefaultSecurity) => {
+  const alias = forgeAlias('reqUpdateDatasetDefaultSecurity');
+  cy.intercept({ method: 'POST', url: API_REGEX.DATASET_DEFAULT_SECURITY, times: 1 }, (req) => {
+    const datasetId = req.url.match(API_REGEX.DATASET_DEFAULT_SECURITY)[1];
+    const newDefaultSecurity = req.body.role;
+    if (expectedDefaultSecurity) expect(newDefaultSecurity).to.deep.equal(expectedDefaultSecurity);
+    if (stub.isEnabledFor('GET_DATASETS')) stub.patchDatasetDefaultSecurity(datasetId, newDefaultSecurity);
+    if (stub.isEnabledFor('UPDATE_DATASET')) req.reply(newDefaultSecurity);
+  }).as(alias);
+  return alias;
+};
+
+const interceptUpdateDatasetACLSecurity = (expectedACLSecurity) => {
+  const alias = forgeAlias('reqUpdateDatasetACLSecurity');
+  cy.intercept({ method: 'POST', url: API_REGEX.DATASET_SECURITY_ACL, times: 1 }, (req) => {
+    const datasetId = req.url.match(API_REGEX.DATASET_SECURITY_ACL)[1];
+    const newACLSecurityItem = req.body;
+    if (expectedACLSecurity) expect(newACLSecurityItem).to.deep.equal(expectedACLSecurity);
+    if (stub.isEnabledFor('GET_DATASETS')) stub.patchDatasetACLSecurity(datasetId, newACLSecurityItem);
+    if (stub.isEnabledFor('UPDATE_DATASET')) req.reply(newACLSecurityItem);
+  }).as(alias);
+  return alias;
+};
+
+const interceptUpdateRunnerDefaultSecurity = (expectedDefaultSecurity) => {
+  const alias = forgeAlias('reqUpdateRunnerDefaultSecurity');
+  cy.intercept({ method: 'POST', url: API_REGEX.RUNNER_DEFAULT_SECURITY, times: 1 }, (req) => {
+    const newDefaultSecurity = req.body.role;
+    if (expectedDefaultSecurity) expect(newDefaultSecurity).to.deep.equal(expectedDefaultSecurity);
+    if (stub.isEnabledFor('UPDATE_RUNNER')) req.reply(newDefaultSecurity);
+  }).as(alias);
+  return alias;
+};
+
+const interceptUpdateRunnerACLSecurity = (expectedACLSecurity) => {
+  const alias = forgeAlias('reqUpdateRunnerACLSecurity');
+  cy.intercept({ method: 'POST', url: API_REGEX.RUNNER_SECURITY_ACL, times: 1 }, (req) => {
+    const newACLSecurityItem = req.body;
+    if (expectedACLSecurity) expect(newACLSecurityItem).to.deep.equal(expectedACLSecurity);
+    if (stub.isEnabledFor('UPDATE_RUNNER')) req.reply(newACLSecurityItem);
+  }).as(alias);
+  return alias;
+};
+
 const interceptGetOrganizationPermissions = () => {
   const alias = forgeAlias('reqGetOrganizationPermissions');
   cy.intercept({ method: 'GET', url: API_REGEX.PERMISSIONS_MAPPING }, (req) => {
@@ -670,4 +714,8 @@ export const apiUtils = {
   interceptUpdateScenarioACLSecurity,
   interceptUpdateScenarioDefaultSecurity,
   interceptUpdateScenarioSecurity,
+  interceptUpdateDatasetDefaultSecurity,
+  interceptUpdateDatasetACLSecurity,
+  interceptUpdateRunnerDefaultSecurity,
+  interceptUpdateRunnerACLSecurity,
 };
