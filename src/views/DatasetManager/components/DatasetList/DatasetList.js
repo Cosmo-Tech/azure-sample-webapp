@@ -1,14 +1,13 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Refresh as RefreshIcon, Search as SearchIcon, Error as ErrorIcon } from '@mui/icons-material';
+import { Search as SearchIcon, Error as ErrorIcon } from '@mui/icons-material';
 import {
   Box,
   Card,
   CircularProgress,
   Divider,
-  IconButton,
   List,
   ListItem,
   ListItemButton,
@@ -17,12 +16,12 @@ import {
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { ResourceUtils } from '@cosmotech/core';
-import { DontAskAgainDialog, PermissionsGate, SearchBar } from '@cosmotech/ui';
-import { DATASET_SOURCE_TYPE, INGESTION_STATUS } from '../../../../services/config/ApiConstants';
+import { PermissionsGate, SearchBar } from '@cosmotech/ui';
+import { INGESTION_STATUS } from '../../../../services/config/ApiConstants';
 import { ACL_PERMISSIONS } from '../../../../services/config/accessControl';
 import { CreateDatasetButton } from '../CreateDatasetButton';
+import { RefreshDatasetButton } from '../DatasetOverview/components/RefreshDatasetButton/RefreshDatasetButton';
 import { DeleteDatasetButton } from '../DeleteDatasetButton/DeleteDatasetButton';
-import { ReuploadFileDatasetButton } from '../ReuploadFileDatasetButton';
 import { useDatasetList } from './DatasetListHook';
 
 const useStyles = makeStyles(() => ({
@@ -35,20 +34,8 @@ const useStyles = makeStyles(() => ({
 export const DatasetList = () => {
   const { t } = useTranslation();
   const classes = useStyles();
-  const refreshDialogLabels = {
-    title: t('commoncomponents.datasetmanager.dialogs.refresh.title', 'Overwrite data?'),
-    body: t(
-      'commoncomponents.datasetmanager.dialogs.refresh.body',
-      'Your data will be lost, replaced with the imported one.'
-    ),
-    cancel: t('commoncomponents.datasetmanager.dialogs.cancel', 'Cancel'),
-    confirm: t('commoncomponents.datasetmanager.dialogs.refresh.overwriteButton', 'Overwrite'),
-    checkbox: t('commoncomponents.datasetmanager.dialogs.refresh.checkbox', 'Do not ask me again'),
-  };
 
-  const [isRefreshConfirmationDialogOpen, setIsRefreshConfirmationDialogOpen] = useState(false);
-  const { userPermissionsInCurrentOrganization, datasets, currentDataset, selectDataset, refreshDatasetById } =
-    useDatasetList();
+  const { userPermissionsInCurrentOrganization, datasets, currentDataset, selectDataset } = useDatasetList();
 
   const sortedDatasetList = useMemo(() => {
     return ResourceUtils.sortResourceListByName(datasets);
@@ -56,7 +43,6 @@ export const DatasetList = () => {
 
   const [displayedDatasetList, setDisplayedDatasetList] = useState(sortedDatasetList);
   const [searchString, setSearchString] = useState('');
-  const datasetRefreshCallback = useRef();
 
   useEffect(() => {
     setDisplayedDatasetList(sortedDatasetList);
@@ -81,25 +67,6 @@ export const DatasetList = () => {
     filterDatasets(searchString);
   }, [searchString, filterDatasets]);
 
-  const confirmAndRefreshDataset = useCallback((event, callbackFunction) => {
-    event.stopPropagation();
-    if (localStorage.getItem('dontAskAgainToRefreshDataset') !== 'true') {
-      datasetRefreshCallback.current = callbackFunction;
-      setIsRefreshConfirmationDialogOpen(true);
-    } else {
-      callbackFunction();
-    }
-  }, []);
-
-  const onConfirmRefreshDataset = useCallback(
-    (isChecked) => {
-      localStorage.setItem('dontAskAgainToRefreshDataset', isChecked);
-      datasetRefreshCallback.current();
-      setIsRefreshConfirmationDialogOpen(false);
-    },
-    [setIsRefreshConfirmationDialogOpen, datasetRefreshCallback]
-  );
-
   const datasetListHeader = (
     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 2, py: 1, height: '48px' }}>
       <Typography variant="h6">Datasets</Typography>
@@ -112,52 +79,22 @@ export const DatasetList = () => {
     </Box>
   );
 
-  const getDatasetListItemActions = useCallback(
-    (dataset) => {
-      const statusIcon =
-        dataset.ingestionStatus === INGESTION_STATUS.PENDING ? (
-          <CircularProgress data-cy={`refresh-spinner-${dataset.id}`} size="1rem" color="inherit" />
-        ) : dataset.ingestionStatus === INGESTION_STATUS.ERROR ? (
-          <ErrorIcon data-cy={`refresh-error-icon-${dataset.id}`} color="error" />
-        ) : null;
+  const getDatasetListItemActions = useCallback((dataset) => {
+    const statusIcon =
+      dataset.ingestionStatus === INGESTION_STATUS.PENDING ? (
+        <CircularProgress data-cy={`refresh-spinner-${dataset.id}`} size="1rem" color="inherit" />
+      ) : dataset.ingestionStatus === INGESTION_STATUS.ERROR ? (
+        <ErrorIcon data-cy={`refresh-error-icon-${dataset.id}`} color="error" />
+      ) : null;
 
-      let refreshButton = null;
-      if (dataset.sourceType === DATASET_SOURCE_TYPE.LOCAL_FILE)
-        refreshButton = (
-          <ReuploadFileDatasetButton
-            confirmAndCallback={confirmAndRefreshDataset}
-            datasetId={dataset.id}
-            disabled={dataset.ingestionStatus === INGESTION_STATUS.PENDING}
-          />
-        );
-      else if (dataset.sourceType !== DATASET_SOURCE_TYPE.NONE) {
-        refreshButton = (
-          <IconButton
-            onClick={(event) => confirmAndRefreshDataset(event, () => refreshDatasetById(dataset.id))}
-            data-cy={`dataset-refresh-button-${dataset.id}`}
-            disabled={dataset.ingestionStatus === INGESTION_STATUS.PENDING}
-          >
-            <RefreshIcon />
-          </IconButton>
-        );
-      }
-
-      const userPermissionsOnDataset = dataset?.security?.currentUserPermissions ?? [];
-      return (
-        <Box>
-          <div style={{ display: 'inline-flex', padding: '8px', verticalAlign: 'middle' }}>{statusIcon}</div>
-          <PermissionsGate
-            userPermissions={userPermissionsOnDataset}
-            necessaryPermissions={[ACL_PERMISSIONS.DATASET.WRITE]}
-          >
-            {refreshButton}
-          </PermissionsGate>
-          <DeleteDatasetButton dataset={dataset} location="" />
-        </Box>
-      );
-    },
-    [confirmAndRefreshDataset, refreshDatasetById]
-  );
+    return (
+      <div style={{ display: 'flex', flexDirection: 'row' }}>
+        <div style={{ display: 'inline-flex', padding: '8px', verticalAlign: 'middle' }}>{statusIcon}</div>
+        <RefreshDatasetButton dataset={dataset} />
+        <DeleteDatasetButton dataset={dataset} location="" />
+      </div>
+    );
+  }, []);
 
   return (
     <div style={{ display: 'flex', flexFlow: 'column nowrap', height: '100%' }}>
@@ -197,13 +134,6 @@ export const DatasetList = () => {
           </Box>
         </List>
       </Card>
-      <DontAskAgainDialog
-        id="refresh-dataset-dialog"
-        open={isRefreshConfirmationDialogOpen}
-        labels={refreshDialogLabels}
-        onClose={() => setIsRefreshConfirmationDialogOpen(false)}
-        onConfirm={onConfirmRefreshDataset}
-      />
     </div>
   );
 };
