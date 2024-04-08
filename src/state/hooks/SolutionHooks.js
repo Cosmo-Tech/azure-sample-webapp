@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { SolutionsUtils } from '../../utils';
 import { dispatchResetCurrentSolution } from '../dispatchers/solution/SolutionDispatcher';
 
 export const useSolution = () => {
@@ -20,16 +21,14 @@ export const useRunTemplates = () => {
   return useSelector((state) => state?.solution?.current?.data?.runTemplates ?? []);
 };
 
-const isDataSource = (runTemplate) => runTemplate?.tags?.includes('datasource');
-
 export const useScenarioRunTemplates = () => {
   const runTemplates = useRunTemplates();
-  return useMemo(() => runTemplates.filter((runTemplate) => !isDataSource(runTemplate)), [runTemplates]);
+  return useMemo(() => runTemplates.filter((runTemplate) => !SolutionsUtils.isDataSource(runTemplate)), [runTemplates]);
 };
 
 export const useDataSourceRunTemplates = () => {
   const runTemplates = useRunTemplates();
-  return useMemo(() => runTemplates.filter(isDataSource), [runTemplates]);
+  return useMemo(() => runTemplates.filter(SolutionsUtils.isDataSource), [runTemplates]);
 };
 
 export const useResetCurrentSolution = () => {

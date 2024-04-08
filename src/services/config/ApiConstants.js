@@ -59,56 +59,30 @@ export const DATASET_SOURCE_TYPE = {
 export const DATASET_SOURCES = [
   {
     id: DATASET_SOURCE_TYPE.AZURE_STORAGE,
-    labels: {
-      en: 'Graph Format from Azure Storage',
-      fr: 'Format Graph depuis Azure Storage',
-    },
+    labels: { en: 'Graph Format from Azure Storage', fr: 'Format Graph depuis Azure Storage' },
     parameters: [
-      {
-        id: `name`,
-        varType: 'string',
-        labels: { en: 'Account name', fr: 'Nom du compte' },
-      },
-      {
-        id: `location`,
-        varType: 'string',
-        labels: { en: 'Container name', fr: 'Nom du container' },
-      },
-      {
-        id: `path`,
-        varType: 'string',
-        labels: { en: 'Path', fr: 'Chemin' },
-      },
+      { id: `name`, varType: 'string', labels: { en: 'Account name', fr: 'Nom du compte' } },
+      { id: `location`, varType: 'string', labels: { en: 'Container name', fr: 'Nom du container' } },
+      { id: `path`, varType: 'string', labels: { en: 'Path', fr: 'Chemin' } },
     ],
+    tags: ['datasource'],
   },
   {
     id: DATASET_SOURCE_TYPE.ADT,
-    labels: {
-      en: 'Azure Digital Twin',
-      fr: 'Azure Digital Twin',
-    },
-    parameters: [
-      {
-        id: `location`,
-        varType: 'string',
-        labels: { en: 'Path', fr: 'Chemin' },
-      },
-    ],
+    labels: { en: 'Azure Digital Twin', fr: 'Azure Digital Twin' },
+    parameters: [{ id: `location`, varType: 'string', labels: { en: 'Path', fr: 'Chemin' } }],
+    tags: ['datasource'],
   },
   {
     id: DATASET_SOURCE_TYPE.LOCAL_FILE,
-    labels: {
-      en: 'Graph Format from Local File',
-      fr: 'Format Graph depuis un fichier local',
-    },
+    labels: { en: 'Graph Format from Local File', fr: 'Format Graph depuis un fichier local' },
     parameters: [{ id: `file`, varType: '%DATASETID%', labels: { en: '', fr: '' } }],
+    tags: ['datasource'],
   },
   {
     id: DATASET_SOURCE_TYPE.NONE,
-    labels: {
-      en: 'Empty',
-      fr: 'Dataset vide',
-    },
+    labels: { en: 'Empty', fr: 'Dataset vide' },
     parameters: [],
+    tags: ['datasource'],
   },
 ];

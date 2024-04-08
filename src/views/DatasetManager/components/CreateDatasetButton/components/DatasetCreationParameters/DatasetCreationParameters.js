@@ -1,6 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
@@ -10,37 +10,37 @@ import { TranslationUtils } from '../../../../../../utils';
 import { FileManagementUtils } from '../../../../../../utils/FileManagementUtils';
 import { useDatasetCreationParameters } from './DatasetCreationParametersHook';
 
-export const DatasetCreationParameters = (props) => {
-  const { setDataSourceType, dataSourceType } = props;
+export const DatasetCreationParameters = ({ dataSourceRunTemplates }) => {
   const { t } = useTranslation();
-  const {
-    isDataSourceTypeRunner,
-    getParameterEnumValues,
-    dataSourceTypeEnumValues,
-    getUploadFileLabels,
-    getDefaultFileTypeFilter,
-    getDataSource,
-  } = useDatasetCreationParameters();
+  const { getParameterEnumValues, getDataSourceTypeEnumValues, getUploadFileLabels, getDefaultFileTypeFilter } =
+    useDatasetCreationParameters();
+
+  const [dataSourceType, setDataSourceType] = useState(null);
+  const dataSourceTypeEnumValues = useMemo(
+    () => getDataSourceTypeEnumValues(dataSourceRunTemplates),
+    [getDataSourceTypeEnumValues, dataSourceRunTemplates]
+  );
+  const defaultDataSourceTypeKey = useMemo(() => dataSourceTypeEnumValues?.[0]?.key ?? '', [dataSourceTypeEnumValues]);
 
   useEffect(() => {
-    if (dataSourceType == null) setDataSourceType(dataSourceTypeEnumValues[0].key);
-  }, [dataSourceType, setDataSourceType, dataSourceTypeEnumValues]);
+    if (dataSourceType == null) setDataSourceType(defaultDataSourceTypeKey);
+  }, [dataSourceType, setDataSourceType, defaultDataSourceTypeKey]);
 
-  const forgeInput = useCallback(
-    (parameter) => {
+  const sourceParameters = useMemo(() => {
+    const forgeParameterInput = (parameter) => {
       const parameterId = parameter.id;
+      const fieldPath = `${dataSourceType}.${parameterId}`;
       const inputType = parameter.varType;
-      const parameterKey = isDataSourceTypeRunner(dataSourceType) ? `${dataSourceType}.${parameterId}` : parameterId;
 
       return (
         <Controller
-          key={parameterKey}
-          name={parameterKey}
+          key={parameterId}
+          name={fieldPath}
           rules={{ required: true }}
           render={({ field }) => {
             const { value, onChange } = field;
             if (inputType === 'string') {
-              const input = (
+              return (
                 <Grid item xs={12} sx={{ pt: 1 }}>
                   <BasicTextInput
                     id={parameterId}
@@ -53,13 +53,8 @@ export const DatasetCreationParameters = (props) => {
                   />
                 </Grid>
               );
-              return input;
             } else if (inputType === 'enum') {
-              const textFieldProps = {
-                disabled: false,
-                id: `enum-input-${parameterId}`,
-              };
-              const enumValues = getParameterEnumValues(parameterId);
+              const enumValues = getParameterEnumValues(dataSourceRunTemplates, parameterId);
               return (
                 <Grid item xs={6} sx={{ pt: 2 }}>
                   <BasicEnumInput
@@ -69,13 +64,12 @@ export const DatasetCreationParameters = (props) => {
                     tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterId), '')}
                     value={value ?? enumValues?.[0]?.key ?? ''}
                     changeEnumField={onChange}
-                    textFieldProps={textFieldProps}
+                    textFieldProps={{ disabled: false, id: `enum-input-${parameterId}` }}
                     enumValues={enumValues}
                   />
                 </Grid>
               );
             } else if (inputType === '%DATASETID%') {
-              const { value, onChange } = field;
               return (
                 <Grid item xs={12} sx={{ pt: 1 }}>
                   <UploadFile
@@ -98,9 +92,18 @@ export const DatasetCreationParameters = (props) => {
           }}
         />
       );
-    },
-    [t, getParameterEnumValues, getUploadFileLabels, getDefaultFileTypeFilter, dataSourceType, isDataSourceTypeRunner]
-  );
+    };
+
+    const runTemplate = dataSourceRunTemplates[dataSourceType];
+    return runTemplate?.parameters?.map((parameter) => forgeParameterInput(parameter));
+  }, [
+    t,
+    getParameterEnumValues,
+    getUploadFileLabels,
+    getDefaultFileTypeFilter,
+    dataSourceRunTemplates,
+    dataSourceType,
+  ]);
 
   return (
     <>
@@ -113,7 +116,7 @@ export const DatasetCreationParameters = (props) => {
         <Controller
           name="sourceType"
           key="sourceType"
-          defaultValue={dataSourceType ?? dataSourceTypeEnumValues[0].key}
+          defaultValue={dataSourceType ?? defaultDataSourceTypeKey}
           shouldUnregister={true}
           render={({ field }) => {
             const { value, onChange } = field;
@@ -126,8 +129,8 @@ export const DatasetCreationParameters = (props) => {
                 id="new-dataset-sourceType"
                 label={t('commoncomponents.datasetmanager.wizard.secondScreen.dataSourceType.label', 'Source')}
                 size="medium"
-                value={value ?? dataSourceTypeEnumValues[0].key}
-                changeEnumField={(newValue) => setDatasetSource(newValue)}
+                value={value ?? defaultDataSourceTypeKey}
+                changeEnumField={setDatasetSource}
                 enumValues={dataSourceTypeEnumValues}
               />
             );
@@ -135,15 +138,12 @@ export const DatasetCreationParameters = (props) => {
         />
       </Grid>
       <Grid item container xs={12} sx={{ px: 2, pt: 3 }}>
-        {getDataSource(dataSourceType)?.parameters?.map((parameter) => {
-          return forgeInput(parameter);
-        })}
+        {sourceParameters}
       </Grid>
     </>
   );
 };
 
 DatasetCreationParameters.propTypes = {
-  setDataSourceType: PropTypes.func.isRequired,
-  dataSourceType: PropTypes.string,
+  dataSourceRunTemplates: PropTypes.object.isRequired,
 };

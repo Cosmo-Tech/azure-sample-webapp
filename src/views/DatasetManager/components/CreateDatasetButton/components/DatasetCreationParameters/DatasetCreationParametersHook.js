@@ -1,94 +1,35 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { useMemo, useCallback } from 'react';
+import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import rfdc from 'rfdc';
-import { DATASET_SOURCES } from '../../../../../../services/config/ApiConstants';
-import { useDataSourceRunTemplates, useSolutionData } from '../../../../../../state/hooks/SolutionHooks';
 import { TranslationUtils, ConfigUtils } from '../../../../../../utils';
 
 export const useDatasetCreationParameters = () => {
-  const solutionData = useSolutionData();
-  const customDataSourceRunTemplates = useDataSourceRunTemplates();
   const { t } = useTranslation();
-  const clone = rfdc();
 
-  // Each parameter must have a id strictly unique.
-  const hardCodedDataSources = useMemo(() => {
-    const staticDatasetSources = clone(DATASET_SOURCES);
-    staticDatasetSources.forEach((dataSource) => {
-      dataSource.parameters.forEach((parameter) => (parameter.id = `${dataSource.id}.${parameter.id}`));
-    });
-
-    TranslationUtils.addTranslationRunTemplateLabels(staticDatasetSources);
-    TranslationUtils.addTranslationParametersLabels(
-      staticDatasetSources.flatMap((dataSource) => dataSource?.parameters)
-    );
-
-    return staticDatasetSources;
-  }, [clone]);
-
-  const dataSourceRunTemplates = useMemo(() => {
-    const parameters = solutionData.parameters;
-    const runTemplatesParameters = solutionData.runTemplatesParametersIdsDict;
-
-    const dataSourcesWithParameters = customDataSourceRunTemplates.map((dataSource) => {
-      const dataSourceWithParameters = { ...dataSource };
-      dataSourceWithParameters.parameters = parameters.filter((parameter) =>
-        runTemplatesParameters[dataSource.id].includes(parameter.id)
-      );
-      return dataSourceWithParameters;
-    });
-
-    return [...hardCodedDataSources, ...dataSourcesWithParameters];
-  }, [
-    customDataSourceRunTemplates,
-    solutionData.parameters,
-    solutionData.runTemplatesParametersIdsDict,
-    hardCodedDataSources,
-  ]);
-
-  const dataSourceTypeEnumValues = useMemo(() => {
-    return [
-      ...dataSourceRunTemplates.map((dataSource) => {
-        return {
-          key: dataSource.id,
-          value: t(
-            TranslationUtils.getRunTemplateTranslationKey(dataSource.id),
-            dataSource.label ?? dataSource.name ?? dataSource.id
-          ),
-        };
-      }),
-    ];
-  }, [t, dataSourceRunTemplates]);
-
-  const getDataSource = useCallback(
-    (dataSourceId) => {
-      return dataSourceRunTemplates.find((dataSource) => dataSource.id === dataSourceId);
-    },
-    [dataSourceRunTemplates]
+  const getDataSourceTypeEnumValues = useCallback(
+    (dataSources) =>
+      Object.values(dataSources).map((dataSource) => ({
+        key: dataSource.id,
+        value: t(
+          TranslationUtils.getRunTemplateTranslationKey(dataSource.id),
+          dataSource.label ?? dataSource.name ?? dataSource.id
+        ),
+      })),
+    [t]
   );
 
-  const isDataSourceTypeRunner = useCallback(
-    (dataSourceId) => {
-      return getDataSource(dataSourceId)?.tags != null && getDataSource(dataSourceId)?.tags?.includes('datasource');
-    },
-    [getDataSource]
-  );
-
-  const getParameter = useCallback(
-    (parameterId) => {
-      for (const dataSource of dataSourceRunTemplates) {
-        const parameter = dataSource?.parameters.find((parameter) => parameter.id === parameterId);
-        if (parameter != null) return parameter;
-      }
-    },
-    [dataSourceRunTemplates]
-  );
+  const getParameterById = useCallback((dataSources, parameterId) => {
+    for (const dataSource of Object.values(dataSources)) {
+      const parameter = dataSource.parameters?.find((parameter) => parameter.id === parameterId);
+      if (parameter != null) return parameter;
+    }
+  }, []);
 
   const getParameterEnumValues = useCallback(
-    (parameterId) => {
-      const rawEnumValues = ConfigUtils.getParameterAttribute(getParameter(parameterId), 'enumValues') ?? [];
+    (dataSources, parameterId) => {
+      const rawEnumValues =
+        ConfigUtils.getParameterAttribute(getParameterById(dataSources, parameterId), 'enumValues') ?? [];
       return rawEnumValues.map((enumValue) => {
         const valueTranslationKey = TranslationUtils.getParameterEnumValueTranslationKey(parameterId, enumValue.key);
         const tooltipTranslationKey = TranslationUtils.getParameterEnumValueTooltipTranslationKey(
@@ -102,7 +43,7 @@ export const useDatasetCreationParameters = () => {
         };
       });
     },
-    [t, getParameter]
+    [t, getParameterById]
   );
 
   const getUploadFileLabels = useCallback(
@@ -121,18 +62,14 @@ export const useDatasetCreationParameters = () => {
   );
 
   const getDefaultFileTypeFilter = useCallback(
-    (parameterId) => {
-      return getParameter(parameterId)?.options?.defaultFileTypeFilter;
-    },
-    [getParameter]
+    (dataSources, parameterId) => getParameterById(dataSources, parameterId)?.options?.defaultFileTypeFilter,
+    [getParameterById]
   );
 
   return {
-    isDataSourceTypeRunner,
     getParameterEnumValues,
-    dataSourceTypeEnumValues,
+    getDataSourceTypeEnumValues,
     getUploadFileLabels,
     getDefaultFileTypeFilter,
-    getDataSource,
   };
 };
