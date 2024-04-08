@@ -15,7 +15,9 @@ async function downloadLogsFile(organizationId, workspaceId, runnerId, runId) {
 
     const logsParse = JSON.parse(data);
     const jsonLogs = JSON.parse(logsParse.containers.csmorchestrator.logs);
-    const parsedLogs = [jsonLogs.data.result[1].values, jsonLogs.data.result[0].values]
+    const mainContainerLogs = (jsonLogs.data.result ?? []).filter((result) => result.stream.container === 'main');
+    const parsedLogs = mainContainerLogs
+      .map((result) => result.values)
       .flat()
       .sort((a, b) => a[0] - b[0])
       .map((row) => row[1])
