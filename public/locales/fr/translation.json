@@ -450,8 +450,9 @@
           "write": "Modifier les paramètres et renommer le scénario",
           "read": "Voir le scénario et ses résultats",
           "read_security": "Voir les permissions des autres utilisateurs",
-          "acl.scenario.launch": "Lancer le scénario",
-          "acl.scenario.delete": "Supprimer le scénario",
+          "launch": "Lancer le scénario",
+          "delete": "Supprimer le scénario"
+        },
         "datasetPermissions": {
           "read": "Voir le dataset et ses résultats",
           "write": "Editer et rafraîchir le dataset",
