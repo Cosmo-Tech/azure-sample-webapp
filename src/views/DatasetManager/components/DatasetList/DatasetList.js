@@ -20,7 +20,6 @@ import { PermissionsGate, SearchBar } from '@cosmotech/ui';
 import { INGESTION_STATUS } from '../../../../services/config/ApiConstants';
 import { ACL_PERMISSIONS } from '../../../../services/config/accessControl';
 import { CreateDatasetButton } from '../CreateDatasetButton';
-import { RefreshDatasetButton } from '../DatasetOverview/components/RefreshDatasetButton/RefreshDatasetButton';
 import { DeleteDatasetButton } from '../DeleteDatasetButton/DeleteDatasetButton';
 import { useDatasetList } from './DatasetListHook';
 
@@ -90,7 +89,6 @@ export const DatasetList = () => {
     return (
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <div style={{ display: 'inline-flex', padding: '8px', verticalAlign: 'middle' }}>{statusIcon}</div>
-        <RefreshDatasetButton dataset={dataset} />
         <DeleteDatasetButton dataset={dataset} location="" />
       </div>
     );

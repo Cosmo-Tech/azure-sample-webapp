@@ -333,8 +333,6 @@ describe('Refresh dataset', () => {
         finalIngestionStatus: 'ERROR',
       };
       DatasetManager.switchToDatasetManagerView();
-      DatasetManager.getDatasetRefreshButton(DATASETS_TO_REFRESH[0].id).should('be.visible');
-      DatasetManager.getDatasetRefreshButton(DATASETS_TO_REFRESH[1].id).should('be.visible');
       DatasetManager.getDatasetRefreshButton(DATASETS_TO_REFRESH[2].id).should('not.exist');
       DatasetManager.selectDatasetById(DATASETS_TO_REFRESH[2].id);
       DatasetManager.getDatasetOverviewPlaceholder().should('be.visible');
@@ -346,6 +344,7 @@ describe('Refresh dataset', () => {
       DatasetManager.getDatasetOverviewPlaceholder().contains('Importing');
       DatasetManager.getDatasetOverviewPlaceholder(30).should('not.exist');
       DatasetManager.getRefreshDatasetSpinner(DATASETS_TO_REFRESH[0].id).should('not.exist');
+      DatasetManager.selectDatasetById(DATASETS_TO_REFRESH[1].id);
       DatasetManager.refreshDataset(DATASETS_TO_REFRESH[1].id, refreshFailedOptions);
       DatasetManager.selectDatasetById(DATASETS_TO_REFRESH[1].id);
       DatasetManager.getDatasetOverviewPlaceholderTitle().contains('An error', { timeout: 30000 });
