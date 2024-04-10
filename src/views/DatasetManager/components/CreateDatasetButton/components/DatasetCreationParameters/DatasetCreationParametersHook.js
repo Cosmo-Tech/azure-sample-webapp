@@ -47,11 +47,11 @@ export const useDatasetCreationParameters = () => {
   );
 
   const getUploadFileLabels = useCallback(
-    (parameterId) => {
+    (parameterId, idForTranslationKey) => {
       return {
         button: t('genericcomponent.uploadfile.button.browse'),
         invalidFileMessage: t('genericcomponent.uploadfile.tooltip.isvalidfile'),
-        label: t(TranslationUtils.getParameterTranslationKey(parameterId), parameterId),
+        label: t(TranslationUtils.getParameterTranslationKey(idForTranslationKey ?? parameterId), parameterId),
         delete: t('genericcomponent.uploadfile.tooltip.delete'),
         noFileMessage: t('genericcomponent.uploadfile.noFileMessage', 'None'),
         getFileNamePlaceholder: (fileExtension) =>

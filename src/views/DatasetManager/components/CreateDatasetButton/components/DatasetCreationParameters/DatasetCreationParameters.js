@@ -29,6 +29,9 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates }) => {
   const sourceParameters = useMemo(() => {
     const forgeParameterInput = (parameter) => {
       const parameterId = parameter.id;
+      const parameterTranslationKey = TranslationUtils.getParameterTranslationKey(
+        parameter.idForTranslationKey ?? parameterId
+      );
       const fieldPath = `${dataSourceType}.${parameterId}`;
       const inputType = parameter.varType;
 
@@ -45,7 +48,7 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates }) => {
                   <BasicTextInput
                     id={parameterId}
                     key={parameterId}
-                    label={t(TranslationUtils.getParameterTranslationKey(parameterId), parameterId)}
+                    label={t(parameterTranslationKey, parameterId)}
                     tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterId), '')}
                     size="medium"
                     value={value ?? ''}
@@ -60,7 +63,7 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates }) => {
                   <BasicEnumInput
                     id={parameterId}
                     key={parameterId}
-                    label={t(TranslationUtils.getParameterTranslationKey(parameterId), parameterId)}
+                    label={t(parameterTranslationKey, parameterId)}
                     tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterId), '')}
                     value={value ?? enumValues?.[0]?.key ?? ''}
                     changeEnumField={onChange}
@@ -75,7 +78,7 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates }) => {
                   <UploadFile
                     id={parameterId}
                     key={parameterId}
-                    labels={getUploadFileLabels(parameterId)}
+                    labels={getUploadFileLabels(parameterId, parameter.idForTranslationKey)}
                     tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterId), '')}
                     handleUploadFile={(event) => FileManagementUtils.prepareToUpload(event, onChange)}
                     editMode={true}

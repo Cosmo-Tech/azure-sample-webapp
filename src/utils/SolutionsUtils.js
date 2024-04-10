@@ -44,8 +44,16 @@ const addRunTemplatesParametersIdsDict = (solution) => {
 const addStaticTranslationLabels = () => {
   if (typeof addStaticTranslationLabels.initialized !== 'undefined') return;
   addStaticTranslationLabels.initialized = true;
+  DATASET_SOURCES.forEach((dataSource) => {
+    dataSource.parameters.forEach((parameter) => (parameter.idForTranslationKey = `${dataSource.id}.${parameter.id}`));
+  });
+
   TranslationUtils.addTranslationRunTemplateLabels(DATASET_SOURCES);
-  TranslationUtils.addTranslationParametersLabels(DATASET_SOURCES.flatMap((dataSource) => dataSource?.parameters));
+  TranslationUtils.addTranslationParametersLabels(
+    DATASET_SOURCES.flatMap((dataSource) =>
+      dataSource?.parameters.map((parameter) => ({ ...parameter, id: parameter.idForTranslationKey ?? parameter.id }))
+    )
+  );
 };
 
 const addTranslationLabels = (solution) => {
