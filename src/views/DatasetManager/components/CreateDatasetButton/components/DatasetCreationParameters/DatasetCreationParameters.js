@@ -5,15 +5,19 @@ import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Grid, Typography } from '@mui/material';
+import rfdc from 'rfdc';
 import { BasicTextInput, UploadFile, BasicEnumInput } from '@cosmotech/ui';
+// eslint-disable-next-line max-len
+import { GenericEnumInput } from '../../../../../../components/ScenarioParameters/components/ScenarioParametersInputs/GenericEnumInput.js';
 import { TranslationUtils } from '../../../../../../utils';
 import { FileManagementUtils } from '../../../../../../utils/FileManagementUtils';
 import { useDatasetCreationParameters } from './DatasetCreationParametersHook';
 
+const clone = rfdc();
+
 export const DatasetCreationParameters = ({ dataSourceRunTemplates }) => {
   const { t } = useTranslation();
-  const { getParameterEnumValues, getDataSourceTypeEnumValues, getUploadFileLabels, getDefaultFileTypeFilter } =
-    useDatasetCreationParameters();
+  const { getDataSourceTypeEnumValues, getUploadFileLabels, getDefaultFileTypeFilter } = useDatasetCreationParameters();
 
   const [dataSourceType, setDataSourceType] = useState(null);
   const dataSourceTypeEnumValues = useMemo(
@@ -70,20 +74,15 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates }) => {
                 </Grid>
               );
             } else if (inputType === 'enum') {
-              const enumValues = getParameterEnumValues(dataSourceRunTemplates, parameterId);
               return (
-                <Grid item xs={6} sx={{ pt: 2 }}>
-                  <BasicEnumInput
-                    id={parameterId}
-                    key={parameterId}
-                    label={t(parameterTranslationKey, parameterId)}
-                    tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterId), '')}
-                    value={value ?? enumValues?.[0]?.key ?? ''}
-                    changeEnumField={onChange}
-                    textFieldProps={{ disabled: false, id: `enum-input-${parameterId}` }}
-                    enumValues={enumValues}
-                  />
-                </Grid>
+                <GenericEnumInput
+                  parameterData={clone(parameter)}
+                  context={{ editMode: true }}
+                  parameterValue={value}
+                  setParameterValue={onChange}
+                  gridItemProps={{ xs: 6, sx: { pt: 2 } }}
+                  isDirty={null}
+                />
               );
             } else if (inputType === '%DATASETID%') {
               return (
@@ -112,14 +111,7 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates }) => {
 
     const runTemplate = dataSourceRunTemplates[dataSourceType];
     return runTemplate?.parameters?.map((parameter) => forgeParameterInput(parameter));
-  }, [
-    t,
-    getParameterEnumValues,
-    getUploadFileLabels,
-    getDefaultFileTypeFilter,
-    dataSourceRunTemplates,
-    dataSourceType,
-  ]);
+  }, [t, getUploadFileLabels, getDefaultFileTypeFilter, dataSourceRunTemplates, dataSourceType]);
 
   return (
     <>

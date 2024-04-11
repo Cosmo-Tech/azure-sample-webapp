@@ -7,7 +7,14 @@ import { Grid } from '@mui/material';
 import { BasicEnumInput } from '@cosmotech/ui';
 import { ConfigUtils, TranslationUtils } from '../../../../utils';
 
-export const GenericEnumInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty }) => {
+export const GenericEnumInput = ({
+  parameterData,
+  context,
+  parameterValue,
+  setParameterValue,
+  isDirty,
+  gridItemProps,
+}) => {
   const { t } = useTranslation();
   const textFieldProps = {
     disabled: !context.editMode,
@@ -39,7 +46,7 @@ export const GenericEnumInput = ({ parameterData, context, parameterValue, setPa
   }, [t, parameterData]);
 
   return (
-    <Grid item xs={3}>
+    <Grid item xs={3} {...gridItemProps}>
       <BasicEnumInput
         key={parameterData.id}
         id={parameterData.id}
@@ -61,6 +68,7 @@ GenericEnumInput.propTypes = {
   parameterValue: PropTypes.any,
   setParameterValue: PropTypes.func.isRequired,
   isDirty: PropTypes.bool,
+  gridItemProps: PropTypes.object,
 };
 GenericEnumInput.defaultProps = {
   isDirty: false,
