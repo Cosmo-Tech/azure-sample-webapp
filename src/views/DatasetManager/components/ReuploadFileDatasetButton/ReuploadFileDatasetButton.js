@@ -55,7 +55,7 @@ export const ReuploadFileDatasetButton = ({ confirmAndCallback, datasetId, disab
             confirmAndCallback(event, () => openFileBrowser(inputId));
           }}
         >
-          <RefreshIcon />
+          <RefreshIcon color={disabled ? 'disabled' : 'primary'} />
         </IconButton>
       ) : (
         <Button
