@@ -112,17 +112,48 @@ const patchIncompatibleValuesInSolution = (solution) => {
   solution.runTemplates = solution.runTemplates?.filter((runTemplate) => runTemplate != null);
 
   solution.parameters?.forEach((parameter) => {
-    if (parameter.varType === '%DATASETID%' && parameter.options?.subType === 'TABLE')
-      if (parameter.options?.canChangeRowsNumber) {
-        const nonEditableColumn = _getNonEditableColumn(parameter.options.columns);
-        if (nonEditableColumn != null) {
-          console.warn(
-            `parameter.options.canChangeRowsNumber can't be true on ${parameter.id} ` +
-              `if column ${nonEditableColumn.field} is nonEditable, please fix it in the solution`
-          );
-          parameter.options.canChangeRowsNumber = false;
-        }
+    if (parameter.varType === 'enum') {
+      const dynamicSourceConfig = parameter.options?.dynamicEnumValues;
+      if (dynamicSourceConfig == null) return;
+
+      let removeFromConfig = false;
+      if (dynamicSourceConfig.type !== 'cypher') {
+        console.error(
+          `Enum parameter ${parameter.id} has unknown type "${dynamicSourceConfig.type}" for dynamicEnumValues. ` +
+            'Currently, the only supported option is "cypher".'
+        );
+        removeFromConfig = true;
       }
+      if (dynamicSourceConfig.query == null) {
+        console.error(`Enum parameter ${parameter.id} has no query defined in dynamicEnumValues.`);
+        removeFromConfig = true;
+      }
+      if (dynamicSourceConfig.resultKey == null) {
+        console.error(`Enum parameter ${parameter.id} has no resultKey defined in dynamicEnumValues.`);
+        removeFromConfig = true;
+      }
+
+      if (removeFromConfig) {
+        delete parameter.options.dynamicEnumValues;
+        console.warn(
+          `Dynamic values have been disabled for parameter ${parameter.id}, static values from the configuration (or ` +
+            ' an empty list) will be shown.'
+        );
+      }
+    } else if (
+      parameter.varType === '%DATASETID%' &&
+      parameter.options?.subType === 'TABLE' &&
+      parameter.options?.canChangeRowsNumber
+    ) {
+      const nonEditableColumn = _getNonEditableColumn(parameter.options.columns);
+      if (nonEditableColumn != null) {
+        console.warn(
+          `parameter.options.canChangeRowsNumber can't be true on ${parameter.id} ` +
+            `if column ${nonEditableColumn.field} is nonEditable, please fix it in the solution`
+        );
+        parameter.options.canChangeRowsNumber = false;
+      }
+    }
   });
 };
 

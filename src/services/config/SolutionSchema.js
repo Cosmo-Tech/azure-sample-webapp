@@ -34,6 +34,11 @@ const basicParameterOptions = z.object({
     )
     .optional()
     .nullable(),
+  dynamicEnumValues: z
+    .object({ type: z.string().optional().nullable(), query: z.string(), resultKey: z.string() })
+    .strict()
+    .optional()
+    .nullable(),
   tooltipText: z.object({}).optional().nullable(),
   minLength: z.number().optional().nullable(),
   maxLength: z.number().optional().nullable(),

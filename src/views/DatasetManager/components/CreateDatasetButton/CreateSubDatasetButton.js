@@ -9,7 +9,7 @@ import { ACL_PERMISSIONS } from '../../../../services/config/accessControl';
 import { useSubDatasetCreationParameters } from './CreateSubDatasetButtonHook';
 import { DatasetWizard } from './components/DatasetWizard';
 
-export const CreateSubDatasetButton = ({ parentDatasetId }) => {
+export const CreateSubDatasetButton = ({ parentDataset }) => {
   const { dataSourceRunTemplates, createSubDatasetRunner, userPermissionsInCurrentOrganization } =
     useSubDatasetCreationParameters();
   const [isDatasetWizardOpen, setIsDatasetWizardOpen] = useState(false);
@@ -17,10 +17,10 @@ export const CreateSubDatasetButton = ({ parentDatasetId }) => {
 
   const startRunnerAndCloseDialog = useCallback(
     (values) => {
-      createSubDatasetRunner(parentDatasetId, values);
+      createSubDatasetRunner(parentDataset?.id, values);
       closeDialog();
     },
-    [createSubDatasetRunner, parentDatasetId, closeDialog]
+    [createSubDatasetRunner, parentDataset?.id, closeDialog]
   );
 
   return (
@@ -34,7 +34,7 @@ export const CreateSubDatasetButton = ({ parentDatasetId }) => {
       <DatasetWizard
         open={isDatasetWizardOpen}
         closeDialog={closeDialog}
-        parentDatasetId={parentDatasetId}
+        parentDataset={parentDataset}
         onConfirm={startRunnerAndCloseDialog}
         dataSourceRunTemplates={dataSourceRunTemplates}
       />
@@ -43,5 +43,5 @@ export const CreateSubDatasetButton = ({ parentDatasetId }) => {
 };
 
 CreateSubDatasetButton.propTypes = {
-  parentDatasetId: PropTypes.string,
+  parentDataset: PropTypes.object,
 };
