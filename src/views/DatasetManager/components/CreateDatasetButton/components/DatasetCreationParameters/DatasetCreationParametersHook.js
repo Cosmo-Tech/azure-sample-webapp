@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { TranslationUtils, ConfigUtils } from '../../../../../../utils';
+import { TranslationUtils } from '../../../../../../utils';
 
 export const useDatasetCreationParameters = () => {
   const { t } = useTranslation();
@@ -26,26 +26,6 @@ export const useDatasetCreationParameters = () => {
     }
   }, []);
 
-  const getParameterEnumValues = useCallback(
-    (dataSources, parameterId) => {
-      const rawEnumValues =
-        ConfigUtils.getParameterAttribute(getParameterById(dataSources, parameterId), 'enumValues') ?? [];
-      return rawEnumValues.map((enumValue) => {
-        const valueTranslationKey = TranslationUtils.getParameterEnumValueTranslationKey(parameterId, enumValue.key);
-        const tooltipTranslationKey = TranslationUtils.getParameterEnumValueTooltipTranslationKey(
-          parameterId,
-          enumValue.key
-        );
-        return {
-          key: enumValue.key,
-          value: t(valueTranslationKey, enumValue.value),
-          tooltip: t(tooltipTranslationKey, ''),
-        };
-      });
-    },
-    [t, getParameterById]
-  );
-
   const getUploadFileLabels = useCallback(
     (parameterId, idForTranslationKey) => {
       return {
@@ -67,7 +47,6 @@ export const useDatasetCreationParameters = () => {
   );
 
   return {
-    getParameterEnumValues,
     getDataSourceTypeEnumValues,
     getUploadFileLabels,
     getDefaultFileTypeFilter,
