@@ -23,12 +23,23 @@ export const useRunTemplates = () => {
 
 export const useScenarioRunTemplates = () => {
   const runTemplates = useRunTemplates();
-  return useMemo(() => runTemplates.filter((runTemplate) => !SolutionsUtils.isDataSource(runTemplate)), [runTemplates]);
+  return useMemo(
+    () =>
+      runTemplates.filter(
+        (runTemplate) => !SolutionsUtils.isDataSource(runTemplate) && !SolutionsUtils.isSubDataSource(runTemplate)
+      ),
+    [runTemplates]
+  );
 };
 
 export const useDataSourceRunTemplates = () => {
   const runTemplates = useRunTemplates();
   return useMemo(() => runTemplates.filter(SolutionsUtils.isDataSource), [runTemplates]);
+};
+
+export const useSubDataSourceRunTemplates = () => {
+  const runTemplates = useRunTemplates();
+  return useMemo(() => runTemplates.filter(SolutionsUtils.isSubDataSource), [runTemplates]);
 };
 
 export const useResetCurrentSolution = () => {
