@@ -6,6 +6,7 @@ import { DeleteDatasetButton } from '../../../DeleteDatasetButton';
 import { RefreshDatasetButton } from '../RefreshDatasetButton';
 
 export default function DatasetActions({ dataset }) {
+  if (dataset == null) return null;
   return (
     <ButtonGroup>
       <RefreshDatasetButton dataset={dataset} />
@@ -16,5 +17,5 @@ export default function DatasetActions({ dataset }) {
 }
 
 DatasetActions.propTypes = {
-  dataset: PropTypes.object.isRequired,
+  dataset: PropTypes.object,
 };
