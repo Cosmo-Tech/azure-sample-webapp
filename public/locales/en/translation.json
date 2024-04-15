@@ -149,6 +149,7 @@
         "creationDate": "Creation date",
         "description": "Description",
         "descriptionPlaceholder": "Enter the dataset description",
+        "parent": "Parent",
         "refreshDate": "Last refresh",
         "sourceType": "Source",
         "tags": "Tags",

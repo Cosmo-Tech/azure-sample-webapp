@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 export const DatasetMetadata = () => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const { dataset, updateDataset, selectedDatasetIndex } = useDatasetMetadata();
+  const { dataset, updateDataset, selectedDatasetIndex, parentDatasetName } = useDatasetMetadata();
   const datasetId = dataset?.id;
   const userPermissionsOnDataset = dataset?.security?.currentUserPermissions ?? [];
 
@@ -126,6 +126,11 @@ export const DatasetMetadata = () => {
           label={t('commoncomponents.datasetmanager.metadata.apiUrl', 'API URL')}
           value={`datasets/${dataset?.id}`}
           action={copyApiUrlButton}
+        ></MetadataItem>
+        <MetadataItem
+          id="parent"
+          label={t('commoncomponents.datasetmanager.metadata.parent', 'Parent')}
+          value={parentDatasetName}
         ></MetadataItem>
         <Grid item>
           <PermissionsGate
