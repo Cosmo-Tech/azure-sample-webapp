@@ -4,11 +4,13 @@ import { useCallback, useMemo } from 'react';
 import { useOrganizationData } from '../../../../state/hooks/OrganizationHooks';
 import { useCreateRunner } from '../../../../state/hooks/RunnerHooks';
 import { useSubDataSourceRunTemplates, useSolutionData } from '../../../../state/hooks/SolutionHooks';
+import { useWorkspaceData } from '../../../../state/hooks/WorkspaceHooks';
 import { ArrayDictUtils, SolutionsUtils } from '../../../../utils';
 
 export const useSubDatasetCreationParameters = () => {
   const createRunner = useCreateRunner();
   const solutionData = useSolutionData();
+  const workspace = useWorkspaceData();
   const customSubDataSourceRunTemplates = useSubDataSourceRunTemplates();
 
   const userPermissionsInCurrentOrganization = useOrganizationData()?.security?.currentUserPermissions ?? [];
@@ -21,10 +23,20 @@ export const useSubDatasetCreationParameters = () => {
       parameters: parameters.filter((parameter) => runTemplatesParameters[dataSource.id].includes(parameter.id)),
     }));
 
+    const subdatasourceFilter = workspace?.webApp?.options?.datasetManager?.subdatasourceFilter;
     const runTemplates = {};
-    dataSourcesWithParameters.forEach((runTemplate) => (runTemplates[runTemplate.id] = runTemplate));
+    dataSourcesWithParameters.forEach((runTemplate) => {
+      if (subdatasourceFilter == null || subdatasourceFilter.indexOf(runTemplate.id) !== -1)
+        runTemplates[runTemplate.id] = runTemplate;
+    });
+
     return runTemplates;
-  }, [customSubDataSourceRunTemplates, solutionData.parameters, solutionData.runTemplatesParametersIdsDict]);
+  }, [
+    customSubDataSourceRunTemplates,
+    solutionData.parameters,
+    solutionData.runTemplatesParametersIdsDict,
+    workspace?.webApp?.options?.datasetManager?.subdatasourceFilter,
+  ]);
 
   const createSubDatasetRunner = useCallback(
     (parentDatasetId, values) => {

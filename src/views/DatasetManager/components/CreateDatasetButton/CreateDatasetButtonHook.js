@@ -5,12 +5,14 @@ import { DATASET_SOURCE_TYPE, DATASET_SOURCES } from '../../../../services/confi
 import { useCreateDataset } from '../../../../state/hooks/DatasetHooks';
 import { useCreateRunner } from '../../../../state/hooks/RunnerHooks';
 import { useDataSourceRunTemplates, useSolutionData } from '../../../../state/hooks/SolutionHooks';
+import { useWorkspaceData } from '../../../../state/hooks/WorkspaceHooks';
 import { ArrayDictUtils, SolutionsUtils } from '../../../../utils';
 
 export const useDatasetCreationParameters = () => {
   const createDataset = useCreateDataset();
   const createRunner = useCreateRunner();
   const solutionData = useSolutionData();
+  const workspace = useWorkspaceData();
   const customDataSourceRunTemplates = useDataSourceRunTemplates();
 
   const dataSourceRunTemplates = useMemo(() => {
@@ -21,12 +23,20 @@ export const useDatasetCreationParameters = () => {
       parameters: parameters.filter((parameter) => runTemplatesParameters[dataSource.id].includes(parameter.id)),
     }));
 
+    const datasourceFilter = workspace?.webApp?.options?.datasetManager?.datasourceFilter;
     const runTemplates = {};
-    [...DATASET_SOURCES, ...dataSourcesWithParameters].forEach(
-      (runTemplate) => (runTemplates[runTemplate.id] = runTemplate)
-    );
+    [...DATASET_SOURCES, ...dataSourcesWithParameters].forEach((runTemplate) => {
+      if (datasourceFilter == null || datasourceFilter.indexOf(runTemplate.id) !== -1)
+        runTemplates[runTemplate.id] = runTemplate;
+    });
+
     return runTemplates;
-  }, [customDataSourceRunTemplates, solutionData.parameters, solutionData.runTemplatesParametersIdsDict]);
+  }, [
+    customDataSourceRunTemplates,
+    solutionData.parameters,
+    solutionData.runTemplatesParametersIdsDict,
+    workspace?.webApp?.options?.datasetManager?.datasourceFilter,
+  ]);
 
   const createDatasetOrRunner = useCallback(
     (values) => {

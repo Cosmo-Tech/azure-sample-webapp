@@ -109,6 +109,8 @@ const basicWebAppOptions = z.object({
     .nullable(),
   datasetManager: z
     .object({
+      datasourceFilter: z.array(z.string().optional()).optional().nullable(),
+      subdatasourceFilter: z.array(z.string().optional()).optional().nullable(),
       graphIndicators: z.array(TWINGRAPH_INDICATOR).optional().nullable(),
       categories: z
         .array(

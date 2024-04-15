@@ -122,6 +122,8 @@ export const WORKSPACES = [
           documentationUrl: 'https://portal.cosmotech.com/resources/platform-resources/platform-help',
         },
         datasetManager: {
+          datasourceFilter: undefined, // Filter example: ['etl_with_azure_storage', 'etl_with_local_file']
+          subdatasourceFilter: undefined, // Filter example: ['etl_sub_dataset_by_filter']
           graphIndicators: [
             { id: 'bars_count', name: { en: 'Bars', fr: 'Bars' }, queryId: 'bars' },
             { id: 'customers_count', name: { en: 'Customers', fr: 'Clients' }, queryId: 'customers' },
