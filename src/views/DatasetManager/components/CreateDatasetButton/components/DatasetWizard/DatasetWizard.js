@@ -138,10 +138,18 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
     </>
   );
 
+  const dialogTitle = useMemo(
+    () =>
+      parentDatasetId
+        ? t('commoncomponents.datasetmanager.wizard.subDatasetCreationTitle', 'Create sub dataset')
+        : t('commoncomponents.datasetmanager.wizard.title', 'Create dataset'),
+    [t, parentDatasetId]
+  );
+
   return (
     <FormProvider {...methods}>
       <Dialog open={open} fullWidth data-cy="dataset-creation-dialog">
-        <DialogTitle>{t('commoncomponents.datasetmanager.wizard.title', 'Create dataset')}</DialogTitle>
+        <DialogTitle>{dialogTitle}</DialogTitle>
         <DialogContent>
           <Grid container gap={1}>
             <Grid item xs={12}>

@@ -201,6 +201,7 @@
       },
       "wizard": {
         "title": "Create dataset",
+        "subDatasetCreationTitle": "Create sub dataset",
         "stepOne": "Metadata",
         "stepTwo": "Dataset source type",
         "firstScreen": {
