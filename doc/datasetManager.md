@@ -6,7 +6,7 @@ The dataset manager view is an optional view of the webapp, where datasets can b
 **browsed, created, edited, visualized and deleted**. The main feature of this view is to enable the end-users of the
 webapp to **create their own datasets** that can then be used in new scenarios.
 
-The datasets resources are **stored at the organization level**: users will thus see the same list of datasets when
+The dataset resources are **stored at the organization level**: users will thus see the same list of datasets when
 switching between different workspaces. Yet the **datasets overview** can be customized to display different indicators
 based on the currently selected workspace.
 **Integrators must configure the indicators to show in the workspace description.**
@@ -20,9 +20,15 @@ to prevent accidental changes or removal by the webapp users.
 >
 > The webapp users **must have at least the role `user` in the Organization** resource to be able to create datasets
 
-## Dataset manager configuration
+Several parts of this view can be customized via configuration to fit your project needs:
 
-The configuration of the dataset manager must be defined in the **workspace description**. This description is usually
+- the indicators and categories displayed in the "**_overview_**" can be configured from the workspace description
+- you can declare run templates to run your own custom ETL scripts and create datasets from external sources (e.g. Azure Storage, ADT, user file upload); the run templates must be added in your simulator image, and their parameters can be configured in the solution description
+- similarly, you can also declare run templates to create subdatasets of existing an existing dataset (e.g. by applying filters that end-users can configure)
+
+## Overview configuration
+
+In the dataset manager view, the main panel displays an overview of the currently selected dataset. By default, its content will be empty, you have to define what to show inside in the **workspace description**. This description is usually
 defined in a file (e.g. _Workspace.yaml_) and this file is used to create a workspace (or patch an existing one) with
 the Cosmo Tech API (via Swagger or restish for example).
 
@@ -37,12 +43,12 @@ The configuration contains three parts:
 
 ### Queries
 
-When datasets are created in the dataset manager, the Cosmo Tech API will automatically import their data in a
-_twin graph_ resource, stored in a RedisGraph database. These data can then be queried with the
+When datasets are created in the dataset manager (e.g. with the Cosmo Tech API), most import scripts will write their
+data in a _twin graph_ resource, stored in a RedisGraph database. These data can then be queried with the
 [Cypher query language](https://neo4j.com/docs/getting-started/cypher-intro/). In order to display indicators in the
 dataset manager, **you have to provide the list of cypher queries to use**.
 
-Configuration for these queries must be defined with the key [workspace].webApp.options.datasetManager.queries.
+Configuration for these queries must be defined with the key `[workspace].webApp.options.datasetManager.queries`.
 The value for this field must be an **array of objects**, where each object represents one query, with the
 following fields:
 
@@ -268,35 +274,151 @@ webApp:
 
 </details>
 
-### Runners
+## Dataset creation scripts
 
-A dataset can be linked with a runner. In order to do this, a run template need to be configured in the solution with tag `datasource`.
+### Default transformation scripts
+
+In order to let users create their own dataset, the webapp provides, by default, four transformation mechanisms to
+create twingraph datasets. They will be identified with these keys:
+
+- `ADT`: load data from Azure Digital Twin to a new twingraph dataset
+- `AzureStorage`: load data from Azure Storage to a new twingraph dataset
+- `File`: load data from a local file uploaded by a webapp user, to a new twingraph dataset
+- `None`: creates an empty twingraph dataset, that can later be filled by using cypher queries
+
+### Custom ETLs
+
+In addition to these four options, **you can develop your own ETL scripts** and make them available from the dataset
+manager. These ETLs are actually defined as **run templates** (similar to those used to run scenarios), that will be
+identified with a specific tag: `datasource`. Just like the run templates used for scenarios, **each ETL can have
+parameters** (defined in `parameterGroups`), but the list of the currently supported `varType`s is shorter:
+
+- `string`
+- `enum`
+- `%DATASETID%`
+
+For these types, the configuration of parameters is mostly identical to the configuration of scenario parameters
+(see [Scenario Parameters configuration](scenarioParametersConfiguration.md)).
+
+All run templates defined with the tag `datasource` will be selectable as source type for dataset creation (in dataset
+manager view), and will be hidden in the scenario creation dialog (in scenario view).
+
+:information_source: Useful tips to write your ETL run templates:
+
+- when users confirm the dataset creation, **the webapp automatically creates a new dataset object**, associates it to a
+  new runner instance, and refreshes the dataset to trigger the start of the runner
+- the id of this new dataset is provided to the runner, as the **first element of** `datasetList`
+- at the end of your ETL, when the dataset is ready, change the dataset `ingestionStatus` to `SUCCESS`
+- if your ETL fails, change the dataset `ingestionStatus` to `ERROR`
+
+### Configuration examples
+
+<details>
+<summary>Solution.json example</summary>
+
+```json
+{
+ "runTemplates": [
+    {
+      "id": "etl_with_azure_storage",
+      "name": "Azure Storage ETL (<fallback name when translatable labels are not defined>)",
+      "labels": {
+        "fr": "Brewery (.csv) depuis Azure Storage (<label translation>)",
+        "en": "Brewery (.csv) from Azure Storage"
+      },
+      "parameterGroups": ["etl_param_group_bar_parameters", "etl_param_group_azure_storage"],
+      "tags": ["datasource"]
+    }
+  ]
+}
+```
+
+</details>
 
 <details>
 <summary>Solution.yaml example</summary>
 
 ```yaml
- "runTemplates": [
-    {
-      "id": "etl_with_azure_storage",
-      "name": null,
-      "labels": {
-        "fr": "Brewery (.csv) depuis Azure Storage",
-        "en": "Brewery (.csv) from Azure Storage"
-      },
-      "description": null,
-      "csmSimulation": null,
-      "tags": [
-        "datasource"
-      ],
+runTemplates:
+  - id: etl_with_azure_storage
+    name: >-
+      Azure Storage ETL (<fallback name when translatable labels are not
+      defined>)
+    labels:
+      fr: Brewery (.csv) depuis Azure Storage (<label translation>)
+      en: Brewery (.csv) from Azure Storage
+    parameterGroups:
+      - etl_param_group_bar_parameters
+      - etl_param_group_azure_storage
+    tags:
+      - datasource
 ```
 
 </details>
 
-In this way, the run template will be selectable as source type for dataset creation.
-Source parameters need to be configured as usual run template parameters.
+## Subdataset creation scripts
 
-Note : If the run template contains the tag `datasource`, it will not be selectable for scenario creation.
+The dataset creation scripts described in the previous section are useful to create datasets from external data sources.
+Yet in some cases, you may want to create new datasets simply by filtering an existing dataset, already accessible from
+the webapp. _Sub-datasources_ are a specific type of data sources that aim to do exactly this: run a custom ETL script
+to **create a subdataset** from an existing dataset. Declaring this type of run template is straightforward: you just
+have to delclare them with the tag `subdatasource`.
+
+From the webapp interface, the button to create subdatasets will only be available when a dataset is selected: this
+dataset will be the **_parent dataset_**.
+
+The parameters constraints and configuration are the same as for the dataset creation scripts. The only difference is
+that for subdatasources, **the property `datasetList` of the runner contains two elements**:
+
+- the first one is still the id of the dataset created by the webapp (do not forget to update its status in your ETL)
+- the second element of the list indicates **the id of the parent dataset**
+
+## Data source filters
+
+In some cases, you may want to hide some of the default transformation scripts, or to show different ETLs in different
+workspaces. The following option can be defined in your workspace description to do this:
+`[workspace].webApp.options.datasetManager.datasourceFilter`.
+By providing a **list of run template ids**, you can select the entries that will be shown to webapp user. When this
+option is left undefined, all default transformations and all run templates with the tag `datasource` are shown in
+the dataset creation wizard.
+
+The **same filter exists for subdataset creation ETLs**: `[workspace].webApp.options.datasetManager.subdatasourceFilter`.
+When this option is left undefined, all run templates with the tag `subdatasource` are shown when creating subdatasets.
+
+<details>
+<summary>JSON example</summary>
+
+```json
+{
+  "webApp": {
+    "options": {
+      "datasetManager": {
+        "datasourceFilter": ["AzureStorage", "File", "my_dataset_etl"],
+        "subdatasourceFilter": ["my_subdataset_etl"]
+      }
+    }
+  }
+}
+```
+
+</details>
+
+<details>
+<summary>YAML example</summary>
+
+```yaml
+webApp:
+  options:
+    datasetManager:
+      datasourceFilter:
+        - AzureStorage
+        - File
+        - my_dataset_etl
+      subdatasourceFilter:
+        - my_subdataset_etl
+```
+
+</details>
 
 ## Troubleshooting
 
