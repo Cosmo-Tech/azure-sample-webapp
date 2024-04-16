@@ -52,4 +52,15 @@ export default {
   login: {
     main: '#EBE7E2',
   },
+  copilot: {
+    backgroundColor: '#f2f2f2',
+    bubbleTextColor: '#FFFFFF',
+    bubbleBackground: '#ed5400',
+    bubbleBorderColor: '#EBE7E2',
+    bubbleFromUserBackground: '#ffB118',
+    bubbleFromUserBorderColor: '#EBE7E2',
+    sendBoxTextColor: '#000000',
+    sendBoxBackground: '#FFFFFF',
+    sendBoxBorderTop: '#EBE7E2',
+  },
 };

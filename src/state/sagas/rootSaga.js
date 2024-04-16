@@ -3,6 +3,7 @@
 import { all, fork } from 'redux-saga/effects';
 import appSaga from './app';
 import authSaga from './auth';
+import copilotSaga from './copilot';
 import datasetSaga from './datasets';
 import organizationSaga from './organization';
 import powerBISaga from './powerbi';
@@ -11,7 +12,6 @@ import scenarioSaga from './scenario';
 import scenarioRunSaga from './scenarioRun';
 import solutionSaga from './solution';
 import workspaceSaga from './workspace';
-import copilotSaga from './copilot';
 
 export default function* rootSaga() {
   yield all([

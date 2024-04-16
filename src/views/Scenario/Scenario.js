@@ -3,6 +3,9 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import SmartToyIcon from '@mui/icons-material/SmartToy';
 import { Button, Card, Grid, Paper, Tooltip, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { ScenarioValidationStatusChip, PermissionsGate } from '@cosmotech/ui';
@@ -18,7 +21,7 @@ import { AppInsights } from '../../services/AppInsights';
 import { SCENARIO_VALIDATION_STATUS } from '../../services/config/ApiConstants.js';
 import { ACL_PERMISSIONS } from '../../services/config/accessControl';
 import ScenarioService from '../../services/scenario/ScenarioService';
-import { TranslationUtils } from '../../utils/TranslationUtils';
+import { TranslationUtils } from '../../utils';
 import { useScenario } from './ScenarioHook';
 import { ScenarioDashboardCard, BackdropLoadingScenario } from './components';
 
@@ -27,6 +30,20 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: '16px',
     paddingLeft: '8px',
     paddingRight: '8px',
+    width: '100%',
+  },
+  copilotPanel: {
+    marginTop: '16px',
+    paddingTop: '8px',
+    paddingLeft: '8px',
+    paddingRight: '8px',
+    paddingBottom: '8px',
+    width: '100%',
+  },
+  copilotChat: {
+    paddingTop: '0px',
+    width: '100%',
+    height: '800px',
   },
   rightButton: {
     marginLeft: '8px',
@@ -185,7 +202,7 @@ const Scenario = () => {
       disabled={isDirty}
       variant="outlined"
       color="primary"
-      onClick={(event) => validateScenario()}
+      onClick={() => validateScenario()}
     >
       {t('views.scenario.validation.validate', 'Validate')}
     </Button>
@@ -197,7 +214,7 @@ const Scenario = () => {
       disabled={isDirty}
       variant="outlined"
       color="primary"
-      onClick={(event) => rejectScenario()}
+      onClick={() => rejectScenario()}
     >
       {t('views.scenario.validation.reject', 'Reject')}
     </Button>
@@ -258,63 +275,106 @@ const Scenario = () => {
 
   const scenarioValidationArea = showValidationChip ? scenarioValidationStatusChip : validationStatusButtons;
 
+  const [copilotState, setCopilotState] = React.useState({
+    expanded: false,
+    copilotXs: 0,
+    scenarioXs: 12,
+  });
+
+  const toggleCopilot = () => {
+    setCopilotState((state) => ({
+      ...state,
+      expanded: !state.expanded,
+      copilotXs: state.expanded ? 0 : 4,
+      scenarioXs: state.expanded ? 12 : 8,
+    }));
+  };
+
+  const toggleCopilotButton = (
+    <Button
+      className={classes.rightButton}
+      color="primary"
+      onClick={() => toggleCopilot()}
+      startIcon={<SmartToyIcon />}
+      endIcon={copilotState.expanded ? <ArrowForwardIosIcon /> : <ArrowBackIosIcon />}
+    >
+      Copilot
+    </Button>
+  );
+
   return (
     <FormProvider {...methods}>
       <BackdropLoadingScenario />
-      <div data-cy="scenario-view" className={classes.content}>
-        <Grid container spacing={2} alignItems="center" justifyContent="space-between">
-          <Grid item xs={4}>
-            <div>
-              <Grid container spacing={1} alignItems="center" justifyContent="flex-start">
-                <Grid item>
-                  <CreateScenarioButton disabled={isDirty} onScenarioCreated={onScenarioCreated} />
-                </Grid>
-                <Grid item>
-                  <ShareCurrentScenarioButton />
+      <Grid container spacing={2}>
+        <Grid item xs={copilotState.scenarioXs}>
+          <div data-cy="scenario-view" className={classes.content}>
+            <Grid container spacing={2} alignItems="center" justifyContent="space-between">
+              <Grid item xs={4}>
+                <div>
+                  <Grid container spacing={1} alignItems="center" justifyContent="flex-start">
+                    <Grid item>
+                      <CreateScenarioButton disabled={isDirty} onScenarioCreated={onScenarioCreated} />
+                    </Grid>
+                    <Grid item>
+                      <ShareCurrentScenarioButton />
+                    </Grid>
+                  </Grid>
+                </div>
+              </Grid>
+              <Grid item xs={4}>
+                <Grid container direction="column">
+                  <CurrentScenarioSelector disabled={isDirty} renderInputToolTip={currentScenarioRenderInputTooltip} />
+                  {currentScenarioData && (
+                    <Typography
+                      data-cy="run-template-name"
+                      variant="body1"
+                      align="center"
+                      className={classes.runTemplate}
+                    >
+                      {t('views.scenario.text.scenariotype')}:{' '}
+                      {t(
+                        TranslationUtils.getRunTemplateTranslationKey(currentScenarioData.runTemplateId),
+                        currentScenarioData.runTemplateName
+                      )}
+                    </Typography>
+                  )}
                 </Grid>
               </Grid>
-            </div>
-          </Grid>
-          <Grid item xs={4}>
-            <Grid container direction="column">
-              <CurrentScenarioSelector disabled={isDirty} renderInputToolTip={currentScenarioRenderInputTooltip} />
-              {currentScenarioData && (
-                <Typography data-cy="run-template-name" variant="body1" align="center" className={classes.runTemplate}>
-                  {t('views.scenario.text.scenariotype')}:{' '}
-                  {t(
-                    TranslationUtils.getRunTemplateTranslationKey(currentScenarioData.runTemplateId),
-                    currentScenarioData.runTemplateName
+              <Grid item xs={2} className={classes.alignRight}>
+                {currentScenarioData && scenarioValidationArea}
+              </Grid>
+              <Grid item xs={2} className={classes.alignRight}>
+                {toggleCopilotButton}
+              </Grid>
+              <Grid item xs={12}>
+                <Card component={Paper}>
+                  {currentScenarioData && (
+                    <ScenarioParameters
+                      isAccordionExpanded={isScenarioParametersAccordionExpanded}
+                      onToggleAccordion={toggleScenarioParametersAccordion}
+                    />
                   )}
-                </Typography>
-              )}
+                </Card>
+              </Grid>
+              <Grid item xs={12}>
+                <ScenarioDashboardCard />
+              </Grid>
             </Grid>
-          </Grid>
-          <Grid item xs={4} className={classes.alignRight}>
-            {currentScenarioData && scenarioValidationArea}
-          </Grid>
-          <Grid item xs={12}>
-            <Card component={Paper}>
-              <CopilotChat
-                isAccordionExpanded={isCopilotAccordionExpanded}
-                onToggleAccordion={toggleCopilotAccordion}
-              />
-            </Card>
-          </Grid>
-          <Grid item xs={12}>
-            <Card component={Paper}>
-              {currentScenarioData && (
-                <ScenarioParameters
-                  isAccordionExpanded={isScenarioParametersAccordionExpanded}
-                  onToggleAccordion={toggleScenarioParametersAccordion}
-                />
-              )}
-            </Card>
-          </Grid>
-          <Grid item xs={12}>
-            <ScenarioDashboardCard />
-          </Grid>
+          </div>
         </Grid>
-      </div>
+        <Grid item xs={copilotState.copilotXs}>
+          {copilotState.expanded && (
+            <Card component={Paper} className={classes.copilotPanel}>
+              <div className={classes.copilotChat}>
+                <CopilotChat
+                  isAccordionExpanded={isCopilotAccordionExpanded}
+                  onToggleAccordion={toggleCopilotAccordion}
+                />
+              </div>
+            </Card>
+          )}
+        </Grid>
+      </Grid>
     </FormProvider>
   );
 };

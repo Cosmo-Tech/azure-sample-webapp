@@ -12,3 +12,4 @@ export { default as CurrentScenarioPowerBiReport } from './CurrentScenarioPowerB
 export { default as CreateScenarioButton } from './CreateScenarioButton';
 export { default as CurrentScenarioSelector } from './CurrentScenarioSelector';
 export { default as CopilotChat } from './CopilotChat';
+export { default as CopilotChatAccordion } from './CopilotChatAccordion';
