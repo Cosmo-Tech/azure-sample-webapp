@@ -101,6 +101,12 @@ export const GenericEnumInput = ({
     return rawEnumValues;
   }, [t, parameterData, dynamicEnumValues]);
 
+  useEffect(() => {
+    if (parameterValue == null && enumValues.length > 0) {
+      setParameterValue(enumValues?.[0]?.key);
+    }
+  }, [enumValues, parameterValue, setParameterValue]);
+
   const placeholder = useMemo(
     () => (
       <>
