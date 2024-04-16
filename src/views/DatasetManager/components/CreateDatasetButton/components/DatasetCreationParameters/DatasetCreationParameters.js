@@ -35,10 +35,23 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates }) => {
       const fieldPath = `${dataSourceType}.${parameterId}`;
       const inputType = parameter.varType;
 
+      let defaultValue;
+      if (inputType === 'string') defaultValue = '';
+      else if (inputType === 'enum') {
+        const enumValues = getParameterEnumValues(dataSourceRunTemplates, parameterId);
+        defaultValue = enumValues?.[0]?.key ?? '';
+      } else if (inputType === '%DATASETID%') {
+        defaultValue = {};
+      } else {
+        console.error(`VarType "${inputType}" is not supported for ETL runner parameters.`);
+        return null;
+      }
+
       return (
         <Controller
           key={parameterId}
           name={fieldPath}
+          defaultValue={defaultValue}
           rules={{ required: true }}
           render={({ field }) => {
             const { value, onChange } = field;
