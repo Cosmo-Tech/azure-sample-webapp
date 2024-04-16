@@ -2,12 +2,14 @@
 // Licensed under the MIT license.
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { CircularProgress, Grid, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { BasicEnumInput } from '@cosmotech/ui';
 import { Api } from '../../../../services/config/Api';
-import { useOrganizationId } from '../../../../state/hooks/OrganizationHooks.js';
+import { dispatchSetApplicationErrorMessage } from '../../../../state/dispatchers/app/ApplicationDispatcher';
+import { useOrganizationId } from '../../../../state/hooks/OrganizationHooks';
 import { ConfigUtils, TranslationUtils } from '../../../../utils';
 
 const useStyles = makeStyles((theme) => ({
@@ -26,6 +28,7 @@ export const GenericEnumInput = ({
 }) => {
   const { t } = useTranslation();
   const classes = useStyles();
+  const dispatch = useDispatch();
   const organizationId = useOrganizationId();
   const isUnmounted = useRef(false);
   useEffect(() => () => (isUnmounted.current = true), []);
@@ -60,13 +63,13 @@ export const GenericEnumInput = ({
       } catch (error) {
         console.warn(`An error occurred when loading dynamic enum values of parameter "${parameterData.id}"`);
         console.error(error);
-        if (!isUnmounted.current)
-          setDynamicEnumValues(
-            t(
-              'genericcomponent.enumInput.fetchingDynamicValuesError',
-              'Impossible to retrieve dynamic values from data source.'
-            )
-          );
+        const errorTitle = t(
+          'genericcomponent.enumInput.fetchingDynamicValuesError',
+          'Impossible to retrieve dynamic values from data source'
+        );
+        console.log(error);
+        dispatch(dispatchSetApplicationErrorMessage(error, errorTitle));
+        if (!isUnmounted.current) setDynamicEnumValues(errorTitle);
         return;
       }
 

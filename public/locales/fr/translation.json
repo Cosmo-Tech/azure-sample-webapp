@@ -528,7 +528,7 @@
     },
     "enumInput": {
       "fetchingDynamicValues": "Récupération des valeurs en cours...",
-      "fetchingDynamicValuesError": "Impossible de récupérer les valeurs dynamiques depuis la source de données."
+      "fetchingDynamicValuesError": "Impossible de récupérer les valeurs dynamiques depuis la source de données"
     },
     "uploadfile": {
       "button": {

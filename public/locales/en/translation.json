@@ -528,7 +528,7 @@
     },
     "enumInput": {
       "fetchingDynamicValues": "Fetching list of values...",
-      "fetchingDynamicValuesError": "Impossible to retrieve dynamic values from data source."
+      "fetchingDynamicValuesError": "Impossible to retrieve dynamic values from data source"
     },
     "uploadfile": {
       "button": {
