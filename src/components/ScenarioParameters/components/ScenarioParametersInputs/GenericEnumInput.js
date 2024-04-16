@@ -4,10 +4,17 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { CircularProgress, Grid, Typography } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import { BasicEnumInput } from '@cosmotech/ui';
 import { Api } from '../../../../services/config/Api';
 import { useOrganizationId } from '../../../../state/hooks/OrganizationHooks.js';
 import { ConfigUtils, TranslationUtils } from '../../../../utils';
+
+const useStyles = makeStyles((theme) => ({
+  error: {
+    color: theme.palette.error.main,
+  },
+}));
 
 export const GenericEnumInput = ({
   parameterData,
@@ -18,6 +25,7 @@ export const GenericEnumInput = ({
   gridItemProps,
 }) => {
   const { t } = useTranslation();
+  const classes = useStyles();
   const organizationId = useOrganizationId();
   const isUnmounted = useRef(false);
   useEffect(() => () => (isUnmounted.current = true), []);
@@ -107,7 +115,7 @@ export const GenericEnumInput = ({
     }
   }, [enumValues, parameterValue, setParameterValue]);
 
-  const placeholder = useMemo(
+  const loadingValuesPlaceholder = useMemo(
     () => (
       <>
         <CircularProgress data-cy="fetching-dynamic-values-spinner" size="1rem" color="inherit" />
@@ -122,32 +130,35 @@ export const GenericEnumInput = ({
   const errorMessage = useMemo(
     () =>
       typeof dynamicEnumValues === 'string' || dynamicEnumValues instanceof String ? (
-        <Typography sx={{ px: 2 }}>{dynamicEnumValues}</Typography>
+        <Typography sx={{ px: 2 }} className={classes.error}>
+          {dynamicEnumValues}
+        </Typography>
       ) : null,
-    [dynamicEnumValues]
+    [dynamicEnumValues, classes.error]
   );
 
   return (
-    <Grid item xs={3} {...gridItemProps}>
-      <Grid container direction="row" alignItems="stretch">
-        {dynamicEnumValues === null ? (
-          placeholder
-        ) : (
-          <BasicEnumInput
-            key={parameterData.id}
-            id={parameterData.id}
-            label={t(TranslationUtils.getParameterTranslationKey(parameterData.id), parameterData.id)}
-            tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
-            value={parameterValue ?? enumValues?.[0]?.key ?? ''}
-            changeEnumField={setParameterValue}
-            textFieldProps={textFieldProps}
-            enumValues={enumValues}
-            isDirty={isDirty}
-          />
-        )}
-        {errorMessage}
+    errorMessage ?? (
+      <Grid item xs={3} {...gridItemProps}>
+        <Grid container direction="row" alignItems="stretch">
+          {dynamicEnumValues === null ? (
+            loadingValuesPlaceholder
+          ) : (
+            <BasicEnumInput
+              key={parameterData.id}
+              id={parameterData.id}
+              label={t(TranslationUtils.getParameterTranslationKey(parameterData.id), parameterData.id)}
+              tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
+              value={parameterValue ?? enumValues?.[0]?.key ?? ''}
+              changeEnumField={setParameterValue}
+              textFieldProps={textFieldProps}
+              enumValues={enumValues}
+              isDirty={isDirty}
+            />
+          )}
+        </Grid>
       </Grid>
-    </Grid>
+    )
   );
 };
 
