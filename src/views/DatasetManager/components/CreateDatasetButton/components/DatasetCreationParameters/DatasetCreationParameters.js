@@ -97,7 +97,7 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates }) => {
                     editMode={true}
                     handleDeleteFile={() => onChange({})}
                     file={value ?? {}}
-                    acceptedFileTypes={getDefaultFileTypeFilter(parameterId)}
+                    acceptedFileTypes={getDefaultFileTypeFilter(dataSourceRunTemplates, parameterId)}
                   />
                 </Grid>
               );

@@ -76,7 +76,9 @@ export const DATASET_SOURCES = [
   {
     id: DATASET_SOURCE_TYPE.LOCAL_FILE,
     labels: { en: 'Graph Format from Local File', fr: 'Format Graph depuis un fichier local' },
-    parameters: [{ id: `file`, varType: '%DATASETID%', labels: { en: '', fr: '' } }],
+    parameters: [
+      { id: `file`, varType: '%DATASETID%', labels: { en: '', fr: '' }, options: { defaultFileTypeFilter: '.zip' } },
+    ],
     tags: ['datasource'],
   },
   {
