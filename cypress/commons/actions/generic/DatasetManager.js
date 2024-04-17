@@ -45,6 +45,9 @@ export const getDeleteDatasetCancelButton = () => cy.get(SELECTORS.delete.cancel
 export const getDeleteDatasetConfirmButton = () => cy.get(SELECTORS.delete.confirmButton);
 export const getDatasetsListItemText = (datasetId) =>
   cy.get(SELECTORS.list.listItemTextByDatasetId.replace('$DATASETID', datasetId));
+export const getDatasetShareButton = (datasetId) =>
+  cy.get(GENERIC_SELECTORS.genericComponents.rolesEdition.shareButton);
+
 export const selectDatasetById = (datasetId) => getDatasetsListItemButton(datasetId).click();
 
 export const getDatasetMetadataCard = () => cy.get(SELECTORS.metadata.card);

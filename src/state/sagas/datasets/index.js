@@ -9,6 +9,7 @@ import { queryDatasetTwingraphSaga } from './QueryDatasetTwingraph';
 import { refreshDatasetSaga } from './RefreshDataset';
 import { rollbackTwingraphDataSaga } from './RollbackTwingraphData';
 import { updateDatasetSaga } from './UpdateDataset';
+import { updateDatasetSecuritySaga } from './UpdateDatasetSecurity';
 
 export default function* datasetSaga() {
   yield all([
@@ -16,6 +17,7 @@ export default function* datasetSaga() {
     fork(deleteDatasetSaga),
     fork(createDatasetSaga),
     fork(updateDatasetSaga),
+    fork(updateDatasetSecuritySaga),
     fork(refreshDatasetSaga),
     fork(pollTwingraphStatusSaga),
     fork(queryDatasetTwingraphSaga),

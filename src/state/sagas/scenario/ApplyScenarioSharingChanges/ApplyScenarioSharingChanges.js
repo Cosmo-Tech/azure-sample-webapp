@@ -10,13 +10,6 @@ import { DATASET_ACTIONS_KEY } from '../../../commons/DatasetConstants';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
 
-// TODO: replace by data from redux when dataset roles-permissions mapping is added in back-end /permissions endpoint
-const DATASET_PERMISSIONS_MAPPING = {
-  viewer: ['read', 'read_security'],
-  editor: ['read', 'read_security', 'write'],
-  admin: ['read', 'read_security', 'write', 'write_security', 'delete'],
-};
-
 const getUserEmail = (state) => state.auth.userEmail;
 const getUserId = (state) => state.auth.userId;
 const getScenariosPermissionsMapping = (state) => state.application.permissionsMapping.scenario;
@@ -25,6 +18,7 @@ const getWorkspaceId = (state) => state.workspace.current.data.id;
 const getCurrentScenario = (state) => state.scenario.current?.data;
 const getDatasets = (state) => state.dataset.list?.data;
 const getSolutionParameters = (state) => state?.solution?.current?.data?.parameters ?? [];
+const getDatasetPermissionMapping = (state) => state.application.permissionsMapping.dataset;
 
 export function* applyScenarioSharingChanges(action) {
   try {
@@ -66,13 +60,14 @@ export function* applyScenarioSharingChanges(action) {
       const newDatasetSecurity = SecurityUtils.forgeDatasetSecurityFromScenarioSecurity(newScenarioSecurity);
       yield call(DatasetService.updateSecurity, organizationId, datasetId, dataset.security, newDatasetSecurity);
 
+      const datasetPermissionsMapping = yield select(getDatasetPermissionMapping);
       yield put({
         type: DATASET_ACTIONS_KEY.SET_DATASET_SECURITY,
         datasetId,
         security: newDatasetSecurity,
         userEmail,
         userId,
-        permissionsMapping: DATASET_PERMISSIONS_MAPPING,
+        datasetPermissionsMapping,
       });
     }
 
@@ -99,7 +94,7 @@ export function* applyScenarioSharingChanges(action) {
 }
 
 function* applyScenarioSharingChangesSaga() {
-  yield takeEvery(SCENARIO_ACTIONS_KEY.APPLY_SCENARIO_SHARING_CHANGES, applyScenarioSharingChanges);
+  yield takeEvery(SCENARIO_ACTIONS_KEY.TRIGGER_SAGA_UPDATE_SCENARIO_SECURITY, applyScenarioSharingChanges);
 }
 
 export default applyScenarioSharingChangesSaga;

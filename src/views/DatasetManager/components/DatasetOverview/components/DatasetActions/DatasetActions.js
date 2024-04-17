@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ButtonGroup from '@mui/material/ButtonGroup';
+import ShareDatasetButton from '../../../../../../components/ShareDatasetButton/ShareDatasetButton';
 import { CreateSubDatasetButton } from '../../../CreateDatasetButton';
 import { DeleteDatasetButton } from '../../../DeleteDatasetButton';
 import { RefreshDatasetButton } from '../RefreshDatasetButton';
@@ -11,6 +12,7 @@ export default function DatasetActions({ dataset }) {
     <ButtonGroup>
       <RefreshDatasetButton dataset={dataset} />
       <CreateSubDatasetButton parentDatasetId={dataset?.id} />
+      <ShareDatasetButton dataset={dataset} />
       <DeleteDatasetButton dataset={dataset} location="dataset-actions-" />
     </ButtonGroup>
   );

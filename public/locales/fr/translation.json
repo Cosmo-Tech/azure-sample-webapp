@@ -450,8 +450,15 @@
           "write": "Modifier les paramètres et renommer le scénario",
           "read": "Voir le scénario et ses résultats",
           "read_security": "Voir les permissions des autres utilisateurs",
-          "acl.scenario.launch": "Lancer le scénario",
-          "acl.scenario.delete": "Supprimer le scénario"
+          "launch": "Lancer le scénario",
+          "delete": "Supprimer le scénario"
+        },
+        "datasetPermissions": {
+          "read": "Voir le dataset et ses résultats",
+          "write": "Editer et rafraîchir le dataset",
+          "read_security": "Voir les permissions des autres utilisateurs",
+          "write_security": "Modifier les permissions",
+          "delete": "Supprimer le dataset"
         }
       },
       "sessionTimeout": {
@@ -502,6 +509,8 @@
       "runnerNotCreated": "Le runner n'a pas pu être crée",
       "runnerFileNotUploaded": "Echec de l'envoi du fichier de runner {{runnerFile}}",
       "runnerStopError": "Impossible d'arrêter le runner {{runnerId}}",
+      "datasetSecurityNotUpdated": "Les permissions du dataset {{datasetId}} n'ont pas pu être modifiées",
+      "runnerNotUpdated": "Le runner n'a pas pu être mis à jour",
       "twingraphNotCreated": "Une erreur est survenue pendant la creation du twingraph",
       "twingraphStatusPollingFailed": "Une erreur est survenue lors de la mise à jour du statut du dataset {{datasetDetails}}",
       "twingraphDataNotRestored": "Les données du twingraph n'ont pas pu être restaurées"

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 import { useCallback, useMemo } from 'react';
 import { useUserAppPermissions } from '../state/hooks/AuthHooks';
+import { useGetDatasetSecurity } from '../state/hooks/DatasetHooks';
 import { useCurrentScenarioData } from '../state/hooks/ScenarioHooks';
 
 const useGetUserPermissionOnScenarioData = () =>
@@ -46,4 +47,9 @@ export const useHasUserPermissionOnScenario = () => {
     },
     [getUserAppAndScenarioPermissions]
   );
+};
+
+export const useGetUserPermissionOnDataset = () => {
+  const getDatasetSecurity = useGetDatasetSecurity();
+  return useCallback((datasetId) => getDatasetSecurity(datasetId)?.currentUserPermissions || [], [getDatasetSecurity]);
 };

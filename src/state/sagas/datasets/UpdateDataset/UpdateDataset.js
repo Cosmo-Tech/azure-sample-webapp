@@ -24,7 +24,7 @@ export function* updateDataset(action) {
     yield put(
       dispatchSetApplicationErrorMessage(
         error,
-        t('commoncomponents.banner.datasetNotUpdated', "Dataset hasn't been updated")
+        t('commoncomponents.banner.datasetNotUpdated', "Dataset {datasetId} hasn't been updated", { datasetId })
       )
     );
   }

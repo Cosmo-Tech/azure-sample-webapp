@@ -11,7 +11,8 @@ import {
 } from '../../state/hooks/ApplicationHooks';
 import { useCurrentScenarioData, useApplyScenarioSharingSecurity } from '../../state/hooks/ScenarioHooks';
 import { useWorkspaceData } from '../../state/hooks/WorkspaceHooks';
-import { getShareScenarioDialogLabels, getPermissionsLabels, getRolesLabels } from './labels';
+import { SecurityUtils } from '../../utils/SecurityUtils';
+import { getShareScenarioDialogLabels } from './labels';
 
 export const useShareCurrentScenarioButton = () => {
   const { t } = useTranslation();
@@ -35,12 +36,12 @@ export const useShareCurrentScenarioButton = () => {
 
   const rolesLabels = useMemo(() => {
     const rolesNames = Object.values(roles.scenario);
-    return getRolesLabels(t, rolesNames);
+    return SecurityUtils.getRolesLabels(t, rolesNames);
   }, [roles.scenario, t]);
 
   const permissionsLabels = useMemo(() => {
     const permissionsNames = Object.values(permissions.scenario);
-    return getPermissionsLabels(t, permissionsNames);
+    return SecurityUtils.getScenarioPermissionsLabels(t, permissionsNames);
   }, [permissions.scenario, t]);
 
   const workspaceUsers = useMemo(() => workspaceData.users.map((user) => ({ id: user })), [workspaceData.users]);
