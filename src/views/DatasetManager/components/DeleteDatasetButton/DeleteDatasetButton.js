@@ -3,7 +3,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { IconButton } from '@mui/material';
-import { PermissionsGate } from '@cosmotech/ui';
+import { FadingTooltip, PermissionsGate } from '@cosmotech/ui';
 import { INGESTION_STATUS } from '../../../../services/config/ApiConstants';
 import { ACL_PERMISSIONS } from '../../../../services/config/accessControl';
 import { TwoActionsDialogService } from '../../../../services/twoActionsDialog/twoActionsDialogService';
@@ -57,13 +57,18 @@ export const DeleteDatasetButton = ({ dataset, location }) => {
   const userPermissionsOnDataset = dataset?.security?.currentUserPermissions ?? [];
   return (
     <PermissionsGate userPermissions={userPermissionsOnDataset} necessaryPermissions={[ACL_PERMISSIONS.DATASET.DELETE]}>
-      <IconButton
-        onClick={(event) => askConfirmationToDeleteDialog(event, dataset)}
-        data-cy={`${location}dataset-delete-button-${dataset?.id}`}
-        disabled={isDisabled}
+      <FadingTooltip
+        title={t('commoncomponents.datasetmanager.overview.actions.deleteButtonTooltip', 'Delete')}
+        disableInteractive={true}
       >
-        <DeleteForeverIcon color={isDisabled ? 'disabled' : 'primary'} />
-      </IconButton>
+        <IconButton
+          onClick={(event) => askConfirmationToDeleteDialog(event, dataset)}
+          data-cy={`${location}dataset-delete-button-${dataset?.id}`}
+          disabled={isDisabled}
+        >
+          <DeleteForeverIcon color={isDisabled ? 'disabled' : 'primary'} />
+        </IconButton>
+      </FadingTooltip>
     </PermissionsGate>
   );
 };

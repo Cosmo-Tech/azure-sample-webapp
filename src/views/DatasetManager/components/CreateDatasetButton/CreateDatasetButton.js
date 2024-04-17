@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Add as AddIcon } from '@mui/icons-material';
 import { Button, IconButton } from '@mui/material';
+import { FadingTooltip } from '@cosmotech/ui';
 import { useDatasetCreationParameters } from './CreateDatasetButtonHook';
 import { DatasetWizard } from './components/DatasetWizard';
 
@@ -30,9 +31,14 @@ export const CreateDatasetButton = ({ isContainedButton }) => {
           {t('commoncomponents.datasetmanager.create.label', 'Create')}
         </Button>
       ) : (
-        <IconButton onClick={() => setIsDatasetWizardOpen(true)} data-cy="create-dataset-button">
-          <AddIcon color="primary" />
-        </IconButton>
+        <FadingTooltip
+          title={t('commoncomponents.datasetmanager.create.tooltip', 'Create a new dataset')}
+          disableInteractive={true}
+        >
+          <IconButton onClick={() => setIsDatasetWizardOpen(true)} data-cy="create-dataset-button">
+            <AddIcon color="primary" />
+          </IconButton>
+        </FadingTooltip>
       )}
       <DatasetWizard
         open={isDatasetWizardOpen}

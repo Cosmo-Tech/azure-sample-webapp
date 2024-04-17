@@ -4,7 +4,7 @@
 export const getShareDatasetDialogLabels = (t, currentDatasetName) => ({
   button: {
     title: t('commoncomponents.dialog.share.button.label', 'Share'),
-    tooltip: t('commoncomponents.dialog.share.button.tooltip', 'Modify access'),
+    tooltip: t('commoncomponents.datasetmanager.overview.actions.shareButtonTooltip', 'Share'),
   },
   dialog: {
     title: t('commoncomponents.dialog.share.dialog.title', 'Share ') + currentDatasetName,

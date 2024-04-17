@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import IconButton from '@mui/material/IconButton';
-import { DontAskAgainDialog, PermissionsGate } from '@cosmotech/ui';
+import { DontAskAgainDialog, FadingTooltip, PermissionsGate } from '@cosmotech/ui';
 import { DATASET_SOURCE_TYPE, INGESTION_STATUS } from '../../../../../../services/config/ApiConstants';
 import { ACL_PERMISSIONS } from '../../../../../../services/config/accessControl';
 import { useRefreshDataset } from '../../../../../../state/hooks/DatasetHooks';
@@ -24,6 +24,7 @@ export const RefreshDatasetButton = ({ dataset }) => {
   };
 
   const [isRefreshConfirmationDialogOpen, setIsRefreshConfirmationDialogOpen] = useState(false);
+
   const refreshDatasetById = useRefreshDataset();
   const datasetRefreshCallback = useRef();
   const confirmAndRefreshDataset = useCallback((event, callbackFunction) => {
@@ -55,13 +56,18 @@ export const RefreshDatasetButton = ({ dataset }) => {
     );
   else if (dataset?.sourceType !== DATASET_SOURCE_TYPE.NONE) {
     refreshButton = (
-      <IconButton
-        onClick={(event) => confirmAndRefreshDataset(event, () => refreshDatasetById(dataset.id))}
-        data-cy={`dataset-refresh-button-${dataset?.id}`}
-        disabled={isDisabled}
+      <FadingTooltip
+        title={t('commoncomponents.datasetmanager.overview.actions.refreshButtonTooltip', 'Refresh')}
+        disableInteractive={true}
       >
-        <RefreshIcon color={isDisabled ? 'disabled' : 'primary'} />
-      </IconButton>
+        <IconButton
+          onClick={(event) => confirmAndRefreshDataset(event, () => refreshDatasetById(dataset.id))}
+          data-cy={`dataset-refresh-button-${dataset?.id}`}
+          disabled={isDisabled}
+        >
+          <RefreshIcon color={isDisabled ? 'disabled' : 'primary'} />
+        </IconButton>
+      </FadingTooltip>
     );
   }
   const userPermissionsOnDataset = dataset?.security?.currentUserPermissions ?? [];

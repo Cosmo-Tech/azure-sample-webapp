@@ -1,15 +1,17 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import React, { useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { AddCircle as AddIcon } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
-import { PermissionsGate } from '@cosmotech/ui';
+import { FadingTooltip, PermissionsGate } from '@cosmotech/ui';
 import { ACL_PERMISSIONS } from '../../../../services/config/accessControl';
 import { useSubDatasetCreationParameters } from './CreateSubDatasetButtonHook';
 import { DatasetWizard } from './components/DatasetWizard';
 
 export const CreateSubDatasetButton = ({ parentDatasetId }) => {
+  const { t } = useTranslation();
   const { dataSourceRunTemplates, createSubDatasetRunner, userPermissionsInCurrentOrganization } =
     useSubDatasetCreationParameters();
   const [isDatasetWizardOpen, setIsDatasetWizardOpen] = useState(false);
@@ -28,9 +30,17 @@ export const CreateSubDatasetButton = ({ parentDatasetId }) => {
       userPermissions={userPermissionsInCurrentOrganization}
       necessaryPermissions={[ACL_PERMISSIONS.ORGANIZATION.CREATE_CHILDREN]}
     >
-      <IconButton onClick={() => setIsDatasetWizardOpen(true)} data-cy="create-subdataset-button">
-        <AddIcon color="primary" />
-      </IconButton>
+      <FadingTooltip
+        title={t(
+          'commoncomponents.datasetmanager.overview.actions.createSubdatasetButtonTooltip',
+          'Create sub-dataset'
+        )}
+        disableInteractive={true}
+      >
+        <IconButton onClick={() => setIsDatasetWizardOpen(true)} data-cy="create-subdataset-button">
+          <AddIcon color="primary" />
+        </IconButton>
+      </FadingTooltip>
       <DatasetWizard
         open={isDatasetWizardOpen}
         closeDialog={closeDialog}

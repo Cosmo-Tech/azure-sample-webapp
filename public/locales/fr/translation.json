@@ -172,6 +172,12 @@
         "cancel": "Annuler"
       },
       "overview": {
+        "actions": {
+          "deleteButtonTooltip": "Supprimer",
+          "shareButtonTooltip": "Partager",
+          "refreshButtonTooltip": "Mettre à jour",
+          "createSubdatasetButtonTooltip": "Créer un sous-dataset"
+        },
         "attributesLabel": "Attributs:",
         "categoryTypes": {
           "entity": "Entité",
@@ -242,7 +248,8 @@
         "body": "Cliquez sur <createDatasetButton /> pour importer vos premières données"
       },
       "create": {
-        "label": "Créer"
+        "label": "Créer",
+        "tooltip": "Créer un nouveau dataset"
       },
       "backdrop": {
         "deleting": "Suppression du dataset en cours"
