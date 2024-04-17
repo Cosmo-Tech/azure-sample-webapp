@@ -95,7 +95,7 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates }) => {
                     tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterId), '')}
                     handleUploadFile={(event) => FileManagementUtils.prepareToUpload(event, onChange)}
                     editMode={true}
-                    handleDeleteFile={() => onChange({})}
+                    handleDeleteFile={() => onChange(null)}
                     file={value ?? {}}
                     acceptedFileTypes={getDefaultFileTypeFilter(dataSourceRunTemplates, parameterId)}
                   />
