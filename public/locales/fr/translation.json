@@ -423,11 +423,13 @@
               "viewer": "Tout le monde dans ce workspace est visiteur",
               "validator": "Tout le monde dans ce workspace est validateur",
               "editor": "Tout le monde est éditeur",
-              "none": "Le scénario n'est pas visible par les autres utilisateurs"
+              "none": "Le scénario n'est pas visible par les autres utilisateurs",
+              "datasetNone": "Le dataset n'est pas visible par les autres utilisateurs"
             }
           },
           "error": {
-            "noAdmin": "Le scénario doit avoir au moins un admin"
+            "noAdmin": "Le scénario doit avoir au moins un admin",
+            "datasetNoAdmin": "Le dataset doit avoir au moins un admin"
           },
           "add": {
             "deniedPermissions": "Permissions accordées",

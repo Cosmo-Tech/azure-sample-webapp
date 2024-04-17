@@ -14,7 +14,7 @@ export const getShareDatasetDialogLabels = (t, currentDatasetName) => ({
     close: t('commoncomponents.dialog.share.dialog.buttons.close', 'Close'),
     share: t('commoncomponents.dialog.share.dialog.buttons.share', 'Share'),
     noAdminError: t(
-      'commoncomponents.dialog.share.dialog.error.noAdmin',
+      'commoncomponents.dialog.share.dialog.error.datasetNoAdmin',
       'The dataset must have at least one administrator'
     ),
     userSelected: t('commoncomponents.dialog.share.dialog.select.userSelected', 'Selected user'),
@@ -36,7 +36,10 @@ export const getShareDatasetDialogLabels = (t, currentDatasetName) => ({
           'commoncomponents.dialog.share.dialog.editor.helperText.editor',
           'Anyone in this workspace is editor'
         ),
-        none: t('commoncomponents.dialog.share.dialog.editor.helperText.none', 'Other users cannot view the dataset'),
+        none: t(
+          'commoncomponents.dialog.share.dialog.editor.helperText.datasetNone',
+          'Other users cannot view the dataset'
+        ),
       },
     },
     add: {

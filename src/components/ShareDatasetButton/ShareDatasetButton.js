@@ -42,7 +42,7 @@ const ShareDatasetButton = (props) => {
             agents={workspaceUsers}
             specificAccessByAgent={accessListSpecific(datasetId)}
             defaultRole={defaultRole(datasetId)}
-            defaultAccessScope="Organization"
+            defaultAccessScope="Workspace"
             preventNoneRoleForAgents={true}
             allRoles={rolesLabels}
             allPermissions={permissionsLabels}

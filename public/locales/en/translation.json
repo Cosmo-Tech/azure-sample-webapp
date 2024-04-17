@@ -423,11 +423,13 @@
               "viewer": "Anyone in this workspace is viewer",
               "validator": "Anyone in this workspace is validator",
               "editor": "Anyone in this workspace is editor",
-              "none": "Other users cannot view the scenario"
+              "none": "Other users cannot view the scenario",
+              "datasetNone": "Other users cannot view the dataset"
             }
           },
           "error": {
-            "noAdmin": "The scenario must have at least one admin"
+            "noAdmin": "The scenario must have at least one admin",
+            "datasetNoAdmin": "The dataset must have at least one admin"
           },
           "add": {
             "deniedPermissions": "Not granted permissions",
