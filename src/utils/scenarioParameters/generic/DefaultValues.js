@@ -9,5 +9,6 @@ export const GENERIC_VAR_TYPES_DEFAULT_VALUES = {
   number: 0,
   bool: false,
   date: new Date(),
+  list: [],
   [DATASET_ID_VARTYPE]: null, // "%DATASETID%" varType, null when unspecified
 };

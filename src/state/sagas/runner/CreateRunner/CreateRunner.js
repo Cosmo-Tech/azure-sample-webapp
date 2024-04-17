@@ -3,7 +3,7 @@
 import { t } from 'i18next';
 import { put, takeEvery, call, select } from 'redux-saga/effects';
 import { Api } from '../../../../services/config/Api';
-import { DatasetsUtils } from '../../../../utils';
+import { DatasetsUtils, ApiUtils } from '../../../../utils';
 import { DATASET_ACTIONS_KEY } from '../../../commons/DatasetConstants';
 import { RUNNER_ACTIONS_KEY } from '../../../commons/RunnerConstants';
 import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
@@ -58,21 +58,23 @@ export function* createRunner(action) {
     const organizationId = action.organizationId;
     const workspaceId = action.workspaceId;
     const runner = action.runner;
-    const parameters = runner.parametersValues;
     const userEmail = yield select(getUserEmail);
 
     runner.security = { default: 'none', accessControlList: [{ id: userEmail, role: 'admin' }] };
     runner.runTemplateId = runner.sourceType;
     delete runner.sourceType;
 
-    for (const parameter of parameters) {
+    for (const parameter of runner.parametersValues) {
       if (parameter.varType === '%DATASETID%') {
         const datasetId = yield call(uploadFileParameter, parameter, organizationId, workspaceId);
         parameter.value = datasetId;
       }
     }
 
-    const { data: runnerCreated } = yield call(Api.Runners.createRunner, organizationId, workspaceId, runner);
+    const { data: runnerCreated } = yield call(Api.Runners.createRunner, organizationId, workspaceId, {
+      ...runner,
+      parametersValues: ApiUtils.formatParametersForApi(runner.parametersValues).parametersValues,
+    });
     const runnerId = runnerCreated.id;
 
     const dataset = {

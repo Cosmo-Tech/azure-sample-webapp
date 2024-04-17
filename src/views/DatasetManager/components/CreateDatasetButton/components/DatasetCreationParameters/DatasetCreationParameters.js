@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Grid, Typography } from '@mui/material';
 import rfdc from 'rfdc';
-import { BasicTextInput, UploadFile, BasicEnumInput } from '@cosmotech/ui';
+import { BasicTextInput, UploadFile, BasicEnumInput, MultiSelect } from '@cosmotech/ui';
 // eslint-disable-next-line max-len
 import { GenericEnumInput } from '../../../../../../components/ScenarioParameters/components/ScenarioParametersInputs/GenericEnumInput.js';
 import { ConfigUtils, TranslationUtils } from '../../../../../../utils';
@@ -31,6 +31,23 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
   }, [dataSourceType, setDataSourceType, defaultDataSourceTypeKey]);
 
   const sourceParameters = useMemo(() => {
+    const getParameterEnumValues = (parameter) => {
+      // FIXME: duplicated code from GenericEnumInput
+      const rawEnumValues = ConfigUtils.getParameterAttribute(parameter, 'enumValues') ?? [];
+      return rawEnumValues.map((enumValue) => {
+        const valueTranslationKey = TranslationUtils.getParameterEnumValueTranslationKey(parameter.id, enumValue.key);
+        const tooltipTranslationKey = TranslationUtils.getParameterEnumValueTooltipTranslationKey(
+          parameter.id,
+          enumValue.key
+        );
+        return {
+          key: enumValue.key,
+          value: t(valueTranslationKey, enumValue.value),
+          tooltip: t(tooltipTranslationKey, ''),
+        };
+      });
+    };
+
     const forgeParameterInput = (parameter) => {
       const parameterId = parameter.id;
       const parameterTranslationKey = TranslationUtils.getParameterTranslationKey(
@@ -44,6 +61,8 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
       else if (inputType === 'enum') {
         const enumValues = ConfigUtils.getParameterAttribute(parameter, 'enumValues') ?? [];
         defaultValue = enumValues?.[0]?.key;
+      } else if (inputType === 'list') {
+        defaultValue = [];
       } else if (inputType === '%DATASETID%') {
         defaultValue = null;
       } else {
@@ -83,6 +102,22 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
                   gridItemProps={{ xs: 6, sx: { pt: 2 } }}
                   isDirty={null}
                 />
+              );
+            } else if (inputType === 'list') {
+              const enumValues = getParameterEnumValues(parameter);
+              return (
+                <Grid item xs={12} sx={{ pt: 2 }}>
+                  <MultiSelect
+                    id={parameterId}
+                    key={parameterId}
+                    label={t(parameterTranslationKey, parameterId)}
+                    tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterId), '')}
+                    value={value ?? []}
+                    changeValues={onChange}
+                    textFieldProps={{ disabled: false, id: `multi-values-input-${parameterId}` }}
+                    enumValues={enumValues}
+                  />
+                </Grid>
               );
             } else if (inputType === '%DATASETID%') {
               return (
