@@ -464,7 +464,7 @@
           "delete": "Delete scenario"
         },
         "datasetPermissions": {
-          "read": "View dataset and its results",
+          "read": "View dataset and create sub-dataset",
           "write": "Edit and refresh dataset",
           "read_security": "See other people's permissions",
           "write_security": "Edit permissions",

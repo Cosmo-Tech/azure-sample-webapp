@@ -464,7 +464,7 @@
           "delete": "Supprimer le scénario"
         },
         "datasetPermissions": {
-          "read": "Voir le dataset et ses résultats",
+          "read": "Voir le dataset et créer un sous-dataset",
           "write": "Editer et rafraîchir le dataset",
           "read_security": "Voir les permissions des autres utilisateurs",
           "write_security": "Modifier les permissions",
