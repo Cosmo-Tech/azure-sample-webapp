@@ -9,7 +9,7 @@ import rfdc from 'rfdc';
 import { BasicTextInput, UploadFile, BasicEnumInput } from '@cosmotech/ui';
 // eslint-disable-next-line max-len
 import { GenericEnumInput } from '../../../../../../components/ScenarioParameters/components/ScenarioParametersInputs/GenericEnumInput.js';
-import { TranslationUtils } from '../../../../../../utils';
+import { ConfigUtils, TranslationUtils } from '../../../../../../utils';
 import { FileManagementUtils } from '../../../../../../utils/FileManagementUtils';
 import { useDatasetCreationParameters } from './DatasetCreationParametersHook';
 
@@ -41,8 +41,10 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
 
       let defaultValue;
       if (inputType === 'string') defaultValue = '';
-      else if (inputType === 'enum') defaultValue = undefined;
-      else if (inputType === '%DATASETID%') {
+      else if (inputType === 'enum') {
+        const enumValues = ConfigUtils.getParameterAttribute(parameter, 'enumValues') ?? [];
+        defaultValue = enumValues?.[0]?.key;
+      } else if (inputType === '%DATASETID%') {
         defaultValue = null;
       } else {
         console.error(`VarType "${inputType}" is not supported for ETL runner parameters.`);
