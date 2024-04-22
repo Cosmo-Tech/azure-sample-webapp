@@ -1,13 +1,13 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { PermissionsGate, RolesEditionButton } from '@cosmotech/ui';
+import { INGESTION_STATUS } from '../../services/config/ApiConstants';
 import { ACL_PERMISSIONS } from '../../services/config/accessControl';
 import { useShareDatasetButton } from './ShareDatasetButtonHook';
 
-const ShareDatasetButton = (props) => {
-  const { dataset } = props;
+const ShareDatasetButton = ({ dataset }) => {
   const {
     accessListSpecific,
     updateDatasetSecurity,
@@ -21,6 +21,7 @@ const ShareDatasetButton = (props) => {
   } = useShareDatasetButton();
 
   const datasetId = dataset?.id;
+  const isDisabled = useMemo(() => !dataset || dataset.ingestionStatus === INGESTION_STATUS.PENDING, [dataset]);
 
   return (
     <>
@@ -34,7 +35,7 @@ const ShareDatasetButton = (props) => {
           noPermissionProps={{ isReadOnly: true }}
         >
           <RolesEditionButton
-            disabled={false}
+            disabled={isDisabled}
             isIconButton={true}
             labels={shareDatasetDialogLabels(datasetId)}
             onConfirmChanges={(security) => updateDatasetSecurity(datasetId, security)}
