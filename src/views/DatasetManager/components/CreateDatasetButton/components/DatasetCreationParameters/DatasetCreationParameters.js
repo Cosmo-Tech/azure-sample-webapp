@@ -43,7 +43,7 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
       if (inputType === 'string') defaultValue = '';
       else if (inputType === 'enum') defaultValue = undefined;
       else if (inputType === '%DATASETID%') {
-        defaultValue = {};
+        defaultValue = null;
       } else {
         console.error(`VarType "${inputType}" is not supported for ETL runner parameters.`);
         return null;
