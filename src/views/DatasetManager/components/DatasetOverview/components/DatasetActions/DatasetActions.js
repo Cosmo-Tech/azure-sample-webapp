@@ -11,7 +11,7 @@ export default function DatasetActions({ dataset }) {
   return (
     <ButtonGroup>
       <RefreshDatasetButton dataset={dataset} />
-      <CreateSubDatasetButton parentDatasetId={dataset?.id} />
+      <CreateSubDatasetButton parentDataset={dataset} />
       <ShareDatasetButton dataset={dataset} />
       <DeleteDatasetButton dataset={dataset} location="dataset-actions-" />
     </ButtonGroup>

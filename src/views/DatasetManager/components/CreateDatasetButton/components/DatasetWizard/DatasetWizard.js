@@ -20,16 +20,12 @@ import {
 } from '@mui/material';
 import { BasicTextInput } from '@cosmotech/ui';
 import { DatasetCreationParameters } from '../DatasetCreationParameters';
-import { useDatasetWizard } from './DatasetWizardHook';
 
-export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTemplates, parentDatasetId }) => {
+export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTemplates, parentDataset }) => {
   const { t } = useTranslation();
   const methods = useForm({ mode: 'onChange' });
   const { formState } = methods;
   const [activeStep, setActiveStep] = useState(0);
-
-  const { getDatasetById } = useDatasetWizard();
-  const parentDataset = useMemo(() => getDatasetById(parentDatasetId), [parentDatasetId, getDatasetById]);
 
   useEffect(() => {
     if (open) {
@@ -140,10 +136,10 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
 
   const dialogTitle = useMemo(
     () =>
-      parentDatasetId
+      parentDataset?.id
         ? t('commoncomponents.datasetmanager.wizard.subDatasetCreationTitle', 'Create sub dataset')
         : t('commoncomponents.datasetmanager.wizard.title', 'Create dataset'),
-    [t, parentDatasetId]
+    [t, parentDataset?.id]
   );
 
   return (
@@ -163,7 +159,12 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
               </Stepper>
             </Grid>
             {activeStep === 0 && firstStep}
-            {activeStep === 1 && <DatasetCreationParameters dataSourceRunTemplates={dataSourceRunTemplates} />}
+            {activeStep === 1 && (
+              <DatasetCreationParameters
+                dataSourceRunTemplates={dataSourceRunTemplates}
+                parentDataset={parentDataset}
+              />
+            )}
           </Grid>
         </DialogContent>
         <DialogActions>
@@ -213,5 +214,5 @@ DatasetWizard.propTypes = {
   closeDialog: PropTypes.func.isRequired,
   onConfirm: PropTypes.func.isRequired,
   dataSourceRunTemplates: PropTypes.object.isRequired,
-  parentDatasetId: PropTypes.string,
+  parentDataset: PropTypes.object,
 };
