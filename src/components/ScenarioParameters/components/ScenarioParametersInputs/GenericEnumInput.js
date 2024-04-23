@@ -113,10 +113,14 @@ export const GenericEnumInput = ({
   }, [t, parameterData, dynamicEnumValues]);
 
   useEffect(() => {
-    if (parameterValue == null && enumValues?.length > 0) {
+    // Call setParameterValue when dynamic values are enabled to trigger an update of the form validity. This
+    // is required to automatically enable a form confirmation button when a default value is selected from
+    // dynamic values (e.g. in the dataset creation wizard). Yet, we don't want this behavior in the scenario
+    // parameters, because it tends to set the form state to "dirty" for enums without default values.
+    if (dynamicEnumValues != null && parameterValue == null && enumValues?.length > 0) {
       setParameterValue(enumValues[0]?.key);
     }
-  }, [enumValues, parameterValue, setParameterValue]);
+  }, [enumValues, dynamicEnumValues, parameterValue, setParameterValue]);
 
   const loadingValuesPlaceholder = useMemo(
     () => (
