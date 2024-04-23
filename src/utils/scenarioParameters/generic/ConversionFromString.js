@@ -49,11 +49,11 @@ function _convertListFromString(parameterValue) {
     if (Array.isArray(parsedValue)) {
       return parsedValue;
     } else {
-      console.warn(`Value ${parameterValue} can not be parsed has an array`);
+      console.warn(`Value ${parameterValue} cannot be parsed as an array`);
       return [];
     }
   } catch (error) {
-    console.warn(`Value ${parameterValue} dose not match JSON format`);
+    console.warn(`Value ${parameterValue} does not match JSON format`);
   }
 }
 

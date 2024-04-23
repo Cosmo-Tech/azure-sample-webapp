@@ -109,13 +109,12 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
                 <Grid item xs={12} sx={{ pt: 2 }}>
                   <MultiSelect
                     id={parameterId}
-                    key={parameterId}
                     label={t(parameterTranslationKey, parameterId)}
                     tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterId), '')}
-                    value={value ?? []}
-                    changeValues={onChange}
+                    selectedKeys={value ?? []}
+                    onChange={onChange}
                     textFieldProps={{ disabled: false, id: `multi-values-input-${parameterId}` }}
-                    enumValues={enumValues}
+                    options={enumValues}
                   />
                 </Grid>
               );

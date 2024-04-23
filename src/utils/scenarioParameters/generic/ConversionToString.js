@@ -31,7 +31,7 @@ function _convertDatasetIdToString(parameterValue) {
   return parameterValue; // Already a string
 }
 
-function _convertStringToList(parameterValue) {
+function _convertListToString(parameterValue) {
   return JSON.stringify(parameterValue);
 }
 
@@ -42,6 +42,6 @@ export const GENERIC_VAR_TYPES_TO_STRING_FUNCTIONS = {
   number: _convertNumberToString,
   bool: _convertBoolToString,
   date: _convertDateToString,
-  list: _convertStringToList,
+  list: _convertListToString,
   [DATASET_ID_VARTYPE]: _convertDatasetIdToString, // "%DATASETID%" varType
 };
