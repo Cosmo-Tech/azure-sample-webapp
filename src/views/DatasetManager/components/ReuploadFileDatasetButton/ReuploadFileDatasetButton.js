@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Refresh as RefreshIcon } from '@mui/icons-material';
 import { Button, IconButton } from '@mui/material';
+import { FadingTooltip } from '@cosmotech/ui';
 import { INGESTION_STATUS } from '../../../../services/config/ApiConstants';
 import { DatasetsUtils } from '../../../../utils';
 import { useReuploadFileDatasetButton } from './ReuploadFileDatasetButtonHook';
@@ -46,17 +47,22 @@ export const ReuploadFileDatasetButton = ({ confirmAndCallback, datasetId, disab
     <>
       <input hidden type="file" accept="application/zip" id={inputId} onChange={handleFileUpload} />
       {iconButton ? (
-        <IconButton
-          component="span"
-          data-cy={`dataset-reupload-button-${datasetId}`}
-          disabled={disabled}
-          onClick={(event) => {
-            event.stopPropagation();
-            confirmAndCallback(event, () => openFileBrowser(inputId));
-          }}
+        <FadingTooltip
+          title={t('commoncomponents.datasetmanager.overview.actions.refreshButtonTooltip', 'Refresh')}
+          disableInteractive={true}
         >
-          <RefreshIcon color={disabled ? 'disabled' : 'primary'} />
-        </IconButton>
+          <IconButton
+            component="span"
+            data-cy={`dataset-reupload-button-${datasetId}`}
+            disabled={disabled}
+            onClick={(event) => {
+              event.stopPropagation();
+              confirmAndCallback(event, () => openFileBrowser(inputId));
+            }}
+          >
+            <RefreshIcon color={disabled ? 'disabled' : 'primary'} />
+          </IconButton>
+        </FadingTooltip>
       ) : (
         <Button
           data-cy={`dataset-reupload-button-${datasetId}`}
