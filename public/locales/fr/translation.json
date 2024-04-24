@@ -538,6 +538,9 @@
       "fetchingDynamicValues": "Récupération des valeurs en cours...",
       "fetchingDynamicValuesError": "Impossible de récupérer les valeurs dynamiques depuis la source de données"
     },
+    "multiSelect": {
+      "noValues": "Pas de valeurs sélectionnées"
+    },
     "uploadfile": {
       "button": {
         "browse": "Parcourir",
