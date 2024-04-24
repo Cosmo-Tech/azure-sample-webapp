@@ -3,6 +3,7 @@
 import {
   GenericDateInput,
   GenericEnumInput,
+  GenericMultiSelect,
   GenericNumberInput,
   GenericSliderInput,
   GenericRadioInput,
@@ -18,6 +19,7 @@ export const GENERIC_VAR_TYPES_COMPONENTS_MAPPING = {
   date: GenericDateInput,
   enum: GenericEnumInput,
   'enum-RADIO': GenericRadioInput,
+  list: GenericMultiSelect,
   int: GenericNumberInput,
   'number-SLIDER': GenericSliderInput,
   number: GenericNumberInput,

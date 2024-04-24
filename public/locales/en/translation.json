@@ -538,6 +538,9 @@
       "fetchingDynamicValues": "Fetching list of values...",
       "fetchingDynamicValuesError": "Impossible to retrieve dynamic values from data source"
     },
+    "multiSelect": {
+      "noValues": "No selected values"
+    },
     "uploadfile": {
       "button": {
         "browse": "Browse",

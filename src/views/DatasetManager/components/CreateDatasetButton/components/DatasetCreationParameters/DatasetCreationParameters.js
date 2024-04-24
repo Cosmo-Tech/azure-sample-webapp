@@ -6,9 +6,11 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Grid, Typography } from '@mui/material';
 import rfdc from 'rfdc';
-import { BasicTextInput, UploadFile, BasicEnumInput, MultiSelect } from '@cosmotech/ui';
+import { BasicTextInput, UploadFile, BasicEnumInput } from '@cosmotech/ui';
 // eslint-disable-next-line max-len
-import { GenericEnumInput } from '../../../../../../components/ScenarioParameters/components/ScenarioParametersInputs/GenericEnumInput.js';
+import { GenericEnumInput } from '../../../../../../components/ScenarioParameters/components/ScenarioParametersInputs/GenericEnumInput';
+// eslint-disable-next-line max-len
+import { GenericMultiSelect } from '../../../../../../components/ScenarioParameters/components/ScenarioParametersInputs/GenericMultiSelect';
 import { ConfigUtils, SolutionsUtils, TranslationUtils } from '../../../../../../utils';
 import { FileManagementUtils } from '../../../../../../utils/FileManagementUtils';
 import { useDatasetCreationParameters } from './DatasetCreationParametersHook';
@@ -31,23 +33,6 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
   }, [dataSourceType, setDataSourceType, defaultDataSourceTypeKey]);
 
   const sourceParameters = useMemo(() => {
-    const getParameterEnumValues = (parameter) => {
-      // FIXME: duplicated code from GenericEnumInput
-      const rawEnumValues = ConfigUtils.getParameterAttribute(parameter, 'enumValues') ?? [];
-      return rawEnumValues.map((enumValue) => {
-        const valueTranslationKey = TranslationUtils.getParameterEnumValueTranslationKey(parameter.id, enumValue.key);
-        const tooltipTranslationKey = TranslationUtils.getParameterEnumValueTooltipTranslationKey(
-          parameter.id,
-          enumValue.key
-        );
-        return {
-          key: enumValue.key,
-          value: t(valueTranslationKey, enumValue.value),
-          tooltip: t(tooltipTranslationKey, ''),
-        };
-      });
-    };
-
     const forgeParameterInput = (parameter) => {
       const parameterId = parameter.id;
       const parameterTranslationKey = TranslationUtils.getParameterTranslationKey(
@@ -105,19 +90,15 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
                 />
               );
             } else if (inputType === 'list') {
-              const enumValues = getParameterEnumValues(parameter);
               return (
-                <Grid item xs={12} sx={{ pt: 2 }}>
-                  <MultiSelect
-                    id={parameterId}
-                    label={t(parameterTranslationKey, parameterId)}
-                    tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterId), '')}
-                    selectedKeys={value ?? []}
-                    onChange={onChange}
-                    textFieldProps={{ disabled: false, id: `multi-values-input-${parameterId}` }}
-                    options={enumValues}
-                  />
-                </Grid>
+                <GenericMultiSelect
+                  gridItemProps={{ xs: 12, sx: { pt: 2 } }}
+                  parameterData={clone(parameter)}
+                  context={{ editMode: true, targetDatasetId: parentDataset?.id }}
+                  parameterValue={value}
+                  setParameterValue={onChange}
+                  isDirty={null}
+                />
               );
             } else if (inputType === '%DATASETID%') {
               return (
