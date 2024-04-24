@@ -318,7 +318,7 @@ manager view), and will be hidden in the scenario creation dialog (in scenario v
 
 ```json
 {
- "runTemplates": [
+  "runTemplates": [
     {
       "id": "etl_with_azure_storage",
       "name": "Azure Storage ETL (<fallback name when translatable labels are not defined>)",
@@ -381,6 +381,9 @@ workspaces. The following option can be defined in your workspace description to
 By providing a **list of run template ids**, you can select the entries that will be shown to webapp user. When this
 option is left undefined, all default transformations and all run templates with the tag `datasource` are shown in
 the dataset creation wizard.
+
+Note that you can use this filter to show or hide the default transformation scripts, by using their id: `ADT`,
+`AzureStorage`, `File` and `None`.
 
 The **same filter exists for subdataset creation ETLs**: `[workspace].webApp.options.datasetManager.subdatasourceFilter`.
 When this option is left undefined, all run templates with the tag `subdatasource` are shown when creating subdatasets.

@@ -89,6 +89,8 @@ This can be done in `option.enumValues`, as a list of objects with two propertie
 - `key`: the string-based representation of your enum value, that will be sent to the parameters handler
 - `value`: the label that will be displayed for this key in the selection list of the enum input component
 
+The labels of enum values can be translated, by providing a dictionary of translations, with language codes as keys.
+
 Example:
 
 ```yaml
@@ -102,16 +104,18 @@ parameters:
     options:
       enumValues:
         - key: 'USD'
-          value: '$'
+          value:
+            en: 'United States dollar ($)'
+            fr: 'Dollar américain ($)'
         - key: 'EUR'
-          value: '€'
+          value: 'Euro (€)'
         - key: 'BTC'
-          value: '฿'
+          value: 'Bitcoin (฿)'
         - key: 'JPY'
-          value: '¥'
+          value:
+            en: 'Japanese yen (¥)'
+            fr: 'Yen (¥)'
 ```
-
-_Note: enum labels cannot be translated yet_
 
 ### File parameters
 
@@ -420,13 +424,17 @@ parameters:
     options:
       enumValues:
         - key: 'USD'
-          value: '$'
+          value:
+            en: 'United States dollar ($)'
+            fr: 'Dollar américain ($)'
         - key: 'EUR'
-          value: '€'
+          value: 'Euro (€)'
         - key: 'BTC'
-          value: '฿'
+          value: 'Bitcoin (฿)'
         - key: 'JPY'
-          value: '¥'
+          value:
+            en: 'Japanese yen (¥)'
+            fr: 'Yen (¥)'
       tooltipText:
         fr: "Choisissez un symbole :\n\t- $\n\t- €\n\t- ฿\n\t- ¥"
         en: "Choose a symbol:\n\t- $\n\t- €\n\t- ฿\n\t- ¥"
