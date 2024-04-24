@@ -175,10 +175,16 @@ const forgeRunnerParameters = (solution, formValues) => {
 const isDataSource = (runTemplate) => runTemplate?.tags?.includes('datasource');
 const isSubDataSource = (runTemplate) => runTemplate?.tags?.includes('subdatasource');
 
+// Replace dot characters from run template ids to prevent undesired nested items when using theses id as field paths
+// with React Hook Form (see https://github.com/react-hook-form/react-hook-form/issues/676)
+const DOT_REPLACEMENT_PATTERN = '__DOT__';
+const escapeRunTemplateId = (runTemplateId) => runTemplateId.replace(/\./g, DOT_REPLACEMENT_PATTERN);
+
 export const SolutionsUtils = {
   addRunTemplatesParametersIdsDict,
   addTranslationLabels,
   castMinMaxDefaultValuesInSolution,
+  escapeRunTemplateId,
   patchSolutionIfLocalConfigExists,
   checkParametersValidationConstraintsInSolution,
   patchIncompatibleValuesInSolution,

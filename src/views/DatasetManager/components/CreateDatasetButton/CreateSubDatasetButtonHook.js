@@ -50,7 +50,8 @@ export const useSubDatasetCreationParameters = () => {
         sourceType,
         datasetList: [parentDatasetId],
       };
-      runner.parametersValues = SolutionsUtils.forgeRunnerParameters(solutionData, values[sourceType]);
+      const escapedSourceType = SolutionsUtils.escapeRunTemplateId(sourceType);
+      runner.parametersValues = SolutionsUtils.forgeRunnerParameters(solutionData, values[escapedSourceType]);
       createRunner(runner);
     },
     [createRunner, solutionData]

@@ -9,7 +9,7 @@ import rfdc from 'rfdc';
 import { BasicTextInput, UploadFile, BasicEnumInput, MultiSelect } from '@cosmotech/ui';
 // eslint-disable-next-line max-len
 import { GenericEnumInput } from '../../../../../../components/ScenarioParameters/components/ScenarioParametersInputs/GenericEnumInput.js';
-import { ConfigUtils, TranslationUtils } from '../../../../../../utils';
+import { ConfigUtils, SolutionsUtils, TranslationUtils } from '../../../../../../utils';
 import { FileManagementUtils } from '../../../../../../utils/FileManagementUtils';
 import { useDatasetCreationParameters } from './DatasetCreationParametersHook';
 
@@ -53,7 +53,8 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
       const parameterTranslationKey = TranslationUtils.getParameterTranslationKey(
         parameter.idForTranslationKey ?? parameterId
       );
-      const fieldPath = `${dataSourceType}.${parameterId}`;
+      const escapedSourceType = SolutionsUtils.escapeRunTemplateId(dataSourceType);
+      const fieldPath = `${escapedSourceType}.${parameterId}`;
       const inputType = parameter.varType;
 
       let defaultValue;
