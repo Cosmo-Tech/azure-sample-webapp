@@ -4,7 +4,7 @@ import { t } from 'i18next';
 import { call, delay, put, select, takeEvery } from 'redux-saga/effects';
 import { Api } from '../../../../services/config/Api';
 import { INGESTION_STATUS, TWINCACHE_STATUS } from '../../../../services/config/ApiConstants';
-import { TWINGRAPH_STATUS_POLLING_DELAY } from '../../../../services/config/FunctionalConstants';
+import { POLLING_START_DELAY, TWINGRAPH_STATUS_POLLING_DELAY } from '../../../../services/config/FunctionalConstants';
 import { DATASET_ACTIONS_KEY, DATASET_TWINGRAPH_QUERIES_RESULTS_ACTIONS } from '../../../commons/DatasetConstants';
 import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
 
@@ -15,7 +15,10 @@ export function* pollTwingraphStatus(action) {
   let twingraphStatus = INGESTION_STATUS.PENDING;
   const datasetId = action.datasetId;
   const organizationId = action.organizationId;
-
+  // Polling start is delayed to avoid an erroneous ERROR status due to the fact that, probably, the creation of
+  // an AKS container takes time and API returns ERROR while the creation of the twingraph is successful.
+  // For more details, see https://cosmo-tech.atlassian.net/browse/SDCOSMO-1768
+  yield delay(POLLING_START_DELAY);
   try {
     do {
       const { data: newStatus } = yield call(Api.Datasets.getDatasetTwingraphStatus, organizationId, datasetId);

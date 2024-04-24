@@ -5,7 +5,7 @@ import { call, put, take, takeEvery, delay, race, select } from 'redux-saga/effe
 import { AppInsights } from '../../../../services/AppInsights';
 import { Api } from '../../../../services/config/Api';
 import { SCENARIO_RUN_STATE } from '../../../../services/config/ApiConstants';
-import { SCENARIO_STATUS_POLLING_DELAY } from '../../../../services/config/FunctionalConstants';
+import { POLLING_START_DELAY, SCENARIO_STATUS_POLLING_DELAY } from '../../../../services/config/FunctionalConstants';
 import { STATUSES } from '../../../commons/Constants';
 import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
@@ -21,6 +21,11 @@ function forgeStopPollingAction(scenarioId) {
 const getCurrentScenarioState = (state) => state.scenario.current?.data?.state;
 
 export function* pollScenarioState(action) {
+  // Polling start is delayed to avoid an erroneous Unknown state due to the fact that in first seconds of the run,
+  // the AKS container isn't created yet and scenario.state passes to Unknown for a few seconds before returning to
+  // Running again.
+  // For more details, see https://cosmo-tech.atlassian.net/browse/SDCOSMO-1768
+  yield delay(POLLING_START_DELAY);
   // Loop until the scenario state is FAILED, SUCCESS or UNKNOWN
   while (true) {
     try {
