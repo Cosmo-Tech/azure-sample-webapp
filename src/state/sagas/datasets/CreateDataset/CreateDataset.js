@@ -26,7 +26,6 @@ export function* createDataset(action) {
   const ownerName = yield select(getUserName);
   const userEmail = yield select(getUserEmail);
   const workspaceId = yield select(getWorkspaceId);
-  dataset.ownerName = ownerName;
 
   try {
     const datasetWithAuthor = {

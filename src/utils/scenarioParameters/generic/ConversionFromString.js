@@ -43,6 +43,20 @@ function _convertDatasetIdFromString(parameterValue) {
   return parameterValue; // Already a string
 }
 
+function _convertListFromString(parameterValue) {
+  try {
+    const parsedValue = JSON.parse(parameterValue);
+    if (Array.isArray(parsedValue)) {
+      return parsedValue;
+    } else {
+      console.warn(`Value ${parameterValue} cannot be parsed as an array`);
+      return [];
+    }
+  } catch (error) {
+    console.warn(`Value ${parameterValue} does not match JSON format`);
+  }
+}
+
 export const GENERIC_VAR_TYPES_FROM_STRING_FUNCTIONS = {
   enum: _convertEnumFromString,
   string: _convertStringFromString,
@@ -50,5 +64,6 @@ export const GENERIC_VAR_TYPES_FROM_STRING_FUNCTIONS = {
   number: _convertNumberFromString,
   bool: _convertBoolFromString,
   date: _convertDateFromString,
+  list: _convertListFromString,
   [DATASET_ID_VARTYPE]: _convertDatasetIdFromString, // "%DATASETID%" varType
 };
