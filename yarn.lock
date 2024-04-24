@@ -1267,10 +1267,10 @@
     validator "^13.7.0"
     xlsx "https://cdn.sheetjs.com/xlsx-0.20.0/xlsx-0.20.0.tgz"
 
-"@cosmotech/ui@^8.0.1":
-  version "8.0.1"
-  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-8.0.1.tgz#6d8c161367d3697bc3ca17e6e17d25ebf9151d75"
-  integrity sha512-i9PymAJ5iGlXQ1W+eZqo5Qc700YrB2se+mqNmw7MqzfnsllY9lHrJRB7F2VWyXdUt1Bil2jHnRJXrjhVrAk7zA==
+"@cosmotech/ui@^8.1.0":
+  version "8.1.0"
+  resolved "https://registry.yarnpkg.com/@cosmotech/ui/-/ui-8.1.0.tgz#2e701d54b6b04a26ae3388a1fc270fc777b53fb1"
+  integrity sha512-O2ZLVe+4pppvjb7qgZTG4Nb9X82l5tWQ97Nd47eP+lVr1dK5M07UJIY4cYXyu2FM3hBPVDPdsROTlNBN2KJL2Q==
   dependencies:
     "@emotion/react" "^11.10.5"
     "@emotion/styled" "^11.10.5"
