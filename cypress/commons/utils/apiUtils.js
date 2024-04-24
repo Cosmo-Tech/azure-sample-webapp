@@ -1,5 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
+import { POLLING_START_DELAY } from '../../../src/services/config/FunctionalConstants';
 import utils from '../../commons/TestUtils';
 import { DEFAULT_DATASET, SCENARIO_EXAMPLE, SCENARIO_RUN_EXAMPLE } from '../../fixtures/stubbing/default';
 import { API_ENDPOINT, API_REGEX, AUTH_QUERY_URL, URL_POWERBI, URL_ROOT } from '../constants/generic/TestConstants';
@@ -137,11 +138,13 @@ const interceptLaunchScenario = (stubbingOptions) => {
       stub.patchScenario(scenarioId, { state: 'Running', lastRun: scenarioLastRun });
 
       setTimeout(() => {
-        stub.patchScenario(scenarioId, { state: 'DataIngestionInProgress' });
         setTimeout(() => {
-          stub.patchScenario(scenarioId, { state: finalStatus });
-        }, dataIngestionDuration);
-      }, runDuration);
+          stub.patchScenario(scenarioId, { state: 'DataIngestionInProgress' });
+          setTimeout(() => {
+            stub.patchScenario(scenarioId, { state: finalStatus });
+          }, dataIngestionDuration);
+        }, runDuration);
+      }, POLLING_START_DELAY);
 
       req.reply(scenarioRun);
     }
