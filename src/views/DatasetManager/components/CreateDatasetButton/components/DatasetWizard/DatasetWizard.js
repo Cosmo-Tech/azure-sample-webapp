@@ -56,6 +56,11 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
     );
   }, [t, parentDataset, isSubDatasetCreationWizard]);
 
+  const defaultName = useMemo(() => {
+    if (!isSubDatasetCreationWizard) return '';
+    return `${parentDataset?.name} (subdataset)`;
+  }, [parentDataset?.name, isSubDatasetCreationWizard]);
+
   const firstStep = (
     <>
       <Grid item xs={12}>
@@ -70,7 +75,7 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
       <Grid item xs={12}>
         <Controller
           name="name"
-          defaultValue={parentDataset?.name}
+          defaultValue={defaultName}
           rules={{ required: true }}
           render={({ field }) => {
             const { value: titleValue, onChange: setTitleValue } = field;
