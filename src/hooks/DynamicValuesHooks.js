@@ -6,7 +6,9 @@ import { useDispatch } from 'react-redux';
 import { CircularProgress, Grid, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { Api } from '../services/config/Api';
+import { INGESTION_STATUS } from '../services/config/ApiConstants';
 import { dispatchSetApplicationErrorMessage } from '../state/dispatchers/app/ApplicationDispatcher';
+import { useFindDatasetById } from '../state/hooks/DatasetHooks';
 import { useOrganizationId } from '../state/hooks/OrganizationHooks';
 
 const useStyles = makeStyles((theme) => ({
@@ -19,6 +21,7 @@ export const useDynamicValues = (parameter, targetDatasetId) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const findDatasetById = useFindDatasetById();
   const organizationId = useOrganizationId();
 
   const isUnmounted = useRef(false);
@@ -39,6 +42,14 @@ export const useDynamicValues = (parameter, targetDatasetId) => {
       if (!dynamicSourceConfig) return;
       if (targetDatasetId == null) {
         console.error(`No dataset id forwarded to the enum parameter, can't fetch enum values dynamically.`);
+        return;
+      }
+
+      const targetDataset = findDatasetById(targetDatasetId);
+      if (!isUnmounted.current && targetDataset.ingestionStatus !== INGESTION_STATUS.SUCCESS) {
+        setDynamicValues(
+          `Can't retrieve dynamic values: dataset is not ready (ingestionStatus is "${targetDataset.ingestionStatus}")`
+        );
         return;
       }
 
