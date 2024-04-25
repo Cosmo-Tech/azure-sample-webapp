@@ -168,8 +168,7 @@ parameters:
 
 In some cases, for **enum** and **list** parameters, you may want to automatically retrieve the list of possible values
 from a dataset, in order to only show the relevant values in the dropdown list. This feature is called
-**dynamic values**, and is currently only supported for the parameters of subdataset creation ETL (i.e. not for scenario
-parameters).
+**dynamic values**, and is supported for scenario parameters and for the parameters of subdataset creation ETLs.
 
 To configure dynamic values, you have to define `option.dynamicEnumValues`, an object with the following keys:
 
@@ -185,8 +184,8 @@ Please note that the **target dataset** on which the cypher query will be run **
 
 - in the dataset manager view, dynamic values can only be used when **creating sub-datasets**, and the target dataset
   is the parent dataset
-- in the scenario view, dynamic values cannot be used yet, but when it is implemented, the target dataset will always
-  be the first dataset associated to the scenario (in scenario property `datasetList`)
+- in the scenario view, the target dataset is the first dataset associated to the scenario (in scenario property
+  `datasetList`)
 
 The `enumValues` option for "static" values can still be used to have a fallback in case the query fails, but
 defining both static and dynamic values options is not advised, because values from both sources may not always be
