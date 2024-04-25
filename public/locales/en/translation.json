@@ -211,6 +211,7 @@
         "subDatasetCreationTitle": "Create sub dataset",
         "stepOne": "Metadata",
         "stepTwo": "Dataset source type",
+        "subdatasetStepTwo": "Filter",
         "firstScreen": {
           "title": "Please provide some metadata regarding your new dataset",
           "name": "Name",
@@ -222,8 +223,10 @@
         },
         "secondScreen": {
           "subtitle": "Please provide your data source",
+          "subdatasetSubtitle": "Please select a filter",
           "dataSourceType": {
             "label": "Source",
+            "subdatasetLabel": "Filter",
             "azureStorage": "Azure Storage",
             "local": "Local file",
             "adt": "Azure Digital Twin",

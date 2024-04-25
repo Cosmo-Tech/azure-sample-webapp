@@ -39,8 +39,9 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
     onConfirm(values);
   };
 
+  const isSubDatasetCreationWizard = useMemo(() => parentDataset != null, [parentDataset]);
   const optionalSubTitle = useMemo(() => {
-    if (parentDataset == null) return null;
+    if (!isSubDatasetCreationWizard) return null;
 
     return (
       <Grid item xs={12}>
@@ -53,7 +54,7 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
         </Typography>
       </Grid>
     );
-  }, [t, parentDataset]);
+  }, [t, parentDataset, isSubDatasetCreationWizard]);
 
   const firstStep = (
     <>
@@ -136,11 +137,28 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
 
   const dialogTitle = useMemo(
     () =>
-      parentDataset?.id
+      isSubDatasetCreationWizard
         ? t('commoncomponents.datasetmanager.wizard.subDatasetCreationTitle', 'Create sub dataset')
         : t('commoncomponents.datasetmanager.wizard.title', 'Create dataset'),
-    [t, parentDataset?.id]
+    [t, isSubDatasetCreationWizard]
   );
+
+  const stepper = useMemo(() => {
+    const stepTwoLabel = isSubDatasetCreationWizard
+      ? t('commoncomponents.datasetmanager.wizard.subdatasetStepTwo', 'Dataset type')
+      : t('commoncomponents.datasetmanager.wizard.stepTwo', 'Filter');
+
+    return (
+      <Stepper activeStep={activeStep}>
+        <Step>
+          <StepLabel>{t('commoncomponents.datasetmanager.wizard.stepOne', 'Metadata')}</StepLabel>
+        </Step>
+        <Step>
+          <StepLabel>{stepTwoLabel}</StepLabel>
+        </Step>
+      </Stepper>
+    );
+  }, [t, activeStep, isSubDatasetCreationWizard]);
 
   return (
     <FormProvider {...methods}>
@@ -149,14 +167,7 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
         <DialogContent>
           <Grid container gap={1}>
             <Grid item xs={12}>
-              <Stepper activeStep={activeStep}>
-                <Step>
-                  <StepLabel>{t('commoncomponents.datasetmanager.wizard.stepOne', 'Metadata')}</StepLabel>
-                </Step>
-                <Step>
-                  <StepLabel>{t('commoncomponents.datasetmanager.wizard.stepTwo', 'Dataset type')}</StepLabel>
-                </Step>
-              </Stepper>
+              {stepper}
             </Grid>
             {activeStep === 0 && firstStep}
             {activeStep === 1 && (
