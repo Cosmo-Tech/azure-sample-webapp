@@ -21,6 +21,7 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
   const { t } = useTranslation();
   const { getDataSourceTypeEnumValues, getUploadFileLabels, getDefaultFileTypeFilter } = useDatasetCreationParameters();
 
+  const isSubDatasetCreationWizard = useMemo(() => parentDataset != null, [parentDataset]);
   const [dataSourceType, setDataSourceType] = useState(null);
   const dataSourceTypeEnumValues = useMemo(
     () => getDataSourceTypeEnumValues(dataSourceRunTemplates),
@@ -128,12 +129,31 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
     return runTemplate?.parameters?.map((parameter) => forgeParameterInput(parameter));
   }, [t, getUploadFileLabels, getDefaultFileTypeFilter, dataSourceRunTemplates, dataSourceType, parentDataset?.id]);
 
+  const labels = useMemo(() => {
+    return isSubDatasetCreationWizard
+      ? {
+          subtitle: t(
+            'commoncomponents.datasetmanager.wizard.secondScreen.subdatasetSubtitle',
+            'Please select a filter'
+          ),
+          sourceSelectLabel: t(
+            'commoncomponents.datasetmanager.wizard.secondScreen.dataSourceType.subdatasetLabel',
+            'Filter'
+          ),
+        }
+      : {
+          subtitle: t(
+            'commoncomponents.datasetmanager.wizard.secondScreen.subtitle',
+            'Please provide your data source'
+          ),
+          sourceSelectLabel: t('commoncomponents.datasetmanager.wizard.secondScreen.dataSourceType.label', 'Source'),
+        };
+  }, [t, isSubDatasetCreationWizard]);
+
   return (
     <>
       <Grid item xs={12}>
-        <Typography sx={{ py: 2 }}>
-          {t('commoncomponents.datasetmanager.wizard.secondScreen.subtitle', 'Please provide your data source')}
-        </Typography>
+        {<Typography sx={{ py: 2 }}>{labels.subtitle}</Typography>}
       </Grid>
       <Grid item xs={7}>
         <Controller
@@ -147,10 +167,11 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
               onChange(newValue);
               setDataSourceType(newValue);
             };
+
             return (
               <BasicEnumInput
                 id="new-dataset-sourceType"
-                label={t('commoncomponents.datasetmanager.wizard.secondScreen.dataSourceType.label', 'Source')}
+                label={labels.sourceSelectLabel}
                 size="medium"
                 value={value ?? defaultDataSourceTypeKey}
                 changeEnumField={setDatasetSource}

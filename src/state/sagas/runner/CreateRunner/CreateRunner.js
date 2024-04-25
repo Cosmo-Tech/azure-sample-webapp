@@ -84,6 +84,9 @@ export function* createRunner(action) {
       sourceType: 'ETL',
       source: { location: workspaceId, name: runnerId },
     };
+    // When creating subdatasets, the runner provided to the createRunner saga contains the id of the **parent dataset**
+    // in datasetList
+    if (runner.datasetList != null) dataset.parentId = runner.datasetList[0];
 
     const datasetId = yield call(createDataset, { dataset, organizationId });
     let datasetList = [datasetId]; // First entry of datasetList must be the "ETL" dataset
