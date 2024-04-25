@@ -147,6 +147,7 @@ const ScenarioParameters = ({ onToggleAccordion, isAccordionExpanded }) => {
       isCurrentScenarioValidated ||
       !hasUserWritePermission
     ),
+    targetDatasetId: currentScenarioData?.datasetList?.[0],
   };
 
   return (
