@@ -38,9 +38,9 @@ varType of the parameter**.
 Parameters can be defined with the following properties:
 
 | key            | mandatory/optional | description                                                                                                                                                                                  |
-|----------------|--------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| -------------- | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `id`           | mandatory          | unique id of the parameter                                                                                                                                                                   |
-| `varType`      | mandatory          | variable type of the scenario parameter. Supported types are **enum**, **string**, **int**, **number**, **bool**, **date**, **%DATASETID%**                                                  |
+| `varType`      | mandatory          | variable type of the scenario parameter. Supported types are **enum**, **list**, **string**, **int**, **number**, **bool**, **date**, **%DATASETID%**                                        |
 | `defaultValue` | optional           | default value for this parameter when a new scenario is created                                                                                                                              |
 | `minValue`     | optional           | Minimum value (when applicable)                                                                                                                                                              |
 | `maxValue`     | optional           | Maximum value (when applicable)                                                                                                                                                              |
@@ -52,7 +52,7 @@ Parameters can be defined with the following properties:
 Parameters groups can define the following properties:
 
 | key                                          | mandatory/optional | description                                                                                                                                                                                                                                                      |
-|----------------------------------------------|--------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| -------------------------------------------- | ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `id`                                         | mandatory          | unique id of the parameter group                                                                                                                                                                                                                                 |
 | `parameters`                                 | mandatory          | fields to list the ids of the parameters that are part of this group                                                                                                                                                                                             |
 | `labels`                                     | optional           | a dict of labels for this parameter group, the keys of the dict being the code ISO 639-1 of the language,                                                                                                                                                        |
@@ -64,7 +64,7 @@ Parameters groups can define the following properties:
 ### Run templates
 
 | key               | mandatory/optional | description                                                                          |
-|-------------------|--------------------|--------------------------------------------------------------------------------------|
+| ----------------- | ------------------ | ------------------------------------------------------------------------------------ |
 | `id`              | mandatory          | unique id of the run template                                                        |
 | `parameterGroups` | mandatory          | an array containing the ids of the parameters groups to display in this run template |
 
@@ -101,6 +101,53 @@ parameters:
       en: 'Currency symbol'
     varType: 'enum'
     defaultValue: 'USD'
+    options:
+      enumValues:
+        - key: 'USD'
+          value:
+            en: 'United States dollar ($)'
+            fr: 'Dollar américain ($)'
+        - key: 'EUR'
+          value: 'Euro (€)'
+        - key: 'BTC'
+          value: 'Bitcoin (฿)'
+        - key: 'JPY'
+          value:
+            en: 'Japanese yen (¥)'
+            fr: 'Yen (¥)'
+```
+
+### Parameters of type list
+
+List parameters are used to store the string representation of a list of values. Their configuration is similar to enum
+parameters: you have to declare the list of possible keys (the string items that will be sent to the back-end), and
+the label that will be displayed in the webapp, in a multi-selection component, for each key.
+
+When the scenario is saved, the selected values will be serialized into a string representing a JSON list, such as
+`["USD","EUR","JPY"]`, and saved in the scenario `parameterValues`.
+
+The configuration of the possible list values is identical to the configuration of values of enum parameters, it is done
+in `option.enumValues`, as a list of objects with two properties:
+
+- `key`: the string-based representation of your list item, that will be sent to the parameters handler
+- `value`: the label that will be displayed for this key in the selection list of the multi-selection component
+
+The labels of enum values can be translated, by providing a dictionary of translations, with language codes as keys.
+
+The main difference in the configuration between enum and list parameters is the **definition of the default value**:
+For `list` parameters, it must be the **string representation of an array**, even if there is only one value
+(examples: `[]`, `["USD"]`, `["USD","EUR"]`).
+
+Example:
+
+```yaml
+parameters:
+  - id: 'currency'
+    labels:
+      fr: 'Symbole de la monnaie'
+      en: 'Currency symbol'
+    varType: 'list'
+    defaultValue: '["USD","EUR"]'
     options:
       enumValues:
         - key: 'USD'
@@ -301,6 +348,7 @@ The description of the table groups consists of putting columns in the same grou
 
 Columns inside a group can be conditionally shown or hidden based on the "open" or "closed" state of the group. This
 can be defined by setting the option `columnGroupShow` in the column definition to either `open` or `closed`:
+
 - when set to `open`, the child is only shown when the group is open
 - when set to `closed`, the child is only shown when the group is closed
 
@@ -449,7 +497,7 @@ Alongside basic validation, it is possible to configure some constraining rules 
 which can be useful for parameters like _Start date_ and _End date_. Following constraints can be defined:
 
 | constraint               | symbol | acceptable varTypes             |
-|--------------------------|--------|---------------------------------|
+| ------------------------ | ------ | ------------------------------- |
 | greater than             | `>`    | date, number, int               |
 | less then                | `<`    | date, number, int               |
 | greater than or equal to | `>=`   | date, number, int               |
@@ -479,6 +527,7 @@ parameters:
     options:
       validation: '> start_date'
 ```
+
 can lead to a user-unfriendly behaviour, it is recommended to declare the constraint on one parameter.
 
 Below are listed all validation rules for each varType.
@@ -486,7 +535,7 @@ Below are listed all validation rules for each varType.
 #### Date
 
 | validation rule | default/optional | description                                                |
-|-----------------|------------------|------------------------------------------------------------|
+| --------------- | ---------------- | ---------------------------------------------------------- |
 | required        | default          |                                                            |
 | minDate         | optional         | can be declared as `minValue` key in parameter description |
 | maxDate         | optional         | can be declared as `maxValue` key in parameter description |
@@ -507,7 +556,7 @@ parameters:
 #### Number and Int
 
 | validation rule | default/optional | description                                                               |
-|-----------------|------------------|---------------------------------------------------------------------------|
+| --------------- | ---------------- | ------------------------------------------------------------------------- |
 | required        | default          |                                                                           |
 | integer         | default          | parameters with varType `int` will be automatically validated as integers |
 | minValue        | optional         | can be declared as `minValue` key in parameter description                |
@@ -529,7 +578,7 @@ parameters:
 #### String
 
 | validation rule | default/optional | description                                                                                                                                 |
-|-----------------|------------------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| --------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
 | required        | optional         | all strings are optional by default, to make a string parameter required, `minLength` option in `options.validation` must be greater than 0 |
 | minLength       | optional         | can be declared as `minLength` in parameter's `options`                                                                                     |
 | maxLength       | optional         | can be declared as `maxLength` in parameter's `options`                                                                                     |
@@ -549,7 +598,7 @@ parameters:
 #### Bool
 
 | validation rule | default/optional | description                                               |
-|-----------------|------------------|-----------------------------------------------------------|
+| --------------- | ---------------- | --------------------------------------------------------- |
 | constraint      | optional         | can be defined between two parameters with `bool` varType |
 
 Example:
@@ -642,7 +691,7 @@ scenario parameter with a specific id for the webapp to automatically fill its v
 scenario parameters. Here is the list of reserved parameters ids you can use:
 
 | parameter id        | description                                           |
-|---------------------|-------------------------------------------------------|
+| ------------------- | ----------------------------------------------------- |
 | `ScenarioName`      | the name of the current scenario                      |
 | `ScenarioId`        | the id of the current scenario                        |
 | `ParentId`          | the id of the parent of the current scenario          |
@@ -662,7 +711,7 @@ components, whose value depend on the **input component type** and the **paramet
 Here is the list of `data-cy` patterns for all generic input components provided by the azure-sample-webapp:
 
 | varType       | subType  | input component      | `data-cy` pattern            |
-|---------------|----------|----------------------|------------------------------|
+| ------------- | -------- | -------------------- | ---------------------------- |
 | `bool`        |          | Switch boolean input | `toggle-input-<parameterId>` |
 | `date`        |          | Date picker          | `date-input-<parameterId>`   |
 | `enum`        |          | Dropdown list        | `enum-input-<parameterId>`   |
