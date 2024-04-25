@@ -295,6 +295,7 @@ parameters** (defined in `parameterGroups`), but the list of the currently suppo
 
 - `string`
 - `enum`
+- `list`
 - `%DATASETID%`
 
 For these types, the configuration of parameters is mostly identical to the configuration of scenario parameters
