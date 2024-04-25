@@ -164,6 +164,50 @@ parameters:
             fr: 'Yen (¥)'
 ```
 
+### Dynamic values for enum and list parameters
+
+In some cases, for **enum** and **list** parameters, you may want to automatically retrieve the list of possible values
+from a dataset, in order to only show the relevant values in the dropdown list. This feature is called
+**dynamic values**, and is currently only supported for the parameters of subdataset creation ETL (i.e. not for scenario
+parameters).
+
+To configure dynamic values, you have to define `option.dynamicEnumValues`, an object with the following keys:
+
+- `type` (optional): the type of request that will retrieve the dynamic values; currently the only supported value is
+  `cypher`, to use cypher queries on a twingraph dataset, but more options will be added in the future
+  (default: `cypher`)
+- `query`: the cypher query to run on a twingraph dataset; this query must retrieve a list of property values of the
+  graph elements, and return them with an alias (example: `MATCH(n:Customer) RETURN n.id as id`)
+- `resultKey`: the alias defined in your query; providing this value is required for the webapp to parse the cypher
+  query results, and retrieve the actual values to display in the enum
+
+Please note that the **target dataset** on which the cypher query will be run **depends on the context**:
+
+- in the dataset manager view, dynamic values can only be used when **creating sub-datasets**, and the target dataset
+  is the parent dataset
+- in the scenario view, dynamic values cannot be used yet, but when it is implemented, the target dataset will always
+  be the first dataset associated to the scenario (in scenario property `datasetList`)
+
+The `enumValues` option for "static" values can still be used to have a fallback in case the query fails, but
+defining both static and dynamic values options is not advised, because values from both sources may not always be
+consistent, and could lead to unexpected behavior in the webapp.
+
+Configuration example:
+
+```yaml
+parameters:
+  - id: etl_param_subdataset_filter_dynamic_customer_name
+    labels:
+      fr: Filtrer par client
+      en: Filter by customer
+    varType: enum
+    options:
+      dynamicEnumValues:
+        type: cypher
+        query: 'MATCH(n:Customer) RETURN n.id as id'
+        resultKey: id
+```
+
 ### File parameters
 
 When using a scenario parameter with the _varType_ `%DATASETID%` (e.g. dataset parts), you have to declare some
@@ -176,7 +220,7 @@ information about it in the `options` field of the parameter description:
 
 > **Warning**
 >
-> currently, the file scenario parameters (for "file upload" and "table" components) only work with Azure
+> Currently, the file scenario parameters (for "file upload" and "table" components) only work with Azure
 > Storage connectors. The connector whose id you provide **must have the exact name "Azure Storage Connector"**.
 
 When files uploaded by webapp users are sent to the back-end to be stored (for example in Azure Storage), the original
