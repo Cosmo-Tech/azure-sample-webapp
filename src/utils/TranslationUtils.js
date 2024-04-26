@@ -88,6 +88,17 @@ const addTranslationOfDatasetManagerLabels = (datasetManager) => {
     }
   }
 
+  for (const datasource of datasetManager?.datasourceParameterHelpers ?? []) {
+    const sourceType = datasource.id;
+    for (const parameter of datasource?.parameters ?? []) {
+      const parameterId = parameter.id;
+      for (const lang in parameter?.tooltipText) {
+        const key = getParameterTooltipTranslationKey(`${sourceType}.${parameterId}`); // Using "idForTranslationKey"
+        _addResource(lang, key, parameter.tooltipText[lang]);
+      }
+    }
+  }
+
   _addResourcesToi18next(resources);
 };
 

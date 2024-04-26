@@ -55,6 +55,11 @@ const dashboardReport = z
   .optional()
   .nullable();
 
+const nativeDatasourceParameterOptions = {
+  defaultValue: z.string().optional().nullable(),
+  tooltipText: z.object({}).optional().nullable(),
+};
+
 const basicWebAppOptions = z.object({
   datasetFilter: z.array(z.string().optional().nullable()).optional().nullable(),
   disableOutOfSyncWarningBanner: z.boolean().optional().nullable(),
@@ -109,6 +114,21 @@ const basicWebAppOptions = z.object({
     .nullable(),
   datasetManager: z
     .object({
+      datasourceParameterHelpers: z
+        .array(
+          z
+            .object({
+              id: z.string().optional(),
+              parameters: z
+                .object({ id: z.string().optional(), ...nativeDatasourceParameterOptions })
+                .strict()
+                .required(),
+            })
+            .optional()
+            .nullable()
+        )
+        .optional()
+        .nullable(),
       datasourceFilter: z.array(z.string().optional()).optional().nullable(),
       subdatasourceFilter: z.array(z.string().optional()).optional().nullable(),
       graphIndicators: z.array(TWINGRAPH_INDICATOR).optional().nullable(),

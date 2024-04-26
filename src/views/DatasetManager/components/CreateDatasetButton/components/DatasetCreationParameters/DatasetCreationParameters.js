@@ -21,7 +21,8 @@ const clone = rfdc();
 
 export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDataset }) => {
   const { t } = useTranslation();
-  const { getDataSourceTypeEnumValues, getUploadFileLabels, getDefaultFileTypeFilter } = useDatasetCreationParameters();
+  const { datasourceParameterHelpers, getDataSourceTypeEnumValues, getUploadFileLabels, getDefaultFileTypeFilter } =
+    useDatasetCreationParameters();
 
   const isSubDatasetCreationWizard = useMemo(() => parentDataset != null, [parentDataset]);
   const [dataSourceType, setDataSourceType] = useState(null);
@@ -36,8 +37,17 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
   }, [dataSourceType, setDataSourceType, defaultDataSourceTypeKey]);
 
   const sourceParameters = useMemo(() => {
-    const forgeParameterInput = (parameter) => {
-      const parameterId = parameter.id;
+    const forgeParameterInput = (originalParameter) => {
+      const parameterId = originalParameter.id;
+      const datasourcePatch = datasourceParameterHelpers?.find((datasource) => datasource.id === dataSourceType);
+      const parametersPatch = datasourcePatch?.parameters?.find((el) => el.id === parameterId);
+      const parameter = clone(originalParameter);
+
+      if (parametersPatch) {
+        parameter.defaultValue = parametersPatch.defaultValue;
+        parameter.options = parameter.options ?? {};
+        parameter.options.tooltipText = parametersPatch.tooltipText;
+      }
       const escapedSourceType = SolutionsUtils.escapeRunTemplateId(dataSourceType);
       const fieldPath = `${escapedSourceType}.${parameterId}`;
       const inputType = parameter.varType;
@@ -58,7 +68,7 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
 
       return (
         <Controller
-          key={parameterId}
+          key={fieldPath}
           name={fieldPath}
           defaultValue={defaultValue}
           rules={{ required: true }}
@@ -67,18 +77,19 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
             if (inputType === 'string') {
               return (
                 <GenericTextInput
-                  parameterData={clone(parameter)}
+                  parameterData={parameter}
                   context={{ editMode: true }}
                   parameterValue={value}
                   setParameterValue={onChange}
                   gridItemProps={{ xs: 12, sx: { pt: 1 } }}
+                  size="medium"
                   isDirty={null}
                 />
               );
             } else if (inputType === 'enum') {
               return (
                 <GenericEnumInput
-                  parameterData={clone(parameter)}
+                  parameterData={parameter}
                   context={{ editMode: true, targetDatasetId: parentDataset?.id }}
                   parameterValue={value}
                   setParameterValue={onChange}
@@ -90,7 +101,7 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
               return (
                 <GenericMultiSelect
                   gridItemProps={{ xs: 12, sx: { pt: 2 } }}
-                  parameterData={clone(parameter)}
+                  parameterData={parameter}
                   context={{ editMode: true, targetDatasetId: parentDataset?.id }}
                   parameterValue={value}
                   setParameterValue={onChange}
@@ -123,7 +134,15 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
 
     const runTemplate = dataSourceRunTemplates[dataSourceType];
     return runTemplate?.parameters?.map((parameter) => forgeParameterInput(parameter));
-  }, [t, getUploadFileLabels, getDefaultFileTypeFilter, dataSourceRunTemplates, dataSourceType, parentDataset?.id]);
+  }, [
+    t,
+    getUploadFileLabels,
+    getDefaultFileTypeFilter,
+    dataSourceRunTemplates,
+    dataSourceType,
+    parentDataset?.id,
+    datasourceParameterHelpers,
+  ]);
 
   const labels = useMemo(() => {
     return isSubDatasetCreationWizard

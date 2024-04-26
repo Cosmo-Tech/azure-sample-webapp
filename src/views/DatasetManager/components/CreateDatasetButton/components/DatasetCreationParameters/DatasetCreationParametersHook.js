@@ -1,11 +1,13 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useWorkspaceData } from '../../../../../../state/hooks/WorkspaceHooks';
 import { TranslationUtils } from '../../../../../../utils';
 
 export const useDatasetCreationParameters = () => {
   const { t } = useTranslation();
+  const workspace = useWorkspaceData();
 
   const getDataSourceTypeEnumValues = useCallback(
     (dataSources) =>
@@ -46,7 +48,13 @@ export const useDatasetCreationParameters = () => {
     [getParameterById]
   );
 
+  const datasourceParameterHelpers = useMemo(
+    () => workspace?.webApp?.options?.datasetManager?.datasourceParameterHelpers,
+    [workspace?.webApp?.options?.datasetManager?.datasourceParameterHelpers]
+  );
+
   return {
+    datasourceParameterHelpers,
     getDataSourceTypeEnumValues,
     getUploadFileLabels,
     getDefaultFileTypeFilter,
