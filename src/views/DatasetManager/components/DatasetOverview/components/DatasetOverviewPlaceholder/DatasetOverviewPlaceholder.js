@@ -137,7 +137,8 @@ export const DatasetOverviewPlaceholder = () => {
       </Button>
     );
 
-    const rollBackButton = (
+    const showRollbackButton = currentDatasetTwincacheStatus === TWINCACHE_STATUS.FULL && currentDatasetType !== 'ETL';
+    const rollBackButton = showRollbackButton ? (
       <Button
         data-cy="dataset-overview-rollback-button"
         variant="contained"
@@ -146,7 +147,7 @@ export const DatasetOverviewPlaceholder = () => {
       >
         {t('commoncomponents.datasetmanager.overview.placeholder.rollbackButton', 'Rollback')}
       </Button>
-    );
+    ) : null;
 
     if (currentDatasetIngestionStatus === INGESTION_STATUS.PENDING)
       return !Object.values(DATASET_SOURCE_TYPE).includes(currentDatasetType) && abortButton;
@@ -157,7 +158,7 @@ export const DatasetOverviewPlaceholder = () => {
         <>
           {!Object.values(DATASET_SOURCE_TYPE).includes(currentDatasetType) && runLogsDownloadButton}
           {retryButton}
-          {currentDatasetTwincacheStatus === TWINCACHE_STATUS.FULL && rollBackButton}
+          {rollBackButton}
         </>
       );
   }, [
