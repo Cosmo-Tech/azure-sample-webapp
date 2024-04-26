@@ -6,11 +6,13 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Grid, Typography } from '@mui/material';
 import rfdc from 'rfdc';
-import { BasicTextInput, UploadFile, BasicEnumInput } from '@cosmotech/ui';
+import { UploadFile, BasicEnumInput } from '@cosmotech/ui';
 // eslint-disable-next-line max-len
 import { GenericEnumInput } from '../../../../../../components/ScenarioParameters/components/ScenarioParametersInputs/GenericEnumInput';
 // eslint-disable-next-line max-len
 import { GenericMultiSelect } from '../../../../../../components/ScenarioParameters/components/ScenarioParametersInputs/GenericMultiSelect';
+// eslint-disable-next-line max-len
+import { GenericTextInput } from '../../../../../../components/ScenarioParameters/components/ScenarioParametersInputs/GenericTextInput';
 import { ConfigUtils, SolutionsUtils, TranslationUtils } from '../../../../../../utils';
 import { FileManagementUtils } from '../../../../../../utils/FileManagementUtils';
 import { useDatasetCreationParameters } from './DatasetCreationParametersHook';
@@ -36,15 +38,12 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
   const sourceParameters = useMemo(() => {
     const forgeParameterInput = (parameter) => {
       const parameterId = parameter.id;
-      const parameterTranslationKey = TranslationUtils.getParameterTranslationKey(
-        parameter.idForTranslationKey ?? parameterId
-      );
       const escapedSourceType = SolutionsUtils.escapeRunTemplateId(dataSourceType);
       const fieldPath = `${escapedSourceType}.${parameterId}`;
       const inputType = parameter.varType;
 
       let defaultValue;
-      if (inputType === 'string') defaultValue = '';
+      if (inputType === 'string') defaultValue = parameter?.defaultValue ?? '';
       else if (inputType === 'enum') {
         const enumValues = ConfigUtils.getParameterAttribute(parameter, 'enumValues') ?? [];
         defaultValue = enumValues?.[0]?.key;
@@ -67,17 +66,14 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
             const { value, onChange } = field;
             if (inputType === 'string') {
               return (
-                <Grid item xs={12} sx={{ pt: 1 }}>
-                  <BasicTextInput
-                    id={parameterId}
-                    key={parameterId}
-                    label={t(parameterTranslationKey, parameterId)}
-                    tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterId), '')}
-                    size="medium"
-                    value={value ?? ''}
-                    changeTextField={(newValue) => onChange(newValue)}
-                  />
-                </Grid>
+                <GenericTextInput
+                  parameterData={clone(parameter)}
+                  context={{ editMode: true }}
+                  parameterValue={value}
+                  setParameterValue={onChange}
+                  gridItemProps={{ xs: 12, sx: { pt: 1 } }}
+                  isDirty={null}
+                />
               );
             } else if (inputType === 'enum') {
               return (

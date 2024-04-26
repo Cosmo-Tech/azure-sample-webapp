@@ -8,7 +8,15 @@ import { BasicTextInput } from '@cosmotech/ui';
 import { useParameterConstraintValidation } from '../../../../hooks/ParameterConstraintsHooks';
 import { TranslationUtils } from '../../../../utils';
 
-export const GenericTextInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty, error }) => {
+export const GenericTextInput = ({
+  parameterData,
+  context,
+  parameterValue,
+  setParameterValue,
+  isDirty,
+  error,
+  gridItemProps,
+}) => {
   const { t } = useTranslation();
   const textFieldProps = {
     disabled: !context.editMode,
@@ -16,12 +24,18 @@ export const GenericTextInput = ({ parameterData, context, parameterValue, setPa
   };
 
   return (
-    <Grid item xs={3}>
+    <Grid item xs={3} {...gridItemProps}>
       <BasicTextInput
         key={parameterData.id}
         id={parameterData.id}
-        label={t(TranslationUtils.getParameterTranslationKey(parameterData.id), parameterData.id)}
-        tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
+        label={t(
+          TranslationUtils.getParameterTranslationKey(parameterData.idForTranslationKey ?? parameterData.id),
+          parameterData.id
+        )}
+        tooltipText={t(
+          TranslationUtils.getParameterTooltipTranslationKey(parameterData.idForTranslationKey ?? parameterData.id),
+          ''
+        )}
         value={parameterValue ?? ''}
         changeTextField={setParameterValue}
         textFieldProps={textFieldProps}
@@ -39,10 +53,13 @@ GenericTextInput.propTypes = {
   setParameterValue: PropTypes.func.isRequired,
   isDirty: PropTypes.bool,
   error: PropTypes.object,
+  gridItemProps: PropTypes.object,
 };
+
 GenericTextInput.defaultProps = {
   isDirty: false,
 };
+
 GenericTextInput.useValidationRules = (parameterData) => {
   const { t } = useTranslation();
   const { getParameterConstraintValidation } = useParameterConstraintValidation(parameterData);
