@@ -84,7 +84,8 @@ export const getDatasetOverviewPlaceholderApiLink = () => cy.get(SELECTORS.overv
 
 export const getIndicatorCard = (kpiId) => cy.get(SELECTORS.overview.indicators.cardByKpiId.replace('$KPI_ID', kpiId));
 export const getKpiLoading = (parent) => parent.find(SELECTORS.overview.indicators.kpiLoading);
-export const getKpiValue = (parent) => parent.find(SELECTORS.overview.indicators.kpiValue);
+export const getKpiValue = (parent, timeout) =>
+  parent.find(SELECTORS.overview.indicators.kpiValue, timeout ? { timeout: timeout * 1000 } : undefined);
 export const getKpiError = (parent) => parent.find(SELECTORS.overview.indicators.kpiError);
 export const getKpiUnknownState = (parent) => parent.find(SELECTORS.overview.indicators.kpiUnknownState);
 

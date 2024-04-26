@@ -73,7 +73,7 @@ describe('End-to-end test of the dataset manager view', () => {
     DatasetManager.getAllReuploadDatasetButtons().click();
     DatasetManager.getConfirmDatasetRefreshButton().click();
     DatasetManager.getAllReuploadDatasetInputs().attachFile(NINE_CUSTOMERS_DATASET_ZIP_FILE_PATH);
-    DatasetManager.getKpiValue(DatasetManager.getIndicatorCard('satisfaction_links_count')).should('have.text', 16);
+    DatasetManager.getKpiValue(DatasetManager.getIndicatorCard('satisfaction_links_count'), 10).should('have.text', 16);
 
     DatasetManager.getAllDeleteDatasetButtons().click();
     DatasetManager.getDeleteDatasetDialogBody().contains(fileDatasetName);
