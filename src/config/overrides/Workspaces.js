@@ -122,6 +122,54 @@ export const WORKSPACES = [
           documentationUrl: 'https://portal.cosmotech.com/resources/platform-resources/platform-help',
         },
         datasetManager: {
+          datasourceParameterHelpers: [
+            {
+              id: 'AzureStorage',
+              parameters: [
+                {
+                  id: 'name',
+                  defaultValue: 'csmphoenixdev',
+                  tooltipText: {
+                    en: 'Name of the storage account in Azure storage',
+                    fr: 'Nom du compte de stockage dans Azure storage',
+                  },
+                },
+                {
+                  id: 'location',
+                  defaultValue: 'o-gzypnd27g7',
+                  tooltipText: {
+                    en: 'Name of the blob container in Azure storage (usually the organization id in lowercase)',
+                    fr:
+                      "Nom du conteneur d’objets blobs dans Azure storage (en général, l'id de l'organisation " +
+                      'en minuscules)',
+                  },
+                },
+                {
+                  id: 'path',
+                  defaultValue: 'w-70klgqeroooz/brewery_instance_amsterdam',
+                  tooltipText: {
+                    en: 'Path to dataset files in Azure storage (e.g. w-70klgqeroooz/brewery_instance_amsterdam)',
+                    fr:
+                      'Chemin des fichiers du dataset dans Azure storage ' +
+                      '(ex: w-70klgqeroooz/brewery_instance_amsterdam)',
+                  },
+                },
+              ],
+            },
+            {
+              id: 'ADT',
+              parameters: [
+                {
+                  id: 'location',
+                  defaultValue: 'https://o-gzypnd27g7-demobrewery.api.weu.digitaltwins.azure.net',
+                  tooltipText: {
+                    en: 'URL of your Azure Digital Twin instance',
+                    fr: "URL de l'instance Azure Digital Twin",
+                  },
+                },
+              ],
+            },
+          ],
           datasourceFilter: undefined, // Filter example: ['etl_with_azure_storage', 'etl_with_local_file']
           subdatasourceFilter: undefined, // Filter example: ['etl_sub_dataset_by_filter']
           graphIndicators: [
