@@ -6,11 +6,13 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Grid, Typography } from '@mui/material';
 import rfdc from 'rfdc';
-import { BasicTextInput, UploadFile, BasicEnumInput } from '@cosmotech/ui';
+import { UploadFile, BasicEnumInput } from '@cosmotech/ui';
 // eslint-disable-next-line max-len
 import { GenericEnumInput } from '../../../../../../components/ScenarioParameters/components/ScenarioParametersInputs/GenericEnumInput';
 // eslint-disable-next-line max-len
 import { GenericMultiSelect } from '../../../../../../components/ScenarioParameters/components/ScenarioParametersInputs/GenericMultiSelect';
+// eslint-disable-next-line max-len
+import { GenericTextInput } from '../../../../../../components/ScenarioParameters/components/ScenarioParametersInputs/GenericTextInput';
 import { ConfigUtils, SolutionsUtils, TranslationUtils } from '../../../../../../utils';
 import { FileManagementUtils } from '../../../../../../utils/FileManagementUtils';
 import { useDatasetCreationParameters } from './DatasetCreationParametersHook';
@@ -19,7 +21,8 @@ const clone = rfdc();
 
 export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDataset }) => {
   const { t } = useTranslation();
-  const { getDataSourceTypeEnumValues, getUploadFileLabels, getDefaultFileTypeFilter } = useDatasetCreationParameters();
+  const { datasourceParameterHelpers, getDataSourceTypeEnumValues, getUploadFileLabels, getDefaultFileTypeFilter } =
+    useDatasetCreationParameters();
 
   const isSubDatasetCreationWizard = useMemo(() => parentDataset != null, [parentDataset]);
   const [dataSourceType, setDataSourceType] = useState(null);
@@ -34,17 +37,23 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
   }, [dataSourceType, setDataSourceType, defaultDataSourceTypeKey]);
 
   const sourceParameters = useMemo(() => {
-    const forgeParameterInput = (parameter) => {
-      const parameterId = parameter.id;
-      const parameterTranslationKey = TranslationUtils.getParameterTranslationKey(
-        parameter.idForTranslationKey ?? parameterId
-      );
+    const forgeParameterInput = (originalParameter) => {
+      const parameterId = originalParameter.id;
+      const datasourcePatch = datasourceParameterHelpers?.find((datasource) => datasource.id === dataSourceType);
+      const parametersPatch = datasourcePatch?.parameters?.find((el) => el.id === parameterId);
+      const parameter = clone(originalParameter);
+
+      if (parametersPatch) {
+        parameter.defaultValue = parametersPatch.defaultValue;
+        parameter.options = parameter.options ?? {};
+        parameter.options.tooltipText = parametersPatch.tooltipText;
+      }
       const escapedSourceType = SolutionsUtils.escapeRunTemplateId(dataSourceType);
       const fieldPath = `${escapedSourceType}.${parameterId}`;
       const inputType = parameter.varType;
 
       let defaultValue;
-      if (inputType === 'string') defaultValue = '';
+      if (inputType === 'string') defaultValue = parameter?.defaultValue ?? '';
       else if (inputType === 'enum') {
         const enumValues = ConfigUtils.getParameterAttribute(parameter, 'enumValues') ?? [];
         defaultValue = enumValues?.[0]?.key;
@@ -59,7 +68,7 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
 
       return (
         <Controller
-          key={parameterId}
+          key={fieldPath}
           name={fieldPath}
           defaultValue={defaultValue}
           rules={{ required: true }}
@@ -67,22 +76,20 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
             const { value, onChange } = field;
             if (inputType === 'string') {
               return (
-                <Grid item xs={12} sx={{ pt: 1 }}>
-                  <BasicTextInput
-                    id={parameterId}
-                    key={parameterId}
-                    label={t(parameterTranslationKey, parameterId)}
-                    tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterId), '')}
-                    size="medium"
-                    value={value ?? ''}
-                    changeTextField={(newValue) => onChange(newValue)}
-                  />
-                </Grid>
+                <GenericTextInput
+                  parameterData={parameter}
+                  context={{ editMode: true }}
+                  parameterValue={value}
+                  setParameterValue={onChange}
+                  gridItemProps={{ xs: 12, sx: { pt: 1 } }}
+                  size="medium"
+                  isDirty={null}
+                />
               );
             } else if (inputType === 'enum') {
               return (
                 <GenericEnumInput
-                  parameterData={clone(parameter)}
+                  parameterData={parameter}
                   context={{ editMode: true, targetDatasetId: parentDataset?.id }}
                   parameterValue={value}
                   setParameterValue={onChange}
@@ -94,7 +101,7 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
               return (
                 <GenericMultiSelect
                   gridItemProps={{ xs: 12, sx: { pt: 2 } }}
-                  parameterData={clone(parameter)}
+                  parameterData={parameter}
                   context={{ editMode: true, targetDatasetId: parentDataset?.id }}
                   parameterValue={value}
                   setParameterValue={onChange}
@@ -127,7 +134,15 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
 
     const runTemplate = dataSourceRunTemplates[dataSourceType];
     return runTemplate?.parameters?.map((parameter) => forgeParameterInput(parameter));
-  }, [t, getUploadFileLabels, getDefaultFileTypeFilter, dataSourceRunTemplates, dataSourceType, parentDataset?.id]);
+  }, [
+    t,
+    getUploadFileLabels,
+    getDefaultFileTypeFilter,
+    dataSourceRunTemplates,
+    dataSourceType,
+    parentDataset?.id,
+    datasourceParameterHelpers,
+  ]);
 
   const labels = useMemo(() => {
     return isSubDatasetCreationWizard
