@@ -1,3 +1,45 @@
+## **6.1.0** <sub><sup>2024-04-26 ([7bfda34...77fe391](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/7bfda340...77fe3916?diff=split))</sup></sub>
+
+### Features
+
+- add button to let users **stop ETL runners**
+- allow **logs download** when a dataset creation ETL has failed
+- add **subdataset creation** feature in dataset manager
+- add **dataset sharing** in dataset manager
+- add new parameter input component `MultiSelect` to **select multiple values** from a list, usable for ETL parameters and scenario parameters (use `varType: 'list'`)
+- add support for **dynamic enum values** (fetch available values from a dataset) in dataset manager & scenario parameters, **for both `enum` and `list` parameters**
+- move most dataset action buttons in overview panel
+- display dataset parent name, when defined, in metadata panel
+- add option `datasourceParameterHelpers` in workspace configuration to **define default values & tooltips for native runners** (especially useful for `ADT` and `AzureStorage` parameters)
+- add optional filters for datasources in workspace configuration
+
+### Bug Fixes
+
+- reset PowerBI themes for vanilla releases; **you may have conflicts on theme files during upgrade** if you had customized them after v6.0.0 ([106b8b4](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/106b8b4c))
+- fix runner logs parsing to keep only logs of main container ([f504ad0](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/f504ad0f))
+- fix uncaught errors when a run template does not have tags defined ([0f19aea](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/0f19aea9), [147f02b](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/147f02b3))
+- fix crash on creation when runner has no parameters ([4f2ec25](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/4f2ec25f))
+- in dataset creation wizard, display runTemplate name or id when labels are not defined ([362edeb](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/362edeb9))
+- fix webapp crash when datasetManager workspace option is an empty object ([bb0c6e2](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/bb0c6e2c))
+- add a delay before polling start for scenario runs and twingraph creation ([81e321e](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/81e321e3))
+- fix default state of dataset creation wizard form ([11c7748](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/11c77486), [2f931bb](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/2f931bb3))
+- fix allowed file types for "local file upload" native ETL ([a1841a1](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/a1841a18))
+- reset state of the dataset creation form when removing an uploaded file ([e22ec24](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/e22ec249))
+- add missing tooltips on dataset manager icon buttons ([b14d982](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/b14d9825))
+- restore previous scenario state when its run can't be started ([c58c616](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/c58c616a))
+- change webapp behavior when no datasets match the workspace filter ([ec9b4ca](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/ec9b4ca7))
+- disable hierarchy indentation in DatasetList ([6e14a20](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/6e14a204))
+- prevent dataset selection when clicking on item list action buttons ([92de8b9](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/92de8b95))
+- fix webapp crash when parameter list contains a nullish element ([4bdc4de](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/4bdc4dea))
+- fix possible errors when solution arrays contain null elements ([35cdfb6](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/35cdfb63))
+- improve parsing of errors returned by some azure functions ([4fa794a](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/4fa794a8))
+
+### Documentation
+
+- add documentation for new features ([6553e1e](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/6553e1e4), [80d7eec](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/80d7eecd), [5c0f111](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/5c0f1114), [7de9f54](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/7de9f54a), [def99a3](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/def99a34), [111b7d6](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/111b7d6b), [71621d2](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/71621d2b))
+- update link to ScenarioDownload azure function deployment package ([07bd23e](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/07bd23e5))
+
+
 ## **6.0.0** <sub><sup>2024-02-14 ([62d17e0...fe55837](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/62d17e0a...fe558373?diff=split))</sup></sub>
 
 ### BREAKING CHANGES
