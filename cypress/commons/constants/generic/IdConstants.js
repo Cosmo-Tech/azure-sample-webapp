@@ -179,6 +179,8 @@ export const GENERIC_SELECTORS = {
       tagByIndex: '[data-cy=dataset-tags-tag-$INDEX]',
     },
     noDatasetsPlaceholder: '[data-cy=no-datasets-placeholder]',
+    noDatasetsUserSubtitle: '[data-cy=no-datasets-user-subtitle]',
+    noDatasetsViewerSubtitle: '[data-cy=no-datasets-viewer-subtitle]',
     tabName: '[data-cy="tabs.datasetmanager.key"]',
     view: '[data-cy=dataset-manager-view]',
     wizard: {

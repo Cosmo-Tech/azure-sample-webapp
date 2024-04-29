@@ -9,6 +9,7 @@ import {
   DATASETS_TO_FILTER,
   DATASETS_TO_REFRESH,
   ORGANIZATION_WITH_DEFAULT_ROLE_USER,
+  ORGANIZATION_WITH_DEFAULT_ROLE_VIEWER,
 } from '../../fixtures/stubbing/DatasetManager';
 import { USER_EXAMPLE } from '../../fixtures/stubbing/default';
 
@@ -19,17 +20,48 @@ describe('Dataset manager view is optional', () => {
     stub.start();
     stub.setWorkspaces(WORKSPACES);
   });
-
-  beforeEach(() => {
-    Login.login({ url: '/W-stbbdbrwryNoDM', workspaceId: 'W-stbbdbrwryNoDM' });
-  });
-
-  after(() => {
-    stub.stop();
-  });
+  beforeEach(() => Login.login({ url: '/W-stbbdbrwryNoDM', workspaceId: 'W-stbbdbrwryNoDM' }));
+  after(stub.stop);
 
   it('should not show the Dataset Manager tab when its configuration is not defined', () => {
     DatasetManager.getDatasetManagerTab().should('not.exist');
+  });
+});
+
+describe('Viewer role in an empty dataset manager', () => {
+  before(() => {
+    stub.start();
+    stub.setOrganizations([ORGANIZATION_WITH_DEFAULT_ROLE_VIEWER]);
+    stub.setWorkspaces(WORKSPACES);
+  });
+  beforeEach(() => Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' }));
+  after(stub.stop);
+
+  it('cannot create datasets from the overview placeholder', () => {
+    DatasetManager.switchToDatasetManagerView();
+    DatasetManager.getDatasetCreationDialog().should('not.exist');
+    DatasetManager.getNoDatasetsPlaceholder().should('be.visible');
+    DatasetManager.getNoDatasetsPlaceholderViewerSubtitle().should('be.visible');
+    DatasetManager.getNoDatasetsPlaceholderUserSubtitle().should('not.exist');
+    DatasetManager.getCreateDatasetButton().should('not.exist');
+  });
+});
+
+describe('Viewer role in a non-empty dataset manager', () => {
+  before(() => {
+    stub.start();
+    stub.setOrganizations([ORGANIZATION_WITH_DEFAULT_ROLE_VIEWER]);
+    stub.setWorkspaces(WORKSPACES);
+    stub.setDatasets([...DATASETS]);
+  });
+  beforeEach(() => Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' }));
+  after(stub.stop);
+
+  it('cannot create datasets from the dataset list button', () => {
+    DatasetManager.switchToDatasetManagerView();
+    DatasetManager.getDatasetCreationDialog().should('not.exist');
+    DatasetManager.getCreateDatasetButton().should('not.exist');
+    DatasetManager.getNoDatasetsPlaceholder().should('not.exist');
   });
 });
 
@@ -39,19 +71,15 @@ describe('Dataset manager can be empty on start', () => {
     stub.setOrganizations([ORGANIZATION_WITH_DEFAULT_ROLE_USER]);
     stub.setWorkspaces(WORKSPACES);
   });
-
-  beforeEach(() => {
-    Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' });
-  });
-
-  after(() => {
-    stub.stop();
-  });
+  beforeEach(() => Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' }));
+  after(stub.stop);
 
   it('can create a dataset in an empty environment', () => {
     DatasetManager.switchToDatasetManagerView();
     DatasetManager.getDatasetCreationDialog().should('not.exist');
     DatasetManager.getNoDatasetsPlaceholder().should('be.visible');
+    DatasetManager.getNoDatasetsPlaceholderViewerSubtitle().should('not.exist');
+    DatasetManager.getNoDatasetsPlaceholderUserSubtitle().should('be.visible');
     DatasetManager.getCreateDatasetButton().should('be.visible');
 
     DatasetManager.getCreateDatasetButton().click();
@@ -74,14 +102,8 @@ describe('Data edition in dataset manager', () => {
     // to stubbing function
     stub.setDatasets([...DATASETS]);
   });
-
-  beforeEach(() => {
-    Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' });
-  });
-
-  after(() => {
-    stub.stop();
-  });
+  beforeEach(() => Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' }));
+  after(stub.stop);
 
   it('can edit datasets metadata', () => {
     const DATASET_A = DATASETS[0];
@@ -135,14 +157,8 @@ describe('Dataset creation', () => {
     stub.setWorkspaces(WORKSPACES);
     stub.setDatasets([...DATASETS]);
   });
-
-  beforeEach(() => {
-    Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' });
-  });
-
-  after(() => {
-    stub.stop();
-  });
+  beforeEach(() => Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' }));
+  after(stub.stop);
 
   it('can create a new Azure Storage dataset', () => {
     const datasetName = 'My new dataset';
@@ -248,13 +264,8 @@ describe('Filtering datasets list', () => {
     stub.setWorkspaces(WORKSPACES);
     stub.setDatasets(DATASETS_TO_FILTER);
   });
-  beforeEach(() => {
-    Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' });
-  });
-
-  after(() => {
-    stub.stop();
-  });
+  beforeEach(() => Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' }));
+  after(stub.stop);
 
   it('can filter datasets by name and by tag', () => {
     DatasetManager.switchToDatasetManagerView();
@@ -281,14 +292,8 @@ describe('Dataset delete', () => {
     stub.setWorkspaces(WORKSPACES);
     stub.setDatasets([...DATASETS]);
   });
-
-  beforeEach(() => {
-    Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' });
-  });
-
-  after(() => {
-    stub.stop();
-  });
+  beforeEach(() => Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' }));
+  after(stub.stop);
 
   it('can delete all scenarios from the list and display noDatasets placeholder', () => {
     DatasetManager.switchToDatasetManagerView();
@@ -301,6 +306,7 @@ describe('Dataset delete', () => {
     DatasetManager.getDatasetsListItemButtons().should('have.length', 1);
     DatasetManager.deleteDataset(DATASETS[1].id, DATASETS[1].name);
     DatasetManager.getNoDatasetsPlaceholder().should('be.visible');
+    DatasetManager.getNoDatasetsPlaceholderUserSubtitle().should('not.exist'); // Default role not set to "user"
   });
 });
 
@@ -310,14 +316,8 @@ describe('Refresh dataset', () => {
     stub.setWorkspaces(WORKSPACES);
     stub.setDatasets(DATASETS_TO_REFRESH);
   });
-
-  beforeEach(() => {
-    Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' });
-  });
-
-  after(() => {
-    stub.stop();
-  });
+  beforeEach(() => Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' }));
+  after(stub.stop);
 
   it(
     'can refresh ADT and AzureStorage datasets and display en empty dataset placeholder ' +
