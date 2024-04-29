@@ -249,7 +249,8 @@
       },
       "noDatasets": {
         "title": "You don't have any datasets yet",
-        "body": "Click on <createDatasetButton /> to import your first data"
+        "body": "Click on <createDatasetButton /> to import your first data",
+        "readOnlySubtitle": "You don't have permissions to create datasets. Please contact your administrator."
       },
       "create": {
         "label": "Create",

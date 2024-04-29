@@ -9,8 +9,14 @@ const SELECTORS = GENERIC_SELECTORS.datasetmanager;
 export const getDatasetManagerTab = (timeout = 5) => cy.get(SELECTORS.tabName, { timeout: timeout * 1000 });
 export const getDatasetManagerView = (timeout = 5) => cy.get(SELECTORS.view, { timeout: timeout * 1000 });
 export const switchToDatasetManagerView = () => getDatasetManagerTab().click();
+
 export const getNoDatasetsPlaceholder = (timeout = 5) =>
   cy.get(SELECTORS.noDatasetsPlaceholder, { timeout: timeout * 1000 });
+export const getNoDatasetsPlaceholderViewerSubtitle = (timeout = 5) =>
+  cy.get(SELECTORS.noDatasetsViewerSubtitle, { timeout: timeout * 1000 });
+export const getNoDatasetsPlaceholderUserSubtitle = (timeout = 5) =>
+  cy.get(SELECTORS.noDatasetsUserSubtitle, { timeout: timeout * 1000 });
+
 export const getCreateDatasetButton = () => cy.get(SELECTORS.createDatasetButton);
 export const startDatasetCreation = () => getCreateDatasetButton().click();
 
