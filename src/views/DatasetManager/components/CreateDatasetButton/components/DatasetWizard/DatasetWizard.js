@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import {
   Autocomplete,
   Button,
+  Chip,
   Dialog,
   DialogActions,
   DialogContent,
@@ -45,7 +46,7 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
 
     return (
       <Grid item xs={12}>
-        <Typography sx={{ pb: 0.5, pt: 0, pl: 2 }}>
+        <Typography sx={{ pb: 0.5, pt: 0, pl: 2 }} data-cy="wizard-subtitle-parent-dataset-name">
           {t(
             'commoncomponents.datasetmanager.wizard.firstScreen.subtitle.parentDataset',
             'Parent dataset: {{parentDatasetName}}',
@@ -105,11 +106,21 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
                 disableClearable
                 options={[]}
                 value={tagsValue ?? []}
+                renderTags={(value, getTagProps) =>
+                  value.map((tagText, index) => (
+                    <Chip
+                      key={index}
+                      label={tagText}
+                      data-cy={`new-dataset-tags-tag-${index}`}
+                      color="primary"
+                      {...getTagProps({ index })}
+                    />
+                  ))
+                }
                 renderInput={(params) => (
                   <TextField {...params} label={t('commoncomponents.datasetmanager.wizard.firstScreen.tags', 'Tags')} />
                 )}
                 onChange={(event, values) => setTagsValue(values)}
-                ChipProps={{ color: 'primary' }}
               />
             );
           }}
