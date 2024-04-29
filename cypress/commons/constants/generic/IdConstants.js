@@ -143,6 +143,7 @@ export const GENERIC_SELECTORS = {
   },
   datasetmanager: {
     createDatasetButton: '[data-cy=create-dataset-button]',
+    createSubdatasetButton: '[data-cy=create-subdataset-button]',
     list: {
       container: '[data-cy=datasets-list]',
       deleteButtons: '[data-cy^=dataset-delete-button-]',

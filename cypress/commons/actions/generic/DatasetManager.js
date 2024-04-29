@@ -18,6 +18,7 @@ export const getNoDatasetsPlaceholderUserSubtitle = (timeout = 5) =>
   cy.get(SELECTORS.noDatasetsUserSubtitle, { timeout: timeout * 1000 });
 
 export const getCreateDatasetButton = () => cy.get(SELECTORS.createDatasetButton);
+export const getCreateSubdatasetButton = () => cy.get(SELECTORS.createSubdatasetButton);
 export const startDatasetCreation = () => getCreateDatasetButton().click();
 
 export const getDatasetSearchBar = () => cy.get(SELECTORS.list.searchBar);
