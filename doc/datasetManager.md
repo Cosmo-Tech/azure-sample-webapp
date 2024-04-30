@@ -295,7 +295,6 @@ datasets. Their parameters are:
   - `name`: Name of the storage account in Azure storage
   - `location`: Name of the blob container in Azure storage
   - `path`: Path to the dataset folder in Azure storage
-- `File`:
 
 Note that you can specify **custom tooltips and default values** for these data sources: they will be displayed in the
 dataset creation wizard to help users fill the data source parameters. These tooltips and values can be configured
