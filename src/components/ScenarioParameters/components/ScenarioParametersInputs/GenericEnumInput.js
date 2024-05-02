@@ -13,6 +13,7 @@ export const GenericEnumInput = ({
   context,
   parameterValue,
   setParameterValue,
+  resetParameterValue, // Set a new value without triggering the form 'dirty' state
   isDirty,
   gridItemProps,
 }) => {
@@ -55,14 +56,14 @@ export const GenericEnumInput = ({
   }, [t, parameterData, dynamicEnumValues]);
 
   useEffect(() => {
-    // Call setParameterValue when dynamic values are enabled to trigger an update of the form validity. This
+    // Call resetParameterValue when dynamic values are enabled to trigger an update of the form validity. This
     // is required to automatically enable a form confirmation button when a default value is selected from
     // dynamic values (e.g. in the dataset creation wizard). Yet, we don't want this behavior in the scenario
     // parameters, because it tends to set the form state to "dirty" for enums without default values.
     if (dynamicEnumValues != null && parameterValue == null && enumValues?.length > 0) {
-      setParameterValue(enumValues[0]?.key);
+      resetParameterValue(enumValues[0]?.key);
     }
-  }, [enumValues, dynamicEnumValues, parameterValue, setParameterValue]);
+  }, [enumValues, dynamicEnumValues, parameterValue, resetParameterValue]);
 
   if (dynamicValuesError) return dynamicValuesError;
   return (
@@ -90,6 +91,7 @@ GenericEnumInput.propTypes = {
   context: PropTypes.object.isRequired,
   parameterValue: PropTypes.any,
   setParameterValue: PropTypes.func.isRequired,
+  resetParameterValue: PropTypes.func.isRequired,
   isDirty: PropTypes.bool,
   gridItemProps: PropTypes.object,
 };

@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import React, { useEffect, useMemo, useState } from 'react';
-import { Controller } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Grid, Typography } from '@mui/material';
@@ -21,6 +21,7 @@ const clone = rfdc();
 
 export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDataset }) => {
   const { t } = useTranslation();
+  const { resetField } = useFormContext();
   const { datasourceParameterHelpers, getDataSourceTypeEnumValues, getUploadFileLabels, getDefaultFileTypeFilter } =
     useDatasetCreationParameters();
 
@@ -93,6 +94,7 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
                   context={{ editMode: true, targetDatasetId: parentDataset?.id }}
                   parameterValue={value}
                   setParameterValue={onChange}
+                  resetParameterValue={(newDefaultValue) => resetField(fieldPath, { defaultValue: newDefaultValue })}
                   gridItemProps={{ xs: 6, sx: { pt: 2 } }}
                   isDirty={null}
                 />
@@ -142,6 +144,7 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
     dataSourceType,
     parentDataset?.id,
     datasourceParameterHelpers,
+    resetField,
   ]);
 
   const labels = useMemo(() => {
