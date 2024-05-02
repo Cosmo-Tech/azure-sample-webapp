@@ -417,7 +417,7 @@ const interceptCreateDataset = (options, stubbingOptions = stub.getDatasetImport
 
       stub.addDataset(dataset);
       setTimeout(() => {
-        stub.patchDataset(datasetId, { ingestionStatus: stubbingOptions.finalStatus });
+        stub.patchDataset(datasetId, { ingestionStatus: stubbingOptions.finalIngestionStatus });
       }, stubbingOptions.importJobDuration);
 
       req.reply(dataset);

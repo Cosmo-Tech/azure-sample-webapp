@@ -86,11 +86,11 @@ const DEFAULT_SCENARIO_RUNS_OPTIONS = {
 // Default stubbing options to fake dataset import jobs. By default, the dataset import will end immediately with a
 // 'SUCCESS' status. To change these default options in a test, use stubbing.setDatasetImportOptions(options)
 // - importJobDuration represents the duration (in ms) of the 'PENDING' status, before it changes to the final status
-// - finalStatus must be one of 'NONE', 'PENDING', 'ERROR', 'SUCCESS' or 'UNKNOWN'
+// - finalIngestionStatus must be one of 'NONE', 'PENDING', 'ERROR', 'SUCCESS' or 'UNKNOWN'
 // - expectedPollsCount is an integer representing the number of polling requests to intercept
 const DEFAULT_DATASET_IMPORT_OPTIONS = {
   importJobDuration: 0,
-  finalStatus: 'SUCCESS',
+  finalIngestionStatus: 'SUCCESS',
   expectedPollsCount: 1,
 };
 
