@@ -5,6 +5,8 @@ import { WORKSPACE } from './workspaces';
 
 const EDITABLE_DATASET = {
   ...DEFAULT_DATASET,
+  ingestionStatus: 'SUCCESS',
+  twincacheStatus: 'FULL',
   linkedWorkspaceIdList: [WORKSPACE.id],
   security: { default: 'admin', accessControlList: [] },
 };

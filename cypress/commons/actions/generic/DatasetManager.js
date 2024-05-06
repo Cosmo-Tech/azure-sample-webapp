@@ -19,6 +19,8 @@ export const getNoDatasetsPlaceholderUserSubtitle = (timeout = 5) =>
 
 export const getCreateDatasetButton = () => cy.get(SELECTORS.createDatasetButton);
 export const startDatasetCreation = () => getCreateDatasetButton().click();
+export const getCreateSubdatasetButton = () => cy.get(SELECTORS.createSubdatasetButton);
+export const startSubdatasetCreation = () => getCreateSubdatasetButton().click();
 
 export const getDatasetSearchBar = () => cy.get(SELECTORS.list.searchBar);
 export const getDatasetSearchBarInput = () =>
@@ -66,6 +68,7 @@ export const getDatasetMetadataApiUrlButton = () => cy.get(SELECTORS.metadata.ap
 export const getDatasetMetadataEditDescriptionButton = () => cy.get(SELECTORS.metadata.editDescriptionButton);
 export const getDatasetMetadataDescriptionTextField = () => cy.get(SELECTORS.metadata.descriptionTextField);
 export const getDatasetMetadataDescription = () => cy.get(SELECTORS.metadata.description);
+export const getDatasetMetadataParent = () => cy.get(SELECTORS.metadata.parent);
 
 export const getDatasetMetadataNewTagTextField = () => cy.get(SELECTORS.metadata.newTagTextField);
 export const getDatasetMetadataAddTagButton = () => cy.get(SELECTORS.metadata.addTagButton);
@@ -75,7 +78,6 @@ export const getDatasetMetadataDeleteTagButton = (parent) => {
 };
 export const getDatasetMetadataTagsContainer = () => cy.get(SELECTORS.metadata.tagsContainer);
 export const getDatasetMetadataTags = () => cy.get(SELECTORS.metadata.tags);
-
 export const getDatasetMetadataTag = (index) => cy.get(SELECTORS.metadata.tagByIndex.replace('$INDEX', index));
 
 export const getDatasetNameInOverview = (timeout) =>
@@ -144,6 +146,7 @@ export const deleteDatasetTag = (tagIndex, options) => {
 };
 
 export const getDatasetCreationDialog = () => cy.get(SELECTORS.wizard.dialog);
+export const getParentNameSubtitle = () => cy.get(SELECTORS.wizard.parentNameSubtitle);
 export const getCancelDatasetCreation = () => cy.get(SELECTORS.wizard.cancelDatasetCreation);
 export const getDatasetCreationPreviousStep = () => cy.get(SELECTORS.wizard.previous);
 export const getDatasetCreationNextStep = () => cy.get(SELECTORS.wizard.next);
@@ -154,14 +157,23 @@ export const getConfirmDatasetCreation = () => cy.get(SELECTORS.wizard.confirmDa
 //    - id (optional): id of the created dataset (only used when stubbing is enabled; if undefined, a random id is used)
 //    - validateRequest (optional): validation function to run on the dataset update request
 //    - importJobOptions: options to provide to the interception of the "create dataset" query (default: undefined)
-//    - isFile: boolean defining if the created dataset is imported from a file upload (needs to be set to trigger the
-//      correct interceptions)
+//    - runnerCreationOptions: options to provide to the interception of the "create runner" query (default: undefined)
+//    - runnerUpdateOptions: options to provide to the interception of the "update runner" query (default: undefined)
+//    - isFile: boolean defining if the created dataset is imported from a file upload (when enabled, queries to refresh
+//      and status endpoints won't be run)
+//    - isETL: boolean defining if the created dataset is created from an ETL runner (when enabled, queries to create
+//      and patch the runner will be run)
 export const confirmDatasetCreation = (options = {}) => {
   options.customDatasetPatch = {
     main: true,
     ...options.customDatasetPatch,
   };
-  const aliases = [api.interceptCreateDataset(options, options.importJobOptions), api.interceptLinkDataset()];
+  const aliases = [];
+  if (options.isETL) aliases.push(api.interceptCreateRunner(options.runnerCreationOptions));
+  aliases.push(api.interceptCreateDataset(options, options.importJobOptions));
+  aliases.push(api.interceptLinkDataset());
+  if (options.isETL) aliases.push(api.interceptUpdateRunner(options.runnerUpdateOptions));
+
   if (!options.isFile) {
     aliases.push(api.interceptRefreshDataset());
     aliases.push(api.interceptGetDatasetStatus(options.importJobOptions?.expectedPollsCount));
@@ -178,6 +190,8 @@ export const getNewDatasetNameInput = () =>
 export const setNewDatasetName = (name) => getNewDatasetName().type(name + '{enter}');
 export const getNewDatasetTagsContainer = () => cy.get(SELECTORS.wizard.tagsContainer);
 export const getNewDatasetTagsInput = () => cy.get(SELECTORS.wizard.tagsInput);
+export const getNewDatasetTag = (index) => cy.get(SELECTORS.wizard.tagByIndex.replace('$INDEX', index));
+
 export const getNewDatasetDeleteTagButtons = () => getNewDatasetTagsContainer().find(SELECTORS.wizard.deleteTagButton);
 export const addNewDatasetTag = (newTag) => getNewDatasetTagsInput().type(newTag + '{enter}');
 export const deleteNewDatasetTag = (tagIndex) => getNewDatasetDeleteTagButtons().eq(tagIndex).click();
@@ -186,6 +200,13 @@ export const selectNewDatasetFromExistingData = () => getNewDatasetLocationOptio
 export const getNewDatasetLocationOptionFromScratch = () => cy.get(SELECTORS.wizard.locationOptionFromScratch);
 export const selectNewDatasetFromScratch = () => getNewDatasetLocationOptionFromScratch().click();
 export const getNewDatasetSourceTypeSelect = () => cy.get(SELECTORS.wizard.sourceTypeSelect);
+export const getNewDatasetSourceTypeOptionsMenu = () => cy.get(SELECTORS.wizard.sourceTypeOptionsMenu);
+export const getNewDatasetSourceTypeOptions = () =>
+  getNewDatasetSourceTypeOptionsMenu().find(SELECTORS.wizard.sourceTypeOptions);
+export const getNewDatasetSourceTypeOption = (runTemplateId) =>
+  getNewDatasetSourceTypeOptionsMenu().find(
+    SELECTORS.wizard.sourceTypeOption.replace('$RUN_TEMPLATE_ID', runTemplateId)
+  );
 export const getNewDatasetSourceTypeOptionAzureStorage = () => cy.get(SELECTORS.wizard.sourceTypeOptionAzureStorage);
 export const getNewDatasetSourceTypeOptionFile = () => cy.get(SELECTORS.wizard.sourceTypeOptionFile);
 export const getNewDatasetSourceTypeOptionADT = () => cy.get(SELECTORS.wizard.sourceTypeOptionADT);
@@ -193,6 +214,10 @@ export const getNewDatasetAzureStorageAccountName = () => cy.get(SELECTORS.wizar
 export const getNewDatasetAzureStorageContainerName = () => cy.get(SELECTORS.wizard.azureStorageContainerName);
 export const getNewDatasetAzureStoragePath = () => cy.get(SELECTORS.wizard.azureStoragePath);
 export const getNewDatasetADTURL = () => cy.get(SELECTORS.wizard.adtURL);
+export const selectNewDatasetSourceType = (runTemplateId) => {
+  getNewDatasetSourceTypeSelect().click();
+  getNewDatasetSourceTypeOption(runTemplateId).click();
+};
 
 export const setNewDatasetAzureStorageAccountName = (value) =>
   getNewDatasetAzureStorageAccountName().type('{selectAll}{backspace}' + value);
@@ -233,4 +258,15 @@ export const rollbackDatasetStatus = () => {
   const alias = api.interceptRollbackDatasetStatus();
   getDatasetOverviewPlaceholderRollbackButton().click();
   api.waitAlias(alias);
+};
+
+// Parameters:
+//   - response (optional): JSON response to the twingraph query that is simulated if stubbing is enabled. Example:
+//       [{"id":"Dynamic value 1"},{"id":"Dynamic value 2"},{"id":"Dynamic value 3"}]
+//   - validateRequest (optional): a function, taking the request object as argument, that can be used to perform
+//       cypress checks on the content of the intercepted query
+// Return value: a callback function to call in your test to wait for the interception
+export const expectDatasetTwingraphQuery = (response = {}, validateRequest) => {
+  const alias = api.interceptPostDatasetTwingraphQuery(response, validateRequest);
+  return () => api.waitAlias(alias);
 };

@@ -53,10 +53,11 @@ describe('Viewer role in a non-empty dataset manager', () => {
   beforeEach(() => Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' }));
   after(stub.stop);
 
-  it('cannot create datasets from the dataset list button', () => {
+  it('cannot create datasets & subdatasets', () => {
     DatasetManager.switchToDatasetManagerView();
     DatasetManager.getDatasetCreationDialog().should('not.exist');
     DatasetManager.getCreateDatasetButton().should('not.exist');
+    DatasetManager.getCreateSubdatasetButton().should('not.exist');
     DatasetManager.getNoDatasetsPlaceholder().should('not.exist');
   });
 });
