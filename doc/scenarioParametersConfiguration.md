@@ -84,7 +84,7 @@ When using a scenario parameter of type enum, you have to declare in your soluti
 values the enum can take (values sent to and received from the Cosmo Tech API), and the labels that will be displayed in
 the front-end interface for each value.
 
-This can be done in `option.enumValues`, as a list of objects with two properties:
+This can be done in `options.enumValues`, as a list of objects with two properties:
 
 - `key`: the string-based representation of your enum value, that will be sent to the parameters handler
 - `value`: the label that will be displayed for this key in the selection list of the enum input component
@@ -127,7 +127,7 @@ When the scenario is saved, the selected values will be serialized into a string
 `["USD","EUR","JPY"]`, and saved in the scenario `parameterValues`.
 
 The configuration of the possible list values is identical to the configuration of values of enum parameters, it is done
-in `option.enumValues`, as a list of objects with two properties:
+in `options.enumValues`, as a list of objects with two properties:
 
 - `key`: the string-based representation of your list item, that will be sent to the parameters handler
 - `value`: the label that will be displayed for this key in the selection list of the multi-selection component
@@ -170,7 +170,7 @@ In some cases, for **enum** and **list** parameters, you may want to automatical
 from a dataset, in order to only show the relevant values in the dropdown list. This feature is called
 **dynamic values**, and is supported for scenario parameters and for the parameters of subdataset creation ETLs.
 
-To configure dynamic values, you have to define `option.dynamicEnumValues`, an object with the following keys:
+To configure dynamic values, you have to define `options.dynamicEnumValues`, an object with the following keys:
 
 - `type` (optional): the type of request that will retrieve the dynamic values; currently the only supported value is
   `cypher`, to use cypher queries on a twingraph dataset, but more options will be added in the future
