@@ -5,6 +5,7 @@ import {
   DEFAULT_ORGANIZATION_PERMISSIONS,
   DEFAULT_SCENARIOS_LIST,
   DEFAULT_DATASETS_LIST,
+  DEFAULT_RUNNER,
   DEFAULT_WORKSPACE,
   DEFAULT_WORKSPACES_LIST,
   DEFAULT_ORGANIZATION,
@@ -25,7 +26,6 @@ const STUB_TYPES = [
   'LAUNCH_SCENARIO',
   'PERMISSIONS_MAPPING',
   'UPDATE_DATASET',
-  'UPDATE_RUNNER',
   'UPDATE_SCENARIO',
 ];
 
@@ -62,6 +62,7 @@ const DEFAULT_AUTH_DATA = {
 // scenarios runs, solutions and workspaces
 const DEFAULT_RESOURCES_DATA = {
   datasets: DEFAULT_DATASETS_LIST,
+  runners: [{ ...DEFAULT_RUNNER }],
   scenarioRuns: [],
   scenarios: DEFAULT_SCENARIOS_LIST,
   solutions: DEFAULT_SOLUTIONS_LIST,
@@ -299,6 +300,11 @@ class Stubbing {
     const newACL = (dataset.security?.accessControlList ?? []).filter((entry) => entry.id !== idToRemove);
     this.patchDatasetSecurity(datasetId, dataset.security?.default, newACL);
   };
+
+  getRunners = () => this._getResources('runners');
+  setRunners = (newRunners) => this._setResources('runners', newRunners);
+  addRunner = (newRunner) => this._addResource('runners', newRunner);
+  patchRunner = (runnerId, runnerPatch) => this._patchResourceById('runners', runnerId, runnerPatch);
 
   getSolutions = () => this._getResources('solutions');
   setSolutions = (newSolutions) => this._setResources('solutions', newSolutions);
