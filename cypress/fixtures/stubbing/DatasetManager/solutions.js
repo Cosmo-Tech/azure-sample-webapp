@@ -39,3 +39,29 @@ export const SOLUTION = {
   ],
   runTemplates: [...DEFAULT_SOLUTION.runTemplates, ...CUSTOM_SUBDATASOURCES],
 };
+
+export const SOLUTION_WITH_DYNAMIC_VALUES = {
+  ...DEFAULT_SOLUTION,
+  parameters: [
+    ...DEFAULT_SOLUTION.parameters,
+    {
+      id: 'etl_dynamic_values_enum_parameter',
+      varType: 'enum',
+      options: {
+        dynamicEnumValues: {
+          type: 'cypher',
+          query: 'MATCH(n:Customer) RETURN n.id as customer_id',
+          resultKey: 'customer_id',
+        },
+      },
+    },
+  ],
+  parameterGroups: [
+    ...DEFAULT_SOLUTION.parameterGroups,
+    { id: 'dynamicValuesEnumGroup', parameters: ['etl_dynamic_values_enum_parameter'] },
+  ],
+  runTemplates: [
+    ...DEFAULT_SOLUTION.runTemplates,
+    { id: 'dynamic_values_enum_filter', parameterGroups: ['dynamicValuesEnumGroup'], tags: ['subdatasource'] },
+  ],
+};
