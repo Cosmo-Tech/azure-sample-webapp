@@ -57,6 +57,15 @@ export const useDynamicValues = (parameter, targetDatasetId) => {
       let data;
       try {
         data = await Api.Datasets.twingraphQuery(organizationId, targetDatasetId, query);
+        const resultKey = dynamicSourceConfig.resultKey;
+        const newDynamicValues = data.data.map((item) => ({ key: item[resultKey], value: item[resultKey] }));
+        if (newDynamicValues.length > 0 && newDynamicValues[0].key === undefined)
+          throw new Error(
+            `No property found with result key "${resultKey}" in response to dynamic values query. ` +
+              'Please check your dataset and your solution configuration.'
+          );
+
+        if (!isUnmounted.current) setDynamicValues(newDynamicValues);
       } catch (error) {
         console.warn(`An error occurred when loading dynamic enum values of parameter "${parameter.id}"`);
         console.error(error);
@@ -66,14 +75,7 @@ export const useDynamicValues = (parameter, targetDatasetId) => {
         );
         dispatch(dispatchSetApplicationErrorMessage(error, errorTitle));
         if (!isUnmounted.current) setDynamicValues(errorTitle);
-        return;
       }
-
-      const newDynamicValues = data.data.map((item) => ({
-        key: item[dynamicSourceConfig.resultKey],
-        value: item[dynamicSourceConfig.resultKey],
-      }));
-      if (!isUnmounted.current) setDynamicValues(newDynamicValues);
     };
 
     setDynamicValues(dynamicSourceConfig === undefined ? undefined : null);
