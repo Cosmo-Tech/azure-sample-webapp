@@ -143,6 +143,7 @@ const ScenarioManager = (props) => {
     [hasUserPermissionOnScenario]
   );
 
+  console.log(scenarios);
   return (
     <div className={classes.root}>
       <ScenarioManagerTreeList
