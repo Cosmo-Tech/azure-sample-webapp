@@ -4,6 +4,7 @@ import ReactWebChat, { createDirectLine, createStyleSet } from 'botframework-web
 import { useUserEmail } from '../../state/hooks/AuthHooks';
 import { useFetchToken, useGetCopilotToken } from '../../state/hooks/CopilotHooks';
 
+// https://learn.microsoft.com/en-us/azure/bot-service/bot-builder-webchat-customization?view=azure-bot-service-4.0
 const CopilotChat = () => {
   const copilotToken = useGetCopilotToken();
 
@@ -16,19 +17,15 @@ const CopilotChat = () => {
 
   const userEmail = useUserEmail();
 
-  // Black: 282f33
-  // Yellow: ffb118
-  // Light Grey : f2f2f2
-  // Orange: ed5400
-  // grey : 7f7f7f
-  // blue: 475c82
   const theme = useTheme();
   const chatStyle = {
+    botAvatarBackgroundColor: theme.palette.copilot.backgroundColor,
     bubbleBackground: theme.palette.copilot.bubbleBackground,
     bubbleBorderRadius: 10,
     bubbleTextColor: theme.palette.copilot.bubbleTextColor,
     bubbleMaxWidth: 1000,
     bubbleFromUserBackground: theme.palette.copilot.bubbleFromUserBackground,
+    bubbleFromUserTextColor: theme.palette.copilot.bubbleFromUserTextColor,
     bubbleFromUserBorderRadius: 10,
     bubbleFromUserMaxWidth: 1000,
     rootHeight: '100%',
@@ -39,6 +36,13 @@ const CopilotChat = () => {
     sendBoxTextColor: theme.palette.copilot.sendBoxTextColor,
     sendBoxBackground: theme.palette.copilot.sendBoxBackground,
     sendBoxBorderTop: `solid 1px ${theme.palette.copilot.sendBoxBorderTop}`,
+    suggestedActionBackgroundColor: theme.palette.copilot.suggestedActionBackgroundColor,
+    suggestedActionHoverBackground: theme.palette.copilot.suggestedActionHoverBackground,
+    suggestedActionActiveBackground: theme.palette.copilot.suggestedActionActiveBackground,
+    suggestedActionBorderColor: theme.palette.copilot.suggestedActionBorderColor,
+    suggestedActionDisabledBackground: theme.palette.copilot.suggestedActionDisabledBackground,
+    suggestedActionDisabledBorderColor: theme.palette.copilot.suggestedActionDisabledBorderColor,
+    suggestedActionTextColor: theme.palette.copilot.suggestedActionTextColor,
   };
 
   const styleSet = createStyleSet(chatStyle);
@@ -47,10 +51,8 @@ const CopilotChat = () => {
   styleSet.textContent.fontWeight = 'normal';
 
   const avatarOptions = {
-    botAvatarInitials: 'CSM',
-    botAvatarImage: '/cosmofavicon.png',
-    userAvatarImage: '/profile_placeholder.png',
-    userAvatarInitials: 'YOU',
+    botAvatarInitials: ' ',
+    botAvatarImage: theme.palette.copilot.botAvatarImage,
   };
 
   if (copilotToken && userEmail) {
