@@ -6,7 +6,7 @@ import rfdc from 'rfdc';
 import { useWorkspaceDatasets } from '../../hooks/WorkspaceDatasetsHooks';
 import { INGESTION_STATUS, TWINCACHE_STATUS } from '../../services/config/ApiConstants';
 import { useUser } from '../../state/hooks/AuthHooks';
-import { useCreateScenario, useCurrentScenario, useScenarios } from '../../state/hooks/ScenarioHooks';
+import { useCreateSimulationRunner, useCurrentSimulationRunner, useRunners } from '../../state/hooks/RunnerHooks';
 import { useScenarioRunTemplates, useSolution } from '../../state/hooks/SolutionHooks';
 import {
   useDefaultRunTemplateDataset,
@@ -34,11 +34,11 @@ export const useCreateScenarioButton = ({ disabled, onScenarioCreated }) => {
       (dataset.ingestionStatus === INGESTION_STATUS.SUCCESS && dataset.twincacheStatus === TWINCACHE_STATUS.FULL)
   );
 
-  const createScenarioOnBackend = useCreateScenario();
+  const createScenarioOnBackend = useCreateSimulationRunner();
 
-  const currentScenario = useCurrentScenario();
+  const currentScenario = useCurrentSimulationRunner();
 
-  const scenarios = useScenarios();
+  const scenarios = useRunners();
 
   const user = useUser();
 

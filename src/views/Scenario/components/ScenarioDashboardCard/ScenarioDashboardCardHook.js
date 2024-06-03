@@ -2,37 +2,38 @@
 // Licensed under the MIT license.
 import { useMemo } from 'react';
 import { useFormState } from 'react-hook-form';
-import { useDownloadLogsFile } from '../../../../hooks/ScenarioRunHooks';
+import { useDownloadSimulationLogsFile } from '../../../../hooks/RunnerRunHooks';
 import {
-  useCurrentScenarioLastRun,
-  useCurrentScenarioLastUpdate,
-  useCurrentScenarioState,
-} from '../../../../state/hooks/ScenarioHooks';
-import { useCurrentScenarioRunStartTime } from '../../../../state/hooks/ScenarioRunHooks';
+  useCurrentSimulationRunnerId,
+  useCurrentSimulationRunnerLastRun,
+  useCurrentSimulationRunnerLastRunId,
+  useCurrentSimulationRunnerLastUpdate,
+  useCurrentSimulationRunnerState,
+} from '../../../../state/hooks/RunnerHooks';
 import { useWorkspaceData } from '../../../../state/hooks/WorkspaceHooks';
 
 export const useScenarioDashboardCard = () => {
-  const currentScenarioLastUpdate = useCurrentScenarioLastUpdate();
-  const currentScenarioLastRun = useCurrentScenarioLastRun();
-  const currentScenarioState = useCurrentScenarioState();
-  const currentScenarioRunStartTime = useCurrentScenarioRunStartTime();
-  const downloadCurrentScenarioRunLogs = useDownloadLogsFile();
+  const currentScenarioLastUpdate = useCurrentSimulationRunnerLastUpdate();
+  const useCurrentScenarioId = useCurrentSimulationRunnerId();
+  const currentScenarioLastRun = useCurrentSimulationRunnerLastRun(useCurrentScenarioId);
+  const currentScenarioLastRunId = useCurrentSimulationRunnerLastRunId();
+  const currentScenarioState = useCurrentSimulationRunnerState();
+  const downloadCurrentScenarioRunLogs = useDownloadSimulationLogsFile();
   const workspace = useWorkspaceData();
 
   const { isDirty } = useFormState();
-
   const hasRunBeenSuccessful = useMemo(
-    () => currentScenarioLastRun !== null && currentScenarioState === 'Successful',
-    [currentScenarioLastRun, currentScenarioState]
+    () => currentScenarioLastRunId !== null && currentScenarioState === 'Successful',
+    [currentScenarioLastRunId, currentScenarioState]
   );
-
   const isDashboardSync = useMemo(() => {
     const disableOutOfSyncWarningBanner = workspace?.webApp?.options?.disableOutOfSyncWarningBanner === true;
-    if (disableOutOfSyncWarningBanner || !currentScenarioRunStartTime) return true;
+    if (disableOutOfSyncWarningBanner || currentScenarioLastRun == null || currentScenarioLastRun.startTime == null)
+      return true;
     if (isDirty) return false;
 
     const lastUpdate = new Date(currentScenarioLastUpdate);
-    const startTime = new Date(currentScenarioRunStartTime);
+    const startTime = new Date(currentScenarioLastRun?.startTime);
     lastUpdate.setSeconds(0);
     lastUpdate.setMilliseconds(0);
     startTime.setSeconds(0);
@@ -40,7 +41,7 @@ export const useScenarioDashboardCard = () => {
     return lastUpdate <= startTime;
   }, [
     currentScenarioLastUpdate,
-    currentScenarioRunStartTime,
+    currentScenarioLastRun,
     isDirty,
     workspace?.webApp?.options?.disableOutOfSyncWarningBanner,
   ]);

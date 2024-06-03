@@ -3,14 +3,14 @@
 import { useCallback, useMemo } from 'react';
 import { useUserAppPermissions } from '../state/hooks/AuthHooks';
 import { useGetDatasetSecurity } from '../state/hooks/DatasetHooks';
-import { useCurrentScenarioData } from '../state/hooks/ScenarioHooks';
+import { useCurrentSimulationRunnerData } from '../state/hooks/RunnerHooks';
 
 const useGetUserPermissionOnScenarioData = () =>
   useCallback((scenarioData) => scenarioData?.security?.currentUserPermissions || [], []);
 
 export const useUserPermissionsOnCurrentScenario = () => {
   const getUserPermissionOnScenario = useGetUserPermissionOnScenarioData();
-  const currentScenarioData = useCurrentScenarioData();
+  const currentScenarioData = useCurrentSimulationRunnerData();
   return useMemo(
     () => getUserPermissionOnScenario(currentScenarioData),
     [getUserPermissionOnScenario, currentScenarioData]

@@ -3,11 +3,11 @@
 import { useRedirectionToScenario, useRedirectFromDisabledView } from '../../hooks/RouterHooks';
 import { useDatasets } from '../../state/hooks/DatasetHooks';
 import { useOrganizationId } from '../../state/hooks/OrganizationHooks';
-import { useCurrentScenario } from '../../state/hooks/ScenarioHooks';
+import { useCurrentSimulationRunner } from '../../state/hooks/RunnerHooks';
 import { useWorkspaceId, useWorkspaceInstanceViewConfig } from '../../state/hooks/WorkspaceHooks';
 
 export const useInstance = () => {
-  const currentScenario = useCurrentScenario();
+  const currentScenario = useCurrentSimulationRunner();
   const datasets = useDatasets();
   const organizationId = useOrganizationId();
   const workspaceId = useWorkspaceId();
