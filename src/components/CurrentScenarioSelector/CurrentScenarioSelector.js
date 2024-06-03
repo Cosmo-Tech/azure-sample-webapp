@@ -7,17 +7,17 @@ import { HierarchicalComboBox } from '@cosmotech/ui';
 import { useSortedScenarioList } from '../../hooks/ScenarioListHooks';
 import { STATUSES } from '../../state/commons/Constants';
 import {
-  useCurrentScenarioData,
-  useCurrentScenarioReducerStatus,
-  useFindScenarioById,
-} from '../../state/hooks/ScenarioHooks';
+  useCurrentSimulationRunnerData,
+  useCurrentSimulationRunnerReducerStatus,
+  useSelectRunner,
+} from '../../state/hooks/RunnerHooks';
 
 const CurrentScenarioSelector = ({ disabled, renderInputToolTip }) => {
   const sortedScenarioList = useSortedScenarioList();
-  const currentScenarioData = useCurrentScenarioData();
-  const currentScenarioStatus = useCurrentScenarioReducerStatus();
+  const currentScenarioData = useCurrentSimulationRunnerData();
+  const currentScenarioStatus = useCurrentSimulationRunnerReducerStatus();
 
-  const changeScenario = useFindScenarioById();
+  const changeScenario = useSelectRunner();
 
   const handleScenarioChange = useCallback(
     (event, scenario) => {
