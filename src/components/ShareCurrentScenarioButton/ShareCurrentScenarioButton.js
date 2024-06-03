@@ -23,11 +23,11 @@ const ShareCurrentScenarioButton = () => {
     <>
       <PermissionsGate
         userPermissions={userPermissionsOnCurrentScenario}
-        necessaryPermissions={[ACL_PERMISSIONS.SCENARIO.READ_SECURITY]}
+        necessaryPermissions={[ACL_PERMISSIONS.RUNNER.READ_SECURITY]}
       >
         <PermissionsGate
           userPermissions={userPermissionsOnCurrentScenario}
-          necessaryPermissions={[ACL_PERMISSIONS.SCENARIO.WRITE_SECURITY]}
+          necessaryPermissions={[ACL_PERMISSIONS.RUNNER.WRITE_SECURITY]}
           noPermissionProps={{ isReadOnly: true }}
         >
           <RolesEditionButton

@@ -8,6 +8,7 @@ import { ResourceCard, ErrorBanner } from '@cosmotech/ui';
 import { AppBar } from '../../components/AppBar';
 import { STATUSES } from '../../state/commons/Constants';
 import { useApplicationError, useClearApplicationErrorMessage } from '../../state/hooks/ApplicationHooks';
+import { useResetCurrentSimulationRunner } from '../../state/hooks/RunnerHooks';
 import { useResetCurrentSolution, useSolution } from '../../state/hooks/SolutionHooks';
 import { useResetCurrentWorkspace } from '../../state/hooks/WorkspaceHooks';
 import { useWorkspaces } from './WorkspacesHook';
@@ -44,6 +45,7 @@ const Workspaces = () => {
 
   const resetWorkspace = useResetCurrentWorkspace();
   const resetCurrentSolution = useResetCurrentSolution();
+  const resetCurrentScenario = useResetCurrentSimulationRunner();
   const currentSolution = useSolution();
   const isLoaded = useRef(false);
   useEffect(() => {
@@ -58,9 +60,18 @@ const Workspaces = () => {
       } else {
         resetWorkspace();
         resetCurrentSolution();
+        resetCurrentScenario();
       }
     }
-  }, [currentWorkspace?.status, openWorkspace, resetWorkspace, workspacesList, resetCurrentSolution, currentSolution]);
+  }, [
+    currentWorkspace?.status,
+    openWorkspace,
+    resetWorkspace,
+    workspacesList,
+    resetCurrentSolution,
+    currentSolution,
+    resetCurrentScenario,
+  ]);
 
   const workspaceListRender = workspacesList?.map((workspace) => (
     <Grid item key={workspace.id}>

@@ -6,8 +6,8 @@ import React from 'react';
 import { useFormState } from 'react-hook-form';
 import { ButtonTesting, TypographyTesting } from '../../../../../tests/MuiComponentsTesting';
 import { customRender, getByDataCy } from '../../../../../tests/utils';
-import { SCENARIO_RUN_STATE } from '../../../../services/config/ApiConstants';
-import { useCurrentScenarioState } from '../../../../state/hooks/ScenarioHooks';
+import { RUNNER_RUN_STATE } from '../../../../services/config/ApiConstants';
+import { useCurrentSimulationRunnerState } from '../../../../state/hooks/RunnerHooks';
 import { ScenarioActions } from './';
 
 jest.mock('react-hook-form', () => ({
@@ -24,24 +24,19 @@ jest.mock('@cosmotech/ui', () => ({
   },
 }));
 
-const mockUseLaunchScenario = jest.fn();
-const mockUseSaveAndLaunchScenario = jest.fn();
-const mockUseSaveScenario = jest.fn();
+const mockUseStartRunner = jest.fn();
+const mockUseUpdateAndStartRunner = jest.fn();
+const mockUseUpdateRunner = jest.fn();
 const mockOpenDialog = jest.fn();
 
-jest.mock('../../../../state/hooks/ScenarioHooks', () => ({
+jest.mock('../../../../state/hooks/RunnerHooks', () => ({
   __esModule: true,
-  ...jest.requireActual('../../../../state/hooks/ScenarioHooks'),
-  useLaunchScenario: () => mockUseLaunchScenario,
-  useSaveAndLaunchScenario: () => mockUseSaveAndLaunchScenario,
-  useSaveScenario: () => mockUseSaveScenario,
-  useCurrentScenarioState: jest.fn(),
-}));
-
-jest.mock('../../../../state/hooks/ScenarioRunHooks', () => ({
-  __esModule: true,
-  ...jest.requireActual('../../../../state/hooks/ScenarioRunHooks'),
-  useStopScenarioRun: () => jest.fn(),
+  ...jest.requireActual('../../../../state/hooks/RunnerHooks'),
+  useStartRunner: () => mockUseStartRunner,
+  useUpdateAndStartRunner: () => mockUseUpdateAndStartRunner,
+  useUpdateRunner: () => mockUseUpdateRunner,
+  useCurrentSimulationRunnerState: jest.fn(),
+  useStopSimulationRunner: jest.fn(),
 }));
 
 jest.mock('../../../../hooks/ScenarioParametersHooks', () => ({
@@ -70,7 +65,7 @@ const runningStateLabel = new TypographyTesting({ dataCy: 'running-state-label' 
 
 describe('Test scenario buttons when scenario is not running', () => {
   beforeAll(() => {
-    useCurrentScenarioState.mockReturnValue(() => null);
+    useCurrentSimulationRunnerState.mockReturnValue(() => null);
   });
 
   describe('Test scenario buttons if form is not dirty', () => {
@@ -80,14 +75,14 @@ describe('Test scenario buttons when scenario is not running', () => {
     });
 
     beforeEach(() => {
-      mockUseLaunchScenario.mockClear();
+      mockUseStartRunner.mockClear();
     });
 
     test('Check buttons', async () => {
       expect(launchScenarioButton.Button).toBeVisible();
       expect(getByDataCy('launch-label')).toBeVisible();
       await launchScenarioButton.click();
-      expect(mockUseLaunchScenario).toHaveBeenCalled();
+      expect(mockUseStartRunner).toHaveBeenCalled();
 
       expect(saveScenarioButton.Button).not.toBeInTheDocument();
       expect(discardChangesButton.Button).not.toBeInTheDocument();
@@ -104,8 +99,8 @@ describe('Test scenario buttons when scenario is not running', () => {
     });
 
     beforeEach(() => {
-      mockUseSaveAndLaunchScenario.mockClear();
-      mockUseSaveScenario.mockClear();
+      mockUseUpdateAndStartRunner.mockClear();
+      mockUseUpdateRunner.mockClear();
       mockOpenDialog.mockClear();
     });
 
@@ -113,11 +108,11 @@ describe('Test scenario buttons when scenario is not running', () => {
       expect(launchScenarioButton.Button).toBeVisible();
       expect(getByDataCy('save-and-launch-label')).toBeVisible();
       await launchScenarioButton.click();
-      expect(mockUseSaveAndLaunchScenario).toHaveBeenCalled();
+      expect(mockUseUpdateAndStartRunner).toHaveBeenCalled();
 
       expect(saveScenarioButton.Button).toBeVisible();
       await saveScenarioButton.click();
-      expect(mockUseSaveScenario).toHaveBeenCalled();
+      expect(mockUseUpdateRunner).toHaveBeenCalled();
 
       expect(discardChangesButton.Button).toBeVisible();
       await discardChangesButton.click();
@@ -128,7 +123,7 @@ describe('Test scenario buttons when scenario is not running', () => {
 
 describe('Test scenario buttons when scenario is running', () => {
   beforeAll(() => {
-    useCurrentScenarioState.mockReturnValue(SCENARIO_RUN_STATE.RUNNING);
+    useCurrentSimulationRunnerState.mockReturnValue(RUNNER_RUN_STATE.RUNNING);
     useFormState.mockReturnValue({ isDirty: false });
     customRender(<ScenarioActions />);
   });

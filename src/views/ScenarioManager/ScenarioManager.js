@@ -4,7 +4,7 @@ import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import makeStyles from '@mui/styles/makeStyles';
-import { ScenarioUtils, ResourceUtils } from '@cosmotech/core';
+import { ResourceUtils, ScenarioUtils } from '@cosmotech/core';
 import { ScenarioManagerTreeList } from '@cosmotech/ui';
 import { ACL_PERMISSIONS } from '../../services/config/accessControl';
 import { useScenarioManager } from './ScenarioManagerHook';
@@ -47,7 +47,7 @@ const ScenarioManager = (props) => {
 
   const getScenarioListAfterDelete = useCallback(
     (idOfScenarioToDelete) => {
-      const scenarioListAfterDelete = scenarios
+      return scenarios
         .map((scenario) => {
           const newScenario = { ...scenario };
           if (newScenario.parentId === idOfScenarioToDelete) {
@@ -56,8 +56,6 @@ const ScenarioManager = (props) => {
           return newScenario;
         })
         .filter((scenario) => scenario.id !== idOfScenarioToDelete);
-
-      return scenarioListAfterDelete;
     },
     [currentScenarioData?.parentId, scenarios]
   );
@@ -85,11 +83,11 @@ const ScenarioManager = (props) => {
   );
 
   const onScenarioRename = useCallback(
-    (scenarioId, newScenarioName) => {
+    (scenarioId, scenarioRunTemplateId, newScenarioName) => {
       if (scenarioId === currentScenarioData?.id) {
         setCurrentScenario({ name: newScenarioName });
       }
-      renameScenario(scenarioId, newScenarioName);
+      renameScenario(scenarioId, scenarioRunTemplateId, newScenarioName);
     },
     [currentScenarioData?.id, renameScenario, setCurrentScenario]
   );
