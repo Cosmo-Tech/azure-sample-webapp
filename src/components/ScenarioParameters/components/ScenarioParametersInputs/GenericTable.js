@@ -11,7 +11,7 @@ import { Table, TABLE_DATA_STATUS, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui'
 import { Api } from '../../../../services/config/Api';
 import { useSetApplicationErrorMessage } from '../../../../state/hooks/ApplicationHooks';
 import { useOrganizationId } from '../../../../state/hooks/OrganizationHooks.js';
-import { useCurrentScenarioDatasetList } from '../../../../state/hooks/ScenarioHooks';
+import { useCurrentSimulationRunnerDatasetList } from '../../../../state/hooks/RunnerHooks';
 import { useWorkspaceId } from '../../../../state/hooks/WorkspaceHooks.js';
 import { gridLight, gridDark } from '../../../../theme/';
 import { ConfigUtils, TranslationUtils } from '../../../../utils';
@@ -55,7 +55,7 @@ export const GenericTable = ({
   const workspaceId = useWorkspaceId();
   const datasets = useSelector((state) => state.dataset?.list?.data);
   const scenarioId = useSelector((state) => state.scenario?.current?.data?.id);
-  const currentScenarioDatasetList = useCurrentScenarioDatasetList();
+  const currentScenarioDatasetList = useCurrentSimulationRunnerDatasetList();
   const setApplicationErrorMessage = useSetApplicationErrorMessage();
   const canChangeRowsNumber = ConfigUtils.getParameterAttribute(parameterData, 'canChangeRowsNumber') ?? false;
 
