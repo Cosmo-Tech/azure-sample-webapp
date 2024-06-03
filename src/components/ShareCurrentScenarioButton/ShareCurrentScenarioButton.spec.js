@@ -9,7 +9,7 @@ import { ROLES } from '../../../tests/constants';
 import { createMockStore, MockFormProvider } from '../../../tests/mocks';
 import { DEFAULT_REDUX_STATE, USERS_LIST } from '../../../tests/samples';
 import { applyScenarioRoleToState } from '../../../tests/utils/security';
-import { dispatchApplyScenarioSharingChanges } from '../../state/dispatchers/scenario/ScenarioDispatcher';
+import { dispatchApplyRunnerSharingChanges } from '../../state/dispatchers/runner/RunnerDispatcher';
 
 const clone = rfdc();
 
@@ -96,12 +96,12 @@ describe('ShareCurrentScenarioButton', () => {
     });
 
     test('specificAccessByAgent match to current scenario accessControlList', () => {
-      const currentScenarioAccessControlList = storeState.scenario.current.data.security.accessControlList;
+      const currentScenarioAccessControlList = storeState.runner.current.data.security.accessControlList;
       expect(mockRoleEditionButtonProps.specificAccessByAgent).toEqual(currentScenarioAccessControlList);
     });
 
     test('defaultRole match to current scenario default security', () => {
-      const currentScenarioDefaultSecurity = storeState.scenario.current.data.security.default;
+      const currentScenarioDefaultSecurity = storeState.runner.current.data.security.default;
       expect(mockRoleEditionButtonProps.defaultRole).toEqual(currentScenarioDefaultSecurity);
     });
 
@@ -122,13 +122,13 @@ describe('ShareCurrentScenarioButton', () => {
     });
 
     test('onConfirmChanges dispatch new security with current scenarioId', () => {
-      const currentScenarioId = storeState.scenario.current.data.id;
+      const currentScenarioId = storeState.runner.current.data.id;
       const newSecurity = [
         { id: USERS_LIST[1].email, role: ROLES.SCENARIO.ADMIN },
         { id: USERS_LIST[2].email, role: ROLES.SCENARIO.VALIDATOR },
       ];
 
-      const actionExpected = dispatchApplyScenarioSharingChanges(currentScenarioId, newSecurity);
+      const actionExpected = dispatchApplyRunnerSharingChanges(currentScenarioId, newSecurity);
       mockRoleEditionButtonProps.onConfirmChanges(newSecurity);
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(actionExpected);

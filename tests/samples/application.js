@@ -105,7 +105,7 @@ export const DEFAULT_APPLICATION = {
       ],
       [ROLES.WORKSPACE.NONE]: [],
     },
-    scenario: {
+    runner: {
       [ROLES.SCENARIO.VIEWER]: [PERMISSIONS.SCENARIO.READ],
       [ROLES.SCENARIO.EDITOR]: [
         PERMISSIONS.SCENARIO.READ,
