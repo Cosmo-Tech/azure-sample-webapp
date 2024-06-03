@@ -8,14 +8,12 @@ import { datasetsReducer } from './dataset/DatasetsReducer';
 import { datasetTwingraphQueriesResultsReducer } from './datasetTwingraphQueriesResults/DatasetTwingraphQueriesResultsReducer';
 import { organizationReducer } from './organization/OrganizationReducer';
 import { powerBiReducer } from './powerbi/PowerBIReducer';
-import { scenarioReducer } from './scenario/ScenarioReducer';
-import { scenarioRunReducer } from './scenariorun/ScenarioRunReducer';
+import { runnerReducer } from './runner/RunnerReducer';
 import { solutionReducer } from './solution/SolutionReducer';
 import { workspaceReducer } from './workspace/WorkspaceReducer';
 
 const rootReducer = combineReducers({
-  scenario: scenarioReducer,
-  scenarioRun: scenarioRunReducer,
+  runner: runnerReducer,
   application: applicationReducer,
   auth: authReducer,
   dataset: datasetsReducer,
