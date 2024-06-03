@@ -3,22 +3,22 @@
 import { t } from 'i18next';
 import { all, call, select, takeEvery, put } from 'redux-saga/effects';
 import { ResourceUtils } from '@cosmotech/core';
-import { SCENARIO_RUN_STATE } from '../../../../services/config/ApiConstants';
+import { RUNNER_RUN_STATE } from '../../../../services/config/ApiConstants';
 import { WorkspaceSchema } from '../../../../services/config/WorkspaceSchema';
 import { ConfigUtils, WorkspacesUtils } from '../../../../utils';
 import { APPLICATION_ACTIONS_KEY } from '../../../commons/ApplicationConstants';
 import { STATUSES } from '../../../commons/Constants';
 import { POWER_BI_ACTIONS_KEY } from '../../../commons/PowerBIConstants';
-import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
+import { RUNNER_ACTIONS_KEY } from '../../../commons/RunnerConstants';
 import { WORKSPACE_ACTIONS_KEY } from '../../../commons/WorkspaceConstants';
 import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
 import { dispatchGetPowerBIEmbedInfo } from '../../../dispatchers/powerbi/PowerBIDispatcher';
-import { getAllScenariosData } from '../../scenario/FindAllScenarios/FindAllScenariosData';
+import { getAllSimulationRunners } from '../../runner/GetAllSimulationRunners/GetAllSimulationRunners';
 import { fetchSolutionByIdData } from '../../solution/FindSolutionById/FindSolutionByIdData';
 
 const getOrganizationId = (state) => state?.organization?.current?.data?.id;
 const selectSolutionIdFromCurrentWorkspace = (state) => state.workspace.current.data.solution.solutionId;
-const selectScenarioList = (state) => state.scenario.list.data;
+const selectRunnersList = (state) => state.runner.list.data;
 const getWorkspaces = (state) => state?.workspace?.list?.data;
 
 export function* selectWorkspace(action) {
@@ -73,7 +73,7 @@ export function* selectWorkspace(action) {
   WorkspacesUtils.checkConfigurationPitfalls(selectedWorkspace);
 
   yield put({
-    type: SCENARIO_ACTIONS_KEY.STOP_ALL_SCENARIO_STATUS_POLLINGS,
+    type: RUNNER_ACTIONS_KEY.STOP_ALL_RUNNERS_STATUS_POLLING,
   });
 
   yield put({ type: POWER_BI_ACTIONS_KEY.CLEAR_EMBED_INFO });
@@ -81,26 +81,25 @@ export function* selectWorkspace(action) {
   const solutionId = yield select(selectSolutionIdFromCurrentWorkspace);
   yield call(fetchSolutionByIdData, organizationId, solutionId);
 
-  yield call(getAllScenariosData, organizationId, selectedWorkspaceId);
-  const scenarioList = yield select(selectScenarioList);
+  yield call(getAllSimulationRunners, organizationId, selectedWorkspaceId);
+  const runnersList = yield select(selectRunnersList);
 
   yield put({
-    type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
-    scenario: ResourceUtils.getFirstRootResource(scenarioList), // Function returns null if list is empty
+    type: RUNNER_ACTIONS_KEY.SET_CURRENT_SIMULATION_RUNNER,
+    runnerId: ResourceUtils.getFirstRootResource(runnersList)?.id, // Function returns null if list is empty
     status: STATUSES.SUCCESS,
   });
 
   // Start run status polling for running scenarios
-  const runningScenarios = scenarioList.filter((scenario) =>
-    [SCENARIO_RUN_STATE.RUNNING, SCENARIO_RUN_STATE.DATA_INGESTION_IN_PROGRESS].includes(scenario.state)
-  );
+  const runningRunners = runnersList.filter((runner) => runner.state === RUNNER_RUN_STATE.RUNNING);
   yield all(
-    runningScenarios.map((scenario) =>
+    runningRunners.map((runner) =>
       put({
-        type: SCENARIO_ACTIONS_KEY.START_SCENARIO_STATUS_POLLING,
+        type: RUNNER_ACTIONS_KEY.TRIGGER_SAGA_START_RUNNER_STATUS_POLLING,
         organizationId,
         workspaceId: selectedWorkspaceId,
-        scenarioId: scenario.id,
+        runnerId: runner.id,
+        lastRunId: runner.lastRunId,
       })
     )
   );
