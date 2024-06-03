@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { useNavigate, useParams, useBlocker } from 'react-router-dom';
 import { TwoActionsDialogService } from '../services/twoActionsDialog/twoActionsDialogService';
-import { useFindScenarioById, useCurrentScenarioId } from '../state/hooks/ScenarioHooks';
+import { useCurrentSimulationRunnerId, useSelectRunner } from '../state/hooks/RunnerHooks';
 import { useWorkspaceData } from '../state/hooks/WorkspaceHooks';
 import { ConfigUtils } from '../utils';
 import { useSortedScenarioList } from './ScenarioListHooks';
@@ -55,10 +55,10 @@ export const useRouterScenarioId = () => {
 };
 
 export const useRedirectionToScenario = () => {
-  const currentScenarioId = useCurrentScenarioId();
+  const currentScenarioId = useCurrentSimulationRunnerId();
 
   const navigate = useNavigate();
-  const handleScenarioChange = useFindScenarioById();
+  const handleScenarioChange = useSelectRunner();
   const sortedScenarioList = useSortedScenarioList();
 
   const routerScenarioId = useRouterScenarioId();
@@ -67,8 +67,9 @@ export const useRedirectionToScenario = () => {
   useEffect(() => {
     if (sortedScenarioList.length !== 0 && !routerScenarioId && !currentScenarioId) {
       navigate(sortedScenarioList[0].id);
+      handleScenarioChange(sortedScenarioList[0].id);
     }
-  }, [currentScenarioId, navigate, routerScenarioId, sortedScenarioList]);
+  }, [currentScenarioId, navigate, routerScenarioId, sortedScenarioList, handleScenarioChange]);
 
   // on routerId change and not match to currentScenario
   // > change current scenario if routerid don't match

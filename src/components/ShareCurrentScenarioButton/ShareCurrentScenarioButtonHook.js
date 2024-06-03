@@ -9,16 +9,16 @@ import {
   useApplicationRoles,
   useApplicationPermissions,
 } from '../../state/hooks/ApplicationHooks';
-import { useCurrentScenarioData, useApplyScenarioSharingSecurity } from '../../state/hooks/ScenarioHooks';
+import { useApplyRunnerSharingSecurity, useCurrentSimulationRunnerData } from '../../state/hooks/RunnerHooks';
 import { useWorkspaceData } from '../../state/hooks/WorkspaceHooks';
-import { SecurityUtils } from '../../utils/SecurityUtils';
+import { SecurityUtils } from '../../utils';
 import { getShareScenarioDialogLabels } from './labels';
 
 export const useShareCurrentScenarioButton = () => {
   const { t } = useTranslation();
   const { isDirty } = useFormState();
 
-  const currentScenarioData = useCurrentScenarioData();
+  const currentScenarioData = useCurrentSimulationRunnerData();
   const workspaceData = useWorkspaceData();
 
   const roles = useApplicationRoles();
@@ -27,7 +27,7 @@ export const useShareCurrentScenarioButton = () => {
   const userPermissionsOnCurrentScenario = useUserPermissionsOnCurrentScenario();
   const permissionsMapping = useApplicationPermissionsMapping();
 
-  const applyScenarioSharingSecurity = useApplyScenarioSharingSecurity();
+  const applyScenarioSharingSecurity = useApplyRunnerSharingSecurity();
 
   const shareScenarioDialogLabels = useMemo(
     () => getShareScenarioDialogLabels(t, currentScenarioData?.name, isDirty),
