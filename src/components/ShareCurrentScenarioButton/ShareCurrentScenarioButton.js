@@ -23,11 +23,11 @@ const ShareCurrentScenarioButton = () => {
     <>
       <PermissionsGate
         userPermissions={userPermissionsOnCurrentScenario}
-        necessaryPermissions={[ACL_PERMISSIONS.SCENARIO.READ_SECURITY]}
+        necessaryPermissions={[ACL_PERMISSIONS.RUNNER.READ_SECURITY]}
       >
         <PermissionsGate
           userPermissions={userPermissionsOnCurrentScenario}
-          necessaryPermissions={[ACL_PERMISSIONS.SCENARIO.WRITE_SECURITY]}
+          necessaryPermissions={[ACL_PERMISSIONS.RUNNER.WRITE_SECURITY]}
           noPermissionProps={{ isReadOnly: true }}
         >
           <RolesEditionButton
@@ -35,7 +35,7 @@ const ShareCurrentScenarioButton = () => {
             disabled={isDirty}
             labels={shareScenarioDialogLabels}
             onConfirmChanges={applyScenarioSecurityChanges}
-            resourceRolesPermissionsMapping={permissionsMapping.scenario}
+            resourceRolesPermissionsMapping={permissionsMapping.runner}
             agents={workspaceUsers}
             specificAccessByAgent={accessListSpecific}
             defaultRole={defaultRole}

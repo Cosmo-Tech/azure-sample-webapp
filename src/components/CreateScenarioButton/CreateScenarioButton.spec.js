@@ -9,7 +9,7 @@ import { ROLES } from '../../../tests/constants';
 import { createMockStore } from '../../../tests/mocks';
 import { DEFAULT_REDUX_STATE, SCENARIODATA_WITHOUT_USERS, DEFAULT_SCENARIOS_LIST_DATA } from '../../../tests/samples';
 import { applyWorkspaceRoleToState } from '../../../tests/utils/security';
-import { dispatchCreateScenario } from '../../state/dispatchers/scenario/ScenarioDispatcher';
+import { dispatchCreateSimulationRunner } from '../../state/dispatchers/runner/RunnerDispatcher';
 
 const clone = rfdc();
 const DEFAULT_SCENARIOS_LIST_DATA_WITH_DEPTHS = DEFAULT_SCENARIOS_LIST_DATA.map((scenario) => ({
@@ -88,7 +88,7 @@ describe('CreateScenarioButton', () => {
     });
 
     test('currentScenario prop match to current scenario state', () => {
-      expect(mockCreateScenarioUIProps.currentScenario).toEqual(DEFAULT_REDUX_STATE.scenario.current);
+      expect(mockCreateScenarioUIProps.currentScenario).toEqual(DEFAULT_REDUX_STATE.runner.current);
     });
 
     test('scenarios prop match to scenario list data state', () => {
@@ -211,7 +211,7 @@ describe('CreateScenarioButton', () => {
     test('createScenario dispatch createScenario action and call onScenarioCreated callback', () => {
       const scenarioToCreate = SCENARIODATA_WITHOUT_USERS;
 
-      const actionExpected = dispatchCreateScenario(
+      const actionExpected = dispatchCreateSimulationRunner(
         DEFAULT_REDUX_STATE.organization.current.data.id,
         DEFAULT_REDUX_STATE.workspace.current.data.id,
         scenarioToCreate
