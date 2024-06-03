@@ -111,6 +111,19 @@ const forgeDatasetSecurityFromScenarioSecurity = (scenarioSecurity) => {
   };
 };
 
+const forgeDatasetSecurityFromRunnerSecurity = (runnerSecurity) => {
+  const getDatasetRoleFromRunnerRole = (runnerRole) =>
+    runnerRole === ACL_ROLES.RUNNER.VALIDATOR ? ACL_ROLES.DATASET.EDITOR : runnerRole;
+
+  return {
+    default: getDatasetRoleFromRunnerRole(runnerSecurity.default),
+    accessControlList: runnerSecurity.accessControlList.map((aclEntry) => ({
+      id: aclEntry.id,
+      role: getDatasetRoleFromRunnerRole(aclEntry.role),
+    })),
+  };
+};
+
 /*
 Transpose a dict whose values are arrays into another dict where the arrays values are now the dict keys.
 Example: { A: [1,2,3], B:[1,2] } will become { 1:['A','B'], 2:['A','B'], 3:['A'] }
@@ -309,6 +322,7 @@ export const SecurityUtils = {
   areAccessControlListsIdentical,
   compareAccessControlLists,
   forgeDatasetSecurityFromScenarioSecurity,
+  forgeDatasetSecurityFromRunnerSecurity,
   getPermissionsFromRole,
   getRolesGrantingPermission,
   getUserPermissionsForResource,
