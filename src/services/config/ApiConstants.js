@@ -5,15 +5,14 @@ export const CONNECTOR_VERSION_AZURE_STORAGE = '1.1.1';
 export const CONNECTOR_NAME_AZURE_STORAGE = 'Azure Storage Connector';
 export const CONNECTOR_NAME_ADT = 'ADT Connector';
 export const DATASET_ID_VARTYPE = '%DATASETID%';
-export const SCENARIO_RUN_STATE = {
+export const RUNNER_RUN_STATE = {
   CREATED: 'Created',
   RUNNING: 'Running',
   SUCCESSFUL: 'Successful',
   FAILED: 'Failed',
-  DATA_INGESTION_IN_PROGRESS: 'DataIngestionInProgress',
   UNKNOWN: 'Unknown',
 };
-export const SCENARIO_VALIDATION_STATUS = {
+export const RUNNER_VALIDATION_STATUS = {
   DRAFT: 'Draft',
   LOADING: 'Loading', // Client-side only
   REJECTED: 'Rejected',
@@ -94,4 +93,11 @@ export const DATASET_PERMISSIONS_MAPPING = {
   viewer: ['read'],
   editor: ['read', 'read_security', 'write'],
   admin: ['read', 'read_security', 'write', 'write_security', 'delete'],
+};
+
+export const RUNNER_PERMISSIONS_MAPPING = {
+  viewer: ['read', 'read_security'],
+  editor: ['read', 'read_security', 'launch', 'write'],
+  validator: ['read', 'read_security', 'launch', 'write', 'validate'],
+  admin: ['read', 'read_security', 'launch', 'write', 'validate', 'write_security', 'delete'],
 };

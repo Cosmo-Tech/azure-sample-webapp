@@ -9,14 +9,11 @@ import { datasetTwingraphQueriesResultsReducer } from './datasetTwingraphQueries
 import { organizationReducer } from './organization/OrganizationReducer';
 import { powerBiReducer } from './powerbi/PowerBIReducer';
 import { runnerReducer } from './runner/RunnerReducer';
-import { scenarioReducer } from './scenario/ScenarioReducer';
-import { scenarioRunReducer } from './scenariorun/ScenarioRunReducer';
 import { solutionReducer } from './solution/SolutionReducer';
 import { workspaceReducer } from './workspace/WorkspaceReducer';
 
 const rootReducer = combineReducers({
-  scenario: scenarioReducer,
-  scenarioRun: scenarioRunReducer,
+  runner: runnerReducer,
   application: applicationReducer,
   auth: authReducer,
   dataset: datasetsReducer,
@@ -25,7 +22,6 @@ const rootReducer = combineReducers({
   organization: organizationReducer,
   solution: solutionReducer,
   powerBI: powerBiReducer,
-  runner: runnerReducer,
 });
 
 export default rootReducer;

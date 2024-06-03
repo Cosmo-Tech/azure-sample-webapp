@@ -4,7 +4,7 @@ import { useCallback, useMemo } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useAddDatasetToStore } from '../state/hooks/DatasetHooks';
 import { useOrganizationId } from '../state/hooks/OrganizationHooks';
-import { useCurrentScenarioData, useScenarios } from '../state/hooks/ScenarioHooks';
+import { useCurrentSimulationRunnerData, useRunners } from '../state/hooks/RunnerHooks';
 import { useSolution } from '../state/hooks/SolutionHooks';
 import { useWorkspaceId } from '../state/hooks/WorkspaceHooks';
 import { ScenarioParametersUtils } from '../utils';
@@ -16,11 +16,11 @@ const getRunTemplateParametersIds = (runTemplatesParametersIdsDict, runTemplateI
 
 export const useUpdateParameters = () => {
   const solutionData = useSolution().data;
-  const currentScenarioData = useCurrentScenarioData();
+  const currentScenarioData = useCurrentSimulationRunnerData();
   const organizationId = useOrganizationId();
   const workspaceId = useWorkspaceId();
   const addDatasetToStore = useAddDatasetToStore();
-  const scenarios = useScenarios();
+  const scenarios = useRunners();
 
   const { getValues, setValue } = useFormContext();
   const parametersValues = getValues();

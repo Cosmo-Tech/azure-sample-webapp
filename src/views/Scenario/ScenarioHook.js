@@ -5,20 +5,12 @@ import { useTranslation } from 'react-i18next';
 import { useSetApplicationErrorMessage } from '../../state/hooks/ApplicationHooks';
 import { useDatasets } from '../../state/hooks/DatasetHooks';
 import { useOrganizationId } from '../../state/hooks/OrganizationHooks';
-import {
-  useCurrentScenarioLastRunId,
-  useSetScenarioValidationStatus,
-  useFindScenarioById,
-  useCurrentScenarioData,
-} from '../../state/hooks/ScenarioHooks';
-import { useCurrentScenarioRun, useFetchScenarioRunById } from '../../state/hooks/ScenarioRunHooks';
+import { useCurrentSimulationRunnerData, useSetSimulationRunnerValidationStatus } from '../../state/hooks/RunnerHooks';
 import { useWorkspaceId } from '../../state/hooks/WorkspaceHooks';
 
 export const useScenario = () => {
   const { t } = useTranslation();
-  const currentScenarioRunId = useCurrentScenarioLastRunId();
-  const currentScenarioRun = useCurrentScenarioRun();
-  const currentScenarioData = useCurrentScenarioData();
+  const currentScenarioData = useCurrentSimulationRunnerData();
   const organizationId = useOrganizationId();
   const workspaceId = useWorkspaceId();
   const datasets = useDatasets();
@@ -30,22 +22,15 @@ export const useScenario = () => {
       t('views.scenario.text.datasetNotFound', 'Not found')
     );
   }, [currentScenarioData?.datasetList, datasets, t]);
-  const setScenarioValidationStatus = useSetScenarioValidationStatus();
-  const findScenarioById = useFindScenarioById();
-  const fetchScenarioRunById = useFetchScenarioRunById();
-
+  const setScenarioValidationStatus = useSetSimulationRunnerValidationStatus();
   const setApplicationErrorMessage = useSetApplicationErrorMessage();
 
   return {
-    currentScenarioRun,
-    currentScenarioRunId,
     currentScenarioData,
     organizationId,
     workspaceId,
     setScenarioValidationStatus,
-    findScenarioById,
     setApplicationErrorMessage,
-    fetchScenarioRunById,
     currentScenarioDatasetName,
   };
 };
