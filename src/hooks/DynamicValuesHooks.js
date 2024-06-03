@@ -10,7 +10,7 @@ import { INGESTION_STATUS } from '../services/config/ApiConstants';
 import { dispatchSetApplicationErrorMessage } from '../state/dispatchers/app/ApplicationDispatcher';
 import { useFindDatasetById } from '../state/hooks/DatasetHooks';
 import { useOrganizationId } from '../state/hooks/OrganizationHooks';
-import { useCurrentScenarioParametersValues } from '../state/hooks/ScenarioHooks';
+import { useCurrentSimulationRunnerParametersValues } from '../state/hooks/RunnerHooks';
 import { GENERIC_VAR_TYPES_DEFAULT_VALUES } from '../utils/scenarioParameters/generic/DefaultValues';
 
 const useStyles = makeStyles((theme) => ({
@@ -136,7 +136,7 @@ export const useLoadInitialValueFromDataset = (parameterValue, parameter, target
   const { t } = useTranslation();
   const findDatasetById = useFindDatasetById();
   const organizationId = useOrganizationId();
-  const parametersValues = useCurrentScenarioParametersValues();
+  const parametersValues = useCurrentSimulationRunnerParametersValues();
 
   const isUnmounted = useRef(false);
   useEffect(() => () => (isUnmounted.current = true), []);
@@ -155,7 +155,7 @@ export const useLoadInitialValueFromDataset = (parameterValue, parameter, target
   useEffect(() => {
     if (isUnmounted.current) return;
     const scenarioParameterValue =
-      parametersValues.find((scenarioParameter) => scenarioParameter.parameterId === parameter.id) ?? null;
+      parametersValues?.find((scenarioParameter) => scenarioParameter.parameterId === parameter.id) ?? null;
     if (scenarioParameterValue !== null) {
       setDynamicValueError(null);
     }
