@@ -7,14 +7,15 @@ import {
   dispatchStopScenarioRun,
 } from '../dispatchers/scenarioRun/ScenarioRunDispatcher';
 import { useOrganizationId } from './OrganizationHooks';
-import { useCurrentScenarioLastRunId } from './ScenarioHooks';
+import { useCurrentSimulationRunnerLastRunId } from './RunnerHooks';
+import { useWorkspaceId } from './WorkspaceHooks';
 
 export const useScenarioRunsList = () => {
   return useSelector((state) => state.scenarioRun?.data);
 };
 
 export const useCurrentScenarioRun = () => {
-  const currentScenarioRunId = useCurrentScenarioLastRunId();
+  const currentScenarioRunId = useCurrentSimulationRunnerLastRunId();
   const scenarioRuns = useScenarioRunsList();
 
   return useMemo(() => {
@@ -40,8 +41,9 @@ export const useFetchScenarioRunById = () => {
 export const useStopScenarioRun = () => {
   const dispatch = useDispatch();
   const organizationId = useOrganizationId();
+  const workspaceId = useWorkspaceId();
   return useCallback(
-    (scenarioRunId, scenarioId) => dispatch(dispatchStopScenarioRun(organizationId, scenarioRunId, scenarioId)),
-    [dispatch, organizationId]
+    (scenarioId) => dispatch(dispatchStopScenarioRun(organizationId, workspaceId, scenarioId)),
+    [dispatch, organizationId, workspaceId]
   );
 };

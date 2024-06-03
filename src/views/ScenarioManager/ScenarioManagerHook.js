@@ -6,13 +6,13 @@ import { useHasUserPermissionOnScenario } from '../../hooks/SecurityHooks';
 import { useUserId } from '../../state/hooks/AuthHooks';
 import { useDatasets } from '../../state/hooks/DatasetHooks';
 import {
-  useCurrentScenarioData,
-  useScenarios,
-  useUpdateCurrentScenario,
-  useDeleteScenario,
-  useRenameScenario,
-  useResetCurrentScenario,
-} from '../../state/hooks/ScenarioHooks';
+  useCurrentSimulationRunnerData,
+  useDeleteRunner,
+  useRenameRunner,
+  useResetCurrentSimulationRunner,
+  useRunners,
+  useUpdateCurrentSimulationRunner,
+} from '../../state/hooks/RunnerHooks';
 import { useWorkspaceId } from '../../state/hooks/WorkspaceHooks';
 import { TranslationUtils } from '../../utils';
 
@@ -20,24 +20,24 @@ export const useScenarioManager = () => {
   const { t } = useTranslation();
   const clone = rfdc();
 
-  const scenarios = clone(useScenarios());
+  const scenarios = clone(useRunners());
   scenarios.forEach(
-    (scenario) =>
-      (scenario.runTemplateName = t(
-        TranslationUtils.getRunTemplateTranslationKey(scenario.runTemplateId),
-        scenario.runTemplateName
+    (runner) =>
+      (runner.runTemplateName = t(
+        TranslationUtils.getRunTemplateTranslationKey(runner.runTemplateId),
+        runner.runTemplateName
       ))
   );
 
   const datasets = useDatasets();
-  const currentScenarioData = useCurrentScenarioData();
+  const currentScenarioData = useCurrentSimulationRunnerData();
   const userId = useUserId();
 
   const hasUserPermissionOnScenario = useHasUserPermissionOnScenario();
-  const setCurrentScenario = useUpdateCurrentScenario();
-  const deleteScenario = useDeleteScenario();
-  const renameScenario = useRenameScenario();
-  const resetCurrentScenario = useResetCurrentScenario();
+  const setCurrentScenario = useUpdateCurrentSimulationRunner();
+  const deleteScenario = useDeleteRunner();
+  const renameScenario = useRenameRunner();
+  const resetCurrentScenario = useResetCurrentSimulationRunner();
   const workspaceId = useWorkspaceId();
 
   return {

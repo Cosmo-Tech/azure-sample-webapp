@@ -2,28 +2,28 @@
 // Licensed under the MIT license.
 import { useMemo } from 'react';
 import { useFormState } from 'react-hook-form';
-import { useDownloadLogsFile } from '../../../../hooks/ScenarioRunHooks';
+import { useDownloadSimulationLogsFile } from '../../../../hooks/RunnerRunHooks';
 import {
-  useCurrentScenarioLastRun,
-  useCurrentScenarioLastUpdate,
-  useCurrentScenarioState,
-} from '../../../../state/hooks/ScenarioHooks';
+  useCurrentSimulationRunnerLastRunId,
+  useCurrentSimulationRunnerLastUpdate,
+  useCurrentSimulationRunnerState,
+} from '../../../../state/hooks/RunnerHooks';
 import { useCurrentScenarioRunStartTime } from '../../../../state/hooks/ScenarioRunHooks';
 import { useWorkspaceData } from '../../../../state/hooks/WorkspaceHooks';
 
 export const useScenarioDashboardCard = () => {
-  const currentScenarioLastUpdate = useCurrentScenarioLastUpdate();
-  const currentScenarioLastRun = useCurrentScenarioLastRun();
-  const currentScenarioState = useCurrentScenarioState();
+  const currentScenarioLastUpdate = useCurrentSimulationRunnerLastUpdate();
+  const currentScenarioLastRunId = useCurrentSimulationRunnerLastRunId();
+  const currentScenarioState = useCurrentSimulationRunnerState();
   const currentScenarioRunStartTime = useCurrentScenarioRunStartTime();
-  const downloadCurrentScenarioRunLogs = useDownloadLogsFile();
+  const downloadCurrentScenarioRunLogs = useDownloadSimulationLogsFile();
   const workspace = useWorkspaceData();
 
   const { isDirty } = useFormState();
 
   const hasRunBeenSuccessful = useMemo(
-    () => currentScenarioLastRun !== null && currentScenarioState === 'Successful',
-    [currentScenarioLastRun, currentScenarioState]
+    () => currentScenarioLastRunId !== null && currentScenarioState === 'Successful',
+    [currentScenarioLastRunId, currentScenarioState]
   );
 
   const isDashboardSync = useMemo(() => {
