@@ -34,4 +34,13 @@ export const ACL_PERMISSIONS = {
     DELETE: 'delete',
     WRITE_SECURITY: 'write_security',
   },
+  RUNNER: {
+    READ: 'read',
+    READ_SECURITY: 'read_security',
+    LAUNCH: 'launch',
+    WRITE: 'write',
+    VALIDATE: 'validate',
+    DELETE: 'delete',
+    WRITE_SECURITY: 'write_security',
+  },
 };
