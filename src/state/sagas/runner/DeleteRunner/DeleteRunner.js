@@ -6,7 +6,7 @@ import { Api } from '../../../../services/config/Api';
 import { RUNNER_RUN_STATE } from '../../../../services/config/ApiConstants';
 import { RUNNER_ACTIONS_KEY } from '../../../commons/RunnerConstants';
 import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
-import { stopRunner } from '../StopRunner/StopRunner';
+import { stopSimulationRunner } from '../StopSimulationRunner/StopSimulationRunner';
 
 export function* deleteRunner(action) {
   try {
@@ -15,10 +15,17 @@ export function* deleteRunner(action) {
     const runnerId = action.runnerId;
 
     const response = yield call(Api.Runners.getRunner, organizationId, workspaceId, runnerId);
-    action.lastRunId = response.data?.lastRunId;
+    const lastRunId = response.data?.lastRunId;
 
-    if (response.data.state === RUNNER_RUN_STATE.RUNNING) {
-      yield call(stopRunner, action);
+    if (lastRunId) {
+      const response = yield call(Api.RunnerRuns.getRunStatus, organizationId, workspaceId, runnerId, lastRunId);
+      if (response.data.state === RUNNER_RUN_STATE.RUNNING) {
+        yield call(stopSimulationRunner, action);
+        yield put({
+          type: RUNNER_ACTIONS_KEY.STOP_RUNNER_STATUS_POLLING + '_' + runnerId,
+          data: { runnerId },
+        });
+      }
     }
 
     yield call(Api.Runners.deleteRunner, organizationId, workspaceId, runnerId);

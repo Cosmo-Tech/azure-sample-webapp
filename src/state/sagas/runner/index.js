@@ -3,8 +3,8 @@ import applyRunnerSharingChangesSaga from './ApplyRunnerSharingChanges/ApplyRunn
 import { createRunnerSaga } from './CreateRunner';
 import { createSimulationRunnerSaga } from './CreateSimulationRunner';
 import deleteRunnerSaga from './DeleteRunner/DeleteRunner';
+import { getAllSimulationRunnersSaga } from './GetAllSimulationRunners';
 import { getRunnerSaga } from './GetRunner';
-import { listAllRunnersSaga } from './ListAllRunners';
 import { pollRunnerStateSaga } from './PollRunnerState';
 import { renameRunnerSaga } from './RenameRunner';
 import { startRunnerSaga } from './StartRunner';
@@ -17,7 +17,7 @@ export default function* runnerSaga() {
   yield all([
     fork(createRunnerSaga),
     fork(createSimulationRunnerSaga),
-    fork(listAllRunnersSaga),
+    fork(getAllSimulationRunnersSaga),
     fork(getRunnerSaga),
     fork(updateRunnerSaga),
     fork(updateAndStartRunnerSaga),

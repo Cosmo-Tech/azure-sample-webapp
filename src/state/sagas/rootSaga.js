@@ -7,7 +7,6 @@ import datasetSaga from './datasets';
 import organizationSaga from './organization';
 import powerBISaga from './powerbi';
 import runnerSaga from './runner';
-import scenarioRunSaga from './scenarioRun';
 import solutionSaga from './solution';
 import workspaceSaga from './workspace';
 
@@ -18,7 +17,6 @@ export default function* rootSaga() {
     fork(organizationSaga),
     fork(workspaceSaga),
     fork(solutionSaga),
-    fork(scenarioRunSaga),
     fork(datasetSaga),
     fork(runnerSaga),
     fork(powerBISaga),
