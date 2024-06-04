@@ -3,6 +3,7 @@
 import { t } from 'i18next';
 import { call, put, select, takeEvery } from 'redux-saga/effects';
 import { Api } from '../../../../services/config/Api';
+import { RUNNER_RUN_STATE } from '../../../../services/config/ApiConstants';
 import { ACL_PERMISSIONS } from '../../../../services/config/accessControl';
 import { ApiUtils, RunnersUtils } from '../../../../utils';
 import { STATUSES } from '../../../commons/Constants';
@@ -20,13 +21,22 @@ export function* getRunner(action) {
     const userId = yield select(getUserId);
     const runnersPermissionsMapping = yield select(getRunnersPermissionsMapping);
     const solutionParameters = yield select(getSolutionParameters);
+    const organizationId = action.organizationId;
+    const workspaceId = action.workspaceId;
+    const runnerId = action.runnerId;
 
     yield put({
       type: RUNNER_ACTIONS_KEY.SET_CURRENT_SIMULATION_RUNNER,
       status: STATUSES.LOADING,
     });
 
-    const { data } = yield call(Api.Runners.getRunner, action.organizationId, action.workspaceId, action.runnerId);
+    const { data } = yield call(Api.Runners.getRunner, organizationId, workspaceId, runnerId);
+    if (data.lastRunId) {
+      const response = yield call(Api.RunnerRuns.getRunStatus, organizationId, workspaceId, runnerId, data.lastRunId);
+      data.state = response.data.state;
+    } else {
+      data.state = RUNNER_RUN_STATE.CREATED;
+    }
     RunnersUtils.patchRunnerParameterValues(solutionParameters, data.parametersValues);
     data.parametersValues = ApiUtils.formatParametersFromApi(data.parametersValues);
 
@@ -55,15 +65,15 @@ export function* getRunner(action) {
       validationStatus: data.validationStatus,
     });
     // Start state polling for running scenarios
-    // IMPLEMENT STATUS FETCHING
-    // if ([SCENARIO_RUN_STATE.RUNNING, SCENARIO_RUN_STATE.DATA_INGESTION_IN_PROGRESS].includes(data.state)) {
-    //   yield put({
-    //     type: SCENARIO_ACTIONS_KEY.START_SCENARIO_STATUS_POLLING,
-    //     organizationId: action.organizationId,
-    //     workspaceId: action.workspaceId,
-    //     scenarioId: data.id,
-    //   });
-    // }
+    if (data.state === RUNNER_RUN_STATE.RUNNING) {
+      yield put({
+        type: RUNNER_ACTIONS_KEY.TRIGGER_SAGA_START_RUNNER_STATUS_POLLING,
+        organizationId: action.organizationId,
+        workspaceId: action.workspaceId,
+        runnerId: data.id,
+        lastRunId: data.lastRunId,
+      });
+    }
   } catch (error) {
     yield put(
       dispatchSetApplicationErrorMessage(

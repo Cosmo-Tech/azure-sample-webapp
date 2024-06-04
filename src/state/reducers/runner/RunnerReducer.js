@@ -116,41 +116,18 @@ export const runnerReducer = createReducer(runnersInitialState, (builder) => {
       state.current.data = state.list.data.find((runner) => runner.id === action.runnerId) ?? state.current.data;
       state.current.status = action.status ?? state.current?.status;
     })
-    .addCase(RUNNER_ACTIONS_KEY.UPDATE_RUNNER, (state, action) => {
-      // Replace state and lastRunId in data if the runner to update is currently selected
-      if (state.data?.id === action.data.runnerId) {
-        state.data = {
-          ...state.data,
-          state: action.data.runnerState ?? state.data.state,
-          lastRunId: action.data.lastRunId ?? state.data.lastRunId,
-        };
-      }
+    .addCase(RUNNER_ACTIONS_KEY.ADD_RUN, (state, action) => {
+      state.runs.push(action.data);
     })
-    .addCase(RUNNER_ACTIONS_KEY.SET_RUNNER_VALIDATION_STATUS, (state, action) => {
-      if (state.data?.id === action.runnerId) {
-        state.data = {
-          ...state.data,
-          validationStatus: action.validationStatus,
-        };
-      }
-    })
-    .addCase(RUNNER_ACTIONS_KEY.SET_RUNNER_SECURITY, (state, action) => {
-      if (state.data?.id === action.runnerId) {
-        const runnerWithNewSecurity = { ...state.data, security: action.security };
-        RunnersUtils.patchRunnerWithCurrentUserPermissions(
-          runnerWithNewSecurity,
-          action.userEmail,
-          action.userId,
-          action.runnersPermissionsMapping
-        );
-        state.data = {
-          ...state.data,
-          security: runnerWithNewSecurity.security,
-        };
-      }
+    .addCase(RUNNER_ACTIONS_KEY.UPDATE_RUN, (state, action) => {
+      state.runs = state.runs.map((run) => {
+        if (run.id === action.data.id) {
+          return {
+            ...run,
+            ...action.data,
+          };
+        }
+        return run;
+      });
     });
-});
-export const runnerReducer = combineReducers({
-  list: runnersListReducer,
-  current: currentSimulationRunnerReducer,
 });

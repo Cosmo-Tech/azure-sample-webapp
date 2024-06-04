@@ -20,7 +20,8 @@ const keepOnlyReadableRunners = (runners) =>
 
 function* getRunnerStatus(organizationId, workspaceId, runnerId, lastRunId) {
   const response = yield call(Api.RunnerRuns.getRunStatus, organizationId, workspaceId, runnerId, lastRunId);
-  yield put({ type: RUNNER_ACTIONS_KEY.UPDATE_RUNNER, data: { runnerState: response.data.state, runnerId } });
+  yield put({ type: RUNNER_ACTIONS_KEY.UPDATE_RUNNER, runnerId, runner: { state: response.data.state } });
+  yield put({ type: RUNNER_ACTIONS_KEY.ADD_RUN, data: response.data });
 }
 export function* getAllSimulationRunners(organizationId, workspaceId) {
   const userEmail = yield select(getUserEmail);
