@@ -33,28 +33,25 @@ export function* pollRunnerState(action) {
         action.organizationId,
         action.workspaceId,
         action.runnerId,
-        action.runnerRunId
+        action.lastRunId
       );
 
       const data = response.data;
       if ([RUNNER_RUN_STATE.FAILED, RUNNER_RUN_STATE.SUCCESSFUL, RUNNER_RUN_STATE.UNKNOWN].includes(data.state)) {
         // Update the scenario state in all scenario redux states
-        const lastRun = {
-          runnerRunId: data.id,
-        };
         yield put({
           type: RUNNER_ACTIONS_KEY.UPDATE_RUNNER,
-          data: {
-            runnerState: data.state,
-            runnerId: action.runnerId,
-            lastRun,
+          runnerId: action.runnerId,
+          runner: {
+            state: data.state,
           },
         });
-        if (action.startTime) {
-          const runFinishTime = new Date().getTime();
-          const runDuration = (runFinishTime - action.startTime) / 1000;
-          appInsights.trackRunnerRunDuration(runDuration);
-        }
+        yield put({
+          type: RUNNER_ACTIONS_KEY.UPDATE_RUN,
+          data,
+        });
+        const runDuration = (new Date(data.endTime) - new Date(data.startTime)) / 1000;
+        appInsights.trackScenarioRunDuration(runDuration);
         // Stop the polling for this scenario
         yield put(forgeStopPollingAction(action.runnerId));
       }
@@ -70,9 +67,10 @@ export function* pollRunnerState(action) {
         )
       );
       yield put({
-        type: RUNNER_ACTIONS_KEY.SET_CURRENT_SIMULATION_RUNNER,
+        type: RUNNER_ACTIONS_KEY.UPDATE_RUNNER,
+        runnerId: action.runnerId,
         status: STATUSES.ERROR,
-        scenario: { state: RUNNER_RUN_STATE.FAILED },
+        runner: { state: RUNNER_RUN_STATE.FAILED },
       });
       // Stop the polling for this scenario
       yield put(forgeStopPollingAction(action.runnerId));

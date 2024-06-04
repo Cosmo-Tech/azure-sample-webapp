@@ -50,7 +50,7 @@ export const useCurrentSimulationRunnerLastUpdate = () => {
 };
 
 export const useCurrentSimulationRunnerLastRunId = () => {
-  return useSelector((state) => state.runner.current?.data?.lastRun?.scenarioRunId);
+  return useSelector((state) => state.runner.current?.data?.lastRunId);
 };
 
 export const useCurrentSimulationRunnerState = () => {
@@ -63,6 +63,14 @@ export const useCurrentSimulationRunnerDatasetList = () => {
 
 export const useCurrentSimulationRunnerReducerStatus = () => {
   return useSelector((state) => state.runner?.current?.status);
+};
+
+export const useLastRunsList = () => {
+  return useSelector((state) => state.runner?.runs);
+};
+
+export const useCurrentSimulationRunnerLastRun = (runnerId) => {
+  return useLastRunsList().find((run) => run.runnerId === runnerId);
 };
 
 export const useCreateRunner = () => {
