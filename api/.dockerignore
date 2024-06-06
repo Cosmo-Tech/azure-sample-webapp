@@ -1,0 +1,4 @@
+# Ignore everything by default, because this folder can contain secrets. The complete list of files to include
+# is defined in the file Dockerfile.dockerignore provided with the Dockerfile: make sure you're building the image with
+# DOCKER_BUILDKIT=1 to use it
+*
