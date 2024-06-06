@@ -1,0 +1,16 @@
+# Ignore everything
+*
+
+# Allow only these files
+!GetEmbedInfo/authentication.js
+!GetEmbedInfo/config.js
+!GetEmbedInfo/embedConfigService.js
+!GetEmbedInfo/errors.js
+!GetEmbedInfo/function.json
+!GetEmbedInfo/index.js
+!GetEmbedInfo/utils.js
+!host.json
+!package.json
+!utils/models/powerbi/embedConfig.js
+!utils/models/powerbi/embedReportConfig.js
+!.yarnrc.yml
