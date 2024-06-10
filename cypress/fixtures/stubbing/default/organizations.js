@@ -32,6 +32,15 @@ export const DEFAULT_ORGANIZATION_PERMISSIONS = [
       admin: ['read', 'read_security', 'launch', 'write', 'validate', 'write_security', 'delete'],
     },
   },
+  {
+    components: 'runner',
+    roles: {
+      viewer: ['read', 'read_security'],
+      editor: ['read', 'read_security', 'launch', 'write'],
+      validator: ['read', 'read_security', 'launch', 'write', 'validate'],
+      admin: ['read', 'read_security', 'launch', 'write', 'validate', 'write_security', 'delete'],
+    },
+  },
 ];
 
 export const DEFAULT_ORGANIZATION = {
