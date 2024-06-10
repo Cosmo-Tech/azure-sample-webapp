@@ -1,10 +1,10 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { Login, Scenarios, ScenarioManager, ScenarioParameters, ErrorBanner } from '../../commons/actions';
-import { DATASET, SCENARIO_STATUS } from '../../commons/constants/brewery/TestConstants';
+import { SCENARIO_STATUS } from '../../commons/constants/brewery/TestConstants';
 import { stub } from '../../commons/services/stubbing';
 import { setup } from '../../commons/utils';
-import { DEFAULT_SCENARIOS_LIST } from '../../fixtures/stubbing/default';
+import { DEFAULT_DATASETS_LIST, DEFAULT_SCENARIOS_LIST } from '../../fixtures/stubbing/default';
 
 describe('Create scenario and check its data in scenario manager', () => {
   before(() => {
@@ -48,7 +48,9 @@ describe('Create scenario and check its data in scenario manager', () => {
     ScenarioManager.getScenarioEditableLink(scenarioId).should('have.text', scenarioName);
     ScenarioManager.getScenarioRunStatus(scenarioId, SCENARIO_STATUS.CREATED);
     ScenarioManager.getScenarioRunTemplate(scenarioId).should('have.text', scenarioRunTemplate);
-    ScenarioManager.getScenarioDataset(scenarioId).should('have.text', DATASET.BREWERY_STORAGE, { matchCase: false });
+    ScenarioManager.getScenarioDataset(scenarioId).should('have.text', DEFAULT_DATASETS_LIST[0].name, {
+      matchCase: false,
+    });
 
     Scenarios.switchToScenarioView();
     ScenarioParameters.launch({ scenarioId, runOptions, saveAndLaunch: true });

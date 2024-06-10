@@ -45,7 +45,7 @@ describe('Check workspace permissions for admin', () => {
     ScenarioParameters.getLaunchButton().should('be.visible').should('not.be.disabled');
     RolesEdition.getShareButton().should('be.visible').should('not.be.disabled').click();
     RolesEdition.addAgent(USERS_LIST[2].email);
-    RolesEdition.getShareDialogRolesCheckbox(ROLES.SCENARIO.EDITOR).should('not.be.disabled').click();
+    RolesEdition.getShareDialogRolesCheckbox(ROLES.RUNNER.EDITOR).should('not.be.disabled').click();
     RolesEdition.getShareDialogConfirmAddAccessButton().should('not.be.disabled').click();
     RolesEdition.getShareDialogFirstCancelButton().click();
     ScenarioManager.switchToScenarioManager();
@@ -69,65 +69,65 @@ describe('Check workspace permissions for admin', () => {
 
     RolesEdition.getShareButton().should('be.visible').should('not.be.disabled').click();
     RolesEdition.getShareDialogTitle().should('have.text', 'Share ' + scenario.name);
-    RolesEdition.selectOptionByAgent('Workspace', ROLES.SCENARIO.EDITOR);
+    RolesEdition.selectOptionByAgent('Workspace', ROLES.RUNNER.EDITOR);
     RolesEdition.addAgent(USERS_LIST[1].email);
-    RolesEdition.getShareDialogRolesCheckbox(ROLES.SCENARIO.EDITOR).should('be.checked');
+    RolesEdition.getShareDialogRolesCheckbox(ROLES.RUNNER.EDITOR).should('be.checked');
     RolesEdition.getShareDialogSecondCancelButton().click();
-    RolesEdition.selectOptionByAgent('Workspace', ROLES.SCENARIO.VALIDATOR);
+    RolesEdition.selectOptionByAgent('Workspace', ROLES.RUNNER.VALIDATOR);
     RolesEdition.addAgent(USERS_LIST[1].email);
-    RolesEdition.getShareDialogRolesCheckbox(ROLES.SCENARIO.VALIDATOR).should('be.checked');
+    RolesEdition.getShareDialogRolesCheckbox(ROLES.RUNNER.VALIDATOR).should('be.checked');
     RolesEdition.getShareDialogSecondCancelButton().click();
-    RolesEdition.selectOptionByAgent('Workspace', ROLES.SCENARIO.ADMIN);
+    RolesEdition.selectOptionByAgent('Workspace', ROLES.RUNNER.ADMIN);
     RolesEdition.addAgent(USERS_LIST[1].email);
-    RolesEdition.getShareDialogRolesCheckbox(ROLES.SCENARIO.ADMIN).should('be.checked');
+    RolesEdition.getShareDialogRolesCheckbox(ROLES.RUNNER.ADMIN).should('be.checked');
     RolesEdition.getShareDialogSecondCancelButton().click();
-    RolesEdition.selectOptionByAgent('Workspace', ROLES.SCENARIO.VIEWER);
+    RolesEdition.selectOptionByAgent('Workspace', ROLES.RUNNER.VIEWER);
 
     RolesEdition.addAgent(USERS_LIST[1].email);
-    RolesEdition.getShareDialogRolesCheckbox(ROLES.SCENARIO.VIEWER).should('be.checked');
+    RolesEdition.getShareDialogRolesCheckbox(ROLES.RUNNER.VIEWER).should('be.checked');
 
-    RolesEdition.checkShareDialogGrantedPermissionChip(ROLES_PERMISSIONS_MAP[ROLES.SCENARIO.VIEWER]);
-    RolesEdition.getShareDialogRolesCheckbox(ROLES.SCENARIO.EDITOR).click();
-    RolesEdition.getShareDialogRolesCheckbox(ROLES.SCENARIO.VIEWER).should('not.be.checked');
+    RolesEdition.checkShareDialogGrantedPermissionChip(ROLES_PERMISSIONS_MAP[ROLES.RUNNER.VIEWER]);
+    RolesEdition.getShareDialogRolesCheckbox(ROLES.RUNNER.EDITOR).click();
+    RolesEdition.getShareDialogRolesCheckbox(ROLES.RUNNER.VIEWER).should('not.be.checked');
 
-    RolesEdition.checkShareDialogGrantedPermissionChip(ROLES_PERMISSIONS_MAP[ROLES.SCENARIO.EDITOR]);
-    RolesEdition.getShareDialogRolesCheckbox(ROLES.SCENARIO.VALIDATOR).click();
-    RolesEdition.getShareDialogRolesCheckbox(ROLES.SCENARIO.EDITOR).should('not.be.checked');
+    RolesEdition.checkShareDialogGrantedPermissionChip(ROLES_PERMISSIONS_MAP[ROLES.RUNNER.EDITOR]);
+    RolesEdition.getShareDialogRolesCheckbox(ROLES.RUNNER.VALIDATOR).click();
+    RolesEdition.getShareDialogRolesCheckbox(ROLES.RUNNER.EDITOR).should('not.be.checked');
 
-    RolesEdition.checkShareDialogGrantedPermissionChip(ROLES_PERMISSIONS_MAP[ROLES.SCENARIO.VALIDATOR]);
-    RolesEdition.getShareDialogRolesCheckbox(ROLES.SCENARIO.ADMIN).click();
-    RolesEdition.getShareDialogRolesCheckbox(ROLES.SCENARIO.VALIDATOR).should('not.be.checked');
+    RolesEdition.checkShareDialogGrantedPermissionChip(ROLES_PERMISSIONS_MAP[ROLES.RUNNER.VALIDATOR]);
+    RolesEdition.getShareDialogRolesCheckbox(ROLES.RUNNER.ADMIN).click();
+    RolesEdition.getShareDialogRolesCheckbox(ROLES.RUNNER.VALIDATOR).should('not.be.checked');
 
-    RolesEdition.checkShareDialogGrantedPermissionChip(ROLES_PERMISSIONS_MAP[ROLES.SCENARIO.ADMIN]);
-    RolesEdition.getShareDialogRolesCheckbox(ROLES.SCENARIO.VIEWER).click();
-    RolesEdition.getShareDialogRolesCheckbox(ROLES.SCENARIO.VIEWER).should('be.checked');
+    RolesEdition.checkShareDialogGrantedPermissionChip(ROLES_PERMISSIONS_MAP[ROLES.RUNNER.ADMIN]);
+    RolesEdition.getShareDialogRolesCheckbox(ROLES.RUNNER.VIEWER).click();
+    RolesEdition.getShareDialogRolesCheckbox(ROLES.RUNNER.VIEWER).should('be.checked');
     RolesEdition.getShareDialogConfirmAddAccessButton().click();
 
     RolesEdition.addAgent(USERS_LIST[2].email);
-    RolesEdition.getShareDialogRolesCheckbox(ROLES.SCENARIO.EDITOR).click();
+    RolesEdition.getShareDialogRolesCheckbox(ROLES.RUNNER.EDITOR).click();
     RolesEdition.getShareDialogConfirmAddAccessButton().click();
 
     RolesEdition.addAgent(USERS_LIST[3].email);
-    RolesEdition.getShareDialogRolesCheckbox(ROLES.SCENARIO.VALIDATOR).click();
+    RolesEdition.getShareDialogRolesCheckbox(ROLES.RUNNER.VALIDATOR).click();
     RolesEdition.getShareDialogConfirmAddAccessButton().click();
 
     const expectedSecurity = {
-      default: ROLES.SCENARIO.VIEWER,
+      default: ROLES.RUNNER.VIEWER,
       accessControlList: [
-        { id: USERS_LIST[1].email, role: ROLES.SCENARIO.VIEWER },
-        { id: USERS_LIST[2].email, role: ROLES.SCENARIO.EDITOR },
-        { id: USERS_LIST[3].email, role: ROLES.SCENARIO.VALIDATOR },
+        { id: USERS_LIST[1].email, role: ROLES.RUNNER.VIEWER },
+        { id: USERS_LIST[2].email, role: ROLES.RUNNER.EDITOR },
+        { id: USERS_LIST[3].email, role: ROLES.RUNNER.VALIDATOR },
       ],
     };
     RolesEdition.confirmNewPermissions(expectedSecurity);
 
     RolesEdition.getShareButton().click();
     RolesEdition.getRoleEditorAgentName(USERS_LIST[1].email).should('have.text', USERS_LIST[1].email);
-    RolesEdition.getSelectedOptionByAgent(USERS_LIST[1].email).should('value', ROLES.SCENARIO.VIEWER);
+    RolesEdition.getSelectedOptionByAgent(USERS_LIST[1].email).should('value', ROLES.RUNNER.VIEWER);
     RolesEdition.getRoleEditorAgentName(USERS_LIST[2].email).should('have.text', USERS_LIST[2].email);
-    RolesEdition.getSelectedOptionByAgent(USERS_LIST[2].email).should('value', ROLES.SCENARIO.EDITOR);
+    RolesEdition.getSelectedOptionByAgent(USERS_LIST[2].email).should('value', ROLES.RUNNER.EDITOR);
     RolesEdition.getRoleEditorAgentName(USERS_LIST[3].email).should('have.text', USERS_LIST[3].email);
-    RolesEdition.getSelectedOptionByAgent(USERS_LIST[3].email).should('value', ROLES.SCENARIO.VALIDATOR);
+    RolesEdition.getSelectedOptionByAgent(USERS_LIST[3].email).should('value', ROLES.RUNNER.VALIDATOR);
   });
 });
 
@@ -147,12 +147,25 @@ describe('Check workspace permissions for Viewer, Editor & Validator', () => {
     stub.stop();
   });
 
-  it('must show a disabled button when role is Viewer', () => {
+  it('Check Viewer permissions', () => {
     const scenario = SHARED_SCENARIOS_LIST[0];
     ScenarioSelector.selectScenario(scenario.name, scenario.id, true);
 
     Scenarios.getScenarioValidateButton().should('not.exist');
-    RolesEdition.getShareButton().should('be.visible').should('be.disabled');
+    RolesEdition.getShareButton().should('be.visible').should('not.be.disabled').click();
+    RolesEdition.getShareDialogAgentsSelect().should('not.exist');
+    RolesEdition.getRoleEditorAgentName(USERS_LIST[1].email).should('have.text', USERS_LIST[1].email);
+    RolesEdition.getSelectedOptionByAgent(USERS_LIST[1].email).should('value', ROLES.RUNNER.VIEWER);
+    RolesEdition.isRoleEditorSelectorDisabled(USERS_LIST[1].email).should('eq', 'true');
+    RolesEdition.getRoleEditorAgentName(USERS_LIST[2].email).should('have.text', USERS_LIST[2].email);
+    RolesEdition.getSelectedOptionByAgent(USERS_LIST[2].email).should('value', ROLES.RUNNER.EDITOR);
+    RolesEdition.isRoleEditorSelectorDisabled(USERS_LIST[2].email).should('eq', 'true');
+    RolesEdition.getRoleEditorAgentName(USERS_LIST[3].email).should('have.text', USERS_LIST[3].email);
+    RolesEdition.getSelectedOptionByAgent(USERS_LIST[3].email).should('value', ROLES.RUNNER.VALIDATOR);
+    RolesEdition.isRoleEditorSelectorDisabled(USERS_LIST[3].email).should('eq', 'true');
+    RolesEdition.isRoleEditorSelectorDisabled('Workspace').should('eq', 'true');
+    RolesEdition.getShareDialogConfirmAddAccessButton().should('not.exist');
+    RolesEdition.getShareDialogFirstCancelButton().click();
 
     Scenarios.getScenarioValidateButton().should('not.exist');
     Scenarios.getScenarioRejectButton().should('not.exist');
@@ -172,21 +185,6 @@ describe('Check workspace permissions for Viewer, Editor & Validator', () => {
   it('Check Editor permissions', () => {
     const scenario = SHARED_SCENARIOS_LIST[1];
     ScenarioSelector.selectScenario(scenario.name, scenario.id);
-
-    RolesEdition.getShareButton().should('be.visible').should('not.be.disabled').click();
-    RolesEdition.getShareDialogAgentsSelect().should('not.exist');
-    RolesEdition.getRoleEditorAgentName(USERS_LIST[1].email).should('have.text', USERS_LIST[1].email);
-    RolesEdition.getSelectedOptionByAgent(USERS_LIST[1].email).should('value', ROLES.SCENARIO.VIEWER);
-    RolesEdition.isRoleEditorSelectorDisabled(USERS_LIST[1].email).should('eq', 'true');
-    RolesEdition.getRoleEditorAgentName(USERS_LIST[2].email).should('have.text', USERS_LIST[2].email);
-    RolesEdition.getSelectedOptionByAgent(USERS_LIST[2].email).should('value', ROLES.SCENARIO.EDITOR);
-    RolesEdition.isRoleEditorSelectorDisabled(USERS_LIST[2].email).should('eq', 'true');
-    RolesEdition.getRoleEditorAgentName(USERS_LIST[3].email).should('have.text', USERS_LIST[3].email);
-    RolesEdition.getSelectedOptionByAgent(USERS_LIST[3].email).should('value', ROLES.SCENARIO.VALIDATOR);
-    RolesEdition.isRoleEditorSelectorDisabled(USERS_LIST[3].email).should('eq', 'true');
-    RolesEdition.isRoleEditorSelectorDisabled('Workspace').should('eq', 'true');
-    RolesEdition.getShareDialogConfirmAddAccessButton().should('not.exist');
-    RolesEdition.getShareDialogFirstCancelButton().click();
 
     Scenarios.getScenarioValidateButton().should('not.exist');
     Scenarios.getScenarioRejectButton().should('not.exist');

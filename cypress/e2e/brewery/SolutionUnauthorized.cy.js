@@ -27,11 +27,7 @@ describe('User has no access to the solution', () => {
   // The solution interception is replaced here by a custom one because in this specific case,
   // we need to return an error instead of the base stubbed solution
   const customSelectWorkspace = (workspaceId) => {
-    const queries = [
-      apiUtils.interceptPowerBIAzureFunction(),
-      apiUtils.interceptGetScenarios(),
-      apiUtils.interceptGetRunners(),
-    ];
+    const queries = [apiUtils.interceptPowerBIAzureFunction(), apiUtils.interceptGetRunners()];
     Workspaces.getWorkspaceCardById(workspaceId)
       .should('be.visible')
       .find(GENERIC_SELECTORS.workspace.openButton)

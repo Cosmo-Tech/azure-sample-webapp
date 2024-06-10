@@ -50,23 +50,19 @@ describe('ShareCurrentScenarioButton', () => {
       mockRoleEditionButtonProps = undefined;
     });
 
-    test.each([{ role: ROLES.SCENARIO.NONE }, { role: ROLES.SCENARIO.VIEWER }])(
-      'must show a disabled button when role is $role',
-      ({ role }) => {
-        setUp(role);
-        expect(getRolesEditionButton()).toBeInTheDocument();
-        expect(mockRoleEditionButtonProps.disabled).toEqual(true);
-      }
-    );
+    test('None role dont display Share Scenario button', () => {
+      setUp(ROLES.RUNNER.NONE);
+      expect(getRolesEditionButton()).not.toBeInTheDocument();
+    });
 
     test.each([
-      { role: ROLES.SCENARIO.ADMIN, expected: false },
-      { role: ROLES.SCENARIO.EDITOR, expected: true },
-      { role: ROLES.SCENARIO.VALIDATOR, expected: true },
+      { role: ROLES.RUNNER.ADMIN, expected: undefined },
+      { role: ROLES.RUNNER.EDITOR, expected: true },
+      { role: ROLES.RUNNER.VALIDATOR, expected: true },
+      { role: ROLES.RUNNER.VIEWER, expected: true },
     ])('$role role display Share Scenario button with isReadOnly $expected', ({ role, expected }) => {
       setUp(role);
       expect(getRolesEditionButton()).toBeInTheDocument();
-      expect(mockRoleEditionButtonProps.disabled).toEqual(false);
       expect(mockRoleEditionButtonProps.isReadOnly).toEqual(expected);
     });
   });
@@ -74,7 +70,7 @@ describe('ShareCurrentScenarioButton', () => {
   describe('Props of RoleEditionButton', () => {
     let storeState;
     beforeAll(() => {
-      setUp(ROLES.SCENARIO.ADMIN);
+      setUp(ROLES.RUNNER.ADMIN);
       storeState = mockStore.getState();
     });
 
@@ -91,7 +87,7 @@ describe('ShareCurrentScenarioButton', () => {
     });
 
     test('resourceRolesPermissionsMapping match application scenario permission mapping', () => {
-      const applicationScenarioPermissionMapping = storeState.application.permissionsMapping.scenario;
+      const applicationScenarioPermissionMapping = storeState.application.permissionsMapping.runner;
       expect(mockRoleEditionButtonProps.resourceRolesPermissionsMapping).toEqual(applicationScenarioPermissionMapping);
     });
 
@@ -106,14 +102,14 @@ describe('ShareCurrentScenarioButton', () => {
     });
 
     test('allRoles contains all application scenario roles', () => {
-      const applicationRoles = storeState.application.roles.scenario;
+      const applicationRoles = storeState.application.roles.runner;
       applicationRoles.forEach((appRole) => {
         expect(mockRoleEditionButtonProps.allRoles.some((role) => role.value === appRole)).toBeTruthy();
       });
     });
 
     test('allPermissions contains all application scenario permissions', () => {
-      const applicationPermission = storeState.application.permissions.scenario;
+      const applicationPermission = storeState.application.permissions.runner;
       applicationPermission.forEach((appPermission) => {
         expect(
           mockRoleEditionButtonProps.allPermissions.some((permission) => permission.value === appPermission)
@@ -124,8 +120,8 @@ describe('ShareCurrentScenarioButton', () => {
     test('onConfirmChanges dispatch new security with current scenarioId', () => {
       const currentScenarioId = storeState.runner.current.data.id;
       const newSecurity = [
-        { id: USERS_LIST[1].email, role: ROLES.SCENARIO.ADMIN },
-        { id: USERS_LIST[2].email, role: ROLES.SCENARIO.VALIDATOR },
+        { id: USERS_LIST[1].email, role: ROLES.RUNNER.ADMIN },
+        { id: USERS_LIST[2].email, role: ROLES.RUNNER.VALIDATOR },
       ];
 
       const actionExpected = dispatchApplyRunnerSharingChanges(currentScenarioId, newSecurity);
