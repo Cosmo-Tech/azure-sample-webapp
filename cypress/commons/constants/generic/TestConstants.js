@@ -45,6 +45,9 @@ export const API_ENDPOINT = {
   DATASET_TWINGRAPH: URL_ROOT + '/.*/datasets/((d|D)-[\\w]+)/twingraph',
   RUNNERS: URL_ROOT + '/.*/runners',
   RUNNER: URL_ROOT + '/.*/runners/((r|R)-[\\w]+)',
+  START_RUNNER: URL_ROOT + '/.*/runners/((r|R)-[\\w]+)/start', // Endpoint to start the runner
+  RUNNER_STATE: URL_ROOT + '/.*/runs/(run-[\\w]+)/status',
+  STOP_RUNNER: URL_ROOT + '/.*/runners/((r|R)-[\\w]+)/stop', // Endpoint to stop a runner run
   RUNNER_DEFAULT_SECURITY: URL_ROOT + '/.*/runners/((r|R)-[\\w]+)/security/default',
   RUNNER_SECURITY_ACL: URL_ROOT + '/.*/runners/((r|R)-[\\w]+)/security/access',
   RUNNER_SECURITY_USER_ACCESS: URL_ROOT + '/.*/runners/((r|R)-[\\w]+)/security/access/(.*)',
@@ -182,9 +185,12 @@ export const API_REGEX = {
   DATASET_REFRESH: new RegExp('^' + API_ENDPOINT.DATASET_REFRESH + '$'),
   DATASET_ROLLBACK: new RegExp('^' + API_ENDPOINT.DATASET_ROLLBACK + '$'),
   DATASET_STATUS: new RegExp('^' + API_ENDPOINT.DATASET_STATUS + '$'),
+  RUNNERS: new RegExp('^' + API_ENDPOINT.RUNNERS),
+  RUNNER: new RegExp('^' + API_ENDPOINT.RUNNER),
+  START_RUNNER: new RegExp('^' + API_ENDPOINT.START_RUNNER),
+  RUNNER_STATE: new RegExp('^' + API_ENDPOINT.RUNNER_STATE),
+  STOP_RUNNER: new RegExp('^' + API_ENDPOINT.STOP_RUNNER),
   DATASET_TWINGRAPH: new RegExp('^' + API_ENDPOINT.DATASET_TWINGRAPH + '$'),
-  RUNNERS: new RegExp('^' + API_ENDPOINT.RUNNERS + '$'),
-  RUNNER: new RegExp('^' + API_ENDPOINT.RUNNER + '$'),
   RUNNER_DEFAULT_SECURITY: new RegExp('^' + API_ENDPOINT.RUNNER_DEFAULT_SECURITY + '$'),
   RUNNER_SECURITY_ACL: new RegExp('^' + API_ENDPOINT.RUNNER_SECURITY_ACL + '$'),
   RUNNER_SECURITY_USER_ACCESS: new RegExp('^' + API_ENDPOINT.RUNNER_SECURITY_USER_ACCESS + '$'),
@@ -206,6 +212,6 @@ export const FAILED_SCENARIO_RUN = 'An error occurred during the scenario run';
 
 export const WEBAPP_URL_REGEX = {
   SCENARIO_PAGE: new RegExp(PAGE_NAME.SCENARIO + '$'),
-  SCENARIO_ID_PATTERN: /\/(s-\w+)/,
+  SCENARIO_ID_PATTERN: /\/(r-\w+)/,
   WORKSPACE: new RegExp(`^${URL_ROOT}/((w|W)-[\\w]+).*`),
 };

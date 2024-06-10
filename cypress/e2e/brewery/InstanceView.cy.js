@@ -1,11 +1,11 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import utils from '../../commons/TestUtils';
-import { InstanceVisualization, Login, Scenarios, ScenarioManager } from '../../commons/actions';
-import { Login as BreweryLogin } from '../../commons/actions/brewery';
-import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
+import { InstanceVisualization, Login } from '../../commons/actions';
 import { stub } from '../../commons/services/stubbing';
-import { setup } from '../../commons/utils/setup';
+import { setup } from '../../commons/utils';
+import { SCENARIO_WITH_TWINGRAPH_DATASET } from '../../fixtures/stubbing/InstanceVisualization/scenarios';
+import { TWINGRAPH_QUERIES_RESPONSES } from '../../fixtures/stubbing/InstanceVisualization/twingraphQueriesResponses';
+import { DEFAULT_DATASET, WORKSPACE_WITH_INSTANCE_VIEW } from '../../fixtures/stubbing/default';
 
 describe('Instance view disabled', () => {
   before(() => {
@@ -27,19 +27,21 @@ describe('Instance view disabled', () => {
 });
 
 describe('Instance view when enabled', () => {
-  beforeEach(() => {
-    BreweryLogin.login();
+  before(() => {
+    setup.initCypressAndStubbing();
+    stub.start();
+    stub.setWorkspaces([WORKSPACE_WITH_INSTANCE_VIEW]);
+    stub.setDatasets([DEFAULT_DATASET]);
+    stub.setScenarios([SCENARIO_WITH_TWINGRAPH_DATASET]);
   });
-
-  const scenarioNamesToDelete = [];
   after(() => {
-    ScenarioManager.deleteScenarioList(scenarioNamesToDelete);
+    stub.stop();
   });
-
+  beforeEach(() => {
+    Login.login();
+  });
   it('can display a scenario created using an ADT dataset', () => {
-    const scenarioName = `Test Cypress - Instance view - ADT dataset - ${utils.randomStr(7)}`;
-    scenarioNamesToDelete.push(scenarioName);
-    Scenarios.createScenario(scenarioName, true, DATASET.BREWERY_ADT, RUN_TEMPLATE.WITHOUT_PARAMETERS);
+    InstanceVisualization.interceptTwingraphQueries(TWINGRAPH_QUERIES_RESPONSES);
     InstanceVisualization.switchToInstanceVisualization();
     InstanceVisualization.getLoadingSpinnerContainer().should('be.visible');
     InstanceVisualization.getLoadingSpinnerContainer(30).should('not.exist'); // 30 seconds timeout
