@@ -81,11 +81,11 @@ function confirmNewPermissions(expectedSecurity) {
   let interceptUpdateScenarioACLSecurityAlias = [];
 
   if (expectedSecurityDefault) {
-    updateScenarioDefaultSecurityAlias = api.interceptUpdateScenarioDefaultSecurity(expectedSecurityDefault);
+    updateScenarioDefaultSecurityAlias = api.interceptUpdateSimulationRunnerDefaultSecurity(expectedSecurityDefault);
   }
 
   interceptUpdateScenarioACLSecurityAlias = expectedSecurityAccessControlList.map((userSecurity) => {
-    return api.interceptUpdateScenarioACLSecurity(userSecurity);
+    return api.interceptUpdateSimulationRunnerACLSecurity(userSecurity);
   });
 
   getShareDialogSubmitButton().click();

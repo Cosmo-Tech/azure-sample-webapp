@@ -12,7 +12,10 @@ import {
 const validateScenarioUpdateRequest = (req) => {
   expect(req.body.parametersValues.map((el) => el.parameterId)).to.include.members(SCENARIO_METADATA_PARAMETERS_IDS);
 };
-
+// we clone the SCENARIOS object because it is mutated during the first test that brings unnecessary complexity to the
+// second one: one of scenarios has run so GetAllSimulationRunnersSaga will check its status, and it adds one more
+// stubbed endpoint at the beginning
+const initialScenarios = [...SCENARIOS];
 describe('scenario metadata parameters', () => {
   before(() => {
     stub.start();
@@ -40,7 +43,7 @@ describe('scenario metadata parameters', () => {
     ScenarioParameters.getParameterContainer('number-input-stock').should('be.visible');
 
     // Check values of scenario metadata parameters are sent even when clicking on the "Launch" button (without saving)
-    const scenarioSaveAlias = apiUtils.interceptUpdateScenario({
+    const scenarioSaveAlias = apiUtils.interceptUpdateSimulationRunner({
       scenarioId,
       validateRequest: validateScenarioUpdateRequest,
     });
@@ -52,7 +55,7 @@ describe('scenario metadata parameters', () => {
 describe('hidden scenario parameters', () => {
   before(() => {
     stub.start();
-    stub.setScenarios(SCENARIOS);
+    stub.setScenarios(initialScenarios);
     stub.setSolutions(SOLUTIONS);
   });
 
