@@ -45,6 +45,65 @@ export const RUN_TEMPLATE_EXAMPLE = {
   executionTimeout: null,
 };
 
+export const BREWERY_PARAMETERS_RUN_TEMPLATE = {
+  ...RUN_TEMPLATE_EXAMPLE,
+  id: '1',
+  name: 'Run template with Brewery parameters',
+  description: 'Run template with Brewery parameters',
+  tags: ['1', 'With params'],
+  fetchScenarioParameters: true,
+  applyParameters: true,
+  sendDatasetsToDataWarehouse: true,
+  sendInputParametersToDataWarehouse: true,
+  parameterGroups: ['bar_parameters', 'file_upload'],
+};
+
+export const NO_PARAMETERS_RUN_TEMPLATE = {
+  ...RUN_TEMPLATE_EXAMPLE,
+  id: '2',
+  name: 'Run template without parameters',
+  description: 'Run template without parameters',
+  tags: ['2', 'No param'],
+  fetchScenarioParameters: false,
+  applyParameters: false,
+  sendDatasetsToDataWarehouse: true,
+  sendInputParametersToDataWarehouse: false,
+  parameterGroups: null,
+};
+
+export const BASIC_TYPES_PARAMETERS_RUN_TEMPLATE = {
+  ...RUN_TEMPLATE_EXAMPLE,
+  id: '3',
+  name: 'Run template with mock basic types parameters',
+  description: 'Run template with mock basic types parameters',
+  tags: ['3', 'Example'],
+  fetchScenarioParameters: false,
+  applyParameters: false,
+  sendDatasetsToDataWarehouse: true,
+  sendInputParametersToDataWarehouse: false,
+  parameterGroups: [
+    'basic_types',
+    'dataset_parts',
+    'extra_dataset_part',
+    'customers',
+    'events',
+    'additional_parameters',
+  ],
+};
+
+export const HIDDEN_RUN_TEMPLATE = {
+  ...RUN_TEMPLATE_EXAMPLE,
+  id: 'hidden test run template',
+  name: 'Hidden test run template without parameters',
+  description: 'Run template without parameters',
+  tags: ['2', 'No param'],
+  fetchScenarioParameters: false,
+  applyParameters: false,
+  sendDatasetsToDataWarehouse: true,
+  sendInputParametersToDataWarehouse: false,
+  parameterGroups: null,
+};
+
 export const DEFAULT_SOLUTION = {
   id: 'SOL-stubbedbrwy',
   key: 'Demo Brewery Solution',
@@ -346,61 +405,10 @@ export const DEFAULT_SOLUTION = {
     },
   ],
   runTemplates: [
-    {
-      ...RUN_TEMPLATE_EXAMPLE,
-      id: '1',
-      name: 'Run template with Brewery parameters',
-      description: 'Run template with Brewery parameters',
-      tags: ['1', 'With params'],
-      fetchScenarioParameters: true,
-      applyParameters: true,
-      sendDatasetsToDataWarehouse: true,
-      sendInputParametersToDataWarehouse: true,
-      parameterGroups: ['bar_parameters', 'file_upload'],
-    },
-    {
-      ...RUN_TEMPLATE_EXAMPLE,
-      id: '2',
-      name: 'Run template without parameters',
-      description: 'Run template without parameters',
-      tags: ['2', 'No param'],
-      fetchScenarioParameters: false,
-      applyParameters: false,
-      sendDatasetsToDataWarehouse: true,
-      sendInputParametersToDataWarehouse: false,
-      parameterGroups: null,
-    },
-    {
-      ...RUN_TEMPLATE_EXAMPLE,
-      id: '3',
-      name: 'Run template with mock basic types parameters',
-      description: 'Run template with mock basic types parameters',
-      tags: ['3', 'Example'],
-      fetchScenarioParameters: false,
-      applyParameters: false,
-      sendDatasetsToDataWarehouse: true,
-      sendInputParametersToDataWarehouse: false,
-      parameterGroups: [
-        'basic_types',
-        'dataset_parts',
-        'extra_dataset_part',
-        'customers',
-        'events',
-        'additional_parameters',
-      ],
-    },
-    {
-      ...RUN_TEMPLATE_EXAMPLE,
-      id: 'hidden test run template',
-      name: 'Hidden test run template without parameters',
-      description: 'Run template without parameters',
-      tags: ['2', 'No param'],
-      fetchScenarioParameters: false,
-      applyParameters: false,
-      sendDatasetsToDataWarehouse: true,
-      sendInputParametersToDataWarehouse: false,
-      parameterGroups: null,
-    },
+    BREWERY_PARAMETERS_RUN_TEMPLATE,
+    NO_PARAMETERS_RUN_TEMPLATE,
+    BASIC_TYPES_PARAMETERS_RUN_TEMPLATE,
+    HIDDEN_RUN_TEMPLATE,
   ],
 };
 

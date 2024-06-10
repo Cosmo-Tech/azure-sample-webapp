@@ -25,7 +25,11 @@ export const WORKSPACE_EXAMPLE = {
   solution: {
     solutionId: 'SOL-stubbedbrwy',
     runTemplateFilter: ['1', '2', '3'],
-    defaultRunTemplateDataset: null,
+    defaultRunTemplateDataset: {
+      1: 'd-kjg7drjjm48p',
+      2: 'd-8q7mwq1q17v7',
+      3: 'd-63mkreqmqg0',
+    },
   },
   id: 'W-stbbdbrwry',
   description: 'Stubbed workspace for Brewery Demo',
@@ -51,7 +55,7 @@ export const WORKSPACE_EXAMPLE = {
   sendInputToDataWarehouse: true,
   useDedicatedEventHubNamespace: true,
   sendScenarioMetadataToEventHub: true,
-  security: { default: ROLES.SCENARIO.ADMIN, accessControlList: [] },
+  security: { default: ROLES.RUNNER.ADMIN, accessControlList: [] },
   linkedDatasetIdList: DEFAULT_DATASETS_LIST.map((dataset) => dataset.id),
 };
 
