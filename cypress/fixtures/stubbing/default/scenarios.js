@@ -3,7 +3,7 @@
 import { ROLES } from '../../../commons/constants/generic/TestConstants';
 
 export const SCENARIO_EXAMPLE = {
-  id: 's-stubbedscnr00',
+  id: 'r-stubbedscnr00',
   name: 'Test Cypress - Stubbed scenario 0',
   description: null,
   tags: null,
@@ -26,33 +26,33 @@ export const SCENARIO_EXAMPLE = {
   parentLastRun: null,
   rootLastRun: null,
   validationStatus: 'Draft',
-  security: { default: ROLES.SCENARIO.ADMIN, accessControlList: [] },
+  security: { default: ROLES.RUNNER.ADMIN, accessControlList: [] },
 };
 
 export const DEFAULT_SCENARIOS_LIST = [
   {
     ...SCENARIO_EXAMPLE,
-    id: 's-stubbedscnr01',
+    id: 'r-stubbedscnr01',
     name: 'Test Cypress - Stubbed scenario 1',
   },
   {
     ...SCENARIO_EXAMPLE,
-    id: 's-stubbedscnr02',
+    id: 'r-stubbedscnr02',
     name: 'Test Cypress - Stubbed scenario 2',
   },
   {
     ...SCENARIO_EXAMPLE,
-    id: 's-stubbedscnr03',
+    id: 'r-stubbedscnr03',
     name: 'Test Cypress - Stubbed scenario 3',
   },
   {
     ...SCENARIO_EXAMPLE,
-    id: 's-stubbedscnr04',
+    id: 'r-stubbedscnr04',
     name: 'Test Cypress - Stubbed scenario 4',
   },
   {
     ...SCENARIO_EXAMPLE,
-    id: 's-stubbedscnr05',
+    id: 'r-stubbedscnr05',
     name: 'Test Cypress - Stubbed scenario 5',
   },
 ];

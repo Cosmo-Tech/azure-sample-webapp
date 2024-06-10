@@ -7,23 +7,14 @@ import { stub } from '../../commons/services/stubbing';
 import { DEFAULT_SCENARIOS_LIST } from '../../fixtures/stubbing/default';
 
 describe('Scenario view PowerBI report', () => {
-  before(() => {
-    stub.start();
-  });
-
-  beforeEach(() => {
-    Login.login();
-    stub.reset();
-  });
-
-  after(() => {
-    stub.stop();
-  });
+  before(() => stub.start());
+  beforeEach(() => Login.login());
+  afterEach(() => stub.reset());
+  after(() => stub.stop());
 
   const { id: scenarioId } = DEFAULT_SCENARIOS_LIST[0];
   const runOptions = {
     runDuration: 1000,
-    dataIngestionDuration: 1000,
     finalStatus: 'Successful',
     expectedPollsCount: 2,
   };

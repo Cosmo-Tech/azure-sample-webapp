@@ -38,10 +38,10 @@ WORKSPACE_WITH_DATASET_MANAGER.webApp.options.datasetManager = {
 };
 
 const usersAccess = [
-  { id: USERS_LIST[0].email, role: ROLES.SCENARIO.ADMIN },
-  { id: USERS_LIST[1].email, role: ROLES.SCENARIO.VIEWER },
-  { id: USERS_LIST[2].email, role: ROLES.SCENARIO.EDITOR },
-  { id: USERS_LIST[3].email, role: ROLES.SCENARIO.ADMIN },
+  { id: USERS_LIST[0].email, role: ROLES.RUNNER.ADMIN },
+  { id: USERS_LIST[1].email, role: ROLES.RUNNER.VIEWER },
+  { id: USERS_LIST[2].email, role: ROLES.RUNNER.EDITOR },
+  { id: USERS_LIST[3].email, role: ROLES.RUNNER.ADMIN },
 ];
 
 export const WORKSPACE_WITH_USERS_LIST = {

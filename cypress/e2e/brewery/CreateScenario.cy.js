@@ -9,12 +9,7 @@ import {
   DATASET,
   RUN_TEMPLATE,
 } from '../../commons/constants/brewery/TestConstants';
-import {
-  URL_REGEX,
-  PAGE_NAME,
-  URL_ROOT,
-  SCENARIO_RUN_IN_PROGRESS,
-} from '../../commons/constants/generic/TestConstants';
+import { API_REGEX, SCENARIO_RUN_IN_PROGRESS } from '../../commons/constants/generic/TestConstants';
 
 describe('Create scenario', () => {
   const randomString = utils.randomStr(5);
@@ -22,7 +17,7 @@ describe('Create scenario', () => {
   const scenarioChildName = 'Test Cypress - Scenario creation - Child - ' + randomString;
   const scenarioWithBasicTypesName = 'Test Cypress - Scenario creation - Basic types - ' + randomString;
   const otherScenarioName = 'Test Cypress - Scenario creation - Another scenario - ' + randomString;
-  let scenarioMasterId, scenarioChildId, scenarioWithBasicTypesId, otherScenarioId, anotherScenarioUrlRegex;
+  let scenarioMasterId, scenarioChildId, scenarioWithBasicTypesId, otherScenarioId;
 
   const stock = utils.randomNmbr(BAR_PARAMETERS_RANGE.STOCK.MIN, BAR_PARAMETERS_RANGE.STOCK.MAX);
   const restock = utils.randomNmbr(BAR_PARAMETERS_RANGE.RESTOCK.MIN, BAR_PARAMETERS_RANGE.RESTOCK.MAX);
@@ -43,7 +38,6 @@ describe('Create scenario', () => {
     Scenarios.createScenario(otherScenarioName, true, DATASET.BREWERY_ADT, RUN_TEMPLATE.BREWERY_PARAMETERS).then(
       (value) => {
         otherScenarioId = value.scenarioCreatedId;
-        anotherScenarioUrlRegex = new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/${otherScenarioId}`);
       }
     );
   });
@@ -131,39 +125,27 @@ describe('Create scenario', () => {
         BreweryParameters.getWaitersInput().clear().type(waiters);
 
         // Update and launch scenario master
-        cy.intercept('PATCH', URL_REGEX.SCENARIO_PAGE_WITH_ID).as('requestEditScenario');
-        cy.intercept('POST', URL_REGEX.SCENARIO_PAGE_RUN_WITH_ID).as('requestRunScenario');
+        cy.intercept('PATCH', API_REGEX.RUNNER).as('requestEditScenario');
+        cy.intercept('POST', API_REGEX.START_RUNNER).as('requestRunScenario');
 
         ScenarioParameters.launch();
 
         cy.wait('@requestEditScenario').should((value) => {
-          const { name: nameGet, id: idGet, parametersValues: paramsGet, state } = value.response.body;
+          const { name: nameGet, id: idGet, parametersValues: paramsGet } = value.response.body;
           const stockGet = parseFloat(paramsGet.find((obj) => obj.parameterId === 'stock').value);
           const restockGet = parseFloat(paramsGet.find((obj) => obj.parameterId === 'restock_qty').value);
           const waitersGet = parseFloat(paramsGet.find((obj) => obj.parameterId === 'nb_waiters').value);
           expect(nameGet).equal(scenarioName);
-          expect(state).equal('Created');
           expect(idGet).equal(scenarioMasterId);
           expect(stockGet).equal(stock);
           expect(restockGet).equal(restock);
           expect(waitersGet).equal(waiters);
         });
 
-        cy.wait('@requestRunScenario').should((value) => {
-          expect(value.response.body.scenarioId).equal(scenarioMasterId);
-        });
-
         Scenarios.getDashboardPlaceholder().should('have.text', SCENARIO_RUN_IN_PROGRESS);
 
         // Switch to another scenario then come back to the first scenario
-        cy.intercept('GET', anotherScenarioUrlRegex).as('requestUpdateCurrentScenario2');
         ScenarioSelector.selectScenario(otherScenarioName, otherScenarioId);
-
-        cy.wait('@requestUpdateCurrentScenario2')
-          .its('response')
-          .its('body')
-          .its('name')
-          .should('equal', otherScenarioName);
 
         ScenarioSelector.getScenarioSelectorInput().should('value', otherScenarioName);
 
@@ -226,14 +208,7 @@ describe('Create scenario', () => {
         });
 
         // Switch to another scenario then come back to the first scenario
-        cy.intercept('GET', anotherScenarioUrlRegex).as('requestUpdateCurrentScenario2');
-
         ScenarioSelector.selectScenario(otherScenarioName, otherScenarioId);
-
-        cy.wait('@requestUpdateCurrentScenario2').should((value) => {
-          const nameGet = value.response.body.name;
-          expect(nameGet).equal(otherScenarioName);
-        });
 
         ScenarioSelector.getScenarioSelectorInput().should('value', otherScenarioName);
         ScenarioSelector.selectScenario(scenarioChildName, scenarioChildId);
@@ -331,13 +306,13 @@ describe('Create scenario', () => {
       .type('{moveToStart}' + endDateValue);
     BreweryParameters.moveAverageConsumptionSlider(sliderValue);
     // update and launch
-    cy.intercept('PATCH', URL_REGEX.SCENARIO_PAGE_WITH_ID).as('requestEditScenario');
-    cy.intercept('POST', URL_REGEX.SCENARIO_PAGE_RUN_WITH_ID).as('requestRunScenario');
+    cy.intercept('PATCH', API_REGEX.RUNNER).as('requestEditScenario');
+    cy.intercept('POST', API_REGEX.START_RUNNER).as('requestRunScenario');
 
     ScenarioParameters.launch();
 
     cy.wait('@requestEditScenario').should((value) => {
-      const { name: nameGet, id: idGet, parametersValues: paramsGet, state } = value.response.body;
+      const { name: nameGet, id: idGet, parametersValues: paramsGet } = value.response.body;
       const textGet = paramsGet.find((obj) => obj.parameterId === 'currency_name').value;
       const numberGet = parseFloat(paramsGet.find((obj) => obj.parameterId === 'currency_value').value);
       const enumGet = paramsGet.find((obj) => obj.parameterId === 'currency').value;
@@ -349,7 +324,6 @@ describe('Create scenario', () => {
         new Date(paramsGet.find((obj) => obj.parameterId === 'end_date').value)
       );
       const sliderNumberGet = paramsGet.find((obj) => obj.parameterId === 'average_consumption').value;
-      expect(state).equal('Created');
       expect(nameGet).equal(scenarioCreatedName);
       expect(idGet).equal(scenarioWithBasicTypesId);
       expect(textGet).equal(textValue);
@@ -359,10 +333,6 @@ describe('Create scenario', () => {
       expect(startDateGet).equal(startDateValue);
       expect(endDateGet).equal(endDateValue);
       expect(sliderNumberGet).equal(sliderValue.toString());
-    });
-
-    cy.wait('@requestRunScenario').should((value) => {
-      expect(value.response.body.scenarioId).equal(scenarioWithBasicTypesId);
     });
 
     // Check parameters values in read only mode
