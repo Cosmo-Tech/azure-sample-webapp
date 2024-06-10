@@ -27,5 +27,5 @@ export const DEFAULT_RUNNER = {
   parentLastRun: null,
   rootLastRun: null,
   validationStatus: null,
-  security: { default: ROLES.SCENARIO.ADMIN, accessControlList: [] },
+  security: { default: ROLES.RUNNER.ADMIN, accessControlList: [] },
 };
