@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { Scenarios, ScenarioParameters, ErrorBanner, Login } from '../../commons/actions';
-import { URL_REGEX } from '../../commons/constants/generic/TestConstants';
+import { API_REGEX } from '../../commons/constants/generic/TestConstants';
 import { stub } from '../../commons/services/stubbing';
 
 describe('Displaying error banner on run scenario fail', () => {
@@ -18,7 +18,7 @@ describe('Displaying error banner on run scenario fail', () => {
   });
 
   it('can display error banner and dismiss it', () => {
-    cy.intercept('POST', URL_REGEX.SCENARIO_PAGE_RUN_WITH_ID, {
+    cy.intercept('POST', API_REGEX.START_RUNNER, {
       statusCode: 400,
       body: {
         title: 'Bad Request',

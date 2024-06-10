@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 import utils from '../../commons/TestUtils';
 import { Login, ScenarioManager, Scenarios } from '../../commons/actions';
-import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
 import { stub } from '../../commons/services/stubbing';
 import { setup } from '../../commons/utils';
 import { SCENARIO_WITH_DESCRIPTION_AND_TAGS } from '../../fixtures/stubbing/DescriptionAndTags/scenarios';
+import { DEFAULT_DATASETS_LIST, DEFAULT_SOLUTION } from '../../fixtures/stubbing/default';
 
 describe('Scenario tags and description', () => {
   before(() => {
@@ -25,12 +25,14 @@ describe('Scenario tags and description', () => {
   const tags = SCENARIO_WITH_DESCRIPTION_AND_TAGS.tags;
   it('can display and edit existing tags and description', () => {
     const newScenarioDescription = 'Edited scenario description';
-    const validateDescriptionRequest = (req) => expect(req.body).to.deep.equal({ description: newScenarioDescription });
-    const validateDeleteDescriptionRequest = (req) => expect(req.body).to.deep.equal({ description: '' });
+    const validateDescriptionRequest = (req) =>
+      expect(req.body).to.deep.equal({ description: newScenarioDescription, runTemplateId: '1' });
+    const validateDeleteDescriptionRequest = (req) =>
+      expect(req.body).to.deep.equal({ description: '', runTemplateId: '1' });
 
     const newScenarioTag = 'newTag';
     const newTagsList = [...tags, newScenarioTag];
-    const validateTagsRequest = (req) => expect(req.body).to.deep.equal({ tags: newTagsList });
+    const validateTagsRequest = (req) => expect(req.body).to.deep.equal({ tags: newTagsList, runTemplateId: '1' });
 
     ScenarioManager.switchToScenarioManager();
     ScenarioManager.getScenarioAccordion(scenarioId).click();
@@ -38,7 +40,8 @@ describe('Scenario tags and description', () => {
     ScenarioManager.saveScenarioTag(scenarioId, newScenarioTag, validateTagsRequest);
     newTagsList.forEach((tagToDelete, index) => {
       const tagsToDelete = newTagsList.slice(index + 1);
-      const validateDeleteTagRequest = (req) => expect(req.body).to.deep.equal({ tags: tagsToDelete });
+      const validateDeleteTagRequest = (req) =>
+        expect(req.body).to.deep.equal({ tags: tagsToDelete, runTemplateId: '1' });
       ScenarioManager.deleteScenarioTag(scenarioId, 0, validateDeleteTagRequest);
     });
     ScenarioManager.checkScenarioTagsChips([], scenarioId);
@@ -63,8 +66,8 @@ describe('Scenario tags and description', () => {
     Scenarios.createScenario(
       scenarioName,
       true,
-      DATASET.BREWERY_STORAGE,
-      RUN_TEMPLATE.BREWERY_PARAMETERS,
+      DEFAULT_DATASETS_LIST[0].name,
+      DEFAULT_SOLUTION.runTemplates[0].name,
       scenarioDescription,
       scenarioTags
     ).then((response) => {

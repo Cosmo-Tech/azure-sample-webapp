@@ -5,7 +5,7 @@ import { SCENARIO_EXAMPLE } from '../default';
 export const SCENARIOS = [
   {
     ...SCENARIO_EXAMPLE,
-    id: 's-stubbedscnr01',
+    id: 'r-stubbedscnr01',
     name: 'Test Cypress - Scenario with dates initialized',
     runTemplateId: 'dates',
     runTemplateName: 'Run template with dates',
@@ -26,14 +26,14 @@ export const SCENARIOS = [
   },
   {
     ...SCENARIO_EXAMPLE,
-    id: 's-stubbedscnr02',
+    id: 'r-stubbedscnr02',
     name: 'Test Cypress - Scenario with dates NOT initialized',
     runTemplateId: 'dates',
     runTemplateName: 'Run template with dates',
   },
   {
     ...SCENARIO_EXAMPLE,
-    id: 's-stubbedscnr03',
+    id: 'r-stubbedscnr03',
     name: 'Test Cypress - Scenario 2 with dates NOT initialized',
     runTemplateId: 'dates',
     runTemplateName: 'Run template with dates',

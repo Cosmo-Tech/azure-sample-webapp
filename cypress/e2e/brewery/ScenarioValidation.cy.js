@@ -3,11 +3,11 @@
 import utils from '../../commons/TestUtils';
 import { Scenarios, ScenarioManager, ScenarioSelector, Login } from '../../commons/actions';
 import { BreweryParameters } from '../../commons/actions/brewery';
-import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
 import { stub } from '../../commons/services/stubbing';
+import { DEFAULT_DATASETS_LIST, BASIC_TYPES_PARAMETERS_RUN_TEMPLATE } from '../../fixtures/stubbing/default';
 
-const SCENARIO_DATASET = DATASET.BREWERY_STORAGE;
-const SCENARIO_RUN_TEMPLATE = RUN_TEMPLATE.BASIC_TYPES;
+const SCENARIO_DATASET = DEFAULT_DATASETS_LIST[0].name;
+const SCENARIO_RUN_TEMPLATE = BASIC_TYPES_PARAMETERS_RUN_TEMPLATE.name;
 
 describe('Scenario validation', () => {
   before(() => {

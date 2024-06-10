@@ -19,7 +19,7 @@ const _navigateTo = (url) => {
 const getBrowseQueries = (workspaceId, scenarioId, isPowerBiEnabled) => {
   const queries = api.interceptWorkspaceSelectorQueries();
   if (workspaceId) queries.push(...api.interceptSelectWorkspaceQueries(isPowerBiEnabled));
-  if (scenarioId) queries.push(api.interceptGetScenario(scenarioId));
+  if (scenarioId) queries.push(api.interceptGetRunner(scenarioId));
   return queries;
 };
 
@@ -74,8 +74,7 @@ const browse = (options) => {
 const go = (direction, options) => {
   const aliases = [];
   if (options?.workspaceId) aliases.push(...api.interceptSelectWorkspaceQueries());
-  if (options?.scenarioId) aliases.push(api.interceptGetScenario(options?.scenarioId));
-
+  if (options?.workspaceId && options?.scenarioId) aliases.push(api.interceptGetRunner(options.scenarioId));
   cy.go(direction);
   options?.workspaceId && cy.url({ timeout: 3000 }).should('include', `/${options?.workspaceId}`);
   options?.scenarioId && cy.url({ timeout: 3000 }).should('include', `/${options?.scenarioId}`);
