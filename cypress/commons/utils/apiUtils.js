@@ -290,17 +290,6 @@ const interceptGetRunners = () => {
   return alias;
 };
 
-const interceptGetRunnersAndStatuses = () => {
-  const aliases = [interceptGetRunners()];
-  if (!stub.isEnabledFor('GET_SCENARIOS')) return aliases;
-
-  const stubbedScenariosWithLastRuns = stub.getScenarios().filter((scenario) => scenario.lastRunId);
-  const queriesToIntercept = stubbedScenariosWithLastRuns.length;
-  if (queriesToIntercept > 0) aliases.push(interceptGetRunnerRunState(queriesToIntercept));
-
-  return aliases;
-};
-
 const interceptCreateSimulationRunner = () => {
   const alias = forgeAlias('reqCreateRunner');
   cy.intercept({ method: 'POST', url: API_REGEX.RUNNERS, times: 1 }, (req) => {
@@ -946,7 +935,7 @@ const interceptWorkspaceSelectorQueries = () => {
 };
 
 const interceptSelectWorkspaceQueries = (isPowerBiEnabled = true) => {
-  const workspaceQueries = [interceptGetSolution(), ...interceptGetRunnersAndStatuses()];
+  const workspaceQueries = [interceptGetSolution(), interceptGetRunners()];
   if (isPowerBiEnabled) workspaceQueries.push(interceptPowerBIAzureFunction());
   return workspaceQueries;
 };
@@ -999,6 +988,16 @@ export const apiUtils = {
   interceptUpdateScenarioSecurity,
   interceptUpdateDatasetDefaultSecurity,
   interceptUpdateDatasetACLSecurity,
+  interceptGetRunners,
+  interceptCreateSimulationRunner,
+  interceptGetRunner,
+  interceptDeleteRunner,
+  interceptUpdateSimulationRunner,
+  interceptStartRunner,
+  interceptStopRunner,
+  interceptGetRunnerRunState,
+  interceptUpdateSimulationRunnerDefaultSecurity,
+  interceptUpdateSimulationRunnerACLSecurity,
   interceptGetRunners,
   interceptCreateSimulationRunner,
   interceptGetRunner,
