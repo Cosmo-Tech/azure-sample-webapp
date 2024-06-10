@@ -23,7 +23,6 @@ describe('Scenario view PowerBI report', () => {
   const { id: scenarioId } = DEFAULT_SCENARIOS_LIST[0];
   const runOptions = {
     runDuration: 1000,
-    dataIngestionDuration: 1000,
     finalStatus: 'Successful',
     expectedPollsCount: 2,
   };
