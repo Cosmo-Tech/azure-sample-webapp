@@ -13,10 +13,10 @@ function getDeleteScenarioButton() {
   return cy.get(GENERIC_SELECTORS.scenario.manager.button.delete);
 }
 function deleteScenario(scenarioName, isRunning = false) {
-  const getScenarioToDeleteAlias = api.interceptGetScenario();
-  const deleteScenarioAlias = api.interceptDeleteScenario(scenarioName);
-  const reqStopScenarioRunAlias = isRunning && api.interceptStopScenarioRun();
-  const getScenariosAlias = api.interceptGetScenarios();
+  const getScenarioToDeleteAlias = api.interceptGetRunner();
+  const getScenarioToDeleteStateAlias = isRunning && api.interceptGetRunnerRunState(1);
+  const deleteScenarioAlias = api.interceptDeleteRunner(scenarioName);
+  const reqStopScenarioRunAlias = isRunning && api.interceptStopRunner();
 
   writeInFilter(scenarioName);
   getDeleteScenarioButton().click();
@@ -24,8 +24,10 @@ function deleteScenario(scenarioName, isRunning = false) {
 
   api.waitAlias(getScenarioToDeleteAlias);
   api.waitAlias(deleteScenarioAlias);
-  if (isRunning) api.waitAlias(reqStopScenarioRunAlias);
-  api.waitAlias(getScenariosAlias);
+  if (isRunning) {
+    api.waitAlias(getScenarioToDeleteStateAlias);
+    api.waitAlias(reqStopScenarioRunAlias);
+  }
 }
 
 function deleteScenarioList(scenarioNamesToDelete) {
@@ -107,7 +109,7 @@ function getScenarioViewRedirect(scenarioId) {
 
 function openScenarioFromScenarioManager(scenarioId) {
   getScenarioViewRedirect(scenarioId).should('exist');
-  api.interceptGetScenario(scenarioId);
+  api.interceptGetRunner(scenarioId);
   getScenarioViewRedirect(scenarioId).click();
   cy.url({ timeout: 5000 }).should('include', `/scenario/${scenarioId}`);
 }

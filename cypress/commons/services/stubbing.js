@@ -82,6 +82,7 @@ const DEFAULT_SCENARIO_RUNS_OPTIONS = {
   dataIngestionDuration: 0,
   finalStatus: 'Successful',
   expectedPollsCount: 1,
+  startTime: new Date(),
 };
 
 // Default stubbing options to fake dataset import jobs. By default, the dataset import will end immediately with a
@@ -316,6 +317,8 @@ class Stubbing {
     newScenarioRun.status = forgeScenarioRunStatus(newScenarioRun);
     this._addResource('scenarioRuns', newScenarioRun);
   };
+  patchScenarioRun = (scenarioRunId, scenarioRunPatch) =>
+    this._patchResourceById('scenarioRuns', scenarioRunId, scenarioRunPatch);
   getScenarioRunById = (runId) => this._getResourceById('scenarioRuns', runId);
 
   getWorkspaces = () => this._getResources('workspaces');

@@ -8,6 +8,11 @@ import { stub } from '../../commons/services/stubbing';
 
 const firstScenarioName = 'Test Cypress - Cancel run - ' + utils.randomStr(7);
 const secondScenarioName = 'Test Cypress - delete during run - ' + utils.randomStr(7);
+const runOptions = {
+  runDuration: 5000,
+  finalStatus: 'Successful',
+  expectedPollsCount: 2,
+};
 describe('can cancel simulation run', () => {
   before(() => {
     stub.start();
@@ -20,13 +25,6 @@ describe('can cancel simulation run', () => {
   after(() => {
     stub.stop();
   });
-
-  const runOptions = {
-    runDuration: 5000,
-    dataIngestionDuration: 1000,
-    finalStatus: 'Successful',
-    expectedPollsCount: 2,
-  };
 
   it('creates scenario, launches it and cancels the simulation run', () => {
     Scenarios.createScenario(firstScenarioName, true, DATASET.BREWERY_ADT, RUN_TEMPLATE.BREWERY_PARAMETERS);
@@ -44,6 +42,20 @@ describe('can cancel simulation run', () => {
     ScenarioParameters.getStopScenarioRunButton().should('not.exist');
     ScenarioParameters.getLaunchButton().should('be.visible');
     Scenarios.getDashboardPlaceholder().should('have.text', FAILED_SCENARIO_RUN);
+  });
+});
+
+describe('can cancel simulation run before delete', () => {
+  before(() => {
+    stub.start();
+  });
+
+  beforeEach(() => {
+    Login.login();
+  });
+
+  after(() => {
+    stub.stop();
   });
 
   it('create scenario, launch it and delete it during it is running', () => {
