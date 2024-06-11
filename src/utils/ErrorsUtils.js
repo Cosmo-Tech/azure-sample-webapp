@@ -34,6 +34,8 @@ export const parseError = (error) => {
       status: error.request.status,
       detail: error.request.response,
     };
+  } else if (_isString(error?.message)) {
+    return { title: 'Error', status: null, detail: error.message };
   }
 
   return {
