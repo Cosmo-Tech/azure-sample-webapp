@@ -22,6 +22,7 @@ const Instance = () => {
   const theme = useTheme();
   const { t } = useTranslation();
   const {
+    datasets,
     organizationId,
     workspaceId,
     currentScenario,
@@ -65,7 +66,15 @@ const Instance = () => {
         setIsLoadingData(false);
       } else {
         try {
-          const scenario = await fetchData(instanceViewConfig, organizationId, workspaceId, currentScenario.data?.id);
+          if (!currentScenario.data) return;
+
+          const scenario = await fetchData(
+            instanceViewConfig,
+            organizationId,
+            workspaceId,
+            currentScenario.data,
+            datasets
+          );
           if (!active) return;
           if (scenario.error) throw Error(scenario.error);
 
