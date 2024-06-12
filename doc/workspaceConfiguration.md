@@ -43,3 +43,6 @@ data:
   represents the id of a dataset; this is a whitelist of datasets to show in the scenario creation pop-up. If the
   parameter is null or if the list is empty, then the filter is ignored and all datasets with the tag `dataset` will be
   shown.
+  > **Warning**
+  >
+  > This property `[workspace].webApp.options.datasetFilter` is deprecated. Please use the Cosmo Tech API to link or unlink dataset to the workspace
