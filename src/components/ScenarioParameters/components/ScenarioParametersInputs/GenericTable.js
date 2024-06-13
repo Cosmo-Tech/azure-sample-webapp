@@ -8,14 +8,16 @@ import equal from 'fast-deep-equal';
 import rfdc from 'rfdc';
 import { AgGridUtils, FileBlobUtils } from '@cosmotech/core';
 import { Table, TABLE_DATA_STATUS, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
+import { Api } from '../../../../services/config/Api';
+import { useSetApplicationErrorMessage } from '../../../../state/hooks/ApplicationHooks';
 import { useOrganizationId } from '../../../../state/hooks/OrganizationHooks.js';
+import { useCurrentScenarioDatasetList } from '../../../../state/hooks/ScenarioHooks';
 import { useWorkspaceId } from '../../../../state/hooks/WorkspaceHooks.js';
 import { gridLight, gridDark } from '../../../../theme/';
 import { ConfigUtils, TranslationUtils } from '../../../../utils';
 import { FileManagementUtils } from '../../../../utils/FileManagementUtils';
 import { TableUtils } from '../../../../utils/TableUtils';
-import { TableExportDialog } from './components';
-import { TableDeleteRowsDialog } from './components/TableDeleteRowsDialog';
+import { TableExportDialog, TableRevertDataDialog, TableDeleteRowsDialog } from './components';
 
 const clone = rfdc();
 
@@ -53,6 +55,8 @@ export const GenericTable = ({
   const workspaceId = useWorkspaceId();
   const datasets = useSelector((state) => state.dataset?.list?.data);
   const scenarioId = useSelector((state) => state.scenario?.current?.data?.id);
+  const currentScenarioDatasetList = useCurrentScenarioDatasetList();
+  const setApplicationErrorMessage = useSetApplicationErrorMessage();
   const canChangeRowsNumber = ConfigUtils.getParameterAttribute(parameterData, 'canChangeRowsNumber') ?? false;
 
   const parameterId = parameterData.id;
@@ -86,6 +90,7 @@ export const GenericTable = ({
     addRow: t('genericcomponent.table.labels.addRow', 'Add a new row'),
     deleteRows: t('genericcomponent.table.labels.deleteRows', 'Remove selected rows'),
     fullscreen: t('genericcomponent.table.labels.fullscreen', 'Fullscreen'),
+    revert: t('genericcomponent.table.labels.revert', 'Revert'),
   };
   const tableExportDialogLabels = {
     cancel: t('genericcomponent.table.export.labels.cancel', 'Cancel'),
@@ -116,7 +121,7 @@ export const GenericTable = ({
 
   // Store last parameter in a ref
   // Update a state is async, so, in case of multiple call of updateParameterValue in same function
-  // parameter state value will be update only in last call.
+  // parameter state value will be updated only in last call.
   // We need here to use a ref value for be sure to have the good value.
   const lastNewParameterValue = useRef(parameter);
   const updateParameterValue = useCallback(
@@ -187,6 +192,97 @@ export const GenericTable = ({
       return true;
     }
     return false;
+  };
+
+  const isDataFetchedFromDataset = !!parameterData?.options?.dynamicValues;
+
+  const _getDataFromTwingraphDataset = async (setClientFileDescriptor) => {
+    const fileName = `${parameterData.id}.csv`;
+    setClientFileDescriptor({
+      file: null,
+      content: null,
+      agGridRows: null,
+      errors: null,
+      tableDataStatus: TABLE_DATA_STATUS.DOWNLOADING,
+    });
+    if (_checkForLock()) {
+      return;
+    }
+    GenericTable.downloadLocked[lockId] = true;
+    try {
+      if (!currentScenarioDatasetList || currentScenarioDatasetList?.length === 0)
+        throw new Error(
+          t(
+            'genericcomponent.table.labels.noDatasetsError',
+            'Impossible to fetch data from dataset because the list of datasets is empty'
+          )
+        );
+      const sourceDatasetId = currentScenarioDatasetList[0];
+      const dynamicValuesConfig = ConfigUtils.getParameterAttribute(parameterData, 'dynamicValues');
+      const query = dynamicValuesConfig?.query;
+      if (!query)
+        throw new Error(
+          t(
+            'genericcomponent.table.labels.noQueryError',
+            'Impossible to fetch data from dataset because there is no twingraph query defined for this parameter. ' +
+              'You can load data manually using Import button'
+          )
+        );
+      const resultKey = dynamicValuesConfig?.resultKey;
+      const { data } = await Api.Datasets.twingraphQuery(organizationId, sourceDatasetId, { query });
+      if (data.length === 0)
+        throw new Error(
+          t(
+            'genericcomponent.table.labels.wrongQueryError',
+            'Returned result is empty, there is probably an error in your query configuration. ' +
+              'Please, check your solution'
+          )
+        );
+      const rowsDict = data.map((row) => row[resultKey]);
+      if (rowsDict.includes(undefined))
+        throw new Error(
+          t(
+            'genericcomponent.table.labels.wrongResultKeyError',
+            `Returned result doesn't have ${resultKey} property. 
+      Probably there is an error in resultKey configuration, please, check your solution`,
+            { resultKey }
+          )
+        );
+      const csvRows = AgGridUtils.toCSV(rowsDict, columns);
+      const agGridData = _generateGridDataFromCSV(csvRows, parameterData);
+      if (agGridData.error) {
+        setClientFileDescriptor({
+          tableDataStatus: TABLE_DATA_STATUS.ERROR,
+          errors: agGridData.error,
+        });
+      } else
+        setClientFileDescriptor({
+          name: fileName,
+          file: null,
+          agGridRows: agGridData.rows,
+          errors: null,
+          status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD,
+          tableDataStatus: TABLE_DATA_STATUS.READY,
+          uploadPreprocess: { content: _uploadPreprocess },
+        });
+    } catch (error) {
+      const errorComment = error?.response?.status
+        ? t(
+            'genericcomponent.table.labels.notTwingraphDatasetError',
+            'Only twingraph datasets can be used to fetch table data dynamically'
+          )
+        : '';
+      setApplicationErrorMessage(error, errorComment);
+      setClientFileDescriptor({
+        file: null,
+        content: null,
+        agGridRows: null,
+        errors: null,
+        tableDataStatus: TABLE_DATA_STATUS.ERROR,
+      });
+    }
+
+    GenericTable.downloadLocked[lockId] = false;
   };
 
   const _downloadDatasetFileContentFromStorage = async (
@@ -400,6 +496,8 @@ export const GenericTable = ({
   const [isExportDialogOpen, setIsExportDialogOpen] = useState(false);
   const openExportDialog = () => setIsExportDialogOpen(true);
   const closeExportDialog = () => setIsExportDialogOpen(false);
+  const [isRevertDialogOpen, setIsRevertDialogOpen] = useState(false);
+  const closeRevertDialog = () => setIsRevertDialogOpen(false);
   const exportCSV = useCallback(
     (fileName) => {
       const fileContent = AgGridUtils.toCSV(parameter.agGridRows, columns, options);
@@ -486,6 +584,13 @@ export const GenericTable = ({
         parameter,
         updateParameterValueWithReset
       );
+    } else if (
+      isDataFetchedFromDataset &&
+      !parameter.content &&
+      parameter.status === UPLOAD_FILE_STATUS_KEY.EMPTY &&
+      !alreadyDownloaded
+    ) {
+      _getDataFromTwingraphDataset(updateParameterValueWithReset);
     }
   });
 
@@ -567,6 +672,25 @@ export const GenericTable = ({
     } else deleteRow();
   }, [deleteRow]);
 
+  const revertTableWithDatasetData = useCallback(
+    (isChecked) => {
+      localStorage.setItem('dontAskAgainToRevertTableData', isChecked);
+      closeRevertDialog();
+      // To trigger isDirty state when an already saved table was reverted and avoid it in other cases, we need to
+      // updateParameterValue setter and updateOnFirstEdition function that triggers the start of edition; on the other
+      // hand, updateParameterValueWithReset setter rollbacks modified values without triggering isDirty
+      _getDataFromTwingraphDataset(parameter.id ? updateParameterValue : updateParameterValueWithReset);
+      if (parameter.id) updateOnFirstEdition();
+    },
+    // eslint-disable-next-line
+    [parameter.id, updateParameterValue, updateParameterValueWithReset, updateOnFirstEdition]
+  );
+
+  const onRevertTableData = useCallback(() => {
+    if (localStorage.getItem('dontAskAgainToRevertTableData') !== 'true') setIsRevertDialogOpen(true);
+    else revertTableWithDatasetData('true');
+  }, [setIsRevertDialogOpen, revertTableWithDatasetData]);
+
   return (
     <>
       <TableExportDialog
@@ -594,6 +718,7 @@ export const GenericTable = ({
         onExport={openExportDialog}
         onAddRow={canChangeRowsNumber ? onAddRow : null}
         onDeleteRow={canChangeRowsNumber ? onDeleteRow : null}
+        onRevert={isDataFetchedFromDataset ? onRevertTableData : null}
         onCellChange={onCellChange}
         onClearErrors={onClearErrors}
         buildErrorsPanelTitle={buildErrorsPanelTitle}
@@ -609,6 +734,11 @@ export const GenericTable = ({
           deleteRow();
         }}
         selectedRowsCount={selectedRowsRef.current?.length ?? 0}
+      />
+      <TableRevertDataDialog
+        onClose={closeRevertDialog}
+        onConfirm={(isChecked) => revertTableWithDatasetData(isChecked)}
+        open={isRevertDialogOpen}
       />
     </>
   );

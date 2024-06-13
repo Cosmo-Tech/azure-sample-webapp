@@ -738,7 +738,13 @@
         "export": "Export",
         "addRow": "Add a new row",
         "deleteRows": "Remove selected rows",
-        "fullscreen": "Fullscreen"
+        "fullscreen": "Fullscreen",
+        "revert": "Revert",
+        "noDatasetsError": "Impossible to fetch data from dataset because the list of datasets is empty",
+        "notTwingraphDatasetError": "Only twingraph datasets can be used to fetch table data dynamically",
+        "noQueryError": "Impossible to fetch data from dataset because there is no twingraph query defined for this parameter. You can load data manually using Import button",
+        "wrongResultKeyError": "Returned result doesn't have {{resultKey}} property. Probably there is an error in resultKey configuration, please, check your solution",
+        "wrongQueryError": "Returned result is empty, there is probably an error in your query configuration. Please, check your solution"
       },
       "export": {
         "labels": {
@@ -755,6 +761,13 @@
         "body": "Are you sure you want to delete these {{count}} lines?",
         "cancel": "Cancel",
         "confirm": "Delete",
+        "checkbox": "Don't show this message again"
+      },
+      "revertDataDialog": {
+        "title": "Revert table?",
+        "body": "This will replace your data with initial dataset data.",
+        "cancel": "Cancel",
+        "revert": "Revert",
         "checkbox": "Don't show this message again"
       }
     }
