@@ -1,12 +1,129 @@
 # Instance visualization
 
-An optional view can be enabled in the webapp to display a visualization of your ADT instance. This view is disabled by
-default, and it is enabled when the value of `dataSource` in the workspace configuration is not `null`.
+This optional view can be enabled in the webapp to visualize digital twins. This view is disabled by default, and can
+be enabled by setting a valid **data source** in the workspace configuration.
 
-This document will explain how to properly set up some Azure resources (app registration and Function App) to read data
-from your ADX instance, and configure the webapp to receive instance data from your Function App.
+Integrators must choose between two modes to use this view:
+- option A: use native API features (setup is easier, but **only twingraph datasets are supported**)
+- option B: deploy a custom **Azure Function** to parse the content of datasets
 
-:information_source: Note for Azure admininistrators: for security purposes, the enterprise application of the
+## Webapp configuration
+
+### Overview
+
+In order to enable the Instance View in your webapp, you must define the key `webApp.options.instanceView` in your
+**workspace configuration file** (e.g. _Workspace.yaml_). The value of `instanceView` must be an object with two keys
+`dataSource` and `dataContent`. Here is an example of a workspace YAML file defining the instance view configuration
+(the expected format of objects `dataSource` and `dataContent` will be detailed in the next sections):
+
+```yaml
+key: 'mybreweryworkspace'
+name: 'My Brewery Workspace'
+webApp:
+  url: 'https://mybreweryworkspace.example.com'
+  options:
+    instanceView:
+      dataSource:
+        type: 'azure_function'
+        functionUrl: 'https://scenario-download-brewery-dev.azurewebsites.net/api/ScenarioDownload'
+        functionKey: 'INSERT_FUNCTION_KEY_HERE'
+      dataContent:
+        compounds:
+          Bar_vertex: {}
+        edges:
+          arc_Satisfaction:
+            style: {}
+            selectable: false
+        nodes:
+          Bar:
+            style:
+              shape: 'rectangle'
+              background-color: '#466282'
+              background-opacity: 0.2
+              border-width: 0
+            pannable: true
+            selectable: true
+            grabbable: false
+          Customer:
+            style:
+              background-color: '#005A31'
+              shape: 'ellipse'
+```
+
+### Data source
+
+The `dataSource` object defines which strategy the webapp should use to retrieve the content of the scenarios and
+datasets. It can have the following fields:
+
+- `type`: string value defining which mode to use for data source. Possibles values are:
+    - `twingraph_dataset`: the webapp will only use the Cosmo Tech API (**only supports dataset of type twingraph**)
+    - `azure_function`: the webapp will use a specific Azure Function (**requires an Azure Function to be deployed**)
+    - _(deprecated)_ `adt`: this value is deprecated, use `azure_function` instead
+- `functionUrl`: the url of your Function App, **followed by** `/api/ScenarioDownload` (only used if `type` is `azure_function`)
+- `functionKey`: the function key of your Function App; as defined in appendix A, section 2.2 (only used if `type` is `azure_function`)
+
+Examples:
+
+```yaml
+dataSource:
+  type: 'twingraph_dataset'
+```
+
+```yaml
+dataSource:
+  type: 'azure_function'
+  functionUrl: 'https://scenario-download-mybreweryworkspace.azurewebsites.net/api/ScenarioDownload'
+  functionKey: 'INSERT_FUNCTION_KEY_HERE'
+```
+
+### Data content
+
+The `dataContent` object must describe the content you want to display, grouped by type of graph elements:
+**compounds**, **edges** and **nodes**. These types are the keys of the `dataContent` object, and each of them must
+contain objects as values.
+
+For all types of graph elements, the expected format of these object values is identical:
+
+- keys define the **names of element types in your dataset** (e.g. entity types of your model)
+- values describe **style and other modifiers** to apply to this group of elements when displayed with cytoscape; these
+  modifiers will be applied via a selector (c.f. the [cytoscape documentation](https://js.cytoscape.org/#style) for the
+  list of possible customization options)
+
+The example below illustrates how to use `Bar` and `Customer` entities as nodes, `arc_Satisfaction` as arcs and
+`Bar_vertex` as parent relations between bars and customers:
+
+```yaml
+dataContent:
+  compounds:
+    Bar_vertex: {}
+  edges:
+    arc_Satisfaction:
+      style: { 'line-color': '#999999' }
+      selectable: false
+  nodes:
+    Bar:
+      style:
+        shape: 'rectangle'
+        background-color: '#466282'
+        background-opacity: 0.2
+        border-width: 0
+      pannable: true
+      selectable: true
+      grabbable: false
+    Customer:
+      style:
+        background-color: '#005A31'
+        shape: 'ellipse'
+```
+
+---
+
+# Appendix A - Azure Function data source
+
+This section explains how to properly set up some Azure resources (app registration and Function App) to read data
+from your datasets, whether they are stored in ADT, Azure storage or as a twingraph.
+
+:information_source: Note for Azure administrators: for security purposes, the enterprise application of the
 Cosmo Tech API must be configured to require assignment when requesting tokens
 
 ## 1. App registration
@@ -190,8 +307,8 @@ Now that the Function App is created, we can start its configuration:
     - enter the name of your webapp as the name of this function key (e.g. _azure-sample-webapp_)
     - leave the value empty for the key to be automatically generated
     - click on _“OK”_
-    - **copy the function key value** (with the name you have just set) and keep it for the webapp configuration in
-      section 3.1
+    - **copy the function key value** (with the name you have just set) and use it in the workspace configuration, for
+      the value of `dataSource.functionKey`
 - open the _“Authentication”_ blade
   - click on “Add identity provider“
     - Select the Identity Provider: _“Microsoft”_
@@ -218,108 +335,9 @@ Now that the Function App is created, we can start its configuration:
     - < your deployed webapp URL > (e.g. _“https://sample.app.cosmotech.com”_)
   - **click on _“Save”_ to save your changes**
 
-## 3. Webapp configuration
+# Appendix B - Troubleshooting
 
-This section describes how to configure the Instance View in your webapp. Since v5.0 of the azure-sample-webapp, this
-configuration is no longer stored in the webapp repository, it is now a part of **each workspace data**, and must be
-configured in an object, stored as `[workspace].webApp.options.instanceView`. This `instanceView` object must contain
-two objects `dataSource` and `dataContent`. Here is an example of a workspace YAML file defining the instance view
-configuration. The expected format of objects `dataSource` and `dataContent` will be detailed in the next sections.
-
-```yaml
-key: 'mybreweryworkspace'
-name: 'My Brewery Workspace'
-webApp:
-  url: 'https://mybreweryworkspace.example.com'
-  options:
-    instanceView:
-      dataSource:
-        type: 'adt'
-        functionUrl: 'https://scenario-download-brewery-dev.azurewebsites.net/api/ScenarioDownload',
-        functionKey: 'INSERT_FUNCTION_KEY_HERE'
-      dataContent:
-        compounds:
-          Bar_vertex: {}
-        edges:
-          arc_Satisfaction:
-            style: {}
-            selectable: false
-        nodes:
-          Bar:
-            style:
-              shape: 'rectangle'
-              background-color: '#466282'
-              background-opacity: 0.2
-              border-width: 0
-            pannable: true
-            selectable: true
-            grabbable: false
-          Customer:
-            style:
-              background-color: '#005A31'
-              shape: 'ellipse'
-```
-
-### 3.1 Data source - Define how to reach your Function App
-
-The `dataSource` object must define the following values:
-
-- `type`: the only supported value for now is `adt`
-- `functionUrl`: the url of your Function App, **followed by** `/api/ScenarioDownload`
-- `functionKey`: the function key that has been generated in section 2.2
-
-Example:
-
-```yaml
-dataSource:
-  type: 'adt'
-  functionUrl: 'https://scenario-download-mybreweryworkspace.azurewebsites.net/api/ScenarioDownload'
-  functionKey: 'INSERT_FUNCTION_KEY_HERE'
-```
-
-### 3.2 Data content - Describe the elements to display in the instance view
-
-The `dataContent` object must describe the content you want to display, grouped by type of graph element:
-**compounds**, **edges** and **nodes**. These types are the keys of the `dataContent` object, and each of them must
-contain objects as values.
-
-For all types of graph elements, the expected format of these object values is identical:
-
-- keys define the **name of ADX tables in your dataset**
-- values describe **style and other modifiers** to apply to this group of elements when displayed in cytoscape; these
-  modifiers will be applied via a selector (c.f. the [cytoscape documentation](https://js.cytoscape.org/#style) for the
-  list of possible customization options)
-
-The example below illustrates how to use `Bar` and `Customer` entities as nodes, `arc_Satisfaction` table as edges and
-`Bar_vertex` table for the parent relations between bars and customers:
-
-```yaml
-dataContent:
-  compounds:
-    Bar_vertex: {}
-  edges:
-    arc_Satisfaction:
-      style: { 'line-color': '#999999' }
-      selectable: false
-  nodes:
-    Bar:
-      style:
-        shape: 'rectangle'
-        background-color: '#466282'
-        background-opacity: 0.2
-        border-width: 0
-      pannable: true
-      selectable: true
-      grabbable: false
-    Customer:
-      style:
-        background-color: '#005A31'
-        shape: 'ellipse'
-```
-
-## Troubleshooting
-
-### Overriding the workspace configuration
+## Overriding the workspace configuration
 
 Updating the workspace configuration via the Cosmo Tech API (with restish or swagger) can be a slow, cumbersome and
 error-prone process. A simpler way to iterate on the instance view configuration during development is to use the file
@@ -374,7 +392,7 @@ find the
 best styles and options for your instance visualization. You can even commit these changes in your webapp repository to
 keep using this "configuration patch" in **deployed webapps** (it can be useful for feature preview environments).
 
-### Use a local Function App
+## Use a local Function App
 
 For dev and debugging purposes, you may want to run the Function App locally. In order to do it, clone the repository of
 the azure function from GitHub:
@@ -425,7 +443,7 @@ functionUrl: 'http://localhost:7071/api/ScenarioDownload',
 
 Note that you can use the file [src/config/overrides/Workspaces.js](../src/config/overrides/Workspaces.js) to override the Workspace configuration and switch temporarily the `functionUrl` value (see section "Overriding the workspace configuration" above).
 
-### Getting the error logs of your deployed Function App
+## Getting the error logs of your deployed Function App
 
 You can access the logs of your Function App from Application Insights, or from the list of functions in your Function
 App:
@@ -437,13 +455,14 @@ App:
 - open the _“Monitor”_ blade
   - **all recent errors will be displayed in the _“Invocations”_ tab**: click on an error to get the function logs
 
-### Common errors & how to fix them
+## Common errors & how to fix them
 
-#### 401 Unauthorized
+### 401 Unauthorized
 
-Check the function **URL** and **secret** in the front-end configuration file.
+Check the function **URL**, function **key** in your workspace configuration, and the **client secret** in the azure
+function configuration.
 
-#### Audience validation failed
+### Audience validation failed
 
 If you encounter the following error:
 
@@ -453,10 +472,9 @@ If you encounter the following error:
 >
 > Did not match: validationParameters.ValidAudience: [...]
 
-then you may need to change the list of allowed audiences in the Authentication panel of your Function App (refer to section 2.2 “Configuration“ of the current page).
+then you may need to change the list of allowed audiences in the Authentication panel of your Function App (refer to section 2.2 “Configuration“ of Appendix A).
 
-
-#### 500 Internal server error
+### 500 Internal server error
 
 Check the error log in your Function App to get more information on the error.
 
@@ -473,14 +491,14 @@ If the error message is **_“authentication.token.tok…ization.mailJwtClaim [.
 
 - check that your Azure Function is configured with the _Platform.Admin_ role (see section "Permissions & secrets" above, in the app registration configuration)
 
-#### Network error
+### Network error
 
 - check the Function App URL in the front-end configuration file
 - if you are using a local azure function, check that it is running and that the local port is correct
 
-## Maintenance
+# Maintenance
 
-### How to update your Function App
+## How to update your Function App
 
 You can redeploy the Function App with a newer version by changing the parameter `WEBSITE_RUN_FROM_PACKAGE`
 in the "_Configuration_" blade of your Function App page, in the Azure portal.
