@@ -12,7 +12,7 @@ import {
   getDefaultHiddenStyle,
 } from './styleCytoViz';
 
-const _formatLabelWithNewlines = (label) => label?.replace(/[_|\s]/g, '\n') || '';
+const _formatLabelWithNewlines = (label) => String(label ?? '').replace(/[_|\s]/g, '\n');
 
 const _forgeCytoscapeNodeData = (node, classes, nodesGroupMetadata = {}, nodesParentsDict = {}) => {
   const parent = nodesParentsDict[node.id];
