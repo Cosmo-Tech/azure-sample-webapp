@@ -138,7 +138,7 @@ export const processGraphElements = (instanceViewConfig, scenario, theme) => {
   return processedData;
 };
 
-async function _fetchDataFromADT(organizationId, workspaceId, scenarioId, dataSource) {
+async function _fetchDataFromAzureFunction(organizationId, workspaceId, scenarioId, dataSource) {
   const tokens = await Auth.acquireTokens();
   const headers = { 'x-functions-key': dataSource.functionKey };
   if (tokens?.accessToken) {
@@ -227,7 +227,10 @@ export async function fetchData(instanceViewConfig, organizationId, workspaceId,
 
   switch (instanceViewConfig.dataSource.type) {
     case 'adt':
-      return _fetchDataFromADT(organizationId, workspaceId, scenarioId, instanceViewConfig.dataSource);
+      console.warn('The dataSource type "adt" is deprecated, please use value "azure_function" instead.');
+    // fallthrough: adt and azure_function are equivalent
+    case 'azure_function':
+      return _fetchDataFromAzureFunction(organizationId, workspaceId, scenarioId, instanceViewConfig.dataSource);
     case 'twingraph_dataset':
       if (
         !datasets
@@ -244,7 +247,7 @@ export async function fetchData(instanceViewConfig, organizationId, workspaceId,
       return {
         error:
           `Data source type "${instanceViewConfig.dataSource.type}" is not supported in Instance view.` +
-          ' The only currently supported type is "adt"',
+          ' Supported types are "azure_function" and "twingraph_dataset"',
       };
   }
 }
