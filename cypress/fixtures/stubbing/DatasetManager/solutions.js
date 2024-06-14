@@ -7,6 +7,7 @@ export const CUSTOM_SUBDATASOURCES = [
   { id: 'enum_filter', parameterGroups: ['enumGroup'], tags: ['subdatasource'] },
   { id: 'list_filter', parameterGroups: ['listGroup'], tags: ['subdatasource'] },
   { id: 'string_filter', parameterGroups: ['stringGroup'], tags: ['subdatasource'] },
+  { id: 'date_filter', parameterGroups: ['dateGroup'], tags: ['subdatasource'] },
 ];
 
 export const SOLUTION = {
@@ -30,12 +31,14 @@ export const SOLUTION = {
       ],
     },
     { id: 'etl_string_parameter', varType: 'string' },
+    { id: 'etl_date_parameter', varType: 'date' },
   ],
   parameterGroups: [
     ...DEFAULT_SOLUTION.parameterGroups,
     { id: 'enumGroup', parameters: ['etl_enum_parameter'] },
     { id: 'listGroup', parameters: ['etl_list_parameter'] },
     { id: 'stringGroup', parameters: ['etl_string_parameter'] },
+    { id: 'dateGroup', parameters: ['etl_date_parameter'] },
   ],
   runTemplates: [...DEFAULT_SOLUTION.runTemplates, ...CUSTOM_SUBDATASOURCES],
 };
