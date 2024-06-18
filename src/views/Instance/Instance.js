@@ -22,6 +22,7 @@ const Instance = () => {
   const theme = useTheme();
   const { t } = useTranslation();
   const {
+    datasets,
     organizationId,
     workspaceId,
     currentScenario,
@@ -65,8 +66,17 @@ const Instance = () => {
         setIsLoadingData(false);
       } else {
         try {
-          const scenario = await fetchData(instanceViewConfig, organizationId, workspaceId, currentScenario.data?.id);
+          if (!currentScenario.data) return;
+
+          const scenario = await fetchData(
+            instanceViewConfig,
+            organizationId,
+            workspaceId,
+            currentScenario.data,
+            datasets
+          );
           if (!active) return;
+          if (scenario.error) throw Error(scenario.error);
 
           // TODO: (refactor) to improve performance, we don't need to recompute the whole graph elements set when the
           // theme is changed, we could rebuild only the stylesheet

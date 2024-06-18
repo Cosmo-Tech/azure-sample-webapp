@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 import axios from 'axios';
 import { Auth } from '@cosmotech/core';
+import { Api } from '../../services/config/Api';
 import { ConfigUtils } from '../../utils';
 import {
   getDefaultEdgeStyle,
@@ -12,7 +13,7 @@ import {
   getDefaultHiddenStyle,
 } from './styleCytoViz';
 
-const _formatLabelWithNewlines = (label) => label?.replace(/[_|\s]/g, '\n') || '';
+const _formatLabelWithNewlines = (label) => String(label ?? '').replace(/[_|\s]/g, '\n');
 
 const _forgeCytoscapeNodeData = (node, classes, nodesGroupMetadata = {}, nodesParentsDict = {}) => {
   const parent = nodesParentsDict[node.id];
@@ -137,7 +138,7 @@ export const processGraphElements = (instanceViewConfig, scenario, theme) => {
   return processedData;
 };
 
-async function _fetchDataFromADT(organizationId, workspaceId, scenarioId, dataSource) {
+async function _fetchDataFromAzureFunction(organizationId, workspaceId, scenarioId, dataSource) {
   const tokens = await Auth.acquireTokens();
   const headers = { 'x-functions-key': dataSource.functionKey };
   if (tokens?.accessToken) {
@@ -155,7 +156,68 @@ async function _fetchDataFromADT(organizationId, workspaceId, scenarioId, dataSo
   });
 }
 
-export async function fetchData(instanceViewConfig, organizationId, workspaceId, scenarioId) {
+async function _fetchTwingraphDatasetContent(organizationId, datasetId, dataSource) {
+  const sendQuery = async (query) => (await Api.Datasets.twingraphQuery(organizationId, datasetId, { query })).data;
+  const nodes = {};
+  const edges = {};
+
+  const nodeCategories = await sendQuery(
+    'MATCH (n) RETURN distinct labels(n)[0] as label, count(*) as count, keys(n) as keys'
+  );
+  for (const nodeCategory of nodeCategories) {
+    const nodeProperties = nodeCategory.keys.map((propertyName) => `n.${propertyName} as ${propertyName}`).join(', ');
+    nodes[nodeCategory.label] = await sendQuery(`MATCH (n:${nodeCategory.label}) RETURN ${nodeProperties}`);
+  }
+
+  const edgeCategories = await sendQuery(
+    'MATCH ()-[r]->() RETURN distinct type(r) as type, count(*) as count, keys(r) as keys'
+  );
+  for (const edgeCategory of edgeCategories) {
+    const edgeProperties = edgeCategory.keys.map((propertyName) => `${propertyName}: r.${propertyName}`).join(', ');
+    edges[edgeCategory.type] = await sendQuery(
+      `MATCH (src)-[r:${edgeCategory.type}]->(dst) WITH src, dst, { ${edgeProperties} } as properties RETURN ` +
+        'properties, src.id as src, dst.id as dst'
+    );
+  }
+  return { nodes, edges };
+}
+
+async function _fetchDataFromTwingraphDatasets(organizationId, datasets) {
+  const content = {};
+  const addNode = (node, label) => {
+    if (content[label] === undefined) content[label] = [];
+    if (content[label].find((item) => item.id === node.id) === undefined) content[label].push(node);
+  };
+  const addEdge = (src, rel, dst, type) => {
+    if (content[type] === undefined) content[type] = [];
+    if (!content[type].some((item) => item.name === rel.name && item.source === src && item.target === dst))
+      content[type].push({
+        source: src,
+        target: dst,
+        ...rel,
+      });
+  };
+
+  for (const datasetId of datasets) {
+    const { nodes, edges } = await _fetchTwingraphDatasetContent(organizationId, datasetId);
+
+    for (const label in nodes) {
+      for (const node of nodes[label]) {
+        addNode(node, label);
+      }
+    }
+    for (const type in edges) {
+      for (const edge of edges[type]) {
+        addEdge(edge.src, edge.properties, edge.dst, type);
+      }
+    }
+  }
+
+  return { data: content };
+}
+
+export async function fetchData(instanceViewConfig, organizationId, workspaceId, scenario, datasets) {
+  const scenarioId = scenario.id;
   if (!ConfigUtils.isInstanceViewConfigValid(instanceViewConfig)) {
     return {
       error:
@@ -165,12 +227,27 @@ export async function fetchData(instanceViewConfig, organizationId, workspaceId,
 
   switch (instanceViewConfig.dataSource.type) {
     case 'adt':
-      return _fetchDataFromADT(organizationId, workspaceId, scenarioId, instanceViewConfig.dataSource);
+      console.warn('The dataSource type "adt" is deprecated, please use value "azure_function" instead.');
+    // fallthrough: adt and azure_function are equivalent
+    case 'azure_function':
+      return _fetchDataFromAzureFunction(organizationId, workspaceId, scenarioId, instanceViewConfig.dataSource);
+    case 'twingraph_dataset':
+      if (
+        !datasets
+          .filter((dataset) => scenario.datasetList.includes(dataset.id))
+          .some((dataset) => dataset.twingraphId != null)
+      )
+        return {
+          error:
+            "Can't fetch dataset content because it is not of type twingraph. Please select a scenario that " +
+            'has at least one twingraph dataset.',
+        };
+      return _fetchDataFromTwingraphDatasets(organizationId, scenario.datasetList);
     default:
       return {
         error:
           `Data source type "${instanceViewConfig.dataSource.type}" is not supported in Instance view.` +
-          ' The only currently supported type is "adt"',
+          ' Supported types are "azure_function" and "twingraph_dataset"',
       };
   }
 }
