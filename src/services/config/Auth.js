@@ -27,7 +27,7 @@ const MSAL_CONFIG = {
     },
     cache: {
       cacheLocation: 'localStorage',
-      storeAuthStateInCookie: true,
+      storeAuthStateInCookie: false,
     },
   },
 };
