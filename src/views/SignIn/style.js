@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundImage: `url(${theme.picture.auth})`,
+    backgroundImage: `url(${process.env?.PUBLIC_URL ?? ''}${theme.picture.auth})`,
     backgroundSize: 'contain',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center bottom',

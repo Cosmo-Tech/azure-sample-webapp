@@ -5,6 +5,7 @@ import { put, takeEvery, call } from 'redux-saga/effects';
 import ConfigService from '../../../../services/ConfigService';
 import { Api } from '../../../../services/config/Api';
 import { DATASET_PERMISSIONS_MAPPING } from '../../../../services/config/ApiConstants';
+import { RouterUtils } from '../../../../utils';
 import { parseError } from '../../../../utils/ErrorsUtils';
 import { APPLICATION_ACTIONS_KEY } from '../../../commons/ApplicationConstants';
 import { STATUSES } from '../../../commons/Constants';
@@ -16,15 +17,14 @@ import { getAllWorkspaces } from '../../workspace/GetAllWorkspaces/GetAllWorkspa
 const ORGANIZATION_ID = ConfigService.getParameterValue('ORGANIZATION_ID');
 
 const providedUrlBeforeSignIn = sessionStorage.getItem('providedUrlBeforeSignIn');
-const providedUrl = window.location.pathname;
-const path = matchPath(':firstParam/*', providedUrlBeforeSignIn || providedUrl);
-const firstParam = path?.params?.firstParam;
+const relativePath = RouterUtils.getLocationRelativePath(providedUrlBeforeSignIn ?? window.location.pathname);
+const firstParam = matchPath(':firstParam/*', relativePath)?.params?.firstParam;
 const isRedirectedToWorkspaces = !firstParam || ['workspaces', 'sign-in', 'accessDenied'].includes(firstParam);
 let providedWorkspaceId;
 sessionStorage.removeItem('providedUrl');
 if (!isRedirectedToWorkspaces) {
   providedWorkspaceId = firstParam;
-  sessionStorage.setItem('providedUrl', providedUrl);
+  sessionStorage.setItem('providedUrl', relativePath);
 }
 
 export function* fetchAllInitialData() {

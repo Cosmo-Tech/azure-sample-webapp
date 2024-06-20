@@ -7,6 +7,7 @@ export { ConfigUtils } from './ConfigUtils';
 export { DatasetsUtils } from './DatasetsUtils';
 export { OrganizationsUtils } from './OrganizationsUtils';
 export { PowerBIUtils } from './PowerBIUtils';
+export { RouterUtils } from './RouterUtils';
 export { TranslationUtils } from './TranslationUtils';
 export { SolutionsUtils } from './SolutionsUtils';
 export { ScenariosUtils } from './ScenariosUtils';
