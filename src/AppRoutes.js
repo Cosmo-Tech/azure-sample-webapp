@@ -5,17 +5,19 @@ import { Navigate, Route, createBrowserRouter, RouterProvider, createRoutesFromE
 import { getAllTabs } from './AppLayout';
 import { UserStatusGate } from './components/UserStatusGate';
 import { TabLayout } from './layouts';
+import { RouterUtils } from './utils';
 import Workspaces from './views/Workspaces';
 
 const AppRoutes = () => {
   const providedUrl = sessionStorage.getItem('providedUrl');
   const providedUrlBeforeSignIn = sessionStorage.getItem('providedUrlBeforeSignIn');
+  const redirectPath = RouterUtils.getLocationRelativePath(providedUrlBeforeSignIn ?? providedUrl ?? '/workspaces');
   const tabs = getAllTabs();
 
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
-        <Route path="/" element={<Navigate to={providedUrlBeforeSignIn || providedUrl || '/workspaces'} replace />} />
+        <Route path="/" element={<Navigate to={redirectPath} replace />} />
         <Route
           path="/workspaces"
           element={
@@ -55,7 +57,7 @@ const AppRoutes = () => {
           path="/sign-in"
           element={
             <UserStatusGate>
-              <Navigate to={providedUrlBeforeSignIn || providedUrl || '/workspaces'} />
+              <Navigate to={redirectPath} />
             </UserStatusGate>
           }
         />
@@ -69,7 +71,10 @@ const AppRoutes = () => {
         />
         <Route path="*" element={<Navigate to={'/workspaces'} />} />
       </>
-    )
+    ),
+    {
+      basename: process.env.PUBLIC_URL ?? '',
+    }
   );
 
   return <RouterProvider router={router} />;
