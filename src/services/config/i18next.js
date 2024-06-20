@@ -27,7 +27,7 @@ i18next
     supportedLngs: Object.keys(ConfigService.getParameterValue('LANGUAGES')),
     detection: langDetectorOptions,
     backend: {
-      loadPath: '/locales/{{lng}}/{{ns}}.json',
+      loadPath: `${process.env?.PUBLIC_URL ?? ''}/locales/{{lng}}/{{ns}}.json`,
     },
   });
 
