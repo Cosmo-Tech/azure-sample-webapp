@@ -7,12 +7,12 @@ import PropTypes from 'prop-types';
 import { Grid, Typography } from '@mui/material';
 import rfdc from 'rfdc';
 import { UploadFile, BasicEnumInput } from '@cosmotech/ui';
-// eslint-disable-next-line max-len
-import { GenericEnumInput } from '../../../../../../components/ScenarioParameters/components/ScenarioParametersInputs/GenericEnumInput';
-// eslint-disable-next-line max-len
-import { GenericMultiSelect } from '../../../../../../components/ScenarioParameters/components/ScenarioParametersInputs/GenericMultiSelect';
-// eslint-disable-next-line max-len
-import { GenericTextInput } from '../../../../../../components/ScenarioParameters/components/ScenarioParametersInputs/GenericTextInput';
+import {
+  GenericEnumInput,
+  GenericMultiSelect,
+  GenericTextInput,
+  GenericDateInput,
+} from '../../../../../../components/ScenarioParameters/components/ScenarioParametersInputs';
 import { ConfigUtils, SolutionsUtils, TranslationUtils } from '../../../../../../utils';
 import { FileManagementUtils } from '../../../../../../utils/FileManagementUtils';
 import { useDatasetCreationParameters } from './DatasetCreationParametersHook';
@@ -62,6 +62,8 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
         defaultValue = [];
       } else if (inputType === '%DATASETID%') {
         defaultValue = null;
+      } else if (inputType === 'date') {
+        defaultValue = new Date();
       } else {
         console.error(`VarType "${inputType}" is not supported for ETL runner parameters.`);
         return null;
@@ -123,6 +125,19 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
                     handleDeleteFile={() => onChange(null)}
                     file={value ?? {}}
                     acceptedFileTypes={getDefaultFileTypeFilter(dataSourceRunTemplates, parameterId)}
+                  />
+                </Grid>
+              );
+            } else if (inputType === 'date') {
+              return (
+                <Grid container columns={6} sx={{ pt: 1 }}>
+                  <GenericDateInput
+                    parameterData={parameter}
+                    context={{ editMode: true }}
+                    parameterValue={value}
+                    setParameterValue={onChange}
+                    isDirty={null}
+                    error={null}
                   />
                 </Grid>
               );

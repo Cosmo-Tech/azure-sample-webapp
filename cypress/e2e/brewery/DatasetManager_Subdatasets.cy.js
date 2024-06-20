@@ -40,7 +40,7 @@ describe('Subdatasources in subdataset creation wizard when no whitelist is defi
     DatasetManager.getDatasetCreationNextStep().click();
     DatasetManager.getNewDatasetSourceTypeSelect().click();
     DatasetManager.getNewDatasetSourceTypeOptions().should('have.length', CUSTOM_SUBDATASOURCES.length);
-    DatasetManager.getNewDatasetSourceTypeOptions().should('have.length', 4);
+    DatasetManager.getNewDatasetSourceTypeOptions().should('have.length', 5);
   });
 });
 
@@ -179,6 +179,8 @@ describe('Subdatasets creation', () => {
     const listOption2Selector = '[data-option-index=1]';
     const listValue1 = 'Option 1';
     const listValue2 = 'Option 2';
+    const dateParameterSelector = '[data-cy=date-input-etl_date_parameter]';
+    const dateValue = '01/01/2023';
 
     DatasetManager.switchToDatasetManagerView();
     DatasetManager.selectDatasetById(DATASET_A.id);
@@ -190,16 +192,19 @@ describe('Subdatasets creation', () => {
     cy.get(stringParameterSelector).should('not.exist');
     cy.get(enumParameterSelector).should('not.exist');
     cy.get(listParameterSelector).should('not.exist');
+    cy.get(dateParameterSelector).should('not.exist');
 
     DatasetManager.selectNewDatasetSourceType('string_filter');
     cy.get(stringParameterSelector).should('be.visible').click();
     cy.get(stringParameterSelector).type('test string value');
     cy.get(enumParameterSelector).should('not.exist');
     cy.get(listParameterSelector).should('not.exist');
+    cy.get(dateParameterSelector).should('not.exist');
 
     DatasetManager.selectNewDatasetSourceType('enum_filter');
     cy.get(stringParameterSelector).should('not.exist');
     cy.get(enumParameterSelector).should('be.visible').click();
+    cy.get(dateParameterSelector).should('not.exist');
     cy.get(enumOption2Selector).click();
     cy.get(listParameterSelector).should('not.exist');
 
@@ -207,7 +212,18 @@ describe('Subdatasets creation', () => {
     cy.get(stringParameterSelector).should('not.exist');
     cy.get(enumParameterSelector).should('not.exist');
     cy.get(listParameterSelector).should('be.visible').click();
+    cy.get(dateParameterSelector).should('not.exist');
     cy.get(listOption2Selector).click();
+
+    DatasetManager.selectNewDatasetSourceType('date_filter');
+    cy.get(stringParameterSelector).should('not.exist');
+    cy.get(enumParameterSelector).should('not.exist');
+    cy.get(listParameterSelector).should('not.exist');
+    cy.get(dateParameterSelector).should('be.visible').click();
+    cy.get(dateParameterSelector).find('input').click();
+    cy.get(dateParameterSelector)
+      .find('input')
+      .type('{moveToStart}' + dateValue);
 
     // Check that prior inputs remain when switching back to previous datasources
     DatasetManager.selectNewDatasetSourceType('no_filter');
@@ -222,5 +238,8 @@ describe('Subdatasets creation', () => {
     DatasetManager.selectNewDatasetSourceType('list_filter');
     cy.get(listParameterSelector).should('be.visible').should('not.contain', listValue1);
     cy.get(listParameterSelector).should('be.visible').should('contain', listValue2);
+
+    DatasetManager.selectNewDatasetSourceType('date_filter');
+    cy.get(dateParameterSelector).should('be.visible').find('input').should('have.value', dateValue);
   });
 });
