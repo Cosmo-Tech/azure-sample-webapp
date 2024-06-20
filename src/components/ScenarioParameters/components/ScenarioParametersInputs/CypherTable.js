@@ -8,6 +8,8 @@ import equal from 'fast-deep-equal';
 import { AgGridUtils, FileBlobUtils } from '@cosmotech/core';
 import { Table, TABLE_DATA_STATUS, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
 import { Api } from '../../../../services/config/Api';
+import applicationStore from '../../../../state/Store.config';
+import { dispatchSetApplicationErrorMessage } from '../../../../state/dispatchers/app/ApplicationDispatcher';
 import { useOrganizationId } from '../../../../state/hooks/OrganizationHooks.js';
 import { useCurrentScenarioData } from '../../../../state/hooks/ScenarioHooks';
 import { useWorkspaceId } from '../../../../state/hooks/WorkspaceHooks.js';
@@ -188,7 +190,6 @@ export const CypherTable = ({
   const _getDataFromCypherQuery = async (setClientFileDescriptor) => {
     const source = ConfigUtils.getParameterAttribute(parameterData, 'source');
     const query = source?.query;
-    const resultKey = source?.resultKey;
     const sourceDatasetId = currentScenario?.datasetList[0];
     setClientFileDescriptor({
       file: null,
@@ -201,26 +202,40 @@ export const CypherTable = ({
       return;
     }
     CypherTable.downloadLocked[lockId] = true;
-    const { data } = await Api.Datasets.twingraphQuery(organizationId, sourceDatasetId, { query });
-    const jsonRows = data.map((row) => row[resultKey].properties);
-    const header = columns.map((column) => column.field);
-    const csvRows = _convertJsonToCsv(header, jsonRows);
-    const agGridData = _generateGridDataFromCSV(csvRows, parameterData);
-    if (agGridData.error) {
+    try {
+      const { data } = await Api.Datasets.twingraphQuery(organizationId, sourceDatasetId, { query });
+      const jsonRows = data.map((row) => row.fields);
+      const header = columns.map((column) => column.field);
+      const csvRows = _convertJsonToCsv(header, jsonRows);
+      const agGridData = _generateGridDataFromCSV(csvRows, parameterData);
+      if (agGridData.error) {
+        setClientFileDescriptor({
+          tableDataStatus: TABLE_DATA_STATUS.ERROR,
+          errors: agGridData.error,
+        });
+      } else
+        setClientFileDescriptor({
+          name: parameterData.id,
+          file: null,
+          content: null,
+          agGridRows: agGridData.rows,
+          errors: null,
+          status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD,
+          tableDataStatus: TABLE_DATA_STATUS.READY,
+        });
+    } catch (error) {
+      applicationStore.dispatch(
+        dispatchSetApplicationErrorMessage(error, 'Please use a twingraph dataset to load data')
+      );
       setClientFileDescriptor({
-        tableDataStatus: TABLE_DATA_STATUS.ERROR,
-        errors: agGridData.error,
-      });
-    } else
-      setClientFileDescriptor({
-        name: parameterData.id,
         file: null,
         content: null,
-        agGridRows: agGridData.rows,
+        agGridRows: null,
         errors: null,
-        status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD,
-        tableDataStatus: TABLE_DATA_STATUS.READY,
+        tableDataStatus: TABLE_DATA_STATUS.ERROR,
       });
+    }
+
     CypherTable.downloadLocked[lockId] = false;
   };
 
@@ -410,7 +425,6 @@ export const CypherTable = ({
       parameter.status === UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD &&
       !alreadyDownloaded
     ) {
-      console.log('storage');
       _downloadDatasetFileContentFromStorage(
         organizationId,
         workspaceId,
@@ -419,7 +433,6 @@ export const CypherTable = ({
         updateParameterValueWithReset
       );
     } else if (!parameter.content && parameter.status === UPLOAD_FILE_STATUS_KEY.EMPTY && !alreadyDownloaded) {
-      console.log('cypher');
       _getDataFromCypherQuery(updateParameterValueWithReset);
     }
   });

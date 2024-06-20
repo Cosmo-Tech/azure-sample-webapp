@@ -79,17 +79,20 @@ export const SOLUTIONS = [
           description: 'customers data',
           subType: 'GRAPHTABLE',
           source: {
-            query: 'MATCH(customer: Customer) RETURN customer',
+            query:
+              'MATCH(customer: Customer) WITH {name: customer.id, satisfaction: customer.Satisfaction, ' +
+              'surroundingSatisfaction: customer.SurroundingSatisfaction, thirsty: customer.Thirsty} ' +
+              'as fields RETURN fields',
             resultKey: 'customer',
           },
           columns: [
             {
-              field: 'id',
+              field: 'name',
               headerName: 'Name',
               type: ['string'],
             },
             {
-              field: 'Satisfaction',
+              field: 'satisfaction',
               headerName: 'Satisfaction',
               type: ['int'],
               minValue: 0,
@@ -97,7 +100,7 @@ export const SOLUTIONS = [
               acceptsEmptyFields: true,
             },
             {
-              field: 'SurroundingSatisfaction',
+              field: 'surroundingSatisfaction',
               headerName: 'SurroundingSatisfaction',
               type: ['int'],
               minValue: 0,
@@ -105,7 +108,7 @@ export const SOLUTIONS = [
               acceptsEmptyFields: true,
             },
             {
-              field: 'Thirsty',
+              field: 'thirsty',
               headerName: 'Thirsty',
               type: ['bool'],
               acceptsEmptyFields: true,
