@@ -1,3 +1,26 @@
+## **6.2.0** <sub><sup>2024-06-21 ([578b5ad...f9cda65](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/578b5ad4...f9cda654?diff=split))</sup></sub>
+
+### Features
+
+- \[PROD\-13357\] add native support of twingraph datasets in instance view ([6f76e6f](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/6f76e6f0))
+- \[SDCOSMO\-1845\] add support for **date** parameters for ETL parameters in dataset manager ([d3b4ab8](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/d3b4ab85))
+
+### Bug Fixes
+
+- don't show dataset creation button in placeholder when lacking permissions ([37430c9](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/37430c98))
+- fix default state of enum parameters with dynamic values in scenario parameters ([8b21105](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/8b211056))
+- improve error handling for parameters with dynamic values ([1d776f6](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/1d776f61))
+- improve error handling in instance view ([2b57627](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/2b576277))
+- fix error in instance view if the id of a graph node is not a string ([5689191](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/5689191b))
+- rename data source type from `adt` (deprecated) to `azure_function` ([959abc4](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/959abc40))
+
+### Documentation
+
+- remove line in default transformation scripts configuration ([d8447c3](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/d8447c3a))
+- fix typos in doc of scenario parameters configuration ([54e3607](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/54e36072))
+- \[SDCOSMO\-1901\] add miscellaneous doc file with dataset filter precisions ([d5534b0](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/d5534b0f))
+- describe new data source type `twingraph_dataset` & reorganize doc ([c4b09c5](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/c4b09c5d))
+
 ## **6.1.0** <sub><sup>2024-04-26 ([7bfda34...77fe391](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/7bfda340...77fe3916?diff=split))</sup></sub>
 
 ### Features
@@ -38,7 +61,6 @@
 
 - add documentation for new features ([6553e1e](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/6553e1e4), [80d7eec](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/80d7eecd), [5c0f111](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/5c0f1114), [7de9f54](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/7de9f54a), [def99a3](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/def99a34), [111b7d6](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/111b7d6b), [71621d2](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/71621d2b))
 - update link to ScenarioDownload azure function deployment package ([07bd23e](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/07bd23e5))
-
 
 ## **6.0.0** <sub><sup>2024-02-14 ([62d17e0...fe55837](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/62d17e0a...fe558373?diff=split))</sup></sub>
 
