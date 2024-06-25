@@ -55,7 +55,7 @@ describe('Create scenario and check its data in scenario manager', () => {
     ScenarioManager.getScenarioAccordion(scenarioId).click();
     ScenarioManager.getScenarioOwnerName(scenarioId).should('have.text', scenarioOwnerName);
     ScenarioManager.getScenarioCreationDate(scenarioId).should('have.text', _formatDate(scenarioCreationDate));
-    ScenarioManager.getScenarioEditableLabel(scenarioId).should('have.text', scenarioName);
+    ScenarioManager.getScenarioEditableLink(scenarioId).should('have.text', scenarioName);
     ScenarioManager.getScenarioRunStatus(scenarioId, SCENARIO_STATUS.CREATED);
     ScenarioManager.getScenarioRunTemplate(scenarioId).should('have.text', scenarioRunTemplate);
     ScenarioManager.getScenarioDataset(scenarioId).should('have.text', DATASET.BREWERY_ADT, { matchCase: false });
