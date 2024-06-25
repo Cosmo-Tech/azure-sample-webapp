@@ -326,7 +326,8 @@
           },
           "action": {
             "delete": "Supprimer ce scénario",
-            "redirect": "Ouvrir dans la vue scénario"
+            "redirect": "Ouvrir dans la vue scénario",
+            "edit": "Editer le nom du scenario"
           },
           "text": {
             "search": "Filtrer..."
