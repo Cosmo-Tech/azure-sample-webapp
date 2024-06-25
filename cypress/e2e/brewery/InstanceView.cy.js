@@ -32,7 +32,7 @@ describe('Instance view when enabled', () => {
     stub.start();
     stub.setWorkspaces([WORKSPACE_WITH_INSTANCE_VIEW]);
     stub.setDatasets([DEFAULT_DATASET]);
-    stub.setScenarios([SCENARIO_WITH_TWINGRAPH_DATASET]);
+    stub.setScenarios(SCENARIO_WITH_TWINGRAPH_DATASET);
   });
   after(() => {
     stub.stop();
