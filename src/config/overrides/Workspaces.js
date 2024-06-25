@@ -93,9 +93,7 @@ export const WORKSPACES = [
         },
         instanceView: {
           dataSource: {
-            type: 'azure_function',
-            functionUrl: 'https://scenario-download-brewery-dev.azurewebsites.net/api/ScenarioDownload',
-            functionKey: 'o5Xlur_7s5c00KQKnl0QveXVEFC9DXeBiOkwQEdZGx9xAzFuLsPB5A==',
+            type: 'twingraph_dataset',
           },
           dataContent: {
             compounds: { Bar_vertex: {} },
