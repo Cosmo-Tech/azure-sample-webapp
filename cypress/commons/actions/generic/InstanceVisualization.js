@@ -1,6 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
+import { apiUtils } from '../../utils';
 
 function getInstanceVisualizationViewTab() {
   return cy.get(GENERIC_SELECTORS.instance.tabName);
@@ -97,6 +98,11 @@ function switchToDrawerDetailsTab() {
 function switchToDrawerSettingsTab() {
   return getDrawerSettingsTabButton().click();
 }
+function interceptTwingraphQueries(responses) {
+  for (const response of responses.reverse()) {
+    apiUtils.interceptPostDatasetTwingraphQuery(response, false);
+  }
+}
 
 export const InstanceVisualization = {
   getInstanceVisualizationViewTab,
@@ -124,4 +130,5 @@ export const InstanceVisualization = {
   closeDrawer,
   switchToDrawerDetailsTab,
   switchToDrawerSettingsTab,
+  interceptTwingraphQueries,
 };
