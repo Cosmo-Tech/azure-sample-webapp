@@ -1,0 +1,41 @@
+name: Rollout deployment on dev platform
+
+on:
+  workflow_run:
+    workflows: [Create and publish a Docker image]
+    types: [completed]
+    branches: ['experimental/webapp_server_docker_image']
+
+jobs:
+  rollout:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: azure/login@v1
+        with:
+          creds: "${{ secrets.AZURE_CREDENTIALS }}"
+
+      - uses: azure/aks-set-context@v3.2
+        with:
+          cluster-name: "${{ vars.CLUSTER_NAME }}"
+          resource-group: "${{ vars.CLUSTER_RESOURCE_GROUP }}"
+
+      - name: Check cluster availability
+        id: cluster_availability
+        continue-on-error: true
+        run: |
+          kubectl version
+
+      - name: Restart deployment
+        if: ${{ steps.cluster_availability.outcome == 'success' }}
+        run: |
+          kubectl rollout restart \
+            --namespace ${{ vars.CLUSTER_NAMESPACE }} \
+            deployment/${{ vars.DEPLOYMENT_NAME }}
+
+      - name: Wait for restart to finish
+        if: ${{ steps.cluster_availability.outcome == 'success' }}
+        run: |
+          kubectl rollout status \
+            --namespace ${{ vars.CLUSTER_NAMESPACE }} \
+            --timeout=10m \
+            deployment/${{ vars.DEPLOYMENT_NAME }}
