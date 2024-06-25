@@ -61,9 +61,7 @@ export const DEFAULT_WORKSPACES_LIST = [DEFAULT_WORKSPACE];
 const workspaceCopy = JSON.parse(JSON.stringify(DEFAULT_WORKSPACE));
 workspaceCopy.webApp.options.instanceView = {
   dataSource: {
-    type: 'adt',
-    functionUrl: 'dummy_function_url',
-    functionKey: 'dummy_function_key',
+    type: 'twingraph_dataset',
   },
   dataContent: {},
 };
