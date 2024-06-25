@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cosmotech-webserver-experimental
+  labels:
+    cosmotech.com/service: cosmotech-webserver-experimental
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      cosmotech.com/service: cosmotech-webserver-experimental
+  template:
+    metadata:
+      labels:
+        cosmotech.com/service: cosmotech-webserver-experimental
+    spec:
+      containers:
+      - name: azure-sample-webapp
+        image: ghcr.io/cosmo-tech/azure-sample-webapp:latest
+        ports:
+          - name: http
+            containerPort: 3000
+            protocol: TCP
