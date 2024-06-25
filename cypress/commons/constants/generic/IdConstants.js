@@ -120,14 +120,16 @@ export const GENERIC_SELECTORS = {
       search: '[data-cy=scenario-manager-search-field]',
       button: {
         delete: '[data-cy=scenario-delete-button]',
+        renameScenario: '[data-cy=rename-scenario-button]',
       },
       scenarioAccordion: '[data-cy=scenario-accordion-$SCENARIOID]',
       scenarioAccordions: '[data-cy^=scenario-accordion-]',
       scenarioAccordionExpandButton: '[data-cy=expand-accordion-button]',
       scenarioRunTemplate: '[data-cy=scenario-run-template]',
       scenarioDataset: '[data-cy=scenario-datasets]',
-      editableLabel: '[data-cy=editable-label]',
       editableLabelInEditMode: '[data-cy=editable-label-in-edition-mode]',
+      editableLink: '[data-cy=editable-link]',
+      editableLinkInEditMode: '[data-cy=editable-link-in-edition-mode]',
     },
   },
   workspace: {

@@ -48,13 +48,12 @@ describe('Create scenario and rename it', () => {
     Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE).then((data) => {
       const scenarioId = data.scenarioCreatedId;
       ScenarioManager.switchToScenarioManager();
-      ScenarioManager.getScenarioEditableLabel(scenarioId)
-        .click()
+      ScenarioManager.getRenameScenarioButton(scenarioId).click();
+      ScenarioManager.getScenarioEditableLink(scenarioId, 15)
         .type('{selectAll}{backspace}' + newScenarioName + '{esc}') // Do not confirm new name
         .should('have.text', scenarioName);
-
       ScenarioManager.renameScenario(scenarioId, newScenarioName);
-      ScenarioManager.getScenarioEditableLabel(scenarioId, 15).should('have.text', newScenarioName);
+      ScenarioManager.getScenarioEditableLink(scenarioId, 15).should('have.text', newScenarioName);
       Scenarios.switchToScenarioView();
       ScenarioSelector.selectScenario(anotherScenario, anotherScenarioId);
       ScenarioSelector.selectScenario(newScenarioName, scenarioId);
@@ -65,7 +64,7 @@ describe('Create scenario and rename it', () => {
       ScenarioManager.switchToScenarioManager();
       ScenarioManager.getScenarioAccordion(scenarioId).click();
       ScenarioManager.renameScenario(scenarioId, newScenarioName);
-      ScenarioManager.getScenarioEditableLabel(scenarioId, 15).should('have.text', newScenarioName);
+      ScenarioManager.getScenarioEditableLink(scenarioId, 15).should('have.text', newScenarioName);
       ScenarioManager.getScenarioViewRedirect(scenarioId).click();
       ScenarioSelector.selectScenario(anotherScenario, anotherScenarioId);
       ScenarioSelector.selectScenario(newScenarioName, scenarioId);
@@ -89,9 +88,9 @@ describe('Create scenario and rename it', () => {
         ScenarioManager.switchToScenarioManager();
 
         ScenarioManager.renameScenario(scenarioID1, scenarioName1B);
-        ScenarioManager.getScenarioEditableLabel(scenarioID1, 15).should('have.text', scenarioName1B);
+        ScenarioManager.getScenarioEditableLink(scenarioID1, 15).should('have.text', scenarioName1B);
         ScenarioManager.renameScenario(scenarioID2, scenarioName1A);
-        ScenarioManager.getScenarioEditableLabel(scenarioID2, 15).should('have.text', scenarioName1A);
+        ScenarioManager.getScenarioEditableLink(scenarioID2, 15).should('have.text', scenarioName1A);
 
         ScenarioManager.getScenarioViewRedirect(scenarioID2).click();
         ScenarioSelector.selectScenario(anotherScenario, anotherScenarioId);
