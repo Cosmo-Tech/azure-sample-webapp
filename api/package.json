@@ -13,5 +13,6 @@
     "jsonwebtoken": "^9.0.0",
     "jwks-rsa": "^3.0.1",
     "node-fetch": "^3.0.0"
-  }
+  },
+  "packageManager": "yarn@4.3.1"
 }
