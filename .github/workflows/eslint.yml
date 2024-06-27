@@ -9,6 +9,7 @@ on:
       - '**'
 jobs:
   eslint:
+    if:  ${{ ! startsWith(github.head_ref, 'dependabot/') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
