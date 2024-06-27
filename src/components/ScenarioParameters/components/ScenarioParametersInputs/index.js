@@ -11,3 +11,4 @@ export { GenericToggleInput } from './GenericToggleInput';
 export { GenericUploadFile } from './GenericUploadFile';
 export { GenericTable } from './GenericTable';
 export { GenericSliderInput } from './GenericSliderInput';
+export { ScenarioSelect } from './ScenarioSelect';
