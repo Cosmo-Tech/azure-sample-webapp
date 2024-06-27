@@ -757,15 +757,16 @@ components, whose value depend on the **input component type** and the **paramet
 
 Here is the list of `data-cy` patterns for all generic input components provided by the azure-sample-webapp:
 
-| varType       | subType  | input component      | `data-cy` pattern            |
-| ------------- | -------- | -------------------- | ---------------------------- |
-| `bool`        |          | Switch boolean input | `toggle-input-<parameterId>` |
-| `date`        |          | Date picker          | `date-input-<parameterId>`   |
-| `enum`        |          | Dropdown list        | `enum-input-<parameterId>`   |
-| `enum`        | `RADIO`  | Radio buttons        | `radio-input-<parameterId>`  |
-| `int`         |          | Number input         | `number-input-<parameterId>` |
-| `number`      |          | Number input         | `number-input-<parameterId>` |
-| `number`      | `SLIDER` | Slider               | `slider-input-<parameterId>` |
-| `string`      |          | Text field           | `text-input-<parameterId>`   |
-| `%DATASETID%` |          | File upload          | `file-upload-<parameterId>`  |
-| `%DATASETID%` | `TABLE`  | Editable table       | `table-<parameterId>`        |
+| varType       | subType     | input component      | `data-cy` pattern               |
+| ------------- | ----------- | -------------------- | ------------------------------- |
+| `bool`        |             | Switch boolean input | `toggle-input-<parameterId>`    |
+| `date`        |             | Date picker          | `date-input-<parameterId>`      |
+| `enum`        |             | Dropdown list        | `enum-input-<parameterId>`      |
+| `enum`        | `RADIO`     | Radio buttons        | `radio-input-<parameterId>`     |
+| `enum`        | `SCENARIOS` | Scenarios select     | `scenarios-input-<parameterId>` |
+| `int`         |             | Number input         | `number-input-<parameterId>`    |
+| `number`      |             | Number input         | `number-input-<parameterId>`    |
+| `number`      | `SLIDER`    | Slider               | `slider-input-<parameterId>`    |
+| `string`      |             | Text field           | `text-input-<parameterId>`      |
+| `%DATASETID%` |             | File upload          | `file-upload-<parameterId>`     |
+| `%DATASETID%` | `TABLE`     | Editable table       | `table-<parameterId>`           |

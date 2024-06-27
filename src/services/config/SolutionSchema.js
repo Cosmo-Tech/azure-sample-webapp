@@ -52,6 +52,7 @@ const basicParameterOptions = z.object({
   dateFormat: z.string().optional().nullable(),
   columns: z.array(basicColumnField).optional().nullable(),
   shouldRenameFileOnUpload: z.string().optional().nullable(),
+  runTemplateFilter: z.array(z.string().optional().nullable()).optional().nullable(),
 });
 
 const basicParameterGroupOptions = z.object({

@@ -558,6 +558,10 @@
       "noFileMessage": "None",
       "fileNamePlaceholder": "{{fileExtension}} file"
     },
+    "scenarioSelect": {
+      "noValues": "No scenario selected",
+      "noOptions": "No scenarios available"
+    },
     "loading": {
       "line": {
         "workspace": {

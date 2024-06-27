@@ -11,6 +11,7 @@ import {
   GenericTextInput,
   GenericToggleInput,
   GenericUploadFile,
+  ScenarioSelect,
 } from '../../../components/ScenarioParameters/components/ScenarioParametersInputs';
 import { DATASET_ID_VARTYPE } from '../../../services/config/ApiConstants';
 
@@ -19,6 +20,7 @@ export const GENERIC_VAR_TYPES_COMPONENTS_MAPPING = {
   date: GenericDateInput,
   enum: GenericEnumInput,
   'enum-RADIO': GenericRadioInput,
+  'enum-SCENARIOS': ScenarioSelect,
   list: GenericMultiSelect,
   int: GenericNumberInput,
   'number-SLIDER': GenericSliderInput,
