@@ -1,4 +1,5 @@
 webapp_server
+**/local.settings.*
 **/.classpath
 **/.dockerignore
 **/.env
