@@ -293,6 +293,7 @@ parameters:
             - 'int'
           minValue: 0
           maxValue: 120
+          defaultValue: 60
         - field: 'birthday'
           type:
             - 'date'
@@ -321,11 +322,12 @@ The description of the table columns consists of an array of objects with the fo
   - **nonSortable** (_behavior_)
 - **minValue** (_optional_) minimum value accepted on edition (for column types _int_, _number_ and _date_)\*
 - **maxValue** (_optional_) maximum value accepted on edition (for column types _int_, _number_ and _date_)\*
+- **defaultValue** (_optional_) default value to use when users add new lines; if no default value is defined, the webapp will choose a default value **based on the column type**.
 - **enumValues** (_optional_) list of known enum values, accepted on edition (for column type _enum_)
 - **acceptsEmptyFields** (_optional_) set to `true`, authorizes the column to accept empty fields (default `false`)
 
-\* _minValue_ and _maxValue_ specified for a column with the _date_ type will be provided to the standard JS Date
-constructor, mind the date format (ISO format is recommended)
+For columns of type `date`, when providing values for the options `minValue`, `maxValue` and `defaultValue`,
+the **ISO format** is recommended (these values will be forwarded to the standard JS `Date` constructor).
 
 Example:
 
@@ -350,6 +352,7 @@ parameters:
           type:
             - 'int'
           minValue: 0
+          defaultValue: 60
           maxValue: 120
           acceptsEmptyFields: true
         - field: 'canDrinkAlcohol'
@@ -358,6 +361,7 @@ parameters:
         - field: 'favoriteDrink'
           type:
             - 'enum'
+          defaultValue: 'OrangeJuice'
           enumValues:
             - 'AppleJuice'
             - 'Beer'
