@@ -51,9 +51,9 @@ describe('Check workspace permissions for admin', () => {
     ScenarioManager.switchToScenarioManager();
     ScenarioManager.getScenarioAccordion(PRIVATE_SCENARIOS_LIST[0].id);
     ScenarioManager.getDeleteScenarioButton().should('be.visible').should('not.be.disabled');
-    ScenarioManager.getScenarioEditableLabelInEditMode(PRIVATE_SCENARIOS_LIST[0].id).should('not.exist');
-    ScenarioManager.getScenarioEditableLabel(PRIVATE_SCENARIOS_LIST[0].id).click();
-    ScenarioManager.getScenarioEditableLabelInEditMode(PRIVATE_SCENARIOS_LIST[0].id).should('exist');
+    ScenarioManager.getScenarioEditableLink(PRIVATE_SCENARIOS_LIST[0].id).should('not.exist');
+    ScenarioManager.getRenameScenarioButton(PRIVATE_SCENARIOS_LIST[0].id).should('exist').click();
+    ScenarioManager.getScenarioEditableLinkInEditMode(PRIVATE_SCENARIOS_LIST[0].id).should('exist');
   });
 
   it('Is shown a message error when last admin is removed', () => {
@@ -179,7 +179,7 @@ describe('Check workspace permissions for Viewer, Editor & Validator', () => {
     ScenarioManager.switchToScenarioManager();
     ScenarioManager.getScenarioAccordion(scenario.id);
     ScenarioManager.getDeleteScenarioButton().should('not.exist');
-    ScenarioManager.getScenarioEditableLabel(scenario.id).should('not.exist');
+    ScenarioManager.getRenameScenarioButton(scenario.id).should('not.exist');
   });
 
   it('Check Editor permissions', () => {
@@ -193,9 +193,9 @@ describe('Check workspace permissions for Viewer, Editor & Validator', () => {
     ScenarioManager.switchToScenarioManager();
     ScenarioManager.getScenarioAccordion(scenario.id);
     ScenarioManager.getDeleteScenarioButton().should('not.exist');
-    ScenarioManager.getScenarioEditableLabelInEditMode(scenario.id).should('not.exist');
-    ScenarioManager.getScenarioEditableLabel(scenario.id).click();
-    ScenarioManager.getScenarioEditableLabelInEditMode(scenario.id).should('exist');
+    ScenarioManager.getScenarioEditableLinkInEditMode(scenario.id).should('not.exist');
+    ScenarioManager.getRenameScenarioButton(scenario.id).click();
+    ScenarioManager.getScenarioEditableLinkInEditMode(scenario.id).should('exist');
   });
 
   it('Check Validator permissions', () => {

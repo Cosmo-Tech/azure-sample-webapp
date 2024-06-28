@@ -57,20 +57,26 @@ function getScenarioCreationDate(scenarioId) {
   return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.creationDate);
 }
 
-function getScenarioEditableLabel(scenarioId, timeout = 5) {
-  return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.manager.editableLabel, {
+function getRenameScenarioButton(scenarioId) {
+  return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.manager.button.renameScenario);
+}
+function getScenarioEditableLink(scenarioId, timeout = 5) {
+  return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.manager.editableLink, {
     timeout: timeout * 1000,
   });
 }
-function getScenarioEditableLabelInEditMode(scenarioId, timeout = 5) {
-  return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.manager.editableLabelInEditMode, {
+function getScenarioEditableLinkInEditMode(scenarioId, timeout = 5) {
+  return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.manager.editableLinkInEditMode, {
     timeout: timeout * 1000,
   });
 }
 function renameScenario(scenarioId, newScenarioName) {
-  return ScenarioManager.getScenarioEditableLabel(scenarioId)
-    .click()
-    .type('{selectAll}{backspace}' + newScenarioName + '{enter}');
+  const renameScenarioAlias = api.interceptUpdateScenario(scenarioId);
+
+  getRenameScenarioButton(scenarioId).click();
+  getScenarioEditableLinkInEditMode(scenarioId).type('{selectAll}{backspace}' + newScenarioName + '{enter}');
+
+  api.waitAlias(renameScenarioAlias);
 }
 
 function getScenarioValidationStatusChip(scenarioId) {
@@ -164,8 +170,9 @@ export const ScenarioManager = {
   getScenarioAccordion,
   getScenarioOwnerName,
   getScenarioCreationDate,
-  getScenarioEditableLabel,
-  getScenarioEditableLabelInEditMode,
+  getRenameScenarioButton,
+  getScenarioEditableLink,
+  getScenarioEditableLinkInEditMode,
   renameScenario,
   getScenarioValidationStatusChip,
   getScenarioValidationStatusLoadingSpinner,
