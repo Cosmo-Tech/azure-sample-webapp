@@ -139,9 +139,9 @@ __metadata:
   dependencies:
     "@azure/msal-node": "npm:^2.9.2"
     guid: "npm:0.0.12"
-    jsonwebtoken: "npm:^9.0.0"
-    jwks-rsa: "npm:^3.0.1"
-    node-fetch: "npm:^3.0.0"
+    jsonwebtoken: "npm:^9.0.2"
+    jwks-rsa: "npm:^3.1.0"
+    node-fetch: "npm:^3.3.2"
   languageName: unknown
   linkType: soft
 
@@ -213,7 +213,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jsonwebtoken@npm:^9.0.0":
+"jsonwebtoken@npm:^9.0.0, jsonwebtoken@npm:^9.0.2":
   version: 9.0.2
   resolution: "jsonwebtoken@npm:9.0.2"
   dependencies:
@@ -242,7 +242,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jwks-rsa@npm:^3.0.1":
+"jwks-rsa@npm:^3.1.0":
   version: 3.1.0
   resolution: "jwks-rsa@npm:3.1.0"
   dependencies:
@@ -369,7 +369,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-fetch@npm:^3.0.0":
+"node-fetch@npm:^3.3.2":
   version: 3.3.2
   resolution: "node-fetch@npm:3.3.2"
   dependencies:
