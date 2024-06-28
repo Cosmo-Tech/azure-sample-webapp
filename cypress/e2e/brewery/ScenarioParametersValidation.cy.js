@@ -19,16 +19,7 @@ const invalidFormatFilePath = 'file_with_invalid_format.png';
 
 describe('scenario parameters inputs validation', () => {
   before(() => {
-    stub.start({
-      AUTHENTICATION: true,
-      CREATE_AND_DELETE_SCENARIO: true,
-      GET_DATASETS: true,
-      GET_SCENARIOS: true,
-      GET_SOLUTIONS: true,
-      GET_WORKSPACES: true,
-      GET_ORGANIZATION: true,
-      UPDATE_SCENARIO: true,
-    });
+    stub.start();
     stub.setSolutions(SOLUTIONS);
     stub.setScenarios(SCENARIOS);
   });
