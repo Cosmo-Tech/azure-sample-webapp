@@ -38,7 +38,7 @@
     "rxjs": "^7.8.0",
     "sass": "^1.64.2",
     "tslib": "^2.3.1",
-    "zod": "^3.21.4"
+    "zod": "^3.23.8"
   },
   "scripts": {
     "start": "cross-env ESLINT_NO_DEV_ERRORS=true REACT_APP_APP_VERSION=$npm_package_version HOST=localhost react-app-rewired start",
