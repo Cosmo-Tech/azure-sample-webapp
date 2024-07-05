@@ -75,6 +75,8 @@ export const BREWERY_SELECTORS = {
         commentInput: '[id=text-input-comment]',
         additionalDate: '[id=date-input-additional_date]',
         additionalDateValueInDisabledMode: '[data-cy=additional_date-value-disabled-input]',
+        scenarioToCompare: '[data-cy=single-select-scenario_to_compare]',
+        scenarioToCompareOption: '[data-cy=single-select-option-$OPTION]',
       },
     },
   },

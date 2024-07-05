@@ -128,6 +128,20 @@ const getCommentInput = () => ScenarioParameters.getParameterInput('text-input-c
 const getAdditionalDate = () => ScenarioParameters.getParameterValue('date-input-additional_date');
 const getAdditionalDateHelperText = () => cy.get('[id=date-text-field-additional_date-helper-text]');
 const getAdditionalDateInput = () => ScenarioParameters.getParameterInput('date-input-additional_date');
+const getScenarioToCompare = () => ScenarioParameters.getParameterValue('single-select-scenario_to_compare');
+
+const getScenarioToCompareSelect = () => {
+  return cy.get(BREWERY_SELECTORS.scenario.parameters.additionalParameters.scenarioToCompare);
+};
+const getScenarioToCompareSelectInput = () => {
+  return ScenarioParameters.getParameterInput('single-select-scenario_to_compare');
+};
+const selectScenarioToCompareOption = (option) => {
+  getScenarioToCompareSelect().click();
+  cy.get(
+    BREWERY_SELECTORS.scenario.parameters.additionalParameters.scenarioToCompareOption.replace('$OPTION', option)
+  ).click();
+};
 
 function getCurrencyTextField() {
   return getCurrencyParameterContainer().find(GENERIC_SELECTORS.genericComponents.basicEnumInput.textField);
@@ -574,6 +588,10 @@ export const BreweryParameters = {
   getAdditionalTablesInput,
   getCommentInput,
   getAdditionalDateInput,
+  getScenarioToCompareSelect,
+  getScenarioToCompareSelectInput,
+  getScenarioToCompare,
+  selectScenarioToCompareOption,
   getCurrencyNameHelperText,
   getEvaluationHelperText,
   getCommentHelperText,

@@ -40,6 +40,8 @@ describe('Additional advanced scenario parameters tests', () => {
       additionalTables: 3,
       comment: 'None',
       additionalDate: '06/22/2022',
+      countries: [],
+      scenarioToCompare: '',
     };
     const VALUES_TO_UPDATE = {
       additionalSeats: 888,
@@ -48,10 +50,17 @@ describe('Additional advanced scenario parameters tests', () => {
       additionalTables: 9090,
       comment: 'Strongly recommended',
       additionalDate: '12/07/2022',
+      countries: ['France', 'Germany', 'Italy'],
+      scenarioToCompare: forgeScenarioName(),
     };
 
     const scenarioName = forgeScenarioName();
-    scenarioNamesToDelete.push(scenarioName);
+    scenarioNamesToDelete.push(scenarioName, VALUES_TO_UPDATE.scenarioToCompare);
+    Scenarios.createScenario(VALUES_TO_UPDATE.scenarioToCompare, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE).then(
+      (value) => {
+        cy.wrap(value.scenarioCreatedId).as('scenarioToCompareId');
+      }
+    );
     Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
 
     BreweryParameters.switchToEventsTab();
@@ -69,6 +78,7 @@ describe('Additional advanced scenario parameters tests', () => {
     BreweryParameters.switchToAdditionalParametersTab();
     BreweryParameters.getCommentInput().should('value', INIT_VALUES.comment);
     BreweryParameters.getAdditionalDateInput().should('value', INIT_VALUES.additionalDate);
+    BreweryParameters.getScenarioToCompareSelectInput().should('have.text', '');
 
     BreweryParameters.switchToEventsTab();
     BreweryParameters.editEventsTableStringCell('reservationsNumber', 0, '199').should('have.text', '199');
@@ -88,6 +98,9 @@ describe('Additional advanced scenario parameters tests', () => {
       .type('{moveToStart}' + '29/08/1997')
       .should('value', '29/08/1997');
 
+    cy.get('@scenarioToCompareId').then((id) => BreweryParameters.selectScenarioToCompareOption(id));
+    BreweryParameters.getScenarioToCompareSelectInput().should('value', VALUES_TO_UPDATE.scenarioToCompare);
+
     ScenarioParameters.discard();
 
     BreweryParameters.switchToEventsTab();
@@ -105,6 +118,7 @@ describe('Additional advanced scenario parameters tests', () => {
     BreweryParameters.switchToAdditionalParametersTab();
     BreweryParameters.getCommentInput().should('value', INIT_VALUES.comment);
     BreweryParameters.getAdditionalDateInput().should('value', INIT_VALUES.additionalDate);
+    BreweryParameters.getScenarioToCompareSelectInput().should('value', INIT_VALUES.scenarioToCompare);
 
     BreweryParameters.switchToEventsTab();
     BreweryParameters.editEventsTableStringCell('reservationsNumber', 0, '199').should('have.text', '199');
@@ -131,6 +145,10 @@ describe('Additional advanced scenario parameters tests', () => {
     BreweryParameters.getAdditionalDateInput()
       .click()
       .type('{moveToStart}' + VALUES_TO_UPDATE.additionalDate);
+    cy.get('@scenarioToCompareId').then((id) => {
+      BreweryParameters.selectScenarioToCompareOption(id);
+    });
+    BreweryParameters.getScenarioToCompareSelectInput().should('value', VALUES_TO_UPDATE.scenarioToCompare);
 
     ScenarioParameters.launch();
 
@@ -149,5 +167,6 @@ describe('Additional advanced scenario parameters tests', () => {
       'have.text',
       new Date(VALUES_TO_UPDATE.additionalDate).toLocaleDateString()
     );
+    BreweryParameters.getScenarioToCompare().should('have.text', VALUES_TO_UPDATE.scenarioToCompare);
   });
 });
