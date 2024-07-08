@@ -1,5 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
+import * as msal from '@azure/msal-browser';
 import { AuthMSAL } from '@cosmotech/azure';
 import { Auth, AuthDev } from '@cosmotech/core';
 import ConfigService from '../../services/ConfigService';
@@ -13,17 +14,27 @@ export const COSMOTECH_API_SCOPE = ConfigService.getParameterValue('COSMOTECH_AP
 // AuthMSAL configuration
 const MSAL_CONFIG = {
   loginRequest: {
-    scopes: ['user.read'],
+    // scopes: ['user.read'],
   },
   accessRequest: {
-    scopes: [COSMOTECH_API_SCOPE],
+    // scopes: [COSMOTECH_API_SCOPE],
   },
   msalConfig: {
     auth: {
+      protocolMode: msal.ProtocolMode.OIDC,
+      authorityMetadata: JSON.stringify({
+        authorization_endpoint:
+          'https://kubernetes.cosmotech.com/keycloak/realms/ganymede/protocol/openid-connect/auth',
+        token_endpoint: 'https://kubernetes.cosmotech.com/keycloak/realms/ganymede/protocol/openid-connect/token',
+        issuer: 'https://kubernetes.cosmotech.com/keycloak/realms/ganymede',
+        userinfo_endpoint: 'https://kubernetes.cosmotech.com/keycloak/realms/ganymede/protocol/openid-connect/userinfo',
+      }),
+      authority: 'https://kubernetes.cosmotech.com/keycloak/realms/ganymede',
       clientId: APP_REGISTRATION_CLIENT_ID,
-      redirectUri: `${window.location.protocol}//${window.location.host}${process.env?.PUBLIC_URL ?? ''}/sign-in`,
-      authority: `https://login.microsoftonline.com/${AZURE_TENANT_ID}`,
-      knownAuthorities: [`https://login.microsoftonline.com/${AZURE_TENANT_ID}`],
+      // redirectUri: `${window.location.protocol}//${window.location.host}${process.env?.PUBLIC_URL ?? ''}/sign-in`,
+      // authority: `https://login.microsoftonline.com/${AZURE_TENANT_ID}`,
+      // knownAuthorities: [`https://login.microsoftonline.com/${AZURE_TENANT_ID}`],
+      knownAuthorities: ['https://kubernetes.cosmotech.com/keycloak/realms/ganymede'],
     },
     cache: {
       cacheLocation: 'localStorage',
