@@ -1,7 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
+import * as msal from '@azure/msal-browser';
 import { AuthMSAL } from '@cosmotech/azure';
-import { Auth, AuthDev } from '@cosmotech/core';
+import { Auth, AuthDev, AuthKeycloakExperimental } from '@cosmotech/core';
 import ConfigService from '../../services/ConfigService';
 
 export const POWER_BI_API_DEFAULT_SCOPE = 'https://analysis.windows.net/powerbi/api/.default';
@@ -10,7 +11,7 @@ const APP_REGISTRATION_CLIENT_ID = ConfigService.getParameterValue('APP_REGISTRA
 const AZURE_TENANT_ID = ConfigService.getParameterValue('AZURE_TENANT_ID');
 export const COSMOTECH_API_SCOPE = ConfigService.getParameterValue('COSMOTECH_API_SCOPE');
 
-// AuthMSAL configuration
+// AuthMSAL configuration (Login with Azure/Microsoft)
 const MSAL_CONFIG = {
   loginRequest: {
     scopes: ['user.read'],
@@ -24,6 +25,39 @@ const MSAL_CONFIG = {
       redirectUri: `${window.location.protocol}//${window.location.host}${process.env?.PUBLIC_URL ?? ''}/sign-in`,
       authority: `https://login.microsoftonline.com/${AZURE_TENANT_ID}`,
       knownAuthorities: [`https://login.microsoftonline.com/${AZURE_TENANT_ID}`],
+    },
+    cache: {
+      cacheLocation: 'localStorage',
+      storeAuthStateInCookie: false,
+    },
+  },
+};
+
+// AuthKeycloak configuration
+const MSAL_KEYCLOAK_CONFIG = {
+  loginRequest: {
+    // scopes: ['user.read'],
+    // scopes: ['roles', 'openid', 'email', 'profile'],
+  },
+  accessRequest: {
+    // scopes: [COSMOTECH_API_SCOPE],
+    // scopes: ['roles', 'openid', 'email', 'profile'],
+  },
+  msalConfig: {
+    auth: {
+      protocolMode: msal.ProtocolMode.OIDC,
+      authorityMetadata: JSON.stringify({
+        authorization_endpoint: 'https://kubernetes.cosmotech.com/keycloak/realms/brewery/protocol/openid-connect/auth',
+        token_endpoint: 'https://kubernetes.cosmotech.com/keycloak/realms/brewery/protocol/openid-connect/token',
+        issuer: 'https://kubernetes.cosmotech.com/keycloak/realms/brewery',
+        userinfo_endpoint: 'https://kubernetes.cosmotech.com/keycloak/realms/brewery/protocol/openid-connect/userinfo',
+      }),
+      authority: 'https://kubernetes.cosmotech.com/keycloak/realms/brewery',
+      clientId: APP_REGISTRATION_CLIENT_ID,
+      // redirectUri: `${window.location.protocol}//${window.location.host}${process.env?.PUBLIC_URL ?? ''}/sign-in`,
+      // authority: `https://login.microsoftonline.com/${AZURE_TENANT_ID}`,
+      // knownAuthorities: [`https://login.microsoftonline.com/${AZURE_TENANT_ID}`],
+      knownAuthorities: ['https://kubernetes.cosmotech.com/keycloak/realms/brewery'],
     },
     cache: {
       cacheLocation: 'localStorage',
@@ -48,5 +82,6 @@ if (process.env.REACT_APP_AUTH_DEV_USER_NAME) AUTH_DEV_CONFIG.userName = process
 if (process.env.REACT_APP_AUTH_DEV_ROLE) AUTH_DEV_CONFIG.roles = [process.env.REACT_APP_AUTH_DEV_ROLE];
 
 // Register the providers used in the application
+Auth.addProvider(AuthKeycloakExperimental).setConfig(MSAL_KEYCLOAK_CONFIG);
 Auth.addProvider(AuthDev).setConfig(AUTH_DEV_CONFIG);
 Auth.addProvider(AuthMSAL).setConfig(MSAL_CONFIG);
