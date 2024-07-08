@@ -1,0 +1,10 @@
+# name is the name of the deployment, ingress and service that will be created
+name: cosmotech-webserver-experimental
+# imageName is the name of the docker image containing your webapp server
+imageName: ghcr.io/cosmo-tech/azure-sample-webapp
+# imageTag is the tag of the docker image to pull
+imageTag: latest
+# apiUrl is the URL of the API to use as host for the webapp server
+apiUrl: dev.api.cosmotech.com
+# webappPublicUrl is the subdirectory path to use as root of the webapp
+webappPublicUrl: /cosmotech-webapp/brewery

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    cosmotech.com/service: {{ .Values.name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      cosmotech.com/service: {{ .Values.name }}
+  template:
+    metadata:
+      labels:
+        cosmotech.com/service: {{ .Values.name }}
+        networking/traffic-allowed: "yes"
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+      - name: cosmotech-solution-webapp-server
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+          readOnlyRootFilesystem: true
+          runAsUser: 1000
+        image: "{{ .Values.imageName }}:{{ .Values.imageTag }}"
+        ports:
+          - name: http
+            containerPort: 3000
+            protocol: TCP
