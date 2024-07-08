@@ -1,0 +1,3 @@
+name: cosmotech-webserver-experimental
+image: ghcr.io/cosmo-tech/azure-sample-webapp
+version: latest

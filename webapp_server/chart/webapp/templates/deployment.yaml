@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    cosmotech.com/service: {{ .Values.name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      cosmotech.com/service: {{ .Values.name }}
+  template:
+    metadata:
+      labels:
+        cosmotech.com/service: {{ .Values.name }}
+        networking/traffic-allowed: "yes"
+    spec:
+      containers:
+      - name: azure-sample-webapp
+        image: "{{ .Values.image }}:{{ .Values.version }}"
+        ports:
+          - name: http
+            containerPort: 3000
+            protocol: TCP
