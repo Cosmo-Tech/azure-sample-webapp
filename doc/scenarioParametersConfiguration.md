@@ -267,10 +267,6 @@ mode is enabled by setting `options.subType` to `TABLE`. The `options` dict can 
 - `dateFormat`: a string describing the expected format of dates in the table based on
   [date-fns format patterns](https://date-fns.org/v2.25.0/docs/parse) (default: `yyyy-MM-dd`)
 
-Also, if you want to have a default table content instead of the default empty table, you can provide the id of an
-existing dataset in the `defaultValue` property of the parameter description (this dataset must be a CSV file, with
-values separated by commas).
-
 Example:
 
 ```yaml
@@ -303,6 +299,51 @@ parameters:
       canChangeRowsNumber: false
       dateFormat: 'dd/MM/yyyy'
 ```
+#### Data source
+By default, the table component is empty but if you want to display some data, you can define either a default or dynamic
+value for the parameter. You can provide the id of an existing dataset in the `defaultValue` property of the parameter
+description (this dataset must be a CSV file, with values separated by commas). If you want to fetch data from scenario's
+dataset, you can use `dynamicValues` option that uses a cypher query to retrieve data from twingraph dataset.
+
+_Note: only a **cypher** query from **twingraph** dataset is supported_
+
+
+`dynamicValues` is an object with the following keys:
+
+- `query`: the cypher query to run on a twingraph dataset; this query must retrieve a list of property values of the
+  graph elements, and return them with an alias (example: `MATCH(n:Customer) WITH {name: n.name, age: n.age} as alias 
+RETURN alias`). Names of the properties must correspond to the `field` key in columns definition.
+- `resultKey`: the alias defined in your query; providing this value is required for the webapp to parse the cypher
+  query results, and retrieve the actual values to display in the table
+
+Example:
+```yaml
+parameters:
+  - id: 'customers'
+    labels:
+      fr: 'Clients'
+      en: 'Customers'
+    varType: '%DATASETID%'
+    options:
+      subType: 'TABLE'
+      connectorId: 'c-d7e5p9o0kjn9'
+      description: 'customers data'
+      dynamicValues:
+        query: 'MATCH(customer: Customer) WITH {name: customer.id, satisfaction: customer.Satisfaction} as fields RETURN fields'
+        resultKey: 'fields'
+      columns:
+        - field: 'name'
+          type:
+            - 'nonEditable'
+        - field: 'satisfaction'
+          type:
+            - 'int'
+          minValue: 0
+          maxValue: 120
+      canChangeRowsNumber: false
+```
+
+_Known issue: Dynamic parameters are not saved as scenario parameters when they are not edited_
 
 #### Columns definition
 
