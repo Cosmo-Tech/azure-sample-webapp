@@ -10,7 +10,7 @@ export const getScenarioManagerLabels = (t) => ({
   failed: t('commoncomponents.scenariomanager.treelist.node.status.failed'),
   created: t('commoncomponents.scenariomanager.treelist.node.status.created'),
   delete: t('commoncomponents.scenariomanager.treelist.node.action.delete'),
-  redirect: t('commoncomponents.scenariomanager.treelist.node.action.redirect'),
+  edit: t('commoncomponents.scenariomanager.treelist.node.action.edit'),
   scenarioRename: {
     title: t('commoncomponents.dialog.create.scenario.input.scenarioname.label'),
     errors: {

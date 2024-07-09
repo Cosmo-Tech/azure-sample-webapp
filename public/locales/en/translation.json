@@ -326,7 +326,8 @@
           },
           "action": {
             "delete": "Delete this scenario",
-            "redirect": "Open in scenario view"
+            "redirect": "Open in scenario view",
+            "edit": "Edit scenario name"
           },
           "text": {
             "search": "Filter..."
