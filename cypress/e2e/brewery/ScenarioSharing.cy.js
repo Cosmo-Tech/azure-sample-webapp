@@ -51,7 +51,7 @@ describe('Check workspace permissions for admin', () => {
     ScenarioManager.switchToScenarioManager();
     ScenarioManager.getScenarioAccordion(PRIVATE_SCENARIOS_LIST[0].id);
     ScenarioManager.getDeleteScenarioButton().should('be.visible').should('not.be.disabled');
-    ScenarioManager.getScenarioEditableLink(PRIVATE_SCENARIOS_LIST[0].id).should('not.exist');
+    ScenarioManager.getScenarioEditableLink(PRIVATE_SCENARIOS_LIST[0].id).should('exist');
     ScenarioManager.getRenameScenarioButton(PRIVATE_SCENARIOS_LIST[0].id).should('exist').click();
     ScenarioManager.getScenarioEditableLinkInEditMode(PRIVATE_SCENARIOS_LIST[0].id).should('exist');
   });
