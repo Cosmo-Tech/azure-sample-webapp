@@ -1,3 +1,13 @@
+## **6.3.0** <sub><sup>2024-07-12 ([abfd4f3...aa587fa](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/abfd4f35...aa587fa9?diff=split))</sup></sub>
+
+### Features
+*  \[SDCOSMO\-1974\] implement scenario selector in scenario parameters ([071475b](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/071475be))
+*  add data fetching from twingraph dataset in Table component ([05ac9eb](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/05ac9eb7))
+
+### Documentation
+*  add missing doc of defaultValue option in Table columns configuration ([68139dd](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/68139dd8))
+*  configuration of dynamic data fetching from twingraph dataset in Table component ([e87a276](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/e87a276b))
+
 ## **6.2.0** <sub><sup>2024-06-21 ([578b5ad...f9cda65](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/578b5ad4...f9cda654?diff=split))</sup></sub>
 
 ### Features
