@@ -10,8 +10,9 @@
   "dependencies": {
     "@azure/msal-node": "^2.9.2",
     "guid": "0.0.12",
-    "jsonwebtoken": "^9.0.0",
-    "jwks-rsa": "^3.0.1",
-    "node-fetch": "^3.0.0"
-  }
+    "jsonwebtoken": "^9.0.2",
+    "jwks-rsa": "^3.1.0",
+    "node-fetch": "^3.3.2"
+  },
+  "packageManager": "yarn@4.3.1"
 }
