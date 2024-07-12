@@ -58,6 +58,10 @@ export const useCurrentScenarioReducerStatus = () => {
   return useSelector((state) => state.scenario?.current?.status);
 };
 
+export const useCurrentScenarioDatasetList = () => {
+  return useSelector((state) => state.scenario?.current?.data?.datasetList);
+};
+
 export const useResetCurrentScenario = () => {
   const dispatch = useDispatch();
   return useCallback(() => dispatch(dispatchResetCurrentScenario()), [dispatch]);

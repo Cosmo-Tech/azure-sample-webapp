@@ -275,6 +275,8 @@ export const GENERIC_SELECTORS = {
         addRowButton: '[data-cy=add-row-button]',
         deleteRowsButton: '[data-cy=delete-rows-button]',
         deleteRowsDialogConfirmButton: '[data-cy=delete-rows-dialog-confirm-button]',
+        revertButton: '[data-cy=revert-table-button]',
+        revertDialogConfirmButton: '[data-cy=revert-table-data-dialog-confirm-button]',
       },
       header: '[class=ag-header-container]',
       placeholder: '[data-cy=empty-table-placeholder]',

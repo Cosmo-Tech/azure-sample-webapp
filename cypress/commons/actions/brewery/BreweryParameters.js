@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 import { BREWERY_SELECTORS } from '../../constants/brewery/IdConstants';
 import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
+import { apiUtils } from '../../utils';
 import { FileParameters, TableParameters, ScenarioParameters } from '../generic';
 
 // Get tabs elements
@@ -305,6 +306,15 @@ function clearCustomersTableStringCell(colName, rowIndex, useDelKey = false) {
   return TableParameters.clearStringCell(getCustomersTable, colName, rowIndex, useDelKey);
 }
 
+function getCustomersRevertTableButton() {
+  return TableParameters.getRevertDataButton(getCustomersTable());
+}
+
+function revertCustomersTable(response = {}) {
+  apiUtils.interceptPostDatasetTwingraphQuery(response, false);
+  TableParameters.revertTableData(getCustomersTable());
+}
+
 function getEventsTable() {
   return cy.get(BREWERY_SELECTORS.scenario.parameters.events.table);
 }
@@ -358,6 +368,10 @@ function editEventsTableStringCell(colName, rowIndex, newValue) {
 
 function clearEventsTableStringCell(colName, rowIndex, useDelKey = false) {
   return TableParameters.clearStringCell(getEventsTable, colName, rowIndex, useDelKey);
+}
+
+function getEventsRevertTableButton() {
+  return TableParameters.getRevertDataButton(getEventsTable());
 }
 
 function getExampleDatasetPart1FileName() {
@@ -517,6 +531,8 @@ export const BreweryParameters = {
   deleteRowsCustomersTableData,
   deleteRowsEventsTableData,
   editCustomersTableStringCell,
+  getCustomersRevertTableButton,
+  revertCustomersTable,
   getEventsTableLabel,
   getEventsTableGrid,
   getEventsImportButton,
@@ -531,6 +547,7 @@ export const BreweryParameters = {
   exportEventsTableDataToCSV,
   exportEventsTableDataToXLSX,
   editEventsTableStringCell,
+  getEventsRevertTableButton,
   getStock,
   getRestock,
   getWaiters,

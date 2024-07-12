@@ -99,6 +99,14 @@ function getDeleteRowsDialogConfirmButton() {
   return cy.get(GENERIC_SELECTORS.genericComponents.table.toolbar.deleteRowsDialogConfirmButton);
 }
 
+function getRevertDataButton(tableParameterElement) {
+  return tableParameterElement.find(GENERIC_SELECTORS.genericComponents.table.toolbar.revertButton);
+}
+
+function getRevertDialogConfirmButton() {
+  return cy.get(GENERIC_SELECTORS.genericComponents.table.toolbar.revertDialogConfirmButton);
+}
+
 function getHeader(tableParameterElement) {
   return getGrid(tableParameterElement).find(GENERIC_SELECTORS.genericComponents.table.header);
 }
@@ -234,6 +242,11 @@ function clearStringCell(getTableElement, colName, rowIndex, useDelKey = false) 
   return getCell(getTableElement(), colName, rowIndex);
 }
 
+function revertTableData(tableParameterElement) {
+  getRevertDataButton(tableParameterElement).click();
+  getRevertDialogConfirmButton().click();
+}
+
 export const TableParameters = {
   getFullscreenTable,
   getLabel,
@@ -279,4 +292,6 @@ export const TableParameters = {
   setFileExportName,
   editStringCell,
   clearStringCell,
+  revertTableData,
+  getRevertDataButton,
 };
