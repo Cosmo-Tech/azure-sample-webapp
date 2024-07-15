@@ -7,6 +7,7 @@ import { Card, CardContent, Grid, Tab, Tabs } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { useDashboardsViewReportsConfig } from '../../state/hooks/PowerBIHooks';
 import { DashboardsPowerBiReport } from './components';
+import {useRedirectFromDashboardsToScenarioView, useRedirectToWorkspaceView} from "../../hooks/RouterHooks";
 
 const useStyles = makeStyles((theme) => ({
   dashboardsRoot: {
@@ -70,6 +71,7 @@ const Dashboards = () => {
   };
 
   const dashboardsViewReportsConfig = useDashboardsViewReportsConfig();
+  useRedirectFromDashboardsToScenarioView();
   const dashboardTitle = dashboardsViewReportsConfig?.[value]?.title?.[i18n.language] ?? DEFAULT_MISSING_TITLE;
 
   return (

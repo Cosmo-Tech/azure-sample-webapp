@@ -9,4 +9,5 @@ export const STATUSES = {
   ERROR: 'ERROR',
   SUCCESS: 'SUCCESS',
   CREATED: 'CREATED',
+  DISABLED: 'DISABLED',
 };

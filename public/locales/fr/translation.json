@@ -298,6 +298,7 @@
         "unknownStatus": {
           "label": "Le scénario a un statut inconnu, si le problème persiste, merci de contacter votre administrateur"
         },
+        "resultsDisplayDisabled": "La simulation s'est terminée avec succès mais l'affichage des résultats est désactivé",
         "error": {
           "unknown": {
             "details": "Une erreur est survenue lors de la récupération des informations des rapports PowerBI",

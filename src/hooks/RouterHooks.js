@@ -48,6 +48,25 @@ export const useRedirectFromDatasetManagerToScenarioView = () => {
   }, [currentWorkspaceData?.webApp?.options?.datasetmanager, navigate]);
 };
 
+export const useRedirectFromDashboardsToScenarioView = () => {
+  const isUnmounted = useRef(false);
+  const currentWorkspaceData = useWorkspaceData();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isUnmounted.current) {
+      return;
+    }
+    const isDatasetManagerViewEnabled = ConfigUtils.isResultsDisplayEnabledInWorkspace(currentWorkspaceData);
+    if (isDatasetManagerViewEnabled) return;
+    navigate('/workspaces');
+    return () => {
+      isUnmounted.current = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentWorkspaceData?.webApp?.options?.charts, navigate]);
+};
+
 export const useRouterScenarioId = () => {
   const routerParameters = useParams();
   return routerParameters?.scenarioId;

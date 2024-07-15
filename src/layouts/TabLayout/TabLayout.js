@@ -66,7 +66,11 @@ export const TabLayout = (props) => {
   const shouldRedirectFromDatasetManager =
     currentTabPathname.startsWith(`/${routerParameters.workspaceId}/datasetmanager`) &&
     !ConfigUtils.isDatasetManagerEnabledInWorkspace(currentWorkspace?.data);
-  const shouldRedirect = shouldRedirectFromInstanceView || shouldRedirectFromDatasetManager;
+  const shouldRedirectFromDashboardsView =
+    currentTabPathname.startsWith(`/${routerParameters.workspaceId}/dashboards`) &&
+    !ConfigUtils.isResultsDisplayEnabledInWorkspace(currentWorkspace?.data);
+  const shouldRedirect =
+    shouldRedirectFromInstanceView || shouldRedirectFromDatasetManager || shouldRedirectFromDashboardsView;
   const tabValue = shouldRedirect ? `/${routerParameters.workspaceId}/scenario` : currentTabPathname;
 
   const viewTabs = (

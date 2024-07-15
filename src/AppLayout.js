@@ -44,11 +44,13 @@ export const getTabsForCurrentWorkspace = (currentWorkspaceData) => {
 export const filterTabsForCurrentWorkspace = (tabs, currentWorkspaceData) => {
   const hideInstanceView = !ConfigUtils.isInstanceViewConfigValid(currentWorkspaceData?.webApp?.options?.instanceView);
   const hideDatasetManager = !ConfigUtils.isDatasetManagerEnabledInWorkspace(currentWorkspaceData);
+  const hideDashboardsView = !ConfigUtils.isResultsDisplayEnabledInWorkspace(currentWorkspaceData);
 
   return tabs.filter((tab) => {
     if (
       (hideInstanceView && tab.key === 'tabs.instance.key') ||
-      (hideDatasetManager && tab.key === 'tabs.datasetmanager.key')
+      (hideDatasetManager && tab.key === 'tabs.datasetmanager.key') ||
+      (hideDashboardsView && tab.key === 'tabs.dashboards.key')
     )
       return false;
     return true;

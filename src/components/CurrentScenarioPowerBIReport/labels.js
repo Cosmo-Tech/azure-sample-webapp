@@ -36,6 +36,10 @@ export const getReportLabels = (t) => ({
       'This scenario has an unknown state, if the problem persists, please, contact your administrator'
     ),
   },
+  resultsDisplayDisabled: t(
+    'commoncomponents.iframe.scenario.resultsDisplayDisabled',
+    'Scenario run was successful but the display of results is disabled'
+  ),
   downloadButton: t('commoncomponents.iframe.scenario.results.button.downloadLogs', 'Download logs'),
   refreshTooltip: t('commoncomponents.iframe.scenario.results.button.refresh', 'Refresh'),
   errors: {

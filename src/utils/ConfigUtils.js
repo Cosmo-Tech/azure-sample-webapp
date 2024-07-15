@@ -166,6 +166,11 @@ const isDatasetManagerEnabledInWorkspace = (workspace) => {
   return true;
 };
 
+const isResultsDisplayEnabledInWorkspace = (workspace) => {
+  const reportsConfig = workspace?.webApp?.options?.charts;
+  return reportsConfig != null;
+};
+
 const checkUnknownKeysInConfig = (schema, data) => {
   try {
     schema.parse(data);
@@ -243,5 +248,6 @@ export const ConfigUtils = {
   patchSolution,
   isInstanceViewConfigValid,
   isDatasetManagerEnabledInWorkspace,
+  isResultsDisplayEnabledInWorkspace,
   checkUnknownKeysInConfig,
 };
