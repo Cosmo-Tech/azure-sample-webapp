@@ -6,11 +6,10 @@ import { useDatasetManager } from './DatasetManagerHook';
 import { DatasetList, DatasetMetadata, DatasetOverview, NoDatasetsPlaceholder } from './components';
 
 const DatasetManager = () => {
-  const { datasets, useRedirectFromDatasetManagerToScenarioView, useResetSelectedDatasetIfNecessary } =
-    useDatasetManager();
+  const { datasets, useRedirectFromDisabledView, useResetSelectedDatasetIfNecessary } = useDatasetManager();
 
   useResetSelectedDatasetIfNecessary();
-  useRedirectFromDatasetManagerToScenarioView();
+  useRedirectFromDisabledView('datasetManager');
 
   return datasets?.length > 0 ? (
     <div data-cy="dataset-manager-view" style={{ height: '100%', overflow: 'auto' }}>

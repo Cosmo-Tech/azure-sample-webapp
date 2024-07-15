@@ -27,7 +27,7 @@ const Instance = () => {
     workspaceId,
     currentScenario,
     useRedirectionToScenario,
-    useRedirectFromInstanceToScenarioView,
+    useRedirectFromDisabledView,
     instanceViewConfig,
   } = useInstance();
 
@@ -46,7 +46,7 @@ const Instance = () => {
   const isSwitchingScenario = currentScenario.status === STATUSES.LOADING;
 
   useRedirectionToScenario();
-  useRedirectFromInstanceToScenarioView();
+  useRedirectFromDisabledView('instance');
 
   useEffect(() => {
     // Note that the "active" variable is necessary to prevent race conditions when the effect is called several times

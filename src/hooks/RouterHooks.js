@@ -8,63 +8,45 @@ import { useWorkspaceData } from '../state/hooks/WorkspaceHooks';
 import { ConfigUtils } from '../utils';
 import { useSortedScenarioList } from './ScenarioListHooks';
 
-export const useRedirectFromInstanceToScenarioView = () => {
+export const useRedirectFromDisabledView = (view) => {
   const isUnmounted = useRef(false);
   const currentWorkspaceData = useWorkspaceData();
   const navigate = useNavigate();
+  const routerParameters = useParams();
 
   useEffect(() => {
     if (isUnmounted.current) {
       return;
     }
-    const isInstanceViewEnabled = ConfigUtils.isInstanceViewConfigValid(
-      currentWorkspaceData?.webApp?.options?.instanceView
-    );
-    if (isInstanceViewEnabled) return;
-    navigate('/workspaces');
-    return () => {
-      isUnmounted.current = true;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentWorkspaceData?.webApp?.options?.instanceView]);
-};
-
-export const useRedirectFromDatasetManagerToScenarioView = () => {
-  const isUnmounted = useRef(false);
-  const currentWorkspaceData = useWorkspaceData();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (isUnmounted.current) {
-      return;
+    let isViewEnabled;
+    switch (view) {
+      case 'instance':
+        isViewEnabled = ConfigUtils.isInstanceViewConfigValid(currentWorkspaceData?.webApp?.options?.instanceView);
+        break;
+      case 'datasetManager':
+        isViewEnabled = ConfigUtils.isDatasetManagerEnabledInWorkspace(currentWorkspaceData);
+        break;
+      case 'dashboards':
+        isViewEnabled = ConfigUtils.isResultsDisplayEnabledInWorkspace(currentWorkspaceData);
+        break;
+      default:
+        isViewEnabled = true;
     }
-    const isDatasetManagerViewEnabled = ConfigUtils.isDatasetManagerEnabledInWorkspace(currentWorkspaceData);
-    if (isDatasetManagerViewEnabled) return;
-    navigate('/workspaces');
+    if (isViewEnabled) return;
+    const workspaceId = routerParameters.workspaceId;
+    navigate(workspaceId ? `/${workspaceId}` : '/workspaces');
     return () => {
       isUnmounted.current = true;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentWorkspaceData?.webApp?.options?.datasetmanager, navigate]);
-};
-
-export const useRedirectFromDashboardsToScenarioView = () => {
-  const isUnmounted = useRef(false);
-  const currentWorkspaceData = useWorkspaceData();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (isUnmounted.current) {
-      return;
-    }
-    const isDatasetManagerViewEnabled = ConfigUtils.isResultsDisplayEnabledInWorkspace(currentWorkspaceData);
-    if (isDatasetManagerViewEnabled) return;
-    navigate('/workspaces');
-    return () => {
-      isUnmounted.current = true;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentWorkspaceData?.webApp?.options?.charts, navigate]);
+  }, [
+    currentWorkspaceData?.webApp?.options?.charts,
+    currentWorkspaceData?.webApp?.options?.instanceView,
+    currentWorkspaceData?.webApp?.options?.datasetmanager,
+    navigate,
+    view,
+    routerParameters.workspaceId,
+    currentWorkspaceData,
+  ]);
 };
 
 export const useRouterScenarioId = () => {
