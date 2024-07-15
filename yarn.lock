@@ -42,12 +42,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@azure/msal-browser@npm:~2.23.0":
-  version: 2.23.0
-  resolution: "@azure/msal-browser@npm:2.23.0"
+"@azure/msal-browser@npm:~3.19.0":
+  version: 3.19.0
+  resolution: "@azure/msal-browser@npm:3.19.0"
   dependencies:
-    "@azure/msal-common": "npm:^6.2.0"
-  checksum: 10c0/24e58bd853c505ca7a44a384b52dd332afdaf45dcf08c17e417eb0fb89c6d237a561c5e7824e1e5fec7e2afc2ae25dfb1a5e513f2eb6dd2efbfb3532d824eef7
+    "@azure/msal-common": "npm:14.13.0"
+  checksum: 10c0/8cbec7f40f68d66e37e28bd0dd1fbfcc437712d30f631d61f40d9ce71219eed1ad46f819cef0b31e33e8d6bda6d7d18dc1d26d4734bc5386265c9f5d6eda8414
   languageName: node
   linkType: hard
 
@@ -55,13 +55,6 @@ __metadata:
   version: 14.13.0
   resolution: "@azure/msal-common@npm:14.13.0"
   checksum: 10c0/7af1eb35aea5c5544007c8380c1bccd420336cff2268de31adc14d3cbb5657500a14c84bb223641e419c588449567eee651af81e2821d3fd46e39f2431c496d1
-  languageName: node
-  linkType: hard
-
-"@azure/msal-common@npm:^6.2.0":
-  version: 6.4.0
-  resolution: "@azure/msal-common@npm:6.4.0"
-  checksum: 10c0/f1505b5e0d9892fa66d18178f219158517ad3a3651f89d2f7f8c88d3a7cb1607a5b2bb21a9956f6de190a3f5c742ea6825d93142788da8723c6d7cb72b7f7d90
   languageName: node
   linkType: hard
 
@@ -1752,49 +1745,49 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmotech/azure@npm:^1.3.5":
-  version: 1.3.5
-  resolution: "@cosmotech/azure@npm:1.3.5"
+"@cosmotech/azure@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@cosmotech/azure@npm:2.0.0"
   dependencies:
-    "@azure/msal-browser": "npm:~2.23.0"
-  checksum: 10c0/747b1f001e2bc400655bbe28d50bbc36d1eef585042ed7210dba40b2f2021f9e6b898fcaa9f06ca8d02cccd661eef147a87a84ca518e0c735177764c9cd7652d
+    "@azure/msal-browser": "npm:~3.19.0"
+  checksum: 10c0/66ebf37c797f18ad7baf2101ec164d004d3cb2dde9c45527ab10481da74535ede692460cad263e154d21644924e05d137481a08f5b00b271c6c396192816c590
   languageName: node
   linkType: hard
 
-"@cosmotech/core@npm:^1.16.0":
-  version: 1.16.0
-  resolution: "@cosmotech/core@npm:1.16.0"
+"@cosmotech/core@npm:^1.16.1":
+  version: 1.16.1
+  resolution: "@cosmotech/core@npm:1.16.1"
   dependencies:
-    csv-string: "npm:^4.0.1"
-    date-fns: "npm:^2.25.0"
+    csv-string: "npm:^4.1.1"
+    date-fns: "npm:^2.30.0"
     js-file-download: "npm:^0.4.12"
-    rfdc: "npm:^1.3.0"
-    validator: "npm:^13.7.0"
-    xlsx: "https://cdn.sheetjs.com/xlsx-0.20.0/xlsx-0.20.0.tgz"
-  checksum: 10c0/866b3471a1d1a4e47fecc3eac815655882e60d9c0c8771c0acc978ef4dd994d6ac3c14610290d6f3ebd3369940bc40f3ad11d02cc69d1e0ae0491f93ef5e8648
+    rfdc: "npm:^1.4.1"
+    validator: "npm:^13.12.0"
+    xlsx: "https://cdn.sheetjs.com/xlsx-0.20.2/xlsx-0.20.2.tgz"
+  checksum: 10c0/bb277e10b201caf4e47d757ca26203d2f79e0d1fac8bcd14238d86918f1b6d594802f32357bb5db97c036c8c40cc689ca91834bb90209d13a3670003498e296e
   languageName: node
   linkType: hard
 
-"@cosmotech/ui@npm:^9.0.0":
-  version: 9.0.0
-  resolution: "@cosmotech/ui@npm:9.0.0"
+"@cosmotech/ui@npm:^9.0.1":
+  version: 9.0.1
+  resolution: "@cosmotech/ui@npm:9.0.1"
   dependencies:
-    "@emotion/react": "npm:^11.10.5"
-    "@emotion/styled": "npm:^11.10.5"
-    "@mui/x-date-pickers": "npm:^5.0.18"
-    "@nosferatu500/react-sortable-tree": "npm:^3.0.5"
-    ag-grid-community: "npm:~31.0.3"
-    ag-grid-react: "npm:~31.0.3"
-    clsx: "npm:^2.0.0"
-    cytoscape: "npm:^3.20.0"
-    cytoscape-bubblesets: "npm:^3.1.0"
-    cytoscape-dagre: "npm:^2.4.0"
-    cytoscape-layers: "npm:^2.2.0"
-    powerbi-client-react: "npm:^1.3.3"
+    "@emotion/react": "npm:^11.11.4"
+    "@emotion/styled": "npm:^11.11.5"
+    "@mui/x-date-pickers": "npm:^5.0.20"
+    "@nosferatu500/react-sortable-tree": "npm:^3.0.6"
+    ag-grid-community: "npm:~32.0.2"
+    ag-grid-react: "npm:~32.0.2"
+    clsx: "npm:^2.1.1"
+    cytoscape: "npm:^3.30.0"
+    cytoscape-bubblesets: "npm:^3.2.2"
+    cytoscape-dagre: "npm:^2.5.0"
+    cytoscape-layers: "npm:^2.4.5"
+    powerbi-client-react: "npm:^1.4.0"
     react-cytoscapejs: "npm:^2.0.0"
-    react-lottie-player: "npm:^1.4.1"
-    react-number-format: "npm:^5.1.3"
-    rfdc: "npm:^1.3.0"
+    react-lottie-player: "npm:^1.5.6"
+    react-number-format: "npm:^5.4.0"
+    rfdc: "npm:^1.4.1"
   peerDependencies:
     "@cosmotech/azure": ^1.1.2
     "@cosmotech/core": ^1.6.3
@@ -1806,7 +1799,7 @@ __metadata:
     react: ^17.0.1
     react-dom: ^17.0.1
     react-i18next: ^11.8.13
-  checksum: 10c0/105b9c7d03c1f57478118f7c9c12e095b104f3b42a63a362ac5d28a4ff807387f45cdcc0ecc5114ef31b35959ea45808cf86fb87b5ef4d6a29aabfc1307e8775
+  checksum: 10c0/ca3ac4e2501e422c70eefa17623bb8590aa04aeef9a4f423bdcd3ea70bbc9c87048f509cbb3dcf4a333785d9f06000a16212303d0de6b8c6a6977f2b80378832
   languageName: node
   linkType: hard
 
@@ -2137,7 +2130,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/react@npm:^11.10.5, @emotion/react@npm:^11.11.4":
+"@emotion/react@npm:^11.11.4":
   version: 11.11.4
   resolution: "@emotion/react@npm:11.11.4"
   dependencies:
@@ -2178,7 +2171,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/styled@npm:^11.10.5, @emotion/styled@npm:^11.11.5":
+"@emotion/styled@npm:^11.11.5":
   version: 11.11.5
   resolution: "@emotion/styled@npm:11.11.5"
   dependencies:
@@ -3455,7 +3448,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/x-date-pickers@npm:^5.0.18":
+"@mui/x-date-pickers@npm:^5.0.20":
   version: 5.0.20
   resolution: "@mui/x-date-pickers@npm:5.0.20"
   dependencies:
@@ -3568,7 +3561,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nosferatu500/react-sortable-tree@npm:^3.0.5":
+"@nosferatu500/react-sortable-tree@npm:^3.0.6":
   version: 3.0.6
   resolution: "@nosferatu500/react-sortable-tree@npm:3.0.6"
   dependencies:
@@ -5094,23 +5087,32 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ag-grid-community@npm:~31.0.3":
-  version: 31.0.3
-  resolution: "ag-grid-community@npm:31.0.3"
-  checksum: 10c0/53aabfd3468377edc6f1fa1b4e539a76412356b5ddb6a140b05273fd081d963104017dea5d4322ff0ed38ba258944464d1216b59674918377f091800a9295f67
+"ag-charts-types@npm:10.0.2":
+  version: 10.0.2
+  resolution: "ag-charts-types@npm:10.0.2"
+  checksum: 10c0/f1d1ec796c9372284d9237c126d08f6f11ec4b18fbd7bbb34b363e12cfc8ff635ee6b0e893aa47576de6048839f1098e249e14afe2d25d8d7bba4c3dc1d1a26f
   languageName: node
   linkType: hard
 
-"ag-grid-react@npm:~31.0.3":
-  version: 31.0.3
-  resolution: "ag-grid-react@npm:31.0.3"
+"ag-grid-community@npm:32.0.2, ag-grid-community@npm:~32.0.2":
+  version: 32.0.2
+  resolution: "ag-grid-community@npm:32.0.2"
   dependencies:
-    ag-grid-community: "npm:~31.0.3"
+    ag-charts-types: "npm:10.0.2"
+  checksum: 10c0/af77668e7dabad4812340cea5f050c9d7eb1d27651494755912359109d72cfe70b385ed4f535dce091c7e5b3a2933beb892d060d3fb1dc1ad595ad25d5d6a49c
+  languageName: node
+  linkType: hard
+
+"ag-grid-react@npm:~32.0.2":
+  version: 32.0.2
+  resolution: "ag-grid-react@npm:32.0.2"
+  dependencies:
+    ag-grid-community: "npm:32.0.2"
     prop-types: "npm:^15.8.1"
   peerDependencies:
     react: ^16.3.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.3.0 || ^17.0.0 || ^18.0.0
-  checksum: 10c0/8f5fc96c58eb1e7e0ff8568b468cd81cefa6074b2a737c39bbe3781dc3d32afd0925615e9d0b499c66c404e5fc8a2a2b764521484e160d80ea9cd876e9f6aa14
+  checksum: 10c0/5834ce91061823a8ca97a065d137484a6622069cf5cd63ef1c130bbfad33fee119c1e3e5bc19cbb7fc472bbca18a4e435b5c6017363e8729b8a46b830489ccfc
   languageName: node
   linkType: hard
 
@@ -5651,9 +5653,9 @@ __metadata:
     "@babel/preset-env": "npm:^7.24.8"
     "@babel/preset-react": "npm:^7.24.7"
     "@cosmotech/api-ts": "npm:^3.2.6"
-    "@cosmotech/azure": "npm:^1.3.5"
-    "@cosmotech/core": "npm:^1.16.0"
-    "@cosmotech/ui": "npm:^9.0.0"
+    "@cosmotech/azure": "npm:^2.0.0"
+    "@cosmotech/core": "npm:^1.16.1"
+    "@cosmotech/ui": "npm:^9.0.1"
     "@emotion/react": "npm:^11.11.4"
     "@emotion/styled": "npm:^11.11.5"
     "@microsoft/applicationinsights-web": "npm:^3.3.0"
@@ -6766,7 +6768,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"clsx@npm:^2.0.0, clsx@npm:^2.1.0":
+"clsx@npm:^2.1.0, clsx@npm:^2.1.1":
   version: 2.1.1
   resolution: "clsx@npm:2.1.1"
   checksum: 10c0/c4c8eb865f8c82baab07e71bfa8897c73454881c4f99d6bc81585aecd7c441746c1399d08363dc096c550cceaf97bd4ce1e8854e1771e9998d9f94c4fe075839
@@ -7521,7 +7523,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"csv-string@npm:^4.0.1":
+"csv-string@npm:^4.1.1":
   version: 4.1.1
   resolution: "csv-string@npm:4.1.1"
   checksum: 10c0/f8a55fb64047d0e20c6257ad664b8fedc975a0cb6b301732386e8d97bffd3d92214522fc7e32fab8147fe78ec41c6ba49cbf1e3a4bbe2ecc1268afc2d74a4c7d
@@ -7624,7 +7626,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cytoscape-bubblesets@npm:^3.1.0":
+"cytoscape-bubblesets@npm:^3.2.2":
   version: 3.2.2
   resolution: "cytoscape-bubblesets@npm:3.2.2"
   dependencies:
@@ -7639,7 +7641,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cytoscape-dagre@npm:^2.4.0":
+"cytoscape-dagre@npm:^2.5.0":
   version: 2.5.0
   resolution: "cytoscape-dagre@npm:2.5.0"
   dependencies:
@@ -7650,7 +7652,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cytoscape-layers@npm:^2.2.0":
+"cytoscape-layers@npm:^2.4.5":
   version: 2.4.5
   resolution: "cytoscape-layers@npm:2.4.5"
   dependencies:
@@ -7664,7 +7666,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cytoscape@npm:^3.20.0":
+"cytoscape@npm:^3.30.0":
   version: 3.30.0
   resolution: "cytoscape@npm:3.30.0"
   checksum: 10c0/ffd463f27975b7d979c6f1a8c3472d95cbe2d75dc820aac27ad3e253eaa877da4c7ed4632a341394d911ba1804c5786a292a56387bbb34fcf0c9db69286e123e
@@ -7752,7 +7754,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"date-fns@npm:^2.25.0, date-fns@npm:^2.30.0":
+"date-fns@npm:^2.30.0":
   version: 2.30.0
   resolution: "date-fns@npm:2.30.0"
   dependencies:
@@ -15501,7 +15503,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"powerbi-client-react@npm:^1.3.3":
+"powerbi-client-react@npm:^1.4.0":
   version: 1.4.0
   resolution: "powerbi-client-react@npm:1.4.0"
   dependencies:
@@ -16100,7 +16102,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-lottie-player@npm:^1.4.1":
+"react-lottie-player@npm:^1.5.6":
   version: 1.5.6
   resolution: "react-lottie-player@npm:1.5.6"
   dependencies:
@@ -16113,7 +16115,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-number-format@npm:^5.1.3":
+"react-number-format@npm:^5.4.0":
   version: 5.4.0
   resolution: "react-number-format@npm:5.4.0"
   dependencies:
@@ -18817,7 +18819,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"validator@npm:^13.6.0, validator@npm:^13.7.0":
+"validator@npm:^13.12.0, validator@npm:^13.6.0":
   version: 13.12.0
   resolution: "validator@npm:13.12.0"
   checksum: 10c0/21d48a7947c9e8498790550f56cd7971e0e3d724c73388226b109c1bac2728f4f88caddfc2f7ed4b076f9b0d004316263ac786a17e9c4edf075741200718cd32
@@ -19675,12 +19677,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"xlsx@https://cdn.sheetjs.com/xlsx-0.20.0/xlsx-0.20.0.tgz":
-  version: 0.20.0
-  resolution: "xlsx@https://cdn.sheetjs.com/xlsx-0.20.0/xlsx-0.20.0.tgz"
+"xlsx@https://cdn.sheetjs.com/xlsx-0.20.2/xlsx-0.20.2.tgz":
+  version: 0.20.2
+  resolution: "xlsx@https://cdn.sheetjs.com/xlsx-0.20.2/xlsx-0.20.2.tgz"
   bin:
     xlsx: ./bin/xlsx.njs
-  checksum: 10c0/0037e0dba8457a279b1920a93d70bae5a5d4c17ef87dd8eacb75bf5300d7299fcc18b2bafc0d424323f5cc02d2698a31475cfbcbdb980e31534b14bf30f6a72c
+  checksum: 10c0/664dff22e5ecd83d595f34e00ac90ee852d16e45b72385ada54291551b808c6848b166fb395f5e35249ca976a5b5d514e793ccbcc0a611b87a600ae4024d605a
   languageName: node
   linkType: hard
 
