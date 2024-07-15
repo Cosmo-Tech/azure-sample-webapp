@@ -7,5 +7,4 @@ This folder contains several configuration files for the WebApp:
 - **ApplicationInsights.js** defines the use of Application Insights
 - **PowerBI.js** regroups the configuration of all PowerBI reports of your application
 - **ScenarioParameters.js** defines the configuration of the scenario parameters, that are specific to your solution
-- **Languages.js** defines all supported languages in application
 - **HelpMenuConfiguration** contains variables related to webapp functioning and maintenance

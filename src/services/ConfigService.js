@@ -3,13 +3,12 @@
 import applicationInsights from '../config/ApplicationInsights.json';
 import globalConfiguration from '../config/GlobalConfiguration.json';
 import helpMenuConfiguration from '../config/HelpMenuConfiguration.json';
-import languages from '../config/Languages.json';
 
 const _initialized = false;
 const parametersValues = {};
 
 const loadParametersValues = () => {
-  const configsToLoad = [applicationInsights, globalConfiguration, helpMenuConfiguration, languages];
+  const configsToLoad = [applicationInsights, globalConfiguration, helpMenuConfiguration];
 
   configsToLoad.forEach((config) => {
     Object.entries(config).forEach(([parameterName, parameterValue]) => {

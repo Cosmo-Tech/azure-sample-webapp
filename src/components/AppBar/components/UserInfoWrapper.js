@@ -3,7 +3,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { UserInfo } from '@cosmotech/ui';
-import ConfigService from '../../../services/ConfigService';
+import { LANGUAGES } from '../../../services/config/Languages';
 import { useUserInfoHook } from './hooks/UserInfoHook';
 
 export const UserInfoWrapper = () => {
@@ -18,7 +18,7 @@ export const UserInfoWrapper = () => {
     <UserInfo
       onLogout={logOut}
       changeLanguage={(lang) => i18n.changeLanguage(lang)}
-      languages={ConfigService.getParameterValue('LANGUAGES')}
+      languages={LANGUAGES}
       language={i18n.language}
       userName={userEmail}
       labels={labels}
