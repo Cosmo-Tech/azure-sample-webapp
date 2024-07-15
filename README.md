@@ -74,11 +74,11 @@ nvm use 18
 nvm alias default 18
 ```
 
-This project is configured to be used with the [Yarn](https://yarnpkg.com/getting-started/install) package manager. You
-can use NPM (the node package manager) to install yarn globally with:
+This project is configured to be used with the [Yarn](https://yarnpkg.com/getting-started/install) package manager, in
+its Modern version. You can install yarn by enabling node's corepack:
 
 ```bash
-npm install --global yarn
+corepack enable
 ```
 
 ### Local azure function
