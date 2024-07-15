@@ -14,7 +14,7 @@
     "@mui/lab": "^5.0.0-alpha.170",
     "@mui/material": "^5.16.1",
     "@mui/styles": "^5.16.1",
-    "@reduxjs/toolkit": "^1.9.7",
+    "@reduxjs/toolkit": "^2.2.6",
     "axios": "^1.7.2",
     "date-fns": "^2.30.0",
     "deepmerge": "^4.3.1",
