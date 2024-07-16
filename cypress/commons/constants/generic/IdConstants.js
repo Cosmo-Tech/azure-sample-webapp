@@ -54,6 +54,9 @@ export const GENERIC_SELECTORS = {
     cytovizElementAttributeName: '[data-cy="cytoviz-element-attribute-name"]',
     cytovizElementAttributeValue: '[data-cy="cytoviz-element-attribute-value"]',
   },
+  dashboards: {
+    tabName: '[data-cy="tabs.dashboards.key"]',
+  },
   scenario: {
     view: '[data-cy=scenario-view]',
     tabName: '[data-cy="tabs.scenario.key"]',

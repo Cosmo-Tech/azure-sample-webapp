@@ -742,8 +742,10 @@ const interceptWorkspaceSelectorQueries = () => {
   ];
 };
 
-const interceptSelectWorkspaceQueries = () => {
-  return [interceptPowerBIAzureFunction(), interceptGetSolution(), interceptGetScenarios()];
+const interceptSelectWorkspaceQueries = (isPowerBiEnabled = true) => {
+  const workspaceQueries = [interceptGetSolution(), interceptGetScenarios()];
+  if (isPowerBiEnabled) workspaceQueries.push(interceptPowerBIAzureFunction());
+  return workspaceQueries;
 };
 
 export const apiUtils = {

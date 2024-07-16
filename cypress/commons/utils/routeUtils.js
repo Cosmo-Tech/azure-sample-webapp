@@ -16,9 +16,9 @@ const _navigateTo = (url) => {
   });
 };
 
-const getBrowseQueries = (workspaceId, scenarioId) => {
+const getBrowseQueries = (workspaceId, scenarioId, isPowerBiEnabled) => {
   const queries = api.interceptWorkspaceSelectorQueries();
-  if (workspaceId) queries.push(...api.interceptSelectWorkspaceQueries());
+  if (workspaceId) queries.push(...api.interceptSelectWorkspaceQueries(isPowerBiEnabled));
   if (scenarioId) queries.push(api.interceptGetScenario(scenarioId));
   return queries;
 };
@@ -55,7 +55,7 @@ const browse = (options) => {
       : options.url?.match(WEBAPP_URL_REGEX.SCENARIO_ID_PATTERN)?.[1];
 
   // Intercept scenario only when explicitly specified in options (part 2 of WorkingInTwoWorkspaces)
-  const queries = getBrowseQueries(workspaceId, options.scenarioId);
+  const queries = getBrowseQueries(workspaceId, options.scenarioId, options.isPowerBiEnabled);
   _navigateTo(options.url);
   if (options.onBrowseCallback) options.onBrowseCallback();
   waitBrowseQueries(queries);
