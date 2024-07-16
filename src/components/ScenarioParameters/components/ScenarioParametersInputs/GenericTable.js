@@ -243,7 +243,7 @@ export const GenericTable = ({
         throw new Error(
           t(
             'genericcomponent.table.labels.wrongResultKeyError',
-            `Returned result doesn't have ${resultKey} property. 
+            `Returned result doesn't have ${resultKey} property.
       Probably there is an error in resultKey configuration, please, check your solution`,
             { resultKey }
           )
@@ -604,15 +604,14 @@ export const GenericTable = ({
     }
 
     const gridApi = gridRef.current?.api;
-    const columnApi = gridRef.current?.columnApi;
-    if (!gridApi || !columnApi) return;
+    if (!gridApi) return;
 
     const getRowNodeIndex = (rowNode) => {
       const index = rowNode?.childIndex ?? parseInt(rowNode?.id);
       return isNaN(index) ? -1 : index;
     };
 
-    const isSortEnabled = columnApi.getColumnState().find((column) => column.sort !== null) !== undefined;
+    const isSortEnabled = gridApi.getColumnState().find((column) => column.sort !== null) !== undefined;
     const selectedLines = gridApi.getSelectedNodes() ?? [];
     const lastSelectedLine = selectedLines[selectedLines.length - 1];
 
