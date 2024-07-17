@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useRedirectFromDatasetManagerToScenarioView } from '../../hooks/RouterHooks';
+import { useRedirectFromDisabledView } from '../../hooks/RouterHooks';
 import { useWorkspaceMainDatasets } from '../../hooks/WorkspaceDatasetsHooks';
 import { dispatchSelectDefaultDataset } from '../../state/dispatchers/dataset/DatasetDispatcher';
 import { useCurrentDataset } from '../../state/hooks/DatasetHooks';
@@ -25,5 +25,5 @@ export const useDatasetManager = () => {
     }, [currentDataset?.id, workspaceMainDatasets, dispatch]);
   };
 
-  return { datasets, useResetSelectedDatasetIfNecessary, useRedirectFromDatasetManagerToScenarioView };
+  return { datasets, useResetSelectedDatasetIfNecessary, useRedirectFromDisabledView };
 };

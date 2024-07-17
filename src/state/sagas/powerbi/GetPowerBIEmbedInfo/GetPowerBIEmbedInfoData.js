@@ -3,7 +3,6 @@
 import { delay, put, select, takeLatest } from 'redux-saga/effects';
 import { POWER_BI_INFO_POLLING_DELAY } from '../../../../services/config/FunctionalConstants';
 import { PowerBIService } from '../../../../services/powerbi/PowerBIService';
-import { forgePowerBIError } from '../../../../services/powerbi/errors';
 import { PowerBIUtils } from '../../../../utils';
 import { STATUSES } from '../../../commons/Constants';
 import { POWER_BI_ACTIONS_KEY } from '../../../commons/PowerBIConstants';
@@ -27,16 +26,15 @@ export function* getPowerBIEmbedInfoSaga() {
   const powerBIChartsConfig = yield select(getPowerBIChartsConfig);
 
   if (powerBIChartsConfig == null) {
-    console.error(
-      'PowerBI charts configuration could not be found. Please configure the dashboards to be displayed in your ' +
-        'workspace, in [workspace].webApp.options.charts'
+    console.warn(
+      'PowerBI charts configuration could not be found and results display has been disabled. ' +
+        'If you want to activate it, please configure the dashboards to be displayed in your workspace, ' +
+        'in [workspace].webApp.options.charts'
     );
-
     yield put({
       type: POWER_BI_ACTIONS_KEY.SET_EMBED_INFO,
       data: noAccess,
-      error: forgePowerBIError('', 'Configuration error', 'Cannot find dashboards configuration in workspace data'),
-      status: STATUSES.ERROR,
+      status: STATUSES.DISABLED,
     });
     return;
   }

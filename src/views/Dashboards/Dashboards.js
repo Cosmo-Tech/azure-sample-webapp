@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Card, CardContent, Grid, Tab, Tabs } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
+import { useRedirectFromDisabledView } from '../../hooks/RouterHooks';
 import { useDashboardsViewReportsConfig } from '../../state/hooks/PowerBIHooks';
 import { DashboardsPowerBiReport } from './components';
 
@@ -70,6 +71,7 @@ const Dashboards = () => {
   };
 
   const dashboardsViewReportsConfig = useDashboardsViewReportsConfig();
+  useRedirectFromDisabledView('dashboards');
   const dashboardTitle = dashboardsViewReportsConfig?.[value]?.title?.[i18n.language] ?? DEFAULT_MISSING_TITLE;
 
   return (

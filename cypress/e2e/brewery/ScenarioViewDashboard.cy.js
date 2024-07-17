@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 import { Login, Scenarios, ScenarioParameters } from '../../commons/actions';
 import { BreweryParameters } from '../../commons/actions/brewery';
+import { getDashboardsTab } from '../../commons/actions/generic/Dashboards';
 import { stub } from '../../commons/services/stubbing';
 import { DEFAULT_SCENARIOS_LIST } from '../../fixtures/stubbing/default';
 
@@ -28,6 +29,9 @@ describe('Scenario view PowerBI report', () => {
   };
 
   it('can correctly show "out of sync" dashboard warning & "logs download" button', () => {
+    // check Dashboard view tab to ensure dashboard config exists
+    getDashboardsTab().should('be.visible');
+
     ScenarioParameters.expandParametersAccordion();
 
     // First phase: warning is never visible until we first launch the scenario
