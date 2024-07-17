@@ -10,7 +10,7 @@ export const useWorkspaces = () => {
   const currentWorkspace = useWorkspace();
 
   return {
-    workspacesList,
+    workspacesList: workspacesList?.data?.toSorted((a, b) => a.name.localeCompare(b.name)),
     organizationName,
     selectWorkspace,
     currentWorkspace,

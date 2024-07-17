@@ -51,25 +51,18 @@ const Workspaces = () => {
       isLoaded.current = true;
       if (
         currentWorkspace?.status !== STATUSES.ERROR &&
-        workspacesList?.data?.length === 1 &&
+        workspacesList?.length === 1 &&
         currentSolution?.status !== STATUSES.ERROR
       ) {
-        openWorkspace(workspacesList?.data[0].id);
+        openWorkspace(workspacesList[0].id);
       } else {
         resetWorkspace();
         resetCurrentSolution();
       }
     }
-  }, [
-    currentWorkspace?.status,
-    openWorkspace,
-    resetWorkspace,
-    workspacesList?.data,
-    resetCurrentSolution,
-    currentSolution,
-  ]);
+  }, [currentWorkspace?.status, openWorkspace, resetWorkspace, workspacesList, resetCurrentSolution, currentSolution]);
 
-  const workspaceListRender = workspacesList.data.map((workspace) => (
+  const workspaceListRender = workspacesList?.map((workspace) => (
     <Grid item key={workspace.id}>
       <ResourceCard
         id={workspace.id}
@@ -102,7 +95,7 @@ const Workspaces = () => {
         clearErrors={clearApplicationErrorMessage}
       />
       <div data-cy="workspaces-view">
-        {workspacesList?.data?.length === 0 ? (
+        {workspacesList?.length === 0 ? (
           <Grid container justifyContent="center" alignItems="center" style={{ padding: '18px', height: '90%' }}>
             <Grid data-cy="no-workspace-placeholder" item xs={5} align="center">
               <Typography variant="h3" gutterBottom={true}>
