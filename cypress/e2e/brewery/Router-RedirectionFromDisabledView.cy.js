@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { DatasetManager, InstanceVisualization, Login } from '../../commons/actions';
-import { GENERIC_SELECTORS } from '../../commons/constants/generic/IdConstants';
+import { getDashboardsTab } from '../../commons/actions/generic/Dashboards';
 import { stub } from '../../commons/services/stubbing';
 import { routeUtils as route } from '../../commons/utils';
 import {
@@ -54,6 +54,6 @@ describe('redirection from disabled view', () => {
       expectedURL: `${WORKSPACE_WITHOUT_DASHBOARDS.id}/scenario/${scenarioId}`,
       isPowerBiEnabled: false,
     });
-    cy.get(GENERIC_SELECTORS.dashboards.tabName).should('not.exist');
+    getDashboardsTab().should('not.exist');
   });
 });

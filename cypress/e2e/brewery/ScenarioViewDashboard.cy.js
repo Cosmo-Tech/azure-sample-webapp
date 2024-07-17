@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import { Login, Scenarios, ScenarioParameters } from '../../commons/actions';
 import { BreweryParameters } from '../../commons/actions/brewery';
-import { GENERIC_SELECTORS } from '../../commons/constants/generic/IdConstants';
+import { getDashboardsTab } from '../../commons/actions/generic/Dashboards';
 import { stub } from '../../commons/services/stubbing';
 import { DEFAULT_SCENARIOS_LIST } from '../../fixtures/stubbing/default';
 
@@ -30,7 +30,7 @@ describe('Scenario view PowerBI report', () => {
 
   it('can correctly show "out of sync" dashboard warning & "logs download" button', () => {
     // check Dashboard view tab to ensure dashboard config exists
-    cy.get(GENERIC_SELECTORS.dashboards.tabName).should('be.visible');
+    getDashboardsTab().should('be.visible');
 
     ScenarioParameters.expandParametersAccordion();
 

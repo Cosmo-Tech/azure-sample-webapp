@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { Login, ScenarioParameters, Scenarios } from '../../commons/actions';
-import { GENERIC_SELECTORS } from '../../commons/constants/generic/IdConstants';
+import { getDashboardsTab } from '../../commons/actions/generic/Dashboards';
 import { stub } from '../../commons/services/stubbing';
 import { WORKSPACE_WITHOUT_DASHBOARDS } from '../../fixtures/stubbing/ScenarioViewDashboard/workspace';
 import { DEFAULT_SCENARIOS_LIST } from '../../fixtures/stubbing/default';
@@ -31,7 +31,7 @@ describe('results display is disabled', () => {
   });
 
   it('can launch a scenario and show Display of results is disabled dashboard', () => {
-    cy.get(GENERIC_SELECTORS.dashboards.tabName).should('not.exist');
+    getDashboardsTab().should('not.exist');
     ScenarioParameters.launch({ scenarioId, runOptions, saveAndLaunch: true });
     ScenarioParameters.waitForScenarioRunEnd();
     Scenarios.getDashboardAccordionLogsDownloadButton().should('be.visible');
