@@ -1,0 +1,6 @@
+{
+  "connect-src": [
+    "*.api.cosmotech.com",
+    "https://scenario-download-brewery-dev.azurewebsites.net"
+  ]
+}
