@@ -23,6 +23,7 @@ export const useUpdateParameters = () => {
   const scenarios = useScenarios();
 
   const { getValues, setValue } = useFormContext();
+  const parametersValues = getValues();
 
   const runTemplateParametersIds = useMemo(
     () => getRunTemplateParametersIds(solutionData?.runTemplatesParametersIdsDict, currentScenarioData?.runTemplateId),
@@ -72,7 +73,11 @@ export const useUpdateParameters = () => {
   }, [currentScenarioData, getValues, runTemplateParametersIds, scenarios, solutionData]);
 
   const forceUpdate =
-    ScenarioParametersUtils.shouldForceScenarioParametersUpdate(runTemplateParametersIds) ||
+    ScenarioParametersUtils.shouldForceScenarioParametersUpdate(
+      runTemplateParametersIds,
+      parametersValues,
+      solutionData
+    ) ||
     !currentScenarioData?.parametersValues ||
     currentScenarioData?.parametersValues.length === 0;
 

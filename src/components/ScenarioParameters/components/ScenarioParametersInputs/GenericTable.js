@@ -261,7 +261,7 @@ export const GenericTable = ({
           file: null,
           agGridRows: agGridData.rows,
           errors: null,
-          status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD,
+          status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD,
           tableDataStatus: TABLE_DATA_STATUS.READY,
           uploadPreprocess: { content: _uploadPreprocess },
         });
@@ -679,11 +679,11 @@ export const GenericTable = ({
       // To trigger isDirty state when an already saved table was reverted and avoid it in other cases, we need to
       // updateParameterValue setter and updateOnFirstEdition function that triggers the start of edition; on the other
       // hand, updateParameterValueWithReset setter rollbacks modified values without triggering isDirty
-      _getDataFromTwingraphDataset(parameter.id ? updateParameterValue : updateParameterValueWithReset);
-      if (parameter.id) updateOnFirstEdition();
+      _getDataFromTwingraphDataset(parameter.content ? updateParameterValue : updateParameterValueWithReset);
+      if (parameter.content) updateOnFirstEdition();
     },
-    // eslint-disable-next-line
-    [parameter.id, updateParameterValue, updateParameterValueWithReset, updateOnFirstEdition]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [parameter.content, updateParameterValue, updateParameterValueWithReset, updateOnFirstEdition]
   );
 
   const onRevertTableData = useCallback(() => {
