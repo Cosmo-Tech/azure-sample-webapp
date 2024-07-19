@@ -1,13 +1,14 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import rfdc from 'rfdc';
+import { UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
 import { DATASET_ID_VARTYPE } from '../../services/config/ApiConstants';
 import { ConfigUtils } from '../ConfigUtils';
 import { VAR_TYPES_DEFAULT_VALUES } from './DefaultValues';
 
 const clone = rfdc();
 
-const shouldForceScenarioParametersUpdate = (runTemplateParametersIds) => {
+const shouldForceScenarioParametersUpdate = (runTemplateParametersIds, parametersValues, solutionData) => {
   const hiddenParametersIds = [
     'ScenarioName',
     'ScenarioId',
@@ -18,7 +19,17 @@ const shouldForceScenarioParametersUpdate = (runTemplateParametersIds) => {
     'ParentLastRunId',
     'MasterLastRunId',
   ];
-  return runTemplateParametersIds.some((parameterId) => hiddenParametersIds.includes(parameterId));
+  const dynamicParametersIds = solutionData.parameters
+    ?.filter((parameter) => parameter.options?.dynamicValues)
+    .map((parameter) => parameter.id);
+  const isDynamicValueUploaded = Object.keys(parametersValues).some(
+    (parameterId) =>
+      dynamicParametersIds?.includes(parameterId) &&
+      parametersValues[parameterId].status === UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD
+  );
+  return (
+    isDynamicValueUploaded || runTemplateParametersIds.some((parameterId) => hiddenParametersIds.includes(parameterId))
+  );
 };
 
 const _buildScenarioParameter = (parameterId, varType, value) => {
