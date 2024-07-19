@@ -22,13 +22,12 @@ export const WorkspaceInfo = () => {
   const classes = useStyles();
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { currentWorkspaceData, workspacesList, resetCurrentSolution } = useWorkspaceInfo();
+  const { currentWorkspaceData, workspacesList } = useWorkspaceInfo();
 
   const [isPopoverOpened, setIsPopoverOpened] = useState(false);
   const anchorElement = useRef(null);
 
   const navigateToWorkspaceSelector = () => {
-    resetCurrentSolution();
     navigate('/workspaces');
   };
 

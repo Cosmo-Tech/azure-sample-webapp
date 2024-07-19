@@ -19,7 +19,7 @@ const shouldForceScenarioParametersUpdate = (runTemplateParametersIds, parameter
     'ParentLastRunId',
     'MasterLastRunId',
   ];
-  const dynamicParametersIds = solutionData.parameters
+  const dynamicParametersIds = solutionData?.parameters
     ?.filter((parameter) => parameter.options?.dynamicValues)
     .map((parameter) => parameter.id);
   const isDynamicValueUploaded = Object.keys(parametersValues).some(
