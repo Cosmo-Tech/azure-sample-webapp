@@ -44,7 +44,7 @@ structure for this `charts` object is the following:
 ```
 
 | Key                                | Value description                                                                                                                                                             |
-| ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `logInWithUserCredentials`         | boolean defining if we must use "user account" (true) or "service account" mode (false) (see section [PowerBI authentication strategies](#powerbi-authentication-strategies)) |
 | `dashboardsViewIframeDisplayRatio` | number defining the width/height ratio for the report iframe in the _Dashboards_ page                                                                                         |
 | `scenarioViewIframeDisplayRatio`   | number defining the width/height ratio for the report iframe in the _Scenario_ page                                                                                           |
@@ -76,7 +76,7 @@ expect the same structure:
 ```
 
 | Key              | Value description                                                                                                                                                                |
-| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `title`          | report title, per language, to display in the let menu in the Dashboards view (it is not used for reports in Scenario view)                                                      |
 | `reportId`       | id of the report; it can be found in PowerBI, in the URL of your report: `myReportURL?reportId=<reportId>`                                                                       |
 | `settings`       | an object to configure the [PowerBI report settings](https://github.com/microsoft/powerbi-models/blob/0d326572c4253fd9f89b73a0d8df1ae46318a860/src/models.ts#L1070)              |
@@ -384,7 +384,7 @@ scenario, its parent or root scenarios, or even the scenarios available to the u
 Here is the list of dynamic filters available:
 
 | Filter name                            | Description                                                            |
-| -------------------------------------- | ---------------------------------------------------------------------- |
+|----------------------------------------|------------------------------------------------------------------------|
 | `id`                                   | _id_ of the current scenario                                           |
 | `csmSimulationRun`                     | _csm run id_ of the last run of the current scenario                   |
 | `state`                                | _state_ of the current scenario                                        |
@@ -437,6 +437,12 @@ For example, you can add a [IRelativeDateTimeFilter](https://github.com/microsof
 ```
 
 See [PowerBI models](https://github.com/microsoft/powerbi-models) for further details.
+
+### Disable the display of results
+If the display of results after a simulation run isn't needed in the webapp, configuration of
+`[workspace].webApp.options.charts` can be omitted and thus PowerBi will be disabled in both 
+Dashboards and Scenario views.
+
 
 ## Complete example
 
