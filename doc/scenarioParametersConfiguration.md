@@ -316,7 +316,18 @@ RETURN alias`). Names of the properties must correspond to the `field` key in co
 - `resultKey`: the alias defined in your query; providing this value is required for the webapp to parse the cypher
   query results, and retrieve the actual values to display in the table
 
-Example:
+Example of typical queries:
+
+_Retrieve nodes from dataset, e.g., all nodes Customer with its properties_
+```yaml
+'MATCH(customer: Customer) WITH {name: customer.id, satisfaction: customer.Satisfaction} as fields RETURN fields'
+```
+_Retrieve edges from dataset, e.g. relationship between all bars and customers_
+```yaml
+'MATCH (b:Bar)-[r]->(c:Customer) WITH {bar: b.id, customer: c.id, relation: r.name } as fields RETURN fields'
+```
+
+Complete example:
 ```yaml
 parameters:
   - id: 'customers'
