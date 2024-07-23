@@ -11,10 +11,18 @@ export const SOLUTION_WITH_DYNAMIC_TABLE = {
       description: 'Run template with mock basic types parameters',
       csmSimulation: 'BreweryDemoSimulationWithConnector',
       tags: ['3', 'Example'],
-      parameterGroups: ['events', 'customers'],
+      parameterGroups: ['basic_types', 'events', 'customers'],
     },
   ],
   parameterGroups: [
+    {
+      id: 'basic_types',
+      labels: {
+        en: 'Basic types',
+        fr: 'Exemples de types standards',
+      },
+      parameters: ['additional_seats'],
+    },
     {
       id: 'events',
       labels: {
@@ -129,6 +137,17 @@ export const SOLUTION_WITH_DYNAMIC_TABLE = {
         ],
         dateFormat: 'dd/MM/yyyy',
       },
+    },
+    {
+      id: 'additional_seats',
+      labels: {
+        fr: 'Sièges additionnels',
+        en: 'Additional seats',
+      },
+      varType: 'number',
+      defaultValue: '-4',
+      minValue: '-600',
+      maxValue: '2500',
     },
   ],
 };

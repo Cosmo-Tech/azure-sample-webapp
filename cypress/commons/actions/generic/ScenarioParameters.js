@@ -116,6 +116,14 @@ function launch(options) {
     api.interceptGetScenarioRun(),
     api.interceptGetScenarioRunStatus(),
   ];
+  options?.datasetsEvents?.reverse()?.forEach((datasetEvent) => {
+    aliases.push(api.interceptCreateDataset({ id: datasetEvent.id, validateRequest: datasetEvent.onDatasetCreation }));
+    aliases.push(api.interceptUpdateDataset({ id: datasetEvent.id, validateRequest: datasetEvent.onDatasetUpdate }));
+    aliases.push(
+      ...api.interceptUpdateDatasetSecurity({ id: datasetEvent.id, securityChanges: datasetEvent.securityChanges })
+    );
+    aliases.push(api.interceptUploadWorkspaceFile());
+  });
   getLaunchButton(options?.getLaunchButtonTimeout ?? 180)
     .should('not.be.disabled')
     .click();

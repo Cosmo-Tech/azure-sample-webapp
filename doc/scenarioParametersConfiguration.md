@@ -354,7 +354,8 @@ parameters:
       canChangeRowsNumber: false
 ```
 
-_Known issue: Dynamic parameters are not saved as scenario parameters when they are not edited_
+_Known issue: Dynamic parameters are not saved as scenario parameters if they weren't displayed. 
+In order to save it, users need to open the parameter's tab that will trigger the query_
 
 #### Columns definition
 
