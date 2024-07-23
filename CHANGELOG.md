@@ -1,3 +1,15 @@
+## **6.3.1** <sub><sup>2024-07-23 ([4c4f99a...5ed3123](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/4c4f99a1...5ed31234?diff=split))</sup></sub>
+
+### Bug Fixes
+*  \[PROD\-13674\] save the dynamic table after a revert ([128079d](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/128079df))
+*  fix solution reset before landing on workspace view ([5ed3123](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/5ed31234))
+* [SDCOSMO-1886] fix behavior of dynamic filters when selection list is empty ([1d3c5eb](https://github.com/Cosmo-Tech/webapp-component-azure/commit/1d3c5eb))
+
+### Documentation
+*  add example of nodes and edges queries in Table configuration ([9b0a134](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/9b0a1347))
+*  \[PROD\-13674\] add not displayed table behavior as Known Issue ([ada56dd](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/ada56ddd))
+
+
 ## **6.3.0** <sub><sup>2024-07-12 ([abfd4f3...aa587fa](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/abfd4f35...aa587fa9?diff=split))</sup></sub>
 
 ### Features
