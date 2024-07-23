@@ -33,7 +33,10 @@ const cspConfigOptions = {
 };
 
 function addCspHtmlWebpackPlugin(config) {
-  if (process.env.NODE_ENV === 'production') {
+  const isProd = process.env.NODE_ENV === 'production';
+  const isCAFE = process.env.BUILD_TYPE === 'cafe';
+  // When Cloud-Agnostic Front-End mode is enabled, do not add CSP at build time
+  if (isProd && !isCAFE) {
     config.plugins.push(new CspHtmlWebpackPlugin(cspConfigPolicy, cspConfigOptions));
   }
 
