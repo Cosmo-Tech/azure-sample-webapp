@@ -19,6 +19,7 @@ const CreateScenarioButton = ({ disabled, onScenarioCreated }) => {
     workspaceId,
     filteredDatasets,
     scenarios,
+    defaultRunTemplateDataset,
   } = useCreateScenarioButton({ disabled, onScenarioCreated });
   const sortedScenarioList = ResourceUtils.getResourceTree(scenarios);
 
@@ -41,6 +42,7 @@ const CreateScenarioButton = ({ disabled, onScenarioCreated }) => {
         user={user}
         disabled={disabled}
         labels={createScenarioDialogLabels}
+        defaultRunTemplateDataset={defaultRunTemplateDataset}
       />
     </PermissionsGate>
   );

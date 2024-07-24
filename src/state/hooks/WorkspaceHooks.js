@@ -88,6 +88,10 @@ export const useWorkspacesReducerStatus = () => {
   return useSelector((state) => state.workspace?.list?.status);
 };
 
+export const useDefaultRunTemplateDataset = () => {
+  return useSelector((state) => state.workspace?.current?.data?.solution?.defaultRunTemplateDataset);
+};
+
 export const useSelectWorkspace = () => {
   const dispatch = useDispatch();
   return useCallback((workspaceId) => dispatch(dispatchSelectWorkspace(workspaceId)), [dispatch]);
