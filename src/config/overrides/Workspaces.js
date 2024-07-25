@@ -22,7 +22,7 @@ const defaultScenarioViewReport = {
 // production environments.
 export const WORKSPACES = [
   {
-    id: 'w-70klgqeroooz',
+    id: 'w-odkdnvzwee86',
     webApp: {
       options: {
         charts: {
@@ -126,7 +126,7 @@ export const WORKSPACES = [
               parameters: [
                 {
                   id: 'name',
-                  defaultValue: 'csmphoenixdev',
+                  defaultValue: 'warpwarspaceadxwa6k17c3',
                   tooltipText: {
                     en: 'Name of the storage account in Azure storage',
                     fr: 'Nom du compte de stockage dans Azure storage',
@@ -134,7 +134,7 @@ export const WORKSPACES = [
                 },
                 {
                   id: 'location',
-                  defaultValue: 'o-gzypnd27g7',
+                  defaultValue: 'o-5727qw0eep2g',
                   tooltipText: {
                     en: 'Name of the blob container in Azure storage (usually the organization id in lowercase)',
                     fr:
@@ -144,9 +144,9 @@ export const WORKSPACES = [
                 },
                 {
                   id: 'path',
-                  defaultValue: 'w-70klgqeroooz/brewery_instance_amsterdam',
+                  defaultValue: 'w-odkdnvzwee86/brewery_reference',
                   tooltipText: {
-                    en: 'Path to dataset files in Azure storage (e.g. w-70klgqeroooz/brewery_instance_amsterdam)',
+                    en: 'Path to dataset files in Azure storage (e.g. w-odkdnvzwee86/brewery_reference)',
                     fr:
                       'Chemin des fichiers du dataset dans Azure storage ' +
                       '(ex: w-70klgqeroooz/brewery_instance_amsterdam)',
