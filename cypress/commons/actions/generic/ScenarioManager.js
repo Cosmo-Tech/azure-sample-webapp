@@ -73,7 +73,7 @@ function getScenarioEditableLinkInEditMode(scenarioId, timeout = 5) {
   });
 }
 function renameScenario(scenarioId, newScenarioName) {
-  const renameScenarioAlias = api.interceptUpdateScenario(scenarioId);
+  const renameScenarioAlias = api.interceptUpdateRunner(scenarioId);
 
   getRenameScenarioButton(scenarioId).click();
   getScenarioEditableLinkInEditMode(scenarioId).type('{selectAll}{backspace}' + newScenarioName + '{enter}');
