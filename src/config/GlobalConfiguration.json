@@ -1,8 +1,8 @@
 {
   "APP_REGISTRATION_CLIENT_ID": "d104fbd6-9464-45d5-a022-83c90ad56906",
   "AZURE_TENANT_ID": "e413b834-8be8-4822-a370-be619545cb49",
-  "COSMOTECH_API_SCOPE": "http://dev.api.cosmotech.com/platform",
-  "DEFAULT_BASE_PATH": "https://dev.api.cosmotech.com/phoenix/v3-2",
-  "ORGANIZATION_ID": "O-gZYpnd27G7",
+  "COSMOTECH_API_SCOPE": "https://warp.api.cosmotech.com/warspace-adx-wa/.default",
+  "DEFAULT_BASE_PATH": "https://warp.api.cosmotech.com/cosmotech-api/warspace-adx-wa/v3-2",
+  "ORGANIZATION_ID": "o-5727qw0eep2g",
   "WORKSPACES_IDS_FILTER": null
 }
