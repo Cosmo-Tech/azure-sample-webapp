@@ -8,7 +8,11 @@ import { INGESTION_STATUS, TWINCACHE_STATUS } from '../../services/config/ApiCon
 import { useUser } from '../../state/hooks/AuthHooks';
 import { useCreateScenario, useCurrentScenario, useScenarios } from '../../state/hooks/ScenarioHooks';
 import { useScenarioRunTemplates, useSolution } from '../../state/hooks/SolutionHooks';
-import { useUserPermissionsOnCurrentWorkspace, useWorkspaceData } from '../../state/hooks/WorkspaceHooks';
+import {
+  useDefaultRunTemplateDataset,
+  useUserPermissionsOnCurrentWorkspace,
+  useWorkspaceData,
+} from '../../state/hooks/WorkspaceHooks';
 import { TranslationUtils } from '../../utils';
 import { getCreateScenarioDialogLabels } from './labels';
 
@@ -18,6 +22,7 @@ export const useCreateScenarioButton = ({ disabled, onScenarioCreated }) => {
 
   const userPermissionsOnCurrentWorkspace = useUserPermissionsOnCurrentWorkspace();
   const runTemplates = useScenarioRunTemplates();
+  const defaultRunTemplateDataset = useDefaultRunTemplateDataset();
   const solution = useSolution();
 
   const workspaceData = useWorkspaceData();
@@ -74,5 +79,6 @@ export const useCreateScenarioButton = ({ disabled, onScenarioCreated }) => {
     disabled,
     createScenarioDialogLabels,
     userPermissionsOnCurrentWorkspace,
+    defaultRunTemplateDataset,
   };
 };
