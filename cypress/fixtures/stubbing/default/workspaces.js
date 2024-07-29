@@ -55,7 +55,7 @@ export const WORKSPACE_EXAMPLE = {
   sendInputToDataWarehouse: true,
   useDedicatedEventHubNamespace: true,
   sendScenarioMetadataToEventHub: true,
-  security: { default: ROLES.SCENARIO.ADMIN, accessControlList: [] },
+  security: { default: ROLES.RUNNER.ADMIN, accessControlList: [] },
   linkedDatasetIdList: DEFAULT_DATASETS_LIST.map((dataset) => dataset.id),
 };
 

@@ -26,7 +26,7 @@ export const SCENARIO_EXAMPLE = {
   parentLastRun: null,
   rootLastRun: null,
   validationStatus: 'Draft',
-  security: { default: ROLES.SCENARIO.ADMIN, accessControlList: [] },
+  security: { default: ROLES.RUNNER.ADMIN, accessControlList: [] },
 };
 
 export const DEFAULT_SCENARIOS_LIST = [
