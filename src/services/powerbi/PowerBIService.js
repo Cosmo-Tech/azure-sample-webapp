@@ -5,13 +5,19 @@ import { GET_EMBED_INFO_URL } from '../../state/commons/PowerBIConstants';
 import { clientApi } from '../ClientApi';
 import { COSMOTECH_API_SCOPE, POWER_BI_API_DEFAULT_SCOPE } from '../config/Auth';
 import { EmbedConfig, PowerBiReportDetails } from './PowerBIModels';
-import { handleServiceAccountError, handleUserAccountError, PowerBIError } from './errors';
+import { handleServiceAccountError, handleUserAccountError, PowerBIError, forgePowerBIError } from './errors';
 
 /**
  * Get PowerBI accessible data
  * @return Details like Embed URL, Access token and Expiry, errors if any
  */
 const getPowerBIData = (powerBIWorkspaceId, reportsIds, logInWithUserCredentials) => {
+  if (process.env.REACT_APP_API_KEY)
+    return {
+      accesses: null,
+      error: forgePowerBIError('', 'PowerBI disabled', 'API key detected, PowerBI dashboards have been disabled'),
+    };
+
   return logInWithUserCredentials
     ? getPowerBIDataWithCurrentUserToken(powerBIWorkspaceId, reportsIds)
     : getPowerBIDataWithServiceAccount(powerBIWorkspaceId, reportsIds);
