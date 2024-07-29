@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 import utils from '../../commons/TestUtils';
 import { Login, ScenarioManager, Scenarios } from '../../commons/actions';
-import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
 import { stub } from '../../commons/services/stubbing';
 import { setup } from '../../commons/utils';
 import { SCENARIO_WITH_DESCRIPTION_AND_TAGS } from '../../fixtures/stubbing/DescriptionAndTags/scenarios';
+import { DEFAULT_DATASETS_LIST, DEFAULT_SOLUTION } from '../../fixtures/stubbing/default';
 
 describe('Scenario tags and description', () => {
   before(() => {
@@ -66,8 +66,8 @@ describe('Scenario tags and description', () => {
     Scenarios.createScenario(
       scenarioName,
       true,
-      DATASET.BREWERY_ADT,
-      RUN_TEMPLATE.BREWERY_PARAMETERS,
+      DEFAULT_DATASETS_LIST[0].name,
+      DEFAULT_SOLUTION.runTemplates[0].name,
       scenarioDescription,
       scenarioTags
     ).then((response) => {
