@@ -1754,9 +1754,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmotech/core@npm:^1.16.1":
-  version: 1.16.1
-  resolution: "@cosmotech/core@npm:1.16.1"
+"@cosmotech/core@npm:^1.17.0":
+  version: 1.17.0
+  resolution: "@cosmotech/core@npm:1.17.0"
   dependencies:
     csv-string: "npm:^4.1.1"
     date-fns: "npm:^2.30.0"
@@ -1764,7 +1764,7 @@ __metadata:
     rfdc: "npm:^1.4.1"
     validator: "npm:^13.12.0"
     xlsx: "https://cdn.sheetjs.com/xlsx-0.20.2/xlsx-0.20.2.tgz"
-  checksum: 10c0/bb277e10b201caf4e47d757ca26203d2f79e0d1fac8bcd14238d86918f1b6d594802f32357bb5db97c036c8c40cc689ca91834bb90209d13a3670003498e296e
+  checksum: 10c0/f05caf9fb2d6c4367fcd0d09a05b04ad74b488fe68c82bfe71dfe094326887cb515fafb4809c7058873697e059c99b756b8e2b162377499b6766e203dbbcd67d
   languageName: node
   linkType: hard
 
@@ -5654,7 +5654,7 @@ __metadata:
     "@babel/preset-react": "npm:^7.24.7"
     "@cosmotech/api-ts": "npm:^3.2.6"
     "@cosmotech/azure": "npm:^2.0.0"
-    "@cosmotech/core": "npm:^1.16.1"
+    "@cosmotech/core": "npm:^1.17.0"
     "@cosmotech/ui": "npm:^9.2.1"
     "@emotion/react": "npm:^11.11.4"
     "@emotion/styled": "npm:^11.11.5"
