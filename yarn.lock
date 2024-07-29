@@ -1768,9 +1768,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmotech/ui@npm:^9.1.0":
-  version: 9.1.0
-  resolution: "@cosmotech/ui@npm:9.1.0"
+"@cosmotech/ui@npm:^9.2.0":
+  version: 9.2.0
+  resolution: "@cosmotech/ui@npm:9.2.0"
   dependencies:
     "@emotion/react": "npm:^11.11.4"
     "@emotion/styled": "npm:^11.11.5"
@@ -1799,7 +1799,7 @@ __metadata:
     react: ^17.0.1
     react-dom: ^17.0.1
     react-i18next: ^11.8.13
-  checksum: 10c0/9145d7db5706a5f74ceb2d8624336381a73b28bf17cb2f97610ff4cb9b1442f0c7688b62b08b015f7776a61de34e068fa55f42e1423a75d1ed0ab387833e9df4
+  checksum: 10c0/29d78d37a00aa4fc92a71537de15700e178d9d0a6961a6210bf2129f4db9cd53e7bec5b25046ea0509b44c733cd332411410c220126768811c7e82a4a4bd9fa5
   languageName: node
   linkType: hard
 
@@ -5655,7 +5655,7 @@ __metadata:
     "@cosmotech/api-ts": "npm:^3.2.6"
     "@cosmotech/azure": "npm:^2.0.0"
     "@cosmotech/core": "npm:^1.16.1"
-    "@cosmotech/ui": "npm:^9.1.0"
+    "@cosmotech/ui": "npm:^9.2.0"
     "@emotion/react": "npm:^11.11.4"
     "@emotion/styled": "npm:^11.11.5"
     "@microsoft/applicationinsights-web": "npm:^3.3.0"
