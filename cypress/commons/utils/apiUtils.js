@@ -290,6 +290,17 @@ const interceptGetRunners = () => {
   return alias;
 };
 
+const interceptGetRunnersAndStatuses = () => {
+  const aliases = [interceptGetRunners()];
+  if (!stub.isEnabledFor('GET_SCENARIOS')) return aliases;
+
+  const stubbedScenariosWithLastRuns = stub.getScenarios().filter((scenario) => scenario.lastRunId);
+  const queriesToIntercept = stubbedScenariosWithLastRuns.length;
+  if (queriesToIntercept > 0) aliases.push(interceptGetRunnerRunState(queriesToIntercept));
+
+  return aliases;
+};
+
 const interceptCreateSimulationRunner = () => {
   const alias = forgeAlias('reqCreateRunner');
   cy.intercept({ method: 'POST', url: API_REGEX.RUNNERS, times: 1 }, (req) => {
@@ -935,7 +946,7 @@ const interceptWorkspaceSelectorQueries = () => {
 };
 
 const interceptSelectWorkspaceQueries = (isPowerBiEnabled = true) => {
-  const workspaceQueries = [interceptGetSolution(), interceptGetRunners()];
+  const workspaceQueries = [interceptGetSolution(), ...interceptGetRunnersAndStatuses()];
   if (isPowerBiEnabled) workspaceQueries.push(interceptPowerBIAzureFunction());
   return workspaceQueries;
 };

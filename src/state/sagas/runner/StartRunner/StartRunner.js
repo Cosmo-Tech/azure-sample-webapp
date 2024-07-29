@@ -58,7 +58,7 @@ export function* startRunner(action) {
     });
     yield put({
       type: RUNNER_ACTIONS_KEY.ADD_RUN,
-      data: { id: response.data },
+      data: { id: response.data.id },
     });
     // Start backend polling to update the scenario status
     yield put({
