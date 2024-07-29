@@ -35,14 +35,14 @@ export const useShareCurrentScenarioButton = () => {
   );
 
   const rolesLabels = useMemo(() => {
-    const rolesNames = Object.values(roles.scenario);
+    const rolesNames = Object.values(roles.runner);
     return SecurityUtils.getRolesLabels(t, rolesNames);
-  }, [roles.scenario, t]);
+  }, [roles.runner, t]);
 
   const permissionsLabels = useMemo(() => {
-    const permissionsNames = Object.values(permissions.scenario);
+    const permissionsNames = Object.values(permissions.runner);
     return SecurityUtils.getScenarioPermissionsLabels(t, permissionsNames);
-  }, [permissions.scenario, t]);
+  }, [permissions.runner, t]);
 
   const workspaceUsers = useMemo(() => workspaceData.users.map((user) => ({ id: user })), [workspaceData.users]);
 
