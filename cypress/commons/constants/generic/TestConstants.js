@@ -3,9 +3,8 @@
 
 export { ORGANIZATION_ID } from '../../../../src/config/GlobalConfiguration';
 
-export const URL_ROOT = 'https://warp.api.cosmotech.com/cosmotech-api/warspace-adx-wa/v3-2';
-export const AUTH_QUERY_URL =
-  'https://login.microsoftonline.com/e413b834-8be8-4822-a370-be619545cb49/oauth2/v2.0/token';
+export const URL_ROOT = 'https://kubernetes.cosmotech.com/cosmotech-api/brewery/v4';
+export const AUTH_QUERY_URL = '';
 export const LOCAL_WEBAPP_URL = 'http://localhost:3000';
 export const URL_POWERBI = `${LOCAL_WEBAPP_URL}/api/get-embed-info`;
 

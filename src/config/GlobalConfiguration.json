@@ -1,8 +1,11 @@
 {
-  "APP_REGISTRATION_CLIENT_ID": "d104fbd6-9464-45d5-a022-83c90ad56906",
-  "AZURE_TENANT_ID": "e413b834-8be8-4822-a370-be619545cb49",
-  "COSMOTECH_API_SCOPE": "https://warp.api.cosmotech.com/warspace-adx-wa/.default",
-  "DEFAULT_BASE_PATH": "https://warp.api.cosmotech.com/cosmotech-api/warspace-adx-wa/v3-2",
-  "ORGANIZATION_ID": "o-5727qw0eep2g",
+  "APP_REGISTRATION_CLIENT_ID": "",
+  "AUTH_KEYCLOAK_CLIENT_ID": "cosmotech-webapp-client",
+  "AUTH_KEYCLOAK_REALM": "https://kubernetes.cosmotech.com/keycloak/realms/brewery",
+  "AUTH_KEYCLOAK_ROLES_JWT_CLAIM": "userRoles",
+  "AZURE_TENANT_ID": "",
+  "COSMOTECH_API_SCOPE": "https://kubernetes.cosmotech.com/platform",
+  "DEFAULT_BASE_PATH": "https://kubernetes.cosmotech.com/cosmotech-api/brewery/v4",
+  "ORGANIZATION_ID": "o-vloxvdke5gqvx",
   "WORKSPACES_IDS_FILTER": null
 }
