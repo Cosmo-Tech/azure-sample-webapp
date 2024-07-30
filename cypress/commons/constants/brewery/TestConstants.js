@@ -1,12 +1,12 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-export const BREWERY_WORKSPACE_ID = 'w-odkdnvzwee86';
-export const REAL_BREWERY_WORKSPACE_ID = 'w-ogw31yr8g9gr';
+export const BREWERY_WORKSPACE_ID = 'w-314qryelkyop5';
+export const REAL_BREWERY_WORKSPACE_ID = 'w-314qryelkyop5';
 
-export const DATASET_STORAGE_ACCOUNT = 'warpwarspaceadxwa6k17c3';
-export const DATASET_STORAGE_CONTAINER = 'o-5727qw0eep2g';
-export const DATASET_STORAGE_REFERENCE_FOLDER = 'brewery_reference';
+export const DATASET_STORAGE_ACCOUNT = '';
+export const DATASET_STORAGE_CONTAINER = '';
+export const DATASET_STORAGE_REFERENCE_FOLDER = '';
 
 export const SCENARIO_STATUS = {
   CREATED: 'created',
