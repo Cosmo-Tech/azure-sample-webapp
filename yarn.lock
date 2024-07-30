@@ -5705,7 +5705,7 @@ __metadata:
     prettier: "npm:^3.3.3"
     process: "npm:^0.11.10"
     prop-types: "npm:^15.8.1"
-    react: "npm:^17.0.2"
+    react: "npm:^18.3.1"
     react-app-rewired: "npm:^2.2.1"
     react-countdown: "npm:^2.3.5"
     react-dom: "npm:^17.0.2"
@@ -16209,13 +16209,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:^17.0.2":
-  version: 17.0.2
-  resolution: "react@npm:17.0.2"
+"react@npm:^18.3.1":
+  version: 18.3.1
+  resolution: "react@npm:18.3.1"
   dependencies:
     loose-envify: "npm:^1.1.0"
-    object-assign: "npm:^4.1.1"
-  checksum: 10c0/07ae8959acf1596f0550685102fd6097d461a54a4fd46a50f88a0cd7daaa97fdd6415de1dcb4bfe0da6aa43221a6746ce380410fa848acc60f8ac41f6649c148
+  checksum: 10c0/283e8c5efcf37802c9d1ce767f302dd569dd97a70d9bb8c7be79a789b9902451e0d16334b05d73299b20f048cbc3c7d288bbbde10b701fa194e2089c237dbea3
   languageName: node
   linkType: hard
 
