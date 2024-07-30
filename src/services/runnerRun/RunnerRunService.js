@@ -8,7 +8,7 @@ import { Api } from '../config/Api';
 
 async function downloadLogsFile(organizationId, workspaceId, runnerId, lastRunId) {
   try {
-    const fileName = `${runnerId}_${lastRunId}_cumulated_logs.txt`;
+    const fileName = `${runnerId}_${lastRunId}_logs.txt`;
     const { data } = await Api.RunnerRuns.getRunLogs(organizationId, workspaceId, runnerId, lastRunId, {
       responseType: 'text',
     });
