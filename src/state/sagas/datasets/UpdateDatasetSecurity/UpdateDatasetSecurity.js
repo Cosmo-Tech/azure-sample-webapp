@@ -31,30 +31,32 @@ export function* updateDatasetSecurity(action) {
       datasetData: datasetUpdated,
     });
 
-    const runnerId = dataset.source?.name;
-    try {
-      if (runnerId != null) {
-        yield call(
-          RunnerService.updateSecurity,
-          organizationId,
-          workspaceId,
-          runnerId,
-          oldDatasetSecurity,
-          newDatasetSecurity
+    if (dataset.sourceType === 'ETL') {
+      const runnerId = dataset.source?.name;
+      try {
+        if (runnerId != null) {
+          yield call(
+            RunnerService.updateSecurity,
+            organizationId,
+            workspaceId,
+            runnerId,
+            oldDatasetSecurity,
+            newDatasetSecurity
+          );
+        }
+      } catch (error) {
+        console.error(error);
+        yield put(
+          dispatchSetApplicationErrorMessage(
+            error,
+            t(
+              'commoncomponents.banner.runnerSecurityNotUpdated',
+              `Runner {{runnerId}} permissions have not been updated`,
+              { runnerId }
+            )
+          )
         );
       }
-    } catch (error) {
-      console.error(error);
-      yield put(
-        dispatchSetApplicationErrorMessage(
-          error,
-          t(
-            'commoncomponents.banner.runnerSecurityNotUpdated',
-            `Runner {{runnerId}} permissions have not been updated`,
-            { runnerId }
-          )
-        )
-      );
     }
   } catch (error) {
     console.error(error);
