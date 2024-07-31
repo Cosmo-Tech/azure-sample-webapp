@@ -45,7 +45,6 @@ const getDatasetGraphIndicatorNameTranslationKey = (graphIndicatorId) => {
 const _addResourcesToi18next = (resources) => {
   const langs = Object.keys(resources);
   langs.forEach((lang) => i18next.addResources(lang, I18N_NAMESPACE, resources[lang]));
-  i18next.reloadResources(langs);
 };
 
 const addTranslationOfDatasetManagerLabels = (datasetManager) => {
