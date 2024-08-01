@@ -141,20 +141,6 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 Clean the cache being sure to avoid packages and dependencies issues.
 
-### Other scripts
-
-#### [`i18next`](https://react.i18next.com/) - translation handling
-
-We have defined our own i18next-parser.config.js file.
-
-Once you had launched the command `yarn install`, you'll be able to run the command `i18next` in the project root folder.
-This command will :
-
-- look for react-i18next usage within the **src/** folder
-- get all keys defined
-- add all keys into translation files (by default **public/locales/en/translation.json** and **public/locales/fr/translation.json**)
-  Feel free to add new supported languages or change the parser configuration. ( See [react-i18next](https://github.com/i18next/react-i18next) and [i18next-parser](https://github.com/i18next/i18next-parser) )
-
 ## Deploy your webapp
 
 You can use continuous deployment to trigger deployment when committing.
