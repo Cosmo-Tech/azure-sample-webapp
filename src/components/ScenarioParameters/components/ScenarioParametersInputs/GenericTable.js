@@ -11,7 +11,6 @@ import { Table, TABLE_DATA_STATUS, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui'
 import { Api } from '../../../../services/config/Api';
 import { useSetApplicationErrorMessage } from '../../../../state/hooks/ApplicationHooks';
 import { useOrganizationId } from '../../../../state/hooks/OrganizationHooks.js';
-import { useCurrentScenarioDatasetList } from '../../../../state/hooks/ScenarioHooks';
 import { useWorkspaceId } from '../../../../state/hooks/WorkspaceHooks.js';
 import { gridLight, gridDark } from '../../../../theme/';
 import { ConfigUtils, TranslationUtils } from '../../../../utils';
@@ -55,7 +54,6 @@ export const GenericTable = ({
   const workspaceId = useWorkspaceId();
   const datasets = useSelector((state) => state.dataset?.list?.data);
   const scenarioId = useSelector((state) => state.scenario?.current?.data?.id);
-  const currentScenarioDatasetList = useCurrentScenarioDatasetList();
   const setApplicationErrorMessage = useSetApplicationErrorMessage();
   const canChangeRowsNumber = ConfigUtils.getParameterAttribute(parameterData, 'canChangeRowsNumber') ?? false;
 
@@ -132,7 +130,6 @@ export const GenericTable = ({
       };
 
       lastNewParameterValue.current = newParameterValue;
-
       if (!isUnmount.current) {
         setParameter(newParameterValue);
       }
@@ -210,14 +207,14 @@ export const GenericTable = ({
     }
     GenericTable.downloadLocked[lockId] = true;
     try {
-      if (!currentScenarioDatasetList || currentScenarioDatasetList?.length === 0)
+      const sourceDatasetId = context.targetDatasetId;
+      if (!sourceDatasetId)
         throw new Error(
           t(
             'genericcomponent.table.labels.noDatasetsError',
             'Impossible to fetch data from dataset because the list of datasets is empty'
           )
         );
-      const sourceDatasetId = currentScenarioDatasetList[0];
       const dynamicValuesConfig = ConfigUtils.getParameterAttribute(parameterData, 'dynamicValues');
       const query = dynamicValuesConfig?.query;
       if (!query)
@@ -723,6 +720,8 @@ export const GenericTable = ({
         buildErrorsPanelTitle={buildErrorsPanelTitle}
         maxErrorsCount={MAX_ERRORS_COUNT}
         isDirty={isDirty}
+        visibilityOptions={context.tableOptions?.buttons}
+        height={context.tableOptions?.height ?? '256px'}
       />
       <TableDeleteRowsDialog
         open={isConfirmRowsDeletionDialogOpen}

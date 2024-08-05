@@ -8,7 +8,7 @@ import { Accordion, AccordionDetails, AccordionSummary, Grid, Typography } from 
 import { makeStyles } from '@mui/styles';
 import { exists } from 'i18next';
 import { TranslationUtils } from '../../../../../../utils';
-import { KPI } from './components';
+import { KPI, CategoryDetailsDialog } from './components';
 
 const useStyles = makeStyles((theme) => ({
   categoryType: { opacity: '70%' },
@@ -51,8 +51,8 @@ const CategoryAccordion = (props) => {
     );
 
     let categoryMainKpis = null;
-    if (!expanded && category.kpis) {
-      categoryMainKpis = category.kpis
+    if (!expanded && category?.kpis) {
+      categoryMainKpis = (category?.kpis ?? [])
         .filter((kpi) => kpi.id != null)
         .slice(0, 2)
         .map((kpi, index) => {
@@ -109,18 +109,19 @@ const CategoryAccordion = (props) => {
     const descriptionString = t(TranslationUtils.getDatasetCategoryDescriptionTranslationKey(category.id));
     const description = hasDescription && <Typography sx={{ whiteSpace: 'pre-line' }}>{descriptionString}</Typography>;
 
+    const kpisWithResult = (category?.kpis ?? []).map((kpi) => ({
+      ...kpi,
+      ...queriesResults.categoriesKpis.find((kpiResult) => kpiResult.id === kpi.id),
+    }));
+
     let categoryKpis = null;
     if (category.kpis && category.kpis.length > 0)
       categoryKpis = category.kpis.map((kpi, index) => {
-        const kpiWithResult = {
-          ...kpi,
-          ...queriesResults.categoriesKpis.find((kpiResult) => kpiResult.id === kpi.id),
-        };
         return (
           <KPI
             key={`kpi-${index}`}
             valueProps={{ sx: { opacity: '70%' } }}
-            kpi={kpiWithResult}
+            kpi={kpisWithResult.find((kpiResult) => kpiResult.id === kpi.id)}
             categoryId={category.id}
           />
         );
@@ -139,7 +140,7 @@ const CategoryAccordion = (props) => {
           <Typography>{t('commoncomponents.datasetmanager.overview.attributesLabel', 'Attributes:')}</Typography>
         </Grid>
         <Grid item>
-          <Typography sx={{ opacity: '70%' }}>{category.attributes.join(', ')}</Typography>
+          <Typography sx={{ opacity: '70%' }}>{category.attributes?.join(', ')}</Typography>
         </Grid>
       </Grid>
     );
@@ -155,6 +156,9 @@ const CategoryAccordion = (props) => {
         {description && <Grid item>{description}</Grid>}
         {categoryKpis && <Grid item>{categoryKpis}</Grid>}
         {attributes && <Grid item>{attributes}</Grid>}
+        <Grid container item direction="row" justifyContent="flex-end">
+          <CategoryDetailsDialog category={category} kpis={kpisWithResult} />
+        </Grid>
       </Grid>
     );
   }, [t, category, queriesResults.categoriesKpis]);

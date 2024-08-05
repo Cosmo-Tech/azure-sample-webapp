@@ -14,7 +14,7 @@ const GraphIndicator = (props) => {
 
   const graphIndicatorCard = useMemo(() => {
     return (
-      <Card data-cy={`indicator-card-${kpi.id}`} sx={{ backgroundColor: '#ffe26b1c' }}>
+      <Card data-cy={`indicator-card-${kpi.id}`} elevation={4} sx={{ width: '250px' }}>
         <Grid
           container
           sx={{
