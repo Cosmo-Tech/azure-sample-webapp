@@ -37,9 +37,12 @@ function login(options) {
 
       let reqAuthAlias;
       let browseCallback;
-      if (auth.USE_SERVICE_ACCOUNT) {
+      if (auth.USE_SERVICE_ACCOUNT || auth.USE_API_KEY) {
         // Note: login with the "dev" login button will only work if the access_token is already set in local storage
         stub.setFakeUser(USER_EXAMPLE);
+        if (auth.USE_API_KEY) {
+          browseCallback = () => Login.getDevLoginButton().click();
+        }
       } else {
         reqAuthAlias = api.interceptAuthentication();
         browseCallback = () => Login.getMicrosoftLoginButton().click();
@@ -52,6 +55,8 @@ function login(options) {
     },
     {
       validate() {
+        if (auth.USE_API_KEY) return;
+
         cy.getAllLocalStorage().then((localStorage) => {
           expect(localStorage[BASE_URL].authProvider).not.to.eq(undefined);
           expect(localStorage[BASE_URL].authAccessToken).not.to.eq(undefined);

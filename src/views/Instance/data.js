@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import axios from 'axios';
-import { Auth } from '@cosmotech/core';
+import { getAuthenticationHeaders } from '../../services/ClientApi.js';
 import { Api } from '../../services/config/Api';
 import { ConfigUtils } from '../../utils';
 import {
@@ -139,11 +139,9 @@ export const processGraphElements = (instanceViewConfig, scenario, theme) => {
 };
 
 async function _fetchDataFromAzureFunction(organizationId, workspaceId, scenarioId, dataSource) {
-  const tokens = await Auth.acquireTokens();
-  const headers = { 'x-functions-key': dataSource.functionKey };
-  if (tokens?.accessToken) {
-    headers.Authorization = 'Bearer ' + tokens.accessToken;
-  }
+  const headers = await getAuthenticationHeaders(false); // Do not accept API key as token for Azure Functions
+  headers['x-functions-key'] = dataSource.functionKey;
+
   return axios({
     method: 'post',
     url: dataSource.functionUrl,

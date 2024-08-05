@@ -728,6 +728,7 @@ const interceptGetSolution = (solutionId) => {
 };
 
 const interceptPowerBIAzureFunction = () => {
+  if (authUtils.USE_API_KEY) return;
   const alias = forgeAlias('reqPowerBI');
   cy.intercept('POST', URL_POWERBI, { statusCode: 200 }).as(alias);
   return alias;

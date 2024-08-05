@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { t } from 'i18next';
-import { Auth } from '@cosmotech/core';
+import { getAuthenticationHeaders } from '../services/ClientApi.js';
 import { Api } from '../services/config/Api';
 import {
   CONNECTOR_VERSION_AZURE_STORAGE,
@@ -79,11 +79,9 @@ const getAllChildrenDatasetsNames = (initialDatasetId, datasets) => {
 
 const uploadZipWithFetchApi = async (organizationId, datasetId, file) => {
   try {
-    const tokens = await Auth.acquireTokens();
-    const headers = {
-      Authorization: 'Bearer ' + tokens.accessToken,
-      'Content-Type': 'application/octet-stream',
-    };
+    const headers = await getAuthenticationHeaders(true);
+    headers['Content-Type'] = 'application/octet-stream';
+
     return await fetch(`${Api.defaultBasePath}/organizations/${organizationId}/datasets/${datasetId}`, {
       method: 'POST',
       headers,
