@@ -206,7 +206,22 @@ export const WORKSPACES = [
                 { id: 'min_waiters', name: { en: 'Min. waiters', fr: 'Min. serveurs' }, queryId: 'bars' },
                 { id: 'max_waiters', name: { en: 'Max. waiters', fr: 'Max. serveurs' }, queryId: 'bars' },
               ],
-              attributes: ['NbWaiters', 'RestockQty', 'Stock'],
+              attributes: {
+                columns: [
+                  {
+                    field: 'NbWaiters',
+                    headerName: 'Number of waiters',
+                  },
+                  {
+                    field: 'RestockQty',
+                    headerName: 'Restock quantity',
+                  },
+                  {
+                    field: 'Stock',
+                    headerName: 'Stock',
+                  },
+                ],
+              },
             },
             {
               id: 'customers',
@@ -228,7 +243,38 @@ export const WORKSPACES = [
                   queryId: 'customers',
                 },
               ],
-              attributes: ['Satisfaction', 'SurroundingSatisfaction', 'Thirsty'],
+              attributes: {
+                columns: [
+                  {
+                    field: 'name',
+                    headerName: 'Name',
+                    type: ['string'],
+                  },
+                  {
+                    field: 'satisfaction',
+                    headerName: 'Satisfaction',
+                    type: ['int'],
+                    minValue: 0,
+                    maxValue: 10,
+                    acceptsEmptyFields: true,
+                  },
+                  {
+                    field: 'surroundingSatisfaction',
+                    headerName: 'Surrounding satisfaction',
+                    type: ['int'],
+                    minValue: 0,
+                    maxValue: 10,
+                    acceptsEmptyFields: true,
+                  },
+                  {
+                    field: 'thirsty',
+                    headerName: 'Thirsty',
+                    type: ['bool'],
+                    acceptsEmptyFields: true,
+                  },
+                ],
+                queryId: 'attributes',
+              },
             },
           ],
           queries: [
@@ -251,6 +297,13 @@ export const WORKSPACES = [
             {
               id: 'relationships',
               query: 'OPTIONAL MATCH ()-[r]->() RETURN COUNT(r) AS relationships_count',
+            },
+            {
+              id: 'attributes',
+              query:
+                'MATCH(customer: Customer) WITH {name: customer.id, satisfaction: customer.Satisfaction, ' +
+                'surroundingSatisfaction: customer.SurroundingSatisfaction, thirsty: customer.Thirsty} ' +
+                'as fields RETURN fields',
             },
           ],
         },

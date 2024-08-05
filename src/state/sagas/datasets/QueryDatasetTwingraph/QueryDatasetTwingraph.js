@@ -44,8 +44,18 @@ function* runDatasetTwingraphQuery(action, query, attemptsNumber = 0) {
 function* startAllDatasetTwingraphQueries(action) {
   const { workspace } = action.payload;
   const queries = workspace?.webApp?.options?.datasetManager?.queries ?? [];
+  const graph = workspace?.webApp?.options?.datasetManager?.graphIndicators;
+  const categories = workspace?.webApp?.options?.datasetManager?.categories;
+
   yield all(
     queries.map((query, index) => {
+      if (
+        !categories.some((cat) => cat?.kpis.some((kpi) => kpi?.queryId === query.id)) &&
+        !graph.some((g) => g?.queryId === query.id)
+      )
+        return null;
+      console.log('query'); // NBO log to remove
+      console.log(query); // NBO log to remove
       if (index !== 0) delay(TWINGRAPH_QUERIES_DELAY);
       return spawn(runDatasetTwingraphQuery, action, query);
     })

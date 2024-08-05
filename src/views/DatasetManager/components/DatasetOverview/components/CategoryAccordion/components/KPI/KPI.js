@@ -7,7 +7,7 @@ import { Grid, Typography } from '@mui/material';
 import { TranslationUtils } from '../../../../../../../../utils';
 import { KPIValue } from '../../../KPIValue';
 
-const KPI = (props) => {
+export const KPI = (props) => {
   const { t } = useTranslation();
   const { id, categoryId, kpi, labelProps, valueProps } = props;
 
@@ -54,5 +54,3 @@ KPI.defaultProps = {
   labelProps: {},
   valueProps: {},
 };
-
-export default KPI;
