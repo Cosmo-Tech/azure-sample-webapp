@@ -4,7 +4,7 @@ import utils from '../../commons/TestUtils';
 import { Scenarios, ScenarioManager, ScenarioParameters, ErrorBanner } from '../../commons/actions';
 import { Login } from '../../commons/actions/brewery';
 import { BREWERY_WORKSPACE_ID, DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
-import { URL_REGEX } from '../../commons/constants/generic/TestConstants';
+import { API_REGEX } from '../../commons/constants/generic/TestConstants';
 
 Cypress.Keyboard.defaults({
   keystrokeDelay: 0,
@@ -32,7 +32,7 @@ describe('Displaying error banner on run scenario fail', () => {
   });
   it('can display error banner and dismiss it', () => {
     Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
-    cy.intercept('POST', URL_REGEX.SCENARIO_PAGE_RUN_WITH_ID, {
+    cy.intercept('POST', API_REGEX.START_RUNNER, {
       statusCode: 400,
       body: {
         title: 'Bad Request',

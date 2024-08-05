@@ -150,8 +150,7 @@ function cancelCreateScenario() {
 }
 
 function createScenario(scenarioName, isMaster, datasetOrMasterName, runTemplate) {
-  const createScenarioAlias = api.interceptCreateScenario();
-  const getScenariosAlias = api.interceptGetScenarios();
+  const createScenarioAlias = api.interceptCreateSimulationRunner();
 
   openScenarioCreationDialog();
   getScenarioCreationDialog().should('be.visible');
@@ -167,16 +166,10 @@ function createScenario(scenarioName, isMaster, datasetOrMasterName, runTemplate
   getScenarioCreationDialog().should('not.exist');
 
   let scenarioCreated;
-  api.waitAlias(createScenarioAlias).then((req) => {
+  return api.waitAlias(createScenarioAlias).then((req) => {
     scenarioCreated = req.response.body;
     expect(scenarioCreated.name.toLowerCase()).to.equal(scenarioName.toLowerCase());
     expect(scenarioCreated.runTemplateName.toLowerCase()).to.equal(runTemplate.toLowerCase());
-  });
-
-  return api.waitAlias(getScenariosAlias).then((interception) => {
-    const nameGet = interception.response.body.find((obj) => obj.id === scenarioCreated.id).name;
-    expect(nameGet).to.equal(scenarioCreated.name);
-
     return {
       scenarioCreatedId: scenarioCreated.id,
       scenarioCreatedName: scenarioCreated.name,
@@ -189,34 +182,19 @@ function createScenario(scenarioName, isMaster, datasetOrMasterName, runTemplate
 }
 
 function validateScenario(scenarioId) {
-  const validateScenarioAlias = api.interceptUpdateScenario({ scenarioId });
-  const getScenarioAlias = api.interceptGetScenario(scenarioId);
-
+  const validateScenarioAlias = api.interceptUpdateSimulationRunner({ scenarioId });
   getScenarioValidateButton().click();
-  Scenarios.getScenarioValidationStatusLoadingSpinner().should('be.visible');
-
   api.waitAlias(validateScenarioAlias);
-  api.waitAlias(getScenarioAlias);
 }
 function rejectScenario(scenarioId) {
-  const rejectScenarioAlias = api.interceptUpdateScenario({ scenarioId });
-  const getScenarioAlias = api.interceptGetScenario(scenarioId);
-
+  const rejectScenarioAlias = api.interceptUpdateSimulationRunner({ scenarioId });
   getScenarioRejectButton().click();
-  Scenarios.getScenarioValidationStatusLoadingSpinner().should('be.visible');
-
   api.waitAlias(rejectScenarioAlias);
-  api.waitAlias(getScenarioAlias);
 }
 function resetScenarioValidationStatus(scenarioId) {
-  const resetScenarioAlias = api.interceptUpdateScenario({ scenarioId });
-  const getScenarioAlias = api.interceptGetScenario(scenarioId);
-
+  const resetScenarioAlias = api.interceptUpdateSimulationRunner({ scenarioId });
   getScenarioValidationStatusChipDeleteIcon().click();
-  Scenarios.getScenarioValidationStatusLoadingSpinner().should('be.visible');
-
   api.waitAlias(resetScenarioAlias);
-  api.waitAlias(getScenarioAlias);
 }
 
 export const Scenarios = {

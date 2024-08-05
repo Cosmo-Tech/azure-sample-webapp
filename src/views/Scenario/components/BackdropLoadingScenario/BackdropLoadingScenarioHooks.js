@@ -1,8 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { useCurrentScenarioReducerStatus } from '../../../../state/hooks/ScenarioHooks';
+import { useCurrentSimulationRunnerReducerStatus } from '../../../../state/hooks/RunnerHooks';
 
 export const useBackdropLoadingScenario = () => {
-  const currentScenarioStatus = useCurrentScenarioReducerStatus();
+  const currentScenarioStatus = useCurrentSimulationRunnerReducerStatus();
   return { currentScenarioStatus };
 };

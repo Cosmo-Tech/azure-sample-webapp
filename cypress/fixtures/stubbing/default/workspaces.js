@@ -25,7 +25,11 @@ export const WORKSPACE_EXAMPLE = {
   solution: {
     solutionId: 'SOL-stubbedbrwy',
     runTemplateFilter: ['1', '2', '3'],
-    defaultRunTemplateDataset: null,
+    defaultRunTemplateDataset: {
+      1: 'd-kjg7drjjm48p',
+      2: 'd-8q7mwq1q17v7',
+      3: 'd-63mkreqmqg0',
+    },
   },
   id: 'W-stbbdbrwry',
   description: 'Stubbed workspace for Brewery Demo',
@@ -61,9 +65,7 @@ export const DEFAULT_WORKSPACES_LIST = [DEFAULT_WORKSPACE];
 const workspaceCopy = JSON.parse(JSON.stringify(DEFAULT_WORKSPACE));
 workspaceCopy.webApp.options.instanceView = {
   dataSource: {
-    type: 'adt',
-    functionUrl: 'dummy_function_url',
-    functionKey: 'dummy_function_key',
+    type: 'twingraph_dataset',
   },
   dataContent: {},
 };
