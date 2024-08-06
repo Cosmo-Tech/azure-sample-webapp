@@ -1,0 +1,4 @@
+# apiUrl is the URL of the API to use as host for the webapp server
+apiUrl: kubernetes.cosmotech.com
+# webappPublicUrl is the subdirectory path to use as root of the webapp
+webappPublicUrl: /cosmotech-webapp/brewery
