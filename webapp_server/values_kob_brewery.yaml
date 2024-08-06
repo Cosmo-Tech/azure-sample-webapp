@@ -1,0 +1,35 @@
+name: business-webapp-brewery
+webapp:
+  domainName: kubernetes.cosmotech.com
+  publicUrl: /cosmotech-webapp/brewery
+  server:
+    image:
+      repository: ghcr.io/cosmo-tech/azure-sample-webapp/webapp-server
+      tag: latest
+      pullPolicy: Always
+  functions:
+    image:
+      repository: ghcr.io/cosmo-tech/azure-sample-webapp/webapp-functions
+      tag: latest
+      pullPolicy: Always
+
+keycloak:
+  realmUrl: https://kubernetes.cosmotech.com/keycloak/realms/brewery
+
+
+# PowerBI app registration credentials will be defined later from secrets
+powerbi:
+  tenantId: ""
+  clientId: ""
+  clientSecret: ""
+
+ingress:
+  enabled: true
+
+resources:
+  limits:
+    cpu: 1000m
+    memory: 256Mi
+  requests:
+    cpu: 200m
+    memory: 128Mi
