@@ -13,6 +13,7 @@ export const getScenarioManagerLabels = (t) => ({
   edit: t('commoncomponents.scenariomanager.treelist.node.action.edit'),
   scenarioRename: {
     title: t('commoncomponents.dialog.create.scenario.input.scenarioname.label'),
+    edit: t('commoncomponents.scenariomanager.treelist.node.action.edit'),
     errors: {
       emptyScenarioName: t('commoncomponents.dialog.create.scenario.input.scenarioname.error.empty'),
       forbiddenCharsInScenarioName: t(
@@ -40,5 +41,16 @@ export const getScenarioManagerLabels = (t) => ({
   validationStatus: {
     rejected: t('views.scenario.validation.rejected', 'Rejected'),
     validated: t('views.scenario.validation.validated', 'Validated'),
+  },
+  description: {
+    label: t('commoncomponents.scenariomanager.treelist.node.description', 'Description'),
+    placeholder: t(
+      'commoncomponents.scenariomanager.treelist.node.action.descriptionPlaceholder',
+      'Description of you scenario'
+    ),
+  },
+  tags: {
+    header: t('commoncomponents.scenariomanager.treelist.node.tags', 'Tags'),
+    placeholder: t('commoncomponents.scenariomanager.treelist.node.action.tagsEdition', 'Edit your tags'),
   },
 });
