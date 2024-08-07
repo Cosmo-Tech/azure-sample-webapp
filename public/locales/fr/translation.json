@@ -325,10 +325,14 @@
             "failed": "Erreur",
             "created": "Créé"
           },
+          "description": "Description",
+          "tags": "Tags",
           "action": {
             "delete": "Supprimer ce scénario",
             "redirect": "Ouvrir dans la vue scénario",
-            "edit": "Editer le nom du scenario"
+            "edit": "Editer le nom du scenario",
+            "descriptionPlaceholder": "Description du scénario",
+            "tagsEdition": "Modifiez les tags"
           },
           "text": {
             "search": "Filtrer..."
@@ -382,7 +386,9 @@
                 "existing": "Le nom du scénario existe déjà",
                 "forbiddenchars": "Le nom du scénario doit commencer par une lettre ou un chiffre, et ne peut contenir que des lettres, chiffres, espaces, underscores, tirets et points."
               }
-            }
+            },
+            "description": "Description",
+            "tags": "Tags"
           },
           "dropdown": {
             "parentscenario": {
@@ -493,6 +499,7 @@
       "create": "Le scénario n'a pas pu être créé.",
       "delete": "Le scénario n'a pas pu être supprimé.",
       "rename": "Le scénario n'a pas pu être renommé.",
+      "updateData": "Le scénario n'a pas pu être mis à jour.",
       "updatePermissions": "Certaines permissions du scénario n'ont pas pu être modifiées.",
       "run": "Un problème est survenu, le scénario n'a pas pu être lancé.",
       "update": "Un problème est survenu pendant la modification du scénario, les nouveaux paramètres n'ont pas été sauvegardés.",
