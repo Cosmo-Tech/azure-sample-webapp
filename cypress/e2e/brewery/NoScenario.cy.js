@@ -7,15 +7,7 @@ import { stub } from '../../commons/services/stubbing';
 
 describe('If there are no scenarios created yet', () => {
   before(() => {
-    stub.start({
-      CREATE_AND_DELETE_SCENARIO: true,
-      GET_DATASETS: true,
-      GET_SCENARIOS: true,
-      GET_SOLUTIONS: true,
-      GET_WORKSPACES: true,
-      GET_ORGANIZATION: true,
-      PERMISSIONS_MAPPING: true,
-    });
+    stub.start();
   });
 
   beforeEach(() => {

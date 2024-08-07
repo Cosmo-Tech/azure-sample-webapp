@@ -9,17 +9,7 @@ import { DEFAULT_SCENARIOS_LIST } from '../../fixtures/stubbing/default';
 describe('Create scenario and check its data in scenario manager', () => {
   before(() => {
     setup.initCypressAndStubbing();
-    stub.start({
-      CREATE_AND_DELETE_SCENARIO: true,
-      GET_DATASETS: true,
-      GET_SOLUTIONS: true,
-      GET_WORKSPACES: true,
-      GET_ORGANIZATION: true,
-      GET_SCENARIOS: true,
-      LAUNCH_SCENARIO: true,
-      PERMISSIONS_MAPPING: true,
-      UPDATE_SCENARIO: true,
-    });
+    stub.start();
   });
 
   beforeEach(() => {

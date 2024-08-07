@@ -8,13 +8,7 @@ import { USER_EXAMPLE } from '../../fixtures/stubbing/default';
 
 describe('check scenario sorted list after reload', () => {
   before(() => {
-    stub.start({
-      GET_DATASETS: true,
-      GET_SCENARIOS: true,
-      GET_WORKSPACES: true,
-      GET_ORGANIZATION: true,
-      GET_SOLUTIONS: true,
-    });
+    stub.start();
     stub.setScenarios(ALL_ROOT_SCENARIOS);
   });
 
@@ -35,14 +29,7 @@ describe('check scenario sorted list after reload', () => {
 
 describe('check the list of sorted scenarios after deleting the current scenario', () => {
   before(() => {
-    stub.start({
-      AUTHENTICATION: true,
-      GET_SCENARIOS: true,
-      GET_WORKSPACES: true,
-      GET_ORGANIZATION: true,
-      GET_SOLUTIONS: true,
-      CREATE_AND_DELETE_SCENARIO: true,
-    });
+    stub.start();
     stub.setFakeUser(USER_EXAMPLE);
     stub.setFakeRoles(['Organization.Collaborator']);
     stub.setScenarios(PARENT_AND_CHILD_SCENARIOS);

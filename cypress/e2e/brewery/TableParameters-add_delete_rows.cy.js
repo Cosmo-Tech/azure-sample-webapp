@@ -20,14 +20,7 @@ const EXPECTED_CSV_AFTER_ADDITION_IN_SORTED_TABLE =
 
 describe('Testing add and delete features on different index', () => {
   before(() => {
-    stub.start({
-      GET_DATASETS: true,
-      GET_SCENARIOS: true,
-      GET_WORKSPACES: true,
-      GET_ORGANIZATION: true,
-      GET_SOLUTIONS: true,
-      PERMISSIONS_MAPPING: true,
-    });
+    stub.start();
     stub.setSolutions(SOLUTIONS);
   });
 

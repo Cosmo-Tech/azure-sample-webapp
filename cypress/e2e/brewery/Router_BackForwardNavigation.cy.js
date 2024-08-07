@@ -18,14 +18,7 @@ EXTENDED_WORKSPACES_LIST.forEach((workspace) => (workspace.webApp.options.datase
 
 describe('Back and forward navigation between tabs, scenarios and workspaces', () => {
   before(() => {
-    stub.start({
-      GET_DATASETS: true,
-      GET_SCENARIOS: true,
-      GET_WORKSPACES: true,
-      GET_SOLUTIONS: true,
-      GET_ORGANIZATION: true,
-      PERMISSIONS_MAPPING: true,
-    });
+    stub.start();
     stub.setWorkspaces(EXTENDED_WORKSPACES_LIST);
   });
 

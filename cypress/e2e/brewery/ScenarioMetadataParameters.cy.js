@@ -15,15 +15,7 @@ const validateScenarioUpdateRequest = (req) => {
 
 describe('scenario metadata parameters', () => {
   before(() => {
-    stub.start({
-      GET_DATASETS: true,
-      GET_SCENARIOS: true,
-      GET_WORKSPACES: true,
-      GET_ORGANIZATION: true,
-      GET_SOLUTIONS: true,
-      UPDATE_SCENARIO: true,
-      LAUNCH_SCENARIO: true,
-    });
+    stub.start();
     stub.setScenarios(SCENARIOS);
     stub.setSolutions(SOLUTIONS);
   });
@@ -59,14 +51,7 @@ describe('scenario metadata parameters', () => {
 
 describe('hidden scenario parameters', () => {
   before(() => {
-    stub.start({
-      GET_DATASETS: true,
-      GET_SCENARIOS: true,
-      GET_WORKSPACES: true,
-      GET_SOLUTIONS: true,
-      UPDATE_SCENARIO: true,
-      LAUNCH_SCENARIO: true,
-    });
+    stub.start();
     stub.setScenarios(SCENARIOS);
     stub.setSolutions(SOLUTIONS);
   });

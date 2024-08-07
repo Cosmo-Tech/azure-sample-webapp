@@ -7,13 +7,7 @@ import { DEFAULT_SCENARIOS_LIST } from '../../fixtures/stubbing/default';
 
 describe('Redirects to right page', () => {
   before(() => {
-    stub.start({
-      GET_DATASETS: true,
-      GET_SCENARIOS: true,
-      GET_WORKSPACES: true,
-      GET_ORGANIZATION: true,
-      GET_SOLUTIONS: true,
-    });
+    stub.start();
   });
 
   after(() => {

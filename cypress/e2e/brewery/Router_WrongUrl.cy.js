@@ -5,13 +5,7 @@ import { stub } from '../../commons/services/stubbing';
 
 describe('Sharing with wrong URL', () => {
   before(() => {
-    stub.start({
-      GET_DATASETS: true,
-      GET_SCENARIOS: true,
-      GET_WORKSPACES: true,
-      GET_ORGANIZATION: true,
-      GET_SOLUTIONS: true,
-    });
+    stub.start();
   });
 
   after(() => {

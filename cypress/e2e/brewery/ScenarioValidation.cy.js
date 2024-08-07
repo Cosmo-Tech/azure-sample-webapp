@@ -11,16 +11,7 @@ const SCENARIO_RUN_TEMPLATE = RUN_TEMPLATE.BASIC_TYPES;
 
 describe('Scenario validation', () => {
   before(() => {
-    stub.start({
-      AUTHENTICATION: true,
-      CREATE_AND_DELETE_SCENARIO: true,
-      GET_DATASETS: true,
-      GET_SCENARIOS: true,
-      GET_SOLUTIONS: true,
-      GET_WORKSPACES: true,
-      GET_ORGANIZATION: true,
-      UPDATE_SCENARIO: true,
-    });
+    stub.start();
   });
 
   beforeEach(() => {

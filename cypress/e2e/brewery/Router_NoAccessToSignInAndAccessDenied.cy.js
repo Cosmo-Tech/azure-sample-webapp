@@ -6,13 +6,7 @@ import { routeUtils as route } from '../../commons/utils';
 
 describe("User doesn't access SignIn and AccessDenied pages if authenticated or authorized", () => {
   before(() => {
-    stub.start({
-      GET_DATASETS: true,
-      GET_SCENARIOS: true,
-      GET_SOLUTIONS: true,
-      GET_WORKSPACES: true,
-      GET_ORGANIZATION: true,
-    });
+    stub.start();
     Login.login();
   });
 

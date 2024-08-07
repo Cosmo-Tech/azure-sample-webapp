@@ -6,15 +6,7 @@ import { DEFAULT_SCENARIOS_LIST, USER_EXAMPLE } from '../../fixtures/stubbing/de
 
 describe('check accessible features for Organization.Modeler application role as workspace admin', () => {
   before(() => {
-    stub.start({
-      AUTHENTICATION: true,
-      GET_SCENARIOS: true,
-      GET_DATASETS: true,
-      GET_SOLUTIONS: true,
-      GET_WORKSPACES: true,
-      GET_ORGANIZATION: true,
-      CREATE_AND_DELETE_SCENARIO: true,
-    });
+    stub.start();
     stub.setFakeUser(USER_EXAMPLE);
     stub.setFakeRoles(['Organization.Modeler']);
     stub.setScenarios(DEFAULT_SCENARIOS_LIST);
@@ -38,15 +30,7 @@ describe('check accessible features for Organization.Modeler application role as
 
 describe('check accessible features for Organization.Viewer application role as workspace admin', () => {
   before(() => {
-    stub.start({
-      AUTHENTICATION: true,
-      GET_SCENARIOS: true,
-      GET_DATASETS: true,
-      GET_SOLUTIONS: true,
-      GET_WORKSPACES: true,
-      GET_ORGANIZATION: true,
-      CREATE_AND_DELETE_SCENARIO: true,
-    });
+    stub.start();
     stub.setFakeUser(USER_EXAMPLE);
     stub.setFakeRoles(['Organization.Viewer']);
     stub.setScenarios(DEFAULT_SCENARIOS_LIST);

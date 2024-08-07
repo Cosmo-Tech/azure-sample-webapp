@@ -19,16 +19,7 @@ const invalidFormatFilePath = 'file_with_invalid_format.png';
 
 describe('scenario parameters inputs validation', () => {
   before(() => {
-    stub.start({
-      AUTHENTICATION: true,
-      CREATE_AND_DELETE_SCENARIO: true,
-      GET_DATASETS: true,
-      GET_SCENARIOS: true,
-      GET_SOLUTIONS: true,
-      GET_WORKSPACES: true,
-      GET_ORGANIZATION: true,
-      UPDATE_SCENARIO: true,
-    });
+    stub.start();
     stub.setSolutions(SOLUTIONS);
     stub.setScenarios(SCENARIOS);
   });
@@ -233,16 +224,7 @@ describe('scenario parameters inputs validation', () => {
 
 describe('validation with constraints between parameters', () => {
   before(() => {
-    stub.start({
-      AUTHENTICATION: true,
-      CREATE_AND_DELETE_SCENARIO: true,
-      GET_DATASETS: true,
-      GET_SCENARIOS: true,
-      GET_SOLUTIONS: true,
-      GET_WORKSPACES: true,
-      GET_ORGANIZATION: true,
-      UPDATE_SCENARIO: true,
-    });
+    stub.start();
     stub.setSolutions(SOLUTIONS_WITH_CONSTRAINTS);
     stub.setScenarios(SCENARIOS);
   });
@@ -288,16 +270,7 @@ describe('validation with constraints between parameters', () => {
 
 describe('validation constraint with wrong configuration', () => {
   before(() => {
-    stub.start({
-      AUTHENTICATION: true,
-      CREATE_AND_DELETE_SCENARIO: true,
-      GET_DATASETS: true,
-      GET_SCENARIOS: true,
-      GET_SOLUTIONS: true,
-      GET_WORKSPACES: true,
-      GET_ORGANIZATION: true,
-      UPDATE_SCENARIO: true,
-    });
+    stub.start();
     stub.setSolutions(SOLUTIONS_WITH_WRONG_CONSTRAINT);
     stub.setScenarios(SCENARIOS);
   });

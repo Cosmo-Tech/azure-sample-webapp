@@ -7,14 +7,7 @@ import { SOLUTIONS } from '../../fixtures/stubbing/TableParameters-columnGroupin
 
 describe('check if column grouping is displayed in the stubbed Table component', () => {
   before(() => {
-    stub.start({
-      GET_DATASETS: true,
-      GET_SCENARIOS: true,
-      GET_WORKSPACES: true,
-      GET_ORGANIZATION: true,
-      GET_SOLUTIONS: true,
-      PERMISSIONS_MAPPING: true,
-    });
+    stub.start();
     stub.setSolutions(SOLUTIONS);
   });
 

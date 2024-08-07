@@ -9,14 +9,7 @@ import { EXTENDED_WORKSPACES_LIST } from '../../fixtures/stubbing/default';
 
 describe('Discard and continue inside the same workspace', () => {
   before(() => {
-    stub.start({
-      GET_DATASETS: true,
-      GET_SCENARIOS: true,
-      GET_WORKSPACES: true,
-      GET_ORGANIZATION: true,
-      GET_SOLUTIONS: true,
-      PERMISSIONS_MAPPING: true,
-    });
+    stub.start();
   });
 
   beforeEach(() => {
@@ -94,14 +87,7 @@ describe('Discard and continue inside the same workspace', () => {
 
 describe('Discard and continue go to workspaces', () => {
   before(() => {
-    stub.start({
-      GET_DATASETS: true,
-      GET_SCENARIOS: true,
-      GET_WORKSPACES: true,
-      GET_ORGANIZATION: true,
-      GET_SOLUTIONS: true,
-      PERMISSIONS_MAPPING: true,
-    });
+    stub.start();
     stub.setWorkspaces(EXTENDED_WORKSPACES_LIST);
   });
 

@@ -7,13 +7,7 @@ import { DEFAULT_SCENARIOS_LIST, WORKSPACE_WITH_INSTANCE_VIEW } from '../../fixt
 
 describe('Scenario sharing with a link', () => {
   before(() => {
-    stub.start({
-      GET_DATASETS: true,
-      GET_SCENARIOS: true,
-      GET_WORKSPACES: true,
-      GET_ORGANIZATION: true,
-      GET_SOLUTIONS: true,
-    });
+    stub.start();
     stub.setWorkspaces([WORKSPACE_WITH_INSTANCE_VIEW]);
   });
 

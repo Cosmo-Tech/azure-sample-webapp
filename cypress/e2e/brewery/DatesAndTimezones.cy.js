@@ -10,15 +10,7 @@ import { SCENARIOS, SOLUTION } from '../../fixtures/stubbing/DatesAndTimezones';
 
 describe('Scenario parameters of type date', () => {
   before(() => {
-    stub.start({
-      GET_DATASETS: true,
-      GET_SCENARIOS: true,
-      GET_WORKSPACES: true,
-      GET_ORGANIZATION: true,
-      GET_SOLUTIONS: true,
-      UPDATE_SCENARIO: true,
-      PERMISSIONS_MAPPING: true,
-    });
+    stub.start();
   });
 
   beforeEach(() => {
