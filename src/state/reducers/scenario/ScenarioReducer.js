@@ -36,6 +36,14 @@ export const scenarioListReducer = createReducer(scenarioListInitialState, (buil
         return scenarioData;
       });
     })
+    .addCase(SCENARIO_ACTIONS_KEY.UPDATE_SCENARIO_DATA, (state, action) => {
+      state.data = state.data?.map((scenarioData) => {
+        if (scenarioData.id === action.scenarioId) {
+          return { ...scenarioData, ...action.newScenarioData };
+        }
+        return scenarioData;
+      });
+    })
     .addCase(SCENARIO_ACTIONS_KEY.SET_SCENARIO_VALIDATION_STATUS, (state, action) => {
       state.data = state.data?.map((scenarioData) => {
         if (scenarioData.id === action.scenarioId) {

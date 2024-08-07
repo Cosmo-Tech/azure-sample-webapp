@@ -14,6 +14,7 @@ import {
   dispatchSaveScenario,
   dispatchSaveAndLaunchScenario,
   dispatchLaunchScenario,
+  dispatchUpdateScenario,
 } from '../dispatchers/scenario/ScenarioDispatcher';
 import { useOrganizationId } from './OrganizationHooks';
 import { useWorkspaceId } from './WorkspaceHooks';
@@ -120,6 +121,17 @@ export const useRenameScenario = () => {
   return useCallback(
     (scenario, newScenarioName) =>
       dispatch(dispatchRenameScenario(organizationId, workspaceId, scenario, newScenarioName)),
+    [dispatch, organizationId, workspaceId]
+  );
+};
+
+export const useUpdateScenario = () => {
+  const dispatch = useDispatch();
+  const organizationId = useOrganizationId();
+  const workspaceId = useWorkspaceId();
+  return useCallback(
+    (scenarioId, newScenarioData) =>
+      dispatch(dispatchUpdateScenario(organizationId, workspaceId, scenarioId, newScenarioData)),
     [dispatch, organizationId, workspaceId]
   );
 };

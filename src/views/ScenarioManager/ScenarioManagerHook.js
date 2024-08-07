@@ -12,6 +12,7 @@ import {
   useDeleteScenario,
   useRenameScenario,
   useResetCurrentScenario,
+  useUpdateScenario,
 } from '../../state/hooks/ScenarioHooks';
 import { useWorkspaceId } from '../../state/hooks/WorkspaceHooks';
 import { TranslationUtils } from '../../utils';
@@ -37,6 +38,7 @@ export const useScenarioManager = () => {
   const setCurrentScenario = useUpdateCurrentScenario();
   const deleteScenario = useDeleteScenario();
   const renameScenario = useRenameScenario();
+  const updateScenario = useUpdateScenario();
   const resetCurrentScenario = useResetCurrentScenario();
   const workspaceId = useWorkspaceId();
 
@@ -49,6 +51,7 @@ export const useScenarioManager = () => {
     setCurrentScenario,
     deleteScenario,
     renameScenario,
+    updateScenario,
     resetCurrentScenario,
     workspaceId,
   };

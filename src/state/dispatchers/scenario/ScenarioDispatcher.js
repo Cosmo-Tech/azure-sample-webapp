@@ -46,6 +46,13 @@ export const dispatchRenameScenario = (organizationId, workspaceId, scenarioId, 
   scenarioName: newScenarioName,
 });
 
+export const dispatchUpdateScenario = (organizationId, workspaceId, scenarioId, newScenarioData) => ({
+  type: SCENARIO_ACTIONS_KEY.TRIGGER_SAGA_UPDATE_SCENARIO_DATA,
+  organizationId,
+  workspaceId,
+  scenarioId,
+  newScenarioData,
+});
 export const dispatchSetScenarioValidationStatus = (scenarioId, validationStatus) => ({
   type: SCENARIO_ACTIONS_KEY.SET_SCENARIO_VALIDATION_STATUS,
   scenarioId,
