@@ -42,6 +42,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@azure/msal-browser@npm:^3.20.0":
+  version: 3.20.0
+  resolution: "@azure/msal-browser@npm:3.20.0"
+  dependencies:
+    "@azure/msal-common": "npm:14.14.0"
+  checksum: 10c0/3a32d80b57287fd24bba3e283a8a07feccaadeaf124827a3430f4f0dd07bf05307d534ab067ce595e34d6c07916771d6623124b1ba4f578351a3a3ed405935ee
+  languageName: node
+  linkType: hard
+
 "@azure/msal-browser@npm:~3.19.0":
   version: 3.19.0
   resolution: "@azure/msal-browser@npm:3.19.0"
@@ -1779,17 +1788,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmotech/core@npm:^1.17.0":
-  version: 1.17.0
-  resolution: "@cosmotech/core@npm:1.17.0"
+"@cosmotech/core@npm:1.18.0-dev.0":
+  version: 1.18.0-dev.0
+  resolution: "@cosmotech/core@npm:1.18.0-dev.0"
   dependencies:
+    "@azure/msal-browser": "npm:^3.20.0"
     csv-string: "npm:^4.1.1"
     date-fns: "npm:^2.30.0"
     js-file-download: "npm:^0.4.12"
     rfdc: "npm:^1.4.1"
     validator: "npm:^13.12.0"
     xlsx: "https://cdn.sheetjs.com/xlsx-0.20.2/xlsx-0.20.2.tgz"
-  checksum: 10c0/f05caf9fb2d6c4367fcd0d09a05b04ad74b488fe68c82bfe71dfe094326887cb515fafb4809c7058873697e059c99b756b8e2b162377499b6766e203dbbcd67d
+  checksum: 10c0/34c6355908a79385ee09f9a9199b8e21d02c429100b7a03e9c700a302ae1bf43cd605d2a972867e88740fcbc1f690936fc2f8630188431830a61be82dcc74606
   languageName: node
   linkType: hard
 
@@ -5652,7 +5662,7 @@ __metadata:
     "@babel/preset-react": "npm:^7.24.7"
     "@cosmotech/api-ts": "npm:^3.2.9"
     "@cosmotech/azure": "npm:^2.0.0"
-    "@cosmotech/core": "npm:^1.17.0"
+    "@cosmotech/core": "npm:1.18.0-dev.0"
     "@cosmotech/ui": "npm:^9.2.1"
     "@emotion/react": "npm:^11.13.0"
     "@emotion/styled": "npm:^11.13.0"
