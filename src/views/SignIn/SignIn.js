@@ -6,7 +6,7 @@ import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Grid, Button, Typography, Box, Select, MenuItem } from '@mui/material';
 import { AuthMSAL } from '@cosmotech/azure';
-import { AuthDev } from '@cosmotech/core';
+import { AuthDev, AuthKeycloakExperimental } from '@cosmotech/core';
 import { SignInButton } from '@cosmotech/ui';
 import microsoftLogo from '../../assets/microsoft_logo.png';
 import { AUTH_STATUS } from '../../state/commons/AuthConstants.js';
@@ -71,6 +71,15 @@ const SignIn = ({ logInAction, auth }) => {
                     label={t('genericcomponent.button.login.msal.title', 'Sign in with Microsoft')}
                     onClick={(event) => handleSignIn(event, AuthMSAL.name)}
                   />
+                </Grid>
+                <Grid item>
+                  <Button
+                    onClick={(event) => handleSignIn(event, AuthKeycloakExperimental.name)}
+                    data-cy="keycloak-login-button"
+                    className={classes.quoteText}
+                  >
+                    {t('commoncomponents.button.login.keycloak', 'Sign in with Keycloak')}
+                  </Button>
                 </Grid>
                 <Grid item>
                   {window.location.hostname === 'localhost' && (
