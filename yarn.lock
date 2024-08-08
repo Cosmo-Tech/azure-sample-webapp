@@ -1761,41 +1761,42 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmotech/api-ts@npm:^3.2.9":
-  version: 3.2.9
-  resolution: "@cosmotech/api-ts@npm:3.2.9"
+"@cosmotech/api-ts@npm:4.0.0-dev9":
+  version: 4.0.0-dev9
+  resolution: "@cosmotech/api-ts@npm:4.0.0-dev9"
   dependencies:
     axios: "npm:^1.6.1"
-  checksum: 10c0/2ded36b3f823f03a10ee457985d92ca7f79088307d26c99950aeb55cf46edbbdb2c0abd3c9c5ef530dd99382f8b5447acbbb33c8be6d0fc1cb2d52f699eae326
+  checksum: 10c0/0990ffc7378e523f73634164bcd26eab6b08a6c8cbafcc60bac5efb65289bc9089c5182d407250afcde4ce4588783ec56954342af9f45078630c6dd680647dc9
   languageName: node
   linkType: hard
 
-"@cosmotech/azure@npm:^2.0.1":
-  version: 2.0.1
-  resolution: "@cosmotech/azure@npm:2.0.1"
+"@cosmotech/azure@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "@cosmotech/azure@npm:3.0.0"
   dependencies:
     "@azure/msal-browser": "npm:^3.20.0"
-  checksum: 10c0/2b979753822da383f5b2d6b78a4289d233154b0f738c4e45e08ec68a6761d9f697e112feb71c7b2d8f29ec0fe886b53b646ee8fa4cbfd828ccd7a68125d70e00
+  checksum: 10c0/7e86a771b8a683d2f126f90c9152392300b20d448966b8242e5bc679875259a639952a6d211f7517b46e711715f48fcda1b9fd751ed02ce7aa8be34ece42507d
   languageName: node
   linkType: hard
 
-"@cosmotech/core@npm:^1.17.0":
-  version: 1.17.0
-  resolution: "@cosmotech/core@npm:1.17.0"
+"@cosmotech/core@npm:^1.19.0":
+  version: 1.19.0
+  resolution: "@cosmotech/core@npm:1.19.0"
   dependencies:
+    "@azure/msal-browser": "npm:^3.20.0"
     csv-string: "npm:^4.1.1"
     date-fns: "npm:^2.30.0"
     js-file-download: "npm:^0.4.12"
     rfdc: "npm:^1.4.1"
     validator: "npm:^13.12.0"
     xlsx: "https://cdn.sheetjs.com/xlsx-0.20.2/xlsx-0.20.2.tgz"
-  checksum: 10c0/f05caf9fb2d6c4367fcd0d09a05b04ad74b488fe68c82bfe71dfe094326887cb515fafb4809c7058873697e059c99b756b8e2b162377499b6766e203dbbcd67d
+  checksum: 10c0/cbc94a4d2841756b5a476a9c94beafaca7e6bf6a6419ab48e9033826ea4f47fdb45a1a16105c16cc21dfe443bea819647d28bfa5408a27727b06aa94492d05de
   languageName: node
   linkType: hard
 
-"@cosmotech/ui@npm:^9.5.2":
-  version: 9.5.2
-  resolution: "@cosmotech/ui@npm:9.5.2"
+"@cosmotech/ui@npm:^10.0.0-beta.0":
+  version: 10.0.0-beta.0
+  resolution: "@cosmotech/ui@npm:10.0.0-beta.0"
   dependencies:
     "@emotion/react": "npm:^11.13.0"
     "@emotion/styled": "npm:^11.13.0"
@@ -1814,7 +1815,7 @@ __metadata:
     react-number-format: "npm:^5.4.0"
     rfdc: "npm:^1.4.1"
   peerDependencies:
-    "@cosmotech/azure": ^2.0.1
+    "@cosmotech/azure": ^3.0.0
     "@cosmotech/core": ^1.6.3
     "@mui/icons-material": ^5.11.0
     "@mui/lab": ^5.0.0-alpha.117
@@ -1824,7 +1825,7 @@ __metadata:
     react: ^17.0.1
     react-dom: ^17.0.1
     react-i18next: ^11.8.13
-  checksum: 10c0/97f5a7bbe73252b1f7a50b17d4b1d9173786ca8d47ea36b2ce70e6d63857eefc3a6d11ce3038b31a5ef0f748ed03ea7c10159c9c2dd826062f6cb97383b981af
+  checksum: 10c0/67a53724c0e7163dea243c4599485ef332087c35a611ce1d21cdcca299cf943ff1415432f2c5961686ed9fca90455a6387a31736668f68cbda314e9772031330
   languageName: node
   linkType: hard
 
@@ -5650,10 +5651,10 @@ __metadata:
     "@babel/plugin-proposal-private-property-in-object": "npm:^7.21.11"
     "@babel/preset-env": "npm:^7.25.2"
     "@babel/preset-react": "npm:^7.24.7"
-    "@cosmotech/api-ts": "npm:^3.2.9"
-    "@cosmotech/azure": "npm:^2.0.1"
-    "@cosmotech/core": "npm:^1.17.0"
-    "@cosmotech/ui": "npm:^9.5.2"
+    "@cosmotech/api-ts": "npm:4.0.0-dev9"
+    "@cosmotech/azure": "npm:^3.0.0"
+    "@cosmotech/core": "npm:^1.19.0"
+    "@cosmotech/ui": "npm:^10.0.0-beta.0"
     "@emotion/react": "npm:^11.13.0"
     "@emotion/styled": "npm:^11.13.0"
     "@microsoft/applicationinsights-web": "npm:^3.3.0"
