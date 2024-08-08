@@ -42,6 +42,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@azure/msal-browser@npm:^3.20.0":
+  version: 3.25.0
+  resolution: "@azure/msal-browser@npm:3.25.0"
+  dependencies:
+    "@azure/msal-common": "npm:14.15.0"
+  checksum: 10c0/19f727552fb02555d329d1ed81a3070c243dfd3c5b6ccfcc60ee9b3d0252d23b180c433f44515a77921e2624e2f050c5c3ce37d510f668c0ac4f545460c96215
+  languageName: node
+  linkType: hard
+
 "@azure/msal-browser@npm:~3.19.0":
   version: 3.19.0
   resolution: "@azure/msal-browser@npm:3.19.0"
@@ -62,6 +71,13 @@ __metadata:
   version: 14.14.0
   resolution: "@azure/msal-common@npm:14.14.0"
   checksum: 10c0/90e4fdc0b8b074e548dd1e761fe07e591f93d39894e796e326e7292d2e1eddc9bbb4cba7fb722a531e6687434fbe7a0cc0e2cbe17173f34c1f21b5684ee01c89
+  languageName: node
+  linkType: hard
+
+"@azure/msal-common@npm:14.15.0":
+  version: 14.15.0
+  resolution: "@azure/msal-common@npm:14.15.0"
+  checksum: 10c0/a7af0fdd9477055c261ec065f3479b1511ccfc80723029a51737216777f11a536df3b53cf1ec80dd09dfc10e29f7a32c63c1e6b28bf3dcc17dad06e2a54cf43f
   languageName: node
   linkType: hard
 
@@ -1779,17 +1795,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmotech/core@npm:^1.17.0":
-  version: 1.17.0
-  resolution: "@cosmotech/core@npm:1.17.0"
+"@cosmotech/core@npm:1.18.2":
+  version: 1.18.2
+  resolution: "@cosmotech/core@npm:1.18.2"
   dependencies:
+    "@azure/msal-browser": "npm:^3.20.0"
     csv-string: "npm:^4.1.1"
     date-fns: "npm:^2.30.0"
     js-file-download: "npm:^0.4.12"
     rfdc: "npm:^1.4.1"
     validator: "npm:^13.12.0"
     xlsx: "https://cdn.sheetjs.com/xlsx-0.20.2/xlsx-0.20.2.tgz"
-  checksum: 10c0/f05caf9fb2d6c4367fcd0d09a05b04ad74b488fe68c82bfe71dfe094326887cb515fafb4809c7058873697e059c99b756b8e2b162377499b6766e203dbbcd67d
+  checksum: 10c0/5f1fb412a1623bb18e55f3486c5b5c30a994ae4cf9aa772439e2b6439ae3bbd65622970ab0322a72288a16352d5ab06d809325f1bc51abb7021f5be8c67f8df5
   languageName: node
   linkType: hard
 
@@ -5652,7 +5669,7 @@ __metadata:
     "@babel/preset-react": "npm:^7.24.7"
     "@cosmotech/api-ts": "npm:^3.2.9"
     "@cosmotech/azure": "npm:^2.0.0"
-    "@cosmotech/core": "npm:^1.17.0"
+    "@cosmotech/core": "npm:1.18.2"
     "@cosmotech/ui": "npm:^9.5.1"
     "@emotion/react": "npm:^11.13.0"
     "@emotion/styled": "npm:^11.13.0"
