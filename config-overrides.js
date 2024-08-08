@@ -55,7 +55,6 @@ function addFallback(config) {
   config.resolve.fallback = fallback;
   config.plugins = (config.plugins || []).concat([
     new webpack.ProvidePlugin({
-      process: 'process/browser',
       Buffer: ['buffer', 'Buffer'],
     }),
   ]);
