@@ -34,7 +34,7 @@ const MSAL_CONFIG = {
 };
 
 const keycloakRedirectUrl =
-  `${window.location.protocol}//${window.location.host}${process.env?.PUBLIC_URL ?? ''}` + '/sign-in';
+  `${window.location.protocol}//${window.location.host}${process.env?.PUBLIC_URL ?? ''}` + '/blank.html';
 console.log(keycloakRedirectUrl);
 // AuthKeycloak configuration
 const MSAL_KEYCLOAK_CONFIG = {
