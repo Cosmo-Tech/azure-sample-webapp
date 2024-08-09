@@ -52,11 +52,9 @@ const MSAL_KEYCLOAK_CONFIG = {
         issuer: 'https://kubernetes.cosmotech.com/keycloak/realms/brewery',
         userinfo_endpoint: 'https://kubernetes.cosmotech.com/keycloak/realms/brewery/protocol/openid-connect/userinfo',
       }),
-      authority: 'https://kubernetes.cosmotech.com/keycloak/realms/brewery',
       clientId: APP_REGISTRATION_CLIENT_ID,
-      // redirectUri: `${window.location.protocol}//${window.location.host}${process.env?.PUBLIC_URL ?? ''}/sign-in`,
-      // authority: `https://login.microsoftonline.com/${AZURE_TENANT_ID}`,
-      // knownAuthorities: [`https://login.microsoftonline.com/${AZURE_TENANT_ID}`],
+      redirectUri: `${window.location.protocol}//${window.location.host}${process.env?.PUBLIC_URL ?? ''}/sign-in`,
+      authority: 'https://kubernetes.cosmotech.com/keycloak/realms/brewery',
       knownAuthorities: ['https://kubernetes.cosmotech.com/keycloak/realms/brewery'],
     },
     cache: {
