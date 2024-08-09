@@ -41,10 +41,12 @@ const MSAL_KEYCLOAK_CONFIG = {
   loginRequest: {
     // scopes: ['user.read'],
     // scopes: ['roles', 'openid', 'email', 'profile'],
+    prompt: 'login',
   },
   accessRequest: {
     // scopes: [COSMOTECH_API_SCOPE],
     // scopes: ['roles', 'openid', 'email', 'profile'],
+    prompt: 'login',
   },
   msalConfig: {
     auth: {
