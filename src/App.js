@@ -92,10 +92,13 @@ const App = () => {
     return <AppRoutes authenticated={isAuthenticated} authorized={applicationStatus === STATUSES.SUCCESS} />;
   }, [isConnecting, isAuthenticated, isLoading, applicationStatus]);
 
+  console.log(window.opener);
+  console.log('--------');
   console.log(window.self);
   console.log(window.top);
   console.log(window.self !== window.top);
-  // Disable app when running in an iframe to prevent issues with router redirection during login
+  // Disable app when running in popup or iframe to prevent issues with router redirection during login
+  if (window.opener !== null) return 'This application cannot run in a popup';
   if (window.self !== window.top) return 'This application cannot run in an iframe';
 
   return (
