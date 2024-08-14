@@ -149,13 +149,31 @@ function cancelCreateScenario() {
   getScenarioCreationDialogCancelButton().click();
 }
 
-function createScenario(scenarioName, isMaster, datasetOrMasterName, runTemplate) {
+function getNewScenarioDescription() {
+  return cy.get(GENERIC_SELECTORS.scenario.createDialog.description);
+}
+
+function setNewScenarioDescription(description) {
+  getNewScenarioDescription().type(description);
+}
+
+function getNewScenarioTags() {
+  return cy.get(GENERIC_SELECTORS.scenario.createDialog.tags);
+}
+
+function addNewScenarioTag(tag) {
+  getNewScenarioTags().type(tag + '{enter}');
+}
+
+function createScenario(scenarioName, isMaster, datasetOrMasterName, runTemplate, description, tags) {
   const createScenarioAlias = api.interceptCreateScenario();
   const getScenariosAlias = api.interceptGetScenarios();
 
   openScenarioCreationDialog();
   getScenarioCreationDialog().should('be.visible');
   getScenarioCreationDialogNameField().type(scenarioName);
+  if (description) setNewScenarioDescription(description);
+  if (tags) tags.forEach((tag) => addNewScenarioTag(tag));
   if (isMaster === true) {
     selectDataset(datasetOrMasterName);
   } else {
@@ -180,6 +198,8 @@ function createScenario(scenarioName, isMaster, datasetOrMasterName, runTemplate
     return {
       scenarioCreatedId: scenarioCreated.id,
       scenarioCreatedName: scenarioCreated.name,
+      scenarioCreatedDescription: scenarioCreated.description,
+      scenarioCreatedTags: scenarioCreated.tags,
       scenarioCreatedOwnerName: scenarioCreated.ownerName,
       scenarioCreatedCreationDate: scenarioCreated.creationDate,
       scenarioCreatedRunTemplateName: runTemplate,
