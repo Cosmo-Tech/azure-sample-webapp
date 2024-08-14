@@ -4,10 +4,10 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Grid, Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/material';
-import { ResourceCard, ErrorBanner } from '@cosmotech/ui';
+import { ResourceCard } from '@cosmotech/ui';
+import { ApplicationErrorBanner } from '../../components';
 import { AppBar } from '../../components/AppBar';
 import { STATUSES } from '../../state/commons/Constants';
-import { useApplicationError, useClearApplicationErrorMessage } from '../../state/hooks/ApplicationHooks';
 import { useResetCurrentSolution, useSolution } from '../../state/hooks/SolutionHooks';
 import { useResetCurrentWorkspace } from '../../state/hooks/WorkspaceHooks';
 import { useWorkspaces } from './WorkspacesHook';
@@ -16,8 +16,6 @@ const Workspaces = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { workspacesList, organizationName, currentWorkspace } = useWorkspaces();
-  const applicationError = useApplicationError();
-  const clearApplicationErrorMessage = useClearApplicationErrorMessage();
   sessionStorage.removeItem('providedUrlBeforeSignIn');
 
   const labels = {
@@ -80,20 +78,7 @@ const Workspaces = () => {
   return (
     <>
       <AppBar />
-      <ErrorBanner
-        error={applicationError}
-        labels={{
-          dismissButtonText: t('commoncomponents.banner.button.dismiss', 'Dismiss'),
-          tooLongErrorMessage: t(
-            'commoncomponents.banner.tooLongErrorMessage',
-            // eslint-disable-next-line max-len
-            'Detailed error message is too long to be displayed. To read it, please use the COPY button and paste it in your favorite text editor.'
-          ),
-          secondButtonText: t('commoncomponents.banner.button.copy.label', 'Copy'),
-          toggledButtonText: t('commoncomponents.banner.button.copy.copied', 'Copied'),
-        }}
-        clearErrors={clearApplicationErrorMessage}
-      />
+      <ApplicationErrorBanner />
       <div data-cy="workspaces-view">
         {workspacesList?.length === 0 ? (
           <Grid container justifyContent="center" alignItems="center" style={{ padding: '18px', height: '90%' }}>

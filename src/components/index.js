@@ -4,6 +4,7 @@
 export { ScenarioParameters } from './ScenarioParameters';
 export { PermissionsGate } from './PermissionsGate';
 export { default as AboutContent } from './AboutContent';
+export { ApplicationErrorBanner } from './ApplicationErrorBanner';
 export { SessionTimeoutDialog } from './SessionTimeoutDialog';
 export { TechnicalInfoContent } from './TechnicalInfoContent';
 

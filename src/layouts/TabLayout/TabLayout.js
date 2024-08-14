@@ -6,11 +6,10 @@ import { Link, useLocation, useMatch, Outlet, useParams, useNavigate } from 'rea
 import PropTypes from 'prop-types';
 import { Tabs as MuiTabs, Tab, Box } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
-import { ErrorBanner } from '@cosmotech/ui';
 import { filterTabsForCurrentWorkspace } from '../../AppLayout';
+import { ApplicationErrorBanner } from '../../components';
 import { AppBar } from '../../components/AppBar';
 import { DashboardsManager } from '../../managers';
-import { useApplicationError, useClearApplicationErrorMessage } from '../../state/hooks/ApplicationHooks';
 import { useSelectWorkspace, useWorkspace } from '../../state/hooks/WorkspaceHooks';
 import { ConfigUtils } from '../../utils';
 
@@ -34,8 +33,6 @@ export const TabLayout = (props) => {
   const scenarioViewUrl = useMatch(':workspaceId/scenario/:scenarioId');
   const instanceViewUrl = useMatch(':workspaceId/instance/:scenarioId');
   const datasetManagerViewUrl = useMatch(':workspaceId/datasetmanager');
-  const applicationError = useApplicationError();
-  const clearApplicationErrorMessage = useClearApplicationErrorMessage();
   const routerParameters = useParams();
   sessionStorage.removeItem('providedUrlBeforeSignIn');
   const currentWorkspace = useWorkspace();
@@ -98,20 +95,7 @@ export const TabLayout = (props) => {
       <DashboardsManager />
       <AppBar>{viewTabs}</AppBar>
       <Box className={classes.content}>
-        <ErrorBanner
-          error={applicationError}
-          labels={{
-            dismissButtonText: t('commoncomponents.banner.button.dismiss', 'Dismiss'),
-            tooLongErrorMessage: t(
-              'commoncomponents.banner.tooLongErrorMessage',
-              // eslint-disable-next-line max-len
-              'Detailed error message is too long to be displayed. To read it, please use the COPY button and paste it in your favorite text editor.'
-            ),
-            secondButtonText: t('commoncomponents.banner.button.copy.label', 'Copy'),
-            toggledButtonText: t('commoncomponents.banner.button.copy.copied', 'Copied'),
-          }}
-          clearErrors={clearApplicationErrorMessage}
-        />
+        <ApplicationErrorBanner />
         <Outlet />
       </Box>
     </>
