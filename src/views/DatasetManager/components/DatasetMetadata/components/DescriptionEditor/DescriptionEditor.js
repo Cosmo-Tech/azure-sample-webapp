@@ -47,6 +47,12 @@ const DescriptionEditor = (props) => {
     [onChange, value]
   );
 
+  const cancelEdition = useCallback((event) => {
+    event.stopPropagation();
+    event.preventDefault();
+    setIsEditing(false);
+  }, []);
+
   const editIcon = useMemo(() => {
     if (readOnly || isEditing || !isHovered) return null;
     return <EditIcon data-cy="edit-description" className={classes.editIcon} onClick={startEdition}></EditIcon>;
@@ -70,7 +76,7 @@ const DescriptionEditor = (props) => {
         onChange={(event) => setDescriptionText(event.target.value)}
         onKeyDown={(event) => {
           if (event.key === 'Escape') {
-            stopEdition(event);
+            cancelEdition(event);
             setDescriptionText(value);
           } else if (event.ctrlKey && event.key === 'Enter') {
             stopEdition(event);
@@ -86,7 +92,7 @@ const DescriptionEditor = (props) => {
         sx={{ pl: 1 }}
       />
     );
-  }, [isEditing, readOnly, descriptionText, value, startEdition, stopEdition, t]);
+  }, [isEditing, readOnly, descriptionText, value, startEdition, stopEdition, cancelEdition, t]);
 
   return (
     <>
