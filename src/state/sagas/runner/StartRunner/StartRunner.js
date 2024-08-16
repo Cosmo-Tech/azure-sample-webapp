@@ -66,7 +66,7 @@ export function* startRunner(action) {
       organizationId,
       workspaceId,
       runnerId,
-      lastRunId: response.data,
+      lastRunId: response.data.id,
     });
   } catch (error) {
     console.error(error);

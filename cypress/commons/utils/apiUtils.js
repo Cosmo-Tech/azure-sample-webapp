@@ -281,6 +281,7 @@ const interceptUpdateDatasetACLSecurity = (expectedACLSecurity) => {
   }).as(alias);
   return alias;
 };
+
 const interceptGetRunners = () => {
   const alias = forgeAlias('reqGetRunners');
   cy.intercept({ method: 'GET', url: API_REGEX.RUNNERS, times: 1 }, (req) => {
@@ -418,7 +419,7 @@ const interceptStartRunner = (stubbingOptions) => {
           stub.patchScenario(scenarioId, { state: finalStatus });
         }, runDuration);
       }, POLLING_START_DELAY);
-      req.reply(lastRunId);
+      req.reply({ id: lastRunId });
     }
   }).as(alias);
   return alias;
