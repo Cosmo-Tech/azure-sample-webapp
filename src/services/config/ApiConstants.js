@@ -24,6 +24,7 @@ export const STORAGE_ROOT_DIR_PLACEHOLDER = '%WORKSPACE_FILE%/';
 export const VALID_MIME_TYPES = [
   'application/json',
   'application/zip',
+  'application/x-zip-compressed', // Windows-specific
   'application/xml',
   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
   'mats-officedocument.spreadsheetml.sheet',
