@@ -325,10 +325,14 @@
             "failed": "Failed",
             "created": "Created"
           },
+          "description": "Description",
+          "tags": "Tags",
           "action": {
             "delete": "Delete this scenario",
             "redirect": "Open in scenario view",
-            "edit": "Edit scenario name"
+            "edit": "Edit scenario name",
+            "descriptionPlaceholder": "Description of your scenario",
+            "tagsEdition": "Edit your tags"
           },
           "text": {
             "search": "Filter..."
@@ -382,7 +386,9 @@
                 "existing": "Scenario name already exists",
                 "forbiddenchars": "Scenario name has to start with a letter or a digit, and can only contain letters, digits, spaces, underscores, hyphens and dots."
               }
-            }
+            },
+            "description": "Description",
+            "tags": "Tags"
           },
           "dropdown": {
             "parentscenario": {
@@ -492,7 +498,8 @@
       "logs": "Log file hasn't been downloaded.",
       "create": "Scenario hasn't been created.",
       "delete": "Scenario hasn't been deleted.",
-      "rename": "Scenario hasn't been renamed",
+      "rename": "Scenario hasn't been renamed.",
+      "updateData": "Scenario hasn't been updated.",
       "updatePermissions": "Some scenario permissions have not been updated correctly.",
       "run": "A problem occurred during the scenario run.",
       "update": "A problem occurred during scenario update; your new parameters haven't been saved.",

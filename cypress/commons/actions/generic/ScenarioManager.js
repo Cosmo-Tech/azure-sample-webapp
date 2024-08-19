@@ -93,6 +93,77 @@ function getScenarioRunStatus(scenarioId, scenarioStatus, timeout = 5) {
   });
 }
 
+function getScenarioDescriptionInput(scenarioId, timeout = 5) {
+  return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.description.input);
+}
+
+function getScenarioDisabledDescription(scenarioId, timeout = 5) {
+  return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.description.disabled, {
+    timeout: timeout * 1000,
+  });
+}
+
+function editScenarioDescription(scenarioId, newDescription) {
+  getScenarioDisabledDescription(scenarioId).click();
+  getScenarioDescriptionInput(scenarioId).type('{selectAll}{backspace}' + newDescription);
+}
+
+function cancelMetadataEdition() {
+  cy.get('body').type('{esc}');
+}
+
+function saveScenarioDescription(scenarioId, newDescription, validateRequest) {
+  const options = { validateRequest };
+  const alias = api.interceptUpdateScenario(options);
+  editScenarioDescription(scenarioId, newDescription);
+  getScenarioManagerView().click();
+  getScenarioDisabledDescription(scenarioId).should('have.text', newDescription);
+  api.waitAlias(alias);
+}
+
+function getScenarioTags(scenarioId) {
+  return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.tags.container);
+}
+
+function getScenarioTag(scenarioId, index) {
+  return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.tags.tag.replace('$TAGINDEX', index));
+}
+
+function checkScenarioTagsChips(scenarioTags, scenarioId) {
+  scenarioTags.forEach((tag, index) => {
+    getScenarioTag(scenarioId, index).should('have.text', tag);
+  });
+}
+
+function getAddScenarioTagButton(scenarioId) {
+  return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.tags.add);
+}
+
+function getAddScenarioTagTextfield(scenarioId) {
+  return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.tags.textfield);
+}
+
+function addScenarioTag(scenarioId, tag) {
+  getScenarioTags(scenarioId).trigger('mouseover');
+  getAddScenarioTagButton(scenarioId).should('exist').click();
+  getAddScenarioTagTextfield(scenarioId).should('exist').type(tag);
+}
+
+function saveScenarioTag(scenarioId, newTag, validateRequest) {
+  const options = { validateRequest };
+  const alias = api.interceptUpdateScenario(options);
+  addScenarioTag(scenarioId, newTag);
+  getScenarioManagerView().click();
+  api.waitAlias(alias);
+}
+
+function deleteScenarioTag(scenarioId, index, validateRequest) {
+  const options = { validateRequest };
+  const alias = api.interceptUpdateScenario(options);
+  getScenarioTag(scenarioId, index).find(GENERIC_SELECTORS.scenario.tags.cancelIcon).should('exist').click();
+  api.waitAlias(alias);
+}
+
 function getScenarioRunTemplate(scenarioId) {
   return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.manager.scenarioRunTemplate);
 }
@@ -184,4 +255,11 @@ export const ScenarioManager = {
   getScenarioAccordionExpandButton,
   triggerScenarioAccordionExpandOrCollapse,
   openScenarioFromScenarioManager,
+  getScenarioDisabledDescription,
+  checkScenarioTagsChips,
+  editScenarioDescription,
+  cancelMetadataEdition,
+  saveScenarioDescription,
+  saveScenarioTag,
+  deleteScenarioTag,
 };

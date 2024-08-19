@@ -41,6 +41,7 @@ const ScenarioManager = (props) => {
     setCurrentScenario,
     deleteScenario,
     renameScenario,
+    updateScenario,
     resetCurrentScenario,
     workspaceId,
   } = useScenarioManager();
@@ -94,6 +95,13 @@ const ScenarioManager = (props) => {
     [currentScenarioData?.id, renameScenario, setCurrentScenario]
   );
 
+  const onScenarioUpdate = useCallback(
+    (scenarioId, newScenarioData) => {
+      updateScenario(scenarioId, newScenarioData);
+    },
+    [updateScenario]
+  );
+
   const checkScenarioNameValue = useCallback(
     (newScenarioName) => {
       const errorKey = ScenarioUtils.scenarioNameIsValid(newScenarioName, scenarios);
@@ -142,6 +150,10 @@ const ScenarioManager = (props) => {
     (scenario) => hasUserPermissionOnScenario(ACL_PERMISSIONS.SCENARIO.WRITE, scenario),
     [hasUserPermissionOnScenario]
   );
+  const canUpdateScenario = useCallback(
+    (scenario) => hasUserPermissionOnScenario(ACL_PERMISSIONS.SCENARIO.WRITE, scenario),
+    [hasUserPermissionOnScenario]
+  );
 
   return (
     <div className={classes.root}>
@@ -160,6 +172,8 @@ const ScenarioManager = (props) => {
         buildScenarioNameToDelete={buildScenarioNameToDelete}
         canUserDeleteScenario={canUserDeleteScenario}
         canUserRenameScenario={canUserRenameScenario}
+        canUpdateScenario={canUpdateScenario}
+        onScenarioUpdate={onScenarioUpdate}
       />
     </div>
   );

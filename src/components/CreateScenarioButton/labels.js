@@ -18,6 +18,8 @@ export const getCreateScenarioDialogLabels = (t, disabled) => {
       title: t('commoncomponents.dialog.create.scenario.text.title', 'Create new Scenario'),
       scenarioName: t('commoncomponents.dialog.create.scenario.input.scenarioname.label'),
       scenarioMaster: t('commoncomponents.dialog.create.scenario.checkbox.scenarioMaster.label', 'Master'),
+      scenarioDescription: t('commoncomponents.dialog.create.scenario.input.description', 'Description'),
+      scenarioTags: t('commoncomponents.dialog.create.scenario.input.tags', 'Tags'),
       scenarioParent: t('commoncomponents.dialog.create.scenario.dropdown.parentscenario.label', 'Parent scenario'),
       datasetPlaceholder: t('commoncomponents.dialog.create.scenario.dropdown.dataset.placeholder', 'Dataset'),
       dataset: t('commoncomponents.dialog.create.scenario.dropdown.dataset.label', 'Select a dataset'),

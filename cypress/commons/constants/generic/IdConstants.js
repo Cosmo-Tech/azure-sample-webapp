@@ -108,6 +108,8 @@ export const GENERIC_SELECTORS = {
       dialog: '[data-cy=create-scenario-dialog]',
       masterCheckbox: 'input[id=isScenarioMaster]',
       nameTextField: '[data-cy=create-scenario-dialog-name-textfield]',
+      description: '[data-cy=text-input-new-scenario-description]',
+      tags: '[id=new-scenario-tags]',
       errorLabel: '[id=scenarioName-helper-text]',
       datasetSelect: '[data-cy=create-scenario-dialog-dataset-select]',
       datasetSelectorOptions: '[data-cy=create-scenario-dialog-dataset-select-options]',
@@ -133,6 +135,17 @@ export const GENERIC_SELECTORS = {
       editableLabelInEditMode: '[data-cy=editable-label-in-edition-mode]',
       editableLink: '[data-cy=editable-link]',
       editableLinkInEditMode: '[data-cy=editable-link-in-edition-mode]',
+    },
+    description: {
+      input: '[id=description-input]',
+      disabled: '[data-cy=scenario-description-disabled]',
+    },
+    tags: {
+      container: '[data-cy=tags-container]',
+      tag: '[data-cy=scenario-tags-tag-$TAGINDEX]',
+      add: '[data-cy=add-tag]',
+      textfield: '[data-cy=new-tag-textfield]',
+      cancelIcon: '[data-testid=CancelIcon]',
     },
   },
   workspace: {

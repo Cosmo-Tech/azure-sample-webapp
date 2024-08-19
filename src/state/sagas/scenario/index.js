@@ -11,6 +11,7 @@ import { pollScenarioStateSaga } from './PollScenarioState';
 import { renameScenarioSaga } from './RenameScenario';
 import { saveAndLaunchScenarioSaga } from './SaveAndLaunchScenario';
 import { saveScenarioSaga } from './SaveScenario';
+import { updateScenarioSaga } from './UpdateScenario';
 
 export default function* scenarioSaga() {
   yield all([
@@ -24,5 +25,6 @@ export default function* scenarioSaga() {
     fork(saveAndLaunchScenarioSaga),
     fork(saveScenarioSaga),
     fork(launchScenarioSaga),
+    fork(updateScenarioSaga),
   ]);
 }
