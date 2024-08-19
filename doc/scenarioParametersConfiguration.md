@@ -244,13 +244,16 @@ information about it in the `options` field of the parameter description:
 
 - `defaultFileTypeFilter`: a comma-separated list of files extensions that will be used as the default filter in users'
   file browser
-- `connectorId`: the connector id to use in the dataset object that will be created with the Cosmo Tech API
 - `description`: the description to use in the dataset object that will be created with the Cosmo Tech API
+
+:information_source: Since v7.0.0 of the azure-sample-webapp, the parameter `connectorId` that was previously required
+no longer exists
 
 > **Warning**
 >
-> Currently, the file scenario parameters (for "file upload" and "table" components) only work with Azure
-> Storage connectors. The connector whose id you provide **must have the exact name "Azure Storage Connector"**.
+> For webapp versions below 7.0.0, the file scenario parameters (for "file upload" and "table" components) only work
+> with Azure Storage connectors. The connector whose id you provide
+> **must have the exact name "Azure Storage Connector"**.
 
 When files uploaded by webapp users are sent to the back-end to be stored (for example in Azure Storage), the original
 file name is preserved. This behavior can be inconvenient when writing the parameters handler of your solution. If you
@@ -341,7 +344,7 @@ _Note: only a **cypher** query from **twingraph** dataset is supported_
 `dynamicValues` is an object with the following keys:
 
 - `query`: the cypher query to run on a twingraph dataset; this query must retrieve a list of property values of the
-  graph elements, and return them with an alias (example: `MATCH(n:Customer) WITH {name: n.name, age: n.age} as alias 
+  graph elements, and return them with an alias (example: `MATCH(n:Customer) WITH {name: n.name, age: n.age} as alias
 RETURN alias`). Names of the properties must correspond to the `field` key in columns definition.
 - `resultKey`: the alias defined in your query after `as` keyword, any string of your choice; providing this value is required for the webapp to parse the cypher
   query results, and retrieve values to display in the table
@@ -387,7 +390,7 @@ parameters:
       canChangeRowsNumber: false
 ```
 
-_Known issue: Dynamic parameters are not saved as scenario parameters if they weren't displayed. 
+_Known issue: Dynamic parameters are not saved as scenario parameters if they weren't displayed.
 In order to save it, users need to open the parameter's tab that will trigger the query_
 
 #### Columns definition
