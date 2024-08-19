@@ -22,12 +22,12 @@ const _applyUploadPreprocessToContent = (clientFileDescriptor) => {
   return clientFileDescriptor.content;
 };
 
-const _uploadFileToCloudStorage = async (
+const _uploadDatasetAsWorkspaceFile = async (
   organizationId,
   workspaceId,
   dataset,
   clientFileDescriptor,
-  storageFilePath
+  datasetLocation
 ) => {
   const overwrite = true;
 
@@ -37,7 +37,7 @@ const _uploadFileToCloudStorage = async (
       workspaceId,
       clientFileDescriptor.file,
       overwrite,
-      storageFilePath
+      datasetLocation
     );
     if (error) {
       throw error;
@@ -51,7 +51,7 @@ const _uploadFileToCloudStorage = async (
       fileContent,
       'text/csv',
       overwrite,
-      storageFilePath
+      datasetLocation
     );
     if (error) {
       throw error;
@@ -61,20 +61,14 @@ const _uploadFileToCloudStorage = async (
   throw new Error('No data to upload. Data must be present in client file descriptor "file" or "content" properties.');
 };
 
-async function _createEmptyDatasetInCloudStorage(organizationId, parameterMetadata) {
-  const connectorId = ConfigUtils.getParameterAttribute(parameterMetadata, 'connectorId');
-  if (!connectorId) {
-    throw new Error(`Missing connector id in configuration file for scenario parameter ${parameterMetadata.id}`);
-  }
+async function _createEmptyDataset(organizationId, parameterMetadata) {
   const name = parameterMetadata.id;
   const description = ConfigUtils.getParameterAttribute(parameterMetadata, 'description') ?? '';
-  const connector = { id: connectorId };
   const tags = ['dataset_part'];
-  const { error: creationError, data: createdDataset } = await DatasetService.createDataset(
+  const { error: creationError, data: createdDataset } = await DatasetService.createNoneTypeDataset(
     organizationId,
     name,
     description,
-    connector,
     tags
   );
   if (creationError) {
@@ -104,21 +98,10 @@ function _forgeNameOfUploadedFile(file, parameterMetadata, defaultFileTypeFilter
   return newFileName;
 }
 
-function _buildStorageFilePath(dataset, clientFileDescriptor) {
-  const datasetId = dataset.id;
-  const fileName = clientFileDescriptor.name;
-  return DatasetsUtils.buildStorageFilePath(datasetId, fileName);
-}
-
-// Update created dataset with connector data (including file path in Azure Storage, based on dataset id)
-async function _updateDatasetWithConnectorDataInCloudStorage(
-  organizationId,
-  parameterMetadata,
-  storageFilePath,
-  dataset
-) {
-  const connectorId = ConfigUtils.getParameterAttribute(parameterMetadata, 'connectorId');
-  dataset.connector = DatasetsUtils.buildAzureStorageConnector(connectorId, storageFilePath);
+// Update location of dataset for workspace files
+async function _updateDatasetLocation(organizationId, datasetLocation, dataset) {
+  dataset.source = dataset.source ?? {};
+  dataset.source.location = datasetLocation;
   const { error: updateError, data: updatedDataset } = await DatasetService.updateDataset(
     organizationId,
     dataset.id,
@@ -140,21 +123,22 @@ async function _processFileUpload(
   scenarioSecurity
 ) {
   setClientFileDescriptorStatus(UPLOAD_FILE_STATUS_KEY.UPLOADING);
-  const createdDataset = await _createEmptyDatasetInCloudStorage(organizationId, parameterMetadata);
-  const storageFilePath = _buildStorageFilePath(createdDataset, clientFileDescriptor);
-  const updatedDataset = await _updateDatasetWithConnectorDataInCloudStorage(
-    organizationId,
-    parameterMetadata,
-    storageFilePath,
-    createdDataset
-  );
+  const createdDataset = await _createEmptyDataset(organizationId, parameterMetadata);
+  const datasetLocation = DatasetsUtils.buildDatasetLocation(createdDataset.id, clientFileDescriptor.name);
+  const updatedDataset = await _updateDatasetLocation(organizationId, datasetLocation, createdDataset);
 
   const datasetSecurity = SecurityUtils.forgeDatasetSecurityFromScenarioSecurity(scenarioSecurity);
   await DatasetService.updateSecurity(organizationId, createdDataset.id, createdDataset.security, datasetSecurity);
   updatedDataset.security = datasetSecurity;
 
   addDatasetToStore(updatedDataset);
-  await _uploadFileToCloudStorage(organizationId, workspaceId, updatedDataset, clientFileDescriptor, storageFilePath);
+  await _uploadDatasetAsWorkspaceFile(
+    organizationId,
+    workspaceId,
+    updatedDataset,
+    clientFileDescriptor,
+    datasetLocation
+  );
   setClientFileDescriptorStatus(UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD);
   return updatedDataset.id;
 }
@@ -271,10 +255,10 @@ const prepareToDeleteFile = (setClientFileDescriptorStatus) => {
 const downloadFile = async (organizationId, workspaceId, datasetId, setClientFileDescriptorStatus) => {
   try {
     const { data } = await DatasetService.findDatasetById(organizationId, datasetId);
-    const storageFilePath = DatasetsUtils.getStorageFilePathFromDataset(data);
-    if (storageFilePath !== undefined) {
+    const datasetLocation = DatasetsUtils.getDatasetLocation(data);
+    if (datasetLocation !== undefined) {
       setClientFileDescriptorStatus(UPLOAD_FILE_STATUS_KEY.DOWNLOADING);
-      await WorkspaceService.downloadWorkspaceFile(organizationId, workspaceId, storageFilePath);
+      await WorkspaceService.downloadWorkspaceFile(organizationId, workspaceId, datasetLocation);
       setClientFileDescriptorStatus(UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD);
     }
     appInsights.trackDownload();
@@ -291,13 +275,12 @@ const downloadFileData = async (organizationId, workspaceId, datasets, datasetId
   if (!dataset) {
     throw new Error(`Error finding dataset ${datasetId}`);
   }
-  const storageFilePath = DatasetsUtils.getStorageFilePathFromDataset(dataset);
-  if (!storageFilePath) {
-    return;
-  }
+  const datasetLocation = DatasetsUtils.getDatasetLocation(dataset);
+  if (!datasetLocation) return;
+
   try {
     setClientFileDescriptorStatuses(UPLOAD_FILE_STATUS_KEY.DOWNLOADING, TABLE_DATA_STATUS.DOWNLOADING);
-    const data = await WorkspaceService.downloadWorkspaceFileData(organizationId, workspaceId, storageFilePath);
+    const data = await WorkspaceService.downloadWorkspaceFileData(organizationId, workspaceId, datasetLocation);
     setClientFileDescriptorStatuses(UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD, TABLE_DATA_STATUS.PARSING);
     return data;
   } catch (error) {
@@ -314,21 +297,12 @@ const _findDatasetInDatasetsList = (datasets, datasetId) => {
 
 function buildClientFileDescriptorFromDataset(datasets, datasetId) {
   const dataset = _findDatasetInDatasetsList(datasets, datasetId);
-  if (dataset === undefined) {
-    return {
-      id: datasetId,
-      name: '',
-      file: null,
-      content: null,
-      status: UPLOAD_FILE_STATUS_KEY.EMPTY,
-    };
-  }
   return {
     id: datasetId,
-    name: DatasetsUtils.getFileNameFromDataset(dataset),
+    name: dataset === undefined ? '' : DatasetsUtils.getFileNameFromDatasetLocation(dataset),
     file: null,
     content: null,
-    status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD,
+    status: dataset === undefined ? UPLOAD_FILE_STATUS_KEY.EMPTY : UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD,
   };
 }
 
