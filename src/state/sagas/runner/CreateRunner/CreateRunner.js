@@ -13,30 +13,25 @@ const getUserEmail = (state) => state.auth.userEmail;
 
 function* uploadFileParameter(parameter, organizationId, workspaceId) {
   try {
-    const connectorId = parameter.connectorId;
     const file = parameter.value.file;
     const parameterId = parameter.parameterId;
 
-    if (!connectorId) {
-      throw new Error(`Missing connector id in configuration file for scenario parameter ${parameterId}`);
-    }
     const datasetPart = {
       name: parameterId,
       description: parameter.description,
-      connector: { id: connectorId },
+      sourceType: 'None',
       tags: ['dataset_part'],
       main: false,
     };
     const { data } = yield call(Api.Datasets.createDataset, organizationId, datasetPart);
-
     const datasetId = data.id;
+    const datasetLocation = DatasetsUtils.buildDatasetLocation(datasetId, file.name);
+    const newSource = data.source ?? {};
+    newSource.location = datasetLocation;
+    const updatedDatasetPart = { ...datasetPart, source: newSource };
 
-    const storageFilePath = DatasetsUtils.buildStorageFilePath(datasetId, file.name);
-    const newConnector = DatasetsUtils.buildAzureStorageConnector(connectorId, storageFilePath);
-
-    const updatedDatasetPart = { ...datasetPart, connector: newConnector };
     yield call(Api.Datasets.updateDataset, organizationId, datasetId, updatedDatasetPart);
-    yield call(Api.Workspaces.uploadWorkspaceFile, organizationId, workspaceId, file, true, storageFilePath);
+    yield call(Api.Workspaces.uploadWorkspaceFile, organizationId, workspaceId, file, true, datasetLocation);
 
     return datasetId;
   } catch (error) {
