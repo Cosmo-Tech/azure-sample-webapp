@@ -3,12 +3,6 @@
 import { t } from 'i18next';
 import { getAuthenticationHeaders } from '../services/ClientApi.js';
 import { Api } from '../services/config/Api';
-import {
-  CONNECTOR_VERSION_AZURE_STORAGE,
-  CONNECTOR_NAME_AZURE_STORAGE,
-  CONNECTOR_NAME_ADT,
-  STORAGE_ROOT_DIR_PLACEHOLDER,
-} from '../services/config/ApiConstants';
 import { ACL_ROLES } from '../services/config/accessControl';
 import { dispatchSetApplicationErrorMessage } from '../state/dispatchers/app/ApplicationDispatcher';
 import { SecurityUtils } from './SecurityUtils';
@@ -24,41 +18,23 @@ const patchDatasetWithCurrentUserPermissions = (dataset, userEmail, permissionsM
   dataset.security = { ...dataset.security, currentUserPermissions: userPermissions };
 };
 
-// Build dataset file location in Azure Storage
-function buildStorageFilePath(datasetId, fileName) {
+// Build dataset file location for workspace files
+function buildDatasetLocation(datasetId, fileName) {
   return 'datasets/' + datasetId + '/' + fileName;
 }
 
-// Retrieve dataset file location in Azure Storage
-function getStorageFilePathFromDataset(dataset) {
-  const blobPrefix = dataset?.connector?.parametersValues?.AZURE_STORAGE_CONTAINER_BLOB_PREFIX;
-  if (blobPrefix !== undefined) {
-    return blobPrefix.split(STORAGE_ROOT_DIR_PLACEHOLDER).pop();
-  }
+// Build dataset file location for workspace files
+function getFileNameFromDatasetLocation(dataset) {
+  const location = dataset.source?.location;
+  const locationMatchPattern = String.raw`datasets/${dataset?.id}/(.*)`;
+  const match = new RegExp(locationMatchPattern, 'g').exec(location);
+  const fileName = match?.[1];
+  return fileName ?? location;
 }
 
-// Retrieve file name from dataset information
-function getFileNameFromDataset(dataset) {
-  const connectorName = dataset?.connector?.name;
-  if (connectorName === CONNECTOR_NAME_AZURE_STORAGE) {
-    return dataset?.connector?.parametersValues.AZURE_STORAGE_CONTAINER_BLOB_PREFIX.split('/').pop();
-  } else if (connectorName === CONNECTOR_NAME_ADT) {
-    return dataset?.name;
-  }
-  console.warn(`Unknown dataset connector type "${connectorName}"`);
-  return '';
-}
-
-// Create a connector object for Azure Storage with the provided id and storage file path
-function buildAzureStorageConnector(connectorId, storageFilePath) {
-  return {
-    id: connectorId,
-    name: CONNECTOR_NAME_AZURE_STORAGE,
-    parametersValues: {
-      AZURE_STORAGE_CONTAINER_BLOB_PREFIX: `${STORAGE_ROOT_DIR_PLACEHOLDER}${storageFilePath}`,
-    },
-    version: CONNECTOR_VERSION_AZURE_STORAGE,
-  };
+// Retrieve dataset file location for workspace files
+function getDatasetLocation(dataset) {
+  return dataset?.source?.location;
 }
 
 const getAllChildrenDatasetsNames = (initialDatasetId, datasets) => {
@@ -98,10 +74,9 @@ const uploadZipWithFetchApi = async (organizationId, datasetId, file) => {
 
 export const DatasetsUtils = {
   patchDatasetWithCurrentUserPermissions,
-  buildStorageFilePath,
-  getStorageFilePathFromDataset,
-  getFileNameFromDataset,
-  buildAzureStorageConnector,
+  buildDatasetLocation,
+  getDatasetLocation,
+  getFileNameFromDatasetLocation,
   getAllChildrenDatasetsNames,
   uploadZipWithFetchApi,
 };
