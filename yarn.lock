@@ -1793,18 +1793,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmotech/ui@npm:^9.2.1":
-  version: 9.2.1
-  resolution: "@cosmotech/ui@npm:9.2.1"
+"@cosmotech/ui@npm:^9.3.0":
+  version: 9.3.0
+  resolution: "@cosmotech/ui@npm:9.3.0"
   dependencies:
-    "@emotion/react": "npm:^11.11.4"
-    "@emotion/styled": "npm:^11.11.5"
+    "@emotion/react": "npm:^11.13.0"
+    "@emotion/styled": "npm:^11.13.0"
     "@mui/x-date-pickers": "npm:^5.0.20"
     "@nosferatu500/react-sortable-tree": "npm:^3.0.6"
     ag-grid-community: "npm:~32.0.2"
     ag-grid-react: "npm:~32.0.2"
     clsx: "npm:^2.1.1"
-    cytoscape: "npm:^3.30.0"
+    cytoscape: "npm:^3.30.1"
     cytoscape-bubblesets: "npm:^3.2.2"
     cytoscape-dagre: "npm:^2.5.0"
     cytoscape-layers: "npm:^2.4.5"
@@ -1824,7 +1824,7 @@ __metadata:
     react: ^17.0.1
     react-dom: ^17.0.1
     react-i18next: ^11.8.13
-  checksum: 10c0/48ac9904905ffc37fc72b80c8203c5fa319b0499e4e98a0d24224238744e30e75f940aa3b90f7c51eb6426f7d6fbbb566874ca4a121da77619d2ecc93ee18ed2
+  checksum: 10c0/d1dfdf0346dc0d36349b70e08b7a0aaca881318c254a0c8fefdfa8ce2d3f67dcbd4c8b14ca49109c5932d2a42a52f021760a677856e47e923792e30e63d995a4
   languageName: node
   linkType: hard
 
@@ -2155,7 +2155,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/react@npm:^11.11.4, @emotion/react@npm:^11.13.0":
+"@emotion/react@npm:^11.13.0":
   version: 11.13.0
   resolution: "@emotion/react@npm:11.13.0"
   dependencies:
@@ -2196,7 +2196,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/styled@npm:^11.11.5, @emotion/styled@npm:^11.13.0":
+"@emotion/styled@npm:^11.13.0":
   version: 11.13.0
   resolution: "@emotion/styled@npm:11.13.0"
   dependencies:
@@ -5653,7 +5653,7 @@ __metadata:
     "@cosmotech/api-ts": "npm:^3.2.9"
     "@cosmotech/azure": "npm:^2.0.0"
     "@cosmotech/core": "npm:^1.17.0"
-    "@cosmotech/ui": "npm:^9.2.1"
+    "@cosmotech/ui": "npm:^9.3.0"
     "@emotion/react": "npm:^11.13.0"
     "@emotion/styled": "npm:^11.13.0"
     "@microsoft/applicationinsights-web": "npm:^3.3.0"
@@ -7617,10 +7617,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cytoscape@npm:^3.30.0":
-  version: 3.30.0
-  resolution: "cytoscape@npm:3.30.0"
-  checksum: 10c0/ffd463f27975b7d979c6f1a8c3472d95cbe2d75dc820aac27ad3e253eaa877da4c7ed4632a341394d911ba1804c5786a292a56387bbb34fcf0c9db69286e123e
+"cytoscape@npm:^3.30.1":
+  version: 3.30.2
+  resolution: "cytoscape@npm:3.30.2"
+  checksum: 10c0/a8b095969900600b58fff823db73d69ec3f22fc9993c10f0739d8551c1dad881d67e1f7771e33b80f72b40f717861e5fa917846ed304f0a31eb3c8aef8dd433f
   languageName: node
   linkType: hard
 
