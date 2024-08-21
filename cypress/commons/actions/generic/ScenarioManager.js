@@ -42,7 +42,7 @@ function writeInFilter(searchStr) {
 }
 
 function getScenarioAccordions() {
-  return cy.get(GENERIC_SELECTORS.scenario.manager.scenarioAccordions);
+  return cy.get(GENERIC_SELECTORS.scenario.manager.scenarioAccordions, { timeout: 10000 });
 }
 
 function getScenarioAccordion(scenarioId) {
