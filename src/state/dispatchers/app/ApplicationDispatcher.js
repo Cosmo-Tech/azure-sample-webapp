@@ -32,7 +32,7 @@ export const dispatchSetApplicationErrorMessage = (error, errorMessage) => ({
       : t('commoncomponents.banner.network', 'Network problem, please check your internet connection'),
     detail: error?.detail || error?.response?.data?.detail || '',
     status: error?.status || error?.response?.data?.status || '',
-    comment: errorMessage,
+    comment: error?.comment ?? errorMessage,
   },
 });
 
