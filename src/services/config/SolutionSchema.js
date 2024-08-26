@@ -44,6 +44,7 @@ const basicParameterOptions = z.object({
   maxLength: z.number().optional().nullable(),
   validation: z.string().optional().nullable(),
   subType: z.string().optional().nullable(),
+  dynamicValues: z.object({ query: z.string(), resultKey: z.string() }).strict().optional().nullable(),
   hidden: z.boolean().optional().nullable(),
   connectorId: z.string().optional().nullable(),
   description: z.string().optional().nullable(),
