@@ -32,6 +32,9 @@ export const datasetTwingraphQueriesResultsReducer = createReducer(initialState,
         const expectedKpis = [...queriesMapping[queryId]];
         result.data.forEach((result) => {
           for (const [kpiId, kpiValue] of Object.entries(result)) {
+            if (!(kpiId in state[datasetId])) {
+              continue; // Value kpiId computed in query queryId does not seem to be used in any KPI or graph indicator
+            }
             state[datasetId][kpiId].value = kpiValue;
             state[datasetId][kpiId].state = KPI_STATE.READY;
             const kpiIndex = expectedKpis.indexOf(kpiId);
