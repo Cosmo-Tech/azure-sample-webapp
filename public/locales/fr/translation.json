@@ -813,7 +813,9 @@
         }
       },
       "text": {
-        "scenariotype": "Type de scénario"
+        "scenariotype": "Type de scénario",
+        "nodataset": "Aucun",
+        "datasetNotFound": "Non trouvé"
       },
       "validation": {
         "reject": "Rejeter",
