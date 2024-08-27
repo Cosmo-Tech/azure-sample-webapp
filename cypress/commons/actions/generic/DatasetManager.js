@@ -270,3 +270,8 @@ export const expectDatasetTwingraphQuery = (response = {}, validateRequest) => {
   const alias = api.interceptPostDatasetTwingraphQuery(response, validateRequest);
   return () => api.waitAlias(alias);
 };
+
+export const ignoreDatasetTwingraphQueries = () => {
+  const response = [{ result: -1 }];
+  api.interceptPostDatasetTwingraphQuery(response, null, 0);
+};

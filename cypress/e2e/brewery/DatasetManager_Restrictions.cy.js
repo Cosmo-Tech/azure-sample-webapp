@@ -54,6 +54,7 @@ describe('Viewer role in a non-empty dataset manager', () => {
   after(stub.stop);
 
   it('cannot create datasets & subdatasets', () => {
+    DatasetManager.ignoreDatasetTwingraphQueries();
     DatasetManager.switchToDatasetManagerView();
     DatasetManager.getDatasetCreationDialog().should('not.exist');
     DatasetManager.getCreateDatasetButton().should('not.exist');

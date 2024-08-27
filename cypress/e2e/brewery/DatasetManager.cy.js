@@ -23,6 +23,7 @@ describe('Dataset manager can be empty on start', () => {
   after(stub.stop);
 
   it('can create a dataset in an empty environment', () => {
+    DatasetManager.ignoreDatasetTwingraphQueries();
     DatasetManager.switchToDatasetManagerView();
     DatasetManager.getDatasetCreationDialog().should('not.exist');
     DatasetManager.getNoDatasetsPlaceholder().should('be.visible');
@@ -58,6 +59,7 @@ describe('Data edition in dataset manager', () => {
     const DATASET_B = DATASETS[1];
     const DATASET_Z = DATASETS[2]; // Non-main dataset
 
+    DatasetManager.ignoreDatasetTwingraphQueries();
     DatasetManager.switchToDatasetManagerView();
 
     DatasetManager.getDatasetsListItemButtons().should('have.length', 2);
@@ -132,6 +134,7 @@ describe('Dataset creation', () => {
       expect(req.body).to.deep.equal(expectedPayload);
     };
 
+    DatasetManager.ignoreDatasetTwingraphQueries();
     DatasetManager.switchToDatasetManagerView();
     DatasetManager.getDatasetsListItemButtons().should('have.length', 2);
     DatasetManager.startDatasetCreation();
@@ -180,6 +183,7 @@ describe('Dataset creation', () => {
       expect(req.body).to.deep.equal(expectedPayload);
     };
 
+    DatasetManager.ignoreDatasetTwingraphQueries();
     DatasetManager.switchToDatasetManagerView();
     DatasetManager.startDatasetCreation();
     DatasetManager.setNewDatasetName(datasetName);
@@ -216,6 +220,7 @@ describe('Filtering datasets list', () => {
   after(stub.stop);
 
   it('can filter datasets by name and by tag', () => {
+    DatasetManager.ignoreDatasetTwingraphQueries();
     DatasetManager.switchToDatasetManagerView();
     DatasetManager.getDatasetsListItemButtons().should('have.length', DATASETS_TO_FILTER.length);
     DatasetManager.getDatasetSearchBar().click().type('Amsterdam');
@@ -244,6 +249,7 @@ describe('Dataset delete', () => {
   after(stub.stop);
 
   it('can delete all scenarios from the list and display noDatasets placeholder', () => {
+    DatasetManager.ignoreDatasetTwingraphQueries();
     DatasetManager.switchToDatasetManagerView();
     DatasetManager.getDatasetsListItemButtons().should('have.length', 2);
     DatasetManager.getDatasetDeleteButton(DATASETS[0].id).click();
@@ -280,6 +286,7 @@ describe('Refresh dataset', () => {
         expectedPollsCount: 2,
         finalIngestionStatus: 'ERROR',
       };
+      DatasetManager.ignoreDatasetTwingraphQueries();
       DatasetManager.switchToDatasetManagerView();
       DatasetManager.getDatasetRefreshButton(DATASETS_TO_REFRESH[2].id).should('not.exist');
       DatasetManager.selectDatasetById(DATASETS_TO_REFRESH[2].id);

@@ -34,10 +34,12 @@ describe('Subdatasets creation', () => {
       { customer_id: 'Dynamic value 3' },
     ];
 
+    DatasetManager.ignoreDatasetTwingraphQueries();
     DatasetManager.switchToDatasetManagerView();
     DatasetManager.selectDatasetById(DATASET_A.id);
     DatasetManager.startSubdatasetCreation();
 
+    // The query interception below overrides the previous interception ignoring all queries, but only for the next one
     const waitForTwingraphQuery = DatasetManager.expectDatasetTwingraphQuery(queryResponse, validateRequest);
     DatasetManager.getDatasetCreationNextStep().click();
     DatasetManager.selectNewDatasetSourceType('dynamic_values_enum_filter');

@@ -390,9 +390,11 @@ const interceptGetDatasetStatus = (times = 1) => {
 //       [{"id":"Dynamic value 1"},{"id":"Dynamic value 2"},{"id":"Dynamic value 3"}]
 //   - validateRequest (optional): a function, taking the request object as argument, that can be used to perform
 //       cypress checks on the content of the intercepted query
-const interceptPostDatasetTwingraphQuery = (response = {}, validateRequest) => {
+const interceptPostDatasetTwingraphQuery = (response = {}, validateRequest = null, times = 1) => {
   const alias = forgeAlias('reqPostDatasetTwingraphQuery');
-  cy.intercept({ method: 'POST', url: API_REGEX.DATASET_TWINGRAPH, times: 1 }, (req) => {
+  const options = { method: 'POST', url: API_REGEX.DATASET_TWINGRAPH };
+  if (times > 0) options.times = times;
+  cy.intercept(options, (req) => {
     if (validateRequest) validateRequest(req);
     if (!stub.isEnabledFor('GET_DATASETS')) return;
     req.reply(response);
