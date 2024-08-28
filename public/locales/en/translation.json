@@ -813,7 +813,9 @@
         }
       },
       "text": {
-        "scenariotype": "Run type"
+        "scenariotype": "Run type",
+        "nodataset": "None",
+        "datasetNotFound": "Not found"
       },
       "validation": {
         "reject": "Reject",

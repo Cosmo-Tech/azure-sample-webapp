@@ -49,9 +49,10 @@ describe('Create scenario and rename it', () => {
       const scenarioId = data.scenarioCreatedId;
       ScenarioManager.switchToScenarioManager();
       ScenarioManager.getRenameScenarioButton(scenarioId).click();
-      ScenarioManager.getScenarioEditableLink(scenarioId, 15)
-        .type('{selectAll}{backspace}' + newScenarioName + '{esc}') // Do not confirm new name
-        .should('have.text', scenarioName);
+      ScenarioManager.getScenarioEditableLink(scenarioId, 15).type(
+        '{selectAll}{backspace}' + newScenarioName + '{esc}'
+      ); // Do not confirm new name
+      ScenarioManager.getScenarioEditableLink(scenarioId, 15).should('have.text', scenarioName);
       ScenarioManager.renameScenario(scenarioId, newScenarioName);
       ScenarioManager.getScenarioEditableLink(scenarioId, 15).should('have.text', newScenarioName);
       Scenarios.switchToScenarioView();

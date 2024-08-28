@@ -53,4 +53,6 @@ export const getScenarioManagerLabels = (t) => ({
     header: t('commoncomponents.scenariomanager.treelist.node.tags', 'Tags'),
     placeholder: t('commoncomponents.scenariomanager.treelist.node.action.tagsEdition', 'Edit your tags'),
   },
+  noDataset: t('views.scenario.text.nodataset', 'None'),
+  datasetNotFound: t('views.scenario.text.datasetNotFound', 'Not found'),
 });
