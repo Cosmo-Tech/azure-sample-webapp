@@ -343,18 +343,21 @@ _Note: only a **cypher** query from **twingraph** dataset is supported_
 - `query`: the cypher query to run on a twingraph dataset; this query must retrieve a list of property values of the
   graph elements, and return them with an alias (example: `MATCH(n:Customer) WITH {name: n.name, age: n.age} as alias 
 RETURN alias`). Names of the properties must correspond to the `field` key in columns definition.
-- `resultKey`: the alias defined in your query; providing this value is required for the webapp to parse the cypher
-  query results, and retrieve the actual values to display in the table
+- `resultKey`: the alias defined in your query after `as` keyword, any string of your choice; providing this value is required for the webapp to parse the cypher
+  query results, and retrieve values to display in the table
 
 Example of typical queries:
 
-_Retrieve nodes from dataset, e.g., all nodes Customer with its properties_
+_Retrieve nodes from dataset, e.g., all customers list displayed in a table with two columns: name and satisfaction_
 ```yaml
-'MATCH(customer: Customer) WITH {name: customer.id, satisfaction: customer.Satisfaction} as fields RETURN fields'
+query: 'MATCH(customer: Customer) WITH {name: customer.id, satisfaction: customer.Satisfaction} as rows RETURN rows',
+resultKey: 'rows'
 ```
-_Retrieve edges from dataset, e.g. relationship between all bars and customers_
+_Retrieve edges from dataset, e.g. relationship between all bars and customers displayed in a table with three columns:
+bar, customer and relation_
 ```yaml
-'MATCH (b:Bar)-[r]->(c:Customer) WITH {bar: b.id, customer: c.id, relation: r.name } as fields RETURN fields'
+query: 'MATCH (b:Bar)-[r]->(c:Customer) WITH {bar: b.id, customer: c.id, relation: r.name } as rows RETURN rows',
+resultKey: 'rows'
 ```
 
 Complete example:
@@ -370,8 +373,8 @@ parameters:
       connectorId: 'c-d7e5p9o0kjn9'
       description: 'customers data'
       dynamicValues:
-        query: 'MATCH(customer: Customer) WITH {name: customer.id, satisfaction: customer.Satisfaction} as fields RETURN fields'
-        resultKey: 'fields'
+        query: 'MATCH(customer: Customer) WITH {name: customer.id, satisfaction: customer.Satisfaction} as rows RETURN rows'
+        resultKey: 'rows'
       columns:
         - field: 'name'
           type:
@@ -392,6 +395,7 @@ In order to save it, users need to open the parameter's tab that will trigger th
 The description of the table columns consists of an array of objects with the following attributes:
 
 - **field** (_mandatory_) name of the column
+- **headerName** (_optional_) displayed name of the column group, if not defined, then the value of `field` will be displayed
 - **type** (_optional_) list of options defining the **value type** and **behavior** of the column (only one value type
   is allowed); authorized options are:
   - **string** (_value type_), this is the default value type if none is provided
