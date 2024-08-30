@@ -159,10 +159,10 @@ by:
 
 These links can be defined in several ways:
 
-- the most straightforward way is to set the values `COSMOTECH_URL` and `SUPPORT_URL` in the file
+- the most straightforward way is to set the values `ORGANIZATION_URL` and `SUPPORT_URL` in the file
   _src/config/HelpMenuConfiguration.json_
 - for automation purposes, these parameters can be overridden by setting the environment variables
-  `REACT_APP_COSMOTECH_URL` and `REACT_APP_SUPPORT_URL`
+  `REACT_APP_ORGANIZATION_URL` and `REACT_APP_SUPPORT_URL`
 - finally, values for these links can be **customized for each workspace**, by setting these parameters in the workspace
   data:
 

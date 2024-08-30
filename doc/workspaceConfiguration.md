@@ -20,7 +20,7 @@ Some items of the "_Help_" menu can be configured from the file
 [src/config/HelpMenuConfiguration.json](../src/config/HelpMenuConfiguration.json):
 
 - `APP_VERSION` is the webapp version number, that will be displayed in the "_About_" pop-up
-- `COSMOTECH_URL` is the url (expressed as a string) to redirect users to your organization website, displayed in the
+- `ORGANIZATION_URL` is the url (expressed as a string) to redirect users to your organization website, displayed in the
   "_About_" pop-up
 - `SUPPORT_URL` is the url (expressed as a string) of the support page. Links to this page will be shown in the
   "_About_" pop-up, and as a redirection button in the "_Help_" menu. If this value is set to `null`, the associated
