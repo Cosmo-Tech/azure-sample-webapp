@@ -6,7 +6,6 @@ const PowerBiReportDetails = require('../utils/models/powerbi/embedReportConfig'
 const EmbedConfig = require('../utils/models/powerbi/embedConfig.js');
 const { getConfigValue } = require('./config');
 const { ServiceAccountError } = require('./errors.js');
-const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
 /**
  * Generate embed token and embed urls for reports

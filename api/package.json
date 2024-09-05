@@ -8,11 +8,10 @@
     "test": "echo \"No tests yet...\""
   },
   "dependencies": {
-    "@azure/msal-node": "^2.11.0",
+    "@azure/msal-node": "^2.13.1",
     "guid": "0.0.12",
     "jsonwebtoken": "^9.0.2",
-    "jwks-rsa": "^3.1.0",
-    "node-fetch": "^3.3.2"
+    "jwks-rsa": "^3.1.0"
   },
   "packageManager": "yarn@4.3.1"
 }
