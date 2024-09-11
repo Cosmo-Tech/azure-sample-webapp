@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import makeStyles from '@mui/styles/makeStyles';
 import { ResourceUtils, ScenarioUtils } from '@cosmotech/core';
 import { ScenarioManagerTreeList } from '@cosmotech/ui';
+import { LoadingBackdrop } from '../../components';
 import { ACL_PERMISSIONS } from '../../services/config/accessControl';
 import { useScenarioManager } from './ScenarioManagerHook';
 import { getScenarioManagerLabels } from './labels';
@@ -44,6 +45,7 @@ const ScenarioManager = (props) => {
     updateRunnerData,
     resetCurrentScenario,
     workspaceId,
+    runnersListStatus,
   } = useScenarioManager();
 
   const getScenarioListAfterDelete = useCallback(
@@ -157,6 +159,7 @@ const ScenarioManager = (props) => {
 
   return (
     <div className={classes.root}>
+      <LoadingBackdrop status={runnersListStatus} />
       <ScenarioManagerTreeList
         datasets={datasets}
         scenarios={scenarios}
