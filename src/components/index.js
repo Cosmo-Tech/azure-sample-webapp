@@ -12,3 +12,4 @@ export { default as ShareCurrentScenarioButton } from './ShareCurrentScenarioBut
 export { default as CurrentScenarioPowerBiReport } from './CurrentScenarioPowerBIReport';
 export { default as CreateScenarioButton } from './CreateScenarioButton';
 export { default as CurrentScenarioSelector } from './CurrentScenarioSelector';
+export { default as LoadingBackdrop } from './LoadingBackdrop';

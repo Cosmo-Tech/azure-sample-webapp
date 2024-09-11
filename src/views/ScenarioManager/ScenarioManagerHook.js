@@ -13,6 +13,7 @@ import {
   useRunners,
   useUpdateRunnerData,
   useUpdateCurrentSimulationRunner,
+  useRunnersListStatus,
 } from '../../state/hooks/RunnerHooks';
 import { useWorkspaceId } from '../../state/hooks/WorkspaceHooks';
 import { TranslationUtils } from '../../utils';
@@ -41,6 +42,7 @@ export const useScenarioManager = () => {
   const resetCurrentScenario = useResetCurrentSimulationRunner();
   const updateRunnerData = useUpdateRunnerData();
   const workspaceId = useWorkspaceId();
+  const runnersListStatus = useRunnersListStatus();
 
   return {
     scenarios,
@@ -54,5 +56,6 @@ export const useScenarioManager = () => {
     updateRunnerData,
     resetCurrentScenario,
     workspaceId,
+    runnersListStatus,
   };
 };
