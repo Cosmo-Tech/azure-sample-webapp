@@ -11,6 +11,7 @@ import { RUNNER_ACTIONS_KEY } from '../../commons/RunnerConstants';
 export const runnersInitialState = {
   list: {
     data: null,
+    status: STATUSES.IDLE,
   },
   current: {
     data: null,
@@ -129,5 +130,8 @@ export const runnerReducer = createReducer(runnersInitialState, (builder) => {
         }
         return run;
       });
+    })
+    .addCase(RUNNER_ACTIONS_KEY.SET_LIST_STATUS, (state, action) => {
+      state.list.status = action.status;
     });
 });
