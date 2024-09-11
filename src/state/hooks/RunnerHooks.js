@@ -23,6 +23,10 @@ import { useOrganizationId } from './OrganizationHooks';
 import { useWorkspaceId } from './WorkspaceHooks';
 
 export const useRunnersReducerStatus = () => {
+  return useSelector((state) => state.runner?.status);
+};
+
+export const useRunnersListStatus = () => {
   return useSelector((state) => state.runner.list?.status);
 };
 
