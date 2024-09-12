@@ -22,6 +22,7 @@
     "i18next": "^23.12.2",
     "i18next-browser-languagedetector": "^7.2.1",
     "i18next-http-backend": "^2.5.2",
+    "jwt-decode": "^4.0.0",
     "prop-types": "^15.8.1",
     "react": "^17.0.2",
     "react-countdown": "^2.3.5",
