@@ -45,6 +45,10 @@ export function* deleteRunner(action) {
       runnerId,
     });
   } catch (error) {
+    yield put({
+      type: RUNNER_ACTIONS_KEY.SET_LIST_STATUS,
+      status: STATUSES.IDLE,
+    });
     yield put(
       dispatchSetApplicationErrorMessage(error, t('commoncomponents.banner.delete', "Scenario hasn't been deleted."))
     );
