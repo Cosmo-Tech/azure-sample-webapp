@@ -37,7 +37,7 @@ const SignIn = ({ logInAction, auth }) => {
     localStorage.getItem('logoutByTimeout') === 'true' ? (
       <div className={classes.infoPaper}>
         <Typography className={classes.infoText}>
-          {t('views.signin.info.timeout', 'For security reasons, your sessions has expired, due to inactivity.')}
+          {t('views.signin.info.timeout', 'For security reasons, your session has expired, due to inactivity.')}
         </Typography>
       </div>
     ) : null;
