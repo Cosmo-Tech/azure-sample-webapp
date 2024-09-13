@@ -27,6 +27,14 @@ function getParameterInput(id) {
   return getParameterContainer(id).find(GENERIC_SELECTORS.genericComponents.basicInput.input);
 }
 
+function getDynamicParameterLoadingSpinner() {
+  return cy.get(GENERIC_SELECTORS.scenario.parameters.loadingSpinner);
+}
+
+function getDynamicValueErrorIcon() {
+  return cy.get(GENERIC_SELECTORS.scenario.parameters.dynamicValueErrorIcon);
+}
+
 // TODO: add generic setters for scenario parameters input ()
 
 //  - timeout: max time to wait before throwing an error (seconds)
@@ -217,4 +225,6 @@ export const ScenarioParameters = {
   getParametersDiscardAndContinueButton,
   getParametersCancelDiscardAndContinueButton,
   getTabsErrorBadge,
+  getDynamicParameterLoadingSpinner,
+  getDynamicValueErrorIcon,
 };
