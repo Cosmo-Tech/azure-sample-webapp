@@ -570,6 +570,9 @@
       "noValues": "No scenario selected",
       "noOptions": "No scenarios available"
     },
+    "numberInput": {
+      "fetchingValue": "Fetching parameter value..."
+    },
     "loading": {
       "line": {
         "workspace": {

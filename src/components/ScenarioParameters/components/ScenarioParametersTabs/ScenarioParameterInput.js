@@ -4,7 +4,7 @@ import React, { useCallback, useRef } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useStore } from 'react-redux';
 import PropTypes from 'prop-types';
-import { ConfigUtils } from '../../../../utils/ConfigUtils';
+import { ConfigUtils } from '../../../../utils';
 import { VAR_TYPES_COMPONENTS_MAPPING } from '../../../../utils/scenarioParameters/VarTypesComponentsMapping';
 import { useScenarioResetValues } from '../../ScenarioParametersContext';
 

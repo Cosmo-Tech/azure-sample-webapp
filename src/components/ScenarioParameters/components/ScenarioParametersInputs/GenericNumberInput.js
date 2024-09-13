@@ -1,25 +1,43 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import { Grid } from '@mui/material';
-import { BasicNumberInput } from '@cosmotech/ui';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import { Grid, Stack } from '@mui/material';
+import { BasicNumberInput, FadingTooltip } from '@cosmotech/ui';
+import { useLoadInitialValueFromDataset } from '../../../../hooks/DynamicValuesHooks';
 import { useParameterConstraintValidation } from '../../../../hooks/ParameterConstraintsHooks';
 import { TranslationUtils } from '../../../../utils';
 
-export const GenericNumberInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty, error }) => {
+export const GenericNumberInput = ({
+  parameterData,
+  context,
+  parameterValue,
+  setParameterValue,
+  resetParameterValue,
+  isDirty,
+  error,
+}) => {
   const { t } = useTranslation();
 
   const textFieldProps = {
     disabled: !context.editMode,
     id: `number-input-${parameterData.id}`,
   };
+  const { dynamicValue, dynamicValueError, loadingDynamicValuePlaceholder } = useLoadInitialValueFromDataset(
+    parameterValue,
+    parameterData,
+    context.targetDatasetId
+  );
 
-  let value = parameterValue;
-  if (value == null) {
-    value = NaN;
-  }
+  useEffect(() => {
+    if (parameterValue == null && dynamicValue != null && !isDirty) {
+      if (parameterData.options?.dynamicValues) {
+        resetParameterValue(dynamicValue);
+      }
+    }
+  }, [parameterValue, dynamicValue, isDirty, resetParameterValue, parameterData.options?.dynamicValues]);
 
   const changeValue = useCallback(
     (newValue) => {
@@ -28,20 +46,29 @@ export const GenericNumberInput = ({ parameterData, context, parameterValue, set
     [setParameterValue]
   );
 
+  if (loadingDynamicValuePlaceholder) return loadingDynamicValuePlaceholder;
+
   return (
-    <Grid item xs={3}>
-      <BasicNumberInput
-        key={parameterData.id}
-        id={parameterData.id}
-        label={t(TranslationUtils.getParameterTranslationKey(parameterData.id), parameterData.id)}
-        tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
-        value={value}
-        changeNumberField={changeValue}
-        textFieldProps={textFieldProps}
-        isDirty={isDirty}
-        error={error}
-      />
-    </Grid>
+    <Stack direction="row" gap={1} alignItems="center">
+      <Grid item xs={3}>
+        <BasicNumberInput
+          key={parameterData.id}
+          id={parameterData.id}
+          label={t(TranslationUtils.getParameterTranslationKey(parameterData.id), parameterData.id)}
+          tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
+          value={parameterValue ?? NaN}
+          changeNumberField={changeValue}
+          textFieldProps={textFieldProps}
+          isDirty={isDirty}
+          error={error}
+        />
+      </Grid>
+      {dynamicValueError && (
+        <FadingTooltip title={dynamicValueError} placement={'right'}>
+          <ErrorOutlineIcon data-cy="dynamic-value-error-icon" size="small" />
+        </FadingTooltip>
+      )}
+    </Stack>
   );
 };
 
@@ -50,6 +77,7 @@ GenericNumberInput.propTypes = {
   context: PropTypes.object.isRequired,
   parameterValue: PropTypes.any,
   setParameterValue: PropTypes.func.isRequired,
+  resetParameterValue: PropTypes.func,
   defaultParameterValue: PropTypes.number,
   isDirty: PropTypes.bool,
   error: PropTypes.object,

@@ -570,6 +570,9 @@
       "noValues": "Aucun scénario sélectionné",
       "noOptions": "Aucun scénario disponible"
     },
+    "numberInput": {
+      "fetchingValue": "Récupération de la valeur en cours..."
+    },
     "loading": {
       "line": {
         "workspace": {
