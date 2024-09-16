@@ -7,6 +7,7 @@
             "login": "Se connecter en mode Dev"
           }
         },
+        "keycloak": "Se connecter avec Cosmo Tech",
         "regular": {
           "login": "Se connecter"
         }
