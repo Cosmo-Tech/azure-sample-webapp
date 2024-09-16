@@ -6,9 +6,14 @@ import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Grid, Button, Typography, Box, Select, MenuItem } from '@mui/material';
 import { AuthMSAL } from '@cosmotech/azure';
-import { AuthDev } from '@cosmotech/core';
+import { AuthDev, AuthKeycloakRedirect } from '@cosmotech/core';
 import { SignInButton } from '@cosmotech/ui';
 import microsoftLogo from '../../assets/microsoft_logo.png';
+import {
+  SHOW_AZURE_AUTH_PROVIDER,
+  SHOW_DEV_AUTH_PROVIDER,
+  SHOW_KEYCLOAK_AUTH_PROVIDER,
+} from '../../services/config/auth';
 import { AUTH_STATUS } from '../../state/commons/AuthConstants.js';
 import { TranslationUtils } from '../../utils';
 import useStyles from './style';
@@ -64,16 +69,28 @@ const SignIn = ({ logInAction, auth }) => {
               <Grid className={classes.socialButtons} container spacing={2} direction="column">
                 {infoMessage}
                 {accessDeniedError}
-                <Grid item>
-                  <SignInButton
-                    logo={microsoftLogo}
-                    id={'microsoft'}
-                    label={t('genericcomponent.button.login.msal.title', 'Sign in with Microsoft')}
-                    onClick={(event) => handleSignIn(event, AuthMSAL.name)}
-                  />
-                </Grid>
-                <Grid item>
-                  {window.location.hostname === 'localhost' && (
+                {SHOW_AZURE_AUTH_PROVIDER && (
+                  <Grid item>
+                    <SignInButton
+                      logo={microsoftLogo}
+                      id={'microsoft'}
+                      label={t('genericcomponent.button.login.msal.title', 'Sign in with Microsoft')}
+                      onClick={(event) => handleSignIn(event, AuthMSAL.name)}
+                    />
+                  </Grid>
+                )}
+                {SHOW_KEYCLOAK_AUTH_PROVIDER && (
+                  <Grid item>
+                    <SignInButton
+                      logo="favicon.ico"
+                      id="keycloak-redirect"
+                      label={t('commoncomponents.button.login.keycloak', 'Sign in with Cosmo Tech')}
+                      onClick={(event) => handleSignIn(event, AuthKeycloakRedirect.name)}
+                    />
+                  </Grid>
+                )}
+                {SHOW_DEV_AUTH_PROVIDER && (
+                  <Grid item>
                     <Button
                       onClick={(event) => handleSignIn(event, AuthDev.name)}
                       data-cy="sign-in-with-dev-account-button"
@@ -81,8 +98,8 @@ const SignIn = ({ logInAction, auth }) => {
                     >
                       {t('commoncomponents.button.login.dev.account.login', 'Login with Dev account')}
                     </Button>
-                  )}
-                </Grid>
+                  </Grid>
+                )}
               </Grid>
               <Grid container spacing={1} className={classes.contact} direction="row">
                 <Grid item>

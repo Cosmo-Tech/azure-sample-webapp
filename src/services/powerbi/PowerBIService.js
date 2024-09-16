@@ -3,7 +3,7 @@
 import { Auth } from '@cosmotech/core';
 import { GET_EMBED_INFO_URL } from '../../state/commons/PowerBIConstants';
 import { clientApi } from '../ClientApi';
-import { COSMOTECH_API_SCOPE, POWER_BI_API_DEFAULT_SCOPE } from '../config/Auth';
+import { COSMOTECH_API_SCOPE, POWER_BI_API_DEFAULT_SCOPE } from '../config/auth';
 import { EmbedConfig, PowerBiReportDetails } from './PowerBIModels';
 import { handleServiceAccountError, handleUserAccountError, PowerBIError, forgePowerBIError } from './errors';
 
