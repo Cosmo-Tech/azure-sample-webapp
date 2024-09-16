@@ -25,7 +25,7 @@ export const GenericNumberInput = ({
     disabled: !context.editMode,
     id: `number-input-${parameterData.id}`,
   };
-  const { dynamicValue, dynamicValueError, loadingDynamicValuePlaceholder } = useLoadInitialValueFromDataset(
+  const { dynamicValue, loadingDynamicValuePlaceholder, dynamicValueErrorMessage } = useLoadInitialValueFromDataset(
     parameterValue,
     parameterData,
     context.targetDatasetId
@@ -63,8 +63,8 @@ export const GenericNumberInput = ({
           error={error}
         />
       </Grid>
-      {dynamicValueError && (
-        <FadingTooltip title={dynamicValueError} placement={'right'}>
+      {dynamicValueErrorMessage && (
+        <FadingTooltip title={dynamicValueErrorMessage} placement={'right'}>
           <ErrorOutlineIcon data-cy="dynamic-value-error-icon" size="small" />
         </FadingTooltip>
       )}
