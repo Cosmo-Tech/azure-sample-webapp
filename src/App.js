@@ -10,8 +10,8 @@ import AppRoutes from './AppRoutes';
 import './assets/scss/index.scss';
 import { SessionTimeoutDialog } from './components/SessionTimeoutDialog/SessionTimeoutDialog';
 import './services/AppInsights';
-import './services/config/Auth';
 import { SESSION_INACTIVITY_TIMEOUT } from './services/config/FunctionalConstants';
+import './services/config/auth';
 import { TwoActionsDialogGlobal } from './services/twoActionsDialog/twoActionsDialogService';
 import { AUTH_STATUS } from './state/commons/AuthConstants';
 import { STATUSES } from './state/commons/Constants';
@@ -74,6 +74,23 @@ const App = () => {
       setIsSessionTimeoutDialogOpen(true);
     }
   };
+
+  useEffect(() => {
+    async function checkLogin() {
+      if (localStorage.getItem('authProvider')) {
+        try {
+          await Auth.isUserSignedIn();
+        } catch (error) {
+          if (error?.name === 'BrowserAuthError') {
+            // Ignore "token acquisition failed" error, it may happen when previously used MSAL config is not compatible
+            // (e.g. when using local webapp and switching between environments & login providers)
+            console.error(error);
+          }
+        }
+      }
+    }
+    checkLogin();
+  }, []);
 
   const timeout = 1000 * 60 * SESSION_INACTIVITY_TIMEOUT;
   idleTimer = useIdleTimer({ onIdle, timeout });
