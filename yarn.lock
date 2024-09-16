@@ -5676,7 +5676,7 @@ __metadata:
     cypress-file-upload: "npm:^5.0.8"
     cypress-localstorage-commands: "npm:^2.2.6"
     cypress-mochawesome-reporter: "npm:^3.8.2"
-    date-fns: "npm:^2.30.0"
+    date-fns: "npm:^4.0.0"
     deepmerge: "npm:^4.3.1"
     eslint: "npm:^8.57.0"
     eslint-config-prettier: "npm:^9.1.0"
@@ -7711,6 +7711,13 @@ __metadata:
   dependencies:
     "@babel/runtime": "npm:^7.21.0"
   checksum: 10c0/e4b521fbf22bc8c3db332bbfb7b094fd3e7627de0259a9d17c7551e2d2702608a7307a449206065916538e384f37b181565447ce2637ae09828427aed9cb5581
+  languageName: node
+  linkType: hard
+
+"date-fns@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "date-fns@npm:4.0.0"
+  checksum: 10c0/c706d29f05c28fdaea939068d688489bbc3096ef2486d1fe4a56d209c3a061ba99febae943b9562bb8ac08fe61257cf11fe74adad164adb7ba6df994e09cb99b
   languageName: node
   linkType: hard
 
