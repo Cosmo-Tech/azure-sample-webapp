@@ -3,7 +3,7 @@
   "version": "7.0.0-dev",
   "private": true,
   "dependencies": {
-    "@cosmotech/api-ts": "^3.2.9",
+    "@cosmotech/api-ts": "4.0.0-dev9",
     "@cosmotech/azure": "^2.0.0",
     "@cosmotech/core": "1.18.2",
     "@cosmotech/ui": "^9.5.1",
