@@ -573,6 +573,15 @@
     "numberInput": {
       "fetchingValue": "Récupération de la valeur en cours..."
     },
+    "dynamicValues": {
+      "noDataset": "Aucun dataset n'est associé au scénario, impossible de récupérer les valeurs dynamiques.",
+      "notExistingDataset": "Impossible de récupérer les valeurs dynamiques: le dataset associé au scénario n'existe pas.",
+      "notTwingraphDataset": "Impossible de récupérer les valeurs dynamiques: le chargement dynamique des valeurs est disponible uniquement pour les datasets du type twingraph.",
+      "ingestionStatusError": "Impossible de récupérer les valeurs dynamiques: le statut du dataset est {{ingestionStatus}}.",
+      "resultKeyError": "Le résultat de la requête ne contient pas de propriété {{resultKey}}. Cela provient probablement d'une erreur dans la configuration de resultKey, veuillez vérifier la solution.",
+      "queryError": "Impossible de récupérer les valeurs dynamiques depuis le dataset.",
+      "defaultValueDisplayed": "La valeur par défaut du paramètre est affichée."
+    },
     "loading": {
       "line": {
         "workspace": {

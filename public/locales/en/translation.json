@@ -573,6 +573,15 @@
     "numberInput": {
       "fetchingValue": "Fetching parameter value..."
     },
+    "dynamicValues": {
+      "noDataset": "No dataset id forwarded to the parameter, can't fetch its value dynamically.",
+      "notExistingDataset": "Can't retrieve dynamic values: dataset doesn't exist.",
+      "notTwingraphDataset": "Can't retrieve dynamic values: only twingraph datasets can be used to dynamically fetch values.",
+      "ingestionStatusError": "Can't retrieve dynamic values: dataset ingestionStatus is {{ingestionStatus}}.",
+      "resultKeyError": "No property found with result key {{resultKey}} in response to dynamic value query. Please check your dataset and your solution configuration.",
+      "queryError": "Impossible to retrieve dynamic values from data source.",
+      "defaultValueDisplayed": "Parameter default value is displayed."
+    },
     "loading": {
       "line": {
         "workspace": {
