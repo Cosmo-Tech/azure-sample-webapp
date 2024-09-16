@@ -206,6 +206,36 @@ parameters:
         query: 'MATCH(n:Customer) RETURN n.id as id'
         resultKey: id
 ```
+### Dynamic values for int and number parameters
+Initial value for **int** and **number** parameters can be fetched dynamically from the scenario dataset. This feature
+is supported for numeric inputs, but it is not yet available for **SLIDER** subtype.
+
+To configure the feature, you have to define `options.dynamicValues`, an object with the following keys:
+
+- `type` (optional): the type of request that will retrieve the dynamic value; currently the only supported value is
+  `cypher`, to use cypher queries on a twingraph dataset, but more options will be added in the future
+  (default: `cypher`)
+- `query`: the cypher query to run on a twingraph dataset; this query must retrieve a numeric value, e.g. `count` of
+  graph elements, and return it with an alias (example: `MATCH(c:Customer) RETURN count(c) AS customers`)
+- `resultKey`: the alias defined in your query after `as` keyword, any string of your choice; providing this value is
+  required for the webapp to parse the cypher query results, and retrieve the actual value to display in the input
+
+Configuration example :
+
+```yaml
+parameters:
+  - id: customers
+    labels:
+      fr: Customers
+      en: Customers
+    varType: int
+    defaultValue: 10 # if a default value is defined, it will be displayed in case if the cypher query fails
+    options:
+      dynamicValues:
+        type: cypher
+        query: 'MATCH(c:Customer) RETURN count(c) AS customers'
+        resultKey: customers
+```
 
 ### File parameters
 
