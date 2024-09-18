@@ -242,7 +242,7 @@ const Scenario = () => {
   const scenarioValidationArea = showValidationChip ? scenarioValidationStatusChip : validationStatusButtons;
 
   return (
-    <FormProvider {...methods}>
+    <FormProvider {...methods} key={`form-${currentScenarioData?.id}`}>
       <BackdropLoadingScenario />
       <div data-cy="scenario-view" className={classes.content}>
         <Grid container spacing={2} alignItems="center" justifyContent="space-between">
