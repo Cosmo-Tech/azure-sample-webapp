@@ -25,7 +25,7 @@ const shouldForceScenarioParametersUpdate = (runTemplateParametersIds, parameter
   const isDynamicValueUploaded = Object.keys(parametersValues).some(
     (parameterId) =>
       dynamicParametersIds?.includes(parameterId) &&
-      parametersValues[parameterId].status === UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD
+      parametersValues[parameterId]?.status === UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD
   );
   return (
     isDynamicValueUploaded || runTemplateParametersIds.some((parameterId) => hiddenParametersIds.includes(parameterId))
@@ -135,7 +135,7 @@ const _getDefaultParameterValue = (parameterId, solutionParameters) => {
     console.warn(`Unknown scenario parameter "${parameterId}"`);
     return undefined;
   }
-
+  if (solutionParameter.options?.dynamicValues) return null;
   let defaultValue = solutionParameter.defaultValue;
   // defaultValue might not be in parameter data for parameters overridden by local config; when sent by the back-end,
   // parameters should always have a defaultValue property, that will be set to 'null' by default
@@ -148,7 +148,8 @@ const _getDefaultParameterValue = (parameterId, solutionParameters) => {
   }
   console.warn(
     `Couldn't find default value to use for scenario parameter "${parameterId}". Its varType may not be ` +
-      'defined, or its default value may be set to undefined (in this case, please use "null" instead of "undefined").'
+      'defined, or its default value may be set to undefined ' +
+      '(in this case, please use "null" instead of "undefined").'
   );
 };
 

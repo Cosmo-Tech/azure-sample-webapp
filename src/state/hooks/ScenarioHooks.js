@@ -35,6 +35,10 @@ export const useCurrentScenarioData = () => {
   return useSelector((state) => state.scenario.current?.data);
 };
 
+export const useCurrentScenarioParametersValues = () => {
+  return useSelector((state) => state.scenario.current?.data?.parametersValues);
+};
+
 export const useCurrentScenarioId = () => {
   return useSelector((state) => state.scenario.current?.data?.id);
 };

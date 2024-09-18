@@ -10,6 +10,8 @@ import { INGESTION_STATUS } from '../services/config/ApiConstants';
 import { dispatchSetApplicationErrorMessage } from '../state/dispatchers/app/ApplicationDispatcher';
 import { useFindDatasetById } from '../state/hooks/DatasetHooks';
 import { useOrganizationId } from '../state/hooks/OrganizationHooks';
+import { useCurrentScenarioParametersValues } from '../state/hooks/ScenarioHooks';
+import { GENERIC_VAR_TYPES_DEFAULT_VALUES } from '../utils/scenarioParameters/generic/DefaultValues';
 
 const useStyles = makeStyles((theme) => ({
   error: {
@@ -30,8 +32,8 @@ export const useDynamicValues = (parameter, targetDatasetId) => {
   // Possible value types for dynamicValues:
   // - 'undefined' when dynamic values are not enabled in the parameter configuration
   // - 'null' when fetching data, a placeholder with a spinner will be displayed instead of the dropdown list
-  // - a list when the dynamic values have been retrieved sucessfully, these values will be shown in the dropdown list
-  // - a string when an error occured, this string should be the error message to display
+  // - a list when the dynamic values have been retrieved successfully, these values will be shown in the dropdown list
+  // - a string when an error occurred, this string should be the error message to display
   const [dynamicValues, setDynamicValues] = useState(null);
 
   useEffect(() => {
@@ -113,5 +115,173 @@ export const useDynamicValues = (parameter, targetDatasetId) => {
     setDynamicValues, // Not strictly necessary, but could be useful to reset dynamic values
     dynamicValuesError,
     loadingDynamicValuesPlaceholder,
+  };
+};
+
+export const useLoadInitialValueFromDataset = (parameterValue, parameter, targetDatasetId) => {
+  const { t } = useTranslation();
+  const findDatasetById = useFindDatasetById();
+  const organizationId = useOrganizationId();
+  const parametersValues = useCurrentScenarioParametersValues();
+
+  const isUnmounted = useRef(false);
+  useEffect(() => () => (isUnmounted.current = true), []);
+
+  // Possible value types for dynamicValue:
+  // - 'undefined' when dynamic values are not enabled in the parameter configuration
+  // - 'null' when fetching data, a placeholder with a spinner will be displayed instead of the input
+  // - a value when the query is successful, it will be displayed in the input
+  const [dynamicValue, setDynamicValue] = useState(undefined);
+  const [dynamicValueError, setDynamicValueError] = useState(null);
+  const targetDataset = findDatasetById(targetDatasetId);
+  const defaultValue = parameter?.defaultValue ?? GENERIC_VAR_TYPES_DEFAULT_VALUES[parameter?.varType];
+  const dynamicSourceConfig = parameter.options?.dynamicValues;
+  const resultKey = dynamicSourceConfig?.resultKey;
+
+  useEffect(() => {
+    if (isUnmounted.current) return;
+    const scenarioParameterValue =
+      parametersValues.find((scenarioParameter) => scenarioParameter.parameterId === parameter.id) ?? null;
+    if (scenarioParameterValue !== null) {
+      setDynamicValueError(null);
+    }
+
+    const fetchDynamicValue = async () => {
+      if (parameterValue !== null) {
+        setDynamicValue(undefined);
+        return;
+      }
+
+      if (targetDatasetId == null) {
+        setDynamicValue(defaultValue);
+        setDynamicValueError('noDataset');
+        return;
+      }
+
+      if (!targetDataset) {
+        setDynamicValue(defaultValue);
+        setDynamicValueError('notExistingDataset');
+        return;
+      }
+      if (targetDataset?.ingestionStatus === null) {
+        setDynamicValue(defaultValue);
+        setDynamicValueError('notTwingraph');
+        return;
+      }
+      if (targetDataset?.ingestionStatus !== INGESTION_STATUS.SUCCESS) {
+        setDynamicValue(defaultValue);
+        setDynamicValueError('ingestionStatusError');
+        return;
+      }
+
+      const query = { query: dynamicSourceConfig.query };
+      let data;
+      try {
+        data = await Api.Datasets.twingraphQuery(organizationId, targetDatasetId, query);
+        const resultKey = dynamicSourceConfig.resultKey;
+        const newDynamicValue = data.data[0]?.[resultKey];
+        if (newDynamicValue === undefined) {
+          setDynamicValue(defaultValue);
+          setDynamicValueError('resultKeyError');
+          return;
+        }
+        if (!isUnmounted.current) setDynamicValue(newDynamicValue);
+      } catch (error) {
+        console.warn(`An error occurred when loading dynamic value of parameter "${parameter.id}"`);
+        console.error(error);
+        setDynamicValue(defaultValue);
+        setDynamicValueError('queryError');
+      }
+    };
+    if (dynamicSourceConfig) {
+      setDynamicValue(null);
+      fetchDynamicValue();
+    }
+    // Re-run this effect when
+    // 1. the target dataset (e.g. parent dataset for sub-dataset creation) changes
+    // 2. parameter value changes, otherwise, input doesn't receive the fetched value and displays an error
+    // 3. when parametersValues change after save to hide error icon
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [targetDatasetId, parameterValue, parametersValues]);
+
+  const loadingDynamicValuePlaceholder = useMemo(
+    () =>
+      dynamicValue === null ? (
+        <Grid container direction="row" alignItems="stretch">
+          <CircularProgress data-cy="fetching-dynamic-parameter-spinner" size="1rem" color="inherit" />
+          <Typography sx={{ px: 2 }}>
+            {t('genericcomponent.numberInput.fetchingValue', 'Fetching parameter value...')}
+          </Typography>
+        </Grid>
+      ) : null,
+    [t, dynamicValue]
+  );
+
+  const dynamicValueErrorMessage = useMemo(() => {
+    switch (dynamicValueError) {
+      case 'noDataset':
+        return (
+          t(
+            'genericcomponent.dynamicValues.noDataset',
+            "No dataset id forwarded to the parameter, can't fetch its value dynamically."
+          ) +
+          ' ' +
+          t('genericcomponent.dynamicValues.defaultValueDisplayed', 'Parameter default value is displayed')
+        );
+      case 'notExistingDataset':
+        return (
+          t(
+            'genericcomponent.dynamicValues.notExistingDataset',
+            "Can't retrieve dynamic values: dataset doesn't exist."
+          ) +
+          ' ' +
+          t('genericcomponent.dynamicValues.defaultValueDisplayed', 'Parameter default value is displayed')
+        );
+      case 'notTwingraph':
+        return (
+          t(
+            'genericcomponent.dynamicValues.notTwingraphDataset',
+            "Can't retrieve dynamic values: only twingraph datasets can be used to dynamically fetch values"
+          ) +
+          ' ' +
+          t('genericcomponent.dynamicValues.defaultValueDisplayed', 'Parameter default value is displayed')
+        );
+      case 'ingestionStatusError':
+        return (
+          t(
+            'genericcomponent.dynamicValues.ingestionStatusError',
+            "Can't retrieve dynamic values: dataset ingestionStatus is {{ingestionStatus}}",
+            { ingestionStatus: targetDataset?.ingestionStatus }
+          ) +
+          ' ' +
+          t('genericcomponent.dynamicValues.defaultValueDisplayed', 'Parameter default value is displayed')
+        );
+      case 'resultKeyError':
+        return (
+          t(
+            'genericcomponent.dynamicValues.resultKeyError',
+            'No property found with result key {{resultKey}} in response to dynamic value query. ' +
+              'Please check your dataset and your solution configuration.',
+            { resultKey }
+          ) +
+          ' ' +
+          t('genericcomponent.dynamicValues.defaultValueDisplayed', 'Parameter default value is displayed')
+        );
+      case 'queryError':
+        return (
+          t('genericcomponent.dynamicValues.queryError', 'Impossible to retrieve dynamic values from data source') +
+          ' ' +
+          t('genericcomponent.dynamicValues.defaultValueDisplayed', 'Parameter default value is displayed')
+        );
+      default:
+        return null;
+    }
+  }, [dynamicValueError, resultKey, t, targetDataset?.ingestionStatus]);
+
+  return {
+    dynamicValue,
+    setDynamicValue, // Not strictly necessary, but could be useful to reset dynamic values
+    loadingDynamicValuePlaceholder,
+    dynamicValueErrorMessage,
   };
 };
