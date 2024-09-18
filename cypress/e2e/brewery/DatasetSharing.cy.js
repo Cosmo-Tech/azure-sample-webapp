@@ -42,7 +42,7 @@ describe('Check permissions shared dataset', () => {
     RolesEdition.addAgent(USERS_LIST[3].email);
     RolesEdition.getShareDialogRolesCheckbox(ROLES.DATASET.ADMIN).should('not.be.disabled').click();
     RolesEdition.getShareDialogConfirmAddAccessButton().should('not.be.disabled').click();
-    RolesEdition.selectOptionByAgent('Workspace', ROLES.SCENARIO.VIEWER);
+    RolesEdition.selectOptionByAgent('Workspace', ROLES.DATASET.VIEWER);
 
     const expectedSecurity = {
       default: ROLES.DATASET.VIEWER,
