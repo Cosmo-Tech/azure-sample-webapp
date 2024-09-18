@@ -16,7 +16,7 @@ function getNoWorkspacePlaceholder() {
 }
 
 function selectWorkspace(workspaceId) {
-  const queries = api.interceptSelectWorkspaceQueries(workspaceId);
+  const queries = api.interceptSelectWorkspaceQueries();
   getWorkspaceCardById(workspaceId).should('be.visible').find(GENERIC_SELECTORS.workspace.openButton).click();
   api.waitAliases(queries, { timeout: 60 * 1000 });
 }
