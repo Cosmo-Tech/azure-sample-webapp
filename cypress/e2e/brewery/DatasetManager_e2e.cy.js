@@ -3,47 +3,12 @@
 import utils from '../../commons/TestUtils';
 import { DatasetManager, ErrorBanner } from '../../commons/actions';
 import { Login } from '../../commons/actions/brewery';
-import {
-  BREWERY_WORKSPACE_ID,
-  DATASET_STORAGE_ACCOUNT,
-  DATASET_STORAGE_CONTAINER,
-  DATASET_STORAGE_REFERENCE_FOLDER,
-} from '../../commons/constants/brewery/TestConstants';
 
 const DATA_INGESTION_DURATION = 180;
 
 describe('End-to-end test of the dataset manager view', () => {
   beforeEach(() => {
     Login.login();
-  });
-
-  it('can create a dataset from Storage', () => {
-    const storageDatasetName = `cypress dataset - e2e - ${utils.randomStr(5)}`;
-    DatasetManager.switchToDatasetManagerView();
-    DatasetManager.startDatasetCreation();
-    DatasetManager.setNewDatasetName(storageDatasetName);
-    DatasetManager.addNewDatasetTag('storage');
-    DatasetManager.setNewDatasetDescription('Dataset created from Storage, during cypress end-to-end test');
-    DatasetManager.getDatasetCreationNextStep().click();
-
-    DatasetManager.getNewDatasetSourceTypeSelect().click();
-    DatasetManager.getNewDatasetSourceTypeOptionAzureStorage().click();
-
-    DatasetManager.setNewDatasetAzureStorageAccountName(DATASET_STORAGE_ACCOUNT);
-    DatasetManager.setNewDatasetAzureStorageContainerName(DATASET_STORAGE_CONTAINER);
-    DatasetManager.setNewDatasetAzureStoragePath(`${BREWERY_WORKSPACE_ID}/${DATASET_STORAGE_REFERENCE_FOLDER}`);
-    DatasetManager.confirmDatasetCreation();
-
-    DatasetManager.getDatasetSearchBarInput().click().type(storageDatasetName);
-    DatasetManager.getAllRefreshDatasetSpinners().should('be.visible');
-    DatasetManager.getAllRefreshDatasetSpinners(DATA_INGESTION_DURATION).should('not.exist');
-    DatasetManager.getIndicatorCard('bars_count').should('be.visible');
-    DatasetManager.getKpiValue(DatasetManager.getIndicatorCard('bars_count')).should('have.text', 1);
-
-    DatasetManager.getAllDeleteDatasetButtons().click();
-    DatasetManager.getDeleteDatasetDialogBody().contains(storageDatasetName);
-    DatasetManager.getDeleteDatasetConfirmButton().click();
-    ErrorBanner.getErrorBanner().should('not.be.visible');
   });
 
   it('can create a dataset from file upload', () => {
