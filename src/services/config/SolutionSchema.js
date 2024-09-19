@@ -18,6 +18,7 @@ const basicColumnField = z
     acceptsEmptyFields: z.boolean().optional().nullable(),
     enumValues: z.array(z.string().optional().nullable()).optional().nullable(),
     columnGroupShow: z.string().optional().nullable(),
+    defaultValue: z.string().optional().nullable(),
   })
   .strict()
   .optional()
@@ -44,7 +45,11 @@ const basicParameterOptions = z.object({
   maxLength: z.number().optional().nullable(),
   validation: z.string().optional().nullable(),
   subType: z.string().optional().nullable(),
-  dynamicValues: z.object({ query: z.string(), resultKey: z.string() }).strict().optional().nullable(),
+  dynamicValues: z
+    .object({ type: z.string().optional().nullable(), query: z.string(), resultKey: z.string() })
+    .strict()
+    .optional()
+    .nullable(),
   hidden: z.boolean().optional().nullable(),
   connectorId: z.string().optional().nullable(),
   description: z.string().optional().nullable(),
