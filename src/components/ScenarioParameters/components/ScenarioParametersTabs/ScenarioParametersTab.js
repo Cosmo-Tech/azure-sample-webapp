@@ -11,7 +11,15 @@ import ScenarioParameterInput from './ScenarioParameterInput';
 
 const ScenarioParametersTab = ({ parametersGroupData, context, userAppRoles }) => {
   const noPermissionsPlaceHolder = (t) => {
-    return <div>{t('genericcomponent.text.scenario.parameters.tabs.placeholder')}</div>;
+    return (
+      <div>
+        {t(
+          'genericcomponent.text.scenario.parameters.tabs.placeholder',
+          "These parameters are confidential and you don't have permission to get access to them. If you think this " +
+            'is a mistake, please contact your application administrator.'
+        )}
+      </div>
+    );
   };
 
   const scenarioId = useSelector((state) => state.scenario?.current?.data?.id);
