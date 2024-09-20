@@ -5,7 +5,11 @@ import { call, put, take, takeEvery, delay, race } from 'redux-saga/effects';
 import { AppInsights } from '../../../../services/AppInsights';
 import { Api } from '../../../../services/config/Api';
 import { RUNNER_RUN_STATE } from '../../../../services/config/ApiConstants';
-import { POLLING_START_DELAY, RUNNER_STATUS_POLLING_DELAY } from '../../../../services/config/FunctionalConstants';
+import {
+  POLLING_MAX_CONSECUTIVE_NETWORK_ERRORS,
+  POLLING_START_DELAY,
+  RUNNER_STATUS_POLLING_DELAY,
+} from '../../../../services/config/FunctionalConstants';
 import { STATUSES } from '../../../commons/Constants';
 import { RUNNER_ACTIONS_KEY } from '../../../commons/RunnerConstants';
 import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
@@ -25,6 +29,7 @@ export function* pollRunnerState(action) {
   // For more details, see https://cosmo-tech.atlassian.net/browse/SDCOSMO-1768
   yield delay(POLLING_START_DELAY);
   // Loop until the runner state is FAILED, SUCCESS or UNKNOWN
+  let networkErrorsCount = 0;
   while (true) {
     try {
       // Fetch data of the scenario with the provided id
@@ -37,6 +42,7 @@ export function* pollRunnerState(action) {
       );
 
       const data = response.data;
+      networkErrorsCount = 0;
       if ([RUNNER_RUN_STATE.FAILED, RUNNER_RUN_STATE.SUCCESSFUL, RUNNER_RUN_STATE.UNKNOWN].includes(data.state)) {
         // Update the scenario state in all scenario redux states
         yield put({
@@ -59,21 +65,29 @@ export function* pollRunnerState(action) {
       // Wait before retrying
       yield delay(RUNNER_STATUS_POLLING_DELAY);
     } catch (error) {
-      console.error(error);
-      yield put(
-        dispatchSetApplicationErrorMessage(
-          error,
-          t('commoncomponents.banner.run', 'A problem occurred during the scenario run.')
-        )
-      );
-      yield put({
-        type: RUNNER_ACTIONS_KEY.UPDATE_RUNNER,
-        runnerId: action.runnerId,
-        status: STATUSES.ERROR,
-        runner: { state: RUNNER_RUN_STATE.FAILED },
-      });
-      // Stop the polling for this scenario
-      yield put(forgeStopPollingAction(action.runnerId));
+      networkErrorsCount++;
+      if (
+        (!navigator.onLine || error.code === 'ERR_NETWORK') &&
+        networkErrorsCount <= POLLING_MAX_CONSECUTIVE_NETWORK_ERRORS
+      ) {
+        yield delay(RUNNER_STATUS_POLLING_DELAY);
+      } else {
+        console.error(error);
+        yield put(
+          dispatchSetApplicationErrorMessage(
+            error,
+            t('commoncomponents.banner.run', 'A problem occurred during the scenario run.')
+          )
+        );
+        yield put({
+          type: RUNNER_ACTIONS_KEY.UPDATE_RUNNER,
+          runnerId: action.runnerId,
+          status: STATUSES.ERROR,
+          runner: { state: RUNNER_RUN_STATE.FAILED },
+        });
+        // Stop the polling for this scenario
+        yield put(forgeStopPollingAction(action.runnerId));
+      }
     }
   }
 }
