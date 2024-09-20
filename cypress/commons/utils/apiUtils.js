@@ -935,7 +935,7 @@ const interceptWorkspaceSelectorQueries = () => {
 
 const interceptSelectWorkspaceQueries = (isPowerBiEnabled = true) => {
   const workspaceQueries = [interceptGetSolution(), ...interceptGetRunnersAndStatuses()];
-  if (isPowerBiEnabled) workspaceQueries.push(interceptPowerBIAzureFunction());
+  // if (isPowerBiEnabled) workspaceQueries.push(interceptPowerBIAzureFunction());
   return workspaceQueries;
 };
 
