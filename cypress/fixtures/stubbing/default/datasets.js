@@ -60,6 +60,7 @@ export const ACTUAL_ADT_INSTANCE_DATASET = {
     version: '2.3.3',
     parametersValues: { AZURE_DIGITAL_TWINS_URL: 'https://o-gzypnd27g7-demobrewery.api.weu.digitaltwins.azure.net' },
   },
+  ingestionStatus: 'SUCCESS',
   fragmentsIds: null,
   validatorId: null,
   compatibility: null,

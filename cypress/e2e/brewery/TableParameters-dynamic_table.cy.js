@@ -4,9 +4,11 @@ import { Login, ScenarioParameters, Scenarios, ScenarioSelector } from '../../co
 import { BreweryParameters } from '../../commons/actions/brewery';
 import { stub } from '../../commons/services/stubbing';
 import { apiUtils } from '../../commons/utils';
+import { DATASETS_TWINGRAPH } from '../../fixtures/stubbing/DatasetManager';
 import { SOLUTION_WITH_DYNAMIC_TABLE } from '../../fixtures/stubbing/TableParameters-dynamic_table/solution';
 import { DEFAULT_SCENARIOS_LIST } from '../../fixtures/stubbing/default';
 
+DEFAULT_SCENARIOS_LIST.forEach((scenario) => (scenario.datasetList = ['D-stbdataset11']));
 const EDITED_DATA_CSV = 'customers_from_dataset_edited.csv';
 const twingraphQueryResponse = [
   {
@@ -52,8 +54,10 @@ const runOptions = {
 
 describe('can use dataset data in editable table', () => {
   before(() => {
-    stub.start();
+    stub.setDatasets(DATASETS_TWINGRAPH);
+    stub.setScenarios(DEFAULT_SCENARIOS_LIST);
     stub.setSolutions([SOLUTION_WITH_DYNAMIC_TABLE]);
+    stub.start();
   });
   beforeEach(() => {
     Login.login();

@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 export const GENERIC_SELECTORS = {
   login: {
     microsoftLoginButton: '[data-cy=sign-in-with-microsoft-button]',
@@ -252,8 +251,24 @@ export const GENERIC_SELECTORS = {
         cardByKpiId: '[data-cy=indicator-card-$KPI_ID]',
         kpiLoading: '[data-cy=kpi-loading]',
         kpiValue: '[data-cy=kpi-value]',
+        kpiLabel: '[data-cy=indicator-card-kpi-label]',
         kpiError: '[data-cy=kpi-error]',
         kpiUnknownState: '[data-cy=kpi-unknown-state]',
+      },
+      categories: {
+        accordionSummary: '[data-cy=category-accordion-summary-$CATEGORY_ID]',
+        accordionDetails: '[data-cy=category-accordion-details-$CATEGORY_ID]',
+        kpi: '[data-cy=category-kpi-$KPI_ID]',
+        kpiLabel: '[data-cy=category-kpi-label]',
+        name: '[data-cy=category-name]',
+        type: '[data-cy=category-type]',
+        description: '[data-cy=category-description]',
+        attributes: '[data-cy=category-attributes]',
+        detailsDialog: '[data-cy=category-details-dialog]',
+        detailsDialogOpenButton: '[data-cy=category-details-dialog-open-button]',
+        detailsDialogCloseButton: '[data-cy=category-details-dialog-close-button]',
+        detailsDialogDatasetName: '[data-cy=category-details-dialog-dataset-name]',
+        detailsDialogCategoryName: '[data-cy=category-details-dialog-category-name]',
       },
     },
     confirmRefreshButton: '[data-cy=refresh-dataset-dialog-confirm-button]',

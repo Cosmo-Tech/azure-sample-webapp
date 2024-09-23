@@ -402,6 +402,19 @@ const interceptPostDatasetTwingraphQuery = (response = {}, validateRequest = nul
   return alias;
 };
 
+const interceptPostDatasetTwingraphQueries = (responses = [], validateRequest = null, times = 1) => {
+  const alias = forgeAlias('reqPostDatasetTwingraphQueries');
+  const options = { method: 'POST', url: API_REGEX.DATASET_TWINGRAPH };
+  if (times > 0) options.times = times;
+  cy.intercept(options, (req) => {
+    if (validateRequest) validateRequest(req);
+    if (!stub.isEnabledFor('GET_DATASETS')) return;
+    const matchingResponse = responses.find((response) => response.id === req.body.id)?.results ?? [];
+    if (matchingResponse != null) req.reply(matchingResponse);
+  }).as(alias);
+  return alias;
+};
+
 const interceptRollbackDatasetStatus = () => {
   const alias = forgeAlias('reqRollbackDatasetStatus');
   cy.intercept({ method: 'POST', url: API_REGEX.DATASET_ROLLBACK, times: 1 }, (req) => {
@@ -768,6 +781,7 @@ export const apiUtils = {
   interceptGetDataset,
   interceptGetDatasetStatus,
   interceptPostDatasetTwingraphQuery,
+  interceptPostDatasetTwingraphQueries,
   interceptRollbackDatasetStatus,
   interceptCreateDataset,
   interceptLinkDataset,
