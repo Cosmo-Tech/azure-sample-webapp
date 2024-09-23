@@ -24,9 +24,9 @@ const CategoryAccordion = (props) => {
 
   const accordionSummary = useMemo(() => {
     const categorySummary = (
-      <Grid container spacing={1}>
+      <Grid container spacing={1} data-cy={`category-accordion-summary-${category.id}`}>
         <Grid item>
-          <Typography variant="body1">
+          <Typography data-cy="category-name" variant="body1">
             {t(TranslationUtils.getDatasetCategoryNameTranslationKey(category.id), category.id ?? 'category')}
           </Typography>
         </Grid>
@@ -38,7 +38,7 @@ const CategoryAccordion = (props) => {
               </Typography>
             </Grid>
             <Grid item>
-              <Typography variant="body1" className={classes.categoryType}>
+              <Typography data-cy="category-type" variant="body1" className={classes.categoryType}>
                 {t(
                   `commoncomponents.datasetmanager.overview.categoryTypes.${category.type.toLowerCase()}`,
                   category.type
@@ -107,7 +107,11 @@ const CategoryAccordion = (props) => {
   const accordionDetails = useMemo(() => {
     const hasDescription = exists(TranslationUtils.getDatasetCategoryDescriptionTranslationKey(category.id));
     const descriptionString = t(TranslationUtils.getDatasetCategoryDescriptionTranslationKey(category.id));
-    const description = hasDescription && <Typography sx={{ whiteSpace: 'pre-line' }}>{descriptionString}</Typography>;
+    const description = hasDescription && (
+      <Typography data-cy={'category-description'} sx={{ whiteSpace: 'pre-line' }}>
+        {descriptionString}
+      </Typography>
+    );
 
     const kpisWithResult = (category?.kpis ?? []).map((kpi) => ({
       ...kpi,
@@ -140,13 +144,16 @@ const CategoryAccordion = (props) => {
           <Typography>{t('commoncomponents.datasetmanager.overview.attributesLabel', 'Attributes:')}</Typography>
         </Grid>
         <Grid item>
-          <Typography sx={{ opacity: '70%' }}>{category.attributes?.join(', ')}</Typography>
+          <Typography data-cy="category-attributes" sx={{ opacity: '70%' }}>
+            {category.attributes?.join(', ')}
+          </Typography>
         </Grid>
       </Grid>
     );
 
     return (
       <Grid
+        data-cy={`category-accordion-details-${category.id}`}
         container
         spacing={2}
         sx={{

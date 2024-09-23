@@ -747,6 +747,7 @@
       "labels": {
         "loading": "Loading...",
         "fileImportError": "File load failed.",
+        "queryFailedError": "Query failed",
         "maxErrorsCount": "(only the top first {{maxCount}} results)",
         "errorsCount_one": "{{count}} error occurred:",
         "errorsCount_other": "{{count}} errors occurred:",
@@ -754,6 +755,9 @@
         "placeholderBody": "After importing a valid csv or xlsx file, your data will be displayed in an interactive table.",
         "addRowPlaceholderTitle": "Import or create your first data",
         "addRowPlaceholderBody": "Import a valid csv or xlsx file, or add a new row, so that your data will be displayed in an interactive table.",
+        "configErrorPlaceholderTitle": "Configuration error",
+        "noDataPlaceholderTitle": "No data",
+        "noDataPlaceholderBody": "No data to display.",
         "import": "Import",
         "export": "Export",
         "addRow": "Add a new row",
@@ -761,10 +765,11 @@
         "fullscreen": "Fullscreen",
         "revert": "Revert",
         "noDatasetsError": "Impossible to fetch data from dataset because the list of datasets is empty",
-        "notTwingraphDatasetError": "Only twingraph datasets can be used to fetch table data dynamically",
-        "noQueryError": "Impossible to fetch data from dataset because there is no twingraph query defined for this parameter. You can load data manually using Import button",
+        "noQueryError": "Impossible to fetch data from dataset because there is no twingraph query defined for this parameter. You can load data manually using the Import button",
+        "NoQueryErrorImportFalse": "Impossible to fetch data from dataset because there is no twingraph query defined for this parameter.",
         "wrongResultKeyError": "Returned result doesn't have {{resultKey}} property. Probably there is an error in resultKey configuration, please, check your solution",
-        "wrongQueryError": "Returned result is empty, there is probably an error in your query configuration. Please, check your solution"
+        "wrongQueryError": "Returned result is empty, there is probably an error in your query configuration. Please, check your solution",
+        "unknownQueryError": "Something went wrong when querying the table data. Please contact your administrator if the problem persists."
       },
       "export": {
         "labels": {

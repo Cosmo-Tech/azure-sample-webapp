@@ -26,7 +26,7 @@ const GraphIndicator = (props) => {
           }}
         >
           <KPIValue kpi={kpi} valueTypographyProps={{ variant: 'h4' }} size="24px" />
-          <Typography variant="subtitle2">
+          <Typography data-cy={'indicator-card-kpi-label'} variant="subtitle2">
             {categoryId
               ? t(TranslationUtils.getDatasetCategoryKpiNameTranslationKey(categoryId, id), id)
               : t(TranslationUtils.getDatasetGraphIndicatorNameTranslationKey(id), id)}

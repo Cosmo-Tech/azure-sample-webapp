@@ -21,6 +21,7 @@ export const KPI = (props) => {
 
   return kpi.id == null ? null : (
     <Grid
+      data-cy={`category-kpi-${kpi.id}`}
       id={id}
       container
       spacing={1}
@@ -30,7 +31,9 @@ export const KPI = (props) => {
         justifyContent: 'flex-start',
       }}
     >
-      <Grid item>{label}</Grid>
+      <Grid data-cy={'category-kpi-label'} item>
+        {label}
+      </Grid>
 
       <Grid item>
         <KPIValue kpi={kpi} valueTypographyProps={{ ...valueProps }} />

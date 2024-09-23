@@ -86,10 +86,11 @@ export const CategoryDetailsDialog = (props) => {
   return (
     detailsTable && (
       <>
-        <Button data-cy="category-details-open-button" variant="outlined" onClick={handleOpen}>
+        <Button data-cy="category-details-dialog-open-button" variant="outlined" onClick={handleOpen}>
           {t('commoncomponents.dialog.share.dialog.buttons.open', 'Open')}
         </Button>
         <Dialog
+          data-cy="category-details-dialog"
           disableEnforceFocus
           fullScreen
           open={open}
@@ -106,8 +107,10 @@ export const CategoryDetailsDialog = (props) => {
             </Button>
             <Box sx={{ flexDirection: 'column', alignItems: 'center', display: 'flex' }}>
               <Box>
-                <Typography variant="h4">{datasetName}</Typography>
-                <Typography variant="h5" sx={{ opacity: '70%' }}>
+                <Typography data-cy="category-details-dialog-dataset-name" variant="h4">
+                  {datasetName}
+                </Typography>
+                <Typography data-cy="category-details-dialog-category-name" variant="h5" sx={{ opacity: '70%' }}>
                   {t(TranslationUtils.getDatasetCategoryNameTranslationKey(category.id), category.id ?? 'category')}
                 </Typography>
               </Box>

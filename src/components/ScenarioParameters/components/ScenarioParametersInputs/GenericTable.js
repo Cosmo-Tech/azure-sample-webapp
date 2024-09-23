@@ -9,7 +9,7 @@ import rfdc from 'rfdc';
 import { AgGridUtils, FileBlobUtils } from '@cosmotech/core';
 import { Table, TABLE_DATA_STATUS, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
 import { Api } from '../../../../services/config/Api';
-import { useSetApplicationErrorMessage } from '../../../../state/hooks/ApplicationHooks';
+import { useFindDatasetById, useDatasets } from '../../../../state/hooks/DatasetHooks.js';
 import { useOrganizationId } from '../../../../state/hooks/OrganizationHooks.js';
 import { useWorkspaceId } from '../../../../state/hooks/WorkspaceHooks.js';
 import { gridLight, gridDark } from '../../../../theme/';
@@ -52,9 +52,9 @@ export const GenericTable = ({
   const { t } = useTranslation();
   const organizationId = useOrganizationId();
   const workspaceId = useWorkspaceId();
-  const datasets = useSelector((state) => state.dataset?.list?.data);
+  const datasets = useDatasets();
+  const findDatasetById = useFindDatasetById();
   const scenarioId = useSelector((state) => state.scenario?.current?.data?.id);
-  const setApplicationErrorMessage = useSetApplicationErrorMessage();
   const canChangeRowsNumber = ConfigUtils.getParameterAttribute(parameterData, 'canChangeRowsNumber') ?? false;
 
   const parameterId = parameterData.id;
@@ -65,24 +65,41 @@ export const GenericTable = ({
   const [isConfirmRowsDeletionDialogOpen, setConfirmRowsDeletionDialogOpen] = useState(false);
   const selectedRowsRef = useRef();
 
+  const [placeholder, setPlaceholder] = useState();
+
+  useEffect(() => {
+    if (context.visibilityOptions?.import === false) {
+      setPlaceholder({
+        title: t('genericcomponent.table.labels.noDataPlaceholderTitle', 'No data'),
+        body: t('genericcomponent.table.labels.noDataPlaceholderBody', 'No data to display.'),
+      });
+    } else if (canChangeRowsNumber) {
+      setPlaceholder({
+        title: t('genericcomponent.table.labels.addRowPlaceholderTitle', 'Import or create your first data'),
+        body: t(
+          'genericcomponent.table.labels.addRowPlaceholderBody',
+          'Import a valid csv or xlsx file,' +
+            'or add a new row, so that your data will be displayed in an interactive table.'
+        ),
+      });
+    } else {
+      setPlaceholder({
+        title: t('genericcomponent.table.labels.placeholderTitle', 'Import your first data'),
+        body: t(
+          'genericcomponent.table.labels.placeholderBody',
+          'After importing a valid csv or xlsx file, your data will be displayed in an interactive table.'
+        ),
+      });
+    }
+  }, [canChangeRowsNumber, context.visibilityOptions?.import, t]);
+
   const tableLabels = {
     label: t(TranslationUtils.getParameterTranslationKey(parameterId), parameterId),
     loading: t('genericcomponent.table.labels.loading', 'Loading...'),
     clearErrors: t('genericcomponent.table.button.clearErrors', 'Clear'),
     errorsPanelMainError: t('genericcomponent.table.labels.fileImportError', 'File load failed.'),
-    placeholderTitle: canChangeRowsNumber
-      ? t('genericcomponent.table.labels.addRowPlaceholderTitle', 'Import or create your first data')
-      : t('genericcomponent.table.labels.placeholderTitle', 'Import your first data'),
-    placeholderBody: canChangeRowsNumber
-      ? t(
-          'genericcomponent.table.labels.addRowPlaceholderBody',
-          'Import a valid csv or xlsx file,' +
-            'or add a new row, so that your data will be displayed in an interactive table.'
-        )
-      : t(
-          'genericcomponent.table.labels.placeholderBody',
-          'After importing a valid csv or xlsx file, your data will be displayed in an interactive table.'
-        ),
+    placeholderTitle: placeholder?.title,
+    placeholderBody: placeholder?.body,
     import: t('genericcomponent.table.labels.import', 'Import'),
     export: t('genericcomponent.table.labels.export', 'Export'),
     addRow: t('genericcomponent.table.labels.addRow', 'Add a new row'),
@@ -206,76 +223,111 @@ export const GenericTable = ({
       return;
     }
     GenericTable.downloadLocked[lockId] = true;
+    const sourceDatasetId = context.targetDatasetId;
+
+    if (!sourceDatasetId) {
+      setPlaceholder({
+        title: t('genericcomponent.table.labels.noDataPlaceholderTitle', 'No data'),
+        body: t(
+          'genericcomponent.table.labels.noDatasetsError',
+          'Impossible to fetch data from dataset because the list of datasets is empty'
+        ),
+      });
+      return;
+    }
+
+    const dynamicValuesConfig = ConfigUtils.getParameterAttribute(parameterData, 'dynamicValues');
+    const query = dynamicValuesConfig?.query;
+    if (!query) {
+      setPlaceholder({
+        title: t('genericcomponent.table.labels.noQueryPlaceholderTitle', 'No data'),
+        body: t(
+          'genericcomponent.table.labels.NoQueryErrorImportFalse',
+          'Impossible to fetch data from dataset because there is no twingraph query defined for this parameter. '
+        ),
+      });
+      return;
+    }
+
+    if (findDatasetById(sourceDatasetId)?.ingestionStatus == null) {
+      setPlaceholder({
+        title: t('genericcomponent.table.labels.noTwingraph', 'No Twingraph'),
+        body: t(
+          'genericcomponent.table.labels.noTwingraphDatasetError',
+          'Only twingraph datasets can be used to fetch table data dynamically'
+        ),
+      });
+      return;
+    }
+
+    const resultKey = dynamicValuesConfig?.resultKey;
+    let data;
     try {
-      const sourceDatasetId = context.targetDatasetId;
-      if (!sourceDatasetId)
-        throw new Error(
-          t(
-            'genericcomponent.table.labels.noDatasetsError',
-            'Impossible to fetch data from dataset because the list of datasets is empty'
-          )
-        );
-      const dynamicValuesConfig = ConfigUtils.getParameterAttribute(parameterData, 'dynamicValues');
-      const query = dynamicValuesConfig?.query;
-      if (!query)
-        throw new Error(
-          t(
-            'genericcomponent.table.labels.noQueryError',
-            'Impossible to fetch data from dataset because there is no twingraph query defined for this parameter. ' +
-              'You can load data manually using Import button'
-          )
-        );
-      const resultKey = dynamicValuesConfig?.resultKey;
-      const { data } = await Api.Datasets.twingraphQuery(organizationId, sourceDatasetId, { query });
-      if (data.length === 0)
-        throw new Error(
-          t(
-            'genericcomponent.table.labels.wrongQueryError',
-            'Returned result is empty, there is probably an error in your query configuration. ' +
-              'Please, check your solution'
-          )
-        );
-      const rowsDict = data.map((row) => row[resultKey]);
-      if (rowsDict.includes(undefined))
-        throw new Error(
-          t(
-            'genericcomponent.table.labels.wrongResultKeyError',
-            `Returned result doesn't have ${resultKey} property.
-      Probably there is an error in resultKey configuration, please, check your solution`,
-            { resultKey }
-          )
-        );
-      const csvRows = AgGridUtils.toCSV(rowsDict, columns);
-      const agGridData = _generateGridDataFromCSV(csvRows, parameterData);
-      if (agGridData.error) {
-        setClientFileDescriptor({
-          tableDataStatus: TABLE_DATA_STATUS.ERROR,
-          errors: agGridData.error,
-        });
-      } else
-        setClientFileDescriptor({
-          name: fileName,
-          file: null,
-          agGridRows: agGridData.rows,
-          errors: null,
-          status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD,
-          tableDataStatus: TABLE_DATA_STATUS.READY,
-          uploadPreprocess: { content: _uploadPreprocess },
-        });
+      ({ data } = await Api.Datasets.twingraphQuery(organizationId, sourceDatasetId, { query }));
     } catch (error) {
-      const errorComment = error?.response?.status
-        ? t(
-            'genericcomponent.table.labels.notTwingraphDatasetError',
-            'Only twingraph datasets can be used to fetch table data dynamically'
-          )
-        : '';
-      setApplicationErrorMessage(error, errorComment);
+      setPlaceholder({
+        title: error?.response?.statusText ?? t('genericcomponent.table.labels.queryFailedError', 'Query failed'),
+        body: t(
+          'genericcomponent.table.labels.unknownQueryError',
+          'Something went wrong when querying the table data. Please contact your administrator if the ' +
+            'problem persists.'
+        ),
+      });
+      console.error(error?.response?.data?.detail);
+
       setClientFileDescriptor({
         file: null,
         content: null,
         agGridRows: null,
         errors: null,
         tableDataStatus: TABLE_DATA_STATUS.ERROR,
+      });
+      return;
+    }
+
+    if (data.length === 0) {
+      setPlaceholder({
+        title: t('genericcomponent.table.labels.noDataPlaceholderTitle', 'No data'),
+        body: t(
+          'genericcomponent.table.labels.wrongQueryError',
+          'Returned result is empty, there is probably an error in your query configuration. ' +
+            'Please, check your solution'
+        ),
+      });
+      return;
+    }
+
+    const rowsDict = data.map((row) => row[resultKey]);
+    if (rowsDict.includes(undefined)) {
+      setPlaceholder({
+        title: t('genericcomponent.table.labels.configErrorPlaceholderTitle', 'Configuration error'),
+        body: t(
+          'genericcomponent.table.labels.wrongResultKeyError',
+          `Returned result doesn't have ${resultKey} property.
+          Probably there is an error in resultKey configuration, please, check your solution`,
+          { resultKey }
+        ),
+      });
+      return;
+    }
+
+    const csvRows = AgGridUtils.toCSV(rowsDict, columns);
+
+    const agGridData = _generateGridDataFromCSV(csvRows, parameterData);
+    if (agGridData.error) {
+      setClientFileDescriptor({
+        tableDataStatus: TABLE_DATA_STATUS.ERROR,
+        errors: agGridData.error,
+      });
+    } else {
+      setClientFileDescriptor({
+        name: fileName,
+        file: null,
+        agGridRows: agGridData.rows,
+        errors: null,
+        status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD,
+        tableDataStatus: TABLE_DATA_STATUS.READY,
+        uploadPreprocess: { content: _uploadPreprocess },
       });
     }
 
