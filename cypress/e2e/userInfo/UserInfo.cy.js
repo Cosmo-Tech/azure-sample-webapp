@@ -1,10 +1,16 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { AppBar, Login } from '../../commons/actions';
+import { stub } from '../../commons/services/stubbing';
 
 describe('UserInfo features', () => {
   beforeEach(() => {
+    stub.start();
     Login.login();
+  });
+
+  after(() => {
+    stub.stop();
   });
 
   it('can change the application language', () => {
