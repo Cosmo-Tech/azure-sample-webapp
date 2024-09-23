@@ -1,11 +1,20 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { AppBar, Login, Workspaces } from '../../commons/actions';
-import { REAL_BREWERY_WORKSPACE_ID } from '../../commons/constants/brewery/TestConstants';
+import { stub } from '../../commons/services/stubbing';
+import { EXTENDED_WORKSPACES_LIST } from '../../fixtures/stubbing/default';
 
 describe('UserInfo features', () => {
+  before(() => {
+    stub.start();
+    stub.setWorkspaces(EXTENDED_WORKSPACES_LIST);
+  });
   beforeEach(() => {
     Login.login();
+  });
+
+  after(() => {
+    stub.stop();
   });
 
   it('can go to documentation page', () => {
@@ -34,7 +43,7 @@ describe('UserInfo features', () => {
     AppBar.getTechnicalInfoSolutionName().should('not.exist');
     AppBar.getTechnicalInfoSolutionDescription().should('not.exist');
     AppBar.closeTechnicalInfoDialog();
-    Workspaces.selectWorkspace(REAL_BREWERY_WORKSPACE_ID);
+    Workspaces.selectWorkspace(EXTENDED_WORKSPACES_LIST[0].id);
     AppBar.getTechnicalInfoDialog().should('not.exist');
     AppBar.openHelpMenu();
     AppBar.openTechnicalInfoDialog();
