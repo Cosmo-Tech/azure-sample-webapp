@@ -2,9 +2,10 @@
 // Licensed under the MIT license.
 import utils from '../../commons/TestUtils';
 import { Scenarios, ScenarioManager, ScenarioParameters, Login } from '../../commons/actions';
-import { DATASET, RUN_TEMPLATE, SCENARIO_STATUS } from '../../commons/constants/brewery/TestConstants';
+import { RUN_TEMPLATE, SCENARIO_STATUS } from '../../commons/constants/brewery/TestConstants';
 import { FAILED_SCENARIO_RUN, SCENARIO_RUN_IN_PROGRESS } from '../../commons/constants/generic/TestConstants';
 import { stub } from '../../commons/services/stubbing';
+import { DEFAULT_DATASETS_LIST } from '../../fixtures/stubbing/default';
 
 const firstScenarioName = 'Test Cypress - Cancel run - ' + utils.randomStr(7);
 const secondScenarioName = 'Test Cypress - delete during run - ' + utils.randomStr(7);
@@ -27,7 +28,7 @@ describe('can cancel simulation run', () => {
   });
 
   it('creates scenario, launches it and cancels the simulation run', () => {
-    Scenarios.createScenario(firstScenarioName, true, DATASET.BREWERY_STORAGE, RUN_TEMPLATE.BREWERY_PARAMETERS);
+    Scenarios.createScenario(firstScenarioName, true, DEFAULT_DATASETS_LIST[0].name, RUN_TEMPLATE.BREWERY_PARAMETERS);
     ScenarioParameters.launch({ runOptions, saveAndLaunch: true });
     Scenarios.getDashboardAccordion().click();
     Scenarios.getDashboardPlaceholder().should('have.text', SCENARIO_RUN_IN_PROGRESS);
@@ -60,15 +61,18 @@ describe('can cancel simulation run before delete', () => {
 
   it('create scenario, launch it and delete it during it is running', () => {
     ScenarioParameters.expandParametersAccordion();
-    Scenarios.createScenario(secondScenarioName, true, DATASET.BREWERY_STORAGE, RUN_TEMPLATE.BREWERY_PARAMETERS).then(
-      (value) => {
-        const scenarioId = value.scenarioCreatedId;
-        ScenarioParameters.launch({ runOptions, saveAndLaunch: true });
-        ScenarioManager.switchToScenarioManager();
-        ScenarioManager.getScenarioAccordion(scenarioId).click();
-        ScenarioManager.getScenarioRunStatus(scenarioId, SCENARIO_STATUS.RUNNING);
-        ScenarioManager.deleteScenario(secondScenarioName, true);
-      }
-    );
+    Scenarios.createScenario(
+      secondScenarioName,
+      true,
+      DEFAULT_DATASETS_LIST[0].name,
+      RUN_TEMPLATE.BREWERY_PARAMETERS
+    ).then((value) => {
+      const scenarioId = value.scenarioCreatedId;
+      ScenarioParameters.launch({ runOptions, saveAndLaunch: true });
+      ScenarioManager.switchToScenarioManager();
+      ScenarioManager.getScenarioAccordion(scenarioId).click();
+      ScenarioManager.getScenarioRunStatus(scenarioId, SCENARIO_STATUS.RUNNING);
+      ScenarioManager.deleteScenario(secondScenarioName, true);
+    });
   });
 });
