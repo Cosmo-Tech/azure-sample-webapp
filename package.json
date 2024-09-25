@@ -73,7 +73,7 @@
     "@babel/preset-env": "^7.25.2",
     "@babel/preset-react": "^7.24.7",
     "@testing-library/jest-dom": "^6.4.8",
-    "@testing-library/react": "^12.1.5",
+    "@testing-library/react": "^16.0.1",
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "assert": "^2.1.0",
     "babel-jest": "~29.7.0",
