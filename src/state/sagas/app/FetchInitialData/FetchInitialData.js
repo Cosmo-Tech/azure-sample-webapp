@@ -44,7 +44,11 @@ export function* fetchAllInitialData() {
   } catch (error) {
     console.error(error);
     const errorDetails = parseError(error);
-    if (error?.response?.status === 404) {
+    if (error?.name === 'BrowserAuthError') {
+      errorDetails.title = 'Network error';
+      errorDetails.detail =
+        'Please check your network settings. If the problem persists, please contact your administrator.';
+    } else if (error?.response?.status === 404) {
       errorDetails.detail += '\nPlease make sure you are using at least v2 of Cosmo Tech API';
     }
     yield put({
