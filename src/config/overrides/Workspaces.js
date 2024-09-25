@@ -119,7 +119,7 @@ export const WORKSPACES = [
         menu: {
           supportUrl: 'https://support.cosmotech.com',
           organizationUrl: 'https://cosmotech.com',
-          documentationUrl: 'https://portal.cosmotech.com/resources/platform-resources/platform-help',
+          documentationUrl: 'https://portal.cosmotech.com/resources/platform-resources/web-app-user-guide',
         },
         datasetManager: {
           datasourceParameterHelpers: [
