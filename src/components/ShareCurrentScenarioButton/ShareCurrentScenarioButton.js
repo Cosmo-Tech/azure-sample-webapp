@@ -43,6 +43,7 @@ const ShareCurrentScenarioButton = () => {
             preventNoneRoleForAgents={true}
             allRoles={rolesLabels}
             allPermissions={permissionsLabels}
+            isIconButton={true}
           />
         </PermissionsGate>
       </PermissionsGate>

@@ -43,6 +43,7 @@ const CreateScenarioButton = ({ disabled, onScenarioCreated }) => {
         disabled={disabled}
         labels={createScenarioDialogLabels}
         defaultRunTemplateDataset={defaultRunTemplateDataset}
+        isIconButton={true}
       />
     </PermissionsGate>
   );

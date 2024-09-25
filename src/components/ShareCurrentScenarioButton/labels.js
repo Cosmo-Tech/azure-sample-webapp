@@ -9,7 +9,7 @@ export const getShareScenarioDialogLabels = (t, currentScenarioName, isDirty) =>
           'commoncomponents.dialog.share.button.editModeTooltip',
           'Please save or discard current modifications before changing the scenario access permissions'
         )
-      : t('commoncomponents.dialog.share.button.tooltip', 'Modify access'),
+      : t('commoncomponents.dialog.share.button.label', 'Share'),
   },
   dialog: {
     title: t('commoncomponents.dialog.share.dialog.title', 'Share ') + currentScenarioName,

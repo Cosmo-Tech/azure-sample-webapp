@@ -7,7 +7,7 @@ export const getCreateScenarioDialogLabels = (t, disabled) => {
         'commoncomponents.button.create.scenario.tooltip.disabled',
         'Please save or discard current modifications before creating a new scenario'
       )
-    : '';
+    : t('commoncomponents.button.create.scenario.label', 'Create');
 
   return {
     button: {
