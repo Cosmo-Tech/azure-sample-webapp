@@ -207,6 +207,27 @@ export const WORKSPACES = [
                 { id: 'max_waiters', name: { en: 'Max. waiters', fr: 'Max. serveurs' }, queryId: 'bars' },
               ],
               attributes: ['NbWaiters', 'RestockQty', 'Stock'],
+              previewTable: {
+                columns: [
+                  {
+                    field: 'nbWaiters',
+                    type: ['int'],
+                    headerName: 'Number of waiters',
+                  },
+                  {
+                    field: 'restockQty',
+                    type: ['int'],
+                    headerName: 'Restock quantity',
+                  },
+                  {
+                    field: 'stock',
+                    type: ['int'],
+                    headerName: 'Stock',
+                  },
+                ],
+                queryId: 'bars_attributes',
+                resultKey: 'fields',
+              },
             },
             {
               id: 'customers',
@@ -228,10 +249,51 @@ export const WORKSPACES = [
                   queryId: 'customers',
                 },
               ],
-              attributes: ['Satisfaction', 'SurroundingSatisfaction', 'Thirsty'],
+              attributes: ['Name', 'Satisfaction', 'SurroundingSatisfaction', 'Thirsty'],
+              previewTable: {
+                columns: [
+                  {
+                    field: 'name',
+                    headerName: 'Name',
+                    type: ['string'],
+                  },
+                  {
+                    field: 'satisfaction',
+                    headerName: 'Satisfaction',
+                    type: ['int'],
+                  },
+                  {
+                    field: 'surroundingSatisfaction',
+                    headerName: 'Surrounding satisfaction',
+                    type: ['int'],
+                  },
+                  {
+                    field: 'thirsty',
+                    headerName: 'Thirsty',
+                    type: ['bool'],
+                  },
+                ],
+                queryId: 'customers_attributes',
+                resultKey: 'fields',
+              },
+            },
+            {
+              id: 'fakeEntityType',
+              description: {
+                en: 'Fake category without data',
+                fr: 'Catégorie factice sans aucune donnée',
+              },
+              name: { en: 'Fake entity', fr: 'Entité factice' },
+              type: 'entity',
             },
           ],
           queries: [
+            {
+              id: 'bars_attributes',
+              query:
+                'MATCH(bar: Bar) WITH {name: bar.id, nbWaiters: bar.NbWaiters, stock: bar.Stock, ' +
+                'restockQty: bar.RestockQty} as fields RETURN fields',
+            },
             {
               id: 'bars',
               query:
@@ -247,6 +309,13 @@ export const WORKSPACES = [
             {
               id: 'satisfaction_graph',
               query: 'OPTIONAL MATCH (:Customer)-[r]->(:Customer) RETURN COUNT(r) AS satisfaction_links_count',
+            },
+            {
+              id: 'customers_attributes',
+              query:
+                'MATCH(customer: Customer) WITH {name: customer.id, satisfaction: customer.Satisfaction, ' +
+                'surroundingSatisfaction: customer.SurroundingSatisfaction, thirsty: customer.Thirsty} ' +
+                'as fields RETURN fields',
             },
             {
               id: 'relationships',

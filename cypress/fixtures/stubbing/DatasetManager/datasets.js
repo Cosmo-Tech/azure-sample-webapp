@@ -107,6 +107,24 @@ const DATASET_FROM_SCRATCH = {
   ingestionStatus: 'NONE',
 };
 
+const DATASET_TWINGRAPH_A = {
+  ...EDITABLE_DATASET,
+  id: 'D-stbdataset11',
+  main: true,
+  name: 'Dataset with twingraph A',
+  sourceType: 'Twincache',
+  twincacheStatus: 'FULL',
+};
+
+const DATASET_TWINGRAPH_B = {
+  ...EDITABLE_DATASET,
+  id: 'D-stbdataset12',
+  main: true,
+  name: 'Dataset with twingraph B',
+  sourceType: 'Twincache',
+  twincacheStatus: 'FULL',
+};
+
 export const DATASETS = [FILE_DATASET_MAIN_A, FILE_DATASET_MAIN_B, FILE_DATASET_NON_MAIN];
 
 export const DATASETS_TO_FILTER = [
@@ -119,6 +137,9 @@ export const DATASETS_TO_FILTER = [
 
 export const DATASETS_TO_REFRESH = [DATASET_ADT, DATASET_AZURE_STORAGE, DATASET_FROM_SCRATCH];
 
+export const DATASETS_TWINGRAPH = [DATASET_TWINGRAPH_A, DATASET_TWINGRAPH_B];
+
 DATASETS.forEach((dataset) => WORKSPACE.linkedDatasetIdList.push(dataset.id));
 DATASETS_TO_FILTER.forEach((dataset) => WORKSPACE.linkedDatasetIdList.push(dataset.id));
 DATASETS_TO_REFRESH.forEach((dataset) => WORKSPACE.linkedDatasetIdList.push(dataset.id));
+DATASETS_TWINGRAPH.forEach((dataset) => WORKSPACE.linkedDatasetIdList.push(dataset.id));

@@ -8,7 +8,11 @@ const SELECTORS = GENERIC_SELECTORS.datasetmanager;
 
 export const getDatasetManagerTab = (timeout = 5) => cy.get(SELECTORS.tabName, { timeout: timeout * 1000 });
 export const getDatasetManagerView = (timeout = 5) => cy.get(SELECTORS.view, { timeout: timeout * 1000 });
-export const switchToDatasetManagerView = () => getDatasetManagerTab().click();
+export const switchToDatasetManagerView = (queries = []) => {
+  const alias = api.interceptPostDatasetTwingraphQueries(queries, null, queries?.length ?? 1);
+  getDatasetManagerTab().click();
+  if (Array.isArray(queries) && queries?.length > 0) api.waitAliases(queries.map(() => alias));
+};
 
 export const getNoDatasetsPlaceholder = (timeout = 5) =>
   cy.get(SELECTORS.noDatasetsPlaceholder, { timeout: timeout * 1000 });
@@ -56,7 +60,11 @@ export const getDatasetsListItemText = (datasetId) =>
 export const getDatasetShareButton = (datasetId) =>
   cy.get(GENERIC_SELECTORS.genericComponents.rolesEdition.shareButton);
 
-export const selectDatasetById = (datasetId) => getDatasetsListItemButton(datasetId).click();
+export const selectDatasetById = (datasetId, queries = []) => {
+  const alias = api.interceptPostDatasetTwingraphQueries(queries, null, queries.length);
+  getDatasetsListItemButton(datasetId).click();
+  api.waitAliases(queries.map(() => alias));
+};
 
 export const getDatasetMetadataCard = () => cy.get(SELECTORS.metadata.card);
 export const getDatasetMetadataAuthor = () => cy.get(SELECTORS.metadata.author);
@@ -90,12 +98,38 @@ export const getDatasetOverviewPlaceholderRetryButton = () => cy.get(SELECTORS.o
 export const getDatasetOverviewPlaceholderRollbackButton = () => cy.get(SELECTORS.overview.placeholder.rollbackButton);
 export const getDatasetOverviewPlaceholderApiLink = () => cy.get(SELECTORS.overview.placeholder.apiLink);
 
+export const getCategoryAccordionSummary = (categoryId) =>
+  cy.get(SELECTORS.overview.categories.accordionSummary.replace('$CATEGORY_ID', categoryId));
+export const getCategoryAccordionDetails = (categoryId) =>
+  cy.get(SELECTORS.overview.categories.accordionDetails.replace('$CATEGORY_ID', categoryId));
 export const getIndicatorCard = (kpiId) => cy.get(SELECTORS.overview.indicators.cardByKpiId.replace('$KPI_ID', kpiId));
 export const getKpiLoading = (parent) => parent.find(SELECTORS.overview.indicators.kpiLoading);
+export const getCategoryName = (parent) => parent.find(SELECTORS.overview.categories.name);
+export const getCategoryType = (parent) => parent.find(SELECTORS.overview.categories.type);
+export const getCategoryDescription = (parent) => parent.find(SELECTORS.overview.categories.description);
+export const getCategoryKpi = (parent, kpiId) =>
+  parent.find(SELECTORS.overview.categories.kpi.replace('$KPI_ID', kpiId));
+export const getCategoryKpiLabel = (parent) => parent.find(SELECTORS.overview.categories.kpiLabel);
+export const getIndicatorKpiLabel = (parent) => parent.find(SELECTORS.overview.indicators.kpiLabel);
 export const getKpiValue = (parent, timeout) =>
   parent.find(SELECTORS.overview.indicators.kpiValue, timeout ? { timeout: timeout * 1000 } : undefined);
+export const getCategoryAttributes = (parent) => parent.find(SELECTORS.overview.categories.attributes);
+export const getCategoryDetailsDialog = () => cy.get(SELECTORS.overview.categories.detailsDialog);
+export const getCategoryDetailsDialogOpenButton = (parent) =>
+  parent.find(SELECTORS.overview.categories.detailsDialogOpenButton);
+export const getDetailsDialogCategoryName = () => cy.get(SELECTORS.overview.categories.detailsDialogCategoryName);
+export const getDetailsDialogDatasetName = () => cy.get(SELECTORS.overview.categories.detailsDialogDatasetName);
+export const getCategoryDetailsDialogCloseButton = () => cy.get(SELECTORS.overview.categories.detailsDialogCloseButton);
 export const getKpiError = (parent) => parent.find(SELECTORS.overview.indicators.kpiError);
 export const getKpiUnknownState = (parent) => parent.find(SELECTORS.overview.indicators.kpiUnknownState);
+
+export const openCategoryDetailsDialog = (categoryId, queryResults) => {
+  const alias = api.interceptPostDatasetTwingraphQuery(queryResults);
+  getCategoryDetailsDialogOpenButton(getCategoryAccordionDetails(categoryId)).should('be.visible').click();
+  api.waitAlias(alias);
+};
+
+export const closeCategoryDetailsDialog = () => getCategoryDetailsDialogCloseButton().should('be.visible').click();
 
 // Parameters
 //  - newDescription: string containing the new value for the dataset description

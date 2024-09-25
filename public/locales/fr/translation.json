@@ -747,6 +747,7 @@
       "labels": {
         "loading": "Chargement en cours...",
         "fileImportError": "Échec du chargement du fichier.",
+        "queryFailedError": "La requête a échoué",
         "maxErrorsCount": "(seulement les {{maxCount}} premiers résultats)",
         "errorsCount_one": "{{count}} erreur:",
         "errorsCount_other": "{{count}} erreurs:",
@@ -754,6 +755,9 @@
         "placeholderBody": "Une fois votre fichier csv ou xlsx importé, vos données seront affichées dans un tableau interactif.",
         "addRowPlaceholderTitle": "Importez ou créez\nvos premières données",
         "addRowPlaceholderBody": "Importez un fichier csv ou xlsx valide, ou ajoutez une nouvelle ligne, et ainsi afficher vos données sur un tableau interactif.",
+        "configErrorPlaceholderTitle": "Erreur de configuration",
+        "noDataPlaceholderTitle": "Aucune donnée",
+        "noDataPlaceholderBody": "Pas de données à afficher.",
         "import": "Importer",
         "export": "Exporter",
         "addRow": "Ajouter une nouvelle ligne",
@@ -761,10 +765,11 @@
         "fullscreen": "Plein écran",
         "revert": "Rétablir",
         "noDatasetsError": "Il est impossible de charger les données depuis le dataset parce que la liste des datasets est vide",
-        "notTwingraphDatasetError": "Le chargement dynamique des données du tableau est disponible uniquement pour les datasets du type twingraph",
         "noQueryError": "Il est impossible de charger les données depuis le dataset parce qu'aucune requête du twingraph n'est définie pour ce paramètre. Vous pouvez charger les données manuellement avec le bouton Importer",
+        "NoQueryErrorImportFalse": "Il est impossible de charger les données depuis le dataset parce qu'aucune requête du twingraph n'est définie pour ce paramètre.",
         "wrongResultKeyError": "Le résultat de la requête ne contient pas de propriété {{resultKey}}. Cela provient probablement d'une erreur dans la configuration de resultKey, veuillez vérifier la solution.",
-        "wrongQueryError": "Le résultat retourné est vide. Cela provient probablement d'une erreur dans la configuration de la requête. Veuillez vérifier la solution."
+        "wrongQueryError": "Le résultat retourné est vide. Cela provient probablement d'une erreur dans la configuration de la requête. Veuillez vérifier la solution.",
+        "unknownQueryError": "Une erreur est survenue durant la requête sur les données du tableau. Si le problème persiste, merci de contacter votre administrateur."
       },
       "export": {
         "labels": {

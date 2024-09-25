@@ -142,6 +142,17 @@ const basicWebAppOptions = z.object({
               description: LABELS_DICT,
               kpis: z.array(TWINGRAPH_INDICATOR).optional().nullable(),
               attributes: z.array(z.string().optional()).optional().nullable(),
+              previewTable: z
+                .object({
+                  columns: z.array(
+                    z.object({ field: z.string(), headerName: z.string(), type: z.array(z.string()) }).strict()
+                  ),
+                  queryId: z.string(),
+                  resultKey: z.string(),
+                })
+                .strict()
+                .optional()
+                .nullable(),
             })
             .strict()
             .required()

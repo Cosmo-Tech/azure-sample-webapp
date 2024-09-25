@@ -7,7 +7,7 @@ import { Grid, Typography } from '@mui/material';
 import { TranslationUtils } from '../../../../../../../../utils';
 import { KPIValue } from '../../../KPIValue';
 
-const KPI = (props) => {
+export const KPI = (props) => {
   const { t } = useTranslation();
   const { id, categoryId, kpi, labelProps, valueProps } = props;
 
@@ -21,6 +21,7 @@ const KPI = (props) => {
 
   return kpi.id == null ? null : (
     <Grid
+      data-cy={`category-kpi-${kpi.id}`}
       id={id}
       container
       spacing={1}
@@ -30,7 +31,9 @@ const KPI = (props) => {
         justifyContent: 'flex-start',
       }}
     >
-      <Grid item>{label}</Grid>
+      <Grid data-cy={'category-kpi-label'} item>
+        {label}
+      </Grid>
 
       <Grid item>
         <KPIValue kpi={kpi} valueTypographyProps={{ ...valueProps }} />
@@ -54,5 +57,3 @@ KPI.defaultProps = {
   labelProps: {},
   valueProps: {},
 };
-
-export default KPI;

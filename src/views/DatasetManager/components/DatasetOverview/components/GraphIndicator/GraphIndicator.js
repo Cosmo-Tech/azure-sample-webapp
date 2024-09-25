@@ -14,7 +14,7 @@ const GraphIndicator = (props) => {
 
   const graphIndicatorCard = useMemo(() => {
     return (
-      <Card data-cy={`indicator-card-${kpi.id}`} sx={{ backgroundColor: '#ffe26b1c' }}>
+      <Card data-cy={`indicator-card-${kpi.id}`} elevation={4} sx={{ width: '250px' }}>
         <Grid
           container
           sx={{
@@ -26,7 +26,7 @@ const GraphIndicator = (props) => {
           }}
         >
           <KPIValue kpi={kpi} valueTypographyProps={{ variant: 'h4' }} size="24px" />
-          <Typography variant="subtitle2">
+          <Typography data-cy={'indicator-card-kpi-label'} variant="subtitle2">
             {categoryId
               ? t(TranslationUtils.getDatasetCategoryKpiNameTranslationKey(categoryId, id), id)
               : t(TranslationUtils.getDatasetGraphIndicatorNameTranslationKey(id), id)}

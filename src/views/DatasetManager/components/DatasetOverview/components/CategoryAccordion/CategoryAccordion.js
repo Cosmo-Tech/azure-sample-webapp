@@ -8,7 +8,7 @@ import { Accordion, AccordionDetails, AccordionSummary, Grid, Typography } from 
 import { makeStyles } from '@mui/styles';
 import { exists } from 'i18next';
 import { TranslationUtils } from '../../../../../../utils';
-import { KPI } from './components';
+import { KPI, CategoryDetailsDialog } from './components';
 
 const useStyles = makeStyles((theme) => ({
   categoryType: { opacity: '70%' },
@@ -24,9 +24,9 @@ const CategoryAccordion = (props) => {
 
   const accordionSummary = useMemo(() => {
     const categorySummary = (
-      <Grid container spacing={1}>
+      <Grid container spacing={1} data-cy={`category-accordion-summary-${category.id}`}>
         <Grid item>
-          <Typography variant="body1">
+          <Typography data-cy="category-name" variant="body1">
             {t(TranslationUtils.getDatasetCategoryNameTranslationKey(category.id), category.id ?? 'category')}
           </Typography>
         </Grid>
@@ -38,7 +38,7 @@ const CategoryAccordion = (props) => {
               </Typography>
             </Grid>
             <Grid item>
-              <Typography variant="body1" className={classes.categoryType}>
+              <Typography data-cy="category-type" variant="body1" className={classes.categoryType}>
                 {t(
                   `commoncomponents.datasetmanager.overview.categoryTypes.${category.type.toLowerCase()}`,
                   category.type
@@ -51,8 +51,8 @@ const CategoryAccordion = (props) => {
     );
 
     let categoryMainKpis = null;
-    if (!expanded && category.kpis) {
-      categoryMainKpis = category.kpis
+    if (!expanded && category?.kpis) {
+      categoryMainKpis = (category?.kpis ?? [])
         .filter((kpi) => kpi.id != null)
         .slice(0, 2)
         .map((kpi, index) => {
@@ -107,20 +107,25 @@ const CategoryAccordion = (props) => {
   const accordionDetails = useMemo(() => {
     const hasDescription = exists(TranslationUtils.getDatasetCategoryDescriptionTranslationKey(category.id));
     const descriptionString = t(TranslationUtils.getDatasetCategoryDescriptionTranslationKey(category.id));
-    const description = hasDescription && <Typography sx={{ whiteSpace: 'pre-line' }}>{descriptionString}</Typography>;
+    const description = hasDescription && (
+      <Typography data-cy={'category-description'} sx={{ whiteSpace: 'pre-line' }}>
+        {descriptionString}
+      </Typography>
+    );
+
+    const kpisWithResult = (category?.kpis ?? []).map((kpi) => ({
+      ...kpi,
+      ...queriesResults.categoriesKpis.find((kpiResult) => kpiResult.id === kpi.id),
+    }));
 
     let categoryKpis = null;
     if (category.kpis && category.kpis.length > 0)
       categoryKpis = category.kpis.map((kpi, index) => {
-        const kpiWithResult = {
-          ...kpi,
-          ...queriesResults.categoriesKpis.find((kpiResult) => kpiResult.id === kpi.id),
-        };
         return (
           <KPI
             key={`kpi-${index}`}
             valueProps={{ sx: { opacity: '70%' } }}
-            kpi={kpiWithResult}
+            kpi={kpisWithResult.find((kpiResult) => kpiResult.id === kpi.id)}
             categoryId={category.id}
           />
         );
@@ -139,13 +144,16 @@ const CategoryAccordion = (props) => {
           <Typography>{t('commoncomponents.datasetmanager.overview.attributesLabel', 'Attributes:')}</Typography>
         </Grid>
         <Grid item>
-          <Typography sx={{ opacity: '70%' }}>{category.attributes.join(', ')}</Typography>
+          <Typography data-cy="category-attributes" sx={{ opacity: '70%' }}>
+            {category.attributes?.join(', ')}
+          </Typography>
         </Grid>
       </Grid>
     );
 
     return (
       <Grid
+        data-cy={`category-accordion-details-${category.id}`}
         container
         spacing={2}
         sx={{
@@ -155,6 +163,9 @@ const CategoryAccordion = (props) => {
         {description && <Grid item>{description}</Grid>}
         {categoryKpis && <Grid item>{categoryKpis}</Grid>}
         {attributes && <Grid item>{attributes}</Grid>}
+        <Grid container item direction="row" justifyContent="flex-end">
+          <CategoryDetailsDialog category={category} kpis={kpisWithResult} />
+        </Grid>
       </Grid>
     );
   }, [t, category, queriesResults.categoriesKpis]);
