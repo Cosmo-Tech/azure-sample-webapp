@@ -3,7 +3,9 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { Button, Card, Grid, Paper, Stack, Tooltip, Typography } from '@mui/material';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
+import { Card, Divider, Grid, IconButton, Paper, Stack, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { ScenarioValidationStatusChip, PermissionsGate, FadingTooltip } from '@cosmotech/ui';
 import {
@@ -26,12 +28,6 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: '16px',
     paddingLeft: '8px',
     paddingRight: '8px',
-  },
-  rightButton: {
-    marginLeft: '8px',
-  },
-  alignRight: {
-    textAlign: 'right',
   },
 }));
 
@@ -162,54 +158,56 @@ const Scenario = () => {
     false;
 
   const validateButton = (
-    <Button
-      className={classes.rightButton}
+    <IconButton
       data-cy="validate-scenario-button"
       disabled={isDirty}
-      variant="outlined"
       color="primary"
       onClick={(event) => validateScenario()}
     >
-      {t('views.scenario.validation.validate', 'Validate')}
-    </Button>
+      <CheckIcon />
+    </IconButton>
   );
   const rejectButton = (
-    <Button
-      className={classes.rightButton}
+    <IconButton
       data-cy="reject-scenario-button"
       disabled={isDirty}
-      variant="outlined"
       color="primary"
       onClick={(event) => rejectScenario()}
     >
-      {t('views.scenario.validation.reject', 'Reject')}
-    </Button>
+      <CloseIcon />
+    </IconButton>
   );
 
-  const validateButtonTooltipWrapper = isDirty ? (
-    <Tooltip
-      title={t(
-        'views.scenario.validation.disabledTooltip',
-        'Please save or discard current modifications before changing the scenario validation status'
-      )}
+  const validateButtonTooltipWrapper = (
+    <FadingTooltip
+      useSpan={true}
+      title={
+        isDirty
+          ? t(
+              'views.scenario.validation.disabledTooltip',
+              'Please save or discard current modifications before changing the scenario validation status'
+            )
+          : t('views.scenario.validation.validate', 'Validate')
+      }
     >
-      <span>{validateButton}</span>
-    </Tooltip>
-  ) : (
-    validateButton
+      {validateButton}
+    </FadingTooltip>
   );
 
-  const rejectButtonTooltipWrapper = isDirty ? (
-    <Tooltip
-      title={t(
-        'views.scenario.validation.disabledTooltip',
-        'Please save or discard current modifications before changing the scenario validation status'
-      )}
+  const rejectButtonTooltipWrapper = (
+    <FadingTooltip
+      useSpan={true}
+      title={
+        isDirty
+          ? t(
+              'views.scenario.validation.disabledTooltip',
+              'Please save or discard current modifications before changing the scenario validation status'
+            )
+          : t('views.scenario.validation.reject', 'Reject')
+      }
     >
-      <span>{rejectButton}</span>
-    </Tooltip>
-  ) : (
-    rejectButton
+      {rejectButton}
+    </FadingTooltip>
   );
 
   const userPermissionsOnCurrentScenario = currentScenarioData?.security?.currentUserPermissions || [];
@@ -241,23 +239,17 @@ const Scenario = () => {
 
   const scenarioValidationArea = showValidationChip ? scenarioValidationStatusChip : validationStatusButtons;
 
+  const validationAreaDivider =
+    userPermissionsOnCurrentScenario.includes(ACL_PERMISSIONS.SCENARIO.VALIDATE) ||
+    currentScenarioData?.validationStatus !== SCENARIO_VALIDATION_STATUS.DRAFT ? (
+      <Divider orientation="vertical" flexItem />
+    ) : null;
+
   return (
     <FormProvider {...methods} key={`form-${currentScenarioData?.id}`}>
       <BackdropLoadingScenario />
       <div data-cy="scenario-view" className={classes.content}>
         <Grid container spacing={2} alignItems="center" justifyContent="space-between">
-          <Grid item xs={4}>
-            <div>
-              <Grid container spacing={1} alignItems="center" justifyContent="flex-start">
-                <Grid item>
-                  <CreateScenarioButton disabled={isDirty} onScenarioCreated={onScenarioCreated} />
-                </Grid>
-                <Grid item>
-                  <ShareCurrentScenarioButton />
-                </Grid>
-              </Grid>
-            </div>
-          </Grid>
           <Grid item xs={4}>
             <Stack>
               <CurrentScenarioSelector disabled={isDirty} renderInputToolTip={currentScenarioRenderInputTooltip} />
@@ -313,8 +305,25 @@ const Scenario = () => {
               )}
             </Stack>
           </Grid>
-          <Grid item xs={4} className={classes.alignRight}>
-            {currentScenarioData && scenarioValidationArea}
+          <Grid container spacing={1} item xs={3} s={3} sx={{ justifyContent: 'flex-end' }}>
+            <Grid item sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'flex-end' }}>
+              <CreateScenarioButton disabled={isDirty} onScenarioCreated={onScenarioCreated} isIconButton={true} />
+              <ShareCurrentScenarioButton isIconButton={true} />
+            </Grid>
+            {validationAreaDivider}
+            <Grid
+              item
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                flexWrap: 'nowrap',
+                justifyContent: 'flex-start',
+                alignItems: 'center',
+                paddingLeft: '0',
+              }}
+            >
+              {currentScenarioData && scenarioValidationArea}
+            </Grid>
           </Grid>
           <Grid item xs={12}>
             <Card component={Paper}>
