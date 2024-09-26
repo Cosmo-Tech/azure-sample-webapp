@@ -19,7 +19,6 @@ const GraphIndicator = (props) => {
           container
           sx={{
             padding: 2,
-            height: '100%',
             flexFlow: 'column wrap',
             alignItems: 'center',
             justifyContent: 'space-between',
