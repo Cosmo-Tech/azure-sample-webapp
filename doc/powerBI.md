@@ -44,7 +44,7 @@ structure for this `charts` object is the following:
 ```
 
 | Key                                | Value description                                                                                                                                                             |
-|------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `logInWithUserCredentials`         | boolean defining if we must use "user account" (true) or "service account" mode (false) (see section [PowerBI authentication strategies](#powerbi-authentication-strategies)) |
 | `dashboardsViewIframeDisplayRatio` | number defining the width/height ratio for the report iframe in the _Dashboards_ page                                                                                         |
 | `scenarioViewIframeDisplayRatio`   | number defining the width/height ratio for the report iframe in the _Scenario_ page                                                                                           |
@@ -76,7 +76,7 @@ expect the same structure:
 ```
 
 | Key              | Value description                                                                                                                                                                |
-|------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `title`          | report title, per language, to display in the let menu in the Dashboards view (it is not used for reports in Scenario view)                                                      |
 | `reportId`       | id of the report; it can be found in PowerBI, in the URL of your report: `myReportURL?reportId=<reportId>`                                                                       |
 | `settings`       | an object to configure the [PowerBI report settings](https://github.com/microsoft/powerbi-models/blob/0d326572c4253fd9f89b73a0d8df1ae46318a860/src/models.ts#L1070)              |
@@ -440,10 +440,10 @@ For example, you can add a [IRelativeDateTimeFilter](https://github.com/microsof
 See [PowerBI models](https://github.com/microsoft/powerbi-models) for further details.
 
 ### Disable the display of results
-If the display of results after a simulation run isn't needed in the webapp, configuration of
-`[workspace].webApp.options.charts` can be omitted and thus PowerBi will be disabled in both 
-Dashboards and Scenario views.
 
+If the display of results after a simulation run isn't needed in the webapp, configuration of
+`[workspace].webApp.options.charts` can be omitted and thus PowerBi will be disabled in both
+Dashboards and Scenario views.
 
 ## Complete example
 
@@ -621,40 +621,97 @@ The webapp currently supports **two different modes to retrieve the PowerBI toke
 ### Option 1 - User account
 
 To use the "user account" mode, you only have to set the option `logInWithUserCredentials` to `true` in your workspace
-charts configuration. When using this mode, you don't need to configure the `GetEmbedInfo` Azure Function.
+charts configuration. When using this mode, you don't need to set up and configure any extra Azure Function.
 
 ### Option 2 - Service account
 
-In order to securely provide webapp users with the "service account" token, an Azure Function needs to be deployed with
-the webapp. The code of this Azure Function is already implemented in the azure-sample-webapp repository: it is called
-`GetEmbedInfo`, and it can be found in the `api` folder. The sections below describe how to set parameters in your Azure
-Static Web App instance to configure the deployed Azure Function, and how to run it locally.
+In order to securely provide webapp users with a "service account" token, an HTTP endpoint must be deployed with the
+webapp. The azure-sample-webapp comes with a predefined Azure Function, that can either be deployed in the Azure cloud,
+or run in on-premises Kubernetes clusters. This Azure Function is called `GetEmbedInfo`, and can be found in the _api_
+folder. This section describes the existing configuration parameters of this Azure Function, how to set these parameters
+when deployed with an Azure Static Web App, and how to run it locally.
 
-#### Azure Function configuration in the Azure portal
+## Service account configuration
+
+### Configuration parameters
+
+| Parameter name                                                    | Required                                              |
+| ----------------------------------------------------------------- | ----------------------------------------------------- |
+| [POWER_BI_TENANT_ID](#power-bi-tenant-id)                         | yes                                                   |
+| [POWER_BI_CLIENT_ID](#power-bi-client-id)                         | yes                                                   |
+| [POWER_BI_CLIENT_SECRET](#power-bi-client-secret)                 | yes                                                   |
+| [AZURE_COSMO_API_APPLICATION_ID](#azure-cosmo-api-application-id) | required when using Azure authentication in webapp    |
+| [KEYCLOAK_REALM](#keycloak-realm)                                 | required when using Keycloak authentication in webapp |
+
+The `GetEmbedInfo` Function must be configured to validate the tokens sent from the webapp. Depending on whether your
+webapp uses Azure or Keycloak for authentication, you must set **one** of these two parameters:
+`AZURE_COSMO_API_APPLICATION_ID` (for Azure) or `KEYCLOAK_REALM` (for Keycloak).
+
+#### `POWER_BI_TENANT_ID`
+
+It must be set to the **tenant id** of an **Azure app registration** that has a "_Member_" access to your PowerBI
+workspace.
+
+In the Azure portal, in the view of your app registration, you can find the tenant id in the _Overview_. This value is a
+GUID, it should have a pattern similar to `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`.
+
+#### `POWER_BI_CLIENT_ID`
+
+It must be set to the **client id** of an **Azure app registration** that has a "_Member_" access to your PowerBI
+workspace.
+
+In the Azure portal, in the view of your app registration, you can find the client id in the _Overview_. This value is a
+GUID, it should have a pattern similar to `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`.
+
+#### `POWER_BI_CLIENT_SECRET`
+
+Its value must be a client secret, generated by an **Azure app registration** that has a "_Member_" access to your
+PowerBI workspace.
+
+From the Azure portal, you can generate client secrets from
+_Azure Portal_ > _App Registrations_ > _[name of your webapp app registration]_ > _Certificates & secrets_.
+
+#### `AZURE_COSMO_API_APPLICATION_ID`
+
+_Required if your webapp uses Azure for user authentication_
+
+This parameter is necessary to **validate the audience** of the access tokens received by the Azure Function: queries
+whose bearer token doesn't match this audience will be rejected.
+
+The expected value is the **application id** of the **Cosmo Tech API enterprise application**. You can find this value
+in the Azure portal, in the "_Overview_" blade of the Cosmo Tech API application that your webapp instance uses). This
+value is a GUID, it should have a pattern similar to `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`.
+
+#### `KEYCLOAK_REALM`
+
+_Required if your webapp uses Keycloak for user authentication_
+
+This parameter is necessary to validate the access tokens received by the Azure Function.
+
+The expected value is the **URL of the Keycloak realm** used in your webapp to authenticate users.
+
+### Azure Function configuration in the Azure portal
+
+The goal of this function is to enable a "**service account**" in the webapp for users to access embedded PowerBI
+dashboards. It requires to have an existing Azure app registration, whose credentials (client id and client secret) will
+be used to retrieve an access token. **This app registration must be added as a "_Member_" of your PowerBI workspace**.
+
+For security reasons, it is recommended to create a different app registration for this service account, and not to
+reuse the existing app registration associated to your Azure Static Web App.
 
 The configuration of the [`GetEmbedInfo`](apiAzureFunctions.md) Azure Function can be done from your Static Web App
 instance. Open the "_Configuration_" blade
 (_Azure Portal_ > _Static Web Apps_ > _[name of your webapp]_ > _Configuration_), and add the environment variables
 below:
 
-| Parameter name           | Value description                                                                     |
-| ------------------------ | ------------------------------------------------------------------------------------- |
-| `POWER_BI_SCOPE`         | "https://analysis.windows.net/powerbi/api/.default"                                   |
-| `POWER_BI_CLIENT_ID`     | client id of the webapp app registration (visible in the _Overview_ blade)            |
-| `POWER_BI_AUTHORITY_URI` | "https://login.microsoftonline.com/common/v2.0"                                       |
-| `POWER_BI_CLIENT_SECRET` | a client secret generated in your app registration for PowerBI                        |
-| `POWER_BI_TENANT_ID`     | tenant id of your app registration (visible in the _Overview_ blade)                  |
-| `CSM_API_TOKEN_AUDIENCE` | (optional) if defined, queries whose token don't match this audience will be rejected |
+| Parameter name                   | Value description                                                  |
+| -------------------------------- | ------------------------------------------------------------------ |
+| `POWER_BI_TENANT_ID`             | tenant id of your service account app registration                 |
+| `POWER_BI_CLIENT_ID`             | client id of your service account app registration                 |
+| `POWER_BI_CLIENT_SECRET`         | a client secret generated in your service account app registration |
+| `AZURE_COSMO_API_APPLICATION_ID` | application id of the Cosmo Tech platform enterprise application   |
 
-For `POWER_BI_CLIENT_SECRET`, you can create a new client secret from
-_Azure Portal_ > _App Registrations_ > _[name of your webapp app registration]_ > _Certificates & secrets_.
-
-`CSM_API_TOKEN_AUDIENCE` is optional but strongly recommended. It increases security by checking the audience field in
-the user access token. The expected value is the **application id** of the Cosmo Tech API enterprise application (you
-can find this value in the Azure portal, in the "_Overview_" blade of the Cosmo Tech API application that your webapp
-instance uses). The identifier value should have a pattern similar to `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`.
-
-#### Azure Function configuration for local run
+### Azure Function configuration for local run
 
 If you want to run the Azure Function locally to visualize the embedded dashboards from a local webapp, you first need
 to install [Azure Functions Core Tools](https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local).
@@ -666,12 +723,10 @@ JSON file. Create a _**local.settings.json**_ file in the **api** folder with th
 {
   "IsEncrypted": false,
   "Values": {
-    "POWER_BI_SCOPE": "https://analysis.windows.net/powerbi/api/.default",
-    "POWER_BI_CLIENT_ID": "INSERT CLIENT ID HERE",
-    "POWER_BI_AUTHORITY_URI": "https://login.microsoftonline.com/common/v2.0",
-    "POWER_BI_CLIENT_SECRET": "INSERT CLIENT SECRET HERE",
-    "POWER_BI_TENANT_ID": "INSERT TENANT ID HERE",
-    "CSM_API_TOKEN_AUDIENCE": "INSERT EXPECTED TOKEN AUDIENCE HERE"
+    "POWER_BI_TENANT_ID": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+    "POWER_BI_CLIENT_ID": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+    "POWER_BI_CLIENT_SECRET": "<insert generated client secret here>",
+    "AZURE_COSMO_API_APPLICATION_ID": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
   }
 }
 ```
@@ -752,12 +807,14 @@ Note that you can set a fixed display ratio for these PowerBI iframes by setting
 ## Customizing Power BI themes
 
 ### Motivation
+
 This webapp comes with a dark theme and a light one. Having a unique theme for Power BI, either a dark or a light one, would clash when the other one is used for the webapp theme.
 The two themes switch according to the webapp theme switch, in order to give users a more unified experience, without having to duplicate any data.
 
 The files `darkTheme.json` and `lightTheme.json` are provided, which offer the bare minimum color palettes. These files can then be customized, to achieve specific goals, according to one's reports charts look and feel.
 
 ### How to customize your own themes
+
 If you want to customize the provided light and dark themes, simply modify the `src/theme/powerBI/(dark|light)Theme.json` files, according to your needs.
 
 The Microsoft documentation on how to create report themes explains the overall syntax and general principles: [Use report themes in Power BI Desktop](https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-report-themes).
