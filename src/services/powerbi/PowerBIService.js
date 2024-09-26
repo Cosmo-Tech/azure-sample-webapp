@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 import { Auth } from '@cosmotech/core';
 import { GET_EMBED_INFO_URL } from '../../state/commons/PowerBIConstants';
-import { clientApi } from '../ClientApi';
-import { COSMOTECH_API_SCOPE, POWER_BI_API_DEFAULT_SCOPE } from '../config/auth';
+import { clientApi, getAuthenticationHeaders } from '../ClientApi';
+import { POWER_BI_API_DEFAULT_SCOPE } from '../config/auth';
 import { EmbedConfig, PowerBiReportDetails } from './PowerBIModels';
 import { handleServiceAccountError, handleUserAccountError, PowerBIError, forgePowerBIError } from './errors';
 
@@ -47,15 +47,7 @@ const getPowerBIDataWithCurrentUserToken = async (powerBIWorkspaceId, reportsIds
 };
 
 const getPowerBIDataWithServiceAccount = async (powerBIWorkspaceId, reportsIds) => {
-  let headers;
-  try {
-    ({ headers } = await getAuthenticationInfo(COSMOTECH_API_SCOPE));
-  } catch (error) {
-    return handleServiceAccountError(
-      new PowerBIError(401, 'Unauthorized', 'Failed to retrieve user token with Cosmo Tech API scopes', error)
-    );
-  }
-
+  const headers = await getAuthenticationHeaders(false); // Do not accept API key as token for Azure Functions
   return clientApi
     .post(
       GET_EMBED_INFO_URL,
@@ -156,6 +148,7 @@ const getAuthenticationInfo = async (scope) => {
       },
     };
   } catch (err) {
+    console.error(err);
     const errorResponse =
       // eslint-disable-next-line no-prototype-builtins
       err.hasOwnProperty('error_description') && err.hasOwnProperty('error') ? err.error_description : err.toString();
