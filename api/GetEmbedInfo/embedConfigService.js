@@ -12,8 +12,7 @@ const { ServiceAccountError } = require('./errors.js');
  * @return Details like Embed URL, Access token and Expiry
  */
 async function getEmbedInfo(reportsIds, workspaceId) {
-  const workspacePBIId = workspaceId ?? process.env.POWER_BI_WORKSPACE_ID;
-  const embedParams = await getEmbedParamsForSelectedReports(workspacePBIId, reportsIds);
+  const embedParams = await getEmbedParamsForSelectedReports(workspaceId, reportsIds);
   return {
     accesses: {
       accessToken: embedParams.embedToken.token,
