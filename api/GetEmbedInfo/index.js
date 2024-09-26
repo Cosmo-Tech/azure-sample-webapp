@@ -8,7 +8,7 @@ const { forgeErrorResponse, ServiceAccountError } = require('./errors.js');
 module.exports = async function (context, req) {
   try {
     utils.sanitizeAndValidateConfig();
-    await utils.validateQuery(req);
+    await utils.validateTokenAndQuery(req);
 
     // Get the details like Embed URL, Access token and Expiry
     const reportsIds = req?.body?.reports;
@@ -17,6 +17,7 @@ module.exports = async function (context, req) {
     context.res = { status: 200, body: result };
   } catch (err) {
     if (err instanceof ServiceAccountError) {
+      console.error(err);
       context.res = err.asResponse();
     } else {
       console.error('Unknown error during run of get-embed-info function:');

@@ -8,7 +8,7 @@ const APP_REGISTRATION_CLIENT_ID = ConfigService.getParameterValue('APP_REGISTRA
 const AZURE_TENANT_ID = ConfigService.getParameterValue('AZURE_TENANT_ID');
 
 export const SHOW_AZURE_AUTH_PROVIDER = APP_REGISTRATION_CLIENT_ID && APP_REGISTRATION_CLIENT_ID !== '';
-export const COSMOTECH_API_SCOPE = ConfigService.getParameterValue('COSMOTECH_API_SCOPE');
+const COSMOTECH_API_SCOPE = ConfigService.getParameterValue('COSMOTECH_API_SCOPE');
 
 const MSAL_AZURE_CONFIG = {
   loginRequest: { scopes: ['user.read'] },
