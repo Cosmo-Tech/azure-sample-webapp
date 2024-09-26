@@ -7,6 +7,9 @@ const jwksClient = require('jwks-rsa');
 const { MSAL_CONFIG, GUID_PARAMETERS, REQUIRED_PARAMETERS, getConfigValue } = require('./config');
 const { ServiceAccountError } = require('./errors');
 
+const DEFAULT_AZURE_JWKS_URI = 'https://login.microsoftonline.com/common/discovery/keys';
+const DEFAULT_KEYCLOAK_AUDIENCE = 'account';
+
 const sanitizeAndValidateConfig = () => {
   for (const parameter of REQUIRED_PARAMETERS) {
     if (!getConfigValue(parameter) || getConfigValue(parameter).length === 0)
@@ -26,24 +29,33 @@ const sanitizeAndValidateConfig = () => {
         `The value of parameter "${parameter}" must be a guid.`
       );
   }
+
+  const azureCsmApiAppId = getConfigValue('AZURE_COSMO_API_APPLICATION_ID');
+  const keycloakRealm = getConfigValue('KEYCLOAK_REALM_URL');
+  if (azureCsmApiAppId && keycloakRealm)
+    throw new ServiceAccountError(
+      500,
+      'Configuration error',
+      "Can't define both parameters AZURE_COSMO_API_APPLICATION_ID and KEYCLOAK_REALM_URL. Please check the " +
+        'PowerBI service account configuration.'
+    );
+  if (!azureCsmApiAppId && !keycloakRealm)
+    throw new ServiceAccountError(
+      500,
+      'Configuration error',
+      'You must define one of parameters AZURE_COSMO_API_APPLICATION_ID or KEYCLOAK_REALM_URL. Please check ' +
+        'the PowerBI service account configuration.'
+    );
 };
 
 const _validateAndDecodeQueryToken = async (req) => {
-  const client = jwksClient({ jwksUri: 'https://login.microsoftonline.com/common/discovery/keys' });
-  const options = {
-    // audience check is optional but strongly advised, it won't be checked if CSM_API_TOKEN_AUDIENCE is not defined
-    audience: getConfigValue('CSM_API_TOKEN_AUDIENCE'),
-    iss: `${MSAL_CONFIG.auth.authority}`,
-  };
+  const keycloakRealm = getConfigValue('KEYCLOAK_REALM_URL');
+  const jwksUri = keycloakRealm ? `${keycloakRealm}/protocol/openid-connect/certs` : DEFAULT_AZURE_JWKS_URI;
+  const client = jwksClient({ jwksUri });
 
-  const _getSigningKey = (header, callback) => {
-    client.getSigningKey(header.kid, (error, key) => {
-      if (error) {
-        throw error;
-      }
-      const signingKey = key.publicKey || key.rsaPublicKey;
-      callback(null, signingKey);
-    });
+  const options = {
+    audience: getConfigValue('AZURE_COSMO_API_APPLICATION_ID') ?? DEFAULT_KEYCLOAK_AUDIENCE,
+    iss: `${MSAL_CONFIG.auth.authority}`,
   };
 
   const accessToken = req?.headers?.['csm-authorization']?.replace('Bearer ', '');
@@ -51,20 +63,37 @@ const _validateAndDecodeQueryToken = async (req) => {
     throw new ServiceAccountError(401, 'Unauthorized', 'Token is missing in query.');
   }
 
-  const token = await new Promise((resolve, reject) =>
-    jwt.verify(accessToken, _getSigningKey, options, (err, decoded) => {
-      return err ? reject(err) : resolve(decoded);
-    })
-  );
+  const getSigningKey = async (header) => {
+    try {
+      const key = await client.getSigningKey(header.kid);
+      return key.publicKey ?? key.rsaPublicKey;
+    } catch (error) {
+      if (error instanceof jwksClient.SigningKeyNotFoundError) {
+        console.error(error);
+        throw new ServiceAccountError(
+          500,
+          'Internal server error',
+          'Unable to find a signing key matching the provided token, please check the PowerBI service account ' +
+            'configuration.'
+        );
+      }
+      throw error;
+    }
+  };
+
+  const tokenHeader = jwt.decode(accessToken, { complete: true }).header;
+  const publicKey = await getSigningKey(tokenHeader);
+  const token = await jwt.verify(accessToken, publicKey, options);
 
   if (!token) throw new ServiceAccountError(401, 'Unauthorized', "Can't decode token");
-  if (!token.roles || token.roles.length === 0)
+  const roles = token.roles ?? token.userRoles;
+  if (!roles || roles.length === 0)
     throw new ServiceAccountError(401, 'Unauthorized', 'Missing roles for Cosmo Tech API');
 
   return token;
 };
 
-const validateQuery = async (req) => {
+const validateTokenAndQuery = async (req) => {
   // Check token sent by user
   try {
     await _validateAndDecodeQueryToken(req);
@@ -109,5 +138,5 @@ const validateQuery = async (req) => {
 module.exports = {
   getConfigValue,
   sanitizeAndValidateConfig,
-  validateQuery,
+  validateTokenAndQuery,
 };

@@ -3,21 +3,19 @@
 
 // Sanitize the provided value to always provided a non-empty string or undefined
 const sanitizeValue = (value) => {
+  if (typeof value !== 'string') return undefined;
+
   const strValue = value?.trim() ?? '';
   return strValue.length !== 0 ? strValue : undefined;
 };
 
-const REQUIRED_PARAMETERS = [
-  'POWER_BI_SCOPE',
-  'POWER_BI_CLIENT_ID',
-  'POWER_BI_CLIENT_SECRET',
-  'POWER_BI_TENANT_ID',
-  'POWER_BI_AUTHORITY_URI',
+const REQUIRED_PARAMETERS = ['POWER_BI_CLIENT_ID', 'POWER_BI_CLIENT_SECRET', 'POWER_BI_TENANT_ID'];
+const OPTIONAL_PARAMETERS = [
+  'AZURE_COSMO_API_APPLICATION_ID', // Only required for Azure user tokens
+  'KEYCLOAK_REALM_URL', // Only required for Keycloak user tokens
 ];
-const OPTIONAL_PARAMETERS = ['APPINSIGHTS_INSTRUMENTATIONKEY', 'CSM_API_TOKEN_AUDIENCE', 'POWER_BI_WORKSPACE_ID'];
 const ALL_PARAMETERS = [...REQUIRED_PARAMETERS, ...OPTIONAL_PARAMETERS];
-
-const GUID_PARAMETERS = ['POWER_BI_CLIENT_ID', 'POWER_BI_WORKSPACE_ID', 'POWER_BI_TENANT_ID'];
+const GUID_PARAMETERS = ['POWER_BI_CLIENT_ID', 'POWER_BI_TENANT_ID'];
 
 const envVars = Object.assign(
   {},
