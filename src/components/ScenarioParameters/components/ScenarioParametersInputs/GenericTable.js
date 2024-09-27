@@ -212,6 +212,16 @@ export const GenericTable = ({
 
   const _getDataFromTwingraphDataset = async (setClientFileDescriptor) => {
     const fileName = `${parameterData.id}.csv`;
+    const _setClientFileDescriptorToError = () => {
+      setClientFileDescriptor({
+        file: null,
+        content: null,
+        agGridRows: null,
+        errors: null,
+        tableDataStatus: TABLE_DATA_STATUS.ERROR,
+      });
+    };
+
     setClientFileDescriptor({
       file: null,
       content: null,
@@ -233,6 +243,7 @@ export const GenericTable = ({
           'Impossible to fetch data from dataset because the list of datasets is empty'
         ),
       });
+      _setClientFileDescriptorToError();
       return;
     }
 
@@ -246,6 +257,7 @@ export const GenericTable = ({
           'Impossible to fetch data from dataset because there is no twingraph query defined for this parameter. '
         ),
       });
+      _setClientFileDescriptorToError();
       return;
     }
 
@@ -257,6 +269,7 @@ export const GenericTable = ({
           'Only twingraph datasets can be used to fetch table data dynamically'
         ),
       });
+      _setClientFileDescriptorToError();
       return;
     }
 
@@ -274,14 +287,7 @@ export const GenericTable = ({
         ),
       });
       console.error(error?.response?.data?.detail);
-
-      setClientFileDescriptor({
-        file: null,
-        content: null,
-        agGridRows: null,
-        errors: null,
-        tableDataStatus: TABLE_DATA_STATUS.ERROR,
-      });
+      _setClientFileDescriptorToError();
       return;
     }
 
@@ -294,6 +300,7 @@ export const GenericTable = ({
             'Please, check your solution'
         ),
       });
+      _setClientFileDescriptorToError();
       return;
     }
 
@@ -308,6 +315,7 @@ export const GenericTable = ({
           { resultKey }
         ),
       });
+      _setClientFileDescriptorToError();
       return;
     }
 
