@@ -6,7 +6,7 @@
     "@cosmotech/api-ts": "^3.2.9",
     "@cosmotech/azure": "^2.0.0",
     "@cosmotech/core": "^1.17.0",
-    "@cosmotech/ui": "^9.5.0",
+    "@cosmotech/ui": "^9.5.1",
     "@emotion/react": "^11.13.0",
     "@emotion/styled": "^11.13.0",
     "@microsoft/applicationinsights-web": "^3.3.0",
