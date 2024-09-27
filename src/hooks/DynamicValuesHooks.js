@@ -43,11 +43,25 @@ export const useDynamicValues = (parameter, targetDatasetId) => {
     const fetchDynamicValues = async () => {
       if (!dynamicSourceConfig) return;
       if (targetDatasetId == null) {
-        console.error(`No dataset id forwarded to the enum parameter, can't fetch enum values dynamically.`);
+        setDynamicValues(
+          t(
+            'genericcomponent.dynamicValues.noDataset',
+            "No dataset id forwarded to the parameter, can't fetch its value dynamically."
+          )
+        );
         return;
       }
 
       const targetDataset = findDatasetById(targetDatasetId);
+      if (!targetDataset) {
+        setDynamicValues(
+          t(
+            'genericcomponent.dynamicValues.notExistingDataset',
+            "Can't retrieve dynamic values: dataset doesn't exist."
+          )
+        );
+        return;
+      }
       if (!isUnmounted.current && targetDataset.ingestionStatus !== INGESTION_STATUS.SUCCESS) {
         setDynamicValues(
           `Can't retrieve dynamic values: dataset is not ready (ingestionStatus is "${targetDataset.ingestionStatus}")`

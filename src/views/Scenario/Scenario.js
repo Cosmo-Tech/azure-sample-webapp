@@ -242,7 +242,7 @@ const Scenario = () => {
   const validationAreaDivider =
     userPermissionsOnCurrentScenario.includes(ACL_PERMISSIONS.SCENARIO.VALIDATE) ||
     currentScenarioData?.validationStatus !== SCENARIO_VALIDATION_STATUS.DRAFT ? (
-      <Divider orientation="vertical" flexItem />
+      <Divider orientation="vertical" flexItem sx={{ mx: 2 }} />
     ) : null;
 
   return (
@@ -305,7 +305,7 @@ const Scenario = () => {
               )}
             </Stack>
           </Grid>
-          <Grid container spacing={1} item xs={3} s={3} sx={{ justifyContent: 'flex-end' }}>
+          <Grid container item xs={3} sx={{ justifyContent: 'flex-end' }}>
             <Grid item sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'flex-end' }}>
               <CreateScenarioButton disabled={isDirty} onScenarioCreated={onScenarioCreated} isIconButton={true} />
               <ShareCurrentScenarioButton isIconButton={true} />
@@ -319,7 +319,6 @@ const Scenario = () => {
                 flexWrap: 'nowrap',
                 justifyContent: 'flex-start',
                 alignItems: 'center',
-                paddingLeft: '0',
               }}
             >
               {currentScenarioData && scenarioValidationArea}
