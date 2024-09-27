@@ -23,7 +23,7 @@ export function* launchScenario(action) {
     const scenarios = yield select(getScenarios);
     const scenario = scenarios?.find((item) => item.id === scenarioId);
     if (scenario === undefined) console.warn(`Couldn't retrieve scenario with id "${scenarioId}"`);
-    const previousScenarioState = scenario?.scenarioState;
+    const previousScenarioState = scenario?.state;
 
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
