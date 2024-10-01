@@ -76,9 +76,20 @@ const App = () => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem('authProvider')) {
-      Auth.isUserSignedIn();
+    async function checkLogin() {
+      if (localStorage.getItem('authProvider')) {
+        try {
+          await Auth.isUserSignedIn();
+        } catch (error) {
+          if (error?.name === 'BrowserAuthError') {
+            // Ignore "token acquisition failed" error, it may happen when previously used MSAL config is not compatible
+            // (e.g. when using local webapp and switching between environments & login providers)
+            console.error(error);
+          }
+        }
+      }
     }
+    checkLogin();
   }, []);
 
   const timeout = 1000 * 60 * SESSION_INACTIVITY_TIMEOUT;
