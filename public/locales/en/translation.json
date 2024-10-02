@@ -290,7 +290,8 @@
         },
         "noscenario": {
           "title": "No scenario yet",
-          "label": "You can create a scenario by clicking on the \"CREATE\" button"
+          "label": "You can create a scenario by clicking on the \"CREATE\" button",
+          "dashboardsViewLabel": "You can create scenarios in the Scenario view"
         },
         "nodashboard": {
           "label": "There isn't any dashboard configured for this run type"
