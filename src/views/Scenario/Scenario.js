@@ -239,11 +239,12 @@ const Scenario = () => {
 
   const scenarioValidationArea = showValidationChip ? scenarioValidationStatusChip : validationStatusButtons;
 
-  const validationAreaDivider =
-    userPermissionsOnCurrentScenario.includes(ACL_PERMISSIONS.SCENARIO.VALIDATE) ||
-    currentScenarioData?.validationStatus !== SCENARIO_VALIDATION_STATUS.DRAFT ? (
-      <Divider orientation="vertical" flexItem sx={{ mx: 2 }} />
-    ) : null;
+  const showDivider =
+    currentScenarioData != null &&
+    (userPermissionsOnCurrentScenario.includes(ACL_PERMISSIONS.SCENARIO.VALIDATE) ||
+      currentScenarioData?.validationStatus !== SCENARIO_VALIDATION_STATUS.DRAFT);
+
+  const validationAreaDivider = showDivider ? <Divider orientation="vertical" flexItem sx={{ mx: 2 }} /> : null;
 
   return (
     <FormProvider {...methods} key={`form-${currentScenarioData?.id}`}>
