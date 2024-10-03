@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "cosmotech-business-webapp.server-name" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    cosmotech.com/service: {{ include "cosmotech-business-webapp.server-name" . }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      cosmotech.com/service: {{ include "cosmotech-business-webapp.server-name" . }}
+  template:
+    metadata:
+      labels:
+        cosmotech.com/service: {{ include "cosmotech-business-webapp.server-name" . }}
+        networking/traffic-allowed: "yes"
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+      - name: cosmotech-business-webapp
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+          readOnlyRootFilesystem: true
+          runAsUser: 1000
+        image: "{{ .Values.webapp.server.image.repository }}:{{ .Values.webapp.server.image.tag }}"
+        imagePullPolicy: {{ .Values.webapp.server.image.pullPolicy }}
+        ports:
+          - name: http
+            containerPort: 3000
+            protocol: TCP
+        resources:
+          {{- toYaml .Values.resources | nindent 10 }}
