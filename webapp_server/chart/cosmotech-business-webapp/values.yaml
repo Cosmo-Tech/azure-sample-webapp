@@ -1,0 +1,56 @@
+# Copyright (c) Cosmo Tech.
+# Licensed under the MIT license.
+
+#
+# Default values for cosmotech-business-webapp.
+#
+
+# -- prefix of the deployments, ingress and services that will be created
+name: cosmotech-business-webapp
+
+webapp:
+  # -- domain name to use to host the webapp server (e.g. mytenant.cosmotech.com)
+  domainName: ""
+  # -- URL path to use as root of the webapp (e.g. /cosmotech-webapp/brewery)
+  publicUrl: ""
+  server:
+    image:
+      # -- container image to use as webapp server (e.g. ghcr.io/cosmo-tech/azure-sample-webapp/webapp-server)
+      repository: ""
+      # -- container image tag
+      tag: latest
+      # -- [policy](https://kubernetes.io/docs/concepts/containers/images/#updating-images) to pull the image
+      pullPolicy: Always
+  functions:
+    image:
+      # -- container image to use for webapp functions (e.g. ghcr.io/cosmo-tech/azure-sample-webapp/webapp-functions)
+      repository: ""
+      # -- container image tag
+      tag: latest
+      # -- [policy](https://kubernetes.io/docs/concepts/containers/images/#updating-images) to pull the image
+      pullPolicy: Always
+
+keycloak:
+  # -- URL of the keycloak realm that authenticates the users of the webapp. Required to validate user tokens in the webapp functions. (e.g. https://mytenant.cosmotech.com/keycloak/realms/myrealm)
+  realmUrl: ""
+
+powerbi:
+  # -- tenant id of the app registration that delivers PowerBI tokens for the GetEmbedInfo function
+  tenantId: ""
+  # -- client id of the app registration that delivers PowerBI tokens for the GetEmbedInfo function
+  clientId: ""
+  # -- client secret of the app registration that delivers PowerBI tokens for the GetEmbedInfo function
+  clientSecret: ""
+
+ingress:
+  # -- whether to deploy the ingress for the webapp server and functions
+  enabled: true
+
+# -- resource limits for the webapp server pod
+resources:
+  limits:
+    cpu: 1000m
+    memory: 256Mi
+  requests:
+    cpu: 200m
+    memory: 128Mi
