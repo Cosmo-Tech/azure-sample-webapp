@@ -1,0 +1,30 @@
+# name is the name of the deployment, ingress and service that will be created
+name: cosmotech-business-webapp
+# imageName is the name of the docker image containing your webapp server (e.g. ghcr.io/cosmo-tech/azure-sample-webapp)
+imageName: ""
+# imageTag is the tag of the docker image to pull
+imageTag: latest
+# functionsImageName is the name of the docker image containing your API functions server
+functionsImageName: ""
+# functionsImageTag is the tag to pull for functionsImageName
+functionsImageTag: latest
+# keycloakRealmUrl is the URL of the keycloak realm used to authenticate users of the webapp (necessary to valide user tokens in the GetEmbedInfo function)
+keycloakRealmUrl: ""
+# powerbiTenantId is the tenant id of the app registration that delivers PowerBI tokens for the GetEmbedInfo function
+powerbiTenantId: ""
+# powerbiClientId is the client id of the app registration that delivers PowerBI tokens for the GetEmbedInfo function
+powerbiClientId: ""
+# powerbiClientSecret is the client secret of the app registration that delivers PowerBI tokens for the GetEmbedInfo function
+powerbiClientSecret: ""
+# apiUrl is the URL of the API to use as host for the webapp server (e.g. my-api.cosmotech.com)
+apiUrl: ""
+# webappPublicUrl is the subdirectory path to use as root of the webapp (e.g. /cosmotech-webapp/brewery)
+webappPublicUrl: ""
+# resource limits for the webapp server pod
+resources:
+  limits:
+    cpu: 1000m
+    memory: 256Mi
+  requests:
+    cpu: 200m
+    memory: 128Mi
