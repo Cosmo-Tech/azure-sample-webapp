@@ -50,7 +50,7 @@ const getPowerBIDataWithServiceAccount = async (powerBIWorkspaceId, reportsIds) 
   const headers = await getAuthenticationHeaders(false); // Do not accept API key as token for Azure Functions
   return clientApi
     .post(
-      GET_EMBED_INFO_URL,
+      `${process.env?.PUBLIC_URL}${GET_EMBED_INFO_URL}`,
       { reports: reportsIds, workspaceId: powerBIWorkspaceId },
       { headers: { 'csm-authorization': headers.Authorization } }
     )
