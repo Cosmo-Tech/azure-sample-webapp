@@ -58,7 +58,7 @@ const getPowerBIDataWithServiceAccount = async (powerBIWorkspaceId, reportsIds) 
 
   return clientApi
     .post(
-      GET_EMBED_INFO_URL,
+      `${process.env?.PUBLIC_URL}${GET_EMBED_INFO_URL}`,
       { reports: reportsIds, workspaceId: powerBIWorkspaceId },
       { headers: { 'csm-authorization': headers.Authorization } }
     )
