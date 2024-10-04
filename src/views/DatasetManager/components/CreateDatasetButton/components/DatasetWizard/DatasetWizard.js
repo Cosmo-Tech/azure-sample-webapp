@@ -181,7 +181,12 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
       <Dialog open={open} fullWidth data-cy="dataset-creation-dialog">
         <DialogTitle>{dialogTitle}</DialogTitle>
         <DialogContent>
-          <Grid container gap={1}>
+          <Grid
+            container
+            sx={{
+              gap: 1,
+            }}
+          >
             <Grid item xs={12}>
               {stepper}
             </Grid>
