@@ -3,7 +3,7 @@
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import { Grid } from '@mui/material';
+import { Grid2 as Grid } from '@mui/material';
 import { SingleSelect } from '@cosmotech/ui';
 import { useSortedScenarioList } from '../../../../hooks/ScenarioListHooks';
 import { useCurrentSimulationRunnerId } from '../../../../state/runner/hooks';
@@ -35,7 +35,7 @@ export const ScenarioSelect = ({ parameterData, context, parameterValue, setPara
   }, [t, parameterData.id]);
 
   return (
-    <Grid item xs={3}>
+    <Grid size={3}>
       <SingleSelect
         id={parameterData.id}
         labels={labels}

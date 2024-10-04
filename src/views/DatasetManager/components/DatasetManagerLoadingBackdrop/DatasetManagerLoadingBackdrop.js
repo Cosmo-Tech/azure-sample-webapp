@@ -11,7 +11,7 @@ export const DatasetManagerLoadingBackdrop = () => {
   const showBackdrop = datasetsStatus === 'DELETING';
   return (
     <Backdrop open={showBackdrop} style={{ zIndex: '10000' }}>
-      <Stack spacing={2} alignItems="center">
+      <Stack spacing={2} sx={{ alignItems: 'center' }}>
         <CircularProgress color="inherit" />
         <Typography variant="h4">
           {t('commoncomponents.datasetmanager.backdrop.deleting', 'Deleting dataset')}

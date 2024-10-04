@@ -3,7 +3,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import { Grid } from '@mui/material';
+import { Grid2 as Grid } from '@mui/material';
 import { BasicSliderInput } from '@cosmotech/ui';
 import { TranslationUtils } from '../../../../utils';
 
@@ -18,7 +18,7 @@ export const GenericSliderInput = ({ parameterData, context, parameterValue, set
   const { t } = useTranslation();
 
   return (
-    <Grid item xs={3}>
+    <Grid size={3}>
       <BasicSliderInput
         key={parameterData.id}
         id={parameterData.id}

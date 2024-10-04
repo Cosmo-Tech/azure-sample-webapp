@@ -9,7 +9,7 @@ import {
   DialogContent,
   DialogTitle,
   FormControl,
-  Grid,
+  Grid2 as Grid,
   InputAdornment,
   InputLabel,
   MenuItem,
@@ -61,8 +61,16 @@ export const TableExportDialog = ({ defaultFileName = 'Untitled', labels: tmpLab
       <DialogTitle>{labels.title}</DialogTitle>
       <DialogContent sx={{ paddingBottom: '0' }}>
         <Typography>{labels.exportDescription}</Typography>
-        <Grid container spacing={2} direction="column" justifyContent="center" alignItems="flex-start">
-          <Grid item data-cy="table-export-file-type-container">
+        <Grid
+          container
+          spacing={2}
+          direction="column"
+          sx={{
+            justifyContent: 'center',
+            alignItems: 'flex-start',
+          }}
+        >
+          <Grid data-cy="table-export-file-type-container">
             <FormControl size="small" sx={{ marginTop: 2, width: 220 }}>
               <InputLabel id="table-export-file-type-select-label">{labels.fileTypeSelectLabel}</InputLabel>
               <Select
@@ -85,7 +93,7 @@ export const TableExportDialog = ({ defaultFileName = 'Untitled', labels: tmpLab
               </Select>
             </FormControl>
           </Grid>
-          <Grid item>
+          <Grid>
             <TextField
               id="table-export-file-name-input"
               data-cy="table-export-file-name-input"
@@ -94,10 +102,12 @@ export const TableExportDialog = ({ defaultFileName = 'Untitled', labels: tmpLab
               value={fileName}
               onChange={selectFileName}
               size="small"
-              InputProps={{
-                endAdornment: <InputAdornment position="end">{'.' + fileType}</InputAdornment>,
-              }}
               sx={{ width: 220 }}
+              slotProps={{
+                input: {
+                  endAdornment: <InputAdornment position="end">{'.' + fileType}</InputAdornment>,
+                },
+              }}
             />
           </Grid>
         </Grid>

@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import { Card, CardContent, Grid, Tab, Tabs } from '@mui/material';
+import { Card, CardContent, Grid2 as Grid, Tab, Tabs } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { useRedirectFromDisabledView } from '../../hooks/RouterHooks';
 import { useDashboardsViewReportsConfig } from '../../state/powerBi/hooks';
@@ -76,7 +76,12 @@ const Dashboards = () => {
 
   return (
     <Grid container className={classes.dashboardsRoot} direction="row">
-      <Grid item sm={2} className={classes.dashboardsTabsContainer}>
+      <Grid
+        className={classes.dashboardsTabsContainer}
+        size={{
+          sm: 2,
+        }}
+      >
         <Card className={classes.dashboardsTabCard}>
           <Tabs
             orientation="vertical"
@@ -92,7 +97,12 @@ const Dashboards = () => {
           </Tabs>
         </Card>
       </Grid>
-      <Grid item sm={10} className={classes.dashboardsMainContainer}>
+      <Grid
+        className={classes.dashboardsMainContainer}
+        size={{
+          sm: 10,
+        }}
+      >
         <Card className={classes.dashboardsMainCard}>
           <CardContent className={classes.dashboardsMainCardContent}>
             <TabPanel
