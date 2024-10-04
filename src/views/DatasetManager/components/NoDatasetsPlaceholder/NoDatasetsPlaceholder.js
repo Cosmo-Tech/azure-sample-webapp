@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { Card, Grid, Stack, Typography } from '@mui/material';
+import { Card, Grid2 as Grid, Stack, Typography } from '@mui/material';
 import { PermissionsGate } from '@cosmotech/ui';
 import { ACL_PERMISSIONS } from '../../../../services/config/accessControl';
 import { CreateDatasetButton } from '../CreateDatasetButton';
@@ -33,7 +33,13 @@ export const NoDatasetsPlaceholder = () => {
   return (
     <Grid container sx={{ height: 1, p: 1 }} data-cy="no-datasets-placeholder">
       <Card sx={{ width: 1 }}>
-        <Stack sx={{ height: 1 }} justifyContent="center" alignItems="center">
+        <Stack
+          sx={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: 1,
+          }}
+        >
           <Typography variant="h4">
             {t('commoncomponents.datasetmanager.noDatasets.title', "You don't have any datasets yet")}
           </Typography>

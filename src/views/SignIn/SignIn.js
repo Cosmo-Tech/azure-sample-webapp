@@ -4,7 +4,7 @@ import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Grid, Button, Typography, Box, Select, MenuItem } from '@mui/material';
+import { Grid2 as Grid, Button, Typography, Box, Select, MenuItem } from '@mui/material';
 import { AuthMSAL } from '@cosmotech/azure';
 import { AuthDev } from '@cosmotech/core';
 import { SignInButton } from '@cosmotech/ui';
@@ -45,7 +45,7 @@ const SignIn = ({ logInAction, auth }) => {
   return (
     <div className={classes.root}>
       <Grid className={classes.grid} container>
-        <Grid className={classes.quoteContainer} item lg={5}>
+        <Grid className={classes.quoteContainer} size={{ lg: 5 }}>
           <div className={classes.quote}>
             <div className={classes.quoteInner}>
               <Typography className={classes.quoteText} variant="h4">
@@ -54,7 +54,7 @@ const SignIn = ({ logInAction, auth }) => {
             </div>
           </div>
         </Grid>
-        <Grid className={classes.content} item lg={7} xs={12}>
+        <Grid className={classes.content} size={{ lg: 7, xs: 12 }}>
           <div className={classes.content}>
             <div className={classes.contentHeader}></div>
             <div className={classes.contentBody}>
@@ -64,7 +64,7 @@ const SignIn = ({ logInAction, auth }) => {
               <Grid className={classes.socialButtons} container spacing={2} direction="column">
                 {infoMessage}
                 {accessDeniedError}
-                <Grid item>
+                <Grid>
                   <SignInButton
                     logo={microsoftLogo}
                     id={'microsoft'}
@@ -72,7 +72,7 @@ const SignIn = ({ logInAction, auth }) => {
                     onClick={(event) => handleSignIn(event, AuthMSAL.name)}
                   />
                 </Grid>
-                <Grid item>
+                <Grid>
                   {window.location.hostname === 'localhost' && (
                     <Button
                       onClick={(event) => handleSignIn(event, AuthDev.name)}
@@ -85,16 +85,16 @@ const SignIn = ({ logInAction, auth }) => {
                 </Grid>
               </Grid>
               <Grid container spacing={1} className={classes.contact} direction="row">
-                <Grid item>
+                <Grid>
                   <Typography variant="caption" className={classes.quoteText}>
-                    <Box fontWeight="fontWeightLight">
+                    <Box sx={{ fontWeight: 'fontWeightLight' }}>
                       {t('commoncomponents.text.contact.get.account', "Don't have an account?")}
                     </Box>
                   </Typography>
                 </Grid>
-                <Grid item>
+                <Grid>
                   <Typography variant="caption" className={classes.quoteText}>
-                    <Box fontWeight="fontWeightBold">
+                    <Box sx={{ fontWeight: 'fontWeightBold' }}>
                       {t('commoncomponents.text.link.cosmotech', 'Please contact CosmoTech')}
                     </Box>
                   </Typography>
@@ -102,8 +102,8 @@ const SignIn = ({ logInAction, auth }) => {
               </Grid>
             </div>
             <div className={classes.contentFooter}>
-              <Grid container direction="row" justifyContent="center" alignItems="baseline">
-                <Grid item>
+              <Grid container direction="row" sx={{ justifyContent: 'center', alignItems: 'baseline' }}>
+                <Grid>
                   <Select
                     variant="standard"
                     className={classes.languageSelect}
@@ -114,7 +114,7 @@ const SignIn = ({ logInAction, auth }) => {
                     <MenuItem value={'fr'}>Français</MenuItem>
                   </Select>
                 </Grid>
-                <Grid item>
+                <Grid>
                   <Typography variant="caption" component="div" className={classes.copyrightText}>
                     <Trans i18nKey="copyrightMessage" year={year}>
                       &copy; {{ year }} {t('views.common.footer.text.companyname', 'Cosmo Tech')}
