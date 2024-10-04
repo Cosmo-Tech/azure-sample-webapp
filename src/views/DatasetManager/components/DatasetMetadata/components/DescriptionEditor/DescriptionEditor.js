@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import EditIcon from '@mui/icons-material/Edit';
-import { Grid, TextField, Typography } from '@mui/material';
+import { Grid2 as Grid, TextField, Typography } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import MetadataLabel from '../MetadataLabel';
 
@@ -88,8 +88,10 @@ const DescriptionEditor = (props) => {
           'Enter the dataset description'
         )}
         inputRef={(input) => input && input.focus()}
-        inputProps={{ id: 'description-input' }}
         sx={{ pl: 1 }}
+        slotProps={{
+          htmlInput: { id: 'description-input' },
+        }}
       />
     );
   }, [isEditing, readOnly, descriptionText, value, startEdition, stopEdition, cancelEdition, t]);
@@ -97,7 +99,6 @@ const DescriptionEditor = (props) => {
   return (
     <>
       <Grid
-        item
         onMouseOver={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         data-cy="dataset-metadata-description"

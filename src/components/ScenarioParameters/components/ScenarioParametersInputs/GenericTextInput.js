@@ -3,7 +3,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import { Grid } from '@mui/material';
+import { Grid2 as Grid } from '@mui/material';
 import { BasicTextInput } from '@cosmotech/ui';
 import { useParameterConstraintValidation } from '../../../../hooks/ParameterConstraintsHooks';
 import { TranslationUtils } from '../../../../utils';
@@ -25,7 +25,7 @@ export const GenericTextInput = ({
   };
 
   return (
-    <Grid item xs={3} {...gridItemProps}>
+    <Grid size={3} {...gridItemProps}>
       <BasicTextInput
         key={parameterData.id}
         id={parameterData.id}

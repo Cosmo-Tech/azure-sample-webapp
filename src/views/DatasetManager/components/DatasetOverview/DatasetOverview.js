@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import React, { useMemo } from 'react';
-import { Card, CardContent, CardHeader, Grid } from '@mui/material';
+import { Card, CardContent, CardHeader, Grid2 as Grid } from '@mui/material';
 import { INGESTION_STATUS } from '../../../../services/config/ApiConstants';
 import { useDatasetOverview } from './DatasetOverviewHook';
 import { CategoryAccordion, DatasetOverviewPlaceholder, GraphIndicator } from './components';
@@ -41,12 +41,12 @@ export const DatasetOverview = () => {
           <DatasetOverviewPlaceholder />
         ) : (
           <Grid container sx={{ flexFlow: 'column wrap', gap: 4 }}>
-            <Grid item>
+            <Grid>
               <Grid container sx={{ flexFlow: 'row wrap', alignItems: 'stretch', justifyContent: 'center', gap: 4 }}>
                 {graphIndicatorsElements}
               </Grid>
             </Grid>
-            <Grid item>
+            <Grid>
               {categories.map((category) => (
                 <CategoryAccordion key={category.id} category={category} queriesResults={queriesResults} />
               ))}
