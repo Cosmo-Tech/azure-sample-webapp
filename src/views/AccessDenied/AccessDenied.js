@@ -4,7 +4,7 @@ import React from 'react';
 import Countdown from 'react-countdown';
 import { Trans, useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import { Grid, Button, Typography, Select, FormControl, MenuItem, Paper } from '@mui/material';
+import { Grid2 as Grid, Button, Typography, Select, FormControl, MenuItem, Paper } from '@mui/material';
 import { Auth } from '@cosmotech/core';
 import { TranslationUtils } from '../../utils';
 import useStyles from './style';
@@ -45,7 +45,7 @@ const AccessDenied = ({ application }) => {
   return (
     <div className={classes.root}>
       <Grid className={classes.grid} container>
-        <Grid className={classes.quoteContainer} item lg={5}>
+        <Grid className={classes.quoteContainer} size={{ lg: 5 }}>
           <div className={classes.quote}>
             <div className={classes.quoteInner}>
               <Typography className={classes.quoteText} variant="h4">
@@ -54,7 +54,7 @@ const AccessDenied = ({ application }) => {
             </div>
           </div>
         </Grid>
-        <Grid className={classes.content} item lg={7} xs={12} container>
+        <Grid className={classes.content} container size={{ lg: 7, xs: 12 }}>
           <div className={classes.content}>
             <div className={classes.contentBody}>
               <Typography className={classes.title}>{t('views.accessdenied.title', 'Access denied')}</Typography>
@@ -74,8 +74,15 @@ const AccessDenied = ({ application }) => {
                 {t('genericcomponent.userinfo.button.logout', 'Sign Out')}
               </Button>
             </div>
-            <Grid container direction="row" justifyContent="center" alignItems="baseline">
-              <Grid item>
+            <Grid
+              container
+              direction="row"
+              sx={{
+                justifyContent: 'center',
+                alignItems: 'baseline',
+              }}
+            >
+              <Grid>
                 <FormControl className={classes.formControl}>
                   <Select
                     variant="standard"
@@ -88,7 +95,7 @@ const AccessDenied = ({ application }) => {
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item>
+              <Grid>
                 <Typography variant="caption" component="div" className={classes.copyrightText}>
                   <Trans i18nKey="copyrightMessage" year={year}>
                     &copy; {{ year }} {t('views.common.footer.text.companyname', 'Cosmo Tech')}
