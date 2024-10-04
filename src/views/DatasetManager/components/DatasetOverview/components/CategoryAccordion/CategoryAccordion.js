@@ -163,7 +163,14 @@ const CategoryAccordion = (props) => {
         {description && <Grid item>{description}</Grid>}
         {categoryKpis && <Grid item>{categoryKpis}</Grid>}
         {attributes && <Grid item>{attributes}</Grid>}
-        <Grid container item direction="row" justifyContent="flex-end">
+        <Grid
+          container
+          item
+          direction="row"
+          sx={{
+            justifyContent: 'flex-end',
+          }}
+        >
           <CategoryDetailsDialog category={category} kpis={kpisWithResult} />
         </Grid>
       </Grid>

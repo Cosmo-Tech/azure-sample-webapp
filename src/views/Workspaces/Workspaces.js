@@ -92,29 +92,41 @@ const Workspaces = () => {
       <ApplicationErrorBanner />
       <div data-cy="workspaces-view">
         {workspacesList?.length === 0 ? (
-          <Grid container justifyContent="center" alignItems="center" style={{ padding: '18px', height: '90%' }}>
-            <Grid data-cy="no-workspace-placeholder" item xs={5} align="center">
+          <Grid container sx={{ justifyContent: 'center', alignItems: 'center', padding: '18px', height: '90%' }}>
+            <Grid data-cy="no-workspace-placeholder" align="center" size={5}>
               <Typography variant="h3" gutterBottom={true}>
                 {labels.titleNoWorkspacePlaceholder}
               </Typography>
-              <Typography display="block" variant="caption" color="textSecondary">
+              <Typography
+                variant="caption"
+                color="textSecondary"
+                sx={{
+                  display: 'block',
+                }}
+              >
                 {labels.reasonNoWorkspacePlaceholder}
               </Typography>
-              <Typography display="block" variant="caption" color="textSecondary">
+              <Typography
+                variant="caption"
+                color="textSecondary"
+                sx={{
+                  display: 'block',
+                }}
+              >
                 {labels.contactNoWorkspacePlaceholder}
               </Typography>
             </Grid>
           </Grid>
         ) : (
-          <Grid container justifyContent="center" style={{ padding: '18px', height: '90%' }}>
-            <Grid item xs={12}>
+          <Grid container sx={{ justifyContent: 'center', padding: '18px', height: '90%' }}>
+            <Grid size={12}>
               {/* Keep Accordion always open while we have only one organization, and reset default cursor */}
               <Accordion expanded={true} sx={{ '& .MuiAccordionSummary-root:hover': { cursor: 'default !important' } }}>
                 <AccordionSummary>
                   <Typography variant="body1">{organizationName}</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  <Grid container item justifyContent="flex-start" spacing={2} style={{ padding: '24px' }}>
+                  <Grid container spacing={2} sx={{ justifyContent: 'flex-start', padding: '24px' }}>
                     {workspaceListRender}
                   </Grid>
                 </AccordionDetails>
