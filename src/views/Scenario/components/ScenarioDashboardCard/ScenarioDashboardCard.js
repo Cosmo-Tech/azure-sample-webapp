@@ -5,7 +5,16 @@ import { useTranslation } from 'react-i18next';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import WarningAmberOutlinedIcon from '@mui/icons-material/WarningAmberOutlined';
-import { Accordion, AccordionSummary, AccordionDetails, Button, Card, Grid, Paper, Typography } from '@mui/material';
+import {
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Button,
+  Card,
+  Grid2 as Grid,
+  Paper,
+  Typography,
+} from '@mui/material';
 import ScenarioPowerBiReport from '../ScenarioPowerBiReport';
 import { useScenarioDashboardCard } from './ScenarioDashboardCardHook';
 
@@ -62,12 +71,13 @@ const ScenarioDashboardCard = () => {
         >
           <Grid
             container
+            size="grow"
             sx={{ direction: 'row', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'nowrap' }}
           >
             <Grid sx={{ ml: '10px' }}>
               <Typography>{t('commoncomponents.iframe.title', 'Dashboard')}</Typography>
             </Grid>
-            <Grid item sx={{ flexGrow: '1' }}>
+            <Grid size="grow">
               {!isDashboardSync && hasRunBeenSuccessful && (
                 <div>
                   <Typography sx={{ textAlign: 'center', width: '100%' }}>

@@ -5,7 +5,7 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
-import { Card, Divider, Grid, IconButton, Paper, Stack, Typography } from '@mui/material';
+import { Card, Divider, Grid2 as Grid, IconButton, Paper, Stack, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { ScenarioValidationStatusChip, PermissionsGate, FadingTooltip } from '@cosmotech/ui';
 import {
@@ -251,18 +251,18 @@ const Scenario = () => {
     (userPermissionsOnCurrentScenario.includes(ACL_PERMISSIONS.RUNNER.VALIDATE) ||
       currentScenarioData?.validationStatus !== RUNNER_VALIDATION_STATUS.DRAFT);
 
-  const validationAreaDivider = showDivider ? <Divider orientation="vertical" flexItem sx={{ mx: 2 }} /> : null;
+  const validationAreaDivider = showDivider ? <Divider orientation="vertical" flexItem /> : null;
 
   return (
     <FormProvider {...methods} key={`form-${currentScenarioData?.id}`}>
       <BackdropLoadingScenario />
       <div data-cy="scenario-view" className={classes.content}>
-        <Grid container spacing={2} alignItems="center" justifyContent="space-between">
-          <Grid item xs={4}>
+        <Grid container spacing={2} sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
+          <Grid size={4}>
             <Stack>
               <CurrentScenarioSelector disabled={isDirty} renderInputToolTip={currentScenarioRenderInputTooltip} />
               {currentScenarioData && (
-                <Stack direction="row" justifyContent="center">
+                <Stack direction="row" sx={{ justifyContent: 'center' }}>
                   <FadingTooltip
                     title={t(
                       TranslationUtils.getRunTemplateTranslationKey(currentScenarioData.runTemplateId),
@@ -271,14 +271,7 @@ const Scenario = () => {
                     useSpan={true}
                     spanProps={{ style: { overflow: 'hidden' } }}
                   >
-                    <Typography
-                      data-cy="run-template-name"
-                      align="center"
-                      noWrap
-                      sx={{
-                        color: 'text.secondary',
-                      }}
-                    >
+                    <Typography data-cy="run-template-name" align="center" noWrap color="text.secondary">
                       <Typography component="span" sx={{ fontWeight: '700' }}>
                         {t('views.scenario.text.scenariotype')}
                       </Typography>
@@ -294,14 +287,7 @@ const Scenario = () => {
                     useSpan={true}
                     spanProps={{ style: { overflow: 'hidden' } }}
                   >
-                    <Typography
-                      data-cy="dataset-name"
-                      align="center"
-                      noWrap
-                      sx={{
-                        color: 'text.secondary',
-                      }}
-                    >
+                    <Typography data-cy="dataset-name" align="center" noWrap color="text.secondary">
                       &nbsp;|&nbsp;
                       <Typography component="span" sx={{ fontWeight: '700' }}>
                         {t('commoncomponents.dialog.create.scenario.dropdown.dataset.label', 'Dataset')}:&nbsp;
@@ -313,14 +299,13 @@ const Scenario = () => {
               )}
             </Stack>
           </Grid>
-          <Grid container item xs={3} sx={{ justifyContent: 'flex-end' }}>
-            <Grid item sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'flex-end' }}>
+          <Grid container sx={{ justifyContent: 'flex-end' }} size={3}>
+            <Grid sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'flex-end' }}>
               <CreateScenarioButton disabled={isDirty} onScenarioCreated={onScenarioCreated} isIconButton={true} />
               <ShareCurrentScenarioButton isIconButton={true} />
             </Grid>
             {validationAreaDivider}
             <Grid
-              item
               sx={{
                 display: 'flex',
                 flexDirection: 'row',
@@ -332,7 +317,7 @@ const Scenario = () => {
               {currentScenarioData && scenarioValidationArea}
             </Grid>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Card component={Paper}>
               {currentScenarioData && (
                 <ScenarioParameters
@@ -342,7 +327,7 @@ const Scenario = () => {
               )}
             </Card>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size="grow">
             <ScenarioDashboardCard />
           </Grid>
         </Grid>
