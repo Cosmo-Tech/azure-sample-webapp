@@ -6,7 +6,13 @@ import { DiscardChangesButton, StopRunButton, SaveButton, LaunchButton, RunningS
 
 export const ScenarioActions = () => {
   return (
-    <Grid container spacing={1} alignItems="center">
+    <Grid
+      container
+      spacing={1}
+      sx={{
+        alignItems: 'center',
+      }}
+    >
       <RunningStateSpinner />
       <StopRunButton />
       <DiscardChangesButton />
