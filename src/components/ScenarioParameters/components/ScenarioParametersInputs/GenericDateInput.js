@@ -12,7 +12,14 @@ import { BasicDateInput } from '@cosmotech/ui';
 import { useDateConstraintValidation } from '../../../../hooks/ParameterConstraintsHooks';
 import { TranslationUtils } from '../../../../utils';
 
-export const GenericDateInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty, error }) => {
+export const GenericDateInput = ({
+  parameterData,
+  context,
+  parameterValue,
+  setParameterValue,
+  isDirty = false,
+  error,
+}) => {
   const { t } = useTranslation();
   const minDate = parameterData.minValue ? new Date(parameterData.minValue) : undefined;
   const maxDate = parameterData.maxValue ? new Date(parameterData.maxValue) : undefined;
@@ -48,9 +55,7 @@ GenericDateInput.propTypes = {
   isDirty: PropTypes.bool,
   error: PropTypes.object,
 };
-GenericDateInput.defaultProps = {
-  isDirty: false,
-};
+
 GenericDateInput.useValidationRules = (parameterData) => {
   const { t } = useTranslation();
   const minDate = parameterData.minValue ? new Date(parameterData.minValue) : undefined;
