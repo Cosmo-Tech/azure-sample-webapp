@@ -69,7 +69,13 @@ export const GenericMultiSelect = ({
   if (dynamicValuesError) return dynamicValuesError;
   return (
     <Grid item xs={3} {...gridItemProps}>
-      <Grid container direction="row" alignItems="stretch">
+      <Grid
+        container
+        direction="row"
+        sx={{
+          alignItems: 'stretch',
+        }}
+      >
         {loadingDynamicValuesPlaceholder}
         {dynamicEnumValues !== null && (
           <MultiSelect

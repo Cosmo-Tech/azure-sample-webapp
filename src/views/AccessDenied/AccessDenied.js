@@ -74,7 +74,14 @@ const AccessDenied = ({ application }) => {
                 {t('genericcomponent.userinfo.button.logout', 'Sign Out')}
               </Button>
             </div>
-            <Grid container direction="row" justifyContent="center" alignItems="baseline">
+            <Grid
+              container
+              direction="row"
+              sx={{
+                justifyContent: 'center',
+                alignItems: 'baseline',
+              }}
+            >
               <Grid item>
                 <FormControl className={classes.formControl}>
                   <Select

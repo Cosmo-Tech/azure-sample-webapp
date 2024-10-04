@@ -88,8 +88,10 @@ const DescriptionEditor = (props) => {
           'Enter the dataset description'
         )}
         inputRef={(input) => input && input.focus()}
-        inputProps={{ id: 'description-input' }}
         sx={{ pl: 1 }}
+        slotProps={{
+          htmlInput: { id: 'description-input' },
+        }}
       />
     );
   }, [isEditing, readOnly, descriptionText, value, startEdition, stopEdition, cancelEdition, t]);
