@@ -29,7 +29,17 @@ const ALLOWED_FILE_TYPES = [
   },
 ];
 
-export const TableExportDialog = ({ defaultFileName, labels, onClose, onExport, open }) => {
+const DEFAULT_LABELS = {
+  cancel: 'Cancel',
+  export: 'Export',
+  fileNameInputLabel: 'Name',
+  fileTypeSelectLabel: 'Type',
+  title: 'Export file',
+  exportDescription: 'Your file will be exported in your Downloads directory.',
+};
+
+export const TableExportDialog = ({ defaultFileName = 'Untitled', labels: tmpLabels, onClose, onExport, open }) => {
+  const labels = { ...tmpLabels, ...DEFAULT_LABELS };
   const defaultFileExtension = ALLOWED_FILE_TYPES[0].extension;
 
   const [fileName, setFileName] = useState(defaultFileName);
@@ -117,16 +127,4 @@ TableExportDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onExport: PropTypes.func.isRequired,
-};
-
-TableExportDialog.defaultProps = {
-  defaultFileName: 'Untitled',
-  labels: {
-    cancel: 'Cancel',
-    export: 'Export',
-    fileNameInputLabel: 'Name',
-    fileTypeSelectLabel: 'Type',
-    title: 'Export file',
-    exportDescription: 'Your file will be exported in your Downloads directory.',
-  },
 };
