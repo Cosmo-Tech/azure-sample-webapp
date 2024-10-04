@@ -12,7 +12,12 @@ const LoadingBackdrop = ({ status }) => {
 
   return (
     <Backdrop data-cy="scenario-backdrop" open={showBackdrop} style={{ zIndex: '10000' }}>
-      <Stack spacing={2} alignItems="center">
+      <Stack
+        spacing={2}
+        sx={{
+          alignItems: 'center',
+        }}
+      >
         <CircularProgress data-cy="scenario-loading-spinner" color="inherit" />
         {status === STATUSES.SAVING && (
           <Typography data-cy="scenario-backdrop-saving-text" variant="h4">

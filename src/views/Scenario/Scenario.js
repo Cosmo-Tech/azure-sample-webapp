@@ -257,12 +257,24 @@ const Scenario = () => {
     <FormProvider {...methods} key={`form-${currentScenarioData?.id}`}>
       <BackdropLoadingScenario />
       <div data-cy="scenario-view" className={classes.content}>
-        <Grid container spacing={2} alignItems="center" justifyContent="space-between">
+        <Grid
+          container
+          spacing={2}
+          sx={{
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
           <Grid item xs={4}>
             <Stack>
               <CurrentScenarioSelector disabled={isDirty} renderInputToolTip={currentScenarioRenderInputTooltip} />
               {currentScenarioData && (
-                <Stack direction="row" justifyContent="center">
+                <Stack
+                  direction="row"
+                  sx={{
+                    justifyContent: 'center',
+                  }}
+                >
                   <FadingTooltip
                     title={t(
                       TranslationUtils.getRunTemplateTranslationKey(currentScenarioData.runTemplateId),
@@ -271,14 +283,7 @@ const Scenario = () => {
                     useSpan={true}
                     spanProps={{ style: { overflow: 'hidden' } }}
                   >
-                    <Typography
-                      data-cy="run-template-name"
-                      align="center"
-                      noWrap
-                      sx={{
-                        color: 'text.secondary',
-                      }}
-                    >
+                    <Typography data-cy="run-template-name" align="center" noWrap color="text.secondary">
                       <Typography component="span" sx={{ fontWeight: '700' }}>
                         {t('views.scenario.text.scenariotype')}
                       </Typography>
@@ -294,14 +299,7 @@ const Scenario = () => {
                     useSpan={true}
                     spanProps={{ style: { overflow: 'hidden' } }}
                   >
-                    <Typography
-                      data-cy="dataset-name"
-                      align="center"
-                      noWrap
-                      sx={{
-                        color: 'text.secondary',
-                      }}
-                    >
+                    <Typography data-cy="dataset-name" align="center" noWrap color="text.secondary">
                       &nbsp;|&nbsp;
                       <Typography component="span" sx={{ fontWeight: '700' }}>
                         {t('commoncomponents.dialog.create.scenario.dropdown.dataset.label', 'Dataset')}:&nbsp;

@@ -51,7 +51,15 @@ export const TableExportDialog = ({ defaultFileName, labels, onClose, onExport, 
       <DialogTitle>{labels.title}</DialogTitle>
       <DialogContent sx={{ paddingBottom: '0' }}>
         <Typography>{labels.exportDescription}</Typography>
-        <Grid container spacing={2} direction="column" justifyContent="center" alignItems="flex-start">
+        <Grid
+          container
+          spacing={2}
+          direction="column"
+          sx={{
+            justifyContent: 'center',
+            alignItems: 'flex-start',
+          }}
+        >
           <Grid item data-cy="table-export-file-type-container">
             <FormControl size="small" sx={{ marginTop: 2, width: 220 }}>
               <InputLabel id="table-export-file-type-select-label">{labels.fileTypeSelectLabel}</InputLabel>
@@ -84,10 +92,12 @@ export const TableExportDialog = ({ defaultFileName, labels, onClose, onExport, 
               value={fileName}
               onChange={selectFileName}
               size="small"
-              InputProps={{
-                endAdornment: <InputAdornment position="end">{'.' + fileType}</InputAdornment>,
-              }}
               sx={{ width: 220 }}
+              slotProps={{
+                input: {
+                  endAdornment: <InputAdornment position="end">{'.' + fileType}</InputAdornment>,
+                },
+              }}
             />
           </Grid>
         </Grid>

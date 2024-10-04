@@ -28,7 +28,14 @@ export const CategoryDetailsDialog = (props) => {
 
   const categoryKpis = useMemo(() => {
     return (
-      <Grid container sx={{ p: 5 }} spacing={8} justifyContent="center">
+      <Grid
+        container
+        spacing={8}
+        sx={{
+          justifyContent: 'center',
+          p: 5,
+        }}
+      >
         {(category?.kpis ?? []).map((kpiMetadata) => {
           const kpi = kpis.find((kpiResult) => kpiResult.id === kpiMetadata.id) ?? kpiMetadata;
           return (

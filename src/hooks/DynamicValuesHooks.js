@@ -114,7 +114,13 @@ export const useDynamicValues = (parameter, targetDatasetId) => {
   const loadingDynamicValuesPlaceholder = useMemo(
     () =>
       dynamicValues === null ? (
-        <Grid container direction="row" alignItems="stretch">
+        <Grid
+          container
+          direction="row"
+          sx={{
+            alignItems: 'stretch',
+          }}
+        >
           <CircularProgress data-cy="fetching-dynamic-values-spinner" size="1rem" color="inherit" />
           <Typography sx={{ px: 2 }}>
             {t('genericcomponent.enumInput.fetchingDynamicValues', 'Fetching list of values...')}
@@ -221,7 +227,13 @@ export const useLoadInitialValueFromDataset = (parameterValue, parameter, target
   const loadingDynamicValuePlaceholder = useMemo(
     () =>
       dynamicValue === null ? (
-        <Grid container direction="row" alignItems="stretch">
+        <Grid
+          container
+          direction="row"
+          sx={{
+            alignItems: 'stretch',
+          }}
+        >
           <CircularProgress data-cy="fetching-dynamic-parameter-spinner" size="1rem" color="inherit" />
           <Typography sx={{ px: 2 }}>
             {t('genericcomponent.numberInput.fetchingValue', 'Fetching parameter value...')}

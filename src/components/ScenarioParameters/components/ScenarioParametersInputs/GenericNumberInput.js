@@ -49,7 +49,13 @@ export const GenericNumberInput = ({
   if (loadingDynamicValuePlaceholder) return loadingDynamicValuePlaceholder;
 
   return (
-    <Stack direction="row" gap={1} alignItems="center">
+    <Stack
+      direction="row"
+      sx={{
+        gap: 1,
+        alignItems: 'center',
+      }}
+    >
       <Grid item xs={3}>
         <BasicNumberInput
           key={parameterData.id}
