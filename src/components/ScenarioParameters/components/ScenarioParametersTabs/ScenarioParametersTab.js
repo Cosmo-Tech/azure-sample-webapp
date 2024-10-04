@@ -3,7 +3,7 @@
 import React from 'react';
 import { connect, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Grid, Stack } from '@mui/material';
+import { Grid2 as Grid, Stack } from '@mui/material';
 import { t } from 'i18next';
 import { PermissionsGate } from '@cosmotech/ui';
 import { ConfigUtils } from '../../../../utils';
@@ -34,8 +34,15 @@ const ScenarioParametersTab = ({ parametersGroupData, context, userAppRoles }) =
       userPermissions={userAppRoles}
     >
       <Grid container key={parametersGroupData.id}>
-        <Grid item xs={12}>
-          <Stack spacing={2} alignItems="stretch" direction="column" justifyContent="center">
+        <Grid size={12}>
+          <Stack
+            spacing={2}
+            direction="column"
+            sx={{
+              alignItems: 'stretch',
+              justifyContent: 'center',
+            }}
+          >
             {parametersGroupData.parameters
               .filter((parameter) => isParameterVisible(parameter))
               .map((parameterData) => (
