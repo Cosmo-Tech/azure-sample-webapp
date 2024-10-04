@@ -87,14 +87,22 @@ const SignIn = ({ logInAction, auth }) => {
               <Grid container spacing={1} className={classes.contact} direction="row">
                 <Grid item>
                   <Typography variant="caption" className={classes.quoteText}>
-                    <Box fontWeight="fontWeightLight">
+                    <Box
+                      sx={{
+                        fontWeight: 'fontWeightLight',
+                      }}
+                    >
                       {t('commoncomponents.text.contact.get.account', "Don't have an account?")}
                     </Box>
                   </Typography>
                 </Grid>
                 <Grid item>
                   <Typography variant="caption" className={classes.quoteText}>
-                    <Box fontWeight="fontWeightBold">
+                    <Box
+                      sx={{
+                        fontWeight: 'fontWeightBold',
+                      }}
+                    >
                       {t('commoncomponents.text.link.cosmotech', 'Please contact CosmoTech')}
                     </Box>
                   </Typography>
@@ -102,7 +110,14 @@ const SignIn = ({ logInAction, auth }) => {
               </Grid>
             </div>
             <div className={classes.contentFooter}>
-              <Grid container direction="row" justifyContent="center" alignItems="baseline">
+              <Grid
+                container
+                direction="row"
+                sx={{
+                  justifyContent: 'center',
+                  alignItems: 'baseline',
+                }}
+              >
                 <Grid item>
                   <Select
                     variant="standard"

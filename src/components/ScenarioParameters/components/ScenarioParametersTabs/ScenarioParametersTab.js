@@ -35,7 +35,14 @@ const ScenarioParametersTab = ({ parametersGroupData, context, userAppRoles }) =
     >
       <Grid container key={parametersGroupData.id}>
         <Grid item xs={12}>
-          <Stack spacing={2} alignItems="stretch" direction="column" justifyContent="center">
+          <Stack
+            spacing={2}
+            direction="column"
+            sx={{
+              alignItems: 'stretch',
+              justifyContent: 'center',
+            }}
+          >
             {parametersGroupData.parameters
               .filter((parameter) => isParameterVisible(parameter))
               .map((parameterData) => (

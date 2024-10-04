@@ -58,7 +58,13 @@ export const DatasetOverviewPlaceholder = () => {
           // if the string is modified, need to check that the link is still the node N1
           <Trans i18nKey="commoncomponents.datasetmanager.overview.placeholder.apiLink">
             You can use the
-            <Link href={ApiUtils.getDatasetTwingraphSwaggerSection()} color="inherit" target="blank">
+            <Link
+              href={ApiUtils.getDatasetTwingraphSwaggerSection()}
+              target="blank"
+              sx={{
+                color: 'inherit',
+              }}
+            >
               Cosmo Tech API
             </Link>
             to populate it
@@ -86,7 +92,13 @@ export const DatasetOverviewPlaceholder = () => {
         </Typography>
       ),
       subtitle: subtitle ? (
-        <Typography data-cy={subtitleDataCy} variant="body1" color="appbar.contrastTextSoft">
+        <Typography
+          data-cy={subtitleDataCy}
+          variant="body1"
+          sx={{
+            color: 'appbar.contrastTextSoft',
+          }}
+        >
           {subtitle}
         </Typography>
       ) : null,
