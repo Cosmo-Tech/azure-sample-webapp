@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { Card, Grid, Stack, Typography } from '@mui/material';
+import { Card, Grid2 as Grid, Stack, Typography } from '@mui/material';
 import { PermissionsGate } from '@cosmotech/ui';
 import { ACL_PERMISSIONS } from '../../../../services/config/accessControl';
 import { CreateDatasetButton } from '../CreateDatasetButton';

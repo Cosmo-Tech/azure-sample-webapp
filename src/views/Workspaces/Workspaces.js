@@ -3,7 +3,7 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { Grid, Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/material';
+import { Grid2 as Grid, Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/material';
 import { ResourceCard } from '@cosmotech/ui';
 import { ApplicationErrorBanner } from '../../components';
 import { AppBar } from '../../components/AppBar';
@@ -72,7 +72,7 @@ const Workspaces = () => {
   ]);
 
   const workspaceListRender = workspacesList?.map((workspace) => (
-    <Grid item key={workspace.id}>
+    <Grid key={workspace.id}>
       <ResourceCard
         id={workspace.id}
         name={workspace.name}
@@ -100,7 +100,7 @@ const Workspaces = () => {
               alignItems: 'center',
             }}
           >
-            <Grid data-cy="no-workspace-placeholder" item xs={5} align="center">
+            <Grid data-cy="no-workspace-placeholder" align="center" size={5}>
               <Typography variant="h3" gutterBottom={true}>
                 {labels.titleNoWorkspacePlaceholder}
               </Typography>
@@ -132,7 +132,7 @@ const Workspaces = () => {
               justifyContent: 'center',
             }}
           >
-            <Grid item xs={12}>
+            <Grid size={12}>
               {/* Keep Accordion always open while we have only one organization, and reset default cursor */}
               <Accordion expanded={true} sx={{ '& .MuiAccordionSummary-root:hover': { cursor: 'default !important' } }}>
                 <AccordionSummary>
@@ -141,7 +141,6 @@ const Workspaces = () => {
                 <AccordionDetails>
                   <Grid
                     container
-                    item
                     spacing={2}
                     style={{ padding: '24px' }}
                     sx={{
