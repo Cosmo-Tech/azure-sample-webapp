@@ -5,7 +5,7 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
-import { Card, Divider, Grid, IconButton, Paper, Stack, Typography } from '@mui/material';
+import { Card, Divider, Grid2 as Grid, IconButton, Paper, Stack, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { ScenarioValidationStatusChip, PermissionsGate, FadingTooltip } from '@cosmotech/ui';
 import {
@@ -265,7 +265,7 @@ const Scenario = () => {
             justifyContent: 'space-between',
           }}
         >
-          <Grid item xs={4}>
+          <Grid size={4}>
             <Stack>
               <CurrentScenarioSelector disabled={isDirty} renderInputToolTip={currentScenarioRenderInputTooltip} />
               {currentScenarioData && (
@@ -325,14 +325,13 @@ const Scenario = () => {
               )}
             </Stack>
           </Grid>
-          <Grid container item xs={3} sx={{ justifyContent: 'flex-end' }}>
-            <Grid item sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'flex-end' }}>
+          <Grid container sx={{ justifyContent: 'flex-end' }} size={3}>
+            <Grid sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'flex-end' }}>
               <CreateScenarioButton disabled={isDirty} onScenarioCreated={onScenarioCreated} isIconButton={true} />
               <ShareCurrentScenarioButton isIconButton={true} />
             </Grid>
             {validationAreaDivider}
             <Grid
-              item
               sx={{
                 display: 'flex',
                 flexDirection: 'row',
@@ -344,7 +343,7 @@ const Scenario = () => {
               {currentScenarioData && scenarioValidationArea}
             </Grid>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Card component={Paper}>
               {currentScenarioData && (
                 <ScenarioParameters
@@ -354,7 +353,7 @@ const Scenario = () => {
               )}
             </Card>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <ScenarioDashboardCard />
           </Grid>
         </Grid>

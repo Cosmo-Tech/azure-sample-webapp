@@ -3,7 +3,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import { Grid, ButtonBase, Link } from '@mui/material';
+import { Grid2 as Grid, ButtonBase, Link } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import ConfigService from '../../services/ConfigService';
 import { useWorkspaceData } from '../../state/hooks/WorkspaceHooks';
@@ -43,28 +43,22 @@ export const AboutContent = ({ isDarkTheme }) => {
 
   return (
     <Grid container spacing={2} className={classes.root}>
-      <Grid item className={classes.picture}>
+      <Grid className={classes.picture}>
         <ButtonBase>
           <img height="75" alt="Cosmo Tech" src={logo} />
         </ButtonBase>
       </Grid>
-      <Grid item container xs>
-        <Grid item container direction="column">
-          <Grid className={classes.title} item>
-            {t('genericcomponent.dialog.about.title')}
-          </Grid>
-          <Grid item className={classes.version}>
-            {ConfigService.getParameterValue('APP_VERSION')}
-          </Grid>
-          <Grid item className={classes.content}>
-            {t('genericcomponent.dialog.about.content')}
-          </Grid>
-          <Grid item>
+      <Grid container size="grow">
+        <Grid container direction="column">
+          <Grid className={classes.title}>{t('genericcomponent.dialog.about.title')}</Grid>
+          <Grid className={classes.version}>{ConfigService.getParameterValue('APP_VERSION')}</Grid>
+          <Grid className={classes.content}>{t('genericcomponent.dialog.about.content')}</Grid>
+          <Grid>
             <Link href={supportUrl} target="_blank" rel="noreferrer">
               {supportUrl}
             </Link>
           </Grid>
-          <Grid item>
+          <Grid>
             <Link href={organizationUrl} target="_blank" rel="noreferrer">
               {organizationUrl}
             </Link>

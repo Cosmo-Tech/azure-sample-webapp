@@ -5,7 +5,7 @@ import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Grid, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+import { Grid2 as Grid, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import rfdc from 'rfdc';
 import { PermissionsGate } from '@cosmotech/ui';
@@ -162,7 +162,7 @@ const ScenarioParameters = ({ onToggleAccordion, isAccordionExpanded }) => {
               <Grid className={classes.gridSummary}>
                 <Typography>{t('genericcomponent.text.scenario.parameters.title', 'Scenario parameters')}</Typography>
               </Grid>
-              <Grid item>
+              <Grid>
                 {/* FIXME: add PLATFORM.ADMIN bypass */}
                 <ScenarioActions />
               </Grid>
