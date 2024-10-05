@@ -3,7 +3,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import { Grid } from '@mui/material';
+import { Grid2 as Grid } from '@mui/material';
 import isAfter from 'date-fns/isAfter';
 import isBefore from 'date-fns/isBefore';
 import isValid from 'date-fns/isValid';
@@ -23,7 +23,7 @@ export const GenericDateInput = ({ parameterData, context, parameterValue, setPa
     maxDate,
   };
   return (
-    <Grid item id={`date-input-${parameterData.id}`} xs={3}>
+    <Grid id={`date-input-${parameterData.id}`} size={3}>
       <BasicDateInput
         key={parameterData.id}
         id={parameterData.id}
