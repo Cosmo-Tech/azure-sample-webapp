@@ -3,7 +3,7 @@
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import { Grid, Typography } from '@mui/material';
+import { Grid2 as Grid, Typography } from '@mui/material';
 import { TranslationUtils } from '../../../../../../../../utils';
 import { KPIValue } from '../../../KPIValue';
 
@@ -31,11 +31,9 @@ export const KPI = (props) => {
         justifyContent: 'flex-start',
       }}
     >
-      <Grid data-cy={'category-kpi-label'} item>
-        {label}
-      </Grid>
+      <Grid data-cy={'category-kpi-label'}>{label}</Grid>
 
-      <Grid item>
+      <Grid>
         <KPIValue kpi={kpi} valueTypographyProps={{ ...valueProps }} />
       </Grid>
     </Grid>

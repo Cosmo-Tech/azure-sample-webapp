@@ -5,7 +5,7 @@ import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Grid, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+import { Grid2 as Grid, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import rfdc from 'rfdc';
 import { PermissionsGate } from '@cosmotech/ui';
@@ -33,19 +33,8 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     margin: `0 ${theme.spacing(3)}`,
   },
-  accordionSummary: {
-    flexDirection: 'row-reverse',
-  },
   accordionDetailsContent: {
     width: '100%',
-  },
-  gridContainerSummary: {
-    direction: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  gridSummary: {
-    marginLeft: '10px',
   },
 }));
 
@@ -154,15 +143,19 @@ const ScenarioParameters = ({ onToggleAccordion, isAccordionExpanded }) => {
         <Accordion data-cy="scenario-params-accordion" expanded={isAccordionExpanded}>
           <AccordionSummary
             data-cy="scenario-params-accordion-summary"
-            className={classes.accordionSummary}
+            sx={{ flexDirection: 'row-reverse' }}
             expandIcon={<ExpandMoreIcon />}
             onClick={onToggleAccordion}
           >
-            <Grid container className={classes.gridContainerSummary}>
-              <Grid className={classes.gridSummary}>
+            <Grid
+              container
+              size="grow"
+              sx={{ direction: 'row', alignItems: 'center', justifyContent: 'space-between' }}
+            >
+              <Grid sx={{ ml: '10px' }}>
                 <Typography>{t('genericcomponent.text.scenario.parameters.title', 'Scenario parameters')}</Typography>
               </Grid>
-              <Grid item>
+              <Grid container>
                 {/* FIXME: add PLATFORM.ADMIN bypass */}
                 <ScenarioActions />
               </Grid>

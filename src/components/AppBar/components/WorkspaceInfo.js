@@ -3,7 +3,7 @@
 import React, { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { Box, Button, Grid, Popover, Typography } from '@mui/material';
+import { Box, Button, Grid2 as Grid, Popover, Typography } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { DefaultAvatar } from '@cosmotech/ui';
 import { useWorkspaceInfo } from './hooks/WorkspaceInfoHook';

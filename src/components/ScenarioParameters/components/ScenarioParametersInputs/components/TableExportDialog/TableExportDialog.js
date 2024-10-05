@@ -9,7 +9,7 @@ import {
   DialogContent,
   DialogTitle,
   FormControl,
-  Grid,
+  Grid2 as Grid,
   InputAdornment,
   InputLabel,
   MenuItem,
@@ -70,7 +70,7 @@ export const TableExportDialog = ({ defaultFileName = 'Untitled', labels: tmpLab
             alignItems: 'flex-start',
           }}
         >
-          <Grid item data-cy="table-export-file-type-container">
+          <Grid data-cy="table-export-file-type-container">
             <FormControl size="small" sx={{ marginTop: 2, width: 220 }}>
               <InputLabel id="table-export-file-type-select-label">{labels.fileTypeSelectLabel}</InputLabel>
               <Select
@@ -93,7 +93,7 @@ export const TableExportDialog = ({ defaultFileName = 'Untitled', labels: tmpLab
               </Select>
             </FormControl>
           </Grid>
-          <Grid item>
+          <Grid>
             <TextField
               id="table-export-file-name-input"
               data-cy="table-export-file-name-input"
