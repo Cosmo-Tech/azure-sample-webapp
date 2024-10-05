@@ -4,7 +4,7 @@ import React, { useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import { Grid, Stack } from '@mui/material';
+import { Grid2 as Grid, Stack } from '@mui/material';
 import { BasicNumberInput, FadingTooltip } from '@cosmotech/ui';
 import { useLoadInitialValueFromDataset } from '../../../../hooks/DynamicValuesHooks';
 import { useParameterConstraintValidation } from '../../../../hooks/ParameterConstraintsHooks';
@@ -56,7 +56,7 @@ export const GenericNumberInput = ({
         alignItems: 'center',
       }}
     >
-      <Grid item xs={3}>
+      <Grid size={3}>
         <BasicNumberInput
           key={parameterData.id}
           id={parameterData.id}

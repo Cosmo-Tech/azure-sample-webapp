@@ -12,7 +12,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Grid,
+  Grid2 as Grid,
   Step,
   StepLabel,
   Stepper,
@@ -45,8 +45,8 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
     if (!isSubDatasetCreationWizard) return null;
 
     return (
-      <Grid item xs={12}>
-        <Typography sx={{ pb: 0.5, pt: 0, pl: 2 }} data-cy="wizard-subtitle-parent-dataset-name">
+      <Grid size={12} sx={{ pb: 0.5, pt: 0, pl: 2 }}>
+        <Typography data-cy="wizard-subtitle-parent-dataset-name">
           {t(
             'commoncomponents.datasetmanager.wizard.firstScreen.subtitle.parentDataset',
             'Parent dataset: {{parentDatasetName}}',
@@ -63,9 +63,9 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
   }, [parentDataset?.name, isSubDatasetCreationWizard]);
 
   const firstStep = (
-    <>
-      <Grid item xs={12}>
-        <Typography sx={{ pt: 2, pb: 1 }}>
+    <Grid container sx={{ gap: 1 }}>
+      <Grid size={12} sx={{ pt: 2, pb: 1 }}>
+        <Typography>
           {t(
             'commoncomponents.datasetmanager.wizard.firstScreen.title',
             'Please provide some metadata regarding your new dataset'
@@ -73,7 +73,7 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
         </Typography>
       </Grid>
       {optionalSubTitle}
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Controller
           name="name"
           defaultValue={defaultName}
@@ -92,7 +92,7 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
           }}
         />
       </Grid>
-      <Grid item xs={12} data-cy="new-dataset-tags-container">
+      <Grid data-cy="new-dataset-tags-container" size={12}>
         <Controller
           name="tags"
           defaultValue={parentDataset?.tags}
@@ -126,7 +126,7 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
           }}
         />
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Controller
           name="description"
           defaultValue={parentDataset?.description}
@@ -148,7 +148,7 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
           }}
         />
       </Grid>
-    </>
+    </Grid>
   );
 
   const dialogTitle = useMemo(
@@ -181,15 +181,8 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
       <Dialog open={open} fullWidth data-cy="dataset-creation-dialog">
         <DialogTitle>{dialogTitle}</DialogTitle>
         <DialogContent>
-          <Grid
-            container
-            sx={{
-              gap: 1,
-            }}
-          >
-            <Grid item xs={12}>
-              {stepper}
-            </Grid>
+          <Grid container size="grow" sx={{ gap: 1, width: '100%' }}>
+            <Grid size="grow">{stepper}</Grid>
             {activeStep === 0 && firstStep}
             {activeStep === 1 && (
               <DatasetCreationParameters

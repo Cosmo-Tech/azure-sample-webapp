@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button, Grid, List, ListItem, Typography } from '@mui/material';
+import { Button, Grid2 as Grid, List, ListItem, Typography } from '@mui/material';
 import ConfigService from '../../services/ConfigService';
 import { useSolutionData } from '../../state/hooks/SolutionHooks';
 import { useWorkspaceData } from '../../state/hooks/WorkspaceHooks';
@@ -51,7 +51,7 @@ export const TechnicalInfoContent = () => {
 
   return (
     <Grid container spacing={2} direction="column">
-      <Grid item>
+      <Grid>
         {solutionName && (
           <Typography data-cy="technical-info-solution-name" gutterBottom sx={{ fontWeight: '700' }}>
             {solutionName}
@@ -63,7 +63,7 @@ export const TechnicalInfoContent = () => {
           </Typography>
         )}
       </Grid>
-      <Grid item>
+      <Grid>
         <Typography gutterBottom={false}>{t('genericcomponent.dialog.technicalInfo.details', 'Details')}</Typography>
         <List dense disablePadding>
           {infoToDisplay.map((infoItem, index) => (

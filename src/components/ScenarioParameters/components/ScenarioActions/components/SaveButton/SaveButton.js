@@ -4,7 +4,7 @@ import React, { useCallback } from 'react';
 import { useFormState } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import SaveIcon from '@mui/icons-material/Save';
-import { Button, Grid } from '@mui/material';
+import { Button, Grid2 as Grid } from '@mui/material';
 import { PermissionsGate } from '@cosmotech/ui';
 import { useUpdateParameters } from '../../../../../../hooks/ScenarioParametersHooks';
 import { useUserAppAndCurrentScenarioPermissions } from '../../../../../../hooks/SecurityHooks';
@@ -46,7 +46,7 @@ export const SaveButton = () => {
       userPermissions={userAppAndCurrentScenarioPermissions}
       necessaryPermissions={[ACL_PERMISSIONS.SCENARIO.WRITE]}
     >
-      <Grid item>
+      <Grid>
         <Button data-cy="save-button" startIcon={<SaveIcon />} onClick={saveScenarioParameters} disabled={!isValid}>
           {t('commoncomponents.button.scenario.parameters.save', 'SAVE')}
         </Button>

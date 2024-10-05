@@ -3,7 +3,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { CircularProgress, Grid, Typography } from '@mui/material';
+import { CircularProgress, Grid2 as Grid, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { Api } from '../services/config/Api';
 import { INGESTION_STATUS } from '../services/config/ApiConstants';
