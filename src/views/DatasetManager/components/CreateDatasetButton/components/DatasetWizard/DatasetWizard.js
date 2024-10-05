@@ -12,7 +12,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Grid,
+  Grid2 as Grid,
   Step,
   StepLabel,
   Stepper,
@@ -45,7 +45,7 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
     if (!isSubDatasetCreationWizard) return null;
 
     return (
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Typography sx={{ pb: 0.5, pt: 0, pl: 2 }} data-cy="wizard-subtitle-parent-dataset-name">
           {t(
             'commoncomponents.datasetmanager.wizard.firstScreen.subtitle.parentDataset',
@@ -64,7 +64,7 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
 
   const firstStep = (
     <>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Typography sx={{ pt: 2, pb: 1 }}>
           {t(
             'commoncomponents.datasetmanager.wizard.firstScreen.title',
@@ -73,7 +73,7 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
         </Typography>
       </Grid>
       {optionalSubTitle}
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Controller
           name="name"
           defaultValue={defaultName}
@@ -92,7 +92,7 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
           }}
         />
       </Grid>
-      <Grid item xs={12} data-cy="new-dataset-tags-container">
+      <Grid data-cy="new-dataset-tags-container" size={12}>
         <Controller
           name="tags"
           defaultValue={parentDataset?.tags}
@@ -126,7 +126,7 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
           }}
         />
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Controller
           name="description"
           defaultValue={parentDataset?.description}
@@ -187,9 +187,7 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
               gap: 1,
             }}
           >
-            <Grid item xs={12}>
-              {stepper}
-            </Grid>
+            <Grid size={12}>{stepper}</Grid>
             {activeStep === 0 && firstStep}
             {activeStep === 1 && (
               <DatasetCreationParameters

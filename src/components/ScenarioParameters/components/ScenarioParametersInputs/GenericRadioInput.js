@@ -3,7 +3,7 @@
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import { Grid } from '@mui/material';
+import { Grid2 as Grid } from '@mui/material';
 import { BasicRadioInput } from '@cosmotech/ui';
 import { TranslationUtils, ConfigUtils } from '../../../../utils';
 
@@ -33,7 +33,7 @@ export const GenericRadioInput = ({ parameterData, context, parameterValue, setP
   };
 
   return (
-    <Grid item xs={3}>
+    <Grid size={3}>
       <BasicRadioInput
         key={parameterData.id}
         id={parameterData.id}

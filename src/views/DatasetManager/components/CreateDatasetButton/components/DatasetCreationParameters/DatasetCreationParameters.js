@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import { Grid, Typography } from '@mui/material';
+import { Grid2 as Grid, Typography } from '@mui/material';
 import rfdc from 'rfdc';
 import { UploadFile, BasicEnumInput } from '@cosmotech/ui';
 import {
@@ -114,7 +114,7 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
               );
             } else if (inputType === '%DATASETID%') {
               return (
-                <Grid item xs={12} sx={{ pt: 1 }}>
+                <Grid sx={{ pt: 1 }} size={12}>
                   <UploadFile
                     id={parameterId}
                     key={parameterId}
@@ -185,10 +185,8 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
 
   return (
     <>
-      <Grid item xs={12}>
-        {<Typography sx={{ py: 2 }}>{labels.subtitle}</Typography>}
-      </Grid>
-      <Grid item xs={7}>
+      <Grid size={12}>{<Typography sx={{ py: 2 }}>{labels.subtitle}</Typography>}</Grid>
+      <Grid size={7}>
         <Controller
           name="sourceType"
           key="sourceType"
@@ -214,7 +212,7 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
           }}
         />
       </Grid>
-      <Grid item container xs={12} sx={{ px: 2, pt: 3 }}>
+      <Grid container sx={{ px: 2, pt: 3 }} size={12}>
         {sourceParameters}
       </Grid>
     </>
