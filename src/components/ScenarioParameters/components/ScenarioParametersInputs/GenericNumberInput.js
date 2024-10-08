@@ -16,7 +16,7 @@ export const GenericNumberInput = ({
   parameterValue,
   setParameterValue,
   resetParameterValue,
-  isDirty,
+  isDirty = false,
   error,
 }) => {
   const { t } = useTranslation();
@@ -81,10 +81,6 @@ GenericNumberInput.propTypes = {
   defaultParameterValue: PropTypes.number,
   isDirty: PropTypes.bool,
   error: PropTypes.object,
-};
-
-GenericNumberInput.defaultProps = {
-  isDirty: false,
 };
 
 GenericNumberInput.useValidationRules = (parameterData) => {

@@ -7,7 +7,7 @@ import { Grid } from '@mui/material';
 import { BasicRadioInput } from '@cosmotech/ui';
 import { TranslationUtils, ConfigUtils } from '../../../../utils';
 
-export const GenericRadioInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty }) => {
+export const GenericRadioInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty = false }) => {
   const { t } = useTranslation();
   const enumValues = useMemo(() => {
     const rawEnumValues = ConfigUtils.getParameterAttribute(parameterData, 'enumValues') ?? [];
@@ -54,7 +54,4 @@ GenericRadioInput.propTypes = {
   parameterValue: PropTypes.any,
   setParameterValue: PropTypes.func.isRequired,
   isDirty: PropTypes.bool,
-};
-GenericRadioInput.defaultProps = {
-  isDirty: false,
 };
