@@ -41,7 +41,7 @@
     "zod": "^3.23.8"
   },
   "scripts": {
-    "start": "cross-env ESLINT_NO_DEV_ERRORS=true REACT_APP_APP_VERSION=$npm_package_version HOST=localhost react-app-rewired start",
+    "start": "cross-env DISABLE_ESLINT_PLUGIN=true REACT_APP_APP_VERSION=$npm_package_version HOST=localhost react-app-rewired start",
     "build": "cross-env DISABLE_ESLINT_PLUGIN=true REACT_APP_APP_VERSION=$npm_package_version react-app-rewired build",
     "test": "jest --coverage=false",
     "eject": "react-app-rewired eject",
