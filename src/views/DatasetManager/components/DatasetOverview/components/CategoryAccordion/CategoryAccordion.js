@@ -31,7 +31,7 @@ const CategoryAccordion = (props) => {
           </Typography>
         </Grid>
         {category.type && (
-          <>
+          <Grid container size="grow">
             <Grid>
               <Typography variant="body1" className={classes.categoryType}>
                 {'|'}
@@ -45,7 +45,7 @@ const CategoryAccordion = (props) => {
                 )}
               </Typography>
             </Grid>
-          </>
+          </Grid>
         )}
       </Grid>
     );
