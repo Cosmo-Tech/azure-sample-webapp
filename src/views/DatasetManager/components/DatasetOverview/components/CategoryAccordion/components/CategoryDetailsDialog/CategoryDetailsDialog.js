@@ -132,4 +132,3 @@ CategoryDetailsDialog.propTypes = {
   category: PropTypes.object.isRequired,
   kpis: PropTypes.array,
 };
-
