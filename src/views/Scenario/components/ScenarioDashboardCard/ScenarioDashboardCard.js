@@ -71,12 +71,13 @@ const ScenarioDashboardCard = () => {
         >
           <Grid
             container
+            size="grow"
             sx={{ direction: 'row', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'nowrap' }}
           >
             <Grid sx={{ ml: '10px' }}>
               <Typography>{t('commoncomponents.iframe.title', 'Dashboard')}</Typography>
             </Grid>
-            <Grid sx={{ flexGrow: '1' }}>
+            <Grid size="grow">
               {!isDashboardSync && hasRunBeenSuccessful && (
                 <div>
                   <Typography sx={{ textAlign: 'center', width: '100%' }}>
