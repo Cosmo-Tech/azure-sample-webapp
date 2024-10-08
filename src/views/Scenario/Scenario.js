@@ -251,7 +251,7 @@ const Scenario = () => {
     (userPermissionsOnCurrentScenario.includes(ACL_PERMISSIONS.RUNNER.VALIDATE) ||
       currentScenarioData?.validationStatus !== RUNNER_VALIDATION_STATUS.DRAFT);
 
-  const validationAreaDivider = showDivider ? <Divider orientation="vertical" flexItem sx={{ mx: 2 }} /> : null;
+  const validationAreaDivider = showDivider ? <Divider orientation="vertical" flexItem /> : null;
 
   return (
     <FormProvider {...methods} key={`form-${currentScenarioData?.id}`}>
@@ -353,7 +353,7 @@ const Scenario = () => {
               )}
             </Card>
           </Grid>
-          <Grid size={12}>
+          <Grid size="grow">
             <ScenarioDashboardCard />
           </Grid>
         </Grid>
