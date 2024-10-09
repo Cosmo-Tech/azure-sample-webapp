@@ -61,3 +61,100 @@ describe('patchScenarioParameterValues', () => {
     spyConsoleWarn.mockClear();
   });
 });
+
+describe('update parentId on delete', () => {
+  test('can update parentId if parent has been deleted', () => {
+    const runners = [
+      { id: 'r-1', parentId: null },
+      { id: 'r-2', parentId: 'r-1' },
+      { id: 'r-3', parentId: 'r-2' },
+    ];
+    const runnersAfterUpdate = [
+      { id: 'r-1', parentId: null },
+      { id: 'r-2', parentId: 'r-1' },
+      { id: 'r-3', parentId: 'r-1' },
+    ];
+    RunnersUtils.updateParentIdOnDelete(runners, 'r-2');
+    expect(runners).toStrictEqual(runnersAfterUpdate);
+  });
+  test('can assign parentId to null if no higher parents', () => {
+    const runners = [
+      { id: 'r-1', parentId: null },
+      { id: 'r-2', parentId: 'r-1' },
+      { id: 'r-3', parentId: 'r-1' },
+    ];
+    const runnersAfterUpdate = [
+      { id: 'r-1', parentId: null },
+      { id: 'r-2', parentId: null },
+      { id: 'r-3', parentId: null },
+    ];
+    RunnersUtils.updateParentIdOnDelete(runners, 'r-1');
+    expect(runners).toStrictEqual(runnersAfterUpdate);
+  });
+  test("doesn't update array if no children scenarios", () => {
+    const runners = [
+      { id: 'r-1', parentId: null },
+      { id: 'r-2', parentId: 'r-1' },
+      { id: 'r-3', parentId: null },
+    ];
+    const runnersAfterUpdate = [
+      { id: 'r-1', parentId: null },
+      { id: 'r-2', parentId: 'r-1' },
+      { id: 'r-3', parentId: null },
+    ];
+    RunnersUtils.updateParentIdOnDelete(runners, 'r-3');
+    expect(runners).toStrictEqual(runnersAfterUpdate);
+  });
+  test('can update parentId in nested tree', () => {
+    const runners = [
+      { id: 'r-1', parentId: null },
+      { id: 'r-2', parentId: 'r-1' },
+      { id: 'r-3', parentId: 'r-2' },
+      { id: 'r-4', parentId: 'r-3' },
+      { id: 'r-5', parentId: 'r-4' },
+    ];
+    const runnersAfterUpdate = [
+      { id: 'r-1', parentId: null },
+      { id: 'r-2', parentId: 'r-1' },
+      { id: 'r-3', parentId: 'r-2' },
+      { id: 'r-4', parentId: 'r-2' },
+      { id: 'r-5', parentId: 'r-4' },
+    ];
+    RunnersUtils.updateParentIdOnDelete(runners, 'r-3');
+    expect(runners).toStrictEqual(runnersAfterUpdate);
+  });
+  test('can update parentId in large tree', () => {
+    const runners = [
+      { id: 'r-1', parentId: null },
+      { id: 'r-2', parentId: 'r-1' },
+      { id: 'r-3', parentId: 'r-2' },
+      { id: 'r-4', parentId: 'r-2' },
+      { id: 'r-5', parentId: 'r-2' },
+      { id: 'r-6', parentId: 'r-1' },
+    ];
+    const runnersAfterUpdate = [
+      { id: 'r-1', parentId: null },
+      { id: 'r-2', parentId: 'r-1' },
+      { id: 'r-3', parentId: 'r-1' },
+      { id: 'r-4', parentId: 'r-1' },
+      { id: 'r-5', parentId: 'r-1' },
+      { id: 'r-6', parentId: 'r-1' },
+    ];
+    RunnersUtils.updateParentIdOnDelete(runners, 'r-2');
+    expect(runners).toStrictEqual(runnersAfterUpdate);
+  });
+  test("can update parentId if target scenario isn't in the list", () => {
+    const runners = [
+      { id: 'r-1', parentId: null },
+      { id: 'r-2', parentId: 'r-4' },
+      { id: 'r-3', parentId: 'r-2' },
+    ];
+    const runnersAfterUpdate = [
+      { id: 'r-1', parentId: null },
+      { id: 'r-2', parentId: 'r-4' },
+      { id: 'r-3', parentId: 'r-4' },
+    ];
+    RunnersUtils.updateParentIdOnDelete(runners, 'r-2');
+    expect(runners).toStrictEqual(runnersAfterUpdate);
+  });
+});
