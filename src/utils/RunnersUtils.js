@@ -32,7 +32,17 @@ const patchRunnerWithCurrentUserPermissions = (runner, userEmail, userId, permis
   };
 };
 
+const updateParentIdOnDelete = (runners, deletedRunnerId) => {
+  const parentId = runners.find((runner) => runner.id === deletedRunnerId)?.parentId;
+  runners.forEach((runner) => {
+    if (runner.parentId !== deletedRunnerId) return;
+
+    runner.parentId = parentId ?? null;
+  });
+};
+
 export const RunnersUtils = {
   patchRunnerWithCurrentUserPermissions,
   patchRunnerParameterValues,
+  updateParentIdOnDelete,
 };
