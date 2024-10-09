@@ -185,7 +185,7 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
 
   return (
     <>
-      <Grid size={12}>{<Typography sx={{ py: 2 }}>{labels.subtitle}</Typography>}</Grid>
+      <Grid>{<Typography sx={{ py: 2 }}>{labels.subtitle}</Typography>}</Grid>
       <Grid size={7}>
         <Controller
           name="sourceType"
@@ -212,7 +212,7 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
           }}
         />
       </Grid>
-      <Grid container sx={{ px: 2, pt: 3 }} size={12}>
+      <Grid direction="column" container sx={{ px: 2, pt: 3 }}>
         {sourceParameters}
       </Grid>
     </>
