@@ -102,6 +102,7 @@ export const runnerReducer = createReducer(runnersInitialState, (builder) => {
     })
     .addCase(RUNNER_ACTIONS_KEY.DELETE_RUNNER, (state, action) => {
       const index = state.list?.data.findIndex((runner) => runner.id === action.runnerId);
+      RunnersUtils.updateParentIdOnDelete(state.list?.data, action.runnerId);
       state.list?.data.splice(index, 1);
       if (state.current.data?.id === action.runnerId) state.current.data = null;
     })
