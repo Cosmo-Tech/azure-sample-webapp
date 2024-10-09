@@ -187,7 +187,7 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
               gap: 1,
             }}
           >
-            <Grid size={12}>{stepper}</Grid>
+            <Grid>{stepper}</Grid>
             {activeStep === 0 && firstStep}
             {activeStep === 1 && (
               <DatasetCreationParameters
