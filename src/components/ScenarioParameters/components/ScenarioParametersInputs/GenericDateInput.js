@@ -30,6 +30,7 @@ export const GenericDateInput = ({
     minDate,
     maxDate,
   };
+
   return (
     <Grid id={`date-input-${parameterData.id}`} size={3} {...gridItemProps}>
       <BasicDateInput

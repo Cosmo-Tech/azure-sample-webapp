@@ -5,17 +5,11 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Accordion, AccordionDetails, AccordionSummary, Grid2 as Grid, Typography } from '@mui/material';
-import { makeStyles } from '@mui/styles';
 import { exists } from 'i18next';
 import { TranslationUtils } from '../../../../../../utils';
 import { KPI, CategoryDetailsDialog } from './components';
 
-const useStyles = makeStyles((theme) => ({
-  categoryType: { opacity: '70%' },
-}));
-
 const CategoryAccordion = (props) => {
-  const classes = useStyles();
   const { t } = useTranslation();
   const { id, category, queriesResults } = props;
 
@@ -31,14 +25,14 @@ const CategoryAccordion = (props) => {
           </Typography>
         </Grid>
         {category.type && (
-          <Grid container size="grow">
+          <Grid container>
             <Grid>
-              <Typography variant="body1" className={classes.categoryType}>
+              <Typography variant="body1" sx={{ opacity: '70%' }}>
                 {'|'}
               </Typography>
             </Grid>
             <Grid>
-              <Typography data-cy="category-type" variant="body1" className={classes.categoryType}>
+              <Typography data-cy="category-type" variant="body1" sx={{ opacity: '70%' }}>
                 {t(
                   `commoncomponents.datasetmanager.overview.categoryTypes.${category.type.toLowerCase()}`,
                   category.type
@@ -87,13 +81,14 @@ const CategoryAccordion = (props) => {
         id={id}
         container
         spacing={1}
+        size="grow"
         sx={{
           flexFlow: 'row wrap',
           justifyContent: 'space-between',
         }}
       >
         <Grid
-          sx={{ overflow: 'hidden' }}
+          container
           size={{
             lg: 4,
           }}
@@ -101,17 +96,17 @@ const CategoryAccordion = (props) => {
           {categorySummary}
         </Grid>
         <Grid
+          container
+          spacing={1}
           size={{
             lg: 8,
           }}
         >
-          <Grid container spacing={1}>
-            {categoryMainKpis}
-          </Grid>
+          {categoryMainKpis}
         </Grid>
       </Grid>
     );
-  }, [t, id, category, classes, expanded, queriesResults.categoriesKpis]);
+  }, [t, id, category, expanded, queriesResults.categoriesKpis]);
 
   const accordionDetails = useMemo(() => {
     const hasDescription = exists(TranslationUtils.getDatasetCategoryDescriptionTranslationKey(category.id));
