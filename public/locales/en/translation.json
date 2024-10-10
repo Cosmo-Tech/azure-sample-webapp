@@ -168,7 +168,7 @@
           "body": "Do you really want to delete <i>{{datasetName}}</i>? This action is irreversible.{{impactedScenariosWarning}}",
           "bodyWithChildren": "The following children datasets will also be permanently removed:",
           "confirmButton": "Delete",
-          "impactedScenariosWarning": "All the scenarios using this dataset will be impacted."
+          "impactedScenariosWarning": "Users won’t be able to launch scenarios using this dataset, but previously existing results will still be available."
         },
         "cancel": "Cancel"
       },

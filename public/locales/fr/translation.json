@@ -168,7 +168,7 @@
           "body": "Voulez-vous supprimer <i>{{datasetName}}</i> ? Cette action est irréversible.{{impactedScenariosWarning}}",
           "bodyWithChildren": "Les datasets enfants suivants seront également supprimés:",
           "confirmButton": "Supprimer",
-          "impactedScenariosWarning": "Tous les scénarios utilisant ce dataset seront impactés."
+          "impactedScenariosWarning": "Les scénarios utilisant ce dataset ne pourront pas être relancés, mais les résultats déjà disponibles resteront visibles."
         },
         "cancel": "Annuler"
       },

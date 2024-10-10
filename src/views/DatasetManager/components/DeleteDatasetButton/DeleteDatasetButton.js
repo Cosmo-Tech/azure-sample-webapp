@@ -22,7 +22,8 @@ export const DeleteDatasetButton = ({ dataset, location }) => {
         : ' ' + // Space character is here on purpose, to separate concatenated sentences in confirmation dialog body
           t(
             'commoncomponents.datasetmanager.dialogs.delete.impactedScenariosWarning',
-            'All the scenarios using this dataset will be impacted.'
+            'Users won’t be able to launch scenarios using this dataset, but previously existing results will still ' +
+              'be available.'
           );
 
       const dialogProps = {
