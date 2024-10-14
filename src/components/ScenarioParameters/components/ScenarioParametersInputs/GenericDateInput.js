@@ -22,8 +22,9 @@ export const GenericDateInput = ({ parameterData, context, parameterValue, setPa
     minDate,
     maxDate,
   };
+
   return (
-    <Grid container direction="row" id={`date-input-${parameterData.id}`} size={3}>
+    <Grid id={`date-input-${parameterData.id}`} size={3}>
       <BasicDateInput
         key={parameterData.id}
         id={parameterData.id}
