@@ -1,12 +1,12 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { useMemo } from 'react';
-import { useCurrentDataset } from '../../../../state/hooks/DatasetHooks';
 import {
   useDatasetTwingraphQueriesResults,
   useInitializeDatasetTwingraphQueriesResults,
-} from '../../../../state/hooks/DatasetTwingraphQueriesResultsHooks';
-import { useWorkspaceData } from '../../../../state/hooks/WorkspaceHooks';
+} from '../../../../state/datasetTwingraph/hooks';
+import { useCurrentDataset } from '../../../../state/datasets/hooks';
+import { useWorkspaceData } from '../../../../state/workspaces/hooks';
 
 export const useDatasetOverview = () => {
   const workspaceData = useWorkspaceData();

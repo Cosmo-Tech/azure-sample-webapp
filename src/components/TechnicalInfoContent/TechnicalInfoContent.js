@@ -4,8 +4,8 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, Grid, List, ListItem, Typography } from '@mui/material';
 import ConfigService from '../../services/ConfigService';
-import { useSolutionData } from '../../state/hooks/SolutionHooks';
-import { useWorkspaceData } from '../../state/hooks/WorkspaceHooks';
+import { useSolutionData } from '../../state/solutions/hooks';
+import { useWorkspaceData } from '../../state/workspaces/hooks';
 
 export const TechnicalInfoContent = () => {
   const { t } = useTranslation();

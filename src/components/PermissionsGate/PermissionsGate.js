@@ -20,10 +20,10 @@ function hasSufficientRoles(userRoles, requiredRoles) {
 
 export const PermissionsGate = ({
   children,
-  RenderNoPermissionComponent,
-  noPermissionProps,
-  authorizedPermissions,
-  authorizedRoles,
+  RenderNoPermissionComponent = () => <></>,
+  noPermissionProps = null,
+  authorizedPermissions = [],
+  authorizedRoles = [],
 }) => {
   if (!hasDeprecatedWarningBeenShown) {
     console.warn(
@@ -71,11 +71,4 @@ PermissionsGate.propTypes = {
    * If connected user has one of the required roles, children component will be displayed
    */
   authorizedRoles: PropTypes.array,
-};
-
-PermissionsGate.defaultProps = {
-  RenderNoPermissionComponent: () => <></>,
-  noPermissionProps: null,
-  authorizedPermissions: [],
-  authorizedRoles: [],
 };

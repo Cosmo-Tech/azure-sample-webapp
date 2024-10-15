@@ -9,9 +9,9 @@ import rfdc from 'rfdc';
 import { AgGridUtils, FileBlobUtils } from '@cosmotech/core';
 import { Table, TABLE_DATA_STATUS, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
 import { Api } from '../../../../services/config/Api';
-import { useFindDatasetById, useDatasets } from '../../../../state/hooks/DatasetHooks.js';
-import { useOrganizationId } from '../../../../state/hooks/OrganizationHooks.js';
-import { useWorkspaceId } from '../../../../state/hooks/WorkspaceHooks.js';
+import { useFindDatasetById, useDatasets } from '../../../../state/datasets/hooks.js';
+import { useOrganizationId } from '../../../../state/organizations/hooks';
+import { useWorkspaceId } from '../../../../state/workspaces/hooks.js';
 import { gridLight, gridDark } from '../../../../theme/';
 import { ConfigUtils, TranslationUtils } from '../../../../utils';
 import { FileManagementUtils } from '../../../../utils/FileManagementUtils';
@@ -47,7 +47,7 @@ export const GenericTable = ({
   parameterValue,
   setParameterValue,
   resetParameterValue,
-  isDirty,
+  isDirty = false,
 }) => {
   const { t } = useTranslation();
   const organizationId = useOrganizationId();
@@ -809,7 +809,4 @@ GenericTable.propTypes = {
   setParameterValue: PropTypes.func.isRequired,
   resetParameterValue: PropTypes.func.isRequired,
   isDirty: PropTypes.bool,
-};
-GenericTable.defaultProps = {
-  isDirty: false,
 };
