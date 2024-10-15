@@ -13,12 +13,10 @@ const container = document.getElementById('root');
 const root = createRoot(container);
 root.render(
   <Suspense fallback="">
-    <React.StrictMode>
-      <Provider store={applicationStore}>
-        <I18nextProvider i18n={i18next}>
-          <App />
-        </I18nextProvider>
-      </Provider>
-    </React.StrictMode>
+    <Provider store={applicationStore}>
+      <I18nextProvider i18n={i18next}>
+        <App />
+      </I18nextProvider>
+    </Provider>
   </Suspense>
 );
