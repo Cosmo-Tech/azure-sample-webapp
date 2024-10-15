@@ -52,6 +52,8 @@ const runOptions = {
   expectedPollsCount: 2,
 };
 
+const defaultScenarioWithoutRuns = [...DEFAULT_SCENARIOS_LIST];
+
 describe('can use dataset data in editable table', () => {
   before(() => {
     stub.setDatasets(DATASETS_TWINGRAPH);
@@ -182,6 +184,8 @@ describe('can use dataset data in editable table', () => {
 describe('save table on second launch', () => {
   before(() => {
     stub.start();
+    stub.setDatasets(DATASETS_TWINGRAPH);
+    stub.setScenarios(defaultScenarioWithoutRuns);
     stub.setSolutions([SOLUTION_WITH_DYNAMIC_TABLE]);
   });
   beforeEach(() => {
