@@ -1,8 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { useMemo } from 'react';
-import { useDatasets } from '../state/hooks/DatasetHooks';
-import { useWorkspaceDatasetsFilter } from '../state/hooks/WorkspaceHooks';
+import { useDatasets } from '../state/datasets/hooks';
+import { useWorkspaceDatasetsFilter } from '../state/workspaces/hooks';
 
 export const useWorkspaceDatasets = () => {
   const datasets = useDatasets();

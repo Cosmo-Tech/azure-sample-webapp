@@ -5,14 +5,14 @@ import { useTranslation } from 'react-i18next';
 import rfdc from 'rfdc';
 import { useWorkspaceDatasets } from '../../hooks/WorkspaceDatasetsHooks';
 import { INGESTION_STATUS, TWINCACHE_STATUS } from '../../services/config/ApiConstants';
-import { useUser } from '../../state/hooks/AuthHooks';
-import { useCreateSimulationRunner, useCurrentSimulationRunner, useRunners } from '../../state/hooks/RunnerHooks';
-import { useScenarioRunTemplates, useSolution } from '../../state/hooks/SolutionHooks';
+import { useUser } from '../../state/auth/hooks';
+import { useCreateSimulationRunner, useCurrentSimulationRunner, useRunners } from '../../state/runner/hooks';
+import { useScenarioRunTemplates, useSolution } from '../../state/solutions/hooks';
 import {
   useDefaultRunTemplateDataset,
   useUserPermissionsOnCurrentWorkspace,
   useWorkspaceData,
-} from '../../state/hooks/WorkspaceHooks';
+} from '../../state/workspaces/hooks';
 import { TranslationUtils } from '../../utils';
 import { getCreateScenarioDialogLabels } from './labels';
 
