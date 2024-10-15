@@ -7,10 +7,10 @@ import { Grid, Accordion, AccordionSummary, AccordionDetails, Typography } from 
 import { ResourceCard } from '@cosmotech/ui';
 import { ApplicationErrorBanner } from '../../components';
 import { AppBar } from '../../components/AppBar';
-import { STATUSES } from '../../state/commons/Constants';
-import { useResetCurrentSimulationRunner } from '../../state/hooks/RunnerHooks';
-import { useResetCurrentSolution, useSolution } from '../../state/hooks/SolutionHooks';
-import { useResetCurrentWorkspace } from '../../state/hooks/WorkspaceHooks';
+import { STATUSES } from '../../services/config/StatusConstants';
+import { useResetCurrentSimulationRunner } from '../../state/runner/hooks';
+import { useResetCurrentSolution, useSolution } from '../../state/solutions/hooks';
+import { useResetCurrentWorkspace } from '../../state/workspaces/hooks';
 import { useWorkspaces } from './WorkspacesHook';
 
 const Workspaces = () => {
