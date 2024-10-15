@@ -187,13 +187,8 @@ describe('can use dataset data in editable table', () => {
 });
 
 describe('save table on second launch', () => {
-  const SCENARIOS = clone(DEFAULT_SCENARIOS_LIST);
-  SCENARIOS.forEach((scenario) => (scenario.datasetList = ['D-stbdataset11']));
-
   before(() => {
     stub.start();
-    stub.setDatasets(DATASETS_TWINGRAPH);
-    stub.setScenarios(SCENARIOS);
     stub.setSolutions([SOLUTION_WITH_DYNAMIC_TABLE]);
   });
   beforeEach(() => {
