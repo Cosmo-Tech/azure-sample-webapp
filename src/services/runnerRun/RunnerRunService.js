@@ -9,10 +9,8 @@ import { Api } from '../config/Api';
 async function downloadLogsFile(organizationId, workspaceId, runnerId, lastRunId) {
   try {
     const fileName = `${runnerId}_${lastRunId}_logs.txt`;
-    const { data } = await Api.RunnerRuns.getRunLogs(organizationId, workspaceId, runnerId, lastRunId, {
-      responseType: 'text',
-    });
-    const parsedLogs = data?.logs?.join('\n') ?? '';
+    const { data } = await Api.RunnerRuns.getRunLogs(organizationId, workspaceId, runnerId, lastRunId);
+    const parsedLogs = data?.logs?.map((logItem) => logItem.line)?.join('\n') ?? '';
 
     FileBlobUtils.downloadFileFromData(parsedLogs, fileName);
   } catch (error) {
