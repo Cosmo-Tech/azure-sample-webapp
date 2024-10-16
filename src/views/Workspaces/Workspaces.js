@@ -106,18 +106,18 @@ const Workspaces = () => {
               </Typography>
               <Typography
                 variant="caption"
+                color="textSecondary"
                 sx={{
                   display: 'block',
-                  color: 'textSecondary',
                 }}
               >
                 {labels.reasonNoWorkspacePlaceholder}
               </Typography>
               <Typography
                 variant="caption"
+                color="textSecondary"
                 sx={{
                   display: 'block',
-                  color: 'textSecondary',
                 }}
               >
                 {labels.contactNoWorkspacePlaceholder}
