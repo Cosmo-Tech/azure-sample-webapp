@@ -92,13 +92,7 @@ export const DatasetOverviewPlaceholder = () => {
         </Typography>
       ),
       subtitle: subtitle ? (
-        <Typography
-          data-cy={subtitleDataCy}
-          variant="body1"
-          sx={{
-            color: 'appbar.contrastTextSoft',
-          }}
-        >
+        <Typography data-cy={subtitleDataCy} variant="body1" color="appbar.contrastTextSoft">
           {subtitle}
         </Typography>
       ) : null,
