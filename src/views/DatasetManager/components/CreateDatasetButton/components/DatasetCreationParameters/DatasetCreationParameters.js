@@ -84,7 +84,7 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
                   context={{ editMode: true }}
                   parameterValue={value}
                   setParameterValue={onChange}
-                  gridItemProps={{ xs: 12, sx: { pt: 1 } }}
+                  gridItemProps={{ sx: { pt: 1, width: '100%' }, size: 'grow' }}
                   size="medium"
                   isDirty={null}
                 />
@@ -97,14 +97,14 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
                   parameterValue={value}
                   setParameterValue={onChange}
                   resetParameterValue={(newDefaultValue) => resetField(fieldPath, { defaultValue: newDefaultValue })}
-                  gridItemProps={{ xs: 6, sx: { pt: 2 } }}
+                  gridItemProps={{ xs: 6, sx: { pt: 2, width: '100%' }, size: 'grow' }}
                   isDirty={null}
                 />
               );
             } else if (inputType === 'list') {
               return (
                 <GenericMultiSelect
-                  gridItemProps={{ xs: 12, sx: { pt: 2 } }}
+                  gridItemProps={{ xs: 12, sx: { pt: 2, width: '100%' }, size: 'grow' }}
                   parameterData={parameter}
                   context={{ editMode: true, targetDatasetId: parentDataset?.id }}
                   parameterValue={value}
@@ -184,9 +184,11 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
   }, [t, isSubDatasetCreationWizard]);
 
   return (
-    <>
-      <Grid>{<Typography sx={{ py: 2 }}>{labels.subtitle}</Typography>}</Grid>
-      <Grid size={7}>
+    <Grid container sx={{ width: '100%' }}>
+      <Grid sx={{ py: 2 }}>
+        <Typography>{labels.subtitle}</Typography>
+      </Grid>
+      <Grid sx={{ py: 1 }} size={7}>
         <Controller
           name="sourceType"
           key="sourceType"
@@ -212,10 +214,10 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
           }}
         />
       </Grid>
-      <Grid direction="column" container sx={{ px: 2, pt: 3 }}>
+      <Grid container sx={{ px: 2, pt: 3, width: '100%', flexGrow: 1 }}>
         {sourceParameters}
       </Grid>
-    </>
+    </Grid>
   );
 };
 
