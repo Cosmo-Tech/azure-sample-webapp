@@ -283,14 +283,7 @@ const Scenario = () => {
                     useSpan={true}
                     spanProps={{ style: { overflow: 'hidden' } }}
                   >
-                    <Typography
-                      data-cy="run-template-name"
-                      align="center"
-                      noWrap
-                      sx={{
-                        color: 'text.secondary',
-                      }}
-                    >
+                    <Typography data-cy="run-template-name" align="center" noWrap color="text.secondary">
                       <Typography component="span" sx={{ fontWeight: '700' }}>
                         {t('views.scenario.text.scenariotype')}
                       </Typography>
@@ -306,14 +299,7 @@ const Scenario = () => {
                     useSpan={true}
                     spanProps={{ style: { overflow: 'hidden' } }}
                   >
-                    <Typography
-                      data-cy="dataset-name"
-                      align="center"
-                      noWrap
-                      sx={{
-                        color: 'text.secondary',
-                      }}
-                    >
+                    <Typography data-cy="dataset-name" align="center" noWrap color="text.secondary">
                       &nbsp;|&nbsp;
                       <Typography component="span" sx={{ fontWeight: '700' }}>
                         {t('commoncomponents.dialog.create.scenario.dropdown.dataset.label', 'Dataset')}:&nbsp;
