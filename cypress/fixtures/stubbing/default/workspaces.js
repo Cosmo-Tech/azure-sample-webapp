@@ -25,7 +25,11 @@ export const WORKSPACE_EXAMPLE = {
   solution: {
     solutionId: 'SOL-stubbedbrwy',
     runTemplateFilter: ['1', '2', '3'],
-    defaultRunTemplateDataset: null,
+    defaultRunTemplateDataset: {
+      1: 'd-4gyqzvjpogd',
+      2: 'd-z8djz6jgdkx',
+      3: 'd-qnd13z48ndn',
+    },
   },
   id: 'W-stbbdbrwry',
   description: 'Stubbed workspace for Brewery Demo',

@@ -177,6 +177,19 @@ describe('can use dataset data in editable table', () => {
     BreweryParameters.getCustomersTableGrid().should('exist');
     BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Customer3');
   });
+});
+
+describe('save table on second launch', () => {
+  before(() => {
+    stub.start();
+    stub.setSolutions([SOLUTION_WITH_DYNAMIC_TABLE]);
+  });
+  beforeEach(() => {
+    Login.login();
+  });
+  after(() => {
+    stub.stop();
+  });
   it('can fetch data from dataset and save table on second launch', () => {
     Scenarios.getScenarioViewTab(60).should('be.visible');
     ScenarioSelector.selectScenario(DEFAULT_SCENARIOS_LIST[4].name, DEFAULT_SCENARIOS_LIST[4].id);
