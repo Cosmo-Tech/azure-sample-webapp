@@ -32,8 +32,25 @@ export function* getRunner(action) {
 
     const { data } = yield call(Api.Runners.getRunner, organizationId, workspaceId, runnerId);
     if (data.lastRunId) {
-      const response = yield call(Api.RunnerRuns.getRunStatus, organizationId, workspaceId, runnerId, data.lastRunId);
-      data.state = response.data.state;
+      try {
+        const response = yield call(Api.RunnerRuns.getRunStatus, organizationId, workspaceId, runnerId, data.lastRunId);
+        data.state = response.data.state;
+      } catch (error) {
+        console.error(error);
+        yield put(
+          dispatchSetApplicationErrorMessage(
+            error,
+            t(
+              'views.scenario.scenarioRunStatusQueryError.comment',
+              'Could not get status of scenario run with id "{{id}}".',
+              {
+                id: data.lastRunId,
+              }
+            )
+          )
+        );
+        data.state = RUNNER_RUN_STATE.UNKNOWN;
+      }
     } else {
       data.state = RUNNER_RUN_STATE.CREATED;
     }
