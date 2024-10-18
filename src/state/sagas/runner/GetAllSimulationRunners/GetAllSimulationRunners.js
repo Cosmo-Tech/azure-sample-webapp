@@ -1,5 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
+import { t } from 'i18next';
 import { all, call, put, select, takeEvery } from 'redux-saga/effects';
 import { Api } from '../../../../services/config/Api';
 import { RUNNER_RUN_STATE } from '../../../../services/config/ApiConstants';
@@ -8,6 +9,7 @@ import { ACL_PERMISSIONS } from '../../../../services/config/accessControl';
 import { ApiUtils, RunnersUtils, SolutionsUtils } from '../../../../utils';
 import { STATUSES } from '../../../commons/Constants';
 import { RUNNER_ACTIONS_KEY } from '../../../commons/RunnerConstants';
+import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
 
 const getUserEmail = (state) => state.auth.userEmail;
 const getUserId = (state) => state.auth.userId;
@@ -19,10 +21,28 @@ const keepOnlyReadableRunners = (runners) =>
   runners.filter((runner) => runner.security.currentUserPermissions.includes(ACL_PERMISSIONS.RUNNER.READ));
 
 function* getRunnerStatus(organizationId, workspaceId, runnerId, lastRunId) {
-  const response = yield call(Api.RunnerRuns.getRunStatus, organizationId, workspaceId, runnerId, lastRunId);
-  yield put({ type: RUNNER_ACTIONS_KEY.UPDATE_RUNNER, runnerId, runner: { state: response.data.state } });
-  yield put({ type: RUNNER_ACTIONS_KEY.ADD_RUN, data: response.data });
+  try {
+    const response = yield call(Api.RunnerRuns.getRunStatus, organizationId, workspaceId, runnerId, lastRunId);
+    yield put({ type: RUNNER_ACTIONS_KEY.UPDATE_RUNNER, runnerId, runner: { state: response.data.state } });
+    yield put({ type: RUNNER_ACTIONS_KEY.ADD_RUN, data: response.data });
+  } catch (error) {
+    console.error(error);
+    yield put(
+      dispatchSetApplicationErrorMessage(
+        error,
+        t(
+          'views.scenario.scenarioRunStatusQueryError.comment',
+          'Could not get status of scenario run with id "{{id}}".',
+          {
+            id: lastRunId,
+          }
+        )
+      )
+    );
+    yield put({ type: RUNNER_ACTIONS_KEY.UPDATE_RUNNER, runnerId, runner: { state: RUNNER_RUN_STATE.UNKNOWN } });
+  }
 }
+
 export function* getAllSimulationRunners(organizationId, workspaceId) {
   const userEmail = yield select(getUserEmail);
   const userId = yield select(getUserId);
