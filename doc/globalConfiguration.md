@@ -8,16 +8,17 @@ application on a new environment.
 
 The following parameters are available:
 
-| parameter                                                 | required/optional                |
-| --------------------------------------------------------- | -------------------------------- |
-| [APP_REGISTRATION_CLIENT_ID](#app-registration-client-id) | required to log in with Azure    |
-| [AUTH_KEYCLOAK_CLIENT_ID](#auth-keycloak-client-id)       | required to log in with Keycloak |
-| [AUTH_KEYCLOAK_REALM](#auth-keycloak-realm)               | required to log in with Keycloak |
-| [AZURE_TENANT_ID](#azure-tenant-id)                       | required to log in with Azure    |
-| [COSMOTECH_API_SCOPE](#cosmotech-api-scope)               | required to log in with Azure    |
-| [DEFAULT_BASE_PATH](#default-base-path)                   | mandatory                        |
-| [ORGANIZATION_ID](#organization-id)                       | mandatory                        |
-| [WORKSPACES_IDS_FILTER](#workspaces-ids-filter)           | optional                         |
+| parameter                                                       | required/optional                |
+| --------------------------------------------------------------- | -------------------------------- |
+| [APP_REGISTRATION_CLIENT_ID](#app-registration-client-id)       | required to log in with Azure    |
+| [AUTH_KEYCLOAK_CLIENT_ID](#auth-keycloak-client-id)             | required to log in with Keycloak |
+| [AUTH_KEYCLOAK_REALM](#auth-keycloak-realm)                     | required to log in with Keycloak |
+| [AUTH_KEYCLOAK_ROLES_JWT_CLAIM](#auth-keycloak-roles-jwt-claim) | required to log in with Keycloak |
+| [AZURE_TENANT_ID](#azure-tenant-id)                             | required to log in with Azure    |
+| [COSMOTECH_API_SCOPE](#cosmotech-api-scope)                     | required to log in with Azure    |
+| [DEFAULT_BASE_PATH](#default-base-path)                         | mandatory                        |
+| [ORGANIZATION_ID](#organization-id)                             | mandatory                        |
+| [WORKSPACES_IDS_FILTER](#workspaces-ids-filter)                 | optional                         |
 
 ## Parameters description
 
@@ -45,6 +46,14 @@ When using Keycloak as an authentication provider, you must set `AUTH_KEYCLOAK_R
 you want to use.
 
 Example: `https://mykeycloak.example.com/keycloak/realms/brewery`
+
+### `AUTH_KEYCLOAK_ROLES_JWT_CLAIM`
+
+When using Keycloak as an authentication provider, the value of `AUTH_KEYCLOAK_ROLES_JWT_CLAIM` describes the key in the
+access token that contains the list of user roles. This value comes from the Cosmo Tech platform configuration, it is
+defined by `csm.platform.authorization.roles-jwt-claim`.
+
+Example: this value is usually `roles` or `userRoles`, but it can be customized when a new tenant is deployed.
 
 ### `AZURE_TENANT_ID`
 
