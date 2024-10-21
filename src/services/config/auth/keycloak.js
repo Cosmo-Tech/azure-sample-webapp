@@ -6,6 +6,7 @@ import ConfigService from '../../ConfigService';
 
 const AUTH_KEYCLOAK_CLIENT_ID = ConfigService.getParameterValue('AUTH_KEYCLOAK_CLIENT_ID');
 const AUTH_KEYCLOAK_REALM = ConfigService.getParameterValue('AUTH_KEYCLOAK_REALM');
+const AUTH_KEYCLOAK_ROLES_JWT_CLAIM = ConfigService.getParameterValue('AUTH_KEYCLOAK_ROLES_JWT_CLAIM');
 
 let authorityDomain;
 try {
@@ -18,6 +19,7 @@ export const SHOW_KEYCLOAK_AUTH_PROVIDER = AUTH_KEYCLOAK_CLIENT_ID && AUTH_KEYCL
 
 const redirectUrl = `${window.location.protocol}//${window.location.host}${process.env?.PUBLIC_URL ?? ''}` + '/sign-in';
 const MSAL_KEYCLOAK_CONFIG = {
+  rolesJwtClaim: AUTH_KEYCLOAK_ROLES_JWT_CLAIM,
   loginRequest: {},
   accessRequest: {},
   msalConfig: {
