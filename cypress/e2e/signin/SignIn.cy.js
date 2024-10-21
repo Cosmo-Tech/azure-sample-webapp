@@ -15,7 +15,7 @@ describe('Log in & log out', () => {
   before(() => {});
 
   beforeEach(() => {
-    Login.login({ workspaceId: BREWERY_WORKSPACE_ID });
+    Login.login({ workspaceId: BREWERY_WORKSPACE_ID, url: `/${BREWERY_WORKSPACE_ID}` });
   });
 
   it('can log in and log out', () => {
