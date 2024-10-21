@@ -45,8 +45,8 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
     if (!isSubDatasetCreationWizard) return null;
 
     return (
-      <Grid size={12}>
-        <Typography sx={{ pb: 0.5, pt: 0, pl: 2 }} data-cy="wizard-subtitle-parent-dataset-name">
+      <Grid size={12} sx={{ pb: 0.5, pt: 0, pl: 2 }}>
+        <Typography data-cy="wizard-subtitle-parent-dataset-name">
           {t(
             'commoncomponents.datasetmanager.wizard.firstScreen.subtitle.parentDataset',
             'Parent dataset: {{parentDatasetName}}',
@@ -63,9 +63,9 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
   }, [parentDataset?.name, isSubDatasetCreationWizard]);
 
   const firstStep = (
-    <>
-      <Grid size={12}>
-        <Typography sx={{ pt: 2, pb: 1 }}>
+    <Grid container sx={{ gap: 1 }}>
+      <Grid size={12} sx={{ pt: 2, pb: 1 }}>
+        <Typography>
           {t(
             'commoncomponents.datasetmanager.wizard.firstScreen.title',
             'Please provide some metadata regarding your new dataset'
@@ -148,7 +148,7 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
           }}
         />
       </Grid>
-    </>
+    </Grid>
   );
 
   const dialogTitle = useMemo(
@@ -181,7 +181,7 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
       <Dialog open={open} fullWidth data-cy="dataset-creation-dialog">
         <DialogTitle>{dialogTitle}</DialogTitle>
         <DialogContent>
-          <Grid container sx={{ gap: 1 }}>
+          <Grid container size="grow" sx={{ gap: 1, width: '100%' }}>
             <Grid size="grow">{stepper}</Grid>
             {activeStep === 0 && firstStep}
             {activeStep === 1 && (

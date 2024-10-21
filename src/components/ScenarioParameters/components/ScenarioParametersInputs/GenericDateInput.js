@@ -12,7 +12,15 @@ import { BasicDateInput } from '@cosmotech/ui';
 import { useDateConstraintValidation } from '../../../../hooks/ParameterConstraintsHooks';
 import { TranslationUtils } from '../../../../utils';
 
-export const GenericDateInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty, error }) => {
+export const GenericDateInput = ({
+  parameterData,
+  context,
+  parameterValue,
+  setParameterValue,
+  isDirty,
+  error,
+  gridItemProps,
+}) => {
   const { t } = useTranslation();
   const minDate = parameterData.minValue ? new Date(parameterData.minValue) : undefined;
   const maxDate = parameterData.maxValue ? new Date(parameterData.maxValue) : undefined;
@@ -24,7 +32,7 @@ export const GenericDateInput = ({ parameterData, context, parameterValue, setPa
   };
 
   return (
-    <Grid id={`date-input-${parameterData.id}`} size={3}>
+    <Grid id={`date-input-${parameterData.id}`} size={3} {...gridItemProps}>
       <BasicDateInput
         key={parameterData.id}
         id={parameterData.id}
@@ -48,6 +56,8 @@ GenericDateInput.propTypes = {
   setParameterValue: PropTypes.func.isRequired,
   isDirty: PropTypes.bool,
   error: PropTypes.object,
+  gridItemProps: PropTypes.object,
+  size: PropTypes.string,
 };
 GenericDateInput.defaultProps = {
   isDirty: false,
