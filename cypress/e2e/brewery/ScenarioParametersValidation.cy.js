@@ -105,11 +105,23 @@ describe('scenario parameters inputs validation', () => {
       ScenarioParameters.getInputValue(BreweryParameters.getStartDateInput()).as('start_date');
       ScenarioParameters.getInputValue(BreweryParameters.getAdditionalDateInput()).as('additional_date');
 
-      BreweryParameters.getStartDateInput().click().type('{rightArrow}{backspace}{rightArrow}{backspace}');
+      // FIXME: merge both changes after rebase
+      // BreweryParameters.getStartDateInput().click().type('{rightArrow}{backspace}{rightArrow}{backspace}');
+      // BreweryParameters.getStartDateHelperText().should('be.visible').contains('format');
+      // // Adding a delay in type function to make test less brittle in Electron browser (passes without delay in Chrome)
+      // BreweryParameters.getStartDateInput().click().type('{selectAll}{backspace}', { delay: 1 });
+      // BreweryParameters.getStartDateHelperText().should('be.visible').contains('required');
+
+      BreweryParameters.getStartDateInput().click().type('{backspace}');
       BreweryParameters.getStartDateHelperText().should('be.visible').contains('format');
       // Adding a delay in type function to make test less brittle in Electron browser (passes without delay in Chrome)
-      BreweryParameters.getStartDateInput().click().type('{selectAll}{backspace}', { delay: 1 });
+      BreweryParameters.getStartDateInput()
+        .click()
+        .type('{rightArrow}{backspace}{rightArrow}{backspace}', { delay: 1 });
       BreweryParameters.getStartDateHelperText().should('be.visible').contains('required');
+      BreweryParameters.getStartDateInput().type('22/22');
+      BreweryParameters.getStartDateHelperText().should('be.visible').contains('format');
+
       BreweryParameters.getStartDateInput().type('{leftArrow}{leftArrow}05/18/2099', { delay: 1 });
       BreweryParameters.getStartDateHelperText().should('not.exist');
 
