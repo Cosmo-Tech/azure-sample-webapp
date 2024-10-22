@@ -105,9 +105,9 @@ describe('scenario parameters inputs validation', () => {
       ScenarioParameters.getInputValue(BreweryParameters.getStartDateInput()).as('start_date');
       ScenarioParameters.getInputValue(BreweryParameters.getAdditionalDateInput()).as('additional_date');
 
-      BreweryParameters.getStartDateInput().clear();
+      BreweryParameters.getStartDateInput().type('{selectAll}{backspace}');
       BreweryParameters.getStartDateHelperText().should('be.visible').contains('required');
-      BreweryParameters.getStartDateInput().type('22/22/2222');
+      BreweryParameters.getStartDateInput().type('22/22');
       BreweryParameters.getStartDateHelperText().should('be.visible').contains('format');
       BreweryParameters.getStartDateInput().clear().type('05/18/2099');
       BreweryParameters.getStartDateHelperText().should('not.exist');
