@@ -49,7 +49,7 @@ describe('Additional advanced scenario parameters tests', () => {
       volumeUnit: 'bl',
       additionalTables: 9090,
       comment: 'Strongly recommended',
-      additionalDate: '12/07/2022',
+      additionalDate: '07/12/2022',
       countries: ['France', 'Germany', 'Italy'],
       scenarioToCompare: forgeScenarioName(),
     };
@@ -93,10 +93,7 @@ describe('Additional advanced scenario parameters tests', () => {
 
     BreweryParameters.switchToAdditionalParametersTab();
     BreweryParameters.getCommentInput().click().clear().type('Incredible service');
-    BreweryParameters.getAdditionalDateInput()
-      .click()
-      .type('{moveToStart}' + '29/08/1997')
-      .should('value', '29/08/1997');
+    BreweryParameters.getAdditionalDateInput().type('08/29/1997').should('value', '08/29/1997');
 
     cy.get('@scenarioToCompareId').then((id) => BreweryParameters.selectScenarioToCompareOption(id));
     BreweryParameters.getScenarioToCompareSelectInput().should('value', VALUES_TO_UPDATE.scenarioToCompare);
@@ -142,9 +139,7 @@ describe('Additional advanced scenario parameters tests', () => {
 
     BreweryParameters.switchToAdditionalParametersTab();
     BreweryParameters.getCommentInput().click().clear().type(VALUES_TO_UPDATE.comment);
-    BreweryParameters.getAdditionalDateInput()
-      .click()
-      .type('{moveToStart}' + VALUES_TO_UPDATE.additionalDate);
+    BreweryParameters.getAdditionalDateInput().type(VALUES_TO_UPDATE.additionalDate);
     cy.get('@scenarioToCompareId').then((id) => {
       BreweryParameters.selectScenarioToCompareOption(id);
     });
