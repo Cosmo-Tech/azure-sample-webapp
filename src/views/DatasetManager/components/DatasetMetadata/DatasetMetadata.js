@@ -109,12 +109,16 @@ export const DatasetMetadata = () => {
         <MetadataItem
           id="creation-date"
           label={t('commoncomponents.datasetmanager.metadata.creationDate', 'Creation date')}
-          value={dataset?.creationDate && new Date(dataset?.creationDate).toLocaleString()}
+          value={
+            dataset?.creationDate && new Date(dataset?.creationDate)?.toLocaleDateString('en-US', { timeZone: 'UTC' })
+          }
         ></MetadataItem>
         <MetadataItem
           id="refresh-date"
           label={t('commoncomponents.datasetmanager.metadata.refreshDate', 'Last refresh')}
-          value={dataset?.refreshDate && new Date(dataset?.refreshDate).toLocaleString()}
+          value={
+            dataset?.refreshDate && new Date(dataset?.refreshDate)?.toLocaleDateString('en-US', { timeZone: 'UTC' })
+          }
         ></MetadataItem>
         <MetadataItem
           id="source-type"
