@@ -11,7 +11,6 @@ const cspConfigPolicy = {
     '*.api.cosmotech.com',
     'https://login.microsoftonline.com',
     'https://dc.services.visualstudio.com',
-    'https://scenario-download-brewery-dev.azurewebsites.net',
   ],
   'script-src': ["'self'"],
   'img-src': ["'self'", 'data:'],
@@ -55,6 +54,7 @@ function addFallback(config) {
   config.resolve.fallback = fallback;
   config.plugins = (config.plugins || []).concat([
     new webpack.ProvidePlugin({
+      process: 'process/browser',
       Buffer: ['buffer', 'Buffer'],
     }),
   ]);
