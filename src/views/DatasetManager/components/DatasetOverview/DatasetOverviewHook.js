@@ -1,6 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import {
   useDatasetTwingraphQueriesResults,
   useInitializeDatasetTwingraphQueriesResults,
@@ -26,8 +26,9 @@ export const useDatasetOverview = () => {
     if (config.queries == null) config.queries = [];
     return config;
   }, [workspaceData?.webApp?.options?.datasetManager]);
-
-  initializeDatasetTwingraphQueriesResults(currentDataset);
+  useEffect(() => {
+    initializeDatasetTwingraphQueriesResults(currentDataset);
+  }, [currentDataset, initializeDatasetTwingraphQueriesResults]);
 
   const queriesResults = useMemo(() => {
     const result = { categoriesKpis: [], graphIndicators: [] };
