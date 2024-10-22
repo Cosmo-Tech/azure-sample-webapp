@@ -384,8 +384,9 @@ scenario, its parent or root scenarios, or even the scenarios available to the u
 Here is the list of dynamic filters available:
 
 | Filter name                            | Description                                                            |
-|----------------------------------------|------------------------------------------------------------------------|
+| -------------------------------------- | ---------------------------------------------------------------------- |
 | `id`                                   | _id_ of the current scenario                                           |
+| `lastRunId`                            | _id of the last run_ of the current scenario                           |
 | `csmSimulationRun`                     | _csm run id_ of the last run of the current scenario                   |
 | `state`                                | _state_ of the current scenario                                        |
 | `name`                                 | _name_ of the current scenario                                         |
