@@ -1,12 +1,68 @@
+## **6.4.0** <sub><sup>2024-10-22 ([3e213b0...62dbfc9](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/3e213b08...62dbfc91?diff=split))</sup></sub>
+
+### Features
+
+- \[PROD\-13567\] PowerBI dashboards are now hidden when not configured ([382fec5](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/382fec54))
+- add support of workspace option `[workspace].solution.defaultRunTemplateDataset` ([a68a609](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/a68a609b))
+- \[PROD\-13559\] add external files to let projects customize translation labels ([6b6d166](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/6b6d1661))
+- \[PROD\-8178\] add tags and description in scenario creation dialog ([b2ff886](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/b2ff886f))
+- \[PROD\-8178\] display scenario tags and description in scenario manager ([6facdb4](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/6facdb4d))
+- \[PROD\-12789\] display dataset name in scenario view ([a460a61](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/a460a616))
+- \[PROD\-13747\] add an option to pre-fill numeric parameter fields based on the result of a dataset query ([81bff8f](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/81bff8f3))
+- \[PROD\-13564\] add configurable dataset details by category (tables with content queried from the dataset) ([b269f82](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/b269f829))
+- support optional environment variable `REACT_APP_API_KEY` to bypass API token request ([3ee8b73](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/3ee8b73e))
+- add support of optional configuration to override local dev account configuration ([4c6638d](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/4c6638dd))
+
+### Bug Fixes
+
+- \[SDCOSMO\-2041\] sort workspace cards in workspace selector view ([120ab7c](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/120ab7c4))
+- \[PROD\-13674\] fix table not saved after a revert ([32bf0ac](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/32bf0ac0))
+- fix error caused by sharing non-ETL datasets ([5ee7ffb](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/5ee7ffb5))
+- fix escape button behavior in DescriptionEditor ([b923038](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/b9230387))
+- \[PROD\-13564\] improve error management in Table component ([0a1f318](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/0a1f3181))
+- \[PROD\-13938\] improve layout in Scenario view ([adcb4da](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/adcb4da4))
+- fix infinite spinner in Enum component when target dataset doesn't exist ([203786e](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/203786e9))
+- \[PROD\-13351\] fix reset of previous scenario state when run start fails ([b32fd96](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/b32fd96a))
+- fix error handling when an error occurs during table twingraph queries ([a984b58](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/a984b588))
+- \[PROD\-13749\] fix placeholder label in Dashboards view when there are no scenarios ([53292b5](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/53292b53))
+- \[PROD\-13350\] rewrite warning message shown when deleting a dataset ([9fe83ec](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/9fe83ec1))
+- \[PROD\-14001\] add missing dynamic filter for scenario run id ([48730ef](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/48730eff))
+- fix graph indicator height issue in Dataset Manager view ([7670136](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/76701368))
+- fix typo in default message when session has expired ([0e4da04](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/0e4da049))
+- fix error in dataset KPIs when some query values are not used ([2e3095d](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/2e3095da))
+- fix missing Windows\-specific MIME type for zip files ([16bfac0](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/16bfac09))
+- fix solution reset before landing on workspace view ([53af469](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/53af4697))
+- fix possible crash when clearing the error banner ([b0269c4](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/b0269c42))
+- fix infinite re\-render loop caused by router vs\. RHF ([9895bd4](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/9895bd45))
+- add missing key `dynamicValues` in solution configuration schema ([3580e67](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/3580e67a))
+- disable storage of MSAL token in cookie ([bd5746f](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/bd5746f3))
+- fix router & assets to allow usage of non\-root PUBLIC_URL ([6ad41ec](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/6ad41ec4))
+- fix missing support of PUBLIC_URL in get\-embed\-info query ([cdb8720](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/cdb87208))
+
+### Documentation
+
+- update yarn install instructions in README ([2d3cd87](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/2d3cd87c))
+- add instructions to hide powerBi reports ([3e9d4ff](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/3e9d4ffa))
+- add example of nodes and edges queries in Table configuration ([56d5a51](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/56d5a510))
+- \[PROD\-13674\] document known issue with tables sometimes not being displayed ([1ae9d8f](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/1ae9d8fd))
+- \[PROD\-13559\] add and reorganize documentation related to project branding (component customization, translation, ...) ([95e483d](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/95e483d6))
+- remove obsolete section from README ([4375bc1](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/4375bc1b))
+- update outdated configuration parameter of help menu ([d0293ab](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/d0293ab0))
+- \[PROD\-13747\] add documentation for dynamic numeric input ([2f55c5a](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/2f55c5a2))
+- add more details about resultKey property in dynamic table ([7dfb7e1](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/7dfb7e1e))
+- \[PROD\-14001\] add documentation of new dynamic filter option lastRunId ([95e3792](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/95e3792a))
+
 ## **6.3.0** <sub><sup>2024-07-12 ([abfd4f3...aa587fa](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/abfd4f35...aa587fa9?diff=split))</sup></sub>
 
 ### Features
-*  \[SDCOSMO\-1974\] implement scenario selector in scenario parameters ([071475b](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/071475be))
-*  add data fetching from twingraph dataset in Table component ([05ac9eb](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/05ac9eb7))
+
+- \[SDCOSMO\-1974\] implement scenario selector in scenario parameters ([071475b](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/071475be))
+- add data fetching from twingraph dataset in Table component ([05ac9eb](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/05ac9eb7))
 
 ### Documentation
-*  add missing doc of defaultValue option in Table columns configuration ([68139dd](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/68139dd8))
-*  configuration of dynamic data fetching from twingraph dataset in Table component ([e87a276](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/e87a276b))
+
+- add missing doc of defaultValue option in Table columns configuration ([68139dd](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/68139dd8))
+- configuration of dynamic data fetching from twingraph dataset in Table component ([e87a276](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/e87a276b))
 
 ## **6.2.0** <sub><sup>2024-06-21 ([578b5ad...f9cda65](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/578b5ad4...f9cda654?diff=split))</sup></sub>
 
