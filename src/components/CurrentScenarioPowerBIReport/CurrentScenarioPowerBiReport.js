@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 import { ErrorBoundary, SimplePowerBIReportEmbed } from '@cosmotech/ui';
 import { useCurrentScenarioPowerBiReport } from './CurrentScenarioPowerBiReportHook';
 
@@ -49,7 +50,7 @@ CurrentScenarioPowerBiReport.propTypes = {
   reportConfiguration: SimplePowerBIReportEmbed.propTypes.reportConfiguration,
   iframeRatio: SimplePowerBIReportEmbed.propTypes.iframeRatio,
   index: SimplePowerBIReportEmbed.propTypes.index,
-  labels: SimplePowerBIReportEmbed.propTypes.labels,
+  labels: PropTypes.object,
 };
 
 export default CurrentScenarioPowerBiReport;
