@@ -61,7 +61,7 @@ function _getParentScenarioLastRunId(scenarioData, scenarios) {
   if (scenarioData.parentId) {
     const parentScenario = scenarios.find((scenario) => scenario.id === scenarioData.parentId);
     if (parentScenario) {
-      return parentScenario?.lastRun?.csmSimulationRun;
+      return parentScenario?.lastRunId;
     } else {
       console.warn(
         "Cannot build value for parameter 'ParentLastRunId', because scenario parent with id " +
@@ -77,7 +77,7 @@ function _getRootScenarioLastRunId(scenarioData, scenarios) {
   if (scenarioData.rootId) {
     const rootScenario = scenarios.find((scenario) => scenario.id === scenarioData.rootId);
     if (rootScenario) {
-      return rootScenario?.lastRun?.csmSimulationRun;
+      return rootScenario?.lastRunId;
     } else {
       console.warn(
         "Cannot build value for parameter 'MasterLastRunId', because root scenario with id " +
@@ -100,7 +100,7 @@ function _addHiddenParameters(parameters, scenarioData, scenarios, runTemplatePa
     MasterId: () => scenarioData.rootId,
     RunTemplateName: () => scenarioData.runTemplateName,
     ParentId: () => scenarioData.parentId,
-    ScenarioLastRunId: () => scenarioData?.lastRun?.csmSimulationRun,
+    ScenarioLastRunId: () => scenarioData?.lastRunId,
     ParentLastRunId: () => _getParentScenarioLastRunId(scenarioData, scenarios),
     MasterLastRunId: () => _getRootScenarioLastRunId(scenarioData, scenarios),
   };
