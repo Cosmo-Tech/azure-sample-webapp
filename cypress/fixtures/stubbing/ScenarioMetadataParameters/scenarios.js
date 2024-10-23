@@ -7,7 +7,7 @@ export const SCENARIOS = [
     ...SCENARIO_EXAMPLE,
     id: 'r-stubbedscnr01',
     name: 'Test Cypress - Stubbed scenario with metadata',
-    runTemplateId: '1',
+    runTemplateId: 'sim_brewery_parameters',
     runTemplateName: 'Run template with scenario metadata parameters',
   },
   {
