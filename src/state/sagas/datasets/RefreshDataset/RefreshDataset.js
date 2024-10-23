@@ -35,7 +35,8 @@ export function* refreshDataset(action) {
         error,
         t(
           'commoncomponents.banner.datasetRefreshError',
-          'A problem occurred during refresh of the dataset {{datasetId}}'
+          'A problem occurred during refresh of the dataset {{datasetId}}',
+          { datasetId }
         )
       )
     );
