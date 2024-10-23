@@ -62,6 +62,7 @@ describe('Table parameters files standard operations part 1', () => {
     checkAndExport();
     BreweryParameters.importCustomersTableData(XLSX_VALID_FILE_PATH_EMPTY);
     checkAndExport();
+    ScenarioParameters.discard();
   });
 
   it('can import a CSV file with spaces and boolean values to re-format', () => {
