@@ -6,7 +6,7 @@ export const SCENARIO_WITH_DESCRIPTION_AND_TAGS = {
   ...SCENARIO_EXAMPLE,
   id: 'r-stubbedrnnr01',
   name: '1 - Scenario with tags',
-  runTemplateId: '1',
+  runTemplateId: 'sim_brewery_parameters',
   tags: ['brewery', 'tag', 'cypress'],
   description: 'A short description of a scenario to easily keep track of its purpose',
 };

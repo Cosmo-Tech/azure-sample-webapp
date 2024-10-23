@@ -24,11 +24,11 @@ export const WORKSPACE_EXAMPLE = {
   name: 'Stubbed Demo Brewery Workspace',
   solution: {
     solutionId: 'SOL-stubbedbrwy',
-    runTemplateFilter: ['1', '2', '3'],
+    runTemplateFilter: ['sim_brewery_parameters', 'sim_no_parameters', 'sim_mock_parameters'],
     defaultRunTemplateDataset: {
-      1: 'd-kjg7drjjm48p',
-      2: 'd-8q7mwq1q17v7',
-      3: 'd-63mkreqmqg0',
+      sim_brewery_parameters: 'd-kjg7drjjm48p',
+      sim_no_parameters: 'd-8q7mwq1q17v7',
+      sim_mock_parameters: 'd-63mkreqmqg0',
     },
   },
   id: 'W-stbbdbrwry',

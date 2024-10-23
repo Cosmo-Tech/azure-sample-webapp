@@ -57,10 +57,10 @@ const CUSTOM_SOLUTION = {
   runTemplates: [
     {
       ...RUN_TEMPLATE_EXAMPLE,
-      id: '1',
+      id: 'sim_brewery_parameters',
       name: 'Run template with scenario metadata parameters',
       description: 'Run template with scenario metadata parameters',
-      tags: ['1', 'metadata'],
+      tags: ['sim_brewery_parameters', 'metadata'],
       parameterGroups: ['bar_parameters'],
     },
     {

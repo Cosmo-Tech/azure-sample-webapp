@@ -152,10 +152,10 @@ const SOLUTION_WITH_ALL_TYPES_OF_PARAMETERS = {
   runTemplates: [
     {
       ...RUN_TEMPLATE_EXAMPLE,
-      id: '1',
+      id: 'sim_brewery_parameters',
       name: 'Run template for parameters validation',
       description: 'Run template for scenario parameters input validation',
-      tags: ['1', 'validation'],
+      tags: ['sim_brewery_parameters', 'validation'],
       fetchScenarioParameters: true,
       applyParameters: true,
       sendDatasetsToDataWarehouse: true,
@@ -299,10 +299,10 @@ const SOLUTION_WITH_CONSTRAINTS_BETWEEN_PARAMETERS = {
   runTemplates: [
     {
       ...RUN_TEMPLATE_EXAMPLE,
-      id: '1',
+      id: 'sim_brewery_parameters',
       name: 'Run template for parameters validation',
       description: 'Run template for scenario parameters input validation',
-      tags: ['1', 'validation'],
+      tags: ['sim_brewery_parameters', 'validation'],
       fetchScenarioParameters: true,
       applyParameters: true,
       sendDatasetsToDataWarehouse: true,
@@ -362,10 +362,10 @@ const SOLUTION_WITH_WRONG_CONSTRAINT_CONFIGURATION = {
   runTemplates: [
     {
       ...RUN_TEMPLATE_EXAMPLE,
-      id: '1',
+      id: 'sim_brewery_parameters',
       name: 'Run template for parameters validation',
       description: 'Run template for scenario parameters input validation',
-      tags: ['1', 'validation'],
+      tags: ['sim_brewery_parameters', 'validation'],
       fetchScenarioParameters: true,
       applyParameters: true,
       sendDatasetsToDataWarehouse: true,

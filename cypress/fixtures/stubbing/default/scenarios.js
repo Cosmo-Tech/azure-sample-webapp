@@ -11,7 +11,7 @@ export const SCENARIO_EXAMPLE = {
   ownerId: 'xxxxxxxx-xxxx-dave-xxxx-xxxxxxxxxxxx',
   rootId: null,
   solutionId: 'SOL-stubbedbrwy',
-  runTemplateId: '3',
+  runTemplateId: 'sim_mock_parameters',
   workspaceId: 'W-stbbdbrwry',
   users: [],
   state: 'Created',
