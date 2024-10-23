@@ -25,9 +25,9 @@ export const WORKSPACES = [
           dashboardsViewIframeDisplayRatio: 1280 / 795,
           dashboardsView: [defaultScenarioViewReport],
           scenarioView: {
-            1: defaultScenarioViewReport,
-            2: defaultScenarioViewReport,
-            3: defaultScenarioViewReport,
+            sim_brewery_parameters: defaultScenarioViewReport,
+            sim_no_parameters: defaultScenarioViewReport,
+            sim_mock_parameters: defaultScenarioViewReport,
           },
         },
       },
