@@ -2,9 +2,8 @@
 
 This folder contains several configuration files for the WebApp:
 
-- **GlobalConfiguration.js** defines constants specific to your application instance: you will need to change these values when
-  creating a new staging or prod version of your application
-- **ApplicationInsights.js** defines the use of Application Insights
-- **PowerBI.js** regroups the configuration of all PowerBI reports of your application
-- **ScenarioParameters.js** defines the configuration of the scenario parameters, that are specific to your solution
-- **HelpMenuConfiguration** contains variables related to webapp functioning and maintenance
+- **GlobalConfiguration.json** defines constants specific to your application instance: you will need to change these
+  values when creating a new staging or production version of your application
+- **ApplicationInsights.json** lets you configure Application Insights for your webapp
+- **HelpMenuConfiguration.json** can be used to customize some menu entries in the webapp (e.g. links to documentation
+  or support)
