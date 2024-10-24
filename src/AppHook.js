@@ -1,12 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import {
-  useApplicationStatus,
-  useIsDarkTheme,
-  useGetAllInitialData,
-  useSetApplicationStatus,
-} from './state/hooks/ApplicationHooks';
-import { useAuthStatus, useLogIn, useLogOut } from './state/hooks/AuthHooks';
+import { useApplicationStatus, useIsDarkTheme, useGetAllInitialData, useSetApplicationStatus } from './state/app/hooks';
+import { useAuthStatus, useLogIn, useLogOut } from './state/auth/hooks';
 
 export const useApp = () => {
   const applicationStatus = useApplicationStatus();

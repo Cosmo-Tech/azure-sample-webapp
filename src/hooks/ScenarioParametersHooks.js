@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 import { useCallback, useMemo } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { useAddDatasetToStore } from '../state/hooks/DatasetHooks';
-import { useOrganizationId } from '../state/hooks/OrganizationHooks';
-import { useCurrentSimulationRunnerData, useRunners } from '../state/hooks/RunnerHooks';
-import { useSolution } from '../state/hooks/SolutionHooks';
-import { useWorkspaceId } from '../state/hooks/WorkspaceHooks';
+import { useAddDatasetToStore } from '../state/datasets/hooks';
+import { useOrganizationId } from '../state/organizations/hooks';
+import { useCurrentSimulationRunnerData, useRunners } from '../state/runner/hooks';
+import { useSolution } from '../state/solutions/hooks';
+import { useWorkspaceId } from '../state/workspaces/hooks';
 import { ScenarioParametersUtils } from '../utils';
 import { FileManagementUtils } from '../utils/FileManagementUtils';
 
