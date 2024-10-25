@@ -1,3 +1,32 @@
+## **7.0.0-beta.0** <sub><sup>2024-10-25 ([2421df6...91153cd](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/2421df66...91153cd6?diff=split))</sup></sub>
+
+### BREAKING CHANGES
+
+- major version change of **Cosmo Tech API from v3 to v4** (v4.0.0-onprem)
+- replace scenario objects by runner objects
+- rename `GetEmbedInfo` parameter `CSM_API_TOKEN_AUDIENCE` to `AZURE_COSMO_API_APPLICATION_ID`, it is now mandatory when the webapp uses Azure authentication
+- remove use of dataset connector in the webapp: dataset parts now use `[dataset].source.location` to store the path of the associated workspace files
+
+### Features
+
+- add keycloak support for login and in `GetEmbedInfo` azure function
+
+### Bug Fixes
+
+- \[PROD\-12918\] ignore short network interruptions (< 30 seconds) while polling scenario state
+- \[PROD\-12316\] add missing backdrop when deleting a scenario
+- fix missing dataset id in refresh error translation
+- improve handling of some network errors on login
+- set `authLevel` of `GetEmbedInfo` to anonymous
+- remove parameters `POWER_BI_WORKSPACE_ID`, `POWER_BI_AUTHORITY_URI`, `POWER_BI_SCOPE` of `GetEmbedInfo` azure function
+
+### Documentation
+
+- update README file of config folder
+- update doc of connectorId option of file parameters
+- add doc of keycloak config parameters
+- update documentation of GetEmbedInfo function configuration
+
 ## **6.4.1** <sub><sup>2024-10-25 ([faa8584...84b8cc8](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/faa85840...84b8cc82?diff=split))</sup></sub>
 
 ### Bug Fixes
