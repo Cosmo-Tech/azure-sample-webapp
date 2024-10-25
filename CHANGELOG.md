@@ -1,3 +1,9 @@
+## **6.4.1** <sub><sup>2024-10-25 ([faa8584...84b8cc8](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/faa85840...84b8cc82?diff=split))</sup></sub>
+
+### Bug Fixes
+
+- fix resolution of axios dependency during build ([84b8cc8](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/84b8cc8))
+
 ## **6.4.0** <sub><sup>2024-10-22 ([3e213b0...62dbfc9](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/3e213b08...62dbfc91?diff=split))</sup></sub>
 
 ### Features
