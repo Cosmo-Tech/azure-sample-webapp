@@ -17,9 +17,9 @@ const getTableCellDefaultValue = (column, dateFormat) => {
       return column?.defaultValue ?? column?.enumValues?.[0] ?? '';
     case 'date':
       return column?.defaultValue
-        ? DateUtils.format(new Date(column.defaultValue), dateFormat)
+        ? DateUtils.format(new Date(column.defaultValue)?.toLocaleDateString('en-US', { timeZone: 'UTC' }), dateFormat)
         : column?.minValue
-          ? DateUtils.format(new Date(column.minValue), dateFormat)
+          ? DateUtils.format(new Date(column.minValue)?.toLocaleDateString('en-US', { timeZone: 'UTC' }), dateFormat)
           : DateUtils.format(new Date(0), dateFormat);
     default:
       return column?.defaultValue ?? 'value';
