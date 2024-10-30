@@ -139,10 +139,7 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
                 value={descriptionValue ?? ''}
                 changeTextField={(newValue) => setDescriptionValue(newValue)}
                 size="medium"
-                textFieldProps={{
-                  multiline: true,
-                  rows: 3,
-                }}
+                textFieldProps={{ multiline: true, rows: 3 }}
               ></BasicTextInput>
             );
           }}

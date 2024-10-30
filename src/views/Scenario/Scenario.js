@@ -257,24 +257,12 @@ const Scenario = () => {
     <FormProvider {...methods} key={`form-${currentScenarioData?.id}`}>
       <BackdropLoadingScenario />
       <div data-cy="scenario-view" className={classes.content}>
-        <Grid
-          container
-          spacing={2}
-          sx={{
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}
-        >
+        <Grid container spacing={2} sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
           <Grid size={4}>
             <Stack>
               <CurrentScenarioSelector disabled={isDirty} renderInputToolTip={currentScenarioRenderInputTooltip} />
               {currentScenarioData && (
-                <Stack
-                  direction="row"
-                  sx={{
-                    justifyContent: 'center',
-                  }}
-                >
+                <Stack direction="row" sx={{ justifyContent: 'center' }}>
                   <FadingTooltip
                     title={t(
                       TranslationUtils.getRunTemplateTranslationKey(currentScenarioData.runTemplateId),

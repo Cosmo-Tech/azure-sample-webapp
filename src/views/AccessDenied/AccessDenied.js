@@ -45,12 +45,7 @@ const AccessDenied = ({ application }) => {
   return (
     <div className={classes.root}>
       <Grid className={classes.grid} container>
-        <Grid
-          className={classes.quoteContainer}
-          size={{
-            lg: 5,
-          }}
-        >
+        <Grid className={classes.quoteContainer} size={{ lg: 5 }}>
           <div className={classes.quote}>
             <div className={classes.quoteInner}>
               <Typography className={classes.quoteText} variant="h4">
@@ -59,14 +54,7 @@ const AccessDenied = ({ application }) => {
             </div>
           </div>
         </Grid>
-        <Grid
-          className={classes.content}
-          container
-          size={{
-            lg: 7,
-            xs: 12,
-          }}
-        >
+        <Grid className={classes.content} container size={{ lg: 7, xs: 12 }}>
           <div className={classes.content}>
             <div className={classes.contentBody}>
               <Typography className={classes.title}>{t('views.accessdenied.title', 'Access denied')}</Typography>
