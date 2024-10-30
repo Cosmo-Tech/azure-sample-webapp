@@ -94,13 +94,7 @@ export const WorkspaceInfo = () => {
         <Typography data-cy="workspace-info-description" variant="body2" className={classes.workspaceDescription}>
           {currentWorkspaceData?.description ?? ''}
         </Typography>
-        <Grid
-          container
-          sx={{
-            justifyContent: 'flex-end',
-            mt: 1.5,
-          }}
-        >
+        <Grid container sx={{ justifyContent: 'flex-end', mt: 1.5 }}>
           <Button
             data-cy="switch-workspace-button"
             color="primary"

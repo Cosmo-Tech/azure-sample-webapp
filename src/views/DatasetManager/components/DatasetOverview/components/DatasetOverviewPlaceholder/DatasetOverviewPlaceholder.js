@@ -58,13 +58,7 @@ export const DatasetOverviewPlaceholder = () => {
           // if the string is modified, need to check that the link is still the node N1
           <Trans i18nKey="commoncomponents.datasetmanager.overview.placeholder.apiLink">
             You can use the
-            <Link
-              href={ApiUtils.getDatasetTwingraphSwaggerSection()}
-              target="blank"
-              sx={{
-                color: 'inherit',
-              }}
-            >
+            <Link href={ApiUtils.getDatasetTwingraphSwaggerSection()} target="blank" sx={{ color: 'inherit' }}>
               Cosmo Tech API
             </Link>
             to populate it

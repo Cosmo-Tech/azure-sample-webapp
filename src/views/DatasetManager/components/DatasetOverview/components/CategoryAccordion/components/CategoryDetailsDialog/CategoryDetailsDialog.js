@@ -28,14 +28,7 @@ export const CategoryDetailsDialog = (props) => {
 
   const categoryKpis = useMemo(() => {
     return (
-      <Grid
-        container
-        spacing={8}
-        sx={{
-          justifyContent: 'center',
-          p: 5,
-        }}
-      >
+      <Grid container spacing={8} sx={{ justifyContent: 'center', p: 5 }}>
         {(category?.kpis ?? []).map((kpiMetadata) => {
           const kpi = kpis.find((kpiResult) => kpiResult.id === kpiMetadata.id) ?? kpiMetadata;
           return (
@@ -104,9 +97,7 @@ export const CategoryDetailsDialog = (props) => {
           onClose={handleClose}
           fullWidth={true}
           maxWidth={'xl'}
-          PaperProps={{
-            elevation: 1,
-          }}
+          PaperProps={{ elevation: 1 }}
         >
           <DialogTitle>
             <Button data-cy="category-details-dialog-close-button" onClick={handleClose}>

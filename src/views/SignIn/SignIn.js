@@ -45,12 +45,7 @@ const SignIn = ({ logInAction, auth }) => {
   return (
     <div className={classes.root}>
       <Grid className={classes.grid} container>
-        <Grid
-          className={classes.quoteContainer}
-          size={{
-            lg: 5,
-          }}
-        >
+        <Grid className={classes.quoteContainer} size={{ lg: 5 }}>
           <div className={classes.quote}>
             <div className={classes.quoteInner}>
               <Typography className={classes.quoteText} variant="h4">
@@ -59,13 +54,7 @@ const SignIn = ({ logInAction, auth }) => {
             </div>
           </div>
         </Grid>
-        <Grid
-          className={classes.content}
-          size={{
-            lg: 7,
-            xs: 12,
-          }}
-        >
+        <Grid className={classes.content} size={{ lg: 7, xs: 12 }}>
           <div className={classes.content}>
             <div className={classes.contentHeader}></div>
             <div className={classes.contentBody}>
@@ -98,22 +87,14 @@ const SignIn = ({ logInAction, auth }) => {
               <Grid container spacing={1} className={classes.contact} direction="row">
                 <Grid>
                   <Typography variant="caption" className={classes.quoteText}>
-                    <Box
-                      sx={{
-                        fontWeight: 'fontWeightLight',
-                      }}
-                    >
+                    <Box sx={{ fontWeight: 'fontWeightLight' }}>
                       {t('commoncomponents.text.contact.get.account', "Don't have an account?")}
                     </Box>
                   </Typography>
                 </Grid>
                 <Grid>
                   <Typography variant="caption" className={classes.quoteText}>
-                    <Box
-                      sx={{
-                        fontWeight: 'fontWeightBold',
-                      }}
-                    >
+                    <Box sx={{ fontWeight: 'fontWeightBold' }}>
                       {t('commoncomponents.text.link.cosmotech', 'Please contact CosmoTech')}
                     </Box>
                   </Typography>
@@ -121,14 +102,7 @@ const SignIn = ({ logInAction, auth }) => {
               </Grid>
             </div>
             <div className={classes.contentFooter}>
-              <Grid
-                container
-                direction="row"
-                sx={{
-                  justifyContent: 'center',
-                  alignItems: 'baseline',
-                }}
-              >
+              <Grid container direction="row" sx={{ justifyContent: 'center', alignItems: 'baseline' }}>
                 <Grid>
                   <Select
                     variant="standard"

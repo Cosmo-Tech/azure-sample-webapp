@@ -97,22 +97,10 @@ const Workspaces = () => {
               <Typography variant="h3" gutterBottom={true}>
                 {labels.titleNoWorkspacePlaceholder}
               </Typography>
-              <Typography
-                variant="caption"
-                color="textSecondary"
-                sx={{
-                  display: 'block',
-                }}
-              >
+              <Typography variant="caption" color="textSecondary" sx={{ display: 'block' }}>
                 {labels.reasonNoWorkspacePlaceholder}
               </Typography>
-              <Typography
-                variant="caption"
-                color="textSecondary"
-                sx={{
-                  display: 'block',
-                }}
-              >
+              <Typography variant="caption" color="textSecondary" sx={{ display: 'block' }}>
                 {labels.contactNoWorkspacePlaceholder}
               </Typography>
             </Grid>

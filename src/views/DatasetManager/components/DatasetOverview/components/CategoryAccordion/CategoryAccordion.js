@@ -77,31 +77,11 @@ const CategoryAccordion = (props) => {
     }
 
     return (
-      <Grid
-        id={id}
-        container
-        spacing={1}
-        size="grow"
-        sx={{
-          flexFlow: 'row wrap',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Grid
-          container
-          size={{
-            lg: 4,
-          }}
-        >
+      <Grid id={id} container spacing={1} size="grow" sx={{ flexFlow: 'row wrap', justifyContent: 'space-between' }}>
+        <Grid container size={{ lg: 4 }}>
           {categorySummary}
         </Grid>
-        <Grid
-          container
-          spacing={1}
-          size={{
-            lg: 8,
-          }}
-        >
+        <Grid container spacing={1} size={{ lg: 8 }}>
           {categoryMainKpis}
         </Grid>
       </Grid>
@@ -136,14 +116,7 @@ const CategoryAccordion = (props) => {
       });
 
     const attributes = category.attributes && (
-      <Grid
-        container
-        spacing={1}
-        sx={{
-          flexFlow: 'row nowrap',
-          alignItems: 'center',
-        }}
-      >
+      <Grid container spacing={1} sx={{ flexFlow: 'row nowrap', alignItems: 'center' }}>
         <Grid>
           <Typography>{t('commoncomponents.datasetmanager.overview.attributesLabel', 'Attributes:')}</Typography>
         </Grid>
@@ -160,20 +133,12 @@ const CategoryAccordion = (props) => {
         data-cy={`category-accordion-details-${category.id}`}
         container
         spacing={2}
-        sx={{
-          flexFlow: 'column nowrap',
-        }}
+        sx={{ flexFlow: 'column nowrap' }}
       >
         {description && <Grid>{description}</Grid>}
         {categoryKpis && <Grid>{categoryKpis}</Grid>}
         {attributes && <Grid>{attributes}</Grid>}
-        <Grid
-          container
-          direction="row"
-          sx={{
-            justifyContent: 'flex-end',
-          }}
-        >
+        <Grid container direction="row" sx={{ justifyContent: 'flex-end' }}>
           <CategoryDetailsDialog category={category} kpis={kpisWithResult} />
         </Grid>
       </Grid>
