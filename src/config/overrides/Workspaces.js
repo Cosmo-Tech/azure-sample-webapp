@@ -1,13 +1,28 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-const defaultScenarioViewReport = {
+const scenarioViewReport = {
   title: { en: 'Scenario dashboard', fr: 'Rapport du scénario' },
-  reportId: '29ca639e-640c-41eb-b5f4-d0f7b5fbadd3',
-  settings: { navContentPaneEnabled: false, panes: { filters: { expanded: true, visible: true } } },
+  reportId: '5a28099a-6dfc-4542-ba6f-f8db2d5a9587',
+  settings: { navContentPaneEnabled: false, panes: { filters: { expanded: false, visible: true } } },
   staticFilters: [],
-  dynamicFilters: [],
-  pageName: { en: '2bb90bb985a714773489', fr: '2bb90bb985a714773489' },
+  dynamicFilters: [
+    { table: 'bar_stock', column: 'simulation_run', values: 'lastRunId' },
+    { table: 'customer_satisfaction', column: 'simulation_run', values: 'lastRunId' },
+  ],
+  pageName: { en: 'ReportSection', fr: 'ReportSection' },
+};
+
+const scenarioComparisonReport = {
+  title: { en: 'Scenario comparison', fr: 'Comparaison de scénarios' },
+  reportId: '5a28099a-6dfc-4542-ba6f-f8db2d5a9587',
+  settings: { navContentPaneEnabled: false, panes: { filters: { expanded: false, visible: true } } },
+  staticFilters: [],
+  dynamicFilters: [
+    { table: 'bar_stock', column: 'simulation_run', values: 'lastRunId' },
+    { table: 'customer_satisfaction', column: 'simulation_run', values: 'lastRunId' },
+  ],
+  pageName: { en: 'ReportSection99fca3e46d5107c9ddea', fr: 'ReportSection99fca3e46d5107c9ddea' },
 };
 
 // Use the WORKSPACES array below to override or add information to your workspaces. This can be useful for development
@@ -23,12 +38,8 @@ export const WORKSPACES = [
           logInWithUserCredentials: false,
           scenarioViewIframeDisplayRatio: 1580 / 350,
           dashboardsViewIframeDisplayRatio: 1280 / 795,
-          dashboardsView: [defaultScenarioViewReport],
-          scenarioView: {
-            sim_brewery_parameters: defaultScenarioViewReport,
-            sim_no_parameters: defaultScenarioViewReport,
-            sim_mock_parameters: defaultScenarioViewReport,
-          },
+          dashboardsView: [scenarioComparisonReport],
+          scenarioView: [scenarioViewReport],
         },
       },
     },
