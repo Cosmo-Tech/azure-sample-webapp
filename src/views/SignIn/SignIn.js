@@ -18,6 +18,8 @@ import { AUTH_STATUS } from '../../state/commons/AuthConstants.js';
 import { TranslationUtils } from '../../utils';
 import useStyles from './style';
 
+const NO_PROVIDERS = !SHOW_AZURE_AUTH_PROVIDER && !SHOW_KEYCLOAK_AUTH_PROVIDER;
+
 const SignIn = ({ logInAction, auth }) => {
   const classes = useStyles();
   const { t, i18n } = useTranslation();
@@ -38,14 +40,25 @@ const SignIn = ({ logInAction, auth }) => {
         </div>
       </>
     ) : null;
-  const infoMessage =
-    localStorage.getItem('logoutByTimeout') === 'true' ? (
-      <div className={classes.infoPaper}>
-        <Typography className={classes.infoText}>
-          {t('views.signin.info.timeout', 'For security reasons, your session has expired, due to inactivity.')}
-        </Typography>
-      </div>
-    ) : null;
+
+  let infoMessageText;
+  if (NO_PROVIDERS)
+    infoMessageText = t(
+      'views.signin.info.noProviders',
+      'No authentication provider detected. Please check the configuration of the web application server, or ' +
+        'contact your administrator.'
+    );
+  else if (localStorage.getItem('logoutByTimeout') === 'true')
+    infoMessageText = t(
+      'views.signin.info.timeout',
+      'For security reasons, your session has expired, due to inactivity.'
+    );
+
+  const infoMessage = infoMessageText ? (
+    <div className={classes.infoPaper}>
+      <Typography className={classes.infoText}>{infoMessageText}</Typography>
+    </div>
+  ) : null;
 
   return (
     <div className={classes.root}>

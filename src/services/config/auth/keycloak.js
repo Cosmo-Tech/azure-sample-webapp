@@ -15,7 +15,8 @@ try {
   console.error(`Failed to parse authority domain name from keycloak realm: "${AUTH_KEYCLOAK_REALM}"`);
 }
 
-export const SHOW_KEYCLOAK_AUTH_PROVIDER = AUTH_KEYCLOAK_CLIENT_ID && AUTH_KEYCLOAK_CLIENT_ID !== '' && authorityDomain;
+export const SHOW_KEYCLOAK_AUTH_PROVIDER =
+  AUTH_KEYCLOAK_CLIENT_ID != null && AUTH_KEYCLOAK_CLIENT_ID !== '' && authorityDomain != null;
 
 const redirectUrl = `${window.location.protocol}//${window.location.host}${process.env?.PUBLIC_URL ?? ''}` + '/sign-in';
 const MSAL_KEYCLOAK_CONFIG = {
@@ -45,4 +46,6 @@ const MSAL_KEYCLOAK_CONFIG = {
   },
 };
 
-Auth.addProvider(AuthKeycloakRedirect).setConfig(MSAL_KEYCLOAK_CONFIG);
+if (SHOW_KEYCLOAK_AUTH_PROVIDER) {
+  Auth.addProvider(AuthKeycloakRedirect).setConfig(MSAL_KEYCLOAK_CONFIG);
+}

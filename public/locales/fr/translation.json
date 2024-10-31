@@ -814,6 +814,7 @@
         "title": "Erreur d'authentification"
       },
       "info": {
+        "noProviders": "Aucun fournisseur d'authentification detecté. Veuillez vérifier la configuration du serveur de l'application web, ou contacter votre administrateur.",
         "timeout": "Pour des raisons de sécurité, votre session a expiré, pour cause d'inactivité."
       }
     },

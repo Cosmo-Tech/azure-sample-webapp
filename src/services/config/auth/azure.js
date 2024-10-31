@@ -7,7 +7,7 @@ import ConfigService from '../../ConfigService';
 const APP_REGISTRATION_CLIENT_ID = ConfigService.getParameterValue('APP_REGISTRATION_CLIENT_ID');
 const AZURE_TENANT_ID = ConfigService.getParameterValue('AZURE_TENANT_ID');
 
-export const SHOW_AZURE_AUTH_PROVIDER = APP_REGISTRATION_CLIENT_ID && APP_REGISTRATION_CLIENT_ID !== '';
+export const SHOW_AZURE_AUTH_PROVIDER = APP_REGISTRATION_CLIENT_ID != null && APP_REGISTRATION_CLIENT_ID !== '';
 const COSMOTECH_API_SCOPE = ConfigService.getParameterValue('COSMOTECH_API_SCOPE');
 
 const MSAL_AZURE_CONFIG = {
@@ -27,4 +27,6 @@ const MSAL_AZURE_CONFIG = {
   },
 };
 
-Auth.addProvider(AuthMSAL).setConfig(MSAL_AZURE_CONFIG);
+if (SHOW_AZURE_AUTH_PROVIDER) {
+  Auth.addProvider(AuthMSAL).setConfig(MSAL_AZURE_CONFIG);
+}
