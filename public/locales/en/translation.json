@@ -814,6 +814,7 @@
         "title": "Authentication failed"
       },
       "info": {
+        "noProviders": "No authentication provider detected. Please check the configuration of the web application server, or contact your administrator.",
         "timeout": "For security reasons, your session has expired, due to inactivity."
       }
     },
