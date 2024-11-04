@@ -1779,9 +1779,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmotech/core@npm:^1.19.0":
-  version: 1.19.0
-  resolution: "@cosmotech/core@npm:1.19.0"
+"@cosmotech/core@npm:^v1.19.1-beta.0":
+  version: 1.19.1-beta.0
+  resolution: "@cosmotech/core@npm:1.19.1-beta.0"
   dependencies:
     "@azure/msal-browser": "npm:^3.20.0"
     csv-string: "npm:^4.1.1"
@@ -1790,13 +1790,13 @@ __metadata:
     rfdc: "npm:^1.4.1"
     validator: "npm:^13.12.0"
     xlsx: "https://cdn.sheetjs.com/xlsx-0.20.2/xlsx-0.20.2.tgz"
-  checksum: 10c0/cbc94a4d2841756b5a476a9c94beafaca7e6bf6a6419ab48e9033826ea4f47fdb45a1a16105c16cc21dfe443bea819647d28bfa5408a27727b06aa94492d05de
+  checksum: 10c0/f2a7901f4842fb21a20ed6700d9c7b9258c708516b1fd4cc153e203638dddcd582b614c069fb623c79ccc11b3f4274ee176aabdeb3186fdc12fc3c0cc51e0514
   languageName: node
   linkType: hard
 
-"@cosmotech/ui@npm:^10.0.0-beta.0":
-  version: 10.0.0-beta.0
-  resolution: "@cosmotech/ui@npm:10.0.0-beta.0"
+"@cosmotech/ui@npm:^10.0.0-beta.1":
+  version: 10.0.0-beta.1
+  resolution: "@cosmotech/ui@npm:10.0.0-beta.1"
   dependencies:
     "@emotion/react": "npm:^11.13.0"
     "@emotion/styled": "npm:^11.13.0"
@@ -1816,7 +1816,7 @@ __metadata:
     rfdc: "npm:^1.4.1"
   peerDependencies:
     "@cosmotech/azure": ^3.0.0
-    "@cosmotech/core": ^1.6.3
+    "@cosmotech/core": ^1.19.1-beta.0
     "@mui/icons-material": ^5.11.0
     "@mui/lab": ^5.0.0-alpha.117
     "@mui/material": ^5.11.6
@@ -1825,7 +1825,7 @@ __metadata:
     react: ^17.0.1
     react-dom: ^17.0.1
     react-i18next: ^11.8.13
-  checksum: 10c0/67a53724c0e7163dea243c4599485ef332087c35a611ce1d21cdcca299cf943ff1415432f2c5961686ed9fca90455a6387a31736668f68cbda314e9772031330
+  checksum: 10c0/d650e9d6a906182d7b50b0dacf4e70193a0ea545ffefe6c756760e7cf618d04166396adc8f771d21fb78acbeed851366e7590da521035421ea3d74425de9e01f
   languageName: node
   linkType: hard
 
@@ -5653,8 +5653,8 @@ __metadata:
     "@babel/preset-react": "npm:^7.24.7"
     "@cosmotech/api-ts": "npm:4.0.0-dev9"
     "@cosmotech/azure": "npm:^3.0.0"
-    "@cosmotech/core": "npm:^1.19.0"
-    "@cosmotech/ui": "npm:^10.0.0-beta.0"
+    "@cosmotech/core": "npm:^v1.19.1-beta.0"
+    "@cosmotech/ui": "npm:^10.0.0-beta.1"
     "@emotion/react": "npm:^11.13.0"
     "@emotion/styled": "npm:^11.13.0"
     "@microsoft/applicationinsights-web": "npm:^3.3.0"
