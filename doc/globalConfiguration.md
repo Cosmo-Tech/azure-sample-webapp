@@ -10,15 +10,16 @@ The following parameters are available:
 
 | parameter                                                       | required/optional                |
 | --------------------------------------------------------------- | -------------------------------- |
-| [APP_REGISTRATION_CLIENT_ID](#app-registration-client-id)       | required to log in with Azure    |
-| [AUTH_KEYCLOAK_CLIENT_ID](#auth-keycloak-client-id)             | required to log in with Keycloak |
-| [AUTH_KEYCLOAK_REALM](#auth-keycloak-realm)                     | required to log in with Keycloak |
-| [AUTH_KEYCLOAK_ROLES_JWT_CLAIM](#auth-keycloak-roles-jwt-claim) | required to log in with Keycloak |
-| [AZURE_TENANT_ID](#azure-tenant-id)                             | required to log in with Azure    |
-| [COSMOTECH_API_SCOPE](#cosmotech-api-scope)                     | required to log in with Azure    |
-| [DEFAULT_BASE_PATH](#default-base-path)                         | mandatory                        |
-| [ORGANIZATION_ID](#organization-id)                             | mandatory                        |
-| [WORKSPACES_IDS_FILTER](#workspaces-ids-filter)                 | optional                         |
+| [APP_REGISTRATION_CLIENT_ID](#app_registration_client_id)       | required to log in with Azure    |
+| [AUTH_KEYCLOAK_CLIENT_ID](#auth_keycloak_client_id)             | required to log in with Keycloak |
+| [AUTH_KEYCLOAK_REALM](#auth_keycloak_realm)                     | required to log in with Keycloak |
+| [AUTH_KEYCLOAK_ROLES_JWT_CLAIM](#auth_keycloak_roles_jwt_claim) | required to log in with Keycloak |
+| [AZURE_TENANT_ID](#azure_tenant_id)                             | required to log in with Azure    |
+| [COSMOTECH_API_SCOPE](#cosmotech_api_scope)                     | required to log in with Azure    |
+| [DEFAULT_BASE_PATH](#default_base_path)                         | mandatory                        |
+| [ORGANIZATION_ID](#organization_id)                             | mandatory                        |
+| [PUBLIC_URL](#public_url)                                       | optional                         |
+| [WORKSPACES_IDS_FILTER](#workspaces_ids_filter)                 | optional                         |
 
 ## Parameters description
 
@@ -86,6 +87,14 @@ Example: `https://myapi.cosmotech.com`
 will only be able to browse workspaces inside this organization.
 
 Example: `o-vlmxvdke5gqv4`
+
+### `PUBLIC_URL`
+
+`PUBLIC_URL` is an optional value describing the path from which the webapp is served. This option is especially useful
+when you use a single host name to serve different resource (e.g. a web application and the server of the associated
+API).
+
+Example: `/webapp/brewery`
 
 ### `WORKSPACES_IDS_FILTER`
 
