@@ -122,7 +122,7 @@ following fields:
 
 - `id`: a unique identifier string for this indicator
 - `name`: an object with translations of the indicator name
-- `queryId`: the identifier of the _query_ whose results contain the indicator (see section Queries above)
+- `queryId`: the identifier of the _query_ whose results contain the indicator (see section [Queries](#queries) above)
 
 <details>
 <summary>JSON example</summary>
@@ -190,7 +190,7 @@ following fields:
   the fields:
   - `id`: a unique identifier string for this indicator
   - `name`: an object with translations of the indicator name
-  - `queryId`: the identifier of the _query_ whose results contain the indicator (see section Queries above)
+  - `queryId`: the identifier of the _query_ whose results contain the indicator (see section [Queries](#queries) above)
 - `attributes` _(optional)_: an array of string values, to display the attributes of the category
 
 <details>
@@ -274,37 +274,104 @@ webApp:
 
 </details>
 
-## Dataset creation scripts
+### Category details
 
-### Default transformation scripts
+In category accordions, you can open a category details dialog that can display a table with some twingraph dataset data.
+These data is fetched from a Cypher request sent to the twingraph dataset.
+The table is an expression of the twingraph dataset.
+The table is read only.
+The category details dialog can be defined by the key
+`[workspace].webApp.options.datasetManager.categories.previewTable`.
+The value for this field must be an **object** that contains attributes with the
+following fields:
 
-In order to let users create their own dataset, the webapp provides, by default, four transformation mechanisms to
-create twingraph datasets. They will be identified with these keys:
+- `columns`: an array describing **the expected columns of the table** (see [Columns definition](scenarioParametersConfiguration.md#columns-definition)).
+- `queryId`: the identifier of the _query_ whose results contain the table content (see section [Queries](#queries) above)
+- `resultKey`: the alias defined in your query after `as` keyword, any string of your choice; providing this value is required for the webapp to parse the cypher query results, and retrieve values to display in the table
 
-- `ADT`: load data from Azure Digital Twin to a new twingraph dataset
-- `AzureStorage`: load data from Azure Storage to a new twingraph dataset
-- `File`: load data from a local file uploaded by a webapp user, to a new twingraph dataset
-- `None`: creates an empty twingraph dataset, that can later be filled by using cypher queries
+<details>
+<summary>JSON example</summary>
 
-Most of these data sources have parameters, whose values must be declared by webapp users in order to create new
-datasets. Their parameters are:
+```json
+{
+  "webApp": {
+    "options": {
+      "datasetManager": {
+        "categories": [
+          {
+            "id": "bars",
+            "name": { "en": "Bars", "fr": "Bars" },
+            "previewTable": {
+              "columns": [
+                {
+                  "field": "nbWaiters",
+                  "type": ["int"],
+                  "headerName": "Number of waiters"
+                },
+                {
+                  "field": "restockQty",
+                  "type": ["int"],
+                  "headerName": "Restock quantity"
+                },
+                {
+                  "field": "stock",
+                  "type": ["int"],
+                  "headerName": "Stock"
+                }
+              ],
+              "queryId": "bars_attributes",
+              "resultKey": "fields"
+            }
+          }
+        ],
+        "queries": [
+          {
+            "id": "bars_attributes",
+            "query": "MATCH(bar: Bar) WITH {name: bar.id, nbWaiters: bar.NbWaiters, stock: bar.Stock, restockQty: bar.RestockQty} as fields RETURN fields"
+          }
+        ]
+      }
+    }
+  }
+}
+```
 
-- `ADT`:
-  - `location`: URL of the Azure Digital Twin instance
-- `AzureStorage`:
-  - `name`: Name of the storage account in Azure storage
-  - `location`: Name of the blob container in Azure storage
-  - `path`: Path to the dataset folder in Azure storage
+</details>
 
-Note that you can specify **custom tooltips and default values** for these data sources: they will be displayed in the
-dataset creation wizard to help users fill the data source parameters. These tooltips and values can be configured
-in your workspace description, in the option `[workspace].webApp.options.datasetManager.datasourceParameterHelpers`.
+<details>
+<summary>YAML example</summary>
 
-The value of `datasourceParameterHelpers` must be an **array of objects**, where each object represents a datasource.
-Each datasource must have two keys: `id` (containing one of the data source identifiers listed above), and a
-`parameters` property containing a list of objects. Each object represents a parameter: it must have an `id` property,
-and can have the properties `defaultValue` (string) and `tooltipText` (dictionary of translation, with language codes as
-keys, and labels as values).
+```yaml
+webApp:
+  options:
+    datasetManager:
+      categories:
+        - id: bars
+          name:
+            en: Bars
+            fr: Bars
+          previewTable:
+            columns:
+              - field: nbWaiters
+                type:
+                  - int
+                headerName: Number of waiters
+              - field: restockQty
+                type:
+                  - int
+                headerName: Restock quantity
+              - field: stock
+                type:
+                  - int
+                headerName: 'Stock'
+            queryId: bars_attributes
+            resultKey: fields
+      queries:
+        - id: bars_attributes
+          query: 'MATCH(bar: Bar) WITH {name: bar.id, nbWaiters: bar.NbWaiters, stock: bar.Stock, restockQty: bar.RestockQty} as fields RETURN fields'
+```
+
+</details>
 
 <details>
 <summary>JSON example</summary>
