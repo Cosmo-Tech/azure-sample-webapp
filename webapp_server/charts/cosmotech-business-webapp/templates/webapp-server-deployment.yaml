@@ -1,0 +1,88 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "cosmotech-business-webapp.server-name" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    cosmotech.com/service: {{ include "cosmotech-business-webapp.server-name" . }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      cosmotech.com/service: {{ include "cosmotech-business-webapp.server-name" . }}
+  template:
+    metadata:
+      labels:
+        cosmotech.com/service: {{ include "cosmotech-business-webapp.server-name" . }}
+        networking/traffic-allowed: "yes"
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      {{- if .Values.webapp.server.image.pullSecret }}
+      imagePullSecrets:
+        - name: {{ .Values.webapp.server.image.pullSecret }}
+      {{- end }}
+      containers:
+      - name: cosmotech-business-webapp
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+          readOnlyRootFilesystem: true
+          runAsUser: 1000
+        image: "{{ .Values.webapp.server.image.repository }}:{{ .Values.webapp.server.image.tag }}"
+        imagePullPolicy: {{ .Values.webapp.server.image.pullPolicy }}
+        ports:
+          - name: http
+            containerPort: 3000
+            protocol: TCP
+        resources:
+          {{- toYaml .Values.resources | nindent 10 }}
+        volumeMounts:
+        - name: {{ include "cosmotech-business-webapp.server-name" . }}-tmp-volume
+          mountPath: /tmp/webapp
+        - name: {{ include "cosmotech-business-webapp.server-name" . }}-patch-config-volume
+          mountPath: /webapp/patch_config
+      volumes:
+        - name: {{ include "cosmotech-business-webapp.server-name" . }}-tmp-volume
+          emptyDir: {}
+        - name: {{ include "cosmotech-business-webapp.server-name" . }}-patch-config-volume
+          projected:
+            sources:
+            - configMap:
+                name: {{ include "cosmotech-business-webapp.server-name" . }}-configmap-assets
+                optional: true
+                items:
+                - key: favicon.ico
+                  path: assets/favicon.ico
+                - key: authDark.png
+                  path: assets/authDark.png
+                - key: authLight.png
+                  path: assets/authLight.png
+                - key: cosmotech_dark_logo.png
+                  path: assets/cosmotech_dark_logo.png
+                - key: cosmotech_light_logo.png
+                  path: assets/cosmotech_light_logo.png
+            - configMap:
+                name: {{ include "cosmotech-business-webapp.server-name" . }}-configmap-config
+                optional: true
+                items:
+                - key: AssetCopyMapping.json
+                  path: config/AssetCopyMapping.json
+                - key: ContentSecurityPolicy.json
+                  path: config/ContentSecurityPolicy.json
+                - key: GlobalConfiguration.json
+                  path: config/GlobalConfiguration.json
+                - key: HelpMenuConfiguration.json
+                  path: config/HelpMenuConfiguration.json
+            - configMap:
+                name: {{ include "cosmotech-business-webapp.server-name" . }}-configmap-translations
+                optional: true
+                items:
+                - key: en.json
+                  path: translations/en.json
+                - key: fr.json
+                  path: translations/fr.json
