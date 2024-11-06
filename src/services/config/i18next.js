@@ -5,6 +5,7 @@ import merge from 'deepmerge';
 import i18next from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import HttpApi from 'i18next-http-backend';
+import ConfigService from '../ConfigService';
 import { LANGUAGES, FALLBACK_LANGUAGE } from './Languages';
 
 const I18N_NAMESPACE = 'merged';
@@ -19,6 +20,7 @@ const langDetectorOptions = {
   checkWhitelist: true,
 };
 
+const publicUrl = ConfigService.getParameterValue('PUBLIC_URL') ?? '';
 i18next
   .use(HttpApi)
   .use(LanguageDetector)
@@ -32,7 +34,7 @@ i18next
     fallbackLng: FALLBACK_LANGUAGE,
     detection: langDetectorOptions,
     backend: {
-      loadPath: `${process.env?.PUBLIC_URL ?? ''}/locales/{{lng}}/{{ns}}.json`,
+      loadPath: `${publicUrl}/locales/{{lng}}/{{ns}}.json`,
     },
   });
 

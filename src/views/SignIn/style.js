@@ -1,6 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import makeStyles from '@mui/styles/makeStyles';
+import ConfigService from '../../services/ConfigService';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -58,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundImage: `url(${process.env?.PUBLIC_URL ?? ''}${theme.picture.auth})`,
+    backgroundImage: `url(${ConfigService.getParameterValue('PUBLIC_URL') ?? ''}${theme.picture.auth})`,
     backgroundSize: 'contain',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center bottom',

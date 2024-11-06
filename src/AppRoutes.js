@@ -5,6 +5,7 @@ import { Navigate, Route, createBrowserRouter, RouterProvider, createRoutesFromE
 import { getAllTabs } from './AppLayout';
 import { UserStatusGate } from './components/UserStatusGate';
 import { TabLayout } from './layouts';
+import ConfigService from './services/ConfigService';
 import { RouterUtils } from './utils';
 import Workspaces from './views/Workspaces';
 
@@ -12,6 +13,7 @@ const AppRoutes = () => {
   const providedUrl = sessionStorage.getItem('providedUrl');
   const providedUrlBeforeSignIn = sessionStorage.getItem('providedUrlBeforeSignIn');
   const redirectPath = RouterUtils.getLocationRelativePath(providedUrlBeforeSignIn ?? providedUrl ?? '/workspaces');
+  const publicUrl = ConfigService.getParameterValue('PUBLIC_URL') ?? '';
   const tabs = getAllTabs();
 
   const router = createBrowserRouter(
@@ -73,7 +75,7 @@ const AppRoutes = () => {
       </>
     ),
     {
-      basename: process.env.PUBLIC_URL ?? '',
+      basename: publicUrl,
     }
   );
 
