@@ -1,0 +1,89 @@
+name: Create and publish the webapp server docker images in vanilla mode
+on:
+  workflow_dispatch:
+    inputs:
+      targetRef:
+        description: 'Target branch, tag or commit to build the server image'
+        default: ''
+        required: true
+        type: string
+      imageTag:
+        description: 'Docker image tag'
+        default: ''
+        required: true
+        type: string
+  push:
+    tags:
+      - 'v*.*.*-vanilla'
+
+env:
+  # change the Container Registry information below if necessary
+  REGISTRY: ghcr.io
+  REPOSITORY_NAME: ${{ github.repository }}
+  DOCKER_BUILDKIT: 1
+
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout git repository
+        uses: actions/checkout@v4
+        with:
+          # Use Workflow input "targetRef" if provided, or the tag that triggered the job otherwise
+          ref: ${{ inputs.targetRef != '' && inputs.targetRef || github.ref_name }}
+      - name: Enable Corepack
+        run: corepack enable
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "webapp-server: extract Docker metadata (tags, labels)"
+        id: webapp-server-metadata
+        uses: docker/metadata-action@v5
+        with:
+          # change the tag and image name below if needed
+          tags: |
+            type=raw,value=${{ inputs.imageTag }},enable=${{ inputs.imageTag != '' }}
+            type=match,pattern=v(.*)-vanilla,group=1
+            type=ref,event=tag
+            type=ref,event=branch,value=${{ inputs.imageTag }},enable=${{ inputs.imageTag != '' }}
+          images: ${{ env.REGISTRY }}/${{ env.REPOSITORY_NAME }}/webapp-server-vanilla
+      - name: "webapp-server: build and push Docker image"
+        uses: docker/build-push-action@v6
+        env:
+          DOCKER_BUILD_RECORD_UPLOAD: false
+        with:
+          context: .
+          file: webapp_server/webapp-server-vanilla.Dockerfile
+          push: true
+          tags: ${{ steps.webapp-server-metadata.outputs.tags }}
+          labels: ${{ steps.webapp-server-metadata.outputs.labels }}
+
+      - name: "webapp-functions: extract Docker metadata (tags, labels)"
+        id: webapp-functions-metadata
+        uses: docker/metadata-action@v5
+        with:
+          # change the tag and image name below if needed
+          tags: |
+            type=raw,value=latest
+          images: ${{ env.REGISTRY }}/${{ env.REPOSITORY_NAME }}/webapp-functions
+      - name: "webapp-functions: build and push Docker image"
+        uses: docker/build-push-action@v6
+        env:
+          DOCKER_BUILD_RECORD_UPLOAD: false
+        with:
+          context: api
+          file: webapp_server/webapp-functions.Dockerfile
+          push: true
+          tags: ${{ steps.webapp-functions-metadata.outputs.tags }}
+          labels: ${{ steps.webapp-functions-metadata.outputs.labels }}
