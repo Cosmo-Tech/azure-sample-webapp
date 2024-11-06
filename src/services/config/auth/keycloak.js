@@ -18,7 +18,8 @@ try {
 export const SHOW_KEYCLOAK_AUTH_PROVIDER =
   AUTH_KEYCLOAK_CLIENT_ID != null && AUTH_KEYCLOAK_CLIENT_ID !== '' && authorityDomain != null;
 
-const redirectUrl = `${window.location.protocol}//${window.location.host}${process.env?.PUBLIC_URL ?? ''}` + '/sign-in';
+const publicUrl = ConfigService.getParameterValue('PUBLIC_URL') ?? '';
+const redirectUrl = `${window.location.protocol}//${window.location.host}${publicUrl}` + '/sign-in';
 const MSAL_KEYCLOAK_CONFIG = {
   rolesJwtClaim: AUTH_KEYCLOAK_ROLES_JWT_CLAIM,
   loginRequest: {},

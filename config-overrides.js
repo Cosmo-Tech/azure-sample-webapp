@@ -35,7 +35,10 @@ const cspConfigOptions = {
 };
 
 function addCspHtmlWebpackPlugin(config) {
-  if (process.env.NODE_ENV === 'production') {
+  const isProd = process.env.NODE_ENV === 'production';
+  const isVanilla = process.env.BUILD_TYPE === 'vanilla';
+  // When "vanilla" build mode is enabled, do not add CSP at build time
+  if (isProd && !isVanilla) {
     config.plugins.push(new CspHtmlWebpackPlugin(cspConfigPolicy, cspConfigOptions));
   }
 

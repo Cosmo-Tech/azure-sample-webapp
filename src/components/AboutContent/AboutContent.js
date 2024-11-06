@@ -33,7 +33,8 @@ const useStyles = makeStyles((theme) => ({
 export const AboutContent = ({ isDarkTheme }) => {
   const { t } = useTranslation();
   const classes = useStyles();
-  const logo = `${process.env?.PUBLIC_URL ?? ''}${isDarkTheme ? pictureDark.darkLogo : pictureLight.lightLogo}`;
+  const publicUrl = ConfigService.getParameterValue('PUBLIC_URL') ?? '';
+  const logo = `${publicUrl}${isDarkTheme ? pictureDark.darkLogo : pictureLight.lightLogo}`;
 
   const currentWorkspaceData = useWorkspaceData();
   const organizationUrl =
