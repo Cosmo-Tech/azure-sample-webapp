@@ -19,8 +19,8 @@ export const GenericDateInput = ({
   setParameterValue,
   isDirty = false,
   error,
-                                     gridItemProps,
-                                 }) => {
+  gridItemProps,
+}) => {
   const { t } = useTranslation();
   const minDate = parameterData.minValue ? new Date(parameterData.minValue) : undefined;
   const maxDate = parameterData.maxValue ? new Date(parameterData.maxValue) : undefined;
