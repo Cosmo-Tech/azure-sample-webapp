@@ -28,7 +28,7 @@ function moveScenario(moveData) {
   );
 }
 
-const ScenarioManager = (props) => {
+const ScenarioManager = () => {
   const classes = useStyles();
   const { t } = useTranslation();
   const labels = getScenarioManagerLabels(t);
@@ -181,7 +181,5 @@ const ScenarioManager = (props) => {
     </div>
   );
 };
-
-ScenarioManager.propTypes = {};
 
 export default ScenarioManager;

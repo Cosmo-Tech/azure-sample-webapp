@@ -9,7 +9,7 @@ import { KPIValue } from '../../../KPIValue';
 
 export const KPI = (props) => {
   const { t } = useTranslation();
-  const { id, categoryId, kpi, labelProps, valueProps } = props;
+  const { id = 'kpi', categoryId = '', kpi = {}, labelProps = {}, valueProps = {} } = props;
 
   const label = useMemo(() => {
     return (
@@ -48,12 +48,4 @@ KPI.propTypes = {
   kpi: PropTypes.object,
   labelProps: PropTypes.object,
   valueProps: PropTypes.object,
-};
-
-KPI.defaultProps = {
-  id: 'kpi',
-  categoryId: '',
-  kpi: {},
-  labelProps: {},
-  valueProps: {},
 };

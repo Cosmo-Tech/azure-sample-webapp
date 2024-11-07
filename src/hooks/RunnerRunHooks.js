@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 import { useCallback } from 'react';
 import RunnerRunService from '../services/runnerRun/RunnerRunService';
-import { useCurrentDataset } from '../state/hooks/DatasetHooks';
-import { useOrganizationId } from '../state/hooks/OrganizationHooks';
-import { useCurrentSimulationRunnerData } from '../state/hooks/RunnerHooks';
-import { useWorkspaceId } from '../state/hooks/WorkspaceHooks';
+import { useCurrentDataset } from '../state/datasets/hooks';
+import { useOrganizationId } from '../state/organizations/hooks';
+import { useCurrentSimulationRunnerData } from '../state/runner/hooks';
+import { useWorkspaceId } from '../state/workspaces/hooks';
 
 export const useDownloadLogsFile = () => {
   const organizationId = useOrganizationId();

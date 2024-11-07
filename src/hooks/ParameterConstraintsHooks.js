@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import isAfter from 'date-fns/isAfter';
 import isBefore from 'date-fns/isBefore';
 import isSameDay from 'date-fns/isSameDay';
-import { useSolutionParameters } from '../state/hooks/SolutionHooks';
+import { useSolutionParameters } from '../state/solutions/hooks';
 import { TranslationUtils, ParameterConstraintsUtils } from '../utils';
 
 export const useParameterConstraint = (parameterData) => {

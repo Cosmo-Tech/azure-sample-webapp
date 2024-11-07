@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { Grid, ButtonBase, Link } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import ConfigService from '../../services/ConfigService';
-import { useWorkspaceData } from '../../state/hooks/WorkspaceHooks';
+import { useWorkspaceData } from '../../state/workspaces/hooks';
 import { pictureLight, pictureDark } from '../../theme';
 
 const useStyles = makeStyles((theme) => ({
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const AboutContent = ({ isDarkTheme }) => {
+export const AboutContent = ({ isDarkTheme = false }) => {
   const { t } = useTranslation();
   const classes = useStyles();
   const logo = `${process.env?.PUBLIC_URL ?? ''}${isDarkTheme ? pictureDark.darkLogo : pictureLight.lightLogo}`;
@@ -77,8 +77,4 @@ export const AboutContent = ({ isDarkTheme }) => {
 
 AboutContent.propTypes = {
   isDarkTheme: PropTypes.bool,
-};
-
-AboutContent.defaultProps = {
-  isDarkTheme: false,
 };

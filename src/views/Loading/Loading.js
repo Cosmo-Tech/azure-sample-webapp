@@ -8,7 +8,7 @@ import { LoadingLine } from '@cosmotech/ui';
 import * as dataError from '../../assets/loadingLine/dataError.json';
 import * as dataLoaded from '../../assets/loadingLine/dataLoaded.json';
 import * as dataLoading from '../../assets/loadingLine/dataLoading.json';
-import { STATUSES } from '../../state/commons/Constants';
+import { STATUSES } from '../../services/config/StatusConstants';
 import { useLoading } from './LoadingHook';
 
 const useStyles = makeStyles((theme) => ({

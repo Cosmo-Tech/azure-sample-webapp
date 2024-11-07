@@ -6,10 +6,10 @@ import PropTypes from 'prop-types';
 import { Grid } from '@mui/material';
 import { SingleSelect } from '@cosmotech/ui';
 import { useSortedScenarioList } from '../../../../hooks/ScenarioListHooks';
-import { useCurrentSimulationRunnerId } from '../../../../state/hooks/RunnerHooks';
+import { useCurrentSimulationRunnerId } from '../../../../state/runner/hooks';
 import { TranslationUtils } from '../../../../utils';
 
-export const ScenarioSelect = ({ parameterData, context, parameterValue, setParameterValue, isDirty }) => {
+export const ScenarioSelect = ({ parameterData, context, parameterValue, setParameterValue, isDirty = false }) => {
   const { t } = useTranslation();
   const scenarioList = useSortedScenarioList();
   const currentScenarioId = useCurrentSimulationRunnerId();
@@ -57,8 +57,4 @@ ScenarioSelect.propTypes = {
   setParameterValue: PropTypes.func.isRequired,
   isDirty: PropTypes.bool,
   gridItemProps: PropTypes.object,
-};
-
-ScenarioSelect.defaultProps = {
-  isDirty: false,
 };
