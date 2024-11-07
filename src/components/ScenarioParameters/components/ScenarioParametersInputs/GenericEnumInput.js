@@ -67,7 +67,7 @@ export const GenericEnumInput = ({
 
   if (dynamicValuesError) return dynamicValuesError;
   return (
-    <Grid {...gridItemProps} size={3}>
+    <Grid size={3} {...gridItemProps}>
       {loadingDynamicValuesPlaceholder}
       {dynamicEnumValues !== null && (
         <BasicEnumInput

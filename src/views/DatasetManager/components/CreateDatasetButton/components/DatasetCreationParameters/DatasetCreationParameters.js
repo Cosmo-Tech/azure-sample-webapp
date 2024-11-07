@@ -84,36 +84,33 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
                   context={{ editMode: true }}
                   parameterValue={value}
                   setParameterValue={onChange}
-                  gridItemProps={{ sx: { pt: 1, width: '100%' } }}
+                  gridItemProps={{ sx: { pt: 1 }, size: 12 }}
                   size="medium"
                   isDirty={null}
                 />
               );
             } else if (inputType === 'enum') {
               return (
-                <Grid size={6} sx={{ pt: 2 }}>
-                  <GenericEnumInput
-                    gridItemProps={{ sx: { width: '100%' } }}
-                    parameterData={parameter}
-                    context={{ editMode: true, targetDatasetId: parentDataset?.id }}
-                    parameterValue={value}
-                    setParameterValue={onChange}
-                    resetParameterValue={(newDefaultValue) => resetField(fieldPath, { defaultValue: newDefaultValue })}
-                    isDirty={null}
-                  />
-                </Grid>
+                <GenericEnumInput
+                  gridItemProps={{ size: 6, sx: { pt: 2 } }}
+                  parameterData={parameter}
+                  context={{ editMode: true, targetDatasetId: parentDataset?.id }}
+                  parameterValue={value}
+                  setParameterValue={onChange}
+                  resetParameterValue={(newDefaultValue) => resetField(fieldPath, { defaultValue: newDefaultValue })}
+                  isDirty={null}
+                />
               );
             } else if (inputType === 'list') {
               return (
-                <Grid sx={{ pt: 2 }}>
-                  <GenericMultiSelect
-                    parameterData={parameter}
-                    context={{ editMode: true, targetDatasetId: parentDataset?.id }}
-                    parameterValue={value}
-                    setParameterValue={onChange}
-                    isDirty={null}
-                  />
-                </Grid>
+                <GenericMultiSelect
+                  gridItemProps={{ sx: { pt: 2 } }}
+                  parameterData={parameter}
+                  context={{ editMode: true, targetDatasetId: parentDataset?.id }}
+                  parameterValue={value}
+                  setParameterValue={onChange}
+                  isDirty={null}
+                />
               );
             } else if (inputType === '%DATASETID%') {
               return (
@@ -133,17 +130,15 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
               );
             } else if (inputType === 'date') {
               return (
-                <Grid size={6} sx={{ pt: 1 }}>
-                  <GenericDateInput
-                    gridItemProps={{ sx: { width: '100%' }, size: 6 }}
-                    parameterData={parameter}
-                    context={{ editMode: true }}
-                    parameterValue={value}
-                    setParameterValue={onChange}
-                    isDirty={null}
-                    error={null}
-                  />
-                </Grid>
+                <GenericDateInput
+                  gridItemProps={{ sx: { pt: 1 }, size: 6 }}
+                  parameterData={parameter}
+                  context={{ editMode: true }}
+                  parameterValue={value}
+                  setParameterValue={onChange}
+                  isDirty={null}
+                  error={null}
+                />
               );
             } else {
               return null;

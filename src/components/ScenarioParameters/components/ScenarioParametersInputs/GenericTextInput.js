@@ -25,7 +25,7 @@ export const GenericTextInput = ({
   };
 
   return (
-    <Grid {...gridItemProps} size={3}>
+    <Grid size={3} {...gridItemProps}>
       <BasicTextInput
         key={parameterData.id}
         id={parameterData.id}
