@@ -4,7 +4,7 @@ import React, { useCallback } from 'react';
 import { useFormState } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
-import { Button, Grid } from '@mui/material';
+import { Button, Grid2 as Grid } from '@mui/material';
 import { PermissionsGate } from '@cosmotech/ui';
 import { useUpdateParameters } from '../../../../../../hooks/ScenarioParametersHooks';
 import { useUserAppAndCurrentScenarioPermissions } from '../../../../../../hooks/SecurityHooks';
@@ -69,7 +69,7 @@ export const LaunchButton = () => {
       userPermissions={userAppAndCurrentScenarioPermissions}
       necessaryPermissions={[ACL_PERMISSIONS.SCENARIO.LAUNCH]}
     >
-      <Grid item>
+      <Grid>
         <Button
           data-cy="launch-scenario-button"
           variant="contained"

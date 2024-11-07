@@ -4,18 +4,12 @@ import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Accordion, AccordionDetails, AccordionSummary, Grid, Typography } from '@mui/material';
-import { makeStyles } from '@mui/styles';
+import { Accordion, AccordionDetails, AccordionSummary, Grid2 as Grid, Typography } from '@mui/material';
 import { exists } from 'i18next';
 import { TranslationUtils } from '../../../../../../utils';
 import { KPI, CategoryDetailsDialog } from './components';
 
-const useStyles = makeStyles((theme) => ({
-  categoryType: { opacity: '70%' },
-}));
-
 const CategoryAccordion = (props) => {
-  const classes = useStyles();
   const { t } = useTranslation();
   const { id = 'category', category = {}, queriesResults = [] } = props;
 
@@ -25,27 +19,27 @@ const CategoryAccordion = (props) => {
   const accordionSummary = useMemo(() => {
     const categorySummary = (
       <Grid container spacing={1} data-cy={`category-accordion-summary-${category.id}`}>
-        <Grid item>
+        <Grid>
           <Typography data-cy="category-name" variant="body1">
             {t(TranslationUtils.getDatasetCategoryNameTranslationKey(category.id), category.id ?? 'category')}
           </Typography>
         </Grid>
         {category.type && (
-          <>
-            <Grid item>
-              <Typography variant="body1" className={classes.categoryType}>
+          <Grid container>
+            <Grid>
+              <Typography variant="body1" sx={{ opacity: '70%' }}>
                 {'|'}
               </Typography>
             </Grid>
-            <Grid item>
-              <Typography data-cy="category-type" variant="body1" className={classes.categoryType}>
+            <Grid>
+              <Typography data-cy="category-type" variant="body1" sx={{ opacity: '70%' }}>
                 {t(
                   `commoncomponents.datasetmanager.overview.categoryTypes.${category.type.toLowerCase()}`,
                   category.type
                 )}
               </Typography>
             </Grid>
-          </>
+          </Grid>
         )}
       </Grid>
     );
@@ -61,7 +55,7 @@ const CategoryAccordion = (props) => {
             ...queriesResults.categoriesKpis.find((kpiResult) => kpiResult.id === kpi.id),
           };
           return (
-            <Grid item key={`kpi${index}`}>
+            <Grid key={`kpi${index}`}>
               <KPI
                 labelProps={{ sx: { opacity: '70%' } }}
                 valueProps={{ sx: { opacity: '70%' } }}
@@ -76,33 +70,23 @@ const CategoryAccordion = (props) => {
         categoryMainKpis.splice(
           1,
           0,
-          <Grid item key="kpi-separator">
+          <Grid key="kpi-separator">
             <Typography sx={{ opacity: '70%' }}>|</Typography>
           </Grid>
         );
     }
 
     return (
-      <Grid
-        id={id}
-        container
-        spacing={1}
-        sx={{
-          flexFlow: 'row wrap',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Grid item lg={4} sx={{ overflow: 'hidden' }}>
+      <Grid id={id} container spacing={1} size="grow" sx={{ flexFlow: 'row wrap', justifyContent: 'space-between' }}>
+        <Grid container size={{ lg: 4 }}>
           {categorySummary}
         </Grid>
-        <Grid item lg={8}>
-          <Grid container spacing={1}>
-            {categoryMainKpis}
-          </Grid>
+        <Grid container spacing={1} size={{ lg: 8 }}>
+          {categoryMainKpis}
         </Grid>
       </Grid>
     );
-  }, [t, id, category, classes, expanded, queriesResults.categoriesKpis]);
+  }, [t, id, category, expanded, queriesResults.categoriesKpis]);
 
   const accordionDetails = useMemo(() => {
     const hasDescription = exists(TranslationUtils.getDatasetCategoryDescriptionTranslationKey(category.id));
@@ -132,18 +116,11 @@ const CategoryAccordion = (props) => {
       });
 
     const attributes = category.attributes && (
-      <Grid
-        container
-        spacing={1}
-        sx={{
-          flexFlow: 'row nowrap',
-          alignItems: 'center',
-        }}
-      >
-        <Grid item>
+      <Grid container spacing={1} sx={{ flexFlow: 'row nowrap', alignItems: 'center' }}>
+        <Grid>
           <Typography>{t('commoncomponents.datasetmanager.overview.attributesLabel', 'Attributes:')}</Typography>
         </Grid>
-        <Grid item>
+        <Grid>
           <Typography data-cy="category-attributes" sx={{ opacity: '70%' }}>
             {category.attributes?.join(', ')}
           </Typography>
@@ -156,14 +133,12 @@ const CategoryAccordion = (props) => {
         data-cy={`category-accordion-details-${category.id}`}
         container
         spacing={2}
-        sx={{
-          flexFlow: 'column nowrap',
-        }}
+        sx={{ flexFlow: 'column nowrap' }}
       >
-        {description && <Grid item>{description}</Grid>}
-        {categoryKpis && <Grid item>{categoryKpis}</Grid>}
-        {attributes && <Grid item>{attributes}</Grid>}
-        <Grid container item direction="row" justifyContent="flex-end">
+        {description && <Grid>{description}</Grid>}
+        {categoryKpis && <Grid>{categoryKpis}</Grid>}
+        {attributes && <Grid>{attributes}</Grid>}
+        <Grid container direction="row" sx={{ justifyContent: 'flex-end' }}>
           <CategoryDetailsDialog category={category} kpis={kpisWithResult} />
         </Grid>
       </Grid>

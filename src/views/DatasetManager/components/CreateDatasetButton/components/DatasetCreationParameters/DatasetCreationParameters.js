@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import { Grid, Typography } from '@mui/material';
+import { Grid2 as Grid, Typography } from '@mui/material';
 import rfdc from 'rfdc';
 import { UploadFile, BasicEnumInput } from '@cosmotech/ui';
 import {
@@ -84,7 +84,7 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
                   context={{ editMode: true }}
                   parameterValue={value}
                   setParameterValue={onChange}
-                  gridItemProps={{ xs: 12, sx: { pt: 1 } }}
+                  gridItemProps={{ sx: { pt: 1 }, size: 12 }}
                   size="medium"
                   isDirty={null}
                 />
@@ -92,19 +92,19 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
             } else if (inputType === 'enum') {
               return (
                 <GenericEnumInput
+                  gridItemProps={{ size: 6, sx: { pt: 2 } }}
                   parameterData={parameter}
                   context={{ editMode: true, targetDatasetId: parentDataset?.id }}
                   parameterValue={value}
                   setParameterValue={onChange}
                   resetParameterValue={(newDefaultValue) => resetField(fieldPath, { defaultValue: newDefaultValue })}
-                  gridItemProps={{ xs: 6, sx: { pt: 2 } }}
                   isDirty={null}
                 />
               );
             } else if (inputType === 'list') {
               return (
                 <GenericMultiSelect
-                  gridItemProps={{ xs: 12, sx: { pt: 2 } }}
+                  gridItemProps={{ sx: { pt: 2 } }}
                   parameterData={parameter}
                   context={{ editMode: true, targetDatasetId: parentDataset?.id }}
                   parameterValue={value}
@@ -114,7 +114,7 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
               );
             } else if (inputType === '%DATASETID%') {
               return (
-                <Grid item xs={12} sx={{ pt: 1 }}>
+                <Grid sx={{ pt: 1 }} size={12}>
                   <UploadFile
                     id={parameterId}
                     key={parameterId}
@@ -130,16 +130,15 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
               );
             } else if (inputType === 'date') {
               return (
-                <Grid container columns={6} sx={{ pt: 1 }}>
-                  <GenericDateInput
-                    parameterData={parameter}
-                    context={{ editMode: true }}
-                    parameterValue={value}
-                    setParameterValue={onChange}
-                    isDirty={null}
-                    error={null}
-                  />
-                </Grid>
+                <GenericDateInput
+                  gridItemProps={{ sx: { pt: 1 }, size: 6 }}
+                  parameterData={parameter}
+                  context={{ editMode: true }}
+                  parameterValue={value}
+                  setParameterValue={onChange}
+                  isDirty={null}
+                  error={null}
+                />
               );
             } else {
               return null;
@@ -184,11 +183,11 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
   }, [t, isSubDatasetCreationWizard]);
 
   return (
-    <>
-      <Grid item xs={12}>
-        {<Typography sx={{ py: 2 }}>{labels.subtitle}</Typography>}
+    <Grid container direction="column" sx={{ width: '100%' }}>
+      <Grid sx={{ py: 2 }}>
+        <Typography>{labels.subtitle}</Typography>
       </Grid>
-      <Grid item xs={7}>
+      <Grid sx={{ py: 1 }} size={7}>
         <Controller
           name="sourceType"
           key="sourceType"
@@ -214,10 +213,10 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
           }}
         />
       </Grid>
-      <Grid item container xs={12} sx={{ px: 2, pt: 3 }}>
+      <Grid container size={7} sx={{ px: 2, pt: 3, width: '100%' }}>
         {sourceParameters}
       </Grid>
-    </>
+    </Grid>
   );
 };
 

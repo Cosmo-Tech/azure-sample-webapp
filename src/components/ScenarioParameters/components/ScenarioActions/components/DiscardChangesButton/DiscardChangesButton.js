@@ -4,7 +4,7 @@ import React, { useCallback } from 'react';
 import { useFormContext, useFormState } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import CancelIcon from '@mui/icons-material/Cancel';
-import { Button, Grid } from '@mui/material';
+import { Button, Grid2 as Grid } from '@mui/material';
 import rfdc from 'rfdc';
 import { PermissionsGate } from '@cosmotech/ui';
 import { useUserAppAndCurrentScenarioPermissions } from '../../../../../../hooks/SecurityHooks';
@@ -42,7 +42,7 @@ export const DiscardChangesButton = () => {
       userPermissions={userAppAndCurrentScenarioPermissions}
       necessaryPermissions={[ACL_PERMISSIONS.SCENARIO.WRITE]}
     >
-      <Grid item>
+      <Grid>
         <Button data-cy="discard-button" startIcon={<CancelIcon />} onClick={askDiscardConfirmation}>
           {t('commoncomponents.button.scenario.parameters.discard', 'DISCARD')}
         </Button>
