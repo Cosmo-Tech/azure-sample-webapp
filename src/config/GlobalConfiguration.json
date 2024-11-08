@@ -1,12 +1,12 @@
 {
   "APP_REGISTRATION_CLIENT_ID": "",
-  "AUTH_KEYCLOAK_CLIENT_ID": "cosmotech-webapp-client",
-  "AUTH_KEYCLOAK_REALM": "https://kubernetes.cosmotech.com/keycloak/realms/brewery",
-  "AUTH_KEYCLOAK_ROLES_JWT_CLAIM": "userRoles",
+  "AUTH_KEYCLOAK_CLIENT_ID": "",
+  "AUTH_KEYCLOAK_REALM": "",
+  "AUTH_KEYCLOAK_ROLES_JWT_CLAIM": "",
   "AZURE_TENANT_ID": "",
-  "COSMOTECH_API_SCOPE": "https://kubernetes.cosmotech.com/platform",
-  "DEFAULT_BASE_PATH": "https://kubernetes.cosmotech.com/cosmotech-api/brewery/v4",
-  "ORGANIZATION_ID": "o-vloxvdke5gqvx",
-  "PUBLIC_URL": "/thu_local_test",
+  "COSMOTECH_API_SCOPE": "",
+  "DEFAULT_BASE_PATH": "",
+  "ORGANIZATION_ID": "",
+  "PUBLIC_URL": "",
   "WORKSPACES_IDS_FILTER": null
 }
