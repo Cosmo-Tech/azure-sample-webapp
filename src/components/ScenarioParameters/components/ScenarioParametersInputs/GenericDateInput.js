@@ -58,9 +58,7 @@ GenericDateInput.propTypes = {
   error: PropTypes.object,
   gridItemProps: PropTypes.object,
 };
-GenericDateInput.defaultProps = {
-  isDirty: false,
-};
+
 GenericDateInput.useValidationRules = (parameterData) => {
   const { t } = useTranslation();
   const minDate = parameterData.minValue ? new Date(parameterData.minValue) : undefined;
