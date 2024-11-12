@@ -107,11 +107,14 @@ describe('scenario parameters inputs validation', () => {
 
       BreweryParameters.getStartDateInput().click().type('{backspace}');
       BreweryParameters.getStartDateHelperText().should('be.visible').contains('format');
-      BreweryParameters.getStartDateInput().click().type('{rightArrow}{backspace}{rightArrow}{backspace}');
+      // Adding a delay in type function to make test less brittle in Electron browser (passes without delay in Chrome)
+      BreweryParameters.getStartDateInput()
+        .click()
+        .type('{rightArrow}{backspace}{rightArrow}{backspace}', { delay: 1 });
       BreweryParameters.getStartDateHelperText().should('be.visible').contains('required');
       BreweryParameters.getStartDateInput().type('22/22');
       BreweryParameters.getStartDateHelperText().should('be.visible').contains('format');
-      BreweryParameters.getStartDateInput().type('{leftArrow}{leftArrow}05/18/2099');
+      BreweryParameters.getStartDateInput().type('{leftArrow}{leftArrow}05/18/2099', { delay: 1 });
       BreweryParameters.getStartDateHelperText().should('not.exist');
 
       BreweryParameters.getAdditionalDateInput().type('05/05/2018');
@@ -254,7 +257,7 @@ describe('validation with constraints between parameters', () => {
     BreweryParameters.getEndDateHelperText().should('exist').contains('strictly after');
     BreweryParameters.getStartDateInput().type('02/22/2021');
     BreweryParameters.getEndDateHelperText().should('not.exist');
-    BreweryParameters.getEndDateInput().type('{leftArrow}{leftArrow}06/22/2022');
+    BreweryParameters.getEndDateInput().type('{leftArrow}{leftArrow}06/22/2022', { delay: 1 });
     BreweryParameters.getAdditionalDateHelperText().should('exist').contains('must be different');
     ScenarioParameters.getSaveButton().should('be.disabled');
     ScenarioParameters.getLaunchButton().should('be.disabled');
