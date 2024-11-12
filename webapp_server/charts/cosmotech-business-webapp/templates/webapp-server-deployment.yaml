@@ -24,6 +24,10 @@ spec:
       imagePullSecrets:
         - name: {{ .Values.webapp.server.image.pullSecret }}
       {{- end }}
+      {{- with .Values.webapp.server.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
       - name: cosmotech-business-webapp
         securityContext:

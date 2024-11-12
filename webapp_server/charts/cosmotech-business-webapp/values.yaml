@@ -14,6 +14,8 @@ webapp:
   # -- URL path to use as root of the webapp (e.g. /cosmotech-webapp/brewery)
   publicUrl: ""
   server:
+    # -- node selector for webapp server deployment
+    nodeSelector: {}
     image:
       # -- name of the secret containing registry credentials to pull private images (e.g. cosmotech-business-webapp-brewery-registry)
       pullSecret: ""
@@ -24,6 +26,8 @@ webapp:
       # -- [policy](https://kubernetes.io/docs/concepts/containers/images/#updating-images) to pull the image
       pullPolicy: Always
   functions:
+    # -- node selector for webapp functions deployment
+    nodeSelector: {}
     image:
       # -- name of the secret containing registry credentials to pull private images (e.g. cosmotech-business-webapp-brewery-registry)
       pullSecret: ""
