@@ -103,10 +103,18 @@ def merge_csp_parts(input1, input2):
 
 def load_asset_copy_mapping(input_config_folder):
     specific_asset_copy_mapping_file_path = os.path.join(input_config_folder, 'config', 'AssetCopyMapping.json')
-    if os.path.isfile(specific_asset_copy_mapping_file_path):
+    use_generic_config_file = not os.path.isfile(specific_asset_copy_mapping_file_path)
+
+    if use_generic_config_file is False:
         print('\nLoading project-specific file AssetCopyMapping.json...')
-        asset_copy_mapping = load_json(specific_asset_copy_mapping_file_path)
-    else:
+        try:
+            asset_copy_mapping = load_json(specific_asset_copy_mapping_file_path)
+        except Exception as e:
+            print('\n[WARNING] Failed to parse project-specific file AssetCopyMapping.json')
+            print('          Falling back to generic configuration file...')
+            use_generic_config_file = True
+
+    if use_generic_config_file: # No specific config file, or its parsing has failed
         print('\nLoading generic configuration file AssetCopyMapping.json...')
         asset_copy_mapping = load_json("generic_config/AssetCopyMapping.json")
 
@@ -190,14 +198,23 @@ def apply_csp(output_folder, csp_html):
 def load_config_values(input_config_folder, env_file):
     print(f"\nLoading configuration values:" )
     config_values = {}
-    file_names = ["ApplicationInsights.json", "GlobalConfiguration.json", "HelpMenuConfiguration.json"]
-    for file_name in file_names:
+    mandatory_file_names = ["ApplicationInsights.json", "GlobalConfiguration.json"]
+    optional_file_names = ["HelpMenuConfiguration.json"]
+    for file_name in mandatory_file_names + optional_file_names:
         file_path = os.path.join(input_config_folder, 'config', file_name)
         if not os.path.isfile(file_path):
             print(f"  - [WARNING] skipped {file_name} (file not found)" )
         else:
             print(f"  - parsing {file_name}..." )
-            new_values = load_json(file_path)
+            try:
+                new_values = load_json(file_path)
+            except Exception as e:
+                if file_name in optional_file_names:
+                    print(f"  - [WARNING] skipped {file_name} (parsing has failed)" )
+                    continue
+                else:
+                    print(f"  - [ERROR] failed to parse JSON file {file_name}" )
+                    raise(e)
             config_values = merge_dicts(config_values, new_values)
 
     print("\nConfiguration values to inject:")
