@@ -3,7 +3,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { ErrorBanner } from '@cosmotech/ui';
-import { useApplicationError, useClearApplicationErrorMessage } from '../../state/hooks/ApplicationHooks';
+import { useApplicationError, useClearApplicationErrorMessage } from '../../state/app/hooks';
 
 export const ApplicationErrorBanner = () => {
   const { t } = useTranslation();

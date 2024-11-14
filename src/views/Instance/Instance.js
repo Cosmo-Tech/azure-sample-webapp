@@ -6,7 +6,7 @@ import { useTheme } from '@mui/styles';
 import { CytoViz } from '@cosmotech/ui';
 import { CurrentScenarioSelector } from '../../components';
 import { AppInsights } from '../../services/AppInsights';
-import { STATUSES } from '../../state/commons/Constants';
+import { STATUSES } from '../../services/config/StatusConstants';
 import { parseError } from '../../utils/ErrorsUtils';
 import { useInstance } from './InstanceHook';
 import { fetchData, processGraphElements } from './data';

@@ -5,19 +5,19 @@ import PropTypes from 'prop-types';
 import { t } from 'i18next';
 import { HierarchicalComboBox } from '@cosmotech/ui';
 import { useSortedScenarioList } from '../../hooks/ScenarioListHooks';
-import { STATUSES } from '../../state/commons/Constants';
+import { STATUSES } from '../../services/config/StatusConstants';
 import {
-  useCurrentScenarioData,
-  useCurrentScenarioReducerStatus,
-  useFindScenarioById,
-} from '../../state/hooks/ScenarioHooks';
+  useCurrentSimulationRunnerData,
+  useCurrentSimulationRunnerReducerStatus,
+  useSelectRunner,
+} from '../../state/runner/hooks';
 
-const CurrentScenarioSelector = ({ disabled, renderInputToolTip }) => {
+const CurrentScenarioSelector = ({ disabled = false, renderInputToolTip = '' }) => {
   const sortedScenarioList = useSortedScenarioList();
-  const currentScenarioData = useCurrentScenarioData();
-  const currentScenarioStatus = useCurrentScenarioReducerStatus();
+  const currentScenarioData = useCurrentSimulationRunnerData();
+  const currentScenarioStatus = useCurrentSimulationRunnerReducerStatus();
 
-  const changeScenario = useFindScenarioById();
+  const changeScenario = useSelectRunner();
 
   const handleScenarioChange = useCallback(
     (event, scenario) => {
@@ -55,11 +55,6 @@ const CurrentScenarioSelector = ({ disabled, renderInputToolTip }) => {
 CurrentScenarioSelector.propTypes = {
   disabled: PropTypes.bool,
   renderInputToolTip: PropTypes.string,
-};
-
-CurrentScenarioSelector.defaultProps = {
-  disabled: false,
-  renderInputToolTip: '',
 };
 
 export default CurrentScenarioSelector;

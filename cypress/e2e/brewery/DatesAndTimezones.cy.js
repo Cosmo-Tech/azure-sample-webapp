@@ -86,23 +86,18 @@ describe('Scenario parameters of type date', () => {
     BreweryParameters.getStartDateHelperText().should('not.exist');
     BreweryParameters.getEndDateHelperText().should('not.exist');
 
-    BreweryParameters.getStartDateInput().clear();
     BreweryParameters.getStartDateInput().type('12/31/2024');
     BreweryParameters.getStartDateHelperText().should('be.visible').contains('Minimum date').contains('01/01/2025');
-    BreweryParameters.getStartDateInput().clear();
-    BreweryParameters.getStartDateInput().type('01/02/2026');
+    // Adding a delay in type function to make test less brittle in Electron browser (passes without delay in Chrome)
+    BreweryParameters.getStartDateInput().type('{leftArrow}{leftArrow}01/02/2026', { delay: 1 });
     BreweryParameters.getStartDateHelperText().should('be.visible').contains('Maximum date').contains('01/01/2026');
-    BreweryParameters.getStartDateInput().clear();
-    BreweryParameters.getStartDateInput().type('01/13/2025');
+    BreweryParameters.getStartDateInput().type('{leftArrow}{leftArrow}01/13/2025', { delay: 1 });
     BreweryParameters.getStartDateHelperText().should('not.exist');
 
-    BreweryParameters.getEndDateInput().clear();
     BreweryParameters.getEndDateInput().type('06/30/2025');
     BreweryParameters.getEndDateHelperText().should('be.visible').contains('Minimum date').contains('07/01/2025');
-    BreweryParameters.getEndDateInput().clear();
-    BreweryParameters.getEndDateInput().type('07/02/2026');
+    BreweryParameters.getEndDateInput().type('{leftArrow}{leftArrow}07/02/2026', { delay: 1 });
     BreweryParameters.getEndDateHelperText().should('be.visible').contains('Maximum date').contains('07/01/2026');
-    BreweryParameters.getEndDateInput().clear();
     BreweryParameters.getEndDateInput().type('07/13/2025');
     BreweryParameters.getEndDateHelperText().should('not.exist');
   });

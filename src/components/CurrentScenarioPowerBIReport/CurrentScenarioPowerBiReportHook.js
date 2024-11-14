@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDownloadLogsFile } from '../../hooks/ScenarioRunHooks';
-import { useIsDarkTheme } from '../../state/hooks/ApplicationHooks';
-import { usePowerBIInfo } from '../../state/hooks/PowerBIHooks';
-import { useCurrentScenarioData, useScenarios } from '../../state/hooks/ScenarioHooks';
-import { useWorkspaceChartsLogInWithUserCredentials } from '../../state/hooks/WorkspaceHooks';
+import { useDownloadSimulationLogsFile } from '../../hooks/RunnerRunHooks';
+import { useIsDarkTheme } from '../../state/app/hooks';
+import { usePowerBIInfo } from '../../state/powerBi/hooks';
+import { useCurrentSimulationRunnerData, useRunners } from '../../state/runner/hooks';
+import { useWorkspaceChartsLogInWithUserCredentials } from '../../state/workspaces/hooks';
 import darkTheme from '../../theme/powerbi/darkTheme.json';
 import lightTheme from '../../theme/powerbi/lightTheme.json';
 import { getReportLabels } from './labels';
@@ -14,21 +14,20 @@ import { getReportLabels } from './labels';
 export const useCurrentScenarioPowerBiReport = () => {
   const { t, i18n } = useTranslation();
 
-  const currentScenarioData = useCurrentScenarioData();
-  const scenarios = useScenarios();
+  const currentScenarioData = useCurrentSimulationRunnerData();
+  const scenarios = useRunners();
   const reports = usePowerBIInfo();
   const logInWithUserCredentials = useWorkspaceChartsLogInWithUserCredentials();
-  const downloadLogsFile = useDownloadLogsFile();
+  const downloadLogsFile = useDownloadSimulationLogsFile();
 
   const reportLabels = useMemo(() => getReportLabels(t), [t]);
   const language = useMemo(() => i18n.language, [i18n.language]);
 
   const visibleScenarios = useMemo(
     () =>
-      scenarios.map((scenario) => ({
-        id: scenario.id,
-        runId: scenario.lastRun?.scenarioRunId,
-        csmSimulationRun: scenario.lastRun?.csmSimulationRun,
+      scenarios?.map((runner) => ({
+        id: runner.id,
+        runId: runner.lastRunId,
       })),
     [scenarios]
   );

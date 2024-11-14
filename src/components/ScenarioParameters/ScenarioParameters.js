@@ -5,13 +5,13 @@ import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Grid, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+import { Grid2 as Grid, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import rfdc from 'rfdc';
 import { PermissionsGate } from '@cosmotech/ui';
-import { SCENARIO_RUN_STATE, SCENARIO_VALIDATION_STATUS } from '../../services/config/ApiConstants';
+import { RUNNER_VALIDATION_STATUS, RUNNER_RUN_STATE } from '../../services/config/ApiConstants';
+import { STATUSES } from '../../services/config/StatusConstants';
 import { ACL_PERMISSIONS } from '../../services/config/accessControl';
-import { STATUSES } from '../../state/commons/Constants';
 import { ScenarioParametersUtils } from '../../utils';
 import { FileManagementUtils } from '../../utils/FileManagementUtils';
 import { ScenarioResetValuesContext } from './ScenarioParametersContext';
@@ -33,19 +33,8 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     margin: `0 ${theme.spacing(3)}`,
   },
-  accordionSummary: {
-    flexDirection: 'row-reverse',
-  },
   accordionDetailsContent: {
     width: '100%',
-  },
-  gridContainerSummary: {
-    direction: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  gridSummary: {
-    marginLeft: '10px',
   },
 }));
 
@@ -130,11 +119,9 @@ const ScenarioParameters = ({ onToggleAccordion, isAccordionExpanded }) => {
   };
 
   const noTabsShown = parametersGroupsMetadata.length === 0;
-  const isCurrentScenarioRunning =
-    currentScenarioData?.state === SCENARIO_RUN_STATE.RUNNING ||
-    currentScenarioData?.state === SCENARIO_RUN_STATE.DATA_INGESTION_IN_PROGRESS;
-  const isCurrentScenarioRejected = currentScenarioData?.validationStatus === SCENARIO_VALIDATION_STATUS.REJECTED;
-  const isCurrentScenarioValidated = currentScenarioData?.validationStatus === SCENARIO_VALIDATION_STATUS.VALIDATED;
+  const isCurrentScenarioRunning = currentScenarioData?.state === RUNNER_RUN_STATE.RUNNING;
+  const isCurrentScenarioRejected = currentScenarioData?.validationStatus === RUNNER_VALIDATION_STATUS.REJECTED;
+  const isCurrentScenarioValidated = currentScenarioData?.validationStatus === RUNNER_VALIDATION_STATUS.VALIDATED;
   const hasUserWritePermission = userPermissionsOnCurrentScenario.includes(ACL_PERMISSIONS.SCENARIO.WRITE);
 
   // You can use the context object to pass all additional information to custom tab factory
@@ -156,15 +143,19 @@ const ScenarioParameters = ({ onToggleAccordion, isAccordionExpanded }) => {
         <Accordion data-cy="scenario-params-accordion" expanded={isAccordionExpanded}>
           <AccordionSummary
             data-cy="scenario-params-accordion-summary"
-            className={classes.accordionSummary}
+            sx={{ flexDirection: 'row-reverse' }}
             expandIcon={<ExpandMoreIcon />}
             onClick={onToggleAccordion}
           >
-            <Grid container className={classes.gridContainerSummary}>
-              <Grid className={classes.gridSummary}>
+            <Grid
+              container
+              size="grow"
+              sx={{ direction: 'row', alignItems: 'center', justifyContent: 'space-between' }}
+            >
+              <Grid sx={{ ml: '10px' }}>
                 <Typography>{t('genericcomponent.text.scenario.parameters.title', 'Scenario parameters')}</Typography>
               </Grid>
-              <Grid item>
+              <Grid container>
                 {/* FIXME: add PLATFORM.ADMIN bypass */}
                 <ScenarioActions />
               </Grid>

@@ -3,7 +3,7 @@
 import React, { useEffect, useMemo, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
-import { Card, Grid, IconButton, Tooltip } from '@mui/material';
+import { Card, Grid2 as Grid, IconButton, Tooltip } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { PermissionsGate, TagsEditor } from '@cosmotech/ui';
 import { ACL_PERMISSIONS } from '../../../../services/config/accessControl';
@@ -109,12 +109,16 @@ export const DatasetMetadata = () => {
         <MetadataItem
           id="creation-date"
           label={t('commoncomponents.datasetmanager.metadata.creationDate', 'Creation date')}
-          value={dataset?.creationDate && new Date(dataset?.creationDate).toLocaleString()}
+          value={
+            dataset?.creationDate && new Date(dataset?.creationDate)?.toLocaleDateString('en-US', { timeZone: 'UTC' })
+          }
         ></MetadataItem>
         <MetadataItem
           id="refresh-date"
           label={t('commoncomponents.datasetmanager.metadata.refreshDate', 'Last refresh')}
-          value={dataset?.refreshDate && new Date(dataset?.refreshDate).toLocaleString()}
+          value={
+            dataset?.refreshDate && new Date(dataset?.refreshDate)?.toLocaleDateString('en-US', { timeZone: 'UTC' })
+          }
         ></MetadataItem>
         <MetadataItem
           id="source-type"
@@ -132,7 +136,7 @@ export const DatasetMetadata = () => {
           label={t('commoncomponents.datasetmanager.metadata.parent', 'Parent')}
           value={parentDatasetName}
         ></MetadataItem>
-        <Grid item>
+        <Grid>
           <PermissionsGate
             userPermissions={userPermissionsOnDataset}
             necessaryPermissions={[ACL_PERMISSIONS.DATASET.WRITE]}

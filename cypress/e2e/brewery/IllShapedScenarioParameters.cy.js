@@ -20,8 +20,7 @@ describe('scenario parameter values without varType are supported if described i
     ScenarioParameters.expandParametersAccordion();
     BreweryParameters.getStartDateInput().should('have.value', '01/01/2021');
     BreweryParameters.getStartDateInput().clear();
-    BreweryParameters.getStartDateInput().type('22/22/2222');
-    BreweryParameters.getStartDateInput().should('have.value', '22/22/2222');
+    BreweryParameters.getStartDateInput().type('10/22/2222').should('have.value', '10/22/2222');
     ScenarioParameters.discard();
     BreweryParameters.getStartDateInput().should('have.value', '01/01/2021');
   });

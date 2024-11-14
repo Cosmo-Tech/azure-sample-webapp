@@ -2,8 +2,6 @@
 // Licensed under the MIT license.
 // Select the scenario with the provided name and id
 import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
-import { apiUtils as api } from '../../utils';
-import { Scenarios } from './Scenarios';
 
 function getScenarioSelector(timeout = 5) {
   return cy.get(GENERIC_SELECTORS.scenario.selectInput, { timeout: timeout * 1000 });
@@ -71,23 +69,10 @@ function writeInScenarioSelectorInput(searchStr) {
 //     the edit button after switching to the selected scenario; this option can be useful when the connected user does
 //     not have the edit permissions on the selected scenario (i.e. when the edit button is not visible)
 function selectScenario(scenarioName, scenarioId, options) {
-  const getScenarioAlias = api.interceptGetScenario(scenarioId);
   writeInScenarioSelectorInput(scenarioName);
   getScenarioSelectorOption(scenarioId).should('be.visible').should('not.be.disabled');
   getScenarioSelectorOption(scenarioId).click();
-
-  api
-    .waitAlias(getScenarioAlias)
-    .its('response')
-    .its('body')
-    .then((req) => {
-      expect(req.name).equal(scenarioName);
-      cy.location().then((location) => {
-        if (location.href.includes('scenario')) {
-          Scenarios.getScenarioLoadingSpinner(15).should('exist').should('not.be.visible');
-        }
-      });
-    });
+  ScenarioSelector.getScenarioSelectorInput().should('have.value', scenarioName);
 }
 
 export const ScenarioSelector = {
