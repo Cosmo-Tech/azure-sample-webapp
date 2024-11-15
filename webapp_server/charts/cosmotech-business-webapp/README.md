@@ -2,7 +2,19 @@
 
 ![Version: 0.2.1](https://img.shields.io/badge/Version-0.2.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 
-Cosmo Tech Businesss Web Application
+- [Homepage](https://cosmotech.com)
+- [Changelog](CHANGELOG.md)
+
+## Compatibility
+
+| Chart version | Compatible Cosmo Tech Webapp versions           | Compatible Cosmo Tech API versions |
+| ------------- | ----------------------------------------------- | ---------------------------------- |
+| 0.1           | >= 7.0.0-beta (_instance-specific_ server only) | 4.0.0-onprem                       |
+| >= 0.2        | >= 7.0.0-beta                                   | 4.0.0-onprem                       |
+
+## Source Code
+
+* <https://github.com/Cosmo-Tech/azure-sample-webapp>
 
 ## Values
 
