@@ -7,7 +7,7 @@ import { useFormState } from 'react-hook-form';
 import { ButtonTesting, TypographyTesting } from '../../../../../tests/MuiComponentsTesting';
 import { customRender, getByDataCy } from '../../../../../tests/utils';
 import { RUNNER_RUN_STATE } from '../../../../services/config/ApiConstants';
-import { useCurrentSimulationRunnerState } from '../../../../state/hooks/RunnerHooks';
+import { useCurrentSimulationRunnerState } from '../../../../state/runner/hooks';
 import { ScenarioActions } from './';
 
 jest.mock('react-hook-form', () => ({
@@ -29,9 +29,9 @@ const mockUseUpdateAndStartRunner = jest.fn();
 const mockUseUpdateRunner = jest.fn();
 const mockOpenDialog = jest.fn();
 
-jest.mock('../../../../state/hooks/RunnerHooks', () => ({
+jest.mock('../../../../state/runner/hooks', () => ({
   __esModule: true,
-  ...jest.requireActual('../../../../state/hooks/RunnerHooks'),
+  ...jest.requireActual('../../../../state/runner/hooks'),
   useStartRunner: () => mockUseStartRunner,
   useUpdateAndStartRunner: () => mockUseUpdateAndStartRunner,
   useUpdateRunner: () => mockUseUpdateRunner,

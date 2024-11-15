@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import { useMemo } from 'react';
 import { STATUSES } from '../../../../state/commons/Constants';
-import { useCurrentSimulationRunnerReducerStatus } from '../../../../state/hooks/RunnerHooks';
+import { useCurrentSimulationRunnerReducerStatus } from '../../../../state/runner/hooks';
 
 export const useBackdropLoadingScenario = () => {
   const currentScenarioStatus = useCurrentSimulationRunnerReducerStatus();

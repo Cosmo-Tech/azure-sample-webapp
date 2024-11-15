@@ -3,11 +3,11 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDownloadSimulationLogsFile } from '../../hooks/RunnerRunHooks';
+import { useIsDarkTheme } from '../../state/app/hooks';
 import { STATUSES } from '../../state/commons/Constants';
-import { useIsDarkTheme } from '../../state/hooks/ApplicationHooks';
-import { usePowerBIInfo, usePowerBIReducerStatus } from '../../state/hooks/PowerBIHooks';
-import { useCurrentSimulationRunnerData, useRunners } from '../../state/hooks/RunnerHooks';
-import { useWorkspaceChartsLogInWithUserCredentials } from '../../state/hooks/WorkspaceHooks';
+import { usePowerBIInfo, usePowerBIReducerStatus } from '../../state/powerBi/hooks';
+import { useCurrentSimulationRunnerData, useRunners } from '../../state/runner/hooks';
+import { useWorkspaceChartsLogInWithUserCredentials } from '../../state/workspaces/hooks';
 import darkTheme from '../../theme/powerbi/darkTheme.json';
 import lightTheme from '../../theme/powerbi/lightTheme.json';
 import { getReportLabels } from './labels';
@@ -28,7 +28,7 @@ export const useCurrentScenarioPowerBiReport = () => {
 
   const visibleScenarios = useMemo(
     () =>
-      scenarios.map((runner) => ({
+      scenarios?.map((runner) => ({
         id: runner.id,
         runId: runner.lastRunId,
       })),
