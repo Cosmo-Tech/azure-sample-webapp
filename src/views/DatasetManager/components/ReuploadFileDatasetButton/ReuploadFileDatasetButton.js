@@ -10,7 +10,7 @@ import { INGESTION_STATUS } from '../../../../services/config/ApiConstants';
 import { DatasetsUtils } from '../../../../utils';
 import { useReuploadFileDatasetButton } from './ReuploadFileDatasetButtonHook';
 
-export const ReuploadFileDatasetButton = ({ confirmAndCallback, datasetId, disabled, iconButton }) => {
+export const ReuploadFileDatasetButton = ({ confirmAndCallback, datasetId, disabled = false, iconButton = true }) => {
   const { t } = useTranslation();
   const { organizationId, pollTwingraphStatus, setApplicationErrorMessage, updateDatasetInStore } =
     useReuploadFileDatasetButton();
@@ -85,9 +85,4 @@ ReuploadFileDatasetButton.propTypes = {
   disabled: PropTypes.bool,
   confirmAndCallback: PropTypes.func,
   iconButton: PropTypes.bool,
-};
-
-ReuploadFileDatasetButton.defaultProps = {
-  disabled: false,
-  iconButton: true,
 };

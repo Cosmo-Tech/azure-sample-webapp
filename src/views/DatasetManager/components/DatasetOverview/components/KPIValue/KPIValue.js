@@ -11,7 +11,7 @@ import { KPI_STATE } from '../../../../../../services/config/kpiConstants';
 
 export const KPIValue = (props) => {
   const { t } = useTranslation();
-  const { kpi, size, valueTypographyProps } = props;
+  const { kpi = {}, size = '16px', valueTypographyProps = {} } = props;
 
   return useMemo(() => {
     if (kpi.state === KPI_STATE.IDLE || kpi.state === KPI_STATE.LOADING)
@@ -59,10 +59,4 @@ KPIValue.propTypes = {
   kpi: PropTypes.object,
   size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   valueTypographyProps: PropTypes.object,
-};
-
-KPIValue.defaultProps = {
-  kpi: {},
-  size: '16px',
-  valueTypographyProps: {},
 };

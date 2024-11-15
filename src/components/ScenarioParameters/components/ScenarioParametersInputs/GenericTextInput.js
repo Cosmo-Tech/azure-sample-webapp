@@ -13,10 +13,10 @@ export const GenericTextInput = ({
   context,
   parameterValue,
   setParameterValue,
-  isDirty,
+  isDirty = false,
   error,
   gridItemProps,
-  size,
+  size = 'small',
 }) => {
   const { t } = useTranslation();
   const textFieldProps = {
@@ -57,11 +57,6 @@ GenericTextInput.propTypes = {
   error: PropTypes.object,
   gridItemProps: PropTypes.object,
   size: PropTypes.string,
-};
-
-GenericTextInput.defaultProps = {
-  isDirty: false,
-  size: 'small',
 };
 
 GenericTextInput.useValidationRules = (parameterData) => {

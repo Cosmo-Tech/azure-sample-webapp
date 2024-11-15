@@ -8,7 +8,14 @@ import { BasicToggleInput } from '@cosmotech/ui';
 import { useParameterConstraintValidation } from '../../../../hooks/ParameterConstraintsHooks';
 import { TranslationUtils } from '../../../../utils';
 
-export const GenericToggleInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty, error }) => {
+export const GenericToggleInput = ({
+  parameterData,
+  context,
+  parameterValue,
+  setParameterValue,
+  isDirty = false,
+  error,
+}) => {
   const { t } = useTranslation();
   const switchFieldProps = {
     disabled: !context.editMode,
@@ -40,9 +47,7 @@ GenericToggleInput.propTypes = {
   isDirty: PropTypes.bool,
   error: PropTypes.object,
 };
-GenericToggleInput.defaultProps = {
-  isDirty: false,
-};
+
 GenericToggleInput.useValidationRules = (parameterData) => {
   const { getParameterConstraintValidation } = useParameterConstraintValidation(parameterData);
   return {

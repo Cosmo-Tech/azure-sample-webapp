@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const AboutContent = ({ isDarkTheme }) => {
+export const AboutContent = ({ isDarkTheme = false }) => {
   const { t } = useTranslation();
   const classes = useStyles();
   const logo = `${process.env?.PUBLIC_URL ?? ''}${isDarkTheme ? pictureDark.darkLogo : pictureLight.lightLogo}`;
@@ -77,8 +77,4 @@ export const AboutContent = ({ isDarkTheme }) => {
 
 AboutContent.propTypes = {
   isDarkTheme: PropTypes.bool,
-};
-
-AboutContent.defaultProps = {
-  isDarkTheme: false,
 };

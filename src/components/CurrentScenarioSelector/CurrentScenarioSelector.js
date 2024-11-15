@@ -12,7 +12,7 @@ import {
   useSelectRunner,
 } from '../../state/hooks/RunnerHooks';
 
-const CurrentScenarioSelector = ({ disabled, renderInputToolTip }) => {
+const CurrentScenarioSelector = ({ disabled = false, renderInputToolTip = '' }) => {
   const sortedScenarioList = useSortedScenarioList();
   const currentScenarioData = useCurrentSimulationRunnerData();
   const currentScenarioStatus = useCurrentSimulationRunnerReducerStatus();
@@ -55,11 +55,6 @@ const CurrentScenarioSelector = ({ disabled, renderInputToolTip }) => {
 CurrentScenarioSelector.propTypes = {
   disabled: PropTypes.bool,
   renderInputToolTip: PropTypes.string,
-};
-
-CurrentScenarioSelector.defaultProps = {
-  disabled: false,
-  renderInputToolTip: '',
 };
 
 export default CurrentScenarioSelector;

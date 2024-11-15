@@ -6,7 +6,7 @@ import { Grid, Typography } from '@mui/material';
 import MetadataLabel from '../MetadataLabel';
 
 const MetadataItem = (props) => {
-  const { id, label, value, action } = props;
+  const { id = 'item', label, value, action } = props;
 
   return value != null ? (
     <Grid item data-cy={`dataset-metadata-${id}`}>
@@ -27,10 +27,6 @@ MetadataItem.propTypes = {
   label: PropTypes.string.isRequired,
   value: PropTypes.string,
   action: PropTypes.node,
-};
-
-MetadataItem.defaultProps = {
-  id: 'item',
 };
 
 export default MetadataItem;

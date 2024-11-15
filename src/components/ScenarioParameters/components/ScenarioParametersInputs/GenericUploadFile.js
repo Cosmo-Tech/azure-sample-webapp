@@ -17,7 +17,7 @@ export const GenericUploadFile = ({
   defaultParameterValue,
   resetParameterValue,
   error,
-  isDirty,
+  isDirty = false,
 }) => {
   const { t } = useTranslation();
   const organizationId = useOrganizationId();
@@ -90,9 +90,7 @@ GenericUploadFile.propTypes = {
   isDirty: PropTypes.bool,
   error: PropTypes.object,
 };
-GenericUploadFile.defaultProps = {
-  isDirty: false,
-};
+
 GenericUploadFile.useValidationRules = () => {
   const { t } = useTranslation();
   return {
