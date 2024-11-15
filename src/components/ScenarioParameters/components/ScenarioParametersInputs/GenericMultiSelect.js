@@ -13,7 +13,7 @@ export const GenericMultiSelect = ({
   context,
   parameterValue,
   setParameterValue,
-  isDirty,
+  isDirty = false,
   gridItemProps,
 }) => {
   const { t } = useTranslation();
@@ -95,8 +95,4 @@ GenericMultiSelect.propTypes = {
   setParameterValue: PropTypes.func.isRequired,
   isDirty: PropTypes.bool,
   gridItemProps: PropTypes.object,
-};
-
-GenericMultiSelect.defaultProps = {
-  isDirty: false,
 };

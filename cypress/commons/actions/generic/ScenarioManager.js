@@ -19,6 +19,7 @@ function deleteScenario(scenarioName, isRunning = false) {
   const reqStopScenarioRunAlias = isRunning && api.interceptStopRunner();
 
   writeInFilter(scenarioName);
+  getDeleteScenarioButton().should('have.length', 1);
   getDeleteScenarioButton().click();
   cy.get(GENERIC_SELECTORS.scenario.manager.confirmDeleteDialog).contains('button', 'Confirm').click();
 

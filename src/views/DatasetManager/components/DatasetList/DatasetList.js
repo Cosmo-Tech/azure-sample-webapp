@@ -45,7 +45,6 @@ export const DatasetList = () => {
 
   useEffect(() => {
     setDisplayedDatasetList(sortedDatasetList);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortedDatasetList]);
 
   const filterDatasets = useCallback(

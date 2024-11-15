@@ -9,7 +9,7 @@ import { ACL_PERMISSIONS } from '../../../../services/config/accessControl';
 import { TwoActionsDialogService } from '../../../../services/twoActionsDialog/twoActionsDialogService';
 import { useDeleteDatasetButton } from './DeleteDatasetButtonHooks';
 
-export const DeleteDatasetButton = ({ dataset, location }) => {
+export const DeleteDatasetButton = ({ dataset, location = '' }) => {
   const isDisabled = !dataset || dataset.ingestionStatus === INGESTION_STATUS.PENDING;
   const { t } = useTranslation();
 
@@ -77,7 +77,4 @@ export const DeleteDatasetButton = ({ dataset, location }) => {
 DeleteDatasetButton.propTypes = {
   dataset: PropTypes.object.isRequired,
   location: PropTypes.string,
-};
-DeleteDatasetButton.defaultProps = {
-  location: '',
 };

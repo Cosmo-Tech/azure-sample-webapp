@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 const DescriptionEditor = (props) => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const { onChange, readOnly, value } = props;
+  const { onChange, readOnly = false, value = '' } = props;
 
   const [isEditing, setIsEditing] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
@@ -118,11 +118,6 @@ DescriptionEditor.propTypes = {
   onChange: PropTypes.func,
   readOnly: PropTypes.bool,
   value: PropTypes.string,
-};
-
-DescriptionEditor.defaultProps = {
-  readOnly: false,
-  value: '',
 };
 
 export default DescriptionEditor;

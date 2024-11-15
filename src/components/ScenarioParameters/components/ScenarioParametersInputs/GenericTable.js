@@ -47,7 +47,7 @@ export const GenericTable = ({
   parameterValue,
   setParameterValue,
   resetParameterValue,
-  isDirty,
+  isDirty = false,
 }) => {
   const { t } = useTranslation();
   const organizationId = useOrganizationId();
@@ -809,7 +809,4 @@ GenericTable.propTypes = {
   setParameterValue: PropTypes.func.isRequired,
   resetParameterValue: PropTypes.func.isRequired,
   isDirty: PropTypes.bool,
-};
-GenericTable.defaultProps = {
-  isDirty: false,
 };

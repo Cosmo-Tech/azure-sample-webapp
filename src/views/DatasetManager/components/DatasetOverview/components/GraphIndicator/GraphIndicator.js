@@ -10,7 +10,7 @@ import { KPIValue } from '../KPIValue';
 
 const GraphIndicator = (props) => {
   const { t } = useTranslation();
-  const { categoryId, id, kpi } = props;
+  const { categoryId, id = 'graph-indicator', kpi = {} } = props;
 
   const graphIndicatorCard = useMemo(() => {
     return (
@@ -48,11 +48,6 @@ GraphIndicator.propTypes = {
   // categoryId is an optional prop of type string. When defined, the translation key isn't retrieved from the dynamic
   // graph indicator keys, but from the category KPIs instead
   categoryId: PropTypes.string,
-};
-
-GraphIndicator.defaultProps = {
-  id: 'graph-indicator',
-  kpi: {},
 };
 
 export default GraphIndicator;
