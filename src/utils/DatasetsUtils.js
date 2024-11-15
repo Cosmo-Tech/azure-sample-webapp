@@ -10,7 +10,7 @@ import {
   STORAGE_ROOT_DIR_PLACEHOLDER,
 } from '../services/config/ApiConstants';
 import { ACL_ROLES } from '../services/config/accessControl';
-import { dispatchSetApplicationErrorMessage } from '../state/dispatchers/app/ApplicationDispatcher';
+import { setApplicationErrorMessage } from '../state/app/reducers';
 import { SecurityUtils } from './SecurityUtils';
 
 const patchDatasetWithCurrentUserPermissions = (dataset, userEmail, permissionsMapping) => {
@@ -89,10 +89,13 @@ const uploadZipWithFetchApi = async (organizationId, datasetId, file) => {
     });
   } catch (error) {
     console.error(error);
-    dispatchSetApplicationErrorMessage(
+    setApplicationErrorMessage({
       error,
-      t('commoncomponents.banner.twingraphNotCreated', 'A problem occurred during twingraph creation or update')
-    );
+      errorMessage: t(
+        'commoncomponents.banner.twingraphNotCreated',
+        'A problem occurred during twingraph creation or update'
+      ),
+    });
   }
 };
 

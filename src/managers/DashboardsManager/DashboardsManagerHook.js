@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useSetPowerBIReportsConfig } from '../../state/hooks/PowerBIHooks';
-import { useWorkspaceCharts } from '../../state/hooks/WorkspaceHooks';
+import { useSetPowerBIReportsConfig } from '../../state/powerBi/hooks';
+import { useWorkspaceCharts } from '../../state/workspaces/hooks';
 import { PowerBIUtils } from '../../utils';
 
 export const useDashboardsManager = () => {

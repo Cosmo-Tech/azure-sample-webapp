@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 import { useCallback, useMemo } from 'react';
 import { DATASET_SOURCE_TYPE, DATASET_SOURCES } from '../../../../services/config/ApiConstants';
-import { useCreateDataset } from '../../../../state/hooks/DatasetHooks';
-import { useCreateRunner } from '../../../../state/hooks/RunnerHooks';
-import { useDataSourceRunTemplates, useSolutionData } from '../../../../state/hooks/SolutionHooks';
-import { useWorkspaceData } from '../../../../state/hooks/WorkspaceHooks';
+import { useCreateDataset } from '../../../../state/datasets/hooks';
+import { useCreateRunner } from '../../../../state/runner/hooks';
+import { useDataSourceRunTemplates, useSolutionData } from '../../../../state/solutions/hooks';
+import { useWorkspaceData } from '../../../../state/workspaces/hooks';
 import { ArrayDictUtils, SolutionsUtils } from '../../../../utils';
 
 export const useDatasetCreationParameters = () => {
