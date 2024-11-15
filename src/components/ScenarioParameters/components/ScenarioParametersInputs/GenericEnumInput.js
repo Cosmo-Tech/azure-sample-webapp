@@ -14,7 +14,7 @@ export const GenericEnumInput = ({
   parameterValue,
   setParameterValue,
   resetParameterValue, // Set a new value without triggering the form 'dirty' state
-  isDirty,
+  isDirty = false,
   gridItemProps,
 }) => {
   const { t } = useTranslation();
@@ -94,8 +94,4 @@ GenericEnumInput.propTypes = {
   resetParameterValue: PropTypes.func.isRequired,
   isDirty: PropTypes.bool,
   gridItemProps: PropTypes.object,
-};
-
-GenericEnumInput.defaultProps = {
-  isDirty: false,
 };
