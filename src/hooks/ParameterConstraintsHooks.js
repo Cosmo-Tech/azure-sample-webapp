@@ -3,6 +3,7 @@
 import { useCallback, useEffect } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { isDate } from 'date-fns';
 import { isAfter } from 'date-fns/isAfter';
 import { isBefore } from 'date-fns/isBefore';
 import { isSameDay } from 'date-fns/isSameDay';
@@ -31,7 +32,7 @@ export const useParameterConstraint = (parameterData) => {
   };
 
   useEffect(() => {
-    if (constraint) {
+    if (constraint && constrainingValue) {
       trigger(parameterData.id);
     }
   }, [constraint, parameterData.id, trigger, constrainingValue]);
@@ -43,7 +44,7 @@ export const useDateConstraintValidation = (parameterData) => {
 
   const getDateConstraintValidation = useCallback(
     (value) => {
-      if (constraint) {
+      if (constraint && isDate(constrainingValue)) {
         switch (constraint.operator) {
           case '>':
             return (
