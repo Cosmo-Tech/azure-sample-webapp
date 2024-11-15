@@ -7,6 +7,6 @@
   "COSMOTECH_API_SCOPE": "https://kubernetes.cosmotech.com/platform",
   "DEFAULT_BASE_PATH": "https://kubernetes.cosmotech.com/cosmotech-api/brewery/v4",
   "ORGANIZATION_ID": "o-vloxvdke5gqvx",
-  "PUBLIC_URL": "/thu_local_test",
+  "PUBLIC_URL": "",
   "WORKSPACES_IDS_FILTER": null
 }
