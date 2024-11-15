@@ -16,7 +16,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const SessionTimeoutDialog = ({ getRemainingTimeLabel, labels, onClose, onLogOut, open, timeout }) => {
+const DEFAULT_LABELS = {
+  body: 'You have been idle for too long. You will be automatically disconnected in a few seconds...',
+  cancel: 'Cancel',
+  logOut: 'Sign out',
+  loggingOut: 'Signing out...',
+  title: 'Session timeout',
+};
+
+export const SessionTimeoutDialog = ({
+  getRemainingTimeLabel,
+  labels: tmpLabels,
+  onClose,
+  onLogOut,
+  open,
+  timeout,
+}) => {
+  const labels = { ...tmpLabels, ...DEFAULT_LABELS };
   const classes = useStyles();
 
   const [isLoggingOut, setIsLoggingOut] = useState(false);
@@ -76,14 +92,4 @@ SessionTimeoutDialog.propTypes = {
   onLogOut: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   timeout: PropTypes.number.isRequired,
-};
-
-SessionTimeoutDialog.defaultProps = {
-  labels: {
-    body: 'You have been idle for too long. You will be automatically disconnected in a few seconds...',
-    cancel: 'Cancel',
-    logOut: 'Sign out',
-    loggingOut: 'Signing out...',
-    title: 'Session timeout',
-  },
 };
