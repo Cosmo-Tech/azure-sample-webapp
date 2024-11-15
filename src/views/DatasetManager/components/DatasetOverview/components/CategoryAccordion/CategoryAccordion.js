@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 const CategoryAccordion = (props) => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const { id, category, queriesResults } = props;
+  const { id = 'category', category = {}, queriesResults = [] } = props;
 
   const [expanded, setExpanded] = useState(false);
   const toggleAccordion = (event, isExpanded) => setExpanded(isExpanded);
@@ -182,12 +182,6 @@ CategoryAccordion.propTypes = {
   id: PropTypes.string,
   category: PropTypes.object,
   queriesResults: PropTypes.object,
-};
-
-CategoryAccordion.defaultProps = {
-  id: 'category',
-  category: {},
-  queriesResults: [],
 };
 
 export default CategoryAccordion;
