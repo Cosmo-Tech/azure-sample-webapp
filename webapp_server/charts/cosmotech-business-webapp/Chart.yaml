@@ -1,5 +1,8 @@
 apiVersion: v2
 name: cosmotech-business-webapp
-description: Cosmo Tech Businesss Web Application
+description: Cosmo Tech Business Web Application
 type: application
 version: 0.2.1
+home: https://cosmotech.com
+sources:
+  - https://github.com/Cosmo-Tech/azure-sample-webapp
