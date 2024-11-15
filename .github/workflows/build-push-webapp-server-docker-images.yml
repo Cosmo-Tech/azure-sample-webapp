@@ -38,7 +38,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           # Use workflow input "targetRef" if provided, or the branch/commit/tag that triggered the job otherwise
-          ref: ${{ inputs.targetRef && inputs.targetRef != '' || github.ref_name }}
+          ref: ${{ inputs.targetRef != '' && inputs.targetRef || github.ref_name }}
       - name: Enable Corepack
         run: corepack enable
       - name: Setup node
