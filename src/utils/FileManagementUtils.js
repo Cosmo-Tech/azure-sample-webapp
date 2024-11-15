@@ -8,7 +8,7 @@ import { DATASET_ID_VARTYPE, VALID_MIME_TYPES } from '../services/config/ApiCons
 import DatasetService from '../services/dataset/DatasetService';
 import WorkspaceService from '../services/workspace/WorkspaceService';
 import applicationStore from '../state/Store.config';
-import { dispatchSetApplicationErrorMessage } from '../state/dispatchers/app/ApplicationDispatcher';
+import { setApplicationErrorMessage } from '../state/app/reducers';
 import { ConfigUtils } from './ConfigUtils';
 import { DatasetsUtils } from './DatasetsUtils';
 import { SecurityUtils } from './SecurityUtils';
@@ -281,7 +281,10 @@ const downloadFile = async (organizationId, workspaceId, datasetId, setClientFil
   } catch (error) {
     console.error(error);
     applicationStore.dispatch(
-      dispatchSetApplicationErrorMessage(error, t('commoncomponents.banner.dataset', "Dataset hasn't been downloaded."))
+      setApplicationErrorMessage({
+        error,
+        errorMessage: t('commoncomponents.banner.dataset', "Dataset hasn't been downloaded."),
+      })
     );
   }
 };
@@ -303,7 +306,10 @@ const downloadFileData = async (organizationId, workspaceId, datasets, datasetId
   } catch (error) {
     console.error(error);
     applicationStore.dispatch(
-      dispatchSetApplicationErrorMessage(error, t('commoncomponents.banner.dataset', "Dataset hasn't been downloaded."))
+      setApplicationErrorMessage({
+        error,
+        errorMessage: t('commoncomponents.banner.dataset', "Dataset hasn't been downloaded."),
+      })
     );
   }
 };

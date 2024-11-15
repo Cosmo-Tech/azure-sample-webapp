@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useWorkspaceData } from '../../../../../../state/hooks/WorkspaceHooks';
+import { useWorkspaceData } from '../../../../../../state/workspaces/hooks';
 import { TranslationUtils } from '../../../../../../utils';
 
 export const useDatasetCreationParameters = () => {
