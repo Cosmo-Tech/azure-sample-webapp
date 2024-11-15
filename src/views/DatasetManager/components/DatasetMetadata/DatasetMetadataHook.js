@@ -6,7 +6,7 @@ import {
   useDatasets,
   useUpdateDataset,
   useSelectedDatasetIndex,
-} from '../../../../state/hooks/DatasetHooks';
+} from '../../../../state/datasets/hooks';
 
 export const useDatasetMetadata = () => {
   const currentDataset = useCurrentDataset();
