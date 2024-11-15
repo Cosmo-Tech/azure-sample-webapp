@@ -12,7 +12,7 @@ const DEFAULT_MAX_VALUE = 100;
 const getMinValue = (parameterData) => parameterData.minValue ?? DEFAULT_MIN_VALUE;
 const getMaxValue = (parameterData) => parameterData.maxValue ?? DEFAULT_MAX_VALUE;
 
-export const GenericSliderInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty }) => {
+export const GenericSliderInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty = false }) => {
   const min = getMinValue(parameterData);
   const max = getMaxValue(parameterData);
   const { t } = useTranslation();
@@ -40,7 +40,4 @@ GenericSliderInput.propTypes = {
   parameterValue: PropTypes.any,
   setParameterValue: PropTypes.func.isRequired,
   isDirty: PropTypes.bool,
-};
-GenericSliderInput.defaultProps = {
-  isDirty: false,
 };

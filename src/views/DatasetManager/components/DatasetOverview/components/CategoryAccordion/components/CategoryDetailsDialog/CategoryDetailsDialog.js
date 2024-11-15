@@ -11,7 +11,7 @@ import GraphIndicator from '../../../GraphIndicator';
 import { useCategoryDetailsDialogHook } from './CategoryDetailsDialogHook';
 
 export const CategoryDetailsDialog = (props) => {
-  const { kpis, category } = props;
+  const { kpis = [], category } = props;
 
   const { datasetName, datasetId, getQuery, isDarkTheme } = useCategoryDetailsDialogHook();
   const { t } = useTranslation();
@@ -133,6 +133,3 @@ CategoryDetailsDialog.propTypes = {
   kpis: PropTypes.array,
 };
 
-CategoryDetailsDialog.defaultProps = {
-  kpis: [],
-};

@@ -7,7 +7,7 @@ import { PermissionsGate, CreateScenarioButton as CreateScenarioButtonUI } from 
 import { ACL_PERMISSIONS } from '../../services/config/accessControl';
 import { useCreateScenarioButton } from './CreateScenarioButtonHook';
 
-const CreateScenarioButton = ({ disabled, onScenarioCreated }) => {
+const CreateScenarioButton = ({ disabled = false, onScenarioCreated }) => {
   const {
     createScenario,
     createScenarioDialogLabels,
@@ -52,10 +52,6 @@ const CreateScenarioButton = ({ disabled, onScenarioCreated }) => {
 CreateScenarioButton.propTypes = {
   disabled: PropTypes.bool,
   onScenarioCreated: PropTypes.func,
-};
-
-CreateScenarioButton.defaultProps = {
-  disabled: false,
 };
 
 export default CreateScenarioButton;
