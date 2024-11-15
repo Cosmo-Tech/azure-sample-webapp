@@ -23,10 +23,9 @@ usage: main.py [-h] [-n] [-e ENV_FILE] -i INPUT_FOLDER [-o OUTPUT_FOLDER]
                         (default: azure custom default)
 ```
 
-# Usage example
+### Usage example
 
-Run the script with dry-run enabled:
-`python main.py -n -i my_custom_config_folder`
+`python main.py -i my_custom_config_folder`
 
 ## Basic configuration for projects using a generic webapp
 
