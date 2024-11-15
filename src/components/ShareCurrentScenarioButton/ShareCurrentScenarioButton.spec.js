@@ -9,7 +9,7 @@ import { ROLES } from '../../../tests/constants';
 import { createMockStore, MockFormProvider } from '../../../tests/mocks';
 import { DEFAULT_REDUX_STATE, USERS_LIST } from '../../../tests/samples';
 import { applyScenarioRoleToState } from '../../../tests/utils/security';
-import { dispatchApplyRunnerSharingChanges } from '../../state/dispatchers/runner/RunnerDispatcher';
+import { dispatchApplyRunnerSharingChanges } from '../../state/runner/dispatchers';
 
 const clone = rfdc();
 

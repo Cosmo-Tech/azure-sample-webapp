@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Brightness2 as Brightness2Icon, WbSunny as WbSunnyIcon } from '@mui/icons-material';
 import { Fade, IconButton, Tooltip } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
-import { useSetApplicationTheme } from '../../../state/hooks/ApplicationHooks';
+import { useSetApplicationTheme } from '../../../state/app/hooks';
 
 const useStyles = makeStyles((theme) => ({
   switchToDarkTheme: {
