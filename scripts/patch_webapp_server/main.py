@@ -180,12 +180,11 @@ def merge_csp_files(input_config_folder, csp_sources_arg):
 
 
 def generate_csp_html(csp):
+    print("\nGenerating CSP content...")
     directives = []
     for type, values in csp.items():
         directives.append(f"{type} {' '.join(values)}")
     content = f'<meta http-equiv="Content-Security-Policy" content="{"; ".join(directives)}">'
-    print("\nGenerated CSP content:")
-    print(content)
     return content
 
 
@@ -294,19 +293,17 @@ def main():
     js_env_file_content = generate_config_values_js(config_values)
     new_translation_files = merge_translation_files(input_config_folder, args.output_folder)
 
-    # Generate changes for manifest.json
-    public_url = config_values['PUBLIC_URL']
-
     if args.dry_run:
         print("\nDry-run was enabled, no changes performed")
         return
 
     # Apply changes in output folder
+    public_url = config_values['PUBLIC_URL'] if 'PUBLIC_URL' in config_values else ""
     apply_asset_copy(input_config_folder, args.output_folder, asset_copy_mapping)
     apply_csp(args.output_folder, csp_html)
     apply_config_values(args.output_folder, js_env_file_content, public_url)
     replace_translation_files(args.output_folder, new_translation_files)
-    # TODO: modify manifest.json
+    # TODO: modify manifest.json (retrieve data from merged translation dict)
 
     print('\nThe webapp server configuration patch script ran successfully. The server can now be launched with:')
     print(f'  serve -s {args.output_folder}')
