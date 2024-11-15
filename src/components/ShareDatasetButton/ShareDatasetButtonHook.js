@@ -7,9 +7,9 @@ import {
   useApplicationPermissionsMapping,
   useApplicationRoles,
   useApplicationPermissions,
-} from '../../state/hooks/ApplicationHooks';
-import { useUpdateDatasetSecurity, useFindDatasetById } from '../../state/hooks/DatasetHooks';
-import { useWorkspaceData } from '../../state/hooks/WorkspaceHooks';
+} from '../../state/app/hooks';
+import { useUpdateDatasetSecurity, useFindDatasetById } from '../../state/datasets/hooks';
+import { useWorkspaceData } from '../../state/workspaces/hooks';
 import { SecurityUtils } from '../../utils';
 import { getShareDatasetDialogLabels } from './labels';
 
