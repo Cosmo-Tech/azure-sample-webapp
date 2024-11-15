@@ -7,10 +7,10 @@ import { CircularProgress, Grid, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { Api } from '../services/config/Api';
 import { INGESTION_STATUS } from '../services/config/ApiConstants';
-import { dispatchSetApplicationErrorMessage } from '../state/dispatchers/app/ApplicationDispatcher';
-import { useFindDatasetById } from '../state/hooks/DatasetHooks';
-import { useOrganizationId } from '../state/hooks/OrganizationHooks';
-import { useCurrentSimulationRunnerParametersValues } from '../state/hooks/RunnerHooks';
+import { setApplicationErrorMessage } from '../state/app/reducers';
+import { useFindDatasetById } from '../state/datasets/hooks';
+import { useOrganizationId } from '../state/organizations/hooks';
+import { useCurrentSimulationRunnerParametersValues } from '../state/runner/hooks';
 import { GENERIC_VAR_TYPES_DEFAULT_VALUES } from '../utils/scenarioParameters/generic/DefaultValues';
 
 const useStyles = makeStyles((theme) => ({
@@ -89,7 +89,7 @@ export const useDynamicValues = (parameter, targetDatasetId) => {
           'genericcomponent.enumInput.fetchingDynamicValuesError',
           'Impossible to retrieve dynamic values from data source'
         );
-        dispatch(dispatchSetApplicationErrorMessage(error, errorTitle));
+        dispatch(setApplicationErrorMessage({ error, errorMessage: errorTitle }));
         if (!isUnmounted.current) setDynamicValues(errorTitle);
       }
     };
