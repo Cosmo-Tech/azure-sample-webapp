@@ -97,7 +97,10 @@ export const useCreateSimulationRunner = () => {
   const organizationId = useOrganizationId();
   const workspaceId = useWorkspaceId();
   return useCallback(
-    (runner) => dispatch(dispatchCreateSimulationRunner(organizationId, workspaceId, runner)),
+    (runner) => {
+      runner.datasetList = runner.datasetList.filter((item) => item != null);
+      dispatch(dispatchCreateSimulationRunner(organizationId, workspaceId, runner));
+    },
     [dispatch, organizationId, workspaceId]
   );
 };
