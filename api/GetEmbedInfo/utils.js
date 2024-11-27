@@ -86,7 +86,9 @@ const _validateAndDecodeQueryToken = async (req) => {
   const token = await jwt.verify(accessToken, publicKey, options);
 
   if (!token) throw new ServiceAccountError(401, 'Unauthorized', "Can't decode token");
-  const roles = token.roles ?? token.userRoles;
+
+  const rolesClaim = getConfigValue('ROLES_JWT_CLAIM');
+  const roles = token[rolesClaim] ?? token.roles ?? token.userRoles ?? token.customRoles;
   if (!roles || roles.length === 0)
     throw new ServiceAccountError(401, 'Unauthorized', 'Missing roles for Cosmo Tech API');
 
