@@ -5,8 +5,7 @@ export { ORGANIZATION_ID } from '../../../../src/config/GlobalConfiguration';
 
 export const URL_ROOT = 'https://kubernetes.cosmotech.com/cosmotech-api/brewery/v4';
 export const AUTH_QUERY_URL = '';
-export const LOCAL_WEBAPP_URL = 'http://localhost:3000';
-export const URL_POWERBI = `${LOCAL_WEBAPP_URL}/api/get-embed-info`;
+export const GET_EMBED_INFO_ENDPOINT = '/api/get-embed-info';
 
 export const PAGE_NAME = {
   SCENARIO: '/scenario',
