@@ -8,7 +8,13 @@ import {
   SCENARIO_EXAMPLE,
   SCENARIO_RUN_EXAMPLE,
 } from '../../fixtures/stubbing/default';
-import { API_ENDPOINT, API_REGEX, AUTH_QUERY_URL, URL_POWERBI, URL_ROOT } from '../constants/generic/TestConstants';
+import {
+  API_ENDPOINT,
+  API_REGEX,
+  AUTH_QUERY_URL,
+  GET_EMBED_INFO_ENDPOINT,
+  URL_ROOT,
+} from '../constants/generic/TestConstants';
 import { stub } from '../services/stubbing';
 import { authUtils } from './authUtils';
 import { fileUtils } from './fileUtils';
@@ -933,7 +939,9 @@ const interceptGetSolution = (solutionId) => {
 const interceptPowerBIAzureFunction = () => {
   if (authUtils.USE_API_KEY) return;
   const alias = forgeAlias('reqPowerBI');
-  cy.intercept('POST', URL_POWERBI, { statusCode: 200 }).as(alias);
+  const baseUrl = Cypress.config('baseUrl');
+  const interceptUrl = `${baseUrl}${GET_EMBED_INFO_ENDPOINT}`;
+  cy.intercept('POST', interceptUrl, { statusCode: 200 }).as(alias);
   return alias;
 };
 
