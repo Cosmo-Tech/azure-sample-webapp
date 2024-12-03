@@ -14,6 +14,7 @@ const OPTIONAL_PARAMETERS = [
   'AZURE_COSMO_API_APPLICATION_ID', // Only required for Azure user tokens
   'KEYCLOAK_REALM_URL', // Only required for Keycloak user tokens
   'ROLES_JWT_CLAIM',
+  'CERT_PUBKEY_PEM_PATH',
 ];
 const ALL_PARAMETERS = [...REQUIRED_PARAMETERS, ...OPTIONAL_PARAMETERS];
 const GUID_PARAMETERS = ['POWER_BI_CLIENT_ID', 'POWER_BI_TENANT_ID'];

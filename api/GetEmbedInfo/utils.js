@@ -1,6 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
+const fs = require('fs');
 const guid = require('guid');
 const jwt = require('jsonwebtoken');
 const jwksClient = require('jwks-rsa');
@@ -49,15 +50,6 @@ const sanitizeAndValidateConfig = () => {
 };
 
 const _validateAndDecodeQueryToken = async (req) => {
-  const keycloakRealm = getConfigValue('KEYCLOAK_REALM_URL');
-  const jwksUri = keycloakRealm ? `${keycloakRealm}/protocol/openid-connect/certs` : DEFAULT_AZURE_JWKS_URI;
-  const client = jwksClient({ jwksUri });
-
-  const options = {
-    audience: getConfigValue('AZURE_COSMO_API_APPLICATION_ID') ?? DEFAULT_KEYCLOAK_AUDIENCE,
-    iss: `${MSAL_CONFIG.auth.authority}`,
-  };
-
   const accessToken = req?.headers?.['csm-authorization']?.replace('Bearer ', '');
   if (!accessToken) {
     throw new ServiceAccountError(401, 'Unauthorized', 'Token is missing in query.');
@@ -65,6 +57,9 @@ const _validateAndDecodeQueryToken = async (req) => {
 
   const getSigningKey = async (header) => {
     try {
+      const keycloakRealm = getConfigValue('KEYCLOAK_REALM_URL');
+      const jwksUri = keycloakRealm ? `${keycloakRealm}/protocol/openid-connect/certs` : DEFAULT_AZURE_JWKS_URI;
+      const client = jwksClient({ jwksUri });
       const key = await client.getSigningKey(header.kid);
       return key.publicKey ?? key.rsaPublicKey;
     } catch (error) {
@@ -81,9 +76,23 @@ const _validateAndDecodeQueryToken = async (req) => {
     }
   };
 
-  const tokenHeader = jwt.decode(accessToken, { complete: true }).header;
-  const publicKey = await getSigningKey(tokenHeader);
-  const token = await jwt.verify(accessToken, publicKey, options);
+  const options = {
+    audience: getConfigValue('AZURE_COSMO_API_APPLICATION_ID') ?? DEFAULT_KEYCLOAK_AUDIENCE,
+    iss: `${MSAL_CONFIG.auth.authority}`,
+  };
+
+  const certificate_pem_file_path = getConfigValue('CERT_PUBKEY_PEM_PATH');
+  let token;
+  if (certificate_pem_file_path != null && certificate_pem_file_path !== '') {
+    console.debug('Using custom cert file for token verification...');
+    const cert = fs.readFileSync(certificate_pem_file_path);
+    token = await jwt.verify(accessToken, cert, options);
+  } else {
+    console.debug('Using jwks endpoint for token verification...');
+    const tokenHeader = jwt.decode(accessToken, { complete: true }).header;
+    const publicKey = await getSigningKey(tokenHeader);
+    token = await jwt.verify(accessToken, publicKey, options);
+  }
 
   if (!token) throw new ServiceAccountError(401, 'Unauthorized', "Can't decode token");
 
