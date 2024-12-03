@@ -81,11 +81,11 @@ const _validateAndDecodeQueryToken = async (req) => {
     iss: `${MSAL_CONFIG.auth.authority}`,
   };
 
-  const certificate_pem_file_path = getConfigValue('CERT_PUBKEY_PEM_PATH');
+  const certificatePemFilePath = getConfigValue('CERT_PUBKEY_PEM_PATH');
   let token;
-  if (certificate_pem_file_path != null && certificate_pem_file_path !== '') {
+  if (certificatePemFilePath != null && certificatePemFilePath !== '') {
     console.debug('Using custom cert file for token verification...');
-    const cert = fs.readFileSync(certificate_pem_file_path);
+    const cert = fs.readFileSync(certificatePemFilePath);
     token = await jwt.verify(accessToken, cert, options);
   } else {
     console.debug('Using jwks endpoint for token verification...');
