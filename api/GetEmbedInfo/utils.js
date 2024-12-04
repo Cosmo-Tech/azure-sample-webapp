@@ -154,6 +154,12 @@ const _validateAndDecodeQueryToken = async (req) => {
 };
 
 const validateTokenAndQuery = async (req) => {
+  const disabled = getConfigValue('UNSAFE_DISABLE_TOKEN_VERIFICATION');
+  if (disabled != null && disabled.toLowerCase() === 'true') {
+    console.log('WARNING: token validation disabled by option UNSAFE_DISABLE_TOKEN_VERIFICATION. Skipping...');
+    return;
+  }
+
   // Check token sent by user
   try {
     await _validateAndDecodeQueryToken(req);
