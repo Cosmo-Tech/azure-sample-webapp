@@ -80,7 +80,7 @@ const _checkAccessTokenWithCert = (accessToken, certPath, options) => {
     );
   }
 
-  for (certFileName of certFiles) {
+  for (const certFileName of certFiles) {
     const certFilePath = path.join(certPath, certFileName);
     if (fs.lstatSync(certFilePath).isDirectory()) {
       console.log(`[Skipped folder] ${certFileName}`);
