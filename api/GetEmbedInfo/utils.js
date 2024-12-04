@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 const fs = require('fs');
+const path = require('path');
 const guid = require('guid');
 const jwt = require('jsonwebtoken');
 const jwksClient = require('jwks-rsa');
@@ -49,6 +50,55 @@ const sanitizeAndValidateConfig = () => {
     );
 };
 
+const _checkAccessTokenWithCertFile = (token, certFilePath, options) => {
+  const cert = fs.readFileSync(certFilePath);
+  return jwt.verify(token, cert, options);
+};
+
+const _checkAccessTokenWithCert = (accessToken, certPath, options) => {
+  if (!fs.existsSync(certPath)) {
+    throw new ServiceAccountError(
+      500,
+      'Configuration error',
+      `Certificates not found: "${certPath}" does not exist. Please check the value of ` +
+        'parameter CERT_PUBKEY_PEM_PATH in PowerBI service account configuration.'
+    );
+  }
+
+  if (!fs.lstatSync(certPath).isDirectory()) {
+    return _checkAccessTokenWithCertFile(accessToken, certPath, options);
+  }
+
+  console.log('CERT_PUBKEY_PEM_PATH value is a folder, looping through files...');
+  const certFiles = fs.readdirSync(certPath);
+  if (certFiles.length === 0) {
+    throw new ServiceAccountError(
+      500,
+      'Configuration error',
+      `Certificates not found: no files in "${certPath}". Please check the certificates folder and the value of ` +
+        'parameter CERT_PUBKEY_PEM_PATH in PowerBI service account configuration.'
+    );
+  }
+
+  for (certFileName of certFiles) {
+    const certFilePath = path.join(certPath, certFileName);
+    if (fs.lstatSync(certFilePath).isDirectory()) {
+      console.log(`[Skipped folder] ${certFileName}`);
+      continue;
+    }
+    try {
+      const decodedToken = _checkAccessTokenWithCertFile(accessToken, certFilePath, options);
+      if (decodedToken != null) {
+        console.log(`[Working certificate] ${certFileName}`);
+        return decodedToken;
+      }
+    } catch (error) {
+      console.log(`[Certificate error] ${certFileName}: ${error}`);
+    }
+  }
+  throw new ServiceAccountError(401, 'Unauthorized', 'Token verification failed (CA).');
+};
+
 const _validateAndDecodeQueryToken = async (req) => {
   const accessToken = req?.headers?.['csm-authorization']?.replace('Bearer ', '');
   if (!accessToken) {
@@ -81,12 +131,11 @@ const _validateAndDecodeQueryToken = async (req) => {
     iss: `${MSAL_CONFIG.auth.authority}`,
   };
 
-  const certificatePemFilePath = getConfigValue('CERT_PUBKEY_PEM_PATH');
+  const certPath = getConfigValue('CERT_PUBKEY_PEM_PATH');
   let token;
-  if (certificatePemFilePath != null && certificatePemFilePath !== '') {
+  if (certPath != null && certPath !== '') {
     console.debug('Using custom cert file for token verification...');
-    const cert = fs.readFileSync(certificatePemFilePath);
-    token = await jwt.verify(accessToken, cert, options);
+    token = _checkAccessTokenWithCert(accessToken, certPath, options);
   } else {
     console.debug('Using jwks endpoint for token verification...');
     const tokenHeader = jwt.decode(accessToken, { complete: true }).header;
