@@ -96,7 +96,11 @@ const _checkAccessTokenWithCert = (accessToken, certPath, options) => {
       console.log(`[Certificate error] ${certFileName}: ${error}`);
     }
   }
-  throw new ServiceAccountError(401, 'Unauthorized', 'Token verification failed (CA).');
+  throw new ServiceAccountError(
+    401,
+    'Unauthorized',
+    'Token verification failed: could not find a matching certificate'
+  );
 };
 
 const _validateAndDecodeQueryToken = async (req) => {
@@ -130,6 +134,22 @@ const _validateAndDecodeQueryToken = async (req) => {
     audience: getConfigValue('AZURE_COSMO_API_APPLICATION_ID') ?? DEFAULT_KEYCLOAK_AUDIENCE,
     iss: `${MSAL_CONFIG.auth.authority}`,
   };
+
+  const algorithmsString = getConfigValue('CERT_ALGORITHMS');
+  if (algorithmsString != null && algorithmsString !== '') {
+    try {
+      const algorithms = algorithmsString.split(',');
+      options.algorithms = algorithms;
+      console.log(`Using custom list of algorithms for token validation: ${algorithms}`);
+    } catch (error) {
+      throw new ServiceAccountError(
+        500,
+        'Configuration error',
+        `Can't parse list of algorithms: "${algorithmsString}". Please check the value of ` +
+          'parameter CERT_ALGORITHMS in PowerBI service account configuration.'
+      );
+    }
+  }
 
   const certPath = getConfigValue('CERT_PUBKEY_PEM_PATH');
   let token;
