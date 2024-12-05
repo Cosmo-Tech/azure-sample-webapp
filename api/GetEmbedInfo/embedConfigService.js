@@ -37,6 +37,9 @@ async function getEmbedParamsForSelectedReports(workspaceId, selectedReportsIds)
   const getAllReportsURL = `https://api.powerbi.com/v1.0/myorg/groups/${workspaceId}/reports`;
   const headers = await getRequestHeader();
 
+  if (getConfigValue('NODE_TLS_REJECT_UNAUTHORIZED') === '0') {
+    console.warn('WARNING: unsafe option "NODE_TLS_REJECT_UNAUTHORIZED=0" has been set, the connection is insecure');
+  }
   const res = await fetch(getAllReportsURL, { method: 'GET', headers });
   if (!res.ok) {
     const hintsByStatusCode = {
