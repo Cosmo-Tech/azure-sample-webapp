@@ -34,13 +34,18 @@ async function getEmbedParamsForSelectedReports(workspaceId, selectedReportsIds)
   reportEmbedConfig.reportsDetail = {};
 
   // Get all reports from PowerBI workspace
-  const getAllReportsURL = `https://api.powerbi.com/v1.0/myorg/groups/${workspaceId}/reports`;
+  console.debug('DEBUG: getting service account token...');
   const headers = await getRequestHeader();
+  console.debug('DEBUG: service account token received.');
 
   if (getConfigValue('NODE_TLS_REJECT_UNAUTHORIZED') === '0') {
     console.warn('WARNING: unsafe option "NODE_TLS_REJECT_UNAUTHORIZED=0" has been set, the connection is insecure');
   }
+  const getAllReportsURL = `https://api.powerbi.com/v1.0/myorg/groups/${workspaceId}/reports`;
+  console.debug(`DEBUG: fetching reports data from "${getAllReportsURL}"...`);
   const res = await fetch(getAllReportsURL, { method: 'GET', headers });
+  console.debug('DEBUG: response received.');
+
   if (!res.ok) {
     const hintsByStatusCode = {
       401: `Please check that the app registration "${getConfigValue(
