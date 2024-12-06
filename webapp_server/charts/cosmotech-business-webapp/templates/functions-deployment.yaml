@@ -21,8 +21,15 @@ spec:
         seccompProfile:
           type: RuntimeDefault
       volumes:
-      - emptyDir: {}
-        name: tmpvolume
+      - name: {{ include "cosmotech-business-webapp.functions-name" . }}-tmp-volume
+        emptyDir: {}
+      - name: {{ include "cosmotech-business-webapp.functions-name" . }}-ca-cert-volume
+        secret:
+          secretName: {{ include "cosmotech-business-webapp.functions-name" . }}-secret
+          optional: true
+          items:
+          - key: CA_CERT_FILE
+            path: cert_file
       {{- if .Values.webapp.functions.image.pullSecret }}
       imagePullSecrets:
         - name: {{ .Values.webapp.functions.image.pullSecret }}
@@ -34,8 +41,12 @@ spec:
       containers:
       - name: cosmotech-business-webapp
         volumeMounts:
-        - mountPath: /tmp
-          name: tmpvolume
+        - name: {{ include "cosmotech-business-webapp.functions-name" . }}-tmp-volume
+          mountPath: /tmp
+        - name: {{ include "cosmotech-business-webapp.functions-name" . }}-ca-cert-volume
+          mountPath: "/tmp/cert_file"
+          subPath: cert_file
+          readOnly: true
         env:
         # Change port to prevent error "System.Net.Sockets.SocketException (13): Permission denied"
         - name: ASPNETCORE_URLS
