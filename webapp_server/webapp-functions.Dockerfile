@@ -4,6 +4,7 @@ FROM mcr.microsoft.com/azure-functions/node:4-node18
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot
 ENV AzureFunctionsJobHost__Logging__Console__IsEnabled=true
 ENV FUNCTIONS_WORKER_RUNTIME="node"
+ENV NODE_OPTIONS=--use-openssl-ca
 
 RUN corepack enable
 
