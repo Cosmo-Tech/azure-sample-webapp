@@ -5,6 +5,7 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot
 ENV AzureFunctionsJobHost__Logging__Console__IsEnabled=true
 ENV FUNCTIONS_WORKER_RUNTIME="node"
 ENV NODE_OPTIONS=--use-openssl-ca
+ENV NODE_EXTRA_CA_CERTS=/tmp/cert_file
 
 RUN corepack enable
 
