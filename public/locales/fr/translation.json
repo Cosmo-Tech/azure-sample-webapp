@@ -4,7 +4,7 @@
       "login": {
         "dev": {
           "account": {
-            "login": "Se connecter en mode Dev"
+            "login": "Se connecter en mode Dev (test)"
           }
         },
         "regular": {
