@@ -1,3 +1,13 @@
+## **6.4.2** <sub><sup>2024-12-12 ([5b80a98...d4a9fcc](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/5b80a98c...d4a9fcc0?diff=split))</sup></sub>
+
+### Bug Fixes
+
+- fix broken builds when using GitHub Actions to deploy Azure Static WebApps ([d4fefba](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/d4fefba))
+
+### Documentation
+
+- add documentation for dataset manager overview category details
+
 ## **6.4.1** <sub><sup>2024-10-25 ([faa8584...84b8cc8](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/faa85840...84b8cc82?diff=split))</sup></sub>
 
 ### Bug Fixes
