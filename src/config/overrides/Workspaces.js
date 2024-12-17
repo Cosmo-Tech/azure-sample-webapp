@@ -1,22 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-const defaultScenarioViewReport = {
-  title: { en: 'Scenario dashboard', fr: 'Rapport du scénario' },
-  reportId: '608b7bef-f5e3-4aae-b8db-19bbb38325d5',
-  settings: { navContentPaneEnabled: false, panes: { filters: { expanded: true, visible: true } } },
-  staticFilters: [{ table: 'Bar', column: 'Bar', values: ['MyBar', 'MyBar2'] }],
-  dynamicFilters: [
-    { table: 'StockProbe', column: 'SimulationRun', values: 'csmSimulationRun' },
-    { table: 'Bar', column: 'simulationrun', values: 'csmSimulationRun' },
-    { table: 'contains_Customer', column: 'simulationrun', values: 'csmSimulationRun' },
-    { table: 'arc_to_Customer', column: 'simulationrun', values: 'csmSimulationRun' },
-    { table: 'parameters', column: 'simulationrun', values: 'csmSimulationRun' },
-    { table: 'CustomerSatisfactionProbe', column: 'SimulationRun', values: 'csmSimulationRun' },
-  ],
-  pageName: { en: 'ReportSection', fr: 'ReportSection' },
-};
-
 // Use the WORKSPACES array below to override or add information to your workspaces. This can be useful for development
 // purposes, but it is recommended to leave this array empty and use the API to update your Workspace instead for
 // production environments.
@@ -87,8 +71,36 @@ export const WORKSPACES = [
               ],
               pageName: { en: 'ReportSection937f9c72cc8f1062aa88', fr: 'ReportSection937f9c72cc8f1062aa88' },
             },
-            2: defaultScenarioViewReport,
-            3: defaultScenarioViewReport,
+            2: {
+              title: { en: 'Scenario dashboard', fr: 'Rapport du scénario' },
+              reportId: '608b7bef-f5e3-4aae-b8db-19bbb38325d5',
+              settings: { navContentPaneEnabled: false, panes: { filters: { expanded: true, visible: true } } },
+              staticFilters: [{ table: 'Bar', column: 'Bar', values: ['MyBar', 'MyBar2'] }],
+              dynamicFilters: [
+                { table: 'StockProbe', column: 'SimulationRun', values: 'csmSimulationRun' },
+                { table: 'Bar', column: 'simulationrun', values: 'csmSimulationRun' },
+                { table: 'contains_Customer', column: 'simulationrun', values: 'csmSimulationRun' },
+                { table: 'arc_to_Customer', column: 'simulationrun', values: 'csmSimulationRun' },
+                { table: 'parameters', column: 'simulationrun', values: 'csmSimulationRun' },
+                { table: 'CustomerSatisfactionProbe', column: 'SimulationRun', values: 'csmSimulationRun' },
+              ],
+              pageName: { en: 'ReportSection', fr: 'ReportSection' },
+            },
+            3: {
+              title: { en: 'Scenario dashboard', fr: 'Rapport du scénario' },
+              reportId: '608b7bef-f5e3-4aae-b8db-19bbb38325d5',
+              settings: { navContentPaneEnabled: false, panes: { filters: { expanded: true, visible: true } } },
+              staticFilters: [{ table: 'Bar', column: 'Bar', values: ['MyBar', 'MyBar2'] }],
+              dynamicFilters: [
+                { table: 'StockProbe', column: 'SimulationRun', values: 'csmSimulationRun' },
+                { table: 'Bar', column: 'simulationrun', values: 'csmSimulationRun' },
+                { table: 'contains_Customer', column: 'simulationrun', values: 'csmSimulationRun' },
+                { table: 'arc_to_Customer', column: 'simulationrun', values: 'csmSimulationRun' },
+                { table: 'parameters', column: 'simulationrun', values: 'csmSimulationRun' },
+                { table: 'CustomerSatisfactionProbe', column: 'SimulationRun', values: 'csmSimulationRun' },
+              ],
+              pageName: { en: 'ReportSection', fr: 'ReportSection' },
+            },
           },
         },
         instanceView: {
