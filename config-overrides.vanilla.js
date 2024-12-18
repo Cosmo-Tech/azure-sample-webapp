@@ -14,7 +14,7 @@ const cspConfigPolicy = {
   ],
   'script-src': ["'self'"],
   'img-src': ["'self'", 'data:'],
-  'style-src': ["'self'", "'unsafe-inline'"],
+  'style-src': ["'self'"],
   'font-src': ['data:'],
   'frame-src': ["'self'", 'blob:', 'https://app.powerbi.com', 'https://login.microsoftonline.com'],
   'manifest-src': "'self'",
