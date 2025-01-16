@@ -12,10 +12,14 @@ function _convertStringFromString(parameterValue) {
 }
 
 function _convertIntFromString(parameterValue) {
+  // PROD-14190 - API may return an empty string for parameters that have never been initialized: return null instead
+  if (parameterValue === '') return null;
   return parseInt(parameterValue);
 }
 
 function _convertNumberFromString(parameterValue) {
+  // PROD-14190 - API may return an empty string for parameters that have never been initialized: return null instead
+  if (parameterValue === '') return null;
   return parseFloat(parameterValue);
 }
 
@@ -40,6 +44,8 @@ function _convertDateFromString(parameterValue) {
 }
 
 function _convertDatasetIdFromString(parameterValue) {
+  // PROD-14190 - API may return an empty string for parameters that have never been initialized: return null instead
+  if (parameterValue === '') return null;
   return parameterValue; // Already a string
 }
 
