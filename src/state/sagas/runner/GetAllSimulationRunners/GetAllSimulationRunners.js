@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { t } from 'i18next';
-import { all, call, put, select, takeEvery } from 'redux-saga/effects';
+import { call, delay, put, select, spawn, takeEvery } from 'redux-saga/effects';
 import { Api } from '../../../../services/config/Api';
 import { RUNNER_RUN_STATE } from '../../../../services/config/ApiConstants';
 import { RUNNERS_PAGE_COUNT } from '../../../../services/config/FunctionalConstants';
@@ -19,6 +19,14 @@ const getSolutionRunTemplates = (state) => state.solution?.current?.data?.runTem
 
 const keepOnlyReadableRunners = (runners) =>
   runners.filter((runner) => runner.security.currentUserPermissions.includes(ACL_PERMISSIONS.RUNNER.READ));
+
+function* fetchRunnersStatusesAsync(organizationId, workspaceId, runners) {
+  const DELAY_BETWEEN_RUN_STATUS_QUERIES_IN_MS = 500;
+  for (const runner of runners) {
+    yield call(getRunnerStatus, organizationId, workspaceId, runner.id, runner.lastRunId);
+    yield delay(DELAY_BETWEEN_RUN_STATUS_QUERIES_IN_MS);
+  }
+}
 
 function* getRunnerStatus(organizationId, workspaceId, runnerId, lastRunId) {
   try {
@@ -72,13 +80,10 @@ export function* getAllSimulationRunners(organizationId, workspaceId) {
     list: readableRunners,
     status: STATUSES.SUCCESS,
   });
-  yield all(
-    readableRunners
-      .filter((runner) => runner.lastRunId)
-      .map((runner) => {
-        return call(getRunnerStatus, organizationId, workspaceId, runner.id, runner.lastRunId);
-      })
-  );
+
+  const runnersToFetch = readableRunners.filter((runner) => runner.lastRunId);
+  // Non-blocking loop to fetch status of each runner in the provided list, with a slight delay between API calls
+  yield spawn(fetchRunnersStatusesAsync, organizationId, workspaceId, runnersToFetch);
 }
 
 function* getAllSimulationRunnersSaga() {
