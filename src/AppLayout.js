@@ -18,6 +18,12 @@ const DEFAULT_TABS = [
     render: <Scenario />,
   },
   {
+    key: 'tabs.scenariomanager.key',
+    label: 'layouts.tabs.scenariomanager.tab.title',
+    to: 'scenariomanager',
+    render: <ScenarioManager />,
+  },
+  {
     key: 'tabs.instance.key',
     label: 'layouts.tabs.instance.tab.title',
     to: 'instance',
@@ -28,12 +34,6 @@ const DEFAULT_TABS = [
     label: 'layouts.tabs.dashboards.tab.title',
     to: 'dashboards',
     render: <Dashboards />,
-  },
-  {
-    key: 'tabs.scenariomanager.key',
-    label: 'layouts.tabs.scenariomanager.tab.title',
-    to: 'scenariomanager',
-    render: <ScenarioManager />,
   },
 ];
 
