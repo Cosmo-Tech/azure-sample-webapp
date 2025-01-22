@@ -7,9 +7,8 @@ import { STATUSES } from '../../../../state/commons/Constants';
 import { useBackdropLoadingScenario } from './BackdropLoadingScenarioHooks';
 
 const BackdropLoadingScenario = () => {
-  const { currentScenarioStatus } = useBackdropLoadingScenario();
+  const { currentScenarioStatus, showBackdrop } = useBackdropLoadingScenario();
   const { t } = useTranslation();
-  const showBackdrop = currentScenarioStatus === STATUSES.LOADING || currentScenarioStatus === STATUSES.SAVING;
 
   return (
     <Backdrop data-cy="scenario-backdrop" open={showBackdrop} style={{ zIndex: '10000' }}>

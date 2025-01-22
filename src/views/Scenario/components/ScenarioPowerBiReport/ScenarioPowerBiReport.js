@@ -5,7 +5,8 @@ import { CurrentScenarioPowerBiReport } from '../../../../components';
 import { useScenarioPowerBiReport } from './ScenarioPowerBiReportHook';
 
 const ScenarioPowerBiReport = () => {
-  const { currentScenarioData, currentScenarioRunTemplateReport, iframeRatio } = useScenarioPowerBiReport();
+  const { currentScenarioData, currentScenarioRunTemplateReport, iframeRatio, isViewLoading } =
+    useScenarioPowerBiReport();
 
   return (
     <CurrentScenarioPowerBiReport
@@ -14,6 +15,7 @@ const ScenarioPowerBiReport = () => {
       key={currentScenarioData?.id}
       reportConfiguration={currentScenarioRunTemplateReport}
       iframeRatio={iframeRatio}
+      isParentLoading={isViewLoading}
     />
   );
 };
