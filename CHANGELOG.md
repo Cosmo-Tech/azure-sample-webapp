@@ -1,3 +1,15 @@
+## **6.4.3** <sub><sup>2025-01-23 ([d0a58d7...7d4831b](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/d0a58d7f...7d4831b2?diff=split))</sup></sub>
+
+### Bug Fixes
+
+- fix validation of column constraints (minValue & maxValue) when importing files in a Table
+- remove special characters restrictions in scenario names
+- change position of the ScenarioManager tab
+- fix unreachable Table component when the errors panel was displayed
+- fix double scrollbar in Table components
+- fix support of unicode characters in users and workspace avatars
+- force uninitialized parameter values to null (improve compatibility with Cosmo Tech API >= 3.3)
+
 ## **6.4.2** <sub><sup>2024-12-12 ([5b80a98...d4a9fcc](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/5b80a98c...d4a9fcc0?diff=split))</sup></sub>
 
 ### Bug Fixes
