@@ -272,10 +272,10 @@ describe('Create scenario', () => {
     BreweryParameters.getCurrencyUsedInput().check();
     BreweryParameters.getStartDateInput()
       .click()
-      .type('{moveToStart}' + startDateValue);
+      .type('{leftArrow}{leftArrow}' + startDateValue);
     BreweryParameters.getEndDateInput()
       .click()
-      .type('{moveToStart}' + endDateValue);
+      .type('{leftArrow}{leftArrow}' + endDateValue);
     BreweryParameters.moveAverageConsumptionSlider(sliderValue);
 
     // Switch parameters tabs then back and check parameters,
@@ -325,10 +325,10 @@ describe('Create scenario', () => {
     BreweryParameters.getCurrencyUsedInput().check();
     BreweryParameters.getStartDateInput()
       .click()
-      .type('{moveToStart}' + startDateValue);
+      .type('{leftArrow}{leftArrow}' + startDateValue);
     BreweryParameters.getEndDateInput()
       .click()
-      .type('{moveToStart}' + endDateValue);
+      .type('{leftArrow}{leftArrow}' + endDateValue);
     BreweryParameters.moveAverageConsumptionSlider(sliderValue);
     // update and launch
     cy.intercept('PATCH', URL_REGEX.SCENARIO_PAGE_WITH_ID).as('requestEditScenario');

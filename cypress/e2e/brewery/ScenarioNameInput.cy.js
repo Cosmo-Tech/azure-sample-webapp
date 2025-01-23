@@ -3,13 +3,10 @@
 import { Login, Scenarios } from '../../commons/actions';
 import { stub } from '../../commons/services/stubbing';
 
-describe('Check error label when invalid scenario name', () => {
-  before(() => {
-    stub.start();
-  });
-  beforeEach(() => {
-    Login.login();
-  });
+describe('Check valid and invalid scenario name', () => {
+  before(() => stub.start());
+  beforeEach(() => Login.login());
+
   it('check error label when scenario name field is empty', () => {
     Scenarios.openScenarioCreationDialog();
     Scenarios.getScenarioCreationDialogMasterCheckbox().click();
@@ -17,10 +14,9 @@ describe('Check error label when invalid scenario name', () => {
     Scenarios.getScenarioCreationDialogNameInputErrorLabel().contains('empty');
   });
 
-  it('check error label when scenario name contains invalid characters', () => {
+  it('must accept special characters and unicode', () => {
     Scenarios.openScenarioCreationDialog();
-    Scenarios.getScenarioCreationDialogNameField().type('InvalidScenarioName&');
-    Scenarios.getScenarioCreationDialogNameInputErrorLabel().should('be.visible');
-    Scenarios.getScenarioCreationDialogNameInputErrorLabel().contains('underscores');
+    Scenarios.getScenarioCreationDialogNameField().type('🚀*valid_Scenario-Name&');
+    Scenarios.getScenarioCreationDialogNameInputErrorLabel().should('not.exist');
   });
 });

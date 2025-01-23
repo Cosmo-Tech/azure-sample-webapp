@@ -23,6 +23,12 @@ const expectedErrorsFew = [
   { summary: 'Incorrect enum value' },
   { summary: 'Incorrect date value' },
   { summary: 'Incorrect number value' },
+  { summary: 'Value out of range' },
+  { summary: 'Value out of range' },
+  { summary: 'Value out of range' },
+  { summary: 'Value out of range' },
+  { summary: 'Value out of range' },
+  { summary: 'Value out of range' },
 ];
 
 const expectedErrorsFewCSV = [{ summary: 'Too few fields', loc: 'Line 2' }, ...expectedErrorsFew];

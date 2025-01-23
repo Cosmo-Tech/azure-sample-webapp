@@ -6,4 +6,6 @@ Bob,15,false,bad_enum,01/01/2000,1.70
 Bob,15,false,AppleJuice,bad_date,1.70
 Bob,15,false,AppleJuice,01/01/2000,bad_number
 Bob,bad_int,bad_bool,bad_enum,bad_date,bad_number
+Bob,-1,false,AppleJuice,01/01/1899,-0.1
+Bob,999,false,AppleJuice,01/01/2999,99.9
 Bob,15,false,AppleJuice,01/01/2000,1.70
