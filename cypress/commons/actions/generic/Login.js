@@ -58,8 +58,14 @@ function login(options) {
         if (auth.USE_API_KEY) return;
 
         cy.getAllLocalStorage().then((localStorage) => {
-          expect(localStorage[BASE_URL].authProvider).not.to.eq(undefined);
-          expect(localStorage[BASE_URL].authAccessToken).not.to.eq(undefined);
+          // Can't use `Cypress.config('baseUrl')` below, because when deployed, the webapp base URL can include
+          // a subpath after the domain name (e.g. "/cosmotech-webapp/brewery"), that is not present in the local
+          // storage key
+          // Use location.host instead of hostname to also get the port number (e.g. localhost:3000), it is
+          // necessary when the webapp runs locally
+          const baseUrl = `${window.location.protocol}//${window.location.host}`;
+          expect(localStorage[baseUrl].authProvider).not.to.eq(undefined);
+          expect(localStorage[baseUrl].authAccessToken).not.to.eq(undefined);
         });
       },
     }
