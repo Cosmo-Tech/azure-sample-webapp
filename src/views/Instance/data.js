@@ -177,7 +177,7 @@ async function _fetchTwingraphDatasetContent(organizationId, datasetId, dataSour
         'properties, src.id as src, dst.id as dst'
     );
   }
-  return { nodes, edges };
+  return { nodes, edges, edgeCategories };
 }
 
 async function _fetchDataFromTwingraphDatasets(organizationId, datasets) {
@@ -186,9 +186,13 @@ async function _fetchDataFromTwingraphDatasets(organizationId, datasets) {
     if (content[label] === undefined) content[label] = [];
     if (content[label].find((item) => item.id === node.id) === undefined) content[label].push(node);
   };
-  const addEdge = (src, rel, dst, type) => {
+  const addEdge = (src, rel, dst, type, identityAttribute) => {
     if (content[type] === undefined) content[type] = [];
-    if (!content[type].some((item) => item.name === rel.name && item.source === src && item.target === dst))
+    if (
+      !content[type].some(
+        (item) => item[identityAttribute] === rel[identityAttribute] && item.source === src && item.target === dst
+      )
+    )
       content[type].push({
         source: src,
         target: dst,
@@ -197,16 +201,28 @@ async function _fetchDataFromTwingraphDatasets(organizationId, datasets) {
   };
 
   for (const datasetId of datasets) {
-    const { nodes, edges } = await _fetchTwingraphDatasetContent(organizationId, datasetId);
+    const {
+      nodes,
+      edges,
+      edgeCategories: edgeAttributesByType,
+    } = await _fetchTwingraphDatasetContent(organizationId, datasetId);
 
     for (const label in nodes) {
       for (const node of nodes[label]) {
         addNode(node, label);
       }
     }
+
     for (const type in edges) {
+      const edgeAttributes = edgeAttributesByType.find((el) => el.type === type)?.keys ?? [];
+      let edgeIdentityAttribute = 'id';
+      if (!edgeAttributes.includes('id')) {
+        if (!edgeAttributes.includes('name')) {
+          console.warn(`Links of type ${type} don't have "id" nor "name" attributes. Some arcs may be lost.`);
+        } else edgeIdentityAttribute = 'name';
+      }
       for (const edge of edges[type]) {
-        addEdge(edge.src, edge.properties, edge.dst, type);
+        addEdge(edge.src, edge.properties, edge.dst, type, edgeIdentityAttribute);
       }
     }
   }
