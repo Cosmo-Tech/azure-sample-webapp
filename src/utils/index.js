@@ -5,6 +5,7 @@ export { ApiUtils } from './ApiUtils';
 export { ArrayDictUtils } from './ArrayDictUtils';
 export { ConfigUtils } from './ConfigUtils';
 export { DatasetsUtils } from './DatasetsUtils';
+export { InstanceUtils } from './InstanceUtils';
 export { OrganizationsUtils } from './OrganizationsUtils';
 export { PowerBIUtils } from './PowerBIUtils';
 export { RouterUtils } from './RouterUtils';
