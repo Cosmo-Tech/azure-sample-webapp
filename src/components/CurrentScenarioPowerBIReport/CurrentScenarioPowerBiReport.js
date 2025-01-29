@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 
 const CurrentScenarioPowerBiReport = ({
   alwaysShowReports,
-  isParentLoading,
+  isParentLoading=false,
   reportConfiguration,
   iframeRatio,
   index,
@@ -90,10 +90,6 @@ CurrentScenarioPowerBiReport.propTypes = {
   iframeRatio: SimplePowerBIReportEmbed.propTypes.iframeRatio,
   index: SimplePowerBIReportEmbed.propTypes.index,
   labels: PropTypes.object,
-};
-
-CurrentScenarioPowerBiReport.defaultProps = {
-  isParentLoading: false,
 };
 
 export default CurrentScenarioPowerBiReport;
