@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { useMemo } from 'react';
-import { STATUSES } from '../../../../state/commons/Constants';
+import { STATUSES } from '../../../../services/config/StatusConstants';
 import { useCurrentSimulationRunnerReducerStatus } from '../../../../state/runner/hooks';
 
 export const useBackdropLoadingScenario = () => {
