@@ -6,7 +6,7 @@ import { ResourceUtils } from '@cosmotech/core';
 import { RUNNER_RUN_STATE } from '../../../services/config/ApiConstants';
 import { STATUSES } from '../../../services/config/StatusConstants';
 import { WorkspaceSchema } from '../../../services/config/WorkspaceSchema';
-import { ConfigUtils, WorkspacesUtils } from '../../../utils';
+import { ConfigUtils, RunnersUtils, WorkspacesUtils } from '../../../utils';
 import { setApplicationErrorMessage, setApplicationStatus } from '../../app/reducers';
 import { dispatchGetPowerBIEmbedInfo } from '../../powerBi/dispatchers';
 import { clearEmbedInfo } from '../../powerBi/reducers';
@@ -104,7 +104,7 @@ export function* selectWorkspace(action) {
         organizationId,
         workspaceId: selectedWorkspaceId,
         runnerId: runner.id,
-        lastRunId: runner.lastRunId,
+        lastRunId: RunnersUtils.getLastRunId(runner),
       })
     )
   );
