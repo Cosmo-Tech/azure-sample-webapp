@@ -14,8 +14,8 @@ import { useWorkspaceData } from '../../../../state/workspaces/hooks';
 
 export const useScenarioDashboardCard = () => {
   const currentScenarioLastUpdate = useCurrentSimulationRunnerLastUpdate();
-  const useCurrentScenarioId = useCurrentSimulationRunnerId();
-  const currentScenarioLastRun = useCurrentSimulationRunnerLastRun(useCurrentScenarioId);
+  const currentScenarioId = useCurrentSimulationRunnerId();
+  const currentScenarioLastRun = useCurrentSimulationRunnerLastRun(currentScenarioId);
   const currentScenarioLastRunId = useCurrentSimulationRunnerLastRunId();
   const currentScenarioState = useCurrentSimulationRunnerState();
   const downloadCurrentScenarioRunLogs = useDownloadSimulationLogsFile();
