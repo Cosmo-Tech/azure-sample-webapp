@@ -33,9 +33,10 @@ export function* getRunner(action) {
     );
 
     const { data } = yield call(Api.Runners.getRunner, organizationId, workspaceId, runnerId);
-    if (data.lastRunId) {
+    const lastRunId = RunnersUtils.getLastRunId(data);
+    if (lastRunId) {
       try {
-        const response = yield call(Api.RunnerRuns.getRunStatus, organizationId, workspaceId, runnerId, data.lastRunId);
+        const response = yield call(Api.RunnerRuns.getRunStatus, organizationId, workspaceId, runnerId, lastRunId);
         data.state = response.data.state;
       } catch (error) {
         console.error(error);
@@ -46,7 +47,7 @@ export function* getRunner(action) {
               'views.scenario.scenarioRunStatusQueryError.comment',
               'Could not get status of scenario run with id "{{id}}".',
               {
-                id: data.lastRunId,
+                id: lastRunId,
               }
             ),
           })
@@ -92,7 +93,7 @@ export function* getRunner(action) {
         organizationId: action.organizationId,
         workspaceId: action.workspaceId,
         runnerId: data.id,
-        lastRunId: data.lastRunId,
+        lastRunId,
       });
     }
   } catch (error) {
