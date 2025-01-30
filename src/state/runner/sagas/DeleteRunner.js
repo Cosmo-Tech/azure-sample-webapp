@@ -5,6 +5,7 @@ import { takeEvery, call, put } from 'redux-saga/effects';
 import { Api } from '../../../services/config/Api';
 import { RUNNER_RUN_STATE } from '../../../services/config/ApiConstants';
 import { STATUSES } from '../../../services/config/StatusConstants';
+import { RunnersUtils } from '../../../utils';
 import { setApplicationErrorMessage } from '../../app/reducers';
 import { RUNNER_ACTIONS_KEY } from '../constants';
 import { deleteRunner, setListStatus } from '../reducers';
@@ -23,7 +24,7 @@ export function* callDeleteRunner(action) {
     );
 
     const response = yield call(Api.Runners.getRunner, organizationId, workspaceId, runnerId);
-    const lastRunId = response.data?.lastRunId;
+    const lastRunId = RunnersUtils.getLastRunId(response.data);
 
     if (lastRunId) {
       const response = yield call(Api.RunnerRuns.getRunStatus, organizationId, workspaceId, runnerId, lastRunId);

@@ -6,6 +6,7 @@ import { AppInsights } from '../../../services/AppInsights';
 import { Api } from '../../../services/config/Api';
 import { RUNNER_RUN_STATE } from '../../../services/config/ApiConstants';
 import { STATUSES } from '../../../services/config/StatusConstants';
+import { RunnersUtils } from '../../../utils';
 import { setApplicationErrorMessage } from '../../app/reducers';
 import { RUNNER_ACTIONS_KEY } from '../constants';
 import { addRun, updateRunner } from '../reducers';
@@ -54,24 +55,23 @@ export function* startRunner(action) {
       return;
     }
 
+    const lastRunId = RunnersUtils.getRunIdFromRunnerStart(response.data);
+    const lastRunIdPatch = RunnersUtils.forgeRunnerLastRunIdPatch(lastRunId);
     yield put(
       updateRunner({
         runnerId,
-        runner: { state: RUNNER_RUN_STATE.RUNNING, lastRunId: response.data.id },
+        runner: { state: RUNNER_RUN_STATE.RUNNING, ...lastRunIdPatch },
       })
     );
-    yield put(
-      addRun({
-        data: { id: response.data },
-      })
-    );
+    yield put(addRun({ data: { id: response.data } }));
+
     // Start backend polling to update the scenario status
     yield put({
       type: RUNNER_ACTIONS_KEY.START_RUNNER_STATUS_POLLING,
       organizationId,
       workspaceId,
       runnerId,
-      lastRunId: response.data,
+      lastRunId,
     });
   } catch (error) {
     console.error(error);
