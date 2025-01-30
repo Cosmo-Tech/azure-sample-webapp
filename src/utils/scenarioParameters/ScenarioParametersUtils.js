@@ -4,6 +4,7 @@ import rfdc from 'rfdc';
 import { UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
 import { DATASET_ID_VARTYPE } from '../../services/config/ApiConstants';
 import { ConfigUtils } from '../ConfigUtils';
+import { RunnersUtils } from '../RunnersUtils';
 import { VAR_TYPES_DEFAULT_VALUES } from './DefaultValues';
 
 const clone = rfdc();
@@ -61,7 +62,7 @@ function _getParentScenarioLastRunId(scenarioData, scenarios) {
   if (scenarioData.parentId) {
     const parentScenario = scenarios.find((scenario) => scenario.id === scenarioData.parentId);
     if (parentScenario) {
-      return parentScenario?.lastRun?.csmSimulationRun;
+      return RunnersUtils.getLastRunId(parentScenario);
     } else {
       console.warn(
         "Cannot build value for parameter 'ParentLastRunId', because scenario parent with id " +
@@ -77,7 +78,7 @@ function _getRootScenarioLastRunId(scenarioData, scenarios) {
   if (scenarioData.rootId) {
     const rootScenario = scenarios.find((scenario) => scenario.id === scenarioData.rootId);
     if (rootScenario) {
-      return rootScenario?.lastRun?.csmSimulationRun;
+      return RunnersUtils.getLastRunId(rootScenario);
     } else {
       console.warn(
         "Cannot build value for parameter 'MasterLastRunId', because root scenario with id " +
