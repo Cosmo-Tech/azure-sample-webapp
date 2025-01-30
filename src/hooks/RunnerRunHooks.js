@@ -6,6 +6,7 @@ import { useCurrentDataset } from '../state/datasets/hooks';
 import { useOrganizationId } from '../state/organizations/hooks';
 import { useCurrentSimulationRunnerData } from '../state/runner/hooks';
 import { useWorkspaceId } from '../state/workspaces/hooks';
+import { RunnersUtils } from '../utils';
 
 export const useDownloadLogsFile = () => {
   const organizationId = useOrganizationId();
@@ -21,20 +22,15 @@ export const useDownloadLogsFile = () => {
 };
 
 export const useDownloadSimulationLogsFile = () => {
-  const currentScenarioData = useCurrentSimulationRunnerData();
+  const selectedRunner = useCurrentSimulationRunnerData();
   const organizationId = useOrganizationId();
   const workspaceId = useWorkspaceId();
 
+  const lastRunId = RunnersUtils.getLastRunId(selectedRunner);
+
   return useCallback(
     () =>
-      currentScenarioData?.lastRunId
-        ? RunnerRunService.downloadLogsFile(
-            organizationId,
-            workspaceId,
-            currentScenarioData?.id,
-            currentScenarioData.lastRunId
-          )
-        : null,
-    [organizationId, currentScenarioData?.lastRunId, currentScenarioData?.id, workspaceId]
+      lastRunId ? RunnerRunService.downloadLogsFile(organizationId, workspaceId, selectedRunner?.id, lastRunId) : null,
+    [organizationId, lastRunId, selectedRunner?.id, workspaceId]
   );
 };

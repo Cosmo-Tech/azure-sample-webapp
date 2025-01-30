@@ -65,7 +65,7 @@ export function* getAllSimulationRunners(organizationId, workspaceId) {
     RunnersUtils.patchRunnerWithCurrentUserPermissions(runner, userEmail, userId, runnersPermissionsMapping)
   );
   simulationRunners.forEach((runner) => {
-    if (runner.lastRunId == null) runner.state = RUNNER_RUN_STATE.CREATED;
+    if (RunnersUtils.getLastRunId(runner) == null) runner.state = RUNNER_RUN_STATE.CREATED;
   });
   const readableRunners = keepOnlyReadableRunners(simulationRunners);
   yield put(
@@ -76,9 +76,9 @@ export function* getAllSimulationRunners(organizationId, workspaceId) {
   );
   yield all(
     readableRunners
-      .filter((runner) => runner.lastRunId)
+      .filter((runner) => RunnersUtils.getLastRunId(runner) != null)
       .map((runner) => {
-        return call(getRunnerStatus, organizationId, workspaceId, runner.id, runner.lastRunId);
+        return call(getRunnerStatus, organizationId, workspaceId, runner.id, RunnersUtils.getLastRunId(runner));
       })
   );
 }

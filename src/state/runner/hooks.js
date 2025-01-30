@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { RunnersUtils } from '../../utils';
 import { useOrganizationId } from '../organizations/hooks';
 import { useWorkspaceId } from '../workspaces/hooks';
 import {
@@ -57,7 +58,7 @@ export const useCurrentSimulationRunnerLastUpdate = () => {
 };
 
 export const useCurrentSimulationRunnerLastRunId = () => {
-  return useSelector((state) => state.runner.current?.data?.lastRunId);
+  return useSelector((state) => RunnersUtils.getLastRunId(state.runner.current?.data));
 };
 
 export const useCurrentSimulationRunnerState = () => {
