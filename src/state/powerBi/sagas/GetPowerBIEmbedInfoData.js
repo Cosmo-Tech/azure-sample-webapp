@@ -49,10 +49,7 @@ export function* getPowerBIEmbedInfoSaga() {
     );
   }
 
-  yield put({
-    type: POWER_BI_ACTIONS_KEY.SET_EMBED_INFO,
-    status: STATUSES.LOADING,
-  });
+  yield put(setEmbedInfo({ status: STATUSES.LOADING }));
 
   let tokenDelay;
   do {
