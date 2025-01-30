@@ -10,6 +10,7 @@ import { useCurrentSimulationRunnerData, useRunners } from '../../state/runner/h
 import { useWorkspaceChartsLogInWithUserCredentials } from '../../state/workspaces/hooks';
 import darkTheme from '../../theme/powerbi/darkTheme.json';
 import lightTheme from '../../theme/powerbi/lightTheme.json';
+import { RunnersUtils } from '../../utils';
 import { getReportLabels } from './labels';
 
 export const useCurrentScenarioPowerBiReport = () => {
@@ -30,7 +31,7 @@ export const useCurrentScenarioPowerBiReport = () => {
     () =>
       scenarios?.map((runner) => ({
         id: runner.id,
-        runId: runner.lastRunId,
+        runId: RunnersUtils.getLastRunId(runner),
       })),
     [scenarios]
   );
