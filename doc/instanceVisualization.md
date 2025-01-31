@@ -89,6 +89,10 @@ For all types of graph elements, the expected format of these object values is i
   modifiers will be applied via a selector (c.f. the [cytoscape documentation](https://js.cytoscape.org/#style) for the
   list of possible customization options)
 
+In addition to the cytoscape modifiers, you can define an array in an `attributesOrder` property, for each entity type,
+to force the order in which the entity attributes are displayed when an entity of this type is selected. The attributes
+that are not present in this list will be displayed below all other attributes.
+
 The example below illustrates how to use `Bar` and `Customer` entities as nodes, `arc_Satisfaction` as arcs and
 `Bar_vertex` as parent relations between bars and customers:
 
@@ -100,6 +104,7 @@ dataContent:
     arc_Satisfaction:
       style: { 'line-color': '#999999' }
       selectable: false
+      attributesOrder: ['id', 'name']
   nodes:
     Bar:
       style:
@@ -114,6 +119,7 @@ dataContent:
       style:
         background-color: '#005A31'
         shape: 'ellipse'
+      attributesOrder: ['id', 'Satisfaction', 'SurroundingSatisfaction']
 ```
 
 ---
