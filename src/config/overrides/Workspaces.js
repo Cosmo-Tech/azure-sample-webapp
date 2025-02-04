@@ -111,8 +111,12 @@ export const WORKSPACES = [
                 pannable: true,
                 selectable: true,
                 grabbable: false,
+                attributesOrder: ['id', 'Stock', 'RestockQty', 'NbWaiters'],
               },
-              Customer: { style: { 'background-color': '#005A31', shape: 'ellipse' } },
+              Customer: {
+                style: { 'background-color': '#005A31', shape: 'ellipse' },
+                attributesOrder: ['id', 'Thirsty', 'Satisfaction', 'SurroundingSatisfaction'],
+              },
             },
           },
         },
