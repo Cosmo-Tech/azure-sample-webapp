@@ -1,12 +1,13 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/styles';
 import { CytoViz } from '@cosmotech/ui';
 import { CurrentScenarioSelector } from '../../components';
 import { AppInsights } from '../../services/AppInsights';
 import { STATUSES } from '../../state/commons/Constants';
+import { InstanceUtils } from '../../utils';
 import { parseError } from '../../utils/ErrorsUtils';
 import { useInstance } from './InstanceHook';
 import { fetchData, processGraphElements } from './data';
@@ -31,7 +32,15 @@ const Instance = () => {
     instanceViewConfig,
   } = useInstance();
 
+  const defaultGraphElementsMetadata = useMemo(
+    () => ({
+      attributesOrder: InstanceUtils.mergeGraphItemAttributesConfiguration(instanceViewConfig, null),
+    }),
+    [instanceViewConfig]
+  );
+
   const [graphElements, setGraphElements] = useState([]);
+  const [graphElementsMetadata, setGraphElementsMetadata] = useState(defaultGraphElementsMetadata);
   const [cytoscapeStylesheet, setCytoscapeStylesheet] = useState([]);
   const [isLoadingData, setIsLoadingData] = useState(true);
   const [errorBannerMessage, setErrorBannerMessage] = useState(null);
@@ -62,6 +71,7 @@ const Instance = () => {
     async function loadData() {
       if (noScenario) {
         setGraphElements([]);
+        setGraphElementsMetadata(defaultGraphElementsMetadata);
         setErrorBannerMessage(null);
         setIsLoadingData(false);
       } else {
@@ -86,7 +96,15 @@ const Instance = () => {
             theme
           );
 
+          const elementsMetadata = {
+            attributesOrder: InstanceUtils.mergeGraphItemAttributesConfiguration(
+              instanceViewConfig,
+              scenario.graphItemsAttributes
+            ),
+          };
+
           setGraphElements(newGraphElements);
+          setGraphElementsMetadata(elementsMetadata);
           setCytoscapeStylesheet(stylesheet);
           setErrorBannerMessage(null);
           setIsLoadingData(false);
@@ -188,6 +206,7 @@ const Instance = () => {
       'An error occured, cannot visualize data.'
     );
   }
+
   return (
     <>
       <div className={classes.mainGrid}>
@@ -198,6 +217,7 @@ const Instance = () => {
           <CytoViz
             cytoscapeStylesheet={cytoscapeStylesheet}
             elements={graphElements}
+            elementsMetadata={graphElementsMetadata}
             error={errorBannerMessage}
             labels={cytoVizLabels}
             loading={isSwitchingScenario || isLoadingData}

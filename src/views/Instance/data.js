@@ -177,7 +177,7 @@ async function _fetchTwingraphDatasetContent(organizationId, datasetId, dataSour
         'properties, src.id as src, dst.id as dst'
     );
   }
-  return { nodes, edges, edgeCategories };
+  return { nodes, edges, nodeCategories, edgeCategories };
 }
 
 async function _fetchDataFromTwingraphDatasets(organizationId, datasets) {
@@ -200,12 +200,15 @@ async function _fetchDataFromTwingraphDatasets(organizationId, datasets) {
       });
   };
 
+  const nodesKeys = {};
+  const edgesKeys = {};
   for (const datasetId of datasets) {
-    const {
-      nodes,
-      edges,
-      edgeCategories: edgeAttributesByType,
-    } = await _fetchTwingraphDatasetContent(organizationId, datasetId);
+    const { nodes, edges, nodeCategories, edgeCategories } = await _fetchTwingraphDatasetContent(
+      organizationId,
+      datasetId
+    );
+    nodeCategories.forEach((nodeCategory) => (nodesKeys[nodeCategory.label] = nodeCategory.keys));
+    edgeCategories.forEach((edgeCategory) => (edgesKeys[edgeCategory.type] = edgeCategory.keys));
 
     for (const label in nodes) {
       for (const node of nodes[label]) {
@@ -214,7 +217,7 @@ async function _fetchDataFromTwingraphDatasets(organizationId, datasets) {
     }
 
     for (const type in edges) {
-      const edgeAttributes = edgeAttributesByType.find((el) => el.type === type)?.keys ?? [];
+      const edgeAttributes = edgeCategories.find((el) => el.type === type)?.keys ?? [];
       let edgeIdentityAttribute = 'id';
       if (!edgeAttributes.includes('id')) {
         if (!edgeAttributes.includes('name')) {
@@ -227,7 +230,7 @@ async function _fetchDataFromTwingraphDatasets(organizationId, datasets) {
     }
   }
 
-  return { data: content };
+  return { data: content, graphItemsAttributes: { nodes: nodesKeys, edges: edgesKeys } };
 }
 
 export async function fetchData(instanceViewConfig, organizationId, workspaceId, scenario, datasets) {
