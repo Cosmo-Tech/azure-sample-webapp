@@ -50,8 +50,8 @@ function* startAllDatasetTwingraphQueries(action) {
   yield all(
     queries.map((query, index) => {
       if (
-        !categories.some((category) => (category?.kpis ?? []).some((kpi) => kpi?.queryId === query.id)) &&
-        !graphIndicators.some((indicator) => indicator?.queryId === query.id)
+        !categories?.some((category) => (category?.kpis ?? [])?.some((kpi) => kpi?.queryId === query.id)) &&
+        !graphIndicators?.some((indicator) => indicator?.queryId === query.id)
       )
         return null;
       if (index !== 0) delay(TWINGRAPH_QUERIES_DELAY);
