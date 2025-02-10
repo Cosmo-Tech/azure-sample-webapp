@@ -28,7 +28,9 @@ const keepOnlyReadableDatasets = (datasets) =>
 export function* fetchAllDatasetsData(organizationId) {
   try {
     const userEmail = yield select(getUserEmail);
-    const { data } = yield call(Api.Datasets.findAllDatasets, organizationId);
+    const page = 0;
+    const pageSize = 99999;
+    const { data } = yield call(Api.Datasets.findAllDatasets, organizationId, page, pageSize);
 
     data.forEach((dataset) =>
       DatasetsUtils.patchDatasetWithCurrentUserPermissions(dataset, userEmail, DATASET_PERMISSIONS_MAPPING)
