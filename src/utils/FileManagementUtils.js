@@ -297,6 +297,12 @@ const _findDatasetInDatasetsList = (datasets, datasetId) => {
 
 function buildClientFileDescriptorFromDataset(datasets, datasetId) {
   const dataset = _findDatasetInDatasetsList(datasets, datasetId);
+  if (datasetId != null && dataset === undefined) {
+    console.error(
+      `Dataset Not Found: cannot find dataset "${datasetId}", some data might be missing. If the ` +
+        'problem persists, please check if the dataset still exists and if you have the permissions to read it.'
+    );
+  }
   return {
     id: datasetId,
     name: dataset === undefined ? '' : DatasetsUtils.getFileNameFromDatasetLocation(dataset),
