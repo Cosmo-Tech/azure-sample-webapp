@@ -4,6 +4,21 @@ Some features of the webapp can be configured in your workspace description. The
 _Workspace.yaml_ or _Workspace.json_ files, that you can then upload with the Cosmo Tech API to create or update a
 workspace. The features that can be configured from the workspace description will be listed below.
 
+## Default workspace options to update
+
+### `datasetCopy`
+
+By default, workspaces created with the Cosmo Tech API may have an option `datasetCopy` set to `true`. When this option
+is set, the API will copy the datasets associated to a scenario when it is created. Please note that
+**the API behavior when this option is set is not supported by the webapp**. In order to prevent glitches and undefined
+behavior, please make sure that the workspace configuration contains `datasetCopy: false`.
+
+### `linkedDatasetIdList`
+
+New workspaces created with the Cosmo Tech API may have `linkedDatasetIdList` set to `null` (unless a specific value is
+set on creation). This `null` value may lead to **too many datasets being visible in the scenario creation dialog**.
+If you want to hide them, please replace its value by an empty array: `linkedDatasetIdList: []`.
+
 ## Configurable views
 
 The following pages of the webapp depend on the workspace configuration:

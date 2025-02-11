@@ -70,6 +70,7 @@ export function* selectWorkspace(action) {
 
   ConfigUtils.checkUnknownKeysInConfig(WorkspaceSchema, selectedWorkspace);
   WorkspacesUtils.checkDatasetManagerConfiguration(selectedWorkspace);
+  WorkspacesUtils.checkConfigurationPitfalls(selectedWorkspace);
 
   yield put({
     type: SCENARIO_ACTIONS_KEY.STOP_ALL_SCENARIO_STATUS_POLLINGS,
