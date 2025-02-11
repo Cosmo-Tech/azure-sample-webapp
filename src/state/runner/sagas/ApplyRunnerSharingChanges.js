@@ -46,7 +46,7 @@ export function* applyRunnerSharingChanges(action) {
       .filter((parameter) => parameter.varType === DATASET_ID_VARTYPE && parameter.defaultValue != null)
       .map((parameter) => parameter.defaultValue);
 
-    const runnerDatasetsIds = (currentSimulationRunnerSecurity.parametersValues ?? [])
+    const runnerDatasetsIds = (currentSimulationRunner.parametersValues ?? [])
       .filter((value) => value.varType === DATASET_ID_VARTYPE)
       .map((dataset) => dataset.value);
     for (const datasetId of runnerDatasetsIds) {
