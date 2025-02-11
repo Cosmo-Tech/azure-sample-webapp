@@ -175,6 +175,7 @@
       "overview": {
         "actions": {
           "deleteButtonTooltip": "Delete",
+          "renameDatasetTooltip": "Rename",
           "shareButtonTooltip": "Share",
           "refreshButtonTooltip": "Refresh",
           "createSubdatasetButtonTooltip": "Create sub-dataset"
