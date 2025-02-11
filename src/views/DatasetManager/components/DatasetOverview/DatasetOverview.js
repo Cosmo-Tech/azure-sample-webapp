@@ -33,10 +33,9 @@ export const DatasetOverview = () => {
       <CardHeader
         data-cy="dataset-name"
         title={datasetName}
-        sx={{ height: '65px' }}
         action={<DatasetActions dataset={dataset}></DatasetActions>}
       ></CardHeader>
-      <CardContent sx={{ height: 'calc(100% - 65px)' }}>
+      <CardContent>
         {showPlaceholder ? (
           <DatasetOverviewPlaceholder />
         ) : (
