@@ -12,7 +12,7 @@ import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/App
 
 // TODO: replace by data from redux when dataset roles-permissions mapping is added in back-end /permissions endpoint
 const DATASET_PERMISSIONS_MAPPING = {
-  viewer: ['read', 'read_security'],
+  viewer: ['read'],
   editor: ['read', 'read_security', 'write'],
   admin: ['read', 'read_security', 'write', 'write_security', 'delete'],
 };

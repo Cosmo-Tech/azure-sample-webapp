@@ -6,7 +6,7 @@ export const ORGANIZATION_PERMISSIONS = [
     component: 'organization',
     roles: {
       none: [],
-      viewer: ['read', 'read_security'],
+      viewer: ['read'],
       user: ['read', 'read_security', 'create_children'],
       editor: ['read', 'read_security', 'create_children', 'write'],
       admin: ['read', 'read_security', 'create_children', 'write', 'write_security', 'delete'],
@@ -16,7 +16,7 @@ export const ORGANIZATION_PERMISSIONS = [
     component: 'workspace',
     roles: {
       none: [],
-      viewer: ['read', 'read_security'],
+      viewer: ['read'],
       user: ['read', 'read_security', 'create_children'],
       editor: ['read', 'read_security', 'create_children', 'write'],
       admin: ['read', 'read_security', 'create_children', 'write', 'write_security', 'delete'],
@@ -26,7 +26,7 @@ export const ORGANIZATION_PERMISSIONS = [
     component: 'scenario',
     roles: {
       none: [],
-      viewer: ['read', 'read_security'],
+      viewer: ['read'],
       editor: ['read', 'read_security', 'launch', 'write'],
       validator: ['read', 'read_security', 'launch', 'write', 'validate'],
       admin: ['read', 'read_security', 'launch', 'write', 'validate', 'write_security', 'delete'],
@@ -37,21 +37,21 @@ export const ORGANIZATION_PERMISSIONS = [
 export const EXPECTED_PERMISSIONS_MAPPING = {
   organization: {
     none: [],
-    viewer: ['read', 'read_security'],
+    viewer: ['read'],
     user: ['read', 'read_security', 'create_children'],
     editor: ['read', 'read_security', 'create_children', 'write'],
     admin: ['read', 'read_security', 'create_children', 'write', 'write_security', 'delete'],
   },
   workspace: {
     none: [],
-    viewer: ['read', 'read_security'],
+    viewer: ['read'],
     user: ['read', 'read_security', 'create_children'],
     editor: ['read', 'read_security', 'create_children', 'write'],
     admin: ['read', 'read_security', 'create_children', 'write', 'write_security', 'delete'],
   },
   scenario: {
     none: [],
-    viewer: ['read', 'read_security'],
+    viewer: ['read'],
     editor: ['read', 'read_security', 'launch', 'write'],
     validator: ['read', 'read_security', 'launch', 'write', 'validate'],
     admin: ['read', 'read_security', 'launch', 'write', 'validate', 'write_security', 'delete'],

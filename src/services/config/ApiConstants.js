@@ -91,7 +91,7 @@ export const DATASET_SOURCES = [
 ];
 
 export const DATASET_PERMISSIONS_MAPPING = {
-  viewer: ['read', 'read_security'],
+  viewer: ['read'],
   editor: ['read', 'read_security', 'write'],
   admin: ['read', 'read_security', 'write', 'write_security', 'delete'],
 };
