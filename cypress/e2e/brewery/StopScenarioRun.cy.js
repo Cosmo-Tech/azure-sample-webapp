@@ -29,7 +29,7 @@ describe('can cancel simulation run', () => {
   };
 
   it('creates scenario, launches it and cancels the simulation run', () => {
-    Scenarios.createScenario(firstScenarioName, true, DATASET.BREWERY_ADT, RUN_TEMPLATE.BREWERY_PARAMETERS);
+    Scenarios.createScenario(firstScenarioName, true, DATASET.BREWERY_STORAGE, RUN_TEMPLATE.BREWERY_PARAMETERS);
     ScenarioParameters.launch({ runOptions, saveAndLaunch: true });
     Scenarios.getDashboardAccordion().click();
     Scenarios.getDashboardPlaceholder().should('have.text', SCENARIO_RUN_IN_PROGRESS);
@@ -48,7 +48,7 @@ describe('can cancel simulation run', () => {
 
   it('create scenario, launch it and delete it during it is running', () => {
     ScenarioParameters.expandParametersAccordion();
-    Scenarios.createScenario(secondScenarioName, true, DATASET.BREWERY_ADT, RUN_TEMPLATE.BREWERY_PARAMETERS).then(
+    Scenarios.createScenario(secondScenarioName, true, DATASET.BREWERY_STORAGE, RUN_TEMPLATE.BREWERY_PARAMETERS).then(
       (value) => {
         const scenarioId = value.scenarioCreatedId;
         ScenarioParameters.launch({ runOptions, saveAndLaunch: true });

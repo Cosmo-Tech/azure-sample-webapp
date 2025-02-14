@@ -13,7 +13,7 @@ Cypress.Keyboard.defaults({
   keystrokeDelay: 0,
 });
 
-const SCENARIO_DATASET = DATASET.BREWERY_ADT;
+const SCENARIO_DATASET = DATASET.BREWERY_STORAGE;
 const SCENARIO_RUN_TEMPLATE = RUN_TEMPLATE.BASIC_TYPES;
 const CUSTOMERS_FILE_PATH = 'customers.xlsx';
 const EVENTS_FILE_PATH = 'events.xlsx';
