@@ -19,7 +19,7 @@ describe('checks the placeholder text before and while running', () => {
   });
 
   it('checks the placeholder before running, launches scenario and checks the placeholder and launch button', () => {
-    Scenarios.createScenario(scenario, true, DATASET.BREWERY_ADT, RUN_TEMPLATE.BREWERY_PARAMETERS);
+    Scenarios.createScenario(scenario, true, DATASET.BREWERY_STORAGE, RUN_TEMPLATE.BREWERY_PARAMETERS);
     Scenarios.getDashboardPlaceholder().should('not.be.visible');
     Scenarios.getDashboardAccordion().click();
     Scenarios.getDashboardPlaceholder().should('be.visible');

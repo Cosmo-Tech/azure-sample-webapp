@@ -11,7 +11,7 @@ Cypress.Keyboard.defaults({
   keystrokeDelay: 0,
 });
 
-const SCENARIO_DATASET = DATASET.BREWERY_ADT;
+const SCENARIO_DATASET = DATASET.BREWERY_STORAGE;
 const SCENARIO_RUN_TEMPLATE = RUN_TEMPLATE.BASIC_TYPES;
 const MASTER_CSV_FILE_PATH = 'customers.csv';
 const CHILD_CSV_FILE_PATH = 'customers2.csv';
