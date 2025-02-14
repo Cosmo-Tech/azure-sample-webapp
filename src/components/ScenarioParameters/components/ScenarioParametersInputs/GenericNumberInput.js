@@ -4,7 +4,7 @@ import React, { useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import { Grid, Stack } from '@mui/material';
+import { Grid2 as Grid, Stack } from '@mui/material';
 import { BasicNumberInput, FadingTooltip } from '@cosmotech/ui';
 import { useLoadInitialValueFromDataset } from '../../../../hooks/DynamicValuesHooks';
 import { useParameterConstraintValidation } from '../../../../hooks/ParameterConstraintsHooks';
@@ -16,7 +16,7 @@ export const GenericNumberInput = ({
   parameterValue,
   setParameterValue,
   resetParameterValue,
-  isDirty,
+  isDirty = false,
   error,
 }) => {
   const { t } = useTranslation();
@@ -49,8 +49,8 @@ export const GenericNumberInput = ({
   if (loadingDynamicValuePlaceholder) return loadingDynamicValuePlaceholder;
 
   return (
-    <Stack direction="row" gap={1} alignItems="center">
-      <Grid item xs={3}>
+    <Stack direction="row" sx={{ gap: 1, alignItems: 'center' }}>
+      <Grid size={3}>
         <BasicNumberInput
           key={parameterData.id}
           id={parameterData.id}
@@ -81,10 +81,6 @@ GenericNumberInput.propTypes = {
   defaultParameterValue: PropTypes.number,
   isDirty: PropTypes.bool,
   error: PropTypes.object,
-};
-
-GenericNumberInput.defaultProps = {
-  isDirty: false,
 };
 
 GenericNumberInput.useValidationRules = (parameterData) => {

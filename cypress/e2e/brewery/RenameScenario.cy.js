@@ -11,7 +11,7 @@ describe('Create scenario and rename it', () => {
     keystrokeDelay: 0,
   });
 
-  const SCENARIO_DATASET = DATASET.BREWERY_ADT;
+  const SCENARIO_DATASET = DATASET.BREWERY_STORAGE;
   const SCENARIO_RUN_TEMPLATE = RUN_TEMPLATE.BASIC_TYPES;
 
   function forgeScenarioName() {

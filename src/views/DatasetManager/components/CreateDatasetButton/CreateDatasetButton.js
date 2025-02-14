@@ -9,7 +9,7 @@ import { FadingTooltip } from '@cosmotech/ui';
 import { useDatasetCreationParameters } from './CreateDatasetButtonHook';
 import { DatasetWizard } from './components/DatasetWizard';
 
-export const CreateDatasetButton = ({ isContainedButton }) => {
+export const CreateDatasetButton = ({ isContainedButton = false }) => {
   const { t } = useTranslation();
   const { dataSourceRunTemplates, createDatasetOrRunner } = useDatasetCreationParameters();
 
@@ -52,8 +52,4 @@ export const CreateDatasetButton = ({ isContainedButton }) => {
 
 CreateDatasetButton.propTypes = {
   isContainedButton: PropTypes.bool,
-};
-
-CreateDatasetButton.defaultProps = {
-  isContainedButton: false,
 };

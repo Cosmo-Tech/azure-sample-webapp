@@ -3,7 +3,7 @@
 import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import { Grid } from '@mui/material';
+import { Grid2 as Grid } from '@mui/material';
 import { MultiSelect } from '@cosmotech/ui';
 import { useDynamicValues } from '../../../../hooks/DynamicValuesHooks';
 import { ConfigUtils, TranslationUtils } from '../../../../utils';
@@ -13,7 +13,7 @@ export const GenericMultiSelect = ({
   context,
   parameterValue,
   setParameterValue,
-  isDirty,
+  isDirty = false,
   gridItemProps,
 }) => {
   const { t } = useTranslation();
@@ -68,8 +68,8 @@ export const GenericMultiSelect = ({
 
   if (dynamicValuesError) return dynamicValuesError;
   return (
-    <Grid item xs={3} {...gridItemProps}>
-      <Grid container direction="row" alignItems="stretch">
+    <Grid size={3} {...gridItemProps}>
+      <Grid container direction="row" sx={{ alignItems: 'stretch' }}>
         {loadingDynamicValuesPlaceholder}
         {dynamicEnumValues !== null && (
           <MultiSelect
@@ -95,8 +95,4 @@ GenericMultiSelect.propTypes = {
   setParameterValue: PropTypes.func.isRequired,
   isDirty: PropTypes.bool,
   gridItemProps: PropTypes.object,
-};
-
-GenericMultiSelect.defaultProps = {
-  isDirty: false,
 };

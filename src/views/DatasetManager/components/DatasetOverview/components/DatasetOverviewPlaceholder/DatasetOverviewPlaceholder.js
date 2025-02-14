@@ -3,7 +3,7 @@
 import React, { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import { Button, Grid, Link, Typography } from '@mui/material';
+import { Button, Grid2 as Grid, Link, Typography } from '@mui/material';
 import {
   DATASET_SOURCE_TYPE,
   INGESTION_STATUS,
@@ -58,7 +58,7 @@ export const DatasetOverviewPlaceholder = () => {
           // if the string is modified, need to check that the link is still the node N1
           <Trans i18nKey="commoncomponents.datasetmanager.overview.placeholder.apiLink">
             You can use the
-            <Link href={ApiUtils.getDatasetTwingraphSwaggerSection()} color="inherit" target="blank">
+            <Link href={ApiUtils.getDatasetTwingraphSwaggerSection()} target="blank" sx={{ color: 'inherit' }}>
               Cosmo Tech API
             </Link>
             to populate it
@@ -186,9 +186,9 @@ export const DatasetOverviewPlaceholder = () => {
         width: 'fill-available',
       }}
     >
-      <Grid item>{placeholderLabels.title}</Grid>
-      {buttonRow && <Grid item>{buttonRow}</Grid>}
-      {placeholderLabels.subtitle && <Grid item>{placeholderLabels.subtitle}</Grid>}
+      <Grid>{placeholderLabels.title}</Grid>
+      {buttonRow && <Grid>{buttonRow}</Grid>}
+      {placeholderLabels.subtitle && <Grid>{placeholderLabels.subtitle}</Grid>}
     </Grid>
   );
 };
