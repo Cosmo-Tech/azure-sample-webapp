@@ -5,7 +5,7 @@ import { BreweryParameters, Login } from '../../commons/actions/brewery';
 import { ScenarioParameters, ScenarioManager, Scenarios, ScenarioSelector } from '../../commons/actions/generic';
 import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
 
-const SCENARIO_DATASET = DATASET.BREWERY_ADT;
+const SCENARIO_DATASET = DATASET.BREWERY_STORAGE;
 const SCENARIO_RUN_TEMPLATE = RUN_TEMPLATE.BASIC_TYPES;
 
 function forgeScenarioName() {

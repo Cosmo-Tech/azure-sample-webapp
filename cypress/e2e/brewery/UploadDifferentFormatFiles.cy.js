@@ -21,7 +21,7 @@ describe('upload of files in different formats', () => {
   });
 
   it('uploads csv, json, zip files and save scenario', () => {
-    Scenarios.createScenario(scenario, true, DATASET.BREWERY_ADT, RUN_TEMPLATE.BASIC_TYPES);
+    Scenarios.createScenario(scenario, true, DATASET.BREWERY_STORAGE, RUN_TEMPLATE.BASIC_TYPES);
     ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToDatasetPartsTab();
     BreweryParameters.uploadExampleDatasetPart1(JSON_PATH);
