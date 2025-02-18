@@ -186,30 +186,32 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
       {labels.sourceSelectLabel + ': ' + selectedRunnerDataSourceLabel}
     </Typography>
   ) : (
-    <Controller
-      name="sourceType"
-      key="sourceType"
-      defaultValue={dataSourceType ?? defaultDataSourceTypeKey}
-      shouldUnregister={true}
-      render={({ field }) => {
-        const { value, onChange } = field;
-        const setDatasetSource = (newValue) => {
-          onChange(newValue);
-          setDataSourceType(newValue);
-        };
+    <Grid sx={{ py: 1 }} size={7}>
+      <Controller
+        name="sourceType"
+        key="sourceType"
+        defaultValue={dataSourceType ?? defaultDataSourceTypeKey}
+        shouldUnregister={true}
+        render={({ field }) => {
+          const { value, onChange } = field;
+          const setDatasetSource = (newValue) => {
+            onChange(newValue);
+            setDataSourceType(newValue);
+          };
 
-        return (
-          <BasicEnumInput
-            id="new-dataset-sourceType"
-            label={labels.sourceSelectLabel}
-            size="medium"
-            value={value ?? defaultDataSourceTypeKey}
-            changeEnumField={setDatasetSource}
-            enumValues={dataSourceTypeEnumValues}
-          />
-        );
-      }}
-    />
+          return (
+            <BasicEnumInput
+              id="new-dataset-sourceType"
+              label={labels.sourceSelectLabel}
+              size="medium"
+              value={value ?? defaultDataSourceTypeKey}
+              changeEnumField={setDatasetSource}
+              enumValues={dataSourceTypeEnumValues}
+            />
+          );
+        }}
+      />
+    </Grid>
   );
 
   return (
@@ -217,7 +219,7 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
       {!isDatasetParametersEditionDialog && (
         <Grid sx={{ py: 2 }}>{<Typography sx={{ py: 2 }}>{labels.subtitle}</Typography>}</Grid>
       )}
-      <Grid sx={{ py: 1 }} size={7}>
+      <Grid item xs={7}>
         {sourceTypeComponent}
       </Grid>
       <Grid container size={7} sx={{ px: 2, pt: 3, width: '100%' }}>
@@ -231,7 +233,4 @@ DatasetCreationParameters.propTypes = {
   dataSourceRunTemplates: PropTypes.object.isRequired,
   parentDataset: PropTypes.object,
   selectedRunner: PropTypes.object,
-};
-DatasetCreationParameters.defaultProps = {
-  selectedRunner: {},
 };
