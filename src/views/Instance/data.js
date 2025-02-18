@@ -1,6 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import axios from 'axios';
+import Graph from 'graphology';
 import { getAuthenticationHeaders } from '../../services/ClientApi.js';
 import { Api } from '../../services/config/Api';
 import { ConfigUtils } from '../../utils';
@@ -154,83 +155,62 @@ async function _fetchDataFromAzureFunction(organizationId, workspaceId, scenario
   });
 }
 
-async function _fetchTwingraphDatasetContent(organizationId, datasetId, dataSource) {
+async function _fetchTwingraphDatasetContent(graph, organizationId, datasetId, dataContent) {
+  const selectedNodeLabels = Object.keys(dataContent?.nodes ?? {});
+  const selectedEdgeLabels = Object.keys(dataContent?.compounds ?? {}).concat(Object.keys(dataContent?.edges ?? {}));
   const sendQuery = async (query) => (await Api.Datasets.twingraphQuery(organizationId, datasetId, { query })).data;
-  const nodes = {};
-  const edges = {};
 
-  const nodeCategories = await sendQuery(
+  const allNodeCategories = await sendQuery(
     'MATCH (n) RETURN distinct labels(n)[0] as label, count(*) as count, keys(n) as keys'
   );
+  const nodeCategories = allNodeCategories.filter((nodeCategory) => selectedNodeLabels.includes(nodeCategory.label));
+  const totalNodesCount = nodeCategories.reduce((accumulator, nodeCategory) => accumulator + nodeCategory.count, 0);
+  const nodeSize = 50 / Math.sqrt(totalNodesCount);
+
   for (const nodeCategory of nodeCategories) {
     const nodeProperties = nodeCategory.keys.map((propertyName) => `n.${propertyName} as ${propertyName}`).join(', ');
-    nodes[nodeCategory.label] = await sendQuery(`MATCH (n:${nodeCategory.label}) RETURN ${nodeProperties}`);
+    const nodes = await sendQuery(`MATCH (n:${nodeCategory.label}) RETURN ${nodeProperties}`);
+    nodes.forEach((node) =>
+      graph.addNode(node.id, {
+        x: 1,
+        y: 1,
+        size: nodeSize,
+        label: node.id,
+        color: node.Satisfaction > 0 ? '#128912' : '#891212',
+      })
+    );
   }
 
-  const edgeCategories = await sendQuery(
+  const allEdgeCategories = await sendQuery(
     'MATCH ()-[r]->() RETURN distinct type(r) as type, count(*) as count, keys(r) as keys'
   );
+  const edgeCategories = allEdgeCategories.filter((edgeCategory) => selectedEdgeLabels.includes(edgeCategory.type));
+  const totalEdgesCount = nodeCategories.reduce((accumulator, nodeCategory) => accumulator + nodeCategory.count, 0);
+  const edgeSize = 25 / Math.sqrt(totalEdgesCount);
+
   for (const edgeCategory of edgeCategories) {
     const edgeProperties = edgeCategory.keys.map((propertyName) => `${propertyName}: r.${propertyName}`).join(', ');
-    edges[edgeCategory.type] = await sendQuery(
+    const edges = await sendQuery(
       `MATCH (src)-[r:${edgeCategory.type}]->(dst) WITH src, dst, { ${edgeProperties} } as properties RETURN ` +
         'properties, src.id as src, dst.id as dst'
     );
+    edges.forEach((edge, index) =>
+      graph.addEdgeWithKey(edge.properties.id ?? `${edge.properties.name}_${index}`, edge.src, edge.dst, {
+        size: edgeSize,
+      })
+    );
   }
-  return { nodes, edges, nodeCategories, edgeCategories };
+
+  return graph;
 }
 
-async function _fetchDataFromTwingraphDatasets(organizationId, datasets) {
-  const content = {};
-  const addNode = (node, label) => {
-    if (content[label] === undefined) content[label] = [];
-    if (content[label].find((item) => item.id === node.id) === undefined) content[label].push(node);
-  };
-  const addEdge = (src, rel, dst, type, identityAttribute) => {
-    if (content[type] === undefined) content[type] = [];
-    if (
-      !content[type].some(
-        (item) => item[identityAttribute] === rel[identityAttribute] && item.source === src && item.target === dst
-      )
-    )
-      content[type].push({
-        source: src,
-        target: dst,
-        ...rel,
-      });
-  };
+async function _fetchDataFromTwingraphDatasets(organizationId, datasets, dataContent) {
+  const graph = new Graph({ multi: true, allowSelfLoops: false, type: 'directed' });
 
-  const nodesKeys = {};
-  const edgesKeys = {};
   for (const datasetId of datasets) {
-    const { nodes, edges, nodeCategories, edgeCategories } = await _fetchTwingraphDatasetContent(
-      organizationId,
-      datasetId
-    );
-    nodeCategories.forEach((nodeCategory) => (nodesKeys[nodeCategory.label] = nodeCategory.keys));
-    edgeCategories.forEach((edgeCategory) => (edgesKeys[edgeCategory.type] = edgeCategory.keys));
-
-    for (const label in nodes) {
-      for (const node of nodes[label]) {
-        addNode(node, label);
-      }
-    }
-
-    for (const type in edges) {
-      const edgeAttributes = edgeCategories.find((el) => el.type === type)?.keys ?? [];
-      let edgeIdentityAttribute = 'id';
-      if (!edgeAttributes.includes('id')) {
-        if (!edgeAttributes.includes('name')) {
-          console.warn(`Links of type ${type} don't have "id" nor "name" attributes. Some arcs may be lost.`);
-        } else edgeIdentityAttribute = 'name';
-      }
-      for (const edge of edges[type]) {
-        addEdge(edge.src, edge.properties, edge.dst, type, edgeIdentityAttribute);
-      }
-    }
+    await _fetchTwingraphDatasetContent(graph, organizationId, datasetId, dataContent);
   }
-
-  return { data: content, graphItemsAttributes: { nodes: nodesKeys, edges: edgesKeys } };
+  return { data: graph };
 }
 
 export async function fetchData(instanceViewConfig, organizationId, workspaceId, scenario, datasets) {
@@ -259,7 +239,7 @@ export async function fetchData(instanceViewConfig, organizationId, workspaceId,
             "Can't fetch dataset content because it is not of type twingraph. Please select a scenario that " +
             'has at least one twingraph dataset.',
         };
-      return _fetchDataFromTwingraphDatasets(organizationId, scenario.datasetList);
+      return _fetchDataFromTwingraphDatasets(organizationId, scenario.datasetList, instanceViewConfig.dataContent);
     default:
       return {
         error:

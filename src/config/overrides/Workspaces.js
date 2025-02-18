@@ -96,21 +96,21 @@ export const WORKSPACES = [
             type: 'twingraph_dataset',
           },
           dataContent: {
-            compounds: { Bar_vertex: {} },
+            // compounds: { Bar_vertex: {} },
             edges: { arc_Satisfaction: { style: {}, selectable: false } },
             nodes: {
-              Bar: {
-                style: {
-                  shape: 'rectangle',
-                  'background-color': '#466282',
-                  'background-opacity': 0.2,
-                  'border-width': 0,
-                },
-                pannable: true,
-                selectable: true,
-                grabbable: false,
-                attributesOrder: ['id', 'Stock', 'RestockQty', 'NbWaiters'],
-              },
+              // Bar: {
+              //   style: {
+              //     shape: 'rectangle',
+              //     'background-color': '#466282',
+              //     'background-opacity': 0.2,
+              //     'border-width': 0,
+              //   },
+              //   pannable: true,
+              //   selectable: true,
+              //   grabbable: false,
+              //   attributesOrder: ['id', 'Stock', 'RestockQty', 'NbWaiters'],
+              // },
               Customer: {
                 style: { 'background-color': '#005A31', shape: 'ellipse' },
                 attributesOrder: ['id', 'Thirsty', 'Satisfaction', 'SurroundingSatisfaction'],
