@@ -74,10 +74,17 @@ const AppRoutes = () => {
     ),
     {
       basename: process.env.PUBLIC_URL ?? '',
+      future: {
+        v7_fetcherPersist: true,
+        v7_normalizeFormMethod: true,
+        v7_relativeSplatPath: true,
+        v7_skipActionErrorRevalidation: true,
+        v7_startTransition: true,
+      },
     }
   );
 
-  return <RouterProvider router={router} />;
+  return <RouterProvider router={router} future={{ v7_startTransition: true }} />;
 };
 
 export default AppRoutes;
