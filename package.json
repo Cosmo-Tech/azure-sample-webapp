@@ -3,6 +3,7 @@
   "version": "6.4.3",
   "private": true,
   "dependencies": {
+    "@antv/g6": "^5.0.43",
     "@cosmotech/api-ts": "^3.2.9",
     "@cosmotech/azure": "^2.0.1",
     "@cosmotech/core": "^2.0.0",
