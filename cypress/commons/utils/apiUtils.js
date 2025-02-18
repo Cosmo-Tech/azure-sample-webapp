@@ -391,7 +391,10 @@ const interceptUpdateSimulationRunner = (options) => {
     };
     const scenarioId = options?.scenarioId ?? req.url.match(API_REGEX.RUNNER)[1];
     if (stub.isEnabledFor('GET_SCENARIOS')) stub.patchScenario(scenarioId, scenarioPatch);
-    if (stub.isEnabledFor('UPDATE_SCENARIO')) req.reply(scenarioPatch);
+    if (stub.isEnabledFor('UPDATE_SCENARIO')) {
+      const previousScenario = stub.getScenarioById(scenarioId);
+      req.reply({...previousScenario, ...scenarioPatch});
+    }
   }).as(alias);
   return alias;
 };
