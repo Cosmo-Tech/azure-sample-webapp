@@ -8,3 +8,4 @@ export { DatasetOverview } from './DatasetOverview';
 export { DatasetManagerLoadingBackdrop } from './DatasetManagerLoadingBackdrop';
 export { NoDatasetsPlaceholder } from './NoDatasetsPlaceholder';
 export { ReuploadFileDatasetButton } from './ReuploadFileDatasetButton';
+export { UpdateDatasetButton } from './UpdateDatasetButton';
