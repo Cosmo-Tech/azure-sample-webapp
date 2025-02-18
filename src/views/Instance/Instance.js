@@ -226,10 +226,11 @@ const Instance = () => {
       width: 1920,
       height: 800,
 
-      // layout: { type: 'force' },
-      // layout: { type: "dagre" },
+      layout: { type: 'force' },
+      // layout: { type: "fruchterman" },
+      // layout: { type: "dagre", nodeSize: 40 },
       // layout: { type: 'd3-force' },
-      layout: { type: 'grid' },
+      // layout: { type: 'grid' },
 
       // layout: {
       //   type: 'gForce',
@@ -262,7 +263,7 @@ const Instance = () => {
           <CurrentScenarioSelector />
         </div>
         <div className={classes.cytoscapeGridItem}>
-          <div ref={antVisGraphRef} style={{ width: '100%', height: '100%' }} />
+          <div ref={antVisGraphRef} style={{ width: '1920px', height: '800px' }} />
         </div>
       </div>
     </>
