@@ -3,7 +3,7 @@
 import { useCallback, useMemo } from 'react';
 import { useWorkspaceMainDatasets } from '../../../../../hooks/WorkspaceDatasetsHooks';
 import { useDatasets } from '../../../../../state/datasets/hooks';
-import { useGetETLRunners, useUpdateRunnerData } from '../../../../../state/runner/hooks';
+import { useGetETLRunners, useUpdateEtlRunner } from '../../../../../state/runner/hooks';
 import {
   useDataSourceRunTemplates,
   useSolutionData,
@@ -19,7 +19,7 @@ export const useUpdateDatasetDialog = (dataset, selectedRunner) => {
   const customDataSourceRunTemplates = useDataSourceRunTemplates();
   const customSubDataSourceRunTemplates = useSubDataSourceRunTemplates();
   const workspace = useWorkspaceData();
-  const updateRunner = useUpdateRunnerData();
+  const updateRunner = useUpdateEtlRunner();
   const datasets = useDatasets();
   const mainDatasets = useWorkspaceMainDatasets();
   const parentDataset = useMemo(() => {
