@@ -14,8 +14,7 @@ import { UpdateDatasetDialog } from './components';
 export const UpdateDatasetButton = ({ dataset }) => {
   const { t } = useTranslation();
   const runners = useGetETLRunners();
-  const selectedRunner = runners.find((runner) => runner.id === dataset.source.name);
-
+  const selectedRunner = runners.find((runner) => runner?.id === dataset.source.name);
   const isDisabled =
     dataset?.ingestionStatus === INGESTION_STATUS.PENDING || Object.keys(selectedRunner ?? {})?.length === 0;
   const [isUpdateDatasetDialogOpen, setIsUpdateDatasetDialogOpen] = useState(false);

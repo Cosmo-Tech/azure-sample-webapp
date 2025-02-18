@@ -126,10 +126,6 @@ export const useStopRunner = () => {
   );
 };
 
-export const useGetETLRunners = () => {
-  return useSelector((state) => state.runner.etlRunners);
-};
-
 export const useUpdateSimulationRunner = () => {
   const dispatch = useDispatch();
   const organizationId = useOrganizationId();
