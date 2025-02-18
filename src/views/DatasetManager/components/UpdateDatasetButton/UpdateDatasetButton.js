@@ -8,14 +8,13 @@ import { IconButton } from '@mui/material';
 import { FadingTooltip, PermissionsGate } from '@cosmotech/ui';
 import { INGESTION_STATUS } from '../../../../services/config/ApiConstants';
 import { ACL_PERMISSIONS } from '../../../../services/config/accessControl';
-import { useGetETLRunners } from '../../../../state/hooks/RunnerHooks';
+import { useGetETLRunners } from '../../../../state/runner/hooks';
 import { UpdateDatasetDialog } from './components';
 
 export const UpdateDatasetButton = ({ dataset }) => {
   const { t } = useTranslation();
   const runners = useGetETLRunners();
-  const selectedRunner = runners.find((runner) => runner.id === dataset.source.name);
-
+  const selectedRunner = runners.find((runner) => runner?.id === dataset.source.name);
   const isDisabled =
     dataset?.ingestionStatus === INGESTION_STATUS.PENDING || Object.keys(selectedRunner ?? {})?.length === 0;
   const [isUpdateDatasetDialogOpen, setIsUpdateDatasetDialogOpen] = useState(false);
