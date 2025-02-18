@@ -393,7 +393,7 @@ const interceptUpdateSimulationRunner = (options) => {
     if (stub.isEnabledFor('GET_SCENARIOS')) stub.patchScenario(scenarioId, scenarioPatch);
     if (stub.isEnabledFor('UPDATE_SCENARIO')) {
       const previousScenario = stub.getScenarioById(scenarioId);
-      req.reply({...previousScenario, ...scenarioPatch});
+      req.reply({ ...previousScenario, ...scenarioPatch });
     }
   }).as(alias);
   return alias;
@@ -411,15 +411,21 @@ const interceptStartRunner = (stubbingOptions) => {
       const startTime = stub.getScenarioRunOptions().startTime;
       const lastRunId = `run-stbd${utils.randomStr(6)}`;
 
-      const scenarioRun = {
+      const runnerRun = {
         ...SCENARIO_RUN_EXAMPLE,
         state: 'Running',
         startTime,
         id: lastRunId,
       };
-      stub.addScenarioRun(scenarioRun);
+      stub.addScenarioRun(runnerRun);
 
-      stub.patchScenario(scenarioId, { state: 'Running', lastRunId });
+      const lastRun = {
+        runnerRunId: runnerRun.id,
+        csmSimulationRun: null,
+        workflowId: null,
+        workflowName: null,
+      };
+      stub.patchScenario(scenarioId, { state: 'Running', lastRun });
 
       setTimeout(() => {
         setTimeout(() => {
@@ -427,7 +433,7 @@ const interceptStartRunner = (stubbingOptions) => {
           stub.patchScenario(scenarioId, { state: finalStatus });
         }, runDuration);
       }, POLLING_START_DELAY);
-      req.reply(lastRunId);
+      req.reply(lastRun);
     }
   }).as(alias);
   return alias;
