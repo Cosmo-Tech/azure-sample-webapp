@@ -63,7 +63,7 @@ export function* startRunner(action) {
         runner: { state: RUNNER_RUN_STATE.RUNNING, ...lastRunIdPatch },
       })
     );
-    yield put(addRun({ data: { id: response.data } }));
+    yield put(addRun({ data: { id: lastRunId } }));
 
     // Start backend polling to update the scenario status
     yield put({
