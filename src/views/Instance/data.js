@@ -156,15 +156,16 @@ async function _fetchDataFromAzureFunction(organizationId, workspaceId, scenario
 
 async function _fetchTwingraphDatasetContent(organizationId, datasetId, dataSource) {
   const sendQuery = async (query) => (await Api.Datasets.twingraphQuery(organizationId, datasetId, { query })).data;
-  const nodes = {};
-  const edges = {};
+  let nodes = [];
+  let edges = [];
 
   const nodeCategories = await sendQuery(
     'MATCH (n) RETURN distinct labels(n)[0] as label, count(*) as count, keys(n) as keys'
   );
   for (const nodeCategory of nodeCategories) {
     const nodeProperties = nodeCategory.keys.map((propertyName) => `n.${propertyName} as ${propertyName}`).join(', ');
-    nodes[nodeCategory.label] = await sendQuery(`MATCH (n:${nodeCategory.label}) RETURN ${nodeProperties}`);
+    // FIXME: label is lost here
+    nodes = nodes.concat(await sendQuery(`MATCH (n:${nodeCategory.label}) RETURN ${nodeProperties}`));
   }
 
   const edgeCategories = await sendQuery(
@@ -172,9 +173,12 @@ async function _fetchTwingraphDatasetContent(organizationId, datasetId, dataSour
   );
   for (const edgeCategory of edgeCategories) {
     const edgeProperties = edgeCategory.keys.map((propertyName) => `${propertyName}: r.${propertyName}`).join(', ');
-    edges[edgeCategory.type] = await sendQuery(
-      `MATCH (src)-[r:${edgeCategory.type}]->(dst) WITH src, dst, { ${edgeProperties} } as properties RETURN ` +
-        'properties, src.id as src, dst.id as dst'
+    // FIXME: label is lost here
+    edges = edges.concat(
+      await sendQuery(
+        `MATCH (src)-[r:${edgeCategory.type}]->(dst) WITH src, dst, { ${edgeProperties} } as properties RETURN ` +
+          'properties, src.id as src, dst.id as dst'
+      )
     );
   }
   return { nodes, edges, nodeCategories, edgeCategories };
@@ -182,55 +186,29 @@ async function _fetchTwingraphDatasetContent(organizationId, datasetId, dataSour
 
 async function _fetchDataFromTwingraphDatasets(organizationId, datasets) {
   const content = {};
-  const addNode = (node, label) => {
-    if (content[label] === undefined) content[label] = [];
-    if (content[label].find((item) => item.id === node.id) === undefined) content[label].push(node);
-  };
-  const addEdge = (src, rel, dst, type, identityAttribute) => {
-    if (content[type] === undefined) content[type] = [];
-    if (
-      !content[type].some(
-        (item) => item[identityAttribute] === rel[identityAttribute] && item.source === src && item.target === dst
-      )
-    )
-      content[type].push({
-        source: src,
-        target: dst,
-        ...rel,
-      });
-  };
-
   const nodesKeys = {};
   const edgesKeys = {};
+  let allNodes = [];
+  let allEdges = [];
   for (const datasetId of datasets) {
     const { nodes, edges, nodeCategories, edgeCategories } = await _fetchTwingraphDatasetContent(
       organizationId,
       datasetId
     );
+    allNodes = allNodes.concat(nodes);
+    allEdges = allEdges.concat(edges);
     nodeCategories.forEach((nodeCategory) => (nodesKeys[nodeCategory.label] = nodeCategory.keys));
     edgeCategories.forEach((edgeCategory) => (edgesKeys[edgeCategory.type] = edgeCategory.keys));
 
-    for (const label in nodes) {
-      for (const node of nodes[label]) {
-        addNode(node, label);
-      }
-    }
-
-    for (const type in edges) {
-      const edgeAttributes = edgeCategories.find((el) => el.type === type)?.keys ?? [];
-      let edgeIdentityAttribute = 'id';
-      if (!edgeAttributes.includes('id')) {
-        if (!edgeAttributes.includes('name')) {
-          console.warn(`Links of type ${type} don't have "id" nor "name" attributes. Some arcs may be lost.`);
-        } else edgeIdentityAttribute = 'name';
-      }
-      for (const edge of edges[type]) {
-        addEdge(edge.src, edge.properties, edge.dst, type, edgeIdentityAttribute);
-      }
-    }
+    allNodes = allNodes.map((node) => ({ id: node.id }));
+    allEdges = allEdges.map((edge, index) => ({
+      id: edge.properties.id ?? `${edge.properties.name}_${index}`,
+      source: edge.src,
+      target: edge.dst,
+    }));
   }
 
-  return { data: content, graphItemsAttributes: { nodes: nodesKeys, edges: edgesKeys } };
+  return { data: { nodes: allNodes, edges: allEdges }, graphItemsAttributes: { nodes: nodesKeys, edges: edgesKeys } };
 }
 
 export async function fetchData(instanceViewConfig, organizationId, workspaceId, scenario, datasets) {

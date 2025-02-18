@@ -1,9 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Graph } from '@antv/g6';
 import { useTheme } from '@mui/styles';
-import { CytoViz } from '@cosmotech/ui';
 import { CurrentScenarioSelector } from '../../components';
 import { AppInsights } from '../../services/AppInsights';
 import { STATUSES } from '../../state/commons/Constants';
@@ -39,7 +39,7 @@ const Instance = () => {
     [instanceViewConfig]
   );
 
-  const [graphElements, setGraphElements] = useState([]);
+  const [graphElements, setGraphElements] = useState({});
   const [graphElementsMetadata, setGraphElementsMetadata] = useState(defaultGraphElementsMetadata);
   const [cytoscapeStylesheet, setCytoscapeStylesheet] = useState([]);
   const [isLoadingData, setIsLoadingData] = useState(true);
@@ -70,7 +70,7 @@ const Instance = () => {
 
     async function loadData() {
       if (noScenario) {
-        setGraphElements([]);
+        setGraphElements({});
         setGraphElementsMetadata(defaultGraphElementsMetadata);
         setErrorBannerMessage(null);
         setIsLoadingData(false);
@@ -90,22 +90,22 @@ const Instance = () => {
 
           // TODO: (refactor) to improve performance, we don't need to recompute the whole graph elements set when the
           // theme is changed, we could rebuild only the stylesheet
-          const { graphElements: newGraphElements, stylesheet } = processGraphElements(
-            instanceViewConfig,
-            scenario.data,
-            theme
-          );
+          // const { graphElements: newGraphElements, stylesheet } = processGraphElements(
+          //   instanceViewConfig,
+          //   scenario.data,
+          //   theme
+          // );
 
-          const elementsMetadata = {
-            attributesOrder: InstanceUtils.mergeGraphItemAttributesConfiguration(
-              instanceViewConfig,
-              scenario.graphItemsAttributes
-            ),
-          };
+          // const elementsMetadata = {
+          //   attributesOrder: InstanceUtils.mergeGraphItemAttributesConfiguration(
+          //     instanceViewConfig,
+          //     scenario.graphItemsAttributes
+          //   ),
+          // };
 
-          setGraphElements(newGraphElements);
-          setGraphElementsMetadata(elementsMetadata);
-          setCytoscapeStylesheet(stylesheet);
+          setGraphElements(scenario.data);
+          // setGraphElementsMetadata(elementsMetadata);
+          // setCytoscapeStylesheet(stylesheet);
           setErrorBannerMessage(null);
           setIsLoadingData(false);
         } catch (error) {
@@ -207,6 +207,54 @@ const Instance = () => {
     );
   }
 
+  const antVisGraphRef = useRef(null);
+
+  useEffect(() => {
+    console.log(graphElements);
+    // const nodes = graphElements.filter(el => el.group === 'nodes').map(el => ({
+    //   id: el.data.id
+    // }))
+    // const edges = graphElements.filter(el => el.group === 'edges').map((el, index) => ({
+    //   id: el.data.id ?? `${el.data.name}_${index}`,
+    //   source: el.data.source,
+    //   target: el.data.target,
+    // }))
+
+    const graph = new Graph({
+      animation: false,
+      container: antVisGraphRef.current,
+      width: 1920,
+      height: 800,
+
+      // layout: { type: 'force' },
+      // layout: { type: "dagre" },
+      // layout: { type: 'd3-force' },
+      layout: { type: 'grid' },
+
+      // layout: {
+      //   type: 'gForce',
+      //   gpuEnabled: true,
+      //   preset: {
+      //     type: 'gForce',
+      //     gpuEnabled: true,
+      //     gravity: 1,
+      //     width: 1000,
+      //     height: 1000,
+      //   },
+      //   // type: 'force2',
+      //   animate: false,
+      //   // linkDistance: 50,
+      //   // maxSpeed: 2000,
+      //   // damping: 0.3,
+      //   // interval: 0.05,
+      //   // minMovement: 5,
+      // },
+      data: graphElements,
+    });
+
+    graph.render();
+  }, [graphElements]);
+
   return (
     <>
       <div className={classes.mainGrid}>
@@ -214,17 +262,7 @@ const Instance = () => {
           <CurrentScenarioSelector />
         </div>
         <div className={classes.cytoscapeGridItem}>
-          <CytoViz
-            cytoscapeStylesheet={cytoscapeStylesheet}
-            elements={graphElements}
-            elementsMetadata={graphElementsMetadata}
-            error={errorBannerMessage}
-            labels={cytoVizLabels}
-            loading={isSwitchingScenario || isLoadingData}
-            extraLayouts={EXTRA_LAYOUTS}
-            defaultSettings={defaultSettings}
-            placeholderMessage={cytoVizPlaceholderMessage}
-          />
+          <div ref={antVisGraphRef} style={{ width: '100%', height: '100%' }} />
         </div>
       </div>
     </>
