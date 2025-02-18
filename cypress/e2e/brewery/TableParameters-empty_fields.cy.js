@@ -56,6 +56,7 @@ describe('Table parameters upload of valid and invalid files with empty fields',
     BreweryParameters.getEventsTableRows().should('have.length', 5);
     BreweryParameters.getEventsTableCell('theme', 0).should('have.text', 'complex systems');
     BreweryParameters.clearEventsTableStringCell('theme', 0).should('have.text', 'complex systems');
+    ScenarioParameters.discard();
   });
 
   it('can import invalid files and display errors', () => {

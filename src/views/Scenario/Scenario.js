@@ -5,7 +5,7 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
-import { Card, Divider, Grid, IconButton, Paper, Stack, Typography } from '@mui/material';
+import { Card, Divider, Grid2 as Grid, IconButton, Paper, Stack, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { ScenarioValidationStatusChip, PermissionsGate, FadingTooltip } from '@cosmotech/ui';
 import {
@@ -16,9 +16,9 @@ import {
 } from '../../components';
 import { useConfirmOnRouteChange, useRedirectionToScenario } from '../../hooks/RouterHooks';
 import { AppInsights } from '../../services/AppInsights';
-import { SCENARIO_VALIDATION_STATUS } from '../../services/config/ApiConstants.js';
+import { RUNNER_VALIDATION_STATUS } from '../../services/config/ApiConstants.js';
 import { ACL_PERMISSIONS } from '../../services/config/accessControl';
-import ScenarioService from '../../services/scenario/ScenarioService';
+import RunnerService from '../../services/runner/RunnerService';
 import { TranslationUtils } from '../../utils';
 import { useScenario } from './ScenarioHook';
 import { ScenarioDashboardCard, BackdropLoadingScenario } from './components';
@@ -64,15 +64,11 @@ const Scenario = () => {
   useConfirmOnRouteChange(confirmDiscardDialogProps, isDirty);
 
   const {
-    currentScenarioRun,
-    currentScenarioRunId,
     currentScenarioData,
     organizationId,
     workspaceId,
     setScenarioValidationStatus,
-    findScenarioById,
     setApplicationErrorMessage,
-    fetchScenarioRunById,
     currentScenarioDatasetName,
   } = useScenario();
 
@@ -103,16 +99,17 @@ const Scenario = () => {
     appInsights.setScenarioData(currentScenarioData);
   }, [currentScenarioData]);
 
-  useEffect(() => {
-    if (currentScenarioRunId != null && currentScenarioRun == null) fetchScenarioRunById(currentScenarioRunId);
-  }, [currentScenarioRunId, currentScenarioRun, fetchScenarioRunById]);
-
   const resetScenarioValidationStatus = async () => {
     const currentStatus = currentScenarioData.validationStatus;
     try {
-      setScenarioValidationStatus(currentScenarioData.id, SCENARIO_VALIDATION_STATUS.LOADING);
-      await ScenarioService.resetValidationStatus(organizationId, workspaceId, currentScenarioData.id);
-      findScenarioById(currentScenarioData.id);
+      setScenarioValidationStatus(currentScenarioData.id, RUNNER_VALIDATION_STATUS.LOADING);
+      await RunnerService.resetValidationStatus(
+        organizationId,
+        workspaceId,
+        currentScenarioData.id,
+        currentScenarioData.runTemplateId
+      );
+      setScenarioValidationStatus(currentScenarioData.id, RUNNER_VALIDATION_STATUS.DRAFT);
     } catch (error) {
       setApplicationErrorMessage(
         error,
@@ -123,28 +120,38 @@ const Scenario = () => {
   };
   const validateScenario = async () => {
     try {
-      setScenarioValidationStatus(currentScenarioData.id, SCENARIO_VALIDATION_STATUS.LOADING);
-      await ScenarioService.setScenarioValidationStatusToValidated(organizationId, workspaceId, currentScenarioData.id);
-      findScenarioById(currentScenarioData.id);
+      setScenarioValidationStatus(currentScenarioData.id, RUNNER_VALIDATION_STATUS.LOADING);
+      await RunnerService.setRunnerValidationStatusToValidated(
+        organizationId,
+        workspaceId,
+        currentScenarioData.id,
+        currentScenarioData.runTemplateId
+      );
+      setScenarioValidationStatus(currentScenarioData.id, RUNNER_VALIDATION_STATUS.VALIDATED);
     } catch (error) {
       setApplicationErrorMessage(
         error,
         t('commoncomponents.banner.validateScenario', 'A problem occurred during scenario validation.')
       );
-      setScenarioValidationStatus(currentScenarioData.id, SCENARIO_VALIDATION_STATUS.DRAFT);
+      setScenarioValidationStatus(currentScenarioData.id, RUNNER_VALIDATION_STATUS.DRAFT);
     }
   };
   const rejectScenario = async () => {
     try {
-      setScenarioValidationStatus(currentScenarioData.id, SCENARIO_VALIDATION_STATUS.LOADING);
-      await ScenarioService.setScenarioValidationStatusToRejected(organizationId, workspaceId, currentScenarioData.id);
-      findScenarioById(currentScenarioData.id);
+      setScenarioValidationStatus(currentScenarioData.id, RUNNER_VALIDATION_STATUS.LOADING);
+      await RunnerService.setRunnerValidationStatusToRejected(
+        organizationId,
+        workspaceId,
+        currentScenarioData.id,
+        currentScenarioData.runTemplateId
+      );
+      setScenarioValidationStatus(currentScenarioData.id, RUNNER_VALIDATION_STATUS.REJECTED);
     } catch (error) {
       setApplicationErrorMessage(
         error,
         t('commoncomponents.banner.rejectScenario', 'A problem occurred during scenario rejection.')
       );
-      setScenarioValidationStatus(currentScenarioData.id, SCENARIO_VALIDATION_STATUS.DRAFT);
+      setScenarioValidationStatus(currentScenarioData.id, RUNNER_VALIDATION_STATUS.DRAFT);
     }
   };
 
@@ -152,9 +159,9 @@ const Scenario = () => {
     rejected: t('views.scenario.validation.rejected', 'Rejected'),
     validated: t('views.scenario.validation.validated', 'Validated'),
   };
-  const currentScenarioValidationStatus = currentScenarioData?.validationStatus || SCENARIO_VALIDATION_STATUS.UNKNOWN;
+  const currentScenarioValidationStatus = currentScenarioData?.validationStatus || RUNNER_VALIDATION_STATUS.UNKNOWN;
   const showValidationChip =
-    [SCENARIO_VALIDATION_STATUS.DRAFT, SCENARIO_VALIDATION_STATUS.UNKNOWN].includes(currentScenarioValidationStatus) ===
+    [RUNNER_VALIDATION_STATUS.DRAFT, RUNNER_VALIDATION_STATUS.UNKNOWN].includes(currentScenarioValidationStatus) ===
     false;
 
   const validateButton = (
@@ -241,21 +248,21 @@ const Scenario = () => {
 
   const showDivider =
     currentScenarioData != null &&
-    (userPermissionsOnCurrentScenario.includes(ACL_PERMISSIONS.SCENARIO.VALIDATE) ||
-      currentScenarioData?.validationStatus !== SCENARIO_VALIDATION_STATUS.DRAFT);
+    (userPermissionsOnCurrentScenario.includes(ACL_PERMISSIONS.RUNNER.VALIDATE) ||
+      currentScenarioData?.validationStatus !== RUNNER_VALIDATION_STATUS.DRAFT);
 
-  const validationAreaDivider = showDivider ? <Divider orientation="vertical" flexItem sx={{ mx: 2 }} /> : null;
+  const validationAreaDivider = showDivider ? <Divider orientation="vertical" flexItem /> : null;
 
   return (
     <FormProvider {...methods} key={`form-${currentScenarioData?.id}`}>
       <BackdropLoadingScenario />
       <div data-cy="scenario-view" className={classes.content}>
-        <Grid container spacing={2} alignItems="center" justifyContent="space-between">
-          <Grid item xs={4}>
+        <Grid container spacing={2} sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
+          <Grid size={4}>
             <Stack>
               <CurrentScenarioSelector disabled={isDirty} renderInputToolTip={currentScenarioRenderInputTooltip} />
               {currentScenarioData && (
-                <Stack direction="row" justifyContent="center">
+                <Stack direction="row" sx={{ justifyContent: 'center' }}>
                   <FadingTooltip
                     title={t(
                       TranslationUtils.getRunTemplateTranslationKey(currentScenarioData.runTemplateId),
@@ -264,14 +271,7 @@ const Scenario = () => {
                     useSpan={true}
                     spanProps={{ style: { overflow: 'hidden' } }}
                   >
-                    <Typography
-                      data-cy="run-template-name"
-                      align="center"
-                      noWrap
-                      sx={{
-                        color: 'text.secondary',
-                      }}
-                    >
+                    <Typography data-cy="run-template-name" align="center" noWrap color="text.secondary">
                       <Typography component="span" sx={{ fontWeight: '700' }}>
                         {t('views.scenario.text.scenariotype')}
                       </Typography>
@@ -287,14 +287,7 @@ const Scenario = () => {
                     useSpan={true}
                     spanProps={{ style: { overflow: 'hidden' } }}
                   >
-                    <Typography
-                      data-cy="dataset-name"
-                      align="center"
-                      noWrap
-                      sx={{
-                        color: 'text.secondary',
-                      }}
-                    >
+                    <Typography data-cy="dataset-name" align="center" noWrap color="text.secondary">
                       &nbsp;|&nbsp;
                       <Typography component="span" sx={{ fontWeight: '700' }}>
                         {t('commoncomponents.dialog.create.scenario.dropdown.dataset.label', 'Dataset')}:&nbsp;
@@ -306,14 +299,13 @@ const Scenario = () => {
               )}
             </Stack>
           </Grid>
-          <Grid container item xs={3} sx={{ justifyContent: 'flex-end' }}>
-            <Grid item sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'flex-end' }}>
+          <Grid container sx={{ justifyContent: 'flex-end' }} size={3}>
+            <Grid sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'flex-end' }}>
               <CreateScenarioButton disabled={isDirty} onScenarioCreated={onScenarioCreated} isIconButton={true} />
               <ShareCurrentScenarioButton isIconButton={true} />
             </Grid>
             {validationAreaDivider}
             <Grid
-              item
               sx={{
                 display: 'flex',
                 flexDirection: 'row',
@@ -325,7 +317,7 @@ const Scenario = () => {
               {currentScenarioData && scenarioValidationArea}
             </Grid>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Card component={Paper}>
               {currentScenarioData && (
                 <ScenarioParameters
@@ -335,7 +327,7 @@ const Scenario = () => {
               )}
             </Card>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size="grow">
             <ScenarioDashboardCard />
           </Grid>
         </Grid>

@@ -10,7 +10,8 @@ import { filterTabsForCurrentWorkspace } from '../../AppLayout';
 import { ApplicationErrorBanner } from '../../components';
 import { AppBar } from '../../components/AppBar';
 import { DashboardsManager } from '../../managers';
-import { useSelectWorkspace, useWorkspace } from '../../state/hooks/WorkspaceHooks';
+import { useGetRunner } from '../../state/runner/hooks';
+import { useSelectWorkspace, useWorkspace } from '../../state/workspaces/hooks';
 import { ConfigUtils } from '../../utils';
 
 const useStyles = makeStyles((theme) => ({
@@ -38,6 +39,7 @@ export const TabLayout = (props) => {
   const currentWorkspace = useWorkspace();
   const navigate = useNavigate();
   const selectWorkspace = useSelectWorkspace();
+  const getScenario = useGetRunner();
   const filteredTabs = useMemo(
     () => filterTabsForCurrentWorkspace(tabs, currentWorkspace?.data),
     [tabs, currentWorkspace?.data]
@@ -56,6 +58,13 @@ export const TabLayout = (props) => {
     currentWorkspace?.data?.webApp?.options?.datasetManager,
     currentTabPathname,
   ]);
+  // call back-end API to get details of a runner if scenario is shared with a link
+  useEffect(() => {
+    if (currentWorkspace?.status === 'SUCCESS' && routerParameters?.scenarioId) {
+      getScenario(routerParameters.scenarioId);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentWorkspace?.status, getScenario]);
 
   const shouldRedirectFromInstanceView =
     currentTabPathname.startsWith(`/${routerParameters.workspaceId}/instance`) &&

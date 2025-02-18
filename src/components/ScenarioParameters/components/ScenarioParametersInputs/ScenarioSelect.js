@@ -3,16 +3,16 @@
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import { Grid } from '@mui/material';
+import { Grid2 as Grid } from '@mui/material';
 import { SingleSelect } from '@cosmotech/ui';
 import { useSortedScenarioList } from '../../../../hooks/ScenarioListHooks';
-import { useCurrentScenarioId } from '../../../../state/hooks/ScenarioHooks';
+import { useCurrentSimulationRunnerId } from '../../../../state/runner/hooks';
 import { TranslationUtils } from '../../../../utils';
 
-export const ScenarioSelect = ({ parameterData, context, parameterValue, setParameterValue, isDirty }) => {
+export const ScenarioSelect = ({ parameterData, context, parameterValue, setParameterValue, isDirty = false }) => {
   const { t } = useTranslation();
   const scenarioList = useSortedScenarioList();
-  const currentScenarioId = useCurrentScenarioId();
+  const currentScenarioId = useCurrentSimulationRunnerId();
   const runTemplateFilter = parameterData.options?.runTemplateFilter;
 
   const mappedScenarioList = useMemo(() => {
@@ -35,7 +35,7 @@ export const ScenarioSelect = ({ parameterData, context, parameterValue, setPara
   }, [t, parameterData.id]);
 
   return (
-    <Grid item xs={3}>
+    <Grid size={3}>
       <SingleSelect
         id={parameterData.id}
         labels={labels}
@@ -57,8 +57,4 @@ ScenarioSelect.propTypes = {
   setParameterValue: PropTypes.func.isRequired,
   isDirty: PropTypes.bool,
   gridItemProps: PropTypes.object,
-};
-
-ScenarioSelect.defaultProps = {
-  isDirty: false,
 };

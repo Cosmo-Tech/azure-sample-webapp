@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 import utils from '../../commons/TestUtils';
 import { Scenarios, ScenarioManager, Login, ScenarioSelector } from '../../commons/actions';
-import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
 import { stub } from '../../commons/services/stubbing';
+import { DEFAULT_DATASETS_LIST, DEFAULT_SOLUTION } from '../../fixtures/stubbing/default';
 
 describe('If there are no scenarios created yet', () => {
   before(() => {
@@ -32,7 +32,12 @@ describe('If there are no scenarios created yet', () => {
     Scenarios.switchToScenarioView();
     const scenarioName = 'Test Cypress no scenario  - ' + utils.randomStr(7);
 
-    Scenarios.createScenario(scenarioName, true, DATASET.BREWERY_ADT, RUN_TEMPLATE.BASIC_TYPES).then((value) => {
+    Scenarios.createScenario(
+      scenarioName,
+      true,
+      DEFAULT_DATASETS_LIST[0].name,
+      DEFAULT_SOLUTION.runTemplates[0].name
+    ).then((value) => {
       const scenarioId = value.scenarioCreatedId;
       ScenarioManager.switchToScenarioManager();
       ScenarioManager.getScenarioAccordion(scenarioId).click();

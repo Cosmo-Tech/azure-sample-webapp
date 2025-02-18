@@ -3,44 +3,46 @@
 import { useTranslation } from 'react-i18next';
 import rfdc from 'rfdc';
 import { useHasUserPermissionOnScenario } from '../../hooks/SecurityHooks';
-import { useUserId } from '../../state/hooks/AuthHooks';
-import { useDatasets } from '../../state/hooks/DatasetHooks';
+import { useUserId } from '../../state/auth/hooks';
+import { useDatasets } from '../../state/datasets/hooks';
 import {
-  useCurrentScenarioData,
-  useScenarios,
-  useUpdateCurrentScenario,
-  useDeleteScenario,
-  useRenameScenario,
-  useResetCurrentScenario,
-  useUpdateScenario,
-} from '../../state/hooks/ScenarioHooks';
-import { useWorkspaceId } from '../../state/hooks/WorkspaceHooks';
+  useCurrentSimulationRunnerData,
+  useDeleteRunner,
+  useRenameRunner,
+  useResetCurrentSimulationRunner,
+  useRunners,
+  useUpdateRunnerData,
+  useUpdateCurrentSimulationRunner,
+  useRunnersListStatus,
+} from '../../state/runner/hooks';
+import { useWorkspaceId } from '../../state/workspaces/hooks';
 import { TranslationUtils } from '../../utils';
 
 export const useScenarioManager = () => {
   const { t } = useTranslation();
   const clone = rfdc();
 
-  const scenarios = clone(useScenarios());
+  const scenarios = clone(useRunners());
   scenarios.forEach(
-    (scenario) =>
-      (scenario.runTemplateName = t(
-        TranslationUtils.getRunTemplateTranslationKey(scenario.runTemplateId),
-        scenario.runTemplateName
+    (runner) =>
+      (runner.runTemplateName = t(
+        TranslationUtils.getRunTemplateTranslationKey(runner.runTemplateId),
+        runner.runTemplateName
       ))
   );
 
   const datasets = useDatasets();
-  const currentScenarioData = useCurrentScenarioData();
+  const currentScenarioData = useCurrentSimulationRunnerData();
   const userId = useUserId();
 
   const hasUserPermissionOnScenario = useHasUserPermissionOnScenario();
-  const setCurrentScenario = useUpdateCurrentScenario();
-  const deleteScenario = useDeleteScenario();
-  const renameScenario = useRenameScenario();
-  const updateScenario = useUpdateScenario();
-  const resetCurrentScenario = useResetCurrentScenario();
+  const setCurrentScenario = useUpdateCurrentSimulationRunner();
+  const deleteScenario = useDeleteRunner();
+  const renameScenario = useRenameRunner();
+  const resetCurrentScenario = useResetCurrentSimulationRunner();
+  const updateRunnerData = useUpdateRunnerData();
   const workspaceId = useWorkspaceId();
+  const runnersListStatus = useRunnersListStatus();
 
   return {
     scenarios,
@@ -51,8 +53,9 @@ export const useScenarioManager = () => {
     setCurrentScenario,
     deleteScenario,
     renameScenario,
-    updateScenario,
+    updateRunnerData,
     resetCurrentScenario,
     workspaceId,
+    runnersListStatus,
   };
 };
