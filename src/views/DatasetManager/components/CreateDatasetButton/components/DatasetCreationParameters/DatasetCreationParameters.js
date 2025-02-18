@@ -7,26 +7,21 @@ import PropTypes from 'prop-types';
 import { Grid, Typography } from '@mui/material';
 import rfdc from 'rfdc';
 import { UploadFile, BasicEnumInput } from '@cosmotech/ui';
-import {
-  GenericEnumInput,
-  GenericMultiSelect,
-  GenericTextInput,
-  GenericDateInput,
-} from '../../../../../../components/ScenarioParameters/components/ScenarioParametersInputs';
+import { GenericEnumInput, GenericMultiSelect, GenericTextInput, GenericDateInput } from '../../../../../../components';
 import { ConfigUtils, SolutionsUtils, TranslationUtils } from '../../../../../../utils';
 import { FileManagementUtils } from '../../../../../../utils/FileManagementUtils';
 import { useDatasetCreationParameters } from './DatasetCreationParametersHook';
 
 const clone = rfdc();
 
-export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDataset }) => {
+export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDataset, selectedRunner }) => {
   const { t } = useTranslation();
   const { resetField } = useFormContext();
   const { datasourceParameterHelpers, getDataSourceTypeEnumValues, getUploadFileLabels, getDefaultFileTypeFilter } =
     useDatasetCreationParameters();
 
   const isSubDatasetCreationWizard = useMemo(() => parentDataset != null, [parentDataset]);
-  const [dataSourceType, setDataSourceType] = useState(null);
+  const [dataSourceType, setDataSourceType] = useState(selectedRunner?.runTemplateId ?? null);
   const dataSourceTypeEnumValues = useMemo(
     () => getDataSourceTypeEnumValues(dataSourceRunTemplates),
     [getDataSourceTypeEnumValues, dataSourceRunTemplates]
@@ -52,7 +47,6 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
       const escapedSourceType = SolutionsUtils.escapeRunTemplateId(dataSourceType);
       const fieldPath = `${escapedSourceType}.${parameterId}`;
       const inputType = parameter.varType;
-
       let defaultValue;
       if (inputType === 'string') defaultValue = parameter?.defaultValue ?? '';
       else if (inputType === 'enum') {
@@ -107,7 +101,7 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
                   gridItemProps={{ xs: 12, sx: { pt: 2 } }}
                   parameterData={parameter}
                   context={{ editMode: true, targetDatasetId: parentDataset?.id }}
-                  parameterValue={value}
+                  parameterValue={Array.isArray(value) ? value : value?.split(',')}
                   setParameterValue={onChange}
                   isDirty={null}
                 />
@@ -152,14 +146,14 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
     const runTemplate = dataSourceRunTemplates[dataSourceType];
     return runTemplate?.parameters?.map((parameter) => forgeParameterInput(parameter));
   }, [
-    t,
-    getUploadFileLabels,
-    getDefaultFileTypeFilter,
     dataSourceRunTemplates,
     dataSourceType,
-    parentDataset?.id,
     datasourceParameterHelpers,
+    parentDataset?.id,
     resetField,
+    getUploadFileLabels,
+    t,
+    getDefaultFileTypeFilter,
   ]);
 
   const labels = useMemo(() => {
@@ -183,36 +177,45 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
         };
   }, [t, isSubDatasetCreationWizard]);
 
+  const sourceTypeComponent =
+    selectedRunner && Object.keys(selectedRunner).length > 0 ? (
+      <Typography data-cy="selected-runner-source-type">{labels.sourceSelectLabel + ': ' + dataSourceType}</Typography>
+    ) : (
+      <Controller
+        name="sourceType"
+        key="sourceType"
+        defaultValue={dataSourceType ?? defaultDataSourceTypeKey}
+        shouldUnregister={true}
+        render={({ field }) => {
+          const { value, onChange } = field;
+          const setDatasetSource = (newValue) => {
+            onChange(newValue);
+            setDataSourceType(newValue);
+          };
+
+          return (
+            <BasicEnumInput
+              id="new-dataset-sourceType"
+              label={labels.sourceSelectLabel}
+              size="medium"
+              value={value ?? defaultDataSourceTypeKey}
+              changeEnumField={setDatasetSource}
+              enumValues={dataSourceTypeEnumValues}
+            />
+          );
+        }}
+      />
+    );
+
   return (
     <>
-      <Grid item xs={12}>
-        {<Typography sx={{ py: 2 }}>{labels.subtitle}</Typography>}
-      </Grid>
+      {(!selectedRunner || Object.keys(selectedRunner)?.length === 0) && (
+        <Grid item xs={12}>
+          {<Typography sx={{ py: 2 }}>{labels.subtitle}</Typography>}
+        </Grid>
+      )}
       <Grid item xs={7}>
-        <Controller
-          name="sourceType"
-          key="sourceType"
-          defaultValue={dataSourceType ?? defaultDataSourceTypeKey}
-          shouldUnregister={true}
-          render={({ field }) => {
-            const { value, onChange } = field;
-            const setDatasetSource = (newValue) => {
-              onChange(newValue);
-              setDataSourceType(newValue);
-            };
-
-            return (
-              <BasicEnumInput
-                id="new-dataset-sourceType"
-                label={labels.sourceSelectLabel}
-                size="medium"
-                value={value ?? defaultDataSourceTypeKey}
-                changeEnumField={setDatasetSource}
-                enumValues={dataSourceTypeEnumValues}
-              />
-            );
-          }}
-        />
+        {sourceTypeComponent}
       </Grid>
       <Grid item container xs={12} sx={{ px: 2, pt: 3 }}>
         {sourceParameters}
@@ -224,4 +227,8 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
 DatasetCreationParameters.propTypes = {
   dataSourceRunTemplates: PropTypes.object.isRequired,
   parentDataset: PropTypes.object,
+  selectedRunner: PropTypes.object,
+};
+DatasetCreationParameters.defaultProps = {
+  selectedRunner: {},
 };
