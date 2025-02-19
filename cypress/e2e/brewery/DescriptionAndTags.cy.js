@@ -63,7 +63,7 @@ describe('Scenario tags and description', () => {
     Scenarios.createScenario(
       scenarioName,
       true,
-      DATASET.BREWERY_ADT,
+      DATASET.BREWERY_STORAGE,
       RUN_TEMPLATE.BREWERY_PARAMETERS,
       scenarioDescription,
       scenarioTags

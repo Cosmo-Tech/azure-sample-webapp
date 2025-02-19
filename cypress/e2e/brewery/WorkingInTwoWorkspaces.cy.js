@@ -50,7 +50,7 @@ describe('Switching between workspaces and running four scenarios at the same ti
     Scenarios.createScenario(
       firstWorkspaceParentScenarioName,
       true,
-      DATASET.BREWERY_ADT,
+      DATASET.BREWERY_STORAGE,
       RUN_TEMPLATE.BREWERY_PARAMETERS
     ).then((value) => {
       firstWorkspaceParentScenarioId = value.scenarioCreatedId;
@@ -68,7 +68,7 @@ describe('Switching between workspaces and running four scenarios at the same ti
       Scenarios.createScenario(
         secondWorkspaceParentScenarioName,
         true,
-        DATASET.BREWERY_ADT,
+        DATASET.BREWERY_STORAGE,
         RUN_TEMPLATE.BREWERY_PARAMETERS
       ).then((value) => {
         secondWorkspaceParentScenarioId = value.scenarioCreatedId;
@@ -172,7 +172,7 @@ describe('Switching between workspaces and running four scenarios at the same ti
     Workspaces.selectWorkspace(REAL_BREWERY_WORKSPACE_ID);
 
     // create first scenario, update its parameters
-    Scenarios.createScenario(sharedNameScenario, true, DATASET.BREWERY_ADT, RUN_TEMPLATE.BREWERY_PARAMETERS).then(
+    Scenarios.createScenario(sharedNameScenario, true, DATASET.BREWERY_STORAGE, RUN_TEMPLATE.BREWERY_PARAMETERS).then(
       (value) => {
         firstWorkspaceSharedScenarioId = value.scenarioCreatedId;
         Scenarios.getScenarioLoadingSpinner(15).should('exist').should('not.be.visible');
@@ -185,74 +185,77 @@ describe('Switching between workspaces and running four scenarios at the same ti
         Workspaces.selectWorkspace(BREWERY_WORKSPACE_ID);
 
         // create second scenario, update its parameters (same as for the first one)
-        Scenarios.createScenario(sharedNameScenario, true, DATASET.BREWERY_ADT, RUN_TEMPLATE.BREWERY_PARAMETERS).then(
-          (value) => {
-            secondWorkspaceSharedScenarioId = value.scenarioCreatedId;
-            Scenarios.getScenarioLoadingSpinner(15).should('exist').should('not.be.visible');
-            BreweryParameters.getStockInput().clear().type('400');
-            BreweryParameters.getRestockInput().clear().type('10');
-            BreweryParameters.getWaitersInput().clear().type('15');
-            ScenarioParameters.save();
-            // FIXME: find a better work-around to prevent "elements detached from DOM" error. Maybe some queries are
-            // causing a re-render of all scenario parameters ?
-            // eslint-disable-next-line cypress/no-unnecessary-waiting
-            cy.wait(2000);
+        Scenarios.createScenario(
+          sharedNameScenario,
+          true,
+          DATASET.BREWERY_STORAGE,
+          RUN_TEMPLATE.BREWERY_PARAMETERS
+        ).then((value) => {
+          secondWorkspaceSharedScenarioId = value.scenarioCreatedId;
+          Scenarios.getScenarioLoadingSpinner(15).should('exist').should('not.be.visible');
+          BreweryParameters.getStockInput().clear().type('400');
+          BreweryParameters.getRestockInput().clear().type('10');
+          BreweryParameters.getWaitersInput().clear().type('15');
+          ScenarioParameters.save();
+          // FIXME: find a better work-around to prevent "elements detached from DOM" error. Maybe some queries are
+          // causing a re-render of all scenario parameters ?
+          // eslint-disable-next-line cypress/no-unnecessary-waiting
+          cy.wait(2000);
 
-            // finding second scenario in scenarios' list and checking its url
-            ScenarioSelector.selectScenario(sharedNameScenario, secondWorkspaceSharedScenarioId);
-            cy.url({ timeout: 3000 }).should('include', secondWorkspaceSharedScenarioId);
+          // finding second scenario in scenarios' list and checking its url
+          ScenarioSelector.selectScenario(sharedNameScenario, secondWorkspaceSharedScenarioId);
+          cy.url({ timeout: 3000 }).should('include', secondWorkspaceSharedScenarioId);
 
-            Workspaces.switchToWorkspaceView();
-            Workspaces.selectWorkspace(REAL_BREWERY_WORKSPACE_ID);
+          Workspaces.switchToWorkspaceView();
+          Workspaces.selectWorkspace(REAL_BREWERY_WORKSPACE_ID);
 
-            // finding first scenario in scenarios' list and checking its url
-            ScenarioSelector.selectScenario(sharedNameScenario, firstWorkspaceSharedScenarioId);
-            cy.url({ timeout: 3000 }).should('include', firstWorkspaceSharedScenarioId);
+          // finding first scenario in scenarios' list and checking its url
+          ScenarioSelector.selectScenario(sharedNameScenario, firstWorkspaceSharedScenarioId);
+          cy.url({ timeout: 3000 }).should('include', firstWorkspaceSharedScenarioId);
 
-            // validate first scenario
-            Scenarios.getScenarioValidateButton().should('be.visible').should('not.be.disabled');
-            Scenarios.validateScenario(firstWorkspaceSharedScenarioId);
+          // validate first scenario
+          Scenarios.getScenarioValidateButton().should('be.visible').should('not.be.disabled');
+          Scenarios.validateScenario(firstWorkspaceSharedScenarioId);
 
-            // reject second scenario
-            route.browse({ url: `${BREWERY_WORKSPACE_ID}/scenario/${secondWorkspaceSharedScenarioId}` });
-            Scenarios.getScenarioRejectButton().should('be.visible').should('not.be.disabled');
-            Scenarios.rejectScenario(secondWorkspaceSharedScenarioId);
+          // reject second scenario
+          route.browse({ url: `${BREWERY_WORKSPACE_ID}/scenario/${secondWorkspaceSharedScenarioId}` });
+          Scenarios.getScenarioRejectButton().should('be.visible').should('not.be.disabled');
+          Scenarios.rejectScenario(secondWorkspaceSharedScenarioId);
 
-            // browse to the first workspace scenario manager, check first scenario validation status and rename it
-            route.browse({
-              url: `${REAL_BREWERY_WORKSPACE_ID}/scenariomanager`,
-              workspaceId: REAL_BREWERY_WORKSPACE_ID,
-            });
-            ScenarioManager.checkValidationStatus(sharedNameScenario, firstWorkspaceSharedScenarioId, 'Validated');
-            ScenarioManager.renameScenario(firstWorkspaceSharedScenarioId, newSharedNameScenario);
-            Scenarios.switchToScenarioView();
-            ScenarioSelector.selectScenario(newSharedNameScenario, firstWorkspaceSharedScenarioId);
+          // browse to the first workspace scenario manager, check first scenario validation status and rename it
+          route.browse({
+            url: `${REAL_BREWERY_WORKSPACE_ID}/scenariomanager`,
+            workspaceId: REAL_BREWERY_WORKSPACE_ID,
+          });
+          ScenarioManager.checkValidationStatus(sharedNameScenario, firstWorkspaceSharedScenarioId, 'Validated');
+          ScenarioManager.renameScenario(firstWorkspaceSharedScenarioId, newSharedNameScenario);
+          Scenarios.switchToScenarioView();
+          ScenarioSelector.selectScenario(newSharedNameScenario, firstWorkspaceSharedScenarioId);
 
-            Workspaces.switchToWorkspaceView();
-            Workspaces.selectWorkspace(BREWERY_WORKSPACE_ID);
+          Workspaces.switchToWorkspaceView();
+          Workspaces.selectWorkspace(BREWERY_WORKSPACE_ID);
 
-            // go to the second workspace, switch to the scenario manager,
-            // check second scenario validation status, rename it and check its name
-            ScenarioManager.switchToScenarioManager();
-            ScenarioManager.checkValidationStatus(sharedNameScenario, secondWorkspaceSharedScenarioId, 'Rejected');
-            ScenarioManager.renameScenario(secondWorkspaceSharedScenarioId, newSharedNameScenario);
-            Scenarios.switchToScenarioView();
-            ScenarioSelector.selectScenario(newSharedNameScenario, secondWorkspaceSharedScenarioId);
+          // go to the second workspace, switch to the scenario manager,
+          // check second scenario validation status, rename it and check its name
+          ScenarioManager.switchToScenarioManager();
+          ScenarioManager.checkValidationStatus(sharedNameScenario, secondWorkspaceSharedScenarioId, 'Rejected');
+          ScenarioManager.renameScenario(secondWorkspaceSharedScenarioId, newSharedNameScenario);
+          Scenarios.switchToScenarioView();
+          ScenarioSelector.selectScenario(newSharedNameScenario, secondWorkspaceSharedScenarioId);
 
-            // browse to the first scenario, check its name and delete it
-            route.browse({ url: `${REAL_BREWERY_WORKSPACE_ID}/scenario/${firstWorkspaceSharedScenarioId}` });
-            ScenarioSelector.getScenarioSelectorInput(10000).should('have.value', newSharedNameScenario);
-            ScenarioManager.switchToScenarioManager();
-            ScenarioManager.deleteScenario(newSharedNameScenario);
-            Workspaces.switchToWorkspaceView();
-            Workspaces.selectWorkspace(BREWERY_WORKSPACE_ID);
-            // select second scenario, check its name and delete it
-            ScenarioSelector.selectScenario(newSharedNameScenario, secondWorkspaceSharedScenarioId);
-            ScenarioSelector.getScenarioSelectorInput(10000).should('have.value', newSharedNameScenario);
-            ScenarioManager.switchToScenarioManager();
-            ScenarioManager.deleteScenario(newSharedNameScenario);
-          }
-        );
+          // browse to the first scenario, check its name and delete it
+          route.browse({ url: `${REAL_BREWERY_WORKSPACE_ID}/scenario/${firstWorkspaceSharedScenarioId}` });
+          ScenarioSelector.getScenarioSelectorInput(10000).should('have.value', newSharedNameScenario);
+          ScenarioManager.switchToScenarioManager();
+          ScenarioManager.deleteScenario(newSharedNameScenario);
+          Workspaces.switchToWorkspaceView();
+          Workspaces.selectWorkspace(BREWERY_WORKSPACE_ID);
+          // select second scenario, check its name and delete it
+          ScenarioSelector.selectScenario(newSharedNameScenario, secondWorkspaceSharedScenarioId);
+          ScenarioSelector.getScenarioSelectorInput(10000).should('have.value', newSharedNameScenario);
+          ScenarioManager.switchToScenarioManager();
+          ScenarioManager.deleteScenario(newSharedNameScenario);
+        });
       }
     );
   });
