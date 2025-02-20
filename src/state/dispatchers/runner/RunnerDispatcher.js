@@ -15,3 +15,12 @@ export const dispatchStopRunner = (organizationId, workspaceId, datasetId) => ({
   workspaceId,
   datasetId,
 });
+
+export const dispatchUpdateRunner = (organizationId, workspaceId, runnerId, datasetId, runnerPatch) => ({
+  type: RUNNER_ACTIONS_KEY.TRIGGER_SAGA_UPDATE_RUNNER,
+  organizationId,
+  workspaceId,
+  runnerId,
+  datasetId,
+  runnerPatch,
+});
