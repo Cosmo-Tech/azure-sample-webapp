@@ -20,3 +20,6 @@ export const TWINGRAPH_QUERY_RETRY_DELAY = 500; // Delay between retrying when a
 
 // Type of logs to download for a scenario run (SIMPLE_LOGS or CUMULATED_LOGS)
 export const SCENARIO_RUN_LOG_TYPE = 'CUMULATED_LOGS';
+
+// Size of a page of runners returned by back-end
+export const RUNNERS_PAGE_COUNT = 5000;

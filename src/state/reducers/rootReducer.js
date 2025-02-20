@@ -8,6 +8,7 @@ import { datasetsReducer } from './dataset/DatasetsReducer';
 import { datasetTwingraphQueriesResultsReducer } from './datasetTwingraphQueriesResults/DatasetTwingraphQueriesResultsReducer';
 import { organizationReducer } from './organization/OrganizationReducer';
 import { powerBiReducer } from './powerbi/PowerBIReducer';
+import { runnerReducer } from './runner/RunnerReducer';
 import { scenarioReducer } from './scenario/ScenarioReducer';
 import { scenarioRunReducer } from './scenariorun/ScenarioRunReducer';
 import { solutionReducer } from './solution/SolutionReducer';
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   organization: organizationReducer,
   solution: solutionReducer,
   powerBI: powerBiReducer,
+  runner: runnerReducer,
 });
 
 export default rootReducer;
