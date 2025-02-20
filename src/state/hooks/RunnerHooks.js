@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { dispatchCreateRunner, dispatchStopRunner } from '../dispatchers/runner/RunnerDispatcher';
 import { useOrganizationId } from './OrganizationHooks';
 import { useWorkspaceId } from './WorkspaceHooks';
@@ -24,4 +24,8 @@ export const useStopRunner = () => {
     (datasetId) => dispatch(dispatchStopRunner(organizationId, workspaceId, datasetId)),
     [dispatch, organizationId, workspaceId]
   );
+};
+
+export const useGetAllRunners = () => {
+  return useSelector((state) => state.runner.etlRunners);
 };
