@@ -1,7 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-// Copyright (c) Cosmo Tech.
-// Licensed under the MIT license.
 import { DEFAULT_APPLICATION } from './application';
 import { USER_AUTH_ADMIN } from './auth';
 import { DEFAULT_DATASETS_LIST_DATA } from './datasets';
