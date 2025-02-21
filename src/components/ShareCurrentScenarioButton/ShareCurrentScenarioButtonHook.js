@@ -4,6 +4,7 @@ import { useCallback, useMemo } from 'react';
 import { useFormState } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useUserPermissionsOnCurrentScenario } from '../../hooks/SecurityHooks';
+import { ACL_PERMISSIONS } from '../../services/config/accessControl';
 import {
   useApplicationPermissionsMapping,
   useApplicationRoles,
@@ -28,11 +29,6 @@ export const useShareCurrentScenarioButton = () => {
   const permissionsMapping = useApplicationPermissionsMapping();
 
   const applyScenarioSharingSecurity = useApplyScenarioSharingSecurity();
-
-  const shareScenarioDialogLabels = useMemo(
-    () => getShareScenarioDialogLabels(t, currentScenarioData?.name, isDirty),
-    [currentScenarioData?.name, t, isDirty]
-  );
 
   const rolesLabels = useMemo(() => {
     const rolesNames = Object.values(roles.scenario);
@@ -63,9 +59,24 @@ export const useShareCurrentScenarioButton = () => {
     [applyScenarioSharingSecurity, currentScenarioData?.id]
   );
 
+  const hasReadSecurityPermission = useMemo(
+    () => userPermissionsOnCurrentScenario.includes(ACL_PERMISSIONS.SCENARIO.READ_SECURITY),
+    [userPermissionsOnCurrentScenario]
+  );
+  const disabled = useMemo(() => isDirty || !hasReadSecurityPermission, [isDirty, hasReadSecurityPermission]);
+  const isReadOnly = useMemo(
+    () => !userPermissionsOnCurrentScenario.includes(ACL_PERMISSIONS.SCENARIO.WRITE_SECURITY),
+    [userPermissionsOnCurrentScenario]
+  );
+
+  const shareScenarioDialogLabels = useMemo(
+    () => getShareScenarioDialogLabels(t, currentScenarioData?.name, isDirty, hasReadSecurityPermission),
+    [currentScenarioData?.name, t, isDirty, hasReadSecurityPermission]
+  );
+
   return {
-    isDirty,
-    userPermissionsOnCurrentScenario,
+    disabled,
+    isReadOnly,
     permissionsMapping,
     shareScenarioDialogLabels,
     rolesLabels,
