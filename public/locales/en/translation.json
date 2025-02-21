@@ -421,7 +421,8 @@
         "button": {
           "label": "Share",
           "tooltip": "Modify access",
-          "editModeTooltip": "Please save or discard current modifications before changing the scenario access permissions"
+          "editModeTooltip": "Please save or discard current modifications before changing the scenario access permissions",
+          "noReadSecurityPermissionTooltip": "You are not allowed to share or see the security details of this resource"
         },
         "dialog": {
           "buttons": {

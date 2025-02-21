@@ -421,7 +421,8 @@
         "button": {
           "label": "Partager",
           "tooltip": "Modifier l'accès",
-          "editModeTooltip": "Veuillez sauver ou annuler les modifications en cours avant de modifier les permissions d'accès du scénario"
+          "editModeTooltip": "Veuillez sauver ou annuler les modifications en cours avant de modifier les permissions d'accès du scénario",
+          "noReadSecurityPermissionTooltip": "Vous n'avez pas les permissions pour partager ou voir les informations de sécurité de cette ressource"
         },
         "dialog": {
           "buttons": {
