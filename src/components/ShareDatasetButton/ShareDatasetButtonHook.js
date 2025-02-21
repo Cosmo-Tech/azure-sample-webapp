@@ -28,9 +28,9 @@ export const useShareDatasetButton = () => {
 
   const updateDatasetSecurity = useUpdateDatasetSecurity();
 
-  const shareDatasetDialogLabels = useCallback(
-    (datasetId) => getShareDatasetDialogLabels(t, findDatasetById(datasetId)?.name),
-    [findDatasetById, t]
+  const buildShareDatasetDialogLabels = useCallback(
+    (dataset, hasReadSecurityPermission) => getShareDatasetDialogLabels(t, dataset?.name, hasReadSecurityPermission),
+    [t]
   );
 
   const rolesLabels = useMemo(() => {
@@ -58,7 +58,7 @@ export const useShareDatasetButton = () => {
   return {
     getUserPermissionOnDataset,
     permissionsMapping,
-    shareDatasetDialogLabels,
+    buildShareDatasetDialogLabels,
     rolesLabels,
     permissionsLabels,
     workspaceUsers,

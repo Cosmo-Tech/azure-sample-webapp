@@ -1,13 +1,13 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import React from 'react';
-import { PermissionsGate, RolesEditionButton } from '@cosmotech/ui';
-import { ACL_PERMISSIONS } from '../../services/config/accessControl';
+import { RolesEditionButton } from '@cosmotech/ui';
 import { useShareCurrentScenarioButton } from './ShareCurrentScenarioButtonHook';
 
 const ShareCurrentScenarioButton = () => {
   const {
-    isDirty,
+    disabled,
+    isReadOnly,
     accessListSpecific,
     applyScenarioSecurityChanges,
     defaultRole,
@@ -15,39 +15,26 @@ const ShareCurrentScenarioButton = () => {
     permissionsMapping,
     rolesLabels,
     shareScenarioDialogLabels,
-    userPermissionsOnCurrentScenario,
     workspaceUsers,
   } = useShareCurrentScenarioButton();
 
   return (
-    <>
-      <PermissionsGate
-        userPermissions={userPermissionsOnCurrentScenario}
-        necessaryPermissions={[ACL_PERMISSIONS.RUNNER.READ_SECURITY]}
-      >
-        <PermissionsGate
-          userPermissions={userPermissionsOnCurrentScenario}
-          necessaryPermissions={[ACL_PERMISSIONS.RUNNER.WRITE_SECURITY]}
-          noPermissionProps={{ isReadOnly: true }}
-        >
-          <RolesEditionButton
-            data-cy="share-scenario-button"
-            disabled={isDirty}
-            labels={shareScenarioDialogLabels}
-            onConfirmChanges={applyScenarioSecurityChanges}
-            resourceRolesPermissionsMapping={permissionsMapping.runner}
-            agents={workspaceUsers}
-            specificAccessByAgent={accessListSpecific}
-            defaultRole={defaultRole}
-            defaultAccessScope="Workspace"
-            preventNoneRoleForAgents={true}
-            allRoles={rolesLabels}
-            allPermissions={permissionsLabels}
-            isIconButton={true}
-          />
-        </PermissionsGate>
-      </PermissionsGate>
-    </>
+    <RolesEditionButton
+      data-cy="share-scenario-button"
+      disabled={disabled}
+      isReadOnly={isReadOnly}
+      labels={shareScenarioDialogLabels}
+      onConfirmChanges={applyScenarioSecurityChanges}
+      resourceRolesPermissionsMapping={permissionsMapping.runner}
+      agents={workspaceUsers}
+      specificAccessByAgent={accessListSpecific}
+      defaultRole={defaultRole}
+      defaultAccessScope="Workspace"
+      preventNoneRoleForAgents={true}
+      allRoles={rolesLabels}
+      allPermissions={permissionsLabels}
+      isIconButton={true}
+    />
   );
 };
 
