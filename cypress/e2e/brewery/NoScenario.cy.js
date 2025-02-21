@@ -32,7 +32,7 @@ describe('If there are no scenarios created yet', () => {
     Scenarios.switchToScenarioView();
     const scenarioName = 'Test Cypress no scenario  - ' + utils.randomStr(7);
 
-    Scenarios.createScenario(scenarioName, true, DATASET.BREWERY_ADT, RUN_TEMPLATE.BASIC_TYPES).then((value) => {
+    Scenarios.createScenario(scenarioName, true, DATASET.BREWERY_STORAGE, RUN_TEMPLATE.BASIC_TYPES).then((value) => {
       const scenarioId = value.scenarioCreatedId;
       ScenarioManager.switchToScenarioManager();
       ScenarioManager.getScenarioAccordion(scenarioId).click();

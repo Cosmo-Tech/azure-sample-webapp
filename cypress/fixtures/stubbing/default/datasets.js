@@ -4,7 +4,7 @@
 // Legacy dataset with API v2.x structure
 export const LEGACY_DATASET_V2 = {
   id: 'D-stbdefault',
-  name: 'Demo Brewery ADT reference',
+  name: 'Demo Brewery Storage reference',
   description: 'Brewery reference model in ADT',
   ownerId: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
   tags: ['ADT', 'Brewery', 'Reference', 'dataset'],
@@ -50,7 +50,7 @@ export const DEFAULT_DATASET = {
 
 export const ACTUAL_ADT_INSTANCE_DATASET = {
   id: 'D-4jwyQnmv7jx',
-  name: 'Demo Brewery ADT reference',
+  name: 'Demo Brewery Storage reference',
   description: 'Brewery reference model in ADT',
   ownerId: '3a869905-e9f5-4851-a7a9-3079aad49dff',
   tags: ['ADT', 'Brewery', 'Reference', 'dataset'],

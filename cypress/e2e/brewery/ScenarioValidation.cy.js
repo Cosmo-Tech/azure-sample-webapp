@@ -6,7 +6,7 @@ import { BreweryParameters } from '../../commons/actions/brewery';
 import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
 import { stub } from '../../commons/services/stubbing';
 
-const SCENARIO_DATASET = DATASET.BREWERY_ADT;
+const SCENARIO_DATASET = DATASET.BREWERY_STORAGE;
 const SCENARIO_RUN_TEMPLATE = RUN_TEMPLATE.BASIC_TYPES;
 
 describe('Scenario validation', () => {

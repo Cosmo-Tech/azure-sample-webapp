@@ -40,7 +40,7 @@ describe('Create scenario', () => {
   before(() => {
     Login.login();
     // Create "another scenarios"
-    Scenarios.createScenario(otherScenarioName, true, DATASET.BREWERY_ADT, RUN_TEMPLATE.BREWERY_PARAMETERS).then(
+    Scenarios.createScenario(otherScenarioName, true, DATASET.BREWERY_STORAGE, RUN_TEMPLATE.BREWERY_PARAMETERS).then(
       (value) => {
         otherScenarioId = value.scenarioCreatedId;
         anotherScenarioUrlRegex = new RegExp(`^${URL_ROOT}/.*${PAGE_NAME.SCENARIOS}/${otherScenarioId}`);
@@ -107,7 +107,7 @@ describe('Create scenario', () => {
 
     // Create scenario master:
     let scenarioName, scenarioRunTemplateName;
-    Scenarios.createScenario(scenarioMasterName, true, DATASET.BREWERY_ADT, RUN_TEMPLATE.BREWERY_PARAMETERS).then(
+    Scenarios.createScenario(scenarioMasterName, true, DATASET.BREWERY_STORAGE, RUN_TEMPLATE.BREWERY_PARAMETERS).then(
       (value) => {
         scenarioMasterId = value.scenarioCreatedId;
         scenarioName = value.scenarioCreatedName;
@@ -249,7 +249,7 @@ describe('Create scenario', () => {
   it('can create scenario, edit/discard parameters and switch between parameters tabs', () => {
     // Create Scenario with some parameters tabs
     let scenarioCreatedName;
-    Scenarios.createScenario(scenarioWithBasicTypesName, true, DATASET.BREWERY_ADT, RUN_TEMPLATE.BASIC_TYPES).then(
+    Scenarios.createScenario(scenarioWithBasicTypesName, true, DATASET.BREWERY_STORAGE, RUN_TEMPLATE.BASIC_TYPES).then(
       (value) => {
         scenarioWithBasicTypesId = value.scenarioCreatedId;
         scenarioCreatedName = value.scenarioCreatedName;
