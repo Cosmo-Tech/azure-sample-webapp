@@ -6,8 +6,8 @@ import {
   useCurrentDatasetId,
   useRefreshDataset,
   useRollbackTwingraphData,
-} from '../../../../../../state/hooks/DatasetHooks';
-import { useStopRunner } from '../../../../../../state/hooks/RunnerHooks';
+} from '../../../../../../state/datasets/hooks';
+import { useStopRunner } from '../../../../../../state/runner/hooks';
 
 export const useDatasetOverviewPlaceholder = () => {
   const currentDataset = useCurrentDataset();

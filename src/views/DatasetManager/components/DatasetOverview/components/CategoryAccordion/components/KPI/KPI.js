@@ -3,13 +3,13 @@
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import { Grid, Typography } from '@mui/material';
+import { Grid2 as Grid, Typography } from '@mui/material';
 import { TranslationUtils } from '../../../../../../../../utils';
 import { KPIValue } from '../../../KPIValue';
 
 export const KPI = (props) => {
   const { t } = useTranslation();
-  const { id, categoryId, kpi, labelProps, valueProps } = props;
+  const { id = 'kpi', categoryId = '', kpi = {}, labelProps = {}, valueProps = {} } = props;
 
   const label = useMemo(() => {
     return (
@@ -31,11 +31,9 @@ export const KPI = (props) => {
         justifyContent: 'flex-start',
       }}
     >
-      <Grid data-cy={'category-kpi-label'} item>
-        {label}
-      </Grid>
+      <Grid data-cy={'category-kpi-label'}>{label}</Grid>
 
-      <Grid item>
+      <Grid>
         <KPIValue kpi={kpi} valueTypographyProps={{ ...valueProps }} />
       </Grid>
     </Grid>
@@ -48,12 +46,4 @@ KPI.propTypes = {
   kpi: PropTypes.object,
   labelProps: PropTypes.object,
   valueProps: PropTypes.object,
-};
-
-KPI.defaultProps = {
-  id: 'kpi',
-  categoryId: '',
-  kpi: {},
-  labelProps: {},
-  valueProps: {},
 };

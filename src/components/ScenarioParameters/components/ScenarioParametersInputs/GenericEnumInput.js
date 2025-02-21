@@ -3,7 +3,7 @@
 import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import { Grid } from '@mui/material';
+import { Grid2 as Grid } from '@mui/material';
 import { BasicEnumInput } from '@cosmotech/ui';
 import { useDynamicValues } from '../../../../hooks/DynamicValuesHooks';
 import { ConfigUtils, TranslationUtils } from '../../../../utils';
@@ -14,7 +14,7 @@ export const GenericEnumInput = ({
   parameterValue,
   setParameterValue,
   resetParameterValue, // Set a new value without triggering the form 'dirty' state
-  isDirty,
+  isDirty = false,
   gridItemProps,
 }) => {
   const { t } = useTranslation();
@@ -67,7 +67,7 @@ export const GenericEnumInput = ({
 
   if (dynamicValuesError) return dynamicValuesError;
   return (
-    <Grid item xs={3} {...gridItemProps}>
+    <Grid size={3} {...gridItemProps}>
       {loadingDynamicValuesPlaceholder}
       {dynamicEnumValues !== null && (
         <BasicEnumInput
@@ -94,8 +94,4 @@ GenericEnumInput.propTypes = {
   resetParameterValue: PropTypes.func.isRequired,
   isDirty: PropTypes.bool,
   gridItemProps: PropTypes.object,
-};
-
-GenericEnumInput.defaultProps = {
-  isDirty: false,
 };

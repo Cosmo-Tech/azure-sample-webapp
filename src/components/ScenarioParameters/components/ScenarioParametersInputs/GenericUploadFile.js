@@ -4,8 +4,8 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { UploadFile, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
-import { useOrganizationId } from '../../../../state/hooks/OrganizationHooks.js';
-import { useWorkspaceId } from '../../../../state/hooks/WorkspaceHooks.js';
+import { useOrganizationId } from '../../../../state/organizations/hooks';
+import { useWorkspaceId } from '../../../../state/workspaces/hooks.js';
 import { ConfigUtils, TranslationUtils } from '../../../../utils';
 import { FileManagementUtils } from '../../../../utils/FileManagementUtils';
 
@@ -17,7 +17,7 @@ export const GenericUploadFile = ({
   defaultParameterValue,
   resetParameterValue,
   error,
-  isDirty,
+  isDirty = false,
 }) => {
   const { t } = useTranslation();
   const organizationId = useOrganizationId();
@@ -90,9 +90,7 @@ GenericUploadFile.propTypes = {
   isDirty: PropTypes.bool,
   error: PropTypes.object,
 };
-GenericUploadFile.defaultProps = {
-  isDirty: false,
-};
+
 GenericUploadFile.useValidationRules = () => {
   const { t } = useTranslation();
   return {
