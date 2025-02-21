@@ -50,19 +50,23 @@ describe('ShareCurrentScenarioButton', () => {
       mockRoleEditionButtonProps = undefined;
     });
 
-    test('None role dont display Share Scenario button', () => {
-      setUp(ROLES.SCENARIO.NONE);
-      expect(getRolesEditionButton()).not.toBeInTheDocument();
-    });
+    test.each([{ role: ROLES.SCENARIO.NONE }, { role: ROLES.SCENARIO.VIEWER }])(
+      'must show a disabled button when role is $role',
+      ({ role }) => {
+        setUp(role);
+        expect(getRolesEditionButton()).toBeInTheDocument();
+        expect(mockRoleEditionButtonProps.disabled).toEqual(true);
+      }
+    );
 
     test.each([
-      { role: ROLES.SCENARIO.ADMIN, expected: undefined },
+      { role: ROLES.SCENARIO.ADMIN, expected: false },
       { role: ROLES.SCENARIO.EDITOR, expected: true },
       { role: ROLES.SCENARIO.VALIDATOR, expected: true },
-      { role: ROLES.SCENARIO.VIEWER, expected: true },
     ])('$role role display Share Scenario button with isReadOnly $expected', ({ role, expected }) => {
       setUp(role);
       expect(getRolesEditionButton()).toBeInTheDocument();
+      expect(mockRoleEditionButtonProps.disabled).toEqual(false);
       expect(mockRoleEditionButtonProps.isReadOnly).toEqual(expected);
     });
   });
