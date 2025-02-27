@@ -179,6 +179,8 @@ export const GENERIC_SELECTORS = {
       refreshSpinners: '[data-cy^="refresh-spinner-"]',
       refreshSpinnerByDatasetId: '[data-cy="refresh-spinner-$DATASETID"]',
       refreshErrorIconByDatasetId: '[data-cy="refresh-error-icon-$DATASETID"]',
+      updateDatasetParametersButton: '[data-cy=edit-dataset-parameters-button]',
+      updateDatasetParametersDialog: '[data-cy=update-dataset-parameters-dialog]',
     },
     metadata: {
       card: '[data-cy=dataset-metadata-card]',
@@ -272,6 +274,12 @@ export const GENERIC_SELECTORS = {
       },
     },
     confirmRefreshButton: '[data-cy=refresh-dataset-dialog-confirm-button]',
+    update: {
+      confirmButton: '[data-cy=confirm-dataset-update-button]',
+      runnerRunTemplateId: '[data-cy=selected-runner-source-type]',
+      closeUpdateDialogButton: '[data-cy=close-update-dataset-parameters-dialog-button]',
+      confirmUpdateParametersButton: '[data-cy=update-dataset-parameters-button]',
+    },
   },
   genericComponents: {
     uploadFile: {
