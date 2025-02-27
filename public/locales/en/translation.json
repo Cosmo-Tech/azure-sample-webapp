@@ -170,6 +170,12 @@
           "confirmButton": "Delete",
           "impactedScenariosWarning": "Users won’t be able to launch scenarios using this dataset, but previously existing results will still be available."
         },
+        "update": {
+          "title": "Update dataset",
+          "subTitle": "Update your data source's information",
+          "source": "Source:",
+          "button": "Update"
+        },
         "cancel": "Cancel"
       },
       "overview": {
@@ -177,7 +183,8 @@
           "deleteButtonTooltip": "Delete",
           "shareButtonTooltip": "Share",
           "refreshButtonTooltip": "Refresh",
-          "createSubdatasetButtonTooltip": "Create sub-dataset"
+          "createSubdatasetButtonTooltip": "Create sub-dataset",
+          "editParametersButtonTooltip": "Edit parameters of the dataset"
         },
         "attributesLabel": "Attributes:",
         "categoryTypes": {
@@ -532,9 +539,11 @@
       "datasetNotUpdated": "Dataset hasn't been updated",
       "datasetNotRefreshed": "A problem occurred during dataset refresh",
       "datasetRefreshError": "A problem occurred during refresh of the dataset {{datasetId}}",
+      "getAllRunnersError": "Unexpected error while loading runners",
       "runnerNotCreated": "Runner hasn't been created",
       "runnerFileNotUploaded": "Runner file {runnerFile} hasn't been uploaded",
       "runnerStopError": "Could not stop runner {{runnerId}}",
+      "runnerUpdateError": "Runner hasn't been updated",
       "datasetSecurityNotUpdated": "Dataset {{datasetId}} permissions have not been updated",
       "runnerNotUpdated": "Runner hasn't been updated",
       "twingraphNotCreated": "A problem occurred during twingraph creation",

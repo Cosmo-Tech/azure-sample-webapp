@@ -13,6 +13,7 @@ import { SCENARIO_ACTIONS_KEY } from '../../../commons/ScenarioConstants';
 import { WORKSPACE_ACTIONS_KEY } from '../../../commons/WorkspaceConstants';
 import { dispatchSetApplicationErrorMessage } from '../../../dispatchers/app/ApplicationDispatcher';
 import { dispatchGetPowerBIEmbedInfo } from '../../../dispatchers/powerbi/PowerBIDispatcher';
+import { getAllRunners } from '../../runner/GetAllRunners/GetAllRunners';
 import { getAllScenariosData } from '../../scenario/FindAllScenarios/FindAllScenariosData';
 import { fetchSolutionByIdData } from '../../solution/FindSolutionById/FindSolutionByIdData';
 
@@ -80,6 +81,8 @@ export function* selectWorkspace(action) {
 
   const solutionId = yield select(selectSolutionIdFromCurrentWorkspace);
   yield call(fetchSolutionByIdData, organizationId, solutionId);
+
+  yield call(getAllRunners, organizationId);
 
   yield call(getAllScenariosData, organizationId, selectedWorkspaceId);
   const scenarioList = yield select(selectScenarioList);
