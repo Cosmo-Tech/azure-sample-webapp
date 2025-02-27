@@ -14,7 +14,7 @@ import { useDatasetCreationParameters } from './DatasetCreationParametersHook';
 
 const clone = rfdc();
 
-export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDataset, selectedRunner }) => {
+export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDataset, selectedRunner = {} }) => {
   const { t } = useTranslation();
   const { resetField } = useFormContext();
   const { datasourceParameterHelpers, getDataSourceTypeEnumValues, getUploadFileLabels, getDefaultFileTypeFilter } =
@@ -232,7 +232,4 @@ DatasetCreationParameters.propTypes = {
   dataSourceRunTemplates: PropTypes.object.isRequired,
   parentDataset: PropTypes.object,
   selectedRunner: PropTypes.object,
-};
-DatasetCreationParameters.defaultProps = {
-  selectedRunner: {},
 };

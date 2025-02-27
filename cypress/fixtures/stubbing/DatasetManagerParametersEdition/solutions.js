@@ -6,7 +6,7 @@ import { DEFAULT_SOLUTION } from '../default';
 export const SOLUTION = {
   ...DEFAULT_SOLUTION,
   security: {
-    default: ROLES.SCENARIO.ADMIN,
+    default: ROLES.RUNNER.ADMIN,
     accessControlList: [],
   },
   parameters: [
