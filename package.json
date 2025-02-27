@@ -5,7 +5,7 @@
   "dependencies": {
     "@cosmotech/api-ts": "4.0.0-dev9",
     "@cosmotech/azure": "^3.0.0",
-    "@cosmotech/core": "^v1.19.1-beta.0",
+    "@cosmotech/core": "1.19.1-beta.1",
     "@cosmotech/ui": "^10.0.0-beta.1",
     "@emotion/react": "^11.13.0",
     "@emotion/styled": "^11.13.0",
