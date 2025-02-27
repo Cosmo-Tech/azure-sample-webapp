@@ -6,7 +6,7 @@ import { DEFAULT_WORKSPACE } from '../default';
 export const WORKSPACE = {
   ...DEFAULT_WORKSPACE,
   security: {
-    default: ROLES.SCENARIO.ADMIN,
+    default: ROLES.RUNNER.ADMIN,
     accessControlList: [],
   },
   webApp: {
