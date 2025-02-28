@@ -170,6 +170,12 @@
           "confirmButton": "Supprimer",
           "impactedScenariosWarning": "Les scénarios utilisant ce dataset ne pourront pas être relancés, mais les résultats déjà disponibles resteront visibles."
         },
+        "update": {
+          "title": "Mettre à jour les paramètres du dataset",
+          "subTitle": "Mettre à jour la source du dataset",
+          "source": "Source : ",
+          "button": "Sauvegarder"
+        },
         "cancel": "Annuler"
       },
       "overview": {
@@ -177,7 +183,8 @@
           "deleteButtonTooltip": "Supprimer",
           "shareButtonTooltip": "Partager",
           "refreshButtonTooltip": "Mettre à jour",
-          "createSubdatasetButtonTooltip": "Créer un sous-dataset"
+          "createSubdatasetButtonTooltip": "Créer un sous-dataset",
+          "editParametersButtonTooltip": "Modifier les paramètres du dataset"
         },
         "attributesLabel": "Attributs:",
         "categoryTypes": {
@@ -532,9 +539,11 @@
       "datasetNotUpdated": "Le dataset n'a pas pu être mis à jour",
       "datasetNotRefreshed": "Une erreur est survenue pendant la mise à jour du dataset",
       "datasetRefreshError": "Une erreur est survenue pendant la mise à jour du dataset {{datasetId}}",
+      "getAllRunnersError": "Une erreur est survenue lors de la récupération des runners.",
       "runnerNotCreated": "Le runner n'a pas pu être crée",
       "runnerFileNotUploaded": "Echec de l'envoi du fichier de runner {{runnerFile}}",
       "runnerStopError": "Impossible d'arrêter le runner {{runnerId}}",
+      "runnerUpdateError": "Les paramètres du runner n'ont pas pu être mis à jour",
       "datasetSecurityNotUpdated": "Les permissions du dataset {{datasetId}} n'ont pas pu être modifiées",
       "runnerNotUpdated": "Le runner n'a pas pu être mis à jour",
       "twingraphNotCreated": "Une erreur est survenue pendant la creation du twingraph",

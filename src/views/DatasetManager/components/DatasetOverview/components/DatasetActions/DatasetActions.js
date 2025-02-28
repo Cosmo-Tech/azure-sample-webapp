@@ -4,6 +4,7 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import ShareDatasetButton from '../../../../../../components/ShareDatasetButton/ShareDatasetButton';
 import { CreateSubDatasetButton } from '../../../CreateDatasetButton';
 import { DeleteDatasetButton } from '../../../DeleteDatasetButton';
+import { UpdateDatasetButton } from '../../../UpdateDatasetButton';
 import { RefreshDatasetButton } from '../RefreshDatasetButton';
 
 export default function DatasetActions({ dataset }) {
@@ -11,6 +12,7 @@ export default function DatasetActions({ dataset }) {
   return (
     <ButtonGroup>
       <RefreshDatasetButton dataset={dataset} />
+      {dataset?.sourceType === 'ETL' && <UpdateDatasetButton dataset={dataset} />}
       <CreateSubDatasetButton parentDataset={dataset} />
       <ShareDatasetButton dataset={dataset} />
       <DeleteDatasetButton dataset={dataset} location="dataset-actions-" />
