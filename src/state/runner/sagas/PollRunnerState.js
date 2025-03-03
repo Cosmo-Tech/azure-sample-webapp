@@ -13,7 +13,7 @@ import {
 import { STATUSES } from '../../../services/config/StatusConstants';
 import { setApplicationErrorMessage } from '../../app/reducers';
 import { RUNNER_ACTIONS_KEY } from '../constants';
-import { updateRun, updateRunner } from '../reducers';
+import { updateRun, updateSimulationRunner } from '../reducers';
 
 const appInsights = AppInsights.getInstance();
 
@@ -47,7 +47,7 @@ export function* pollRunnerState(action) {
       if ([RUNNER_RUN_STATE.FAILED, RUNNER_RUN_STATE.SUCCESSFUL, RUNNER_RUN_STATE.UNKNOWN].includes(data.state)) {
         // Update the scenario state in all scenario redux states
         yield put(
-          updateRunner({
+          updateSimulationRunner({
             runnerId: action.runnerId,
             runner: {
               state: data.state,
@@ -83,7 +83,7 @@ export function* pollRunnerState(action) {
           })
         );
         yield put(
-          updateRunner({
+          updateSimulationRunner({
             runnerId: action.runnerId,
             status: STATUSES.ERROR,
             runner: { state: RUNNER_RUN_STATE.FAILED },
