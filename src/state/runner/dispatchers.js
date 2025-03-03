@@ -103,3 +103,12 @@ export const dispatchStopSimulationRunner = (organizationId, workspaceId, runner
   workspaceId,
   runnerId,
 });
+
+export const dispatchUpdateElRunner = (organizationId, workspaceId, runnerId, datasetId, runnerPatch) => ({
+  type: RUNNER_ACTIONS_KEY.UPDATE_ETL_RUNNER,
+  organizationId,
+  workspaceId,
+  runnerId,
+  datasetId,
+  runnerPatch,
+});
