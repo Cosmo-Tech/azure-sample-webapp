@@ -6,8 +6,10 @@ import { Api } from '../../../services/config/Api';
 import { DatasetsUtils, ApiUtils } from '../../../utils';
 import { setApplicationErrorMessage } from '../../app/reducers';
 import { DATASET_ACTIONS_KEY } from '../../datasets/constants';
+import { addDataset } from '../../datasets/reducers';
 import { createDataset } from '../../datasets/sagas/CreateDataset';
 import { RUNNER_ACTIONS_KEY } from '../constants';
+import { addEtlRunner } from '../reducers';
 
 const getUserEmail = (state) => state.auth.userEmail;
 
@@ -35,9 +37,14 @@ function* uploadFileParameter(parameter, organizationId, workspaceId) {
     const newConnector = DatasetsUtils.buildAzureStorageConnector(connectorId, storageFilePath);
 
     const updatedDatasetPart = { ...datasetPart, connector: newConnector };
-    yield call(Api.Datasets.updateDataset, organizationId, datasetId, updatedDatasetPart);
+    const { data: updatedDataset } = yield call(
+      Api.Datasets.updateDataset,
+      organizationId,
+      datasetId,
+      updatedDatasetPart
+    );
     yield call(Api.Workspaces.uploadWorkspaceFile, organizationId, workspaceId, file, true, storageFilePath);
-
+    yield put(addDataset({ ...updatedDataset }));
     return datasetId;
   } catch (error) {
     console.error(error);
@@ -98,7 +105,21 @@ export function* createRunner(action) {
     if (runner.datasetList != null) datasetList = datasetList.concat(runner.datasetList);
 
     const patchedRunner = { runTemplateId: runner.runTemplateId, datasetList };
-    yield call(Api.Runners.updateRunner, organizationId, workspaceId, runnerId, patchedRunner);
+    const { data: updatedRunner } = yield call(
+      Api.Runners.updateRunner,
+      organizationId,
+      workspaceId,
+      runnerId,
+      patchedRunner
+    );
+    yield put(
+      addEtlRunner({
+        runner: {
+          ...updatedRunner,
+          parametersValues: ApiUtils.formatParametersFromApi(updatedRunner.parametersValues),
+        },
+      })
+    );
 
     yield put({ type: DATASET_ACTIONS_KEY.REFRESH_DATASET, organizationId, datasetId });
   } catch (error) {
