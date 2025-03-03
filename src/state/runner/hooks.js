@@ -16,6 +16,7 @@ import {
   dispatchStopRunner,
   dispatchStopSimulationRunner,
   dispatchUpdateAndStartRunner,
+  dispatchUpdateEtlRunner,
   dispatchUpdateSimulationRunner,
   dispatchUpdateSimulationRunnerData,
 } from './dispatchers';
@@ -228,5 +229,16 @@ export const useStopSimulationRunner = () => {
 };
 
 export const useGetETLRunners = () => {
-  return useSelector((state) => state.runner.etlRunners);
+  return useSelector((state) => state.runner.etlRunners?.list?.data);
+};
+
+export const useUpdateEtlRunner = () => {
+  const organizationId = useOrganizationId();
+  const workspaceId = useWorkspaceId();
+  const dispatch = useDispatch();
+  return useCallback(
+    (runnerId, datasetId, runnerPatch) =>
+      dispatch(dispatchUpdateEtlRunner(organizationId, workspaceId, runnerId, datasetId, runnerPatch)),
+    [dispatch, organizationId, workspaceId]
+  );
 };
