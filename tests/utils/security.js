@@ -3,7 +3,8 @@
 import { DEFAULT_APPLICATION } from '../samples';
 
 export const applyScenarioRoleToState = (state, role) => {
-  state.runner.current.data.security.currentUserPermissions = DEFAULT_APPLICATION.permissionsMapping.runner[role];
+  state.runner.simulationRunners.current.data.security.currentUserPermissions =
+    DEFAULT_APPLICATION.permissionsMapping.runner[role];
 };
 
 export const applyWorkspaceRoleToState = (state, role) => {

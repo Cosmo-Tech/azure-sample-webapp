@@ -16,7 +16,7 @@ const getUserId = (state) => state.auth.userId;
 const getRunnersPermissionsMapping = (state) => state.application.permissionsMapping.runner;
 const getOrganizationId = (state) => state.organization.current.data.id;
 const getWorkspaceId = (state) => state.workspace.current.data.id;
-const getCurrentSimulationRunner = (state) => state.runner.current?.data;
+const getCurrentSimulationRunner = (state) => state.runner.simulationRunners.current?.data;
 const getDatasets = (state) => state.dataset.list?.data;
 const getSolutionParameters = (state) => state?.solution?.current?.data?.parameters ?? [];
 const getDatasetPermissionMapping = (state) => state.application.permissionsMapping.dataset;

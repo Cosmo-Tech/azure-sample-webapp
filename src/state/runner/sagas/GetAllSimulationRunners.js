@@ -10,7 +10,7 @@ import { ACL_PERMISSIONS } from '../../../services/config/accessControl';
 import { ApiUtils, RunnersUtils, SolutionsUtils } from '../../../utils';
 import { setApplicationErrorMessage } from '../../app/reducers';
 import { RUNNER_ACTIONS_KEY } from '../constants';
-import { addRun, setAllSimulationRunners, setReducerStatus, updateRunner } from '../reducers';
+import { addRun, setAllSimulationRunners, setReducerStatus, updateSimulationRunner } from '../reducers';
 
 const getUserEmail = (state) => state.auth.userEmail;
 const getUserId = (state) => state.auth.userId;
@@ -24,7 +24,7 @@ const keepOnlyReadableRunners = (runners) =>
 function* getRunnerStatus(organizationId, workspaceId, runnerId, lastRunId) {
   try {
     const response = yield call(Api.RunnerRuns.getRunStatus, organizationId, workspaceId, runnerId, lastRunId);
-    yield put(updateRunner({ runnerId, runner: { state: response.data.state } }));
+    yield put(updateSimulationRunner({ runnerId, runner: { state: response.data.state } }));
     yield put(addRun({ data: response.data }));
   } catch (error) {
     console.error(error);
@@ -40,7 +40,7 @@ function* getRunnerStatus(organizationId, workspaceId, runnerId, lastRunId) {
         ),
       })
     );
-    yield put(updateRunner({ runnerId, runner: { state: RUNNER_RUN_STATE.UNKNOWN } }));
+    yield put(updateSimulationRunner({ runnerId, runner: { state: RUNNER_RUN_STATE.UNKNOWN } }));
   }
 }
 export function* getAllSimulationRunners(organizationId, workspaceId) {

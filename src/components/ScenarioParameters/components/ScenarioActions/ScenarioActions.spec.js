@@ -29,7 +29,7 @@ jest.mock('@cosmotech/ui', () => ({
 
 const mockUseStartRunner = jest.fn();
 const mockUseUpdateAndStartRunner = jest.fn();
-const mockUseUpdateRunner = jest.fn();
+const mockUseUpdateSimulationRunner = jest.fn();
 const mockOpenDialog = jest.fn();
 
 jest.mock('../../../../state/runner/hooks', () => ({
@@ -37,7 +37,7 @@ jest.mock('../../../../state/runner/hooks', () => ({
   ...jest.requireActual('../../../../state/runner/hooks'),
   useStartRunner: () => mockUseStartRunner,
   useUpdateAndStartRunner: () => mockUseUpdateAndStartRunner,
-  useUpdateRunner: () => mockUseUpdateRunner,
+  useUpdateSimulationRunner: () => mockUseUpdateSimulationRunner,
   useCurrentSimulationRunnerState: jest.fn(),
   useCurrentSimulationRunnerLastRunId: jest.fn(),
   useStopSimulationRunner: jest.fn(),
@@ -104,7 +104,7 @@ describe('Test scenario buttons when scenario is not running', () => {
 
     beforeEach(() => {
       mockUseUpdateAndStartRunner.mockClear();
-      mockUseUpdateRunner.mockClear();
+      mockUseUpdateSimulationRunner.mockClear();
       mockOpenDialog.mockClear();
     });
 
@@ -116,7 +116,7 @@ describe('Test scenario buttons when scenario is not running', () => {
 
       expect(saveScenarioButton.Button).toBeVisible();
       await saveScenarioButton.click();
-      expect(mockUseUpdateRunner).toHaveBeenCalled();
+      expect(mockUseUpdateSimulationRunner).toHaveBeenCalled();
 
       expect(discardChangesButton.Button).toBeVisible();
       await discardChangesButton.click();
