@@ -6,8 +6,10 @@ import { Api } from '../../../services/config/Api';
 import { DatasetsUtils, ApiUtils } from '../../../utils';
 import { setApplicationErrorMessage } from '../../app/reducers';
 import { DATASET_ACTIONS_KEY } from '../../datasets/constants';
+import { addDataset } from '../../datasets/reducers';
 import { createDataset } from '../../datasets/sagas/CreateDataset';
 import { RUNNER_ACTIONS_KEY } from '../constants';
+import { addEtlRunner } from '../reducers';
 
 const getUserEmail = (state) => state.auth.userEmail;
 
@@ -42,10 +44,7 @@ function* uploadFileParameter(parameter, organizationId, workspaceId) {
       updatedDatasetPart
     );
     yield call(Api.Workspaces.uploadWorkspaceFile, organizationId, workspaceId, file, true, storageFilePath);
-    yield put({
-      type: DATASET_ACTIONS_KEY.ADD_DATASET,
-      ...updatedDataset,
-    });
+    yield put(addDataset({ ...updatedDataset }));
     return datasetId;
   } catch (error) {
     console.error(error);
@@ -113,10 +112,15 @@ export function* createRunner(action) {
       runnerId,
       patchedRunner
     );
-    yield put({
-      type: RUNNER_ACTIONS_KEY.ADD_ETL_RUNNER,
-      runner: { ...updatedRunner, parametersValues: ApiUtils.formatParametersFromApi(updatedRunner.parametersValues) },
-    });
+    yield put(
+      addEtlRunner({
+        runner: {
+          ...updatedRunner,
+          parametersValues: ApiUtils.formatParametersFromApi(updatedRunner.parametersValues),
+        },
+      })
+    );
+
     yield put({ type: DATASET_ACTIONS_KEY.REFRESH_DATASET, organizationId, datasetId });
   } catch (error) {
     console.error(error);
