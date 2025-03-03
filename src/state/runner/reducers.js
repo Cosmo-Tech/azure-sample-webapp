@@ -18,7 +18,7 @@ export const runnersInitialState = {
   },
   etlRunners: {
     list: {
-      data: null,
+      data: [],
     },
   },
   runs: [],
@@ -154,6 +154,25 @@ const runnerSlice = createSlice({
       const { status } = action.payload;
       state.simulationRunners.list.status = status;
     },
+    setAllEtlRunners: (state, action) => {
+      const { list, status } = action.payload;
+      state.etlRunners.list.data = list;
+      state.etlRunners.list.status = status;
+    },
+    updateEtlRunner: (state, action) => {
+      const { runnerId, runner } = action.payload;
+      if (runner)
+        state.etlRunners.list.data = state.etlRunners.list.data?.map((runnerData) => {
+          if (runnerData.id === runnerId) {
+            return { ...runnerData, ...runner };
+          }
+          return runnerData;
+        });
+    },
+    addEtlRunner: (state, action) => {
+      const runner = action.runner;
+      state.etlRunners.list.data.push(runner);
+    },
   },
 });
 export const {
@@ -170,5 +189,8 @@ export const {
   addRun,
   updateRun,
   setListStatus,
+  setAllEtlRunners,
+  updateEtlRunner,
+  addEtlRunner,
 } = runnerSlice.actions;
 export default runnerSlice.reducer;

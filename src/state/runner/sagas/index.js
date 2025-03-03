@@ -3,7 +3,7 @@ import applyRunnerSharingChangesSaga from './ApplyRunnerSharingChanges';
 import createRunnerSaga from './CreateRunner';
 import createSimulationRunnerSaga from './CreateSimulationRunner';
 import deleteRunnerSaga from './DeleteRunner';
-import getAllSimulationRunnersSaga from './GetAllSimulationRunners';
+import getAllSimulationRunnersSaga from './GetAllRunners';
 import getRunnerSaga from './GetRunner';
 import pollRunnerStateSaga from './PollRunnerState';
 import renameRunnerSaga from './RenameRunner';
@@ -11,6 +11,7 @@ import startRunnerSaga from './StartRunner';
 import stopRunnerSaga from './StopRunner';
 import stopSimulationRunnerSaga from './StopSimulationRunner';
 import updateAndStartRunnerSaga from './UpdateAndStartRunner';
+import updateEtlRunnerSaga from './UpdateEtlRunner';
 import updateSimulationRunnerSaga from './UpdateSimulationRunner';
 
 export default function* runnerSaga() {
@@ -28,5 +29,6 @@ export default function* runnerSaga() {
     fork(applyRunnerSharingChangesSaga),
     fork(deleteRunnerSaga),
     fork(stopSimulationRunnerSaga),
+    fork(updateEtlRunnerSaga),
   ]);
 }
