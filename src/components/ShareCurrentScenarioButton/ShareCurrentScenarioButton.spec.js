@@ -96,7 +96,8 @@ describe('ShareCurrentScenarioButton', () => {
     });
 
     test('specificAccessByAgent match to current scenario accessControlList', () => {
-      const currentScenarioAccessControlList = storeState.runner.simulationRunners.current.data.security.accessControlList;
+      const currentScenarioAccessControlList =
+        storeState.runner.simulationRunners.current.data.security.accessControlList;
       expect(mockRoleEditionButtonProps.specificAccessByAgent).toEqual(currentScenarioAccessControlList);
     });
 

@@ -12,7 +12,7 @@ import { dispatchGetPowerBIEmbedInfo } from '../../powerBi/dispatchers';
 import { clearEmbedInfo } from '../../powerBi/reducers';
 import { RUNNER_ACTIONS_KEY } from '../../runner/constants';
 import { setCurrentSimulationRunner } from '../../runner/reducers';
-import { getAllSimulationRunners } from '../../runner/sagas/GetAllSimulationRunners';
+import { getAllRunners } from '../../runner/sagas/GetAllRunners';
 import { fetchSolutionByIdData } from '../../solutions/sagas/FindSolutionByIdData';
 import { WORKSPACE_ACTIONS_KEY } from '../constants';
 import { setCurrentWorkspace } from '../reducers';
@@ -86,17 +86,17 @@ export function* selectWorkspace(action) {
   const solutionId = yield select(selectSolutionIdFromCurrentWorkspace);
   yield call(fetchSolutionByIdData, organizationId, solutionId);
 
-  yield call(getAllSimulationRunners, organizationId, selectedWorkspaceId);
-  const runnersList = yield select(selectRunnersList);
+  yield call(getAllRunners, organizationId, selectedWorkspaceId);
+  const simulationRunnersList = yield select(selectRunnersList);
   yield put(
     setCurrentSimulationRunner({
-      runnerId: ResourceUtils.getFirstRootResource(runnersList)?.id, // Function returns null if list is empty
+      runnerId: ResourceUtils.getFirstRootResource(simulationRunnersList)?.id, // Function returns null if list is empty
       status: STATUSES.SUCCESS,
     })
   );
 
   // Start run status polling for running scenarios
-  const runningRunners = runnersList.filter((runner) => runner.state === RUNNER_RUN_STATE.RUNNING);
+  const runningRunners = simulationRunnersList.filter((runner) => runner.state === RUNNER_RUN_STATE.RUNNING);
   yield all(
     runningRunners.map((runner) =>
       put({
