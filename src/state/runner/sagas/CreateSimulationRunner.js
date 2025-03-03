@@ -9,7 +9,7 @@ import { STATUSES } from '../../../services/config/StatusConstants';
 import { ApiUtils, RunnersUtils } from '../../../utils';
 import { setApplicationErrorMessage } from '../../app/reducers';
 import { RUNNER_ACTIONS_KEY } from '../constants';
-import { addRunner, setCurrentSimulationRunner } from '../reducers';
+import { addSimulationRunner, setCurrentSimulationRunner } from '../reducers';
 
 const appInsights = AppInsights.getInstance();
 const getUserEmail = (state) => state.auth.userEmail;
@@ -42,7 +42,7 @@ export function* createSimulationRunner(action) {
     data.state = RUNNER_RUN_STATE.CREATED;
     RunnersUtils.patchRunnerWithCurrentUserPermissions(data, userEmail, userId, runnersPermissionsMapping);
     yield put(
-      addRunner({
+      addSimulationRunner({
         data,
       })
     );
