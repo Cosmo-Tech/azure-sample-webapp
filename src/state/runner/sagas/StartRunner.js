@@ -9,7 +9,7 @@ import { STATUSES } from '../../../services/config/StatusConstants';
 import { RunnersUtils } from '../../../utils';
 import { setApplicationErrorMessage } from '../../app/reducers';
 import { RUNNER_ACTIONS_KEY } from '../constants';
-import { addRun, updateRunner } from '../reducers';
+import { addRun, updateSimulationRunner } from '../reducers';
 
 const appInsights = AppInsights.getInstance();
 const getRunners = (state) => state.runner?.list?.data;
@@ -27,7 +27,7 @@ export function* startRunner(action) {
     const previousRunnerState = runner?.state;
 
     yield put(
-      updateRunner({
+      updateSimulationRunner({
         runnerId,
         runner: { state: RUNNER_RUN_STATE.RUNNING },
       })
@@ -46,7 +46,7 @@ export function* startRunner(action) {
         })
       );
       yield put(
-        updateRunner({
+        updateSimulationRunner({
           runnerId,
           status: STATUSES.ERROR,
           runner: { state: previousRunnerState }, // Do not force runner state to "Failed", restore previous state
@@ -58,7 +58,7 @@ export function* startRunner(action) {
     const lastRunId = RunnersUtils.getRunIdFromRunnerStart(response.data);
     const lastRunIdPatch = RunnersUtils.forgeRunnerLastRunIdPatch(lastRunId);
     yield put(
-      updateRunner({
+      updateSimulationRunner({
         runnerId,
         runner: { state: RUNNER_RUN_STATE.RUNNING, ...lastRunIdPatch },
       })
@@ -82,7 +82,7 @@ export function* startRunner(action) {
       })
     );
     yield put(
-      updateRunner({
+      updateSimulationRunner({
         runnerId,
         status: STATUSES.ERROR,
         runner: { state: RUNNER_RUN_STATE.FAILED },

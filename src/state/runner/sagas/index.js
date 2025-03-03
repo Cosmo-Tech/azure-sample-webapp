@@ -11,7 +11,7 @@ import startRunnerSaga from './StartRunner';
 import stopRunnerSaga from './StopRunner';
 import stopSimulationRunnerSaga from './StopSimulationRunner';
 import updateAndStartRunnerSaga from './UpdateAndStartRunner';
-import updateRunnerSaga from './UpdateRunner';
+import updateSimulationRunnerSaga from './UpdateSimulationRunner';
 
 export default function* runnerSaga() {
   yield all([
@@ -19,7 +19,7 @@ export default function* runnerSaga() {
     fork(createSimulationRunnerSaga),
     fork(getAllSimulationRunnersSaga),
     fork(getRunnerSaga),
-    fork(updateRunnerSaga),
+    fork(updateSimulationRunnerSaga),
     fork(updateAndStartRunnerSaga),
     fork(startRunnerSaga),
     fork(pollRunnerStateSaga),

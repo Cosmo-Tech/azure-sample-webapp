@@ -6,13 +6,20 @@ import { STATUSES } from '../../services/config/StatusConstants';
 import { RunnersUtils } from '../../utils';
 
 export const runnersInitialState = {
-  list: {
-    data: null,
-    status: STATUSES.IDLE,
+  simulationRunners: {
+    list: {
+      data: null,
+      status: STATUSES.IDLE,
+    },
+    current: {
+      data: null,
+      status: STATUSES.IDLE,
+    },
   },
-  current: {
-    data: null,
-    status: STATUSES.IDLE,
+  etlRunners: {
+    list: {
+      data: null,
+    },
   },
   runs: [],
   status: STATUSES.IDLE,
@@ -24,17 +31,17 @@ const runnerSlice = createSlice({
   reducers: {
     setAllSimulationRunners: (state, action) => {
       const { list, status } = action.payload;
-      state.list.data = list;
-      state.status = status;
+      state.simulationRunners.list.data = list;
+      state.simulationRunners.list.status = status;
     },
     setReducerStatus: (state, action) => {
       const { status } = action.payload;
       state.status = status;
     },
-    updateRunner: (state, action) => {
+    updateSimulationRunner: (state, action) => {
       const { runner, runnerId, status } = action.payload;
       if (runner) {
-        state.list.data = state.list?.data?.map((runnerData) => {
+        state.simulationRunners.list.data = state.simulationRunners.list?.data?.map((runnerData) => {
           if (runnerData.id === runnerId) {
             return {
               ...runnerData,
@@ -44,35 +51,35 @@ const runnerSlice = createSlice({
           // Otherwise, use the original data
           return runnerData;
         });
-        if (state.current?.data?.id === runnerId) {
-          state.current.data = {
-            ...state.current?.data,
+        if (state.simulationRunners.current?.data?.id === runnerId) {
+          state.simulationRunners.current.data = {
+            ...state.simulationRunners.current?.data,
             ...runner,
           };
         }
       }
       if (status) {
-        state.current.status = status;
+        state.simulationRunners.current.status = status;
       }
     },
     setValidationStatus: (state, action) => {
       const { runnerId, validationStatus } = action.payload;
-      state.list.data = state.list.data?.map((runner) => {
+      state.simulationRunners.list.data = state.simulationRunners.list.data?.map((runner) => {
         if (runner.id === runnerId) {
           return { ...runner, validationStatus };
         }
         return runner;
       });
-      if (state.current.data?.id === runnerId) {
-        state.current.data = {
-          ...state.current?.data,
+      if (state.simulationRunners.current.data?.id === runnerId) {
+        state.simulationRunners.current.data = {
+          ...state.simulationRunners.current?.data,
           validationStatus,
         };
       }
     },
     setRunnerSecurity: (state, action) => {
       const { runnerId, security, userEmail, userId, runnersPermissionsMapping } = action.payload;
-      state.list.data = state.list?.data?.map((runner) => {
+      state.simulationRunners.list.data = state.simulationRunners.list?.data?.map((runner) => {
         if (runner.id === runnerId) {
           const runnerWithNewSecurity = { ...runner, security };
           RunnersUtils.patchRunnerWithCurrentUserPermissions(
@@ -85,20 +92,20 @@ const runnerSlice = createSlice({
         }
         return runner;
       });
-      if (state.current?.data?.id === runnerId) {
-        const runnerWithNewSecurity = { ...state.current.data, security };
+      if (state.simulationRunners.current?.data?.id === runnerId) {
+        const runnerWithNewSecurity = { ...state.simulationRunners.current.data, security };
         RunnersUtils.patchRunnerWithCurrentUserPermissions(
           runnerWithNewSecurity,
           userEmail,
           userId,
           runnersPermissionsMapping
         );
-        state.current.data = runnerWithNewSecurity;
+        state.simulationRunners.current.data = runnerWithNewSecurity;
       }
     },
     setRunnerName: (state, action) => {
       const { runnerId, name } = action.payload;
-      state.list.data = state.list.data?.map((runnerData) => {
+      state.simulationRunners.list.data = state.simulationRunners.list.data?.map((runnerData) => {
         if (runnerData.id === runnerId) {
           return { ...runnerData, name };
         }
@@ -107,23 +114,25 @@ const runnerSlice = createSlice({
     },
     deleteRunner: (state, action) => {
       const { runnerId } = action.payload;
-      const index = state.list?.data.findIndex((runner) => runner.id === runnerId);
-      RunnersUtils.updateParentIdOnDelete(state.list?.data, runnerId);
-      state.list?.data.splice(index, 1);
-      if (state.current.data?.id === runnerId) state.current.data = null;
+      const index = state.simulationRunners.list?.data.findIndex((runner) => runner.id === runnerId);
+      RunnersUtils.updateParentIdOnDelete(state.simulationRunners.list?.data, runnerId);
+      state.simulationRunners.list?.data.splice(index, 1);
+      if (state.simulationRunners.current.data?.id === runnerId) state.simulationRunners.current.data = null;
     },
-    addRunner: (state, action) => {
+    addSimulationRunner: (state, action) => {
       const { data } = action.payload;
-      state.list?.data.push(data);
+      state.simulationRunners.list?.data.push(data);
     },
     resetCurrentSimulationRunner: (state) => {
-      state.current.data = null;
-      state.current.status = STATUSES.IDLE;
+      state.simulationRunners.current.data = null;
+      state.simulationRunners.current.status = STATUSES.IDLE;
     },
     setCurrentSimulationRunner: (state, action) => {
       const { runnerId, status } = action.payload;
-      state.current.data = state.list.data.find((runner) => runner.id === runnerId) ?? state.current.data;
-      state.current.status = status ?? state.current?.status;
+      state.simulationRunners.current.data =
+        state.simulationRunners.list.data.find((runner) => runner.id === runnerId) ??
+        state.simulationRunners.current.data;
+      state.simulationRunners.current.status = status ?? state.simulationRunners.current?.status;
     },
     addRun: (state, action) => {
       const { data } = action.payload;
@@ -143,19 +152,19 @@ const runnerSlice = createSlice({
     },
     setListStatus: (state, action) => {
       const { status } = action.payload;
-      state.list.status = status;
+      state.simulationRunners.list.status = status;
     },
   },
 });
 export const {
   setAllSimulationRunners,
   setReducerStatus,
-  updateRunner,
+  updateSimulationRunner,
   setValidationStatus,
   setRunnerSecurity,
   setRunnerName,
   deleteRunner,
-  addRunner,
+  addSimulationRunner,
   resetCurrentSimulationRunner,
   setCurrentSimulationRunner,
   addRun,
