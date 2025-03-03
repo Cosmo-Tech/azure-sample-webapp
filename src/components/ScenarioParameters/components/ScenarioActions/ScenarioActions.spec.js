@@ -37,7 +37,7 @@ jest.mock('../../../../state/runner/hooks', () => ({
   ...jest.requireActual('../../../../state/runner/hooks'),
   useStartRunner: () => mockUseStartRunner,
   useUpdateAndStartRunner: () => mockUseUpdateAndStartRunner,
-  useUpdateRunner: () => mockUseUpdateRunner,
+  useUpdateSimulationRunner: () => mockUseUpdateRunner,
   useCurrentSimulationRunnerState: jest.fn(),
   useStopSimulationRunner: jest.fn(),
 }));

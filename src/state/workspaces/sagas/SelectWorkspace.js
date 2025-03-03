@@ -19,7 +19,7 @@ import { setCurrentWorkspace } from '../reducers';
 
 const getOrganizationId = (state) => state?.organization?.current?.data?.id;
 const selectSolutionIdFromCurrentWorkspace = (state) => state.workspace.current.data.solution.solutionId;
-const selectRunnersList = (state) => state.runner.list.data;
+const selectRunnersList = (state) => state.runner.simulationRunners.list.data;
 const getWorkspaces = (state) => state?.workspace?.list?.data;
 
 export function* selectWorkspace(action) {
