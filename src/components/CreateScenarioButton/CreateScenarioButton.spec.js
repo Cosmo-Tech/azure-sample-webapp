@@ -88,7 +88,7 @@ describe('CreateScenarioButton', () => {
     });
 
     test('currentScenario prop match to current scenario state', () => {
-      expect(mockCreateScenarioUIProps.currentScenario).toEqual(DEFAULT_REDUX_STATE.runner.current);
+      expect(mockCreateScenarioUIProps.currentScenario).toEqual(DEFAULT_REDUX_STATE.runner.simulationRunners.current);
     });
 
     test('scenarios prop match to scenario list data state', () => {
