@@ -6,14 +6,14 @@ import { Api } from '../../../services/config/Api';
 import { RUNNER_RUN_STATE } from '../../../services/config/ApiConstants';
 import { setApplicationErrorMessage } from '../../app/reducers';
 import { RUNNER_ACTIONS_KEY } from '../constants';
-import { updateRunner } from '../reducers';
+import { updateSimulationRunner } from '../reducers';
 
 // generators function
 export function* stopSimulationRunner(action) {
   try {
     yield call(Api.Runners.stopRun, action.organizationId, action.workspaceId, action.runnerId);
     yield put(
-      updateRunner({
+      updateSimulationRunner({
         runnerId: action.runnerId,
         runner: { state: RUNNER_RUN_STATE.FAILED },
       })

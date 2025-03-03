@@ -16,8 +16,8 @@ import {
   dispatchStopRunner,
   dispatchStopSimulationRunner,
   dispatchUpdateAndStartRunner,
-  dispatchUpdateRunner,
-  dispatchUpdateRunnerData,
+  dispatchUpdateSimulationRunner,
+  dispatchUpdateSimulationRunnerData,
 } from './dispatchers';
 import { resetCurrentSimulationRunner, setCurrentSimulationRunner, setValidationStatus } from './reducers';
 
@@ -26,51 +26,51 @@ export const useRunnersReducerStatus = () => {
 };
 
 export const useRunnersListStatus = () => {
-  return useSelector((state) => state.runner.list?.status);
+  return useSelector((state) => state.runner.simulationRunners.list?.status);
 };
 
 export const useRunners = () => {
-  return useSelector((state) => state.runner?.list?.data);
+  return useSelector((state) => state.runner?.simulationRunners.list?.data);
 };
 
 export const useCurrentSimulationRunner = () => {
-  return useSelector((state) => state.runner.current);
+  return useSelector((state) => state.runner.simulationRunners.current);
 };
 
 export const useCurrentSimulationRunnerRunTemplateId = () => {
-  return useSelector((state) => state.runner?.current?.data?.runTemplateId);
+  return useSelector((state) => state.runner?.simulationRunners.current?.data?.runTemplateId);
 };
 
 export const useCurrentSimulationRunnerData = () => {
-  return useSelector((state) => state.runner.current?.data);
+  return useSelector((state) => state.runner.simulationRunners.current?.data);
 };
 
 export const useCurrentSimulationRunnerId = () => {
-  return useSelector((state) => state.runner.current?.data?.id);
+  return useSelector((state) => state.runner.simulationRunners.current?.data?.id);
 };
 
 export const useCurrentSimulationRunnerParametersValues = () => {
-  return useSelector((state) => state.runner.current?.data?.parametersValues);
+  return useSelector((state) => state.runner.simulationRunners.current?.data?.parametersValues);
 };
 
 export const useCurrentSimulationRunnerLastUpdate = () => {
-  return useSelector((state) => state.runner.current?.data?.lastUpdate);
+  return useSelector((state) => state.runner.simulationRunners.current?.data?.lastUpdate);
 };
 
 export const useCurrentSimulationRunnerLastRunId = () => {
-  return useSelector((state) => RunnersUtils.getLastRunId(state.runner.current?.data));
+  return useSelector((state) => RunnersUtils.getLastRunId(state.runner.simulationRunners.current?.data));
 };
 
 export const useCurrentSimulationRunnerState = () => {
-  return useSelector((state) => state.runner.current?.data?.state);
+  return useSelector((state) => state.runner.simulationRunners.current?.data?.state);
 };
 
 export const useCurrentSimulationRunnerDatasetList = () => {
-  return useSelector((state) => state.runner.current?.data?.datasetList);
+  return useSelector((state) => state.runner.simulationRunners.current?.data?.datasetList);
 };
 
 export const useCurrentSimulationRunnerReducerStatus = () => {
-  return useSelector((state) => state.runner?.current?.status);
+  return useSelector((state) => state.runner?.simulationRunners.current?.status);
 };
 
 export const useLastRunsList = () => {
@@ -125,14 +125,14 @@ export const useStopRunner = () => {
   );
 };
 
-export const useUpdateRunner = () => {
+export const useUpdateSimulationRunner = () => {
   const dispatch = useDispatch();
   const organizationId = useOrganizationId();
   const workspaceId = useWorkspaceId();
   const runTemplateId = useCurrentSimulationRunnerRunTemplateId();
   return useCallback(
     (runnerId, runnerParameters) =>
-      dispatch(dispatchUpdateRunner(organizationId, workspaceId, runnerId, runTemplateId, runnerParameters)),
+      dispatch(dispatchUpdateSimulationRunner(organizationId, workspaceId, runnerId, runTemplateId, runnerParameters)),
     [dispatch, organizationId, workspaceId, runTemplateId]
   );
 };
@@ -143,7 +143,7 @@ export const useUpdateRunnerData = () => {
   const workspaceId = useWorkspaceId();
   return useCallback(
     (runnerId, runnerDataPatch) =>
-      dispatch(dispatchUpdateRunnerData(organizationId, workspaceId, runnerId, runnerDataPatch)),
+      dispatch(dispatchUpdateSimulationRunnerData(organizationId, workspaceId, runnerId, runnerDataPatch)),
     [dispatch, organizationId, workspaceId]
   );
 };

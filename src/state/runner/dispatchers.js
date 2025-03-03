@@ -30,8 +30,14 @@ export const dispatchGetRunner = (organizationId, workspaceId, runnerId) => ({
   runnerId,
 });
 
-export const dispatchUpdateRunner = (organizationId, workspaceId, runnerId, runTemplateId, runnerParameters) => ({
-  type: RUNNER_ACTIONS_KEY.UPDATE_RUNNER,
+export const dispatchUpdateSimulationRunner = (
+  organizationId,
+  workspaceId,
+  runnerId,
+  runTemplateId,
+  runnerParameters
+) => ({
+  type: RUNNER_ACTIONS_KEY.UPDATE_SIMULATION_RUNNER,
   organizationId,
   workspaceId,
   runnerId,
@@ -39,8 +45,8 @@ export const dispatchUpdateRunner = (organizationId, workspaceId, runnerId, runT
   runnerParameters,
 });
 
-export const dispatchUpdateRunnerData = (organizationId, workspaceId, runnerId, runnerDataPatch) => ({
-  type: RUNNER_ACTIONS_KEY.UPDATE_RUNNER,
+export const dispatchUpdateSimulationRunnerData = (organizationId, workspaceId, runnerId, runnerDataPatch) => ({
+  type: RUNNER_ACTIONS_KEY.UPDATE_SIMULATION_RUNNER,
   organizationId,
   workspaceId,
   runnerId,
