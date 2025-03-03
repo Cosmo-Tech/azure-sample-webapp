@@ -10,14 +10,14 @@ import { useUpdateParameters } from '../../../../../../hooks/ScenarioParametersH
 import { useUserAppAndCurrentScenarioPermissions } from '../../../../../../hooks/SecurityHooks';
 import { ACL_PERMISSIONS } from '../../../../../../services/config/accessControl';
 import { useSetApplicationErrorMessage } from '../../../../../../state/app/hooks';
-import { useCurrentSimulationRunnerId, useUpdateRunner } from '../../../../../../state/runner/hooks';
+import { useCurrentSimulationRunnerId, useUpdateSimulationRunner } from '../../../../../../state/runner/hooks';
 
 export const SaveButton = () => {
   const { t } = useTranslation();
   const { isDirty, errors } = useFormState();
   const isValid = Object.keys(errors || {}).length === 0;
   const currentScenarioId = useCurrentSimulationRunnerId();
-  const saveScenario = useUpdateRunner();
+  const saveScenario = useUpdateSimulationRunner();
   const { processFilesToUpload, getParametersToUpdate } = useUpdateParameters();
   const setApplicationErrorMessage = useSetApplicationErrorMessage();
   const userAppAndCurrentScenarioPermissions = useUserAppAndCurrentScenarioPermissions();
