@@ -10,7 +10,13 @@ import { ACL_PERMISSIONS } from '../../../services/config/accessControl';
 import { ApiUtils, RunnersUtils, SolutionsUtils } from '../../../utils';
 import { setApplicationErrorMessage } from '../../app/reducers';
 import { RUNNER_ACTIONS_KEY } from '../constants';
-import { addRun, setAllSimulationRunners, setReducerStatus, updateSimulationRunner } from '../reducers';
+import {
+  addRun,
+  setAllEtlRunners,
+  setAllSimulationRunners,
+  setReducerStatus,
+  updateSimulationRunner,
+} from '../reducers';
 
 const getUserEmail = (state) => state.auth.userEmail;
 const getUserId = (state) => state.auth.userId;
@@ -43,7 +49,7 @@ function* getRunnerStatus(organizationId, workspaceId, runnerId, lastRunId) {
     yield put(updateSimulationRunner({ runnerId, runner: { state: RUNNER_RUN_STATE.UNKNOWN } }));
   }
 }
-export function* getAllSimulationRunners(organizationId, workspaceId) {
+export function* getAllRunners(organizationId, workspaceId) {
   const userEmail = yield select(getUserEmail);
   const userId = yield select(getUserId);
   const runTemplates = yield select(getSolutionRunTemplates);
@@ -51,40 +57,54 @@ export function* getAllSimulationRunners(organizationId, workspaceId) {
   const solutionParameters = yield select(getSolutionParameters);
   yield put(setReducerStatus({ status: STATUSES.LOADING }));
   const { data } = yield call(Api.Runners.listRunners, organizationId, workspaceId, 0, RUNNERS_PAGE_COUNT);
-  const simulationRunTemplatesIds = runTemplates
-    ?.filter((rt) => !SolutionsUtils.isDataSource(rt) && !SolutionsUtils.isSubDataSource(rt))
-    .map((rt) => rt.id);
-  const simulationRunners = data.filter((runner) => simulationRunTemplatesIds?.includes(runner.runTemplateId));
-  simulationRunners.forEach((runner) =>
-    RunnersUtils.patchRunnerParameterValues(solutionParameters, runner.parametersValues)
+  data.forEach((runner) =>
+    RunnersUtils.patchRunnerWithCurrentUserPermissions(runner, userEmail, userId, runnersPermissionsMapping)
   );
-  simulationRunners.forEach(
+  const readableRunners = keepOnlyReadableRunners(data);
+
+  readableRunners.forEach(
     (runner) => (runner.parametersValues = ApiUtils.formatParametersFromApi(runner.parametersValues))
   );
-  simulationRunners.forEach((runner) =>
-    RunnersUtils.patchRunnerWithCurrentUserPermissions(runner, userEmail, userId, runnersPermissionsMapping)
+
+  readableRunners.forEach((runner) =>
+    RunnersUtils.patchRunnerParameterValues(solutionParameters, runner.parametersValues)
+  );
+  const simulationRunnersRunTemplatesIds = [];
+  const eltRunnersRunTemplatesIds = [];
+  runTemplates?.forEach((rt) => {
+    if (!SolutionsUtils.isDataSource(rt) && !SolutionsUtils.isSubDataSource(rt))
+      simulationRunnersRunTemplatesIds.push(rt.id);
+    else eltRunnersRunTemplatesIds.push(rt.id);
+  });
+  const simulationRunners = readableRunners.filter((runner) =>
+    simulationRunnersRunTemplatesIds?.includes(runner.runTemplateId)
   );
   simulationRunners.forEach((runner) => {
     if (RunnersUtils.getLastRunId(runner) == null) runner.state = RUNNER_RUN_STATE.CREATED;
   });
-  const readableRunners = keepOnlyReadableRunners(simulationRunners);
   yield put(
     setAllSimulationRunners({
-      list: readableRunners,
+      list: simulationRunners,
       status: STATUSES.SUCCESS,
     })
   );
   yield all(
-    readableRunners
+    simulationRunners
       .filter((runner) => RunnersUtils.getLastRunId(runner) != null)
       .map((runner) => {
         return call(getRunnerStatus, organizationId, workspaceId, runner.id, RunnersUtils.getLastRunId(runner));
       })
   );
+  const etlRunners = readableRunners.filter((runner) => eltRunnersRunTemplatesIds?.includes(runner.runTemplateId));
+  yield put(
+    setAllEtlRunners({
+      list: etlRunners,
+    })
+  );
 }
 
 function* getAllSimulationRunnersSaga() {
-  yield takeEvery(RUNNER_ACTIONS_KEY.LIST_ALL_RUNNERS, getAllSimulationRunners);
+  yield takeEvery(RUNNER_ACTIONS_KEY.LIST_ALL_RUNNERS, getAllRunners);
 }
 
 export default getAllSimulationRunnersSaga;
