@@ -5,7 +5,7 @@ import { takeEvery, call, put } from 'redux-saga/effects';
 import { Api } from '../../../services/config/Api';
 import { setApplicationErrorMessage } from '../../app/reducers';
 import { RUNNER_ACTIONS_KEY } from '../constants';
-import { updateRunner } from '../reducers';
+import { updateSimulationRunner } from '../reducers';
 
 export function* renameRunner(action) {
   try {
@@ -15,7 +15,7 @@ export function* renameRunner(action) {
       runTemplateId,
     });
     yield put(
-      updateRunner({
+      updateSimulationRunner({
         runnerId,
         runner: {
           name: runnerName,
