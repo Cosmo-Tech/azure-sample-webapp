@@ -1,15 +1,26 @@
+import { BREWERY_URL_ROOT, BREWERY_WORKSPACE_ID1, BREWERY_WORKSPACE_ID2 } from '../brewery/TestConstants';
+
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
 export { ORGANIZATION_ID } from '../../../../src/config/GlobalConfiguration';
 
-export const URL_ROOT = Cypress.env('COSMO_API_URL');
-if (URL_ROOT == null) throw Error('Environment variable CYPRESS_COSMO_API_URL is not defined');
-
-export const WORKSPACE_ID1 = Cypress.env('WORKSPACE_ID1');
-export const WORKSPACE_ID2 = Cypress.env('WORKSPACE_ID2');
-if (WORKSPACE_ID1 == null || WORKSPACE_ID2 == null)
-  throw Error('Environment variables CYPRESS_WORKSPACE_ID1 and CYPRESS_WORKSPACE_ID2 must be defined');
+// Work-around to let this file be imported with or without Cypress context. When Cypress variable is defined, specific
+// API URL and workspace ids are loaded from environment variables
+let urlRoot = BREWERY_URL_ROOT;
+let workspaceId1 = BREWERY_WORKSPACE_ID1;
+let workspaceId2 = BREWERY_WORKSPACE_ID2;
+if (typeof Cypress !== 'undefined') {
+  urlRoot = Cypress.env('COSMO_API_URL');
+  workspaceId1 = Cypress.env('WORKSPACE_ID1');
+  workspaceId2 = Cypress.env('WORKSPACE_ID2');
+  if (urlRoot == null) throw Error('Environment variable CYPRESS_COSMO_API_URL is not defined');
+  if (workspaceId1 == null || workspaceId2 == null)
+    throw Error('Environment variables CYPRESS_WORKSPACE_ID1 and CYPRESS_WORKSPACE_ID2 must be defined');
+}
+export const URL_ROOT = urlRoot;
+export const WORKSPACE_ID1 = workspaceId1;
+export const WORKSPACE_ID2 = workspaceId2;
 
 export const AUTH_QUERY_URL = '';
 export const GET_EMBED_INFO_ENDPOINT = '/api/get-embed-info';
