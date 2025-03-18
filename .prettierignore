@@ -5,3 +5,4 @@ dist
 node_modules
 stats.html
 cypress/reports
+src/views/AdvancedVisualization/data/*.json

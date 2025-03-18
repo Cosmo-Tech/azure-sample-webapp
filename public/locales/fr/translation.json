@@ -896,6 +896,11 @@
   },
   "layouts": {
     "tabs": {
+      "advancedvisualization": {
+        "tab": {
+          "title": "VISUALISATION AVANCÉE"
+        }
+      },
       "scenario": {
         "tab": {
           "title": "Vue scénario"

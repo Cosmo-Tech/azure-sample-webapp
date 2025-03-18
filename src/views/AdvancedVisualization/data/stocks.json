@@ -1,0 +1,5186 @@
+[
+  {
+    "id": "S_Assembled_Screen_Lyon",
+    "label": "S_Assembled_Screen_Lyon",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "45.725",
+    "longitude": "4.825"
+  },
+  {
+    "id": "S_Assembled_Back1_Lyon",
+    "label": "S_Assembled_Back_Lyon",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "45.725",
+    "longitude": "4.825"
+  },
+  {
+    "id": "S_Assembled_Back2_Lyon",
+    "label": "S_Assembled_Back_Lyon",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "45.725",
+    "longitude": "4.825"
+  },
+  {
+    "id": "S_Assembled_Back3_Lyon",
+    "label": "S_Assembled_Back_Lyon",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "45.725",
+    "longitude": "4.825"
+  },
+  {
+    "id": "S_Assembled_Battery_Lyon",
+    "label": "S_Assembled_Battery_Lyon",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "45.725",
+    "longitude": "4.825"
+  },
+  {
+    "id": "S_Assembled_Motherboard1_Lyon",
+    "label": "S_Assembled_Motherboard_Lyon",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "45.725",
+    "longitude": "4.825"
+  },
+  {
+    "id": "S_Assembled_Motherboard2_Lyon",
+    "label": "S_Assembled_Motherboard_Lyon",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "45.725",
+    "longitude": "4.825"
+  },
+  {
+    "id": "FinalProduct_A_Lyon",
+    "label": "FinalProduct_A_Lyon",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "45.7578137",
+    "longitude": "4.8320114"
+  },
+  {
+    "id": "FinalProduct_B_Lyon",
+    "label": "FinalProduct_B_Lyon",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "45.7578137",
+    "longitude": "4.8320114"
+  },
+  {
+    "id": "FinalProduct_C_Lyon",
+    "label": "FinalProduct_C_Lyon",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "45.7578137",
+    "longitude": "4.8320114"
+  },
+  {
+    "id": "FinalProduct_D_Lyon",
+    "label": "FinalProduct_D_Lyon",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "45.7578137",
+    "longitude": "4.8320114"
+  },
+  {
+    "id": "FinalProduct_E_Lyon",
+    "label": "FinalProduct_E_Lyon",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "45.7578137",
+    "longitude": "4.8320114"
+  },
+  {
+    "id": "FinalProduct_F_Lyon",
+    "label": "FinalProduct_F_Lyon",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "45.7578137",
+    "longitude": "4.8320114"
+  },
+  {
+    "id": "Ud_FinalProduct_A_Lyon",
+    "label": "Ud_FinalProduct_A_Lyon",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "45.725",
+    "longitude": "4.825"
+  },
+  {
+    "id": "Ud_FinalProduct_B_Lyon",
+    "label": "Ud_FinalProduct_B_Lyon",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "45.725",
+    "longitude": "4.825"
+  },
+  {
+    "id": "Ud_FinalProduct_C_Lyon",
+    "label": "Ud_FinalProduct_C_Lyon",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "45.725",
+    "longitude": "4.825"
+  },
+  {
+    "id": "Ud_FinalProduct_D_Lyon",
+    "label": "Ud_FinalProduct_D_Lyon",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "45.725",
+    "longitude": "4.825"
+  },
+  {
+    "id": "Ud_FinalProduct_E_Lyon",
+    "label": "Ud_FinalProduct_E_Lyon",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "45.725",
+    "longitude": "4.825"
+  },
+  {
+    "id": "Ud_FinalProduct_F_Lyon",
+    "label": "Ud_FinalProduct_F_Lyon",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "45.725",
+    "longitude": "4.825"
+  },
+  {
+    "id": "S_Assembled_Screen_Wuhan",
+    "label": "S_Assembled_Screen_Wuhan",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "30.38",
+    "longitude": "114.3"
+  },
+  {
+    "id": "S_Assembled_Back1_Wuhan",
+    "label": "S_Assembled_Back_Wuhan",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "30.38",
+    "longitude": "114.3"
+  },
+  {
+    "id": "S_Assembled_Back2_Wuhan",
+    "label": "S_Assembled_Back_Wuhan",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "30.38",
+    "longitude": "114.3"
+  },
+  {
+    "id": "S_Assembled_Back3_Wuhan",
+    "label": "S_Assembled_Back_Wuhan",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "30.38",
+    "longitude": "114.3"
+  },
+  {
+    "id": "S_Assembled_Battery_Wuhan",
+    "label": "S_Assembled_Battery_Wuhan",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "30.38",
+    "longitude": "114.3"
+  },
+  {
+    "id": "S_Assembled_Motherboard1_Wuhan",
+    "label": "S_Assembled_Motherboard_Wuhan",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "30.38",
+    "longitude": "114.3"
+  },
+  {
+    "id": "S_Assembled_Motherboard2_Wuhan",
+    "label": "S_Assembled_Motherboard_Wuhan",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "30.38",
+    "longitude": "114.3"
+  },
+  {
+    "id": "FinalProduct_A_Wuhan",
+    "label": "FinalProduct_A_Wuhan",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "30.5951051",
+    "longitude": "114.2999353"
+  },
+  {
+    "id": "FinalProduct_B_Wuhan",
+    "label": "FinalProduct_B_Wuhan",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "30.5951051",
+    "longitude": "114.2999353"
+  },
+  {
+    "id": "FinalProduct_C_Wuhan",
+    "label": "FinalProduct_C_Wuhan",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "30.5951051",
+    "longitude": "114.2999353"
+  },
+  {
+    "id": "FinalProduct_D_Wuhan",
+    "label": "FinalProduct_D_Wuhan",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "30.5951051",
+    "longitude": "114.2999353"
+  },
+  {
+    "id": "FinalProduct_E_Wuhan",
+    "label": "FinalProduct_E_Wuhan",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "30.5951051",
+    "longitude": "114.2999353"
+  },
+  {
+    "id": "FinalProduct_F_Wuhan",
+    "label": "FinalProduct_F_Wuhan",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "30.5951051",
+    "longitude": "114.2999353"
+  },
+  {
+    "id": "Ud_FinalProduct_A_Wuhan",
+    "label": "Ud_FinalProduct_A_Wuhan",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "30.38",
+    "longitude": "114.3"
+  },
+  {
+    "id": "Ud_FinalProduct_B_Wuhan",
+    "label": "Ud_FinalProduct_B_Wuhan",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "30.38",
+    "longitude": "114.3"
+  },
+  {
+    "id": "Ud_FinalProduct_C_Wuhan",
+    "label": "Ud_FinalProduct_C_Wuhan",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "30.38",
+    "longitude": "114.3"
+  },
+  {
+    "id": "Ud_FinalProduct_D_Wuhan",
+    "label": "Ud_FinalProduct_D_Wuhan",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "30.38",
+    "longitude": "114.3"
+  },
+  {
+    "id": "Ud_FinalProduct_E_Wuhan",
+    "label": "Ud_FinalProduct_E_Wuhan",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "30.38",
+    "longitude": "114.3"
+  },
+  {
+    "id": "Ud_FinalProduct_F_Wuhan",
+    "label": "Ud_FinalProduct_F_Wuhan",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "30.38",
+    "longitude": "114.3"
+  },
+  {
+    "id": "S_Assembled_Screen_Bucarest",
+    "label": "S_Assembled_Screen_Bucarest",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "44.43",
+    "longitude": "26.185"
+  },
+  {
+    "id": "S_Assembled_Back1_Bucarest",
+    "label": "S_Assembled_Back_Bucarest",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "44.43",
+    "longitude": "26.185"
+  },
+  {
+    "id": "S_Assembled_Back2_Bucarest",
+    "label": "S_Assembled_Back_Bucarest",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "44.43",
+    "longitude": "26.185"
+  },
+  {
+    "id": "S_Assembled_Back3_Bucarest",
+    "label": "S_Assembled_Back_Bucarest",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "44.43",
+    "longitude": "26.185"
+  },
+  {
+    "id": "S_Assembled_Battery_Bucarest",
+    "label": "S_Assembled_Battery_Bucarest",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "44.43",
+    "longitude": "26.185"
+  },
+  {
+    "id": "S_Assembled_Motherboard1_Bucarest",
+    "label": "S_Assembled_Motherboard_Bucarest",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "44.43",
+    "longitude": "26.185"
+  },
+  {
+    "id": "S_Assembled_Motherboard2_Bucarest",
+    "label": "S_Assembled_Motherboard_Bucarest",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "44.43",
+    "longitude": "26.185"
+  },
+  {
+    "id": "FinalProduct_A_Bucarest",
+    "label": "FinalProduct_A_Bucarest",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "44.4361414",
+    "longitude": "26.1027202"
+  },
+  {
+    "id": "FinalProduct_B_Bucarest",
+    "label": "FinalProduct_B_Bucarest",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "44.4361414",
+    "longitude": "26.1027202"
+  },
+  {
+    "id": "FinalProduct_C_Bucarest",
+    "label": "FinalProduct_C_Bucarest",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "44.4361414",
+    "longitude": "26.1027202"
+  },
+  {
+    "id": "FinalProduct_D_Bucarest",
+    "label": "FinalProduct_D_Bucarest",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "44.4361414",
+    "longitude": "26.1027202"
+  },
+  {
+    "id": "FinalProduct_E_Bucarest",
+    "label": "FinalProduct_E_Bucarest",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "44.4361414",
+    "longitude": "26.1027202"
+  },
+  {
+    "id": "FinalProduct_F_Bucarest",
+    "label": "FinalProduct_F_Bucarest",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "44.4361414",
+    "longitude": "26.1027202"
+  },
+  {
+    "id": "Ud_FinalProduct_A_Bucarest",
+    "label": "Ud_FinalProduct_A_Bucarest",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "44.43",
+    "longitude": "26.185"
+  },
+  {
+    "id": "Ud_FinalProduct_B_Bucarest",
+    "label": "Ud_FinalProduct_B_Bucarest",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "44.43",
+    "longitude": "26.185"
+  },
+  {
+    "id": "Ud_FinalProduct_C_Bucarest",
+    "label": "Ud_FinalProduct_C_Bucarest",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "44.43",
+    "longitude": "26.185"
+  },
+  {
+    "id": "Ud_FinalProduct_D_Bucarest",
+    "label": "Ud_FinalProduct_D_Bucarest",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "44.43",
+    "longitude": "26.185"
+  },
+  {
+    "id": "Ud_FinalProduct_E_Bucarest",
+    "label": "Ud_FinalProduct_E_Bucarest",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "44.43",
+    "longitude": "26.185"
+  },
+  {
+    "id": "Ud_FinalProduct_F_Bucarest",
+    "label": "Ud_FinalProduct_F_Bucarest",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "44.43",
+    "longitude": "26.185"
+  },
+  {
+    "id": "S_Assembled_Screen_Guadalajara",
+    "label": "S_Assembled_Screen_Guadalajara",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "20.72",
+    "longitude": "-103.3"
+  },
+  {
+    "id": "S_Assembled_Back1_Guadalajara",
+    "label": "S_Assembled_Back_Guadalajara",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "20.72",
+    "longitude": "-103.3"
+  },
+  {
+    "id": "S_Assembled_Back2_Guadalajara",
+    "label": "S_Assembled_Back_Guadalajara",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "20.72",
+    "longitude": "-103.3"
+  },
+  {
+    "id": "S_Assembled_Back3_Guadalajara",
+    "label": "S_Assembled_Back_Guadalajara",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "20.72",
+    "longitude": "-103.3"
+  },
+  {
+    "id": "S_Assembled_Battery_Guadalajara",
+    "label": "S_Assembled_Battery_Guadalajara",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "20.72",
+    "longitude": "-103.3"
+  },
+  {
+    "id": "S_Assembled_Motherboard1_Guadalajara",
+    "label": "S_Assembled_Motherboard_Guadalajara",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "20.72",
+    "longitude": "-103.3"
+  },
+  {
+    "id": "S_Assembled_Motherboard2_Guadalajara",
+    "label": "S_Assembled_Motherboard_Guadalajara",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "20.72",
+    "longitude": "-103.3"
+  },
+  {
+    "id": "FinalProduct_A_Guadalajara",
+    "label": "FinalProduct_A_Guadalajara",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "20.659698",
+    "longitude": "-103.349609"
+  },
+  {
+    "id": "FinalProduct_B_Guadalajara",
+    "label": "FinalProduct_B_Guadalajara",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "20.659698",
+    "longitude": "-103.349609"
+  },
+  {
+    "id": "FinalProduct_C_Guadalajara",
+    "label": "FinalProduct_C_Guadalajara",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "20.659698",
+    "longitude": "-103.349609"
+  },
+  {
+    "id": "FinalProduct_D_Guadalajara",
+    "label": "FinalProduct_D_Guadalajara",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "20.659698",
+    "longitude": "-103.349609"
+  },
+  {
+    "id": "FinalProduct_E_Guadalajara",
+    "label": "FinalProduct_E_Guadalajara",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "20.659698",
+    "longitude": "-103.349609"
+  },
+  {
+    "id": "FinalProduct_F_Guadalajara",
+    "label": "FinalProduct_F_Guadalajara",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "20.659698",
+    "longitude": "-103.349609"
+  },
+  {
+    "id": "Ud_FinalProduct_A_Guadalajara",
+    "label": "Ud_FinalProduct_A_Guadalajara",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "20.72",
+    "longitude": "-103.3"
+  },
+  {
+    "id": "Ud_FinalProduct_B_Guadalajara",
+    "label": "Ud_FinalProduct_B_Guadalajara",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "20.72",
+    "longitude": "-103.3"
+  },
+  {
+    "id": "Ud_FinalProduct_C_Guadalajara",
+    "label": "Ud_FinalProduct_C_Guadalajara",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "20.72",
+    "longitude": "-103.3"
+  },
+  {
+    "id": "Ud_FinalProduct_D_Guadalajara",
+    "label": "Ud_FinalProduct_D_Guadalajara",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "20.72",
+    "longitude": "-103.3"
+  },
+  {
+    "id": "Ud_FinalProduct_E_Guadalajara",
+    "label": "Ud_FinalProduct_E_Guadalajara",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "20.72",
+    "longitude": "-103.3"
+  },
+  {
+    "id": "Ud_FinalProduct_F_Guadalajara",
+    "label": "Ud_FinalProduct_F_Guadalajara",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "20.72",
+    "longitude": "-103.3"
+  },
+  {
+    "id": "S_Assembled_Screen_Birmingham",
+    "label": "S_Assembled_Screen_Birmingham",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "52.5",
+    "longitude": "-1.88"
+  },
+  {
+    "id": "S_Assembled_Back1_Birmingham",
+    "label": "S_Assembled_Back_Birmingham",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "52.5",
+    "longitude": "-1.88"
+  },
+  {
+    "id": "S_Assembled_Back2_Birmingham",
+    "label": "S_Assembled_Back_Birmingham",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "52.5",
+    "longitude": "-1.88"
+  },
+  {
+    "id": "S_Assembled_Back3_Birmingham",
+    "label": "S_Assembled_Back_Birmingham",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "52.5",
+    "longitude": "-1.88"
+  },
+  {
+    "id": "S_Assembled_Battery_Birmingham",
+    "label": "S_Assembled_Battery_Birmingham",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "52.5",
+    "longitude": "-1.88"
+  },
+  {
+    "id": "S_Assembled_Motherboard1_Birmingham",
+    "label": "S_Assembled_Motherboard_Birmingham",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "52.5",
+    "longitude": "-1.88"
+  },
+  {
+    "id": "S_Assembled_Motherboard2_Birmingham",
+    "label": "S_Assembled_Motherboard_Birmingham",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "52.482899",
+    "longitude": "-1.89346"
+  },
+  {
+    "id": "FinalProduct_A_Birmingham",
+    "label": "FinalProduct_A_Birmingham",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "52.482899",
+    "longitude": "-1.89346"
+  },
+  {
+    "id": "FinalProduct_B_Birmingham",
+    "label": "FinalProduct_B_Birmingham",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "52.482899",
+    "longitude": "-1.89346"
+  },
+  {
+    "id": "FinalProduct_C_Birmingham",
+    "label": "FinalProduct_C_Birmingham",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "52.482899",
+    "longitude": "-1.89346"
+  },
+  {
+    "id": "FinalProduct_D_Birmingham",
+    "label": "FinalProduct_D_Birmingham",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "52.482899",
+    "longitude": "-1.89346"
+  },
+  {
+    "id": "FinalProduct_E_Birmingham",
+    "label": "FinalProduct_E_Birmingham",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "52.482899",
+    "longitude": "-1.89346"
+  },
+  {
+    "id": "FinalProduct_F_Birmingham",
+    "label": "FinalProduct_F_Birmingham",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "52.482899",
+    "longitude": "-1.89346"
+  },
+  {
+    "id": "Ud_FinalProduct_A_Birmingham",
+    "label": "Ud_FinalProduct_A_Birmingham",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "52.5",
+    "longitude": "-1.88"
+  },
+  {
+    "id": "Ud_FinalProduct_B_Birmingham",
+    "label": "Ud_FinalProduct_B_Birmingham",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "52.5",
+    "longitude": "-1.88"
+  },
+  {
+    "id": "Ud_FinalProduct_C_Birmingham",
+    "label": "Ud_FinalProduct_C_Birmingham",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "52.5",
+    "longitude": "-1.88"
+  },
+  {
+    "id": "Ud_FinalProduct_D_Birmingham",
+    "label": "Ud_FinalProduct_D_Birmingham",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "52.5",
+    "longitude": "-1.88"
+  },
+  {
+    "id": "Ud_FinalProduct_E_Birmingham",
+    "label": "Ud_FinalProduct_E_Birmingham",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "52.5",
+    "longitude": "-1.88"
+  },
+  {
+    "id": "Ud_FinalProduct_F_Birmingham",
+    "label": "Ud_FinalProduct_F_Birmingham",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "52.5",
+    "longitude": "-1.88"
+  },
+  {
+    "id": "S_Assembled_Screen_Tanger",
+    "label": "S_Assembled_Screen_Tanger",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "35.75",
+    "longitude": "-5.85"
+  },
+  {
+    "id": "S_Assembled_Back1_Tanger",
+    "label": "S_Assembled_Back_Tanger",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "35.75",
+    "longitude": "-5.85"
+  },
+  {
+    "id": "S_Assembled_Back2_Tanger",
+    "label": "S_Assembled_Back_Tanger",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "35.75",
+    "longitude": "-5.85"
+  },
+  {
+    "id": "S_Assembled_Back3_Tanger",
+    "label": "S_Assembled_Back_Tanger",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "35.75",
+    "longitude": "-5.85"
+  },
+  {
+    "id": "S_Assembled_Battery_Tanger",
+    "label": "S_Assembled_Battery_Tanger",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "35.75",
+    "longitude": "-5.85"
+  },
+  {
+    "id": "S_Assembled_Motherboard1_Tanger",
+    "label": "S_Assembled_Motherboard_Tanger",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "35.75",
+    "longitude": "-5.85"
+  },
+  {
+    "id": "S_Assembled_Motherboard2_Tanger",
+    "label": "S_Assembled_Motherboard_Tanger",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "35.75",
+    "longitude": "-5.85"
+  },
+  {
+    "id": "FinalProduct_A_Tanger",
+    "label": "FinalProduct_A_Tanger",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "35.773597",
+    "longitude": "-5.805852"
+  },
+  {
+    "id": "FinalProduct_B_Tanger",
+    "label": "FinalProduct_B_Tanger",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "35.773597",
+    "longitude": "-5.805852"
+  },
+  {
+    "id": "FinalProduct_C_Tanger",
+    "label": "FinalProduct_C_Tanger",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "35.773597",
+    "longitude": "-5.805852"
+  },
+  {
+    "id": "FinalProduct_D_Tanger",
+    "label": "FinalProduct_D_Tanger",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "35.773597",
+    "longitude": "-5.805852"
+  },
+  {
+    "id": "FinalProduct_E_Tanger",
+    "label": "FinalProduct_E_Tanger",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "35.773597",
+    "longitude": "-5.805852"
+  },
+  {
+    "id": "FinalProduct_F_Tanger",
+    "label": "FinalProduct_F_Tanger",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "35.773597",
+    "longitude": "-5.805852"
+  },
+  {
+    "id": "Ud_FinalProduct_A_Tanger",
+    "label": "Ud_FinalProduct_A_Tanger",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "35.75",
+    "longitude": "-5.85"
+  },
+  {
+    "id": "Ud_FinalProduct_B_Tanger",
+    "label": "Ud_FinalProduct_B_Tanger",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "35.75",
+    "longitude": "-5.85"
+  },
+  {
+    "id": "Ud_FinalProduct_C_Tanger",
+    "label": "Ud_FinalProduct_C_Tanger",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "35.75",
+    "longitude": "-5.85"
+  },
+  {
+    "id": "Ud_FinalProduct_D_Tanger",
+    "label": "Ud_FinalProduct_D_Tanger",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "35.75",
+    "longitude": "-5.85"
+  },
+  {
+    "id": "Ud_FinalProduct_E_Tanger",
+    "label": "Ud_FinalProduct_E_Tanger",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "35.75",
+    "longitude": "-5.85"
+  },
+  {
+    "id": "Ud_FinalProduct_F_Tanger",
+    "label": "Ud_FinalProduct_F_Tanger",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "35.75",
+    "longitude": "-5.85"
+  },
+  {
+    "id": "S_Assembled_Screen_Chicago",
+    "label": "S_Assembled_Screen_Chicago",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "41.72",
+    "longitude": "-87.65"
+  },
+  {
+    "id": "S_Assembled_Back1_Chicago",
+    "label": "S_Assembled_Back_Chicago",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "41.72",
+    "longitude": "-87.65"
+  },
+  {
+    "id": "S_Assembled_Back2_Chicago",
+    "label": "S_Assembled_Back_Chicago",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "41.72",
+    "longitude": "-87.65"
+  },
+  {
+    "id": "S_Assembled_Back3_Chicago",
+    "label": "S_Assembled_Back_Chicago",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "41.72",
+    "longitude": "-87.65"
+  },
+  {
+    "id": "S_Assembled_Battery_Chicago",
+    "label": "S_Assembled_Battery_Chicago",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "41.72",
+    "longitude": "-87.65"
+  },
+  {
+    "id": "S_Assembled_Motherboard1_Chicago",
+    "label": "S_Assembled_Motherboard_Chicago",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "41.72",
+    "longitude": "-87.65"
+  },
+  {
+    "id": "S_Assembled_Motherboard2_Chicago",
+    "label": "S_Assembled_Motherboard_Chicago",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "41.72",
+    "longitude": "-87.65"
+  },
+  {
+    "id": "FinalProduct_A_Chicago",
+    "label": "FinalProduct_A_Chicago",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "41.8755616",
+    "longitude": "-87.6244212"
+  },
+  {
+    "id": "FinalProduct_B_Chicago",
+    "label": "FinalProduct_B_Chicago",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "41.8755616",
+    "longitude": "-87.6244212"
+  },
+  {
+    "id": "FinalProduct_C_Chicago",
+    "label": "FinalProduct_C_Chicago",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "41.8755616",
+    "longitude": "-87.6244212"
+  },
+  {
+    "id": "FinalProduct_D_Chicago",
+    "label": "FinalProduct_D_Chicago",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "41.8755616",
+    "longitude": "-87.6244212"
+  },
+  {
+    "id": "FinalProduct_E_Chicago",
+    "label": "FinalProduct_E_Chicago",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "41.8755616",
+    "longitude": "-87.6244212"
+  },
+  {
+    "id": "FinalProduct_F_Chicago",
+    "label": "FinalProduct_F_Chicago",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "41.8755616",
+    "longitude": "-87.6244212"
+  },
+  {
+    "id": "Ud_FinalProduct_A_Chicago",
+    "label": "Ud_FinalProduct_A_Chicago",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "41.72",
+    "longitude": "-87.65"
+  },
+  {
+    "id": "Ud_FinalProduct_B_Chicago",
+    "label": "Ud_FinalProduct_B_Chicago",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "41.72",
+    "longitude": "-87.65"
+  },
+  {
+    "id": "Ud_FinalProduct_C_Chicago",
+    "label": "Ud_FinalProduct_C_Chicago",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "41.72",
+    "longitude": "-87.65"
+  },
+  {
+    "id": "Ud_FinalProduct_D_Chicago",
+    "label": "Ud_FinalProduct_D_Chicago",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "41.72",
+    "longitude": "-87.65"
+  },
+  {
+    "id": "Ud_FinalProduct_E_Chicago",
+    "label": "Ud_FinalProduct_E_Chicago",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "41.72",
+    "longitude": "-87.65"
+  },
+  {
+    "id": "Ud_FinalProduct_F_Chicago",
+    "label": "Ud_FinalProduct_F_Chicago",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "41.72",
+    "longitude": "-87.65"
+  },
+  {
+    "id": "S_Assembled_Screen_Medellin",
+    "label": "S_Assembled_Screen_Medellin",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "6.23",
+    "longitude": "-75.55"
+  },
+  {
+    "id": "S_Assembled_Back1_Medellin",
+    "label": "S_Assembled_Back_Medellin",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "6.23",
+    "longitude": "-75.55"
+  },
+  {
+    "id": "S_Assembled_Back2_Medellin",
+    "label": "S_Assembled_Back_Medellin",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "6.23",
+    "longitude": "-75.55"
+  },
+  {
+    "id": "S_Assembled_Back3_Medellin",
+    "label": "S_Assembled_Back_Medellin",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "6.23",
+    "longitude": "-75.55"
+  },
+  {
+    "id": "S_Assembled_Battery_Medellin",
+    "label": "S_Assembled_Battery_Medellin",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "6.23",
+    "longitude": "-75.55"
+  },
+  {
+    "id": "S_Assembled_Motherboard1_Medellin",
+    "label": "S_Assembled_Motherboard_Medellin",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "6.23",
+    "longitude": "-75.55"
+  },
+  {
+    "id": "S_Assembled_Motherboard2_Medellin",
+    "label": "S_Assembled_Motherboard_Medellin",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "6.23",
+    "longitude": "-75.55"
+  },
+  {
+    "id": "FinalProduct_A_Medellin",
+    "label": "FinalProduct_A_Medellin",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "6.2443382",
+    "longitude": "-75.573553"
+  },
+  {
+    "id": "FinalProduct_B_Medellin",
+    "label": "FinalProduct_B_Medellin",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "6.2443382",
+    "longitude": "-75.573553"
+  },
+  {
+    "id": "FinalProduct_C_Medellin",
+    "label": "FinalProduct_C_Medellin",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "6.2443382",
+    "longitude": "-75.573553"
+  },
+  {
+    "id": "FinalProduct_D_Medellin",
+    "label": "FinalProduct_D_Medellin",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "6.2443382",
+    "longitude": "-75.573553"
+  },
+  {
+    "id": "FinalProduct_E_Medellin",
+    "label": "FinalProduct_E_Medellin",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "6.2443382",
+    "longitude": "-75.573553"
+  },
+  {
+    "id": "FinalProduct_F_Medellin",
+    "label": "FinalProduct_F_Medellin",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "6.2443382",
+    "longitude": "-75.573553"
+  },
+  {
+    "id": "Ud_FinalProduct_A_Medellin",
+    "label": "Ud_FinalProduct_A_Medellin",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "6.23",
+    "longitude": "-75.55"
+  },
+  {
+    "id": "Ud_FinalProduct_B_Medellin",
+    "label": "Ud_FinalProduct_B_Medellin",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "6.23",
+    "longitude": "-75.55"
+  },
+  {
+    "id": "Ud_FinalProduct_C_Medellin",
+    "label": "Ud_FinalProduct_C_Medellin",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "6.23",
+    "longitude": "-75.55"
+  },
+  {
+    "id": "Ud_FinalProduct_D_Medellin",
+    "label": "Ud_FinalProduct_D_Medellin",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "6.23",
+    "longitude": "-75.55"
+  },
+  {
+    "id": "Ud_FinalProduct_E_Medellin",
+    "label": "Ud_FinalProduct_E_Medellin",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "6.23",
+    "longitude": "-75.55"
+  },
+  {
+    "id": "Ud_FinalProduct_F_Medellin",
+    "label": "Ud_FinalProduct_F_Medellin",
+    "step": "UndeliveredFinalProduct",
+    "initialStock": "200",
+    "latitude": "6.23",
+    "longitude": "-75.55"
+  },
+  {
+    "id": "Raw_Glass_Tainan",
+    "label": "Raw_Glass_Tainan",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "22.9912348",
+    "longitude": "120.184982"
+  },
+  {
+    "id": "S_TransformedGlass_Tainan",
+    "label": "S_TransformedGlass_Tainan",
+    "step": "TransformedMaterial",
+    "initialStock": "500",
+    "latitude": "22.9912348",
+    "longitude": "120.184982"
+  },
+  {
+    "id": "S_TransformedGlass_Shenzhen",
+    "label": "S_TransformedGlass_Shenzhen",
+    "step": "TransformedMaterial",
+    "initialStock": "500",
+    "latitude": "22.5445741",
+    "longitude": "114.0545429"
+  },
+  {
+    "id": "Raw_ComponentForScreen_1_Taichung",
+    "label": "Raw_ComponentForScreen_1_Taichung",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "24.163162",
+    "longitude": "120.6478282"
+  },
+  {
+    "id": "Raw_ComponentForScreen_2_Taichung",
+    "label": "Raw_ComponentForScreen_2_Taichung",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "24.163162",
+    "longitude": "120.6478282"
+  },
+  {
+    "id": "S_AssembledCompForScreen_Taichung",
+    "label": "S_AssembledCompForScreen_Taichung",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "24.163162",
+    "longitude": "120.6478282"
+  },
+  {
+    "id": "S_AssembledCompForScreen_Shenzhen",
+    "label": "S_AssembledCompForScreen_Shenzhen",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "22.5445741",
+    "longitude": "114.0545429"
+  },
+  {
+    "id": "S_Assembled_Screen_Shenzhen",
+    "label": "S_Assembled_Screen_Shenzhen",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "22.5445741",
+    "longitude": "114.0545429"
+  },
+  {
+    "id": "Raw_Copper_Taipei",
+    "label": "Raw_Copper_Taipei",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "25.0375198",
+    "longitude": "121.5636796"
+  },
+  {
+    "id": "Raw_Copper_Cordoba",
+    "label": "Raw_Copper_Cordoba",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "-31.4166867",
+    "longitude": "-64.1834193"
+  },
+  {
+    "id": "Raw_Lithium_Melbourne",
+    "label": "Raw_Lithium_Melbourne",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "-37.8142454",
+    "longitude": "144.9631732"
+  },
+  {
+    "id": "Raw_Lithium_Rosario",
+    "label": "Raw_Lithium_Rosario",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "-32.9593609",
+    "longitude": "-60.6617024"
+  },
+  {
+    "id": "Raw_ComponentsForBat_Taichung",
+    "label": "Raw_ComponentsForBat_Taichung",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "24.2",
+    "longitude": "120.7"
+  },
+  {
+    "id": "Raw_ComponentsForBat_Austin",
+    "label": "Raw_ComponentsForBat_Houston",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "30.2711286",
+    "longitude": "-97.7436995"
+  },
+  {
+    "id": "S_TransformedCopper_Taipei",
+    "label": "S_TransformedCopper_Taipei",
+    "step": "TransformedMaterial",
+    "initialStock": "500",
+    "latitude": "25.0375198",
+    "longitude": "121.5636796"
+  },
+  {
+    "id": "S_TransformedCopper_Cordoba",
+    "label": "S_TransformedCopper_Cordoba",
+    "step": "TransformedMaterial",
+    "initialStock": "500",
+    "latitude": "-31.4166867",
+    "longitude": "-64.1834193"
+  },
+  {
+    "id": "S_Transformed_Lithium_Melbourne",
+    "label": "S_Transformed_Lithium_Melbourne",
+    "step": "TransformedMaterial",
+    "initialStock": "500",
+    "latitude": "-37.8142454",
+    "longitude": "144.9631732"
+  },
+  {
+    "id": "S_Transformed_Lithium_Rosario",
+    "label": "S_Transformed_Lithium_Rosario",
+    "step": "TransformedMaterial",
+    "initialStock": "500",
+    "latitude": "-32.9593609",
+    "longitude": "-60.6617024"
+  },
+  {
+    "id": "S_ComponentsForBat_Taichung",
+    "label": "S_ComponentsForBat_Taichung",
+    "step": "TransformedMaterial",
+    "initialStock": "500",
+    "latitude": "24.2",
+    "longitude": "120.7"
+  },
+  {
+    "id": "S_ComponentsForBat_Austin",
+    "label": "S_ComponentsForBat_Guangzhou",
+    "step": "TransformedMaterial",
+    "initialStock": "500",
+    "latitude": "30.2711286",
+    "longitude": "-97.7436995"
+  },
+  {
+    "id": "S_Assembled_Battery_Houston",
+    "label": "S_Assembled_Battery_Houston",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "29.7589382",
+    "longitude": "-95.3676974"
+  },
+  {
+    "id": "S_Assembled_Battery_Guangzhou",
+    "label": "S_Assembled_Battery_Guangzhou",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "23.1301964",
+    "longitude": "113.2592945"
+  },
+  {
+    "id": "S_TransformedCopper_Guangzhou",
+    "label": "S_TransformedCopper_Guangzhou",
+    "step": "TransformedMaterial",
+    "initialStock": "500",
+    "latitude": "23.1301964",
+    "longitude": "113.2592945"
+  },
+  {
+    "id": "S_TransformedCopper_Houston",
+    "label": "S_TransformedCopper_Houston",
+    "step": "TransformedMaterial",
+    "initialStock": "500",
+    "latitude": "29.7589382",
+    "longitude": "-95.3676974"
+  },
+  {
+    "id": "S_Transformed_Lithium_Guangzhou",
+    "label": "S_Transformed_Lithium_Guangzhou",
+    "step": "TransformedMaterial",
+    "initialStock": "500",
+    "latitude": "23.1301964",
+    "longitude": "113.2592945"
+  },
+  {
+    "id": "S_Transformed_Lithium_Houston",
+    "label": "S_Transformed_Lithium_Houston",
+    "step": "TransformedMaterial",
+    "initialStock": "500",
+    "latitude": "29.7589382",
+    "longitude": "-95.3676974"
+  },
+  {
+    "id": "S_ComponentsForBat_Guangzhou",
+    "label": "S_ComponentsForBat_Guangzhou",
+    "step": "TransformedMaterial",
+    "initialStock": "500",
+    "latitude": "23.1301964",
+    "longitude": "113.2592945"
+  },
+  {
+    "id": "S_ComponentsForBat_Houston",
+    "label": "S_ComponentsForBat_Guangzhou",
+    "step": "TransformedMaterial",
+    "initialStock": "500",
+    "latitude": "29.7589382",
+    "longitude": "-95.3676974"
+  },
+  {
+    "id": "S_Assembled_Battery_Anvers",
+    "label": "S_Assembled_Battery_Anvers",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "51.2211097",
+    "longitude": "4.3997081"
+  },
+  {
+    "id": "S_Assembled_Screen_Anvers",
+    "label": "S_Assembled_Screen_Anvers",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "51.2211097",
+    "longitude": "4.3997081"
+  },
+  {
+    "id": "Raw_Plastic_Baytown",
+    "label": "Raw_Plastic_Baytown",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "29.7355047",
+    "longitude": "-94.9774274"
+  },
+  {
+    "id": "Raw_Plastic_Shanghai",
+    "label": "Raw_Plastic_Shanghai",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "31.2323437",
+    "longitude": "121.4691024"
+  },
+  {
+    "id": "Raw_Plastic_Jamnagar",
+    "label": "Raw_Plastic_Jamnagar",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "22.4732415",
+    "longitude": "70.0552102"
+  },
+  {
+    "id": "S_Transformed_Plastic_Baytown",
+    "label": "S_Transformed_Plastic_Baytown",
+    "step": "TransformedMaterial",
+    "initialStock": "400",
+    "latitude": "29.7355047",
+    "longitude": "-94.9774274"
+  },
+  {
+    "id": "S_Transformed_Plastic_Shanghai",
+    "label": "S_Transformed_Plastic_Shanghai",
+    "step": "TransformedMaterial",
+    "initialStock": "400",
+    "latitude": "31.2323437",
+    "longitude": "121.4691024"
+  },
+  {
+    "id": "S_Transformed_Plastic_Rotterdam",
+    "label": "S_Transformed_Plastic_Rotterdam",
+    "step": "TransformedMaterial",
+    "initialStock": "400",
+    "latitude": "51.9244424",
+    "longitude": "4.47775"
+  },
+  {
+    "id": "S_Transformed_Plastic_Jamnagar",
+    "label": "S_Transformed_Plastic_Jamnagar",
+    "step": "TransformedMaterial",
+    "initialStock": "400",
+    "latitude": "22.4732415",
+    "longitude": "70.0552102"
+  },
+  {
+    "id": "S_Cut_Plastic_Baytown",
+    "label": "S_Cut_Plastic_Baytown",
+    "step": "TransformedMaterial",
+    "initialStock": "400",
+    "latitude": "29.7355047",
+    "longitude": "-94.9774274"
+  },
+  {
+    "id": "S_Cut_Plastic_Shanghai",
+    "label": "S_Cut_Plastic_Shanghai",
+    "step": "TransformedMaterial",
+    "initialStock": "400",
+    "latitude": "31.2323437",
+    "longitude": "121.4691024"
+  },
+  {
+    "id": "S_Cut_Plastic_Rotterdam",
+    "label": "S_Cut_Plastic_Rotterdam",
+    "step": "TransformedMaterial",
+    "initialStock": "400",
+    "latitude": "51.9244424",
+    "longitude": "4.47775"
+  },
+  {
+    "id": "S_Cut_Plastic_Jamnagar",
+    "label": "S_Cut_Plastic_Jamnagar",
+    "step": "TransformedMaterial",
+    "initialStock": "400",
+    "latitude": "22.4732415",
+    "longitude": "70.0552102"
+  },
+  {
+    "id": "S_Cut_Plastic_Durango",
+    "label": "S_Cut_Plastic_Durango",
+    "step": "TransformedMaterial",
+    "initialStock": "400",
+    "latitude": "24.833333",
+    "longitude": "-104.833333"
+  },
+  {
+    "id": "S_Cut_Plastic_Minneapolis",
+    "label": "S_Cut_Plastic_Minneapolis",
+    "step": "TransformedMaterial",
+    "initialStock": "400",
+    "latitude": "44.9772995",
+    "longitude": "-93.2654692"
+  },
+  {
+    "id": "S_Cut_Plastic_Caracas",
+    "label": "S_Cut_Plastic_Caracas",
+    "step": "TransformedMaterial",
+    "initialStock": "400",
+    "latitude": "10.5060934",
+    "longitude": "-66.9146008"
+  },
+  {
+    "id": "S_Cut_Plastic_Nanjing",
+    "label": "S_Cut_Plastic_Nanjing",
+    "step": "TransformedMaterial",
+    "initialStock": "400",
+    "latitude": "32.0438284",
+    "longitude": "118.7788631"
+  },
+  {
+    "id": "S_Cut_Plastic_Copenhagen",
+    "label": "S_Cut_Plastic_Copenhagen",
+    "step": "TransformedMaterial",
+    "initialStock": "400",
+    "latitude": "55.6867243",
+    "longitude": "12.5700724"
+  },
+  {
+    "id": "S_Cut_Plastic_Vilnius",
+    "label": "S_Cut_Plastic_Vilnius",
+    "step": "TransformedMaterial",
+    "initialStock": "400",
+    "latitude": "54.6870458",
+    "longitude": "25.2829111"
+  },
+  {
+    "id": "S_Cut_Plastic_Astana",
+    "label": "S_Cut_Plastic_Astana",
+    "step": "TransformedMaterial",
+    "initialStock": "400",
+    "latitude": "51.1282205",
+    "longitude": "71.4306682"
+  },
+  {
+    "id": "S_Cut_Plastic_Abidjan",
+    "label": "S_Cut_Plastic_Abidjan",
+    "step": "TransformedMaterial",
+    "initialStock": "400",
+    "latitude": "5.35",
+    "longitude": "-4.033"
+  },
+  {
+    "id": "Raw_Color1_Durango",
+    "label": "Raw_Color1_Durango",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "24.833333",
+    "longitude": "-104.833333"
+  },
+  {
+    "id": "Raw_Color2_Durango",
+    "label": "Raw_Color2_Durango",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "24.833333",
+    "longitude": "-104.833333"
+  },
+  {
+    "id": "Raw_Color3_Durango",
+    "label": "Raw_Color3_Durango",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "24.833333",
+    "longitude": "-104.833333"
+  },
+  {
+    "id": "Raw_Camera_Durango",
+    "label": "Raw_Camera_Durango",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "24.833333",
+    "longitude": "-104.833333"
+  },
+  {
+    "id": "S_Colored_Back1_Durango",
+    "label": "S_Colored_Back1_Durango",
+    "step": "TransformedMaterial",
+    "initialStock": "400",
+    "latitude": "24.833333",
+    "longitude": "-104.833333"
+  },
+  {
+    "id": "S_Colored_Back2_Durango",
+    "label": "S_Colored_Back2_Durango",
+    "step": "TransformedMaterial",
+    "initialStock": "400",
+    "latitude": "24.833333",
+    "longitude": "-104.833333"
+  },
+  {
+    "id": "S_Colored_Back3_Durango",
+    "label": "S_Colored_Back3_Durango",
+    "step": "TransformedMaterial",
+    "initialStock": "400",
+    "latitude": "24.833333",
+    "longitude": "-104.833333"
+  },
+  {
+    "id": "Raw_Color1_Minneapolis",
+    "label": "Raw_Color1_Minneapolis",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "44.9772995",
+    "longitude": "-93.2654692"
+  },
+  {
+    "id": "Raw_Color2_Minneapolis",
+    "label": "Raw_Color2_Minneapolis",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "44.9772995",
+    "longitude": "-93.2654692"
+  },
+  {
+    "id": "Raw_Color3_Minneapolis",
+    "label": "Raw_Color3_Minneapolis",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "44.9772995",
+    "longitude": "-93.2654692"
+  },
+  {
+    "id": "Raw_Camera_Minneapolis",
+    "label": "Raw_Camera_Minneapolis",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "44.9772995",
+    "longitude": "-93.2654692"
+  },
+  {
+    "id": "S_Colored_Back1_Minneapolis",
+    "label": "S_Colored_Back1_Minneapolis",
+    "step": "TransformedMaterial",
+    "initialStock": "400",
+    "latitude": "44.9772995",
+    "longitude": "-93.2654692"
+  },
+  {
+    "id": "S_Colored_Back2_Minneapolis",
+    "label": "S_Colored_Back2_Minneapolis",
+    "step": "TransformedMaterial",
+    "initialStock": "400",
+    "latitude": "44.9772995",
+    "longitude": "-93.2654692"
+  },
+  {
+    "id": "S_Colored_Back3_Minneapolis",
+    "label": "S_Colored_Back3_Minneapolis",
+    "step": "TransformedMaterial",
+    "initialStock": "400",
+    "latitude": "44.9772995",
+    "longitude": "-93.2654692"
+  },
+  {
+    "id": "Raw_Color1_Caracas",
+    "label": "Raw_Color1_Caracas",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "10.5060934",
+    "longitude": "-66.9146008"
+  },
+  {
+    "id": "Raw_Color2_Caracas",
+    "label": "Raw_Color2_Caracas",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "10.5060934",
+    "longitude": "-66.9146008"
+  },
+  {
+    "id": "Raw_Color3_Caracas",
+    "label": "Raw_Color3_Caracas",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "10.5060934",
+    "longitude": "-66.9146008"
+  },
+  {
+    "id": "Raw_Camera_Caracas",
+    "label": "Raw_Camera_Caracas",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "10.5060934",
+    "longitude": "-66.9146008"
+  },
+  {
+    "id": "S_Colored_Back1_Caracas",
+    "label": "S_Colored_Back1_Caracas",
+    "step": "TransformedMaterial",
+    "initialStock": "400",
+    "latitude": "10.5060934",
+    "longitude": "-66.9146008"
+  },
+  {
+    "id": "S_Colored_Back2_Caracas",
+    "label": "S_Colored_Back2_Caracas",
+    "step": "TransformedMaterial",
+    "initialStock": "400",
+    "latitude": "10.5060934",
+    "longitude": "-66.9146008"
+  },
+  {
+    "id": "S_Colored_Back3_Caracas",
+    "label": "S_Colored_Back3_Caracas",
+    "step": "TransformedMaterial",
+    "initialStock": "400",
+    "latitude": "10.5060934",
+    "longitude": "-66.9146008"
+  },
+  {
+    "id": "Raw_Color1_Nanjing",
+    "label": "Raw_Color1_Nanjing",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "32.0438284",
+    "longitude": "118.7788631"
+  },
+  {
+    "id": "Raw_Color2_Nanjing",
+    "label": "Raw_Color2_Nanjing",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "32.0438284",
+    "longitude": "118.7788631"
+  },
+  {
+    "id": "Raw_Color3_Nanjing",
+    "label": "Raw_Color3_Nanjing",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "32.0438284",
+    "longitude": "118.7788631"
+  },
+  {
+    "id": "Raw_Camera_Nanjing",
+    "label": "Raw_Camera_Nanjing",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "32.0438284",
+    "longitude": "118.7788631"
+  },
+  {
+    "id": "S_Colored_Back1_Nanjing",
+    "label": "S_Colored_Back1_Nanjing",
+    "step": "TransformedMaterial",
+    "initialStock": "400",
+    "latitude": "32.0438284",
+    "longitude": "118.7788631"
+  },
+  {
+    "id": "S_Colored_Back2_Nanjing",
+    "label": "S_Colored_Back2_Nanjing",
+    "step": "TransformedMaterial",
+    "initialStock": "400",
+    "latitude": "32.0438284",
+    "longitude": "118.7788631"
+  },
+  {
+    "id": "S_Colored_Back3_Nanjing",
+    "label": "S_Colored_Back3_Nanjing",
+    "step": "TransformedMaterial",
+    "initialStock": "400",
+    "latitude": "32.0438284",
+    "longitude": "118.7788631"
+  },
+  {
+    "id": "Raw_Color1_Copenhagen",
+    "label": "Raw_Color1_Copenhagen",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "55.6867243",
+    "longitude": "12.5700724"
+  },
+  {
+    "id": "Raw_Color2_Copenhagen",
+    "label": "Raw_Color2_Copenhagen",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "55.6867243",
+    "longitude": "12.5700724"
+  },
+  {
+    "id": "Raw_Color3_Copenhagen",
+    "label": "Raw_Color3_Copenhagen",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "55.6867243",
+    "longitude": "12.5700724"
+  },
+  {
+    "id": "Raw_Camera_Copenhagen",
+    "label": "Raw_Camera_Copenhagen",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "55.6867243",
+    "longitude": "12.5700724"
+  },
+  {
+    "id": "S_Colored_Back1_Copenhagen",
+    "label": "S_Colored_Back1_Copenhagen",
+    "step": "TransformedMaterial",
+    "initialStock": "400",
+    "latitude": "55.6867243",
+    "longitude": "12.5700724"
+  },
+  {
+    "id": "S_Colored_Back2_Copenhagen",
+    "label": "S_Colored_Back2_Copenhagen",
+    "step": "TransformedMaterial",
+    "initialStock": "400",
+    "latitude": "55.6867243",
+    "longitude": "12.5700724"
+  },
+  {
+    "id": "S_Colored_Back3_Copenhagen",
+    "label": "S_Colored_Back3_Copenhagen",
+    "step": "TransformedMaterial",
+    "initialStock": "400",
+    "latitude": "55.6867243",
+    "longitude": "12.5700724"
+  },
+  {
+    "id": "Raw_Color1_Vilnius",
+    "label": "Raw_Color1_Vilnius",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "54.6870458",
+    "longitude": "25.2829111"
+  },
+  {
+    "id": "Raw_Color2_Vilnius",
+    "label": "Raw_Color2_Vilnius",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "54.6870458",
+    "longitude": "25.2829111"
+  },
+  {
+    "id": "Raw_Color3_Vilnius",
+    "label": "Raw_Color3_Vilnius",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "54.6870458",
+    "longitude": "25.2829111"
+  },
+  {
+    "id": "Raw_Camera_Vilnius",
+    "label": "Raw_Camera_Vilnius",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "54.6870458",
+    "longitude": "25.2829111"
+  },
+  {
+    "id": "S_Colored_Back1_Vilnius",
+    "label": "S_Colored_Back1_Vilnius",
+    "step": "TransformedMaterial",
+    "initialStock": "400",
+    "latitude": "54.6870458",
+    "longitude": "25.2829111"
+  },
+  {
+    "id": "S_Colored_Back2_Vilnius",
+    "label": "S_Colored_Back2_Vilnius",
+    "step": "TransformedMaterial",
+    "initialStock": "400",
+    "latitude": "54.6870458",
+    "longitude": "25.2829111"
+  },
+  {
+    "id": "S_Colored_Back3_Vilnius",
+    "label": "S_Colored_Back3_Vilnius",
+    "step": "TransformedMaterial",
+    "initialStock": "400",
+    "latitude": "54.6870458",
+    "longitude": "25.2829111"
+  },
+  {
+    "id": "Raw_Color1_Astana",
+    "label": "Raw_Color1_Astana",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "51.1282205",
+    "longitude": "71.4306682"
+  },
+  {
+    "id": "Raw_Color2_Astana",
+    "label": "Raw_Color2_Astana",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "51.1282205",
+    "longitude": "71.4306682"
+  },
+  {
+    "id": "Raw_Color3_Astana",
+    "label": "Raw_Color3_Astana",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "51.1282205",
+    "longitude": "71.4306682"
+  },
+  {
+    "id": "Raw_Camera_Astana",
+    "label": "Raw_Camera_Astana",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "51.1282205",
+    "longitude": "71.4306682"
+  },
+  {
+    "id": "S_Colored_Back1_Astana",
+    "label": "S_Colored_Back1_Astana",
+    "step": "TransformedMaterial",
+    "initialStock": "400",
+    "latitude": "51.1282205",
+    "longitude": "71.4306682"
+  },
+  {
+    "id": "S_Colored_Back2_Astana",
+    "label": "S_Colored_Back2_Astana",
+    "step": "TransformedMaterial",
+    "initialStock": "400",
+    "latitude": "51.1282205",
+    "longitude": "71.4306682"
+  },
+  {
+    "id": "S_Colored_Back3_Astana",
+    "label": "S_Colored_Back3_Astana",
+    "step": "TransformedMaterial",
+    "initialStock": "400",
+    "latitude": "51.1282205",
+    "longitude": "71.4306682"
+  },
+  {
+    "id": "Raw_Color1_Abidjan",
+    "label": "Raw_Color1_Abidjan",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "5.35",
+    "longitude": "-4.033"
+  },
+  {
+    "id": "Raw_Color2_Abidjan",
+    "label": "Raw_Color2_Abidjan",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "5.35",
+    "longitude": "-4.033"
+  },
+  {
+    "id": "Raw_Color3_Abidjan",
+    "label": "Raw_Color3_Abidjan",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "5.35",
+    "longitude": "-4.033"
+  },
+  {
+    "id": "Raw_Camera_Abidjan",
+    "label": "Raw_Camera_Abidjan",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "5.35",
+    "longitude": "-4.033"
+  },
+  {
+    "id": "S_Colored_Back1_Abidjan",
+    "label": "S_Colored_Back1_Abidjan",
+    "step": "TransformedMaterial",
+    "initialStock": "400",
+    "latitude": "5.35",
+    "longitude": "-4.033"
+  },
+  {
+    "id": "S_Colored_Back2_Abidjan",
+    "label": "S_Colored_Back2_Abidjan",
+    "step": "TransformedMaterial",
+    "initialStock": "400",
+    "latitude": "5.35",
+    "longitude": "-4.033"
+  },
+  {
+    "id": "S_Colored_Back3_Abidjan",
+    "label": "S_Colored_Back3_Abidjan",
+    "step": "TransformedMaterial",
+    "initialStock": "400",
+    "latitude": "5.35",
+    "longitude": "-4.033"
+  },
+  {
+    "id": "Raw_CompFor_Base_Bangalore",
+    "label": "Raw_CompFor_Base_Bangalore",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "12.9767936",
+    "longitude": "77.590082"
+  },
+  {
+    "id": "Raw_CompFor_PCB_Ansan",
+    "label": "Raw_CompFor_PCB_Ansan",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "37.32361",
+    "longitude": "126.82194"
+  },
+  {
+    "id": "Raw_CompFor_SoC1_Hwaseong",
+    "label": "Raw_CompFor_SoC1_Hwaseong",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "37.1994653",
+    "longitude": "126.8312632"
+  },
+  {
+    "id": "Raw_CompFor_SoC2_Hwaseong",
+    "label": "Raw_CompFor_SoC2_Hwaseong",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "37.1994653",
+    "longitude": "126.8312632"
+  },
+  {
+    "id": "Raw_CompFor_RAM1_Icheon",
+    "label": "Raw_CompFor_RAM1_Icheon",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "37.2808823",
+    "longitude": "127.4429132"
+  },
+  {
+    "id": "Raw_CompFor_RAM2_Icheon",
+    "label": "Raw_CompFor_RAM2_Icheon",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "37.2808823",
+    "longitude": "127.4429132"
+  },
+  {
+    "id": "Raw_CompFor_UFS-NAND_Yokkaichi",
+    "label": "Raw_CompFor_UFS-NAND_Yokkaichi",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "34.9648428",
+    "longitude": "136.624845"
+  },
+  {
+    "id": "Raw_CompFor_Modem_Hwaseong",
+    "label": "Raw_CompFor_Modem_Hwaseong",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "37.1994653",
+    "longitude": "126.8312632"
+  },
+  {
+    "id": "Raw_CompFor_Chipset_Hsinchu",
+    "label": "Raw_CompFor_Chipset_Hsinchu",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "24.8066333",
+    "longitude": "120.9686833"
+  },
+  {
+    "id": "Raw_CompFor_PMIC_Dallas",
+    "label": "Raw_CompFor_PMIC_Dallas",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "32.7762719",
+    "longitude": "-96.7968559"
+  },
+  {
+    "id": "Raw_CompFor_Captor1_Dallas",
+    "label": "Raw_CompFor_Captor1_Dallas",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "32.7762719",
+    "longitude": "-96.7968559"
+  },
+  {
+    "id": "Raw_CompFor_Captor2_Grenoble",
+    "label": "Raw_CompFor_Captor2_Grenoble",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "45.1875602",
+    "longitude": "5.7357819"
+  },
+  {
+    "id": "Raw_CompFor_Amplifier_Eindhoven",
+    "label": "Raw_CompFor_Amplifier_Eindhoven",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "51.4392648",
+    "longitude": "5.478633"
+  },
+  {
+    "id": "Raw_CompFor_ConnectorUSB_Suzhou",
+    "label": "Raw_CompFor_ConnectorUSB_Suzhou",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "31.3016935",
+    "longitude": "120.5810725"
+  },
+  {
+    "id": "Raw_CompFor_ConnectorSIM_Hsinchu",
+    "label": "Raw_CompFor_ConnectorSIM_Hsinchu",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "24.8066333",
+    "longitude": "120.9686833"
+  },
+  {
+    "id": "Raw_CompFor_Gyroscope_Reutlingen",
+    "label": "Raw_CompFor_Gyroscope_Reutlingen",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "48.4919508",
+    "longitude": "9.2114144"
+  },
+  {
+    "id": "Raw_CompFor_Accelerometer_Crolles",
+    "label": "Raw_CompFor_Accelerometer_Crolles",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "45.2861",
+    "longitude": "5.8833"
+  },
+  {
+    "id": "Raw_CompFor_Compass_Beijing",
+    "label": "Raw_CompFor_Compass_Beijing",
+    "step": "RawMaterial",
+    "initialStock": "",
+    "latitude": "39.9042",
+    "longitude": "116.4074"
+  },
+  {
+    "id": "S_Base_Bangalore",
+    "label": "S_Base_Bangalore",
+    "step": "TransformedMaterial",
+    "initialStock": "300",
+    "latitude": "12.9767936",
+    "longitude": "77.590082"
+  },
+  {
+    "id": "S_PCB_Ansan",
+    "label": "S_PCB_Ansan",
+    "step": "TransformedMaterial",
+    "initialStock": "300",
+    "latitude": "37.32361",
+    "longitude": "126.82194"
+  },
+  {
+    "id": "S_SoC1_Hwaseong",
+    "label": "S_SoC1_Hwaseong",
+    "step": "TransformedMaterial",
+    "initialStock": "300",
+    "latitude": "37.1994653",
+    "longitude": "126.8312632"
+  },
+  {
+    "id": "S_SoC2_Hwaseong",
+    "label": "S_SoC2_Hwaseong",
+    "step": "TransformedMaterial",
+    "initialStock": "300",
+    "latitude": "37.1994653",
+    "longitude": "126.8312632"
+  },
+  {
+    "id": "S_RAM1_Icheon",
+    "label": "S_RAM1_Icheon",
+    "step": "TransformedMaterial",
+    "initialStock": "300",
+    "latitude": "37.2808823",
+    "longitude": "127.4429132"
+  },
+  {
+    "id": "S_RAM2_Icheon",
+    "label": "S_RAM2_Icheon",
+    "step": "TransformedMaterial",
+    "initialStock": "300",
+    "latitude": "37.2808823",
+    "longitude": "127.4429132"
+  },
+  {
+    "id": "S_UFS-NAND_Yokkaichi",
+    "label": "S_UFS-NAND_Yokkaichi",
+    "step": "TransformedMaterial",
+    "initialStock": "300",
+    "latitude": "34.9648428",
+    "longitude": "136.624845"
+  },
+  {
+    "id": "S_Modem_Hwaseong",
+    "label": "S_Modem_Hwaseong",
+    "step": "TransformedMaterial",
+    "initialStock": "300",
+    "latitude": "37.1994653",
+    "longitude": "126.8312632"
+  },
+  {
+    "id": "S_Chipset_Hsinchu",
+    "label": "S_Chipset_Hsinchu",
+    "step": "TransformedMaterial",
+    "initialStock": "300",
+    "latitude": "24.8066333",
+    "longitude": "120.9686833"
+  },
+  {
+    "id": "S_PMIC_Dallas",
+    "label": "S_PMIC_Dallas",
+    "step": "TransformedMaterial",
+    "initialStock": "300",
+    "latitude": "32.7762719",
+    "longitude": "-96.7968559"
+  },
+  {
+    "id": "S_Captor1_Dallas",
+    "label": "S_Captor1_Dallas",
+    "step": "TransformedMaterial",
+    "initialStock": "300",
+    "latitude": "32.7762719",
+    "longitude": "-96.7968559"
+  },
+  {
+    "id": "S_Captor2_Grenoble",
+    "label": "S_Captor2_Grenoble",
+    "step": "TransformedMaterial",
+    "initialStock": "300",
+    "latitude": "45.1875602",
+    "longitude": "5.7357819"
+  },
+  {
+    "id": "S_Amplifier_Eindhoven",
+    "label": "S_Amplifier_Eindhoven",
+    "step": "TransformedMaterial",
+    "initialStock": "300",
+    "latitude": "51.4392648",
+    "longitude": "5.478633"
+  },
+  {
+    "id": "S_ConnectorUSB_Suzhou",
+    "label": "S_ConnectorUSB_Suzhou",
+    "step": "TransformedMaterial",
+    "initialStock": "300",
+    "latitude": "31.3016935",
+    "longitude": "120.5810725"
+  },
+  {
+    "id": "S_ConnectorSIM_Hsinchu",
+    "label": "S_ConnectorSIM_Hsinchu",
+    "step": "TransformedMaterial",
+    "initialStock": "300",
+    "latitude": "24.8066333",
+    "longitude": "120.9686833"
+  },
+  {
+    "id": "S_Gyroscope_Reutlingen",
+    "label": "S_Gyroscope_Reutlingen",
+    "step": "TransformedMaterial",
+    "initialStock": "300",
+    "latitude": "48.4919508",
+    "longitude": "9.2114144"
+  },
+  {
+    "id": "S_Accelerometer_Crolles",
+    "label": "S_Accelerometer_Crolles",
+    "step": "TransformedMaterial",
+    "initialStock": "300",
+    "latitude": "45.2861",
+    "longitude": "5.8833"
+  },
+  {
+    "id": "S_Compass_Beijing",
+    "label": "S_Compass_Beijing",
+    "step": "TransformedMaterial",
+    "initialStock": "300",
+    "latitude": "39.9042",
+    "longitude": "116.4074"
+  },
+  {
+    "id": "S_PCB_Bangalore",
+    "label": "S_PCB_Bangalore",
+    "step": "TransformedMaterial",
+    "initialStock": "300",
+    "latitude": "12.9767936",
+    "longitude": "77.590082"
+  },
+  {
+    "id": "S_SoC1_Bangalore",
+    "label": "S_SoC1_Bangalore",
+    "step": "TransformedMaterial",
+    "initialStock": "300",
+    "latitude": "12.9767936",
+    "longitude": "77.590082"
+  },
+  {
+    "id": "S_SoC2_Bangalore",
+    "label": "S_SoC2_Bangalore",
+    "step": "TransformedMaterial",
+    "initialStock": "300",
+    "latitude": "12.9767936",
+    "longitude": "77.590082"
+  },
+  {
+    "id": "S_RAM1_Bangalore",
+    "label": "S_RAM1_Bangalore",
+    "step": "TransformedMaterial",
+    "initialStock": "300",
+    "latitude": "12.9767936",
+    "longitude": "77.590082"
+  },
+  {
+    "id": "S_RAM2_Bangalore",
+    "label": "S_RAM2_Bangalore",
+    "step": "TransformedMaterial",
+    "initialStock": "300",
+    "latitude": "12.9767936",
+    "longitude": "77.590082"
+  },
+  {
+    "id": "S_UFS-NAND_Bangalore",
+    "label": "S_UFS-NAND_Bangalore",
+    "step": "TransformedMaterial",
+    "initialStock": "300",
+    "latitude": "12.9767936",
+    "longitude": "77.590082"
+  },
+  {
+    "id": "S_Modem_Bangalore",
+    "label": "S_Modem_Bangalore",
+    "step": "TransformedMaterial",
+    "initialStock": "300",
+    "latitude": "12.9767936",
+    "longitude": "77.590082"
+  },
+  {
+    "id": "S_Chipset_Bangalore",
+    "label": "S_Chipset_Bangalore",
+    "step": "TransformedMaterial",
+    "initialStock": "300",
+    "latitude": "12.9767936",
+    "longitude": "77.590082"
+  },
+  {
+    "id": "S_PMIC_Bangalore",
+    "label": "S_PMIC_Bangalore",
+    "step": "TransformedMaterial",
+    "initialStock": "300",
+    "latitude": "12.9767936",
+    "longitude": "77.590082"
+  },
+  {
+    "id": "S_Captor1_Bangalore",
+    "label": "S_Captor1_Bangalore",
+    "step": "TransformedMaterial",
+    "initialStock": "300",
+    "latitude": "12.9767936",
+    "longitude": "77.590082"
+  },
+  {
+    "id": "S_Captor2_Bangalore",
+    "label": "S_Captor2_Bangalore",
+    "step": "TransformedMaterial",
+    "initialStock": "300",
+    "latitude": "12.9767936",
+    "longitude": "77.590082"
+  },
+  {
+    "id": "S_Amplifier_Bangalore",
+    "label": "S_Amplifier_Bangalore",
+    "step": "TransformedMaterial",
+    "initialStock": "300",
+    "latitude": "12.9767936",
+    "longitude": "77.590082"
+  },
+  {
+    "id": "S_ConnectorUSB_Bangalore",
+    "label": "S_ConnectorUSB_Bangalore",
+    "step": "TransformedMaterial",
+    "initialStock": "300",
+    "latitude": "12.9767936",
+    "longitude": "77.590082"
+  },
+  {
+    "id": "S_ConnectorSIM_Bangalore",
+    "label": "S_ConnectorSIM_Bangalore",
+    "step": "TransformedMaterial",
+    "initialStock": "300",
+    "latitude": "12.9767936",
+    "longitude": "77.590082"
+  },
+  {
+    "id": "S_Gyroscope_Bangalore",
+    "label": "S_Gyroscope_Bangalore",
+    "step": "TransformedMaterial",
+    "initialStock": "300",
+    "latitude": "12.9767936",
+    "longitude": "77.590082"
+  },
+  {
+    "id": "S_Accelerometer_Bangalore",
+    "label": "S_Accelerometer_Bangalore",
+    "step": "TransformedMaterial",
+    "initialStock": "300",
+    "latitude": "12.9767936",
+    "longitude": "77.590082"
+  },
+  {
+    "id": "S_Compass_Bangalore",
+    "label": "S_Compass_Bangalore",
+    "step": "TransformedMaterial",
+    "initialStock": "300",
+    "latitude": "12.9767936",
+    "longitude": "77.590082"
+  },
+  {
+    "id": "S_Assembled_Motherboard1_Bangalore",
+    "label": "S_Assembled_Motherboard1_Bangalore",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "12.9767936",
+    "longitude": "77.590082"
+  },
+  {
+    "id": "S_Assembled_Motherboard2_Bangalore",
+    "label": "S_Assembled_Motherboard2_Bangalore",
+    "step": "Assembled",
+    "initialStock": "500",
+    "latitude": "12.9767936",
+    "longitude": "77.590082"
+  },
+  {
+    "id": "Local_FinalProduct_A_Toledo",
+    "label": "Local_FinalProduct_A_Toledo",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "39.86",
+    "longitude": "-4.01"
+  },
+  {
+    "id": "Local_FinalProduct_B_Toledo",
+    "label": "Local_FinalProduct_B_Toledo",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "39.86",
+    "longitude": "-4.01"
+  },
+  {
+    "id": "Local_FinalProduct_C_Toledo",
+    "label": "Local_FinalProduct_C_Toledo",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "39.86",
+    "longitude": "-4.01"
+  },
+  {
+    "id": "Local_FinalProduct_D_Toledo",
+    "label": "Local_FinalProduct_D_Toledo",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "39.86",
+    "longitude": "-4.01"
+  },
+  {
+    "id": "Local_FinalProduct_E_Toledo",
+    "label": "Local_FinalProduct_E_Toledo",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "39.86",
+    "longitude": "-4.01"
+  },
+  {
+    "id": "Local_FinalProduct_F_Toledo",
+    "label": "Local_FinalProduct_F_Toledo",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "39.86",
+    "longitude": "-4.01"
+  },
+  {
+    "id": "Local_FinalProduct_A_Bangkok",
+    "label": "Local_FinalProduct_A_Bangkok",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "13.7563",
+    "longitude": "100.5018"
+  },
+  {
+    "id": "Local_FinalProduct_B_Bangkok",
+    "label": "Local_FinalProduct_B_Bangkok",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "13.7563",
+    "longitude": "100.5018"
+  },
+  {
+    "id": "Local_FinalProduct_C_Bangkok",
+    "label": "Local_FinalProduct_C_Bangkok",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "13.7563",
+    "longitude": "100.5018"
+  },
+  {
+    "id": "Local_FinalProduct_D_Bangkok",
+    "label": "Local_FinalProduct_D_Bangkok",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "13.7563",
+    "longitude": "100.5018"
+  },
+  {
+    "id": "Local_FinalProduct_E_Bangkok",
+    "label": "Local_FinalProduct_E_Bangkok",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "13.7563",
+    "longitude": "100.5018"
+  },
+  {
+    "id": "Local_FinalProduct_F_Bangkok",
+    "label": "Local_FinalProduct_F_Bangkok",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "13.7563",
+    "longitude": "100.5018"
+  },
+  {
+    "id": "Local_FinalProduct_A_Krakow",
+    "label": "Local_FinalProduct_A_Krakow",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "50.0614",
+    "longitude": "19.9372"
+  },
+  {
+    "id": "Local_FinalProduct_B_Krakow",
+    "label": "Local_FinalProduct_B_Krakow",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "50.0614",
+    "longitude": "19.9372"
+  },
+  {
+    "id": "Local_FinalProduct_C_Krakow",
+    "label": "Local_FinalProduct_C_Krakow",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "50.0614",
+    "longitude": "19.9372"
+  },
+  {
+    "id": "Local_FinalProduct_D_Krakow",
+    "label": "Local_FinalProduct_D_Krakow",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "50.0614",
+    "longitude": "19.9372"
+  },
+  {
+    "id": "Local_FinalProduct_E_Krakow",
+    "label": "Local_FinalProduct_E_Krakow",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "50.0614",
+    "longitude": "19.9372"
+  },
+  {
+    "id": "Local_FinalProduct_F_Krakow",
+    "label": "Local_FinalProduct_F_Krakow",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "50.0614",
+    "longitude": "19.9372"
+  },
+  {
+    "id": "Local_FinalProduct_A_Sacramento",
+    "label": "Local_FinalProduct_A_Sacramento",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "38.5816",
+    "longitude": "-121.4944"
+  },
+  {
+    "id": "Local_FinalProduct_B_Sacramento",
+    "label": "Local_FinalProduct_B_Sacramento",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "38.5816",
+    "longitude": "-121.4944"
+  },
+  {
+    "id": "Local_FinalProduct_C_Sacramento",
+    "label": "Local_FinalProduct_C_Sacramento",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "38.5816",
+    "longitude": "-121.4944"
+  },
+  {
+    "id": "Local_FinalProduct_D_Sacramento",
+    "label": "Local_FinalProduct_D_Sacramento",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "38.5816",
+    "longitude": "-121.4944"
+  },
+  {
+    "id": "Local_FinalProduct_E_Sacramento",
+    "label": "Local_FinalProduct_E_Sacramento",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "38.5816",
+    "longitude": "-121.4944"
+  },
+  {
+    "id": "Local_FinalProduct_F_Sacramento",
+    "label": "Local_FinalProduct_F_Sacramento",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "38.5816",
+    "longitude": "-121.4944"
+  },
+  {
+    "id": "Local_FinalProduct_A_Leeds",
+    "label": "Local_FinalProduct_A_Leeds",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "53.8008",
+    "longitude": "-1.5491"
+  },
+  {
+    "id": "Local_FinalProduct_B_Leeds",
+    "label": "Local_FinalProduct_B_Leeds",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "53.8008",
+    "longitude": "-1.5491"
+  },
+  {
+    "id": "Local_FinalProduct_C_Leeds",
+    "label": "Local_FinalProduct_C_Leeds",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "53.8008",
+    "longitude": "-1.5491"
+  },
+  {
+    "id": "Local_FinalProduct_D_Leeds",
+    "label": "Local_FinalProduct_D_Leeds",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "53.8008",
+    "longitude": "-1.5491"
+  },
+  {
+    "id": "Local_FinalProduct_E_Leeds",
+    "label": "Local_FinalProduct_E_Leeds",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "53.8008",
+    "longitude": "-1.5491"
+  },
+  {
+    "id": "Local_FinalProduct_F_Leeds",
+    "label": "Local_FinalProduct_F_Leeds",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "53.8008",
+    "longitude": "-1.5491"
+  },
+  {
+    "id": "Local_FinalProduct_A_Bulawayo",
+    "label": "Local_FinalProduct_A_Bulawayo",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "-20.15",
+    "longitude": "28.5833"
+  },
+  {
+    "id": "Local_FinalProduct_B_Bulawayo",
+    "label": "Local_FinalProduct_B_Bulawayo",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "-20.15",
+    "longitude": "28.5833"
+  },
+  {
+    "id": "Local_FinalProduct_C_Bulawayo",
+    "label": "Local_FinalProduct_C_Bulawayo",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "-20.15",
+    "longitude": "28.5833"
+  },
+  {
+    "id": "Local_FinalProduct_D_Bulawayo",
+    "label": "Local_FinalProduct_D_Bulawayo",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "-20.15",
+    "longitude": "28.5833"
+  },
+  {
+    "id": "Local_FinalProduct_E_Bulawayo",
+    "label": "Local_FinalProduct_E_Bulawayo",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "-20.15",
+    "longitude": "28.5833"
+  },
+  {
+    "id": "Local_FinalProduct_F_Bulawayo",
+    "label": "Local_FinalProduct_F_Bulawayo",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "-20.15",
+    "longitude": "28.5833"
+  },
+  {
+    "id": "Local_FinalProduct_A_Pittsburgh",
+    "label": "Local_FinalProduct_A_Pittsburgh",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "40.4406",
+    "longitude": "-79.9959"
+  },
+  {
+    "id": "Local_FinalProduct_B_Pittsburgh",
+    "label": "Local_FinalProduct_B_Pittsburgh",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "40.4406",
+    "longitude": "-79.9959"
+  },
+  {
+    "id": "Local_FinalProduct_C_Pittsburgh",
+    "label": "Local_FinalProduct_C_Pittsburgh",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "40.4406",
+    "longitude": "-79.9959"
+  },
+  {
+    "id": "Local_FinalProduct_D_Pittsburgh",
+    "label": "Local_FinalProduct_D_Pittsburgh",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "40.4406",
+    "longitude": "-79.9959"
+  },
+  {
+    "id": "Local_FinalProduct_E_Pittsburgh",
+    "label": "Local_FinalProduct_E_Pittsburgh",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "40.4406",
+    "longitude": "-79.9959"
+  },
+  {
+    "id": "Local_FinalProduct_F_Pittsburgh",
+    "label": "Local_FinalProduct_F_Pittsburgh",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "40.4406",
+    "longitude": "-79.9959"
+  },
+  {
+    "id": "Local_FinalProduct_A_Lima",
+    "label": "Local_FinalProduct_A_Lima",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "-12.0464",
+    "longitude": "-77.0428"
+  },
+  {
+    "id": "Local_FinalProduct_B_Lima",
+    "label": "Local_FinalProduct_B_Lima",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "-12.0464",
+    "longitude": "-77.0428"
+  },
+  {
+    "id": "Local_FinalProduct_C_Lima",
+    "label": "Local_FinalProduct_C_Lima",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "-12.0464",
+    "longitude": "-77.0428"
+  },
+  {
+    "id": "Local_FinalProduct_D_Lima",
+    "label": "Local_FinalProduct_D_Lima",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "-12.0464",
+    "longitude": "-77.0428"
+  },
+  {
+    "id": "Local_FinalProduct_E_Lima",
+    "label": "Local_FinalProduct_E_Lima",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "-12.0464",
+    "longitude": "-77.0428"
+  },
+  {
+    "id": "Local_FinalProduct_F_Lima",
+    "label": "Local_FinalProduct_F_Lima",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "-12.0464",
+    "longitude": "-77.0428"
+  },
+  {
+    "id": "Local_FinalProduct_A_Parma",
+    "label": "Local_FinalProduct_A_Parma",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "44.8015",
+    "longitude": "10.3279"
+  },
+  {
+    "id": "Local_FinalProduct_B_Parma",
+    "label": "Local_FinalProduct_B_Parma",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "44.8015",
+    "longitude": "10.3279"
+  },
+  {
+    "id": "Local_FinalProduct_C_Parma",
+    "label": "Local_FinalProduct_C_Parma",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "44.8015",
+    "longitude": "10.3279"
+  },
+  {
+    "id": "Local_FinalProduct_D_Parma",
+    "label": "Local_FinalProduct_D_Parma",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "44.8015",
+    "longitude": "10.3279"
+  },
+  {
+    "id": "Local_FinalProduct_E_Parma",
+    "label": "Local_FinalProduct_E_Parma",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "44.8015",
+    "longitude": "10.3279"
+  },
+  {
+    "id": "Local_FinalProduct_F_Parma",
+    "label": "Local_FinalProduct_F_Parma",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "44.8015",
+    "longitude": "10.3279"
+  },
+  {
+    "id": "Local_FinalProduct_A_Sapporo",
+    "label": "Local_FinalProduct_A_Sapporo",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "43.0621",
+    "longitude": "141.3544"
+  },
+  {
+    "id": "Local_FinalProduct_B_Sapporo",
+    "label": "Local_FinalProduct_B_Sapporo",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "43.0621",
+    "longitude": "141.3544"
+  },
+  {
+    "id": "Local_FinalProduct_C_Sapporo",
+    "label": "Local_FinalProduct_C_Sapporo",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "43.0621",
+    "longitude": "141.3544"
+  },
+  {
+    "id": "Local_FinalProduct_D_Sapporo",
+    "label": "Local_FinalProduct_D_Sapporo",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "43.0621",
+    "longitude": "141.3544"
+  },
+  {
+    "id": "Local_FinalProduct_E_Sapporo",
+    "label": "Local_FinalProduct_E_Sapporo",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "43.0621",
+    "longitude": "141.3544"
+  },
+  {
+    "id": "Local_FinalProduct_F_Sapporo",
+    "label": "Local_FinalProduct_F_Sapporo",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "43.0621",
+    "longitude": "141.3544"
+  },
+  {
+    "id": "Local_FinalProduct_A_Ankara",
+    "label": "Local_FinalProduct_A_Ankara",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "39.9208",
+    "longitude": "32.8541"
+  },
+  {
+    "id": "Local_FinalProduct_B_Ankara",
+    "label": "Local_FinalProduct_B_Ankara",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "39.9208",
+    "longitude": "32.8541"
+  },
+  {
+    "id": "Local_FinalProduct_C_Ankara",
+    "label": "Local_FinalProduct_C_Ankara",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "39.9208",
+    "longitude": "32.8541"
+  },
+  {
+    "id": "Local_FinalProduct_D_Ankara",
+    "label": "Local_FinalProduct_D_Ankara",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "39.9208",
+    "longitude": "32.8541"
+  },
+  {
+    "id": "Local_FinalProduct_E_Ankara",
+    "label": "Local_FinalProduct_E_Ankara",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "39.9208",
+    "longitude": "32.8541"
+  },
+  {
+    "id": "Local_FinalProduct_F_Ankara",
+    "label": "Local_FinalProduct_F_Ankara",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "39.9208",
+    "longitude": "32.8541"
+  },
+  {
+    "id": "Local_FinalProduct_A_Portland",
+    "label": "Local_FinalProduct_A_Portland",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "45.5051",
+    "longitude": "-122.675"
+  },
+  {
+    "id": "Local_FinalProduct_B_Portland",
+    "label": "Local_FinalProduct_B_Portland",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "45.5051",
+    "longitude": "-122.675"
+  },
+  {
+    "id": "Local_FinalProduct_C_Portland",
+    "label": "Local_FinalProduct_C_Portland",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "45.5051",
+    "longitude": "-122.675"
+  },
+  {
+    "id": "Local_FinalProduct_D_Portland",
+    "label": "Local_FinalProduct_D_Portland",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "45.5051",
+    "longitude": "-122.675"
+  },
+  {
+    "id": "Local_FinalProduct_E_Portland",
+    "label": "Local_FinalProduct_E_Portland",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "45.5051",
+    "longitude": "-122.675"
+  },
+  {
+    "id": "Local_FinalProduct_F_Portland",
+    "label": "Local_FinalProduct_F_Portland",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "45.5051",
+    "longitude": "-122.675"
+  },
+  {
+    "id": "Local_FinalProduct_A_Caen",
+    "label": "Local_FinalProduct_A_Caen",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "49.1833",
+    "longitude": "-0.3667"
+  },
+  {
+    "id": "Local_FinalProduct_B_Caen",
+    "label": "Local_FinalProduct_B_Caen",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "49.1833",
+    "longitude": "-0.3667"
+  },
+  {
+    "id": "Local_FinalProduct_C_Caen",
+    "label": "Local_FinalProduct_C_Caen",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "49.1833",
+    "longitude": "-0.3667"
+  },
+  {
+    "id": "Local_FinalProduct_D_Caen",
+    "label": "Local_FinalProduct_D_Caen",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "49.1833",
+    "longitude": "-0.3667"
+  },
+  {
+    "id": "Local_FinalProduct_E_Caen",
+    "label": "Local_FinalProduct_E_Caen",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "49.1833",
+    "longitude": "-0.3667"
+  },
+  {
+    "id": "Local_FinalProduct_F_Caen",
+    "label": "Local_FinalProduct_F_Caen",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "49.1833",
+    "longitude": "-0.3667"
+  },
+  {
+    "id": "Local_FinalProduct_A_Bamako",
+    "label": "Local_FinalProduct_A_Bamako",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "12.6392",
+    "longitude": "-8.0029"
+  },
+  {
+    "id": "Local_FinalProduct_B_Bamako",
+    "label": "Local_FinalProduct_B_Bamako",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "12.6392",
+    "longitude": "-8.0029"
+  },
+  {
+    "id": "Local_FinalProduct_C_Bamako",
+    "label": "Local_FinalProduct_C_Bamako",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "12.6392",
+    "longitude": "-8.0029"
+  },
+  {
+    "id": "Local_FinalProduct_D_Bamako",
+    "label": "Local_FinalProduct_D_Bamako",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "12.6392",
+    "longitude": "-8.0029"
+  },
+  {
+    "id": "Local_FinalProduct_E_Bamako",
+    "label": "Local_FinalProduct_E_Bamako",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "12.6392",
+    "longitude": "-8.0029"
+  },
+  {
+    "id": "Local_FinalProduct_F_Bamako",
+    "label": "Local_FinalProduct_F_Bamako",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "12.6392",
+    "longitude": "-8.0029"
+  },
+  {
+    "id": "Local_FinalProduct_A_Atlanta",
+    "label": "Local_FinalProduct_A_Atlanta",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "33.749",
+    "longitude": "-84.388"
+  },
+  {
+    "id": "Local_FinalProduct_B_Atlanta",
+    "label": "Local_FinalProduct_B_Atlanta",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "33.749",
+    "longitude": "-84.388"
+  },
+  {
+    "id": "Local_FinalProduct_C_Atlanta",
+    "label": "Local_FinalProduct_C_Atlanta",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "33.749",
+    "longitude": "-84.388"
+  },
+  {
+    "id": "Local_FinalProduct_D_Atlanta",
+    "label": "Local_FinalProduct_D_Atlanta",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "33.749",
+    "longitude": "-84.388"
+  },
+  {
+    "id": "Local_FinalProduct_E_Atlanta",
+    "label": "Local_FinalProduct_E_Atlanta",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "33.749",
+    "longitude": "-84.388"
+  },
+  {
+    "id": "Local_FinalProduct_F_Atlanta",
+    "label": "Local_FinalProduct_F_Atlanta",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "33.749",
+    "longitude": "-84.388"
+  },
+  {
+    "id": "Local_FinalProduct_A_Brasilia",
+    "label": "Local_FinalProduct_A_Brasilia",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "-15.7801",
+    "longitude": "-47.9292"
+  },
+  {
+    "id": "Local_FinalProduct_B_Brasilia",
+    "label": "Local_FinalProduct_B_Brasilia",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "-15.7801",
+    "longitude": "-47.9292"
+  },
+  {
+    "id": "Local_FinalProduct_C_Brasilia",
+    "label": "Local_FinalProduct_C_Brasilia",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "-15.7801",
+    "longitude": "-47.9292"
+  },
+  {
+    "id": "Local_FinalProduct_D_Brasilia",
+    "label": "Local_FinalProduct_D_Brasilia",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "-15.7801",
+    "longitude": "-47.9292"
+  },
+  {
+    "id": "Local_FinalProduct_E_Brasilia",
+    "label": "Local_FinalProduct_E_Brasilia",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "-15.7801",
+    "longitude": "-47.9292"
+  },
+  {
+    "id": "Local_FinalProduct_F_Brasilia",
+    "label": "Local_FinalProduct_F_Brasilia",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "-15.7801",
+    "longitude": "-47.9292"
+  },
+  {
+    "id": "FinalProduct_A_Madrid",
+    "label": "FinalProduct_A_Madrid",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "40.4168",
+    "longitude": "-3.7038"
+  },
+  {
+    "id": "FinalProduct_B_Madrid",
+    "label": "FinalProduct_B_Madrid",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "40.4168",
+    "longitude": "-3.7038"
+  },
+  {
+    "id": "FinalProduct_C_Madrid",
+    "label": "FinalProduct_C_Madrid",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "40.4168",
+    "longitude": "-3.7038"
+  },
+  {
+    "id": "FinalProduct_D_Madrid",
+    "label": "FinalProduct_D_Madrid",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "40.4168",
+    "longitude": "-3.7038"
+  },
+  {
+    "id": "FinalProduct_E_Madrid",
+    "label": "FinalProduct_E_Madrid",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "40.4168",
+    "longitude": "-3.7038"
+  },
+  {
+    "id": "FinalProduct_F_Madrid",
+    "label": "FinalProduct_F_Madrid",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "40.4168",
+    "longitude": "-3.7038"
+  },
+  {
+    "id": "FinalProduct_A_NewDelhi",
+    "label": "FinalProduct_A_NewDelhi",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "28.6139",
+    "longitude": "77.209"
+  },
+  {
+    "id": "FinalProduct_B_NewDelhi",
+    "label": "FinalProduct_B_NewDelhi",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "28.6139",
+    "longitude": "77.209"
+  },
+  {
+    "id": "FinalProduct_C_NewDelhi",
+    "label": "FinalProduct_C_NewDelhi",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "28.6139",
+    "longitude": "77.209"
+  },
+  {
+    "id": "FinalProduct_D_NewDelhi",
+    "label": "FinalProduct_D_NewDelhi",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "28.6139",
+    "longitude": "77.209"
+  },
+  {
+    "id": "FinalProduct_E_NewDelhi",
+    "label": "FinalProduct_E_NewDelhi",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "28.6139",
+    "longitude": "77.209"
+  },
+  {
+    "id": "FinalProduct_F_NewDelhi",
+    "label": "FinalProduct_F_NewDelhi",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "28.6139",
+    "longitude": "77.209"
+  },
+  {
+    "id": "FinalProduct_A_Riga",
+    "label": "FinalProduct_A_Riga",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "56.9496",
+    "longitude": "24.1052"
+  },
+  {
+    "id": "FinalProduct_B_Riga",
+    "label": "FinalProduct_B_Riga",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "56.9496",
+    "longitude": "24.1052"
+  },
+  {
+    "id": "FinalProduct_C_Riga",
+    "label": "FinalProduct_C_Riga",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "56.9496",
+    "longitude": "24.1052"
+  },
+  {
+    "id": "FinalProduct_D_Riga",
+    "label": "FinalProduct_D_Riga",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "56.9496",
+    "longitude": "24.1052"
+  },
+  {
+    "id": "FinalProduct_E_Riga",
+    "label": "FinalProduct_E_Riga",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "56.9496",
+    "longitude": "24.1052"
+  },
+  {
+    "id": "FinalProduct_F_Riga",
+    "label": "FinalProduct_F_Riga",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "56.9496",
+    "longitude": "24.1052"
+  },
+  {
+    "id": "FinalProduct_A_Irvine",
+    "label": "FinalProduct_A_Irvine",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "33.6846",
+    "longitude": "-117.8265"
+  },
+  {
+    "id": "FinalProduct_B_Irvine",
+    "label": "FinalProduct_B_Irvine",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "33.6846",
+    "longitude": "-117.8265"
+  },
+  {
+    "id": "FinalProduct_C_Irvine",
+    "label": "FinalProduct_C_Irvine",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "33.6846",
+    "longitude": "-117.8265"
+  },
+  {
+    "id": "FinalProduct_D_Irvine",
+    "label": "FinalProduct_D_Irvine",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "33.6846",
+    "longitude": "-117.8265"
+  },
+  {
+    "id": "FinalProduct_E_Irvine",
+    "label": "FinalProduct_E_Irvine",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "33.6846",
+    "longitude": "-117.8265"
+  },
+  {
+    "id": "FinalProduct_F_Irvine",
+    "label": "FinalProduct_F_Irvine",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "33.6846",
+    "longitude": "-117.8265"
+  },
+  {
+    "id": "FinalProduct_A_Manchester",
+    "label": "FinalProduct_A_Manchester",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "53.4808",
+    "longitude": "-2.2426"
+  },
+  {
+    "id": "FinalProduct_B_Manchester",
+    "label": "FinalProduct_B_Manchester",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "53.4808",
+    "longitude": "-2.2426"
+  },
+  {
+    "id": "FinalProduct_C_Manchester",
+    "label": "FinalProduct_C_Manchester",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "53.4808",
+    "longitude": "-2.2426"
+  },
+  {
+    "id": "FinalProduct_D_Manchester",
+    "label": "FinalProduct_D_Manchester",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "53.4808",
+    "longitude": "-2.2426"
+  },
+  {
+    "id": "FinalProduct_E_Manchester",
+    "label": "FinalProduct_E_Manchester",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "53.4808",
+    "longitude": "-2.2426"
+  },
+  {
+    "id": "FinalProduct_F_Manchester",
+    "label": "FinalProduct_F_Manchester",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "53.4808",
+    "longitude": "-2.2426"
+  },
+  {
+    "id": "FinalProduct_A_Antananarivo",
+    "label": "FinalProduct_A_Antananarivo",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "-18.8792",
+    "longitude": "47.5079"
+  },
+  {
+    "id": "FinalProduct_B_Antananarivo",
+    "label": "FinalProduct_B_Antananarivo",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "-18.8792",
+    "longitude": "47.5079"
+  },
+  {
+    "id": "FinalProduct_C_Antananarivo",
+    "label": "FinalProduct_C_Antananarivo",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "-18.8792",
+    "longitude": "47.5079"
+  },
+  {
+    "id": "FinalProduct_D_Antananarivo",
+    "label": "FinalProduct_D_Antananarivo",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "-18.8792",
+    "longitude": "47.5079"
+  },
+  {
+    "id": "FinalProduct_E_Antananarivo",
+    "label": "FinalProduct_E_Antananarivo",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "-18.8792",
+    "longitude": "47.5079"
+  },
+  {
+    "id": "FinalProduct_F_Antananarivo",
+    "label": "FinalProduct_F_Antananarivo",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "-18.8792",
+    "longitude": "47.5079"
+  },
+  {
+    "id": "FinalProduct_A_Toronto",
+    "label": "FinalProduct_A_Toronto",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "43.6511",
+    "longitude": "-79.3832"
+  },
+  {
+    "id": "FinalProduct_B_Toronto",
+    "label": "FinalProduct_B_Toronto",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "43.6511",
+    "longitude": "-79.3832"
+  },
+  {
+    "id": "FinalProduct_C_Toronto",
+    "label": "FinalProduct_C_Toronto",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "43.6511",
+    "longitude": "-79.3832"
+  },
+  {
+    "id": "FinalProduct_D_Toronto",
+    "label": "FinalProduct_D_Toronto",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "43.6511",
+    "longitude": "-79.3832"
+  },
+  {
+    "id": "FinalProduct_E_Toronto",
+    "label": "FinalProduct_E_Toronto",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "43.6511",
+    "longitude": "-79.3832"
+  },
+  {
+    "id": "FinalProduct_F_Toronto",
+    "label": "FinalProduct_F_Toronto",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "43.6511",
+    "longitude": "-79.3832"
+  },
+  {
+    "id": "FinalProduct_A_Santiago",
+    "label": "FinalProduct_A_Santiago",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "-33.4489",
+    "longitude": "-70.6693"
+  },
+  {
+    "id": "FinalProduct_B_Santiago",
+    "label": "FinalProduct_B_Santiago",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "-33.4489",
+    "longitude": "-70.6693"
+  },
+  {
+    "id": "FinalProduct_C_Santiago",
+    "label": "FinalProduct_C_Santiago",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "-33.4489",
+    "longitude": "-70.6693"
+  },
+  {
+    "id": "FinalProduct_D_Santiago",
+    "label": "FinalProduct_D_Santiago",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "-33.4489",
+    "longitude": "-70.6693"
+  },
+  {
+    "id": "FinalProduct_E_Santiago",
+    "label": "FinalProduct_E_Santiago",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "-33.4489",
+    "longitude": "-70.6693"
+  },
+  {
+    "id": "FinalProduct_F_Santiago",
+    "label": "FinalProduct_F_Santiago",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "-33.4489",
+    "longitude": "-70.6693"
+  },
+  {
+    "id": "FinalProduct_A_Marseille",
+    "label": "FinalProduct_A_Marseille",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "43.2965",
+    "longitude": "5.3698"
+  },
+  {
+    "id": "FinalProduct_B_Marseille",
+    "label": "FinalProduct_B_Marseille",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "43.2965",
+    "longitude": "5.3698"
+  },
+  {
+    "id": "FinalProduct_C_Marseille",
+    "label": "FinalProduct_C_Marseille",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "43.2965",
+    "longitude": "5.3698"
+  },
+  {
+    "id": "FinalProduct_D_Marseille",
+    "label": "FinalProduct_D_Marseille",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "43.2965",
+    "longitude": "5.3698"
+  },
+  {
+    "id": "FinalProduct_E_Marseille",
+    "label": "FinalProduct_E_Marseille",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "43.2965",
+    "longitude": "5.3698"
+  },
+  {
+    "id": "FinalProduct_F_Marseille",
+    "label": "FinalProduct_F_Marseille",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "43.2965",
+    "longitude": "5.3698"
+  },
+  {
+    "id": "FinalProduct_A_Tokyo",
+    "label": "FinalProduct_A_Tokyo",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "35.6828",
+    "longitude": "139.7595"
+  },
+  {
+    "id": "FinalProduct_B_Tokyo",
+    "label": "FinalProduct_B_Tokyo",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "35.6828",
+    "longitude": "139.7595"
+  },
+  {
+    "id": "FinalProduct_C_Tokyo",
+    "label": "FinalProduct_C_Tokyo",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "35.6828",
+    "longitude": "139.7595"
+  },
+  {
+    "id": "FinalProduct_D_Tokyo",
+    "label": "FinalProduct_D_Tokyo",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "35.6828",
+    "longitude": "139.7595"
+  },
+  {
+    "id": "FinalProduct_E_Tokyo",
+    "label": "FinalProduct_E_Tokyo",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "35.6828",
+    "longitude": "139.7595"
+  },
+  {
+    "id": "FinalProduct_F_Tokyo",
+    "label": "FinalProduct_F_Tokyo",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "35.6828",
+    "longitude": "139.7595"
+  },
+  {
+    "id": "FinalProduct_A_Dubai",
+    "label": "FinalProduct_A_Dubai",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "25.2769",
+    "longitude": "55.2962"
+  },
+  {
+    "id": "FinalProduct_B_Dubai",
+    "label": "FinalProduct_B_Dubai",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "25.2769",
+    "longitude": "55.2962"
+  },
+  {
+    "id": "FinalProduct_C_Dubai",
+    "label": "FinalProduct_C_Dubai",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "25.2769",
+    "longitude": "55.2962"
+  },
+  {
+    "id": "FinalProduct_D_Dubai",
+    "label": "FinalProduct_D_Dubai",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "25.2769",
+    "longitude": "55.2962"
+  },
+  {
+    "id": "FinalProduct_E_Dubai",
+    "label": "FinalProduct_E_Dubai",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "25.2769",
+    "longitude": "55.2962"
+  },
+  {
+    "id": "FinalProduct_F_Dubai",
+    "label": "FinalProduct_F_Dubai",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "25.2769",
+    "longitude": "55.2962"
+  },
+  {
+    "id": "FinalProduct_A_Seattle",
+    "label": "FinalProduct_A_Seattle",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "47.6062",
+    "longitude": "-122.3321"
+  },
+  {
+    "id": "FinalProduct_B_Seattle",
+    "label": "FinalProduct_B_Seattle",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "47.6062",
+    "longitude": "-122.3321"
+  },
+  {
+    "id": "FinalProduct_C_Seattle",
+    "label": "FinalProduct_C_Seattle",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "47.6062",
+    "longitude": "-122.3321"
+  },
+  {
+    "id": "FinalProduct_D_Seattle",
+    "label": "FinalProduct_D_Seattle",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "47.6062",
+    "longitude": "-122.3321"
+  },
+  {
+    "id": "FinalProduct_E_Seattle",
+    "label": "FinalProduct_E_Seattle",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "47.6062",
+    "longitude": "-122.3321"
+  },
+  {
+    "id": "FinalProduct_F_Seattle",
+    "label": "FinalProduct_F_Seattle",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "47.6062",
+    "longitude": "-122.3321"
+  },
+  {
+    "id": "FinalProduct_A_Paris",
+    "label": "FinalProduct_A_Paris",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "48.8566",
+    "longitude": "2.3522"
+  },
+  {
+    "id": "FinalProduct_B_Paris",
+    "label": "FinalProduct_B_Paris",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "48.8566",
+    "longitude": "2.3522"
+  },
+  {
+    "id": "FinalProduct_C_Paris",
+    "label": "FinalProduct_C_Paris",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "48.8566",
+    "longitude": "2.3522"
+  },
+  {
+    "id": "FinalProduct_D_Paris",
+    "label": "FinalProduct_D_Paris",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "48.8566",
+    "longitude": "2.3522"
+  },
+  {
+    "id": "FinalProduct_E_Paris",
+    "label": "FinalProduct_E_Paris",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "48.8566",
+    "longitude": "2.3522"
+  },
+  {
+    "id": "FinalProduct_F_Paris",
+    "label": "FinalProduct_F_Paris",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "48.8566",
+    "longitude": "2.3522"
+  },
+  {
+    "id": "FinalProduct_A_Abidjan",
+    "label": "FinalProduct_A_Abidjan",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "5.320357",
+    "longitude": "-4.016107"
+  },
+  {
+    "id": "FinalProduct_B_Abidjan",
+    "label": "FinalProduct_B_Abidjan",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "5.320357",
+    "longitude": "-4.016107"
+  },
+  {
+    "id": "FinalProduct_C_Abidjan",
+    "label": "FinalProduct_C_Abidjan",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "5.320357",
+    "longitude": "-4.016107"
+  },
+  {
+    "id": "FinalProduct_D_Abidjan",
+    "label": "FinalProduct_D_Abidjan",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "5.320357",
+    "longitude": "-4.016107"
+  },
+  {
+    "id": "FinalProduct_E_Abidjan",
+    "label": "FinalProduct_E_Abidjan",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "5.320357",
+    "longitude": "-4.016107"
+  },
+  {
+    "id": "FinalProduct_F_Abidjan",
+    "label": "FinalProduct_F_Abidjan",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "5.320357",
+    "longitude": "-4.016107"
+  },
+  {
+    "id": "FinalProduct_A_Orlando",
+    "label": "FinalProduct_A_Orlando",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "28.5383",
+    "longitude": "-81.3792"
+  },
+  {
+    "id": "FinalProduct_B_Orlando",
+    "label": "FinalProduct_B_Orlando",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "28.5383",
+    "longitude": "-81.3792"
+  },
+  {
+    "id": "FinalProduct_C_Orlando",
+    "label": "FinalProduct_C_Orlando",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "28.5383",
+    "longitude": "-81.3792"
+  },
+  {
+    "id": "FinalProduct_D_Orlando",
+    "label": "FinalProduct_D_Orlando",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "28.5383",
+    "longitude": "-81.3792"
+  },
+  {
+    "id": "FinalProduct_E_Orlando",
+    "label": "FinalProduct_E_Orlando",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "28.5383",
+    "longitude": "-81.3792"
+  },
+  {
+    "id": "FinalProduct_F_Orlando",
+    "label": "FinalProduct_F_Orlando",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "28.5383",
+    "longitude": "-81.3792"
+  },
+  {
+    "id": "FinalProduct_A_Fortaleza",
+    "label": "FinalProduct_A_Fortaleza",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "-3.7319",
+    "longitude": "-38.5267"
+  },
+  {
+    "id": "FinalProduct_B_Fortaleza",
+    "label": "FinalProduct_B_Fortaleza",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "-3.7319",
+    "longitude": "-38.5267"
+  },
+  {
+    "id": "FinalProduct_C_Fortaleza",
+    "label": "FinalProduct_C_Fortaleza",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "-3.7319",
+    "longitude": "-38.5267"
+  },
+  {
+    "id": "FinalProduct_D_Fortaleza",
+    "label": "FinalProduct_D_Fortaleza",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "-3.7319",
+    "longitude": "-38.5267"
+  },
+  {
+    "id": "FinalProduct_E_Fortaleza",
+    "label": "FinalProduct_E_Fortaleza",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "-3.7319",
+    "longitude": "-38.5267"
+  },
+  {
+    "id": "FinalProduct_F_Fortaleza",
+    "label": "FinalProduct_F_Fortaleza",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "-3.7319",
+    "longitude": "-38.5267"
+  },
+  {
+    "id": "FinalProduct_A_Lisbon",
+    "label": "FinalProduct_A_Lisbon",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "38.7169",
+    "longitude": "-9.1399"
+  },
+  {
+    "id": "FinalProduct_B_Lisbon",
+    "label": "FinalProduct_B_Lisbon",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "38.7169",
+    "longitude": "-9.1399"
+  },
+  {
+    "id": "FinalProduct_C_Lisbon",
+    "label": "FinalProduct_C_Lisbon",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "38.7169",
+    "longitude": "-9.1399"
+  },
+  {
+    "id": "FinalProduct_D_Lisbon",
+    "label": "FinalProduct_D_Lisbon",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "38.7169",
+    "longitude": "-9.1399"
+  },
+  {
+    "id": "FinalProduct_E_Lisbon",
+    "label": "FinalProduct_E_Lisbon",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "38.7169",
+    "longitude": "-9.1399"
+  },
+  {
+    "id": "FinalProduct_F_Lisbon",
+    "label": "FinalProduct_F_Lisbon",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "38.7169",
+    "longitude": "-9.1399"
+  },
+  {
+    "id": "FinalProduct_A_Hanoi",
+    "label": "FinalProduct_A_Hanoi",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "21.0285",
+    "longitude": "105.8544"
+  },
+  {
+    "id": "FinalProduct_B_Hanoi",
+    "label": "FinalProduct_B_Hanoi",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "21.0285",
+    "longitude": "105.8544"
+  },
+  {
+    "id": "FinalProduct_C_Hanoi",
+    "label": "FinalProduct_C_Hanoi",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "21.0285",
+    "longitude": "105.8544"
+  },
+  {
+    "id": "FinalProduct_D_Hanoi",
+    "label": "FinalProduct_D_Hanoi",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "21.0285",
+    "longitude": "105.8544"
+  },
+  {
+    "id": "FinalProduct_E_Hanoi",
+    "label": "FinalProduct_E_Hanoi",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "21.0285",
+    "longitude": "105.8544"
+  },
+  {
+    "id": "FinalProduct_F_Hanoi",
+    "label": "FinalProduct_F_Hanoi",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "21.0285",
+    "longitude": "105.8544"
+  },
+  {
+    "id": "FinalProduct_A_Prague",
+    "label": "FinalProduct_A_Prague",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "50.0755",
+    "longitude": "14.4378"
+  },
+  {
+    "id": "FinalProduct_B_Prague",
+    "label": "FinalProduct_B_Prague",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "50.0755",
+    "longitude": "14.4378"
+  },
+  {
+    "id": "FinalProduct_C_Prague",
+    "label": "FinalProduct_C_Prague",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "50.0755",
+    "longitude": "14.4378"
+  },
+  {
+    "id": "FinalProduct_D_Prague",
+    "label": "FinalProduct_D_Prague",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "50.0755",
+    "longitude": "14.4378"
+  },
+  {
+    "id": "FinalProduct_E_Prague",
+    "label": "FinalProduct_E_Prague",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "50.0755",
+    "longitude": "14.4378"
+  },
+  {
+    "id": "FinalProduct_F_Prague",
+    "label": "FinalProduct_F_Prague",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "50.0755",
+    "longitude": "14.4378"
+  },
+  {
+    "id": "FinalProduct_A_Stockton",
+    "label": "FinalProduct_A_Stockton",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "37.9577",
+    "longitude": "-121.2908"
+  },
+  {
+    "id": "FinalProduct_B_Stockton",
+    "label": "FinalProduct_B_Stockton",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "37.9577",
+    "longitude": "-121.2908"
+  },
+  {
+    "id": "FinalProduct_C_Stockton",
+    "label": "FinalProduct_C_Stockton",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "37.9577",
+    "longitude": "-121.2908"
+  },
+  {
+    "id": "FinalProduct_D_Stockton",
+    "label": "FinalProduct_D_Stockton",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "37.9577",
+    "longitude": "-121.2908"
+  },
+  {
+    "id": "FinalProduct_E_Stockton",
+    "label": "FinalProduct_E_Stockton",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "37.9577",
+    "longitude": "-121.2908"
+  },
+  {
+    "id": "FinalProduct_F_Stockton",
+    "label": "FinalProduct_F_Stockton",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "37.9577",
+    "longitude": "-121.2908"
+  },
+  {
+    "id": "FinalProduct_A_Dublin",
+    "label": "FinalProduct_A_Dublin",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "53.3498",
+    "longitude": "-6.2603"
+  },
+  {
+    "id": "FinalProduct_B_Dublin",
+    "label": "FinalProduct_B_Dublin",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "53.3498",
+    "longitude": "-6.2603"
+  },
+  {
+    "id": "FinalProduct_C_Dublin",
+    "label": "FinalProduct_C_Dublin",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "53.3498",
+    "longitude": "-6.2603"
+  },
+  {
+    "id": "FinalProduct_D_Dublin",
+    "label": "FinalProduct_D_Dublin",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "53.3498",
+    "longitude": "-6.2603"
+  },
+  {
+    "id": "FinalProduct_E_Dublin",
+    "label": "FinalProduct_E_Dublin",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "53.3498",
+    "longitude": "-6.2603"
+  },
+  {
+    "id": "FinalProduct_F_Dublin",
+    "label": "FinalProduct_F_Dublin",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "53.3498",
+    "longitude": "-6.2603"
+  },
+  {
+    "id": "FinalProduct_A_CapeTown",
+    "label": "FinalProduct_A_CapeTown",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "-33.9249",
+    "longitude": "18.4241"
+  },
+  {
+    "id": "FinalProduct_B_CapeTown",
+    "label": "FinalProduct_B_CapeTown",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "-33.9249",
+    "longitude": "18.4241"
+  },
+  {
+    "id": "FinalProduct_C_CapeTown",
+    "label": "FinalProduct_C_CapeTown",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "-33.9249",
+    "longitude": "18.4241"
+  },
+  {
+    "id": "FinalProduct_D_CapeTown",
+    "label": "FinalProduct_D_CapeTown",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "-33.9249",
+    "longitude": "18.4241"
+  },
+  {
+    "id": "FinalProduct_E_CapeTown",
+    "label": "FinalProduct_E_CapeTown",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "-33.9249",
+    "longitude": "18.4241"
+  },
+  {
+    "id": "FinalProduct_F_CapeTown",
+    "label": "FinalProduct_F_CapeTown",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "-33.9249",
+    "longitude": "18.4241"
+  },
+  {
+    "id": "FinalProduct_A_Detroit",
+    "label": "FinalProduct_A_Detroit",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "42.3314",
+    "longitude": "-83.0458"
+  },
+  {
+    "id": "FinalProduct_B_Detroit",
+    "label": "FinalProduct_B_Detroit",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "42.3314",
+    "longitude": "-83.0458"
+  },
+  {
+    "id": "FinalProduct_C_Detroit",
+    "label": "FinalProduct_C_Detroit",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "42.3314",
+    "longitude": "-83.0458"
+  },
+  {
+    "id": "FinalProduct_D_Detroit",
+    "label": "FinalProduct_D_Detroit",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "42.3314",
+    "longitude": "-83.0458"
+  },
+  {
+    "id": "FinalProduct_E_Detroit",
+    "label": "FinalProduct_E_Detroit",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "42.3314",
+    "longitude": "-83.0458"
+  },
+  {
+    "id": "FinalProduct_F_Detroit",
+    "label": "FinalProduct_F_Detroit",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "42.3314",
+    "longitude": "-83.0458"
+  },
+  {
+    "id": "FinalProduct_A_BuenosAires",
+    "label": "FinalProduct_A_BuenosAires",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "-34.6037",
+    "longitude": "-58.3816"
+  },
+  {
+    "id": "FinalProduct_B_BuenosAires",
+    "label": "FinalProduct_B_BuenosAires",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "-34.6037",
+    "longitude": "-58.3816"
+  },
+  {
+    "id": "FinalProduct_C_BuenosAires",
+    "label": "FinalProduct_C_BuenosAires",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "-34.6037",
+    "longitude": "-58.3816"
+  },
+  {
+    "id": "FinalProduct_D_BuenosAires",
+    "label": "FinalProduct_D_BuenosAires",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "-34.6037",
+    "longitude": "-58.3816"
+  },
+  {
+    "id": "FinalProduct_E_BuenosAires",
+    "label": "FinalProduct_E_BuenosAires",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "-34.6037",
+    "longitude": "-58.3816"
+  },
+  {
+    "id": "FinalProduct_F_BuenosAires",
+    "label": "FinalProduct_F_BuenosAires",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "-34.6037",
+    "longitude": "-58.3816"
+  },
+  {
+    "id": "FinalProduct_A_Rome",
+    "label": "FinalProduct_A_Rome",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "41.9028",
+    "longitude": "12.4964"
+  },
+  {
+    "id": "FinalProduct_B_Rome",
+    "label": "FinalProduct_B_Rome",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "41.9028",
+    "longitude": "12.4964"
+  },
+  {
+    "id": "FinalProduct_C_Rome",
+    "label": "FinalProduct_C_Rome",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "41.9028",
+    "longitude": "12.4964"
+  },
+  {
+    "id": "FinalProduct_D_Rome",
+    "label": "FinalProduct_D_Rome",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "41.9028",
+    "longitude": "12.4964"
+  },
+  {
+    "id": "FinalProduct_E_Rome",
+    "label": "FinalProduct_E_Rome",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "41.9028",
+    "longitude": "12.4964"
+  },
+  {
+    "id": "FinalProduct_F_Rome",
+    "label": "FinalProduct_F_Rome",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "41.9028",
+    "longitude": "12.4964"
+  },
+  {
+    "id": "FinalProduct_A_Sejong",
+    "label": "FinalProduct_A_Sejong",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "36.4875",
+    "longitude": "127.2816"
+  },
+  {
+    "id": "FinalProduct_B_Sejong",
+    "label": "FinalProduct_B_Sejong",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "36.4875",
+    "longitude": "127.2816"
+  },
+  {
+    "id": "FinalProduct_C_Sejong",
+    "label": "FinalProduct_C_Sejong",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "36.4875",
+    "longitude": "127.2816"
+  },
+  {
+    "id": "FinalProduct_D_Sejong",
+    "label": "FinalProduct_D_Sejong",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "36.4875",
+    "longitude": "127.2816"
+  },
+  {
+    "id": "FinalProduct_E_Sejong",
+    "label": "FinalProduct_E_Sejong",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "36.4875",
+    "longitude": "127.2816"
+  },
+  {
+    "id": "FinalProduct_F_Sejong",
+    "label": "FinalProduct_F_Sejong",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "36.4875",
+    "longitude": "127.2816"
+  },
+  {
+    "id": "FinalProduct_A_Cairo",
+    "label": "FinalProduct_A_Cairo",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "30.0444",
+    "longitude": "31.2357"
+  },
+  {
+    "id": "FinalProduct_B_Cairo",
+    "label": "FinalProduct_B_Cairo",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "30.0444",
+    "longitude": "31.2357"
+  },
+  {
+    "id": "FinalProduct_C_Cairo",
+    "label": "FinalProduct_C_Cairo",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "30.0444",
+    "longitude": "31.2357"
+  },
+  {
+    "id": "FinalProduct_D_Cairo",
+    "label": "FinalProduct_D_Cairo",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "30.0444",
+    "longitude": "31.2357"
+  },
+  {
+    "id": "FinalProduct_E_Cairo",
+    "label": "FinalProduct_E_Cairo",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "30.0444",
+    "longitude": "31.2357"
+  },
+  {
+    "id": "FinalProduct_F_Cairo",
+    "label": "FinalProduct_F_Cairo",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "30.0444",
+    "longitude": "31.2357"
+  },
+  {
+    "id": "FinalProduct_A_Vancouver",
+    "label": "FinalProduct_A_Vancouver",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "49.2827",
+    "longitude": "-123.1207"
+  },
+  {
+    "id": "FinalProduct_B_Vancouver",
+    "label": "FinalProduct_B_Vancouver",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "49.2827",
+    "longitude": "-123.1207"
+  },
+  {
+    "id": "FinalProduct_C_Vancouver",
+    "label": "FinalProduct_C_Vancouver",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "49.2827",
+    "longitude": "-123.1207"
+  },
+  {
+    "id": "FinalProduct_D_Vancouver",
+    "label": "FinalProduct_D_Vancouver",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "49.2827",
+    "longitude": "-123.1207"
+  },
+  {
+    "id": "FinalProduct_E_Vancouver",
+    "label": "FinalProduct_E_Vancouver",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "49.2827",
+    "longitude": "-123.1207"
+  },
+  {
+    "id": "FinalProduct_F_Vancouver",
+    "label": "FinalProduct_F_Vancouver",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "49.2827",
+    "longitude": "-123.1207"
+  },
+  {
+    "id": "FinalProduct_A_Quimper",
+    "label": "FinalProduct_A_Quimper",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "47.9960325",
+    "longitude": "-4.1024782"
+  },
+  {
+    "id": "FinalProduct_B_Quimper",
+    "label": "FinalProduct_B_Quimper",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "47.9960325",
+    "longitude": "-4.1024782"
+  },
+  {
+    "id": "FinalProduct_C_Quimper",
+    "label": "FinalProduct_C_Quimper",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "47.9960325",
+    "longitude": "-4.1024782"
+  },
+  {
+    "id": "FinalProduct_D_Quimper",
+    "label": "FinalProduct_D_Quimper",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "47.9960325",
+    "longitude": "-4.1024782"
+  },
+  {
+    "id": "FinalProduct_E_Quimper",
+    "label": "FinalProduct_E_Quimper",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "47.9960325",
+    "longitude": "-4.1024782"
+  },
+  {
+    "id": "FinalProduct_F_Quimper",
+    "label": "FinalProduct_F_Quimper",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "47.9960325",
+    "longitude": "-4.1024782"
+  },
+  {
+    "id": "FinalProduct_A_Dakar",
+    "label": "FinalProduct_A_Dakar",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "14.6928",
+    "longitude": "-17.4467"
+  },
+  {
+    "id": "FinalProduct_B_Dakar",
+    "label": "FinalProduct_B_Dakar",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "14.6928",
+    "longitude": "-17.4467"
+  },
+  {
+    "id": "FinalProduct_C_Dakar",
+    "label": "FinalProduct_C_Dakar",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "14.6928",
+    "longitude": "-17.4467"
+  },
+  {
+    "id": "FinalProduct_D_Dakar",
+    "label": "FinalProduct_D_Dakar",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "14.6928",
+    "longitude": "-17.4467"
+  },
+  {
+    "id": "FinalProduct_E_Dakar",
+    "label": "FinalProduct_E_Dakar",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "14.6928",
+    "longitude": "-17.4467"
+  },
+  {
+    "id": "FinalProduct_F_Dakar",
+    "label": "FinalProduct_F_Dakar",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "14.6928",
+    "longitude": "-17.4467"
+  },
+  {
+    "id": "FinalProduct_A_Tampa",
+    "label": "FinalProduct_A_Tampa",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "27.9506",
+    "longitude": "-82.4572"
+  },
+  {
+    "id": "FinalProduct_B_Tampa",
+    "label": "FinalProduct_B_Tampa",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "27.9506",
+    "longitude": "-82.4572"
+  },
+  {
+    "id": "FinalProduct_C_Tampa",
+    "label": "FinalProduct_C_Tampa",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "27.9506",
+    "longitude": "-82.4572"
+  },
+  {
+    "id": "FinalProduct_D_Tampa",
+    "label": "FinalProduct_D_Tampa",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "27.9506",
+    "longitude": "-82.4572"
+  },
+  {
+    "id": "FinalProduct_E_Tampa",
+    "label": "FinalProduct_E_Tampa",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "27.9506",
+    "longitude": "-82.4572"
+  },
+  {
+    "id": "FinalProduct_F_Tampa",
+    "label": "FinalProduct_F_Tampa",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "27.9506",
+    "longitude": "-82.4572"
+  },
+  {
+    "id": "FinalProduct_A_RioDeJaneiro",
+    "label": "FinalProduct_A_RioDeJaneiro",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "-22.9068",
+    "longitude": "-43.1729"
+  },
+  {
+    "id": "FinalProduct_B_RioDeJaneiro",
+    "label": "FinalProduct_B_RioDeJaneiro",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "-22.9068",
+    "longitude": "-43.1729"
+  },
+  {
+    "id": "FinalProduct_C_RioDeJaneiro",
+    "label": "FinalProduct_C_RioDeJaneiro",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "-22.9068",
+    "longitude": "-43.1729"
+  },
+  {
+    "id": "FinalProduct_D_RioDeJaneiro",
+    "label": "FinalProduct_D_RioDeJaneiro",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "-22.9068",
+    "longitude": "-43.1729"
+  },
+  {
+    "id": "FinalProduct_E_RioDeJaneiro",
+    "label": "FinalProduct_E_RioDeJaneiro",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "-22.9068",
+    "longitude": "-43.1729"
+  },
+  {
+    "id": "FinalProduct_F_RioDeJaneiro",
+    "label": "FinalProduct_F_RioDeJaneiro",
+    "step": "FinalProduct",
+    "initialStock": "250",
+    "latitude": "-22.9068",
+    "longitude": "-43.1729"
+  },
+  {
+    "id": "Local_FinalProduct_A_Lyon",
+    "label": "Local_FinalProduct_A_Lyon",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "45.73",
+    "longitude": "4.89"
+  },
+  {
+    "id": "Local_FinalProduct_B_Lyon",
+    "label": "Local_FinalProduct_B_Lyon",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "45.73",
+    "longitude": "4.89"
+  },
+  {
+    "id": "Local_FinalProduct_C_Lyon",
+    "label": "Local_FinalProduct_C_Lyon",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "45.73",
+    "longitude": "4.89"
+  },
+  {
+    "id": "Local_FinalProduct_D_Lyon",
+    "label": "Local_FinalProduct_D_Lyon",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "45.73",
+    "longitude": "4.89"
+  },
+  {
+    "id": "Local_FinalProduct_E_Lyon",
+    "label": "Local_FinalProduct_E_Lyon",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "45.73",
+    "longitude": "4.89"
+  },
+  {
+    "id": "Local_FinalProduct_F_Lyon",
+    "label": "Local_FinalProduct_F_Lyon",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "45.73",
+    "longitude": "4.89"
+  },
+  {
+    "id": "Local_FinalProduct_A_Wuhan",
+    "label": "Local_FinalProduct_A_Wuhan",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "30.6",
+    "longitude": "114.4"
+  },
+  {
+    "id": "Local_FinalProduct_B_Wuhan",
+    "label": "Local_FinalProduct_B_Wuhan",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "30.6",
+    "longitude": "114.4"
+  },
+  {
+    "id": "Local_FinalProduct_C_Wuhan",
+    "label": "Local_FinalProduct_C_Wuhan",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "30.6",
+    "longitude": "114.4"
+  },
+  {
+    "id": "Local_FinalProduct_D_Wuhan",
+    "label": "Local_FinalProduct_D_Wuhan",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "30.6",
+    "longitude": "114.4"
+  },
+  {
+    "id": "Local_FinalProduct_E_Wuhan",
+    "label": "Local_FinalProduct_E_Wuhan",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "30.6",
+    "longitude": "114.4"
+  },
+  {
+    "id": "Local_FinalProduct_F_Wuhan",
+    "label": "Local_FinalProduct_F_Wuhan",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "30.6",
+    "longitude": "114.4"
+  },
+  {
+    "id": "Local_FinalProduct_A_Bucarest",
+    "label": "Local_FinalProduct_A_Bucarest",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "44.5",
+    "longitude": "26.15"
+  },
+  {
+    "id": "Local_FinalProduct_B_Bucarest",
+    "label": "Local_FinalProduct_B_Bucarest",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "44.5",
+    "longitude": "26.15"
+  },
+  {
+    "id": "Local_FinalProduct_C_Bucarest",
+    "label": "Local_FinalProduct_C_Bucarest",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "44.5",
+    "longitude": "26.15"
+  },
+  {
+    "id": "Local_FinalProduct_D_Bucarest",
+    "label": "Local_FinalProduct_D_Bucarest",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "44.5",
+    "longitude": "26.15"
+  },
+  {
+    "id": "Local_FinalProduct_E_Bucarest",
+    "label": "Local_FinalProduct_E_Bucarest",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "44.5",
+    "longitude": "26.15"
+  },
+  {
+    "id": "Local_FinalProduct_F_Bucarest",
+    "label": "Local_FinalProduct_F_Bucarest",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "44.5",
+    "longitude": "26.15"
+  },
+  {
+    "id": "Local_FinalProduct_A_Guadalajara",
+    "label": "Local_FinalProduct_A_Guadalajara",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "20.5",
+    "longitude": "-103.3"
+  },
+  {
+    "id": "Local_FinalProduct_B_Guadalajara",
+    "label": "Local_FinalProduct_B_Guadalajara",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "20.5",
+    "longitude": "-103.3"
+  },
+  {
+    "id": "Local_FinalProduct_C_Guadalajara",
+    "label": "Local_FinalProduct_C_Guadalajara",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "20.5",
+    "longitude": "-103.3"
+  },
+  {
+    "id": "Local_FinalProduct_D_Guadalajara",
+    "label": "Local_FinalProduct_D_Guadalajara",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "20.5",
+    "longitude": "-103.3"
+  },
+  {
+    "id": "Local_FinalProduct_E_Guadalajara",
+    "label": "Local_FinalProduct_E_Guadalajara",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "20.5",
+    "longitude": "-103.3"
+  },
+  {
+    "id": "Local_FinalProduct_F_Guadalajara",
+    "label": "Local_FinalProduct_F_Guadalajara",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "20.5",
+    "longitude": "-103.3"
+  },
+  {
+    "id": "Local_FinalProduct_A_Birmingham",
+    "label": "Local_FinalProduct_A_Birmingham",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "52.47",
+    "longitude": "-1.895"
+  },
+  {
+    "id": "Local_FinalProduct_B_Birmingham",
+    "label": "Local_FinalProduct_B_Birmingham",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "52.47",
+    "longitude": "-1.895"
+  },
+  {
+    "id": "Local_FinalProduct_C_Birmingham",
+    "label": "Local_FinalProduct_C_Birmingham",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "52.47",
+    "longitude": "-1.895"
+  },
+  {
+    "id": "Local_FinalProduct_D_Birmingham",
+    "label": "Local_FinalProduct_D_Birmingham",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "52.47",
+    "longitude": "-1.895"
+  },
+  {
+    "id": "Local_FinalProduct_E_Birmingham",
+    "label": "Local_FinalProduct_E_Birmingham",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "52.47",
+    "longitude": "-1.895"
+  },
+  {
+    "id": "Local_FinalProduct_F_Birmingham",
+    "label": "Local_FinalProduct_F_Birmingham",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "52.47",
+    "longitude": "-1.895"
+  },
+  {
+    "id": "Local_FinalProduct_A_Tanger",
+    "label": "Local_FinalProduct_A_Tanger",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "35.785",
+    "longitude": "-5.8"
+  },
+  {
+    "id": "Local_FinalProduct_B_Tanger",
+    "label": "Local_FinalProduct_B_Tanger",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "35.785",
+    "longitude": "-5.8"
+  },
+  {
+    "id": "Local_FinalProduct_C_Tanger",
+    "label": "Local_FinalProduct_C_Tanger",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "35.785",
+    "longitude": "-5.8"
+  },
+  {
+    "id": "Local_FinalProduct_D_Tanger",
+    "label": "Local_FinalProduct_D_Tanger",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "35.785",
+    "longitude": "-5.8"
+  },
+  {
+    "id": "Local_FinalProduct_E_Tanger",
+    "label": "Local_FinalProduct_E_Tanger",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "35.785",
+    "longitude": "-5.8"
+  },
+  {
+    "id": "Local_FinalProduct_F_Tanger",
+    "label": "Local_FinalProduct_F_Tanger",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "35.785",
+    "longitude": "-5.8"
+  },
+  {
+    "id": "Local_FinalProduct_A_Chicago",
+    "label": "Local_FinalProduct_A_Chicago",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "41.8",
+    "longitude": "-87.75"
+  },
+  {
+    "id": "Local_FinalProduct_B_Chicago",
+    "label": "Local_FinalProduct_B_Chicago",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "41.8",
+    "longitude": "-87.75"
+  },
+  {
+    "id": "Local_FinalProduct_C_Chicago",
+    "label": "Local_FinalProduct_C_Chicago",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "41.8",
+    "longitude": "-87.75"
+  },
+  {
+    "id": "Local_FinalProduct_D_Chicago",
+    "label": "Local_FinalProduct_D_Chicago",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "41.8",
+    "longitude": "-87.75"
+  },
+  {
+    "id": "Local_FinalProduct_E_Chicago",
+    "label": "Local_FinalProduct_E_Chicago",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "41.8",
+    "longitude": "-87.75"
+  },
+  {
+    "id": "Local_FinalProduct_F_Chicago",
+    "label": "Local_FinalProduct_F_Chicago",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "41.8",
+    "longitude": "-87.75"
+  },
+  {
+    "id": "Local_FinalProduct_A_Medellin",
+    "label": "Local_FinalProduct_A_Medellin",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "6.21",
+    "longitude": "-75.58"
+  },
+  {
+    "id": "Local_FinalProduct_B_Medellin",
+    "label": "Local_FinalProduct_B_Medellin",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "6.21",
+    "longitude": "-75.58"
+  },
+  {
+    "id": "Local_FinalProduct_C_Medellin",
+    "label": "Local_FinalProduct_C_Medellin",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "6.21",
+    "longitude": "-75.58"
+  },
+  {
+    "id": "Local_FinalProduct_D_Medellin",
+    "label": "Local_FinalProduct_D_Medellin",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "6.21",
+    "longitude": "-75.58"
+  },
+  {
+    "id": "Local_FinalProduct_E_Medellin",
+    "label": "Local_FinalProduct_E_Medellin",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "6.21",
+    "longitude": "-75.58"
+  },
+  {
+    "id": "Local_FinalProduct_F_Medellin",
+    "label": "Local_FinalProduct_F_Medellin",
+    "step": "LocalStock",
+    "initialStock": "200",
+    "latitude": "6.21",
+    "longitude": "-75.58"
+  }
+]

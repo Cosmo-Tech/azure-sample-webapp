@@ -896,6 +896,11 @@
   },
   "layouts": {
     "tabs": {
+      "advancedvisualization": {
+        "tab": {
+          "title": "ADVANCED VISUALIZATION"
+        }
+      },
       "scenario": {
         "tab": {
           "title": "SCENARIO VIEW"

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import React from 'react';
 import { ConfigUtils } from './utils';
-import { Dashboards, Instance, Scenario, ScenarioManager, DatasetManager } from './views';
+import { AdvancedVisualization, Dashboards, Instance, Scenario, ScenarioManager, DatasetManager } from './views';
 
 const DEFAULT_TABS = [
   {
@@ -34,6 +34,12 @@ const DEFAULT_TABS = [
     label: 'layouts.tabs.dashboards.tab.title',
     to: 'dashboards',
     render: <Dashboards />,
+  },
+  {
+    key: 'tabs.advancedvisualization.key',
+    label: 'layouts.tabs.advancedvisualization.tab.title',
+    to: 'advancedvisualization',
+    render: <AdvancedVisualization />,
   },
 ];
 
