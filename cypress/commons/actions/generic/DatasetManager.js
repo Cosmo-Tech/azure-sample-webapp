@@ -43,8 +43,8 @@ export const getDatasetReuploadInput = (datasetId) =>
   cy.get(SELECTORS.list.reuploadInputByDatasetId.replace('$DATASETID', datasetId));
 export const getAllRefreshDatasetSpinners = (timeout) =>
   cy.get(SELECTORS.list.refreshSpinners, timeout ? { timeout: timeout * 1000 } : undefined);
-export const getRefreshDatasetSpinner = (datasetId) =>
-  cy.get(SELECTORS.list.refreshSpinnerByDatasetId.replace('$DATASETID', datasetId));
+export const getRefreshDatasetSpinner = (datasetId, timeout = 10) =>
+  cy.get(SELECTORS.list.refreshSpinnerByDatasetId.replace('$DATASETID', datasetId), { timeout: timeout * 1000 });
 export const getRefreshDatasetErrorIcon = (datasetId) =>
   cy.get(SELECTORS.list.refreshErrorIconByDatasetId.replace('$DATASETID', datasetId));
 export const getConfirmDatasetRefreshButton = () => cy.get(SELECTORS.confirmRefreshButton);
@@ -308,4 +308,50 @@ export const expectDatasetTwingraphQuery = (response = {}, validateRequest) => {
 export const ignoreDatasetTwingraphQueries = () => {
   const response = [{ result: -1 }];
   api.interceptPostDatasetTwingraphQuery(response, null, 0);
+};
+
+export const getUpdateDatasetParametersButton = () => {
+  return cy.get(SELECTORS.list.updateDatasetParametersButton);
+};
+
+export const openUpdateDatasetParametersDialog = () => {
+  getUpdateDatasetParametersButton().click();
+};
+
+export const getUpdateDatasetParametersDialog = () => {
+  return cy.get(GENERIC_SELECTORS.datasetmanager.list.updateDatasetParametersDialog);
+};
+
+export const getRunnerRunTemplate = () => {
+  return cy.get(GENERIC_SELECTORS.datasetmanager.update.runnerRunTemplateId);
+};
+
+export const getCloseUpdateDatasetParametersDialogButton = () => {
+  return cy.get(GENERIC_SELECTORS.datasetmanager.update.closeUpdateDialogButton);
+};
+
+export const closeUpdateDatasetParametersDialog = () => {
+  getCloseUpdateDatasetParametersDialogButton().click();
+  getUpdateDatasetParametersDialog().should('not.exist');
+};
+
+export const uploadFileInParametersEditionDialog = (filePath) =>
+  FileParameters.upload(getUpdateDatasetParametersDialog(), filePath);
+
+export const getUpdateParametersButton = () =>
+  cy.get(GENERIC_SELECTORS.datasetmanager.update.confirmUpdateParametersButton);
+
+export const updateDatasetParameters = (datasetId, options) => {
+  const aliases = [];
+  options?.datasetsEvents?.reverse()?.forEach((datasetEvent) => {
+    aliases.push(api.interceptCreateDataset({ id: datasetEvent.id }));
+    aliases.push(api.interceptUpdateDataset({ id: datasetEvent.id, customDatasetPatch: { id: datasetEvent.id } }));
+    aliases.push(api.interceptUploadWorkspaceFile());
+  });
+  const updateRunnerAlias = api.interceptUpdateRunner(options);
+  aliases.push(updateRunnerAlias);
+  aliases.push(api.interceptRefreshDatasetAndPollStatus(datasetId, options.importJobOptions));
+  aliases.push(api.interceptGetDatasetStatus(options.importJobOptions?.expectedPollsCount));
+  getUpdateParametersButton().click();
+  api.waitAliases(aliases, { timeout: 10 * 1000 });
 };

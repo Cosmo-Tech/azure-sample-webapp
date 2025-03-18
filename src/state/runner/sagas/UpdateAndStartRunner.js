@@ -5,7 +5,7 @@ import { takeEvery, call, put } from 'redux-saga/effects';
 import { setApplicationErrorMessage } from '../../app/reducers';
 import { RUNNER_ACTIONS_KEY } from '../constants';
 import { startRunner } from './StartRunner';
-import { callUpdateRunner } from './UpdateRunner';
+import { callUpdateRunner } from './UpdateSimulationRunner';
 
 export function* updateAndStartRunner(action) {
   try {

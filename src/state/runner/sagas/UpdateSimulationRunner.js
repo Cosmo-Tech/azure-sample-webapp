@@ -7,13 +7,13 @@ import { STATUSES } from '../../../services/config/StatusConstants';
 import { ApiUtils } from '../../../utils';
 import { setApplicationErrorMessage } from '../../app/reducers';
 import { RUNNER_ACTIONS_KEY } from '../constants';
-import { updateRunner } from '../reducers';
+import { updateSimulationRunner } from '../reducers';
 
 export function* callUpdateRunner(action, throwOnError = false) {
   const { organizationId, workspaceId, runnerId, runTemplateId, runnerParameters, runnerDataPatch } = action;
   try {
     yield put(
-      updateRunner({
+      updateSimulationRunner({
         runnerId,
         status: STATUSES.SAVING,
       })
@@ -35,7 +35,7 @@ export function* callUpdateRunner(action, throwOnError = false) {
     );
     runnerData.lastUpdate = updateData.lastUpdate;
     yield put(
-      updateRunner({
+      updateSimulationRunner({
         status: STATUSES.SUCCESS,
         runnerId,
         runner: runnerData,
@@ -43,7 +43,7 @@ export function* callUpdateRunner(action, throwOnError = false) {
     );
   } catch (error) {
     yield put(
-      updateRunner({
+      updateSimulationRunner({
         runnerId,
         status: STATUSES.ERROR,
       })
@@ -63,8 +63,8 @@ export function* callUpdateRunner(action, throwOnError = false) {
   }
 }
 
-function* updateRunnerSaga() {
-  yield takeEvery(RUNNER_ACTIONS_KEY.UPDATE_RUNNER, callUpdateRunner);
+function* updateSimulationRunnerSaga() {
+  yield takeEvery(RUNNER_ACTIONS_KEY.UPDATE_SIMULATION_RUNNER, callUpdateRunner);
 }
 
-export default updateRunnerSaga;
+export default updateSimulationRunnerSaga;
