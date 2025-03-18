@@ -1,16 +1,16 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { BREWERY_WORKSPACE_ID } from '../../constants/brewery/TestConstants';
+import { WORKSPACE_ID1 } from '../../commons/constants/generic/TestConstants';
 import { Login as GenericLogin } from '../generic';
 
-const DEFAULT_URL = '/' + BREWERY_WORKSPACE_ID;
+const DEFAULT_URL = '/' + WORKSPACE_ID1;
 
 // Parameters:
 //   - options: c.f. "options" parameter of "login" function, in ../generic/Login.js
 function login(options) {
   return GenericLogin.login({
     url: DEFAULT_URL,
-    workspaceId: BREWERY_WORKSPACE_ID,
+    workspaceId: WORKSPACE_ID1,
     ...options,
   });
 }

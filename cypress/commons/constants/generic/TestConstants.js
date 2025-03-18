@@ -3,7 +3,14 @@
 
 export { ORGANIZATION_ID } from '../../../../src/config/GlobalConfiguration';
 
-export const URL_ROOT = 'https://kubernetes.cosmotech.com/cosmotech-api/brewery/v4';
+export const URL_ROOT = Cypress.env('COSMO_API_URL');
+if (URL_ROOT == null) throw Error('Environment variable CYPRESS_COSMO_API_URL is not defined');
+
+export const WORKSPACE_ID1 = Cypress.env('WORKSPACE_ID1');
+export const WORKSPACE_ID2 = Cypress.env('WORKSPACE_ID2');
+if (WORKSPACE_ID1 == null || WORKSPACE_ID2 == null)
+  throw Error('Environment variables CYPRESS_WORKSPACE_ID1 and CYPRESS_WORKSPACE_ID2 must be defined');
+
 export const AUTH_QUERY_URL = '';
 export const GET_EMBED_INFO_ENDPOINT = '/api/get-embed-info';
 
