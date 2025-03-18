@@ -3,7 +3,7 @@
 
 export { ORGANIZATION_ID } from '../../../../src/config/GlobalConfiguration';
 
-export const URL_ROOT = 'https://kubernetes.cosmotech.com/cosmotech-api/brewery/v4';
+export const URL_ROOT = 'https://kubernetes.cosmotech.com/cosmotech-api/eng-test-dev/v4';
 export const AUTH_QUERY_URL = '';
 export const GET_EMBED_INFO_ENDPOINT = '/api/get-embed-info';
 

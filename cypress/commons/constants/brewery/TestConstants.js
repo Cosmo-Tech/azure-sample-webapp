@@ -1,8 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-export const BREWERY_WORKSPACE_ID = 'w-314qryelkyop5';
-export const REAL_BREWERY_WORKSPACE_ID = 'w-314qryelkyop5';
+export const BREWERY_WORKSPACE_ID = 'w-pl9d0ky6lv0mj';
+export const REAL_BREWERY_WORKSPACE_ID = 'w-pl9d0ky6lv0mj';
 
 export const DATASET_STORAGE_ACCOUNT = '';
 export const DATASET_STORAGE_CONTAINER = '';
