@@ -3,12 +3,8 @@
 import utils from '../../commons/TestUtils';
 import { ErrorBanner, Login, ScenarioManager, ScenarioParameters, Scenarios, Workspaces } from '../../commons/actions';
 import { BreweryParameters } from '../../commons/actions/brewery';
-import {
-  BREWERY_WORKSPACE_ID,
-  DATASET,
-  REAL_BREWERY_WORKSPACE_ID,
-  RUN_TEMPLATE,
-} from '../../commons/constants/brewery/TestConstants';
+import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
+import { WORKSPACE_ID1, WORKSPACE_ID2 } from '../../commons/constants/generic/TestConstants';
 import { setup } from '../../commons/utils';
 
 const CSV_VALID_WITH_EMPTY_FIELDS = 'customers_empty_authorized_fields.csv';
@@ -28,7 +24,7 @@ describe('Switching between workspaces and running four scenarios at the same ti
   it('can create, edit, upload files, create children while switching workspaces', () => {
     Login.login();
     Workspaces.getWorkspacesView(10).should('exist');
-    Workspaces.selectWorkspace(REAL_BREWERY_WORKSPACE_ID);
+    Workspaces.selectWorkspace(WORKSPACE_ID2);
 
     // create first parent scenario, edit and save it
     Scenarios.createScenario(
@@ -45,7 +41,7 @@ describe('Switching between workspaces and running four scenarios at the same ti
     ScenarioParameters.save();
 
     Workspaces.switchToWorkspaceView();
-    Workspaces.selectWorkspace(BREWERY_WORKSPACE_ID);
+    Workspaces.selectWorkspace(WORKSPACE_ID1);
 
     // create second parent scenario, edit it and save it
     Scenarios.createScenario(
@@ -61,7 +57,7 @@ describe('Switching between workspaces and running four scenarios at the same ti
     ScenarioParameters.save();
 
     Workspaces.switchToWorkspaceView();
-    Workspaces.selectWorkspace(REAL_BREWERY_WORKSPACE_ID);
+    Workspaces.selectWorkspace(WORKSPACE_ID2);
 
     // create first child scenario and edit it
     Scenarios.createScenario(
@@ -77,7 +73,7 @@ describe('Switching between workspaces and running four scenarios at the same ti
     BreweryParameters.getCustomersTableRows().should('have.length', 8);
     ScenarioParameters.save();
     Workspaces.switchToWorkspaceView();
-    Workspaces.selectWorkspace(BREWERY_WORKSPACE_ID);
+    Workspaces.selectWorkspace(WORKSPACE_ID1);
 
     // create second child scenario and edit it
     Scenarios.createScenario(
@@ -93,17 +89,17 @@ describe('Switching between workspaces and running four scenarios at the same ti
       ScenarioParameters.save();
 
       // check scenario can't be found with wrong workspaceId in url
-      cy.visit(`${REAL_BREWERY_WORKSPACE_ID}/scenario/${secondWorkspaceChildScenarioId}`);
+      cy.visit(`${WORKSPACE_ID2}/scenario/${secondWorkspaceChildScenarioId}`);
       ErrorBanner.checkAnDismissErrorBanner();
 
       // delete all scenarios
       Workspaces.switchToWorkspaceView();
-      Workspaces.selectWorkspace(REAL_BREWERY_WORKSPACE_ID);
+      Workspaces.selectWorkspace(WORKSPACE_ID2);
       ScenarioManager.switchToScenarioManager();
       ScenarioManager.deleteScenario(firstWorkspaceParentScenarioName);
       ScenarioManager.deleteScenario(firstWorkspaceChildScenarioName);
       Workspaces.switchToWorkspaceView();
-      Workspaces.selectWorkspace(BREWERY_WORKSPACE_ID);
+      Workspaces.selectWorkspace(WORKSPACE_ID1);
       ScenarioManager.switchToScenarioManager();
       ScenarioManager.deleteScenario(secondWorkspaceParentScenarioName);
       ScenarioManager.deleteScenario(secondWorkspaceChildScenarioName);

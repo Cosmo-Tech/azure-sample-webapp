@@ -3,8 +3,8 @@
 import utils from '../../commons/TestUtils';
 import { Downloads, Scenarios, ScenarioManager, ScenarioParameters } from '../../commons/actions';
 import { BreweryParameters, Login } from '../../commons/actions/brewery';
-import { BREWERY_WORKSPACE_ID, DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
-import { API_REGEX } from '../../commons/constants/generic/TestConstants';
+import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
+import { API_REGEX, WORKSPACE_ID1 } from '../../commons/constants/generic/TestConstants';
 import { routeUtils as route } from '../../commons/utils';
 import {
   EXPECTED_CUSTOMERS_BASIC_EDITION,
@@ -181,7 +181,7 @@ describe('Table parameters files standard operations part 2', () => {
     scenarioNamesToDelete.push(scenarioName);
     Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE).then((value) => {
       const scenarioId = value.scenarioCreatedId;
-      const scenarioUrl = `${BREWERY_WORKSPACE_ID}/scenario/${scenarioId}`;
+      const scenarioUrl = `${WORKSPACE_ID1}/scenario/${scenarioId}`;
 
       ScenarioParameters.expandParametersAccordion();
       BreweryParameters.switchToCustomersTab();
