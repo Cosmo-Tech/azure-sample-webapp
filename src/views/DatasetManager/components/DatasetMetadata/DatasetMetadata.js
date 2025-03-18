@@ -23,7 +23,8 @@ const useStyles = makeStyles((theme) => ({
 export const DatasetMetadata = () => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const { dataset, updateDataset, selectedDatasetIndex, parentDatasetName } = useDatasetMetadata();
+  const { dataset, updateDataset, selectedDatasetIndex, parentDatasetName, etlDatasetRunTemplateName } =
+    useDatasetMetadata();
   const datasetId = dataset?.id;
   const userPermissionsOnDataset = dataset?.security?.currentUserPermissions ?? [];
 
@@ -123,7 +124,7 @@ export const DatasetMetadata = () => {
         <MetadataItem
           id="source-type"
           label={t('commoncomponents.datasetmanager.metadata.sourceType', 'Source')}
-          value={dataset?.sourceType}
+          value={etlDatasetRunTemplateName || dataset?.sourceType}
         ></MetadataItem>
         <MetadataItem
           id="api-url"
