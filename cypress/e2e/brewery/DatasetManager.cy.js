@@ -53,7 +53,7 @@ describe('Data edition in dataset manager', () => {
     // to keep the same list at the beginning of every describe block, we provide a copy
     // to stubbing function
     stub.setDatasets([...DATASETS]);
-    stub.setRunners(RUNNERS_FOR_ETL_DATASETS);
+    stub.setScenarios(RUNNERS_FOR_ETL_DATASETS);
   });
   beforeEach(() => Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' }));
   after(stub.stop);
