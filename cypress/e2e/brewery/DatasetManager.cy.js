@@ -9,6 +9,8 @@ import {
   DATASETS_TO_REFRESH,
   ORGANIZATION_WITH_DEFAULT_ROLE_USER,
 } from '../../fixtures/stubbing/DatasetManager';
+import { RUNNERS_FOR_ETL_DATASETS } from '../../fixtures/stubbing/DatasetManager/runners';
+import { SOLUTION_WITH_TRANSLATED_RUN_TEMPLATES } from '../../fixtures/stubbing/DatasetManager/solutions';
 import { USER_EXAMPLE } from '../../fixtures/stubbing/default';
 
 const WORKSPACES = [WORKSPACE];
@@ -43,6 +45,7 @@ describe('Data edition in dataset manager', () => {
   before(() => {
     stub.start();
     stub.setWorkspaces(WORKSPACES);
+    stub.setSolutions([SOLUTION_WITH_TRANSLATED_RUN_TEMPLATES]);
     // we use the copy of DATASETS array to be able to reuse the same fixture
     // in all tests in the suite. The cypress doc says that  "fixture files are
     // assumed to be unchanged during the test, and thus Cypress loads them just once",
@@ -50,22 +53,39 @@ describe('Data edition in dataset manager', () => {
     // to keep the same list at the beginning of every describe block, we provide a copy
     // to stubbing function
     stub.setDatasets([...DATASETS]);
+    stub.setRunners(RUNNERS_FOR_ETL_DATASETS);
   });
   beforeEach(() => Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' }));
   after(stub.stop);
 
-  it('can edit datasets metadata', () => {
+  it('can display and edit datasets metadata', () => {
     const DATASET_A = DATASETS[0];
     const DATASET_B = DATASETS[1];
+    const DATASET_ETL = DATASETS[3];
+    const SUBDATASET = DATASETS[4];
     const DATASET_Z = DATASETS[2]; // Non-main dataset
 
     DatasetManager.ignoreDatasetTwingraphQueries();
     DatasetManager.switchToDatasetManagerView();
 
-    DatasetManager.getDatasetsListItemButtons().should('have.length', 2);
+    DatasetManager.getDatasetsListItemButtons().should('have.length', 4);
     DatasetManager.getDatasetsListItemButton(DATASET_A.id).should('be.visible');
     DatasetManager.getDatasetsListItemButton(DATASET_B.id).should('be.visible');
+    DatasetManager.getDatasetsListItemButton(DATASET_ETL.id).should('be.visible');
+    DatasetManager.getDatasetsListItemButton(SUBDATASET.id).should('be.visible');
     DatasetManager.getDatasetsListItemButton(DATASET_Z.id).should('not.exist');
+
+    DatasetManager.selectDatasetById(DATASET_ETL.id);
+    DatasetManager.getDatasetMetadataSourceType().should(
+      'have.text',
+      'Source:' + 'ETL run template with dynamic filter'
+    );
+
+    DatasetManager.selectDatasetById(SUBDATASET.id);
+    DatasetManager.getDatasetMetadataSourceType().should(
+      'have.text',
+      'Source:' + 'Subdataset run template with static filter'
+    );
 
     DatasetManager.selectDatasetById(DATASET_A.id);
     DatasetManager.getDatasetMetadataDescription().should('contain', DATASET_A.description);
@@ -136,7 +156,7 @@ describe('Dataset creation', () => {
 
     DatasetManager.ignoreDatasetTwingraphQueries();
     DatasetManager.switchToDatasetManagerView();
-    DatasetManager.getDatasetsListItemButtons().should('have.length', 2);
+    DatasetManager.getDatasetsListItemButtons().should('have.length', 4);
     DatasetManager.startDatasetCreation();
     DatasetManager.setNewDatasetName(datasetName);
     datasetTags.forEach((tag) => DatasetManager.addNewDatasetTag(tag));
@@ -251,14 +271,16 @@ describe('Dataset delete', () => {
   it('can delete all scenarios from the list and display noDatasets placeholder', () => {
     DatasetManager.ignoreDatasetTwingraphQueries();
     DatasetManager.switchToDatasetManagerView();
-    DatasetManager.getDatasetsListItemButtons().should('have.length', 2);
+    DatasetManager.getDatasetsListItemButtons().should('have.length', 4);
     DatasetManager.getDatasetDeleteButton(DATASETS[0].id).click();
     DatasetManager.getDeleteDatasetDialog().should('be.visible');
     DatasetManager.getDeleteDatasetDialogBody().contains(DATASETS[0].name);
     DatasetManager.closeDeleteDatasetDialog();
     DatasetManager.deleteDataset(DATASETS[0].id, DATASETS[0].name);
-    DatasetManager.getDatasetsListItemButtons().should('have.length', 1);
+    DatasetManager.getDatasetsListItemButtons().should('have.length', 3);
     DatasetManager.deleteDataset(DATASETS[1].id, DATASETS[1].name);
+    DatasetManager.deleteDataset(DATASETS[3].id, DATASETS[3].name);
+    DatasetManager.deleteDataset(DATASETS[4].id, DATASETS[4].name);
     DatasetManager.getNoDatasetsPlaceholder().should('be.visible');
     DatasetManager.getNoDatasetsPlaceholderUserSubtitle().should('not.exist'); // Default role not set to "user"
   });
