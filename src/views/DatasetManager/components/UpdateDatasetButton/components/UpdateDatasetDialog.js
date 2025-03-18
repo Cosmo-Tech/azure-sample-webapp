@@ -70,5 +70,5 @@ UpdateDatasetDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   closeDialog: PropTypes.func.isRequired,
   dataset: PropTypes.object.isRequired,
-  selectedRunner: PropTypes.object.isRequired,
+  selectedRunner: PropTypes.object,
 };
