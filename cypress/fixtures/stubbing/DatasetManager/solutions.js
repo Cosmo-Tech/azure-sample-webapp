@@ -68,3 +68,23 @@ export const SOLUTION_WITH_DYNAMIC_VALUES = {
     { id: 'dynamic_values_enum_filter', parameterGroups: ['dynamicValuesEnumGroup'], tags: ['subdatasource'] },
   ],
 };
+
+export const SOLUTION_WITH_TRANSLATED_RUN_TEMPLATES = {
+  ...DEFAULT_SOLUTION,
+  runTemplates: [
+    ...DEFAULT_SOLUTION.runTemplates,
+    {
+      id: 'etl_run_template',
+      labels: { en: 'ETL run template with dynamic filter', fr: 'Run template avec un filtre dynamique' },
+      tags: ['datasource'],
+    },
+    {
+      id: 'subdataset_run_template',
+      labels: {
+        en: 'Subdataset run template with static filter',
+        fr: 'Run template de sous-dataset avec un filtre statique',
+      },
+      tags: ['subdatasource'],
+    },
+  ],
+};

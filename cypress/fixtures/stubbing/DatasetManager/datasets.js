@@ -35,6 +35,39 @@ const FILE_DATASET_NON_MAIN = {
   description: 'hidden dataset',
 };
 
+const ETL_DATASET = {
+  ...EDITABLE_DATASET,
+  main: true,
+  id: 'D-stbdataset13',
+  parentId: 'D-stbdataset2',
+  name: 'Dataset ETL',
+  description: 'ETL dataset',
+  sourceType: 'ETL',
+  source: {
+    location: 'W-stbbdbrwry',
+    name: 'r-stbdrnr1',
+    path: null,
+    jobId: 'run-stbrun1',
+  },
+  tags: ['dataset', 'ETL'],
+};
+
+const SUBDATASET = {
+  ...EDITABLE_DATASET,
+  main: true,
+  id: 'D-stbdataset14',
+  name: 'Subdataset',
+  description: 'ETL dataset',
+  sourceType: 'ETL',
+  source: {
+    location: 'W-stbbdbrwry',
+    name: 'r-stbdrnr2',
+    path: null,
+    jobId: 'run-stbrun2',
+  },
+  tags: ['dataset', 'ETL'],
+};
+
 const DATASET_AMSTERDAM = {
   ...EDITABLE_DATASET,
   id: 'D-stbdataset3',
@@ -125,7 +158,7 @@ const DATASET_TWINGRAPH_B = {
   twincacheStatus: 'FULL',
 };
 
-export const DATASETS = [FILE_DATASET_MAIN_A, FILE_DATASET_MAIN_B, FILE_DATASET_NON_MAIN];
+export const DATASETS = [FILE_DATASET_MAIN_A, FILE_DATASET_MAIN_B, FILE_DATASET_NON_MAIN, ETL_DATASET, SUBDATASET];
 
 export const DATASETS_TO_FILTER = [
   DATASET_AMSTERDAM,
