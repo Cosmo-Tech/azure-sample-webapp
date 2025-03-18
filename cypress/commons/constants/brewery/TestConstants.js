@@ -1,6 +1,10 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
+export const BREWERY_URL_ROOT = 'https://kubernetes.cosmotech.com/cosmotech-api/brewery/v4';
+export const BREWERY_WORKSPACE_ID1 = 'w-314qryelkyop5';
+export const BREWERY_WORKSPACE_ID2 = 'w-314qryelkyop5';
+
 export const DATASET_STORAGE_ACCOUNT = '';
 export const DATASET_STORAGE_CONTAINER = '';
 export const DATASET_STORAGE_REFERENCE_FOLDER = '';
