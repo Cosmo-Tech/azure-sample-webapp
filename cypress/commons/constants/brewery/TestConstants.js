@@ -6,7 +6,7 @@ export const REAL_BREWERY_WORKSPACE_ID = 'w-21d727w3gv7';
 
 export const DATASET_STORAGE_ACCOUNT = 'warpwaadxdevdlrivo';
 export const DATASET_STORAGE_CONTAINER = 'o-4pm18exqpkv';
-export const DATASET_STORAGE_REFERENCE_FOLDER = 'brewery_reference';
+export const DATASET_STORAGE_REFERENCE_FOLDER = 'brewery_reference/';
 
 export const SCENARIO_STATUS = {
   CREATED: 'created',
