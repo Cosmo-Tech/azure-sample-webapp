@@ -1,6 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { WORKSPACE_ID1 } from '../../commons/constants/generic/TestConstants';
+import { WORKSPACE_ID1 } from '../../constants/generic/TestConstants';
 import { Login as GenericLogin } from '../generic';
 
 const DEFAULT_URL = '/' + WORKSPACE_ID1;
