@@ -21,5 +21,3 @@ export const TWINGRAPH_QUERY_RETRY_DELAY = 500; // Delay between retrying when a
 
 // Size of a page of runners returned by back-end
 export const RUNNERS_PAGE_COUNT = 5000;
-
-

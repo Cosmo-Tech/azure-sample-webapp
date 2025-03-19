@@ -8,8 +8,7 @@ import {
   useUpdateDataset,
   useSelectedDatasetIndex,
 } from '../../../../state/datasets/hooks';
-} from '../../../../state/hooks/DatasetHooks';
-import { useGetETLRunners } from '../../../../state/hooks/RunnerHooks';
+import { useGetETLRunners } from '../../../../state/runner/hooks';
 import { TranslationUtils } from '../../../../utils';
 
 export const useDatasetMetadata = () => {

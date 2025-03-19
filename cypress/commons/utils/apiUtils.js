@@ -962,17 +962,8 @@ const interceptWorkspaceSelectorQueries = () => {
   ];
 };
 
-const interceptGetRunners = () => {
-  const alias = forgeAlias('reqGetRunners');
-  cy.intercept({ method: 'GET', url: API_REGEX.RUNNERS, times: 1 }, (req) => {
-    if (!stub.isEnabledFor('GET_DATASETS')) return;
-    req.reply(stub.getRunners());
-  }).as(alias);
-  return alias;
-};
-
 const interceptSelectWorkspaceQueries = (isPowerBiEnabled = true) => {
-  const workspaceQueries = [interceptGetSolution(), ...interceptGetRunnersAndStatuses(), interceptGetRunners()];
+  const workspaceQueries = [interceptGetSolution(), ...interceptGetRunnersAndStatuses()];
   if (isPowerBiEnabled) workspaceQueries.push(interceptPowerBIAzureFunction());
   return workspaceQueries;
 };
@@ -1037,5 +1028,4 @@ export const apiUtils = {
   interceptUpdateSimulationRunnerACLSecurity,
   interceptUpdateRunnerDefaultSecurity,
   interceptUpdateRunnerACLSecurity,
-  interceptGetRunners,
 };
