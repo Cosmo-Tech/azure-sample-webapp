@@ -16,6 +16,7 @@
     "@mui/styles": "^5.16.14",
     "@reduxjs/toolkit": "^1.9.7",
     "axios": "^1.7.9",
+    "d3": "^7.9.0",
     "date-fns": "^4.1.0",
     "deepmerge": "^4.3.1",
     "fast-deep-equal": "^3.1.3",
