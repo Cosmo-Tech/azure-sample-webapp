@@ -1,6 +1,10 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
+import PauseIcon from '@mui/icons-material/Pause';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import { Slider, Button, Box, Typography } from '@mui/material';
 import { useTheme } from '@mui/styles';
 import * as d3 from 'd3';
 import stocksData from './data/stocks.json';
@@ -13,15 +17,80 @@ const AdvancedVisualization = () => {
   const tooltipRef = useRef(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
-  // Process the stock data
-  const processedData = React.useMemo(() => {
-    return stocksData.map((item) => ({
-      ...item,
-      initialStock: parseInt(item.initialStock) || 0,
-      latitude: parseFloat(item.latitude),
-      longitude: parseFloat(item.longitude),
-    }));
+  // Timeline state
+  const [timePoints, setTimePoints] = useState([]);
+  const [currentTimeIndex, setCurrentTimeIndex] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [animationSpeed, setAnimationSpeed] = useState(1000); // ms between frames
+  const animationRef = useRef(null);
+
+  // Generate mock timeseries data
+  const { timeseriesStocks, timeseriesTransports } = React.useMemo(() => {
+    // Create 10 time points (e.g., days)
+    const numTimePoints = 50;
+    const generatedTimePoints = Array.from({ length: numTimePoints }, (_, i) => {
+      const date = new Date();
+      date.setDate(date.getDate() - (numTimePoints - 1) + i);
+      return date.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+    });
+    setTimePoints(generatedTimePoints);
+
+    const stocksTimeseries = {};
+    stocksData.forEach((stock) => {
+      // Start with the initial stock value
+      const initialValue = parseInt(stock.initialStock) || 100;
+
+      stocksTimeseries[stock.id] = generatedTimePoints.map((_, index) => {
+        const trendFactor = index / (numTimePoints - 1);
+        const randomFactor = Math.random() * 0.2 + 0.95;
+        let value = initialValue * (1.1 - trendFactor * 0.2) * randomFactor;
+        if (Math.random() < 0.2) value *= Math.random() < 0.5 ? 0.7 : 1.3; // Random spikes or drops
+        return Math.round(value);
+      });
+    });
+
+    const transportsTimeseries = {};
+
+    transportsData.forEach((transport) => {
+      // Generate random activity levels for each time point
+      transportsTimeseries[transport.id] = generatedTimePoints.map((_, index) => {
+        // Create random activity levels
+        // Some transports might be inactive at certain time points
+        const isActive = Math.random() < 0.8; // 80% chance of being active
+
+        // For active transports, generate a random flow amount
+        const flowAmount = isActive ? Math.floor(Math.random() * 100) + 10 : 0;
+
+        return {
+          isActive,
+          flowAmount,
+        };
+      });
+    });
+
+    return {
+      timeseriesStocks: stocksTimeseries,
+      timeseriesTransports: transportsTimeseries,
+    };
   }, []);
+
+  // Process the stock data for the current time point
+  const processedData = React.useMemo(() => {
+    return stocksData.map((item) => {
+      // Get the stock value for the current time point
+      const currentStock = timeseriesStocks[item.id]
+        ? timeseriesStocks[item.id][currentTimeIndex]
+        : parseInt(item.initialStock) || 0;
+
+      return {
+        ...item,
+        initialStock: parseInt(item.initialStock) || 0,
+        currentStock,
+        latitude: parseFloat(item.latitude),
+        longitude: parseFloat(item.longitude),
+      };
+    });
+  }, [timeseriesStocks, currentTimeIndex]);
 
   // Create a lookup map for stocks by ID
   const stocksById = React.useMemo(() => {
@@ -45,6 +114,11 @@ const AdvancedVisualization = () => {
           return null;
         }
 
+        // Get the transport activity for the current time point
+        const currentActivity = timeseriesTransports[item.id]
+          ? timeseriesTransports[item.id][currentTimeIndex]
+          : { isActive: true, flowAmount: 50 };
+
         return {
           ...item,
           duration: parseInt(item.duration) || 0,
@@ -54,10 +128,12 @@ const AdvancedVisualization = () => {
           sourceLongitude: sourceStock.longitude,
           targetLatitude: targetStock.latitude,
           targetLongitude: targetStock.longitude,
+          isActive: currentActivity.isActive,
+          flowAmount: currentActivity.flowAmount,
         };
       })
-      .filter((item) => item !== null); // Remove any transports with missing stocks
-  }, [stocksById]);
+      .filter((item) => item !== null && item.isActive); // Remove inactive transports and those with missing stocks
+  }, [stocksById, timeseriesTransports, currentTimeIndex]);
 
   // Get unique steps for color scale
   const steps = React.useMemo(() => {
@@ -69,11 +145,48 @@ const AdvancedVisualization = () => {
     return d3.scaleOrdinal().domain(steps).range(d3.schemeCategory10);
   }, [steps]);
 
-  // Create size scale based on initialStock
+  // Create size scale based on currentStock
   const sizeScale = React.useMemo(() => {
-    const maxStock = d3.max(processedData, (d) => d.initialStock) || 500;
+    const maxStock = d3.max(processedData, (d) => d.currentStock) || 500;
     return d3.scaleLinear().domain([0, maxStock]).range([3, 15]);
   }, [processedData]);
+
+  // Animation control functions
+  const startAnimation = useCallback(() => {
+    if (animationRef.current) return;
+
+    setIsPlaying(true);
+
+    animationRef.current = setInterval(() => {
+      setCurrentTimeIndex((prevIndex) => {
+        const nextIndex = prevIndex + 1;
+        // Loop back to the beginning if we reach the end
+        return nextIndex >= timePoints.length ? 0 : nextIndex;
+      });
+    }, animationSpeed);
+  }, [timePoints.length, animationSpeed]);
+
+  const pauseAnimation = useCallback(() => {
+    if (animationRef.current) {
+      clearInterval(animationRef.current);
+      animationRef.current = null;
+    }
+    setIsPlaying(false);
+  }, []);
+
+  const resetAnimation = useCallback(() => {
+    pauseAnimation();
+    setCurrentTimeIndex(0);
+  }, [pauseAnimation]);
+
+  // Clean up animation on unmount
+  useEffect(() => {
+    return () => {
+      if (animationRef.current) {
+        clearInterval(animationRef.current);
+      }
+    };
+  }, []);
 
   // Update dimensions on window resize
   useEffect(() => {
@@ -82,7 +195,7 @@ const AdvancedVisualization = () => {
         const { width } = svgRef.current.parentElement.getBoundingClientRect();
         setDimensions({
           width,
-          height: window.innerHeight * 0.8,
+          height: window.innerHeight * 0.7, // Reduced to make room for timeline
         });
       }
     };
@@ -136,12 +249,12 @@ const AdvancedVisualization = () => {
         container.attr('transform', currentTransform);
 
         // Update circle sizes to maintain constant visual size during zoom
-        container.selectAll('.stock').attr('r', (d) => sizeScale(d.initialStock) / currentTransform.k);
+        container.selectAll('.stock').attr('r', (d) => sizeScale(d.currentStock) / currentTransform.k);
 
         // Update transport line widths and dash patterns to maintain constant visual size during zoom
         container
           .selectAll('.transport')
-          .attr('stroke-width', (d) => transportWidthScale(d.duration) / currentTransform.k)
+          .attr('stroke-width', (d) => transportWidthScale(d.flowAmount) / currentTransform.k)
           .each(function (d) {
             const style = transportModeStyles[d.mode] || defaultTransportStyle;
             // Only adjust dash pattern if it's not a solid line
@@ -172,10 +285,10 @@ const AdvancedVisualization = () => {
       .attr('stroke', '#ccc')
       .attr('stroke-width', 0.5);
 
-    // Create a scale for transport line width based on duration
+    // Create a scale for transport line width based on flow amount
     const transportWidthScale = d3
       .scaleLinear()
-      .domain([0, d3.max(processedTransports, (d) => d.duration) || 100])
+      .domain([0, d3.max(processedTransports, (d) => d.flowAmount) || 100])
       .range([1, 5]);
 
     // Define transport mode styles
@@ -240,7 +353,7 @@ const AdvancedVisualization = () => {
       })
       .attr('fill', 'none')
       .attr('stroke', (d) => (transportModeStyles[d.mode] || defaultTransportStyle).stroke)
-      .attr('stroke-width', (d) => transportWidthScale(d.duration))
+      .attr('stroke-width', (d) => transportWidthScale(d.flowAmount))
       .attr('stroke-dasharray', (d) => (transportModeStyles[d.mode] || defaultTransportStyle).strokeDasharray)
       .attr('stroke-linecap', (d) => (transportModeStyles[d.mode] || defaultTransportStyle).strokeLinecap)
       .attr('stroke-opacity', 0.6)
@@ -250,12 +363,13 @@ const AdvancedVisualization = () => {
             From: ${d.source || 'Unknown'}<br/>
             To: ${d.target || 'Unknown'}<br/>
             Duration: ${d.duration}<br/>
-            Mode: ${d.mode}
+            Mode: ${d.mode}<br/>
+            Flow Amount: ${d.flowAmount}
           `);
 
         d3.select(event.currentTarget)
           .attr('stroke-opacity', 1)
-          .attr('stroke-width', (d) => (transportWidthScale(d.duration) + 1) / currentTransform.k);
+          .attr('stroke-width', (d) => (transportWidthScale(d.flowAmount) + 1) / currentTransform.k);
       })
       .on('mousemove', (event) => {
         tooltip.style('top', event.pageY - 10 + 'px').style('left', event.pageX + 10 + 'px');
@@ -266,7 +380,7 @@ const AdvancedVisualization = () => {
         const element = d3.select(event.currentTarget);
         element
           .attr('stroke-opacity', 0.6)
-          .attr('stroke-width', (d) => transportWidthScale(d.duration) / currentTransform.k);
+          .attr('stroke-width', (d) => transportWidthScale(d.flowAmount) / currentTransform.k);
 
         // Restore the dash pattern based on the mode and zoom level
         const style = transportModeStyles[d.mode] || defaultTransportStyle;
@@ -286,7 +400,7 @@ const AdvancedVisualization = () => {
       .attr('class', 'stock')
       .attr('cx', (d) => projection([d.longitude, d.latitude])[0])
       .attr('cy', (d) => projection([d.longitude, d.latitude])[1])
-      .attr('r', (d) => sizeScale(d.initialStock)) // Initial size, will be adjusted during zoom
+      .attr('r', (d) => sizeScale(d.currentStock)) // Size based on current stock
       .attr('fill', (d) => colorScale(d.step))
       .attr('stroke', '#fff')
       .attr('stroke-width', 0.5)
@@ -296,6 +410,7 @@ const AdvancedVisualization = () => {
             <strong>${d.label}</strong><br/>
             Type: ${d.step}<br/>
             Initial Stock: ${d.initialStock}<br/>
+            Current Stock: ${d.currentStock}<br/>
             Location: ${d.latitude.toFixed(2)}, ${d.longitude.toFixed(2)}
           `);
 
@@ -378,7 +493,36 @@ const AdvancedVisualization = () => {
         .style('font-size', '12px')
         .style('fill', '#000000');
     });
-  }, [dimensions, processedData, processedTransports, colorScale, sizeScale, theme, steps]);
+
+    svg
+      .append('rect') // Time indicator background
+      .attr('x', dimensions.width - 155)
+      .attr('y', 4)
+      .attr('width', 150)
+      .attr('height', 40)
+      .attr('fill', '#FFFFFF')
+      .style('opacity', 0.75);
+    svg
+      .append('text')
+      .attr('class', 'time-indicator')
+      .attr('x', dimensions.width - 150)
+      .attr('y', 30)
+      .attr('text-anchor', 'start')
+      .style('font-size', '16px')
+      .style('font-weight', 'bold')
+      .style('fill', '#000')
+      .text(`Date: ${timePoints[currentTimeIndex]}`);
+  }, [
+    dimensions,
+    processedData,
+    processedTransports,
+    colorScale,
+    sizeScale,
+    theme,
+    steps,
+    timePoints,
+    currentTimeIndex,
+  ]);
 
   return (
     <div data-cy="advanced-visualization-view" style={{ width: '100%', height: '100%' }}>
@@ -387,6 +531,52 @@ const AdvancedVisualization = () => {
         <svg ref={svgRef}></svg>
         <div ref={tooltipRef}></div>
       </div>
+
+      {/* Timeline controls */}
+      <Box sx={{ width: '100%', padding: '20px 40px', marginTop: '10px' }}>
+        <Typography gutterBottom>Timeline</Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={isPlaying ? pauseAnimation : startAnimation}
+            sx={{ mr: 1 }}
+          >
+            {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
+          </Button>
+          <Button variant="outlined" onClick={resetAnimation} sx={{ mr: 2 }}>
+            <RestartAltIcon />
+          </Button>
+          <Box sx={{ flexGrow: 1 }}>
+            <Slider
+              value={currentTimeIndex}
+              onChange={(_, value) => {
+                pauseAnimation();
+                setCurrentTimeIndex(value);
+              }}
+              step={1}
+              marks={timePoints.map((date, index) => ({ value: index, label: index % 3 === 0 ? date : '' }))}
+              min={0}
+              max={timePoints.length - 1}
+              valueLabelDisplay="auto"
+              valueLabelFormat={(value) => timePoints[value]}
+            />
+          </Box>
+        </Box>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Typography sx={{ mr: 2 }}>Animation Speed:</Typography>
+          <Slider
+            value={2000 - animationSpeed}
+            onChange={(_, value) => setAnimationSpeed(2000 - value)}
+            step={100}
+            min={0}
+            max={1900}
+            sx={{ width: 200 }}
+            valueLabelDisplay="auto"
+            valueLabelFormat={() => `${animationSpeed}ms`}
+          />
+        </Box>
+      </Box>
     </div>
   );
 };
