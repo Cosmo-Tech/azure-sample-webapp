@@ -566,11 +566,11 @@ const AdvancedVisualization = () => {
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Typography sx={{ mr: 2 }}>Animation Speed:</Typography>
           <Slider
-            value={2000 - animationSpeed}
-            onChange={(_, value) => setAnimationSpeed(2000 - value)}
-            step={100}
+            value={1000 - animationSpeed}
+            onChange={(_, value) => setAnimationSpeed(1000 - value)}
+            step={50}
             min={0}
-            max={1900}
+            max={950}
             sx={{ width: 200 }}
             valueLabelDisplay="auto"
             valueLabelFormat={() => `${animationSpeed}ms`}
