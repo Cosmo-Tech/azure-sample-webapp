@@ -896,6 +896,16 @@
   },
   "layouts": {
     "tabs": {
+      "advancedvisualization": {
+        "tab": {
+          "title": "ADVANCED VISUALIZATION"
+        }
+      },
+      "pixid3": {
+        "tab": {
+          "title": "Pixi/d3 viz"
+        }
+      },
       "scenario": {
         "tab": {
           "title": "SCENARIO VIEW"
