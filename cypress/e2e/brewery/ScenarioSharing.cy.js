@@ -176,13 +176,13 @@ describe('Check workspace permissions for Viewer, Editor & Validator', () => {
     RolesEdition.getShareButton().should('be.visible').should('not.be.disabled').click();
     RolesEdition.getShareDialogAgentsSelect().should('not.exist');
     RolesEdition.getRoleEditorAgentName(USERS_LIST[1].email).should('have.text', USERS_LIST[1].email);
-    RolesEdition.getSelectedOptionByAgent(USERS_LIST[1].email).should('value', ROLES.SCENARIO.VIEWER);
+    RolesEdition.getSelectedOptionByAgent(USERS_LIST[1].email).should('value', ROLES.RUNNER.VIEWER);
     RolesEdition.isRoleEditorSelectorDisabled(USERS_LIST[1].email).should('eq', 'true');
     RolesEdition.getRoleEditorAgentName(USERS_LIST[2].email).should('have.text', USERS_LIST[2].email);
-    RolesEdition.getSelectedOptionByAgent(USERS_LIST[2].email).should('value', ROLES.SCENARIO.EDITOR);
+    RolesEdition.getSelectedOptionByAgent(USERS_LIST[2].email).should('value', ROLES.RUNNER.EDITOR);
     RolesEdition.isRoleEditorSelectorDisabled(USERS_LIST[2].email).should('eq', 'true');
     RolesEdition.getRoleEditorAgentName(USERS_LIST[3].email).should('have.text', USERS_LIST[3].email);
-    RolesEdition.getSelectedOptionByAgent(USERS_LIST[3].email).should('value', ROLES.SCENARIO.VALIDATOR);
+    RolesEdition.getSelectedOptionByAgent(USERS_LIST[3].email).should('value', ROLES.RUNNER.VALIDATOR);
     RolesEdition.isRoleEditorSelectorDisabled(USERS_LIST[3].email).should('eq', 'true');
     RolesEdition.isRoleEditorSelectorDisabled('Workspace').should('eq', 'true');
     RolesEdition.getShareDialogConfirmAddAccessButton().should('not.exist');
