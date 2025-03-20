@@ -104,7 +104,6 @@ export const createTransportTexture = (textureCache, sourcePos, targetPos, lineC
   const controlX = midX - (dy * offset) / distance;
   const controlY = midY + (dx * offset) / distance;
 
-  // Add extra padding for the glow effect
   const glowSize = lineWidth * 4;
   const padding = Math.max(glowSize, 20);
   const minX = Math.min(sourcePos.x, targetPos.x, controlX) - padding;
@@ -116,17 +115,10 @@ export const createTransportTexture = (textureCache, sourcePos, targetPos, lineC
 
   const graphics = new PIXI.Graphics();
 
-  // Add glow effect (drawn first so it's behind the main line)
-  graphics.lineStyle(lineWidth * 3, lineColor, 0.3);
+  graphics.lineStyle(lineWidth * 1.2, lineColor, 0.3);
   graphics.moveTo(sourcePos.x - minX, sourcePos.y - minY);
   graphics.quadraticCurveTo(controlX - minX, controlY - minY, targetPos.x - minX, targetPos.y - minY);
 
-  // Add a second glow layer for more intensity
-  graphics.lineStyle(lineWidth * 2, lineColor, 0.4);
-  graphics.moveTo(sourcePos.x - minX, sourcePos.y - minY);
-  graphics.quadraticCurveTo(controlX - minX, controlY - minY, targetPos.x - minX, targetPos.y - minY);
-
-  // Draw the main line
   graphics.lineStyle(lineWidth, lineColor, 0.8);
   graphics.moveTo(sourcePos.x - minX, sourcePos.y - minY);
   graphics.quadraticCurveTo(controlX - minX, controlY - minY, targetPos.x - minX, targetPos.y - minY);
@@ -142,7 +134,6 @@ export const createTransportTexture = (textureCache, sourcePos, targetPos, lineC
     y: minY,
     width,
     height,
-    // Store curve data for the moving dots
     curveData: {
       sourceX: sourcePos.x - minX,
       sourceY: sourcePos.y - minY,
@@ -156,8 +147,7 @@ export const createTransportTexture = (textureCache, sourcePos, targetPos, lineC
   return textureCache.current[textureKey];
 };
 
-// Function to calculate a point on a quadratic curve at time t (0-1)
-export const getQuadraticPoint = (p0x, p0y, p1x, p1y, p2x, p2y, t) => {
+const getQuadraticPoint = (p0x, p0y, p1x, p1y, p2x, p2y, t) => {
   const mt = 1 - t;
   return {
     x: mt * mt * p0x + 2 * mt * t * p1x + t * t * p2x,
@@ -165,28 +155,23 @@ export const getQuadraticPoint = (p0x, p0y, p1x, p1y, p2x, p2y, t) => {
   };
 };
 
-// Create moving dots along a transport path
 export const createMovingDots = (curveData, color, app) => {
   const container = new PIXI.Container();
-  const numDots = 5; // Number of dots to create
+  const numDots = 5;
   const dots = [];
 
-  // Create dots with different positions along the curve
   for (let i = 0; i < numDots; i++) {
     const dot = new PIXI.Graphics();
-    const dotSize = 3 + Math.random() * 2; // Slightly randomize dot size
+    const dotSize = 0.5 + Math.random() * 2;
 
-    // Draw the dot
     dot.beginFill(color, 0.8);
     dot.drawCircle(0, 0, dotSize);
     dot.endFill();
 
-    // Add a small glow
     dot.beginFill(color, 0.3);
     dot.drawCircle(0, 0, dotSize * 2);
     dot.endFill();
 
-    // Set initial position (evenly spaced along the curve)
     const initialT = i / numDots;
     const pos = getQuadraticPoint(
       curveData.sourceX,
@@ -201,24 +186,18 @@ export const createMovingDots = (curveData, color, app) => {
     dot.x = pos.x;
     dot.y = pos.y;
 
-    // Store the current t value for animation
     dot.tValue = initialT;
-    dot.speed = 0.002 + Math.random() * 0.002; // Slightly randomize speed
+    dot.speed = 0.002 + Math.random() * 0.002;
 
     container.addChild(dot);
     dots.push(dot);
   }
 
-  // Add animation function to the container
   container.animateDots = () => {
     dots.forEach((dot) => {
-      // Update t value (move along the curve)
       dot.tValue += dot.speed;
-      if (dot.tValue > 1) {
-        dot.tValue = 0; // Reset to start when reaching the end
-      }
+      if (dot.tValue > 1) dot.tValue = 0;
 
-      // Calculate new position
       const pos = getQuadraticPoint(
         curveData.sourceX,
         curveData.sourceY,
@@ -229,7 +208,6 @@ export const createMovingDots = (curveData, color, app) => {
         dot.tValue
       );
 
-      // Update dot position
       dot.x = pos.x;
       dot.y = pos.y;
     });

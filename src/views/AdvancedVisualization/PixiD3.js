@@ -35,18 +35,17 @@ const PixiD3 = () => {
   // Refs for visualization parameters
   const projectionRef = useRef(null);
   const stockPositionsRef = useRef({});
+  const pixiTickerRef = useRef(null);
   // Refs for sprite management
   const stockSpritesRef = useRef({});
   const transportSpritesRef = useRef({});
   const transportDotsRef = useRef({});
   const textureCache = useRef({});
-  // Animation ticker
-  const pixiTickerRef = useRef(null);
 
   const [timePoints, setTimePoints] = useState([]);
   const [currentTimeIndex, setCurrentTimeIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [animationSpeed, setAnimationSpeed] = useState(1000); // Time between animation frames, in ms
+  const [animationSpeed, setAnimationSpeed] = useState(1000); // Time between replay animation frames, in ms
   const animationRef = useRef(null);
 
   const { timeseriesStocks, timeseriesTransports } = useMemo(() => {
@@ -193,13 +192,9 @@ const PixiD3 = () => {
       app.stage.addChild(dotsContainer);
       app.stage.addChild(stocksContainer);
 
-      // Set up the animation ticker
-      if (pixiTickerRef.current) {
-        pixiTickerRef.current.destroy();
-      }
+      if (pixiTickerRef.current) pixiTickerRef.current.destroy();
       pixiTickerRef.current = new PIXI.Ticker();
       pixiTickerRef.current.add(() => {
-        // Animate all dot containers
         Object.values(transportDotsRef.current).forEach((dotContainer) => {
           if (dotContainer && dotContainer.animateDots) {
             dotContainer.animateDots();
@@ -320,11 +315,9 @@ const PixiD3 = () => {
     const fontSize = Math.max(12, Math.min(width, height) * 0.02);
     const textStyle = new PIXI.TextStyle({ fontFamily: 'Arial', fontSize, fill: theme.palette.text.primary });
 
-    // Clear previous containers
     while (linksContainer.children.length > 0) linksContainer.removeChild(linksContainer.children[0]);
     while (dotsContainer.children.length > 0) dotsContainer.removeChild(dotsContainer.children[0]);
 
-    // Clear previous transport dots
     Object.keys(transportDotsRef.current).forEach((id) => {
       const dotContainer = transportDotsRef.current[id];
       if (dotContainer && dotContainer.parent) {
@@ -352,9 +345,8 @@ const PixiD3 = () => {
         linksContainer.addChild(sprite);
         transportSpritesRef.current[transport.id] = sprite;
 
-        // Create moving dots along the transport path
         if (textureInfo.curveData) {
-          const dotContainer = createMovingDots(textureInfo.curveData, lineColor, app);
+          const dotContainer = createMovingDots(textureInfo.curveData, '#ffffff', app);
           dotContainer.x = textureInfo.x;
           dotContainer.y = textureInfo.y;
           dotsContainer.addChild(dotContainer);
@@ -397,19 +389,16 @@ const PixiD3 = () => {
         stockContainer.x = x;
         stockContainer.y = y;
 
-        // Create circle sprite
         const circleSprite = new PIXI.Sprite(texture);
         circleSprite.anchor.set(0.5);
         stockContainer.addChild(circleSprite);
 
-        // Create label
         const label = new PIXI.Text(stock.label, textStyle);
         label.anchor.set(0.5);
         label.y = -radius - fontSize * 0.8;
         label.visible = false;
         stockContainer.addChild(label);
 
-        // Add interactivity
         circleSprite.interactive = true;
         circleSprite.buttonMode = true;
         circleSprite.on('mouseover', () => {
@@ -422,7 +411,6 @@ const PixiD3 = () => {
           label.visible = false;
         });
 
-        // Add to container and store reference
         stocksContainer.addChild(stockContainer);
         stockSpritesRef.current[stock.id] = stockContainer;
       }
