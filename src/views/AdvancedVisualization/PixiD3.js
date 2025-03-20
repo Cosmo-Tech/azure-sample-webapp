@@ -12,7 +12,13 @@ import * as PIXI from 'pixi.js';
 import stocksData from './data/stocks.json';
 import transportsData from './data/transports.json';
 import worldMapData from './data/worldMap.geo.json';
-import { createStockTexture, createTransportTexture, parseSVGPath, drawSVGPathToPixi } from './pixiUtils';
+import {
+  createStockTexture,
+  createTransportTexture,
+  parseSVGPath,
+  drawSVGPathToPixi,
+  createMovingDots,
+} from './pixiUtils';
 
 const PixiD3 = () => {
   const theme = useTheme();
@@ -24,6 +30,7 @@ const PixiD3 = () => {
   const mapContainerRef = useRef(null);
   const stocksContainerRef = useRef(null);
   const linksContainerRef = useRef(null);
+  const dotsContainerRef = useRef(null);
   const timeTextRef = useRef(null);
   // Refs for visualization parameters
   const projectionRef = useRef(null);
@@ -31,7 +38,10 @@ const PixiD3 = () => {
   // Refs for sprite management
   const stockSpritesRef = useRef({});
   const transportSpritesRef = useRef({});
+  const transportDotsRef = useRef({});
   const textureCache = useRef({});
+  // Animation ticker
+  const pixiTickerRef = useRef(null);
 
   const [timePoints, setTimePoints] = useState([]);
   const [currentTimeIndex, setCurrentTimeIndex] = useState(0);
@@ -173,12 +183,30 @@ const PixiD3 = () => {
       const mapContainer = new PIXI.Container();
       const stocksContainer = new PIXI.Container();
       const linksContainer = new PIXI.Container();
+      const dotsContainer = new PIXI.Container();
       mapContainerRef.current = mapContainer;
       stocksContainerRef.current = stocksContainer;
       linksContainerRef.current = linksContainer;
+      dotsContainerRef.current = dotsContainer;
       app.stage.addChild(mapContainer);
       app.stage.addChild(linksContainer);
+      app.stage.addChild(dotsContainer);
       app.stage.addChild(stocksContainer);
+
+      // Set up the animation ticker
+      if (pixiTickerRef.current) {
+        pixiTickerRef.current.destroy();
+      }
+      pixiTickerRef.current = new PIXI.Ticker();
+      pixiTickerRef.current.add(() => {
+        // Animate all dot containers
+        Object.values(transportDotsRef.current).forEach((dotContainer) => {
+          if (dotContainer && dotContainer.animateDots) {
+            dotContainer.animateDots();
+          }
+        });
+      });
+      pixiTickerRef.current.start();
 
       const timeText = new PIXI.Text(`Date: ${timePoints[currentTimeIndex] || 'Loading...'}`, {
         fontFamily: 'Arial',
@@ -257,11 +285,19 @@ const PixiD3 = () => {
   }, [theme]); // Only depend on theme, not on time-related state
 
   const updateDynamicElements = useCallback(() => {
-    if (!appRef.current || !stocksContainerRef.current || !linksContainerRef.current || !timeTextRef.current) return;
+    if (
+      !appRef.current ||
+      !stocksContainerRef.current ||
+      !linksContainerRef.current ||
+      !dotsContainerRef.current ||
+      !timeTextRef.current
+    )
+      return;
 
     const app = appRef.current;
     const stocksContainer = stocksContainerRef.current;
     const linksContainer = linksContainerRef.current;
+    const dotsContainer = dotsContainerRef.current;
     const timeText = timeTextRef.current;
     const projection = projectionRef.current;
     const stockPositions = stockPositionsRef.current;
@@ -284,7 +320,18 @@ const PixiD3 = () => {
     const fontSize = Math.max(12, Math.min(width, height) * 0.02);
     const textStyle = new PIXI.TextStyle({ fontFamily: 'Arial', fontSize, fill: theme.palette.text.primary });
 
+    // Clear previous containers
     while (linksContainer.children.length > 0) linksContainer.removeChild(linksContainer.children[0]);
+    while (dotsContainer.children.length > 0) dotsContainer.removeChild(dotsContainer.children[0]);
+
+    // Clear previous transport dots
+    Object.keys(transportDotsRef.current).forEach((id) => {
+      const dotContainer = transportDotsRef.current[id];
+      if (dotContainer && dotContainer.parent) {
+        dotContainer.parent.removeChild(dotContainer);
+      }
+    });
+    transportDotsRef.current = {};
 
     processedTransportsData.forEach((transport) => {
       const sourcePos = stockPositions[transport.source];
@@ -304,6 +351,15 @@ const PixiD3 = () => {
 
         linksContainer.addChild(sprite);
         transportSpritesRef.current[transport.id] = sprite;
+
+        // Create moving dots along the transport path
+        if (textureInfo.curveData) {
+          const dotContainer = createMovingDots(textureInfo.curveData, lineColor, app);
+          dotContainer.x = textureInfo.x;
+          dotContainer.y = textureInfo.y;
+          dotsContainer.addChild(dotContainer);
+          transportDotsRef.current[transport.id] = dotContainer;
+        }
       }
     });
 
