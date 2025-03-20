@@ -82,29 +82,15 @@ const PixiD3 = () => {
 
     const transportsTimeseries = {};
     transportsData.forEach((transport) => {
-      // Determine initial active state with 80% probability
-      let isActive = Math.random() < 0.8;
-      // Base flow amount for this transport (if active)
       const baseFlow = Math.floor(Math.random() * 50) + 30;
-
-      // Generate a smooth pattern for flow changes
       const flowPattern = Array.from({ length: numTimePoints }, (_, index) => {
-        // Use cosine for smooth oscillation
         const transportPhase = (transport.id.charCodeAt(0) % 10) / 5;
         return Math.cos(index / 10 + transportPhase) * 0.3 + 1; // 30% smooth oscillation
       });
 
       transportsTimeseries[transport.id] = generatedTimePoints.map((_, index) => {
-        // Only 5% chance to change active state at any time point
-        if (Math.random() < 0.05) {
-          isActive = !isActive;
-        }
-
-        // Calculate flow with the smooth pattern
-        const flowAmount = isActive ? Math.round(baseFlow * flowPattern[index]) : 0;
-
+        const flowAmount = Math.round(baseFlow * flowPattern[index]);
         return {
-          isActive,
           flowAmount,
         };
       });
@@ -165,19 +151,16 @@ const PixiD3 = () => {
   }, [timeseriesStocks, currentTimeIndex]);
 
   const processedTransportsData = useMemo(() => {
-    return transportsData
-      .map((item) => {
-        const currentActivity = timeseriesTransports[item.id]
-          ? timeseriesTransports[item.id][currentTimeIndex]
-          : { isActive: true, flowAmount: 50 };
+    return transportsData.map((item) => {
+      const currentActivity = timeseriesTransports[item.id]
+        ? timeseriesTransports[item.id][currentTimeIndex]
+        : { flowAmount: 50 };
 
-        return {
-          ...item,
-          isActive: currentActivity.isActive,
-          flowAmount: currentActivity.flowAmount,
-        };
-      })
-      .filter((item) => item.isActive);
+      return {
+        ...item,
+        flowAmount: currentActivity.flowAmount,
+      };
+    });
   }, [timeseriesTransports, currentTimeIndex]);
 
   useEffect(() => {
