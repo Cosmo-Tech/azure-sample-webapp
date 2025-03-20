@@ -60,12 +60,12 @@ export const useShareCurrentScenarioButton = () => {
   );
 
   const hasReadSecurityPermission = useMemo(
-    () => userPermissionsOnCurrentScenario.includes(ACL_PERMISSIONS.SCENARIO.READ_SECURITY),
+    () => userPermissionsOnCurrentScenario.includes(ACL_PERMISSIONS.RUNNER.READ_SECURITY),
     [userPermissionsOnCurrentScenario]
   );
   const disabled = useMemo(() => isDirty || !hasReadSecurityPermission, [isDirty, hasReadSecurityPermission]);
   const isReadOnly = useMemo(
-    () => !userPermissionsOnCurrentScenario.includes(ACL_PERMISSIONS.SCENARIO.WRITE_SECURITY),
+    () => !userPermissionsOnCurrentScenario.includes(ACL_PERMISSIONS.RUNNER.WRITE_SECURITY),
     [userPermissionsOnCurrentScenario]
   );
 
