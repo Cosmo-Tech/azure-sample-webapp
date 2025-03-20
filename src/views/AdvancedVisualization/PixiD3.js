@@ -57,24 +57,51 @@ const PixiD3 = () => {
     });
     setTimePoints(generatedTimePoints);
 
+    // Generate more stable timeseries data
     const stocksTimeseries = {};
     stocksData.forEach((stock) => {
       const initialValue = parseInt(stock.initialStock) || 100;
+      // Generate a base sine wave pattern for more stable, smooth changes
+      const basePattern = Array.from({ length: numTimePoints }, (_, index) => {
+        // Create a gentle sine wave oscillation
+        const phase = (stock.id.charCodeAt(0) % 10) / 10; // Different phase for each stock
+        const sineValue = Math.sin(index / 8 + phase) * 0.1 + 1; // Gentle 10% oscillation
+        return sineValue;
+      });
 
-      stocksTimeseries[stock.id] = generatedTimePoints.map((_, index) => {
+      // Apply a slight trend based on the stock's position
+      stocksTimeseries[stock.id] = basePattern.map((patternValue, index) => {
         const trendFactor = index / (numTimePoints - 1);
-        const randomFactor = Math.random() * 0.2 + 0.95;
-        let value = initialValue * (1.1 - trendFactor * 0.2) * randomFactor;
-        if (Math.random() < 0.2) value *= Math.random() < 0.5 ? 0.7 : 1.3;
+        // Much smaller random component (only 5% variation)
+        const smallRandomFactor = 1 + (Math.random() * 0.1 - 0.05);
+        // Combine base pattern with small trend and minimal randomness
+        const value = initialValue * patternValue * (1.05 - trendFactor * 0.1) * smallRandomFactor;
         return Math.round(value);
       });
     });
 
     const transportsTimeseries = {};
     transportsData.forEach((transport) => {
+      // Determine initial active state with 80% probability
+      let isActive = Math.random() < 0.8;
+      // Base flow amount for this transport (if active)
+      const baseFlow = Math.floor(Math.random() * 50) + 30;
+
+      // Generate a smooth pattern for flow changes
+      const flowPattern = Array.from({ length: numTimePoints }, (_, index) => {
+        // Use cosine for smooth oscillation
+        const transportPhase = (transport.id.charCodeAt(0) % 10) / 5;
+        return Math.cos(index / 10 + transportPhase) * 0.3 + 1; // 30% smooth oscillation
+      });
+
       transportsTimeseries[transport.id] = generatedTimePoints.map((_, index) => {
-        const isActive = Math.random() < 0.8;
-        const flowAmount = isActive ? Math.floor(Math.random() * 100) + 10 : 0;
+        // Only 5% chance to change active state at any time point
+        if (Math.random() < 0.05) {
+          isActive = !isActive;
+        }
+
+        // Calculate flow with the smooth pattern
+        const flowAmount = isActive ? Math.round(baseFlow * flowPattern[index]) : 0;
 
         return {
           isActive,
