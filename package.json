@@ -23,6 +23,7 @@
     "i18next": "^23.16.8",
     "i18next-browser-languagedetector": "^7.2.2",
     "i18next-http-backend": "^2.7.3",
+    "pixi.js": "^7",
     "prop-types": "^15.8.1",
     "react": "^17.0.2",
     "react-countdown": "^2.3.6",
