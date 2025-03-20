@@ -1,3 +1,4 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-export { default } from './AdvancedVisualization';
+export { default as AdvancedVisualization } from './AdvancedVisualization';
+export { default as PixiD3 } from './PixiD3';

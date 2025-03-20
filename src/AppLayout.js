@@ -2,7 +2,15 @@
 // Licensed under the MIT license.
 import React from 'react';
 import { ConfigUtils } from './utils';
-import { AdvancedVisualization, Dashboards, Instance, Scenario, ScenarioManager, DatasetManager } from './views';
+import {
+  AdvancedVisualization,
+  Dashboards,
+  Instance,
+  PixiD3,
+  Scenario,
+  ScenarioManager,
+  DatasetManager,
+} from './views';
 
 const DEFAULT_TABS = [
   {
@@ -40,6 +48,12 @@ const DEFAULT_TABS = [
     label: 'layouts.tabs.advancedvisualization.tab.title',
     to: 'advancedvisualization',
     render: <AdvancedVisualization />,
+  },
+  {
+    key: 'tabs.pixid3.key',
+    label: 'layouts.tabs.pixid3.tab.title',
+    to: 'pixid3',
+    render: <PixiD3 />,
   },
 ];
 
