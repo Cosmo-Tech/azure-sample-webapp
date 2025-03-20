@@ -12,15 +12,19 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.appbar.contrastText,
   },
 }));
+
 export const ThemeSwitch = () => {
   const classes = useStyles();
   const { t } = useTranslation();
+  const setApplicationTheme = useSetApplicationTheme();
+
   const [isDarkThemeUsed, setIsDarkThemeUsed] = useState(localStorage.getItem('darkThemeUsed') === 'true');
 
   useEffect(() => {
     localStorage.setItem('darkThemeUsed', isDarkThemeUsed);
-  }, [isDarkThemeUsed]);
-  const setApplicationTheme = useSetApplicationTheme();
+    setApplicationTheme({ isDarkTheme: isDarkThemeUsed });
+  }, [isDarkThemeUsed, setApplicationTheme]);
+
   return (
     <Tooltip
       TransitionComponent={Fade}
@@ -33,10 +37,7 @@ export const ThemeSwitch = () => {
     >
       <IconButton
         className={classes.switchToDarkTheme}
-        onClick={() => {
-          setIsDarkThemeUsed(!isDarkThemeUsed);
-          setApplicationTheme(!isDarkThemeUsed);
-        }}
+        onClick={() => setIsDarkThemeUsed((previousIsDarkThemeUsed) => !previousIsDarkThemeUsed)}
         size="large"
       >
         {isDarkThemeUsed ? <WbSunnyIcon /> : <Brightness2Icon />}
