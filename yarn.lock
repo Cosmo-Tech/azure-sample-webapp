@@ -5386,6 +5386,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@pixi/unsafe-eval@npm:^7.4.3":
+  version: 7.4.3
+  resolution: "@pixi/unsafe-eval@npm:7.4.3"
+  peerDependencies:
+    "@pixi/core": 7.4.3
+  checksum: 10c0/b20b6e7309f3b078c4373a56c73a9a155872ba45ac3181931f38d39224c1a73a702af1b565ed25e3831943be54957b8d5863ae76d0ab8762b7fe17084b153232
+  languageName: node
+  linkType: hard
+
 "@pixi/utils@npm:7.4.3":
   version: 7.4.3
   resolution: "@pixi/utils@npm:7.4.3"
@@ -7473,6 +7482,7 @@ __metadata:
     "@mui/lab": "npm:^5.0.0-alpha.175"
     "@mui/material": "npm:^5.16.14"
     "@mui/styles": "npm:^5.16.14"
+    "@pixi/unsafe-eval": "npm:^7.4.3"
     "@reduxjs/toolkit": "npm:^1.9.7"
     "@testing-library/jest-dom": "npm:^6.6.3"
     "@testing-library/react": "npm:^12.1.5"
