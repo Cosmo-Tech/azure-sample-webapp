@@ -96,7 +96,7 @@ export const DATASET_PERMISSIONS_MAPPING = {
 };
 
 export const RUNNER_PERMISSIONS_MAPPING = {
-  viewer: ['read', 'read_security'],
+  viewer: ['read'],
   editor: ['read', 'read_security', 'launch', 'write'],
   validator: ['read', 'read_security', 'launch', 'write', 'validate'],
   admin: ['read', 'read_security', 'launch', 'write', 'validate', 'write_security', 'delete'],
