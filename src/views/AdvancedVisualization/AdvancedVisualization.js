@@ -215,6 +215,51 @@ const AdvancedVisualization = () => {
     // Create SVG
     const svg = d3.select(svgRef.current).attr('width', dimensions.width).attr('height', dimensions.height);
 
+    // Define filter for eery glow effect and markers
+    const defs = svg.append('defs');
+
+    // Create markers for animated dots
+    defs
+      .append('marker')
+      .attr('id', 'flow-dot')
+      .attr('viewBox', '0 -5 10 10')
+      .attr('refX', 5)
+      .attr('refY', 0)
+      .attr('markerWidth', 6)
+      .attr('markerHeight', 6)
+      .attr('orient', 'auto')
+      .append('circle')
+      .attr('cx', 5)
+      .attr('cy', 0)
+      .attr('r', 3)
+      .attr('fill', 'white')
+      .attr('opacity', 0.8);
+
+    // Create a filter for the eery glow effect
+    const glowFilter = defs
+      .append('filter')
+      .attr('id', 'glow-effect')
+      .attr('x', '-50%')
+      .attr('y', '-50%')
+      .attr('width', '200%')
+      .attr('height', '200%');
+
+    // Add blur effect
+    glowFilter.append('feGaussianBlur').attr('stdDeviation', '3').attr('result', 'blur');
+
+    // Add color matrix to create eery color
+    glowFilter
+      .append('feColorMatrix')
+      .attr('in', 'blur')
+      .attr('mode', 'matrix')
+      .attr('values', '0 0 0 0 0.2  0 0 0 0 0.5  0 0 0 0 1  0 0 0 0.8 0')
+      .attr('result', 'glow');
+
+    // Merge original image with glow
+    const feMerge = glowFilter.append('feMerge');
+    feMerge.append('feMergeNode').attr('in', 'glow');
+    feMerge.append('feMergeNode').attr('in', 'SourceGraphic');
+
     // Create tooltip
     const tooltip = d3
       .select(tooltipRef.current)
@@ -357,6 +402,8 @@ const AdvancedVisualization = () => {
       .attr('stroke-dasharray', (d) => (transportModeStyles[d.mode] || defaultTransportStyle).strokeDasharray)
       .attr('stroke-linecap', (d) => (transportModeStyles[d.mode] || defaultTransportStyle).strokeLinecap)
       .attr('stroke-opacity', 0.6)
+      .attr('class', (d) => `transport transport-${d.id}`)
+      .attr('filter', 'url(#glow-effect)') // Apply the glow effect
       .on('mouseover', (event, d) => {
         tooltip.style('visibility', 'visible').html(`
             <strong>Transport</strong><br/>
@@ -390,6 +437,52 @@ const AdvancedVisualization = () => {
           element.attr('stroke-dasharray', scaledDashArray);
         }
       });
+
+    const flowDotsGroup = container.append('g').attr('class', 'flow-dots');
+    const createFlowDots = (pathElement, transportData, color) => {
+      const path = pathElement.node();
+      if (!path) return;
+
+      const pathLength = path.getTotalLength();
+      const numDots = Math.max(2, Math.ceil(transportData.flowAmount / 20));
+      const dotSpacing = pathLength / numDots;
+
+      for (let i = 0; i < numDots; i++) {
+        const dot = flowDotsGroup
+          .append('circle')
+          .attr('class', `flow-dot flow-dot-${transportData.id}-${i}`)
+          .attr('r', 1.2)
+          .attr('fill', 'white')
+          .attr('opacity', 0.8)
+          .attr('filter', 'url(#glow-effect)');
+
+        const animateDot = () => {
+          const startPosition = (i * dotSpacing) % pathLength;
+
+          dot
+            .attr('transform', 'scale(0.1)')
+            .transition()
+            .duration(5000 + transportData.duration * 50) // Longer duration for longer transport routes
+            .ease(d3.easeLinear)
+            .attrTween('transform', () => {
+              return (t) => {
+                const pos = (startPosition + t * pathLength) % pathLength;
+                const point = path.getPointAtLength(pos);
+                return `translate(${point.x}, ${point.y})`;
+              };
+            })
+            .on('end', animateDot);
+        };
+
+        setTimeout(animateDot, i * 400); // Delay based on dot index
+      }
+    };
+
+    container.selectAll('.transport').each(function (d) {
+      const pathElement = d3.select(this);
+      const color = (transportModeStyles[d.mode] || defaultTransportStyle).stroke;
+      createFlowDots(pathElement, d, color);
+    });
 
     // Draw stock points
     container
