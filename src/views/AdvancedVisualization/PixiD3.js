@@ -6,6 +6,7 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import { Slider, Button, Box, Typography } from '@mui/material';
 import { useTheme } from '@mui/styles';
+import '@pixi/unsafe-eval';
 import * as d3 from 'd3';
 import * as PIXI from 'pixi.js';
 import stocksData from './data/stocks.json';
