@@ -316,15 +316,20 @@ const PixiD3 = () => {
     const textStyle = new PIXI.TextStyle({ fontFamily: 'Arial', fontSize, fill: theme.palette.text.primary });
 
     while (linksContainer.children.length > 0) linksContainer.removeChild(linksContainer.children[0]);
-    while (dotsContainer.children.length > 0) dotsContainer.removeChild(dotsContainer.children[0]);
 
+    // Track active transport IDs to know which dots to keep
+    const activeTransportIds = new Set(processedTransportsData.map((t) => t.id));
+
+    // Remove dots for transports that are no longer active
     Object.keys(transportDotsRef.current).forEach((id) => {
-      const dotContainer = transportDotsRef.current[id];
-      if (dotContainer && dotContainer.parent) {
-        dotContainer.parent.removeChild(dotContainer);
+      if (!activeTransportIds.has(id)) {
+        const dotContainer = transportDotsRef.current[id];
+        if (dotContainer && dotContainer.parent) {
+          dotContainer.parent.removeChild(dotContainer);
+        }
+        delete transportDotsRef.current[id];
       }
     });
-    transportDotsRef.current = {};
 
     processedTransportsData.forEach((transport) => {
       const sourcePos = stockPositions[transport.source];
@@ -346,11 +351,19 @@ const PixiD3 = () => {
         transportSpritesRef.current[transport.id] = sprite;
 
         if (textureInfo.curveData) {
-          const dotContainer = createMovingDots(textureInfo.curveData, '#ffffff', app);
-          dotContainer.x = textureInfo.x;
-          dotContainer.y = textureInfo.y;
-          dotsContainer.addChild(dotContainer);
-          transportDotsRef.current[transport.id] = dotContainer;
+          // Reuse existing dots if they exist, otherwise create new ones
+          if (!transportDotsRef.current[transport.id]) {
+            const dotContainer = createMovingDots(textureInfo.curveData, '#ffffff', app);
+            dotContainer.x = textureInfo.x;
+            dotContainer.y = textureInfo.y;
+            dotsContainer.addChild(dotContainer);
+            transportDotsRef.current[transport.id] = dotContainer;
+          } else {
+            // Update position if needed
+            const dotContainer = transportDotsRef.current[transport.id];
+            dotContainer.x = textureInfo.x;
+            dotContainer.y = textureInfo.y;
+          }
         }
       }
     });
