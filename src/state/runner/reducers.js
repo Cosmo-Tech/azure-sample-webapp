@@ -170,7 +170,7 @@ const runnerSlice = createSlice({
         });
     },
     addEtlRunner: (state, action) => {
-      const runner = action.runner;
+      const { runner } = action.payload;
       state.etlRunners.list.data.push(runner);
     },
   },
