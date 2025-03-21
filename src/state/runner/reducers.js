@@ -5,6 +5,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { STATUSES } from '../../services/config/StatusConstants';
 import { RunnersUtils } from '../../utils';
 
+
 export const runnersInitialState = {
   simulationRunners: {
     list: {
@@ -170,7 +171,7 @@ const runnerSlice = createSlice({
         });
     },
     addEtlRunner: (state, action) => {
-      const runner = action.runner;
+      const { runner } = action.payload;
       state.etlRunners.list.data.push(runner);
     },
   },
