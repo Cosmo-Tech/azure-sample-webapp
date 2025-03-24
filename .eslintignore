@@ -8,3 +8,4 @@ node_modules
 cypress/commons/services/stubbing.js
 cypress/reports
 scripts/migration/src/*/templates
+src/views/AdvancedVisualization/data/*.json
