@@ -187,7 +187,7 @@ export const createMovingDots = (curveData, color, app) => {
     dot.y = pos.y;
 
     dot.tValue = initialT;
-    dot.speed = 0.002 + Math.random() * 0.002;
+    dot.speed = 0.003 + Math.random() * 0.002;
 
     container.addChild(dot);
     dots.push(dot);
