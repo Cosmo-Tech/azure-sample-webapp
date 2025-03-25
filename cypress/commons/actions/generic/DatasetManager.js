@@ -98,6 +98,26 @@ export const getDatasetOverviewPlaceholderRetryButton = () => cy.get(SELECTORS.o
 export const getDatasetOverviewPlaceholderRollbackButton = () => cy.get(SELECTORS.overview.placeholder.rollbackButton);
 export const getDatasetOverviewPlaceholderApiLink = () => cy.get(SELECTORS.overview.placeholder.apiLink);
 
+export const getDatasetNameEditableTextField = () => cy.get(SELECTORS.overview.datasetNameTextField);
+export const getRenameDatasetButton = () => cy.get(SELECTORS.overview.renameScenario);
+
+// Parameters
+//  - newDatasetName (string)
+//  - options (object) is an optional parameter. If provided, it can have the following properties:
+//    - id (optional): id of the dataset to update (if not provided, it will be guessed from the request URL)
+//    - validateRequest (optional): validation function to run on the dataset update request
+export const renameDataset = (newDatasetName, options) => {
+  const renameDatasetAlias = api.interceptUpdateDataset({
+    id: options?.id,
+    validateRequest: options?.validateRequest,
+  });
+
+  getRenameDatasetButton().click();
+  getDatasetNameEditableTextField().type('{selectAll}{backspace}' + newDatasetName + '{enter}');
+
+  api.waitAlias(renameDatasetAlias);
+};
+
 export const getCategoryAccordionSummary = (categoryId) =>
   cy.get(SELECTORS.overview.categories.accordionSummary.replace('$CATEGORY_ID', categoryId));
 export const getCategoryAccordionDetails = (categoryId) =>

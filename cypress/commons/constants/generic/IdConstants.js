@@ -241,6 +241,8 @@ export const GENERIC_SELECTORS = {
     },
     overview: {
       datasetName: '[data-cy=dataset-name]',
+      datasetNameTextField: '[data-cy=dataset-name-editable-text-field]',
+      renameScenario: '[data-cy=rename-dataset-button]',
       placeholder: {
         container: '[data-cy=dataset-overview-placeholder]',
         title: '[data-cy=dataset-overview-title]',
