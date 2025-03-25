@@ -46,6 +46,5 @@ export const useDatasetOverview = () => {
     queriesResults,
     datasetIngestionStatus,
     dataset: currentDataset,
-    datasetName: currentDataset?.name,
   };
 };

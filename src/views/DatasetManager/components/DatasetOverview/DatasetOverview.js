@@ -4,12 +4,11 @@ import React, { useMemo } from 'react';
 import { Card, CardContent, CardHeader, Grid } from '@mui/material';
 import { INGESTION_STATUS } from '../../../../services/config/ApiConstants';
 import { useDatasetOverview } from './DatasetOverviewHook';
-import { CategoryAccordion, DatasetOverviewPlaceholder, GraphIndicator } from './components';
+import { CategoryAccordion, DatasetOverviewPlaceholder, EditableDatasetName, GraphIndicator } from './components';
 import DatasetActions from './components/DatasetActions/DatasetActions';
 
 export const DatasetOverview = () => {
-  const { categories, graphIndicators, queriesResults, datasetIngestionStatus, dataset, datasetName } =
-    useDatasetOverview();
+  const { categories, graphIndicators, queriesResults, datasetIngestionStatus, dataset } = useDatasetOverview();
 
   const showPlaceholder = useMemo(
     () =>
@@ -24,6 +23,7 @@ export const DatasetOverview = () => {
     });
   }, [graphIndicators, queriesResults]);
 
+  const editableDatasetName = <EditableDatasetName />;
   return (
     <Card
       elevation={0}
@@ -31,8 +31,7 @@ export const DatasetOverview = () => {
       data-cy="dataset-overview-card"
     >
       <CardHeader
-        data-cy="dataset-name"
-        title={datasetName}
+        title={editableDatasetName}
         sx={{ height: '65px' }}
         action={<DatasetActions dataset={dataset}></DatasetActions>}
       ></CardHeader>
