@@ -112,7 +112,7 @@ export const renameDataset = (newDatasetName, options) => {
     validateRequest: options?.validateRequest,
   });
 
-  getRenameDatasetButton().click();
+  getDatasetNameInOverview().click();
   getDatasetNameEditableTextField().type('{selectAll}{backspace}' + newDatasetName + '{enter}');
 
   api.waitAlias(renameDatasetAlias);
