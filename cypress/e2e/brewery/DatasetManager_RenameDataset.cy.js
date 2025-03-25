@@ -45,7 +45,6 @@ describe('rename datasets in Dataset Manager view', () => {
 
     // Edit & confirm
     const validateRequest = (query) => {
-      console.log(query);
       return true;
     };
     DatasetManager.renameDataset(newName, { validateRequest });
