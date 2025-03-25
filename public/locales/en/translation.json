@@ -183,6 +183,8 @@
           "deleteButtonTooltip": "Delete",
           "shareButtonTooltip": "Share",
           "refreshButtonTooltip": "Refresh",
+          "renameButtonTooltip": "Rename",
+          "emptyDatasetNameError": "Dataset name cannot be empty",
           "createSubdatasetButtonTooltip": "Create sub-dataset",
           "editParametersButtonTooltip": "Edit parameters of the dataset"
         },
