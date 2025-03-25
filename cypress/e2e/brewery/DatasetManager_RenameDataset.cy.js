@@ -12,7 +12,6 @@ describe('rename datasets in Dataset Manager view', () => {
     stub.setOrganizations([ORGANIZATION_WITH_DEFAULT_ROLE_USER]);
     stub.setSolutions([SOLUTION]);
     stub.setWorkspaces([linkedWorkspace]);
-    console.log(EDITABLE_DATASET, NON_EDITABLE_DATASET);
     stub.setDatasets([EDITABLE_DATASET, NON_EDITABLE_DATASET]);
   });
 
@@ -23,8 +22,8 @@ describe('rename datasets in Dataset Manager view', () => {
     DatasetManager.switchToDatasetManagerView();
     DatasetManager.selectDatasetById(NON_EDITABLE_DATASET.id);
     DatasetManager.getDatasetNameInOverview().should('have.text', NON_EDITABLE_DATASET.name);
+    DatasetManager.getDatasetNameInOverview().click();
     DatasetManager.getDatasetNameEditableTextField().should('not.exist');
-    DatasetManager.getRenameDatasetButton().should('not.exist');
   });
 
   it('can rename datasets if role is editor', () => {
@@ -35,10 +34,9 @@ describe('rename datasets in Dataset Manager view', () => {
     DatasetManager.selectDatasetById(EDITABLE_DATASET.id);
     DatasetManager.getDatasetNameInOverview().should('have.text', datasetName);
     DatasetManager.getDatasetNameEditableTextField().should('not.exist');
-    DatasetManager.getRenameDatasetButton().should('exist').should('be.visible');
 
     // Edit & cancel without confirming the changes
-    DatasetManager.getRenameDatasetButton().click();
+    DatasetManager.getDatasetNameInOverview().click();
     DatasetManager.getDatasetNameInOverview().should('not.exist');
     DatasetManager.getDatasetNameEditableTextField().should('exist').should('be.visible');
     DatasetManager.getDatasetNameEditableTextField().type('{selectAll}{backspace}' + newName + '{esc}');
