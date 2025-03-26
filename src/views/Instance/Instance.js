@@ -3,6 +3,8 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Graph } from '@antv/g6';
+// import { Renderer as WebGLRenderer } from '@antv/g-webgl'
+import { Renderer as SVGRenderer } from '@antv/g-svg';
 import { useTheme } from '@mui/styles';
 import { CurrentScenarioSelector } from '../../components';
 import { AppInsights } from '../../services/AppInsights';
@@ -225,7 +227,8 @@ const Instance = () => {
       container: antVisGraphRef.current,
       width: 1920,
       height: 800,
-
+      // renderer: () => new WebGLRenderer(),
+      renderer: () => new SVGRenderer(),
       layout: { type: 'force' },
       // layout: { type: "fruchterman" },
       // layout: { type: "dagre", nodeSize: 40 },
@@ -253,7 +256,9 @@ const Instance = () => {
       data: graphElements,
     });
 
+    console.log('staarting render...');
     graph.render();
+    console.log('done.');
   }, [graphElements]);
 
   return (
