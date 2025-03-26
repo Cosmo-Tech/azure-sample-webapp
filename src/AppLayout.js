@@ -7,6 +7,7 @@ import {
   Dashboards,
   Instance,
   PixiD3,
+  Echarts,
   Scenario,
   ScenarioManager,
   DatasetManager,
@@ -54,6 +55,12 @@ const DEFAULT_TABS = [
     label: 'layouts.tabs.pixid3.tab.title',
     to: 'pixid3',
     render: <PixiD3 />,
+  },
+  {
+    key: 'tabs.echarts.key',
+    label: 'layouts.tabs.echarts.tab.title',
+    to: 'echarts',
+    render: <Echarts />,
   },
 ];
 

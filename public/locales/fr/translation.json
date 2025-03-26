@@ -906,6 +906,11 @@
           "title": "Pixi/d3 viz"
         }
       },
+      "echarts": {
+        "tab": {
+          "title": "ECharts"
+        }
+      },
       "scenario": {
         "tab": {
           "title": "Vue scénario"

@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-export { AdvancedVisualization, PixiD3 } from './AdvancedVisualization';
+export { AdvancedVisualization, PixiD3, Echarts } from './AdvancedVisualization';
 export { default as SignIn } from './SignIn';
 export { default as AccessDenied } from './AccessDenied';
 export { default as Scenario } from './Scenario';
