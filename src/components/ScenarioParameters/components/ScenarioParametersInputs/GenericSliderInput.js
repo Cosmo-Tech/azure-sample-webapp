@@ -1,6 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import React from 'react';
+import { useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Grid } from '@mui/material';
@@ -16,6 +17,10 @@ export const GenericSliderInput = ({ parameterData, context, parameterValue, set
   const min = getMinValue(parameterData);
   const max = getMaxValue(parameterData);
   const { t } = useTranslation();
+
+  // Example of customized component to behave differently based on the value of another scenario parameter
+  const watchedValue = useWatch({ name: 'currency_used' }); // "currency_used" is the id of the parameter to watch
+  if (watchedValue === false) return null; // Do not render the slider component if the parameter value is false
 
   return (
     <Grid item xs={3}>
