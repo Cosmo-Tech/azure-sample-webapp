@@ -2,9 +2,8 @@
 // Licensed under the MIT license.
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Edit as EditIcon } from '@mui/icons-material';
-import { FormControl, FormHelperText, IconButton, OutlinedInput, Stack, Typography } from '@mui/material';
-import { FadingTooltip, PermissionsGate } from '@cosmotech/ui';
+import { FormControl, FormHelperText, OutlinedInput, Typography } from '@mui/material';
+import { PermissionsGate } from '@cosmotech/ui';
 import { ACL_PERMISSIONS } from '../../../../../../services/config/accessControl';
 import { useEditableDatasetName } from './EditableDatasetNameHook';
 
@@ -86,28 +85,12 @@ export const EditableDatasetName = () => {
 
   const datasetNameElement = useMemo(
     () => (
-      <Typography data-cy="dataset-name" variant="h6">
+      <Typography data-cy="dataset-name" variant="h6" onClick={startEdition}>
         {datasetName}
       </Typography>
     ),
     [datasetName]
   );
-
-  const datasetNameWithEditButton = useMemo(() => {
-    return (
-      <Stack direction="row" spacing={1} alignItems="stretch" justifyContent="flex-start">
-        {datasetNameElement}
-        <FadingTooltip
-          title={t('commoncomponents.datasetmanager.overview.actions.renameButtonTooltip', 'Rename')}
-          disableInteractive={true}
-        >
-          <IconButton onClick={startEdition} data-cy="rename-dataset-button">
-            <EditIcon color="primary" />
-          </IconButton>
-        </FadingTooltip>
-      </Stack>
-    );
-  }, [datasetNameElement, t]);
 
   const userPermissions = dataset?.security?.currentUserPermissions ?? [];
   return (
@@ -116,7 +99,7 @@ export const EditableDatasetName = () => {
       necessaryPermissions={[ACL_PERMISSIONS.DATASET.WRITE]}
       RenderNoPermissionComponent={() => datasetNameElement}
     >
-      {isEditing ? editableTextField : datasetNameWithEditButton}
+      {isEditing ? editableTextField : datasetNameElement}
     </PermissionsGate>
   );
 };
