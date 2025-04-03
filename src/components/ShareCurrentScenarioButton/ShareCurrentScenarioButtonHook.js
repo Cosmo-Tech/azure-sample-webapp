@@ -9,17 +9,17 @@ import {
   useApplicationPermissionsMapping,
   useApplicationRoles,
   useApplicationPermissions,
-} from '../../state/hooks/ApplicationHooks';
-import { useCurrentScenarioData, useApplyScenarioSharingSecurity } from '../../state/hooks/ScenarioHooks';
-import { useWorkspaceData } from '../../state/hooks/WorkspaceHooks';
-import { SecurityUtils } from '../../utils/SecurityUtils';
+} from '../../state/app/hooks';
+import { useApplyRunnerSharingSecurity, useCurrentSimulationRunnerData } from '../../state/runner/hooks';
+import { useWorkspaceData } from '../../state/workspaces/hooks';
+import { SecurityUtils } from '../../utils';
 import { getShareScenarioDialogLabels } from './labels';
 
 export const useShareCurrentScenarioButton = () => {
   const { t } = useTranslation();
   const { isDirty } = useFormState();
 
-  const currentScenarioData = useCurrentScenarioData();
+  const currentScenarioData = useCurrentSimulationRunnerData();
   const workspaceData = useWorkspaceData();
 
   const roles = useApplicationRoles();
@@ -28,17 +28,17 @@ export const useShareCurrentScenarioButton = () => {
   const userPermissionsOnCurrentScenario = useUserPermissionsOnCurrentScenario();
   const permissionsMapping = useApplicationPermissionsMapping();
 
-  const applyScenarioSharingSecurity = useApplyScenarioSharingSecurity();
+  const applyScenarioSharingSecurity = useApplyRunnerSharingSecurity();
 
   const rolesLabels = useMemo(() => {
-    const rolesNames = Object.values(roles.scenario);
+    const rolesNames = Object.values(roles.runner);
     return SecurityUtils.getRolesLabels(t, rolesNames);
-  }, [roles.scenario, t]);
+  }, [roles.runner, t]);
 
   const permissionsLabels = useMemo(() => {
-    const permissionsNames = Object.values(permissions.scenario);
+    const permissionsNames = Object.values(permissions.runner);
     return SecurityUtils.getScenarioPermissionsLabels(t, permissionsNames);
-  }, [permissions.scenario, t]);
+  }, [permissions.runner, t]);
 
   const workspaceUsers = useMemo(() => workspaceData.users.map((user) => ({ id: user })), [workspaceData.users]);
 
@@ -60,12 +60,12 @@ export const useShareCurrentScenarioButton = () => {
   );
 
   const hasReadSecurityPermission = useMemo(
-    () => userPermissionsOnCurrentScenario.includes(ACL_PERMISSIONS.SCENARIO.READ_SECURITY),
+    () => userPermissionsOnCurrentScenario.includes(ACL_PERMISSIONS.RUNNER.READ_SECURITY),
     [userPermissionsOnCurrentScenario]
   );
   const disabled = useMemo(() => isDirty || !hasReadSecurityPermission, [isDirty, hasReadSecurityPermission]);
   const isReadOnly = useMemo(
-    () => !userPermissionsOnCurrentScenario.includes(ACL_PERMISSIONS.SCENARIO.WRITE_SECURITY),
+    () => !userPermissionsOnCurrentScenario.includes(ACL_PERMISSIONS.RUNNER.WRITE_SECURITY),
     [userPermissionsOnCurrentScenario]
   );
 

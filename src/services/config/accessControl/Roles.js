@@ -19,4 +19,5 @@ export const ACL_ROLES = {
   ORGANIZATION: { NONE: 'none', VIEWER: 'viewer', USER: 'user', EDITOR: 'editor', ADMIN: 'admin' },
   WORKSPACE: { NONE: 'none', VIEWER: 'viewer', USER: 'user', EDITOR: 'editor', ADMIN: 'admin' },
   SCENARIO: { NONE: 'none', VIEWER: 'viewer', EDITOR: 'editor', VALIDATOR: 'validator', ADMIN: 'admin' },
+  RUNNER: { NONE: 'none', VIEWER: 'viewer', EDITOR: 'editor', VALIDATOR: 'validator', ADMIN: 'admin' },
 };

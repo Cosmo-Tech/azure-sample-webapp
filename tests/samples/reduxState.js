@@ -26,12 +26,14 @@ export const DEFAULT_REDUX_STATE = {
       data: WORKSPACEDATA_WITH_USERS,
     },
   },
-  scenario: {
-    current: {
-      data: SCENARIODATA_WITH_USERS,
-    },
-    list: {
-      data: DEFAULT_SCENARIOS_LIST_DATA,
+  runner: {
+    simulationRunners: {
+      current: {
+        data: SCENARIODATA_WITH_USERS,
+      },
+      list: {
+        data: DEFAULT_SCENARIOS_LIST_DATA,
+      },
     },
   },
   dataset: {
