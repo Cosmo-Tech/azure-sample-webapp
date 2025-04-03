@@ -146,9 +146,9 @@ __metadata:
   resolution: "api@workspace:."
   dependencies:
     "@azure/msal-node": "npm:^2.16.2"
-    guid: "npm:0.0.12"
     jsonwebtoken: "npm:^9.0.2"
     jwks-rsa: "npm:^3.2.0"
+    uuid: "npm:^11.1.0"
   languageName: unknown
   linkType: soft
 
@@ -177,13 +177,6 @@ __metadata:
   dependencies:
     safe-buffer: "npm:^5.0.1"
   checksum: 10c0/ebfbf19d4b8be938f4dd4a83b8788385da353d63307ede301a9252f9f7f88672e76f2191618fd8edfc2f24679236064176fab0b78131b161ee73daa37125408c
-  languageName: node
-  linkType: hard
-
-"guid@npm:0.0.12":
-  version: 0.0.12
-  resolution: "guid@npm:0.0.12"
-  checksum: 10c0/e7db93917a7fce9871f7d02651a5c250691213a7c97f3943e04e8c73885122e61289c833d10aa35b6eea253a11a2c3431100c3b5b5ecfdbdb8f58340211efae0
   languageName: node
   linkType: hard
 
@@ -363,6 +356,15 @@ __metadata:
   version: 5.26.5
   resolution: "undici-types@npm:5.26.5"
   checksum: 10c0/bb673d7876c2d411b6eb6c560e0c571eef4a01c1c19925175d16e3a30c4c428181fb8d7ae802a261f283e4166a0ac435e2f505743aa9e45d893f9a3df017b501
+  languageName: node
+  linkType: hard
+
+"uuid@npm:^11.1.0":
+  version: 11.1.0
+  resolution: "uuid@npm:11.1.0"
+  bin:
+    uuid: dist/esm/bin/uuid
+  checksum: 10c0/34aa51b9874ae398c2b799c88a127701408cd581ee89ec3baa53509dd8728cbb25826f2a038f9465f8b7be446f0fbf11558862965b18d21c993684297628d4d3
   languageName: node
   linkType: hard
 
