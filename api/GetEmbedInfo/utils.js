@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-const guid = require('guid');
+const uuid = require('uuid');
 const jwt = require('jsonwebtoken');
 const jwksClient = require('jwks-rsa');
 const { MSAL_CONFIG, GUID_PARAMETERS, REQUIRED_PARAMETERS, getConfigValue } = require('./config');
@@ -19,7 +19,7 @@ const sanitizeAndValidateConfig = () => {
 
   for (const parameter of GUID_PARAMETERS) {
     const sanitizedValue = getConfigValue(parameter);
-    if (sanitizedValue && !guid.isGuid(sanitizedValue))
+    if (sanitizedValue && !uuid.validate(sanitizedValue))
       throw new ServiceAccountError(
         500,
         'Configuration error',
@@ -88,7 +88,7 @@ const validateQuery = async (req) => {
     );
 
   for (const reportId of reportsIds) {
-    if (!guid.isGuid(reportId))
+    if (!uuid.validate(reportId))
       throw new ServiceAccountError(
         400,
         'Bad request',
@@ -98,7 +98,7 @@ const validateQuery = async (req) => {
 
   // Check PowerBI workspace id parameter
   const workspaceId = req?.body?.workspaceId;
-  if (workspaceId != null && !guid.isGuid(workspaceId))
+  if (workspaceId != null && !uuid.validate(workspaceId))
     throw new ServiceAccountError(
       400,
       'Bad request',
