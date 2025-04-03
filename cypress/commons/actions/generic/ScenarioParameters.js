@@ -13,7 +13,7 @@ function getParametersAccordionSummary() {
   return cy.get(GENERIC_SELECTORS.scenario.parameters.accordionSummary);
 }
 function getTabsErrorBadge(container) {
-  return container.find('[data-cy=error-badge]');
+  return container.find('[data-cy=error-badge]').children('span');
 }
 
 // Generic get & set actions for scenario parameters

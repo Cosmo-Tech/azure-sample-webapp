@@ -64,7 +64,7 @@ describe('scenario parameters inputs validation', () => {
       ScenarioParameters.getInputValue(BreweryParameters.getRestockInput()).as('restock');
 
       ScenarioParameters.expandParametersAccordion();
-      ScenarioParameters.getTabsErrorBadge(BreweryParameters.getBasicTypesTab()).contains('0');
+      ScenarioParameters.getTabsErrorBadge(BreweryParameters.getBasicTypesTab()).should('not.be.visible');
       BreweryParameters.getStockInput().clear();
       BreweryParameters.getStockInput().blur();
       BreweryParameters.getStockInput().should('value', '');
@@ -210,7 +210,7 @@ describe('scenario parameters inputs validation', () => {
     ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToDatasetPartsTab();
     BreweryParameters.getExampleDatasetPart2ErrorMessage().should('not.exist');
-    ScenarioParameters.getTabsErrorBadge(BreweryParameters.getDatasetPartsTab()).contains('0');
+    ScenarioParameters.getTabsErrorBadge(BreweryParameters.getDatasetPartsTab()).should('not.be.visible');
     BreweryParameters.uploadExampleDatasetPart2(invalidFormatFilePath);
     BreweryParameters.getExampleDatasetPart2ErrorMessage().should('be.visible').contains('File format not supported');
     ScenarioParameters.getTabsErrorBadge(BreweryParameters.getDatasetPartsTab()).contains('1');
@@ -219,7 +219,7 @@ describe('scenario parameters inputs validation', () => {
     ScenarioParameters.discard();
     BreweryParameters.getExampleDatasetPart2ErrorMessage().should('not.exist');
     ScenarioParameters.getLaunchButton().should('not.be.disabled');
-    ScenarioParameters.getTabsErrorBadge(BreweryParameters.getDatasetPartsTab()).contains('0');
+    ScenarioParameters.getTabsErrorBadge(BreweryParameters.getDatasetPartsTab()).should('not.be.visible');
   });
 });
 
