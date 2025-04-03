@@ -41,6 +41,7 @@
           "discard": "ABANDONNER",
           "edit": "Éditer les parameters",
           "launch": "LANCER",
+          "launchDisabled": "Le scénario ne peut pas être lancé parce que son dataset n'est pas trouvé ou l'ingestion des données a échoué",
           "save": "SAUVEGARDER",
           "update": {
             "launch": "SAUVEGARDER ET LANCER"
