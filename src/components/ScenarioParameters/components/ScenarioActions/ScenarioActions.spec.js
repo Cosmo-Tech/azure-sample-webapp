@@ -22,6 +22,9 @@ jest.mock('@cosmotech/ui', () => ({
   PermissionsGate: ({ children }) => {
     return <div data-testid="PermissionsGate">{children}</div>;
   },
+  FadingTooltip: ({ children }) => {
+    return <div data-testid="FadingTooltip">{children}</div>;
+  },
 }));
 
 const mockUseLaunchScenario = jest.fn();
