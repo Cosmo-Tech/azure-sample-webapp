@@ -41,6 +41,7 @@
           "discard": "DISCARD",
           "edit": "Edit parameters",
           "launch": "LAUNCH",
+          "launchDisabled": "The scenario cannot be run because its dataset isn't found or has ingestion status ERROR",
           "save": "SAVE",
           "update": {
             "launch": "SAVE AND LAUNCH"
