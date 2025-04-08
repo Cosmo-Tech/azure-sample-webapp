@@ -1,5 +1,5 @@
-import { useDeleteDataset } from '../../../../state/hooks/DatasetHooks';
-import { useWorkspaceData } from '../../../../state/hooks/WorkspaceHooks';
+import { useDeleteDataset } from '../../../../state/datasets/hooks';
+import { useWorkspaceData } from '../../../../state/workspaces/hooks';
 
 export const useDeleteDatasetButton = () => {
   const isDatasetCopyEnabledInWorkspace = useWorkspaceData()?.datasetCopy ?? false;

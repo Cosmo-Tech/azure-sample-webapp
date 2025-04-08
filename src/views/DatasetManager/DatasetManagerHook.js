@@ -4,8 +4,8 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useRedirectFromDisabledView } from '../../hooks/RouterHooks';
 import { useWorkspaceMainDatasets } from '../../hooks/WorkspaceDatasetsHooks';
-import { dispatchSelectDefaultDataset } from '../../state/dispatchers/dataset/DatasetDispatcher';
-import { useCurrentDataset } from '../../state/hooks/DatasetHooks';
+import { useCurrentDataset } from '../../state/datasets/hooks';
+import { selectDefaultDataset } from '../../state/datasets/reducers';
 
 export const useDatasetManager = () => {
   const datasets = useWorkspaceMainDatasets();
@@ -20,7 +20,7 @@ export const useDatasetManager = () => {
         currentDataset == null ||
         workspaceMainDatasets.find((dataset) => dataset.id === currentDataset.id) === undefined;
 
-      if (shouldReset) dispatch(dispatchSelectDefaultDataset(workspaceMainDatasets));
+      if (shouldReset) dispatch(selectDefaultDataset({ selectableDatasets: workspaceMainDatasets }));
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentDataset?.id, workspaceMainDatasets, dispatch]);
   };

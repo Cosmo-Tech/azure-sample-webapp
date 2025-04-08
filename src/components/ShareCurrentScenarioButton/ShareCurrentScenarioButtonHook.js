@@ -9,9 +9,9 @@ import {
   useApplicationPermissionsMapping,
   useApplicationRoles,
   useApplicationPermissions,
-} from '../../state/hooks/ApplicationHooks';
-import { useApplyRunnerSharingSecurity, useCurrentSimulationRunnerData } from '../../state/hooks/RunnerHooks';
-import { useWorkspaceData } from '../../state/hooks/WorkspaceHooks';
+} from '../../state/app/hooks';
+import { useApplyRunnerSharingSecurity, useCurrentSimulationRunnerData } from '../../state/runner/hooks';
+import { useWorkspaceData } from '../../state/workspaces/hooks';
 import { SecurityUtils } from '../../utils';
 import { getShareScenarioDialogLabels } from './labels';
 

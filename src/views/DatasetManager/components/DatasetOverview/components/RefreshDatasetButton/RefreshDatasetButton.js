@@ -6,7 +6,7 @@ import IconButton from '@mui/material/IconButton';
 import { DontAskAgainDialog, FadingTooltip, PermissionsGate } from '@cosmotech/ui';
 import { DATASET_SOURCE_TYPE, INGESTION_STATUS } from '../../../../../../services/config/ApiConstants';
 import { ACL_PERMISSIONS } from '../../../../../../services/config/accessControl';
-import { useRefreshDataset } from '../../../../../../state/hooks/DatasetHooks';
+import { useRefreshDataset } from '../../../../../../state/datasets/hooks';
 import { ReuploadFileDatasetButton } from '../../../ReuploadFileDatasetButton/ReuploadFileDatasetButton';
 
 export const RefreshDatasetButton = ({ dataset }) => {

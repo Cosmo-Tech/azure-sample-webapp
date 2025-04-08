@@ -12,9 +12,9 @@ import { SessionTimeoutDialog } from './components/SessionTimeoutDialog/SessionT
 import './services/AppInsights';
 import './services/config/Auth';
 import { SESSION_INACTIVITY_TIMEOUT } from './services/config/FunctionalConstants';
+import { STATUSES } from './services/config/StatusConstants';
 import { TwoActionsDialogGlobal } from './services/twoActionsDialog/twoActionsDialogService';
-import { AUTH_STATUS } from './state/commons/AuthConstants';
-import { STATUSES } from './state/commons/Constants';
+import { AUTH_STATUS } from './state/auth/constants';
 import { getTheme } from './theme';
 import Loading from './views/Loading';
 
@@ -35,7 +35,7 @@ const App = () => {
     if (isAuthenticated) {
       getAllInitialData();
     } else {
-      setApplicationStatus(STATUSES.IDLE);
+      setApplicationStatus({ status: STATUSES.IDLE });
     }
   }, [getAllInitialData, isAuthenticated, setApplicationStatus]);
 

@@ -8,7 +8,7 @@ import { IconButton } from '@mui/material';
 import { FadingTooltip, PermissionsGate } from '@cosmotech/ui';
 import { INGESTION_STATUS } from '../../../../services/config/ApiConstants';
 import { ACL_PERMISSIONS } from '../../../../services/config/accessControl';
-import { useGetETLRunners } from '../../../../state/hooks/RunnerHooks';
+import { useGetETLRunners } from '../../../../state/runner/hooks';
 import { UpdateDatasetDialog } from './components';
 
 export const UpdateDatasetButton = ({ dataset }) => {

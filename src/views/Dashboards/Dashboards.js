@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { Card, CardContent, Grid, Tab, Tabs } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { useRedirectFromDisabledView } from '../../hooks/RouterHooks';
-import { useDashboardsViewReportsConfig } from '../../state/hooks/PowerBIHooks';
+import { useDashboardsViewReportsConfig } from '../../state/powerBi/hooks';
 import { DashboardsPowerBiReport } from './components';
 
 const useStyles = makeStyles((theme) => ({

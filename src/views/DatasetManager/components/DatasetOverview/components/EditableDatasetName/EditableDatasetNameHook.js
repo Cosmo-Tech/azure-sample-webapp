@@ -1,11 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { useCallback } from 'react';
-import {
-  useCurrentDataset,
-  useSelectedDatasetIndex,
-  useUpdateDataset,
-} from '../../../../../../state/hooks/DatasetHooks';
+import { useCurrentDataset, useSelectedDatasetIndex, useUpdateDataset } from '../../../../../../state/datasets/hooks';
 
 export const useEditableDatasetName = () => {
   const currentDataset = useCurrentDataset();

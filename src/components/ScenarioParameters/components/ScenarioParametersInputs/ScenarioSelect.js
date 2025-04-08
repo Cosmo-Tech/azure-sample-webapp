@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { Grid } from '@mui/material';
 import { SingleSelect } from '@cosmotech/ui';
 import { useSortedScenarioList } from '../../../../hooks/ScenarioListHooks';
-import { useCurrentSimulationRunnerId } from '../../../../state/hooks/RunnerHooks';
+import { useCurrentSimulationRunnerId } from '../../../../state/runner/hooks';
 import { TranslationUtils } from '../../../../utils';
 
 export const ScenarioSelect = ({ parameterData, context, parameterValue, setParameterValue, isDirty = false }) => {

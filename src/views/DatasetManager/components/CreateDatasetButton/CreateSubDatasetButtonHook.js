@@ -1,10 +1,10 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { useCallback, useMemo } from 'react';
-import { useOrganizationData } from '../../../../state/hooks/OrganizationHooks';
-import { useCreateRunner } from '../../../../state/hooks/RunnerHooks';
-import { useSubDataSourceRunTemplates, useSolutionData } from '../../../../state/hooks/SolutionHooks';
-import { useWorkspaceData } from '../../../../state/hooks/WorkspaceHooks';
+import { useOrganizationData } from '../../../../state/organizations/hooks';
+import { useCreateRunner } from '../../../../state/runner/hooks';
+import { useSubDataSourceRunTemplates, useSolutionData } from '../../../../state/solutions/hooks';
+import { useWorkspaceData } from '../../../../state/workspaces/hooks';
 import { ArrayDictUtils, SolutionsUtils } from '../../../../utils';
 
 export const useSubDatasetCreationParameters = () => {

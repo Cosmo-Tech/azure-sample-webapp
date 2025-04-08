@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 import { useCallback, useMemo } from 'react';
 import { useWorkspaceMainDatasets } from '../../../../../hooks/WorkspaceDatasetsHooks';
-import { useDatasets } from '../../../../../state/hooks/DatasetHooks';
-import { useGetETLRunners, useUpdateRunner } from '../../../../../state/hooks/RunnerHooks';
+import { useDatasets } from '../../../../../state/datasets/hooks';
+import { useGetETLRunners, useUpdateRunner } from '../../../../../state/runner/hooks';
 import {
   useDataSourceRunTemplates,
   useSolutionData,
   useSubDataSourceRunTemplates,
-} from '../../../../../state/hooks/SolutionHooks';
-import { useWorkspaceData } from '../../../../../state/hooks/WorkspaceHooks';
+} from '../../../../../state/solutions/hooks';
+import { useWorkspaceData } from '../../../../../state/workspaces/hooks';
 import { ScenarioParametersUtils } from '../../../../../utils';
 import { FileManagementUtils } from '../../../../../utils/FileManagementUtils';
 
