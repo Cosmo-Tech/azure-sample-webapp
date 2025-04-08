@@ -8,9 +8,9 @@ import {
   useDeleteDataset,
   useRefreshDataset,
   useSelectDataset,
-} from '../../../../state/hooks/DatasetHooks';
-import { useOrganizationData } from '../../../../state/hooks/OrganizationHooks';
-import { useWorkspaceData } from '../../../../state/hooks/WorkspaceHooks';
+} from '../../../../state/datasets/hooks';
+import { useOrganizationData } from '../../../../state/organizations/hooks';
+import { useWorkspaceData } from '../../../../state/workspaces/hooks';
 
 export const useDatasetList = () => {
   const userPermissionsInCurrentOrganization = useOrganizationData()?.security?.currentUserPermissions ?? [];

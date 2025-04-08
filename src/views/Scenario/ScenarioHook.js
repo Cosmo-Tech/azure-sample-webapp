@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSetApplicationErrorMessage } from '../../state/hooks/ApplicationHooks';
-import { useDatasets } from '../../state/hooks/DatasetHooks';
-import { useOrganizationId } from '../../state/hooks/OrganizationHooks';
-import { useCurrentSimulationRunnerData, useSetSimulationRunnerValidationStatus } from '../../state/hooks/RunnerHooks';
-import { useWorkspaceId } from '../../state/hooks/WorkspaceHooks';
+import { useSetApplicationErrorMessage } from '../../state/app/hooks';
+import { useDatasets } from '../../state/datasets/hooks';
+import { useOrganizationId } from '../../state/organizations/hooks';
+import { useCurrentSimulationRunnerData, useSetSimulationRunnerValidationStatus } from '../../state/runner/hooks';
+import { useWorkspaceId } from '../../state/workspaces/hooks';
 
 export const useScenario = () => {
   const { t } = useTranslation();

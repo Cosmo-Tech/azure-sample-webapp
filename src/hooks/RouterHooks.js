@@ -3,8 +3,8 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { useNavigate, useParams, useBlocker } from 'react-router-dom';
 import { TwoActionsDialogService } from '../services/twoActionsDialog/twoActionsDialogService';
-import { useCurrentSimulationRunnerId, useSelectRunner } from '../state/hooks/RunnerHooks';
-import { useWorkspaceData } from '../state/hooks/WorkspaceHooks';
+import { useCurrentSimulationRunnerId, useSelectRunner } from '../state/runner/hooks';
+import { useWorkspaceData } from '../state/workspaces/hooks';
 import { ConfigUtils } from '../utils';
 import { useSortedScenarioList } from './ScenarioListHooks';
 

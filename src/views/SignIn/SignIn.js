@@ -9,7 +9,7 @@ import { AuthMSAL } from '@cosmotech/azure';
 import { AuthDev } from '@cosmotech/core';
 import { SignInButton } from '@cosmotech/ui';
 import microsoftLogo from '../../assets/microsoft_logo.png';
-import { AUTH_STATUS } from '../../state/commons/AuthConstants.js';
+import { AUTH_STATUS } from '../../state/auth/constants.js';
 import { TranslationUtils } from '../../utils';
 import useStyles from './style';
 

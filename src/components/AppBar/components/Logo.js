@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import React, { useMemo } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
-import { useIsDarkTheme } from '../../../state/hooks/ApplicationHooks';
+import { useIsDarkTheme } from '../../../state/app/hooks';
 import { pictureDark, pictureLight } from '../../../theme';
 
 const useStyles = makeStyles((theme) => ({

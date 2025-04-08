@@ -9,8 +9,8 @@ import { PermissionsGate } from '@cosmotech/ui';
 import { useUpdateParameters } from '../../../../../../hooks/ScenarioParametersHooks';
 import { useUserAppAndCurrentScenarioPermissions } from '../../../../../../hooks/SecurityHooks';
 import { ACL_PERMISSIONS } from '../../../../../../services/config/accessControl';
-import { useSetApplicationErrorMessage } from '../../../../../../state/hooks/ApplicationHooks';
-import { useCurrentSimulationRunnerId, useUpdateRunner } from '../../../../../../state/hooks/RunnerHooks';
+import { useSetApplicationErrorMessage } from '../../../../../../state/app/hooks';
+import { useCurrentSimulationRunnerId, useUpdateRunner } from '../../../../../../state/runner/hooks';
 
 export const SaveButton = () => {
   const { t } = useTranslation();

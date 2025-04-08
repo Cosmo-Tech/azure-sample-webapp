@@ -1,8 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { useSetApplicationErrorMessage } from '../../../../state/hooks/ApplicationHooks';
-import { usePollTwingraphStatus, useUpdateDatasetInStore } from '../../../../state/hooks/DatasetHooks';
-import { useOrganizationId } from '../../../../state/hooks/OrganizationHooks';
+import { useSetApplicationErrorMessage } from '../../../../state/app/hooks';
+import { usePollTwingraphStatus, useUpdateDatasetInStore } from '../../../../state/datasets/hooks';
+import { useOrganizationId } from '../../../../state/organizations/hooks';
 
 export const useReuploadFileDatasetButton = () => {
   const organizationId = useOrganizationId();

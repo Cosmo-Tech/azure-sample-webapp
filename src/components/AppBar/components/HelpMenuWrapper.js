@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { HelpMenu } from '@cosmotech/ui';
 import ConfigService from '../../../services/ConfigService';
 import { About, TechnicalInfo } from '../../../services/config/Menu';
-import { useWorkspaceData } from '../../../state/hooks/WorkspaceHooks';
+import { useWorkspaceData } from '../../../state/workspaces/hooks';
 
 export const HelpMenuWrapper = () => {
   const { t } = useTranslation();

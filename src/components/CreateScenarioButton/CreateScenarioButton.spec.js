@@ -9,7 +9,7 @@ import { ROLES } from '../../../tests/constants';
 import { createMockStore } from '../../../tests/mocks';
 import { DEFAULT_REDUX_STATE, SCENARIODATA_WITHOUT_USERS, DEFAULT_SCENARIOS_LIST_DATA } from '../../../tests/samples';
 import { applyWorkspaceRoleToState } from '../../../tests/utils/security';
-import { dispatchCreateSimulationRunner } from '../../state/dispatchers/runner/RunnerDispatcher';
+import { dispatchCreateSimulationRunner } from '../../state/runner/dispatchers';
 
 const clone = rfdc();
 const DEFAULT_SCENARIOS_LIST_DATA_WITH_DEPTHS = DEFAULT_SCENARIOS_LIST_DATA.map((scenario) => ({

@@ -3,7 +3,7 @@
 import { t } from 'i18next';
 import { FileBlobUtils } from '@cosmotech/core';
 import applicationStore from '../../state/Store.config';
-import { dispatchSetApplicationErrorMessage } from '../../state/dispatchers/app/ApplicationDispatcher';
+import { setApplicationErrorMessage } from '../../state/app/reducers';
 import { Api } from '../config/Api';
 
 async function downloadLogsFile(organizationId, workspaceId, runnerId, lastRunId) {
@@ -27,7 +27,10 @@ async function downloadLogsFile(organizationId, workspaceId, runnerId, lastRunId
   } catch (error) {
     console.error(error);
     applicationStore.dispatch(
-      dispatchSetApplicationErrorMessage(error, t('commoncomponents.banner.logs', "Log file hasn't been downloaded."))
+      setApplicationErrorMessage({
+        error,
+        errorMessage: t('commoncomponents.banner.logs', "Log file hasn't been downloaded."),
+      })
     );
   }
 }

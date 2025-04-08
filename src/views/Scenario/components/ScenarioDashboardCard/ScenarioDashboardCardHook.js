@@ -9,8 +9,8 @@ import {
   useCurrentSimulationRunnerLastRunId,
   useCurrentSimulationRunnerLastUpdate,
   useCurrentSimulationRunnerState,
-} from '../../../../state/hooks/RunnerHooks';
-import { useWorkspaceData } from '../../../../state/hooks/WorkspaceHooks';
+} from '../../../../state/runner/hooks';
+import { useWorkspaceData } from '../../../../state/workspaces/hooks';
 
 export const useScenarioDashboardCard = () => {
   const currentScenarioLastUpdate = useCurrentSimulationRunnerLastUpdate();

@@ -4,7 +4,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { CircularProgress, Grid, Stack, Typography } from '@mui/material';
 import { RUNNER_RUN_STATE } from '../../../../../../services/config/ApiConstants';
-import { useCurrentSimulationRunnerState } from '../../../../../../state/hooks/RunnerHooks';
+import { useCurrentSimulationRunnerState } from '../../../../../../state/runner/hooks';
 
 export const RunningStateSpinner = () => {
   const { t } = useTranslation();

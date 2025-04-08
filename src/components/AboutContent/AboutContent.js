@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { Grid, ButtonBase, Link } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import ConfigService from '../../services/ConfigService';
-import { useWorkspaceData } from '../../state/hooks/WorkspaceHooks';
+import { useWorkspaceData } from '../../state/workspaces/hooks';
 import { pictureLight, pictureDark } from '../../theme';
 
 const useStyles = makeStyles((theme) => ({
