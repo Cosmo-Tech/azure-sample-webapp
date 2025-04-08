@@ -13,7 +13,7 @@ import {
   useCurrentSimulationRunnerId,
   useCurrentSimulationRunnerState,
   useStopSimulationRunner,
-} from '../../../../../../state/hooks/RunnerHooks';
+} from '../../../../../../state/runner/hooks';
 
 export const StopRunButton = () => {
   const currentScenarioId = useCurrentSimulationRunnerId();

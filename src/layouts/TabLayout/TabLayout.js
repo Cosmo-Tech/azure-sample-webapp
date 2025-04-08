@@ -10,8 +10,8 @@ import { filterTabsForCurrentWorkspace } from '../../AppLayout';
 import { ApplicationErrorBanner } from '../../components';
 import { AppBar } from '../../components/AppBar';
 import { DashboardsManager } from '../../managers';
-import { useGetRunner } from '../../state/hooks/RunnerHooks';
-import { useSelectWorkspace, useWorkspace } from '../../state/hooks/WorkspaceHooks';
+import { useGetRunner } from '../../state/runner/hooks';
+import { useSelectWorkspace, useWorkspace } from '../../state/workspaces/hooks';
 import { ConfigUtils } from '../../utils';
 
 const useStyles = makeStyles((theme) => ({

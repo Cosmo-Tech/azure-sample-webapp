@@ -4,7 +4,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Backdrop, CircularProgress, Stack, Typography } from '@mui/material';
-import { STATUSES } from '../../state/commons/Constants';
+import { STATUSES } from '../../services/config/StatusConstants';
 
 const LoadingBackdrop = ({ status }) => {
   const { t } = useTranslation();

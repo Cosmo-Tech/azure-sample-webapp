@@ -10,15 +10,15 @@ import { useUpdateParameters } from '../../../../../../hooks/ScenarioParametersH
 import { useUserAppAndCurrentScenarioPermissions } from '../../../../../../hooks/SecurityHooks';
 import { INGESTION_STATUS, RUNNER_RUN_STATE } from '../../../../../../services/config/ApiConstants';
 import { ACL_PERMISSIONS } from '../../../../../../services/config/accessControl';
-import { useSetApplicationErrorMessage } from '../../../../../../state/hooks/ApplicationHooks';
+import { useSetApplicationErrorMessage } from '../../../../../../state/app/hooks';
+import { useDatasets } from '../../../../../../state/datasets/hooks';
 import {
   useCurrentSimulationRunnerDatasetList,
   useCurrentSimulationRunnerId,
   useCurrentSimulationRunnerState,
   useStartRunner,
   useUpdateAndStartRunner,
-} from '../../../../../../state/hooks/RunnerHooks';
-import { useDatasets } from "../../../../../../state/hooks/DatasetHooks";
+} from '../../../../../../state/runner/hooks';
 
 export const LaunchButton = () => {
   const { t } = useTranslation();

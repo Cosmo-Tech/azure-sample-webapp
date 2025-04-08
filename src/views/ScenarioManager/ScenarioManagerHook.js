@@ -3,8 +3,8 @@
 import { useTranslation } from 'react-i18next';
 import rfdc from 'rfdc';
 import { useHasUserPermissionOnScenario } from '../../hooks/SecurityHooks';
-import { useUserId } from '../../state/hooks/AuthHooks';
-import { useDatasets } from '../../state/hooks/DatasetHooks';
+import { useUserId } from '../../state/auth/hooks';
+import { useDatasets } from '../../state/datasets/hooks';
 import {
   useCurrentSimulationRunnerData,
   useDeleteRunner,
@@ -14,8 +14,8 @@ import {
   useUpdateRunnerData,
   useUpdateCurrentSimulationRunner,
   useRunnersListStatus,
-} from '../../state/hooks/RunnerHooks';
-import { useWorkspaceId } from '../../state/hooks/WorkspaceHooks';
+} from '../../state/runner/hooks';
+import { useWorkspaceId } from '../../state/workspaces/hooks';
 import { TranslationUtils } from '../../utils';
 
 export const useScenarioManager = () => {
