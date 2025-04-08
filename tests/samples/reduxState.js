@@ -26,7 +26,7 @@ export const DEFAULT_REDUX_STATE = {
       data: WORKSPACEDATA_WITH_USERS,
     },
   },
-  scenario: {
+  runner: {
     current: {
       data: SCENARIODATA_WITH_USERS,
     },

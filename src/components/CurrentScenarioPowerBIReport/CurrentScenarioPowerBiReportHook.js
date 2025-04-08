@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDownloadLogsFile } from '../../hooks/ScenarioRunHooks';
+import { useDownloadSimulationLogsFile } from '../../hooks/RunnerRunHooks';
 import { STATUSES } from '../../state/commons/Constants';
 import { useIsDarkTheme } from '../../state/hooks/ApplicationHooks';
 import { usePowerBIInfo, usePowerBIReducerStatus } from '../../state/hooks/PowerBIHooks';
-import { useCurrentScenarioData, useScenarios } from '../../state/hooks/ScenarioHooks';
+import { useCurrentSimulationRunnerData, useRunners } from '../../state/hooks/RunnerHooks';
 import { useWorkspaceChartsLogInWithUserCredentials } from '../../state/hooks/WorkspaceHooks';
 import darkTheme from '../../theme/powerbi/darkTheme.json';
 import lightTheme from '../../theme/powerbi/lightTheme.json';
@@ -15,12 +15,12 @@ import { getReportLabels } from './labels';
 export const useCurrentScenarioPowerBiReport = () => {
   const { t, i18n } = useTranslation();
 
-  const currentScenarioData = useCurrentScenarioData();
-  const scenarios = useScenarios();
+  const currentScenarioData = useCurrentSimulationRunnerData();
+  const scenarios = useRunners();
   const reports = usePowerBIInfo();
   const logInWithUserCredentials = useWorkspaceChartsLogInWithUserCredentials();
-  const downloadLogsFile = useDownloadLogsFile();
   const powerBIReducerStatus = usePowerBIReducerStatus();
+  const downloadLogsFile = useDownloadSimulationLogsFile();
 
   const isPowerBIReducerLoading = useMemo(() => powerBIReducerStatus === STATUSES.LOADING, [powerBIReducerStatus]);
   const reportLabels = useMemo(() => getReportLabels(t), [t]);
@@ -28,10 +28,9 @@ export const useCurrentScenarioPowerBiReport = () => {
 
   const visibleScenarios = useMemo(
     () =>
-      scenarios.map((scenario) => ({
-        id: scenario.id,
-        runId: scenario.lastRun?.scenarioRunId,
-        csmSimulationRun: scenario.lastRun?.csmSimulationRun,
+      scenarios.map((runner) => ({
+        id: runner.id,
+        runId: runner.lastRunId,
       })),
     [scenarios]
   );

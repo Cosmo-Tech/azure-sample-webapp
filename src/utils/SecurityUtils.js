@@ -46,8 +46,8 @@ const getUsersIdsFromACL = (acl) => {
 const sortByNewAdminsFirst = (usersToAddOrModify) => {
   return usersToAddOrModify.sort((userA, userB) => {
     if (userA.role === userB.role) return 0;
-    if (userA.role === ACL_ROLES.SCENARIO.ADMIN) return -1;
-    if (userB.role === ACL_ROLES.SCENARIO.ADMIN) return 1;
+    if (userA.role === ACL_ROLES.RUNNER.ADMIN) return -1;
+    if (userB.role === ACL_ROLES.RUNNER.ADMIN) return 1;
     return 0;
   });
 };
@@ -100,13 +100,26 @@ const updateResourceSecurity = async (
 
 const forgeDatasetSecurityFromScenarioSecurity = (scenarioSecurity) => {
   const getDatasetRoleFromScenarioRole = (scenarioRole) =>
-    scenarioRole === ACL_ROLES.SCENARIO.VALIDATOR ? ACL_ROLES.DATASET.EDITOR : scenarioRole;
+    scenarioRole === ACL_ROLES.RUNNER.VALIDATOR ? ACL_ROLES.DATASET.EDITOR : scenarioRole;
 
   return {
     default: getDatasetRoleFromScenarioRole(scenarioSecurity.default),
     accessControlList: scenarioSecurity.accessControlList.map((aclEntry) => ({
       id: aclEntry.id,
       role: getDatasetRoleFromScenarioRole(aclEntry.role),
+    })),
+  };
+};
+
+const forgeDatasetSecurityFromRunnerSecurity = (runnerSecurity) => {
+  const getDatasetRoleFromRunnerRole = (runnerRole) =>
+    runnerRole === ACL_ROLES.RUNNER.VALIDATOR ? ACL_ROLES.DATASET.EDITOR : runnerRole;
+
+  return {
+    default: getDatasetRoleFromRunnerRole(runnerSecurity.default),
+    accessControlList: runnerSecurity.accessControlList.map((aclEntry) => ({
+      id: aclEntry.id,
+      role: getDatasetRoleFromRunnerRole(aclEntry.role),
     })),
   };
 };
@@ -309,6 +322,7 @@ export const SecurityUtils = {
   areAccessControlListsIdentical,
   compareAccessControlLists,
   forgeDatasetSecurityFromScenarioSecurity,
+  forgeDatasetSecurityFromRunnerSecurity,
   getPermissionsFromRole,
   getRolesGrantingPermission,
   getUserPermissionsForResource,

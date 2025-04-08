@@ -4,8 +4,6 @@ import {
   DatasetApiFactory,
   RunnerApiFactory,
   RunApiFactory,
-  ScenarioApiFactory,
-  ScenariorunApiFactory,
   SolutionApiFactory,
   WorkspaceApiFactory,
   OrganizationApiFactory,
@@ -18,8 +16,6 @@ const defaultBasePath = ConfigService.getParameterValue('DEFAULT_BASE_PATH').rep
 
 export const Api = {
   defaultBasePath,
-  Scenarios: ScenarioApiFactory(null, defaultBasePath, clientApi),
-  ScenarioRuns: ScenariorunApiFactory(null, defaultBasePath, clientApi),
   Solutions: SolutionApiFactory(null, defaultBasePath, clientApi),
   Datasets: DatasetApiFactory(null, defaultBasePath, clientApi),
   Runners: RunnerApiFactory(null, defaultBasePath, clientApi),

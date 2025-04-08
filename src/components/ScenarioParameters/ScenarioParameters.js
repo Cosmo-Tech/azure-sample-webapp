@@ -9,7 +9,7 @@ import { Grid, Typography, Accordion, AccordionSummary, AccordionDetails } from 
 import makeStyles from '@mui/styles/makeStyles';
 import rfdc from 'rfdc';
 import { PermissionsGate } from '@cosmotech/ui';
-import { SCENARIO_RUN_STATE, SCENARIO_VALIDATION_STATUS } from '../../services/config/ApiConstants';
+import { RUNNER_VALIDATION_STATUS, RUNNER_RUN_STATE } from '../../services/config/ApiConstants';
 import { ACL_PERMISSIONS } from '../../services/config/accessControl';
 import { STATUSES } from '../../state/commons/Constants';
 import { ScenarioParametersUtils } from '../../utils';
@@ -130,11 +130,9 @@ const ScenarioParameters = ({ onToggleAccordion, isAccordionExpanded }) => {
   };
 
   const noTabsShown = parametersGroupsMetadata.length === 0;
-  const isCurrentScenarioRunning =
-    currentScenarioData?.state === SCENARIO_RUN_STATE.RUNNING ||
-    currentScenarioData?.state === SCENARIO_RUN_STATE.DATA_INGESTION_IN_PROGRESS;
-  const isCurrentScenarioRejected = currentScenarioData?.validationStatus === SCENARIO_VALIDATION_STATUS.REJECTED;
-  const isCurrentScenarioValidated = currentScenarioData?.validationStatus === SCENARIO_VALIDATION_STATUS.VALIDATED;
+  const isCurrentScenarioRunning = currentScenarioData?.state === RUNNER_RUN_STATE.RUNNING;
+  const isCurrentScenarioRejected = currentScenarioData?.validationStatus === RUNNER_VALIDATION_STATUS.REJECTED;
+  const isCurrentScenarioValidated = currentScenarioData?.validationStatus === RUNNER_VALIDATION_STATUS.VALIDATED;
   const hasUserWritePermission = userPermissionsOnCurrentScenario.includes(ACL_PERMISSIONS.SCENARIO.WRITE);
 
   // You can use the context object to pass all additional information to custom tab factory

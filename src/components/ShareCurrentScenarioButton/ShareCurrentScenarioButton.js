@@ -25,7 +25,7 @@ const ShareCurrentScenarioButton = () => {
       isReadOnly={isReadOnly}
       labels={shareScenarioDialogLabels}
       onConfirmChanges={applyScenarioSecurityChanges}
-      resourceRolesPermissionsMapping={permissionsMapping.scenario}
+      resourceRolesPermissionsMapping={permissionsMapping.runner}
       agents={workspaceUsers}
       specificAccessByAgent={accessListSpecific}
       defaultRole={defaultRole}

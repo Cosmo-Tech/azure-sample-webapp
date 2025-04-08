@@ -8,9 +8,9 @@ export const dispatchFetchScenarioRunById = (organizationId, scenarioRunId) => (
   scenarioRunId,
 });
 
-export const dispatchStopScenarioRun = (organizationId, scenarioRunId, scenarioId) => ({
+export const dispatchStopScenarioRun = (organizationId, workspaceId, scenarioId) => ({
   type: SCENARIO_RUN_ACTIONS.STOP_SCENARIO_RUN,
   organizationId,
-  scenarioRunId,
+  workspaceId,
   scenarioId,
 });
