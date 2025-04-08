@@ -4,7 +4,7 @@ import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { PowerBIUtils } from '../../utils';
 import { dispatchSetPowerBIReportsConfig } from '../dispatchers/powerbi/PowerBIDispatcher';
-import { useCurrentScenarioData } from './ScenarioHooks';
+import { useCurrentSimulationRunnerData } from './RunnerHooks';
 
 export const usePowerBIInfo = () => {
   return useSelector((state) => state.powerBI);
@@ -26,7 +26,7 @@ export const useScenarioViewReportsConfig = () => {
 };
 
 export const useCurrentScenarioReportConfig = () => {
-  const currentScenarioData = useCurrentScenarioData();
+  const currentScenarioData = useCurrentSimulationRunnerData();
   const scenarioViewReportsConfig = useScenarioViewReportsConfig();
   return useMemo(
     () => PowerBIUtils.getScenarioViewReportConfig(scenarioViewReportsConfig, currentScenarioData?.runTemplateId),

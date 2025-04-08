@@ -5,13 +5,13 @@ import { useUserPermissionsOnCurrentScenario } from '../../hooks/SecurityHooks.j
 import { useIsDarkTheme } from '../../state/hooks/ApplicationHooks';
 import { useUserAppRoles } from '../../state/hooks/AuthHooks';
 import { useDatasets } from '../../state/hooks/DatasetHooks';
-import { useCurrentScenario } from '../../state/hooks/ScenarioHooks';
+import { useCurrentSimulationRunner } from '../../state/hooks/RunnerHooks';
 import { useSolution } from '../../state/hooks/SolutionHooks';
 
 export const useScenarioParameters = () => {
   const { runTemplateParametersIds, parametersMetadata } = useUpdateParameters();
   const datasets = useDatasets();
-  const currentScenario = useCurrentScenario();
+  const currentScenario = useCurrentSimulationRunner();
   const solutionData = useSolution().data;
   const userRoles = useUserAppRoles();
   const userPermissionsOnCurrentScenario = useUserPermissionsOnCurrentScenario();

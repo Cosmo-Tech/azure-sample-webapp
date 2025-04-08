@@ -6,28 +6,25 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import { Button, Grid } from '@mui/material';
 import { PermissionsGate } from '@cosmotech/ui';
 import { useUserAppAndCurrentScenarioPermissions } from '../../../../../../hooks/SecurityHooks';
-import { SCENARIO_RUN_STATE } from '../../../../../../services/config/ApiConstants';
+import { RUNNER_RUN_STATE } from '../../../../../../services/config/ApiConstants';
 import { ACL_PERMISSIONS } from '../../../../../../services/config/accessControl';
 import { TwoActionsDialogService } from '../../../../../../services/twoActionsDialog/twoActionsDialogService';
 import {
-  useCurrentScenarioId,
-  useCurrentScenarioLastRunId,
-  useCurrentScenarioState,
-} from '../../../../../../state/hooks/ScenarioHooks';
-import { useStopScenarioRun } from '../../../../../../state/hooks/ScenarioRunHooks';
+  useCurrentSimulationRunnerId,
+  useCurrentSimulationRunnerLastRunId,
+  useCurrentSimulationRunnerState,
+  useStopSimulationRunner,
+} from '../../../../../../state/hooks/RunnerHooks';
 
 export const StopRunButton = () => {
-  const currentScenarioId = useCurrentScenarioId();
-  const currentScenarioState = useCurrentScenarioState();
-  const currentScenarioLastRunId = useCurrentScenarioLastRunId();
-  const stopScenarioRun = useStopScenarioRun();
+  const currentScenarioId = useCurrentSimulationRunnerId();
+  const currentScenarioLastRunId = useCurrentSimulationRunnerLastRunId();
+  const currentScenarioState = useCurrentSimulationRunnerState();
+  const stopScenarioRun = useStopSimulationRunner();
   const userAppAndCurrentScenarioPermissions = useUserAppAndCurrentScenarioPermissions();
   const { t } = useTranslation();
 
-  const isCurrentScenarioRunning =
-    currentScenarioState === SCENARIO_RUN_STATE.RUNNING ||
-    currentScenarioState === SCENARIO_RUN_STATE.DATA_INGESTION_IN_PROGRESS;
-
+  const isCurrentScenarioRunning = currentScenarioState === RUNNER_RUN_STATE.RUNNING;
   const askStopRunConfirmation = useCallback(
     async (event) => {
       event.stopPropagation();
@@ -51,9 +48,9 @@ export const StopRunButton = () => {
         },
       };
       const result = await TwoActionsDialogService.openDialog(dialogProps);
-      if (result === 2) stopScenarioRun(currentScenarioLastRunId, currentScenarioId);
+      if (result === 2) stopScenarioRun(currentScenarioId);
     },
-    [currentScenarioId, currentScenarioLastRunId, stopScenarioRun, t]
+    [currentScenarioId, stopScenarioRun, t]
   );
 
   useEffect(() => {

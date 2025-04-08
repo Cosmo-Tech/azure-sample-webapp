@@ -32,7 +32,7 @@ const Loading = () => {
   const defaultTitle = 'LoadingLine Title';
   const {
     powerBIReducerStatus,
-    scenariosReducerStatus,
+    runnersReducerStatus,
     workspaces,
     workspacesReducerStatus,
     currentWorkspaceReducerStatus,
@@ -95,8 +95,8 @@ const Loading = () => {
           />
           <LoadingLine
             title={t('genericcomponent.loading.line.scenario.list.title', defaultTitle)}
-            hasError={hasErrors(scenariosReducerStatus)}
-            isLoading={isLoading(scenariosReducerStatus)}
+            hasError={hasErrors(runnersReducerStatus)}
+            isLoading={isLoading(runnersReducerStatus)}
             animations={animations}
             style={style}
           />

@@ -8,30 +8,30 @@ import { Button, Grid } from '@mui/material';
 import { FadingTooltip, PermissionsGate } from '@cosmotech/ui';
 import { useUpdateParameters } from '../../../../../../hooks/ScenarioParametersHooks';
 import { useUserAppAndCurrentScenarioPermissions } from '../../../../../../hooks/SecurityHooks';
-import { INGESTION_STATUS, SCENARIO_RUN_STATE } from '../../../../../../services/config/ApiConstants';
+import { INGESTION_STATUS, RUNNER_RUN_STATE } from '../../../../../../services/config/ApiConstants';
 import { ACL_PERMISSIONS } from '../../../../../../services/config/accessControl';
 import { useSetApplicationErrorMessage } from '../../../../../../state/hooks/ApplicationHooks';
-import { useDatasets } from '../../../../../../state/hooks/DatasetHooks';
 import {
-  useCurrentScenarioDatasetList,
-  useCurrentScenarioId,
-  useCurrentScenarioState,
-  useLaunchScenario,
-  useSaveAndLaunchScenario,
-} from '../../../../../../state/hooks/ScenarioHooks';
+  useCurrentSimulationRunnerDatasetList,
+  useCurrentSimulationRunnerId,
+  useCurrentSimulationRunnerState,
+  useStartRunner,
+  useUpdateAndStartRunner,
+} from '../../../../../../state/hooks/RunnerHooks';
+import { useDatasets } from "../../../../../../state/hooks/DatasetHooks";
 
 export const LaunchButton = () => {
   const { t } = useTranslation();
   const { isDirty, errors } = useFormState();
   const isValid = Object.keys(errors || {}).length === 0;
   const { processFilesToUpload, getParametersToUpdate, forceUpdate } = useUpdateParameters();
-  const saveAndLaunchScenario = useSaveAndLaunchScenario();
-  const currentScenarioId = useCurrentScenarioId();
-  const currentScenarioState = useCurrentScenarioState();
+  const saveAndLaunchScenario = useUpdateAndStartRunner();
+  const currentScenarioId = useCurrentSimulationRunnerId();
+  const currentScenarioState = useCurrentSimulationRunnerState();
   const setApplicationErrorMessage = useSetApplicationErrorMessage();
-  const launchScenario = useLaunchScenario();
+  const launchScenario = useStartRunner();
   const userAppAndCurrentScenarioPermissions = useUserAppAndCurrentScenarioPermissions();
-  const currentScenarioDatasetList = useCurrentScenarioDatasetList();
+  const currentScenarioDatasetList = useCurrentSimulationRunnerDatasetList();
   const datasets = useDatasets();
   const isCurrentScenarioDatasetUnavailable = useMemo(() => {
     if (currentScenarioDatasetList && currentScenarioDatasetList?.length > 0) {
@@ -41,10 +41,7 @@ export const LaunchButton = () => {
     return false;
   }, [currentScenarioDatasetList, datasets]);
 
-  const isCurrentScenarioRunning =
-    currentScenarioState === SCENARIO_RUN_STATE.RUNNING ||
-    currentScenarioState === SCENARIO_RUN_STATE.DATA_INGESTION_IN_PROGRESS;
-
+  const isCurrentScenarioRunning = currentScenarioState === RUNNER_RUN_STATE.RUNNING;
   const launchCurrentScenario = useCallback(
     async (event) => {
       event.stopPropagation();

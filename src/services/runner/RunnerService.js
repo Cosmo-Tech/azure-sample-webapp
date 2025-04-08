@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 import { SecurityUtils } from '../../utils';
 import { Api } from '../config/Api';
+import { RUNNER_VALIDATION_STATUS } from '../config/ApiConstants';
 
 const updateSecurity = async (organizationId, workspaceId, runnerId, currentSecurity, newSecurity) => {
   const setDefaultSecurity = async (newRole) =>
@@ -13,7 +14,7 @@ const updateSecurity = async (organizationId, workspaceId, runnerId, currentSecu
   const removeAccess = async (userIdToRemove) =>
     Api.Runners.removeRunnerAccessControl(organizationId, workspaceId, runnerId, userIdToRemove);
 
-  await SecurityUtils.updateResourceSecurity(
+  return SecurityUtils.updateResourceSecurity(
     currentSecurity,
     newSecurity,
     setDefaultSecurity,
@@ -23,8 +24,29 @@ const updateSecurity = async (organizationId, workspaceId, runnerId, currentSecu
   );
 };
 
+async function resetValidationStatus(organizationId, workspaceId, runnerId, runTemplateId) {
+  const data = { runTemplateId, validationStatus: RUNNER_VALIDATION_STATUS.DRAFT };
+  return Api.Runners.updateRunner(organizationId, workspaceId, runnerId, data);
+}
+
+async function setRunnerValidationStatusToValidated(organizationId, workspaceId, runnerId, runTemplateId) {
+  return setValidationStatus(organizationId, workspaceId, runnerId, runTemplateId, RUNNER_VALIDATION_STATUS.VALIDATED);
+}
+
+async function setRunnerValidationStatusToRejected(organizationId, workspaceId, runnerId, runTemplateId) {
+  return setValidationStatus(organizationId, workspaceId, runnerId, runTemplateId, RUNNER_VALIDATION_STATUS.REJECTED);
+}
+
+async function setValidationStatus(organizationId, workspaceId, runnerId, runTemplateId, validationStatus) {
+  const data = { validationStatus, runTemplateId };
+  return Api.Runners.updateRunner(organizationId, workspaceId, runnerId, data);
+}
+
 const RunnerService = {
   updateSecurity,
+  resetValidationStatus,
+  setRunnerValidationStatusToValidated,
+  setRunnerValidationStatusToRejected,
 };
 
 export default RunnerService;

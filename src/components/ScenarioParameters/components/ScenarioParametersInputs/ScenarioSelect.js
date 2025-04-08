@@ -6,13 +6,13 @@ import PropTypes from 'prop-types';
 import { Grid } from '@mui/material';
 import { SingleSelect } from '@cosmotech/ui';
 import { useSortedScenarioList } from '../../../../hooks/ScenarioListHooks';
-import { useCurrentScenarioId } from '../../../../state/hooks/ScenarioHooks';
+import { useCurrentSimulationRunnerId } from '../../../../state/hooks/RunnerHooks';
 import { TranslationUtils } from '../../../../utils';
 
 export const ScenarioSelect = ({ parameterData, context, parameterValue, setParameterValue, isDirty }) => {
   const { t } = useTranslation();
   const scenarioList = useSortedScenarioList();
-  const currentScenarioId = useCurrentScenarioId();
+  const currentScenarioId = useCurrentSimulationRunnerId();
   const runTemplateFilter = parameterData.options?.runTemplateFilter;
 
   const mappedScenarioList = useMemo(() => {

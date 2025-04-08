@@ -3,13 +3,13 @@
 import { useDatasetsReducerStatus } from '../../state/hooks/DatasetHooks';
 import { useOrganization } from '../../state/hooks/OrganizationHooks';
 import { usePowerBIReducerStatus } from '../../state/hooks/PowerBIHooks';
-import { useScenariosReducerStatus } from '../../state/hooks/ScenarioHooks';
+import { useRunnersReducerStatus } from '../../state/hooks/RunnerHooks';
 import { useSolution } from '../../state/hooks/SolutionHooks';
 import { useWorkspacesReducerStatus, useWorkspace, useWorkspaceData } from '../../state/hooks/WorkspaceHooks';
 
 export const useLoading = () => {
   const powerBIReducerStatus = usePowerBIReducerStatus();
-  const scenariosReducerStatus = useScenariosReducerStatus();
+  const runnersReducerStatus = useRunnersReducerStatus();
   const workspaces = useWorkspaceData();
   const workspacesReducerStatus = useWorkspacesReducerStatus();
   const currentWorkspaceReducerStatus = useWorkspace()?.status;
@@ -19,7 +19,7 @@ export const useLoading = () => {
 
   return {
     powerBIReducerStatus,
-    scenariosReducerStatus,
+    runnersReducerStatus,
     workspaces,
     workspacesReducerStatus,
     currentWorkspaceReducerStatus,
