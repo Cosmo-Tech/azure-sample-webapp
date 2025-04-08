@@ -35,4 +35,12 @@ export const DEFAULT_DATASETS_LIST_DATA = [
     ingestionStatus: 'SUCCESS',
     twincacheStatus: 'FULL',
   },
+  {
+    ...DEFAULT_DATASET,
+    id: 'D-4jwyQnmv7jx',
+    name: 'DataSet Sample 001',
+    main: true,
+    ingestionStatus: 'SUCCESS',
+    twincacheStatus: 'FULL',
+  },
 ];

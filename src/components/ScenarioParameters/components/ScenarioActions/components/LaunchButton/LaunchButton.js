@@ -1,17 +1,19 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useFormState } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import { Button, Grid } from '@mui/material';
-import { PermissionsGate } from '@cosmotech/ui';
+import { FadingTooltip, PermissionsGate } from '@cosmotech/ui';
 import { useUpdateParameters } from '../../../../../../hooks/ScenarioParametersHooks';
 import { useUserAppAndCurrentScenarioPermissions } from '../../../../../../hooks/SecurityHooks';
-import { SCENARIO_RUN_STATE } from '../../../../../../services/config/ApiConstants';
+import { INGESTION_STATUS, SCENARIO_RUN_STATE } from '../../../../../../services/config/ApiConstants';
 import { ACL_PERMISSIONS } from '../../../../../../services/config/accessControl';
 import { useSetApplicationErrorMessage } from '../../../../../../state/hooks/ApplicationHooks';
+import { useDatasets } from '../../../../../../state/hooks/DatasetHooks';
 import {
+  useCurrentScenarioDatasetList,
   useCurrentScenarioId,
   useCurrentScenarioState,
   useLaunchScenario,
@@ -29,6 +31,15 @@ export const LaunchButton = () => {
   const setApplicationErrorMessage = useSetApplicationErrorMessage();
   const launchScenario = useLaunchScenario();
   const userAppAndCurrentScenarioPermissions = useUserAppAndCurrentScenarioPermissions();
+  const currentScenarioDatasetList = useCurrentScenarioDatasetList();
+  const datasets = useDatasets();
+  const isCurrentScenarioDatasetUnavailable = useMemo(() => {
+    if (currentScenarioDatasetList && currentScenarioDatasetList?.length > 0) {
+      const currentScenarioDataset = datasets?.find((dataset) => dataset.id === currentScenarioDatasetList?.[0]);
+      return !currentScenarioDataset || currentScenarioDataset?.ingestionStatus === INGESTION_STATUS.ERROR;
+    }
+    return false;
+  }, [currentScenarioDatasetList, datasets]);
 
   const isCurrentScenarioRunning =
     currentScenarioState === SCENARIO_RUN_STATE.RUNNING ||
@@ -73,21 +84,32 @@ export const LaunchButton = () => {
       necessaryPermissions={[ACL_PERMISSIONS.SCENARIO.LAUNCH]}
     >
       <Grid item>
-        <Button
-          data-cy="launch-scenario-button"
-          variant="contained"
-          startIcon={<PlayCircleOutlineIcon />}
-          onClick={launchCurrentScenario}
-          disabled={!isValid}
+        <FadingTooltip
+          title={
+            isCurrentScenarioDatasetUnavailable
+              ? t(
+                  'commoncomponents.button.scenario.parameters.launchDisabled',
+                  "The scenario cannot be run because its dataset isn't found or its data ingestion has failed"
+                )
+              : ''
+          }
         >
-          {isDirty ? (
-            <span data-cy="save-and-launch-label">
-              {t('commoncomponents.button.scenario.parameters.update.launch', 'SAVE AND LAUNCH')}
-            </span>
-          ) : (
-            <span data-cy="launch-label">{t('commoncomponents.button.scenario.parameters.launch', 'LAUNCH')}</span>
-          )}
-        </Button>
+          <Button
+            data-cy="launch-scenario-button"
+            variant="contained"
+            startIcon={<PlayCircleOutlineIcon />}
+            onClick={launchCurrentScenario}
+            disabled={!isValid || isCurrentScenarioDatasetUnavailable}
+          >
+            {isDirty ? (
+              <span data-cy="save-and-launch-label">
+                {t('commoncomponents.button.scenario.parameters.update.launch', 'SAVE AND LAUNCH')}
+              </span>
+            ) : (
+              <span data-cy="launch-label">{t('commoncomponents.button.scenario.parameters.launch', 'LAUNCH')}</span>
+            )}
+          </Button>
+        </FadingTooltip>
       </Grid>
     </PermissionsGate>
   ) : null;
