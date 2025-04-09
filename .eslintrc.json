@@ -12,7 +12,8 @@
     "plugin:jest/recommended",
     "plugin:cypress/recommended",
     "prettier",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "plugin:sonarjs/recommended-legacy"
   ],
   "parserOptions": {
     "ecmaFeatures": {
@@ -21,7 +22,7 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": ["react", "react-hooks", "jest", "cypress", "prettier"],
+  "plugins": ["react", "react-hooks", "jest", "cypress", "prettier", "sonarjs"],
   "rules": {
     "no-constant-binary-expression": "error",
     "react-hooks/rules-of-hooks": "error",
