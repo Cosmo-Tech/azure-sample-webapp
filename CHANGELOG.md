@@ -1,3 +1,25 @@
+## **6.5.0** <sub><sup>2025-04-09 ([338546a...9538f69](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/338546ad...9538f699?diff=split))</sup></sub>
+
+### Documentation
+*  add documentation for attributesOrder in instance view configuration ([7313523](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/7313523b))
+*  add documentation for workspace configuration pitfalls ([f44f069](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/f44f0691))
+
+
+### Features
+*  make graph item attributes order configurable in Instance view ([c05d227](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/c05d2276))
+*  add dialog to update ETL parameters ([e01bf1c](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/e01bf1c1))
+*  display runTemplate name in dataset metadata ([51269da](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/51269da4))
+*  rename datasets in dataset manager ([c45a394](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/c45a3942))
+*  disable Launch button when dataset has status ERROR or cannot be found ([f8a5baa](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/f8a5baaf))
+
+
+### Bug Fixes
+*  add missing spinner placeholder when waiting for PowerBI access token ([7af93cb](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/7af93cb4))
+*  fix deduplication of links when name attribute is not used ([d1b0c03](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/d1b0c037))
+*  fix graph indicators display if categories aren't defined in dataset manager config ([212567b](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/212567b6))
+*  add console warnings to help troubleshoot workspace configuration pitfalls ([5bf33a8](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/5bf33a81))
+*  show disabled share buttons to resources viewers ([e1bdb4c](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/e1bdb4c9))
+
 ## **6.4.3** <sub><sup>2025-01-23 ([d0a58d7...7d4831b](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/d0a58d7f...7d4831b2?diff=split))</sup></sub>
 
 ### Bug Fixes
