@@ -45,3 +45,6 @@ __pycache__
 # yalc
 .yalc
 yalc.lock
+
+# Mock data
+src/views/Simulation/data/*.json
