@@ -899,6 +899,11 @@
   },
   "layouts": {
     "tabs": {
+      "simulation": {
+        "tab": {
+          "title": "SIMULATION"
+        }
+      },
       "scenario": {
         "tab": {
           "title": "SCENARIO VIEW"

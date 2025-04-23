@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import React from 'react';
 import { ConfigUtils } from './utils';
-import { Dashboards, Instance, Scenario, ScenarioManager, DatasetManager } from './views';
+import { Simulation, Dashboards, Instance, Scenario, ScenarioManager, DatasetManager } from './views';
 
 const DEFAULT_TABS = [
   {
@@ -34,6 +34,12 @@ const DEFAULT_TABS = [
     label: 'layouts.tabs.dashboards.tab.title',
     to: 'dashboards',
     render: <Dashboards />,
+  },
+  {
+    key: 'tabs.simulation.key',
+    label: 'layouts.tabs.simulation.tab.title',
+    to: 'simulation',
+    render: <Simulation />,
   },
 ];
 

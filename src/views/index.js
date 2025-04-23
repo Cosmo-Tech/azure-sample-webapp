@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 export { default as SignIn } from './SignIn';
+export { default as Simulation } from './Simulation';
 export { default as AccessDenied } from './AccessDenied';
 export { default as Scenario } from './Scenario';
 export { default as ScenarioManager } from './ScenarioManager';
