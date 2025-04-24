@@ -7,7 +7,7 @@ import { useFormState } from 'react-hook-form';
 import { ButtonTesting, TypographyTesting } from '../../../../../tests/MuiComponentsTesting';
 import { customRender, getByDataCy } from '../../../../../tests/utils';
 import { SCENARIO_RUN_STATE } from '../../../../services/config/ApiConstants';
-import { useCurrentScenarioState } from '../../../../state/hooks/ScenarioHooks';
+import { useCurrentScenarioState, useCurrentScenarioLastRunId } from '../../../../state/hooks/ScenarioHooks';
 import { ScenarioActions } from './';
 
 jest.mock('react-hook-form', () => ({
@@ -39,6 +39,7 @@ jest.mock('../../../../state/hooks/ScenarioHooks', () => ({
   useSaveAndLaunchScenario: () => mockUseSaveAndLaunchScenario,
   useSaveScenario: () => mockUseSaveScenario,
   useCurrentScenarioState: jest.fn(),
+  useCurrentScenarioLastRunId: jest.fn(),
 }));
 
 jest.mock('../../../../state/hooks/ScenarioRunHooks', () => ({
@@ -132,6 +133,7 @@ describe('Test scenario buttons when scenario is not running', () => {
 describe('Test scenario buttons when scenario is running', () => {
   beforeAll(() => {
     useCurrentScenarioState.mockReturnValue(SCENARIO_RUN_STATE.RUNNING);
+    useCurrentScenarioLastRunId.mockReturnValue('sr-0123456');
     useFormState.mockReturnValue({ isDirty: false });
     customRender(<ScenarioActions />);
   });
