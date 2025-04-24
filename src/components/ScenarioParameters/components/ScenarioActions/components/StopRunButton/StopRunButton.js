@@ -70,6 +70,7 @@ export const StopRunButton = () => {
       <Grid item>
         <Button
           data-cy="stop-scenario-run-button"
+          disabled={currentScenarioLastRunId == null}
           color="error"
           variant="contained"
           startIcon={<CancelIcon />}

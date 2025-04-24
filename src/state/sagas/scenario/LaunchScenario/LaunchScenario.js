@@ -27,7 +27,7 @@ export function* launchScenario(action) {
 
     yield put({
       type: SCENARIO_ACTIONS_KEY.SET_CURRENT_SCENARIO,
-      scenario: { state: SCENARIO_RUN_STATE.RUNNING },
+      scenario: { state: SCENARIO_RUN_STATE.RUNNING, lastRun: undefined },
     });
 
     // Launch scenario if parameters update succeeded
