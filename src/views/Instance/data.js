@@ -162,18 +162,35 @@ async function _fetchTwingraphDatasetContent(organizationId, datasetId, dataSour
   const nodeCategories = await sendQuery(
     'MATCH (n) RETURN distinct labels(n)[0] as label, count(*) as count, keys(n) as keys'
   );
+  const nodeKeysByCategory = {};
   for (const nodeCategory of nodeCategories) {
-    const nodeProperties = nodeCategory.keys.map((propertyName) => `n.${propertyName} as ${propertyName}`).join(', ');
-    nodes[nodeCategory.label] = await sendQuery(`MATCH (n:${nodeCategory.label}) RETURN ${nodeProperties}`);
+    const previousKeys = nodeKeysByCategory[nodeCategory.label] ?? [];
+    nodeKeysByCategory[nodeCategory.label] = new Set([...previousKeys, ...nodeCategory.keys]);
+  }
+
+  for (const [nodeCategoryLabel, nodeKeysSet] of Object.entries(nodeKeysByCategory)) {
+    const nodeProperties = Array.from(nodeKeysSet)
+      .map((propertyName) => `n.${propertyName} as ${propertyName}`)
+      .join(', ');
+    nodes[nodeCategoryLabel] = await sendQuery(`MATCH (n:${nodeCategoryLabel}) RETURN ${nodeProperties}`);
   }
 
   const edgeCategories = await sendQuery(
     'MATCH ()-[r]->() RETURN distinct type(r) as type, count(*) as count, keys(r) as keys'
   );
+
+  const edgeKeysByCategory = {};
   for (const edgeCategory of edgeCategories) {
-    const edgeProperties = edgeCategory.keys.map((propertyName) => `${propertyName}: r.${propertyName}`).join(', ');
-    edges[edgeCategory.type] = await sendQuery(
-      `MATCH (src)-[r:${edgeCategory.type}]->(dst) WITH src, dst, { ${edgeProperties} } as properties RETURN ` +
+    const previousKeys = edgeKeysByCategory[edgeCategory.type] ?? [];
+    edgeKeysByCategory[edgeCategory.type] = new Set([...previousKeys, ...edgeCategory.keys]);
+  }
+
+  for (const [edgeCategoryType, edgeKeysSet] of Object.entries(edgeKeysByCategory)) {
+    const edgeProperties = Array.from(edgeKeysSet)
+      .map((propertyName) => `${propertyName}: r.${propertyName}`)
+      .join(', ');
+    edges[edgeCategoryType] = await sendQuery(
+      `MATCH (src)-[r:${edgeCategoryType}]->(dst) WITH src, dst, { ${edgeProperties} } as properties RETURN ` +
         'properties, src.id as src, dst.id as dst'
     );
   }
