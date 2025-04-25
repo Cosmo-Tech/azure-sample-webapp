@@ -50,6 +50,8 @@ function _convertDatasetIdFromString(parameterValue) {
 }
 
 function _convertListFromString(parameterValue) {
+  // PROD-14190 - API may return an empty string for parameters that have never been initialized: return [] instead
+  if (parameterValue === '') return [];
   try {
     const parsedValue = JSON.parse(parameterValue);
     if (Array.isArray(parsedValue)) {
