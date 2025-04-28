@@ -8,6 +8,8 @@ import { Grid, Typography } from '@mui/material';
 import rfdc from 'rfdc';
 import { UploadFile, BasicEnumInput } from '@cosmotech/ui';
 import { GenericEnumInput, GenericMultiSelect, GenericTextInput, GenericDateInput } from '../../../../../../components';
+import { useOrganizationId } from '../../../../../../state/hooks/OrganizationHooks.js';
+import { useWorkspaceId } from '../../../../../../state/hooks/WorkspaceHooks.js';
 import { ConfigUtils, SolutionsUtils, TranslationUtils } from '../../../../../../utils';
 import { FileManagementUtils } from '../../../../../../utils/FileManagementUtils';
 import { useDatasetCreationParameters } from './DatasetCreationParametersHook';
@@ -17,6 +19,8 @@ const clone = rfdc();
 export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDataset, selectedRunner }) => {
   const { t } = useTranslation();
   const { resetField } = useFormContext();
+  const organizationId = useOrganizationId();
+  const workspaceId = useWorkspaceId();
   const { datasourceParameterHelpers, getDataSourceTypeEnumValues, getUploadFileLabels, getDefaultFileTypeFilter } =
     useDatasetCreationParameters();
 
@@ -119,6 +123,9 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
                     labels={getUploadFileLabels(parameterId, parameter.idForTranslationKey)}
                     tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterId), '')}
                     handleUploadFile={(event) => FileManagementUtils.prepareToUpload(event, onChange)}
+                    handleDownloadFile={(event) => {
+                      FileManagementUtils.downloadFile(organizationId, workspaceId, value.id, () => {});
+                    }}
                     editMode={true}
                     handleDeleteFile={() => onChange(null)}
                     file={value ?? {}}
@@ -150,6 +157,8 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
     const runTemplate = dataSourceRunTemplates[dataSourceType];
     return runTemplate?.parameters?.map((parameter) => forgeParameterInput(parameter));
   }, [
+    organizationId,
+    workspaceId,
     dataSourceRunTemplates,
     dataSourceType,
     datasourceParameterHelpers,
