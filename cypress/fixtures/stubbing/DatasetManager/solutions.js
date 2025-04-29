@@ -17,20 +17,25 @@ export const SOLUTION = {
     {
       id: 'etl_enum_parameter',
       varType: 'enum',
-      enumValues: [
-        { key: 'option1', value: 'Option 1' },
-        { key: 'option2', value: 'Option 2' },
-      ],
+      options: {
+        enumValues: [
+          { key: 'option1', value: 'Option 1' },
+          { key: 'option2', value: 'Option 2' },
+        ],
+      },
     },
     {
       id: 'etl_list_parameter',
       varType: 'list',
-      enumValues: [
-        { key: 'option1', value: 'Option 1' },
-        { key: 'option2', value: 'Option 2' },
-      ],
+      options: {
+        enumValues: [
+          { key: 'option1', value: 'Option 1' },
+          { key: 'option2', value: 'Option 2' },
+        ],
+      },
     },
     { id: 'etl_string_parameter', varType: 'string' },
+    { id: 'etl_string_parameter_with_default_value', varType: 'string', defaultValue: 'is prefilled' },
     { id: 'etl_date_parameter', varType: 'date' },
   ],
   parameterGroups: [
@@ -39,6 +44,7 @@ export const SOLUTION = {
     { id: 'listGroup', parameters: ['etl_list_parameter'] },
     { id: 'stringGroup', parameters: ['etl_string_parameter'] },
     { id: 'dateGroup', parameters: ['etl_date_parameter'] },
+    { id: 'partiallyPrefilledGroup', parameters: ['etl_string_parameter', 'etl_string_parameter_with_default_value'] },
   ],
   runTemplates: [...DEFAULT_SOLUTION.runTemplates, ...CUSTOM_SUBDATASOURCES],
 };
@@ -70,7 +76,7 @@ export const SOLUTION_WITH_DYNAMIC_VALUES = {
 };
 
 export const SOLUTION_WITH_TRANSLATED_RUN_TEMPLATES = {
-  ...DEFAULT_SOLUTION,
+  ...SOLUTION,
   runTemplates: [
     ...DEFAULT_SOLUTION.runTemplates,
     {
@@ -78,6 +84,7 @@ export const SOLUTION_WITH_TRANSLATED_RUN_TEMPLATES = {
       labels: { en: 'ETL run template with dynamic filter', fr: 'Run template avec un filtre dynamique' },
       tags: ['datasource'],
     },
+    { id: 'partially_prefilled_datasource', parameterGroups: ['partiallyPrefilledGroup'], tags: ['datasource'] },
     {
       id: 'subdataset_run_template',
       labels: {
