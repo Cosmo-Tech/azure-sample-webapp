@@ -206,9 +206,11 @@ parameters:
         query: 'MATCH(n:Customer) RETURN n.id as id'
         resultKey: id
 ```
+
 ### Dynamic values for int and number parameters
-Initial value for **int** and **number** parameters can be fetched dynamically from the scenario dataset. This feature
-is supported for numeric inputs, but it is not yet available for **SLIDER** subtype.
+
+An initial value for **int** and **number** parameters can be fetched dynamically from the scenario dataset. This
+feature is supported for numeric inputs, but it is not yet available for the **SLIDER** subtype.
 
 To configure the feature, you have to define `options.dynamicValues`, an object with the following keys:
 
@@ -220,6 +222,9 @@ To configure the feature, you have to define `options.dynamicValues`, an object 
 - `resultKey`: the alias defined in your query after `as` keyword, any string of your choice; providing this value is
   required for the webapp to parse the cypher query results, and retrieve the actual value to display in the input
 
+Please note that you must not define both `defaultValue` and `options.dynamicValues`. Defining both of these options
+will lead to undefined behavior (in most cases, the cypher query will be ignored).
+
 Configuration example :
 
 ```yaml
@@ -229,7 +234,7 @@ parameters:
       fr: Customers
       en: Customers
     varType: int
-    defaultValue: 10 # if a default value is defined, it will be displayed in case if the cypher query fails
+    defaultValue: null # reminder that defaultValue must not be defined, otherwise the cypher query may be ignored
     options:
       dynamicValues:
         type: cypher
@@ -329,7 +334,9 @@ parameters:
       canChangeRowsNumber: false
       dateFormat: 'dd/MM/yyyy'
 ```
+
 #### Data source
+
 By default, the table component is empty but if you want to display some data, you can define either a default or dynamic
 value for the parameter. You can provide the id of an existing dataset in the `defaultValue` property of the parameter
 description (this dataset must be a CSV file, with values separated by commas). If you want to fetch data from scenario's
@@ -337,11 +344,10 @@ dataset, you can use `dynamicValues` option that uses a cypher query to retrieve
 
 _Note: only a **cypher** query from **twingraph** dataset is supported_
 
-
 `dynamicValues` is an object with the following keys:
 
 - `query`: the cypher query to run on a twingraph dataset; this query must retrieve a list of property values of the
-  graph elements, and return them with an alias (example: `MATCH(n:Customer) WITH {name: n.name, age: n.age} as alias 
+  graph elements, and return them with an alias (example: `MATCH(n:Customer) WITH {name: n.name, age: n.age} as alias
 RETURN alias`). Names of the properties must correspond to the `field` key in columns definition.
 - `resultKey`: the alias defined in your query after `as` keyword, any string of your choice; providing this value is required for the webapp to parse the cypher
   query results, and retrieve values to display in the table
@@ -349,18 +355,22 @@ RETURN alias`). Names of the properties must correspond to the `field` key in co
 Example of typical queries:
 
 _Retrieve nodes from dataset, e.g., all customers list displayed in a table with two columns: name and satisfaction_
+
 ```yaml
 query: 'MATCH(customer: Customer) WITH {name: customer.id, satisfaction: customer.Satisfaction} as rows RETURN rows',
 resultKey: 'rows'
 ```
+
 _Retrieve edges from dataset, e.g. relationship between all bars and customers displayed in a table with three columns:
 bar, customer and relation_
+
 ```yaml
 query: 'MATCH (b:Bar)-[r]->(c:Customer) WITH {bar: b.id, customer: c.id, relation: r.name } as rows RETURN rows',
 resultKey: 'rows'
 ```
 
 Complete example:
+
 ```yaml
 parameters:
   - id: 'customers'
@@ -387,7 +397,7 @@ parameters:
       canChangeRowsNumber: false
 ```
 
-_Known issue: Dynamic parameters are not saved as scenario parameters if they weren't displayed. 
+_Known issue: Dynamic parameters are not saved as scenario parameters if they weren't displayed.
 In order to save it, users need to open the parameter's tab that will trigger the query_
 
 #### Columns definition

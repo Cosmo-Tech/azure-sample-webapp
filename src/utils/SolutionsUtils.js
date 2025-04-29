@@ -153,6 +153,13 @@ const patchIncompatibleValuesInSolution = (solution) => {
         );
         parameter.options.canChangeRowsNumber = false;
       }
+    } else if (parameter.varType === 'int' || parameter.varType === 'number') {
+      if (parameter.defaultValue != null && parameter.options?.dynamicValues != null) {
+        console.warn(
+          `In solution configuration, the parameter "${parameter.id}" is defined with ` +
+            'both options "defaultValue" and "options.dynamicValues": the dynamic query may be ignored.'
+        );
+      }
     }
   });
 };
