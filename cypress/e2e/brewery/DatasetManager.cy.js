@@ -44,6 +44,7 @@ describe('Dataset manager can be empty on start', () => {
 describe('Data edition in dataset manager', () => {
   before(() => {
     stub.start();
+    stub.setOrganizations([ORGANIZATION_WITH_DEFAULT_ROLE_USER]);
     stub.setWorkspaces(WORKSPACES);
     stub.setSolutions([SOLUTION_WITH_TRANSLATED_RUN_TEMPLATES]);
     // we use the copy of DATASETS array to be able to reuse the same fixture
@@ -115,6 +116,48 @@ describe('Data edition in dataset manager', () => {
     DatasetManager.selectDatasetById(DATASET_B.id);
     DatasetManager.getDatasetMetadataDescription().should('contain', newDescription);
     DatasetManager.getDatasetMetadataTag(1).should('contain', newTag);
+  });
+
+  it('correctly handles the form state even after closing and reopening the dataset creation dialog', () => {
+    DatasetManager.ignoreDatasetTwingraphQueries();
+    DatasetManager.switchToDatasetManagerView();
+
+    const stepsToCheckTwice = () => {
+      DatasetManager.startDatasetCreation();
+      DatasetManager.setNewDatasetName('canceledDataset');
+      DatasetManager.getDatasetCreationNextStep().click();
+      DatasetManager.selectNewDatasetSourceType('partially_prefilled_datasource');
+      DatasetManager.getConfirmDatasetCreation().should('be.disabled');
+      cy.get('[data-cy=text-input-etl_string_parameter]').type('{selectAll}{backspace}' + 'foo');
+      DatasetManager.getConfirmDatasetCreation().should('not.be.disabled');
+
+      DatasetManager.getNewDatasetSourceTypeSelect().click();
+      DatasetManager.getNewDatasetSourceTypeOptionFile().click();
+      DatasetManager.getConfirmDatasetCreation().should('be.disabled');
+
+      DatasetManager.selectNewDatasetSourceType('partially_prefilled_datasource');
+      DatasetManager.getConfirmDatasetCreation().should('not.be.disabled');
+
+      DatasetManager.getCancelDatasetCreation().click();
+      DatasetManager.getDatasetCreationDialog().should('not.exist');
+    };
+
+    stepsToCheckTwice();
+    stepsToCheckTwice();
+  });
+
+  it('correctly handles the form state even after closing and reopening the sub-dataset creation dialog', () => {
+    DatasetManager.ignoreDatasetTwingraphQueries();
+    DatasetManager.switchToDatasetManagerView();
+
+    const stepsToCheckTwice = () => {
+      DatasetManager.startSubdatasetCreation();
+      DatasetManager.getDatasetCreationNextStep().should('not.be.disabled');
+      DatasetManager.getCancelDatasetCreation().click();
+    };
+
+    stepsToCheckTwice();
+    stepsToCheckTwice();
   });
 });
 
@@ -296,7 +339,7 @@ describe('Refresh dataset', () => {
   after(stub.stop);
 
   it(
-    'can refresh ADT and AzureStorage datasets and display en empty dataset placeholder ' +
+    'can refresh ADT and AzureStorage datasets and display an empty dataset placeholder ' +
       'for the one created from scratch',
     () => {
       const refreshSuccessOptions = {

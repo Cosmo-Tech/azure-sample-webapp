@@ -1,6 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
@@ -18,7 +18,7 @@ const clone = rfdc();
 
 export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDataset, selectedRunner }) => {
   const { t } = useTranslation();
-  const { resetField } = useFormContext();
+  const { getValues, resetField } = useFormContext();
   const organizationId = useOrganizationId();
   const workspaceId = useWorkspaceId();
   const { datasourceParameterHelpers, getDataSourceTypeEnumValues, getUploadFileLabels, getDefaultFileTypeFilter } =
@@ -40,6 +40,7 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
     if (dataSourceType == null) setDataSourceType(defaultDataSourceTypeKey);
   }, [dataSourceType, setDataSourceType, defaultDataSourceTypeKey]);
 
+  const defaultFormState = useRef({});
   const sourceParameters = useMemo(() => {
     const forgeParameterInput = (originalParameter) => {
       const parameterId = originalParameter.id;
@@ -70,6 +71,7 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
         console.error(`VarType "${inputType}" is not supported for ETL runner parameters.`);
         return null;
       }
+      defaultFormState.current[fieldPath] = defaultValue;
 
       return (
         <Controller
@@ -155,6 +157,7 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
     };
 
     const runTemplate = dataSourceRunTemplates[dataSourceType];
+    defaultFormState.current = {};
     return runTemplate?.parameters?.map((parameter) => forgeParameterInput(parameter));
   }, [
     organizationId,
@@ -168,6 +171,25 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
     t,
     getDefaultFileTypeFilter,
   ]);
+
+  useEffect(() => {
+    // Do not reset form when updating an existing dataset (already done in a useEffect in UpdateDatasetDialog)
+    if (isDatasetParametersEditionDialog) return;
+
+    const formValues = getValues();
+    for (const [sourceType, parameters] of Object.entries(formValues)) {
+      // Ignore fields that are not source types
+      if (['name', 'tags', 'description', 'sourceType'].includes(sourceType)) continue;
+      for (const [parameterId, parameterValue] of Object.entries(parameters)) {
+        const escapedSourceType = SolutionsUtils.escapeRunTemplateId(sourceType);
+        const fieldPath = `${escapedSourceType}.${parameterId}`;
+        defaultFormState.current[fieldPath] = parameterValue;
+      }
+    }
+    for (const [key, defaultValue] of Object.entries(defaultFormState.current)) {
+      resetField(key, { defaultValue });
+    }
+  }, [getValues, isDatasetParametersEditionDialog, resetField, sourceParameters]);
 
   const labels = useMemo(() => {
     return isSubDatasetCreationWizard

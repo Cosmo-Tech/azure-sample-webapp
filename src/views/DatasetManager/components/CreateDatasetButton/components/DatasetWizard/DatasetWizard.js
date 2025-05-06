@@ -28,13 +28,6 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
   const { formState } = methods;
   const [activeStep, setActiveStep] = useState(0);
 
-  useEffect(() => {
-    if (open) {
-      methods.reset();
-      setActiveStep(0);
-    }
-  }, [open, methods, setActiveStep]);
-
   const confirm = (event) => {
     const values = methods.getValues();
     onConfirm(values);
@@ -61,6 +54,13 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
     if (!isSubDatasetCreationWizard) return '';
     return `${parentDataset?.name} (subdataset)`;
   }, [parentDataset?.name, isSubDatasetCreationWizard]);
+
+  useEffect(() => {
+    if (open) {
+      methods.reset({ name: defaultName });
+      setActiveStep(0);
+    }
+  }, [defaultName, open, methods, setActiveStep]);
 
   const firstStep = (
     <>
