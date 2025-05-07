@@ -10,7 +10,7 @@
 
 ### Documentation
 
-- starting with Cosmo API 3.3, scenario parameters option `dynamicValues` can no longer be sued with a `defaultValue` defined ([2b4b081](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/2b4b081b))
+- starting with Cosmo API 3.3, scenario parameters option `dynamicValues` can no longer be used with a `defaultValue` defined ([2b4b081](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/2b4b081b))
 
 ## **6.5.0** <sub><sup>2025-04-09 ([338546a...9538f69](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/338546ad...9538f699?diff=split))</sup></sub>
 
