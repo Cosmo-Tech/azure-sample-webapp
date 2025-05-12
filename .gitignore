@@ -41,6 +41,7 @@ package-lock.json
 
 # python
 __pycache__
+.venv
 
 # yalc
 .yalc
