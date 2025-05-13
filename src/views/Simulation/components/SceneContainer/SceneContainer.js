@@ -1,22 +1,36 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Grid } from '@mui/material';
+import { useTheme } from '@mui/styles';
+import '@pixi/unsafe-eval';
+import { createApp, renderElements } from './pixiUtils';
 
 const SceneContainer = ({ toggleInspectorDrawer }) => {
+  const theme = useTheme();
+
+  const containerRef = useRef(null);
+  const canvasRef = useRef(null);
+  const appRef = useRef(null);
+
+  useEffect(() => {
+    if (!canvasRef.current || !containerRef.current) return;
+    const appCleanupFunction = createApp(appRef, canvasRef, containerRef, theme, toggleInspectorDrawer);
+    renderElements(appRef, toggleInspectorDrawer);
+
+    return appCleanupFunction;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div style={{ height: '100%', backgroundColor: '#000000', textAlign: 'center' }}>
-      <Grid container direction="column" gap={4} justifyContent="center" style={{ height: '100%' }}>
-        <Grid item>
-          <span>scene container placeholder</span>
-        </Grid>
-        <Grid item>
-          <Button variant="contained" onClick={toggleInspectorDrawer}>
-            [WIP] toggle drawer
-          </Button>
-        </Grid>
-      </Grid>
+      <div
+        data-cy="pixi-d3-view"
+        ref={containerRef}
+        style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}
+      >
+        <div ref={canvasRef} style={{ flex: 1, width: '100%', position: 'relative', overflow: 'hidden' }}></div>
+      </div>
     </div>
   );
 };
