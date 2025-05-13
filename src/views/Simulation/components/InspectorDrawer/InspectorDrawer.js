@@ -15,8 +15,8 @@ const InspectorDrawer = ({ open = false, onClose, data }) => {
 };
 
 InspectorDrawer.propTypes = {
-  data: PropTypes.Object,
-  onClose: PropTypes.bool.isRequired,
+  data: PropTypes.object,
+  onClose: PropTypes.func.isRequired,
   open: PropTypes.bool,
 };
 
