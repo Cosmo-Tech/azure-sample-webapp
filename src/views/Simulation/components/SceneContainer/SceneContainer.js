@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/styles';
 import '@pixi/unsafe-eval';
+import flowchartInstance from '../../data/output.json';
 import { createApp, renderElements } from './pixiUtils';
 
 const SceneContainer = ({ toggleInspectorDrawer }) => {
@@ -15,8 +16,15 @@ const SceneContainer = ({ toggleInspectorDrawer }) => {
 
   useEffect(() => {
     if (!canvasRef.current || !containerRef.current) return;
-    const appCleanupFunction = createApp(appRef, canvasRef, containerRef, theme, toggleInspectorDrawer);
-    renderElements(appRef, toggleInspectorDrawer);
+    const appCleanupFunction = createApp(
+      appRef,
+      canvasRef,
+      containerRef,
+      flowchartInstance,
+      theme,
+      toggleInspectorDrawer
+    );
+    renderElements(appRef, containerRef, flowchartInstance, toggleInspectorDrawer);
 
     return appCleanupFunction;
     // eslint-disable-next-line react-hooks/exhaustive-deps

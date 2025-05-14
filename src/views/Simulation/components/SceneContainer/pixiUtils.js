@@ -4,7 +4,7 @@ import * as PIXI from 'pixi.js';
 
 const HEIGHT_OFFSET_IN_PX = 4;
 
-export const createApp = (appRef, canvasRef, containerRef, theme, toggleInspectorDrawer) => {
+export const createApp = (appRef, canvasRef, containerRef, instance, theme, toggleInspectorDrawer) => {
   const app = new PIXI.Application({
     width: containerRef.current.clientWidth,
     height: containerRef.current.clientHeight - HEIGHT_OFFSET_IN_PX,
@@ -24,7 +24,7 @@ export const createApp = (appRef, canvasRef, containerRef, theme, toggleInspecto
     if (!containerRef.current || !appRef.current) return;
     appRef.current.renderer.resize(containerRef.current.clientWidth, containerRef.current.clientHeight);
     appRef.current.stage.removeChildren();
-    renderElements(appRef, toggleInspectorDrawer);
+    renderElements(appRef, containerRef, instance, toggleInspectorDrawer);
   };
 
   window.addEventListener('resize', handleResize);
@@ -41,13 +41,35 @@ export const createApp = (appRef, canvasRef, containerRef, theme, toggleInspecto
   };
 };
 
-export const renderElements = (appRef, toggleInspectorDrawer) => {
-  // TODO replace placeholder rectangle
+const makeStockTexture = (appRef) => {
   const graphics = new PIXI.Graphics();
-  graphics.beginFill('#228855');
-  graphics.drawRect(0, 0, 300, 200);
-  appRef.current.stage.addChild(graphics);
+  graphics.beginFill('#003d00');
+  graphics.lineStyle(0.75, '#ffffff');
+  graphics.moveTo(1, 1);
+  graphics.lineTo(8 - 1, 1);
+  graphics.lineTo(8 - 1, 8 - 1);
+  graphics.lineTo(1, 8 - 1);
+  graphics.lineTo(1, 1);
+  graphics.endFill();
+  return appRef.current.renderer.generateTexture(graphics, PIXI.SCALE_MODES.LINEAR, 2);
+};
 
-  graphics.eventMode = 'static';
-  graphics.on('click', toggleInspectorDrawer);
+export const renderElements = (appRef, containerRef, instance, toggleInspectorDrawer) => {
+  const stocks = [];
+  const stockTexture = makeStockTexture(appRef);
+  const width = containerRef.current.clientWidth;
+  const height = containerRef.current.clientHeight;
+  for (const [index, stock] of instance.stocks.entries()) {
+    const sprite = new PIXI.Sprite(stockTexture);
+    sprite.x = Math.random() * width;
+    sprite.y = Math.random() * height;
+    sprite.index = index;
+    sprite.eventMode = 'static';
+    sprite.buttonMode = true;
+    sprite.scale.set((stock.initialStock / 500.0) * 0.5 + 0.8);
+    // sprite.scale.set(Math.random() * 0.5 + 0.8);
+    sprite.on('click', toggleInspectorDrawer);
+    stocks.push(sprite);
+    appRef.current.stage.addChild(sprite);
+  }
 };
