@@ -1,6 +1,13 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
+const X_MARGIN = 20;
+const Y_MARGIN = 20;
+const MAX_NODE_HEIGHT = 10;
+const MAX_NODE_WIDTH = 10;
+const getRandomXPosition = (width) => X_MARGIN + Math.random() * (width - 2 * X_MARGIN - MAX_NODE_WIDTH);
+const getRandomYPosition = (height) => Y_MARGIN + Math.random() * (height - 2 * Y_MARGIN - MAX_NODE_HEIGHT);
+
 const getGraphLinks = (instance, nodes) => {
   const instanceLinks = [
     ...instance.transports,
@@ -32,8 +39,8 @@ export const getGraphFromInstance = (instance, width, height) => {
   const createNode = (node, type, x, y) => ({
     id: node.id,
     type,
-    x: x ?? Math.random() * width,
-    y: y ?? Math.random() * height,
+    x: x ?? getRandomXPosition(width),
+    y: y ?? getRandomYPosition(height),
   });
   const stocks = instance.stocks.map((stock) => createNode(stock, 'stock'));
   const productionResources = instance.production_resources.map((stock) => createNode(stock, 'productionResource'));
