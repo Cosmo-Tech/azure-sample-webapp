@@ -1,6 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import * as PIXI from 'pixi.js';
+import { getGraphFromInstance } from './graphUtils';
 
 const HEIGHT_OFFSET_IN_PX = 4;
 
@@ -54,33 +55,6 @@ const createTexture = (appRef, options) => {
   return appRef.current.renderer.generateTexture(graphics, PIXI.SCALE_MODES.LINEAR, 2);
 };
 
-const getGraphLinks = (instance, nodes) => {
-  const instanceLinks = [
-    ...instance.transports,
-    ...instance.input,
-    ...instance.output,
-    // ...instance.compounds,
-  ];
-  const links = [];
-  instanceLinks.forEach((link) => {
-    const sourceId = link.src;
-    const targetId = link.dest;
-    const source = nodes.find((node) => node.id === sourceId);
-    const target = nodes.find((node) => node.id === targetId);
-    if (source == null) {
-      console.warn(`Cannot find link source "${sourceId}"`);
-      return;
-    }
-    if (target == null) {
-      console.warn(`Cannot find link target "${targetId}"`);
-      return;
-    }
-    links.push({ source, target });
-  });
-
-  return links;
-};
-
 const createLinkGraphics = (nodes, links) => {
   const graphics = new PIXI.Graphics();
   graphics.alpha = 0.25;
@@ -97,64 +71,24 @@ export const renderElements = (appRef, containerRef, instance, toggleInspectorDr
   const width = containerRef.current.clientWidth;
   const height = containerRef.current.clientHeight;
 
-  const stocks = [];
-  const stockTexture = createTexture(appRef, { fillColor: '#003d00', lineColor: '#ffffff' });
-  for (const [index, stock] of instance.stocks.entries()) {
-    const sprite = new PIXI.Sprite(stockTexture);
-    sprite.id = stock.id;
-    sprite.x = Math.random() * width;
-    sprite.y = Math.random() * height;
-    sprite.index = index;
-    sprite.eventMode = 'static';
-    sprite.buttonMode = true;
-    sprite.scale.set((stock.initialStock / 500.0) * 0.5 + 0.8);
+  const textures = {
+    stock: createTexture(appRef, { fillColor: '#003d00', lineColor: '#ffffff' }),
+    productionResource: createTexture(appRef, { fillColor: '#3d0000', lineColor: '#ff0000' }),
+    productionOperation: createTexture(appRef, { fillColor: '#00003d', lineColor: '#4444ff' }),
+  };
 
-    sprite.on('click', toggleInspectorDrawer);
-    stocks.push(sprite);
-  }
-
-  const productionResources = [];
-  const productionResourceTexture = createTexture(appRef, { fillColor: '#3d0000', lineColor: '#ff0000' });
-  for (const [index, resource] of instance.production_resources.entries()) {
-    const sprite = new PIXI.Sprite(productionResourceTexture);
-    sprite.id = resource.id;
-    sprite.x = Math.random() * width;
-    sprite.y = Math.random() * height;
-    sprite.index = index;
-    sprite.eventMode = 'static';
-    sprite.buttonMode = true;
-    sprite.scale.set(Math.random() * 0.7 + 1.3);
-
-    sprite.anchor.x = 0.5;
-    sprite.anchor.y = 0.5;
-    sprite.rotation = Math.PI / 4;
-
-    sprite.on('click', toggleInspectorDrawer);
-    productionResources.push(sprite);
-  }
-
-  const productionOperations = [];
-  const productionOperationTexture = createTexture(appRef, { fillColor: '#00003d', lineColor: '#4444ff' });
-  for (const [index, operation] of instance.production_operations.entries()) {
-    const sprite = new PIXI.Sprite(productionOperationTexture);
-    sprite.id = operation.id;
-    sprite.x = Math.random() * width;
-    sprite.y = Math.random() * height;
-    sprite.index = index;
-    sprite.eventMode = 'static';
-    sprite.buttonMode = true;
-    sprite.scale.set(Math.random() * 0.7 + 1.3);
-
-    sprite.on('click', toggleInspectorDrawer);
-    productionOperations.push(sprite);
-  }
-
-  const nodes = [...stocks, ...productionResources, ...productionOperations];
-  const links = getGraphLinks(instance, nodes);
+  const { nodes, links } = getGraphFromInstance(instance, width, height);
 
   const linkGraphics = createLinkGraphics(nodes, links);
   appRef.current.stage.addChild(linkGraphics);
-  nodes.forEach((node) => appRef.current.stage.addChild(node));
 
-  return { stocks, productionResources, productionOperations };
+  nodes.forEach((node) => {
+    const sprite = new PIXI.Sprite(textures[node.type]);
+    sprite.x = node.x;
+    sprite.y = node.y;
+    sprite.eventMode = 'static';
+    sprite.buttonMode = true;
+    sprite.on('click', toggleInspectorDrawer);
+    appRef.current.stage.addChild(sprite);
+  });
 };
