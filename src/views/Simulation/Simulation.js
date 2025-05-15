@@ -8,7 +8,7 @@ const Simulation = () => {
   const [isInspectorDrawerOpen, setIsInspectorDrawerOpen] = useState(false);
   // const openInspectorDrawer = () => setIsInspectorDrawerOpen(true);
   const closeInspectorDrawer = () => setIsInspectorDrawerOpen(false);
-  const toggleInspectorDrawer = (previousValue) => setIsInspectorDrawerOpen(previousValue);
+  const toggleInspectorDrawer = () => setIsInspectorDrawerOpen((previousValue) => !previousValue);
 
   return (
     <Box sx={{ flexGrow: 1, height: '100%', width: '100%' }}>
