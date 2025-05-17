@@ -1,60 +1,73 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import React, { useEffect, useRef } from 'react';
-import { Application, Assets, Sprite, Graphics } from 'pixi.js';
+import { Application, Assets, Sprite } from 'pixi.js';
 
-const mainLoop = async () => {
+const mainLoop = async (containerRef, app) => {
   // Create a PixiJS application.
-  const app = new Application();
+
+  app.current = app;
 
   // Intialize the application.
-  await app.init({ background: '#1099bb', resizeTo: window });
+  await app.init({ background: '#000000', resizeTo: window });
 
   // Then adding the application's canvas to the DOM body.
-  document.body.appendChild(app.canvas);
+  containerRef.current.appendChild(app.canvas);
 
   // Load the bunny texture.
-  const texture = await Assets.load('../assets/frog.png');
+  const texture = await Assets.load('/assets/frog_1.png');
 
   // Create a new Sprite from an image path.
-  const bunny = new Sprite(texture);
+  const frogs = Array.from({ length: 100 }, () => new Sprite(texture));
 
-  // Add to stage.
-  app.stage.addChild(bunny);
+  frogs.forEach((frog, index) => {
+    app.stage.addChild(frog);
 
-  // Center the sprite's anchor point.
-  bunny.anchor.set(0.5);
-
-  // Move the sprite to the center of the screen.
-  bunny.x = app.screen.width / 2;
-  bunny.y = app.screen.height / 2;
+    frog.x = Math.floor(Math.random() * app.screen.width);
+    frog.y = Math.floor(Math.random() * app.screen.height);
+  });
 
   // Add an animation loop callback to the application's ticker.
-  app.ticker.add((time) => {
-    /**
-     * Just for fun, let's rotate mr rabbit a little.
-     * Time is a Ticker object which holds time related data.
-     * Here we use deltaTime, which is the time elapsed between the frame callbacks
-     * to create frame-independent transformation. Keeping the speed consistent.
-     */
-    bunny.rotation += 0.1 * time.deltaTime;
+  const FROG_STEP = 2;
+  const FROG_CHANGE_DIRECTION_PER_SECOND = 1;
+  const FPS = 60;
+
+  let elapsed = 0.0;
+  app.ticker.add((delta) => {
+    elapsed += delta.deltaTime;
+    const FPSModulo = elapsed % (FPS / FROG_CHANGE_DIRECTION_PER_SECOND);
+    frogs.forEach((frog) => {
+      if (FPSModulo > 0 && FPSModulo < 1) {
+        frog.direction = Math.floor(Math.random() * 4);
+      }
+      const frogStepAdjusted = FROG_STEP * delta.deltaTime;
+      if (frog.direction === 0 && frog.y > 0) {
+        frog.y -= frogStepAdjusted;
+      } else if (frog.direction === 1 && frog.y + frog.height < app.screen.height) {
+        frog.y += frogStepAdjusted;
+      } else if (frog.direction === 2 && frog.x > 0) {
+        frog.x -= frogStepAdjusted;
+      } else if (frog.direction === 3 && frog.x + frog.width < app.screen.width) {
+        frog.x += frogStepAdjusted;
+      }
+    });
   });
 };
 
 const MainPixiScene = () => {
-  const pixiContainer = useRef(null);
-  const scoreRef = useRef(0);
+  const containerRef = useRef(null);
+  const app = new Application();
 
   useEffect(() => {
-    mainLoop();
+    mainLoop(containerRef, app);
+
+    return () => {
+      app.destroy(true, { children: true });
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return (
-    <div>
-      <div ref={pixiContainer} />
-      <div>Score: {scoreRef.current}</div>
-    </div>
-  );
+  return <div ref={containerRef} />;
 };
 
 export default MainPixiScene;
