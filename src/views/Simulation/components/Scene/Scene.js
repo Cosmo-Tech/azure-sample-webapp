@@ -6,14 +6,15 @@ import { useTheme } from '@mui/styles';
 import flowchartInstance from '../../data/output.json';
 import { createApp, destroyApp } from './pixiUtils';
 
-const SceneContainer = ({ setSelectedElement }) => {
+const Scene = ({ setSelectedElement }) => {
   const theme = useTheme();
   const appRef = useRef(null);
   const containerRef = useRef(null);
+  const sceneContainerRef = useRef(null);
 
   useEffect(() => {
     const setup = async () => {
-      appRef.current = await createApp(containerRef, flowchartInstance, theme, setSelectedElement);
+      appRef.current = await createApp(containerRef, sceneContainerRef, flowchartInstance, theme, setSelectedElement);
     };
     setup();
 
@@ -30,8 +31,8 @@ const SceneContainer = ({ setSelectedElement }) => {
   );
 };
 
-SceneContainer.propTypes = {
+Scene.propTypes = {
   setSelectedElement: PropTypes.func.isRequired,
 };
 
-export default SceneContainer;
+export default Scene;
