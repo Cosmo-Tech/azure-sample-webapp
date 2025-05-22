@@ -53,11 +53,8 @@ export const renderElements = (mainContainer, containerRef, instance, toggleInsp
   });
 };
 
-export const createApp = () => {
-  return new Application();
-};
-
-export const initApp = async (app, containerRef, instance, theme, toggleInspectorDrawer) => {
+export const createApp = async (containerRef, instance, theme, toggleInspectorDrawer) => {
+  const app = new Application();
   await app.init({
     width: containerRef.current.clientWidth,
     height: containerRef.current.clientHeight,
@@ -76,6 +73,7 @@ export const initApp = async (app, containerRef, instance, theme, toggleInspecto
   app.stage.addChild(mainContainer);
 
   renderElements(mainContainer, containerRef, instance, toggleInspectorDrawer);
+  return app;
 };
 
 export const destroyApp = (app) => {

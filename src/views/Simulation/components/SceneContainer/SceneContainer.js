@@ -4,20 +4,20 @@ import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/styles';
 import flowchartInstance from '../../data/output.json';
-import { createApp, destroyApp, initApp } from './pixiUtils';
+import { createApp, destroyApp } from './pixiUtils';
 
 const SceneContainer = ({ toggleInspectorDrawer }) => {
   const theme = useTheme();
-
+  const appRef = useRef(null);
   const containerRef = useRef(null);
 
   useEffect(() => {
-    const app = createApp();
-    initApp(app, containerRef, flowchartInstance, theme, toggleInspectorDrawer);
-
-    return () => {
-      destroyApp(app);
+    const setup = async () => {
+      appRef.current = await createApp(containerRef, flowchartInstance, theme, toggleInspectorDrawer);
     };
+    setup();
+
+    return () => destroyApp(appRef.current);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
