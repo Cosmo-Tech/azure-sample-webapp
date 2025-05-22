@@ -77,8 +77,5 @@ export const createApp = async (containerRef, instance, theme, toggleInspectorDr
 };
 
 export const destroyApp = (app) => {
-  if (app.view && app.view.parentNode) {
-    app.view.parentNode.removeChild(app.view);
-  }
   app.destroy(true, { children: true });
 };
