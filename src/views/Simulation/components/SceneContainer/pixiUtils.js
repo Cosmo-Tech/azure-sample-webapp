@@ -78,9 +78,9 @@ export const initApp = async (app, containerRef, instance, theme, toggleInspecto
   renderElements(mainContainer, containerRef, instance, toggleInspectorDrawer);
 };
 
-export const destroyApp = async (app) => {
+export const destroyApp = (app) => {
   if (app.view && app.view.parentNode) {
     app.view.parentNode.removeChild(app.view);
   }
-  await app.destroy(true, { children: true });
+  app.destroy(true, { children: true });
 };

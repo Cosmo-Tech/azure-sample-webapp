@@ -15,8 +15,8 @@ const SceneContainer = ({ toggleInspectorDrawer }) => {
     const app = createApp();
     initApp(app, containerRef, flowchartInstance, theme, toggleInspectorDrawer);
 
-    return async () => {
-      await destroyApp(app);
+    return () => {
+      destroyApp(app);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
