@@ -1,6 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { Application, Graphics, GraphicsContext, Container } from 'pixi.js';
+import { Application, Graphics, GraphicsContext } from 'pixi.js';
 import 'pixi.js/unsafe-eval';
 import { getGraphFromInstance } from './graphUtils';
 
@@ -23,7 +23,7 @@ const createLinkGraphics = (links) => {
   return graphics;
 };
 
-export const renderElements = (mainContainer, containerRef, instance, toggleInspectorDrawer) => {
+export const renderElements = (app, containerRef, instance, toggleInspectorDrawer) => {
   const width = containerRef.current.clientWidth;
   const height = containerRef.current.clientHeight;
 
@@ -36,7 +36,7 @@ export const renderElements = (mainContainer, containerRef, instance, toggleInsp
   const { nodes, links } = getGraphFromInstance(instance, width, height);
 
   const linkGraphics = createLinkGraphics(links);
-  mainContainer.addChild(linkGraphics);
+  app.stage.addChild(linkGraphics);
 
   nodes.forEach((node) => {
     const graphics = new Graphics(graphicsContexts[node.type]);
@@ -49,7 +49,7 @@ export const renderElements = (mainContainer, containerRef, instance, toggleInsp
       event.stopPropagation();
       toggleInspectorDrawer();
     });
-    mainContainer.addChild(graphics);
+    app.stage.addChild(graphics);
   });
 };
 
@@ -69,10 +69,15 @@ export const createApp = async (containerRef, instance, theme, toggleInspectorDr
   app.canvas.style.height = '100%';
   app.canvas.style.display = 'block';
 
-  const mainContainer = new Container();
-  app.stage.addChild(mainContainer);
+  const handleResize = () => {
+    if (!containerRef.current || !app) return;
+    app.renderer.resize(containerRef.current.clientWidth, containerRef.current.clientHeight);
+    app.stage.removeChildren();
+    renderElements(app, containerRef, instance, toggleInspectorDrawer);
+  };
+  window.addEventListener('resize', handleResize);
 
-  renderElements(mainContainer, containerRef, instance, toggleInspectorDrawer);
+  renderElements(app, containerRef, instance, toggleInspectorDrawer);
   return app;
 };
 
