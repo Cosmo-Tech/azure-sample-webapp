@@ -23,7 +23,7 @@ const createLinkGraphics = (links) => {
   return graphics;
 };
 
-export const renderElements = (app, containerRef, instance, toggleInspectorDrawer) => {
+export const renderElements = (app, containerRef, instance, setSelectedElement) => {
   const width = containerRef.current.clientWidth;
   const height = containerRef.current.clientHeight;
 
@@ -47,13 +47,13 @@ export const renderElements = (app, containerRef, instance, toggleInspectorDrawe
     graphics.cursor = 'pointer';
     graphics.on('click', (event) => {
       event.stopPropagation();
-      toggleInspectorDrawer();
+      setSelectedElement(node);
     });
     app.stage.addChild(graphics);
   });
 };
 
-export const createApp = async (containerRef, instance, theme, toggleInspectorDrawer) => {
+export const createApp = async (containerRef, instance, theme, setSelectedElement) => {
   const app = new Application();
   await app.init({
     width: containerRef.current.clientWidth,
@@ -73,11 +73,11 @@ export const createApp = async (containerRef, instance, theme, toggleInspectorDr
     if (!containerRef.current || !app) return;
     app.renderer.resize(containerRef.current.clientWidth, containerRef.current.clientHeight);
     app.stage.removeChildren();
-    renderElements(app, containerRef, instance, toggleInspectorDrawer);
+    renderElements(app, containerRef, instance, setSelectedElement);
   };
   window.addEventListener('resize', handleResize);
 
-  renderElements(app, containerRef, instance, toggleInspectorDrawer);
+  renderElements(app, containerRef, instance, setSelectedElement);
   return app;
 };
 

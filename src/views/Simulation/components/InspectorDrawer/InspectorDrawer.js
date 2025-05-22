@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { Drawer } from '@mui/material';
 import { useResizableDrawer } from './ResizableDrawerHook';
 
-const InspectorDrawer = ({ data, onClose, open = true }) => {
+const InspectorDrawer = ({ data, selectedElement, clearSelection }) => {
   // Work-around to prevent animation glitch on first time the drawer is opened
   const [, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
@@ -15,8 +15,10 @@ const InspectorDrawer = ({ data, onClose, open = true }) => {
   return (
     <Drawer
       anchor="right"
-      open={open}
-      onClose={onClose}
+      hideBackdrop
+      variant="persistent"
+      open={selectedElement != null}
+      onClose={clearSelection}
       PaperProps={{ style: { width, position: 'absolute', backgroundColor: `rgba(0,0,0,0)`, backgroundImage: 'none' } }}
       BackdropProps={{ style: { position: 'absolute' } }}
       ModalProps={{
@@ -35,7 +37,7 @@ const InspectorDrawer = ({ data, onClose, open = true }) => {
           padding: '8px',
         }}
       >
-        inspector drawer placeholder
+        {selectedElement?.id}
       </div>
       <div
         onMouseDown={startResizing}
@@ -59,8 +61,8 @@ const InspectorDrawer = ({ data, onClose, open = true }) => {
 
 InspectorDrawer.propTypes = {
   data: PropTypes.object,
-  onClose: PropTypes.func.isRequired,
-  open: PropTypes.bool,
+  selectedElement: PropTypes.object,
+  clearSelection: PropTypes.func.isRequired,
 };
 
 export default InspectorDrawer;
