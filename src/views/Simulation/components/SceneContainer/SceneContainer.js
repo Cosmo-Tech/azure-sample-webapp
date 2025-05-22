@@ -1,23 +1,32 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Grid } from '@mui/material';
+import { useTheme } from '@mui/styles';
+import flowchartInstance from '../../data/output.json';
+import { createApp, destroyApp } from './pixiUtils';
 
 const SceneContainer = ({ toggleInspectorDrawer }) => {
+  const theme = useTheme();
+  const appRef = useRef(null);
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    const setup = async () => {
+      appRef.current = await createApp(containerRef, flowchartInstance, theme, toggleInspectorDrawer);
+    };
+    setup();
+
+    return () => destroyApp(appRef.current);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
-    <div style={{ height: '100%', backgroundColor: '#000000', textAlign: 'center' }}>
-      <Grid container direction="column" gap={4} justifyContent="center" style={{ height: '100%' }}>
-        <Grid item>
-          <span>scene container placeholder</span>
-        </Grid>
-        <Grid item>
-          <Button variant="contained" onClick={toggleInspectorDrawer}>
-            [WIP] toggle drawer
-          </Button>
-        </Grid>
-      </Grid>
-    </div>
+    <div
+      data-cy="pixi-d3-view"
+      ref={containerRef}
+      style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}
+    ></div>
   );
 };
 
