@@ -8,6 +8,14 @@ const MAX_NODE_WIDTH = 10;
 const getRandomXPosition = (width) => X_MARGIN + Math.random() * (width - 2 * X_MARGIN - MAX_NODE_WIDTH);
 const getRandomYPosition = (height) => Y_MARGIN + Math.random() * (height - 2 * Y_MARGIN - MAX_NODE_HEIGHT);
 
+const forgeElementData = (element, keysToHide = []) => {
+  const data = { ...element };
+  keysToHide.forEach((keyToHide) => {
+    if (keyToHide in data) delete data[keyToHide];
+  });
+  return data;
+};
+
 const getGraphLinks = (instance, nodes) => {
   const instanceLinks = [
     ...instance.transports,
@@ -29,19 +37,23 @@ const getGraphLinks = (instance, nodes) => {
       console.warn(`Cannot find link target "${targetId}"`);
       return;
     }
-    links.push({ source, target });
+    links.push({ source, target, data: forgeElementData(link) });
   });
 
   return links;
 };
 
 export const getGraphFromInstance = (instance, width, height) => {
-  const createNode = (node, type, x, y) => ({
-    id: node.id,
-    type,
-    x: x ?? getRandomXPosition(width),
-    y: y ?? getRandomYPosition(height),
-  });
+  const createNode = (node, type, x, y) => {
+    return {
+      id: node.id,
+      type,
+      x: x ?? getRandomXPosition(width),
+      y: y ?? getRandomYPosition(height),
+      data: forgeElementData(node, ['id', 'latitude', 'longitude']),
+    };
+  };
+
   const stocks = instance.stocks.map((stock) => createNode(stock, 'stock'));
   const productionResources = instance.production_resources.map((stock) => createNode(stock, 'productionResource'));
   const productionOperations = instance.production_operations.map((stock) => createNode(stock, 'productionOperation'));

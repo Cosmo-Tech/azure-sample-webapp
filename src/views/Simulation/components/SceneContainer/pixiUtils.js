@@ -11,19 +11,23 @@ const createGraphicsContext = (options) => {
     .stroke({ color: options.lineColor, width: 0.75 });
 };
 
-const createLinkGraphics = (links) => {
-  const graphics = new Graphics();
-  graphics.alpha = 0.25;
-  links.forEach((link) => {
+const createLinkGraphics = (links, setSelectedElement) => {
+  return links.map((link) => {
+    const graphics = new Graphics();
+    graphics.alpha = 0.25;
+    graphics.eventMode = 'static';
+    graphics.cursor = 'pointer';
+
     const { source, target } = link;
     graphics.moveTo(source.x + 4, source.y + 4);
     graphics.lineTo(target.x + 4, target.y + 4);
+    graphics.stroke({ width: 1, color: '#FFFFFF' });
+    graphics.on('click', (event) => setSelectedElement(link));
+    return graphics;
   });
-  graphics.stroke({ width: 1, color: '#FFFFFF' });
-  return graphics;
 };
 
-export const renderElements = (app, containerRef, instance, toggleInspectorDrawer) => {
+export const renderElements = (app, containerRef, instance, setSelectedElement) => {
   const width = containerRef.current.clientWidth;
   const height = containerRef.current.clientHeight;
 
@@ -35,25 +39,21 @@ export const renderElements = (app, containerRef, instance, toggleInspectorDrawe
 
   const { nodes, links } = getGraphFromInstance(instance, width, height);
 
-  const linkGraphics = createLinkGraphics(links);
-  app.stage.addChild(linkGraphics);
+  const linkGraphics = createLinkGraphics(links, setSelectedElement);
+  linkGraphics.forEach((link) => app.stage.addChild(link));
 
   nodes.forEach((node) => {
     const graphics = new Graphics(graphicsContexts[node.type]);
     graphics.x = node.x;
     graphics.y = node.y;
     graphics.eventMode = 'static';
-
     graphics.cursor = 'pointer';
-    graphics.on('click', (event) => {
-      event.stopPropagation();
-      toggleInspectorDrawer();
-    });
+    graphics.on('click', (event) => setSelectedElement(node));
     app.stage.addChild(graphics);
   });
 };
 
-export const createApp = async (containerRef, instance, theme, toggleInspectorDrawer) => {
+export const createApp = async (containerRef, instance, theme, setSelectedElement) => {
   const app = new Application();
   await app.init({
     width: containerRef.current.clientWidth,
@@ -73,11 +73,11 @@ export const createApp = async (containerRef, instance, theme, toggleInspectorDr
     if (!containerRef.current || !app) return;
     app.renderer.resize(containerRef.current.clientWidth, containerRef.current.clientHeight);
     app.stage.removeChildren();
-    renderElements(app, containerRef, instance, toggleInspectorDrawer);
+    renderElements(app, containerRef, instance, setSelectedElement);
   };
   window.addEventListener('resize', handleResize);
 
-  renderElements(app, containerRef, instance, toggleInspectorDrawer);
+  renderElements(app, containerRef, instance, setSelectedElement);
   return app;
 };
 
