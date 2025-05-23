@@ -11,16 +11,20 @@ const createGraphicsContext = (options) => {
     .stroke({ color: options.lineColor, width: 0.75 });
 };
 
-const createLinkGraphics = (links) => {
-  const graphics = new Graphics();
-  graphics.alpha = 0.25;
-  links.forEach((link) => {
+const createLinkGraphics = (links, setSelectedElement) => {
+  return links.map((link) => {
+    const graphics = new Graphics();
+    graphics.alpha = 0.25;
+    graphics.eventMode = 'static';
+    graphics.cursor = 'pointer';
+
     const { source, target } = link;
     graphics.moveTo(source.x + 4, source.y + 4);
     graphics.lineTo(target.x + 4, target.y + 4);
+    graphics.stroke({ width: 1, color: '#FFFFFF' });
+    graphics.on('click', (event) => setSelectedElement(link));
+    return graphics;
   });
-  graphics.stroke({ width: 1, color: '#FFFFFF' });
-  return graphics;
 };
 
 export const renderElements = (app, containerRef, instance, setSelectedElement) => {
@@ -35,20 +39,16 @@ export const renderElements = (app, containerRef, instance, setSelectedElement) 
 
   const { nodes, links } = getGraphFromInstance(instance, width, height);
 
-  const linkGraphics = createLinkGraphics(links);
-  app.stage.addChild(linkGraphics);
+  const linkGraphics = createLinkGraphics(links, setSelectedElement);
+  linkGraphics.forEach((link) => app.stage.addChild(link));
 
   nodes.forEach((node) => {
     const graphics = new Graphics(graphicsContexts[node.type]);
     graphics.x = node.x;
     graphics.y = node.y;
     graphics.eventMode = 'static';
-
     graphics.cursor = 'pointer';
-    graphics.on('click', (event) => {
-      event.stopPropagation();
-      setSelectedElement(node);
-    });
+    graphics.on('click', (event) => setSelectedElement(node));
     app.stage.addChild(graphics);
   });
 };

@@ -2,8 +2,9 @@
 // Licensed under the MIT license.
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Drawer } from '@mui/material';
+import { Card, Drawer } from '@mui/material';
 import { useResizableDrawer } from './ResizableDrawerHook';
+import { ElementDetails, InspectorHeader } from './components';
 
 const InspectorDrawer = ({ data, selectedElement, clearSelection }) => {
   // Work-around to prevent animation glitch on first time the drawer is opened
@@ -27,18 +28,18 @@ const InspectorDrawer = ({ data, selectedElement, clearSelection }) => {
         keepMounted: true,
       }}
     >
-      <div
+      <Card
         style={{
           borderRadius: '8px',
           height: '100%',
-          backgroundColor: '#232323',
-          textAlign: 'center',
           marginLeft: '16px',
-          padding: '8px',
+          padding: '24px',
+          overflowX: 'auto',
         }}
       >
-        {selectedElement?.id}
-      </div>
+        <InspectorHeader selectedElement={selectedElement} clearSelection={clearSelection} />
+        <ElementDetails selectedElement={selectedElement} />
+      </Card>
       <div
         onMouseDown={startResizing}
         style={{
