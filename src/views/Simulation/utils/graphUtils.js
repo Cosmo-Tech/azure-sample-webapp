@@ -5,8 +5,8 @@ const X_MARGIN = 20;
 const Y_MARGIN = 20;
 const MAX_NODE_HEIGHT = 10;
 const MAX_NODE_WIDTH = 10;
-const getRandomXPosition = (width) => X_MARGIN + Math.random() * (width - 2 * X_MARGIN - MAX_NODE_WIDTH);
-const getRandomYPosition = (height) => Y_MARGIN + Math.random() * (height - 2 * Y_MARGIN - MAX_NODE_HEIGHT);
+const getAbsoluteXPosition = (width, x) => X_MARGIN + x * (width - 2 * X_MARGIN - MAX_NODE_WIDTH);
+const getAbsoluteYPosition = (height, y) => Y_MARGIN + y * (height - 2 * Y_MARGIN - MAX_NODE_HEIGHT);
 
 const forgeElementData = (element, keysToHide = []) => {
   const data = { ...element };
@@ -17,39 +17,36 @@ const forgeElementData = (element, keysToHide = []) => {
 };
 
 const getGraphLinks = (instance, nodes) => {
-  const instanceLinks = [
-    ...instance.transports,
-    ...instance.input,
-    ...instance.output,
-    // ...instance.compounds,
-  ];
   const links = [];
-  instanceLinks.forEach((link) => {
-    const sourceId = link.src;
-    const targetId = link.dest;
-    const source = nodes.find((node) => node.id === sourceId);
-    const target = nodes.find((node) => node.id === targetId);
-    if (source == null) {
-      console.warn(`Cannot find link source "${sourceId}"`);
-      return;
-    }
-    if (target == null) {
-      console.warn(`Cannot find link target "${targetId}"`);
-      return;
-    }
-    links.push({ source, target, data: forgeElementData(link) });
+  Object.entries(instance).forEach(([type, elements]) => {
+    if (['transports', 'input', 'output'].includes(type) === false) return;
+    elements.forEach((link) => {
+      const sourceId = link.src;
+      const targetId = link.dest;
+      const source = nodes.find((node) => node.id === sourceId);
+      const target = nodes.find((node) => node.id === targetId);
+      if (source == null) {
+        console.warn(`Cannot find link source "${sourceId}"`);
+        return;
+      }
+      if (target == null) {
+        console.warn(`Cannot find link target "${targetId}"`);
+        return;
+      }
+      links.push({ type, source, target, data: forgeElementData(link) });
+    });
   });
 
   return links;
 };
 
-export const getGraphFromInstance = (instance, width, height) => {
+export const getGraphFromInstance = (instance) => {
   const createNode = (node, type, x, y) => {
     return {
       id: node.id,
       type,
-      x: x ?? getRandomXPosition(width),
-      y: y ?? getRandomYPosition(height),
+      xRelative: x ?? Math.random(),
+      yRelative: y ?? Math.random(),
       data: forgeElementData(node, ['id', 'latitude', 'longitude']),
     };
   };
@@ -61,4 +58,13 @@ export const getGraphFromInstance = (instance, width, height) => {
   const nodes = [...stocks, ...productionResources, ...productionOperations];
   const links = getGraphLinks(instance, nodes);
   return { nodes, links };
+};
+
+export const resetGraphLayout = (graphRef, width, height) => {
+  if (graphRef.current == null) return;
+
+  graphRef.current.nodes.forEach((node) => {
+    node.x = getAbsoluteXPosition(width, node.xRelative);
+    node.y = getAbsoluteYPosition(height, node.yRelative);
+  });
 };

@@ -3,7 +3,6 @@
 import { Application, Graphics, GraphicsContext } from 'pixi.js';
 import 'pixi.js/unsafe-eval';
 import { SceneContainer } from './SceneContainer';
-import { getGraphFromInstance } from './graphUtils';
 
 const createGraphicsContext = (options) => {
   return new GraphicsContext()
@@ -29,17 +28,15 @@ const createLinkGraphics = (links, setSelectedElement) => {
   });
 };
 
-export const renderElements = (sceneContainerRef, containerRef, instance, setSelectedElement) => {
-  const width = containerRef.current.clientWidth;
-  const height = containerRef.current.clientHeight;
+export const renderElements = (sceneContainerRef, containerRef, graphRef, setSelectedElement) => {
+  if (!graphRef.current || !sceneContainerRef.current) return;
+  const { nodes, links } = graphRef.current;
 
   const graphicsContexts = {
     stock: createGraphicsContext({ fillColor: '#003d00', lineColor: '#ffffff' }),
     productionResource: createGraphicsContext({ fillColor: '#3d0000', lineColor: '#ff0000' }),
     productionOperation: createGraphicsContext({ fillColor: '#00003d', lineColor: '#4444ff' }),
   };
-
-  const { nodes, links } = getGraphFromInstance(instance, width, height);
 
   const linkGraphics = createLinkGraphics(links, setSelectedElement);
   linkGraphics.forEach((link) => sceneContainerRef.current.addChild(link));
@@ -55,8 +52,18 @@ export const renderElements = (sceneContainerRef, containerRef, instance, setSel
   });
 };
 
-export const createApp = async (containerRef, sceneContainerRef, instance, theme, setSelectedElement) => {
-  const app = new Application();
+export const createApp = () => new Application();
+
+export const initApp = async (
+  appRef,
+  containerRef,
+  sceneContainerRef,
+  graphRef,
+  resetGraphLayout,
+  theme,
+  setSelectedElement
+) => {
+  const app = appRef.current;
   await app.init({
     width: containerRef.current.clientWidth,
     height: containerRef.current.clientHeight,
@@ -77,17 +84,19 @@ export const createApp = async (containerRef, sceneContainerRef, instance, theme
   app.stage.addChild(sceneContainerRef.current);
 
   const handleResize = () => {
-    if (!containerRef.current || !app) return;
+    if (!containerRef.current || !app?.renderer) return;
     app.renderer.resize(containerRef.current.clientWidth, containerRef.current.clientHeight);
+    resetGraphLayout(containerRef.current.clientWidth, containerRef.current.clientHeight);
+
     sceneContainerRef.current.removeChildren();
-    renderElements(sceneContainerRef, containerRef, instance, setSelectedElement);
+    renderElements(sceneContainerRef, containerRef, graphRef, setSelectedElement);
   };
   window.addEventListener('resize', handleResize);
 
-  renderElements(sceneContainerRef, containerRef, instance, setSelectedElement);
-  return app;
+  renderElements(sceneContainerRef, containerRef, graphRef, setSelectedElement);
 };
 
 export const destroyApp = (app) => {
+  if (!app?.renderer) return;
   app.destroy(true, { children: true });
 };

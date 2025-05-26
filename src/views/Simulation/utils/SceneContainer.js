@@ -6,6 +6,10 @@ const MIN_ZOOM = 1;
 const MAX_ZOOM = 8;
 const ZOOM_SPEED = 0.1;
 
+const interpolateLinear = (a, b, t) => {
+  return a + (b - a) * t;
+};
+
 export class SceneContainer extends Container {
   constructor(app, containerRef) {
     super();
@@ -23,35 +27,56 @@ export class SceneContainer extends Container {
 
     this.interactive = true;
 
-    containerRef.current.addEventListener('wheel', (event) => this.zoomWithWheel(event, app));
-    containerRef.current.addEventListener('pointerdown', (event) => this.onDragStart(event));
-    containerRef.current.addEventListener('pointerup', () => this.onDragEnd());
-    containerRef.current.addEventListener('pointerupoutside', () => this.onDragEnd());
-    containerRef.current.addEventListener('pointermove', (event) => this.onDragMove(event));
-
+    this.translateTo = this.translateTo.bind(this);
+    this.moveTowardTargetPosition = this.moveTowardTargetPosition.bind(this);
+    this.zoomWithWheel = this.zoomWithWheel.bind(this);
     this.backToOrigin = this.backToOrigin.bind(this);
     this.onDragStart = this.onDragStart.bind(this);
     this.onDragMove = this.onDragMove.bind(this);
     this.onDragEnd = this.onDragEnd.bind(this);
+
+    containerRef.current.addEventListener('wheel', this.zoomWithWheel);
+    // Use window.addEventListener instead?
+    containerRef.current.addEventListener('pointerdown', this.onDragStart);
+    containerRef.current.addEventListener('pointerup', this.onDragEnd);
+    containerRef.current.addEventListener('pointerupoutside', this.onDragEnd);
+    containerRef.current.addEventListener('pointermove', this.onDragMove);
   }
 
-  backToOrigin() {
-    const interpolateLinear = (a, b, t) => {
-      return a + (b - a) * t;
-    };
+  destroy(containerRef) {
+    if (!containerRef.current) return;
+    containerRef.current.removeEventListener('wheel', this.zoomWithWheel);
+    containerRef.current.removeEventListener('pointerdown', this.onDragStart);
+    containerRef.current.removeEventListener('pointerup', this.onDragEnd);
+    containerRef.current.removeEventListener('pointerupoutside', this.onDragEnd);
+    containerRef.current.removeEventListener('pointermove', this.onDragMove);
+  }
 
-    this.x = interpolateLinear(this.x, 0, 0.1);
-    this.y = interpolateLinear(this.y, 0, 0.1);
-
-    const nearZero = Math.abs(this.x) < 0.5 && Math.abs(this.y) < 0.5;
-    if (nearZero) {
-      this.position.set(0, 0);
-      this.app.ticker.remove(this.backToOrigin);
+  moveTowardTargetPosition() {
+    this.x = interpolateLinear(this.x, this.targetX, 0.1);
+    this.y = interpolateLinear(this.y, this.targetY, 0.1);
+    const nearTarget = Math.abs(this.targetX - this.x) < 0.5 && Math.abs(this.targetY - this.y) < 0.5;
+    if (nearTarget) {
+      this.position.set(this.targetX, this.targetY);
+      this.app.ticker.remove(this.moveTowardTargetPosition);
       this.tickerAttached = false;
+    } else if (!this.tickerAttached) {
+      this.tickerAttached = true;
+      this.app.ticker.add(this.moveTowardTargetPosition);
     }
   }
 
-  zoomWithWheel(event, app) {
+  translateTo(x, y) {
+    this.targetX = x;
+    this.targetY = y;
+    this.moveTowardTargetPosition();
+  }
+
+  backToOrigin() {
+    this.translateTo(0, 0);
+  }
+
+  zoomWithWheel(event) {
     const zoomDirection = event.deltaY < 0 ? 1 : -1;
 
     const mouseScreenPosition = new Point(event.offsetX, event.offsetY);
@@ -68,10 +93,9 @@ export class SceneContainer extends Container {
     this.y += mouseScreenPosition.y - newScreenPos.y;
 
     if (isZoomingOutToDefault && !this.tickerAttached) {
-      this.tickerAttached = true;
-      app.ticker.add(this.backToOrigin);
+      this.backToOrigin();
     } else if (this.tickerAttached && zoomDirection === 1) {
-      app.ticker.remove(this.backToOrigin);
+      this.app.ticker.remove(this.backToOrigin);
       this.tickerAttached = false;
     }
   }
