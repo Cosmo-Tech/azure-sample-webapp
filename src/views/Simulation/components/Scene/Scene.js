@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/styles';
 import flowchartInstance from '../../data/output.json';
-import { createApp, destroyApp } from './pixiUtils';
+import { createApp, destroyApp } from '../../utils/pixiUtils';
 
 const Scene = ({ setSelectedElement }) => {
   const theme = useTheme();
