@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 import { Application, Graphics, GraphicsContext, Container, Text } from 'pixi.js';
 import 'pixi.js/unsafe-eval';
+import { MinimapContainer } from './MinimapContainer';
 import { SceneContainer } from './SceneContainer';
 import { PACKAGE_ICON_LINES, GEAR_ICON_LINES, FACTORY_ICON_LINES } from './shapes';
 
@@ -163,8 +164,9 @@ const createNodeContainer = (graphicsContexts, node) => {
   return container;
 };
 
-export const renderElements = (sceneContainerRef, containerRef, graphRef, setSelectedElement, settings) => {
-  if (!graphRef.current || !sceneContainerRef.current) return;
+export const renderElements = (mainContainer, graphRef, setSelectedElement, settings) => {
+  if (!graphRef.current || !mainContainer) return;
+
   const { nodes, links } = graphRef.current;
 
   const graphicsContexts = {
@@ -184,20 +186,20 @@ export const renderElements = (sceneContainerRef, containerRef, graphRef, setSel
   };
 
   const linkGraphics = createLinkGraphics(links, setSelectedElement, settings);
-  linkGraphics.forEach((link) => sceneContainerRef.current.addChild(link));
+  linkGraphics.forEach((link) => mainContainer.addChild(link));
 
   nodes.forEach((node) => {
     const container = createNodeContainer(graphicsContexts, node);
     container.on('click', (event) => setSelectedElement(node));
-    sceneContainerRef.current.addChild(container);
+    mainContainer.addChild(container);
   });
 };
 
 export const createApp = () => new Application();
 
 export const initApp = async (
-  appRef,
-  containerRef,
+  sceneAppRef,
+  sceneCanvasRef,
   sceneContainerRef,
   graphRef,
   resetGraphLayout,
@@ -205,39 +207,79 @@ export const initApp = async (
   setSelectedElement,
   settings
 ) => {
-  const app = appRef.current;
+  const app = sceneAppRef.current;
+  const canvas = sceneCanvasRef.current;
+
   await app.init({
-    width: containerRef.current.clientWidth,
-    height: containerRef.current.clientHeight,
+    width: canvas.clientWidth,
+    height: canvas.clientHeight,
     backgroundColor: theme.palette.background.default,
     resolution: window.devicePixelRatio || 1,
     autoDensity: true,
     antialias: true,
   });
 
-  containerRef.current.appendChild(app.canvas);
+  canvas.appendChild(app.canvas);
   app.canvas.style.width = '100%';
   app.canvas.style.height = '100%';
   app.canvas.style.display = 'block';
-  containerRef.current.hitArea = app.screen;
-  containerRef.current.eventMode = 'static';
+  canvas.hitArea = app.screen;
+  canvas.eventMode = 'static';
 
-  sceneContainerRef.current = new SceneContainer(app, containerRef);
+  sceneContainerRef.current = new SceneContainer(app, sceneCanvasRef);
   app.stage.addChild(sceneContainerRef.current);
 
   const handleResize = () => {
-    if (!containerRef.current || !app?.renderer) return;
-    app.renderer.resize(containerRef.current.clientWidth, containerRef.current.clientHeight);
-    resetGraphLayout(containerRef.current.clientWidth, containerRef.current.clientHeight);
+    if (!canvas || !app?.renderer) return;
+    app.renderer.resize(canvas.clientWidth, canvas.clientHeight);
+    resetGraphLayout(canvas.clientWidth, canvas.clientHeight);
 
     sceneContainerRef.current.removeChildren();
-    renderElements(sceneContainerRef, containerRef, graphRef, setSelectedElement, settings);
+    renderElements(sceneContainerRef.current, graphRef, setSelectedElement, settings);
   };
   window.addEventListener('resize', handleResize);
-  renderElements(sceneContainerRef, containerRef, graphRef, setSelectedElement, settings);
+
+  renderElements(sceneContainerRef.current, graphRef, setSelectedElement, settings);
 };
 
 export const destroyApp = (app) => {
   if (!app?.renderer) return;
   app.destroy(true, { children: true });
+};
+
+export const initMinimap = async (minimapAppRef, minimapContainerRef, minimapCanvasRef, sceneContainerRef, theme) => {
+  const minimapApp = minimapAppRef.current;
+  const minimapCanvas = minimapCanvasRef.current;
+  const sceneContainer = sceneContainerRef.current;
+
+  minimapContainerRef.current = new MinimapContainer(sceneContainer, minimapApp);
+
+  const minimapContainer = minimapContainerRef.current;
+
+  minimapApp.stage.addChild(minimapContainer);
+
+  await minimapApp.init({
+    width: MinimapContainer.getMinimapSize().width,
+    height: MinimapContainer.getMinimapSize().height,
+    backgroundColor: theme.palette.background.default,
+    resolution: window.devicePixelRatio || 1,
+    autoDensity: true,
+    antialias: true,
+  });
+
+  minimapCanvas.appendChild(minimapApp.canvas);
+  minimapApp.canvas.style.width = '100%';
+  minimapApp.canvas.style.height = '100%';
+  minimapApp.canvas.style.display = 'block';
+  minimapCanvas.hitArea = minimapApp.screen;
+  minimapCanvas.eventMode = 'static';
+
+  const handleResizeMinimap = () => {
+    if (!minimapContainer || !minimapApp?.renderer) return;
+    minimapContainer.removeChildren();
+    minimapContainer.renderElements();
+  };
+  window.addEventListener('resize', handleResizeMinimap);
+
+  return minimapApp;
 };

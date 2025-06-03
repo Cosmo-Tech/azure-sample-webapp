@@ -1,27 +1,34 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/styles';
 import { useSimulationViewContext } from '../../SimulationViewContext';
-import { createApp, destroyApp, initApp, renderElements } from '../../utils/pixiUtils';
+import { createApp, destroyApp, initApp, initMinimap, renderElements } from '../../utils/pixiUtils';
+import { Minimap } from './Minimap';
 
 const Scene = ({ setSelectedElement }) => {
   const theme = useTheme();
   const { graphRef, resetGraphLayout, setCenterToPosition, needsReRendering, settings } = useSimulationViewContext();
 
-  const appRef = useRef(null);
-  const containerRef = useRef(null);
+  const sceneAppRef = useRef(null);
+  const minimapAppRef = useRef(null);
+  const minimapContainerRef = useRef(null);
+  const sceneCanvasRef = useRef(null);
+  const minimapCanvasRef = useRef(null);
   const sceneContainerRef = useRef(null);
 
+  const [, forceRender] = useState(0);
+
   useEffect(() => {
-    appRef.current = createApp();
+    sceneAppRef.current = createApp();
+    minimapAppRef.current = createApp();
 
     const setup = async () => {
-      resetGraphLayout(containerRef.current.clientWidth, containerRef.current.clientHeight);
+      resetGraphLayout(sceneCanvasRef.current.clientWidth, sceneCanvasRef.current.clientHeight);
       await initApp(
-        appRef,
-        containerRef,
+        sceneAppRef,
+        sceneCanvasRef,
         sceneContainerRef,
         graphRef,
         resetGraphLayout,
@@ -29,22 +36,28 @@ const Scene = ({ setSelectedElement }) => {
         setSelectedElement,
         settings
       );
+
+      await initMinimap(minimapAppRef, minimapContainerRef, minimapCanvasRef, sceneContainerRef, theme);
+
+      forceRender((prev) => prev + 1);
     };
     setup();
 
     return () => {
-      destroyApp(appRef.current);
+      destroyApp(sceneAppRef.current);
+      destroyApp(minimapAppRef.current);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      sceneContainerRef.current.destroy(containerRef);
+      sceneContainerRef.current.destroy(sceneCanvasRef);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    resetGraphLayout(containerRef.current.clientWidth, containerRef.current.clientHeight);
+    resetGraphLayout(sceneCanvasRef.current.clientWidth, sceneCanvasRef.current.clientHeight);
     if (sceneContainerRef.current) sceneContainerRef.current.removeChildren();
-    renderElements(sceneContainerRef, containerRef, graphRef, setSelectedElement, settings);
-  }, [needsReRendering, sceneContainerRef, containerRef, graphRef, setSelectedElement, resetGraphLayout, settings]);
+    renderElements(sceneContainerRef.current, graphRef, setSelectedElement, settings);
+    if (minimapContainerRef.current != null) minimapContainerRef.current?.renderElements();
+  }, [needsReRendering, sceneContainerRef, sceneCanvasRef, graphRef, setSelectedElement, resetGraphLayout, settings]);
 
   const centerToPosition = useCallback(
     () => (x, y) => {
@@ -59,11 +72,14 @@ const Scene = ({ setSelectedElement }) => {
   }, [centerToPosition, setCenterToPosition]);
 
   return (
-    <div
-      data-cy="pixi-d3-view"
-      ref={containerRef}
-      style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}
-    ></div>
+    <>
+      <div
+        data-cy="pixi-d3-view"
+        ref={sceneCanvasRef}
+        style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}
+      ></div>
+      <Minimap ref={minimapCanvasRef} sceneContainer={sceneContainerRef.current} />
+    </>
   );
 };
 

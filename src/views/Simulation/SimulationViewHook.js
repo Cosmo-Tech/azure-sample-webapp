@@ -30,6 +30,7 @@ export const useSimulationView = () => {
   const resetGraphLayout = useCallback(
     (width, height) => {
       resetLayout(graphRef, width, height, settings);
+
       setNeedsReRendering(true);
     },
     [graphRef, settings]
