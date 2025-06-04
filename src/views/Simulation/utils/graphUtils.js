@@ -1,12 +1,18 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
+import { applyDagreLayout } from './layoutUtils';
 
-const X_MARGIN = 20;
-const Y_MARGIN = 20;
-const MAX_NODE_HEIGHT = 10;
-const MAX_NODE_WIDTH = 10;
-const getAbsoluteXPosition = (width, x) => X_MARGIN + x * (width - 2 * X_MARGIN - MAX_NODE_WIDTH);
-const getAbsoluteYPosition = (height, y) => Y_MARGIN + y * (height - 2 * Y_MARGIN - MAX_NODE_HEIGHT);
+const DEFAULT_GRAPH_OPTIONS = {
+  graph: {
+    rankdir: 'LR',
+    marginx: 20,
+    marginy: 20,
+    edgesep: 10,
+    nodesep: 25, // Vertical spacing, keep it low to have a more compact view
+    ranksep: 100, // Horizontal spacing
+  },
+  nodes: { width: 80, height: 96 },
+};
 
 const forgeElementData = (element, keysToHide = []) => {
   const data = { ...element };
@@ -68,38 +74,25 @@ const getGraphLinks = (instance, nodes) => {
 };
 
 export const getGraphFromInstance = (instance) => {
-  const createNode = (node, type, x, y) => {
+  const createNode = (node, type) => {
     return {
       id: node.id,
       type,
-      xRelative: x ?? Math.random(),
-      yRelative: y ?? Math.random(),
       data: forgeElementData(node, ['id', 'latitude', 'longitude']),
-    };
-  };
-
-  const createSubElement = (subElement, type) => {
-    return {
-      id: subElement.id,
-      type,
-      data: forgeElementData(subElement, ['id', 'latitude', 'longitude']),
     };
   };
 
   const stocks = instance.stocks.map((el) => createNode(el, 'stock'));
   const productionResources = instance.production_resources.map((el) => createNode(el, 'productionResource'));
-  const operations = instance.production_operations.map((el) => createSubElement(el, 'productionOperation'));
+  const operations = instance.production_operations.map((el) => createNode(el, 'productionOperation'));
 
   const nodes = [...stocks, ...productionResources];
   const links = getGraphLinks(instance, nodes);
+  applyDagreLayout(nodes, links, DEFAULT_GRAPH_OPTIONS);
   return { nodes, operations, links };
 };
 
 export const resetGraphLayout = (graphRef, width, height) => {
   if (graphRef.current == null) return;
-
-  graphRef.current.nodes.forEach((node) => {
-    node.x = getAbsoluteXPosition(width, node.xRelative);
-    node.y = getAbsoluteYPosition(height, node.yRelative);
-  });
+  applyDagreLayout(graphRef.current.nodes, graphRef.current.links, DEFAULT_GRAPH_OPTIONS);
 };
