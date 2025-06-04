@@ -7,6 +7,7 @@
     "@cosmotech/azure": "^2.0.1",
     "@cosmotech/core": "^2.0.0",
     "@cosmotech/ui": "^9.6.0",
+    "@dagrejs/dagre": "^1.1.4",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@microsoft/applicationinsights-web": "^3.3.6",
