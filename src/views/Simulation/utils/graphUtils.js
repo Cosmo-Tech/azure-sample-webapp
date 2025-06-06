@@ -2,18 +2,6 @@
 // Licensed under the MIT license.
 import { applyDagreLayout } from './layoutUtils';
 
-const DEFAULT_GRAPH_OPTIONS = {
-  graph: {
-    rankdir: 'LR',
-    marginx: 20,
-    marginy: 20,
-    edgesep: 10,
-    nodesep: 25, // Vertical spacing, keep it low to have a more compact view
-    ranksep: 100, // Horizontal spacing
-  },
-  nodes: { width: 80, height: 96 },
-};
-
 const forgeElementData = (element, keysToHide = []) => {
   const data = { ...element };
   keysToHide.forEach((keyToHide) => {
@@ -73,7 +61,7 @@ const getGraphLinks = (instance, nodes) => {
   return [...getTransportLinks(instance, nodes), ...getInputLinks(instance, nodes), ...getOutputLinks(instance, nodes)];
 };
 
-export const getGraphFromInstance = (instance) => {
+export const getGraphFromInstance = (instance, settings) => {
   const createNode = (node, type) => {
     return {
       id: node.id,
@@ -88,11 +76,11 @@ export const getGraphFromInstance = (instance) => {
 
   const nodes = [...stocks, ...productionResources];
   const links = getGraphLinks(instance, nodes);
-  applyDagreLayout(nodes, links, DEFAULT_GRAPH_OPTIONS);
+  applyDagreLayout(nodes, links, settings);
   return { nodes, operations, links };
 };
 
-export const resetGraphLayout = (graphRef, width, height) => {
+export const resetGraphLayout = (graphRef, width, height, settings) => {
   if (graphRef.current == null) return;
-  applyDagreLayout(graphRef.current.nodes, graphRef.current.links, DEFAULT_GRAPH_OPTIONS);
+  applyDagreLayout(graphRef.current.nodes, graphRef.current.links, settings);
 };

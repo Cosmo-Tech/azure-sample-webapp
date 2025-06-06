@@ -23,15 +23,16 @@ export const useSimulationView = () => {
   const graphRef = useRef(null);
 
   useEffect(() => {
-    graphRef.current = getGraphFromInstance(flowchartInstance);
-  }, [currentScenarioId]);
+    graphRef.current = getGraphFromInstance(flowchartInstance, settings);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentScenarioId]); // Do not reload graph data when settings change
 
   const resetGraphLayout = useCallback(
     (width, height) => {
-      resetLayout(graphRef, width, height);
+      resetLayout(graphRef, width, height, settings);
       setNeedsReRendering(true);
     },
-    [graphRef]
+    [graphRef, settings]
   );
 
   return {

@@ -8,7 +8,7 @@ import { createApp, destroyApp, initApp, renderElements } from '../../utils/pixi
 
 const Scene = ({ setSelectedElement }) => {
   const theme = useTheme();
-  const { graphRef, resetGraphLayout, setCenterToPosition, needsReRendering } = useSimulationViewContext();
+  const { graphRef, resetGraphLayout, setCenterToPosition, needsReRendering, settings } = useSimulationViewContext();
 
   const appRef = useRef(null);
   const containerRef = useRef(null);
@@ -19,7 +19,16 @@ const Scene = ({ setSelectedElement }) => {
 
     const setup = async () => {
       resetGraphLayout(containerRef.current.clientWidth, containerRef.current.clientHeight);
-      await initApp(appRef, containerRef, sceneContainerRef, graphRef, resetGraphLayout, theme, setSelectedElement);
+      await initApp(
+        appRef,
+        containerRef,
+        sceneContainerRef,
+        graphRef,
+        resetGraphLayout,
+        theme,
+        setSelectedElement,
+        settings
+      );
     };
     setup();
 
@@ -33,8 +42,9 @@ const Scene = ({ setSelectedElement }) => {
 
   useEffect(() => {
     resetGraphLayout(containerRef.current.clientWidth, containerRef.current.clientHeight);
-    renderElements(sceneContainerRef, containerRef, graphRef, setSelectedElement);
-  }, [needsReRendering, sceneContainerRef, containerRef, graphRef, setSelectedElement, resetGraphLayout]);
+    if (sceneContainerRef.current) sceneContainerRef.current.removeChildren();
+    renderElements(sceneContainerRef, containerRef, graphRef, setSelectedElement, settings);
+  }, [needsReRendering, sceneContainerRef, containerRef, graphRef, setSelectedElement, resetGraphLayout, settings]);
 
   const centerToPosition = useCallback(
     () => (x, y) => {

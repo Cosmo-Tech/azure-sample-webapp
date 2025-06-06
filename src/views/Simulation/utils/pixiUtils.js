@@ -99,7 +99,7 @@ const createProductionResourceContainer = (graphicsContexts, name, color = 0x000
   return container;
 };
 
-const createLinkGraphics = (links, setSelectedElement) => {
+const createLinkGraphics = (links, setSelectedElement, isLayoutHorizontal) => {
   return links.map((link) => {
     const graphics = new Graphics();
     graphics.alpha = 0.25;
@@ -107,20 +107,36 @@ const createLinkGraphics = (links, setSelectedElement) => {
     graphics.cursor = 'pointer';
 
     const { source, target } = link;
-    const sourceOffset = link.source.type === 'stock' ? 24 : 40;
-    const targetOffset = link.target.type === 'stock' ? 24 : 40;
-    const controlPointsOffset = 80;
-    const controlPoint1 = { x: source.x + sourceOffset + controlPointsOffset, y: source.y };
-    const controlPoint2 = { x: target.x - targetOffset - controlPointsOffset, y: target.y };
+    const sourceOffset = { x: 0, y: 0 };
+    const targetOffset = { x: 0, y: 0 };
+    const controlPointsOffset = { x: 0, y: 0 };
 
-    graphics.moveTo(source.x + sourceOffset, source.y);
+    if (isLayoutHorizontal) {
+      sourceOffset.x = link.source.type === 'stock' ? 24 : 40;
+      targetOffset.x = link.target.type === 'stock' ? 24 : 40;
+      controlPointsOffset.x = 80;
+    } else {
+      sourceOffset.y = link.source.type === 'stock' ? 24 : 40;
+      targetOffset.y = link.target.type === 'stock' ? 24 : 60;
+      controlPointsOffset.y = 80;
+    }
+    const controlPoint1 = {
+      x: source.x + sourceOffset.x + controlPointsOffset.x,
+      y: source.y + sourceOffset.y + controlPointsOffset.y,
+    };
+    const controlPoint2 = {
+      x: target.x - targetOffset.x - controlPointsOffset.x,
+      y: target.y - targetOffset.y - controlPointsOffset.y,
+    };
+
+    graphics.moveTo(source.x + sourceOffset.x, source.y + sourceOffset.y);
     graphics.bezierCurveTo(
       controlPoint1.x,
       controlPoint1.y,
       controlPoint2.x,
       controlPoint2.y,
-      target.x - targetOffset,
-      target.y
+      target.x - targetOffset.x,
+      target.y - targetOffset.y
     );
     graphics.stroke({ pixelLine: true, width: 1, color: '#FFFFFF' });
     graphics.on('click', (event) => setSelectedElement(link));
@@ -144,7 +160,7 @@ const createNodeContainer = (graphicsContexts, node) => {
   return container;
 };
 
-export const renderElements = (sceneContainerRef, containerRef, graphRef, setSelectedElement) => {
+export const renderElements = (sceneContainerRef, containerRef, graphRef, setSelectedElement, settings) => {
   if (!graphRef.current || !sceneContainerRef.current) return;
   const { nodes, links } = graphRef.current;
 
@@ -164,7 +180,8 @@ export const renderElements = (sceneContainerRef, containerRef, graphRef, setSel
     factoryIcon: createFactoryIconBorderGraphicsContext(),
   };
 
-  const linkGraphics = createLinkGraphics(links, setSelectedElement);
+  const isLayoutHorizontal = settings?.orientation === 'horizontal';
+  const linkGraphics = createLinkGraphics(links, setSelectedElement, isLayoutHorizontal);
   linkGraphics.forEach((link) => sceneContainerRef.current.addChild(link));
 
   nodes.forEach((node) => {
@@ -183,7 +200,8 @@ export const initApp = async (
   graphRef,
   resetGraphLayout,
   theme,
-  setSelectedElement
+  setSelectedElement,
+  settings
 ) => {
   const app = appRef.current;
   await app.init({
@@ -211,11 +229,10 @@ export const initApp = async (
     resetGraphLayout(containerRef.current.clientWidth, containerRef.current.clientHeight);
 
     sceneContainerRef.current.removeChildren();
-    renderElements(sceneContainerRef, containerRef, graphRef, setSelectedElement);
+    renderElements(sceneContainerRef, containerRef, graphRef, setSelectedElement, settings);
   };
   window.addEventListener('resize', handleResize);
-
-  renderElements(sceneContainerRef, containerRef, graphRef, setSelectedElement);
+  renderElements(sceneContainerRef, containerRef, graphRef, setSelectedElement, settings);
 };
 
 export const destroyApp = (app) => {
