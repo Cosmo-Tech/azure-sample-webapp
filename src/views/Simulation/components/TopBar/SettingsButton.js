@@ -1,6 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { SettingsOutlined as SettingsOutlinedIcon } from '@mui/icons-material';
 import {
   Box,
@@ -23,6 +23,24 @@ import { useSimulationViewContext } from '../../SimulationViewContext';
 
 export const SettingsButton = () => {
   const { settings, setSettings } = useSimulationViewContext();
+  // Use local value for spacing, so we can debounce the change events and trigger graph view updates less frequently
+  const debounceTimerRef = useRef(null);
+  const [localSpacingValue, setLocalSpacingValue] = useState(settings?.spacing);
+  const changeSpacingWithDebounce = useCallback(
+    (event, newValue) => {
+      if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
+      setLocalSpacingValue(newValue);
+      debounceTimerRef.current = setTimeout(() => {
+        setSettings((previousSettings) => ({ ...previousSettings, spacing: newValue }));
+      }, 200);
+    },
+    [setSettings, setLocalSpacingValue]
+  );
+  useEffect(() => {
+    return () => {
+      if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
+    };
+  }, []);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = useMemo(() => anchorEl != null, [anchorEl]);
@@ -86,10 +104,8 @@ export const SettingsButton = () => {
         defaultValue={50}
         aria-label="Spacing"
         sx={{ ml: 1 }}
-        value={settings?.spacing ?? 50}
-        onChange={(event, newValue) => {
-          setSettings((previousSettings) => ({ ...previousSettings, spacing: newValue }));
-        }}
+        value={localSpacingValue ?? 50}
+        onChange={changeSpacingWithDebounce}
       />
     );
 
@@ -180,7 +196,7 @@ export const SettingsButton = () => {
         {forgeMenuItem('Outputs', 'Limit how many levels of output siblings are visible', outputSettings)}
       </Menu>
     );
-  }, [anchorEl, open, settings, setSettings]);
+  }, [anchorEl, open, settings, setSettings, localSpacingValue, changeSpacingWithDebounce]);
 
   return (
     <>

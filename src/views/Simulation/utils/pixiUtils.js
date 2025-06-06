@@ -99,7 +99,10 @@ const createProductionResourceContainer = (graphicsContexts, name, color = 0x000
   return container;
 };
 
-const createLinkGraphics = (links, setSelectedElement, isLayoutHorizontal) => {
+const createLinkGraphics = (links, setSelectedElement, settings) => {
+  const isLayoutHorizontal = settings?.orientation === 'horizontal';
+  const spacingFactor = settings.spacing / 100.0;
+
   return links.map((link) => {
     const graphics = new Graphics();
     graphics.alpha = 0.25;
@@ -114,11 +117,11 @@ const createLinkGraphics = (links, setSelectedElement, isLayoutHorizontal) => {
     if (isLayoutHorizontal) {
       sourceOffset.x = link.source.type === 'stock' ? 24 : 40;
       targetOffset.x = link.target.type === 'stock' ? 24 : 40;
-      controlPointsOffset.x = 80;
+      controlPointsOffset.x = 10 + 150 * spacingFactor;
     } else {
       sourceOffset.y = link.source.type === 'stock' ? 24 : 40;
       targetOffset.y = link.target.type === 'stock' ? 24 : 60;
-      controlPointsOffset.y = 80;
+      controlPointsOffset.y = 10 + 150 * spacingFactor;
     }
     const controlPoint1 = {
       x: source.x + sourceOffset.x + controlPointsOffset.x,
@@ -180,8 +183,7 @@ export const renderElements = (sceneContainerRef, containerRef, graphRef, setSel
     factoryIcon: createFactoryIconBorderGraphicsContext(),
   };
 
-  const isLayoutHorizontal = settings?.orientation === 'horizontal';
-  const linkGraphics = createLinkGraphics(links, setSelectedElement, isLayoutHorizontal);
+  const linkGraphics = createLinkGraphics(links, setSelectedElement, settings);
   linkGraphics.forEach((link) => sceneContainerRef.current.addChild(link));
 
   nodes.forEach((node) => {
