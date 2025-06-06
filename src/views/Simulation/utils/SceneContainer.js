@@ -2,9 +2,10 @@
 // Licensed under the MIT license.
 import { Point, Container } from 'pixi.js';
 
-const MIN_ZOOM = 1;
-const MAX_ZOOM = 8;
-const ZOOM_SPEED = 0.1;
+const MIN_ZOOM = 0.05;
+const MAX_ZOOM = 2;
+const DEFAULT_ZOOM = 0.5;
+const ZOOM_SPEED = 0.05;
 
 const interpolateLinear = (a, b, t) => {
   return a + (b - a) * t;
@@ -13,10 +14,13 @@ const interpolateLinear = (a, b, t) => {
 export class SceneContainer extends Container {
   constructor(app, containerRef) {
     super();
+    this.zoom = DEFAULT_ZOOM;
+    this.scale.set(this.zoom);
     this.pivot.x = this.width / 2;
     this.pivot.y = this.height / 2;
+    // TODO: find a way to zoom automatically on a default point of interest
+    this.position.set(250, -2100);
 
-    this.zoom = 1;
     this.tickerAttached = false;
 
     this.app = app;
@@ -83,7 +87,7 @@ export class SceneContainer extends Container {
     const mouseWorldPosition = this.toLocal(mouseScreenPosition);
 
     const newZoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, this.zoom + zoomDirection * ZOOM_SPEED));
-    const isZoomingOutToDefault = newZoom === 1 && this.zoom > 1;
+    const isZoomingOutToDefault = MIN_ZOOM === 1 && this.zoom > MIN_ZOOM;
     this.zoom = newZoom;
 
     this.scale.set(newZoom);
