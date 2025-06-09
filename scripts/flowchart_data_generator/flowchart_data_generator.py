@@ -8,84 +8,65 @@
 import os
 import sys
 import argparse
-from load import load_from_excel_file
+from tools import get_absolute_path, check_folder_exists, check_file_exists, check_file_can_be_created
+from load import load_from_excel_file, load_from_results_folder
 from export import export_to_json
-
-
-def get_absolute_path(file_path):
-    return os.path.normpath(os.path.join(os.getcwd(), file_path))
 
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="""Parse Excel instance file to generate flowchart data.""")
     parser.add_argument("--input", "-i", help="Path to input XLSX file", required=True)
-    parser.add_argument("--output", "-o", help="Path to output JSON file", default="output.json")
+    parser.add_argument("--results", "-r", help="(optional) Path to input folder containing the simulation results")
+    parser.add_argument("--output", "-o", help="Path to output folder", default="output")
     parser.add_argument(
         "--force",
         "-f",
         action="store_true",
-        help="Force file creation even if the output file already exists",
+        help="Force file creation even if the output folder already exists",
         default=False,
     )
     parser.add_argument(
-        "--pretty", "-p", action="store_true", help="Enable pretty print for the output JSON file", default=False
+        "--pretty", "-p", action="store_true", help="Enable pretty print for the output JSON files", default=False
     )
     args = parser.parse_args()
 
     return {
         "input_file_path": get_absolute_path(args.input),
-        "output_file_path": get_absolute_path(args.output),
+        "results_folder_path": get_absolute_path(args.results) if args.results is not None else None,
+        "output_folder_path": get_absolute_path(args.output),
         "force": args.force,
         "pretty": args.pretty,
     }
 
 
-def check_file_exists(file_path):
-    if os.path.exists(file_path) is False:
-        print(f'[ERROR] File does not exist: "{file_path}"')
+def check_arguments(input_file_path, results_folder_path, output_folder_path, force):
+    if check_file_exists(input_file_path) is False:
         return False
-    if os.path.isfile(file_path) is False:
-        print(f'[ERROR] Provided path is not a file: "{file_path}"')
+    if results_folder_path is not None and check_folder_exists(results_folder_path) is False:
         return False
-    return True
 
-
-def check_file_can_be_created(file_path, force=False):
-    if os.path.exists(file_path):
-        if force is False:
-            print(f'[ERROR] File already exists: "{file_path}"')
-            return False
-        if os.path.isfile(file_path) is False:
-            print(f'[ERROR] Provided path is not a file: "{file_path}"')
-            return False
-
-    output_folder = os.path.dirname(file_path)
-    if os.path.exists(output_folder) is False:
-        try:
-            os.makedirs(output_folder)
-        except Exception as e:
-            print(f'[ERROR] Cannot create output folder: "{output_folder}"')
-            print(e)
+    output_files = ["graph.json", "stock_demands.json", "kpis.json", "shortages.json", "bottlenecks.json"]
+    for file_name in output_files:
+        file_path = os.path.join(output_folder_path, file_name)
+        if check_file_can_be_created(file_path, force) is False:
             return False
     return True
-
-
-def check_arguments(input_file_path, output_file_path, force):
-    return check_file_exists(input_file_path) and check_file_can_be_created(output_file_path, force)
 
 
 def main():
     args = parse_arguments()
     input_file_path = args["input_file_path"]
-    output_file_path = args["output_file_path"]
+    results_folder_path = args["results_folder_path"]
+    output_folder_path = args["output_folder_path"]
     force = args["force"]
     pretty = args["pretty"]
 
-    if check_arguments(input_file_path, output_file_path, force) is False:
+    if check_arguments(input_file_path, results_folder_path, output_folder_path, force) is False:
         sys.exit(1)
 
     graph_data = load_from_excel_file(input_file_path)
-    export_to_json(graph_data, output_file_path, pretty)
+    results_data = load_from_results_folder(results_folder_path)
+    export_to_json(graph_data, results_data, output_folder_path, pretty)
     return
 
 

@@ -5,7 +5,9 @@
 # Licensed under the MIT license.
 
 
+import os
 import pandas as pd
+from tools import check_file_exists
 
 
 pd.set_option("future.no_silent_downcasting", True)
@@ -19,8 +21,11 @@ SHEETS_TO_READ = [
     "ProductionOperation",
     "Stock",
     "Transport",
+    "Demands",
 ]
 
+def to_float(value):
+    return float(value.replace(",", ""))
 
 def rename_cols_to_camel_case(df, cols):
     cols_renaming_dict = {col: col[0].lower() + col[1:] for col in cols}
@@ -135,8 +140,18 @@ def process_stocks(data):
     #  - StorageUnitCosts
     #  - UnitIncomes
     #  - CO2UnitEmissions
-    #  - Demands
 
+    return df
+
+
+def process_stock_demands(data):
+    df = data["Demands"]
+    # Unused input columns: DemandUncertainties, DemandWeights
+    del df["DemandUncertainties"]
+    del df["DemandWeights"]
+
+    df = rename_cols_to_camel_case(df, ["Timestep", "Demands"])
+    df = df.groupby("id")["demands"].apply(list)
     return df
 
 
@@ -157,6 +172,8 @@ def load_from_excel_file(file_path):
     stocks_df = process_stocks(excel_file_data)
     compounds_df = process_compound_relationships(excel_file_data)
 
+    stock_demands_df = process_stock_demands(excel_file_data)
+
     return (
         input_df,
         output_df,
@@ -165,4 +182,59 @@ def load_from_excel_file(file_path):
         production_operations_df,
         stocks_df,
         compounds_df,
+        stock_demands_df,
     )
+
+
+def process_kpis(file_path):
+    df = pd.read_csv(file_path)
+    df = df.rename(columns={"OPEX": "opex", "CO2Emissions": "co2Emissions"})
+    df = rename_cols_to_camel_case(
+        df, ["SimulationRun", "SimulationName", "AverageStockValue", "OnTimeFillRateServiceLevel", "Profit"]
+    )
+
+    for col in ["opex", "averageStockValue", "co2Emissions", "profit"]:
+        df[col] = df[col].apply(to_float)
+    return df
+
+
+def process_shortages(file_path):
+    df = pd.read_csv(file_path)
+    # Unused input columns: SimulationRun, SimulationName
+    del df["SimulationRun"]
+    del df["SimulationName"]
+    df = rename_cols_to_camel_case(df, ["TimeStep","UnservedQuantity","RemainingQuantity"])
+
+    df['shortages'] = df.apply(lambda x: x['unservedQuantity'] if x['unservedQuantity'] > 0 else 1.0, axis=1)
+    del df["unservedQuantity"]
+    del df["remainingQuantity"]
+
+    df = df.sort_values('timeStep').groupby('id').apply(lambda x: dict(zip(x['timeStep'], x['shortages'])))
+    return df
+
+
+def process_bottlenecks(file_path):
+    df = pd.read_csv(file_path)
+    # Unused input columns: SimulationRun, SimulationName
+    del df["SimulationRun"]
+    del df["SimulationName"]
+    df = rename_cols_to_camel_case(df, ["TimeStep","MissedProduction"])
+    df["missedProduction"] = df["missedProduction"].apply(to_float)
+    df = df.sort_values('timeStep').groupby('id').apply(lambda x: dict(zip(x['timeStep'], x['missedProduction'])))
+    return df
+
+
+def load_from_results_folder(folder_path):
+    kpis_file_path = os.path.join(folder_path, "kpis.csv")
+    if os.path.exists(kpis_file_path):
+        kpis_df = process_kpis(kpis_file_path)
+
+    shortages_file_path = os.path.join(folder_path, "shortages.csv")
+    if os.path.exists(shortages_file_path):
+        shortages_df = process_shortages(shortages_file_path)
+
+    bottlenecks_file_path = os.path.join(folder_path, "bottlenecks.csv")
+    if os.path.exists(shortages_file_path):
+        bottlenecks_df = process_bottlenecks(bottlenecks_file_path)
+
+    return (kpis_df, shortages_df, bottlenecks_df)
