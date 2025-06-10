@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useCurrentScenarioId } from '../../state/hooks/ScenarioHooks';
-import flowchartInstance from './data/output.json';
+import flowchartInstance from './data/graph.json';
 import { getGraphFromInstance, resetGraphLayout as resetLayout } from './utils/graphUtils';
 
 const DEFAULT_SETTINGS = {
