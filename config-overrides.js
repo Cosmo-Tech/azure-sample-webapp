@@ -84,4 +84,10 @@ function addSplitChunks(config) {
   return config;
 }
 
-module.exports = override(addCspHtmlWebpackPlugin, addFallback, addSplitChunks);
+function addIgnoreSourceMapLoaderWarnings(config) {
+  // Ignore warning raised since using pixi-filters
+  config.ignoreWarnings = [/The "path" argument must be of type string. Received null/];
+  return config;
+}
+
+module.exports = override(addCspHtmlWebpackPlugin, addFallback, addSplitChunks, addIgnoreSourceMapLoaderWarnings);

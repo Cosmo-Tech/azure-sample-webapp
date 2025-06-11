@@ -5805,6 +5805,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/gradient-parser@npm:^0.1.2":
+  version: 0.1.5
+  resolution: "@types/gradient-parser@npm:0.1.5"
+  checksum: 10c0/8347fb24885aeb133421baec58d0eab4e8ec43d17f337bc4f1d23bde99ca5e87b82b44834eb00d71fd820503c530d4c75e4d9a98652e09b2f04b08fbc1057762
+  languageName: node
+  linkType: hard
+
 "@types/hoist-non-react-statics@npm:^3.3.0":
   version: 3.3.5
   resolution: "@types/hoist-non-react-statics@npm:3.3.5"
@@ -7248,6 +7255,7 @@ __metadata:
     jest-environment-jsdom: "npm:~29.7.0"
     jwt-simple: "npm:^0.5.6"
     os-browserify: "npm:^0.3.0"
+    pixi-filters: "npm:^6.1.2"
     pixi.js: "npm:^8.9.2"
     prettier: "npm:^3.5.3"
     process: "npm:^0.11.10"
@@ -16686,6 +16694,17 @@ __metadata:
   version: 4.0.6
   resolution: "pirates@npm:4.0.6"
   checksum: 10c0/00d5fa51f8dded94d7429700fb91a0c1ead00ae2c7fd27089f0c5b63e6eca36197fe46384631872690a66f390c5e27198e99006ab77ae472692ab9c2ca903f36
+  languageName: node
+  linkType: hard
+
+"pixi-filters@npm:^6.1.2":
+  version: 6.1.2
+  resolution: "pixi-filters@npm:6.1.2"
+  dependencies:
+    "@types/gradient-parser": "npm:^0.1.2"
+  peerDependencies:
+    pixi.js: ">=8.0.0-0"
+  checksum: 10c0/e255faf80b5ed5b5989a41e04d521e3827f5591825ee00b18a75092074a07979aa78d2ffc2fa3fe7b4fa1d03f53bafcd3d341fb53ddea99d456683c6983884de
   languageName: node
   linkType: hard
 
