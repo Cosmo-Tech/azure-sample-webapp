@@ -30,10 +30,10 @@ const getTransportLinks = (instance, nodes) => {
 const getInputLinks = (instance, nodes) => {
   const links = [];
   instance.input.forEach((input) => {
-    const target = instance.production_operations.find((el) => el.id === input.dest);
+    const target = instance.production_operations.find((element) => element.id === input.dest);
     if (!target) return console.warn(`Input: cannot find target Operation with id "${input.dest}"`);
 
-    const targetResourceId = instance.compounds.find((rel) => rel.child === target.id)?.parent;
+    const targetResourceId = instance.compounds.find((relationship) => relationship.child === target.id)?.parent;
     if (!targetResourceId) return console.warn(`Input: cannot find compound link with child id "${target.id}"`);
 
     const link = forgeLink(nodes, input, 'input', input.src, targetResourceId);
@@ -45,10 +45,10 @@ const getInputLinks = (instance, nodes) => {
 const getOutputLinks = (instance, nodes) => {
   const links = [];
   instance.output.forEach((output) => {
-    const source = instance.production_operations.find((el) => el.id === output.src);
+    const source = instance.production_operations.find((element) => element.id === output.src);
     if (!source) return console.warn(`Output: cannot find source Operation with id "${output.src}"`);
 
-    const sourceResourceId = instance.compounds.find((rel) => rel.child === source.id)?.parent;
+    const sourceResourceId = instance.compounds.find((relationship) => relationship.child === source.id)?.parent;
     if (!sourceResourceId) return console.warn(`Output: cannot find compound link with child id "${source.id}"`);
 
     const link = forgeLink(nodes, output, 'output', sourceResourceId, output.dest);
@@ -61,7 +61,32 @@ const getGraphLinks = (instance, nodes) => {
   return [...getTransportLinks(instance, nodes), ...getInputLinks(instance, nodes), ...getOutputLinks(instance, nodes)];
 };
 
-export const getGraphFromInstance = (instance, settings) => {
+const setResourceBottlenecks = (instance, productionResources, operations, bottlenecks) => {
+  let operationsNotFound = 0;
+  let parentResourcesNotFound = 0;
+  for (const [operation, operationBottlenecks] of Object.entries(bottlenecks)) {
+    if (!operations.find((element) => element.id === operation)) {
+      operationsNotFound++;
+      continue;
+    }
+
+    const parentResourceId = instance.compounds.find((relationship) => relationship.child === operation)?.parent;
+    if (parentResourceId == null) {
+      parentResourcesNotFound++;
+      continue;
+    }
+
+    const newBottlenecks = Object.entries(operationBottlenecks).length;
+    const parentResource = productionResources.find((resource) => resource.id === parentResourceId);
+    if (parentResourceId) parentResource.bottlenecksCount = (parentResource.bottlenecksCount ?? 0) + newBottlenecks;
+  }
+
+  if (operationsNotFound > 0) console.warn(`Bottlenecks: ${operationsNotFound} operation ids not found in instance`);
+  if (parentResourcesNotFound > 0)
+    console.warn(`Bottlenecks: ${parentResourcesNotFound} operations ids not found in links to parent resources`);
+};
+
+export const getGraphFromInstance = (instance, bottlenecks, settings) => {
   const createNode = (node, type) => {
     return {
       id: node.id,
@@ -73,6 +98,8 @@ export const getGraphFromInstance = (instance, settings) => {
   const stocks = instance.stocks.map((el) => createNode(el, 'stock'));
   const productionResources = instance.production_resources.map((el) => createNode(el, 'productionResource'));
   const operations = instance.production_operations.map((el) => createNode(el, 'productionOperation'));
+
+  setResourceBottlenecks(instance, productionResources, operations, bottlenecks);
 
   const nodes = [...stocks, ...productionResources];
   const links = getGraphLinks(instance, nodes);
