@@ -24,13 +24,20 @@ const drawIcon = (graphicsContext, lines, xOffset, yOffset, width, height) => {
   });
 };
 
+const createPackageIconGraphicsContext = (options) => {
+  const graphicsContext = new GraphicsContext();
+  drawIcon(graphicsContext, PACKAGE_ICON_LINES, 25, 24, 18, 20);
+  graphicsContext.stroke({ pixelLine: true, color: options?.lineColor ?? '#48C0DB', width: 1.5 });
+  return graphicsContext;
+};
+
 const createStockGraphicsContext = (options) => {
   const graphicsContext = new GraphicsContext()
-    .roundRect(0, 0, 48, 48, 8)
+    .rect(0, 0, 68, 68)
+    .fill('#00000000')
+    .roundRect(10, 10, 48, 48, 8)
     .fill(options.fillColor)
     .stroke({ pixelLine: true, color: options.borderColor, width: 1.5 });
-  drawIcon(graphicsContext, PACKAGE_ICON_LINES, 15, 14, 18, 20);
-  graphicsContext.stroke({ pixelLine: true, color: options.iconColor, width: 1.5 });
   return graphicsContext;
 };
 
@@ -77,21 +84,33 @@ const createProductionResourceBorderGraphicsContext = (options) => {
   return border;
 };
 
-const createFactoryIconBorderGraphicsContext = (options) => {
+const createFactoryIconGraphicsContext = (options) => {
   const graphicsContext = new GraphicsContext();
   drawIcon(graphicsContext, FACTORY_ICON_LINES, 0, 0, 20, 20);
   graphicsContext.stroke({ pixelLine: true, color: options?.lineColor ?? GRAY_LINE_COLOR, width: 1.5 });
   return graphicsContext;
 };
 
-const createStockContainer = (graphicsContexts, name) => {
+const createStockContainer = (graphicsContexts, name, hasShortages = false) => {
   const container = new Container();
-  const stock = new Graphics(graphicsContexts.stock);
+  const stockContextKey = hasShortages ? 'stockLevel1' : 'stockLevel0';
+  if (hasShortages) {
+    const stockHalo = new Graphics(graphicsContexts[stockContextKey]);
+    stockHalo.filters = [new AdvancedBloomFilter({ blur: 1, quality: 32, bloomScale: 1, brightness: 1 })];
+    stockHalo.position.set(-10, -10);
+    container.addChild(stockHalo);
+  }
+  const stock = new Graphics(graphicsContexts[stockContextKey]);
+  stock.position.set(-10, -10);
+  const iconContextKey = hasShortages ? 'packageIconLevel1' : 'packageIconLevel0';
+  const packageIcon = new Graphics(graphicsContexts[iconContextKey]);
+  packageIcon.position.set(-10, -10);
   const label = createLabel(name);
   label.anchor.set(0.5);
-  label.position.set(40, 64);
+  label.position.set(34, 64);
 
   container.addChild(stock);
+  container.addChild(packageIcon);
   container.addChild(label);
   return container;
 };
@@ -120,7 +139,7 @@ const createProductionResourceContainer = (graphicsContexts, name, hasBottleneck
 
   const label = createLabel(name);
   label.anchor.set(0.5);
-  label.position.set(40, 104);
+  label.position.set(50, 104);
 
   container.addChild(borderContainer);
   container.addChild(background);
@@ -182,7 +201,7 @@ const createNodeContainer = (graphicsContexts, node) => {
   const container =
     node.type === 'productionResource'
       ? createProductionResourceContainer(graphicsContexts, node.id, node.bottlenecksCount != null)
-      : createStockContainer(graphicsContexts, node.id);
+      : createStockContainer(graphicsContexts, node.id, node.shortagesCount != null);
 
   let centerOffset = { x: 24, y: 24 };
   if (node.type === 'productionResource') centerOffset = { x: 40, y: 54 };
@@ -200,7 +219,8 @@ export const renderElements = (mainContainer, graphRef, setSelectedElement, sett
   const { nodes, links } = graphRef.current;
 
   const graphicsContexts = {
-    stock: createStockGraphicsContext({ fillColor: '#20363D', borderColor: '#48C0DB52', iconColor: '#40B8D4' }),
+    stockLevel0: createStockGraphicsContext({ fillColor: '#20363D', borderColor: '#48C0DB52' }),
+    stockLevel1: createStockGraphicsContext({ fillColor: '#DF3537', borderColor: '#DF3537' }),
     productionResourceBackground: createProductionResourceBackgroundGraphicsContext(),
     productionResourceBorderLevel0: createProductionResourceBorderGraphicsContext({ borderColor: GRAY_LINE_COLOR }),
     productionResourceBorderLevel1: createProductionResourceBorderGraphicsContext({
@@ -212,8 +232,10 @@ export const renderElements = (mainContainer, graphRef, setSelectedElement, sett
       borderColor: '#48C0DB52',
       iconColor: '#40B8D4',
     }),
-    factoryIconLevel0: createFactoryIconBorderGraphicsContext(),
-    factoryIconLevel1: createFactoryIconBorderGraphicsContext({ lineColor: RED_LINE_COLOR }),
+    factoryIconLevel0: createFactoryIconGraphicsContext(),
+    factoryIconLevel1: createFactoryIconGraphicsContext({ lineColor: RED_LINE_COLOR }),
+    packageIconLevel0: createPackageIconGraphicsContext(),
+    packageIconLevel1: createPackageIconGraphicsContext({ lineColor: '#F7F7F8' }),
   };
 
   const linkGraphics = createLinkGraphics(links, setSelectedElement, settings);

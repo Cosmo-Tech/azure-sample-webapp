@@ -61,16 +61,32 @@ const getGraphLinks = (instance, nodes) => {
   return [...getTransportLinks(instance, nodes), ...getInputLinks(instance, nodes), ...getOutputLinks(instance, nodes)];
 };
 
+const setStockShortages = (instance, stocks, shortages) => {
+  let stocksNotFound = 0;
+  for (const [stockId, stockShortages] of Object.entries(shortages)) {
+    const stock = stocks.find((element) => element.id === stockId);
+    if (!stocks.find((element) => element.id === stockId)) {
+      stocksNotFound++;
+      continue;
+    }
+
+    const newShortages = Object.entries(stockShortages).length;
+    stock.shortagesCount = (stock.shortagesCount ?? 0) + newShortages;
+  }
+
+  if (stocksNotFound > 0) console.warn(`Shortages: ${stocksNotFound} stock ids not found in instance`);
+};
+
 const setResourceBottlenecks = (instance, productionResources, operations, bottlenecks) => {
   let operationsNotFound = 0;
   let parentResourcesNotFound = 0;
-  for (const [operation, operationBottlenecks] of Object.entries(bottlenecks)) {
-    if (!operations.find((element) => element.id === operation)) {
+  for (const [operationId, operationBottlenecks] of Object.entries(bottlenecks)) {
+    if (!operations.find((element) => element.id === operationId)) {
       operationsNotFound++;
       continue;
     }
 
-    const parentResourceId = instance.compounds.find((relationship) => relationship.child === operation)?.parent;
+    const parentResourceId = instance.compounds.find((relationship) => relationship.child === operationId)?.parent;
     if (parentResourceId == null) {
       parentResourcesNotFound++;
       continue;
@@ -78,7 +94,7 @@ const setResourceBottlenecks = (instance, productionResources, operations, bottl
 
     const newBottlenecks = Object.entries(operationBottlenecks).length;
     const parentResource = productionResources.find((resource) => resource.id === parentResourceId);
-    if (parentResourceId) parentResource.bottlenecksCount = (parentResource.bottlenecksCount ?? 0) + newBottlenecks;
+    if (parentResource) parentResource.bottlenecksCount = (parentResource.bottlenecksCount ?? 0) + newBottlenecks;
   }
 
   if (operationsNotFound > 0) console.warn(`Bottlenecks: ${operationsNotFound} operation ids not found in instance`);
@@ -86,7 +102,7 @@ const setResourceBottlenecks = (instance, productionResources, operations, bottl
     console.warn(`Bottlenecks: ${parentResourcesNotFound} operations ids not found in links to parent resources`);
 };
 
-export const getGraphFromInstance = (instance, bottlenecks, settings) => {
+export const getGraphFromInstance = (instance, bottlenecks, shortages, settings) => {
   const createNode = (node, type) => {
     return {
       id: node.id,
@@ -99,6 +115,7 @@ export const getGraphFromInstance = (instance, bottlenecks, settings) => {
   const productionResources = instance.production_resources.map((el) => createNode(el, 'productionResource'));
   const operations = instance.production_operations.map((el) => createNode(el, 'productionOperation'));
 
+  setStockShortages(instance, stocks, shortages);
   setResourceBottlenecks(instance, productionResources, operations, bottlenecks);
 
   const nodes = [...stocks, ...productionResources];
