@@ -32,6 +32,9 @@ export const VALID_MIME_TYPES = [
   'text/csv',
   'text/plain',
   'text/x-yaml',
+  'text/yaml',
+  'application/x-yaml',
+  'application/yaml',
 ];
 
 export const TWINCACHE_STATUS = {
