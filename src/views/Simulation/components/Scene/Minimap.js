@@ -2,8 +2,13 @@
 // Licensed under the MIT license.
 import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
-import CenterFocusStrongIcon from '@mui/icons-material/CenterFocusStrong';
-import { IconButton, Paper, Stack } from '@mui/material';
+import {
+  CenterFocusStrong as CenterFocusStrongIcon,
+  ZoomIn as ZoomInIcon,
+  ZoomOut as ZoomOutIcon,
+} from '@mui/icons-material';
+import { Button, Paper, Stack } from '@mui/material';
+import { MinimapContainer } from '../../utils/MinimapContainer';
 
 export const Minimap = forwardRef(function Minimap(props, canvasMinimapRef) {
   const { sceneContainer } = props;
@@ -21,8 +26,6 @@ export const Minimap = forwardRef(function Minimap(props, canvasMinimapRef) {
         sx={{
           border: '2px solid #ccc',
           backgroundColor: '#fff',
-          display: 'flex',
-          flexDirection: 'column',
         }}
       >
         <div
@@ -30,13 +33,21 @@ export const Minimap = forwardRef(function Minimap(props, canvasMinimapRef) {
           style={{
             display: 'flex',
             flexDirection: 'column',
+            width: `${MinimapContainer.getMinimapSize().width}px`,
+            height: `${MinimapContainer.getMinimapSize().height}px`,
           }}
         ></div>
       </Paper>
-      <Stack direction="row" spacing={2}>
-        <IconButton onClick={() => sceneContainer.backToOrigin()}>
+      <Stack direction="row" sx={{ marginTop: 0.5 }} justifyContent="space-between" alignItems="center">
+        <Button size="small" variant="contained" onClick={() => sceneContainer.zoomOnPoint(1)} color="inherit">
+          <ZoomInIcon />
+        </Button>
+        <Button size="small" variant="contained" onClick={() => sceneContainer.zoomOnPoint(-1)} color="inherit">
+          <ZoomOutIcon />
+        </Button>
+        <Button size="small" variant="contained" onClick={() => sceneContainer.backToOrigin()} color="inherit">
           <CenterFocusStrongIcon />
-        </IconButton>
+        </Button>
       </Stack>
     </Stack>
   );

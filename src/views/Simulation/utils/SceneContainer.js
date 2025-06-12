@@ -4,8 +4,8 @@ import { Point, Container } from 'pixi.js';
 
 const MIN_ZOOM = 0.05;
 const MAX_ZOOM = 2;
-const DEFAULT_ZOOM = 0.5;
-const ZOOM_SPEED = 0.05;
+const DEFAULT_ZOOM = 0.2;
+const ZOOM_SPEED = 0.5;
 const ORIGIN = { x: 0, y: 0 };
 
 const interpolateLinear = (a, b, t) => {
@@ -15,6 +15,8 @@ const interpolateLinear = (a, b, t) => {
 export class SceneContainer extends Container {
   constructor(sceneApp, canvasSceneRef) {
     super();
+    this.canvasScene = canvasSceneRef.current;
+
     this.zoom = DEFAULT_ZOOM;
     this.scale.set(this.zoom);
     this.pivot.x = this.width / 2;
@@ -57,50 +59,62 @@ export class SceneContainer extends Container {
   }
 
   moveTowardTargetPosition() {
-    this.x = interpolateLinear(this.x, this.targetX, 0.1);
-    this.y = interpolateLinear(this.y, this.targetY, 0.1);
+    const nearTargetZoom = Math.abs(this.targetZoom - this.zoom) < 0.0005;
+    const nearTargetPosition = Math.abs(this.targetX - this.x) < 0.05 && Math.abs(this.targetY - this.y) < 0.05;
 
-    const newZoom = interpolateLinear(this.zoom, MIN_ZOOM, 0.1);
-    this.zoom = newZoom;
-    this.scale.set(newZoom);
-
-    const nearTarget = Math.abs(this.targetX - this.x) < 0.5 && Math.abs(this.targetY - this.y) < 0.5;
-    if (nearTarget) {
+    if (nearTargetPosition && nearTargetZoom) {
       this.position.set(this.targetX, this.targetY);
+      this.scale.set(this.targetZoom);
       this.sceneApp.ticker.remove(this.moveTowardTargetPosition);
+    } else {
+      this.x = interpolateLinear(this.x, this.targetX, 0.1);
+      this.y = interpolateLinear(this.y, this.targetY, 0.1);
+
+      const newZoom = interpolateLinear(this.zoom, this.targetZoom, 0.1);
+      this.zoom = newZoom;
+      this.scale.set(newZoom);
     }
   }
 
-  translateTo(x, y) {
+  translateTo(x, y, zoom) {
     this.targetX = x;
     this.targetY = y;
+    this.targetZoom = zoom;
     this.sceneApp.ticker.add(this.moveTowardTargetPosition);
   }
 
   backToOrigin() {
-    this.translateTo(ORIGIN.x, ORIGIN.y);
+    this.translateTo(ORIGIN.x, ORIGIN.y, MIN_ZOOM);
   }
 
   stopBackToOrigin() {
     this.sceneApp.ticker.remove(this.moveTowardTargetPosition);
   }
 
+  zoomOnPoint(zoomDirection, zoomPoint) {
+    if (!zoomPoint) {
+      zoomPoint = new Point(this.canvasScene.clientWidth / 2, this.canvasScene.clientHeight / 2);
+    }
+
+    const mouseWorldPosition = this.toLocal(zoomPoint);
+    const newZoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, this.zoom + zoomDirection * this.zoom * ZOOM_SPEED));
+
+    console.log('this.zoom'); // NBO log to remove
+    console.log(this.zoom); // NBO log to remove
+
+    const scaleRatio = newZoom / this.zoom;
+
+    const targetX = this.x - mouseWorldPosition.x * (scaleRatio - 1) * this.zoom;
+    const targetY = this.y - mouseWorldPosition.y * (scaleRatio - 1) * this.zoom;
+
+    this.translateTo(targetX, targetY, newZoom);
+  }
+
   zoomWithWheel(event) {
     const zoomDirection = event.deltaY < 0 ? 1 : -1;
+    const zoomPoint = new Point(event.offsetX, event.offsetY);
 
-    const mouseScreenPosition = new Point(event.offsetX, event.offsetY);
-    const mouseWorldPosition = this.toLocal(mouseScreenPosition);
-
-    const newZoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, this.zoom + zoomDirection * ZOOM_SPEED));
-    this.zoom = newZoom;
-
-    this.scale.set(newZoom);
-    const newScreenPos = this.toGlobal(mouseWorldPosition);
-
-    this.x += mouseScreenPosition.x - newScreenPos.x;
-    this.y += mouseScreenPosition.y - newScreenPos.y;
-
-    this.stopBackToOrigin();
+    this.zoomOnPoint(zoomDirection, zoomPoint);
   }
 
   onDragStart(event) {
