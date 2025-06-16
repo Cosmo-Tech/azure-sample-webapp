@@ -77,29 +77,20 @@ const setStockShortages = (instance, stocks, shortages) => {
   if (stocksNotFound > 0) console.warn(`Shortages: ${stocksNotFound} stock ids not found in instance`);
 };
 
-const setResourceBottlenecks = (instance, productionResources, operations, bottlenecks) => {
-  let operationsNotFound = 0;
-  let parentResourcesNotFound = 0;
-  for (const [operationId, operationBottlenecks] of Object.entries(bottlenecks)) {
-    if (!operations.find((element) => element.id === operationId)) {
-      operationsNotFound++;
+const setResourceBottlenecks = (instance, productionResources, bottlenecks) => {
+  let resourcesNotFound = 0;
+  for (const [resourceId, resourceBottlenecks] of Object.entries(bottlenecks)) {
+    const resource = productionResources.find((resource) => resource.id === resourceId);
+    if (!resource) {
+      resourcesNotFound++;
       continue;
     }
 
-    const parentResourceId = instance.compounds.find((relationship) => relationship.child === operationId)?.parent;
-    if (parentResourceId == null) {
-      parentResourcesNotFound++;
-      continue;
-    }
-
-    const newBottlenecks = Object.entries(operationBottlenecks).length;
-    const parentResource = productionResources.find((resource) => resource.id === parentResourceId);
-    if (parentResource) parentResource.bottlenecksCount = (parentResource.bottlenecksCount ?? 0) + newBottlenecks;
+    const newBottlenecks = Object.entries(resourceBottlenecks).length;
+    resource.bottlenecksCount = (resource.bottlenecksCount ?? 0) + newBottlenecks;
   }
 
-  if (operationsNotFound > 0) console.warn(`Bottlenecks: ${operationsNotFound} operation ids not found in instance`);
-  if (parentResourcesNotFound > 0)
-    console.warn(`Bottlenecks: ${parentResourcesNotFound} operations ids not found in links to parent resources`);
+  if (resourcesNotFound > 0) console.warn(`Bottlenecks: ${resourcesNotFound} resource ids not found in instance`);
 };
 
 export const getGraphFromInstance = (instance, bottlenecks, shortages, settings) => {
@@ -116,7 +107,7 @@ export const getGraphFromInstance = (instance, bottlenecks, shortages, settings)
   const operations = instance.production_operations.map((el) => createNode(el, 'productionOperation'));
 
   setStockShortages(instance, stocks, shortages);
-  setResourceBottlenecks(instance, productionResources, operations, bottlenecks);
+  setResourceBottlenecks(instance, productionResources, bottlenecks);
 
   const nodes = [...stocks, ...productionResources];
   const links = getGraphLinks(instance, nodes);

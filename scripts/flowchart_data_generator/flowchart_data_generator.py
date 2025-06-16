@@ -65,7 +65,7 @@ def main():
         sys.exit(1)
 
     graph_data = load_from_excel_file(input_file_path)
-    results_data = load_from_results_folder(results_folder_path)
+    results_data = load_from_results_folder(results_folder_path, graph_data)
     export_to_json(graph_data, results_data, output_folder_path, pretty)
     return
 
