@@ -19,8 +19,6 @@ export class SceneContainer extends Container {
 
     this.zoom = DEFAULT_ZOOM;
     this.scale.set(this.zoom);
-    this.pivot.x = this.width / 2;
-    this.pivot.y = this.height / 2;
     // TODO: find a way to zoom automatically on a default point of interest
     this.position.set(250, -2100);
 
@@ -42,10 +40,9 @@ export class SceneContainer extends Container {
     this.onDragEnd = this.onDragEnd.bind(this);
 
     canvasSceneRef.current.addEventListener('wheel', this.zoomWithWheel);
-    // Use window.addEventListener instead?
     canvasSceneRef.current.addEventListener('pointerdown', this.onDragStart);
     canvasSceneRef.current.addEventListener('pointerup', this.onDragEnd);
-    canvasSceneRef.current.addEventListener('pointerupoutside', this.onDragEnd);
+    canvasSceneRef.current.addEventListener('pointerout', this.onDragEnd);
     canvasSceneRef.current.addEventListener('pointermove', this.onDragMove);
   }
 
@@ -54,7 +51,7 @@ export class SceneContainer extends Container {
     canvasSceneRef.current.removeEventListener('wheel', this.zoomWithWheel);
     canvasSceneRef.current.removeEventListener('pointerdown', this.onDragStart);
     canvasSceneRef.current.removeEventListener('pointerup', this.onDragEnd);
-    canvasSceneRef.current.removeEventListener('pointerupoutside', this.onDragEnd);
+    canvasSceneRef.current.removeEventListener('pointerout', this.onDragEnd);
     canvasSceneRef.current.removeEventListener('pointermove', this.onDragMove);
   }
 
@@ -66,6 +63,7 @@ export class SceneContainer extends Container {
       this.position.set(this.targetX, this.targetY);
       this.scale.set(this.targetZoom);
       this.sceneApp.ticker.remove(this.moveTowardTargetPosition);
+      this.checkBounds();
     } else {
       this.x = interpolateLinear(this.x, this.targetX, 0.1);
       this.y = interpolateLinear(this.y, this.targetY, 0.1);
@@ -98,12 +96,7 @@ export class SceneContainer extends Container {
 
     const mouseWorldPosition = this.toLocal(zoomPoint);
     const newZoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, this.zoom + zoomDirection * this.zoom * ZOOM_SPEED));
-
-    console.log('this.zoom'); // NBO log to remove
-    console.log(this.zoom); // NBO log to remove
-
     const scaleRatio = newZoom / this.zoom;
-
     const targetX = this.x - mouseWorldPosition.x * (scaleRatio - 1) * this.zoom;
     const targetY = this.y - mouseWorldPosition.y * (scaleRatio - 1) * this.zoom;
 
@@ -117,6 +110,41 @@ export class SceneContainer extends Container {
     this.zoomOnPoint(zoomDirection, zoomPoint);
   }
 
+  checkBounds() {
+    const farRight = this.canvasScene.clientWidth * 0.9;
+    const farLeft = this.canvasScene.clientWidth * 0.1;
+    const farTop = this.canvasScene.clientHeight * 0.2;
+    const farBottom = this.canvasScene.clientHeight * 0.8;
+
+    const sceneBounds = this.getBounds();
+    const outOfBounds =
+      sceneBounds.minX > farRight ||
+      sceneBounds.maxX < farLeft ||
+      sceneBounds.minY > farBottom ||
+      sceneBounds.maxY < farTop;
+
+    if (!outOfBounds) return;
+
+    let returnToX, returnToY;
+
+    if (sceneBounds.minX > farRight) {
+      returnToX = farRight;
+      returnToY = this.y;
+    } else if (sceneBounds.maxX < farLeft) {
+      returnToX = farLeft - sceneBounds.width;
+      returnToY = this.y;
+    }
+    if (sceneBounds.minY > farBottom) {
+      returnToY = farBottom;
+      returnToX = this.x;
+    } else if (sceneBounds.maxY < farTop) {
+      returnToY = farTop - sceneBounds.height;
+      returnToX = this.x;
+    }
+
+    this.translateTo(returnToX, returnToY, this.zoom);
+  }
+
   onDragStart(event) {
     this.dragging = true;
     const mouseScreenPosition = new Point(event.offsetX, event.offsetY);
@@ -128,13 +156,16 @@ export class SceneContainer extends Container {
 
   onDragMove(event) {
     if (!this.dragging) return;
+
     const mouseScreenPosition = new Point(event.offsetX, event.offsetY);
     const dragX = mouseScreenPosition.x - this.dragStart.x;
     const dragY = mouseScreenPosition.y - this.dragStart.y;
+
     this.position.set(this.containerStart.x + dragX, this.containerStart.y + dragY);
   }
 
   onDragEnd() {
     this.dragging = false;
+    this.checkBounds();
   }
 }

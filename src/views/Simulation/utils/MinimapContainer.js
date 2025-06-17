@@ -17,12 +17,6 @@ export class MinimapContainer extends Container {
     this.interactive = true;
     this.dragging = false;
     this.dragStart = { x: 0, y: 0 };
-    this.displayRect = {
-      x: 0,
-      y: 0,
-      width: MINIMAP_SIZE.width,
-      height: MINIMAP_SIZE.height,
-    };
   }
 
   renderElements() {
