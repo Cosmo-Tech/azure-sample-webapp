@@ -93,7 +93,7 @@ const setResourceBottlenecks = (instance, productionResources, bottlenecks) => {
   if (resourcesNotFound > 0) console.warn(`Bottlenecks: ${resourcesNotFound} resource ids not found in instance`);
 };
 
-export const getGraphFromInstance = (instance, bottlenecks, shortages, settings) => {
+export const getGraphFromInstance = (instance, bottlenecks, shortages, kpis, settings) => {
   const createNode = (node, type) => {
     return {
       id: node.id,
@@ -112,7 +112,7 @@ export const getGraphFromInstance = (instance, bottlenecks, shortages, settings)
   const nodes = [...stocks, ...productionResources];
   const links = getGraphLinks(instance, nodes);
   applyDagreLayout(nodes, links, settings);
-  return { nodes, operations, links };
+  return { nodes, operations, links, kpis };
 };
 
 export const resetGraphLayout = (graphRef, width, height, settings) => {

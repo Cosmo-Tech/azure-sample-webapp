@@ -10,16 +10,25 @@ const KpiCard = ({ kpi }) => {
     <Card sx={{ width: '100%', p: 2, borderRadius: 2 }}>
       <Grid container justifyContent="space-between" alignItems="center" columnSpacing={2}>
         <Grid item xs="auto">
+          {kpi.prefix && (
+            <Typography variant="h5" component="span" fontWeight="fontWeightBold">
+              {kpi.prefix}
+            </Typography>
+          )}
           <Typography variant="h4" component="span" fontWeight="fontWeightBold">
-            {kpi.value.toFixed(2)}
+            {typeof kpi.value === 'string' ? kpi.value : kpi.value.toFixed(2)}
           </Typography>
-          <Typography variant="h5" component="span" fontWeight="fontWeightBold">
-            {kpi.unit}
-          </Typography>
+          {kpi.suffix && (
+            <Typography variant="h5" component="span" fontWeight="fontWeightBold">
+              {kpi.suffix}
+            </Typography>
+          )}
         </Grid>
-        <Grid item xs>
-          <KpiTrendChip value={kpi.difference} isPositiveGreen={kpi.isPositiveGreen} />
-        </Grid>
+        {kpi.difference && (
+          <Grid item xs>
+            <KpiTrendChip value={kpi.difference} isPositiveGreen={kpi.isPositiveGreen} />
+          </Grid>
+        )}
         <Grid item xs={12}>
           <Typography color="textSecondary" variant="subtitle1" sx={{ py: 0.5, textAlign: 'start' }}>
             {kpi?.label}

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useCurrentScenarioId } from '../../state/hooks/ScenarioHooks';
 import bottlenecks from './data/bottlenecks.json';
 import flowchartInstance from './data/graph.json';
+import kpis from './data/kpis.json';
 import shortages from './data/shortages.json';
 import { getGraphFromInstance, resetGraphLayout as resetLayout } from './utils/graphUtils';
 
@@ -25,7 +26,7 @@ export const useSimulationView = () => {
   const graphRef = useRef(null);
 
   useEffect(() => {
-    graphRef.current = getGraphFromInstance(flowchartInstance, bottlenecks, shortages, settings);
+    graphRef.current = getGraphFromInstance(flowchartInstance, bottlenecks, shortages, kpis, settings);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentScenarioId]); // Do not reload graph data when settings change
 
