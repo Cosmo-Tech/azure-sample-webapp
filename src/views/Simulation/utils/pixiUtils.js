@@ -31,6 +31,10 @@ const createPackageIconGraphicsContext = (options) => {
   return graphicsContext;
 };
 
+const createOperationsCountBadgeGraphicsContext = () => {
+  return new GraphicsContext().circle(0, 0, 10).fill('#2F6A79');
+};
+
 const createStockGraphicsContext = (options) => {
   const graphicsContext = new GraphicsContext()
     .rect(0, 0, 68, 68)
@@ -115,7 +119,7 @@ const createStockContainer = (graphicsContexts, name, hasShortages = false) => {
   return container;
 };
 
-const createProductionResourceContainer = (graphicsContexts, name, hasBottlenecks = false) => {
+const createProductionResourceContainer = (graphicsContexts, name, hasBottlenecks, operationsCount) => {
   const borderContextKey = hasBottlenecks ? 'productionResourceBorderLevel1' : 'productionResourceBorderLevel0';
   const border = new Graphics(graphicsContexts[borderContextKey]);
   if (hasBottlenecks)
@@ -133,9 +137,15 @@ const createProductionResourceContainer = (graphicsContexts, name, hasBottleneck
   const background = new Graphics(graphicsContexts.productionResourceBackground);
   background.x = 10;
   background.y = 10;
-  const operation = new Graphics(graphicsContexts.productionResource);
-  operation.x = 26;
-  operation.y = 30;
+  const resource = new Graphics(graphicsContexts.productionResource);
+  resource.x = 26;
+  resource.y = 30;
+  const operationsBadge = new Graphics(graphicsContexts.operationsCountBadge);
+  operationsBadge.x = 70;
+  operationsBadge.y = 34;
+  const operationsBadgeText = createLabel(`${operationsCount ?? 0}`);
+  operationsBadgeText.anchor.set(0.5);
+  operationsBadgeText.position.set(operationsBadge.x, operationsBadge.y);
 
   const label = createLabel(name);
   label.anchor.set(0.5);
@@ -144,7 +154,9 @@ const createProductionResourceContainer = (graphicsContexts, name, hasBottleneck
   container.addChild(borderContainer);
   container.addChild(background);
   container.addChild(factoryIcon);
-  container.addChild(operation);
+  container.addChild(resource);
+  container.addChild(operationsBadge);
+  container.addChild(operationsBadgeText);
   container.addChild(label);
   return container;
 };
@@ -200,7 +212,12 @@ const createLinkGraphics = (links, setSelectedElement, settings) => {
 const createNodeContainer = (graphicsContexts, node) => {
   const container =
     node.type === 'productionResource'
-      ? createProductionResourceContainer(graphicsContexts, node.id, node.bottlenecksCount != null)
+      ? createProductionResourceContainer(
+          graphicsContexts,
+          node.id,
+          node.bottlenecksCount != null,
+          node.operationsCount
+        )
       : createStockContainer(graphicsContexts, node.id, node.shortagesCount != null);
 
   let centerOffset = { x: 24, y: 24 };
@@ -219,6 +236,7 @@ export const renderElements = (mainContainer, graphRef, setSelectedElement, sett
   const { nodes, links } = graphRef.current;
 
   const graphicsContexts = {
+    operationsCountBadge: createOperationsCountBadgeGraphicsContext(),
     stockLevel0: createStockGraphicsContext({ fillColor: '#20363D', borderColor: '#48C0DB52' }),
     stockLevel1: createStockGraphicsContext({ fillColor: '#DF3537', borderColor: '#DF3537' }),
     productionResourceBackground: createProductionResourceBackgroundGraphicsContext(),
