@@ -6,7 +6,6 @@ const MIN_ZOOM = 0.05;
 const MAX_ZOOM = 2;
 const DEFAULT_ZOOM = 0.2;
 const ZOOM_SPEED = 0.5;
-const ORIGIN = { x: 0, y: 0 };
 
 const interpolateLinear = (a, b, t) => {
   return a + (b - a) * t;
@@ -20,7 +19,9 @@ export class SceneContainer extends Container {
     this.zoom = DEFAULT_ZOOM;
     this.scale.set(this.zoom);
     // TODO: find a way to zoom automatically on a default point of interest
-    this.position.set(250, -2100);
+    const bounds = this.getBounds();
+    this.origin = new Point(bounds.maxX / 2, bounds.maxY / 2);
+    this.position = this.origin;
 
     this.sceneApp = sceneApp;
 
@@ -82,7 +83,7 @@ export class SceneContainer extends Container {
   }
 
   backToOrigin() {
-    this.translateTo(ORIGIN.x, ORIGIN.y, MIN_ZOOM);
+    this.translateTo(this.origin.x, this.origin.y, DEFAULT_ZOOM);
   }
 
   stopBackToOrigin() {
