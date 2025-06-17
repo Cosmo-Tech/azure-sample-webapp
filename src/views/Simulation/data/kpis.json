@@ -1,1 +1,1 @@
-[{"simulationRun": "sr-mgmo6vqg7e2l", "simulationName": "Test Maxi Demo", "opex": 8453574445.586937, "averageStockValue": 109741825.6445094, "onTimeFillRateServiceLevel": 0.9002749820931215, "co2Emissions": 2104864678.3814857, "profit": 2279864812.3941555}]
+[{"simulationRun": "sr-mgmo6vqg7e2l", "simulationName": "Test Maxi Demo", "totalCost": 8453574445.586937, "stockValue": 109741825.6445094, "fillRate": 0.9002749820931215, "co2Emissions": 2104864678.3814857, "grossMargin": 2279864812.3941555}]
