@@ -105,7 +105,10 @@ export const getGraphFromInstance = (instance, bottlenecks, shortages, kpis, set
   const stocks = instance.stocks.map((el) => createNode(el, 'stock'));
   const productionResources = instance.production_resources.map((el) => createNode(el, 'productionResource'));
   productionResources.forEach((resource) => {
-    resource.operationsCount = instance.compounds.filter((link) => link.parent === resource.id).length;
+    resource.operations = instance.compounds
+      .filter((link) => link.parent === resource.id)
+      .map((operation) => operation.child);
+    resource.operationsCount = resource.operations.length;
   });
   const operations = instance.production_operations.map((el) => createNode(el, 'productionOperation'));
 

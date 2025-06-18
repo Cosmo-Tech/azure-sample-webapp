@@ -1,6 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Box, Grid } from '@mui/material';
 import { SimulationViewProvider } from './SimulationViewContext';
 import { useSimulationView } from './SimulationViewHook';
@@ -9,9 +9,7 @@ import { InspectorDrawer, Kpis, Scene, TopBar } from './components';
 const Simulation = () => {
   useSimulationView();
   const inspectorDrawerParentContainerRef = useRef(null);
-
   const [selectedElement, setSelectedElement] = useState(null);
-  const clearSelection = useCallback(() => setSelectedElement(null), [setSelectedElement]);
 
   return (
     <SimulationViewProvider>
@@ -29,7 +27,7 @@ const Simulation = () => {
               <Scene setSelectedElement={setSelectedElement} />
               <InspectorDrawer
                 selectedElement={selectedElement}
-                clearSelection={clearSelection}
+                setSelectedElement={setSelectedElement}
                 containerRef={inspectorDrawerParentContainerRef}
               />
             </div>

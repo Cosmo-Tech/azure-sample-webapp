@@ -37,11 +37,7 @@ export const ElementDetails = ({ selectedElement }) => {
   }, []);
 
   return (
-    <Stack
-      spacing={1}
-      sx={{ mt: 4, justifyContent: 'space-between', alignItems: 'start' }}
-      divider={<Divider flexItem />}
-    >
+    <Stack spacing={1} sx={{ justifyContent: 'space-between', alignItems: 'start' }} divider={<Divider flexItem />}>
       {elementDetails.map(([attribute, value], index) => (
         <Stack
           spacing={2}

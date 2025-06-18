@@ -1,17 +1,45 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Card, Drawer } from '@mui/material';
+import { Card, Drawer, Typography } from '@mui/material';
 import { useResizableDrawer } from './ResizableDrawerHook';
-import { ElementDetails, InspectorHeader } from './components';
+import { ElementDetails, InspectorHeader, ProductionOperationsList } from './components';
 
-const InspectorDrawer = ({ data, selectedElement, clearSelection }) => {
+const InspectorDrawer = ({ selectedElement, setSelectedElement }) => {
   // Work-around to prevent animation glitch on first time the drawer is opened
   const [, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
+  const [selectedSubElement, setSelectedSubElement] = useState(null);
+  // Reset selected sub-operation when another element is selected
+  useEffect(() => setSelectedSubElement(null), [selectedElement]);
+
+  const handleCloseButtonClick = useCallback(() => {
+    if (selectedSubElement != null) setSelectedSubElement(null);
+    else setSelectedElement(null);
+  }, [selectedSubElement, setSelectedElement, setSelectedSubElement]);
+
   const { width, startResizing } = useResizableDrawer();
+
+  const inspectedElement = useMemo(() => selectedSubElement ?? selectedElement, [selectedElement, selectedSubElement]);
+  const isResource = useMemo(() => inspectedElement?.operationsCount != null, [inspectedElement]);
+
+  const detailsSubtitle = useMemo(() => {
+    return isResource ? (
+      <Typography variant="h6" fontWeight="fontWeightBold" sx={{ mb: 2 }}>
+        Details
+      </Typography>
+    ) : null;
+  }, [isResource]);
+
+  const operationsSubtitle = useMemo(() => {
+    return isResource ? (
+      <Typography variant="h6" fontWeight="fontWeightBold" sx={{ my: 2 }}>
+        Production operations
+      </Typography>
+    ) : null;
+  }, [isResource]);
 
   return (
     <Drawer
@@ -19,7 +47,6 @@ const InspectorDrawer = ({ data, selectedElement, clearSelection }) => {
       hideBackdrop
       variant="persistent"
       open={selectedElement != null}
-      onClose={clearSelection}
       PaperProps={{ style: { width, position: 'absolute', backgroundColor: `rgba(0,0,0,0)`, backgroundImage: 'none' } }}
       BackdropProps={{ style: { position: 'absolute' } }}
       ModalProps={{
@@ -37,8 +64,11 @@ const InspectorDrawer = ({ data, selectedElement, clearSelection }) => {
           overflowX: 'auto',
         }}
       >
-        <InspectorHeader selectedElement={selectedElement} clearSelection={clearSelection} />
-        <ElementDetails selectedElement={selectedElement} />
+        <InspectorHeader selectedElement={inspectedElement} handleCloseButtonClick={handleCloseButtonClick} />
+        {detailsSubtitle}
+        <ElementDetails selectedElement={inspectedElement} />
+        {operationsSubtitle}
+        <ProductionOperationsList selectedElement={inspectedElement} setSelectedSubElement={setSelectedSubElement} />
       </Card>
       <div
         onMouseDown={startResizing}
@@ -61,9 +91,8 @@ const InspectorDrawer = ({ data, selectedElement, clearSelection }) => {
 };
 
 InspectorDrawer.propTypes = {
-  data: PropTypes.object,
   selectedElement: PropTypes.object,
-  clearSelection: PropTypes.func.isRequired,
+  setSelectedElement: PropTypes.func.isRequired,
 };
 
 export default InspectorDrawer;

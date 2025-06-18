@@ -3,3 +3,4 @@
 
 export { InspectorHeader } from './InspectorHeader';
 export { ElementDetails } from './ElementDetails';
+export { ProductionOperationsList } from './ProductionOperationsList';
