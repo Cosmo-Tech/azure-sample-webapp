@@ -1,5 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
+import { GRAPH_VIEW_FILTER_VALUES } from '../constants/settings';
 import { applyDagreLayout } from './layoutUtils';
 
 const forgeElementData = (element, keysToHide = []) => {
@@ -15,7 +16,8 @@ const forgeLink = (nodes, link, type, sourceId, targetId) => {
   const target = nodes.find((node) => node.id === targetId);
   if (source == null) return console.warn(`Transports: cannot find link source "${sourceId}"`);
   if (target == null) return console.warn(`Transports: cannot find link target "${targetId}"`);
-  return { type, source, target, data: forgeElementData(link) };
+  const isGrayedOut = source.isGrayedOut || target.isGrayedOut;
+  return { isGrayedOut, type, source, target, data: forgeElementData(link) };
 };
 
 const getTransportLinks = (instance, nodes) => {
@@ -61,7 +63,8 @@ const getGraphLinks = (instance, nodes) => {
   return [...getTransportLinks(instance, nodes), ...getInputLinks(instance, nodes), ...getOutputLinks(instance, nodes)];
 };
 
-const setStockShortages = (instance, stocks, shortages) => {
+const setStockShortages = (instance, stocks, shortages, settings) => {
+  const highlightShortages = settings.graphViewFilters.includes(GRAPH_VIEW_FILTER_VALUES.SHORTAGES);
   let stocksNotFound = 0;
   for (const [stockId, stockShortages] of Object.entries(shortages)) {
     const stock = stocks.find((element) => element.id === stockId);
@@ -72,12 +75,14 @@ const setStockShortages = (instance, stocks, shortages) => {
 
     const newShortages = Object.entries(stockShortages).length;
     stock.shortagesCount = (stock.shortagesCount ?? 0) + newShortages;
+    if (highlightShortages && newShortages > 0) stock.isGrayedOut = false;
   }
 
   if (stocksNotFound > 0) console.warn(`Shortages: ${stocksNotFound} stock ids not found in instance`);
 };
 
-const setResourceBottlenecks = (instance, productionResources, bottlenecks) => {
+const setResourceBottlenecks = (instance, productionResources, bottlenecks, settings) => {
+  const highlightBottlenecks = settings.graphViewFilters.includes(GRAPH_VIEW_FILTER_VALUES.BOTTLENECKS);
   let resourcesNotFound = 0;
   for (const [resourceId, resourceBottlenecks] of Object.entries(bottlenecks)) {
     const resource = productionResources.find((resource) => resource.id === resourceId);
@@ -88,15 +93,30 @@ const setResourceBottlenecks = (instance, productionResources, bottlenecks) => {
 
     const newBottlenecks = Object.entries(resourceBottlenecks).length;
     resource.bottlenecksCount = (resource.bottlenecksCount ?? 0) + newBottlenecks;
+    if (highlightBottlenecks && newBottlenecks > 0) resource.isGrayedOut = false;
   }
 
   if (resourcesNotFound > 0) console.warn(`Bottlenecks: ${resourcesNotFound} resource ids not found in instance`);
 };
 
+const propagateElementsHighlighting = (links, productionResources, stocks, inPropagationLevel, outPropagationLevel) => {
+  links.forEach((link) => {
+    if (inPropagationLevel > 0 && !link.target.isGrayedOut) link.source.isGrayedOut = false;
+    if (outPropagationLevel > 0 && !link.source.isGrayedOut) link.target.isGrayedOut = false;
+    if (!link.source.isGrayedOut && !link.target.isGrayedOut) link.isGrayedOut = false;
+  });
+
+  // TODO: replace by iterative algorithm to improve performance
+  if (inPropagationLevel > 1 || outPropagationLevel > 1)
+    propagateElementsHighlighting(links, productionResources, stocks, inPropagationLevel - 1, outPropagationLevel - 1);
+};
+
 export const getGraphFromInstance = (instance, bottlenecks, shortages, kpis, settings) => {
+  const defaultGrayedOutValue = !settings.graphViewFilters.includes(GRAPH_VIEW_FILTER_VALUES.ALL);
   const createNode = (node, type) => {
     return {
       id: node.id,
+      isGrayedOut: defaultGrayedOutValue,
       type,
       data: forgeElementData(node, ['id', 'latitude', 'longitude']),
     };
@@ -112,11 +132,17 @@ export const getGraphFromInstance = (instance, bottlenecks, shortages, kpis, set
   });
   const operations = instance.production_operations.map((el) => createNode(el, 'productionOperation'));
 
-  setStockShortages(instance, stocks, shortages);
-  setResourceBottlenecks(instance, productionResources, bottlenecks);
+  setStockShortages(instance, stocks, shortages, settings);
+  setResourceBottlenecks(instance, productionResources, bottlenecks, settings);
 
   const nodes = [...stocks, ...productionResources];
   const links = getGraphLinks(instance, nodes);
+
+  const inPropagationLevel = settings.showInput ? settings.inputLevels : 0;
+  const outPropagationLevel = settings.showOutput ? settings.outputLevels : 0;
+  if (!settings.graphViewFilters.includes(GRAPH_VIEW_FILTER_VALUES.ALL))
+    propagateElementsHighlighting(links, productionResources, stocks, inPropagationLevel, outPropagationLevel);
+
   applyDagreLayout(nodes, links, settings);
   return { nodes, operations, links, kpis };
 };

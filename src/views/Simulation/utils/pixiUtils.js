@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { AdvancedBloomFilter } from 'pixi-filters';
-import { Application, Graphics, GraphicsContext, Container, Text } from 'pixi.js';
+import { AlphaFilter, Application, Graphics, GraphicsContext, Container, Text } from 'pixi.js';
 import 'pixi.js/unsafe-eval';
 import { MinimapContainer } from './MinimapContainer';
 import { SceneContainer } from './SceneContainer';
@@ -167,7 +167,7 @@ const createLinkGraphics = (links, setSelectedElement, settings) => {
 
   return links.map((link) => {
     const graphics = new Graphics();
-    graphics.alpha = 0.25;
+    graphics.alpha = link.isGrayedOut ? 0.15 : 0.8;
     graphics.eventMode = 'static';
     graphics.cursor = 'pointer';
 
@@ -256,13 +256,20 @@ export const renderElements = (mainContainer, graphRef, setSelectedElement, sett
     packageIconLevel1: createPackageIconGraphicsContext({ lineColor: '#F7F7F8' }),
   };
 
+  const backContainer = new Container();
+  backContainer.filters = new AlphaFilter({ alpha: 0.5 });
+  const frontContainer = new Container();
+  mainContainer.addChild(backContainer);
+  mainContainer.addChild(frontContainer);
+
   const linkGraphics = createLinkGraphics(links, setSelectedElement, settings);
-  linkGraphics.forEach((link) => mainContainer.addChild(link));
+  linkGraphics.forEach((link) => frontContainer.addChild(link));
 
   nodes.forEach((node) => {
     const container = createNodeContainer(graphicsContexts, node);
     container.on('click', (event) => setSelectedElement(node));
-    mainContainer.addChild(container);
+    if (node.isGrayedOut) backContainer.addChild(container);
+    else frontContainer.addChild(container);
   });
 };
 

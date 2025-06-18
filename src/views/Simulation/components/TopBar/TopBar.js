@@ -3,6 +3,7 @@
 import React from 'react';
 import { Stack } from '@mui/material';
 import { CurrentScenarioSelector } from '../../../../components';
+import { GraphViewFilters } from './GraphViewFilters';
 import { SearchBar } from './SearchBar';
 import { SettingsButton } from './SettingsButton';
 import { SimulationHorizon } from './SimulationHorizon';
@@ -24,6 +25,9 @@ const TopBar = () => {
       </div>
       <div style={{ flexGrow: 1 }}>
         <SearchBar />
+      </div>
+      <div style={{ flexGrow: 1 }}>
+        <GraphViewFilters />
       </div>
       <SimulationHorizon />
       <SettingsButton />

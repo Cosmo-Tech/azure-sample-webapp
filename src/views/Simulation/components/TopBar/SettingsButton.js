@@ -20,6 +20,7 @@ import {
 } from '@mui/material';
 import { TooltipInfo } from '@cosmotech/ui';
 import { useSimulationViewContext } from '../../SimulationViewContext';
+import { GRAPH_LAYOUT_DIRECTION_VALUES } from '../../constants/settings';
 
 export const SettingsButton = () => {
   const { settings, setSettings } = useSimulationViewContext();
@@ -74,22 +75,22 @@ export const SettingsButton = () => {
       <FormControl sx={{ flexGrow: 1, ml: 1 }}>
         <RadioGroup
           row
-          defaultValue="horizontal"
+          defaultValue={GRAPH_LAYOUT_DIRECTION_VALUES.HORIZONTAL}
           name="orientation-buttons-group"
-          value={settings?.orientation ?? 'horizontal'}
+          value={settings?.orientation ?? GRAPH_LAYOUT_DIRECTION_VALUES.HORIZONTAL}
           onChange={(event) => {
             setSettings((previousSettings) => ({ ...previousSettings, orientation: event.target.value }));
           }}
           sx={{ justifyContent: 'space-between' }}
         >
           <FormControlLabel
-            value="horizontal"
+            value={GRAPH_LAYOUT_DIRECTION_VALUES.HORIZONTAL}
             control={<Radio color="secondary" size="small" />}
             label="Horizontal"
             sx={{ mr: 0, p: 0 }}
           />
           <FormControlLabel
-            value="vertical"
+            value={GRAPH_LAYOUT_DIRECTION_VALUES.VERTICAL}
             control={<Radio color="secondary" size="small" />}
             label="Vertical"
             sx={{ mr: 0, p: 0 }}
