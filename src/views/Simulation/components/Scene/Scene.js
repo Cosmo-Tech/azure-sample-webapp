@@ -9,7 +9,8 @@ import { Minimap } from './Minimap';
 
 const Scene = ({ setSelectedElement }) => {
   const theme = useTheme();
-  const { graphRef, resetGraphLayout, setCenterToPosition, needsReRendering, settings } = useSimulationViewContext();
+  const { graphRef, resetGraphLayout, setCenterToPosition, needsReRendering, setNeedsReRendering, settings } =
+    useSimulationViewContext();
 
   const sceneAppRef = useRef(null);
   const minimapAppRef = useRef(null);
@@ -57,7 +58,20 @@ const Scene = ({ setSelectedElement }) => {
     if (sceneContainerRef.current) sceneContainerRef.current.removeChildren();
     renderElements(sceneContainerRef.current, graphRef, setSelectedElement, settings);
     if (minimapContainerRef.current != null) minimapContainerRef.current?.renderElements();
-  }, [needsReRendering, sceneContainerRef, sceneCanvasRef, graphRef, setSelectedElement, resetGraphLayout, settings]);
+    setNeedsReRendering(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    needsReRendering,
+    setNeedsReRendering,
+    sceneContainerRef,
+    sceneCanvasRef,
+    graphRef,
+    setSelectedElement,
+    resetGraphLayout,
+    graphRef.current,
+    settings.orientation,
+    settings.spacing,
+  ]);
 
   const centerToPosition = useCallback(
     () => (x, y) => {
