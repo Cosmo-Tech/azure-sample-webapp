@@ -19,9 +19,6 @@ export class SceneContainer extends Container {
     this.zoom = DEFAULT_ZOOM;
     this.scale.set(this.zoom);
     // TODO: find a way to zoom automatically on a default point of interest
-    const bounds = this.getBounds();
-    this.origin = new Point(bounds.maxX / 2, bounds.maxY / 2);
-    this.position = this.origin;
 
     this.sceneApp = sceneApp;
 
@@ -32,38 +29,47 @@ export class SceneContainer extends Container {
     this.interactive = true;
 
     this.translateTo = this.translateTo.bind(this);
-    this.moveTowardTargetPosition = this.moveTowardTargetPosition.bind(this);
-    this.zoomWithWheel = this.zoomWithWheel.bind(this);
+    this.updatePositionAndScale = this.updatePositionAndScale.bind(this);
 
-    this.backToOrigin = this.backToOrigin.bind(this);
+    this.onWheel = this.onWheel.bind(this);
     this.onDragStart = this.onDragStart.bind(this);
     this.onDragMove = this.onDragMove.bind(this);
     this.onDragEnd = this.onDragEnd.bind(this);
 
-    canvasSceneRef.current.addEventListener('wheel', this.zoomWithWheel);
+    canvasSceneRef.current.addEventListener('wheel', this.onWheel);
     canvasSceneRef.current.addEventListener('pointerdown', this.onDragStart);
     canvasSceneRef.current.addEventListener('pointerup', this.onDragEnd);
     canvasSceneRef.current.addEventListener('pointerout', this.onDragEnd);
     canvasSceneRef.current.addEventListener('pointermove', this.onDragMove);
   }
 
+  init() {
+    const bounds = this.getBounds();
+    this.origin = new Point(bounds.width / 2, -bounds.height / 2);
+    this.position = this.origin;
+  }
+
+  setMinimapContainer(minimapContainerRef) {
+    this.minimapContainerRef = minimapContainerRef;
+  }
+
   destroy(canvasSceneRef) {
     if (!canvasSceneRef.current) return;
-    canvasSceneRef.current.removeEventListener('wheel', this.zoomWithWheel);
+    canvasSceneRef.current.removeEventListener('wheel', this.onWheel);
     canvasSceneRef.current.removeEventListener('pointerdown', this.onDragStart);
     canvasSceneRef.current.removeEventListener('pointerup', this.onDragEnd);
     canvasSceneRef.current.removeEventListener('pointerout', this.onDragEnd);
     canvasSceneRef.current.removeEventListener('pointermove', this.onDragMove);
   }
 
-  moveTowardTargetPosition() {
+  updatePositionAndScale() {
     const nearTargetZoom = Math.abs(this.targetZoom - this.zoom) < 0.0005;
     const nearTargetPosition = Math.abs(this.targetX - this.x) < 0.05 && Math.abs(this.targetY - this.y) < 0.05;
 
     if (nearTargetPosition && nearTargetZoom) {
       this.position.set(this.targetX, this.targetY);
       this.scale.set(this.targetZoom);
-      this.sceneApp.ticker.remove(this.moveTowardTargetPosition);
+      this.sceneApp.ticker.remove(this.updatePositionAndScale);
       this.checkBounds();
     } else {
       this.x = interpolateLinear(this.x, this.targetX, 0.1);
@@ -72,14 +78,15 @@ export class SceneContainer extends Container {
       const newZoom = interpolateLinear(this.zoom, this.targetZoom, 0.1);
       this.zoom = newZoom;
       this.scale.set(newZoom);
+      this.minimapContainerRef.current.updateScreenCursor();
     }
   }
 
-  translateTo(x, y, zoom) {
+  translateTo(x, y, zoom = this.zoom) {
     this.targetX = x;
     this.targetY = y;
     this.targetZoom = zoom;
-    this.sceneApp.ticker.add(this.moveTowardTargetPosition);
+    this.sceneApp.ticker.add(this.updatePositionAndScale);
   }
 
   backToOrigin() {
@@ -87,7 +94,7 @@ export class SceneContainer extends Container {
   }
 
   stopBackToOrigin() {
-    this.sceneApp.ticker.remove(this.moveTowardTargetPosition);
+    this.sceneApp.ticker.remove(this.updatePositionAndScale);
   }
 
   zoomOnPoint(zoomDirection, zoomPoint) {
@@ -104,7 +111,7 @@ export class SceneContainer extends Container {
     this.translateTo(targetX, targetY, newZoom);
   }
 
-  zoomWithWheel(event) {
+  onWheel(event) {
     const zoomDirection = event.deltaY < 0 ? 1 : -1;
     const zoomPoint = new Point(event.offsetX, event.offsetY);
 
@@ -128,22 +135,15 @@ export class SceneContainer extends Container {
 
     let returnToX, returnToY;
 
-    if (sceneBounds.minX > farRight) {
-      returnToX = farRight;
-      returnToY = this.y;
-    } else if (sceneBounds.maxX < farLeft) {
-      returnToX = farLeft - sceneBounds.width;
-      returnToY = this.y;
-    }
-    if (sceneBounds.minY > farBottom) {
-      returnToY = farBottom;
-      returnToX = this.x;
-    } else if (sceneBounds.maxY < farTop) {
-      returnToY = farTop - sceneBounds.height;
-      returnToX = this.x;
-    }
+    if (sceneBounds.minX > farRight) returnToX = farRight;
+    else if (sceneBounds.maxX < farLeft) returnToX = farLeft - sceneBounds.width;
+    else returnToX = this.x;
 
-    this.translateTo(returnToX, returnToY, this.zoom);
+    if (sceneBounds.minY > farBottom) returnToY = farBottom;
+    else if (sceneBounds.maxY < farTop) returnToY = farTop - sceneBounds.height;
+    else returnToY = this.y;
+
+    this.translateTo(returnToX, returnToY);
   }
 
   onDragStart(event) {
@@ -163,6 +163,7 @@ export class SceneContainer extends Container {
     const dragY = mouseScreenPosition.y - this.dragStart.y;
 
     this.position.set(this.containerStart.x + dragX, this.containerStart.y + dragY);
+    this.minimapContainerRef.current.updateScreenCursor();
   }
 
   onDragEnd() {

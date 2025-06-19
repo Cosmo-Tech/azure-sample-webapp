@@ -38,7 +38,7 @@ const Scene = ({ setSelectedElement }) => {
         settings
       );
 
-      await initMinimap(minimapAppRef, minimapContainerRef, minimapCanvasRef, sceneContainerRef, theme);
+      await initMinimap(minimapAppRef, minimapContainerRef, minimapCanvasRef, sceneContainerRef, sceneCanvasRef, theme);
 
       forceRender((prev) => prev + 1);
     };
@@ -49,6 +49,8 @@ const Scene = ({ setSelectedElement }) => {
       destroyApp(minimapAppRef.current);
       // eslint-disable-next-line react-hooks/exhaustive-deps
       sceneContainerRef.current.destroy(sceneCanvasRef);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      minimapContainerRef.current.destroy(minimapCanvasRef);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
