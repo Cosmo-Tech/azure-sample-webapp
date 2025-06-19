@@ -318,6 +318,7 @@ export const initApp = async (
   window.addEventListener('resize', handleResize);
 
   renderElements(sceneContainerRef.current, graphRef, setSelectedElement, settings);
+  sceneContainerRef.current.init();
 };
 
 export const destroyApp = (app) => {
@@ -325,18 +326,25 @@ export const destroyApp = (app) => {
   app.destroy(true, { children: true });
 };
 
-export const initMinimap = async (minimapAppRef, minimapContainerRef, minimapCanvasRef, sceneContainerRef, theme) => {
+export const initMinimap = async (
+  minimapAppRef,
+  minimapContainerRef,
+  minimapCanvasRef,
+  sceneContainerRef,
+  sceneCanvasRef,
+  theme
+) => {
   const minimapApp = minimapAppRef.current;
   const minimapCanvas = minimapCanvasRef.current;
-  const sceneContainer = sceneContainerRef.current;
 
-  minimapContainerRef.current = new MinimapContainer(sceneContainer, minimapApp);
+  minimapContainerRef.current = new MinimapContainer(minimapAppRef, sceneContainerRef, sceneCanvasRef);
+  sceneContainerRef.current.setMinimapContainer(minimapContainerRef);
 
   const minimapContainer = minimapContainerRef.current;
 
   minimapApp.stage.addChild(minimapContainer);
 
-  await minimapApp.init({
+  await minimapAppRef.current.init({
     width: MinimapContainer.getMinimapSize().width,
     height: MinimapContainer.getMinimapSize().height,
     backgroundColor: theme.palette.background.default,
@@ -347,17 +355,14 @@ export const initMinimap = async (minimapAppRef, minimapContainerRef, minimapCan
 
   minimapCanvas.appendChild(minimapApp.canvas);
   minimapApp.canvas.style.width = '100%';
+
   minimapApp.canvas.style.height = '100%';
   minimapApp.canvas.style.display = 'block';
-  minimapCanvas.hitArea = minimapApp.screen;
-  minimapCanvas.eventMode = 'static';
 
   const handleResizeMinimap = () => {
     if (!minimapContainer || !minimapApp?.renderer) return;
-    minimapContainer.removeChildren();
     minimapContainer.renderElements();
   };
   window.addEventListener('resize', handleResizeMinimap);
-
-  return minimapApp;
+  minimapContainer.renderElements();
 };
