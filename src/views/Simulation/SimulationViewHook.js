@@ -7,6 +7,7 @@ import bottlenecks from './data/bottlenecks.json';
 import flowchartInstance from './data/graph.json';
 import kpis from './data/kpis.json';
 import shortages from './data/shortages.json';
+import stockDemands from './data/stock_demands.json';
 import { getGraphFromInstance, resetGraphLayout as resetLayout } from './utils/graphUtils';
 
 export const useSimulationView = () => {
@@ -20,7 +21,7 @@ export const useSimulationView = () => {
   useEffect(() => {
     // TODO: possible performance improvement if we can create a different useEffect to update only the highlighted
     // graph elements when filter settings change, instead of rebuilding the whole graph
-    graphRef.current = getGraphFromInstance(flowchartInstance, bottlenecks, shortages, kpis, settings);
+    graphRef.current = getGraphFromInstance(flowchartInstance, bottlenecks, shortages, stockDemands, kpis, settings);
     setNeedsReRendering(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [

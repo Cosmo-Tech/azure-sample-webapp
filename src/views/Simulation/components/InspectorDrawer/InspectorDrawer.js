@@ -3,10 +3,19 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Card, Drawer, Typography } from '@mui/material';
+import { useSimulationViewContext } from '../../SimulationViewContext';
 import { useResizableDrawer } from './ResizableDrawerHook';
-import { ElementDetails, InspectorHeader, ProductionOperationsList } from './components';
+import { InspectorChart, ElementDetails, InspectorHeader, ProductionOperationsList } from './components';
+
+const CHART_HEIGHT = 250;
+const CHART_WIDTH_OFFSET = 64;
+
+const fillSparseTimeSerie = (sparseData, numberOfTimeSteps) =>
+  Array.from({ length: numberOfTimeSteps }, (_, i) => sparseData[i + 1] || 0);
 
 const InspectorDrawer = ({ selectedElement, setSelectedElement }) => {
+  const { graphRef } = useSimulationViewContext();
+
   // Work-around to prevent animation glitch on first time the drawer is opened
   const [, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
@@ -23,7 +32,35 @@ const InspectorDrawer = ({ selectedElement, setSelectedElement }) => {
   const { width, startResizing } = useResizableDrawer();
 
   const inspectedElement = useMemo(() => selectedSubElement ?? selectedElement, [selectedElement, selectedSubElement]);
-  const isResource = useMemo(() => inspectedElement?.operationsCount != null, [inspectedElement]);
+  const isResource = useMemo(() => inspectedElement?.type === 'productionResource', [inspectedElement]);
+
+  const demandChart = useMemo(() => {
+    const data = graphRef.current?.stockDemands?.[inspectedElement?.id];
+    if (!data || inspectedElement?.type !== 'stock') return null;
+    return (
+      <>
+        <Typography variant="h6" fontWeight="fontWeightBold">
+          Demand
+        </Typography>
+        <InspectorChart data={data} width={width - CHART_WIDTH_OFFSET} height={CHART_HEIGHT} chartColor="#40E0D0" />
+      </>
+    );
+  }, [graphRef, inspectedElement, width]);
+
+  const shortagesChart = useMemo(() => {
+    const sparseData = graphRef.current?.shortages?.[inspectedElement?.id];
+    if (!sparseData || inspectedElement?.type !== 'stock') return null;
+
+    const data = fillSparseTimeSerie(sparseData, graphRef.current?.simulationLength);
+    return (
+      <>
+        <Typography variant="h6" fontWeight="fontWeightBold">
+          Shortages
+        </Typography>
+        <InspectorChart data={data} width={width - CHART_WIDTH_OFFSET} height={CHART_HEIGHT} chartColor="#DF3537" />
+      </>
+    );
+  }, [graphRef, inspectedElement, width]);
 
   const detailsSubtitle = useMemo(() => {
     return isResource ? (
@@ -61,10 +98,12 @@ const InspectorDrawer = ({ selectedElement, setSelectedElement }) => {
           height: '100%',
           marginLeft: '16px',
           padding: '24px',
-          overflowX: 'auto',
+          overflow: 'auto',
         }}
       >
         <InspectorHeader selectedElement={inspectedElement} handleCloseButtonClick={handleCloseButtonClick} />
+        {shortagesChart}
+        {demandChart}
         {detailsSubtitle}
         <ElementDetails selectedElement={inspectedElement} />
         {operationsSubtitle}

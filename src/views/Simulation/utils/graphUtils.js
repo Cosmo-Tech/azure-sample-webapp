@@ -111,7 +111,7 @@ const propagateElementsHighlighting = (links, productionResources, stocks, inPro
     propagateElementsHighlighting(links, productionResources, stocks, inPropagationLevel - 1, outPropagationLevel - 1);
 };
 
-export const getGraphFromInstance = (instance, bottlenecks, shortages, kpis, settings) => {
+export const getGraphFromInstance = (instance, bottlenecks, shortages, stockDemands, kpis, settings) => {
   const defaultGrayedOutValue = !settings.graphViewFilters.includes(GRAPH_VIEW_FILTER_VALUES.ALL);
   const createNode = (node, type) => {
     return {
@@ -144,7 +144,8 @@ export const getGraphFromInstance = (instance, bottlenecks, shortages, kpis, set
     propagateElementsHighlighting(links, productionResources, stocks, inPropagationLevel, outPropagationLevel);
 
   applyDagreLayout(nodes, links, settings);
-  return { nodes, operations, links, kpis };
+  const simulationLength = Object.values(stockDemands ?? {})?.[0]?.length;
+  return { nodes, operations, links, kpis, stockDemands, shortages, simulationLength };
 };
 
 export const resetGraphLayout = (graphRef, width, height, settings) => {
