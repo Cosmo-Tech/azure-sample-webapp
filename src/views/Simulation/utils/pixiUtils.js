@@ -10,6 +10,7 @@ import { PACKAGE_ICON_LINES, GEAR_ICON_LINES, FACTORY_ICON_LINES } from './shape
 const GRAY_LINE_COLOR = 0xb9bac0;
 const RED_LINE_COLOR = 0xdf3537;
 const DEFAULT_TEXT_STYLE = { fontFamily: 'Arial', fontSize: 12, fill: 0xffffff, align: 'center' };
+const BLOOM_FILTER = new AdvancedBloomFilter({ blur: 1, quality: 16, bloomScale: 1.8, brightness: 1 });
 
 const createLabel = (value) => new BitmapText({ text: value, style: DEFAULT_TEXT_STYLE });
 
@@ -100,7 +101,7 @@ const createStockContainer = (textures, name, hasShortages = false) => {
   const stockTextureKey = hasShortages ? 'stockLevel1' : 'stockLevel0';
   if (hasShortages) {
     const stockHalo = new Sprite(textures[stockTextureKey]);
-    stockHalo.filters = [new AdvancedBloomFilter({ blur: 1, quality: 32, bloomScale: 1, brightness: 1 })];
+    stockHalo.filters = [BLOOM_FILTER];
     stockHalo.position.set(-10, -10);
     container.addChild(stockHalo);
   }
@@ -123,8 +124,7 @@ const createStockContainer = (textures, name, hasShortages = false) => {
 const createProductionResourceContainer = (textures, name, hasBottlenecks, operationsCount) => {
   const borderTextureKey = hasBottlenecks ? 'productionResourceBorderLevel1' : 'productionResourceBorderLevel0';
   const border = new Sprite(textures[borderTextureKey]);
-  if (hasBottlenecks)
-    border.filters = [new AdvancedBloomFilter({ blur: 1, quality: 32, bloomScale: 1.5, brightness: 1 })];
+  if (hasBottlenecks) border.filters = [BLOOM_FILTER];
   const iconTextureKey = hasBottlenecks ? 'factoryIconLevel1' : 'factoryIconLevel0';
   const factoryIcon = new Sprite(textures[iconTextureKey]);
   factoryIcon.x = 40;
