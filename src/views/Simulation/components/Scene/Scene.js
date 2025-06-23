@@ -1,6 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/styles';
 import { useSimulationViewContext } from '../../SimulationViewContext';
@@ -18,8 +18,6 @@ const Scene = ({ setSelectedElement }) => {
   const sceneCanvasRef = useRef(null);
   const minimapCanvasRef = useRef(null);
   const sceneContainerRef = useRef(null);
-
-  const [, forceRender] = useState(0);
 
   useEffect(() => {
     sceneAppRef.current = createApp();
@@ -39,8 +37,6 @@ const Scene = ({ setSelectedElement }) => {
       );
 
       await initMinimap(minimapAppRef, minimapContainerRef, minimapCanvasRef, sceneContainerRef, sceneCanvasRef, theme);
-
-      forceRender((prev) => prev + 1);
     };
     setup();
 
@@ -56,6 +52,11 @@ const Scene = ({ setSelectedElement }) => {
   }, []);
 
   useEffect(() => {
+    setNeedsReRendering(true);
+  }, [setNeedsReRendering, settings.orientation, settings.spacing]);
+
+  useEffect(() => {
+    if (!needsReRendering) return;
     resetGraphLayout(sceneCanvasRef.current.clientWidth, sceneCanvasRef.current.clientHeight);
     if (sceneContainerRef.current) sceneContainerRef.current.removeChildren();
     renderElements(sceneContainerRef.current, graphRef, setSelectedElement, settings);
@@ -66,13 +67,12 @@ const Scene = ({ setSelectedElement }) => {
     needsReRendering,
     setNeedsReRendering,
     sceneContainerRef,
-    sceneCanvasRef,
+    sceneCanvasRef?.current?.clientWidth,
+    sceneCanvasRef?.current?.clientHeight,
     graphRef,
     setSelectedElement,
     resetGraphLayout,
     graphRef.current,
-    settings.orientation,
-    settings.spacing,
   ]);
 
   const centerToPosition = useCallback(

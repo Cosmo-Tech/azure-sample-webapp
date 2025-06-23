@@ -37,7 +37,6 @@ export const useSimulationView = () => {
   const resetGraphLayout = useCallback(
     (width, height) => {
       resetLayout(graphRef, width, height, settings);
-      setNeedsReRendering(true);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [graphRef, settings.orientation, settings.spacing]

@@ -143,7 +143,6 @@ export const getGraphFromInstance = (instance, bottlenecks, shortages, stockDema
   if (!settings.graphViewFilters.includes(GRAPH_VIEW_FILTER_VALUES.ALL))
     propagateElementsHighlighting(links, productionResources, stocks, inPropagationLevel, outPropagationLevel);
 
-  applyDagreLayout(nodes, links, settings);
   const simulationLength = Object.values(stockDemands ?? {})?.[0]?.length;
   return { nodes, operations, links, kpis, stockDemands, shortages, simulationLength };
 };
