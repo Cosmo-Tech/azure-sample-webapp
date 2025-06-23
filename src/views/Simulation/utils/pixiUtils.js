@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { AdvancedBloomFilter } from 'pixi-filters';
-import { AlphaFilter, Application, Graphics, GraphicsContext, Container, BitmapText } from 'pixi.js';
+import { AlphaFilter, Application, BitmapText, Container, Graphics, GraphicsContext, Sprite } from 'pixi.js';
 import 'pixi.js/unsafe-eval';
 import { MinimapContainer } from './MinimapContainer';
 import { SceneContainer } from './SceneContainer';
@@ -95,20 +95,21 @@ const createFactoryIconGraphicsContext = (options) => {
   return graphicsContext;
 };
 
-const createStockContainer = (graphicsContexts, name, hasShortages = false) => {
+const createStockContainer = (textures, name, hasShortages = false) => {
   const container = new Container();
-  const stockContextKey = hasShortages ? 'stockLevel1' : 'stockLevel0';
+  const stockTextureKey = hasShortages ? 'stockLevel1' : 'stockLevel0';
   if (hasShortages) {
-    const stockHalo = new Graphics(graphicsContexts[stockContextKey]);
+    const stockHalo = new Sprite(textures[stockTextureKey]);
     stockHalo.filters = [new AdvancedBloomFilter({ blur: 1, quality: 32, bloomScale: 1, brightness: 1 })];
     stockHalo.position.set(-10, -10);
     container.addChild(stockHalo);
   }
-  const stock = new Graphics(graphicsContexts[stockContextKey]);
+  const stock = new Sprite(textures[stockTextureKey]);
   stock.position.set(-10, -10);
-  const iconContextKey = hasShortages ? 'packageIconLevel1' : 'packageIconLevel0';
-  const packageIcon = new Graphics(graphicsContexts[iconContextKey]);
-  packageIcon.position.set(-10, -10);
+  const iconTextureKey = hasShortages ? 'packageIconLevel1' : 'packageIconLevel0';
+  const packageIcon = new Sprite(textures[iconTextureKey]);
+  packageIcon.anchor.set(0.5);
+  packageIcon.position.set(24, 24);
   const label = createLabel(name);
   label.anchor.set(0.5);
   label.position.set(34, 64);
@@ -119,13 +120,13 @@ const createStockContainer = (graphicsContexts, name, hasShortages = false) => {
   return container;
 };
 
-const createProductionResourceContainer = (graphicsContexts, name, hasBottlenecks, operationsCount) => {
-  const borderContextKey = hasBottlenecks ? 'productionResourceBorderLevel1' : 'productionResourceBorderLevel0';
-  const border = new Graphics(graphicsContexts[borderContextKey]);
+const createProductionResourceContainer = (textures, name, hasBottlenecks, operationsCount) => {
+  const borderTextureKey = hasBottlenecks ? 'productionResourceBorderLevel1' : 'productionResourceBorderLevel0';
+  const border = new Sprite(textures[borderTextureKey]);
   if (hasBottlenecks)
     border.filters = [new AdvancedBloomFilter({ blur: 1, quality: 32, bloomScale: 1.5, brightness: 1 })];
-  const iconContextKey = hasBottlenecks ? 'factoryIconLevel1' : 'factoryIconLevel0';
-  const factoryIcon = new Graphics(graphicsContexts[iconContextKey]);
+  const iconTextureKey = hasBottlenecks ? 'factoryIconLevel1' : 'factoryIconLevel0';
+  const factoryIcon = new Sprite(textures[iconTextureKey]);
   factoryIcon.x = 40;
 
   const borderContainer = new Container();
@@ -134,13 +135,14 @@ const createProductionResourceContainer = (graphicsContexts, name, hasBottleneck
 
   const container = new Container();
 
-  const background = new Graphics(graphicsContexts.productionResourceBackground);
+  const background = new Sprite(textures.productionResourceBackground);
   background.x = 10;
   background.y = 10;
-  const resource = new Graphics(graphicsContexts.productionResource);
+  const resource = new Sprite(textures.productionResource);
   resource.x = 26;
   resource.y = 30;
-  const operationsBadge = new Graphics(graphicsContexts.operationsCountBadge);
+  const operationsBadge = new Sprite(textures.operationsCountBadge);
+  operationsBadge.anchor.set(0.5);
   operationsBadge.x = 70;
   operationsBadge.y = 34;
   const operationsBadgeText = createLabel(`${operationsCount ?? 0}`);
@@ -209,16 +211,11 @@ const createLinkGraphics = (links, setSelectedElement, settings) => {
   });
 };
 
-const createNodeContainer = (graphicsContexts, node) => {
+const createNodeContainer = (textures, node) => {
   const container =
     node.type === 'productionResource'
-      ? createProductionResourceContainer(
-          graphicsContexts,
-          node.id,
-          node.bottlenecksCount != null,
-          node.operationsCount
-        )
-      : createStockContainer(graphicsContexts, node.id, node.shortagesCount != null);
+      ? createProductionResourceContainer(textures, node.id, node.bottlenecksCount != null, node.operationsCount)
+      : createStockContainer(textures, node.id, node.shortagesCount != null);
 
   let centerOffset = { x: 24, y: 24 };
   if (node.type === 'productionResource') centerOffset = { x: 40, y: 54 };
@@ -230,11 +227,7 @@ const createNodeContainer = (graphicsContexts, node) => {
   return container;
 };
 
-export const renderElements = (mainContainer, graphRef, setSelectedElement, settings) => {
-  if (!graphRef.current || !mainContainer) return;
-
-  const { nodes, links } = graphRef.current;
-
+const generateTextures = (app) => {
   const graphicsContexts = {
     operationsCountBadge: createOperationsCountBadgeGraphicsContext(),
     stockLevel0: createStockGraphicsContext({ fillColor: '#20363D', borderColor: '#48C0DB52' }),
@@ -256,17 +249,30 @@ export const renderElements = (mainContainer, graphRef, setSelectedElement, sett
     packageIconLevel1: createPackageIconGraphicsContext({ lineColor: '#F7F7F8' }),
   };
 
+  const textures = {};
+  for (const [key, graphicsContext] of Object.entries(graphicsContexts)) {
+    textures[key] = app.renderer.generateTexture(new Graphics(graphicsContext));
+  }
+  return textures;
+};
+
+export const renderElements = (sceneContainerRef, graphRef, setSelectedElement, settings) => {
+  if (!graphRef.current || !sceneContainerRef.current?.textures) return;
+
+  const { nodes, links } = graphRef.current;
+  const textures = sceneContainerRef.current.textures;
+
   const backContainer = new Container();
   backContainer.filters = new AlphaFilter({ alpha: 0.5 });
   const frontContainer = new Container();
-  mainContainer.addChild(backContainer);
-  mainContainer.addChild(frontContainer);
+  sceneContainerRef.current.addChild(backContainer);
+  sceneContainerRef.current.addChild(frontContainer);
 
   const linkGraphics = createLinkGraphics(links, setSelectedElement, settings);
   linkGraphics.forEach((link) => frontContainer.addChild(link));
 
   nodes.forEach((node) => {
-    const container = createNodeContainer(graphicsContexts, node);
+    const container = createNodeContainer(textures, node);
     container.on('click', (event) => setSelectedElement(node));
     if (node.isGrayedOut) backContainer.addChild(container);
     else frontContainer.addChild(container);
@@ -305,6 +311,7 @@ export const initApp = async (
   canvas.eventMode = 'static';
 
   sceneContainerRef.current = new SceneContainer(app, sceneCanvasRef);
+  sceneContainerRef.current.textures = generateTextures(app);
   app.stage.addChild(sceneContainerRef.current);
 
   const handleResize = () => {
@@ -313,11 +320,11 @@ export const initApp = async (
     resetGraphLayout(canvas.clientWidth, canvas.clientHeight);
 
     sceneContainerRef.current.removeChildren();
-    renderElements(sceneContainerRef.current, graphRef, setSelectedElement, settings);
+    renderElements(sceneContainerRef, graphRef, setSelectedElement, settings);
   };
   window.addEventListener('resize', handleResize);
 
-  renderElements(sceneContainerRef.current, graphRef, setSelectedElement, settings);
+  renderElements(sceneContainerRef, graphRef, setSelectedElement, settings);
   sceneContainerRef.current.init();
 };
 

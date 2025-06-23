@@ -59,7 +59,7 @@ const Scene = ({ setSelectedElement }) => {
     if (!needsReRendering) return;
     resetGraphLayout(sceneCanvasRef.current.clientWidth, sceneCanvasRef.current.clientHeight);
     if (sceneContainerRef.current) sceneContainerRef.current.removeChildren();
-    renderElements(sceneContainerRef.current, graphRef, setSelectedElement, settings);
+    renderElements(sceneContainerRef, graphRef, setSelectedElement, settings);
     if (minimapContainerRef.current != null) minimapContainerRef.current?.renderElements();
     setNeedsReRendering(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -67,6 +67,7 @@ const Scene = ({ setSelectedElement }) => {
     needsReRendering,
     setNeedsReRendering,
     sceneContainerRef,
+    sceneContainerRef?.current?.textures,
     sceneCanvasRef?.current?.clientWidth,
     sceneCanvasRef?.current?.clientHeight,
     graphRef,
@@ -94,7 +95,7 @@ const Scene = ({ setSelectedElement }) => {
         ref={sceneCanvasRef}
         style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}
       ></div>
-      <Minimap ref={minimapCanvasRef} sceneContainer={sceneContainerRef.current} />
+      <Minimap ref={minimapCanvasRef} sceneContainerRef={sceneContainerRef} />
     </>
   );
 };

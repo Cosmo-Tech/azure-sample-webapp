@@ -10,9 +10,7 @@ import {
 import { Button, Paper, Stack } from '@mui/material';
 import { MinimapContainer } from '../../utils/MinimapContainer';
 
-export const Minimap = forwardRef(function Minimap(props, canvasMinimapRef) {
-  const { sceneContainer } = props;
-
+export const Minimap = forwardRef(function Minimap({ sceneContainerRef }, canvasMinimapRef) {
   return (
     <Stack
       sx={{
@@ -39,13 +37,28 @@ export const Minimap = forwardRef(function Minimap(props, canvasMinimapRef) {
         ></div>
       </Paper>
       <Stack direction="row" sx={{ marginTop: 0.5 }} justifyContent="space-between" alignItems="center">
-        <Button size="small" variant="contained" onClick={() => sceneContainer.zoomOnPoint(1)} color="inherit">
+        <Button
+          size="small"
+          variant="contained"
+          onClick={() => sceneContainerRef?.current?.zoomOnPoint(1)}
+          color="inherit"
+        >
           <ZoomInIcon />
         </Button>
-        <Button size="small" variant="contained" onClick={() => sceneContainer.zoomOnPoint(-1)} color="inherit">
+        <Button
+          size="small"
+          variant="contained"
+          onClick={() => sceneContainerRef?.current?.zoomOnPoint(-1)}
+          color="inherit"
+        >
           <ZoomOutIcon />
         </Button>
-        <Button size="small" variant="contained" onClick={() => sceneContainer.backToOrigin()} color="inherit">
+        <Button
+          size="small"
+          variant="contained"
+          onClick={() => sceneContainerRef?.current?.backToOrigin()}
+          color="inherit"
+        >
           <CenterFocusStrongIcon />
         </Button>
       </Stack>
@@ -54,5 +67,5 @@ export const Minimap = forwardRef(function Minimap(props, canvasMinimapRef) {
 });
 
 Minimap.propTypes = {
-  sceneContainer: PropTypes.object,
+  sceneContainerRef: PropTypes.object,
 };
