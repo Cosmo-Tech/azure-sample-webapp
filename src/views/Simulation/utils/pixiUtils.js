@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { AdvancedBloomFilter } from 'pixi-filters';
-import { AlphaFilter, Application, Graphics, GraphicsContext, Container, Text } from 'pixi.js';
+import { AlphaFilter, Application, Graphics, GraphicsContext, Container, BitmapText } from 'pixi.js';
 import 'pixi.js/unsafe-eval';
 import { MinimapContainer } from './MinimapContainer';
 import { SceneContainer } from './SceneContainer';
@@ -11,7 +11,7 @@ const GRAY_LINE_COLOR = 0xb9bac0;
 const RED_LINE_COLOR = 0xdf3537;
 const DEFAULT_TEXT_STYLE = { fontFamily: 'Arial', fontSize: 12, fill: 0xffffff, align: 'center' };
 
-const createLabel = (value) => new Text({ text: value, style: DEFAULT_TEXT_STYLE, resolution: 2 });
+const createLabel = (value) => new BitmapText({ text: value, style: DEFAULT_TEXT_STYLE });
 
 const drawIcon = (graphicsContext, lines, xOffset, yOffset, width, height) => {
   lines.forEach((line) => {
