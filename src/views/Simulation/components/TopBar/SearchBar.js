@@ -15,7 +15,7 @@ const TYPE_LABELS = {
 };
 
 export const SearchBar = () => {
-  const { centerToPosition, graphRef, needsReRendering } = useSimulationViewContext();
+  const { centerToPosition, graphRef } = useSimulationViewContext();
 
   const options = useMemo(() => {
     if (graphRef.current == null) return [];
@@ -30,7 +30,7 @@ export const SearchBar = () => {
       return -b.typeLabel.localeCompare(a.typeLabel);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [graphRef, needsReRendering]);
+  }, [graphRef.current?.nodes]);
 
   const selectElement = (element) => {
     if (element == null) return;

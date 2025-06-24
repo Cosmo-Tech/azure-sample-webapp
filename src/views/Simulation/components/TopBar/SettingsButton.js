@@ -23,7 +23,7 @@ import { useSimulationViewContext } from '../../SimulationViewContext';
 import { GRAPH_LAYOUT_DIRECTION_VALUES } from '../../constants/settings';
 
 export const SettingsButton = () => {
-  const { settings, setSettings } = useSimulationViewContext();
+  const { requiredUpdateStepsRef, settings, setSettings } = useSimulationViewContext();
   // Use local value for spacing, so we can debounce the change events and trigger graph view updates less frequently
   const debounceTimerRef = useRef(null);
   const [localSpacingValue, setLocalSpacingValue] = useState(settings?.spacing);
@@ -32,11 +32,13 @@ export const SettingsButton = () => {
       if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
       setLocalSpacingValue(newValue);
       debounceTimerRef.current = setTimeout(() => {
+        requiredUpdateStepsRef.current.layout = true;
         setSettings((previousSettings) => ({ ...previousSettings, spacing: newValue }));
       }, 200);
     },
-    [setSettings, setLocalSpacingValue]
+    [requiredUpdateStepsRef, setSettings, setLocalSpacingValue]
   );
+
   useEffect(() => {
     return () => {
       if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
@@ -79,6 +81,7 @@ export const SettingsButton = () => {
           name="orientation-buttons-group"
           value={settings?.orientation ?? GRAPH_LAYOUT_DIRECTION_VALUES.HORIZONTAL}
           onChange={(event) => {
+            requiredUpdateStepsRef.current.layout = true;
             setSettings((previousSettings) => ({ ...previousSettings, orientation: event.target.value }));
           }}
           sx={{ justifyContent: 'space-between' }}
@@ -115,6 +118,7 @@ export const SettingsButton = () => {
         color="secondary"
         checked={settings?.showInput ?? true}
         onChange={(event) => {
+          requiredUpdateStepsRef.current.highlight = true;
           setSettings((previousSettings) => ({ ...previousSettings, showInput: event.target.checked }));
         }}
       />
@@ -126,6 +130,7 @@ export const SettingsButton = () => {
           variant="standard"
           value={settings?.inputLevels ?? 2}
           onChange={(event) => {
+            requiredUpdateStepsRef.current.highlight = true;
             setSettings((previousSettings) => ({ ...previousSettings, inputLevels: event.target.value }));
           }}
           displayEmpty
@@ -149,6 +154,7 @@ export const SettingsButton = () => {
         color="secondary"
         checked={settings?.showOutput ?? true}
         onChange={(event) => {
+          requiredUpdateStepsRef.current.highlight = true;
           setSettings((previousSettings) => ({ ...previousSettings, showOutput: event.target.checked }));
         }}
       />
@@ -160,6 +166,7 @@ export const SettingsButton = () => {
           variant="standard"
           value={settings?.outputLevels ?? 2}
           onChange={(event) => {
+            requiredUpdateStepsRef.current.highlight = true;
             setSettings((previousSettings) => ({ ...previousSettings, outputLevels: event.target.value }));
           }}
           displayEmpty
@@ -197,7 +204,7 @@ export const SettingsButton = () => {
         {forgeMenuItem('Outputs', 'Limit how many levels of output siblings are visible', outputSettings)}
       </Menu>
     );
-  }, [anchorEl, open, settings, setSettings, localSpacingValue, changeSpacingWithDebounce]);
+  }, [anchorEl, open, requiredUpdateStepsRef, settings, setSettings, localSpacingValue, changeSpacingWithDebounce]);
 
   return (
     <>

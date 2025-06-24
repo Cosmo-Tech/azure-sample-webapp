@@ -8,25 +8,43 @@ import flowchartInstance from './data/graph.json';
 import kpis from './data/kpis.json';
 import shortages from './data/shortages.json';
 import stockDemands from './data/stock_demands.json';
-import { getGraphFromInstance, resetGraphLayout as resetLayout } from './utils/graphUtils';
+import { getGraphFromInstance, resetGraphHighlighting, resetGraphLayout as resetLayout } from './utils/graphUtils';
+
+export const DEFAULT_UPDATE_STATE = {
+  all: false,
+  highlight: false,
+  layout: false,
+  render: false,
+};
 
 export const useSimulationView = () => {
   const currentScenarioId = useCurrentScenarioId();
   const [settings, setSettings] = useState(DEFAULT_SETTINGS);
   const [needsReRendering, setNeedsReRendering] = useState(false);
+  const requiredUpdateStepsRef = useRef({ ...DEFAULT_UPDATE_STATE });
 
   const [centerToPosition, setCenterToPosition] = useState(() => {});
   const graphRef = useRef(null);
 
   useEffect(() => {
-    // TODO: possible performance improvement if we can create a different useEffect to update only the highlighted
-    // graph elements when filter settings change, instead of rebuilding the whole graph
+    if (graphRef.current != null) return;
+    requiredUpdateStepsRef.current.layout = true;
     graphRef.current = getGraphFromInstance(flowchartInstance, bottlenecks, shortages, stockDemands, kpis, settings);
+    setNeedsReRendering(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (!graphRef.current) return;
+
+    if (requiredUpdateStepsRef.current.all || requiredUpdateStepsRef.current.layout)
+      graphRef.current = getGraphFromInstance(flowchartInstance, bottlenecks, shortages, stockDemands, kpis, settings);
+    else if (requiredUpdateStepsRef.current.highlight) resetGraphHighlighting(graphRef.current, settings);
+
     setNeedsReRendering(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     currentScenarioId,
-    // Do not reload graph data for all settings
     settings.graphViewFilters,
     settings.showInput,
     settings.inputLevels,
@@ -51,5 +69,6 @@ export const useSimulationView = () => {
     setCenterToPosition,
     needsReRendering,
     setNeedsReRendering,
+    requiredUpdateStepsRef,
   };
 };

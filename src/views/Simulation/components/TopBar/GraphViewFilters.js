@@ -17,7 +17,7 @@ import { useSimulationViewContext } from '../../SimulationViewContext';
 import { GRAPH_VIEW_FILTER_VALUES } from '../../constants/settings';
 
 export const GraphViewFilters = () => {
-  const { settings, setSettings } = useSimulationViewContext();
+  const { requiredUpdateStepsRef, settings, setSettings } = useSimulationViewContext();
   const [selectedFilters, setSelectedFilters] = useState(settings.graphViewFilters);
 
   const options = useMemo(() => {
@@ -51,10 +51,11 @@ export const GraphViewFilters = () => {
 
       // Update graph settings asynchronously to prevent UI lags
       setTimeout(() => {
+        requiredUpdateStepsRef.current.highlight = true;
         setSettings((previousSettings) => ({ ...previousSettings, graphViewFilters: newFilters }));
       }, 0);
     },
-    [setSelectedFilters, setSettings]
+    [requiredUpdateStepsRef, setSelectedFilters, setSettings]
   );
 
   return (

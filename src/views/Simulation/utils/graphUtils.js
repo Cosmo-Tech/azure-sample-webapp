@@ -99,7 +99,27 @@ const setResourceBottlenecks = (instance, productionResources, bottlenecks, sett
   if (resourcesNotFound > 0) console.warn(`Bottlenecks: ${resourcesNotFound} resource ids not found in instance`);
 };
 
-const propagateElementsHighlighting = (links, productionResources, stocks, inPropagationLevel, outPropagationLevel) => {
+export const resetGraphHighlighting = (graph, settings) => {
+  const showAllElements = settings.graphViewFilters.includes(GRAPH_VIEW_FILTER_VALUES.ALL);
+  const defaultGrayedOutValue = !showAllElements;
+
+  graph.links.forEach((link) => (link.isGrayedOut = defaultGrayedOutValue));
+  graph.nodes.forEach((node) => (node.isGrayedOut = defaultGrayedOutValue));
+  if (showAllElements) return;
+
+  const highlightBottlenecks = settings.graphViewFilters.includes(GRAPH_VIEW_FILTER_VALUES.BOTTLENECKS);
+  const highlightShortages = settings.graphViewFilters.includes(GRAPH_VIEW_FILTER_VALUES.SHORTAGES);
+  graph.nodes.forEach((node) => {
+    if (highlightShortages && (node.shortagesCount ?? 0) > 0) node.isGrayedOut = false;
+    if (highlightBottlenecks && (node.bottlenecksCount ?? 0) > 0) node.isGrayedOut = false;
+  });
+
+  const inPropagationLevel = settings.showInput ? settings.inputLevels : 0;
+  const outPropagationLevel = settings.showOutput ? settings.outputLevels : 0;
+  propagateElementsHighlighting(graph.links, inPropagationLevel, outPropagationLevel);
+};
+
+const propagateElementsHighlighting = (links, inPropagationLevel, outPropagationLevel) => {
   links.forEach((link) => {
     if (inPropagationLevel > 0 && !link.target.isGrayedOut) link.source.isGrayedOut = false;
     if (outPropagationLevel > 0 && !link.source.isGrayedOut) link.target.isGrayedOut = false;
@@ -108,7 +128,7 @@ const propagateElementsHighlighting = (links, productionResources, stocks, inPro
 
   // TODO: replace by iterative algorithm to improve performance
   if (inPropagationLevel > 1 || outPropagationLevel > 1)
-    propagateElementsHighlighting(links, productionResources, stocks, inPropagationLevel - 1, outPropagationLevel - 1);
+    propagateElementsHighlighting(links, inPropagationLevel - 1, outPropagationLevel - 1);
 };
 
 export const getGraphFromInstance = (instance, bottlenecks, shortages, stockDemands, kpis, settings) => {
@@ -141,7 +161,7 @@ export const getGraphFromInstance = (instance, bottlenecks, shortages, stockDema
   const inPropagationLevel = settings.showInput ? settings.inputLevels : 0;
   const outPropagationLevel = settings.showOutput ? settings.outputLevels : 0;
   if (!settings.graphViewFilters.includes(GRAPH_VIEW_FILTER_VALUES.ALL))
-    propagateElementsHighlighting(links, productionResources, stocks, inPropagationLevel, outPropagationLevel);
+    propagateElementsHighlighting(links, inPropagationLevel, outPropagationLevel);
 
   const simulationLength = Object.values(stockDemands ?? {})?.[0]?.length;
   return { nodes, operations, links, kpis, stockDemands, shortages, simulationLength };

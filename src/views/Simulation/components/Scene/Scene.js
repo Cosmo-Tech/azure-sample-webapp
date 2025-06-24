@@ -4,13 +4,21 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/styles';
 import { useSimulationViewContext } from '../../SimulationViewContext';
+import { DEFAULT_UPDATE_STATE } from '../../SimulationViewHook';
 import { createApp, destroyApp, initApp, initMinimap, renderElements } from '../../utils/pixiUtils';
 import { Minimap } from './Minimap';
 
 const Scene = ({ setSelectedElement }) => {
   const theme = useTheme();
-  const { graphRef, resetGraphLayout, setCenterToPosition, needsReRendering, setNeedsReRendering, settings } =
-    useSimulationViewContext();
+  const {
+    graphRef,
+    resetGraphLayout,
+    setCenterToPosition,
+    needsReRendering,
+    requiredUpdateStepsRef,
+    setNeedsReRendering,
+    settings,
+  } = useSimulationViewContext();
 
   const sceneAppRef = useRef(null);
   const minimapAppRef = useRef(null);
@@ -52,15 +60,23 @@ const Scene = ({ setSelectedElement }) => {
   }, []);
 
   useEffect(() => {
-    setNeedsReRendering(true);
-  }, [setNeedsReRendering, settings.orientation, settings.spacing]);
-
-  useEffect(() => {
     if (!needsReRendering) return;
-    resetGraphLayout(sceneCanvasRef.current.clientWidth, sceneCanvasRef.current.clientHeight);
-    if (sceneContainerRef.current) sceneContainerRef.current.removeChildren();
-    renderElements(sceneContainerRef, graphRef, setSelectedElement, settings);
-    if (minimapContainerRef.current != null) minimapContainerRef.current?.renderElements();
+    if (requiredUpdateStepsRef.current.all || requiredUpdateStepsRef.current.layout) {
+      resetGraphLayout(sceneCanvasRef.current.clientWidth, sceneCanvasRef.current.clientHeight);
+    }
+
+    if (
+      requiredUpdateStepsRef.current.all ||
+      requiredUpdateStepsRef.current.highlight ||
+      requiredUpdateStepsRef.current.layout ||
+      requiredUpdateStepsRef.current.render
+    ) {
+      if (sceneContainerRef.current) sceneContainerRef.current.removeChildren();
+      renderElements(sceneContainerRef, graphRef, setSelectedElement, settings);
+      if (minimapContainerRef.current != null) minimapContainerRef.current?.renderElements();
+    }
+
+    requiredUpdateStepsRef.current = { ...DEFAULT_UPDATE_STATE };
     setNeedsReRendering(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
