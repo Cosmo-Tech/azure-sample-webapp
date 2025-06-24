@@ -27,7 +27,7 @@ export const GraphViewFilters = () => {
         <ListItemText primary={filterValue} />
       </MenuItem>
     ));
-    listItems.splice(1, 0, <Divider />);
+    listItems.splice(1, 0, <Divider key="divider" />);
     return listItems;
   }, [selectedFilters]);
 

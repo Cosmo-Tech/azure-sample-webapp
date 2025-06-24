@@ -26,7 +26,13 @@ export const ProductionOperationsList = ({ selectedElement, setSelectedSubElemen
   const getListItem = useCallback(
     (operationId, index) => {
       return (
-        <MenuItem divider disableGutters sx={{ width: '100%' }} onClick={() => selectOperation(operationId)}>
+        <MenuItem
+          key={operationId}
+          divider
+          disableGutters
+          sx={{ width: '100%' }}
+          onClick={() => selectOperation(operationId)}
+        >
           <Stack
             spacing={2}
             key={index}

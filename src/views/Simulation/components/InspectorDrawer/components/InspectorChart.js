@@ -53,8 +53,8 @@ export const InspectorChart = ({ chartColor = '#40E0D0', data, width, height }) 
 };
 
 InspectorChart.propTypes = {
-  chartColor: PropTypes.object,
-  data: PropTypes.object,
+  chartColor: PropTypes.string,
+  data: PropTypes.array,
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
 };
