@@ -40,11 +40,13 @@ def export_to_json(graph_data, results_data, output_folder_path, pretty=False):
     }
     stock_demands_json = stock_demands_df.to_dict()
 
-    (kpis_df, shortages_df, bottlenecks_df) = results_data
+    (configuration_df, kpis_df, shortages_df, bottlenecks_df) = results_data
+    configuration_json = configuration_df.to_dict(orient="records")
     kpis_json = kpis_df.to_dict(orient="records")
     shortages_json = shortages_df.to_dict()
     bottlenecks_json = bottlenecks_df.to_dict()
 
+    write_json_file(configuration_json, output_folder_path, "configuration.json", pretty)
     write_json_file(graph_json, output_folder_path, "graph.json", pretty)
     write_json_file(stock_demands_json, output_folder_path, "stock_demands.json", pretty)
     write_json_file(kpis_json, output_folder_path, "kpis.json", pretty)

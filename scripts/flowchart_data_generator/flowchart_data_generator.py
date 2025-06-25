@@ -45,7 +45,14 @@ def check_arguments(input_file_path, results_folder_path, output_folder_path, fo
     if results_folder_path is not None and check_folder_exists(results_folder_path) is False:
         return False
 
-    output_files = ["graph.json", "stock_demands.json", "kpis.json", "shortages.json", "bottlenecks.json"]
+    output_files = [
+        "configuration.json",
+        "graph.json",
+        "stock_demands.json",
+        "kpis.json",
+        "shortages.json",
+        "bottlenecks.json",
+    ]
     for file_name in output_files:
         file_path = os.path.join(output_folder_path, file_name)
         if check_file_can_be_created(file_path, force) is False:

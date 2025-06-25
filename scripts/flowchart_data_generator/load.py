@@ -24,8 +24,10 @@ SHEETS_TO_READ = [
     "Demands",
 ]
 
+
 def to_float(value):
     return float(value.replace(",", ""))
+
 
 def rename_cols_to_camel_case(df, cols):
     cols_renaming_dict = {col: col[0].lower() + col[1:] for col in cols}
@@ -186,15 +188,33 @@ def load_from_excel_file(file_path):
     )
 
 
+def process_configuration(file_path):
+    df = pd.read_csv(file_path)
+    df = rename_cols_to_camel_case(
+        df, ["SimulationRun", "StartingDate", "SimulatedCycles", "StepsPerCycle", "TimeStepDuration"]
+    )
+
+    for col in ["timeStepDuration"]:
+        df[col] = df[col].apply(to_float)
+
+    df['endDate'] = (
+        pd.to_datetime(df['startingDate'], format='%m/%d/%Y, %I:%M:%S %p') +
+        pd.to_timedelta(df['simulatedCycles'] * df['stepsPerCycle'] * df['timeStepDuration'], unit='m')
+    ).dt.strftime('%m/%d/%Y, %I:%M:%S %p')
+    return df
+
+
 def process_kpis(file_path):
     df = pd.read_csv(file_path)
-    df = df.rename(columns={
-        "OPEX": "totalCost",
-        "CO2Emissions": "co2Emissions",
-        "OnTimeFillRateServiceLevel": "fillRate",
-        "Profit": "grossMargin",
-        "AverageStockValue": "stockValue",
-    })
+    df = df.rename(
+        columns={
+            "OPEX": "totalCost",
+            "CO2Emissions": "co2Emissions",
+            "OnTimeFillRateServiceLevel": "fillRate",
+            "Profit": "grossMargin",
+            "AverageStockValue": "stockValue",
+        }
+    )
     df = rename_cols_to_camel_case(df, ["SimulationRun", "SimulationName"])
 
     for col in ["totalCost", "stockValue", "co2Emissions", "grossMargin"]:
@@ -210,11 +230,11 @@ def process_shortages(dispatched_quantity_measures_path, stock_measures_path):
     del dispatched_quantity_df["SimulationName"]
     del stock_df["SimulationRun"]
     del stock_df["SimulationName"]
-    dispatched_quantity_df = rename_cols_to_camel_case(dispatched_quantity_df, ["TimeStep","Shortage"])
-    stock_df = rename_cols_to_camel_case(stock_df, ["TimeStep","Shortage"])
+    dispatched_quantity_df = rename_cols_to_camel_case(dispatched_quantity_df, ["TimeStep", "Shortage"])
+    stock_df = rename_cols_to_camel_case(stock_df, ["TimeStep", "Shortage"])
     dispatched_quantity_df["shortage"] = dispatched_quantity_df["shortage"].apply(to_float)
     df = pd.concat([dispatched_quantity_df, stock_df], ignore_index=True)
-    df = df.sort_values('timeStep').groupby('id').apply(lambda x: dict(zip(x['timeStep'], x['shortage'])))
+    df = df.sort_values("timeStep").groupby("id").apply(lambda x: dict(zip(x["timeStep"], x["shortage"])))
     return df
 
 
@@ -223,19 +243,23 @@ def process_bottlenecks(operation_bottlenecks_file_path, compounds_df):
     # Unused input columns: SimulationRun, SimulationName
     del operation_bottlenecks_df["SimulationRun"]
     del operation_bottlenecks_df["SimulationName"]
-    operation_bottlenecks_df = rename_cols_to_camel_case(operation_bottlenecks_df, ["TimeStep","Bottleneck"])
+    operation_bottlenecks_df = rename_cols_to_camel_case(operation_bottlenecks_df, ["TimeStep", "Bottleneck"])
     operation_bottlenecks_df["bottleneck"] = operation_bottlenecks_df["bottleneck"].apply(to_float)
 
-    merged_df = pd.merge(compounds_df, operation_bottlenecks_df, left_on='child', right_on='id', how='left')
-    df = merged_df.groupby(['parent', 'timeStep'])['bottleneck'].sum().reset_index()
+    merged_df = pd.merge(compounds_df, operation_bottlenecks_df, left_on="child", right_on="id", how="left")
+    df = merged_df.groupby(["parent", "timeStep"])["bottleneck"].sum().reset_index()
     df = df.rename(columns={"parent": "id"})
-    df = df.sort_values('timeStep').groupby('id').apply(lambda x: dict(zip(x['timeStep'], x['bottleneck'])))
+    df = df.sort_values("timeStep").groupby("id").apply(lambda x: dict(zip(x["timeStep"], x["bottleneck"])))
 
     return df
 
 
 def load_from_results_folder(folder_path, graph_data):
-    (_,_,_,_,_,_,compounds_df,_) = graph_data
+    (_, _, _, _, _, _, compounds_df, _) = graph_data
+    configuration_file_path = os.path.join(folder_path, "configuration.csv")
+    if os.path.exists(configuration_file_path):
+        configuration_df = process_configuration(configuration_file_path)
+
     kpis_file_path = os.path.join(folder_path, "kpis.csv")
     if os.path.exists(kpis_file_path):
         kpis_df = process_kpis(kpis_file_path)
@@ -249,4 +273,4 @@ def load_from_results_folder(folder_path, graph_data):
     if os.path.exists(bottlenecks_file_path):
         bottlenecks_df = process_bottlenecks(bottlenecks_file_path, compounds_df)
 
-    return (kpis_df, shortages_df, bottlenecks_df)
+    return (configuration_df, kpis_df, shortages_df, bottlenecks_df)
