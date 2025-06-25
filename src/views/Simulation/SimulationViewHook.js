@@ -50,6 +50,8 @@ export const useSimulationView = () => {
     settings.inputLevels,
     settings.showOutput,
     settings.outputLevels,
+    settings.orientation,
+    settings.spacing,
   ]);
 
   const resetGraphLayout = useCallback(
