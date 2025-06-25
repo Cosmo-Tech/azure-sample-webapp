@@ -1,18 +1,28 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
 import { DateRangeOutlined as DateRangeOutlinedIcon } from '@mui/icons-material';
 import { InputAdornment, TextField } from '@mui/material';
+import { useSimulationViewContext } from '../../SimulationViewContext';
 
-const formatDate = (date) => date.toISOString().substring(0, 10);
+const parseDateWithoutTimezoneOffset = (dateString) => {
+  const date = new Date(dateString);
+  return new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+};
 
-export const SimulationHorizon = ({ startDate, endDate }) => {
+const parseAndFormatDateString = (dateString) => {
+  return parseDateWithoutTimezoneOffset(dateString).toISOString().substring(0, 10);
+};
+
+export const SimulationHorizon = () => {
+  const { graphRef } = useSimulationViewContext();
+
   const horizonText = useMemo(() => {
-    const start = startDate ?? new Date();
-    const end = endDate ?? new Date(new Date(start).setMonth(start.getMonth() + 1));
-    return `${formatDate(start)} - ${formatDate(end)}`;
-  }, [startDate, endDate]);
+    const config = graphRef.current?.simulationConfiguration;
+    if (config == null || config.startingDate == null || config.endDate == null) return 'N/A';
+    return `${parseAndFormatDateString(config.startingDate)} - ${parseAndFormatDateString(config.endDate)}`;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [graphRef, graphRef.current?.simulationConfiguration]);
 
   return (
     <TextField
@@ -29,9 +39,4 @@ export const SimulationHorizon = ({ startDate, endDate }) => {
       variant="outlined"
     />
   );
-};
-
-SimulationHorizon.propTypes = {
-  startDate: PropTypes.instanceOf(Date),
-  endDate: PropTypes.instanceOf(Date),
 };

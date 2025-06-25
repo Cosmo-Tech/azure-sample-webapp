@@ -131,7 +131,7 @@ const propagateElementsHighlighting = (links, inPropagationLevel, outPropagation
     propagateElementsHighlighting(links, inPropagationLevel - 1, outPropagationLevel - 1);
 };
 
-export const getGraphFromInstance = (instance, bottlenecks, shortages, stockDemands, kpis, settings) => {
+export const getGraphFromInstance = (instance, bottlenecks, shortages, stockDemands, kpis, configuration, settings) => {
   const defaultGrayedOutValue = !settings.graphViewFilters.includes(GRAPH_VIEW_FILTER_VALUES.ALL);
   const createNode = (node, type) => {
     return {
@@ -163,8 +163,10 @@ export const getGraphFromInstance = (instance, bottlenecks, shortages, stockDema
   if (!settings.graphViewFilters.includes(GRAPH_VIEW_FILTER_VALUES.ALL))
     propagateElementsHighlighting(links, inPropagationLevel, outPropagationLevel);
 
-  const simulationLength = Object.values(stockDemands ?? {})?.[0]?.length;
-  return { nodes, operations, links, kpis, stockDemands, shortages, simulationLength };
+  // TODO: search by run id when we support results from several simulations
+  const simulationConfiguration = configuration?.[0];
+  simulationConfiguration.timeSteps = simulationConfiguration.simulatedCycles * simulationConfiguration.stepsPerCycle;
+  return { simulationConfiguration, nodes, operations, links, kpis, stockDemands, shortages };
 };
 
 export const resetGraphLayout = (graphRef, width, height, settings) => {

@@ -35,14 +35,21 @@ const InspectorDrawer = ({ selectedElement, setSelectedElement }) => {
   const isResource = useMemo(() => inspectedElement?.type === 'productionResource', [inspectedElement]);
 
   const demandChart = useMemo(() => {
+    const timeSteps = graphRef.current?.simulationConfiguration?.timeSteps;
     const data = graphRef.current?.stockDemands?.[inspectedElement?.id];
     if (!data || inspectedElement?.type !== 'stock') return null;
+    const truncatedData = timeSteps < data.length ? data.slice(0, timeSteps) : data;
     return (
       <>
         <Typography variant="h6" fontWeight="fontWeightBold">
           Demand
         </Typography>
-        <InspectorChart data={data} width={width - CHART_WIDTH_OFFSET} height={CHART_HEIGHT} chartColor="#40E0D0" />
+        <InspectorChart
+          data={truncatedData}
+          width={width - CHART_WIDTH_OFFSET}
+          height={CHART_HEIGHT}
+          chartColor="#40E0D0"
+        />
       </>
     );
   }, [graphRef, inspectedElement, width]);
@@ -51,7 +58,8 @@ const InspectorDrawer = ({ selectedElement, setSelectedElement }) => {
     const sparseData = graphRef.current?.shortages?.[inspectedElement?.id];
     if (!sparseData || inspectedElement?.type !== 'stock') return null;
 
-    const data = fillSparseTimeSerie(sparseData, graphRef.current?.simulationLength);
+    const timeSteps = graphRef.current?.simulationConfiguration?.timeSteps;
+    const data = fillSparseTimeSerie(sparseData, timeSteps);
     return (
       <>
         <Typography variant="h6" fontWeight="fontWeightBold">

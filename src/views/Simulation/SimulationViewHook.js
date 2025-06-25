@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useCurrentScenarioId } from '../../state/hooks/ScenarioHooks';
 import { DEFAULT_SETTINGS } from './constants/settings';
 import bottlenecks from './data/bottlenecks.json';
+import configuration from './data/configuration.json';
 import flowchartInstance from './data/graph.json';
 import kpis from './data/kpis.json';
 import shortages from './data/shortages.json';
@@ -29,7 +30,15 @@ export const useSimulationView = () => {
   useEffect(() => {
     if (graphRef.current != null) return;
     requiredUpdateStepsRef.current.layout = true;
-    graphRef.current = getGraphFromInstance(flowchartInstance, bottlenecks, shortages, stockDemands, kpis, settings);
+    graphRef.current = getGraphFromInstance(
+      flowchartInstance,
+      bottlenecks,
+      shortages,
+      stockDemands,
+      kpis,
+      configuration,
+      settings
+    );
     setNeedsReRendering(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -38,7 +47,15 @@ export const useSimulationView = () => {
     if (!graphRef.current) return;
 
     if (requiredUpdateStepsRef.current.all || requiredUpdateStepsRef.current.layout)
-      graphRef.current = getGraphFromInstance(flowchartInstance, bottlenecks, shortages, stockDemands, kpis, settings);
+      graphRef.current = getGraphFromInstance(
+        flowchartInstance,
+        bottlenecks,
+        shortages,
+        stockDemands,
+        kpis,
+        configuration,
+        settings
+      );
     else if (requiredUpdateStepsRef.current.highlight) resetGraphHighlighting(graphRef.current, settings);
 
     setNeedsReRendering(true);
