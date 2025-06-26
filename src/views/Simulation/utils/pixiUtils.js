@@ -181,11 +181,11 @@ const createLinkGraphics = (links, setSelectedElement, settings) => {
     if (isLayoutHorizontal) {
       sourceOffset.x = link.source.type === 'stock' ? 24 : 40;
       targetOffset.x = link.target.type === 'stock' ? 24 : 40;
-      controlPointsOffset.x = 10 + 150 * spacingFactor;
+      controlPointsOffset.x = 10 + 600 * spacingFactor;
     } else {
       sourceOffset.y = link.source.type === 'stock' ? 24 : 40;
       targetOffset.y = link.target.type === 'stock' ? 24 : 60;
-      controlPointsOffset.y = 10 + 150 * spacingFactor;
+      controlPointsOffset.y = 10 + 600 * spacingFactor;
     }
     const controlPoint1 = {
       x: source.x + sourceOffset.x + controlPointsOffset.x,

@@ -12,7 +12,7 @@ const buildGraphOptions = (settings) => {
     rankdir: settings?.orientation === 'horizontal' ? 'LR' : 'TB',
     edgesep: 20 * spacingFactor,
     nodesep: 50 * spacingFactor,
-    ranksep: 200 * spacingFactor,
+    ranksep: 800 * spacingFactor,
   };
 };
 

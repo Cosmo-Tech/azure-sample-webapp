@@ -20,7 +20,12 @@ import {
 } from '@mui/material';
 import { TooltipInfo } from '@cosmotech/ui';
 import { useSimulationViewContext } from '../../SimulationViewContext';
-import { GRAPH_LAYOUT_DIRECTION_VALUES } from '../../constants/settings';
+import {
+  GRAPH_LAYOUT_DIRECTION_VALUES,
+  DEFAULT_SETTINGS,
+  SETTINGS_SLIDER_MIN,
+  SETTINGS_SLIDER_MAX,
+} from '../../constants/settings';
 
 export const SettingsButton = () => {
   const { requiredUpdateStepsRef, settings, setSettings } = useSimulationViewContext();
@@ -105,10 +110,12 @@ export const SettingsButton = () => {
       <Slider
         color="secondary"
         size="small"
-        defaultValue={50}
+        defaultValue={DEFAULT_SETTINGS.spacing}
+        min={SETTINGS_SLIDER_MIN}
+        max={SETTINGS_SLIDER_MAX}
         aria-label="Spacing"
         sx={{ ml: 1 }}
-        value={localSpacingValue ?? 50}
+        value={localSpacingValue ?? DEFAULT_SETTINGS.spacing}
         onChange={changeSpacingWithDebounce}
       />
     );

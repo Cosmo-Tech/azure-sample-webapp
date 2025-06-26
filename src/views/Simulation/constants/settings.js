@@ -19,5 +19,8 @@ export const DEFAULT_SETTINGS = {
   inputLevels: 2,
   showOutput: false,
   outputLevels: 2,
-  spacing: 50,
+  spacing: 25,
 };
+
+export const SETTINGS_SLIDER_MIN = 5;
+export const SETTINGS_SLIDER_MAX = 50;
