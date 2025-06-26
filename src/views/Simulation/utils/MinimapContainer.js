@@ -29,10 +29,8 @@ export class MinimapContainer extends Container {
     this.miniSceneContainer.position.set(centerX, centerY);
     this.addChild(this.miniSceneContainer);
 
-    this.screenCursor = new Graphics();
-    this.createScreenCursor();
-
     this.position.set(0, 0);
+    this.createScreenCursor();
     this.minimapAppRef.current.stage.eventMode = 'static';
     this.minimapAppRef.current.stage.hitArea = this.minimapAppRef.current.screen;
     this.minimapAppRef.current.stage.on('pointerup', this.onDragEnd);
@@ -41,7 +39,7 @@ export class MinimapContainer extends Container {
   }
 
   createScreenCursor() {
-    if (this.screenCursor instanceof Graphics) {
+    if (this.screenCursor != null) {
       this.removeChild(this.screenCursor);
       this.screenCursor.destroy({ children: true });
     }

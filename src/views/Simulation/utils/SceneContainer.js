@@ -43,9 +43,12 @@ export class SceneContainer extends Container {
     canvasSceneRef.current.addEventListener('pointermove', this.onDragMove);
   }
 
-  init() {
-    const bounds = this.getBounds();
-    this.origin = new Point(bounds.width / 2, -bounds.height / 2);
+  setOrigin() {
+    const sceneWidth = this.width;
+    const sceneHeight = this.height;
+    const screenWidth = this.canvasScene.clientWidth;
+    const screenHeight = this.canvasScene.clientHeight;
+    this.origin = new Point(-sceneWidth / 2 + screenWidth / 2, -sceneHeight / 2 + screenHeight / 2);
     this.position = this.origin;
   }
 
@@ -68,7 +71,7 @@ export class SceneContainer extends Container {
 
     if (nearTargetPosition && nearTargetZoom) {
       this.position.set(this.targetX, this.targetY);
-      this.scale.set(this.targetZoom);
+      this.setZoom(this.targetZoom);
       this.sceneApp.ticker.remove(this.updatePositionAndScale);
       this.checkBounds();
     } else {
@@ -76,10 +79,14 @@ export class SceneContainer extends Container {
       this.y = interpolateLinear(this.y, this.targetY, 0.1);
 
       const newZoom = interpolateLinear(this.zoom, this.targetZoom, 0.1);
-      this.zoom = newZoom;
-      this.scale.set(newZoom);
+      this.setZoom(newZoom);
       this.minimapContainerRef.current.updateScreenCursor();
     }
+  }
+
+  setZoom(zoom) {
+    this.scale.set(zoom);
+    this.zoom = zoom;
   }
 
   translateTo(x, y, zoom = this.zoom) {

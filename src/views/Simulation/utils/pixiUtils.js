@@ -277,6 +277,8 @@ export const renderElements = (sceneContainerRef, graphRef, setSelectedElement, 
     if (node.isGrayedOut) backContainer.addChild(container);
     else frontContainer.addChild(container);
   });
+
+  sceneContainerRef.current.setOrigin();
 };
 
 export const createApp = () => new Application();
@@ -325,7 +327,6 @@ export const initApp = async (
   window.addEventListener('resize', handleResize);
 
   renderElements(sceneContainerRef, graphRef, setSelectedElement, settings);
-  sceneContainerRef.current.init();
 };
 
 export const destroyApp = (app) => {
