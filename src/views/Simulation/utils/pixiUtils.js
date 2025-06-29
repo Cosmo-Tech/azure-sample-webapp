@@ -3,6 +3,7 @@
 import { AdvancedBloomFilter } from 'pixi-filters';
 import { AlphaFilter, Application, BitmapText, Container, Graphics, GraphicsContext, Sprite } from 'pixi.js';
 import 'pixi.js/unsafe-eval';
+import { NODE_TYPES } from '../constants/nodeLabels';
 import { MinimapContainer } from './MinimapContainer';
 import { SceneContainer } from './SceneContainer';
 import { PACKAGE_ICON_LINES, GEAR_ICON_LINES, FACTORY_ICON_LINES } from './shapes';
@@ -98,6 +99,7 @@ const createFactoryIconGraphicsContext = (options) => {
 
 const createStockContainer = (textures, name, hasShortages = false) => {
   const container = new Container();
+  container.label = hasShortages ? NODE_TYPES.STOCK_SHORTAGE : NODE_TYPES.STOCK;
   const stockTextureKey = hasShortages ? 'stockLevel1' : 'stockLevel0';
   if (hasShortages) {
     const stockHalo = new Sprite(textures[stockTextureKey]);
@@ -134,6 +136,7 @@ const createProductionResourceContainer = (textures, name, hasBottlenecks, opera
   borderContainer.addChild(border);
 
   const container = new Container();
+  container.label = hasBottlenecks ? NODE_TYPES.PRODUCTION_RESOURCE_BOTTLENECK : NODE_TYPES.PRODUCTION_RESOURCE;
 
   const background = new Sprite(textures.productionResourceBackground);
   background.x = 10;
@@ -347,9 +350,7 @@ export const initMinimap = async (
 
   minimapContainerRef.current = new MinimapContainer(minimapAppRef, sceneContainerRef, sceneCanvasRef);
   sceneContainerRef.current.setMinimapContainer(minimapContainerRef);
-
   const minimapContainer = minimapContainerRef.current;
-
   minimapApp.stage.addChild(minimapContainer);
 
   await minimapAppRef.current.init({
@@ -363,9 +364,9 @@ export const initMinimap = async (
 
   minimapCanvas.appendChild(minimapApp.canvas);
   minimapApp.canvas.style.width = '100%';
-
   minimapApp.canvas.style.height = '100%';
   minimapApp.canvas.style.display = 'block';
+  minimapContainer.createNodeTextures();
 
   const handleResizeMinimap = () => {
     if (!minimapContainer || !minimapApp?.renderer) return;

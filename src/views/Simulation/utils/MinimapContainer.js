@@ -1,6 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { Container, Graphics, Rectangle } from 'pixi.js';
+import { Container, Graphics, GraphicsContext, Rectangle, Sprite } from 'pixi.js';
+import { NODE_TYPES } from '../constants/nodeLabels';
 
 const MINIMAP_SIZE = { width: 200, height: 100 };
 const MINIMAP_MARGINS = 20;
@@ -18,10 +19,8 @@ export class MinimapContainer extends Container {
 
   renderElements() {
     this.removeChildren();
-    this.miniSceneContainer = this.cloneContainer(this.sceneContainerRef.current);
+    this.miniSceneContainer = this.forgeContainer(this.sceneContainerRef.current);
 
-    const ratio = this.getSceneRatio();
-    this.miniSceneContainer.scale.set(ratio);
     const miniSceneContainerBounds = this.miniSceneContainer.getBounds();
     const centerX = MINIMAP_SIZE.width / 2 - miniSceneContainerBounds.width / 2;
     const centerY = MINIMAP_SIZE.height / 2 - miniSceneContainerBounds.height / 2;
@@ -36,6 +35,20 @@ export class MinimapContainer extends Container {
     this.minimapAppRef.current.stage.on('pointerup', this.onDragEnd);
     this.minimapAppRef.current.stage.on('pointerupoutside', this.onDragEnd);
     this.minimapAppRef.current.stage.on('wheel', this.onWheel);
+  }
+
+  createNodeTextures() {
+    const createNodeTexture = (fillColor) => {
+      const nodeGraphicsContext = new GraphicsContext().rect(0, 0, 2, 2).fill(fillColor);
+      return this.minimapAppRef.current.renderer.generateTexture(new Graphics(nodeGraphicsContext));
+    };
+
+    this.textures = {
+      [NODE_TYPES.STOCK]: createNodeTexture('#20363D'),
+      [NODE_TYPES.STOCK_SHORTAGE]: createNodeTexture('#DF3537'),
+      [NODE_TYPES.PRODUCTION_RESOURCE]: createNodeTexture('#20363D'),
+      [NODE_TYPES.PRODUCTION_RESOURCE_BOTTLENECK]: createNodeTexture('#DF3537'),
+    };
   }
 
   createScreenCursor() {
@@ -69,7 +82,7 @@ export class MinimapContainer extends Container {
     this.screenCursor.clear();
     this.screenCursor
       .rect(0, 0, screenSize.width / ratio, screenSize.height / ratio)
-      .stroke({ pixelLine: true, color: 0xff0000, width: 1 });
+      .stroke({ pixelLine: true, color: 0xffb039, width: 1 });
     this.screenCursor.pivot.set(this.screenCursor.width / 2, this.screenCursor.height / 2);
 
     const bounds = this.screenCursor.getBounds();
@@ -126,22 +139,22 @@ export class MinimapContainer extends Container {
     this.dragTarget = null;
   }
 
-  cloneContainer(containerSource) {
-    const containerClone = new Container();
+  forgeContainer(containerSource) {
+    const containerForged = new Container();
+    const ratio = this.getSceneRatio();
 
     containerSource.children.forEach((child) => {
-      if (child instanceof Graphics) {
-        const childClone = child.clone(true);
-        childClone.position.set(child.x, child.y);
-        containerClone.addChild(childClone);
-      } else if (child instanceof Container) {
-        const childClone = this.cloneContainer(child);
-        childClone.position.set(child.x, child.y);
-        containerClone.addChild(childClone);
+      if (Object.values(NODE_TYPES).includes(child.label)) {
+        const nodeSprite = new Sprite(this.textures[child.label]);
+        nodeSprite.position.set(child.x * ratio, child.y * ratio);
+        containerForged.addChild(nodeSprite);
+      } else {
+        const childContainer = this.forgeContainer(child);
+        containerForged.addChild(childContainer);
       }
     });
 
-    return containerClone;
+    return containerForged;
   }
 
   static getMinimapSize() {
