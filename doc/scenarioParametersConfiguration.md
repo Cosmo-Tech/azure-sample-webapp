@@ -117,6 +117,34 @@ parameters:
             fr: 'Yen (¥)'
 ```
 
+### Parameters of type date
+
+Scenario parameters of type `date` will be displayed in the webapp with two possible user inputs: a text field and a
+calendar widget.
+
+> **Warning**
+>
+> For date parameters, when defining minimum, maximum or default values in the solution configuration, if you want to
+> describe a datetime without timezone, then you must **use the full ISO-formatted string representation of your date**
+> and **set the timezone to UTC by adding the "Z" suffix at the end of the date** (e.g. `2035-01-01T00:00:00.000Z`).
+>
+> Otherwise, the date will be parsed based on the local timezone of the webapp users, which may vary, and the webapp
+> may send inconsistent data.
+
+Example:
+
+```yaml
+parameters:
+  - id: 'start_date'
+    labels:
+      fr: 'Date de début'
+      en: 'Start date'
+    varType: 'date'
+    defaultValue: '2035-01-01T00:00:00.000Z'
+    minValue: '2035-01-01T00:00:00.000Z'
+    maxValue: '2054-12-31T00:00:00.000Z'
+```
+
 ### Parameters of type list
 
 List parameters are used to store the string representation of a list of values. Their configuration is similar to enum
