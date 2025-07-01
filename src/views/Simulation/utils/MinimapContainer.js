@@ -3,7 +3,7 @@
 import { Container, Graphics, GraphicsContext, Rectangle, Sprite } from 'pixi.js';
 import { NODE_TYPES } from '../constants/nodeLabels';
 
-const MINIMAP_SIZE = { width: 200, height: 100 };
+const MINIMAP_SIZE = { width: 260, height: 150 };
 const MINIMAP_MARGINS = 20;
 const MARGIN_FACTOR = 1 + MINIMAP_MARGINS / 100;
 
