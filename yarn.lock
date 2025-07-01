@@ -2965,6 +2965,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime@npm:^7.27.6":
+  version: 7.27.6
+  resolution: "@babel/runtime@npm:7.27.6"
+  checksum: 10c0/89726be83f356f511dcdb74d3ea4d873a5f0cf0017d4530cb53aa27380c01ca102d573eff8b8b77815e624b1f8c24e7f0311834ad4fb632c90a770fda00bd4c8
+  languageName: node
+  linkType: hard
+
 "@babel/template@npm:^7.24.7, @babel/template@npm:^7.25.9, @babel/template@npm:^7.3.3":
   version: 7.25.9
   resolution: "@babel/template@npm:7.25.9"
@@ -3180,25 +3187,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmotech/ui@npm:^10.0.0":
-  version: 10.0.0
-  resolution: "@cosmotech/ui@npm:10.0.0"
+"@cosmotech/ui@npm:^10.1.0":
+  version: 10.1.0
+  resolution: "@cosmotech/ui@npm:10.1.0"
   dependencies:
-    "@emotion/react": "npm:^11.13.0"
-    "@emotion/styled": "npm:^11.13.0"
-    "@mui/x-date-pickers": "npm:^7.0.0"
+    "@emotion/react": "npm:^11.14.0"
+    "@emotion/styled": "npm:^11.14.1"
+    "@mui/x-date-pickers": "npm:^7.29.4"
     "@nosferatu500/react-sortable-tree": "npm:^3.0.6"
     ag-grid-community: "npm:~32.2.2"
     ag-grid-react: "npm:~32.2.2"
     clsx: "npm:^2.1.1"
-    cytoscape: "npm:^3.30.2"
-    cytoscape-bubblesets: "npm:^3.2.2"
+    cytoscape: "npm:^3.32.0"
+    cytoscape-bubblesets: "npm:^3.2.3"
     cytoscape-dagre: "npm:^2.5.0"
-    cytoscape-layers: "npm:^2.4.5"
+    cytoscape-layers: "npm:^2.4.6"
     powerbi-client-react: "npm:^1.4.0"
     react-cytoscapejs: "npm:^2.0.0"
     react-lottie-player: "npm:^2.1.0"
-    react-number-format: "npm:^5.4.2"
+    react-number-format: "npm:^5.4.4"
     rfdc: "npm:^1.4.1"
   peerDependencies:
     "@cosmotech/azure": ^2.0.1
@@ -3210,7 +3217,7 @@ __metadata:
     react: ^18.3.1
     react-dom: ^18.3.1
     react-i18next: ^15.1.0
-  checksum: 10c0/a71d164f1506e68b55fcd1ef50d761d83a8bdf99b2ed6af4e0481cef964cdbfec5e3e300a82a0c73eca38fdff915278eb874dd5817adab7861c58062af9f06d0
+  checksum: 10c0/4991269ef00ee0d10d476681840115694d037e3bd769989155727c224386ea7e9b6227e03cd0dfc5e3d43627240d185457872b80d4dbae2c7bc16121ba1b579d
   languageName: node
   linkType: hard
 
@@ -3478,7 +3485,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/react@npm:^11.13.0, @emotion/react@npm:^11.14.0":
+"@emotion/react@npm:^11.14.0":
   version: 11.14.0
   resolution: "@emotion/react@npm:11.14.0"
   dependencies:
@@ -3519,7 +3526,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/styled@npm:^11.13.0, @emotion/styled@npm:^11.14.0":
+"@emotion/styled@npm:^11.14.0":
   version: 11.14.0
   resolution: "@emotion/styled@npm:11.14.0"
   dependencies:
@@ -3536,6 +3543,26 @@ __metadata:
     "@types/react":
       optional: true
   checksum: 10c0/20aa5c488e4edecf63659212fc5ba1ccff2d3a66593fc8461de7cd5fe9192a741db357ffcd270a455bd61898d7f37cd5c84b4fd2b7974dade712badf7860ca9c
+  languageName: node
+  linkType: hard
+
+"@emotion/styled@npm:^11.14.1":
+  version: 11.14.1
+  resolution: "@emotion/styled@npm:11.14.1"
+  dependencies:
+    "@babel/runtime": "npm:^7.18.3"
+    "@emotion/babel-plugin": "npm:^11.13.5"
+    "@emotion/is-prop-valid": "npm:^1.3.0"
+    "@emotion/serialize": "npm:^1.3.3"
+    "@emotion/use-insertion-effect-with-fallbacks": "npm:^1.2.0"
+    "@emotion/utils": "npm:^1.4.2"
+  peerDependencies:
+    "@emotion/react": ^11.0.0-rc.0
+    react: ">=16.8.0"
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: 10c0/2bbf8451df49c967e41fbcf8111a7f6dafe6757f0cc113f2f6e287206c45ac1d54dc8a95a483b7c0cee8614b8a8d08155bded6453d6721de1f8cc8d5b9216963
   languageName: node
   linkType: hard
 
@@ -4914,7 +4941,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/types@npm:^7.2.15, @mui/types@npm:^7.2.17, @mui/types@npm:^7.2.21":
+"@mui/types@npm:^7.2.15, @mui/types@npm:^7.2.17":
   version: 7.2.21
   resolution: "@mui/types@npm:7.2.21"
   peerDependencies:
@@ -4923,6 +4950,20 @@ __metadata:
     "@types/react":
       optional: true
   checksum: 10c0/c0038ae402a3cfb2805a19167362fb5ac2ca1403f0ef3dad688d1e2276afe757b69d5fb1e3af4cd0e985b9221d287fd863c5b00f29fd07a276c7de9e3423a0f3
+  languageName: node
+  linkType: hard
+
+"@mui/types@npm:^7.4.4":
+  version: 7.4.4
+  resolution: "@mui/types@npm:7.4.4"
+  dependencies:
+    "@babel/runtime": "npm:^7.27.6"
+  peerDependencies:
+    "@types/react": ^17.0.0 || ^18.0.0 || ^19.0.0
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: 10c0/50987623c477a55eaccc11bb0fe651df99e14b4a8bc29a53c493bce7d8b41529c7e7c8c8d3f55d2539db5531e7b4eff9feb93c73134947f465fc41efc43556c2
   languageName: node
   linkType: hard
 
@@ -4958,23 +4999,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/utils@npm:^5.16.6 || ^6.0.0":
-  version: 6.4.3
-  resolution: "@mui/utils@npm:6.4.3"
+"@mui/utils@npm:^5.16.6 || ^6.0.0 || ^7.0.0":
+  version: 7.2.0
+  resolution: "@mui/utils@npm:7.2.0"
   dependencies:
-    "@babel/runtime": "npm:^7.26.0"
-    "@mui/types": "npm:^7.2.21"
-    "@types/prop-types": "npm:^15.7.14"
+    "@babel/runtime": "npm:^7.27.6"
+    "@mui/types": "npm:^7.4.4"
+    "@types/prop-types": "npm:^15.7.15"
     clsx: "npm:^2.1.1"
     prop-types: "npm:^15.8.1"
-    react-is: "npm:^19.0.0"
+    react-is: "npm:^19.1.0"
   peerDependencies:
     "@types/react": ^17.0.0 || ^18.0.0 || ^19.0.0
     react: ^17.0.0 || ^18.0.0 || ^19.0.0
   peerDependenciesMeta:
     "@types/react":
       optional: true
-  checksum: 10c0/bf199e61bd5d92469b954dd74471db3d27bd6fe43fd13a306056f6cdeb60f5bb1fe1e9ffc4a99e56785c8f56928951e098f340d79aeaf2b3a91041ae8154f934
+  checksum: 10c0/e1b49f3c9e822d51ba12c7ba16b4efdf5bcbc59ea5f980da331864330425dace49922206f2ff354c925332fe5cc7bfd8d1bcb9d546a68edc21d7f1e95124ace6
   languageName: node
   linkType: hard
 
@@ -4998,13 +5039,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/x-date-pickers@npm:^7.0.0":
-  version: 7.26.0
-  resolution: "@mui/x-date-pickers@npm:7.26.0"
+"@mui/x-date-pickers@npm:^7.29.4":
+  version: 7.29.4
+  resolution: "@mui/x-date-pickers@npm:7.29.4"
   dependencies:
     "@babel/runtime": "npm:^7.25.7"
-    "@mui/utils": "npm:^5.16.6 || ^6.0.0"
-    "@mui/x-internals": "npm:7.26.0"
+    "@mui/utils": "npm:^5.16.6 || ^6.0.0 || ^7.0.0"
+    "@mui/x-internals": "npm:7.29.0"
     "@types/react-transition-group": "npm:^4.4.11"
     clsx: "npm:^2.1.1"
     prop-types: "npm:^15.8.1"
@@ -5012,8 +5053,8 @@ __metadata:
   peerDependencies:
     "@emotion/react": ^11.9.0
     "@emotion/styled": ^11.8.1
-    "@mui/material": ^5.15.14 || ^6.0.0
-    "@mui/system": ^5.15.14 || ^6.0.0
+    "@mui/material": ^5.15.14 || ^6.0.0 || ^7.0.0
+    "@mui/system": ^5.15.14 || ^6.0.0 || ^7.0.0
     date-fns: ^2.25.0 || ^3.2.0 || ^4.0.0
     date-fns-jalali: ^2.13.0-0 || ^3.2.0-0 || ^4.0.0-0
     dayjs: ^1.10.7
@@ -5042,19 +5083,19 @@ __metadata:
       optional: true
     moment-jalaali:
       optional: true
-  checksum: 10c0/4c93af12a100fb34336084a81ffe5229b05c8af58f0f313e060077fe88ed51b14b92f71adb396b90333e35ffd2788e15587a711bbda539188d3846b93866d3a1
+  checksum: 10c0/d56a0749da577979ad88e0f18dbb624a483458f5d8efe75d9d6b1b460edfd50579f7f6d6cde5cc0a7ec662cfa98fbe1865109cbf6cbc49d02606d0e1cc324ed7
   languageName: node
   linkType: hard
 
-"@mui/x-internals@npm:7.26.0":
-  version: 7.26.0
-  resolution: "@mui/x-internals@npm:7.26.0"
+"@mui/x-internals@npm:7.29.0":
+  version: 7.29.0
+  resolution: "@mui/x-internals@npm:7.29.0"
   dependencies:
     "@babel/runtime": "npm:^7.25.7"
-    "@mui/utils": "npm:^5.16.6 || ^6.0.0"
+    "@mui/utils": "npm:^5.16.6 || ^6.0.0 || ^7.0.0"
   peerDependencies:
     react: ^17.0.0 || ^18.0.0 || ^19.0.0
-  checksum: 10c0/f2d05cbb346dae358d5f87aa13b8e77ca8286e43fb28b5e5f8eb422fb935cf30a732041961a8cc62028743dacc61cb888202f7561e9a9698c967fdb7717abebf
+  checksum: 10c0/adb4358ef0e29f6f57622b50ff479e9d225078761b4c82546343e2976ccb55eed687e122c37874c76a170f4ec2ea6e82f89bf8b9c0ef3b5cb35b32d026761fba
   languageName: node
   linkType: hard
 
@@ -5938,10 +5979,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/cytoscape@npm:^3.21.2":
-  version: 3.21.4
-  resolution: "@types/cytoscape@npm:3.21.4"
-  checksum: 10c0/ed08c3b81b0b30172bce07f1ba4a7b322326ab59fc86e260c878a4ccfacea9885ad84707de1aad1b1feca8e594e132f8766ad98c24f9abe0ce4d721b6394ae67
+"@types/cytoscape@npm:^3.21.8":
+  version: 3.21.9
+  resolution: "@types/cytoscape@npm:3.21.9"
+  checksum: 10c0/49c25b18322c405166982ae60ea6618e07329931e7b8824c84ee418ba705ac178d6a47886089bc3087167493c4dfe297a1b20fbc964fc22d662ee83f377d8f5b
   languageName: node
   linkType: hard
 
@@ -6196,6 +6237,13 @@ __metadata:
   version: 15.7.14
   resolution: "@types/prop-types@npm:15.7.14"
   checksum: 10c0/1ec775160bfab90b67a782d735952158c7e702ca4502968aa82565bd8e452c2de8601c8dfe349733073c31179116cf7340710160d3836aa8a1ef76d1532893b1
+  languageName: node
+  linkType: hard
+
+"@types/prop-types@npm:^15.7.15":
+  version: 15.7.15
+  resolution: "@types/prop-types@npm:15.7.15"
+  checksum: 10c0/b59aad1ad19bf1733cf524fd4e618196c6c7690f48ee70a327eb450a42aab8e8a063fbe59ca0a5701aebe2d92d582292c0fb845ea57474f6a15f6994b0e260b2
   languageName: node
   linkType: hard
 
@@ -7535,7 +7583,7 @@ __metadata:
     "@cosmotech/api-ts": "npm:^3.3.4"
     "@cosmotech/azure": "npm:^2.0.1"
     "@cosmotech/core": "npm:^2.0.0"
-    "@cosmotech/ui": "npm:^10.0.0"
+    "@cosmotech/ui": "npm:^10.1.0"
     "@emotion/react": "npm:^11.14.0"
     "@emotion/styled": "npm:^11.14.0"
     "@eslint/compat": "npm:^1.2.1"
@@ -8182,10 +8230,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bubblesets-js@npm:^2.3.2":
-  version: 2.3.3
-  resolution: "bubblesets-js@npm:2.3.3"
-  checksum: 10c0/39ae91a38e831bbeda261fe0f0ac032891eedae617c0d3c0a67d71f455964e061058216b7bcedff173a10a70481c7e48866bb9cb787d3b0cc6ec45eec29b638f
+"bubblesets-js@npm:^2.3.4":
+  version: 2.3.4
+  resolution: "bubblesets-js@npm:2.3.4"
+  checksum: 10c0/68cc5d9d43b496e4756a3f2cbb2d8c614e209bbb77c5ed079572436d216d61c808e26e4f8f55adec252a9074ea4dfc1e9b90f56928533ca2f4c5c194bc3fc086
   languageName: node
   linkType: hard
 
@@ -9573,18 +9621,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cytoscape-bubblesets@npm:^3.2.2":
-  version: 3.2.2
-  resolution: "cytoscape-bubblesets@npm:3.2.2"
+"cytoscape-bubblesets@npm:^3.2.3":
+  version: 3.2.3
+  resolution: "cytoscape-bubblesets@npm:3.2.3"
   dependencies:
-    "@types/cytoscape": "npm:^3.21.2"
+    "@types/cytoscape": "npm:^3.21.8"
     "@types/lodash.throttle": "npm:^4.1.9"
-    bubblesets-js: "npm:^2.3.2"
+    bubblesets-js: "npm:^2.3.4"
     lodash.throttle: "npm:^4.1.1"
   peerDependencies:
     cytoscape: ^3.23.0
     cytoscape-layers: ^2.3.0
-  checksum: 10c0/20e1958872f133cbd38d8838c139c2fe32877f4928df6ae9c59d608cecb309a15c27a9ad917450b0e4bd539cf242f0ab733816d9cc9bff0938ed04b1d3329ea4
+  checksum: 10c0/fd1909b3722a5f36049151b55962a58d29bba1aeead5e262e0617eae66ac5f9131c7a7c247b3110b5a2a5a9c0650480e86e0541c1e958f889e00f71a25879203
   languageName: node
   linkType: hard
 
@@ -9599,24 +9647,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cytoscape-layers@npm:^2.4.5":
-  version: 2.4.5
-  resolution: "cytoscape-layers@npm:2.4.5"
+"cytoscape-layers@npm:^2.4.6":
+  version: 2.4.6
+  resolution: "cytoscape-layers@npm:2.4.6"
   dependencies:
-    "@types/cytoscape": "npm:^3.21.2"
+    "@types/cytoscape": "npm:^3.21.8"
   peerDependencies:
     cytoscape: ^3.23.0
-  dependenciesMeta:
-    cytoscape@3.23.0:
-      unplugged: true
-  checksum: 10c0/5b81f8ad5ed68710ae199ce1d8c4251b5fb1e33831d4e2b92284d435d22b64da3a6b7dfef4ca541b757ef9db7c1d86e27553a0b9ced7050e3b9f0cb55c092a69
+  checksum: 10c0/02a50f86b241a133cc5bcd073d14a3cd5bd2a962028d06f46e8da187f8d6693e499dca940c210e855191814fe0fc64f60c32d4669f09f00e073e651d1026a9ab
   languageName: node
   linkType: hard
 
-"cytoscape@npm:^3.30.2":
-  version: 3.31.0
-  resolution: "cytoscape@npm:3.31.0"
-  checksum: 10c0/2ed2e58b85e2078ef7bbc176e30f1c992984197cf1f4b38bd578da84a221a25fb81b0b6a0c3777185557bf89dca3c05c114be835039804e7b9897d25db8abcd0
+"cytoscape@npm:^3.32.0":
+  version: 3.32.0
+  resolution: "cytoscape@npm:3.32.0"
+  checksum: 10c0/21cb0d2e79ebe137c7218e96edc2fb1c9000faae4f58c6a3c1899d9689c447c91feff94e5de649f227ced66f8c6a092b838de3fff3d8b57366156900f5df6d71
   languageName: node
   linkType: hard
 
@@ -18779,6 +18824,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-is@npm:^19.1.0":
+  version: 19.1.0
+  resolution: "react-is@npm:19.1.0"
+  checksum: 10c0/b6c6cadd172d5d39f66d493700d137a5545c294a62ce0f8ec793d59794c97d2bed6bad227626f16bd0e90004ed7fdc8ed662a004e6edcf5d2b7ecb6e3040ea6b
+  languageName: node
+  linkType: hard
+
 "react-lifecycles-compat@npm:^3.0.4":
   version: 3.0.4
   resolution: "react-lifecycles-compat@npm:3.0.4"
@@ -18799,13 +18851,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-number-format@npm:^5.4.2":
-  version: 5.4.3
-  resolution: "react-number-format@npm:5.4.3"
+"react-number-format@npm:^5.4.4":
+  version: 5.4.4
+  resolution: "react-number-format@npm:5.4.4"
   peerDependencies:
     react: ^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
     react-dom: ^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-  checksum: 10c0/0d0c597c880e4abe8b1c3d4820ae8a5b8bd7c5fdd75011aedfb07d0d0311c0c45b5c3984b58c9c64a96a4570dee43adb4f0065e4e7b034b68118e338ad1c0eba
+  checksum: 10c0/e55cd16d9f7379a717e77d519db06ed455cc2df9842cd23499b60bc2ba1179df580742e27867a4ae84e0d308b18c0773b7e8943f9162e853f97bd194d15b0de7
   languageName: node
   linkType: hard
 
