@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
 export const ThemeSwitch = () => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const [isDarkThemeUsed, setIsDarkThemeUsed] = useState(localStorage.getItem('darkThemeUsed') === 'true');
+  const [isDarkThemeUsed, setIsDarkThemeUsed] = useState(localStorage.getItem('darkThemeUsed') !== 'false');
 
   useEffect(() => {
     localStorage.setItem('darkThemeUsed', isDarkThemeUsed);
