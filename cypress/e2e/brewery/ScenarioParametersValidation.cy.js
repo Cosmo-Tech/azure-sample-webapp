@@ -56,6 +56,7 @@ describe('scenario parameters inputs validation', () => {
       });
     }
   );
+
   it(
     'checks required and int varType error messages for int varType ' +
       "and checks that int error message isn't displayed for number varType",
@@ -94,6 +95,7 @@ describe('scenario parameters inputs validation', () => {
       });
     }
   );
+
   it(
     'checks error message for date input when given value exceeds minimum and maximum value ' +
       'or expected format is not respected',
@@ -105,12 +107,14 @@ describe('scenario parameters inputs validation', () => {
       ScenarioParameters.getInputValue(BreweryParameters.getStartDateInput()).as('start_date');
       ScenarioParameters.getInputValue(BreweryParameters.getAdditionalDateInput()).as('additional_date');
 
-      BreweryParameters.getStartDateInput().click().type('{backspace}');
+      BreweryParameters.getStartDateInput().clear();
       BreweryParameters.getStartDateHelperText().should('be.visible').contains('format');
       // Adding a delay in type function to make test less brittle in Electron browser (passes without delay in Chrome)
       BreweryParameters.getStartDateInput().click().type('{selectAll}{backspace}', { delay: 1 });
       BreweryParameters.getStartDateHelperText().should('be.visible').contains('required');
-      BreweryParameters.getStartDateInput().type('22/22');
+      BreweryParameters.getStartDateInput().type('31/12/2000');
+      BreweryParameters.getStartDateHelperText().should('not.exist');
+      BreweryParameters.getStartDateInput().clear();
       BreweryParameters.getStartDateHelperText().should('be.visible').contains('format');
 
       BreweryParameters.getStartDateInput().type('{leftArrow}{leftArrow}05/18/2099', { delay: 1 });
@@ -146,6 +150,7 @@ describe('scenario parameters inputs validation', () => {
       BreweryParameters.getAdditionalDateHelperText().should('not.exist');
     }
   );
+
   it('checks min and max length validation for string varType', () => {
     ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToDatasetPartsTab();
@@ -187,6 +192,7 @@ describe('scenario parameters inputs validation', () => {
       BreweryParameters.getEvaluationInput().should('value', input);
     });
   });
+
   it('checks error messages for min and max values in number input', () => {
     ScenarioParameters.expandParametersAccordion();
     BreweryParameters.getStockInput().clear().type('150');
@@ -209,6 +215,7 @@ describe('scenario parameters inputs validation', () => {
     ScenarioParameters.getLaunchButton().should('not.be.disabled');
     ScenarioParameters.discard();
   });
+
   it('checks error message for invalid file format in file upload input', () => {
     ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToDatasetPartsTab();
@@ -236,6 +243,7 @@ describe('validation with constraints between parameters', () => {
   beforeEach(() => {
     Login.login();
   });
+
   it('checks validation constraints', () => {
     ScenarioParameters.expandParametersAccordion();
 
@@ -269,6 +277,7 @@ describe('validation with constraints between parameters', () => {
     BreweryParameters.getEvaluationHelperText().should('exist').contains('must be different from');
     BreweryParameters.getEvaluationInput().clear().type('Super');
     BreweryParameters.getEvaluationHelperText().should('not.exist');
+    ScenarioParameters.discard();
   });
 });
 
@@ -282,6 +291,7 @@ describe('validation constraint with wrong configuration', () => {
   beforeEach(() => {
     Login.login();
   });
+
   it('checks error messages when there is an error in solution default values', () => {
     ScenarioParameters.expandParametersAccordion();
     BreweryParameters.getEndDateHelperText().should('exist').contains('strictly after');
