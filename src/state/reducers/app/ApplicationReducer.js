@@ -8,7 +8,7 @@ import { STATUSES } from '../../commons/Constants';
 export const applicationInitialState = {
   status: STATUSES.IDLE,
   error: null,
-  isDarkTheme: localStorage.getItem('darkThemeUsed') === 'true',
+  isDarkTheme: localStorage.getItem('darkThemeUsed') !== 'false',
   roles: {},
   permissions: {},
   permissionsMapping: {},

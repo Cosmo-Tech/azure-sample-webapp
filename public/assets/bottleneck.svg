@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg id="Calque_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 56 16" xmlns:bx="https://boxy-svg.com" width="56px" height="16px"><defs><style>
+      .st0 {
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .st0, .st1 {
+        fill: none;
+        stroke: #df3537;
+      }
+
+      .st2 {
+        fill: #131315;
+      }
+    </style><bx:export><bx:file format="svg" path="Sans titre.svg"/></bx:export></defs><path class="st1" d="M0,8h56"/><path class="st2" d="M22.3,12.6c0,.3.1.6.3.8.2.2.5.3.8.3h9.1c.3,0,.6-.1.8-.3.2-.2.3-.5.3-.8v-6.9l-4,2.9v-2.9l-4,2.9V3.4c0-.3-.1-.6-.3-.8-.2-.2-.5-.3-.8-.3h-1.1c-.3,0-.6.1-.8.3-.2.2-.3.5-.3.8v9.1Z"/><path class="st2" d="M30.9,11.4h.6-.6Z"/><path class="st2" d="M28,11.4h.6-.6Z"/><path class="st2" d="M25.1,11.4h.6-.6Z"/><path class="st0" d="M30.9,11.4h.6M28,11.4h.6M25.1,11.4h.6M22.3,12.6c0,.3.1.6.3.8.2.2.5.3.8.3h9.1c.3,0,.6-.1.8-.3.2-.2.3-.5.3-.8v-6.9l-4,2.9v-2.9l-4,2.9V3.4c0-.3-.1-.6-.3-.8-.2-.2-.5-.3-.8-.3h-1.1c-.3,0-.6.1-.8.3-.2.2-.3.5-.3.8v9.1Z"/></svg>

@@ -14,7 +14,8 @@ const useStyles = makeStyles((theme) => ({
 export const Logo = () => {
   const isDarkThemeUsed = useIsDarkTheme();
   const logoPath = useMemo(
-    () => `${process.env?.PUBLIC_URL ?? ''}${isDarkThemeUsed ? pictureDark.darkLogo : pictureLight.lightLogo}`,
+    () =>
+      `${process.env?.PUBLIC_URL ?? ''}${isDarkThemeUsed !== false ? pictureDark.darkLogo : pictureLight.lightLogo}`,
     [isDarkThemeUsed]
   );
   const classes = useStyles();

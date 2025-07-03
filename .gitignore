@@ -1,5 +1,7 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+scripts/flowchart_data_generator/output
+
 # dependencies
 node_modules
 .yarn
@@ -41,6 +43,7 @@ package-lock.json
 
 # python
 __pycache__
+.venv
 
 # yalc
 .yalc
