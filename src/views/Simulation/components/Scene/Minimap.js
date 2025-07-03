@@ -25,7 +25,7 @@ export const Minimap = forwardRef(function Minimap({ sceneContainerRef }, canvas
         right: 25,
       }}
     >
-      {chartLegendIsOpen && <ChartLegendCard onCLose={() => setChartLegendIsOpen(false)} />}
+      {chartLegendIsOpen && <ChartLegendCard onClose={() => setChartLegendIsOpen(false)} />}
       <Paper
         elevation={3}
         sx={{

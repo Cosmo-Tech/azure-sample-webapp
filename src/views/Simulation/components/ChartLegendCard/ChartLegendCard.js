@@ -34,12 +34,12 @@ const itemLegend = [
   },
 ];
 
-export const ChartLegendCard = ({ onCLose }) => {
+export const ChartLegendCard = ({ onClose }) => {
   return (
     <Card sx={{ my: 1 }}>
       <CardHeader
         action={
-          <IconButton onClick={onCLose} aria-label="Close legend">
+          <IconButton onClick={onClose} aria-label="Close legend">
             <CloseIcon />
           </IconButton>
         }
@@ -69,5 +69,5 @@ export const ChartLegendCard = ({ onCLose }) => {
 };
 
 ChartLegendCard.propTypes = {
-  onCLose: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
