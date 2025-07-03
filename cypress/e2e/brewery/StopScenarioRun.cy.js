@@ -14,6 +14,7 @@ const runOptions = {
   finalStatus: 'Successful',
   expectedPollsCount: 2,
 };
+
 describe('can cancel simulation run', () => {
   before(() => {
     stub.start();
@@ -69,7 +70,7 @@ describe('can cancel simulation run before delete', () => {
     ).then((value) => {
       const scenarioId = value.scenarioCreatedId;
       ScenarioParameters.launch({ runOptions, saveAndLaunch: true });
-      ScenarioManager.switchToScenarioManager();
+      ScenarioManager.switchToScenarioManager({ force: true });
       ScenarioManager.getScenarioAccordion(scenarioId).click();
       ScenarioManager.getScenarioRunStatus(scenarioId, SCENARIO_STATUS.RUNNING);
       ScenarioManager.deleteScenario(secondScenarioName, true);

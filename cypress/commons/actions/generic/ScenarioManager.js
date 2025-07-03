@@ -6,8 +6,8 @@ import { apiUtils as api } from '../../utils';
 function getScenarioManagerView() {
   return cy.get(GENERIC_SELECTORS.scenario.manager.view);
 }
-function switchToScenarioManager() {
-  cy.get(GENERIC_SELECTORS.scenario.manager.tabName).click();
+function switchToScenarioManager(options) {
+  cy.get(GENERIC_SELECTORS.scenario.manager.tabName).click(options);
 }
 function getDeleteScenarioButton() {
   return cy.get(GENERIC_SELECTORS.scenario.manager.button.delete);
