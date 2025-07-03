@@ -13,8 +13,27 @@ import { stub } from '../../commons/services/stubbing';
 import { routeUtils as route } from '../../commons/utils';
 import { DEFAULT_SCENARIOS_LIST, EXTENDED_WORKSPACES_LIST } from '../../fixtures/stubbing/default';
 
+const WORKSPACE = EXTENDED_WORKSPACES_LIST[2];
+const SCENARIO3 = DEFAULT_SCENARIOS_LIST[2];
+const SCENARIO4 = DEFAULT_SCENARIOS_LIST[3];
+const SCENARIO5 = DEFAULT_SCENARIOS_LIST[4];
+
 // Patch EXTENDED_WORKSPACES_LIST to enable datasetmanager
 EXTENDED_WORKSPACES_LIST.forEach((workspace) => (workspace.webApp.options.datasetManager = {}));
+
+const selectScenarioAndWaitForScenarioViewUrlUpdate = (scenario) => {
+  ScenarioSelector.selectScenario(scenario.name, scenario.id);
+  cy.url({ timeout: 3000 }).should('include', `/scenario/${scenario.id}`);
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.wait(100); // Work-around for electron browser
+};
+
+const selectScenarioAndWaitForInstanceViewUrlUpdate = (scenario) => {
+  ScenarioSelector.selectScenario(scenario.name, scenario.id);
+  cy.url({ timeout: 3000 }).should('include', `/instance/${scenario.id}`);
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.wait(100); // Work-around for electron browser
+};
 
 describe('Back and forward navigation between tabs, scenarios and workspaces', () => {
   before(() => {
@@ -30,115 +49,112 @@ describe('Back and forward navigation between tabs, scenarios and workspaces', (
     stub.stop();
   });
 
-  it('checks back and forward navigation inside the web app', () => {
+  it('can browse back and forward between scenarios in the scenario view', () => {
     Workspaces.getWorkspacesView().should('exist');
-    Workspaces.selectWorkspace(EXTENDED_WORKSPACES_LIST[2].id);
-
+    Workspaces.selectWorkspace(WORKSPACE.id);
     Scenarios.getScenarioViewTab(60).should('be.visible');
-    ScenarioSelector.selectScenario(DEFAULT_SCENARIOS_LIST[3].name, DEFAULT_SCENARIOS_LIST[3].id);
-    ScenarioSelector.selectScenario(DEFAULT_SCENARIOS_LIST[2].name, DEFAULT_SCENARIOS_LIST[2].id);
-    ScenarioSelector.selectScenario(DEFAULT_SCENARIOS_LIST[4].name, DEFAULT_SCENARIOS_LIST[4].id);
 
-    route.goBack({ scenarioId: DEFAULT_SCENARIOS_LIST[2].id });
-    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[2].name);
+    selectScenarioAndWaitForScenarioViewUrlUpdate(SCENARIO3);
+    selectScenarioAndWaitForScenarioViewUrlUpdate(SCENARIO4);
+    selectScenarioAndWaitForScenarioViewUrlUpdate(SCENARIO5);
 
-    route.goBack({ scenarioId: DEFAULT_SCENARIOS_LIST[3].id });
-    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[3].name);
+    route.goBack({ scenarioId: SCENARIO4.id });
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', SCENARIO4.name);
+    route.goBack({ scenarioId: SCENARIO3.id });
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', SCENARIO3.name);
+
+    route.goForward({ scenarioId: SCENARIO4.id, expectedURL: `scenario/${SCENARIO4.id}` });
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', SCENARIO4.name);
+    route.goForward({ scenarioId: SCENARIO5.id, expectedURL: `scenario/${SCENARIO5.id}` });
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', SCENARIO5.name);
+  });
+
+  it('can browse back and forward to the workspace selector', () => {
+    Workspaces.getWorkspacesView().should('exist');
+    Workspaces.selectWorkspace(WORKSPACE.id);
+    Scenarios.getScenarioViewTab(60).should('be.visible');
+
+    selectScenarioAndWaitForScenarioViewUrlUpdate(SCENARIO3);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', SCENARIO3.name);
 
     Workspaces.switchToWorkspaceView();
     Workspaces.getWorkspacesView().should('exist');
 
-    route.goBack({ workspaceId: EXTENDED_WORKSPACES_LIST[2].id, scenarioId: DEFAULT_SCENARIOS_LIST[3].id });
-    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[3].name);
+    route.goBack({ workspaceId: WORKSPACE.id, scenarioId: SCENARIO3.id });
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', SCENARIO3.name);
+
+    route.goForward();
+    Workspaces.getWorkspacesView().should('exist');
+  });
+
+  it('can browse back and forward to the instance view', () => {
+    Workspaces.getWorkspacesView().should('exist');
+    Workspaces.selectWorkspace(WORKSPACE.id);
+    Scenarios.getScenarioViewTab(60).should('be.visible');
+
+    selectScenarioAndWaitForScenarioViewUrlUpdate(SCENARIO3);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', SCENARIO3.name);
 
     InstanceVisualization.switchToInstanceVisualization();
-    cy.url({ timeout: 3000 }).should('include', `/instance/${DEFAULT_SCENARIOS_LIST[3].id}`);
-    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[3].name);
+    cy.url({ timeout: 3000 }).should('include', `/instance/${SCENARIO3.id}`);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', SCENARIO3.name);
 
-    ScenarioSelector.selectScenario(DEFAULT_SCENARIOS_LIST[2].name, DEFAULT_SCENARIOS_LIST[2].id);
-    ScenarioSelector.selectScenario(DEFAULT_SCENARIOS_LIST[4].name, DEFAULT_SCENARIOS_LIST[4].id);
+    selectScenarioAndWaitForInstanceViewUrlUpdate(SCENARIO4);
+    selectScenarioAndWaitForInstanceViewUrlUpdate(SCENARIO5);
 
-    route.goBack({ scenarioId: DEFAULT_SCENARIOS_LIST[2].id, expectedURL: 'instance' });
-    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[2].name);
-    route.goBack({ scenarioId: DEFAULT_SCENARIOS_LIST[3].id, expectedURL: 'instance' });
-    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[3].name);
+    route.goBack({ scenarioId: SCENARIO4.id, expectedURL: `instance/${SCENARIO4.id}` });
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', SCENARIO4.name);
+    route.goBack({ scenarioId: SCENARIO3.id, expectedURL: `instance/${SCENARIO3.id}` });
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', SCENARIO3.name);
 
-    route.goForward({ scenarioId: DEFAULT_SCENARIOS_LIST[2].id, expectedURL: 'instance' });
-    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[2].name);
-    route.goForward({ scenarioId: DEFAULT_SCENARIOS_LIST[4].id, expectedURL: 'instance' });
-    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[4].name);
+    route.goForward({ scenarioId: SCENARIO4.id, expectedURL: `instance/${SCENARIO4.id}` });
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', SCENARIO4.name);
+    route.goForward({ scenarioId: SCENARIO5.id, expectedURL: `instance/${SCENARIO5.id}` });
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', SCENARIO5.name);
 
-    route.goBack({ scenarioId: DEFAULT_SCENARIOS_LIST[2].id, expectedURL: 'instance' });
-    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[2].name);
-    route.goBack({ scenarioId: DEFAULT_SCENARIOS_LIST[3].id, expectedURL: 'instance' });
-    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[3].name);
+    // Once again for good measure
+    route.goBack({ scenarioId: SCENARIO4.id, expectedURL: `instance/${SCENARIO4.id}` });
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', SCENARIO4.name);
 
-    route.goBack({ expectedURL: 'scenario' });
-    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[3].name);
-    route.goBack({ scenarioId: DEFAULT_SCENARIOS_LIST[0].id });
-    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
+    route.goForward({ scenarioId: SCENARIO5.id, expectedURL: `instance/${SCENARIO5.id}` });
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', SCENARIO5.name);
+  });
 
-    route.goBack();
+  it('can browse back and forward to the scenario manager', () => {
     Workspaces.getWorkspacesView().should('exist');
-    route.goForward({ workspaceId: EXTENDED_WORKSPACES_LIST[2].id, expectedURL: 'scenario' });
-    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
-    route.goForward({ scenarioId: DEFAULT_SCENARIOS_LIST[3].id, expectedURL: 'scenario' });
-    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[3].name);
-    route.goForward({ expectedURL: 'instance' });
-    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[3].name);
+    Workspaces.selectWorkspace(WORKSPACE.id);
+    Scenarios.getScenarioViewTab(60).should('be.visible');
+
+    selectScenarioAndWaitForScenarioViewUrlUpdate(SCENARIO3);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', SCENARIO3.name);
 
     ScenarioManager.switchToScenarioManager();
-    ScenarioManager.openScenarioFromScenarioManager(DEFAULT_SCENARIOS_LIST[2].id);
-    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[2].name);
+    ScenarioManager.openScenarioFromScenarioManager(SCENARIO4.id);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', SCENARIO4.name);
     route.goBack();
     ScenarioManager.getScenarioManagerView().should('be.visible');
-    route.goForward({ expectedURL: 'scenario' });
-    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[2].name);
-    ScenarioSelector.selectScenario(DEFAULT_SCENARIOS_LIST[3].name, DEFAULT_SCENARIOS_LIST[3].id);
-    route.goBack({ scenarioId: DEFAULT_SCENARIOS_LIST[2].id });
-    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[2].name);
-    route.goBack();
-    ScenarioManager.getScenarioManagerView().should('be.visible');
+    route.goForward({ expectedURL: `scenario/${SCENARIO4.id}` });
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', SCENARIO4.name);
+  });
 
-    Workspaces.switchToWorkspaceView();
+  it('can browse back and forward to the dataset manager', () => {
     Workspaces.getWorkspacesView().should('exist');
-    Workspaces.selectWorkspace(EXTENDED_WORKSPACES_LIST[1].id);
+    Workspaces.selectWorkspace(WORKSPACE.id);
+
     Scenarios.getScenarioViewTab(60).should('be.visible');
+    selectScenarioAndWaitForScenarioViewUrlUpdate(SCENARIO3);
 
-    ScenarioSelector.selectScenario(DEFAULT_SCENARIOS_LIST[4].name, DEFAULT_SCENARIOS_LIST[4].id);
-    ScenarioSelector.selectScenario(DEFAULT_SCENARIOS_LIST[2].name, DEFAULT_SCENARIOS_LIST[2].id);
-
-    Workspaces.switchToWorkspaceView();
-    Workspaces.getWorkspacesView().should('exist');
-    Workspaces.selectWorkspace(EXTENDED_WORKSPACES_LIST[2].id);
-    Scenarios.getScenarioViewTab(60).should('be.visible');
-
-    ScenarioSelector.selectScenario(DEFAULT_SCENARIOS_LIST[1].name, DEFAULT_SCENARIOS_LIST[1].id);
-    ScenarioSelector.selectScenario(DEFAULT_SCENARIOS_LIST[3].name, DEFAULT_SCENARIOS_LIST[3].id);
-    route.goBack({ scenarioId: DEFAULT_SCENARIOS_LIST[1].id });
-    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[1].name);
-    route.goBack({ scenarioId: DEFAULT_SCENARIOS_LIST[0].id });
-    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
-    route.goBack();
-    Workspaces.getWorkspacesView().should('exist');
-
-    route.goBack({ workspaceId: EXTENDED_WORKSPACES_LIST[1].id, scenarioId: DEFAULT_SCENARIOS_LIST[2].id });
-    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[2].name);
-    route.goBack({ scenarioId: DEFAULT_SCENARIOS_LIST[4].id });
-    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[4].name);
-    route.goBack({ scenarioId: DEFAULT_SCENARIOS_LIST[0].id });
-    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
-    route.goBack();
-    Workspaces.getWorkspacesView().should('exist');
-    Workspaces.selectWorkspace(EXTENDED_WORKSPACES_LIST[2].id);
-    ScenarioSelector.selectScenario(DEFAULT_SCENARIOS_LIST[3].name, DEFAULT_SCENARIOS_LIST[3].id);
     DatasetManager.switchToDatasetManagerView();
     DatasetManager.getNoDatasetsPlaceholder().should('be.visible');
+
     route.goBack();
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', SCENARIO3.name);
+
     route.goForward();
     DatasetManager.getNoDatasetsPlaceholder().should('be.visible');
+
     Workspaces.switchToWorkspaceView();
-    route.goBack({ workspaceId: EXTENDED_WORKSPACES_LIST[2].id });
+    route.goBack({ workspaceId: WORKSPACE.id });
     DatasetManager.getNoDatasetsPlaceholder(15).should('be.visible');
   });
 });
