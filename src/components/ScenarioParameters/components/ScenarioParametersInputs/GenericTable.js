@@ -177,6 +177,13 @@ export const GenericTable = ({
       !equal(parameterValue?.errors, parameter.errors) ||
       !equal(parameterValue?.agGridRows, parameter.agGridRows)
     ) {
+      // Ignore undesired update of the table if its content is being initialized
+      if (
+        lastNewParameterValue.current.tableDataStatus === TABLE_DATA_STATUS.READY &&
+        parameterValue.tableDataStatus === TABLE_DATA_STATUS.DOWNLOADING
+      )
+        return;
+
       lastNewParameterValue.current = parameterValue;
       setParameter(parameterValue);
     }
