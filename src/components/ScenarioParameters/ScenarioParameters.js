@@ -146,6 +146,8 @@ const ScenarioParameters = ({ onToggleAccordion, isAccordionExpanded }) => {
             sx={{ flexDirection: 'row-reverse' }}
             expandIcon={<ExpandMoreIcon />}
             onClick={onToggleAccordion}
+            component="div"
+            role="button"
           >
             <Grid
               container
