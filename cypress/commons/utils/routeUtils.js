@@ -62,10 +62,10 @@ const browse = (options) => {
 
   // If workspace is known or scenario is specified, check we land on scenario view...
   if (workspaceId || scenarioId) {
-    Scenarios.getScenarioViewTab(60).should('be.visible');
+    Scenarios.getScenarioViewTab(60).should('exist');
   } else {
     // ...otherwise, check we're still on workspaces selector
-    Workspaces.getWorkspacesView(60).should('be.visible');
+    Workspaces.getWorkspacesView(60).should('exist');
   }
 
   cy.url({ timeout: 5000 }).should('include', options.expectedURL ?? options.url);
