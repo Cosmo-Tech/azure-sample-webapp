@@ -3,11 +3,11 @@
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import { Grid } from '@mui/material';
+import { Grid2 as Grid } from '@mui/material';
 import { BasicRadioInput } from '@cosmotech/ui';
 import { TranslationUtils, ConfigUtils } from '../../../../utils';
 
-export const GenericRadioInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty }) => {
+export const GenericRadioInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty = false }) => {
   const { t } = useTranslation();
   const enumValues = useMemo(() => {
     const rawEnumValues = ConfigUtils.getParameterAttribute(parameterData, 'enumValues') ?? [];
@@ -33,7 +33,7 @@ export const GenericRadioInput = ({ parameterData, context, parameterValue, setP
   };
 
   return (
-    <Grid item xs={3}>
+    <Grid size={3}>
       <BasicRadioInput
         key={parameterData.id}
         id={parameterData.id}
@@ -54,7 +54,4 @@ GenericRadioInput.propTypes = {
   parameterValue: PropTypes.any,
   setParameterValue: PropTypes.func.isRequired,
   isDirty: PropTypes.bool,
-};
-GenericRadioInput.defaultProps = {
-  isDirty: false,
 };

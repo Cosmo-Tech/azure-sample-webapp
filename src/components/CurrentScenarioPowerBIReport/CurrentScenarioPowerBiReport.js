@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { Backdrop, Box, CircularProgress, Stack, Typography } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { ErrorBoundary, SimplePowerBIReportEmbed } from '@cosmotech/ui';
-import { SCENARIO_RUN_STATE } from '../../services/config/ApiConstants';
+import { RUNNER_RUN_STATE } from '../../services/config/ApiConstants';
 import { useCurrentScenarioPowerBiReport } from './CurrentScenarioPowerBiReportHook';
 
 const useStyles = makeStyles((theme) => ({
@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 
 const CurrentScenarioPowerBiReport = ({
   alwaysShowReports,
-  isParentLoading,
+  isParentLoading = false,
   reportConfiguration,
   iframeRatio,
   index,
@@ -45,7 +45,7 @@ const CurrentScenarioPowerBiReport = ({
     'persists, please contact an administrator.';
 
   const showLoadingBackdrop =
-    (currentScenarioData?.state === SCENARIO_RUN_STATE.SUCCESSFUL || alwaysShowReports === true) &&
+    (currentScenarioData?.state === RUNNER_RUN_STATE.SUCCESSFUL || alwaysShowReports === true) &&
     isPowerBIReducerLoading &&
     !isParentLoading;
 
@@ -90,10 +90,6 @@ CurrentScenarioPowerBiReport.propTypes = {
   iframeRatio: SimplePowerBIReportEmbed.propTypes.iframeRatio,
   index: SimplePowerBIReportEmbed.propTypes.index,
   labels: PropTypes.object,
-};
-
-CurrentScenarioPowerBiReport.defaultProps = {
-  isParentLoading: false,
 };
 
 export default CurrentScenarioPowerBiReport;

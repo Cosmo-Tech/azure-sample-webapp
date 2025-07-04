@@ -73,6 +73,7 @@ describe('Discard and continue inside the same workspace', () => {
 
     Scenarios.getScenarioViewTab(60).should('be.visible');
     ScenarioManager.switchToScenarioManager();
+    ScenarioManager.getScenarioManagerView().should('be.visible');
     Scenarios.switchToScenarioView();
     ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToBasicTypesTab();

@@ -3,14 +3,14 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { CircularProgress, Grid, Typography } from '@mui/material';
+import { CircularProgress, Grid2 as Grid, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { Api } from '../services/config/Api';
 import { INGESTION_STATUS } from '../services/config/ApiConstants';
-import { dispatchSetApplicationErrorMessage } from '../state/dispatchers/app/ApplicationDispatcher';
-import { useFindDatasetById } from '../state/hooks/DatasetHooks';
-import { useOrganizationId } from '../state/hooks/OrganizationHooks';
-import { useCurrentScenarioParametersValues } from '../state/hooks/ScenarioHooks';
+import { setApplicationErrorMessage } from '../state/app/reducers';
+import { useFindDatasetById } from '../state/datasets/hooks';
+import { useOrganizationId } from '../state/organizations/hooks';
+import { useCurrentSimulationRunnerParametersValues } from '../state/runner/hooks';
 import { GENERIC_VAR_TYPES_DEFAULT_VALUES } from '../utils/scenarioParameters/generic/DefaultValues';
 
 const useStyles = makeStyles((theme) => ({
@@ -89,7 +89,7 @@ export const useDynamicValues = (parameter, targetDatasetId) => {
           'genericcomponent.enumInput.fetchingDynamicValuesError',
           'Impossible to retrieve dynamic values from data source'
         );
-        dispatch(dispatchSetApplicationErrorMessage(error, errorTitle));
+        dispatch(setApplicationErrorMessage({ error, errorMessage: errorTitle }));
         if (!isUnmounted.current) setDynamicValues(errorTitle);
       }
     };
@@ -114,7 +114,7 @@ export const useDynamicValues = (parameter, targetDatasetId) => {
   const loadingDynamicValuesPlaceholder = useMemo(
     () =>
       dynamicValues === null ? (
-        <Grid container direction="row" alignItems="stretch">
+        <Grid container direction="row" sx={{ alignItems: 'stretch' }}>
           <CircularProgress data-cy="fetching-dynamic-values-spinner" size="1rem" color="inherit" />
           <Typography sx={{ px: 2 }}>
             {t('genericcomponent.enumInput.fetchingDynamicValues', 'Fetching list of values...')}
@@ -136,7 +136,7 @@ export const useLoadInitialValueFromDataset = (parameterValue, parameter, target
   const { t } = useTranslation();
   const findDatasetById = useFindDatasetById();
   const organizationId = useOrganizationId();
-  const parametersValues = useCurrentScenarioParametersValues();
+  const parametersValues = useCurrentSimulationRunnerParametersValues();
 
   const isUnmounted = useRef(false);
   useEffect(() => () => (isUnmounted.current = true), []);
@@ -155,7 +155,7 @@ export const useLoadInitialValueFromDataset = (parameterValue, parameter, target
   useEffect(() => {
     if (isUnmounted.current) return;
     const scenarioParameterValue =
-      parametersValues.find((scenarioParameter) => scenarioParameter.parameterId === parameter.id) ?? null;
+      parametersValues?.find((scenarioParameter) => scenarioParameter.parameterId === parameter.id) ?? null;
     if (scenarioParameterValue !== null) {
       setDynamicValueError(null);
     }
@@ -221,7 +221,7 @@ export const useLoadInitialValueFromDataset = (parameterValue, parameter, target
   const loadingDynamicValuePlaceholder = useMemo(
     () =>
       dynamicValue === null ? (
-        <Grid container direction="row" alignItems="stretch">
+        <Grid container direction="row" sx={{ alignItems: 'stretch' }}>
           <CircularProgress data-cy="fetching-dynamic-parameter-spinner" size="1rem" color="inherit" />
           <Typography sx={{ px: 2 }}>
             {t('genericcomponent.numberInput.fetchingValue', 'Fetching parameter value...')}

@@ -118,11 +118,9 @@ function cancelDiscardAndContinue() {
 function launch(options) {
   const expectedPollsCount = options?.runOptions?.expectedPollsCount ?? stub.getScenarioRunOptions().expectedPollsCount;
   const aliases = [
-    options?.saveAndLaunch ? api.interceptUpdateScenario() : undefined,
-    api.interceptLaunchScenario(options?.runOptions),
-    api.interceptGetScenario(options?.scenarioId, expectedPollsCount),
-    api.interceptGetScenarioRun(),
-    api.interceptGetScenarioRunStatus(),
+    options?.saveAndLaunch ? api.interceptUpdateSimulationRunner() : undefined,
+    api.interceptStartRunner(options?.runOptions),
+    api.interceptGetRunnerRunState(expectedPollsCount),
   ];
   options?.datasetsEvents?.reverse()?.forEach((datasetEvent) => {
     aliases.push(api.interceptCreateDataset({ id: datasetEvent.id, validateRequest: datasetEvent.onDatasetCreation }));
@@ -165,7 +163,7 @@ function save(options = {}) {
     aliases.push(api.interceptUploadWorkspaceFile());
   });
 
-  const reqUpdateScenarioAlias = api.interceptUpdateScenario(options?.updateOptions);
+  const reqUpdateScenarioAlias = api.interceptUpdateSimulationRunner(options?.updateOptions);
   aliases.push(reqUpdateScenarioAlias);
 
   getSaveButton().should('not.be.disabled').click();
@@ -176,7 +174,7 @@ function save(options = {}) {
 }
 
 function cancelRun(confirm = true) {
-  const reqStopScenarioRunAlias = confirm && api.interceptStopScenarioRun();
+  const reqStopScenarioRunAlias = confirm && api.interceptStopRunner();
   getStopScenarioRunButton().click();
   if (confirm) {
     getStopScenarioRunConfirmButton().click();

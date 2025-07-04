@@ -25,3 +25,4 @@ export {
   GenericSliderInput,
   ScenarioSelect,
 } from './ScenarioParameters';
+export { default as LoadingBackdrop } from './LoadingBackdrop';

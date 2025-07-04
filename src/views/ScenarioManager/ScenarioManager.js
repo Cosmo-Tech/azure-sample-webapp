@@ -4,8 +4,9 @@ import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import makeStyles from '@mui/styles/makeStyles';
-import { ScenarioUtils, ResourceUtils } from '@cosmotech/core';
+import { ResourceUtils, ScenarioUtils } from '@cosmotech/core';
 import { ScenarioManagerTreeList } from '@cosmotech/ui';
+import { LoadingBackdrop } from '../../components';
 import { ACL_PERMISSIONS } from '../../services/config/accessControl';
 import { useScenarioManager } from './ScenarioManagerHook';
 import { getScenarioManagerLabels } from './labels';
@@ -27,7 +28,7 @@ function moveScenario(moveData) {
   );
 }
 
-const ScenarioManager = (props) => {
+const ScenarioManager = () => {
   const classes = useStyles();
   const { t } = useTranslation();
   const labels = getScenarioManagerLabels(t);
@@ -41,14 +42,15 @@ const ScenarioManager = (props) => {
     setCurrentScenario,
     deleteScenario,
     renameScenario,
-    updateScenario,
+    updateRunnerData,
     resetCurrentScenario,
     workspaceId,
+    runnersListStatus,
   } = useScenarioManager();
 
   const getScenarioListAfterDelete = useCallback(
     (idOfScenarioToDelete) => {
-      const scenarioListAfterDelete = scenarios
+      return scenarios
         .map((scenario) => {
           const newScenario = { ...scenario };
           if (newScenario.parentId === idOfScenarioToDelete) {
@@ -57,8 +59,6 @@ const ScenarioManager = (props) => {
           return newScenario;
         })
         .filter((scenario) => scenario.id !== idOfScenarioToDelete);
-
-      return scenarioListAfterDelete;
     },
     [currentScenarioData?.parentId, scenarios]
   );
@@ -86,20 +86,22 @@ const ScenarioManager = (props) => {
   );
 
   const onScenarioRename = useCallback(
-    (scenarioId, newScenarioName) => {
+    (scenarioId, newScenarioName, scenarioRunTemplateId) => {
       if (scenarioId === currentScenarioData?.id) {
         setCurrentScenario({ name: newScenarioName });
       }
-      renameScenario(scenarioId, newScenarioName);
+      renameScenario(scenarioId, scenarioRunTemplateId, newScenarioName);
     },
     [currentScenarioData?.id, renameScenario, setCurrentScenario]
   );
 
   const onScenarioUpdate = useCallback(
-    (scenarioId, newScenarioData) => {
-      updateScenario(scenarioId, newScenarioData);
+    (scenarioId, newScenarioData, runTemplateId) => {
+      const patch = { ...newScenarioData };
+      if (runTemplateId) patch.runTemplateId = runTemplateId;
+      updateRunnerData(scenarioId, patch);
     },
-    [updateScenario]
+    [updateRunnerData]
   );
 
   const checkScenarioNameValue = useCallback(
@@ -157,6 +159,7 @@ const ScenarioManager = (props) => {
 
   return (
     <div className={classes.root}>
+      <LoadingBackdrop status={runnersListStatus} />
       <ScenarioManagerTreeList
         datasets={datasets}
         scenarios={scenarios}
@@ -178,7 +181,5 @@ const ScenarioManager = (props) => {
     </div>
   );
 };
-
-ScenarioManager.propTypes = {};
 
 export default ScenarioManager;

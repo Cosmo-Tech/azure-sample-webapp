@@ -6,26 +6,29 @@ import { apiUtils as api } from '../../utils';
 function getScenarioManagerView() {
   return cy.get(GENERIC_SELECTORS.scenario.manager.view);
 }
-function switchToScenarioManager() {
-  cy.get(GENERIC_SELECTORS.scenario.manager.tabName).click();
+function switchToScenarioManager(options) {
+  cy.get(GENERIC_SELECTORS.scenario.manager.tabName).click(options);
 }
 function getDeleteScenarioButton() {
   return cy.get(GENERIC_SELECTORS.scenario.manager.button.delete);
 }
 function deleteScenario(scenarioName, isRunning = false) {
-  const getScenarioToDeleteAlias = api.interceptGetScenario();
-  const deleteScenarioAlias = api.interceptDeleteScenario(scenarioName);
-  const reqStopScenarioRunAlias = isRunning && api.interceptStopScenarioRun();
-  const getScenariosAlias = api.interceptGetScenarios();
+  const getScenarioToDeleteAlias = api.interceptGetRunner();
+  const getScenarioToDeleteStateAlias = isRunning && api.interceptGetRunnerRunState(1);
+  const deleteScenarioAlias = api.interceptDeleteRunner(scenarioName);
+  const reqStopScenarioRunAlias = isRunning && api.interceptStopRunner();
 
   writeInFilter(scenarioName);
+  getDeleteScenarioButton().should('have.length', 1);
   getDeleteScenarioButton().click();
   cy.get(GENERIC_SELECTORS.scenario.manager.confirmDeleteDialog).contains('button', 'Confirm').click();
 
   api.waitAlias(getScenarioToDeleteAlias);
   api.waitAlias(deleteScenarioAlias);
-  if (isRunning) api.waitAlias(reqStopScenarioRunAlias);
-  api.waitAlias(getScenariosAlias);
+  if (isRunning) {
+    api.waitAlias(getScenarioToDeleteStateAlias);
+    api.waitAlias(reqStopScenarioRunAlias);
+  }
 }
 
 function deleteScenarioList(scenarioNamesToDelete) {
@@ -71,7 +74,7 @@ function getScenarioEditableLinkInEditMode(scenarioId, timeout = 5) {
   });
 }
 function renameScenario(scenarioId, newScenarioName) {
-  const renameScenarioAlias = api.interceptUpdateScenario(scenarioId);
+  const renameScenarioAlias = api.interceptUpdateRunner(scenarioId);
 
   getRenameScenarioButton(scenarioId).click();
   getScenarioEditableLinkInEditMode(scenarioId).type('{selectAll}{backspace}' + newScenarioName + '{enter}');
@@ -114,7 +117,7 @@ function cancelMetadataEdition() {
 
 function saveScenarioDescription(scenarioId, newDescription, validateRequest) {
   const options = { validateRequest };
-  const alias = api.interceptUpdateScenario(options);
+  const alias = api.interceptUpdateRunner(options);
   editScenarioDescription(scenarioId, newDescription);
   getScenarioManagerView().click();
   getScenarioDisabledDescription(scenarioId).should('have.text', newDescription);
@@ -151,7 +154,7 @@ function addScenarioTag(scenarioId, tag) {
 
 function saveScenarioTag(scenarioId, newTag, validateRequest) {
   const options = { validateRequest };
-  const alias = api.interceptUpdateScenario(options);
+  const alias = api.interceptUpdateRunner(options);
   addScenarioTag(scenarioId, newTag);
   getScenarioManagerView().click();
   api.waitAlias(alias);
@@ -159,7 +162,7 @@ function saveScenarioTag(scenarioId, newTag, validateRequest) {
 
 function deleteScenarioTag(scenarioId, index, validateRequest) {
   const options = { validateRequest };
-  const alias = api.interceptUpdateScenario(options);
+  const alias = api.interceptUpdateRunner(options);
   getScenarioTag(scenarioId, index).find(GENERIC_SELECTORS.scenario.tags.cancelIcon).should('exist').click();
   api.waitAlias(alias);
 }
@@ -178,7 +181,7 @@ function getScenarioViewRedirect(scenarioId) {
 
 function openScenarioFromScenarioManager(scenarioId) {
   getScenarioViewRedirect(scenarioId).should('exist');
-  api.interceptGetScenario(scenarioId);
+  api.interceptGetRunner(scenarioId);
   getScenarioViewRedirect(scenarioId).click();
   cy.url({ timeout: 5000 }).should('include', `/scenario/${scenarioId}`);
 }
