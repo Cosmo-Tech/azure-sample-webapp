@@ -58,7 +58,8 @@ describe('Check permissions shared dataset', () => {
   it('Is shown a message error when last admin is removed', () => {
     DatasetManager.switchToDatasetManagerView();
 
-    RolesEdition.getShareButton().should('be.visible').should('not.be.disabled').click();
+    RolesEdition.getShareButton().should('be.visible').should('not.be.disabled');
+    RolesEdition.getShareButton().click();
     RolesEdition.removeAgent(USER_EXAMPLE.email);
     RolesEdition.getNoAdminErrorMessage().should('be.visible');
     RolesEdition.getShareDialogSubmitButton().should('be.disabled');
