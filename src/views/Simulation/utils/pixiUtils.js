@@ -210,6 +210,7 @@ const createLinkGraphics = (links, setSelectedElement, settings) => {
     );
     graphics.stroke({ pixelLine: true, width: 1, color: '#FFFFFF' });
     graphics.on('click', (event) => setSelectedElement(link));
+    graphics.elementId = link.data.id;
     return graphics;
   });
 };
@@ -227,6 +228,7 @@ const createNodeContainer = (textures, node) => {
   container.y = node.y - centerOffset.y;
   container.eventMode = 'static';
   container.cursor = 'pointer';
+  container.elementId = node.id;
   return container;
 };
 

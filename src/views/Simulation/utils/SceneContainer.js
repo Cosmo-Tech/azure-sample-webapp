@@ -6,6 +6,7 @@ const MIN_ZOOM = 0.05;
 const MAX_ZOOM = 2;
 const DEFAULT_ZOOM = 0.2;
 const ZOOM_SPEED = 0.5;
+const FOCUS_ZOOM = 1;
 
 const interpolateLinear = (a, b, t) => {
   return a + (b - a) * t;
@@ -96,6 +97,49 @@ export class SceneContainer extends Container {
     this.sceneApp.ticker.add(this.updatePositionAndScale);
   }
 
+  findElementById(elementId) {
+    const recurseSearch = (elements) => {
+      if (!Array.isArray(elements) || elements.length === 0) return null;
+      let elementFound = elements.find((child) => child.elementId === elementId);
+      if (elementFound != null) return elementFound;
+
+      for (const child of elements) {
+        elementFound = recurseSearch(child.children);
+        if (elementFound != null) return elementFound;
+        else continue;
+      }
+    };
+
+    return recurseSearch(this.children);
+  }
+
+  getScreenCenterPoint() {
+    return new Point(this.canvasScene.clientWidth / 2, this.canvasScene.clientHeight / 2);
+  }
+
+  getPointWithZoomOffset(x, y, zoom = this.zoom) {
+    return new Point(x * zoom, y * zoom);
+  }
+
+  centerOnElement(elementId) {
+    const elementFound = this.findElementById(elementId);
+    if (elementFound == null) return;
+
+    const elementCenter =
+      elementFound.label === 'Graphics'
+        ? {
+            x: (elementFound.bounds.minX + elementFound.bounds.maxX) / 2,
+            y: (elementFound.bounds.minY + elementFound.bounds.maxY) / 2,
+          }
+        : {
+            x: elementFound.x + elementFound.width / 2,
+            y: elementFound.y + elementFound.height / 2,
+          };
+    const screenCenterPoint = this.getScreenCenterPoint();
+    const nodeCenterPoint = this.getPointWithZoomOffset(elementCenter.x, elementCenter.y, FOCUS_ZOOM);
+    this.translateTo(-nodeCenterPoint.x + screenCenterPoint.x, -nodeCenterPoint.y + screenCenterPoint.y, FOCUS_ZOOM);
+  }
+
   backToOrigin() {
     this.translateTo(this.origin.x, this.origin.y, DEFAULT_ZOOM);
   }
@@ -106,7 +150,7 @@ export class SceneContainer extends Container {
 
   zoomOnPoint(zoomDirection, zoomPoint) {
     if (!zoomPoint) {
-      zoomPoint = new Point(this.canvasScene.clientWidth / 2, this.canvasScene.clientHeight / 2);
+      zoomPoint = this.getScreenCenterPoint();
     }
 
     const mouseWorldPosition = this.toLocal(zoomPoint);
