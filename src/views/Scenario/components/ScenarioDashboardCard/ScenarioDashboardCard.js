@@ -68,6 +68,8 @@ const ScenarioDashboardCard = () => {
           expandIcon={<ExpandMoreIcon />}
           onClick={toggleDashboardsAccordion}
           sx={{ flexDirection: 'row-reverse', maxHeight: '48px' }}
+          component="div"
+          role="button"
         >
           <Grid
             container
