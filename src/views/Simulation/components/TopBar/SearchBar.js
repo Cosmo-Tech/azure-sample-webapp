@@ -34,12 +34,8 @@ export const SearchBar = () => {
 
   const selectElement = (element) => {
     if (element == null) return;
-    if (element.x != null && element.y != null) centerToPosition(-element.x, -element.y);
-    if (element.source != null && element.target != null) {
-      const centerX = (element.source.x + element.target.x) / 2.0;
-      const centerY = (element.source.y + element.target.y) / 2.0;
-      centerToPosition(-centerX, -centerY);
-    }
+    if (element?.data?.id != null) centerToPosition(element.data.id);
+    else if (element?.id != null) centerToPosition(element.id);
   };
 
   return (

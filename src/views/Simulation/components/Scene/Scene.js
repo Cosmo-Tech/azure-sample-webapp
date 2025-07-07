@@ -93,9 +93,9 @@ const Scene = ({ setSelectedElement }) => {
   ]);
 
   const centerToPosition = useCallback(
-    () => (x, y) => {
+    () => (elementId) => {
       if (sceneContainerRef.current == null) return;
-      sceneContainerRef.current.translateTo(x, y);
+      sceneContainerRef.current.centerOnElement(elementId);
     },
     [sceneContainerRef]
   );
