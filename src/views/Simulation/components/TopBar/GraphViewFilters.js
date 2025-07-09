@@ -4,7 +4,6 @@ import React, { useCallback, useMemo, useState } from 'react';
 import {
   Box,
   Chip,
-  Divider,
   FormControl,
   InputLabel,
   Select,
@@ -27,32 +26,20 @@ export const GraphViewFilters = () => {
         <ListItemText primary={filterValue} />
       </MenuItem>
     ));
-    listItems.splice(1, 0, <Divider key="divider" />);
+
     return listItems;
   }, [selectedFilters]);
 
   const changeValue = useCallback(
     (event, child) => {
       const selectedValues = event.target.value;
-      const toggledValue = child.props.value;
-      let newFilters;
 
-      if (toggledValue === GRAPH_VIEW_FILTER_VALUES.ALL) {
-        if (selectedValues.includes(GRAPH_VIEW_FILTER_VALUES.ALL)) newFilters = [GRAPH_VIEW_FILTER_VALUES.ALL];
-        else newFilters = [GRAPH_VIEW_FILTER_VALUES.BOTTLENECKS, GRAPH_VIEW_FILTER_VALUES.SHORTAGES];
-      } else {
-        if (selectedValues.includes(GRAPH_VIEW_FILTER_VALUES.ALL))
-          newFilters = selectedValues.filter((value) => value !== GRAPH_VIEW_FILTER_VALUES.ALL);
-        else if (selectedValues.length === 0) newFilters = [GRAPH_VIEW_FILTER_VALUES.ALL];
-        else newFilters = selectedValues;
-      }
-
-      setSelectedFilters(newFilters);
+      setSelectedFilters(selectedValues);
 
       // Update graph settings asynchronously to prevent UI lags
       setTimeout(() => {
         requiredUpdateStepsRef.current.highlight = true;
-        setSettings((previousSettings) => ({ ...previousSettings, graphViewFilters: newFilters }));
+        setSettings((previousSettings) => ({ ...previousSettings, graphViewFilters: selectedValues }));
       }, 0);
     },
     [requiredUpdateStepsRef, setSelectedFilters, setSettings]
@@ -60,12 +47,12 @@ export const GraphViewFilters = () => {
 
   return (
     <FormControl sx={{ width: '100%' }}>
-      <InputLabel id="graph-view-filter-label">Show</InputLabel>
+      <InputLabel id="graph-view-filter-label">Highlight</InputLabel>
       <Select
         multiple
         value={selectedFilters}
         onChange={changeValue}
-        input={<OutlinedInput label="Show" />}
+        input={<OutlinedInput label="Highlight" />}
         renderValue={(selectedKeys) => (
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
             {selectedKeys.map((key) => (

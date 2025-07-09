@@ -63,6 +63,8 @@ const getGraphLinks = (instance, nodes) => {
   return [...getTransportLinks(instance, nodes), ...getInputLinks(instance, nodes), ...getOutputLinks(instance, nodes)];
 };
 
+const isShowingAllElements = (settings) => settings.graphViewFilters.length === 0;
+
 const setStockShortages = (instance, stocks, shortages, settings) => {
   const highlightShortages = settings.graphViewFilters.includes(GRAPH_VIEW_FILTER_VALUES.SHORTAGES);
   let stocksNotFound = 0;
@@ -100,12 +102,11 @@ const setResourceBottlenecks = (instance, productionResources, bottlenecks, sett
 };
 
 export const resetGraphHighlighting = (graph, settings) => {
-  const showAllElements = settings.graphViewFilters.includes(GRAPH_VIEW_FILTER_VALUES.ALL);
-  const defaultGrayedOutValue = !showAllElements;
+  const defaultGrayedOutValue = !isShowingAllElements(settings);
 
   graph.links.forEach((link) => (link.isGrayedOut = defaultGrayedOutValue));
   graph.nodes.forEach((node) => (node.isGrayedOut = defaultGrayedOutValue));
-  if (showAllElements) return;
+  if (isShowingAllElements(settings)) return;
 
   const highlightBottlenecks = settings.graphViewFilters.includes(GRAPH_VIEW_FILTER_VALUES.BOTTLENECKS);
   const highlightShortages = settings.graphViewFilters.includes(GRAPH_VIEW_FILTER_VALUES.SHORTAGES);
@@ -132,7 +133,7 @@ const propagateElementsHighlighting = (links, inPropagationLevel, outPropagation
 };
 
 export const getGraphFromInstance = (instance, bottlenecks, shortages, stockDemands, kpis, configuration, settings) => {
-  const defaultGrayedOutValue = !settings.graphViewFilters.includes(GRAPH_VIEW_FILTER_VALUES.ALL);
+  const defaultGrayedOutValue = !isShowingAllElements(settings);
   const createNode = (node, type) => {
     return {
       id: node.id,
@@ -160,8 +161,7 @@ export const getGraphFromInstance = (instance, bottlenecks, shortages, stockDema
 
   const inPropagationLevel = settings.showInput ? settings.inputLevels : 0;
   const outPropagationLevel = settings.showOutput ? settings.outputLevels : 0;
-  if (!settings.graphViewFilters.includes(GRAPH_VIEW_FILTER_VALUES.ALL))
-    propagateElementsHighlighting(links, inPropagationLevel, outPropagationLevel);
+  if (isShowingAllElements(settings)) propagateElementsHighlighting(links, inPropagationLevel, outPropagationLevel);
 
   // TODO: search by run id when we support results from several simulations
   const simulationConfiguration = configuration?.[0];
