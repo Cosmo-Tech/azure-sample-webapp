@@ -1,10 +1,12 @@
 # Cypress tests
 
-## Service account authentication with MSAL
+A service account can be used to bypass the login page when running tests. These cypress tests currently support two
+authentication providers: **Azure** and **Keycloak**.
 
-MSAL authentication with a service account can be used to bypass the login page when running tests. This feature
-requires an **app registration with delegated permissions on the API app registration**. To enable and configure this
-feature, you have to set the following environment variables:
+## Service account authentication with an Azure app registration
+
+This section will require to have an **app registration with delegated permissions on the API app registration**.
+To enable and configure this feature, you have to set the following environment variables:
 
 - `CYPRESS_AUTHENTICATE_WITH_SERVICE_ACCOUNT`: set to `1` to enable the service account authentication
 - `CY_MSAL_TENANT_ID`: tenant id of the app registration with delegated permissions
@@ -13,7 +15,8 @@ feature, you have to set the following environment variables:
 - `CY_MSAL_API_HOSTNAME_FOR_SCOPE`: the FQDN of the API used as scope to request a token from MSAL (e.g.
   "dev.api.cosmotech.com")
 
-When launching cypress with a yarn command, you may have to set these environment variables in the same command instruction:
+When launching cypress with a yarn command, you may have to set these environment variables in the same command
+instruction:
 
 ```
 CYPRESS_AUTHENTICATE_WITH_SERVICE_ACCOUNT=1 \
@@ -35,4 +38,24 @@ CYPRESS_AUTHENTICATE_WITH_SERVICE_ACCOUNT=1 \
   node_modules/.bin/cypress run \
   --reporter cypress-mochawesome-reporter \
   --browser electron
+```
+
+## Service account from a Keycloak client
+
+This section will require to have a **client with a role mapper set to get `userRoles`** defined in Keycloak.
+To enable and configure this feature, you have to set the following environment variables:
+
+- `CY_AUTH_KEYCLOAK_REALM`: URL to your keycloak realm (e.g. "https://example.com/keycloak/realms/brewery")
+- `CY_AUTH_KEYCLOAK_CLIENT_ID`: id of the keycloak client to use (e.g. "my-cypress-service-account-client")
+- `CY_AUTH_KEYCLOAK_CLIENT_SECRET`: secret associated to the keycloak client
+
+When launching cypress with a yarn command, you may have to set these environment variables in the same command
+instruction:
+
+```
+CYPRESS_AUTHENTICATE_WITH_SERVICE_ACCOUNT=1 \
+  CY_AUTH_KEYCLOAK_REALM="$CY_AUTH_KEYCLOAK_REALM" \
+  CY_AUTH_KEYCLOAK_CLIENT_ID="$CY_AUTH_KEYCLOAK_CLIENT_ID" \
+  CY_AUTH_KEYCLOAK_CLIENT_SECRET="$CY_AUTH_KEYCLOAK_CLIENT_SECRET" \
+  yarn cypress
 ```

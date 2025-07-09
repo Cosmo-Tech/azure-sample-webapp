@@ -133,11 +133,12 @@ def clean_config(root_folder):
 
 def clean_ci(root_folder):
     '''
-    Remove brewery-specific CI files (e.g. Github Actions workflow file)
+    Remove brewery-specific CI files (e.g. Github Actions workflow files)
     '''
+    ci_files_to_keep = ['eslint.yml', 'test.yml']
     ci_folder_path = os.path.join(root_folder, '.github', 'workflows')
     for ci_file_name in os.listdir(ci_folder_path):
-        if ci_file_name.startswith('azure-static-web-apps-') and ci_file_name.endswith('.yml'):
+        if ci_file_name not in ci_files_to_keep:
             rm_file(os.path.join(ci_folder_path, ci_file_name))
 
 

@@ -101,7 +101,7 @@ function _addHiddenParameters(parameters, scenarioData, scenarios, runTemplatePa
     MasterId: () => scenarioData.rootId,
     RunTemplateName: () => scenarioData.runTemplateName,
     ParentId: () => scenarioData.parentId,
-    ScenarioLastRunId: () => scenarioData?.lastRun?.csmSimulationRun,
+    ScenarioLastRunId: () => scenarioData?.lastRunId,
     ParentLastRunId: () => _getParentScenarioLastRunId(scenarioData, scenarios),
     MasterLastRunId: () => _getRootScenarioLastRunId(scenarioData, scenarios),
   };

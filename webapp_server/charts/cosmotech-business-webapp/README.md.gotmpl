@@ -1,0 +1,21 @@
+{{ template "chart.header" . }}
+
+{{ template "chart.deprecationWarning" . }}
+
+{{ template "chart.badgesSection" . }}
+
+- [Homepage]({{ template "chart.homepage" . }})
+- [Changelog](CHANGELOG.md)
+
+## Compatibility
+
+| Chart version | Compatible Cosmo Tech Webapp versions           | Compatible Cosmo Tech API versions |
+| ------------- | ----------------------------------------------- | ---------------------------------- |
+| 0.1           | >= 7.0.0-beta (_instance-specific_ server only) | 4.0.0-onprem                       |
+| >= 0.2        | >= 7.0.0-beta                                   | 4.0.0-onprem                       |
+
+{{ template "chart.sourcesSection" . }}
+
+{{ template "chart.valuesSection" . }}
+
+{{ template "helm-docs.versionFooter" . }}
