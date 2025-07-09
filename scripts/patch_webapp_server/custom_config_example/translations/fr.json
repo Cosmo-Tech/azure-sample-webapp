@@ -1,0 +1,30 @@
+{
+  "commoncomponents": {
+    "text": {
+      "application": {
+        "title": "azure-sample-webapp - modèle brewery 1"
+      }
+    }
+  },
+  "genericcomponent": {
+    "dialog": {
+      "about": {
+        "title": "azure-sample-webapp - modèle brewery 2"
+      }
+    }
+  },
+  "views": {
+    "signin": {
+      "title": "azure-sample-webapp - modèle brewery 3"
+    }
+  },
+  "layouts": {
+    "tabs": {
+      "instance": {
+        "tab": {
+          "title": "Jumeau numérique (Flowchart)"
+        }
+      }
+    }
+  }
+}

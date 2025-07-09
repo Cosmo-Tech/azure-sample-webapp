@@ -277,13 +277,16 @@ information about it in the `options` field of the parameter description:
 
 - `defaultFileTypeFilter`: a comma-separated list of files extensions that will be used as the default filter in users'
   file browser
-- `connectorId`: the connector id to use in the dataset object that will be created with the Cosmo Tech API
 - `description`: the description to use in the dataset object that will be created with the Cosmo Tech API
+
+:information_source: Since v7.0.0 of the azure-sample-webapp, the parameter `connectorId` that was previously required
+no longer exists
 
 > **Warning**
 >
-> Currently, the file scenario parameters (for "file upload" and "table" components) only work with Azure
-> Storage connectors. The connector whose id you provide **must have the exact name "Azure Storage Connector"**.
+> For webapp versions below 7.0.0, the file scenario parameters (for "file upload" and "table" components) only work
+> with Azure Storage connectors. The connector whose id you provide
+> **must have the exact name "Azure Storage Connector"**.
 
 When files uploaded by webapp users are sent to the back-end to be stored (for example in Azure Storage), the original
 file name is preserved. This behavior can be inconvenient when writing the parameters handler of your solution. If you

@@ -11,7 +11,8 @@ const cspConfigPolicy = {
     '*.api.cosmotech.com',
     'https://login.microsoftonline.com',
     'https://dc.services.visualstudio.com',
-    'https://o-4pm18exqpkv-wabreweryadxdev.azurewebsites.net',
+    'https://scenario-download-brewery-dev.azurewebsites.net',
+    'https://kubernetes.cosmotech.com',
   ],
   'script-src': ["'self'"],
   'img-src': ["'self'", 'data:'],
@@ -34,7 +35,10 @@ const cspConfigOptions = {
 };
 
 function addCspHtmlWebpackPlugin(config) {
-  if (process.env.NODE_ENV === 'production') {
+  const isProd = process.env.NODE_ENV === 'production';
+  const isUniversal = process.env.BUILD_TYPE === 'universal';
+  // When "universal" build mode is enabled, do not add CSP at build time
+  if (isProd && !isUniversal) {
     config.plugins.push(new CspHtmlWebpackPlugin(cspConfigPolicy, cspConfigOptions));
   }
 

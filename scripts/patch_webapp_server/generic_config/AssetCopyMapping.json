@@ -1,0 +1,8 @@
+[
+  { "src": "favicon.ico", "dst": "favicon.ico" },
+  { "src": "theme/authLight.png", "dst": "theme/authLight.png" },
+  { "src": "theme/cosmotech_dark_logo.png", "dst": "theme/cosmotech_dark_logo.png" },
+  { "src": "theme/cosmotech_light_logo.png", "dst": "theme/cosmotech_light_logo.png" },
+  { "src": "customLabels.json", "dst": "locales/en/customLabels.json" },
+  { "src": "customLabels.json", "dst": "locales/fr/customLabels.json" }
+]

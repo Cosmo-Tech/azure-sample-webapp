@@ -174,7 +174,6 @@ const forgeRunnerParameters = (solution, formValues) => {
       varType: solutionParameter?.varType,
       value,
     };
-    if (solutionParameter?.varType === '%DATASETID%') parameter.connectorId = solutionParameter?.options?.connectorId;
     return parameter;
   });
 };

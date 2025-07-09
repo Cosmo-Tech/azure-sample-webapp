@@ -33,7 +33,6 @@ function getConversionMethod(param, functionArray) {
 const _checkDeprecatedKeysInParameterConfig = (parameter) => {
   const keysToCheck = [
     'columns',
-    'connectorId',
     'dataCy',
     'dateFormat',
     'defaultFileTypeFilter',
@@ -62,7 +61,6 @@ const _checkDeprecatedKeysInParameterConfig = (parameter) => {
 const getParameterAttribute = (parameter, attributeName) => {
   const knownAttributesNames = [
     'columns',
-    'connectorId',
     'dateFormat',
     'defaultFileTypeFilter',
     'description',

@@ -1,0 +1,44 @@
+{{- if .Values.ingress.enabled -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    email: platform@cosmotech.com
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/rewrite-target: $1/$2
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "30"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "30"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "30"
+    nginx.org/client-max-body-size: "0"
+  labels:
+    owner: csm-platform
+  name: {{ include "cosmotech-business-webapp.server-name" . }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: {{ .Values.webapp.domainName }}
+    http:
+      paths:
+      - path: "{{ .Values.webapp.publicUrl }}(/api)(?:/|$)(.*)"
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: {{ include "cosmotech-business-webapp.functions-name" . }}
+            port:
+              number: 8080
+      - path: "{{ .Values.webapp.publicUrl }}()(?:/|$)(.*)"
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: {{ include "cosmotech-business-webapp.server-name" . }}
+            port:
+              number: 8080
+  tls:
+  - hosts:
+    - {{ .Values.webapp.domainName }}
+    secretName: letsencrypt-prod
+{{- end }}
