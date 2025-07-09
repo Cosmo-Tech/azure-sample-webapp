@@ -7,7 +7,7 @@ module.exports = {
     '\\.(css|scss|less|png)$': 'identity-obj-proxy',
   },
   transform: {
-    '^.+\\.js?$': 'babel-jest',
+    '^.+\\.jsx?$': 'babel-jest',
   },
   testEnvironment: 'jest-environment-jsdom',
   setupFiles: ['jest-canvas-mock'],
