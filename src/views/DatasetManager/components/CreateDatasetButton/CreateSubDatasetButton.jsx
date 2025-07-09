@@ -43,7 +43,7 @@ export const CreateSubDatasetButton = ({ parentDataset }) => {
           'commoncomponents.datasetmanager.overview.actions.createSubdatasetButtonTooltip',
           'Create sub-dataset'
         )}
-        disableInteractive={true}
+        disableInteractive
       >
         <IconButton
           onClick={() => setIsDatasetWizardOpen(true)}

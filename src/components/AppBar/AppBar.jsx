@@ -19,7 +19,7 @@ export const AppBar = ({ children }) => {
   const classes = useStyles();
   return (
     <MuiAppBar position="sticky" className={classes.appBar}>
-      <Toolbar variant="dense" disableGutters={true}>
+      <Toolbar variant="dense" disableGutters>
         <WorkspaceInfo />
         <div className={classes.children}>{children}</div>
         <ThemeSwitch />

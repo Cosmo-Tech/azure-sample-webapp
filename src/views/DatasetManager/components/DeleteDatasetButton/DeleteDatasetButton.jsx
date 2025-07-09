@@ -37,7 +37,7 @@ export const DeleteDatasetButton = ({ dataset, location = '' }) => {
               defaultValue="Do you really want to delete <i>{{datasetName}}</i>?
               This action is irreversible.{{impactedScenariosWarning}}"
               values={{ datasetName: dataset?.name, impactedScenariosWarning }}
-              shouldUnescape={true}
+              shouldUnescape
             />
           ),
           button1: t('commoncomponents.datasetmanager.dialogs.cancel', 'Cancel'),
@@ -60,7 +60,7 @@ export const DeleteDatasetButton = ({ dataset, location = '' }) => {
     <PermissionsGate userPermissions={userPermissionsOnDataset} necessaryPermissions={[ACL_PERMISSIONS.DATASET.DELETE]}>
       <FadingTooltip
         title={t('commoncomponents.datasetmanager.overview.actions.deleteButtonTooltip', 'Delete')}
-        disableInteractive={true}
+        disableInteractive
       >
         <IconButton
           onClick={(event) => askConfirmationToDeleteDialog(event, dataset)}

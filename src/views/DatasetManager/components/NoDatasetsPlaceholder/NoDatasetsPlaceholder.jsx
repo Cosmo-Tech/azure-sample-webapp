@@ -25,7 +25,7 @@ export const NoDatasetsPlaceholder = () => {
       <Trans
         i18nKey="commoncomponents.datasetmanager.noDatasets.body"
         defaultValue="Click on <createDatasetButton /> to import your first data"
-        components={{ createDatasetButton: <CreateDatasetButton isContainedButton={true} /> }}
+        components={{ createDatasetButton: <CreateDatasetButton isContainedButton /> }}
       />
     </Typography>
   );

@@ -128,7 +128,7 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
                     handleDownloadFile={(event) => {
                       FileManagementUtils.downloadFile(organizationId, workspaceId, value.id, () => {});
                     }}
-                    editMode={true}
+                    editMode
                     handleDeleteFile={() => onChange(null)}
                     file={value ?? {}}
                     acceptedFileTypes={getDefaultFileTypeFilter(dataSourceRunTemplates, parameterId)}
@@ -221,7 +221,7 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
         name="sourceType"
         key="sourceType"
         defaultValue={dataSourceType ?? defaultDataSourceTypeKey}
-        shouldUnregister={true}
+        shouldUnregister
         render={({ field }) => {
           const { value, onChange } = field;
           const setDatasetSource = (newValue) => {

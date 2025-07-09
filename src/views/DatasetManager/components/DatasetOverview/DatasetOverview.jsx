@@ -19,7 +19,7 @@ export const DatasetOverview = () => {
   const graphIndicatorsElements = useMemo(() => {
     return graphIndicators.map((kpi) => {
       const result = queriesResults?.graphIndicators?.find((kpiResult) => kpiResult.id === kpi.id);
-      return <GraphIndicator key={kpi.id} id={kpi.id} kpi={result}></GraphIndicator>;
+      return <GraphIndicator key={kpi.id} id={kpi.id} kpi={result} />;
     });
   }, [graphIndicators, queriesResults]);
 
@@ -30,11 +30,7 @@ export const DatasetOverview = () => {
       sx={{ p: 1, width: '100%', height: '100%', overflow: 'auto', backgroundColor: 'transparent' }}
       data-cy="dataset-overview-card"
     >
-      <CardHeader
-        title={editableDatasetName}
-        sx={{ height: '65px' }}
-        action={<DatasetActions dataset={dataset}></DatasetActions>}
-      ></CardHeader>
+      <CardHeader title={editableDatasetName} sx={{ height: '65px' }} action={<DatasetActions dataset={dataset} />} />
       <CardContent sx={{ height: 'calc(100% - 65px)' }}>
         {showPlaceholder ? (
           <DatasetOverviewPlaceholder />

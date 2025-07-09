@@ -74,7 +74,7 @@ const SignIn = ({ logInAction, auth }) => {
         </Grid>
         <Grid className={classes.content} size={{ lg: 7, xs: 12 }}>
           <div className={classes.content}>
-            <div className={classes.contentHeader}></div>
+            <div className={classes.contentHeader} />
             <div className={classes.contentBody}>
               <Typography className={classes.title} variant="h5">
                 {t('commoncomponents.button.login.regular.login', 'Sign In')}

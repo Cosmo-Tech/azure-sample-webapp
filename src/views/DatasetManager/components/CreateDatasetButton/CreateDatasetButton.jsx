@@ -33,7 +33,7 @@ export const CreateDatasetButton = ({ isContainedButton = false }) => {
       ) : (
         <FadingTooltip
           title={t('commoncomponents.datasetmanager.create.tooltip', 'Create a new dataset')}
-          disableInteractive={true}
+          disableInteractive
         >
           <IconButton onClick={() => setIsDatasetWizardOpen(true)} data-cy="create-dataset-button">
             <AddIcon color="primary" />

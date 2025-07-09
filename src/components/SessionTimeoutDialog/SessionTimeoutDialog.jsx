@@ -55,7 +55,7 @@ export const SessionTimeoutDialog = ({
       open={open}
       aria-labelledby="form-dialog-title"
       maxWidth={'sm'}
-      fullWidth={true}
+      fullWidth
       onClose={onClose}
     >
       <DialogTitle id="form-dialog-title">{labels.title}</DialogTitle>

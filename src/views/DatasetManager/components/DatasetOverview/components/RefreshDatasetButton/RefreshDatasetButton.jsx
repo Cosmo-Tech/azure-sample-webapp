@@ -58,7 +58,7 @@ export const RefreshDatasetButton = ({ dataset }) => {
     refreshButton = (
       <FadingTooltip
         title={t('commoncomponents.datasetmanager.overview.actions.refreshButtonTooltip', 'Refresh')}
-        disableInteractive={true}
+        disableInteractive
       >
         <IconButton
           onClick={(event) => confirmAndRefreshDataset(event, () => refreshDatasetById(dataset.id))}

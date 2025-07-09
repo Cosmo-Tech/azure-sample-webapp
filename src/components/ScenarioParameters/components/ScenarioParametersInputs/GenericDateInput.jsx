@@ -43,7 +43,7 @@ export const GenericDateInput = ({
         dateProps={dateProps}
         isDirty={isDirty}
         error={error}
-        reverseTimezoneOffset={true}
+        reverseTimezoneOffset
       />
     </Grid>
   );

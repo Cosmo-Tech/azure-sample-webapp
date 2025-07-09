@@ -34,7 +34,7 @@ const ShareDatasetButton = ({ dataset }) => {
       >
         <RolesEditionButton
           disabled={isDisabled}
-          isIconButton={true}
+          isIconButton
           labels={labels}
           onConfirmChanges={(security) => updateDatasetSecurity(datasetId, security)}
           resourceRolesPermissionsMapping={permissionsMapping.dataset}
@@ -42,7 +42,7 @@ const ShareDatasetButton = ({ dataset }) => {
           specificAccessByAgent={accessListSpecific(datasetId)}
           defaultRole={defaultRole(datasetId)}
           defaultAccessScope="Workspace"
-          preventNoneRoleForAgents={true}
+          preventNoneRoleForAgents
           allRoles={rolesLabels}
           allPermissions={permissionsLabels}
         />

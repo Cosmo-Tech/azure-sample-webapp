@@ -23,7 +23,7 @@ export const TableDeleteRowsDialog = (props) => {
       open={open}
       labels={labels}
       confirmButtonProps={{ color: 'error' }}
-    ></DontAskAgainDialog>
+    />
   );
 };
 
