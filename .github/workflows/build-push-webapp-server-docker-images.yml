@@ -14,12 +14,12 @@ on:
         type: string
   push:
     # List of branches that will trigger the workflow
-    branches: ['experimental/on_premises_api_v4']
+    branches: ['feature/onprem_api_v4']
     tags:
       - '*'
 
 env:
-  LATEST_BRANCH: 'experimental/on_premises_api_v4'
+  LATEST_BRANCH: 'feature/onprem_api_v4'
   DOCKER_BUILDKIT: 1
   # Change the Container Registry information below if necessary
   REGISTRY: ghcr.io
