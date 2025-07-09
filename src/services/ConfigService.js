@@ -21,7 +21,8 @@ const loadParametersValues = () => {
   });
 };
 
-const getParameterValue = (parameterName) => parametersValues[parameterName];
+const getParameterValue = (parameterName) =>
+  window?.publicWebappConfig?.[parameterName] ?? parametersValues[parameterName];
 
 const ConfigService = {
   getParameterValue,

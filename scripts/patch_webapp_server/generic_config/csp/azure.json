@@ -1,0 +1,8 @@
+{
+  "connect-src": [
+    "api.powerbi.com",
+    "https://login.microsoftonline.com",
+    "https://dc.services.visualstudio.com"
+  ],
+  "frame-src": ["https://app.powerbi.com", "https://login.microsoftonline.com"]
+}

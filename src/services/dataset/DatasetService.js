@@ -7,8 +7,8 @@ const findDatasetById = (organizationId, datasetId) => {
   return Api.Datasets.findDatasetById(organizationId, datasetId);
 };
 
-const createDataset = (organizationId, name, description, connector, tags, main = false) => {
-  const newDataset = { name, description, connector, tags, main };
+const createNoneTypeDataset = (organizationId, name, description, tags, main = false) => {
+  const newDataset = { name, description, tags, main, sourceType: 'None' };
   return Api.Datasets.createDataset(organizationId, newDataset);
 };
 
@@ -41,7 +41,7 @@ const deleteDataset = (organizationId, datasetId) => {
 
 const DatasetService = {
   findDatasetById,
-  createDataset,
+  createNoneTypeDataset,
   updateDataset,
   updateSecurity,
   deleteDataset,

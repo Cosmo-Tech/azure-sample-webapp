@@ -9,19 +9,8 @@ import { Api } from '../config/Api';
 async function downloadLogsFile(organizationId, workspaceId, runnerId, lastRunId) {
   try {
     const fileName = `${runnerId}_${lastRunId}_logs.txt`;
-    const { data } = await Api.RunnerRuns.getRunLogs(organizationId, workspaceId, runnerId, lastRunId, {
-      responseType: 'text',
-    });
-
-    const logsParse = JSON.parse(data);
-    const jsonLogs = JSON.parse(logsParse.containers.csmorchestrator.logs);
-    const mainContainerLogs = (jsonLogs.data.result ?? []).filter((result) => result.stream.container === 'main');
-    const parsedLogs = mainContainerLogs
-      .map((result) => result.values)
-      .flat()
-      .sort((a, b) => a[0] - b[0])
-      .map((row) => row[1])
-      .join('\n');
+    const { data } = await Api.RunnerRuns.getRunLogs(organizationId, workspaceId, runnerId, lastRunId);
+    const parsedLogs = data?.logs?.map((logItem) => logItem.line)?.join('\n') ?? '';
 
     FileBlobUtils.downloadFileFromData(parsedLogs, fileName);
   } catch (error) {
