@@ -13,25 +13,25 @@ RUN --mount=type=bind,source=package.json,target=package.json \
 
 # ==== Build - "universal" server mode  ====
 
-FROM install_build_dependencies as build-universal
+FROM install_build_dependencies AS build-universal
 COPY . .
 RUN BUILD_TYPE="universal" yarn build
 
 # ==== Build - "specific" server mode  ====
 
-FROM install_build_dependencies as build-specific
+FROM install_build_dependencies AS build-specific
 COPY . .
 ARG PUBLIC_URL
-ENV PUBLIC_URL ${PUBLIC_URL}
+ENV PUBLIC_URL=${PUBLIC_URL}
 RUN PUBLIC_URL="$PUBLIC_URL" yarn build
 
 
 # ==== Serve - "universal" server mode ====
 
-FROM node:18 as server-universal
+FROM node:18 AS server-universal
 LABEL com.cosmotech.business-webapp.buildType="universal"
 WORKDIR /webapp
-ENV NODE_ENV production
+ENV NODE_ENV=production
 RUN npm install -g serve@^14.2.3
 RUN apt-get update
 RUN apt-get install -y python3
@@ -49,10 +49,10 @@ HEALTHCHECK --interval=60s --retries=3 CMD curl --fail http://localhost:3000 || 
 
 # ==== Serve - "specific" server mode (default) ====
 
-FROM node:18 as server-specific
+FROM node:18 AS server-specific
 LABEL com.cosmotech.business-webapp.buildType="specific"
 WORKDIR /webapp
-ENV NODE_ENV production
+ENV NODE_ENV=production
 RUN npm install -g serve@^14.2.3
 
 COPY --from=build-specific /webapp/build ./build
