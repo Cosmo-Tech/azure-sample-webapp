@@ -6,11 +6,11 @@ export const SOLUTION_WITH_DYNAMIC_TABLE = {
   ...DEFAULT_SOLUTION,
   runTemplates: [
     {
-      id: '3',
+      id: 'sim_mock_parameters',
       name: 'Run template with mock basic types parameters',
       description: 'Run template with mock basic types parameters',
       csmSimulation: 'BreweryDemoSimulationWithConnector',
-      tags: ['3', 'Example'],
+      tags: ['sim_mock_parameters', 'Example'],
       parameterGroups: ['basic_types', 'events', 'customers'],
     },
   ],

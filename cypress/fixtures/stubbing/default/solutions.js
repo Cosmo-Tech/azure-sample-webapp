@@ -13,11 +13,11 @@ export const SOLUTION_PARAMETER_EXAMPLE = {
 };
 
 export const RUN_TEMPLATE_EXAMPLE = {
-  id: '0',
+  id: 'sim_run_template_example',
   name: 'MyRunTemplate',
   description: 'My run template description',
   csmSimulation: 'BreweryDemoSimulationWithConnector',
-  tags: ['0'],
+  tags: ['sim_run_template_example'],
   computeSize: null,
   noDataIngestionState: null,
   fetchDatasets: true,
@@ -47,10 +47,10 @@ export const RUN_TEMPLATE_EXAMPLE = {
 
 export const BREWERY_PARAMETERS_RUN_TEMPLATE = {
   ...RUN_TEMPLATE_EXAMPLE,
-  id: '1',
+  id: 'sim_brewery_parameters',
   name: 'Run template with Brewery parameters',
   description: 'Run template with Brewery parameters',
-  tags: ['1', 'With params'],
+  tags: ['sim_brewery_parameters', 'With params'],
   fetchScenarioParameters: true,
   applyParameters: true,
   sendDatasetsToDataWarehouse: true,
@@ -60,10 +60,10 @@ export const BREWERY_PARAMETERS_RUN_TEMPLATE = {
 
 export const NO_PARAMETERS_RUN_TEMPLATE = {
   ...RUN_TEMPLATE_EXAMPLE,
-  id: '2',
+  id: 'sim_no_parameters',
   name: 'Run template without parameters',
   description: 'Run template without parameters',
-  tags: ['2', 'No param'],
+  tags: ['sim_no_parameters', 'No param'],
   fetchScenarioParameters: false,
   applyParameters: false,
   sendDatasetsToDataWarehouse: true,
@@ -73,10 +73,10 @@ export const NO_PARAMETERS_RUN_TEMPLATE = {
 
 export const BASIC_TYPES_PARAMETERS_RUN_TEMPLATE = {
   ...RUN_TEMPLATE_EXAMPLE,
-  id: '3',
+  id: 'sim_mock_parameters',
   name: 'Run template with mock basic types parameters',
   description: 'Run template with mock basic types parameters',
-  tags: ['3', 'Example'],
+  tags: ['sim_mock_parameters', 'Example'],
   fetchScenarioParameters: false,
   applyParameters: false,
   sendDatasetsToDataWarehouse: true,

@@ -1,0 +1,5 @@
+[
+  { "src": "favicon.ico", "dst": "favicon.ico" },
+  { "src": "cosmotech_dark_logo.png", "dst": "theme/cosmotech_dark_logo.png" },
+  { "src": "cosmotech_light_logo.png", "dst": "theme/cosmotech_light_logo.png" }
+]

@@ -1,8 +1,10 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 const msal = require('@azure/msal-node');
-const { MSAL_CONFIG, getConfigValue } = require('./config');
+const { MSAL_CONFIG } = require('./config');
 const { ServiceAccountError } = require('./errors.js');
+
+const DEFAULT_POWERBI_SCOPE = 'https://analysis.windows.net/powerbi/api/.default';
 
 // Create msal application object
 let cca;
@@ -13,14 +15,14 @@ if (MSAL_CONFIG?.auth?.clientId && MSAL_CONFIG?.auth?.clientSecret) {
 // With client credentials flows permissions need to be granted in the portal by a tenant administrator.
 // The scope is always in the format "<resource>/.default"
 const clientCredentialRequest = {
-  scopes: [getConfigValue('POWER_BI_SCOPE')],
+  scopes: [DEFAULT_POWERBI_SCOPE],
   skipCache: true,
 };
 
 const _getMSALTroubleshootingHint = (errorMessage) => {
   const knownPatterns = {
-    'Error: HTTP status code 400': 'Please check the values of "POWER_BI_CLIENT_ID" and "POWER_BI_SCOPE"',
-    'Error: HTTP status code 401': 'Please check the values of "POWER_BI_CLIENT_SECRET" and "POWER_BI_AUTHORITY_URI"',
+    'Error: HTTP status code 400': 'Please check the value of "POWER_BI_CLIENT_ID"',
+    'Error: HTTP status code 401': 'Please check the value of "POWER_BI_CLIENT_SECRET"',
   };
 
   for (const [pattern, hint] of Object.entries(knownPatterns)) {

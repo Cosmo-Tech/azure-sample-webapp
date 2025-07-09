@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "cosmotech-business-webapp.functions-name" . }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    cosmotech.com/service: {{ include "cosmotech-business-webapp.functions-name" . }}
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8080
+      targetPort: 7071

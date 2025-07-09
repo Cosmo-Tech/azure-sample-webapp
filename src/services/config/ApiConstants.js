@@ -1,9 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-export const CONNECTOR_VERSION_AZURE_STORAGE = '1.1.1';
-export const CONNECTOR_NAME_AZURE_STORAGE = 'Azure Storage Connector';
-export const CONNECTOR_NAME_ADT = 'ADT Connector';
 export const DATASET_ID_VARTYPE = '%DATASETID%';
 export const RUNNER_RUN_STATE = {
   CREATED: 'Created',
@@ -19,7 +16,6 @@ export const RUNNER_VALIDATION_STATUS = {
   VALIDATED: 'Validated',
   UNKNOWN: 'Unknown',
 };
-export const STORAGE_ROOT_DIR_PLACEHOLDER = '%WORKSPACE_FILE%/';
 export const VALID_MIME_TYPES = [
   'application/json',
   'application/zip',
