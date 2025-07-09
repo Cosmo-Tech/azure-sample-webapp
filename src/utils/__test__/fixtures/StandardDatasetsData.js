@@ -11,14 +11,6 @@ export const STANDARD_DATASETS = [
     validatorId: null,
     compatibility: null,
     tags: [],
-    connector: {
-      id: 'c-0000000000000',
-      name: 'ADT Connector',
-      version: '2.3.0',
-      parametersValues: {
-        AZURE_STORAGE_CONTAINER_BLOB_PREFIX: '%WORKSPACE_FILE%/datasets/dataset1/dataset.csv',
-      },
-    },
   },
   {
     id: 'dataset2',
@@ -29,14 +21,6 @@ export const STANDARD_DATASETS = [
     validatorId: null,
     compatibility: null,
     tags: [],
-    connector: {
-      id: 'c-0000000000000',
-      name: 'ADT Connector',
-      version: '2.3.0',
-      parametersValues: {
-        AZURE_STORAGE_CONTAINER_BLOB_PREFIX: '%WORKSPACE_FILE%/datasets/dataset2/dataset.csv',
-      },
-    },
   },
   {
     id: 'dataset3',
@@ -47,13 +31,5 @@ export const STANDARD_DATASETS = [
     validatorId: null,
     compatibility: null,
     tags: [],
-    connector: {
-      id: 'c-0000000000000',
-      name: 'ADT Connector',
-      version: '2.3.0',
-      parametersValues: {
-        AZURE_STORAGE_CONTAINER_BLOB_PREFIX: '%WORKSPACE_FILE%/datasets/dataset3/dataset.csv',
-      },
-    },
   },
 ];

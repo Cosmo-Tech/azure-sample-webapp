@@ -26,13 +26,14 @@ describe('Scenario tags and description', () => {
   it('can display and edit existing tags and description', () => {
     const newScenarioDescription = 'Edited scenario description';
     const validateDescriptionRequest = (req) =>
-      expect(req.body).to.deep.equal({ description: newScenarioDescription, runTemplateId: '1' });
+      expect(req.body).to.deep.equal({ description: newScenarioDescription, runTemplateId: 'sim_brewery_parameters' });
     const validateDeleteDescriptionRequest = (req) =>
-      expect(req.body).to.deep.equal({ description: '', runTemplateId: '1' });
+      expect(req.body).to.deep.equal({ description: '', runTemplateId: 'sim_brewery_parameters' });
 
     const newScenarioTag = 'newTag';
     const newTagsList = [...tags, newScenarioTag];
-    const validateTagsRequest = (req) => expect(req.body).to.deep.equal({ tags: newTagsList, runTemplateId: '1' });
+    const validateTagsRequest = (req) =>
+      expect(req.body).to.deep.equal({ tags: newTagsList, runTemplateId: 'sim_brewery_parameters' });
 
     ScenarioManager.switchToScenarioManager();
     ScenarioManager.getScenarioAccordion(scenarioId).click();
@@ -41,7 +42,7 @@ describe('Scenario tags and description', () => {
     newTagsList.forEach((tagToDelete, index) => {
       const tagsToDelete = newTagsList.slice(index + 1);
       const validateDeleteTagRequest = (req) =>
-        expect(req.body).to.deep.equal({ tags: tagsToDelete, runTemplateId: '1' });
+        expect(req.body).to.deep.equal({ tags: tagsToDelete, runTemplateId: 'sim_brewery_parameters' });
       ScenarioManager.deleteScenarioTag(scenarioId, 0, validateDeleteTagRequest);
     });
     ScenarioManager.checkScenarioTagsChips([], scenarioId);

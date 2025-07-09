@@ -1,0 +1,30 @@
+{
+  "commoncomponents": {
+    "text": {
+      "application": {
+        "title": "azure-sample-webapp - Brewery model"
+      }
+    }
+  },
+  "genericcomponent": {
+    "dialog": {
+      "about": {
+        "title": "azure-sample-webapp - Brewery (CAFE version)"
+      }
+    }
+  },
+  "views": {
+    "signin": {
+      "title": "Brewery sample webapp"
+    }
+  },
+  "layouts": {
+    "tabs": {
+      "instance": {
+        "tab": {
+          "title": "Flowchart"
+        }
+      }
+    }
+  }
+}

@@ -7,7 +7,7 @@ export const SCENARIOS = [
     ...SCENARIO_EXAMPLE,
     id: 's-stubbedscnr01',
     name: 'Test Cypress - Stubbed scenario for scenario parameters inputs',
-    runTemplateId: '1',
+    runTemplateId: 'sim_brewery_parameters',
     runTemplateName: 'Run template for scenario parameters input validation',
   },
 ];

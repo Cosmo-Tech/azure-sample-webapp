@@ -1,8 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { AppBar, Login } from '../../commons/actions';
-import { BREWERY_WORKSPACE_ID } from '../../commons/constants/brewery/TestConstants';
-import { PAGE_NAME } from '../../commons/constants/generic/TestConstants';
+import { PAGE_NAME, WORKSPACE_ID1 } from '../../commons/constants/generic/TestConstants';
 
 describe('Redirection when not authenticated', () => {
   it('redirect automatically when not logged in', () => {
@@ -15,7 +14,7 @@ describe('Log in & log out', () => {
   before(() => {});
 
   beforeEach(() => {
-    Login.login({ workspaceId: BREWERY_WORKSPACE_ID, url: `/${BREWERY_WORKSPACE_ID}` });
+    Login.login({ workspaceId: WORKSPACE_ID1, url: `/${WORKSPACE_ID1}` });
   });
 
   it('can log in and log out', () => {

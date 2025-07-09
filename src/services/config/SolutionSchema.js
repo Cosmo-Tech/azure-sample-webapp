@@ -47,7 +47,6 @@ const basicParameterOptions = z.strictObject({
     .optional()
     .nullable(),
   hidden: z.boolean().optional().nullable(),
-  connectorId: z.string().optional().nullable(),
   description: z.string().optional().nullable(),
   defaultFileTypeFilter: z.string().optional().nullable(),
   canChangeRowsNumber: z.boolean().optional().nullable(),
