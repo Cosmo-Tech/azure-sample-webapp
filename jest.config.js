@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 module.exports = {
+  moduleDirectories: ['node_modules', '<rootDir>'],
   testMatch: ['<rootDir>/src/**/*.spec.js'],
   moduleNameMapper: {
     '\\.(css|scss|less|png)$': 'identity-obj-proxy',
