@@ -4,9 +4,9 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Grid2 as Grid, Typography, Dialog, DialogTitle, Box, Button, DialogContent } from '@mui/material';
+import { TranslationUtils } from 'src/utils';
 import { TABLE_DATA_STATUS } from '@cosmotech/ui';
 import { GenericTable } from '../../../../../../../../components/';
-import { TranslationUtils } from '../../../../../../../../utils';
 import GraphIndicator from '../../../GraphIndicator';
 import { useCategoryDetailsDialogHook } from './CategoryDetailsDialogHook';
 
