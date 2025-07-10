@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 import React from 'react';
 import { Stack } from '@mui/material';
-import { CurrentScenarioSelector } from '../../../../components';
 import { GraphViewFilters } from './GraphViewFilters';
+import { ScenarioSelector } from './ScenarioSelector';
 import { SearchBar } from './SearchBar';
 import { SettingsButton } from './SettingsButton';
 import { SimulationHorizon } from './SimulationHorizon';
@@ -21,7 +21,7 @@ const TopBar = () => {
       }}
     >
       <div style={{ flexGrow: 1 }}>
-        <CurrentScenarioSelector />
+        <ScenarioSelector />
       </div>
       <div style={{ flexGrow: 1 }}>
         <SearchBar />

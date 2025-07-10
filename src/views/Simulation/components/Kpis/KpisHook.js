@@ -1,15 +1,14 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { useMemo } from 'react';
-import { useCurrentScenarioId } from '../../../../state/hooks/ScenarioHooks';
 import { useSimulationViewContext } from '../../SimulationViewContext';
 
 const FAKE_KPIS_SETTINGS = {
-  fillRate: { minValue: 40, refValue: 50, maxValue: 60 },
-  grossMargin: { minValue: 20, refValue: 25, maxValue: 30 },
-  totalCost: { minValue: 7, refValue: 10, maxValue: 13 },
-  stockValue: { minValue: 210, refValue: 230, maxValue: 250 },
-  co2Emissions: { minValue: 980, refValue: 1000, maxValue: 1005 },
+  fillRate: { minValue: 0.8, refValue: 0.9463721129222176, maxValue: 0.99 },
+  grossMargin: { minValue: 4000000, refValue: 4957825.188193373, maxValue: 6000000 },
+  totalCost: { minValue: 10000000, refValue: 10190201.094592003, maxValue: 13000000 },
+  stockValue: { minValue: 200000, refValue: 222232.34299579775, maxValue: 250000 },
+  co2Emissions: { minValue: 2000000, refValue: 2376382.101142066, maxValue: 2500000 },
 };
 
 const KPIS_METADATA = {
@@ -59,10 +58,8 @@ const forgeKpi = (id, optionalValue) => {
   const min = FAKE_KPIS_SETTINGS[id].minValue;
   const max = FAKE_KPIS_SETTINGS[id].maxValue;
   const value = optionalValue ?? min + Math.random() * (max - min);
-  // TODO: compute diffPercentage when we have reference data
-  // const ref = FAKE_KPIS_SETTINGS[id].refValue;
-  // const diffPercentage = ((value - ref) / ref) * 100.0;
-  const diffPercentage = null;
+  const ref = FAKE_KPIS_SETTINGS[id].refValue;
+  const diffPercentage = ((value - ref) / ref) * 100.0;
 
   const unit = KPIS_METADATA[id].unit;
   const kpi = formatUnitAndValue(unit, value);
@@ -71,32 +68,25 @@ const forgeKpi = (id, optionalValue) => {
     ...kpi,
     label: KPIS_METADATA[id].label,
     isPositiveGreen: KPIS_METADATA[id].isPositiveGreen,
-    difference: diffPercentage,
+    difference: Math.abs(diffPercentage) < 0.001 ? null : diffPercentage,
   };
 };
 
 export const useKpis = () => {
-  const selectedScenarioId = useCurrentScenarioId();
-  const { graphRef } = useSimulationViewContext();
+  const { currentScenario, graphRef } = useSimulationViewContext();
 
   const scenarioKpis = useMemo(() => {
     const kpis = {};
     const kpiIds = Object.keys(FAKE_KPIS_SETTINGS);
-    const allScenariosKpis = graphRef.current?.kpis;
-    // TODO: Switch to actual scenario id or scenario run id when we have the data
-    // const selectedScenarioKpis = allScenariosKpis.find(item => item.simulationRun === currentScenarioRunId);
-    const selectedScenarioKpis = allScenariosKpis
-      ? allScenariosKpis.find((item) => item.simulationRun === 'sr-mgmo6vqg7e2l')
-      : {};
+    const scenarioKpis = graphRef.current?.kpis?.[0];
 
     kpiIds.forEach((kpiId) => {
-      kpis[kpiId] = forgeKpi(kpiId, selectedScenarioKpis?.[kpiId]);
+      kpis[kpiId] = forgeKpi(kpiId, scenarioKpis?.[kpiId]);
     });
 
     return kpis;
-    // Draw new random values when picking a different scenario
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [graphRef.current, selectedScenarioId]);
+  }, [graphRef.current, currentScenario?.id]);
 
   return { scenarioKpis };
 };

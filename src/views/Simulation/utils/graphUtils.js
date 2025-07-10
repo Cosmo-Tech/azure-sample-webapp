@@ -132,7 +132,14 @@ const propagateElementsHighlighting = (links, inPropagationLevel, outPropagation
     propagateElementsHighlighting(links, inPropagationLevel - 1, outPropagationLevel - 1);
 };
 
-export const getGraphFromInstance = (instance, bottlenecks, shortages, stockDemands, kpis, configuration, settings) => {
+export const getGraphFromInstance = (scenario, settings) => {
+  const bottlenecks = scenario.bottlenecks;
+  const configuration = scenario.configuration;
+  const instance = scenario.instance;
+  const kpis = scenario.kpis;
+  const shortages = scenario.shortages;
+  const stockDemands = scenario.stockDemands;
+
   const defaultGrayedOutValue = !isShowingAllElements(settings);
   const createNode = (node, type) => {
     return {
