@@ -1,14 +1,11 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useCurrentScenarioId } from '../../state/hooks/ScenarioHooks';
+import { useCurrentScenarioId, useScenarios } from '../../state/hooks/ScenarioHooks';
 import { DEFAULT_SETTINGS } from './constants/settings';
-import bottlenecks from './data/bottlenecks.json';
-import configuration from './data/configuration.json';
-import flowchartInstance from './data/graph.json';
-import kpis from './data/kpis.json';
-import shortages from './data/shortages.json';
-import stockDemands from './data/stock_demands.json';
+import { SCENARIO_DATA as SCENARIO3 } from './data/output-sr-mgmo6vqg7e2l';
+import { SCENARIO_DATA as SCENARIO1 } from './data/output-sr-n59xj8roqgw';
+import { SCENARIO_DATA as SCENARIO2 } from './data/output-sr-pm7247w4d5n';
 import { getGraphFromInstance, resetGraphHighlighting, resetGraphLayout as resetLayout } from './utils/graphUtils';
 
 export const DEFAULT_UPDATE_STATE = {
@@ -18,27 +15,40 @@ export const DEFAULT_UPDATE_STATE = {
   render: false,
 };
 
+export const FAKE_SCENARIOS_METADATA = [
+  { id: 's-001', name: 'Inventory Optimization 1', lastRunId: 'sr-n59xj8roqgw' },
+  { id: 's-002', name: 'Inventory Optimization 2', lastRunId: 'sr-pm7247w4d5n' },
+  { id: 's-003', name: 'Maxi Demo', lastRunId: 'sr-mgmo6vqg7e2l' },
+];
+
+export const FAKE_SCENARIOS_DATA = {
+  'sr-n59xj8roqgw': SCENARIO1,
+  'sr-pm7247w4d5n': SCENARIO2,
+  'sr-mgmo6vqg7e2l': SCENARIO3,
+};
+
 export const useSimulationView = () => {
   const currentScenarioId = useCurrentScenarioId();
+  const scenarios = useScenarios();
+
+  // FIXME: temporary work-around, to be replaced by a new scenario selector with fake data in the Simulation view
+  const scenarioIndex = scenarios.findIndex((scenario) => scenario.id === currentScenarioId);
+  const fakeScenarioId = FAKE_SCENARIOS_METADATA[scenarioIndex % 3].lastRunId;
+  const fakeScenario = FAKE_SCENARIOS_DATA[fakeScenarioId];
+
   const [settings, setSettings] = useState(DEFAULT_SETTINGS);
   const [needsReRendering, setNeedsReRendering] = useState(false);
   const requiredUpdateStepsRef = useRef({ ...DEFAULT_UPDATE_STATE });
 
   const [centerToPosition, setCenterToPosition] = useState(() => {});
   const graphRef = useRef(null);
+  const lastScenarioId = useRef(null);
 
   useEffect(() => {
     if (graphRef.current != null) return;
+    lastScenarioId.current = currentScenarioId;
     requiredUpdateStepsRef.current.layout = true;
-    graphRef.current = getGraphFromInstance(
-      flowchartInstance,
-      bottlenecks,
-      shortages,
-      stockDemands,
-      kpis,
-      configuration,
-      settings
-    );
+    graphRef.current = getGraphFromInstance(fakeScenario, settings);
     setNeedsReRendering(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -46,16 +56,18 @@ export const useSimulationView = () => {
   useEffect(() => {
     if (!graphRef.current) return;
 
+    // FIXME: temporary work-around, to be replaced by a new scenario selector with fake data in the Simulation view
+    const scenarioIndex = scenarios.findIndex((scenario) => scenario.id === currentScenarioId);
+    const fakeScenarioId = FAKE_SCENARIOS_METADATA[scenarioIndex % 3].lastRunId;
+    const fakeScenario = FAKE_SCENARIOS_DATA[fakeScenarioId];
+
+    if (lastScenarioId.current !== currentScenarioId) {
+      lastScenarioId.current = currentScenarioId;
+      requiredUpdateStepsRef.current.all = true;
+    }
+
     if (requiredUpdateStepsRef.current.all || requiredUpdateStepsRef.current.layout)
-      graphRef.current = getGraphFromInstance(
-        flowchartInstance,
-        bottlenecks,
-        shortages,
-        stockDemands,
-        kpis,
-        configuration,
-        settings
-      );
+      graphRef.current = getGraphFromInstance(fakeScenario, settings);
     else if (requiredUpdateStepsRef.current.highlight) resetGraphHighlighting(graphRef.current, settings);
 
     setNeedsReRendering(true);
