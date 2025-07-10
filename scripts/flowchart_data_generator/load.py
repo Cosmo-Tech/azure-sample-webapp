@@ -29,6 +29,11 @@ def to_float(value):
     return float(value.replace(",", ""))
 
 
+def remove_df_cols(df, cols):
+    for col in cols:
+        if col in df.columns:
+            del df[col]
+
 def rename_cols_to_camel_case(df, cols):
     cols_renaming_dict = {col: col[0].lower() + col[1:] for col in cols}
     df = df.rename(columns=cols_renaming_dict)
@@ -52,9 +57,7 @@ def process_output(data):
 
 def process_transports(data):
     df = data["Transport"]
-    # Unused input column: Label
-    del df["Label"]
-
+    remove_df_cols(df, ["Label"])
     df = df.rename(columns={"source": "src", "target": "dest"})
     df = rename_cols_to_camel_case(df, ["Duration", "Mode"])
     df["id"] = df[["src", "dest"]].apply(lambda row: "__to__".join(row.values.astype(str)), axis=1)
@@ -72,9 +75,7 @@ def process_transports(data):
 
 def process_production_resources(data):
     df = data["ProductionResource"]
-    # Unused input column: Label
-    del df["Label"]
-
+    remove_df_cols(df, ["Label"])
     df = rename_cols_to_camel_case(df, ["PlantName", "ProductionStep", "ProductionPolicy"])
     df = df.fillna("")  # ProductionPolicy might be empty
 
@@ -88,11 +89,7 @@ def process_production_resources(data):
 
 def process_production_operations(data):
     df = data["ProductionOperation"]
-    # Unused input columns: Label, Priority, Duration
-    del df["Label"]
-    del df["Priority"]
-    del df["Duration"]
-
+    remove_df_cols(df, ["Label", "Priority", "Duration"])
     df = rename_cols_to_camel_case(df, ["PlantName", "IsContractor", "InvestmentCost"])
     df["isContractor"] = df["isContractor"].fillna(False)
 
@@ -110,10 +107,7 @@ def process_production_operations(data):
 
 def process_stocks(data):
     df = data["Stock"]
-    # Unused input columns: Label, ReviewPeriod
-    del df["Label"]
-    del df["ReviewPeriod"]
-
+    remove_df_cols(df, ["Label", "ReviewPeriod"])
     df = rename_cols_to_camel_case(
         df,
         [
@@ -148,10 +142,7 @@ def process_stocks(data):
 
 def process_stock_demands(data):
     df = data["Demands"]
-    # Unused input columns: DemandUncertainties, DemandWeights
-    del df["DemandUncertainties"]
-    del df["DemandWeights"]
-
+    remove_df_cols(df, ["DemandUncertainties", "DemandWeights"])
     df = rename_cols_to_camel_case(df, ["Timestep", "Demands"])
     df = df.groupby("id")["demands"].apply(list)
     return df
