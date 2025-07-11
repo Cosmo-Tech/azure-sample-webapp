@@ -16,6 +16,7 @@ import { SecurityUtils } from './SecurityUtils';
 const patchDatasetWithCurrentUserPermissions = (dataset, userEmail, permissionsMapping) => {
   if (dataset == null) return;
 
+  
   let userPermissions;
   if (dataset.security == null)
     userPermissions = SecurityUtils.getPermissionsFromRole(ACL_ROLES.DATASET.ADMIN, permissionsMapping);
