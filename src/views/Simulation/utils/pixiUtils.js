@@ -9,6 +9,8 @@ import { SceneContainer } from './SceneContainer';
 import { PACKAGE_ICON_LINES, GEAR_ICON_LINES, FACTORY_ICON_LINES } from './shapes';
 
 const GRAY_LINE_COLOR = 0xb9bac0;
+const LINK_COLOR = 0xf5f3f3;
+const HIDDEN_LINK_COLOR = 0x636363;
 const RED_LINE_COLOR = 0xdf3537;
 const DEFAULT_TEXT_STYLE = { fontFamily: 'Arial', fontSize: 12, fill: 0xffffff, align: 'center' };
 const BLOOM_FILTER = new AdvancedBloomFilter({ blur: 1, quality: 16, bloomScale: 1.8, brightness: 1 });
@@ -172,7 +174,6 @@ const createLinkGraphics = (links, setSelectedElement, settings) => {
 
   return links.map((link) => {
     const graphics = new Graphics();
-    graphics.alpha = link.isGrayedOut ? 0.15 : 0.8;
     graphics.eventMode = 'static';
     graphics.cursor = 'pointer';
 
@@ -208,7 +209,11 @@ const createLinkGraphics = (links, setSelectedElement, settings) => {
       target.x - targetOffset.x,
       target.y - targetOffset.y
     );
-    graphics.stroke({ pixelLine: true, width: 1, color: '#FFFFFF' });
+    graphics.stroke({
+      pixelLine: true,
+      width: 1,
+      color: link.isGrayedOut ? HIDDEN_LINK_COLOR : LINK_COLOR,
+    });
     graphics.on('click', (event) => setSelectedElement(link));
     graphics.elementId = link.data.id;
     return graphics;
