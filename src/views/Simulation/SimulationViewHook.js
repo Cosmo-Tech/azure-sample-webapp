@@ -15,9 +15,9 @@ export const DEFAULT_UPDATE_STATE = {
 };
 
 export const FAKE_SCENARIOS_METADATA = [
-  { id: 's-001', name: 'Inventory Optimization 1', lastRunId: 'sr-n59xj8roqgw' },
-  { id: 's-002', name: 'Inventory Optimization 2', lastRunId: 'sr-pm7247w4d5n' },
-  { id: 's-003', name: 'Maxi Demo', lastRunId: 'sr-mgmo6vqg7e2l' },
+  { id: 's-001', name: 'Inventory Optimization 1', lastRunId: 'sr-n59xj8roqgw', parentId: null },
+  { id: 's-002', name: 'Inventory Optimization 2', lastRunId: 'sr-pm7247w4d5n', parentId: 's-001' },
+  { id: 's-003', name: 'Maxi Demo', lastRunId: 'sr-mgmo6vqg7e2l', parentId: null },
 ];
 
 export const FAKE_SCENARIOS_DATA = {

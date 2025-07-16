@@ -54,12 +54,13 @@ const formatUnitAndValue = (unit, value) => {
   return kpi;
 };
 
-const forgeKpi = (id, optionalValue) => {
+const forgeKpi = (id, kpiValue, scenarioParentId) => {
   const min = FAKE_KPIS_SETTINGS[id].minValue;
   const max = FAKE_KPIS_SETTINGS[id].maxValue;
-  const value = optionalValue ?? min + Math.random() * (max - min);
+  const value = kpiValue ?? min + Math.random() * (max - min);
   const ref = FAKE_KPIS_SETTINGS[id].refValue;
-  const diffPercentage = ((value - ref) / ref) * 100.0;
+  const diffValue = Math.abs(((value - ref) / ref) * 100.0);
+  const diffElement = scenarioParentId != null && diffValue >= 0.001 ? diffValue : null;
 
   const unit = KPIS_METADATA[id].unit;
   const kpi = formatUnitAndValue(unit, value);
@@ -68,7 +69,7 @@ const forgeKpi = (id, optionalValue) => {
     ...kpi,
     label: KPIS_METADATA[id].label,
     isPositiveGreen: KPIS_METADATA[id].isPositiveGreen,
-    difference: Math.abs(diffPercentage) < 0.001 ? null : diffPercentage,
+    difference: diffElement,
   };
 };
 
@@ -79,9 +80,10 @@ export const useKpis = () => {
     const kpis = {};
     const kpiIds = Object.keys(FAKE_KPIS_SETTINGS);
     const scenarioKpis = graphRef.current?.kpis?.[0];
+    const scenarioParentId = currentScenario?.parentId;
 
     kpiIds.forEach((kpiId) => {
-      kpis[kpiId] = forgeKpi(kpiId, scenarioKpis?.[kpiId]);
+      kpis[kpiId] = forgeKpi(kpiId, scenarioKpis?.[kpiId], scenarioParentId);
     });
 
     return kpis;
