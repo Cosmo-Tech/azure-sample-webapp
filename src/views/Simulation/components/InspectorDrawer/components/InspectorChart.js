@@ -4,7 +4,9 @@ import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import * as d3 from 'd3';
 
-const MARGIN = { top: 10, right: 5, bottom: 40, left: 5 };
+// FIXME: compute left margin dynamically to adapt the number of characters of the axis values (e.g. "10,000" will be
+// wider than just "10")
+const MARGIN = { top: 4, right: 50, bottom: 24, left: 50 };
 
 export const InspectorChart = ({ chartColor = '#40E0D0', data, width, height }) => {
   const svgRef = useRef();
@@ -23,7 +25,6 @@ export const InspectorChart = ({ chartColor = '#40E0D0', data, width, height }) 
     const svg = d3.select(svgRef.current);
     svg.selectAll('*').remove();
     svg
-      .attr('transform', `translate(${MARGIN.left},${MARGIN.top})`)
       .selectAll('rect')
       .data(data)
       .enter()
@@ -34,12 +35,18 @@ export const InspectorChart = ({ chartColor = '#40E0D0', data, width, height }) 
       .attr('height', (d) => chartHeight - yScale(d))
       .attr('fill', chartColor)
       .attr('rx', 2)
-      .attr('ry', 2);
+      .attr('ry', 2)
+      .attr('transform', `translate(${MARGIN.left},${MARGIN.top})`);
 
     svg
       .append('g')
-      .attr('transform', `translate(0,${chartHeight})`)
+      .attr('transform', `translate(${MARGIN.left},${chartHeight + MARGIN.top})`)
       .call(d3.axisBottom(xScale).tickValues(d3.range(0, data.length, 50)));
+    svg
+      .append('g')
+      .attr('transform', `translate(${MARGIN.left},${MARGIN.top})`)
+      .attr('class', 'y-axis')
+      .call(d3.axisLeft(yScale).ticks(5));
   }, [chartColor, data, width, height]);
 
   return data != null ? <svg id="demand-chart-container" ref={svgRef} width={width} height={height} /> : null;
