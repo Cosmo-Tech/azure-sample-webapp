@@ -9,7 +9,7 @@ const Kpis = () => {
   const { scenarioKpis } = useKpis();
 
   return (
-    <div style={{ padding: '8px' }}>
+    <div style={{ padding: '0px 8px' }}>
       <Stack direction="row" spacing={2} sx={{ mx: 1, justifyContent: 'space-evenly', alignItems: 'stretch' }}>
         {Object.entries(scenarioKpis).map(([kpiId, kpiData]) => (
           <KpiCard key={kpiId} kpi={kpiData} />

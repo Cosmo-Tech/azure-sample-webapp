@@ -7,7 +7,7 @@ import KpiTrendChip from './KpiTrendChip';
 
 const KpiCard = ({ kpi }) => {
   return (
-    <Card sx={{ width: '100%', p: 2, borderRadius: 2 }}>
+    <Card sx={{ width: '100%', px: 2, py: 1, borderRadius: 2 }}>
       <Grid container justifyContent="space-between" alignItems="center" columnSpacing={2}>
         <Grid item xs="auto">
           {kpi.prefix && (
