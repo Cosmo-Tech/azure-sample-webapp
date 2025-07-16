@@ -1,6 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -18,19 +18,12 @@ const SignIn = ({ logInAction, auth }) => {
   const { t, i18n } = useTranslation();
   const location = useLocation();
   const providedUrlBeforeSignIn = location?.state?.from;
-  const signInButtonRef = useRef(null);
 
   if (providedUrlBeforeSignIn) sessionStorage.setItem('providedUrlBeforeSignIn', providedUrlBeforeSignIn);
   const handleSignIn = (event, authProvider) => {
     event.preventDefault();
     logInAction(authProvider);
   };
-
-  useEffect(() => {
-    if (signInButtonRef.current) {
-      signInButtonRef.current.focus();
-    }
-  }, []);
 
   const year = new Date().getFullYear();
   const accessDeniedError =
@@ -75,7 +68,7 @@ const SignIn = ({ logInAction, auth }) => {
                 {accessDeniedError}
                 <Grid>
                   <SignInButton
-                    ref={signInButtonRef}
+                    autoFocus
                     logo={microsoftLogo}
                     id={'microsoft'}
                     label={t('genericcomponent.button.login.msal.title', 'Sign in with Microsoft')}
