@@ -66,6 +66,7 @@ const SignIn = ({ logInAction, auth }) => {
                 {accessDeniedError}
                 <Grid>
                   <SignInButton
+                    autoFocus
                     logo={microsoftLogo}
                     id={'microsoft'}
                     label={t('genericcomponent.button.login.msal.title', 'Sign in with Microsoft')}
