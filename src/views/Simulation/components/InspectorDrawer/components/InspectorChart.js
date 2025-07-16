@@ -15,11 +15,6 @@ export const InspectorChart = ({ chartColor = '#40E0D0', data, width, height }) 
     const chartHeight = height - MARGIN.top - MARGIN.bottom;
 
     const xScale = d3.scaleBand().domain(d3.range(data.length)).range([0, chartWidth]).padding(0.1);
-    const xAxisScale = d3
-      .scaleBand()
-      .domain(d3.range(0, data.length, 50))
-      .range([0, chartWidth])
-      .padding(0.1);
     const yScale = d3
       .scaleLinear()
       .domain([0, d3.max(data)])
@@ -44,9 +39,7 @@ export const InspectorChart = ({ chartColor = '#40E0D0', data, width, height }) 
     svg
       .append('g')
       .attr('transform', `translate(0,${chartHeight})`)
-      .call(d3.axisBottom(xAxisScale))
-      .selectAll('path,line')
-      .remove();
+      .call(d3.axisBottom(xScale).tickValues(d3.range(0, data.length, 50)));
   }, [chartColor, data, width, height]);
 
   return data != null ? <svg id="demand-chart-container" ref={svgRef} width={width} height={height} /> : null;
