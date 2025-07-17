@@ -5,15 +5,15 @@ import PropTypes from 'prop-types';
 import { Close as CloseIcon } from '@mui/icons-material';
 import { IconButton, Stack, Typography } from '@mui/material';
 
-export const InspectorHeader = ({ selectedElement, handleCloseButtonClick }) => {
-  // const type = selectedElement?.type;
+export const InspectorHeader = ({ inspectedElement, handleCloseButtonClick }) => {
+  // const type = inspectedElement?.type;
 
   return (
     <div style={{ wordBreak: 'break-word' }}>
       <Stack direction="row" sx={{ mb: 3, justifyContent: 'space-between', alignItems: 'start' }}>
         <Stack spacing={2}>
           <Typography variant="h5" fontWeight="fontWeightBold" sx={{ pt: '4px' }}>
-            {selectedElement?.id}
+            {inspectedElement?.id}
           </Typography>
         </Stack>
         <div>
@@ -27,6 +27,6 @@ export const InspectorHeader = ({ selectedElement, handleCloseButtonClick }) => 
 };
 
 InspectorHeader.propTypes = {
-  selectedElement: PropTypes.object,
+  inspectedElement: PropTypes.object,
   handleCloseButtonClick: PropTypes.func.isRequired,
 };

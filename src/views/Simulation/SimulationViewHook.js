@@ -34,7 +34,9 @@ export const useSimulationView = () => {
   const [needsReRendering, setNeedsReRendering] = useState(false);
   const requiredUpdateStepsRef = useRef({ ...DEFAULT_UPDATE_STATE });
 
+  const [selectedElementId, setSelectedElementId] = useState(null);
   const [centerToPosition, setCenterToPosition] = useState(() => {});
+
   const graphRef = useRef(null);
   const lastScenarioId = useRef(null);
 
@@ -93,6 +95,8 @@ export const useSimulationView = () => {
     setSettings,
     graphRef,
     resetGraphLayout,
+    selectedElementId,
+    setSelectedElementId,
     centerToPosition,
     setCenterToPosition,
     needsReRendering,

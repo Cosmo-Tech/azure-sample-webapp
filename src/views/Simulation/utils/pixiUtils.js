@@ -195,7 +195,7 @@ const createProductionResourceContainer = (textures, name, hasBottlenecks, opera
   return container;
 };
 
-const createLinkGraphics = (links, setSelectedElement, settings) => {
+const createLinkGraphics = (links, setSelectedElementId, settings) => {
   const isLayoutHorizontal = settings?.orientation === 'horizontal';
   const spacingFactor = settings.spacing / 100.0;
 
@@ -241,7 +241,7 @@ const createLinkGraphics = (links, setSelectedElement, settings) => {
       width: 1,
       color: link.isGrayedOut ? HIDDEN_LINK_COLOR : LINK_COLOR,
     });
-    graphics.on('click', (event) => setSelectedElement(link));
+    graphics.on('click', (event) => setSelectedElementId(link.data.id));
     graphics.elementId = link.data.id;
     return graphics;
   });
@@ -293,7 +293,7 @@ const generateTextures = (app) => {
   return textures;
 };
 
-export const renderElements = (sceneContainerRef, graphRef, setSelectedElement, settings) => {
+export const renderElements = (sceneContainerRef, graphRef, setSelectedElementId, settings) => {
   if (!graphRef.current || !sceneContainerRef.current?.textures) return;
 
   const { nodes, links } = graphRef.current;
@@ -305,12 +305,12 @@ export const renderElements = (sceneContainerRef, graphRef, setSelectedElement, 
   sceneContainerRef.current.addChild(backContainer);
   sceneContainerRef.current.addChild(frontContainer);
 
-  const linkGraphics = createLinkGraphics(links, setSelectedElement, settings);
+  const linkGraphics = createLinkGraphics(links, setSelectedElementId, settings);
   linkGraphics.forEach((link) => frontContainer.addChild(link));
 
   nodes.forEach((node) => {
     const container = createNodeContainer(textures, node);
-    container.on('click', (event) => setSelectedElement(node));
+    container.on('click', (event) => setSelectedElementId(node.id));
     if (node.isGrayedOut) backContainer.addChild(container);
     else frontContainer.addChild(container);
   });
@@ -327,7 +327,7 @@ export const initApp = async (
   graphRef,
   resetGraphLayout,
   theme,
-  setSelectedElement,
+  setSelectedElementId,
   settings
 ) => {
   const app = sceneAppRef.current;
@@ -359,11 +359,11 @@ export const initApp = async (
     resetGraphLayout(canvas.clientWidth, canvas.clientHeight);
 
     sceneContainerRef.current.removeChildren();
-    renderElements(sceneContainerRef, graphRef, setSelectedElement, settings);
+    renderElements(sceneContainerRef, graphRef, setSelectedElementId, settings);
   };
   window.addEventListener('resize', handleResize);
 
-  renderElements(sceneContainerRef, graphRef, setSelectedElement, settings);
+  renderElements(sceneContainerRef, graphRef, setSelectedElementId, settings);
 };
 
 export const destroyApp = (app) => {
