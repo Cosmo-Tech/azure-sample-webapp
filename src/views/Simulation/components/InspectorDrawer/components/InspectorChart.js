@@ -7,6 +7,8 @@ import * as d3 from 'd3';
 // FIXME: compute left margin dynamically to adapt the number of characters of the axis values (e.g. "10,000" will be
 // wider than just "10")
 const MARGIN = { top: 4, right: 50, bottom: 24, left: 50 };
+const BAR_OFFSET = 1; // Prevent bars from being superposed with the axis line
+const MINIMUM_BAR_WIDTH = 1.8;
 
 export const InspectorChart = ({ chartColor = '#40E0D0', data, width, height }) => {
   const svgRef = useRef();
@@ -22,6 +24,7 @@ export const InspectorChart = ({ chartColor = '#40E0D0', data, width, height }) 
       .domain([0, d3.max(data)])
       .range([chartHeight, 0]);
 
+    const barWidth = xScale.bandwidth() < MINIMUM_BAR_WIDTH ? MINIMUM_BAR_WIDTH : xScale.bandwidth();
     const svg = d3.select(svgRef.current);
     svg.selectAll('*').remove();
     svg
@@ -31,12 +34,12 @@ export const InspectorChart = ({ chartColor = '#40E0D0', data, width, height }) 
       .append('rect')
       .attr('x', (d, i) => xScale(i))
       .attr('y', (d) => yScale(d))
-      .attr('width', xScale.bandwidth())
+      .attr('width', barWidth)
       .attr('height', (d) => chartHeight - yScale(d))
       .attr('fill', chartColor)
       .attr('rx', 2)
       .attr('ry', 2)
-      .attr('transform', `translate(${MARGIN.left},${MARGIN.top})`);
+      .attr('transform', `translate(${MARGIN.left + BAR_OFFSET},${MARGIN.top})`);
 
     svg
       .append('g')
