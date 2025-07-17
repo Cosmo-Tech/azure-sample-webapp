@@ -5752,6 +5752,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@superset-ui/embedded-sdk@npm:^0.2.0":
+  version: 0.2.0
+  resolution: "@superset-ui/embedded-sdk@npm:0.2.0"
+  dependencies:
+    "@superset-ui/switchboard": "npm:^0.20.3"
+    jwt-decode: "npm:^4.0.0"
+  checksum: 10c0/9cae6956fc96361f8b8e495e726b52c9eca7e927de2163e6c69efcdfa80778de90d0912638e738bed8f10e958077ab414cfa264b180d2b316188932f8a5b0154
+  languageName: node
+  linkType: hard
+
+"@superset-ui/switchboard@npm:^0.20.3":
+  version: 0.20.3
+  resolution: "@superset-ui/switchboard@npm:0.20.3"
+  checksum: 10c0/867786b3f1b389dd19e9555eaba6ab2e6cdd3528103bed6bb601e29e10455507d36f2f4ed2978dae1d07030cb35ef612ea4f24db0867a48eab63ac530f7b8a05
+  languageName: node
+  linkType: hard
+
 "@surma/rollup-plugin-off-main-thread@npm:^2.2.3":
   version: 2.2.3
   resolution: "@surma/rollup-plugin-off-main-thread@npm:2.2.3"
@@ -7689,6 +7706,7 @@ __metadata:
     "@mui/material": "npm:^6.4.12"
     "@mui/styles": "npm:^6.4.12"
     "@reduxjs/toolkit": "npm:^2.8.2"
+    "@superset-ui/embedded-sdk": "npm:^0.2.0"
     "@testing-library/dom": "npm:^10.4.0"
     "@testing-library/jest-dom": "npm:^6.6.3"
     "@testing-library/react": "npm:^16.3.0"
@@ -15734,6 +15752,13 @@ __metadata:
     jwa: "npm:^1.4.1"
     safe-buffer: "npm:^5.0.1"
   checksum: 10c0/e770704533d92df358adad7d1261fdecad4d7b66fa153ba80d047e03ca0f1f73007ce5ed3fbc04d2eba09ba6e7e6e645f351e08e5ab51614df1b0aa4f384dfff
+  languageName: node
+  linkType: hard
+
+"jwt-decode@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "jwt-decode@npm:4.0.0"
+  checksum: 10c0/de75bbf89220746c388cf6a7b71e56080437b77d2edb29bae1c2155048b02c6b8c59a3e5e8d6ccdfd54f0b8bda25226e491a4f1b55ac5f8da04cfbadec4e546c
   languageName: node
   linkType: hard
 

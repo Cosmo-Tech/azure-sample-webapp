@@ -15,6 +15,7 @@
     "@mui/material": "^6.4.12",
     "@mui/styles": "^6.4.12",
     "@reduxjs/toolkit": "^2.8.2",
+    "@superset-ui/embedded-sdk": "^0.2.0",
     "axios": "^1.10.0",
     "date-fns": "^4.1.0",
     "deepmerge": "^4.3.1",
