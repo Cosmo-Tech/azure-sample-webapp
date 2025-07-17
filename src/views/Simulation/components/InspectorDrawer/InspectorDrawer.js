@@ -11,7 +11,7 @@ const CHART_HEIGHT = 250;
 const CHART_WIDTH_OFFSET = 64;
 
 const fillSparseTimeSerie = (sparseData, numberOfTimeSteps) =>
-  Array.from({ length: numberOfTimeSteps }, (_, i) => sparseData[i + 1] || 0);
+  Array.from({ length: numberOfTimeSteps }, (_, i) => sparseData[i] || 0);
 
 const InspectorDrawer = ({ selectedElement, setSelectedElement }) => {
   const { graphRef } = useSimulationViewContext();
