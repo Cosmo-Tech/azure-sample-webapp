@@ -28,8 +28,8 @@ const DETAILS_METADATA = {
   investmentCost: { label: 'Investment cost' },
 };
 
-export const ElementDetails = ({ selectedElement }) => {
-  const elementDetails = Object.entries(selectedElement?.data ?? {});
+export const ElementDetails = ({ inspectedElement }) => {
+  const elementDetails = Object.entries(inspectedElement?.data ?? {});
 
   const getValue = useCallback((attribute, value) => {
     if (DETAILS_METADATA?.[attribute]?.getValue) return DETAILS_METADATA?.[attribute]?.getValue(value);
@@ -54,5 +54,5 @@ export const ElementDetails = ({ selectedElement }) => {
 };
 
 ElementDetails.propTypes = {
-  selectedElement: PropTypes.object,
+  inspectedElement: PropTypes.object,
 };

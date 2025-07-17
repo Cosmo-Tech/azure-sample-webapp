@@ -8,7 +8,7 @@ import { DEFAULT_UPDATE_STATE } from '../../SimulationViewHook';
 import { createApp, destroyApp, initApp, initMinimap, renderElements } from '../../utils/pixiUtils';
 import { Minimap } from './Minimap';
 
-const Scene = ({ setSelectedElement }) => {
+const Scene = ({ setSelectedElementId, selectedElementId }) => {
   const theme = useTheme();
   const {
     graphRef,
@@ -40,7 +40,7 @@ const Scene = ({ setSelectedElement }) => {
         graphRef,
         resetGraphLayout,
         theme,
-        setSelectedElement,
+        setSelectedElementId,
         settings
       );
 
@@ -72,7 +72,7 @@ const Scene = ({ setSelectedElement }) => {
       requiredUpdateStepsRef.current.render
     ) {
       if (sceneContainerRef.current) sceneContainerRef.current.removeChildren();
-      renderElements(sceneContainerRef, graphRef, setSelectedElement, settings);
+      renderElements(sceneContainerRef, graphRef, setSelectedElementId, settings);
       if (minimapContainerRef.current != null) minimapContainerRef.current?.renderElements();
     }
 
@@ -87,7 +87,7 @@ const Scene = ({ setSelectedElement }) => {
     sceneCanvasRef?.current?.clientWidth,
     sceneCanvasRef?.current?.clientHeight,
     graphRef,
-    setSelectedElement,
+    setSelectedElementId,
     resetGraphLayout,
     graphRef.current,
   ]);
@@ -95,9 +95,16 @@ const Scene = ({ setSelectedElement }) => {
   const centerToPosition = useCallback(
     () => (elementId) => {
       if (sceneContainerRef.current == null) return;
-      sceneContainerRef.current.centerOnElement(elementId);
+      if (selectedElementId != null && selectedElementId !== elementId) {
+        const lastSelectedElement = sceneContainerRef.current.findElementById(selectedElementId);
+        sceneContainerRef.current.unHighLightElement(lastSelectedElement);
+      }
+      const newSelectedElement = sceneContainerRef.current.findElementById(elementId);
+      sceneContainerRef.current.highlightElement(newSelectedElement);
+      sceneContainerRef.current.centerOnElement(newSelectedElement);
+      setSelectedElementId(elementId);
     },
-    [sceneContainerRef]
+    [sceneContainerRef, setSelectedElementId, selectedElementId]
   );
 
   useEffect(() => {
@@ -117,7 +124,8 @@ const Scene = ({ setSelectedElement }) => {
 };
 
 Scene.propTypes = {
-  setSelectedElement: PropTypes.func.isRequired,
+  setSelectedElementId: PropTypes.func.isRequired,
+  selectedElementId: PropTypes.string,
 };
 
 export default Scene;

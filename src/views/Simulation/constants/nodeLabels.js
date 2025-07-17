@@ -7,3 +7,5 @@ export const NODE_TYPES = {
   STOCK_SHORTAGE: ' STOCK_SHORTAGE',
   STOCK: 'STOCK',
 };
+
+export const LINK_TYPE = 'Graphics';

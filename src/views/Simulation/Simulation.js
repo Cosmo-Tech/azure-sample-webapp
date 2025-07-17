@@ -7,14 +7,14 @@ import { InspectorDrawer, Kpis, Scene, TopBar } from './components';
 
 const Simulation = () => {
   const inspectorDrawerParentContainerRef = useRef(null);
-  const [selectedElement, setSelectedElement] = useState(null);
+  const [selectedElementId, setSelectedElementId] = useState(null);
 
   return (
     <SimulationViewProvider>
       <Box
         sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1, height: '100%', width: '100%', overflowX: 'clip' }}
       >
-        <div style={{ width: selectedElement != null ? '100%' : '0px' }}></div>
+        <div style={{ width: selectedElementId != null ? '100%' : '0px' }}></div>
         <TopBar />
         <Grid container wrap="nowrap" direction="column" gap={1} style={{ height: '100%' }}>
           <Grid item xs>
@@ -22,10 +22,10 @@ const Simulation = () => {
           </Grid>
           <Grid item xs={12}>
             <div id="drawer-container" style={{ position: 'relative', height: '100%' }}>
-              <Scene setSelectedElement={setSelectedElement} />
+              <Scene selectedElementId={selectedElementId} setSelectedElementId={setSelectedElementId} />
               <InspectorDrawer
-                selectedElement={selectedElement}
-                setSelectedElement={setSelectedElement}
+                selectedElementId={selectedElementId}
+                setSelectedElementId={setSelectedElementId}
                 containerRef={inspectorDrawerParentContainerRef}
               />
             </div>

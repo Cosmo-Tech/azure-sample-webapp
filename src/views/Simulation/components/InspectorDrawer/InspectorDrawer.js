@@ -13,7 +13,7 @@ const CHART_WIDTH_OFFSET = 64;
 const fillSparseTimeSerie = (sparseData, numberOfTimeSteps) =>
   Array.from({ length: numberOfTimeSteps }, (_, i) => sparseData[i] || 0);
 
-const InspectorDrawer = ({ selectedElement, setSelectedElement }) => {
+const InspectorDrawer = ({ selectedElementId, setSelectedElementId }) => {
   const { graphRef } = useSimulationViewContext();
 
   // Work-around to prevent animation glitch on first time the drawer is opened
@@ -22,16 +22,22 @@ const InspectorDrawer = ({ selectedElement, setSelectedElement }) => {
 
   const [selectedSubElement, setSelectedSubElement] = useState(null);
   // Reset selected sub-operation when another element is selected
-  useEffect(() => setSelectedSubElement(null), [selectedElement]);
+  useEffect(() => setSelectedSubElement(null), [selectedElementId]);
 
   const handleCloseButtonClick = useCallback(() => {
     if (selectedSubElement != null) setSelectedSubElement(null);
-    else setSelectedElement(null);
-  }, [selectedSubElement, setSelectedElement, setSelectedSubElement]);
+    else setSelectedElementId(null);
+  }, [selectedSubElement, setSelectedElementId, setSelectedSubElement]);
 
   const { width, startResizing } = useResizableDrawer();
 
-  const inspectedElement = useMemo(() => selectedSubElement ?? selectedElement, [selectedElement, selectedSubElement]);
+  const inspectedElement = useMemo(
+    () =>
+      selectedSubElement ??
+      graphRef.current?.links.find((link) => link.data.id === selectedElementId) ??
+      graphRef.current?.nodes.find((node) => node.id === selectedElementId),
+    [selectedElementId, selectedSubElement, graphRef]
+  );
   const isResource = useMemo(() => inspectedElement?.type === 'productionResource', [inspectedElement]);
 
   const demandChart = useMemo(() => {
@@ -91,7 +97,7 @@ const InspectorDrawer = ({ selectedElement, setSelectedElement }) => {
       anchor="right"
       hideBackdrop
       variant="persistent"
-      open={selectedElement != null}
+      open={selectedElementId != null}
       PaperProps={{ style: { width, position: 'absolute', backgroundColor: `rgba(0,0,0,0)`, backgroundImage: 'none' } }}
       BackdropProps={{ style: { position: 'absolute' } }}
       ModalProps={{
@@ -109,13 +115,13 @@ const InspectorDrawer = ({ selectedElement, setSelectedElement }) => {
           overflow: 'auto',
         }}
       >
-        <InspectorHeader selectedElement={inspectedElement} handleCloseButtonClick={handleCloseButtonClick} />
+        <InspectorHeader inspectedElement={inspectedElement} handleCloseButtonClick={handleCloseButtonClick} />
         {shortagesChart}
         {demandChart}
         {detailsSubtitle}
-        <ElementDetails selectedElement={inspectedElement} />
+        <ElementDetails inspectedElement={inspectedElement} />
         {operationsSubtitle}
-        <ProductionOperationsList selectedElement={inspectedElement} setSelectedSubElement={setSelectedSubElement} />
+        <ProductionOperationsList inspectedElement={inspectedElement} setSelectedSubElement={setSelectedSubElement} />
       </Card>
       <div
         onMouseDown={startResizing}
@@ -138,8 +144,8 @@ const InspectorDrawer = ({ selectedElement, setSelectedElement }) => {
 };
 
 InspectorDrawer.propTypes = {
-  selectedElement: PropTypes.object,
-  setSelectedElement: PropTypes.func.isRequired,
+  selectedElementId: PropTypes.string,
+  setSelectedElementId: PropTypes.func.isRequired,
 };
 
 export default InspectorDrawer;
