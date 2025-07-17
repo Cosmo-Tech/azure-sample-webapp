@@ -1,5 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
+import { AdvancedBloomFilter, GlowFilter } from 'pixi-filters';
 import { Point, Container } from 'pixi.js';
 
 const MIN_ZOOM = 0.05;
@@ -120,20 +121,35 @@ export class SceneContainer extends Container {
     return new Point(x * zoom, y * zoom);
   }
 
-  centerOnElement(elementId) {
-    const elementFound = this.findElementById(elementId);
-    if (elementFound == null) return;
+  isLinkElement(element) {
+    return element.label === 'Graphics';
+  }
 
-    const elementCenter =
-      elementFound.label === 'Graphics'
-        ? {
-            x: (elementFound.bounds.minX + elementFound.bounds.maxX) / 2,
-            y: (elementFound.bounds.minY + elementFound.bounds.maxY) / 2,
-          }
-        : {
-            x: elementFound.x + elementFound.width / 2,
-            y: elementFound.y + elementFound.height / 2,
-          };
+  highlightElement(element) {
+    if (element == null) return;
+
+    element.filters = this.isLinkElement(element)
+      ? [new GlowFilter({ distance: 10, outerStrength: 6, color: 0xffffff })]
+      : [new AdvancedBloomFilter({ threshold: 0.1, bloomScale: 1.2, brightness: 1.5, blur: 1, quality: 20 })];
+  }
+
+  unhighlightElement(element) {
+    if (element == null) return;
+    element.filters = [];
+  }
+
+  centerOnElement(element) {
+    if (element == null) return;
+
+    const elementCenter = this.isLinkElement(element)
+      ? {
+          x: (element.bounds.minX + element.bounds.maxX) / 2,
+          y: (element.bounds.minY + element.bounds.maxY) / 2,
+        }
+      : {
+          x: element.x + element.width / 2,
+          y: element.y + element.height / 2,
+        };
     const screenCenterPoint = this.getScreenCenterPoint();
     const nodeCenterPoint = this.getPointWithZoomOffset(elementCenter.x, elementCenter.y, FOCUS_ZOOM);
     this.translateTo(-nodeCenterPoint.x + screenCenterPoint.x, -nodeCenterPoint.y + screenCenterPoint.y, FOCUS_ZOOM);

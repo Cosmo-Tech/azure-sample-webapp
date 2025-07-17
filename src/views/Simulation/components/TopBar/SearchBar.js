@@ -15,7 +15,7 @@ const TYPE_LABELS = {
 };
 
 export const SearchBar = () => {
-  const { centerToPosition, graphRef } = useSimulationViewContext();
+  const { centerToPosition, setSelectedElementId, graphRef } = useSimulationViewContext();
 
   const options = useMemo(() => {
     if (graphRef.current == null) return [];
@@ -33,9 +33,9 @@ export const SearchBar = () => {
   }, [graphRef.current?.nodes]);
 
   const selectElement = (element) => {
-    if (element == null) return;
-    if (element?.data?.id != null) centerToPosition(element.data.id);
-    else if (element?.id != null) centerToPosition(element.id);
+    const elementId = element?.data?.id ?? element?.id;
+    setSelectedElementId(elementId);
+    if (elementId != null) centerToPosition(elementId);
   };
 
   return (

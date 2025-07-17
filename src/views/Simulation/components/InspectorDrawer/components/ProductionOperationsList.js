@@ -6,9 +6,9 @@ import { ArrowForwardIos as ArrowForwardIosIcon } from '@mui/icons-material';
 import { Icon, MenuItem, Stack, Typography } from '@mui/material';
 import { useSimulationViewContext } from '../../../SimulationViewContext';
 
-export const ProductionOperationsList = ({ selectedElement, setSelectedSubElement }) => {
+export const ProductionOperationsList = ({ inspectedElement, setSelectedSubElement }) => {
   const { graphRef } = useSimulationViewContext();
-  const operationsIds = useMemo(() => selectedElement?.operations ?? [], [selectedElement]);
+  const operationsIds = useMemo(() => inspectedElement?.operations ?? [], [inspectedElement]);
 
   const selectOperation = useCallback(
     (idOfOperationToSelect) => {
@@ -52,12 +52,12 @@ export const ProductionOperationsList = ({ selectedElement, setSelectedSubElemen
     [selectOperation]
   );
 
-  return selectedElement != null ? (
+  return inspectedElement != null ? (
     <Stack sx={{ justifyContent: 'space-between', alignItems: 'start' }}>{operationsIds.map(getListItem)}</Stack>
   ) : null;
 };
 
 ProductionOperationsList.propTypes = {
-  selectedElement: PropTypes.object,
+  inspectedElement: PropTypes.object,
   setSelectedSubElement: PropTypes.func.isRequired,
 };
