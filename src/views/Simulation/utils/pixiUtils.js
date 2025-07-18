@@ -144,7 +144,7 @@ const createStockContainer = (textures, name, hasShortages = false) => {
   packageIcon.position.set(24, 24);
   const label = createLabel(name);
   label.anchor.set(0.5);
-  label.position.set(34, 64);
+  label.position.set(24, 67);
 
   container.addChild(stock);
   container.addChild(packageIcon);
@@ -210,12 +210,12 @@ const createLinkGraphics = (links, setSelectedElement, settings) => {
     const controlPointsOffset = { x: 0, y: 0 };
 
     if (isLayoutHorizontal) {
-      sourceOffset.x = link.source.type === 'stock' ? 24 : 40;
-      targetOffset.x = link.target.type === 'stock' ? 24 : 40;
+      sourceOffset.x = link.source.type === 'stock' ? 30 : 40;
+      targetOffset.x = link.target.type === 'stock' ? 30 : 48;
       controlPointsOffset.x = 10 + 600 * spacingFactor;
     } else {
-      sourceOffset.y = link.source.type === 'stock' ? 24 : 40;
-      targetOffset.y = link.target.type === 'stock' ? 24 : 60;
+      sourceOffset.y = link.source.type === 'stock' ? 58 : 66;
+      targetOffset.y = link.target.type === 'stock' ? 30 : 60;
       controlPointsOffset.y = 10 + 600 * spacingFactor;
     }
     const controlPoint1 = {
@@ -254,7 +254,7 @@ const createNodeContainer = (textures, node) => {
       : createStockContainer(textures, node.id, node.shortagesCount != null);
 
   let centerOffset = { x: 24, y: 24 };
-  if (node.type === 'productionResource') centerOffset = { x: 40, y: 54 };
+  if (node.type === 'productionResource') centerOffset = { x: 50, y: 54 };
 
   container.x = node.x - centerOffset.x;
   container.y = node.y - centerOffset.y;
