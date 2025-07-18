@@ -13,6 +13,7 @@ import {
   ShareCurrentScenarioButton,
   CreateScenarioButton,
   CurrentScenarioSelector,
+  SupersetEmbeddedReport,
 } from '../../components';
 import { useConfirmOnRouteChange, useRedirectionToScenario } from '../../hooks/RouterHooks';
 import { AppInsights } from '../../services/AppInsights';
@@ -316,6 +317,9 @@ const Scenario = () => {
             >
               {currentScenarioData && scenarioValidationArea}
             </Grid>
+          </Grid>
+          <Grid size={12}>
+            <SupersetEmbeddedReport />
           </Grid>
           <Grid size={12}>
             <Card component={Paper}>

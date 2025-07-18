@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 export { ScenarioParameters } from './ScenarioParameters';
+export { SupersetEmbeddedReport } from './SupersetEmbeddedReport';
 export { PermissionsGate } from './PermissionsGate';
 export { default as AboutContent } from './AboutContent';
 export { ApplicationErrorBanner } from './ApplicationErrorBanner';
