@@ -14,8 +14,35 @@ const HIDDEN_LINK_COLOR = 0x636363;
 const RED_LINE_COLOR = 0xdf3537;
 const DEFAULT_TEXT_STYLE = { fontFamily: 'Arial', fontSize: 12, fill: 0xffffff, align: 'center' };
 const BLOOM_FILTER = new AdvancedBloomFilter({ blur: 1, quality: 16, bloomScale: 1.8, brightness: 1 });
+const NODE_LABEL_LINE_LENGTH = 24;
 
-const createLabel = (value) => new BitmapText({ text: value, style: DEFAULT_TEXT_STYLE });
+const createLabel = (value, forceSplit = true) => {
+  const splitLabel = (str) => {
+    let result = '';
+    let start = 0;
+    while (start < str.length) {
+      const end = Math.min(start + NODE_LABEL_LINE_LENGTH, str.length);
+      const slice = str.slice(start, end);
+      const breakIndex = Math.max(slice.lastIndexOf('_'), slice.lastIndexOf(' '));
+
+      if (end !== str.length && breakIndex > -1 && start + breakIndex + 1 < str.length) {
+        result += str.slice(start, start + breakIndex) + '\n';
+        start += breakIndex + 1;
+      } else {
+        result += slice + (end < str.length ? '\n' : '');
+        start = end;
+      }
+    }
+    return result;
+  };
+
+  const maxLabelLength = 3 * NODE_LABEL_LINE_LENGTH;
+  let label = value;
+  if (label.length > maxLabelLength) label = label.substring(0, maxLabelLength) + '...';
+  if (forceSplit) label = splitLabel(label);
+
+  return new BitmapText({ text: label, style: DEFAULT_TEXT_STYLE });
+};
 
 const drawIcon = (graphicsContext, lines, xOffset, yOffset, width, height) => {
   lines.forEach((line) => {
