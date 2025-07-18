@@ -59,8 +59,8 @@ const forgeKpi = (id, kpiValue, scenarioParentId) => {
   const max = FAKE_KPIS_SETTINGS[id].maxValue;
   const value = kpiValue ?? min + Math.random() * (max - min);
   const ref = FAKE_KPIS_SETTINGS[id].refValue;
-  const diffValue = Math.abs(((value - ref) / ref) * 100.0);
-  const diffElement = scenarioParentId != null && diffValue >= 0.001 ? diffValue : null;
+  const diffValue = ((value - ref) / ref) * 100.0;
+  const diffElement = scenarioParentId != null && Math.abs(diffValue) >= 0.001 ? diffValue : null;
 
   const unit = KPIS_METADATA[id].unit;
   const kpi = formatUnitAndValue(unit, value);
