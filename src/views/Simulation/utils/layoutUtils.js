@@ -6,13 +6,14 @@ const DEFAULT_NODES_LAYOUT_OPTIONS = { width: 80, height: 96 };
 
 const buildGraphOptions = (settings) => {
   const spacingFactor = settings.spacing / 100.0;
+  const isLayoutHorizontal = settings?.orientation === 'horizontal';
   return {
     marginx: 20,
     marginy: 20,
-    rankdir: settings?.orientation === 'horizontal' ? 'LR' : 'TB',
+    rankdir: isLayoutHorizontal ? 'LR' : 'TB',
     edgesep: 20 * spacingFactor,
-    nodesep: 50 * spacingFactor,
-    ranksep: 800 * spacingFactor,
+    nodesep: (isLayoutHorizontal ? 50 : 275) * spacingFactor,
+    ranksep: (isLayoutHorizontal ? 1400 : 800) * spacingFactor,
   };
 };
 
