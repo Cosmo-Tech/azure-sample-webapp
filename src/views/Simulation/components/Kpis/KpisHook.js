@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 import { useMemo } from 'react';
 import { useSimulationViewContext } from '../../SimulationViewContext';
+// Reference scenario data
+import { SCENARIO_DATA as REF_SCENARIO } from '../../data/output-sr-pm7247w4d5n';
 
 const FAKE_KPIS_SETTINGS = {
   fillRate: { minValue: 0.8, refValue: 0.9463721129222176, maxValue: 0.99 },
@@ -10,6 +12,8 @@ const FAKE_KPIS_SETTINGS = {
   stockValue: { minValue: 200000, refValue: 222232.34299579775, maxValue: 250000 },
   co2Emissions: { minValue: 2000000, refValue: 2376382.101142066, maxValue: 2500000 },
 };
+
+for (const kpiName in FAKE_KPIS_SETTINGS) FAKE_KPIS_SETTINGS[kpiName].refValue = REF_SCENARIO.kpis[0][kpiName];
 
 const KPIS_METADATA = {
   fillRate: { label: 'Fill rate service level', unit: '%', isPositiveGreen: true },
@@ -59,8 +63,8 @@ const forgeKpi = (id, kpiValue, scenarioParentId) => {
   const max = FAKE_KPIS_SETTINGS[id].maxValue;
   const value = kpiValue ?? min + Math.random() * (max - min);
   const ref = FAKE_KPIS_SETTINGS[id].refValue;
-  const diffValue = Math.abs(((value - ref) / ref) * 100.0);
-  const diffElement = scenarioParentId != null && diffValue >= 0.001 ? diffValue : null;
+  const diffValue = ((value - ref) / ref) * 100.0;
+  const diffElement = scenarioParentId != null && Math.abs(diffValue) >= 0.001 ? diffValue : null;
 
   const unit = KPIS_METADATA[id].unit;
   const kpi = formatUnitAndValue(unit, value);
@@ -88,7 +92,7 @@ export const useKpis = () => {
 
     return kpis;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [graphRef.current, currentScenario?.id]);
+  }, [graphRef.current?.kpis]);
 
   return { scenarioKpis };
 };
