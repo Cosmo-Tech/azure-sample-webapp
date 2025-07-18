@@ -88,7 +88,7 @@ export const useKpis = () => {
 
     return kpis;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [graphRef.current, currentScenario?.id]);
+  }, [graphRef.current?.kpis]);
 
   return { scenarioKpis };
 };
