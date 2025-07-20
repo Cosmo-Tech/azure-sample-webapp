@@ -44,17 +44,22 @@ export const useCreateScenarioButton = ({ disabled, onScenarioCreated }) => {
 
   const filteredAndTranslatedRunTemplates = useMemo(() => {
     const runTemplateFilter = workspaceData?.solution?.runTemplateFilter;
-    if (!runTemplateFilter) return runTemplates;
+
+    const translateTemplates = (templates) => {
+      const cloned = clone(templates) ?? [];
+      cloned.forEach(
+        (runTemplate) =>
+          (runTemplate.name = t(TranslationUtils.getRunTemplateTranslationKey(runTemplate.id), runTemplate.name))
+      );
+      return cloned;
+    };
+
+    if (!runTemplateFilter) return translateTemplates(runTemplates);
+
     if (!runTemplateFilter.length) return [];
 
-    const filteredRunTemplates = runTemplates.filter((rt) => runTemplateFilter.includes(rt.id));
-    const translatedRunTemplates = clone(filteredRunTemplates) ?? [];
-    translatedRunTemplates.forEach(
-      (runTemplate) =>
-        (runTemplate.name = t(TranslationUtils.getRunTemplateTranslationKey(runTemplate.id), runTemplate.name))
-    );
-
-    return translatedRunTemplates;
+    const filtered = runTemplates.filter((rt) => runTemplateFilter.includes(rt.id));
+    return translateTemplates(filtered);
   }, [runTemplates, workspaceData?.solution?.runTemplateFilter, t, clone]);
 
   const createScenarioDialogLabels = getCreateScenarioDialogLabels(t, disabled);
