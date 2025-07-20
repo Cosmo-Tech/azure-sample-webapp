@@ -35,6 +35,13 @@ const getStateWithWorkspaceRole = (role) => {
   return state;
 };
 
+const translateTemplatesInTest = (templates) => {
+  return templates.map((rt) => ({
+    ...rt,
+    name: `solution.runTemplate.${rt.id}.name`,
+  }));
+};
+
 const mockOnScenarioCreated = jest.fn();
 const DEFAULT_PROPS = {
   disabled: false,
@@ -179,7 +186,10 @@ describe('CreateScenarioButton', () => {
 
     test('when filter is missing runTemplates are not filtered', () => {
       setUpWithRunTemplateFilter(undefined);
-      expect(mockCreateScenarioUIProps.runTemplates).toEqual(DEFAULT_REDUX_STATE.solution.current.data.runTemplates);
+      const expectedTranslatedTemplates = translateTemplatesInTest(
+        DEFAULT_REDUX_STATE.solution.current.data.runTemplates
+      );
+      expect(mockCreateScenarioUIProps.runTemplates).toEqual(expectedTranslatedTemplates);
     });
 
     test('when filter is empty runTemplates are all filtered', () => {
