@@ -15,7 +15,7 @@ const TYPE_LABELS = {
 };
 
 export const SearchBar = () => {
-  const { centerToPosition, setSelectedElementId, graphRef } = useSimulationViewContext();
+  const { centerToPosition, setSelectedElementId, graphRef, selectedElementId } = useSimulationViewContext();
 
   const options = useMemo(() => {
     if (graphRef.current == null) return [];
@@ -32,6 +32,13 @@ export const SearchBar = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [graphRef.current?.nodes]);
 
+  const selectedElement = useMemo(
+    () =>
+      options.find((option) => option.id === selectedElementId) ??
+      options.find((option) => option.data.id === selectedElementId),
+    [selectedElementId, options]
+  );
+
   const selectElement = (element) => {
     const elementId = element?.data?.id ?? element?.id;
     setSelectedElementId(elementId);
@@ -41,6 +48,7 @@ export const SearchBar = () => {
   return (
     <Autocomplete
       onChange={(event, data) => selectElement(data)}
+      value={selectedElement ?? null}
       options={options}
       groupBy={(option) => option.typeLabel}
       getOptionLabel={(option) => option.id ?? option.data.id}
