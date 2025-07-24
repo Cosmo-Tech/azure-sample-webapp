@@ -6,10 +6,10 @@ const getTableCellDefaultValue = (column, dateFormat) => {
   switch (column?.type?.find((type) => ['number', 'int', 'bool', 'enum', 'date'].includes(type))) {
     case 'number':
     case 'int':
-      return (
+      return String(
         column?.defaultValue ??
-        column?.minValue ??
-        (parseFloat(column?.maxValue) && parseFloat(column.maxValue) < 0 ? column.maxValue : '0')
+          column?.minValue ??
+          (parseFloat(column?.maxValue) && parseFloat(column.maxValue) < 0 ? column.maxValue : 0)
       );
     case 'bool':
       return column?.defaultValue ?? 'false';
@@ -42,4 +42,5 @@ const createNewTableLine = (columns, dateFormat) => {
 
 export const TableUtils = {
   createNewTableLine,
+  getTableCellDefaultValue,
 };
