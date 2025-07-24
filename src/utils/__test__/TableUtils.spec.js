@@ -111,7 +111,7 @@ describe('Check createNewTableLine returns value', () => {
     date: '01/01/1970',
     number: '0',
     defaultValueString: 'defaultValue',
-    defaultValueInteger: 10,
+    defaultValueInteger: '10',
     defaultValueBoolean: true,
     defaultValueEnum: 'Third',
     defaultValueDate: '01/01/2000',
@@ -128,5 +128,45 @@ describe('Check createNewTableLine returns value', () => {
   test('if COLUMNS is given, RESULT should be return', () => {
     const result = TableUtils.createNewTableLine(COLUMNS, 'dd/MM/yyyy');
     expect(result).toStrictEqual(RESULT);
+  });
+
+  test('should return "0" for int type with no default or min/max values', () => {
+    const column = { type: ['int'] };
+    expect(TableUtils.getTableCellDefaultValue(column)).toBe('0');
+  });
+
+  test('should return defaultValue as string for int type', () => {
+    const column = { type: ['int'], defaultValue: 10 };
+    expect(TableUtils.getTableCellDefaultValue(column)).toBe('10');
+  });
+
+  test('should return "false" for bool type if no default is provided', () => {
+    const column = { type: ['bool'] };
+    expect(TableUtils.getTableCellDefaultValue(column)).toBe('false');
+  });
+
+  test('should return "true" for bool type if defaultValue is true', () => {
+    const column = { type: ['bool'], defaultValue: 'true' };
+    expect(TableUtils.getTableCellDefaultValue(column)).toBe('true');
+  });
+
+  test('should return enum defaultValue', () => {
+    const column = { type: ['enum'], defaultValue: 'Yes' };
+    expect(TableUtils.getTableCellDefaultValue(column)).toBe('Yes');
+  });
+
+  test('should return first enumValue if defaultValue not set', () => {
+    const column = { type: ['enum'], enumValues: ['One', 'Two'] };
+    expect(TableUtils.getTableCellDefaultValue(column)).toBe('One');
+  });
+
+  test('should return formatted date from defaultValue', () => {
+    const column = { type: ['date'], defaultValue: '2000-01-01T00:00:00Z' };
+    expect(TableUtils.getTableCellDefaultValue(column, 'dd/MM/yyyy')).toBe('01/01/2000');
+  });
+
+  test('should return default string if no type matches', () => {
+    const column = { defaultValue: 'Some value' };
+    expect(TableUtils.getTableCellDefaultValue(column)).toBe('Some value');
   });
 });
