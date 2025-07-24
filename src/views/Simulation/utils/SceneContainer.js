@@ -43,6 +43,8 @@ export class SceneContainer extends Container {
     canvasSceneRef.current.addEventListener('pointerup', this.onDragEnd);
     canvasSceneRef.current.addEventListener('pointerout', this.onDragEnd);
     canvasSceneRef.current.addEventListener('pointermove', this.onDragMove);
+
+    this.setOrigin();
   }
 
   setOrigin() {
