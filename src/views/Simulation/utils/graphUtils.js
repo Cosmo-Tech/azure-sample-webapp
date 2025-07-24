@@ -101,35 +101,71 @@ const setResourceBottlenecks = (instance, productionResources, bottlenecks, sett
   if (resourcesNotFound > 0) console.warn(`Bottlenecks: ${resourcesNotFound} resource ids not found in instance`);
 };
 
-export const resetGraphHighlighting = (graph, settings) => {
-  const defaultGrayedOutValue = !isShowingAllElements(settings);
-
-  graph.links.forEach((link) => (link.isGrayedOut = defaultGrayedOutValue));
-  graph.nodes.forEach((node) => (node.isGrayedOut = defaultGrayedOutValue));
-  if (isShowingAllElements(settings)) return;
-
-  const highlightBottlenecks = settings.graphViewFilters.includes(GRAPH_VIEW_FILTER_VALUES.BOTTLENECKS);
-  const highlightShortages = settings.graphViewFilters.includes(GRAPH_VIEW_FILTER_VALUES.SHORTAGES);
-  graph.nodes.forEach((node) => {
-    if (highlightShortages && (node.shortagesCount ?? 0) > 0) node.isGrayedOut = false;
-    if (highlightBottlenecks && (node.bottlenecksCount ?? 0) > 0) node.isGrayedOut = false;
+export const resetGraphHighlighting = (graph, settings, selectedElementId) => {
+  const links = graph.links;
+  const nodes = graph.nodes;
+  const defaultGrayedOutValue = !(selectedElementId == null && isShowingAllElements(settings));
+  links.forEach((link) => {
+    link.isGrayedOut = defaultGrayedOutValue;
+    link.isSelected = false;
+    link.graphType = 'link';
+  });
+  nodes.forEach((node) => {
+    node.isGrayedOut = defaultGrayedOutValue;
+    node.isSelected = false;
   });
 
-  const inPropagationLevel = settings.showInput ? settings.inputLevels : 0;
-  const outPropagationLevel = settings.showOutput ? settings.outputLevels : 0;
-  propagateElementsHighlighting(graph.links, inPropagationLevel, outPropagationLevel);
+  if (selectedElementId == null && isShowingAllElements(settings)) return;
+
+  const inputLevels = settings.showInput ? settings.inputLevels : 0;
+  const outputLevels = settings.showOutput ? settings.outputLevels : 0;
+
+  if (selectedElementId == null) {
+    const highlightBottlenecks = settings.graphViewFilters.includes(GRAPH_VIEW_FILTER_VALUES.BOTTLENECKS);
+    const highlightShortages = settings.graphViewFilters.includes(GRAPH_VIEW_FILTER_VALUES.SHORTAGES);
+    nodes.forEach((node) => {
+      if (
+        (highlightShortages && (node.shortagesCount ?? 0) > 0) ||
+        (highlightBottlenecks && (node.bottlenecksCount ?? 0))
+      ) {
+        node.isGrayedOut = false;
+        handleElementsHighlighting(links, nodes, node, inputLevels, outputLevels);
+      }
+    });
+  } else {
+    const selectedElement =
+      links.find((link) => link.data.id === selectedElementId) ?? nodes.find((node) => node.id === selectedElementId);
+    selectedElement.isGrayedOut = false;
+    selectedElement.isSelected = true;
+    handleElementsHighlighting(links, nodes, selectedElement, inputLevels, outputLevels);
+  }
 };
 
-const propagateElementsHighlighting = (links, inPropagationLevel, outPropagationLevel) => {
-  links.forEach((link) => {
-    if (inPropagationLevel > 0 && !link.target.isGrayedOut) link.source.isGrayedOut = false;
-    if (outPropagationLevel > 0 && !link.source.isGrayedOut) link.target.isGrayedOut = false;
-    if (!link.source.isGrayedOut && !link.target.isGrayedOut) link.isGrayedOut = false;
-  });
+const handleElementsHighlighting = (links, nodes, startElement, inputLevels, outputLevels) => {
+  const isLink = startElement.graphType === 'link';
+  const inPropagationRemain = isLink ? inputLevels * 2 + 1 : inputLevels * 2;
+  const outPropagationRemain = isLink ? outputLevels * 2 + 1 : outputLevels * 2;
+  if (inPropagationRemain > 0) propagateElementHighlighting(links, nodes, startElement, 'in', inPropagationRemain);
+  if (outPropagationRemain > 0) propagateElementHighlighting(links, nodes, startElement, 'out', outPropagationRemain);
+};
 
-  // TODO: replace by iterative algorithm to improve performance
-  if (inPropagationLevel > 1 || outPropagationLevel > 1)
-    propagateElementsHighlighting(links, inPropagationLevel - 1, outPropagationLevel - 1);
+const propagateElementHighlighting = (links, nodes, element, propagationDirection, propagationRemain) => {
+  element.isGrayedOut = false;
+  if (propagationRemain === 0) return;
+
+  if (element.graphType === 'link') {
+    const idToSearch = propagationDirection === 'in' ? element.source.id : element.target.id;
+    const nextNode = nodes.find((node) => node.id === idToSearch);
+    propagateElementHighlighting(links, nodes, nextNode, propagationDirection, propagationRemain - 1);
+  } else {
+    const nextLinks = links.filter((link) => {
+      const idToSearch = propagationDirection === 'out' ? link.source.id : link.target.id;
+      return idToSearch === element.id;
+    });
+    nextLinks.forEach((nextLink) =>
+      propagateElementHighlighting(links, nodes, nextLink, propagationDirection, propagationRemain - 1)
+    );
+  }
 };
 
 export const getGraphFromInstance = (scenario, settings) => {
@@ -165,10 +201,6 @@ export const getGraphFromInstance = (scenario, settings) => {
 
   const nodes = [...stocks, ...productionResources];
   const links = getGraphLinks(instance, nodes);
-
-  const inPropagationLevel = settings.showInput ? settings.inputLevels : 0;
-  const outPropagationLevel = settings.showOutput ? settings.outputLevels : 0;
-  if (isShowingAllElements(settings)) propagateElementsHighlighting(links, inPropagationLevel, outPropagationLevel);
 
   // TODO: search by run id when we support results from several simulations
   const simulationConfiguration = configuration?.[0];

@@ -1,6 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { AdvancedBloomFilter } from 'pixi-filters';
+import { AdvancedBloomFilter, GlowFilter } from 'pixi-filters';
 import { AlphaFilter, Application, BitmapText, Container, Graphics, GraphicsContext, Sprite } from 'pixi.js';
 import 'pixi.js/unsafe-eval';
 import { NODE_TYPES } from '../constants/nodeLabels';
@@ -14,6 +14,14 @@ const HIDDEN_LINK_COLOR = 0x636363;
 const RED_LINE_COLOR = 0xdf3537;
 const DEFAULT_TEXT_STYLE = { fontFamily: 'Arial', fontSize: 12, fill: 0xffffff, align: 'center' };
 const BLOOM_FILTER = new AdvancedBloomFilter({ blur: 1, quality: 16, bloomScale: 1.8, brightness: 1 });
+const SELECTED_LINK_FILTER = new GlowFilter({ distance: 10, outerStrength: 6, color: 0xffffff });
+const SELECTED_NODE_FILTER = new AdvancedBloomFilter({
+  threshold: 0.1,
+  bloomScale: 1.2,
+  brightness: 1.5,
+  blur: 1,
+  quality: 20,
+});
 const NODE_LABEL_LINE_LENGTH = 24;
 
 const createLabel = (value, forceSplit = true) => {
@@ -242,6 +250,7 @@ const createLinkGraphics = (links, setSelectedElementId, settings) => {
       color: link.isGrayedOut ? HIDDEN_LINK_COLOR : LINK_COLOR,
     });
     graphics.on('click', (event) => setSelectedElementId(link.data.id));
+    graphics.filters = link.isSelected ? [SELECTED_LINK_FILTER] : [];
     graphics.elementId = link.data.id;
     return graphics;
   });
@@ -261,6 +270,7 @@ const createNodeContainer = (textures, node) => {
   container.eventMode = 'static';
   container.cursor = 'pointer';
   container.elementId = node.id;
+  container.filters = node.isSelected ? [SELECTED_NODE_FILTER] : [];
   return container;
 };
 
@@ -300,7 +310,7 @@ export const renderElements = (sceneContainerRef, graphRef, setSelectedElementId
   const textures = sceneContainerRef.current.textures;
 
   const backContainer = new Container();
-  backContainer.filters = new AlphaFilter({ alpha: 0.5 });
+  backContainer.filters = new AlphaFilter({ alpha: 0.25 });
   const frontContainer = new Container();
   sceneContainerRef.current.addChild(backContainer);
   sceneContainerRef.current.addChild(frontContainer);
@@ -314,8 +324,6 @@ export const renderElements = (sceneContainerRef, graphRef, setSelectedElementId
     if (node.isGrayedOut) backContainer.addChild(container);
     else frontContainer.addChild(container);
   });
-
-  sceneContainerRef.current.setOrigin();
 };
 
 export const createApp = () => new Application();
@@ -360,10 +368,12 @@ export const initApp = async (
 
     sceneContainerRef.current.removeChildren();
     renderElements(sceneContainerRef, graphRef, setSelectedElementId, settings);
+    sceneContainerRef.current.setOrigin();
   };
   window.addEventListener('resize', handleResize);
 
   renderElements(sceneContainerRef, graphRef, setSelectedElementId, settings);
+  sceneContainerRef.current.setOrigin();
 };
 
 export const destroyApp = (app) => {

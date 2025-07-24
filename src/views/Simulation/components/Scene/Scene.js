@@ -75,14 +75,8 @@ const Scene = () => {
 
   useEffect(() => {
     if (sceneContainerRef.current == null) return;
-    const newSelectedElement = sceneContainerRef.current.findElementById(selectedElementId);
-    sceneContainerRef.current.highlightElement(newSelectedElement);
-    return () => {
-      const lastSelectedElement = sceneContainerRef.current.findElementById(selectedElementId);
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      sceneContainerRef.current.unhighlightElement(lastSelectedElement);
-    };
-  }, [selectedElementId]);
+    requiredUpdateStepsRef.current.highlight = true;
+  }, [selectedElementId, requiredUpdateStepsRef]);
 
   useEffect(() => {
     if (!needsReRendering) return;

@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { AdvancedBloomFilter, GlowFilter } from 'pixi-filters';
 import { Point, Container } from 'pixi.js';
 
 const MIN_ZOOM = 0.05;
@@ -123,19 +122,6 @@ export class SceneContainer extends Container {
 
   isLinkElement(element) {
     return element.label === 'Graphics';
-  }
-
-  highlightElement(element) {
-    if (element == null) return;
-
-    element.filters = this.isLinkElement(element)
-      ? [new GlowFilter({ distance: 10, outerStrength: 6, color: 0xffffff })]
-      : [new AdvancedBloomFilter({ threshold: 0.1, bloomScale: 1.2, brightness: 1.5, blur: 1, quality: 20 })];
-  }
-
-  unhighlightElement(element) {
-    if (element == null) return;
-    element.filters = [];
   }
 
   centerOnElement(element) {
