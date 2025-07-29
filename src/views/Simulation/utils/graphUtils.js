@@ -63,7 +63,7 @@ const getGraphLinks = (instance, nodes) => {
   return [...getTransportLinks(instance, nodes), ...getInputLinks(instance, nodes), ...getOutputLinks(instance, nodes)];
 };
 
-const setStockShortages = (instance, stocks, shortages, settings) => {
+const setStockShortages = (stocks, shortages, settings) => {
   const highlightShortages = settings.graphViewFilters.includes(GRAPH_VIEW_FILTER_VALUES.SHORTAGES);
   let stocksNotFound = 0;
   for (const [stockId, stockShortages] of Object.entries(shortages)) {
@@ -81,7 +81,7 @@ const setStockShortages = (instance, stocks, shortages, settings) => {
   if (stocksNotFound > 0) console.warn(`Shortages: ${stocksNotFound} stock ids not found in instance`);
 };
 
-const setResourceBottlenecks = (instance, productionResources, bottlenecks, settings) => {
+const setResourceBottlenecks = (productionResources, bottlenecks, settings) => {
   const highlightBottlenecks = settings.graphViewFilters.includes(GRAPH_VIEW_FILTER_VALUES.BOTTLENECKS);
   let resourcesNotFound = 0;
   for (const [resourceId, resourceBottlenecks] of Object.entries(bottlenecks)) {
@@ -191,8 +191,8 @@ export const getGraphFromInstance = (scenario, settings) => {
   });
   const operations = instance.production_operations.map((el) => createNode(el, 'productionOperation'));
 
-  setStockShortages(instance, stocks, shortages, settings);
-  setResourceBottlenecks(instance, productionResources, bottlenecks, settings);
+  setStockShortages(stocks, shortages, settings);
+  setResourceBottlenecks(productionResources, bottlenecks, settings);
 
   const nodes = [...stocks, ...productionResources];
   const links = getGraphLinks(instance, nodes);
