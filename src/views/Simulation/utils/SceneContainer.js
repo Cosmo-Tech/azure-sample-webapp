@@ -45,6 +45,7 @@ export class SceneContainer extends Container {
   }
 
   setOrigin() {
+    console.log('setOrigin'); // NBO log to remove
     const sceneWidth = this.width;
     const sceneHeight = this.height;
     const screenWidth = this.canvasScene.clientWidth;

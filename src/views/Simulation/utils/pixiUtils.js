@@ -134,11 +134,11 @@ const createFactoryIconGraphicsContext = (options) => {
   return graphicsContext;
 };
 
-const createStockContainer = (textures, name, hasShortages = false) => {
+const createStockContainer = (textures, name, isHighlighted = false) => {
   const container = new Container();
-  container.label = hasShortages ? NODE_TYPES.STOCK_SHORTAGE : NODE_TYPES.STOCK;
-  const stockTextureKey = hasShortages ? 'stockLevel1' : 'stockLevel0';
-  if (hasShortages) {
+  container.label = isHighlighted ? NODE_TYPES.STOCK_SHORTAGE : NODE_TYPES.STOCK;
+  const stockTextureKey = isHighlighted ? 'stockLevel1' : 'stockLevel0';
+  if (isHighlighted) {
     const stockHalo = new Sprite(textures[stockTextureKey]);
     stockHalo.filters = [BLOOM_FILTER];
     stockHalo.position.set(-10, -10);
@@ -146,7 +146,7 @@ const createStockContainer = (textures, name, hasShortages = false) => {
   }
   const stock = new Sprite(textures[stockTextureKey]);
   stock.position.set(-10, -10);
-  const iconTextureKey = hasShortages ? 'packageIconLevel1' : 'packageIconLevel0';
+  const iconTextureKey = isHighlighted ? 'packageIconLevel1' : 'packageIconLevel0';
   const packageIcon = new Sprite(textures[iconTextureKey]);
   packageIcon.anchor.set(0.5);
   packageIcon.position.set(24, 24);
@@ -160,11 +160,11 @@ const createStockContainer = (textures, name, hasShortages = false) => {
   return container;
 };
 
-const createProductionResourceContainer = (textures, name, hasBottlenecks, operationsCount) => {
-  const borderTextureKey = hasBottlenecks ? 'productionResourceBorderLevel1' : 'productionResourceBorderLevel0';
+const createProductionResourceContainer = (textures, name, isHighlighted, operationsCount) => {
+  const borderTextureKey = isHighlighted ? 'productionResourceBorderLevel1' : 'productionResourceBorderLevel0';
   const border = new Sprite(textures[borderTextureKey]);
-  if (hasBottlenecks) border.filters = [BLOOM_FILTER];
-  const iconTextureKey = hasBottlenecks ? 'factoryIconLevel1' : 'factoryIconLevel0';
+  if (isHighlighted) border.filters = [BLOOM_FILTER];
+  const iconTextureKey = isHighlighted ? 'factoryIconLevel1' : 'factoryIconLevel0';
   const factoryIcon = new Sprite(textures[iconTextureKey]);
   factoryIcon.x = 40;
 
@@ -173,7 +173,7 @@ const createProductionResourceContainer = (textures, name, hasBottlenecks, opera
   borderContainer.addChild(border);
 
   const container = new Container();
-  container.label = hasBottlenecks ? NODE_TYPES.PRODUCTION_RESOURCE_BOTTLENECK : NODE_TYPES.PRODUCTION_RESOURCE;
+  container.label = isHighlighted ? NODE_TYPES.PRODUCTION_RESOURCE_BOTTLENECK : NODE_TYPES.PRODUCTION_RESOURCE;
 
   const background = new Sprite(textures.productionResourceBackground);
   background.x = 10;
@@ -259,8 +259,8 @@ const createLinkGraphics = (links, setSelectedElementId, settings) => {
 const createNodeContainer = (textures, node) => {
   const container =
     node.type === 'productionResource'
-      ? createProductionResourceContainer(textures, node.id, node.bottlenecksCount != null, node.operationsCount)
-      : createStockContainer(textures, node.id, node.shortagesCount != null);
+      ? createProductionResourceContainer(textures, node.id, node.isHighlighted, node.operationsCount)
+      : createStockContainer(textures, node.id, node.isHighlighted);
 
   let centerOffset = { x: 24, y: 24 };
   if (node.type === 'productionResource') centerOffset = { x: 50, y: 54 };
