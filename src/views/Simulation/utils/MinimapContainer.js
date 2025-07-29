@@ -44,9 +44,9 @@ export class MinimapContainer extends Container {
     };
 
     this.textures = {
-      [NODE_TYPES.STOCK]: createNodeTexture('#20363D'),
+      [NODE_TYPES.STOCK]: createNodeTexture('#48C0DB'),
       [NODE_TYPES.STOCK_SHORTAGE]: createNodeTexture('#DF3537'),
-      [NODE_TYPES.PRODUCTION_RESOURCE]: createNodeTexture('#20363D'),
+      [NODE_TYPES.PRODUCTION_RESOURCE]: createNodeTexture('#48C0DB'),
       [NODE_TYPES.PRODUCTION_RESOURCE_BOTTLENECK]: createNodeTexture('#DF3537'),
     };
   }

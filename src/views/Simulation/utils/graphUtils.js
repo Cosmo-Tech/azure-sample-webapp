@@ -63,8 +63,6 @@ const getGraphLinks = (instance, nodes) => {
   return [...getTransportLinks(instance, nodes), ...getInputLinks(instance, nodes), ...getOutputLinks(instance, nodes)];
 };
 
-const isShowingAllElements = (settings) => settings.graphViewFilters.length === 0;
-
 const setStockShortages = (instance, stocks, shortages, settings) => {
   const highlightShortages = settings.graphViewFilters.includes(GRAPH_VIEW_FILTER_VALUES.SHORTAGES);
   let stocksNotFound = 0;
@@ -101,10 +99,19 @@ const setResourceBottlenecks = (instance, productionResources, bottlenecks, sett
   if (resourcesNotFound > 0) console.warn(`Bottlenecks: ${resourcesNotFound} resource ids not found in instance`);
 };
 
+const getHighlightSettings = (settings) => {
+  return {
+    highlightBottlenecks: settings.graphViewFilters.includes(GRAPH_VIEW_FILTER_VALUES.BOTTLENECKS),
+    highlightShortages: settings.graphViewFilters.includes(GRAPH_VIEW_FILTER_VALUES.SHORTAGES),
+  };
+};
+
 export const resetGraphHighlighting = (graph, settings, selectedElementId) => {
   const links = graph.links;
   const nodes = graph.nodes;
-  const defaultGrayedOutValue = !(selectedElementId == null && isShowingAllElements(settings));
+  const defaultGrayedOutValue = selectedElementId != null;
+  const { highlightBottlenecks, highlightShortages } = getHighlightSettings(settings);
+
   links.forEach((link) => {
     link.isGrayedOut = defaultGrayedOutValue;
     link.isSelected = false;
@@ -113,26 +120,16 @@ export const resetGraphHighlighting = (graph, settings, selectedElementId) => {
   nodes.forEach((node) => {
     node.isGrayedOut = defaultGrayedOutValue;
     node.isSelected = false;
+    node.isHighlighted =
+      (highlightShortages && (node.shortagesCount ?? 0) > 0) ||
+      (highlightBottlenecks && (node.bottlenecksCount ?? 0) > 0);
   });
 
-  if (selectedElementId == null && isShowingAllElements(settings)) return;
+  if (selectedElementId == null) return;
 
   const inputLevels = settings.showInput ? settings.inputLevels : 0;
   const outputLevels = settings.showOutput ? settings.outputLevels : 0;
-
-  if (selectedElementId == null) {
-    const highlightBottlenecks = settings.graphViewFilters.includes(GRAPH_VIEW_FILTER_VALUES.BOTTLENECKS);
-    const highlightShortages = settings.graphViewFilters.includes(GRAPH_VIEW_FILTER_VALUES.SHORTAGES);
-    nodes.forEach((node) => {
-      if (
-        (highlightShortages && (node.shortagesCount ?? 0) > 0) ||
-        (highlightBottlenecks && (node.bottlenecksCount ?? 0))
-      ) {
-        node.isGrayedOut = false;
-        handleElementsHighlighting(links, nodes, node, inputLevels, outputLevels);
-      }
-    });
-  } else {
+  if (selectedElementId != null) {
     const selectedElement =
       links.find((link) => link.data.id === selectedElementId) ?? nodes.find((node) => node.id === selectedElementId);
     selectedElement.isGrayedOut = false;
@@ -176,11 +173,9 @@ export const getGraphFromInstance = (scenario, settings) => {
   const shortages = scenario.shortages;
   const stockDemands = scenario.stockDemands;
 
-  const defaultGrayedOutValue = !isShowingAllElements(settings);
   const createNode = (node, type) => {
     return {
       id: node.id,
-      isGrayedOut: defaultGrayedOutValue,
       type,
       data: forgeElementData(node, ['id', 'latitude', 'longitude']),
     };
@@ -201,6 +196,13 @@ export const getGraphFromInstance = (scenario, settings) => {
 
   const nodes = [...stocks, ...productionResources];
   const links = getGraphLinks(instance, nodes);
+
+  const { highlightBottlenecks, highlightShortages } = getHighlightSettings(settings);
+  nodes.forEach((node) => {
+    node.isHighlighted =
+      (highlightShortages && (node.shortagesCount ?? 0) > 0) ||
+      (highlightBottlenecks && (node.bottlenecksCount ?? 0) > 0);
+  });
 
   // TODO: search by run id when we support results from several simulations
   const simulationConfiguration = configuration?.[0];
