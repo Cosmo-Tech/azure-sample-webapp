@@ -41,7 +41,7 @@ export const SearchBar = () => {
 
   const selectElement = (element) => {
     const elementId = element?.data?.id ?? element?.id;
-    setSelectedElementId(elementId);
+    setSelectedElementId(elementId ?? null);
     if (elementId != null) centerToPosition(elementId);
   };
 
