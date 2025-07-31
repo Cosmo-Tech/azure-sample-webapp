@@ -53,9 +53,7 @@ const ChartTimeline = ({ chartData, markers, currentTimestep, setCurrentTimestep
       <ResponsiveContainer>
         <LineChart data={data} onClick={handleClick} margin={{ left: 20, right: 20 }}>
           <Line type="monotone" dataKey="value" stroke="#767781" strokeWidth={1} dot={false} isAnimationActive={true} />
-
           <ReferenceArea x1={0} x2={currentTimestep} y1="auto" y2="auto" fill="#252529" />
-
           {markers.map((markerIndex) => {
             const markerData = data[markerIndex];
             if (!markerData) return null;
@@ -69,7 +67,6 @@ const ChartTimeline = ({ chartData, markers, currentTimestep, setCurrentTimestep
               />
             );
           })}
-
           <XAxis
             dataKey="index"
             type="number"
