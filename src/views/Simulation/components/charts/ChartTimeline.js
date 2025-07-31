@@ -89,8 +89,8 @@ ChartTimeline.propTypes = {
   markers: PropTypes.arrayOf(PropTypes.number),
   currentTimestep: PropTypes.number.isRequired,
   setCurrentTimestep: PropTypes.func.isRequired,
-  startDate: PropTypes.instanceOf(Date).isRequired,
-  endDate: PropTypes.instanceOf(Date).isRequired,
+  startDate: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.string]).isRequired,
+  endDate: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.string]).isRequired,
 };
 
 ChartTimeline.defaultProps = {
