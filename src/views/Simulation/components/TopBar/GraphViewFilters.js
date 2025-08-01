@@ -1,6 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useEffect, useCallback, useMemo, useState } from 'react';
 import {
   Box,
   Chip,
@@ -17,7 +17,19 @@ import { GRAPH_VIEW_FILTER_VALUES } from '../../constants/settings';
 
 export const GraphViewFilters = () => {
   const { requiredUpdateStepsRef, settings, setSettings } = useSimulationViewContext();
-  const [selectedFilters, setSelectedFilters] = useState(settings.graphViewFilters);
+  const defaultFilter = Object.values(GRAPH_VIEW_FILTER_VALUES)[0];
+  const initialSelected = settings.graphViewFilters?.length > 0 ? settings.graphViewFilters : [defaultFilter];
+  const [selectedFilters, setSelectedFilters] = useState(initialSelected);
+
+  // Ensure settings always contain at least one selected item on mount
+  useEffect(() => {
+    if (!settings.graphViewFilters || settings.graphViewFilters.length === 0) {
+      setSettings((prev) => ({
+        ...prev,
+        graphViewFilters: [defaultFilter],
+      }));
+    }
+  }, [settings.graphViewFilters, defaultFilter, setSettings]);
 
   const options = useMemo(() => {
     const listItems = Object.values(GRAPH_VIEW_FILTER_VALUES).map((filterValue) => (
@@ -31,18 +43,24 @@ export const GraphViewFilters = () => {
   }, [selectedFilters]);
 
   const changeValue = useCallback(
-    (event, child) => {
+    (event) => {
       const selectedValues = event.target.value;
+
+      // Prevent clearing all filters — at least one must remain
+      if (selectedValues.length === 0) return;
 
       setSelectedFilters(selectedValues);
 
       // Update graph settings asynchronously to prevent UI lags
       setTimeout(() => {
         requiredUpdateStepsRef.current.highlight = true;
-        setSettings((previousSettings) => ({ ...previousSettings, graphViewFilters: selectedValues }));
+        setSettings((previousSettings) => ({
+          ...previousSettings,
+          graphViewFilters: selectedValues,
+        }));
       }, 0);
     },
-    [requiredUpdateStepsRef, setSelectedFilters, setSettings]
+    [requiredUpdateStepsRef, setSettings]
   );
 
   return (
