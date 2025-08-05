@@ -64,7 +64,8 @@ export const useSimulationView = () => {
       const lastRunId = currentScenario.lastRunId;
       const scenarioInstanceData = FAKE_SCENARIOS_DATA?.[lastRunId];
       graphRef.current = getGraphFromInstance(scenarioInstanceData, settings);
-    } else if (requiredUpdateStepsRef.current.highlight)
+    }
+    if (requiredUpdateStepsRef.current.highlight || requiredUpdateStepsRef.current.layout)
       resetGraphHighlighting(graphRef.current, settings, selectedElementId);
     setNeedsReRendering(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps

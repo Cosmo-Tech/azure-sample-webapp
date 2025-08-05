@@ -17,8 +17,7 @@ export class SceneContainer extends Container {
     super();
     this.canvasScene = canvasSceneRef.current;
 
-    this.zoom = DEFAULT_ZOOM;
-    this.scale.set(this.zoom);
+    this.setZoom(DEFAULT_ZOOM);
     // TODO: find a way to zoom automatically on a default point of interest
 
     this.sceneApp = sceneApp;
@@ -45,12 +44,14 @@ export class SceneContainer extends Container {
   }
 
   setOrigin() {
+    this.sceneApp.ticker.remove(this.updatePositionAndScale);
+    this.setZoom(DEFAULT_ZOOM);
     const sceneWidth = this.width;
     const sceneHeight = this.height;
     const screenWidth = this.canvasScene.clientWidth;
     const screenHeight = this.canvasScene.clientHeight;
     this.origin = new Point(-sceneWidth / 2 + screenWidth / 2, -sceneHeight / 2 + screenHeight / 2);
-    this.position = this.origin;
+    this.position.set(this.origin.x, this.origin.y);
   }
 
   setMinimapContainer(minimapContainerRef) {

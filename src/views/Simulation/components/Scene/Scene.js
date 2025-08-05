@@ -80,9 +80,11 @@ const Scene = () => {
 
   useEffect(() => {
     if (!needsReRendering) return;
-    if (requiredUpdateStepsRef.current.all || requiredUpdateStepsRef.current.layout) {
+    const layoutUpdate = requiredUpdateStepsRef.current.all || requiredUpdateStepsRef.current.layout;
+    if (layoutUpdate) {
       resetGraphLayout(sceneCanvasRef.current.clientWidth, sceneCanvasRef.current.clientHeight);
     }
+    if (requiredUpdateStepsRef.current.all) setSelectedElementId(null);
 
     if (
       requiredUpdateStepsRef.current.all ||
@@ -92,7 +94,8 @@ const Scene = () => {
     ) {
       if (sceneContainerRef.current) sceneContainerRef.current.removeChildren();
       renderElements(sceneContainerRef, graphRef, setSelectedElementId, settings);
-      if (minimapContainerRef.current != null) minimapContainerRef.current?.renderElements();
+      if (layoutUpdate && sceneContainerRef.current) sceneContainerRef.current.setOrigin();
+      if (minimapContainerRef.current) minimapContainerRef.current.renderElements();
     }
 
     requiredUpdateStepsRef.current = { ...DEFAULT_UPDATE_STATE };
