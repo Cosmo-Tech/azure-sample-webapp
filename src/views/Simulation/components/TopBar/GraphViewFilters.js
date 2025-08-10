@@ -31,8 +31,11 @@ export const GraphViewFilters = () => {
   }, [selectedFilters]);
 
   const changeValue = useCallback(
-    (event, child) => {
+    (event) => {
       const selectedValues = event.target.value;
+
+      // Ensure at least one filter is always selected
+      if (selectedValues.length === 0) return;
 
       setSelectedFilters(selectedValues);
 

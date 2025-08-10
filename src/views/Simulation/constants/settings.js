@@ -12,7 +12,7 @@ export const GRAPH_LAYOUT_DIRECTION_VALUES = {
 };
 
 export const DEFAULT_SETTINGS = {
-  graphViewFilters: [],
+  graphViewFilters: [GRAPH_VIEW_FILTER_VALUES.BOTTLENECKS],
   orientation: GRAPH_LAYOUT_DIRECTION_VALUES.HORIZONTAL,
   showInput: false,
   inputLevels: 2,
