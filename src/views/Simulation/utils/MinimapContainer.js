@@ -109,8 +109,7 @@ export class MinimapContainer extends Container {
 
   getSceneRatio() {
     const { width, height } = this.sceneContainerRef.current.getLocalBounds();
-
-    return width > height
+    return width / MINIMAP_SIZE.width > height / MINIMAP_SIZE.height
       ? MINIMAP_SIZE.width / (width * MARGIN_FACTOR)
       : MINIMAP_SIZE.height / (height * MARGIN_FACTOR);
   }
