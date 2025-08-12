@@ -5,7 +5,7 @@ import { SchemasUtils } from '../schemas/SchemasUtils';
 describe('schema generation for custom options', () => {
   test.each`
     options                                | expectedKeys
-    ${['option']}                          | ${['option']}
+    ${['option']}                          | ${['break_test_on_purpose']}
     ${['option1', 'option2']}              | ${['option1', 'option2']}
     ${undefined}                           | ${[]}
     ${null}                                | ${[]}
