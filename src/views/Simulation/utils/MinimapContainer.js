@@ -1,6 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { Container, Graphics, GraphicsContext, Rectangle, Sprite } from 'pixi.js';
+import { Container, Graphics, GraphicsContext, Rectangle, Sprite, Point } from 'pixi.js';
 import { NODE_TYPES } from '../constants/nodeLabels';
 
 const MINIMAP_SIZE = { width: 260, height: 150 };
@@ -35,6 +35,7 @@ export class MinimapContainer extends Container {
     this.minimapAppRef.current.stage.on('pointerup', this.onDragEnd);
     this.minimapAppRef.current.stage.on('pointerupoutside', this.onDragEnd);
     this.minimapAppRef.current.stage.on('wheel', this.onWheel);
+    this.minimapAppRef.current.stage.on('mousedown', this.onClick);
   }
 
   createNodeTextures() {
@@ -65,6 +66,7 @@ export class MinimapContainer extends Container {
     this.onDragMove = this.onDragMove.bind(this);
     this.onDragEnd = this.onDragEnd.bind(this);
     this.onWheel = this.onWheel.bind(this);
+    this.onClick = this.onClick.bind(this);
 
     this.screenCursor.on('pointerdown', this.onDragStart);
 
@@ -100,7 +102,7 @@ export class MinimapContainer extends Container {
     const ratio = this.getScreenCursorRatio();
     const newX = (this.miniSceneContainer.x + this.screenCursor.pivot.x - this.screenCursor.x) * ratio;
     const newY = (this.miniSceneContainer.y + this.screenCursor.pivot.y - this.screenCursor.y) * ratio;
-    this.sceneContainerRef.current.translateTo(newX, newY);
+    this.sceneContainerRef.current.position.set(newX, newY);
   }
 
   getScreenCursorRatio() {
@@ -119,15 +121,20 @@ export class MinimapContainer extends Container {
     this.sceneContainerRef.current.zoomOnPoint(zoomDirection);
   }
 
-  onDragStart() {
+  onDragStart(event) {
+    this.sceneContainerRef.current.stopUpdatePosition();
     this.dragTarget = this.screenCursor;
+    const localPosition = this.toLocal(event.global);
+    this.dragOffset = new Point(this.screenCursor.x - localPosition.x, this.screenCursor.y - localPosition.y);
     this.minimapAppRef.current.stage.on('pointermove', this.onDragMove);
   }
 
   onDragMove(event) {
     if (!this.dragTarget) return;
 
-    this.dragTarget.parent.toLocal(event.global, null, this.dragTarget);
+    const localPosition = this.toLocal(event.global);
+    this.dragTarget.x = localPosition.x + this.dragOffset.x;
+    this.dragTarget.y = localPosition.y + this.dragOffset.y;
     this.updateScene();
   }
 
@@ -135,7 +142,20 @@ export class MinimapContainer extends Container {
     if (!this.dragTarget) return;
 
     this.minimapAppRef.current.stage.off('pointermove', this.onDragMove);
+    this.sceneContainerRef.current.checkBounds();
     this.dragTarget = null;
+  }
+
+  onClick(event) {
+    if (this.dragTarget) return;
+
+    this.sceneContainerRef.current.stopUpdatePosition();
+    const clickPosition = this.toLocal(event.global);
+    this.screenCursor.x = clickPosition.x;
+    this.screenCursor.y = clickPosition.y;
+    this.updateScene();
+    this.sceneContainerRef.current.checkBounds();
+    this.onDragStart(event);
   }
 
   forgeContainer(containerSource) {

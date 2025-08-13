@@ -146,7 +146,7 @@ export class SceneContainer extends Container {
     this.translateTo(this.origin.x, this.origin.y, DEFAULT_ZOOM);
   }
 
-  stopBackToOrigin() {
+  stopUpdatePosition() {
     this.sceneApp.ticker.remove(this.updatePositionAndScale);
   }
 
@@ -205,7 +205,7 @@ export class SceneContainer extends Container {
     this.dragStart = { x: mouseScreenPosition.x, y: mouseScreenPosition.y };
     this.containerStart = { x: this.x, y: this.y };
 
-    this.stopBackToOrigin();
+    this.stopUpdatePosition();
   }
 
   onDragMove(event) {
