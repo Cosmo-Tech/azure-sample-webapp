@@ -214,3 +214,58 @@ export const resetGraphLayout = (graphRef, width, height, settings) => {
   if (graphRef.current == null) return;
   applyDagreLayout(graphRef.current.nodes, graphRef.current.links, settings);
 };
+
+export function computeTotalDemand(stockDemands) {
+  if (!stockDemands || typeof stockDemands !== 'object') return [];
+
+  const seriesArrays = Object.values(stockDemands);
+
+  if (seriesArrays.length === 0) return [];
+
+  const length = seriesArrays[0].length;
+  const totalDemand = Array.from({ length }, (_, i) => seriesArrays.reduce((sum, arr) => sum + (arr[i] || 0), 0));
+
+  const computeDemand = totalDemand.map((value, index) => ({
+    timestep: index,
+    value,
+  }));
+
+  return computeDemand;
+}
+
+export const updateGraphHighlightingAtTimestep = (nodes, currentTimestep, settings, sceneContainerRef) => {
+  const { highlightBottlenecks, highlightShortages } = getHighlightSettings(settings);
+  if (currentTimestep <= 0) return;
+
+  const textures = sceneContainerRef.current?.textures;
+  if (!textures) return;
+
+  nodes.forEach((node) => {
+    const container = sceneContainerRef.current.children
+      .flatMap((c) => c.children)
+      .find((c) => c.elementId === node.id);
+
+    if (!container) return;
+
+    let makeRed = false;
+    if (node.type === 'stock') makeRed = highlightShortages && node.shortagesCount === currentTimestep;
+    if (node.type === 'productionResource') makeRed = highlightBottlenecks && node.bottlenecksCount === currentTimestep;
+
+    if (node.type === 'stock') {
+      const bgSprite = container.children[0]; // Stock background
+      const iconSprite = container.children[1]; // Package icon
+      bgSprite.texture = makeRed ? textures.stockLevel0 : textures.stockLevel2;
+      iconSprite.texture = makeRed ? textures.packageIconLevel0 : textures.packageIconLevel1;
+    }
+
+    if (node.type === 'productionResource') {
+      const borderContainer = container.children[0];
+      const borderSprite = borderContainer.children[0];
+      if (borderSprite) {
+        borderSprite.texture = makeRed
+          ? textures.productionResourceBorderLevel1
+          : textures.productionResourceBorderLevel2;
+      }
+    }
+  });
+};

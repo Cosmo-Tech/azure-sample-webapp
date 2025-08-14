@@ -4,7 +4,9 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import { useTheme } from '@mui/styles';
 import { useSimulationViewContext } from '../../SimulationViewContext';
 import { DEFAULT_UPDATE_STATE } from '../../SimulationViewHook';
+import { computeTotalDemand, updateGraphHighlightingAtTimestep } from '../../utils/graphUtils';
 import { createApp, destroyApp, initApp, initMinimap, renderElements } from '../../utils/pixiUtils';
+import { ChartTimeline } from '../Charts';
 import { Minimap } from './Minimap';
 
 const Scene = () => {
@@ -27,6 +29,10 @@ const Scene = () => {
   const sceneCanvasRef = useRef(null);
   const minimapCanvasRef = useRef(null);
   const sceneContainerRef = useRef(null);
+  const [currentTimestep, setCurrentTimestep] = useState(0);
+  const sampleMarkers = [5, 9, 8];
+  const stockDemands = graphRef.current?.stockDemands;
+  const totalDemandArray = computeTotalDemand(stockDemands);
 
   useEffect(() => {
     sceneAppRef.current = createApp();
@@ -111,6 +117,12 @@ const Scene = () => {
     graphRef.current,
   ]);
 
+  useEffect(() => {
+    if (currentTimestep > 0) {
+      updateGraphHighlightingAtTimestep(graphRef.current.nodes, currentTimestep, settings, sceneContainerRef);
+    }
+  }, [currentTimestep, settings, graphRef]);
+
   return (
     <>
       <div
@@ -118,6 +130,14 @@ const Scene = () => {
         ref={sceneCanvasRef}
         style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}
       ></div>
+      <ChartTimeline
+        chartData={totalDemandArray}
+        markers={sampleMarkers}
+        currentTimestep={currentTimestep}
+        setCurrentTimestep={(step) => setCurrentTimestep(step)}
+        startDate={new Date(graphRef.current?.simulationConfiguration?.startingDate)}
+        endDate={new Date(graphRef.current?.simulationConfiguration?.endDate)}
+      />
       <Minimap ref={minimapCanvasRef} sceneContainerRef={sceneContainerRef} />
     </>
   );

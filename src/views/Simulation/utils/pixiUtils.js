@@ -279,10 +279,15 @@ const generateTextures = (app) => {
     operationsCountBadge: createOperationsCountBadgeGraphicsContext(),
     stockLevel0: createStockGraphicsContext({ fillColor: '#20363D', borderColor: '#48C0DB52' }),
     stockLevel1: createStockGraphicsContext({ fillColor: '#DF3537', borderColor: '#DF3537' }),
+    stockLevel2: createStockGraphicsContext({ fillColor: '#48C0DB', borderColor: '#48C0DB' }),
     productionResourceBackground: createProductionResourceBackgroundGraphicsContext(),
     productionResourceBorderLevel0: createProductionResourceBorderGraphicsContext({ borderColor: GRAY_LINE_COLOR }),
     productionResourceBorderLevel1: createProductionResourceBorderGraphicsContext({
       borderColor: RED_LINE_COLOR,
+      borderWidth: 4,
+    }),
+    productionResourceBorderLevel2: createProductionResourceBorderGraphicsContext({
+      borderColor: '#48C0DB',
       borderWidth: 4,
     }),
     productionResource: createProductionResourceGraphicsContext({
