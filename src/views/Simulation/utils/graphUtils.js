@@ -106,7 +106,35 @@ const getHighlightSettings = (settings) => {
   };
 };
 
-export const resetGraphHighlighting = (graph, settings, selectedElementId) => {
+const resetNodesHighlighting = (
+  nodes,
+  bottlenecks,
+  shortages,
+  highlightBottlenecks,
+  highlightShortages,
+  currentTimestep,
+  defaultGrayedOutValue
+) => {
+  nodes.forEach((node) => {
+    node.isGrayedOut = defaultGrayedOutValue;
+    node.isSelected = false;
+    if (currentTimestep == null) {
+      node.isHighlighted =
+        (highlightShortages && (node.shortagesCount ?? 0) > 0) ||
+        (highlightBottlenecks && (node.bottlenecksCount ?? 0) > 0);
+    } else {
+      if (node.type === 'stock') {
+        const nodeShortagesAtCurrentTimestep = shortages?.[node.id]?.[currentTimestep] ?? 0;
+        node.isHighlighted = highlightShortages && nodeShortagesAtCurrentTimestep > 0;
+      } else {
+        const nodeBottlenecksAtCurrentTimestep = bottlenecks?.[node.id]?.[currentTimestep] ?? 0;
+        node.isHighlighted = highlightBottlenecks && nodeBottlenecksAtCurrentTimestep > 0;
+      }
+    }
+  });
+};
+
+export const resetGraphHighlighting = (graph, settings, selectedElementId, currentTimestep) => {
   const links = graph.links;
   const nodes = graph.nodes;
   const defaultGrayedOutValue = selectedElementId != null;
@@ -117,13 +145,15 @@ export const resetGraphHighlighting = (graph, settings, selectedElementId) => {
     link.isSelected = false;
     link.graphType = 'link';
   });
-  nodes.forEach((node) => {
-    node.isGrayedOut = defaultGrayedOutValue;
-    node.isSelected = false;
-    node.isHighlighted =
-      (highlightShortages && (node.shortagesCount ?? 0) > 0) ||
-      (highlightBottlenecks && (node.bottlenecksCount ?? 0) > 0);
-  });
+  resetNodesHighlighting(
+    nodes,
+    graph.bottlenecks,
+    graph.shortages,
+    highlightBottlenecks,
+    highlightShortages,
+    currentTimestep,
+    defaultGrayedOutValue
+  );
 
   if (selectedElementId == null) return;
 
@@ -198,19 +228,33 @@ export const getGraphFromInstance = (scenario, settings) => {
   const links = getGraphLinks(instance, nodes);
 
   const { highlightBottlenecks, highlightShortages } = getHighlightSettings(settings);
-  nodes.forEach((node) => {
-    node.isHighlighted =
-      (highlightShortages && (node.shortagesCount ?? 0) > 0) ||
-      (highlightBottlenecks && (node.bottlenecksCount ?? 0) > 0);
-  });
+  resetNodesHighlighting(nodes, bottlenecks, shortages, highlightBottlenecks, highlightShortages, null, false);
 
   // TODO: search by run id when we support results from several simulations
   const simulationConfiguration = configuration?.[0];
   simulationConfiguration.timeSteps = simulationConfiguration.simulatedCycles * simulationConfiguration.stepsPerCycle;
-  return { simulationConfiguration, nodes, operations, links, kpis, stockDemands, shortages };
+  return { simulationConfiguration, nodes, operations, links, kpis, stockDemands, bottlenecks, shortages };
 };
 
 export const resetGraphLayout = (graphRef, width, height, settings) => {
   if (graphRef.current == null) return;
   applyDagreLayout(graphRef.current.nodes, graphRef.current.links, settings);
 };
+
+export function computeTotalDemand(stockDemands) {
+  if (!stockDemands || typeof stockDemands !== 'object') return [];
+
+  const seriesArrays = Object.values(stockDemands);
+
+  if (seriesArrays.length === 0) return [];
+
+  const length = seriesArrays[0].length;
+  const totalDemand = Array.from({ length }, (_, i) => seriesArrays.reduce((sum, arr) => sum + (arr[i] || 0), 0));
+
+  const computeDemand = totalDemand.map((value, index) => ({
+    timestep: index,
+    value,
+  }));
+
+  return computeDemand;
+}

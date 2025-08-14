@@ -4,7 +4,9 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import { useTheme } from '@mui/styles';
 import { useSimulationViewContext } from '../../SimulationViewContext';
 import { DEFAULT_UPDATE_STATE } from '../../SimulationViewHook';
+import { computeTotalDemand } from '../../utils/graphUtils';
 import { createApp, destroyApp, initApp, initMinimap, renderElements } from '../../utils/pixiUtils';
+import { ChartTimeline } from '../Charts';
 import { Minimap } from './Minimap';
 
 const Scene = () => {
@@ -19,6 +21,7 @@ const Scene = () => {
     selectedElementId,
     settings,
     setCenterToPosition,
+    currentTimestep,
   } = useSimulationViewContext();
 
   const sceneAppRef = useRef(null);
@@ -27,6 +30,9 @@ const Scene = () => {
   const sceneCanvasRef = useRef(null);
   const minimapCanvasRef = useRef(null);
   const sceneContainerRef = useRef(null);
+  const sampleMarkers = [5, 9, 8];
+  const stockDemands = graphRef.current?.stockDemands;
+  const totalDemandArray = computeTotalDemand(stockDemands);
 
   useEffect(() => {
     sceneAppRef.current = createApp();
@@ -79,6 +85,11 @@ const Scene = () => {
   }, [selectedElementId, requiredUpdateStepsRef]);
 
   useEffect(() => {
+    if (sceneContainerRef.current == null) return;
+    requiredUpdateStepsRef.current.highlight = true;
+  }, [currentTimestep, requiredUpdateStepsRef]);
+
+  useEffect(() => {
     if (!needsReRendering) return;
     const layoutUpdate = requiredUpdateStepsRef.current.all || requiredUpdateStepsRef.current.layout;
     if (layoutUpdate) {
@@ -121,6 +132,12 @@ const Scene = () => {
         ref={sceneCanvasRef}
         style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}
       ></div>
+      <ChartTimeline
+        chartData={totalDemandArray}
+        markers={sampleMarkers}
+        startDate={new Date(graphRef.current?.simulationConfiguration?.startingDate)}
+        endDate={new Date(graphRef.current?.simulationConfiguration?.endDate)}
+      />
       <Minimap ref={minimapCanvasRef} sceneContainerRef={sceneContainerRef} />
     </>
   );

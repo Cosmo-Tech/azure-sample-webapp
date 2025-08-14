@@ -29,6 +29,7 @@ export const FAKE_SCENARIOS_DATA = {
 export const useSimulationView = () => {
   const scenarios = FAKE_SCENARIOS_METADATA;
   const [currentScenario, setCurrentScenario] = useState(scenarios?.[0]);
+  const [currentTimestep, setCurrentTimestep] = useState(null); // Use "null" when the dynamic replay is not enabled
 
   const [settings, setSettings] = useState(DEFAULT_SETTINGS);
   const [needsReRendering, setNeedsReRendering] = useState(false);
@@ -70,6 +71,7 @@ export const useSimulationView = () => {
     setNeedsReRendering(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
+    currentTimestep,
     currentScenario?.id,
     settings.graphViewFilters,
     settings.showInput,
@@ -93,6 +95,8 @@ export const useSimulationView = () => {
     scenarios,
     currentScenario,
     setCurrentScenario,
+    currentTimestep,
+    setCurrentTimestep,
     settings,
     setSettings,
     graphRef,
