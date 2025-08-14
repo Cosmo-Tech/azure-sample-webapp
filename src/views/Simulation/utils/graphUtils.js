@@ -106,7 +106,35 @@ const getHighlightSettings = (settings) => {
   };
 };
 
-export const resetGraphHighlighting = (graph, settings, selectedElementId) => {
+const resetNodesHighlighting = (
+  nodes,
+  bottlenecks,
+  shortages,
+  highlightBottlenecks,
+  highlightShortages,
+  currentTimestep,
+  defaultGrayedOutValue
+) => {
+  nodes.forEach((node) => {
+    node.isGrayedOut = defaultGrayedOutValue;
+    node.isSelected = false;
+    if (currentTimestep == null) {
+      node.isHighlighted =
+        (highlightShortages && (node.shortagesCount ?? 0) > 0) ||
+        (highlightBottlenecks && (node.bottlenecksCount ?? 0) > 0);
+    } else {
+      if (node.type === 'stock') {
+        const nodeShortagesAtCurrentTimestep = shortages?.[node.id]?.[currentTimestep] ?? 0;
+        node.isHighlighted = highlightShortages && nodeShortagesAtCurrentTimestep > 0;
+      } else {
+        const nodeBottlenecksAtCurrentTimestep = bottlenecks?.[node.id]?.[currentTimestep] ?? 0;
+        node.isHighlighted = highlightBottlenecks && nodeBottlenecksAtCurrentTimestep > 0;
+      }
+    }
+  });
+};
+
+export const resetGraphHighlighting = (graph, settings, selectedElementId, currentTimestep) => {
   const links = graph.links;
   const nodes = graph.nodes;
   const defaultGrayedOutValue = selectedElementId != null;
@@ -117,13 +145,15 @@ export const resetGraphHighlighting = (graph, settings, selectedElementId) => {
     link.isSelected = false;
     link.graphType = 'link';
   });
-  nodes.forEach((node) => {
-    node.isGrayedOut = defaultGrayedOutValue;
-    node.isSelected = false;
-    node.isHighlighted =
-      (highlightShortages && (node.shortagesCount ?? 0) > 0) ||
-      (highlightBottlenecks && (node.bottlenecksCount ?? 0) > 0);
-  });
+  resetNodesHighlighting(
+    nodes,
+    graph.bottlenecks,
+    graph.shortages,
+    highlightBottlenecks,
+    highlightShortages,
+    currentTimestep,
+    defaultGrayedOutValue
+  );
 
   if (selectedElementId == null) return;
 
@@ -198,16 +228,12 @@ export const getGraphFromInstance = (scenario, settings) => {
   const links = getGraphLinks(instance, nodes);
 
   const { highlightBottlenecks, highlightShortages } = getHighlightSettings(settings);
-  nodes.forEach((node) => {
-    node.isHighlighted =
-      (highlightShortages && (node.shortagesCount ?? 0) > 0) ||
-      (highlightBottlenecks && (node.bottlenecksCount ?? 0) > 0);
-  });
+  resetNodesHighlighting(nodes, bottlenecks, shortages, highlightBottlenecks, highlightShortages, null, false);
 
   // TODO: search by run id when we support results from several simulations
   const simulationConfiguration = configuration?.[0];
   simulationConfiguration.timeSteps = simulationConfiguration.simulatedCycles * simulationConfiguration.stepsPerCycle;
-  return { simulationConfiguration, nodes, operations, links, kpis, stockDemands, shortages };
+  return { simulationConfiguration, nodes, operations, links, kpis, stockDemands, bottlenecks, shortages };
 };
 
 export const resetGraphLayout = (graphRef, width, height, settings) => {
@@ -232,40 +258,3 @@ export function computeTotalDemand(stockDemands) {
 
   return computeDemand;
 }
-
-export const updateGraphHighlightingAtTimestep = (nodes, currentTimestep, settings, sceneContainerRef) => {
-  const { highlightBottlenecks, highlightShortages } = getHighlightSettings(settings);
-  if (currentTimestep <= 0) return;
-
-  const textures = sceneContainerRef.current?.textures;
-  if (!textures) return;
-
-  nodes.forEach((node) => {
-    const container = sceneContainerRef.current.children
-      .flatMap((c) => c.children)
-      .find((c) => c.elementId === node.id);
-
-    if (!container) return;
-
-    let makeRed = false;
-    if (node.type === 'stock') makeRed = highlightShortages && node.shortagesCount === currentTimestep;
-    if (node.type === 'productionResource') makeRed = highlightBottlenecks && node.bottlenecksCount === currentTimestep;
-
-    if (node.type === 'stock') {
-      const bgSprite = container.children[0]; // Stock background
-      const iconSprite = container.children[1]; // Package icon
-      bgSprite.texture = makeRed ? textures.stockLevel0 : textures.stockLevel2;
-      iconSprite.texture = makeRed ? textures.packageIconLevel0 : textures.packageIconLevel1;
-    }
-
-    if (node.type === 'productionResource') {
-      const borderContainer = container.children[0];
-      const borderSprite = borderContainer.children[0];
-      if (borderSprite) {
-        borderSprite.texture = makeRed
-          ? textures.productionResourceBorderLevel1
-          : textures.productionResourceBorderLevel2;
-      }
-    }
-  });
-};

@@ -4,6 +4,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import PauseRoundedIcon from '@mui/icons-material/PauseRounded';
 import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
 import { makeStyles } from '@mui/styles';
+import { useSimulationViewContext } from '../../SimulationViewContext';
 import TimelineChart from './TimelineChart';
 
 const useStyles = makeStyles({
@@ -82,8 +83,10 @@ const useStyles = makeStyles({
   },
 });
 
-const TimelineControls = ({ chartData, markers, startDate, endDate, currentTimestep, setCurrentTimestep }) => {
+const TimelineControls = ({ chartData, markers, startDate, endDate }) => {
   const classes = useStyles();
+  const { currentTimestep, setCurrentTimestep } = useSimulationViewContext();
+
   const [isVisible, setIsVisible] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [playbackSpeed, setPlaybackSpeed] = useState(1);
@@ -164,6 +167,7 @@ const TimelineControls = ({ chartData, markers, startDate, endDate, currentTimes
         className={classes.playButton}
         onClick={() => {
           setIsVisible(true);
+          setCurrentTimestep(0);
         }}
       >
         <PlayArrowRoundedIcon color="warning" />
@@ -200,7 +204,7 @@ const TimelineControls = ({ chartData, markers, startDate, endDate, currentTimes
         <button className={classes.iconButton} onClick={handleSpeedChange}>
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
             <path
-              d="M16.67 7.83H9.17M11.67 16.17H4.17M11.67 16.17a2.5 2.5 0 1 0 5 0 2.5 2.5 0 0 0-5 
+              d="M16.67 7.83H9.17M11.67 16.17H4.17M11.67 16.17a2.5 2.5 0 1 0 5 0 2.5 2.5 0 0 0-5
               0ZM8.33 7.83a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z"
               stroke="#FFB039"
               strokeWidth="1.5"
@@ -216,7 +220,7 @@ const TimelineControls = ({ chartData, markers, startDate, endDate, currentTimes
           onClick={() => {
             setIsVisible(false);
             setIsPlaying(false);
-            setCurrentTimestep(0);
+            setCurrentTimestep(null);
           }}
         >
           <CloseIcon color="warning" />
@@ -229,8 +233,6 @@ const TimelineControls = ({ chartData, markers, startDate, endDate, currentTimes
 TimelineControls.propTypes = {
   chartData: PropTypes.arrayOf(PropTypes.number).isRequired,
   markers: PropTypes.arrayOf(PropTypes.number),
-  currentTimestep: PropTypes.number.isRequired,
-  setCurrentTimestep: PropTypes.func.isRequired,
   startDate: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]).isRequired,
   endDate: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]).isRequired,
 };
