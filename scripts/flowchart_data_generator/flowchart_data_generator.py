@@ -49,6 +49,7 @@ def check_arguments(input_file_path, results_folder_path, output_folder_path, fo
         "configuration.json",
         "graph.json",
         "stock_demands.json",
+        "stock_demands_sum_timeseries.json",
         "kpis.json",
         "shortages.json",
         "bottlenecks.json",

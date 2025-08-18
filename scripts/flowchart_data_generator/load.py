@@ -34,6 +34,7 @@ def remove_df_cols(df, cols):
         if col in df.columns:
             del df[col]
 
+
 def rename_cols_to_camel_case(df, cols):
     cols_renaming_dict = {col: col[0].lower() + col[1:] for col in cols}
     df = df.rename(columns=cols_renaming_dict)
@@ -140,12 +141,18 @@ def process_stocks(data):
     return df
 
 
+def compute_sum_of_stock_demands_timeseries(demand_by_stock_df):
+    sum_demands = demand_by_stock_df.apply(pd.Series).sum(axis=0).tolist()
+    return sum_demands
+
+
 def process_stock_demands(data):
     df = data["Demands"]
     remove_df_cols(df, ["DemandUncertainties", "DemandWeights"])
     df = rename_cols_to_camel_case(df, ["Timestep", "Demands"])
     df = df.groupby("id")["demands"].apply(list)
-    return df
+    stock_demands_sum_timeseries = compute_sum_of_stock_demands_timeseries(df)
+    return (df, stock_demands_sum_timeseries)
 
 
 def process_compound_relationships(data):
@@ -165,7 +172,7 @@ def load_from_excel_file(file_path):
     stocks_df = process_stocks(excel_file_data)
     compounds_df = process_compound_relationships(excel_file_data)
 
-    stock_demands_df = process_stock_demands(excel_file_data)
+    (stock_demands_df, stock_demands_sum_timeseries) = process_stock_demands(excel_file_data)
 
     return (
         input_df,
@@ -176,6 +183,7 @@ def load_from_excel_file(file_path):
         stocks_df,
         compounds_df,
         stock_demands_df,
+        stock_demands_sum_timeseries,
     )
 
 
@@ -188,10 +196,10 @@ def process_configuration(file_path):
     for col in ["timeStepDuration"]:
         df[col] = df[col].apply(to_float)
 
-    df['endDate'] = (
-        pd.to_datetime(df['startingDate'], format='%m/%d/%Y, %I:%M:%S %p') +
-        pd.to_timedelta(df['simulatedCycles'] * df['stepsPerCycle'] * df['timeStepDuration'], unit='m')
-    ).dt.strftime('%m/%d/%Y, %I:%M:%S %p')
+    df["endDate"] = (
+        pd.to_datetime(df["startingDate"], format="%m/%d/%Y, %I:%M:%S %p")
+        + pd.to_timedelta(df["simulatedCycles"] * df["stepsPerCycle"] * df["timeStepDuration"], unit="m")
+    ).dt.strftime("%m/%d/%Y, %I:%M:%S %p")
     return df
 
 
@@ -246,7 +254,7 @@ def process_bottlenecks(operation_bottlenecks_file_path, compounds_df):
 
 
 def load_from_results_folder(folder_path, graph_data):
-    (_, _, _, _, _, _, compounds_df, _) = graph_data
+    (_, _, _, _, _, _, compounds_df, _, _) = graph_data
     configuration_file_path = os.path.join(folder_path, "configuration.csv")
     if os.path.exists(configuration_file_path):
         configuration_df = process_configuration(configuration_file_path)

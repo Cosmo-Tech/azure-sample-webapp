@@ -27,6 +27,7 @@ def export_to_json(graph_data, results_data, output_folder_path, pretty=False):
         stocks_df,
         compounds_df,
         stock_demands_df,
+        stock_demands_sum_timeseries,
     ) = graph_data
 
     graph_json = {
@@ -49,6 +50,7 @@ def export_to_json(graph_data, results_data, output_folder_path, pretty=False):
     write_json_file(configuration_json, output_folder_path, "configuration.json", pretty)
     write_json_file(graph_json, output_folder_path, "graph.json", pretty)
     write_json_file(stock_demands_json, output_folder_path, "stock_demands.json", pretty)
+    write_json_file(stock_demands_sum_timeseries, output_folder_path, "stock_demands_sum_timeseries.json", pretty)
     write_json_file(kpis_json, output_folder_path, "kpis.json", pretty)
     write_json_file(shortages_json, output_folder_path, "shortages.json", pretty)
     write_json_file(bottlenecks_json, output_folder_path, "bottlenecks.json", pretty)
