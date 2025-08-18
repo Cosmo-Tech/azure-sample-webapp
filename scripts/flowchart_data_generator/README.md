@@ -3,6 +3,15 @@
 This script generates JSON files containing flowchart data, from an Excel input file and CSV files with simulation
 results. These JSON files can then be used by the webapp to display the graph and charts in the Simulation view.
 
+## Setup
+
+```bash
+# From the flowchart_data_generator folder
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
 ## Usage
 
 ```
