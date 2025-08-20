@@ -103,7 +103,11 @@ const Scene = () => {
       requiredUpdateStepsRef.current.layout ||
       requiredUpdateStepsRef.current.render
     ) {
-      if (sceneContainerRef.current) sceneContainerRef.current.removeChildren();
+      if (sceneContainerRef.current) {
+        sceneContainerRef.current.removeChildren().forEach((child) => {
+          child.destroy({ children: true, texture: false, baseTexture: false });
+        });
+      }
       renderElements(sceneContainerRef, graphRef, setSelectedElementId, settings);
       if (layoutUpdate && sceneContainerRef.current) sceneContainerRef.current.setOrigin();
       if (minimapContainerRef.current) minimapContainerRef.current.renderElements();

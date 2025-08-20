@@ -366,7 +366,9 @@ export const initApp = async (
     app.renderer.resize(canvas.clientWidth, canvas.clientHeight);
     resetGraphLayout(canvas.clientWidth, canvas.clientHeight);
 
-    sceneContainerRef.current.removeChildren();
+    sceneContainerRef.current.removeChildren().forEach((child) => {
+      child.destroy({ children: true, texture: false, baseTexture: false });
+    });
     renderElements(sceneContainerRef, graphRef, setSelectedElementId, settings);
     sceneContainerRef.current.setOrigin();
   };
@@ -378,7 +380,7 @@ export const initApp = async (
 
 export const destroyApp = (app) => {
   if (!app?.renderer) return;
-  app.destroy(true, { children: true });
+  app.destroy(true, { children: true, texture: true, baseTexture: true });
 };
 
 export const initMinimap = async (

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import CloseIcon from '@mui/icons-material/Close';
 import PauseRoundedIcon from '@mui/icons-material/PauseRounded';
@@ -6,6 +6,9 @@ import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
 import { makeStyles } from '@mui/styles';
 import { useSimulationViewContext } from '../../SimulationViewContext';
 import TimelineChart from './TimelineChart';
+
+const SPEEDS = [0.5, 1, 2];
+const STEP_DURATION_IN_MS = 500;
 
 const useStyles = makeStyles({
   container: {
@@ -94,9 +97,31 @@ const TimelineControls = ({ chartData, markers, startDate, endDate }) => {
   const animationFrameId = useRef(null);
   const startTimeRef = useRef(0);
   const pausedAtRef = useRef(0);
-  const isPlayingRef = useRef(false); // live flag
+  const isPlayingRef = useRef(false);
 
-  const handlePlayPause = () => {
+  const animate = useCallback(
+    (now) => {
+      if (!isPlayingRef.current) return;
+
+      const totalSteps = chartData.length - 1;
+      const elapsed = now - startTimeRef.current;
+      const step = Math.min(Math.floor(elapsed / (STEP_DURATION_IN_MS / playbackSpeed)), totalSteps);
+
+      setCurrentTimestep(step);
+
+      if (step < totalSteps) {
+        animationFrameId.current = requestAnimationFrame(animate);
+      } else {
+        setIsPlaying(false);
+        isPlayingRef.current = false;
+        setCurrentTimestep(0);
+        pausedAtRef.current = 0;
+      }
+    },
+    [chartData.length, playbackSpeed, setCurrentTimestep]
+  );
+
+  const handlePlayPause = useCallback(() => {
     if (isPlayingRef.current) {
       setIsPlaying(false);
       isPlayingRef.current = false;
@@ -107,59 +132,40 @@ const TimelineControls = ({ chartData, markers, startDate, endDate }) => {
       isPlayingRef.current = true;
       startTimeRef.current = performance.now() - (pausedAtRef.current || 0);
       pausedAtRef.current = 0;
-      animationFrameId.current = requestAnimationFrame(animate); // start loop
-    }
-  };
-
-  const stepDuration = 500; // ms per step at 1x speed
-
-  const animate = (now) => {
-    if (!isPlayingRef.current) return; // check live ref
-
-    const totalSteps = chartData.length - 1;
-    const elapsed = now - startTimeRef.current;
-    const step = Math.min(Math.floor(elapsed / (stepDuration / playbackSpeed)), totalSteps);
-
-    setCurrentTimestep(step);
-
-    if (step < totalSteps) {
       animationFrameId.current = requestAnimationFrame(animate);
-    } else {
-      setIsPlaying(false);
-      isPlayingRef.current = false;
-      setCurrentTimestep(0);
-      pausedAtRef.current = 0;
     }
-  };
+  }, [animate]);
 
-  useEffect(() => {
-    return () => cancelAnimationFrame(animationFrameId.current);
-  }, []);
-
-  const handleSpeedChange = () => {
-    const speeds = [0.5, 1, 2];
-    const currentIndex = speeds.indexOf(playbackSpeed);
-    const nextSpeed = speeds[(currentIndex + 1) % speeds.length];
+  const handleSpeedChange = useCallback(() => {
+    const currentIndex = SPEEDS.indexOf(playbackSpeed);
+    const nextSpeed = SPEEDS[(currentIndex + 1) % SPEEDS.length];
     setPlaybackSpeed(nextSpeed);
 
     if (isPlayingRef.current) {
       const elapsed = performance.now() - startTimeRef.current;
       startTimeRef.current = performance.now() - elapsed * (playbackSpeed / nextSpeed);
     }
-  };
+  }, [playbackSpeed]);
 
-  const handleChartClick = (e) => {
-    if (e?.activeLabel != null) {
-      const newStep = e.activeLabel;
-      setCurrentTimestep(newStep);
+  const handleChartClick = useCallback(
+    (event) => {
+      if (event?.activeLabel != null) {
+        const newStep = event.activeLabel;
+        setCurrentTimestep(newStep);
 
-      if (isPlayingRef.current) {
-        startTimeRef.current = performance.now() - newStep * (stepDuration / playbackSpeed);
-      } else {
-        pausedAtRef.current = newStep * (stepDuration / playbackSpeed);
+        if (isPlayingRef.current) {
+          startTimeRef.current = performance.now() - newStep * (STEP_DURATION_IN_MS / playbackSpeed);
+        } else {
+          pausedAtRef.current = newStep * (STEP_DURATION_IN_MS / playbackSpeed);
+        }
       }
-    }
-  };
+    },
+    [playbackSpeed, setCurrentTimestep]
+  );
+
+  useEffect(() => {
+    return () => cancelAnimationFrame(animationFrameId.current);
+  }, []);
 
   if (!isVisible) {
     return (
@@ -188,7 +194,6 @@ const TimelineControls = ({ chartData, markers, startDate, endDate }) => {
         {isPlaying ? <PauseRoundedIcon color="warning" /> : <PlayArrowRoundedIcon color="warning" />}
         <span>{isPlaying ? 'Pause' : 'Play'}</span>
       </button>
-
       <div className={classes.chartWrapper}>
         <TimelineChart
           chartData={chartData}
@@ -199,13 +204,12 @@ const TimelineControls = ({ chartData, markers, startDate, endDate }) => {
           endDate={endDate}
         />
       </div>
-
       <div className={classes.controlButton}>
         <button className={classes.iconButton} onClick={handleSpeedChange}>
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
             <path
-              d="M16.67 7.83H9.17M11.67 16.17H4.17M11.67 16.17a2.5 2.5 0 1 0 5 0 2.5 2.5 0 0 0-5
-              0ZM8.33 7.83a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z"
+              d="M16.67 7.83H9.17M11.67 16.17H4.17M11.67 16.17a2.5 2.5 0 1 0 5 0 
+              2.5 2.5 0 0 0-5 0ZM8.33 7.83a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z"
               stroke="#FFB039"
               strokeWidth="1.5"
               strokeLinecap="round"
@@ -220,6 +224,8 @@ const TimelineControls = ({ chartData, markers, startDate, endDate }) => {
           onClick={() => {
             setIsVisible(false);
             setIsPlaying(false);
+            isPlayingRef.current = false;
+            cancelAnimationFrame(animationFrameId.current);
             setCurrentTimestep(null);
           }}
         >

@@ -1,25 +1,46 @@
-import React from 'react';
+import React, { useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import dayjs from 'dayjs';
 import { ResponsiveContainer, LineChart, Line, XAxis, ReferenceDot } from 'recharts';
 
-const TimelineChart = ({ chartData, markers, onChartClick, startDate, endDate, currentTimestep }) => {
-  const data = chartData.map(({ timestep, value }) => ({
-    index: timestep,
-    value,
-  }));
+const TimelineChart = React.memo(function TimelineChart({
+  chartData,
+  markers,
+  onChartClick,
+  startDate,
+  endDate,
+  currentTimestep,
+}) {
+  const data = useMemo(() => chartData.map(({ timestep, value }) => ({ index: timestep, value })), [chartData]);
 
-  const totalSteps = chartData.length;
-  const tickCount = 12;
-  const ticks = Array.from({ length: tickCount }, (_, i) => Math.floor((i * (totalSteps - 1)) / (tickCount - 1)));
+  const ticks = useMemo(() => {
+    const totalSteps = chartData.length;
+    if (totalSteps === 0) return [];
+    const tickCount = 12;
+    return Array.from({ length: tickCount }, (_, i) => Math.floor((i * (totalSteps - 1)) / (tickCount - 1)));
+  }, [chartData]);
 
-  const formatDateTick = (index) => {
-    if (!startDate || !endDate || !chartData.length) return '';
+  const stepMs = useMemo(() => {
+    if (!startDate || !endDate || chartData.length < 2) return null;
     const start = dayjs(startDate);
     const end = dayjs(endDate);
-    const stepMs = (end.valueOf() - start.valueOf()) / (chartData.length - 1);
-    return start.add(stepMs * index, 'ms').format('MMM');
-  };
+    return (end.valueOf() - start.valueOf()) / (chartData.length - 1);
+  }, [startDate, endDate, chartData]);
+
+  const formatDateTick = useCallback(
+    (index) => {
+      if (!stepMs || !startDate) return '';
+      return dayjs(startDate)
+        .add(stepMs * index, 'ms')
+        .format('MMM');
+    },
+    [stepMs, startDate]
+  );
+
+  const renderMarkerShape = useCallback(
+    ({ cx }) => <polygon points={`${cx - 5},0 ${cx + 5},0 ${cx},7`} fill="#FF5557" />,
+    []
+  );
 
   return (
     <ResponsiveContainer>
@@ -35,21 +56,13 @@ const TimelineChart = ({ chartData, markers, onChartClick, startDate, endDate, c
           isAnimationActive={false}
         />
 
-        {/* Markers */}
         {markers.map((index) => {
           const point = data[index];
           return point ? (
-            <ReferenceDot
-              key={`marker-${index}`}
-              x={point.index}
-              y={point.value}
-              isFront
-              shape={({ cx }) => <polygon points={`${cx - 5},0 ${cx + 5},0 ${cx},7`} fill="#FF5557" />}
-            />
+            <ReferenceDot key={`marker-${index}`} x={point.index} y={point.value} isFront shape={renderMarkerShape} />
           ) : null;
         })}
 
-        {/* X Axis */}
         <XAxis
           dataKey="index"
           type="number"
@@ -63,7 +76,7 @@ const TimelineChart = ({ chartData, markers, onChartClick, startDate, endDate, c
       </LineChart>
     </ResponsiveContainer>
   );
-};
+});
 
 TimelineChart.propTypes = {
   chartData: PropTypes.arrayOf(
