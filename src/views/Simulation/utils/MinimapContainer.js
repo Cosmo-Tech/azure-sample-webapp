@@ -18,24 +18,22 @@ export class MinimapContainer extends Container {
   }
 
   renderElements() {
-    this.removeChildren();
+    this.removeChildren().forEach((child) => child.destroy({ children: true }));
     this.miniSceneContainer = this.forgeContainer(this.sceneContainerRef.current);
 
-    const miniSceneContainerBounds = this.miniSceneContainer.getBounds();
-    const centerX = MINIMAP_SIZE.width / 2 - miniSceneContainerBounds.width / 2;
-    const centerY = MINIMAP_SIZE.height / 2 - miniSceneContainerBounds.height / 2;
-
-    this.miniSceneContainer.position.set(centerX, centerY);
     this.addChild(this.miniSceneContainer);
 
     this.position.set(0, 0);
     this.createScreenCursor();
-    this.minimapAppRef.current.stage.eventMode = 'static';
-    this.minimapAppRef.current.stage.hitArea = this.minimapAppRef.current.screen;
-    this.minimapAppRef.current.stage.on('pointerup', this.onDragEnd);
-    this.minimapAppRef.current.stage.on('pointerupoutside', this.onDragEnd);
-    this.minimapAppRef.current.stage.on('wheel', this.onWheel);
-    this.minimapAppRef.current.stage.on('mousedown', this.onClick);
+    this.updateSceneView();
+
+    const stage = this.minimapAppRef.current.stage;
+    stage.eventMode = 'static';
+    stage.hitArea = this.minimapAppRef.current.screen;
+    stage.on('pointerup', this.onDragEnd);
+    stage.on('pointerupoutside', this.onDragEnd);
+    stage.on('wheel', this.onWheel);
+    stage.on('mousedown', this.onClick);
   }
 
   createNodeTextures() {
@@ -81,21 +79,20 @@ export class MinimapContainer extends Container {
       width: this.sceneCanvasRef.current.clientWidth,
       height: this.sceneCanvasRef.current.clientHeight,
     };
-    this.screenCursor.clear();
-    this.screenCursor
+    const screenCursor = this.screenCursor;
+    screenCursor.clear();
+    screenCursor
       .rect(0, 0, screenSize.width / ratio, screenSize.height / ratio)
       .stroke({ pixelLine: true, color: 0xffb039, width: 1 });
-    this.screenCursor.pivot.set(this.screenCursor.width / 2, this.screenCursor.height / 2);
+    screenCursor.pivot.set(screenCursor.width / 2, screenCursor.height / 2);
 
-    const bounds = this.screenCursor.getBounds();
-    this.screenCursor.hitArea = new Rectangle(0, 0, bounds.width, bounds.height);
+    const bounds = screenCursor.getBounds();
+    screenCursor.hitArea = new Rectangle(0, 0, bounds.width, bounds.height);
 
-    const newX =
-      this.miniSceneContainer.x + this.screenCursor.pivot.x - this.sceneContainerRef.current.position.x / ratio;
-    const newY =
-      this.miniSceneContainer.y + this.screenCursor.pivot.y - this.sceneContainerRef.current.position.y / ratio;
+    const newX = this.miniSceneContainer.x + screenCursor.pivot.x - this.sceneContainerRef.current.position.x / ratio;
+    const newY = this.miniSceneContainer.y + screenCursor.pivot.y - this.sceneContainerRef.current.position.y / ratio;
 
-    this.screenCursor.position.set(newX, newY);
+    screenCursor.position.set(newX, newY);
   }
 
   updateScene() {
@@ -103,6 +100,17 @@ export class MinimapContainer extends Container {
     const newX = (this.miniSceneContainer.x + this.screenCursor.pivot.x - this.screenCursor.x) * ratio;
     const newY = (this.miniSceneContainer.y + this.screenCursor.pivot.y - this.screenCursor.y) * ratio;
     this.sceneContainerRef.current.position.set(newX, newY);
+  }
+
+  updateSceneView() {
+    if (!this.miniSceneContainer) return;
+
+    const miniSceneContainerBounds = this.miniSceneContainer.getBounds();
+    const centerX = MINIMAP_SIZE.width / 2 - miniSceneContainerBounds.width / 2;
+    const centerY = MINIMAP_SIZE.height / 2 - miniSceneContainerBounds.height / 2;
+
+    this.miniSceneContainer.position.set(centerX, centerY);
+    this.updateScreenCursor();
   }
 
   getScreenCursorRatio() {
@@ -130,11 +138,12 @@ export class MinimapContainer extends Container {
   }
 
   onDragMove(event) {
-    if (!this.dragTarget) return;
+    if (!this.dragTarget || !this.dragTarget.position) return;
 
     const localPosition = this.toLocal(event.global);
     this.dragTarget.x = localPosition.x + this.dragOffset.x;
     this.dragTarget.y = localPosition.y + this.dragOffset.y;
+
     this.updateScene();
   }
 

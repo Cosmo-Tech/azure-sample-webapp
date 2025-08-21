@@ -416,7 +416,7 @@ export const initMinimap = async (
 
   const handleResizeMinimap = () => {
     if (!minimapContainer || !minimapApp?.renderer) return;
-    minimapContainer.renderElements();
+    minimapContainer.updateSceneView();
   };
   window.addEventListener('resize', handleResizeMinimap);
   minimapContainer.renderElements();
