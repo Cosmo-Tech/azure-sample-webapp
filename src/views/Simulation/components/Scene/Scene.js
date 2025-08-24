@@ -22,6 +22,7 @@ const Scene = () => {
     settings,
     setCenterToPosition,
     currentTimestep,
+    timelineMarkers,
   } = useSimulationViewContext();
 
   const sceneAppRef = useRef(null);
@@ -30,7 +31,7 @@ const Scene = () => {
   const sceneCanvasRef = useRef(null);
   const minimapCanvasRef = useRef(null);
   const sceneContainerRef = useRef(null);
-  const sampleMarkers = [5, 9, 8];
+  const sampleMarkers = timelineMarkers;
   const stockDemands = graphRef.current?.stockDemands;
   const totalDemandArray = computeTotalDemand(stockDemands);
 

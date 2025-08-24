@@ -4,6 +4,7 @@ import instance from './graph.json';
 import kpis from './kpis.json';
 import shortages from './shortages.json';
 import stockDemands from './stock_demands.json';
+import timelineMarkers from './timeline_markers.json';
 
 export const SCENARIO_DATA = {
   bottlenecks,
@@ -12,4 +13,5 @@ export const SCENARIO_DATA = {
   kpis,
   shortages,
   stockDemands,
+  timelineMarkers,
 };

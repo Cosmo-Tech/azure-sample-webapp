@@ -30,6 +30,7 @@ export const useSimulationView = () => {
   const scenarios = FAKE_SCENARIOS_METADATA;
   const [currentScenario, setCurrentScenario] = useState(scenarios?.[0]);
   const [currentTimestep, setCurrentTimestep] = useState(null); // Use "null" when the dynamic replay is not enabled
+  const [timelineMarkers, setTimelineMarkers] = useState([]);
 
   const [settings, setSettings] = useState(DEFAULT_SETTINGS);
   const [needsReRendering, setNeedsReRendering] = useState(false);
@@ -48,6 +49,7 @@ export const useSimulationView = () => {
 
     const lastRunId = currentScenario.lastRunId;
     const scenarioInstanceData = FAKE_SCENARIOS_DATA?.[lastRunId];
+
     graphRef.current = getGraphFromInstance(scenarioInstanceData, settings);
     setNeedsReRendering(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -64,6 +66,8 @@ export const useSimulationView = () => {
     if (requiredUpdateStepsRef.current.all || requiredUpdateStepsRef.current.layout) {
       const lastRunId = currentScenario.lastRunId;
       const scenarioInstanceData = FAKE_SCENARIOS_DATA?.[lastRunId];
+      setTimelineMarkers(scenarioInstanceData.timelineMarkers);
+
       graphRef.current = getGraphFromInstance(scenarioInstanceData, settings);
     }
     if (requiredUpdateStepsRef.current.highlight || requiredUpdateStepsRef.current.layout)
@@ -96,6 +100,7 @@ export const useSimulationView = () => {
     currentScenario,
     setCurrentScenario,
     currentTimestep,
+    timelineMarkers,
     setCurrentTimestep,
     settings,
     setSettings,
