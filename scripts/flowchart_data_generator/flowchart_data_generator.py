@@ -9,7 +9,7 @@ import os
 import sys
 import argparse
 from tools import get_absolute_path, check_folder_exists, check_file_exists, check_file_can_be_created
-from load import load_from_excel_file, load_from_results_folder
+from load import load_from_excel_file, load_from_results_folder, compute_timeline_markers
 from export import export_to_json
 
 
@@ -53,6 +53,7 @@ def check_arguments(input_file_path, results_folder_path, output_folder_path, fo
         "kpis.json",
         "shortages.json",
         "bottlenecks.json",
+        "timeline_markers.json",
     ]
     for file_name in output_files:
         file_path = os.path.join(output_folder_path, file_name)
@@ -74,7 +75,9 @@ def main():
 
     graph_data = load_from_excel_file(input_file_path)
     results_data = load_from_results_folder(results_folder_path, graph_data)
-    export_to_json(graph_data, results_data, output_folder_path, pretty)
+    timeline_markers = compute_timeline_markers(graph_data, results_data)
+
+    export_to_json(graph_data, results_data, timeline_markers, output_folder_path, pretty)
     return
 
 

@@ -17,7 +17,7 @@ def write_json_file(data, output_folder_path, file_name, pretty=False):
         f.write(json_str)
 
 
-def export_to_json(graph_data, results_data, output_folder_path, pretty=False):
+def export_to_json(graph_data, results_data, timeline_markers, output_folder_path, pretty=False):
     (
         input_df,
         output_df,
@@ -54,5 +54,6 @@ def export_to_json(graph_data, results_data, output_folder_path, pretty=False):
     write_json_file(kpis_json, output_folder_path, "kpis.json", pretty)
     write_json_file(shortages_json, output_folder_path, "shortages.json", pretty)
     write_json_file(bottlenecks_json, output_folder_path, "bottlenecks.json", pretty)
+    write_json_file(timeline_markers, output_folder_path, "timeline_markers.json", pretty)
 
     print(f'Flowchart instance files exported in folder "{output_folder_path}"')

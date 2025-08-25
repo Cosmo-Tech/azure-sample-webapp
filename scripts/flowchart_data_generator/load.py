@@ -5,8 +5,10 @@
 # Licensed under the MIT license.
 
 
+import numpy as np
 import os
 import pandas as pd
+from scipy.signal import argrelextrema
 from tools import check_file_exists
 
 
@@ -251,6 +253,41 @@ def process_bottlenecks(operation_bottlenecks_file_path, compounds_df):
     df = df.sort_values("timeStep").groupby("id").apply(lambda x: dict(zip(x["timeStep"], x["bottleneck"])))
 
     return df
+
+
+def compute_timeline_markers(graph_data, results_data):
+    def compute_derivative(df, rolling_window=2):
+        derivative = df.diff()
+        return derivative.rolling(window=rolling_window).mean()
+
+    def get_local_maxima(df, order=2, limit=6):
+        values = df.values
+        indices = argrelextrema(values, np.greater, order=order)[0]
+        local_maxima_values = df.iloc[indices]
+        return local_maxima_values.nlargest(limit).index.tolist()
+
+    def get_top_n_timesteps(listA, listB, limit_per_list=3):
+        limited_list = []
+        while len(limited_list) < 6 and (len(listA) > 0 or len(listB) > 0):
+            if len(listA) > 0:
+                limited_list.append(listA.pop(0))
+            if len(listB) > 0:
+                limited_list.append(listB.pop(0))
+        return limited_list
+
+    (_, _, _, _, _, _, _, _, stock_demands_sum_timeseries) = graph_data
+    (_, _, shortages_df, bottlenecks_df) = results_data
+
+    rolling_window = 2
+    total_shortages_per_timestep = pd.DataFrame(shortages_df.tolist()).sum(axis=0)
+    shortage_diff = compute_derivative(total_shortages_per_timestep, rolling_window)
+    shortage_local_maxima = get_local_maxima(shortage_diff, rolling_window)
+
+    total_bottlenecks_per_timestep = pd.DataFrame(bottlenecks_df.tolist()).sum(axis=0)
+    bottleneck_diff = compute_derivative(total_bottlenecks_per_timestep, rolling_window)
+    bottleneck_local_maxima = get_local_maxima(bottleneck_diff, rolling_window)
+
+    return get_top_n_timesteps(shortage_local_maxima, bottleneck_local_maxima, 3)
 
 
 def load_from_results_folder(folder_path, graph_data):
