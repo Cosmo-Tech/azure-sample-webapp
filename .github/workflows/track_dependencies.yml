@@ -1,0 +1,30 @@
+name: Track Dependencies
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  dependency_track:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+      - name: Enable Corepack
+        run: corepack enable
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'yarn'
+      - name: Generate SBOM
+        run: yarn dlx -q @cyclonedx/yarn-plugin-cyclonedx -o sbom.json
+      - name: Upload CycloneDx bom to dependency track
+        uses: DependencyTrack/gh-upload-sbom@v3
+        with:
+          serverhostname: ${{ secrets.DEPENDENCY_TRACK_SERVER_HOSTNAME }}
+          apikey: ${{ secrets.DEPENDENCY_TRACK_API_KEY }}
+          project: 'a75e5d88-27ef-4f7a-8ce6-c3fb8aac8b17'
+          bomfilename: 'sbom.json'
