@@ -203,6 +203,65 @@ const createProductionResourceContainer = (textures, name, isHighlighted, operat
   return container;
 };
 
+function cubicBezier(p0, p1, p2, p3, t) {
+  const c = 3 * (p1 - p0);
+  const b = 3 * (p2 - p1) - c;
+  const a = p3 - p0 - c - b;
+  return a * (t * t * t) + b * (t * t) + c * t + p0;
+}
+
+function drawArrow(stage, x1, y1, x2, y2, size = 12, isGrayedOut) {
+  const midX = (x1 + x2) / 2;
+  const midY = (y1 + y2) / 2;
+  const angle = Math.atan2(y2 - y1, x2 - x1);
+
+  const arrowGraphics = new Graphics();
+
+  arrowGraphics.fill({ color: !isGrayedOut ? 0xffffff : HIDDEN_LINK_COLOR, alpha: 1 });
+  arrowGraphics.poly([0, 0, -size, size / 2, -size, -size / 2]);
+  arrowGraphics.endFill();
+  arrowGraphics.x = midX;
+  arrowGraphics.y = midY;
+  arrowGraphics.rotation = angle;
+
+  stage.addChild(arrowGraphics);
+}
+
+function drawDashedBezier(ctx, x1, y1, cp1x, cp1y, cp2x, cp2y, x2, y2, dash = 4, gap = 4) {
+  const segments = 80;
+  let prev = { x: x1, y: y1 };
+  let dist = 0;
+  let draw = true;
+
+  for (let i = 1; i <= segments; i++) {
+    const t = i / segments;
+    const x = cubicBezier(x1, cp1x, cp2x, x2, t);
+    const y = cubicBezier(y1, cp1y, cp2y, y2, t);
+
+    const dx = x - prev.x;
+    const dy = y - prev.y;
+    const segLength = Math.sqrt(dx * dx + dy * dy);
+
+    if (dist + segLength >= (draw ? dash : gap)) {
+      const ratio = ((draw ? dash : gap) - dist) / segLength;
+      const midX = prev.x + dx * ratio;
+      const midY = prev.y + dy * ratio;
+
+      if (draw) ctx.lineTo(midX, midY);
+      else ctx.moveTo(midX, midY);
+
+      prev = { x: midX, y: midY };
+      dist = 0;
+      draw = !draw;
+      i--;
+    } else {
+      if (draw) ctx.lineTo(x, y);
+      prev = { x, y };
+      dist += segLength;
+    }
+  }
+}
+
 const createLinkGraphics = (links, setSelectedElementId, settings) => {
   const isLayoutHorizontal = settings?.orientation === 'horizontal';
   const spacingFactor = settings.spacing / 100.0;
@@ -226,6 +285,7 @@ const createLinkGraphics = (links, setSelectedElementId, settings) => {
       targetOffset.y = link.target.type === 'stock' ? 30 : 60;
       controlPointsOffset.y = 10 + 600 * spacingFactor;
     }
+
     const controlPoint1 = {
       x: source.x + sourceOffset.x + controlPointsOffset.x,
       y: source.y + sourceOffset.y + controlPointsOffset.y,
@@ -236,22 +296,57 @@ const createLinkGraphics = (links, setSelectedElementId, settings) => {
     };
 
     graphics.moveTo(source.x + sourceOffset.x, source.y + sourceOffset.y);
-    graphics.bezierCurveTo(
-      controlPoint1.x,
-      controlPoint1.y,
-      controlPoint2.x,
-      controlPoint2.y,
-      target.x - targetOffset.x,
-      target.y - targetOffset.y
-    );
+
+    if (link.type !== 'transports') {
+      graphics.setStrokeStyle({
+        width: 1,
+        color: link.isGrayedOut ? HIDDEN_LINK_COLOR : LINK_COLOR,
+      });
+
+      drawDashedBezier(
+        graphics,
+        source.x + sourceOffset.x,
+        source.y + sourceOffset.y,
+        controlPoint1.x,
+        controlPoint1.y,
+        controlPoint2.x,
+        controlPoint2.y,
+        target.x - targetOffset.x,
+        target.y - targetOffset.y
+      );
+    } else {
+      graphics.bezierCurveTo(
+        controlPoint1.x,
+        controlPoint1.y,
+        controlPoint2.x,
+        controlPoint2.y,
+        target.x - targetOffset.x,
+        target.y - targetOffset.y
+      );
+
+      graphics.lineTo(target.x - targetOffset.x, target.y - targetOffset.y);
+
+      drawArrow(
+        graphics,
+        source.x + sourceOffset.x,
+        source.y + sourceOffset.y,
+        target.x - targetOffset.x,
+        target.y - targetOffset.y,
+        12,
+        link.isGrayedOut
+      );
+    }
+
     graphics.stroke({
       pixelLine: true,
       width: 1,
       color: link.isGrayedOut ? HIDDEN_LINK_COLOR : LINK_COLOR,
     });
+
     graphics.on('click', (event) => setSelectedElementId(link.data.id));
     graphics.filters = link.isSelected ? [SELECTED_LINK_FILTER] : [];
     graphics.elementId = link.data.id;
+
     return graphics;
   });
 };
