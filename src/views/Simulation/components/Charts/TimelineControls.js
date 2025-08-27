@@ -89,62 +89,82 @@ const useStyles = makeStyles({
 const TimelineControls = ({ chartData, markers, startDate, endDate }) => {
   const classes = useStyles();
   const { currentTimestep, setCurrentTimestep } = useSimulationViewContext();
-
   const [isVisible, setIsVisible] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [playbackSpeed, setPlaybackSpeed] = useState(1);
 
   const animationFrameId = useRef(null);
-  const startTimeRef = useRef(0);
-  const pausedAtRef = useRef(0);
   const isPlayingRef = useRef(false);
+
+  const lastUpdateRef = useRef({ time: 0, step: 0 });
+
+  const stepDurationRef = useRef(STEP_DURATION_IN_MS);
+
+  useEffect(() => {
+    stepDurationRef.current = STEP_DURATION_IN_MS / playbackSpeed;
+  }, [playbackSpeed]);
 
   const animate = useCallback(
     (now) => {
       if (!isPlayingRef.current) return;
 
       const totalSteps = chartData.length - 1;
-      const elapsed = now - startTimeRef.current;
-      const step = Math.min(Math.floor(elapsed / (STEP_DURATION_IN_MS / playbackSpeed)), totalSteps);
+      const elapsed = now - lastUpdateRef.current.time;
+      const progress = elapsed / stepDurationRef.current;
 
-      setCurrentTimestep(step);
+      const step = Math.min(lastUpdateRef.current.step + progress, totalSteps);
+
+      setCurrentTimestep(Math.floor(step));
 
       if (step < totalSteps) {
         animationFrameId.current = requestAnimationFrame(animate);
       } else {
         setIsPlaying(false);
         isPlayingRef.current = false;
-        setCurrentTimestep(0);
-        pausedAtRef.current = 0;
+        lastUpdateRef.current.step = totalSteps;
       }
     },
-    [chartData.length, playbackSpeed, setCurrentTimestep]
+    [chartData.length, setCurrentTimestep]
   );
 
   const handlePlayPause = useCallback(() => {
     if (isPlayingRef.current) {
       setIsPlaying(false);
       isPlayingRef.current = false;
-      pausedAtRef.current = performance.now() - startTimeRef.current;
       cancelAnimationFrame(animationFrameId.current);
+      lastUpdateRef.current.step = currentTimestep;
     } else {
+      let startStep = currentTimestep;
+
+      if (currentTimestep >= chartData.length - 1) {
+        startStep = 0;
+        setCurrentTimestep(0);
+      }
+
       setIsPlaying(true);
       isPlayingRef.current = true;
-      startTimeRef.current = performance.now() - (pausedAtRef.current || 0);
-      pausedAtRef.current = 0;
+      lastUpdateRef.current.time = performance.now();
+      lastUpdateRef.current.step = startStep;
       animationFrameId.current = requestAnimationFrame(animate);
     }
-  }, [animate]);
+  }, [animate, currentTimestep, chartData.length, setCurrentTimestep]);
 
   const handleSpeedChange = useCallback(() => {
     const currentIndex = SPEEDS.indexOf(playbackSpeed);
-    const nextSpeed = SPEEDS[(currentIndex + 1) % SPEEDS.length];
-    setPlaybackSpeed(nextSpeed);
+    const nextPlaybackSpeed = SPEEDS[(currentIndex + 1) % SPEEDS.length];
 
     if (isPlayingRef.current) {
-      const elapsed = performance.now() - startTimeRef.current;
-      startTimeRef.current = performance.now() - elapsed * (playbackSpeed / nextSpeed);
+      const now = performance.now();
+      const elapsed = now - lastUpdateRef.current.time;
+      const progress = elapsed / stepDurationRef.current;
+
+      const preciseStep = lastUpdateRef.current.step + progress;
+
+      lastUpdateRef.current.step = preciseStep;
+      lastUpdateRef.current.time = now;
     }
+
+    setPlaybackSpeed(nextPlaybackSpeed);
   }, [playbackSpeed]);
 
   const handleChartClick = useCallback(
@@ -152,15 +172,13 @@ const TimelineControls = ({ chartData, markers, startDate, endDate }) => {
       if (event?.activeLabel != null) {
         const newStep = event.activeLabel;
         setCurrentTimestep(newStep);
-
         if (isPlayingRef.current) {
-          startTimeRef.current = performance.now() - newStep * (STEP_DURATION_IN_MS / playbackSpeed);
-        } else {
-          pausedAtRef.current = newStep * (STEP_DURATION_IN_MS / playbackSpeed);
+          lastUpdateRef.current.step = newStep;
+          lastUpdateRef.current.time = performance.now();
         }
       }
     },
-    [playbackSpeed, setCurrentTimestep]
+    [setCurrentTimestep]
   );
 
   useEffect(() => {
