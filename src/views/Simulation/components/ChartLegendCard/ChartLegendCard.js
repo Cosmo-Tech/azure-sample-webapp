@@ -32,6 +32,16 @@ const itemLegend = [
     name: 'Bottleneck',
     image: '/assets/bottleneck.svg',
   },
+  {
+    id: 'processRelation',
+    name: 'Process relation',
+    image: '/assets/processRelation.svg',
+  },
+  {
+    id: 'transport',
+    name: 'Transport',
+    image: '/assets/transport.svg',
+  },
 ];
 
 export const ChartLegendCard = ({ onClose }) => {
