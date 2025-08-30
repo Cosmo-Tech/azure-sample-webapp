@@ -459,14 +459,8 @@ export const initApp = async (
   const handleResize = () => {
     if (!canvas || !app?.renderer) return;
     app.renderer.resize(canvas.clientWidth, canvas.clientHeight);
-    resetGraphLayout(canvas.clientWidth, canvas.clientHeight);
-
-    sceneContainerRef.current.removeChildren().forEach((child) => {
-      child.destroy({ children: true, texture: false, baseTexture: false });
-    });
-    renderElements(sceneContainerRef, graphRef, setSelectedElementId, settings);
-    sceneContainerRef.current.setOrigin();
   };
+
   window.addEventListener('resize', handleResize);
 
   renderElements(sceneContainerRef, graphRef, setSelectedElementId, settings);
