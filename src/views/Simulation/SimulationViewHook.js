@@ -43,6 +43,16 @@ export const useSimulationView = () => {
   const lastScenarioId = useRef(null);
 
   useEffect(() => {
+    if (lastScenarioId.current !== currentScenario?.id) {
+      lastScenarioId.current = currentScenario?.id;
+      requiredUpdateStepsRef.current.all = true;
+
+      setCurrentTimestep(null);
+      setSelectedElementId(null);
+    }
+  }, [currentScenario?.id]);
+
+  useEffect(() => {
     if (graphRef.current != null) return;
     lastScenarioId.current = currentScenario?.id;
     requiredUpdateStepsRef.current.layout = true;

@@ -155,17 +155,18 @@ export const resetGraphHighlighting = (graph, settings, selectedElementId, curre
     defaultGrayedOutValue
   );
 
-  if (selectedElementId == null) return;
+  if (!selectedElementId) return;
 
   const inputLevels = settings.showInput ? settings.inputLevels : 0;
   const outputLevels = settings.showOutput ? settings.outputLevels : 0;
-  if (selectedElementId != null) {
-    const selectedElement =
-      links.find((link) => link.data.id === selectedElementId) ?? nodes.find((node) => node.id === selectedElementId);
-    selectedElement.isGrayedOut = false;
-    selectedElement.isSelected = true;
-    handleElementsHighlighting(links, nodes, selectedElement, inputLevels, outputLevels);
-  }
+  const selectedElement =
+    links.find((link) => link.data.id === selectedElementId) ?? nodes.find((node) => node.id === selectedElementId);
+
+  if (!selectedElement) return;
+
+  selectedElement.isGrayedOut = false;
+  selectedElement.isSelected = true;
+  handleElementsHighlighting(links, nodes, selectedElement, inputLevels, outputLevels);
 };
 
 const handleElementsHighlighting = (links, nodes, startElement, inputLevels, outputLevels) => {

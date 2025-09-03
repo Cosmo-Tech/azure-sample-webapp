@@ -104,6 +104,16 @@ const TimelineControls = ({ chartData, markers, startDate, endDate }) => {
     stepDurationRef.current = STEP_DURATION_IN_MS / playbackSpeed;
   }, [playbackSpeed]);
 
+  useEffect(() => {
+    if (currentTimestep === null) {
+      setIsPlaying(false);
+      isPlayingRef.current = false;
+      cancelAnimationFrame(animationFrameId.current);
+
+      lastUpdateRef.current = { time: 0, step: 0 };
+    }
+  }, [currentTimestep]);
+
   const animate = useCallback(
     (now) => {
       if (!isPlayingRef.current) return;

@@ -50,10 +50,6 @@ export const SettingsButton = () => {
     };
   }, []);
 
-  useEffect(() => {
-    setLocalSpacingValue(settings.spacing);
-  }, [settings.spacing]);
-
   const [anchorEl, setAnchorEl] = useState(null);
   const open = useMemo(() => anchorEl != null, [anchorEl]);
 
