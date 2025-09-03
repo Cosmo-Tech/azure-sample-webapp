@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import { useTheme } from '@mui/styles';
 import { useSimulationViewContext } from '../../SimulationViewContext';
 import { DEFAULT_UPDATE_STATE } from '../../SimulationViewHook';
-import { computeTotalDemand } from '../../utils/graphUtils';
+import { computeTotalDemand, updateCurrentTimestep } from '../../utils/graphUtils';
 import { createApp, destroyApp, initApp, initMinimap, renderElements } from '../../utils/pixiUtils';
 import { ChartTimeline } from '../Charts';
 import { Minimap } from './Minimap';
@@ -86,9 +86,17 @@ const Scene = () => {
   }, [selectedElementId, requiredUpdateStepsRef]);
 
   useEffect(() => {
-    if (sceneContainerRef.current == null) return;
-    requiredUpdateStepsRef.current.highlight = true;
-  }, [currentTimestep, requiredUpdateStepsRef]);
+    if (!graphRef.current || !sceneContainerRef.current) return;
+    updateCurrentTimestep({ graph: graphRef.current, currentTimestep, settings });
+
+    if (sceneContainerRef.current && graphRef.current) {
+      sceneContainerRef.current.removeChildren().forEach((child) => {
+        child.destroy({ children: true, texture: false, baseTexture: false });
+      });
+      renderElements(sceneContainerRef, graphRef, setSelectedElementId, settings);
+      if (minimapContainerRef.current) minimapContainerRef.current.renderElements();
+    }
+  }, [currentTimestep, graphRef]);
 
   useEffect(() => {
     if (!needsReRendering) return;

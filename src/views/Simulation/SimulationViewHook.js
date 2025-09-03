@@ -29,7 +29,7 @@ export const FAKE_SCENARIOS_DATA = {
 export const useSimulationView = () => {
   const scenarios = FAKE_SCENARIOS_METADATA;
   const [currentScenario, setCurrentScenario] = useState(scenarios?.[0]);
-  const [currentTimestep, setCurrentTimestep] = useState(null); // Use "null" when the dynamic replay is not enabled
+  const [currentTimestep, setCurrentTimestep] = useState(null);
   const [timelineMarkers, setTimelineMarkers] = useState([]);
 
   const [settings, setSettings] = useState(DEFAULT_SETTINGS);
@@ -38,7 +38,6 @@ export const useSimulationView = () => {
 
   const [selectedElementId, setSelectedElementId] = useState(null);
   const [centerToPosition, setCenterToPosition] = useState(() => {});
-
   const graphRef = useRef(null);
   const lastScenarioId = useRef(null);
 
@@ -54,6 +53,7 @@ export const useSimulationView = () => {
 
   useEffect(() => {
     if (graphRef.current != null) return;
+
     lastScenarioId.current = currentScenario?.id;
     requiredUpdateStepsRef.current.layout = true;
 
@@ -68,25 +68,22 @@ export const useSimulationView = () => {
   useEffect(() => {
     if (!graphRef.current) return;
 
-    if (lastScenarioId.current !== currentScenario?.id) {
-      lastScenarioId.current = currentScenario?.id;
-      requiredUpdateStepsRef.current.all = true;
-    }
-
     if (requiredUpdateStepsRef.current.all || requiredUpdateStepsRef.current.layout) {
       const lastRunId = currentScenario.lastRunId;
       const scenarioInstanceData = FAKE_SCENARIOS_DATA?.[lastRunId];
-      setTimelineMarkers(scenarioInstanceData.timelineMarkers);
 
       graphRef.current = getGraphFromInstance(scenarioInstanceData, settings);
+      setTimelineMarkers(scenarioInstanceData.timelineMarkers);
     }
-    if (requiredUpdateStepsRef.current.highlight || requiredUpdateStepsRef.current.layout)
-      resetGraphHighlighting(graphRef.current, settings, selectedElementId, currentTimestep);
+
+    resetGraphHighlighting(graphRef.current, settings, selectedElementId, currentTimestep);
+
     setNeedsReRendering(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    currentTimestep,
     currentScenario?.id,
+    currentScenario.lastRunId,
+    selectedElementId,
     settings.graphViewFilters,
     settings.showInput,
     settings.inputLevels,
@@ -94,7 +91,7 @@ export const useSimulationView = () => {
     settings.outputLevels,
     settings.orientation,
     settings.spacing,
-    selectedElementId,
+    settings,
   ]);
 
   const resetGraphLayout = useCallback(
@@ -102,7 +99,7 @@ export const useSimulationView = () => {
       resetLayout(graphRef, width, height, settings);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [graphRef, settings.orientation, settings.spacing]
+    [graphRef, settings.orientation, settings.spacing, settings]
   );
 
   return {

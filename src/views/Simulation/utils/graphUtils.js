@@ -12,8 +12,9 @@ const forgeElementData = (element, keysToHide = []) => {
 };
 
 const forgeLink = (nodes, link, type, sourceId, targetId) => {
-  const source = nodes.find((node) => node.id === sourceId);
-  const target = nodes.find((node) => node.id === targetId);
+  const nodeMap = new Map(nodes.map((node) => [node.id, node]));
+  const source = nodeMap.get(sourceId);
+  const target = nodeMap.get(targetId);
   if (source == null) return console.warn(`Transports: cannot find link source "${sourceId}"`);
   if (target == null) return console.warn(`Transports: cannot find link target "${targetId}"`);
   const isGrayedOut = source.isGrayedOut || target.isGrayedOut;
@@ -135,8 +136,7 @@ const resetNodesHighlighting = (
 };
 
 export const resetGraphHighlighting = (graph, settings, selectedElementId, currentTimestep) => {
-  const links = graph.links;
-  const nodes = graph.nodes;
+  const { links, nodes } = graph;
   const defaultGrayedOutValue = selectedElementId != null;
   const { highlightBottlenecks, highlightShortages } = getHighlightSettings(settings);
 
@@ -145,6 +145,7 @@ export const resetGraphHighlighting = (graph, settings, selectedElementId, curre
     link.isSelected = false;
     link.graphType = 'link';
   });
+
   resetNodesHighlighting(
     nodes,
     graph.bottlenecks,
@@ -169,6 +170,47 @@ export const resetGraphHighlighting = (graph, settings, selectedElementId, curre
   handleElementsHighlighting(links, nodes, selectedElement, inputLevels, outputLevels);
 };
 
+export const updateCurrentTimestep = ({ graph, currentTimestep, settings }) => {
+  if (!graph) return;
+
+  // Recompute highlights only if settings changed
+  const settingsKey = JSON.stringify(settings.graphViewFilters);
+  if (graph.lastHighlightSettings !== settingsKey) {
+    precomputeNodeHighlights(graph, settings);
+    graph.lastHighlightSettings = settingsKey;
+  }
+
+  applyNodeHighlightsFromCache(graph.nodes, graph.nodeHighlightCache, currentTimestep);
+};
+
+const precomputeNodeHighlights = (graph, settings) => {
+  const { highlightBottlenecks, highlightShortages } = getHighlightSettings(settings);
+  const totalSteps = graph.simulationConfiguration?.timeSteps ?? 0;
+
+  const nodeHighlightCache = new Map();
+
+  for (const node of graph.nodes) {
+    const highlights = new Array(totalSteps).fill(false);
+
+    for (let t = 0; t < totalSteps; t++) {
+      let isHighlighted = false;
+
+      if (highlightShortages && node.type === 'stock') {
+        isHighlighted = (graph.shortages?.[node.id]?.[t] ?? 0) > 0;
+      }
+      if (highlightBottlenecks && node.type !== 'stock') {
+        isHighlighted = isHighlighted || (graph.bottlenecks?.[node.id]?.[t] ?? 0) > 0;
+      }
+
+      highlights[t] = isHighlighted;
+    }
+
+    nodeHighlightCache.set(node.id, highlights);
+  }
+
+  graph.nodeHighlightCache = nodeHighlightCache;
+};
+
 const handleElementsHighlighting = (links, nodes, startElement, inputLevels, outputLevels) => {
   const isLink = startElement.graphType === 'link';
   const inPropagationRemain = isLink ? inputLevels * 2 + 1 : inputLevels * 2;
@@ -183,7 +225,8 @@ const propagateElementHighlighting = (links, nodes, element, propagationDirectio
 
   if (element.graphType === 'link') {
     const idToSearch = propagationDirection === 'in' ? element.source.id : element.target.id;
-    const nextNode = nodes.find((node) => node.id === idToSearch);
+    const nodeMap = new Map(nodes.map((node) => [node.id, node]));
+    const nextNode = nodeMap.get(idToSearch);
     propagateElementHighlighting(links, nodes, nextNode, propagationDirection, propagationRemain - 1);
   } else {
     const nextLinks = links.filter((link) => {
@@ -228,13 +271,22 @@ export const getGraphFromInstance = (scenario, settings) => {
   const nodes = [...stocks, ...productionResources];
   const links = getGraphLinks(instance, nodes);
 
-  const { highlightBottlenecks, highlightShortages } = getHighlightSettings(settings);
-  resetNodesHighlighting(nodes, bottlenecks, shortages, highlightBottlenecks, highlightShortages, null, false);
+  const nodeHighlightCache = precomputeNodeHighlights({ nodes, bottlenecks, shortages }, settings);
 
   // TODO: search by run id when we support results from several simulations
   const simulationConfiguration = configuration?.[0];
   simulationConfiguration.timeSteps = simulationConfiguration.simulatedCycles * simulationConfiguration.stepsPerCycle;
-  return { simulationConfiguration, nodes, operations, links, kpis, stockDemands, bottlenecks, shortages };
+  return {
+    simulationConfiguration,
+    nodes,
+    operations,
+    links,
+    kpis,
+    stockDemands,
+    bottlenecks,
+    shortages,
+    nodeHighlightCache,
+  };
 };
 
 export const resetGraphLayout = (graphRef, width, height, settings) => {
@@ -259,3 +311,14 @@ export function computeTotalDemand(stockDemands) {
 
   return computeDemand;
 }
+
+const applyNodeHighlightsFromCache = (nodes, nodeHighlightCache, currentTimestep) => {
+  for (const node of nodes) {
+    const highlights = nodeHighlightCache.get(node.id);
+    const newHighlight = highlights?.[currentTimestep] ?? false;
+    if (node.isHighlightedTimeline !== newHighlight) {
+      node.isHighlightedTimeline = newHighlight;
+      node.isHighlighted = newHighlight || node.isSelected;
+    }
+  }
+};
