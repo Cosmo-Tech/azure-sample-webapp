@@ -30,6 +30,8 @@ SHEETS_TO_READ = [
 
 def to_int(value):
     return round(value)
+
+
 def str_to_float(value):
     return float(value.replace(",", ""))
 
@@ -246,7 +248,11 @@ def process_shortages(dispatched_quantity_measures_path, stock_measures_path):
     stock_df = sanitize_shortage_df(stock_df)
 
     concat_df = pd.concat([dispatched_quantity_df, stock_df], ignore_index=True)
-    concat_df = concat_df.sort_values("timeStep").groupby("id").apply(lambda x: dict(zip(x["timeStep"], x["shortage"])))
+    concat_df = (
+        concat_df.sort_values("timeStep")
+        .groupby("id")[["id", "timeStep", "shortage"]]
+        .apply(lambda x: dict(zip(x["timeStep"], x["shortage"])))
+    )
 
     filtered = concat_df[~concat_df.apply(lambda d: all(v == 0 for v in d.values()))]
     return filtered
@@ -265,7 +271,11 @@ def process_bottlenecks(operation_bottlenecks_file_path, compounds_df):
     df["timeStep"] = df["timeStep"].apply(to_int)
     df["bottleneck"] = df["bottleneck"].apply(to_int)
     df = df.rename(columns={"parent": "id"})
-    df = df.sort_values("timeStep").groupby("id").apply(lambda x: dict(zip(x["timeStep"], x["bottleneck"])))
+    df = (
+        df.sort_values("timeStep")
+        .groupby("id")[["id", "timeStep", "bottleneck"]]
+        .apply(lambda x: dict(zip(x["timeStep"], x["bottleneck"])))
+    )
 
     filtered = df[~df.apply(lambda d: all(v == 0 for v in d.values()))]
     return filtered
