@@ -247,7 +247,9 @@ def process_shortages(dispatched_quantity_measures_path, stock_measures_path):
 
     concat_df = pd.concat([dispatched_quantity_df, stock_df], ignore_index=True)
     concat_df = concat_df.sort_values("timeStep").groupby("id").apply(lambda x: dict(zip(x["timeStep"], x["shortage"])))
-    return concat_df
+
+    filtered = concat_df[~concat_df.apply(lambda d: all(v == 0 for v in d.values()))]
+    return filtered
 
 
 def process_bottlenecks(operation_bottlenecks_file_path, compounds_df):
@@ -265,7 +267,8 @@ def process_bottlenecks(operation_bottlenecks_file_path, compounds_df):
     df = df.rename(columns={"parent": "id"})
     df = df.sort_values("timeStep").groupby("id").apply(lambda x: dict(zip(x["timeStep"], x["bottleneck"])))
 
-    return df
+    filtered = df[~df.apply(lambda d: all(v == 0 for v in d.values()))]
+    return filtered
 
 
 def compute_timeline_markers(graph_data, results_data):
