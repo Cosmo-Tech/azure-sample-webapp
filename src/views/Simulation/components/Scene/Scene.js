@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import { useTheme } from '@mui/styles';
 import { useSimulationViewContext } from '../../SimulationViewContext';
 import { DEFAULT_UPDATE_STATE } from '../../SimulationViewHook';
-import { computeTotalDemand } from '../../utils/graphUtils';
+import { computeTotalDemand, resetGraphHighlighting } from '../../utils/graphUtils';
 import { createApp, destroyApp, initApp, initMinimap, renderElements } from '../../utils/pixiUtils';
 import { ChartTimeline } from '../Charts';
 import { Minimap } from './Minimap';
@@ -34,6 +34,7 @@ const Scene = () => {
   const sampleMarkers = timelineMarkers;
   const stockDemands = graphRef.current?.stockDemands;
   const totalDemandArray = computeTotalDemand(stockDemands);
+  const lastUpdateTimestepRef = useRef(null);
 
   useEffect(() => {
     sceneAppRef.current = createApp();
@@ -86,17 +87,23 @@ const Scene = () => {
   }, [selectedElementId, requiredUpdateStepsRef]);
 
   useEffect(() => {
-    if (sceneContainerRef.current == null) return;
-    requiredUpdateStepsRef.current.highlight = true;
-  }, [currentTimestep, requiredUpdateStepsRef]);
+    const reRender = needsReRendering || lastUpdateTimestepRef.current !== currentTimestep;
 
-  useEffect(() => {
-    if (!needsReRendering) return;
+    if (!reRender) return;
+    if (lastUpdateTimestepRef.current !== currentTimestep) {
+      requiredUpdateStepsRef.current.highlight = true;
+      lastUpdateTimestepRef.current = currentTimestep;
+    }
+
     const layoutUpdate = requiredUpdateStepsRef.current.all || requiredUpdateStepsRef.current.layout;
     if (layoutUpdate) {
       resetGraphLayout(sceneCanvasRef.current.clientWidth, sceneCanvasRef.current.clientHeight);
     }
     if (requiredUpdateStepsRef.current.all) setSelectedElementId(null);
+
+    if (requiredUpdateStepsRef.current.highlight || requiredUpdateStepsRef.current.layout) {
+      resetGraphHighlighting(graphRef.current, settings, selectedElementId, currentTimestep);
+    }
 
     if (
       requiredUpdateStepsRef.current.all ||
@@ -118,7 +125,9 @@ const Scene = () => {
     setNeedsReRendering(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
+    currentTimestep,
     needsReRendering,
+    selectedElementId,
     setNeedsReRendering,
     sceneContainerRef,
     sceneContainerRef?.current?.textures,

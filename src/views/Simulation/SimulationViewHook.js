@@ -85,7 +85,6 @@ export const useSimulationView = () => {
     setNeedsReRendering(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    currentTimestep,
     currentScenario?.id,
     settings.graphViewFilters,
     settings.showInput,
