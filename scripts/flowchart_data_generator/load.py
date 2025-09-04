@@ -8,6 +8,7 @@
 import numpy as np
 import os
 import pandas as pd
+from pandas.api.types import is_numeric_dtype, is_string_dtype
 from scipy.signal import argrelextrema
 from tools import check_file_exists
 
@@ -27,7 +28,9 @@ SHEETS_TO_READ = [
 ]
 
 
-def to_float(value):
+def to_int(value):
+    return round(value)
+def str_to_float(value):
     return float(value.replace(",", ""))
 
 
@@ -196,7 +199,7 @@ def process_configuration(file_path):
     )
 
     for col in ["timeStepDuration"]:
-        df[col] = df[col].apply(to_float)
+        df[col] = df[col].apply(str_to_float).apply(to_int)
 
     df["endDate"] = (
         pd.to_datetime(df["startingDate"], format="%m/%d/%Y, %I:%M:%S %p")
@@ -219,24 +222,32 @@ def process_kpis(file_path):
     df = rename_cols_to_camel_case(df, ["SimulationRun", "SimulationName"])
 
     for col in ["totalCost", "stockValue", "co2Emissions", "grossMargin"]:
-        df[col] = df[col].apply(to_float)
+        df[col] = df[col].apply(str_to_float)
     return df
 
 
 def process_shortages(dispatched_quantity_measures_path, stock_measures_path):
     dispatched_quantity_df = pd.read_csv(dispatched_quantity_measures_path)
     stock_df = pd.read_csv(stock_measures_path)
-    # Unused input columns: SimulationRun, SimulationName
-    del dispatched_quantity_df["SimulationRun"]
-    del dispatched_quantity_df["SimulationName"]
-    del stock_df["SimulationRun"]
-    del stock_df["SimulationName"]
-    dispatched_quantity_df = rename_cols_to_camel_case(dispatched_quantity_df, ["TimeStep", "Shortage"])
-    stock_df = rename_cols_to_camel_case(stock_df, ["TimeStep", "Shortage"])
-    dispatched_quantity_df["shortage"] = dispatched_quantity_df["shortage"].apply(to_float)
-    df = pd.concat([dispatched_quantity_df, stock_df], ignore_index=True)
-    df = df.sort_values("timeStep").groupby("id").apply(lambda x: dict(zip(x["timeStep"], x["shortage"])))
-    return df
+
+    def sanitize_shortage_df(df):
+        # Unused input columns: SimulationRun, SimulationName
+        del df["SimulationRun"]
+        del df["SimulationName"]
+        df = rename_cols_to_camel_case(df, ["TimeStep", "Shortage"])
+
+        if is_string_dtype(df["shortage"]):
+            df["shortage"] = df["shortage"].apply(str_to_float)
+        df["shortage"] = df["shortage"].apply(to_int)
+
+        return df
+
+    dispatched_quantity_df = sanitize_shortage_df(dispatched_quantity_df)
+    stock_df = sanitize_shortage_df(stock_df)
+
+    concat_df = pd.concat([dispatched_quantity_df, stock_df], ignore_index=True)
+    concat_df = concat_df.sort_values("timeStep").groupby("id").apply(lambda x: dict(zip(x["timeStep"], x["shortage"])))
+    return concat_df
 
 
 def process_bottlenecks(operation_bottlenecks_file_path, compounds_df):
@@ -245,10 +256,12 @@ def process_bottlenecks(operation_bottlenecks_file_path, compounds_df):
     del operation_bottlenecks_df["SimulationRun"]
     del operation_bottlenecks_df["SimulationName"]
     operation_bottlenecks_df = rename_cols_to_camel_case(operation_bottlenecks_df, ["TimeStep", "Bottleneck"])
-    operation_bottlenecks_df["bottleneck"] = operation_bottlenecks_df["bottleneck"].apply(to_float)
+    operation_bottlenecks_df["bottleneck"] = operation_bottlenecks_df["bottleneck"].apply(str_to_float)
 
     merged_df = pd.merge(compounds_df, operation_bottlenecks_df, left_on="child", right_on="id", how="left")
     df = merged_df.groupby(["parent", "timeStep"])["bottleneck"].sum().reset_index()
+    df["timeStep"] = df["timeStep"].apply(to_int)
+    df["bottleneck"] = df["bottleneck"].apply(to_int)
     df = df.rename(columns={"parent": "id"})
     df = df.sort_values("timeStep").groupby("id").apply(lambda x: dict(zip(x["timeStep"], x["bottleneck"])))
 
