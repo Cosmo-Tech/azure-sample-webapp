@@ -56,8 +56,8 @@ const TimelineChart = React.memo(function TimelineChart({
           isAnimationActive={false}
         />
 
-        {markers.map((index) => {
-          const point = data[index];
+        {markers.map((timestep, index) => {
+          const point = data[timestep];
           return point ? (
             <ReferenceDot key={`marker-${index}`} x={point.index} y={point.value} isFront shape={renderMarkerShape} />
           ) : null;
