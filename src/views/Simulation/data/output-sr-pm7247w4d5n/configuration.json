@@ -1,1 +1,1 @@
-[{"simulationRun": "sr-pm7247w4d5n", "startingDate": "1/1/2025, 12:00:00 AM", "simulatedCycles": 365, "stepsPerCycle": 1, "timeStepDuration": 1440.0, "endDate": "01/01/2026, 12:00:00 AM"}]
+[{"simulationRun": "sr-pm7247w4d5n", "startingDate": "1/1/2025, 12:00:00 AM", "simulatedCycles": 365, "stepsPerCycle": 1, "timeStepDuration": 1440, "endDate": "01/01/2026, 12:00:00 AM"}]
