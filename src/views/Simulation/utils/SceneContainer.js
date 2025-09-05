@@ -22,6 +22,7 @@ export class SceneContainer extends Container {
 
     this.sceneApp = sceneApp;
 
+    this.isPointerDown = false;
     this.dragging = false;
     this.dragStart = { x: 0, y: 0 };
     this.containerStart = { x: 0, y: 0 };
@@ -200,7 +201,7 @@ export class SceneContainer extends Container {
   }
 
   onDragStart(event) {
-    this.dragging = true;
+    this.isPointerDown = true;
     const mouseScreenPosition = new Point(event.offsetX, event.offsetY);
     this.dragStart = { x: mouseScreenPosition.x, y: mouseScreenPosition.y };
     this.containerStart = { x: this.x, y: this.y };
@@ -209,7 +210,8 @@ export class SceneContainer extends Container {
   }
 
   onDragMove(event) {
-    if (!this.dragging) return;
+    if (!this.isPointerDown) return;
+    this.dragging = true;
 
     const mouseScreenPosition = new Point(event.offsetX, event.offsetY);
     const dragX = mouseScreenPosition.x - this.dragStart.x;
@@ -220,6 +222,8 @@ export class SceneContainer extends Container {
   }
 
   onDragEnd() {
+    this.isPointerDown = false;
+    if (!this.dragging) return;
     this.dragging = false;
     this.checkBounds();
   }
