@@ -235,6 +235,10 @@ export const getGraphFromInstance = (scenario, settings) => {
   // TODO: search by run id when we support results from several simulations
   const simulationConfiguration = configuration?.[0];
   simulationConfiguration.timeSteps = simulationConfiguration.simulatedCycles * simulationConfiguration.stepsPerCycle;
+
+  // Truncate demand data to the number of timesteps that have been simulated
+  const truncatedStockDemand = stockDemandSumTimeseries.slice(0, simulationConfiguration.timeSteps);
+
   return {
     simulationConfiguration,
     nodes,
@@ -242,7 +246,7 @@ export const getGraphFromInstance = (scenario, settings) => {
     links,
     kpis,
     stockDemands,
-    stockDemandSumTimeseries,
+    totalStockDemand: truncatedStockDemand,
     bottlenecks,
     shortages,
   };

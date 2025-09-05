@@ -145,7 +145,7 @@ const Scene = () => {
         style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}
       ></div>
       <ChartTimeline
-        chartData={graphRef.current?.stockDemandSumTimeseries}
+        chartData={graphRef.current?.totalStockDemand}
         markers={sampleMarkers}
         startDate={new Date(graphRef.current?.simulationConfiguration?.startingDate)}
         endDate={new Date(graphRef.current?.simulationConfiguration?.endDate)}
