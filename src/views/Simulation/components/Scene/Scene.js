@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import { useTheme } from '@mui/styles';
 import { useSimulationViewContext } from '../../SimulationViewContext';
 import { DEFAULT_UPDATE_STATE } from '../../SimulationViewHook';
-import { computeTotalDemand, resetGraphHighlighting } from '../../utils/graphUtils';
+import { resetGraphHighlighting } from '../../utils/graphUtils';
 import { createApp, destroyApp, initApp, initMinimap, renderElements } from '../../utils/pixiUtils';
 import { ChartTimeline } from '../Charts';
 import { Minimap } from './Minimap';
@@ -32,8 +32,6 @@ const Scene = () => {
   const minimapCanvasRef = useRef(null);
   const sceneContainerRef = useRef(null);
   const sampleMarkers = timelineMarkers;
-  const stockDemands = graphRef.current?.stockDemands;
-  const totalDemandArray = computeTotalDemand(stockDemands);
   const lastUpdateTimestepRef = useRef(null);
 
   useEffect(() => {
@@ -147,7 +145,7 @@ const Scene = () => {
         style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}
       ></div>
       <ChartTimeline
-        chartData={totalDemandArray}
+        chartData={graphRef.current?.stockDemandSumTimeseries}
         markers={sampleMarkers}
         startDate={new Date(graphRef.current?.simulationConfiguration?.startingDate)}
         endDate={new Date(graphRef.current?.simulationConfiguration?.endDate)}

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import CloseIcon from '@mui/icons-material/Close';
 import PauseRoundedIcon from '@mui/icons-material/PauseRounded';
@@ -95,10 +95,12 @@ const TimelineControls = ({ chartData, markers, startDate, endDate }) => {
 
   const animationFrameId = useRef(null);
   const isPlayingRef = useRef(false);
-
   const lastUpdateRef = useRef({ time: 0, step: 0 });
-
   const stepDurationRef = useRef(STEP_DURATION_IN_MS);
+
+  const numberOfTimesteps = useMemo(() => {
+    return chartData == null ? 0 : chartData?.length - 1;
+  }, [chartData]);
 
   useEffect(() => {
     stepDurationRef.current = STEP_DURATION_IN_MS / playbackSpeed;
@@ -116,28 +118,29 @@ const TimelineControls = ({ chartData, markers, startDate, endDate }) => {
 
   const animate = useCallback(
     (now) => {
-      if (!isPlayingRef.current) return;
+      if (!chartData || !isPlayingRef.current) return;
 
-      const totalSteps = chartData.length - 1;
       const elapsed = now - lastUpdateRef.current.time;
       const progress = elapsed / stepDurationRef.current;
 
-      const step = Math.min(lastUpdateRef.current.step + progress, totalSteps);
+      const step = Math.min(lastUpdateRef.current.step + progress, numberOfTimesteps);
 
       setCurrentTimestep(Math.floor(step));
 
-      if (step < totalSteps) {
+      if (step < numberOfTimesteps) {
         animationFrameId.current = requestAnimationFrame(animate);
       } else {
         setIsPlaying(false);
         isPlayingRef.current = false;
-        lastUpdateRef.current.step = totalSteps;
+        lastUpdateRef.current.step = numberOfTimesteps;
       }
     },
-    [chartData.length, setCurrentTimestep]
+    [chartData, numberOfTimesteps, setCurrentTimestep]
   );
 
   const handlePlayPause = useCallback(() => {
+    if (!chartData) return;
+
     if (isPlayingRef.current) {
       setIsPlaying(false);
       isPlayingRef.current = false;
@@ -146,7 +149,7 @@ const TimelineControls = ({ chartData, markers, startDate, endDate }) => {
     } else {
       let startStep = currentTimestep;
 
-      if (currentTimestep >= chartData.length - 1) {
+      if (currentTimestep >= numberOfTimesteps) {
         startStep = 0;
         setCurrentTimestep(0);
       }
@@ -157,7 +160,7 @@ const TimelineControls = ({ chartData, markers, startDate, endDate }) => {
       lastUpdateRef.current.step = startStep;
       animationFrameId.current = requestAnimationFrame(animate);
     }
-  }, [animate, currentTimestep, chartData.length, setCurrentTimestep]);
+  }, [animate, currentTimestep, chartData, numberOfTimesteps, setCurrentTimestep]);
 
   const handleSpeedChange = useCallback(() => {
     const currentIndex = SPEEDS.indexOf(playbackSpeed);
@@ -210,12 +213,14 @@ const TimelineControls = ({ chartData, markers, startDate, endDate }) => {
     );
   }
 
+  if (chartData == null) return null;
+
   return (
     <div className={classes.container}>
       <div
         className={classes.progressFill}
         style={{
-          width: `${(Math.min(currentTimestep, chartData.length - 1) / (chartData.length - 1)) * 100}%`,
+          width: `${(Math.min(currentTimestep, numberOfTimesteps) / numberOfTimesteps) * 100}%`,
         }}
       />
       <button className={classes.controlButton} onClick={handlePlayPause}>
@@ -236,7 +241,7 @@ const TimelineControls = ({ chartData, markers, startDate, endDate }) => {
         <button className={classes.iconButton} onClick={handleSpeedChange}>
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
             <path
-              d="M16.67 7.83H9.17M11.67 16.17H4.17M11.67 16.17a2.5 2.5 0 1 0 5 0 
+              d="M16.67 7.83H9.17M11.67 16.17H4.17M11.67 16.17a2.5 2.5 0 1 0 5 0
               2.5 2.5 0 0 0-5 0ZM8.33 7.83a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z"
               stroke="#FFB039"
               strokeWidth="1.5"
@@ -265,12 +270,7 @@ const TimelineControls = ({ chartData, markers, startDate, endDate }) => {
 };
 
 TimelineControls.propTypes = {
-  chartData: PropTypes.arrayOf(
-    PropTypes.shape({
-      timestep: PropTypes.number.isRequired,
-      value: PropTypes.number.isRequired,
-    })
-  ).isRequired,
+  chartData: PropTypes.arrayOf(PropTypes.number),
   markers: PropTypes.arrayOf(PropTypes.number),
   startDate: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]).isRequired,
   endDate: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]).isRequired,

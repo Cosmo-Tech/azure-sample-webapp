@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import dayjs from 'dayjs';
 import { ResponsiveContainer, LineChart, Line, XAxis, ReferenceDot } from 'recharts';
 
+const TICK_COUNT = 12;
+
 const TimelineChart = React.memo(function TimelineChart({
   chartData,
   markers,
@@ -11,21 +13,23 @@ const TimelineChart = React.memo(function TimelineChart({
   endDate,
   currentTimestep,
 }) {
-  const data = useMemo(() => chartData.map(({ timestep, value }) => ({ index: timestep, value })), [chartData]);
+  const { formattedData, stepMs, ticks } = useMemo(() => {
+    const newData = chartData == null ? [] : chartData.map((value, index) => ({ index, value }));
+    const totalSteps = newData.length;
 
-  const ticks = useMemo(() => {
-    const totalSteps = chartData.length;
-    if (totalSteps === 0) return [];
-    const tickCount = 12;
-    return Array.from({ length: tickCount }, (_, i) => Math.floor((i * (totalSteps - 1)) / (tickCount - 1)));
-  }, [chartData]);
+    let newTicks = [];
+    if (totalSteps > 1)
+      newTicks = Array.from({ length: TICK_COUNT }, (_, i) => Math.floor((i * (totalSteps - 1)) / (TICK_COUNT - 1)));
 
-  const stepMs = useMemo(() => {
-    if (!startDate || !endDate || chartData.length < 2) return null;
-    const start = dayjs(startDate);
-    const end = dayjs(endDate);
-    return (end.valueOf() - start.valueOf()) / (chartData.length - 1);
-  }, [startDate, endDate, chartData]);
+    let newStepMs = null;
+    if (startDate != null && endDate != null && totalSteps > 1) {
+      const start = dayjs(startDate);
+      const end = dayjs(endDate);
+      newStepMs = (end.valueOf() - start.valueOf()) / (totalSteps - 1);
+    }
+
+    return { formattedData: newData, stepMs: newStepMs, ticks: newTicks };
+  }, [chartData, startDate, endDate]);
 
   const formatDateTick = useCallback(
     (index) => {
@@ -44,7 +48,7 @@ const TimelineChart = React.memo(function TimelineChart({
 
   return (
     <ResponsiveContainer>
-      <LineChart data={data} onClick={onChartClick} margin={{ left: 20, right: 20 }}>
+      <LineChart data={formattedData} onClick={onChartClick} margin={{ left: 20, right: 20 }}>
         <Line type="monotone" dataKey="value" stroke="#767781" strokeWidth={1} dot={false} isAnimationActive />
 
         <Line
@@ -57,7 +61,7 @@ const TimelineChart = React.memo(function TimelineChart({
         />
 
         {markers.map((timestep, index) => {
-          const point = data[timestep];
+          const point = formattedData[timestep];
           return point ? (
             <ReferenceDot key={`marker-${index}`} x={point.index} y={point.value} isFront shape={renderMarkerShape} />
           ) : null;
@@ -79,14 +83,9 @@ const TimelineChart = React.memo(function TimelineChart({
 });
 
 TimelineChart.propTypes = {
-  chartData: PropTypes.arrayOf(
-    PropTypes.shape({
-      timestep: PropTypes.number.isRequired,
-      value: PropTypes.number.isRequired,
-    })
-  ).isRequired,
+  chartData: PropTypes.arrayOf(PropTypes.number),
   markers: PropTypes.arrayOf(PropTypes.number),
-  currentTimestep: PropTypes.number.isRequired,
+  currentTimestep: PropTypes.number,
   onChartClick: PropTypes.func.isRequired,
   startDate: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]).isRequired,
   endDate: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]).isRequired,

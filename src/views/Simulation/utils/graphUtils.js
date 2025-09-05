@@ -203,6 +203,7 @@ export const getGraphFromInstance = (scenario, settings) => {
   const kpis = scenario.kpis;
   const shortages = scenario.shortages;
   const stockDemands = scenario.stockDemands;
+  const stockDemandSumTimeseries = scenario.stockDemandSumTimeseries;
 
   const createNode = (node, type) => {
     return {
@@ -234,28 +235,20 @@ export const getGraphFromInstance = (scenario, settings) => {
   // TODO: search by run id when we support results from several simulations
   const simulationConfiguration = configuration?.[0];
   simulationConfiguration.timeSteps = simulationConfiguration.simulatedCycles * simulationConfiguration.stepsPerCycle;
-  return { simulationConfiguration, nodes, operations, links, kpis, stockDemands, bottlenecks, shortages };
+  return {
+    simulationConfiguration,
+    nodes,
+    operations,
+    links,
+    kpis,
+    stockDemands,
+    stockDemandSumTimeseries,
+    bottlenecks,
+    shortages,
+  };
 };
 
 export const resetGraphLayout = (graphRef, width, height, settings) => {
   if (graphRef.current == null) return;
   applyDagreLayout(graphRef.current.nodes, graphRef.current.links, settings);
 };
-
-export function computeTotalDemand(stockDemands) {
-  if (!stockDemands || typeof stockDemands !== 'object') return [];
-
-  const seriesArrays = Object.values(stockDemands);
-
-  if (seriesArrays.length === 0) return [];
-
-  const length = seriesArrays[0].length;
-  const totalDemand = Array.from({ length }, (_, i) => seriesArrays.reduce((sum, arr) => sum + (arr[i] || 0), 0));
-
-  const computeDemand = totalDemand.map((value, index) => ({
-    timestep: index,
-    value,
-  }));
-
-  return computeDemand;
-}
