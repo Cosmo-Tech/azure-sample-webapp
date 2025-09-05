@@ -48,9 +48,8 @@ export const GraphViewFilters = () => {
     [requiredUpdateStepsRef, setSelectedFilters, setSettings]
   );
 
-  return (
-    <FormControl sx={{ width: '100%' }}>
-      <InputLabel id="graph-view-filter-label">Highlight</InputLabel>
+  const select = useMemo(
+    () => (
       <Select
         multiple
         value={selectedFilters}
@@ -66,6 +65,14 @@ export const GraphViewFilters = () => {
       >
         {options}
       </Select>
+    ),
+    [selectedFilters, changeValue, options]
+  );
+
+  return (
+    <FormControl sx={{ width: '100%' }}>
+      <InputLabel id="graph-view-filter-label">Highlight</InputLabel>
+      {select}
     </FormControl>
   );
 };

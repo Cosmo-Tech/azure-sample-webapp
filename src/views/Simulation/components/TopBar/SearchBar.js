@@ -1,6 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Autocomplete, TextField } from '@mui/material';
 import { useSimulationViewContext } from '../../SimulationViewContext';
 
@@ -39,15 +39,18 @@ export const SearchBar = () => {
     [selectedElementId, options]
   );
 
-  const selectElement = (element) => {
-    const elementId = element?.data?.id ?? element?.id;
-    setSelectedElementId(elementId ?? null);
-    if (elementId != null) centerToPosition(elementId);
-  };
+  const selectElement = useCallback(
+    (event, element) => {
+      const elementId = element?.data?.id ?? element?.id;
+      setSelectedElementId(elementId ?? null);
+      if (elementId != null) centerToPosition(elementId);
+    },
+    [centerToPosition, setSelectedElementId]
+  );
 
   return (
     <Autocomplete
-      onChange={(event, data) => selectElement(data)}
+      onChange={selectElement}
       value={selectedElement ?? null}
       options={options}
       groupBy={(option) => option.typeLabel}
