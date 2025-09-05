@@ -398,7 +398,7 @@ const generateTextures = (app) => {
   return textures;
 };
 
-export const renderElements = (sceneContainerRef, graphRef, setSelectedElementId, settings) => {
+export const renderElements = (sceneContainerRef, graphRef, setSelectedElementId, settings, resetBounds = true) => {
   if (!graphRef.current || !sceneContainerRef.current?.textures) return;
 
   const { nodes, links } = graphRef.current;
@@ -419,6 +419,8 @@ export const renderElements = (sceneContainerRef, graphRef, setSelectedElementId
     if (node.isGrayedOut) backContainer.addChild(container);
     else frontContainer.addChild(container);
   });
+
+  if (resetBounds) sceneContainerRef.current.resetBounds();
 };
 
 export const createApp = () => new Application();

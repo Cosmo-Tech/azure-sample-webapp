@@ -114,7 +114,9 @@ const Scene = () => {
           child.destroy({ children: true, texture: false, baseTexture: false });
         });
       }
-      renderElements(sceneContainerRef, graphRef, setSelectedElementId, settings);
+
+      const resetBounds = requiredUpdateStepsRef.current.all || requiredUpdateStepsRef.current.layout;
+      renderElements(sceneContainerRef, graphRef, setSelectedElementId, settings, resetBounds);
       if (layoutUpdate && sceneContainerRef.current) sceneContainerRef.current.setOrigin();
       if (minimapContainerRef.current) minimapContainerRef.current.renderElements();
     }

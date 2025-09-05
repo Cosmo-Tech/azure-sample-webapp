@@ -114,11 +114,14 @@ export class MinimapContainer extends Container {
   }
 
   getScreenCursorRatio() {
-    return this.sceneContainerRef.current.getBounds().width / this.miniSceneContainer.getBounds().width;
+    const sceneBoundsWidthAtCurrentZoomLevel =
+      5 * this.sceneContainerRef.current.getBoundsFromCache().width * this.sceneContainerRef.current.zoom;
+
+    return sceneBoundsWidthAtCurrentZoomLevel / this.miniSceneContainer.getBounds().width;
   }
 
   getSceneRatio() {
-    const { width, height } = this.sceneContainerRef.current.getLocalBounds();
+    const { width, height } = this.sceneContainerRef.current.getLocalBoundsFromCache();
     return width / MINIMAP_SIZE.width > height / MINIMAP_SIZE.height
       ? MINIMAP_SIZE.width / (width * MARGIN_FACTOR)
       : MINIMAP_SIZE.height / (height * MARGIN_FACTOR);

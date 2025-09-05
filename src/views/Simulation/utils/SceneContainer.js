@@ -17,6 +17,9 @@ export class SceneContainer extends Container {
     super();
     this.canvasScene = canvasSceneRef.current;
 
+    this.bounds = null;
+    this.localBounds = null;
+
     this.setZoom(DEFAULT_ZOOM);
     // TODO: find a way to zoom automatically on a default point of interest
 
@@ -42,6 +45,21 @@ export class SceneContainer extends Container {
     canvasSceneRef.current.addEventListener('pointerup', this.onDragEnd);
     canvasSceneRef.current.addEventListener('pointerout', this.onDragEnd);
     canvasSceneRef.current.addEventListener('pointermove', this.onDragMove);
+  }
+
+  resetBounds() {
+    this.bounds = null;
+    this.localBounds = null;
+  }
+
+  getBoundsFromCache() {
+    if (this.bounds == null) this.bounds = this.getBounds();
+    return this.bounds;
+  }
+
+  getLocalBoundsFromCache() {
+    if (this.localBounds == null) this.localBounds = this.getLocalBounds();
+    return this.localBounds;
   }
 
   setOrigin() {
@@ -178,7 +196,7 @@ export class SceneContainer extends Container {
     const farTop = this.canvasScene.clientHeight * 0.2;
     const farBottom = this.canvasScene.clientHeight * 0.8;
 
-    const sceneBounds = this.getBounds();
+    const sceneBounds = this.getBoundsFromCache();
     const outOfBounds =
       sceneBounds.minX > farRight ||
       sceneBounds.maxX < farLeft ||
