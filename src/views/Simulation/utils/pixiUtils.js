@@ -430,7 +430,6 @@ export const initApp = async (
   sceneCanvasRef,
   sceneContainerRef,
   graphRef,
-  resetGraphLayout,
   theme,
   setSelectedElementId,
   settings
@@ -461,6 +460,9 @@ export const initApp = async (
   const handleResize = () => {
     if (!canvas || !app?.renderer) return;
     app.renderer.resize(canvas.clientWidth, canvas.clientHeight);
+    if (sceneContainerRef.current) {
+      sceneContainerRef.current.setOrigin();
+    }
   };
 
   window.addEventListener('resize', handleResize);

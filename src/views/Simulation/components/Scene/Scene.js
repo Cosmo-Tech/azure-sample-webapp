@@ -40,16 +40,7 @@ const Scene = () => {
 
     const setup = async () => {
       resetGraphLayout(sceneCanvasRef.current.clientWidth, sceneCanvasRef.current.clientHeight);
-      await initApp(
-        sceneAppRef,
-        sceneCanvasRef,
-        sceneContainerRef,
-        graphRef,
-        resetGraphLayout,
-        theme,
-        setSelectedElementId,
-        settings
-      );
+      await initApp(sceneAppRef, sceneCanvasRef, sceneContainerRef, graphRef, theme, setSelectedElementId, settings);
 
       await initMinimap(minimapAppRef, minimapContainerRef, minimapCanvasRef, sceneContainerRef, sceneCanvasRef, theme);
     };
