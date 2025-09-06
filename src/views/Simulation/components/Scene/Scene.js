@@ -118,7 +118,7 @@ const Scene = () => {
       const resetBounds = requiredUpdateStepsRef.current.all || requiredUpdateStepsRef.current.layout;
       renderElements(sceneContainerRef, graphRef, setSelectedElementId, settings, resetBounds);
       if (layoutUpdate && sceneContainerRef.current) sceneContainerRef.current.setOrigin();
-      if (minimapContainerRef.current) minimapContainerRef.current.renderElements();
+      if (minimapContainerRef.current) minimapContainerRef.current.updateMiniScene();
     }
 
     requiredUpdateStepsRef.current = { ...DEFAULT_UPDATE_STATE };
