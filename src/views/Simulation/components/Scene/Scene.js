@@ -23,6 +23,7 @@ const Scene = () => {
     setCenterToPosition,
     currentTimestep,
     timelineMarkers,
+    currentScenario,
   } = useSimulationViewContext();
 
   const sceneAppRef = useRef(null);
@@ -79,7 +80,10 @@ const Scene = () => {
     const reRender = needsReRendering || lastUpdateTimestepRef.current !== currentTimestep;
 
     if (!reRender) return;
-    if (lastUpdateTimestepRef.current !== currentTimestep) {
+
+    const timestepChanged = lastUpdateTimestepRef.current !== currentTimestep;
+
+    if (timestepChanged) {
       requiredUpdateStepsRef.current.highlight = true;
       lastUpdateTimestepRef.current = currentTimestep;
     }
@@ -109,7 +113,11 @@ const Scene = () => {
       const resetBounds = requiredUpdateStepsRef.current.all || requiredUpdateStepsRef.current.layout;
       renderElements(sceneContainerRef, graphRef, setSelectedElementId, settings, resetBounds);
       if (layoutUpdate && sceneContainerRef.current) sceneContainerRef.current.setOrigin();
-      if (minimapContainerRef.current) minimapContainerRef.current.renderElements();
+
+      if (minimapContainerRef.current) {
+        if (timestepChanged) minimapContainerRef.current.updateMiniScene();
+        else minimapContainerRef.current.renderElements();
+      }
     }
 
     requiredUpdateStepsRef.current = { ...DEFAULT_UPDATE_STATE };
@@ -128,6 +136,7 @@ const Scene = () => {
     setSelectedElementId,
     resetGraphLayout,
     graphRef.current,
+    currentScenario?.id,
   ]);
 
   return (

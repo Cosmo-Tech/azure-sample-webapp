@@ -50,6 +50,39 @@ export class MinimapContainer extends Container {
     };
   }
 
+  updateMiniScene() {
+    if (!this.miniSceneContainer) return;
+
+    const ratio = this.getSceneRatio();
+
+    // NOTE:
+    // This assumes that miniSceneContainer has the exact same structure and
+    // child order as sceneContainerRef. If in the future we decide to skip
+    // elements (like labels or links) in the minimap, this will break and
+    // should be refactored to use an ID-based lookup instead of index matching.
+    const updateChildren = (sourceChildren, miniChildren) => {
+      for (let i = 0; i < sourceChildren.length; i++) {
+        const source = sourceChildren[i];
+        const mini = miniChildren[i];
+
+        if (!source || !mini) continue;
+
+        if (Object.values(NODE_TYPES).includes(source.label)) {
+          mini.position.set(source.x * ratio, source.y * ratio);
+
+          const newTexture = this.textures[source.label];
+          if (mini.texture !== newTexture) {
+            mini.texture = newTexture;
+          }
+        } else if (source.children?.length > 0 && mini.children?.length > 0) {
+          updateChildren(source.children, mini.children);
+        }
+      }
+    };
+
+    updateChildren(this.sceneContainerRef.current.children, this.miniSceneContainer.children);
+  }
+
   createScreenCursor() {
     if (this.screenCursor != null) {
       this.removeChild(this.screenCursor);
