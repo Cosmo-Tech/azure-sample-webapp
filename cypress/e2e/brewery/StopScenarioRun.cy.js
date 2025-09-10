@@ -31,15 +31,15 @@ describe('can cancel simulation run', () => {
   it('creates scenario, launches it and cancels the simulation run', () => {
     Scenarios.createScenario(firstScenarioName, true, DEFAULT_DATASETS_LIST[0].name, RUN_TEMPLATE.BREWERY_PARAMETERS);
     ScenarioParameters.launch({ runOptions, saveAndLaunch: true });
-    Scenarios.getDashboardAccordion().click();
+    Scenarios.getDashboardAccordion().click({ force: true });
     Scenarios.getDashboardPlaceholder().should('have.text', SCENARIO_RUN_IN_PROGRESS);
     ScenarioParameters.getLaunchButton(15).should('not.exist');
     ScenarioParameters.getStopScenarioRunButton().should('be.visible');
     ScenarioParameters.cancelRun(false);
     ScenarioParameters.getLaunchButton().should('not.exist');
-    Scenarios.getDashboardAccordion().click();
+    Scenarios.getDashboardAccordion().click({ force: true });
     Scenarios.getDashboardPlaceholder().should('have.text', SCENARIO_RUN_IN_PROGRESS);
-    Scenarios.getDashboardAccordion().click();
+    Scenarios.getDashboardAccordion().click({ force: true });
     ScenarioParameters.cancelRun();
     ScenarioParameters.getStopScenarioRunButton().should('not.exist');
     ScenarioParameters.getLaunchButton().should('be.visible');

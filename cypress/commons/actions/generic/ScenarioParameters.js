@@ -175,11 +175,11 @@ function save(options = {}) {
 
 function cancelRun(confirm = true) {
   const reqStopScenarioRunAlias = confirm && api.interceptStopRunner();
-  getStopScenarioRunButton().click();
+  getStopScenarioRunButton().click({ force: true });
   if (confirm) {
-    getStopScenarioRunConfirmButton().click();
+    getStopScenarioRunConfirmButton().click({ force: true });
     api.waitAlias(reqStopScenarioRunAlias);
-  } else getStopScenarioRunCancelButton().click();
+  } else getStopScenarioRunCancelButton().click({ force: true });
 }
 
 function waitForScenarioRunEnd(timeout = 300) {

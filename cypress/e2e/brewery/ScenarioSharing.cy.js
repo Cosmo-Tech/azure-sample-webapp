@@ -48,7 +48,7 @@ describe('Check workspace permissions for admin', () => {
     RolesEdition.getShareDialogRolesCheckbox(ROLES.RUNNER.EDITOR).should('not.be.disabled').click();
     RolesEdition.getShareDialogConfirmAddAccessButton().should('not.be.disabled').click();
     RolesEdition.getShareDialogFirstCancelButton().click();
-    ScenarioManager.switchToScenarioManager();
+    ScenarioManager.switchToScenarioManager({ force: true });
     ScenarioManager.getScenarioAccordion(PRIVATE_SCENARIOS_LIST[0].id);
     ScenarioManager.getDeleteScenarioButton().should('be.visible').should('not.be.disabled');
     ScenarioManager.getScenarioEditableLink(PRIVATE_SCENARIOS_LIST[0].id).should('exist');
@@ -163,7 +163,7 @@ describe('Check workspace permissions for Viewer, Editor & Validator', () => {
     BreweryParameters.switchToDatasetPartsTab();
     FileParameters.getBrowseButton(BreweryParameters.getExampleDatasetPart1()).should('not.exist');
 
-    ScenarioManager.switchToScenarioManager();
+    ScenarioManager.switchToScenarioManager({ force: true });
     ScenarioManager.getScenarioAccordion(scenario.id);
     ScenarioManager.getDeleteScenarioButton().should('not.exist');
     ScenarioManager.getRenameScenarioButton(scenario.id).should('not.exist');
@@ -192,7 +192,7 @@ describe('Check workspace permissions for Viewer, Editor & Validator', () => {
     Scenarios.getScenarioRejectButton().should('not.exist');
     ScenarioParameters.getLaunchButton().should('be.visible').should('not.be.disabled');
 
-    ScenarioManager.switchToScenarioManager();
+    ScenarioManager.switchToScenarioManager({ force: true });
     ScenarioManager.getScenarioAccordion(scenario.id);
     ScenarioManager.getDeleteScenarioButton().should('not.exist');
     ScenarioManager.getScenarioEditableLinkInEditMode(scenario.id).should('not.exist');
@@ -208,7 +208,7 @@ describe('Check workspace permissions for Viewer, Editor & Validator', () => {
     Scenarios.getScenarioRejectButton().should('be.visible').should('not.be.disabled');
     ScenarioParameters.getLaunchButton().should('be.visible').should('not.be.disabled');
 
-    ScenarioManager.switchToScenarioManager();
+    ScenarioManager.switchToScenarioManager({ force: true });
     ScenarioManager.getScenarioAccordion(scenario.id);
     ScenarioManager.getDeleteScenarioButton().should('not.exist');
   });
