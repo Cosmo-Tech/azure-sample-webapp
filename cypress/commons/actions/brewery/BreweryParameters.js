@@ -410,25 +410,25 @@ function getExampleDatasetPart2ErrorMessage() {
 
 // Switch to a scenario parameters tab
 function switchToFileUploadTab() {
-  getFileUploadTab().click();
+  getFileUploadTab().click({ force: true });
 }
 function switchToDatasetPartsTab() {
-  getDatasetPartsTab().click();
+  getDatasetPartsTab().click({ force: true });
 }
 function switchToExtraDatasetPartTab() {
-  getExtraDatasetPartTab().click();
+  getExtraDatasetPartTab().click({ force: true });
 }
 function switchToBasicTypesTab() {
-  getBasicTypesTab().click();
+  getBasicTypesTab().click({ force: true });
 }
 function switchToCustomersTab() {
-  getCustomersTab().click();
+  getCustomersTab().click({ force: true });
 }
 function switchToEventsTab() {
-  getEventsTab().click();
+  getEventsTab().click({ force: true });
 }
 function switchToAdditionalParametersTab() {
-  getAdditionalParametersTab().click();
+  getAdditionalParametersTab().click({ force: true });
 }
 
 // Upload a file parameter

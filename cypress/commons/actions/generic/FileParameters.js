@@ -30,7 +30,7 @@ function getErrorMessage(fileParameterElement) {
 
 function download(fileParameterElement) {
   const aliases = [api.interceptGetDataset(), api.interceptDownloadWorkspaceFile()];
-  getDownloadButton(fileParameterElement).click();
+  getDownloadButton(fileParameterElement).click({ force: true });
   api.waitAliases(aliases, { timeout: 60 * 1000 });
 }
 

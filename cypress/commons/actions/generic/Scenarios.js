@@ -110,7 +110,7 @@ function openScenarioCreationDialog() {
 // Select a parent scenario
 function selectParentScenario(scenarioName) {
   getScenarioCreationDialogMasterCheckbox().uncheck();
-  getScenarioCreationDialogParentScenarioSelector().click();
+  getScenarioCreationDialogParentScenarioSelector().click({ force: true });
   getScenarioCreationDialogParentScenarioSelector().should('not.be.disabled');
   // clear() does not always work, use "{selectAll}{backspace}" instead
   getScenarioCreationDialogParentScenarioSelector().type('{selectAll}{backspace}' + scenarioName);

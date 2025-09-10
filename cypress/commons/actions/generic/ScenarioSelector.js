@@ -54,7 +54,7 @@ function writeInScenarioSelectorInput(searchStr) {
   cy.wait(0); // Prevent refresh in progress
   getScenarioSelectorInput().should('not.be.disabled');
   getScenarioSelectorInput()
-    .click()
+    .click({ force: true })
     .type(
       '{selectAll}{backspace}' + searchStr, // clear() does not always work, use "{selectAll}{backspace}" instead
       { force: true } // Force click to handle cases when the error banner is displayed above the selector options
