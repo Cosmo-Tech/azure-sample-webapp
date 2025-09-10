@@ -54,6 +54,15 @@ const runOptions = {
   expectedPollsCount: 2,
 };
 
+const selectScenarioAndWaitForScenarioViewUrlUpdate = (scenario) => {
+  ScenarioSelector.selectScenario(scenario.name, scenario.id);
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.wait(100); // Work-around for electron browser
+  cy.url({ timeout: 3000 }).should('include', `/scenario/${scenario.id}`);
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.wait(100); // Work-around for electron browser
+};
+
 describe('can use dataset data in editable table', () => {
   const SCENARIOS = clone(DEFAULT_SCENARIOS_LIST);
   SCENARIOS.forEach((scenario) => (scenario.datasetList = ['D-stbdataset11']));
@@ -122,16 +131,19 @@ describe('can use dataset data in editable table', () => {
   it('can fetch data from dataset and save table as dataset part, then revert data after reloading scenario', () => {
     apiUtils.interceptPostDatasetTwingraphQuery(twingraphQueryResponse, false);
     Scenarios.getScenarioViewTab(60).should('be.visible');
-    ScenarioSelector.selectScenario(SCENARIOS[1].name, SCENARIOS[1].id);
+    selectScenarioAndWaitForScenarioViewUrlUpdate(SCENARIOS[1]);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', SCENARIOS[1].name);
     ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.getCustomersTableGrid().should('exist');
     BreweryParameters.editCustomersTableStringCell('name', 0, 'Client').should('have.text', 'Client');
     ScenarioParameters.save({ datasetsEvents: [{ id: 'd-stbddtspr2', securityChanges: { default: 'admin' } }] });
     BreweryParameters.switchToEventsTab();
-    ScenarioSelector.selectScenario(SCENARIOS[2].name, SCENARIOS[2].id);
+    selectScenarioAndWaitForScenarioViewUrlUpdate(SCENARIOS[2]);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', SCENARIOS[2].name);
     apiUtils.interceptDownloadWorkspaceFile();
-    ScenarioSelector.selectScenario(SCENARIOS[1].name, SCENARIOS[1].id);
+    selectScenarioAndWaitForScenarioViewUrlUpdate(SCENARIOS[1]);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', SCENARIOS[1].name);
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.getCustomersTableGrid().should('exist');
     BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Client');
@@ -139,9 +151,11 @@ describe('can use dataset data in editable table', () => {
     ScenarioParameters.getSaveButton().should('exist');
     ScenarioParameters.save({ datasetsEvents: [{ id: 'd-stbddtspr3', securityChanges: { default: 'admin' } }] });
     BreweryParameters.switchToEventsTab();
-    ScenarioSelector.selectScenario(SCENARIOS[2].name, SCENARIOS[2].id);
+    selectScenarioAndWaitForScenarioViewUrlUpdate(SCENARIOS[2]);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', SCENARIOS[2].name);
     apiUtils.interceptDownloadWorkspaceFile();
-    ScenarioSelector.selectScenario(SCENARIOS[1].name, SCENARIOS[1].id);
+    selectScenarioAndWaitForScenarioViewUrlUpdate(SCENARIOS[1]);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', SCENARIOS[1].name);
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.getCustomersTableGrid().should('exist');
     BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Customer3');
@@ -149,16 +163,16 @@ describe('can use dataset data in editable table', () => {
   it('can fetch data from dataset and save table on first save', () => {
     apiUtils.interceptPostDatasetTwingraphQuery(twingraphQueryResponse, false);
     Scenarios.getScenarioViewTab(60).should('be.visible');
-    ScenarioSelector.selectScenario(SCENARIOS[2].name, SCENARIOS[2].id);
+    selectScenarioAndWaitForScenarioViewUrlUpdate(SCENARIOS[2]);
     ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.getCustomersTableGrid().should('exist');
     BreweryParameters.switchToBasicTypesTab();
     BreweryParameters.getAdditionalSeatsInput().click().clear().type('10');
     ScenarioParameters.save({ datasetsEvents: [{ id: 'd-stbddtspr4', securityChanges: { default: 'admin' } }] });
-    ScenarioSelector.selectScenario(SCENARIOS[3].name, SCENARIOS[3].id);
+    selectScenarioAndWaitForScenarioViewUrlUpdate(SCENARIOS[3]);
     apiUtils.interceptDownloadWorkspaceFile();
-    ScenarioSelector.selectScenario(SCENARIOS[2].name, SCENARIOS[2].id);
+    selectScenarioAndWaitForScenarioViewUrlUpdate(SCENARIOS[2]);
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.getCustomersTableGrid().should('exist');
     BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Customer3');
@@ -166,7 +180,7 @@ describe('can use dataset data in editable table', () => {
   it('can fetch data from dataset and save table on first launch', () => {
     apiUtils.interceptPostDatasetTwingraphQuery(twingraphQueryResponse, false);
     Scenarios.getScenarioViewTab(60).should('be.visible');
-    ScenarioSelector.selectScenario(SCENARIOS[3].name, SCENARIOS[3].id);
+    selectScenarioAndWaitForScenarioViewUrlUpdate(SCENARIOS[3]);
     ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.getCustomersTableGrid().should('exist');
@@ -177,9 +191,9 @@ describe('can use dataset data in editable table', () => {
       runOptions,
     });
     ScenarioParameters.waitForScenarioRunEnd();
-    ScenarioSelector.selectScenario(SCENARIOS[4].name, SCENARIOS[4].id);
+    selectScenarioAndWaitForScenarioViewUrlUpdate(SCENARIOS[4]);
     apiUtils.interceptDownloadWorkspaceFile();
-    ScenarioSelector.selectScenario(SCENARIOS[3].name, SCENARIOS[3].id);
+    selectScenarioAndWaitForScenarioViewUrlUpdate(SCENARIOS[3]);
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.getCustomersTableGrid().should('exist');
     BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Customer3');
@@ -204,7 +218,7 @@ describe('save table on second launch', () => {
   });
   it('can fetch data from dataset and save table on second launch', () => {
     Scenarios.getScenarioViewTab(60).should('be.visible');
-    ScenarioSelector.selectScenario(SCENARIOS[4].name, SCENARIOS[4].id);
+    selectScenarioAndWaitForScenarioViewUrlUpdate(SCENARIOS[4]);
     ScenarioParameters.launch({
       saveAndLaunch: true,
       runOptions,
@@ -221,9 +235,9 @@ describe('save table on second launch', () => {
     });
     ScenarioParameters.waitForScenarioRunEnd();
     BreweryParameters.switchToEventsTab();
-    ScenarioSelector.selectScenario(SCENARIOS[0].name, SCENARIOS[0].id);
+    selectScenarioAndWaitForScenarioViewUrlUpdate(SCENARIOS[0]);
     apiUtils.interceptDownloadWorkspaceFile();
-    ScenarioSelector.selectScenario(SCENARIOS[4].name, SCENARIOS[4].id);
+    selectScenarioAndWaitForScenarioViewUrlUpdate(SCENARIOS[4]);
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.getCustomersTableGrid().should('exist');
     BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Customer3');
