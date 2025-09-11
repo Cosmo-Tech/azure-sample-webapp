@@ -83,6 +83,7 @@ export const useSimulationView = () => {
     if (requiredUpdateStepsRef.current.highlight || requiredUpdateStepsRef.current.layout)
       resetGraphHighlighting(graphRef.current, settings, selectedElementId, currentTimestep);
     setNeedsReRendering(true);
+    console.log('ReRender'); // NBO log to remove
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     currentScenario?.id,
@@ -93,6 +94,7 @@ export const useSimulationView = () => {
     settings.outputLevels,
     settings.orientation,
     settings.spacing,
+    settings.filterEffectActivated,
     selectedElementId,
   ]);
 

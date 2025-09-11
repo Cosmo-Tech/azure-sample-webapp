@@ -191,6 +191,16 @@ export const SettingsButton = () => {
         {outputLevelsSelect}
       </Stack>
     );
+    const filterEffectsSettings = (
+      <Switch
+        color="secondary"
+        checked={settings?.filterEffectActivated ?? true}
+        onChange={(event) => {
+          requiredUpdateStepsRef.current.highlight = true;
+          setSettings((previousSettings) => ({ ...previousSettings, filterEffectActivated: event.target.checked }));
+        }}
+      />
+    );
 
     return (
       <Menu
@@ -209,6 +219,7 @@ export const SettingsButton = () => {
         {forgeMenuItem('Inputs', 'Limit how many levels of input siblings are visible', inputSettings)}
         <Divider sx={{ mx: 2 }} />
         {forgeMenuItem('Outputs', 'Limit how many levels of output siblings are visible', outputSettings)}
+        {forgeMenuItem('Effects', 'Set if filter effects are displayed or not', filterEffectsSettings)}
       </Menu>
     );
   }, [anchorEl, open, requiredUpdateStepsRef, settings, setSettings, localSpacingValue, changeSpacingWithDebounce]);

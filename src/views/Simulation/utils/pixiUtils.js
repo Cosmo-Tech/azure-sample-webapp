@@ -134,13 +134,13 @@ const createFactoryIconGraphicsContext = (options) => {
   return graphicsContext;
 };
 
-const createStockContainer = (textures, name, isHighlighted = false) => {
+const createStockContainer = (textures, name, isHighlighted = false, settings) => {
   const container = new Container();
   container.label = isHighlighted ? NODE_TYPES.STOCK_SHORTAGE : NODE_TYPES.STOCK;
   const stockTextureKey = isHighlighted ? 'stockLevel1' : 'stockLevel0';
   if (isHighlighted) {
     const stockHalo = new Sprite(textures[stockTextureKey]);
-    stockHalo.filters = [BLOOM_FILTER];
+    stockHalo.filters = settings.filterEffectActivated ? [BLOOM_FILTER] : [];
     stockHalo.position.set(-10, -10);
     container.addChild(stockHalo);
   }
@@ -160,10 +160,10 @@ const createStockContainer = (textures, name, isHighlighted = false) => {
   return container;
 };
 
-const createProductionResourceContainer = (textures, name, isHighlighted, operationsCount) => {
+const createProductionResourceContainer = (textures, name, isHighlighted, operationsCount, settings) => {
   const borderTextureKey = isHighlighted ? 'productionResourceBorderLevel1' : 'productionResourceBorderLevel0';
   const border = new Sprite(textures[borderTextureKey]);
-  if (isHighlighted) border.filters = [BLOOM_FILTER];
+  if (isHighlighted) border.filters = settings.filterEffectActivated ? [BLOOM_FILTER] : [];
   const iconTextureKey = isHighlighted ? 'factoryIconLevel1' : 'factoryIconLevel0';
   const factoryIcon = new Sprite(textures[iconTextureKey]);
   factoryIcon.x = 40;
@@ -344,18 +344,18 @@ const createLinkGraphics = (links, setSelectedElementId, settings) => {
     });
 
     graphics.on('click', (event) => setSelectedElementId(link.data.id));
-    graphics.filters = link.isSelected ? [SELECTED_LINK_FILTER] : [];
+    graphics.filters = link.isSelected && settings.filterEffectActivated ? [SELECTED_LINK_FILTER] : [];
     graphics.elementId = link.data.id;
 
     return graphics;
   });
 };
 
-const createNodeContainer = (textures, node) => {
+const createNodeContainer = (textures, node, settings) => {
   const container =
     node.type === 'productionResource'
-      ? createProductionResourceContainer(textures, node.id, node.isHighlighted, node.operationsCount)
-      : createStockContainer(textures, node.id, node.isHighlighted);
+      ? createProductionResourceContainer(textures, node.id, node.isHighlighted, node.operationsCount, settings)
+      : createStockContainer(textures, node.id, node.isHighlighted, settings);
 
   let centerOffset = { x: 24, y: 24 };
   if (node.type === 'productionResource') centerOffset = { x: 50, y: 54 };
@@ -365,7 +365,7 @@ const createNodeContainer = (textures, node) => {
   container.eventMode = 'static';
   container.cursor = 'pointer';
   container.elementId = node.id;
-  container.filters = node.isSelected ? [SELECTED_NODE_FILTER] : [];
+  container.filters = node.isSelected && settings.filterEffectActivated ? [SELECTED_NODE_FILTER] : [];
   return container;
 };
 
@@ -414,7 +414,7 @@ export const renderElements = (sceneContainerRef, graphRef, setSelectedElementId
   linkGraphics.forEach((link) => frontContainer.addChild(link));
 
   nodes.forEach((node) => {
-    const container = createNodeContainer(textures, node);
+    const container = createNodeContainer(textures, node, settings);
     container.on('click', (event) => setSelectedElementId(node.id));
     if (node.isGrayedOut) backContainer.addChild(container);
     else frontContainer.addChild(container);
