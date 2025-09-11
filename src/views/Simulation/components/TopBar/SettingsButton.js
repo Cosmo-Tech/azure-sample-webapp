@@ -5,7 +5,6 @@ import { SettingsOutlined as SettingsOutlinedIcon } from '@mui/icons-material';
 import {
   Box,
   Button,
-  Divider,
   FormControl,
   FormControlLabel,
   Menu,
@@ -71,7 +70,7 @@ export const SettingsButton = () => {
     const forgeMenuItem = (label, tooltip, component) => (
       <MenuItem sx={{ width: '100%', gap: '24px' }}>
         <Stack direction="row">
-          <div style={{ minWidth: '90px' }}>{label}</div>
+          <div style={{ minWidth: '100px' }}>{label}</div>
           <TooltipInfo title={tooltip} />
         </Stack>
         {component}
@@ -191,6 +190,16 @@ export const SettingsButton = () => {
         {outputLevelsSelect}
       </Stack>
     );
+    const glowEffectSwitch = (
+      <Switch
+        color="secondary"
+        checked={settings?.enableGlowEffect ?? true}
+        onChange={(event) => {
+          requiredUpdateStepsRef.current.highlight = true;
+          setSettings((previousSettings) => ({ ...previousSettings, enableGlowEffect: event.target.checked }));
+        }}
+      />
+    );
 
     return (
       <Menu
@@ -207,8 +216,9 @@ export const SettingsButton = () => {
         {forgeMenuItem('Spacing', 'Set the spacing between graph elements', spacingSlider)}
         {forgeMenuTitle('Display entity siblings')}
         {forgeMenuItem('Inputs', 'Limit how many levels of input siblings are visible', inputSettings)}
-        <Divider sx={{ mx: 2 }} />
         {forgeMenuItem('Outputs', 'Limit how many levels of output siblings are visible', outputSettings)}
+        {forgeMenuTitle('Misc')}
+        {forgeMenuItem('Glow Effects', 'Display glow effects', glowEffectSwitch)}
       </Menu>
     );
   }, [anchorEl, open, requiredUpdateStepsRef, settings, setSettings, localSpacingValue, changeSpacingWithDebounce]);

@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 export const GRAPH_VIEW_FILTER_VALUES = {
   BOTTLENECKS: 'bottlenecks',
   SHORTAGES: 'shortages',
@@ -19,6 +18,7 @@ export const DEFAULT_SETTINGS = {
   showOutput: false,
   outputLevels: 2,
   spacing: 25,
+  enableGlowEffect: true,
 };
 
 export const SETTINGS_SLIDER_MIN = 5;

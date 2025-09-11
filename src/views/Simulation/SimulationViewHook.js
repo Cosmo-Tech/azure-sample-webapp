@@ -93,6 +93,7 @@ export const useSimulationView = () => {
     settings.outputLevels,
     settings.orientation,
     settings.spacing,
+    settings.enableGlowEffect,
     selectedElementId,
   ]);
 
