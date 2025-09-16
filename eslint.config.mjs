@@ -36,11 +36,14 @@ export default [
   ...neostandardConfig,
   ...compat.extends(
     'plugin:react/recommended',
-    'plugin:cypress/recommended',
     'prettier',
     'plugin:prettier/recommended',
     'plugin:jest/recommended'
   ),
+
+  cypress.configs.recommended,
+  cypress.configs.globals,
+
   {
     plugins: {
       react,
@@ -54,7 +57,6 @@ export default [
       globals: {
         ...globals.browser,
         ...globals.es2021,
-        ...cypress.environments.globals.globals,
         ...jest.environments.globals.globals,
       },
 
