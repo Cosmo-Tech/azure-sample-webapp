@@ -210,21 +210,30 @@ function cubicBezier(p0, p1, p2, p3, t) {
   return a * (t * t * t) + b * (t * t) + c * t + p0;
 }
 
-function drawArrow(stage, x1, y1, x2, y2, size = 12, isGrayedOut) {
-  const midX = (x1 + x2) / 2;
-  const midY = (y1 + y2) / 2;
-  const angle = Math.atan2(y2 - y1, x2 - x1);
+function drawArrow(stage, x1, y1, x2, y2, cp1x, cp1y, cp2x, cp2y, size = 12, isGrayedOut) {
+  const t = 0.5;
+  const midX = cubicBezier(x1, cp1x, cp2x, x2, t);
+  const midY = cubicBezier(y1, cp1y, cp2y, y2, t);
+
+  const dx = cubicBezierDerivative(x1, cp1x, cp2x, x2, t);
+  const dy = cubicBezierDerivative(y1, cp1y, cp2y, y2, t);
+  const angle = Math.atan2(dy, dx);
 
   const arrowGraphics = new Graphics();
-
   arrowGraphics.fill({ color: !isGrayedOut ? 0xffffff : HIDDEN_LINK_COLOR, alpha: 1 });
   arrowGraphics.poly([0, 0, -size, size / 2, -size, -size / 2]);
   arrowGraphics.endFill();
   arrowGraphics.x = midX;
   arrowGraphics.y = midY;
   arrowGraphics.rotation = angle;
-
   stage.addChild(arrowGraphics);
+}
+
+function cubicBezierDerivative(p0, p1, p2, p3, t) {
+  const c = 3 * (p1 - p0);
+  const b = 3 * (p2 - p1) - c;
+  const a = p3 - p0 - c - b;
+  return 3 * a * t * t + 2 * b * t + c;
 }
 
 function drawDashedBezier(ctx, x1, y1, cp1x, cp1y, cp2x, cp2y, x2, y2, dash = 4, gap = 4) {
@@ -332,6 +341,10 @@ const createLinkGraphics = (links, setSelectedElementId, settings) => {
         source.y + sourceOffset.y,
         target.x - targetOffset.x,
         target.y - targetOffset.y,
+        controlPoint1.x,
+        controlPoint1.y,
+        controlPoint2.x,
+        controlPoint2.y,
         12,
         link.isGrayedOut
       );
