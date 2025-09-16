@@ -16,6 +16,6 @@ describe('schema generation for custom options', () => {
   `('schema is generated for custom options', ({ options, expectedKeys }) => {
     const optionObject = SchemasUtils.getCustomOptionsZodObject(options);
     const keySchema = optionObject.keyof();
-    expect(keySchema._def.values).toStrictEqual(expectedKeys);
+    expect(keySchema.options).toStrictEqual(expectedKeys);
   });
 });

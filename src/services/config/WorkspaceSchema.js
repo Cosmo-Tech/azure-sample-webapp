@@ -4,18 +4,17 @@ import { z } from 'zod';
 import { SchemasUtils } from '../../utils/schemas/SchemasUtils';
 import { CUSTOM_WEB_APP_OPTIONS } from '../../utils/schemas/custom/customWorkspaceOptions';
 
-const LABELS_DICT = z.array(z.object({}));
-const TWINGRAPH_INDICATOR = z.object({ id: z.string(), name: LABELS_DICT, queryId: z.string() }).strict();
+const LABELS_DICT = z.array(z.looseObject({}));
+const TWINGRAPH_INDICATOR = z.strictObject({ id: z.string(), name: LABELS_DICT, queryId: z.string() });
 
 const powerBIFilters = z
   .array(
     z
-      .object({
+      .strictObject({
         table: z.string().optional().nullable(),
         column: z.string().optional().nullable(),
         values: z.string().optional().nullable().or(z.array(z.string().optional().nullable()).optional().nullable()),
       })
-      .strict()
       .optional()
       .nullable()
   )
@@ -23,48 +22,44 @@ const powerBIFilters = z
   .nullable();
 
 const dashboardReport = z
-  .object({
-    title: z.object({}).optional().nullable(),
+  .strictObject({
+    title: z.looseObject({}).optional().nullable(),
     reportId: z.string().optional().nullable(),
     settings: z
-      .object({
+      .strictObject({
         navContentPaneEnabled: z.boolean().optional().nullable(),
         panes: z
-          .object({
+          .strictObject({
             filters: z
-              .object({
+              .strictObject({
                 expanded: z.boolean().optional().nullable(),
                 visible: z.boolean().optional().nullable(),
               })
-              .strict()
               .optional()
               .nullable(),
           })
-          .strict()
           .optional()
           .nullable(),
       })
-      .strict()
       .optional()
       .nullable(),
     dynamicFilters: powerBIFilters,
     staticFilters: powerBIFilters,
-    pageName: z.object({}).optional().nullable(),
+    pageName: z.looseObject({}).optional().nullable(),
   })
-  .strict()
   .optional()
   .nullable();
 
 const nativeDatasourceParameterOptions = {
   defaultValue: z.string().optional().nullable(),
-  tooltipText: z.object({}).optional().nullable(),
+  tooltipText: z.looseObject({}).optional().nullable(),
 };
 
-const basicWebAppOptions = z.object({
+const basicWebAppOptions = z.strictObject({
   datasetFilter: z.array(z.string().optional().nullable()).optional().nullable(),
   disableOutOfSyncWarningBanner: z.boolean().optional().nullable(),
   charts: z
-    .object({
+    .strictObject({
       workspaceId: z.string().optional().nullable(),
       logInWithUserCredentials: z.boolean().optional().nullable(),
       scenarioViewIframeDisplayRatio: z.number().optional().nullable(),
@@ -74,55 +69,47 @@ const basicWebAppOptions = z.object({
         .array(dashboardReport)
         .optional()
         .nullable()
-        .or(z.object({}).catchall(dashboardReport).optional().nullable()),
+        .or(z.strictObject({}).catchall(dashboardReport).optional().nullable()),
     })
-    .strict()
     .optional()
     .nullable(),
   instanceView: z
-    .object({
+    .strictObject({
       dataSource: z
-        .object({
+        .strictObject({
           type: z.string().optional().nullable(),
           functionUrl: z.string().optional().nullable(),
           functionKey: z.string().optional().nullable(),
         })
-        .strict()
         .optional()
         .nullable(),
       dataContent: z
-        .object({
-          compounds: z.object({}).optional().nullable(),
-          edges: z.object({}).optional().nullable(),
-          nodes: z.object({}).optional().nullable(),
+        .strictObject({
+          compounds: z.looseObject({}).optional().nullable(),
+          edges: z.looseObject({}).optional().nullable(),
+          nodes: z.looseObject({}).optional().nullable(),
         })
-        .strict()
         .optional()
         .nullable(),
     })
-    .strict()
     .optional()
     .nullable(),
   menu: z
-    .object({
+    .strictObject({
       documentationUrl: z.string().optional().nullable(),
       supportUrl: z.string().optional().nullable(),
       organizationUrl: z.string().optional().nullable(),
     })
-    .strict()
     .optional()
     .nullable(),
   datasetManager: z
-    .object({
+    .strictObject({
       datasourceParameterHelpers: z
         .array(
           z
-            .object({
+            .strictObject({
               id: z.string().optional(),
-              parameters: z
-                .object({ id: z.string().optional(), ...nativeDatasourceParameterOptions })
-                .strict()
-                .required(),
+              parameters: z.strictObject({ id: z.string().optional(), ...nativeDatasourceParameterOptions }).required(),
             })
             .optional()
             .nullable()
@@ -135,7 +122,7 @@ const basicWebAppOptions = z.object({
       categories: z
         .array(
           z
-            .object({
+            .strictObject({
               id: z.string(),
               name: LABELS_DICT,
               type: z.string().optional().nullable(),
@@ -143,28 +130,25 @@ const basicWebAppOptions = z.object({
               kpis: z.array(TWINGRAPH_INDICATOR).optional().nullable(),
               attributes: z.array(z.string().optional()).optional().nullable(),
               previewTable: z
-                .object({
+                .strictObject({
                   columns: z.array(
-                    z.object({ field: z.string(), headerName: z.string(), type: z.array(z.string()) }).strict()
+                    z.strictObject({ field: z.string(), headerName: z.string(), type: z.array(z.string()) })
                   ),
                   queryId: z.string(),
                   resultKey: z.string(),
                 })
-                .strict()
                 .optional()
                 .nullable(),
             })
-            .strict()
             .required()
         )
         .optional()
         .nullable(),
       queries: z
-        .array(z.object({ id: z.string(), query: z.string() }).strict())
+        .array(z.strictObject({ id: z.string(), query: z.string() }))
         .optional()
         .nullable(),
     })
-    .strict()
     .optional()
     .nullable(),
 });
@@ -172,7 +156,7 @@ const basicWebAppOptions = z.object({
 const webAppOptions = SchemasUtils.patchConfigWithCustomOptions(basicWebAppOptions, CUSTOM_WEB_APP_OPTIONS);
 
 export const WorkspaceSchema = z
-  .object({
+  .strictObject({
     id: z.string().optional().nullable(),
     organizationId: z.string().optional().nullable(),
     key: z.string().optional().nullable(),
@@ -182,22 +166,20 @@ export const WorkspaceSchema = z
     tags: z.array(z.string().optional().nullable()).optional().nullable(),
     ownerId: z.string().optional().nullable(),
     solution: z
-      .object({
+      .strictObject({
         solutionId: z.string().optional().nullable(),
         runTemplateFilter: z.array(z.string().optional().nullable()).optional().nullable(),
-        defaultRunTemplateDataset: z.object({}).optional().nullable(),
+        defaultRunTemplateDataset: z.looseObject({}).optional().nullable(),
       })
-      .strict()
       .optional()
       .nullable(),
     linkedDatasetIdList: z.array(z.string().optional().nullable()).optional().nullable(),
     webApp: z
-      .object({
+      .strictObject({
         url: z.string().optional().nullable(),
-        iframes: z.object({}).optional().nullable(),
+        iframes: z.looseObject({}).optional().nullable(),
         options: webAppOptions,
       })
-      .strict()
       .optional()
       .nullable(),
     sendInputToDataWarehouse: z.boolean().optional().nullable(),
@@ -208,27 +190,24 @@ export const WorkspaceSchema = z
     sendScenarioMetadataToEventHub: z.boolean().optional().nullable(),
     datasetCopy: z.boolean().optional().nullable(),
     security: z
-      .object({
+      .strictObject({
         default: z.string().optional().nullable(),
         currentUserPermissions: z.array(z.string().optional().nullable()).optional().nullable(),
         accessControlList: z
           .array(
             z
-              .object({ id: z.string().optional().nullable(), role: z.string().optional().nullable() })
-              .strict()
+              .strictObject({ id: z.string().optional().nullable(), role: z.string().optional().nullable() })
               .optional()
               .nullable()
           )
           .optional()
           .nullable(),
       })
-      .strict()
       .optional()
       .nullable(),
     users: z.array(z.string().optional().nullable()).optional().nullable(),
     indicators: z.record(z.string(), z.array(z.string().optional().nullable()).optional().nullable()),
     queriesMapping: z.record(z.string(), z.array(z.string().optional().nullable()).optional().nullable()),
   })
-  .strict()
   .optional()
   .nullable();

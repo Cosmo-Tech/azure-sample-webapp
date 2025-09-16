@@ -8,7 +8,7 @@ import {
 } from '../../utils/schemas/custom/customSolutionOptions';
 
 const basicColumnField = z
-  .object({
+  .strictObject({
     field: z.string().optional().nullable(),
     headerName: z.string().optional().nullable(),
     children: z.lazy(() => basicColumnField.array().optional().nullable()),
@@ -20,34 +20,30 @@ const basicColumnField = z
     columnGroupShow: z.string().optional().nullable(),
     defaultValue: z.string().optional().nullable(),
   })
-  .strict()
   .optional()
   .nullable();
 
-const basicParameterOptions = z.object({
+const basicParameterOptions = z.strictObject({
   enumValues: z
     .array(
       z
-        .object({ key: z.string(), value: z.string(), tooltipText: z.object({}).optional().nullable() })
-        .strict()
+        .strictObject({ key: z.string(), value: z.string(), tooltipText: z.looseObject({}).optional().nullable() })
         .optional()
         .nullable()
     )
     .optional()
     .nullable(),
   dynamicEnumValues: z
-    .object({ type: z.string().optional().nullable(), query: z.string(), resultKey: z.string() })
-    .strict()
+    .strictObject({ type: z.string().optional().nullable(), query: z.string(), resultKey: z.string() })
     .optional()
     .nullable(),
-  tooltipText: z.object({}).optional().nullable(),
+  tooltipText: z.looseObject({}).optional().nullable(),
   minLength: z.number().optional().nullable(),
   maxLength: z.number().optional().nullable(),
   validation: z.string().optional().nullable(),
   subType: z.string().optional().nullable(),
   dynamicValues: z
-    .object({ type: z.string().optional().nullable(), query: z.string(), resultKey: z.string() })
-    .strict()
+    .strictObject({ type: z.string().optional().nullable(), query: z.string(), resultKey: z.string() })
     .optional()
     .nullable(),
   hidden: z.boolean().optional().nullable(),
@@ -60,7 +56,7 @@ const basicParameterOptions = z.object({
   runTemplateFilter: z.array(z.string().optional().nullable()).optional().nullable(),
 });
 
-const basicParameterGroupOptions = z.object({
+const basicParameterGroupOptions = z.strictObject({
   authorizedRoles: z.array(z.string().optional().nullable()).optional().nullable(),
   hideParameterGroupIfNoPermission: z.boolean().optional().nullable(),
   hidden: z.boolean().optional().nullable(),
@@ -77,7 +73,7 @@ const parameterGroupOptions = SchemasUtils.patchConfigWithCustomOptions(
 );
 
 export const SolutionSchema = z
-  .object({
+  .strictObject({
     id: z.string().optional().nullable(),
     organizationId: z.string().optional().nullable(),
     key: z.string().optional().nullable(),
@@ -94,9 +90,9 @@ export const SolutionSchema = z
     parameters: z
       .array(
         z
-          .object({
+          .strictObject({
             id: z.string().optional().nullable(),
-            labels: z.object({}).optional().nullable(),
+            labels: z.looseObject({}).optional().nullable(),
             varType: z.string().optional().nullable(),
             defaultValue: z.unknown().optional(),
             minValue: z.unknown().optional(),
@@ -104,7 +100,6 @@ export const SolutionSchema = z
             regexValidation: z.string().optional().nullable(),
             options: parameterOptions,
           })
-          .strict()
           .optional()
           .nullable()
       )
@@ -113,15 +108,14 @@ export const SolutionSchema = z
     parameterGroups: z
       .array(
         z
-          .object({
+          .strictObject({
             id: z.string().optional().nullable(),
-            labels: z.object({}).optional().nullable(),
+            labels: z.looseObject({}).optional().nullable(),
             isTable: z.string().optional().nullable(),
             options: parameterGroupOptions,
             parentId: z.string().optional().nullable(),
             parameters: z.array(z.string().optional().nullable()).optional().nullable(),
           })
-          .strict()
           .optional()
           .nullable()
       )
@@ -130,28 +124,25 @@ export const SolutionSchema = z
     runTemplates: z
       .array(
         z
-          .object({
+          .strictObject({
             id: z.string().optional().nullable(),
             name: z.string().optional().nullable(),
-            labels: z.array(z.object({}).optional().nullable()).optional().nullable(),
+            labels: z.looseObject({}).optional().nullable(),
             description: z.string().optional().nullable(),
             csmSimulation: z.string().optional().nullable(),
             tags: z.array(z.string().optional().nullable()).optional().nullable(),
             computeSize: z.string().optional().nullable(),
             runSizing: z
-              .object({
+              .strictObject({
                 requests: z
-                  .object({ cpu: z.string().optional().nullable(), memory: z.string().optional().nullable() })
-                  .strict()
+                  .strictObject({ cpu: z.string().optional().nullable(), memory: z.string().optional().nullable() })
                   .optional()
                   .nullable(),
                 limits: z
-                  .object({ cpu: z.string().optional().nullable(), memory: z.string().optional().nullable() })
-                  .strict()
+                  .strictObject({ cpu: z.string().optional().nullable(), memory: z.string().optional().nullable() })
                   .optional()
                   .nullable(),
               })
-              .strict()
               .optional()
               .nullable(),
             noDataIngestionState: z.boolean().optional().nullable(),
@@ -166,12 +157,12 @@ export const SolutionSchema = z
             run: z.boolean().optional().nullable(),
             postRun: z.boolean().optional().nullable(),
             parametersJson: z.boolean().optional().nullable(),
-            parametersHandlerSource: z.object({}).optional().nullable(),
-            datasetValidatorSource: z.object({}).optional().nullable(),
-            preRunSource: z.object({}).optional().nullable(),
-            runSource: z.object({}).optional().nullable(),
-            postRunSource: z.object({}).optional().nullable(),
-            scenariodataTransformSource: z.object({}).optional().nullable(),
+            parametersHandlerSource: z.looseObject({}).optional().nullable(),
+            datasetValidatorSource: z.looseObject({}).optional().nullable(),
+            preRunSource: z.looseObject({}).optional().nullable(),
+            runSource: z.looseObject({}).optional().nullable(),
+            postRunSource: z.looseObject({}).optional().nullable(),
+            scenariodataTransformSource: z.looseObject({}).optional().nullable(),
             parameterGroups: z.array(z.string().optional().nullable()).optional().nullable(),
             stackSteps: z.boolean().optional().nullable(),
             gitRepositoryUrl: z.string().optional().nullable(),
@@ -180,40 +171,35 @@ export const SolutionSchema = z
             runTemplateSourceDir: z.string().optional().nullable(),
             executionTimeout: z.number().optional().nullable(),
             deleteHistoricalData: z
-              .object({
+              .strictObject({
                 enable: z.boolean().optional().nullable(),
                 pollFrequency: z.number().optional().nullable(),
                 timeOut: z.number().optional().nullable(),
               })
-              .strict()
               .optional()
               .nullable(),
           })
-          .strict()
           .optional()
           .nullable()
       )
       .optional()
       .nullable(),
     security: z
-      .object({
+      .strictObject({
         default: z.string().optional().nullable(),
         currentUserPermissions: z.array(z.string().optional().nullable()).optional().nullable(),
         accessControlList: z
           .array(
             z
-              .object({ id: z.string().optional().nullable(), role: z.string().optional().nullable() })
-              .strict()
+              .strictObject({ id: z.string().optional().nullable(), role: z.string().optional().nullable() })
               .optional()
               .nullable()
           )
           .optional()
           .nullable(),
       })
-      .strict()
       .optional()
       .nullable(),
   })
-  .strict()
   .optional()
   .nullable();
