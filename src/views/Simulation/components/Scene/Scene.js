@@ -5,7 +5,14 @@ import { useTheme } from '@mui/styles';
 import { useSimulationViewContext } from '../../SimulationViewContext';
 import { DEFAULT_UPDATE_STATE } from '../../SimulationViewHook';
 import { resetGraphHighlighting } from '../../utils/graphUtils';
-import { createApp, destroyApp, initApp, initMinimap, renderElements } from '../../utils/pixiUtils';
+import {
+  createApp,
+  destroyApp,
+  initApp,
+  initMinimap,
+  renderElements,
+  destroyContainerChildren,
+} from '../../utils/pixiUtils';
 import { ChartTimeline } from '../Charts';
 import { Minimap } from './Minimap';
 
@@ -100,11 +107,7 @@ const Scene = () => {
       requiredUpdateStepsRef.current.layout ||
       requiredUpdateStepsRef.current.render
     ) {
-      if (sceneContainerRef.current) {
-        sceneContainerRef.current.removeChildren().forEach((child) => {
-          child.destroy({ children: true, texture: false, baseTexture: false });
-        });
-      }
+      if (sceneContainerRef.current) destroyContainerChildren(sceneContainerRef.current);
 
       const resetBounds = requiredUpdateStepsRef.current.all || requiredUpdateStepsRef.current.layout;
       renderElements(sceneContainerRef, graphRef, setSelectedElementId, settings, resetBounds);
