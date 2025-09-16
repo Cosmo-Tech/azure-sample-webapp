@@ -12,7 +12,7 @@ const getCustomOptionsZodObject = (optionsList = []) => {
 };
 
 const patchConfigWithCustomOptions = (basicOptions, customOptionsList) => {
-  return getCustomOptionsZodObject(customOptionsList).merge(basicOptions).strict().optional().nullable();
+  return getCustomOptionsZodObject(customOptionsList).extend(basicOptions.shape).strict().optional().nullable();
 };
 
 export const SchemasUtils = {
