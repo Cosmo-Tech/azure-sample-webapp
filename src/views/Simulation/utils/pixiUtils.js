@@ -411,8 +411,21 @@ const generateTextures = (app) => {
   return textures;
 };
 
+export const destroyContainerChildren = (container) => {
+  container.children.forEach((child) => {
+    child.destroy({
+      children: true,
+      texture: true,
+      context: true,
+      style: true,
+    });
+  });
+};
+
 export const renderElements = (sceneContainerRef, graphRef, setSelectedElementId, settings, resetBounds = true) => {
   if (!graphRef.current || !sceneContainerRef.current?.textures) return;
+
+  destroyContainerChildren(sceneContainerRef.current);
 
   const { nodes, links } = graphRef.current;
   const textures = sceneContainerRef.current.textures;
