@@ -210,7 +210,7 @@ function cubicBezier(p0, p1, p2, p3, t) {
   return a * (t * t * t) + b * (t * t) + c * t + p0;
 }
 
-function drawArrow(stage, x1, y1, x2, y2, cp1x, cp1y, cp2x, cp2y, size = 12, isGrayedOut) {
+function drawArrow(x1, y1, x2, y2, cp1x, cp1y, cp2x, cp2y, size = 12, isGrayedOut) {
   const t = 0.5;
   const midX = cubicBezier(x1, cp1x, cp2x, x2, t);
   const midY = cubicBezier(y1, cp1y, cp2y, y2, t);
@@ -220,13 +220,16 @@ function drawArrow(stage, x1, y1, x2, y2, cp1x, cp1y, cp2x, cp2y, size = 12, isG
   const angle = Math.atan2(dy, dx);
 
   const arrowGraphics = new Graphics();
-  arrowGraphics.fill({ color: !isGrayedOut ? 0xffffff : HIDDEN_LINK_COLOR, alpha: 1 });
-  arrowGraphics.poly([0, 0, -size, size / 2, -size, -size / 2]);
-  arrowGraphics.endFill();
+  arrowGraphics.poly([0, 0, -size, size / 2, -size, -size / 2], true);
+  arrowGraphics.fill({
+    color: !isGrayedOut ? 0xffffff : HIDDEN_LINK_COLOR,
+    alpha: 1,
+  });
   arrowGraphics.x = midX;
   arrowGraphics.y = midY;
   arrowGraphics.rotation = angle;
-  stage.addChild(arrowGraphics);
+
+  return arrowGraphics;
 }
 
 function cubicBezierDerivative(p0, p1, p2, p3, t) {
@@ -276,6 +279,7 @@ const createLinkGraphics = (links, setSelectedElementId, settings) => {
   const spacingFactor = settings.spacing / 100.0;
 
   return links.map((link) => {
+    const linkContainer = new Container();
     const graphics = new Graphics();
     graphics.eventMode = 'static';
     graphics.cursor = 'pointer';
@@ -335,8 +339,7 @@ const createLinkGraphics = (links, setSelectedElementId, settings) => {
 
       graphics.lineTo(target.x - targetOffset.x, target.y - targetOffset.y);
 
-      drawArrow(
-        graphics,
+      const arrow = drawArrow(
         source.x + sourceOffset.x,
         source.y + sourceOffset.y,
         target.x - targetOffset.x,
@@ -348,6 +351,8 @@ const createLinkGraphics = (links, setSelectedElementId, settings) => {
         12,
         link.isGrayedOut
       );
+
+      linkContainer.addChild(arrow);
     }
 
     graphics.stroke({
@@ -360,7 +365,9 @@ const createLinkGraphics = (links, setSelectedElementId, settings) => {
     graphics.filters = link.isSelected && settings.enableGlowEffect ? [SELECTED_LINK_FILTER] : [];
     graphics.elementId = link.data.id;
 
-    return graphics;
+    linkContainer.addChild(graphics);
+
+    return linkContainer;
   });
 };
 
