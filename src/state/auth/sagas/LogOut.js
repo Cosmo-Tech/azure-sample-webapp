@@ -3,7 +3,7 @@
 import { put, takeEvery } from 'redux-saga/effects';
 import { Auth } from '@cosmotech/core';
 import { AUTH_ACTIONS_KEY, AUTH_STATUS } from '../constants';
-import { setAuthData } from '../reducers';
+import { setAuthStatus } from '../reducers';
 
 // Generator function to fetch authentication data
 export function* tryLogOut(action) {
@@ -14,7 +14,9 @@ export function* tryLogOut(action) {
     }
     yield Auth.signOut();
     yield put(
-      setAuthData({
+      setAuthStatus({
+        roles: [],
+        permissions: [],
         status: AUTH_STATUS.DISCONNECTING,
       })
     );

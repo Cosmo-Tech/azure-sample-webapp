@@ -30,8 +30,12 @@ const authSlice = createSlice({
       state.permissions = permissions;
       state.profilePic = profilePic;
     },
+    setAuthStatus: (state, action) => {
+      const { status } = action.payload;
+      state.status = status;
+    },
   },
 });
 
-export const { setAuthData } = authSlice.actions;
+export const { setAuthData, setAuthStatus } = authSlice.actions;
 export default authSlice.reducer;
