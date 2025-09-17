@@ -1178,7 +1178,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-proposal-private-property-in-object@npm:^7.16.7, @babel/plugin-proposal-private-property-in-object@npm:^7.21.11":
+"@babel/plugin-proposal-private-property-in-object@npm:^7.16.7":
   version: 7.21.11
   resolution: "@babel/plugin-proposal-private-property-in-object@npm:7.21.11"
   dependencies:
@@ -8264,7 +8264,6 @@ __metadata:
   dependencies:
     "@azure/msal-node": "npm:^3.7.4"
     "@babel/core": "npm:^7.28.4"
-    "@babel/plugin-proposal-private-property-in-object": "npm:^7.21.11"
     "@babel/preset-env": "npm:^7.28.3"
     "@babel/preset-react": "npm:^7.27.1"
     "@cosmotech/api-ts": "npm:^3.3.4"
