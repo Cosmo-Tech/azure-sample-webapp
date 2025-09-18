@@ -29,7 +29,7 @@ function dismissErrorIfVisible() {
 
 function checkAnDismissErrorBanner() {
   getErrorBanner().should('be.visible');
-  getDismissErrorButton().click();
+  getDismissErrorButton().click({ force: true });
   getErrorBanner().should('not.be.visible');
 }
 
