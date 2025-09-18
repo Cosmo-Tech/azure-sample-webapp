@@ -2,15 +2,14 @@
 // Licensed under the MIT license.
 import { Point, Container } from 'pixi.js';
 
-const MIN_ZOOM = 0.05;
+const MIN_ZOOM = 0.1;
 const MAX_ZOOM = 2;
 const DEFAULT_ZOOM = 0.2;
-const ZOOM_SPEED = 0.5;
+const ZOOM_SPEED = 0.2;
 const FOCUS_ZOOM = 1;
+const ANIMATION_DURATION_IN_MS = 400;
 
-const interpolateLinear = (a, b, t) => {
-  return a + (b - a) * t;
-};
+const interpolateSmooth = (a, b, t) => a + (b - a) * Math.sin((t * Math.PI) / 2);
 
 export class SceneContainer extends Container {
   constructor(sceneApp, canvasSceneRef) {
@@ -86,21 +85,21 @@ export class SceneContainer extends Container {
     canvasSceneRef.current.removeEventListener('pointermove', this.onDragMove);
   }
 
-  updatePositionAndScale() {
-    const nearTargetZoom = Math.abs(this.targetZoom - this.zoom) < 0.0005;
-    const nearTargetPosition = Math.abs(this.targetX - this.x) < 0.05 && Math.abs(this.targetY - this.y) < 0.05;
+  interpolateZoomAndPosition() {
+    this.timeElapsedSinceAnimationStart += this.sceneApp.ticker.elapsedMS;
+    const t = Math.min(1, this.timeElapsedSinceAnimationStart / ANIMATION_DURATION_IN_MS);
 
-    if (nearTargetPosition && nearTargetZoom) {
-      this.position.set(this.targetX, this.targetY);
-      this.setZoom(this.targetZoom);
+    this.x = interpolateSmooth(this.animationInitialX, this.animationTargetX, t);
+    this.y = interpolateSmooth(this.animationInitialY, this.animationTargetY, t);
+    this.setZoom(interpolateSmooth(this.animationInitialZoom, this.animationTargetZoom, t));
+  }
+
+  updatePositionAndScale() {
+    this.interpolateZoomAndPosition();
+    if (this.timeElapsedSinceAnimationStart >= ANIMATION_DURATION_IN_MS) {
       this.sceneApp.ticker.remove(this.updatePositionAndScale);
       this.checkBounds();
     } else {
-      this.x = interpolateLinear(this.x, this.targetX, 0.1);
-      this.y = interpolateLinear(this.y, this.targetY, 0.1);
-
-      const newZoom = interpolateLinear(this.zoom, this.targetZoom, 0.1);
-      this.setZoom(newZoom);
       this.minimapContainerRef.current.updateScreenCursor();
     }
   }
@@ -111,9 +110,13 @@ export class SceneContainer extends Container {
   }
 
   translateTo(x, y, zoom = this.zoom) {
-    this.targetX = x;
-    this.targetY = y;
-    this.targetZoom = zoom;
+    this.animationInitialX = this.x;
+    this.animationInitialY = this.y;
+    this.animationInitialZoom = this.zoom;
+    this.animationTargetX = x;
+    this.animationTargetY = y;
+    this.animationTargetZoom = zoom;
+    this.timeElapsedSinceAnimationStart = 0;
     this.sceneApp.ticker.add(this.updatePositionAndScale);
   }
 
