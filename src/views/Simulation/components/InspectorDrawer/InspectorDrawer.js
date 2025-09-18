@@ -69,7 +69,7 @@ const InspectorDrawer = () => {
     return (
       <>
         <Typography variant="h6" fontWeight="fontWeightBold">
-          Shortages
+          Undispatched quantity
         </Typography>
         <InspectorChart data={data} width={width - CHART_WIDTH_OFFSET} height={CHART_HEIGHT} chartColor="#DF3537" />
       </>
