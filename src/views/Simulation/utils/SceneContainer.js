@@ -87,8 +87,9 @@ export class SceneContainer extends Container {
   }
 
   updatePositionAndScale() {
-    const nearTargetZoom = Math.abs(this.targetZoom - this.zoom) < 0.0005;
-    const nearTargetPosition = Math.abs(this.targetX - this.x) < 0.05 && Math.abs(this.targetY - this.y) < 0.05;
+    console.log('update'); // NBO log to remove
+    const nearTargetZoom = Math.abs(this.targetZoom - this.zoom) < 2;
+    const nearTargetPosition = Math.abs(this.targetX - this.x) < 2 && Math.abs(this.targetY - this.y) < 2;
 
     if (nearTargetPosition && nearTargetZoom) {
       this.position.set(this.targetX, this.targetY);
