@@ -47,8 +47,8 @@ describe('Testing add and delete features on different index', () => {
     TableParameters.getCell(getCustomersStubbedTable(), 'name', 0).click();
     TableParameters.deleteRows(getCustomersStubbedTable());
     TableParameters.getRows(getCustomersStubbedTable()).should('have.length', 5);
-    BreweryParameters.switchToCustomersTab();
 
+    BreweryParameters.switchToCustomersTab();
     BreweryParameters.addRowCustomersTableData();
     BreweryParameters.getCustomersTableCell('name', 4).click();
     BreweryParameters.addRowCustomersTableData();
@@ -58,7 +58,7 @@ describe('Testing add and delete features on different index', () => {
     BreweryParameters.getCustomersTableRows().should('have.length', 7);
 
     // This part of the test uses shift to select 3 lines then deletes them
-    BreweryParameters.getCustomersTableCell('name', 0).click({ shiftKey: true });
+    BreweryParameters.getCustomersTableCell('name', 0).click();
     BreweryParameters.getCustomersTableCell('name', 2).click({ shiftKey: true });
     BreweryParameters.deleteRowsCustomersTableData(true);
     BreweryParameters.getCustomersTableRows().should('have.length', 4);
@@ -75,6 +75,7 @@ describe('Testing add and delete features on different index', () => {
     TableParameters.getCell(getCustomersStubbedTable(), 'name', 0).click();
     TableParameters.deleteRows(getCustomersStubbedTable());
     TableParameters.getRows(getCustomersStubbedTable()).should('have.length', 4);
+    ScenarioParameters.discard();
   });
 
   it('can add rows to an empty table, export its content and delete all rows', () => {
@@ -105,6 +106,7 @@ describe('Testing add and delete features on different index', () => {
     BreweryParameters.getCustomersTableCell('name', 2).click({ shiftKey: true });
     BreweryParameters.deleteRowsCustomersTableData(true);
     BreweryParameters.getCustomersTableRowsContainer().should('not.exist');
+    ScenarioParameters.discard();
   });
 
   it('can add lines in a sorted table, export its content and delete rows', () => {
@@ -139,5 +141,6 @@ describe('Testing add and delete features on different index', () => {
     BreweryParameters.getCustomersTableCell('age', 0).should('have.text', '8');
     BreweryParameters.getCustomersTableCell('age', 1).should('have.text', '10');
     BreweryParameters.getCustomersTableCell('age', 2).should('have.text', '34');
+    ScenarioParameters.discard();
   });
 });

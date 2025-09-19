@@ -323,7 +323,7 @@ export const GENERIC_SELECTORS = {
       },
       header: '[class=ag-header-container]',
       placeholder: '[data-cy=empty-table-placeholder]',
-      columnGroupRow: '.ag-header-row-column-group',
+      columnGroupRow: '.ag-header-row-group',
       closeColumnGroupIcon: '.ag-header-expand-icon-expanded',
       openColumnGroupIcon: '.ag-header-expand-icon-collapsed',
       columnGroup: '[aria-colindex=$COLGROUPNAME]',

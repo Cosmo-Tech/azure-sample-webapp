@@ -7,7 +7,8 @@ function getScenarioManagerView() {
   return cy.get(GENERIC_SELECTORS.scenario.manager.view);
 }
 function switchToScenarioManager(options) {
-  cy.get(GENERIC_SELECTORS.scenario.manager.tabName).click(options);
+  // eslint-disable-next-line cypress/no-force -- Workaround for MUI hidden elements not correctly ignored by cypress
+  cy.get(GENERIC_SELECTORS.scenario.manager.tabName).click({ force: true, ...options });
 }
 function getDeleteScenarioButton() {
   return cy.get(GENERIC_SELECTORS.scenario.manager.button.delete);

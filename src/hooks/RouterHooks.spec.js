@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
 /* eslint-disable react/prop-types */
 import { render } from '@testing-library/react';
 import React from 'react';

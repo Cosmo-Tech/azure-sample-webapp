@@ -8,10 +8,10 @@
     "test": "echo \"No tests yet...\""
   },
   "dependencies": {
-    "@azure/msal-node": "^2.16.2",
+    "@azure/msal-node": "^3.7.4",
     "jsonwebtoken": "^9.0.2",
     "jwks-rsa": "^3.2.0",
-    "uuid": "^11.1.0"
+    "uuid": "^13.0.0"
   },
   "engines": {
     "node": "^18"
