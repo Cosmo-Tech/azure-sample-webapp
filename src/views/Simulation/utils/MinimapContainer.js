@@ -18,9 +18,11 @@ export class MinimapContainer extends Container {
   }
 
   renderElements() {
-    this.removeChildren().forEach((child) => child.destroy({ children: true }));
+    if (this.miniSceneContainer)
+      this.miniSceneContainer.destroy({ children: true, texture: true, context: true, style: true });
     this.miniSceneContainer = this.forgeContainer(this.sceneContainerRef.current);
 
+    this.destroy({ children: true, texture: true, context: true, style: true });
     this.addChild(this.miniSceneContainer);
 
     this.position.set(0, 0);
@@ -86,7 +88,8 @@ export class MinimapContainer extends Container {
   createScreenCursor() {
     if (this.screenCursor != null) {
       this.removeChild(this.screenCursor);
-      this.screenCursor.destroy({ children: true });
+      this.screenCursor.destroy({ children: true, texture: true, context: true, style: true });
+      this.screenCursor = null;
     }
 
     this.screenCursor = new Graphics();
