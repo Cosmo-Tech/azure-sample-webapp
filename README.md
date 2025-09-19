@@ -56,22 +56,22 @@ Please refer to [Webapp configuration](doc/README.md)
 
 ### Pre-requisites: install `node` and `yarn`
 
-The _azure sample webapp_ currently requires **v18** of node. If you don't have NodeJS installed on your system, you
+The _azure sample webapp_ currently requires **node 24**. If you don't have NodeJS installed on your system, you
 first need to install it. It is recommended to use [nvm](https://github.com/nvm-sh/nvm) to install node.
 
 [Install nvm](https://github.com/nvm-sh/nvm#install--update-script):
 
 ```bash
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
 ```
 
-Install node 18:
+Install node 24:
 
 ```bash
-nvm install 18
-nvm use 18
-# To define v18 as the default version of node when opening a new terminal, run:
-nvm alias default 18
+nvm install 24
+nvm use 24
+# To define v24 as the default version of node when opening a new terminal, run:
+nvm alias default 24
 ```
 
 This project is configured to be used with the [Yarn](https://yarnpkg.com/getting-started/install) package manager, in
@@ -86,7 +86,14 @@ corepack enable
 This section describes how to run a local Azure Function, in order to provide the webapp users with a valid token for the PowerBI service. **This step is only necessary if you use the "service account" mode to share PowerBI charts**. If you prefer to let users communicate with PowerBI with their own accounts, then the Azure Function won't be necessary, and you can skip this section (please refer to [doc/powerBI.md](doc/powerBI.md) for the charts configuration documentation).
 
 First, install the
-[Azure Function Core Tools](https://learn.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=v4).
+[Azure Function Core Tools](https://learn.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=v4). This
+tool does not support node 24 yet, so we have to switch to node 22 in the terminal running the functions:
+
+```bash
+nvm install 22  # Only necessary the first time
+nvm use 22
+```
+
 You can then start the Azure Functions, that are required for the PowerBI embedded reports to work correctly, by running
 the commands below:
 
