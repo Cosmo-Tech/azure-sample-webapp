@@ -83,7 +83,7 @@ const SignIn = ({ logInAction, auth }) => {
                 {infoMessage}
                 {accessDeniedError}
                 {SHOW_AZURE_AUTH_PROVIDER && (
-                  <Grid item>
+                  <Grid>
                     <SignInButton
                       autoFocus
                       logo={microsoftLogo}
@@ -94,7 +94,7 @@ const SignIn = ({ logInAction, auth }) => {
                   </Grid>
                 )}
                 {SHOW_KEYCLOAK_AUTH_PROVIDER && (
-                  <Grid item>
+                  <Grid>
                     <SignInButton
                       autoFocus
                       logo="favicon.ico"
@@ -105,7 +105,7 @@ const SignIn = ({ logInAction, auth }) => {
                   </Grid>
                 )}
                 {SHOW_DEV_AUTH_PROVIDER && (
-                  <Grid item>
+                  <Grid>
                     <Button
                       onClick={(event) => handleSignIn(event, AuthDev.name)}
                       data-cy="sign-in-with-dev-account-button"
