@@ -8,15 +8,15 @@ const getLastRunId = (runner) => {
 
   // Runner property 'lastRunId' was a temporary breaking change of Cosmo Tech API in some versions of 3.2 and 3.3, but
   // should not exist in 3.3.2 (at least not until v4)
-  if (runner?.lastRunId != null) {
+  if (runner?.lastRun?.runnerRunId != null) {
     console.warn(
-      'The Cosmo Tech API returned an object with a property "lastRunId". If you are using v3.2 or v3.3 of the ' +
-        'Cosmo Tech API, please consider upgrading to the last version available.'
+      'The Cosmo Tech API returned a Runner object with a property "lastRun.runnerRunId". If you are using v3 of the ' +
+        'Cosmo Tech API, please consider upgrading to v4 or above.'
     );
-    return runner.lastRunId;
+    return runner.lastRun.runnerRunId;
   }
 
-  return runner?.lastRun?.runnerRunId;
+  return runner?.lastRunId;
 };
 
 // TODO: change this when migrating to Cosmo Tech API v4 (new property should be response.id)
