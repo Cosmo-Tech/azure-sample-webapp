@@ -8,5 +8,6 @@ jest.mock('@mui/styles/withStyles', () => () => () => ({}));
 Object.defineProperty(window, 'crypto', {
   value: {
     getRandomValues: (arr) => new Uint32Array(arr.length),
+    subtle: {},
   },
 });
