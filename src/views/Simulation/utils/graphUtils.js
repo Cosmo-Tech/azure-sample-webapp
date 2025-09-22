@@ -118,17 +118,18 @@ const resetNodesHighlighting = (
   nodes.forEach((node) => {
     node.isGrayedOut = defaultGrayedOutValue;
     node.isSelected = false;
+
     if (currentTimestep == null) {
       node.isHighlighted =
         (highlightShortages && (node.shortagesCount ?? 0) > 0) ||
         (highlightBottlenecks && (node.bottlenecksCount ?? 0) > 0);
     } else {
       if (node.type === 'stock') {
-        const nodeShortagesAtCurrentTimestep = shortages?.[node.id]?.[currentTimestep] ?? 0;
-        node.isHighlighted = highlightShortages && nodeShortagesAtCurrentTimestep > 0;
+        const shortagesAtStep = shortages?.[node.id]?.[currentTimestep] ?? 0;
+        node.isHighlighted = highlightShortages && shortagesAtStep > 0;
       } else {
-        const nodeBottlenecksAtCurrentTimestep = bottlenecks?.[node.id]?.[currentTimestep] ?? 0;
-        node.isHighlighted = highlightBottlenecks && nodeBottlenecksAtCurrentTimestep > 0;
+        const bottlenecksAtStep = bottlenecks?.[node.id]?.[currentTimestep] ?? 0;
+        node.isHighlighted = highlightBottlenecks && bottlenecksAtStep > 0;
       }
     }
   });

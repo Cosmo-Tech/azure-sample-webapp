@@ -138,25 +138,40 @@ const createStockContainer = (textures, name, isHighlighted = false, enableGlowE
   const container = new Container();
   container.label = isHighlighted ? NODE_TYPES.STOCK_SHORTAGE : NODE_TYPES.STOCK;
   const stockTextureKey = isHighlighted ? 'stockLevel1' : 'stockLevel0';
-  if (isHighlighted) {
-    const stockHalo = new Sprite(textures[stockTextureKey]);
-    stockHalo.filters = enableGlowEffect ? [BLOOM_FILTER] : [];
-    stockHalo.position.set(-10, -10);
-    container.addChild(stockHalo);
-  }
+
+  const stockGlow = new Sprite(textures[stockTextureKey]);
+  stockGlow.position.set(-10, -10);
+  stockGlow.filters = isHighlighted && enableGlowEffect ? [BLOOM_FILTER] : [];
+
   const stock = new Sprite(textures[stockTextureKey]);
   stock.position.set(-10, -10);
+
   const iconTextureKey = isHighlighted ? 'packageIconLevel1' : 'packageIconLevel0';
   const packageIcon = new Sprite(textures[iconTextureKey]);
   packageIcon.anchor.set(0.5);
   packageIcon.position.set(24, 24);
+
   const label = createLabel(name);
   label.anchor.set(0.5);
   label.position.set(24, 67);
 
+  container.addChild(stockGlow);
   container.addChild(stock);
   container.addChild(packageIcon);
   container.addChild(label);
+
+  container.setHighlight = (highlight) => {
+    const newStockTextureKey = highlight ? 'stockLevel1' : 'stockLevel0';
+    const newIconTextureKey = highlight ? 'packageIconLevel1' : 'packageIconLevel0';
+    container.label = highlight ? NODE_TYPES.STOCK_SHORTAGE : NODE_TYPES.STOCK;
+
+    stockGlow.texture = textures[newStockTextureKey];
+    stock.texture = textures[newStockTextureKey];
+    packageIcon.texture = textures[newIconTextureKey];
+
+    stockGlow.filters = highlight && enableGlowEffect ? [BLOOM_FILTER] : [];
+  };
+
   return container;
 };
 
@@ -185,6 +200,7 @@ const createProductionResourceContainer = (textures, name, isHighlighted, operat
   operationsBadge.anchor.set(0.5);
   operationsBadge.x = 70;
   operationsBadge.y = 34;
+
   const operationsBadgeText = createLabel(`${operationsCount ?? 0}`);
   operationsBadgeText.anchor.set(0.5);
   operationsBadgeText.position.set(operationsBadge.x, operationsBadge.y);
@@ -200,6 +216,18 @@ const createProductionResourceContainer = (textures, name, isHighlighted, operat
   container.addChild(operationsBadge);
   container.addChild(operationsBadgeText);
   container.addChild(label);
+
+  container.setHighlight = (highlight) => {
+    const newBorderTextureKey = highlight ? 'productionResourceBorderLevel1' : 'productionResourceBorderLevel0';
+    const newIconTextureKey = highlight ? 'factoryIconLevel1' : 'factoryIconLevel0';
+
+    container.label = highlight ? NODE_TYPES.PRODUCTION_RESOURCE_BOTTLENECK : NODE_TYPES.PRODUCTION_RESOURCE;
+
+    border.texture = textures[newBorderTextureKey];
+    factoryIcon.texture = textures[newIconTextureKey];
+    border.filters = highlight && enableGlowEffect ? [BLOOM_FILTER] : [];
+  };
+
   return container;
 };
 
@@ -534,4 +562,31 @@ export const initMinimap = async (
   };
   window.addEventListener('resize', handleResizeMinimap);
   minimapContainer.renderElements();
+};
+
+export const updateContainerSprites = (sceneContainer, graph) => {
+  if (!sceneContainer) return;
+
+  const nodes = graph?.nodes || [];
+  if (!nodes.length) return;
+
+  const spriteMap = {};
+  const collectSprites = (container) => {
+    container.children.forEach((child) => {
+      if (child.elementId) {
+        spriteMap[child.elementId] = child;
+      }
+      if (child.children?.length) {
+        collectSprites(child);
+      }
+    });
+  };
+  collectSprites(sceneContainer);
+
+  for (const node of nodes) {
+    const sprite = spriteMap[node.id];
+    if (sprite?.setHighlight) {
+      sprite.setHighlight(node.isHighlighted);
+    }
+  }
 };

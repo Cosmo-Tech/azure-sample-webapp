@@ -5,7 +5,14 @@ import { useTheme } from '@mui/styles';
 import { useSimulationViewContext } from '../../SimulationViewContext';
 import { DEFAULT_UPDATE_STATE } from '../../SimulationViewHook';
 import { resetGraphHighlighting } from '../../utils/graphUtils';
-import { createApp, destroyApp, initApp, initMinimap, renderElements } from '../../utils/pixiUtils';
+import {
+  createApp,
+  destroyApp,
+  initApp,
+  initMinimap,
+  renderElements,
+  updateContainerSprites,
+} from '../../utils/pixiUtils';
 import { ChartTimeline } from '../Charts';
 import { Minimap } from './Minimap';
 
@@ -33,7 +40,6 @@ const Scene = () => {
   const minimapCanvasRef = useRef(null);
   const sceneContainerRef = useRef(null);
   const sampleMarkers = timelineMarkers;
-  const lastUpdateTimestepRef = useRef(null);
 
   useEffect(() => {
     sceneAppRef.current = createApp();
@@ -77,26 +83,21 @@ const Scene = () => {
   }, [selectedElementId, requiredUpdateStepsRef]);
 
   useEffect(() => {
-    const reRender = needsReRendering || lastUpdateTimestepRef.current !== currentTimestep;
+    if (!sceneContainerRef.current || !graphRef.current) return;
 
-    if (!reRender) return;
+    resetGraphHighlighting(graphRef.current, settings, selectedElementId, currentTimestep);
+    updateContainerSprites(sceneContainerRef.current, graphRef.current);
+    if (minimapContainerRef.current) minimapContainerRef.current.updateMiniScene();
+  }, [currentTimestep, settings, graphRef, selectedElementId, sceneContainerRef]);
 
-    const timestepChanged = lastUpdateTimestepRef.current !== currentTimestep;
-
-    if (timestepChanged) {
-      requiredUpdateStepsRef.current.highlight = true;
-      lastUpdateTimestepRef.current = currentTimestep;
-    }
+  useEffect(() => {
+    if (!needsReRendering) return;
 
     const layoutUpdate = requiredUpdateStepsRef.current.all || requiredUpdateStepsRef.current.layout;
     if (layoutUpdate) {
       resetGraphLayout(sceneCanvasRef.current.clientWidth, sceneCanvasRef.current.clientHeight);
     }
     if (requiredUpdateStepsRef.current.all) setSelectedElementId(null);
-
-    if (requiredUpdateStepsRef.current.highlight || requiredUpdateStepsRef.current.layout) {
-      resetGraphHighlighting(graphRef.current, settings, selectedElementId, currentTimestep);
-    }
 
     if (
       requiredUpdateStepsRef.current.all ||
@@ -113,18 +114,13 @@ const Scene = () => {
       const resetBounds = requiredUpdateStepsRef.current.all || requiredUpdateStepsRef.current.layout;
       renderElements(sceneContainerRef, graphRef, setSelectedElementId, settings, resetBounds);
       if (layoutUpdate && sceneContainerRef.current) sceneContainerRef.current.setOrigin();
-
-      if (minimapContainerRef.current) {
-        if (timestepChanged) minimapContainerRef.current.updateMiniScene();
-        else minimapContainerRef.current.renderElements();
-      }
+      if (minimapContainerRef.current) minimapContainerRef.current.renderElements();
     }
 
     requiredUpdateStepsRef.current = { ...DEFAULT_UPDATE_STATE };
     setNeedsReRendering(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    currentTimestep,
     needsReRendering,
     selectedElementId,
     setNeedsReRendering,
