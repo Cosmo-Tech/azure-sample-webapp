@@ -139,8 +139,12 @@ export const GenericTable = ({
   // parameter state value will be updated only in last call.
   // We need here to use a ref value for be sure to have the good value.
   const lastNewParameterValue = useRef(parameter);
+  const dirtyState = useRef(false);
+
   const updateParameterValue = useCallback(
     (newValuePart, shouldReset = false) => {
+      const lastIsDirty = dirtyState.current;
+      dirtyState.current = isDirty;
       const newParameterValue = {
         ...lastNewParameterValue.current,
         ...newValuePart,
@@ -157,14 +161,14 @@ export const GenericTable = ({
         // Prevent useless update of parameterValue if multiple updateParameterValue was done before
         if (lastNewParameterValue.current === newParameterValue) {
           if (shouldReset) {
-            resetParameterValue(newParameterValue);
+            resetParameterValue(newParameterValue, lastIsDirty === isDirty);
           } else {
             setParameterValue(newParameterValue);
           }
         }
       });
     },
-    [resetParameterValue, setParameterValue]
+    [resetParameterValue, setParameterValue, isDirty]
   );
 
   const updateParameterValueWithReset = (newValuePart) => {
@@ -605,9 +609,12 @@ export const GenericTable = ({
   const onCellChange = updateOnFirstEdition;
 
   const onClearErrors = () => {
-    updateParameterValue({
-      errors: null,
-    });
+    updateParameterValue(
+      {
+        errors: null,
+      },
+      true
+    );
   };
 
   const buildErrorsPanelTitle = (errorsCount, maxErrorsCount) => {
