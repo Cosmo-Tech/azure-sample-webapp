@@ -7,7 +7,7 @@ import { setup } from '../../commons/utils';
 import { SCENARIO_WITH_DESCRIPTION_AND_TAGS } from '../../fixtures/stubbing/DescriptionAndTags/scenarios';
 import { DEFAULT_DATASETS_LIST, DEFAULT_SOLUTION } from '../../fixtures/stubbing/default';
 
-describe('Scenario tags and description', () => {
+describe('Scenario tags and description', { keystrokeDelay: 1 }, () => {
   before(() => {
     setup.initCypressAndStubbing();
     stub.start();

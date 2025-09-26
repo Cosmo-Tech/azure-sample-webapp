@@ -4,9 +4,7 @@ import { apiUtils as api } from './apiUtils';
 import { authUtils as auth } from './authUtils';
 
 const setCypressKeystrokeDelay = (interval = 0) => {
-  Cypress.Keyboard.defaults({
-    keystrokeDelay: 0,
-  });
+  Cypress.Keyboard.defaults({ keystrokeDelay: interval });
 };
 
 const setupInterceptionMiddlewares = () => {

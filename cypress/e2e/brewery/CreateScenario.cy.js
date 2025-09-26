@@ -11,7 +11,7 @@ import {
 } from '../../commons/constants/brewery/TestConstants';
 import { API_REGEX, SCENARIO_RUN_IN_PROGRESS } from '../../commons/constants/generic/TestConstants';
 
-describe('Create scenario', () => {
+describe('Create scenario', { keystrokeDelay: 1 }, () => {
   const randomString = utils.randomStr(5);
   const scenarioMasterName = 'Test Cypress - Scenario creation - Master - ' + randomString;
   const scenarioChildName = 'Test Cypress - Scenario creation - Child - ' + randomString;
@@ -27,10 +27,6 @@ describe('Create scenario', () => {
   const startDateValue = utils.randomDate(BASIC_PARAMETERS_CONST.DATE.MIN, BASIC_PARAMETERS_CONST.DATE.MIDDLE);
   const endDateValue = utils.randomDate(BASIC_PARAMETERS_CONST.DATE.MIDDLE, BASIC_PARAMETERS_CONST.DATE.MAX);
   const sliderValue = utils.randomNmbr(BASIC_PARAMETERS_CONST.SLIDER.MIN, BASIC_PARAMETERS_CONST.SLIDER.MAX);
-
-  Cypress.Keyboard.defaults({
-    keystrokeDelay: 0,
-  });
 
   before(() => {
     Login.login();
