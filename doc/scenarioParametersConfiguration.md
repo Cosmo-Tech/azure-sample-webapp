@@ -454,6 +454,12 @@ The description of the table columns consists of an array of objects with the fo
 For columns of type `date`, when providing values for the options `minValue`, `maxValue` and `defaultValue`,
 the **ISO format** is recommended (these values will be forwarded to the standard JS `Date` constructor).
 
+> **Warning**
+>
+> If your project uses ADX and if the option `sendInputParametersToDataWarehouse` is enabled in your run templates, then
+> it seems that some column names may be conflicting with Kusto keywords (for instance, naming a column "time" may cause
+> errors during the scenario run).
+
 Example:
 
 ```yaml
