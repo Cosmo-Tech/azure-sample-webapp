@@ -3,54 +3,10 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import { Card, CardContent, Grid2 as Grid, Tab, Tabs } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
+import { Card, CardContent, Grid, Tab, Tabs } from '@mui/material';
 import { useRedirectFromDisabledView } from '../../hooks/RouterHooks';
 import { useDashboardsViewReportsConfig } from '../../state/powerBi/hooks';
 import { DashboardsPowerBiReport } from './components';
-
-const useStyles = makeStyles((theme) => ({
-  dashboardsRoot: {
-    height: '100%',
-    margin: 'auto',
-    width: '100%',
-  },
-  tabs: {
-    width: '100%',
-    maxWidth: '900px',
-    '& .MuiTabs-indicator': {
-      backgroundColor: theme.palette.primary.main,
-    },
-    '& .MuiButtonBase-root': {
-      maxWidth: '900px',
-    },
-    '& .MuiTab-root': {
-      textAlign: 'right',
-      alignItems: 'flex-end',
-    },
-  },
-  dashboardsTabsContainer: {
-    height: '100%',
-  },
-  dashboardsTabPanel: {
-    height: '100%',
-    overflowY: 'auto',
-    overflowX: 'hidden',
-  },
-  dashboardsMainContainer: {
-    height: '100%',
-  },
-  dashboardsMainCard: {
-    height: '100%',
-  },
-  dashboardsMainCardContent: {
-    height: '100%',
-    overflow: 'auto',
-  },
-  dashboardsTabCard: {
-    height: '100%',
-  },
-}));
 
 const DEFAULT_MISSING_TITLE = 'MISSING_TITLE_IN_LANGUAGE';
 
@@ -62,7 +18,6 @@ function a11yProps(index) {
 }
 
 const Dashboards = () => {
-  const classes = useStyles();
   const { i18n } = useTranslation();
   const [value, setValue] = useState(0);
 
@@ -75,21 +30,29 @@ const Dashboards = () => {
   const dashboardTitle = dashboardsViewReportsConfig?.[value]?.title?.[i18n.language] ?? DEFAULT_MISSING_TITLE;
 
   return (
-    <Grid container className={classes.dashboardsRoot} direction="row">
-      <Grid
-        className={classes.dashboardsTabsContainer}
-        size={{
-          sm: 2,
-        }}
-      >
-        <Card className={classes.dashboardsTabCard}>
+    <Grid container sx={{ height: '100%', margin: 'auto', width: '100%' }} direction="row">
+      <Grid sx={{ height: '100%' }} size={{ sm: 2 }}>
+        <Card sx={{ height: '100%' }}>
           <Tabs
             orientation="vertical"
             variant="scrollable"
             value={value}
             onChange={handleChange}
             aria-label="Dashboards list"
-            className={classes.tabs}
+            sx={{
+              width: '100%',
+              maxWidth: '900px',
+              '& .MuiTabs-indicator': {
+                backgroundColor: (theme) => theme.palette.primary.main,
+              },
+              '& .MuiButtonBase-root': {
+                maxWidth: '900px',
+              },
+              '& .MuiTab-root': {
+                textAlign: 'right',
+                alignItems: 'flex-end',
+              },
+            }}
             indicatorColor="primary"
             textColor="inherit"
           >
@@ -97,16 +60,11 @@ const Dashboards = () => {
           </Tabs>
         </Card>
       </Grid>
-      <Grid
-        className={classes.dashboardsMainContainer}
-        size={{
-          sm: 10,
-        }}
-      >
-        <Card className={classes.dashboardsMainCard}>
-          <CardContent className={classes.dashboardsMainCardContent}>
+      <Grid sx={{ height: '100%' }} size={{ sm: 10 }}>
+        <Card sx={{ height: '100%' }}>
+          <CardContent sx={{ height: '100%', overflow: 'auto' }}>
             <TabPanel
-              className={classes.dashboardsTabPanel}
+              sx={{ height: '100%', overflowY: 'auto', overflowX: 'hidden' }}
               index={value}
               key={dashboardTitle}
               title={dashboardTitle}

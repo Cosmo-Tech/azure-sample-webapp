@@ -3,8 +3,7 @@
 import React, { useEffect, useMemo, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
-import { Card, Grid2 as Grid, IconButton, Tooltip } from '@mui/material';
-import { makeStyles } from '@mui/styles';
+import { Card, Grid, IconButton, Tooltip } from '@mui/material';
 import { PermissionsGate, TagsEditor } from '@cosmotech/ui';
 import { ACL_PERMISSIONS } from '../../../../services/config/accessControl';
 import { ApiUtils } from '../../../../utils';
@@ -13,15 +12,7 @@ import { DescriptionEditor, MetadataItem } from './components';
 
 const COPIED_TOOLTIP_DURATION = 2000;
 
-const useStyles = makeStyles((theme) => ({
-  copyIcon: {
-    width: '16px',
-    height: '16px',
-  },
-}));
-
 export const DatasetMetadata = () => {
-  const classes = useStyles();
   const { t } = useTranslation();
   const { dataset, updateDataset, selectedDatasetIndex, parentDatasetName, etlDatasetRunTemplateName } =
     useDatasetMetadata();
@@ -69,12 +60,12 @@ export const DatasetMetadata = () => {
             aria-label="copy dataset API URL"
             onClick={handleClick}
           >
-            <FileCopyOutlinedIcon className={classes.copyIcon} />
+            <FileCopyOutlinedIcon sx={{ width: '16px', height: '16px' }} />
           </IconButton>
         </Tooltip>
       </div>
     );
-  }, [apiUrl, classes.copyIcon, isCopiedTooltipOpen, t]);
+  }, [apiUrl, isCopiedTooltipOpen, t]);
 
   useEffect(() => {
     // Clear timeout on unmount

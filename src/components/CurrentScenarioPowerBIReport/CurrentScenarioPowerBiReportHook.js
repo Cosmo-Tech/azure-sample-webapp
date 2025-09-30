@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDownloadSimulationLogsFile } from '../../hooks/RunnerRunHooks';
 import { STATUSES } from '../../services/config/StatusConstants';
-import { useIsDarkTheme } from '../../state/app/hooks';
+import { useApplicationTheme } from '../../state/app/hooks';
 import { usePowerBIInfo, usePowerBIReducerStatus } from '../../state/powerBi/hooks';
 import { useCurrentSimulationRunnerData, useRunners } from '../../state/runner/hooks';
 import { useWorkspaceChartsLogInWithUserCredentials } from '../../state/workspaces/hooks';
@@ -36,7 +36,7 @@ export const useCurrentScenarioPowerBiReport = () => {
     [scenarios]
   );
 
-  const isDarkTheme = useIsDarkTheme();
+  const { isDarkTheme } = useApplicationTheme();
   const theme = useMemo(() => (isDarkTheme ? darkTheme : lightTheme), [isDarkTheme]);
 
   return {

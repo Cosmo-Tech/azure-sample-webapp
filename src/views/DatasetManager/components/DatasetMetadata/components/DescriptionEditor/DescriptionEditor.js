@@ -4,19 +4,10 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import EditIcon from '@mui/icons-material/Edit';
-import { Grid2 as Grid, TextField, Typography } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
+import { Grid, TextField, Typography } from '@mui/material';
 import MetadataLabel from '../MetadataLabel';
 
-const useStyles = makeStyles((theme) => ({
-  editIcon: {
-    width: '16px',
-    height: '16px',
-  },
-}));
-
 const DescriptionEditor = (props) => {
-  const classes = useStyles();
   const { t } = useTranslation();
   const { onChange, readOnly = false, value = '' } = props;
 
@@ -55,8 +46,10 @@ const DescriptionEditor = (props) => {
 
   const editIcon = useMemo(() => {
     if (readOnly || isEditing || !isHovered) return null;
-    return <EditIcon data-cy="edit-description" className={classes.editIcon} onClick={startEdition}></EditIcon>;
-  }, [readOnly, isEditing, isHovered, classes.editIcon, startEdition]);
+    return (
+      <EditIcon data-cy="edit-description" sx={{ width: '16px', height: '16px' }} onClick={startEdition}></EditIcon>
+    );
+  }, [readOnly, isEditing, isHovered, startEdition]);
 
   const description = useMemo(() => {
     if (readOnly || !isEditing)

@@ -12,6 +12,9 @@ export const POLLING_MAX_CONSECUTIVE_NETWORK_ERRORS = 3;
 // Polling delay to update Power BI information (milliseconds)
 export const POWER_BI_INFO_POLLING_DELAY = 10000;
 
+// Theme default mode (must be "system", "dark" or "light")
+export const DEFAULT_THEME_MODE = 'system';
+
 // Polling delay to update twingraph status (milliseconds)
 export const TWINGRAPH_STATUS_POLLING_DELAY = 10000;
 

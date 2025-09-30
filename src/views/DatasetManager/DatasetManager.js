@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import React from 'react';
-import { Card, Grid2 as Grid } from '@mui/material';
+import { Card, Grid } from '@mui/material';
 import { useDatasetManager } from './DatasetManagerHook';
 import { DatasetList, DatasetMetadata, DatasetOverview, NoDatasetsPlaceholder } from './components';
 

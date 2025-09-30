@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useMatch, Outlet, useParams, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Tabs as MuiTabs, Tab, Box } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
 import { filterTabsForCurrentWorkspace } from '../../AppLayout';
 import { ApplicationErrorBanner } from '../../components';
 import { AppBar } from '../../components/AppBar';
@@ -14,19 +13,7 @@ import { useGetRunner } from '../../state/runner/hooks';
 import { useSelectWorkspace, useWorkspace } from '../../state/workspaces/hooks';
 import { ConfigUtils } from '../../utils';
 
-const useStyles = makeStyles((theme) => ({
-  content: {
-    height: 'calc(100% - 48px)',
-    paddingTop: theme.spacing(0),
-    paddingLeft: theme.spacing(0),
-    paddingRight: theme.spacing(0),
-    paddingBottom: theme.spacing(0),
-    boxSizing: 'border-box',
-  },
-}));
-
 export const TabLayout = (props) => {
-  const classes = useStyles();
   const { tabs } = props;
   const { t } = useTranslation();
   const location = useLocation();
@@ -103,7 +90,16 @@ export const TabLayout = (props) => {
     <>
       <DashboardsManager />
       <AppBar>{viewTabs}</AppBar>
-      <Box className={classes.content}>
+      <Box
+        sx={{
+          height: 'calc(100% - 48px)',
+          paddingTop: (theme) => theme.spacing(0),
+          paddingLeft: (theme) => theme.spacing(0),
+          paddingRight: (theme) => theme.spacing(0),
+          paddingBottom: (theme) => theme.spacing(0),
+          boxSizing: 'border-box',
+        }}
+      >
         <ApplicationErrorBanner />
         <Outlet />
       </Box>

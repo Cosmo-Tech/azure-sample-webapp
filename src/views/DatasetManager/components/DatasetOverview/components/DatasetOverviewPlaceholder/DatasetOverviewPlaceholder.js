@@ -3,7 +3,7 @@
 import React, { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import { Button, Grid2 as Grid, Link, Typography } from '@mui/material';
+import { Button, Grid, Link, Typography } from '@mui/material';
 import {
   DATASET_SOURCE_TYPE,
   INGESTION_STATUS,

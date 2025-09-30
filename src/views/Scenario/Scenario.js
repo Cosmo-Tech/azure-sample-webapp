@@ -5,8 +5,7 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
-import { Card, Divider, Grid2 as Grid, IconButton, Paper, Stack, Typography } from '@mui/material';
-import { makeStyles } from '@mui/styles';
+import { Card, Divider, Grid, IconButton, Paper, Stack, Typography } from '@mui/material';
 import { ScenarioValidationStatusChip, PermissionsGate, FadingTooltip } from '@cosmotech/ui';
 import {
   ScenarioParameters,
@@ -23,20 +22,11 @@ import { TranslationUtils } from '../../utils';
 import { useScenario } from './ScenarioHook';
 import { ScenarioDashboardCard, BackdropLoadingScenario } from './components';
 
-const useStyles = makeStyles((theme) => ({
-  content: {
-    paddingTop: '16px',
-    paddingLeft: '8px',
-    paddingRight: '8px',
-  },
-}));
-
 const appInsights = AppInsights.getInstance();
 
 const STORAGE_SCENARIO_PARAMETERS_ACCORDION_EXPANDED_KEY = 'scenarioParametersAccordionExpanded';
 
 const Scenario = () => {
-  const classes = useStyles();
   const { t } = useTranslation();
 
   // RHF
@@ -256,7 +246,7 @@ const Scenario = () => {
   return (
     <FormProvider {...methods} key={`form-${currentScenarioData?.id}`}>
       <BackdropLoadingScenario />
-      <div data-cy="scenario-view" className={classes.content}>
+      <div data-cy="scenario-view" style={{ paddingTop: '16px', paddingLeft: '8px', paddingRight: '8px' }}>
         <Grid container spacing={2} sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
           <Grid size={4}>
             <Stack>

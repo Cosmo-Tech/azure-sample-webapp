@@ -3,36 +3,13 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import { Grid2 as Grid, ButtonBase, Link } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
+import { Grid, ButtonBase, Link } from '@mui/material';
 import ConfigService from '../../services/ConfigService';
 import { useWorkspaceData } from '../../state/workspaces/hooks';
 import { pictureLight, pictureDark } from '../../theme';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    alignItems: 'center',
-  },
-  picture: {
-    marginRight: '16px',
-  },
-  title: {
-    fontWeight: 'bold',
-    fontSize: '24px',
-  },
-  version: {
-    marginTop: '16px',
-    fontWeight: 'bold',
-  },
-  content: {
-    marginTop: '2px',
-    marginBottom: '16px',
-  },
-}));
-
 export const AboutContent = ({ isDarkTheme = false }) => {
   const { t } = useTranslation();
-  const classes = useStyles();
   const logo = `${process.env?.PUBLIC_URL ?? ''}${isDarkTheme ? pictureDark.darkLogo : pictureLight.lightLogo}`;
 
   const currentWorkspaceData = useWorkspaceData();
@@ -42,17 +19,17 @@ export const AboutContent = ({ isDarkTheme = false }) => {
     currentWorkspaceData?.webApp?.options?.menu?.supportUrl ?? ConfigService.getParameterValue('SUPPORT_URL');
 
   return (
-    <Grid container spacing={2} className={classes.root}>
-      <Grid className={classes.picture}>
+    <Grid container spacing={2} sx={{ alignItems: 'center' }}>
+      <Grid sx={{ marginRight: '16px' }}>
         <ButtonBase>
           <img height="75" alt="Cosmo Tech" src={logo} />
         </ButtonBase>
       </Grid>
       <Grid container size="grow">
         <Grid container direction="column">
-          <Grid className={classes.title}>{t('genericcomponent.dialog.about.title')}</Grid>
-          <Grid className={classes.version}>{ConfigService.getParameterValue('APP_VERSION')}</Grid>
-          <Grid className={classes.content}>{t('genericcomponent.dialog.about.content')}</Grid>
+          <Grid sx={{ fontWeight: 'bold', fontSize: '24px' }}>{t('genericcomponent.dialog.about.title')}</Grid>
+          <Grid sx={{ marginTop: '16px', fontWeight: 'bold' }}>{ConfigService.getParameterValue('APP_VERSION')}</Grid>
+          <Grid sx={{ marginTop: '2px', marginBottom: '16px' }}>{t('genericcomponent.dialog.about.content')}</Grid>
           <Grid>
             <Link href={supportUrl} target="_blank" rel="noreferrer">
               {supportUrl}

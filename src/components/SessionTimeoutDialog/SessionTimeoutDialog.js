@@ -4,17 +4,6 @@ import React, { useState } from 'react';
 import Countdown from 'react-countdown';
 import PropTypes from 'prop-types';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
-
-const useStyles = makeStyles((theme) => ({
-  dialogContent: {
-    marginTop: '16px',
-  },
-  dialogActions: {
-    marginRight: '4px',
-    marginBottom: '4px',
-  },
-}));
 
 const DEFAULT_LABELS = {
   body: 'You have been idle for too long. You will be automatically disconnected in a few seconds...',
@@ -33,7 +22,6 @@ export const SessionTimeoutDialog = ({
   timeout,
 }) => {
   const labels = { ...tmpLabels, ...DEFAULT_LABELS };
-  const classes = useStyles();
 
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const logOutAfterTimeout = () => {
@@ -59,14 +47,14 @@ export const SessionTimeoutDialog = ({
       onClose={onClose}
     >
       <DialogTitle id="form-dialog-title">{labels.title}</DialogTitle>
-      <DialogContent className={classes.dialogContent}>
+      <DialogContent sx={{ marginTop: '16px' }}>
         {isLoggingOut ? (
           labels.loggingOut
         ) : (
           <Countdown date={Date.now() + timeout * 1000} renderer={timeoutRenderer} onComplete={logOutAfterTimeout} />
         )}
       </DialogContent>
-      <DialogActions className={classes.dialogActions}>
+      <DialogActions sx={{ marginRight: '4px', marginBottom: '4px' }}>
         <Button id="logout" onClick={logOutAfterClick} color="primary" disabled={isLoggingOut}>
           {labels.logOut}
         </Button>

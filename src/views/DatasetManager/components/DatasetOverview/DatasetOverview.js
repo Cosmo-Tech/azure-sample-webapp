@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import React, { useMemo } from 'react';
-import { Card, CardContent, CardHeader, Grid2 as Grid } from '@mui/material';
+import { Card, CardContent, CardHeader, Grid } from '@mui/material';
 import { INGESTION_STATUS } from '../../../../services/config/ApiConstants';
 import { useDatasetOverview } from './DatasetOverviewHook';
 import { CategoryAccordion, DatasetOverviewPlaceholder, EditableDatasetName, GraphIndicator } from './components';

@@ -12,9 +12,10 @@ import {
   ListItem,
   ListItemButton,
   ListItemText,
+  Paper,
   Typography,
+  styled,
 } from '@mui/material';
-import { makeStyles } from '@mui/styles';
 import { ResourceUtils } from '@cosmotech/core';
 import { PermissionsGate, SearchBar } from '@cosmotech/ui';
 import { INGESTION_STATUS } from '../../../../services/config/ApiConstants';
@@ -23,8 +24,17 @@ import { CreateDatasetButton } from '../CreateDatasetButton';
 import { DeleteDatasetButton } from '../DeleteDatasetButton/DeleteDatasetButton';
 import { useDatasetList } from './DatasetListHook';
 
-const useStyles = makeStyles(() => ({
-  searchBar: {
+const PREFIX = 'DatasetList';
+export const classes = {
+  searchBar: `${PREFIX}-searchBar`,
+};
+
+export const Root = styled(Paper)(({ theme }) => ({
+  display: 'flex',
+  flexFlow: 'column nowrap',
+  height: '100%',
+
+  [`& .${classes.searchBar}`]: {
     width: '100%',
     marginTop: '8px',
   },
@@ -32,8 +42,6 @@ const useStyles = makeStyles(() => ({
 
 export const DatasetList = () => {
   const { t } = useTranslation();
-  const classes = useStyles();
-
   const { userPermissionsInCurrentOrganization, datasets, currentDataset, selectDataset } = useDatasetList();
 
   const sortedDatasetList = useMemo(() => {
@@ -99,7 +107,7 @@ export const DatasetList = () => {
   }, []);
 
   return (
-    <div style={{ display: 'flex', flexFlow: 'column nowrap', height: '100%' }}>
+    <Root>
       <SearchBar
         label={t('commoncomponents.datasetmanager.searchBar.label', 'Find...')}
         onSearchChange={setSearchString}
@@ -136,6 +144,6 @@ export const DatasetList = () => {
           </Box>
         </List>
       </Card>
-    </div>
+    </Root>
   );
 };

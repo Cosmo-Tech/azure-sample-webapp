@@ -3,7 +3,7 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { Grid2 as Grid, Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/material';
+import { Grid, Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/material';
 import { ResourceCard } from '@cosmotech/ui';
 import { ApplicationErrorBanner } from '../../components';
 import { AppBar } from '../../components/AppBar';

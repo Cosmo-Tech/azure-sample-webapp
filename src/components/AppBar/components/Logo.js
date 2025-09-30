@@ -1,22 +1,14 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import React, { useMemo } from 'react';
-import makeStyles from '@mui/styles/makeStyles';
-import { useIsDarkTheme } from '../../../state/app/hooks';
+import { useApplicationTheme } from '../../../state/app/hooks';
 import { pictureDark, pictureLight } from '../../../theme';
 
-const useStyles = makeStyles((theme) => ({
-  logo: {
-    marginLeft: '8px',
-    marginRight: '8px',
-  },
-}));
 export const Logo = () => {
-  const isDarkThemeUsed = useIsDarkTheme();
+  const { isDarkTheme } = useApplicationTheme();
   const logoPath = useMemo(
-    () => `${process.env?.PUBLIC_URL ?? ''}${isDarkThemeUsed ? pictureDark.darkLogo : pictureLight.lightLogo}`,
-    [isDarkThemeUsed]
+    () => `${process.env?.PUBLIC_URL ?? ''}${isDarkTheme ? pictureDark.darkLogo : pictureLight.lightLogo}`,
+    [isDarkTheme]
   );
-  const classes = useStyles();
-  return <img alt="Cosmo Tech" height="28px" src={logoPath} className={classes.logo} />;
+  return <img alt="Cosmo Tech" height="28px" src={logoPath} style={{ marginLeft: '8px', marginRight: '8px' }} />;
 };
