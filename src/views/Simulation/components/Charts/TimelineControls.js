@@ -20,6 +20,7 @@ const useStyles = makeStyles({
     bottom: 16,
     padding: 5,
     borderRadius: 10,
+    zIndex: 15,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',

@@ -39,6 +39,8 @@ export const useSimulationView = () => {
   const [selectedElementId, setSelectedElementId] = useState(null);
   const [centerToPosition, setCenterToPosition] = useState(() => {});
 
+  const [viewMode, setViewMode] = useState(DEFAULT_SETTINGS.viewMode);
+
   const graphRef = useRef(null);
   const lastScenarioId = useRef(null);
 
@@ -123,5 +125,7 @@ export const useSimulationView = () => {
     needsReRendering,
     setNeedsReRendering,
     requiredUpdateStepsRef,
+    viewMode,
+    setViewMode,
   };
 };
