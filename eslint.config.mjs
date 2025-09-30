@@ -95,6 +95,7 @@ export default [
     files: ['cypress/**/*.js'],
     rules: {
       'jest/expect-expect': 0,
+      'jest/valid-describe-callback': 0,
       'jest/valid-expect': 0,
       'jest/valid-expect-in-promise': 0,
     },

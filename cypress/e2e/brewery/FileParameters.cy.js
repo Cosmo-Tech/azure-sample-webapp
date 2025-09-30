@@ -12,10 +12,6 @@ import {
 import { routeUtils as route } from '../../commons/utils';
 import { EXPECTED_DATA_AFTER_DUMMY_DATASET_1_UPLOAD } from '../../fixtures/FileParametersData';
 
-Cypress.Keyboard.defaults({
-  keystrokeDelay: 0,
-});
-
 const SCENARIO_DATASET = DATASET.BREWERY_STORAGE;
 const BASIC_TYPES_RUN_TEMPLATE = RUN_TEMPLATE.BASIC_TYPES;
 const BREWERY_RUN_TEMPLATE = RUN_TEMPLATE.BREWERY_PARAMETERS;
@@ -26,7 +22,7 @@ function forgeScenarioName() {
   return `Test Cypress - File parameters - ${utils.randomStr(7)}`;
 }
 
-describe('Simple operations on a file parameter', () => {
+describe('Simple operations on a file parameter', { keystrokeDelay: 1 }, () => {
   beforeEach(() => {
     Login.login();
   });
@@ -130,7 +126,7 @@ describe('Simple operations on a file parameter', () => {
   });
 });
 
-describe('Simple operations on a file parameter in a parameters tab that lost focus', () => {
+describe('Simple operations on a file parameter in a parameters tab that lost focus', { keystrokeDelay: 1 }, () => {
   beforeEach(() => {
     Login.login();
   });
@@ -198,7 +194,7 @@ describe('Simple operations on a file parameter in a parameters tab that lost fo
   });
 });
 
-describe('Scenario inheritance for file parameters', () => {
+describe('Scenario inheritance for file parameters', { keystrokeDelay: 1 }, () => {
   beforeEach(() => {
     Login.login();
   });
@@ -263,7 +259,7 @@ describe('Scenario inheritance for file parameters', () => {
   });
 });
 
-describe('File parameters in multiple tabs', () => {
+describe('File parameters in multiple tabs', { keystrokeDelay: 1 }, () => {
   beforeEach(() => {
     Login.login();
   });

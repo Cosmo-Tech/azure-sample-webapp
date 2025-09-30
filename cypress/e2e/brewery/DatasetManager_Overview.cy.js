@@ -10,6 +10,8 @@ import {
   ORGANIZATION_WITH_DEFAULT_ROLE_USER,
 } from '../../fixtures/stubbing/DatasetManager';
 
+const KPI_QUERIES = [TWINGRAPH_QUERIES[0], TWINGRAPH_QUERIES[1], TWINGRAPH_QUERIES[2], TWINGRAPH_QUERIES[3]];
+
 const getTransportAccordionSummary = () => DatasetManager.getCategoryAccordionSummary('transport');
 const getTransportAccordionDetails = () => DatasetManager.getCategoryAccordionDetails('transport');
 const getTransportKpi = (kpi) => DatasetManager.getCategoryKpi(getTransportAccordionDetails(), kpi);
@@ -28,14 +30,9 @@ describe('Dataset manager overview works correctly', () => {
   after(stub.stop);
 
   it('Dataset overview launches Cypher queries and has results', () => {
-    DatasetManager.switchToDatasetManagerView();
+    DatasetManager.switchToDatasetManagerView(KPI_QUERIES);
     DatasetManager.getDatasetNameInOverview().should('have.text', DATASETS_TWINGRAPH[0].name);
-    DatasetManager.selectDatasetById(DATASETS_TWINGRAPH[1].id, [
-      TWINGRAPH_QUERIES[0],
-      TWINGRAPH_QUERIES[1],
-      TWINGRAPH_QUERIES[2],
-      TWINGRAPH_QUERIES[3],
-    ]);
+    DatasetManager.selectDatasetById(DATASETS_TWINGRAPH[1].id, KPI_QUERIES);
     DatasetManager.getDatasetNameInOverview().should('have.text', DATASETS_TWINGRAPH[1].name);
     DatasetManager.getIndicatorKpiLabel(DatasetManager.getIndicatorCard('entities')).should('have.text', 'Entities');
     DatasetManager.getKpiValue(DatasetManager.getIndicatorCard('entities')).should(
