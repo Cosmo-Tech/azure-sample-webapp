@@ -13,5 +13,8 @@
     "jwks-rsa": "^3.2.0",
     "uuid": "^13.0.0"
   },
+   "engines": {
+    "node": "^20"
+   },
   "packageManager": "yarn@4.3.1"
 }
