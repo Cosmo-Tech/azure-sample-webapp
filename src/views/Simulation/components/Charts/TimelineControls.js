@@ -1,3 +1,5 @@
+// Copyright (c) Cosmo Tech.
+// Licensed under the MIT license.
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import CloseIcon from '@mui/icons-material/Close';

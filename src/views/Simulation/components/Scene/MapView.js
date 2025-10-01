@@ -1,3 +1,5 @@
+// Copyright (c) Cosmo Tech.
+// Licensed under the MIT license.
 import React, { useEffect, useRef } from 'react';
 
 const MapView = () => {
