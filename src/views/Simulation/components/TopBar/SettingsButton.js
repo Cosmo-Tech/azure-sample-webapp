@@ -24,10 +24,11 @@ import {
   DEFAULT_SETTINGS,
   SETTINGS_SLIDER_MIN,
   SETTINGS_SLIDER_MAX,
+  SIMULATION_MODES,
 } from '../../constants/settings';
 
 export const SettingsButton = () => {
-  const { requiredUpdateStepsRef, settings, setSettings } = useSimulationViewContext();
+  const { requiredUpdateStepsRef, settings, setSettings, viewMode } = useSimulationViewContext();
   // Use local value for spacing, so we can debounce the change events and trigger graph view updates less frequently
   const debounceTimerRef = useRef(null);
   const [localSpacingValue, setLocalSpacingValue] = useState(settings?.spacing);
@@ -77,47 +78,51 @@ export const SettingsButton = () => {
       </MenuItem>
     );
 
-    const orientationRadioGroup = (
-      <FormControl sx={{ flexGrow: 1, ml: 1 }}>
-        <RadioGroup
-          row
-          defaultValue={GRAPH_LAYOUT_DIRECTION_VALUES.HORIZONTAL}
-          name="orientation-buttons-group"
-          value={settings?.orientation ?? GRAPH_LAYOUT_DIRECTION_VALUES.HORIZONTAL}
-          onChange={(event) => {
-            requiredUpdateStepsRef.current.layout = true;
-            setSettings((previousSettings) => ({ ...previousSettings, orientation: event.target.value }));
-          }}
-          sx={{ justifyContent: 'space-between' }}
-        >
-          <FormControlLabel
-            value={GRAPH_LAYOUT_DIRECTION_VALUES.HORIZONTAL}
-            control={<Radio color="secondary" size="small" />}
-            label="Horizontal"
-            sx={{ mr: 0, p: 0 }}
-          />
-          <FormControlLabel
-            value={GRAPH_LAYOUT_DIRECTION_VALUES.VERTICAL}
-            control={<Radio color="secondary" size="small" />}
-            label="Vertical"
-            sx={{ mr: 0, p: 0 }}
-          />
-        </RadioGroup>
-      </FormControl>
-    );
-    const spacingSlider = (
-      <Slider
-        color="secondary"
-        size="small"
-        defaultValue={DEFAULT_SETTINGS.spacing}
-        min={SETTINGS_SLIDER_MIN}
-        max={SETTINGS_SLIDER_MAX}
-        aria-label="Spacing"
-        sx={{ ml: 1 }}
-        value={localSpacingValue ?? DEFAULT_SETTINGS.spacing}
-        onChange={changeSpacingWithDebounce}
-      />
-    );
+    // Only render layout settings if viewMode is GRAPH
+    const orientationRadioGroup =
+      viewMode === SIMULATION_MODES.GRAPH ? (
+        <FormControl sx={{ flexGrow: 1, ml: 1 }}>
+          <RadioGroup
+            row
+            defaultValue={GRAPH_LAYOUT_DIRECTION_VALUES.HORIZONTAL}
+            name="orientation-buttons-group"
+            value={settings?.orientation ?? GRAPH_LAYOUT_DIRECTION_VALUES.HORIZONTAL}
+            onChange={(event) => {
+              requiredUpdateStepsRef.current.layout = true;
+              setSettings((prev) => ({ ...prev, orientation: event.target.value }));
+            }}
+            sx={{ justifyContent: 'space-between' }}
+          >
+            <FormControlLabel
+              value={GRAPH_LAYOUT_DIRECTION_VALUES.HORIZONTAL}
+              control={<Radio color="secondary" size="small" />}
+              label="Horizontal"
+              sx={{ mr: 0, p: 0 }}
+            />
+            <FormControlLabel
+              value={GRAPH_LAYOUT_DIRECTION_VALUES.VERTICAL}
+              control={<Radio color="secondary" size="small" />}
+              label="Vertical"
+              sx={{ mr: 0, p: 0 }}
+            />
+          </RadioGroup>
+        </FormControl>
+      ) : null;
+
+    const spacingSlider =
+      viewMode === SIMULATION_MODES.GRAPH ? (
+        <Slider
+          color="secondary"
+          size="small"
+          defaultValue={DEFAULT_SETTINGS.spacing}
+          min={SETTINGS_SLIDER_MIN}
+          max={SETTINGS_SLIDER_MAX}
+          aria-label="Spacing"
+          sx={{ ml: 1 }}
+          value={localSpacingValue ?? DEFAULT_SETTINGS.spacing}
+          onChange={changeSpacingWithDebounce}
+        />
+      ) : null;
 
     const showInputSwitch = (
       <Switch
@@ -148,6 +153,7 @@ export const SettingsButton = () => {
         </Select>
       </Stack>
     ) : null;
+
     const inputSettings = (
       <Stack direction="row" gap={2} sx={{ justifyContent: 'space-between', alignContent: 'stretch' }}>
         {showInputSwitch}
@@ -211,9 +217,13 @@ export const SettingsButton = () => {
         MenuListProps={{ 'aria-labelledby': 'sim-settings-button' }}
         PaperProps={{ style: { width: '365px' } }}
       >
-        {forgeMenuTitle('Layout')}
-        {forgeMenuItem('Orientation', 'Change the main graph orientation', orientationRadioGroup)}
-        {forgeMenuItem('Spacing', 'Set the spacing between graph elements', spacingSlider)}
+        {viewMode === SIMULATION_MODES.GRAPH && (
+          <>
+            {forgeMenuTitle('Layout')}
+            {forgeMenuItem('Orientation', 'Change the main graph orientation', orientationRadioGroup)}
+            {forgeMenuItem('Spacing', 'Set the spacing between graph elements', spacingSlider)}
+          </>
+        )}
         {forgeMenuTitle('Display entity siblings')}
         {forgeMenuItem('Inputs', 'Limit how many levels of input siblings are visible', inputSettings)}
         {forgeMenuItem('Outputs', 'Limit how many levels of output siblings are visible', outputSettings)}
@@ -221,7 +231,16 @@ export const SettingsButton = () => {
         {forgeMenuItem('Glow Effects', 'Display glow effects', glowEffectSwitch)}
       </Menu>
     );
-  }, [anchorEl, open, requiredUpdateStepsRef, settings, setSettings, localSpacingValue, changeSpacingWithDebounce]);
+  }, [
+    anchorEl,
+    open,
+    requiredUpdateStepsRef,
+    settings,
+    setSettings,
+    localSpacingValue,
+    changeSpacingWithDebounce,
+    viewMode,
+  ]);
 
   return (
     <>
