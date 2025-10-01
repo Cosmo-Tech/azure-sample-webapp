@@ -1,9 +1,11 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
+import * as d3 from 'd3';
 import { AdvancedBloomFilter, GlowFilter } from 'pixi-filters';
 import { AlphaFilter, Application, BitmapText, Container, Graphics, GraphicsContext, Sprite } from 'pixi.js';
 import 'pixi.js/unsafe-eval';
 import { NODE_TYPES } from '../constants/nodeLabels';
+import worldGeoJSON from '../data/map/custom.geo.json';
 import { MinimapContainer } from './MinimapContainer';
 import { SceneContainer } from './SceneContainer';
 import { PACKAGE_ICON_LINES, GEAR_ICON_LINES, FACTORY_ICON_LINES } from './shapes';
@@ -12,6 +14,8 @@ const GRAY_LINE_COLOR = 0xb9bac0;
 const LINK_COLOR = 0xf5f3f3;
 const HIDDEN_LINK_COLOR = 0x636363;
 const RED_LINE_COLOR = 0xdf3537;
+const COUNTRY_COLOR = 0x333333;
+const BORDER_COLOR = 0x757272;
 const DEFAULT_TEXT_STYLE = { fontFamily: 'Arial', fontSize: 12, fill: 0xffffff, align: 'center' };
 const BLOOM_FILTER = new AdvancedBloomFilter({ blur: 1, quality: 16, bloomScale: 1.8, brightness: 1 });
 const SELECTED_LINK_FILTER = new GlowFilter({ distance: 10, outerStrength: 6, color: 0xffffff });
@@ -474,9 +478,9 @@ export const renderElements = (sceneContainerRef, graphRef, setSelectedElementId
 
 export const createApp = () => new Application();
 
-export const initApp = async (
+export const initGraphApp = async (
   sceneAppRef,
-  sceneCanvasRef,
+  graphCanvasRef,
   sceneContainerRef,
   graphRef,
   theme,
@@ -484,7 +488,7 @@ export const initApp = async (
   settings
 ) => {
   const app = sceneAppRef.current;
-  const canvas = sceneCanvasRef.current;
+  const canvas = graphCanvasRef.current;
 
   await app.init({
     width: canvas.clientWidth,
@@ -502,7 +506,7 @@ export const initApp = async (
   canvas.hitArea = app.screen;
   canvas.eventMode = 'static';
 
-  sceneContainerRef.current = new SceneContainer(app, sceneCanvasRef);
+  sceneContainerRef.current = new SceneContainer(app, graphCanvasRef);
   sceneContainerRef.current.textures = generateTextures(app);
   app.stage.addChild(sceneContainerRef.current);
 
@@ -530,13 +534,13 @@ export const initMinimap = async (
   minimapContainerRef,
   minimapCanvasRef,
   sceneContainerRef,
-  sceneCanvasRef,
+  graphCanvasRef,
   theme
 ) => {
   const minimapApp = minimapAppRef.current;
   const minimapCanvas = minimapCanvasRef.current;
 
-  minimapContainerRef.current = new MinimapContainer(minimapAppRef, sceneContainerRef, sceneCanvasRef);
+  minimapContainerRef.current = new MinimapContainer(minimapAppRef, sceneContainerRef, graphCanvasRef);
   sceneContainerRef.current.setMinimapContainer(minimapContainerRef);
   const minimapContainer = minimapContainerRef.current;
   minimapApp.stage.addChild(minimapContainer);
@@ -589,4 +593,81 @@ export const updateContainerSprites = (sceneContainer, graph) => {
       sprite.setHighlight(node.isHighlighted);
     }
   }
+};
+
+const drawPolygon = (graphics, polygon, projection) => {
+  for (const point of polygon) {
+    const projected = point.map((coord) => projection(coord));
+    if (!projected.length) continue;
+    graphics.moveTo(projected[0][0], projected[0][1]);
+    for (const [x, y] of projected) {
+      graphics.lineTo(x, y);
+    }
+    graphics.closePath().stroke({ pixelLine: true, width: 1, color: BORDER_COLOR }).fill({ color: COUNTRY_COLOR });
+  }
+};
+
+export const generateMap = (mapContainerRef, mapCanvasRef) => {
+  mapContainerRef.current.removeChildren().forEach((child) => {
+    child.destroy({ children: true, texture: false, baseTexture: false });
+  });
+
+  const projection = d3
+    .geoMercator()
+    .scale(120)
+    .translate([mapCanvasRef.current.clientWidth / 2, mapCanvasRef.current.clientHeight / 1.65]);
+
+  for (const feature of worldGeoJSON.features) {
+    const geomType = feature.geometry.type;
+    const coords = feature.geometry.coordinates;
+
+    const country = new Graphics();
+
+    if (geomType === 'Polygon') {
+      drawPolygon(country, coords, projection);
+    } else if (geomType === 'MultiPolygon') {
+      for (const polygon of coords) {
+        drawPolygon(country, polygon, projection);
+      }
+    }
+
+    mapContainerRef.current.addChild(country);
+  }
+};
+
+export const initMapApp = async (mapAppRef, mapCanvasRef, mapContainerRef, theme) => {
+  const mapApp = mapAppRef.current;
+  const canvas = mapCanvasRef.current;
+
+  await mapApp.init({
+    width: canvas.clientWidth,
+    height: canvas.clientHeight,
+    backgroundColor: theme.palette.background.default,
+    resolution: window.devicePixelRatio || 1,
+    autoDensity: true,
+    antialias: true,
+  });
+
+  canvas.appendChild(mapApp.canvas);
+  mapApp.canvas.style.width = '100%';
+  mapApp.canvas.style.height = '100%';
+  mapApp.canvas.style.display = 'block';
+  canvas.hitArea = mapApp.screen;
+  canvas.eventMode = 'static';
+
+  mapContainerRef.current = new SceneContainer(mapApp, mapCanvasRef, {
+    minZoom: 1,
+    maxZoom: 64,
+    defaultZoom: 1,
+    zoomSpeed: 0.5,
+  });
+  mapApp.stage.addChild(mapContainerRef.current);
+
+  const handleResize = () => {
+    if (!canvas || !mapApp?.renderer) return;
+    mapApp.renderer.resize(canvas.clientWidth, canvas.clientHeight);
+    generateMap(mapContainerRef, mapCanvasRef);
+  };
+
+  window.addEventListener('resize', handleResize);
 };
