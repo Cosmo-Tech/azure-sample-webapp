@@ -8,7 +8,7 @@ import { resetGraphHighlighting } from '../../utils/graphUtils';
 import {
   createApp,
   destroyApp,
-  initApp,
+  initGraphApp,
   initMinimap,
   renderElements,
   updateContainerSprites,
@@ -36,7 +36,7 @@ const Scene = () => {
   const sceneAppRef = useRef(null);
   const minimapAppRef = useRef(null);
   const minimapContainerRef = useRef(null);
-  const sceneCanvasRef = useRef(null);
+  const graphCanvasRef = useRef(null);
   const minimapCanvasRef = useRef(null);
   const sceneContainerRef = useRef(null);
   const sampleMarkers = timelineMarkers;
@@ -46,10 +46,18 @@ const Scene = () => {
     minimapAppRef.current = createApp();
 
     const setup = async () => {
-      resetGraphLayout(sceneCanvasRef.current.clientWidth, sceneCanvasRef.current.clientHeight);
-      await initApp(sceneAppRef, sceneCanvasRef, sceneContainerRef, graphRef, theme, setSelectedElementId, settings);
+      resetGraphLayout(graphCanvasRef.current.clientWidth, graphCanvasRef.current.clientHeight);
+      await initGraphApp(
+        sceneAppRef,
+        graphCanvasRef,
+        sceneContainerRef,
+        graphRef,
+        theme,
+        setSelectedElementId,
+        settings
+      );
 
-      await initMinimap(minimapAppRef, minimapContainerRef, minimapCanvasRef, sceneContainerRef, sceneCanvasRef, theme);
+      await initMinimap(minimapAppRef, minimapContainerRef, minimapCanvasRef, sceneContainerRef, graphCanvasRef, theme);
     };
     setup();
 
@@ -57,7 +65,7 @@ const Scene = () => {
       destroyApp(sceneAppRef.current);
       destroyApp(minimapAppRef.current);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      sceneContainerRef.current.destroy(sceneCanvasRef);
+      sceneContainerRef.current.destroy(graphCanvasRef);
       // eslint-disable-next-line react-hooks/exhaustive-deps
       minimapContainerRef.current.destroy(minimapCanvasRef);
     };
@@ -95,7 +103,7 @@ const Scene = () => {
 
     const layoutUpdate = requiredUpdateStepsRef.current.all || requiredUpdateStepsRef.current.layout;
     if (layoutUpdate) {
-      resetGraphLayout(sceneCanvasRef.current.clientWidth, sceneCanvasRef.current.clientHeight);
+      resetGraphLayout(graphCanvasRef.current.clientWidth, graphCanvasRef.current.clientHeight);
     }
     if (requiredUpdateStepsRef.current.all) setSelectedElementId(null);
 
@@ -126,8 +134,8 @@ const Scene = () => {
     setNeedsReRendering,
     sceneContainerRef,
     sceneContainerRef?.current?.textures,
-    sceneCanvasRef?.current?.clientWidth,
-    sceneCanvasRef?.current?.clientHeight,
+    graphCanvasRef?.current?.clientWidth,
+    graphCanvasRef?.current?.clientHeight,
     graphRef,
     setSelectedElementId,
     resetGraphLayout,
@@ -138,8 +146,8 @@ const Scene = () => {
   return (
     <>
       <div
-        data-cy="pixi-d3-view"
-        ref={sceneCanvasRef}
+        data-cy="graph-view"
+        ref={graphCanvasRef}
         style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}
       ></div>
       <ChartTimeline

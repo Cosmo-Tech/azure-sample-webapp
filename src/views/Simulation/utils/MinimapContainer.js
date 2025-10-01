@@ -8,12 +8,12 @@ const MINIMAP_MARGINS = 20;
 const MARGIN_FACTOR = 1 + MINIMAP_MARGINS / 100;
 
 export class MinimapContainer extends Container {
-  constructor(minimapAppRef, sceneContainerRef, sceneCanvasRef) {
+  constructor(minimapAppRef, sceneContainerRef, graphCanvasRef) {
     super();
 
     this.minimapAppRef = minimapAppRef;
     this.sceneContainerRef = sceneContainerRef;
-    this.sceneCanvasRef = sceneCanvasRef;
+    this.graphCanvasRef = graphCanvasRef;
     this.dragTarget = null;
   }
 
@@ -109,8 +109,8 @@ export class MinimapContainer extends Container {
   updateScreenCursor() {
     const ratio = this.getScreenCursorRatio();
     const screenSize = {
-      width: this.sceneCanvasRef.current.clientWidth,
-      height: this.sceneCanvasRef.current.clientHeight,
+      width: this.graphCanvasRef.current.clientWidth,
+      height: this.graphCanvasRef.current.clientHeight,
     };
     const screenCursor = this.screenCursor;
     screenCursor.clear();

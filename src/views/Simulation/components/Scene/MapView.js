@@ -1,14 +1,16 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import React, { useEffect, useRef, useState } from 'react';
-import { Minimap } from './Minimap';
+import { useTheme } from '@mui/styles';
+import { createApp, initMapApp, destroyApp, generateMap } from '../../utils/pixiUtils';
 import { IncidentChip } from './components/IncidentChip';
 
 const MapView = () => {
+  const theme = useTheme();
+
   const mapCanvasRef = useRef(null);
   const mapAppRef = useRef(null);
-  const minimapCanvasRef = useRef(null);
-  const sceneContainerRef = useRef(null);
+  const mapContainerRef = useRef(null);
   // eslint-disable-next-line no-unused-vars
   const [hoveredIncident, setHoveredIncident] = useState({
     visible: false,
@@ -17,22 +19,27 @@ const MapView = () => {
   });
 
   useEffect(() => {
-    if (!mapCanvasRef.current) return;
-
-    const appInstance = mapAppRef.current;
+    mapAppRef.current = createApp();
+    const setup = async () => {
+      await initMapApp(mapAppRef, mapCanvasRef, mapContainerRef, theme);
+      generateMap(mapContainerRef, mapCanvasRef);
+    };
+    setup();
 
     return () => {
-      if (appInstance) {
-        appInstance.destroy(true, { children: true });
-      }
+      destroyApp(mapAppRef.current);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
     <>
-      <div ref={mapCanvasRef} style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }} />
+      <div
+        data-cy="map-view"
+        ref={mapCanvasRef}
+        style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}
+      />
       <IncidentChip position={hoveredIncident.position} data={hoveredIncident.data} visible={hoveredIncident.visible} />
-      <Minimap ref={minimapCanvasRef} sceneContainerRef={sceneContainerRef} />
     </>
   );
 };

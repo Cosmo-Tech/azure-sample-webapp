@@ -2,24 +2,24 @@
 // Licensed under the MIT license.
 import { Point, Container } from 'pixi.js';
 
-const MIN_ZOOM = 0.1;
-const MAX_ZOOM = 2;
-const DEFAULT_ZOOM = 0.2;
-const ZOOM_SPEED = 0.2;
 const FOCUS_ZOOM = 1;
 const ANIMATION_DURATION_IN_MS = 400;
 
 const interpolateSmooth = (a, b, t) => a + (b - a) * Math.sin((t * Math.PI) / 2);
 
 export class SceneContainer extends Container {
-  constructor(sceneApp, canvasSceneRef) {
+  constructor(sceneApp, canvasSceneRef, zoomOption = { minZoom: 0.1, maxZoom: 2, defaultZoom: 0.2, zoomSpeed: 0.2 }) {
     super();
     this.canvasScene = canvasSceneRef.current;
+    this.minZoom = zoomOption.minZoom;
+    this.maxZoom = zoomOption.maxZoom;
+    this.defaultZoom = zoomOption.defaultZoom;
+    this.zoomSpeed = zoomOption.zoomSpeed;
 
     this.bounds = null;
     this.localBounds = null;
 
-    this.setZoom(DEFAULT_ZOOM);
+    this.setZoom(this.defaultZoom);
     // TODO: find a way to zoom automatically on a default point of interest
 
     this.sceneApp = sceneApp;
@@ -63,7 +63,7 @@ export class SceneContainer extends Container {
 
   setOrigin() {
     this.sceneApp.ticker.remove(this.updatePositionAndScale);
-    this.setZoom(DEFAULT_ZOOM);
+    this.setZoom(this.defaultZoom);
     const sceneWidth = this.width;
     const sceneHeight = this.height;
     const screenWidth = this.canvasScene.clientWidth;
@@ -77,7 +77,7 @@ export class SceneContainer extends Container {
   }
 
   destroy(canvasSceneRef) {
-    if (!canvasSceneRef.current) return;
+    if (canvasSceneRef.current == null) return;
     canvasSceneRef.current.removeEventListener('wheel', this.onWheel);
     canvasSceneRef.current.removeEventListener('pointerdown', this.onDragStart);
     canvasSceneRef.current.removeEventListener('pointerup', this.onDragEnd);
@@ -99,7 +99,7 @@ export class SceneContainer extends Container {
     if (this.timeElapsedSinceAnimationStart >= ANIMATION_DURATION_IN_MS) {
       this.sceneApp.ticker.remove(this.updatePositionAndScale);
       this.checkBounds();
-    } else {
+    } else if (this.minimapContainerRef != null) {
       this.minimapContainerRef.current.updateScreenCursor();
     }
   }
@@ -165,7 +165,7 @@ export class SceneContainer extends Container {
   }
 
   backToOrigin() {
-    this.translateTo(this.origin.x, this.origin.y, DEFAULT_ZOOM);
+    this.translateTo(this.origin.x, this.origin.y, this.defaultZoom);
   }
 
   stopUpdatePosition() {
@@ -176,7 +176,10 @@ export class SceneContainer extends Container {
     const point = zoomPoint ?? this.getScreenCenterPoint();
 
     const mouseWorldPosition = this.toLocal(point);
-    const newZoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, this.zoom + zoomDirection * this.zoom * ZOOM_SPEED));
+    const newZoom = Math.min(
+      this.maxZoom,
+      Math.max(this.minZoom, this.zoom + zoomDirection * this.zoom * this.zoomSpeed)
+    );
 
     const scaleRatio = newZoom / this.zoom;
     const targetX = this.x - mouseWorldPosition.x * (scaleRatio - 1) * this.zoom;
@@ -193,13 +196,12 @@ export class SceneContainer extends Container {
       this.containerStart.x = targetX - dragDeltaX;
       this.containerStart.y = targetY - dragDeltaY;
 
-      this.minimapContainerRef.current.updateScreenCursor();
+      if (this.minimapContainerRef != null) this.minimapContainerRef.current.updateScreenCursor();
     }
   }
 
   onWheel(event) {
     event.preventDefault();
-
     const zoomDirection = event.deltaY < 0 ? 1 : -1;
     const zoomPoint = new Point(event.offsetX, event.offsetY);
     this.zoomOnPoint(zoomDirection, zoomPoint, {
@@ -253,7 +255,8 @@ export class SceneContainer extends Container {
     const dragY = mouseScreenPosition.y - this.dragStart.y;
 
     this.position.set(this.containerStart.x + dragX, this.containerStart.y + dragY);
-    this.minimapContainerRef.current.updateScreenCursor();
+
+    if (this.minimapContainerRef != null) this.minimapContainerRef.current.updateScreenCursor();
   }
 
   onDragEnd() {
