@@ -51,13 +51,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@azure/msal-common@npm:14.14.0":
-  version: 14.14.0
-  resolution: "@azure/msal-common@npm:14.14.0"
-  checksum: 10c0/90e4fdc0b8b074e548dd1e761fe07e591f93d39894e796e326e7292d2e1eddc9bbb4cba7fb722a531e6687434fbe7a0cc0e2cbe17173f34c1f21b5684ee01c89
-  languageName: node
-  linkType: hard
-
 "@azure/msal-common@npm:14.15.0":
   version: 14.15.0
   resolution: "@azure/msal-common@npm:14.15.0"
@@ -65,14 +58,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@azure/msal-node@npm:^2.12.0":
-  version: 2.12.0
-  resolution: "@azure/msal-node@npm:2.12.0"
+"@azure/msal-common@npm:15.13.0":
+  version: 15.13.0
+  resolution: "@azure/msal-common@npm:15.13.0"
+  checksum: 10c0/19cd545779bd2f9d50e6f3c899fcb313b56a541493d85dfe65305c22a0d12f6a672ebfbcff05a539b8908b1466b7e48f1067fb4d4a9c85928a0fd115070cd203
+  languageName: node
+  linkType: hard
+
+"@azure/msal-node@npm:^3.8.0":
+  version: 3.8.0
+  resolution: "@azure/msal-node@npm:3.8.0"
   dependencies:
-    "@azure/msal-common": "npm:14.14.0"
+    "@azure/msal-common": "npm:15.13.0"
     jsonwebtoken: "npm:^9.0.0"
     uuid: "npm:^8.3.0"
-  checksum: 10c0/b0e9c5ec24290d0f8889e86126fe504ee9a3090e05a4b721f141876b406ef2746fcdbcb9f46540a4d36373ceab15b01de4c4a6b26dc927c0a91e5c1a0fb810ab
+  checksum: 10c0/80dd7f535856d1e99b5344ce4d584eeb4631560ccfef3a66b9a8dfb590299f41628fbb8150c84613c69977f428575a2eab1bd76443e4084d406d7ebf9dd3b281
   languageName: node
   linkType: hard
 
@@ -5646,7 +5646,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "azure-sample-webapp@workspace:."
   dependencies:
-    "@azure/msal-node": "npm:^2.12.0"
+    "@azure/msal-node": "npm:^3.8.0"
     "@babel/core": "npm:^7.25.2"
     "@babel/plugin-proposal-private-property-in-object": "npm:^7.21.11"
     "@babel/preset-env": "npm:^7.25.2"
