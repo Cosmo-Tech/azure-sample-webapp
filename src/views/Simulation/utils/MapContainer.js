@@ -2,27 +2,26 @@
 // Licensed under the MIT license.
 import { Point, Container } from 'pixi.js';
 
+const MIN_ZOOM = 1;
+const MAX_ZOOM = 8;
+const DEFAULT_ZOOM = 1;
+const ZOOM_SPEED = 0.2;
 const FOCUS_ZOOM = 1;
 const ANIMATION_DURATION_IN_MS = 400;
 
 const interpolateSmooth = (a, b, t) => a + (b - a) * Math.sin((t * Math.PI) / 2);
 
-export class SceneContainer extends Container {
-  constructor(sceneApp, canvasSceneRef, zoomOption = { minZoom: 0.1, maxZoom: 2, defaultZoom: 0.2, zoomSpeed: 0.2 }) {
+export class MapContainer extends Container {
+  constructor(mapApp, mapCanvasRef) {
     super();
-    this.canvasScene = canvasSceneRef.current;
-    this.minZoom = zoomOption.minZoom;
-    this.maxZoom = zoomOption.maxZoom;
-    this.defaultZoom = zoomOption.defaultZoom;
-    this.zoomSpeed = zoomOption.zoomSpeed;
+    this.canvasScene = mapCanvasRef.current;
 
     this.bounds = null;
     this.localBounds = null;
 
-    this.setZoom(this.defaultZoom);
-    // TODO: find a way to zoom automatically on a default point of interest
+    this.setZoom(DEFAULT_ZOOM);
 
-    this.sceneApp = sceneApp;
+    this.mapApp = mapApp;
 
     this.isPointerDown = false;
     this.dragging = false;
@@ -39,11 +38,11 @@ export class SceneContainer extends Container {
     this.onDragMove = this.onDragMove.bind(this);
     this.onDragEnd = this.onDragEnd.bind(this);
 
-    canvasSceneRef.current.addEventListener('wheel', this.onWheel);
-    canvasSceneRef.current.addEventListener('pointerdown', this.onDragStart);
-    canvasSceneRef.current.addEventListener('pointerup', this.onDragEnd);
-    canvasSceneRef.current.addEventListener('pointerout', this.onDragEnd);
-    canvasSceneRef.current.addEventListener('pointermove', this.onDragMove);
+    mapCanvasRef.current.addEventListener('wheel', this.onWheel);
+    mapCanvasRef.current.addEventListener('pointerdown', this.onDragStart);
+    mapCanvasRef.current.addEventListener('pointerup', this.onDragEnd);
+    mapCanvasRef.current.addEventListener('pointerout', this.onDragEnd);
+    mapCanvasRef.current.addEventListener('pointermove', this.onDragMove);
   }
 
   resetBounds() {
@@ -62,8 +61,8 @@ export class SceneContainer extends Container {
   }
 
   setOrigin() {
-    this.sceneApp.ticker.remove(this.updatePositionAndScale);
-    this.setZoom(this.defaultZoom);
+    this.mapApp.ticker.remove(this.updatePositionAndScale);
+    this.setZoom(DEFAULT_ZOOM);
     const sceneWidth = this.width;
     const sceneHeight = this.height;
     const screenWidth = this.canvasScene.clientWidth;
@@ -72,21 +71,17 @@ export class SceneContainer extends Container {
     this.position.set(this.origin.x, this.origin.y);
   }
 
-  setMinimapContainer(minimapContainerRef) {
-    this.minimapContainerRef = minimapContainerRef;
-  }
-
-  destroy(canvasSceneRef) {
-    if (canvasSceneRef.current == null) return;
-    canvasSceneRef.current.removeEventListener('wheel', this.onWheel);
-    canvasSceneRef.current.removeEventListener('pointerdown', this.onDragStart);
-    canvasSceneRef.current.removeEventListener('pointerup', this.onDragEnd);
-    canvasSceneRef.current.removeEventListener('pointerout', this.onDragEnd);
-    canvasSceneRef.current.removeEventListener('pointermove', this.onDragMove);
+  destroy(mapCanvasRef) {
+    if (mapCanvasRef.current == null) return;
+    mapCanvasRef.current.removeEventListener('wheel', this.onWheel);
+    mapCanvasRef.current.removeEventListener('pointerdown', this.onDragStart);
+    mapCanvasRef.current.removeEventListener('pointerup', this.onDragEnd);
+    mapCanvasRef.current.removeEventListener('pointerout', this.onDragEnd);
+    mapCanvasRef.current.removeEventListener('pointermove', this.onDragMove);
   }
 
   interpolateZoomAndPosition() {
-    this.timeElapsedSinceAnimationStart += this.sceneApp.ticker.elapsedMS;
+    this.timeElapsedSinceAnimationStart += this.mapApp.ticker.elapsedMS;
     const t = Math.min(1, this.timeElapsedSinceAnimationStart / ANIMATION_DURATION_IN_MS);
 
     this.x = interpolateSmooth(this.animationInitialX, this.animationTargetX, t);
@@ -97,10 +92,8 @@ export class SceneContainer extends Container {
   updatePositionAndScale() {
     this.interpolateZoomAndPosition();
     if (this.timeElapsedSinceAnimationStart >= ANIMATION_DURATION_IN_MS) {
-      this.sceneApp.ticker.remove(this.updatePositionAndScale);
+      this.mapApp.ticker.remove(this.updatePositionAndScale);
       this.checkBounds();
-    } else if (this.minimapContainerRef != null) {
-      this.minimapContainerRef.current.updateScreenCursor();
     }
   }
 
@@ -117,7 +110,9 @@ export class SceneContainer extends Container {
     this.animationTargetY = y;
     this.animationTargetZoom = zoom;
     this.timeElapsedSinceAnimationStart = 0;
-    this.sceneApp.ticker.add(this.updatePositionAndScale);
+    console.log('this.mapApp'); // NBO log to remove
+    console.log(this.mapApp); // NBO log to remove
+    this.mapApp.ticker.add(this.updatePositionAndScale);
   }
 
   findElementById(elementId) {
@@ -165,23 +160,20 @@ export class SceneContainer extends Container {
   }
 
   backToOrigin() {
-    this.translateTo(this.origin.x, this.origin.y, this.defaultZoom);
+    this.translateTo(this.origin.x, this.origin.y, DEFAULT_ZOOM);
   }
 
   stopUpdatePosition() {
-    console.log('this.sceneApp'); // NBO log to remove
-    console.log(this.sceneApp); // NBO log to remove
-    this.sceneApp.ticker.remove(this.updatePositionAndScale);
+    console.log('this.mapApp.ticker'); // NBO log to remove
+    console.log(this.mapApp.ticker); // NBO log to remove
+    this.mapApp.ticker.remove(this.updatePositionAndScale);
   }
 
   zoomOnPoint(zoomDirection, zoomPoint, { immediate = false } = {}) {
     const point = zoomPoint ?? this.getScreenCenterPoint();
 
     const mouseWorldPosition = this.toLocal(point);
-    const newZoom = Math.min(
-      this.maxZoom,
-      Math.max(this.minZoom, this.zoom + zoomDirection * this.zoom * this.zoomSpeed)
-    );
+    const newZoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, this.zoom + zoomDirection * this.zoom * ZOOM_SPEED));
 
     const scaleRatio = newZoom / this.zoom;
     const targetX = this.x - mouseWorldPosition.x * (scaleRatio - 1) * this.zoom;
@@ -197,8 +189,6 @@ export class SceneContainer extends Container {
       const dragDeltaY = point.y - this.dragStart.y;
       this.containerStart.x = targetX - dragDeltaX;
       this.containerStart.y = targetY - dragDeltaY;
-
-      if (this.minimapContainerRef != null) this.minimapContainerRef.current.updateScreenCursor();
     }
   }
 
@@ -257,8 +247,6 @@ export class SceneContainer extends Container {
     const dragY = mouseScreenPosition.y - this.dragStart.y;
 
     this.position.set(this.containerStart.x + dragX, this.containerStart.y + dragY);
-
-    if (this.minimapContainerRef != null) this.minimapContainerRef.current.updateScreenCursor();
   }
 
   onDragEnd() {

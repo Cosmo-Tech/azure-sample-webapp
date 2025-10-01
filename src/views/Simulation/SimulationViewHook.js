@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { DEFAULT_SETTINGS } from './constants/settings';
+import { DEFAULT_SETTINGS, SIMULATION_MODES } from './constants/settings';
 import { SCENARIO_DATA as SCENARIO3 } from './data/output-sr-mgmo6vqg7e2l';
 import { SCENARIO_DATA as SCENARIO2 } from './data/output-sr-n59xj8roqgw';
 import { SCENARIO_DATA as SCENARIO1 } from './data/output-sr-pm7247w4d5n';
@@ -46,14 +46,14 @@ export const useSimulationView = () => {
   const lastScenarioId = useRef(null);
 
   useEffect(() => {
-    if (lastScenarioId.current !== currentScenario?.id) {
+    if (lastScenarioId.current !== currentScenario?.id || viewMode === SIMULATION_MODES.MAP) {
       lastScenarioId.current = currentScenario?.id;
       requiredUpdateStepsRef.current.all = true;
 
       setCurrentTimestep(null);
       setSelectedElementId(null);
     }
-  }, [currentScenario?.id]);
+  }, [currentScenario?.id, viewMode]);
 
   useEffect(() => {
     if (graphRef.current != null) return;
