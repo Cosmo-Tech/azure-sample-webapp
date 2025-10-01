@@ -9,9 +9,9 @@
   },
   "dependencies": {
     "@azure/msal-node": "^3.8.0",
-    "guid": "0.0.12",
     "jsonwebtoken": "^9.0.2",
-    "jwks-rsa": "^3.2.0"
+    "jwks-rsa": "^3.2.0",
+    "uuid": "^13.0.0"
   },
   "packageManager": "yarn@4.3.1"
 }
