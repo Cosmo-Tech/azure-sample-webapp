@@ -1,5 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
+import * as d3 from 'd3';
 import { AdvancedBloomFilter, GlowFilter } from 'pixi-filters';
 import { AlphaFilter, Application, BitmapText, Container, Graphics, GraphicsContext, Sprite } from 'pixi.js';
 import 'pixi.js/unsafe-eval';
@@ -444,6 +445,52 @@ const generateTextures = (app) => {
     textures[key] = app.renderer.generateTexture(new Graphics(graphicsContext));
   }
   return textures;
+};
+
+const generateMap = async (app) => {
+  const projection = d3
+    .geoMercator()
+    .scale(120)
+    .translate([app.renderer.width / 2, app.renderer.height / 2]);
+
+  // --- Chargement du GeoJSON simplifié du monde ---
+  const geoURL = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json';
+
+  const world = await fetch(geoURL).then((r) => r.json());
+  const geojson = topojson.feature(world, world.objects.countries); // Convertir TopoJSON → GeoJSON
+
+  // --- Dessiner chaque pays ---
+  for (const feature of geojson.features) {
+    const g = new Graphics();
+    g.setStrokeStyle({
+      width: 1,
+      color: 0x444444,
+    });
+    g.fill(0x2e8b57); // vert
+
+    for (const polygon of feature.geometry.coordinates) {
+      const path = polygon.flatMap((ring) => {
+        const projected = ring.map((coord) => projection(coord));
+        return projected.map(([x, y]) => [x, y]);
+      });
+
+      // Si MultiPolygon
+      if (feature.geometry.type === 'MultiPolygon') {
+        for (const ringSet of polygon) {
+          const ring = ringSet.map((coord) => projection(coord));
+          g.moveTo(ring[0][0], ring[0][1]);
+          for (const [x, y] of ring) g.lineTo(x, y);
+          g.closePath();
+        }
+      } else {
+        const ring = polygon.map((coord) => projection(coord));
+        g.moveTo(ring[0][0], ring[0][1]);
+        for (const [x, y] of ring) g.lineTo(x, y);
+        g.closePath();
+      }
+    }
+    mapContainer.addChild(g);
+  }
 };
 
 export const renderElements = (sceneContainerRef, graphRef, setSelectedElementId, settings, resetBounds = true) => {
