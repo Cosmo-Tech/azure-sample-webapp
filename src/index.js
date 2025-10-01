@@ -9,6 +9,7 @@ import './index.css';
 import { i18next } from './services/config/i18next';
 import applicationStore from './state/Store.config';
 
+// eslint-disable-next-line react/no-deprecated -- Not using React 18 yet, ignore eslint warning
 ReactDOM.render(
   <Suspense fallback="">
     <React.StrictMode>
