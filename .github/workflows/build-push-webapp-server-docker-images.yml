@@ -35,14 +35,14 @@ jobs:
       packages: write
     steps:
       - name: Checkout git repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           # Use workflow input "targetRef" if provided, or the branch/commit/tag that triggered the job otherwise
           ref: ${{ inputs.targetRef != '' && inputs.targetRef || github.ref_name }}
       - name: Enable Corepack
         run: corepack enable
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 18
       - name: Log in to the Container registry
