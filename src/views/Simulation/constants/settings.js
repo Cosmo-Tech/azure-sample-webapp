@@ -10,6 +10,11 @@ export const GRAPH_LAYOUT_DIRECTION_VALUES = {
   VERTICAL: 'vertical',
 };
 
+export const SIMULATION_MODES = {
+  GRAPH: 'graph',
+  MAP: 'map',
+};
+
 export const DEFAULT_SETTINGS = {
   graphViewFilters: [GRAPH_VIEW_FILTER_VALUES.BOTTLENECKS],
   orientation: GRAPH_LAYOUT_DIRECTION_VALUES.HORIZONTAL,
@@ -19,6 +24,7 @@ export const DEFAULT_SETTINGS = {
   outputLevels: 2,
   spacing: 25,
   enableGlowEffect: true,
+  viewMode: SIMULATION_MODES.GRAPH,
 };
 
 export const SETTINGS_SLIDER_MIN = 5;
