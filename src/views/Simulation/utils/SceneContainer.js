@@ -193,8 +193,6 @@ export class SceneContainer extends Container {
       this.containerStart.x = targetX - dragDeltaX;
       this.containerStart.y = targetY - dragDeltaY;
 
-      this.resetBounds();
-
       this.minimapContainerRef.current.updateScreenCursor();
     }
   }
