@@ -104,7 +104,7 @@ Then, create a `.env` file to store the environment variables required by the fu
 POWER_BI_TENANT_ID=01234567-8901-abcd-1234-012345678901
 POWER_BI_CLIENT_ID=01234567-8901-abcd-1234-012345678901
 POWER_BI_CLIENT_SECRET=generated_client_secret
-KEYCLOAK_REALM=https://example.com/keycloak/realms/myrealm
+KEYCLOAK_REALM_URL=https://example.com/keycloak/realms/myrealm
 ```
 
 Finally, use this command to build and run the functions locally:
