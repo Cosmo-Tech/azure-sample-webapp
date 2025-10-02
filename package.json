@@ -75,6 +75,7 @@
     "@eslint/compat": "^1.4.0",
     "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "^9.36.0",
+    "@redux-devtools/extension": "^3.3.0",
     "@testing-library/jest-dom": "^6.9.0",
     "@testing-library/react": "^12.1.5",
     "@trivago/prettier-plugin-sort-imports": "^5.2.2",
@@ -114,7 +115,6 @@
     "react-error-overlay": "^6.1.0",
     "react-scripts": "^5.0.1",
     "read-excel-file": "^6.0.1",
-    "redux-devtools-extension": "^2.13.9",
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
     "url": "^0.11.4"
