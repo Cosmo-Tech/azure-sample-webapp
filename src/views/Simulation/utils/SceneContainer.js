@@ -169,25 +169,41 @@ export class SceneContainer extends Container {
     this.sceneApp.ticker.remove(this.updatePositionAndScale);
   }
 
-  zoomOnPoint(zoomDirection, zoomPoint) {
-    if (!zoomPoint) {
-      zoomPoint = this.getScreenCenterPoint();
-    }
+  zoomOnPoint(zoomDirection, zoomPoint, { immediate = false } = {}) {
+    const point = zoomPoint ?? this.getScreenCenterPoint();
 
-    const mouseWorldPosition = this.toLocal(zoomPoint);
+    const mouseWorldPosition = this.toLocal(point);
     const newZoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, this.zoom + zoomDirection * this.zoom * ZOOM_SPEED));
+
     const scaleRatio = newZoom / this.zoom;
     const targetX = this.x - mouseWorldPosition.x * (scaleRatio - 1) * this.zoom;
     const targetY = this.y - mouseWorldPosition.y * (scaleRatio - 1) * this.zoom;
 
-    this.translateTo(targetX, targetY, newZoom);
+    if (!immediate) {
+      this.translateTo(targetX, targetY, newZoom);
+    } else {
+      this.position.set(targetX, targetY);
+      this.setZoom(newZoom);
+
+      const dragDeltaX = point.x - this.dragStart.x;
+      const dragDeltaY = point.y - this.dragStart.y;
+      this.containerStart.x = targetX - dragDeltaX;
+      this.containerStart.y = targetY - dragDeltaY;
+
+      this.resetBounds();
+
+      this.minimapContainerRef.current.updateScreenCursor();
+    }
   }
 
   onWheel(event) {
+    event.preventDefault();
+
     const zoomDirection = event.deltaY < 0 ? 1 : -1;
     const zoomPoint = new Point(event.offsetX, event.offsetY);
-
-    this.zoomOnPoint(zoomDirection, zoomPoint);
+    this.zoomOnPoint(zoomDirection, zoomPoint, {
+      immediate: this.isPointerDown,
+    });
   }
 
   checkBounds() {
