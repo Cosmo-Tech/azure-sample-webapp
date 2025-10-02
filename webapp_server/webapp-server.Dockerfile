@@ -1,8 +1,9 @@
 # ==== Install dependencies ====
 
-FROM node:18 AS install_build_dependencies
+FROM node:24-slim AS install_build_dependencies
 WORKDIR /webapp
 RUN corepack enable
+RUN yarn set version berry
 RUN --mount=type=bind,source=package.json,target=package.json \
    --mount=type=bind,source=yarn.lock,target=yarn.lock \
    --mount=type=bind,source=.yarnrc.yml,target=.yarnrc.yml \
@@ -28,11 +29,11 @@ RUN PUBLIC_URL="$PUBLIC_URL" yarn build
 
 # ==== Serve - "universal" server mode ====
 
-FROM node:18 AS server-universal
+FROM node:24-slim as server-universal
 LABEL com.cosmotech.business-webapp.buildType="universal"
 WORKDIR /webapp
 ENV NODE_ENV=production
-RUN npm install -g serve@^14.2.3
+RUN npm install -g serve@^14.2.5
 RUN apt-get update
 RUN apt-get install -y python3
 
@@ -49,11 +50,12 @@ HEALTHCHECK --interval=60s --retries=3 CMD curl --fail http://localhost:3000 || 
 
 # ==== Serve - "specific" server mode (default) ====
 
-FROM node:18 AS server-specific
+FROM node:24-slim as server-specific
 LABEL com.cosmotech.business-webapp.buildType="specific"
 WORKDIR /webapp
 ENV NODE_ENV=production
-RUN npm install -g serve@^14.2.3
+ENV NODE_ENV production
+RUN npm install -g serve@^14.2.5
 
 COPY --from=build-specific /webapp/build ./build
 
