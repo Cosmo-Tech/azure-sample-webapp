@@ -5,6 +5,9 @@ import { AdvancedBloomFilter, GlowFilter } from 'pixi-filters';
 import { AlphaFilter, Application, BitmapText, Container, Graphics, GraphicsContext, Sprite } from 'pixi.js';
 import 'pixi.js/unsafe-eval';
 import { NODE_TYPES } from '../constants/nodeLabels';
+import stocksData from '../data/map/stocks.json';
+import transportsData from '../data/map/transports.json';
+import worldGeoJSON from '../data/map/worldMap.geo.json';
 import { MinimapContainer } from './MinimapContainer';
 import { SceneContainer } from './SceneContainer';
 import { PACKAGE_ICON_LINES, GEAR_ICON_LINES, FACTORY_ICON_LINES } from './shapes';
@@ -447,52 +450,6 @@ const generateTextures = (app) => {
   return textures;
 };
 
-const generateMap = async (app) => {
-  const projection = d3
-    .geoMercator()
-    .scale(120)
-    .translate([app.renderer.width / 2, app.renderer.height / 2]);
-
-  // --- Chargement du GeoJSON simplifié du monde ---
-  const geoURL = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json';
-
-  const world = await fetch(geoURL).then((r) => r.json());
-  const geojson = topojson.feature(world, world.objects.countries); // Convertir TopoJSON → GeoJSON
-
-  // --- Dessiner chaque pays ---
-  for (const feature of geojson.features) {
-    const g = new Graphics();
-    g.setStrokeStyle({
-      width: 1,
-      color: 0x444444,
-    });
-    g.fill(0x2e8b57); // vert
-
-    for (const polygon of feature.geometry.coordinates) {
-      const path = polygon.flatMap((ring) => {
-        const projected = ring.map((coord) => projection(coord));
-        return projected.map(([x, y]) => [x, y]);
-      });
-
-      // Si MultiPolygon
-      if (feature.geometry.type === 'MultiPolygon') {
-        for (const ringSet of polygon) {
-          const ring = ringSet.map((coord) => projection(coord));
-          g.moveTo(ring[0][0], ring[0][1]);
-          for (const [x, y] of ring) g.lineTo(x, y);
-          g.closePath();
-        }
-      } else {
-        const ring = polygon.map((coord) => projection(coord));
-        g.moveTo(ring[0][0], ring[0][1]);
-        for (const [x, y] of ring) g.lineTo(x, y);
-        g.closePath();
-      }
-    }
-    mapContainer.addChild(g);
-  }
-};
-
 export const renderElements = (sceneContainerRef, graphRef, setSelectedElementId, settings, resetBounds = true) => {
   if (!graphRef.current || !sceneContainerRef.current?.textures) return;
 
@@ -521,7 +478,7 @@ export const renderElements = (sceneContainerRef, graphRef, setSelectedElementId
 
 export const createApp = () => new Application();
 
-export const initApp = async (
+export const initGraphApp = async (
   sceneAppRef,
   sceneCanvasRef,
   sceneContainerRef,
@@ -636,4 +593,80 @@ export const updateContainerSprites = (sceneContainer, graph) => {
       sprite.setHighlight(node.isHighlighted);
     }
   }
+};
+
+const drawPolygon = (graphics, polygon, projection) => {
+  for (const ring of polygon) {
+    const projected = ring.map((coord) => projection(coord));
+    graphics.moveTo(projected[0][0], projected[0][1]);
+    for (const [x, y] of projected) {
+      graphics.lineTo(x, y);
+    }
+    graphics.closePath();
+  }
+};
+
+const generateMap = async (mapContainerRef) => {
+  const projection = d3
+    .geoMercator()
+    .scale(120)
+    .translate([mapContainerRef.current.width / 2, mapContainerRef.current.height / 2]);
+
+  for (const feature of worldGeoJSON.features) {
+    const geomType = feature.geometry.type;
+    const coords = feature.geometry.coordinates;
+
+    const country = new Graphics();
+    country.setStrokeStyle({
+      width: 1,
+      color: 0x444444,
+    });
+    country.fill(0x2e8b57); // vert
+
+    if (geomType === 'Polygon') {
+      drawPolygon(country, coords, projection);
+    } else if (geomType === 'MultiPolygon') {
+      for (const polygon of coords) {
+        drawPolygon(country, polygon, projection);
+      }
+    }
+
+    mapContainerRef.current.addChild(country);
+  }
+};
+
+export const initMapApp = async (mapAppRef, sceneCanvasRef, mapContainerRef, theme) => {
+  const app = mapAppRef.current;
+  const canvas = sceneCanvasRef.current;
+
+  await app.init({
+    width: canvas.clientWidth,
+    height: canvas.clientHeight,
+    backgroundColor: theme.palette.background.default,
+    resolution: window.devicePixelRatio || 1,
+    autoDensity: true,
+    antialias: true,
+  });
+
+  canvas.appendChild(app.canvas);
+  app.canvas.style.width = '100%';
+  app.canvas.style.height = '100%';
+  app.canvas.style.display = 'block';
+  canvas.hitArea = app.screen;
+  canvas.eventMode = 'static';
+
+  mapContainerRef.current = new SceneContainer(app, sceneCanvasRef);
+  app.stage.addChild(mapContainerRef.current);
+
+  const handleResize = () => {
+    if (!canvas || !app?.renderer) return;
+    app.renderer.resize(canvas.clientWidth, canvas.clientHeight);
+    if (mapContainerRef.current) {
+      mapContainerRef.current.setOrigin();
+    }
+  };
+
+  generateMap(mapContainerRef);
+
+  window.addEventListener('resize', handleResize);
 };

@@ -4,11 +4,12 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import { useTheme } from '@mui/styles';
 import { useSimulationViewContext } from '../../SimulationViewContext';
 import { DEFAULT_UPDATE_STATE } from '../../SimulationViewHook';
+import { SIMULATION_MODES } from '../../constants/settings';
 import { resetGraphHighlighting } from '../../utils/graphUtils';
 import {
   createApp,
   destroyApp,
-  initApp,
+  initGraphApp,
   initMinimap,
   renderElements,
   updateContainerSprites,
@@ -47,7 +48,15 @@ const Scene = () => {
 
     const setup = async () => {
       resetGraphLayout(sceneCanvasRef.current.clientWidth, sceneCanvasRef.current.clientHeight);
-      await initApp(sceneAppRef, sceneCanvasRef, sceneContainerRef, graphRef, theme, setSelectedElementId, settings);
+      await initGraphApp(
+        sceneAppRef,
+        sceneCanvasRef,
+        sceneContainerRef,
+        graphRef,
+        theme,
+        setSelectedElementId,
+        settings
+      );
 
       await initMinimap(minimapAppRef, minimapContainerRef, minimapCanvasRef, sceneContainerRef, sceneCanvasRef, theme);
     };
@@ -138,7 +147,7 @@ const Scene = () => {
   return (
     <>
       <div
-        data-cy="pixi-d3-view"
+        data-cy="graph-view"
         ref={sceneCanvasRef}
         style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}
       ></div>
