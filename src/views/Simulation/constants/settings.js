@@ -15,6 +15,14 @@ export const SIMULATION_MODES = {
   MAP: 'map',
 };
 
+export const MAP_ENTITIES = [
+  { value: 'all', label: 'All' },
+  { value: 'entity1', label: 'Production ressources' },
+  { value: 'entity2', label: 'Production operations' },
+  { value: 'entity3', label: 'Stocks' },
+  { value: 'entity4', label: 'Transports' },
+];
+
 export const DEFAULT_SETTINGS = {
   graphViewFilters: [GRAPH_VIEW_FILTER_VALUES.BOTTLENECKS],
   orientation: GRAPH_LAYOUT_DIRECTION_VALUES.HORIZONTAL,

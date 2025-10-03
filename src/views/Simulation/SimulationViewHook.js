@@ -40,6 +40,7 @@ export const useSimulationView = () => {
   const [centerToPosition, setCenterToPosition] = useState(() => {});
 
   const [viewMode, setViewMode] = useState(DEFAULT_SETTINGS.viewMode);
+  const [selectedEntities, setSelectedEntities] = useState([]);
 
   const graphRef = useRef(null);
   const lastScenarioId = useRef(null);
@@ -127,5 +128,7 @@ export const useSimulationView = () => {
     requiredUpdateStepsRef,
     viewMode,
     setViewMode,
+    selectedEntities,
+    setSelectedEntities,
   };
 };
