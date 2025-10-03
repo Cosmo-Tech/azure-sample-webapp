@@ -15,6 +15,15 @@ export const SIMULATION_MODES = {
   MAP: 'map',
 };
 
+export const MAP_VIEW_FILTERS = [
+  { value: 'all', label: 'All', type: 'checkbox' },
+  { value: 'production_resources', label: 'Production resources', type: 'checkbox' },
+  { value: 'production_operations', label: 'Production operations', type: 'checkbox' },
+  { value: 'stocks', label: 'Stocks', type: 'checkbox' },
+  { value: 'transports', label: 'Transports', type: 'checkbox' },
+  { value: 'onlyCriticalPoints', label: 'Only critical points', type: 'switch' },
+];
+
 export const DEFAULT_SETTINGS = {
   graphViewFilters: [GRAPH_VIEW_FILTER_VALUES.BOTTLENECKS],
   orientation: GRAPH_LAYOUT_DIRECTION_VALUES.HORIZONTAL,
