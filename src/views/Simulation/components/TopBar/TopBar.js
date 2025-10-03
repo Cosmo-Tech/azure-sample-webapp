@@ -7,6 +7,7 @@ import { ScenarioSelector } from './ScenarioSelector';
 import { SearchBar } from './SearchBar';
 import { SettingsButton } from './SettingsButton';
 import { SimulationHorizon } from './SimulationHorizon';
+import MapEntitiesDropdown from './MapEntities';
 
 const TopBar = () => {
   const topBarContent = useMemo(
@@ -28,7 +29,8 @@ const TopBar = () => {
           <SearchBar />
         </div>
         <div style={{ flexGrow: 1 }}>
-          <GraphViewFilters />
+          {/* <GraphViewFilters /> */}
+          <MapEntitiesDropdown />
         </div>
         <SimulationHorizon />
         <SettingsButton />
