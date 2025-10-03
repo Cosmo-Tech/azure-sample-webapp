@@ -51,6 +51,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@azure/msal-browser@npm:^3.26.1":
+  version: 3.30.0
+  resolution: "@azure/msal-browser@npm:3.30.0"
+  dependencies:
+    "@azure/msal-common": "npm:14.16.1"
+  checksum: 10c0/43e975b9a82f8dcf4ac45da8a99fe795b8113c639426798fa3cd974e66f75fe53a9638e3b35b8449532f9c16c09b234787242a94782bf86d19b2be074c8be879
+  languageName: node
+  linkType: hard
+
 "@azure/msal-common@npm:14.15.0":
   version: 14.15.0
   resolution: "@azure/msal-common@npm:14.15.0"
@@ -2019,12 +2028,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmotech/azure@npm:^2.0.1":
-  version: 2.0.1
-  resolution: "@cosmotech/azure@npm:2.0.1"
+"@cosmotech/azure@npm:^2.0.3":
+  version: 2.0.3
+  resolution: "@cosmotech/azure@npm:2.0.3"
   dependencies:
-    "@azure/msal-browser": "npm:^3.20.0"
-  checksum: 10c0/2b979753822da383f5b2d6b78a4289d233154b0f738c4e45e08ec68a6761d9f697e112feb71c7b2d8f29ec0fe886b53b646ee8fa4cbfd828ccd7a68125d70e00
+    "@azure/msal-browser": "npm:^3.26.1"
+  checksum: 10c0/6fc98e661f00c247310957c60619668404b483a1996e5eee5cde7090c2ccfb1e99b844bc453f647c458527718c9b55007b23293ebd3764c87ccee6c51cbf4db4
   languageName: node
   linkType: hard
 
@@ -6137,7 +6146,7 @@ __metadata:
     "@babel/preset-env": "npm:^7.28.0"
     "@babel/preset-react": "npm:^7.27.1"
     "@cosmotech/api-ts": "npm:^3.3.4"
-    "@cosmotech/azure": "npm:^2.0.1"
+    "@cosmotech/azure": "npm:^2.0.3"
     "@cosmotech/core": "npm:^2.0.0"
     "@cosmotech/ui": "npm:^9.6.0"
     "@emotion/react": "npm:^11.14.0"
