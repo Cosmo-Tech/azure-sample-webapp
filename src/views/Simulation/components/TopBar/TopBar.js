@@ -2,13 +2,18 @@
 // Licensed under the MIT license.
 import React, { useMemo } from 'react';
 import { Stack } from '@mui/material';
+import { useSimulationViewContext } from '../../SimulationViewContext';
+import { SIMULATION_MODES } from '../../constants/settings';
 import { GraphViewFilters } from './GraphViewFilters';
+import { MapEntitiesDropdown } from './MapEntities';
 import { ScenarioSelector } from './ScenarioSelector';
 import { SearchBar } from './SearchBar';
 import { SettingsButton } from './SettingsButton';
 import { SimulationHorizon } from './SimulationHorizon';
 
 const TopBar = () => {
+  const { viewMode } = useSimulationViewContext();
+
   const topBarContent = useMemo(
     () => (
       <Stack
@@ -28,13 +33,13 @@ const TopBar = () => {
           <SearchBar />
         </div>
         <div style={{ flexGrow: 1 }}>
-          <GraphViewFilters />
+          {viewMode === SIMULATION_MODES.GRAPH ? <GraphViewFilters /> : <MapEntitiesDropdown />}
         </div>
         <SimulationHorizon />
         <SettingsButton />
       </Stack>
     ),
-    []
+    [viewMode]
   );
 
   return topBarContent;
