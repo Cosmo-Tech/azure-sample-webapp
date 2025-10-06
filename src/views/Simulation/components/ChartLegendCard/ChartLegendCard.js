@@ -1,52 +1,83 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Close as CloseIcon } from '@mui/icons-material/';
 import { Card, CardContent, CardHeader, Typography, IconButton, Grid } from '@mui/material';
+import { useSimulationViewContext } from '../../SimulationViewContext';
 import { BUTTON_BACKGROUND_COLOR } from '../Scene/styleConstants';
 
 const itemLegend = [
   {
     id: 'stocks',
     name: 'Stocks',
-    image: '/assets/stock.svg',
+    images: {
+      graph: '/assets/stock.svg',
+    },
+    modes: ['graph'],
   },
   {
     id: 'stockShortages',
     name: 'Stock Shortages',
-    image: '/assets/stockShortages.svg',
+    images: {
+      graph: '/assets/stockShortages.svg',
+    },
+    modes: ['graph'],
   },
   {
     id: 'production',
     name: 'Production Operation',
-    image: '/assets/productionOperations.svg',
+    images: {
+      graph: '/assets/productionOperations.svg',
+    },
+    modes: ['graph'],
   },
   {
     id: 'productionResources',
     name: 'Production Resources',
-    image: '/assets/productionResources.svg',
+    images: {
+      graph: '/assets/productionResources.svg',
+      map: '/assets/productionResources-map.svg',
+    },
+    modes: ['graph', 'map'],
   },
   {
     id: 'bottleneck',
     name: 'Bottleneck',
-    image: '/assets/bottleneck.svg',
+    images: {
+      graph: '/assets/bottleneck.svg',
+      map: '/assets/bottleneck-map.svg',
+    },
+    modes: ['graph', 'map'],
   },
   {
     id: 'processRelation',
     name: 'Process relation',
-    image: '/assets/processRelation.svg',
+    images: {
+      graph: '/assets/processRelation.svg',
+    },
+    modes: ['graph'],
   },
   {
     id: 'transport',
     name: 'Transport',
-    image: '/assets/transport.svg',
+    images: {
+      graph: '/assets/transport.svg',
+      map: '/assets/transport.svg',
+    },
+    modes: ['graph', 'map'],
   },
 ];
 
 export const ChartLegendCard = ({ onClose }) => {
+  const { viewMode } = useSimulationViewContext();
+
+  const visibleLegendItems = useMemo(() => {
+    return itemLegend.filter((item) => item.modes.includes(viewMode));
+  }, [viewMode]);
+
   return (
-    <Card sx={{ my: 1 }}>
+    <Card sx={{ my: 1, borderRadius: '8px' }}>
       <CardHeader
         action={
           <IconButton onClick={onClose} aria-label="Close legend">
@@ -54,18 +85,35 @@ export const ChartLegendCard = ({ onClose }) => {
           </IconButton>
         }
         title="Legend"
-        style={{ backgroundColor: BUTTON_BACKGROUND_COLOR }}
+        sx={{
+          backgroundColor: BUTTON_BACKGROUND_COLOR,
+          fontSize: '16px',
+          fontWeight: 600,
+          padding: '12px 16px',
+          borderRadius: 0,
+        }}
+        titleTypographyProps={{
+          sx: {
+            fontSize: '16px',
+            fontWeight: 600,
+          },
+        }}
       />
       <CardContent
-        style={{
+        sx={{
           backgroundColor: BUTTON_BACKGROUND_COLOR,
+          padding: '12px 16px',
+          borderRadius: '0 0 8px 8px',
+          '&:last-child': {
+            paddingBottom: '12px',
+          },
         }}
       >
         <Grid container sx={{ width: 230 }} alignItems="center">
-          {itemLegend.map((item) => (
+          {visibleLegendItems.map((item) => (
             <React.Fragment key={item.id}>
               <Grid item container xs={4} sx={{ my: 1, minHeight: 32 }} justifyContent={'center'}>
-                <img src={item.image} />
+                <img src={item.images[viewMode]} alt={`${item.name} legend icon`} />
               </Grid>
               <Grid item container xs={8} sx={{ pl: 1 }} justifyContent={'flex-start'}>
                 <Typography variant="body2">{item.name}</Typography>
