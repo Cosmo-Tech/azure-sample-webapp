@@ -210,7 +210,7 @@ export const getGraphFromInstance = (scenario, settings) => {
     return {
       id: node.id,
       type,
-      data: forgeElementData(node, ['id', 'latitude', 'longitude']),
+      data: forgeElementData(node, ['id']),
     };
   };
 

@@ -26,6 +26,14 @@ const DETAILS_METADATA = {
 
   isContractor: { label: 'Is contractor' },
   investmentCost: { label: 'Investment cost' },
+
+  partId: { label: 'Part id' },
+  MinimalStock: { label: 'Minimal stock' },
+  MaximalStock: { label: 'Maximal stock' },
+  BacklogWeight: { label: 'Backlog weight' },
+  MaximizationWeight: { label: 'Maximization weight' },
+  latitude: { label: 'Latitude' },
+  longitude: { label: 'Longitude' },
 };
 
 export const ElementDetails = ({ inspectedElement }) => {
