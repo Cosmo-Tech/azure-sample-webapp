@@ -7,10 +7,9 @@ import { IncidentChip } from './components/IncidentChip';
 
 const MapView = () => {
   const theme = useTheme();
-
+  const mapContainerRef = useRef(null);
   const mapCanvasRef = useRef(null);
   const mapAppRef = useRef(null);
-  const mapContainerRef = useRef(null);
   // eslint-disable-next-line no-unused-vars
   const [hoveredIncident, setHoveredIncident] = useState({
     visible: false,
