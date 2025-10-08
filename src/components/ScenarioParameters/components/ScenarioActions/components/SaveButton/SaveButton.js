@@ -4,7 +4,7 @@ import React, { useCallback } from 'react';
 import { useFormState } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import SaveIcon from '@mui/icons-material/Save';
-import { Button, Grid2 as Grid } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 import { PermissionsGate } from '@cosmotech/ui';
 import { useUpdateParameters } from '../../../../../../hooks/ScenarioParametersHooks';
 import { useUserAppAndCurrentScenarioPermissions } from '../../../../../../hooks/SecurityHooks';

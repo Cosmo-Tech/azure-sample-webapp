@@ -9,7 +9,7 @@ import {
   DialogContent,
   DialogTitle,
   FormControl,
-  Grid2 as Grid,
+  Grid,
   InputAdornment,
   InputLabel,
   MenuItem,

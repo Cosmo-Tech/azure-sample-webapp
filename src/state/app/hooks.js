@@ -1,7 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useColorScheme } from '@mui/material/styles';
+import { DEFAULT_THEME_MODE } from '../../services/config/FunctionalConstants.js';
 import { dispatchGetAllInitialData } from './dispatchers';
 import {
   clearApplicationErrorMessage,
@@ -14,8 +16,16 @@ export const useApplicationStatus = () => {
   return useSelector((state) => state.application.status);
 };
 
-export const useIsDarkTheme = () => {
-  return useSelector((state) => state.application.isDarkTheme);
+export const useApplicationTheme = () => {
+  const { mode, setMode, systemMode } = useColorScheme();
+
+  const isDarkTheme = useMemo(() => {
+    if ((mode ?? DEFAULT_THEME_MODE) === 'system') return systemMode === 'dark';
+    return (mode ?? DEFAULT_THEME_MODE) === 'dark';
+  }, [mode, systemMode]);
+
+  const toggleTheme = useCallback(() => setMode(isDarkTheme ? 'light' : 'dark'), [isDarkTheme, setMode]);
+  return { isDarkTheme, toggleTheme };
 };
 
 export const useApplication = () => {

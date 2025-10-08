@@ -3,7 +3,7 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import { Grid2 as Grid, Typography, Dialog, DialogTitle, Box, Button, DialogContent } from '@mui/material';
+import { Grid, Typography, Dialog, DialogTitle, Box, Button, DialogContent } from '@mui/material';
 import { TABLE_DATA_STATUS } from '@cosmotech/ui';
 import { GenericTable } from '../../../../../../../../components/';
 import { TranslationUtils } from '../../../../../../../../utils';

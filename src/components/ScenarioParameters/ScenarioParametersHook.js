@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import { useUpdateParameters } from '../../hooks/ScenarioParametersHooks.js';
 import { useUserPermissionsOnCurrentScenario } from '../../hooks/SecurityHooks.js';
-import { useIsDarkTheme } from '../../state/app/hooks';
+import { useApplicationTheme } from '../../state/app/hooks';
 import { useUserAppRoles } from '../../state/auth/hooks';
 import { useDatasets } from '../../state/datasets/hooks';
 import { useCurrentSimulationRunner } from '../../state/runner/hooks';
@@ -15,7 +15,7 @@ export const useScenarioParameters = () => {
   const solutionData = useSolution().data;
   const userRoles = useUserAppRoles();
   const userPermissionsOnCurrentScenario = useUserPermissionsOnCurrentScenario();
-  const isDarkTheme = useIsDarkTheme();
+  const { isDarkTheme } = useApplicationTheme();
 
   return {
     runTemplateParametersIds,

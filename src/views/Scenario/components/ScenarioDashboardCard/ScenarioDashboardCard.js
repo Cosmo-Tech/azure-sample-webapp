@@ -5,16 +5,7 @@ import { useTranslation } from 'react-i18next';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import WarningAmberOutlinedIcon from '@mui/icons-material/WarningAmberOutlined';
-import {
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Button,
-  Card,
-  Grid2 as Grid,
-  Paper,
-  Typography,
-} from '@mui/material';
+import { Accordion, AccordionSummary, AccordionDetails, Button, Card, Grid, Paper, Typography } from '@mui/material';
 import ScenarioPowerBiReport from '../ScenarioPowerBiReport';
 import { useScenarioDashboardCard } from './ScenarioDashboardCardHook';
 

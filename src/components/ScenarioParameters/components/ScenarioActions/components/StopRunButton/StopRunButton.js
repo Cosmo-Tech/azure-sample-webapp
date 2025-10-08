@@ -3,7 +3,7 @@
 import React, { useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import CancelIcon from '@mui/icons-material/Cancel';
-import { Button, Grid2 as Grid } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 import { PermissionsGate } from '@cosmotech/ui';
 import { useUserAppAndCurrentScenarioPermissions } from '../../../../../../hooks/SecurityHooks';
 import { RUNNER_RUN_STATE } from '../../../../../../services/config/ApiConstants';

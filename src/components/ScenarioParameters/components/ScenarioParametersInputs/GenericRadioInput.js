@@ -3,7 +3,7 @@
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import { Grid2 as Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import { BasicRadioInput } from '@cosmotech/ui';
 import { TranslationUtils, ConfigUtils } from '../../../../utils';
 

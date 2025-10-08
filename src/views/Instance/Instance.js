@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useTheme } from '@mui/styles';
+import { useTheme } from '@mui/material/styles';
 import { CytoViz } from '@cosmotech/ui';
 import { CurrentScenarioSelector } from '../../components';
 import { AppInsights } from '../../services/AppInsights';
@@ -11,7 +11,6 @@ import { InstanceUtils } from '../../utils';
 import { parseError } from '../../utils/ErrorsUtils';
 import { useInstance } from './InstanceHook';
 import { fetchData, processGraphElements } from './data';
-import useStyles from './style';
 
 const EXTRA_LAYOUTS = {
   breadthfirst: null,
@@ -19,7 +18,6 @@ const EXTRA_LAYOUTS = {
 const appInsights = AppInsights.getInstance();
 
 const Instance = () => {
-  const classes = useStyles();
   const theme = useTheme();
   const { t } = useTranslation();
   const {
@@ -209,11 +207,28 @@ const Instance = () => {
 
   return (
     <>
-      <div className={classes.mainGrid}>
-        <div className={classes.scenarioSelectGridItem}>
+      <div
+        style={{
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          paddingLeft: '2px',
+          paddingTop: '6px',
+          paddingRight: '2px',
+          paddingBottom: '6px',
+        }}
+      >
+        <div
+          style={{
+            paddingLeft: '5px',
+            paddingTop: '12px',
+            paddingBottom: '15px',
+            width: '400px',
+          }}
+        >
           <CurrentScenarioSelector />
         </div>
-        <div className={classes.cytoscapeGridItem}>
+        <div style={{ flexGrow: 1 }}>
           <CytoViz
             cytoscapeStylesheet={cytoscapeStylesheet}
             elements={graphElements}

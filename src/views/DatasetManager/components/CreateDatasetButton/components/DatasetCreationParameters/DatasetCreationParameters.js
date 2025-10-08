@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import { Grid2 as Grid, Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import rfdc from 'rfdc';
 import { UploadFile, BasicEnumInput } from '@cosmotech/ui';
 import { GenericEnumInput, GenericMultiSelect, GenericTextInput, GenericDateInput } from '../../../../../../components';
@@ -249,9 +249,7 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
       {!isDatasetParametersEditionDialog && (
         <Grid sx={{ py: 2 }}>{<Typography sx={{ py: 2 }}>{labels.subtitle}</Typography>}</Grid>
       )}
-      <Grid item xs={7}>
-        {sourceTypeComponent}
-      </Grid>
+      <Grid size={{ xs: 7 }}>{sourceTypeComponent}</Grid>
       <Grid container size={7} sx={{ px: 2, pt: 3, width: '100%' }}>
         {sourceParameters}
       </Grid>

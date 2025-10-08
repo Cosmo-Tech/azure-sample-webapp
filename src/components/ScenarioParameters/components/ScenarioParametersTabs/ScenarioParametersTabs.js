@@ -6,18 +6,11 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import LockIcon from '@mui/icons-material/Lock';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
-import { Badge, Tab } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
+import { Badge, Tab, styled } from '@mui/material';
 import { ConfigUtils, ScenarioParametersUtils, TranslationUtils } from '../../../../utils';
 
-const useStyles = makeStyles((theme) => ({
-  tabPanel: {
-    maxHeight: 450,
-    overflow: 'auto',
-  },
-  placeholder: {
-    margin: `0 ${theme.spacing(3)}`,
-  },
+const PlaceholderDiv = styled('div')(({ theme }) => ({
+  margin: `0 ${theme.spacing(3)}`,
 }));
 
 function _buildScenarioTabList(tabs, userRoles, t, errors) {
@@ -45,14 +38,22 @@ function _buildScenarioTabList(tabs, userRoles, t, errors) {
   return tabListComponent;
 }
 
-function _buildTabPanels(userRoles, tabs, classes) {
+function _buildTabPanels(userRoles, tabs) {
   const tabPanelComponents = [];
   for (let index = 0; index < tabs.length; index++) {
     const groupMetadata = tabs[index];
     const lockedTab = !hasRequiredProfile(userRoles, groupMetadata.authorizedRoles);
     if (!lockedTab || !ConfigUtils.getParametersGroupAttribute(groupMetadata, 'hideParameterGroupIfNoPermission')) {
       tabPanelComponents.push(
-        <TabPanel index={index} key={groupMetadata.id} value={groupMetadata.id} className={classes.tabPanel}>
+        <TabPanel
+          index={index}
+          key={groupMetadata.id}
+          value={groupMetadata.id}
+          sx={{
+            maxHeight: 450,
+            overflow: 'auto',
+          }}
+        >
           {groupMetadata.tab}
         </TabPanel>
       );
@@ -85,7 +86,6 @@ function chooseParametersTab(parametersGroupsMetadata, userRoles) {
 }
 
 const ScenarioParametersTabs = ({ parametersGroupsMetadata, userRoles }) => {
-  const classes = useStyles();
   const { t } = useTranslation();
   const [tabs, setTabs] = useState(parametersGroupsMetadata);
   const firstTab = chooseParametersTab(parametersGroupsMetadata, userRoles);
@@ -104,9 +104,9 @@ const ScenarioParametersTabs = ({ parametersGroupsMetadata, userRoles }) => {
   return (
     <div data-cy="scenario-parameters-tabs">
       {tabs.length === 0 ? (
-        <div className={classes.placeholder} data-cy="no-parameters-placeholder">
+        <PlaceholderDiv data-cy="no-parameters-placeholder">
           {t('genericcomponent.text.scenario.parameters.placeholder', 'No parameters to edit.')}
-        </div>
+        </PlaceholderDiv>
       ) : (
         <TabContext value={selectedTab}>
           <TabList
@@ -121,7 +121,7 @@ const ScenarioParametersTabs = ({ parametersGroupsMetadata, userRoles }) => {
           >
             {_buildScenarioTabList(tabs, userRoles, t, errors)}
           </TabList>
-          {_buildTabPanels(userRoles, tabs, classes)}
+          {_buildTabPanels(userRoles, tabs)}
         </TabContext>
       )}
     </div>

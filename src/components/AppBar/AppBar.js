@@ -3,25 +3,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { AppBar as MuiAppBar, Toolbar } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
 import { HelpMenuWrapper, Logo, ThemeSwitch, UserInfoWrapper, WorkspaceInfo } from './components';
 
-const useStyles = makeStyles((theme) => ({
-  appBar: {
-    backgroundColor: theme.palette.appbar.main,
-    color: theme.palette.appbar.contrastText,
-  },
-  children: {
-    flexGrow: 1,
-  },
-}));
 export const AppBar = ({ children }) => {
-  const classes = useStyles();
   return (
-    <MuiAppBar position="sticky" className={classes.appBar}>
+    <MuiAppBar
+      position="sticky"
+      sx={{
+        backgroundColor: (theme) => theme.palette.appbar.main,
+        color: (theme) => theme.palette.appbar.contrastText,
+      }}
+    >
       <Toolbar variant="dense" disableGutters={true}>
         <WorkspaceInfo />
-        <div className={classes.children}>{children}</div>
+        <div style={{ flexGrow: 1 }}>{children}</div>
         <ThemeSwitch />
         <HelpMenuWrapper />
         <UserInfoWrapper />

@@ -3,7 +3,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useIdleTimer } from 'react-idle-timer';
-import { ThemeProvider, StyledEngineProvider, CssBaseline } from '@mui/material';
+import { ThemeProvider, CssBaseline } from '@mui/material';
+import { StyledEngineProvider } from '@mui/material/styles';
 import { Auth } from '@cosmotech/core';
 import { useApp } from './AppHook';
 import AppRoutes from './AppRoutes';
@@ -11,7 +12,7 @@ import './assets/scss/index.scss';
 import { SessionTimeoutDialog } from './components/SessionTimeoutDialog/SessionTimeoutDialog';
 import './services/AppInsights';
 import './services/config/Auth';
-import { SESSION_INACTIVITY_TIMEOUT } from './services/config/FunctionalConstants';
+import { DEFAULT_THEME_MODE, SESSION_INACTIVITY_TIMEOUT } from './services/config/FunctionalConstants';
 import { STATUSES } from './services/config/StatusConstants';
 import { TwoActionsDialogGlobal } from './services/twoActionsDialog/twoActionsDialogService';
 import { AUTH_STATUS } from './state/auth/constants';
@@ -94,7 +95,7 @@ const App = () => {
 
   return (
     <StyledEngineProvider injectFirst>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={theme} noSsr defaultMode={DEFAULT_THEME_MODE}>
         <TwoActionsDialogGlobal />
         <CssBaseline />
         <SessionTimeoutDialog

@@ -3,7 +3,7 @@
 import React from 'react';
 import { connect, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Grid2 as Grid, Stack } from '@mui/material';
+import { Grid, Stack } from '@mui/material';
 import { t } from 'i18next';
 import { PermissionsGate } from '@cosmotech/ui';
 import { ConfigUtils } from '../../../../utils';

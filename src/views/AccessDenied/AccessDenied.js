@@ -4,10 +4,9 @@ import React from 'react';
 import Countdown from 'react-countdown';
 import { Trans, useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import { Grid2 as Grid, Button, Typography, Select, FormControl, MenuItem, Paper } from '@mui/material';
+import { Grid, Button, Typography, Select, FormControl, MenuItem, Paper, styled } from '@mui/material';
 import { Auth } from '@cosmotech/core';
 import { TranslationUtils } from '../../utils';
-import useStyles from './style';
 
 const buildErrorMessage = (error) => {
   let errorMessage = error.status ? `${error.status} ` : '';
@@ -18,8 +17,24 @@ const buildErrorMessage = (error) => {
   return errorMessage;
 };
 
+const Root = styled('div')(({ theme }) => ({
+  backgroundColor: theme.palette.login.main,
+  height: '100%',
+}));
+
+const TitleDiv = styled('div')(({ theme }) => ({
+  backgroundColor: theme.palette.login.main,
+  height: '100%',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  backgroundImage: `url(${theme.picture.auth})`,
+  backgroundSize: 'contain',
+  backgroundRepeat: 'no-repeat',
+  backgroundPosition: 'center bottom',
+}));
+
 const AccessDenied = ({ application }) => {
-  const classes = useStyles();
   const { t, i18n } = useTranslation();
   const year = new Date().getFullYear();
 
@@ -27,7 +42,7 @@ const AccessDenied = ({ application }) => {
 
   const timeoutRenderer = ({ seconds }) => {
     return (
-      <Typography className={classes.timeout}>
+      <Typography sx={{ marginBottom: 8, marginLeft: 8 }}>
         {t('views.accessdenied.signouttimeout', 'You will be automatically signed out in {{seconds}} seconds...', {
           seconds,
         })}
@@ -43,23 +58,77 @@ const AccessDenied = ({ application }) => {
       );
 
   return (
-    <div className={classes.root}>
-      <Grid className={classes.grid} container>
-        <Grid className={classes.quoteContainer} size={{ lg: 5 }}>
-          <div className={classes.quote}>
-            <div className={classes.quoteInner}>
-              <Typography className={classes.quoteText} variant="h4">
-                {t('views.signin.title', 'Azure Sample Web Application')}
-              </Typography>
+    <Root>
+      <Grid sx={{ height: '100%' }} container>
+        <Grid
+          sx={(theme) => ({
+            [theme.breakpoints.down('xl')]: { display: 'none' },
+          })}
+          size={{ lg: 5 }}
+        >
+          <TitleDiv>
+            <div style={{ textAlign: 'center', flexBasis: '600px', marginTop: '2%' }}>
+              <Typography variant="h4">{t('views.signin.title', 'Azure Sample Web Application')}</Typography>
             </div>
-          </div>
+          </TitleDiv>
         </Grid>
-        <Grid className={classes.content} container size={{ lg: 7, xs: 12 }}>
-          <div className={classes.content}>
-            <div className={classes.contentBody}>
-              <Typography className={classes.title}>{t('views.accessdenied.title', 'Access denied')}</Typography>
-              <Paper className={classes.errorPaper} elevation={0}>
-                <Typography data-cy="access-denied-error-message" className={classes.errorText}>
+        <Grid
+          sx={{
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+          }}
+          container
+          size={{ lg: 7, xs: 12 }}
+        >
+          <div
+            style={{
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+            }}
+          >
+            <div style={{ paddingLeft: '100px', paddingRight: '100px', paddingTop: '200px' }}>
+              <Typography
+                sx={{
+                  marginTop: (theme) => theme.spacing(5),
+                  marginBottom: (theme) => theme.spacing(5),
+                  fontWeight: 'bold',
+                  fontSize: '32px',
+                  color: (theme) => theme.palette.text.primary,
+                }}
+              >
+                {t('views.accessdenied.title', 'Access denied')}
+              </Typography>
+              <Paper
+                sx={{
+                  background: (theme) => theme.palette.error.main,
+                  paddingBottom: 8,
+                  paddingTop: 8,
+                  paddingLeft: 6,
+                  paddingRight: 6,
+                  marginBottom: 10,
+                  width: 'fit-content',
+                }}
+                elevation={0}
+              >
+                <Typography
+                  data-cy="access-denied-error-message"
+                  sx={{
+                    color: (theme) => theme.palette.error.contrastText,
+                    fontSize: '14px',
+                    fontWeight: 'bold',
+                    maxWidth: '650px',
+                    maxHeight: '300px',
+                    overflow: 'auto',
+                    paddingRight: 7,
+                    paddingLeft: 7,
+                    whiteSpace: 'pre-line',
+                    overflowWrap: 'break-word',
+                  }}
+                >
                   {errorMessage}
                 </Typography>
               </Paper>
@@ -83,10 +152,10 @@ const AccessDenied = ({ application }) => {
               }}
             >
               <Grid>
-                <FormControl className={classes.formControl}>
+                <FormControl sx={{ fontSize: '11px' }}>
                   <Select
                     variant="standard"
-                    className={classes.languageSelect}
+                    sx={{ fontSize: '11px', color: (theme) => theme.palette.text.primary }}
                     value={i18n.language}
                     onChange={(event) => TranslationUtils.changeLanguage(event.target.value, i18n)}
                   >
@@ -96,7 +165,11 @@ const AccessDenied = ({ application }) => {
                 </FormControl>
               </Grid>
               <Grid>
-                <Typography variant="caption" component="div" className={classes.copyrightText}>
+                <Typography
+                  variant="caption"
+                  component="div"
+                  sx={{ marginLeft: '8px', color: (theme) => theme.palette.text.primary }}
+                >
                   <Trans i18nKey="copyrightMessage" year={year}>
                     &copy; {{ year }} {t('views.common.footer.text.companyname', 'Cosmo Tech')}
                   </Trans>
@@ -106,7 +179,7 @@ const AccessDenied = ({ application }) => {
           </div>
         </Grid>
       </Grid>
-    </div>
+    </Root>
   );
 };
 

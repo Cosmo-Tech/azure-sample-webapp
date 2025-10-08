@@ -4,17 +4,97 @@ import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Grid2 as Grid, Button, Typography, Box, Select, MenuItem } from '@mui/material';
+import { Grid, Button, Typography, Box, Select, MenuItem } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { AuthMSAL } from '@cosmotech/azure';
 import { AuthDev } from '@cosmotech/core';
 import { SignInButton } from '@cosmotech/ui';
 import microsoftLogo from '../../assets/microsoft_logo.png';
 import { AUTH_STATUS } from '../../state/auth/constants.js';
 import { TranslationUtils } from '../../utils';
-import useStyles from './style';
+
+const PREFIX = 'SignIn';
+
+const classes = {
+  root: `${PREFIX}-root`,
+  errorPaper: `${PREFIX}-errorPaper`,
+  infoPaper: `${PREFIX}-infoPaper`,
+  quoteContainer: `${PREFIX}-quoteContainer`,
+  quote: `${PREFIX}-quote`,
+  content: `${PREFIX}-content`,
+  contentHeader: `${PREFIX}-contentHeader`,
+  contentBody: `${PREFIX}-contentBody`,
+};
+
+const Root = styled('div')(({ theme }) => ({
+  backgroundColor: theme.palette.login.main,
+  height: '100%',
+
+  [`&.${classes.errorPaper}`]: {
+    background: theme.palette.mode === 'dark' ? '#93000a' : '#ffdad6',
+    border: theme.palette.mode === 'dark' ? 'none' : 'solid 1px #410002',
+    borderRadius: '12px',
+    padding: '16px',
+    marginBottom: 10,
+    maxWidth: '800px',
+    maxHeight: '150px',
+  },
+
+  [`& .${classes.infoPaper}`]: {
+    background: theme.palette.mode === 'dark' ? '#52405f' : '#f2daff',
+    border: theme.palette.mode === 'dark' ? 'none' : 'solid 1px #251432',
+    borderRadius: '12px',
+    padding: '16px',
+    maxWidth: '800px',
+    maxHeight: '150px',
+  },
+
+  [`& .${classes.quoteContainer}`]: {
+    [theme.breakpoints.down('xl')]: {
+      display: 'none',
+    },
+  },
+
+  [`& .${classes.quote}`]: {
+    height: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundImage: `url(${process.env?.PUBLIC_URL ?? ''}${theme.picture.auth})`,
+    backgroundSize: 'contain',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center bottom',
+  },
+
+  [`& .${classes.contentHeader}`]: {
+    display: 'flex',
+    alignItems: 'center',
+    paddingTop: theme.spacing(5),
+    paddingBototm: theme.spacing(2),
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+  },
+
+  [`& .${classes.contentBody}`]: {
+    flexGrow: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    [theme.breakpoints.down('xl')]: {
+      justifyContent: 'center',
+    },
+    paddingTop: 120,
+    paddingLeft: 100,
+    paddingRight: 100,
+    flexBasis: 700,
+    [theme.breakpoints.down('xl')]: {
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(2),
+    },
+  },
+}));
 
 const SignIn = ({ logInAction, auth }) => {
-  const classes = useStyles();
   const { t, i18n } = useTranslation();
   const location = useLocation();
   const providedUrlBeforeSignIn = location?.state?.from;
@@ -27,41 +107,69 @@ const SignIn = ({ logInAction, auth }) => {
   const accessDeniedError =
     auth.status === AUTH_STATUS.DENIED ? (
       <>
-        <Typography className={classes.errorTitle}>{t('views.signin.error.title', 'Authentication failed')}</Typography>
+        <Typography
+          sx={{
+            marginTop: 2,
+            marginBottom: 2,
+            fontWeight: 'bold',
+            fontSize: '16px',
+            color: (theme) => (theme.palette.mode === 'dark' ? '#ffdad6' : '#410002'),
+          }}
+        >
+          {t('views.signin.error.title', 'Authentication failed')}
+        </Typography>
         <div className={classes.errorPaper}>
-          <Typography className={classes.errorText}>{auth.error}</Typography>
+          <Typography
+            sx={{
+              color: (theme) => (theme.palette.mode === 'dark' ? '#ffdad6' : '#410002'),
+              fontSize: '14px',
+              overflow: 'auto',
+              whiteSpace: 'pre-line',
+              overflowWrap: 'break-word',
+            }}
+          >
+            {auth.error}
+          </Typography>
         </div>
       </>
     ) : null;
   const infoMessage =
     localStorage.getItem('logoutByTimeout') === 'true' ? (
       <div className={classes.infoPaper}>
-        <Typography className={classes.infoText}>
+        <Typography
+          sx={{
+            color: (theme) => (theme.palette.mode === 'dark' ? '#f2daff' : '#251432'),
+            fontSize: '14px',
+            overflow: 'auto',
+            whiteSpace: 'pre-line',
+            overflowWrap: 'break-word',
+          }}
+        >
           {t('views.signin.info.timeout', 'For security reasons, your session has expired, due to inactivity.')}
         </Typography>
       </div>
     ) : null;
 
   return (
-    <div className={classes.root}>
-      <Grid className={classes.grid} container>
+    <Root>
+      <Grid container sx={{ height: '100%' }}>
         <Grid className={classes.quoteContainer} size={{ lg: 5 }}>
           <div className={classes.quote}>
-            <div className={classes.quoteInner}>
-              <Typography className={classes.quoteText} variant="h4">
+            <div style={{ textAlign: 'center', flexBasis: '600px', marginTop: '2%' }}>
+              <Typography sx={{ color: (theme) => theme.palette.text.primary, fontWeight: 300 }} variant="h4">
                 {t('views.signin.title', 'Azure Sample Web Application')}
               </Typography>
             </div>
           </div>
         </Grid>
-        <Grid className={classes.content} size={{ lg: 7, xs: 12 }}>
-          <div className={classes.content}>
+        <Grid sx={{ height: '100%', display: 'flex', flexDirection: 'column' }} size={{ lg: 7, xs: 12 }}>
+          <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
             <div className={classes.contentHeader}></div>
             <div className={classes.contentBody}>
-              <Typography className={classes.title} variant="h5">
+              <Typography sx={{ mt: 3, color: (theme) => theme.palette.text.primary }} variant="h5">
                 {t('commoncomponents.button.login.regular.login', 'Sign In')}
               </Typography>
-              <Grid className={classes.socialButtons} container spacing={2} direction="column">
+              <Grid sx={{ mt: 3 }} container spacing={2} direction="column">
                 {infoMessage}
                 {accessDeniedError}
                 <Grid>
@@ -78,23 +186,28 @@ const SignIn = ({ logInAction, auth }) => {
                     <Button
                       onClick={(event) => handleSignIn(event, AuthDev.name)}
                       data-cy="sign-in-with-dev-account-button"
-                      className={classes.quoteText}
+                      sx={{ color: (theme) => theme.palette.text.primary, fontWeight: 300 }}
                     >
                       {t('commoncomponents.button.login.dev.account.login', 'Login with Dev account')}
                     </Button>
                   )}
                 </Grid>
               </Grid>
-              <Grid container spacing={1} className={classes.contact} direction="row">
+              <Grid
+                container
+                spacing={1}
+                sx={{ marginLeft: '10px', marginTop: '5px', color: (theme) => theme.palette.text.primary }}
+                direction="row"
+              >
                 <Grid>
-                  <Typography variant="caption" className={classes.quoteText}>
+                  <Typography variant="caption" sx={{ color: (theme) => theme.palette.text.primary, fontWeight: 300 }}>
                     <Box sx={{ fontWeight: 'fontWeightLight' }}>
                       {t('commoncomponents.text.contact.get.account', "Don't have an account?")}
                     </Box>
                   </Typography>
                 </Grid>
                 <Grid>
-                  <Typography variant="caption" className={classes.quoteText}>
+                  <Typography variant="caption" sx={{ color: (theme) => theme.palette.text.primary, fontWeight: 300 }}>
                     <Box sx={{ fontWeight: 'fontWeightBold' }}>
                       {t('commoncomponents.text.link.cosmotech', 'Please contact CosmoTech')}
                     </Box>
@@ -102,12 +215,12 @@ const SignIn = ({ logInAction, auth }) => {
                 </Grid>
               </Grid>
             </div>
-            <div className={classes.contentFooter}>
+            <div style={{ display: 'flex', alignItems: 'flex-end' }}>
               <Grid container direction="row" sx={{ justifyContent: 'center', alignItems: 'baseline' }}>
                 <Grid>
                   <Select
                     variant="standard"
-                    className={classes.languageSelect}
+                    sx={{ fontSize: '11px', color: (theme) => theme.palette.text.primary }}
                     value={i18n.language}
                     onChange={(event) => TranslationUtils.changeLanguage(event.target.value, i18n)}
                   >
@@ -116,7 +229,11 @@ const SignIn = ({ logInAction, auth }) => {
                   </Select>
                 </Grid>
                 <Grid>
-                  <Typography variant="caption" component="div" className={classes.copyrightText}>
+                  <Typography
+                    variant="caption"
+                    component="div"
+                    sx={{ marginLeft: '8px', color: (theme) => theme.palette.text.primary }}
+                  >
                     <Trans i18nKey="copyrightMessage" year={year}>
                       &copy; {{ year }} {t('views.common.footer.text.companyname', 'Cosmo Tech')}
                     </Trans>
@@ -127,7 +244,7 @@ const SignIn = ({ logInAction, auth }) => {
           </div>
         </Grid>
       </Grid>
-    </div>
+    </Root>
   );
 };
 

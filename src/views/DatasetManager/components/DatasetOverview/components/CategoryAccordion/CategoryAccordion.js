@@ -4,7 +4,7 @@ import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Accordion, AccordionDetails, AccordionSummary, Grid2 as Grid, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Grid, Typography } from '@mui/material';
 import { exists } from 'i18next';
 import { TranslationUtils } from '../../../../../../utils';
 import { KPI, CategoryDetailsDialog } from './components';

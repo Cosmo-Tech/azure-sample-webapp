@@ -3,7 +3,7 @@
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import { Grid2 as Grid, Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import { TranslationUtils } from '../../../../../../../../utils';
 import { KPIValue } from '../../../KPIValue';
 

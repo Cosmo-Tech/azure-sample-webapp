@@ -5,8 +5,7 @@ import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Grid2 as Grid, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
+import { Grid, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import rfdc from 'rfdc';
 import { PermissionsGate } from '@cosmotech/ui';
 import { RUNNER_VALIDATION_STATUS, RUNNER_RUN_STATE } from '../../services/config/ApiConstants';
@@ -20,26 +19,7 @@ import { ScenarioParametersTabsWrapper, ScenarioActions } from './components';
 
 const clone = rfdc();
 
-const useStyles = makeStyles((theme) => ({
-  header: {
-    display: 'flex',
-    marginLeft: '30px',
-    height: '50px',
-    paddingTop: '10px',
-  },
-  rightBar: {
-    textAlign: 'right',
-    display: 'flex',
-    alignItems: 'center',
-    margin: `0 ${theme.spacing(3)}`,
-  },
-  accordionDetailsContent: {
-    width: '100%',
-  },
-}));
-
 const ScenarioParameters = ({ onToggleAccordion, isAccordionExpanded }) => {
-  const classes = useStyles();
   const { t } = useTranslation();
   const {
     runTemplateParametersIds,
@@ -164,7 +144,7 @@ const ScenarioParameters = ({ onToggleAccordion, isAccordionExpanded }) => {
             </Grid>
           </AccordionSummary>
           <AccordionDetails>
-            <div className={classes.accordionDetailsContent}>
+            <div style={{ width: '100%' }}>
               {
                 <form onSubmit={preventSubmit}>
                   <PermissionsGate

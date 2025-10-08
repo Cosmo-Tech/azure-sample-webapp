@@ -3,22 +3,12 @@
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import makeStyles from '@mui/styles/makeStyles';
 import { ResourceUtils, ScenarioUtils } from '@cosmotech/core';
 import { ScenarioManagerTreeList } from '@cosmotech/ui';
 import { LoadingBackdrop } from '../../components';
 import { ACL_PERMISSIONS } from '../../services/config/accessControl';
 import { useScenarioManager } from './ScenarioManagerHook';
 import { getScenarioManagerLabels } from './labels';
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    position: 'fixed',
-    margin: 'auto',
-    height: '100%',
-    width: '100%',
-  },
-}));
 
 function moveScenario(moveData) {
   const scenarioId = moveData.node?.id;
@@ -29,7 +19,6 @@ function moveScenario(moveData) {
 }
 
 const ScenarioManager = () => {
-  const classes = useStyles();
   const { t } = useTranslation();
   const labels = getScenarioManagerLabels(t);
 
@@ -158,7 +147,7 @@ const ScenarioManager = () => {
   );
 
   return (
-    <div className={classes.root}>
+    <div style={{ position: 'fixed', margin: 'auto', height: '100%', width: '100%' }}>
       <LoadingBackdrop status={runnersListStatus} />
       <ScenarioManagerTreeList
         datasets={datasets}

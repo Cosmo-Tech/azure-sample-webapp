@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button, Grid2 as Grid, List, ListItem, Typography } from '@mui/material';
+import { Button, Grid, List, ListItem, Typography } from '@mui/material';
 import ConfigService from '../../services/ConfigService';
 import { useSolutionData } from '../../state/solutions/hooks';
 import { useWorkspaceData } from '../../state/workspaces/hooks';

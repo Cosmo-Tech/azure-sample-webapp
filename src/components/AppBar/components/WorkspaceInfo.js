@@ -3,23 +3,11 @@
 import React, { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { Box, Button, Grid2 as Grid, Popover, Typography } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
+import { Box, Button, Grid, Popover, Typography } from '@mui/material';
 import { DefaultAvatar } from '@cosmotech/ui';
 import { useWorkspaceInfo } from './hooks/WorkspaceInfoHook';
 
-const useStyles = makeStyles((theme) => ({
-  workspaceDescription: {
-    color: theme.palette.appbar.contrastTextSoft,
-    overflow: 'hidden',
-    display: '-webkit-box',
-    WebkitLineClamp: '3',
-    WebkitBoxOrient: 'vertical',
-  },
-}));
-
 export const WorkspaceInfo = () => {
-  const classes = useStyles();
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { currentWorkspaceData, workspacesList } = useWorkspaceInfo();
@@ -91,7 +79,17 @@ export const WorkspaceInfo = () => {
         >
           {currentWorkspaceData?.name ?? ''}
         </Typography>
-        <Typography data-cy="workspace-info-description" variant="body2" className={classes.workspaceDescription}>
+        <Typography
+          data-cy="workspace-info-description"
+          variant="body2"
+          sx={{
+            color: (theme) => theme.palette.appbar.contrastTextSoft,
+            overflow: 'hidden',
+            display: '-webkit-box',
+            WebkitLineClamp: '3',
+            WebkitBoxOrient: 'vertical',
+          }}
+        >
           {currentWorkspaceData?.description ?? ''}
         </Typography>
         <Grid container sx={{ justifyContent: 'flex-end', mt: 1.5 }}>

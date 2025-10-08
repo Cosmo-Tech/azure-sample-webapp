@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { useCallback } from 'react';
-import { useIsDarkTheme } from '../../../../../../../../state/app/hooks';
+import { useApplicationTheme } from '../../../../../../../../state/app/hooks';
 import { useCurrentDataset, useCurrentDatasetId } from '../../../../../../../../state/datasets/hooks';
 import { useWorkspaceData } from '../../../../../../../../state/workspaces/hooks';
 
@@ -9,7 +9,7 @@ export const useCategoryDetailsDialogHook = () => {
   const currentDataset = useCurrentDataset();
   const currentDatasetId = useCurrentDatasetId();
   const workspaceData = useWorkspaceData();
-  const isDarkTheme = useIsDarkTheme();
+  const { isDarkTheme } = useApplicationTheme();
 
   const getQuery = useCallback(
     (queryId) => {

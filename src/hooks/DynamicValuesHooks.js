@@ -3,8 +3,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { CircularProgress, Grid2 as Grid, Typography } from '@mui/material';
-import { makeStyles } from '@mui/styles';
+import { CircularProgress, Grid, Typography } from '@mui/material';
 import { Api } from '../services/config/Api';
 import { INGESTION_STATUS } from '../services/config/ApiConstants';
 import { setApplicationErrorMessage } from '../state/app/reducers';
@@ -13,14 +12,7 @@ import { useOrganizationId } from '../state/organizations/hooks';
 import { useCurrentSimulationRunnerParametersValues } from '../state/runner/hooks';
 import { GENERIC_VAR_TYPES_DEFAULT_VALUES } from '../utils/scenarioParameters/generic/DefaultValues';
 
-const useStyles = makeStyles((theme) => ({
-  error: {
-    color: theme.palette.error.main,
-  },
-}));
-
 export const useDynamicValues = (parameter, targetDatasetId) => {
-  const classes = useStyles();
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const findDatasetById = useFindDatasetById();
@@ -104,11 +96,9 @@ export const useDynamicValues = (parameter, targetDatasetId) => {
   const dynamicValuesError = useMemo(
     () =>
       typeof dynamicValues === 'string' ? (
-        <Typography sx={{ px: 2 }} className={classes.error}>
-          {dynamicValues}
-        </Typography>
+        <Typography sx={{ px: 2, color: (theme) => theme.palette.error.main }}>{dynamicValues}</Typography>
       ) : null,
-    [dynamicValues, classes.error]
+    [dynamicValues]
   );
 
   const loadingDynamicValuesPlaceholder = useMemo(

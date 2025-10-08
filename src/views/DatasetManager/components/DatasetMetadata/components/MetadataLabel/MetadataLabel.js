@@ -3,19 +3,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Typography } from '@mui/material';
-import { makeStyles } from '@mui/styles';
-
-const useStyles = makeStyles((theme) => ({
-  label: {
-    color: theme.palette.text.secondary,
-  },
-}));
 
 const MetadataLabel = (props) => {
-  const classes = useStyles();
   const { label } = props;
   return (
-    <Typography variant="body1" className={classes.label} sx={{ pr: 1 }}>
+    <Typography variant="body1" sx={{ pr: 1, color: (theme) => theme.palette.text.secondary }}>
       {label}:
     </Typography>
   );

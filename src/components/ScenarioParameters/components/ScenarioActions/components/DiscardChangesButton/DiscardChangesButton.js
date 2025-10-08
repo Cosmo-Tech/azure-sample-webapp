@@ -4,7 +4,7 @@ import React, { useCallback } from 'react';
 import { useFormContext, useFormState } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import CancelIcon from '@mui/icons-material/Cancel';
-import { Button, Grid2 as Grid } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 import rfdc from 'rfdc';
 import { PermissionsGate } from '@cosmotech/ui';
 import { useUserAppAndCurrentScenarioPermissions } from '../../../../../../hooks/SecurityHooks';

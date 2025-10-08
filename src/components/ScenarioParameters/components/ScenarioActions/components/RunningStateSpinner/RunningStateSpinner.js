@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { CircularProgress, Grid2 as Grid, Stack, Typography } from '@mui/material';
+import { CircularProgress, Grid, Stack, Typography } from '@mui/material';
 import { RUNNER_RUN_STATE } from '../../../../../../services/config/ApiConstants';
 import { useCurrentSimulationRunnerState } from '../../../../../../state/runner/hooks';
 
