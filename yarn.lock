@@ -3310,9 +3310,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmotech/ui@npm:^11.0.0-dev.0":
-  version: 11.0.0-dev.0
-  resolution: "@cosmotech/ui@npm:11.0.0-dev.0"
+"@cosmotech/ui@npm:^11.0.0-dev.1":
+  version: 11.0.0-dev.1
+  resolution: "@cosmotech/ui@npm:11.0.0-dev.1"
   dependencies:
     "@emotion/react": "npm:^11.14.0"
     "@emotion/styled": "npm:^11.14.1"
@@ -3331,16 +3331,17 @@ __metadata:
     react-number-format: "npm:^5.4.4"
     rfdc: "npm:^1.4.1"
   peerDependencies:
-    "@cosmotech/azure": ^2.0.1
-    "@cosmotech/core": ^1.19.1
-    "@mui/icons-material": ^6.0.0
-    "@mui/material": ^6.0.0
-    "@mui/styles": ^6.0.0
+    "@cosmotech/azure": ^2.0.2
+    "@cosmotech/core": ^2.0.1
+    "@mui/icons-material": ^7.3.2
+    "@mui/lab": ^7.0.0-beta.17
+    "@mui/material": ^7.3.2
+    "@mui/styles": ^6.5.0
     prop-types: ^15.7.2
-    react: ^18.3.1
-    react-dom: ^18.3.1
-    react-i18next: ^15.1.0
-  checksum: 10c0/8d24429882e6c8e54b4e1b4ec94eef92e7257eee410343fc8844424bd33c4883501fffea87942fa7916bc8032d1b83173ecc8cdb39afdab9aafaa8b1613688ec
+    react: ^19.1.1
+    react-dom: ^19.1.1
+    react-i18next: ^15.7.3
+  checksum: 10c0/d892a4d910769ca87ef1f3bd0a3281f1c23819313554657464f0f491ceded49024bf9471877fb3d033cf293b6e7a9c9d3066dc130c0bca60d32be61e6794ecb0
   languageName: node
   linkType: hard
 
@@ -8114,7 +8115,7 @@ __metadata:
     "@cosmotech/api-ts": "npm:^3.3.4"
     "@cosmotech/azure": "npm:^2.0.2"
     "@cosmotech/core": "npm:^2.0.1"
-    "@cosmotech/ui": "npm:^11.0.0-dev.0"
+    "@cosmotech/ui": "npm:^11.0.0-dev.1"
     "@emotion/react": "npm:^11.14.0"
     "@emotion/styled": "npm:^11.14.1"
     "@eslint/compat": "npm:^1.3.2"
