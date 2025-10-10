@@ -499,6 +499,9 @@ export const initGraphApp = async (
     antialias: true,
   });
 
+  console.log('theme'); // NBO log to remove
+  console.log(theme.palette); // NBO log to remove
+
   canvas.appendChild(app.canvas);
   app.canvas.style.width = '100%';
   app.canvas.style.height = '100%';
@@ -520,7 +523,7 @@ export const initGraphApp = async (
 
   window.addEventListener('resize', handleResize);
 
-  renderElements(sceneContainerRef, graphRef, setSelectedElementId, settings);
+  renderElements(sceneContainerRef, graphRef, setSelectedElementId, settings, theme);
   sceneContainerRef.current.setOrigin();
 };
 
