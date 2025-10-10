@@ -5,91 +5,93 @@ import PropTypes from 'prop-types';
 import CloseIcon from '@mui/icons-material/Close';
 import PauseRoundedIcon from '@mui/icons-material/PauseRounded';
 import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
-import { makeStyles } from '@mui/styles';
+import { makeStyles, useTheme } from '@mui/styles';
 import { useSimulationViewContext } from '../../SimulationViewContext';
+import { simulationTheme } from '../../theme.js';
 import TimelineChart from './TimelineChart';
 
 const SPEEDS = [0.5, 1, 2];
 const STEP_DURATION_IN_MS = 500;
 
-const useStyles = makeStyles({
-  container: {
-    backgroundColor: '#1C1C20',
-    width: '50%',
-    height: 64,
-    position: 'absolute',
-    left: 25,
-    bottom: 16,
-    padding: 5,
-    borderRadius: 10,
-    zIndex: 15,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: 8,
-    border: '1px solid #FFFFFF0A',
-  },
-  playButton: {
-    position: 'absolute',
-    left: 25,
-    bottom: 16,
-    width: 90,
-    height: 48,
-    padding: '16px',
-    backgroundColor: '#1C1C20',
-    color: '#fff',
-    fontSize: 16,
-    borderRadius: 10,
-    border: '1px solid #FFFFFF0A',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
-    cursor: 'pointer',
-  },
-  controlButton: {
-    backgroundColor: 'transparent',
-    color: '#fff',
-    border: 'none',
-    fontSize: 16,
-    cursor: 'pointer',
-    display: 'flex',
-    alignItems: 'center',
-    gap: 8,
-    padding: '0 16px',
-    zIndex: 1,
-    width: 100,
-  },
-  chartWrapper: {
-    flex: 1,
-    height: '100%',
-    position: 'relative',
-    overflow: 'hidden',
-  },
-  progressFill: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    backgroundColor: '#252529',
-    zIndex: 0,
-    transition: 'width 0.1s linear',
-    borderTopLeftRadius: 10,
-    borderBottomLeftRadius: 10,
-  },
-  iconButton: {
-    backgroundColor: 'transparent',
-    border: 'none',
-    color: '#fff',
-    fontSize: 16,
-    cursor: 'pointer',
-    display: 'flex',
-    alignItems: 'center',
-    gap: 8,
-  },
-});
-
 const TimelineControls = ({ chartData, markers, startDate, endDate }) => {
+  const theme = useTheme();
+  const palette = simulationTheme[theme.palette.mode];
+  const useStyles = makeStyles({
+    container: {
+      backgroundColor: palette.timelineControls.background,
+      width: '50%',
+      height: 64,
+      position: 'absolute',
+      left: 25,
+      bottom: 16,
+      padding: 5,
+      borderRadius: 10,
+      zIndex: 15,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      gap: 8,
+      border: '1px solid #FFFFFF0A',
+    },
+    playButton: {
+      position: 'absolute',
+      left: 25,
+      bottom: 16,
+      width: 90,
+      height: 48,
+      padding: '16px',
+      backgroundColor: palette.timelineControls.background,
+      color: palette.text,
+      fontSize: 16,
+      borderRadius: 10,
+      border: '1px solid #FFFFFF0A',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 8,
+      cursor: 'pointer',
+    },
+    controlButton: {
+      backgroundColor: 'transparent',
+      color: palette.text,
+      border: 'none',
+      fontSize: 16,
+      cursor: 'pointer',
+      display: 'flex',
+      alignItems: 'center',
+      gap: 8,
+      padding: '0 16px',
+      zIndex: 1,
+      width: 100,
+    },
+    chartWrapper: {
+      flex: 1,
+      height: '100%',
+      position: 'relative',
+      overflow: 'hidden',
+    },
+    progressFill: {
+      position: 'absolute',
+      top: 0,
+      bottom: 0,
+      left: 0,
+      backgroundColor: palette.timelineControls.progressFill,
+      zIndex: 0,
+      transition: 'width 0.1s linear',
+      borderTopLeftRadius: 10,
+      borderBottomLeftRadius: 10,
+    },
+    iconButton: {
+      backgroundColor: 'transparent',
+      border: 'none',
+      color: palette.text,
+      fontSize: 16,
+      cursor: 'pointer',
+      display: 'flex',
+      alignItems: 'center',
+      gap: 8,
+    },
+  });
   const classes = useStyles();
   const { currentTimestep, setCurrentTimestep } = useSimulationViewContext();
   const [isVisible, setIsVisible] = useState(false);

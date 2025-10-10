@@ -1,0 +1,90 @@
+// Copyright (c) Cosmo Tech.
+// Licensed under the MIT license.
+export const simulationTheme = {
+  dark: {
+    mode: 'dark',
+    graph: {
+      link: '#f5f3f3',
+      hiddenLink: '#636363',
+      error: '#df3537',
+      grayLine: '#b9bac0',
+      stockLevel0Fill: '#20363D',
+      stockLevel1Fill: '#DF3537',
+      stockLevel0Border: '#48C0DB52',
+      stockLevel1Border: '#DF3537',
+      productionResourceFill: '#20363D',
+      productionResourceBorder: '#48C0DB52',
+      productionResourceLevel0Icon: '#40B8D4',
+      productionResourceLevel1Icon: '#F7F7F8',
+      factoryIcon: '#b9bac0',
+      operationsCountBadge: '#2F6A79',
+    },
+    minimap: {
+      background: '#121212',
+      stock: '#48c0db',
+      stockShortage: '#df3537',
+      productionResource: '#48c0db',
+      productionResourceBottleneck: '#df3537',
+    },
+    button: {
+      color: '#F7F7F8',
+      background: '#232323',
+      icon: {
+        default: '#FFC669',
+        selected: '#F7F7F8',
+      },
+      hoverBackground: '#1C1C20',
+    },
+    timelineControls: {
+      background: '#1C1C20',
+      progressFill: '#252529',
+    },
+    map: {
+      country: '#333333',
+      border: '#757272',
+    },
+    text: '#ffffff',
+    background: '#121212',
+  },
+  light: {
+    mode: 'light',
+    graph: {
+      link: '#3322f2',
+      hiddenLink: '#160e73',
+      error: '#df3537',
+      grayLine: '#b9bac0',
+      stockLevel0Fill: '#20363D',
+      stockLevel1Fill: '#DF3537',
+      stockLevel0Border: '#48C0DB52',
+      stockLevel1Border: '#DF3537',
+      productionResourceFill: '#20363D',
+      productionResourceBorder: '#48C0DB52',
+      productionResourceLevel0Icon: '#40B8D4',
+      productionResourceLevel1Icon: '#F7F7F8',
+      factoryIcon: '#606061',
+      operationsCountBadge: '#2F6A79',
+    },
+    minimap: {
+      background: '#ebebeb',
+      stock: '#034757',
+      stockShortage: '#e00004',
+      productionResource: '#034757',
+      productionResourceBottleneck: '#e00004',
+    },
+    button: {
+      background: '#ebebeb',
+      icon: {
+        default: '#ffd38b',
+        selected: '#1C1C20',
+      },
+      color: '#1C1C20',
+      hoverBackground: '#979797',
+    },
+    timelineControls: {
+      background: '#ebebebff',
+      progressFill: '#701c1c',
+    },
+    text: '#000000',
+    background: '#FAFAFA',
+  },
+};

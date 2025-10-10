@@ -5,45 +5,48 @@ import PropTypes from 'prop-types';
 import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined';
 import MapOutlinedIcon from '@mui/icons-material/MapOutlined';
 import { ToggleButton, ToggleButtonGroup } from '@mui/material';
-import { makeStyles } from '@mui/styles';
+import { makeStyles, useTheme } from '@mui/styles';
 import { useSimulationViewContext } from './SimulationViewContext';
 import { SIMULATION_MODES } from './constants/settings';
-
-const useStyles = makeStyles({
-  container: {
-    position: 'absolute',
-    bottom: 16,
-    left: 0,
-    right: 0,
-    margin: '0 auto',
-    width: 'fit-content',
-    backgroundColor: '#161618',
-    borderRadius: 8,
-    display: 'flex',
-    gap: 8,
-  },
-  toggleButton: {
-    color: '#F7F7F8',
-    border: 'none',
-    borderRadius: 8,
-    textTransform: 'none',
-    fontSize: 16,
-    padding: '10px 34px',
-    display: 'flex',
-    alignItems: 'center',
-    gap: 8,
-    '&.Mui-selected': {
-      backgroundColor: '#1C1C20',
-      color: '#F7F7F8',
-    },
-    '&:hover': {
-      backgroundColor: '#1C1C20',
-      color: '#F7F7F8',
-    },
-  },
-});
+import { simulationTheme } from './theme';
 
 const ModeSwitcher = ({ mode, onChange }) => {
+  const theme = useTheme();
+  const paletteMode = theme.palette.mode;
+  const palette = simulationTheme[paletteMode];
+  const useStyles = makeStyles({
+    container: {
+      position: 'absolute',
+      bottom: 16,
+      left: 0,
+      right: 0,
+      margin: '0 auto',
+      width: 'fit-content',
+      backgroundColor: palette.button.background,
+      borderRadius: 8,
+      display: 'flex',
+      gap: 8,
+    },
+    toggleButton: {
+      color: palette.button.color,
+      border: 'none',
+      borderRadius: 8,
+      textTransform: 'none',
+      fontSize: 16,
+      padding: '10px 34px',
+      display: 'flex',
+      alignItems: 'center',
+      gap: 8,
+      '&.Mui-selected': {
+        backgroundColor: palette.button.hoverBackground,
+        color: palette.button.color,
+      },
+      '&:hover': {
+        backgroundColor: palette.button.hoverBackground,
+        color: palette.button.color,
+      },
+    },
+  });
   const classes = useStyles();
   const { currentTimestep } = useSimulationViewContext();
 
@@ -57,7 +60,10 @@ const ModeSwitcher = ({ mode, onChange }) => {
     return null;
   }
 
-  const getIconColor = (currentMode, buttonMode) => (currentMode === buttonMode ? '#FFC669' : '#F7F7F8');
+  const getIconColor = (currentMode, buttonMode) =>
+    currentMode === buttonMode
+      ? simulationTheme[paletteMode].button.icon.default
+      : simulationTheme[paletteMode].button.icon.selected;
 
   return (
     <ToggleButtonGroup

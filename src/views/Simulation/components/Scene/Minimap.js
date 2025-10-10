@@ -9,11 +9,15 @@ import {
   InfoOutlined as InfoOutlinedIcon,
 } from '@mui/icons-material';
 import { Button, Paper, Stack } from '@mui/material';
+import { useTheme } from '@mui/styles';
+import { simulationTheme } from '../../theme';
 import { MinimapContainer } from '../../utils/MinimapContainer';
 import { ChartLegendCard } from '../ChartLegendCard';
-import { BUTTON_BACKGROUND_COLOR } from './styleConstants';
 
 export const Minimap = forwardRef(function Minimap({ sceneContainerRef }, canvasMinimapRef) {
+  const theme = useTheme();
+  const palette = simulationTheme[theme.palette.mode];
+
   const [chartLegendIsOpen, setChartLegendIsOpen] = useState(false);
 
   return (
@@ -48,36 +52,28 @@ export const Minimap = forwardRef(function Minimap({ sceneContainerRef }, canvas
           size="medium"
           variant="contained"
           onClick={() => sceneContainerRef?.current?.zoomOnPoint(1)}
-          color="inherit"
-          sx={{ minHeight: 45, minWidth: 60 }}
-          style={{ backgroundColor: BUTTON_BACKGROUND_COLOR }}
+          sx={{ minHeight: 45, minWidth: 60, backgroundColor: palette.button.background, color: palette.button.color }}
         >
           <ZoomInIcon />
         </Button>
         <Button
           variant="contained"
           onClick={() => sceneContainerRef?.current?.zoomOnPoint(-1)}
-          color="inherit"
-          sx={{ minHeight: 45, minWidth: 60 }}
-          style={{ backgroundColor: BUTTON_BACKGROUND_COLOR }}
+          sx={{ minHeight: 45, minWidth: 60, backgroundColor: palette.button.background, color: palette.button.color }}
         >
           <ZoomOutIcon />
         </Button>
         <Button
           variant="contained"
           onClick={() => sceneContainerRef?.current?.backToOrigin()}
-          color="inherit"
-          sx={{ minHeight: 45, minWidth: 60 }}
-          style={{ backgroundColor: BUTTON_BACKGROUND_COLOR }}
+          sx={{ minHeight: 45, minWidth: 60, backgroundColor: palette.button.background, color: palette.button.color }}
         >
           <CenterFocusStrongIcon />
         </Button>
         <Button
           variant="contained"
           onClick={() => setChartLegendIsOpen(!chartLegendIsOpen)}
-          color="inherit"
-          sx={{ minHeight: 45, minWidth: 60 }}
-          style={{ backgroundColor: BUTTON_BACKGROUND_COLOR }}
+          sx={{ minHeight: 45, minWidth: 60, backgroundColor: palette.button.background, color: palette.button.color }}
         >
           <InfoOutlinedIcon />
         </Button>
