@@ -4,12 +4,14 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import { useTheme } from '@mui/styles';
 import { useSimulationViewContext } from '../../SimulationViewContext';
 import { DEFAULT_UPDATE_STATE } from '../../SimulationViewHook';
+import { simulationTheme } from '../../theme';
 import { resetGraphHighlighting } from '../../utils/graphUtils';
 import {
   createApp,
   destroyApp,
   initGraphApp,
   initMinimap,
+  generateTextures,
   renderElements,
   updateContainerSprites,
 } from '../../utils/pixiUtils';
@@ -111,18 +113,30 @@ const Scene = () => {
       requiredUpdateStepsRef.current.all ||
       requiredUpdateStepsRef.current.highlight ||
       requiredUpdateStepsRef.current.layout ||
+      requiredUpdateStepsRef.current.paletteMode ||
       requiredUpdateStepsRef.current.render
     ) {
+      const palette = simulationTheme[theme.palette.mode];
+
       if (sceneContainerRef.current) {
         sceneContainerRef.current.removeChildren().forEach((child) => {
-          child.destroy({ children: true, texture: false, baseTexture: false });
+          child.destroy({
+            children: true,
+            texture: requiredUpdateStepsRef.current.paletteMode,
+            baseTexture: requiredUpdateStepsRef.current.paletteMode,
+          });
         });
+        if (requiredUpdateStepsRef.current.paletteMode)
+          sceneContainerRef.current.textures = generateTextures(sceneAppRef.current, palette);
       }
 
       const resetBounds = requiredUpdateStepsRef.current.all || requiredUpdateStepsRef.current.layout;
-      renderElements(sceneContainerRef, graphRef, setSelectedElementId, settings, resetBounds);
+      renderElements(sceneContainerRef, graphRef, sceneAppRef, setSelectedElementId, settings, theme, resetBounds);
       if (layoutUpdate && sceneContainerRef.current) sceneContainerRef.current.setOrigin();
-      if (minimapContainerRef.current) minimapContainerRef.current.renderElements();
+      if (minimapContainerRef.current) {
+        minimapContainerRef.current.createNodeTextures(palette);
+        minimapContainerRef.current.renderElements(palette);
+      }
     }
 
     requiredUpdateStepsRef.current = { ...DEFAULT_UPDATE_STATE };

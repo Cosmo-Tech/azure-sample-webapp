@@ -1,6 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useTheme } from '@mui/styles';
 import { DEFAULT_SETTINGS } from './constants/settings';
 import { SCENARIO_DATA as SCENARIO3 } from './data/output-sr-mgmo6vqg7e2l';
 import { SCENARIO_DATA as SCENARIO2 } from './data/output-sr-n59xj8roqgw';
@@ -27,6 +28,7 @@ export const FAKE_SCENARIOS_DATA = {
 };
 
 export const useSimulationView = () => {
+  const theme = useTheme();
   const scenarios = FAKE_SCENARIOS_METADATA;
   const [currentScenario, setCurrentScenario] = useState(scenarios?.[0]);
   const [currentTimestep, setCurrentTimestep] = useState(null); // Use "null" when the dynamic replay is not enabled
@@ -44,6 +46,7 @@ export const useSimulationView = () => {
 
   const graphRef = useRef(null);
   const lastScenarioId = useRef(null);
+  const lastThemeType = useRef(theme.palette.type);
 
   useEffect(() => {
     if (lastScenarioId.current !== currentScenario?.id) {
@@ -75,6 +78,10 @@ export const useSimulationView = () => {
       lastScenarioId.current = currentScenario?.id;
       requiredUpdateStepsRef.current.all = true;
     }
+    if (lastThemeType.current !== theme.palette.mode) {
+      lastThemeType.current = theme.palette.mode;
+      requiredUpdateStepsRef.current.paletteMode = true;
+    }
 
     if (requiredUpdateStepsRef.current.all || requiredUpdateStepsRef.current.layout) {
       const lastRunId = currentScenario.lastRunId;
@@ -98,6 +105,7 @@ export const useSimulationView = () => {
     settings.spacing,
     settings.enableGlowEffect,
     selectedElementId,
+    theme.palette.mode,
   ]);
 
   const resetGraphLayout = useCallback(

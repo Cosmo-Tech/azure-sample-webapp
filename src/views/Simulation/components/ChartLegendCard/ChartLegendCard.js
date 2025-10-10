@@ -4,8 +4,9 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Close as CloseIcon } from '@mui/icons-material/';
 import { Card, CardContent, CardHeader, Typography, IconButton, Grid } from '@mui/material';
+import { useTheme } from '@mui/styles';
 import { useSimulationViewContext } from '../../SimulationViewContext';
-import { BUTTON_BACKGROUND_COLOR } from '../Scene/styleConstants';
+import { simulationTheme } from '../../theme.js';
 
 const itemLegend = [
   {
@@ -54,7 +55,12 @@ const itemLegend = [
     id: 'processRelation',
     name: 'Process relation',
     images: {
-      graph: '/assets/processRelation.svg',
+      light: {
+        graph: '/assets/processRelation-light.svg',
+      },
+      dark: {
+        graph: '/assets/processRelation-dark.svg',
+      },
     },
     modes: ['graph'],
   },
@@ -62,6 +68,13 @@ const itemLegend = [
     id: 'transport',
     name: 'Transport',
     images: {
+      light: {
+        graph: '/assets/transport-light.svg',
+      },
+      dark: {
+        graph: '/assets/transport-dark.svg',
+      },
+
       graph: '/assets/transport.svg',
       map: '/assets/transport.svg',
     },
@@ -71,6 +84,9 @@ const itemLegend = [
 
 export const ChartLegendCard = ({ onClose }) => {
   const { viewMode } = useSimulationViewContext();
+  const theme = useTheme();
+  const paletteMode = theme.palette.mode;
+  const palette = simulationTheme[paletteMode];
 
   const visibleLegendItems = useMemo(() => {
     return itemLegend.filter((item) => item.modes.includes(viewMode));
@@ -86,7 +102,7 @@ export const ChartLegendCard = ({ onClose }) => {
         }
         title="Legend"
         sx={{
-          backgroundColor: BUTTON_BACKGROUND_COLOR,
+          backgroundColor: palette.button.background,
           fontSize: '16px',
           fontWeight: 600,
           padding: '12px 16px',
@@ -101,7 +117,7 @@ export const ChartLegendCard = ({ onClose }) => {
       />
       <CardContent
         sx={{
-          backgroundColor: BUTTON_BACKGROUND_COLOR,
+          backgroundColor: palette.button.background,
           padding: '12px 16px',
           borderRadius: '0 0 8px 8px',
           '&:last-child': {
@@ -110,16 +126,19 @@ export const ChartLegendCard = ({ onClose }) => {
         }}
       >
         <Grid container sx={{ width: 230 }} alignItems="center">
-          {visibleLegendItems.map((item) => (
-            <React.Fragment key={item.id}>
-              <Grid item container xs={4} sx={{ my: 1, minHeight: 32 }} justifyContent={'center'}>
-                <img src={item.images[viewMode]} alt={`${item.name} legend icon`} />
-              </Grid>
-              <Grid item container xs={8} sx={{ pl: 1 }} justifyContent={'flex-start'}>
-                <Typography variant="body2">{item.name}</Typography>
-              </Grid>
-            </React.Fragment>
-          ))}
+          {visibleLegendItems.map((item) => {
+            const src = item.images[paletteMode] ? item.images[paletteMode].graph : item.images.graph;
+            return (
+              <React.Fragment key={item.id}>
+                <Grid item container xs={4} sx={{ my: 1, minHeight: 32 }} justifyContent={'center'}>
+                  <img src={src} alt={`${item.name} legend icon`} />
+                </Grid>
+                <Grid item container xs={8} sx={{ pl: 1 }} justifyContent={'flex-start'}>
+                  <Typography variant="body2">{item.name}</Typography>
+                </Grid>
+              </React.Fragment>
+            );
+          })}
         </Grid>
       </CardContent>
     </Card>

@@ -17,9 +17,10 @@ export class MinimapContainer extends Container {
     this.dragTarget = null;
   }
 
-  renderElements() {
+  renderElements(palette) {
     this.removeChildren().forEach((child) => child.destroy({ children: true }));
     this.miniSceneContainer = this.forgeContainer(this.sceneContainerRef.current);
+    this.minimapAppRef.current.renderer.background.color = palette.minimap.background;
 
     this.addChild(this.miniSceneContainer);
 
@@ -36,17 +37,17 @@ export class MinimapContainer extends Container {
     stage.on('mousedown', this.onClick);
   }
 
-  createNodeTextures() {
+  createNodeTextures(palette) {
     const createNodeTexture = (fillColor) => {
       const nodeGraphicsContext = new GraphicsContext().rect(0, 0, 2, 2).fill(fillColor);
       return this.minimapAppRef.current.renderer.generateTexture(new Graphics(nodeGraphicsContext));
     };
 
     this.textures = {
-      [NODE_TYPES.STOCK]: createNodeTexture('#48C0DB'),
-      [NODE_TYPES.STOCK_SHORTAGE]: createNodeTexture('#DF3537'),
-      [NODE_TYPES.PRODUCTION_RESOURCE]: createNodeTexture('#48C0DB'),
-      [NODE_TYPES.PRODUCTION_RESOURCE_BOTTLENECK]: createNodeTexture('#DF3537'),
+      [NODE_TYPES.STOCK]: createNodeTexture(palette.minimap.stock),
+      [NODE_TYPES.STOCK_SHORTAGE]: createNodeTexture(palette.minimap.stockShortage),
+      [NODE_TYPES.PRODUCTION_RESOURCE]: createNodeTexture(palette.minimap.productionResource),
+      [NODE_TYPES.PRODUCTION_RESOURCE_BOTTLENECK]: createNodeTexture(palette.minimap.productionResourceBottleneck),
     };
   }
 
