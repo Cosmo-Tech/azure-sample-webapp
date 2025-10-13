@@ -8,10 +8,9 @@ export { paletteLight, pictureLight, gridLight, paletteDark, pictureDark, gridDa
 export const getTheme = (isDarkTheme) =>
   createTheme({
     colorSchemes: {
-      light: { palette: paletteLight },
-      dark: { palette: paletteDark },
+      light: { palette: paletteLight, picture: pictureLight, grid: gridLight },
+      dark: { palette: paletteDark, picture: pictureDark, grid: gridDark },
     },
-    picture: isDarkTheme ? pictureDark : pictureLight,
-    grid: isDarkTheme ? gridDark : gridLight,
+
     overrides,
   });
