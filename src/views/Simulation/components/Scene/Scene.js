@@ -120,9 +120,9 @@ const Scene = () => {
       }
 
       const resetBounds = requiredUpdateStepsRef.current.all || requiredUpdateStepsRef.current.layout;
-      renderElements(sceneContainerRef, graphRef, setSelectedElementId, settings, resetBounds);
+      renderElements(sceneContainerRef, graphRef, sceneAppRef, setSelectedElementId, settings, theme, resetBounds);
       if (layoutUpdate && sceneContainerRef.current) sceneContainerRef.current.setOrigin();
-      if (minimapContainerRef.current) minimapContainerRef.current.renderElements();
+      if (minimapContainerRef.current) minimapContainerRef.current.renderElements(theme);
     }
 
     requiredUpdateStepsRef.current = { ...DEFAULT_UPDATE_STATE };

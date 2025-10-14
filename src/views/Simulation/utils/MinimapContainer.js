@@ -17,9 +17,10 @@ export class MinimapContainer extends Container {
     this.dragTarget = null;
   }
 
-  renderElements() {
+  renderElements(theme) {
     this.removeChildren().forEach((child) => child.destroy({ children: true }));
     this.miniSceneContainer = this.forgeContainer(this.sceneContainerRef.current);
+    this.minimapAppRef.current.renderer.background.color = theme.palette.background.default;
 
     this.addChild(this.miniSceneContainer);
 

@@ -6,17 +6,13 @@ import { AlphaFilter, Application, BitmapText, Container, Graphics, GraphicsCont
 import 'pixi.js/unsafe-eval';
 import { NODE_TYPES } from '../constants/nodeLabels';
 import worldGeoJSON from '../data/map/custom.geo.json';
+import { simulationTheme } from '../theme';
 import { MinimapContainer } from './MinimapContainer';
 import { SceneContainer } from './SceneContainer';
 import { PACKAGE_ICON_LINES, GEAR_ICON_LINES, FACTORY_ICON_LINES } from './shapes';
 
-const GRAY_LINE_COLOR = 0xb9bac0;
-const LINK_COLOR = 0xf5f3f3;
-const HIDDEN_LINK_COLOR = 0x636363;
-const RED_LINE_COLOR = 0xdf3537;
 const COUNTRY_COLOR = 0x333333;
 const BORDER_COLOR = 0x757272;
-const DEFAULT_TEXT_STYLE = { fontFamily: 'Arial', fontSize: 12, fill: 0xffffff, align: 'center' };
 const BLOOM_FILTER = new AdvancedBloomFilter({ blur: 1, quality: 16, bloomScale: 1.8, brightness: 1 });
 const SELECTED_LINK_FILTER = new GlowFilter({ distance: 10, outerStrength: 6, color: 0xffffff });
 const SELECTED_NODE_FILTER = new AdvancedBloomFilter({
@@ -28,7 +24,14 @@ const SELECTED_NODE_FILTER = new AdvancedBloomFilter({
 });
 const NODE_LABEL_LINE_LENGTH = 24;
 
-const createLabel = (value, forceSplit = true) => {
+const getDefaultStyleText = (modePalette) => ({
+  fontFamily: 'Arial',
+  fontSize: 12,
+  fill: simulationTheme[modePalette].text,
+  align: 'center',
+});
+
+const createLabel = (value, modePalette, forceSplit = true) => {
   const splitLabel = (str) => {
     let result = '';
     let start = 0;
@@ -53,7 +56,7 @@ const createLabel = (value, forceSplit = true) => {
   if (label.length > maxLabelLength) label = label.substring(0, maxLabelLength) + '...';
   if (forceSplit) label = splitLabel(label);
 
-  return new BitmapText({ text: label, style: DEFAULT_TEXT_STYLE });
+  return new BitmapText({ text: label, style: getDefaultStyleText(modePalette) });
 };
 
 const drawIcon = (graphicsContext, lines, xOffset, yOffset, width, height) => {
@@ -125,7 +128,7 @@ const createProductionResourceBorderGraphicsContext = (options) => {
     .lineTo(margin + 80, margin + 80)
     .stroke({
       pixelLine: options?.borderWidth == null,
-      color: options?.borderColor ?? GRAY_LINE_COLOR,
+      color: options?.borderColor ?? simulationTheme[options.modePalette].graph.grayLine,
       width: options?.borderWidth ?? 1.5,
     });
   return border;
@@ -134,11 +137,15 @@ const createProductionResourceBorderGraphicsContext = (options) => {
 const createFactoryIconGraphicsContext = (options) => {
   const graphicsContext = new GraphicsContext();
   drawIcon(graphicsContext, FACTORY_ICON_LINES, 0, 0, 20, 20);
-  graphicsContext.stroke({ pixelLine: true, color: options?.lineColor ?? GRAY_LINE_COLOR, width: 1.5 });
+  graphicsContext.stroke({
+    pixelLine: true,
+    color: options?.lineColor ?? simulationTheme[options.modePalette].graph.grayLine,
+    width: 1.5,
+  });
   return graphicsContext;
 };
 
-const createStockContainer = (textures, name, isHighlighted = false, enableGlowEffect) => {
+const createStockContainer = (textures, name, enableGlowEffect, modePalette, isHighlighted = false) => {
   const container = new Container();
   container.label = isHighlighted ? NODE_TYPES.STOCK_SHORTAGE : NODE_TYPES.STOCK;
   const stockTextureKey = isHighlighted ? 'stockLevel1' : 'stockLevel0';
@@ -155,7 +162,7 @@ const createStockContainer = (textures, name, isHighlighted = false, enableGlowE
   packageIcon.anchor.set(0.5);
   packageIcon.position.set(24, 24);
 
-  const label = createLabel(name);
+  const label = createLabel(name, modePalette);
   label.anchor.set(0.5);
   label.position.set(24, 67);
 
@@ -179,7 +186,14 @@ const createStockContainer = (textures, name, isHighlighted = false, enableGlowE
   return container;
 };
 
-const createProductionResourceContainer = (textures, name, isHighlighted, operationsCount, enableGlowEffect) => {
+const createProductionResourceContainer = (
+  textures,
+  name,
+  isHighlighted,
+  operationsCount,
+  enableGlowEffect,
+  modePalette
+) => {
   const borderTextureKey = isHighlighted ? 'productionResourceBorderLevel1' : 'productionResourceBorderLevel0';
   const border = new Sprite(textures[borderTextureKey]);
   if (isHighlighted) border.filters = enableGlowEffect ? [BLOOM_FILTER] : [];
@@ -205,11 +219,11 @@ const createProductionResourceContainer = (textures, name, isHighlighted, operat
   operationsBadge.x = 70;
   operationsBadge.y = 34;
 
-  const operationsBadgeText = createLabel(`${operationsCount ?? 0}`);
+  const operationsBadgeText = createLabel(`${operationsCount ?? 0}`, modePalette);
   operationsBadgeText.anchor.set(0.5);
   operationsBadgeText.position.set(operationsBadge.x, operationsBadge.y);
 
-  const label = createLabel(name);
+  const label = createLabel(name, modePalette);
   label.anchor.set(0.5);
   label.position.set(50, 104);
 
@@ -242,7 +256,7 @@ function cubicBezier(p0, p1, p2, p3, t) {
   return a * (t * t * t) + b * (t * t) + c * t + p0;
 }
 
-function drawArrow(x1, y1, x2, y2, cp1x, cp1y, cp2x, cp2y, size = 12, isGrayedOut) {
+function drawArrow(x1, y1, x2, y2, cp1x, cp1y, cp2x, cp2y, isGrayedOut, modePalette, size = 12) {
   const t = 0.5;
   const midX = cubicBezier(x1, cp1x, cp2x, x2, t);
   const midY = cubicBezier(y1, cp1y, cp2y, y2, t);
@@ -254,7 +268,7 @@ function drawArrow(x1, y1, x2, y2, cp1x, cp1y, cp2x, cp2y, size = 12, isGrayedOu
   const arrowGraphics = new Graphics();
   arrowGraphics.poly([0, 0, -size, size / 2, -size, -size / 2], true);
   arrowGraphics.fill({
-    color: !isGrayedOut ? 0xffffff : HIDDEN_LINK_COLOR,
+    color: !isGrayedOut ? 0xffffff : simulationTheme[modePalette].graph.hiddenLink,
     alpha: 1,
   });
   arrowGraphics.x = midX;
@@ -306,7 +320,7 @@ function drawDashedBezier(ctx, x1, y1, cp1x, cp1y, cp2x, cp2y, x2, y2, dash = 4,
   }
 }
 
-const createLinkGraphics = (links, setSelectedElementId, settings) => {
+const createLinkGraphics = (links, setSelectedElementId, settings, modePalette) => {
   const isLayoutHorizontal = settings?.orientation === 'horizontal';
   const spacingFactor = settings.spacing / 100.0;
 
@@ -345,7 +359,9 @@ const createLinkGraphics = (links, setSelectedElementId, settings) => {
     if (link.type !== 'transports') {
       graphics.setStrokeStyle({
         width: 1,
-        color: link.isGrayedOut ? HIDDEN_LINK_COLOR : LINK_COLOR,
+        color: link.isGrayedOut
+          ? simulationTheme[modePalette].graph.hiddenLink
+          : simulationTheme[modePalette].graph.link,
       });
 
       drawDashedBezier(
@@ -380,8 +396,9 @@ const createLinkGraphics = (links, setSelectedElementId, settings) => {
         controlPoint1.y,
         controlPoint2.x,
         controlPoint2.y,
-        12,
-        link.isGrayedOut
+        link.isGrayedOut,
+        modePalette,
+        12
       );
 
       linkContainer.addChild(arrow);
@@ -390,7 +407,7 @@ const createLinkGraphics = (links, setSelectedElementId, settings) => {
     graphics.stroke({
       pixelLine: true,
       width: 1,
-      color: link.isGrayedOut ? HIDDEN_LINK_COLOR : LINK_COLOR,
+      color: link.isGrayedOut ? simulationTheme[modePalette].graph.hiddenLink : simulationTheme[modePalette].graph.link,
     });
 
     graphics.on('click', (event) => setSelectedElementId(link.data.id));
@@ -403,11 +420,18 @@ const createLinkGraphics = (links, setSelectedElementId, settings) => {
   });
 };
 
-const createNodeContainer = (textures, node, enableGlowEffect) => {
+const createNodeContainer = (textures, node, enableGlowEffect, modePalette) => {
   const container =
     node.type === 'productionResource'
-      ? createProductionResourceContainer(textures, node.id, node.isHighlighted, node.operationsCount, enableGlowEffect)
-      : createStockContainer(textures, node.id, node.isHighlighted, enableGlowEffect);
+      ? createProductionResourceContainer(
+          textures,
+          node.id,
+          node.isHighlighted,
+          node.operationsCount,
+          enableGlowEffect,
+          modePalette
+        )
+      : createStockContainer(textures, node.id, enableGlowEffect, modePalette, node.isHighlighted);
 
   let centerOffset = { x: 24, y: 24 };
   if (node.type === 'productionResource') centerOffset = { x: 50, y: 54 };
@@ -421,26 +445,33 @@ const createNodeContainer = (textures, node, enableGlowEffect) => {
   return container;
 };
 
-const generateTextures = (app) => {
+const generateTextures = (app, modePalette) => {
   const graphicsContexts = {
     operationsCountBadge: createOperationsCountBadgeGraphicsContext(),
     stockLevel0: createStockGraphicsContext({ fillColor: '#20363D', borderColor: '#48C0DB52' }),
     stockLevel1: createStockGraphicsContext({ fillColor: '#DF3537', borderColor: '#DF3537' }),
     productionResourceBackground: createProductionResourceBackgroundGraphicsContext(),
-    productionResourceBorderLevel0: createProductionResourceBorderGraphicsContext({ borderColor: GRAY_LINE_COLOR }),
+    productionResourceBorderLevel0: createProductionResourceBorderGraphicsContext({
+      borderColor: simulationTheme[modePalette].grayLine,
+      modePalette,
+    }),
     productionResourceBorderLevel1: createProductionResourceBorderGraphicsContext({
-      borderColor: RED_LINE_COLOR,
+      borderColor: simulationTheme[modePalette].redLine,
       borderWidth: 4,
+      modePalette,
     }),
     productionResource: createProductionResourceGraphicsContext({
       fillColor: '#20363D',
       borderColor: '#48C0DB52',
       iconColor: '#40B8D4',
     }),
-    factoryIconLevel0: createFactoryIconGraphicsContext(),
-    factoryIconLevel1: createFactoryIconGraphicsContext({ lineColor: RED_LINE_COLOR }),
-    packageIconLevel0: createPackageIconGraphicsContext(),
-    packageIconLevel1: createPackageIconGraphicsContext({ lineColor: '#F7F7F8' }),
+    factoryIconLevel0: createFactoryIconGraphicsContext({ modePalette }),
+    factoryIconLevel1: createFactoryIconGraphicsContext({
+      lineColor: simulationTheme[modePalette].redLine,
+      modePalette,
+    }),
+    packageIconLevel0: createPackageIconGraphicsContext({ modePalette }),
+    packageIconLevel1: createPackageIconGraphicsContext({ lineColor: '#F7F7F8', modePalette }),
   };
 
   const textures = {};
@@ -450,11 +481,21 @@ const generateTextures = (app) => {
   return textures;
 };
 
-export const renderElements = (sceneContainerRef, graphRef, setSelectedElementId, settings, resetBounds = true) => {
+export const renderElements = (
+  sceneContainerRef,
+  graphRef,
+  sceneAppRef,
+  setSelectedElementId,
+  settings,
+  theme,
+  resetBounds = true
+) => {
   if (!graphRef.current || !sceneContainerRef.current?.textures) return;
 
   const { nodes, links } = graphRef.current;
   const textures = sceneContainerRef.current.textures;
+
+  sceneAppRef.current.renderer.background.color = theme.palette.background.default;
 
   const backContainer = new Container();
   backContainer.filters = new AlphaFilter({ alpha: 0.25 });
@@ -463,11 +504,11 @@ export const renderElements = (sceneContainerRef, graphRef, setSelectedElementId
   sceneContainerRef.current.addChild(frontContainer);
 
   const enableGlowEffect = settings?.enableGlowEffect;
-  const linkGraphics = createLinkGraphics(links, setSelectedElementId, settings);
+  const linkGraphics = createLinkGraphics(links, setSelectedElementId, settings, theme.palette.mode);
   linkGraphics.forEach((link) => frontContainer.addChild(link));
 
   nodes.forEach((node) => {
-    const container = createNodeContainer(textures, node, enableGlowEffect);
+    const container = createNodeContainer(textures, node, enableGlowEffect, theme.palette.mode);
     container.on('click', (event) => setSelectedElementId(node.id));
     if (node.isGrayedOut) backContainer.addChild(container);
     else frontContainer.addChild(container);
@@ -499,9 +540,6 @@ export const initGraphApp = async (
     antialias: true,
   });
 
-  console.log('theme'); // NBO log to remove
-  console.log(theme.palette); // NBO log to remove
-
   canvas.appendChild(app.canvas);
   app.canvas.style.width = '100%';
   app.canvas.style.height = '100%';
@@ -510,7 +548,7 @@ export const initGraphApp = async (
   canvas.eventMode = 'static';
 
   sceneContainerRef.current = new SceneContainer(app, graphCanvasRef);
-  sceneContainerRef.current.textures = generateTextures(app);
+  sceneContainerRef.current.textures = generateTextures(app, theme.palette.mode);
   app.stage.addChild(sceneContainerRef.current);
 
   const handleResize = () => {
@@ -523,7 +561,7 @@ export const initGraphApp = async (
 
   window.addEventListener('resize', handleResize);
 
-  renderElements(sceneContainerRef, graphRef, setSelectedElementId, settings, theme);
+  renderElements(sceneContainerRef, graphRef, sceneAppRef, setSelectedElementId, settings, theme);
   sceneContainerRef.current.setOrigin();
 };
 
@@ -568,7 +606,7 @@ export const initMinimap = async (
     minimapContainer.updateSceneView();
   };
   window.addEventListener('resize', handleResizeMinimap);
-  minimapContainer.renderElements();
+  minimapContainer.renderElements(theme);
 };
 
 export const updateContainerSprites = (sceneContainer, graph) => {

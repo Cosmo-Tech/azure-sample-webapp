@@ -51,9 +51,4 @@ export default {
   login: {
     main: '#2F363B',
   },
-  flowchart: {
-    link: '#f5f3f3',
-    hiddenLink: '#636363',
-    redLine: '#df3537',
-  },
 };
