@@ -36,10 +36,19 @@ const Scene = () => {
   const sceneAppRef = useRef(null);
   const minimapAppRef = useRef(null);
   const minimapContainerRef = useRef(null);
-  const graphCanvasRef = useRef(null);
+  const graphCanvasRef = useRef(null); // DOM container for the main scene
   const minimapCanvasRef = useRef(null);
-  const sceneContainerRef = useRef(null);
+  const sceneContainerRef = useRef(null); // PIXI container instance
   const sampleMarkers = timelineMarkers;
+
+  // Helper: read size safely
+  const getCanvasSize = () => {
+    const el = graphCanvasRef.current;
+    if (!el) return null;
+    const { clientWidth, clientHeight } = el;
+    if (clientWidth == null || clientHeight == null) return null;
+    return { clientWidth, clientHeight };
+  };
 
   useEffect(() => {
     sceneAppRef.current = createApp();
@@ -59,26 +68,55 @@ const Scene = () => {
 
       await initMinimap(minimapAppRef, minimapContainerRef, minimapCanvasRef, sceneContainerRef, graphCanvasRef, theme);
     };
+
     setup();
 
+    // Observe container resizes (e.g., panel open/close, window resize)
+    let ro;
+    if (typeof ResizeObserver !== 'undefined' && graphCanvasRef.current) {
+      ro = new ResizeObserver((entries) => {
+        for (const entry of entries) {
+          const cr = entry.contentRect;
+          if (cr && cr.width && cr.height) {
+            resetGraphLayout(Math.floor(cr.width), Math.floor(cr.height));
+            // If you want to force a re-render cycle after resize, flip requiredUpdateStepsRef flags here
+            requiredUpdateStepsRef.current.layout = true;
+            setNeedsReRendering(true);
+          }
+        }
+      });
+      ro.observe(graphCanvasRef.current);
+    }
+
     return () => {
-      destroyApp(sceneAppRef.current);
-      destroyApp(minimapAppRef.current);
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      sceneContainerRef.current.destroy(graphCanvasRef);
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      minimapContainerRef.current.destroy(minimapCanvasRef);
+      try {
+        destroyApp(sceneAppRef.current);
+      } catch {}
+      try {
+        destroyApp(minimapAppRef.current);
+      } catch {}
+      try {
+        sceneContainerRef.current?.destroy(graphCanvasRef);
+      } catch {}
+      try {
+        minimapContainerRef.current?.destroy(minimapCanvasRef);
+      } catch {}
+      if (ro && graphCanvasRef.current) {
+        try {
+          ro.unobserve(graphCanvasRef.current);
+        } catch {}
+      }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const centerToPosition = useCallback(
     () => (elementId) => {
-      if (sceneContainerRef.current == null) return;
+      if (!sceneContainerRef.current) return;
       const newSelectedElement = sceneContainerRef.current.findElementById(elementId);
-      sceneContainerRef.current.centerOnElement(newSelectedElement);
+      if (newSelectedElement) sceneContainerRef.current.centerOnElement(newSelectedElement);
     },
-    [sceneContainerRef]
+    []
   );
 
   useEffect(() => {
@@ -86,7 +124,7 @@ const Scene = () => {
   }, [centerToPosition, setCenterToPosition]);
 
   useEffect(() => {
-    if (sceneContainerRef.current == null) return;
+    if (!sceneContainerRef.current) return;
     requiredUpdateStepsRef.current.highlight = true;
   }, [selectedElementId, requiredUpdateStepsRef]);
 
@@ -95,16 +133,21 @@ const Scene = () => {
 
     resetGraphHighlighting(graphRef.current, settings, selectedElementId, currentTimestep);
     updateContainerSprites(sceneContainerRef.current, graphRef.current);
-    if (minimapContainerRef.current) minimapContainerRef.current.updateMiniScene();
-  }, [currentTimestep, settings, graphRef, selectedElementId, sceneContainerRef]);
+    minimapContainerRef.current?.updateMiniScene();
+  }, [currentTimestep, settings, graphRef, selectedElementId]);
 
   useEffect(() => {
     if (!needsReRendering) return;
 
     const layoutUpdate = requiredUpdateStepsRef.current.all || requiredUpdateStepsRef.current.layout;
+
     if (layoutUpdate) {
-      resetGraphLayout(graphCanvasRef.current.clientWidth, graphCanvasRef.current.clientHeight);
+      const size = getCanvasSize();
+      if (size) {
+        resetGraphLayout(size.clientWidth, size.clientHeight);
+      }
     }
+
     if (requiredUpdateStepsRef.current.all) setSelectedElementId(null);
 
     if (
@@ -122,7 +165,7 @@ const Scene = () => {
       const resetBounds = requiredUpdateStepsRef.current.all || requiredUpdateStepsRef.current.layout;
       renderElements(sceneContainerRef, graphRef, setSelectedElementId, settings, resetBounds);
       if (layoutUpdate && sceneContainerRef.current) sceneContainerRef.current.setOrigin();
-      if (minimapContainerRef.current) minimapContainerRef.current.renderElements();
+      minimapContainerRef.current?.renderElements();
     }
 
     requiredUpdateStepsRef.current = { ...DEFAULT_UPDATE_STATE };
@@ -132,7 +175,6 @@ const Scene = () => {
     needsReRendering,
     selectedElementId,
     setNeedsReRendering,
-    sceneContainerRef,
     sceneContainerRef?.current?.textures,
     graphCanvasRef?.current?.clientWidth,
     graphCanvasRef?.current?.clientHeight,
@@ -149,7 +191,7 @@ const Scene = () => {
         data-cy="graph-view"
         ref={graphCanvasRef}
         style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}
-      ></div>
+      />
       <ChartTimeline
         chartData={graphRef.current?.totalStockDemand}
         markers={sampleMarkers}
