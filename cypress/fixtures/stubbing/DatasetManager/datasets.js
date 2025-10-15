@@ -108,17 +108,6 @@ const DATASET_EDINBURGH = {
   tags: ['size-3xl', 'random'],
 };
 
-const DATASET_ADT = {
-  ...EDITABLE_DATASET,
-  id: 'D-stbdataset8',
-  main: true,
-  name: 'Dataset ADT',
-  sourceType: 'ADT',
-  source: { location: 'adt/url' },
-  ingestionStatus: 'SUCCESS',
-  twincacheStatus: 'FULL',
-};
-
 const DATASET_AZURE_STORAGE = {
   ...EDITABLE_DATASET,
   id: 'D-stbdataset9',
@@ -168,7 +157,7 @@ export const DATASETS_TO_FILTER = [
   DATASET_EDINBURGH,
 ];
 
-export const DATASETS_TO_REFRESH = [DATASET_ADT, DATASET_AZURE_STORAGE, DATASET_FROM_SCRATCH];
+export const DATASETS_TO_REFRESH = [DATASET_AZURE_STORAGE, DATASET_FROM_SCRATCH];
 
 export const DATASETS_TWINGRAPH = [DATASET_TWINGRAPH_A, DATASET_TWINGRAPH_B];
 

@@ -40,7 +40,7 @@ describe('Instance view when enabled', () => {
   beforeEach(() => {
     Login.login();
   });
-  it('can display a scenario created using an ADT dataset', () => {
+  it('can display a scenario with instance visualization', () => {
     InstanceVisualization.interceptTwingraphQueries(TWINGRAPH_QUERIES_RESPONSES);
     InstanceVisualization.switchToInstanceVisualization();
     InstanceVisualization.getLoadingSpinnerContainer().should('be.visible');

@@ -3,7 +3,6 @@
 
 export const CONNECTOR_VERSION_AZURE_STORAGE = '1.1.1';
 export const CONNECTOR_NAME_AZURE_STORAGE = 'Azure Storage Connector';
-export const CONNECTOR_NAME_ADT = 'ADT Connector';
 export const DATASET_ID_VARTYPE = '%DATASETID%';
 export const RUNNER_RUN_STATE = {
   CREATED: 'Created',
@@ -53,7 +52,6 @@ export const INGESTION_STATUS = {
 export const TWINGRAPH_SECTION_URL = '/swagger-ui/index.html#/dataset/twingraphQuery';
 
 export const DATASET_SOURCE_TYPE = {
-  ADT: 'ADT',
   AZURE_STORAGE: 'AzureStorage',
   LOCAL_FILE: 'File',
   NONE: 'None',
@@ -68,12 +66,6 @@ export const DATASET_SOURCES = [
       { id: `location`, varType: 'string', labels: { en: 'Container name', fr: 'Nom du container' } },
       { id: `path`, varType: 'string', labels: { en: 'Path', fr: 'Chemin' } },
     ],
-    tags: ['datasource'],
-  },
-  {
-    id: DATASET_SOURCE_TYPE.ADT,
-    labels: { en: 'Azure Digital Twin', fr: 'Azure Digital Twin' },
-    parameters: [{ id: `location`, varType: 'string', labels: { en: 'Path', fr: 'Chemin' } }],
     tags: ['datasource'],
   },
   {

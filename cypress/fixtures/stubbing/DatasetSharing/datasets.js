@@ -7,7 +7,7 @@ import { USER_EXAMPLE } from '../default/users';
 const PRIVATE_DATASET = {
   ...DEFAULT_DATASET,
   id: 'd-privateDts_1',
-  name: 'Dataset ADT 1',
+  name: 'Private Dataset 1',
   main: true,
   tags: ['initial tag', 'Brewery'],
   description: 'Initial description',

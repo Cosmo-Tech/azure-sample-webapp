@@ -1,24 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-// Legacy dataset with API v2.x structure
-export const LEGACY_DATASET_V2 = {
-  id: 'D-stbdefault',
-  name: 'Demo Brewery Storage reference',
-  description: 'Brewery reference model in ADT',
-  ownerId: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
-  tags: ['ADT', 'Brewery', 'Reference', 'dataset'],
-  connector: {
-    id: 'c-pn2e3l74g9pd',
-    name: 'ADT Connector',
-    version: '2.3.3',
-    parametersValues: { AZURE_DIGITAL_TWINS_URL: 'https://o-gzypnd27g7-demobrewery.api.weu.digitaltwins.azure.net' },
-  },
-  fragmentsIds: null,
-  validatorId: null,
-  compatibility: null,
-};
-
 export const DEFAULT_DATASET = {
   organizationId: 'O-stbdorgztn',
   parentId: null,
@@ -48,22 +30,4 @@ export const DEFAULT_DATASET = {
   security: null,
 };
 
-export const ACTUAL_ADT_INSTANCE_DATASET = {
-  id: 'D-4jwyQnmv7jx',
-  name: 'Demo Brewery Storage reference',
-  description: 'Brewery reference model in ADT',
-  ownerId: '3a869905-e9f5-4851-a7a9-3079aad49dff',
-  tags: ['ADT', 'Brewery', 'Reference', 'dataset'],
-  connector: {
-    id: 'c-pn2e3l74g9pd',
-    name: 'ADT Connector',
-    version: '2.3.3',
-    parametersValues: { AZURE_DIGITAL_TWINS_URL: 'https://o-gzypnd27g7-demobrewery.api.weu.digitaltwins.azure.net' },
-  },
-  ingestionStatus: 'SUCCESS',
-  fragmentsIds: null,
-  validatorId: null,
-  compatibility: null,
-};
-
-export const DEFAULT_DATASETS_LIST = [ACTUAL_ADT_INSTANCE_DATASET];
+export const DEFAULT_DATASETS_LIST = [DEFAULT_DATASET];

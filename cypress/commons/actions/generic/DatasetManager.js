@@ -263,11 +263,9 @@ export const getNewDatasetSourceTypeOption = (runTemplateId) =>
   );
 export const getNewDatasetSourceTypeOptionAzureStorage = () => cy.get(SELECTORS.wizard.sourceTypeOptionAzureStorage);
 export const getNewDatasetSourceTypeOptionFile = () => cy.get(SELECTORS.wizard.sourceTypeOptionFile);
-export const getNewDatasetSourceTypeOptionADT = () => cy.get(SELECTORS.wizard.sourceTypeOptionADT);
 export const getNewDatasetAzureStorageAccountName = () => cy.get(SELECTORS.wizard.azureStorageAccountName);
 export const getNewDatasetAzureStorageContainerName = () => cy.get(SELECTORS.wizard.azureStorageContainerName);
 export const getNewDatasetAzureStoragePath = () => cy.get(SELECTORS.wizard.azureStoragePath);
-export const getNewDatasetADTURL = () => cy.get(SELECTORS.wizard.adtURL);
 export const selectNewDatasetSourceType = (runTemplateId) => {
   getNewDatasetSourceTypeSelect().click();
   getNewDatasetSourceTypeOption(runTemplateId).click();
@@ -279,7 +277,6 @@ export const setNewDatasetAzureStorageContainerName = (value) =>
   getNewDatasetAzureStorageContainerName().type('{selectAll}{backspace}' + value);
 export const setNewDatasetAzureStoragePath = (value) =>
   getNewDatasetAzureStoragePath().type('{selectAll}{backspace}' + value);
-export const setNewDatasetADTURL = (value) => getNewDatasetADTURL().type('{selectAll}{backspace}' + value);
 
 export const uploadFileInWizard = (filePath) => FileParameters.upload(getDatasetCreationDialog(), filePath);
 

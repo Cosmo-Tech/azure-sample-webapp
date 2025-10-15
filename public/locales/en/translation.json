@@ -238,7 +238,6 @@
             "subdatasetLabel": "Filter",
             "azureStorage": "Azure Storage",
             "local": "Local file",
-            "adt": "Azure Digital Twin",
             "none": "Empty"
           },
           "azureStorage": {

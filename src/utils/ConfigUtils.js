@@ -140,7 +140,7 @@ const isInstanceViewConfigValid = (instanceView) => {
   if (instanceView?.dataSource == null) return false;
 
   const dataSourceType = instanceView.dataSource.type;
-  const validTypes = ['adt', 'azure_function', 'twingraph_dataset'];
+  const validTypes = ['azure_function', 'twingraph_dataset'];
   if (!validTypes.includes(dataSourceType)) {
     console.warn(
       `Invalid value "${dataSourceType}" for webApp.options.instanceView.dataSource.type. ` +
