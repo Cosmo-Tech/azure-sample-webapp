@@ -6,7 +6,6 @@ import { Api } from '../services/config/Api';
 import {
   CONNECTOR_VERSION_AZURE_STORAGE,
   CONNECTOR_NAME_AZURE_STORAGE,
-  CONNECTOR_NAME_ADT,
   STORAGE_ROOT_DIR_PLACEHOLDER,
 } from '../services/config/ApiConstants';
 import { ACL_ROLES } from '../services/config/accessControl';
@@ -42,8 +41,6 @@ function getFileNameFromDataset(dataset) {
   const connectorName = dataset?.connector?.name;
   if (connectorName === CONNECTOR_NAME_AZURE_STORAGE) {
     return dataset?.connector?.parametersValues.AZURE_STORAGE_CONTAINER_BLOB_PREFIX.split('/').pop();
-  } else if (connectorName === CONNECTOR_NAME_ADT) {
-    return dataset?.name;
   }
   console.warn(`Unknown dataset connector type "${connectorName}"`);
   return '';

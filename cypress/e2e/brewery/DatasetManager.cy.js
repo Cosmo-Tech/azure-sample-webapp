@@ -225,52 +225,6 @@ describe('Dataset creation', () => {
 
     DatasetManager.getDatasetNameInOverview().should('have.text', datasetName);
   });
-
-  it('can create a new ADT dataset', () => {
-    const datasetName = 'My ADT dataset';
-    const datasetDescription = 'My ADT dataset description';
-    const datasetTags = ['adt', 'tag'];
-    const datasetADTUrl = 'adt/url';
-    const expectedPayload = {
-      name: datasetName,
-      ownerName: datasetAuthor,
-      tags: ['adt', 'tag'],
-      description: datasetDescription,
-      sourceType: 'ADT',
-      security: { default: 'none', accessControlList: [{ id: 'dev.sample.webapp@example.com', role: 'admin' }] },
-      source: {
-        location: datasetADTUrl,
-      },
-    };
-    const validateCreationRequest = (req) => {
-      expect(req.body).to.deep.equal(expectedPayload);
-    };
-
-    DatasetManager.ignoreDatasetTwingraphQueries();
-    DatasetManager.switchToDatasetManagerView();
-    DatasetManager.startDatasetCreation();
-    DatasetManager.setNewDatasetName(datasetName);
-    datasetTags.forEach((tag) => DatasetManager.addNewDatasetTag(tag));
-    DatasetManager.setNewDatasetDescription(datasetDescription);
-    DatasetManager.getDatasetCreationNextStep().click();
-
-    DatasetManager.getDatasetCreationPreviousStep().click();
-    DatasetManager.getNewDatasetNameInput().should('value', datasetName);
-
-    DatasetManager.getDatasetCreationNextStep().click();
-
-    DatasetManager.getNewDatasetSourceTypeSelect().click();
-    DatasetManager.getNewDatasetSourceTypeOptionADT().click();
-
-    DatasetManager.setNewDatasetADTURL(datasetADTUrl);
-    DatasetManager.confirmDatasetCreation({ validateRequest: validateCreationRequest });
-
-    DatasetManager.getDatasetMetadataTags().should('have.length', 2);
-    DatasetManager.getDatasetMetadataTag(0).should('contain', 'adt');
-    DatasetManager.getDatasetMetadataTag(1).should('contain', 'tag');
-    DatasetManager.getDatasetMetadataDescription().should('contain', datasetDescription);
-    DatasetManager.getDatasetMetadataAuthor().should('contain', datasetAuthor);
-  });
 });
 
 describe('Filtering datasets list', () => {
@@ -338,41 +292,37 @@ describe('Refresh dataset', () => {
   beforeEach(() => Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' }));
   after(stub.stop);
 
-  it(
-    'can refresh ADT and AzureStorage datasets and display an empty dataset placeholder ' +
-      'for the one created from scratch',
-    () => {
-      const refreshSuccessOptions = {
-        expectedPollsCount: 2,
-        finalIngestionStatus: 'SUCCESS',
-      };
+  it('can refresh AzureStorage datasets and display empty dataset placeholder', () => {
+    const refreshSuccessOptions = {
+      expectedPollsCount: 2,
+      finalIngestionStatus: 'SUCCESS',
+    };
 
-      const refreshFailedOptions = {
-        expectedPollsCount: 2,
-        finalIngestionStatus: 'ERROR',
-      };
-      DatasetManager.ignoreDatasetTwingraphQueries();
-      DatasetManager.switchToDatasetManagerView();
-      DatasetManager.getDatasetRefreshButton(DATASETS_TO_REFRESH[2].id).should('not.exist');
-      DatasetManager.selectDatasetById(DATASETS_TO_REFRESH[2].id);
-      DatasetManager.getDatasetOverviewPlaceholder().should('be.visible');
-      DatasetManager.getDatasetOverviewPlaceholderTitle().contains('empty');
-      DatasetManager.getDatasetOverviewPlaceholderApiLink().contains('Cosmo Tech API');
-      DatasetManager.selectDatasetById(DATASETS_TO_REFRESH[0].id);
-      DatasetManager.refreshDataset(DATASETS_TO_REFRESH[0].id, refreshSuccessOptions);
-      DatasetManager.getDatasetOverviewPlaceholder().should('be.visible');
-      DatasetManager.getDatasetOverviewPlaceholder().contains('Importing');
-      DatasetManager.getDatasetOverviewPlaceholder(30).should('not.exist');
-      DatasetManager.getRefreshDatasetSpinner(DATASETS_TO_REFRESH[0].id).should('not.exist');
-      DatasetManager.selectDatasetById(DATASETS_TO_REFRESH[1].id);
-      DatasetManager.refreshDataset(DATASETS_TO_REFRESH[1].id, refreshFailedOptions);
-      DatasetManager.selectDatasetById(DATASETS_TO_REFRESH[1].id);
-      DatasetManager.getDatasetOverviewPlaceholderTitle().contains('An error', { timeout: 30000 });
-      DatasetManager.getDatasetOverviewPlaceholderRetryButton().should('exist');
-      DatasetManager.getDatasetOverviewPlaceholderRollbackButton().should('exist');
-      DatasetManager.getRefreshDatasetErrorIcon(DATASETS_TO_REFRESH[1].id).should('be.visible');
-      DatasetManager.rollbackDatasetStatus();
-      DatasetManager.getDatasetNameInOverview().should('be.visible');
-    }
-  );
+    const refreshFailedOptions = {
+      expectedPollsCount: 2,
+      finalIngestionStatus: 'ERROR',
+    };
+    DatasetManager.ignoreDatasetTwingraphQueries();
+    DatasetManager.switchToDatasetManagerView();
+    DatasetManager.getDatasetRefreshButton(DATASETS_TO_REFRESH[2].id).should('not.exist');
+    DatasetManager.selectDatasetById(DATASETS_TO_REFRESH[2].id);
+    DatasetManager.getDatasetOverviewPlaceholder().should('be.visible');
+    DatasetManager.getDatasetOverviewPlaceholderTitle().contains('empty');
+    DatasetManager.getDatasetOverviewPlaceholderApiLink().contains('Cosmo Tech API');
+    DatasetManager.selectDatasetById(DATASETS_TO_REFRESH[0].id);
+    DatasetManager.refreshDataset(DATASETS_TO_REFRESH[0].id, refreshSuccessOptions);
+    DatasetManager.getDatasetOverviewPlaceholder().should('be.visible');
+    DatasetManager.getDatasetOverviewPlaceholder().contains('Importing');
+    DatasetManager.getDatasetOverviewPlaceholder(30).should('not.exist');
+    DatasetManager.getRefreshDatasetSpinner(DATASETS_TO_REFRESH[0].id).should('not.exist');
+    DatasetManager.selectDatasetById(DATASETS_TO_REFRESH[1].id);
+    DatasetManager.refreshDataset(DATASETS_TO_REFRESH[1].id, refreshFailedOptions);
+    DatasetManager.selectDatasetById(DATASETS_TO_REFRESH[1].id);
+    DatasetManager.getDatasetOverviewPlaceholderTitle().contains('An error', { timeout: 30000 });
+    DatasetManager.getDatasetOverviewPlaceholderRetryButton().should('exist');
+    DatasetManager.getDatasetOverviewPlaceholderRollbackButton().should('exist');
+    DatasetManager.getRefreshDatasetErrorIcon(DATASETS_TO_REFRESH[1].id).should('be.visible');
+    DatasetManager.rollbackDatasetStatus();
+    DatasetManager.getDatasetNameInOverview().should('be.visible');
+  });
 });

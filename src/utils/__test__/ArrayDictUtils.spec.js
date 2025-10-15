@@ -110,34 +110,37 @@ describe('removeUndefinedValuesFromDict', () => {
     sourceType: 'None',
   };
 
-  const datasetObjectForADT = {
+  const datasetObjectForAzureStorage = {
     name: 'Dataset1',
     description: undefined,
     tags: undefined,
-    sourceType: 'ADT',
+    sourceType: 'AzureStorage',
     source: {
-      path: undefined,
+      path: 'path/to/data',
       location: 'location',
-      name: undefined,
+      name: 'accountName',
+      undefinedOnPurpose: undefined,
     },
   };
 
-  const filteredDatasetObjectForADT = {
+  const filteredDatasetObjectForAzureStorage = {
     name: 'Dataset1',
-    sourceType: 'ADT',
+    sourceType: 'AzureStorage',
     source: {
       location: 'location',
+      name: 'accountName',
+      path: 'path/to/data',
     },
   };
 
   test.each`
-    initialDatasetObject           | filteredDatasetObject
-    ${datasetObjectForFromScratch} | ${filteredDatasetObjectForFromScratch}
-    ${datasetObjectForADT}         | ${filteredDatasetObjectForADT}
-    ${{}}                          | ${{}}
-    ${null}                        | ${null}
-    ${undefined}                   | ${undefined}
-    ${[]}                          | ${[]}
+    initialDatasetObject            | filteredDatasetObject
+    ${datasetObjectForFromScratch}  | ${filteredDatasetObjectForFromScratch}
+    ${datasetObjectForAzureStorage} | ${filteredDatasetObjectForAzureStorage}
+    ${{}}                           | ${{}}
+    ${null}                         | ${null}
+    ${undefined}                    | ${undefined}
+    ${[]}                           | ${[]}
   `('dataset object is correctly filtered', ({ initialDatasetObject, filteredDatasetObject }) => {
     ArrayDictUtils.removeUndefinedValuesFromDict(initialDatasetObject);
     expect(initialDatasetObject).toStrictEqual(filteredDatasetObject);

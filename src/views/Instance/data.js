@@ -260,9 +260,6 @@ export async function fetchData(instanceViewConfig, organizationId, workspaceId,
   }
 
   switch (instanceViewConfig.dataSource.type) {
-    case 'adt':
-      console.warn('The dataSource type "adt" is deprecated, please use value "azure_function" instead.');
-    // fallthrough: adt and azure_function are equivalent
     case 'azure_function':
       return _fetchDataFromAzureFunction(organizationId, workspaceId, scenarioId, instanceViewConfig.dataSource);
     case 'twingraph_dataset':

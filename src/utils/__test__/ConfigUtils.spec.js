@@ -269,8 +269,9 @@ describe('warnings in case of solution or workspace misconfiguration', () => {
         },
         instanceView: {
           dataSource: {
-            type: 'adt',
+            type: 'azure_function',
             functionUrl: 'url',
+            functionKey: 'key',
           },
           dataContent: {
             compounds: {},
