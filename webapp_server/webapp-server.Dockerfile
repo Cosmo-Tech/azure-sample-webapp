@@ -3,6 +3,7 @@
 FROM node:24-slim AS install_build_dependencies
 WORKDIR /webapp
 RUN corepack enable
+RUN yarn set version berry
 RUN --mount=type=bind,source=package.json,target=package.json \
    --mount=type=bind,source=yarn.lock,target=yarn.lock \
    --mount=type=bind,source=.yarnrc.yml,target=.yarnrc.yml \
