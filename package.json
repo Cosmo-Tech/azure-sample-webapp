@@ -122,19 +122,27 @@
   "resolutions": {
     "async": "^3.2.6",
     "axios": "^1.12.0",
+    "@babel/helpers": "^7.26.10",
+    "@babel/runtime": "^7.26.10",
     "body-parser": "^1.20.3",
     "brace-expansion": "^4.0.1",
     "cipher-base": "^1.0.7",
     "cross-spawn": "^7.0.6",
     "elliptic": "^6.6.1",
+    "express": "^4.20.0",
     "form-data": "^4.0.4",
     "http-proxy-middleware": "^2.0.9",
+    "micromatch": "^4.0.8",
+    "nanoid": "^3.3.8",
     "nth-check": "^2.1.1",
     "on-headers": "^1.1.0",
     "path-to-regexp": "^0.1.12",
     "pbkdf2": "^3.1.5",
+    "postcss": "^8.4.31",
     "rollup": "^2.79.2",
-    "sha.js": "^2.4.12"
+    "sha.js": "^2.4.12",
+    "validator": "^13.15.15",
+    "webpack": "^5.94.0"
   },
   "packageManager": "yarn@4.10.3"
 }
