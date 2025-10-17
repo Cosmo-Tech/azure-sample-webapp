@@ -1,5 +1,5 @@
 # To enable ssh & remote debugging on app service change the base image to the one below
-FROM mcr.microsoft.com/azure-functions/node:4-node22
+FROM mcr.microsoft.com/azure-functions/node:4-node20
 
 # Manually remove dotnet because we don't use dotnet runtime in our Functions
 RUN rm -rf /usr/share/dotnet/
