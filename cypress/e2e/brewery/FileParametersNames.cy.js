@@ -23,7 +23,7 @@ const getFileWithRenaming = () => cy.get('[data-cy=file-upload-file_with_renamin
 const getTableNoRenaming = () => cy.get('[data-cy=table-table_no_renaming]');
 const getTableWithRenaming = () => cy.get('[data-cy=table-table_with_renaming]');
 
-const getFilePathFromDataset = (dataset) => dataset.connector.parametersValues.AZURE_STORAGE_CONTAINER_BLOB_PREFIX;
+const getFilePathFromDataset = (dataset) => dataset.source.location;
 const getDatasetFilePath = (datasetId) => getFilePathFromDataset(stub.getDatasetById(datasetId));
 
 describe('Management of file names for scenario parameters of type file', () => {

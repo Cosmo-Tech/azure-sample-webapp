@@ -287,6 +287,72 @@ const interceptUpdateDatasetACLSecurity = (expectedACLSecurity) => {
   }).as(alias);
   return alias;
 };
+
+const interceptDeleteRunner = (scenarioName) => {
+  const alias = forgeAlias('reqDeleteRunner');
+  cy.intercept({ method: 'DELETE', url: API_REGEX.RUNNER, times: 1 }, (req) => {
+    if (stub.isEnabledFor('GET_SCENARIOS')) stub.deleteScenarioByName(scenarioName);
+    if (stub.isEnabledFor('CREATE_AND_DELETE_SCENARIO')) req.reply(req);
+  }).as(alias);
+  return alias;
+};
+
+const interceptUpdateSimulationRunner = (options) => {
+  const alias = forgeAlias('reqUpdateRunner');
+  cy.intercept({ method: 'PATCH', url: API_REGEX.RUNNER, times: 1 }, (req) => {
+    if (options?.validateRequest) options?.validateRequest(req);
+    const scenarioPatch = {
+      lastUpdate: new Date().toISOString(),
+      ...req.body,
+      ...options?.customScenarioPatch,
+    };
+    const scenarioId = options?.scenarioId ?? req.url.match(API_REGEX.RUNNER)[1];
+    if (stub.isEnabledFor('GET_SCENARIOS')) stub.patchScenario(scenarioId, scenarioPatch);
+    if (stub.isEnabledFor('UPDATE_SCENARIO')) {
+      const previousScenario = stub.getScenarioById(scenarioId);
+      req.reply({ ...previousScenario, ...scenarioPatch });
+    }
+  }).as(alias);
+  return alias;
+};
+
+const interceptGetRunnerRunState = (expectedPollsCount) => {
+  const alias = forgeAlias('reqGetRunnerRunState');
+  cy.intercept({ method: 'GET', url: API_REGEX.RUNNER_STATE, times: expectedPollsCount }, (req) => {
+    if (!stub.isEnabledFor('LAUNCH_SCENARIO')) return;
+    const scenarioRunId = req.url.match(API_REGEX.RUNNER_STATE)[1];
+    const lastRun = stub.getScenarioRunById(scenarioRunId);
+    const stubbedStartTime = stub.getScenarioRunOptions().startTime;
+    if (stubbedStartTime !== undefined) lastRun.startTime = stubbedStartTime;
+    req.reply(lastRun);
+  }).as(alias);
+  return alias;
+};
+
+const interceptUpdateSimulationRunnerDefaultSecurity = (expectedDefaultSecurity) => {
+  const alias = forgeAlias('reqUpdateRunnerDefaultSecurity');
+  cy.intercept({ method: 'POST', url: API_REGEX.RUNNER_DEFAULT_SECURITY, times: 1 }, (req) => {
+    const scenarioId = req.url.match(API_REGEX.RUNNER_DEFAULT_SECURITY)[1];
+    const newDefaultSecurity = req.body.role;
+    if (expectedDefaultSecurity) expect(newDefaultSecurity).to.deep.equal(expectedDefaultSecurity);
+    if (stub.isEnabledFor('GET_SCENARIOS')) stub.patchScenarioDefaultSecurity(scenarioId, newDefaultSecurity);
+    if (stub.isEnabledFor('UPDATE_SCENARIO')) req.reply(newDefaultSecurity);
+  }).as(alias);
+  return alias;
+};
+
+const interceptUpdateSimulationRunnerACLSecurity = (expectedACLSecurity) => {
+  const alias = forgeAlias('reqUpdateRunnerACLSecurity');
+  cy.intercept({ method: 'POST', url: API_REGEX.RUNNER_SECURITY_ACL, times: 1 }, (req) => {
+    const scenarioId = req.url.match(API_REGEX.RUNNER_SECURITY_ACL)[1];
+    const newACLSecurityItem = req.body;
+    if (expectedACLSecurity) expect(newACLSecurityItem).to.deep.equal(expectedACLSecurity);
+    if (stub.isEnabledFor('GET_SCENARIOS')) stub.patchScenarioACLSecurity(scenarioId, newACLSecurityItem);
+    if (stub.isEnabledFor('UPDATE_SCENARIO')) req.reply(newACLSecurityItem);
+  }).as(alias);
+  return alias;
+};
+
 const interceptGetRunners = () => {
   const alias = forgeAlias('reqGetRunners');
   cy.intercept({ method: 'GET', url: API_REGEX.RUNNERS, times: 1 }, (req) => {
@@ -371,34 +437,6 @@ const interceptGetRunner = (optionalRunnerId, times = 1) => {
   return alias;
 };
 
-const interceptDeleteRunner = (scenarioName) => {
-  const alias = forgeAlias('reqDeleteRunner');
-  cy.intercept({ method: 'DELETE', url: API_REGEX.RUNNER, times: 1 }, (req) => {
-    if (stub.isEnabledFor('GET_SCENARIOS')) stub.deleteScenarioByName(scenarioName);
-    if (stub.isEnabledFor('CREATE_AND_DELETE_SCENARIO')) req.reply(req);
-  }).as(alias);
-  return alias;
-};
-
-const interceptUpdateSimulationRunner = (options) => {
-  const alias = forgeAlias('reqUpdateRunner');
-  cy.intercept({ method: 'PATCH', url: API_REGEX.RUNNER, times: 1 }, (req) => {
-    if (options?.validateRequest) options?.validateRequest(req);
-    const scenarioPatch = {
-      lastUpdate: new Date().toISOString(),
-      ...req.body,
-      ...options?.customScenarioPatch,
-    };
-    const scenarioId = options?.scenarioId ?? req.url.match(API_REGEX.RUNNER)[1];
-    if (stub.isEnabledFor('GET_SCENARIOS')) stub.patchScenario(scenarioId, scenarioPatch);
-    if (stub.isEnabledFor('UPDATE_SCENARIO')) {
-      const previousScenario = stub.getScenarioById(scenarioId);
-      req.reply({ ...previousScenario, ...scenarioPatch });
-    }
-  }).as(alias);
-  return alias;
-};
-
 // Parameter stubbingOptions must be an object or undefined.
 // See doc of 'DEFAULT_SCENARIO_RUNS_OPTIONS' in 'stubbing' service file.
 const interceptStartRunner = (stubbingOptions) => {
@@ -411,21 +449,15 @@ const interceptStartRunner = (stubbingOptions) => {
       const startTime = stub.getScenarioRunOptions().startTime;
       const lastRunId = `run-stbd${utils.randomStr(6)}`;
 
-      const runnerRun = {
+      const scenarioRun = {
         ...SCENARIO_RUN_EXAMPLE,
         state: 'Running',
         startTime,
         id: lastRunId,
       };
-      stub.addScenarioRun(runnerRun);
+      stub.addScenarioRun(scenarioRun);
 
-      const lastRun = {
-        runnerRunId: runnerRun.id,
-        csmSimulationRun: null,
-        workflowId: null,
-        workflowName: null,
-      };
-      stub.patchScenario(scenarioId, { state: 'Running', lastRun });
+      stub.patchScenario(scenarioId, { state: 'Running', lastRunId });
 
       setTimeout(() => {
         setTimeout(() => {
@@ -433,45 +465,8 @@ const interceptStartRunner = (stubbingOptions) => {
           stub.patchScenario(scenarioId, { state: finalStatus });
         }, runDuration);
       }, POLLING_START_DELAY);
-      req.reply(lastRun);
+      req.reply({ id: lastRunId });
     }
-  }).as(alias);
-  return alias;
-};
-
-const interceptGetRunnerRunState = (expectedPollsCount) => {
-  const alias = forgeAlias('reqGetRunnerRunState');
-  cy.intercept({ method: 'GET', url: API_REGEX.RUNNER_STATE, times: expectedPollsCount }, (req) => {
-    if (!stub.isEnabledFor('LAUNCH_SCENARIO')) return;
-    const scenarioRunId = req.url.match(API_REGEX.RUNNER_STATE)[1];
-    const lastRun = stub.getScenarioRunById(scenarioRunId);
-    const stubbedStartTime = stub.getScenarioRunOptions().startTime;
-    if (stubbedStartTime !== undefined) lastRun.startTime = stubbedStartTime;
-    req.reply(lastRun);
-  }).as(alias);
-  return alias;
-};
-
-const interceptUpdateSimulationRunnerDefaultSecurity = (expectedDefaultSecurity) => {
-  const alias = forgeAlias('reqUpdateRunnerDefaultSecurity');
-  cy.intercept({ method: 'POST', url: API_REGEX.RUNNER_DEFAULT_SECURITY, times: 1 }, (req) => {
-    const scenarioId = req.url.match(API_REGEX.RUNNER_DEFAULT_SECURITY)[1];
-    const newDefaultSecurity = req.body.role;
-    if (expectedDefaultSecurity) expect(newDefaultSecurity).to.deep.equal(expectedDefaultSecurity);
-    if (stub.isEnabledFor('GET_SCENARIOS')) stub.patchScenarioDefaultSecurity(scenarioId, newDefaultSecurity);
-    if (stub.isEnabledFor('UPDATE_SCENARIO')) req.reply(newDefaultSecurity);
-  }).as(alias);
-  return alias;
-};
-
-const interceptUpdateSimulationRunnerACLSecurity = (expectedACLSecurity) => {
-  const alias = forgeAlias('reqUpdateRunnerACLSecurity');
-  cy.intercept({ method: 'POST', url: API_REGEX.RUNNER_SECURITY_ACL, times: 1 }, (req) => {
-    const scenarioId = req.url.match(API_REGEX.RUNNER_SECURITY_ACL)[1];
-    const newACLSecurityItem = req.body;
-    if (expectedACLSecurity) expect(newACLSecurityItem).to.deep.equal(expectedACLSecurity);
-    if (stub.isEnabledFor('GET_SCENARIOS')) stub.patchScenarioACLSecurity(scenarioId, newACLSecurityItem);
-    if (stub.isEnabledFor('UPDATE_SCENARIO')) req.reply(newACLSecurityItem);
   }).as(alias);
   return alias;
 };

@@ -7,9 +7,15 @@ import PropTypes from 'prop-types';
 import { Grid, Button, Typography, Box, Select, MenuItem } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { AuthMSAL } from '@cosmotech/azure';
-import { AuthDev } from '@cosmotech/core';
+import { AuthDev, AuthKeycloakRedirect } from '@cosmotech/core';
 import { SignInButton } from '@cosmotech/ui';
 import microsoftLogo from '../../assets/microsoft_logo.png';
+import ConfigService from '../../services/ConfigService';
+import {
+  SHOW_AZURE_AUTH_PROVIDER,
+  SHOW_DEV_AUTH_PROVIDER,
+  SHOW_KEYCLOAK_AUTH_PROVIDER,
+} from '../../services/config/auth';
 import { AUTH_STATUS } from '../../state/auth/constants.js';
 import { TranslationUtils } from '../../utils';
 
@@ -60,7 +66,7 @@ const Root = styled('div')(({ theme }) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundImage: `url(${process.env?.PUBLIC_URL ?? ''}${theme.picture.auth})`,
+    backgroundImage: `url(${ConfigService.getParameterValue('PUBLIC_URL') ?? ''}${theme.picture.auth})`,
     backgroundSize: 'contain',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center bottom',
@@ -93,6 +99,8 @@ const Root = styled('div')(({ theme }) => ({
     },
   },
 }));
+
+const NO_PROVIDERS = !SHOW_AZURE_AUTH_PROVIDER && !SHOW_KEYCLOAK_AUTH_PROVIDER;
 
 const SignIn = ({ logInAction, auth }) => {
   const { t, i18n } = useTranslation();
@@ -133,22 +141,35 @@ const SignIn = ({ logInAction, auth }) => {
         </div>
       </>
     ) : null;
-  const infoMessage =
-    localStorage.getItem('logoutByTimeout') === 'true' ? (
-      <div className={classes.infoPaper}>
-        <Typography
-          sx={{
-            color: (theme) => (theme.palette.mode === 'dark' ? '#f2daff' : '#251432'),
-            fontSize: '14px',
-            overflow: 'auto',
-            whiteSpace: 'pre-line',
-            overflowWrap: 'break-word',
-          }}
-        >
-          {t('views.signin.info.timeout', 'For security reasons, your session has expired, due to inactivity.')}
-        </Typography>
-      </div>
-    ) : null;
+
+  let infoMessageText;
+  if (NO_PROVIDERS)
+    infoMessageText = t(
+      'views.signin.info.noProviders',
+      'No authentication provider detected. Please check the configuration of the web application server, or ' +
+        'contact your administrator.'
+    );
+  else if (localStorage.getItem('logoutByTimeout') === 'true')
+    infoMessageText = t(
+      'views.signin.info.timeout',
+      'For security reasons, your session has expired, due to inactivity.'
+    );
+
+  const infoMessage = infoMessageText ? (
+    <div className={classes.infoPaper}>
+      <Typography
+        sx={{
+          color: (theme) => (theme.palette.mode === 'dark' ? '#f2daff' : '#251432'),
+          fontSize: '14px',
+          overflow: 'auto',
+          whiteSpace: 'pre-line',
+          overflowWrap: 'break-word',
+        }}
+      >
+        {t('views.signin.info.timeout', 'For security reasons, your session has expired, due to inactivity.')}
+      </Typography>
+    </div>
+  ) : null;
 
   return (
     <Root>
@@ -172,17 +193,30 @@ const SignIn = ({ logInAction, auth }) => {
               <Grid sx={{ mt: 3 }} container spacing={2} direction="column">
                 {infoMessage}
                 {accessDeniedError}
-                <Grid>
-                  <SignInButton
-                    autoFocus
-                    logo={microsoftLogo}
-                    id={'microsoft'}
-                    label={t('genericcomponent.button.login.msal.title', 'Sign in with Microsoft')}
-                    onClick={(event) => handleSignIn(event, AuthMSAL.name)}
-                  />
-                </Grid>
-                <Grid>
-                  {window.location.hostname === 'localhost' && (
+                {SHOW_AZURE_AUTH_PROVIDER && (
+                  <Grid>
+                    <SignInButton
+                      autoFocus
+                      logo={microsoftLogo}
+                      id={'microsoft'}
+                      label={t('genericcomponent.button.login.msal.title', 'Sign in with Microsoft')}
+                      onClick={(event) => handleSignIn(event, AuthMSAL.name)}
+                    />
+                  </Grid>
+                )}
+                {SHOW_KEYCLOAK_AUTH_PROVIDER && (
+                  <Grid>
+                    <SignInButton
+                      autoFocus
+                      logo="favicon.ico"
+                      id="keycloak-redirect"
+                      label={t('commoncomponents.button.login.keycloak', 'Sign in with Cosmo Tech')}
+                      onClick={(event) => handleSignIn(event, AuthKeycloakRedirect.name)}
+                    />
+                  </Grid>
+                )}
+                {SHOW_DEV_AUTH_PROVIDER && (
+                  <Grid>
                     <Button
                       onClick={(event) => handleSignIn(event, AuthDev.name)}
                       data-cy="sign-in-with-dev-account-button"
@@ -190,8 +224,8 @@ const SignIn = ({ logInAction, auth }) => {
                     >
                       {t('commoncomponents.button.login.dev.account.login', 'Login with Dev account')}
                     </Button>
-                  )}
-                </Grid>
+                  </Grid>
+                )}
               </Grid>
               <Grid
                 container

@@ -97,6 +97,22 @@ export const dispatchDeleteRunner = (organizationId, workspaceId, runnerId) => (
   runnerId,
 });
 
+export const dispatchResetCurrentSimulationRunner = () => ({
+  type: RUNNER_ACTIONS_KEY.RESET_CURRENT_SIMULATION_RUNNER,
+});
+
+export const dispatchSetSimulationRunnerValidationStatus = (runnerId, validationStatus) => ({
+  type: RUNNER_ACTIONS_KEY.SET_RUNNER_VALIDATION_STATUS,
+  runnerId,
+  validationStatus,
+});
+
+export const dispatchSetCurrentSimulationRunner = (runnerId, status) => ({
+  type: RUNNER_ACTIONS_KEY.SET_CURRENT_SIMULATION_RUNNER,
+  runnerId,
+  status,
+});
+
 export const dispatchStopSimulationRunner = (organizationId, workspaceId, runnerId) => ({
   type: RUNNER_ACTIONS_KEY.STOP_SIMULATION_RUNNER,
   organizationId,

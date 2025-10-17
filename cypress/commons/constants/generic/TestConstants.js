@@ -1,11 +1,28 @@
+import { BREWERY_URL_ROOT, BREWERY_WORKSPACE_ID1, BREWERY_WORKSPACE_ID2 } from '../brewery/TestConstants';
+
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
 export { ORGANIZATION_ID } from '../../../../src/config/GlobalConfiguration';
 
-export const URL_ROOT = 'https://warp.api.cosmotech.com/wa-adx-dev/v3';
-export const AUTH_QUERY_URL =
-  'https://login.microsoftonline.com/e413b834-8be8-4822-a370-be619545cb49/oauth2/v2.0/token';
+// Work-around to let this file be imported with or without Cypress context. When Cypress variable is defined, specific
+// API URL and workspace ids are loaded from environment variables
+let urlRoot = BREWERY_URL_ROOT;
+let workspaceId1 = BREWERY_WORKSPACE_ID1;
+let workspaceId2 = BREWERY_WORKSPACE_ID2;
+if (typeof Cypress !== 'undefined') {
+  urlRoot = Cypress.env('COSMO_API_URL');
+  workspaceId1 = Cypress.env('WORKSPACE_ID1');
+  workspaceId2 = Cypress.env('WORKSPACE_ID2');
+  if (urlRoot == null) throw Error('Environment variable CYPRESS_COSMO_API_URL is not defined');
+  if (workspaceId1 == null || workspaceId2 == null)
+    throw Error('Environment variables CYPRESS_WORKSPACE_ID1 and CYPRESS_WORKSPACE_ID2 must be defined');
+}
+export const URL_ROOT = urlRoot;
+export const WORKSPACE_ID1 = workspaceId1;
+export const WORKSPACE_ID2 = workspaceId2;
+
+export const AUTH_QUERY_URL = '';
 export const GET_EMBED_INFO_ENDPOINT = '/api/get-embed-info';
 
 export const PAGE_NAME = {
@@ -175,7 +192,7 @@ export const API_REGEX = {
   SCENARIO_RUN: new RegExp('^' + API_ENDPOINT.SCENARIO_RUN),
   STOP_SCENARIO_RUN: new RegExp('^' + API_ENDPOINT.STOP_SCENARIO_RUN),
   SCENARIO_RUN_STATUS: new RegExp('^' + API_ENDPOINT.SCENARIO_RUN_STATUS),
-  DATASETS: new RegExp('^' + API_ENDPOINT.DATASETS + '$'),
+  DATASETS: new RegExp('^' + API_ENDPOINT.DATASETS),
   DATASET: new RegExp('^' + API_ENDPOINT.DATASET + '$'),
   DATASET_DEFAULT_SECURITY: new RegExp('^' + API_ENDPOINT.DATASET_DEFAULT_SECURITY + '$'),
   DATASET_LINK: new RegExp('^' + API_ENDPOINT.DATASET_LINK + '$'),

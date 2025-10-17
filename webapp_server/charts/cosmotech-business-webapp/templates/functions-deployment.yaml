@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "cosmotech-business-webapp.functions-name" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    cosmotech.com/service: {{ include "cosmotech-business-webapp.functions-name" . }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      cosmotech.com/service: {{ include "cosmotech-business-webapp.functions-name" . }}
+  template:
+    metadata:
+      labels:
+        cosmotech.com/service: {{ include "cosmotech-business-webapp.functions-name" . }}
+        networking/traffic-allowed: "yes"
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      volumes:
+      - name: {{ include "cosmotech-business-webapp.functions-name" . }}-tmp-volume
+        emptyDir: {}
+      - name: {{ include "cosmotech-business-webapp.functions-name" . }}-ca-cert-volume
+        secret:
+          secretName: {{ include "cosmotech-business-webapp.functions-name" . }}-secret
+          optional: true
+          items:
+          - key: CA_CERT_FILE
+            path: cert_file
+      {{- if .Values.webapp.functions.image.pullSecret }}
+      imagePullSecrets:
+        - name: {{ .Values.webapp.functions.image.pullSecret }}
+      {{- end }}
+      {{- with .Values.webapp.functions.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+      - name: cosmotech-business-webapp
+        volumeMounts:
+        - name: {{ include "cosmotech-business-webapp.functions-name" . }}-tmp-volume
+          mountPath: /tmp
+        - name: {{ include "cosmotech-business-webapp.functions-name" . }}-ca-cert-volume
+          mountPath: "/tmp/cert_file"
+          subPath: cert_file
+          readOnly: true
+        env:
+        # Change port to prevent error "System.Net.Sockets.SocketException (13): Permission denied"
+        - name: ASPNETCORE_URLS
+          value: http://+:7071
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+          readOnlyRootFilesystem: true
+          runAsUser: 1000
+        image: "{{ .Values.webapp.functions.image.repository }}:{{ .Values.webapp.functions.image.tag }}"
+        imagePullPolicy: {{ .Values.webapp.functions.image.pullPolicy }}
+        ports:
+          - name: http
+            containerPort: 7071
+            protocol: TCP
+        resources:
+          {{- toYaml .Values.resources | nindent 10 }}
+        envFrom:
+        - secretRef:
+            name: {{ include "cosmotech-business-webapp.functions-name" . }}-secret

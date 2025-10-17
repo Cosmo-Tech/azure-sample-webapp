@@ -1,12 +1,13 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-export const BREWERY_WORKSPACE_ID = 'w-lzoog8x72dk';
-export const REAL_BREWERY_WORKSPACE_ID = 'w-21d727w3gv7';
+export const BREWERY_URL_ROOT = 'https://kubernetes.cosmotech.com/cosmotech-api/brewery/v4';
+export const BREWERY_WORKSPACE_ID1 = 'w-m4evk6eemqm4';
+export const BREWERY_WORKSPACE_ID2 = 'w-m4evk6eemqm4';
 
-export const DATASET_STORAGE_ACCOUNT = 'warpwaadxdevdlrivo';
-export const DATASET_STORAGE_CONTAINER = 'o-4pm18exqpkv';
-export const DATASET_STORAGE_REFERENCE_FOLDER = 'brewery_reference/';
+export const DATASET_STORAGE_ACCOUNT = '';
+export const DATASET_STORAGE_CONTAINER = '';
+export const DATASET_STORAGE_REFERENCE_FOLDER = '';
 
 export const SCENARIO_STATUS = {
   CREATED: 'created',
