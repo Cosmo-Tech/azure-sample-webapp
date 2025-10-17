@@ -10,7 +10,7 @@ import { SIMULATION_MODES } from './constants/settings';
 
 const SimulationContent = () => {
   const inspectorDrawerParentContainerRef = useRef(null);
-  const { viewMode, setViewMode } = useSimulationViewContext();
+  const { viewMode, setViewMode, graphRef } = useSimulationViewContext();
 
   return (
     <Box
@@ -23,7 +23,7 @@ const SimulationContent = () => {
         </Grid>
         <Grid item xs={12}>
           <div id="drawer-container" style={{ position: 'relative', height: '100%' }}>
-            {viewMode === SIMULATION_MODES.GRAPH ? <Scene /> : <MapView />}
+            {viewMode === SIMULATION_MODES.GRAPH ? <Scene /> : <MapView graph={graphRef.current} />}
             <InspectorDrawer containerRef={inspectorDrawerParentContainerRef} />
             <ModeSwitcher mode={viewMode} onChange={setViewMode} />
           </div>
