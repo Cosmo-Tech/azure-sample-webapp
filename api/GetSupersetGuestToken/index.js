@@ -1,27 +1,24 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-const embedToken = require('./embedConfigService.js');
-const utils = require('./utils.js');
+const { validateQuery } = require('./check.js');
+const { getSupersetAdminToken, getSupersetGuestToken } = require('./supersetApi.js');
 const config = require('../common/config');
 const { forgeErrorResponse, ServiceAccountError } = require('../common/errors');
 
 module.exports = async function (context, req) {
   try {
-    config.checkPowerBIConfig();
-    await utils.validateTokenAndQuery(req);
-
-    // Get the details like Embed URL, Access token and Expiry
-    const reportsIds = req?.body?.reports;
-    const workspaceId = req?.body?.workspaceId;
-    const result = await embedToken.getEmbedInfo(reportsIds, workspaceId);
-    context.res = { status: 200, body: result };
+    config.checkSupersetConfig();
+    const dashboardIds = await validateQuery(req);
+    const adminToken = await getSupersetAdminToken();
+    const guestToken = await getSupersetGuestToken(adminToken, dashboardIds);
+    context.res = { status: 200, body: { token: guestToken } };
   } catch (err) {
     if (err instanceof ServiceAccountError) {
       console.error(err);
       context.res = err.asResponse();
     } else {
-      console.error('Unknown error during run of get-embed-info function:');
+      console.error('Unknown error during run of get-superset-guest-token function:');
       console.error(err);
       context.res = forgeErrorResponse(500, 'Internal server error', `${err.name}: ${err.message}`);
     }
