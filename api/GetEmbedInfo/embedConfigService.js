@@ -4,7 +4,7 @@
 const auth = require('./authentication');
 const PowerBiReportDetails = require('../utils/models/powerbi/embedReportConfig');
 const EmbedConfig = require('../utils/models/powerbi/embedConfig.js');
-const { getConfigValue } = require('./config');
+const { getConfigValue } = require('../common/config');
 const { ServiceAccountError } = require('../common/errors');
 
 /**

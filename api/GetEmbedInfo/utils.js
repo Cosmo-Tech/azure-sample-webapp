@@ -6,7 +6,8 @@ const path = require('path');
 const uuid = require('uuid');
 const jwt = require('jsonwebtoken');
 const jwksClient = require('jwks-rsa');
-const { MSAL_CONFIG, GUID_PARAMETERS, REQUIRED_PARAMETERS, getConfigValue } = require('./config');
+const { GUID_PARAMETERS, REQUIRED_PARAMETERS, getConfigValue } = require('../common/config');
+const { MSAL_CONFIG } = require('./msalConfig');
 const { ServiceAccountError } = require('../common/errors');
 
 const DEFAULT_AZURE_JWKS_URI = 'https://login.microsoftonline.com/common/discovery/keys';
