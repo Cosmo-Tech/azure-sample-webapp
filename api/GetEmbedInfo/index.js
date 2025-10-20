@@ -3,7 +3,7 @@
 
 const embedToken = require('./embedConfigService.js');
 const utils = require('./utils.js');
-const { forgeErrorResponse, ServiceAccountError } = require('./errors.js');
+const { forgeErrorResponse, ServiceAccountError } = require('../common/errors');
 
 module.exports = async function (context, req) {
   try {

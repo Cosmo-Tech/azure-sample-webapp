@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 const msal = require('@azure/msal-node');
 const { MSAL_CONFIG } = require('./config');
-const { ServiceAccountError } = require('./errors.js');
+const { ServiceAccountError } = require('../common/errors');
 
 const DEFAULT_POWERBI_SCOPE = 'https://analysis.windows.net/powerbi/api/.default';
 

@@ -5,7 +5,7 @@ const auth = require('./authentication');
 const PowerBiReportDetails = require('../utils/models/powerbi/embedReportConfig');
 const EmbedConfig = require('../utils/models/powerbi/embedConfig.js');
 const { getConfigValue } = require('./config');
-const { ServiceAccountError } = require('./errors.js');
+const { ServiceAccountError } = require('../common/errors');
 
 /**
  * Generate embed token and embed urls for reports
