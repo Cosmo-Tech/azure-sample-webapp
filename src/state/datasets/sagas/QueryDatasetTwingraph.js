@@ -25,7 +25,9 @@ function* runDatasetTwingraphQuery(action, query, attemptsNumber = 0) {
 
   let result;
   try {
-    result = yield call(Api.Datasets.twingraphQuery, organizationId, datasetId, query);
+    // FIXME: twingraphs no longer exist, replace by new dataset query mechanism
+    // result = yield call(Api.Datasets.twingraphQuery, organizationId, datasetId, query);
+    result = {};
   } catch (error) {
     const res = error?.response?.data;
     if (res?.status === 400 && attemptsNumber < TWINGRAPH_QUERY_MAX_RETRIES) {
@@ -37,14 +39,7 @@ function* runDatasetTwingraphQuery(action, query, attemptsNumber = 0) {
     result = error;
   }
 
-  yield put(
-    processQueriesResults({
-      datasetId,
-      queriesMapping,
-      queryId: query.id,
-      result,
-    })
-  );
+  yield put(processQueriesResults({ datasetId, queriesMapping, queryId: query.id, result }));
 }
 
 function* startAllDatasetTwingraphQueries(action) {

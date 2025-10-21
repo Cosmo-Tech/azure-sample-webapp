@@ -12,14 +12,10 @@ export function* rollbackTwingraphData(action) {
   try {
     const organizationId = action.organizationId;
     const datasetId = action.datasetId;
-    yield call(Api.Datasets.rollbackRefresh, organizationId, datasetId);
+    // FIXME: refresh dataset no longer exist, remove this feature
+    // yield call(Api.Datasets.rollbackRefresh, organizationId, datasetId);
 
-    yield put(
-      updateDataset({
-        datasetId,
-        datasetData: { ingestionStatus: INGESTION_STATUS.SUCCESS },
-      })
-    );
+    yield put(updateDataset({ datasetId, datasetData: { ingestionStatus: INGESTION_STATUS.SUCCESS } }));
   } catch (error) {
     console.error(error);
     setApplicationErrorMessage({

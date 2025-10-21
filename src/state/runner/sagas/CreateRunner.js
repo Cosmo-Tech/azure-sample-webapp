@@ -38,7 +38,8 @@ function* uploadFileParameter(parameter, organizationId, workspaceId) {
       datasetId,
       updatedDatasetPart
     );
-    yield call(Api.Workspaces.uploadWorkspaceFile, organizationId, workspaceId, file, true, datasetLocation);
+    // FIXME: workspace files no longer exist, replace by new dataset+part structure
+    // yield call(Api.Workspaces.uploadWorkspaceFile, organizationId, workspaceId, file, true, datasetLocation);
     yield put(addDataset({ ...updatedDataset }));
 
     return datasetId;

@@ -4,11 +4,10 @@ import { matchPath } from 'react-router-dom';
 import { put, takeEvery, call } from 'redux-saga/effects';
 import ConfigService from '../../../services/ConfigService';
 import { Api } from '../../../services/config/Api';
-import { DATASET_PERMISSIONS_MAPPING, RUNNER_PERMISSIONS_MAPPING } from '../../../services/config/ApiConstants';
+import { DATASET_PERMISSIONS_MAPPING } from '../../../services/config/ApiConstants';
 import { STATUSES } from '../../../services/config/StatusConstants';
 import { RouterUtils } from '../../../utils';
 import { parseError } from '../../../utils/ErrorsUtils';
-import { fetchAllDatasetsData } from '../../datasets/sagas/FindAllDatasets';
 import { fetchOrganizationById } from '../../organizations/sagas/FindOrganizationById';
 import { WORKSPACE_ACTIONS_KEY } from '../../workspaces/constants';
 import { getAllWorkspaces } from '../../workspaces/sagas/GetAllWorkspaces';
@@ -29,21 +28,12 @@ if (!isRedirectedToWorkspaces) {
 }
 
 export function* fetchAllInitialData() {
-  yield put(
-    setApplicationStatus({
-      status: STATUSES.LOADING,
-    })
-  );
+  yield put(setApplicationStatus({ status: STATUSES.LOADING }));
 
   try {
-    const { data: organizationPermissions } = yield call(Api.Organizations.getAllPermissions);
+    const { data: organizationPermissions } = yield call(Api.Organizations.listPermissions);
     organizationPermissions.push({ component: 'dataset', roles: DATASET_PERMISSIONS_MAPPING });
-    organizationPermissions.push({ component: 'runner', roles: RUNNER_PERMISSIONS_MAPPING });
-    yield put(
-      setPermissionsMapping({
-        organizationPermissions,
-      })
-    );
+    yield put(setPermissionsMapping({ organizationPermissions }));
   } catch (error) {
     console.error(error);
     const errorDetails = parseError(error);
@@ -54,40 +44,21 @@ export function* fetchAllInitialData() {
     } else if (error?.response?.status === 404) {
       errorDetails.detail += '\nPlease make sure you are using at least v2 of Cosmo Tech API';
     }
-    yield put(
-      setApplicationStatus({
-        status: STATUSES.ERROR,
-        error: errorDetails,
-      })
-    );
+    yield put(setApplicationStatus({ status: STATUSES.ERROR, error: errorDetails }));
     return;
   }
 
   try {
-    // TODO: fork datasets download, or change the datasets usage in app to download them only when necessary
-    yield call(fetchAllDatasetsData, ORGANIZATION_ID);
     yield call(fetchOrganizationById, ORGANIZATION_ID);
     yield call(getAllWorkspaces, ORGANIZATION_ID);
   } catch (error) {
     const errorDetails = parseError(error);
-    yield put(
-      setApplicationStatus({
-        status: STATUSES.ERROR,
-        error: errorDetails,
-      })
-    );
+    yield put(setApplicationStatus({ status: STATUSES.ERROR, error: errorDetails }));
   }
   if (providedWorkspaceId) {
-    yield put({
-      type: WORKSPACE_ACTIONS_KEY.SELECT_WORKSPACE,
-      workspaceId: providedWorkspaceId,
-    });
+    yield put({ type: WORKSPACE_ACTIONS_KEY.SELECT_WORKSPACE, workspaceId: providedWorkspaceId });
   } else {
-    yield put(
-      setApplicationStatus({
-        status: STATUSES.SUCCESS,
-      })
-    );
+    yield put(setApplicationStatus({ status: STATUSES.SUCCESS }));
   }
 }
 

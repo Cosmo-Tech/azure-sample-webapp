@@ -33,7 +33,7 @@ export function* getAllWorkspaces(organizationId) {
   const userId = yield select(getUserId);
   const workspacesPermissionsMapping = yield select(getWorkspacesPermissionsMapping);
 
-  const { data } = yield call(Api.Workspaces.findAllWorkspaces, organizationId);
+  const { data } = yield call(Api.Workspaces.listWorkspaces, organizationId);
   WorkspacesUtils.patchWorkspacesIfLocalConfigExists(data);
   data.forEach((workspace) => {
     workspace.users = SecurityUtils.getUsersIdsFromACL(workspace?.security?.accessControlList ?? []);
@@ -47,12 +47,7 @@ export function* getAllWorkspaces(organizationId) {
     WorkspacesUtils.addTranslationLabels(workspace);
   });
 
-  yield put(
-    setAllWorkspaces({
-      list: keepOnlyReadableWorkspaces(data),
-      status: STATUSES.SUCCESS,
-    })
-  );
+  yield put(setAllWorkspaces({ list: keepOnlyReadableWorkspaces(data), status: STATUSES.SUCCESS }));
 }
 
 function* watchGetAllWorkspaces() {

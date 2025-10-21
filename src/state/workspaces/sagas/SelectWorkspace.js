@@ -8,6 +8,7 @@ import { STATUSES } from '../../../services/config/StatusConstants';
 import { WorkspaceSchema } from '../../../services/config/WorkspaceSchema';
 import { ConfigUtils, RunnersUtils, WorkspacesUtils } from '../../../utils';
 import { setApplicationErrorMessage, setApplicationStatus } from '../../app/reducers';
+import { fetchAllDatasetsData } from '../../datasets/sagas/FindAllDatasets';
 import { dispatchGetPowerBIEmbedInfo } from '../../powerBi/dispatchers';
 import { clearEmbedInfo } from '../../powerBi/reducers';
 import { RUNNER_ACTIONS_KEY } from '../../runner/constants';
@@ -24,11 +25,7 @@ const getWorkspaces = (state) => state?.workspace?.list?.data;
 
 export function* selectWorkspace(action) {
   const selectedWorkspaceId = action.workspaceId;
-  yield put(
-    setApplicationStatus({
-      status: STATUSES.LOADING,
-    })
-  );
+  yield put(setApplicationStatus({ status: STATUSES.LOADING }));
 
   const organizationId = yield select(getOrganizationId);
   const workspaces = yield select(getWorkspaces);
@@ -52,36 +49,20 @@ export function* selectWorkspace(action) {
         ),
       })
     );
-    yield put(
-      setCurrentWorkspace({
-        status: STATUSES.ERROR,
-        workspace: null,
-      })
-    );
-    yield put(
-      setApplicationStatus({
-        status: STATUSES.SUCCESS,
-      })
-    );
+    yield put(setCurrentWorkspace({ status: STATUSES.ERROR, workspace: null }));
+    yield put(setApplicationStatus({ status: STATUSES.SUCCESS }));
     return;
   }
 
-  yield put(
-    setCurrentWorkspace({
-      status: STATUSES.SUCCESS,
-      workspace: selectedWorkspace,
-    })
-  );
+  yield put(setCurrentWorkspace({ status: STATUSES.SUCCESS, workspace: selectedWorkspace }));
 
   ConfigUtils.checkUnknownKeysInConfig(WorkspaceSchema, selectedWorkspace);
   WorkspacesUtils.checkDatasetManagerConfiguration(selectedWorkspace);
   WorkspacesUtils.checkConfigurationPitfalls(selectedWorkspace);
 
-  yield put({
-    type: RUNNER_ACTIONS_KEY.STOP_ALL_RUNNERS_STATUS_POLLING,
-  });
-
+  yield put({ type: RUNNER_ACTIONS_KEY.STOP_ALL_RUNNERS_STATUS_POLLING });
   yield put(clearEmbedInfo());
+  yield call(fetchAllDatasetsData, organizationId, selectedWorkspaceId);
 
   const solutionId = yield select(selectSolutionIdFromCurrentWorkspace);
   yield call(fetchSolutionByIdData, organizationId, solutionId);
@@ -110,12 +91,7 @@ export function* selectWorkspace(action) {
   );
 
   yield put(dispatchGetPowerBIEmbedInfo());
-
-  yield put(
-    setApplicationStatus({
-      status: STATUSES.SUCCESS,
-    })
-  );
+  yield put(setApplicationStatus({ status: STATUSES.SUCCESS }));
 }
 
 function* watchSelectWorkspace() {
