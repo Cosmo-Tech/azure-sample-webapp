@@ -6,49 +6,12 @@ const path = require('path');
 const uuid = require('uuid');
 const jwt = require('jsonwebtoken');
 const jwksClient = require('jwks-rsa');
-const { MSAL_CONFIG, GUID_PARAMETERS, REQUIRED_PARAMETERS, getConfigValue } = require('./config');
-const { ServiceAccountError } = require('./errors');
+const { getConfigValue } = require('../common/config');
+const { MSAL_CONFIG } = require('./msalConfig');
+const { ServiceAccountError } = require('../common/errors');
 
 const DEFAULT_AZURE_JWKS_URI = 'https://login.microsoftonline.com/common/discovery/keys';
 const DEFAULT_KEYCLOAK_AUDIENCE = 'account';
-
-const sanitizeAndValidateConfig = () => {
-  for (const parameter of REQUIRED_PARAMETERS) {
-    if (!getConfigValue(parameter) || getConfigValue(parameter).length === 0)
-      throw new ServiceAccountError(
-        500,
-        'Configuration error',
-        `Missing parameter "${parameter}" in PowerBI service account configuration: value is missing or empty.`
-      );
-  }
-
-  for (const parameter of GUID_PARAMETERS) {
-    const sanitizedValue = getConfigValue(parameter);
-    if (sanitizedValue && !uuid.validate(sanitizedValue))
-      throw new ServiceAccountError(
-        500,
-        'Configuration error',
-        `The value of parameter "${parameter}" must be a guid.`
-      );
-  }
-
-  const azureCsmApiAppId = getConfigValue('AZURE_COSMO_API_APPLICATION_ID');
-  const keycloakRealm = getConfigValue('KEYCLOAK_REALM_URL');
-  if (azureCsmApiAppId && keycloakRealm)
-    throw new ServiceAccountError(
-      500,
-      'Configuration error',
-      "Can't define both parameters AZURE_COSMO_API_APPLICATION_ID and KEYCLOAK_REALM_URL. Please check the " +
-        'PowerBI service account configuration.'
-    );
-  if (!azureCsmApiAppId && !keycloakRealm)
-    throw new ServiceAccountError(
-      500,
-      'Configuration error',
-      'You must define one of parameters AZURE_COSMO_API_APPLICATION_ID or KEYCLOAK_REALM_URL. Please check ' +
-        'the PowerBI service account configuration.'
-    );
-};
 
 const _checkAccessTokenWithCertFile = (token, certFilePath, options) => {
   const cert = fs.readFileSync(certFilePath);
@@ -223,6 +186,5 @@ const validateTokenAndQuery = async (req) => {
 
 module.exports = {
   getConfigValue,
-  sanitizeAndValidateConfig,
   validateTokenAndQuery,
 };
