@@ -1,7 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { all, call, delay, put, select, spawn, takeEvery } from 'redux-saga/effects';
-import { Api } from '../../../services/config/Api';
+import { all, call, delay, put, spawn, takeEvery } from 'redux-saga/effects';
 import {
   TWINGRAPH_QUERIES_DELAY,
   TWINGRAPH_QUERY_MAX_RETRIES,
@@ -14,10 +13,7 @@ import {
   waitQueriesResults,
 } from '../../datasetTwingraph/reducers';
 
-const getOrganizationId = (state) => state.organization.current?.data?.id;
-
 function* runDatasetTwingraphQuery(action, query, attemptsNumber = 0) {
-  const organizationId = yield select(getOrganizationId);
   const { datasetId, workspace } = action.payload;
   const { queriesMapping } = workspace;
 

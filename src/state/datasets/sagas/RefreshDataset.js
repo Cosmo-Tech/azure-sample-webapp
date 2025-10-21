@@ -1,8 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { t } from 'i18next';
-import { call, put, takeEvery, select } from 'redux-saga/effects';
-import { Api } from '../../../services/config/Api';
+import { put, takeEvery, select } from 'redux-saga/effects';
 import { setApplicationErrorMessage } from '../../app/reducers';
 import { DATASET_ACTIONS_KEY } from '../constants';
 import { updateDataset } from '../reducers';
