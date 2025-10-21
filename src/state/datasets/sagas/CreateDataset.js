@@ -39,7 +39,8 @@ export function* createDataset(action) {
     DatasetsUtils.patchDatasetWithCurrentUserPermissions(data, userEmail, DATASET_PERMISSIONS_MAPPING);
 
     try {
-      yield call(Api.Datasets.linkWorkspace, organizationId, data.id, workspaceId);
+      // FIXME: links between datasets and workspaces no longer exist, remove this feature
+      // yield call(Api.Datasets.linkWorkspace, organizationId, data.id, workspaceId);
     } catch (error) {
       console.error(error);
       yield put(
@@ -65,33 +66,15 @@ export function* createDataset(action) {
       })
     );
 
-    yield put(
-      linkToDataset({
-        datasetId: data.id,
-        workspaceId,
-      })
-    );
-
-    yield put(
-      selectDataset({
-        selectedDatasetId: data.id,
-      })
-    );
+    yield put(linkToDataset({ datasetId: data.id, workspaceId }));
+    yield put(selectDataset({ selectedDatasetId: data.id }));
 
     if (!['None', 'File', 'ETL'].includes(dataset.sourceType)) {
-      yield put({
-        type: DATASET_ACTIONS_KEY.REFRESH_DATASET,
-        organizationId,
-        datasetId: data.id,
-      });
+      yield put({ type: DATASET_ACTIONS_KEY.REFRESH_DATASET, organizationId, datasetId: data.id });
     } else if (dataset.sourceType === 'File') {
       const response = yield call(DatasetsUtils.uploadZipWithFetchApi, organizationId, data.id, dataset.file.file);
       if (response?.ok) {
-        yield put({
-          type: DATASET_ACTIONS_KEY.START_TWINGRAPH_STATUS_POLLING,
-          datasetId: data.id,
-          organizationId,
-        });
+        yield put({ type: DATASET_ACTIONS_KEY.START_TWINGRAPH_STATUS_POLLING, datasetId: data.id, organizationId });
       } else {
         let error = null;
         if (response?.status === 400) {
@@ -109,12 +92,7 @@ export function* createDataset(action) {
           })
         );
 
-        yield put(
-          updateDataset({
-            datasetId: data.id,
-            datasetData: { ingestionStatus: INGESTION_STATUS.ERROR },
-          })
-        );
+        yield put(updateDataset({ datasetId: data.id, datasetData: { ingestionStatus: INGESTION_STATUS.ERROR } }));
       }
     } else if (dataset.sourceType === 'ETL') return data.id;
   } catch (error) {

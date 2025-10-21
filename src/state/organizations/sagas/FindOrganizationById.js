@@ -14,15 +14,10 @@ export function* fetchOrganizationById(organizationId) {
   const userEmail = yield select(getUserEmail);
   const permissionsMapping = yield select(getOrganizationPermissionsMapping);
 
-  const { data } = yield call(Api.Organizations.findOrganizationById, organizationId);
+  const { data } = yield call(Api.Organizations.getOrganization, organizationId);
   OrganizationsUtils.patchOrganizationWithCurrentUserPermissions(data, userEmail, permissionsMapping);
 
-  yield put(
-    setCurrentOrganization({
-      status: STATUSES.SUCCESS,
-      organization: data,
-    })
-  );
+  yield put(setCurrentOrganization({ status: STATUSES.SUCCESS, organization: data }));
 }
 
 function* watchGetOrganizationById() {

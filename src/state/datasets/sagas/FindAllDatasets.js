@@ -26,42 +26,29 @@ const keepOnlyReadableDatasets = (datasets) =>
       dataset.security.currentUserPermissions?.includes(ACL_PERMISSIONS.DATASET.READ)
   );
 
-export function* fetchAllDatasetsData(organizationId) {
+export function* fetchAllDatasetsData(organizationId, workspaceId) {
   try {
     yield put(loadDatasets());
     const userEmail = yield select(getUserEmail);
     const page = 0;
     const pageSize = 99999;
-    const { data } = yield call(Api.Datasets.findAllDatasets, organizationId, page, pageSize);
+    const { data } = yield call(Api.Datasets.listDatasets, organizationId, workspaceId, page, pageSize);
 
     data.forEach((dataset) =>
       DatasetsUtils.patchDatasetWithCurrentUserPermissions(dataset, userEmail, DATASET_PERMISSIONS_MAPPING)
     );
     const datasets = keepOnlyReadableDatasets(data);
 
-    yield put(
-      setAllDatasets({
-        list: datasets,
-        status: STATUSES.SUCCESS,
-      })
-    );
+    yield put(setAllDatasets({ list: datasets, status: STATUSES.SUCCESS }));
 
     if (datasets?.length > 0) {
-      yield put(
-        selectDataset({
-          selectedDatasetId: null,
-        })
-      );
+      yield put(selectDataset({ selectedDatasetId: null }));
       const datasetsToUpdate = data.filter(
         (dataset) => dataset.main === true && dataset.ingestionStatus === INGESTION_STATUS.PENDING
       );
 
       for (const dataset of datasetsToUpdate) {
-        yield put({
-          type: DATASET_ACTIONS_KEY.START_TWINGRAPH_STATUS_POLLING,
-          datasetId: dataset.id,
-          organizationId,
-        });
+        yield put({ type: DATASET_ACTIONS_KEY.START_TWINGRAPH_STATUS_POLLING, datasetId: dataset.id, organizationId });
       }
     }
   } catch (error) {

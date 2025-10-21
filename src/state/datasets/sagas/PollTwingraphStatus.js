@@ -23,26 +23,19 @@ export function* pollTwingraphStatus(action) {
   yield delay(POLLING_START_DELAY);
   try {
     do {
-      const { data: newStatus } = yield call(Api.Datasets.getDatasetTwingraphStatus, organizationId, datasetId);
+      // FIXME: twingraphs no longer exist, replace by new dataset query mechanism
+      const newStatus = INGESTION_STATUS.ERROR;
+      // const { data: newStatus } = yield call(Api.Datasets.getDatasetTwingraphStatus, organizationId, datasetId);
+
       if ([INGESTION_STATUS.SUCCESS, INGESTION_STATUS.ERROR, INGESTION_STATUS.UNKNOWN].includes(newStatus)) {
         twingraphStatus = newStatus;
         const datasetData = { ingestionStatus: newStatus };
         if (newStatus === INGESTION_STATUS.SUCCESS) datasetData.twincacheStatus = TWINCACHE_STATUS.FULL;
-        yield put(
-          updateDataset({
-            datasetId,
-            datasetData,
-          })
-        );
+        yield put(updateDataset({ datasetId, datasetData }));
 
         if (newStatus === INGESTION_STATUS.SUCCESS) {
           const workspace = yield select(getWorkspace);
-          yield put(
-            resetQueriesResults({
-              datasetId,
-              workspace,
-            })
-          );
+          yield put(resetQueriesResults({ datasetId, workspace }));
         }
       } else {
         yield delay(TWINGRAPH_STATUS_POLLING_DELAY);

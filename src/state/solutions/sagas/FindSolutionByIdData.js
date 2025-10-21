@@ -12,7 +12,7 @@ import { setCurrentSolution } from '../reducers';
 
 export function* fetchSolutionByIdData(organizationId, solutionId) {
   try {
-    const { data } = yield call(Api.Solutions.findSolutionById, organizationId, solutionId);
+    const { data } = yield call(Api.Solutions.getSolution, organizationId, solutionId);
     SolutionsUtils.castMinMaxDefaultValuesInSolution(data);
     SolutionsUtils.patchSolutionIfLocalConfigExists(data);
     ConfigUtils.checkUnknownKeysInConfig(SolutionSchema, data);
@@ -23,12 +23,7 @@ export function* fetchSolutionByIdData(organizationId, solutionId) {
     SolutionsUtils.addRunTemplatesParametersIdsDict(data);
     SolutionsUtils.addTranslationLabels(data);
 
-    yield put(
-      setCurrentSolution({
-        status: STATUSES.SUCCESS,
-        solution: data,
-      })
-    );
+    yield put(setCurrentSolution({ status: STATUSES.SUCCESS, solution: data }));
   } catch (error) {
     console.error(error);
     yield put(
@@ -37,12 +32,7 @@ export function* fetchSolutionByIdData(organizationId, solutionId) {
         errorMessage: t('commoncomponents.banner.', "You don't have permission to access this solution."),
       })
     );
-    yield put(
-      setCurrentSolution({
-        status: STATUSES.ERROR,
-        solution: null,
-      })
-    );
+    yield put(setCurrentSolution({ status: STATUSES.ERROR, solution: null }));
   }
 }
 

@@ -14,7 +14,10 @@ export function* refreshDataset(action) {
 
   try {
     const organizationId = action.organizationId;
-    const { data: refreshData } = yield call(Api.Datasets.refreshDataset, organizationId, datasetId);
+    // FIXME: refresh dataset no longer exist, remove this feature
+    // const { data: refreshData } = yield call(Api.Datasets.refreshDataset, organizationId, datasetId);
+    const refreshData = {};
+
     const datasetListData = yield select(getDatasetListData);
     const dataset = datasetListData.find((dataset) => dataset.id === datasetId);
 
@@ -25,11 +28,7 @@ export function* refreshDataset(action) {
       })
     );
 
-    yield put({
-      type: DATASET_ACTIONS_KEY.START_TWINGRAPH_STATUS_POLLING,
-      datasetId,
-      organizationId,
-    });
+    yield put({ type: DATASET_ACTIONS_KEY.START_TWINGRAPH_STATUS_POLLING, datasetId, organizationId });
   } catch (error) {
     console.error(error);
     yield put(
