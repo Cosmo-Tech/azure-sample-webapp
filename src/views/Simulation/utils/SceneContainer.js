@@ -107,6 +107,8 @@ export class SceneContainer extends Container {
   setZoom(zoom) {
     this.scale.set(zoom);
     this.zoom = zoom;
+
+    this.emit('zoomChanged', this.zoom);
   }
 
   translateTo(x, y, zoom = this.zoom) {

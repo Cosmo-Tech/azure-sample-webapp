@@ -1,28 +1,30 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/styles';
 import * as d3 from 'd3';
+import throttle from 'lodash.throttle';
 import * as PIXI from 'pixi.js';
+import { useSimulationViewContext } from '../../SimulationViewContext';
 import { createApp, initMapApp, destroyApp, generateMap } from '../../utils/pixiUtils';
-import { ensureStockNode, removeStockNode } from '../PixiComponents/components/pixiNode';
-import { ensureTransportEdge, removeTransportEdge } from '../PixiComponents/components/pixiTransport';
+import { updateClusters } from '../PixiComponents/components/pixiNode';
 import { IncidentChip } from './components/IncidentChip';
 
 const MapView = ({ graph }) => {
   const theme = useTheme();
   const mapCanvasRef = useRef(null);
   const mapAppRef = useRef(null);
-  // eslint-disable-next-line no-unused-vars
-  const [hoveredIncident, setHoveredIncident] = useState({
+  const mapContainerRef = useRef(null);
+  const layersRef = useRef({ links: null, nodes: null });
+  const hoveredIncident = {
     visible: false,
     position: { x: 0, y: 0 },
     data: { bottlenecks: 0, shortages: 0 },
-  });
-  const mapContainerRef = useRef(null);
-  const layersRef = useRef({ links: null, nodes: null });
+  };
+  const { setSelectedMapFilters } = useSimulationViewContext();
 
+  // --- INIT MAP ---
   useEffect(() => {
     const app = (mapAppRef.current = createApp());
 
@@ -49,14 +51,16 @@ const MapView = ({ graph }) => {
         app.stage.addChild(linksLayer);
         app.stage.addChild(nodesLayer);
       }
+
       layersRef.current = { links: linksLayer, nodes: nodesLayer };
     })();
+
+    setSelectedMapFilters([]);
 
     return () => {
       if (mapAppRef.current) destroyApp(mapAppRef.current);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [theme]);
+  }, [theme, setSelectedMapFilters]);
 
   const projection = useMemo(() => {
     const r = mapAppRef.current?.renderer;
@@ -82,7 +86,6 @@ const MapView = ({ graph }) => {
     });
 
     const nodeById = new Map(nodes.map((n) => [String(n.id), n]));
-
     const links = (graph.links ?? []).map((l) => {
       const srcId = typeof l.source === 'object' ? (l.source?.id ?? l.source) : l.source;
       const tgtId = typeof l.target === 'object' ? (l.target?.id ?? l.target) : l.target;
@@ -91,7 +94,6 @@ const MapView = ({ graph }) => {
       return { ...l, __s, __t };
     });
 
-    // Debug
     const nodesWithXY = nodes.filter((n) => Number.isFinite(n.x) && Number.isFinite(n.y));
     const linksReady = links.filter(
       (l) =>
@@ -108,58 +110,33 @@ const MapView = ({ graph }) => {
 
   useEffect(() => {
     if (!prepared) return;
-
     const app = mapAppRef.current;
-    const { linksLayer, nodesLayer } = {
-      linksLayer: layersRef.current?.links,
-      nodesLayer: layersRef.current?.nodes,
-    };
-    if (!app || !linksLayer || !nodesLayer) return;
+    if (!app) return;
+
+    const runClusters = () =>
+      updateClusters({
+        app,
+        mapContainer: mapContainerRef.current,
+        prepared,
+        layersRef,
+      });
+
+    runClusters();
+
+    const throttled = throttle(() => runClusters(), 80, {
+      leading: true,
+      trailing: true,
+    });
+    app.ticker?.add(throttled);
 
     const mapContainer = mapContainerRef.current;
-    const worldScale = (mapContainer && mapContainer.scale && mapContainer.scale.x) || app.stage?.scale?.x || 1;
-    const pixelRatio = app.renderer?.resolution ?? window.devicePixelRatio ?? 1;
+    const handleWheel = () => throttled();
+    mapContainer?.on('wheel', handleWheel);
 
-    const liveNodeIds = new Set();
-    for (const n of prepared.nodesWithXY) {
-      const { update } = ensureStockNode(nodesLayer, n.id, app, null);
-      update({
-        x: n.x,
-        y: n.y,
-        worldScale,
-      });
-      liveNodeIds.add(String(n.id));
-    }
-    for (const child of [...nodesLayer.children]) {
-      if (!child.name?.startsWith('node-')) continue;
-      const id = child.name.slice('node-'.length);
-      if (!liveNodeIds.has(id)) removeStockNode(nodesLayer, id);
-    }
-
-    const liveEdgeIds = new Set();
-    for (const l of prepared.linksReady) {
-      const edgeId = String(l.id ?? `${l.__s.id}→${l.__t.id}`);
-      const { update } = ensureTransportEdge(linksLayer, edgeId);
-      update({
-        src: { x: l.__s.x, y: l.__s.y },
-        dst: { x: l.__t.x, y: l.__t.y },
-        worldScale,
-        pixelRatio,
-        curvature: 0.18,
-        widthPx: 0.01 * pixelRatio,
-        color: 0xffffff,
-        alpha: 1.0,
-        dashed: false,
-        arrowShape: 'triangle',
-        arrowAtT: 1,
-      });
-      liveEdgeIds.add(edgeId);
-    }
-    for (const child of [...linksLayer.children]) {
-      if (!child.name?.startsWith('transport-')) continue;
-      const id = child.name.slice('transport-'.length);
-      if (!liveEdgeIds.has(id)) removeTransportEdge(linksLayer, id);
-    }
+    return () => {
+      app.ticker?.remove(throttled);
+      mapContainer?.off('wheel', handleWheel);
+    };
   }, [prepared]);
 
   return (
@@ -167,7 +144,12 @@ const MapView = ({ graph }) => {
       <div
         data-cy="map-view"
         ref={mapCanvasRef}
-        style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}
+        style={{
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+        }}
       />
       <IncidentChip position={hoveredIncident.position} data={hoveredIncident.data} visible={hoveredIncident.visible} />
     </>
