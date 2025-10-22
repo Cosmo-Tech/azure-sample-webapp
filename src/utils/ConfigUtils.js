@@ -36,7 +36,6 @@ const _checkDeprecatedKeysInParameterConfig = (parameter) => {
     'dataCy',
     'dateFormat',
     'defaultFileTypeFilter',
-    'description',
     'enumValues',
     'hasHeader',
     'subType',
