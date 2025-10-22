@@ -24,6 +24,7 @@
     "i18next": "^23.16.8",
     "i18next-browser-languagedetector": "^7.2.2",
     "i18next-http-backend": "^2.7.3",
+    "lodash": "^4.17.21",
     "pixi-filters": "^6.1.2",
     "pixi.js": "^8.9.2",
     "prop-types": "^15.8.1",
