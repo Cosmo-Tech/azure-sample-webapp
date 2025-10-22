@@ -6,6 +6,7 @@ import { CUSTOM_WEB_APP_OPTIONS } from '../../utils/schemas/custom/customWorkspa
 
 const LABELS_DICT = z.array(z.looseObject({}));
 const TWINGRAPH_INDICATOR = z.strictObject({ id: z.string(), name: LABELS_DICT, queryId: z.string() });
+const WORKSPACE_EDIT_INFO_TYPE = z.strictObject({ timestamp: z.number().optional().nullable(), userId: z.string() });
 
 const powerBIFilters = z
   .array(
@@ -165,8 +166,12 @@ export const WorkspaceSchema = z
     version: z.string().optional().nullable(),
     tags: z.array(z.string().optional().nullable()).optional().nullable(),
     ownerId: z.string().optional().nullable(),
+    createInfo: WORKSPACE_EDIT_INFO_TYPE,
+    updateInfo: WORKSPACE_EDIT_INFO_TYPE,
     solution: z
       .strictObject({
+        datasetId: z.string().optional().nullable(),
+        defaultParameterValues: z.looseObject({}).optional().nullable(),
         solutionId: z.string().optional().nullable(),
         runTemplateFilter: z.array(z.string().optional().nullable()).optional().nullable(),
         defaultRunTemplateDataset: z.looseObject({}).optional().nullable(),

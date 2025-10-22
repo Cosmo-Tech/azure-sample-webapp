@@ -7,6 +7,8 @@ import {
   CUSTOM_SCENARIO_PARAMETERS_OPTIONS,
 } from '../../utils/schemas/custom/customSolutionOptions';
 
+const SOLUTION_EDIT_INFO_TYPE = z.strictObject({ timestamp: z.number().optional().nullable(), userId: z.string() });
+
 const basicColumnField = z
   .strictObject({
     field: z.string().optional().nullable(),
@@ -87,11 +89,14 @@ export const SolutionSchema = z
     sdkVersion: z.string().optional().nullable(),
     url: z.string().optional().nullable(),
     tags: z.array(z.string().optional().nullable()).optional().nullable(),
+    createInfo: SOLUTION_EDIT_INFO_TYPE,
+    updateInfo: SOLUTION_EDIT_INFO_TYPE,
     parameters: z
       .array(
         z
           .strictObject({
             id: z.string().optional().nullable(),
+            description: z.string().optional().nullable(),
             labels: z.looseObject({}).optional().nullable(),
             varType: z.string().optional().nullable(),
             defaultValue: z.unknown().optional(),
@@ -110,6 +115,7 @@ export const SolutionSchema = z
         z
           .strictObject({
             id: z.string().optional().nullable(),
+            description: z.string().optional().nullable(),
             labels: z.looseObject({}).optional().nullable(),
             isTable: z.string().optional().nullable(),
             options: parameterGroupOptions,
