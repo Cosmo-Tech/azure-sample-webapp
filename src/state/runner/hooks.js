@@ -34,6 +34,13 @@ export const useRunners = () => {
   return useSelector((state) => state.runner?.simulationRunners.list?.data);
 };
 
+export const useRunner = (runnerId) => {
+  return useSelector((state) => {
+    const runners = state.runner?.simulationRunners.list?.data;
+    return runners && runners.find((runner) => runner.id === runnerId);
+  });
+};
+
 export const useCurrentSimulationRunner = () => {
   return useSelector((state) => state.runner.simulationRunners.current);
 };

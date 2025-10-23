@@ -2,10 +2,7 @@
 // Licensed under the MIT license.
 import { SecurityUtils } from './SecurityUtils';
 
-const getLastRunId = (runner) => {
-  if (runner == null) return;
-  return runner?.lastRunId;
-};
+const getLastRunId = (runner) => runner?.lastRunInfo?.lastRunId;
 
 const getRunIdFromRunnerStart = (runnerStartResponse) => runnerStartResponse?.id;
 

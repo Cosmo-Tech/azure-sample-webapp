@@ -34,7 +34,7 @@ export function* updateDatasetSecurity(action) {
     );
 
     if (dataset.sourceType === 'ETL') {
-      const runnerId = dataset.source?.name;
+      const runnerId = dataset.createInfo?.runnerId;
       try {
         if (runnerId != null) {
           yield call(

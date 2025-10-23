@@ -14,7 +14,7 @@ export function* stopRunner(action) {
   const datasetId = action.datasetId;
   const datasets = yield select(getDatasets);
   const dataset = datasets.find((dataset) => dataset.id === datasetId);
-  const runnerId = dataset?.source?.name;
+  const runnerId = dataset?.createInfo?.runnerId;
 
   try {
     const organizationId = action.organizationId;

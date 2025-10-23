@@ -13,7 +13,10 @@ export function* refreshDataset(action) {
 
   try {
     const organizationId = action.organizationId;
-    // FIXME: refresh dataset no longer exist, remove this feature
+    // FIXME: the "refresh dataset" endpoint  no longer exists, replace the call below by a "/start" call to the dataset
+    // Runner if it exists (for ETLs). The last run id no longer has to be patched in redux, because the Dataset object
+    // does not hold this information anymore in v5. Yet we may have to force an update of the Runner data in redux to
+    // update the value of the last run id
     // const { data: refreshData } = yield call(Api.Datasets.refreshDataset, organizationId, datasetId);
     const refreshData = {};
 
@@ -23,7 +26,7 @@ export function* refreshDataset(action) {
     yield put(
       updateDataset({
         datasetId,
-        datasetData: { ingestionStatus: refreshData.status, source: { ...dataset.source, jobId: refreshData.jobId } },
+        datasetData: { ingestionStatus: refreshData.status, source: { ...dataset.source } },
       })
     );
 
