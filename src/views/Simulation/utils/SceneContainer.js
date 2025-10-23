@@ -212,26 +212,28 @@ export class SceneContainer extends Container {
   checkBounds() {
     const farRight = this.canvasScene.clientWidth * 0.9;
     const farLeft = this.canvasScene.clientWidth * 0.1;
-    const farTop = this.canvasScene.clientHeight * 0.2;
-    const farBottom = this.canvasScene.clientHeight * 0.8;
+    const farTop = this.canvasScene.clientHeight * 0.1;
+    const farBottom = this.canvasScene.clientHeight * 0.9;
 
-    const sceneBounds = this.getBoundsFromCache();
-    const outOfBounds =
-      sceneBounds.minX > farRight ||
-      sceneBounds.maxX < farLeft ||
-      sceneBounds.minY > farBottom ||
-      sceneBounds.maxY < farTop;
+    const bounds = this.getBounds();
+    const deltaX = bounds.minX - this.x;
+    const deltaY = bounds.minY - this.y;
 
+    const isOutOfBoundLeft = Math.round(bounds.maxX) < Math.round(farLeft);
+    const isOutOfBoundRight = Math.round(bounds.minX) > Math.round(farRight);
+    const isOutOfBoundBottom = Math.round(bounds.minY) > Math.round(farBottom);
+    const isOutOfBoundTop = Math.round(bounds.maxY) < Math.round(farTop);
+
+    const outOfBounds = isOutOfBoundLeft || isOutOfBoundRight || isOutOfBoundBottom || isOutOfBoundTop;
     if (!outOfBounds) return;
 
     let returnToX, returnToY;
-
-    if (sceneBounds.minX > farRight) returnToX = farRight;
-    else if (sceneBounds.maxX < farLeft) returnToX = farLeft - sceneBounds.width;
+    if (isOutOfBoundRight) returnToX = farRight - deltaX;
+    else if (isOutOfBoundLeft) returnToX = farLeft - (this.width + deltaX);
     else returnToX = this.x;
 
-    if (sceneBounds.minY > farBottom) returnToY = farBottom;
-    else if (sceneBounds.maxY < farTop) returnToY = farTop - sceneBounds.height;
+    if (isOutOfBoundBottom) returnToY = farBottom - deltaY;
+    else if (isOutOfBoundTop) returnToY = farTop - (this.height + deltaY);
     else returnToY = this.y;
 
     this.translateTo(returnToX, returnToY);
