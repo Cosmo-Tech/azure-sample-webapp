@@ -19,12 +19,9 @@ export const useDatasetMetadata = () => {
 
   const etlDatasetRunTemplateName = useMemo(() => {
     if (currentDataset?.sourceType === 'ETL') {
-      const datasetRelatedRunner = runners.find((runner) => runner.id === currentDataset?.source?.name) || null;
-      return datasetRelatedRunner
-        ? t(
-            TranslationUtils.getRunTemplateTranslationKey(datasetRelatedRunner?.runTemplateId),
-            datasetRelatedRunner?.runTemplateId
-          )
+      const datasetRunner = runners.find((runner) => runner.id === currentDataset?.createInfo?.runnerId) ?? null;
+      return datasetRunner
+        ? t(TranslationUtils.getRunTemplateTranslationKey(datasetRunner?.runTemplateId), datasetRunner?.runTemplateId)
         : '';
     }
   }, [currentDataset, runners, t]);
