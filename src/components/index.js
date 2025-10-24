@@ -10,6 +10,7 @@ export { TechnicalInfoContent } from './TechnicalInfoContent';
 
 export { default as ShareCurrentScenarioButton } from './ShareCurrentScenarioButton';
 export { default as CurrentScenarioPowerBiReport } from './CurrentScenarioPowerBIReport';
+export { default as CurrentScenarioSupersetReport } from './CurrentScenarioSupersetReport';
 export { default as CreateScenarioButton } from './CreateScenarioButton';
 export { default as CurrentScenarioSelector } from './CurrentScenarioSelector';
 export {

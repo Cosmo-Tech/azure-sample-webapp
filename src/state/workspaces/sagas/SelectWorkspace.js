@@ -8,9 +8,16 @@ import { STATUSES } from '../../../services/config/StatusConstants';
 import { WorkspaceSchema } from '../../../services/config/WorkspaceSchema';
 import { ConfigUtils, RunnersUtils, WorkspacesUtils } from '../../../utils';
 import { setApplicationErrorMessage, setApplicationStatus } from '../../app/reducers';
+import { CHART_MODES } from '../../charts/constants';
+import { dispatchGetPowerBIEmbedInfo, dispatchGetSupersetGuestToken } from '../../charts/dispatchers';
+import {
+  clearAllChartsInfo,
+  setChartMode,
+  setSupersetDashboards,
+  setSupersetUrl,
+  setPowerBIReportConfig,
+} from '../../charts/reducers';
 import { fetchAllDatasetsData } from '../../datasets/sagas/FindAllDatasets';
-import { dispatchGetPowerBIEmbedInfo } from '../../powerBi/dispatchers';
-import { clearEmbedInfo } from '../../powerBi/reducers';
 import { RUNNER_ACTIONS_KEY } from '../../runner/constants';
 import { setCurrentSimulationRunner } from '../../runner/reducers';
 import { getAllRunners } from '../../runner/sagas/GetAllRunners';
@@ -61,7 +68,7 @@ export function* selectWorkspace(action) {
   WorkspacesUtils.checkConfigurationPitfalls(selectedWorkspace);
 
   yield put({ type: RUNNER_ACTIONS_KEY.STOP_ALL_RUNNERS_STATUS_POLLING });
-  yield put(clearEmbedInfo());
+  yield put(clearAllChartsInfo());
   yield call(fetchAllDatasetsData, organizationId, selectedWorkspaceId);
 
   const solutionId = yield select(selectSolutionIdFromCurrentWorkspace);
@@ -90,7 +97,21 @@ export function* selectWorkspace(action) {
     )
   );
 
-  yield put(dispatchGetPowerBIEmbedInfo());
+  const chartsConfig = selectedWorkspace?.webApp?.options?.charts;
+
+  if (chartsConfig?.supersetDomain) {
+    yield put(setChartMode(CHART_MODES.SUPERSET));
+    yield put(setSupersetUrl(chartsConfig.supersetDomain));
+    yield put(setSupersetDashboards(chartsConfig));
+    yield put(dispatchGetSupersetGuestToken());
+  } else if (chartsConfig?.workspaceId) {
+    yield put(setChartMode(CHART_MODES.POWERBI));
+    yield put(setPowerBIReportConfig(chartsConfig));
+    yield put(dispatchGetPowerBIEmbedInfo());
+  } else {
+    yield put(setChartMode(null));
+  }
+
   yield put(setApplicationStatus({ status: STATUSES.SUCCESS }));
 }
 

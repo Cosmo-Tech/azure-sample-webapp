@@ -1,8 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
+import { usePowerBIReducerStatus } from '../../state/charts/hooks';
 import { useDatasetsReducerStatus } from '../../state/datasets/hooks';
 import { useOrganization } from '../../state/organizations/hooks';
-import { usePowerBIReducerStatus } from '../../state/powerBi/hooks';
 import { useRunnersReducerStatus } from '../../state/runner/hooks';
 import { useSolution } from '../../state/solutions/hooks';
 import { useWorkspacesReducerStatus, useWorkspace, useWorkspaceData } from '../../state/workspaces/hooks';
