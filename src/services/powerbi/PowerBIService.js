@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { Auth } from '@cosmotech/core';
-import { GET_EMBED_INFO_URL } from '../../state/powerBi/constants';
+import { GET_EMBED_INFO_URL } from '../../state/charts/constants';
 import { clientApi, getAuthenticationHeaders } from '../ClientApi';
 import ConfigService from '../ConfigService';
 import { POWER_BI_API_DEFAULT_SCOPE } from '../config/auth';
