@@ -82,4 +82,30 @@ function addSplitChunks(config) {
   return config;
 }
 
-module.exports = override(addCspHtmlWebpackPlugin, addFallback, addSplitChunks);
+/**
+ * Override CRA's internal sass-loader to use the latest version
+ */
+function overrideSassLoader(config) {
+  const oneOfRule = config.module.rules.find((rule) => Array.isArray(rule.oneOf));
+
+  if (!oneOfRule) return config;
+
+  oneOfRule.oneOf.forEach((rule) => {
+    if (rule.use && rule.use.some((u) => u.loader && u.loader.includes('sass-loader'))) {
+      rule.use.forEach((u) => {
+        if (u.loader && u.loader.includes('sass-loader')) {
+          u.loader = require.resolve('sass-loader');
+          u.options = {
+            ...u.options,
+            implementation: require('sass'),
+            api: 'modern',
+          };
+        }
+      });
+    }
+  });
+
+  return config;
+}
+
+module.exports = override(addCspHtmlWebpackPlugin, addFallback, addSplitChunks, overrideSassLoader);
