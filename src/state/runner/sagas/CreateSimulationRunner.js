@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 import { t } from 'i18next';
 import { call, put, select, takeEvery } from 'redux-saga/effects';
-import { AppInsights } from '../../../services/AppInsights';
 import { Api } from '../../../services/config/Api';
 import { RUNNER_RUN_STATE } from '../../../services/config/ApiConstants';
 import { STATUSES } from '../../../services/config/StatusConstants';
@@ -11,14 +10,12 @@ import { setApplicationErrorMessage } from '../../app/reducers';
 import { RUNNER_ACTIONS_KEY } from '../constants';
 import { addSimulationRunner, setCurrentSimulationRunner } from '../reducers';
 
-const appInsights = AppInsights.getInstance();
 const getUserEmail = (state) => state.auth.userEmail;
 const getUserId = (state) => state.auth.userId;
 const getRunnerPermissionsMapping = (state) => state.application.permissionsMapping.runner;
 
 export function* createSimulationRunner(action) {
   try {
-    appInsights.trackScenarioCreation();
     const userEmail = yield select(getUserEmail);
     const userId = yield select(getUserId);
     const runnersPermissionsMapping = yield select(getRunnerPermissionsMapping);

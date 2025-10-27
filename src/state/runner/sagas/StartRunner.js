@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 import { t } from 'i18next';
 import { call, put, select, takeEvery } from 'redux-saga/effects';
-import { AppInsights } from '../../../services/AppInsights';
 import { Api } from '../../../services/config/Api';
 import { RUNNER_RUN_STATE } from '../../../services/config/ApiConstants';
 import { STATUSES } from '../../../services/config/StatusConstants';
@@ -11,7 +10,6 @@ import { setApplicationErrorMessage } from '../../app/reducers';
 import { RUNNER_ACTIONS_KEY } from '../constants';
 import { addRun, updateSimulationRunner } from '../reducers';
 
-const appInsights = AppInsights.getInstance();
 const getRunners = (state) => state.runner?.list?.data;
 
 export function* startRunner(action) {
@@ -19,8 +17,6 @@ export function* startRunner(action) {
   const workspaceId = action.workspaceId;
   const runnerId = action.runnerId;
   try {
-    appInsights.trackScenarioLaunch();
-
     const runners = yield select(getRunners);
     const runner = runners?.find((item) => item.id === runnerId);
     if (runner === undefined) console.warn(`Couldn't retrieve scenario with id "${runnerId}"`);

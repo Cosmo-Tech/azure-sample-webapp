@@ -3,7 +3,6 @@
 import { t } from 'i18next';
 import { PathUtils } from '@cosmotech/core';
 import { TABLE_DATA_STATUS, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
-import { AppInsights } from '../services/AppInsights';
 import { DATASET_ID_VARTYPE, VALID_MIME_TYPES } from '../services/config/ApiConstants';
 import DatasetService from '../services/dataset/DatasetService';
 import WorkspaceService from '../services/workspace/WorkspaceService';
@@ -14,7 +13,6 @@ import { DatasetsUtils } from './DatasetsUtils';
 import { SecurityUtils } from './SecurityUtils';
 import { ScenarioParametersUtils } from './scenarioParameters/ScenarioParametersUtils';
 
-const appInsights = AppInsights.getInstance();
 const _applyUploadPreprocessToContent = (clientFileDescriptor) => {
   if (clientFileDescriptor?.uploadPreprocess?.content) {
     return clientFileDescriptor.uploadPreprocess.content(clientFileDescriptor);
@@ -238,7 +236,6 @@ const prepareToUpload = (event, setClientFileDescriptor, parameterData, options)
   event.target.value = null;
   if (file == null) return;
 
-  appInsights.trackUpload();
   setClientFileDescriptor({
     name: _forgeNameOfUploadedFile(file, parameterData, options?.defaultFileTypeFilter),
     file,
@@ -261,7 +258,6 @@ const downloadFile = async (organizationId, workspaceId, datasetId, setClientFil
       await WorkspaceService.downloadWorkspaceFile(organizationId, workspaceId, datasetLocation);
       setClientFileDescriptorStatus(UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD);
     }
-    appInsights.trackDownload();
   } catch (error) {
     console.error(error);
     applicationStore.dispatch(

@@ -10,7 +10,6 @@ import { useApp } from './AppHook';
 import AppRoutes from './AppRoutes';
 import './assets/scss/index.scss';
 import { SessionTimeoutDialog } from './components/SessionTimeoutDialog/SessionTimeoutDialog';
-import './services/AppInsights';
 import { DEFAULT_THEME_MODE, SESSION_INACTIVITY_TIMEOUT } from './services/config/FunctionalConstants';
 import { STATUSES } from './services/config/StatusConstants';
 import './services/config/auth';

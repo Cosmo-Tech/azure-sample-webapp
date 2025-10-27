@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import applicationInsights from '../config/ApplicationInsights.json';
 import globalConfiguration from '../config/GlobalConfiguration.json';
 import helpMenuConfiguration from '../config/HelpMenuConfiguration.json';
 
@@ -8,7 +7,7 @@ const _initialized = false;
 const parametersValues = {};
 
 const loadParametersValues = () => {
-  const configsToLoad = [applicationInsights, globalConfiguration, helpMenuConfiguration];
+  const configsToLoad = [globalConfiguration, helpMenuConfiguration];
 
   configsToLoad.forEach((config) => {
     Object.entries(config).forEach(([parameterName, parameterValue]) => {
