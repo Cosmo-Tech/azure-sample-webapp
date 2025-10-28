@@ -731,7 +731,7 @@
         "title": "Informations techniques",
         "details": "Détails",
         "webAppVersion": "Version de la webapp :",
-        "apiVersion": "Version de l'API :",
+        "apiVersion": "Version de l'API Cosmo Tech :",
         "repositoryName": "Nom du dépôt de registre de conteneur :",
         "repositoryTag": "Tag du dépôt de registre de conteneur :",
         "simulatorVersion": "Version du simulateur :",

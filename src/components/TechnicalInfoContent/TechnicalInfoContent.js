@@ -4,6 +4,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, Grid, List, ListItem, Typography } from '@mui/material';
 import ConfigService from '../../services/ConfigService';
+import { useApplicationApiVersion } from '../../state/app/hooks';
 import { useSolutionData } from '../../state/solutions/hooks';
 import { useWorkspaceData } from '../../state/workspaces/hooks';
 
@@ -13,26 +14,33 @@ export const TechnicalInfoContent = () => {
   const solutionName = solutionData?.name ?? '';
   const solutionDescription = solutionData?.description ?? '';
   const currentWorkspace = useWorkspaceData();
+  const apiVersion = useApplicationApiVersion();
 
   const technicalInformation = [
     {
       id: 'webappVersion',
-      label: t('genericcomponent.dialog.technicalInfo.webAppVersion', 'Webapp version'),
+      label: t('genericcomponent.dialog.technicalInfo.webAppVersion', 'Webapp version:'),
       content: ConfigService.getParameterValue('APP_VERSION'),
     },
     {
+      id: 'apiVersion',
+      label: t('genericcomponent.dialog.technicalInfo.apiVersion', 'Cosmo Tech API version:'),
+      content: apiVersion.release,
+      subcontent: apiVersion.build,
+    },
+    {
       id: 'registryName',
-      label: t('genericcomponent.dialog.technicalInfo.repositoryName', 'Container registry repository name'),
+      label: t('genericcomponent.dialog.technicalInfo.repositoryName', 'Container registry repository name:'),
       content: solutionData?.repository,
     },
     {
       id: 'registryTag',
-      label: t('genericcomponent.dialog.technicalInfo.repositoryTag', 'Container registry repository tag'),
+      label: t('genericcomponent.dialog.technicalInfo.repositoryTag', 'Container registry repository tag:'),
       content: solutionData?.version,
     },
     {
       id: 'SDKVersion',
-      label: t('genericcomponent.dialog.technicalInfo.sdkVersion', 'SDK version'),
+      label: t('genericcomponent.dialog.technicalInfo.sdkVersion', 'SDK version:'),
       content: solutionData?.sdkVersion,
     },
   ];
@@ -74,12 +82,19 @@ export const TechnicalInfoContent = () => {
             >
               <Typography component="span">{`${infoItem.label} `}</Typography>
               <Typography component="span" sx={{ fontWeight: 'bold' }}>
-                {infoItem.content ?? (
+                {infoItem.content != null ? (
+                  `${infoItem.content} `
+                ) : (
                   <>
                     <i>{t('genericcomponent.dialog.technicalInfo.notAvailableEntry')}</i> {`(${infoItem.content})`}
                   </>
                 )}
               </Typography>
+              {infoItem.subcontent && (
+                <Typography component="span" sx={{ fontStyle: 'italic' }}>
+                  {`(${infoItem.subcontent})`}
+                </Typography>
+              )}
             </ListItem>
           ))}
         </List>

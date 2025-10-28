@@ -24,7 +24,8 @@ const App = () => {
   const { t } = useTranslation();
   document.title = t('commoncomponents.text.application.title', 'Cosmo Tech Web Application Sample');
 
-  const [applicationStatus, authStatus, isDarkTheme, getAllInitialData, setApplicationStatus, logIn, logOut] = useApp();
+  const { applicationStatus, authStatus, isDarkTheme, getAllInitialData, setApplicationStatus, logIn, logOut } =
+    useApp();
 
   const theme = React.useMemo(() => getTheme(isDarkTheme), [isDarkTheme]);
 

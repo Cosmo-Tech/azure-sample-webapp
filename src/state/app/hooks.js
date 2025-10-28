@@ -10,6 +10,7 @@ import {
   setApplicationErrorMessage,
   setApplicationStatus,
   setApplicationTheme,
+  setApplicationApiVersion,
 } from './reducers';
 
 export const useApplicationStatus = () => {
@@ -44,6 +45,10 @@ export const useApplicationPermissionsMapping = () => {
   return useSelector((state) => state.application.permissionsMapping);
 };
 
+export const useApplicationApiVersion = () => {
+  return useSelector((state) => state.application.apiVersion);
+};
+
 export const useGetAllInitialData = () => {
   const dispatch = useDispatch();
   return useCallback(() => dispatch(dispatchGetAllInitialData()), [dispatch]);
@@ -74,4 +79,9 @@ export const useClearApplicationErrorMessage = () => {
 export const useSetApplicationTheme = () => {
   const dispatch = useDispatch();
   return useCallback((payload) => dispatch(setApplicationTheme(payload)), [dispatch]);
+};
+
+export const useSetApplicationApiVersion = () => {
+  const dispatch = useDispatch();
+  return useCallback((payload) => dispatch(setApplicationApiVersion(payload)), [dispatch]);
 };

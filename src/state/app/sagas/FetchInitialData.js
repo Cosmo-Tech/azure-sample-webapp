@@ -12,7 +12,7 @@ import { fetchOrganizationById } from '../../organizations/sagas/FindOrganizatio
 import { WORKSPACE_ACTIONS_KEY } from '../../workspaces/constants';
 import { getAllWorkspaces } from '../../workspaces/sagas/GetAllWorkspaces';
 import { APPLICATION_ACTIONS_KEY } from '../constants';
-import { setApplicationStatus, setPermissionsMapping } from '../reducers';
+import { setApplicationStatus, setPermissionsMapping, setApplicationApiVersion } from '../reducers';
 
 const ORGANIZATION_ID = ConfigService.getParameterValue('ORGANIZATION_ID');
 
@@ -44,6 +44,15 @@ export function* fetchAllInitialData() {
     } else if (error?.response?.status === 404) {
       errorDetails.detail += '\nPlease make sure you are using at least v2 of Cosmo Tech API';
     }
+    yield put(setApplicationStatus({ status: STATUSES.ERROR, error: errorDetails }));
+    return;
+  }
+
+  try {
+    const { data } = yield call(Api.Meta.about);
+    yield put(setApplicationApiVersion({ apiVersion: data.version }));
+  } catch (error) {
+    const errorDetails = parseError(error);
     yield put(setApplicationStatus({ status: STATUSES.ERROR, error: errorDetails }));
     return;
   }

@@ -7,6 +7,7 @@ import {
   SolutionApiFactory,
   WorkspaceApiFactory,
   OrganizationApiFactory,
+  MetaApiFactory,
 } from '@cosmotech/api-ts';
 import { clientApi } from '../ClientApi';
 import ConfigService from '../ConfigService';
@@ -16,6 +17,7 @@ const defaultBasePath = ConfigService.getParameterValue('DEFAULT_BASE_PATH').rep
 
 export const Api = {
   defaultBasePath,
+  Meta: MetaApiFactory(null, defaultBasePath, clientApi),
   Solutions: SolutionApiFactory(null, defaultBasePath, clientApi),
   Datasets: DatasetApiFactory(null, defaultBasePath, clientApi),
   Runners: RunnerApiFactory(null, defaultBasePath, clientApi),

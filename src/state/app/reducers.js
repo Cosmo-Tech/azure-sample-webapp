@@ -12,6 +12,7 @@ export const applicationInitialState = {
   roles: {},
   permissions: {},
   permissionsMapping: {},
+  apiVersion: {},
 };
 
 const applicationSlice = createSlice({
@@ -61,6 +62,10 @@ const applicationSlice = createSlice({
       const { isDarkTheme } = action.payload;
       state.isDarkTheme = isDarkTheme;
     },
+    setApplicationApiVersion: (state, action) => {
+      const { apiVersion } = action.payload;
+      state.apiVersion = apiVersion;
+    },
   },
 });
 export const {
@@ -69,5 +74,6 @@ export const {
   clearApplicationErrorMessage,
   setApplicationStatus,
   setApplicationTheme,
+  setApplicationApiVersion,
 } = applicationSlice.actions;
 export default applicationSlice.reducer;
