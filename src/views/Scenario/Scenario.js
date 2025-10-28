@@ -1,6 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import CheckIcon from '@mui/icons-material/Check';
@@ -14,15 +14,12 @@ import {
   CurrentScenarioSelector,
 } from '../../components';
 import { useConfirmOnRouteChange, useRedirectionToScenario } from '../../hooks/RouterHooks';
-import { AppInsights } from '../../services/AppInsights';
 import { RUNNER_VALIDATION_STATUS } from '../../services/config/ApiConstants.js';
 import { ACL_PERMISSIONS } from '../../services/config/accessControl';
 import RunnerService from '../../services/runner/RunnerService';
 import { TranslationUtils } from '../../utils';
 import { useScenario } from './ScenarioHook';
 import { ScenarioDashboardCard, BackdropLoadingScenario } from './components';
-
-const appInsights = AppInsights.getInstance();
 
 const STORAGE_SCENARIO_PARAMETERS_ACCORDION_EXPANDED_KEY = 'scenarioParametersAccordionExpanded';
 
@@ -84,10 +81,6 @@ const Scenario = () => {
         'Please save or discard current modifications before selecting another scenario'
       )
     : '';
-
-  useEffect(() => {
-    appInsights.setScenarioData(currentScenarioData);
-  }, [currentScenarioData]);
 
   const resetScenarioValidationStatus = async () => {
     const currentStatus = currentScenarioData.validationStatus;

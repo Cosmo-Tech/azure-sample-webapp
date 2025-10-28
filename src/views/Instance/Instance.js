@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/material/styles';
 import { CytoViz } from '@cosmotech/ui';
 import { CurrentScenarioSelector } from '../../components';
-import { AppInsights } from '../../services/AppInsights';
 import { STATUSES } from '../../services/config/StatusConstants';
 import { InstanceUtils } from '../../utils';
 import { parseError } from '../../utils/ErrorsUtils';
@@ -15,7 +14,6 @@ import { fetchData, processGraphElements } from './data';
 const EXTRA_LAYOUTS = {
   breadthfirst: null,
 };
-const appInsights = AppInsights.getInstance();
 
 const Instance = () => {
   const theme = useTheme();
@@ -42,11 +40,6 @@ const Instance = () => {
   const [cytoscapeStylesheet, setCytoscapeStylesheet] = useState([]);
   const [isLoadingData, setIsLoadingData] = useState(true);
   const [errorBannerMessage, setErrorBannerMessage] = useState(null);
-
-  // TODO: this code may content duplicated code from the Scenario view, refactoring might be needed
-  useEffect(() => {
-    appInsights.setScenarioData(currentScenario.data);
-  }, [currentScenario]);
 
   const noScenario = currentScenario.data === null;
 

@@ -9,7 +9,6 @@
     "@cosmotech/ui": "^11.0.0-dev.2",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@microsoft/applicationinsights-web": "^3.3.9",
     "@mui/icons-material": "^7.3.2",
     "@mui/lab": "7.0.0-beta.17",
     "@mui/material": "^7.3.2",

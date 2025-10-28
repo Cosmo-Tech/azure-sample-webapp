@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 import { t } from 'i18next';
 import { call, put, take, takeEvery, delay, race } from 'redux-saga/effects';
-import { AppInsights } from '../../../services/AppInsights';
 import { Api } from '../../../services/config/Api';
 import { RUNNER_RUN_STATE } from '../../../services/config/ApiConstants';
 import {
@@ -14,8 +13,6 @@ import { STATUSES } from '../../../services/config/StatusConstants';
 import { setApplicationErrorMessage } from '../../app/reducers';
 import { RUNNER_ACTIONS_KEY } from '../constants';
 import { updateRun, updateSimulationRunner } from '../reducers';
-
-const appInsights = AppInsights.getInstance();
 
 function forgeStopPollingAction(runnerId) {
   let actionName = RUNNER_ACTIONS_KEY.STOP_RUNNER_STATUS_POLLING;
@@ -59,8 +56,6 @@ export function* pollRunnerState(action) {
             data,
           })
         );
-        const runDuration = (new Date(data.endTime) - new Date(data.startTime)) / 1000;
-        appInsights.trackScenarioRunDuration(runDuration);
         // Stop the polling for this scenario
         yield put(forgeStopPollingAction(action.runnerId));
       }
