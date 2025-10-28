@@ -5,8 +5,8 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Card, CardContent, Grid, Tab, Tabs } from '@mui/material';
 import { useRedirectFromDisabledView } from '../../hooks/RouterHooks';
-import { useDashboardsViewReportsConfig } from '../../state/powerBi/hooks';
-import { DashboardsPowerBiReport } from './components';
+import { useDashboardsViewReportsConfig } from '../../state/charts/hooks';
+import { DashboardsChartReport } from './components';
 
 const DEFAULT_MISSING_TITLE = 'MISSING_TITLE_IN_LANGUAGE';
 
@@ -81,7 +81,7 @@ function TabPanel(props) {
 
   return (
     <div role="tabpanel" id={`vertical-tabpanel-${index}`} aria-labelledby={`vertical-tab-${index}`} {...other}>
-      <DashboardsPowerBiReport index={index} />
+      <DashboardsChartReport index={index} />
     </div>
   );
 }

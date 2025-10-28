@@ -3,10 +3,10 @@
 import { combineReducers } from 'redux';
 import applicationReducer from './app/reducers';
 import authReducer from './auth/reducers';
+import chartsReducer from './charts/reducers';
 import datasetTwingraphQueriesResultsReducer from './datasetTwingraph/reducers';
 import datasetsReducer from './datasets/reducers';
 import organizationReducer from './organizations/reducers';
-import powerBiReducer from './powerBi/reducers';
 import runnerReducer from './runner/reducers';
 import solutionReducer from './solutions/reducers';
 import workspaceReducer from './workspaces/reducers';
@@ -20,7 +20,7 @@ const rootReducer = combineReducers({
   workspace: workspaceReducer,
   organization: organizationReducer,
   solution: solutionReducer,
-  powerBI: powerBiReducer,
+  charts: chartsReducer,
 });
 
 export default rootReducer;

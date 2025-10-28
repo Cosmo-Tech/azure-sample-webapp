@@ -5,25 +5,36 @@ import { useTranslation } from 'react-i18next';
 import { useDownloadSimulationLogsFile } from '../../hooks/RunnerRunHooks';
 import { STATUSES } from '../../services/config/StatusConstants';
 import { useApplicationTheme } from '../../state/app/hooks';
-import { usePowerBIInfo, usePowerBIReducerStatus } from '../../state/charts/hooks';
+import {
+  useSupersetInfo,
+  useSupersetReducerStatus,
+  useSupersetGuestToken,
+  useSupersetUrl,
+  useCurrentSupersetDashboard,
+} from '../../state/charts/hooks';
 import { useCurrentSimulationRunnerData, useRunners } from '../../state/runner/hooks';
-import { useWorkspaceChartsLogInWithUserCredentials } from '../../state/workspaces/hooks';
 import darkTheme from '../../theme/powerbi/darkTheme.json';
 import lightTheme from '../../theme/powerbi/lightTheme.json';
 import { RunnersUtils } from '../../utils';
-import { getReportLabels } from './labels';
+import { getReportLabels } from '../CurrentScenarioPowerBIReport/labels';
 
-export const useCurrentScenarioPowerBiReport = () => {
+export const useCurrentScenarioSupersetReport = () => {
   const { t, i18n } = useTranslation();
 
   const currentScenarioData = useCurrentSimulationRunnerData();
+
   const scenarios = useRunners();
-  const reports = usePowerBIInfo();
-  const logInWithUserCredentials = useWorkspaceChartsLogInWithUserCredentials();
-  const powerBIReducerStatus = usePowerBIReducerStatus();
+
+  const supersetInfo = useSupersetInfo();
+  const supersetReducerStatus = useSupersetReducerStatus();
+  const guestToken = useSupersetGuestToken();
+  const supersetUrl = useSupersetUrl();
+  const currentDashboard = useCurrentSupersetDashboard();
+
   const downloadLogsFile = useDownloadSimulationLogsFile();
 
-  const isPowerBIReducerLoading = useMemo(() => powerBIReducerStatus === STATUSES.LOADING, [powerBIReducerStatus]);
+  const isSupersetReducerLoading = useMemo(() => supersetReducerStatus === STATUSES.LOADING, [supersetReducerStatus]);
+
   const reportLabels = useMemo(() => getReportLabels(t), [t]);
   const language = useMemo(() => i18n.language, [i18n.language]);
 
@@ -39,15 +50,35 @@ export const useCurrentScenarioPowerBiReport = () => {
   const { isDarkTheme } = useApplicationTheme();
   const theme = useMemo(() => (isDarkTheme ? darkTheme : lightTheme), [isDarkTheme]);
 
+  const report = useMemo(() => {
+    if (!currentDashboard?.dashboardId) {
+      return null;
+    }
+    const reportObj = {
+      id: currentDashboard.dashboardId,
+      uiConfig: currentDashboard.uiConfig || {},
+    };
+    return reportObj;
+  }, [currentDashboard]);
+
+  const options = useMemo(
+    () => ({
+      supersetUrl,
+    }),
+    [supersetUrl]
+  );
+
   return {
     currentScenarioData,
-    isPowerBIReducerLoading,
+    isSupersetReducerLoading,
     visibleScenarios,
     reportLabels,
-    reports,
+    report,
+    guestToken,
+    options,
     language,
     downloadLogsFile,
-    logInWithUserCredentials,
     theme,
+    supersetInfo,
   };
 };

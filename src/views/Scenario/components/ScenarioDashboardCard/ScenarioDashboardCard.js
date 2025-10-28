@@ -6,7 +6,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import WarningAmberOutlinedIcon from '@mui/icons-material/WarningAmberOutlined';
 import { Accordion, AccordionSummary, AccordionDetails, Button, Card, Grid, Paper, Typography } from '@mui/material';
-import ScenarioPowerBiReport from '../ScenarioPowerBiReport';
+import ScenarioChartReport from '../ScenarioChartReport';
 import { useScenarioDashboardCard } from './ScenarioDashboardCardHook';
 
 const STORAGE_DASHBOARDS_ACCORDION_EXPANDED_KEY = 'dashboardsAccordionExpanded';
@@ -84,7 +84,7 @@ const ScenarioDashboardCard = () => {
           </Grid>
         </AccordionSummary>
         <AccordionDetails sx={{ pl: '0px', width: '100%' }}>
-          <ScenarioPowerBiReport />
+          <ScenarioChartReport />
         </AccordionDetails>
       </Accordion>
     </Card>

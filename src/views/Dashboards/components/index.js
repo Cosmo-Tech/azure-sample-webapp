@@ -1,1 +1,1 @@
-export { default as DashboardsPowerBiReport } from './DashboardsPowerBiReport';
+export { default as DashboardsChartReport } from './DashboardsChartReport';

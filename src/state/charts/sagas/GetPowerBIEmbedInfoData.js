@@ -5,8 +5,8 @@ import { POWER_BI_INFO_POLLING_DELAY } from '../../../services/config/Functional
 import { STATUSES } from '../../../services/config/StatusConstants';
 import { PowerBIService } from '../../../services/powerbi/PowerBIService';
 import { PowerBIUtils } from '../../../utils';
-import { POWER_BI_ACTIONS_KEY } from '../constants';
-import { setEmbedInfo } from '../reducers';
+import { CHART_ACTIONS_KEY } from '../constants';
+import { setPowerBIEmbedInfo } from '../reducers';
 
 const IS_POWERBI_POLLING_DISABLED = !!process.env.REACT_APP_NO_POWERBI_POLLING;
 const noAccess = {
@@ -20,7 +20,6 @@ const getLogInWithUserCredentials = (state) =>
 const getPowerBIWorkspaceId = (state) => state?.workspace?.current?.data?.webApp?.options?.charts?.workspaceId;
 const getPowerBIChartsConfig = (state) => state?.workspace?.current?.data?.webApp?.options?.charts;
 
-// generators function
 export function* getPowerBIEmbedInfoSaga() {
   const logInWithUserCredentials = yield select(getLogInWithUserCredentials);
   const powerBIWorkspaceId = yield select(getPowerBIWorkspaceId);
@@ -33,7 +32,7 @@ export function* getPowerBIEmbedInfoSaga() {
         'in [workspace].webApp.options.charts'
     );
     yield put(
-      setEmbedInfo({
+      setPowerBIEmbedInfo({
         data: noAccess,
         status: STATUSES.DISABLED,
       })
@@ -49,7 +48,7 @@ export function* getPowerBIEmbedInfoSaga() {
     );
   }
 
-  yield put(setEmbedInfo({ status: STATUSES.LOADING }));
+  yield put(setPowerBIEmbedInfo({ status: STATUSES.LOADING }));
 
   let tokenDelay;
   do {
@@ -60,7 +59,7 @@ export function* getPowerBIEmbedInfoSaga() {
 
       if (error) {
         yield put(
-          setEmbedInfo({
+          setPowerBIEmbedInfo({
             data: noAccess,
             error,
             status: STATUSES.ERROR,
@@ -70,7 +69,7 @@ export function* getPowerBIEmbedInfoSaga() {
       } else {
         const accesses = response?.accesses;
         yield put(
-          setEmbedInfo({
+          setPowerBIEmbedInfo({
             data: accesses,
             error: null,
             status: STATUSES.SUCCESS,
@@ -84,10 +83,9 @@ export function* getPowerBIEmbedInfoSaga() {
         }
       }
     } catch (error) {
-      console.error("Can't retrieve PowerBI token for embed reports");
       console.error(error);
       yield put(
-        setEmbedInfo({
+        setPowerBIEmbedInfo({
           data: noAccess,
           error,
           status: STATUSES.ERROR,
@@ -101,9 +99,7 @@ export function* getPowerBIEmbedInfoSaga() {
   } while (tokenDelay);
 }
 
-// generators function
-// Here is a watcher that takes the last action dispatched named GET_EMBED_INFO and binds getPowerBIEmbedInfo saga to it
 function* getPowerBIEmbedInfoData() {
-  yield takeLatest(POWER_BI_ACTIONS_KEY.GET_EMBED_INFO, getPowerBIEmbedInfoSaga);
+  yield takeLatest(CHART_ACTIONS_KEY.GET_EMBED_INFO, getPowerBIEmbedInfoSaga);
 }
 export default getPowerBIEmbedInfoData;
