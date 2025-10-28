@@ -14,12 +14,12 @@ on:
         type: string
   push:
     # List of branches that will trigger the workflow
-    branches: ['feature/onprem_api_v4']
+    branches: ['main']
     tags:
       - '*'
 
 env:
-  LATEST_BRANCH: 'feature/onprem_api_v4'
+  LATEST_BRANCH: 'main'
   DOCKER_BUILDKIT: 1
   # Change the Container Registry information below if necessary
   REGISTRY: ghcr.io
@@ -44,7 +44,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v5
         with:
-          node-version: 18
+          node-version: 24
       - name: Log in to the Container registry
         uses: docker/login-action@v3
         with:
