@@ -3,7 +3,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useIsDarkTheme } from '../../state/hooks/ApplicationHooks';
 import { DEFAULT_SETTINGS } from './constants/settings';
-import { SCENARIO_DATA as SCENARIO3 } from './data/output-sr-mgmo6vqg7e2l';
+import { SCENARIO_DATA as SCENARIO4 } from './data/output-sr-mgmo6vqg7e2l';
+import { SCENARIO_DATA as SCENARIO3 } from './data/output-sr-n41qkqn7pz7k';
 import { SCENARIO_DATA as SCENARIO2 } from './data/output-sr-n59xj8roqgw';
 import { SCENARIO_DATA as SCENARIO1 } from './data/output-sr-pm7247w4d5n';
 import { getGraphFromInstance, resetGraphHighlighting, resetGraphLayout as resetLayout } from './utils/graphUtils';
@@ -18,13 +19,15 @@ export const DEFAULT_UPDATE_STATE = {
 export const FAKE_SCENARIOS_METADATA = [
   { id: 's-001', name: 'Inventory Optimization 1', lastRunId: 'sr-pm7247w4d5n', parentId: null },
   { id: 's-002', name: 'Inventory Optimization 2', lastRunId: 'sr-n59xj8roqgw', parentId: 's-001' },
-  { id: 's-003', name: 'Maxi Demo', lastRunId: 'sr-mgmo6vqg7e2l', parentId: null },
+  { id: 's-003', name: 'Inventory Optimization 3', lastRunId: 'sr-n41qkqn7pz7k', parentId: 's-001' },
+  { id: 's-004', name: 'Maxi Demo', lastRunId: 'sr-mgmo6vqg7e2l', parentId: null },
 ];
 
 export const FAKE_SCENARIOS_DATA = {
   [FAKE_SCENARIOS_METADATA[0].lastRunId]: SCENARIO1,
   [FAKE_SCENARIOS_METADATA[1].lastRunId]: SCENARIO2,
   [FAKE_SCENARIOS_METADATA[2].lastRunId]: SCENARIO3,
+  [FAKE_SCENARIOS_METADATA[3].lastRunId]: SCENARIO4,
 };
 
 export const useSimulationView = () => {
