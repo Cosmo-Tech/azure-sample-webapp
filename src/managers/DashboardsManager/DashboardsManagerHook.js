@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useSetPowerBIReportsConfig } from '../../state/powerBi/hooks';
+import { useSetPowerBIReportsConfig } from '../../state/charts/hooks';
 import { useWorkspaceCharts } from '../../state/workspaces/hooks';
 import { PowerBIUtils } from '../../utils';
 

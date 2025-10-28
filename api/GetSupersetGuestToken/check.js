@@ -40,10 +40,12 @@ const validateAndGetQueryParameters = (req) => {
 };
 
 const checkDashboardsAreInWorkspace = (workspace, requestedDashboardIds) => {
-  const workspaceDashboardIds = (workspace?.dashboards ?? []).map((dashboard) => dashboard.id);
+  const chartsDashboards = workspace?.webApp?.options?.charts?.dashboards ?? [];
+  const workspaceDashboardIds = chartsDashboards.map((dashboard) => dashboard.id);
   const unauthorizedDashboardIds = requestedDashboardIds.filter(
     (requestedDashboardId) => !workspaceDashboardIds.includes(requestedDashboardId)
   );
+
   if (unauthorizedDashboardIds.length !== 0) {
     const unauthorizedDashboards = '"' + unauthorizedDashboardIds.join('", "') + '"';
     throw new ServiceAccountError(

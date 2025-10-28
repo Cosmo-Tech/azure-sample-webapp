@@ -1,11 +1,11 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { useCurrentScenarioReportConfig } from '../../../../state/powerBi/hooks';
+import { useCurrentScenarioReportConfig } from '../../../../state/charts/hooks';
 import { useCurrentSimulationRunnerData } from '../../../../state/runner/hooks';
 import { useWorkspaceChartsScenarioViewDisplayIframeRatio } from '../../../../state/workspaces/hooks';
 import { useBackdropLoadingScenario } from '../BackdropLoadingScenario/BackdropLoadingScenarioHooks';
 
-export const useScenarioPowerBiReport = () => {
+export const useScenarioChartReport = () => {
   const currentScenarioData = useCurrentSimulationRunnerData();
   const currentScenarioRunTemplateReport = useCurrentScenarioReportConfig();
   const iframeRatio = useWorkspaceChartsScenarioViewDisplayIframeRatio();

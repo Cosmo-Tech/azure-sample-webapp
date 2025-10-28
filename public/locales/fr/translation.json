@@ -283,7 +283,7 @@
             "no": {
               "result": "Pas de résultats pour ce scénario"
             },
-            "chartsLoading": "Demande d'accès à PowerBI...",
+            "chartsLoading": "Demande d'accès aux tableaux de bord...",
             "error": "Une erreur est survenue lors de l'exécution de ce scénario",
             "running": "Scénario en cours d'exécution...",
             "dataInTransfer": "Transfert des résultats en cours...",
@@ -319,7 +319,7 @@
       },
       "errorPlaceholder": {
         "title": "Erreur inattendue",
-        "description": "Une erreur est survenue lors de l'affichage des rapports PowerBI. Si le problème persiste, veuillez contacter un administrateur."
+        "description": "Une erreur est survenue lors de l'affichage des tableaux de bord. Si le problème persiste, veuillez contacter un administrateur."
       }
     },
     "scenariomanager": {

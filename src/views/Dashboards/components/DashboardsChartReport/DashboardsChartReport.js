@@ -4,12 +4,16 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { POWER_BI_FIELD_ENUM } from '@cosmotech/azure';
-import { CurrentScenarioPowerBiReport } from '../../../../components';
-import { useDashboardsPowerBiReport } from './DashboardsPowerBiReportHook';
+import { CurrentScenarioPowerBiReport, CurrentScenarioSupersetReport } from '../../../../components';
+import { CHART_MODES } from '../../../../state/charts/constants';
+import { useChartMode } from '../../../../state/charts/hooks';
+import { useDashboardsChartReport } from './DashboardsChartReportHook';
 
-const DashboardsPowerBiReport = ({ index }) => {
+const DashboardsChartReport = ({ index }) => {
   const { t } = useTranslation();
-  const { reportsConfig, iframeRatio } = useDashboardsPowerBiReport();
+  const { reportsConfig, iframeRatio } = useDashboardsChartReport();
+  const chartMode = useChartMode();
+
   const dynamicFilterValues = reportsConfig[index]?.dynamicFilters?.flatMap((filter) => filter.values);
   const hasFiltersOnSimulationRun = dynamicFilterValues?.some(
     (value) =>
@@ -25,6 +29,17 @@ const DashboardsPowerBiReport = ({ index }) => {
       ),
     },
   };
+
+  if (chartMode === CHART_MODES.SUPERSET) {
+    return (
+      <CurrentScenarioSupersetReport
+        index={index}
+        reportConfiguration={reportsConfig}
+        labels={dashboardsViewSpecificLabels}
+        alwaysShowReports={true}
+      />
+    );
+  }
   return (
     <CurrentScenarioPowerBiReport
       index={index}
@@ -36,8 +51,8 @@ const DashboardsPowerBiReport = ({ index }) => {
   );
 };
 
-DashboardsPowerBiReport.propTypes = {
+DashboardsChartReport.propTypes = {
   index: PropTypes.any.isRequired,
 };
 
-export default DashboardsPowerBiReport;
+export default DashboardsChartReport;

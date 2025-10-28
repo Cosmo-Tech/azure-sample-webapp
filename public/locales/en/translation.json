@@ -283,7 +283,7 @@
             "no": {
               "result": "No dashboards for this scenario."
             },
-            "chartsLoading": "Requesting access to PowerBI...",
+            "chartsLoading": "Requesting access to dashboards...",
             "error": "An error occurred during the scenario run",
             "running": "Scenario run in progress...",
             "dataInTransfer": "Transfer of scenario results in progress...",
@@ -319,7 +319,7 @@
       },
       "errorPlaceholder": {
         "title": "Unexpected error",
-        "description": "Something went wrong when trying to display PowerBI dashboards. If the problem persists, please contact an administrator."
+        "description": "Something went wrong when trying to display dashboards. If the problem persists, please contact an administrator."
       }
     },
     "scenariomanager": {

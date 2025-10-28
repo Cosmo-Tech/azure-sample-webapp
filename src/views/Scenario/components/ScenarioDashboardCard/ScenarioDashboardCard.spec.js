@@ -12,9 +12,9 @@ beforeEach(() => {
 });
 
 // Mind the double arrow functions to mock the default export of a React component
-jest.mock('../ScenarioPowerBiReport', () => {
-  const ScenarioPowerBiReport = () => <div data-testid="scenario-powerbi-report" />;
-  return ScenarioPowerBiReport;
+jest.mock('../ScenarioChartReport/ScenarioChartReport', () => {
+  const ScenarioChartReport = () => <div data-testid="scenario-chart-report" />;
+  return ScenarioChartReport;
 });
 
 jest.mock('./ScenarioDashboardCardHook', () => ({
@@ -32,7 +32,7 @@ const setScenarioDashboardCardHook = (customState = {}) => {
 
 const Accordion = new AccordionTesting({ dataCy: 'dashboards-accordion' });
 const LogsDownloadButton = new ButtonTesting({ dataCy: 'successful-run-logs-download-button' });
-const getDashboard = () => screen.getByTestId('scenario-powerbi-report');
+const getDashboard = () => screen.getByTestId('scenario-chart-report');
 
 describe('test Scenario dashboard accordion', () => {
   it('unfolds and folds scenario dashboard card', async () => {
