@@ -10,9 +10,10 @@ async function downloadLogsFile(organizationId, workspaceId, runnerId, lastRunId
   try {
     const fileName = `${runnerId}_${lastRunId}_logs.txt`;
     const { data } = await Api.RunnerRuns.getRunLogs(organizationId, workspaceId, runnerId, lastRunId);
-    const parsedLogs = data?.logs?.map((logItem) => logItem.line)?.join('\n') ?? '';
 
-    FileBlobUtils.downloadFileFromData(parsedLogs, fileName);
+    const logsText = typeof data === 'string' ? data : String(data ?? '');
+
+    FileBlobUtils.downloadFileFromData(logsText, fileName);
   } catch (error) {
     console.error(error);
     applicationStore.dispatch(
