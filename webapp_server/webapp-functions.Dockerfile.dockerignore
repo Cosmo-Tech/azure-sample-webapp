@@ -2,13 +2,23 @@
 *
 
 # Allow only these files
+!common/check.js
+!common/config.js
+!common/errors.js
+
 !GetEmbedInfo/authentication.js
-!GetEmbedInfo/config.js
 !GetEmbedInfo/embedConfigService.js
-!GetEmbedInfo/errors.js
 !GetEmbedInfo/function.json
 !GetEmbedInfo/index.js
+!GetEmbedInfo/msalConfig.js
 !GetEmbedInfo/utils.js
+
+!GetSupersetGuestToken/check.js
+!GetSupersetGuestToken/cosmoApi.js
+!GetSupersetGuestToken/function.json
+!GetSupersetGuestToken/index.js
+!GetSupersetGuestToken/supersetApi.js
+
 !host.json
 !package.json
 !utils/models/powerbi/embedConfig.js
