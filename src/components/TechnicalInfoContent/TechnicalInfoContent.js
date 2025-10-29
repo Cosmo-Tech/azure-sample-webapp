@@ -52,7 +52,12 @@ export const TechnicalInfoContent = () => {
   const copyInfoToClipboard = () => {
     const notAvailableEntry = t('genericcomponent.dialog.technicalInfo.notAvailableEntry');
     const infoToDisplayList = infoToDisplay
-      .map((infoItem) => `${infoItem.label} ` + (infoItem.content ?? `${notAvailableEntry} (${infoItem.content})`))
+      .map(
+        (infoItem) =>
+          `${infoItem.label} ` +
+          (infoItem.content ?? `${notAvailableEntry} (${infoItem.content})`) +
+          (infoItem.subcontent ? ` (${infoItem.subcontent})` : '')
+      )
       .join('\n');
     navigator.clipboard.writeText(solutionName + '\n' + solutionDescription + '\n' + infoToDisplayList);
   };
