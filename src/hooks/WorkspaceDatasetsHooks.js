@@ -29,6 +29,8 @@ export const useWorkspaceMainDatasets = () => {
   const workspaceDatasets = useWorkspaceDatasets();
 
   return useMemo(() => {
-    return workspaceDatasets?.filter((dataset) => dataset.main === true);
+    return workspaceDatasets;
+    // FIXME: filter will be fixed by PROD-14526
+    // return workspaceDatasets?.filter((dataset) => dataset.main === true);
   }, [workspaceDatasets]);
 };
