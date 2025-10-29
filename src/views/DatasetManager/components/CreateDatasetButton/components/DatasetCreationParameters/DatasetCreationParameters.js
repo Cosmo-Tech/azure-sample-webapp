@@ -249,7 +249,9 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
       {!isDatasetParametersEditionDialog && (
         <Grid sx={{ py: 2 }}>{<Typography sx={{ py: 2 }}>{labels.subtitle}</Typography>}</Grid>
       )}
-      <Grid size={{ xs: 7 }}>{sourceTypeComponent}</Grid>
+      <Grid size={{ xs: 7 }} sx={{ width: '100%' }}>
+        {sourceTypeComponent}
+      </Grid>
       <Grid container size={7} sx={{ px: 2, pt: 3, width: '100%' }}>
         {sourceParameters}
       </Grid>
