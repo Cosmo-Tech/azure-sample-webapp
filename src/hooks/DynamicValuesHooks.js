@@ -10,6 +10,7 @@ import { setApplicationErrorMessage } from '../state/app/reducers';
 import { useFindDatasetById } from '../state/datasets/hooks';
 import { useOrganizationId } from '../state/organizations/hooks';
 import { useCurrentSimulationRunnerParametersValues } from '../state/runner/hooks';
+import { useWorkspaceId } from '../state/workspaces/hooks';
 import { GENERIC_VAR_TYPES_DEFAULT_VALUES } from '../utils/scenarioParameters/generic/DefaultValues';
 
 export const useDynamicValues = (parameter, targetDatasetId) => {
@@ -17,6 +18,7 @@ export const useDynamicValues = (parameter, targetDatasetId) => {
   const { t } = useTranslation();
   const findDatasetById = useFindDatasetById();
   const organizationId = useOrganizationId();
+  const workspaceId = useWorkspaceId();
 
   const isUnmounted = useRef(false);
   useEffect(() => () => (isUnmounted.current = true), []);
@@ -64,7 +66,7 @@ export const useDynamicValues = (parameter, targetDatasetId) => {
       const query = { query: dynamicSourceConfig.query };
       let data;
       try {
-        data = await Api.Datasets.twingraphQuery(organizationId, targetDatasetId, query);
+        data = await Api.Datasets.twingraphQuery(organizationId, workspaceId, targetDatasetId, query);
         const resultKey = dynamicSourceConfig.resultKey;
         const newDynamicValues = data.data.map((item) => ({ key: item[resultKey], value: item[resultKey] }));
         if (newDynamicValues.length > 0 && newDynamicValues[0].key === undefined)
@@ -126,6 +128,7 @@ export const useLoadInitialValueFromDataset = (parameterValue, parameter, target
   const { t } = useTranslation();
   const findDatasetById = useFindDatasetById();
   const organizationId = useOrganizationId();
+  const workspaceId = useWorkspaceId();
   const parametersValues = useCurrentSimulationRunnerParametersValues();
 
   const isUnmounted = useRef(false);
@@ -181,7 +184,7 @@ export const useLoadInitialValueFromDataset = (parameterValue, parameter, target
       const query = { query: dynamicSourceConfig.query };
       let data;
       try {
-        data = await Api.Datasets.twingraphQuery(organizationId, targetDatasetId, query);
+        data = await Api.Datasets.twingraphQuery(organizationId, workspaceId, targetDatasetId, query);
         const resultKey = dynamicSourceConfig.resultKey;
         const newDynamicValue = data.data[0]?.[resultKey];
         if (newDynamicValue === undefined) {

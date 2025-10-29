@@ -35,7 +35,7 @@ export function* createDataset(action) {
       security: { default: 'none', accessControlList: [{ id: userEmail, role: 'admin' }] },
     };
 
-    const { data } = yield call(Api.Datasets.createDataset, organizationId, datasetWithAuthor);
+    const { data } = yield call(Api.Datasets.createDataset, organizationId, workspaceId, datasetWithAuthor);
     DatasetsUtils.patchDatasetWithCurrentUserPermissions(data, userEmail, DATASET_PERMISSIONS_MAPPING);
 
     try {
@@ -72,7 +72,13 @@ export function* createDataset(action) {
     if (!['None', 'File', 'ETL'].includes(dataset.sourceType)) {
       yield put({ type: DATASET_ACTIONS_KEY.REFRESH_DATASET, organizationId, datasetId: data.id });
     } else if (dataset.sourceType === 'File') {
-      const response = yield call(DatasetsUtils.uploadZipWithFetchApi, organizationId, data.id, dataset.file.file);
+      const response = yield call(
+        DatasetsUtils.uploadZipWithFetchApi,
+        organizationId,
+        workspaceId,
+        data.id,
+        dataset.file.file
+      );
       if (response?.ok) {
         yield put({ type: DATASET_ACTIONS_KEY.START_TWINGRAPH_STATUS_POLLING, datasetId: data.id, organizationId });
       } else {

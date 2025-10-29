@@ -27,7 +27,7 @@ function* uploadFileParameter(parameter, organizationId, workspaceId) {
       tags: ['dataset_part'],
       main: false,
     };
-    const { data } = yield call(Api.Datasets.createDataset, organizationId, datasetPart);
+    const { data } = yield call(Api.Datasets.createDataset, organizationId, workspaceId, datasetPart);
 
     const datasetId = data.id;
 
@@ -38,6 +38,7 @@ function* uploadFileParameter(parameter, organizationId, workspaceId) {
     const { data: updatedDataset } = yield call(
       Api.Datasets.updateDataset,
       organizationId,
+      workspaceId,
       datasetId,
       updatedDatasetPart
     );

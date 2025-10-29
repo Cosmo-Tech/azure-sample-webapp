@@ -283,7 +283,7 @@ export const GenericTable = ({
     const resultKey = dynamicValuesConfig?.resultKey;
     let data;
     try {
-      ({ data } = await Api.Datasets.twingraphQuery(organizationId, sourceDatasetId, { query }));
+      ({ data } = await Api.Datasets.twingraphQuery(organizationId, workspaceId, sourceDatasetId, { query }));
     } catch (error) {
       setPlaceholder({
         title: error?.response?.statusText ?? t('genericcomponent.table.labels.queryFailedError', 'Query failed'),

@@ -154,8 +154,9 @@ async function _fetchDataFromAzureFunction(organizationId, workspaceId, scenario
   });
 }
 
-async function _fetchTwingraphDatasetContent(organizationId, datasetId, dataSource) {
-  const sendQuery = async (query) => (await Api.Datasets.twingraphQuery(organizationId, datasetId, { query })).data;
+async function _fetchTwingraphDatasetContent(organizationId, workspaceId, datasetId, dataSource) {
+  const sendQuery = async (query) =>
+    (await Api.Datasets.twingraphQuery(organizationId, workspaceId, datasetId, { query })).data;
   const nodes = {};
   const edges = {};
 
@@ -197,7 +198,7 @@ async function _fetchTwingraphDatasetContent(organizationId, datasetId, dataSour
   return { nodes, edges, nodeCategories, edgeCategories };
 }
 
-async function _fetchDataFromTwingraphDatasets(organizationId, datasets) {
+async function _fetchDataFromTwingraphDatasets(organizationId, workspaceId, datasets) {
   const content = {};
   const addNode = (node, label) => {
     if (content[label] === undefined) content[label] = [];
@@ -222,6 +223,7 @@ async function _fetchDataFromTwingraphDatasets(organizationId, datasets) {
   for (const datasetId of datasets) {
     const { nodes, edges, nodeCategories, edgeCategories } = await _fetchTwingraphDatasetContent(
       organizationId,
+      workspaceId,
       datasetId
     );
     nodeCategories.forEach((nodeCategory) => (nodesKeys[nodeCategory.label] = nodeCategory.keys));
@@ -273,7 +275,7 @@ export async function fetchData(instanceViewConfig, organizationId, workspaceId,
             "Can't fetch dataset content because it is not of type twingraph. Please select a scenario that " +
             'has at least one twingraph dataset.',
         };
-      return _fetchDataFromTwingraphDatasets(organizationId, scenario.datasetList);
+      return _fetchDataFromTwingraphDatasets(organizationId, workspaceId, scenario.datasetList);
     default:
       return {
         error:

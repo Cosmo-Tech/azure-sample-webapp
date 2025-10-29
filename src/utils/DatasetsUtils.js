@@ -53,16 +53,19 @@ const getAllChildrenDatasetsNames = (initialDatasetId, datasets) => {
   return datasetTree;
 };
 
-const uploadZipWithFetchApi = async (organizationId, datasetId, file) => {
+const uploadZipWithFetchApi = async (organizationId, workspaceId, datasetId, file) => {
   try {
     const headers = await getAuthenticationHeaders(true);
     headers['Content-Type'] = 'application/octet-stream';
 
-    return await fetch(`${Api.defaultBasePath}/organizations/${organizationId}/datasets/${datasetId}`, {
-      method: 'POST',
-      headers,
-      body: file,
-    });
+    return await fetch(
+      `${Api.defaultBasePath}/organizations/${organizationId}/workspaces/${workspaceId}/datasets/${datasetId}`,
+      {
+        method: 'POST',
+        headers,
+        body: file,
+      }
+    );
   } catch (error) {
     console.error(error);
     setApplicationErrorMessage({
