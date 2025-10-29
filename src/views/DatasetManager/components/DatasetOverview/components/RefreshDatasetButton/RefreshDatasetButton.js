@@ -46,7 +46,7 @@ export const RefreshDatasetButton = ({ dataset }) => {
     [setIsRefreshConfirmationDialogOpen, datasetRefreshCallback]
   );
   let refreshButton = null;
-  if (dataset?.sourceType === DATASET_SOURCE_TYPE.LOCAL_FILE)
+  if (dataset?.sourceType === DATASET_SOURCE_TYPE.FILE_UPLOAD)
     refreshButton = (
       <ReuploadFileDatasetButton
         confirmAndCallback={confirmAndRefreshDataset}

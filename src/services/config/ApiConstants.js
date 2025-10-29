@@ -50,7 +50,7 @@ export const TWINGRAPH_SECTION_URL = '/swagger-ui/index.html#/dataset/twingraphQ
 
 export const DATASET_SOURCE_TYPE = {
   AZURE_STORAGE: 'AzureStorage',
-  LOCAL_FILE: 'File',
+  FILE_UPLOAD: 'FileUploadToDataset',
   NONE: 'None',
 };
 
@@ -66,17 +66,15 @@ export const DATASET_SOURCES = [
     tags: ['datasource'],
   },
   {
-    id: DATASET_SOURCE_TYPE.LOCAL_FILE,
-    labels: { en: 'Graph Format from Local File', fr: 'Format Graph depuis un fichier local' },
-    parameters: [
-      { id: `file`, varType: '%DATASETID%', labels: { en: '', fr: '' }, options: { defaultFileTypeFilter: '.zip' } },
-    ],
-    tags: ['datasource'],
-  },
-  {
     id: DATASET_SOURCE_TYPE.NONE,
     labels: { en: 'Empty', fr: 'Dataset vide' },
     parameters: [],
+    tags: ['datasource'],
+  },
+  {
+    id: DATASET_SOURCE_TYPE.FILE_UPLOAD,
+    labels: { en: 'Create dataset from file upload', fr: 'Envoi de fichiers pour créer un dataset' },
+    parameters: [{ id: `file`, varType: '%DATASETID%', labels: { en: '', fr: '' } }],
     tags: ['datasource'],
   },
 ];
