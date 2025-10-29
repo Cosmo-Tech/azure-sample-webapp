@@ -18,12 +18,12 @@ const updateDataset = (organizationId, datasetId, dataset) => {
 
 const updateSecurity = async (organizationId, datasetId, currentSecurity, newSecurity) => {
   const setDefaultSecurity = async (newRole) =>
-    Api.Datasets.setDatasetDefaultSecurity(organizationId, datasetId, { role: newRole });
-  const addAccess = async (newEntry) => Api.Datasets.addDatasetAccessControl(organizationId, datasetId, newEntry);
+    Api.Datasets.updateDatasetDefaultSecurity(organizationId, datasetId, { role: newRole });
+  const addAccess = async (newEntry) => Api.Datasets.createDatasetAccessControl(organizationId, datasetId, newEntry);
   const updateAccess = async (userIdToUpdate, newRole) =>
     Api.Datasets.updateDatasetAccessControl(organizationId, datasetId, userIdToUpdate, { role: newRole });
   const removeAccess = async (userIdToRemove) =>
-    Api.Datasets.removeDatasetAccessControl(organizationId, datasetId, userIdToRemove);
+    Api.Datasets.deleteDatasetAccessControl(organizationId, datasetId, userIdToRemove);
 
   await SecurityUtils.updateResourceSecurity(
     currentSecurity,

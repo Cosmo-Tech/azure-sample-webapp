@@ -6,13 +6,13 @@ import { RUNNER_VALIDATION_STATUS } from '../config/ApiConstants';
 
 const updateSecurity = async (organizationId, workspaceId, runnerId, currentSecurity, newSecurity) => {
   const setDefaultSecurity = async (newRole) =>
-    Api.Runners.setRunnerDefaultSecurity(organizationId, workspaceId, runnerId, { role: newRole });
+    Api.Runners.updateRunnerDefaultSecurity(organizationId, workspaceId, runnerId, { role: newRole });
   const addAccess = async (newEntry) =>
-    Api.Runners.addRunnerAccessControl(organizationId, workspaceId, runnerId, newEntry);
+    Api.Runners.createRunnerAccessControl(organizationId, workspaceId, runnerId, newEntry);
   const updateAccess = async (userIdToUpdate, newRole) =>
     Api.Runners.updateRunnerAccessControl(organizationId, workspaceId, runnerId, userIdToUpdate, { role: newRole });
   const removeAccess = async (userIdToRemove) =>
-    Api.Runners.removeRunnerAccessControl(organizationId, workspaceId, runnerId, userIdToRemove);
+    Api.Runners.deleteRunnerAccessControl(organizationId, workspaceId, runnerId, userIdToRemove);
 
   return SecurityUtils.updateResourceSecurity(
     currentSecurity,
