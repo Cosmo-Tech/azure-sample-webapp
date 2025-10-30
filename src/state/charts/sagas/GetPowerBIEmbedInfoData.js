@@ -6,7 +6,7 @@ import { STATUSES } from '../../../services/config/StatusConstants';
 import { PowerBIService } from '../../../services/powerbi/PowerBIService';
 import { PowerBIUtils } from '../../../utils';
 import { CHART_ACTIONS_KEY } from '../constants';
-import { setPowerBIEmbedInfo } from '../reducers';
+import { setPowerBIEmbedInfo, setUseWebappTheme } from '../reducers';
 
 const IS_POWERBI_POLLING_DISABLED = !!process.env.REACT_APP_NO_POWERBI_POLLING;
 const noAccess = {
@@ -19,11 +19,13 @@ const getLogInWithUserCredentials = (state) =>
   state?.workspace?.current?.data?.webApp?.options?.charts?.logInWithUserCredentials;
 const getPowerBIWorkspaceId = (state) => state?.workspace?.current?.data?.webApp?.options?.charts?.workspaceId;
 const getPowerBIChartsConfig = (state) => state?.workspace?.current?.data?.webApp?.options?.charts;
+const getUseWebappTheme = (state) => state?.workspace?.current?.data?.webApp?.options?.charts?.useWebappTheme;
 
 export function* getPowerBIEmbedInfoSaga() {
   const logInWithUserCredentials = yield select(getLogInWithUserCredentials);
   const powerBIWorkspaceId = yield select(getPowerBIWorkspaceId);
   const powerBIChartsConfig = yield select(getPowerBIChartsConfig);
+  const useWebappTheme = yield select(getUseWebappTheme);
 
   if (powerBIChartsConfig == null) {
     console.warn(
@@ -38,6 +40,10 @@ export function* getPowerBIEmbedInfoSaga() {
       })
     );
     return;
+  }
+
+  if (useWebappTheme != null) {
+    yield put(setUseWebappTheme(useWebappTheme));
   }
 
   if (logInWithUserCredentials == null) {

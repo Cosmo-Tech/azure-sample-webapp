@@ -52,6 +52,25 @@ structure for this `charts` object is the following:
 | `dashboardsView`                   | array of reports to display in the _Dashboards_ page (see section [Dashboards page reports configuration](#dashboards-page-reports-configuration))                            |
 | `scenarioView`                     | dict or array of reports to display in the _Scenario_ page (see section [Scenario page report configuration](#scenario-page-report-configuration))                            |
 
+### Enabling or disabling PowerBI custom themes
+
+As of version **v6.5.x**, the webapp no longer applies its custom PowerBI themes by default.  
+Integrators can now explicitly enable this behavior through the workspace configuration.
+
+#### Default behavior
+By default, PowerBI reports are displayed using **PowerBI’s native theme** (no custom colors or layout overrides).  
+This ensures that projects which do not provide a valid PowerBI theme configuration continue to render correctly.
+
+#### How to enable custom webapp themes
+
+To re-enable the use of the webapp’s built-in PowerBI themes (light and dark), set the following option in your workspace configuration:
+
+```yaml
+webApp:
+  options:
+    charts:
+      useWebappTheme: true
+
 ### Report configuration object
 
 For both _Scenario_ and _Dashboards_ pages, the reports objects inside `scenarioView` and `dashboardsView` properties
@@ -755,6 +774,7 @@ export const WORKSPACES = [
           logInWithUserCredentials: false,
           scenarioViewIframeDisplayRatio: 1580 / 350,
           dashboardsViewIframeDisplayRatio: 1280 / 795,
+          useWebAppTheme: true,
           dashboardsView: [
             {
               title: { en: 'Stocks Follow-up', fr: 'Suivi de stock' },

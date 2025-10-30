@@ -39,6 +39,10 @@ export const useCurrentScenarioReportConfig = () => {
   );
 };
 
+export const usePowerBIUseWebappTheme = () => {
+  return useSelector((state) => state.charts?.powerbi?.data?.useWebappTheme ?? false);
+};
+
 export const usePowerBIReports = () => {
   return useSelector((state) => state.charts?.powerbi?.data?.reports);
 };

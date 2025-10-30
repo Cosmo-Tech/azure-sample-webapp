@@ -11,6 +11,7 @@ export const chartsInitialState = {
       accessToken: '',
       reportsInfo: '',
       expiry: '',
+      useWebappTheme: false,
     },
     status: STATUSES.IDLE,
   },
@@ -31,6 +32,10 @@ const chartsSlice = createSlice({
   reducers: {
     setChartMode: (state, action) => {
       state.mode = action.payload;
+    },
+
+    setUseWebappTheme: (state, action) => {
+      state.powerbi.data.useWebappTheme = action.payload;
     },
 
     setPowerBIEmbedInfo: (state, action) => {
@@ -78,6 +83,7 @@ export const {
   setSupersetDashboards,
   setSupersetUrl,
   clearAllChartsInfo,
+  setUseWebappTheme,
 } = chartsSlice.actions;
 
 export default chartsSlice.reducer;
