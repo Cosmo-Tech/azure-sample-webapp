@@ -23,7 +23,14 @@ export function* updateDatasetSecurity(action) {
     const newDatasetSecurity = action.datasetSecurity;
     const currentUserPermissions = dataset.security.currentUserPermissions;
 
-    yield call(DatasetService.updateSecurity, organizationId, workspaceId, datasetId, oldDatasetSecurity, newDatasetSecurity);
+    yield call(
+      DatasetService.updateSecurity,
+      organizationId,
+      workspaceId,
+      datasetId,
+      oldDatasetSecurity,
+      newDatasetSecurity
+    );
 
     const datasetUpdated = { ...dataset, security: { ...newDatasetSecurity, currentUserPermissions } };
     yield put(

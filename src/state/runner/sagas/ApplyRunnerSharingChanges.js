@@ -59,7 +59,14 @@ export function* applyRunnerSharingChanges(action) {
       }
 
       const newDatasetSecurity = SecurityUtils.forgeDatasetSecurityFromRunnerSecurity(newRunnerSecurity);
-      yield call(DatasetService.updateSecurity, organizationId, workspaceId, datasetId, dataset.security, newDatasetSecurity);
+      yield call(
+        DatasetService.updateSecurity,
+        organizationId,
+        workspaceId,
+        datasetId,
+        dataset.security,
+        newDatasetSecurity
+      );
 
       const datasetPermissionsMapping = yield select(getDatasetPermissionMapping);
       yield put(

@@ -126,7 +126,13 @@ async function _processFileUpload(
   const updatedDataset = await _updateDatasetLocation(organizationId, datasetLocation, createdDataset);
 
   const datasetSecurity = SecurityUtils.forgeDatasetSecurityFromScenarioSecurity(scenarioSecurity);
-  await DatasetService.updateSecurity(organizationId, workspaceId, createdDataset.id, createdDataset.security, datasetSecurity);
+  await DatasetService.updateSecurity(
+    organizationId,
+    workspaceId,
+    createdDataset.id,
+    createdDataset.security,
+    datasetSecurity
+  );
   updatedDataset.security = datasetSecurity;
 
   addDatasetToStore(updatedDataset);
