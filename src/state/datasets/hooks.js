@@ -89,8 +89,10 @@ export const useRefreshDataset = () => {
 
 export const useCreateDataset = () => {
   const dispatch = useDispatch();
-  const organizationId = useOrganizationId();
-  return useCallback((dataset) => dispatch(dispatchCreateDataset(organizationId, dataset)), [dispatch, organizationId]);
+  return useCallback(
+    (dataset, files, shouldSelectDataset) => dispatch(dispatchCreateDataset(dataset, files, shouldSelectDataset)),
+    [dispatch]
+  );
 };
 
 export const useRollbackTwingraphData = () => {

@@ -151,7 +151,7 @@ export const DatasetOverviewPlaceholder = () => {
 
     if (currentDatasetIngestionStatus === INGESTION_STATUS.PENDING)
       return !Object.values(DATASET_SOURCE_TYPE).includes(currentDatasetType) && abortButton;
-    else if (currentDatasetType === DATASET_SOURCE_TYPE.LOCAL_FILE)
+    else if (currentDatasetType === DATASET_SOURCE_TYPE.FILE_UPLOAD)
       return <ReuploadFileDatasetButton datasetId={currentDatasetId} iconButton={false} />;
     else
       return (

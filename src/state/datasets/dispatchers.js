@@ -9,10 +9,11 @@ export const dispatchDeleteDataset = (organizationId, datasetId, selectedDataset
   selectedDatasetId,
 });
 
-export const dispatchCreateDataset = (organizationId, dataset) => ({
+export const dispatchCreateDataset = (dataset, files, shouldSelectDataset) => ({
   type: DATASET_ACTIONS_KEY.CREATE_DATASET,
-  organizationId,
   dataset,
+  files,
+  shouldSelectDataset,
 });
 
 export const dispatchRefreshDataset = (organizationId, datasetId) => ({

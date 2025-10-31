@@ -42,18 +42,20 @@ export const useDatasetCreationParameters = () => {
     (values) => {
       ArrayDictUtils.removeUndefinedValuesFromDict(values);
       const sourceType = values.sourceType;
-      const dataset = { name: values.name, tags: values.tags, description: values.description, sourceType };
+      const dataset = { name: values.name, tags: values.tags, description: values.description, sourceType, parts: [] };
 
       if (Object.values(DATASET_SOURCE_TYPE).includes(sourceType)) {
-        if (values.sourceType === DATASET_SOURCE_TYPE.LOCAL_FILE) {
-          dataset.file = values[sourceType].file;
-          dataset.source = null;
+        const files = [];
+        if (values.sourceType === DATASET_SOURCE_TYPE.FILE_UPLOAD) {
+          const fileToUpload = values[sourceType].file;
+          files.push(fileToUpload.file);
+          dataset.parts.push({ name: fileToUpload.name, sourceName: fileToUpload.name });
         } else if (values.sourceType === DATASET_SOURCE_TYPE.NONE) {
           dataset.source = null;
         } else {
           dataset.source = values[sourceType];
         }
-        createDataset(dataset);
+        createDataset(dataset, files, true);
       } else {
         const runner = { ...dataset };
         const escapedSourceType = SolutionsUtils.escapeRunTemplateId(sourceType);
