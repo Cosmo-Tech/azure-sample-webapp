@@ -8,11 +8,15 @@ import {
   useUpdateDataset,
   useSelectedDatasetIndex,
 } from '../../../../state/datasets/hooks';
+import { useOrganizationId } from '../../../../state/organizations/hooks';
 import { useGetETLRunners } from '../../../../state/runner/hooks';
+import { useWorkspaceId } from '../../../../state/workspaces/hooks';
 import { TranslationUtils } from '../../../../utils';
 
 export const useDatasetMetadata = () => {
   const { t } = useTranslation();
+  const organizationId = useOrganizationId();
+  const workspaceId = useWorkspaceId();
   const currentDataset = useCurrentDataset();
   const selectedDatasetIndex = useSelectedDatasetIndex();
   const runners = useGetETLRunners();
@@ -34,5 +38,13 @@ export const useDatasetMetadata = () => {
     return parentDataset?.name;
   }, [datasets, currentDataset?.parentId]);
 
-  return { dataset: currentDataset, updateDataset, selectedDatasetIndex, parentDatasetName, etlDatasetRunTemplateName };
+  return {
+    organizationId,
+    workspaceId,
+    dataset: currentDataset,
+    updateDataset,
+    selectedDatasetIndex,
+    parentDatasetName,
+    etlDatasetRunTemplateName,
+  };
 };

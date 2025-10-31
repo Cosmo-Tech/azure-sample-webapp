@@ -14,12 +14,22 @@ const COPIED_TOOLTIP_DURATION = 2000;
 
 export const DatasetMetadata = () => {
   const { t } = useTranslation();
-  const { dataset, updateDataset, selectedDatasetIndex, parentDatasetName, etlDatasetRunTemplateName } =
-    useDatasetMetadata();
+  const {
+    organizationId,
+    workspaceId,
+    dataset,
+    updateDataset,
+    selectedDatasetIndex,
+    parentDatasetName,
+    etlDatasetRunTemplateName,
+  } = useDatasetMetadata();
   const datasetId = dataset?.id;
   const userPermissionsOnDataset = dataset?.security?.currentUserPermissions ?? [];
 
-  const apiUrl = useMemo(() => ApiUtils.getDatasetApiUrl(datasetId), [datasetId]);
+  const apiUrl = useMemo(
+    () => ApiUtils.getDatasetApiUrl(organizationId, workspaceId, datasetId),
+    [organizationId, workspaceId, datasetId]
+  );
   const tagsEditorLabels = useMemo(
     () => ({
       header: t('commoncomponents.datasetmanager.metadata.tags', 'Tags'),

@@ -1,7 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import rfdc from 'rfdc';
-import ConfigService from '../services/ConfigService';
 import { Api } from '../services/config/Api.js';
 import { TWINGRAPH_SECTION_URL } from '../services/config/ApiConstants';
 import { ConfigUtils } from './ConfigUtils';
@@ -56,9 +55,8 @@ const formatParametersFromApi = (parameters) => {
   return newParams;
 };
 
-const getDatasetApiUrl = (datasetId) => {
-  const organizationId = ConfigService.getParameterValue('ORGANIZATION_ID');
-  return `${Api.defaultBasePath}/organizations/${organizationId}/datasets/${datasetId}`;
+const getDatasetApiUrl = (organizationId, workspaceId, datasetId) => {
+  return `${Api.defaultBasePath}/organizations/${organizationId}/workspaces/${workspaceId}/datasets/${datasetId}`;
 };
 
 const getDatasetTwingraphSwaggerSection = () => {
