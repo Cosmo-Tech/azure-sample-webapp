@@ -3,6 +3,7 @@
 import { GET_SUPERSET_GUEST_TOKEN_URL } from '../../state/charts/constants';
 import { clientApi, getAuthenticationHeaders } from '../ClientApi';
 import ConfigService from '../ConfigService';
+import { handleServiceAccountError } from './errors';
 
 const getSupersetGuestToken = async (organizationId, workspaceId, dashboardIds) => {
   try {
@@ -27,11 +28,7 @@ const getSupersetGuestToken = async (organizationId, workspaceId, dashboardIds) 
     console.error('Error fetching Superset guest token:', error);
     return {
       token: null,
-      error: {
-        title: 'Failed to get Superset guest token',
-        message: error?.response?.data?.message || error.message,
-        status: error?.response?.status,
-      },
+      error: handleServiceAccountError(error),
     };
   }
 };

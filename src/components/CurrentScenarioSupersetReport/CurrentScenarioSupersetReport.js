@@ -22,7 +22,7 @@ const CurrentScenarioSupersetReport = ({
     useCurrentScenarioSupersetReport();
 
   const defaultErrorDescription =
-    'Something went wrong when trying to display dashboards. If the problem ' +
+    'Something went wrong when trying to display Superset dashboards. If the problem ' +
     'persists, please contact an administrator.';
 
   const showLoadingBackdrop =
@@ -30,8 +30,10 @@ const CurrentScenarioSupersetReport = ({
     isSupersetReducerLoading &&
     !isParentLoading;
 
+  const hasSupersetDashboard = guestToken && report && options?.supersetUrl;
+
   return (
-    <Box sx={{ height: '100vh', position: 'relative' }}>
+    <Box sx={{ height: hasSupersetDashboard ? '100vh' : '100%', position: 'relative' }}>
       <Backdrop
         data-cy="charts-backdrop"
         open={showLoadingBackdrop}
@@ -53,7 +55,7 @@ const CurrentScenarioSupersetReport = ({
         title={t('commoncomponents.iframe.errorPlaceholder.title', 'Unexpected error')}
         description={t('commoncomponents.iframe.errorPlaceholder.description', defaultErrorDescription)}
       >
-        {guestToken && report && options?.supersetUrl ? (
+        {hasSupersetDashboard ? (
           <SupersetEmbed
             guestToken={guestToken}
             report={report}
