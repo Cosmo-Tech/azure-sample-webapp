@@ -16,6 +16,7 @@ const ShareCurrentScenarioButton = () => {
     rolesLabels,
     shareScenarioDialogLabels,
     workspaceUsers,
+    canBeSharedWithUser,
   } = useShareCurrentScenarioButton();
 
   return (
@@ -27,6 +28,7 @@ const ShareCurrentScenarioButton = () => {
       onConfirmChanges={applyScenarioSecurityChanges}
       resourceRolesPermissionsMapping={permissionsMapping.runner}
       agents={workspaceUsers}
+      canBeSharedWithAgent={canBeSharedWithUser}
       specificAccessByAgent={accessListSpecific}
       defaultRole={defaultRole}
       defaultAccessScope="Workspace"

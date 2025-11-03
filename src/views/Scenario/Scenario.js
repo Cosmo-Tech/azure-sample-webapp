@@ -285,7 +285,7 @@ const Scenario = () => {
           <Grid container sx={{ justifyContent: 'flex-end' }} size={3}>
             <Grid sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'flex-end' }}>
               <CreateScenarioButton disabled={isDirty} onScenarioCreated={onScenarioCreated} isIconButton={true} />
-              <ShareCurrentScenarioButton isIconButton={true} />
+              <ShareCurrentScenarioButton />
             </Grid>
             {validationAreaDivider}
             <Grid

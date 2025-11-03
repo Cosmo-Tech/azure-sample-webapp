@@ -1,7 +1,13 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-export const getShareScenarioDialogLabels = (t, currentScenarioName, isDirty, hasReadSecurityPermission) => {
+export const getShareScenarioDialogLabels = (
+  t,
+  currentScenarioName,
+  isDirty,
+  hasReadSecurityPermission,
+  restrictedDatasetId
+) => {
   let tooltip = t('commoncomponents.dialog.share.button.label', 'Share');
   if (!hasReadSecurityPermission)
     tooltip = t(
@@ -12,6 +18,13 @@ export const getShareScenarioDialogLabels = (t, currentScenarioName, isDirty, ha
     tooltip = t(
       'commoncomponents.dialog.share.button.editModeTooltip',
       'Please save or discard current modifications before changing the scenario access permissions'
+    );
+  else if (restrictedDatasetId != null)
+    tooltip = t(
+      'commoncomponents.dialog.share.button.noAccessToBaseDatasetsTooltip',
+      'Cannot share this scenario because you cannot share its base dataset "{{restrictedDatasetId}}". Please ' +
+        'request the "admin" role on this dataset first, or ask the dataset owner to share this scenario for you.',
+      { restrictedDatasetId }
     );
 
   return {
