@@ -15,13 +15,14 @@ export const useScenario = () => {
   const workspaceId = useWorkspaceId();
   const datasets = useDatasets();
   const currentScenarioDatasetName = useMemo(() => {
-    if (!currentScenarioData?.datasetList || currentScenarioData?.datasetList?.length === 0)
-      return t('views.scenario.text.nodataset', 'None');
+    const scenarioDatasets = currentScenarioData?.datasets?.bases ?? [];
+    if (scenarioDatasets.length === 0) return t('views.scenario.text.nodataset', 'None');
+
     return (
-      datasets?.find((dataset) => dataset.id === currentScenarioData?.datasetList?.[0])?.name ??
+      datasets?.find((dataset) => dataset.id === scenarioDatasets?.[0])?.name ??
       t('views.scenario.text.datasetNotFound', 'Not found')
     );
-  }, [currentScenarioData?.datasetList, datasets, t]);
+  }, [currentScenarioData?.datasets?.bases, datasets, t]);
   const setScenarioValidationStatus = useSetSimulationRunnerValidationStatus();
   const setApplicationErrorMessage = useSetApplicationErrorMessage();
 

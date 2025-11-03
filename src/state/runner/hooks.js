@@ -74,7 +74,7 @@ export const useCurrentSimulationRunnerState = () => {
 };
 
 export const useCurrentSimulationRunnerDatasetList = () => {
-  return useSelector((state) => state.runner.simulationRunners.current?.data?.datasetList);
+  return useSelector((state) => state.runner.simulationRunners.current?.data?.datasets?.bases);
 };
 
 export const useCurrentSimulationRunnerReducerStatus = () => {

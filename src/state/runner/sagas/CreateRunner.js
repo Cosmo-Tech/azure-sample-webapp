@@ -94,14 +94,14 @@ export function* createRunner(action) {
       source: { location: workspaceId, name: runnerId },
     };
     // When creating subdatasets, the runner provided to the createRunner saga contains the id of the **parent dataset**
-    // in datasetList
-    if (runner.datasetList != null) dataset.parentId = runner.datasetList[0];
-
+    // in datasets.bases
+    const baseDatasets = runner.datasets?.bases ?? [];
+    if (baseDatasets.length > 0) dataset.parentId = baseDatasets[0];
     const datasetId = yield call(createDataset, { dataset, organizationId });
-    let datasetList = [datasetId]; // First entry of datasetList must be the "ETL" dataset
-    // Add additional datasets to the list (e.g. the parent dataset when creating subdatasets)
-    if (runner.datasetList != null) datasetList = datasetList.concat(runner.datasetList);
 
+    // First entry of datasetList must be the "ETL" dataset, to which we add the additional datasets (e.g. the parent
+    // dataset when creating subdatasets)
+    const datasetList = [datasetId].concat(baseDatasets);
     const patchedRunner = { runTemplateId: runner.runTemplateId, datasetList };
     const { data: updatedRunner } = yield call(
       Api.Runners.updateRunner,

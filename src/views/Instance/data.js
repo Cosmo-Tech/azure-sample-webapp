@@ -267,7 +267,7 @@ export async function fetchData(instanceViewConfig, organizationId, workspaceId,
     case 'twingraph_dataset':
       if (
         !datasets
-          .filter((dataset) => scenario.datasetList.includes(dataset.id))
+          .filter((dataset) => scenario?.datasets?.bases?.includes(dataset.id))
           .some((dataset) => dataset.twingraphId != null)
       )
         return {
@@ -275,7 +275,7 @@ export async function fetchData(instanceViewConfig, organizationId, workspaceId,
             "Can't fetch dataset content because it is not of type twingraph. Please select a scenario that " +
             'has at least one twingraph dataset.',
         };
-      return _fetchDataFromTwingraphDatasets(organizationId, workspaceId, scenario.datasetList);
+      return _fetchDataFromTwingraphDatasets(organizationId, workspaceId, scenario?.datasets?.bases);
     default:
       return {
         error:
