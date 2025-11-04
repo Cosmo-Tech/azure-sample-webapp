@@ -5,7 +5,12 @@ import { useTranslation } from 'react-i18next';
 import { useDownloadSimulationLogsFile } from '../../hooks/RunnerRunHooks';
 import { STATUSES } from '../../services/config/StatusConstants';
 import { useApplicationTheme } from '../../state/app/hooks';
-import { usePowerBIInfo, usePowerBIReducerStatus, usePowerBIUseWebappTheme } from '../../state/charts/hooks';
+import {
+  usePowerBIInfo,
+  usePowerBIReducerStatus,
+  usePowerBIError,
+  usePowerBIUseWebappTheme,
+} from '../../state/charts/hooks';
 import { useCurrentSimulationRunnerData, useRunners } from '../../state/runner/hooks';
 import { useWorkspaceChartsLogInWithUserCredentials } from '../../state/workspaces/hooks';
 import darkTheme from '../../theme/powerbi/darkTheme.json';
@@ -21,6 +26,7 @@ export const useCurrentScenarioPowerBiReport = () => {
   const reports = usePowerBIInfo();
   const logInWithUserCredentials = useWorkspaceChartsLogInWithUserCredentials();
   const powerBIReducerStatus = usePowerBIReducerStatus();
+  const powerBIError = usePowerBIError();
   const downloadLogsFile = useDownloadSimulationLogsFile();
 
   const isPowerBIReducerLoading = useMemo(() => powerBIReducerStatus === STATUSES.LOADING, [powerBIReducerStatus]);
@@ -46,6 +52,26 @@ export const useCurrentScenarioPowerBiReport = () => {
     return null;
   }, [useWebappTheme, isDarkTheme]);
 
+  const powerBIInfo = usePowerBIInfo();
+  const hasError = useMemo(
+    () => !!((powerBIInfo?.status === STATUSES.ERROR && powerBIError) || powerBIError),
+    [powerBIInfo?.status, powerBIError]
+  );
+
+  const defaultErrorDescription = t(
+    'commoncomponents.iframe.errorPlaceholder.description',
+    'Something went wrong when trying to display dashboards. If the problem persists, please contact an administrator.'
+  );
+
+  const errorForBanner = useMemo(() => {
+    if (!powerBIError) return null;
+
+    return {
+      title: powerBIError.status || t('commoncomponents.iframe.errorPlaceholder.title', 'Unexpected error'),
+      detail: powerBIError.powerBIErrorInfo || powerBIError.description || defaultErrorDescription,
+    };
+  }, [powerBIError, t, defaultErrorDescription]);
+
   return {
     currentScenarioData,
     isPowerBIReducerLoading,
@@ -56,5 +82,7 @@ export const useCurrentScenarioPowerBiReport = () => {
     downloadLogsFile,
     logInWithUserCredentials,
     theme,
+    hasError,
+    errorForBanner,
   };
 };

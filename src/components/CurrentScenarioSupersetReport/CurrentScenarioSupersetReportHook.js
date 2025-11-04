@@ -8,6 +8,7 @@ import { useApplicationTheme } from '../../state/app/hooks';
 import {
   useSupersetInfo,
   useSupersetReducerStatus,
+  useSupersetError,
   useSupersetGuestToken,
   useSupersetUrl,
   useCurrentSupersetDashboard,
@@ -27,6 +28,7 @@ export const useCurrentScenarioSupersetReport = () => {
 
   const supersetInfo = useSupersetInfo();
   const supersetReducerStatus = useSupersetReducerStatus();
+  const supersetError = useSupersetError();
   const guestToken = useSupersetGuestToken();
   const supersetUrl = useSupersetUrl();
   const currentDashboard = useCurrentSupersetDashboard();
@@ -68,6 +70,25 @@ export const useCurrentScenarioSupersetReport = () => {
     [supersetUrl]
   );
 
+  const hasError = useMemo(
+    () => !!((supersetInfo?.status === STATUSES.ERROR && supersetError) || supersetError),
+    [supersetInfo?.status, supersetError]
+  );
+
+  const defaultErrorDescription = t(
+    'commoncomponents.iframe.errorPlaceholder.description',
+    'Something went wrong when trying to display dashboards. If the problem persists, please contact an administrator.'
+  );
+
+  const errorForBanner = useMemo(() => {
+    if (!supersetError) return null;
+
+    return {
+      title: supersetError.status || t('commoncomponents.iframe.errorPlaceholder.title', 'Unexpected error'),
+      detail: supersetError.supersetErrorInfo || supersetError.description || defaultErrorDescription,
+    };
+  }, [supersetError, t, defaultErrorDescription]);
+
   return {
     currentScenarioData,
     isSupersetReducerLoading,
@@ -79,6 +100,7 @@ export const useCurrentScenarioSupersetReport = () => {
     language,
     downloadLogsFile,
     theme,
-    supersetInfo,
+    hasError,
+    errorForBanner,
   };
 };

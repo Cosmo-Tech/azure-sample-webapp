@@ -18,6 +18,10 @@ export const usePowerBIReducerStatus = () => {
   return useSelector((state) => state.charts?.powerbi?.status);
 };
 
+export const usePowerBIError = () => {
+  return useSelector((state) => state.charts?.powerbi?.error);
+};
+
 export const usePowerBIReportsConfig = () => {
   return useSelector((state) => state.charts?.powerbi?.data?.reportsConfig);
 };
@@ -58,6 +62,10 @@ export const useSupersetInfo = () => {
 
 export const useSupersetReducerStatus = () => {
   return useSelector((state) => state.charts?.superset?.status);
+};
+
+export const useSupersetError = () => {
+  return useSelector((state) => state.charts?.superset?.error);
 };
 
 export const useSupersetGuestToken = () => {

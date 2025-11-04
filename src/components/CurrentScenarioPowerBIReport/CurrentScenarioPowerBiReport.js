@@ -4,7 +4,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Backdrop, Box, CircularProgress, Stack, Typography } from '@mui/material';
-import { ErrorBoundary, SimplePowerBIReportEmbed } from '@cosmotech/ui';
+import { ErrorBanner, ErrorBoundary, SimplePowerBIReportEmbed } from '@cosmotech/ui';
 import { RUNNER_RUN_STATE } from '../../services/config/ApiConstants';
 import { useCurrentScenarioPowerBiReport } from './CurrentScenarioPowerBiReportHook';
 
@@ -28,11 +28,9 @@ const CurrentScenarioPowerBiReport = ({
     reports,
     logInWithUserCredentials,
     theme,
+    hasError,
+    errorForBanner,
   } = useCurrentScenarioPowerBiReport();
-
-  const defaultErrorDescription =
-    'Something went wrong when trying to display PowerBI dashboards. If the problem ' +
-    'persists, please contact an administrator.';
 
   const showLoadingBackdrop =
     (currentScenarioData?.state === RUNNER_RUN_STATE.SUCCESSFUL || alwaysShowReports === true) &&
@@ -57,26 +55,30 @@ const CurrentScenarioPowerBiReport = ({
           </Typography>
         </Stack>
       </Backdrop>
-      <ErrorBoundary
-        title={t('commoncomponents.iframe.errorPlaceholder.title', 'Unexpected error')}
-        description={t('commoncomponents.iframe.errorPlaceholder.description', defaultErrorDescription)}
-      >
-        <SimplePowerBIReportEmbed
-          reports={reports}
-          reportConfiguration={reportConfiguration}
-          alwaysShowReports={alwaysShowReports}
-          scenario={currentScenarioData}
-          visibleScenarios={visibleScenarios}
-          lang={language}
-          downloadLogsFile={downloadLogsFile}
-          labels={{ ...reportLabels, ...labels }}
-          useAAD={logInWithUserCredentials}
-          iframeRatio={iframeRatio}
-          index={index}
-          theme={theme}
-          {...other}
-        />
-      </ErrorBoundary>
+      {hasError ? (
+        <ErrorBanner error={errorForBanner} />
+      ) : (
+        <ErrorBoundary
+          title={errorForBanner?.title || t('commoncomponents.iframe.errorPlaceholder.title', 'Unexpected error')}
+          description={errorForBanner?.detail}
+        >
+          <SimplePowerBIReportEmbed
+            reports={reports}
+            reportConfiguration={reportConfiguration}
+            alwaysShowReports={alwaysShowReports}
+            scenario={currentScenarioData}
+            visibleScenarios={visibleScenarios}
+            lang={language}
+            downloadLogsFile={downloadLogsFile}
+            labels={{ ...reportLabels, ...labels }}
+            useAAD={logInWithUserCredentials}
+            iframeRatio={iframeRatio}
+            index={index}
+            theme={theme}
+            {...other}
+          />
+        </ErrorBoundary>
+      )}
     </Box>
   );
 };
