@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Backdrop, Box, CircularProgress, Stack, Typography } from '@mui/material';
 import { ErrorBoundary, SupersetEmbed } from '@cosmotech/ui';
+import { useSupersetGuestTokenRefresh } from '../../hooks/SupersetGuestTokenRefresh';
 import { RUNNER_RUN_STATE } from '../../services/config/ApiConstants';
 import { useCurrentScenarioSupersetReport } from './CurrentScenarioSupersetReportHook';
 
@@ -20,6 +21,8 @@ const CurrentScenarioSupersetReport = ({
 
   const { currentScenarioData, isSupersetReducerLoading, report, guestToken, options } =
     useCurrentScenarioSupersetReport();
+
+  useSupersetGuestTokenRefresh();
 
   const defaultErrorDescription =
     'Something went wrong when trying to display dashboards. If the problem ' +
