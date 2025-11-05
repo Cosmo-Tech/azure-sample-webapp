@@ -28,7 +28,7 @@ export function* getSupersetGuestTokenSaga() {
     );
     yield put(
       setSupersetGuestToken({
-        data: { token: null },
+        data: { token: null, expiry: null },
         status: STATUSES.DISABLED,
       })
     );
@@ -38,7 +38,7 @@ export function* getSupersetGuestTokenSaga() {
   if (!organizationId || !workspaceId) {
     yield put(
       setSupersetGuestToken({
-        data: { token: null },
+        data: { token: null, expiry: null },
         status: STATUSES.ERROR,
         error: { message: 'Missing organizationId or workspaceId' },
       })
@@ -55,7 +55,7 @@ export function* getSupersetGuestTokenSaga() {
       console.warn('No dashboard IDs found in Superset configuration');
       yield put(
         setSupersetGuestToken({
-          data: { token: null },
+          data: { token: null, expiry: null },
           status: STATUSES.ERROR,
           error: { message: 'No dashboard IDs configured' },
         })
@@ -70,7 +70,7 @@ export function* getSupersetGuestTokenSaga() {
       console.error('Superset token fetch failed:', error);
       yield put(
         setSupersetGuestToken({
-          data: { token: null },
+          data: { token: null, expiry: null },
           error,
           status: STATUSES.ERROR,
         })
@@ -78,7 +78,7 @@ export function* getSupersetGuestTokenSaga() {
     } else {
       yield put(
         setSupersetGuestToken({
-          data: { token: response.token },
+          data: { token: response.token, expiry: response.expiry },
           error: null,
           status: STATUSES.SUCCESS,
         })
@@ -88,7 +88,7 @@ export function* getSupersetGuestTokenSaga() {
     console.error(error);
     yield put(
       setSupersetGuestToken({
-        data: { token: null },
+        data: { token: null, expiry: null },
         error,
         status: STATUSES.ERROR,
       })
