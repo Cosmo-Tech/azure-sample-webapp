@@ -34,7 +34,6 @@ export const useCurrentScenarioSupersetReport = () => {
   const downloadLogsFile = useDownloadSimulationLogsFile();
 
   const isSupersetReducerLoading = useMemo(() => supersetReducerStatus === STATUSES.LOADING, [supersetReducerStatus]);
-
   const reportLabels = useMemo(() => getReportLabels(t), [t]);
   const language = useMemo(() => i18n.language, [i18n.language]);
 
@@ -43,7 +42,7 @@ export const useCurrentScenarioSupersetReport = () => {
       scenarios?.map((runner) => ({
         id: runner.id,
         runId: RunnersUtils.getLastRunId(runner),
-      })),
+      })) ?? [],
     [scenarios]
   );
 
@@ -51,14 +50,14 @@ export const useCurrentScenarioSupersetReport = () => {
   const theme = useMemo(() => (isDarkTheme ? darkTheme : lightTheme), [isDarkTheme]);
 
   const report = useMemo(() => {
-    if (!currentDashboard?.dashboardId) {
-      return null;
-    }
-    const reportObj = {
+    if (!currentDashboard?.dashboardId) return null;
+
+    return {
       id: currentDashboard.dashboardId,
-      uiConfig: currentDashboard.uiConfig || {},
+      uiConfig: {
+        ...currentDashboard.uiConfig,
+      },
     };
-    return reportObj;
   }, [currentDashboard]);
 
   const options = useMemo(

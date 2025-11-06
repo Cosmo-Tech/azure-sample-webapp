@@ -3,7 +3,8 @@
 import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { PowerBIUtils } from '../../utils';
-import { useCurrentSimulationRunnerData } from '../runner/hooks';
+import { resolveDynamicValue } from '../../utils/ResolveDynamicValue';
+import { useCurrentSimulationRunnerData, useRunners } from '../runner/hooks';
 import { setPowerBIReportConfig } from './reducers';
 
 export const useChartMode = () => {
@@ -73,43 +74,67 @@ export const useSupersetUrl = () => {
 };
 
 export const useCurrentSupersetDashboard = () => {
-  const currentScenarioData = useCurrentSimulationRunnerData();
+  const visibleScenarios = useRunners();
   const dashboards = useSupersetDashboards();
+  const currentScenarioData = useCurrentSimulationRunnerData();
 
   return useMemo(() => {
-    if (!dashboards?.scenarioView) {
-      return null;
-    }
+    if (!dashboards?.scenarioView) return null;
 
     const scenarioView = dashboards.scenarioView;
     const runTemplateId = currentScenarioData?.runTemplateId;
 
     let dashboardId = scenarioView.default;
-
     if (scenarioView.overrides?.[runTemplateId]) {
       dashboardId = scenarioView.overrides[runTemplateId];
     }
-
-    if (!dashboardId) {
-      return null;
-    }
+    if (!dashboardId) return null;
 
     const fullDashboard = dashboards.dashboards?.find((dashboard) => dashboard.id === dashboardId);
 
-    if (fullDashboard) {
-      return {
-        dashboardId: fullDashboard.id,
-        uiConfig: {
-          hideTitle: fullDashboard.hideTitle,
-          hideTab: fullDashboard.hideTab,
-          hideChartControls: fullDashboard.hideChartControls,
-        },
-      };
+    if (!fullDashboard) return { dashboardId, uiConfig: {} };
+
+    const nativeFilters = [];
+
+    for (const filter of fullDashboard?.filters ?? []) {
+      if (typeof filter !== 'object') continue;
+
+      const { id, column, operator, value } = filter;
+      if (!id || !column || !operator || !value) {
+        console.warn('[Dynamic Filters] Invalid filter configuration detected:', filter);
+        continue;
+      }
+
+      const dynamicResolved = resolveDynamicValue(value, { currentScenarioData, visibleScenarios });
+
+      const valuesArray = Array.isArray(dynamicResolved) ? dynamicResolved : [dynamicResolved];
+
+      const nativeExpr = valuesArray
+        .map(
+          (value) =>
+            `(NATIVE_FILTER-${id}:` +
+            `(__cache:(label:'${value}',validateStatus:!f,value:!('${value}')),` +
+            `extraFormData:(filters:!((col:${column},op:${operator},val:!('${value}')))),` +
+            `filterState:(label:'${value}',validateStatus:!f,value:!('${value}')),` +
+            `id:NATIVE_FILTER-${id},ownState:()))`
+        )
+        .join(',');
+
+      nativeFilters.push(nativeExpr);
     }
 
+    const nativeFiltersParam = nativeFilters.length > 0 ? nativeFilters.join(',') : undefined;
+
     return {
-      dashboardId,
-      uiConfig: {},
+      dashboardId: fullDashboard.id,
+      uiConfig: {
+        hideTitle: fullDashboard.hideTitle,
+        hideTab: fullDashboard.hideTab,
+        hideChartControls: fullDashboard.hideChartControls,
+        hideFilters: fullDashboard.hideFilters,
+        filters: { expanded: fullDashboard.expandFilters },
+        urlParams: nativeFiltersParam ? { native_filters: nativeFiltersParam } : {},
+      },
     };
-  }, [dashboards, currentScenarioData?.runTemplateId]);
+  }, [dashboards, currentScenarioData, visibleScenarios]);
 };
