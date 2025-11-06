@@ -33,9 +33,7 @@ export function* callUpdateRunner(action, throwOnError = false) {
       runnerId,
       runnerDataForRequest
     );
-    const updateInfo =
-      updateData?.updateInfo ?? (updateData?.lastUpdate != null ? { timestamp: updateData.lastUpdate } : undefined);
-    if (updateInfo != null) runnerData.updateInfo = updateInfo;
+    runnerData.updateInfo = updateData.updateInfo;
     yield put(
       updateSimulationRunner({
         status: STATUSES.SUCCESS,

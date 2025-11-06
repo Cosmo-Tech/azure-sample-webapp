@@ -217,7 +217,7 @@ const interceptUpdateScenario = (options) => {
   cy.intercept({ method: 'PATCH', url: API_REGEX.SCENARIO, times: 1 }, (req) => {
     if (options?.validateRequest) options?.validateRequest(req);
     const now = Date.now();
-    const userEmail = stub.getUser()?.email ?? 'stub.user@example.com';
+    const userEmail = stub.getUser()?.email ?? 'dev.sample.webapp@example.com';
     const scenarioPatch = {
       updateInfo: { timestamp: now, userId: userEmail },
       ...req.body,
@@ -304,7 +304,7 @@ const interceptUpdateSimulationRunner = (options) => {
   cy.intercept({ method: 'PATCH', url: API_REGEX.RUNNER, times: 1 }, (req) => {
     if (options?.validateRequest) options?.validateRequest(req);
     const now = Date.now();
-    const userEmail = stub.getUser()?.email ?? 'stub.user@example.com';
+    const userEmail = stub.getUser()?.email ?? 'dev.sample.webapp@example.com';
     const scenarioPatch = {
       updateInfo: { timestamp: now, userId: userEmail },
       ...req.body,
