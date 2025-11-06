@@ -106,20 +106,22 @@ export const DatasetMetadata = () => {
         <MetadataItem
           id="author"
           label={t('commoncomponents.datasetmanager.metadata.author', 'Author')}
-          value={dataset?.ownerName ?? t('commoncomponents.datasetmanager.metadata.unknown', 'unknown')}
+          value={dataset?.createInfo?.userId ?? t('commoncomponents.datasetmanager.metadata.unknown', 'unknown')}
         ></MetadataItem>
         <MetadataItem
           id="creation-date"
           label={t('commoncomponents.datasetmanager.metadata.creationDate', 'Creation date')}
           value={
-            dataset?.creationDate && new Date(dataset?.creationDate)?.toLocaleDateString('en-US', { timeZone: 'UTC' })
+            dataset?.createInfo?.timestamp &&
+            new Date(dataset?.createInfo?.timestamp)?.toLocaleDateString('en-US', { timeZone: 'UTC' })
           }
         ></MetadataItem>
         <MetadataItem
           id="refresh-date"
           label={t('commoncomponents.datasetmanager.metadata.refreshDate', 'Last refresh')}
           value={
-            dataset?.refreshDate && new Date(dataset?.refreshDate)?.toLocaleDateString('en-US', { timeZone: 'UTC' })
+            dataset?.updateInfo?.timestamp &&
+            new Date(dataset?.updateInfo?.timestamp)?.toLocaleDateString('en-US', { timeZone: 'UTC' })
           }
         ></MetadataItem>
         <MetadataItem

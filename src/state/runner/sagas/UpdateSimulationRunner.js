@@ -33,7 +33,7 @@ export function* callUpdateRunner(action, throwOnError = false) {
       runnerId,
       runnerDataForRequest
     );
-    runnerData.lastUpdate = updateData.lastUpdate;
+    runnerData.updateInfo = updateData.updateInfo;
     yield put(
       updateSimulationRunner({
         status: STATUSES.SUCCESS,

@@ -216,8 +216,10 @@ const interceptUpdateScenario = (options) => {
   const alias = forgeAlias('reqUpdateScenario');
   cy.intercept({ method: 'PATCH', url: API_REGEX.SCENARIO, times: 1 }, (req) => {
     if (options?.validateRequest) options?.validateRequest(req);
+    const now = Date.now();
+    const userEmail = stub.getUser()?.email ?? 'dev.sample.webapp@example.com';
     const scenarioPatch = {
-      lastUpdate: new Date().toISOString(),
+      updateInfo: { timestamp: now, userId: userEmail },
       ...req.body,
       ...options?.customScenarioPatch,
     };
@@ -301,8 +303,10 @@ const interceptUpdateSimulationRunner = (options) => {
   const alias = forgeAlias('reqUpdateRunner');
   cy.intercept({ method: 'PATCH', url: API_REGEX.RUNNER, times: 1 }, (req) => {
     if (options?.validateRequest) options?.validateRequest(req);
+    const now = Date.now();
+    const userEmail = stub.getUser()?.email ?? 'dev.sample.webapp@example.com';
     const scenarioPatch = {
-      lastUpdate: new Date().toISOString(),
+      updateInfo: { timestamp: now, userId: userEmail },
       ...req.body,
       ...options?.customScenarioPatch,
     };

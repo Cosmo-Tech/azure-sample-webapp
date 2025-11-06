@@ -62,7 +62,7 @@ export const useCurrentSimulationRunnerParametersValues = () => {
 };
 
 export const useCurrentSimulationRunnerLastUpdate = () => {
-  return useSelector((state) => state.runner.simulationRunners.current?.data?.lastUpdate);
+  return useSelector((state) => state.runner.simulationRunners.current?.data?.updateInfo?.timestamp);
 };
 
 export const useCurrentSimulationRunnerLastRunId = () => {
