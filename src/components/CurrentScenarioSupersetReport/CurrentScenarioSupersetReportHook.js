@@ -16,9 +16,10 @@ import { useCurrentSimulationRunnerData, useRunners } from '../../state/runner/h
 import darkTheme from '../../theme/powerbi/darkTheme.json';
 import lightTheme from '../../theme/powerbi/lightTheme.json';
 import { RunnersUtils } from '../../utils';
+import { buildSupersetUrlParams } from '../../utils/SupersetUtils';
 import { getReportLabels } from '../CurrentScenarioPowerBIReport/labels';
 
-export const useCurrentScenarioSupersetReport = () => {
+export const useCurrentScenarioSupersetReport = (contextType) => {
   const { t, i18n } = useTranslation();
 
   const currentScenarioData = useCurrentSimulationRunnerData();
@@ -34,7 +35,6 @@ export const useCurrentScenarioSupersetReport = () => {
   const downloadLogsFile = useDownloadSimulationLogsFile();
 
   const isSupersetReducerLoading = useMemo(() => supersetReducerStatus === STATUSES.LOADING, [supersetReducerStatus]);
-
   const reportLabels = useMemo(() => getReportLabels(t), [t]);
   const language = useMemo(() => i18n.language, [i18n.language]);
 
@@ -43,23 +43,30 @@ export const useCurrentScenarioSupersetReport = () => {
       scenarios?.map((runner) => ({
         id: runner.id,
         runId: RunnersUtils.getLastRunId(runner),
-      })),
+        lastRun: runner.lastRun,
+      })) ?? [],
     [scenarios]
   );
+
+  const urlParams = useMemo(() => {
+    if (!currentDashboard) return {};
+    return buildSupersetUrlParams(currentDashboard, { currentScenarioData, visibleScenarios }, contextType);
+  }, [currentDashboard, currentScenarioData, visibleScenarios, contextType]);
 
   const { isDarkTheme } = useApplicationTheme();
   const theme = useMemo(() => (isDarkTheme ? darkTheme : lightTheme), [isDarkTheme]);
 
   const report = useMemo(() => {
-    if (!currentDashboard?.dashboardId) {
-      return null;
-    }
-    const reportObj = {
+    if (!currentDashboard?.dashboardId) return null;
+
+    return {
       id: currentDashboard.dashboardId,
-      uiConfig: currentDashboard.uiConfig || {},
+      uiConfig: {
+        ...currentDashboard.uiConfig,
+        urlParams,
+      },
     };
-    return reportObj;
-  }, [currentDashboard]);
+  }, [currentDashboard, urlParams]);
 
   const options = useMemo(
     () => ({

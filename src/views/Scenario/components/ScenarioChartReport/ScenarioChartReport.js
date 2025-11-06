@@ -18,6 +18,7 @@ const ScenarioChartReport = () => {
         key={currentScenarioData?.id}
         reportConfiguration={currentScenarioRunTemplateReport}
         isParentLoading={isViewLoading}
+        contextType="scenario"
       />
     );
   }
