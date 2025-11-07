@@ -13,8 +13,8 @@ import { setCurrentSolution } from '../reducers';
 export function* fetchSolutionByIdData(organizationId, solutionId) {
   try {
     const { data } = yield call(Api.Solutions.getSolution, organizationId, solutionId);
-    SolutionsUtils.castMinMaxDefaultValuesInSolution(data);
     SolutionsUtils.patchSolutionIfLocalConfigExists(data);
+    SolutionsUtils.castMinMaxDefaultValuesInSolution(data);
     ConfigUtils.checkUnknownKeysInConfig(SolutionSchema, data);
     SolutionsUtils.checkParametersValidationConstraintsInSolution(data);
     ConfigUtils.checkDeprecatedKeysInConfig(data);
