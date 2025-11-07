@@ -4,7 +4,7 @@ import { Api } from '../../services/config/Api';
 import { SecurityUtils } from '../../utils';
 
 const findDatasetById = (organizationId, workspaceId, datasetId) => {
-  return Api.Datasets.findDatasetById(organizationId, workspaceId, datasetId);
+  return Api.Datasets.getDataset(organizationId, workspaceId, datasetId);
 };
 
 const createNoneTypeDataset = (organizationId, workspaceId, name, description, tags, main = false) => {
