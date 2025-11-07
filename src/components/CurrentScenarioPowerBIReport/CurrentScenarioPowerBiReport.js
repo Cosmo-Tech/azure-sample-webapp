@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { Backdrop, Box, CircularProgress, Stack, Typography } from '@mui/material';
 import { ErrorBoundary, SimplePowerBIReportEmbed } from '@cosmotech/ui';
 import { RUNNER_RUN_STATE } from '../../services/config/ApiConstants';
+import StyledErrorContainer from '../StyledErrorContainer';
 import { useCurrentScenarioPowerBiReport } from './CurrentScenarioPowerBiReportHook';
 
 const CurrentScenarioPowerBiReport = ({
@@ -39,8 +40,26 @@ const CurrentScenarioPowerBiReport = ({
     isPowerBIReducerLoading &&
     !isParentLoading;
 
+  const showErrorBanner = reports?.status === 'ERROR';
+  const errorTitle =
+    reports?.error?.status ||
+    reports?.error?.statusText ||
+    t('commoncomponents.iframe.errorPlaceholder.title', 'Unexpected error');
+  const errorDescription =
+    reports?.error?.powerBIErrorInfo ||
+    reports?.error?.description ||
+    t('commoncomponents.iframe.errorPlaceholder.description', defaultErrorDescription);
+
   return (
     <Box sx={{ height: '100%', position: 'relative' }}>
+      {showErrorBanner && (
+        <StyledErrorContainer
+          data-cy="powerbi-error-banner"
+          hidden={reports.status !== 'ERROR'}
+          errorCode={errorTitle}
+          errorDescription={errorDescription}
+        />
+      )}
       <Backdrop
         data-cy="charts-backdrop"
         open={showLoadingBackdrop}
