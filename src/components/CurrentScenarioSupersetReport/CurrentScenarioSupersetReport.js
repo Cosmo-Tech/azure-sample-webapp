@@ -7,6 +7,8 @@ import { Backdrop, Box, CircularProgress, Stack, Typography } from '@mui/materia
 import { ErrorBoundary, SupersetEmbed } from '@cosmotech/ui';
 import { useSupersetGuestTokenRefresh } from '../../hooks/SupersetGuestTokenRefresh';
 import { RUNNER_RUN_STATE } from '../../services/config/ApiConstants';
+import { STATUSES } from '../../services/config/StatusConstants';
+import StyledErrorContainer from '../StyledErrorContainer';
 import { useCurrentScenarioSupersetReport } from './CurrentScenarioSupersetReportHook';
 
 const CurrentScenarioSupersetReport = ({
@@ -19,7 +21,7 @@ const CurrentScenarioSupersetReport = ({
 }) => {
   const { t } = useTranslation();
 
-  const { currentScenarioData, isSupersetReducerLoading, report, guestToken, options } =
+  const { currentScenarioData, isSupersetReducerLoading, report, guestToken, options, supersetInfo } =
     useCurrentScenarioSupersetReport();
 
   useSupersetGuestTokenRefresh();
@@ -33,8 +35,26 @@ const CurrentScenarioSupersetReport = ({
     isSupersetReducerLoading &&
     !isParentLoading;
 
+  const showErrorBanner = supersetInfo?.status === STATUSES.ERROR;
+  const errorTitle =
+    supersetInfo?.error?.title ||
+    supersetInfo?.error?.status ||
+    t('commoncomponents.iframe.errorPlaceholder.title', 'Unexpected error');
+  const errorDescription =
+    supersetInfo?.error?.message ||
+    supersetInfo?.error?.description ||
+    t('commoncomponents.iframe.errorPlaceholder.description', defaultErrorDescription);
+
   return (
-    <Box sx={{ height: '100vh', position: 'relative' }}>
+    <Box sx={{ height: '100%', position: 'relative', pb: showErrorBanner ? '10px' : 0 }}>
+      {showErrorBanner && (
+        <StyledErrorContainer
+          data-cy="superset-error-banner"
+          hidden={supersetInfo.status !== STATUSES.ERROR}
+          errorCode={errorTitle}
+          errorDescription={errorDescription}
+        />
+      )}
       <Backdrop
         data-cy="charts-backdrop"
         open={showLoadingBackdrop}
@@ -57,13 +77,15 @@ const CurrentScenarioSupersetReport = ({
         description={t('commoncomponents.iframe.errorPlaceholder.description', defaultErrorDescription)}
       >
         {guestToken && report && options?.supersetUrl ? (
-          <SupersetEmbed
-            guestToken={guestToken}
-            report={report}
-            options={options}
-            style={{ width: '100%', height: '100%' }}
-            {...other}
-          />
+          <Box sx={{ height: '100vh' }}>
+            <SupersetEmbed
+              guestToken={guestToken}
+              report={report}
+              options={options}
+              style={{ width: '100%', height: '100%' }}
+              {...other}
+            />
+          </Box>
         ) : (
           <Box
             sx={{
