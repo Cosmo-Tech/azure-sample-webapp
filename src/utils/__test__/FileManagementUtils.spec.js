@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import { FileManagementUtils } from '../FileManagementUtils';
 
-describe('isFileValidFormat', () => {
+describe('isFileFormatValid', () => {
   test.each`
     fileMIMEType                                                           | expectedRes
     ${'application/json'}                                                  | ${true}
