@@ -9,6 +9,7 @@ import { RefreshDatasetButton } from '../RefreshDatasetButton';
 
 export default function DatasetActions({ dataset }) {
   if (dataset == null) return null;
+  // FIXME: use additionalData when it's available to check the type of the dataset
   return (
     <ButtonGroup>
       <RefreshDatasetButton dataset={dataset} />

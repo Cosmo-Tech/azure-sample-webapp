@@ -41,7 +41,9 @@ export const useDatasetCreationParameters = () => {
   const createDatasetOrRunner = useCallback(
     (values) => {
       ArrayDictUtils.removeUndefinedValuesFromDict(values);
+      // FIXME: read sourceType from additionalData when it's available
       const sourceType = values.sourceType;
+      // FIXME: write sourceType in additionalData when it's available
       const dataset = { name: values.name, tags: values.tags, description: values.description, sourceType, parts: [] };
 
       if (Object.values(DATASET_SOURCE_TYPE).includes(sourceType)) {

@@ -186,6 +186,14 @@ const isSubDataSource = (runTemplate) => runTemplate?.tags?.includes('subdatasou
 const DOT_REPLACEMENT_PATTERN = '__DOT__';
 const escapeRunTemplateId = (runTemplateId) => runTemplateId.replace(/\./g, DOT_REPLACEMENT_PATTERN);
 
+const getParameterFromSolution = (solution, parameterId) => {
+  return solution?.parameters?.find((parameter) => parameter.id === parameterId);
+};
+
+const getParameterVarType = (solution, parameterId) => {
+  return getParameterFromSolution(solution, parameterId)?.varType;
+};
+
 export const SolutionsUtils = {
   addRunTemplatesParametersIdsDict,
   addTranslationLabels,
@@ -197,4 +205,6 @@ export const SolutionsUtils = {
   forgeRunnerParameters,
   isDataSource,
   isSubDataSource,
+  getParameterFromSolution,
+  getParameterVarType,
 };

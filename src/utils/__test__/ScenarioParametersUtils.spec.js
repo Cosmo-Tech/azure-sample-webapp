@@ -238,7 +238,7 @@ describe('getParametersValuesForReset', () => {
   const defaultParametersValues = {
     param1: 'defaultValue1',
     param2: 'defaultValue2',
-    // FIXME: fix defautl values for file parameters
+    // FIXME: fix default values for file parameters
     // file_dataset_part: 'd-defaultworkspacedatasetid',
   };
   const runner = {

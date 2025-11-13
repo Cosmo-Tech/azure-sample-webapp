@@ -14,7 +14,9 @@ import { UpdateDatasetDialog } from './components';
 export const UpdateDatasetButton = ({ dataset }) => {
   const { t } = useTranslation();
   const runners = useGetETLRunners();
+  // FIXME: get the runner associated to the dataset from additionalData once it's available
   const datasetRunner = runners.find((runner) => runner?.id === dataset.createInfo.runnerId);
+  // FIXME: get the runner's last run status instead of reading ingestionStatus
   const isDisabled =
     dataset?.ingestionStatus === INGESTION_STATUS.PENDING || Object.keys(datasetRunner ?? {})?.length === 0;
   const [isUpdateDatasetDialogOpen, setIsUpdateDatasetDialogOpen] = useState(false);

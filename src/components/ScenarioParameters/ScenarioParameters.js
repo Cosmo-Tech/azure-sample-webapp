@@ -12,7 +12,6 @@ import { RUNNER_VALIDATION_STATUS, RUNNER_RUN_STATE } from '../../services/confi
 import { STATUSES } from '../../services/config/StatusConstants';
 import { ACL_PERMISSIONS } from '../../services/config/accessControl';
 import { ScenarioParametersUtils } from '../../utils';
-import { FileManagementUtils } from '../../utils/FileManagementUtils';
 import { ScenarioResetValuesContext } from './ScenarioParametersContext';
 import { useScenarioParameters } from './ScenarioParametersHook';
 import { ScenarioParametersTabsWrapper, ScenarioActions } from './components';
@@ -23,8 +22,6 @@ const ScenarioParameters = ({ onToggleAccordion, isAccordionExpanded }) => {
   const { t } = useTranslation();
   const {
     runTemplateParametersIds,
-    parametersMetadata,
-    datasets,
     currentScenario,
     solutionData,
     userRoles,
@@ -48,30 +45,15 @@ const ScenarioParameters = ({ onToggleAccordion, isAccordionExpanded }) => {
     [solutionData, currentScenarioData?.runTemplateId]
   );
   // Memoize the parameters values for reset
-  const parametersValuesForReset = useMemo(
+  const scenarioResetValues = useMemo(
     () =>
       ScenarioParametersUtils.getParametersValuesForReset(
-        datasets,
         runTemplateParametersIds,
         defaultParametersValues,
-        currentScenarioData?.parametersValues
+        currentScenarioData,
+        solutionData
       ),
-    [datasets, runTemplateParametersIds, defaultParametersValues, currentScenarioData?.parametersValues]
-  );
-
-  const generateParametersValuesFromOriginalValues = useCallback(() => {
-    return ScenarioParametersUtils.buildParametersValuesFromOriginalValues(
-      parametersValuesForReset,
-      parametersMetadata,
-      datasets,
-      FileManagementUtils.buildClientFileDescriptorFromDataset
-    );
-  }, [datasets, parametersMetadata, parametersValuesForReset]);
-
-  const scenarioResetValues = useMemo(
-    () => generateParametersValuesFromOriginalValues(),
-
-    [generateParametersValuesFromOriginalValues]
+    [runTemplateParametersIds, defaultParametersValues, currentScenarioData, solutionData]
   );
 
   const resetParametersValues = useCallback(() => {

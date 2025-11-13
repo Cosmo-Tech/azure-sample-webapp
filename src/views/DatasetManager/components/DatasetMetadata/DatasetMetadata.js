@@ -124,6 +124,7 @@ export const DatasetMetadata = () => {
             new Date(dataset?.updateInfo?.timestamp)?.toLocaleDateString('en-US', { timeZone: 'UTC' })
           }
         ></MetadataItem>
+        {/* // FIXME: read sourceType from additionalData when it's available */}
         <MetadataItem
           id="source-type"
           label={t('commoncomponents.datasetmanager.metadata.sourceType', 'Source')}

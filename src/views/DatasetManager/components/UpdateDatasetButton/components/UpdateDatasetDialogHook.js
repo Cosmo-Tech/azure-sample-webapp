@@ -1,6 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { useCallback, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useWorkspaceMainDatasets } from '../../../../../hooks/WorkspaceDatasetsHooks';
 import { useDatasets } from '../../../../../state/datasets/hooks';
 import { useGetETLRunners, useUpdateEtlRunner } from '../../../../../state/runner/hooks';
@@ -11,7 +11,6 @@ import {
 } from '../../../../../state/solutions/hooks';
 import { useWorkspaceData } from '../../../../../state/workspaces/hooks';
 import { ScenarioParametersUtils } from '../../../../../utils';
-import { FileManagementUtils } from '../../../../../utils/FileManagementUtils';
 
 export const useUpdateDatasetDialog = (dataset, selectedRunner) => {
   const solutionData = useSolutionData();
@@ -58,32 +57,12 @@ export const useUpdateDatasetDialog = (dataset, selectedRunner) => {
     () => getRunTemplateParametersIds(solutionData?.runTemplatesParametersIdsDict, selectedRunner?.runTemplateId),
     [solutionData?.runTemplatesParametersIdsDict, selectedRunner?.runTemplateId]
   );
-  const parametersMetadata = useMemo(
-    () => ScenarioParametersUtils.generateParametersMetadata(solutionData, runTemplateParametersIds),
-    [solutionData, runTemplateParametersIds]
-  );
-  const selectedRunnerParametersValues = useMemo(
+  const formattedParametersValues = useMemo(
     () =>
-      ScenarioParametersUtils.getParametersValuesForReset(
-        datasets,
-        runTemplateParametersIds,
-        {},
-        selectedRunner?.parametersValues
-      ),
-    [datasets, runTemplateParametersIds, selectedRunner?.parametersValues]
+      ScenarioParametersUtils.getParametersValuesForReset(runTemplateParametersIds, {}, selectedRunner, solutionData),
+    [runTemplateParametersIds, selectedRunner, solutionData]
   );
-  const generateParametersValuesFromOriginalValues = useCallback(() => {
-    return ScenarioParametersUtils.buildParametersValuesFromOriginalValues(
-      selectedRunnerParametersValues,
-      parametersMetadata,
-      datasets,
-      FileManagementUtils.buildClientFileDescriptorFromDataset
-    );
-  }, [datasets, parametersMetadata, selectedRunnerParametersValues]);
 
-  const formattedParametersValues = useMemo(() => {
-    return generateParametersValuesFromOriginalValues();
-  }, [generateParametersValuesFromOriginalValues]);
   return {
     runners,
     dataSourceRunTemplates,
