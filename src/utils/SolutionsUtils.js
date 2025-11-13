@@ -11,13 +11,6 @@ import { TranslationUtils } from './TranslationUtils';
 const _getRunTemplateParametersIds = (groupsOfParameters, runTemplateParametersGroupsIds) => {
   let parameters = [];
   for (const parametersGroupId of runTemplateParametersGroupsIds ?? []) {
-    if (!groupsOfParameters[parametersGroupId]) {
-      console.warn(
-        `Parameters group "${parametersGroupId}" is referenced in the solution run templates ` +
-          'but it is not defined in the solution parameters groups'
-      );
-      continue;
-    }
     const newParameters = groupsOfParameters[parametersGroupId]?.parameters ?? [];
     parameters = parameters.concat(newParameters.filter((newParameter) => !parameters.includes(newParameter)));
   }
