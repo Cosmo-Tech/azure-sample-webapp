@@ -56,6 +56,15 @@ const nativeDatasourceParameterOptions = {
   tooltipText: z.looseObject({}).optional().nullable(),
 };
 
+const powerBIScenarioViewArray = z.array(dashboardReport);
+const powerBIScenarioViewObject = z.strictObject({}).catchall(dashboardReport);
+const supersetScenarioView = z.looseObject({});
+
+const chartsScenarioView = z
+  .union([powerBIScenarioViewArray, powerBIScenarioViewObject, supersetScenarioView])
+  .optional()
+  .nullable();
+
 const basicWebAppOptions = z.strictObject({
   datasetFilter: z.array(z.string().optional().nullable()).optional().nullable(),
   disableOutOfSyncWarningBanner: z.boolean().optional().nullable(),
@@ -66,11 +75,10 @@ const basicWebAppOptions = z.strictObject({
       scenarioViewIframeDisplayRatio: z.number().optional().nullable(),
       dashboardsViewIframeDisplayRatio: z.number().optional().nullable(),
       dashboardsView: z.array(dashboardReport).optional().nullable(),
-      scenarioView: z
-        .array(dashboardReport)
-        .optional()
-        .nullable()
-        .or(z.strictObject({}).catchall(dashboardReport).optional().nullable()),
+      scenarioView: chartsScenarioView,
+      supersetDomain: z.string().optional().nullable(),
+      dashboards: z.array(z.looseObject({})).optional().nullable(),
+      dashboardView: z.looseObject({}).optional().nullable(),
     })
     .optional()
     .nullable(),
