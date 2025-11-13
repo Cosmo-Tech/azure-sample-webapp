@@ -46,6 +46,7 @@ export const RefreshDatasetButton = ({ dataset }) => {
     [setIsRefreshConfirmationDialogOpen, datasetRefreshCallback]
   );
   let refreshButton = null;
+  // FIXME: read sourceType from additionalData when it's available
   if (dataset?.sourceType === DATASET_SOURCE_TYPE.FILE_UPLOAD)
     refreshButton = (
       <ReuploadFileDatasetButton

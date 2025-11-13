@@ -1,7 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-export const DATASET_ID_VARTYPE = '%DATASETID%';
+export const DB_DATASET_PART_ID_VARTYPE = '%DATASET_PART_ID_DB%';
+export const FILE_DATASET_PART_ID_VARTYPE = '%DATASET_PART_ID_FILE%';
+
 export const RUNNER_RUN_STATE = {
   CREATED: 'Created',
   RUNNING: 'Running',

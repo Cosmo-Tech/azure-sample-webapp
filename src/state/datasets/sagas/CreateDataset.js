@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 import { t } from 'i18next';
 import { all, call, put, takeEvery, select } from 'redux-saga/effects';
-import { Api } from '../../../services/config/Api';
 import { DATASET_PERMISSIONS_MAPPING } from '../../../services/config/ApiConstants';
+import DatasetService from '../../../services/dataset/DatasetService';
 import { DatasetsUtils } from '../../../utils/DatasetsUtils';
 import { setApplicationErrorMessage } from '../../app/reducers';
 import { DATASET_ACTIONS_KEY } from '../constants';
@@ -21,29 +21,13 @@ export function* postEmptyDataset(dataset) {
   // const ownerName = yield select(getUserName);
   const organizationId = yield select(getOrganizationId);
   const workspaceId = yield select(getWorkspaceId);
-
-  const datasetWithoutParts = { ...dataset, parts: [] };
-  const { data: emptyDataset } = yield call(
-    Api.Datasets.createDataset,
-    organizationId,
-    workspaceId,
-    datasetWithoutParts
-  );
-  return emptyDataset;
+  return yield call(DatasetService.createEmptyDataset, organizationId, workspaceId, dataset);
 }
 
 export function* postDatasetPart(datasetId, datasetPart, file) {
   const organizationId = yield select(getOrganizationId);
   const workspaceId = yield select(getWorkspaceId);
-  const { data } = yield call(
-    Api.Datasets.createDatasetPart,
-    organizationId,
-    workspaceId,
-    datasetId,
-    file,
-    datasetPart
-  );
-  return data;
+  return yield call(DatasetService.createDatasetPart, organizationId, workspaceId, datasetId, datasetPart, file);
 }
 
 export function* postDatasetParts(dataset, files = []) {
@@ -57,15 +41,16 @@ export function* postDatasetParts(dataset, files = []) {
 export function* postDatasetAndDatasetParts(dataset, files) {
   if (!dataset.parts) dataset.parts = [];
   const emptyDataset = yield postEmptyDataset(dataset);
-  dataset.id = emptyDataset.id;
-  const createdParts = yield postDatasetParts(dataset, files);
-  dataset.parts = dataset.parts
+  const createdDataset = { ...emptyDataset, ...dataset };
+  const createdParts = yield postDatasetParts(createdDataset, files);
+
+  createdDataset.parts = createdDataset.parts
     .map((part) => createdParts.find((createdPart) => createdPart.name === part.name))
     .filter((part) => part !== undefined);
 
   // TODO: fetch dataset again after parts have been uploaded? (this might be necessary to have up-to-date metadata)
 
-  return dataset;
+  return createdDataset;
 }
 
 export function* createDataset({ dataset, files, shouldSelectDataset }) {
@@ -81,6 +66,7 @@ export function* createDataset({ dataset, files, shouldSelectDataset }) {
     yield put(addDataset(createdDataset));
 
     if (shouldSelectDataset) yield put(selectDataset({ selectedDatasetId: createdDataset.id }));
+    return createdDataset;
   } catch (error) {
     console.error(error);
     const errorMessage = t(

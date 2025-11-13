@@ -13,7 +13,7 @@ import {
   GenericUploadFile,
   ScenarioSelect,
 } from '../../../components/ScenarioParameters/components/ScenarioParametersInputs';
-import { DATASET_ID_VARTYPE } from '../../../services/config/ApiConstants';
+import { FILE_DATASET_PART_ID_VARTYPE } from '../../../services/config/ApiConstants';
 
 export const GENERIC_VAR_TYPES_COMPONENTS_MAPPING = {
   bool: GenericToggleInput,
@@ -26,6 +26,6 @@ export const GENERIC_VAR_TYPES_COMPONENTS_MAPPING = {
   'number-SLIDER': GenericSliderInput,
   number: GenericNumberInput,
   string: GenericTextInput,
-  [DATASET_ID_VARTYPE]: GenericUploadFile,
-  [DATASET_ID_VARTYPE + '-TABLE']: GenericTable,
+  [FILE_DATASET_PART_ID_VARTYPE]: GenericUploadFile,
+  [FILE_DATASET_PART_ID_VARTYPE + '-TABLE']: GenericTable,
 };

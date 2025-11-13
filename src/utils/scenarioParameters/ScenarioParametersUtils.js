@@ -2,10 +2,11 @@
 // Licensed under the MIT license.
 import rfdc from 'rfdc';
 import { UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
-import { DATASET_ID_VARTYPE } from '../../services/config/ApiConstants';
 import { ConfigUtils } from '../ConfigUtils';
 import { RunnersUtils } from '../RunnersUtils';
+import { SolutionsUtils } from '../SolutionsUtils';
 import { VAR_TYPES_DEFAULT_VALUES } from './DefaultValues';
+import { forgeFileParameter, forgeFileParameterFromDatasetPart } from './FileParameterUtils';
 
 const clone = rfdc();
 
@@ -35,11 +36,7 @@ const shouldForceScenarioParametersUpdate = (runTemplateParametersIds, parameter
 
 const _buildScenarioParameter = (parameterId, varType, value) => {
   if (parameterId && varType) {
-    return {
-      parameterId,
-      varType,
-      value: value ?? '',
-    };
+    return { parameterId, varType, value: value ?? '' };
   }
   return undefined;
 };
@@ -154,19 +151,6 @@ const _getDefaultParameterValue = (parameterId, solutionParameters) => {
   );
 };
 
-const _findParameterInScenarioParametersValues = (parameterId, scenarioParametersValues) => {
-  return scenarioParametersValues?.find((param) => param.parameterId === parameterId);
-};
-
-const _getParameterValueForReset = (datasets, parameterId, defaultParametersValues, scenarioParametersValues) => {
-  const parameter = _findParameterInScenarioParametersValues(parameterId, scenarioParametersValues);
-  const value = parameter?.value;
-  if (value === undefined) {
-    return defaultParametersValues?.[parameterId];
-  }
-  return value;
-};
-
 const _getRunTemplateParametersGroupsIds = (runTemplateId, solution) => {
   const solutionRunTemplate =
     solution?.runTemplates && solution?.runTemplates.find((runTemplate) => runTemplate.id === runTemplateId);
@@ -245,19 +229,48 @@ const getDefaultParametersValues = (parametersIds, solutionParameters) => {
 
 // Generate a dict of parameters values for each parameter id in the parameters array, based on the data sources below,
 // in this order of priority (most important first):
-//  * the parameters values of the scenario
+//  * the runner parameters values and parameter datasets
 //  * the default values provided in defaultParametersValues
-const getParametersValuesForReset = (datasets, parametersIds, defaultParametersValues, scenarioParametersValues) => {
-  const paramValues = {};
-  for (const parameterId of parametersIds) {
-    paramValues[parameterId] = _getParameterValueForReset(
-      datasets,
-      parameterId,
-      defaultParametersValues,
-      scenarioParametersValues
-    );
+const getParametersValuesForReset = (parameterIds, defaultParametersValues, runner, solution) => {
+  const parameterValues = {};
+  // FIXME: remove this when back-end bug is fixed (listAllRunners and patchRunner endpoints don't return datasets
+  const FALLBACK_DATASETS_TO_REMOVE = [
+    {
+      createInfo: { timestamp: 1762798370011, userId: 'tristan.huet@cosmotech.com' },
+      datasetId: 'd-yr7g1mz2dlop6',
+      description: null,
+      id: 'dp-9qv2yrj2rjmmq',
+      name: 'initial_stock_dataset',
+      organizationId: 'o-0wl82j3nlvwy1',
+      sourceName: 'customers.csv',
+      tags: [],
+      type: 'File',
+      updateInfo: { timestamp: 1762798370011, userId: 'tristan.huet@cosmotech.com' },
+      workspaceId: 'w-1qq3x178qk5m3',
+    },
+  ];
+
+  const runnerDatasetParameters = runner?.datasets?.parameters ?? FALLBACK_DATASETS_TO_REMOVE;
+
+  for (const parameterId of parameterIds) {
+    const parameter = SolutionsUtils.getParameterFromSolution(solution, parameterId);
+    const varType = parameter?.varType;
+    const subType = ConfigUtils.getParameterAttribute(parameter, 'subType');
+    if (ConfigUtils.isDatasetPartVarType(varType)) {
+      const datasetPart = RunnersUtils.findParameterInDatasetParts(parameterId, runnerDatasetParameters);
+      if (datasetPart !== undefined)
+        parameterValues[parameterId] = forgeFileParameterFromDatasetPart(datasetPart, varType, subType);
+      else {
+        parameterValues[parameterId] = forgeFileParameter(parameterId, varType, subType, null);
+        // FIXME: handle default values
+        // else parameterValues[parameterId] = defaultParametersValues?.[parameterId];
+      }
+    } else {
+      const runnerParameter = runner.parametersValues?.find((parameter) => parameter.parameterId === parameterId);
+      parameterValues[parameterId] = runnerParameter?.value ?? defaultParametersValues?.[parameterId];
+    }
   }
-  return paramValues;
+  return parameterValues;
 };
 
 const _generateParametersMetadataList = (solution, parametersIds) => {
@@ -293,50 +306,48 @@ const generateParametersGroupsMetadata = (solution, runTemplateId) => {
   return _generateParametersGroupsMetadataFromIds(runTemplateParametersGroupsIds, solution);
 };
 
-const getParameterVarType = (solution, parameterId) => {
-  return _findParameterInSolutionParametersById(parameterId, solution.parameters)?.varType;
-};
+const buildParameterForUpdateRequest = (solution, parameterId, parameterValue) => {
+  const varType = SolutionsUtils.getParameterVarType(solution, parameterId);
+  const parameter = { parameterId, varType, value: parameterValue };
+  if (parameterValue == null || !ConfigUtils.isDatasetPartVarType(varType)) return parameter;
 
-const _buildParameterForUpdate = (solution, parameters, parameterId) => {
-  const varType = getParameterVarType(solution, parameterId);
-  const parameterValue = parameters[parameterId];
+  if (ConfigUtils.isFileParameter(parameter)) {
+    let file = parameterValue.file;
+    if (file == null && parameterValue.serializedData != null)
+      file = new File([parameterValue.serializedData], parameterId, { type: 'text/plain' });
 
-  const value = varType === DATASET_ID_VARTYPE ? parameterValue?.id : parameterValue;
-  return {
-    parameterId,
-    varType,
-    value,
-  };
-};
-
-const buildParametersForUpdate = (solution, parametersValues, runTemplateParametersIds, scenarioData, scenarios) => {
-  let parameters = [];
-  for (const parameterId of runTemplateParametersIds) {
-    const parameter = _buildParameterForUpdate(solution, parametersValues, parameterId);
-    if (parameter.value !== null) {
-      parameters = parameters.concat(parameter);
-    }
+    if (file == null && parameterValue.status !== UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE) return null;
+    // FIXME: handle file removal
+    return { parameterId, varType, value: { file, part: { name: parameterId, sourceName: file?.name } } };
   }
-  _addHiddenParameters(parameters, scenarioData, scenarios, runTemplateParametersIds);
-  return parameters;
+  console.warn(`Var type "${varType}" is not supported`);
+
+  return parameter;
 };
 
-const buildParametersValuesFromOriginalValues = (
-  orignalValues,
-  parametersMetadata,
-  datasetsData,
-  buildClientFileDescriptorFromDatasetCallback
+// Returns an object with 3 fields dbDatasetParts, fileDatasetParts and nonDatasetParts, containing the parameter data
+//required for runner update requests
+const buildParametersForUpdateRequest = (
+  solution,
+  parameterValues,
+  runTemplateParametersIds,
+  selectedScenario,
+  allScenarios
 ) => {
-  const parametersValues = {};
-  for (const parameterId in orignalValues) {
-    if (parametersMetadata[parameterId]?.varType === DATASET_ID_VARTYPE) {
-      const datasetId = orignalValues[parameterId];
-      parametersValues[parameterId] = buildClientFileDescriptorFromDatasetCallback(datasetsData, datasetId);
-    } else {
-      parametersValues[parameterId] = orignalValues[parameterId];
-    }
+  const parameters = { dbDatasetParts: [], fileDatasetParts: [], nonDatasetParts: [] };
+  for (const parameterId of runTemplateParametersIds) {
+    const parameterValue = parameterValues[parameterId];
+    if (parameterValue == null) continue;
+
+    const parameter = buildParameterForUpdateRequest(solution, parameterId, parameterValue);
+    if (parameter == null) continue;
+
+    if (ConfigUtils.isFileParameter(parameter)) parameters.fileDatasetParts.push(parameter);
+    else if (ConfigUtils.isDBParameter(parameter)) parameters.dbDatasetParts.push(parameter);
+    else parameters.nonDatasetParts.push(parameter);
   }
-  return parametersValues;
+  _addHiddenParameters(parameters.nonDatasetParts, selectedScenario, allScenarios, runTemplateParametersIds);
+  return parameters;
 };
 
 const getErrorsCountByTab = (tabs, errors) => {
@@ -355,9 +366,7 @@ export const ScenarioParametersUtils = {
   generateParametersGroupsMetadata,
   getDefaultParametersValues,
   getParametersValuesForReset,
-  buildParametersForUpdate,
-  buildParametersValuesFromOriginalValues,
-  getParameterVarType,
+  buildParametersForUpdateRequest,
   shouldForceScenarioParametersUpdate,
   getErrorsCountByTab,
 };

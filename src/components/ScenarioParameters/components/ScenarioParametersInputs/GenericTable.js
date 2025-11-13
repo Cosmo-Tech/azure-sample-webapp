@@ -175,12 +175,12 @@ export const GenericTable = ({
     if (
       parameterValue?.status !== parameter.status ||
       !equal(parameterValue?.errors, parameter.errors) ||
-      !equal(parameterValue?.agGridRows, parameter.agGridRows)
+      !equal(parameterValue?.displayData, parameter.displayData)
     ) {
       // Ignore undesired update of the table if its content is being initialized
       if (
-        lastNewParameterValue.current.tableDataStatus === TABLE_DATA_STATUS.READY &&
-        parameterValue.tableDataStatus === TABLE_DATA_STATUS.DOWNLOADING
+        lastNewParameterValue.current.displayStatus === TABLE_DATA_STATUS.READY &&
+        parameterValue.displayStatus === TABLE_DATA_STATUS.DOWNLOADING
       )
         return;
 
@@ -190,18 +190,18 @@ export const GenericTable = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [parameterValue]);
 
-  const setClientFileDescriptorStatuses = (newFileStatus, newTableDataStatus, shouldReset = false) => {
+  const setClientFileDescriptorStatuses = (newFileStatus, newDisplayStatus, shouldReset = false) => {
     updateParameterValue(
       {
         status: newFileStatus,
-        tableDataStatus: newTableDataStatus,
+        displayStatus: newDisplayStatus,
       },
       shouldReset
     );
   };
 
-  const setClientFileDescriptorStatusesWithReset = (newFileStatus, newTableDataStatus) => {
-    setClientFileDescriptorStatuses(newFileStatus, newTableDataStatus, true);
+  const setClientFileDescriptorStatusesWithReset = (newFileStatus, newDisplayStatus) => {
+    setClientFileDescriptorStatuses(newFileStatus, newDisplayStatus, true);
   };
 
   const _checkForLock = () => {
@@ -222,19 +222,19 @@ export const GenericTable = ({
     const _setClientFileDescriptorToError = () => {
       setClientFileDescriptor({
         file: null,
-        content: null,
-        agGridRows: null,
+        serializedData: null,
+        displayData: null,
         errors: null,
-        tableDataStatus: TABLE_DATA_STATUS.ERROR,
+        displayStatus: TABLE_DATA_STATUS.ERROR,
       });
     };
 
     setClientFileDescriptor({
       file: null,
-      content: null,
-      agGridRows: null,
+      serializedData: null,
+      displayData: null,
       errors: null,
-      tableDataStatus: TABLE_DATA_STATUS.DOWNLOADING,
+      displayStatus: TABLE_DATA_STATUS.DOWNLOADING,
     });
     if (_checkForLock()) {
       return;
@@ -331,18 +331,18 @@ export const GenericTable = ({
     const agGridData = _generateGridDataFromCSV(csvRows, parameterData);
     if (agGridData.error) {
       setClientFileDescriptor({
-        tableDataStatus: TABLE_DATA_STATUS.ERROR,
+        displayStatus: TABLE_DATA_STATUS.ERROR,
         errors: agGridData.error,
       });
     } else {
       setClientFileDescriptor({
         name: fileName,
         file: null,
-        agGridRows: agGridData.rows,
+        displayData: agGridData.rows,
         errors: null,
         status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD,
-        tableDataStatus: TABLE_DATA_STATUS.READY,
-        uploadPreprocess: { content: _uploadPreprocess },
+        displayStatus: TABLE_DATA_STATUS.READY,
+        serialize: serializeToCSV,
       });
     }
 
@@ -360,11 +360,11 @@ export const GenericTable = ({
     // to fix a race condition in the table parameter state. This can be used to fix the missing loading spinner.
     setClientFileDescriptor({
       file: null,
-      content: null,
-      agGridRows: null,
+      serializedData: null,
+      displayData: null,
       errors: null,
       status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD,
-      tableDataStatus: TABLE_DATA_STATUS.DOWNLOADING,
+      displayStatus: TABLE_DATA_STATUS.DOWNLOADING,
     });
 
     if (_checkForLock()) {
@@ -388,19 +388,19 @@ export const GenericTable = ({
     } else {
       setClientFileDescriptor({
         file: null,
-        content: null,
+        serializedData: null,
         errors: null,
-        agGridRows: null,
+        displayData: null,
         status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD,
-        tableDataStatus: TABLE_DATA_STATUS.ERROR,
+        displayStatus: TABLE_DATA_STATUS.ERROR,
       });
     }
     GenericTable.downloadLocked[lockId] = false;
   };
 
-  const _uploadPreprocess = useCallback(() => {
-    const newFileContent = AgGridUtils.toCSV(lastNewParameterValue.current.agGridRows, columns, options);
-    updateParameterValue({ content: newFileContent });
+  const serializeToCSV = useCallback(() => {
+    const newFileContent = AgGridUtils.toCSV(lastNewParameterValue.current.displayData, columns, options);
+    updateParameterValue({ serializedData: newFileContent });
     gridRef.current?.api?.stopEditing();
     return newFileContent;
   }, [columns, options, updateParameterValue]);
@@ -417,11 +417,11 @@ export const GenericTable = ({
       setClientFileDescriptor({
         name: fileName,
         file: null,
-        agGridRows: null,
+        displayData: null,
         errors: null,
-        content: fileContent,
+        serializedData: fileContent,
         status: finalStatus,
-        tableDataStatus: TABLE_DATA_STATUS.PARSING,
+        displayStatus: TABLE_DATA_STATUS.PARSING,
       });
 
       const agGridData = _generateGridDataFromCSV(fileContent, parameterData, options);
@@ -433,7 +433,7 @@ export const GenericTable = ({
           });
         } else {
           setClientFileDescriptor({
-            tableDataStatus: TABLE_DATA_STATUS.ERROR,
+            displayStatus: TABLE_DATA_STATUS.ERROR,
             errors: agGridData.error,
           });
         }
@@ -441,16 +441,16 @@ export const GenericTable = ({
         setClientFileDescriptor({
           name: fileName,
           file: null,
-          agGridRows: agGridData.rows,
+          displayData: agGridData.rows,
           errors: agGridData.error,
-          content: fileContent,
+          serializedData: fileContent,
           status: finalStatus,
-          tableDataStatus: TABLE_DATA_STATUS.READY,
-          uploadPreprocess: { content: _uploadPreprocess },
+          displayStatus: TABLE_DATA_STATUS.READY,
+          serialize: serializeToCSV,
         });
       }
     },
-    [options, parameterData, _uploadPreprocess]
+    [options, parameterData, serializeToCSV]
   );
 
   const _readAndParseCSVFile = useCallback(
@@ -462,11 +462,11 @@ export const GenericTable = ({
       setClientFileDescriptor({
         name: fileName,
         file: null,
-        content: null,
-        agGridRows: null,
+        serializedData: null,
+        displayData: null,
         errors: null,
         status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD,
-        tableDataStatus: TABLE_DATA_STATUS.UPLOADING,
+        displayStatus: TABLE_DATA_STATUS.UPLOADING,
       });
       const reader = new FileReader();
       reader.onload = function (event) {
@@ -497,11 +497,11 @@ export const GenericTable = ({
       setClientFileDescriptor({
         name: fileName,
         file,
-        content: null,
-        agGridRows: null,
+        serializedData: null,
+        displayData: null,
         errors: null,
         status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD,
-        tableDataStatus: TABLE_DATA_STATUS.PARSING,
+        displayStatus: TABLE_DATA_STATUS.PARSING,
       });
 
       const agGridData = await _generateGridDataFromXLSX(file, parameterData, options);
@@ -514,7 +514,7 @@ export const GenericTable = ({
         } else {
           setClientFileDescriptor({
             errors: agGridData.error,
-            tableDataStatus: TABLE_DATA_STATUS.ERROR,
+            displayStatus: TABLE_DATA_STATUS.ERROR,
           });
         }
       } else {
@@ -526,16 +526,16 @@ export const GenericTable = ({
         setClientFileDescriptor({
           name: fileName,
           file: null,
-          content: newFileContent,
-          agGridRows: agGridData.rows,
+          serializedData: newFileContent,
+          displayData: agGridData.rows,
           errors: agGridData.error,
           status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD,
-          tableDataStatus: TABLE_DATA_STATUS.READY,
-          uploadPreprocess: { content: _uploadPreprocess },
+          displayStatus: TABLE_DATA_STATUS.READY,
+          serialize: serializeToCSV,
         });
       }
     },
-    [options, parameterData, _uploadPreprocess]
+    [options, parameterData, serializeToCSV]
   );
 
   const importFile = useCallback(
@@ -564,17 +564,17 @@ export const GenericTable = ({
   const closeRevertDialog = () => setIsRevertDialogOpen(false);
   const exportCSV = useCallback(
     (fileName) => {
-      const fileContent = AgGridUtils.toCSV(parameter.agGridRows, columns, options);
+      const fileContent = AgGridUtils.toCSV(parameter.displayData, columns, options);
       FileBlobUtils.downloadFileFromData(fileContent, fileName);
     },
-    [columns, options, parameter.agGridRows]
+    [columns, options, parameter.displayData]
   );
   const exportXSLX = useCallback(
     (fileName) => {
-      const fileContent = AgGridUtils.toXLSX(parameter.agGridRows, columns, options);
+      const fileContent = AgGridUtils.toXLSX(parameter.displayData, columns, options);
       FileBlobUtils.downloadFileFromData(fileContent, fileName);
     },
-    [columns, options, parameter.agGridRows]
+    [columns, options, parameter.displayData]
   );
   const exportFile = useCallback(
     (fileName) => {
@@ -592,15 +592,15 @@ export const GenericTable = ({
   );
 
   const updateOnFirstEdition = useCallback(() => {
-    if (!parameter.uploadPreprocess || !isDirty) {
+    if (!parameter.serialize || !isDirty) {
       updateParameterValue({
         status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD,
-        tableDataStatus: TABLE_DATA_STATUS.READY,
+        displayStatus: TABLE_DATA_STATUS.READY,
         errors: null,
-        uploadPreprocess: { content: _uploadPreprocess },
+        serialize: serializeToCSV,
       });
     }
-  }, [parameter.uploadPreprocess, isDirty, _uploadPreprocess, updateParameterValue]);
+  }, [parameter.serialize, isDirty, serializeToCSV, updateParameterValue]);
 
   const onCellChange = updateOnFirstEdition;
 
@@ -625,19 +625,19 @@ export const GenericTable = ({
   };
 
   const alreadyDownloaded =
-    parameter.tableDataStatus !== undefined &&
+    parameter.displayStatus !== undefined &&
     [
       TABLE_DATA_STATUS.ERROR,
       TABLE_DATA_STATUS.DOWNLOADING,
       TABLE_DATA_STATUS.PARSING,
       TABLE_DATA_STATUS.READY,
-    ].includes(parameter.tableDataStatus);
+    ].includes(parameter.displayStatus);
 
   // Trigger dataset download only when mounting the component
   useEffect(() => {
     if (
       parameter.id &&
-      !parameter.content &&
+      !parameter.serializedData &&
       parameter.status === UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD &&
       !alreadyDownloaded
     ) {
@@ -650,7 +650,7 @@ export const GenericTable = ({
       );
     } else if (
       isDataFetchedFromDataset &&
-      !parameter.content &&
+      !parameter.serializedData &&
       parameter.status === UPLOAD_FILE_STATUS_KEY.EMPTY &&
       !alreadyDownloaded
     ) {
@@ -660,9 +660,9 @@ export const GenericTable = ({
 
   const onAddRow = useCallback(() => {
     const newLine = TableUtils.createNewTableLine(parameterData.options.columns, parameterData.options.dateFormat);
-    const rowsCountBeforeRowAddition = parameter?.agGridRows?.length ?? 0;
+    const rowsCountBeforeRowAddition = parameter?.displayData?.length ?? 0;
     if (rowsCountBeforeRowAddition === 0) {
-      updateParameterValue({ agGridRows: [newLine], name: parameter?.file?.name ?? `${parameterData.id}.csv` });
+      updateParameterValue({ displayData: [newLine], name: parameter?.file?.name ?? `${parameterData.id}.csv` });
       updateOnFirstEdition();
       return;
     }
@@ -687,11 +687,11 @@ export const GenericTable = ({
     }
 
     if (isSortEnabled) {
-      parameter.agGridRows.push(newLine);
+      parameter.displayData.push(newLine);
     } else if (selectedLines?.length > 0) {
-      parameter.agGridRows.splice(addIndex, 0, newLine);
+      parameter.displayData.splice(addIndex, 0, newLine);
     } else {
-      parameter.agGridRows.unshift(newLine);
+      parameter.displayData.unshift(newLine);
     }
 
     gridApi.applyTransaction({ add: [newLine], addIndex: addIndexForTransaction });
@@ -699,7 +699,7 @@ export const GenericTable = ({
     updateOnFirstEdition();
   }, [
     updateOnFirstEdition,
-    parameter.agGridRows,
+    parameter.displayData,
     parameter.file?.name,
     parameterData.id,
     parameterData.options.columns,
@@ -714,18 +714,18 @@ export const GenericTable = ({
     const nodesDataToRemove = gridApi.getSelectedNodes().map((rowNode) => rowNode.data);
     gridApi.applyTransaction({ remove: nodesDataToRemove });
 
-    const _findRowIndexFromData = (nodeData) => parameter.agGridRows.findIndex((row) => row === nodeData);
+    const _findRowIndexFromData = (nodeData) => parameter.displayData.findIndex((row) => row === nodeData);
     nodesDataToRemove.forEach((nodeDataToRemove) => {
       const rowIndexToRemove = _findRowIndexFromData(nodeDataToRemove);
-      parameter.agGridRows.splice(rowIndexToRemove, 1);
+      parameter.displayData.splice(rowIndexToRemove, 1);
     });
 
-    if (parameter.agGridRows.length === 0) {
-      updateParameterValue({ agGridRows: parameter.agGridRows });
+    if (parameter.displayData.length === 0) {
+      updateParameterValue({ displayData: parameter.displayData });
     }
 
     updateOnFirstEdition();
-  }, [updateOnFirstEdition, parameter.agGridRows, updateParameterValue]);
+  }, [updateOnFirstEdition, parameter.displayData, updateParameterValue]);
 
   const onDeleteRow = useCallback(() => {
     const selectedRows = gridRef.current?.api?.getSelectedNodes() ?? [];
@@ -742,11 +742,11 @@ export const GenericTable = ({
       // To trigger isDirty state when an already saved table was reverted and avoid it in other cases, we need to
       // updateParameterValue setter and updateOnFirstEdition function that triggers the start of edition; on the other
       // hand, updateParameterValueWithReset setter rollbacks modified values without triggering isDirty
-      _getDataFromTwingraphDataset(parameter.content ? updateParameterValue : updateParameterValueWithReset);
-      if (parameter.content) updateOnFirstEdition();
+      _getDataFromTwingraphDataset(parameter.serializedData ? updateParameterValue : updateParameterValueWithReset);
+      if (parameter.serializedData) updateOnFirstEdition();
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [parameter.content, updateParameterValue, updateParameterValueWithReset, updateOnFirstEdition]
+    [parameter.serializedData, updateParameterValue, updateParameterValueWithReset, updateOnFirstEdition]
   );
 
   const onRevertTableData = useCallback(() => {
@@ -772,10 +772,10 @@ export const GenericTable = ({
         tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
         dateFormat={dateFormat}
         editMode={context.editMode}
-        dataStatus={parameter.tableDataStatus || TABLE_DATA_STATUS.EMPTY}
+        dataStatus={parameter.displayStatus || TABLE_DATA_STATUS.EMPTY}
         errors={parameter.errors}
         columns={columns}
-        rows={parameter.agGridRows || []}
+        rows={parameter.displayData ?? []}
         agTheme={context.isDarkTheme ? gridDark.agTheme : gridLight.agTheme}
         onImport={importFile}
         onExport={openExportDialog}

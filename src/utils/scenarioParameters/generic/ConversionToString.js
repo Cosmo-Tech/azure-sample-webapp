@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { DateUtils } from '@cosmotech/core';
-import { DATASET_ID_VARTYPE } from '../../../services/config/ApiConstants';
+import { FILE_DATASET_PART_ID_VARTYPE } from '../../../services/config/ApiConstants';
 
 function _convertEnumToString(parameterValue) {
   return parameterValue; // Already a string
@@ -43,5 +43,5 @@ export const GENERIC_VAR_TYPES_TO_STRING_FUNCTIONS = {
   bool: _convertBoolToString,
   date: _convertDateToString,
   list: _convertListToString,
-  [DATASET_ID_VARTYPE]: _convertDatasetIdToString, // "%DATASETID%" varType
+  [FILE_DATASET_PART_ID_VARTYPE]: _convertDatasetIdToString,
 };

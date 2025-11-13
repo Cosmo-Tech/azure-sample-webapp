@@ -25,6 +25,8 @@ function buildDatasetLocation(datasetId, fileName) {
 
 // Build dataset file location for workspace files
 function getFileNameFromDatasetLocation(dataset) {
+  // FIXME: remove function when it's no longer used
+  console.log('Warning: this function is deprecated');
   const location = dataset.source?.location;
   const locationMatchPattern = String.raw`datasets/${dataset?.id}/(.*)`;
   const match = new RegExp(locationMatchPattern, 'g').exec(location);
@@ -34,6 +36,8 @@ function getFileNameFromDatasetLocation(dataset) {
 
 // Retrieve dataset file location for workspace files
 function getDatasetLocation(dataset) {
+  // FIXME: remove function when it's no longer used
+  console.log('Warning: this function is deprecated');
   return dataset?.source?.location;
 }
 

@@ -1,6 +1,11 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
+import { FILE_DATASET_PART_ID_VARTYPE, DB_DATASET_PART_ID_VARTYPE } from '../services/config/ApiConstants';
 import { ArrayDictUtils } from './ArrayDictUtils';
+
+const isDatasetPartVarType = (varType) => [FILE_DATASET_PART_ID_VARTYPE, DB_DATASET_PART_ID_VARTYPE].includes(varType);
+const isDBParameter = (parameter) => parameter?.varType === DB_DATASET_PART_ID_VARTYPE;
+const isFileParameter = (parameter) => parameter?.varType === FILE_DATASET_PART_ID_VARTYPE;
 
 const buildExtendedVarType = (varType, extension) => {
   if (varType) {
@@ -237,6 +242,9 @@ const checkUnknownKeysInConfig = (schema, data) => {
 };
 
 export const ConfigUtils = {
+  isDatasetPartVarType,
+  isDBParameter,
+  isFileParameter,
   buildExtendedVarType,
   getConversionMethod,
   checkDeprecatedKeysInConfig,

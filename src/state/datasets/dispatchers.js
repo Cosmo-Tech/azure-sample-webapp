@@ -30,6 +30,13 @@ export const dispatchUpdateDataset = (organizationId, datasetId, datasetData, da
   datasetIndex,
 });
 
+export const dispatchUpdateDatasetPart = (datasetId, datasetPart, datasetIndex) => ({
+  type: DATASET_ACTIONS_KEY.UPDATE_DATASET_PART,
+  datasetId,
+  datasetPart,
+  datasetIndex,
+});
+
 export const dispatchRollbackTwingraphData = (organizationId, datasetId) => ({
   type: DATASET_ACTIONS_KEY.ROLLBACK_TWINGRAPH_DATA,
   organizationId,

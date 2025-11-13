@@ -23,30 +23,19 @@ export const GenericUploadFile = ({
   const organizationId = useOrganizationId();
   const workspaceId = useWorkspaceId();
   const parameterId = parameterData.id;
-  const parameter = parameterValue || {};
-  const datasetId = parameter.id;
+  const file = { name: parameterValue?.name, status: parameterValue?.status ?? UPLOAD_FILE_STATUS_KEY.EMPTY };
   const defaultFileTypeFilter = ConfigUtils.getParameterAttribute(parameterData, 'defaultFileTypeFilter');
   const renameFileOnUpload = ConfigUtils.getParameterAttribute(parameterData, 'shouldRenameFileOnUpload');
 
-  function updateParameterValue(newValuePart) {
-    setParameterValue({
-      ...parameterValue,
-      ...newValuePart,
-    });
-  }
+  const updateParameterValue = (valuePatch) => setParameterValue({ ...parameterValue, ...valuePatch });
 
-  function setClientFileDescriptorStatus(newFileStatus) {
+  const setFileParameterStatus = (newFileStatus) => {
     const shouldReset =
       newFileStatus === UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE &&
       defaultParameterValue?.status === UPLOAD_FILE_STATUS_KEY.EMPTY;
-    if (shouldReset) {
-      resetParameterValue(defaultParameterValue);
-    } else {
-      updateParameterValue({
-        status: newFileStatus,
-      });
-    }
-  }
+    if (shouldReset) resetParameterValue(defaultParameterValue);
+    else updateParameterValue({ status: newFileStatus });
+  };
 
   const labels = {
     button: t('genericcomponent.uploadfile.button.browse'),
@@ -67,12 +56,19 @@ export const GenericUploadFile = ({
       acceptedFileTypes={defaultFileTypeFilter}
       shouldHideFileName={renameFileOnUpload}
       handleUploadFile={(event) => FileManagementUtils.prepareToUpload(event, updateParameterValue, parameterData)}
-      handleDeleteFile={() => FileManagementUtils.prepareToDeleteFile(setClientFileDescriptorStatus)}
+      handleDeleteFile={() => FileManagementUtils.prepareToDeleteFile(setFileParameterStatus)}
       handleDownloadFile={(event) => {
         event.preventDefault();
-        FileManagementUtils.downloadFile(organizationId, workspaceId, datasetId, setClientFileDescriptorStatus);
+        const datasetPart = {
+          organizationId,
+          workspaceId,
+          datasetId: parameterValue.datasetId,
+          id: parameterValue.datasetPartId,
+          sourceName: parameterValue.name,
+        };
+        FileManagementUtils.downloadDatasetPartFile(datasetPart, setFileParameterStatus);
       }}
-      file={parameter}
+      file={file}
       error={error}
       editMode={context.editMode}
       isDirty={isDirty}
