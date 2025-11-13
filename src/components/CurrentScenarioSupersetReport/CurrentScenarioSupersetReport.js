@@ -17,6 +17,7 @@ const CurrentScenarioSupersetReport = ({
   reportConfiguration,
   index,
   labels,
+  contextType,
   ...other
 }) => {
   const { t } = useTranslation();
@@ -116,6 +117,7 @@ CurrentScenarioSupersetReport.propTypes = {
   reportConfiguration: PropTypes.object,
   index: PropTypes.number,
   labels: PropTypes.object,
+  contextType: PropTypes.string,
 };
 
 export default CurrentScenarioSupersetReport;
