@@ -48,7 +48,7 @@ jest.mock('../../../../hooks/ScenarioParametersHooks', () => ({
   useUpdateParameters: () => ({
     forceUpdate: false,
     processFilesToUpload: jest.fn(),
-    getParametersToUpdate: jest.fn(),
+    getParametersToUpdate: () => ({ dbDatasetParts: [], fileDatasetParts: [], nonDatasetParts: [] }),
   }),
 }));
 
