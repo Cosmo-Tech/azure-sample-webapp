@@ -215,7 +215,7 @@ export const GenericTable = ({
     return false;
   };
 
-  const isDataFetchedFromDataset = !!parameterData?.options?.dynamicValues;
+  const isDataFetchedFromDataset = !!parameterData?.additionalData?.dynamicValues;
 
   const _getDataFromTwingraphDataset = async (setClientFileDescriptor) => {
     const fileName = `${parameterData.id}.csv`;
@@ -659,7 +659,10 @@ export const GenericTable = ({
   });
 
   const onAddRow = useCallback(() => {
-    const newLine = TableUtils.createNewTableLine(parameterData.options.columns, parameterData.options.dateFormat);
+    const newLine = TableUtils.createNewTableLine(
+      parameterData.additionalData.columns,
+      parameterData.additionalData.dateFormat
+    );
     const rowsCountBeforeRowAddition = parameter?.displayData?.length ?? 0;
     if (rowsCountBeforeRowAddition === 0) {
       updateParameterValue({ displayData: [newLine], name: parameter?.file?.name ?? `${parameterData.id}.csv` });
@@ -702,8 +705,8 @@ export const GenericTable = ({
     parameter.displayData,
     parameter.file?.name,
     parameterData.id,
-    parameterData.options.columns,
-    parameterData.options.dateFormat,
+    parameterData.additionalData.columns,
+    parameterData.additionalData.dateFormat,
     updateParameterValue,
   ]);
 

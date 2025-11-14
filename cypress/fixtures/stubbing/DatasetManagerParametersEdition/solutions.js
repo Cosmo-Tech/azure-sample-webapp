@@ -14,7 +14,7 @@ export const SOLUTION = {
     {
       id: 'etl_dynamic_values_enum_parameter',
       varType: 'enum',
-      options: {
+      additionalData: {
         dynamicEnumValues: {
           type: 'cypher',
           query: 'MATCH(n:Customer) RETURN n.id as customer_id',
@@ -25,7 +25,7 @@ export const SOLUTION = {
     {
       id: 'etl_file_parameter',
       varType: '%DATASETID%',
-      options: {
+      additionalData: {
         connectorId: 'c-stbdcnctr',
       },
     },

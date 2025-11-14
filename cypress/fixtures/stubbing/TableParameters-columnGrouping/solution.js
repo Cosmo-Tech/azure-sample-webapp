@@ -12,7 +12,7 @@ const SOLUTION_WITH_COLUMN_GROUP = {
         en: 'Customers',
       },
       varType: '%DATASETID%',
-      options: {
+      additionalData: {
         canChangeRowsNumber: true,
         connectorId: 'c-d7e5p9o0kjn9',
         description: 'customers data',

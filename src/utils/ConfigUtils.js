@@ -55,7 +55,7 @@ const _checkDeprecatedKeysInParameterConfig = (parameter) => {
       } else {
         console.warn(
           `The "parameter.${keyToCheck}" key in the scenario parameters configuration is now deprecated. Please ` +
-            `use "parameter.options.${keyToCheck}" key instead.`
+            `use "parameter.additionalData.${keyToCheck}" key instead.`
         );
       }
     }
@@ -82,9 +82,7 @@ const getParameterAttribute = (parameter, attributeName) => {
     return undefined;
   }
 
-  // DEPRECATED: support for previous configuration path parameter.[attributeName] is deprecated and will be dropped in
-  // a future version
-  return parameter?.options?.[attributeName] ?? parameter?.[attributeName];
+  return parameter?.additionalData?.[attributeName];
 };
 
 const getParametersGroupAttribute = (parametersGroup, attributeName) => {
@@ -96,9 +94,7 @@ const getParametersGroupAttribute = (parametersGroup, attributeName) => {
     return undefined;
   }
 
-  // DEPRECATED: support for previous configuration path parametersGroup.[attributeName] is deprecated and will be
-  // dropped in a future version
-  return parametersGroup?.options?.[attributeName] ?? parametersGroup?.[attributeName];
+  return parametersGroup?.additionalData?.[attributeName];
 };
 
 const _checkDeprecatedKeysInParametersGroupConfig = (parametersGroup) => {
@@ -107,7 +103,7 @@ const _checkDeprecatedKeysInParametersGroupConfig = (parametersGroup) => {
     if (parametersGroup?.[keyToCheck] !== undefined) {
       console.warn(
         `The "parametersGroup.${keyToCheck}" key in the scenario parameters group configuration is now deprecated. ` +
-          `Please use "parametersGroup.options.${keyToCheck}" key instead.`
+          `Please use "parametersGroup.additionalData.${keyToCheck}" key instead.`
       );
     }
   });

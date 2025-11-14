@@ -34,11 +34,11 @@ export const GenericEnumInput = ({
     if (Array.isArray(dynamicEnumValues)) return dynamicEnumValues;
 
     const rawEnumValues = ConfigUtils.getParameterAttribute(parameterData, 'enumValues') ?? [];
-    if (rawEnumValues.length === 0 && parameterData.options?.dynamicEnumValues == null) {
+    if (rawEnumValues.length === 0 && parameterData.additionalData?.dynamicEnumValues == null) {
       console.warn(
         `Enum values are not defined for scenario parameter "${parameterData.id}".\n` +
-          'Please either provide an array in the "options.enumValues" field, or use "options.dynamicEnumValues" for ' +
-          'this parameter in the parameters configuration file.'
+          'Please either provide an array in the "additionalData.enumValues" field, or use ' +
+          '"additionalData.dynamicEnumValues" for this parameter in the parameters configuration file.'
       );
     }
 

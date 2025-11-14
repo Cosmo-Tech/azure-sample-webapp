@@ -79,19 +79,19 @@ const patchSolutionIfLocalConfigExists = async (originalSolution) => {
 };
 
 const checkParametersValidationConstraintsInSolution = (data) => {
-  const parametersWithConstraint = data?.parameters?.filter((parameter) => parameter?.options?.validation);
+  const parametersWithConstraint = data?.parameters?.filter((parameter) => parameter?.additionalData?.validation);
   parametersWithConstraint?.forEach((parameter) => {
     const constraint = ParameterConstraintsUtils.getParameterValidationConstraint(
-      parameter.options.validation,
+      parameter.additionalData.validation,
       parameter.varType,
       data.parameters
     );
     if (constraint === null) {
       console.warn(
-        `Constraint "${parameter.options.validation}" cannot be applied to parameter
+        `Constraint "${parameter.additionalData.validation}" cannot be applied to parameter
         with id "${parameter.id}", please check your solution configuration file`
       );
-      delete data.parameters.find((param) => param.id === parameter.id)?.options?.validation;
+      delete data.parameters.find((param) => param.id === parameter.id)?.additionalData?.validation;
     }
   });
 };
@@ -113,7 +113,7 @@ const patchIncompatibleValuesInSolution = (solution) => {
 
   solution.parameters?.forEach((parameter) => {
     if (parameter.varType === 'enum') {
-      const dynamicSourceConfig = parameter.options?.dynamicEnumValues;
+      const dynamicSourceConfig = parameter.additionalData?.dynamicEnumValues;
       if (dynamicSourceConfig == null) return;
 
       let removeFromConfig = false;
@@ -134,7 +134,7 @@ const patchIncompatibleValuesInSolution = (solution) => {
       }
 
       if (removeFromConfig) {
-        delete parameter.options.dynamicEnumValues;
+        delete parameter.additionalData.dynamicEnumValues;
         console.warn(
           `Dynamic values have been disabled for parameter ${parameter.id}, static values from the configuration (or ` +
             ' an empty list) will be shown.'
@@ -142,22 +142,22 @@ const patchIncompatibleValuesInSolution = (solution) => {
       }
     } else if (
       parameter.varType === '%DATASETID%' &&
-      parameter.options?.subType === 'TABLE' &&
-      parameter.options?.canChangeRowsNumber
+      parameter.additionalData?.subType === 'TABLE' &&
+      parameter.additionalData?.canChangeRowsNumber
     ) {
-      const nonEditableColumn = _getNonEditableColumn(parameter.options.columns);
+      const nonEditableColumn = _getNonEditableColumn(parameter.additionalData.columns);
       if (nonEditableColumn != null) {
         console.warn(
-          `parameter.options.canChangeRowsNumber can't be true on ${parameter.id} ` +
+          `parameter.additionalData.canChangeRowsNumber can't be true on ${parameter.id} ` +
             `if column ${nonEditableColumn.field} is nonEditable, please fix it in the solution`
         );
-        parameter.options.canChangeRowsNumber = false;
+        parameter.additionalData.canChangeRowsNumber = false;
       }
     } else if (parameter.varType === 'int' || parameter.varType === 'number') {
-      if (parameter.defaultValue != null && parameter.options?.dynamicValues != null) {
+      if (parameter.defaultValue != null && parameter.additionalData?.dynamicValues != null) {
         console.warn(
           `In solution configuration, the parameter "${parameter.id}" is defined with ` +
-            'both options "defaultValue" and "options.dynamicValues": the dynamic query may be ignored.'
+            'both options "defaultValue" and "additionalData.dynamicValues": the dynamic query may be ignored.'
         );
       }
     }

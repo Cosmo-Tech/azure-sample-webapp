@@ -20,7 +20,7 @@ const SCENARIO_PARAMETERS = [
     defaultValue: '2025-07-13T12:00:00Z', // Summer time, date NOT at midnight UTC
     minValue: '2025-07-01T00:00:00Z',
     maxValue: '2026-07-01T00:00:00Z',
-    options: { validation: '> start_date' },
+    additionalData: { validation: '> start_date' },
   },
 ];
 

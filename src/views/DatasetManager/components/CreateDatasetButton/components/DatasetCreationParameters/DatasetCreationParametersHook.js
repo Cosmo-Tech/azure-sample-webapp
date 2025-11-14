@@ -44,7 +44,7 @@ export const useDatasetCreationParameters = () => {
   );
 
   const getDefaultFileTypeFilter = useCallback(
-    (dataSources, parameterId) => getParameterById(dataSources, parameterId)?.options?.defaultFileTypeFilter,
+    (dataSources, parameterId) => getParameterById(dataSources, parameterId)?.additionalData?.defaultFileTypeFilter,
     [getParameterById]
   );
 

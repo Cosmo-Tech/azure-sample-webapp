@@ -36,7 +36,7 @@ const SOLUTION_WITH_ALL_TYPES_OF_PARAMETERS = {
       defaultValue: 'None',
       labels: { fr: 'Commentaire', en: 'Comment' },
       varType: 'string',
-      options: {
+      additionalData: {
         maxLength: 30,
       },
     },
@@ -46,7 +46,7 @@ const SOLUTION_WITH_ALL_TYPES_OF_PARAMETERS = {
       defaultValue: 'Good',
       labels: { fr: 'Evaluation', en: 'Evaluation' },
       varType: 'string',
-      options: {
+      additionalData: {
         minLength: 2,
       },
     },
@@ -56,7 +56,7 @@ const SOLUTION_WITH_ALL_TYPES_OF_PARAMETERS = {
       defaultValue: 'EUR',
       labels: { fr: 'Nom de la monnaie', en: 'Currency name' },
       varType: 'string',
-      options: {
+      additionalData: {
         minLength: 2,
         maxLength: 10,
       },
@@ -73,7 +73,7 @@ const SOLUTION_WITH_ALL_TYPES_OF_PARAMETERS = {
       minValue: null,
       maxValue: null,
       regexValidation: null,
-      options: null,
+      additionalData: null,
     },
     {
       ...SOLUTION_PARAMETER_EXAMPLE,
@@ -87,7 +87,7 @@ const SOLUTION_WITH_ALL_TYPES_OF_PARAMETERS = {
       minValue: null,
       maxValue: null,
       regexValidation: null,
-      options: {
+      additionalData: {
         validation: '> start_date',
       },
     },
@@ -103,7 +103,7 @@ const SOLUTION_WITH_ALL_TYPES_OF_PARAMETERS = {
       minValue: '2021-01-01T00:00:00.000Z',
       maxValue: '2022-12-31T00:00:00.000Z',
       regexValidation: null,
-      options: {
+      additionalData: {
         validation: '!= end_date',
       },
     },
@@ -125,7 +125,7 @@ const SOLUTION_WITH_ALL_TYPES_OF_PARAMETERS = {
       id: 'basic_types',
       labels: { fr: 'Bar', en: 'Pub' },
       isTable: null,
-      options: null,
+      additionalData: null,
       parentId: null,
       parameters: ['stock', 'restock_qty', 'nb_waiters'],
     },
@@ -133,7 +133,7 @@ const SOLUTION_WITH_ALL_TYPES_OF_PARAMETERS = {
       id: 'dataset_parts',
       labels: { fr: 'Valeurs initiales', en: 'Initial values' },
       isTable: null,
-      options: null,
+      additionalData: null,
       parameters: ['evaluation', 'comment', 'currency_name', 'example_dataset_part_1', 'example_dataset_part_2'],
       parentId: null,
     },
@@ -144,7 +144,7 @@ const SOLUTION_WITH_ALL_TYPES_OF_PARAMETERS = {
         fr: 'Paramètres additionnels',
       },
       isTable: null,
-      options: null,
+      additionalData: null,
       parentId: null,
       parameters: ['start_date', 'end_date', 'additional_date'],
     },
@@ -184,7 +184,7 @@ const SOLUTION_WITH_CONSTRAINTS_BETWEEN_PARAMETERS = {
       varType: 'number',
       defaultValue: '5',
       maxValue: 25,
-      options: {
+      additionalData: {
         validation: '< stock',
       },
     },
@@ -195,7 +195,7 @@ const SOLUTION_WITH_CONSTRAINTS_BETWEEN_PARAMETERS = {
       varType: 'number',
       defaultValue: '2',
       minValue: 1,
-      options: {
+      additionalData: {
         validation: '<= restock_qty',
       },
     },
@@ -205,7 +205,7 @@ const SOLUTION_WITH_CONSTRAINTS_BETWEEN_PARAMETERS = {
       defaultValue: 'None',
       labels: { fr: 'Commentaire', en: 'Comment' },
       varType: 'string',
-      options: {
+      additionalData: {
         maxLength: 30,
       },
     },
@@ -215,7 +215,7 @@ const SOLUTION_WITH_CONSTRAINTS_BETWEEN_PARAMETERS = {
       defaultValue: 'Good',
       labels: { fr: 'Evaluation', en: 'Evaluation' },
       varType: 'string',
-      options: {
+      additionalData: {
         minLength: 2,
         validation: '!= comment',
       },
@@ -232,7 +232,7 @@ const SOLUTION_WITH_CONSTRAINTS_BETWEEN_PARAMETERS = {
       minValue: null,
       maxValue: null,
       regexValidation: null,
-      options: null,
+      additionalData: null,
     },
     {
       ...SOLUTION_PARAMETER_EXAMPLE,
@@ -246,7 +246,7 @@ const SOLUTION_WITH_CONSTRAINTS_BETWEEN_PARAMETERS = {
       minValue: null,
       maxValue: null,
       regexValidation: null,
-      options: {
+      additionalData: {
         validation: '> start_date',
       },
     },
@@ -262,7 +262,7 @@ const SOLUTION_WITH_CONSTRAINTS_BETWEEN_PARAMETERS = {
       minValue: '2021-01-01T00:00:00.000Z',
       maxValue: '2022-12-31T00:00:00.000Z',
       regexValidation: null,
-      options: {
+      additionalData: {
         validation: '!= end_date',
       },
     },
@@ -272,7 +272,7 @@ const SOLUTION_WITH_CONSTRAINTS_BETWEEN_PARAMETERS = {
       id: 'basic_types',
       labels: { fr: 'Bar', en: 'Pub' },
       isTable: null,
-      options: null,
+      additionalData: null,
       parentId: null,
       parameters: ['stock', 'restock_qty', 'nb_waiters'],
     },
@@ -280,7 +280,7 @@ const SOLUTION_WITH_CONSTRAINTS_BETWEEN_PARAMETERS = {
       id: 'dataset_parts',
       labels: { fr: 'Valeurs initiales', en: 'Initial values' },
       isTable: null,
-      options: null,
+      additionalData: null,
       parameters: ['evaluation', 'comment', 'currency_name'],
       parentId: null,
     },
@@ -291,7 +291,7 @@ const SOLUTION_WITH_CONSTRAINTS_BETWEEN_PARAMETERS = {
         fr: 'Paramètres additionnels',
       },
       isTable: null,
-      options: null,
+      additionalData: null,
       parentId: null,
       parameters: ['start_date', 'end_date', 'additional_date'],
     },
@@ -327,7 +327,7 @@ const SOLUTION_WITH_WRONG_CONSTRAINT_CONFIGURATION = {
       minValue: null,
       maxValue: null,
       regexValidation: null,
-      options: null,
+      additionalData: null,
     },
     {
       ...SOLUTION_PARAMETER_EXAMPLE,
@@ -341,7 +341,7 @@ const SOLUTION_WITH_WRONG_CONSTRAINT_CONFIGURATION = {
       minValue: null,
       maxValue: null,
       regexValidation: null,
-      options: {
+      additionalData: {
         validation: '> start_date',
       },
     },
@@ -354,7 +354,7 @@ const SOLUTION_WITH_WRONG_CONSTRAINT_CONFIGURATION = {
         fr: 'Paramètres additionnels',
       },
       isTable: null,
-      options: null,
+      additionalData: null,
       parentId: null,
       parameters: ['start_date', 'end_date'],
     },

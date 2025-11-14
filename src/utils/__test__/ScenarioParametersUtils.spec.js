@@ -89,7 +89,7 @@ describe('generateParametersGroupsMetadata with missing data in solution', () =>
         fr: 'GroupA FR label',
       },
       parameters: [],
-      options: {
+      additionalData: {
         authorizedRoles: [],
         hideParameterGroupIfNoPermission: false,
       },
