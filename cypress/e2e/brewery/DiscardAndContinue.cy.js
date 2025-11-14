@@ -52,6 +52,8 @@ describe('Discard and continue inside the same workspace', () => {
     ScenarioManager.switchToScenarioManager();
     ScenarioParameters.cancelDiscardAndContinue();
     BreweryParameters.getCurrencyNameInput().should('value', currencyName);
+
+    ScenarioParameters.discardAndContinue(); // Clear to prevent the blocking pop-up when running tests
   });
 
   it('Check change tab after discard modification', () => {
