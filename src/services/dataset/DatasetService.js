@@ -1,5 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
+import { FileBlobUtils } from '@cosmotech/core';
 import { Api } from '../../services/config/Api';
 import { SecurityUtils } from '../../utils';
 
@@ -8,6 +9,7 @@ const findDatasetById = (organizationId, workspaceId, datasetId) => {
 };
 
 const createNoneTypeDataset = (organizationId, workspaceId, name, description, tags, main = false) => {
+  // FIXME: write sourceType in additionalData when it's available
   const newDataset = { name, description, tags, main, sourceType: 'None' };
   return Api.Datasets.createDataset(organizationId, workspaceId, newDataset);
 };
@@ -40,12 +42,36 @@ const deleteDataset = (organizationId, workspaceId, datasetId) => {
   return Api.Datasets.deleteDataset(organizationId, workspaceId, datasetId);
 };
 
+const createEmptyDataset = async (organizationId, workspaceId, dataset) => {
+  const datasetWithoutParts = { ...dataset, parts: [] };
+  const { data: emptyDataset } = await Api.Datasets.createDataset(organizationId, workspaceId, datasetWithoutParts);
+  return emptyDataset;
+};
+
+const createDatasetPart = async (organizationId, workspaceId, datasetId, datasetPart, file) => {
+  const { data } = await Api.Datasets.createDatasetPart(organizationId, workspaceId, datasetId, file, datasetPart);
+  return data;
+};
+
+const downloadDatasetPart = async (datasetPart) => {
+  const { organizationId, workspaceId, datasetId, id, sourceName } = datasetPart;
+  const { data, status } = await Api.Datasets.downloadDatasetPart(organizationId, workspaceId, datasetId, id);
+  if (status !== 200) {
+    throw new Error(`Error when downloading dataset part "${id}" in dataset "${datasetId}"`);
+  }
+  FileBlobUtils.downloadFileFromData(data, sourceName);
+  return data;
+};
+
 const DatasetService = {
   findDatasetById,
   createNoneTypeDataset,
   updateDataset,
   updateSecurity,
   deleteDataset,
+  createEmptyDataset,
+  createDatasetPart,
+  downloadDatasetPart,
 };
 
 export default DatasetService;

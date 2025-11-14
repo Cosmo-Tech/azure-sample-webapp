@@ -3,20 +3,13 @@
 import { t } from 'i18next';
 import { call, put, select, takeEvery } from 'redux-saga/effects';
 import { Api } from '../../../services/config/Api';
-import { INGESTION_STATUS } from '../../../services/config/ApiConstants';
+import { DATASET_PERMISSIONS_MAPPING, INGESTION_STATUS } from '../../../services/config/ApiConstants';
 import { STATUSES } from '../../../services/config/StatusConstants';
 import { ACL_PERMISSIONS } from '../../../services/config/accessControl';
 import { DatasetsUtils } from '../../../utils';
 import { setApplicationErrorMessage } from '../../app/reducers';
 import { DATASET_ACTIONS_KEY } from '../constants';
 import { loadDatasets, selectDataset, setAllDatasets } from '../reducers';
-
-// TODO: replace by data from redux when dataset roles-permissions mapping is added in back-end /permissions endpoint
-const DATASET_PERMISSIONS_MAPPING = {
-  viewer: ['read'],
-  editor: ['read', 'read_security', 'write'],
-  admin: ['read', 'read_security', 'write', 'write_security', 'delete'],
-};
 
 const getUserEmail = (state) => state.auth.userEmail;
 const keepOnlyReadableDatasets = (datasets) =>

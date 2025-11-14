@@ -2,7 +2,7 @@
 // Licensed under the MIT licence.
 import { t } from 'i18next';
 import { takeEvery, select, call, put } from 'redux-saga/effects';
-import { DATASET_ID_VARTYPE } from '../../../services/config/ApiConstants';
+import { FILE_DATASET_PART_ID_VARTYPE } from '../../../services/config/ApiConstants';
 import DatasetService from '../../../services/dataset/DatasetService';
 import RunnerService from '../../../services/runner/RunnerService';
 import { SecurityUtils } from '../../../utils';
@@ -43,11 +43,11 @@ export function* applyRunnerSharingChanges(action) {
 
     const solutionParameters = yield select(getSolutionParameters);
     const defaultDatasetsIds = solutionParameters
-      .filter((parameter) => parameter.varType === DATASET_ID_VARTYPE && parameter.defaultValue != null)
+      .filter((parameter) => parameter.varType === FILE_DATASET_PART_ID_VARTYPE && parameter.defaultValue != null)
       .map((parameter) => parameter.defaultValue);
 
     const runnerDatasetsIds = (currentSimulationRunner.parametersValues ?? [])
-      .filter((value) => value.varType === DATASET_ID_VARTYPE)
+      .filter((value) => value.varType === FILE_DATASET_PART_ID_VARTYPE)
       .map((dataset) => dataset.value);
     for (const datasetId of runnerDatasetsIds) {
       if (defaultDatasetsIds.includes(datasetId)) continue; // Do not update access to common "default datasets"

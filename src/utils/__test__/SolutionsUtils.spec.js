@@ -1,6 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
+import { DB_DATASET_PART_ID_VARTYPE, FILE_DATASET_PART_ID_VARTYPE } from '../../services/config/ApiConstants';
 import { SolutionsUtils } from '../SolutionsUtils';
+import { STANDARD_SOLUTION } from './fixtures/StandardSolutionData';
 
 describe('addTranslationLabels', () => {
   test('from an undefined solution', () => {
@@ -231,5 +233,18 @@ describe('patchIncompatibleValuesInSolution function unit tests', () => {
   `('should not fail when parameters are $parameters', ({ parameters }) => {
     const solution = { parameters };
     expect(() => SolutionsUtils.patchIncompatibleValuesInSolution(solution)).not.toThrow();
+  });
+});
+
+describe('getParameterVarType', () => {
+  test.each`
+    parameterId            | expectedVarType
+    ${'param1'}            | ${'int'}
+    ${'param2'}            | ${'string'}
+    ${'db_dataset_part'}   | ${DB_DATASET_PART_ID_VARTYPE}
+    ${'file_dataset_part'} | ${FILE_DATASET_PART_ID_VARTYPE}
+  `('that parameter $parameterId is of varType $expectedVarType', ({ parameterId, expectedVarType }) => {
+    const res = SolutionsUtils.getParameterVarType(STANDARD_SOLUTION, parameterId);
+    expect(res).toStrictEqual(expectedVarType);
   });
 });

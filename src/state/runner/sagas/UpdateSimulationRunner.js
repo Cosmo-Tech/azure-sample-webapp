@@ -12,12 +12,7 @@ import { updateSimulationRunner } from '../reducers';
 export function* callUpdateRunner(action, throwOnError = false) {
   const { organizationId, workspaceId, runnerId, runTemplateId, runnerParameters, runnerDataPatch } = action;
   try {
-    yield put(
-      updateSimulationRunner({
-        runnerId,
-        status: STATUSES.SAVING,
-      })
-    );
+    yield put(updateSimulationRunner({ runnerId, status: STATUSES.SAVING }));
 
     const runnerData = { ...runnerDataPatch };
     if (runnerParameters) runnerData.parametersValues = runnerParameters;
@@ -33,21 +28,11 @@ export function* callUpdateRunner(action, throwOnError = false) {
       runnerId,
       runnerDataForRequest
     );
+
     runnerData.updateInfo = updateData.updateInfo;
-    yield put(
-      updateSimulationRunner({
-        status: STATUSES.SUCCESS,
-        runnerId,
-        runner: runnerData,
-      })
-    );
+    yield put(updateSimulationRunner({ status: STATUSES.SUCCESS, runnerId, runner: runnerData }));
   } catch (error) {
-    yield put(
-      updateSimulationRunner({
-        runnerId,
-        status: STATUSES.ERROR,
-      })
-    );
+    yield put(updateSimulationRunner({ runnerId, status: STATUSES.ERROR }));
 
     if (throwOnError) throw error;
 

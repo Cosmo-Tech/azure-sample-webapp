@@ -16,39 +16,24 @@ const getRunnerPermissionsMapping = (state) => state.application.permissionsMapp
 
 export function* createSimulationRunner(action) {
   try {
+    yield put(setCurrentSimulationRunner({ status: STATUSES.LOADING }));
+
     const userEmail = yield select(getUserEmail);
     const userId = yield select(getUserId);
     const runnersPermissionsMapping = yield select(getRunnerPermissionsMapping);
-
-    yield put(
-      setCurrentSimulationRunner({
-        status: STATUSES.LOADING,
-      })
-    );
-
     const organizationId = action.organizationId;
     const workspaceId = action.workspaceId;
     const runner = action.runner;
-    const security = {
-      default: 'none',
-      accessControlList: [{ id: userEmail, role: 'admin' }],
-    };
+    const security = { default: 'none', accessControlList: [{ id: userEmail, role: 'admin' }] };
     const runnerPayload = { ...runner, security };
+
     const { data } = yield call(Api.Runners.createRunner, organizationId, workspaceId, runnerPayload);
     data.parametersValues = ApiUtils.formatParametersFromApi(data.parametersValues);
     data.state = RUNNER_RUN_STATE.CREATED;
     RunnersUtils.patchRunnerWithCurrentUserPermissions(data, userEmail, userId, runnersPermissionsMapping);
-    yield put(
-      addSimulationRunner({
-        data,
-      })
-    );
-    yield put(
-      setCurrentSimulationRunner({
-        status: STATUSES.SUCCESS,
-        runnerId: data.id,
-      })
-    );
+
+    yield put(addSimulationRunner({ data }));
+    yield put(setCurrentSimulationRunner({ status: STATUSES.SUCCESS, runnerId: data.id }));
   } catch (error) {
     console.error(error);
     yield put(
@@ -57,12 +42,7 @@ export function* createSimulationRunner(action) {
         errorMessage: t('commoncomponents.banner.create', "Scenario hasn't been created."),
       })
     );
-    yield put(
-      setCurrentSimulationRunner({
-        status: STATUSES.ERROR,
-        runner: null,
-      })
-    );
+    yield put(setCurrentSimulationRunner({ status: STATUSES.ERROR, runner: null }));
   }
 }
 

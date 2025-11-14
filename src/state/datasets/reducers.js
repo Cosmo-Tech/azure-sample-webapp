@@ -49,6 +49,21 @@ const datasetSlice = createSlice({
       const index = datasetIndex ?? state.list.data.findIndex((dataset) => dataset.id === datasetId);
       state.list.data[index] = { ...state.list.data[index], ...datasetData };
     },
+    updateDatasetPart: (state, action) => {
+      const { datasetIndex, datasetId, datasetPart: newDatasetPart } = action.payload;
+
+      const index = datasetIndex ?? state.list.data.findIndex((dataset) => dataset.id === datasetId);
+      if (index === undefined) {
+        console.warn(`Can't update parts of dataset with id "${datasetId}": dataset not found`);
+        return;
+      }
+
+      const newDatasetParts = state.list.data[index].parts.map((datasetPart) =>
+        datasetPart.name === newDatasetPart.name ? newDatasetPart : datasetPart
+      );
+
+      state.list.data[index] = { ...state.list.data[index], parts: newDatasetParts };
+    },
     deleteDataset: (state, action) => {
       const { datasetId } = action.payload;
       const index = state.list.data.findIndex((dataset) => dataset.id === datasetId);
