@@ -14,7 +14,7 @@ export const GenericRadioInput = ({ parameterData, context, parameterValue, setP
     if (rawEnumValues.length === 0) {
       console.warn(
         `Enum values are not defined for scenario parameter "${parameterData.id}".\n` +
-          'Please provide an array in the "options.enumValues" field for this parameter in the parameters ' +
+          'Please provide an array in the "additionalData.enumValues" field for this parameter in the parameters ' +
           'configuration file.'
       );
     }

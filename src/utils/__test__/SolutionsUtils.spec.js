@@ -102,14 +102,14 @@ describe('addRunTemplatesParametersIdsDict for a minimal or incomplete solution'
         {
           id: 'parameter1',
           varType: 'int',
-          options: {
+          additionalData: {
             validation: '> parameter2',
           },
         },
         {
           id: 'parameter2',
           varType: 'int',
-          options: null,
+          additionalData: null,
         },
       ],
     };
@@ -123,14 +123,14 @@ describe('addRunTemplatesParametersIdsDict for a minimal or incomplete solution'
         {
           id: 'parameter1',
           varType: 'int',
-          options: {
+          additionalData: {
             validation: '> parameter2',
           },
         },
         {
           id: 'parameter2',
           varType: 'string',
-          options: null,
+          additionalData: null,
         },
       ],
     };
@@ -145,7 +145,7 @@ describe('addRunTemplatesParametersIdsDict for a minimal or incomplete solution'
 describe('patchIncompatibleValuesInSolution function unit tests', () => {
   const TABLE_PARAMETER = {
     varType: '%DATASETID%',
-    options: {
+    additionalData: {
       canChangeRowsNumber: false,
       subType: 'TABLE',
       columns: [
@@ -168,21 +168,23 @@ describe('patchIncompatibleValuesInSolution function unit tests', () => {
     parameters: [TABLE_PARAMETER],
   };
   const PARAMETER_LIST_WITH_ADD_ROW = {
-    parameters: [{ ...TABLE_PARAMETER, options: { ...TABLE_PARAMETER.options, canChangeRowsNumber: true } }],
+    parameters: [
+      { ...TABLE_PARAMETER, additionalData: { ...TABLE_PARAMETER.additionalData, canChangeRowsNumber: true } },
+    ],
   };
   const PARAMETER_LIST_WITH_NON_EDITABLE_COLUMN = {
     parameters: [
       {
         ...TABLE_PARAMETER,
-        options: {
-          ...TABLE_PARAMETER.options,
+        additionalData: {
+          ...TABLE_PARAMETER.additionalData,
           columns: [
             {
               field: 'name',
               type: ['nonResizable', 'nonSortable', 'nonEditable'],
               defaultValue: 'TKT',
             },
-            { ...TABLE_PARAMETER.options.columns[1] },
+            { ...TABLE_PARAMETER.additionalData.columns[1] },
           ],
         },
       },
@@ -192,8 +194,8 @@ describe('patchIncompatibleValuesInSolution function unit tests', () => {
     parameters: [
       {
         ...TABLE_PARAMETER,
-        options: {
-          ...TABLE_PARAMETER.options,
+        additionalData: {
+          ...TABLE_PARAMETER.additionalData,
           canChangeRowsNumber: true,
           columns: [
             {
@@ -201,7 +203,7 @@ describe('patchIncompatibleValuesInSolution function unit tests', () => {
               type: ['nonResizable', 'nonSortable', 'nonEditable'],
               defaultValue: 'TKT',
             },
-            { ...TABLE_PARAMETER.options.columns[1] },
+            { ...TABLE_PARAMETER.additionalData.columns[1] },
             {},
             null,
             undefined,
@@ -220,7 +222,7 @@ describe('patchIncompatibleValuesInSolution function unit tests', () => {
   `('parse $parameters and fix it to get a good parameter list as $expected', ({ parameters, expected, warnCount }) => {
     const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
     SolutionsUtils.patchIncompatibleValuesInSolution(parameters);
-    expect(parameters.parameters[0].options.canChangeRowsNumber).toStrictEqual(expected);
+    expect(parameters.parameters[0].additionalData.canChangeRowsNumber).toStrictEqual(expected);
     expect(warn).toHaveBeenCalledTimes(warnCount);
     warn.mockReset();
   });

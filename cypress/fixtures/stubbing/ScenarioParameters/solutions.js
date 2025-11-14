@@ -16,7 +16,7 @@ export const SOLUTION_WITH_DYNAMIC_PARAMETERS = {
     {
       id: 'dynamic_int',
       varType: 'int',
-      options: {
+      additionalData: {
         dynamicValues: {
           type: 'cypher',
           query: 'MATCH (c:Customer) RETURN count(c) AS stock',
@@ -27,7 +27,7 @@ export const SOLUTION_WITH_DYNAMIC_PARAMETERS = {
     {
       id: 'dynamic_number',
       varType: 'number',
-      options: {
+      additionalData: {
         dynamicValues: {
           type: 'cypher',
           query: 'MATCH (c:Customer) RETURN count(c) AS restock',
@@ -38,7 +38,7 @@ export const SOLUTION_WITH_DYNAMIC_PARAMETERS = {
     {
       id: 'dynamic_number_error',
       varType: 'int',
-      options: {
+      additionalData: {
         dynamicValues: {
           type: 'cypher',
           query: 'MATCH (c:Customer) RETURN count(c) AS waiters',
@@ -57,7 +57,7 @@ export const SOLUTION_WITH_DYNAMIC_PARAMETERS = {
       id: 'bar_parameters',
       labels: { fr: 'Bar', en: 'Pub' },
       isTable: null,
-      options: null,
+      additionalData: null,
       parentId: null,
       parameters: ['stock', 'restock_qty', 'nb_waiters'],
     },
@@ -72,7 +72,7 @@ export const SOLUTION_WITH_DYNAMIC_PARAMETERS = {
         fr: 'Paramètres additionnels',
       },
       isTable: null,
-      options: null,
+      additionalData: null,
       parentId: null,
       parameters: ['dynamic_number'],
     },
@@ -83,7 +83,7 @@ export const SOLUTION_WITH_DYNAMIC_PARAMETERS = {
         fr: 'Évènements',
       },
       isTable: null,
-      options: null,
+      additionalData: null,
       parentId: null,
       parameters: ['dynamic_number_error'],
     },

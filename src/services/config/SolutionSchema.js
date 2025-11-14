@@ -103,7 +103,7 @@ export const SolutionSchema = z
             minValue: z.unknown().optional(),
             maxValue: z.unknown().optional(),
             regexValidation: z.string().optional().nullable(),
-            options: parameterOptions,
+            additionalData: parameterOptions,
           })
           .optional()
           .nullable()
@@ -118,7 +118,7 @@ export const SolutionSchema = z
             description: z.string().optional().nullable(),
             labels: z.looseObject({}).optional().nullable(),
             isTable: z.string().optional().nullable(),
-            options: parameterGroupOptions,
+            additionalData: parameterGroupOptions,
             parentId: z.string().optional().nullable(),
             parameters: z.array(z.string().optional().nullable()).optional().nullable(),
           })

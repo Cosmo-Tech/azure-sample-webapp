@@ -12,7 +12,7 @@ const SOLUTION_WITH_ADD_ROW_FEATURE = {
         en: 'Customers',
       },
       varType: '%DATASETID%',
-      options: {
+      additionalData: {
         canChangeRowsNumber: true,
         connectorId: 'c-d7e5p9o0kjn9',
         description: 'customers data',
@@ -68,7 +68,7 @@ const SOLUTION_WITH_ADD_ROW_FEATURE = {
         en: 'New clients',
       },
       varType: '%DATASETID%',
-      options: {
+      additionalData: {
         canChangeRowsNumber: true,
         connectorId: 'c-d7e5p9o0kjn9',
         description: 'customers data',
