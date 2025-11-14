@@ -29,7 +29,7 @@ RUN PUBLIC_URL="$PUBLIC_URL" yarn build
 
 # ==== Serve - "universal" server mode ====
 
-FROM node:24-slim as server-universal
+FROM node:24-slim AS server-universal
 LABEL com.cosmotech.business-webapp.buildType="universal"
 WORKDIR /webapp
 ENV NODE_ENV=production
@@ -50,7 +50,7 @@ HEALTHCHECK --interval=60s --retries=3 CMD curl --fail http://localhost:3000 || 
 
 # ==== Serve - "specific" server mode (default) ====
 
-FROM node:24-slim as server-specific
+FROM node:24-slim AS server-specific
 LABEL com.cosmotech.business-webapp.buildType="specific"
 WORKDIR /webapp
 ENV NODE_ENV=production
