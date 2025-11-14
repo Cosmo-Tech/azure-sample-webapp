@@ -20,12 +20,12 @@ export const useDatasetOverview = () => {
 
   const datasetManagerConfig = useMemo(() => {
     // Make a shallow copy of config object to prevent error "Object is not extensible" when trying to set properties
-    const config = { ...workspaceData?.webApp?.options?.datasetManager };
+    const config = { ...workspaceData?.additionalData?.webapp?.datasetManager };
     if (config.categories == null) config.categories = [];
     if (config.graphIndicators == null) config.graphIndicators = [];
     if (config.queries == null) config.queries = [];
     return config;
-  }, [workspaceData?.webApp?.options?.datasetManager]);
+  }, [workspaceData?.additionalData?.webapp?.datasetManager]);
   useEffect(() => {
     initializeDatasetTwingraphQueriesResults(currentDataset);
   }, [currentDataset, initializeDatasetTwingraphQueriesResults]);

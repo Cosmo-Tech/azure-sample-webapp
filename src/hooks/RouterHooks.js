@@ -21,7 +21,9 @@ export const useRedirectFromDisabledView = (view) => {
     let isViewEnabled;
     switch (view) {
       case 'instance':
-        isViewEnabled = ConfigUtils.isInstanceViewConfigValid(currentWorkspaceData?.webApp?.options?.instanceView);
+        isViewEnabled = ConfigUtils.isInstanceViewConfigValid(
+          currentWorkspaceData?.additionalData?.webapp?.instanceView
+        );
         break;
       case 'datasetManager':
         isViewEnabled = ConfigUtils.isDatasetManagerEnabledInWorkspace(currentWorkspaceData);
@@ -39,9 +41,9 @@ export const useRedirectFromDisabledView = (view) => {
       isUnmounted.current = true;
     };
   }, [
-    currentWorkspaceData?.webApp?.options?.charts,
-    currentWorkspaceData?.webApp?.options?.instanceView,
-    currentWorkspaceData?.webApp?.options?.datasetmanager,
+    currentWorkspaceData?.additionalData?.webapp?.charts,
+    currentWorkspaceData?.additionalData?.webapp?.instanceView,
+    currentWorkspaceData?.additionalData?.webapp?.datasetmanager,
     navigate,
     view,
     routerParameters.workspaceId,

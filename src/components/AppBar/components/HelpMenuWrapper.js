@@ -11,10 +11,10 @@ export const HelpMenuWrapper = () => {
   const { t } = useTranslation();
   const currentWorkspaceData = useWorkspaceData();
   const docUrl =
-    currentWorkspaceData?.webApp?.options?.menu?.documentationUrl ??
+    currentWorkspaceData?.additionalData?.webapp?.menu?.documentationUrl ??
     ConfigService.getParameterValue('DOCUMENTATION_URL');
   const supportUrl =
-    currentWorkspaceData?.webApp?.options?.menu?.supportUrl ?? ConfigService.getParameterValue('SUPPORT_URL');
+    currentWorkspaceData?.additionalData?.webapp?.menu?.supportUrl ?? ConfigService.getParameterValue('SUPPORT_URL');
 
   const labels = {
     title: t('genericcomponent.helpmenu.title', 'Help'),

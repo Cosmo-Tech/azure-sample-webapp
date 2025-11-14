@@ -23,7 +23,7 @@ export const useDatasetCreationParameters = () => {
       parameters: parameters.filter((parameter) => runTemplatesParameters[dataSource.id].includes(parameter.id)),
     }));
 
-    const datasourceFilter = workspace?.webApp?.options?.datasetManager?.datasourceFilter;
+    const datasourceFilter = workspace?.additionalData?.webapp?.datasetManager?.datasourceFilter;
     const runTemplates = {};
     [...DATASET_SOURCES, ...dataSourcesWithParameters].forEach((runTemplate) => {
       if (datasourceFilter == null || datasourceFilter.indexOf(runTemplate.id) !== -1)
@@ -35,7 +35,7 @@ export const useDatasetCreationParameters = () => {
     customDataSourceRunTemplates,
     solutionData.parameters,
     solutionData.runTemplatesParametersIdsDict,
-    workspace?.webApp?.options?.datasetManager?.datasourceFilter,
+    workspace?.additionalData?.webapp?.datasetManager?.datasourceFilter,
   ]);
 
   const createDatasetOrRunner = useCallback(

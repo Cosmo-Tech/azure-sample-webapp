@@ -16,10 +16,10 @@ const noAccess = {
 };
 
 const getLogInWithUserCredentials = (state) =>
-  state?.workspace?.current?.data?.webApp?.options?.charts?.logInWithUserCredentials;
-const getPowerBIWorkspaceId = (state) => state?.workspace?.current?.data?.webApp?.options?.charts?.workspaceId;
-const getPowerBIChartsConfig = (state) => state?.workspace?.current?.data?.webApp?.options?.charts;
-const getUseWebappTheme = (state) => state?.workspace?.current?.data?.webApp?.options?.charts?.useWebappTheme;
+  state?.workspace?.current?.data?.additionalData?.webapp?.charts?.logInWithUserCredentials;
+const getPowerBIWorkspaceId = (state) => state?.workspace?.current?.data?.additionalData?.webapp?.charts?.workspaceId;
+const getPowerBIChartsConfig = (state) => state?.workspace?.current?.data?.additionalData?.webapp?.charts;
+const getUseWebappTheme = (state) => state?.workspace?.current?.data?.additionalData?.webapp?.charts?.useWebappTheme;
 
 export function* getPowerBIEmbedInfoSaga() {
   const logInWithUserCredentials = yield select(getLogInWithUserCredentials);
@@ -31,7 +31,7 @@ export function* getPowerBIEmbedInfoSaga() {
     console.warn(
       'PowerBI charts configuration could not be found and results display has been disabled. ' +
         'If you want to activate it, please configure the dashboards to be displayed in your workspace, ' +
-        'in [workspace].webApp.options.charts'
+        'in [workspace].additionalData.webapp.charts'
     );
     yield put(
       setPowerBIEmbedInfo({
@@ -50,7 +50,7 @@ export function* getPowerBIEmbedInfoSaga() {
     console.warn(
       '"logInWithUserCredentials" option is not set in the current workspace, trying to use account service...\n' +
         'Please configure the following option in your workspace: ' +
-        '[workspace].webApp.options.charts.logInWithUserCredentials'
+        '[workspace].additionalData.webapp.charts.logInWithUserCredentials'
     );
   }
 

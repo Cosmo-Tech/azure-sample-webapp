@@ -15,9 +15,10 @@ export const AboutContent = ({ isDarkTheme = false }) => {
 
   const currentWorkspaceData = useWorkspaceData();
   const organizationUrl =
-    currentWorkspaceData?.webApp?.options?.menu?.organizationUrl ?? ConfigService.getParameterValue('ORGANIZATION_URL');
+    currentWorkspaceData?.additionalData?.webapp?.menu?.organizationUrl ??
+    ConfigService.getParameterValue('ORGANIZATION_URL');
   const supportUrl =
-    currentWorkspaceData?.webApp?.options?.menu?.supportUrl ?? ConfigService.getParameterValue('SUPPORT_URL');
+    currentWorkspaceData?.additionalData?.webapp?.menu?.supportUrl ?? ConfigService.getParameterValue('SUPPORT_URL');
 
   return (
     <Grid container spacing={2} sx={{ alignItems: 'center' }}>

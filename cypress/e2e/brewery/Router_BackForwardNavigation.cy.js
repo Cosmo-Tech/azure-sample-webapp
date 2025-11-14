@@ -19,7 +19,7 @@ const SCENARIO4 = DEFAULT_SCENARIOS_LIST[3];
 const SCENARIO5 = DEFAULT_SCENARIOS_LIST[4];
 
 // Patch EXTENDED_WORKSPACES_LIST to enable datasetmanager
-EXTENDED_WORKSPACES_LIST.forEach((workspace) => (workspace.webApp.options.datasetManager = {}));
+EXTENDED_WORKSPACES_LIST.forEach((workspace) => (workspace.additionalData.webapp.datasetManager = {}));
 
 const selectScenarioAndWaitForScenarioViewUrlUpdate = (scenario) => {
   ScenarioSelector.selectScenario(scenario.name, scenario.id);

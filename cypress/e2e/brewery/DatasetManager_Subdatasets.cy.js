@@ -14,10 +14,13 @@ import {
 const clone = rfdc();
 
 const WORKSPACE_WITH_SOURCE_FILTERS = clone(WORKSPACE);
-WORKSPACE_WITH_SOURCE_FILTERS.webApp.options.datasetManager.subdatasourceFilter = ['list_filter', 'string_filter'];
+WORKSPACE_WITH_SOURCE_FILTERS.additionalData.webapp.datasetManager.subdatasourceFilter = [
+  'list_filter',
+  'string_filter',
+];
 
 const WORKSPACE_WITH_EMPTY_FILTERS = clone(WORKSPACE);
-WORKSPACE_WITH_EMPTY_FILTERS.webApp.options.datasetManager.subdatasourceFilter = [];
+WORKSPACE_WITH_EMPTY_FILTERS.additionalData.webapp.datasetManager.subdatasourceFilter = [];
 
 const forgeSubdatasetNameFromParentName = (parentName) => `${parentName} (subdataset)`;
 

@@ -37,10 +37,8 @@ export const WORKSPACE_EXAMPLE = {
   tags: null,
   ownerId: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
   users: null,
-  webApp: {
-    url: null,
-    iframes: null,
-    options: {
+  additionalData: {
+    webapp: {
       // Note: "datasetManager" and "instanceView" intentionally left undefined
       charts: {
         workspaceId: '290de699-9026-42c0-8c83-e4e87c3f22dd',
@@ -63,7 +61,7 @@ export const DEFAULT_WORKSPACE = WORKSPACE_EXAMPLE;
 export const DEFAULT_WORKSPACES_LIST = [DEFAULT_WORKSPACE];
 
 const workspaceCopy = JSON.parse(JSON.stringify(DEFAULT_WORKSPACE));
-workspaceCopy.webApp.options.instanceView = {
+workspaceCopy.additionalData.webapp.instanceView = {
   dataSource: {
     type: 'twingraph_dataset',
   },

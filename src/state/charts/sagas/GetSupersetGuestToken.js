@@ -6,7 +6,7 @@ import { SupersetService } from '../../../services/superset/SupersetService';
 import { CHART_ACTIONS_KEY } from '../constants';
 import { setSupersetGuestToken } from '../reducers';
 
-const getSupersetChartsConfig = (state) => state?.workspace?.current?.data?.webApp?.options?.charts;
+const getSupersetChartsConfig = (state) => state?.workspace?.current?.data?.additionalData?.webapp?.charts;
 const getOrganizationId = (state) => state?.organization?.current?.data?.id;
 const getWorkspaceId = (state) => state?.workspace?.current?.data?.id;
 
@@ -24,7 +24,7 @@ export function* getSupersetGuestTokenSaga() {
     console.warn(
       'Superset charts configuration could not be found and results display has been disabled. ' +
         'If you want to activate it, please configure the dashboards to be displayed in your workspace, ' +
-        'in [workspace].webApp.options.charts'
+        'in [workspace].additionalData.webapp.charts'
     );
     yield put(
       setSupersetGuestToken({
