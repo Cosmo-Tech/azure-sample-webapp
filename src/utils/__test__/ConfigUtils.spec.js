@@ -248,8 +248,8 @@ describe('warnings in case of solution or workspace misconfiguration', () => {
 
   const workspace = {
     id: 'W-workspace1',
-    webApp: {
-      options: {
+    additionalData: {
+      webapp: {
         charts: {
           workspaceId: '12345',
           dashboardsView: [
@@ -288,12 +288,12 @@ describe('warnings in case of solution or workspace misconfiguration', () => {
     ...workspace,
     solution: { defaultrunDataset: {}, runtemplateFilter: [] },
   };
-  const workspaceWithWrongWebAppKey = { ...workspace, webApp: { options: { datasetfilter: [] } } };
+  const workspaceWithWrongWebAppKey = { ...workspace, additionalData: { webapp: { datasetfilter: [] } } };
   const workspaceWithWrongChartsKey = {
     ...workspace,
-    webApp: { options: { charts: { scenarioViewiframeDisplayRatio: 1 } } },
+    additionalData: { webapp: { charts: { scenarioViewiframeDisplayRatio: 1 } } },
   };
-  const workspaceWithWrongIVKey = { ...workspace, webApp: { options: { instanceView: { datasource: {} } } } };
+  const workspaceWithWrongIVKey = { ...workspace, additionalData: { webapp: { instanceView: { datasource: {} } } } };
 
   test.each`
     solution
@@ -311,7 +311,7 @@ describe('warnings in case of solution or workspace misconfiguration', () => {
   test('checks console.warn is not displayed when no unknown keys in workspace config', () => {
     ConfigUtils.checkUnknownKeysInConfig(WorkspaceSchema, workspace);
     expect(spyConsoleWarn).toHaveBeenCalledTimes(0);
-    workspace.webApp.options.charts.logInWithUserCredentials = 'false';
+    workspace.additionalData.webapp.charts.logInWithUserCredentials = 'false';
     ConfigUtils.checkUnknownKeysInConfig(WorkspaceSchema, workspace);
     expect(spyConsoleWarn).toHaveBeenCalledTimes(0);
   });
@@ -369,7 +369,7 @@ describe('warnings in case of solution or workspace misconfiguration', () => {
   test.each`
     workspace                        | expectedCalledWith                | expectedKey
     ${workspaceWithWrongKey}         | ${'Your workspace configuration'} | ${'dedicatedEventHubAuthenticationstrategy'}
-    ${workspaceWithWrongWebAppKey}   | ${'WebApp section'}               | ${'datasetfilter'}
+    ${workspaceWithWrongWebAppKey}   | ${'webapp section'}               | ${'datasetfilter'}
     ${workspaceWithWrongSolutionKey} | ${'Solution section'}             | ${'defaultrunTemplateDataset'}
     ${workspaceWithWrongChartsKey}   | ${'Charts section'}               | ${'scenarioViewiframeDisplayRatio'}
     ${workspaceWithWrongIVKey}       | ${'Instance view section'}        | ${'datasource'}

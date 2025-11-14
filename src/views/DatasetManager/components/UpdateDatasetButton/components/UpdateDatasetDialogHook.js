@@ -35,7 +35,7 @@ export const useUpdateDatasetDialog = (dataset, selectedRunner) => {
       ...dataSource,
       parameters: parameters.filter((parameter) => runTemplatesParameters[dataSource.id].includes(parameter.id)),
     }));
-    const datasourceFilter = workspace?.webApp?.options?.datasetManager?.datasourceFilter;
+    const datasourceFilter = workspace?.additionalData?.webapp?.datasetManager?.datasourceFilter;
     const runTemplates = {};
     [...dataSourcesWithParameters, ...subDatasSourceWithParameters].forEach((runTemplate) => {
       if (datasourceFilter == null || datasourceFilter.indexOf(runTemplate.id) !== -1)
@@ -48,7 +48,7 @@ export const useUpdateDatasetDialog = (dataset, selectedRunner) => {
     customSubDataSourceRunTemplates,
     solutionData.parameters,
     solutionData.runTemplatesParametersIdsDict,
-    workspace?.webApp?.options?.datasetManager?.datasourceFilter,
+    workspace?.additionalData?.webapp?.datasetManager?.datasourceFilter,
   ]);
   const getRunTemplateParametersIds = (runTemplatesParametersIdsDict, runTemplateId) => {
     return runTemplatesParametersIdsDict?.[runTemplateId] ?? [];

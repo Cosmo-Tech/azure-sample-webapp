@@ -49,8 +49,8 @@ export const useDatasetCreationParameters = () => {
   );
 
   const datasourceParameterHelpers = useMemo(
-    () => workspace?.webApp?.options?.datasetManager?.datasourceParameterHelpers,
-    [workspace?.webApp?.options?.datasetManager?.datasourceParameterHelpers]
+    () => workspace?.additionalData?.webapp?.datasetManager?.datasourceParameterHelpers,
+    [workspace?.additionalData?.webapp?.datasetManager?.datasourceParameterHelpers]
   );
 
   return {

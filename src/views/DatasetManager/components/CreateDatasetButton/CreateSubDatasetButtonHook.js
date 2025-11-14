@@ -23,7 +23,7 @@ export const useSubDatasetCreationParameters = () => {
       parameters: parameters.filter((parameter) => runTemplatesParameters[dataSource.id].includes(parameter.id)),
     }));
 
-    const subdatasourceFilter = workspace?.webApp?.options?.datasetManager?.subdatasourceFilter;
+    const subdatasourceFilter = workspace?.additionalData?.webapp?.datasetManager?.subdatasourceFilter;
     const runTemplates = {};
     dataSourcesWithParameters.forEach((runTemplate) => {
       if (subdatasourceFilter == null || subdatasourceFilter.indexOf(runTemplate.id) !== -1)
@@ -35,7 +35,7 @@ export const useSubDatasetCreationParameters = () => {
     customSubDataSourceRunTemplates,
     solutionData.parameters,
     solutionData.runTemplatesParametersIdsDict,
-    workspace?.webApp?.options?.datasetManager?.subdatasourceFilter,
+    workspace?.additionalData?.webapp?.datasetManager?.subdatasourceFilter,
   ]);
 
   const createSubDatasetRunner = useCallback(

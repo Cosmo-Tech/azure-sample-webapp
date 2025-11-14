@@ -6,10 +6,8 @@ export const WORKSPACE_WITHOUT_CONFIG = {
   ...DEFAULT_WORKSPACE,
   id: 'W-stbbdbrwryNoDM',
   name: 'Stubbed Demo Brewery Workspace without Dataset Manager config',
-  webApp: {
-    options: {
-      ...DEFAULT_WORKSPACE.webApp.options,
-    },
+  additionalData: {
+    webapp: { ...DEFAULT_WORKSPACE.additionalData.webapp },
   },
 };
 
@@ -20,7 +18,7 @@ export const WORKSPACE = {
   linkedDatasetIdList: [],
 };
 
-WORKSPACE.webApp.options.datasetManager = {
+WORKSPACE.additionalData.webapp.datasetManager = {
   graphIndicators: [
     { id: 'entities', name: { en: 'Entities', fr: 'Entités' }, queryId: 'query_entities' },
     { id: 'relationships', name: { en: 'Relationships', fr: 'Relations' }, queryId: 'query_relationships' },

@@ -42,7 +42,9 @@ export const getTabsForCurrentWorkspace = (currentWorkspaceData) => {
 };
 
 export const filterTabsForCurrentWorkspace = (tabs, currentWorkspaceData) => {
-  const hideInstanceView = !ConfigUtils.isInstanceViewConfigValid(currentWorkspaceData?.webApp?.options?.instanceView);
+  const hideInstanceView = !ConfigUtils.isInstanceViewConfigValid(
+    currentWorkspaceData?.additionalData?.webapp?.instanceView
+  );
   const hideDatasetManager = !ConfigUtils.isDatasetManagerEnabledInWorkspace(currentWorkspaceData);
   const hideDashboardsView = !ConfigUtils.isResultsDisplayEnabledInWorkspace(currentWorkspaceData);
 

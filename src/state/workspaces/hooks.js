@@ -23,13 +23,13 @@ export const useWorkspaceDatasetsFilter = () => {
       filter = undefined;
     }
 
-    let deprecatedFilter = workspaceData?.webApp?.options?.datasetFilter;
+    let deprecatedFilter = workspaceData?.additionalData?.webapp?.datasetFilter;
     if (deprecatedFilter != null) {
       console.warn(
         `Deprecated option used in configuration of workspace ${workspaceData?.id}` +
           (workspaceData?.name ? ` (${workspaceData?.name})` : '') +
-          '.\nWorkspace key "webApp.options.datasetFilter" is deprecated. Please use the Cosmo Tech API to link ' +
-          'these datasets to your workspace instead.'
+          '.\nWorkspace key "additionalData.webapp.datasetFilter" is deprecated. Please use the Cosmo Tech API to ' +
+          'link these datasets to your workspace instead.'
       );
       if (!Array.isArray(deprecatedFilter)) {
         console.warn('Ignoring deprecated option "datasetFilter" because it is not an array');
@@ -43,7 +43,7 @@ export const useWorkspaceDatasetsFilter = () => {
     workspaceData?.id,
     workspaceData?.name,
     workspaceData?.linkedDatasetIdList,
-    workspaceData?.webApp?.options?.datasetFilter,
+    workspaceData?.additionalData?.webapp?.datasetFilter,
   ]);
 };
 
@@ -52,25 +52,29 @@ export const useWorkspaceId = () => {
 };
 
 export const useWorkspaceCharts = () => {
-  return useSelector((state) => state.workspace.current?.data?.webApp?.options?.charts);
+  return useSelector((state) => state.workspace.current?.data?.additionalData?.webapp?.charts);
 };
 export const useWorkspaceChartsWorkspaceId = () => {
-  return useSelector((state) => state.workspace.current?.data?.webApp?.options?.charts?.workspaceId);
+  return useSelector((state) => state.workspace.current?.data?.additionalData?.webapp?.charts?.workspaceId);
 };
 export const useWorkspaceChartsLogInWithUserCredentials = () => {
-  return useSelector((state) => state.workspace.current?.data?.webApp?.options?.charts?.logInWithUserCredentials);
+  return useSelector(
+    (state) => state.workspace.current?.data?.additionalData?.webapp?.charts?.logInWithUserCredentials
+  );
 };
 export const useWorkspaceChartsScenarioViewDisplayIframeRatio = () => {
-  return useSelector((state) => state.workspace.current?.data?.webApp?.options?.charts?.scenarioViewIframeDisplayRatio);
+  return useSelector(
+    (state) => state.workspace.current?.data?.additionalData?.webapp?.charts?.scenarioViewIframeDisplayRatio
+  );
 };
 export const useWorkspaceChartsDashboardsViewDisplayIframeRatio = () => {
   return useSelector(
-    (state) => state.workspace.current?.data?.webApp?.options?.charts?.dashboardsViewIframeDisplayRatio
+    (state) => state.workspace.current?.data?.additionalData?.webapp?.charts?.dashboardsViewIframeDisplayRatio
   );
 };
 
 export const useWorkspaceInstanceViewConfig = () => {
-  return useSelector((state) => state.workspace.current?.data?.webApp?.options?.instanceView);
+  return useSelector((state) => state.workspace.current?.data?.additionalData?.webapp?.instanceView);
 };
 
 export const useUserPermissionsOnCurrentWorkspace = () => {
