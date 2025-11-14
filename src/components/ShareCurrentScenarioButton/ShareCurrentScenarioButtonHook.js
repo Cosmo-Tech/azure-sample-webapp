@@ -4,7 +4,7 @@ import { useCallback, useMemo } from 'react';
 import { useFormState } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useUserPermissionsOnCurrentScenario } from '../../hooks/SecurityHooks';
-import { ACL_PERMISSIONS } from '../../services/config/accessControl';
+import { ACL_ROLES, ACL_PERMISSIONS } from '../../services/config/accessControl';
 import {
   useApplicationPermissionsMapping,
   useApplicationRoles,
@@ -13,6 +13,7 @@ import {
 import { useApplyRunnerSharingSecurity, useCurrentSimulationRunnerData } from '../../state/runner/hooks';
 import { useWorkspaceData } from '../../state/workspaces/hooks';
 import { SecurityUtils } from '../../utils';
+import { useScenario } from '../../views/Scenario/ScenarioHook';
 import { getShareScenarioDialogLabels } from './labels';
 
 export const useShareCurrentScenarioButton = () => {
@@ -21,14 +22,12 @@ export const useShareCurrentScenarioButton = () => {
 
   const currentScenarioData = useCurrentSimulationRunnerData();
   const workspaceData = useWorkspaceData();
-
   const roles = useApplicationRoles();
   const permissions = useApplicationPermissions();
-
   const userPermissionsOnCurrentScenario = useUserPermissionsOnCurrentScenario();
   const permissionsMapping = useApplicationPermissionsMapping();
-
   const applyScenarioSharingSecurity = useApplyRunnerSharingSecurity();
+  const { missingDatasetIds, baseDatasets } = useScenario();
 
   const rolesLabels = useMemo(() => {
     const rolesNames = Object.values(roles.runner);
@@ -39,8 +38,6 @@ export const useShareCurrentScenarioButton = () => {
     const permissionsNames = Object.values(permissions.runner);
     return SecurityUtils.getScenarioPermissionsLabels(t, permissionsNames);
   }, [permissions.runner, t]);
-
-  const workspaceUsers = useMemo(() => workspaceData.users.map((user) => ({ id: user })), [workspaceData.users]);
 
   const accessListSpecific = useMemo(
     () => currentScenarioData?.security?.accessControlList ?? [],
@@ -63,15 +60,92 @@ export const useShareCurrentScenarioButton = () => {
     () => userPermissionsOnCurrentScenario.includes(ACL_PERMISSIONS.RUNNER.READ_SECURITY),
     [userPermissionsOnCurrentScenario]
   );
-  const disabled = useMemo(() => isDirty || !hasReadSecurityPermission, [isDirty, hasReadSecurityPermission]);
-  const isReadOnly = useMemo(
-    () => !userPermissionsOnCurrentScenario.includes(ACL_PERMISSIONS.RUNNER.WRITE_SECURITY),
-    [userPermissionsOnCurrentScenario]
+
+  const baseDatasetsCannotBeShared = useMemo(() => {
+    if (missingDatasetIds.length > 0) return missingDatasetIds;
+    return baseDatasets
+      .filter((dataset) => !dataset.security.currentUserPermissions.includes(ACL_PERMISSIONS.DATASET.WRITE_SECURITY))
+      .map((dataset) => dataset.id);
+  }, [missingDatasetIds, baseDatasets]);
+
+  const workspaceUsers = useMemo(() => workspaceData.users.map((user) => ({ id: user })), [workspaceData.users]);
+
+  const usersWithRestrictedDatasets = useMemo(() => {
+    const restrictedUsers = [];
+    if (baseDatasets.length === 0) return restrictedUsers;
+
+    const rolesToAccessDataset = [
+      ACL_ROLES.DATASET.VIEWER,
+      ACL_ROLES.DATASET.USER,
+      ACL_ROLES.DATASET.EDITOR,
+      ACL_ROLES.DATASET.ADMIN,
+    ];
+
+    const baseDatasetsWithoutReadAccess = baseDatasets.filter(
+      (dataset) => !rolesToAccessDataset.includes(dataset.security.default)
+    );
+    if (baseDatasetsWithoutReadAccess.length === 0) return restrictedUsers;
+
+    workspaceUsers.forEach((user) => {
+      const restrictedDatasetIds = [];
+      baseDatasetsWithoutReadAccess.forEach((dataset) => {
+        const security = dataset.security;
+        if (
+          !security.accessControlList.some(
+            (authorizedUser) => authorizedUser.id === user.id && rolesToAccessDataset.includes(authorizedUser.role)
+          )
+        )
+          restrictedDatasetIds.push(dataset.id);
+      });
+      if (restrictedDatasetIds.length > 0) {
+        restrictedUsers.push({ id: user.id, restrictedDatasetIds });
+      }
+    });
+
+    return restrictedUsers;
+  }, [baseDatasets, workspaceUsers]);
+
+  const canBeSharedWithUser = useCallback(
+    (user) => {
+      const restrictedDatasetIds = usersWithRestrictedDatasets.find(
+        (usersRestricted) => usersRestricted.id === user.id
+      )?.restrictedDatasetIds;
+
+      return restrictedDatasetIds == null
+        ? { canBeShared: true, reason: '' }
+        : {
+            canBeShared: false,
+            reason: t(
+              'commoncomponents.dialog.share.dialog.select.disabledUserTooltip',
+              'This user does not have access to the scenario dataset "{{restrictedDatasetId}}". ' +
+                'Please share this dataset with them first, or ask the dataset owner to do it.',
+              { restrictedDatasetId: restrictedDatasetIds[0] }
+            ),
+          };
+    },
+    [usersWithRestrictedDatasets, t]
   );
 
   const shareScenarioDialogLabels = useMemo(
-    () => getShareScenarioDialogLabels(t, currentScenarioData?.name, isDirty, hasReadSecurityPermission),
-    [currentScenarioData?.name, t, isDirty, hasReadSecurityPermission]
+    () =>
+      getShareScenarioDialogLabels(
+        t,
+        currentScenarioData?.name,
+        isDirty,
+        hasReadSecurityPermission,
+        baseDatasetsCannotBeShared[0]
+      ),
+    [currentScenarioData?.name, t, isDirty, hasReadSecurityPermission, baseDatasetsCannotBeShared]
+  );
+
+  const disabled = useMemo(
+    () => isDirty || !hasReadSecurityPermission || baseDatasetsCannotBeShared.length > 0,
+    [isDirty, hasReadSecurityPermission, baseDatasetsCannotBeShared]
+  );
+
+  const isReadOnly = useMemo(
+    () => !userPermissionsOnCurrentScenario.includes(ACL_PERMISSIONS.RUNNER.WRITE_SECURITY),
+    [userPermissionsOnCurrentScenario]
   );
 
   return {
@@ -81,9 +155,11 @@ export const useShareCurrentScenarioButton = () => {
     shareScenarioDialogLabels,
     rolesLabels,
     permissionsLabels,
-    workspaceUsers,
     accessListSpecific,
     defaultRole,
     applyScenarioSecurityChanges,
+    baseDatasets,
+    workspaceUsers,
+    canBeSharedWithUser,
   };
 };

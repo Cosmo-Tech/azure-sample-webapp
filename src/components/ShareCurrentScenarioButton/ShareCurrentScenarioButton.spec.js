@@ -13,6 +13,14 @@ import { dispatchApplyRunnerSharingChanges } from '../../state/runner/dispatcher
 
 const clone = rfdc();
 
+const patchedState = clone(DEFAULT_REDUX_STATE);
+patchedState.dataset.list.data.forEach((dataset) => {
+  dataset.security = {
+    accessControlList: ['dev.sample.webapp@example.com'],
+    currentUserPermissions: ['read', 'read_security', 'write', 'write_security', 'delete'],
+  };
+});
+
 let mockRoleEditionButtonProps;
 jest.mock('@cosmotech/ui', () => ({
   ...jest.requireActual('@cosmotech/ui'),
@@ -25,7 +33,7 @@ jest.mock('@cosmotech/ui', () => ({
 const getRolesEditionButton = () => screen.queryByTestId('role_edition_button');
 
 const getStateWithScenarioRole = (role) => {
-  const state = clone(DEFAULT_REDUX_STATE);
+  const state = clone(patchedState);
   applyScenarioRoleToState(state, role);
   return state;
 };
