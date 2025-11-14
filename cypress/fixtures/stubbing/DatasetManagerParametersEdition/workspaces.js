@@ -9,8 +9,8 @@ export const WORKSPACE = {
     default: ROLES.RUNNER.ADMIN,
     accessControlList: [],
   },
-  webApp: {
-    options: {
+  additionalData: {
+    webapp: {
       datasetManager: {
         subdatasourceFilter: [],
       },

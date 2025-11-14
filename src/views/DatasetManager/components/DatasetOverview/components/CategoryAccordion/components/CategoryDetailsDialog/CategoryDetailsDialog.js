@@ -47,7 +47,7 @@ export const CategoryDetailsDialog = (props) => {
 
     const parameterData = {
       id: category?.id,
-      options: {
+      additionalData: {
         columns: category?.previewTable?.columns,
         dynamicValues: { query, resultKey: category?.previewTable?.resultKey },
       },

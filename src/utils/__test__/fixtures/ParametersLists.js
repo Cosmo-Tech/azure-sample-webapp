@@ -5,52 +5,52 @@ export const DEFAULT_PARAMETERS_LIST = [
   {
     id: 'stock',
     varType: 'int',
-    options: null,
+    additionalData: null,
   },
   {
     id: 'restock',
     varType: 'int',
-    options: null,
+    additionalData: null,
   },
   {
     id: 'comment',
     varType: 'string',
-    options: null,
+    additionalData: null,
   },
   {
     id: 'evaluation',
     varType: 'string',
-    options: null,
+    additionalData: null,
   },
   {
     id: 'tables',
     varType: 'number',
-    options: null,
+    additionalData: null,
   },
   {
     id: 'seats',
     varType: 'number',
-    options: null,
+    additionalData: null,
   },
   {
     id: 'activated',
     varType: 'bool',
-    options: null,
+    additionalData: null,
   },
   {
     id: 'used',
     varType: 'bool',
-    options: null,
+    additionalData: null,
   },
   {
     id: 'start_date',
     varType: 'date',
-    options: null,
+    additionalData: null,
   },
   {
     id: 'end_date',
     varType: 'date',
-    options: {
+    additionalData: {
       validation: '> start_date',
     },
   },

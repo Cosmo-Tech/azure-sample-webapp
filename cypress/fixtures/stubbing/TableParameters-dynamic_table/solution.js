@@ -52,7 +52,7 @@ export const SOLUTION_WITH_DYNAMIC_TABLE = {
       minValue: null,
       maxValue: null,
       regexValidation: null,
-      options: {
+      additionalData: {
         canChangeRowsNumber: true,
         connectorId: 'c-d7e5p9o0kjn9',
         subType: 'TABLE',
@@ -101,7 +101,7 @@ export const SOLUTION_WITH_DYNAMIC_TABLE = {
         en: 'Events',
       },
       varType: '%DATASETID%',
-      options: {
+      additionalData: {
         subType: 'TABLE',
         columns: [
           {

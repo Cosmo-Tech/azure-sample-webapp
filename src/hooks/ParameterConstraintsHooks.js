@@ -17,7 +17,7 @@ export const useParameterConstraint = (parameterData) => {
   const { trigger } = useFormContext();
 
   const constraint = ParameterConstraintsUtils.getParameterValidationConstraint(
-    parameterData?.options?.validation,
+    parameterData?.additionalData?.validation,
     parameterData.varType,
     parametersList
   );

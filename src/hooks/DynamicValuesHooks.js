@@ -32,7 +32,7 @@ export const useDynamicValues = (parameter, targetDatasetId) => {
 
   useEffect(() => {
     if (isUnmounted.current) return;
-    const dynamicSourceConfig = parameter.options?.dynamicEnumValues;
+    const dynamicSourceConfig = parameter.additionalData?.dynamicEnumValues;
 
     const fetchDynamicValues = async () => {
       if (!dynamicSourceConfig) return;
@@ -142,7 +142,7 @@ export const useLoadInitialValueFromDataset = (parameterValue, parameter, target
   const [dynamicValueError, setDynamicValueError] = useState(null);
   const targetDataset = findDatasetById(targetDatasetId);
   const defaultValue = parameter?.defaultValue ?? GENERIC_VAR_TYPES_DEFAULT_VALUES[parameter?.varType];
-  const dynamicSourceConfig = parameter.options?.dynamicValues;
+  const dynamicSourceConfig = parameter.additionalData?.dynamicValues;
   const resultKey = dynamicSourceConfig?.resultKey;
 
   useEffect(() => {

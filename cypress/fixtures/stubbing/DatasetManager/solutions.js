@@ -17,7 +17,7 @@ export const SOLUTION = {
     {
       id: 'etl_enum_parameter',
       varType: 'enum',
-      options: {
+      additionalData: {
         enumValues: [
           { key: 'option1', value: 'Option 1' },
           { key: 'option2', value: 'Option 2' },
@@ -27,7 +27,7 @@ export const SOLUTION = {
     {
       id: 'etl_list_parameter',
       varType: 'list',
-      options: {
+      additionalData: {
         enumValues: [
           { key: 'option1', value: 'Option 1' },
           { key: 'option2', value: 'Option 2' },
@@ -56,7 +56,7 @@ export const SOLUTION_WITH_DYNAMIC_VALUES = {
     {
       id: 'etl_dynamic_values_enum_parameter',
       varType: 'enum',
-      options: {
+      additionalData: {
         dynamicEnumValues: {
           type: 'cypher',
           query: 'MATCH(n:Customer) RETURN n.id as customer_id',

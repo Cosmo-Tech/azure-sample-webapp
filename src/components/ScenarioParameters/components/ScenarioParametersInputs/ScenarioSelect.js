@@ -13,7 +13,7 @@ export const ScenarioSelect = ({ parameterData, context, parameterValue, setPara
   const { t } = useTranslation();
   const scenarioList = useSortedScenarioList();
   const currentScenarioId = useCurrentSimulationRunnerId();
-  const runTemplateFilter = parameterData.options?.runTemplateFilter;
+  const runTemplateFilter = parameterData.additionalData?.runTemplateFilter;
 
   const mappedScenarioList = useMemo(() => {
     const filteredScenarioList =

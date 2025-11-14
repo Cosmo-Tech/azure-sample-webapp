@@ -11,11 +11,13 @@ const clone = rfdc();
 
 const formatParameterMinMaxDefaultValuesFromString = (parameter) => {
   const castFunction = ConfigUtils.getConversionMethod(parameter, VAR_TYPES_FROM_STRING_FUNCTIONS);
+
+  const newParameter = { ...parameter };
   if (castFunction !== undefined) {
     const keysToCast = ['defaultValue', 'minValue', 'maxValue'];
     keysToCast.forEach((keyToCast) => {
       try {
-        if (parameter[keyToCast] != null) parameter[keyToCast] = castFunction(parameter[keyToCast]);
+        if (newParameter[keyToCast] != null) newParameter[keyToCast] = castFunction(parameter[keyToCast]);
       } catch (error) {
         console.error(error);
         console.log(

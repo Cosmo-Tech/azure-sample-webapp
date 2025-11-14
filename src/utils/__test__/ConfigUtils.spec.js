@@ -86,7 +86,7 @@ describe('getConversionMethod with possible values', () => {
     'if param "$param",subType "subType", functionArray "$functionArray"  ' +
       'and consoleWarnCalls "$consoleWarnCalls" then expectedRes "$expectedRes"',
     ({ param, subType, functionArray, consoleWarnCalls, expectedRes }) => {
-      const paramWithSubType = { ...param, options: { subType } };
+      const paramWithSubType = { ...param, additionalData: { subType } };
       const res = ConfigUtils.getConversionMethod(paramWithSubType, functionArray);
       expect(spyConsoleWarn).toHaveBeenCalledTimes(consoleWarnCalls);
       expect(res).toStrictEqual(expectedRes);
@@ -113,14 +113,14 @@ describe('warnings in case of solution or workspace misconfiguration', () => {
       {
         id: 'parameter1',
         varType: 'int',
-        options: {
+        additionalData: {
           validation: 'someValidation',
         },
       },
       {
         id: 'parameter2',
         varType: '%DATASETID%',
-        options: {
+        additionalData: {
           subType: 'TABLE',
           columns: [
             {
@@ -154,13 +154,13 @@ describe('warnings in case of solution or workspace misconfiguration', () => {
   };
   const solutionWithWrongOptionsKey = {
     ...solution,
-    parameters: [...solution.parameters, { id: 'p4', varType: '%DATASETID%', options: { subtype: 'TABLE' } }],
+    parameters: [...solution.parameters, { id: 'p4', varType: '%DATASETID%', additionalData: { subtype: 'TABLE' } }],
   };
   const solutionWithWrongColumnKey = {
     ...solution,
     parameters: [
       ...solution.parameters,
-      { id: 'p5', varType: '%DATASETID%', options: { columns: [{ acceptsEmptyField: true }] } },
+      { id: 'p5', varType: '%DATASETID%', additionalData: { columns: [{ acceptsEmptyField: true }] } },
     ],
   };
   const solutionWithWrongPGKey = {
@@ -169,7 +169,7 @@ describe('warnings in case of solution or workspace misconfiguration', () => {
   };
   const solutionWithWrongPGOptionsKey = {
     ...solution,
-    parameterGroups: [...solution.parameterGroups, { id: 'pg3', options: { authorizedroles: [] } }],
+    parameterGroups: [...solution.parameterGroups, { id: 'pg3', additionalData: { authorizedroles: [] } }],
   };
   const solutionWithWrongRunTemplateKey = {
     ...solution,
@@ -189,7 +189,7 @@ describe('warnings in case of solution or workspace misconfiguration', () => {
       {
         id: 'nestedColumnsTable',
         varType: '%DATASETID%',
-        options: {
+        additionalData: {
           subType: 'TABLE',
           columns: [
             { field: 'column1', type: ['int'] },
@@ -248,8 +248,8 @@ describe('warnings in case of solution or workspace misconfiguration', () => {
 
   const workspace = {
     id: 'W-workspace1',
-    webApp: {
-      options: {
+    additionalData: {
+      webapp: {
         charts: {
           workspaceId: '12345',
           dashboardsView: [
@@ -288,12 +288,12 @@ describe('warnings in case of solution or workspace misconfiguration', () => {
     ...workspace,
     solution: { defaultrunDataset: {}, runtemplateFilter: [] },
   };
-  const workspaceWithWrongWebAppKey = { ...workspace, webApp: { options: { datasetfilter: [] } } };
+  const workspaceWithWrongWebAppKey = { ...workspace, additionalData: { webapp: { datasetfilter: [] } } };
   const workspaceWithWrongChartsKey = {
     ...workspace,
-    webApp: { options: { charts: { scenarioViewiframeDisplayRatio: 1 } } },
+    additionalData: { webapp: { charts: { scenarioViewiframeDisplayRatio: 1 } } },
   };
-  const workspaceWithWrongIVKey = { ...workspace, webApp: { options: { instanceView: { datasource: {} } } } };
+  const workspaceWithWrongIVKey = { ...workspace, additionalData: { webapp: { instanceView: { datasource: {} } } } };
 
   test.each`
     solution
@@ -311,7 +311,7 @@ describe('warnings in case of solution or workspace misconfiguration', () => {
   test('checks console.warn is not displayed when no unknown keys in workspace config', () => {
     ConfigUtils.checkUnknownKeysInConfig(WorkspaceSchema, workspace);
     expect(spyConsoleWarn).toHaveBeenCalledTimes(0);
-    workspace.webApp.options.charts.logInWithUserCredentials = 'false';
+    workspace.additionalData.webapp.charts.logInWithUserCredentials = 'false';
     ConfigUtils.checkUnknownKeysInConfig(WorkspaceSchema, workspace);
     expect(spyConsoleWarn).toHaveBeenCalledTimes(0);
   });
@@ -359,7 +359,7 @@ describe('warnings in case of solution or workspace misconfiguration', () => {
   test('error is detected in deeply nested columns object', () => {
     const solutionWithDeeplyNestedColumnsGroupWithErrors = { ...solutionWithDeeplyNestedColumnsGroup };
     // eslint-disable-next-line max-len
-    solutionWithDeeplyNestedColumnsGroupWithErrors.parameters[0].options.columns[1].children[2].children[2].children[2].children[2].children[2].children[2].headername =
+    solutionWithDeeplyNestedColumnsGroupWithErrors.parameters[0].additionalData.columns[1].children[2].children[2].children[2].children[2].children[2].children[2].headername =
       'columnsGroup6';
     ConfigUtils.checkUnknownKeysInConfig(SolutionSchema, solutionWithDeeplyNestedColumnsGroupWithErrors);
     expect(spyConsoleWarn).toHaveBeenCalledTimes(1);
@@ -369,7 +369,7 @@ describe('warnings in case of solution or workspace misconfiguration', () => {
   test.each`
     workspace                        | expectedCalledWith                | expectedKey
     ${workspaceWithWrongKey}         | ${'Your workspace configuration'} | ${'dedicatedEventHubAuthenticationstrategy'}
-    ${workspaceWithWrongWebAppKey}   | ${'WebApp section'}               | ${'datasetfilter'}
+    ${workspaceWithWrongWebAppKey}   | ${'webapp section'}               | ${'datasetfilter'}
     ${workspaceWithWrongSolutionKey} | ${'Solution section'}             | ${'defaultrunTemplateDataset'}
     ${workspaceWithWrongChartsKey}   | ${'Charts section'}               | ${'scenarioViewiframeDisplayRatio'}
     ${workspaceWithWrongIVKey}       | ${'Instance view section'}        | ${'datasource'}

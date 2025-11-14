@@ -3,7 +3,7 @@
 import { WorkspacesUtils } from '../WorkspacesUtils';
 
 describe('checkDatasetManagerConfiguration', () => {
-  const forgeWorkspaceFromConfig = (config) => ({ webApp: { options: { datasetManager: config } } });
+  const forgeWorkspaceFromConfig = (config) => ({ additionalData: { webapp: { datasetManager: config } } });
   const spyConsoleWarn = jest.spyOn(console, 'warn').mockImplementation();
 
   afterEach(() => {

@@ -8,7 +8,7 @@ export const WORKSPACE_WITH_DATASET_MANAGER = {
   linkedDatasetIdList: ['d-privateDts_1'],
 };
 
-WORKSPACE_WITH_DATASET_MANAGER.webApp.options.datasetManager = {
+WORKSPACE_WITH_DATASET_MANAGER.additionalData.webapp.datasetManager = {
   queries: [],
   graphIndicators: [
     { id: 'entities', name: { en: 'Entities', fr: 'Entités' } },

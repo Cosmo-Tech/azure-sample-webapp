@@ -41,8 +41,8 @@ export const TabLayout = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     currentWorkspace?.status,
-    currentWorkspace?.data?.webApp?.options?.instanceView,
-    currentWorkspace?.data?.webApp?.options?.datasetManager,
+    currentWorkspace?.data?.additionalData?.webapp?.instanceView,
+    currentWorkspace?.data?.additionalData?.webapp?.datasetManager,
     currentTabPathname,
   ]);
   // call back-end API to get details of a runner if scenario is shared with a link
@@ -55,7 +55,7 @@ export const TabLayout = (props) => {
 
   const shouldRedirectFromInstanceView =
     currentTabPathname.startsWith(`/${routerParameters.workspaceId}/instance`) &&
-    !ConfigUtils.isInstanceViewConfigValid(currentWorkspace?.data?.webApp?.options?.instanceView);
+    !ConfigUtils.isInstanceViewConfigValid(currentWorkspace?.data?.additionalData?.webapp?.instanceView);
   const shouldRedirectFromDatasetManager =
     currentTabPathname.startsWith(`/${routerParameters.workspaceId}/datasetmanager`) &&
     !ConfigUtils.isDatasetManagerEnabledInWorkspace(currentWorkspace?.data);

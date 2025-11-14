@@ -22,7 +22,7 @@ const shouldForceScenarioParametersUpdate = (runTemplateParametersIds, parameter
     'MasterLastRunId',
   ];
   const dynamicParametersIds = solutionData?.parameters
-    ?.filter((parameter) => parameter.options?.dynamicValues)
+    ?.filter((parameter) => parameter.additionalData?.dynamicValues)
     .map((parameter) => parameter.id);
   const isDynamicValueUploaded = Object.keys(parametersValues).some(
     (parameterId) =>
@@ -133,7 +133,7 @@ const _getDefaultParameterValue = (parameterId, solutionParameters) => {
     console.warn(`Unknown scenario parameter "${parameterId}"`);
     return undefined;
   }
-  if (solutionParameter.options?.dynamicValues) return null;
+  if (solutionParameter.additionalData?.dynamicValues) return null;
   let defaultValue = solutionParameter.defaultValue;
   // defaultValue might not be in parameter data for parameters overridden by local config; when sent by the back-end,
   // parameters should always have a defaultValue property, that will be set to 'null' by default
@@ -195,8 +195,8 @@ const _generateParametersGroupMetadata = (groupId, solution) => {
     id: groupId,
     labels: parametersGroup.labels,
     parameters: _generateParametersMetadataForGroup(parametersGroup, solution),
-    options: {
-      ...parametersGroup?.options,
+    additionalData: {
+      ...parametersGroup?.additionalData,
       authorizedRoles: ConfigUtils.getParametersGroupAttribute(parametersGroup, 'authorizedRoles') ?? [],
       hideParameterGroupIfNoPermission:
         ConfigUtils.getParametersGroupAttribute(parametersGroup, 'hideParameterGroupIfNoPermission') ?? false,
