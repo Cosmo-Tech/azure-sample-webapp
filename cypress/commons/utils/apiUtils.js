@@ -953,16 +953,11 @@ const interceptPowerBIAzureFunction = () => {
 };
 
 const interceptWorkspaceSelectorQueries = () => {
-  return [
-    interceptGetOrganization(),
-    interceptGetDatasets(),
-    interceptGetOrganizationPermissions(),
-    interceptGetWorkspaces(),
-  ];
+  return [interceptGetOrganization(), interceptGetOrganizationPermissions(), interceptGetWorkspaces()];
 };
 
 const interceptSelectWorkspaceQueries = (isPowerBiEnabled = true) => {
-  const workspaceQueries = [interceptGetSolution(), ...interceptGetRunnersAndStatuses()];
+  const workspaceQueries = [interceptGetSolution(), ...interceptGetRunnersAndStatuses(), interceptGetDatasets()];
   if (isPowerBiEnabled) workspaceQueries.push(interceptPowerBIAzureFunction());
   return workspaceQueries;
 };
