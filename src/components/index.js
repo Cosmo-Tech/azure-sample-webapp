@@ -13,6 +13,7 @@ export { default as CurrentScenarioPowerBiReport } from './CurrentScenarioPowerB
 export { default as CurrentScenarioSupersetReport } from './CurrentScenarioSupersetReport';
 export { default as CreateScenarioButton } from './CreateScenarioButton';
 export { default as CurrentScenarioSelector } from './CurrentScenarioSelector';
+export { TagsEditor } from './TagsEditor';
 export {
   GenericDateInput,
   GenericEnumInput,
