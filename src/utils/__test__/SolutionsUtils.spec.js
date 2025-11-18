@@ -144,7 +144,7 @@ describe('addRunTemplatesParametersIdsDict for a minimal or incomplete solution'
 
 describe('patchIncompatibleValuesInSolution function unit tests', () => {
   const TABLE_PARAMETER = {
-    varType: '%DATASETID%',
+    varType: FILE_DATASET_PART_ID_VARTYPE,
     additionalData: {
       canChangeRowsNumber: false,
       subType: 'TABLE',

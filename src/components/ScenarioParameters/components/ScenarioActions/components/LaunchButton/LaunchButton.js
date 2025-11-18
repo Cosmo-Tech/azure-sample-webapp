@@ -17,15 +17,13 @@ import {
   useCurrentSimulationRunnerId,
   useCurrentSimulationRunnerState,
   useStartRunner,
-  useUpdateAndStartRunner,
 } from '../../../../../../state/runner/hooks';
 
 export const LaunchButton = () => {
   const { t } = useTranslation();
   const { isDirty, errors } = useFormState();
   const isValid = Object.keys(errors || {}).length === 0;
-  const { processFilesToUpload, getParametersToUpdate, forceUpdate } = useUpdateParameters();
-  const saveAndLaunchScenario = useUpdateAndStartRunner();
+  const { forceUpdate, saveParameterValues } = useUpdateParameters();
   const currentScenarioId = useCurrentSimulationRunnerId();
   const currentScenarioState = useCurrentSimulationRunnerState();
   const setApplicationErrorMessage = useSetApplicationErrorMessage();
@@ -33,6 +31,7 @@ export const LaunchButton = () => {
   const userAppAndCurrentScenarioPermissions = useUserAppAndCurrentScenarioPermissions();
   const currentScenarioDatasetList = useCurrentSimulationRunnerDatasetList();
   const datasets = useDatasets();
+
   const isCurrentScenarioDatasetUnavailable = useMemo(() => {
     if (currentScenarioDatasetList && currentScenarioDatasetList?.length > 0) {
       const currentScenarioDataset = datasets?.find((dataset) => dataset.id === currentScenarioDatasetList?.[0]);
@@ -46,35 +45,28 @@ export const LaunchButton = () => {
     async (event) => {
       event.stopPropagation();
       if (isDirty || forceUpdate) {
-        const error = await processFilesToUpload();
-        if (error == null) {
-          saveAndLaunchScenario(currentScenarioId, getParametersToUpdate());
-        } else {
+        try {
+          await saveParameterValues();
+        } catch (error) {
+          console.error(error);
           setApplicationErrorMessage(
             error,
             t(
               'commoncomponents.banner.incompleteRun',
-              // eslint-disable-next-line max-len
-              "A problem occurred during dataset update; new parameters haven't been saved and launch has been canceled."
+              "A problem occurred during dataset update; new parameters haven't been saved and launch has been " +
+                'canceled.'
             )
           );
         }
+
+        launchScenario(currentScenarioId);
       } else {
         launchScenario(currentScenarioId);
       }
     },
-    [
-      currentScenarioId,
-      forceUpdate,
-      getParametersToUpdate,
-      isDirty,
-      launchScenario,
-      processFilesToUpload,
-      saveAndLaunchScenario,
-      t,
-      setApplicationErrorMessage,
-    ]
+    [currentScenarioId, forceUpdate, isDirty, launchScenario, saveParameterValues, t, setApplicationErrorMessage]
   );
+
   return !isCurrentScenarioRunning ? (
     <PermissionsGate
       userPermissions={userAppAndCurrentScenarioPermissions}

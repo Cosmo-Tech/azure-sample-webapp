@@ -4,10 +4,10 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { UploadFile, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
-import { useOrganizationId } from '../../../../state/organizations/hooks';
-import { useWorkspaceId } from '../../../../state/workspaces/hooks.js';
+import { useFileParameters } from '../../../../hooks/FileParameterHooks';
 import { ConfigUtils, TranslationUtils } from '../../../../utils';
 import { FileManagementUtils } from '../../../../utils/FileManagementUtils';
+import { getFileName } from '../../../../utils/scenarioParameters/FileParameterUtils';
 
 export const GenericUploadFile = ({
   parameterData,
@@ -20,10 +20,11 @@ export const GenericUploadFile = ({
   isDirty = false,
 }) => {
   const { t } = useTranslation();
-  const organizationId = useOrganizationId();
-  const workspaceId = useWorkspaceId();
+  const { downloadDatasetPartFile } = useFileParameters();
+
   const parameterId = parameterData.id;
-  const file = { name: parameterValue?.name, status: parameterValue?.status ?? UPLOAD_FILE_STATUS_KEY.EMPTY };
+  const fileName = getFileName(parameterValue);
+  const file = { name: fileName, status: parameterValue?.status ?? UPLOAD_FILE_STATUS_KEY.EMPTY };
   const defaultFileTypeFilter = ConfigUtils.getParameterAttribute(parameterData, 'defaultFileTypeFilter');
   const renameFileOnUpload = ConfigUtils.getParameterAttribute(parameterData, 'shouldRenameFileOnUpload');
 
@@ -56,17 +57,10 @@ export const GenericUploadFile = ({
       acceptedFileTypes={defaultFileTypeFilter}
       shouldHideFileName={renameFileOnUpload}
       handleUploadFile={(event) => FileManagementUtils.prepareToUpload(event, updateParameterValue, parameterData)}
-      handleDeleteFile={() => FileManagementUtils.prepareToDeleteFile(setFileParameterStatus)}
+      handleDeleteFile={() => setFileParameterStatus(UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE)}
       handleDownloadFile={(event) => {
         event.preventDefault();
-        const datasetPart = {
-          organizationId,
-          workspaceId,
-          datasetId: parameterValue.datasetId,
-          id: parameterValue.datasetPartId,
-          sourceName: parameterValue.name,
-        };
-        FileManagementUtils.downloadDatasetPartFile(datasetPart, setFileParameterStatus);
+        downloadDatasetPartFile(parameterValue, setFileParameterStatus);
       }}
       file={file}
       error={error}
@@ -91,11 +85,12 @@ GenericUploadFile.useValidationRules = () => {
   const { t } = useTranslation();
   return {
     validate: {
-      fileFormat: (value) => {
+      fileFormat: (parameterValue) => {
+        console.log(parameterValue);
         return (
-          value?.file == null ||
-          value?.status === UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE ||
-          FileManagementUtils.isFileFormatValid(value.file.type) ||
+          parameterValue?.value == null ||
+          parameterValue?.status === UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE ||
+          FileManagementUtils.isFileFormatValid(parameterValue.value.type) ||
           t('views.scenario.scenarioParametersValidationErrors.fileFormat', 'File format not supported')
         );
       },

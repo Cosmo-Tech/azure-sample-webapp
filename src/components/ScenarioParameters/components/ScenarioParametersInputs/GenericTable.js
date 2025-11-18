@@ -221,7 +221,7 @@ export const GenericTable = ({
     const fileName = `${parameterData.id}.csv`;
     const _setClientFileDescriptorToError = () => {
       setClientFileDescriptor({
-        file: null,
+        value: null,
         serializedData: null,
         displayData: null,
         errors: null,
@@ -230,7 +230,7 @@ export const GenericTable = ({
     };
 
     setClientFileDescriptor({
-      file: null,
+      value: null,
       serializedData: null,
       displayData: null,
       errors: null,
@@ -335,9 +335,10 @@ export const GenericTable = ({
         errors: agGridData.error,
       });
     } else {
+      // FIXME import & use forgeFileParameter
       setClientFileDescriptor({
         name: fileName,
-        file: null,
+        value: null,
         displayData: agGridData.rows,
         errors: null,
         status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD,
@@ -359,7 +360,7 @@ export const GenericTable = ({
     // Setting the table status to DOWNLOADING again even when the download is already active (and thus locked) seems
     // to fix a race condition in the table parameter state. This can be used to fix the missing loading spinner.
     setClientFileDescriptor({
-      file: null,
+      value: null,
       serializedData: null,
       displayData: null,
       errors: null,
@@ -387,7 +388,7 @@ export const GenericTable = ({
       _parseCSVFileContent(data, fileName, clientFileDescriptor, setClientFileDescriptor, finalStatus);
     } else {
       setClientFileDescriptor({
-        file: null,
+        value: null,
         serializedData: null,
         errors: null,
         displayData: null,
@@ -416,7 +417,7 @@ export const GenericTable = ({
     ) => {
       setClientFileDescriptor({
         name: fileName,
-        file: null,
+        value: null,
         displayData: null,
         errors: null,
         serializedData: fileContent,
@@ -440,7 +441,7 @@ export const GenericTable = ({
       } else {
         setClientFileDescriptor({
           name: fileName,
-          file: null,
+          value: null,
           displayData: agGridData.rows,
           errors: agGridData.error,
           serializedData: fileContent,
@@ -461,7 +462,7 @@ export const GenericTable = ({
       const fileName = lastNewParameterValue.current?.name ?? '';
       setClientFileDescriptor({
         name: fileName,
-        file: null,
+        value: null,
         serializedData: null,
         displayData: null,
         errors: null,
@@ -525,7 +526,7 @@ export const GenericTable = ({
         );
         setClientFileDescriptor({
           name: fileName,
-          file: null,
+          value: null,
           serializedData: newFileContent,
           displayData: agGridData.rows,
           errors: agGridData.error,

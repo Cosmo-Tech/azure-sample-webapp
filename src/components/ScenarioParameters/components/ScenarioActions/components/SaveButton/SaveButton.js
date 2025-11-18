@@ -9,30 +9,23 @@ import { PermissionsGate } from '@cosmotech/ui';
 import { useUpdateParameters } from '../../../../../../hooks/ScenarioParametersHooks';
 import { useUserAppAndCurrentScenarioPermissions } from '../../../../../../hooks/SecurityHooks';
 import { ACL_PERMISSIONS } from '../../../../../../services/config/accessControl';
-import DatasetService from '../../../../../../services/dataset/DatasetService';
 import { useSetApplicationErrorMessage } from '../../../../../../state/app/hooks';
-import { dispatchUpdateDatasetPart } from '../../../../../../state/datasets/dispatchers';
-import { useOrganizationId } from '../../../../../../state/organizations/hooks';
-import { useCurrentSimulationRunnerData, useUpdateSimulationRunner } from '../../../../../../state/runner/hooks';
-import { useWorkspaceId } from '../../../../../../state/workspaces/hooks';
 
 export const SaveButton = () => {
   const { t } = useTranslation();
   const { isDirty, errors } = useFormState();
   const isValid = Object.keys(errors || {}).length === 0;
-  const organizationId = useOrganizationId();
-  const workspaceId = useWorkspaceId();
-  const currentScenario = useCurrentSimulationRunnerData();
-  const saveScenario = useUpdateSimulationRunner();
-  const { processFilesToUpload, getParametersToUpdate } = useUpdateParameters();
+  const { saveParameterValues } = useUpdateParameters();
   const setApplicationErrorMessage = useSetApplicationErrorMessage();
   const userAppAndCurrentScenarioPermissions = useUserAppAndCurrentScenarioPermissions();
 
   const saveScenarioParameters = useCallback(
     async (event) => {
       event.stopPropagation();
-      const error = await processFilesToUpload();
-      if (error != null) {
+
+      try {
+        await saveParameterValues();
+      } catch (error) {
         console.error(error);
         setApplicationErrorMessage(
           error,
@@ -41,36 +34,9 @@ export const SaveButton = () => {
             "A problem occurred during dataset update; your new parameters haven't been saved."
           )
         );
-        return;
-      }
-
-      const runnerParameterDatasetId = currentScenario.datasets?.parameter;
-      const parameters = getParametersToUpdate();
-      saveScenario(currentScenario.id, parameters.nonDatasetParts);
-
-      const createdParts = [];
-      for (const parameter of parameters.fileDatasetParts) {
-        const createdDatasetPart = await DatasetService.createDatasetPart(
-          organizationId,
-          workspaceId,
-          runnerParameterDatasetId,
-          parameter.value.part,
-          parameter.value.file
-        );
-        dispatchUpdateDatasetPart(runnerParameterDatasetId, createdDatasetPart);
-        createdParts.push(createdDatasetPart);
       }
     },
-    [
-      organizationId,
-      workspaceId,
-      currentScenario,
-      getParametersToUpdate,
-      processFilesToUpload,
-      saveScenario,
-      t,
-      setApplicationErrorMessage,
-    ]
+    [saveParameterValues, t, setApplicationErrorMessage]
   );
 
   return isDirty ? (

@@ -61,23 +61,17 @@ export function* getAllRunners(organizationId, workspaceId) {
     RunnersUtils.patchRunnerWithCurrentUserPermissions(runner, userEmail, userId, runnersPermissionsMapping)
   );
   const readableRunners = keepOnlyReadableRunners(data);
-
   readableRunners.forEach((runner) => {
-    // Temporary work-around to remove deprecated dataset parameters
     if (runner.parametersValues) {
-      // runner.parametersValues.forEach(parameter => {
-      //   if(parameter.varType === '%DATASETID%')
-      //     console.warn(`Runner parameter ${parameter.parameterId} uses deprecated varType "%DATASETID%"`);
-      // });
-      runner.parametersValues = runner.parametersValues.filter((parameter) => parameter.varType !== '%DATASETID%');
+      runner.parametersValues.forEach((parameter) => {
+        if (parameter.varType === '%DATASETID%')
+          console.warn(`Runner parameter ${parameter.parameterId} uses deprecated varType "%DATASETID%"`);
+      });
     }
-
     runner.parametersValues = ApiUtils.formatParametersFromApi(runner.parametersValues);
+    RunnersUtils.patchRunnerParameterValues(solutionParameters, runner.parametersValues);
   });
 
-  readableRunners.forEach((runner) =>
-    RunnersUtils.patchRunnerParameterValues(solutionParameters, runner.parametersValues)
-  );
   const simulationRunnersRunTemplatesIds = [];
   const eltRunnersRunTemplatesIds = [];
   runTemplates?.forEach((rt) => {

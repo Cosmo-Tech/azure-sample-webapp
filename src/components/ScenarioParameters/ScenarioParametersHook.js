@@ -4,13 +4,11 @@ import { useUpdateParameters } from '../../hooks/ScenarioParametersHooks.js';
 import { useUserPermissionsOnCurrentScenario } from '../../hooks/SecurityHooks.js';
 import { useApplicationTheme } from '../../state/app/hooks';
 import { useUserAppRoles } from '../../state/auth/hooks';
-import { useDatasets } from '../../state/datasets/hooks';
 import { useCurrentSimulationRunner } from '../../state/runner/hooks';
 import { useSolution } from '../../state/solutions/hooks';
 
 export const useScenarioParameters = () => {
-  const { runTemplateParametersIds, parametersMetadata } = useUpdateParameters();
-  const datasets = useDatasets();
+  const { runTemplateParametersIds } = useUpdateParameters();
   const currentScenario = useCurrentSimulationRunner();
   const solutionData = useSolution().data;
   const userRoles = useUserAppRoles();
@@ -19,8 +17,6 @@ export const useScenarioParameters = () => {
 
   return {
     runTemplateParametersIds,
-    parametersMetadata,
-    datasets,
     currentScenario,
     solutionData,
     userRoles,

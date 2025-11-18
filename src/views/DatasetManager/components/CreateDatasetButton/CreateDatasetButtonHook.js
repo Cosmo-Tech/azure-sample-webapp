@@ -50,7 +50,7 @@ export const useDatasetCreationParameters = () => {
         const files = [];
         if (values.sourceType === DATASET_SOURCE_TYPE.FILE_UPLOAD) {
           const fileToUpload = values[sourceType].file;
-          files.push(fileToUpload.file);
+          files.push(fileToUpload.value);
           dataset.parts.push({ name: fileToUpload.name, sourceName: fileToUpload.name });
         } else if (values.sourceType === DATASET_SOURCE_TYPE.NONE) {
           dataset.source = null;

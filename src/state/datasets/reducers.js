@@ -12,6 +12,7 @@ export const datasetInitialState = {
   },
   selectedDatasetIndex: null,
 };
+
 const datasetSlice = createSlice({
   name: 'dataset',
   initialState: datasetInitialState,
@@ -49,7 +50,7 @@ const datasetSlice = createSlice({
       const index = datasetIndex ?? state.list.data.findIndex((dataset) => dataset.id === datasetId);
       state.list.data[index] = { ...state.list.data[index], ...datasetData };
     },
-    updateDatasetPart: (state, action) => {
+    addOrUpdateDatasetPart: (state, action) => {
       const { datasetIndex, datasetId, datasetPart: newDatasetPart } = action.payload;
 
       const index = datasetIndex ?? state.list.data.findIndex((dataset) => dataset.id === datasetId);
@@ -58,16 +59,27 @@ const datasetSlice = createSlice({
         return;
       }
 
-      const newDatasetParts = state.list.data[index].parts.map((datasetPart) =>
-        datasetPart.name === newDatasetPart.name ? newDatasetPart : datasetPart
-      );
+      let found = false;
+      const newDatasetParts = state.list.data[index].parts.map((datasetPart) => {
+        if (datasetPart.name !== newDatasetPart.name) return datasetPart;
 
-      state.list.data[index] = { ...state.list.data[index], parts: newDatasetParts };
+        found = true;
+        return newDatasetPart;
+      });
+      if (!found) newDatasetParts.push(newDatasetPart);
+
+      state.list.data[index].parts = newDatasetParts;
     },
     deleteDataset: (state, action) => {
       const { datasetId } = action.payload;
       const index = state.list.data.findIndex((dataset) => dataset.id === datasetId);
       state.list.data.splice(index, 1);
+    },
+    deleteDatasetPart: (state, action) => {
+      const { datasetId, datasetPartId: partIdToDelete } = action.payload;
+      const index = state.list.data.findIndex((dataset) => dataset.id === datasetId);
+      const dataset = state.list.data[index];
+      state.list.data[index] = { ...dataset, parts: dataset.parts.filter((partId) => partId !== partIdToDelete) };
     },
     selectDataset: (state, action) => {
       const { selectedDatasetId } = action.payload;
@@ -88,9 +100,11 @@ export const {
   loadDatasets,
   setAllDatasets,
   addDataset,
+  addOrUpdateDatasetPart,
   setDatasetSecurity,
   updateDataset,
   deleteDataset,
+  deleteDatasetPart,
   selectDataset,
   selectDefaultDataset,
 } = datasetSlice.actions;

@@ -4,7 +4,7 @@ import { t } from 'i18next';
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
 import { Api } from '../../../services/config/Api';
-import { ApiUtils, DatasetsUtils } from '../../../utils';
+import { ApiUtils, ConfigUtils, DatasetsUtils } from '../../../utils';
 import { setApplicationErrorMessage } from '../../app/reducers';
 import { DATASET_ACTIONS_KEY } from '../../datasets/constants';
 import { addDataset } from '../../datasets/reducers';
@@ -73,7 +73,7 @@ export function* updateEtlRunnerData(action) {
     const runnerId = action.runnerId;
     const datasetId = action.datasetId;
     for (const parameter of runnerPatch.parametersValues) {
-      if (parameter.varType === '%DATASETID%') {
+      if (ConfigUtils.isFileParameter(parameter)) {
         if (parameter.value.status === UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD)
           parameter.value = yield call(uploadFileParameter, parameter, organizationId, workspaceId);
         else if (parameter.value.status === UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD)

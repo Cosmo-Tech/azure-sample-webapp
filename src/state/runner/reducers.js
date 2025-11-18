@@ -4,6 +4,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { STATUSES } from '../../services/config/StatusConstants';
 import { RunnersUtils } from '../../utils';
+import { addOrUpdateDatasetPart, deleteDatasetPart } from '../datasets/reducers';
 
 export const runnersInitialState = {
   simulationRunners: {
@@ -174,7 +175,66 @@ const runnerSlice = createSlice({
       state.etlRunners.list.data.push(runner);
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(addOrUpdateDatasetPart, (state, action) => {
+        const { runnerId, datasetPart: newDatasetPart } = action.payload;
+
+        if (!runnerId || !newDatasetPart) {
+          console.warn('No runner id or no dataset part id provided');
+          return;
+        }
+
+        const runner = state.simulationRunners.list.data?.find((runner) => runner.id === runnerId);
+        if (!runner) {
+          console.warn('Runner not found');
+          return;
+        }
+
+        // TODO: factorize code with the addOrUpdateDatasetPart action in the dataset reducer
+        runner.datasets.parameters = runner.datasets.parameters.filter((part) => part.id !== newDatasetPart.id);
+
+        let found = false;
+        runner.datasets.parameters = runner.datasets.parameters.map((datasetPart) => {
+          if (datasetPart.name !== newDatasetPart.name) return datasetPart;
+
+          found = true;
+          return newDatasetPart;
+        });
+        if (!found) runner.datasets.parameters.push(newDatasetPart);
+
+        if (state.simulationRunners.current?.data?.id === runnerId) {
+          state.simulationRunners.current.data = {
+            ...state.simulationRunners.current?.data,
+            ...runner,
+          };
+        }
+      })
+      .addCase(deleteDatasetPart, (state, action) => {
+        const { runnerId, datasetPartId: partIdToDelete } = action.payload;
+        if (!runnerId || !partIdToDelete) {
+          console.warn('No runner id or no dataset part id provided');
+          return;
+        }
+
+        const runner = state.simulationRunners.list.data?.find((runner) => runner.id === runnerId);
+        if (!runner) {
+          console.warn('Runner not found');
+          return;
+        }
+
+        runner.datasets.parameters = runner.datasets.parameters.filter((part) => part.id !== partIdToDelete);
+
+        if (state.simulationRunners.current?.data?.id === runnerId) {
+          state.simulationRunners.current.data = {
+            ...state.simulationRunners.current?.data,
+            ...runner,
+          };
+        }
+      });
+  },
 });
+
 export const {
   setAllSimulationRunners,
   setReducerStatus,

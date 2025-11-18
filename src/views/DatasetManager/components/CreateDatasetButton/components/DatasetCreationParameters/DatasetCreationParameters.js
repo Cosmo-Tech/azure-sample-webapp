@@ -8,6 +8,7 @@ import { Grid, Typography } from '@mui/material';
 import rfdc from 'rfdc';
 import { UploadFile, BasicEnumInput } from '@cosmotech/ui';
 import { GenericEnumInput, GenericMultiSelect, GenericTextInput, GenericDateInput } from '../../../../../../components';
+import { FILE_DATASET_PART_ID_VARTYPE } from '../../../../../../services/config/ApiConstants';
 import { useOrganizationId } from '../../../../../../state/organizations/hooks';
 import { useWorkspaceId } from '../../../../../../state/workspaces/hooks';
 import { ConfigUtils, SolutionsUtils, TranslationUtils } from '../../../../../../utils';
@@ -63,7 +64,7 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
         defaultValue = enumValues?.[0]?.key;
       } else if (inputType === 'list') {
         defaultValue = [];
-      } else if (inputType === '%DATASETID%') {
+      } else if (inputType === FILE_DATASET_PART_ID_VARTYPE) {
         defaultValue = null;
       } else if (inputType === 'date') {
         defaultValue = new Date();
@@ -116,7 +117,7 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
                   isDirty={null}
                 />
               );
-            } else if (inputType === '%DATASETID%') {
+            } else if (inputType === FILE_DATASET_PART_ID_VARTYPE) {
               return (
                 <Grid sx={{ pt: 1 }} size={12}>
                   <UploadFile

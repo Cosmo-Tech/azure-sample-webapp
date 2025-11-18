@@ -53,6 +53,11 @@ const createDatasetPart = async (organizationId, workspaceId, datasetId, dataset
   return data;
 };
 
+const deleteDatasetPart = async (organizationId, workspaceId, datasetId, datasetPartId) => {
+  const { data } = await Api.Datasets.deleteDatasetPart(organizationId, workspaceId, datasetId, datasetPartId);
+  return data;
+};
+
 const downloadDatasetPart = async (datasetPart) => {
   const { organizationId, workspaceId, datasetId, id, sourceName } = datasetPart;
   const { data, status } = await Api.Datasets.downloadDatasetPart(organizationId, workspaceId, datasetId, id);
@@ -71,6 +76,7 @@ const DatasetService = {
   deleteDataset,
   createEmptyDataset,
   createDatasetPart,
+  deleteDatasetPart,
   downloadDatasetPart,
 };
 

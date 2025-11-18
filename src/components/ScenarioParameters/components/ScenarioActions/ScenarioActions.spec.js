@@ -26,17 +26,14 @@ jest.mock('@cosmotech/ui', () => ({
   },
 }));
 
+const mockSaveParameterValues = jest.fn();
 const mockUseStartRunner = jest.fn();
-const mockUseUpdateAndStartRunner = jest.fn();
-const mockUseUpdateSimulationRunner = jest.fn();
 const mockOpenDialog = jest.fn();
 
 jest.mock('../../../../state/runner/hooks', () => ({
   __esModule: true,
   ...jest.requireActual('../../../../state/runner/hooks'),
   useStartRunner: () => mockUseStartRunner,
-  useUpdateAndStartRunner: () => mockUseUpdateAndStartRunner,
-  useUpdateSimulationRunner: () => mockUseUpdateSimulationRunner,
   useCurrentSimulationRunnerState: jest.fn(),
   useCurrentSimulationRunnerLastRunId: jest.fn(),
   useStopSimulationRunner: jest.fn(),
@@ -46,9 +43,10 @@ jest.mock('../../../../hooks/ScenarioParametersHooks', () => ({
   __esModule: true,
   ...jest.requireActual('../../../../hooks/ScenarioParametersHooks'),
   useUpdateParameters: () => ({
-    forceUpdate: false,
+    saveParameterValues: mockSaveParameterValues,
+  }),
+  useFileParameters: () => ({
     processFilesToUpload: jest.fn(),
-    getParametersToUpdate: () => ({ dbDatasetParts: [], fileDatasetParts: [], nonDatasetParts: [] }),
   }),
 }));
 
@@ -78,6 +76,7 @@ describe('Test scenario buttons when scenario is not running', () => {
     });
 
     beforeEach(() => {
+      mockSaveParameterValues.mockClear();
       mockUseStartRunner.mockClear();
     });
 
@@ -85,6 +84,7 @@ describe('Test scenario buttons when scenario is not running', () => {
       expect(launchScenarioButton.Button).toBeVisible();
       expect(getByDataCy('launch-label')).toBeVisible();
       await launchScenarioButton.click();
+      expect(mockSaveParameterValues).not.toHaveBeenCalled();
       expect(mockUseStartRunner).toHaveBeenCalled();
 
       expect(saveScenarioButton.Button).not.toBeInTheDocument();
@@ -102,8 +102,7 @@ describe('Test scenario buttons when scenario is not running', () => {
     });
 
     beforeEach(() => {
-      mockUseUpdateAndStartRunner.mockClear();
-      mockUseUpdateSimulationRunner.mockClear();
+      mockSaveParameterValues.mockClear();
       mockOpenDialog.mockClear();
     });
 
@@ -111,11 +110,12 @@ describe('Test scenario buttons when scenario is not running', () => {
       expect(launchScenarioButton.Button).toBeVisible();
       expect(getByDataCy('save-and-launch-label')).toBeVisible();
       await launchScenarioButton.click();
-      expect(mockUseUpdateAndStartRunner).toHaveBeenCalled();
+      expect(mockSaveParameterValues).toHaveBeenCalled();
+      expect(mockUseStartRunner).toHaveBeenCalled();
 
       expect(saveScenarioButton.Button).toBeVisible();
       await saveScenarioButton.click();
-      expect(mockUseUpdateSimulationRunner).toHaveBeenCalled();
+      expect(mockSaveParameterValues).toHaveBeenCalled();
 
       expect(discardChangesButton.Button).toBeVisible();
       await discardChangesButton.click();

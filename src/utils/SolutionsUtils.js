@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { SOLUTIONS } from '../config/overrides/Solutions.js';
-import { DATASET_SOURCES } from '../services/config/ApiConstants';
+import { DATASET_SOURCES, FILE_DATASET_PART_ID_VARTYPE } from '../services/config/ApiConstants';
 import { ApiUtils } from './ApiUtils';
 import { ArrayDictUtils } from './ArrayDictUtils';
 import { ConfigUtils } from './ConfigUtils';
@@ -141,7 +141,7 @@ const patchIncompatibleValuesInSolution = (solution) => {
         );
       }
     } else if (
-      parameter.varType === '%DATASETID%' &&
+      parameter.varType === FILE_DATASET_PART_ID_VARTYPE &&
       parameter.additionalData?.subType === 'TABLE' &&
       parameter.additionalData?.canChangeRowsNumber
     ) {

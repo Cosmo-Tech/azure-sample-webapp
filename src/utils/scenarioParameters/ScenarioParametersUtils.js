@@ -41,7 +41,7 @@ const _buildScenarioParameter = (parameterId, varType, value) => {
   return undefined;
 };
 
-function _addOrReplaceScenarioParameter(parameterId, varType, value, parameters) {
+const _addOrReplaceScenarioParameter = (parameterId, varType, value, parameters) => {
   const newParameter = _buildScenarioParameter(parameterId, varType, value);
   if (newParameter === undefined) {
     return;
@@ -53,9 +53,9 @@ function _addOrReplaceScenarioParameter(parameterId, varType, value, parameters)
   } else {
     parameters[previousParameterIndex] = newParameter;
   }
-}
+};
 
-function _getParentScenarioLastRunId(scenarioData, scenarios) {
+const _getParentScenarioLastRunId = (scenarioData, scenarios) => {
   if (scenarioData.parentId) {
     const parentScenario = scenarios.find((scenario) => scenario.id === scenarioData.parentId);
     if (parentScenario) {
@@ -69,9 +69,9 @@ function _getParentScenarioLastRunId(scenarioData, scenarios) {
     }
   }
   return undefined;
-}
+};
 
-function _getRootScenarioLastRunId(scenarioData, scenarios) {
+const _getRootScenarioLastRunId = (scenarioData, scenarios) => {
   if (scenarioData.rootId) {
     const rootScenario = scenarios.find((scenario) => scenario.id === scenarioData.rootId);
     if (rootScenario) {
@@ -85,9 +85,9 @@ function _getRootScenarioLastRunId(scenarioData, scenarios) {
     }
   }
   return undefined;
-}
+};
 
-function _addHiddenParameters(parameters, scenarioData, scenarios, runTemplateParametersIds) {
+const _addHiddenParameters = (parameters, scenarioData, scenarios, runTemplateParametersIds) => {
   if (scenarioData == null || scenarios == null || scenarios.length === 0) {
     return parameters;
   }
@@ -108,7 +108,7 @@ function _addHiddenParameters(parameters, scenarioData, scenarios, runTemplatePa
       _addOrReplaceScenarioParameter(parameterId, 'string', getParameter(), parameters);
   }
   return parameters;
-}
+};
 
 const _getVarTypeDefaultValue = (varType, subType) => {
   const extendedVarType = ConfigUtils.buildExtendedVarType(varType, subType);
@@ -122,10 +122,10 @@ const _findParameterInSolutionParametersById = (parameterId, solutionParameters)
   return solutionParameters?.find((param) => param.id === parameterId);
 };
 
-function _getDefaultParameterValueFromDefaultValues(solutionParameter, parameterVarType) {
+const _getDefaultParameterValueFromDefaultValues = (solutionParameter, parameterVarType) => {
   const subType = ConfigUtils.getParameterAttribute(solutionParameter, 'subType');
   return _getVarTypeDefaultValue(parameterVarType, subType);
-}
+};
 
 const _getDefaultParameterValue = (parameterId, solutionParameters) => {
   const solutionParameter = _findParameterInSolutionParametersById(parameterId, solutionParameters);
@@ -287,27 +287,22 @@ const generateParametersGroupsMetadata = (solution, runTemplateId) => {
   return _generateParametersGroupsMetadataFromIds(runTemplateParametersGroupsIds, solution);
 };
 
-const buildParameterForUpdateRequest = (solution, parameterId, parameterValue) => {
-  const varType = SolutionsUtils.getParameterVarType(solution, parameterId);
-  const parameter = { parameterId, varType, value: parameterValue };
-  if (parameterValue == null || !ConfigUtils.isDatasetPartVarType(varType)) return parameter;
-
-  if (ConfigUtils.isFileParameter(parameter)) {
-    let file = parameterValue.file;
-    if (file == null && parameterValue.serializedData != null)
-      file = new File([parameterValue.serializedData], parameterId, { type: 'text/plain' });
-
-    if (file == null && parameterValue.status !== UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE) return null;
-    // FIXME: handle file removal
-    return { parameterId, varType, value: { file, part: { name: parameterId, sourceName: file?.name } } };
+const _addDatasetPartsToDelete = (runner, newParameters) => {
+  const runnerDatasetParts = runner?.datasets?.parameters ?? [];
+  for (const newParameter of [...newParameters.dbDatasetParts, ...newParameters.fileDatasetParts]) {
+    const parameterId = newParameter.parameterId;
+    const datasetPartIdsToDelete = runnerDatasetParts
+      .filter((part) => part.name === parameterId)
+      .map((part) => part.id);
+    newParameters.idsOfDatasetPartsToDelete = newParameters.idsOfDatasetPartsToDelete.concat(datasetPartIdsToDelete);
   }
-  console.warn(`Var type "${varType}" is not supported`);
-
-  return parameter;
 };
 
-// Returns an object with 3 fields dbDatasetParts, fileDatasetParts and nonDatasetParts, containing the parameter data
-//required for runner update requests
+// Returns an object with 4 arrays, containing the parameter data required for runner update requests:
+// - dbDatasetParts
+// - fileDatasetParts
+// - nonDatasetParts,
+// - idsOfDatasetPartsToDelete
 const buildParametersForUpdateRequest = (
   solution,
   parameterValues,
@@ -315,19 +310,47 @@ const buildParametersForUpdateRequest = (
   selectedScenario,
   allScenarios
 ) => {
-  const parameters = { dbDatasetParts: [], fileDatasetParts: [], nonDatasetParts: [] };
+  const parameters = { dbDatasetParts: [], fileDatasetParts: [], nonDatasetParts: [], idsOfDatasetPartsToDelete: [] };
   for (const parameterId of runTemplateParametersIds) {
     const parameterValue = parameterValues[parameterId];
     if (parameterValue == null) continue;
 
-    const parameter = buildParameterForUpdateRequest(solution, parameterId, parameterValue);
-    if (parameter == null) continue;
+    const varType = SolutionsUtils.getParameterVarType(solution, parameterId);
+    const parameter = { parameterId, varType, value: parameterValue };
+    if (!ConfigUtils.isDatasetPartVarType(varType)) {
+      parameters.nonDatasetParts.push(parameter);
+      continue;
+    }
 
-    if (ConfigUtils.isFileParameter(parameter)) parameters.fileDatasetParts.push(parameter);
-    else if (ConfigUtils.isDBParameter(parameter)) parameters.dbDatasetParts.push(parameter);
-    else parameters.nonDatasetParts.push(parameter);
+    if (ConfigUtils.isFileParameter(parameter)) {
+      // Check if file has been erased without new content to upload
+      if (parameterValue.status === UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE) {
+        const runnerDatasetParts = selectedScenario?.datasets?.parameters ?? [];
+        const datasetPartIdsToDelete = runnerDatasetParts
+          .filter((part) => part.name === parameterId)
+          .map((part) => part.id);
+        parameters.idsOfDatasetPartsToDelete = parameters.idsOfDatasetPartsToDelete.concat(datasetPartIdsToDelete);
+        continue;
+      }
+
+      // Check if file has been modified
+      let file = parameterValue.value;
+      if (file == null) {
+        if (parameterValue.serializedData != null)
+          file = new File([parameterValue.serializedData], parameterId, { type: 'text/plain' });
+        else continue; // No modifications to save
+      }
+
+      const parameter = { parameterId, varType, value: { file, part: { name: parameterId, sourceName: file?.name } } };
+      parameters.fileDatasetParts.push(parameter);
+      continue;
+    }
+
+    console.warn(`Var type "${varType}" is not supported`);
   }
+
   _addHiddenParameters(parameters.nonDatasetParts, selectedScenario, allScenarios, runTemplateParametersIds);
+  _addDatasetPartsToDelete(selectedScenario, parameters);
   return parameters;
 };
 

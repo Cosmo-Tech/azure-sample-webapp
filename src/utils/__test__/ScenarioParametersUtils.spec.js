@@ -327,6 +327,7 @@ describe('buildParametersForUpdateRequest', () => {
   const expectedParametersForUpdate = {
     dbDatasetParts: [],
     fileDatasetParts: [],
+    idsOfDatasetPartsToDelete: [],
     nonDatasetParts: [
       { parameterId: 'param1', value: 'value1', varType: 'int' },
       { parameterId: 'param2', value: 'value2', varType: 'string' },

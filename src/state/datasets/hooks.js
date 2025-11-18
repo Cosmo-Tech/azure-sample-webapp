@@ -12,7 +12,7 @@ import {
   dispatchUpdateDataset,
   dispatchUpdateDatasetSecurity,
 } from './dispatchers';
-import { addDataset, selectDataset, updateDataset } from './reducers';
+import { addDataset, addOrUpdateDatasetPart, deleteDatasetPart, selectDataset, updateDataset } from './reducers';
 
 export const useDatasets = () => {
   return useSelector((state) => state.dataset?.list?.data);
@@ -68,6 +68,14 @@ export const useDeleteDataset = () => {
   );
 };
 
+export const useDeleteDatasetPartInRedux = () => {
+  const dispatch = useDispatch();
+  return useCallback(
+    (datasetId, datasetPartId, runnerId) => dispatch(deleteDatasetPart({ datasetId, datasetPartId, runnerId })),
+    [dispatch]
+  );
+};
+
 export const useUpdateDataset = () => {
   const dispatch = useDispatch();
   const organizationId = useOrganizationId();
@@ -75,6 +83,15 @@ export const useUpdateDataset = () => {
     (datasetId, datasetData, datasetIndex) =>
       dispatch(dispatchUpdateDataset(organizationId, datasetId, datasetData, datasetIndex)),
     [dispatch, organizationId]
+  );
+};
+
+export const useAddOrUpdateDatasetPartInRedux = () => {
+  const dispatch = useDispatch();
+  return useCallback(
+    (datasetId, datasetPart, datasetIndex, runnerId) =>
+      dispatch(addOrUpdateDatasetPart({ datasetId, datasetPart, datasetIndex, runnerId })),
+    [dispatch]
   );
 };
 

@@ -3,7 +3,7 @@
 import { t } from 'i18next';
 import { put, takeEvery, call, select } from 'redux-saga/effects';
 import { Api } from '../../../services/config/Api';
-import { DatasetsUtils, ApiUtils } from '../../../utils';
+import { ApiUtils, ConfigUtils, DatasetsUtils } from '../../../utils';
 import { setApplicationErrorMessage } from '../../app/reducers';
 import { addDataset } from '../../datasets/reducers';
 import { createDataset } from '../../datasets/sagas/CreateDataset';
@@ -77,7 +77,7 @@ export function* createRunner(action) {
     delete runner.sourceType;
 
     for (const parameter of runner.parametersValues) {
-      if (parameter.varType === '%DATASETID%') {
+      if (ConfigUtils.isFileParameter(parameter)) {
         const datasetId = yield call(uploadFileParameter, parameter, organizationId, workspaceId);
         parameter.value = datasetId;
       }

@@ -1,6 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import merge from 'deepmerge';
+import { FILE_DATASET_PART_ID_VARTYPE } from '../../services/config/ApiConstants';
 import { SolutionSchema } from '../../services/config/SolutionSchema';
 import { WorkspaceSchema } from '../../services/config/WorkspaceSchema';
 import { ConfigUtils } from '../ConfigUtils';
@@ -119,7 +120,7 @@ describe('warnings in case of solution or workspace misconfiguration', () => {
       },
       {
         id: 'parameter2',
-        varType: '%DATASETID%',
+        varType: FILE_DATASET_PART_ID_VARTYPE,
         additionalData: {
           subType: 'TABLE',
           columns: [
@@ -154,13 +155,16 @@ describe('warnings in case of solution or workspace misconfiguration', () => {
   };
   const solutionWithWrongOptionsKey = {
     ...solution,
-    parameters: [...solution.parameters, { id: 'p4', varType: '%DATASETID%', additionalData: { subtype: 'TABLE' } }],
+    parameters: [
+      ...solution.parameters,
+      { id: 'p4', varType: FILE_DATASET_PART_ID_VARTYPE, additionalData: { subtype: 'TABLE' } },
+    ],
   };
   const solutionWithWrongColumnKey = {
     ...solution,
     parameters: [
       ...solution.parameters,
-      { id: 'p5', varType: '%DATASETID%', additionalData: { columns: [{ acceptsEmptyField: true }] } },
+      { id: 'p5', varType: FILE_DATASET_PART_ID_VARTYPE, additionalData: { columns: [{ acceptsEmptyField: true }] } },
     ],
   };
   const solutionWithWrongPGKey = {
@@ -188,7 +192,7 @@ describe('warnings in case of solution or workspace misconfiguration', () => {
     parameters: [
       {
         id: 'nestedColumnsTable',
-        varType: '%DATASETID%',
+        varType: FILE_DATASET_PART_ID_VARTYPE,
         additionalData: {
           subType: 'TABLE',
           columns: [

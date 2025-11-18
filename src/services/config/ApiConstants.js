@@ -76,7 +76,7 @@ export const DATASET_SOURCES = [
   {
     id: DATASET_SOURCE_TYPE.FILE_UPLOAD,
     labels: { en: 'Create dataset from file upload', fr: 'Envoi de fichiers pour créer un dataset' },
-    parameters: [{ id: `file`, varType: '%DATASETID%', labels: { en: '', fr: '' } }],
+    parameters: [{ id: `file`, varType: FILE_DATASET_PART_ID_VARTYPE, labels: { en: '', fr: '' } }],
     tags: ['datasource'],
   },
 ];

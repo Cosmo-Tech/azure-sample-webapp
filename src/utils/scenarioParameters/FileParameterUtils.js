@@ -7,20 +7,40 @@ import { UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
 // When stored in redux or in react states, file parameters will be represented by objects with the following shape:
 //   {
 //     parameterId: id of the run template parameter
-//     varType: varType of the run template parameter
-//     subType: subType of the run template parameter
-//
 //     datasetId: id of the dataset containing the dataset part (can be null if the file has not been uploaded yet)
 //     datasetPartId: id of the dataset part (can be null if the file has not been uploaded yet)
+//
+//     varType: varType of the run template parameter
+//     subType: subType of the run template parameter
+//     status: status value as defined by the enum UPLOAD_FILE_STATUS_KEY in the @cosmotech/ui package
+//
+//     name: file name to display
 //     value: file blob data
 //
-//     status: status value as defined by the enum UPLOAD_FILE_STATUS_KEY in the @cosmotech/ui package
 //     serialize: optional serialization function to call before uploading this file to the API; the only parameter
 //       provided is the FileParameter object itself
 //     serializedData: processed data received or ready to be uploaded (can be null when data has not been edited)
 //     displayData: local data for visualization and edition (can be null if parameter does not need custom UI view)
 //     displayStatus: table status defined by TABLE_DATA_STATUS (can be null if parameter does not need custom UI view)
 //   }
+
+export const getFileName = (fileParameterValue) => {
+  return fileParameterValue?.name ?? fileParameterValue?.value?.name;
+};
+
+export const serializeBeforeUpload = (fileParameterValue) => {
+  if (!fileParameterValue?.serialize) return fileParameterValue.serializedData;
+  return fileParameterValue.serialize(fileParameterValue);
+};
+
+export const clearFileParameter = (fileParameterValue) => {
+  return {
+    ...fileParameterValue,
+    value: null,
+    name: null,
+    status: UPLOAD_FILE_STATUS_KEY.EMPTY,
+  };
+};
 
 export const forgeFileParameter = (parameterId, varType, subType, file) => {
   return {
@@ -29,10 +49,9 @@ export const forgeFileParameter = (parameterId, varType, subType, file) => {
     subType,
     datasetId: null,
     datasetPartId: null,
-    file,
+    value: file,
     name: null,
     status: file != null ? UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD : UPLOAD_FILE_STATUS_KEY.EMPTY,
-    content: null,
     displayStatus: null,
     displayData: null,
   };
@@ -48,12 +67,11 @@ export const forgeFileParameterFromDatasetPart = (datasetPart, varType, subType)
     parameterId: datasetPart.name,
     varType,
     subType,
+    value: null,
     datasetId: datasetPart.datasetId,
     datasetPartId: datasetPart.id,
-    file: { name: datasetPart.sourceName },
     name: datasetPart.sourceName,
     status: UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD,
-    content: null,
     displayStatus: null,
     displayData: null,
   };
