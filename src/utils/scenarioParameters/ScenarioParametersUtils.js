@@ -233,31 +233,12 @@ const getDefaultParametersValues = (parametersIds, solutionParameters) => {
 //  * the default values provided in defaultParametersValues
 const getParametersValuesForReset = (parameterIds, defaultParametersValues, runner, solution) => {
   const parameterValues = {};
-  // FIXME: remove this when back-end bug is fixed (listAllRunners and patchRunner endpoints don't return datasets
-  const FALLBACK_DATASETS_TO_REMOVE = [
-    {
-      createInfo: { timestamp: 1762798370011, userId: 'tristan.huet@cosmotech.com' },
-      datasetId: 'd-yr7g1mz2dlop6',
-      description: null,
-      id: 'dp-9qv2yrj2rjmmq',
-      name: 'initial_stock_dataset',
-      organizationId: 'o-0wl82j3nlvwy1',
-      sourceName: 'customers.csv',
-      tags: [],
-      type: 'File',
-      updateInfo: { timestamp: 1762798370011, userId: 'tristan.huet@cosmotech.com' },
-      workspaceId: 'w-1qq3x178qk5m3',
-    },
-  ];
-
-  const runnerDatasetParameters = runner?.datasets?.parameters ?? FALLBACK_DATASETS_TO_REMOVE;
-
   for (const parameterId of parameterIds) {
     const parameter = SolutionsUtils.getParameterFromSolution(solution, parameterId);
     const varType = parameter?.varType;
     const subType = ConfigUtils.getParameterAttribute(parameter, 'subType');
     if (ConfigUtils.isDatasetPartVarType(varType)) {
-      const datasetPart = RunnersUtils.findParameterInDatasetParts(parameterId, runnerDatasetParameters);
+      const datasetPart = RunnersUtils.findParameterInDatasetParts(parameterId, runner?.datasets?.parameters);
       if (datasetPart !== undefined)
         parameterValues[parameterId] = forgeFileParameterFromDatasetPart(datasetPart, varType, subType);
       else {
