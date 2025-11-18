@@ -40,9 +40,9 @@ function* runDatasetTwingraphQuery(action, query, attemptsNumber = 0) {
 
 function* startAllDatasetTwingraphQueries(action) {
   const { workspace } = action.payload;
-  const queries = workspace?.webApp?.options?.datasetManager?.queries ?? [];
-  const graphIndicators = workspace?.webApp?.options?.datasetManager?.graphIndicators;
-  const categories = workspace?.webApp?.options?.datasetManager?.categories;
+  const queries = workspace?.additionalData?.webapp?.datasetManager?.queries ?? [];
+  const graphIndicators = workspace?.additionalData?.webapp?.datasetManager?.graphIndicators;
+  const categories = workspace?.additionalData?.webapp?.datasetManager?.categories;
 
   yield all(
     queries.map((query, index) => {

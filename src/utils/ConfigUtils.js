@@ -55,7 +55,7 @@ const _checkDeprecatedKeysInParameterConfig = (parameter) => {
       } else {
         console.warn(
           `The "parameter.${keyToCheck}" key in the scenario parameters configuration is now deprecated. Please ` +
-            `use "parameter.options.${keyToCheck}" key instead.`
+            `use "parameter.additionalData.${keyToCheck}" key instead.`
         );
       }
     }
@@ -82,9 +82,7 @@ const getParameterAttribute = (parameter, attributeName) => {
     return undefined;
   }
 
-  // DEPRECATED: support for previous configuration path parameter.[attributeName] is deprecated and will be dropped in
-  // a future version
-  return parameter?.options?.[attributeName] ?? parameter?.[attributeName];
+  return parameter?.additionalData?.[attributeName];
 };
 
 const getParametersGroupAttribute = (parametersGroup, attributeName) => {
@@ -96,9 +94,7 @@ const getParametersGroupAttribute = (parametersGroup, attributeName) => {
     return undefined;
   }
 
-  // DEPRECATED: support for previous configuration path parametersGroup.[attributeName] is deprecated and will be
-  // dropped in a future version
-  return parametersGroup?.options?.[attributeName] ?? parametersGroup?.[attributeName];
+  return parametersGroup?.additionalData?.[attributeName];
 };
 
 const _checkDeprecatedKeysInParametersGroupConfig = (parametersGroup) => {
@@ -107,7 +103,7 @@ const _checkDeprecatedKeysInParametersGroupConfig = (parametersGroup) => {
     if (parametersGroup?.[keyToCheck] !== undefined) {
       console.warn(
         `The "parametersGroup.${keyToCheck}" key in the scenario parameters group configuration is now deprecated. ` +
-          `Please use "parametersGroup.options.${keyToCheck}" key instead.`
+          `Please use "parametersGroup.additionalData.${keyToCheck}" key instead.`
       );
     }
   });
@@ -145,31 +141,31 @@ const isInstanceViewConfigValid = (instanceView) => {
   const validTypes = ['azure_function', 'twingraph_dataset'];
   if (!validTypes.includes(dataSourceType)) {
     console.warn(
-      `Invalid value "${dataSourceType}" for webApp.options.instanceView.dataSource.type. ` +
+      `Invalid value "${dataSourceType}" for additionalData.webapp.instanceView.dataSource.type. ` +
         `Valid values are: ${validTypes.join(', ')}`
     );
     return false;
   }
   if (dataSourceType === 'twingraph_dataset') return true;
   if (instanceView.dataSource.functionUrl == null) {
-    console.warn('Missing data for "webApp.options.instanceView.dataSource.functionUrl" in workspace');
+    console.warn('Missing data for "additionalData.webapp.instanceView.dataSource.functionUrl" in workspace');
     return false;
   }
   if (instanceView.dataSource.functionKey == null) {
-    console.warn('Missing data for "webApp.options.instanceView.dataSource.functionKey" in workspace');
+    console.warn('Missing data for "additionalData.webapp.instanceView.dataSource.functionKey" in workspace');
     return false;
   }
   return true;
 };
 
 const isDatasetManagerEnabledInWorkspace = (workspace) => {
-  const datasetManagerConfig = workspace?.webApp?.options?.datasetManager;
+  const datasetManagerConfig = workspace?.additionalData?.webapp?.datasetManager;
   if (datasetManagerConfig == null) return false;
   return true;
 };
 
 const isResultsDisplayEnabledInWorkspace = (workspace) => {
-  const reportsConfig = workspace?.webApp?.options?.charts;
+  const reportsConfig = workspace?.additionalData?.webapp?.charts;
   return reportsConfig != null;
 };
 
@@ -218,7 +214,7 @@ const checkUnknownKeysInConfig = (schema, data) => {
               unknown keys: '${issueKeys}', please check your configuration`
             );
           }
-          if (issue.path.includes('webApp')) {
+          if (issue.path.includes('webapp')) {
             if (issue.path.includes('charts')) {
               console.warn(
                 `Charts section of your workspace configuration contains
@@ -231,7 +227,7 @@ const checkUnknownKeysInConfig = (schema, data) => {
               );
             } else {
               console.warn(
-                `WebApp section of your workspace configuration contains
+                `additionalData.webapp section of your workspace configuration contains
                 unknown keys: '${issueKeys}', please check your configuration`
               );
             }

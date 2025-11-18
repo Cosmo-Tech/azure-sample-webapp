@@ -17,7 +17,7 @@ const SCENARIO_METADATA_PARAMETERS = SCENARIO_METADATA_PARAMETERS_IDS.map((param
   ...SOLUTION_PARAMETER_EXAMPLE,
   id: parameterId,
   varType: 'string',
-  options: {
+  additionalData: {
     hidden: true,
   },
   labels: null,
@@ -39,13 +39,13 @@ const CUSTOM_SOLUTION = {
       id: 'bar_parameters',
       labels: { fr: 'Bar', en: 'Pub' },
       isTable: null,
-      options: null,
+      additionalData: null,
       parentId: null,
       parameters: ['stock', ...SCENARIO_METADATA_PARAMETERS_IDS],
     },
     {
       id: 'explicitly_hidden_parameters_group',
-      options: { hidden: true },
+      additionalData: { hidden: true },
       parameters: ['stock'],
     },
     {

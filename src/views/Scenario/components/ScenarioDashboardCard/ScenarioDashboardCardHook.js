@@ -27,7 +27,7 @@ export const useScenarioDashboardCard = () => {
     [currentScenarioLastRunId, currentScenarioState]
   );
   const isDashboardSync = useMemo(() => {
-    const disableOutOfSyncWarningBanner = workspace?.webApp?.options?.disableOutOfSyncWarningBanner === true;
+    const disableOutOfSyncWarningBanner = workspace?.additionalData?.webapp?.disableOutOfSyncWarningBanner === true;
     if (disableOutOfSyncWarningBanner || currentScenarioLastRun == null || currentScenarioLastRun.startTime == null)
       return true;
     if (isDirty) return false;
@@ -43,7 +43,7 @@ export const useScenarioDashboardCard = () => {
     currentScenarioLastUpdate,
     currentScenarioLastRun,
     isDirty,
-    workspace?.webApp?.options?.disableOutOfSyncWarningBanner,
+    workspace?.additionalData?.webapp?.disableOutOfSyncWarningBanner,
   ]);
 
   return { hasRunBeenSuccessful, isDashboardSync, downloadCurrentScenarioRunLogs };

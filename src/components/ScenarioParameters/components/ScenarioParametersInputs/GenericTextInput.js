@@ -63,7 +63,7 @@ GenericTextInput.useValidationRules = (parameterData) => {
   const { t } = useTranslation();
   const { getParameterConstraintValidation } = useParameterConstraintValidation(parameterData);
   const getStringSizeInBytes = (string) => new Blob([string]).size;
-  const minLength = parameterData?.options?.minLength ?? 0;
+  const minLength = parameterData?.additionalData?.minLength ?? 0;
   return {
     required: {
       value: minLength > 0,
@@ -78,11 +78,11 @@ GenericTextInput.useValidationRules = (parameterData) => {
       ),
     },
     maxLength: {
-      value: parameterData?.options?.maxLength,
+      value: parameterData?.additionalData?.maxLength,
       message: t(
         'views.scenario.scenarioParametersValidationErrors.maxLength',
         'Maximum length of this field is {{length}} characters',
-        { length: parameterData?.options?.maxLength }
+        { length: parameterData?.additionalData?.maxLength }
       ),
     },
     validate: {

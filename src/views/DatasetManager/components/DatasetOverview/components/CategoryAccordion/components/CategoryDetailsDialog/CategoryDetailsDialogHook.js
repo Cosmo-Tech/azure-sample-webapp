@@ -13,9 +13,9 @@ export const useCategoryDetailsDialogHook = () => {
 
   const getQuery = useCallback(
     (queryId) => {
-      return workspaceData?.webApp?.options?.datasetManager?.queries?.find((query) => query.id === queryId);
+      return workspaceData?.additionalData?.webapp?.datasetManager?.queries?.find((query) => query.id === queryId);
     },
-    [workspaceData?.webApp?.options?.datasetManager?.queries]
+    [workspaceData?.additionalData?.webapp?.datasetManager?.queries]
   );
 
   return {

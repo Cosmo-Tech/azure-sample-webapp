@@ -50,8 +50,8 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
 
       if (parametersPatch) {
         parameter.defaultValue = parametersPatch.defaultValue;
-        parameter.options = parameter.options ?? {};
-        parameter.options.tooltipText = parametersPatch.tooltipText;
+        parameter.additionalData = parameter.additionalData ?? {};
+        parameter.additionalData.tooltipText = parametersPatch.tooltipText;
       }
       const escapedSourceType = SolutionsUtils.escapeRunTemplateId(dataSourceType);
       const fieldPath = `${escapedSourceType}.${parameterId}`;

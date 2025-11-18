@@ -187,14 +187,7 @@ export const WorkspaceSchema = z
       .optional()
       .nullable(),
     linkedDatasetIdList: z.array(z.string().optional().nullable()).optional().nullable(),
-    webApp: z
-      .strictObject({
-        url: z.string().optional().nullable(),
-        iframes: z.looseObject({}).optional().nullable(),
-        options: webAppOptions,
-      })
-      .optional()
-      .nullable(),
+    additionalData: z.strictObject({ webapp: webAppOptions }).optional().nullable(),
     sendInputToDataWarehouse: z.boolean().optional().nullable(),
     useDedicatedEventHubNamespace: z.boolean().optional().nullable(),
     dedicatedEventHubSasKeyName: z.string().optional().nullable(),

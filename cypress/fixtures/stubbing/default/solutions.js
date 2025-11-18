@@ -9,7 +9,7 @@ export const SOLUTION_PARAMETER_EXAMPLE = {
   minValue: null,
   maxValue: null,
   regexValidation: null,
-  options: null,
+  additionalData: null,
 };
 
 export const RUN_TEMPLATE_EXAMPLE = {
@@ -140,7 +140,7 @@ export const DEFAULT_SOLUTION = {
       id: 'currency',
       labels: { fr: 'Symbole de la monnaie', en: 'Currency symbol' },
       varType: 'enum',
-      options: {
+      additionalData: {
         enumValues: [
           {
             key: 'USD',
@@ -216,7 +216,7 @@ export const DEFAULT_SOLUTION = {
       minValue: '0',
       maxValue: '10',
       regexValidation: null,
-      options: {
+      additionalData: {
         subType: 'SLIDER',
         tooltipText: {
           fr: 'En pintes',
@@ -320,7 +320,7 @@ export const DEFAULT_SOLUTION = {
       id: 'bar_parameters',
       labels: { fr: 'Bar', en: 'Pub' },
       isTable: null,
-      options: null,
+      additionalData: null,
       parentId: null,
       parameters: ['stock', 'restock_qty', 'nb_waiters'],
     },
@@ -328,7 +328,7 @@ export const DEFAULT_SOLUTION = {
       id: 'file_upload',
       labels: { fr: 'Valeurs initiales', en: 'Initial values' },
       isTable: null,
-      options: null,
+      additionalData: null,
       parameters: ['initial_stock_dataset'],
       parentId: null,
     },
@@ -336,7 +336,7 @@ export const DEFAULT_SOLUTION = {
       id: 'basic_types',
       labels: { fr: 'Exemples de types standards', en: 'Basic types examples' },
       isTable: null,
-      options: null,
+      additionalData: null,
       parentId: null,
       parameters: ['currency', 'currency_name', 'currency_value', 'currency_used', 'start_date', 'average_consumption'],
     },
@@ -344,7 +344,7 @@ export const DEFAULT_SOLUTION = {
       id: 'training_dates',
       labels: { fr: 'Dates de simulation', en: 'Simulation dates' },
       isTable: null,
-      options: null,
+      additionalData: null,
       parentId: null,
       parameters: ['training_start_date', 'training_end_date'],
     },
@@ -355,7 +355,7 @@ export const DEFAULT_SOLUTION = {
         fr: 'Fragments de dataset',
       },
       isTable: null,
-      options: null,
+      additionalData: null,
       parentId: null,
       parameters: ['example_dataset_part_1', 'example_dataset_part_2'],
     },
@@ -366,7 +366,7 @@ export const DEFAULT_SOLUTION = {
         fr: 'Fragment additionel',
       },
       isTable: null,
-      options: null,
+      additionalData: null,
       parentId: null,
       parameters: ['example_dataset_part_3'],
     },
@@ -377,7 +377,7 @@ export const DEFAULT_SOLUTION = {
         fr: 'Clients',
       },
       isTable: null,
-      options: null,
+      additionalData: null,
       parentId: null,
       parameters: ['customers'],
     },
@@ -388,7 +388,7 @@ export const DEFAULT_SOLUTION = {
         fr: 'Évènements',
       },
       isTable: null,
-      options: null,
+      additionalData: null,
       parentId: null,
       parameters: ['events', 'additional_seats', 'activated', 'evaluation'],
     },
@@ -399,7 +399,7 @@ export const DEFAULT_SOLUTION = {
         fr: 'Paramètres additionnels',
       },
       isTable: null,
-      options: null,
+      additionalData: null,
       parentId: null,
       parameters: ['volume_unit', 'additional_tables', 'comment', 'additional_date'],
     },

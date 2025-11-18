@@ -33,11 +33,11 @@ export const GenericNumberInput = ({
 
   useEffect(() => {
     if (parameterValue == null && dynamicValue != null && !isDirty) {
-      if (parameterData.options?.dynamicValues) {
+      if (parameterData.additionalData?.dynamicValues) {
         resetParameterValue(dynamicValue);
       }
     }
-  }, [parameterValue, dynamicValue, isDirty, resetParameterValue, parameterData.options?.dynamicValues]);
+  }, [parameterValue, dynamicValue, isDirty, resetParameterValue, parameterData.additionalData?.dynamicValues]);
 
   const changeValue = useCallback(
     (newValue) => {

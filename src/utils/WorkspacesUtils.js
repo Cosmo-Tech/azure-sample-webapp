@@ -57,7 +57,7 @@ const forgeDatasetManagerConfiguration = (config) => {
 
 const patchWorkspaceWithDatasetManagerConfiguration = (workspace) => {
   try {
-    const config = forgeDatasetManagerConfiguration(workspace?.webApp?.options?.datasetManager);
+    const config = forgeDatasetManagerConfiguration(workspace?.additionalData?.webapp?.datasetManager);
     workspace.indicators = config?.indicators;
     workspace.queriesMapping = config?.queriesMapping;
   } catch (error) {
@@ -85,7 +85,7 @@ const checkConfigurationPitfalls = (workspace) => {
 
 const checkDatasetManagerConfiguration = (workspace) => {
   const logWarning = (warning) => console.warn(`Dataset manager configuration: ${warning}`);
-  const config = workspace?.webApp?.options?.datasetManager;
+  const config = workspace?.additionalData?.webapp?.datasetManager;
   if (config == null) return;
   if (!(config instanceof Object) || config instanceof Array) {
     logWarning('"datasetManager" must be an Object');
@@ -151,7 +151,7 @@ const checkDatasetManagerConfiguration = (workspace) => {
 
 const addTranslationLabels = (workspace) => {
   try {
-    TranslationUtils.addTranslationOfDatasetManagerLabels(workspace?.webApp?.options?.datasetManager ?? {});
+    TranslationUtils.addTranslationOfDatasetManagerLabels(workspace?.additionalData?.webapp?.datasetManager ?? {});
   } catch (error) {
     console.warn(`An error occurred when loading labels from workspace "${workspace.name}" (id "${workspace.id}")`);
     console.error(error);

@@ -97,7 +97,7 @@ export function* selectWorkspace(action) {
     )
   );
 
-  const chartsConfig = selectedWorkspace?.webApp?.options?.charts;
+  const chartsConfig = selectedWorkspace?.additionalData?.webapp?.charts;
 
   if (chartsConfig?.supersetDomain) {
     yield put(setChartMode(CHART_MODES.SUPERSET));

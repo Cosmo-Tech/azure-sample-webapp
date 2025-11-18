@@ -127,12 +127,12 @@ const addTranslationParametersLabels = (parameters) => {
       _addResource(lang, key, parameter.labels[lang]);
     }
 
-    for (const lang in parameter?.options?.tooltipText) {
+    for (const lang in parameter?.additionalData?.tooltipText) {
       const key = getParameterTooltipTranslationKey(parameter.id);
-      _addResource(lang, key, parameter.options.tooltipText[lang]);
+      _addResource(lang, key, parameter.additionalData.tooltipText[lang]);
     }
 
-    for (const enumValue of parameter?.options?.enumValues ?? []) {
+    for (const enumValue of parameter?.additionalData?.enumValues ?? []) {
       if (typeof enumValue.value === 'object') {
         for (const lang in enumValue.value) {
           const key = getParameterEnumValueTranslationKey(parameter.id, enumValue.key);

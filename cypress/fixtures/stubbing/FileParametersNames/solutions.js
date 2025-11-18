@@ -7,16 +7,24 @@ const TABLE_OPTIONS = { ...FILE_OPTIONS, subType: 'TABLE', columns: [{ field: 'f
 const FILE_PARAMETER = {
   ...SOLUTION_PARAMETER_EXAMPLE,
   varType: '%DATASETID%',
-  options: FILE_OPTIONS,
+  additionalData: FILE_OPTIONS,
 };
 
 const CUSTOM_SOLUTION = {
   ...DEFAULT_SOLUTION,
   parameters: [
     { ...FILE_PARAMETER, id: 'file_no_renaming' },
-    { ...FILE_PARAMETER, id: 'file_with_renaming', options: { ...FILE_OPTIONS, shouldRenameFileOnUpload: true } },
-    { ...FILE_PARAMETER, id: 'table_no_renaming', options: TABLE_OPTIONS },
-    { ...FILE_PARAMETER, id: 'table_with_renaming', options: { ...TABLE_OPTIONS, shouldRenameFileOnUpload: true } },
+    {
+      ...FILE_PARAMETER,
+      id: 'file_with_renaming',
+      additionalData: { ...FILE_OPTIONS, shouldRenameFileOnUpload: true },
+    },
+    { ...FILE_PARAMETER, id: 'table_no_renaming', additionalData: TABLE_OPTIONS },
+    {
+      ...FILE_PARAMETER,
+      id: 'table_with_renaming',
+      additionalData: { ...TABLE_OPTIONS, shouldRenameFileOnUpload: true },
+    },
   ],
   parameterGroups: [
     {
