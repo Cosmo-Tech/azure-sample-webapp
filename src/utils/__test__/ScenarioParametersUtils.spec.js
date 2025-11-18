@@ -1,8 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import rfdc from 'rfdc';
+import { DB_DATASET_PART_ID_VARTYPE, FILE_DATASET_PART_ID_VARTYPE } from '../../services/config/ApiConstants';
 import { ScenarioParametersUtils } from '../scenarioParameters/ScenarioParametersUtils';
-import { STANDARD_DATASETS } from './fixtures/StandardDatasetsData';
 import { STANDARD_SOLUTION } from './fixtures/StandardSolutionData';
 
 const clone = rfdc();
@@ -207,25 +207,22 @@ describe('getDefaultParametersValues with solution', () => {
   });
 
   test.each`
-    parameterVarType | expectedDefaultValue | expectedWarningsNumber
-    ${undefined}     | ${undefined}         | ${1}
-    ${null}          | ${undefined}         | ${1}
-    ${''}            | ${undefined}         | ${1}
-    ${'enum'}        | ${null}              | ${0}
-    ${'string'}      | ${''}                | ${0}
-    ${'int'}         | ${0}                 | ${0}
-    ${'number'}      | ${0}                 | ${0}
-    ${'bool'}        | ${false}             | ${0}
-    ${'%DATASETID%'} | ${null}              | ${0}
+    parameterVarType                | expectedDefaultValue | expectedWarningsNumber
+    ${undefined}                    | ${undefined}         | ${1}
+    ${null}                         | ${undefined}         | ${1}
+    ${''}                           | ${undefined}         | ${1}
+    ${'enum'}                       | ${null}              | ${0}
+    ${'string'}                     | ${''}                | ${0}
+    ${'int'}                        | ${0}                 | ${0}
+    ${'number'}                     | ${0}                 | ${0}
+    ${'bool'}                       | ${false}             | ${0}
+    ${DB_DATASET_PART_ID_VARTYPE}   | ${null}              | ${0}
+    ${FILE_DATASET_PART_ID_VARTYPE} | ${null}              | ${0}
   `(
     'to infer default value when varType is "$parameterVarType"',
     ({ parameterVarType, expectedDefaultValue, expectedWarningsNumber }) => {
       const someSolutionParameterWithoutDefaultValue = [
-        {
-          id: 'someParameter',
-          defaultValue: null,
-          varType: parameterVarType,
-        },
+        { id: 'someParameter', defaultValue: null, varType: parameterVarType },
       ];
       const res = ScenarioParametersUtils.getDefaultParametersValues(
         ['someParameter'],
@@ -239,130 +236,117 @@ describe('getDefaultParametersValues with solution', () => {
 
 describe('getParametersValuesForReset', () => {
   const defaultParametersValues = {
-    parameter1: 'defaultValue1',
-    parameter2: 'defaultValue2',
-    parameter3: 'defaultValue3',
+    param1: 'defaultValue1',
+    param2: 'defaultValue2',
+    // FIXME: fix default values for file parameters
+    // file_dataset_part: 'd-defaultworkspacedatasetid',
   };
-  const scenarioParametersValues = [
-    {
-      parameterId: 'parameter1',
-      value: 'value1',
-    },
-    {
-      parameterId: 'parameter2',
-      value: 'value2',
-    },
-    {
-      parameterId: 'parameter3',
-      value: 'value3',
-    },
-  ];
+  const runner = {
+    datasets: { base: null, parameter: 'd-fakedatasetid', parameters: null },
+    parametersValues: [
+      { parameterId: 'param1', value: 'value1' },
+      { parameterId: 'param2', value: 'value2' },
+    ],
+  };
 
   test('the scenario parameters values must overwrite the config default values', () => {
     const res = ScenarioParametersUtils.getParametersValuesForReset(
-      STANDARD_DATASETS,
-      ['parameter1', 'parameter2', 'parameter3'],
+      ['param1', 'param2'],
       defaultParametersValues,
-      scenarioParametersValues
+      runner,
+      STANDARD_SOLUTION
     );
     expect(res).toStrictEqual({
-      parameter1: 'value1',
-      parameter2: 'value2',
-      parameter3: 'value3',
+      param1: 'value1',
+      param2: 'value2',
     });
   });
 
   test.each`
-    defaultParametersValues
+    customDefaultParametersValues
     ${undefined}
     ${null}
     ${[]}
   `(
-    'the scenario parameters values are used if defaultParametersValues is $defaultParametersValues',
-    ({ defaultParametersValues }) => {
+    'the scenario parameters values are used if defaultParametersValues is $customDefaultParametersValues',
+    ({ customDefaultParametersValues }) => {
       const res = ScenarioParametersUtils.getParametersValuesForReset(
-        STANDARD_DATASETS,
-        ['parameter1', 'parameter2', 'parameter3'],
-        defaultParametersValues,
-        scenarioParametersValues
+        ['param1', 'param2'],
+        customDefaultParametersValues,
+        runner,
+        STANDARD_SOLUTION
       );
       expect(res).toStrictEqual({
-        parameter1: 'value1',
-        parameter2: 'value2',
-        parameter3: 'value3',
+        param1: 'value1',
+        param2: 'value2',
       });
     }
   );
 
   test.each`
-    scenarioParametersValues
+    customScenarioParametersValues
     ${undefined}
     ${null}
     ${[]}
   `(
-    'the default parameters values are used if scenarioParametersValues is $scenarioParametersValues',
-    ({ scenarioParametersValues }) => {
+    'the default parameters values are used if scenarioParametersValues is $customScenarioParametersValues',
+    ({ customScenarioParametersValues }) => {
+      const customRunner = { ...runner, parametersValues: customScenarioParametersValues };
       const res = ScenarioParametersUtils.getParametersValuesForReset(
-        STANDARD_DATASETS,
-        ['parameter1', 'parameter2', 'parameter3'],
+        ['param1', 'param2'],
         defaultParametersValues,
-        scenarioParametersValues
+        customRunner,
+        STANDARD_SOLUTION
       );
       expect(res).toStrictEqual({
-        parameter1: 'defaultValue1',
-        parameter2: 'defaultValue2',
-        parameter3: 'defaultValue3',
+        param1: 'defaultValue1',
+        param2: 'defaultValue2',
       });
     }
   );
 
   test('an empty list is returned if there are no requested parameters', () => {
     const res = ScenarioParametersUtils.getParametersValuesForReset(
-      STANDARD_DATASETS,
       [],
       defaultParametersValues,
-      scenarioParametersValues
+      runner,
+      STANDARD_SOLUTION
     );
     expect(res).toStrictEqual({});
   });
 });
 
-describe('buildParametersForUpdate', () => {
+describe('buildParametersForUpdateRequest', () => {
   let solution;
   beforeEach(() => {
     solution = clone(STANDARD_SOLUTION);
   });
-  const runTemplateParametersIds = ['param1', 'param2'];
+
+  const runTemplateParametersIds = ['param1', 'param2', 'db_dataset_part', 'file_dataset_part'];
   const parametersValues = { param1: 'value1', param2: 'value2' };
-  const expectedParametersForUpdate = [
-    {
-      parameterId: 'param1',
-      value: 'value1',
-      varType: 'int',
-    },
-    {
-      parameterId: 'param2',
-      value: 'value2',
-      varType: 'string',
-    },
-  ];
+  const expectedParametersForUpdate = {
+    dbDatasetParts: [],
+    fileDatasetParts: [],
+    nonDatasetParts: [
+      { parameterId: 'param1', value: 'value1', varType: 'int' },
+      { parameterId: 'param2', value: 'value2', varType: 'string' },
+    ],
+  };
 
   test('parameters for update are properly built from solution data and parameters values', () => {
-    const res = ScenarioParametersUtils.buildParametersForUpdate(solution, parametersValues, runTemplateParametersIds);
+    const selectedScenario = {};
+    const allScenarios = [];
+    const res = ScenarioParametersUtils.buildParametersForUpdateRequest(
+      solution,
+      parametersValues,
+      runTemplateParametersIds,
+      selectedScenario,
+      allScenarios
+    );
     expect(res).toStrictEqual(expectedParametersForUpdate);
   });
-});
 
-describe('getParameterVarType', () => {
-  test.each`
-    parameterId         | expectedVarType
-    ${'param1'}         | ${'int'}
-    ${'param2'}         | ${'string'}
-    ${'dataset_param1'} | ${'%DATASETID%'}
-  `('that parameter $parameterId is of varType $expectedVarType', ({ parameterId, expectedVarType }) => {
-    const res = ScenarioParametersUtils.getParameterVarType(STANDARD_SOLUTION, parameterId);
-    expect(res).toStrictEqual(expectedVarType);
-  });
+  // TODO: test hidden parameters to retrieve scenario metadata (id, name, parentid, ...)
 });
 
 describe('get errors count by tab', () => {

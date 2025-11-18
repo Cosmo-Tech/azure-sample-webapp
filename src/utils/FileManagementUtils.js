@@ -3,77 +3,19 @@
 import { t } from 'i18next';
 import { PathUtils } from '@cosmotech/core';
 import { TABLE_DATA_STATUS, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
-import { DATASET_ID_VARTYPE, VALID_MIME_TYPES } from '../services/config/ApiConstants';
+import { FILE_DATASET_PART_ID_VARTYPE, VALID_MIME_TYPES } from '../services/config/ApiConstants';
 import DatasetService from '../services/dataset/DatasetService';
 import WorkspaceService from '../services/workspace/WorkspaceService';
 import applicationStore from '../state/Store.config';
 import { setApplicationErrorMessage } from '../state/app/reducers';
 import { ConfigUtils } from './ConfigUtils';
 import { DatasetsUtils } from './DatasetsUtils';
-import { SecurityUtils } from './SecurityUtils';
-import { ScenarioParametersUtils } from './scenarioParameters/ScenarioParametersUtils';
+import { SolutionsUtils } from './SolutionsUtils';
 
-const _applyUploadPreprocessToContent = (clientFileDescriptor) => {
-  if (clientFileDescriptor?.uploadPreprocess?.content) {
-    return clientFileDescriptor.uploadPreprocess.content(clientFileDescriptor);
-  }
-  return clientFileDescriptor.content;
+const serializeBeforeUpload = (clientFileDescriptor) => {
+  if (!clientFileDescriptor?.serialize) return clientFileDescriptor.serializedData;
+  return clientFileDescriptor.serialize(clientFileDescriptor);
 };
-
-const _uploadDatasetAsWorkspaceFile = async (
-  organizationId,
-  workspaceId,
-  dataset,
-  clientFileDescriptor,
-  datasetLocation
-) => {
-  const overwrite = true;
-
-  if (clientFileDescriptor.file) {
-    const { error, data } = await WorkspaceService.uploadWorkspaceFile(
-      organizationId,
-      workspaceId,
-      clientFileDescriptor.file,
-      overwrite,
-      datasetLocation
-    );
-    if (error) {
-      throw error;
-    }
-    return data;
-  } else if (clientFileDescriptor.content || clientFileDescriptor?.uploadPreprocess?.content != null) {
-    const fileContent = _applyUploadPreprocessToContent(clientFileDescriptor);
-    const { error, data } = await WorkspaceService.uploadWorkspaceFileFromData(
-      organizationId,
-      workspaceId,
-      fileContent,
-      'text/csv',
-      overwrite,
-      datasetLocation
-    );
-    if (error) {
-      throw error;
-    }
-    return data;
-  }
-  throw new Error('No data to upload. Data must be present in client file descriptor "file" or "content" properties.');
-};
-
-async function _createEmptyDataset(organizationId, parameterMetadata) {
-  const name = parameterMetadata.id;
-  const description = ConfigUtils.getParameterAttribute(parameterMetadata, 'description') ?? '';
-  const tags = ['dataset_part'];
-  const { error: creationError, data: createdDataset } = await DatasetService.createNoneTypeDataset(
-    organizationId,
-    name,
-    description,
-    tags
-  );
-  if (creationError) {
-    throw creationError;
-  }
-  return createdDataset;
-}
 
 function _forgeNameOfUploadedFile(file, parameterMetadata, defaultFileTypeFilter) {
   const shouldRenameFile = ConfigUtils.getParameterAttribute(parameterMetadata, 'shouldRenameFileOnUpload');
@@ -96,57 +38,6 @@ function _forgeNameOfUploadedFile(file, parameterMetadata, defaultFileTypeFilter
   return newFileName;
 }
 
-// Update location of dataset for workspace files
-async function _updateDatasetLocation(organizationId, datasetLocation, dataset) {
-  dataset.source = dataset.source ?? {};
-  dataset.source.location = datasetLocation;
-  const { error: updateError, data: updatedDataset } = await DatasetService.updateDataset(
-    organizationId,
-    dataset.id,
-    dataset
-  );
-  if (updateError) {
-    throw updateError;
-  }
-  return updatedDataset;
-}
-
-async function _processFileUpload(
-  organizationId,
-  workspaceId,
-  parameterMetadata,
-  clientFileDescriptor,
-  setClientFileDescriptorStatus,
-  addDatasetToStore,
-  scenarioSecurity
-) {
-  setClientFileDescriptorStatus(UPLOAD_FILE_STATUS_KEY.UPLOADING);
-  const createdDataset = await _createEmptyDataset(organizationId, parameterMetadata);
-  const datasetLocation = DatasetsUtils.buildDatasetLocation(createdDataset.id, clientFileDescriptor.name);
-  const updatedDataset = await _updateDatasetLocation(organizationId, datasetLocation, createdDataset);
-
-  const datasetSecurity = SecurityUtils.forgeDatasetSecurityFromScenarioSecurity(scenarioSecurity);
-  await DatasetService.updateSecurity(
-    organizationId,
-    workspaceId,
-    createdDataset.id,
-    createdDataset.security,
-    datasetSecurity
-  );
-  updatedDataset.security = datasetSecurity;
-
-  addDatasetToStore(updatedDataset);
-  await _uploadDatasetAsWorkspaceFile(
-    organizationId,
-    workspaceId,
-    updatedDataset,
-    clientFileDescriptor,
-    datasetLocation
-  );
-  setClientFileDescriptorStatus(UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD);
-  return updatedDataset.id;
-}
-
 // FIXME: Due to parametersValues inheritance, the workspace file deletion leads to incoherent state when a dataset
 // part file is uploaded. For the moment, the workspace file deletion is omitted. This will be fixed in next version
 async function _processFileDeletion(setClientFileDescriptorStatus) {
@@ -154,6 +45,7 @@ async function _processFileDeletion(setClientFileDescriptorStatus) {
   return null;
 }
 
+// This function will return the new object only when changes have been applied
 async function _applyDatasetChange(
   organizationId,
   workspaceId,
@@ -166,22 +58,21 @@ async function _applyDatasetChange(
 ) {
   const fileStatus = clientFileDescriptor?.status;
   if (fileStatus === UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD) {
-    return await _processFileUpload(
-      organizationId,
-      workspaceId,
-      parameterMetadata,
-      clientFileDescriptor,
-      setClientFileDescriptorStatus,
-      addDatasetToStore,
-      scenarioSecurity
-    );
+    // Apply custom serialization function defined in clientFileDescriptor.serialize if required. This is used to
+    // process the content of tables so it can be saved as CSV files
+    if (clientFileDescriptor?.serialize != null) {
+      setClientFileDescriptorStatus(UPLOAD_FILE_STATUS_KEY.UPLOADING);
+      const serializedData = serializeBeforeUpload(clientFileDescriptor);
+      setClientFileDescriptorStatus(UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD);
+      return { serializedData };
+    }
   } else if (fileStatus === UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE) {
+    // FIXME: the value returned is not the new object
     return await _processFileDeletion(setClientFileDescriptorStatus);
   } else if (fileStatus === UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD || fileStatus === UPLOAD_FILE_STATUS_KEY.EMPTY) {
-    return parameterValue;
+    return;
   }
   console.warn(`Unknown file status "${fileStatus}"`);
-  return parameterValue;
 }
 
 // This function updates entries in parametersValuesRef if their varType is %DATASETID%, based on the status of the
@@ -198,20 +89,15 @@ async function applyPendingOperationsOnFileParameters(
 ) {
   // Setter to update file descriptors status in the React component state
   const setClientFileDescriptorStatus = (parameterId, newStatus) => {
-    updateParameterValue(parameterId, 'status', newStatus);
-  };
-
-  const setDatasetId = (parameterId, newDatasetId) => {
-    updateParameterValue(parameterId, 'id', newDatasetId);
+    updateParameterValue(parameterId, { status: newStatus });
   };
 
   // Apply pending operations on each dataset and keep track of the changes of datasets ids to patch parametersValuesRef
-
   for (const parameterId in parametersValues) {
-    const varType = ScenarioParametersUtils.getParameterVarType(solution, parameterId);
-    if (varType === DATASET_ID_VARTYPE) {
+    const varType = SolutionsUtils.getParameterVarType(solution, parameterId);
+    if (varType === FILE_DATASET_PART_ID_VARTYPE) {
       try {
-        const newDatasetId = await _applyDatasetChange(
+        const newParameterValue = await _applyDatasetChange(
           organizationId,
           workspaceId,
           parametersMetadata[parameterId],
@@ -221,7 +107,8 @@ async function applyPendingOperationsOnFileParameters(
           addDatasetToStore,
           scenarioSecurity
         );
-        setDatasetId(parameterId, newDatasetId);
+
+        if (newParameterValue != null) updateParameterValue(parameterId, newParameterValue);
       } catch (error) {
         console.error(error);
         setClientFileDescriptorStatus(parameterId, UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD);
@@ -245,7 +132,7 @@ const prepareToUpload = (event, setClientFileDescriptor, parameterData, options)
   setClientFileDescriptor({
     name: _forgeNameOfUploadedFile(file, parameterData, options?.defaultFileTypeFilter),
     file,
-    content: null,
+    serializedData: null,
     status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD,
   });
   return file;
@@ -255,15 +142,27 @@ const prepareToDeleteFile = (setClientFileDescriptorStatus) => {
   setClientFileDescriptorStatus(UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE);
 };
 
-const downloadFile = async (organizationId, workspaceId, datasetId, setClientFileDescriptorStatus) => {
+const downloadDatasetPartFile = async (datasetPart, setStatus) => {
   try {
-    const { data } = await DatasetService.findDatasetById(organizationId, datasetId);
-    const datasetLocation = DatasetsUtils.getDatasetLocation(data);
-    if (datasetLocation !== undefined) {
-      setClientFileDescriptorStatus(UPLOAD_FILE_STATUS_KEY.DOWNLOADING);
-      await WorkspaceService.downloadWorkspaceFile(organizationId, workspaceId, datasetLocation);
-      setClientFileDescriptorStatus(UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD);
-    }
+    setStatus(UPLOAD_FILE_STATUS_KEY.DOWNLOADING);
+    await DatasetService.downloadDatasetPart(datasetPart);
+    setStatus(UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD);
+  } catch (error) {
+    console.error(error);
+    applicationStore.dispatch(
+      setApplicationErrorMessage({
+        error,
+        errorMessage: t('commoncomponents.banner.dataset', "Dataset hasn't been downloaded."),
+      })
+    );
+  }
+};
+
+const downloadFile = async (organizationId, workspaceId, datasetId, datasetPartId, setClientFileDescriptorStatus) => {
+  try {
+    setClientFileDescriptorStatus(UPLOAD_FILE_STATUS_KEY.DOWNLOADING);
+    await DatasetService.downloadDatasetPart(organizationId, workspaceId, datasetId, datasetPartId);
+    setClientFileDescriptorStatus(UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD);
   } catch (error) {
     console.error(error);
     applicationStore.dispatch(
@@ -315,12 +214,13 @@ function buildClientFileDescriptorFromDataset(datasets, datasetId) {
     id: datasetId,
     name: dataset === undefined ? '' : DatasetsUtils.getFileNameFromDatasetLocation(dataset),
     file: null,
-    content: null,
+    serializedData: null,
     status: dataset === undefined ? UPLOAD_FILE_STATUS_KEY.EMPTY : UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD,
   };
 }
 
 export const FileManagementUtils = {
+  downloadDatasetPartFile,
   downloadFile,
   downloadFileData,
   prepareToDeleteFile,

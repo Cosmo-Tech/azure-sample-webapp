@@ -47,6 +47,14 @@ const updateParentIdOnDelete = (runners, deletedRunnerId) => {
   });
 };
 
+const findParameterInDatasetParts = (parameterId, datasetParts) => {
+  return datasetParts?.find((datasetPart) => datasetPart.name === parameterId);
+};
+
+const isParameterInDatasetParts = (parameterId, datasetParts) => {
+  return findParameterInDatasetParts(parameterId, datasetParts) !== undefined;
+};
+
 export const RunnersUtils = {
   forgeRunnerLastRunIdPatch,
   getLastRunId,
@@ -54,4 +62,6 @@ export const RunnersUtils = {
   patchRunnerWithCurrentUserPermissions,
   patchRunnerParameterValues,
   updateParentIdOnDelete,
+  findParameterInDatasetParts,
+  isParameterInDatasetParts,
 };

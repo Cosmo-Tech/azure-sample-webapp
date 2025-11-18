@@ -5,13 +5,13 @@ import { put, takeEvery, call, select } from 'redux-saga/effects';
 import { Api } from '../../../services/config/Api';
 import { DatasetsUtils, ApiUtils } from '../../../utils';
 import { setApplicationErrorMessage } from '../../app/reducers';
-import { DATASET_ACTIONS_KEY } from '../../datasets/constants';
 import { addDataset } from '../../datasets/reducers';
 import { createDataset } from '../../datasets/sagas/CreateDataset';
 import { RUNNER_ACTIONS_KEY } from '../constants';
 import { addEtlRunner } from '../reducers';
 
 const getUserEmail = (state) => state.auth.userEmail;
+const getSolution = (state) => state.solution?.current?.data;
 
 function* uploadFileParameter(parameter, organizationId, workspaceId) {
   try {
@@ -68,7 +68,10 @@ export function* createRunner(action) {
     const workspaceId = action.workspaceId;
     const runner = action.runner;
     const userEmail = yield select(getUserEmail);
+    const solution = yield select(getSolution);
 
+    runner.solutionId = solution.id;
+    runner.ownerName = userEmail;
     runner.security = { default: 'none', accessControlList: [{ id: userEmail, role: 'admin' }] };
     runner.runTemplateId = runner.sourceType;
     delete runner.sourceType;
@@ -97,7 +100,8 @@ export function* createRunner(action) {
     // in datasets.bases
     const baseDatasets = runner.datasets?.bases ?? [];
     if (baseDatasets.length > 0) dataset.parentId = baseDatasets[0];
-    const datasetId = yield call(createDataset, { dataset, organizationId });
+    const createdDataset = yield call(createDataset, { dataset, shouldSelectDataset: true });
+    const datasetId = createdDataset.id;
 
     // First entry of datasetList must be the "ETL" dataset, to which we add the additional datasets (e.g. the parent
     // dataset when creating subdatasets)
@@ -119,7 +123,7 @@ export function* createRunner(action) {
       })
     );
 
-    yield put({ type: DATASET_ACTIONS_KEY.REFRESH_DATASET, organizationId, datasetId });
+    yield put({ type: RUNNER_ACTIONS_KEY.START_RUNNER, organizationId, workspaceId, runnerId });
   } catch (error) {
     console.error(error);
     yield put(

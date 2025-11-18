@@ -22,6 +22,7 @@ export const useDatasetMetadata = () => {
   const runners = useGetETLRunners();
 
   const etlDatasetRunTemplateName = useMemo(() => {
+    // FIXME: read sourceType from additionalData when it's available
     if (currentDataset?.sourceType === 'ETL') {
       const datasetRunner = runners.find((runner) => runner.id === currentDataset?.createInfo?.runnerId) ?? null;
       return datasetRunner

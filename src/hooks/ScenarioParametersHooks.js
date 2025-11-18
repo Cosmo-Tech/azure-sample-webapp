@@ -29,17 +29,17 @@ export const useUpdateParameters = () => {
     () => getRunTemplateParametersIds(solutionData?.runTemplatesParametersIdsDict, currentScenarioData?.runTemplateId),
     [solutionData?.runTemplatesParametersIdsDict, currentScenarioData?.runTemplateId]
   );
-  const parametersMetadata = useMemo(
-    () => ScenarioParametersUtils.generateParametersMetadata(solutionData, runTemplateParametersIds),
-    [solutionData, runTemplateParametersIds]
-  );
-
-  const processFilesToUpload = useCallback(() => {
-    const updateParameterValue = (parameterId, keyToPatch, newValue) => {
+  const processFilesToUpload = useCallback(async () => {
+    const updateParameterValue = (parameterId, newValue) => {
       const currentValue = getValues(parameterId);
-      setValue(parameterId, { ...currentValue, [keyToPatch]: newValue });
+      setValue(parameterId, { ...currentValue, ...newValue });
     };
     const parametersValues = getValues();
+    const parametersMetadata = ScenarioParametersUtils.generateParametersMetadata(
+      solutionData,
+      runTemplateParametersIds
+    );
+
     return FileManagementUtils.applyPendingOperationsOnFileParameters(
       organizationId,
       workspaceId,
@@ -55,15 +55,15 @@ export const useUpdateParameters = () => {
     setValue,
     getValues,
     organizationId,
-    parametersMetadata,
     solutionData,
     workspaceId,
     currentScenarioData,
+    runTemplateParametersIds,
   ]);
 
   const getParametersToUpdate = useCallback(() => {
     const parametersValues = getValues();
-    return ScenarioParametersUtils.buildParametersForUpdate(
+    return ScenarioParametersUtils.buildParametersForUpdateRequest(
       solutionData,
       parametersValues,
       runTemplateParametersIds,
@@ -83,7 +83,6 @@ export const useUpdateParameters = () => {
 
   return {
     runTemplateParametersIds,
-    parametersMetadata,
     processFilesToUpload,
     getParametersToUpdate,
     forceUpdate,
