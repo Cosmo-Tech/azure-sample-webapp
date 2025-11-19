@@ -40,7 +40,7 @@ const validateAndGetQueryParameters = (req) => {
 };
 
 const checkDashboardsAreInWorkspace = (workspace, requestedDashboardIds) => {
-  const chartsDashboards = workspace?.webApp?.options?.charts?.dashboards ?? [];
+  const chartsDashboards = workspace?.additionalData?.webapp?.charts?.dashboards ?? [];
   const workspaceDashboardIds = chartsDashboards.map((dashboard) => dashboard.id);
   const unauthorizedDashboardIds = requestedDashboardIds.filter(
     (requestedDashboardId) => !workspaceDashboardIds.includes(requestedDashboardId)
