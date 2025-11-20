@@ -431,7 +431,9 @@
           "label": "Partager",
           "tooltip": "Modifier l'accès",
           "editModeTooltip": "Veuillez sauver ou annuler les modifications en cours avant de modifier les permissions d'accès du scénario",
-          "noReadSecurityPermissionTooltip": "Vous n'avez pas les permissions pour partager ou voir les informations de sécurité de cette ressource"
+          "noReadSecurityPermissionTooltip": "Vous n'avez pas les permissions pour partager ou voir les informations de sécurité de cette ressource",
+          "noAccessToBaseDatasetsTooltip": "Impossible de partager ce scénario, car vous n'avez pas accès au dataset associé \"{{restrictedDatasetId}}\". Si vous ne connaissez pas le propriétaire du dataset, veuillez contacter votre administrateur.",
+          "cannotShareBaseDatasetsTooltip": "Impossible de partager ce scénario, car vous n'avez pas les permissions pour partager le dataset associé \"{{restrictedDataset}}\". Veuillez demander le rôle \"admin\" sur ce dataset, ou demander au propriétaire du dataset de partager le scénario pour vous."
         },
         "dialog": {
           "buttons": {
@@ -444,7 +446,8 @@
           "readOnlyTitle": "Permissions pour ",
           "select": {
             "addPeople": "Ajouter un utilisateur",
-            "userSelected": "Utilisateur sélectionné"
+            "userSelected": "Utilisateur sélectionné",
+            "disabledUserTooltip": "Cet utilisateur n'a pas accès au dataset \"{{restrictedDataset}}\" utilisé par le scénario. Veuillez partager le dataset ou demander au propriétaire du dataset de le faire."
           },
           "editor": {
             "usersAccess": "Accès par utilisateur",
@@ -551,7 +554,8 @@
       "runnerNotUpdated": "Le runner n'a pas pu être mis à jour",
       "twingraphNotCreated": "Une erreur est survenue pendant la creation du twingraph",
       "twingraphStatusPollingFailed": "Une erreur est survenue lors de la mise à jour du statut du dataset {{datasetDetails}}",
-      "twingraphDataNotRestored": "Les données du twingraph n'ont pas pu être restaurées"
+      "twingraphDataNotRestored": "Les données du twingraph n'ont pas pu être restaurées",
+      "cannotAccessBaseDatasets": "Certaines données du scénario \"{{scenarioName}}\" ({{scenarioId}}) n'ont pas pu être chargées, car le dataset associé \"{{baseDatasetId}}\" n'existe plus, ou vous n'avez pas les permissions suffisantes pour y accéder."
     }
   },
   "genericcomponent": {

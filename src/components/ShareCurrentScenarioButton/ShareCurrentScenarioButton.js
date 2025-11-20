@@ -7,7 +7,8 @@ import { useShareCurrentScenarioButton } from './ShareCurrentScenarioButtonHook'
 const ShareCurrentScenarioButton = () => {
   const {
     disabled,
-    isReadOnly,
+    hasWriteSecurityPermission,
+    specificSharingRestriction,
     accessListSpecific,
     applyScenarioSecurityChanges,
     defaultRole,
@@ -16,17 +17,20 @@ const ShareCurrentScenarioButton = () => {
     rolesLabels,
     shareScenarioDialogLabels,
     workspaceUsers,
+    canBeSharedWithAgent,
   } = useShareCurrentScenarioButton();
 
   return (
     <RolesEditionButton
       data-cy="share-scenario-button"
       disabled={disabled}
-      isReadOnly={isReadOnly}
+      hasWriteSecurityPermission={hasWriteSecurityPermission}
+      specificSharingRestriction={specificSharingRestriction}
       labels={shareScenarioDialogLabels}
       onConfirmChanges={applyScenarioSecurityChanges}
       resourceRolesPermissionsMapping={permissionsMapping.runner}
       agents={workspaceUsers}
+      canBeSharedWithAgent={canBeSharedWithAgent}
       specificAccessByAgent={accessListSpecific}
       defaultRole={defaultRole}
       defaultAccessScope="Workspace"

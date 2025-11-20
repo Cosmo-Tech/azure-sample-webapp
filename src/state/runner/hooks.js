@@ -73,7 +73,7 @@ export const useCurrentSimulationRunnerState = () => {
   return useSelector((state) => state.runner.simulationRunners.current?.data?.state);
 };
 
-export const useCurrentSimulationRunnerDatasetList = () => {
+export const useCurrentSimulationRunnerBaseDatasetIds = () => {
   return useSelector((state) => state.runner.simulationRunners.current?.data?.datasets?.bases);
 };
 

@@ -431,7 +431,9 @@
           "label": "Share",
           "tooltip": "Modify access",
           "editModeTooltip": "Please save or discard current modifications before changing the scenario access permissions",
-          "noReadSecurityPermissionTooltip": "You are not allowed to share or see the security details of this resource"
+          "noReadSecurityPermissionTooltip": "You are not allowed to share or see the security details of this resource",
+          "noAccessToBaseDatasetsTooltip": "Cannot share this scenario because you do not have access to its base dataset \"{{restrictedDatasetId}}\". If you do not know the dataset owner, please contact your administrator.",
+          "cannotShareBaseDatasetsTooltip": "Cannot share this scenario because you cannot share its base dataset \"{{restrictedDataset}}\". Please request the \"admin\" role on this dataset first, or ask the dataset owner to share this scenario for you."
         },
         "dialog": {
           "buttons": {
@@ -444,7 +446,8 @@
           "readOnlyTitle": "Permissions for ",
           "select": {
             "addPeople": "Add people",
-            "userSelected": "Selected user"
+            "userSelected": "Selected user",
+            "disabledUserTooltip": "This user does not have access to the scenario dataset \"{{restrictedDataset}}\". Please share this dataset with them first, or ask the dataset owner to do it."
           },
           "editor": {
             "usersAccess": "Users access",
@@ -551,7 +554,8 @@
       "runnerNotUpdated": "Runner hasn't been updated",
       "twingraphNotCreated": "A problem occurred during twingraph creation",
       "twingraphStatusPollingFailed": "A problem occurred when querying the status of dataset {{datasetDetails}}",
-      "twingraphDataNotRestored": "Twingraph data hasn't been restored"
+      "twingraphDataNotRestored": "Twingraph data hasn't been restored",
+      "cannotAccessBaseDatasets": "Some parts of the scenario \"{{scenarioName}}\" ({{scenarioId}}) could not be loaded, because the associated dataset \"{{baseDatasetId}}\" does not exist, or you don't have access to it."
     }
   },
   "genericcomponent": {
