@@ -13,6 +13,14 @@ import { dispatchApplyRunnerSharingChanges } from '../../state/runner/dispatcher
 
 const clone = rfdc();
 
+const patchedState = clone(DEFAULT_REDUX_STATE);
+patchedState.dataset.list.data.forEach((dataset) => {
+  dataset.security = {
+    accessControlList: ['dev.sample.webapp@example.com'],
+    currentUserPermissions: ['read', 'read_security', 'write', 'write_security', 'delete'],
+  };
+});
+
 let mockRoleEditionButtonProps;
 jest.mock('@cosmotech/ui', () => ({
   ...jest.requireActual('@cosmotech/ui'),
@@ -25,7 +33,7 @@ jest.mock('@cosmotech/ui', () => ({
 const getRolesEditionButton = () => screen.queryByTestId('role_edition_button');
 
 const getStateWithScenarioRole = (role) => {
-  const state = clone(DEFAULT_REDUX_STATE);
+  const state = clone(patchedState);
   applyScenarioRoleToState(state, role);
   return state;
 };
@@ -60,14 +68,14 @@ describe('ShareCurrentScenarioButton', () => {
     );
 
     test.each([
-      { role: ROLES.RUNNER.ADMIN, expected: false },
-      { role: ROLES.RUNNER.EDITOR, expected: true },
-      { role: ROLES.RUNNER.VALIDATOR, expected: true },
-    ])('$role role display Share Scenario button with isReadOnly $expected', ({ role, expected }) => {
+      { role: ROLES.RUNNER.ADMIN, expected: true },
+      { role: ROLES.RUNNER.EDITOR, expected: false },
+      { role: ROLES.RUNNER.VALIDATOR, expected: false },
+    ])('$role role display Share Scenario button with hasWriteSecurityPermission $expected', ({ role, expected }) => {
       setUp(role);
       expect(getRolesEditionButton()).toBeInTheDocument();
       expect(mockRoleEditionButtonProps.disabled).toEqual(false);
-      expect(mockRoleEditionButtonProps.isReadOnly).toEqual(expected);
+      expect(mockRoleEditionButtonProps.hasWriteSecurityPermission).toEqual(expected);
     });
   });
 

@@ -20,7 +20,11 @@ export const SCENARIO_EXAMPLE = {
   ownerName: 'Dave Lauper',
   solutionName: 'Demo Brewery Solution',
   runTemplateName: 'Run template with mock basic types parameters',
-  datasetList: ['D-4jwyQnmv7jx'],
+  datasets: {
+    bases: ['D-4jwyQnmv7jx'],
+    parameter: 'D-mockedParameterDataset',
+    parameters: null,
+  },
   parametersValues: [],
   lastRun: null,
   parentLastRun: null,
