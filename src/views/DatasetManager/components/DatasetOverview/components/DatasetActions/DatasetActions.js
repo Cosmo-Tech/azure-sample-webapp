@@ -13,7 +13,7 @@ export default function DatasetActions({ dataset }) {
   return (
     <ButtonGroup>
       <RefreshDatasetButton dataset={dataset} />
-      {dataset?.sourceType === 'ETL' && <UpdateDatasetButton dataset={dataset} />}
+      {dataset?.additionalData?.webapp?.sourceType === 'ETL' && <UpdateDatasetButton dataset={dataset} />}
       <CreateSubDatasetButton parentDataset={dataset} />
       <ShareDatasetButton dataset={dataset} />
       <DeleteDatasetButton dataset={dataset} location="dataset-actions-" />

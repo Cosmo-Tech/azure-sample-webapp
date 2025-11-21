@@ -14,8 +14,7 @@ export const useDatasetOverviewPlaceholder = () => {
   // FIXME: read status of the associated runner
   const currentDatasetIngestionStatus = currentDataset?.ingestionStatus;
   const currentDatasetTwincacheStatus = currentDataset?.twincacheStatus;
-  // FIXME: read sourceType from additionalData when it's available
-  const currentDatasetType = currentDataset?.sourceType;
+  const currentDatasetType = currentDataset?.additionalData?.webapp?.sourceType;
   const currentDatasetId = useCurrentDatasetId();
   const refreshDataset = useRefreshDataset();
   const rollbackTwingraphData = useRollbackTwingraphData();

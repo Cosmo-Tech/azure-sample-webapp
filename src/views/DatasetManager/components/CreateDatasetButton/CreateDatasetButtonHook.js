@@ -41,15 +41,12 @@ export const useDatasetCreationParameters = () => {
   const createDatasetOrRunner = useCallback(
     (values) => {
       ArrayDictUtils.removeUndefinedValuesFromDict(values);
-      // FIXME: read sourceType from additionalData when it's available
       const sourceType = values.sourceType;
-      // FIXME: write sourceType in additionalData when it's available
       const dataset = {
-        additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
+        additionalData: { webapp: { sourceType, visible: { datasetManager: true, scenarioCreation: true } } },
         name: values.name,
         tags: values.tags,
         description: values.description,
-        sourceType,
         parts: [],
       };
 

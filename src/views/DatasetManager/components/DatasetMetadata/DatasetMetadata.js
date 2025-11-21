@@ -124,11 +124,10 @@ export const DatasetMetadata = () => {
             new Date(dataset?.updateInfo?.timestamp)?.toLocaleString('en-US', { timeZone: 'UTC' })
           }
         ></MetadataItem>
-        {/* // FIXME: read sourceType from additionalData when it's available */}
         <MetadataItem
           id="source-type"
           label={t('commoncomponents.datasetmanager.metadata.sourceType', 'Source')}
-          value={etlDatasetRunTemplateName || dataset?.sourceType}
+          value={etlDatasetRunTemplateName || dataset?.additionalData?.webapp?.sourceType}
         ></MetadataItem>
         <MetadataItem
           id="api-url"
