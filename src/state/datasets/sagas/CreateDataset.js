@@ -9,18 +9,16 @@ import { setApplicationErrorMessage } from '../../app/reducers';
 import { DATASET_ACTIONS_KEY } from '../constants';
 import { addDataset, selectDataset } from '../reducers';
 
-// TODO: use the additionalData field when it's available to store the creator name
-// const getUserName = (state) => state.auth.userName;
+const getUserName = (state) => state.auth.userName;
 const getUserEmail = (state) => state.auth.userEmail;
 const getWorkspaceId = (state) => state.workspace.current?.data?.id;
 const getOrganizationId = (state) => state.organization.current?.data?.id;
 
 export function* postEmptyDataset(dataset) {
-  // TODO: use the additionalData field when it's available to store the creator name
-  // (createInfo.userId contains the user email and is not editable)
-  // const ownerName = yield select(getUserName);
+  const ownerName = yield select(getUserName);
   const organizationId = yield select(getOrganizationId);
   const workspaceId = yield select(getWorkspaceId);
+  DatasetsUtils.setDatasetOptions({ ownerName });
   return yield call(DatasetService.createEmptyDataset, organizationId, workspaceId, dataset);
 }
 

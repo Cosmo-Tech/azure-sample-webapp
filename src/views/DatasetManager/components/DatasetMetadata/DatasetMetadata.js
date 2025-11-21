@@ -6,7 +6,7 @@ import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import { Card, Grid, IconButton, Tooltip } from '@mui/material';
 import { PermissionsGate, TagsEditor } from '@cosmotech/ui';
 import { ACL_PERMISSIONS } from '../../../../services/config/accessControl';
-import { ApiUtils } from '../../../../utils';
+import { ApiUtils, DatasetsUtils } from '../../../../utils';
 import { useDatasetMetadata } from './DatasetMetadataHook';
 import { DescriptionEditor, MetadataItem } from './components';
 
@@ -106,7 +106,11 @@ export const DatasetMetadata = () => {
         <MetadataItem
           id="author"
           label={t('commoncomponents.datasetmanager.metadata.author', 'Author')}
-          value={dataset?.createInfo?.userId ?? t('commoncomponents.datasetmanager.metadata.unknown', 'unknown')}
+          value={
+            DatasetsUtils.getDatasetOption(dataset, 'ownerName') ??
+            dataset?.createInfo?.userId ??
+            t('commoncomponents.datasetmanager.metadata.unknown', 'unknown')
+          }
         ></MetadataItem>
         <MetadataItem
           id="creation-date"

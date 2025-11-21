@@ -6,13 +6,13 @@ import { useCurrentDataset } from '../state/datasets/hooks';
 import { useOrganizationId } from '../state/organizations/hooks';
 import { useCurrentSimulationRunnerData, useRunner } from '../state/runner/hooks';
 import { useWorkspaceId } from '../state/workspaces/hooks';
-import { RunnersUtils } from '../utils';
+import { DatasetsUtils, RunnersUtils } from '../utils';
 
 export const useDownloadLogsFile = () => {
   const organizationId = useOrganizationId();
   const currentDataset = useCurrentDataset();
   const workspaceId = currentDataset?.workspaceId;
-  const runnerId = currentDataset?.createInfo?.runnerId;
+  const runnerId = DatasetsUtils.getDatasetOption(currentDataset, 'runnerId');
 
   const runner = useRunner(runnerId);
   const runId = RunnersUtils.getLastRunId(runner);
