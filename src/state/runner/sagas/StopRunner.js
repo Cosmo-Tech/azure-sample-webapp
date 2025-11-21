@@ -4,6 +4,7 @@ import { t } from 'i18next';
 import { put, takeEvery, call, select } from 'redux-saga/effects';
 import { Api } from '../../../services/config/Api';
 import { INGESTION_STATUS } from '../../../services/config/ApiConstants';
+import { DatasetsUtils } from '../../../utils';
 import { setApplicationErrorMessage } from '../../app/reducers';
 import { updateDataset } from '../../datasets/reducers';
 import { RUNNER_ACTIONS_KEY } from '../constants';
@@ -14,19 +15,14 @@ export function* stopRunner(action) {
   const datasetId = action.datasetId;
   const datasets = yield select(getDatasets);
   const dataset = datasets.find((dataset) => dataset.id === datasetId);
-  const runnerId = dataset?.createInfo?.runnerId;
+  const runnerId = DatasetsUtils.getDatasetOption(dataset, 'runnerId');
 
   try {
     const organizationId = action.organizationId;
     const workspaceId = action.workspaceId;
 
     yield call(Api.Runners.stopRun, organizationId, workspaceId, runnerId);
-    yield put(
-      updateDataset({
-        datasetId,
-        datasetData: { ingestionStatus: INGESTION_STATUS.ERROR },
-      })
-    );
+    yield put(updateDataset({ datasetId, datasetData: { ingestionStatus: INGESTION_STATUS.ERROR } }));
   } catch (error) {
     console.error(error);
     yield put(

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 import { useCallback, useMemo } from 'react';
 import { DATASET_SOURCE_TYPE, DATASET_SOURCES } from '../../../../services/config/ApiConstants';
+import { useUserName } from '../../../../state/auth/hooks';
 import { useCreateDataset } from '../../../../state/datasets/hooks';
 import { useCreateRunner } from '../../../../state/runner/hooks';
 import { useDataSourceRunTemplates, useSolutionData } from '../../../../state/solutions/hooks';
@@ -9,6 +10,7 @@ import { useWorkspaceData } from '../../../../state/workspaces/hooks';
 import { ArrayDictUtils, SolutionsUtils } from '../../../../utils';
 
 export const useDatasetCreationParameters = () => {
+  const ownerName = useUserName();
   const createDataset = useCreateDataset();
   const createRunner = useCreateRunner();
   const solutionData = useSolutionData();
@@ -43,7 +45,9 @@ export const useDatasetCreationParameters = () => {
       ArrayDictUtils.removeUndefinedValuesFromDict(values);
       const sourceType = values.sourceType;
       const dataset = {
-        additionalData: { webapp: { sourceType, visible: { datasetManager: true, scenarioCreation: true } } },
+        additionalData: {
+          webapp: { sourceType, ownerName, visible: { datasetManager: true, scenarioCreation: true } },
+        },
         name: values.name,
         tags: values.tags,
         description: values.description,
@@ -69,7 +73,7 @@ export const useDatasetCreationParameters = () => {
         createRunner(runner);
       }
     },
-    [createDataset, createRunner, solutionData]
+    [createDataset, createRunner, ownerName, solutionData]
   );
 
   return {

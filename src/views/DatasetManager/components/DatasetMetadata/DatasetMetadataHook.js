@@ -11,7 +11,7 @@ import {
 import { useOrganizationId } from '../../../../state/organizations/hooks';
 import { useGetETLRunners } from '../../../../state/runner/hooks';
 import { useWorkspaceId } from '../../../../state/workspaces/hooks';
-import { TranslationUtils } from '../../../../utils';
+import { DatasetsUtils, TranslationUtils } from '../../../../utils';
 
 export const useDatasetMetadata = () => {
   const { t } = useTranslation();
@@ -23,7 +23,8 @@ export const useDatasetMetadata = () => {
 
   const etlDatasetRunTemplateName = useMemo(() => {
     if (currentDataset?.additionalData?.webapp?.sourceType === 'ETL') {
-      const datasetRunner = runners.find((runner) => runner.id === currentDataset?.createInfo?.runnerId) ?? null;
+      const datasetRunnerId = DatasetsUtils.getDatasetOption(currentDataset, 'runnerId');
+      const datasetRunner = runners.find((runner) => runner.id === datasetRunnerId) ?? null;
       return datasetRunner
         ? t(TranslationUtils.getRunTemplateTranslationKey(datasetRunner?.runTemplateId), datasetRunner?.runTemplateId)
         : '';
