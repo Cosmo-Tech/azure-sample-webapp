@@ -4,7 +4,6 @@ import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import rfdc from 'rfdc';
 import { useWorkspaceDatasets } from '../../hooks/WorkspaceDatasetsHooks';
-import { INGESTION_STATUS, TWINCACHE_STATUS } from '../../services/config/ApiConstants';
 import { useUser } from '../../state/auth/hooks';
 import { useCreateSimulationRunner, useCurrentSimulationRunner, useRunners } from '../../state/runner/hooks';
 import { useScenarioRunTemplates, useSolution } from '../../state/solutions/hooks';
@@ -13,7 +12,7 @@ import {
   useUserPermissionsOnCurrentWorkspace,
   useWorkspaceData,
 } from '../../state/workspaces/hooks';
-import { TranslationUtils } from '../../utils';
+import { DatasetsUtils, TranslationUtils } from '../../utils';
 import { getCreateScenarioDialogLabels } from './labels';
 
 export const useCreateScenarioButton = ({ disabled, onScenarioCreated }) => {
@@ -28,11 +27,7 @@ export const useCreateScenarioButton = ({ disabled, onScenarioCreated }) => {
   const workspaceData = useWorkspaceData();
   const workspaceId = workspaceData.id;
   const workspaceDatasets = useWorkspaceDatasets();
-  const usableDatasets = workspaceDatasets.filter(
-    (dataset) =>
-      !dataset.main ||
-      (dataset.ingestionStatus === INGESTION_STATUS.SUCCESS && dataset.twincacheStatus === TWINCACHE_STATUS.FULL)
-  );
+  const usableDatasets = workspaceDatasets.filter(DatasetsUtils.isVisibleInScenarioCreation);
 
   const createScenarioOnBackend = useCreateSimulationRunner();
 

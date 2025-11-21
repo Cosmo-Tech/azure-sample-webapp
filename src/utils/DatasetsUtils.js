@@ -84,6 +84,9 @@ const uploadZipWithFetchApi = async (organizationId, workspaceId, datasetId, fil
 
 const isVisibleInDatasetManager = (dataset) => dataset?.additionalData?.webapp?.visible?.datasetManager === true;
 
+// TODO: add check on dataset status if created by an ETL script
+const isVisibleInScenarioCreation = (dataset) => dataset?.additionalData?.webapp?.visible?.scenarioCreation === true;
+
 export const DatasetsUtils = {
   patchDatasetWithCurrentUserPermissions,
   buildDatasetLocation,
@@ -92,4 +95,5 @@ export const DatasetsUtils = {
   getAllChildrenDatasetsNames,
   uploadZipWithFetchApi,
   isVisibleInDatasetManager,
+  isVisibleInScenarioCreation,
 };

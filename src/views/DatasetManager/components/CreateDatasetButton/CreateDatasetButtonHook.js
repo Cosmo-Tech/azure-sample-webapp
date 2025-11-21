@@ -45,7 +45,7 @@ export const useDatasetCreationParameters = () => {
       const sourceType = values.sourceType;
       // FIXME: write sourceType in additionalData when it's available
       const dataset = {
-        additionalData: { webapp: { visible: { datasetManager: true } } },
+        additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
         name: values.name,
         tags: values.tags,
         description: values.description,
