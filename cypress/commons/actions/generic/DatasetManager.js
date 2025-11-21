@@ -219,7 +219,7 @@ export const getConfirmDatasetCreation = () => cy.get(SELECTORS.wizard.confirmDa
 //      and patch the runner will be run)
 export const confirmDatasetCreation = (options = {}) => {
   options.customDatasetPatch = {
-    main: true,
+    additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
     ...options.customDatasetPatch,
   };
   const aliases = [];
