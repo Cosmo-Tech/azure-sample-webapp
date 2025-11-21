@@ -94,7 +94,9 @@ export const useWorkspacesReducerStatus = () => {
 };
 
 export const useDefaultRunTemplateDataset = () => {
-  return useSelector((state) => state.workspace?.current?.data?.solution?.defaultRunTemplateDataset);
+  return useSelector(
+    (state) => state.workspace?.current?.data?.additionalData?.webapp?.solution?.defaultRunTemplateDataset
+  );
 };
 
 export const useSelectWorkspace = () => {
