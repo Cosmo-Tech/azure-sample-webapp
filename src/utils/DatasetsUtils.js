@@ -82,6 +82,8 @@ const uploadZipWithFetchApi = async (organizationId, workspaceId, datasetId, fil
   }
 };
 
+const isVisibleInDatasetManager = (dataset) => dataset?.additionalData?.webapp?.visible?.datasetManager === true;
+
 export const DatasetsUtils = {
   patchDatasetWithCurrentUserPermissions,
   buildDatasetLocation,
@@ -89,4 +91,5 @@ export const DatasetsUtils = {
   getFileNameFromDatasetLocation,
   getAllChildrenDatasetsNames,
   uploadZipWithFetchApi,
+  isVisibleInDatasetManager,
 };
