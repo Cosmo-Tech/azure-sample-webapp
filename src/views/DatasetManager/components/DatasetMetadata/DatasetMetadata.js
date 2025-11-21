@@ -113,7 +113,7 @@ export const DatasetMetadata = () => {
           label={t('commoncomponents.datasetmanager.metadata.creationDate', 'Creation date')}
           value={
             dataset?.createInfo?.timestamp &&
-            new Date(dataset?.createInfo?.timestamp)?.toLocaleDateString('en-US', { timeZone: 'UTC' })
+            new Date(dataset?.createInfo?.timestamp)?.toLocaleString('en-US', { timeZone: 'UTC' })
           }
         ></MetadataItem>
         <MetadataItem
@@ -121,7 +121,7 @@ export const DatasetMetadata = () => {
           label={t('commoncomponents.datasetmanager.metadata.refreshDate', 'Last refresh')}
           value={
             dataset?.updateInfo?.timestamp &&
-            new Date(dataset?.updateInfo?.timestamp)?.toLocaleDateString('en-US', { timeZone: 'UTC' })
+            new Date(dataset?.updateInfo?.timestamp)?.toLocaleString('en-US', { timeZone: 'UTC' })
           }
         ></MetadataItem>
         {/* // FIXME: read sourceType from additionalData when it's available */}
