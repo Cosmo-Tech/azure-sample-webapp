@@ -13,7 +13,7 @@ import { ACL_PERMISSIONS } from '../../../../../../services/config/accessControl
 import { useSetApplicationErrorMessage } from '../../../../../../state/app/hooks';
 import { useDatasets } from '../../../../../../state/datasets/hooks';
 import {
-  useCurrentSimulationRunnerDatasetList,
+  useCurrentSimulationRunnerBaseDatasetIds,
   useCurrentSimulationRunnerId,
   useCurrentSimulationRunnerState,
   useStartRunner,
@@ -29,16 +29,18 @@ export const LaunchButton = () => {
   const setApplicationErrorMessage = useSetApplicationErrorMessage();
   const launchScenario = useStartRunner();
   const userAppAndCurrentScenarioPermissions = useUserAppAndCurrentScenarioPermissions();
-  const currentScenarioDatasetList = useCurrentSimulationRunnerDatasetList();
+  const currentSimulationRunnerBaseDatasetIds = useCurrentSimulationRunnerBaseDatasetIds();
   const datasets = useDatasets();
 
   const isCurrentScenarioDatasetUnavailable = useMemo(() => {
-    if (currentScenarioDatasetList && currentScenarioDatasetList?.length > 0) {
-      const currentScenarioDataset = datasets?.find((dataset) => dataset.id === currentScenarioDatasetList?.[0]);
+    if (currentSimulationRunnerBaseDatasetIds && currentSimulationRunnerBaseDatasetIds?.length > 0) {
+      const currentScenarioDataset = datasets?.find(
+        (dataset) => dataset.id === currentSimulationRunnerBaseDatasetIds?.[0]
+      );
       return !currentScenarioDataset || currentScenarioDataset?.ingestionStatus === INGESTION_STATUS.ERROR;
     }
     return false;
-  }, [currentScenarioDatasetList, datasets]);
+  }, [currentSimulationRunnerBaseDatasetIds, datasets]);
 
   const isCurrentScenarioRunning = currentScenarioState === RUNNER_RUN_STATE.RUNNING;
   const launchCurrentScenario = useCallback(

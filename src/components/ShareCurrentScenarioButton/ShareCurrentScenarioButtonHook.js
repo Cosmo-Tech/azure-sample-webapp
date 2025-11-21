@@ -13,6 +13,7 @@ import {
 import { useApplyRunnerSharingSecurity, useCurrentSimulationRunnerData } from '../../state/runner/hooks';
 import { useWorkspaceData } from '../../state/workspaces/hooks';
 import { SecurityUtils } from '../../utils';
+import { useScenario } from '../../views/Scenario/ScenarioHook';
 import { getShareScenarioDialogLabels } from './labels';
 
 export const useShareCurrentScenarioButton = () => {
@@ -21,14 +22,12 @@ export const useShareCurrentScenarioButton = () => {
 
   const currentScenarioData = useCurrentSimulationRunnerData();
   const workspaceData = useWorkspaceData();
-
   const roles = useApplicationRoles();
   const permissions = useApplicationPermissions();
-
   const userPermissionsOnCurrentScenario = useUserPermissionsOnCurrentScenario();
   const permissionsMapping = useApplicationPermissionsMapping();
-
   const applyScenarioSharingSecurity = useApplyRunnerSharingSecurity();
+  const { missingDatasetIds, baseDatasets } = useScenario();
 
   const rolesLabels = useMemo(() => {
     const rolesNames = Object.values(roles.runner);
@@ -39,8 +38,6 @@ export const useShareCurrentScenarioButton = () => {
     const permissionsNames = Object.values(permissions.runner);
     return SecurityUtils.getScenarioPermissionsLabels(t, permissionsNames);
   }, [permissions.runner, t]);
-
-  const workspaceUsers = useMemo(() => workspaceData.users.map((user) => ({ id: user })), [workspaceData.users]);
 
   const accessListSpecific = useMemo(
     () => currentScenarioData?.security?.accessControlList ?? [],
@@ -63,11 +60,75 @@ export const useShareCurrentScenarioButton = () => {
     () => userPermissionsOnCurrentScenario.includes(ACL_PERMISSIONS.RUNNER.READ_SECURITY),
     [userPermissionsOnCurrentScenario]
   );
+
+  const workspaceUsers = useMemo(() => workspaceData.users.map((user) => ({ id: user })), [workspaceData.users]);
+
+  const usersWithRestrictedDatasets = useMemo(() => {
+    const restrictedUsers = [];
+    if (baseDatasets.length === 0) return restrictedUsers;
+
+    workspaceUsers.forEach((user) => {
+      const restrictedDatasets = baseDatasets.filter((dataset) => {
+        const userPermissions = SecurityUtils.getUserPermissionsForResource(
+          dataset.security,
+          user.id,
+          permissionsMapping.dataset
+        );
+        return !userPermissions.includes(ACL_PERMISSIONS.DATASET.READ);
+      });
+      if (restrictedDatasets.length > 0) restrictedUsers.push({ id: user.id, restrictedDatasets });
+    });
+
+    return restrictedUsers;
+  }, [baseDatasets, workspaceUsers, permissionsMapping]);
+
+  const canBeSharedWithAgent = useCallback(
+    (user) => {
+      const restrictedDatasets = usersWithRestrictedDatasets.find(
+        (usersRestricted) => usersRestricted.id === user.id
+      )?.restrictedDatasets;
+      if (restrictedDatasets == null || restrictedDatasets.length === 0) return null;
+
+      const restrictedDataset = restrictedDatasets[0].name;
+      return t(
+        'commoncomponents.dialog.share.dialog.select.disabledUserTooltip',
+        'This user does not have access to the scenario dataset "{{restrictedDataset}}". ' +
+          'Please share this dataset with them first, or ask the dataset owner to do it.',
+        { restrictedDataset }
+      );
+    },
+    [usersWithRestrictedDatasets, t]
+  );
+
   const disabled = useMemo(() => isDirty || !hasReadSecurityPermission, [isDirty, hasReadSecurityPermission]);
-  const isReadOnly = useMemo(
-    () => !userPermissionsOnCurrentScenario.includes(ACL_PERMISSIONS.RUNNER.WRITE_SECURITY),
+
+  const hasWriteSecurityPermission = useMemo(
+    () => userPermissionsOnCurrentScenario.includes(ACL_PERMISSIONS.RUNNER.WRITE_SECURITY),
     [userPermissionsOnCurrentScenario]
   );
+
+  const specificSharingRestriction = useMemo(() => {
+    if (missingDatasetIds.length > 0)
+      return t(
+        'commoncomponents.dialog.share.button.noAccessToBaseDatasetsTooltip',
+        'Cannot share this scenario because you cannot share its base dataset "{{restrictedDatasetId}}". Please ' +
+          'request the "admin" role on this dataset first, or ask the dataset owner to share this scenario for you.',
+        { restrictedDatasetId: missingDatasetIds[0] }
+      );
+
+    const missingWriteSecurityPermissionsDatasets = baseDatasets.filter(
+      (dataset) => !dataset.security.currentUserPermissions.includes(ACL_PERMISSIONS.DATASET.WRITE_SECURITY)
+    );
+    if (missingWriteSecurityPermissionsDatasets.length > 0)
+      return t(
+        'commoncomponents.dialog.share.button.cannotShareBaseDatasetsTooltip',
+        'Cannot share this scenario because you do not have access to its base dataset "{{restrictedDataset}}". ' +
+          'If you do not know the dataset owner, please contact your administrator.',
+        { restrictedDataset: missingWriteSecurityPermissionsDatasets[0].name }
+      );
+
+    return null;
+  }, [baseDatasets, missingDatasetIds, t]);
 
   const shareScenarioDialogLabels = useMemo(
     () => getShareScenarioDialogLabels(t, currentScenarioData?.name, isDirty, hasReadSecurityPermission),
@@ -76,14 +137,16 @@ export const useShareCurrentScenarioButton = () => {
 
   return {
     disabled,
-    isReadOnly,
+    hasWriteSecurityPermission,
+    specificSharingRestriction,
+    canBeSharedWithAgent,
     permissionsMapping,
     shareScenarioDialogLabels,
     rolesLabels,
     permissionsLabels,
-    workspaceUsers,
     accessListSpecific,
     defaultRole,
     applyScenarioSecurityChanges,
+    workspaceUsers,
   };
 };
