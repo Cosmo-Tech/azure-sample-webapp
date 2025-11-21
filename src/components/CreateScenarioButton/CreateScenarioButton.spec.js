@@ -175,7 +175,7 @@ describe('CreateScenarioButton', () => {
 
   describe('Filter run template', () => {
     const applyRunTemplateFilterToState = (state, runTemplateFilter) => {
-      state.workspace.current.data.solution.runTemplateFilter = runTemplateFilter;
+      state.workspace.current.data.additionalData.webapp.solution.runTemplateFilter = runTemplateFilter;
     };
 
     const setUpWithRunTemplateFilter = (runTemplateFilter) => {

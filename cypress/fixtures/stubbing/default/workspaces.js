@@ -24,12 +24,6 @@ export const WORKSPACE_EXAMPLE = {
   name: 'Stubbed Demo Brewery Workspace',
   solution: {
     solutionId: 'SOL-stubbedbrwy',
-    runTemplateFilter: ['sim_brewery_parameters', 'sim_no_parameters', 'sim_mock_parameters'],
-    defaultRunTemplateDataset: {
-      sim_brewery_parameters: 'd-kjg7drjjm48p',
-      sim_no_parameters: 'd-8q7mwq1q17v7',
-      sim_mock_parameters: 'd-63mkreqmqg0',
-    },
   },
   id: 'W-stbbdbrwry',
   description: 'Stubbed workspace for Brewery Demo',
@@ -39,6 +33,14 @@ export const WORKSPACE_EXAMPLE = {
   users: null,
   additionalData: {
     webapp: {
+      solution: {
+        runTemplateFilter: ['sim_brewery_parameters', 'sim_no_parameters', 'sim_mock_parameters'],
+        defaultRunTemplateDataset: {
+          sim_brewery_parameters: 'd-kjg7drjjm48p',
+          sim_no_parameters: 'd-8q7mwq1q17v7',
+          sim_mock_parameters: 'd-63mkreqmqg0',
+        },
+      },
       // Note: "datasetManager" and "instanceView" intentionally left undefined
       charts: {
         workspaceId: '290de699-9026-42c0-8c83-e4e87c3f22dd',
