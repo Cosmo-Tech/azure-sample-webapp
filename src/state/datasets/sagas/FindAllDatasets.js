@@ -37,7 +37,8 @@ export function* fetchAllDatasetsData(organizationId, workspaceId) {
     if (datasets?.length > 0) {
       yield put(selectDataset({ selectedDatasetId: null }));
       const datasetsToUpdate = data.filter(
-        (dataset) => dataset.main === true && dataset.ingestionStatus === INGESTION_STATUS.PENDING
+        (dataset) =>
+          DatasetsUtils.isVisibleInDatasetManager(dataset) && dataset.ingestionStatus === INGESTION_STATUS.PENDING
       );
 
       for (const dataset of datasetsToUpdate) {

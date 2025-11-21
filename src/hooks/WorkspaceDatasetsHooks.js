@@ -3,6 +3,7 @@
 import { useMemo } from 'react';
 import { useDatasets } from '../state/datasets/hooks';
 import { useWorkspaceDatasetsFilter } from '../state/workspaces/hooks';
+import { DatasetsUtils } from '../utils';
 
 export const useWorkspaceDatasets = () => {
   const datasets = useDatasets();
@@ -28,9 +29,5 @@ export const useWorkspaceDatasets = () => {
 export const useWorkspaceMainDatasets = () => {
   const workspaceDatasets = useWorkspaceDatasets();
 
-  return useMemo(() => {
-    return workspaceDatasets;
-    // FIXME: filter will be fixed by PROD-14526
-    // return workspaceDatasets?.filter((dataset) => dataset.main === true);
-  }, [workspaceDatasets]);
+  return useMemo(() => workspaceDatasets?.filter(DatasetsUtils.isVisibleInDatasetManager), [workspaceDatasets]);
 };

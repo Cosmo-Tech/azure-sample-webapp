@@ -44,7 +44,14 @@ export const useDatasetCreationParameters = () => {
       // FIXME: read sourceType from additionalData when it's available
       const sourceType = values.sourceType;
       // FIXME: write sourceType in additionalData when it's available
-      const dataset = { name: values.name, tags: values.tags, description: values.description, sourceType, parts: [] };
+      const dataset = {
+        additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
+        name: values.name,
+        tags: values.tags,
+        description: values.description,
+        sourceType,
+        parts: [],
+      };
 
       if (Object.values(DATASET_SOURCE_TYPE).includes(sourceType)) {
         const files = [];

@@ -14,7 +14,6 @@ const EDITABLE_DATASET = {
 const DATASET_PART_1 = {
   ...EDITABLE_DATASET,
   id: 'D-stbdparams1',
-  main: false,
   name: 'Parameters Dataset Reference',
   description: 'Reference dataset for parameters edition testing',
   tags: ['parameters', 'test', 'dataset_part'],
@@ -29,7 +28,7 @@ const DATASET_PART_1 = {
 const MAIN_DATASET_A = {
   ...EDITABLE_DATASET,
   id: 'D-stbdparams2',
-  main: true,
+  additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
   name: 'Parameters Dataset A',
   description: 'Dataset for parameters edition testing A',
   tags: ['parameters', 'test'],
@@ -39,7 +38,7 @@ const MAIN_DATASET_A = {
 const MAIN_DATASET_B = {
   ...EDITABLE_DATASET,
   id: 'D-stbdparams3',
-  main: true,
+  additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
   name: 'Parameters Dataset B',
   description: 'Dataset for parameters edition testing B',
   tags: ['parameters', 'test'],
@@ -50,7 +49,7 @@ const MAIN_DATASET_C = {
   ...EDITABLE_DATASET,
   id: 'D-stbdparams4',
   parentId: 'D-stbdparams3',
-  main: true,
+  additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
   name: 'Parameters Dataset C',
   description: 'Dataset for parameters edition testing C with ETL',
   tags: ['parameters', 'test', 'etl'],
@@ -66,7 +65,7 @@ const MAIN_DATASET_C = {
 const MAIN_DATASET_D = {
   ...EDITABLE_DATASET,
   id: 'D-stbdparams5',
-  main: true,
+  additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
   name: 'Parameters Dataset D',
   description: 'Dataset for parameters edition testing D with ETL',
   tags: ['parameters', 'test', 'etl'],
@@ -82,7 +81,7 @@ const MAIN_DATASET_D = {
 const MAIN_DATASET_E = {
   ...EDITABLE_DATASET,
   id: 'D-stbdparams7',
-  main: true,
+  additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
   name: 'Parameters Dataset E',
   description: 'Dataset for parameters edition testing D with ETL',
   tags: ['parameters', 'test', 'etl'],
@@ -98,7 +97,6 @@ const MAIN_DATASET_E = {
 const DATASET_PART_2 = {
   ...EDITABLE_DATASET,
   id: 'D-stbdparams6',
-  main: false,
   name: 'Parameters Dataset Reference',
   description: 'Reference dataset for parameters edition testing',
   tags: ['parameters', 'test', 'dataset_part'],

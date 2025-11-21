@@ -8,7 +8,7 @@ const PRIVATE_DATASET = {
   ...DEFAULT_DATASET,
   id: 'd-privateDts_1',
   name: 'Private Dataset 1',
-  main: true,
+  additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
   tags: ['initial tag', 'Brewery'],
   description: 'Initial description',
   security: {
