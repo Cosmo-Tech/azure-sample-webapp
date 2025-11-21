@@ -93,7 +93,7 @@ export function* createRunner(action) {
       name: runner.name,
       description: runner.description,
       tags: runner.tags,
-      sourceType: 'ETL',
+      additionalData: { webapp: { sourceType: 'ETL' } },
       source: { location: workspaceId, name: runnerId },
     };
     // When creating subdatasets, the runner provided to the createRunner saga contains the id of the **parent dataset**

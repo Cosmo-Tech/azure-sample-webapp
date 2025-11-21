@@ -82,10 +82,20 @@ const uploadZipWithFetchApi = async (organizationId, workspaceId, datasetId, fil
   }
 };
 
-const isVisibleInDatasetManager = (dataset) => dataset?.additionalData?.webapp?.visible?.datasetManager === true;
+const getDatasetOptions = (dataset) => dataset?.additionalData?.webapp;
+const getDatasetOption = (dataset, optionKey) => dataset?.additionalData?.webapp?.[optionKey];
+
+const setDatasetOptions = (dataset, options) => {
+  if (!dataset) return;
+  if (!dataset.additionalData) dataset.additionalData = { webapp: { ...options } };
+  else if (!dataset.additionalData.webapp) dataset.additionalData.webapp = { ...options };
+  else dataset.additionalData.webapp = { ...dataset.additionalData.webapp, ...options };
+};
+
+const isVisibleInDatasetManager = (dataset) => getDatasetOptions(dataset)?.visible?.datasetManager === true;
 
 // TODO: add check on dataset status if created by an ETL script
-const isVisibleInScenarioCreation = (dataset) => dataset?.additionalData?.webapp?.visible?.scenarioCreation === true;
+const isVisibleInScenarioCreation = (dataset) => getDatasetOptions(dataset)?.visible?.scenarioCreation === true;
 
 export const DatasetsUtils = {
   patchDatasetWithCurrentUserPermissions,
@@ -94,6 +104,9 @@ export const DatasetsUtils = {
   getFileNameFromDatasetLocation,
   getAllChildrenDatasetsNames,
   uploadZipWithFetchApi,
+  getDatasetOptions,
+  getDatasetOption,
+  setDatasetOptions,
   isVisibleInDatasetManager,
   isVisibleInScenarioCreation,
 };

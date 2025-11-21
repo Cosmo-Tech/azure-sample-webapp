@@ -102,19 +102,19 @@ describe('removeUndefinedValuesFromDict', () => {
     name: 'Dataset1',
     description: undefined,
     tags: undefined,
-    sourceType: 'None',
+    additionalData: { webapp: { sourceType: 'None' } },
   };
 
   const filteredDatasetObjectForFromScratch = {
     name: 'Dataset1',
-    sourceType: 'None',
+    additionalData: { webapp: { sourceType: 'None' } },
   };
 
   const datasetObjectForAzureStorage = {
     name: 'Dataset1',
     description: undefined,
     tags: undefined,
-    sourceType: 'AzureStorage',
+    additionalData: { webapp: { sourceType: 'AzureStorage' } },
     source: {
       path: 'path/to/data',
       location: 'location',
@@ -125,7 +125,7 @@ describe('removeUndefinedValuesFromDict', () => {
 
   const filteredDatasetObjectForAzureStorage = {
     name: 'Dataset1',
-    sourceType: 'AzureStorage',
+    additionalData: { webapp: { sourceType: 'AzureStorage' } },
     source: {
       location: 'location',
       name: 'accountName',
