@@ -24,9 +24,13 @@ export const useScenario = () => {
 
   const { baseDatasets, missingDatasetIds } = useMemo(() => {
     const baseDatasets = datasets.filter((dataset) => currentSimulationRunnerBaseDatasetIds?.includes(dataset.id));
-    const missingDatasetIds = currentSimulationRunnerBaseDatasetIds.filter(
-      (datasetId) => !baseDatasets.some((dataset) => dataset.id === datasetId)
-    );
+
+    let missingDatasetIds = [];
+    if (currentSimulationRunnerBaseDatasetIds) {
+      missingDatasetIds = currentSimulationRunnerBaseDatasetIds.filter(
+        (datasetId) => !baseDatasets.some((dataset) => dataset.id === datasetId)
+      );
+    }
 
     if (missingDatasetIds.length > 0) {
       const errorMessage = t(
