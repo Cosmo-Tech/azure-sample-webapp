@@ -55,6 +55,8 @@ const prepareToUpload = (event, setClientFileDescriptor, parameterData, options)
 };
 
 const downloadFile = async (organizationId, workspaceId, datasetId, datasetPartId, setClientFileDescriptorStatus) => {
+  // DEPRECATED
+  console.warn('FileManagementUtils.downloadFile is deprecated, use FileParameterHooks instead');
   try {
     setClientFileDescriptorStatus(UPLOAD_FILE_STATUS_KEY.DOWNLOADING);
     await DatasetService.downloadDatasetPart(organizationId, workspaceId, datasetId, datasetPartId);
@@ -71,6 +73,8 @@ const downloadFile = async (organizationId, workspaceId, datasetId, datasetPartI
 };
 
 const downloadFileData = async (organizationId, workspaceId, datasets, datasetId, setClientFileDescriptorStatuses) => {
+  // DEPRECATED
+  console.warn('FileManagementUtils.downloadFileData is deprecated, use FileParameterHooks instead');
   const dataset = _findDatasetInDatasetsList(datasets, datasetId);
   if (!dataset) {
     throw new Error(`Error finding dataset ${datasetId}`);

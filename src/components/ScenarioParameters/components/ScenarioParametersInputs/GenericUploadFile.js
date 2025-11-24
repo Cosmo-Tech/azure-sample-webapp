@@ -86,7 +86,6 @@ GenericUploadFile.useValidationRules = () => {
   return {
     validate: {
       fileFormat: (parameterValue) => {
-        console.log(parameterValue);
         return (
           parameterValue?.value == null ||
           parameterValue?.status === UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE ||

@@ -11,12 +11,7 @@ import { useOrganizationId } from '../state/organizations/hooks';
 import { useSolutionData } from '../state/solutions/hooks';
 import { useWorkspaceId } from '../state/workspaces/hooks';
 import { SolutionsUtils } from '../utils';
-import {
-  clearFileParameter,
-  forgeFileParameterFromDatasetPart,
-  getFileName,
-  serializeBeforeUpload,
-} from '../utils/scenarioParameters/FileParameterUtils';
+import { clearFileParameter, getFileName, serializeBeforeUpload } from '../utils/scenarioParameters/FileParameterUtils';
 
 export const useFileParameters = () => {
   const { t } = useTranslation();
@@ -49,10 +44,33 @@ export const useFileParameters = () => {
     [t, organizationId, workspaceId, setApplicationErrorMessage]
   );
 
+  const downloadDatasetPartFileData = useCallback(
+    async (parameterValue, setStatus) => {
+      const datasetPart = {
+        organizationId,
+        workspaceId,
+        datasetId: parameterValue.datasetId,
+        id: parameterValue.datasetPartId,
+        sourceName: getFileName(parameterValue),
+      };
+
+      try {
+        setStatus(FILE_STATUS.DOWNLOADING);
+        const data = await DatasetService.fetchDatasetPartData(datasetPart);
+        setStatus(FILE_STATUS.READY_TO_DOWNLOAD);
+        return data;
+      } catch (error) {
+        console.error(error);
+        const errorMessage = t('commoncomponents.banner.dataset', "Dataset hasn't been downloaded.");
+        setApplicationErrorMessage(error, errorMessage);
+      }
+    },
+    [t, organizationId, workspaceId, setApplicationErrorMessage]
+  );
+
   // Update internal data of file parameters based on their status (e.g. generate CSV files that will be uploaded)
   const processFilesToUpload = useCallback(() => {
     const parameterValues = getValues();
-
     const updateParameterValue = (parameterId, newValue) => {
       const currentValue = parameterValues[parameterId];
       setValue(parameterId, { ...currentValue, ...newValue });
@@ -95,7 +113,6 @@ export const useFileParameters = () => {
   const updateSavedFileParameters = useCallback(
     (createdDatasetParts, deletedDatasetPartIds) => {
       const parameterValues = getValues();
-
       const updateParameterValue = (parameterId, newValue) => {
         setValue(parameterId, { ...parameterValues[parameterId], ...newValue });
       };
@@ -108,8 +125,15 @@ export const useFileParameters = () => {
           updateParameterValue(parameterId, clearFileParameter(parameterValue));
 
         const createdDatasetPart = createdDatasetParts.find((part) => part.name === parameterId);
-        if (createdDatasetPart)
-          updateParameterValue(parameterId, forgeFileParameterFromDatasetPart(createdDatasetPart));
+        if (createdDatasetPart) {
+          updateParameterValue(parameterId, {
+            parameterId: createdDatasetPart.name,
+            datasetId: createdDatasetPart.datasetId,
+            datasetPartId: createdDatasetPart.id,
+            name: createdDatasetPart.sourceName,
+            status: FILE_STATUS.READY_TO_DOWNLOAD,
+          });
+        }
       }
     },
     [setValue, getValues, solution]
@@ -117,6 +141,7 @@ export const useFileParameters = () => {
 
   return {
     downloadDatasetPartFile,
+    downloadDatasetPartFileData,
     processFilesToUpload,
     updateSavedFileParameters,
   };

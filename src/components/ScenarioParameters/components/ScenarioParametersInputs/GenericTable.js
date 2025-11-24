@@ -8,8 +8,9 @@ import equal from 'fast-deep-equal';
 import rfdc from 'rfdc';
 import { AgGridUtils, FileBlobUtils } from '@cosmotech/core';
 import { Table, TABLE_DATA_STATUS, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
+import { useFileParameters } from '../../../../hooks/FileParameterHooks';
 import { Api } from '../../../../services/config/Api';
-import { useFindDatasetById, useDatasets } from '../../../../state/datasets/hooks.js';
+import { useFindDatasetById } from '../../../../state/datasets/hooks.js';
 import { useOrganizationId } from '../../../../state/organizations/hooks';
 import { useWorkspaceId } from '../../../../state/workspaces/hooks.js';
 import { gridLight, gridDark } from '../../../../theme/';
@@ -49,10 +50,10 @@ export const GenericTable = ({
   resetParameterValue,
   isDirty = false,
 }) => {
+  const { downloadDatasetPartFileData } = useFileParameters();
   const { t } = useTranslation();
   const organizationId = useOrganizationId();
   const workspaceId = useWorkspaceId();
-  const datasets = useDatasets();
   const findDatasetById = useFindDatasetById();
   const scenarioId = useSelector((state) => state.scenario?.current?.data?.id);
   const canChangeRowsNumber = ConfigUtils.getParameterAttribute(parameterData, 'canChangeRowsNumber') ?? false;
@@ -119,11 +120,11 @@ export const GenericTable = ({
     ),
   };
 
-  const columns = AgGridUtils.getColumnsWithHeaderName(ConfigUtils.getParameterAttribute(parameterData, 'columns'));
-  const dateFormat = ConfigUtils.getParameterAttribute(parameterData, 'dateFormat') || DEFAULT_DATE_FORMAT;
-  const options = useMemo(() => {
-    return { dateFormat };
-  }, [dateFormat]);
+  const { columns, options } = useMemo(() => {
+    const columns = AgGridUtils.getColumnsWithHeaderName(ConfigUtils.getParameterAttribute(parameterData, 'columns'));
+    const dateFormat = ConfigUtils.getParameterAttribute(parameterData, 'dateFormat') ?? DEFAULT_DATE_FORMAT;
+    return { columns, options: { dateFormat } };
+  }, [parameterData]);
 
   const isUnmount = useRef(false);
   const gridRef = useRef(null);
@@ -353,7 +354,6 @@ export const GenericTable = ({
   const _downloadDatasetFileContentFromStorage = async (
     organizationId,
     workspaceId,
-    datasets,
     clientFileDescriptor,
     setClientFileDescriptor
   ) => {
@@ -373,14 +373,7 @@ export const GenericTable = ({
     }
     GenericTable.downloadLocked[lockId] = true;
 
-    const datasetId = clientFileDescriptor.id;
-    const data = await FileManagementUtils.downloadFileData(
-      organizationId,
-      workspaceId,
-      datasets,
-      datasetId,
-      setClientFileDescriptorStatusesWithReset
-    );
+    const data = await downloadDatasetPartFileData(clientFileDescriptor, setClientFileDescriptorStatusesWithReset);
 
     if (data) {
       const fileName = clientFileDescriptor.name;
@@ -637,18 +630,13 @@ export const GenericTable = ({
   // Trigger dataset download only when mounting the component
   useEffect(() => {
     if (
-      parameter.id &&
+      parameter.datasetId &&
+      parameter.datasetPartId &&
       !parameter.serializedData &&
       parameter.status === UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD &&
       !alreadyDownloaded
     ) {
-      _downloadDatasetFileContentFromStorage(
-        organizationId,
-        workspaceId,
-        datasets,
-        parameter,
-        updateParameterValueWithReset
-      );
+      _downloadDatasetFileContentFromStorage(organizationId, workspaceId, parameter, updateParameterValueWithReset);
     } else if (
       isDataFetchedFromDataset &&
       !parameter.serializedData &&
@@ -774,7 +762,7 @@ export const GenericTable = ({
         gridRef={gridRef}
         labels={tableLabels}
         tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
-        dateFormat={dateFormat}
+        dateFormat={options.dateFormat}
         editMode={context.editMode}
         dataStatus={parameter.displayStatus || TABLE_DATA_STATUS.EMPTY}
         errors={parameter.errors}

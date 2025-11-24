@@ -46,10 +46,10 @@ export const useUpdateParameters = () => {
   }, [currentScenario?.parametersValues, rhfParametersValues, runTemplateParametersIds, solution]);
 
   const saveParameterValues = useCallback(async () => {
-    const parametersValues = getValues(); // Make sure we get the latest values from RHF state
     processFilesToUpload();
 
     const runnerParameterDatasetId = currentScenario.datasets?.parameter;
+    const parametersValues = getValues(); // Make sure we get the latest values from RHF state, after files processing
     const parametersForUpdateRequest = ScenarioParametersUtils.buildParametersForUpdateRequest(
       solution,
       parametersValues,

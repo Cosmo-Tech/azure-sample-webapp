@@ -22,6 +22,7 @@ import { UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
 //     serializedData: processed data received or ready to be uploaded (can be null when data has not been edited)
 //     displayData: local data for visualization and edition (can be null if parameter does not need custom UI view)
 //     displayStatus: table status defined by TABLE_DATA_STATUS (can be null if parameter does not need custom UI view)
+//     errors: optional list of error objects related (e.g. to be displayed after a failed import)
 //   }
 
 export const getFileName = (fileParameterValue) => {

@@ -58,12 +58,17 @@ const deleteDatasetPart = async (organizationId, workspaceId, datasetId, dataset
 };
 
 const downloadDatasetPart = async (datasetPart) => {
-  const { organizationId, workspaceId, datasetId, id, sourceName } = datasetPart;
+  const data = await fetchDatasetPartData(datasetPart);
+  FileBlobUtils.downloadFileFromData(data, datasetPart.sourceName);
+  return data;
+};
+
+const fetchDatasetPartData = async (datasetPart) => {
+  const { organizationId, workspaceId, datasetId, id } = datasetPart;
   const { data, status } = await Api.Datasets.downloadDatasetPart(organizationId, workspaceId, datasetId, id);
   if (status !== 200) {
     throw new Error(`Error when downloading dataset part "${id}" in dataset "${datasetId}"`);
   }
-  FileBlobUtils.downloadFileFromData(data, sourceName);
   return data;
 };
 
@@ -77,6 +82,7 @@ const DatasetService = {
   createDatasetPart,
   deleteDatasetPart,
   downloadDatasetPart,
+  fetchDatasetPartData,
 };
 
 export default DatasetService;
