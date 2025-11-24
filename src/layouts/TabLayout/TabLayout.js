@@ -1,30 +1,24 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { CircleArrowRight } from 'lucide-react';
-import React, { Fragment, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
+import React, { useEffect } from 'react';
 import { useLocation, Outlet, useParams, useNavigate } from 'react-router-dom';
-import { Box, Stack } from '@mui/material';
+import { Box, Breadcrumbs, Link as MuiLink, Stack } from '@mui/material';
 import { ApplicationErrorBanner } from '../../components';
 import { AppBar } from '../../components/AppBar';
-import { BreadcrumbItem } from '../../components/AppBar/components/BreadcrumbItem';
 import { MainNavigation } from '../../components/MainNavigation';
-import { useMainNavigation } from '../../components/MainNavigation/MainNavigationHook';
-import { useCurrentSimulationRunner, useGetRunner } from '../../state/runner/hooks';
+import { useGetRunner } from '../../state/runner/hooks';
 import { useSelectWorkspace, useWorkspace } from '../../state/workspaces/hooks';
 
 export const TabLayout = () => {
   const location = useLocation();
   const currentTabPathname = location?.pathname;
-  const { t } = useTranslation();
+
   const routerParameters = useParams();
   sessionStorage.removeItem('providedUrlBeforeSignIn');
   const currentWorkspace = useWorkspace();
   const navigate = useNavigate();
   const selectWorkspace = useSelectWorkspace();
   const getScenario = useGetRunner();
-  const currentScenario = useCurrentSimulationRunner();
-  const { activeSection } = useMainNavigation();
 
   useEffect(() => {
     if (currentWorkspace?.status === 'ERROR') {
@@ -54,38 +48,31 @@ export const TabLayout = () => {
   );
 
   const BreadcrumbBar = () => (
-    <AppBar currentScenario={currentScenario}>
-      {currentWorkspace.data ? (
-        <Fragment>
-          <BreadcrumbItem href={`/${currentWorkspace?.data?.id}`} maxWidth="33%">
-            {currentWorkspace?.data?.name}
-          </BreadcrumbItem>
-          <CircleArrowRight size={14} />
-          <BreadcrumbItem href="/scenarios" maxWidth="33%">
-            {activeSection}
-          </BreadcrumbItem>
-        </Fragment>
-      ) : (
-        <Box>{t('genericcomponent.workspaceselector.homebutton')}</Box>
-      )}
+    <Breadcrumbs aria-label="breadcrumb" sx={{ padding: 2 }}>
+      <MuiLink underline="hover" color="inherit" href="/">
+        Workspaces
+      </MuiLink>
+      <MuiLink underline="hover" color="inherit" href="/">
+        Overall
+      </MuiLink>
+      <MuiLink underline="hover" color="inherit" href="/">
+        Main
+      </MuiLink>
+    </Breadcrumbs>
+  );
+  const StatusBar = () => (
+    <AppBar position="static" color="default" sx={{ boxShadow: 'none' }}>
+      <Box sx={{ pl: 2 }}>StatusBar</Box>
     </AppBar>
   );
 
   return (
-    <Stack direction="row" sx={{ flexGrow: 1 }}>
-      <MainNavigation
-        onSectionChange={(sectionId) => {
-          if (!currentWorkspace?.data?.id) return;
-          const workspaceId = currentWorkspace.data.id;
-
-          if (sectionId === 'data') navigate(`/${workspaceId}/datasets`);
-          if (sectionId === 'scenarios') navigate(`/${workspaceId}/scenarios`);
-          if (sectionId === 'scorecard') navigate(`/${workspaceId}/scorecard`);
-        }}
-      />
+    <Stack direction="row" sx={{ flexGrow: 1 }} spacing={2}>
+      <MainNavigation activeSection="scenarios" />
       <Stack direction="column" sx={{ flexGrow: 1 }}>
         <ApplicationErrorBanner />
         <BreadcrumbBar />
+        <StatusBar />
         <Stack direction="row" spacing={2}>
           <MainPage />
         </Stack>
