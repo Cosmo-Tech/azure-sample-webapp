@@ -127,6 +127,13 @@ export const PERMISSIONS = {
     WRITE_SECURITY: 'write_security',
     DELETE: 'delete',
   },
+  DATASET: {
+    READ: 'read',
+    READ_SECURITY: 'read_security',
+    WRITE: 'write',
+    WRITE_SECURITY: 'write_security',
+    DELETE: 'delete',
+  },
   RUNNER: {
     READ: 'read',
     READ_SECURITY: 'read_security',

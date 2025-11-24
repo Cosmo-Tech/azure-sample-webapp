@@ -16,7 +16,7 @@ const clone = rfdc();
 const patchedState = clone(DEFAULT_REDUX_STATE);
 patchedState.dataset.list.data.forEach((dataset) => {
   dataset.security = {
-    accessControlList: ['dev.sample.webapp@example.com'],
+    accessControlList: [{ id: 'dev.sample.webapp@example.com', role: 'admin' }],
     currentUserPermissions: ['read', 'read_security', 'write', 'write_security', 'delete'],
   };
 });
