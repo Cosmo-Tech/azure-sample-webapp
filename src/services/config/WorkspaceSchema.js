@@ -4,6 +4,8 @@ import { z } from 'zod';
 import { SchemasUtils } from '../../utils/schemas/SchemasUtils';
 import { CUSTOM_WEB_APP_OPTIONS } from '../../utils/schemas/custom/customWorkspaceOptions';
 
+z.config({ jitless: true });
+
 const LABELS_DICT = z.array(z.looseObject({}));
 const TWINGRAPH_INDICATOR = z.strictObject({ id: z.string(), name: LABELS_DICT, queryId: z.string() });
 const WORKSPACE_EDIT_INFO_TYPE = z.strictObject({ timestamp: z.number().optional().nullable(), userId: z.string() });

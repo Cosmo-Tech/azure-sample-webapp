@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 import { z } from 'zod';
 
+z.config({ jitless: true });
+
 const getCustomOptionsZodObject = (optionsList = []) => {
   let customOptions = {};
   if (Array.isArray(optionsList))

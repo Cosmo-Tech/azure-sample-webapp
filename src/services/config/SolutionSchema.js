@@ -7,6 +7,8 @@ import {
   CUSTOM_SCENARIO_PARAMETERS_OPTIONS,
 } from '../../utils/schemas/custom/customSolutionOptions';
 
+z.config({ jitless: true });
+
 const SOLUTION_EDIT_INFO_TYPE = z.strictObject({ timestamp: z.number().optional().nullable(), userId: z.string() });
 
 const basicColumnField = z
