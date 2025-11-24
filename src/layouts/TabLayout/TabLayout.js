@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, useLocation, useMatch, Outlet, useParams, useNavigate } from 'react-router-dom';
+import { Link as reactLink, useLocation, useMatch, Outlet, useParams, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Tabs as MuiTabs, Tab, Box } from '@mui/material';
+import { Tabs as MuiTabs, Tab, Box, Breadcrumbs, Link, Container, Stack } from '@mui/material';
 import { filterTabsForCurrentWorkspace } from '../../AppLayout';
 import { ApplicationErrorBanner } from '../../components';
 import { AppBar } from '../../components/AppBar';
@@ -79,31 +79,42 @@ export const TabLayout = (props) => {
             `/${routerParameters.workspaceId}/${tab.to}`
           }
           label={t(tab.label, tab.key)}
-          component={Link}
+          component={reactLink}
           to={`${currentWorkspace?.data?.id}/${tab.to}`}
         />
       ))}
     </MuiTabs>
   );
 
+  const MainNavigation = () => <Box sx={{ width: '320px' }}>Main Navigation</Box>;
+  const BreadcrumbBar = () => (
+    <Breadcrumbs aria-label="breadcrumb" sx={{ padding: 2 }}>
+      <Link underline="hover" color="inherit" href="/">
+        Workspaces
+      </Link>
+      <Link underline="hover" color="inherit" href="/">
+        Overall
+      </Link>
+      <Link underline="hover" color="inherit" href="/">
+        Main
+      </Link>
+    </Breadcrumbs>
+  );
+  const StatusBar = () => (
+    <AppBar position="static" color="default" sx={{ boxShadow: 'none' }}>
+      {viewTabs}
+    </AppBar>
+  );
+
   return currentWorkspace?.data ? (
-    <>
-      <DashboardsManager />
-      <AppBar>{viewTabs}</AppBar>
-      <Box
-        sx={{
-          height: 'calc(100% - 48px)',
-          paddingTop: (theme) => theme.spacing(0),
-          paddingLeft: (theme) => theme.spacing(0),
-          paddingRight: (theme) => theme.spacing(0),
-          paddingBottom: (theme) => theme.spacing(0),
-          boxSizing: 'border-box',
-        }}
-      >
-        <ApplicationErrorBanner />
-        <Outlet />
-      </Box>
-    </>
+    <Stack direction="row" spacing={2}>
+      <MainNavigation />
+      <Stack direction="column" sx={{ flexGrow: 1 }}>
+        <BreadcrumbBar />
+        <StatusBar />
+        <Stack direction="row" spacing={2}></Stack>
+      </Stack>
+    </Stack>
   ) : null;
 };
 
