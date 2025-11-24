@@ -5,7 +5,7 @@ export const DEFAULT_DATASET = {
   organizationId: 'O-stbdorgztn',
   parentId: null,
   twingraphId: 't-stbdtwngrph',
-  main: false,
+  additionalData: { webapp: {} },
   id: 'D-stbdefault',
   name: 'Local file dataset',
   description: 'Local file dataset description',

@@ -5,7 +5,7 @@ import { DEFAULT_DATASET } from '../default';
 
 export const NON_EDITABLE_DATASET = {
   ...DEFAULT_DATASET,
-  main: true,
+  additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
   id: 'd-noneditable',
   name: 'non editable dataset',
   ingestionStatus: 'SUCCESS',
@@ -16,7 +16,7 @@ export const NON_EDITABLE_DATASET = {
 
 export const EDITABLE_DATASET = {
   ...DEFAULT_DATASET,
-  main: true,
+  additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
   id: 'd-editable',
   name: 'editable dataset',
   ingestionStatus: 'SUCCESS',

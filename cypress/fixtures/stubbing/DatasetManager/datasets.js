@@ -13,7 +13,7 @@ const EDITABLE_DATASET = {
 
 const FILE_DATASET_MAIN_A = {
   ...EDITABLE_DATASET,
-  main: true,
+  additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
   id: 'D-stbdataset1',
   name: 'Dataset A',
   description: 'main dataset A from local file',
@@ -21,7 +21,7 @@ const FILE_DATASET_MAIN_A = {
 };
 const FILE_DATASET_MAIN_B = {
   ...EDITABLE_DATASET,
-  main: true,
+  additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
   id: 'D-stbdataset2',
   name: 'Dataset B',
   description: 'main dataset B from local file',
@@ -37,7 +37,7 @@ const FILE_DATASET_NON_MAIN = {
 
 const ETL_DATASET = {
   ...EDITABLE_DATASET,
-  main: true,
+  additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
   id: 'D-stbdataset13',
   parentId: 'D-stbdataset2',
   name: 'Dataset ETL',
@@ -54,7 +54,7 @@ const ETL_DATASET = {
 
 const SUBDATASET = {
   ...EDITABLE_DATASET,
-  main: true,
+  additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
   id: 'D-stbdataset14',
   name: 'Subdataset',
   description: 'ETL dataset',
@@ -71,7 +71,7 @@ const SUBDATASET = {
 const DATASET_AMSTERDAM = {
   ...EDITABLE_DATASET,
   id: 'D-stbdataset3',
-  main: true,
+  additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
   name: 'Dataset Amsterdam',
   tags: ['size-m', 'random'],
 };
@@ -79,7 +79,7 @@ const DATASET_AMSTERDAM = {
 const DATASET_BARCELONA = {
   ...EDITABLE_DATASET,
   id: 'D-stbdataset4',
-  main: true,
+  additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
   name: 'Dataset Barcelona',
   tags: ['size-l', 'random'],
 };
@@ -87,7 +87,7 @@ const DATASET_BARCELONA = {
 const DATASET_CAMBRIDGE = {
   ...EDITABLE_DATASET,
   id: 'D-stbdataset5',
-  main: true,
+  additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
   name: 'Dataset Cambridge',
   tags: ['size-xl', 'random'],
 };
@@ -95,7 +95,7 @@ const DATASET_CAMBRIDGE = {
 const DATASET_DUSSELDORF = {
   ...EDITABLE_DATASET,
   id: 'D-stbdataset6',
-  main: true,
+  additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
   name: 'Dataset Dusseldorf',
   tags: ['size-2xl'],
 };
@@ -103,7 +103,7 @@ const DATASET_DUSSELDORF = {
 const DATASET_EDINBURGH = {
   ...EDITABLE_DATASET,
   id: 'D-stbdataset7',
-  main: true,
+  additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
   name: 'Dataset Edinburgh',
   tags: ['size-3xl', 'random'],
 };
@@ -111,7 +111,7 @@ const DATASET_EDINBURGH = {
 const DATASET_AZURE_STORAGE = {
   ...EDITABLE_DATASET,
   id: 'D-stbdataset9',
-  main: true,
+  additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
   name: 'Dataset Azure Storage',
   sourceType: 'AzureStorage',
   source: { location: 'azureStorageLocation', name: 'containerName', path: 'azure/storage/path' },
@@ -122,7 +122,7 @@ const DATASET_AZURE_STORAGE = {
 const DATASET_FROM_SCRATCH = {
   ...EDITABLE_DATASET,
   id: 'D-stbdataset10',
-  main: true,
+  additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
   name: 'Dataset From Scratch',
   sourceType: 'None',
   source: {},
@@ -132,7 +132,7 @@ const DATASET_FROM_SCRATCH = {
 const DATASET_TWINGRAPH_A = {
   ...EDITABLE_DATASET,
   id: 'D-stbdataset11',
-  main: true,
+  additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
   name: 'Dataset with twingraph A',
   sourceType: 'Twincache',
   twincacheStatus: 'FULL',
@@ -141,7 +141,7 @@ const DATASET_TWINGRAPH_A = {
 const DATASET_TWINGRAPH_B = {
   ...EDITABLE_DATASET,
   id: 'D-stbdataset12',
-  main: true,
+  additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
   name: 'Dataset with twingraph B',
   sourceType: 'Twincache',
   twincacheStatus: 'FULL',
