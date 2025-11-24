@@ -103,6 +103,13 @@ const basicWebAppOptions = z.strictObject({
     })
     .optional()
     .nullable(),
+  solution: z
+    .strictObject({
+      runTemplateFilter: z.array(z.string().optional().nullable()).optional().nullable(),
+      defaultRunTemplateDataset: z.string().optional().nullable(),
+    })
+    .optional()
+    .nullable(),
   menu: z
     .strictObject({
       documentationUrl: z.string().optional().nullable(),
@@ -181,8 +188,6 @@ export const WorkspaceSchema = z
         datasetId: z.string().optional().nullable(),
         defaultParameterValues: z.looseObject({}).optional().nullable(),
         solutionId: z.string().optional().nullable(),
-        runTemplateFilter: z.array(z.string().optional().nullable()).optional().nullable(),
-        defaultRunTemplateDataset: z.looseObject({}).optional().nullable(),
       })
       .optional()
       .nullable(),
