@@ -21,13 +21,21 @@ const AppRoutes = () => {
       <>
         <Route path="/" element={<Navigate to={redirectPath} replace />} />
         <Route
-          path="/workspaces"
           element={
             <UserStatusGate>
-              <Workspaces />
+              <TabLayout />
             </UserStatusGate>
           }
-        />
+        >
+          <Route
+            path="/workspaces"
+            element={
+              <UserStatusGate>
+                <Workspaces />
+              </UserStatusGate>
+            }
+          />
+        </Route>
         <Route
           path=":workspaceId"
           element={
@@ -39,7 +47,7 @@ const AppRoutes = () => {
         <Route
           element={
             <UserStatusGate>
-              <TabLayout tabs={tabs} />
+              <TabLayout />
             </UserStatusGate>
           }
         >
