@@ -6,10 +6,8 @@ import PropTypes from 'prop-types';
 import { Box, Drawer, IconButton } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import ConfigService from '../../services/ConfigService';
-import { useApplicationTheme } from '../../state/app/hooks';
-import { useUserEmail, useUserProfilePic } from '../../state/auth/hooks';
-import { useRunners } from '../../state/runner/hooks';
 import { pictureDark, pictureLight } from '../../theme';
+import { useMainNavigation } from './MainNavigationHook';
 import { NavigationSection } from './components/NavigationSection';
 import { ScenarioList } from './components/ScenarioList';
 import { UserMenu } from './components/UserMenu';
@@ -25,20 +23,21 @@ const NAVIGATION_SECTIONS = [
   { id: 'scorecard', label: 'Scorecard', icon: ClipboardList },
 ];
 
-export const MainNavigation = ({
-  activeSection,
-  activeScenarioId,
-  onSectionChange,
-  onScenarioChange,
-  onDrawerWidthChange,
-  scenarios: scenariosProp,
-}) => {
-  const userEmail = useUserEmail();
-  const userProfilePic = useUserProfilePic();
-  const { isDarkTheme } = useApplicationTheme();
+export const MainNavigation = ({ activeSection, onSectionChange, onDrawerWidthChange }) => {
   const theme = useTheme();
-  const scenariosFromHook = useRunners();
-  const scenarios = scenariosProp ?? scenariosFromHook ?? [];
+
+  const {
+    sortedScenarioList,
+    workspaceId,
+    changeScenario,
+    isSwitchingScenario,
+    noScenario,
+    currentScenarioData,
+    userEmail,
+    userName,
+    userProfilePic,
+    isDarkTheme,
+  } = useMainNavigation();
 
   const [isCollapsed, setIsCollapsed] = useState(localStorage.getItem(STORAGE_NAV_COLLAPSED_KEY) === 'true');
   const [userMenuAnchor, setUserMenuAnchor] = useState(null);
@@ -97,17 +96,6 @@ export const MainNavigation = ({
     };
   }, []);
 
-  const userName = useMemo(() => {
-    if (userEmail) {
-      const parts = userEmail.split('@')[0].split('.');
-      if (parts.length >= 2) {
-        return parts.map((p) => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
-      }
-      return userEmail.split('@')[0];
-    }
-    return 'Anonymous';
-  }, [userEmail]);
-
   const handleUserMenuClick = (e) => {
     e.stopPropagation();
     setUserMenuAnchor(e.currentTarget);
@@ -124,6 +112,55 @@ export const MainNavigation = ({
 
   const topSections = NAVIGATION_SECTIONS.filter((s) => s.id !== 'scorecard');
   const bottomSections = NAVIGATION_SECTIONS.filter((s) => s.id === 'scorecard');
+
+  const navigationItems = useMemo(
+    () => (
+      <>
+        <NavigationSection
+          sections={topSections}
+          activeSection={activeSection}
+          onSectionChange={onSectionChange}
+          isCollapsed={isCollapsed}
+        />
+
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            overflow: 'hidden',
+            minHeight: 0,
+            position: 'relative',
+          }}
+        >
+          <ScenarioList
+            disabled={isSwitchingScenario || noScenario}
+            scenarios={sortedScenarioList}
+            activeScenarioId={currentScenarioData?.id}
+            onScenarioChange={changeScenario}
+            isCollapsed={isCollapsed}
+          />
+          <NavigationSection
+            sections={bottomSections}
+            activeSection={activeSection}
+            onSectionChange={onSectionChange}
+            isCollapsed={isCollapsed}
+          />
+        </Box>
+      </>
+    ),
+    [
+      activeSection,
+      onSectionChange,
+      isCollapsed,
+      sortedScenarioList,
+      changeScenario,
+      isSwitchingScenario,
+      noScenario,
+      currentScenarioData,
+      topSections,
+      bottomSections,
+    ]
+  );
 
   return (
     <Drawer
@@ -196,7 +233,6 @@ export const MainNavigation = ({
           {isCollapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
         </IconButton>
       </Box>
-
       <Box
         sx={{
           flex: 1,
@@ -207,38 +243,8 @@ export const MainNavigation = ({
           paddingTop: isCollapsed ? 2 : 8,
         }}
       >
-        <NavigationSection
-          sections={topSections}
-          activeSection={activeSection}
-          onSectionChange={onSectionChange}
-          isCollapsed={isCollapsed}
-        />
-
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            overflow: 'hidden',
-            minHeight: 0,
-            position: 'relative',
-          }}
-        >
-          <ScenarioList
-            scenarios={scenarios}
-            activeScenarioId={activeScenarioId}
-            onScenarioChange={onScenarioChange}
-            isCollapsed={isCollapsed}
-          />
-
-          <NavigationSection
-            sections={bottomSections}
-            activeSection={activeSection}
-            onSectionChange={onSectionChange}
-            isCollapsed={isCollapsed}
-          />
-        </Box>
+        {workspaceId != null && navigationItems}
       </Box>
-
       <UserProfile
         userName={userName}
         userEmail={userEmail}
@@ -247,7 +253,6 @@ export const MainNavigation = ({
         onUserMenuClick={handleUserMenuClick}
         isUserMenuOpen={isUserMenuOpen}
       />
-
       <UserMenu
         anchorEl={userMenuAnchor}
         open={isUserMenuOpen}
@@ -279,10 +284,7 @@ MainNavigation.propTypes = {
 
 MainNavigation.defaultProps = {
   activeSection: 'data',
-  activeScenarioId: null,
   onSectionChange: undefined,
-  onScenarioChange: undefined,
   onUserMenuClick: undefined,
   onDrawerWidthChange: undefined,
-  scenarios: undefined,
 };
