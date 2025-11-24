@@ -33,15 +33,10 @@ export function* updateDatasetSecurity(action) {
     );
 
     const datasetUpdated = { ...dataset, security: { ...newDatasetSecurity, currentUserPermissions } };
-    yield put(
-      updateDataset({
-        datasetId,
-        datasetData: datasetUpdated,
-      })
-    );
+    yield put(updateDataset({ datasetId, datasetData: datasetUpdated }));
 
-    if (dataset.sourceType === 'ETL') {
-      const runnerId = dataset.createInfo?.runnerId;
+    if (dataset.additionalData?.webapp?.sourceType === 'ETL') {
+      const runnerId = dataset.additionalData?.webapp?.runnerId;
       try {
         if (runnerId != null) {
           yield call(

@@ -6,7 +6,7 @@ import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import { Card, Grid, IconButton, Tooltip } from '@mui/material';
 import { PermissionsGate, TagsEditor } from '@cosmotech/ui';
 import { ACL_PERMISSIONS } from '../../../../services/config/accessControl';
-import { ApiUtils } from '../../../../utils';
+import { ApiUtils, DatasetsUtils } from '../../../../utils';
 import { useDatasetMetadata } from './DatasetMetadataHook';
 import { DescriptionEditor, MetadataItem } from './components';
 
@@ -106,14 +106,18 @@ export const DatasetMetadata = () => {
         <MetadataItem
           id="author"
           label={t('commoncomponents.datasetmanager.metadata.author', 'Author')}
-          value={dataset?.createInfo?.userId ?? t('commoncomponents.datasetmanager.metadata.unknown', 'unknown')}
+          value={
+            DatasetsUtils.getDatasetOption(dataset, 'ownerName') ??
+            dataset?.createInfo?.userId ??
+            t('commoncomponents.datasetmanager.metadata.unknown', 'unknown')
+          }
         ></MetadataItem>
         <MetadataItem
           id="creation-date"
           label={t('commoncomponents.datasetmanager.metadata.creationDate', 'Creation date')}
           value={
             dataset?.createInfo?.timestamp &&
-            new Date(dataset?.createInfo?.timestamp)?.toLocaleDateString('en-US', { timeZone: 'UTC' })
+            new Date(dataset?.createInfo?.timestamp)?.toLocaleString('en-US', { timeZone: 'UTC' })
           }
         ></MetadataItem>
         <MetadataItem
@@ -121,14 +125,13 @@ export const DatasetMetadata = () => {
           label={t('commoncomponents.datasetmanager.metadata.refreshDate', 'Last refresh')}
           value={
             dataset?.updateInfo?.timestamp &&
-            new Date(dataset?.updateInfo?.timestamp)?.toLocaleDateString('en-US', { timeZone: 'UTC' })
+            new Date(dataset?.updateInfo?.timestamp)?.toLocaleString('en-US', { timeZone: 'UTC' })
           }
         ></MetadataItem>
-        {/* // FIXME: read sourceType from additionalData when it's available */}
         <MetadataItem
           id="source-type"
           label={t('commoncomponents.datasetmanager.metadata.sourceType', 'Source')}
-          value={etlDatasetRunTemplateName || dataset?.sourceType}
+          value={etlDatasetRunTemplateName || dataset?.additionalData?.webapp?.sourceType}
         ></MetadataItem>
         <MetadataItem
           id="api-url"

@@ -9,8 +9,7 @@ const findDatasetById = (organizationId, workspaceId, datasetId) => {
 };
 
 const createNoneTypeDataset = (organizationId, workspaceId, name, description, tags, main = false) => {
-  // FIXME: write sourceType in additionalData when it's available
-  const newDataset = { name, description, tags, main, sourceType: 'None' };
+  const newDataset = { name, description, tags, main, additionalData: { webapp: { sourceType: 'None' } } };
   return Api.Datasets.createDataset(organizationId, workspaceId, newDataset);
 };
 
