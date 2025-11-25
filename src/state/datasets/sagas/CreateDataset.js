@@ -58,9 +58,6 @@ export function* createDataset({ dataset, files, shouldSelectDataset }) {
 
     const userEmail = yield select(getUserEmail);
     DatasetsUtils.patchDatasetWithCurrentUserPermissions(createdDataset, userEmail, DATASET_PERMISSIONS_MAPPING);
-
-    // TODO: manage status?
-    // ingestionStatus: dataset.additionalData.webapp.sourceType !== 'None' ? INGESTION_STATUS.PENDING vs. NONE,
     yield put(addDataset(createdDataset));
 
     if (shouldSelectDataset) yield put(selectDataset({ selectedDatasetId: createdDataset.id }));

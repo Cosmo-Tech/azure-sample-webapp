@@ -18,7 +18,8 @@ import {
 } from '@mui/material';
 import { ResourceUtils } from '@cosmotech/core';
 import { PermissionsGate, SearchBar } from '@cosmotech/ui';
-import { INGESTION_STATUS } from '../../../../services/config/ApiConstants';
+import { useGetDatasetRunnerStatus } from '../../../../hooks/DatasetRunnerHooks';
+import { RUNNER_RUN_STATE } from '../../../../services/config/ApiConstants';
 import { ACL_PERMISSIONS } from '../../../../services/config/accessControl';
 import { CreateDatasetButton } from '../CreateDatasetButton';
 import { DeleteDatasetButton } from '../DeleteDatasetButton/DeleteDatasetButton';
@@ -42,6 +43,7 @@ export const Root = styled(Paper)(({ theme }) => ({
 
 export const DatasetList = () => {
   const { t } = useTranslation();
+  const getDatasetRunnerStatus = useGetDatasetRunnerStatus();
   const { userPermissionsInCurrentOrganization, datasets, currentDataset, selectDataset } = useDatasetList();
 
   const sortedDatasetList = useMemo(() => {
@@ -85,26 +87,29 @@ export const DatasetList = () => {
     </Box>
   );
 
-  const getDatasetListItemActions = useCallback((dataset) => {
-    const statusIcon =
-      dataset.ingestionStatus === INGESTION_STATUS.PENDING ? (
-        <CircularProgress data-cy={`refresh-spinner-${dataset.id}`} size="1rem" color="inherit" />
-      ) : dataset.ingestionStatus === INGESTION_STATUS.ERROR ? (
-        <ErrorIcon data-cy={`refresh-error-icon-${dataset.id}`} color="error" />
-      ) : null;
+  const getDatasetListItemActions = useCallback(
+    (dataset) => {
+      const datasetStatus = getDatasetRunnerStatus(dataset);
+      let statusIcon = null;
+      if (datasetStatus === RUNNER_RUN_STATE.RUNNING)
+        statusIcon = <CircularProgress data-cy={`refresh-spinner-${dataset.id}`} size="1rem" color="inherit" />;
+      else if (datasetStatus === RUNNER_RUN_STATE.FAILED)
+        statusIcon = <ErrorIcon data-cy={`refresh-error-icon-${dataset.id}`} color="error" />;
 
-    const ignoreClick = (event) => {
-      event.preventDefault();
-      event.stopPropagation();
-    };
+      const ignoreClick = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+      };
 
-    return (
-      <Box onClick={ignoreClick} style={{ display: 'flex', flexDirection: 'row' }}>
-        <div style={{ display: 'inline-flex', padding: '8px', verticalAlign: 'middle' }}>{statusIcon}</div>
-        <DeleteDatasetButton dataset={dataset} location="" />
-      </Box>
-    );
-  }, []);
+      return (
+        <Box onClick={ignoreClick} style={{ display: 'flex', flexDirection: 'row' }}>
+          <div style={{ display: 'inline-flex', padding: '8px', verticalAlign: 'middle' }}>{statusIcon}</div>
+          <DeleteDatasetButton dataset={dataset} location="" />
+        </Box>
+      );
+    },
+    [getDatasetRunnerStatus]
+  );
 
   return (
     <Root>

@@ -3,7 +3,7 @@
 import { t } from 'i18next';
 import { put, takeEvery, call, select } from 'redux-saga/effects';
 import { Api } from '../../../services/config/Api';
-import { INGESTION_STATUS } from '../../../services/config/ApiConstants';
+import { RUNNER_RUN_STATE } from '../../../services/config/ApiConstants';
 import { DatasetsUtils } from '../../../utils';
 import { setApplicationErrorMessage } from '../../app/reducers';
 import { updateDataset } from '../../datasets/reducers';
@@ -11,7 +11,7 @@ import { RUNNER_ACTIONS_KEY } from '../constants';
 
 const getDatasets = (state) => state.dataset?.list?.data;
 
-export function* stopRunner(action) {
+export function* stopETLRunner(action) {
   const datasetId = action.datasetId;
   const datasets = yield select(getDatasets);
   const dataset = datasets.find((dataset) => dataset.id === datasetId);
@@ -22,7 +22,8 @@ export function* stopRunner(action) {
     const workspaceId = action.workspaceId;
 
     yield call(Api.Runners.stopRun, organizationId, workspaceId, runnerId);
-    yield put(updateDataset({ datasetId, datasetData: { ingestionStatus: INGESTION_STATUS.ERROR } }));
+    // FIXME: force dataset runner status to failed in redux?
+    yield put(updateDataset({ datasetId, datasetData: { ingestionStatus: RUNNER_RUN_STATE.FAILED } }));
   } catch (error) {
     console.error(error);
     yield put(
@@ -36,8 +37,8 @@ export function* stopRunner(action) {
   }
 }
 
-function* stopRunnerSaga() {
-  yield takeEvery(RUNNER_ACTIONS_KEY.STOP_RUNNER, stopRunner);
+function* stopETLRunnerSaga() {
+  yield takeEvery(RUNNER_ACTIONS_KEY.STOP_ETL_RUNNER, stopETLRunner);
 }
 
-export default stopRunnerSaga;
+export default stopETLRunnerSaga;

@@ -6,9 +6,10 @@ import { useTranslation } from 'react-i18next';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import { Button, Grid } from '@mui/material';
 import { FadingTooltip, PermissionsGate } from '@cosmotech/ui';
+import { useGetDatasetRunnerStatus } from '../../../../../../hooks/DatasetRunnerHooks';
 import { useUpdateParameters } from '../../../../../../hooks/ScenarioParametersHooks';
 import { useUserAppAndCurrentScenarioPermissions } from '../../../../../../hooks/SecurityHooks';
-import { INGESTION_STATUS, RUNNER_RUN_STATE } from '../../../../../../services/config/ApiConstants';
+import { RUNNER_RUN_STATE } from '../../../../../../services/config/ApiConstants';
 import { ACL_PERMISSIONS } from '../../../../../../services/config/accessControl';
 import { useSetApplicationErrorMessage } from '../../../../../../state/app/hooks';
 import { useDatasets } from '../../../../../../state/datasets/hooks';
@@ -30,6 +31,7 @@ export const LaunchButton = () => {
   const launchScenario = useStartRunner();
   const userAppAndCurrentScenarioPermissions = useUserAppAndCurrentScenarioPermissions();
   const currentSimulationRunnerBaseDatasetIds = useCurrentSimulationRunnerBaseDatasetIds();
+  const getDatasetRunnerStatus = useGetDatasetRunnerStatus();
   const datasets = useDatasets();
 
   const isCurrentScenarioDatasetUnavailable = useMemo(() => {
@@ -37,10 +39,11 @@ export const LaunchButton = () => {
       const currentScenarioDataset = datasets?.find(
         (dataset) => dataset.id === currentSimulationRunnerBaseDatasetIds?.[0]
       );
-      return !currentScenarioDataset || currentScenarioDataset?.ingestionStatus === INGESTION_STATUS.ERROR;
+      const datasetRunnerStatus = getDatasetRunnerStatus(currentScenarioDataset);
+      return !currentScenarioDataset || datasetRunnerStatus === RUNNER_RUN_STATE.FAILED;
     }
     return false;
-  }, [currentSimulationRunnerBaseDatasetIds, datasets]);
+  }, [getDatasetRunnerStatus, currentSimulationRunnerBaseDatasetIds, datasets]);
 
   const isCurrentScenarioRunning = currentScenarioState === RUNNER_RUN_STATE.RUNNING;
   const launchCurrentScenario = useCallback(

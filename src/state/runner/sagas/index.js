@@ -7,6 +7,7 @@ import getAllSimulationRunnersSaga from './GetAllRunners';
 import getRunnerSaga from './GetRunner';
 import pollRunnerStateSaga from './PollRunnerState';
 import renameRunnerSaga from './RenameRunner';
+import startEtlRunnerSaga from './StartEtlRunner';
 import startRunnerSaga from './StartRunner';
 import stopRunnerSaga from './StopRunner';
 import stopSimulationRunnerSaga from './StopSimulationRunner';
@@ -22,6 +23,7 @@ export default function* runnerSaga() {
     fork(getRunnerSaga),
     fork(updateSimulationRunnerSaga),
     fork(updateAndStartRunnerSaga),
+    fork(startEtlRunnerSaga),
     fork(startRunnerSaga),
     fork(pollRunnerStateSaga),
     fork(stopRunnerSaga),

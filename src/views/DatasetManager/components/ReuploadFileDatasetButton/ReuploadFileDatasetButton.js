@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { Refresh as RefreshIcon } from '@mui/icons-material';
 import { Button, IconButton } from '@mui/material';
 import { FadingTooltip } from '@cosmotech/ui';
-import { INGESTION_STATUS } from '../../../../services/config/ApiConstants';
+import { RUNNER_RUN_STATE } from '../../../../services/config/ApiConstants';
 import { DatasetsUtils } from '../../../../utils';
 import { useReuploadFileDatasetButton } from './ReuploadFileDatasetButtonHook';
 
@@ -20,9 +20,10 @@ export const ReuploadFileDatasetButton = ({ confirmAndCallback, datasetId, disab
       const file = event.target.files[0];
       if (file == null) return;
 
+      // FIXME: use new dataset structure & endpoints to reupload files, and replace or remove ingestionStatus below
       const response = await DatasetsUtils.uploadZipWithFetchApi(organizationId, datasetId, file);
       if (response?.ok) {
-        updateDatasetInStore(datasetId, { ingestionStatus: INGESTION_STATUS.PENDING });
+        updateDatasetInStore(datasetId, { ingestionStatus: RUNNER_RUN_STATE.RUNNING });
         pollTwingraphStatus(datasetId);
       } else {
         let error = null;
@@ -34,7 +35,7 @@ export const ReuploadFileDatasetButton = ({ confirmAndCallback, datasetId, disab
           error,
           t('commoncomponents.banner.datasetFileReuploadFailed', 'The file upload for dataset update has failed')
         );
-        updateDatasetInStore(datasetId, { ingestionStatus: INGESTION_STATUS.ERROR });
+        updateDatasetInStore(datasetId, { ingestionStatus: RUNNER_RUN_STATE.FAILED });
       }
     },
     [datasetId, organizationId, pollTwingraphStatus, setApplicationErrorMessage, t, updateDatasetInStore]

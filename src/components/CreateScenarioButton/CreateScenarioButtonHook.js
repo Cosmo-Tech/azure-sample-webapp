@@ -3,7 +3,9 @@
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import rfdc from 'rfdc';
+import { useGetDatasetRunnerStatus } from '../../hooks/DatasetRunnerHooks';
 import { useWorkspaceDatasets } from '../../hooks/WorkspaceDatasetsHooks';
+import { RUNNER_RUN_STATE } from '../../services/config/ApiConstants.js';
 import { useUser } from '../../state/auth/hooks';
 import { useCreateSimulationRunner, useCurrentSimulationRunner, useRunners } from '../../state/runner/hooks';
 import { useScenarioRunTemplates, useSolution } from '../../state/solutions/hooks';
@@ -19,6 +21,7 @@ export const useCreateScenarioButton = ({ disabled, onScenarioCreated }) => {
   const { t } = useTranslation();
   const clone = rfdc();
 
+  const getDatasetRunnerStatus = useGetDatasetRunnerStatus();
   const userPermissionsOnCurrentWorkspace = useUserPermissionsOnCurrentWorkspace();
   const runTemplates = useScenarioRunTemplates();
   const defaultRunTemplateDataset = useDefaultRunTemplateDataset();
@@ -27,7 +30,12 @@ export const useCreateScenarioButton = ({ disabled, onScenarioCreated }) => {
   const workspaceData = useWorkspaceData();
   const workspaceId = workspaceData.id;
   const workspaceDatasets = useWorkspaceDatasets();
-  const usableDatasets = workspaceDatasets.filter(DatasetsUtils.isVisibleInScenarioCreation);
+
+  const usableDatasets = workspaceDatasets.filter((dataset) => {
+    if (!DatasetsUtils.isVisibleInScenarioCreation(dataset)) return false;
+    if (!DatasetsUtils.isCreatedByRunner(dataset)) return true; // Datasets not created by ETL are always usable
+    return getDatasetRunnerStatus(dataset) === RUNNER_RUN_STATE.SUCCESSFUL;
+  });
 
   const createScenarioOnBackend = useCreateSimulationRunner();
 

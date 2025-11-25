@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import { t } from 'i18next';
 import { delay, put, select, takeEvery } from 'redux-saga/effects';
-import { INGESTION_STATUS, TWINCACHE_STATUS } from '../../../services/config/ApiConstants';
+import { RUNNER_RUN_STATE } from '../../../services/config/ApiConstants';
 import { POLLING_START_DELAY, TWINGRAPH_STATUS_POLLING_DELAY } from '../../../services/config/FunctionalConstants';
 import { setApplicationErrorMessage } from '../../app/reducers';
 import { resetQueriesResults } from '../../datasetTwingraph/reducers';
@@ -12,8 +12,13 @@ import { updateDataset } from '../reducers';
 const getWorkspace = (state) => state.workspace.current?.data;
 const getDatasets = (state) => state.dataset?.list?.data ?? [];
 
+const isStillRunning = (status) =>
+  [RUNNER_RUN_STATE.SUCCESSFUL, RUNNER_RUN_STATE.FAILED, RUNNER_RUN_STATE.UNKNOWN].includes(status);
+
 export function* pollTwingraphStatus(action) {
-  let twingraphStatus = INGESTION_STATUS.PENDING;
+  const workspace = yield select(getWorkspace);
+
+  let twingraphStatus = RUNNER_RUN_STATE.RUNNING;
   const datasetId = action.datasetId;
   // const organizationId = action.organizationId;
   // Polling start is delayed to avoid an erroneous ERROR status due to the fact that, probably, the creation of
@@ -23,23 +28,20 @@ export function* pollTwingraphStatus(action) {
   try {
     do {
       // FIXME: twingraphs no longer exist, replace by new dataset query mechanism
-      const newStatus = INGESTION_STATUS.ERROR;
+      const newStatus = RUNNER_RUN_STATE.FAILED;
       // const { data: newStatus } = yield call(Api.Datasets.getDatasetTwingraphStatus, organizationId, datasetId);
 
-      if ([INGESTION_STATUS.SUCCESS, INGESTION_STATUS.ERROR, INGESTION_STATUS.UNKNOWN].includes(newStatus)) {
+      if (isStillRunning(newStatus)) {
         twingraphStatus = newStatus;
-        const datasetData = { ingestionStatus: newStatus };
-        if (newStatus === INGESTION_STATUS.SUCCESS) datasetData.twincacheStatus = TWINCACHE_STATUS.FULL;
-        yield put(updateDataset({ datasetId, datasetData }));
+        yield put(updateDataset({ datasetId, datasetData: { ingestionStatus: newStatus } }));
 
-        if (newStatus === INGESTION_STATUS.SUCCESS) {
-          const workspace = yield select(getWorkspace);
+        if (newStatus === RUNNER_RUN_STATE.SUCCESSFUL) {
           yield put(resetQueriesResults({ datasetId, workspace }));
         }
       } else {
         yield delay(TWINGRAPH_STATUS_POLLING_DELAY);
       }
-    } while (![INGESTION_STATUS.SUCCESS, INGESTION_STATUS.ERROR, INGESTION_STATUS.UNKNOWN].includes(twingraphStatus));
+    } while (!isStillRunning(twingraphStatus));
   } catch (error) {
     console.error(error);
     const datasets = yield select(getDatasets);

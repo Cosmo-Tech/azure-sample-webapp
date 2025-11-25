@@ -67,7 +67,7 @@ export const useDatasetCreationParameters = () => {
         }
         createDataset(dataset, files, true);
       } else {
-        const runner = { ...dataset };
+        const runner = { ...dataset, runTemplateId: sourceType };
         const escapedSourceType = SolutionsUtils.escapeRunTemplateId(sourceType);
         runner.parametersValues = SolutionsUtils.forgeRunnerParameters(solutionData, values[escapedSourceType]);
         createRunner(runner);

@@ -8,7 +8,6 @@ import { setApplicationErrorMessage } from '../../app/reducers';
 import { RUNNER_ACTIONS_KEY } from '../constants';
 import { updateSimulationRunner } from '../reducers';
 
-// generators function
 export function* stopSimulationRunner(action) {
   try {
     yield call(Api.Runners.stopRun, action.organizationId, action.workspaceId, action.runnerId);
@@ -34,10 +33,9 @@ export function* stopSimulationRunner(action) {
     );
   }
 }
-// generators function
-// Here is a watcher that takes EVERY action dispatched named STOP_SCENARIO_RUN
-// and binds stopScenarioRun saga to it
+
 function* stopSimulationRunnerSaga() {
   yield takeEvery(RUNNER_ACTIONS_KEY.STOP_SIMULATION_RUNNER, stopSimulationRunner);
 }
+
 export default stopSimulationRunnerSaga;

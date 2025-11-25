@@ -4,19 +4,22 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { CircularProgress, Grid, Typography } from '@mui/material';
+import { useGetDatasetRunnerStatus } from '../hooks/DatasetRunnerHooks';
 import { Api } from '../services/config/Api';
-import { INGESTION_STATUS } from '../services/config/ApiConstants';
+import { RUNNER_RUN_STATE } from '../services/config/ApiConstants';
 import { setApplicationErrorMessage } from '../state/app/reducers';
 import { useFindDatasetById } from '../state/datasets/hooks';
 import { useOrganizationId } from '../state/organizations/hooks';
 import { useCurrentSimulationRunnerParametersValues } from '../state/runner/hooks';
 import { useWorkspaceId } from '../state/workspaces/hooks';
+import { DatasetsUtils } from '../utils';
 import { GENERIC_VAR_TYPES_DEFAULT_VALUES } from '../utils/scenarioParameters/generic/DefaultValues';
 
 export const useDynamicValues = (parameter, targetDatasetId) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const findDatasetById = useFindDatasetById();
+  const getDatasetRunnerStatus = useGetDatasetRunnerStatus();
   const organizationId = useOrganizationId();
   const workspaceId = useWorkspaceId();
 
@@ -56,9 +59,10 @@ export const useDynamicValues = (parameter, targetDatasetId) => {
         );
         return;
       }
-      if (!isUnmounted.current && targetDataset.ingestionStatus !== INGESTION_STATUS.SUCCESS) {
+      const datasetRunnerStatus = getDatasetRunnerStatus(targetDataset);
+      if (!isUnmounted.current && datasetRunnerStatus !== RUNNER_RUN_STATE.SUCCESSFUL) {
         setDynamicValues(
-          `Can't retrieve dynamic values: dataset is not ready (ingestionStatus is "${targetDataset.ingestionStatus}")`
+          `Can't retrieve dynamic values: dataset is not ready (its runner status is "${datasetRunnerStatus}")`
         );
         return;
       }
@@ -127,6 +131,7 @@ export const useDynamicValues = (parameter, targetDatasetId) => {
 export const useLoadInitialValueFromDataset = (parameterValue, parameter, targetDatasetId) => {
   const { t } = useTranslation();
   const findDatasetById = useFindDatasetById();
+  const getDatasetRunnerStatus = useGetDatasetRunnerStatus();
   const organizationId = useOrganizationId();
   const workspaceId = useWorkspaceId();
   const parametersValues = useCurrentSimulationRunnerParametersValues();
@@ -170,14 +175,16 @@ export const useLoadInitialValueFromDataset = (parameterValue, parameter, target
         setDynamicValueError('notExistingDataset');
         return;
       }
-      if (targetDataset?.ingestionStatus === null) {
+      // FIXME: check that type of dataset part is "DB" instead, when migrating query system
+      if (!DatasetsUtils.isCreatedByRunner(targetDataset)) {
         setDynamicValue(defaultValue);
         setDynamicValueError('notTwingraph');
         return;
       }
-      if (targetDataset?.ingestionStatus !== INGESTION_STATUS.SUCCESS) {
+      const datasetRunnerStatus = getDatasetRunnerStatus(targetDataset);
+      if (datasetRunnerStatus !== RUNNER_RUN_STATE.SUCCESSFUL) {
         setDynamicValue(defaultValue);
-        setDynamicValueError('ingestionStatusError');
+        setDynamicValueError('runnerStatusError');
         return;
       }
 
@@ -253,12 +260,12 @@ export const useLoadInitialValueFromDataset = (parameterValue, parameter, target
           ' ' +
           t('genericcomponent.dynamicValues.defaultValueDisplayed', 'Parameter default value is displayed')
         );
-      case 'ingestionStatusError':
+      case 'runnerStatusError':
         return (
           t(
-            'genericcomponent.dynamicValues.ingestionStatusError',
-            "Can't retrieve dynamic values: dataset ingestionStatus is {{ingestionStatus}}",
-            { ingestionStatus: targetDataset?.ingestionStatus }
+            'genericcomponent.dynamicValues.runnerStatusError',
+            "Can't retrieve dynamic values: dataset runner status is {{runnerStatus}}",
+            { runnerStatus: getDatasetRunnerStatus(targetDataset) }
           ) +
           ' ' +
           t('genericcomponent.dynamicValues.defaultValueDisplayed', 'Parameter default value is displayed')
@@ -283,7 +290,7 @@ export const useLoadInitialValueFromDataset = (parameterValue, parameter, target
       default:
         return null;
     }
-  }, [dynamicValueError, resultKey, t, targetDataset?.ingestionStatus]);
+  }, [getDatasetRunnerStatus, dynamicValueError, resultKey, t, targetDataset]);
 
   return {
     dynamicValue,

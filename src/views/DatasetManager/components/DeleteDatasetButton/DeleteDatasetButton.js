@@ -4,16 +4,20 @@ import PropTypes from 'prop-types';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { IconButton } from '@mui/material';
 import { FadingTooltip, PermissionsGate } from '@cosmotech/ui';
-import { INGESTION_STATUS } from '../../../../services/config/ApiConstants';
+import { useGetDatasetRunnerStatus } from '../../../../hooks/DatasetRunnerHooks';
+import { RUNNER_RUN_STATE } from '../../../../services/config/ApiConstants';
 import { ACL_PERMISSIONS } from '../../../../services/config/accessControl';
 import { TwoActionsDialogService } from '../../../../services/twoActionsDialog/twoActionsDialogService';
 import { useDeleteDatasetButton } from './DeleteDatasetButtonHooks';
 
 export const DeleteDatasetButton = ({ dataset, location = '' }) => {
-  const isDisabled = !dataset || dataset.ingestionStatus === INGESTION_STATUS.PENDING;
   const { t } = useTranslation();
-
+  const getDatasetRunnerStatus = useGetDatasetRunnerStatus();
   const { deleteDataset, isDatasetCopyEnabledInWorkspace } = useDeleteDatasetButton();
+
+  const datasetStatus = getDatasetRunnerStatus(dataset);
+  const isDisabled = !dataset || datasetStatus === RUNNER_RUN_STATE.RUNNING;
+
   const askConfirmationToDeleteDialog = useCallback(
     async (event, dataset) => {
       event.stopPropagation();

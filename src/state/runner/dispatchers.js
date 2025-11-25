@@ -16,8 +16,8 @@ export const dispatchCreateSimulationRunner = (organizationId, workspaceId, runn
   runner,
 });
 
-export const dispatchStopRunner = (organizationId, workspaceId, datasetId) => ({
-  type: RUNNER_ACTIONS_KEY.STOP_RUNNER,
+export const dispatchStopETLRunner = (organizationId, workspaceId, datasetId) => ({
+  type: RUNNER_ACTIONS_KEY.STOP_ETL_RUNNER,
   organizationId,
   workspaceId,
   datasetId,

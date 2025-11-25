@@ -5,7 +5,7 @@ export const DB_DATASET_PART_ID_VARTYPE = '%DATASET_PART_ID_DB%';
 export const FILE_DATASET_PART_ID_VARTYPE = '%DATASET_PART_ID_FILE%';
 
 export const RUNNER_RUN_STATE = {
-  CREATED: 'Created',
+  CREATED: 'NotStarted',
   RUNNING: 'Running',
   SUCCESSFUL: 'Successful',
   FAILED: 'Failed',
@@ -34,12 +34,14 @@ export const VALID_MIME_TYPES = [
   'application/yaml',
 ];
 
+// FIXME: remove deprecated TWINCACHE_STATUS
 export const TWINCACHE_STATUS = {
   EMPTY: 'EMPTY',
   FULL: 'FULL',
   UNKNOWN: 'UNKNOWN',
 };
 
+// FIXME: remove deprecated INGESTION_STATUS
 export const INGESTION_STATUS = {
   NONE: 'NONE',
   PENDING: 'PENDING',

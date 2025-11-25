@@ -4,14 +4,18 @@ import PropTypes from 'prop-types';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import IconButton from '@mui/material/IconButton';
 import { DontAskAgainDialog, FadingTooltip, PermissionsGate } from '@cosmotech/ui';
-import { NATIVE_DATASOURCE_TYPES, INGESTION_STATUS } from '../../../../../../services/config/ApiConstants';
+import { useGetDatasetRunnerStatus } from '../../../../../../hooks/DatasetRunnerHooks';
+import { NATIVE_DATASOURCE_TYPES, RUNNER_RUN_STATE } from '../../../../../../services/config/ApiConstants';
 import { ACL_PERMISSIONS } from '../../../../../../services/config/accessControl';
 import { useRefreshDataset } from '../../../../../../state/datasets/hooks';
 import { ReuploadFileDatasetButton } from '../../../ReuploadFileDatasetButton/ReuploadFileDatasetButton';
 
 export const RefreshDatasetButton = ({ dataset }) => {
-  const isDisabled = dataset && dataset.ingestionStatus === INGESTION_STATUS.PENDING;
   const { t } = useTranslation();
+  const getDatasetRunnerStatus = useGetDatasetRunnerStatus();
+  const datasetStatus = getDatasetRunnerStatus(dataset);
+
+  const isDisabled = dataset && datasetStatus === RUNNER_RUN_STATE.RUNNING;
   const refreshDialogLabels = {
     title: t('commoncomponents.datasetmanager.dialogs.refresh.title', 'Overwrite data?'),
     body: t(
@@ -51,7 +55,7 @@ export const RefreshDatasetButton = ({ dataset }) => {
       <ReuploadFileDatasetButton
         confirmAndCallback={confirmAndRefreshDataset}
         datasetId={dataset.id}
-        disabled={dataset.ingestionStatus === INGESTION_STATUS.PENDING}
+        disabled={datasetStatus === RUNNER_RUN_STATE.RUNNING}
       />
     );
   else if (dataset?.additionalData?.webapp?.sourceType !== NATIVE_DATASOURCE_TYPES.NONE) {

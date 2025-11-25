@@ -8,26 +8,22 @@ import { STATUSES } from '../../../services/config/StatusConstants';
 import { RunnersUtils } from '../../../utils';
 import { setApplicationErrorMessage } from '../../app/reducers';
 import { RUNNER_ACTIONS_KEY } from '../constants';
-import { addRun, updateSimulationRunner } from '../reducers';
+import { addRun, updateEtlRunner } from '../reducers';
 
-const getRunners = (state) => state.runner?.simulationRunners?.list?.data;
+const getETLRunners = (state) => state.runner?.etlRunners?.list?.data;
 
-export function* startRunner(action) {
+// FIXME: factorize with StartRunner to avoid duplicated code
+export function* startETLRunner(action) {
   const organizationId = action.organizationId;
   const workspaceId = action.workspaceId;
   const runnerId = action.runnerId;
   try {
-    const runners = yield select(getRunners);
+    const runners = yield select(getETLRunners);
     const runner = runners?.find((item) => item.id === runnerId);
-    if (runner === undefined) console.warn(`Couldn't retrieve scenario with id "${runnerId}"`);
+    if (runner === undefined) console.warn(`Couldn't retrieve runner with id "${runnerId}"`);
     const previousRunnerState = runner?.state;
 
-    yield put(
-      updateSimulationRunner({
-        runnerId,
-        runner: { state: RUNNER_RUN_STATE.RUNNING },
-      })
-    );
+    yield put(updateEtlRunner({ runnerId, runner: { state: RUNNER_RUN_STATE.RUNNING } }));
 
     // Start runner if parameters update succeeded
     let response;
@@ -38,11 +34,11 @@ export function* startRunner(action) {
       yield put(
         setApplicationErrorMessage({
           error,
-          errorMessage: t('commoncomponents.banner.run', 'A problem occurred when starting the scenario run.'),
+          errorMessage: t('commoncomponents.banner.etlStartFailed', 'A problem occurred when starting the ETL run.'),
         })
       );
       yield put(
-        updateSimulationRunner({
+        updateEtlRunner({
           runnerId,
           status: STATUSES.ERROR,
           runner: { state: previousRunnerState }, // Do not force runner state to "Failed", restore previous state
@@ -52,11 +48,11 @@ export function* startRunner(action) {
     }
 
     const lastRunId = RunnersUtils.getRunIdFromRunnerStart(response.data);
-    const lastRunIdPatch = RunnersUtils.forgeRunnerLastRunInfoPatch(lastRunId, RUNNER_RUN_STATE.RUNNING);
+    const lastRunInfoPatch = RunnersUtils.forgeRunnerLastRunInfoPatch(lastRunId, RUNNER_RUN_STATE.RUNNING);
     yield put(
-      updateSimulationRunner({
+      updateEtlRunner({
         runnerId,
-        runner: { state: RUNNER_RUN_STATE.RUNNING, ...lastRunIdPatch },
+        runner: { state: RUNNER_RUN_STATE.RUNNING, ...lastRunInfoPatch },
       })
     );
     yield put(addRun({ data: { id: lastRunId } }));
@@ -68,18 +64,18 @@ export function* startRunner(action) {
       workspaceId,
       runnerId,
       lastRunId,
-      runnerType: 'simulation',
+      runnerType: 'etl',
     });
   } catch (error) {
     console.error(error);
     yield put(
       setApplicationErrorMessage({
         error,
-        errorMessage: t('commoncomponents.banner.run', 'A problem occurred during the scenario run.'),
+        errorMessage: t('commoncomponents.banner.etlRunFailed', 'A problem occurred during the ETL run.'),
       })
     );
     yield put(
-      updateSimulationRunner({
+      updateEtlRunner({
         runnerId,
         status: STATUSES.ERROR,
         runner: { state: RUNNER_RUN_STATE.FAILED },
@@ -88,8 +84,8 @@ export function* startRunner(action) {
   }
 }
 
-function* startRunnerSaga() {
-  yield takeEvery(RUNNER_ACTIONS_KEY.START_RUNNER, startRunner);
+function* startEtlRunnerSaga() {
+  yield takeEvery(RUNNER_ACTIONS_KEY.START_ETL_RUNNER, startETLRunner);
 }
 
-export default startRunnerSaga;
+export default startEtlRunnerSaga;

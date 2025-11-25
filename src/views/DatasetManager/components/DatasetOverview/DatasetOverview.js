@@ -2,18 +2,17 @@
 // Licensed under the MIT license.
 import React, { useMemo } from 'react';
 import { Card, CardContent, CardHeader, Grid } from '@mui/material';
-import { INGESTION_STATUS } from '../../../../services/config/ApiConstants';
+import { RUNNER_RUN_STATE } from '../../../../services/config/ApiConstants';
 import { useDatasetOverview } from './DatasetOverviewHook';
 import { CategoryAccordion, DatasetOverviewPlaceholder, EditableDatasetName, GraphIndicator } from './components';
 import DatasetActions from './components/DatasetActions/DatasetActions';
 
 export const DatasetOverview = () => {
-  const { categories, graphIndicators, queriesResults, datasetIngestionStatus, dataset } = useDatasetOverview();
+  const { categories, graphIndicators, queriesResults, datasetStatus, dataset } = useDatasetOverview();
 
   const showPlaceholder = useMemo(
-    () =>
-      datasetIngestionStatus !== INGESTION_STATUS.SUCCESS || (categories.length === 0 && graphIndicators.length === 0),
-    [categories, graphIndicators, datasetIngestionStatus]
+    () => datasetStatus !== RUNNER_RUN_STATE.SUCCESSFUL || (categories.length === 0 && graphIndicators.length === 0),
+    [categories, graphIndicators, datasetStatus]
   );
 
   const graphIndicatorsElements = useMemo(() => {
