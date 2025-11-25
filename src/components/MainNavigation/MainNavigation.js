@@ -1,0 +1,288 @@
+// Copyright (c) Cosmo Tech.
+// Licensed under the MIT license.
+import { ChevronLeft, ChevronRight, Database, FolderTree, ClipboardList } from 'lucide-react';
+import React, { useMemo, useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { Box, Drawer, IconButton } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import ConfigService from '../../services/ConfigService';
+import { useApplicationTheme } from '../../state/app/hooks';
+import { useUserEmail, useUserProfilePic } from '../../state/auth/hooks';
+import { useRunners } from '../../state/runner/hooks';
+import { pictureDark, pictureLight } from '../../theme';
+import { NavigationSection } from './components/NavigationSection';
+import { ScenarioList } from './components/ScenarioList';
+import { UserMenu } from './components/UserMenu';
+import { UserProfile } from './components/UserProfile';
+
+const DRAWER_WIDTH = 320;
+const DRAWER_WIDTH_COLLAPSED = 64;
+const STORAGE_NAV_COLLAPSED_KEY = 'mainNavigationCollapsed';
+
+const NAVIGATION_SECTIONS = [
+  { id: 'data', label: 'Data', icon: Database },
+  { id: 'scenarios', label: 'Scenarios', icon: FolderTree },
+  { id: 'scorecard', label: 'Scorecard', icon: ClipboardList },
+];
+
+export const MainNavigation = ({
+  activeSection,
+  activeScenarioId,
+  onSectionChange,
+  onScenarioChange,
+  onDrawerWidthChange,
+  scenarios: scenariosProp,
+}) => {
+  const userEmail = useUserEmail();
+  const userProfilePic = useUserProfilePic();
+  const { isDarkTheme } = useApplicationTheme();
+  const theme = useTheme();
+  const scenariosFromHook = useRunners();
+  const scenarios = scenariosProp ?? scenariosFromHook ?? [];
+
+  const [isCollapsed, setIsCollapsed] = useState(localStorage.getItem(STORAGE_NAV_COLLAPSED_KEY) === 'true');
+  const [userMenuAnchor, setUserMenuAnchor] = useState(null);
+  const isUserMenuOpen = Boolean(userMenuAnchor);
+  const [activeUserMenuItem, setActiveUserMenuItem] = useState('profile');
+
+  const navigationPalette = theme.palette?.navigation;
+  const navColors = {
+    background: navigationPalette?.background,
+    border: navigationPalette?.border,
+    text: navigationPalette?.text,
+    hoverBg: navigationPalette?.hoverBg,
+    mutedBg: navigationPalette?.mutedBg,
+    activeBg: navigationPalette?.activeBg,
+    activeText: navigationPalette?.activeText,
+    icon: navigationPalette?.icon,
+    menuBackground: navigationPalette?.menuBackground,
+    scrollbarThumb: navigationPalette?.scrollbarThumb,
+    scrollbarThumbHover: navigationPalette?.scrollbarThumbHover,
+  };
+
+  const publicUrl = ConfigService.getParameterValue('PUBLIC_URL') ?? '';
+  const logoPath = useMemo(
+    () => `${publicUrl}${isDarkTheme ? pictureDark.darkLogo : pictureLight.lightLogo}`,
+    [isDarkTheme, publicUrl]
+  );
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_NAV_COLLAPSED_KEY, isCollapsed.toString());
+  }, [isCollapsed]);
+
+  const handleToggleCollapse = () => {
+    setIsCollapsed(!isCollapsed);
+  };
+
+  const drawerWidth = isCollapsed ? DRAWER_WIDTH_COLLAPSED : DRAWER_WIDTH;
+
+  useEffect(() => {
+    if (onDrawerWidthChange) {
+      onDrawerWidthChange(drawerWidth);
+    }
+  }, [drawerWidth, onDrawerWidthChange]);
+
+  useEffect(() => {
+    if (typeof document === 'undefined') {
+      return;
+    }
+    document.documentElement.style.setProperty('--main-navigation-width', `${drawerWidth}px`);
+  }, [drawerWidth]);
+
+  useEffect(() => {
+    return () => {
+      if (typeof document !== 'undefined') {
+        document.documentElement.style.removeProperty('--main-navigation-width');
+      }
+    };
+  }, []);
+
+  const userName = useMemo(() => {
+    if (userEmail) {
+      const parts = userEmail.split('@')[0].split('.');
+      if (parts.length >= 2) {
+        return parts.map((p) => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
+      }
+      return userEmail.split('@')[0];
+    }
+    return 'Anonymous';
+  }, [userEmail]);
+
+  const handleUserMenuClick = (e) => {
+    e.stopPropagation();
+    setUserMenuAnchor(e.currentTarget);
+  };
+
+  const handleUserMenuClose = () => {
+    setUserMenuAnchor(null);
+  };
+
+  const handleMenuAction = (action) => {
+    setActiveUserMenuItem(action);
+    handleUserMenuClose();
+  };
+
+  const topSections = NAVIGATION_SECTIONS.filter((s) => s.id !== 'scorecard');
+  const bottomSections = NAVIGATION_SECTIONS.filter((s) => s.id === 'scorecard');
+
+  return (
+    <Drawer
+      variant="permanent"
+      sx={{
+        width: drawerWidth,
+        flexShrink: 0,
+        transition: 'width 0.3s ease',
+        '& .MuiDrawer-paper': {
+          width: drawerWidth,
+          boxSizing: 'border-box',
+          backgroundColor: navColors.background,
+          borderRight: `1px solid ${navColors.border}`,
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100vh',
+          transition: 'width 0.3s ease',
+          overflowX: 'hidden',
+        },
+      }}
+      role="navigation"
+      aria-label="Main navigation"
+    >
+      <Box
+        sx={{
+          paddingTop: 2,
+          paddingX: 2,
+          paddingBottom: 0,
+          flexShrink: 0,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          position: 'relative',
+        }}
+      >
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: isCollapsed ? 'center' : 'flex-start',
+            alignItems: 'center',
+            opacity: isCollapsed ? 0 : 1,
+            transition: 'opacity 0.3s ease',
+            flex: 1,
+          }}
+        >
+          <img
+            alt="Cosmo Tech"
+            src={logoPath}
+            style={{
+              height: '32px',
+              maxWidth: '100%',
+              objectFit: 'contain',
+            }}
+          />
+        </Box>
+        <IconButton
+          onClick={handleToggleCollapse}
+          size="small"
+          sx={{
+            position: isCollapsed ? 'relative' : 'absolute',
+            right: isCollapsed ? 0 : 2,
+            color: navColors.text,
+            marginLeft: isCollapsed ? 0 : 4,
+            '&:hover': {
+              backgroundColor: navColors.hoverBg,
+            },
+          }}
+          aria-label={isCollapsed ? 'Expand navigation' : 'Collapse navigation'}
+        >
+          {isCollapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
+        </IconButton>
+      </Box>
+
+      <Box
+        sx={{
+          flex: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          overflow: 'hidden',
+          minHeight: 0,
+          paddingTop: isCollapsed ? 2 : 8,
+        }}
+      >
+        <NavigationSection
+          sections={topSections}
+          activeSection={activeSection}
+          onSectionChange={onSectionChange}
+          isCollapsed={isCollapsed}
+        />
+
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            overflow: 'hidden',
+            minHeight: 0,
+            position: 'relative',
+          }}
+        >
+          <ScenarioList
+            scenarios={scenarios}
+            activeScenarioId={activeScenarioId}
+            onScenarioChange={onScenarioChange}
+            isCollapsed={isCollapsed}
+          />
+
+          <NavigationSection
+            sections={bottomSections}
+            activeSection={activeSection}
+            onSectionChange={onSectionChange}
+            isCollapsed={isCollapsed}
+          />
+        </Box>
+      </Box>
+
+      <UserProfile
+        userName={userName}
+        userEmail={userEmail}
+        userProfilePic={userProfilePic}
+        isCollapsed={isCollapsed}
+        onUserMenuClick={handleUserMenuClick}
+        isUserMenuOpen={isUserMenuOpen}
+      />
+
+      <UserMenu
+        anchorEl={userMenuAnchor}
+        open={isUserMenuOpen}
+        onClose={handleUserMenuClose}
+        userName={userName}
+        userEmail={userEmail}
+        activeUserMenuItem={activeUserMenuItem}
+        onMenuAction={handleMenuAction}
+      />
+    </Drawer>
+  );
+};
+
+MainNavigation.propTypes = {
+  activeSection: PropTypes.oneOf(['data', 'scenarios', 'scorecard']),
+  activeScenarioId: PropTypes.string,
+  onSectionChange: PropTypes.func,
+  onScenarioChange: PropTypes.func,
+  onUserMenuClick: PropTypes.func,
+  onDrawerWidthChange: PropTypes.func,
+  scenarios: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      parentId: PropTypes.string,
+    })
+  ),
+};
+
+MainNavigation.defaultProps = {
+  activeSection: 'data',
+  activeScenarioId: null,
+  onSectionChange: undefined,
+  onScenarioChange: undefined,
+  onUserMenuClick: undefined,
+  onDrawerWidthChange: undefined,
+  scenarios: undefined,
+};

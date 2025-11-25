@@ -52,4 +52,17 @@ export default {
   login: {
     main: '#EBE7E2',
   },
+  navigation: {
+    background: '#F1F5F9',
+    border: '#D9DDE2',
+    text: '#292F33',
+    hoverBg: '#D9DDE2',
+    mutedBg: '#E9EEF5',
+    activeBg: '#292F33',
+    activeText: '#FFFFFF',
+    icon: '#292F33',
+    menuBackground: '#FFFFFF',
+    scrollbarThumb: 'rgba(204, 204, 204, 0.72)',
+    scrollbarThumbHover: 'rgba(170, 170, 170, 0.72)',
+  },
 };

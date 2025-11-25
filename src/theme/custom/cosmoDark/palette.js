@@ -51,4 +51,17 @@ export default {
   login: {
     main: '#2F363B',
   },
+  navigation: {
+    background: '#1F252A',
+    border: '#2F363B',
+    text: '#FFFFFF',
+    hoverBg: '#2A3139',
+    mutedBg: '#252C34',
+    activeBg: '#FFFFFF',
+    activeText: '#1F252A',
+    icon: '#FFFFFF',
+    menuBackground: '#2A3139',
+    scrollbarThumb: 'rgba(255, 255, 255, 0.35)',
+    scrollbarThumbHover: 'rgba(255, 255, 255, 0.5)',
+  },
 };
