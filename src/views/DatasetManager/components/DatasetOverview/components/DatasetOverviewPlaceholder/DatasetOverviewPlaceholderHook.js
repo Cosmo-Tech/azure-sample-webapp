@@ -9,10 +9,13 @@ import {
 } from '../../../../../../state/datasets/hooks';
 import { useStopRunner } from '../../../../../../state/runner/hooks';
 
+import { INGESTION_STATUS, } from '../../../../../../services/config/ApiConstants';
+
 export const useDatasetOverviewPlaceholder = () => {
   const currentDataset = useCurrentDataset();
   // FIXME: read status of the associated runner
-  const currentDatasetIngestionStatus = currentDataset?.ingestionStatus;
+  // const currentDatasetIngestionStatus = currentDataset?.ingestionStatus;
+  const currentDatasetIngestionStatus = INGESTION_STATUS.SUCCESS;
   const currentDatasetTwincacheStatus = currentDataset?.twincacheStatus;
   const currentDatasetType = currentDataset?.additionalData?.webapp?.sourceType;
   const currentDatasetId = useCurrentDatasetId();
