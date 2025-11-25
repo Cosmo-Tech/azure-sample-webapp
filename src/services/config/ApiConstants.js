@@ -50,7 +50,7 @@ export const INGESTION_STATUS = {
 
 export const TWINGRAPH_SECTION_URL = '/swagger-ui/index.html#/dataset/twingraphQuery';
 
-export const DATASET_SOURCE_TYPE = {
+export const NATIVE_DATASOURCE_TYPES = {
   AZURE_STORAGE: 'AzureStorage',
   FILE_UPLOAD: 'FileUploadToDataset',
   NONE: 'None',
@@ -58,7 +58,7 @@ export const DATASET_SOURCE_TYPE = {
 
 export const DATASET_SOURCES = [
   {
-    id: DATASET_SOURCE_TYPE.AZURE_STORAGE,
+    id: NATIVE_DATASOURCE_TYPES.AZURE_STORAGE,
     labels: { en: 'Graph Format from Azure Storage', fr: 'Format Graph depuis Azure Storage' },
     parameters: [
       { id: `name`, varType: 'string', labels: { en: 'Account name', fr: 'Nom du compte' } },
@@ -68,13 +68,13 @@ export const DATASET_SOURCES = [
     tags: ['datasource'],
   },
   {
-    id: DATASET_SOURCE_TYPE.NONE,
+    id: NATIVE_DATASOURCE_TYPES.NONE,
     labels: { en: 'Empty', fr: 'Dataset vide' },
     parameters: [],
     tags: ['datasource'],
   },
   {
-    id: DATASET_SOURCE_TYPE.FILE_UPLOAD,
+    id: NATIVE_DATASOURCE_TYPES.FILE_UPLOAD,
     labels: { en: 'Create dataset from file upload', fr: 'Envoi de fichiers pour créer un dataset' },
     parameters: [{ id: `file`, varType: FILE_DATASET_PART_ID_VARTYPE, labels: { en: '', fr: '' } }],
     tags: ['datasource'],

@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { useCallback, useMemo } from 'react';
-import { DATASET_SOURCE_TYPE, DATASET_SOURCES } from '../../../../services/config/ApiConstants';
+import { NATIVE_DATASOURCE_TYPES, DATASET_SOURCES } from '../../../../services/config/ApiConstants';
 import { useUserName } from '../../../../state/auth/hooks';
 import { useCreateDataset } from '../../../../state/datasets/hooks';
 import { useCreateRunner } from '../../../../state/runner/hooks';
@@ -54,13 +54,13 @@ export const useDatasetCreationParameters = () => {
         parts: [],
       };
 
-      if (Object.values(DATASET_SOURCE_TYPE).includes(sourceType)) {
+      if (Object.values(NATIVE_DATASOURCE_TYPES).includes(sourceType)) {
         const files = [];
-        if (values.sourceType === DATASET_SOURCE_TYPE.FILE_UPLOAD) {
+        if (values.sourceType === NATIVE_DATASOURCE_TYPES.FILE_UPLOAD) {
           const fileToUpload = values[sourceType].file;
           files.push(fileToUpload.value);
           dataset.parts.push({ name: fileToUpload.name, sourceName: fileToUpload.name });
-        } else if (values.sourceType === DATASET_SOURCE_TYPE.NONE) {
+        } else if (values.sourceType === NATIVE_DATASOURCE_TYPES.NONE) {
           dataset.source = null;
         } else {
           dataset.source = values[sourceType];

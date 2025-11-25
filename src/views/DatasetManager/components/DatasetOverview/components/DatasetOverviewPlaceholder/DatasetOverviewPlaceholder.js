@@ -5,7 +5,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { Button, Grid, Link, Typography } from '@mui/material';
 import {
-  DATASET_SOURCE_TYPE,
+  NATIVE_DATASOURCE_TYPES,
   INGESTION_STATUS,
   TWINCACHE_STATUS,
 } from '../../../../../../services/config/ApiConstants';
@@ -150,13 +150,13 @@ export const DatasetOverviewPlaceholder = () => {
     ) : null;
 
     if (currentDatasetIngestionStatus === INGESTION_STATUS.PENDING)
-      return !Object.values(DATASET_SOURCE_TYPE).includes(currentDatasetType) && abortButton;
-    else if (currentDatasetType === DATASET_SOURCE_TYPE.FILE_UPLOAD)
+      return !Object.values(NATIVE_DATASOURCE_TYPES).includes(currentDatasetType) && abortButton;
+    else if (currentDatasetType === NATIVE_DATASOURCE_TYPES.FILE_UPLOAD)
       return <ReuploadFileDatasetButton datasetId={currentDatasetId} iconButton={false} />;
     else
       return (
         <>
-          {!Object.values(DATASET_SOURCE_TYPE).includes(currentDatasetType) && runLogsDownloadButton}
+          {!Object.values(NATIVE_DATASOURCE_TYPES).includes(currentDatasetType) && runLogsDownloadButton}
           {retryButton}
           {rollBackButton}
         </>
