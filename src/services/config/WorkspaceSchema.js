@@ -3,6 +3,7 @@
 import { z } from 'zod';
 import { SchemasUtils } from '../../utils/schemas/SchemasUtils';
 import { CUSTOM_WEB_APP_OPTIONS } from '../../utils/schemas/custom/customWorkspaceOptions';
+import { basicColumnField } from './SolutionSchema';
 
 const LABELS_DICT = z.array(z.object({}));
 const TWINGRAPH_INDICATOR = z.object({ id: z.string(), name: LABELS_DICT, queryId: z.string() }).strict();
@@ -144,9 +145,7 @@ const basicWebAppOptions = z.object({
               attributes: z.array(z.string().optional()).optional().nullable(),
               previewTable: z
                 .object({
-                  columns: z.array(
-                    z.object({ field: z.string(), headerName: z.string(), type: z.array(z.string()) }).strict()
-                  ),
+                  columns: z.array(basicColumnField),
                   queryId: z.string(),
                   resultKey: z.string(),
                 })

@@ -7,7 +7,7 @@ import {
   CUSTOM_SCENARIO_PARAMETERS_OPTIONS,
 } from '../../utils/schemas/custom/customSolutionOptions';
 
-const basicColumnField = z
+export const basicColumnField = z
   .object({
     field: z.string().optional().nullable(),
     headerName: z.string().optional().nullable(),
