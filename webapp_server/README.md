@@ -33,9 +33,13 @@ container:
 # Change directory to the root of the repository
 cd azure-sample-webapp
 
+# Optional step to add build number in app version
+VITE_BUILD_NUMBER=$(git rev-parse --short HEAD)
+
 # Build the docker image of the webapp server
 DOCKER_BUILDKIT=1 docker build \
   --build-arg BUILDKIT_INLINE_CACHE=1 \
+  --build-arg VITE_BUILD_NUMBER=$VITE_BUILD_NUMBER \
   -t webapp_server \
   -f webapp_server/webapp-server.Dockerfile .
 
@@ -57,12 +61,16 @@ container:
 # Change directory to the root of the repository
 cd azure-sample-webapp
 
+# Optional step to add build number in app version
+VITE_BUILD_NUMBER=$(git rev-parse --short HEAD)
+
 # Build the docker image of the webapp server
 DOCKER_BUILDKIT=1 docker build \
---build-arg BUILDKIT_INLINE_CACHE=1 \
---target server-universal \
--t webapp_server \
--f webapp_server/webapp-server.Dockerfile .
+  --build-arg BUILDKIT_INLINE_CACHE=1 \
+  --build-arg VITE_BUILD_NUMBER=$VITE_BUILD_NUMBER \
+  --target server-universal \
+  -t webapp_server \
+  -f webapp_server/webapp-server.Dockerfile .
 
 # Run the container with:
 docker run --rm -it -p 3000:3000 \
@@ -95,7 +103,6 @@ DOCKER_BUILDKIT=1 docker build \
   --build-arg BUILDKIT_INLINE_CACHE=1 \
   -t webapp_functions \
   -f ../webapp_server/webapp-functions.Dockerfile .
-
 ```
 
 Then, create a `.env` file to store the environment variables required by the functions, and adapt the values below:
