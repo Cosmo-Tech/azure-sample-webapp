@@ -21,6 +21,7 @@ export const TechnicalInfoContent = () => {
       id: 'webappVersion',
       label: t('genericcomponent.dialog.technicalInfo.webAppVersion', 'Webapp version:'),
       content: ConfigService.getParameterValue('APP_VERSION'),
+      subcontent: ConfigService.getParameterValue('BUILD_NUMBER'),
     },
     {
       id: 'apiVersion',
