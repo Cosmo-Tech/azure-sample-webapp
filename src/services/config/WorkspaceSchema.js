@@ -3,6 +3,7 @@
 import { z } from 'zod';
 import { SchemasUtils } from '../../utils/schemas/SchemasUtils';
 import { CUSTOM_WEB_APP_OPTIONS } from '../../utils/schemas/custom/customWorkspaceOptions';
+import { basicColumnField } from './SolutionSchema';
 
 z.config({ jitless: true });
 
@@ -150,9 +151,7 @@ const basicWebAppOptions = z.strictObject({
               attributes: z.array(z.string().optional()).optional().nullable(),
               previewTable: z
                 .strictObject({
-                  columns: z.array(
-                    z.strictObject({ field: z.string(), headerName: z.string(), type: z.array(z.string()) })
-                  ),
+                  columns: z.array(basicColumnField),
                   queryId: z.string(),
                 })
                 .optional()

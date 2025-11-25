@@ -11,7 +11,7 @@ z.config({ jitless: true });
 
 const SOLUTION_EDIT_INFO_TYPE = z.strictObject({ timestamp: z.number().optional().nullable(), userId: z.string() });
 
-const basicColumnField = z
+export const basicColumnField = z
   .strictObject({
     field: z.string().optional().nullable(),
     headerName: z.string().optional().nullable(),
