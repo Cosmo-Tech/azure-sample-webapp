@@ -99,14 +99,14 @@ const updateResourceSecurity = async (
 };
 
 const forgeDatasetSecurityFromScenarioSecurity = (scenarioSecurity) => {
-  const getDatasetRoleFromScenarioRole = (scenarioRole) =>
-    scenarioRole === ACL_ROLES.SCENARIO.VALIDATOR ? ACL_ROLES.DATASET.EDITOR : scenarioRole;
+  const datasetDefault =
+    scenarioSecurity.default !== ACL_ROLES.SCENARIO.NONE ? ACL_ROLES.DATASET.ADMIN : ACL_ROLES.DATASET.NONE;
 
   return {
-    default: getDatasetRoleFromScenarioRole(scenarioSecurity.default),
+    default: datasetDefault,
     accessControlList: scenarioSecurity.accessControlList.map((aclEntry) => ({
       id: aclEntry.id,
-      role: getDatasetRoleFromScenarioRole(aclEntry.role),
+      role: ACL_ROLES.DATASET.ADMIN,
     })),
   };
 };
