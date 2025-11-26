@@ -6018,17 +6018,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@playwright/test@npm:^1.57.0":
-  version: 1.57.0
-  resolution: "@playwright/test@npm:1.57.0"
-  dependencies:
-    playwright: "npm:1.57.0"
-  bin:
-    playwright: cli.js
-  checksum: 10c0/35ba4b28be72bf0a53e33dbb11c6cff848fb9a37f49e893ce63a90675b5291ec29a1ba82c8a3b043abaead129400f0589623e9ace2e6a1c8eaa409721ecc3774
-  languageName: node
-  linkType: hard
-
 "@pmmmwh/react-refresh-webpack-plugin@npm:^0.5.1":
   version: 0.5.17
   resolution: "@pmmmwh/react-refresh-webpack-plugin@npm:0.5.17"
@@ -9946,14 +9935,11 @@ __metadata:
     "@mui/lab": "npm:7.0.0-beta.17"
     "@mui/material": "npm:^7.3.2"
     "@mui/styles": "npm:^6.5.0"
-    "@playwright/test": "npm:^1.57.0"
     "@reduxjs/toolkit": "npm:^2.9.0"
     "@storybook/addon-controls": "npm:^9.0.8"
     "@storybook/addon-docs": "npm:^10.0.8"
     "@storybook/addon-essentials": "npm:^8.6.14"
     "@storybook/addon-onboarding": "npm:10.0.8"
-    "@storybook/addon-storyshots": "npm:7.6.17"
-    "@storybook/addon-storyshots-puppeteer": "npm:7.6.17"
     "@storybook/blocks": "npm:^8.6.14"
     "@storybook/manager-api": "npm:^8.6.14"
     "@storybook/preset-create-react-app": "npm:^10.0.8"
