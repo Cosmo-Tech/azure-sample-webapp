@@ -1,11 +1,11 @@
-import { getNavigationPalette } from './utils';
-
-const MuiListItemButton = {
+// Copyright (c) Cosmo Tech.
+// Licensed under the MIT license.
+const MuiListItemButton = (theme) => ({
   variants: [
     {
       props: { variant: 'navigation' },
-      style: ({ theme }) => {
-        const navColors = getNavigationPalette(theme);
+      style: () => {
+        const navColors = theme.palette.navigation;
         return {
           borderRadius: 18,
           padding: theme.spacing(1, 1.5),
@@ -38,6 +38,6 @@ const MuiListItemButton = {
       },
     },
   ],
-};
+});
 
 export default MuiListItemButton;

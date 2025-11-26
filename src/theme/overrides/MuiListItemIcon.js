@@ -1,11 +1,11 @@
-import { getNavigationPalette } from './utils';
-
-const MuiListItemIcon = {
+// Copyright (c) Cosmo Tech.
+// Licensed under the MIT license.
+const MuiListItemIcon = (theme) => ({
   variants: [
     {
       props: { variant: 'navigation' },
-      style: ({ theme }) => {
-        const navColors = getNavigationPalette(theme);
+      style: () => {
+        const navColors = theme.palette.navigation;
         return {
           minWidth: 20,
           display: 'flex',
@@ -21,6 +21,6 @@ const MuiListItemIcon = {
       color: 'inherit',
     },
   },
-};
+});
 
 export default MuiListItemIcon;
