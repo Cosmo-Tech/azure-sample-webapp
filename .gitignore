@@ -45,3 +45,6 @@ __pycache__
 # yalc
 .yalc
 yalc.lock
+
+*storybook.log
+storybook-static

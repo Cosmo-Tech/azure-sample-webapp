@@ -1,15 +1,15 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import MuiAppBar from './MuiAppBar';
+import MuiButton from './MuiButton';
 import MuiListItemButton from './MuiListItemButton';
 import MuiListItemIcon from './MuiListItemIcon';
 import MuiMenuItem from './MuiMenuItem';
 
-const components = {
-  MuiAppBar,
-  MuiListItemButton,
-  MuiListItemIcon,
-  MuiMenuItem,
-};
-
-export default components;
+export default function createComponents(theme) {
+  return {
+    ...MuiButton(theme),
+    ...MuiListItemButton(theme),
+    ...MuiListItemIcon(theme),
+    ...MuiMenuItem(theme),
+  };
+}

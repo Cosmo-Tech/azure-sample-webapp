@@ -1,0 +1,174 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+import Styling from "./assets/styling.png";
+import Assets from "./assets/assets.png";
+import DocsImg from "./assets/docs.png";
+import Theming from "./assets/theming.png";
+import Testing from "./assets/testing.png";
+
+export const RightArrow = () => (
+  <svg
+    viewBox="0 0 14 14"
+    width="8px"
+    height="14px"
+    style={{
+      marginLeft: "4px",
+      display: "inline-block",
+      verticalAlign: "middle",
+      fill: "currentColor",
+    }}
+  >
+    <path d="m11.1 7.35-5.5 5.5a.5.5 0 0 1-.7-.7L10.04 7 4.9 1.85a.5.5 0 1 1 .7-.7l5.5 5.5c.2.2.2.5 0 .7Z" />
+  </svg>
+);
+
+<Meta title="Documentation/Configure Storybook" />
+
+<div className="sb-container">
+
+<div className="sb-section-title">
+  # Configure Storybook
+
+  This page provides a quick overview of how Storybook is configured in our project:  
+  story loading, global decorators, theming, static assets, documentation, and build settings.
+  Use this as a reference when contributing to or maintaining our Storybook setup.
+</div>
+
+<div className="sb-section">
+
+  <div className="sb-section-item">
+    <img src={Styling} alt="Styling configuration illustration" />
+    <h4 className="sb-section-item-heading">Storybook Main Configuration</h4>
+    <p className="sb-section-item-paragraph">
+      The <code>main.js</code> file defines Storybook’s core settings: which stories to load,
+      which addons to enable, and which static directories to serve.  
+      It also configures Webpack/Vite and the framework.
+    </p>
+    <a href="#" target="_blank">
+      View example main.js <RightArrow />
+    </a>
+  </div>
+
+  <div className="sb-section-item">
+    <img src={Styling} alt="Context provider illustration" />
+    <h4 className="sb-section-item-heading">Preview Configuration</h4>
+    <p className="sb-section-item-paragraph">
+      The <code>preview.js</code> file controls global decorators, global CSS,
+      theme providers, routing mocks, and UI-level configuration.
+      It's where you add wrappers like ThemeProvider or global padding.
+    </p>
+    <a href="#" target="_blank">
+      View example preview.js <RightArrow />
+    </a>
+  </div>
+
+  <div className="sb-section-item">
+    <img src={Assets} alt="Assets loading illustration" />
+    <h4 className="sb-section-item-heading">Static Assets</h4>
+    <p className="sb-section-item-paragraph">
+      To use images, fonts, or icons from your real application, you must expose them
+      using <code>staticDirs</code>. This allows Storybook to load files from
+      your <code>public/</code> directory as if it were the production app.
+    </p>
+    <a href="#" target="_blank">
+      Learn about static assets <RightArrow />
+    </a>
+  </div>
+
+</div>
+
+<div className="sb-section">
+
+  <div className="sb-section-item">
+    <img src={DocsImg} alt="Docs illustration" />
+    <h4 className="sb-section-item-heading">Documentation & Autodocs</h4>
+    <p className="sb-section-item-paragraph">
+      Storybook automatically generates documentation via MDX or Autodocs.
+      To enable the Docs tab globally, enable <code>autodocs</code> in <code>main.js</code>
+      and add <code>tags: ['autodocs']</code> in each story file.
+    </p>
+    <a href="#" target="_blank">
+      Learn about Docs <RightArrow />
+    </a>
+  </div>
+
+  <div className="sb-section-item">
+    <img src={Theming} alt="Theming illustration" />
+    <h4 className="sb-section-item-heading">Branding & Theming</h4>
+    <p className="sb-section-item-paragraph">
+      UI theming is controlled via <code>manager.js</code>.  
+      You can customize the brand logo, colors, and UI appearance of Storybook by
+      extending the built-in themes or creating your own.
+    </p>
+    <a href="#" target="_blank">
+      Learn about theming <RightArrow />
+    </a>
+  </div>
+
+  <div className="sb-section-item">
+    <img src={Testing} alt="Testing illustration" />
+    <h4 className="sb-section-item-heading">Interaction Testing</h4>
+    <p className="sb-section-item-paragraph">
+      Storybook supports interaction testing directly inside stories using the
+      <code>play</code> function.  
+      This allows lightweight behavior validation without leaving Storybook.
+    </p>
+    <a href="#" target="_blank">
+      Learn about testing <RightArrow />
+    </a>
+  </div>
+
+</div>
+
+</div>
+
+<style>
+  {`
+    .sb-container {
+      margin-bottom: 48px;
+    }
+
+    .sb-section {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+
+    img {
+      object-fit: cover;
+    }
+
+    .sb-section-title {
+      margin-bottom: 32px;
+    }
+
+    .sb-section a:not(h1 a, h2 a, h3 a) {
+      font-size: 14px;
+    }
+
+    .sb-section-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sb-section-item-heading {
+      padding-top: 20px !important;
+      padding-bottom: 5px !important;
+      margin: 0 !important;
+    }
+
+    .sb-section-item-paragraph {
+      margin: 0;
+      padding-bottom: 10px;
+    }
+
+    @media screen and (max-width: 600px) {
+      .sb-section {
+        flex-direction: column;
+      }
+    }
+  `}
+</style>
