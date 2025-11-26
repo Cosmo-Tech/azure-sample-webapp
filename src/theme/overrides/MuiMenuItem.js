@@ -1,11 +1,12 @@
-import { getNavigationPalette } from './utils';
+// Copyright (c) Cosmo Tech.
+// Licensed under the MIT license.
 
-const MuiMenuItem = {
+const MuiMenuItem = (theme) => ({
   variants: [
     {
       props: { variant: 'navigation' },
-      style: ({ theme }) => {
-        const navColors = getNavigationPalette(theme);
+      style: () => {
+        const navColors = theme.palette.navigation;
         return {
           fontFamily: theme.typography.fontFamily,
           fontWeight: theme.typography.fontWeightMedium,
@@ -19,6 +20,6 @@ const MuiMenuItem = {
       },
     },
   ],
-};
+});
 
 export default MuiMenuItem;

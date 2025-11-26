@@ -64,5 +64,8 @@ export default {
     menuBackground: '#FFFFFF',
     scrollbarThumb: 'rgba(204, 204, 204, 0.72)',
     scrollbarThumbHover: 'rgba(170, 170, 170, 0.72)',
+    white: '#FFFFFF',
+    grey03: '#68788A',
+    grey04: '#919EAF',
   },
 };
