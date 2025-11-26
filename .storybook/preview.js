@@ -1,7 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { ThemeProvider, CssBaseline } from "@mui/material";
-import { getTheme } from "../src/theme";
+/* eslint-disable react/react-in-jsx-scope */
+import { ThemeProvider, CssBaseline } from '@mui/material';
+import { getTheme } from '../src/theme';
 
 const theme = getTheme(false);
 
@@ -11,7 +12,7 @@ export const decorators = [
       <CssBaseline />
       <Story />
     </ThemeProvider>
-  )
+  ),
 ];
 
 export default {
