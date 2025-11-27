@@ -56,8 +56,8 @@ export function* applyScenarioSharingChanges(action) {
         console.warn(`Unable to find dataset part ${datasetId}, you may lack "read" permission on this dataset.`);
         continue;
       }
-
-      const newDatasetSecurity = SecurityUtils.forgeDatasetSecurityFromScenarioSecurity(newScenarioSecurity);
+      const forgedDatasetSecurity = SecurityUtils.forgeDatasetSecurityFromScenarioSecurity(newScenarioSecurity);
+      const newDatasetSecurity = SecurityUtils.mergeDatasetSecurity(dataset.security, forgedDatasetSecurity);
       yield call(DatasetService.updateSecurity, organizationId, datasetId, dataset.security, newDatasetSecurity);
 
       const datasetPermissionsMapping = yield select(getDatasetPermissionMapping);

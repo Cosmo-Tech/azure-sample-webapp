@@ -111,6 +111,44 @@ const forgeDatasetSecurityFromScenarioSecurity = (scenarioSecurity) => {
   };
 };
 
+const mergeDatasetSecurity = (currentDatasetSecurity, newDatasetSecurity) => {
+  const roleHierarchy = {
+    [ACL_ROLES.DATASET.NONE]: 0,
+    [ACL_ROLES.DATASET.VIEWER]: 1,
+    [ACL_ROLES.DATASET.USER]: 2,
+    [ACL_ROLES.DATASET.EDITOR]: 3,
+    [ACL_ROLES.DATASET.ADMIN]: 4,
+  };
+
+  const getRoleLevel = (role) => roleHierarchy[role] ?? -1;
+  const getHighestRole = (role1, role2) => (getRoleLevel(role1) > getRoleLevel(role2) ? role1 : role2);
+
+  const mergedACL = new Map();
+
+  for (const userEntry of currentDatasetSecurity?.accessControlList ?? []) {
+    mergedACL.set(userEntry.id, userEntry.role);
+  }
+
+  for (const newUser of newDatasetSecurity?.accessControlList ?? []) {
+    const currentRole = mergedACL.get(newUser.id);
+    if (!currentRole) {
+      mergedACL.set(newUser.id, newUser.role);
+    } else {
+      const highestRole = getHighestRole(currentRole, newUser.role);
+      mergedACL.set(newUser.id, highestRole);
+    }
+  }
+
+  const currentDefault = currentDatasetSecurity?.default ?? ACL_ROLES.DATASET.NONE;
+  const newDefault = newDatasetSecurity?.default ?? ACL_ROLES.DATASET.NONE;
+  const mergedDefault = getHighestRole(currentDefault, newDefault);
+
+  return {
+    default: mergedDefault,
+    accessControlList: [...mergedACL.entries()].map(([id, role]) => ({ id, role })),
+  };
+};
+
 /*
 Transpose a dict whose values are arrays into another dict where the arrays values are now the dict keys.
 Example: { A: [1,2,3], B:[1,2] } will become { 1:['A','B'], 2:['A','B'], 3:['A'] }
@@ -309,6 +347,7 @@ export const SecurityUtils = {
   areAccessControlListsIdentical,
   compareAccessControlLists,
   forgeDatasetSecurityFromScenarioSecurity,
+  mergeDatasetSecurity,
   getPermissionsFromRole,
   getRolesGrantingPermission,
   getUserPermissionsForResource,
