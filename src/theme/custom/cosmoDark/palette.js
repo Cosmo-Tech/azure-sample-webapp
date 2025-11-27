@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 export default {
-  type: 'dark',
+  type: 'light',
   primary: {
     main: '#FFB039',
   },

@@ -5,10 +5,11 @@ import React, { Fragment, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, Outlet, useParams, useNavigate } from 'react-router-dom';
 import { Box, Stack } from '@mui/material';
-import { ApplicationErrorBanner, StatusBar } from '../../components';
+import { ApplicationErrorBanner } from '../../components';
 import { AppBar } from '../../components/AppBar';
 import { BreadcrumbItem } from '../../components/AppBar/components/BreadcrumbItem';
 import { MainNavigation } from '../../components/MainNavigation';
+import { useMainNavigation } from '../../components/MainNavigation/MainNavigationHook';
 import { useCurrentSimulationRunner, useGetRunner } from '../../state/runner/hooks';
 import { useSelectWorkspace, useWorkspace } from '../../state/workspaces/hooks';
 
@@ -16,7 +17,6 @@ export const TabLayout = () => {
   const location = useLocation();
   const currentTabPathname = location?.pathname;
   const { t } = useTranslation();
-
   const routerParameters = useParams();
   sessionStorage.removeItem('providedUrlBeforeSignIn');
   const currentWorkspace = useWorkspace();
@@ -24,6 +24,7 @@ export const TabLayout = () => {
   const selectWorkspace = useSelectWorkspace();
   const getScenario = useGetRunner();
   const currentScenario = useCurrentSimulationRunner();
+  const { activeSection } = useMainNavigation();
 
   useEffect(() => {
     if (currentWorkspace?.status === 'ERROR') {
@@ -61,11 +62,7 @@ export const TabLayout = () => {
           </BreadcrumbItem>
           <CircleArrowRight size={14} />
           <BreadcrumbItem href="/scenarios" maxWidth="33%">
-            Scenarios
-          </BreadcrumbItem>
-          <CircleArrowRight size={14} />
-          <BreadcrumbItem href={`/${currentWorkspace?.data?.id}/scenario/${currentScenario?.data?.id}`} maxWidth="33%">
-            {currentScenario?.data?.name}
+            {activeSection}
           </BreadcrumbItem>
         </Fragment>
       ) : (
@@ -76,18 +73,19 @@ export const TabLayout = () => {
 
   return (
     <Stack direction="row" sx={{ flexGrow: 1 }}>
-      <MainNavigation activeSection="scenarios" />
+      <MainNavigation
+        onSectionChange={(sectionId) => {
+          if (!currentWorkspace?.data?.id) return;
+          const workspaceId = currentWorkspace.data.id;
+
+          if (sectionId === 'data') navigate(`/${workspaceId}/datasets`);
+          if (sectionId === 'scenarios') navigate(`/${workspaceId}/scenarios`);
+          if (sectionId === 'scorecard') navigate(`/${workspaceId}/scorecard`);
+        }}
+      />
       <Stack direction="column" sx={{ flexGrow: 1 }}>
         <ApplicationErrorBanner />
         <BreadcrumbBar />
-        {currentScenario?.data && (
-          <StatusBar
-            status="prerun"
-            size="full"
-            message={t('commoncomponents.tabLayout.statusBar.prerun.message')}
-            tooltip={t('commoncomponents.tabLayout.statusBar.prerun.tooltip')}
-          />
-        )}
         <Stack direction="row" spacing={2}>
           <MainPage />
         </Stack>

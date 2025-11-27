@@ -44,7 +44,7 @@ const SIZE_CONFIG = {
   full: { height: 44, padding: '0 16px', fontSize: '12px' },
 };
 
-export const StatusBar = ({ status, size, message, tooltip }) => {
+const StatusBar = ({ status, size, message, tooltip }) => {
   const sizeConfig = SIZE_CONFIG[size];
   const theme = useTheme();
   const statusConfig = STATUS_CONFIG(theme)[status];
@@ -142,3 +142,5 @@ StatusBar.propTypes = {
   message: PropTypes.string,
   tooltip: PropTypes.string,
 };
+
+export default StatusBar;
