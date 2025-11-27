@@ -923,7 +923,31 @@
     "tabs": {
       "scenario": {
         "tab": {
-          "title": "SCENARIO VIEW"
+          "title": "Scenarios",
+          "description": "Create, edit, share and delete your scenarios",
+          "emptyState": "There are no scenarios yet. If you have a dataset you can create a new scenario.",
+          "emptyStateTitle": "It's looking a bit empty here",
+          "create": "Create Scenario"
+        },
+        "listing": {
+          "name": "Scenario Name",
+          "created": "Created",
+          "lastEdited": "Last Edited",
+          "status": "Status"
+        }
+      },
+      "data": {
+        "tab": {
+          "title": "Data",
+          "description": "Upload, edit and validate your data",
+          "emptyState": "There is no data here yet. You can create a new dataset and then add data to it.",
+          "create": "Create Dataset"
+        },
+        "listing": {
+          "name": "Dataset Name",
+          "created": "Created",
+          "lastEdited": "Last Edited",
+          "status": "Status"
         }
       },
       "instance": {

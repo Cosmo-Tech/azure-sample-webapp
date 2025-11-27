@@ -23,7 +23,7 @@ const NAVIGATION_SECTIONS = [
   { id: 'scorecard', label: 'Scorecard', icon: ClipboardList },
 ];
 
-export const MainNavigation = ({ activeSection, onSectionChange, onDrawerWidthChange }) => {
+export const MainNavigation = ({ onSectionChange, onDrawerWidthChange }) => {
   const theme = useTheme();
 
   const {
@@ -37,9 +37,12 @@ export const MainNavigation = ({ activeSection, onSectionChange, onDrawerWidthCh
     userName,
     userProfilePic,
     isDarkTheme,
+    activeSection,
+    setActiveSection,
   } = useMainNavigation();
 
   const [isCollapsed, setIsCollapsed] = useState(localStorage.getItem(STORAGE_NAV_COLLAPSED_KEY) === 'true');
+
   const [userMenuAnchor, setUserMenuAnchor] = useState(null);
   const isUserMenuOpen = Boolean(userMenuAnchor);
   const [activeUserMenuItem, setActiveUserMenuItem] = useState('profile');
@@ -59,33 +62,30 @@ export const MainNavigation = ({ activeSection, onSectionChange, onDrawerWidthCh
     scrollbarThumbHover: navigationPalette?.neutral.neutral07.main,
   };
 
+  // logo
   const publicUrl = ConfigService.getParameterValue('PUBLIC_URL') ?? '';
   const logoPath = useMemo(
     () => `${publicUrl}${isDarkTheme ? pictureDark.darkLogo : pictureLight.lightLogo}`,
     [isDarkTheme, publicUrl]
   );
 
+  // collapse state persistence
   useEffect(() => {
     localStorage.setItem(STORAGE_NAV_COLLAPSED_KEY, isCollapsed.toString());
   }, [isCollapsed]);
 
-  const handleToggleCollapse = () => {
-    setIsCollapsed(!isCollapsed);
-  };
-
+  // drawer width
   const drawerWidth = isCollapsed ? DRAWER_WIDTH_COLLAPSED : DRAWER_WIDTH;
 
   useEffect(() => {
-    if (onDrawerWidthChange) {
-      onDrawerWidthChange(drawerWidth);
-    }
+    if (onDrawerWidthChange) onDrawerWidthChange(drawerWidth);
   }, [drawerWidth, onDrawerWidthChange]);
 
+  // CSS var for layout
   useEffect(() => {
-    if (typeof document === 'undefined') {
-      return;
+    if (typeof document !== 'undefined') {
+      document.documentElement.style.setProperty('--main-navigation-width', `${drawerWidth}px`);
     }
-    document.documentElement.style.setProperty('--main-navigation-width', `${drawerWidth}px`);
   }, [drawerWidth]);
 
   useEffect(() => {
@@ -96,14 +96,13 @@ export const MainNavigation = ({ activeSection, onSectionChange, onDrawerWidthCh
     };
   }, []);
 
+  // user menu
   const handleUserMenuClick = (e) => {
     e.stopPropagation();
     setUserMenuAnchor(e.currentTarget);
   };
 
-  const handleUserMenuClose = () => {
-    setUserMenuAnchor(null);
-  };
+  const handleUserMenuClose = () => setUserMenuAnchor(null);
 
   const handleMenuAction = (action) => {
     setActiveUserMenuItem(action);
@@ -113,13 +112,17 @@ export const MainNavigation = ({ activeSection, onSectionChange, onDrawerWidthCh
   const topSections = NAVIGATION_SECTIONS.filter((s) => s.id !== 'scorecard');
   const bottomSections = NAVIGATION_SECTIONS.filter((s) => s.id === 'scorecard');
 
+  // NAV ITEMS RENDER
   const navigationItems = useMemo(
     () => (
       <>
         <NavigationSection
           sections={topSections}
           activeSection={activeSection}
-          onSectionChange={onSectionChange}
+          onSectionChange={(sectionId) => {
+            setActiveSection(sectionId);
+            onSectionChange?.(sectionId);
+          }}
           isCollapsed={isCollapsed}
         />
 
@@ -132,17 +135,24 @@ export const MainNavigation = ({ activeSection, onSectionChange, onDrawerWidthCh
             position: 'relative',
           }}
         >
-          <ScenarioList
-            disabled={isSwitchingScenario || noScenario}
-            scenarios={sortedScenarioList}
-            activeScenarioId={currentScenarioData?.id}
-            onScenarioChange={changeScenario}
-            isCollapsed={isCollapsed}
-          />
+          {activeSection === 'scenarios' && (
+            <ScenarioList
+              disabled={isSwitchingScenario || noScenario}
+              scenarios={sortedScenarioList}
+              activeScenarioId={currentScenarioData?.id}
+              onScenarioChange={changeScenario}
+              isCollapsed={isCollapsed}
+              currentWorkspaceId={workspaceId}
+            />
+          )}
+
           <NavigationSection
             sections={bottomSections}
             activeSection={activeSection}
-            onSectionChange={onSectionChange}
+            onSectionChange={(sectionId) => {
+              setActiveSection(sectionId);
+              onSectionChange?.(sectionId);
+            }}
             isCollapsed={isCollapsed}
           />
         </Box>
@@ -150,15 +160,17 @@ export const MainNavigation = ({ activeSection, onSectionChange, onDrawerWidthCh
     ),
     [
       activeSection,
-      onSectionChange,
       isCollapsed,
       sortedScenarioList,
-      changeScenario,
+      currentScenarioData,
       isSwitchingScenario,
       noScenario,
-      currentScenarioData,
-      topSections,
       bottomSections,
+      changeScenario,
+      onSectionChange,
+      topSections,
+      setActiveSection,
+      workspaceId,
     ]
   );
 
@@ -181,9 +193,8 @@ export const MainNavigation = ({ activeSection, onSectionChange, onDrawerWidthCh
           overflowX: 'hidden',
         },
       }}
-      role="navigation"
-      aria-label="Main navigation"
     >
+      {/* Logo + Collapse */}
       <Box
         sx={{
           paddingTop: 2,
@@ -216,8 +227,9 @@ export const MainNavigation = ({ activeSection, onSectionChange, onDrawerWidthCh
             }}
           />
         </Box>
+
         <IconButton
-          onClick={handleToggleCollapse}
+          onClick={() => setIsCollapsed(!isCollapsed)}
           size="small"
           sx={{
             position: isCollapsed ? 'relative' : 'absolute',
@@ -228,11 +240,12 @@ export const MainNavigation = ({ activeSection, onSectionChange, onDrawerWidthCh
               backgroundColor: navColors.hoverBg,
             },
           }}
-          aria-label={isCollapsed ? 'Expand navigation' : 'Collapse navigation'}
         >
           {isCollapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
         </IconButton>
       </Box>
+
+      {/* Navigation Items */}
       <Box
         sx={{
           flex: 1,
@@ -245,6 +258,8 @@ export const MainNavigation = ({ activeSection, onSectionChange, onDrawerWidthCh
       >
         {workspaceId != null && navigationItems}
       </Box>
+
+      {/* User Profile */}
       <UserProfile
         userName={userName}
         userEmail={userEmail}
@@ -253,6 +268,7 @@ export const MainNavigation = ({ activeSection, onSectionChange, onDrawerWidthCh
         onUserMenuClick={handleUserMenuClick}
         isUserMenuOpen={isUserMenuOpen}
       />
+
       <UserMenu
         anchorEl={userMenuAnchor}
         open={isUserMenuOpen}
@@ -267,24 +283,6 @@ export const MainNavigation = ({ activeSection, onSectionChange, onDrawerWidthCh
 };
 
 MainNavigation.propTypes = {
-  activeSection: PropTypes.oneOf(['data', 'scenarios', 'scorecard']),
-  activeScenarioId: PropTypes.string,
   onSectionChange: PropTypes.func,
-  onScenarioChange: PropTypes.func,
-  onUserMenuClick: PropTypes.func,
   onDrawerWidthChange: PropTypes.func,
-  scenarios: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      parentId: PropTypes.string,
-    })
-  ),
-};
-
-MainNavigation.defaultProps = {
-  activeSection: 'data',
-  onSectionChange: undefined,
-  onUserMenuClick: undefined,
-  onDrawerWidthChange: undefined,
 };

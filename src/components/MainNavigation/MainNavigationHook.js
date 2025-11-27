@@ -1,6 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSortedScenarioList } from '../../hooks/ScenarioListHooks';
 import { STATUSES } from '../../services/config/StatusConstants';
 import { useApplicationTheme } from '../../state/app/hooks';
@@ -18,6 +18,7 @@ export const useMainNavigation = () => {
   const currentScenarioData = useCurrentSimulationRunnerData();
   const userEmail = useUserEmail();
   const userProfilePic = useUserProfilePic();
+  const [activeSection, setActiveSection] = useState('data');
 
   const changeScenario = useSelectRunner();
 
@@ -38,6 +39,20 @@ export const useMainNavigation = () => {
     return 'Anonymous';
   }, [userEmail]);
 
+  useEffect(() => {
+    const path = location.pathname;
+
+    if (path.includes('/dataset')) {
+      setActiveSection('data');
+    } else if (path.includes('/scenario')) {
+      setActiveSection('scenarios');
+    } else if (path.includes('/scorecard')) {
+      setActiveSection('scorecard');
+    } else {
+      setActiveSection('data');
+    }
+  }, []);
+
   return {
     currentScenarioData,
     workspaceId,
@@ -49,5 +64,7 @@ export const useMainNavigation = () => {
     userName,
     userProfilePic,
     isDarkTheme,
+    activeSection,
+    setActiveSection,
   };
 };
