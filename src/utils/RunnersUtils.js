@@ -1,12 +1,16 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
+import { RUNNER_RUN_STATE } from '../services/config/ApiConstants';
 import { SecurityUtils } from './SecurityUtils';
 
 const getLastRunId = (runner) => runner?.lastRunInfo?.lastRunId;
+const getLastRunStatus = (runner) => runner?.lastRunInfo?.lastRunStatus;
 
 const getRunIdFromRunnerStart = (runnerStartResponse) => runnerStartResponse?.id;
 
-const forgeRunnerLastRunIdPatch = (lastRunId) => ({ lastRunId });
+const forgeRunnerLastRunInfoPatch = (lastRunId, lastRunStatus = RUNNER_RUN_STATE.CREATED) => ({
+  lastRunInfo: { lastRunId, lastRunStatus },
+});
 
 const _getUserPermissionsForRunner = (scenario, userEmail, userId, permissionsMapping) => {
   if (scenario?.security == null || Object.keys(scenario?.security).length === 0) {
@@ -56,8 +60,9 @@ const isParameterInDatasetParts = (parameterId, datasetParts) => {
 };
 
 export const RunnersUtils = {
-  forgeRunnerLastRunIdPatch,
+  forgeRunnerLastRunInfoPatch,
   getLastRunId,
+  getLastRunStatus,
   getRunIdFromRunnerStart,
   patchRunnerWithCurrentUserPermissions,
   patchRunnerParameterValues,

@@ -517,6 +517,9 @@
       "updateData": "Scenario hasn't been updated.",
       "updatePermissions": "Some scenario permissions have not been updated correctly.",
       "run": "A problem occurred during the scenario run.",
+      "etlStartFailed": "A problem occurred when starting the ETL run.",
+      "etlRunFailed": "A problem occurred during the ETL run.",
+      "etlDeleteFailed": "Dataset runner hasn't been deleted.",
       "update": "A problem occurred during scenario update; your new parameters haven't been saved.",
       "incompleteRun": "A problem occurred during dataset update; new parameters haven't been saved and launch has been canceled.",
       "datasetUpdate": "A problem occurred during dataset update; your new parameters haven't been saved.",
@@ -596,7 +599,7 @@
       "noDataset": "No dataset id forwarded to the parameter, can't fetch its value dynamically.",
       "notExistingDataset": "Can't retrieve dynamic values: dataset doesn't exist.",
       "notTwingraphDataset": "Can't retrieve dynamic values: only twingraph datasets can be used to dynamically fetch values.",
-      "ingestionStatusError": "Can't retrieve dynamic values: dataset ingestionStatus is {{ingestionStatus}}.",
+      "runnerStatusError": "Can't retrieve dynamic values: dataset runner status is {{runnerStatus}}.",
       "resultKeyError": "No property found with result key {{resultKey}} in response to dynamic value query. Please check your dataset and your solution configuration.",
       "queryError": "Impossible to retrieve dynamic values from data source.",
       "defaultValueDisplayed": "Parameter default value is displayed."

@@ -10,9 +10,10 @@ import {
   RUNNER_STATUS_POLLING_DELAY,
 } from '../../../services/config/FunctionalConstants';
 import { STATUSES } from '../../../services/config/StatusConstants';
+import { RunnersUtils } from '../../../utils';
 import { setApplicationErrorMessage } from '../../app/reducers';
 import { RUNNER_ACTIONS_KEY } from '../constants';
-import { updateRun, updateSimulationRunner } from '../reducers';
+import { updateRun, updateEtlRunner, updateSimulationRunner } from '../reducers';
 
 function forgeStopPollingAction(runnerId) {
   let actionName = RUNNER_ACTIONS_KEY.STOP_RUNNER_STATUS_POLLING;
@@ -21,6 +22,9 @@ function forgeStopPollingAction(runnerId) {
 }
 
 export function* pollRunnerState(action) {
+  let updateRunner = updateSimulationRunner;
+  if (action.runnerType === 'etl') updateRunner = updateEtlRunner;
+
   // Polling start is delayed to avoid an erroneous Unknown state due to the fact that in first seconds of the run,
   // the AKS container isn't created yet and runner.state passes to Unknown for a few seconds before returning to
   // Running again.
@@ -43,20 +47,9 @@ export function* pollRunnerState(action) {
       networkErrorsCount = 0;
       if ([RUNNER_RUN_STATE.FAILED, RUNNER_RUN_STATE.SUCCESSFUL, RUNNER_RUN_STATE.UNKNOWN].includes(data.state)) {
         // Update the scenario state in all scenario redux states
-        yield put(
-          updateSimulationRunner({
-            runnerId: action.runnerId,
-            runner: {
-              state: data.state,
-            },
-          })
-        );
-        yield put(
-          updateRun({
-            data,
-          })
-        );
-        // Stop the polling for this scenario
+        const lastRunInfoPatch = RunnersUtils.forgeRunnerLastRunInfoPatch(action.lastRunId, data.state);
+        yield put(updateRunner({ runnerId: action.runnerId, runner: { state: data.state, ...lastRunInfoPatch } }));
+        yield put(updateRun({ data }));
         yield put(forgeStopPollingAction(action.runnerId));
       }
 
@@ -77,11 +70,13 @@ export function* pollRunnerState(action) {
             errorMessage: t('commoncomponents.banner.run', 'A problem occurred during the scenario run.'),
           })
         );
+
+        const lastRunInfoPatch = RunnersUtils.forgeRunnerLastRunInfoPatch(action.lastRunId, RUNNER_RUN_STATE.FAILED);
         yield put(
-          updateSimulationRunner({
+          updateRunner({
             runnerId: action.runnerId,
             status: STATUSES.ERROR,
-            runner: { state: RUNNER_RUN_STATE.FAILED },
+            runner: { state: RUNNER_RUN_STATE.FAILED, ...lastRunInfoPatch },
           })
         );
         // Stop the polling for this scenario

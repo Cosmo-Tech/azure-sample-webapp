@@ -6,23 +6,23 @@ import PropTypes from 'prop-types';
 import EditIcon from '@mui/icons-material/Edit';
 import { IconButton } from '@mui/material';
 import { FadingTooltip, PermissionsGate } from '@cosmotech/ui';
-import { INGESTION_STATUS } from '../../../../services/config/ApiConstants';
+import { useGetDatasetRunner, useGetDatasetRunnerStatus } from '../../../../hooks/DatasetRunnerHooks';
+import { RUNNER_RUN_STATE } from '../../../../services/config/ApiConstants';
 import { ACL_PERMISSIONS } from '../../../../services/config/accessControl';
-import { useGetETLRunners } from '../../../../state/runner/hooks';
-import { DatasetsUtils } from '../../../../utils';
 import { UpdateDatasetDialog } from './components';
 
 export const UpdateDatasetButton = ({ dataset }) => {
   const { t } = useTranslation();
-  const runners = useGetETLRunners();
-  const datasetRunnerId = DatasetsUtils.getDatasetOption(dataset, 'runnerId');
-  const datasetRunner = runners.find((runner) => runner?.id === datasetRunnerId);
-  // FIXME: get the runner's last run status instead of reading ingestionStatus
-  const isDisabled =
-    dataset?.ingestionStatus === INGESTION_STATUS.PENDING || Object.keys(datasetRunner ?? {})?.length === 0;
+  const getDatasetRunner = useGetDatasetRunner();
+  const getDatasetRunnerStatus = useGetDatasetRunnerStatus();
+
   const [isUpdateDatasetDialogOpen, setIsUpdateDatasetDialogOpen] = useState(false);
   const closeDialog = useCallback(() => setIsUpdateDatasetDialogOpen(false), []);
+
+  const datasetRunner = getDatasetRunner(dataset);
+  const datasetRunnerStatus = getDatasetRunnerStatus(dataset);
   const userPermissionsOnDataset = dataset?.security?.currentUserPermissions ?? [];
+  const isDisabled = datasetRunner == null || datasetRunnerStatus === RUNNER_RUN_STATE.RUNNING;
 
   return (
     <>

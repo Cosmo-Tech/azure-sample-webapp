@@ -97,6 +97,8 @@ const isVisibleInDatasetManager = (dataset) => getDatasetOptions(dataset)?.visib
 // TODO: add check on dataset status if created by an ETL script
 const isVisibleInScenarioCreation = (dataset) => getDatasetOptions(dataset)?.visible?.scenarioCreation === true;
 
+const isCreatedByRunner = (dataset) => getDatasetOption(dataset, 'runnerId') != null;
+
 export const DatasetsUtils = {
   patchDatasetWithCurrentUserPermissions,
   buildDatasetLocation,
@@ -109,4 +111,5 @@ export const DatasetsUtils = {
   setDatasetOptions,
   isVisibleInDatasetManager,
   isVisibleInScenarioCreation,
+  isCreatedByRunner,
 };

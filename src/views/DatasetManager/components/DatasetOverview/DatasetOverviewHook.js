@@ -1,6 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { useEffect, useMemo } from 'react';
+import { useGetDatasetRunnerStatus } from '../../../../hooks/DatasetRunnerHooks';
 import {
   useDatasetTwingraphQueriesResults,
   useInitializeDatasetTwingraphQueriesResults,
@@ -9,11 +10,14 @@ import { useCurrentDataset } from '../../../../state/datasets/hooks';
 import { useWorkspaceData } from '../../../../state/workspaces/hooks';
 
 export const useDatasetOverview = () => {
+  const getDatasetRunnerStatus = useGetDatasetRunnerStatus();
   const workspaceData = useWorkspaceData();
   const currentDataset = useCurrentDataset();
-  const datasetIngestionStatus = useCurrentDataset()?.ingestionStatus;
   const datasetTwingraphQueriesResults = useDatasetTwingraphQueriesResults();
   const initializeDatasetTwingraphQueriesResults = useInitializeDatasetTwingraphQueriesResults();
+
+  const datasetStatus = getDatasetRunnerStatus(currentDataset);
+
   const flatQueriesResults = useMemo(() => {
     return datasetTwingraphQueriesResults[currentDataset?.id] ?? {};
   }, [currentDataset?.id, datasetTwingraphQueriesResults]);
@@ -45,7 +49,7 @@ export const useDatasetOverview = () => {
     categories: datasetManagerConfig.categories,
     graphIndicators: datasetManagerConfig.graphIndicators,
     queriesResults,
-    datasetIngestionStatus,
+    datasetStatus,
     dataset: currentDataset,
   };
 };

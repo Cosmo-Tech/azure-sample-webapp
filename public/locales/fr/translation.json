@@ -517,6 +517,9 @@
       "updateData": "Le scénario n'a pas pu être mis à jour.",
       "updatePermissions": "Certaines permissions du scénario n'ont pas pu être modifiées.",
       "run": "Un problème est survenu, le scénario n'a pas pu être lancé.",
+      "etlStartFailed": "Un problème est survenu, le script ETL n'a pas pu être lancé.",
+      "etlRunFailed": "Un problème est survenu, le script ETL a échoué.",
+      "etlDeleteFailed": "Le runner (ETL) associé au dataset n'a pas pu être supprimé.",
       "update": "Un problème est survenu pendant la modification du scénario, les nouveaux paramètres n'ont pas été sauvegardés.",
       "incompleteRun": "Un problème est survenu pendant la modification du dataset; les nouveaux paramètres ne sont pas pris en compte et le scénario n'a pas pu être lancé.",
       "datasetUpdate": "Un problème est survenu pendant la modification du dataset; les nouveaux paramètres ne sont pas pris en compte.",
@@ -596,7 +599,7 @@
       "noDataset": "Aucun dataset n'est associé au scénario, impossible de récupérer les valeurs dynamiques.",
       "notExistingDataset": "Impossible de récupérer les valeurs dynamiques: le dataset associé au scénario n'existe pas.",
       "notTwingraphDataset": "Impossible de récupérer les valeurs dynamiques: le chargement dynamique des valeurs est disponible uniquement pour les datasets du type twingraph.",
-      "ingestionStatusError": "Impossible de récupérer les valeurs dynamiques: le statut du dataset est {{ingestionStatus}}.",
+      "runnerStatusError": "Impossible de récupérer les valeurs dynamiques: le statut du runner associé au dataset est {{runnerStatus}}.",
       "resultKeyError": "Le résultat de la requête ne contient pas de propriété {{resultKey}}. Cela provient probablement d'une erreur dans la configuration de resultKey, veuillez vérifier la solution.",
       "queryError": "Impossible de récupérer les valeurs dynamiques depuis le dataset.",
       "defaultValueDisplayed": "La valeur par défaut du paramètre est affichée."

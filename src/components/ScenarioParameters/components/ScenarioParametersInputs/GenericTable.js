@@ -14,7 +14,7 @@ import { useFindDatasetById } from '../../../../state/datasets/hooks.js';
 import { useOrganizationId } from '../../../../state/organizations/hooks';
 import { useWorkspaceId } from '../../../../state/workspaces/hooks.js';
 import { gridLight, gridDark } from '../../../../theme/';
-import { ConfigUtils, TranslationUtils } from '../../../../utils';
+import { ConfigUtils, DatasetsUtils, TranslationUtils } from '../../../../utils';
 import { FileManagementUtils } from '../../../../utils/FileManagementUtils';
 import { TableUtils } from '../../../../utils/TableUtils';
 import { TableExportDialog, TableRevertDataDialog, TableDeleteRowsDialog } from './components';
@@ -269,7 +269,9 @@ export const GenericTable = ({
       return;
     }
 
-    if (findDatasetById(sourceDatasetId)?.ingestionStatus == null) {
+    const dataset = findDatasetById(sourceDatasetId);
+    // FIXME: check that type of dataset part is "DB" instead, when migrating query system
+    if (!DatasetsUtils.isCreatedByRunner(dataset)) {
       setPlaceholder({
         title: t('genericcomponent.table.labels.noTwingraph', 'No Twingraph'),
         body: t(

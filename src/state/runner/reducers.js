@@ -115,9 +115,18 @@ const runnerSlice = createSlice({
     },
     deleteRunner: (state, action) => {
       const { runnerId } = action.payload;
-      const index = state.simulationRunners.list?.data.findIndex((runner) => runner.id === runnerId);
-      RunnersUtils.updateParentIdOnDelete(state.simulationRunners.list?.data, runnerId);
-      state.simulationRunners.list?.data.splice(index, 1);
+
+      let runners = state.simulationRunners.list?.data;
+      let index = runners.findIndex((runner) => runner.id === runnerId);
+      if (index === -1) {
+        runners = state.etlRunners.list?.data;
+        index = runners.findIndex((runner) => runner.id === runnerId);
+        if (index === -1) return; // Runner not stored in redux
+      }
+
+      RunnersUtils.updateParentIdOnDelete(runners, runnerId);
+      runners.splice(index, 1);
+
       if (state.simulationRunners.current.data?.id === runnerId) state.simulationRunners.current.data = null;
     },
     addSimulationRunner: (state, action) => {
@@ -253,4 +262,5 @@ export const {
   updateEtlRunner,
   addEtlRunner,
 } = runnerSlice.actions;
+
 export default runnerSlice.reducer;

@@ -9,19 +9,17 @@ import { RunnersUtils } from '../../../utils';
 import { setApplicationErrorMessage } from '../../app/reducers';
 import { RUNNER_ACTIONS_KEY } from '../constants';
 import { deleteRunner, setListStatus } from '../reducers';
+import { stopETLRunner } from './StopRunner';
 import { stopSimulationRunner } from './StopSimulationRunner';
 
 export function* callDeleteRunner(action) {
-  try {
-    const organizationId = action.organizationId;
-    const workspaceId = action.workspaceId;
-    const runnerId = action.runnerId;
+  const organizationId = action.organizationId;
+  const workspaceId = action.workspaceId;
+  const runnerId = action.runnerId;
+  const isETLRunner = action.runnerType === 'etl';
 
-    yield put(
-      setListStatus({
-        status: STATUSES.LOADING,
-      })
-    );
+  try {
+    yield put(setListStatus({ status: STATUSES.LOADING }));
 
     const response = yield call(Api.Runners.getRunner, organizationId, workspaceId, runnerId);
     const lastRunId = RunnersUtils.getLastRunId(response.data);
@@ -29,7 +27,9 @@ export function* callDeleteRunner(action) {
     if (lastRunId) {
       const response = yield call(Api.RunnerRuns.getRunStatus, organizationId, workspaceId, runnerId, lastRunId);
       if (response.data.state === RUNNER_RUN_STATE.RUNNING) {
-        yield call(stopSimulationRunner, action);
+        if (isETLRunner) yield call(stopETLRunner, action);
+        else yield call(stopSimulationRunner, action);
+
         yield put({
           type: RUNNER_ACTIONS_KEY.STOP_RUNNER_STATUS_POLLING + '_' + runnerId,
           data: { runnerId },
@@ -38,29 +38,14 @@ export function* callDeleteRunner(action) {
     }
 
     yield call(Api.Runners.deleteRunner, organizationId, workspaceId, runnerId);
-    yield put(
-      setListStatus({
-        status: STATUSES.IDLE,
-      })
-    );
-
-    yield put(
-      deleteRunner({
-        runnerId,
-      })
-    );
+    yield put(setListStatus({ status: STATUSES.IDLE }));
+    yield put(deleteRunner({ runnerId }));
   } catch (error) {
-    yield put(
-      setListStatus({
-        status: STATUSES.IDLE,
-      })
-    );
-    yield put(
-      setApplicationErrorMessage({
-        error,
-        errorMessage: t('commoncomponents.banner.delete', "Scenario hasn't been deleted."),
-      })
-    );
+    yield put(setListStatus({ status: STATUSES.IDLE }));
+
+    let errorMessage = t('commoncomponents.banner.delete', "Scenario hasn't been deleted.");
+    if (isETLRunner) errorMessage = t('commoncomponents.banner.etlDeleteFailed', "Dataset runner hasn't been deleted.");
+    yield put(setApplicationErrorMessage({ error, errorMessage }));
   }
 }
 

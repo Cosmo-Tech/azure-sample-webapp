@@ -6,22 +6,21 @@ import PropTypes from 'prop-types';
 import { AddCircle as AddIcon } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 import { FadingTooltip, PermissionsGate } from '@cosmotech/ui';
-import { INGESTION_STATUS, TWINCACHE_STATUS } from '../../../../services/config/ApiConstants';
+import { useGetDatasetRunnerStatus } from '../../../../hooks/DatasetRunnerHooks';
+import { RUNNER_RUN_STATE } from '../../../../services/config/ApiConstants';
 import { ACL_PERMISSIONS } from '../../../../services/config/accessControl';
 import { useSubDatasetCreationParameters } from './CreateSubDatasetButtonHook';
 import { DatasetWizard } from './components/DatasetWizard';
 
 export const CreateSubDatasetButton = ({ parentDataset }) => {
   const { t } = useTranslation();
+  const getDatasetRunnerStatus = useGetDatasetRunnerStatus();
   const { dataSourceRunTemplates, createSubDatasetRunner, userPermissionsInCurrentOrganization } =
     useSubDatasetCreationParameters();
   const [isDatasetWizardOpen, setIsDatasetWizardOpen] = useState(false);
   const isDisabled = useMemo(
-    () =>
-      !parentDataset ||
-      parentDataset.twincacheStatus !== TWINCACHE_STATUS.FULL ||
-      parentDataset.ingestionStatus !== INGESTION_STATUS.SUCCESS,
-    [parentDataset]
+    () => !parentDataset || getDatasetRunnerStatus(parentDataset) !== RUNNER_RUN_STATE.SUCCESSFUL,
+    [getDatasetRunnerStatus, parentDataset]
   );
   const closeDialog = useCallback(() => setIsDatasetWizardOpen(false), [setIsDatasetWizardOpen]);
 

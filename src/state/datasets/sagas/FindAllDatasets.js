@@ -3,7 +3,7 @@
 import { t } from 'i18next';
 import { call, put, select, takeEvery } from 'redux-saga/effects';
 import { Api } from '../../../services/config/Api';
-import { DATASET_PERMISSIONS_MAPPING, INGESTION_STATUS } from '../../../services/config/ApiConstants';
+import { DATASET_PERMISSIONS_MAPPING } from '../../../services/config/ApiConstants';
 import { STATUSES } from '../../../services/config/StatusConstants';
 import { ACL_PERMISSIONS } from '../../../services/config/accessControl';
 import { DatasetsUtils } from '../../../utils';
@@ -36,14 +36,18 @@ export function* fetchAllDatasetsData(organizationId, workspaceId) {
 
     if (datasets?.length > 0) {
       yield put(selectDataset({ selectedDatasetId: null }));
-      const datasetsToUpdate = data.filter(
-        (dataset) =>
-          DatasetsUtils.isVisibleInDatasetManager(dataset) && dataset.ingestionStatus === INGESTION_STATUS.PENDING
-      );
-
-      for (const dataset of datasetsToUpdate) {
-        yield put({ type: DATASET_ACTIONS_KEY.START_TWINGRAPH_STATUS_POLLING, datasetId: dataset.id, organizationId });
-      }
+      // FIXME: should we update all dataset status when opening a workspace? Or wait for datasets to be selected?
+      // If necessary, add a new saga and call it after all datasets and runners are stored in redux
+      // const datasetsToUpdate = data.filter(
+      //   (dataset) =>
+      //     DatasetsUtils.isVisibleInDatasetManager(dataset) && dataset.ingestionStatus === RUNNER_RUN_STATE.RUNNING
+      // );
+      //
+      // for (const dataset of datasetsToUpdate) {
+      //   yield put(
+      //   { type: DATASET_ACTIONS_KEY.START_TWINGRAPH_STATUS_POLLING, datasetId: dataset.id, organizationId }
+      // );
+      // }
     }
   } catch (error) {
     console.error(error);

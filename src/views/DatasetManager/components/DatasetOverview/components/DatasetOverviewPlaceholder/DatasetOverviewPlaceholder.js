@@ -4,11 +4,7 @@ import React, { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { Button, Grid, Link, Typography } from '@mui/material';
-import {
-  DATASET_SOURCE_TYPE,
-  INGESTION_STATUS,
-  TWINCACHE_STATUS,
-} from '../../../../../../services/config/ApiConstants';
+import { NATIVE_DATASOURCE_TYPES, RUNNER_RUN_STATE } from '../../../../../../services/config/ApiConstants';
 import { ApiUtils } from '../../../../../../utils';
 import { ReuploadFileDatasetButton } from '../../../ReuploadFileDatasetButton';
 import { useDatasetOverviewPlaceholder } from './DatasetOverviewPlaceholderHook';
@@ -17,13 +13,12 @@ export const DatasetOverviewPlaceholder = () => {
   const { t } = useTranslation();
   const {
     currentDatasetId,
-    currentDatasetIngestionStatus,
-    currentDatasetTwincacheStatus,
+    currentDatasetStatus,
     currentDatasetType,
     refreshDataset,
     downloadLogsFile,
     rollbackTwingraphData,
-    stopRunner,
+    stopETLRunner,
   } = useDatasetOverviewPlaceholder();
 
   const placeholderLabels = useMemo(() => {
@@ -36,21 +31,21 @@ export const DatasetOverviewPlaceholder = () => {
         'No dataset selected. You can select a dataset in the left-side panel.'
       );
 
-    switch (currentDatasetIngestionStatus) {
-      case INGESTION_STATUS.SUCCESS:
+    switch (currentDatasetStatus) {
+      case RUNNER_RUN_STATE.SUCCESSFUL:
         title = t('commoncomponents.datasetmanager.overview.placeholder.noKpis.title', 'Your dataset is ready');
         subtitle = t(
           'commoncomponents.datasetmanager.overview.placeholder.noKpis.subtitle',
           'You can use it to create new scenarios'
         );
         break;
-      case INGESTION_STATUS.PENDING:
+      case RUNNER_RUN_STATE.RUNNING:
         title = t(
           'commoncomponents.datasetmanager.overview.placeholder.loading',
           'Importing your data, please wait...'
         );
         break;
-      case INGESTION_STATUS.NONE:
+      case RUNNER_RUN_STATE.CREATED:
         subtitleDataCy = 'dataset-overview-api-link';
         title = t('commoncomponents.datasetmanager.overview.placeholder.empty', 'Your dataset is empty');
         subtitle = (
@@ -65,13 +60,13 @@ export const DatasetOverviewPlaceholder = () => {
           </Trans>
         );
         break;
-      case INGESTION_STATUS.ERROR:
+      case RUNNER_RUN_STATE.FAILED:
         title = t(
           'commoncomponents.datasetmanager.overview.placeholder.error',
           'An error occurred during import of your data'
         );
         break;
-      case INGESTION_STATUS.UNKNOWN:
+      case RUNNER_RUN_STATE.UNKNOWN:
       default:
         title = t(
           'commoncomponents.datasetmanager.overview.placeholder.unknown',
@@ -91,15 +86,13 @@ export const DatasetOverviewPlaceholder = () => {
         </Typography>
       ) : null,
     };
-  }, [currentDatasetId, currentDatasetIngestionStatus, t]);
+  }, [currentDatasetId, currentDatasetStatus, t]);
 
   const buttonRow = useMemo(() => {
     if (
       currentDatasetId == null ||
-      !currentDatasetIngestionStatus ||
-      ![INGESTION_STATUS.ERROR, INGESTION_STATUS.UNKNOWN, INGESTION_STATUS.PENDING].includes(
-        currentDatasetIngestionStatus
-      )
+      !currentDatasetStatus ||
+      ![RUNNER_RUN_STATE.FAILED, RUNNER_RUN_STATE.UNKNOWN, RUNNER_RUN_STATE.RUNNING].includes(currentDatasetStatus)
     )
       return null;
 
@@ -108,7 +101,7 @@ export const DatasetOverviewPlaceholder = () => {
         data-cy="dataset-overview-abort-button"
         variant="contained"
         color="error"
-        onClick={() => stopRunner(currentDatasetId)}
+        onClick={() => stopETLRunner(currentDatasetId)}
       >
         {t('commoncomponents.datasetmanager.overview.placeholder.abortButton', 'Abort')}
       </Button>
@@ -137,7 +130,9 @@ export const DatasetOverviewPlaceholder = () => {
       </Button>
     );
 
-    const showRollbackButton = currentDatasetTwincacheStatus === TWINCACHE_STATUS.FULL && currentDatasetType !== 'ETL';
+    // FIXME: remove rollback button & associated code
+    // showRollbackButton=currentDatasetTwincacheStatus === TWINCACHE_STATUS.FULL && currentDatasetType !== 'ETL';
+    const showRollbackButton = false;
     const rollBackButton = showRollbackButton ? (
       <Button
         data-cy="dataset-overview-rollback-button"
@@ -149,25 +144,24 @@ export const DatasetOverviewPlaceholder = () => {
       </Button>
     ) : null;
 
-    if (currentDatasetIngestionStatus === INGESTION_STATUS.PENDING)
-      return !Object.values(DATASET_SOURCE_TYPE).includes(currentDatasetType) && abortButton;
-    else if (currentDatasetType === DATASET_SOURCE_TYPE.FILE_UPLOAD)
+    if (currentDatasetStatus === RUNNER_RUN_STATE.RUNNING)
+      return !Object.values(NATIVE_DATASOURCE_TYPES).includes(currentDatasetType) && abortButton;
+    else if (currentDatasetType === NATIVE_DATASOURCE_TYPES.FILE_UPLOAD)
       return <ReuploadFileDatasetButton datasetId={currentDatasetId} iconButton={false} />;
     else
       return (
         <>
-          {!Object.values(DATASET_SOURCE_TYPE).includes(currentDatasetType) && runLogsDownloadButton}
+          {!Object.values(NATIVE_DATASOURCE_TYPES).includes(currentDatasetType) && runLogsDownloadButton}
           {retryButton}
           {rollBackButton}
         </>
       );
   }, [
     currentDatasetId,
-    currentDatasetIngestionStatus,
+    currentDatasetStatus,
     refreshDataset,
     rollbackTwingraphData,
-    stopRunner,
-    currentDatasetTwincacheStatus,
+    stopETLRunner,
     currentDatasetType,
     downloadLogsFile,
     t,

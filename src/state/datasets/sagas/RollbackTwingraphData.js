@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import { t } from 'i18next';
 import { put, takeEvery } from 'redux-saga/effects';
-import { INGESTION_STATUS } from '../../../services/config/ApiConstants';
+import { RUNNER_RUN_STATE } from '../../../services/config/ApiConstants';
 import { setApplicationErrorMessage } from '../../app/reducers';
 import { DATASET_ACTIONS_KEY } from '../constants';
 import { updateDataset } from '../reducers';
@@ -14,7 +14,7 @@ export function* rollbackTwingraphData(action) {
     // FIXME: refresh dataset no longer exist, remove this feature
     // yield call(Api.Datasets.rollbackRefresh, organizationId, datasetId);
 
-    yield put(updateDataset({ datasetId, datasetData: { ingestionStatus: INGESTION_STATUS.SUCCESS } }));
+    yield put(updateDataset({ datasetId, datasetData: { ingestionStatus: RUNNER_RUN_STATE.SUCCESSFUL } }));
   } catch (error) {
     console.error(error);
     setApplicationErrorMessage({

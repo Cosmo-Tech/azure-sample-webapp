@@ -13,7 +13,7 @@ import {
   dispatchGetRunner,
   dispatchRenameRunner,
   dispatchStartRunner,
-  dispatchStopRunner,
+  dispatchStopETLRunner,
   dispatchStopSimulationRunner,
   dispatchUpdateAndStartRunner,
   dispatchUpdateEtlRunner,
@@ -34,11 +34,14 @@ export const useRunners = () => {
   return useSelector((state) => state.runner?.simulationRunners.list?.data);
 };
 
-export const useRunner = (runnerId) => {
-  return useSelector((state) => {
-    const runners = state.runner?.simulationRunners.list?.data;
-    return runners && runners.find((runner) => runner.id === runnerId);
-  });
+export const useGetRunnerById = () => {
+  const runners = useRunners();
+  return useCallback((runnerId) => runners && runners.find((runner) => runner.id === runnerId), [runners]);
+};
+
+export const useGetETLRunnerById = () => {
+  const runners = useGetETLRunners();
+  return useCallback((runnerId) => runners && runners.find((runner) => runner.id === runnerId), [runners]);
 };
 
 export const useCurrentSimulationRunner = () => {
@@ -126,12 +129,12 @@ export const useSelectRunner = () => {
   const dispatch = useDispatch();
   return useCallback((runnerId) => dispatch(setCurrentSimulationRunner({ runnerId })), [dispatch]);
 };
-export const useStopRunner = () => {
+export const useStopETLRunner = () => {
   const organizationId = useOrganizationId();
   const workspaceId = useWorkspaceId();
   const dispatch = useDispatch();
   return useCallback(
-    (datasetId) => dispatch(dispatchStopRunner(organizationId, workspaceId, datasetId)),
+    (datasetId) => dispatch(dispatchStopETLRunner(organizationId, workspaceId, datasetId)),
     [dispatch, organizationId, workspaceId]
   );
 };

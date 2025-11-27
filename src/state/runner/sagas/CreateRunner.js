@@ -8,9 +8,9 @@ import { setApplicationErrorMessage } from '../../app/reducers';
 import { addDataset } from '../../datasets/reducers';
 import { createDataset } from '../../datasets/sagas/CreateDataset';
 import { RUNNER_ACTIONS_KEY } from '../constants';
-import { addEtlRunner } from '../reducers';
+import { addEtlRunner, updateEtlRunner } from '../reducers';
 
-const getUserEmail = (state) => state.auth.userEmail;
+const getUserName = (state) => state.auth?.userName;
 const getSolution = (state) => state.solution?.current?.data;
 
 function* uploadFileParameter(parameter, organizationId, workspaceId) {
@@ -67,14 +67,11 @@ export function* createRunner(action) {
     const organizationId = action.organizationId;
     const workspaceId = action.workspaceId;
     const runner = action.runner;
-    const userEmail = yield select(getUserEmail);
+    const ownerName = yield select(getUserName);
     const solution = yield select(getSolution);
 
     runner.solutionId = solution.id;
-    runner.ownerName = userEmail;
-    runner.security = { default: 'none', accessControlList: [{ id: userEmail, role: 'admin' }] };
-    runner.runTemplateId = runner.sourceType;
-    delete runner.sourceType;
+    runner.ownerName = ownerName;
 
     for (const parameter of runner.parametersValues) {
       if (ConfigUtils.isFileParameter(parameter)) {
@@ -88,12 +85,22 @@ export function* createRunner(action) {
       parametersValues: ApiUtils.formatParametersForApi(runner.parametersValues).parametersValues,
     });
     const runnerId = runnerCreated.id;
+    yield put(
+      addEtlRunner({
+        runner: {
+          ...runnerCreated,
+          parametersValues: ApiUtils.formatParametersFromApi(runnerCreated.parametersValues),
+        },
+      })
+    );
 
     const dataset = {
       name: runner.name,
       description: runner.description,
       tags: runner.tags,
-      additionalData: { webapp: { sourceType: 'ETL' } },
+      additionalData: {
+        webapp: { runnerId, sourceType: 'ETL', ownerName, visible: { datasetManager: true, scenarioCreation: true } },
+      },
       source: { location: workspaceId, name: runnerId },
     };
     // When creating subdatasets, the runner provided to the createRunner saga contains the id of the **parent dataset**
@@ -115,7 +122,8 @@ export function* createRunner(action) {
       patchedRunner
     );
     yield put(
-      addEtlRunner({
+      updateEtlRunner({
+        runnerId,
         runner: {
           ...updatedRunner,
           parametersValues: ApiUtils.formatParametersFromApi(updatedRunner.parametersValues),
@@ -123,7 +131,7 @@ export function* createRunner(action) {
       })
     );
 
-    yield put({ type: RUNNER_ACTIONS_KEY.START_RUNNER, organizationId, workspaceId, runnerId });
+    yield put({ type: RUNNER_ACTIONS_KEY.START_ETL_RUNNER, organizationId, workspaceId, runnerId });
   } catch (error) {
     console.error(error);
     yield put(
