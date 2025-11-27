@@ -18,3 +18,5 @@ export const getTheme = (isDarkTheme) => {
 
   return theme;
 };
+
+export { paletteLight, paletteDark, pictureLight, pictureDark, gridLight, gridDark };
