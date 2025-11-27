@@ -27,4 +27,4 @@ export {
   ScenarioSelect,
 } from './ScenarioParameters';
 export { default as LoadingBackdrop } from './LoadingBackdrop';
-export { StatusBar } from './StatusBar';
+export { default as StatusBar } from './StatusBar';

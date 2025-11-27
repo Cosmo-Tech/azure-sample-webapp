@@ -7,6 +7,8 @@ import { UserStatusGate } from './components/UserStatusGate';
 import { TabLayout } from './layouts';
 import ConfigService from './services/ConfigService';
 import { RouterUtils } from './utils';
+import DatasetListingView from './views/DatasetListing';
+import ScenariosListingView from './views/ScenariosListing';
 import Workspaces from './views/Workspaces';
 
 const AppRoutes = () => {
@@ -19,7 +21,6 @@ const AppRoutes = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
-        <Route path="/" element={<Navigate to={redirectPath} replace />} />
         <Route
           element={
             <UserStatusGate>
@@ -51,6 +52,22 @@ const AppRoutes = () => {
             </UserStatusGate>
           }
         >
+          <Route
+            path=":workspaceId/datasets"
+            element={
+              <UserStatusGate>
+                <DatasetListingView />
+              </UserStatusGate>
+            }
+          />
+          <Route
+            path=":workspaceId/scenarios"
+            element={
+              <UserStatusGate>
+                <ScenariosListingView />
+              </UserStatusGate>
+            }
+          />
           {tabs?.map((tab) => (
             <Route
               key={tab.key}
