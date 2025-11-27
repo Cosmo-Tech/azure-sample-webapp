@@ -8,6 +8,8 @@ import { TabLayout } from './layouts';
 import ConfigService from './services/ConfigService';
 import { RouterUtils } from './utils';
 import Workspaces from './views/Workspaces';
+import MainNavigationDemo from './views/MainNavigationDemo/MainNavigationDemo';
+import DatasetListingDemo from './views/DatasetListingView';
 
 const AppRoutes = () => {
   const providedUrl = sessionStorage.getItem('providedUrl');
@@ -68,6 +70,22 @@ const AppRoutes = () => {
           element={
             <UserStatusGate>
               <Navigate to="/workspaces" />
+            </UserStatusGate>
+          }
+        />
+        <Route
+          path="/main-navigation-demo"
+          element={
+            <UserStatusGate>
+              <MainNavigationDemo />
+            </UserStatusGate>
+          }
+        />
+        <Route
+          path="/dataset-listing-demo"
+          element={
+            <UserStatusGate>
+              <DatasetListingDemo />
             </UserStatusGate>
           }
         />

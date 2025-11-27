@@ -1,0 +1,73 @@
+[
+  {
+    "id": "D-mock1",
+    "name": "Ref Data Sample",
+    "createInfo": {
+      "timestamp": 1728259200000
+    },
+    "updateInfo": {
+      "timestamp": 1728864000000
+    },
+    "status": "PENDING",
+    "security": {
+      "currentUserPermissions": ["read", "write"]
+    }
+  },
+  {
+    "id": "D-mock2",
+    "name": "Published Datastore",
+    "createInfo": {
+      "timestamp": 1728432000000
+    },
+    "updateInfo": {
+      "timestamp": 1728864000000
+    },
+    "status": "READY",
+    "security": {
+      "currentUserPermissions": ["read", "write"]
+    }
+  },
+  {
+    "id": "D-mock3",
+    "name": "Ref Datastore",
+    "createInfo": {
+      "timestamp": 1728432000000
+    },
+    "updateInfo": {
+      "timestamp": 1728864000000
+    },
+    "status": "READY",
+    "security": {
+      "currentUserPermissions": ["read", "write"]
+    }
+  },
+  {
+    "id": "D-mock4",
+    "name": "Ref Light",
+    "createInfo": {
+      "timestamp": 1728432000000
+    },
+    "updateInfo": {
+      "timestamp": 1728864000000
+    },
+    "status": "READY",
+    "security": {
+      "currentUserPermissions": ["read", "write"]
+    }
+  },
+  {
+    "id": "D-mock5",
+    "name": "Data Source",
+    "createInfo": {
+      "timestamp": 1728432000000
+    },
+    "updateInfo": {
+      "timestamp": 1728864000000
+    },
+    "status": "READY",
+    "security": {
+      "currentUserPermissions": ["read"]
+    }
+  }
+]
+
