@@ -81,6 +81,7 @@ const basicWebAppOptions = z.strictObject({
       supersetDomain: z.string().optional().nullable(),
       dashboards: z.array(z.looseObject({})).optional().nullable(),
       dashboardView: z.looseObject({}).optional().nullable(),
+      useWebappTheme: z.boolean({}).optional().nullable(),
     })
     .optional()
     .nullable(),
