@@ -11,6 +11,7 @@ import { RUNNER_ACTIONS_KEY } from '../constants';
 import { addSimulationRunner, setCurrentSimulationRunner } from '../reducers';
 
 const getUserEmail = (state) => state.auth.userEmail;
+const getUserName = (state) => state.auth.userName;
 const getUserId = (state) => state.auth.userId;
 const getRunnerPermissionsMapping = (state) => state.application.permissionsMapping.runner;
 
@@ -19,6 +20,7 @@ export function* createSimulationRunner(action) {
     yield put(setCurrentSimulationRunner({ status: STATUSES.LOADING }));
 
     const userEmail = yield select(getUserEmail);
+    const ownerName = yield select(getUserName);
     const userId = yield select(getUserId);
     const runnersPermissionsMapping = yield select(getRunnerPermissionsMapping);
     const organizationId = action.organizationId;
@@ -26,6 +28,7 @@ export function* createSimulationRunner(action) {
     const runner = action.runner;
     const security = { default: 'none', accessControlList: [{ id: userEmail, role: 'admin' }] };
     const runnerPayload = { ...runner, security };
+    RunnersUtils.setRunnerOptions(runnerPayload, { ownerName });
 
     const { data } = yield call(Api.Runners.createRunner, organizationId, workspaceId, runnerPayload);
     data.parametersValues = ApiUtils.formatParametersFromApi(data.parametersValues);

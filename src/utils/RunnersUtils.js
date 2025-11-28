@@ -59,6 +59,16 @@ const isParameterInDatasetParts = (parameterId, datasetParts) => {
   return findParameterInDatasetParts(parameterId, datasetParts) !== undefined;
 };
 
+const getRunnerOptions = (runner) => runner?.additionalData?.webapp;
+const getRunnerOption = (runner, optionKey) => runner?.additionalData?.webapp?.[optionKey];
+
+const setRunnerOptions = (runner, options) => {
+  if (!runner) return;
+  if (!runner.additionalData) runner.additionalData = { webapp: { ...options } };
+  else if (!runner.additionalData.webapp) runner.additionalData.webapp = { ...options };
+  else runner.additionalData.webapp = { ...runner.additionalData.webapp, ...options };
+};
+
 export const RunnersUtils = {
   forgeRunnerLastRunInfoPatch,
   getLastRunId,
@@ -69,4 +79,7 @@ export const RunnersUtils = {
   updateParentIdOnDelete,
   findParameterInDatasetParts,
   isParameterInDatasetParts,
+  getRunnerOptions,
+  getRunnerOption,
+  setRunnerOptions,
 };

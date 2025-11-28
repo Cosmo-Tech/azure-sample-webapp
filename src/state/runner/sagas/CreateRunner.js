@@ -76,7 +76,7 @@ export function* createRunner(action) {
     // Add custom security with userEmail to support service accounts in ACL (do not remove, this is NOT managed by the
     // back-end)
     runner.security = { default: 'none', accessControlList: [{ id: userEmail, role: 'admin' }] };
-    runner.ownerName = ownerName;
+    RunnersUtils.setRunnerOptions(runner, { ownerName });
 
     for (const parameter of runner.parametersValues) {
       if (ConfigUtils.isFileParameter(parameter)) {
