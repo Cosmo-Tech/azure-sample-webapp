@@ -29,7 +29,12 @@ export function* fetchSolutionByIdData(organizationId, solutionId) {
     yield put(
       setApplicationErrorMessage({
         error,
-        errorMessage: t('commoncomponents.banner.', "You don't have permission to access this solution."),
+        errorMessage: t(
+          'commoncomponents.banner.solutionNotFound',
+          'A problem occurred when fetching the solution ' +
+            '"{{ solutionId }}". Either this solution does not exist, or you don\'t have access to it.',
+          { solutionId }
+        ),
       })
     );
     yield put(setCurrentSolution({ status: STATUSES.ERROR, solution: null }));
