@@ -1,6 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSetApplicationErrorMessage } from '../../state/app/hooks';
 import { useDatasets } from '../../state/datasets/hooks';
@@ -15,6 +15,7 @@ import { useWorkspaceId } from '../../state/workspaces/hooks';
 export const useScenario = () => {
   const { t } = useTranslation();
   const setApplicationErrorMessage = useSetApplicationErrorMessage();
+  const setScenarioValidationStatus = useSetSimulationRunnerValidationStatus();
 
   const currentScenarioData = useCurrentSimulationRunnerData();
   const organizationId = useOrganizationId();
@@ -31,7 +32,15 @@ export const useScenario = () => {
         (datasetId) => !baseDatasets.some((dataset) => dataset.id === datasetId)
       );
     }
+    return { baseDatasets, missingDatasetIds };
+  }, [datasets, currentSimulationRunnerBaseDatasetIds]);
 
+  const currentScenarioDatasetName = useMemo(() => {
+    if (baseDatasets.length === 0) return t('views.scenario.text.nodataset', 'None');
+    return baseDatasets[0].name ?? t('views.scenario.text.datasetNotFound', 'Not found');
+  }, [baseDatasets, t]);
+
+  useEffect(() => {
     if (missingDatasetIds.length > 0) {
       const errorMessage = t(
         'commoncomponents.banner.cannotAccessBaseDatasets',
@@ -45,15 +54,7 @@ export const useScenario = () => {
       );
       setApplicationErrorMessage(null, errorMessage);
     }
-    return { baseDatasets, missingDatasetIds };
-  }, [datasets, currentSimulationRunnerBaseDatasetIds, currentScenarioData, setApplicationErrorMessage, t]);
-
-  const currentScenarioDatasetName = useMemo(() => {
-    if (baseDatasets.length === 0) return t('views.scenario.text.nodataset', 'None');
-    return baseDatasets[0].name ?? t('views.scenario.text.datasetNotFound', 'Not found');
-  }, [baseDatasets, t]);
-  const setScenarioValidationStatus = useSetSimulationRunnerValidationStatus();
-
+  }, [t, setApplicationErrorMessage, currentScenarioData?.id, currentScenarioData?.name, missingDatasetIds]);
   return {
     currentScenarioData,
     organizationId,
