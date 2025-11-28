@@ -2,7 +2,7 @@ name: Deploy Storybook to GitHub Pages
 
 on:
   push:
-    branches: ["feature/aip"]
+    branches: ["feature/storybook-ci", "feature/aip" ]
   workflow_dispatch:
 
 permissions:
