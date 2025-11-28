@@ -4,18 +4,18 @@ import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useMatch, Outlet, useParams, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Tabs as MuiTabs, Tab, Box } from '@mui/material';
+import { Tabs as MuiTabs, Tab, Box, Breadcrumbs, Link as MuiLink, Stack } from '@mui/material';
 import { filterTabsForCurrentWorkspace } from '../../AppLayout';
 import { ApplicationErrorBanner } from '../../components';
 import { AppBar } from '../../components/AppBar';
-import { DashboardsManager } from '../../managers';
+import { MainNavigation } from '../../components/MainNavigation';
 import { useGetRunner } from '../../state/runner/hooks';
 import { useSelectWorkspace, useWorkspace } from '../../state/workspaces/hooks';
 import { ConfigUtils } from '../../utils';
 
 export const TabLayout = (props) => {
-  const { tabs } = props;
   const { t } = useTranslation();
+  const { tabs } = props;
   const location = useLocation();
   const currentTabPathname = location?.pathname;
   const scenarioViewUrl = useMatch(':workspaceId/scenario/:scenarioId');
@@ -28,7 +28,7 @@ export const TabLayout = (props) => {
   const selectWorkspace = useSelectWorkspace();
   const getScenario = useGetRunner();
   const filteredTabs = useMemo(
-    () => filterTabsForCurrentWorkspace(tabs, currentWorkspace?.data),
+    () => (tabs != null ? filterTabsForCurrentWorkspace(tabs, currentWorkspace?.data) : null),
     [tabs, currentWorkspace?.data]
   );
 
@@ -66,45 +66,63 @@ export const TabLayout = (props) => {
     shouldRedirectFromInstanceView || shouldRedirectFromDatasetManager || shouldRedirectFromDashboardsView;
   const tabValue = shouldRedirect ? `/${routerParameters.workspaceId}/scenario` : currentTabPathname;
 
-  const viewTabs = (
-    <MuiTabs value={tabValue} indicatorColor="secondary" textColor="inherit">
-      {filteredTabs.map((tab) => (
-        <Tab
-          data-cy={tab.key}
-          key={tab.key}
-          value={
-            (tab.to === 'scenario' && scenarioViewUrl?.pathname) ||
-            (tab.to === 'instance' && instanceViewUrl?.pathname) ||
-            (tab.to === 'datasetmanager' && datasetManagerViewUrl?.pathname) ||
-            `/${routerParameters.workspaceId}/${tab.to}`
-          }
-          label={t(tab.label, tab.key)}
-          component={Link}
-          to={`${currentWorkspace?.data?.id}/${tab.to}`}
-        />
-      ))}
-    </MuiTabs>
+  const MainPage = () => (
+    <Stack direction="column" sx={{ flexGrow: 1 }}>
+      {tabValue != null && (
+        <MuiTabs value={tabValue} indicatorColor="secondary" textColor="inherit">
+          {filteredTabs?.map((tab) => (
+            <Tab
+              data-cy={tab.key}
+              key={tab.key}
+              value={
+                (tab.to === 'scenario' && scenarioViewUrl?.pathname) ||
+                (tab.to === 'instance' && instanceViewUrl?.pathname) ||
+                (tab.to === 'datasetmanager' && datasetManagerViewUrl?.pathname) ||
+                `/${routerParameters.workspaceId}/${tab.to}`
+              }
+              label={t(tab.label, tab.key)}
+              component={Link}
+              to={`${currentWorkspace?.data?.id}/${tab.to}`}
+            />
+          ))}
+        </MuiTabs>
+      )}
+      <Outlet />
+    </Stack>
   );
 
-  return currentWorkspace?.data ? (
-    <>
-      <DashboardsManager />
-      <AppBar>{viewTabs}</AppBar>
-      <Box
-        sx={{
-          height: 'calc(100% - 48px)',
-          paddingTop: (theme) => theme.spacing(0),
-          paddingLeft: (theme) => theme.spacing(0),
-          paddingRight: (theme) => theme.spacing(0),
-          paddingBottom: (theme) => theme.spacing(0),
-          boxSizing: 'border-box',
-        }}
-      >
+  const BreadcrumbBar = () => (
+    <Breadcrumbs aria-label="breadcrumb" sx={{ padding: 2 }}>
+      <MuiLink underline="hover" color="inherit" href="/">
+        Workspaces
+      </MuiLink>
+      <MuiLink underline="hover" color="inherit" href="/">
+        Overall
+      </MuiLink>
+      <MuiLink underline="hover" color="inherit" href="/">
+        Main
+      </MuiLink>
+    </Breadcrumbs>
+  );
+  const StatusBar = () => (
+    <AppBar position="static" color="default" sx={{ boxShadow: 'none' }}>
+      <Box sx={{ pl: 2 }}>StatusBar</Box>
+    </AppBar>
+  );
+
+  return (
+    <Stack direction="row" sx={{ flexGrow: 1 }} spacing={2}>
+      <MainNavigation activeSection="scenarios" />
+      <Stack direction="column" sx={{ flexGrow: 1 }}>
         <ApplicationErrorBanner />
-        <Outlet />
-      </Box>
-    </>
-  ) : null;
+        <BreadcrumbBar />
+        <StatusBar />
+        <Stack direction="row" spacing={2}>
+          <MainPage />
+        </Stack>
+      </Stack>
+    </Stack>
+  );
 };
 
 TabLayout.propTypes = {
