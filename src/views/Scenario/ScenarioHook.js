@@ -42,6 +42,7 @@ export const useScenario = () => {
 
   useEffect(() => {
     if (missingDatasetIds.length > 0) {
+      const errorTitle = t('commoncomponents.banner.missingDataset', 'Dataset not found');
       const errorMessage = t(
         'commoncomponents.banner.cannotAccessBaseDatasets',
         'Some parts of the scenario "{{scenarioName}}" ({{scenarioId}}) could not be loaded, because the associated ' +
@@ -52,7 +53,7 @@ export const useScenario = () => {
           scenarioName: currentScenarioData.name,
         }
       );
-      setApplicationErrorMessage(null, errorMessage);
+      setApplicationErrorMessage({ title: errorTitle }, errorMessage);
     }
   }, [t, setApplicationErrorMessage, currentScenarioData?.id, currentScenarioData?.name, missingDatasetIds]);
   return {

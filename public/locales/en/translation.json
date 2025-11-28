@@ -509,6 +509,7 @@
     "banner": {
       "unknownError": "Unknown error",
       "dataset": "Dataset hasn't been downloaded.",
+      "missingDataset": "Dataset not found",
       "datasetsFetchFailed": "Unexpected error while loading the datasets.",
       "logs": "Log file hasn't been downloaded.",
       "create": "Scenario hasn't been created.",
