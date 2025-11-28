@@ -1,20 +1,18 @@
-name: Deploy Storybook (feature/aip)
+name: Deploy Storybook
 
 on:
   push:
     branches:
       - feature/aip
-  workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
 jobs:
-  build-deploy:
+  build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -22,8 +20,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 22
-          cache: yarn
+          node-version: 22  # same as project
 
       - name: Install dependencies
         run: yarn install --immutable
@@ -40,13 +37,12 @@ jobs:
           path: storybook-static
 
   deploy:
-    needs: build-deploy
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
 
     steps:
       - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v3
