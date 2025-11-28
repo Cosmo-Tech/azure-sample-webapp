@@ -27,7 +27,8 @@ import { setCurrentWorkspace } from '../reducers';
 
 const getOrganizationId = (state) => state?.organization?.current?.data?.id;
 const selectSolutionIdFromCurrentWorkspace = (state) => state.workspace.current.data.solution.solutionId;
-const selectRunnersList = (state) => state.runner.simulationRunners.list.data;
+const selectSimulationRunners = (state) => state.runner.simulationRunners.list.data;
+const selectETLRunners = (state) => state.runner.etlRunners.list.data;
 const getWorkspaces = (state) => state?.workspace?.list?.data;
 
 export function* selectWorkspace(action) {
@@ -75,18 +76,22 @@ export function* selectWorkspace(action) {
   yield call(fetchSolutionByIdData, organizationId, solutionId);
 
   yield call(getAllRunners, organizationId, selectedWorkspaceId);
-  const simulationRunnersList = yield select(selectRunnersList);
+  const simulationRunners = yield select(selectSimulationRunners);
   yield put(
     setCurrentSimulationRunner({
-      runnerId: ResourceUtils.getFirstRootResource(simulationRunnersList)?.id, // Function returns null if list is empty
+      runnerId: ResourceUtils.getFirstRootResource(simulationRunners)?.id, // Function returns null if list is empty
       status: STATUSES.SUCCESS,
     })
   );
 
   // Start run status polling for running scenarios
-  const runningRunners = simulationRunnersList.filter((runner) => runner.state === RUNNER_RUN_STATE.RUNNING);
-  yield all(
-    runningRunners.map((runner) =>
+  const isRunning = (runner) => RunnersUtils.getLastRunStatus(runner) === RUNNER_RUN_STATE.RUNNING;
+  const etlRunners = yield select(selectETLRunners);
+  const runningSimulationRunners = simulationRunners.filter(isRunning);
+  const runningETLRunners = etlRunners.filter(isRunning);
+
+  const pollingActions = runningSimulationRunners
+    .map((runner) =>
       put({
         type: RUNNER_ACTIONS_KEY.START_RUNNER_STATUS_POLLING,
         organizationId,
@@ -95,10 +100,22 @@ export function* selectWorkspace(action) {
         lastRunId: RunnersUtils.getLastRunId(runner),
       })
     )
-  );
+    .concat(
+      runningETLRunners.map((runner) =>
+        put({
+          type: RUNNER_ACTIONS_KEY.START_RUNNER_STATUS_POLLING,
+          organizationId,
+          workspaceId: selectedWorkspaceId,
+          runnerId: runner.id,
+          lastRunId: RunnersUtils.getLastRunId(runner),
+          runnerType: 'etl',
+        })
+      )
+    );
+
+  yield all(pollingActions);
 
   const chartsConfig = selectedWorkspace?.additionalData?.webapp?.charts;
-
   if (chartsConfig?.supersetDomain) {
     yield put(setChartMode(CHART_MODES.SUPERSET));
     yield put(setSupersetUrl(chartsConfig.supersetDomain));

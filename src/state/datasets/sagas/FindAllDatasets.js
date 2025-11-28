@@ -36,18 +36,6 @@ export function* fetchAllDatasetsData(organizationId, workspaceId) {
 
     if (datasets?.length > 0) {
       yield put(selectDataset({ selectedDatasetId: null }));
-      // FIXME: should we update all dataset status when opening a workspace? Or wait for datasets to be selected?
-      // If necessary, add a new saga and call it after all datasets and runners are stored in redux
-      // const datasetsToUpdate = data.filter(
-      //   (dataset) =>
-      //     DatasetsUtils.isVisibleInDatasetManager(dataset) && dataset.ingestionStatus === RUNNER_RUN_STATE.RUNNING
-      // );
-      //
-      // for (const dataset of datasetsToUpdate) {
-      //   yield put(
-      //   { type: DATASET_ACTIONS_KEY.START_TWINGRAPH_STATUS_POLLING, datasetId: dataset.id, organizationId }
-      // );
-      // }
     }
   } catch (error) {
     console.error(error);
