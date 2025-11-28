@@ -10,7 +10,8 @@ import { createDataset } from '../../datasets/sagas/CreateDataset';
 import { RUNNER_ACTIONS_KEY } from '../constants';
 import { addEtlRunner, updateEtlRunner } from '../reducers';
 
-const getUserName = (state) => state.auth?.userName;
+const getUserEmail = (state) => state.auth.userEmail;
+const getUserName = (state) => state.auth.userName;
 const getSolution = (state) => state.solution?.current?.data;
 
 function* uploadFileParameter(parameter, organizationId, workspaceId) {
@@ -67,10 +68,14 @@ export function* createRunner(action) {
     const organizationId = action.organizationId;
     const workspaceId = action.workspaceId;
     const runner = action.runner;
+    const userEmail = yield select(getUserEmail);
     const ownerName = yield select(getUserName);
     const solution = yield select(getSolution);
 
     runner.solutionId = solution.id;
+    // Add custom security with userEmail to support service accounts in ACL (do not remove, this is NOT managed by the
+    // back-end)
+    runner.security = { default: 'none', accessControlList: [{ id: userEmail, role: 'admin' }] };
     runner.ownerName = ownerName;
 
     for (const parameter of runner.parametersValues) {

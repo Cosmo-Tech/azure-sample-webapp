@@ -15,16 +15,25 @@ const getWorkspaceId = (state) => state.workspace.current?.data?.id;
 const getOrganizationId = (state) => state.organization.current?.data?.id;
 
 export function* postEmptyDataset(dataset) {
+  const userEmail = yield select(getUserEmail);
   const ownerName = yield select(getUserName);
   const organizationId = yield select(getOrganizationId);
   const workspaceId = yield select(getWorkspaceId);
-  DatasetsUtils.setDatasetOptions({ ownerName });
+
+  DatasetsUtils.setDatasetOptions(dataset, { ownerName });
+  // Add custom security with userEmail to support service accounts in ACL (do not remove, this is NOT managed by the
+  // back-end)
+  dataset.security = { default: 'none', accessControlList: [{ id: userEmail, role: 'admin' }] };
+
   return yield call(DatasetService.createEmptyDataset, organizationId, workspaceId, dataset);
 }
 
 export function* postDatasetPart(datasetId, datasetPart, file) {
+  const ownerName = yield select(getUserName);
   const organizationId = yield select(getOrganizationId);
   const workspaceId = yield select(getWorkspaceId);
+
+  DatasetsUtils.setDatasetOptions(datasetPart, { ownerName });
   return yield call(DatasetService.createDatasetPart, organizationId, workspaceId, datasetId, datasetPart, file);
 }
 

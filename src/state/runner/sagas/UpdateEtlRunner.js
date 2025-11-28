@@ -27,6 +27,8 @@ function* uploadFileParameter(parameter, organizationId, workspaceId) {
       tags: ['dataset_part'],
       main: false,
     };
+    // FIXME: use new dataset parts system
+    // FIXME: add custom security with userEmail to support service accounts in ACL
     const { data } = yield call(Api.Datasets.createDataset, organizationId, workspaceId, datasetPart);
 
     const datasetId = data.id;
