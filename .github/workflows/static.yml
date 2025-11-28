@@ -31,6 +31,9 @@ jobs:
       - name: Build Storybook
         run: yarn build-storybook --output-dir storybook-static
 
+      - name: Disable Jekyll
+        run: echo "" > storybook-static/.nojekyll
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
