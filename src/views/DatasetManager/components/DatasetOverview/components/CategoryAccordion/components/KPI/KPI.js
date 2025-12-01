@@ -14,7 +14,7 @@ export const KPI = (props) => {
   const label = useMemo(() => {
     return (
       <Typography variant="body1" {...labelProps}>
-        {t(TranslationUtils.getDatasetCategoryKpiNameTranslationKey(categoryId, kpi.id), kpi.id)}
+        {t(TranslationUtils.getDatasetCategoryKpiNameTranslationKey(categoryId, kpi), kpi.id)}
       </Typography>
     );
   }, [t, categoryId, kpi, labelProps]);

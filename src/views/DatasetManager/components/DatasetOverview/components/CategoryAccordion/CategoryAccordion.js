@@ -52,7 +52,7 @@ const CategoryAccordion = (props) => {
         .map((kpi, index) => {
           const kpiWithResult = {
             ...kpi,
-            ...queriesResults.categoriesKpis.find((kpiResult) => kpiResult.id === kpi.id),
+            ...queriesResults?.[kpi.queryId]?.[kpi.id],
           };
           return (
             <Grid key={`kpi${index}`}>
@@ -86,7 +86,7 @@ const CategoryAccordion = (props) => {
         </Grid>
       </Grid>
     );
-  }, [t, id, category, expanded, queriesResults.categoriesKpis]);
+  }, [t, id, category, expanded, queriesResults]);
 
   const accordionDetails = useMemo(() => {
     const hasDescription = exists(TranslationUtils.getDatasetCategoryDescriptionTranslationKey(category.id));
@@ -99,9 +99,8 @@ const CategoryAccordion = (props) => {
 
     const kpisWithResult = (category?.kpis ?? []).map((kpi) => ({
       ...kpi,
-      ...queriesResults.categoriesKpis.find((kpiResult) => kpiResult.id === kpi.id),
+      ...queriesResults?.[kpi.queryId]?.[kpi.id],
     }));
-
     let categoryKpis = null;
     if (category.kpis && category.kpis.length > 0)
       categoryKpis = category.kpis.map((kpi, index) => {
@@ -143,7 +142,7 @@ const CategoryAccordion = (props) => {
         </Grid>
       </Grid>
     );
-  }, [t, category, queriesResults.categoriesKpis]);
+  }, [t, category, queriesResults]);
 
   return (
     <Accordion expanded={expanded} onChange={toggleAccordion}>

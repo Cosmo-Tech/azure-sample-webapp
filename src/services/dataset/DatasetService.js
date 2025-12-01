@@ -72,6 +72,31 @@ const fetchDatasetPartData = async (datasetPart) => {
   return data;
 };
 
+const queryDatasetPart = async (datasetPart, options = {}) => {
+  const { organizationId, workspaceId, datasetId, id } = datasetPart;
+  const { selects, sums, avgs, counts, mins, maxs, offset, limit, groupBys, orderBys } = options;
+  const { data, status } = await Api.Datasets.queryData(
+    organizationId,
+    workspaceId,
+    datasetId,
+    id,
+    selects,
+    sums,
+    avgs,
+    counts,
+    mins,
+    maxs,
+    offset,
+    limit,
+    groupBys,
+    orderBys
+  );
+  if (status !== 200) {
+    throw new Error(`Error when downloading dataset part "${id}" in dataset "${datasetId}"`);
+  }
+  return data;
+};
+
 const DatasetService = {
   findDatasetById,
   createNoneTypeDataset,
@@ -83,6 +108,7 @@ const DatasetService = {
   deleteDatasetPart,
   downloadDatasetPart,
   fetchDatasetPartData,
+  queryDatasetPart,
 };
 
 export default DatasetService;

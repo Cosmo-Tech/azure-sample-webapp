@@ -34,21 +34,10 @@ export const useDatasetOverview = () => {
     initializeDatasetTwingraphQueriesResults(currentDataset);
   }, [currentDataset, initializeDatasetTwingraphQueriesResults]);
 
-  const queriesResults = useMemo(() => {
-    const result = { categoriesKpis: [], graphIndicators: [] };
-    workspaceData?.indicators?.categoriesKpis?.forEach((kpiId) =>
-      result.categoriesKpis.push({ id: kpiId, ...flatQueriesResults[kpiId] })
-    );
-    workspaceData?.indicators?.graphIndicators?.forEach((kpiId) =>
-      result.graphIndicators.push({ id: kpiId, ...flatQueriesResults[kpiId] })
-    );
-    return result;
-  }, [workspaceData?.indicators?.categoriesKpis, workspaceData?.indicators?.graphIndicators, flatQueriesResults]);
-
   return {
     categories: datasetManagerConfig.categories,
     graphIndicators: datasetManagerConfig.graphIndicators,
-    queriesResults,
+    kpiValues: flatQueriesResults,
     datasetStatus,
     dataset: currentDataset,
   };

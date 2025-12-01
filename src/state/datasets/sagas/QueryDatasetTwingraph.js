@@ -6,24 +6,33 @@ import {
   TWINGRAPH_QUERY_MAX_RETRIES,
   TWINGRAPH_QUERY_RETRY_DELAY,
 } from '../../../services/config/FunctionalConstants';
+import DatasetService from '../../../services/dataset/DatasetService';
 import {
   initializeQueriesResults,
   processQueriesResults,
   resetQueriesResults,
-  waitQueriesResults,
+  waitQueryResults,
 } from '../../datasetTwingraph/reducers';
 
 function* runDatasetTwingraphQuery(action, query, attemptsNumber = 0) {
-  const { datasetId, workspace } = action.payload;
-  const { queriesMapping } = workspace;
+  const { dataset, workspace } = action.payload;
+  const { kpiIdsByQueryId } = workspace;
+  const { organizationId, workspaceId, id: datasetId } = dataset;
 
-  yield put(waitQueriesResults({ datasetId, queriesMapping, queryId: query.id }));
+  yield put(waitQueryResults({ datasetId, kpiIdsByQueryId, queryId: query.id }));
 
+  const queryDatasetPartName = query.datasetPartName;
+  const datasetPartId = (dataset?.parts ?? []).find((part) => part.name === queryDatasetPartName)?.id;
+  if (datasetPartId == null)
+    throw Error(
+      `No dataset part with name "${queryDatasetPartName}" found in dataset "${dataset.name}" (${dataset.id})`
+    );
+
+  const datasetPart = { organizationId, workspaceId, datasetId, id: datasetPartId };
   let result;
   try {
-    // FIXME: twingraphs no longer exist, replace by new dataset query mechanism
-    // result = yield call(Api.Datasets.twingraphQuery, organizationId, datasetId, query);
-    result = {};
+    const queryOptions = query.options ?? {};
+    result = yield call(DatasetService.queryDatasetPart, datasetPart, queryOptions);
   } catch (error) {
     const res = error?.response?.data;
     if (res?.status === 400 && attemptsNumber < TWINGRAPH_QUERY_MAX_RETRIES) {
@@ -35,7 +44,7 @@ function* runDatasetTwingraphQuery(action, query, attemptsNumber = 0) {
     result = error;
   }
 
-  yield put(processQueriesResults({ datasetId, queriesMapping, queryId: query.id, result }));
+  yield put(processQueriesResults({ datasetId, kpiIdsByQueryId, queryId: query.id, result }));
 }
 
 function* startAllDatasetTwingraphQueries(action) {

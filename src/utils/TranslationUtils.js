@@ -34,12 +34,12 @@ const getDatasetCategoryDescriptionTranslationKey = (categoryId) => {
   return `dataset.categories.${categoryId}.description`;
 };
 
-const getDatasetCategoryKpiNameTranslationKey = (categoryId, kpiId) => {
-  return `dataset.categories.${categoryId}.kpis.${kpiId}.name`;
+const getDatasetCategoryKpiNameTranslationKey = (categoryId, kpi) => {
+  return `dataset.categories.${categoryId}.queries.${kpi.queryId}.kpis.${kpi.id}.name`;
 };
 
-const getDatasetGraphIndicatorNameTranslationKey = (graphIndicatorId) => {
-  return `dataset.graphIndicators.${graphIndicatorId}.name`;
+const getDatasetGraphIndicatorNameTranslationKey = (graphIndicator) => {
+  return `dataset.queries.${graphIndicator.queryId}.graphIndicators.${graphIndicator.id}.name`;
 };
 
 const _addResourcesToi18next = (resources) => {
@@ -55,9 +55,9 @@ const addTranslationOfDatasetManagerLabels = (datasetManager) => {
   };
 
   for (const indicator of datasetManager?.graphIndicators ?? []) {
-    if (indicator.id == null) continue;
+    if (indicator.id == null || indicator.queryId == null) continue;
     for (const lang in indicator.name) {
-      const key = getDatasetGraphIndicatorNameTranslationKey(indicator.id);
+      const key = getDatasetGraphIndicatorNameTranslationKey(indicator);
       _addResource(lang, key, indicator.name[lang]);
     }
   }
@@ -80,8 +80,12 @@ const addTranslationOfDatasetManagerLabels = (datasetManager) => {
         console.warn(`Found KPI without id in category "${category.id}"`);
         continue;
       }
+      if (kpi.queryId == null) {
+        console.warn(`Found KPI without queryId in category "${category.id}"`);
+        continue;
+      }
       for (const lang in kpi.name) {
-        const key = getDatasetCategoryKpiNameTranslationKey(category.id, kpi.id);
+        const key = getDatasetCategoryKpiNameTranslationKey(category.id, kpi);
         _addResource(lang, key, kpi.name[lang]);
       }
     }

@@ -3,24 +3,29 @@
 import React, { useMemo } from 'react';
 import { Card, CardContent, CardHeader, Grid } from '@mui/material';
 import { RUNNER_RUN_STATE } from '../../../../services/config/ApiConstants';
+import { DatasetsUtils } from '../../../../utils';
 import { useDatasetOverview } from './DatasetOverviewHook';
 import { CategoryAccordion, DatasetOverviewPlaceholder, EditableDatasetName, GraphIndicator } from './components';
 import DatasetActions from './components/DatasetActions/DatasetActions';
 
 export const DatasetOverview = () => {
-  const { categories, graphIndicators, queriesResults, datasetStatus, dataset } = useDatasetOverview();
+  const { categories, graphIndicators, kpiValues, datasetStatus, dataset } = useDatasetOverview();
 
   const showPlaceholder = useMemo(
-    () => datasetStatus !== RUNNER_RUN_STATE.SUCCESSFUL || (categories.length === 0 && graphIndicators.length === 0),
-    [categories, graphIndicators, datasetStatus]
+    () =>
+      !DatasetsUtils.hasDBDatasetParts(dataset) ||
+      datasetStatus !== RUNNER_RUN_STATE.SUCCESSFUL ||
+      (categories.length === 0 && graphIndicators.length === 0),
+    [dataset, categories, graphIndicators, datasetStatus]
   );
 
   const graphIndicatorsElements = useMemo(() => {
     return graphIndicators.map((kpi) => {
-      const result = queriesResults?.graphIndicators?.find((kpiResult) => kpiResult.id === kpi.id);
-      return <GraphIndicator key={kpi.id} id={kpi.id} kpi={result}></GraphIndicator>;
+      const result = kpiValues?.[kpi.queryId]?.[kpi.id];
+      const key = `${kpi.queryId}:${kpi.id}`;
+      return <GraphIndicator key={key} queryId={kpi.queryId} id={kpi.id} kpi={result}></GraphIndicator>;
     });
-  }, [graphIndicators, queriesResults]);
+  }, [graphIndicators, kpiValues]);
 
   const editableDatasetName = <EditableDatasetName />;
   return (
@@ -46,7 +51,7 @@ export const DatasetOverview = () => {
             </Grid>
             <Grid>
               {categories.map((category) => (
-                <CategoryAccordion key={category.id} category={category} queriesResults={queriesResults} />
+                <CategoryAccordion key={category.id} category={category} queriesResults={kpiValues} />
               ))}
             </Grid>
           </Grid>

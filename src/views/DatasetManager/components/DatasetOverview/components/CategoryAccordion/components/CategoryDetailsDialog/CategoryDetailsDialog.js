@@ -33,7 +33,7 @@ export const CategoryDetailsDialog = (props) => {
           const kpi = kpis.find((kpiResult) => kpiResult.id === kpiMetadata.id) ?? kpiMetadata;
           return (
             <Grid key={`${kpi.id}-key`}>
-              <GraphIndicator categoryId={category.id} id={kpi.id} kpi={kpi} />
+              <GraphIndicator categoryId={category.id} id={kpiMetadata.id} queryId={kpiMetadata.queryId} kpi={kpi} />
             </Grid>
           );
         })}

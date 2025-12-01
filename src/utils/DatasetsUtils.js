@@ -99,6 +99,11 @@ const isVisibleInScenarioCreation = (dataset) => getDatasetOptions(dataset)?.vis
 
 const isCreatedByRunner = (dataset) => getDatasetOption(dataset, 'runnerId') != null;
 
+const hasDBDatasetParts = (dataset) => {
+  const parts = dataset?.parts ?? [];
+  return parts.some((part) => part.type === 'DB');
+};
+
 export const DatasetsUtils = {
   patchDatasetWithCurrentUserPermissions,
   buildDatasetLocation,
@@ -112,4 +117,5 @@ export const DatasetsUtils = {
   isVisibleInDatasetManager,
   isVisibleInScenarioCreation,
   isCreatedByRunner,
+  hasDBDatasetParts,
 };

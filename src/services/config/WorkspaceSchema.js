@@ -164,7 +164,14 @@ const basicWebAppOptions = z.strictObject({
         .optional()
         .nullable(),
       queries: z
-        .array(z.strictObject({ id: z.string(), query: z.string() }))
+        .array(
+          z.strictObject({
+            id: z.string().optional().nullable(),
+            query: z.string().optional().nullable(),
+            options: z.string().optional().nullable(),
+            datasetPartName: z.string().optional().nullable(),
+          })
+        )
         .optional()
         .nullable(),
     })
@@ -220,8 +227,7 @@ export const WorkspaceSchema = z
       .optional()
       .nullable(),
     users: z.array(z.string().optional().nullable()).optional().nullable(),
-    indicators: z.record(z.string(), z.array(z.string().optional().nullable()).optional().nullable()),
-    queriesMapping: z.record(z.string(), z.array(z.string().optional().nullable()).optional().nullable()),
+    kpiIdsByQueryId: z.record(z.string(), z.array(z.string().optional().nullable()).optional().nullable()),
   })
   .optional()
   .nullable();

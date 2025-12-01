@@ -35,31 +35,22 @@ const forgeDatasetManagerConfiguration = (config) => {
   )
     return;
 
-  const indicators = {
-    graphIndicators: [],
-    categoriesKpis: [],
-  };
-  graphIndicators?.forEach((kpi) => kpi && indicators.graphIndicators.push(kpi.id));
-  categories?.forEach((category) => {
-    category.kpis instanceof Array && category.kpis?.forEach((kpi) => kpi.id && indicators.categoriesKpis.push(kpi.id));
-  });
-
-  const queriesMapping = {};
+  const kpiIdsByQueryId = {};
   const addKpi = (kpi) => {
     if (kpi.id == null || kpi.queryId == null) return;
-    if (queriesMapping[kpi.queryId] === undefined) queriesMapping[kpi.queryId] = [kpi.id];
-    else queriesMapping[kpi.queryId].push(kpi.id);
+    if (kpiIdsByQueryId[kpi.queryId] === undefined) kpiIdsByQueryId[kpi.queryId] = [kpi.id];
+    else kpiIdsByQueryId[kpi.queryId].push(kpi.id);
   };
   graphIndicators?.forEach(addKpi);
   categories?.forEach((category) => category.kpis instanceof Array && category.kpis?.forEach(addKpi));
-  return { indicators, queriesMapping };
+
+  return { kpiIdsByQueryId };
 };
 
 const patchWorkspaceWithDatasetManagerConfiguration = (workspace) => {
   try {
     const config = forgeDatasetManagerConfiguration(workspace?.additionalData?.webapp?.datasetManager);
-    workspace.indicators = config?.indicators;
-    workspace.queriesMapping = config?.queriesMapping;
+    workspace.kpiIdsByQueryId = config?.kpiIdsByQueryId;
   } catch (error) {
     console.warn('An error occurred while parsing the dataset manager queries. Data may be missing.');
     console.error(error);
@@ -105,22 +96,26 @@ const checkDatasetManagerConfiguration = (workspace) => {
           logWarning(`in queries, item #${index} uses a query id that already exists (id: ${query.id}).`);
         else allQueriesIds.push(query.id);
 
-        if (query.query == null) logWarning(`in queries, item #${index} (id: ${query?.id}) has no query statement`);
+        if (query.datasetPartName == null)
+          logWarning(`in queries, item #${index} (id: ${query?.id}) has no datasetPartName`);
       });
     }
   }
 
-  const allKpisIds = [];
+  const kpiIdsByQueryId = [];
   const checkKpisList = (kpis, propertyNameForWarnings) => {
     kpis.forEach((kpi, index) => {
       if (kpi.id == null) logWarning(`in ${propertyNameForWarnings}, item #${index} has no id`);
-      else if (allKpisIds.includes(kpi.id))
+      else if (kpi.queryId == null) logWarning(`in ${propertyNameForWarnings}, item #${index} has no queryId`);
+      else if (kpiIdsByQueryId?.[kpi.queryId]?.includes(kpi.id))
         logWarning(`in ${propertyNameForWarnings}, item #${index} uses a KPI id that already exists (id: ${kpi.id}).`);
-      else allKpisIds.push(kpi.id);
+      else {
+        if (!kpiIdsByQueryId?.[kpi.queryId]) kpiIdsByQueryId[kpi.queryId] = [kpi.id];
+        else kpiIdsByQueryId?.[kpi.queryId].push(kpi.id);
+      }
 
-      if (kpi.queryId == null) {
-        logWarning(`in ${propertyNameForWarnings}, item #${index} (id: ${kpi?.id}) has no queryId`);
-      } else if (!isQueriesValid || queries.find((query) => query.id === kpi.queryId) === undefined) {
+      if (kpi.queryId == null) return;
+      if (!isQueriesValid || queries.find((query) => query.id === kpi.queryId) === undefined) {
         logWarning(
           `in ${propertyNameForWarnings}, item #${index} (id: ${kpi?.id}) uses unknown query id "${kpi.queryId}". ` +
             'Make sure this query id is defined in "queries".'

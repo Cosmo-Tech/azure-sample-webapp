@@ -10,11 +10,11 @@ import { KPIValue } from '../KPIValue';
 
 const GraphIndicator = (props) => {
   const { t } = useTranslation();
-  const { categoryId, id = 'graph-indicator', kpi = {} } = props;
+  const { categoryId, queryId, id = 'graph-indicator', kpi = {} } = props;
 
   const graphIndicatorCard = useMemo(() => {
     return (
-      <Card data-cy={`indicator-card-${kpi.id}`} elevation={4} sx={{ width: '250px' }}>
+      <Card data-cy={`indicator-card-${id}`} elevation={4} sx={{ width: '250px' }}>
         <Grid
           container
           sx={{
@@ -27,13 +27,13 @@ const GraphIndicator = (props) => {
           <KPIValue kpi={kpi} valueTypographyProps={{ variant: 'h4' }} size="24px" />
           <Typography data-cy={'indicator-card-kpi-label'} variant="subtitle2">
             {categoryId
-              ? t(TranslationUtils.getDatasetCategoryKpiNameTranslationKey(categoryId, id), id)
-              : t(TranslationUtils.getDatasetGraphIndicatorNameTranslationKey(id), id)}
+              ? t(TranslationUtils.getDatasetCategoryKpiNameTranslationKey(categoryId, { id, queryId }), id)
+              : t(TranslationUtils.getDatasetGraphIndicatorNameTranslationKey({ id, queryId }), id)}
           </Typography>
         </Grid>
       </Card>
     );
-  }, [categoryId, id, kpi, t]);
+  }, [categoryId, id, queryId, kpi, t]);
 
   return kpi.state === KPI_STATE.IDLE || kpi.state === KPI_STATE.LOADING ? (
     <Skeleton variant="rounded">{graphIndicatorCard}</Skeleton>
@@ -44,6 +44,7 @@ const GraphIndicator = (props) => {
 
 GraphIndicator.propTypes = {
   id: PropTypes.string,
+  queryId: PropTypes.string,
   kpi: PropTypes.object,
   // categoryId is an optional prop of type string. When defined, the translation key isn't retrieved from the dynamic
   // graph indicator keys, but from the category KPIs instead

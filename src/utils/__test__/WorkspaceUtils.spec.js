@@ -12,8 +12,8 @@ describe('checkDatasetManagerConfiguration', () => {
 
   const kpi1 = { id: 'kpi', queryId: 'query' };
   const kpi2 = { id: 'foo', queryId: 'fooQuery' };
-  const query1 = { id: 'query', query: '' };
-  const query2 = { id: 'fooQuery', query: '' };
+  const query1 = { id: 'query', datasetPartName: 'part1' };
+  const query2 = { id: 'fooQuery', datasetPartName: 'part2', options: {} };
 
   test('it should not print warnings for valid configurations', () => {
     const validConfigs = [
@@ -70,7 +70,8 @@ describe('checkDatasetManagerConfiguration', () => {
       { warnings: 1, categories: [{ id: 'category', kpis: [{ queryId: kpi1.queryId }] }], queries: [query1] },
       // Missing parts of queries
       { warnings: 1, graphIndicators: [], queries: [{ id: query1.id }] },
-      { warnings: 1, graphIndicators: [], queries: [{ query: query1.query }] },
+      { warnings: 1, graphIndicators: [], queries: [{ datasetPartName: query1.datasetPartName }] },
+      { warnings: 2, graphIndicators: [], queries: [{ options: query1.options }] },
     ];
 
     invalidConfigs.forEach((config) => {
@@ -95,42 +96,8 @@ describe('forgeDatasetManagerConfiguration', () => {
     );
   });
 
-  test('building the indicators item skips invalid data when categories config is partially valid', () => {
-    const expectedIndicators = { categoriesKpis: ['id'], graphIndicators: [] };
-    const config = {
-      categories: [
-        { id: 'foo' }, // category without kpis
-        {
-          id: 'bar',
-          kpis: [
-            { id: 'id', queryId: 'queryId' },
-            { queryId: 'bars' }, // missing KPI id
-          ],
-        },
-        {
-          id: 'baz',
-          kpis: { invalid: 'not an array' },
-        },
-      ],
-    };
-    const { indicators } = WorkspacesUtils.forgeDatasetManagerConfiguration(config);
-    expect(indicators).toEqual(expectedIndicators);
-  });
-
-  test('building the indicators item skips invalid data when graphIndicators config is partially valid', () => {
-    const expectedIndicators = { categoriesKpis: [], graphIndicators: ['id'] };
-    const config = {
-      graphIndicators: [
-        { id: 'id', queryId: 'queryId' },
-        { queryId: 'bars' }, // missing indicator id
-      ],
-    };
-    const { indicators } = WorkspacesUtils.forgeDatasetManagerConfiguration(config);
-    expect(indicators).toEqual(expectedIndicators);
-  });
-
-  test('building the queriesMapping item skips when config data is partially valid', () => {
-    const expectedQueriesMapping = { queryId1: ['id1'], queryId2: ['id2'] };
+  test('building the kpiIdsByQueryId item skips when config data is partially valid', () => {
+    const expectedKpiIdsByQueryId = { queryId1: ['id1'], queryId2: ['id2'] };
     const config = {
       graphIndicators: [
         {},
@@ -153,7 +120,7 @@ describe('forgeDatasetManagerConfiguration', () => {
       ],
       queries: 'property not used in this function, its type is not checked (it should be an Array)',
     };
-    const { queriesMapping } = WorkspacesUtils.forgeDatasetManagerConfiguration(config);
-    expect(queriesMapping).toEqual(expectedQueriesMapping);
+    const { kpiIdsByQueryId } = WorkspacesUtils.forgeDatasetManagerConfiguration(config);
+    expect(kpiIdsByQueryId).toEqual(expectedKpiIdsByQueryId);
   });
 });
