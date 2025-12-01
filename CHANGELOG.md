@@ -1,3 +1,25 @@
+## **6.5.2** <sub><sup>2025-12-01 ([8d5b7d2...ae32482](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/8d5b7d22...ae324826?diff=split))</sup></sub>
+
+### Bug Fixes
+
+- \[PROD\-14986\] fix possible sharing issues with datasets and inherited scenarios ([27fee05](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/27fee051))
+- \[PROD\-14987\] fix possible loss of access to datasets after sharing child scenarios ([1355e76](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/1355e764))
+- fix list of authorized MIME types, that was preventing upload of YAML files ([fd56a05](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/fd56a055))
+- \[PROD\-15028\] fix console warning on unexpected workspace configuration properties ([ebde14c](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/ebde14c6))
+- fix parsing & formatting of min/max date values in Table columns ([b0313a7](https://github.com/Cosmo-Tech/webapp-component-ui/commit/b0313a7))
+
+### Performance Improvements
+
+- improve performance of CSV file upload in Tables
+
+### Documentation
+
+- add warning on timezones for date parameters ([fe7e2cc](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/fe7e2cc2))
+
+### Dependencies
+
+- update dependencies
+
 ## **6.5.1** <sub><sup>2025-05-07 ([6244322...53eb930](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/6244322c...53eb9302?diff=split))</sup></sub>
 
 ### Bug Fixes
