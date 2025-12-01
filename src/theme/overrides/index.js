@@ -7,9 +7,9 @@ import MuiMenuItem from './MuiMenuItem';
 
 export default function createComponents(theme) {
   return {
-    ...MuiButton(theme),
-    ...MuiListItemButton(theme),
-    ...MuiListItemIcon(theme),
-    ...MuiMenuItem(theme),
+    MuiButton: MuiButton(theme),
+    MuiListItemButton: MuiListItemButton(theme),
+    MuiListItemIcon: MuiListItemIcon(theme),
+    MuiMenuItem: MuiMenuItem(theme),
   };
 }

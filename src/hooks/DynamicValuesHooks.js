@@ -98,7 +98,7 @@ export const useDynamicValues = (parameter, targetDatasetId) => {
   const dynamicValuesError = useMemo(
     () =>
       typeof dynamicValues === 'string' ? (
-        <Typography sx={{ px: 2, color: (theme) => theme.palette.error.main }}>{dynamicValues}</Typography>
+        <Typography sx={{ px: 2, color: (theme) => theme.palette.error }}>{dynamicValues}</Typography>
       ) : null,
     [dynamicValues]
   );

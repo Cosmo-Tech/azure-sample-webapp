@@ -1,17 +1,20 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import React, { useEffect } from 'react';
+import { CircleArrowRight } from 'lucide-react';
+import React, { Fragment, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useLocation, Outlet, useParams, useNavigate } from 'react-router-dom';
-import { Box, Breadcrumbs, Link as MuiLink, Stack } from '@mui/material';
-import { ApplicationErrorBanner } from '../../components';
+import { Link as MuiLink, Box, Stack, Typography } from '@mui/material';
+import { ApplicationErrorBanner, StatusBar } from '../../components';
 import { AppBar } from '../../components/AppBar';
 import { MainNavigation } from '../../components/MainNavigation';
-import { useGetRunner } from '../../state/runner/hooks';
+import { useCurrentSimulationRunner, useGetRunner } from '../../state/runner/hooks';
 import { useSelectWorkspace, useWorkspace } from '../../state/workspaces/hooks';
 
 export const TabLayout = () => {
   const location = useLocation();
   const currentTabPathname = location?.pathname;
+  const { t } = useTranslation();
 
   const routerParameters = useParams();
   sessionStorage.removeItem('providedUrlBeforeSignIn');
@@ -19,6 +22,7 @@ export const TabLayout = () => {
   const navigate = useNavigate();
   const selectWorkspace = useSelectWorkspace();
   const getScenario = useGetRunner();
+  const currentScenario = useCurrentSimulationRunner();
 
   useEffect(() => {
     if (currentWorkspace?.status === 'ERROR') {
@@ -48,31 +52,45 @@ export const TabLayout = () => {
   );
 
   const BreadcrumbBar = () => (
-    <Breadcrumbs aria-label="breadcrumb" sx={{ padding: 2 }}>
-      <MuiLink underline="hover" color="inherit" href="/">
-        Workspaces
-      </MuiLink>
-      <MuiLink underline="hover" color="inherit" href="/">
-        Overall
-      </MuiLink>
-      <MuiLink underline="hover" color="inherit" href="/">
-        Main
-      </MuiLink>
-    </Breadcrumbs>
-  );
-  const StatusBar = () => (
-    <AppBar position="static" color="default" sx={{ boxShadow: 'none' }}>
-      <Box sx={{ pl: 2 }}>StatusBar</Box>
+    <AppBar>
+      {currentWorkspace.data ? (
+        <Fragment>
+          <MuiLink underline="hover" color="inherit" href={`/${currentWorkspace?.data?.id}`}>
+            <Typography fontSize={14}>{currentWorkspace?.data?.name}</Typography>
+          </MuiLink>
+          <CircleArrowRight size={14} />
+          <MuiLink underline="hover" color="inherit" href="/scenarios">
+            <Typography fontSize={14}>Scenarios</Typography>
+          </MuiLink>
+          <CircleArrowRight size={14} />
+          <MuiLink
+            underline="hover"
+            color="inherit"
+            href={`/${currentWorkspace?.data?.id}/scenario/${currentScenario?.data?.id}`}
+          >
+            <Typography fontSize={14}>{currentScenario?.data?.name}</Typography>
+          </MuiLink>
+        </Fragment>
+      ) : (
+        <Box>{t('genericcomponent.workspaceselector.homebutton')}</Box>
+      )}
     </AppBar>
   );
 
   return (
-    <Stack direction="row" sx={{ flexGrow: 1 }} spacing={2}>
+    <Stack direction="row" sx={{ flexGrow: 1 }}>
       <MainNavigation activeSection="scenarios" />
       <Stack direction="column" sx={{ flexGrow: 1 }}>
         <ApplicationErrorBanner />
         <BreadcrumbBar />
-        <StatusBar />
+        {currentScenario?.data && (
+          <StatusBar
+            status="prerun"
+            size="full"
+            message={t('commoncomponents.tabLayout.statusBar.prerun.message')}
+            tooltip={t('commoncomponents.tabLayout.statusBar.prerun.tooltip')}
+          />
+        )}
         <Stack direction="row" spacing={2}>
           <MainPage />
         </Stack>

@@ -43,7 +43,7 @@ const Dashboards = () => {
               width: '100%',
               maxWidth: '900px',
               '& .MuiTabs-indicator': {
-                backgroundColor: (theme) => theme.palette.primary.main,
+                backgroundColor: (theme) => theme.palette?.primary?.main,
               },
               '& .MuiButtonBase-root': {
                 maxWidth: '900px',

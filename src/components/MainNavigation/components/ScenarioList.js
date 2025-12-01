@@ -39,7 +39,7 @@ const buildScenarioTree = (scenarios) => {
 
 export const ScenarioList = ({ disabled, scenarios, activeScenarioId, onScenarioChange, isCollapsed }) => {
   const theme = useTheme();
-  const navColors = theme.palette?.navigation ?? {};
+  const navColors = theme.palette ?? {};
   const scenarioTree = useMemo(() => buildScenarioTree(scenarios), [scenarios]);
 
   const handleScenarioClick = (scenarioId) => {
@@ -67,16 +67,16 @@ export const ScenarioList = ({ disabled, scenarios, activeScenarioId, onScenario
         mb: 0.5,
         '&::-webkit-scrollbar': {
           width: 8,
-          border: `1px solid ${navColors.border}`,
+          border: `1px solid ${navColors.background.background02.main}`,
         },
         '&::-webkit-scrollbar-track': {
           background: 'transparent',
         },
         '&::-webkit-scrollbar-thumb': {
-          background: navColors.scrollbarThumb,
+          background: navColors.neutral.neutral06.main,
           borderRadius: '4px',
           '&:hover': {
-            background: navColors.scrollbarThumbHover,
+            background: navColors.neutral.neutral07.main,
           },
         },
       }}

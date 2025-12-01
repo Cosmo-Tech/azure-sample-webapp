@@ -40,7 +40,7 @@ export const useShareCurrentScenarioButton = () => {
     return SecurityUtils.getScenarioPermissionsLabels(t, permissionsNames);
   }, [permissions.runner, t]);
 
-  const workspaceUsers = useMemo(() => workspaceData.users.map((user) => ({ id: user })), [workspaceData.users]);
+  const workspaceUsers = useMemo(() => workspaceData?.users?.map((user) => ({ id: user })), [workspaceData?.users]);
 
   const accessListSpecific = useMemo(
     () => currentScenarioData?.security?.accessControlList ?? [],

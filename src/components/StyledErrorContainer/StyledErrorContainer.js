@@ -11,7 +11,7 @@ const Container = styled('div')(({ theme }) => ({
   position: 'absolute',
   textAlign: 'center',
   padding: '5px 0',
-  backgroundColor: theme.palette.error.main,
+  backgroundColor: theme.palette.error,
   color: theme.palette.error.contrastText,
   display: 'flex',
   flexDirection: 'column',

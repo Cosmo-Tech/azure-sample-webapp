@@ -5,14 +5,14 @@ const MuiListItemButton = (theme) => ({
     {
       props: { variant: 'navigation' },
       style: () => {
-        const navColors = theme.palette.navigation;
+        const navColors = theme.palette;
         return {
           borderRadius: 18,
           padding: theme.spacing(1, 1.5),
           minHeight: 40,
           fontFamily: theme.typography.fontFamily,
           fontWeight: theme.typography.fontWeightMedium,
-          color: navColors.text,
+          color: navColors.secondary.main,
           transition: theme.transitions.create(['background-color', 'color', 'width'], {
             duration: theme.transitions.duration.short,
           }),
@@ -20,18 +20,18 @@ const MuiListItemButton = (theme) => ({
             color: 'inherit',
           },
           '&.Mui-selected': {
-            backgroundColor: navColors.activeBg,
-            color: navColors.activeText,
+            backgroundColor: navColors.secondary.main,
+            color: navColors.neutral.neutral04.main,
             '& .MuiListItemIcon-root': {
-              color: navColors.activeText,
+              color: navColors.neutral.neutral04.main,
             },
           },
           '&:hover': {
-            backgroundColor: navColors.hoverBg,
-            color: navColors.text,
+            backgroundColor: navColors.background.background02.main,
+            color: navColors.secondary.main,
             '&.Mui-selected': {
-              backgroundColor: navColors.activeBg,
-              color: navColors.activeText,
+              backgroundColor: navColors.secondary.main,
+              color: navColors.neutral.neutral04.main,
             },
           },
         };
