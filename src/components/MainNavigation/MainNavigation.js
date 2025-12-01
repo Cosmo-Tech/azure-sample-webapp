@@ -5,7 +5,6 @@ import React, { useMemo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Box, Drawer, IconButton } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import ConfigService from '../../services/ConfigService';
 import { pictureDark, pictureLight } from '../../theme';
 import { useMainNavigation } from './MainNavigationHook';
 import { NavigationSection } from './components/NavigationSection';
@@ -36,6 +35,7 @@ export const MainNavigation = ({ activeSection, onSectionChange, onDrawerWidthCh
     userEmail,
     userName,
     userProfilePic,
+    publicUrl,
     isDarkTheme,
   } = useMainNavigation();
 
@@ -59,7 +59,6 @@ export const MainNavigation = ({ activeSection, onSectionChange, onDrawerWidthCh
     scrollbarThumbHover: navigationPalette?.scrollbarThumbHover,
   };
 
-  const publicUrl = ConfigService.getParameterValue('PUBLIC_URL') ?? '';
   const logoPath = useMemo(
     () => `${publicUrl}${isDarkTheme ? pictureDark.darkLogo : pictureLight.lightLogo}`,
     [isDarkTheme, publicUrl]

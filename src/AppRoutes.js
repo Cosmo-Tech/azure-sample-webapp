@@ -23,7 +23,7 @@ const AppRoutes = () => {
         <Route
           element={
             <UserStatusGate>
-              <TabLayout />
+              <TabLayout tabs={null} />
             </UserStatusGate>
           }
         >
@@ -34,7 +34,15 @@ const AppRoutes = () => {
                 <Workspaces />
               </UserStatusGate>
             }
-          />
+          >
+            <Route
+              element={
+                <UserStatusGate>
+                  <Workspaces />
+                </UserStatusGate>
+              }
+            />
+          </Route>
         </Route>
         <Route
           path=":workspaceId"

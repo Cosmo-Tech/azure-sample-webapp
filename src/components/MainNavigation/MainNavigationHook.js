@@ -18,7 +18,6 @@ export const useMainNavigation = () => {
   const currentScenarioData = useCurrentSimulationRunnerData();
   const userEmail = useUserEmail();
   const userProfilePic = useUserProfilePic();
-
   const changeScenario = useSelectRunner();
 
   const sortedScenarioList = useSortedScenarioList();
