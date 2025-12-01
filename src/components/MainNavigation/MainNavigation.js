@@ -44,19 +44,19 @@ export const MainNavigation = ({ activeSection, onSectionChange, onDrawerWidthCh
   const isUserMenuOpen = Boolean(userMenuAnchor);
   const [activeUserMenuItem, setActiveUserMenuItem] = useState('profile');
 
-  const navigationPalette = theme.palette?.navigation;
+  const navigationPalette = theme.palette;
   const navColors = {
-    background: navigationPalette?.background,
-    border: navigationPalette?.border,
-    text: navigationPalette?.text,
-    hoverBg: navigationPalette?.hoverBg,
-    mutedBg: navigationPalette?.mutedBg,
-    activeBg: navigationPalette?.activeBg,
-    activeText: navigationPalette?.activeText,
-    icon: navigationPalette?.icon,
-    menuBackground: navigationPalette?.menuBackground,
-    scrollbarThumb: navigationPalette?.scrollbarThumb,
-    scrollbarThumbHover: navigationPalette?.scrollbarThumbHover,
+    background: navigationPalette?.background.background01.main,
+    border: navigationPalette?.background.background02.main,
+    text: navigationPalette?.secondary.main,
+    hoverBg: navigationPalette?.background.background02.main,
+    mutedBg: navigationPalette?.neutral.neutral05.main,
+    activeBg: navigationPalette?.neutral.neutral04.main,
+    activeText: navigationPalette?.neutral.neutral04.main,
+    icon: navigationPalette?.secondary.main,
+    menuBackground: navigationPalette?.neutral.neutral04.main,
+    scrollbarThumb: navigationPalette?.neutral.neutral06.main,
+    scrollbarThumbHover: navigationPalette?.neutral.neutral07.main,
   };
 
   const publicUrl = ConfigService.getParameterValue('PUBLIC_URL') ?? '';
