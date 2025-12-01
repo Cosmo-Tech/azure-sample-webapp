@@ -8,7 +8,7 @@ import { useTheme } from '@mui/material/styles';
 
 export const UserMenu = ({ anchorEl, open, onClose, userName, userEmail, activeUserMenuItem, onMenuAction }) => {
   const theme = useTheme();
-  const navColors = theme.palette?.navigation ?? {};
+  const navColors = theme.palette ?? {};
   const menuItems = [
     { id: 'settings', label: 'Settings', icon: Settings },
     { id: 'profile', label: 'Profile', icon: User },
@@ -39,8 +39,8 @@ export const UserMenu = ({ anchorEl, open, onClose, userName, userEmail, activeU
         paper: {
           sx: {
             borderRadius: '4px',
-            border: `1px solid ${navColors.border}`,
-            backgroundColor: navColors.menuBackground,
+            border: `1px solid ${navColors.background.background02.main}`,
+            backgroundColor: navColors.neutral.neutral04.main,
             minWidth: 200,
             mt: 1,
             p: 0,
@@ -54,13 +54,13 @@ export const UserMenu = ({ anchorEl, open, onClose, userName, userEmail, activeU
           px: 2,
           pt: 2,
           pb: 1,
-          borderBottom: `1px solid ${navColors.border}`,
+          borderBottom: `1px solid ${navColors.background.background02.main}`,
         }}
       >
         <Typography
           variant="subtitle2"
           sx={{
-            color: navColors.text,
+            color: navColors.secondary.main,
             mb: 0.5,
           }}
         >
@@ -69,7 +69,7 @@ export const UserMenu = ({ anchorEl, open, onClose, userName, userEmail, activeU
         <Typography
           variant="body2"
           sx={{
-            color: navColors.text,
+            color: navColors.secondary.main,
           }}
         >
           {userEmail || 'Anonymous'}
@@ -90,18 +90,18 @@ export const UserMenu = ({ anchorEl, open, onClose, userName, userEmail, activeU
                 py: 1.25,
                 minHeight: 48,
                 gap: 1.5,
-                color: navColors.text,
+                color: navColors.secondary.main,
                 borderRadius: 0,
-                backgroundColor: isActive ? navColors.mutedBg : navColors.menuBackground,
+                backgroundColor: isActive ? navColors.neutral.neutral05.main : navColors.neutral.neutral04.main,
                 '&:hover': {
-                  backgroundColor: navColors.mutedBg,
+                  backgroundColor: navColors.neutral.neutral05.main,
                 },
               }}
             >
               <ListItemIcon
                 sx={{
                   minWidth: 24,
-                  color: navColors.icon,
+                  color: navColors.secondary.main,
                   display: 'flex',
                   justifyContent: 'center',
                 }}
@@ -112,7 +112,7 @@ export const UserMenu = ({ anchorEl, open, onClose, userName, userEmail, activeU
                 primary={item.label}
                 primaryTypographyProps={{
                   variant: 'subtitle2',
-                  color: navColors.text,
+                  color: navColors.secondary.main,
                 }}
               />
             </MenuItem>
@@ -120,7 +120,7 @@ export const UserMenu = ({ anchorEl, open, onClose, userName, userEmail, activeU
         })}
       </Box>
 
-      <Divider sx={{ borderColor: navColors.border }} />
+      <Divider sx={{ borderColor: navColors.background.background02.main }} />
 
       <MenuItem
         variant="navigation"
@@ -130,17 +130,17 @@ export const UserMenu = ({ anchorEl, open, onClose, userName, userEmail, activeU
           py: 1.25,
           minHeight: 48,
           gap: 1.5,
-          color: navColors.text,
+          color: navColors.secondary.main,
           borderRadius: 0,
           '&:hover': {
-            backgroundColor: navColors.mutedBg,
+            backgroundColor: navColors.neutral.neutral05.main,
           },
         }}
       >
         <ListItemIcon
           sx={{
             minWidth: 24,
-            color: navColors.icon,
+            color: navColors.secondary.main,
             display: 'flex',
             justifyContent: 'center',
           }}
@@ -151,7 +151,7 @@ export const UserMenu = ({ anchorEl, open, onClose, userName, userEmail, activeU
           primary="Log out"
           primaryTypographyProps={{
             variant: 'subtitle2',
-            color: navColors.text,
+            color: navColors.secondary.main,
           }}
         />
       </MenuItem>

@@ -10,7 +10,7 @@ import { getNavigationItemStyles, getListItemIconStyles, getListItemTextStyles }
 
 export const UserProfile = ({ userName, userEmail, userProfilePic, isCollapsed, onUserMenuClick, isUserMenuOpen }) => {
   const theme = useTheme();
-  const navColors = theme.palette?.navigation ?? {};
+  const navColors = theme.palette ?? {};
   const truncatedEmail = React.useMemo(() => {
     if (!userEmail) return 'Anonymous';
     if (userEmail.length > 25) {
@@ -55,7 +55,7 @@ export const UserProfile = ({ userName, userEmail, userProfilePic, isCollapsed, 
 
       <Box
         sx={{
-          borderTop: `1px solid ${navColors.border}`,
+          borderTop: `1px solid ${navColors.background.background02.main}`,
           mt: 1,
           pt: 2,
           mx: isCollapsed ? -1 : -2,
@@ -113,7 +113,7 @@ export const UserProfile = ({ userName, userEmail, userProfilePic, isCollapsed, 
                 <Typography
                   variant="subtitle2"
                   sx={{
-                    color: navColors.text,
+                    color: navColors.secondary.main,
                     whiteSpace: 'nowrap',
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
@@ -124,7 +124,7 @@ export const UserProfile = ({ userName, userEmail, userProfilePic, isCollapsed, 
                 <Typography
                   variant="caption"
                   sx={{
-                    color: navColors.text,
+                    color: navColors.secondary.main,
                     whiteSpace: 'nowrap',
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
@@ -143,13 +143,13 @@ export const UserProfile = ({ userName, userEmail, userProfilePic, isCollapsed, 
               aria-haspopup="true"
               aria-expanded={isUserMenuOpen ? 'true' : undefined}
               sx={{
-                color: navColors.text,
+                color: navColors.secondary.main,
                 paddingX: 1,
                 borderRadius: '8px',
-                backgroundColor: navColors.menuBackground,
+                backgroundColor: navColors.neutral.neutral04.main,
                 '&:hover': {
-                  backgroundColor: navColors.hoverBg,
-                  color: navColors.text,
+                  backgroundColor: navColors.background.background02.main,
+                  color: navColors.secondary.main,
                 },
               }}
             >

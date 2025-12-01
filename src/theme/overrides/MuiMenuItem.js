@@ -6,15 +6,15 @@ const MuiMenuItem = (theme) => ({
     {
       props: { variant: 'navigation' },
       style: () => {
-        const navColors = theme.palette.navigation;
+        const navColors = theme.palette;
         return {
           fontFamily: theme.typography.fontFamily,
           fontWeight: theme.typography.fontWeightMedium,
           fontSize: 14,
-          color: navColors.text,
+          color: navColors.secondary.main,
           borderRadius: 0,
           '&:hover': {
-            backgroundColor: navColors.mutedBg,
+            backgroundColor: navColors.neutral.neutral05.main,
           },
         };
       },

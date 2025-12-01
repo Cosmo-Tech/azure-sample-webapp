@@ -33,7 +33,7 @@ const classes = {
 };
 
 const Root = styled('div')(({ theme }) => ({
-  backgroundColor: theme.palette.login.main,
+  backgroundColor: theme.palette?.login?.main,
   height: '100%',
 
   [`&.${classes.errorPaper}`]: {
