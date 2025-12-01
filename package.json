@@ -4,9 +4,9 @@
   "private": true,
   "dependencies": {
     "@cosmotech/api-ts": "^3.3.4",
-    "@cosmotech/azure": "^2.0.3",
-    "@cosmotech/core": "^2.0.0",
-    "@cosmotech/ui": "^9.6.0",
+    "@cosmotech/azure": "^2.0.4",
+    "@cosmotech/core": "^2.0.2",
+    "@cosmotech/ui": "^9.6.1",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@microsoft/applicationinsights-web": "^3.3.10",
