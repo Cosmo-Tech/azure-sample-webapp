@@ -37,7 +37,7 @@ const buildScenarioTree = (scenarios) => {
   return traverse(null);
 };
 
-export const ScenarioList = ({ scenarios, activeScenarioId, onScenarioChange, isCollapsed }) => {
+export const ScenarioList = ({ disabled, scenarios, activeScenarioId, onScenarioChange, isCollapsed }) => {
   const theme = useTheme();
   const navColors = theme.palette?.navigation ?? {};
   const scenarioTree = useMemo(() => buildScenarioTree(scenarios), [scenarios]);
@@ -89,6 +89,7 @@ export const ScenarioList = ({ scenarios, activeScenarioId, onScenarioChange, is
 
           return (
             <ListItemButton
+              disabled={disabled}
               variant="navigation"
               key={scenario.id}
               selected={isActive}
@@ -137,6 +138,7 @@ export const ScenarioList = ({ scenarios, activeScenarioId, onScenarioChange, is
 };
 
 ScenarioList.propTypes = {
+  disabled: PropTypes.bool,
   scenarios: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
@@ -150,6 +152,7 @@ ScenarioList.propTypes = {
 };
 
 ScenarioList.defaultProps = {
+  disabled: false,
   activeScenarioId: undefined,
   onScenarioChange: undefined,
   isCollapsed: false,
