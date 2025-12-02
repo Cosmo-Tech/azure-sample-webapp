@@ -46,12 +46,6 @@ export const TabLayout = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentWorkspace?.status, getScenario]);
 
-  const MainPage = () => (
-    <Stack direction="column" sx={{ flexGrow: 1 }}>
-      <Outlet />
-    </Stack>
-  );
-
   const BreadcrumbBar = () => (
     <AppBar currentScenario={currentScenario}>
       {currentWorkspace.data ? (
@@ -88,9 +82,7 @@ export const TabLayout = () => {
             tooltip={t('commoncomponents.tabLayout.statusBar.prerun.tooltip')}
           />
         )}
-        <Stack direction="row" spacing={2}>
-          <MainPage />
-        </Stack>
+        <Outlet />
       </Stack>
     </Stack>
   );
