@@ -969,6 +969,26 @@
         "tab": {
           "title": "Dataset manager"
         }
+      },
+      "tables": {
+        "tab": {
+          "title": "Tables"
+        }
+      },
+      "analysis": {
+        "tab": {
+          "title": "Analysis"
+        }
+      },
+      "decisions": {
+        "tab": {
+          "title": "Decisions"
+        }
+      },
+      "parameters": {
+        "tab": {
+          "title": "Parameters"
+        }
       }
     }
   }

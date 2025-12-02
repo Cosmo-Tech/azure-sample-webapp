@@ -939,6 +939,26 @@
         "tab": {
           "title": "Gestionnaire de datasets"
         }
+      },
+      "tables": {
+        "tab": {
+          "title": "Tables"
+        }
+      },
+      "analysis": {
+        "tab": {
+          "title": "Analyses"
+        }
+      },
+      "decisions": {
+        "tab": {
+          "title": "Décisions"
+        }
+      },
+      "parameters": {
+        "tab": {
+          "title": "Paramètres"
+        }
       }
     }
   }
