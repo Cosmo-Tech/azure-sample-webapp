@@ -52,7 +52,7 @@ export const TabLayout = () => {
   );
 
   const BreadcrumbBar = () => (
-    <AppBar>
+    <AppBar currentScenario={currentScenario}>
       {currentWorkspace.data ? (
         <Fragment>
           <MuiLink underline="hover" color="inherit" href={`/${currentWorkspace?.data?.id}`}>
