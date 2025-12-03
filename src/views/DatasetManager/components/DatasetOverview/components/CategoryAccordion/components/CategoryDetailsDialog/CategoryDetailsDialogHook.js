@@ -2,12 +2,11 @@
 // Licensed under the MIT license.
 import { useCallback } from 'react';
 import { useApplicationTheme } from '../../../../../../../../state/app/hooks';
-import { useCurrentDataset, useCurrentDatasetId } from '../../../../../../../../state/datasets/hooks';
+import { useCurrentDataset } from '../../../../../../../../state/datasets/hooks';
 import { useWorkspaceData } from '../../../../../../../../state/workspaces/hooks';
 
 export const useCategoryDetailsDialogHook = () => {
   const currentDataset = useCurrentDataset();
-  const currentDatasetId = useCurrentDatasetId();
   const workspaceData = useWorkspaceData();
   const { isDarkTheme } = useApplicationTheme();
 
@@ -19,8 +18,7 @@ export const useCategoryDetailsDialogHook = () => {
   );
 
   return {
-    datasetName: currentDataset?.name,
-    datasetId: currentDatasetId,
+    dataset: currentDataset,
     getQuery,
     isDarkTheme,
   };

@@ -13,7 +13,7 @@ import { useCategoryDetailsDialogHook } from './CategoryDetailsDialogHook';
 export const CategoryDetailsDialog = (props) => {
   const { kpis = [], category } = props;
 
-  const { datasetName, datasetId, getQuery, isDarkTheme } = useCategoryDetailsDialogHook();
+  const { dataset, getQuery, isDarkTheme } = useCategoryDetailsDialogHook();
   const { t } = useTranslation();
 
   const [open, setOpen] = useState(false);
@@ -42,16 +42,19 @@ export const CategoryDetailsDialog = (props) => {
   }, [category.id, category?.kpis, kpis]);
 
   const detailsTable = useMemo(() => {
-    const query = getQuery(category?.previewTable?.queryId)?.query;
+    const query = getQuery(category?.previewTable?.queryId);
     if (query == null) return null;
+    const { datasetPartName, options: queryOptions } = query;
 
     const parameterData = {
       id: category?.id,
       additionalData: {
         columns: category?.previewTable?.columns,
-        dynamicValues: { query, resultKey: category?.previewTable?.resultKey },
+        dateFormat: category?.previewTable?.dateFormat,
+        dynamicValues: { datasetPartName, queryOptions },
       },
     };
+
     const tableOptions = {
       buttons: {
         label: false,
@@ -66,7 +69,7 @@ export const CategoryDetailsDialog = (props) => {
     return (
       <GenericTable
         parameterData={parameterData}
-        context={{ isDarkTheme, editMode: false, targetDatasetId: datasetId, tableOptions }}
+        context={{ isDarkTheme, editMode: false, targetDataset: dataset, tableOptions }}
         parameterValue={{ status: TABLE_DATA_STATUS.EMPTY }}
         setParameterValue={() => {}}
         resetParameterValue={() => {}}
@@ -74,13 +77,13 @@ export const CategoryDetailsDialog = (props) => {
       />
     );
   }, [
-    category?.previewTable?.queryId,
-    getQuery,
-    isDarkTheme,
-    datasetId,
     category?.id,
     category?.previewTable?.columns,
-    category?.previewTable?.resultKey,
+    category?.previewTable?.dateFormat,
+    category?.previewTable?.queryId,
+    dataset,
+    getQuery,
+    isDarkTheme,
   ]);
 
   return (
@@ -106,7 +109,7 @@ export const CategoryDetailsDialog = (props) => {
             <Box sx={{ flexDirection: 'column', alignItems: 'center', display: 'flex' }}>
               <Box>
                 <Typography data-cy="category-details-dialog-dataset-name" variant="h4">
-                  {datasetName}
+                  {dataset?.name}
                 </Typography>
                 <Typography data-cy="category-details-dialog-category-name" variant="h5" sx={{ opacity: '70%' }}>
                   {t(TranslationUtils.getDatasetCategoryNameTranslationKey(category.id), category.id ?? 'category')}

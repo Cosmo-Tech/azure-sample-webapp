@@ -28,7 +28,7 @@ export const GenericEnumInput = ({
     dynamicValues: dynamicEnumValues,
     dynamicValuesError,
     loadingDynamicValuesPlaceholder,
-  } = useDynamicValues(parameterData, context.targetDatasetId);
+  } = useDynamicValues(parameterData, context.targetDataset);
 
   const enumValues = useMemo(() => {
     if (Array.isArray(dynamicEnumValues)) return dynamicEnumValues;

@@ -8,17 +8,15 @@ import { useGetDatasetRunnerStatus } from '../hooks/DatasetRunnerHooks';
 import { Api } from '../services/config/Api';
 import { RUNNER_RUN_STATE } from '../services/config/ApiConstants';
 import { setApplicationErrorMessage } from '../state/app/reducers';
-import { useFindDatasetById } from '../state/datasets/hooks';
 import { useOrganizationId } from '../state/organizations/hooks';
 import { useCurrentSimulationRunnerParametersValues } from '../state/runner/hooks';
 import { useWorkspaceId } from '../state/workspaces/hooks';
 import { DatasetsUtils } from '../utils';
 import { GENERIC_VAR_TYPES_DEFAULT_VALUES } from '../utils/scenarioParameters/generic/DefaultValues';
 
-export const useDynamicValues = (parameter, targetDatasetId) => {
+export const useDynamicValues = (parameter, targetDataset) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const findDatasetById = useFindDatasetById();
   const getDatasetRunnerStatus = useGetDatasetRunnerStatus();
   const organizationId = useOrganizationId();
   const workspaceId = useWorkspaceId();
@@ -39,7 +37,7 @@ export const useDynamicValues = (parameter, targetDatasetId) => {
 
     const fetchDynamicValues = async () => {
       if (!dynamicSourceConfig) return;
-      if (targetDatasetId == null) {
+      if (targetDataset.id == null) {
         setDynamicValues(
           t(
             'genericcomponent.dynamicValues.noDataset',
@@ -49,7 +47,6 @@ export const useDynamicValues = (parameter, targetDatasetId) => {
         return;
       }
 
-      const targetDataset = findDatasetById(targetDatasetId);
       if (!targetDataset) {
         setDynamicValues(
           t(
@@ -70,7 +67,7 @@ export const useDynamicValues = (parameter, targetDatasetId) => {
       const query = { query: dynamicSourceConfig.query };
       let data;
       try {
-        data = await Api.Datasets.twingraphQuery(organizationId, workspaceId, targetDatasetId, query);
+        data = await Api.Datasets.twingraphQuery(organizationId, workspaceId, targetDataset.id, query);
         const resultKey = dynamicSourceConfig.resultKey;
         const newDynamicValues = data.data.map((item) => ({ key: item[resultKey], value: item[resultKey] }));
         if (newDynamicValues.length > 0 && newDynamicValues[0].key === undefined)
@@ -97,7 +94,7 @@ export const useDynamicValues = (parameter, targetDatasetId) => {
     // Only re-run this effect when the target dataset (e.g. parent dataset for sub-dataset creation), hence the
     // disabled eslint warnings for missing hook dependencies
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [targetDatasetId]);
+  }, [targetDataset.id]);
 
   const dynamicValuesError = useMemo(
     () =>
@@ -128,9 +125,8 @@ export const useDynamicValues = (parameter, targetDatasetId) => {
   };
 };
 
-export const useLoadInitialValueFromDataset = (parameterValue, parameter, targetDatasetId) => {
+export const useLoadInitialValueFromDataset = (parameterValue, parameter, targetDataset) => {
   const { t } = useTranslation();
-  const findDatasetById = useFindDatasetById();
   const getDatasetRunnerStatus = useGetDatasetRunnerStatus();
   const organizationId = useOrganizationId();
   const workspaceId = useWorkspaceId();
@@ -145,7 +141,6 @@ export const useLoadInitialValueFromDataset = (parameterValue, parameter, target
   // - a value when the query is successful, it will be displayed in the input
   const [dynamicValue, setDynamicValue] = useState(undefined);
   const [dynamicValueError, setDynamicValueError] = useState(null);
-  const targetDataset = findDatasetById(targetDatasetId);
   const defaultValue = parameter?.defaultValue ?? GENERIC_VAR_TYPES_DEFAULT_VALUES[parameter?.varType];
   const dynamicSourceConfig = parameter.additionalData?.dynamicValues;
   const resultKey = dynamicSourceConfig?.resultKey;
@@ -164,7 +159,7 @@ export const useLoadInitialValueFromDataset = (parameterValue, parameter, target
         return;
       }
 
-      if (targetDatasetId == null) {
+      if (targetDataset.id == null) {
         setDynamicValue(defaultValue);
         setDynamicValueError('noDataset');
         return;
@@ -191,7 +186,7 @@ export const useLoadInitialValueFromDataset = (parameterValue, parameter, target
       const query = { query: dynamicSourceConfig.query };
       let data;
       try {
-        data = await Api.Datasets.twingraphQuery(organizationId, workspaceId, targetDatasetId, query);
+        data = await Api.Datasets.twingraphQuery(organizationId, workspaceId, targetDataset.id, query);
         const resultKey = dynamicSourceConfig.resultKey;
         const newDynamicValue = data.data[0]?.[resultKey];
         if (newDynamicValue === undefined) {
@@ -216,7 +211,7 @@ export const useLoadInitialValueFromDataset = (parameterValue, parameter, target
     // 2. parameter value changes, otherwise, input doesn't receive the fetched value and displays an error
     // 3. when parametersValues change after save to hide error icon
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [targetDatasetId, parameterValue, parametersValues]);
+  }, [targetDataset?.id, parameterValue, parametersValues]);
 
   const loadingDynamicValuePlaceholder = useMemo(
     () =>

@@ -99,7 +99,7 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
                 <GenericEnumInput
                   gridItemProps={{ size: 6, sx: { pt: 2 } }}
                   parameterData={parameter}
-                  context={{ editMode: true, targetDatasetId: parentDataset?.id }}
+                  context={{ editMode: true, targetDataset: parentDataset }}
                   parameterValue={value}
                   setParameterValue={onChange}
                   resetParameterValue={(newDefaultValue) => resetField(fieldPath, { defaultValue: newDefaultValue })}
@@ -111,7 +111,7 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
                 <GenericMultiSelect
                   gridItemProps={{ sx: { pt: 2 } }}
                   parameterData={parameter}
-                  context={{ editMode: true, targetDatasetId: parentDataset?.id }}
+                  context={{ editMode: true, targetDataset: parentDataset }}
                   parameterValue={value}
                   setParameterValue={onChange}
                   isDirty={null}
@@ -165,7 +165,7 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
     dataSourceRunTemplates,
     dataSourceType,
     datasourceParameterHelpers,
-    parentDataset?.id,
+    parentDataset,
     resetField,
     getUploadFileLabels,
     t,

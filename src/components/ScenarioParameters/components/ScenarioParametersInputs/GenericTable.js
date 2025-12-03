@@ -9,12 +9,12 @@ import rfdc from 'rfdc';
 import { AgGridUtils, FileBlobUtils } from '@cosmotech/core';
 import { Table, TABLE_DATA_STATUS, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
 import { useFileParameters } from '../../../../hooks/FileParameterHooks';
-import { Api } from '../../../../services/config/Api';
-import { useFindDatasetById } from '../../../../state/datasets/hooks.js';
+import DatasetService from '../../../../services/dataset/DatasetService';
 import { useOrganizationId } from '../../../../state/organizations/hooks';
 import { useWorkspaceId } from '../../../../state/workspaces/hooks.js';
 import { gridLight, gridDark } from '../../../../theme/';
 import { ConfigUtils, DatasetsUtils, TranslationUtils } from '../../../../utils';
+import { parseCSVFromAPIResponse } from '../../../../utils/DatasetQueryUtils';
 import { FileManagementUtils } from '../../../../utils/FileManagementUtils';
 import { TableUtils } from '../../../../utils/TableUtils';
 import { TableExportDialog, TableRevertDataDialog, TableDeleteRowsDialog } from './components';
@@ -54,7 +54,6 @@ export const GenericTable = ({
   const { t } = useTranslation();
   const organizationId = useOrganizationId();
   const workspaceId = useWorkspaceId();
-  const findDatasetById = useFindDatasetById();
   const scenarioId = useSelector((state) => state.scenario?.current?.data?.id);
   const canChangeRowsNumber = ConfigUtils.getParameterAttribute(parameterData, 'canChangeRowsNumber') ?? false;
 
@@ -241,52 +240,50 @@ export const GenericTable = ({
       return;
     }
     GenericTable.downloadLocked[lockId] = true;
-    const sourceDatasetId = context.targetDatasetId;
+    const sourceDataset = context.targetDataset;
 
-    if (!sourceDatasetId) {
+    if (!sourceDataset) {
       setPlaceholder({
-        title: t('genericcomponent.table.labels.noDataPlaceholderTitle', 'No data'),
+        title: t('commoncomponents.banner.missingDataset', 'Dataset not found'),
         body: t(
-          'genericcomponent.table.labels.noDatasetsError',
-          'Impossible to fetch data from dataset because the list of datasets is empty'
+          'genericcomponent.table.labels.datasetNotFoundError',
+          'Impossible to fetch data from dataset because it does not exist or you do not have access to it. '
         ),
       });
       _setClientFileDescriptorToError();
       return;
     }
 
-    const dynamicValuesConfig = ConfigUtils.getParameterAttribute(parameterData, 'dynamicValues');
-    const query = dynamicValuesConfig?.query;
-    if (!query) {
+    if (!DatasetsUtils.hasDBDatasetParts(sourceDataset)) {
       setPlaceholder({
-        title: t('genericcomponent.table.labels.noQueryPlaceholderTitle', 'No data'),
+        title: t('genericcomponent.table.labels.datasetErrorTitle', 'Dataset error'),
         body: t(
-          'genericcomponent.table.labels.NoQueryErrorImportFalse',
-          'Impossible to fetch data from dataset because there is no twingraph query defined for this parameter. '
+          'genericcomponent.table.labels.noDbPartInDatasetErrorMessage',
+          'Only datasets with parts of type "DB" can be used to fetch table data dynamically'
         ),
       });
       _setClientFileDescriptorToError();
       return;
     }
 
-    const dataset = findDatasetById(sourceDatasetId);
-    // FIXME: check that type of dataset part is "DB" instead, when migrating query system
-    if (!DatasetsUtils.isCreatedByRunner(dataset)) {
+    const { datasetPartName, queryOptions } = ConfigUtils.getParameterAttribute(parameterData, 'dynamicValues');
+    const datasetPart = (sourceDataset.parts ?? []).find((part) => part.name === datasetPartName);
+    if (datasetPart == null) {
       setPlaceholder({
-        title: t('genericcomponent.table.labels.noTwingraph', 'No Twingraph'),
+        title: t('genericcomponent.table.labels.datasetErrorTitle', 'Dataset error'),
         body: t(
-          'genericcomponent.table.labels.noTwingraphDatasetError',
-          'Only twingraph datasets can be used to fetch table data dynamically'
+          'genericcomponent.table.labels.dbPartNotFoundErrorMessage',
+          'No dataset part with name "{{datasetPartName}}" found in dataset "{{datasetName}}"',
+          { datasetName: sourceDataset?.name, datasetPartName }
         ),
       });
       _setClientFileDescriptorToError();
       return;
     }
 
-    const resultKey = dynamicValuesConfig?.resultKey;
     let data;
     try {
-      ({ data } = await Api.Datasets.twingraphQuery(organizationId, workspaceId, sourceDatasetId, { query }));
+      data = await DatasetService.queryDatasetPart(datasetPart, queryOptions);
     } catch (error) {
       setPlaceholder({
         title: error?.response?.statusText ?? t('genericcomponent.table.labels.queryFailedError', 'Query failed'),
@@ -314,24 +311,7 @@ export const GenericTable = ({
       return;
     }
 
-    const rowsDict = data.map((row) => row[resultKey]);
-    if (rowsDict.includes(undefined)) {
-      setPlaceholder({
-        title: t('genericcomponent.table.labels.configErrorPlaceholderTitle', 'Configuration error'),
-        body: t(
-          'genericcomponent.table.labels.wrongResultKeyError',
-          `Returned result doesn't have ${resultKey} property.
-          Probably there is an error in resultKey configuration, please, check your solution`,
-          { resultKey }
-        ),
-      });
-      _setClientFileDescriptorToError();
-      return;
-    }
-
-    const csvRows = AgGridUtils.toCSV(rowsDict, columns);
-
-    const agGridData = _generateGridDataFromCSV(csvRows, parameterData);
+    const agGridData = parseCSVFromAPIResponse(data);
     if (agGridData.error) {
       setClientFileDescriptor({
         displayStatus: TABLE_DATA_STATUS.ERROR,

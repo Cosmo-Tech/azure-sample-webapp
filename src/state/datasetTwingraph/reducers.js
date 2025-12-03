@@ -47,7 +47,6 @@ const datasetTwingraphQueriesResultsSlice = createSlice({
 
       for (const columnName of cols) {
         if (!(columnName in state[datasetId][queryId])) {
-          // Value columnName computed in query queryId does not seem to be used in any KPI
           console.warn(
             `Unused column "${columnName}" in dataset query "${queryId}". If this column is not used, ` +
               'consider removing it from the query to improve performance'

@@ -1,6 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { UPLOAD_FILE_STATUS_KEY as FILE_STATUS } from '@cosmotech/ui';
@@ -15,11 +15,13 @@ import { clearFileParameter, getFileName, serializeBeforeUpload } from '../utils
 
 export const useFileParameters = () => {
   const { t } = useTranslation();
-  const { getValues, setValue } = useFormContext();
   const setApplicationErrorMessage = useSetApplicationErrorMessage();
   const organizationId = useOrganizationId();
   const workspaceId = useWorkspaceId();
   const solution = useSolutionData();
+
+  const { getValues, setValue } = useFormContext() ?? {};
+  const isInFormContext = useMemo(() => getValues == null, [getValues]);
 
   const downloadDatasetPartFile = useCallback(
     async (parameterValue, setStatus) => {
@@ -70,6 +72,8 @@ export const useFileParameters = () => {
 
   // Update internal data of file parameters based on their status (e.g. generate CSV files that will be uploaded)
   const processFilesToUpload = useCallback(() => {
+    if (!isInFormContext) return;
+
     const parameterValues = getValues();
     const updateParameterValue = (parameterId, newValue) => {
       const currentValue = parameterValues[parameterId];
@@ -107,11 +111,13 @@ export const useFileParameters = () => {
         }
       }
     }
-  }, [setValue, getValues, solution]);
+  }, [setValue, getValues, solution, isInFormContext]);
 
   // Update status and internal data of file parameters after runner parameters have been saved
   const updateSavedFileParameters = useCallback(
     (createdDatasetParts, deletedDatasetPartIds) => {
+      if (!isInFormContext) return;
+
       const parameterValues = getValues();
       const updateParameterValue = (parameterId, newValue) => {
         setValue(parameterId, { ...parameterValues[parameterId], ...newValue });
@@ -136,7 +142,7 @@ export const useFileParameters = () => {
         }
       }
     },
-    [setValue, getValues, solution]
+    [setValue, getValues, solution, isInFormContext]
   );
 
   return {

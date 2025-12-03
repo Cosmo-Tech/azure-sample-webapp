@@ -787,9 +787,12 @@
         "deleteRows": "Remove selected rows",
         "fullscreen": "Fullscreen",
         "revert": "Revert",
+        "datasetErrorTitle": "Dataset error",
+        "noDbPartInDatasetErrorMessage": "Only datasets with parts of type \"DB\" can be used to fetch table data dynamically",
+        "dbPartNotFoundErrorMessage": "No dataset part with name \"{{datasetPartName}}\" found in dataset \"{{datasetName}}\"",
         "noDatasetsError": "Impossible to fetch data from dataset because the list of datasets is empty",
         "noQueryError": "Impossible to fetch data from dataset because there is no twingraph query defined for this parameter. You can load data manually using the Import button",
-        "NoQueryErrorImportFalse": "Impossible to fetch data from dataset because there is no twingraph query defined for this parameter.",
+        "datasetNotFoundError": "Impossible to fetch data from dataset because it does not exist or you do not have access to it",
         "wrongResultKeyError": "Returned result doesn't have {{resultKey}} property. Probably there is an error in resultKey configuration, please, check your solution",
         "wrongQueryError": "Returned result is empty, there is probably an error in your query configuration. Please, check your solution",
         "unknownQueryError": "Something went wrong when querying the table data. Please contact your administrator if the problem persists."

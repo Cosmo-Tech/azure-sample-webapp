@@ -28,7 +28,7 @@ export const GenericNumberInput = ({
   const { dynamicValue, loadingDynamicValuePlaceholder, dynamicValueErrorMessage } = useLoadInitialValueFromDataset(
     parameterValue,
     parameterData,
-    context.targetDatasetId
+    context.targetDataset
   );
 
   useEffect(() => {

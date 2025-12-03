@@ -11,6 +11,7 @@ import { PermissionsGate } from '@cosmotech/ui';
 import { RUNNER_VALIDATION_STATUS, RUNNER_RUN_STATE } from '../../services/config/ApiConstants';
 import { STATUSES } from '../../services/config/StatusConstants';
 import { ACL_PERMISSIONS } from '../../services/config/accessControl';
+import { useFindDatasetById } from '../../state/datasets/hooks';
 import { ScenarioParametersUtils } from '../../utils';
 import { ScenarioResetValuesContext } from './ScenarioParametersContext';
 import { useScenarioParameters } from './ScenarioParametersHook';
@@ -20,6 +21,8 @@ const clone = rfdc();
 
 const ScenarioParameters = ({ onToggleAccordion, isAccordionExpanded }) => {
   const { t } = useTranslation();
+  const findDatasetById = useFindDatasetById();
+
   const {
     runTemplateParametersIds,
     currentScenario,
@@ -96,7 +99,7 @@ const ScenarioParameters = ({ onToggleAccordion, isAccordionExpanded }) => {
       isCurrentScenarioValidated ||
       !hasUserWritePermission
     ),
-    targetDatasetId: currentScenarioData?.datasets?.bases?.[0],
+    targetDataset: findDatasetById(currentScenarioData?.datasets?.bases?.[0]),
   };
 
   return (
