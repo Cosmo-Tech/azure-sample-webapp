@@ -9858,6 +9858,7 @@ __metadata:
     lucide-react: "npm:^0.555.0"
     neostandard: "npm:^0.12.2"
     prettier: "npm:^3.6.2"
+    process: "npm:^0.11.10"
     prop-types: "npm:^15.8.1"
     react: "npm:^19.1.1"
     react-app-rewired: "npm:^2.2.1"
