@@ -143,6 +143,55 @@ export const useDynamicValues = (parameter, targetDataset) => {
   };
 };
 
+const getDynamicValueErrorMessage = (t, errorKey, options) => {
+  const errorMessageMap = {
+    noDataset: {
+      key: 'genericcomponent.dynamicValues.noDataset',
+      fallback: "No dataset id forwarded to the parameter, can't fetch its value dynamically.",
+    },
+    notExistingDataset: {
+      key: 'genericcomponent.dynamicValues.notExistingDataset',
+      fallback: "Can't retrieve dynamic values: dataset doesn't exist.",
+    },
+    noDBDatasetParts: {
+      key: 'genericcomponent.dynamicValues.noDBDatasetParts',
+      fallback: 'Only datasets with parts of type "DB" can be used to dynamically fetch values.',
+    },
+    runnerStatusError: {
+      key: 'genericcomponent.dynamicValues.runnerStatusError',
+      fallback: "Can't retrieve dynamic values: dataset runner status is {{runnerStatus}}",
+    },
+    resultKeyError: {
+      key: 'genericcomponent.dynamicValues.resultKeyError',
+      fallback:
+        'No property found with result key {{resultKey}} in response to dynamic value query. ' +
+        'Please check your dataset and your solution configuration.',
+    },
+    queryError: {
+      key: 'genericcomponent.dynamicValues.queryError',
+      fallback: 'Impossible to retrieve dynamic values from data source',
+    },
+    missingDatasetPartName: {
+      key: 'genericcomponent.dynamicValues.missingDatasetPartName',
+      fallback: 'Missing attribute "datasetPartName" in dynamic values configuration.',
+    },
+    datasetPartNotFound: {
+      key: 'genericcomponent.dynamicValues.datasetPartNotFound',
+      fallback: 'No dataset part found in dataset with the provided datasetPartName.',
+    },
+  };
+
+  const errorMessageEntry = errorMessageMap[errorKey];
+  if (errorMessageEntry == null) return null;
+
+  const defaultValueWarning = t(
+    'genericcomponent.dynamicValues.defaultValueDisplayed',
+    'Parameter default value is displayed'
+  );
+  const errorMessage = t(errorMessageEntry.key, errorMessageEntry.fallback, options);
+  return `${errorMessage} ${defaultValueWarning}`;
+};
+
 export const useLoadInitialValueFromDataset = (parameterValue, parameter, targetDataset) => {
   const { t } = useTranslation();
   const getDatasetRunnerStatus = useGetDatasetRunnerStatus();
@@ -254,83 +303,8 @@ export const useLoadInitialValueFromDataset = (parameterValue, parameter, target
   );
 
   const dynamicValueErrorMessage = useMemo(() => {
-    switch (dynamicValueError) {
-      case 'noDataset':
-        return (
-          t(
-            'genericcomponent.dynamicValues.noDataset',
-            "No dataset id forwarded to the parameter, can't fetch its value dynamically."
-          ) +
-          ' ' +
-          t('genericcomponent.dynamicValues.defaultValueDisplayed', 'Parameter default value is displayed')
-        );
-      case 'notExistingDataset':
-        return (
-          t(
-            'genericcomponent.dynamicValues.notExistingDataset',
-            "Can't retrieve dynamic values: dataset doesn't exist."
-          ) +
-          ' ' +
-          t('genericcomponent.dynamicValues.defaultValueDisplayed', 'Parameter default value is displayed')
-        );
-      case 'noDBDatasetParts':
-        return (
-          t(
-            'genericcomponent.dynamicValues.noDBDatasetParts',
-            'Only datasets with parts of type "DB" can be used to dynamically fetch values.'
-          ) +
-          ' ' +
-          t('genericcomponent.dynamicValues.defaultValueDisplayed', 'Parameter default value is displayed')
-        );
-      case 'runnerStatusError':
-        return (
-          t(
-            'genericcomponent.dynamicValues.runnerStatusError',
-            "Can't retrieve dynamic values: dataset runner status is {{runnerStatus}}",
-            { runnerStatus: getDatasetRunnerStatus(targetDataset) }
-          ) +
-          ' ' +
-          t('genericcomponent.dynamicValues.defaultValueDisplayed', 'Parameter default value is displayed')
-        );
-      case 'resultKeyError':
-        return (
-          t(
-            'genericcomponent.dynamicValues.resultKeyError',
-            'No property found with result key {{resultKey}} in response to dynamic value query. ' +
-              'Please check your dataset and your solution configuration.',
-            { resultKey }
-          ) +
-          ' ' +
-          t('genericcomponent.dynamicValues.defaultValueDisplayed', 'Parameter default value is displayed')
-        );
-      case 'queryError':
-        return (
-          t('genericcomponent.dynamicValues.queryError', 'Impossible to retrieve dynamic values from data source') +
-          ' ' +
-          t('genericcomponent.dynamicValues.defaultValueDisplayed', 'Parameter default value is displayed')
-        );
-
-      case 'missingDatasetPartName':
-        return (
-          t(
-            'genericcomponent.dynamicValues.missingDatasetPartName',
-            'Missing attribute "datasetPartName" in dynamic values configuration.'
-          ) +
-          ' ' +
-          t('genericcomponent.dynamicValues.defaultValueDisplayed', 'Parameter default value is displayed')
-        );
-      case 'datasetPartNotFound':
-        return (
-          t(
-            'genericcomponent.dynamicValues.datasetPartNotFound',
-            'No dataset part found in dataset with the provided datasetPartName.'
-          ) +
-          ' ' +
-          t('genericcomponent.dynamicValues.defaultValueDisplayed', 'Parameter default value is displayed')
-        );
-      default:
-        return null;
-    }
+    const options = { resultKey, runnerStatus: getDatasetRunnerStatus(targetDataset) };
+    return getDynamicValueErrorMessage(t, dynamicValueError, options);
   }, [getDatasetRunnerStatus, dynamicValueError, resultKey, t, targetDataset]);
 
   return {
