@@ -114,6 +114,7 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-storybook": "10.0.8",
     "globals": "^16.4.0",
+    "process": "^0.11.10",
     "http-proxy-middleware": "^3.0.5",
     "i18next-parser": "^9.3.0",
     "jest": "~30.1.3",
