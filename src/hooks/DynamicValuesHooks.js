@@ -5,21 +5,18 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { CircularProgress, Grid, Typography } from '@mui/material';
 import { useGetDatasetRunnerStatus } from '../hooks/DatasetRunnerHooks';
-import { Api } from '../services/config/Api';
 import { RUNNER_RUN_STATE } from '../services/config/ApiConstants';
+import DatasetService from '../services/dataset/DatasetService';
 import { setApplicationErrorMessage } from '../state/app/reducers';
-import { useOrganizationId } from '../state/organizations/hooks';
 import { useCurrentSimulationRunnerParametersValues } from '../state/runner/hooks';
-import { useWorkspaceId } from '../state/workspaces/hooks';
 import { DatasetsUtils } from '../utils';
+import { getColumnFirstValue, parseCSVFromAPIResponse } from '../utils/DatasetQueryUtils';
 import { GENERIC_VAR_TYPES_DEFAULT_VALUES } from '../utils/scenarioParameters/generic/DefaultValues';
 
 export const useDynamicValues = (parameter, targetDataset) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const getDatasetRunnerStatus = useGetDatasetRunnerStatus();
-  const organizationId = useOrganizationId();
-  const workspaceId = useWorkspaceId();
 
   const isUnmounted = useRef(false);
   useEffect(() => () => (isUnmounted.current = true), []);
@@ -56,6 +53,7 @@ export const useDynamicValues = (parameter, targetDataset) => {
         );
         return;
       }
+
       const datasetRunnerStatus = getDatasetRunnerStatus(targetDataset);
       if (!isUnmounted.current && datasetRunnerStatus !== RUNNER_RUN_STATE.SUCCESSFUL) {
         setDynamicValues(
@@ -64,12 +62,32 @@ export const useDynamicValues = (parameter, targetDataset) => {
         return;
       }
 
-      const query = { query: dynamicSourceConfig.query };
+      const { datasetPartName, options: queryOptions, resultKey } = dynamicSourceConfig;
+      if (!datasetPartName) {
+        setDynamicValues(
+          t(
+            'genericcomponent.dynamicValues.missingDatasetPartName',
+            'Missing attribute "datasetPartName" in dynamic values configuration.'
+          )
+        );
+        return;
+      }
+      const datasetPart = (targetDataset?.parts ?? []).find((part) => part.name === datasetPartName);
+      if (!datasetPart) {
+        setDynamicValues(
+          t(
+            'genericcomponent.dynamicValues.datasetPartNotFound',
+            'No dataset part found in dataset with the provided datasetPartName.'
+          )
+        );
+        return;
+      }
+
       let data;
       try {
-        data = await Api.Datasets.twingraphQuery(organizationId, workspaceId, targetDataset.id, query);
-        const resultKey = dynamicSourceConfig.resultKey;
-        const newDynamicValues = data.data.map((item) => ({ key: item[resultKey], value: item[resultKey] }));
+        data = await DatasetService.queryDatasetPart(datasetPart, queryOptions);
+        const { rows } = parseCSVFromAPIResponse(data);
+        const newDynamicValues = rows.map((item) => ({ key: item[resultKey], value: item[resultKey] }));
         if (newDynamicValues.length > 0 && newDynamicValues[0].key === undefined)
           throw new Error(
             `No property found with result key "${resultKey}" in response to dynamic values query. ` +
@@ -128,8 +146,6 @@ export const useDynamicValues = (parameter, targetDataset) => {
 export const useLoadInitialValueFromDataset = (parameterValue, parameter, targetDataset) => {
   const { t } = useTranslation();
   const getDatasetRunnerStatus = useGetDatasetRunnerStatus();
-  const organizationId = useOrganizationId();
-  const workspaceId = useWorkspaceId();
   const parametersValues = useCurrentSimulationRunnerParametersValues();
 
   const isUnmounted = useRef(false);
@@ -170,10 +186,9 @@ export const useLoadInitialValueFromDataset = (parameterValue, parameter, target
         setDynamicValueError('notExistingDataset');
         return;
       }
-      // FIXME: check that type of dataset part is "DB" instead, when migrating query system
-      if (!DatasetsUtils.isCreatedByRunner(targetDataset)) {
+      if (!DatasetsUtils.hasDBDatasetParts(targetDataset)) {
         setDynamicValue(defaultValue);
-        setDynamicValueError('notTwingraph');
+        setDynamicValueError('noDBDatasetParts');
         return;
       }
       const datasetRunnerStatus = getDatasetRunnerStatus(targetDataset);
@@ -183,12 +198,23 @@ export const useLoadInitialValueFromDataset = (parameterValue, parameter, target
         return;
       }
 
-      const query = { query: dynamicSourceConfig.query };
+      const { datasetPartName, options: queryOptions } = dynamicSourceConfig;
+      if (!datasetPartName) {
+        setDynamicValue(defaultValue);
+        setDynamicValueError('missingDatasetPartName');
+        return;
+      }
+      const datasetPart = (targetDataset?.parts ?? []).find((part) => part.name === datasetPartName);
+      if (!datasetPart) {
+        setDynamicValue(defaultValue);
+        setDynamicValueError('datasetPartNotFound');
+        return;
+      }
+
       let data;
       try {
-        data = await Api.Datasets.twingraphQuery(organizationId, workspaceId, targetDataset.id, query);
-        const resultKey = dynamicSourceConfig.resultKey;
-        const newDynamicValue = data.data[0]?.[resultKey];
+        data = await DatasetService.queryDatasetPart(datasetPart, queryOptions);
+        const newDynamicValue = getColumnFirstValue(parseCSVFromAPIResponse(data), resultKey);
         if (newDynamicValue === undefined) {
           setDynamicValue(defaultValue);
           setDynamicValueError('resultKeyError');
@@ -202,6 +228,7 @@ export const useLoadInitialValueFromDataset = (parameterValue, parameter, target
         setDynamicValueError('queryError');
       }
     };
+
     if (dynamicSourceConfig) {
       setDynamicValue(null);
       fetchDynamicValue();
@@ -246,11 +273,11 @@ export const useLoadInitialValueFromDataset = (parameterValue, parameter, target
           ' ' +
           t('genericcomponent.dynamicValues.defaultValueDisplayed', 'Parameter default value is displayed')
         );
-      case 'notTwingraph':
+      case 'noDBDatasetParts':
         return (
           t(
-            'genericcomponent.dynamicValues.notTwingraphDataset',
-            "Can't retrieve dynamic values: only twingraph datasets can be used to dynamically fetch values"
+            'genericcomponent.dynamicValues.noDBDatasetParts',
+            'Only datasets with parts of type "DB" can be used to dynamically fetch values.'
           ) +
           ' ' +
           t('genericcomponent.dynamicValues.defaultValueDisplayed', 'Parameter default value is displayed')
@@ -279,6 +306,25 @@ export const useLoadInitialValueFromDataset = (parameterValue, parameter, target
       case 'queryError':
         return (
           t('genericcomponent.dynamicValues.queryError', 'Impossible to retrieve dynamic values from data source') +
+          ' ' +
+          t('genericcomponent.dynamicValues.defaultValueDisplayed', 'Parameter default value is displayed')
+        );
+
+      case 'missingDatasetPartName':
+        return (
+          t(
+            'genericcomponent.dynamicValues.missingDatasetPartName',
+            'Missing attribute "datasetPartName" in dynamic values configuration.'
+          ) +
+          ' ' +
+          t('genericcomponent.dynamicValues.defaultValueDisplayed', 'Parameter default value is displayed')
+        );
+      case 'datasetPartNotFound':
+        return (
+          t(
+            'genericcomponent.dynamicValues.datasetPartNotFound',
+            'No dataset part found in dataset with the provided datasetPartName.'
+          ) +
           ' ' +
           t('genericcomponent.dynamicValues.defaultValueDisplayed', 'Parameter default value is displayed')
         );

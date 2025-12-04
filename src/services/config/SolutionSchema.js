@@ -38,7 +38,12 @@ const basicParameterOptions = z.strictObject({
     .optional()
     .nullable(),
   dynamicEnumValues: z
-    .strictObject({ type: z.string().optional().nullable(), query: z.string(), resultKey: z.string() })
+    .strictObject({
+      datasetPartName: z.string().optional().nullable(),
+      options: z.looseObject({}).optional().nullable(),
+      resultKey: z.string().optional().nullable(),
+      type: z.string().optional().nullable(),
+    })
     .optional()
     .nullable(),
   tooltipText: z.looseObject({}).optional().nullable(),
@@ -47,7 +52,12 @@ const basicParameterOptions = z.strictObject({
   validation: z.string().optional().nullable(),
   subType: z.string().optional().nullable(),
   dynamicValues: z
-    .strictObject({ type: z.string().optional().nullable(), query: z.string(), resultKey: z.string() })
+    .strictObject({
+      datasetPartName: z.string().optional().nullable(),
+      options: z.looseObject({}).optional().nullable(),
+      resultKey: z.string().optional().nullable(),
+      type: z.string().optional().nullable(),
+    })
     .optional()
     .nullable(),
   hidden: z.boolean().optional().nullable(),

@@ -154,7 +154,6 @@ const basicWebAppOptions = z.strictObject({
                     z.strictObject({ field: z.string(), headerName: z.string(), type: z.array(z.string()) })
                   ),
                   queryId: z.string(),
-                  resultKey: z.string(),
                 })
                 .optional()
                 .nullable(),
@@ -167,8 +166,7 @@ const basicWebAppOptions = z.strictObject({
         .array(
           z.strictObject({
             id: z.string().optional().nullable(),
-            query: z.string().optional().nullable(),
-            options: z.string().optional().nullable(),
+            options: z.looseObject({}).optional().nullable(),
             datasetPartName: z.string().optional().nullable(),
           })
         )

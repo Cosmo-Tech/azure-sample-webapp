@@ -599,7 +599,9 @@
     "dynamicValues": {
       "noDataset": "Aucun dataset n'est associé au scénario, impossible de récupérer les valeurs dynamiques.",
       "notExistingDataset": "Impossible de récupérer les valeurs dynamiques: le dataset associé au scénario n'existe pas.",
-      "notTwingraphDataset": "Impossible de récupérer les valeurs dynamiques: le chargement dynamique des valeurs est disponible uniquement pour les datasets du type twingraph.",
+      "noDBDatasetParts": "Impossible de récupérer les valeurs dynamiques: le dataset utilisé ne possède pas de fragments de type \"DB\"",
+      "missingDatasetPartName": "Propriété \"datasetPartName\" non déclarée dans la configuration des valeurs dynamiques.",
+      "datasetPartNotFound": "Le dataset ne contient aucun fragment correspondant au datasetPartName recherché.",
       "runnerStatusError": "Impossible de récupérer les valeurs dynamiques: le statut du runner associé au dataset est {{runnerStatus}}.",
       "resultKeyError": "Le résultat de la requête ne contient pas de propriété {{resultKey}}. Cela provient probablement d'une erreur dans la configuration de resultKey, veuillez vérifier la solution.",
       "queryError": "Impossible de récupérer les valeurs dynamiques depuis le dataset.",

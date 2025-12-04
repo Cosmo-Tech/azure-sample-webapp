@@ -599,7 +599,9 @@
     "dynamicValues": {
       "noDataset": "No dataset id forwarded to the parameter, can't fetch its value dynamically.",
       "notExistingDataset": "Can't retrieve dynamic values: dataset doesn't exist.",
-      "notTwingraphDataset": "Can't retrieve dynamic values: only twingraph datasets can be used to dynamically fetch values.",
+      "noDBDatasetParts": "Only datasets with parts of type \"DB\" can be used to dynamically fetch values.",
+      "missingDatasetPartName": "Missing attribute \"datasetPartName\" in dynamic values configuration.",
+      "datasetPartNotFound": "No dataset part found in dataset with the provided datasetPartName.",
       "runnerStatusError": "Can't retrieve dynamic values: dataset runner status is {{runnerStatus}}.",
       "resultKeyError": "No property found with result key {{resultKey}} in response to dynamic value query. Please check your dataset and your solution configuration.",
       "queryError": "Impossible to retrieve dynamic values from data source.",

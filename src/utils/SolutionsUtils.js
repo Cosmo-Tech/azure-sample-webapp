@@ -117,19 +117,15 @@ const patchIncompatibleValuesInSolution = (solution) => {
       if (dynamicSourceConfig == null) return;
 
       let removeFromConfig = false;
-      if (dynamicSourceConfig.type !== 'cypher') {
+      if (dynamicSourceConfig.type !== 'dbDatasetPart') {
         console.error(
           `Enum parameter ${parameter.id} has unknown type "${dynamicSourceConfig.type}" for dynamicEnumValues. ` +
-            'Currently, the only supported option is "cypher".'
+            'Currently, the only supported option is "dbDatasetPart".'
         );
         removeFromConfig = true;
       }
-      if (dynamicSourceConfig.query == null) {
-        console.error(`Enum parameter ${parameter.id} has no query defined in dynamicEnumValues.`);
-        removeFromConfig = true;
-      }
-      if (dynamicSourceConfig.resultKey == null) {
-        console.error(`Enum parameter ${parameter.id} has no resultKey defined in dynamicEnumValues.`);
+      if (dynamicSourceConfig.datasetPartName == null) {
+        console.error(`Enum parameter ${parameter.id} has no datasetPartName defined in dynamicEnumValues.`);
         removeFromConfig = true;
       }
 
