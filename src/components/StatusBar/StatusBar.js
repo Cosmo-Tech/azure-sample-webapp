@@ -39,9 +39,9 @@ const STATUS_CONFIG = (theme) => ({
 });
 
 const SIZE_CONFIG = {
-  small: { height: 36, padding: '0 8px', fontSize: '14px' },
-  medium: { height: 36, padding: '0 8px', fontSize: '14px' },
-  full: { height: 44, padding: '0 16px', fontSize: '14px' },
+  small: { height: 36, padding: '0 8px', fontSize: '12px' },
+  medium: { height: 36, padding: '0 8px', fontSize: '12px' },
+  full: { height: 44, padding: '0 16px', fontSize: '12px' },
 };
 
 export const StatusBar = ({ status, size, message, tooltip }) => {
@@ -61,7 +61,7 @@ export const StatusBar = ({ status, size, message, tooltip }) => {
         borderRadius: size === 'full' ? '0px' : '17px',
         backgroundColor: statusConfig.bg,
         border: `1px solid ${statusConfig.bg}`,
-        width: size === 'full' ? '100%' : 'auto',
+        width: size === 'full' ? '100%' : 'fit-content',
       }}
     >
       {statusConfig.icon}
@@ -99,7 +99,7 @@ export const StatusBar = ({ status, size, message, tooltip }) => {
         <Typography
           sx={{
             fontWeight: 600,
-            fontSize: 14,
+            fontSize: 12,
             lineHeight: 0,
             marginRight: 0.5,
             color: (theme) => theme.palette.secondary.main,
@@ -117,13 +117,20 @@ export const StatusBar = ({ status, size, message, tooltip }) => {
             sx: {
               backgroundColor: (theme) => theme.palette.neutral.neutral04.main,
               color: (theme) => theme.palette.secondary.main,
+              padding: '8px 12px',
+              borderRadius: '6px',
+              boxShadow: (theme) => theme.shadows[3],
+
+              '& .MuiTooltip-arrow': {
+                color: (theme) => theme.palette.neutral.neutral04.main,
+              },
             },
           },
         }}
       >
-        <span style={{ marginLeft: size === 'small' ? 8 : 0 }}>
+        <Box sx={{ ml: size === 'small' ? 1 : 0, display: 'flex', alignItems: 'center', width: 12 }}>
           <CircleHelp size={12} color={theme.palette.secondary.main} />
-        </span>
+        </Box>
       </Tooltip>
     </Box>
   );
@@ -134,9 +141,4 @@ StatusBar.propTypes = {
   size: PropTypes.oneOf(['small', 'medium', 'full']),
   message: PropTypes.string,
   tooltip: PropTypes.string,
-};
-
-StatusBar.defaultProps = {
-  size: 'medium',
-  message: '',
 };
