@@ -4,9 +4,10 @@ import { CircleArrowRight } from 'lucide-react';
 import React, { Fragment, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, Outlet, useParams, useNavigate } from 'react-router-dom';
-import { Link as MuiLink, Box, Stack, Typography } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import { ApplicationErrorBanner, StatusBar } from '../../components';
 import { AppBar } from '../../components/AppBar';
+import { BreadcrumbItem } from '../../components/AppBar/components/BreadcrumbItem';
 import { MainNavigation } from '../../components/MainNavigation';
 import { useCurrentSimulationRunner, useGetRunner } from '../../state/runner/hooks';
 import { useSelectWorkspace, useWorkspace } from '../../state/workspaces/hooks';
@@ -52,24 +53,20 @@ export const TabLayout = () => {
   );
 
   const BreadcrumbBar = () => (
-    <AppBar>
+    <AppBar currentScenario={currentScenario}>
       {currentWorkspace.data ? (
         <Fragment>
-          <MuiLink underline="hover" color="inherit" href={`/${currentWorkspace?.data?.id}`}>
-            <Typography fontSize={14}>{currentWorkspace?.data?.name}</Typography>
-          </MuiLink>
+          <BreadcrumbItem href={`/${currentWorkspace?.data?.id}`} maxWidth="33%">
+            {currentWorkspace?.data?.name}
+          </BreadcrumbItem>
           <CircleArrowRight size={14} />
-          <MuiLink underline="hover" color="inherit" href="/scenarios">
-            <Typography fontSize={14}>Scenarios</Typography>
-          </MuiLink>
+          <BreadcrumbItem href="/scenarios" maxWidth="33%">
+            Scenarios
+          </BreadcrumbItem>
           <CircleArrowRight size={14} />
-          <MuiLink
-            underline="hover"
-            color="inherit"
-            href={`/${currentWorkspace?.data?.id}/scenario/${currentScenario?.data?.id}`}
-          >
-            <Typography fontSize={14}>{currentScenario?.data?.name}</Typography>
-          </MuiLink>
+          <BreadcrumbItem href={`/${currentWorkspace?.data?.id}/scenario/${currentScenario?.data?.id}`} maxWidth="33%">
+            {currentScenario?.data?.name}
+          </BreadcrumbItem>
         </Fragment>
       ) : (
         <Box>{t('genericcomponent.workspaceselector.homebutton')}</Box>
