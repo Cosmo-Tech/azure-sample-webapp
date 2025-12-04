@@ -26,7 +26,7 @@ export const useCreateScenarioButton = ({ disabled, onScenarioCreated }) => {
   const solution = useSolution();
 
   const workspaceData = useWorkspaceData();
-  const workspaceId = workspaceData.id;
+  const workspaceId = workspaceData?.id;
   const workspaceDatasets = useWorkspaceDatasets();
   const usableDatasets = workspaceDatasets.filter(
     (dataset) =>

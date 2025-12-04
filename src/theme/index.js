@@ -5,7 +5,7 @@ import createComponents from './overrides';
 import typography from './typography';
 
 export const getTheme = (isDarkTheme) => {
-  let theme = createTheme({
+  const theme = createTheme({
     colorSchemes: {
       light: { palette: paletteLight, picture: pictureLight, grid: gridLight },
       dark: { palette: paletteDark, picture: pictureDark, grid: gridDark },
@@ -14,9 +14,7 @@ export const getTheme = (isDarkTheme) => {
   });
 
   const components = createComponents(theme);
-  theme = createTheme(theme, { components });
-
-  return theme;
+  return createTheme(theme, { components });
 };
 
 export { paletteLight, paletteDark, pictureLight, pictureDark, gridLight, gridDark };

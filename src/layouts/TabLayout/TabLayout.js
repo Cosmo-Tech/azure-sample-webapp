@@ -1,18 +1,21 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import React, { useEffect } from 'react';
+import { CircleArrowRight } from 'lucide-react';
+import React, { Fragment, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useLocation, Outlet, useParams, useNavigate } from 'react-router-dom';
 import { Box, Stack } from '@mui/material';
 import { ApplicationErrorBanner, StatusBar } from '../../components';
 import { AppBar } from '../../components/AppBar';
 import { BreadcrumbItem } from '../../components/AppBar/components/BreadcrumbItem';
 import { MainNavigation } from '../../components/MainNavigation';
-import { useGetRunner } from '../../state/runner/hooks';
+import { useCurrentSimulationRunner, useGetRunner } from '../../state/runner/hooks';
 import { useSelectWorkspace, useWorkspace } from '../../state/workspaces/hooks';
 
 export const TabLayout = () => {
   const location = useLocation();
   const currentTabPathname = location?.pathname;
+  const { t } = useTranslation();
 
   const routerParameters = useParams();
   sessionStorage.removeItem('providedUrlBeforeSignIn');
@@ -20,6 +23,7 @@ export const TabLayout = () => {
   const navigate = useNavigate();
   const selectWorkspace = useSelectWorkspace();
   const getScenario = useGetRunner();
+  const currentScenario = useCurrentSimulationRunner();
 
   useEffect(() => {
     if (currentWorkspace?.status === 'ERROR') {
@@ -71,12 +75,19 @@ export const TabLayout = () => {
   );
 
   return (
-    <Stack direction="row" sx={{ flexGrow: 1 }} spacing={2}>
+    <Stack direction="row" sx={{ flexGrow: 1 }}>
       <MainNavigation activeSection="scenarios" />
       <Stack direction="column" sx={{ flexGrow: 1 }}>
         <ApplicationErrorBanner />
         <BreadcrumbBar />
-        <StatusBar />
+        {currentScenario?.data && (
+          <StatusBar
+            status="prerun"
+            size="full"
+            message={t('commoncomponents.tabLayout.statusBar.prerun.message')}
+            tooltip={t('commoncomponents.tabLayout.statusBar.prerun.tooltip')}
+          />
+        )}
         <Stack direction="row" spacing={2}>
           <MainPage />
         </Stack>

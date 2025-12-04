@@ -1,5 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
+import { Bot, Languages } from 'lucide-react';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Box, Button, AppBar as MuiAppBar, Toolbar } from '@mui/material';
@@ -11,8 +12,10 @@ export const AppBar = ({ children, currentScenario }) => {
     <MuiAppBar
       position="sticky"
       sx={{
-        backgroundColor: (theme) => theme.palette.appbar.main,
-        color: (theme) => theme.palette.appbar.contrastText,
+        backgroundColor: (theme) => theme.palette.background.background01.main,
+        color: (theme) => theme.palette.neutral.neutral02.main,
+        boxShadow: 'none',
+        borderBottom: (theme) => `1px solid ${theme.palette.background.background02.main}`,
       }}
     >
       <Toolbar variant="dense" disableGutters={true} sx={{ px: 1, gap: 3 }}>
@@ -39,9 +42,6 @@ export const AppBar = ({ children, currentScenario }) => {
   );
 };
 AppBar.propTypes = {
-  /**
-   * React component to be implemented in dynamic part of the app bar
-   */
   children: PropTypes.node,
   currentScenario: PropTypes.object,
 };
