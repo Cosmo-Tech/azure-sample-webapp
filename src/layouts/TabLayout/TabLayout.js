@@ -2,9 +2,10 @@
 // Licensed under the MIT license.
 import React, { useEffect } from 'react';
 import { useLocation, Outlet, useParams, useNavigate } from 'react-router-dom';
-import { Box, Breadcrumbs, Link as MuiLink, Stack } from '@mui/material';
-import { ApplicationErrorBanner } from '../../components';
+import { Box, Stack } from '@mui/material';
+import { ApplicationErrorBanner, StatusBar } from '../../components';
 import { AppBar } from '../../components/AppBar';
+import { BreadcrumbItem } from '../../components/AppBar/components/BreadcrumbItem';
 import { MainNavigation } from '../../components/MainNavigation';
 import { useGetRunner } from '../../state/runner/hooks';
 import { useSelectWorkspace, useWorkspace } from '../../state/workspaces/hooks';
@@ -48,21 +49,24 @@ export const TabLayout = () => {
   );
 
   const BreadcrumbBar = () => (
-    <Breadcrumbs aria-label="breadcrumb" sx={{ padding: 2 }}>
-      <MuiLink underline="hover" color="inherit" href="/">
-        Workspaces
-      </MuiLink>
-      <MuiLink underline="hover" color="inherit" href="/">
-        Overall
-      </MuiLink>
-      <MuiLink underline="hover" color="inherit" href="/">
-        Main
-      </MuiLink>
-    </Breadcrumbs>
-  );
-  const StatusBar = () => (
-    <AppBar position="static" color="default" sx={{ boxShadow: 'none' }}>
-      <Box sx={{ pl: 2 }}>StatusBar</Box>
+    <AppBar currentScenario={currentScenario}>
+      {currentWorkspace.data ? (
+        <Fragment>
+          <BreadcrumbItem href={`/${currentWorkspace?.data?.id}`} maxWidth="33%">
+            {currentWorkspace?.data?.name}
+          </BreadcrumbItem>
+          <CircleArrowRight size={14} />
+          <BreadcrumbItem href="/scenarios" maxWidth="33%">
+            Scenarios
+          </BreadcrumbItem>
+          <CircleArrowRight size={14} />
+          <BreadcrumbItem href={`/${currentWorkspace?.data?.id}/scenario/${currentScenario?.data?.id}`} maxWidth="33%">
+            {currentScenario?.data?.name}
+          </BreadcrumbItem>
+        </Fragment>
+      ) : (
+        <Box>{t('genericcomponent.workspaceselector.homebutton')}</Box>
+      )}
     </AppBar>
   );
 
