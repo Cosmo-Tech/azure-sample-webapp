@@ -34,7 +34,20 @@ export const GenericNumberInput = ({
   useEffect(() => {
     if (parameterValue == null && dynamicValue != null && !isDirty) {
       if (ConfigUtils.getParameterAttribute(parameterData, 'dynamicValues')) {
-        resetParameterValue(dynamicValue);
+        if (typeof dynamicValue !== 'string') resetParameterValue(dynamicValue);
+
+        let number;
+        try {
+          number = Number(dynamicValue);
+        } catch (error) {
+          console.error(
+            'Default value fetched from dataset could not be converted to a number. Please ' +
+              'check the dataset content and the dataset query.'
+          );
+        }
+
+        const value = parameterData?.varType === 'int' ? Math.round(number) : number;
+        resetParameterValue(value);
       }
     }
   }, [parameterValue, dynamicValue, isDirty, resetParameterValue, parameterData]);
