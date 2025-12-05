@@ -134,6 +134,7 @@
     "glob": "^11.1.0",
     "http-proxy-middleware": "^2.0.9",
     "jsonwebtoken": "^9.0.3",
+    "js-yaml": "^4.1.1",
     "micromatch": "^4.0.8",
     "nanoid": "^3.3.8",
     "nth-check": "^2.1.1",
