@@ -22,7 +22,7 @@ export const useDatasetMetadata = () => {
   const runners = useGetETLRunners();
 
   const etlDatasetRunTemplateName = useMemo(() => {
-    if (currentDataset?.additionalData?.webapp?.sourceType === 'ETL') {
+    if (DatasetsUtils.getDatasetOption(currentDataset, 'sourceType') === 'ETL') {
       const datasetRunnerId = DatasetsUtils.getDatasetOption(currentDataset, 'runnerId');
       const datasetRunner = runners.find((runner) => runner.id === datasetRunnerId) ?? null;
       return datasetRunner

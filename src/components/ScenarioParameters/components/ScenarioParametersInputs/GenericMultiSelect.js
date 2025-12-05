@@ -28,7 +28,7 @@ export const GenericMultiSelect = ({
     if (Array.isArray(dynamicEnumValues)) return dynamicEnumValues;
 
     const rawEnumValues = ConfigUtils.getParameterAttribute(parameterData, 'enumValues') ?? [];
-    if (rawEnumValues.length === 0 && parameterData.additionalData?.dynamicEnumValues == null) {
+    if (rawEnumValues.length === 0 && ConfigUtils.getParameterAttribute(parameterData, 'dynamicEnumValues') == null) {
       console.warn(
         `Enum values are not defined for scenario parameter "${parameterData.id}".\n` +
           'Please either provide an array in the "additionalData.enumValues" field, or use ' +

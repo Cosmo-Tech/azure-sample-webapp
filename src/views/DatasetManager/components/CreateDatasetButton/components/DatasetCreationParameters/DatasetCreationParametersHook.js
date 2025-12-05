@@ -3,7 +3,7 @@
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useWorkspaceData } from '../../../../../../state/workspaces/hooks';
-import { TranslationUtils } from '../../../../../../utils';
+import { ConfigUtils, TranslationUtils } from '../../../../../../utils';
 
 export const useDatasetCreationParameters = () => {
   const { t } = useTranslation();
@@ -44,7 +44,10 @@ export const useDatasetCreationParameters = () => {
   );
 
   const getDefaultFileTypeFilter = useCallback(
-    (dataSources, parameterId) => getParameterById(dataSources, parameterId)?.additionalData?.defaultFileTypeFilter,
+    (dataSources, parameterId) => {
+      const parameter = getParameterById(dataSources, parameterId);
+      return ConfigUtils.getParameterAttribute(parameter, 'defaultFileTypeFilter');
+    },
     [getParameterById]
   );
 

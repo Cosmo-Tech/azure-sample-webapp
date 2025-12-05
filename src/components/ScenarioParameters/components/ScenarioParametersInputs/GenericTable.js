@@ -215,7 +215,7 @@ export const GenericTable = ({
     return false;
   };
 
-  const isDataFetchedFromDataset = !!parameterData?.additionalData?.dynamicValues;
+  const isDataFetchedFromDataset = !!ConfigUtils.getParameterAttribute(parameterData, 'dynamicValues');
 
   const _getDataFromTwingraphDataset = async (setClientFileDescriptor) => {
     const fileName = `${parameterData.id}.csv`;
@@ -631,8 +631,8 @@ export const GenericTable = ({
 
   const onAddRow = useCallback(() => {
     const newLine = TableUtils.createNewTableLine(
-      parameterData.additionalData.columns,
-      parameterData.additionalData.dateFormat
+      ConfigUtils.getParameterAttribute(parameterData, 'columns'),
+      ConfigUtils.getParameterAttribute(parameterData, 'dateFormat')
     );
     const rowsCountBeforeRowAddition = parameter?.displayData?.length ?? 0;
     if (rowsCountBeforeRowAddition === 0) {
@@ -671,15 +671,7 @@ export const GenericTable = ({
     gridApi.applyTransaction({ add: [newLine], addIndex: addIndexForTransaction });
     gridApi.deselectAll();
     updateOnFirstEdition();
-  }, [
-    updateOnFirstEdition,
-    parameter.displayData,
-    parameter.file?.name,
-    parameterData.id,
-    parameterData.additionalData.columns,
-    parameterData.additionalData.dateFormat,
-    updateParameterValue,
-  ]);
+  }, [updateOnFirstEdition, parameter.displayData, parameter.file?.name, parameterData, updateParameterValue]);
 
   const deleteRow = useCallback(() => {
     const gridApi = gridRef.current?.api;

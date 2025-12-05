@@ -131,7 +131,7 @@ export const DatasetMetadata = () => {
         <MetadataItem
           id="source-type"
           label={t('commoncomponents.datasetmanager.metadata.sourceType', 'Source')}
-          value={etlDatasetRunTemplateName || dataset?.additionalData?.webapp?.sourceType}
+          value={etlDatasetRunTemplateName || DatasetsUtils.getDatasetOption(dataset, 'sourceType')}
         ></MetadataItem>
         <MetadataItem
           id="api-url"

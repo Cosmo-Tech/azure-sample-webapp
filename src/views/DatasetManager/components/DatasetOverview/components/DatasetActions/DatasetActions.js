@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import ShareDatasetButton from '../../../../../../components/ShareDatasetButton/ShareDatasetButton';
+import { DatasetsUtils } from '../../../../../../utils';
 import { CreateSubDatasetButton } from '../../../CreateDatasetButton';
 import { DeleteDatasetButton } from '../../../DeleteDatasetButton';
 import { UpdateDatasetButton } from '../../../UpdateDatasetButton';
@@ -13,7 +14,7 @@ export default function DatasetActions({ dataset }) {
   return (
     <ButtonGroup>
       <RefreshDatasetButton dataset={dataset} />
-      {dataset?.additionalData?.webapp?.sourceType === 'ETL' && <UpdateDatasetButton dataset={dataset} />}
+      {DatasetsUtils.getDatasetOption(dataset, 'sourceType') === 'ETL' && <UpdateDatasetButton dataset={dataset} />}
       <CreateSubDatasetButton parentDataset={dataset} />
       <ShareDatasetButton dataset={dataset} />
       <DeleteDatasetButton dataset={dataset} location="dataset-actions-" />

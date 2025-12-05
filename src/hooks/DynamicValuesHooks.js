@@ -9,7 +9,7 @@ import { RUNNER_RUN_STATE } from '../services/config/ApiConstants';
 import DatasetService from '../services/dataset/DatasetService';
 import { setApplicationErrorMessage } from '../state/app/reducers';
 import { useCurrentSimulationRunnerParametersValues } from '../state/runner/hooks';
-import { DatasetsUtils } from '../utils';
+import { ConfigUtils, DatasetsUtils } from '../utils';
 import { getColumnFirstValue, parseCSVFromAPIResponse } from '../utils/DatasetQueryUtils';
 import { GENERIC_VAR_TYPES_DEFAULT_VALUES } from '../utils/scenarioParameters/generic/DefaultValues';
 
@@ -30,7 +30,7 @@ export const useDynamicValues = (parameter, targetDataset) => {
 
   useEffect(() => {
     if (isUnmounted.current) return;
-    const dynamicSourceConfig = parameter.additionalData?.dynamicEnumValues;
+    const dynamicSourceConfig = ConfigUtils.getParameterAttribute(parameter, 'dynamicEnumValues');
 
     const fetchDynamicValues = async () => {
       if (!dynamicSourceConfig) return;
@@ -207,7 +207,7 @@ export const useLoadInitialValueFromDataset = (parameterValue, parameter, target
   const [dynamicValue, setDynamicValue] = useState(undefined);
   const [dynamicValueError, setDynamicValueError] = useState(null);
   const defaultValue = parameter?.defaultValue ?? GENERIC_VAR_TYPES_DEFAULT_VALUES[parameter?.varType];
-  const dynamicSourceConfig = parameter.additionalData?.dynamicValues;
+  const dynamicSourceConfig = ConfigUtils.getParameterAttribute(parameter, 'dynamicValues');
   const resultKey = dynamicSourceConfig?.resultKey;
 
   useEffect(() => {

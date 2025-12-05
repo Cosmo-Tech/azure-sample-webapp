@@ -1,6 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { i18next, I18N_NAMESPACE } from '../services/config/i18next';
+import { ConfigUtils } from './ConfigUtils';
 
 const getParameterTranslationKey = (parameterId) => {
   return `solution.parameters.${parameterId}.name`;
@@ -131,12 +132,14 @@ const addTranslationParametersLabels = (parameters) => {
       _addResource(lang, key, parameter.labels[lang]);
     }
 
-    for (const lang in parameter?.additionalData?.tooltipText) {
+    const parameterTooltip = ConfigUtils.getParameterAttribute(parameter, 'tooltipText');
+    for (const lang in parameterTooltip) {
       const key = getParameterTooltipTranslationKey(parameter.id);
-      _addResource(lang, key, parameter.additionalData.tooltipText[lang]);
+      _addResource(lang, key, parameterTooltip[lang]);
     }
 
-    for (const enumValue of parameter?.additionalData?.enumValues ?? []) {
+    const enumValues = ConfigUtils.getParameterAttribute(parameter, 'enumValues') ?? [];
+    for (const enumValue of enumValues) {
       if (typeof enumValue.value === 'object') {
         for (const lang in enumValue.value) {
           const key = getParameterEnumValueTranslationKey(parameter.id, enumValue.key);

@@ -8,6 +8,7 @@ import { useGetDatasetRunnerStatus } from '../../../../../../hooks/DatasetRunner
 import { NATIVE_DATASOURCE_TYPES, RUNNER_RUN_STATE } from '../../../../../../services/config/ApiConstants';
 import { ACL_PERMISSIONS } from '../../../../../../services/config/accessControl';
 import { useRefreshDataset } from '../../../../../../state/datasets/hooks';
+import { DatasetsUtils } from '../../../../../../utils';
 import { ReuploadFileDatasetButton } from '../../../ReuploadFileDatasetButton/ReuploadFileDatasetButton';
 
 export const RefreshDatasetButton = ({ dataset }) => {
@@ -49,8 +50,10 @@ export const RefreshDatasetButton = ({ dataset }) => {
     },
     [setIsRefreshConfirmationDialogOpen, datasetRefreshCallback]
   );
+
+  const sourceType = DatasetsUtils.getDatasetOption(dataset, 'sourceType');
   let refreshButton = null;
-  if (dataset?.additionalData?.webapp?.sourceType === NATIVE_DATASOURCE_TYPES.FILE_UPLOAD)
+  if (sourceType === NATIVE_DATASOURCE_TYPES.FILE_UPLOAD)
     refreshButton = (
       <ReuploadFileDatasetButton
         confirmAndCallback={confirmAndRefreshDataset}
@@ -58,7 +61,7 @@ export const RefreshDatasetButton = ({ dataset }) => {
         disabled={datasetStatus === RUNNER_RUN_STATE.RUNNING}
       />
     );
-  else if (dataset?.additionalData?.webapp?.sourceType !== NATIVE_DATASOURCE_TYPES.NONE) {
+  else if (sourceType !== NATIVE_DATASOURCE_TYPES.NONE) {
     refreshButton = (
       <FadingTooltip
         title={t('commoncomponents.datasetmanager.overview.actions.refreshButtonTooltip', 'Refresh')}
@@ -74,6 +77,7 @@ export const RefreshDatasetButton = ({ dataset }) => {
       </FadingTooltip>
     );
   }
+
   const userPermissionsOnDataset = dataset?.security?.currentUserPermissions ?? [];
   return (
     <div>

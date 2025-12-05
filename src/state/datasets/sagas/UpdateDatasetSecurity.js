@@ -4,6 +4,7 @@ import { t } from 'i18next';
 import { takeEvery, select, call, put } from 'redux-saga/effects';
 import DatasetService from '../../../services/dataset/DatasetService';
 import RunnerService from '../../../services/runner/RunnerService';
+import { DatasetsUtils } from '../../../utils';
 import { setApplicationErrorMessage } from '../../app/reducers';
 import { DATASET_ACTIONS_KEY } from '../constants';
 import { updateDataset } from '../reducers';
@@ -35,8 +36,8 @@ export function* updateDatasetSecurity(action) {
     const datasetUpdated = { ...dataset, security: { ...newDatasetSecurity, currentUserPermissions } };
     yield put(updateDataset({ datasetId, datasetData: datasetUpdated }));
 
-    if (dataset.additionalData?.webapp?.sourceType === 'ETL') {
-      const runnerId = dataset.additionalData?.webapp?.runnerId;
+    if (DatasetsUtils.getDatasetOption(dataset, 'sourceType') === 'ETL') {
+      const runnerId = DatasetsUtils.getDatasetOption(dataset, 'runnerId');
       try {
         if (runnerId != null) {
           yield call(

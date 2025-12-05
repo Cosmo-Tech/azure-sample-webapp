@@ -8,7 +8,7 @@ import { Grid, Stack } from '@mui/material';
 import { BasicNumberInput, FadingTooltip } from '@cosmotech/ui';
 import { useLoadInitialValueFromDataset } from '../../../../hooks/DynamicValuesHooks';
 import { useParameterConstraintValidation } from '../../../../hooks/ParameterConstraintsHooks';
-import { TranslationUtils } from '../../../../utils';
+import { ConfigUtils, TranslationUtils } from '../../../../utils';
 
 export const GenericNumberInput = ({
   parameterData,
@@ -33,11 +33,11 @@ export const GenericNumberInput = ({
 
   useEffect(() => {
     if (parameterValue == null && dynamicValue != null && !isDirty) {
-      if (parameterData.additionalData?.dynamicValues) {
+      if (ConfigUtils.getParameterAttribute(parameterData, 'dynamicValues')) {
         resetParameterValue(dynamicValue);
       }
     }
-  }, [parameterValue, dynamicValue, isDirty, resetParameterValue, parameterData.additionalData?.dynamicValues]);
+  }, [parameterValue, dynamicValue, isDirty, resetParameterValue, parameterData]);
 
   const changeValue = useCallback(
     (newValue) => {

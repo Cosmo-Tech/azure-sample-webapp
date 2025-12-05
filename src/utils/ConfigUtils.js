@@ -64,18 +64,23 @@ const _checkDeprecatedKeysInParameterConfig = (parameter) => {
 
 const getParameterAttribute = (parameter, attributeName) => {
   const knownAttributesNames = [
+    'canChangeRowsNumber',
     'columns',
     'dateFormat',
     'defaultFileTypeFilter',
     'description',
+    'dynamicValues',
+    'dynamicEnumValues',
     'enumValues',
     'hasHeader',
     'hidden',
-    'subType',
-    'canChangeRowsNumber',
-    'shouldRenameFileOnUpload',
+    'maxLength',
+    'minLength',
     'runTemplateFilter',
-    'dynamicValues',
+    'shouldRenameFileOnUpload',
+    'subType',
+    'tooltipText',
+    'validation',
   ];
   if (!knownAttributesNames.includes(attributeName)) {
     console.warn(`The attribute "${attributeName}" is not a known attribute in the scenario parameters configuration.`);

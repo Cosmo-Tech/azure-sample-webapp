@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { Grid } from '@mui/material';
 import { BasicTextInput } from '@cosmotech/ui';
 import { useParameterConstraintValidation } from '../../../../hooks/ParameterConstraintsHooks';
-import { TranslationUtils } from '../../../../utils';
+import { ConfigUtils, TranslationUtils } from '../../../../utils';
 
 export const GenericTextInput = ({
   parameterData,
@@ -63,7 +63,8 @@ GenericTextInput.useValidationRules = (parameterData) => {
   const { t } = useTranslation();
   const { getParameterConstraintValidation } = useParameterConstraintValidation(parameterData);
   const getStringSizeInBytes = (string) => new Blob([string]).size;
-  const minLength = parameterData?.additionalData?.minLength ?? 0;
+  const minLength = ConfigUtils.getParameterAttribute(parameterData, 'minLength') ?? 0;
+  const maxLength = ConfigUtils.getParameterAttribute(parameterData, 'maxLength') ?? 0;
   return {
     required: {
       value: minLength > 0,
@@ -78,11 +79,11 @@ GenericTextInput.useValidationRules = (parameterData) => {
       ),
     },
     maxLength: {
-      value: parameterData?.additionalData?.maxLength,
+      value: maxLength,
       message: t(
         'views.scenario.scenarioParametersValidationErrors.maxLength',
         'Maximum length of this field is {{length}} characters',
-        { length: parameterData?.additionalData?.maxLength }
+        { length: maxLength }
       ),
     },
     validate: {

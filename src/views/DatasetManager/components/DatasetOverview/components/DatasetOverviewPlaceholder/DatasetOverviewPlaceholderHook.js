@@ -15,7 +15,7 @@ import { DatasetsUtils } from '../../../../../../utils';
 
 export const useDatasetOverviewPlaceholder = () => {
   const currentDataset = useCurrentDataset();
-  const currentDatasetType = currentDataset?.additionalData?.webapp?.sourceType;
+  const currentDatasetType = DatasetsUtils.getDatasetOption(currentDataset, 'sourceType');
   const currentDatasetId = useCurrentDatasetId();
   const refreshDataset = useRefreshDataset();
   const rollbackTwingraphData = useRollbackTwingraphData();
@@ -24,10 +24,8 @@ export const useDatasetOverviewPlaceholder = () => {
 
   const getDatasetRunnerStatus = useGetDatasetRunnerStatus();
   const currentDatasetStatus = useMemo(() => {
-    if (DatasetsUtils.getDatasetOption(currentDataset, 'sourceType') === 'ETL')
-      return getDatasetRunnerStatus(currentDataset);
-    return RUNNER_RUN_STATE.SUCCESSFUL;
-  }, [currentDataset, getDatasetRunnerStatus]);
+    return currentDatasetType === 'ETL' ? getDatasetRunnerStatus(currentDataset) : RUNNER_RUN_STATE.SUCCESSFUL;
+  }, [currentDataset, currentDatasetType, getDatasetRunnerStatus]);
 
   return {
     currentDatasetId,
