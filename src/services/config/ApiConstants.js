@@ -53,22 +53,11 @@ export const INGESTION_STATUS = {
 export const TWINGRAPH_SECTION_URL = '/swagger-ui/index.html#/dataset/twingraphQuery';
 
 export const NATIVE_DATASOURCE_TYPES = {
-  AZURE_STORAGE: 'AzureStorage',
   FILE_UPLOAD: 'FileUploadToDataset',
   NONE: 'None',
 };
 
 export const DATASET_SOURCES = [
-  {
-    id: NATIVE_DATASOURCE_TYPES.AZURE_STORAGE,
-    labels: { en: 'Graph Format from Azure Storage', fr: 'Format Graph depuis Azure Storage' },
-    parameters: [
-      { id: `name`, varType: 'string', labels: { en: 'Account name', fr: 'Nom du compte' } },
-      { id: `location`, varType: 'string', labels: { en: 'Container name', fr: 'Nom du container' } },
-      { id: `path`, varType: 'string', labels: { en: 'Path', fr: 'Chemin' } },
-    ],
-    tags: ['datasource'],
-  },
   {
     id: NATIVE_DATASOURCE_TYPES.NONE,
     labels: { en: 'Empty', fr: 'Dataset vide' },
