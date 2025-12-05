@@ -144,7 +144,7 @@
     "postcss": "^8.4.31",
     "rollup": "^2.79.2",
     "sha.js": "^2.4.12",
-    "validator": "^13.15.15",
+    "validator": "^13.15.23",
     "webpack": "^5.94.0"
   },
   "packageManager": "yarn@4.10.3"
