@@ -1,7 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { SquareAsterisk } from 'lucide-react';
+import { CornerDownRightIcon, SquareAsterisk } from 'lucide-react';
 import React, { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Box, List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
@@ -37,20 +38,28 @@ const buildScenarioTree = (scenarios) => {
   return traverse(null);
 };
 
-export const ScenarioList = ({ disabled, scenarios, activeScenarioId, onScenarioChange, isCollapsed }) => {
+export const ScenarioList = ({
+  disabled,
+  scenarios,
+  activeScenarioId,
+  onScenarioChange,
+  isCollapsed,
+  currentWorkspaceId,
+}) => {
   const theme = useTheme();
   const navColors = theme.palette ?? {};
   const scenarioTree = useMemo(() => buildScenarioTree(scenarios), [scenarios]);
-
+  const navigate = useNavigate();
   const handleScenarioClick = (scenarioId) => {
     if (onScenarioChange) {
       onScenarioChange(scenarioId);
+      navigate(`/${currentWorkspaceId}/scenario/${scenarioId}`);
     }
   };
 
-  const isScenarioActive = (scenarioId) => {
-    return activeScenarioId === scenarioId;
-  };
+  // const isScenarioActive = (scenarioId) => {
+  //   return activeScenarioId === scenarioId;  -- To be used later
+  // };
 
   if (isCollapsed || !scenarioTree.length) {
     return null;
@@ -84,7 +93,7 @@ export const ScenarioList = ({ disabled, scenarios, activeScenarioId, onScenario
       <List sx={{ py: 0.5, display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}>
         {scenarioTree.map((scenario) => {
           const depth = getScenarioDepth(scenario, scenarios);
-          const isActive = isScenarioActive(scenario.id);
+          // const isActive = isScenarioActive(scenario.id); -- To be used later
           const isChild = depth > 0;
 
           return (
@@ -92,7 +101,6 @@ export const ScenarioList = ({ disabled, scenarios, activeScenarioId, onScenario
               disabled={disabled}
               variant="navigation"
               key={scenario.id}
-              selected={isActive}
               onClick={() => handleScenarioClick(scenario.id)}
               sx={{
                 ...getNavigationItemStyles(false),
@@ -112,7 +120,7 @@ export const ScenarioList = ({ disabled, scenarios, activeScenarioId, onScenario
                     flexShrink: 0,
                   }}
                 >
-                  ↪
+                  <CornerDownRightIcon size={20} />
                 </Box>
               )}
               {!isChild && (
@@ -149,11 +157,5 @@ ScenarioList.propTypes = {
   activeScenarioId: PropTypes.string,
   onScenarioChange: PropTypes.func,
   isCollapsed: PropTypes.bool,
-};
-
-ScenarioList.defaultProps = {
-  disabled: false,
-  activeScenarioId: undefined,
-  onScenarioChange: undefined,
-  isCollapsed: false,
+  currentWorkspaceId: PropTypes.string,
 };
