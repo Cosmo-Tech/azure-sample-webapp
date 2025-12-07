@@ -95,6 +95,14 @@
         }
       }
     },
+    "tabLayout": {
+      "statusBar": {
+        "prerun": {
+          "message": "This scenario has not been run yet.",
+          "tooltip": "This scenario has not been run yet."
+        }
+      }
+    },
     "cytoviz": {
       "elementDetails": "Details",
       "loading": "Loading...",

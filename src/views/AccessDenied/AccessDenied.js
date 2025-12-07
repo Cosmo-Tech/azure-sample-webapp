@@ -18,12 +18,12 @@ const buildErrorMessage = (error) => {
 };
 
 const Root = styled('div')(({ theme }) => ({
-  backgroundColor: theme.palette.login.main,
+  backgroundColor: theme.palette?.login?.main,
   height: '100%',
 }));
 
 const TitleDiv = styled('div')(({ theme }) => ({
-  backgroundColor: theme.palette.login.main,
+  backgroundColor: theme.palette?.login.main,
   height: '100%',
   display: 'flex',
   justifyContent: 'center',
@@ -104,7 +104,7 @@ const AccessDenied = ({ application }) => {
               </Typography>
               <Paper
                 sx={{
-                  background: (theme) => theme.palette.error.main,
+                  background: (theme) => theme.palette?.error?.main,
                   paddingBottom: 8,
                   paddingTop: 8,
                   paddingLeft: 6,
