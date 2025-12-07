@@ -5,8 +5,6 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Grid, Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/material';
 import { ResourceCard } from '@cosmotech/ui';
-import { ApplicationErrorBanner } from '../../components';
-import { AppBar } from '../../components/AppBar';
 import { STATUSES } from '../../services/config/StatusConstants';
 import { useResetCurrentSimulationRunner } from '../../state/runner/hooks';
 import { useResetCurrentSolution, useSolution } from '../../state/solutions/hooks';
@@ -87,43 +85,39 @@ const Workspaces = () => {
   ));
 
   return (
-    <>
-      <AppBar />
-      <ApplicationErrorBanner />
-      <div data-cy="workspaces-view">
-        {workspacesList?.length === 0 ? (
-          <Grid container sx={{ justifyContent: 'center', alignItems: 'center', padding: '18px', height: '90%' }}>
-            <Grid data-cy="no-workspace-placeholder" align="center" size={5}>
-              <Typography variant="h3" gutterBottom={true}>
-                {labels.titleNoWorkspacePlaceholder}
-              </Typography>
-              <Typography variant="caption" color="textSecondary" sx={{ display: 'block' }}>
-                {labels.reasonNoWorkspacePlaceholder}
-              </Typography>
-              <Typography variant="caption" color="textSecondary" sx={{ display: 'block' }}>
-                {labels.contactNoWorkspacePlaceholder}
-              </Typography>
-            </Grid>
+    <div data-cy="workspaces-view">
+      {workspacesList?.length === 0 ? (
+        <Grid container sx={{ justifyContent: 'center', alignItems: 'center', padding: '18px', height: '90%' }}>
+          <Grid data-cy="no-workspace-placeholder" align="center" size={5}>
+            <Typography variant="h3" gutterBottom={true}>
+              {labels.titleNoWorkspacePlaceholder}
+            </Typography>
+            <Typography variant="caption" color="textSecondary" sx={{ display: 'block' }}>
+              {labels.reasonNoWorkspacePlaceholder}
+            </Typography>
+            <Typography variant="caption" color="textSecondary" sx={{ display: 'block' }}>
+              {labels.contactNoWorkspacePlaceholder}
+            </Typography>
           </Grid>
-        ) : (
-          <Grid container sx={{ justifyContent: 'center', padding: '18px', height: '90%' }}>
-            <Grid size={12}>
-              {/* Keep Accordion always open while we have only one organization, and reset default cursor */}
-              <Accordion expanded={true} sx={{ '& .MuiAccordionSummary-root:hover': { cursor: 'default !important' } }}>
-                <AccordionSummary>
-                  <Typography variant="body1">{organizationName}</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <Grid container spacing={2} sx={{ justifyContent: 'flex-start', padding: '24px' }}>
-                    {workspaceListRender}
-                  </Grid>
-                </AccordionDetails>
-              </Accordion>
-            </Grid>
+        </Grid>
+      ) : (
+        <Grid container sx={{ justifyContent: 'center', padding: '18px', height: '90%' }}>
+          <Grid size={12}>
+            {/* Keep Accordion always open while we have only one organization, and reset default cursor */}
+            <Accordion expanded={true} sx={{ '& .MuiAccordionSummary-root:hover': { cursor: 'default !important' } }}>
+              <AccordionSummary>
+                <Typography variant="body1">{organizationName}</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Grid container spacing={2} sx={{ justifyContent: 'flex-start', padding: '24px' }}>
+                  {workspaceListRender}
+                </Grid>
+              </AccordionDetails>
+            </Accordion>
           </Grid>
-        )}
-      </div>
-    </>
+        </Grid>
+      )}
+    </div>
   );
 };
 
