@@ -268,7 +268,6 @@ export const MainNavigation = ({ onSectionChange, onDrawerWidthChange }) => {
         onUserMenuClick={handleUserMenuClick}
         isUserMenuOpen={isUserMenuOpen}
       />
-
       <UserMenu
         anchorEl={userMenuAnchor}
         open={isUserMenuOpen}
