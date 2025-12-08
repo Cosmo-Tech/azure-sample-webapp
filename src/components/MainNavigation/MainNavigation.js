@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 import { ChevronLeft, ChevronRight, Database, FolderTree, ClipboardList } from 'lucide-react';
 import React, { useMemo, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Box, Drawer, IconButton } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
@@ -42,6 +43,7 @@ export const MainNavigation = ({ onSectionChange, onDrawerWidthChange }) => {
   } = useMainNavigation();
 
   const [isCollapsed, setIsCollapsed] = useState(localStorage.getItem(STORAGE_NAV_COLLAPSED_KEY) === 'true');
+  const navigate = useNavigate();
 
   const [userMenuAnchor, setUserMenuAnchor] = useState(null);
   const isUserMenuOpen = Boolean(userMenuAnchor);
@@ -122,6 +124,7 @@ export const MainNavigation = ({ onSectionChange, onDrawerWidthChange }) => {
           onSectionChange={(sectionId) => {
             setActiveSection(sectionId);
             onSectionChange?.(sectionId);
+            navigate(`/${workspaceId}/${sectionId}`);
           }}
           isCollapsed={isCollapsed}
         />
@@ -171,6 +174,7 @@ export const MainNavigation = ({ onSectionChange, onDrawerWidthChange }) => {
       topSections,
       setActiveSection,
       workspaceId,
+      navigate,
     ]
   );
 

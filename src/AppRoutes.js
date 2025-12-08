@@ -2,12 +2,13 @@
 // Licensed under the MIT license.
 import React from 'react';
 import { Navigate, Route, createBrowserRouter, RouterProvider, createRoutesFromElements } from 'react-router-dom';
-import { getAllTabs } from './AppLayout';
+import { MainPage } from './components/MainPage/MainPage';
 import { UserStatusGate } from './components/UserStatusGate';
 import { TabLayout } from './layouts';
 import ConfigService from './services/ConfigService';
 import { RouterUtils } from './utils';
 import DatasetListingView from './views/DatasetListing';
+import { Error403, Error404 } from './views/Errors';
 import ScenariosListingView from './views/ScenariosListing';
 import Workspaces from './views/Workspaces';
 
@@ -16,11 +17,12 @@ const AppRoutes = () => {
   const providedUrlBeforeSignIn = sessionStorage.getItem('providedUrlBeforeSignIn');
   const redirectPath = RouterUtils.getLocationRelativePath(providedUrlBeforeSignIn ?? providedUrl ?? '/workspaces');
   const publicUrl = ConfigService.getParameterValue('PUBLIC_URL') ?? '';
-  const tabs = getAllTabs();
 
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
+        <Route path="/" element={<Navigate to="/workspaces" replace />} />
+
         <Route
           element={
             <UserStatusGate>
@@ -37,6 +39,7 @@ const AppRoutes = () => {
             }
           />
         </Route>
+
         <Route
           path=":workspaceId"
           element={
@@ -45,6 +48,7 @@ const AppRoutes = () => {
             </UserStatusGate>
           }
         />
+
         <Route
           element={
             <UserStatusGate>
@@ -53,13 +57,14 @@ const AppRoutes = () => {
           }
         >
           <Route
-            path=":workspaceId/datasets"
+            path=":workspaceId/data"
             element={
               <UserStatusGate>
                 <DatasetListingView />
               </UserStatusGate>
             }
           />
+
           <Route
             path=":workspaceId/scenarios"
             element={
@@ -68,18 +73,10 @@ const AppRoutes = () => {
               </UserStatusGate>
             }
           />
-          {tabs?.map((tab) => (
-            <Route
-              key={tab.key}
-              path={`:workspaceId/${tab.to}`}
-              element={<UserStatusGate>{tab.render}</UserStatusGate>}
-            >
-              {['scenario', 'instance'].includes(tab.to) && (
-                <Route path=":scenarioId" element={<UserStatusGate>{tab.render}</UserStatusGate>} />
-              )}
-            </Route>
-          ))}
+
+          <Route path=":workspaceId/scenario/:scenarioId" element={<MainPage />} />
         </Route>
+
         <Route
           path="/sign-in"
           element={
@@ -88,15 +85,11 @@ const AppRoutes = () => {
             </UserStatusGate>
           }
         />
-        <Route
-          path="/accessDenied"
-          element={
-            <UserStatusGate>
-              <Navigate to="/workspaces" />
-            </UserStatusGate>
-          }
-        />
-        <Route path="*" element={<Navigate to={'/workspaces'} />} />
+
+        <Route path="/403" element={<Error403 />} />
+        <Route path="/404" element={<Error404 />} />
+
+        <Route path="*" element={<Navigate to={'/404'} />} />
       </>
     ),
     {

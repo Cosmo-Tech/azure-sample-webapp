@@ -5,12 +5,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, AppBar as MuiAppBar, Toolbar } from '@mui/material';
 import { StatusBar } from '../';
-import { useCurrentSimulationRunner } from '../../state/runner/hooks';
 import { ThemeSwitch } from './components';
 
-export const AppBar = ({ children }) => {
-  const currentScenario = useCurrentSimulationRunner();
-
+export const AppBar = ({ children, currentScenario }) => {
   return (
     <MuiAppBar
       position="sticky"
