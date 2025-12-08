@@ -46,7 +46,7 @@ export const ReuploadFileDatasetButton = ({ confirmAndCallback, datasetId, disab
   const inputId = useMemo(() => `dataset-reupload-input-${datasetId}`, [datasetId]);
   return (
     <>
-      <input hidden type="file" accept="application/zip" id={inputId} onChange={handleFileUpload} />
+      <input hidden type="file" accept="*" id={inputId} onChange={handleFileUpload} />
       {iconButton ? (
         <FadingTooltip
           title={t('commoncomponents.datasetmanager.overview.actions.refreshButtonTooltip', 'Refresh')}
