@@ -49,6 +49,10 @@
           },
           "cancel": "Abort"
         }
+      },
+      "errorPage": {
+        "back": "Back",
+        "home": "Home"
       }
     },
     "card": {
@@ -852,10 +856,23 @@
         "timeout": "For security reasons, your session has expired, due to inactivity."
       }
     },
-    "accessdenied": {
+    "403": {
       "title": "Access denied",
-      "errormessage": "Either the resources do not exist or you don't have permission to access them.",
-      "signouttimeout": "You will be automatically signed out in {{seconds}} seconds..."
+      "errormessage": "You do not have permissions to access this page."
+    },
+    "404": {
+      "title": "Page not found",
+      "errormessage": "Sorry, the page you are looking for does not exist."
+    },
+    "500": {
+      "title": "Internal server error",
+      "errormessage": "Sorry, something went wrong.",
+      "errorReport": "Send an error report"
+    },
+    "503": {
+      "title": "Service Unavailable",
+      "errormessage": "Sorry, the page is temporarily unavailable.",
+      "errorReport": "Send an error report"
     },
     "scenario": {
       "dropdown": {

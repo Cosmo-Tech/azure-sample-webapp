@@ -49,7 +49,14 @@ export const ScenariosTableRow = ({
       }}
     >
       <TableCell
-        sx={{ py: 1, borderTopLeftRadius: '4px', borderBottomLeftRadius: '4px', backgroundClip: 'padding-box', pl: 1 }}
+        sx={{
+          py: 1,
+          borderTopLeftRadius: '4px',
+          borderBottomLeftRadius: '4px',
+          backgroundClip: 'padding-box',
+          pl: 1,
+          border: 'none',
+        }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           {isChild && (
@@ -71,7 +78,7 @@ export const ScenariosTableRow = ({
             {scenario.name}
           </Typography>
           <Tooltip
-            title={'tooltip'}
+            title={scenario.name}
             placement="bottom"
             arrow
             slotProps={{
@@ -87,17 +94,17 @@ export const ScenariosTableRow = ({
           </Tooltip>
         </Box>
       </TableCell>
-      <TableCell sx={{ py: 1, pl: 0 }}>
-        <Typography variant="body2" sx={{ color: (theme) => theme.palette.neutral.neutral02.main }}>
+      <TableCell sx={{ py: 1, pl: 0, border: 'none' }}>
+        <Typography variant="body2" sx={{ color: (theme) => theme.palette.secondary.main }}>
           {createdDate}
         </Typography>
       </TableCell>
-      <TableCell sx={{ py: 1, pl: 0 }}>
-        <Typography variant="body2" sx={{ color: (theme) => theme.palette.neutral.neutral02.main }}>
+      <TableCell sx={{ py: 1, pl: 0, border: 'none' }}>
+        <Typography variant="body2" sx={{ color: (theme) => theme.palette.secondary.main }}>
           {lastEditedDate}
         </Typography>
       </TableCell>
-      <TableCell sx={{ py: 1, pl: 0 }}>
+      <TableCell sx={{ py: 1, pl: 0, border: 'none' }}>
         <StatusBar status={status} size="small" />
       </TableCell>
       <TableCell
@@ -108,6 +115,7 @@ export const ScenariosTableRow = ({
           backgroundClip: 'padding-box',
           pl: 0,
           pr: 1,
+          border: 'none',
         }}
       >
         <Box sx={{ display: 'flex', gap: 0.5, justifyContent: 'flex-end' }}>

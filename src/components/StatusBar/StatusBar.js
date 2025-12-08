@@ -1,9 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { TriangleAlert, Lock, CircleHelp, CircleCheck } from 'lucide-react';
-import React, { Fragment } from 'react';
+import { TriangleAlert, Lock, CircleHelp, CircleCheck, CircleX } from 'lucide-react';
+import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Box, Tooltip, Typography, useTheme } from '@mui/material';
+import { Box, Stack, Tooltip, Typography, useTheme } from '@mui/material';
 
 const STATUS_CONFIG = (theme) => ({
   valid: {
@@ -44,17 +44,23 @@ const SIZE_CONFIG = {
   full: { height: 44, padding: '0 16px', fontSize: '14px' },
 };
 
-const StatusBar = ({ status, size, message, tooltip }) => {
+const StatusBar = ({ status, size, message, tooltip, onClose }) => {
   const sizeConfig = SIZE_CONFIG[size];
   const theme = useTheme();
   const statusConfig = STATUS_CONFIG(theme)[status];
+  const [statusVisible, setStatusVisible] = useState(true);
+
+  const onCloseClick = () => {
+    setStatusVisible(false);
+    onClose();
+  };
 
   if (!statusConfig) return null;
 
   return (
     <Box
       sx={{
-        display: 'inline-flex',
+        display: statusVisible ? 'inline-flex' : 'none',
         alignItems: 'center',
         height: sizeConfig.height,
         padding: sizeConfig.padding,
@@ -62,69 +68,77 @@ const StatusBar = ({ status, size, message, tooltip }) => {
         backgroundColor: statusConfig.bg,
         border: `1px solid ${statusConfig.bg}`,
         width: size === 'full' ? '100%' : 'auto',
+        justifyContent: 'space-between',
       }}
     >
-      {statusConfig.icon}
+      <Stack direction="row" alignItems="center">
+        {statusConfig.icon}
+        {size !== 'small' && (
+          <Fragment>
+            <Typography
+              sx={{
+                fontSize: sizeConfig.fontSize,
+                color: statusConfig.text,
+                lineHeight: 0,
+                marginLeft: 0.5,
+                marginRight: 2,
+              }}
+            >
+              Status:
+            </Typography>
 
-      {size !== 'small' && (
-        <Fragment>
+            {size !== 'full' && (
+              <Typography
+                sx={{
+                  fontSize: sizeConfig.fontSize,
+                  fontWeight: 600,
+                  marginRight: 0.5,
+                  lineHeight: 0,
+                  color: (theme) => theme.palette.secondary.main,
+                }}
+              >
+                {statusConfig.label}
+              </Typography>
+            )}
+          </Fragment>
+        )}
+
+        {size === 'full' && message && (
           <Typography
             sx={{
-              fontSize: sizeConfig.fontSize,
-              color: statusConfig.text,
-              lineHeight: 0,
-              marginLeft: 0.5,
-            }}
-          >
-            Status:
-          </Typography>
-
-          <Typography
-            sx={{
-              fontSize: sizeConfig.fontSize,
-              marginLeft: 2,
               fontWeight: 600,
-              marginRight: 0.5,
+              fontSize: 14,
               lineHeight: 0,
+              marginRight: 0.5,
               color: (theme) => theme.palette.secondary.main,
             }}
           >
-            {statusConfig.label}
-            {size === 'full' ? ':' : ''}
+            {message}
           </Typography>
-        </Fragment>
-      )}
-
-      {size === 'full' && message && (
-        <Typography
-          sx={{
-            fontWeight: 600,
-            fontSize: 14,
-            lineHeight: 0,
-            marginRight: 0.5,
-            color: (theme) => theme.palette.secondary.main,
+        )}
+        <Tooltip
+          title={tooltip}
+          placement="bottom"
+          arrow
+          slotProps={{
+            tooltip: {
+              sx: {
+                backgroundColor: (theme) => theme.palette.neutral.neutral04.main,
+                color: (theme) => theme.palette.secondary.main,
+              },
+            },
           }}
         >
-          {message}
-        </Typography>
+          <span style={{ marginLeft: size === 'small' ? 8 : 0, display: 'flex', alignItems: 'center', width: 12 }}>
+            <CircleHelp size={12} color={theme.palette.secondary.main} />
+          </span>
+        </Tooltip>
+      </Stack>
+      {onClose && (
+        <Box onClick={onCloseClick} sx={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+          <CircleX size={16} color={statusConfig.text} />
+        </Box>
       )}
-      <Tooltip
-        title={tooltip}
-        placement="bottom"
-        arrow
-        slotProps={{
-          tooltip: {
-            sx: {
-              backgroundColor: (theme) => theme.palette.neutral.neutral04.main,
-              color: (theme) => theme.palette.secondary.main,
-            },
-          },
-        }}
-      >
-        <span style={{ marginLeft: size === 'small' ? 8 : 0 }}>
-          <CircleHelp size={12} color={theme.palette.secondary.main} />
-        </span>
-      </Tooltip>
     </Box>
   );
 };
@@ -134,6 +148,7 @@ StatusBar.propTypes = {
   size: PropTypes.oneOf(['small', 'medium', 'full']),
   message: PropTypes.string,
   tooltip: PropTypes.string,
+  onClose: PropTypes.func,
 };
 
 export default StatusBar;

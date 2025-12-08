@@ -47,7 +47,7 @@ export const DatasetTableRow = ({
             {dataset.name}
           </Typography>
           <Tooltip
-            title={'tooltip'}
+            title={dataset.name}
             placement="bottom"
             arrow
             slotProps={{
@@ -64,12 +64,12 @@ export const DatasetTableRow = ({
         </Box>
       </TableCell>
       <TableCell sx={{ py: 1, pl: 0 }}>
-        <Typography variant="body2" sx={{ color: (theme) => theme.palette.neutral.neutral02.main }}>
+        <Typography variant="body2" sx={{ color: (theme) => theme.palette.secondary.main }}>
           {createdDate}
         </Typography>
       </TableCell>
       <TableCell sx={{ py: 1, pl: 0 }}>
-        <Typography variant="body2" sx={{ color: (theme) => theme.palette.neutral.neutral02.main }}>
+        <Typography variant="body2" sx={{ color: (theme) => theme.palette.secondary.main }}>
           {lastEditedDate}
         </Typography>
       </TableCell>

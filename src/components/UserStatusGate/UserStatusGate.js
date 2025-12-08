@@ -6,7 +6,8 @@ import PropTypes from 'prop-types';
 import { STATUSES } from '../../services/config/StatusConstants';
 import { AUTH_STATUS } from '../../state/auth/constants';
 import { useSolution } from '../../state/solutions/hooks';
-import { AccessDenied, SignIn } from '../../views';
+import { SignIn } from '../../views';
+import { Error403 } from '../../views/Errors';
 import Workspaces from '../../views/Workspaces';
 import { useUserStatusGateHook } from './UserStatusGateHook';
 
@@ -22,7 +23,7 @@ export const UserStatusGate = ({ children }) => {
 
   if (!authenticated)
     return pathname === '/sign-in' ? <SignIn /> : <Navigate to="/sign-in" state={{ from: pathname }} />;
-  if (!authorized) return pathname === '/accessDenied' ? <AccessDenied /> : <Navigate to="/accessDenied" replace />;
+  if (!authorized) return pathname === '/403' ? <Error403 /> : <Navigate to="/403" replace />;
   if (solutionUnauthorized) return pathname === '/workspaces' ? <Workspaces /> : <Navigate to="/workspaces" replace />;
 
   return children;
