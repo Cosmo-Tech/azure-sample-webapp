@@ -8,7 +8,6 @@ import {
   dispatchDeleteDataset,
   dispatchPollTwingraphStatus,
   dispatchRefreshDataset,
-  dispatchRollbackTwingraphData,
   dispatchUpdateDataset,
   dispatchUpdateDatasetSecurity,
 } from './dispatchers';
@@ -109,15 +108,6 @@ export const useCreateDataset = () => {
   return useCallback(
     (dataset, files, shouldSelectDataset) => dispatch(dispatchCreateDataset(dataset, files, shouldSelectDataset)),
     [dispatch]
-  );
-};
-
-export const useRollbackTwingraphData = () => {
-  const dispatch = useDispatch();
-  const organizationId = useOrganizationId();
-  return useCallback(
-    (datasetId) => dispatch(dispatchRollbackTwingraphData(organizationId, datasetId)),
-    [dispatch, organizationId]
   );
 };
 

@@ -216,7 +216,6 @@
           },
           "unknown": "Le dataset a un statut inconnu, si le problème persiste, merci de contacter votre administrateur",
           "retryButton": "Réessayer",
-          "rollbackButton": "Restaurer",
           "abortButton": "Arrêter"
         }
       },

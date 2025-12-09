@@ -7,7 +7,6 @@ import findAllDatasetsData from './FindAllDatasets';
 import pollTwingraphStatusSaga from './PollTwingraphStatus';
 import queryDatasetTwingraphSaga from './QueryDatasetTwingraph';
 import refreshDatasetSaga from './RefreshDataset';
-import rollbackTwingraphDataSaga from './RollbackTwingraphData';
 import updateDatasetSaga from './UpdateDataset';
 import updateDatasetSecuritySaga from './UpdateDatasetSecurity';
 
@@ -21,6 +20,5 @@ export default function* datasetSaga() {
     fork(refreshDatasetSaga),
     fork(pollTwingraphStatusSaga),
     fork(queryDatasetTwingraphSaga),
-    fork(rollbackTwingraphDataSaga),
   ]);
 }

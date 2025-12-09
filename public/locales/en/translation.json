@@ -216,7 +216,6 @@
           },
           "unknown": "The dataset has an unknown state, if the problem persists, please, contact your administrator",
           "retryButton": "Retry",
-          "rollbackButton": "Rollback",
           "abortButton": "Abort"
         }
       },

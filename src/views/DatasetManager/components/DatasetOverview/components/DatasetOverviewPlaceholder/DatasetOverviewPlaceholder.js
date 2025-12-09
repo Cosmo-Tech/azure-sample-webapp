@@ -18,7 +18,6 @@ export const DatasetOverviewPlaceholder = () => {
     currentDatasetType,
     refreshDataset,
     downloadLogsFile,
-    rollbackTwingraphData,
     stopETLRunner,
   } = useDatasetOverviewPlaceholder();
 
@@ -131,20 +130,6 @@ export const DatasetOverviewPlaceholder = () => {
       </Button>
     );
 
-    // FIXME: remove rollback button & associated code
-    // showRollbackButton=currentDatasetTwincacheStatus === TWINCACHE_STATUS.FULL && currentDatasetType !== 'ETL';
-    const showRollbackButton = false;
-    const rollBackButton = showRollbackButton ? (
-      <Button
-        data-cy="dataset-overview-rollback-button"
-        variant="contained"
-        onClick={() => rollbackTwingraphData(currentDatasetId)}
-        sx={{ ml: 1 }}
-      >
-        {t('commoncomponents.datasetmanager.overview.placeholder.rollbackButton', 'Rollback')}
-      </Button>
-    ) : null;
-
     if (currentDatasetStatus === RUNNER_RUN_STATE.RUNNING)
       return !Object.values(NATIVE_DATASOURCE_TYPES).includes(currentDatasetType) && abortButton;
     else if (currentDatasetType === NATIVE_DATASOURCE_TYPES.FILE_UPLOAD)
@@ -154,7 +139,6 @@ export const DatasetOverviewPlaceholder = () => {
         <>
           {!Object.values(NATIVE_DATASOURCE_TYPES).includes(currentDatasetType) && runLogsDownloadButton}
           {retryButton}
-          {rollBackButton}
         </>
       );
   }, [
@@ -162,7 +146,6 @@ export const DatasetOverviewPlaceholder = () => {
     currentDatasetId,
     currentDatasetStatus,
     refreshDataset,
-    rollbackTwingraphData,
     stopETLRunner,
     currentDatasetType,
     downloadLogsFile,

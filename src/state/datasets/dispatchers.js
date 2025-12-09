@@ -30,12 +30,6 @@ export const dispatchUpdateDataset = (organizationId, datasetId, datasetData, da
   datasetIndex,
 });
 
-export const dispatchRollbackTwingraphData = (organizationId, datasetId) => ({
-  type: DATASET_ACTIONS_KEY.ROLLBACK_TWINGRAPH_DATA,
-  organizationId,
-  datasetId,
-});
-
 export const dispatchPollTwingraphStatus = (organizationId, datasetId) => ({
   type: DATASET_ACTIONS_KEY.START_TWINGRAPH_STATUS_POLLING,
   organizationId,
