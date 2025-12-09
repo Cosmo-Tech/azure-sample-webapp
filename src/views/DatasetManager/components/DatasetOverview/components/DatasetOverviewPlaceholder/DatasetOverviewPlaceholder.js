@@ -125,7 +125,7 @@ export const DatasetOverviewPlaceholder = () => {
       <Button
         data-cy="dataset-overview-retry-button"
         variant="contained"
-        onClick={() => refreshDataset(currentDatasetId)}
+        onClick={() => refreshDataset(currentDataset)}
       >
         {t('commoncomponents.datasetmanager.overview.placeholder.retryButton', 'Retry')}
       </Button>

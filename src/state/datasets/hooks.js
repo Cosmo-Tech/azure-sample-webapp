@@ -99,7 +99,7 @@ export const useRefreshDataset = () => {
   const dispatch = useDispatch();
   const organizationId = useOrganizationId();
   return useCallback(
-    (datasetId) => dispatch(dispatchRefreshDataset(organizationId, datasetId)),
+    (dataset) => dispatch(dispatchRefreshDataset(organizationId, dataset)),
     [dispatch, organizationId]
   );
 };
