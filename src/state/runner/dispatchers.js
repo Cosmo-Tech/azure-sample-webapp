@@ -120,11 +120,11 @@ export const dispatchStopSimulationRunner = (organizationId, workspaceId, runner
   runnerId,
 });
 
-export const dispatchUpdateEtlRunner = (organizationId, workspaceId, runnerId, datasetId, runnerPatch) => ({
+export const dispatchUpdateEtlRunner = (organizationId, workspaceId, runnerId, dataset, runnerPatch) => ({
   type: RUNNER_ACTIONS_KEY.UPDATE_ETL_RUNNER,
   organizationId,
   workspaceId,
   runnerId,
-  datasetId,
+  dataset,
   runnerPatch,
 });

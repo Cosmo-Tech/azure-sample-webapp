@@ -73,7 +73,7 @@ export function* updateEtlRunnerData(action) {
     const organizationId = action.organizationId;
     const workspaceId = action.workspaceId;
     const runnerId = action.runnerId;
-    const datasetId = action.datasetId;
+    const dataset = action.dataset;
     for (const parameter of runnerPatch.parametersValues) {
       if (ConfigUtils.isFileParameter(parameter)) {
         if (parameter.value.status === UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD)
@@ -92,7 +92,7 @@ export function* updateEtlRunnerData(action) {
         runner: { ...data, parametersValues: ApiUtils.formatParametersFromApi(data.parametersValues) },
       })
     );
-    yield put({ type: DATASET_ACTIONS_KEY.REFRESH_DATASET, organizationId, datasetId });
+    yield put({ type: DATASET_ACTIONS_KEY.REFRESH_DATASET, organizationId, dataset });
   } catch (error) {
     console.error(error);
     yield put(
@@ -103,7 +103,9 @@ export function* updateEtlRunnerData(action) {
     );
   }
 }
+
 function* updateEtlRunnerSaga() {
   yield takeEvery(RUNNER_ACTIONS_KEY.UPDATE_ETL_RUNNER, updateEtlRunnerData);
 }
+
 export default updateEtlRunnerSaga;

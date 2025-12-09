@@ -31,9 +31,9 @@ export const UpdateDatasetDialog = ({ open, dataset, closeDialog, selectedRunner
     const escapedSourceType = SolutionsUtils.escapeRunTemplateId(selectedRunner?.runTemplateId);
     const parametersValues = SolutionsUtils.forgeRunnerParameters(solutionData, values[escapedSourceType]);
     const runnerPatch = { runTemplateId: selectedRunner?.runTemplateId, parametersValues };
-    updateRunner(selectedRunner?.id, dataset.id, runnerPatch);
+    updateRunner(selectedRunner?.id, dataset, runnerPatch);
     closeDialog();
-  }, [closeDialog, dataset.id, methods, selectedRunner?.id, selectedRunner?.runTemplateId, solutionData, updateRunner]);
+  }, [closeDialog, dataset, methods, selectedRunner?.id, selectedRunner?.runTemplateId, solutionData, updateRunner]);
 
   return (
     <FormProvider {...methods} key={`form-update-dataset-${dataset.id}`}>
