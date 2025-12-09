@@ -19,9 +19,7 @@ export const useMainNavigation = () => {
   const userEmail = useUserEmail();
   const userProfilePic = useUserProfilePic();
   const [activeSection, setActiveSection] = useState('data');
-
   const changeScenario = useSelectRunner();
-
   const sortedScenarioList = useSortedScenarioList();
   const currentScenarioStatus = useCurrentSimulationRunnerReducerStatus();
 
@@ -42,9 +40,9 @@ export const useMainNavigation = () => {
   useEffect(() => {
     const path = location.pathname;
 
-    if (path.includes('/dataset')) {
+    if (path.includes('/datasets')) {
       setActiveSection('data');
-    } else if (path.includes('/scenario')) {
+    } else if (path.includes('/scenarios')) {
       setActiveSection('scenarios');
     } else if (path.includes('/scorecard')) {
       setActiveSection('scorecard');

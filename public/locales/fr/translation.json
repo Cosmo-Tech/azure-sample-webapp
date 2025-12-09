@@ -97,6 +97,14 @@
         }
       }
     },
+    "tabLayout": {
+      "statusBar": {
+        "prerun": {
+          "message": "Ce scénario n'a pas encore été lancé.",
+          "tooltip": "Ce scénario n'a pas encore été lancé."
+        }
+      }
+    },
     "cytoviz": {
       "elementDetails": "Détails",
       "loading": "Chargement...",

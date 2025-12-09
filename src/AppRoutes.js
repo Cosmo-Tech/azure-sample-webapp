@@ -2,14 +2,11 @@
 // Licensed under the MIT license.
 import React from 'react';
 import { Navigate, Route, createBrowserRouter, RouterProvider, createRoutesFromElements } from 'react-router-dom';
-import { MainPage } from './components/MainPage/MainPage';
+import { getAllTabs } from './AppLayout';
 import { UserStatusGate } from './components/UserStatusGate';
 import { TabLayout } from './layouts';
 import ConfigService from './services/ConfigService';
 import { RouterUtils } from './utils';
-import DatasetListingView from './views/DatasetListing';
-import { Error403, Error404 } from './views/Errors';
-import ScenariosListingView from './views/ScenariosListing';
 import Workspaces from './views/Workspaces';
 
 const AppRoutes = () => {
@@ -17,19 +14,13 @@ const AppRoutes = () => {
   const providedUrlBeforeSignIn = sessionStorage.getItem('providedUrlBeforeSignIn');
   const redirectPath = RouterUtils.getLocationRelativePath(providedUrlBeforeSignIn ?? providedUrl ?? '/workspaces');
   const publicUrl = ConfigService.getParameterValue('PUBLIC_URL') ?? '';
+  const tabs = getAllTabs();
 
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
-        <Route path="/" element={<Navigate to="/workspaces" replace />} />
-
-        <Route
-          element={
-            <UserStatusGate>
-              <TabLayout />
-            </UserStatusGate>
-          }
-        >
+        <Route element={<TabLayout />}>
+          <Route path=":workspaceId" element={<Navigate to="scenarios" replace />} />
           <Route
             path="/workspaces"
             element={
@@ -38,45 +29,18 @@ const AppRoutes = () => {
               </UserStatusGate>
             }
           />
+          {tabs?.map((tab) => (
+            <Route
+              key={tab.key}
+              path={`:workspaceId/${tab.to}`}
+              element={<UserStatusGate>{tab.render}</UserStatusGate>}
+            >
+              {['scenario', 'instance'].includes(tab.to) && (
+                <Route path=":scenarioId" element={<UserStatusGate>{tab.render}</UserStatusGate>} />
+              )}
+            </Route>
+          ))}
         </Route>
-
-        <Route
-          path=":workspaceId"
-          element={
-            <UserStatusGate>
-              <Navigate to="scenarios" replace />
-            </UserStatusGate>
-          }
-        />
-
-        <Route
-          element={
-            <UserStatusGate>
-              <TabLayout />
-            </UserStatusGate>
-          }
-        >
-          <Route
-            path=":workspaceId/data"
-            element={
-              <UserStatusGate>
-                <DatasetListingView />
-              </UserStatusGate>
-            }
-          />
-
-          <Route
-            path=":workspaceId/scenarios"
-            element={
-              <UserStatusGate>
-                <ScenariosListingView />
-              </UserStatusGate>
-            }
-          />
-
-          <Route path=":workspaceId/scenario/:scenarioId" element={<MainPage />} />
-        </Route>
-
         <Route
           path="/sign-in"
           element={
@@ -85,11 +49,15 @@ const AppRoutes = () => {
             </UserStatusGate>
           }
         />
-
-        <Route path="/403" element={<Error403 />} />
-        <Route path="/404" element={<Error404 />} />
-
-        <Route path="*" element={<Navigate to={'/404'} />} />
+        <Route
+          path="/accessDenied"
+          element={
+            <UserStatusGate>
+              <Navigate to="/workspaces" />
+            </UserStatusGate>
+          }
+        />
+        <Route path="*" element={<Navigate to={'/workspaces'} />} />
       </>
     ),
     {

@@ -1,14 +1,23 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { getNavigationItemStyles, getListItemIconStyles, getListItemTextStyles } from '../styles';
 
-export const NavigationSection = ({ sections, activeSection, onSectionChange, isCollapsed }) => {
+export const NavigationSection = ({
+  sections,
+  activeSection,
+  onSectionChange,
+  isCollapsed = false,
+  currentWorkspaceId,
+}) => {
+  const navigate = useNavigate();
   const handleSectionClick = (section) => {
     if (onSectionChange) {
       onSectionChange(section);
+      navigate(`/${currentWorkspaceId}/${section}`);
     }
   };
 
@@ -68,10 +77,5 @@ NavigationSection.propTypes = {
   activeSection: PropTypes.string,
   onSectionChange: PropTypes.func,
   isCollapsed: PropTypes.bool,
-};
-
-NavigationSection.defaultProps = {
-  activeSection: undefined,
-  onSectionChange: undefined,
-  isCollapsed: false,
+  currentWorkspaceId: PropTypes.string.isRequired,
 };
