@@ -4,13 +4,13 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { CircularProgress, Grid, Stack, Typography } from '@mui/material';
 import { RUNNER_RUN_STATE } from '../../../../../../services/config/ApiConstants';
-import { useCurrentSimulationRunnerState } from '../../../../../../state/runner/hooks';
+import { useCurrentSimulationRunnerLastRunStatus } from '../../../../../../state/runner/hooks';
 
 export const RunningStateSpinner = () => {
   const { t } = useTranslation();
-  const currentScenarioState = useCurrentSimulationRunnerState();
+  const currentScenarioLastRunStatus = useCurrentSimulationRunnerLastRunStatus();
 
-  const isCurrentScenarioRunning = currentScenarioState === RUNNER_RUN_STATE.RUNNING;
+  const isCurrentScenarioRunning = currentScenarioLastRunStatus === RUNNER_RUN_STATE.RUNNING;
   return isCurrentScenarioRunning ? (
     <Grid>
       <Stack direction="row" spacing={1} sx={{ mr: 2 }}>

@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { Backdrop, Box, CircularProgress, Stack, Typography } from '@mui/material';
 import { ErrorBoundary, SimplePowerBIReportEmbed } from '@cosmotech/ui';
 import { RUNNER_RUN_STATE } from '../../services/config/ApiConstants';
+import { RunnersUtils } from '../../utils';
 import StyledErrorContainer from '../StyledErrorContainer';
 import { useCurrentScenarioPowerBiReport } from './CurrentScenarioPowerBiReportHook';
 
@@ -35,8 +36,9 @@ const CurrentScenarioPowerBiReport = ({
     'Something went wrong when trying to display PowerBI dashboards. If the problem ' +
     'persists, please contact an administrator.';
 
+  const scenarioStatus = RunnersUtils.getLastRunStatus(currentScenarioData);
   const showLoadingBackdrop =
-    (currentScenarioData?.state === RUNNER_RUN_STATE.SUCCESSFUL || alwaysShowReports === true) &&
+    (scenarioStatus === RUNNER_RUN_STATE.SUCCESSFUL || alwaysShowReports === true) &&
     isPowerBIReducerLoading &&
     !isParentLoading;
 

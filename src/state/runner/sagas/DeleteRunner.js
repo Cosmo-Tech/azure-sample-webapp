@@ -21,20 +21,13 @@ export function* callDeleteRunner(action) {
   try {
     yield put(setListStatus({ status: STATUSES.LOADING }));
 
-    const response = yield call(Api.Runners.getRunner, organizationId, workspaceId, runnerId);
-    const lastRunId = RunnersUtils.getLastRunId(response.data);
+    const { data } = yield call(Api.Runners.getRunner, organizationId, workspaceId, runnerId);
+    const lastRunStatus = RunnersUtils.getLastRunStatus(data);
+    if (lastRunStatus === RUNNER_RUN_STATE.RUNNING) {
+      if (isETLRunner) yield call(stopETLRunner, action);
+      else yield call(stopSimulationRunner, action);
 
-    if (lastRunId) {
-      const response = yield call(Api.RunnerRuns.getRunStatus, organizationId, workspaceId, runnerId, lastRunId);
-      if (response.data.state === RUNNER_RUN_STATE.RUNNING) {
-        if (isETLRunner) yield call(stopETLRunner, action);
-        else yield call(stopSimulationRunner, action);
-
-        yield put({
-          type: RUNNER_ACTIONS_KEY.STOP_RUNNER_STATUS_POLLING + '_' + runnerId,
-          data: { runnerId },
-        });
-      }
+      yield put({ type: RUNNER_ACTIONS_KEY.STOP_RUNNER_STATUS_POLLING + '_' + runnerId, data: { runnerId } });
     }
 
     yield call(Api.Runners.deleteRunner, organizationId, workspaceId, runnerId);

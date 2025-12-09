@@ -12,19 +12,19 @@ import { TwoActionsDialogService } from '../../../../../../services/twoActionsDi
 import {
   useCurrentSimulationRunnerId,
   useCurrentSimulationRunnerLastRunId,
-  useCurrentSimulationRunnerState,
+  useCurrentSimulationRunnerLastRunStatus,
   useStopSimulationRunner,
 } from '../../../../../../state/runner/hooks';
 
 export const StopRunButton = () => {
   const currentScenarioId = useCurrentSimulationRunnerId();
   const currentScenarioLastRunId = useCurrentSimulationRunnerLastRunId();
-  const currentScenarioState = useCurrentSimulationRunnerState();
+  const currentScenarioLastRunStatus = useCurrentSimulationRunnerLastRunStatus();
   const stopScenarioRun = useStopSimulationRunner();
   const userAppAndCurrentScenarioPermissions = useUserAppAndCurrentScenarioPermissions();
   const { t } = useTranslation();
 
-  const isCurrentScenarioRunning = currentScenarioState === RUNNER_RUN_STATE.RUNNING;
+  const isCurrentScenarioRunning = currentScenarioLastRunStatus === RUNNER_RUN_STATE.RUNNING;
   const askStopRunConfirmation = useCallback(
     async (event) => {
       event.stopPropagation();

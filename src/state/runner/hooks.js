@@ -72,8 +72,8 @@ export const useCurrentSimulationRunnerLastRunId = () => {
   return useSelector((state) => RunnersUtils.getLastRunId(state.runner.simulationRunners.current?.data));
 };
 
-export const useCurrentSimulationRunnerState = () => {
-  return useSelector((state) => state.runner.simulationRunners.current?.data?.state);
+export const useCurrentSimulationRunnerLastRunStatus = () => {
+  return useSelector((state) => RunnersUtils.getLastRunStatus(state.runner.simulationRunners.current?.data));
 };
 
 export const useCurrentSimulationRunnerBaseDatasetIds = () => {

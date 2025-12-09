@@ -26,40 +26,14 @@ export function* getRunner(action) {
     const workspaceId = action.workspaceId;
     const runnerId = action.runnerId;
 
-    yield put(
-      setCurrentSimulationRunner({
-        status: STATUSES.LOADING,
-      })
-    );
+    yield put(setCurrentSimulationRunner({ status: STATUSES.LOADING }));
 
     const { data } = yield call(Api.Runners.getRunner, organizationId, workspaceId, runnerId);
     const lastRunId = RunnersUtils.getLastRunId(data);
-    if (lastRunId) {
-      try {
-        const response = yield call(Api.RunnerRuns.getRunStatus, organizationId, workspaceId, runnerId, lastRunId);
-        data.state = response.data.state;
-      } catch (error) {
-        console.error(error);
-        yield put(
-          setApplicationErrorMessage({
-            error,
-            errorMessage: t(
-              'views.scenario.scenarioRunStatusQueryError.comment',
-              'Could not get status of scenario run with id "{{id}}".',
-              {
-                id: lastRunId,
-              }
-            ),
-          })
-        );
-        data.state = RUNNER_RUN_STATE.UNKNOWN;
-      }
-    } else {
-      data.state = RUNNER_RUN_STATE.CREATED;
-    }
+    const lastRunStatus = RunnersUtils.getLastRunStatus(data);
+
     RunnersUtils.patchRunnerParameterValues(solutionParameters, data.parametersValues);
     data.parametersValues = ApiUtils.formatParametersFromApi(data.parametersValues);
-
     RunnersUtils.patchRunnerWithCurrentUserPermissions(data, userEmail, userId, runnersPermissionsMapping);
 
     if (!data.security.currentUserPermissions.includes(ACL_PERMISSIONS.RUNNER.READ)) {
@@ -73,21 +47,13 @@ export function* getRunner(action) {
       throw err;
     }
 
+    yield put(setCurrentSimulationRunner({ status: STATUSES.SUCCESS, runnerId: data.id }));
     yield put(
-      setCurrentSimulationRunner({
-        status: STATUSES.SUCCESS,
-        runnerId: data.id,
-      })
+      setValidationStatus({ status: STATUSES.SUCCESS, runnerId: data.id, validationStatus: data.validationStatus })
     );
-    yield put(
-      setValidationStatus({
-        status: STATUSES.SUCCESS,
-        runnerId: data.id,
-        validationStatus: data.validationStatus,
-      })
-    );
+
     // Start state polling for running scenarios
-    if (data.state === RUNNER_RUN_STATE.RUNNING) {
+    if (lastRunStatus === RUNNER_RUN_STATE.RUNNING) {
       yield put({
         type: RUNNER_ACTIONS_KEY.START_RUNNER_STATUS_POLLING,
         organizationId: action.organizationId,
@@ -105,11 +71,7 @@ export function* getRunner(action) {
     );
     // Redirection is handled by a useEffect in the Scenario view. For this saga, we can consider that the status is
     // now SUCCESS in the redux state for current scenario
-    yield put(
-      setCurrentSimulationRunner({
-        status: STATUSES.SUCCESS,
-      })
-    );
+    yield put(setCurrentSimulationRunner({ status: STATUSES.SUCCESS }));
   }
 }
 

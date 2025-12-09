@@ -3,7 +3,6 @@
 import { t } from 'i18next';
 import { call, put, select, takeEvery } from 'redux-saga/effects';
 import { Api } from '../../../services/config/Api';
-import { RUNNER_RUN_STATE } from '../../../services/config/ApiConstants';
 import { STATUSES } from '../../../services/config/StatusConstants';
 import { ApiUtils, RunnersUtils } from '../../../utils';
 import { setApplicationErrorMessage } from '../../app/reducers';
@@ -32,19 +31,14 @@ export function* createSimulationRunner(action) {
 
     const { data } = yield call(Api.Runners.createRunner, organizationId, workspaceId, runnerPayload);
     data.parametersValues = ApiUtils.formatParametersFromApi(data.parametersValues);
-    data.state = RUNNER_RUN_STATE.CREATED;
     RunnersUtils.patchRunnerWithCurrentUserPermissions(data, userEmail, userId, runnersPermissionsMapping);
 
     yield put(addSimulationRunner({ data }));
     yield put(setCurrentSimulationRunner({ status: STATUSES.SUCCESS, runnerId: data.id }));
   } catch (error) {
     console.error(error);
-    yield put(
-      setApplicationErrorMessage({
-        error,
-        errorMessage: t('commoncomponents.banner.create', "Scenario hasn't been created."),
-      })
-    );
+    const errorMessage = t('commoncomponents.banner.create', "Scenario hasn't been created.");
+    yield put(setApplicationErrorMessage({ error, errorMessage }));
     yield put(setCurrentSimulationRunner({ status: STATUSES.ERROR, runner: null }));
   }
 }

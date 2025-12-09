@@ -6,7 +6,10 @@ import { useFormState } from 'react-hook-form';
 import { ButtonTesting, TypographyTesting } from '../../../../../tests/MuiComponentsTesting';
 import { customRender, getByDataCy } from '../../../../../tests/utils';
 import { RUNNER_RUN_STATE } from '../../../../services/config/ApiConstants';
-import { useCurrentSimulationRunnerState, useCurrentSimulationRunnerLastRunId } from '../../../../state/runner/hooks';
+import {
+  useCurrentSimulationRunnerLastRunStatus,
+  useCurrentSimulationRunnerLastRunId,
+} from '../../../../state/runner/hooks';
 import { ScenarioActions } from './';
 
 jest.mock('react-hook-form', () => ({
@@ -34,7 +37,7 @@ jest.mock('../../../../state/runner/hooks', () => ({
   __esModule: true,
   ...jest.requireActual('../../../../state/runner/hooks'),
   useStartRunner: () => mockUseStartRunner,
-  useCurrentSimulationRunnerState: jest.fn(),
+  useCurrentSimulationRunnerLastRunStatus: jest.fn(),
   useCurrentSimulationRunnerLastRunId: jest.fn(),
   useStopSimulationRunner: jest.fn(),
 }));
@@ -66,7 +69,7 @@ const runningStateLabel = new TypographyTesting({ dataCy: 'running-state-label' 
 
 describe('Test scenario buttons when scenario is not running', () => {
   beforeAll(() => {
-    useCurrentSimulationRunnerState.mockReturnValue(() => null);
+    useCurrentSimulationRunnerLastRunStatus.mockReturnValue(() => null);
   });
 
   describe('Test scenario buttons if form is not dirty', () => {
@@ -126,7 +129,7 @@ describe('Test scenario buttons when scenario is not running', () => {
 
 describe('Test scenario buttons when scenario is running', () => {
   beforeAll(() => {
-    useCurrentSimulationRunnerState.mockReturnValue(RUNNER_RUN_STATE.RUNNING);
+    useCurrentSimulationRunnerLastRunStatus.mockReturnValue(RUNNER_RUN_STATE.RUNNING);
     useCurrentSimulationRunnerLastRunId.mockReturnValue('run-0123456');
     useFormState.mockReturnValue({ isDirty: false });
     customRender(<ScenarioActions />);

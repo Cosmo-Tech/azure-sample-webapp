@@ -5,6 +5,7 @@ import { SecurityUtils } from './SecurityUtils';
 
 const getLastRunId = (runner) => runner?.lastRunInfo?.lastRunId;
 const getLastRunStatus = (runner) => runner?.lastRunInfo?.lastRunStatus;
+const setLastRunStatus = (runner, newStatus) => (runner.lastRunInfo.lastRunStatus = newStatus);
 
 const getRunIdFromRunnerStart = (runnerStartResponse) => runnerStartResponse?.id;
 
@@ -73,6 +74,7 @@ export const RunnersUtils = {
   forgeRunnerLastRunInfoPatch,
   getLastRunId,
   getLastRunStatus,
+  setLastRunStatus,
   getRunIdFromRunnerStart,
   patchRunnerWithCurrentUserPermissions,
   patchRunnerParameterValues,

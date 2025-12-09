@@ -13,52 +13,40 @@ import { addRun, updateSimulationRunner } from '../reducers';
 const getRunners = (state) => state.runner?.simulationRunners?.list?.data;
 
 export function* startRunner(action) {
-  const organizationId = action.organizationId;
-  const workspaceId = action.workspaceId;
-  const runnerId = action.runnerId;
+  const { organizationId, workspaceId, runnerId } = action;
+
+  const runners = yield select(getRunners);
+  const runner = runners?.find((item) => item.id === runnerId);
+  if (runner === undefined) {
+    console.warn(`Couldn't retrieve scenario with id "${runnerId}"`);
+    return;
+  }
+  const previousLastRunInfo = runner.lastRunInfo;
+
   try {
-    const runners = yield select(getRunners);
-    const runner = runners?.find((item) => item.id === runnerId);
-    if (runner === undefined) console.warn(`Couldn't retrieve scenario with id "${runnerId}"`);
-    const previousRunnerState = runner?.state;
+    const runningLastRunInfo = { ...runner.lastRunInfo, lastRunStatus: RUNNER_RUN_STATE.RUNNING };
+    yield put(updateSimulationRunner({ runnerId, runner: { lastRunInfo: runningLastRunInfo } }));
 
-    yield put(
-      updateSimulationRunner({
-        runnerId,
-        runner: { state: RUNNER_RUN_STATE.RUNNING },
-      })
-    );
-
-    // Start runner if parameters update succeeded
     let response;
     try {
       response = yield call(Api.Runners.startRun, organizationId, workspaceId, runnerId);
     } catch (error) {
       console.error(error);
-      yield put(
-        setApplicationErrorMessage({
-          error,
-          errorMessage: t('commoncomponents.banner.run', 'A problem occurred when starting the scenario run.'),
-        })
-      );
+      const errorMessage = t('commoncomponents.banner.run', 'A problem occurred when starting the scenario run.');
+      yield put(setApplicationErrorMessage({ error, errorMessage }));
       yield put(
         updateSimulationRunner({
-          runnerId,
           status: STATUSES.ERROR,
-          runner: { state: previousRunnerState }, // Do not force runner state to "Failed", restore previous state
+          runnerId,
+          runner: { lastRunInfo: previousLastRunInfo }, // Do not force runner state to "Failed", restore previous state
         })
       );
       return;
     }
 
     const lastRunId = RunnersUtils.getRunIdFromRunnerStart(response.data);
-    const lastRunIdPatch = RunnersUtils.forgeRunnerLastRunInfoPatch(lastRunId, RUNNER_RUN_STATE.RUNNING);
-    yield put(
-      updateSimulationRunner({
-        runnerId,
-        runner: { state: RUNNER_RUN_STATE.RUNNING, ...lastRunIdPatch },
-      })
-    );
+    const lastRunInfoPatch = RunnersUtils.forgeRunnerLastRunInfoPatch(lastRunId, RUNNER_RUN_STATE.RUNNING);
+    yield put(updateSimulationRunner({ runnerId, runner: { ...lastRunInfoPatch } }));
     yield put(addRun({ data: { id: lastRunId } }));
 
     // Start backend polling to update the scenario status
@@ -72,19 +60,9 @@ export function* startRunner(action) {
     });
   } catch (error) {
     console.error(error);
-    yield put(
-      setApplicationErrorMessage({
-        error,
-        errorMessage: t('commoncomponents.banner.run', 'A problem occurred during the scenario run.'),
-      })
-    );
-    yield put(
-      updateSimulationRunner({
-        runnerId,
-        status: STATUSES.ERROR,
-        runner: { state: RUNNER_RUN_STATE.FAILED },
-      })
-    );
+    const errorMessage = t('commoncomponents.banner.run', 'A problem occurred during the scenario run.');
+    yield put(setApplicationErrorMessage({ error, errorMessage }));
+    yield put(updateSimulationRunner({ runnerId, status: STATUSES.ERROR, runner: { state: RUNNER_RUN_STATE.FAILED } }));
   }
 }
 

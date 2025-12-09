@@ -12,7 +12,7 @@ import { RUNNER_VALIDATION_STATUS, RUNNER_RUN_STATE } from '../../services/confi
 import { STATUSES } from '../../services/config/StatusConstants';
 import { ACL_PERMISSIONS } from '../../services/config/accessControl';
 import { useFindDatasetById } from '../../state/datasets/hooks';
-import { ScenarioParametersUtils } from '../../utils';
+import { RunnersUtils, ScenarioParametersUtils } from '../../utils';
 import { ScenarioResetValuesContext } from './ScenarioParametersContext';
 import { useScenarioParameters } from './ScenarioParametersHook';
 import { ScenarioParametersTabsWrapper, ScenarioActions } from './components';
@@ -84,7 +84,7 @@ const ScenarioParameters = ({ onToggleAccordion, isAccordionExpanded }) => {
   };
 
   const noTabsShown = parametersGroupsMetadata.length === 0;
-  const isCurrentScenarioRunning = currentScenarioData?.state === RUNNER_RUN_STATE.RUNNING;
+  const isCurrentScenarioRunning = RunnersUtils.getLastRunStatus(currentScenarioData) === RUNNER_RUN_STATE.RUNNING;
   const isCurrentScenarioRejected = currentScenarioData?.validationStatus === RUNNER_VALIDATION_STATUS.REJECTED;
   const isCurrentScenarioValidated = currentScenarioData?.validationStatus === RUNNER_VALIDATION_STATUS.VALIDATED;
   const hasUserWritePermission = userPermissionsOnCurrentScenario.includes(ACL_PERMISSIONS.SCENARIO.WRITE);

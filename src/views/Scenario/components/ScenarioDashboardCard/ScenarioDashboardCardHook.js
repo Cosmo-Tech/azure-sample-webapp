@@ -3,12 +3,13 @@
 import { useMemo } from 'react';
 import { useFormState } from 'react-hook-form';
 import { useDownloadSimulationLogsFile } from '../../../../hooks/RunnerRunHooks';
+import { RUNNER_RUN_STATE } from '../../../../services/config/ApiConstants';
 import {
   useCurrentSimulationRunnerId,
   useCurrentSimulationRunnerLastRun,
   useCurrentSimulationRunnerLastRunId,
   useCurrentSimulationRunnerLastUpdate,
-  useCurrentSimulationRunnerState,
+  useCurrentSimulationRunnerLastRunStatus,
 } from '../../../../state/runner/hooks';
 import { useWorkspaceData } from '../../../../state/workspaces/hooks';
 
@@ -17,14 +18,14 @@ export const useScenarioDashboardCard = () => {
   const currentScenarioId = useCurrentSimulationRunnerId();
   const currentScenarioLastRun = useCurrentSimulationRunnerLastRun(currentScenarioId);
   const currentScenarioLastRunId = useCurrentSimulationRunnerLastRunId();
-  const currentScenarioState = useCurrentSimulationRunnerState();
+  const currentScenarioLastRunStatus = useCurrentSimulationRunnerLastRunStatus();
   const downloadCurrentScenarioRunLogs = useDownloadSimulationLogsFile();
   const workspace = useWorkspaceData();
 
   const { isDirty } = useFormState();
   const hasRunBeenSuccessful = useMemo(
-    () => currentScenarioLastRunId !== null && currentScenarioState === 'Successful',
-    [currentScenarioLastRunId, currentScenarioState]
+    () => currentScenarioLastRunId !== null && currentScenarioLastRunStatus === RUNNER_RUN_STATE.SUCCESSFUL,
+    [currentScenarioLastRunId, currentScenarioLastRunStatus]
   );
   const isDashboardSync = useMemo(() => {
     const disableOutOfSyncWarningBanner = workspace?.additionalData?.webapp?.disableOutOfSyncWarningBanner === true;

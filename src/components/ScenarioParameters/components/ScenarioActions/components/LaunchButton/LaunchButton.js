@@ -16,7 +16,7 @@ import { useDatasets } from '../../../../../../state/datasets/hooks';
 import {
   useCurrentSimulationRunnerBaseDatasetIds,
   useCurrentSimulationRunnerId,
-  useCurrentSimulationRunnerState,
+  useCurrentSimulationRunnerLastRunStatus,
   useStartRunner,
 } from '../../../../../../state/runner/hooks';
 
@@ -26,7 +26,7 @@ export const LaunchButton = () => {
   const isValid = Object.keys(errors || {}).length === 0;
   const { forceUpdate, saveParameterValues } = useUpdateParameters();
   const currentScenarioId = useCurrentSimulationRunnerId();
-  const currentScenarioState = useCurrentSimulationRunnerState();
+  const currentScenarioLastRunStatus = useCurrentSimulationRunnerLastRunStatus();
   const setApplicationErrorMessage = useSetApplicationErrorMessage();
   const launchScenario = useStartRunner();
   const userAppAndCurrentScenarioPermissions = useUserAppAndCurrentScenarioPermissions();
@@ -45,7 +45,7 @@ export const LaunchButton = () => {
     return false;
   }, [getDatasetRunnerStatus, currentSimulationRunnerBaseDatasetIds, datasets]);
 
-  const isCurrentScenarioRunning = currentScenarioState === RUNNER_RUN_STATE.RUNNING;
+  const isCurrentScenarioRunning = currentScenarioLastRunStatus === RUNNER_RUN_STATE.RUNNING;
   const launchCurrentScenario = useCallback(
     async (event) => {
       event.stopPropagation();

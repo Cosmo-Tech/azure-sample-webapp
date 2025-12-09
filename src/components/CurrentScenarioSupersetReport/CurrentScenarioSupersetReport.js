@@ -8,6 +8,7 @@ import { ErrorBoundary, SupersetEmbed } from '@cosmotech/ui';
 import { useSupersetGuestTokenRefresh } from '../../hooks/SupersetGuestTokenRefresh';
 import { RUNNER_RUN_STATE } from '../../services/config/ApiConstants';
 import { STATUSES } from '../../services/config/StatusConstants';
+import { RunnersUtils } from '../../utils';
 import StyledErrorContainer from '../StyledErrorContainer';
 import { useCurrentScenarioSupersetReport } from './CurrentScenarioSupersetReportHook';
 
@@ -30,8 +31,9 @@ const CurrentScenarioSupersetReport = ({
     'Something went wrong when trying to display dashboards. If the problem ' +
     'persists, please contact an administrator.';
 
+  const scenarioStatus = RunnersUtils.getLastRunStatus(currentScenarioData);
   const showLoadingBackdrop =
-    (currentScenarioData?.state === RUNNER_RUN_STATE.SUCCESSFUL || alwaysShowReports === true) &&
+    (scenarioStatus === RUNNER_RUN_STATE.SUCCESSFUL || alwaysShowReports === true) &&
     isSupersetReducerLoading &&
     !isParentLoading;
 

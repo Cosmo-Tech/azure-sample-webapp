@@ -10,13 +10,7 @@ import { ACL_PERMISSIONS } from '../../../services/config/accessControl';
 import { ApiUtils, RunnersUtils, SolutionsUtils } from '../../../utils';
 import { setApplicationErrorMessage } from '../../app/reducers';
 import { RUNNER_ACTIONS_KEY } from '../constants';
-import {
-  addRun,
-  setAllEtlRunners,
-  setAllSimulationRunners,
-  setReducerStatus,
-  updateSimulationRunner,
-} from '../reducers';
+import { addRun, setAllEtlRunners, setAllSimulationRunners, setReducerStatus } from '../reducers';
 
 const getUserEmail = (state) => state.auth.userEmail;
 const getUserId = (state) => state.auth.userId;
@@ -30,31 +24,25 @@ const keepOnlyReadableRunners = (runners) =>
 function* getRunnerStatus(organizationId, workspaceId, runnerId, lastRunId) {
   try {
     const response = yield call(Api.RunnerRuns.getRunStatus, organizationId, workspaceId, runnerId, lastRunId);
-    yield put(updateSimulationRunner({ runnerId, runner: { state: response.data.state } }));
     yield put(addRun({ data: response.data }));
   } catch (error) {
     console.error(error);
-    yield put(
-      setApplicationErrorMessage({
-        error,
-        errorMessage: t(
-          'views.scenario.scenarioRunStatusQueryError.comment',
-          'Could not get status of scenario run with id "{{id}}".',
-          {
-            id: lastRunId,
-          }
-        ),
-      })
+    const errorMessage = t(
+      'views.scenario.scenarioRunStatusQueryError.comment',
+      'Could not get status of scenario run with id "{{id}}".',
+      { id: lastRunId }
     );
-    yield put(updateSimulationRunner({ runnerId, runner: { state: RUNNER_RUN_STATE.UNKNOWN } }));
+    yield put(setApplicationErrorMessage({ error, errorMessage }));
   }
 }
+
 export function* getAllRunners(organizationId, workspaceId) {
   const userEmail = yield select(getUserEmail);
   const userId = yield select(getUserId);
   const runTemplates = yield select(getSolutionRunTemplates);
   const runnersPermissionsMapping = yield select(getRunnersPermissionsMapping);
   const solutionParameters = yield select(getSolutionParameters);
+
   yield put(setReducerStatus({ status: STATUSES.LOADING }));
   const { data } = yield call(Api.Runners.listRunners, organizationId, workspaceId, 0, RUNNERS_PAGE_COUNT);
   data.forEach((runner) =>
@@ -83,14 +71,9 @@ export function* getAllRunners(organizationId, workspaceId) {
     simulationRunnersRunTemplatesIds?.includes(runner.runTemplateId)
   );
   simulationRunners.forEach((runner) => {
-    if (RunnersUtils.getLastRunId(runner) == null) runner.state = RUNNER_RUN_STATE.CREATED;
+    if (RunnersUtils.getLastRunStatus(runner) == null) RunnersUtils.setLastRunStatus(runner, RUNNER_RUN_STATE.CREATED);
   });
-  yield put(
-    setAllSimulationRunners({
-      list: simulationRunners,
-      status: STATUSES.SUCCESS,
-    })
-  );
+  yield put(setAllSimulationRunners({ list: simulationRunners, status: STATUSES.SUCCESS }));
   yield all(
     simulationRunners
       .filter((runner) => RunnersUtils.getLastRunId(runner) != null)
@@ -98,12 +81,9 @@ export function* getAllRunners(organizationId, workspaceId) {
         return call(getRunnerStatus, organizationId, workspaceId, runner.id, RunnersUtils.getLastRunId(runner));
       })
   );
+
   const etlRunners = readableRunners.filter((runner) => eltRunnersRunTemplatesIds?.includes(runner.runTemplateId));
-  yield put(
-    setAllEtlRunners({
-      list: etlRunners,
-    })
-  );
+  yield put(setAllEtlRunners({ list: etlRunners }));
 }
 
 function* getAllSimulationRunnersSaga() {

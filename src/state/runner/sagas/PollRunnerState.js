@@ -22,8 +22,10 @@ function forgeStopPollingAction(runnerId) {
 }
 
 export function* pollRunnerState(action) {
+  const { organizationId, workspaceId, runnerId, lastRunId, runnerType } = action;
+
   let updateRunner = updateSimulationRunner;
-  if (action.runnerType === 'etl') updateRunner = updateEtlRunner;
+  if (runnerType === 'etl') updateRunner = updateEtlRunner;
 
   // Polling start is delayed to avoid an erroneous Unknown state due to the fact that in first seconds of the run,
   // the AKS container isn't created yet and runner.state passes to Unknown for a few seconds before returning to
@@ -34,27 +36,23 @@ export function* pollRunnerState(action) {
   let networkErrorsCount = 0;
   while (true) {
     try {
-      // Fetch data of the scenario with the provided id
-      const response = yield call(
+      const { data: runStatus } = yield call(
         Api.RunnerRuns.getRunStatus,
-        action.organizationId,
-        action.workspaceId,
-        action.runnerId,
-        action.lastRunId
+        organizationId,
+        workspaceId,
+        runnerId,
+        lastRunId
       );
 
-      const data = response.data;
       networkErrorsCount = 0;
-      if ([RUNNER_RUN_STATE.FAILED, RUNNER_RUN_STATE.SUCCESSFUL, RUNNER_RUN_STATE.UNKNOWN].includes(data.state)) {
-        // Update the scenario state in all scenario redux states
-        const lastRunInfoPatch = RunnersUtils.forgeRunnerLastRunInfoPatch(action.lastRunId, data.state);
-        yield put(updateRunner({ runnerId: action.runnerId, runner: { state: data.state, ...lastRunInfoPatch } }));
-        yield put(updateRun({ data }));
-        yield put(forgeStopPollingAction(action.runnerId));
+      if ([RUNNER_RUN_STATE.FAILED, RUNNER_RUN_STATE.SUCCESSFUL, RUNNER_RUN_STATE.UNKNOWN].includes(runStatus.state)) {
+        const lastRunInfoPatch = RunnersUtils.forgeRunnerLastRunInfoPatch(lastRunId, runStatus.state);
+        yield put(updateRunner({ runnerId, runner: { ...lastRunInfoPatch } }));
+        yield put(updateRun({ data: runStatus }));
+        yield put(forgeStopPollingAction(runnerId));
       }
 
-      // Wait before retrying
-      yield delay(RUNNER_STATUS_POLLING_DELAY);
+      yield delay(RUNNER_STATUS_POLLING_DELAY); // Wait before retrying
     } catch (error) {
       networkErrorsCount++;
       if (
@@ -64,23 +62,12 @@ export function* pollRunnerState(action) {
         yield delay(RUNNER_STATUS_POLLING_DELAY);
       } else {
         console.error(error);
-        yield put(
-          setApplicationErrorMessage({
-            error,
-            errorMessage: t('commoncomponents.banner.run', 'A problem occurred during the scenario run.'),
-          })
-        );
+        const errorMessage = t('commoncomponents.banner.run', 'A problem occurred during the scenario run.');
+        yield put(setApplicationErrorMessage({ error, errorMessage }));
 
-        const lastRunInfoPatch = RunnersUtils.forgeRunnerLastRunInfoPatch(action.lastRunId, RUNNER_RUN_STATE.FAILED);
-        yield put(
-          updateRunner({
-            runnerId: action.runnerId,
-            status: STATUSES.ERROR,
-            runner: { state: RUNNER_RUN_STATE.FAILED, ...lastRunInfoPatch },
-          })
-        );
-        // Stop the polling for this scenario
-        yield put(forgeStopPollingAction(action.runnerId));
+        const lastRunInfoPatch = RunnersUtils.forgeRunnerLastRunInfoPatch(lastRunId, RUNNER_RUN_STATE.FAILED);
+        yield put(updateRunner({ runnerId, status: STATUSES.ERROR, runner: { ...lastRunInfoPatch } }));
+        yield put(forgeStopPollingAction(runnerId));
       }
     }
   }
@@ -89,9 +76,7 @@ export function* pollRunnerState(action) {
 function* startPolling(action) {
   let stopActionName = RUNNER_ACTIONS_KEY.STOP_RUNNER_STATUS_POLLING;
   stopActionName += '_' + action.runnerId;
-
-  // Prevent double polling on same scenario
-  yield put(forgeStopPollingAction(action.runnerId));
+  yield put(forgeStopPollingAction(action.runnerId)); // Prevent double polling on same scenario
 
   yield race([
     call(pollRunnerState, action),
