@@ -156,7 +156,11 @@
         "sourceType": "Source",
         "tags": "Tags",
         "tagsPlaceholder": "Enter a new tag",
-        "unknown": "unknown"
+        "unknown": "unknown",
+        "sourceTypeValue": {
+          "none": "Empty",
+          "file": "File"
+        }
       },
       "dialogs": {
         "refresh": {
@@ -237,14 +241,8 @@
           "dataSourceType": {
             "label": "Source",
             "subdatasetLabel": "Filter",
-            "azureStorage": "Azure Storage",
             "local": "Local file",
             "none": "Empty"
-          },
-          "azureStorage": {
-            "accountName": "Account name",
-            "containerName": "Container name",
-            "path": "Path"
           }
         },
         "buttons": {

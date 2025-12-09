@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import { Card, Grid, IconButton, Tooltip } from '@mui/material';
 import { PermissionsGate, TagsEditor } from '@cosmotech/ui';
+import { NATIVE_DATASOURCE_TYPES } from '../../../../services/config/ApiConstants';
 import { ACL_PERMISSIONS } from '../../../../services/config/accessControl';
 import { ApiUtils, DatasetsUtils } from '../../../../utils';
 import { useDatasetMetadata } from './DatasetMetadataHook';
@@ -30,6 +31,7 @@ export const DatasetMetadata = () => {
     () => ApiUtils.getDatasetApiUrl(organizationId, workspaceId, datasetId),
     [organizationId, workspaceId, datasetId]
   );
+
   const tagsEditorLabels = useMemo(
     () => ({
       header: t('commoncomponents.datasetmanager.metadata.tags', 'Tags'),
@@ -37,6 +39,17 @@ export const DatasetMetadata = () => {
     }),
     [t]
   );
+
+  const sourceTypeToDisplay = useMemo(() => {
+    if (etlDatasetRunTemplateName != null) return etlDatasetRunTemplateName;
+
+    const sourceType = DatasetsUtils.getDatasetOption(dataset, 'sourceType');
+    if (sourceType === NATIVE_DATASOURCE_TYPES.FILE_UPLOAD)
+      return t('commoncomponents.datasetmanager.metadata.sourceTypeValue.file', 'File');
+    if (sourceType === NATIVE_DATASOURCE_TYPES.NONE)
+      return t('commoncomponents.datasetmanager.metadata.sourceTypeValue.none', 'Empty');
+    return sourceType;
+  }, [t, dataset, etlDatasetRunTemplateName]);
 
   const copiedTooltipTimeoutRef = useRef(null);
   const [isCopiedTooltipOpen, setIsCopiedTooltipOpen] = useState(false);
@@ -131,7 +144,7 @@ export const DatasetMetadata = () => {
         <MetadataItem
           id="source-type"
           label={t('commoncomponents.datasetmanager.metadata.sourceType', 'Source')}
-          value={etlDatasetRunTemplateName || DatasetsUtils.getDatasetOption(dataset, 'sourceType')}
+          value={sourceTypeToDisplay}
         ></MetadataItem>
         <MetadataItem
           id="api-url"
