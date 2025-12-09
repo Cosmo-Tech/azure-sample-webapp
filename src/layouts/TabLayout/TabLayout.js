@@ -1,15 +1,19 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { CircleArrowRight } from 'lucide-react';
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, Outlet, useParams, useNavigate } from 'react-router-dom';
 import { Link as MuiLink, Box, Stack, Typography } from '@mui/material';
+import { useApp } from '../../AppHook';
 import { ApplicationErrorBanner, StatusBar } from '../../components';
 import { AppBar } from '../../components/AppBar';
 import { MainNavigation } from '../../components/MainNavigation';
+import { STATUSES } from '../../services/config/StatusConstants';
+import { AUTH_STATUS } from '../../state/auth/constants';
 import { useCurrentSimulationRunner, useGetRunner } from '../../state/runner/hooks';
 import { useSelectWorkspace, useWorkspace } from '../../state/workspaces/hooks';
+import Loading from '../../views/Loading';
 
 export const TabLayout = () => {
   const location = useLocation();
@@ -71,21 +75,31 @@ export const TabLayout = () => {
     </AppBar>
   );
 
+  const { applicationStatus, authStatus } = useApp();
+  const isAuthenticated = authStatus === AUTH_STATUS.AUTHENTICATED || authStatus === AUTH_STATUS.DISCONNECTING;
+  const isLoading = useMemo(() => [STATUSES.LOADING, STATUSES.IDLE].includes(applicationStatus), [applicationStatus]);
+
   return (
     <Stack direction="row" sx={{ flexGrow: 1 }}>
-      <MainNavigation activeSection="scenarios" />
+      <MainNavigation />
       <Stack direction="column" sx={{ flexGrow: 1 }}>
         <ApplicationErrorBanner />
         <BreadcrumbBar />
-        {currentScenario?.data && (
-          <StatusBar
-            status="prerun"
-            size="full"
-            message={t('commoncomponents.tabLayout.statusBar.prerun.message')}
-            tooltip={t('commoncomponents.tabLayout.statusBar.prerun.tooltip')}
-          />
+        {isAuthenticated && isLoading ? (
+          <Loading />
+        ) : (
+          <>
+            {currentScenario?.data && (
+              <StatusBar
+                status="prerun"
+                size="full"
+                message={t('commoncomponents.tabLayout.statusBar.prerun.message')}
+                tooltip={t('commoncomponents.tabLayout.statusBar.prerun.tooltip')}
+              />
+            )}
+            <Outlet />
+          </>
         )}
-        <Outlet />
       </Stack>
     </Stack>
   );

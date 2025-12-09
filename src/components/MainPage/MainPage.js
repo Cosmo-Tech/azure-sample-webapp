@@ -1,15 +1,23 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Stack, Box } from '@mui/material';
+import { useApp } from '../../AppHook';
 import { SubNavigation } from '../../components/Subnavigation/SubNavigation';
+import { STATUSES } from '../../services/config/StatusConstants';
+import Loading from '../../views/Loading';
 import { useMainPage } from './MainPageHook';
 
 export const MainPage = () => {
   const { tabs } = useMainPage();
+  const { applicationStatus } = useApp();
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
 
-  return (
+  const isLoading = useMemo(() => [STATUSES.LOADING, STATUSES.IDLE].includes(applicationStatus), [applicationStatus]);
+
+  return isLoading ? (
+    <Loading />
+  ) : (
     <Stack
       direction="column"
       sx={{

@@ -8,3 +8,5 @@ export { default as ScenarioManager } from './ScenarioManager';
 export { default as Dashboards } from './Dashboards';
 export { default as Instance } from './Instance';
 export { default as DatasetManager } from './DatasetManager';
+export { default as DatasetListingView } from './DatasetListing';
+export { default as ScenariosListingView } from './ScenariosListing';

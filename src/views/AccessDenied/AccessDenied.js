@@ -18,12 +18,12 @@ const buildErrorMessage = (error) => {
 };
 
 const Root = styled('div')(({ theme }) => ({
-  backgroundColor: theme.palette?.login?.main,
+  backgroundColor: theme.palette?.microsoft?.main,
   height: '100%',
 }));
 
 const TitleDiv = styled('div')(({ theme }) => ({
-  backgroundColor: theme.palette?.login.main,
+  backgroundColor: theme.palette?.microsoft.main,
   height: '100%',
   display: 'flex',
   justifyContent: 'center',

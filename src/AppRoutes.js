@@ -7,8 +7,6 @@ import { UserStatusGate } from './components/UserStatusGate';
 import { TabLayout } from './layouts';
 import ConfigService from './services/ConfigService';
 import { RouterUtils } from './utils';
-import DatasetListingView from './views/DatasetListing';
-import ScenariosListingView from './views/ScenariosListing';
 import Workspaces from './views/Workspaces';
 
 const AppRoutes = () => {
@@ -21,50 +19,13 @@ const AppRoutes = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
-        <Route
-          element={
-            <UserStatusGate>
-              <TabLayout />
-            </UserStatusGate>
-          }
-        >
+        <Route element={<TabLayout />}>
+          <Route path=":workspaceId" element={<Navigate to="scenarios" replace />} />
           <Route
             path="/workspaces"
             element={
               <UserStatusGate>
                 <Workspaces />
-              </UserStatusGate>
-            }
-          />
-        </Route>
-        <Route
-          path=":workspaceId"
-          element={
-            <UserStatusGate>
-              <Navigate to="scenarios" replace />
-            </UserStatusGate>
-          }
-        />
-        <Route
-          element={
-            <UserStatusGate>
-              <TabLayout />
-            </UserStatusGate>
-          }
-        >
-          <Route
-            path=":workspaceId/datasets"
-            element={
-              <UserStatusGate>
-                <DatasetListingView />
-              </UserStatusGate>
-            }
-          />
-          <Route
-            path=":workspaceId/scenarios"
-            element={
-              <UserStatusGate>
-                <ScenariosListingView />
               </UserStatusGate>
             }
           />
@@ -79,6 +40,7 @@ const AppRoutes = () => {
               )}
             </Route>
           ))}
+          <Route path="*" element={<Navigate to={'/workspaces'} />} />
         </Route>
         <Route
           path="/sign-in"
