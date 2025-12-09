@@ -156,7 +156,11 @@
         "sourceType": "Source",
         "tags": "Tags",
         "tagsPlaceholder": "Nouveau tag",
-        "unknown": "inconnu"
+        "unknown": "inconnu",
+        "sourceTypeValue": {
+          "none": "Dataset vide",
+          "file": "Fichier"
+        }
       },
       "dialogs": {
         "refresh": {
@@ -212,7 +216,6 @@
           },
           "unknown": "Le dataset a un statut inconnu, si le problème persiste, merci de contacter votre administrateur",
           "retryButton": "Réessayer",
-          "rollbackButton": "Restaurer",
           "abortButton": "Arrêter"
         }
       },
@@ -237,14 +240,8 @@
           "dataSourceType": {
             "label": "Source",
             "subdatasetLabel": "Filtre",
-            "azureStorage": "Azure Storage",
             "local": "Fichier local",
             "none": "Dataset vide"
-          },
-          "azureStorage": {
-            "accountName": "Nom du compte",
-            "containerName": "Nom du container",
-            "path": "Chemin"
           }
         },
         "buttons": {

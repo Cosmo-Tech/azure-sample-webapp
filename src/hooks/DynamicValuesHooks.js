@@ -34,21 +34,22 @@ export const useDynamicValues = (parameter, targetDataset) => {
 
     const fetchDynamicValues = async () => {
       if (!dynamicSourceConfig) return;
-      if (targetDataset.id == null) {
-        setDynamicValues(
-          t(
-            'genericcomponent.dynamicValues.noDataset',
-            "No dataset id forwarded to the parameter, can't fetch its value dynamically."
-          )
-        );
-        return;
-      }
 
       if (!targetDataset) {
         setDynamicValues(
           t(
             'genericcomponent.dynamicValues.notExistingDataset',
             "Can't retrieve dynamic values: dataset doesn't exist."
+          )
+        );
+        return;
+      }
+
+      if (targetDataset.id == null) {
+        setDynamicValues(
+          t(
+            'genericcomponent.dynamicValues.noDataset',
+            "No dataset id forwarded to the parameter, can't fetch its value dynamically."
           )
         );
         return;
@@ -72,7 +73,7 @@ export const useDynamicValues = (parameter, targetDataset) => {
         );
         return;
       }
-      const datasetPart = (targetDataset?.parts ?? []).find((part) => part.name === datasetPartName);
+      const datasetPart = (targetDataset.parts ?? []).find((part) => part.name === datasetPartName);
       if (!datasetPart) {
         setDynamicValues(
           t(
@@ -112,7 +113,7 @@ export const useDynamicValues = (parameter, targetDataset) => {
     // Only re-run this effect when the target dataset (e.g. parent dataset for sub-dataset creation), hence the
     // disabled eslint warnings for missing hook dependencies
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [targetDataset.id]);
+  }, [targetDataset]);
 
   const dynamicValuesError = useMemo(
     () =>
@@ -224,17 +225,18 @@ export const useLoadInitialValueFromDataset = (parameterValue, parameter, target
         return;
       }
 
+      if (!targetDataset) {
+        setDynamicValue(defaultValue);
+        setDynamicValueError('notExistingDataset');
+        return;
+      }
+
       if (targetDataset.id == null) {
         setDynamicValue(defaultValue);
         setDynamicValueError('noDataset');
         return;
       }
 
-      if (!targetDataset) {
-        setDynamicValue(defaultValue);
-        setDynamicValueError('notExistingDataset');
-        return;
-      }
       if (!DatasetsUtils.hasDBDatasetParts(targetDataset)) {
         setDynamicValue(defaultValue);
         setDynamicValueError('noDBDatasetParts');
@@ -287,7 +289,7 @@ export const useLoadInitialValueFromDataset = (parameterValue, parameter, target
     // 2. parameter value changes, otherwise, input doesn't receive the fetched value and displays an error
     // 3. when parametersValues change after save to hide error icon
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [targetDataset?.id, parameterValue, parametersValues]);
+  }, [targetDataset, parameterValue, parametersValues]);
 
   const loadingDynamicValuePlaceholder = useMemo(
     () =>

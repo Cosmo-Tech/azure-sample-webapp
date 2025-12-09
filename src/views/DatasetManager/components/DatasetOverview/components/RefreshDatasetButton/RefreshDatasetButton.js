@@ -30,7 +30,7 @@ export const RefreshDatasetButton = ({ dataset }) => {
 
   const [isRefreshConfirmationDialogOpen, setIsRefreshConfirmationDialogOpen] = useState(false);
 
-  const refreshDatasetById = useRefreshDataset();
+  const refreshDataset = useRefreshDataset();
   const datasetRefreshCallback = useRef();
   const confirmAndRefreshDataset = useCallback((event, callbackFunction) => {
     event.stopPropagation();
@@ -57,18 +57,18 @@ export const RefreshDatasetButton = ({ dataset }) => {
     refreshButton = (
       <ReuploadFileDatasetButton
         confirmAndCallback={confirmAndRefreshDataset}
-        datasetId={dataset.id}
+        dataset={dataset}
         disabled={datasetStatus === RUNNER_RUN_STATE.RUNNING}
       />
     );
-  else if (sourceType !== NATIVE_DATASOURCE_TYPES.NONE) {
+  else if (DatasetsUtils.isCreatedByRunner(dataset)) {
     refreshButton = (
       <FadingTooltip
         title={t('commoncomponents.datasetmanager.overview.actions.refreshButtonTooltip', 'Refresh')}
         disableInteractive={true}
       >
         <IconButton
-          onClick={(event) => confirmAndRefreshDataset(event, () => refreshDatasetById(dataset.id))}
+          onClick={(event) => confirmAndRefreshDataset(event, () => refreshDataset(dataset))}
           data-cy={`dataset-refresh-button-${dataset?.id}`}
           disabled={isDisabled}
         >

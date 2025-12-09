@@ -16,10 +16,10 @@ export const dispatchCreateDataset = (dataset, files, shouldSelectDataset) => ({
   shouldSelectDataset,
 });
 
-export const dispatchRefreshDataset = (organizationId, datasetId) => ({
+export const dispatchRefreshDataset = (organizationId, dataset) => ({
   type: DATASET_ACTIONS_KEY.REFRESH_DATASET,
   organizationId,
-  datasetId,
+  dataset,
 });
 
 export const dispatchUpdateDataset = (organizationId, datasetId, datasetData, datasetIndex) => ({
@@ -28,12 +28,6 @@ export const dispatchUpdateDataset = (organizationId, datasetId, datasetData, da
   datasetId,
   datasetData,
   datasetIndex,
-});
-
-export const dispatchRollbackTwingraphData = (organizationId, datasetId) => ({
-  type: DATASET_ACTIONS_KEY.ROLLBACK_TWINGRAPH_DATA,
-  organizationId,
-  datasetId,
 });
 
 export const dispatchPollTwingraphStatus = (organizationId, datasetId) => ({

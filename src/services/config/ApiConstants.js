@@ -34,22 +34,6 @@ export const VALID_MIME_TYPES = [
   'application/yaml',
 ];
 
-// FIXME: remove deprecated TWINCACHE_STATUS
-export const TWINCACHE_STATUS = {
-  EMPTY: 'EMPTY',
-  FULL: 'FULL',
-  UNKNOWN: 'UNKNOWN',
-};
-
-// FIXME: remove deprecated INGESTION_STATUS
-export const INGESTION_STATUS = {
-  NONE: 'NONE',
-  PENDING: 'PENDING',
-  ERROR: 'ERROR',
-  SUCCESS: 'SUCCESS',
-  UNKNOWN: 'UNKNOWN',
-};
-
 export const TWINGRAPH_SECTION_URL = '/swagger-ui/index.html#/dataset/twingraphQuery';
 
 export const NATIVE_DATASOURCE_TYPES = {

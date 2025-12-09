@@ -250,8 +250,8 @@ export const useUpdateEtlRunner = () => {
   const workspaceId = useWorkspaceId();
   const dispatch = useDispatch();
   return useCallback(
-    (runnerId, datasetId, runnerPatch) =>
-      dispatch(dispatchUpdateEtlRunner(organizationId, workspaceId, runnerId, datasetId, runnerPatch)),
+    (runnerId, dataset, runnerPatch) =>
+      dispatch(dispatchUpdateEtlRunner(organizationId, workspaceId, runnerId, dataset, runnerPatch)),
     [dispatch, organizationId, workspaceId]
   );
 };

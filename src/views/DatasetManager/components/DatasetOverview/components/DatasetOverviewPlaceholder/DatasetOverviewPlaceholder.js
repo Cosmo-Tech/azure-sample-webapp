@@ -12,12 +12,12 @@ import { useDatasetOverviewPlaceholder } from './DatasetOverviewPlaceholderHook'
 export const DatasetOverviewPlaceholder = () => {
   const { t } = useTranslation();
   const {
+    currentDataset,
     currentDatasetId,
     currentDatasetStatus,
     currentDatasetType,
     refreshDataset,
     downloadLogsFile,
-    rollbackTwingraphData,
     stopETLRunner,
   } = useDatasetOverviewPlaceholder();
 
@@ -124,43 +124,28 @@ export const DatasetOverviewPlaceholder = () => {
       <Button
         data-cy="dataset-overview-retry-button"
         variant="contained"
-        onClick={() => refreshDataset(currentDatasetId)}
+        onClick={() => refreshDataset(currentDataset)}
       >
         {t('commoncomponents.datasetmanager.overview.placeholder.retryButton', 'Retry')}
       </Button>
     );
 
-    // FIXME: remove rollback button & associated code
-    // showRollbackButton=currentDatasetTwincacheStatus === TWINCACHE_STATUS.FULL && currentDatasetType !== 'ETL';
-    const showRollbackButton = false;
-    const rollBackButton = showRollbackButton ? (
-      <Button
-        data-cy="dataset-overview-rollback-button"
-        variant="contained"
-        onClick={() => rollbackTwingraphData(currentDatasetId)}
-        sx={{ ml: 1 }}
-      >
-        {t('commoncomponents.datasetmanager.overview.placeholder.rollbackButton', 'Rollback')}
-      </Button>
-    ) : null;
-
     if (currentDatasetStatus === RUNNER_RUN_STATE.RUNNING)
       return !Object.values(NATIVE_DATASOURCE_TYPES).includes(currentDatasetType) && abortButton;
     else if (currentDatasetType === NATIVE_DATASOURCE_TYPES.FILE_UPLOAD)
-      return <ReuploadFileDatasetButton datasetId={currentDatasetId} iconButton={false} />;
+      return <ReuploadFileDatasetButton dataset={currentDataset} iconButton={false} />;
     else
       return (
         <>
           {!Object.values(NATIVE_DATASOURCE_TYPES).includes(currentDatasetType) && runLogsDownloadButton}
           {retryButton}
-          {rollBackButton}
         </>
       );
   }, [
+    currentDataset,
     currentDatasetId,
     currentDatasetStatus,
     refreshDataset,
-    rollbackTwingraphData,
     stopETLRunner,
     currentDatasetType,
     downloadLogsFile,
