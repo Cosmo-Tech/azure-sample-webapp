@@ -3,12 +3,7 @@
 import { useMemo } from 'react';
 import { useWorkspaceMainDatasets } from '../../../../hooks/WorkspaceDatasetsHooks';
 import { ACL_PERMISSIONS } from '../../../../services/config/accessControl';
-import {
-  useCurrentDataset,
-  useDeleteDataset,
-  useRefreshDataset,
-  useSelectDataset,
-} from '../../../../state/datasets/hooks';
+import { useCurrentDataset, useDeleteDataset, useSelectDataset } from '../../../../state/datasets/hooks';
 import { useOrganizationData } from '../../../../state/organizations/hooks';
 import { useWorkspaceData } from '../../../../state/workspaces/hooks';
 
@@ -20,7 +15,6 @@ export const useDatasetList = () => {
   const currentDataset = useCurrentDataset();
 
   const deleteDataset = useDeleteDataset();
-  const refreshDatasetById = useRefreshDataset();
 
   const visibleDatasets = useMemo(
     () =>
@@ -34,7 +28,6 @@ export const useDatasetList = () => {
     currentDataset,
     selectDataset,
     deleteDataset,
-    refreshDatasetById,
     isDatasetCopyEnabledInWorkspace,
   };
 };
