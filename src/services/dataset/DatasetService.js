@@ -57,6 +57,18 @@ const deleteDatasetPart = async (organizationId, workspaceId, datasetId, dataset
   return data;
 };
 
+const replaceDatasetPart = async (organizationId, workspaceId, datasetId, datasetPartId, file, newDatasetPart) => {
+  const { data } = await Api.Datasets.replaceDatasetPart(
+    organizationId,
+    workspaceId,
+    datasetId,
+    datasetPartId,
+    file,
+    newDatasetPart
+  );
+  return data;
+};
+
 const downloadDatasetPart = async (datasetPart) => {
   const data = await fetchDatasetPartData(datasetPart);
   FileBlobUtils.downloadFileFromData(data, datasetPart.sourceName);
@@ -106,6 +118,7 @@ const DatasetService = {
   createEmptyDataset,
   createDatasetPart,
   deleteDatasetPart,
+  replaceDatasetPart,
   downloadDatasetPart,
   fetchDatasetPartData,
   queryDatasetPart,

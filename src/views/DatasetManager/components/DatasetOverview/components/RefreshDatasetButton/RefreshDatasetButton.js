@@ -57,7 +57,7 @@ export const RefreshDatasetButton = ({ dataset }) => {
     refreshButton = (
       <ReuploadFileDatasetButton
         confirmAndCallback={confirmAndRefreshDataset}
-        datasetId={dataset.id}
+        dataset={dataset}
         disabled={datasetStatus === RUNNER_RUN_STATE.RUNNING}
       />
     );

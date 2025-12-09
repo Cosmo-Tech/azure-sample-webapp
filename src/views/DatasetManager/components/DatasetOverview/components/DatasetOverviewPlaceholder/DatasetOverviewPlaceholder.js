@@ -12,6 +12,7 @@ import { useDatasetOverviewPlaceholder } from './DatasetOverviewPlaceholderHook'
 export const DatasetOverviewPlaceholder = () => {
   const { t } = useTranslation();
   const {
+    currentDataset,
     currentDatasetId,
     currentDatasetStatus,
     currentDatasetType,
@@ -147,7 +148,7 @@ export const DatasetOverviewPlaceholder = () => {
     if (currentDatasetStatus === RUNNER_RUN_STATE.RUNNING)
       return !Object.values(NATIVE_DATASOURCE_TYPES).includes(currentDatasetType) && abortButton;
     else if (currentDatasetType === NATIVE_DATASOURCE_TYPES.FILE_UPLOAD)
-      return <ReuploadFileDatasetButton datasetId={currentDatasetId} iconButton={false} />;
+      return <ReuploadFileDatasetButton dataset={currentDataset} iconButton={false} />;
     else
       return (
         <>
@@ -157,6 +158,7 @@ export const DatasetOverviewPlaceholder = () => {
         </>
       );
   }, [
+    currentDataset,
     currentDatasetId,
     currentDatasetStatus,
     refreshDataset,

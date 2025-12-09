@@ -6,47 +6,18 @@ import PropTypes from 'prop-types';
 import { Refresh as RefreshIcon } from '@mui/icons-material';
 import { Button, IconButton } from '@mui/material';
 import { FadingTooltip } from '@cosmotech/ui';
-import { RUNNER_RUN_STATE } from '../../../../services/config/ApiConstants';
-import { DatasetsUtils } from '../../../../utils';
 import { useReuploadFileDatasetButton } from './ReuploadFileDatasetButtonHook';
 
-export const ReuploadFileDatasetButton = ({ confirmAndCallback, datasetId, disabled = false, iconButton = true }) => {
+export const ReuploadFileDatasetButton = ({ confirmAndCallback, dataset, disabled = false, iconButton = true }) => {
   const { t } = useTranslation();
-  const { organizationId, pollTwingraphStatus, setApplicationErrorMessage, updateDatasetInStore } =
-    useReuploadFileDatasetButton();
-
-  const handleFileUpload = useCallback(
-    async (event) => {
-      const file = event.target.files[0];
-      if (file == null) return;
-
-      // FIXME: use new dataset structure & endpoints to reupload files, and replace or remove ingestionStatus below
-      const response = await DatasetsUtils.uploadZipWithFetchApi(organizationId, datasetId, file);
-      if (response?.ok) {
-        updateDatasetInStore(datasetId, { ingestionStatus: RUNNER_RUN_STATE.RUNNING });
-        pollTwingraphStatus(datasetId);
-      } else {
-        let error = null;
-        if (response?.status === 400) {
-          error = await new Response(response.body).json();
-          console.error(error);
-        }
-        setApplicationErrorMessage(
-          error,
-          t('commoncomponents.banner.datasetFileReuploadFailed', 'The file upload for dataset update has failed')
-        );
-        updateDatasetInStore(datasetId, { ingestionStatus: RUNNER_RUN_STATE.FAILED });
-      }
-    },
-    [datasetId, organizationId, pollTwingraphStatus, setApplicationErrorMessage, t, updateDatasetInStore]
-  );
+  const { handleFileUpload } = useReuploadFileDatasetButton();
 
   const openFileBrowser = useCallback((inputElementId) => document.getElementById(inputElementId).click(), []);
 
-  const inputId = useMemo(() => `dataset-reupload-input-${datasetId}`, [datasetId]);
+  const inputId = useMemo(() => `dataset-reupload-input-${dataset?.id}`, [dataset?.id]);
   return (
     <>
-      <input hidden type="file" accept="*" id={inputId} onChange={handleFileUpload} />
+      <input hidden type="file" accept="*" id={inputId} onChange={(event) => handleFileUpload(event, dataset)} />
       {iconButton ? (
         <FadingTooltip
           title={t('commoncomponents.datasetmanager.overview.actions.refreshButtonTooltip', 'Refresh')}
@@ -54,7 +25,7 @@ export const ReuploadFileDatasetButton = ({ confirmAndCallback, datasetId, disab
         >
           <IconButton
             component="span"
-            data-cy={`dataset-reupload-button-${datasetId}`}
+            data-cy={`dataset-reupload-button-${dataset?.id}`}
             disabled={disabled}
             onClick={(event) => {
               event.stopPropagation();
@@ -66,7 +37,7 @@ export const ReuploadFileDatasetButton = ({ confirmAndCallback, datasetId, disab
         </FadingTooltip>
       ) : (
         <Button
-          data-cy={`dataset-reupload-button-${datasetId}`}
+          data-cy={`dataset-reupload-button-${dataset?.id}`}
           disabled={disabled}
           variant="contained"
           onClick={(event) => {
@@ -82,7 +53,7 @@ export const ReuploadFileDatasetButton = ({ confirmAndCallback, datasetId, disab
 };
 
 ReuploadFileDatasetButton.propTypes = {
-  datasetId: PropTypes.string.isRequired,
+  dataset: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
   confirmAndCallback: PropTypes.func,
   iconButton: PropTypes.bool,

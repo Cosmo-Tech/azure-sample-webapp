@@ -188,8 +188,9 @@ const runnerSlice = createSlice({
     builder
       .addCase(addOrUpdateDatasetPart, (state, action) => {
         const { runnerId, datasetPart: newDatasetPart } = action.payload;
+        if (!runnerId) return; // This action can be called without runner id, to udpate datasets in redux
 
-        if (!runnerId || !newDatasetPart) {
+        if (!newDatasetPart) {
           console.warn('No runner id or no dataset part id provided');
           return;
         }
@@ -221,7 +222,9 @@ const runnerSlice = createSlice({
       })
       .addCase(deleteDatasetPart, (state, action) => {
         const { runnerId, datasetPartId: partIdToDelete } = action.payload;
-        if (!runnerId || !partIdToDelete) {
+        if (!runnerId) return; // This action can be called without runner id, to delete datasets in redux
+
+        if (!partIdToDelete) {
           console.warn('No runner id or no dataset part id provided');
           return;
         }

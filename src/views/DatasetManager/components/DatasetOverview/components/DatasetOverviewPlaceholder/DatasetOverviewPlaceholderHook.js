@@ -28,6 +28,7 @@ export const useDatasetOverviewPlaceholder = () => {
   }, [currentDataset, currentDatasetType, getDatasetRunnerStatus]);
 
   return {
+    currentDataset,
     currentDatasetId,
     currentDatasetStatus,
     refreshDataset,
