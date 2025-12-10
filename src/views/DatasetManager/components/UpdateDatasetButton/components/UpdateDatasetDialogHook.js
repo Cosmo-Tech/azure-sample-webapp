@@ -10,7 +10,7 @@ import {
   useSubDataSourceRunTemplates,
 } from '../../../../../state/solutions/hooks';
 import { useWorkspaceData } from '../../../../../state/workspaces/hooks';
-import { ScenarioParametersUtils } from '../../../../../utils';
+import { DatasetsUtils, ScenarioParametersUtils } from '../../../../../utils';
 
 export const useUpdateDatasetDialog = (dataset, selectedRunner) => {
   const solutionData = useSolutionData();
@@ -22,8 +22,8 @@ export const useUpdateDatasetDialog = (dataset, selectedRunner) => {
   const datasets = useDatasets();
   const mainDatasets = useWorkspaceMainDatasets();
   const parentDataset = useMemo(() => {
-    return mainDatasets.find((mainDataset) => mainDataset.id === dataset.parentId);
-  }, [mainDatasets, dataset.parentId]);
+    return mainDatasets.find((mainDataset) => mainDataset.id === DatasetsUtils.getDatasetOption(dataset, 'parentId'));
+  }, [mainDatasets, dataset]);
   const dataSourceRunTemplates = useMemo(() => {
     const parameters = solutionData.parameters;
     const runTemplatesParameters = solutionData.runTemplatesParametersIdsDict;

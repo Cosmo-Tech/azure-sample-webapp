@@ -6,32 +6,32 @@ const datasetListWithChildren = [
   {
     id: '1',
     name: 'Dataset 1',
-    parentId: null,
+    additionalData: { webapp: { parentId: null } },
   },
   {
     id: '2',
     name: 'Dataset 2',
-    parentId: '1',
+    additionalData: { webapp: { parentId: '1' } },
   },
   {
     id: '3',
     name: 'Dataset 3',
-    parentId: null,
+    additionalData: { webapp: { parentId: null } },
   },
   {
     id: '4',
     name: 'Dataset 4',
-    parentId: '3',
+    additionalData: { webapp: { parentId: '3' } },
   },
   {
     id: '5',
     name: 'Dataset 5',
-    parentId: '3',
+    additionalData: { webapp: { parentId: '3' } },
   },
   {
     id: '6',
     name: 'Dataset 6',
-    parentId: '5',
+    additionalData: { webapp: { parentId: '5' } },
   },
 ];
 
@@ -39,17 +39,17 @@ const datasetListWithoutChildren = [
   {
     id: '1',
     name: 'Dataset 1',
-    parentId: null,
+    additionalData: { webapp: { parentId: null } },
   },
   {
     id: '2',
     name: 'Dataset 2',
-    parentId: null,
+    additionalData: { webapp: { parentId: null } },
   },
   {
     id: '3',
     name: 'Dataset 3',
-    parentId: null,
+    additionalData: { webapp: { parentId: null } },
   },
 ];
 
