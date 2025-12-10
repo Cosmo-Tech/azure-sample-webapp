@@ -42,12 +42,16 @@ function getDatasetLocation(dataset) {
 }
 
 const getAllChildrenDatasetsNames = (initialDatasetId, datasets) => {
-  if (!Array.isArray(datasets) || !datasets.some((dataset) => dataset.parentId === initialDatasetId)) return [];
-  const childrenDatasets = datasets.filter((dataset) => dataset.parentId !== null);
+  if (
+    !Array.isArray(datasets) ||
+    !datasets.some((dataset) => getDatasetOption(dataset, 'parentId') === initialDatasetId)
+  )
+    return [];
+  const childrenDatasets = datasets.filter((dataset) => getDatasetOption(dataset, 'parentId') !== null);
   const datasetTree = [];
   const buildDatasetTree = (parentId) => {
     childrenDatasets.forEach((dataset) => {
-      if (dataset.parentId === parentId) {
+      if (getDatasetOption(dataset, 'parentId') === parentId) {
         datasetTree.push(dataset.name);
         buildDatasetTree(dataset.id);
       }

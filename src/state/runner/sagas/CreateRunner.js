@@ -111,7 +111,7 @@ export function* createRunner(action) {
     // When creating subdatasets, the runner provided to the createRunner saga contains the id of the **parent dataset**
     // in datasets.bases
     const baseDatasets = runner.datasets?.bases ?? [];
-    if (baseDatasets.length > 0) dataset.parentId = baseDatasets[0];
+    if (baseDatasets.length > 0) DatasetsUtils.setDatasetOptions(dataset, { parentId: baseDatasets[0] });
     const createdDataset = yield call(createDataset, { dataset, shouldSelectDataset: true });
     const datasetId = createdDataset.id;
 
