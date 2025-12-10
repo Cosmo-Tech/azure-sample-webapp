@@ -41,7 +41,7 @@ const AppRoutes = () => {
           path=":workspaceId"
           element={
             <UserStatusGate>
-              <Navigate to="scenario" replace />
+              <Navigate to="scenarios" replace />
             </UserStatusGate>
           }
         />
