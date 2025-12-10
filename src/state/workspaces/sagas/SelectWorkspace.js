@@ -10,13 +10,7 @@ import { ConfigUtils, RunnersUtils, WorkspacesUtils } from '../../../utils';
 import { setApplicationErrorMessage, setApplicationStatus } from '../../app/reducers';
 import { CHART_MODES } from '../../charts/constants';
 import { dispatchGetPowerBIEmbedInfo, dispatchGetSupersetGuestToken } from '../../charts/dispatchers';
-import {
-  clearAllChartsInfo,
-  setChartMode,
-  setSupersetDashboards,
-  setSupersetUrl,
-  setPowerBIReportConfig,
-} from '../../charts/reducers';
+import { clearAllChartsInfo, setChartMode, setSupersetDashboards, setSupersetUrl } from '../../charts/reducers';
 import { fetchAllDatasetsData } from '../../datasets/sagas/FindAllDatasets';
 import { RUNNER_ACTIONS_KEY } from '../../runner/constants';
 import { setCurrentSimulationRunner } from '../../runner/reducers';
@@ -123,7 +117,6 @@ export function* selectWorkspace(action) {
     yield put(dispatchGetSupersetGuestToken());
   } else if (chartsConfig?.workspaceId) {
     yield put(setChartMode(CHART_MODES.POWERBI));
-    yield put(setPowerBIReportConfig(chartsConfig));
     yield put(dispatchGetPowerBIEmbedInfo());
   } else {
     yield put(setChartMode(null));
