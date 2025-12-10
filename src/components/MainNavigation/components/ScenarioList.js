@@ -57,9 +57,9 @@ export const ScenarioList = ({
     }
   };
 
-  // const isScenarioActive = (scenarioId) => {
-  //   return activeScenarioId === scenarioId;  -- To be used later
-  // };
+  const isScenarioActive = (scenarioId) => {
+    return activeScenarioId === scenarioId;
+  };
 
   if (isCollapsed || !scenarioTree.length) {
     return null;
@@ -93,12 +93,13 @@ export const ScenarioList = ({
       <List sx={{ py: 0.5, display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}>
         {scenarioTree.map((scenario) => {
           const depth = getScenarioDepth(scenario, scenarios);
-          // const isActive = isScenarioActive(scenario.id); -- To be used later
+          const isActive = isScenarioActive(scenario.id);
           const isChild = depth > 0;
 
           return (
             <ListItemButton
               disabled={disabled}
+              selected={isActive}
               variant="navigation"
               key={scenario.id}
               onClick={() => handleScenarioClick(scenario.id)}
@@ -107,6 +108,20 @@ export const ScenarioList = ({
                 mb: 0.25,
                 minHeight: 36,
                 pl: `${1 + depth * 1}rem`,
+                '&.Mui-selected': {
+                  backgroundColor: theme.palette.background.background02.main,
+                  color: theme.palette.secondary.main,
+                  '& .MuiListItemIcon-root': {
+                    color: theme.palette.secondary.main,
+                  },
+                },
+                '&.Mui-selected:hover': {
+                  backgroundColor: theme.palette.background.background02.main,
+                  color: theme.palette.secondary.main,
+                  '& .MuiListItemIcon-root': {
+                    color: theme.palette.secondary.main,
+                  },
+                },
               }}
             >
               {isChild && (
