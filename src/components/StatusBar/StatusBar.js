@@ -32,7 +32,7 @@ const STATUS_CONFIG = (theme) => ({
   },
   locked: {
     label: 'Locked',
-    bg: theme.palette.neutral.neutral03.main,
+    bg: theme.palette.background.background02.main,
     text: theme.palette.neutral.neutral02.main,
     icon: <Lock size={16} color={theme.palette.neutral.neutral02.main} />,
   },
