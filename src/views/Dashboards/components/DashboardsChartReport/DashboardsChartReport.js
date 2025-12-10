@@ -15,10 +15,8 @@ const DashboardsChartReport = ({ index }) => {
   const chartMode = useChartMode();
 
   const dynamicFilterValues = reportsConfig[index]?.dynamicFilters?.flatMap((filter) => filter.values);
-  const hasFiltersOnSimulationRun = dynamicFilterValues?.some(
-    (value) =>
-      [POWER_BI_FIELD_ENUM.SCENARIO_CSM_SIMULATION_RUN, POWER_BI_FIELD_ENUM.LAST_RUN_ID].includes(value) ?? false
-  );
+  const hasFiltersOnSimulationRun =
+    dynamicFilterValues?.some((value) => value === POWER_BI_FIELD_ENUM.LAST_RUN_ID) ?? false;
 
   const dashboardsViewSpecificLabels = {
     noScenario: {
