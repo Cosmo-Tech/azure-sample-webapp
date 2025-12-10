@@ -64,10 +64,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@azure/msal-browser@npm:^4.27.0":
+  version: 4.27.0
+  resolution: "@azure/msal-browser@npm:4.27.0"
+  dependencies:
+    "@azure/msal-common": "npm:15.13.3"
+  checksum: 10c0/da10b0adc1c9c937a57ae66eb70ab53682e71171a0a48499931b745bc91c4f68f81e6cf52e5280a78b5865963e2246f60321822a551ed9a340cc3c4ae1ccfdcd
+  languageName: node
+  linkType: hard
+
 "@azure/msal-common@npm:15.12.0":
   version: 15.12.0
   resolution: "@azure/msal-common@npm:15.12.0"
   checksum: 10c0/0e41bfd7f9baa76014d9de254d7136c664fcb9cfbc0d1017140d8b460541911fe9d3bb13a3ec8c11af02df6e0cc2794d2a1d3a91243bc476e7d2e67b0bf5007c
+  languageName: node
+  linkType: hard
+
+"@azure/msal-common@npm:15.13.3":
+  version: 15.13.3
+  resolution: "@azure/msal-common@npm:15.13.3"
+  checksum: 10c0/0d71c31ad098153985cb918c2bda9698aae0a15b659da5c0867728313ba6743854cc112332b39ba1a187b81dfc0abba22b1c22ee6f245e511c5ecec179832b03
   languageName: node
   linkType: hard
 
@@ -3286,12 +3302,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmotech/azure@npm:^3.0.2":
-  version: 3.0.2
-  resolution: "@cosmotech/azure@npm:3.0.2"
+"@cosmotech/azure@npm:^4.0.0-dev.0":
+  version: 4.0.0-dev.0
+  resolution: "@cosmotech/azure@npm:4.0.0-dev.0"
   dependencies:
-    "@azure/msal-browser": "npm:^4.23.0"
-  checksum: 10c0/e037e7292ca7fd364222451aa6c5c0d20ecdc468fc6859e255598f5ad894f5814e9f6b8629a1234eccdfae86df7ab97e4d2af32280161ecbc71f329cb80d30ba
+    "@azure/msal-browser": "npm:^4.27.0"
+  checksum: 10c0/f4c06afd8345e49c487e03d69ee12a0a6de1b1d896d0bf0c00b10ac0196e89d8592eeba0168c8d38552cbd18f5459a5b4a36862fcff064fe4cbb8eb69f085b9d
   languageName: node
   linkType: hard
 
@@ -8040,7 +8056,7 @@ __metadata:
     "@babel/preset-env": "npm:^7.28.3"
     "@babel/preset-react": "npm:^7.27.1"
     "@cosmotech/api-ts": "npm:5.0.0-rc1"
-    "@cosmotech/azure": "npm:^3.0.2"
+    "@cosmotech/azure": "npm:^4.0.0-dev.0"
     "@cosmotech/core": "npm:^2.0.1"
     "@cosmotech/ui": "npm:^11.0.0-dev.5"
     "@emotion/react": "npm:^11.14.0"
