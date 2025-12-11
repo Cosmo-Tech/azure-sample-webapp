@@ -21,6 +21,7 @@ const config = {
   staticDirs: ['../public'],
 
   webpackFinal: async (config) => {
+    // Remove ESLint rules Storybook injects
     config.module.rules = config.module.rules.filter(
       (rule) => !(rule.use && rule.use.some((u) => u.loader?.includes('eslint')))
     );

@@ -121,7 +121,7 @@ const StatusBar = ({ status, size, message, tooltip }) => {
           },
         }}
       >
-        <span style={{ marginLeft: size === 'small' ? 8 : 0 }}>
+        <span style={{ marginLeft: size === 'small' ? 8 : 0, display: 'flex', alignItems: 'center', width: 12 }}>
           <CircleHelp size={12} color={theme.palette.secondary.main} />
         </span>
       </Tooltip>
