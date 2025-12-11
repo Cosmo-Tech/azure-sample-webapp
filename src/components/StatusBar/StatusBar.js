@@ -32,7 +32,7 @@ const STATUS_CONFIG = (theme) => ({
   },
   locked: {
     label: 'Locked',
-    bg: theme.palette.neutral.neutral03.main,
+    bg: theme.palette.background.background02.main,
     text: theme.palette.neutral.neutral02.main,
     icon: <Lock size={16} color={theme.palette.neutral.neutral02.main} />,
   },
@@ -121,7 +121,7 @@ const StatusBar = ({ status, size, message, tooltip }) => {
           },
         }}
       >
-        <span style={{ marginLeft: size === 'small' ? 8 : 0 }}>
+        <span style={{ marginLeft: size === 'small' ? 8 : 0, display: 'flex', alignItems: 'center', width: 12 }}>
           <CircleHelp size={12} color={theme.palette.secondary.main} />
         </span>
       </Tooltip>
