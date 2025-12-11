@@ -68,4 +68,12 @@ export default {
     main: '#FFFFFF',
     contrastText: '#5E5E5E',
   },
+  custom: {
+    gray: {
+      main: '#F5F5F5',
+    },
+    disabled: {
+      main: '#BDBDBD',
+    },
+  },
 };
