@@ -27,9 +27,9 @@ export const ScenarioListing = ({
       }}
     >
       <ListingHeader
-        title={t('layouts.tabs.scenario.tab.title')}
-        subtitle={t('layouts.tabs.scenario.tab.description')}
-        buttonLabel={t('layouts.tabs.scenario.tab.create')}
+        title={t('layouts.tabs.scenario.tab.title', 'Scenarios')}
+        subtitle={t('layouts.tabs.scenario.tab.description, ', 'Create, edit, share and delete your scenarios')}
+        buttonLabel={t('layouts.tabs.scenario.tab.create', 'Create Scenario')}
         onButtonClick={onCreateScenario}
       />
       <Box
@@ -43,9 +43,12 @@ export const ScenarioListing = ({
       >
         {isEmpty ? (
           <ListingEmpty
-            title={t('layouts.tabs.scenario.tab.emptyStateTitle') + ' 🙁'}
-            subtitle={t('layouts.tabs.scenario.tab.emptyState')}
-            buttonLabel={t('layouts.tabs.scenario.tab.create')}
+            title={t('layouts.tabs.scenario.tab.emptyStateTitle', "It's looking a bit empty here") + ' 🙁'}
+            subtitle={t(
+              'layouts.tabs.scenario.tab.emptyState',
+              'There are no scenarios yet. If you have a dataset you can create a new scenario.'
+            )}
+            buttonLabel={t('layouts.tabs.scenario.tab.create', 'Create Scenario')}
             onButtonClick={onCreateScenario}
           />
         ) : (

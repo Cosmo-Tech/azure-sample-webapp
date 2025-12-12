@@ -93,8 +93,14 @@ export const TabLayout = () => {
               <StatusBar
                 status="prerun"
                 size="full"
-                message={t('commoncomponents.tabLayout.statusBar.prerun.message')}
-                tooltip={t('commoncomponents.tabLayout.statusBar.prerun.tooltip')}
+                message={t(
+                  'commoncomponents.tabLayout.statusBar.prerun.message',
+                  'This scenario has not been run yet.'
+                )}
+                tooltip={t(
+                  'commoncomponents.tabLayout.statusBar.prerun.tooltip',
+                  'This scenario has not been run yet.'
+                )}
               />
             )}
             <Outlet />
