@@ -98,7 +98,7 @@ export const TabLayout = () => {
                   'This scenario has not been run yet.'
                 )}
                 tooltip={t(
-                  'commoncomponents.tabLayout.statusBar.prerun.tooltip',
+                  'commoncomponents.tabLayout.statusBar.prerun.message',
                   'This scenario has not been run yet.'
                 )}
               />
