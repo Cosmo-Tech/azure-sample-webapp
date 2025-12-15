@@ -17,11 +17,11 @@ export function* callUpdateDataset(action) {
   const workspaceId = yield select(getWorkspaceId);
 
   try {
-    yield call(Api.Datasets.updateDataset, organizationId, workspaceId, datasetId, datasetData);
+    const { data } = yield call(Api.Datasets.updateDataset, organizationId, workspaceId, datasetId, datasetData);
     yield put(
       updateDataset({
         datasetId,
-        datasetData,
+        datasetData: { ...datasetData, updateInfo: data.updateInfo },
         datasetIndex,
       })
     );
