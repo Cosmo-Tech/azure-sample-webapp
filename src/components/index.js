@@ -28,3 +28,5 @@ export {
 } from './ScenarioParameters';
 export { default as LoadingBackdrop } from './LoadingBackdrop';
 export { default as StatusBar } from './StatusBar';
+export { ModalWindow } from './ModalWindow';
+export { PageHeader } from './PageHeader';

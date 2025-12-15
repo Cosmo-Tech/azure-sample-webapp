@@ -38,13 +38,13 @@ Default.args = {
   onInfoHoverText: 'Information about this scenario.',
   leftContext: <span style={{ color: '#6C7A89', fontSize: '12px' }}>NYC Subway › Scenarios ›</span>,
   actions: [
-    <Button key="edit" startIcon={<Pencil size={16} />} variant="outlined">
+    <Button key="edit" startIcon={<Pencil size={16} />} variant="default" state="enabled">
       Add/Edit
     </Button>,
-    <Button key="run" startIcon={<Play size={16} />} variant="contained" sx={{ background: '#F3A420' }}>
+    <Button key="run" startIcon={<Play size={16} />} variant="highlighted" sx={{ background: '#F3A420' }}>
       Run Scenario
     </Button>,
-    <Button key="new" startIcon={<Plus size={16} />} variant="outlined">
+    <Button key="new" startIcon={<Plus size={16} />} variant="default" state="enabled">
       New
     </Button>,
   ],

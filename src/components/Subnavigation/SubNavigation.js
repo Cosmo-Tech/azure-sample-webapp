@@ -7,7 +7,7 @@ import { Tabs, Tab, Box } from '@mui/material';
 
 export const SubNavigation = (props) => {
   const { t } = useTranslation();
-  const { tabs = [], selectedTabIndex, setSelectedTabIndex } = props;
+  const { tabs = [], selectedTabIndex, setSelectedTabIndex, alignLastTabRight } = props;
 
   return (
     <Box>
@@ -21,9 +21,11 @@ export const SubNavigation = (props) => {
           '& .MuiTabs-flexContainer': {
             justifyContent: 'flex-start',
           },
-          '& .MuiTab-root:last-of-type': {
-            marginLeft: 'auto',
-          },
+          ...(alignLastTabRight && {
+            '& .MuiTab-root:last-of-type': {
+              marginLeft: 'auto',
+            },
+          }),
           '& .MuiTabs-scroller': {
             order: 1,
             width: 0,
@@ -66,9 +68,9 @@ export const SubNavigation = (props) => {
             label={t(tab.labelKey, tab.defaultLabel)}
             variant="contained"
             sx={{
-              ml: '8px',
               py: '4px',
               pl: '4px',
+              mr: '8px',
               minHeight: 0,
               borderRadius: '32px',
               backgroundColor: 'neutral.neutral04.main',
@@ -100,4 +102,5 @@ SubNavigation.propTypes = {
   tabs: PropTypes.arrayOf(PropTypes.object),
   selectedTabIndex: PropTypes.number.isRequired,
   setSelectedTabIndex: PropTypes.func.isRequired,
+  alignLastTabRight: PropTypes.bool,
 };

@@ -74,7 +74,12 @@ export const MainPage = () => {
           </Button>,
         ]}
       />
-      <SubNavigation tabs={tabs} selectedTabIndex={selectedTabIndex} setSelectedTabIndex={setSelectedTabIndex} />
+      <SubNavigation
+        tabs={tabs}
+        selectedTabIndex={selectedTabIndex}
+        setSelectedTabIndex={setSelectedTabIndex}
+        alignLastTabRight
+      />
       <Box sx={{ backgroundColor: (theme) => theme.palette.neutral.neutral04.main, borderRadius: 1, padding: 2 }}>
         {tabs.map((tab, index) => (
           <Box key={tab.key} sx={{ display: selectedTabIndex === index ? 'block' : 'none' }}>
