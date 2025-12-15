@@ -44,6 +44,8 @@
           "launch": "LAUNCH",
           "launchDisabled": "The scenario cannot be run because its dataset isn't found or its data ingestion has failed",
           "save": "SAVE",
+          "new": "New",
+          "addEdit": "Add/Edit",
           "update": {
             "launch": "SAVE AND LAUNCH"
           },
