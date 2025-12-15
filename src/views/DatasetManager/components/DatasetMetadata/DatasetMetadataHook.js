@@ -34,10 +34,11 @@ export const useDatasetMetadata = () => {
 
   const datasets = useDatasets();
   const parentDatasetName = useMemo(() => {
-    if (currentDataset?.parentId == null) return;
-    const parentDataset = datasets?.find((dataset) => dataset.id === currentDataset?.parentId);
+    const parentId = DatasetsUtils.getDatasetOption(currentDataset, 'parentId');
+    if (parentId == null) return;
+    const parentDataset = datasets.find((dataset) => dataset.id === parentId);
     return parentDataset?.name;
-  }, [datasets, currentDataset?.parentId]);
+  }, [datasets, currentDataset]);
 
   return {
     organizationId,

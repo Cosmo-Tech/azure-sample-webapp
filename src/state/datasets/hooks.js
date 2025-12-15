@@ -78,9 +78,26 @@ export const useDeleteDatasetPartInRedux = () => {
 export const useUpdateDataset = () => {
   const dispatch = useDispatch();
   const organizationId = useOrganizationId();
+
   return useCallback(
-    (datasetId, datasetData, datasetIndex) =>
-      dispatch(dispatchUpdateDataset(organizationId, datasetId, datasetData, datasetIndex)),
+    (datasetId, datasetData, datasetIndex) => {
+      dispatch(dispatchUpdateDataset(organizationId, datasetId, datasetData, datasetIndex));
+
+      const nowIso = new Date().toISOString();
+
+      dispatch(
+        updateDataset({
+          datasetId,
+          datasetData: {
+            ...datasetData,
+            updateInfo: {
+              timestamp: nowIso,
+            },
+          },
+          datasetIndex,
+        })
+      );
+    },
     [dispatch, organizationId]
   );
 };
