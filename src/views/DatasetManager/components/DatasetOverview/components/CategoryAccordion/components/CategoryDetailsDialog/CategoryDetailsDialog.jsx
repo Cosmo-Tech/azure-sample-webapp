@@ -98,7 +98,7 @@ export const CategoryDetailsDialog = (props) => {
           fullScreen
           open={open}
           onClose={handleClose}
-          fullWidth={true}
+          fullWidth
           maxWidth={'xl'}
           PaperProps={{ elevation: 1 }}
         >

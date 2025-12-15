@@ -34,7 +34,7 @@ const DashboardsChartReport = ({ index }) => {
         index={index}
         reportConfiguration={reportsConfig}
         labels={dashboardsViewSpecificLabels}
-        alwaysShowReports={true}
+        alwaysShowReports
       />
     );
   }

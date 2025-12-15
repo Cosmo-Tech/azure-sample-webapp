@@ -14,7 +14,7 @@ export const AppBar = ({ children }) => {
         color: (theme) => theme.palette.appbar.contrastText,
       }}
     >
-      <Toolbar variant="dense" disableGutters={true}>
+      <Toolbar variant="dense" disableGutters>
         <WorkspaceInfo />
         <div style={{ flexGrow: 1 }}>{children}</div>
         <ThemeSwitch />

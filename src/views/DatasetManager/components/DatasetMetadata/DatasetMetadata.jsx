@@ -102,7 +102,7 @@ export const DatasetMetadata = () => {
   return dataset == null ? null : (
     <Card
       variant="outlined"
-      square={true}
+      square
       sx={{ backgroundColor: 'transparent', py: 3, px: 2, minHeight: '40px', overflow: 'auto' }}
       data-cy="dataset-metadata-card"
     >
@@ -124,7 +124,7 @@ export const DatasetMetadata = () => {
             dataset?.createInfo?.userId ??
             t('commoncomponents.datasetmanager.metadata.unknown', 'unknown')
           }
-        ></MetadataItem>
+        />
         <MetadataItem
           id="creation-date"
           label={t('commoncomponents.datasetmanager.metadata.creationDate', 'Creation date')}
@@ -132,7 +132,7 @@ export const DatasetMetadata = () => {
             dataset?.createInfo?.timestamp &&
             new Date(dataset?.createInfo?.timestamp)?.toLocaleString('en-US', { timeZone: 'UTC' })
           }
-        ></MetadataItem>
+        />
         <MetadataItem
           id="refresh-date"
           label={t('commoncomponents.datasetmanager.metadata.refreshDate', 'Last refresh')}
@@ -140,23 +140,23 @@ export const DatasetMetadata = () => {
             dataset?.updateInfo?.timestamp &&
             new Date(dataset?.updateInfo?.timestamp)?.toLocaleString('en-US', { timeZone: 'UTC' })
           }
-        ></MetadataItem>
+        />
         <MetadataItem
           id="source-type"
           label={t('commoncomponents.datasetmanager.metadata.sourceType', 'Source')}
           value={sourceTypeToDisplay}
-        ></MetadataItem>
+        />
         <MetadataItem
           id="api-url"
           label={t('commoncomponents.datasetmanager.metadata.apiUrl', 'API URL')}
           value={`datasets/${dataset?.id}`}
           action={copyApiUrlButton}
-        ></MetadataItem>
+        />
         <MetadataItem
           id="parent"
           label={t('commoncomponents.datasetmanager.metadata.parent', 'Parent')}
           value={parentDatasetName}
-        ></MetadataItem>
+        />
         <Grid>
           <PermissionsGate
             userPermissions={userPermissionsOnDataset}
@@ -183,7 +183,7 @@ export const DatasetMetadata = () => {
             onChange={(newDescription) =>
               updateDataset(datasetId, { description: newDescription }, selectedDatasetIndex)
             }
-          ></DescriptionEditor>
+          />
         </PermissionsGate>
       </Grid>
     </Card>

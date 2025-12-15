@@ -35,7 +35,7 @@ export const UpdateDatasetButton = ({ dataset }) => {
             'commoncomponents.datasetmanager.overview.actions.editParametersButtonTooltip',
             'Edit parameters of the dataset'
           )}
-          disableInteractive={true}
+          disableInteractive
         >
           <IconButton
             data-cy="edit-dataset-parameters-button"

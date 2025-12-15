@@ -18,7 +18,7 @@ export const KPIValue = (props) => {
       return (
         <FadingTooltip
           title={t('commoncomponents.datasetmanager.overview.kpiState.loading', 'Loading')}
-          disableInteractive={true}
+          disableInteractive
         >
           <Skeleton width="24px" />
         </FadingTooltip>
@@ -38,7 +38,7 @@ export const KPIValue = (props) => {
             'commoncomponents.datasetmanager.overview.kpiState.failed',
             'The query to fetch this indicator has failed'
           )}
-          disableInteractive={true}
+          disableInteractive
         >
           <ErrorIcon data-cy="kpi-error" sx={{ height: size, width: size }} />
         </FadingTooltip>
@@ -47,7 +47,7 @@ export const KPIValue = (props) => {
     return (
       <FadingTooltip
         title={t('commoncomponents.datasetmanager.overview.kpiState.unknown', 'Unexpected state')}
-        disableInteractive={true}
+        disableInteractive
       >
         <HelpIcon data-cy="kpi-unknown-state" sx={{ height: size, width: size }} />
       </FadingTooltip>

@@ -14,7 +14,7 @@ const MetadataItem = (props) => {
         container
         sx={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', flexWrap: 'nowrap' }}
       >
-        <MetadataLabel label={label}></MetadataLabel>
+        <MetadataLabel label={label} />
         <Typography variant="body1">{value}</Typography>
         {action}
       </Grid>
