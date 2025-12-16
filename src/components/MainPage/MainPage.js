@@ -53,7 +53,7 @@ export const MainPage = () => {
             variant="default"
             state="enabled"
           >
-            {t('commoncomponents.button.scenario.parameters.addEdit')}
+            {t('commoncomponents.button.scenario.parameters.addEdit', 'Add/Edit')}
           </Button>,
           <Button
             key="run"
@@ -70,7 +70,7 @@ export const MainPage = () => {
             variant="default"
             state="enabled"
           >
-            {t('commoncomponents.button.scenario.parameters.new')}
+            {t('commoncomponents.button.scenario.parameters.new', 'New')}
           </Button>,
         ]}
       />
