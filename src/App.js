@@ -1,6 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useIdleTimer } from 'react-idle-timer';
 import { ThemeProvider, CssBaseline } from '@mui/material';
@@ -16,7 +16,6 @@ import './services/config/auth';
 import { TwoActionsDialogGlobal } from './services/twoActionsDialog/twoActionsDialogService';
 import { AUTH_STATUS } from './state/auth/constants';
 import { getTheme } from './theme';
-import Loading from './views/Loading';
 
 const SESSION_TIMEOUT_PROMPT_DELAY_IN_SECONDS = 30;
 
@@ -96,19 +95,10 @@ const App = () => {
   const timeout = 1000 * 60 * SESSION_INACTIVITY_TIMEOUT;
   idleTimer = useIdleTimer({ onIdle, timeout });
 
-  const isLoading = useMemo(() => [STATUSES.LOADING, STATUSES.IDLE].includes(applicationStatus), [applicationStatus]);
-
   const getAppContent = useCallback(() => {
-    if (isConnecting) {
-      return <div className="spinner-border text-success" role="status" />;
-    }
-
-    if (isAuthenticated && isLoading) {
-      return <Loading />;
-    }
-
+    if (isConnecting) return <div className="spinner-border text-success" role="status" />;
     return <AppRoutes authenticated={isAuthenticated} authorized={applicationStatus === STATUSES.SUCCESS} />;
-  }, [isConnecting, isAuthenticated, isLoading, applicationStatus]);
+  }, [isConnecting, isAuthenticated, applicationStatus]);
 
   return (
     <StyledEngineProvider injectFirst>

@@ -97,6 +97,13 @@
         }
       }
     },
+    "tabLayout": {
+      "statusBar": {
+        "prerun": {
+          "message": "Ce scénario n'a pas encore été lancé."
+        }
+      }
+    },
     "cytoviz": {
       "elementDetails": "Détails",
       "loading": "Chargement...",
@@ -919,7 +926,17 @@
     "tabs": {
       "scenario": {
         "tab": {
-          "title": "Vue scénario"
+          "title": "Vue scénario",
+          "description": "Créer, editer, partager et supprimer des scénarios",
+          "emptyState": "Aucun scénario n'a encore été crée. Si vous possédez un dataset vous pouvez créer un nouveau scénario.",
+          "emptyStateTitle": "C'est un peu vide ici",
+          "create": "Créer un scénario"
+        },
+        "listing": {
+          "name": "Nom du scénario",
+          "created": "Crée le",
+          "lastEdited": "Modifié le",
+          "status": "Status"
         }
       },
       "instance": {

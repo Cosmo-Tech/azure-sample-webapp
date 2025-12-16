@@ -1,38 +1,38 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import React from 'react';
-import { MainPage } from './components/MainPage/MainPage';
 import { ConfigUtils } from './utils';
-import { Dashboards, Instance, ScenarioManager, DatasetManager } from './views';
+import { Dashboards, Instance, ScenarioManager, Scenario, ScenariosListingView, DatasetListingView } from './views';
 
 const DEFAULT_TABS = [
   {
-    key: 'tabs.datasetmanager.key',
-    label: 'layouts.tabs.datasetmanager.tab.title',
-    to: 'datasetmanager',
-    render: <DatasetManager />,
+    key: 'tabs.scenarioListing.key',
+    to: 'scenarios',
+    render: <ScenariosListingView />,
   },
   {
     key: 'tabs.scenario.key',
     label: 'layouts.tabs.scenario.tab.title',
     to: 'scenario',
-    render: <MainPage />,
+    render: <Scenario />,
+  },
+  {
+    key: 'tabs.datasetListing.key',
+    to: 'datasets',
+    render: <DatasetListingView />,
   },
   {
     key: 'tabs.scenariomanager.key',
-    label: 'layouts.tabs.scenariomanager.tab.title',
     to: 'scenariomanager',
     render: <ScenarioManager />,
   },
   {
     key: 'tabs.instance.key',
-    label: 'layouts.tabs.instance.tab.title',
     to: 'instance',
     render: <Instance />,
   },
   {
     key: 'tabs.dashboards.key',
-    label: 'layouts.tabs.dashboards.tab.title',
     to: 'dashboards',
     render: <Dashboards />,
   },

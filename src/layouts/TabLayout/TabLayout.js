@@ -1,16 +1,19 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { CircleArrowRight } from 'lucide-react';
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation, Outlet, useParams, useNavigate, useMatch } from 'react-router-dom';
+import { useLocation, Outlet, useParams, useNavigate } from 'react-router-dom';
 import { Link as MuiLink, Box, Stack, Typography } from '@mui/material';
-import { ApplicationErrorBanner } from '../../components';
+import { useApp } from '../../AppHook';
+import { ApplicationErrorBanner, StatusBar } from '../../components';
 import { AppBar } from '../../components/AppBar';
 import { MainNavigation } from '../../components/MainNavigation';
-import { useMainNavigation } from '../../components/MainNavigation/MainNavigationHook';
+import { STATUSES } from '../../services/config/StatusConstants';
+import { AUTH_STATUS } from '../../state/auth/constants';
 import { useCurrentSimulationRunner, useGetRunner } from '../../state/runner/hooks';
 import { useSelectWorkspace, useWorkspace } from '../../state/workspaces/hooks';
+import Loading from '../../views/Loading';
 
 export const TabLayout = () => {
   const location = useLocation();
@@ -24,8 +27,6 @@ export const TabLayout = () => {
   const selectWorkspace = useSelectWorkspace();
   const getScenario = useGetRunner();
   const currentScenario = useCurrentSimulationRunner();
-  const isScenarioPage = useMatch('/:workspaceId/scenario/:scenarioId');
-  const { activeSection } = useMainNavigation();
 
   useEffect(() => {
     if (currentWorkspace?.status === 'ERROR') {
@@ -49,32 +50,24 @@ export const TabLayout = () => {
   }, [currentWorkspace?.status, getScenario]);
 
   const BreadcrumbBar = () => (
-    <AppBar currentScenario={currentScenario}>
+    <AppBar>
       {currentWorkspace.data ? (
         <Fragment>
           <MuiLink underline="hover" color="inherit" href={`/${currentWorkspace?.data?.id}`}>
             <Typography fontSize={14}>{currentWorkspace?.data?.name}</Typography>
           </MuiLink>
-          {activeSection && (
-            <>
-              <CircleArrowRight size={14} />
-              <MuiLink underline="hover" color="inherit" href={`/${currentWorkspace?.data?.id}/${activeSection}`}>
-                <Typography fontSize={14}>{activeSection}</Typography>
-              </MuiLink>
-            </>
-          )}
-          {isScenarioPage && (
-            <>
-              <CircleArrowRight size={14} />
-              <MuiLink
-                underline="hover"
-                color="inherit"
-                href={`/${currentWorkspace?.data?.id}/scenario/${currentScenario?.data?.id}`}
-              >
-                <Typography fontSize={14}>{currentScenario?.data?.name}</Typography>
-              </MuiLink>
-            </>
-          )}
+          <CircleArrowRight size={14} />
+          <MuiLink underline="hover" color="inherit" href="/scenarios">
+            <Typography fontSize={14}>Scenarios</Typography>
+          </MuiLink>
+          <CircleArrowRight size={14} />
+          <MuiLink
+            underline="hover"
+            color="inherit"
+            href={`/${currentWorkspace?.data?.id}/scenario/${currentScenario?.data?.id}`}
+          >
+            <Typography fontSize={14}>{currentScenario?.data?.name}</Typography>
+          </MuiLink>
         </Fragment>
       ) : (
         <Box>{t('genericcomponent.workspaceselector.homebutton')}</Box>
@@ -82,13 +75,37 @@ export const TabLayout = () => {
     </AppBar>
   );
 
+  const { applicationStatus, authStatus } = useApp();
+  const isAuthenticated = authStatus === AUTH_STATUS.AUTHENTICATED || authStatus === AUTH_STATUS.DISCONNECTING;
+  const isLoading = useMemo(() => [STATUSES.LOADING, STATUSES.IDLE].includes(applicationStatus), [applicationStatus]);
+
   return (
     <Stack direction="row" sx={{ flexGrow: 1 }}>
-      <MainNavigation activeSection="scenarios" />
+      <MainNavigation />
       <Stack direction="column" sx={{ flexGrow: 1 }}>
         <BreadcrumbBar />
         <ApplicationErrorBanner />
-        <Outlet />
+        {isAuthenticated && isLoading ? (
+          <Loading />
+        ) : (
+          <>
+            {currentScenario?.data && (
+              <StatusBar
+                status="prerun"
+                size="full"
+                message={t(
+                  'commoncomponents.tabLayout.statusBar.prerun.message',
+                  'This scenario has not been run yet.'
+                )}
+                tooltip={t(
+                  'commoncomponents.tabLayout.statusBar.prerun.message',
+                  'This scenario has not been run yet.'
+                )}
+              />
+            )}
+            <Outlet />
+          </>
+        )}
       </Stack>
     </Stack>
   );

@@ -33,10 +33,10 @@ export const ScenariosListingTable = ({
       onShare={onShareScenario}
       onDelete={onDeleteScenario}
       columns={{
-        name: t('layouts.tabs.scenario.listing.name'),
-        created: t('layouts.tabs.scenario.listing.created'),
-        lastEdited: t('layouts.tabs.scenario.listing.lastEdited'),
-        status: t('layouts.tabs.scenario.listing.status'),
+        name: t('layouts.tabs.scenario.listing.name', 'Scenario Name'),
+        created: t('layouts.tabs.scenario.listing.created', 'Created'),
+        lastEdited: t('layouts.tabs.scenario.listing.lastEdited', 'Last Edited'),
+        status: t('layouts.tabs.scenario.listing.status', 'Status'),
       }}
     />
   );

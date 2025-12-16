@@ -19,12 +19,12 @@ const DRAWER_WIDTH_COLLAPSED = 64;
 const STORAGE_NAV_COLLAPSED_KEY = 'mainNavigationCollapsed';
 
 const NAVIGATION_SECTIONS = [
-  { id: 'data', label: 'Data', icon: Database },
+  { id: 'datasets', label: 'Data', icon: Database },
   { id: 'scenarios', label: 'Scenarios', icon: FolderTree },
   { id: 'scorecard', label: 'Scorecard', icon: ClipboardList },
 ];
 
-export const MainNavigation = ({ onSectionChange, onDrawerWidthChange }) => {
+export const MainNavigation = () => {
   const theme = useTheme();
 
   const {
@@ -79,10 +79,6 @@ export const MainNavigation = ({ onSectionChange, onDrawerWidthChange }) => {
   // drawer width
   const drawerWidth = isCollapsed ? DRAWER_WIDTH_COLLAPSED : DRAWER_WIDTH;
 
-  useEffect(() => {
-    if (onDrawerWidthChange) onDrawerWidthChange(drawerWidth);
-  }, [drawerWidth, onDrawerWidthChange]);
-
   // CSS var for layout
   useEffect(() => {
     if (typeof document !== 'undefined') {
@@ -123,12 +119,11 @@ export const MainNavigation = ({ onSectionChange, onDrawerWidthChange }) => {
           activeSection={activeSection}
           onSectionChange={(sectionId) => {
             setActiveSection(sectionId);
-            onSectionChange?.(sectionId);
             navigate(`/${workspaceId}/${sectionId}`);
           }}
           isCollapsed={isCollapsed}
+          currentWorkspaceId={workspaceId}
         />
-
         <Box
           sx={{
             display: 'flex',
@@ -148,15 +143,12 @@ export const MainNavigation = ({ onSectionChange, onDrawerWidthChange }) => {
               currentWorkspaceId={workspaceId}
             />
           )}
-
           <NavigationSection
             sections={bottomSections}
             activeSection={activeSection}
-            onSectionChange={(sectionId) => {
-              setActiveSection(sectionId);
-              onSectionChange?.(sectionId);
-            }}
+            onSectionChange={setActiveSection}
             isCollapsed={isCollapsed}
+            currentWorkspaceId={workspaceId}
           />
         </Box>
       </>
@@ -170,7 +162,6 @@ export const MainNavigation = ({ onSectionChange, onDrawerWidthChange }) => {
       noScenario,
       bottomSections,
       changeScenario,
-      onSectionChange,
       topSections,
       setActiveSection,
       workspaceId,

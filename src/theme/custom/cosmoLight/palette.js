@@ -68,4 +68,8 @@ export default {
     main: '#FFFFFF',
     contrastText: '#5E5E5E',
   },
+  login: {
+    main: '#FFFFFF',
+    contrastText: '#5E5E5E',
+  },
 };

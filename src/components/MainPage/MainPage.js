@@ -1,12 +1,15 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { PlaySquare, SquarePen, SquarePlus } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Stack, Box, Button } from '@mui/material';
 import { format } from 'date-fns';
+import { useApp } from '../../AppHook';
 import { SubNavigation } from '../../components/Subnavigation/SubNavigation';
+import { STATUSES } from '../../services/config/StatusConstants';
 import { TranslationUtils } from '../../utils';
+import Loading from '../../views/Loading';
 import { useScenario } from '../../views/Scenario/ScenarioHook';
 import { getScenarioManagerLabels } from '../../views/ScenarioManager/labels';
 import { PageHeader } from '../PageHeader';
@@ -18,6 +21,7 @@ export const MainPage = () => {
   const labels = getScenarioManagerLabels(t);
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const { currentScenarioData } = useScenario();
+  const { applicationStatus } = useApp();
 
   const formatDate = (timestamp) => {
     if (!timestamp) return '-';
@@ -28,7 +32,11 @@ export const MainPage = () => {
     }
   };
 
-  return (
+  const isLoading = useMemo(() => [STATUSES.LOADING, STATUSES.IDLE].includes(applicationStatus), [applicationStatus]);
+
+  return isLoading ? (
+    <Loading />
+  ) : (
     <Stack
       direction="column"
       sx={{
@@ -61,7 +69,7 @@ export const MainPage = () => {
             variant="highlighted"
             sx={{ backgroundColor: (theme) => theme.palette.primary.main }}
           >
-            {t('commoncomponents.button.run.scenario.text')}
+            {t('commoncomponents.button.run.scenario.text, Run scenario')}
           </Button>,
           <Button
             key="new"
