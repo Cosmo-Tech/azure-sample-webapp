@@ -3,10 +3,11 @@
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import { Auth } from '@cosmotech/core';
+import { ENV } from './config/EnvironmentVariables';
 import { SESSION_TOKEN_REFRESH_TRESHOLD } from './config/FunctionalConstants';
 
 const getAuthenticationHeaders = async (allowApiKey = false) => {
-  if (allowApiKey && process.env.REACT_APP_API_KEY) return { 'X-CSM-API-KEY': process.env.REACT_APP_API_KEY };
+  if (allowApiKey && ENV.VITE_API_KEY) return { 'X-CSM-API-KEY': ENV.VITE_API_KEY };
 
   let tokens = await Auth.acquireTokens();
   if (tokens?.accessToken) {

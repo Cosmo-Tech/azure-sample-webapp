@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 import globalConfiguration from '../config/GlobalConfiguration.json';
 import helpMenuConfiguration from '../config/HelpMenuConfiguration.json';
+import { ENV } from './config/EnvironmentVariables';
 
 const _initialized = false;
 const parametersValues = {};
@@ -14,8 +15,8 @@ const loadParametersValues = () => {
       if (parametersValues[parameterName] !== undefined) {
         throw new Error(`Error: configuration parameter ${parameterName} is declared twice.`);
       }
-      const envVarName = `REACT_APP_${parameterName}`;
-      parametersValues[parameterName] = process.env[envVarName] ?? parameterValue;
+      const envVarName = `VITE_${parameterName}`;
+      parametersValues[parameterName] = ENV[envVarName] ?? parameterValue;
     });
   });
 };
