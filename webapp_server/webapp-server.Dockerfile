@@ -16,7 +16,9 @@ RUN --mount=type=bind,source=package.json,target=package.json \
 
 FROM install_build_dependencies AS build-universal
 COPY . .
-RUN BUILD_TYPE="universal" yarn build
+ARG VITE_BUILD_NUMBER
+ENV VITE_BUILD_NUMBER=${VITE_BUILD_NUMBER}
+RUN BUILD_TYPE="universal" VITE_BUILD_NUMBER="$VITE_BUILD_NUMBER" yarn buildWithVersion
 
 # ==== Build - "specific" server mode  ====
 
@@ -24,7 +26,9 @@ FROM install_build_dependencies AS build-specific
 COPY . .
 ARG PUBLIC_URL
 ENV PUBLIC_URL=${PUBLIC_URL}
-RUN PUBLIC_URL="$PUBLIC_URL" yarn build
+ARG VITE_BUILD_NUMBER
+ENV VITE_BUILD_NUMBER=${VITE_BUILD_NUMBER}
+RUN PUBLIC_URL="$PUBLIC_URL" VITE_BUILD_NUMBER="$VITE_BUILD_NUMBER" yarn buildWithVersion
 
 
 # ==== Serve - "universal" server mode ====
@@ -54,7 +58,6 @@ FROM node:24-slim AS server-specific
 LABEL com.cosmotech.business-webapp.buildType="specific"
 WORKDIR /webapp
 ENV NODE_ENV=production
-ENV NODE_ENV production
 RUN npm install -g serve@^14.2.5
 
 COPY --from=build-specific /webapp/build ./build
