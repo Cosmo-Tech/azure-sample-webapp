@@ -21,7 +21,7 @@ export const ReuploadFileDatasetButton = ({ confirmAndCallback, dataset, disable
       {iconButton ? (
         <FadingTooltip
           title={t('commoncomponents.datasetmanager.overview.actions.refreshButtonTooltip', 'Refresh')}
-          disableInteractive={true}
+          disableInteractive
         >
           <IconButton
             component="span"

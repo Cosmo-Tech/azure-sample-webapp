@@ -46,9 +46,7 @@ const DescriptionEditor = (props) => {
 
   const editIcon = useMemo(() => {
     if (readOnly || isEditing || !isHovered) return null;
-    return (
-      <EditIcon data-cy="edit-description" sx={{ width: '16px', height: '16px' }} onClick={startEdition}></EditIcon>
-    );
+    return <EditIcon data-cy="edit-description" sx={{ width: '16px', height: '16px' }} onClick={startEdition} />;
   }, [readOnly, isEditing, isHovered, startEdition]);
 
   const description = useMemo(() => {
@@ -63,7 +61,7 @@ const DescriptionEditor = (props) => {
       <TextField
         data-cy="description-textfield"
         variant="outlined"
-        fullWidth={true}
+        fullWidth
         multiline
         value={descriptionText ?? ''}
         onChange={(event) => setDescriptionText(event.target.value)}
@@ -97,9 +95,7 @@ const DescriptionEditor = (props) => {
         data-cy="dataset-metadata-description"
       >
         <Grid container sx={{ flexFlow: 'row nowrap', alignItems: 'center' }}>
-          <MetadataLabel
-            label={t('commoncomponents.datasetmanager.metadata.description', 'Description')}
-          ></MetadataLabel>
+          <MetadataLabel label={t('commoncomponents.datasetmanager.metadata.description', 'Description')} />
           {editIcon}
         </Grid>
         {description}

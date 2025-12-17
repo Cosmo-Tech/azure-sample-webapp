@@ -170,7 +170,7 @@ const Scenario = () => {
 
   const validateButtonTooltipWrapper = (
     <FadingTooltip
-      useSpan={true}
+      useSpan
       title={
         isDirty
           ? t(
@@ -186,7 +186,7 @@ const Scenario = () => {
 
   const rejectButtonTooltipWrapper = (
     <FadingTooltip
-      useSpan={true}
+      useSpan
       title={
         isDirty
           ? t(
@@ -251,7 +251,7 @@ const Scenario = () => {
                       TranslationUtils.getRunTemplateTranslationKey(currentScenarioData.runTemplateId),
                       currentScenarioData.runTemplateName
                     )}
-                    useSpan={true}
+                    useSpan
                     spanProps={{ style: { overflow: 'hidden' } }}
                   >
                     <Typography data-cy="run-template-name" align="center" noWrap color="text.secondary">
@@ -267,7 +267,7 @@ const Scenario = () => {
                   </FadingTooltip>
                   <FadingTooltip
                     title={currentScenarioDatasetName}
-                    useSpan={true}
+                    useSpan
                     spanProps={{ style: { overflow: 'hidden' } }}
                   >
                     <Typography data-cy="dataset-name" align="center" noWrap color="text.secondary">
@@ -284,7 +284,7 @@ const Scenario = () => {
           </Grid>
           <Grid container sx={{ justifyContent: 'flex-end' }} size={3}>
             <Grid sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'flex-end' }}>
-              <CreateScenarioButton disabled={isDirty} onScenarioCreated={onScenarioCreated} isIconButton={true} />
+              <CreateScenarioButton disabled={isDirty} onScenarioCreated={onScenarioCreated} isIconButton />
               <ShareCurrentScenarioButton />
             </Grid>
             {validationAreaDivider}

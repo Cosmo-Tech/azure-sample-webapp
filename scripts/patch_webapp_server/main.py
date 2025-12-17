@@ -190,7 +190,7 @@ def generate_csp_html(csp):
 
 def apply_csp(output_folder, csp_html):
     html_file_path = os.path.join(output_folder, "index.html")
-    pattern = '<meta http-equiv="Content-Security-Policy" content=""/>'
+    pattern = '<meta http-equiv="Content-Security-Policy" content="">'
     find_replace_in_file(html_file_path, pattern, csp_html)
 
 
@@ -233,14 +233,14 @@ def generate_config_values_js(config_values):
 
 def apply_config_values(output_folder, js_env_file_content, public_url=""):
     # Write JS file with config values
-    js_file_path = os.path.join(output_folder, 'static', 'js', 'publicWebappConfig.js')
+    js_file_path = os.path.join(output_folder, 'assets', 'publicWebappConfig.js')
     with open(js_file_path, "w", encoding="utf-8") as f:
         f.write(js_env_file_content)
 
     # Add JS script loading in index.html
     html_file_path = os.path.join(output_folder, 'index.html')
     pattern = '<script id="publicWebappConfigElement"></script>'
-    script_tag = f'<script src="/static/js/publicWebappConfig.js"></script>'
+    script_tag = f'<script src="/assets/publicWebappConfig.js"></script>'
     find_replace_in_file(html_file_path, pattern, script_tag)
 
     # Inject public URL in path of static resources (src="/foo", href="/bar")

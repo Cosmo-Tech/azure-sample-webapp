@@ -185,7 +185,7 @@ const SignIn = ({ logInAction, auth }) => {
         </Grid>
         <Grid sx={{ height: '100%', display: 'flex', flexDirection: 'column' }} size={{ lg: 7, xs: 12 }}>
           <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-            <div className={classes.contentHeader}></div>
+            <div className={classes.contentHeader} />
             <div className={classes.contentBody}>
               <Typography sx={{ mt: 3, color: (theme) => theme.palette.text.primary }} variant="h5">
                 {t('commoncomponents.button.login.regular.login', 'Sign In')}

@@ -87,7 +87,7 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
                 value={titleValue ?? ''}
                 changeTextField={(newValue) => setTitleValue(newValue)}
                 size="medium"
-              ></BasicTextInput>
+              />
             );
           }}
         />
@@ -140,7 +140,7 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
                 changeTextField={(newValue) => setDescriptionValue(newValue)}
                 size="medium"
                 textFieldProps={{ multiline: true, rows: 3 }}
-              ></BasicTextInput>
+              />
             );
           }}
         />

@@ -2,10 +2,10 @@
 // Licensed under the MIT licence.
 import { t } from 'i18next';
 import { takeEvery, select, call, put } from 'redux-saga/effects';
-import { FILE_DATASET_PART_ID_VARTYPE } from '../../../services/config/ApiConstants';
-import DatasetService from '../../../services/dataset/DatasetService';
-import RunnerService from '../../../services/runner/RunnerService';
-import { SecurityUtils } from '../../../utils';
+import { FILE_DATASET_PART_ID_VARTYPE } from 'src/services/config/ApiConstants';
+import DatasetService from 'src/services/dataset/DatasetService';
+import RunnerService from 'src/services/runner/RunnerService';
+import { SecurityUtils } from 'src/utils';
 import { setApplicationErrorMessage } from '../../app/reducers';
 import { setDatasetSecurity } from '../../datasets/reducers';
 import { RUNNER_ACTIONS_KEY } from '../constants';

@@ -121,7 +121,7 @@ export const DatasetList = () => {
         id="dataset-search-bar"
         size="small"
       />
-      <Card variant="outlined" square={true} sx={{ backgroundColor: 'transparent', mt: 1, height: '100%' }}>
+      <Card variant="outlined" square sx={{ backgroundColor: 'transparent', mt: 1, height: '100%' }}>
         <List subheader={datasetListHeader} data-cy="datasets-list" sx={{ height: 'calc(100% - 48px)' }}>
           <Divider />
           <Box sx={{ height: '100%', overflow: 'auto' }}>

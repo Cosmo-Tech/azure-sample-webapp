@@ -94,7 +94,7 @@ const Workspaces = () => {
         {workspacesList?.length === 0 ? (
           <Grid container sx={{ justifyContent: 'center', alignItems: 'center', padding: '18px', height: '90%' }}>
             <Grid data-cy="no-workspace-placeholder" align="center" size={5}>
-              <Typography variant="h3" gutterBottom={true}>
+              <Typography variant="h3" gutterBottom>
                 {labels.titleNoWorkspacePlaceholder}
               </Typography>
               <Typography variant="caption" color="textSecondary" sx={{ display: 'block' }}>
@@ -109,7 +109,7 @@ const Workspaces = () => {
           <Grid container sx={{ justifyContent: 'center', padding: '18px', height: '90%' }}>
             <Grid size={12}>
               {/* Keep Accordion always open while we have only one organization, and reset default cursor */}
-              <Accordion expanded={true} sx={{ '& .MuiAccordionSummary-root:hover': { cursor: 'default !important' } }}>
+              <Accordion expanded sx={{ '& .MuiAccordionSummary-root:hover': { cursor: 'default !important' } }}>
                 <AccordionSummary>
                   <Typography variant="body1">{organizationName}</Typography>
                 </AccordionSummary>

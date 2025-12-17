@@ -34,10 +34,10 @@ const ShareCurrentScenarioButton = () => {
       specificAccessByAgent={accessListSpecific}
       defaultRole={defaultRole}
       defaultAccessScope="Workspace"
-      preventNoneRoleForAgents={true}
+      preventNoneRoleForAgents
       allRoles={rolesLabels}
       allPermissions={permissionsLabels}
-      isIconButton={true}
+      isIconButton
     />
   );
 };

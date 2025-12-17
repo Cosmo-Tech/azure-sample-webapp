@@ -135,14 +135,14 @@ webapps), based on the version number in the [package.json](../package.json) fil
 ```
 
 The npm scripts "start" and "build" in the [package.json](../package.json) file are responsible for setting the
-environment variable `REACT_APP_APP_VERSION`. If you prefer to use the hard-coded value in the configuration file
-instead, then you have to remove the part `REACT_APP_APP_VERSION=$npm_package_version` in the
+environment variable `VITE_APP_VERSION`. If you prefer to use the hard-coded value in the configuration file
+instead, then you have to remove the part `VITE_APP_VERSION=$npm_package_version` in the
 scripts, in the [package.json](../package.json) file. Replace:
 
 ```json
 "scripts": {
-  "start": "cross-env ESLINT_NO_DEV_ERRORS=true REACT_APP_APP_VERSION=$npm_package_version react-app-rewired start",
-  "build": "cross-env DISABLE_ESLINT_PLUGIN=true REACT_APP_APP_VERSION=$npm_package_version react-app-rewired build"
+  "start": "cross-env DISABLE_ESLINT_PLUGIN=true VITE_APP_VERSION=$npm_package_version HOST=localhost vite --open",
+  "build": "cross-env DISABLE_ESLINT_PLUGIN=true VITE_APP_VERSION=$npm_package_version vite build --outDir build --emptyOutDir"
 }
 ```
 
@@ -150,8 +150,8 @@ by:
 
 ```json
 "scripts": {
-  "start": "cross-env ESLINT_NO_DEV_ERRORS=true react-app-rewired start",
-  "build": "cross-env DISABLE_ESLINT_PLUGIN=true react-app-rewired build"
+  "start": "cross-env DISABLE_ESLINT_PLUGIN=true HOST=localhost vite --open",
+  "build": "cross-env DISABLE_ESLINT_PLUGIN=true vite build --outDir build --emptyOutDir"
 }
 ```
 
@@ -162,7 +162,7 @@ These links can be defined in several ways:
 - the most straightforward way is to set the values `ORGANIZATION_URL` and `SUPPORT_URL` in the file
   _src/config/HelpMenuConfiguration.json_
 - for automation purposes, these parameters can be overridden by setting the environment variables
-  `REACT_APP_ORGANIZATION_URL` and `REACT_APP_SUPPORT_URL`
+  `VITE_ORGANIZATION_URL` and `VITE_SUPPORT_URL`
 - finally, values for these links can be **customized for each workspace**, by setting these parameters in the workspace
   data:
 

@@ -1,6 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { delay, put, select, takeLatest } from 'redux-saga/effects';
+import { ENV } from '../../../services/config/EnvironmentVariables';
 import { POWER_BI_INFO_POLLING_DELAY } from '../../../services/config/FunctionalConstants';
 import { STATUSES } from '../../../services/config/StatusConstants';
 import { PowerBIService } from '../../../services/powerbi/PowerBIService';
@@ -8,7 +9,7 @@ import { PowerBIUtils } from '../../../utils';
 import { CHART_ACTIONS_KEY } from '../constants';
 import { setPowerBIEmbedInfo, setUseWebappTheme } from '../reducers';
 
-const IS_POWERBI_POLLING_DISABLED = !!process.env.REACT_APP_NO_POWERBI_POLLING;
+const IS_POWERBI_POLLING_DISABLED = !!ENV.VITE_NO_POWERBI_POLLING;
 const noAccess = {
   accessToken: '',
   reportsInfo: '',
