@@ -6,6 +6,7 @@
 
 
 import os
+import re
 import sys
 import argparse
 import json
@@ -38,6 +39,19 @@ def parse_arguments():
     args = parser.parse_args()
     return args
 
+
+def remove_occurences_in_file(file_path, pattern_to_remove):
+    try:
+        # Note: with inplace=True, standard output is directed to the input file
+        with fileinput.FileInput(file_path, inplace=True, backup='.bak') as file:
+            for line in file:
+                if pattern_to_remove.search(line) is not None:
+                    print(re.sub(pattern_to_remove, "", line), end='')
+                else:
+                    print(line, end='')
+        os.remove(file_path + '.bak')
+    except Exception as e:
+        raise(e)
 
 def find_replace_in_file(file_path, old_value, new_value):
     try:
@@ -190,8 +204,11 @@ def generate_csp_html(csp):
 
 def apply_csp(output_folder, csp_html):
     html_file_path = os.path.join(output_folder, "index.html")
-    pattern = '<meta http-equiv="Content-Security-Policy" content="">'
-    find_replace_in_file(html_file_path, pattern, csp_html)
+    pattern_to_remove_str = '<meta\\ http\\-equiv="Content\\-Security\\-Policy"\\ content=".+">'
+    pattern_to_remove = re.compile(pattern_to_remove_str)
+    pattern_to_replace = '<meta http-equiv="Content-Security-Policy" content="">'
+    remove_occurences_in_file(html_file_path, pattern_to_remove) # Delete existing non-empty CSP elements
+    find_replace_in_file(html_file_path, pattern_to_replace, csp_html)
 
 
 def load_config_values(input_config_folder, env_file):
