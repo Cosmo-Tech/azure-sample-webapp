@@ -85,16 +85,16 @@ export function* createRunner(action) {
       }
     }
 
-    const { data: runnerCreated } = yield call(Api.Runners.createRunner, organizationId, workspaceId, {
+    const { data: createdRunner } = yield call(Api.Runners.createRunner, organizationId, workspaceId, {
       ...runner,
       parametersValues: ApiUtils.formatParametersForApi(runner.parametersValues).parametersValues,
     });
-    const runnerId = runnerCreated.id;
+    const runnerId = createdRunner.id;
     yield put(
       addEtlRunner({
         runner: {
-          ...runnerCreated,
-          parametersValues: ApiUtils.formatParametersFromApi(runnerCreated.parametersValues),
+          ...createdRunner,
+          parametersValues: ApiUtils.formatParametersFromApi(createdRunner.parametersValues),
         },
       })
     );
@@ -110,7 +110,7 @@ export function* createRunner(action) {
     };
     // When creating subdatasets, the runner provided to the createRunner saga contains the id of the **parent dataset**
     // in datasets.bases
-    const baseDatasets = runner.datasets?.bases ?? [];
+    const baseDatasets = createdRunner.datasets?.bases ?? [];
     if (baseDatasets.length > 0) DatasetsUtils.setDatasetOptions(dataset, { parentId: baseDatasets[0] });
     const createdDataset = yield call(createDataset, { dataset, shouldSelectDataset: true });
     const datasetId = createdDataset.id;

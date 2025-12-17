@@ -47,7 +47,7 @@ export const useSubDatasetCreationParameters = () => {
         name: values.name,
         tags: values.tags,
         description: values.description,
-        sourceType,
+        runTemplateId: sourceType,
         datasetList: [parentDatasetId],
       };
       const escapedSourceType = SolutionsUtils.escapeRunTemplateId(sourceType);
