@@ -2,8 +2,6 @@
 // Licensed under the MIT license.
 import '@testing-library/jest-dom';
 
-jest.mock('@mui/styles/makeStyles', () => () => () => ({}));
-jest.mock('@mui/styles/withStyles', () => () => () => ({}));
 jest.mock('src/services/config/EnvironmentVariables.js', () => ({ ENV: {} }));
 
 Object.defineProperty(window, 'crypto', {
