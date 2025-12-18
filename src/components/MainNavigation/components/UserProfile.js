@@ -8,16 +8,16 @@ import { useTheme } from '@mui/material/styles';
 import { DefaultAvatar } from '@cosmotech/ui';
 import { getNavigationItemStyles, getListItemIconStyles, getListItemTextStyles } from '../styles';
 
-export const UserProfile = ({ userName, userEmail, userProfilePic, isCollapsed, onUserMenuClick, isUserMenuOpen }) => {
+export const UserProfile = ({
+  userName,
+  userEmail,
+  userProfilePic,
+  isCollapsed = false,
+  onUserMenuClick,
+  isUserMenuOpen = false,
+}) => {
   const theme = useTheme();
   const navColors = theme.palette ?? {};
-  const truncatedEmail = React.useMemo(() => {
-    if (!userEmail) return 'Anonymous';
-    if (userEmail.length > 25) {
-      return userEmail.substring(0, 22) + '...';
-    }
-    return userEmail;
-  }, [userEmail]);
 
   return (
     <Box
@@ -67,7 +67,7 @@ export const UserProfile = ({ userName, userEmail, userProfilePic, isCollapsed, 
             display: 'flex',
             alignItems: 'center',
             justifyContent: isCollapsed ? 'center' : 'space-between',
-            px: isCollapsed ? 0 : 1.5,
+            px: 0,
             py: 1,
             gap: 1.5,
             flexDirection: isCollapsed ? 'column' : 'row',
@@ -83,7 +83,6 @@ export const UserProfile = ({ userName, userEmail, userProfilePic, isCollapsed, 
               justifyContent: isCollapsed ? 'center' : 'flex-start',
               flexDirection: isCollapsed ? 'column' : 'row',
               borderRadius: isCollapsed ? '50%' : '12px',
-              padding: isCollapsed ? 0 : 1,
             }}
           >
             {userProfilePic ? (
@@ -130,7 +129,7 @@ export const UserProfile = ({ userName, userEmail, userProfilePic, isCollapsed, 
                     textOverflow: 'ellipsis',
                   }}
                 >
-                  {truncatedEmail}
+                  {userEmail}
                 </Typography>
               </Box>
             )}
@@ -169,12 +168,4 @@ UserProfile.propTypes = {
   isCollapsed: PropTypes.bool,
   onUserMenuClick: PropTypes.func,
   isUserMenuOpen: PropTypes.bool,
-};
-
-UserProfile.defaultProps = {
-  userEmail: undefined,
-  userProfilePic: undefined,
-  isCollapsed: false,
-  onUserMenuClick: undefined,
-  isUserMenuOpen: false,
 };

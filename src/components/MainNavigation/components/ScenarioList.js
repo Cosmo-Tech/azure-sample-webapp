@@ -71,9 +71,9 @@ export const ScenarioList = ({
         flex: 1,
         overflowY: 'auto',
         overflowX: 'hidden',
-        px: 2,
+        px: 1,
         minHeight: 0,
-        mb: 0.5,
+        mb: 0,
         '&::-webkit-scrollbar': {
           width: 8,
           border: `1px solid ${navColors.background.background02.main}`,
@@ -90,7 +90,7 @@ export const ScenarioList = ({
         },
       }}
     >
-      <List sx={{ py: 0.5, display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}>
+      <List sx={{ py: 0.5, display: 'flex', flexDirection: 'column', alignItems: 'stretch', gap: 1 }}>
         {scenarioTree.map((scenario) => {
           const depth = getScenarioDepth(scenario, scenarios);
           const isActive = isScenarioActive(scenario.id);
@@ -105,9 +105,10 @@ export const ScenarioList = ({
               onClick={() => handleScenarioClick(scenario.id)}
               sx={{
                 ...getNavigationItemStyles(false),
-                mb: 0.25,
-                minHeight: 36,
-                pl: `${1 + depth * 1}rem`,
+                mb: 0,
+                minHeight: 40,
+                pl: `${2 + depth * 1}rem`,
+                borderRadius: 9999,
                 '&.Mui-selected': {
                   backgroundColor: theme.palette.background.background02.main,
                   color: theme.palette.secondary.main,
@@ -120,6 +121,11 @@ export const ScenarioList = ({
                   color: theme.palette.secondary.main,
                   '& .MuiListItemIcon-root': {
                     color: theme.palette.secondary.main,
+                  },
+                },
+                '&.MuiButtonBase-root': {
+                  '&:active': {
+                    transform: 'none',
                   },
                 },
               }}
@@ -135,12 +141,12 @@ export const ScenarioList = ({
                     flexShrink: 0,
                   }}
                 >
-                  <CornerDownRightIcon size={20} />
+                  <CornerDownRightIcon size={16} />
                 </Box>
               )}
               {!isChild && (
-                <ListItemIcon variant="navigation">
-                  <SquareAsterisk size={20} />
+                <ListItemIcon variant="navigation" sx={{ minWidth: 'auto', mr: 1.5 }}>
+                  <SquareAsterisk size={16} />
                 </ListItemIcon>
               )}
               <ListItemText
@@ -149,6 +155,7 @@ export const ScenarioList = ({
                   variant: isChild ? 'body2' : 'subtitle2',
                   color: 'inherit',
                   noWrap: true,
+                  fontSize: '14px',
                 }}
                 sx={getListItemTextStyles(false)}
               />
