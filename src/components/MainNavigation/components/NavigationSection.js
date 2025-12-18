@@ -12,6 +12,7 @@ export const NavigationSection = ({
   onSectionChange,
   isCollapsed = false,
   currentWorkspaceId,
+  hasActiveScenario = false,
 }) => {
   const navigate = useNavigate();
   const handleSectionClick = (section) => {
@@ -22,13 +23,16 @@ export const NavigationSection = ({
   };
 
   const isSectionActive = (section) => {
+    if (section === 'scenarios' && hasActiveScenario) {
+      return false;
+    }
     return activeSection === section;
   };
 
   return (
     <List
       sx={{
-        px: isCollapsed ? 1 : 2,
+        px: 1,
         py: 0.5,
         flexShrink: 0,
         display: 'flex',
@@ -48,7 +52,7 @@ export const NavigationSection = ({
             sx={getNavigationItemStyles(isCollapsed)}
           >
             <ListItemIcon variant="navigation" sx={getListItemIconStyles(isCollapsed)}>
-              <IconComponent size={20} />
+              <IconComponent size={16} />
             </ListItemIcon>
             <ListItemText
               primary={section.label}
@@ -78,4 +82,5 @@ NavigationSection.propTypes = {
   onSectionChange: PropTypes.func,
   isCollapsed: PropTypes.bool,
   currentWorkspaceId: PropTypes.string.isRequired,
+  hasActiveScenario: PropTypes.bool,
 };
