@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import PropTypes from 'prop-types';
 import { Grid, Button, Typography, Box, Select, MenuItem } from '@mui/material';
 import { styled } from '@mui/material/styles';

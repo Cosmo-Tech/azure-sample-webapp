@@ -5,8 +5,8 @@ import { render } from '@testing-library/react';
 import React from 'react';
 import { useConfirmOnRouteChange } from './RouterHooks';
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
+jest.mock('react-router', () => ({
+  ...jest.requireActual('react-router'),
   useBlocker: () => jest.fn(),
 }));
 

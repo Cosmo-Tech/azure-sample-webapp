@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, useLocation, useMatch, Outlet, useParams, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useMatch, Outlet, useParams, useNavigate } from 'react-router';
 import PropTypes from 'prop-types';
 import { Tabs as MuiTabs, Tab, Box } from '@mui/material';
 import { filterTabsForCurrentWorkspace } from '../../AppLayout';

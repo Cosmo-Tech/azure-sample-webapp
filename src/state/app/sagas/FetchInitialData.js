@@ -1,6 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { matchPath } from 'react-router-dom';
+import { matchPath } from 'react-router';
 import { put, takeEvery, call } from 'redux-saga/effects';
 import ConfigService from '../../../services/ConfigService';
 import { Api } from '../../../services/config/Api';

@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import React from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router';
 import PropTypes from 'prop-types';
 import { STATUSES } from '../../services/config/StatusConstants';
 import { AUTH_STATUS } from '../../state/auth/constants';
