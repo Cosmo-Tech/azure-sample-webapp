@@ -1,3 +1,48 @@
+## **7.0.0-sphinx.1** <sub><sup>2025-12-18</sup></sub>
+
+### BREAKING CHANGES
+
+- removed Rollback button in the dataset manager
+- removed support of "csm simulation run" options in PowerBI dynamic filters
+- replaced Create React App by Vite
+- replaced prefix "REACT_APP\_" of all environment variables by "VITE\_"
+- modified expected format of CSP in config-overrides.js
+- Content Security Policy will now be enabled by default in dev mode
+- breaking changes in workspace configuration (dataset queries for KPI cards and preview tables)
+- breaking changes in solution configuration (dataset queries for dynamic enum values)
+- more breaking changes are expected before the release of the official version 7.0.0
+
+### Features
+
+- add webapp build number in Technical Information dialog
+
+### Bug Fixes
+
+- fix PowerBI reports metadata on initialization
+- fix dataset metadata not correctly updated in Dataset Manager
+
+## **7.0.0-sphinx.0** <sub><sup>2025-11-28</sup></sub>
+
+### BREAKING CHANGES
+
+- drop support of Azure Application Insights
+- drop support of Azure Digital Twin
+- migration to Node 24
+- migration to React 19
+- migration to Material-UI 7
+- migration to Cosmo Tech API v5
+- breaking changes in workspace configuration
+- breaking changes in solution configuration
+- breaking changes for webapp deployment: Azure deployment should still work but it's not officially supported and some features might be broken (e.g. Superset)
+- more breaking changes are expected before the release of the official version 7.0.0
+
+### Features
+
+- authentication with Keycloak
+- on-premises deployment of webapp server & function apps
+- embedded Superset dashboards
+- display Cosmo Tech API version number in Technical Information dialog
+
 ## **7.0.0-beta.0** <sub><sup>2024-10-25 ([2421df6...91153cd](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/2421df66...91153cd6?diff=split))</sup></sub>
 
 ### BREAKING CHANGES
@@ -85,7 +130,6 @@
 ### Documentation
 
 - add documentation for dataset manager overview category details
->>>>>>> main
 
 ## **6.4.1** <sub><sup>2024-10-25 ([faa8584...84b8cc8](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/faa85840...84b8cc82?diff=split))</sup></sub>
 
