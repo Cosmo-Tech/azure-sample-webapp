@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { useCallback, useEffect, useRef } from 'react';
-import { useNavigate, useParams, useBlocker } from 'react-router-dom';
+import { useNavigate, useParams, useBlocker } from 'react-router';
 import { TwoActionsDialogService } from '../services/twoActionsDialog/twoActionsDialogService';
 import { useCurrentSimulationRunnerId, useSelectRunner } from '../state/runner/hooks';
 import { useWorkspaceData } from '../state/workspaces/hooks';

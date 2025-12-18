@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { ResourceUtils, ScenarioUtils } from '@cosmotech/core';
 import { ScenarioManagerTreeList } from '@cosmotech/ui';
 import { LoadingBackdrop } from '../../components';

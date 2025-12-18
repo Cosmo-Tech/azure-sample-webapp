@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import React from 'react';
-import { Navigate, Route, createBrowserRouter, RouterProvider, createRoutesFromElements } from 'react-router-dom';
+import { Navigate, Route, createBrowserRouter, RouterProvider, createRoutesFromElements } from 'react-router';
 import { getAllTabs } from './AppLayout';
 import { UserStatusGate } from './components/UserStatusGate';
 import { TabLayout } from './layouts';

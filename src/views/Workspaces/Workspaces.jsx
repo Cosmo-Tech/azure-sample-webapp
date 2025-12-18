@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import React, { useCallback, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { Grid, Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/material';
 import { ResourceCard } from '@cosmotech/ui';
 import { ApplicationErrorBanner } from '../../components';
