@@ -9,6 +9,7 @@ import {
   useCurrentSimulationRunnerData,
   useSetSimulationRunnerValidationStatus,
   useCurrentSimulationRunnerBaseDatasetIds,
+  useRunners,
 } from '../../state/runner/hooks';
 import { useWorkspaceId } from '../../state/workspaces/hooks';
 
@@ -22,6 +23,7 @@ export const useScenario = () => {
   const workspaceId = useWorkspaceId();
   const datasets = useDatasets();
   const currentSimulationRunnerBaseDatasetIds = useCurrentSimulationRunnerBaseDatasetIds();
+  const scenarios = useRunners();
 
   const { baseDatasets, missingDatasetIds } = useMemo(() => {
     const baseDatasets = datasets.filter((dataset) => currentSimulationRunnerBaseDatasetIds?.includes(dataset.id));
@@ -65,5 +67,6 @@ export const useScenario = () => {
     currentScenarioDatasetName,
     baseDatasets,
     missingDatasetIds,
+    scenarios,
   };
 };
