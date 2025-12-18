@@ -25,6 +25,7 @@ export const SCENARIO_EXAMPLE = {
     parameter: 'D-mockedParameterDataset',
     parameters: null,
   },
+  lastRunInfo: { lastRunId: null, lastRunStatus: 'NotStarted' },
   parametersValues: [],
   lastRun: null,
   parentLastRun: null,
