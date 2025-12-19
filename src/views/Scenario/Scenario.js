@@ -13,6 +13,7 @@ import {
   CreateScenarioButton,
   CurrentScenarioSelector,
 } from '../../components';
+import { PageTabs } from '../../components/PageTabs/PageTabs';
 import { useConfirmOnRouteChange, useRedirectionToScenario } from '../../hooks/RouterHooks';
 import { RUNNER_VALIDATION_STATUS } from '../../services/config/ApiConstants.js';
 import { ACL_PERMISSIONS } from '../../services/config/accessControl';
@@ -57,6 +58,7 @@ const Scenario = () => {
     setScenarioValidationStatus,
     setApplicationErrorMessage,
     currentScenarioDatasetName,
+    scenarios,
   } = useScenario();
 
   // Add accordion expand status in state
@@ -236,10 +238,17 @@ const Scenario = () => {
 
   const validationAreaDivider = showDivider ? <Divider orientation="vertical" flexItem /> : null;
 
+  const [selectedTabIndex, setSelectedTabIndex] = useState(0);
+  const tabs = scenarios.map((scenario) => ({
+    key: scenario.id,
+    label: scenario.name,
+  }));
+
   return (
     <FormProvider {...methods} key={`form-${currentScenarioData?.id}`}>
       <BackdropLoadingScenario />
-      <div data-cy="scenario-view" style={{ paddingTop: '16px', paddingLeft: '8px', paddingRight: '8px' }}>
+      <div data-cy="scenario-view" style={{ paddingLeft: '8px', paddingRight: '8px' }}>
+        <PageTabs tabs={tabs} selectedTabIndex={selectedTabIndex} setSelectedTabIndex={setSelectedTabIndex} />
         <Grid container spacing={2} sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
           <Grid size={4}>
             <Stack>
