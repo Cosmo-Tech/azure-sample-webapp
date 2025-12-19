@@ -1,6 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { Settings, CircleUser, CreditCard, LogOut } from 'lucide-react';
+import { Settings, User, CreditCard, LogOut } from 'lucide-react';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Box, Menu, MenuItem, ListItemIcon, ListItemText, Divider, Typography } from '@mui/material';
@@ -11,7 +11,7 @@ export const UserMenu = ({ anchorEl, open, onClose, userName, userEmail, activeU
   const navColors = theme.palette ?? {};
   const menuItems = [
     { id: 'settings', label: 'Settings', icon: Settings },
-    { id: 'profile', label: 'Profile', icon: CircleUser },
+    { id: 'profile', label: 'Profile', icon: User },
     { id: 'billing', label: 'Billing', icon: CreditCard },
   ];
 
@@ -41,7 +41,9 @@ export const UserMenu = ({ anchorEl, open, onClose, userName, userEmail, activeU
             borderRadius: '4px',
             border: `1px solid ${navColors.background.background02.main}`,
             backgroundColor: navColors.neutral.neutral04.main,
-            minWidth: 240,
+            minWidth: 200,
+            mt: 1,
+            p: 0,
             boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
           },
         },
@@ -50,19 +52,16 @@ export const UserMenu = ({ anchorEl, open, onClose, userName, userEmail, activeU
       <Box
         sx={{
           px: 2,
-          py: 2,
-          mb: 1,
+          pt: 2,
+          pb: 1,
           borderBottom: `1px solid ${navColors.background.background02.main}`,
-          pb: 2,
         }}
       >
         <Typography
           variant="subtitle2"
           sx={{
             color: navColors.secondary.main,
-            mb: 0,
-            fontSize: '14px',
-            fontWeight: 500,
+            mb: 0.5,
           }}
         >
           {userName}
@@ -71,14 +70,13 @@ export const UserMenu = ({ anchorEl, open, onClose, userName, userEmail, activeU
           variant="body2"
           sx={{
             color: navColors.secondary.main,
-            fontSize: '12px',
           }}
         >
           {userEmail || 'Anonymous'}
         </Typography>
       </Box>
 
-      <Box sx={{ py: 0, px: 0, mb: 1 }}>
+      <Box sx={{ py: 1 }}>
         {menuItems.map((item) => {
           const IconComponent = item.icon;
           const isActive = activeUserMenuItem === item.id;
@@ -88,36 +86,24 @@ export const UserMenu = ({ anchorEl, open, onClose, userName, userEmail, activeU
               key={item.id}
               onClick={() => handleMenuAction(item.id)}
               sx={{
-                marginLeft: 1,
-                marginRight: 1,
                 px: 2,
-                py: 1,
-                minHeight: 40,
+                py: 1.25,
+                minHeight: 48,
                 gap: 1.5,
                 color: navColors.secondary.main,
-                borderRadius: 9999,
-                mb: 0.5,
-                backgroundColor: isActive ? navColors.background.background02.main : 'transparent',
+                borderRadius: 0,
+                backgroundColor: isActive ? navColors.neutral.neutral05.main : navColors.neutral.neutral04.main,
                 '&:hover': {
-                  backgroundColor: navColors.background.background02.main,
-                },
-                '&.MuiButtonBase-root': {
-                  '&:active': {
-                    transform: 'none',
-                  },
-                },
-                '&:last-child': {
-                  mb: 0,
+                  backgroundColor: navColors.neutral.neutral05.main,
                 },
               }}
             >
               <ListItemIcon
                 sx={{
-                  minWidth: 'auto',
+                  minWidth: 24,
                   color: navColors.secondary.main,
                   display: 'flex',
                   justifyContent: 'center',
-                  mr: 1.5,
                 }}
               >
                 <IconComponent size={16} />
@@ -125,64 +111,50 @@ export const UserMenu = ({ anchorEl, open, onClose, userName, userEmail, activeU
               <ListItemText
                 primary={item.label}
                 primaryTypographyProps={{
-                  variant: 'body2',
+                  variant: 'subtitle2',
                   color: navColors.secondary.main,
-                  fontSize: '14px',
                 }}
-                sx={{ m: 0 }}
               />
             </MenuItem>
           );
         })}
       </Box>
 
-      <Divider sx={{ borderColor: navColors.background.background02.main, my: 1 }} />
+      <Divider sx={{ borderColor: navColors.background.background02.main }} />
 
-      <Box sx={{ px: 0 }}>
-        <MenuItem
-          variant="navigation"
-          onClick={() => handleMenuAction('logout')}
+      <MenuItem
+        variant="navigation"
+        onClick={() => handleMenuAction('logout')}
+        sx={{
+          px: 2,
+          py: 1.25,
+          minHeight: 48,
+          gap: 1.5,
+          color: navColors.secondary.main,
+          borderRadius: 0,
+          '&:hover': {
+            backgroundColor: navColors.neutral.neutral05.main,
+          },
+        }}
+      >
+        <ListItemIcon
           sx={{
-            marginLeft: 1,
-            marginRight: 1,
-            px: 2,
-            py: 1,
-            minHeight: 40,
-            gap: 1.5,
+            minWidth: 24,
             color: navColors.secondary.main,
-            borderRadius: 0,
-            '&:hover': {
-              backgroundColor: navColors.background.background02.main,
-            },
-            '&.MuiButtonBase-root': {
-              '&:active': {
-                transform: 'none',
-              },
-            },
+            display: 'flex',
+            justifyContent: 'center',
           }}
         >
-          <ListItemIcon
-            sx={{
-              minWidth: 'auto',
-              color: navColors.secondary.main,
-              display: 'flex',
-              justifyContent: 'center',
-              mr: 1.5,
-            }}
-          >
-            <LogOut size={16} />
-          </ListItemIcon>
-          <ListItemText
-            primary="Log out"
-            primaryTypographyProps={{
-              variant: 'body2',
-              color: navColors.secondary.main,
-              fontSize: '14px',
-            }}
-            sx={{ m: 0 }}
-          />
-        </MenuItem>
-      </Box>
+          <LogOut size={16} />
+        </ListItemIcon>
+        <ListItemText
+          primary="Log out"
+          primaryTypographyProps={{
+            variant: 'subtitle2',
+            color: navColors.secondary.main,
+          }}
+        />
+      </MenuItem>
     </Menu>
   );
 };
@@ -195,4 +167,11 @@ UserMenu.propTypes = {
   userEmail: PropTypes.string,
   activeUserMenuItem: PropTypes.string,
   onMenuAction: PropTypes.func,
+};
+
+UserMenu.defaultProps = {
+  anchorEl: null,
+  userEmail: undefined,
+  activeUserMenuItem: undefined,
+  onMenuAction: undefined,
 };

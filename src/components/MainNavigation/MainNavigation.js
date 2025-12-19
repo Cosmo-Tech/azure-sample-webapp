@@ -1,6 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { ArrowLeftToLine, ArrowRightFromLine, Database, FolderTree, ClipboardList } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Database, FolderTree, ClipboardList } from 'lucide-react';
 import React, { useMemo, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -123,7 +123,6 @@ export const MainNavigation = () => {
           }}
           isCollapsed={isCollapsed}
           currentWorkspaceId={workspaceId}
-          hasActiveScenario={currentScenarioData?.id != null}
         />
         <Box
           sx={{
@@ -222,13 +221,14 @@ export const MainNavigation = () => {
               objectFit: 'contain',
             }}
           />
-        </Box>{' '}
+        </Box>
+
         <IconButton
           onClick={() => setIsCollapsed(!isCollapsed)}
           size="small"
           sx={{
             position: isCollapsed ? 'relative' : 'absolute',
-            right: isCollapsed ? 0 : 16,
+            right: isCollapsed ? 0 : 2,
             color: navColors.text,
             marginLeft: isCollapsed ? 0 : 4,
             '&:hover': {
@@ -236,7 +236,7 @@ export const MainNavigation = () => {
             },
           }}
         >
-          {isCollapsed ? <ArrowRightFromLine size={18} /> : <ArrowLeftToLine size={18} />}
+          {isCollapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
         </IconButton>
       </Box>
 

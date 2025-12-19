@@ -1,9 +1,10 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Box } from '@mui/material';
+import CreateNewScenarioModal from '../CreateNewScenarioModal/CreateNewScenarioModal';
 import { ListingEmpty, ListingHeader } from '../ListingData';
 import { ScenariosListingTable } from './components';
 
@@ -18,6 +19,10 @@ export const ScenarioListing = ({
   const isEmpty = scenarios?.length === 0;
   const { t } = useTranslation();
 
+  const [scenarioModalOpen, setScenarioModalOpen] = useState(false);
+  const handleOpenScenarioModal = () => setScenarioModalOpen(true);
+  const handleCloseScenarioModal = () => setScenarioModalOpen(false);
+
   return (
     <Box
       sx={{
@@ -30,7 +35,7 @@ export const ScenarioListing = ({
         title={t('layouts.tabs.scenario.tab.title', 'Scenarios')}
         subtitle={t('layouts.tabs.scenario.tab.description, ', 'Create, edit, share and delete your scenarios')}
         buttonLabel={t('layouts.tabs.scenario.tab.create', 'Create Scenario')}
-        onButtonClick={onCreateScenario}
+        onButtonClick={handleOpenScenarioModal}
       />
       <Box
         sx={{
@@ -49,7 +54,7 @@ export const ScenarioListing = ({
               'There are no scenarios yet. If you have a dataset you can create a new scenario.'
             )}
             buttonLabel={t('layouts.tabs.scenario.tab.create', 'Create Scenario')}
-            onButtonClick={onCreateScenario}
+            onButtonClick={handleOpenScenarioModal}
           />
         ) : (
           <ScenariosListingTable
@@ -61,6 +66,7 @@ export const ScenarioListing = ({
           />
         )}
       </Box>
+      <CreateNewScenarioModal open={scenarioModalOpen} onClose={handleCloseScenarioModal} onSubmit={onCreateScenario} />
     </Box>
   );
 };

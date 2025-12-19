@@ -947,6 +947,10 @@
           "emptyStateTitle": "It's looking a bit empty here",
           "create": "Create Scenario"
         },
+        "scenariomodal": {
+          "fromDataset": "From Dataset (creates a master scenario)",
+          "fromScenario": "From Scenario (creates a sub scenario)"
+        },
         "listing": {
           "name": "Scenario Name",
           "created": "Created",
