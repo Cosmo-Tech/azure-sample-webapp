@@ -6,6 +6,7 @@ import authReducer from './auth/reducers';
 import chartsReducer from './charts/reducers';
 import datasetTwingraphQueriesResultsReducer from './datasetTwingraph/reducers';
 import datasetsReducer from './datasets/reducers';
+import mainNavigationReducer from './mainNavigation/reducers';
 import organizationReducer from './organizations/reducers';
 import runnerReducer from './runner/reducers';
 import solutionReducer from './solutions/reducers';
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   organization: organizationReducer,
   solution: solutionReducer,
   charts: chartsReducer,
+  mainNavigation: mainNavigationReducer,
 });
 
 export default rootReducer;

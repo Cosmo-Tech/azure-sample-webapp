@@ -34,6 +34,8 @@ export const KPIGroup = ({ items, showControls = true, status = '', background, 
                 comparison={item.comparison}
                 comparisonColor={item.comparisonColor}
                 scenarioName={item.scenarioName}
+                currency={item.currency}
+                currencyPosition={item.currencyPosition}
                 background={background}
                 border={border}
               />
@@ -96,6 +98,8 @@ KPIGroup.propTypes = {
       comparison: PropTypes.string,
       comparisonColor: PropTypes.oneOf(['positive', 'negative', 'neutral']),
       scenarioName: PropTypes.string,
+      currency: PropTypes.string,
+      currencyPosition: PropTypes.oneOf(['before', 'after']),
     })
   ).isRequired,
   showControls: PropTypes.bool,

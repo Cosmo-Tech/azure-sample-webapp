@@ -5,7 +5,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, AppBar as MuiAppBar, Toolbar } from '@mui/material';
 import { StatusBar } from '../';
-import { ThemeSwitch } from './components';
 
 export const AppBar = ({ children, currentScenario }) => {
   return (
@@ -26,7 +25,6 @@ export const AppBar = ({ children, currentScenario }) => {
         <Button sx={{ ml: 1 }} variant="copilot" state="enabled" startIcon={<Bot />}>
           CoPilot
         </Button>
-        <ThemeSwitch />
         <Button
           sx={{ ml: 1, backgroundColor: (theme) => theme.palette.neutral.neutral04.main }}
           variant="default"

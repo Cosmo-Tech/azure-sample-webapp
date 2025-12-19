@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 import { CornerDownRightIcon, SquareAsterisk } from 'lucide-react';
 import React, { useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Box, List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
@@ -38,24 +37,10 @@ const buildScenarioTree = (scenarios) => {
   return traverse(null);
 };
 
-export const ScenarioList = ({
-  disabled,
-  scenarios,
-  activeScenarioId,
-  onScenarioChange,
-  isCollapsed,
-  currentWorkspaceId,
-}) => {
+export const ScenarioList = ({ disabled, scenarios, activeScenarioId, onScenarioChange, isCollapsed }) => {
   const theme = useTheme();
   const navColors = theme.palette ?? {};
   const scenarioTree = useMemo(() => buildScenarioTree(scenarios), [scenarios]);
-  const navigate = useNavigate();
-  const handleScenarioClick = (scenarioId) => {
-    if (onScenarioChange) {
-      onScenarioChange(scenarioId);
-      navigate(`/${currentWorkspaceId}/scenario/${scenarioId}`);
-    }
-  };
 
   const isScenarioActive = (scenarioId) => {
     return activeScenarioId === scenarioId;
@@ -102,7 +87,7 @@ export const ScenarioList = ({
               selected={isActive}
               variant="navigation"
               key={scenario.id}
-              onClick={() => handleScenarioClick(scenario.id)}
+              onClick={() => onScenarioChange?.(scenario.id)}
               sx={{
                 ...getNavigationItemStyles(false),
                 mb: 0.25,
@@ -172,5 +157,4 @@ ScenarioList.propTypes = {
   activeScenarioId: PropTypes.string,
   onScenarioChange: PropTypes.func,
   isCollapsed: PropTypes.bool,
-  currentWorkspaceId: PropTypes.string,
 };

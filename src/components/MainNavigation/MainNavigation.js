@@ -7,8 +7,8 @@ import PropTypes from 'prop-types';
 import { Box, Drawer, IconButton } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import ConfigService from '../../services/ConfigService';
+import { useMainNavigation } from '../../state/mainNavigation/hooks';
 import { pictureDark, pictureLight } from '../../theme';
-import { useMainNavigation } from './MainNavigationHook';
 import { NavigationSection } from './components/NavigationSection';
 import { ScenarioList } from './components/ScenarioList';
 import { UserMenu } from './components/UserMenu';
@@ -39,7 +39,6 @@ export const MainNavigation = () => {
     userProfilePic,
     isDarkTheme,
     activeSection,
-    setActiveSection,
   } = useMainNavigation();
 
   const [isCollapsed, setIsCollapsed] = useState(localStorage.getItem(STORAGE_NAV_COLLAPSED_KEY) === 'true');
@@ -118,7 +117,6 @@ export const MainNavigation = () => {
           sections={topSections}
           activeSection={activeSection}
           onSectionChange={(sectionId) => {
-            setActiveSection(sectionId);
             navigate(`/${workspaceId}/${sectionId}`);
           }}
           isCollapsed={isCollapsed}
@@ -138,17 +136,22 @@ export const MainNavigation = () => {
               disabled={isSwitchingScenario || noScenario}
               scenarios={sortedScenarioList}
               activeScenarioId={currentScenarioData?.id}
-              onScenarioChange={changeScenario}
               isCollapsed={isCollapsed}
               currentWorkspaceId={workspaceId}
+              onScenarioChange={(scenarioId) => {
+                changeScenario(scenarioId);
+                navigate(`/${workspaceId}/${activeSection}/${scenarioId}`);
+              }}
             />
           )}
           <NavigationSection
             sections={bottomSections}
             activeSection={activeSection}
-            onSectionChange={setActiveSection}
             isCollapsed={isCollapsed}
             currentWorkspaceId={workspaceId}
+            onSectionChange={(sectionId) => {
+              navigate(`/${workspaceId}/${sectionId}`);
+            }}
           />
         </Box>
       </>
@@ -163,7 +166,6 @@ export const MainNavigation = () => {
       bottomSections,
       changeScenario,
       topSections,
-      setActiveSection,
       workspaceId,
       navigate,
     ]

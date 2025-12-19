@@ -73,6 +73,7 @@ export const SubNavigation = (props) => {
               mr: '8px',
               minHeight: 0,
               borderRadius: '32px',
+              color: 'secondary.main',
               backgroundColor: 'neutral.neutral04.main',
               textTransform: 'none',
               '&:hover': {
@@ -80,6 +81,11 @@ export const SubNavigation = (props) => {
                 '& .MuiTab-iconWrapper': {
                   backgroundColor: 'neutral.neutral03.main',
                   color: 'neutral.neutral04.main',
+                },
+              },
+              '&.Mui-disabled': {
+                '& .MuiTab-iconWrapper': {
+                  opacity: 0.5,
                 },
               },
               '&.Mui-selected': {

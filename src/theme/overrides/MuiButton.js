@@ -38,6 +38,11 @@ export default function MuiButton(theme) {
           height: 36,
           gap: iconOnly ? 0 : '8px',
 
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          maxWidth: '100%',
+
           '& svg': {
             width: 16,
             height: 16,

@@ -23,7 +23,7 @@ export default {
 };
 
 const Template = (args) => (
-  <div style={{ padding: '24px' }}>
+  <div style={{ padding: '24px', backgroundColor: '#F4F6F8' }}>
     <PageHeader {...args} />
   </div>
 );
