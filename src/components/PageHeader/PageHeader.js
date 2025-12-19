@@ -26,6 +26,7 @@ export const PageHeader = ({
                 fontWeight: 700,
                 fontSize: 26,
                 color: theme.palette.secondary.main,
+                lineHeight: 1.2,
               }}
             >
               {title}

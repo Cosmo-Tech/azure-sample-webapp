@@ -3,7 +3,7 @@
 
 export const getCosmoButtonVariants = (palette) => {
   const COLOR = {
-    white: palette.background.background01.main,
+    white: palette.neutral.neutral04.main,
     yellow: palette.primary.main,
     grey01: palette.secondary.main,
     grey02: palette.neutral.neutral01.main,
@@ -34,7 +34,7 @@ export const getCosmoButtonVariants = (palette) => {
         bg: COLOR.white,
         text: COLOR.grey01,
         icon: COLOR.grey01,
-        border: COLOR.grey05,
+        border: 'none',
       },
       ...BASE_STATES,
     },

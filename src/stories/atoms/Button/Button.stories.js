@@ -37,9 +37,20 @@ export default {
 };
 
 const Template = ({ label, variant, state, icon: Icon, onClick }) => (
-  <Button variant={variant} state={state} iconOnly={!label} startIcon={Icon ? <Icon /> : null} onClick={onClick}>
-    {label}
-  </Button>
+  <div
+    style={{
+      backgroundColor: '#F4F6F8',
+      height: '100vh',
+      width: '800px',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    }}
+  >
+    <Button variant={variant} state={state} iconOnly={!label} startIcon={Icon ? <Icon /> : null} onClick={onClick}>
+      {label}
+    </Button>
+  </div>
 );
 
 export const Default = Template.bind({});

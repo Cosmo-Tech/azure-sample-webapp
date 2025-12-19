@@ -69,7 +69,7 @@ export const MainPage = () => {
             variant="highlighted"
             sx={{ backgroundColor: (theme) => theme.palette.primary.main }}
           >
-            {t('commoncomponents.button.run.scenario.text, Run scenario')}
+            {t('commoncomponents.button.run.scenario.text', 'Run scenario')}
           </Button>,
           <Button
             key="new"

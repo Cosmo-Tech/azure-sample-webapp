@@ -1,8 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import React from 'react';
+import { MainPage } from './components/MainPage/MainPage';
 import { ConfigUtils } from './utils';
-import { Dashboards, Instance, ScenarioManager, Scenario, ScenariosListingView, DatasetListingView } from './views';
+import { Dashboards, Instance, ScenarioManager, ScenariosListingView, DatasetListingView } from './views';
 
 const DEFAULT_TABS = [
   {
@@ -14,7 +15,7 @@ const DEFAULT_TABS = [
     key: 'tabs.scenario.key',
     label: 'layouts.tabs.scenario.tab.title',
     to: 'scenario',
-    render: <Scenario />,
+    render: <MainPage />,
   },
   {
     key: 'tabs.datasetListing.key',

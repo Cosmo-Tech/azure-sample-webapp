@@ -5,7 +5,18 @@ import PropTypes from 'prop-types';
 import { Box, Typography, Stack } from '@mui/material';
 import { ComparisonPill } from './ComparisonPill';
 
-export const KPIBox = ({ title, value, comparison, scenarioName, children, comparisonColor, background, border }) => {
+export const KPIBox = ({
+  title,
+  value,
+  comparison,
+  scenarioName,
+  children,
+  comparisonColor,
+  background,
+  border,
+  currency,
+  currencyPosition = 'after',
+}) => {
   return (
     <Box
       sx={{
@@ -15,31 +26,48 @@ export const KPIBox = ({ title, value, comparison, scenarioName, children, compa
         borderRadius: '4px',
         border: border ? (theme) => `1px solid ${theme.palette.background.background02.main}` : 'none',
         padding: 1,
+        overflow: 'hidden',
       }}
     >
       <Stack spacing={1}>
-        <Typography
-          variant="body2"
-          sx={{ fontWeight: 600, color: (theme) => theme.palette.secondary.main, fontSize: 12 }}
-        >
-          {title}
-        </Typography>
-
-        <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
+        <Stack direction="row" spacing={0.5} alignItems="center">
           <Typography
-            variant="h5"
+            variant="body2"
             sx={{
               fontWeight: 600,
-              fontSize: 32,
               color: (theme) => theme.palette.secondary.main,
+              fontSize: 12,
             }}
           >
-            {value}
+            {title}
           </Typography>
-
-          {comparison !== undefined && <ComparisonPill value={comparison} colorMode={comparisonColor} />}
         </Stack>
 
+        <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
+          <Stack direction={currencyPosition === 'after' ? 'row-reverse' : 'row'} alignItems="center">
+            <Typography
+              component="span"
+              sx={{
+                fontSize: 24,
+                fontWeight: 600,
+                color: (theme) => theme.palette.secondary.main,
+              }}
+            >
+              {currency}
+            </Typography>
+            <Typography
+              variant="h5"
+              sx={{
+                fontWeight: 600,
+                fontSize: 32,
+                color: (theme) => theme.palette.secondary.main,
+              }}
+            >
+              {value}
+            </Typography>
+          </Stack>
+          {comparison !== undefined && <ComparisonPill value={comparison} colorMode={comparisonColor} />}
+        </Stack>
         {scenarioName && (
           <Typography
             variant="caption"
@@ -71,4 +99,7 @@ KPIBox.propTypes = {
   comparisonColor: PropTypes.oneOf(['positive', 'negative', 'neutral']),
   background: PropTypes.string,
   border: PropTypes.bool,
+
+  currency: PropTypes.string,
+  currencyPosition: PropTypes.oneOf(['before', 'after']),
 };

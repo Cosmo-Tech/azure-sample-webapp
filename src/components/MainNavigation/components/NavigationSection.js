@@ -1,29 +1,12 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { getNavigationItemStyles, getListItemIconStyles, getListItemTextStyles } from '../styles';
 
-export const NavigationSection = ({
-  sections,
-  activeSection,
-  onSectionChange,
-  isCollapsed = false,
-  currentWorkspaceId,
-}) => {
-  const navigate = useNavigate();
-  const handleSectionClick = (section) => {
-    if (onSectionChange) {
-      onSectionChange(section);
-      navigate(`/${currentWorkspaceId}/${section}`);
-    }
-  };
-
-  const isSectionActive = (section) => {
-    return activeSection === section;
-  };
+export const NavigationSection = ({ sections, activeSection, onSectionChange, isCollapsed = false }) => {
+  const isSectionActive = (sectionId) => activeSection === sectionId;
 
   return (
     <List
@@ -39,12 +22,13 @@ export const NavigationSection = ({
     >
       {sections.map((section) => {
         const IconComponent = section.icon;
+
         return (
           <ListItemButton
-            variant="navigation"
             key={section.id}
+            variant="navigation"
             selected={isSectionActive(section.id)}
-            onClick={() => handleSectionClick(section.id)}
+            onClick={() => onSectionChange?.(section.id)}
             sx={getNavigationItemStyles(isCollapsed)}
           >
             <ListItemIcon variant="navigation" sx={getListItemIconStyles(isCollapsed)}>
@@ -77,5 +61,4 @@ NavigationSection.propTypes = {
   activeSection: PropTypes.string,
   onSectionChange: PropTypes.func,
   isCollapsed: PropTypes.bool,
-  currentWorkspaceId: PropTypes.string.isRequired,
 };
