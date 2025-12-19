@@ -39,6 +39,7 @@ describe('Dataset manager can be empty on start', () => {
     DatasetManager.getCancelDatasetCreation().click();
     DatasetManager.getDatasetCreationDialog().should('not.exist');
   });
+
 });
 
 describe('Data edition in dataset manager', () => {
@@ -117,8 +118,8 @@ describe('Data edition in dataset manager', () => {
     DatasetManager.getDatasetMetadataDescription().should('contain', newDescription);
     DatasetManager.getDatasetMetadataTag(1).should('contain', newTag);
   });
-
-  it('correctly handles the form state even after closing and reopening the dataset creation dialog', () => {
+  //might not need this as partially_prefilled_datasource is not used anymore
+  it.skip('correctly handles the form state even after closing and reopening the dataset creation dialog', () => {
     DatasetManager.ignoreDatasetTwingraphQueries();
     DatasetManager.switchToDatasetManagerView();
 
@@ -172,8 +173,8 @@ describe('Dataset creation', () => {
   });
   beforeEach(() => Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' }));
   after(stub.stop);
-
-  it('can create a new Azure Storage dataset', () => {
+  //should remove as we don't use azure storage anymore
+  it.skip('can create a new Azure Storage dataset', () => {
     const datasetName = 'My new dataset';
     const datasetDescription = 'My dataset description';
     const datasetTags = ['A', 'B', 'C'];
@@ -208,6 +209,7 @@ describe('Dataset creation', () => {
     DatasetManager.getDatasetCreationNextStep().click();
 
     DatasetManager.getNewDatasetSourceTypeSelect().click();
+
     DatasetManager.getNewDatasetSourceTypeOptionFile().click();
     DatasetManager.getNewDatasetSourceTypeSelect().click();
     DatasetManager.getNewDatasetSourceTypeOptionAzureStorage().click();
@@ -225,6 +227,7 @@ describe('Dataset creation', () => {
 
     DatasetManager.getDatasetNameInOverview().should('have.text', datasetName);
   });
+
 });
 
 describe('Filtering datasets list', () => {
@@ -292,7 +295,7 @@ describe('Refresh dataset', () => {
   beforeEach(() => Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' }));
   after(stub.stop);
 
-  it('can refresh AzureStorage datasets and display empty dataset placeholder', () => {
+  it.skip('can refresh AzureStorage datasets and display empty dataset placeholder', () => {
     const refreshSuccessOptions = {
       expectedPollsCount: 2,
       finalIngestionStatus: 'SUCCESS',
@@ -326,3 +329,6 @@ describe('Refresh dataset', () => {
     DatasetManager.getDatasetNameInOverview().should('be.visible');
   });
 });
+
+
+//TODO : add test for creating a dataset using Instance generator

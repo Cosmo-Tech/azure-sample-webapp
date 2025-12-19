@@ -110,7 +110,7 @@ export const DatasetList = () => {
     },
     [getDatasetRunnerStatus]
   );
-
+  console.log(displayedDatasetList);
   return (
     <Root>
       <SearchBar
