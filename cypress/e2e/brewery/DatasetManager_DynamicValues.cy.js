@@ -24,7 +24,7 @@ describe('Subdatasets creation', () => {
     const DATASET_A = DATASETS[0];
     const enumParameterSelector = '[data-cy=enum-input-select-etl_dynamic_values_enum_parameter]';
     const enumOption2Selector = '[data-cy="Dynamic value 2"]';
-    const selectorForAllEnumOptions = '[data-cy^="Dynamic value"]';
+    const selectorForAllEnumOptions = '[data-cy="Dynamic value"]';
 
     const validateRequest = (req) =>
       expect(req.body).to.deep.equal({ query: 'MATCH(n:Customer) RETURN n.id as customer_id' });

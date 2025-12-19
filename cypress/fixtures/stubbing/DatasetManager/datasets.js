@@ -37,12 +37,21 @@ const FILE_DATASET_NON_MAIN = {
 
 const ETL_DATASET = {
   ...EDITABLE_DATASET,
-  additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
+  additionalData: {
+    webapp: {
+      visible: {
+        datasetManager: true,
+        scenarioCreation: true,
+      },
+      sourceType: 'ETL',
+      runnerId: 'r-stbdrnr1',
+    }
+  },
   id: 'D-stbdataset13',
   parentId: 'D-stbdataset2',
   name: 'Dataset ETL',
   description: 'ETL dataset',
-  sourceType: 'ETL',
+
   source: {
     location: 'W-stbbdbrwry',
     name: 'r-stbdrnr1',
@@ -54,7 +63,16 @@ const ETL_DATASET = {
 
 const SUBDATASET = {
   ...EDITABLE_DATASET,
-  additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
+  additionalData: {
+    webapp: {
+      sourceType: 'Subdataset run template with static filter',
+      runnerId: 'r-stbdrnr1',
+      visible: {
+        datasetManager: true,
+        scenarioCreation: true
+      }
+    }
+  },
   id: 'D-stbdataset14',
   name: 'Subdataset',
   description: 'ETL dataset',
