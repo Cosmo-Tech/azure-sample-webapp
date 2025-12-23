@@ -1,40 +1,40 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { TriangleAlert, Lock, CircleHelp, CircleCheck, CircleX } from 'lucide-react';
 import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Box, Stack, Tooltip, Typography, useTheme } from '@mui/material';
+import { Icon } from '../Icon';
 
 const STATUS_CONFIG = (theme) => ({
   valid: {
     label: 'Valid',
     bg: theme.palette.neutral.neutral08.main,
     text: theme.palette.status.success.main,
-    icon: <CircleCheck size={16} color={theme.palette.status.success.main} />,
+    icon: <Icon name="CircleCheck" size={16} color={theme.palette.status.success.main} />,
   },
   invalid: {
     label: 'Invalid',
     bg: theme.palette.status.error.background,
     text: theme.palette.status.error.main,
-    icon: <TriangleAlert size={16} color={theme.palette.status.error.main} />,
+    icon: <Icon name="TriangleAlert" size={16} color={theme.palette.status.error.main} />,
   },
   edited: {
     label: 'Edited',
     bg: theme.palette.status.warning.background,
     text: theme.palette.status.warning.main,
-    icon: <TriangleAlert size={16} color={theme.palette.status.warning.main} />,
+    icon: <Icon name="TriangleAlert" size={16} color={theme.palette.status.warning.main} />,
   },
   prerun: {
     label: 'Pre-run',
     bg: theme.palette.status.information.background,
     text: theme.palette.status.information.main,
-    icon: <TriangleAlert size={16} color={theme.palette.status.information.main} />,
+    icon: <Icon name="TriangleAlert" size={16} color={theme.palette.status.information.main} />,
   },
   locked: {
     label: 'Locked',
     bg: theme.palette.background.background02.main,
     text: theme.palette.neutral.neutral02.main,
-    icon: <Lock size={16} color={theme.palette.neutral.neutral02.main} />,
+    icon: <Icon name="Lock" size={16} color={theme.palette.neutral.neutral02.main} />,
   },
 });
 
@@ -130,13 +130,13 @@ const StatusBar = ({ status, size, message, tooltip, onClose }) => {
           }}
         >
           <span style={{ marginLeft: size === 'small' ? 8 : 0, display: 'flex', alignItems: 'center', width: 12 }}>
-            <CircleHelp size={12} color={theme.palette.secondary.main} />
+            <Icon name="CircleHelp" size={12} color={theme.palette.secondary.main} />
           </span>
         </Tooltip>
       </Stack>
       {onClose && (
         <Box onClick={onCloseClick} sx={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
-          <CircleX size={16} color={statusConfig.text} />
+          <Icon name="CircleX" size={16} color={statusConfig.text} />
         </Box>
       )}
     </Box>
