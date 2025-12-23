@@ -14,8 +14,12 @@ const config = {
     options: {},
   },
 
+  features: {
+    emotionAlias: false,
+  },
+
   docs: {
-    autodocs: true,
+    autodocs: false,
   },
 
   staticDirs: ['../public'],

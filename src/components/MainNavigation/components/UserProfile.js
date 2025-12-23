@@ -1,11 +1,11 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { HelpCircle, MoreVertical } from 'lucide-react';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Box, Avatar, IconButton, Typography, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { DefaultAvatar } from '@cosmotech/ui';
+import { Icon } from '../../Icon';
 import { getNavigationItemStyles, getListItemIconStyles, getListItemTextStyles } from '../styles';
 
 export const UserProfile = ({ userName, userEmail, userProfilePic, isCollapsed, onUserMenuClick, isUserMenuOpen }) => {
@@ -40,7 +40,7 @@ export const UserProfile = ({ userName, userEmail, userProfilePic, isCollapsed, 
         }}
       >
         <ListItemIcon variant="navigation" sx={getListItemIconStyles(isCollapsed)}>
-          <HelpCircle size={20} />
+          <Icon name="HelpCircle" size={20} />
         </ListItemIcon>
         <ListItemText
           primary="Help & Documentation"
@@ -153,7 +153,7 @@ export const UserProfile = ({ userName, userEmail, userProfilePic, isCollapsed, 
                 },
               }}
             >
-              <MoreVertical size={20} />
+              <Icon name="MoreVertical" size={20} />
             </IconButton>
           )}
         </Box>

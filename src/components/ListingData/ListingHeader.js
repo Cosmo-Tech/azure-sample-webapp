@@ -1,9 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { SquarePlus } from 'lucide-react';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Box, Typography, Button, useTheme } from '@mui/material';
+import { Icon } from '../Icon';
 
 export const ListingHeader = ({ title, subtitle, buttonLabel, onButtonClick }) => {
   const theme = useTheme();
@@ -37,7 +37,7 @@ export const ListingHeader = ({ title, subtitle, buttonLabel, onButtonClick }) =
         </Typography>
       </Box>
 
-      <Button variant="highlighted" startIcon={<SquarePlus size={16} />} onClick={onButtonClick}>
+      <Button variant="highlighted" startIcon={<Icon name="SquarePlus" size={16} />} onClick={onButtonClick}>
         {buttonLabel}
       </Button>
     </Box>
