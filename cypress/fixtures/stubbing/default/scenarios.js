@@ -39,6 +39,11 @@ export const DEFAULT_SCENARIOS_LIST = [
     ...SCENARIO_EXAMPLE,
     id: 'r-stubbedscnr01',
     name: 'Test Cypress - Stubbed scenario 1',
+    datasets: {
+      bases: ['D-stbdefault'],
+      parameter: 'D-mockedParameterDataset',
+      parameters: null,
+    },
   },
   {
     ...SCENARIO_EXAMPLE,
