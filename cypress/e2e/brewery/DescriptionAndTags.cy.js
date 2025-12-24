@@ -11,6 +11,7 @@ describe('Scenario tags and description', { keystrokeDelay: 1 }, () => {
   before(() => {
     setup.initCypressAndStubbing();
     stub.start();
+    stub.setDatasets(DEFAULT_DATASETS_LIST);
     stub.setScenarios([SCENARIO_WITH_DESCRIPTION_AND_TAGS]);
   });
   beforeEach(() => {
@@ -66,7 +67,7 @@ describe('Scenario tags and description', { keystrokeDelay: 1 }, () => {
     const scenarioTags = ['brewery', 'cypress', 'test'];
     Scenarios.createScenario(
       scenarioName,
-      true,
+      false,
       DEFAULT_DATASETS_LIST[0].name,
       DEFAULT_SOLUTION.runTemplates[0].name,
       scenarioDescription,
