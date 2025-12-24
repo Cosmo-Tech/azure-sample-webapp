@@ -39,7 +39,6 @@ describe('Dataset manager can be empty on start', () => {
     DatasetManager.getCancelDatasetCreation().click();
     DatasetManager.getDatasetCreationDialog().should('not.exist');
   });
-
 });
 
 describe('Data edition in dataset manager', () => {
@@ -227,7 +226,6 @@ describe('Dataset creation', () => {
 
     DatasetManager.getDatasetNameInOverview().should('have.text', datasetName);
   });
-
 });
 
 describe('Filtering datasets list', () => {
@@ -329,6 +327,5 @@ describe('Refresh dataset', () => {
     DatasetManager.getDatasetNameInOverview().should('be.visible');
   });
 });
-
 
 //TODO : add test for creating a dataset using Instance generator
