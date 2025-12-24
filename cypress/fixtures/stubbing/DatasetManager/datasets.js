@@ -45,7 +45,7 @@ const ETL_DATASET = {
       },
       sourceType: 'ETL',
       runnerId: 'r-stbdrnr1',
-    }
+    },
   },
   id: 'D-stbdataset13',
   parentId: 'D-stbdataset2',
@@ -69,9 +69,9 @@ const SUBDATASET = {
       runnerId: 'r-stbdrnr1',
       visible: {
         datasetManager: true,
-        scenarioCreation: true
-      }
-    }
+        scenarioCreation: true,
+      },
+    },
   },
   id: 'D-stbdataset14',
   name: 'Subdataset',
