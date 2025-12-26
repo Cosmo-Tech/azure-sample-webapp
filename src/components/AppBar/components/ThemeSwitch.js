@@ -1,10 +1,10 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { Moon, Sun } from 'lucide-react';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, Fade, Tooltip } from '@mui/material';
 import { useApplicationTheme } from '../../../state/app/hooks';
+import { Icon } from '../../Icon';
 
 export const ThemeSwitch = () => {
   const { t } = useTranslation();
@@ -25,7 +25,7 @@ export const ThemeSwitch = () => {
         sx={{ ml: 1 }}
         variant="outlined"
         state="enabled"
-        startIcon={isDarkTheme ? <Moon /> : <Sun />}
+        startIcon={isDarkTheme ? <Icon name="Moon" /> : <Icon name="Sun" />}
         onClick={toggleTheme}
       />
     </Tooltip>

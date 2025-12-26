@@ -1,9 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { Info } from 'lucide-react';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Box, Stack, Typography, Tooltip, IconButton, Divider, useTheme } from '@mui/material';
+import { Icon } from '../Icon';
 
 export const PageHeader = ({
   title,
@@ -35,7 +35,7 @@ export const PageHeader = ({
             {onInfoHoverText && (
               <Tooltip title={onInfoHoverText} arrow>
                 <IconButton size="small" sx={{ p: 0.3 }}>
-                  <Info size={18} color={theme.palette.secondary.main} />
+                  <Icon name="Info" size={18} color={theme.palette.secondary.main} />
                 </IconButton>
               </Tooltip>
             )}

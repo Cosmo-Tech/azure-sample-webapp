@@ -1,9 +1,10 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { ArrowLeftToLine, Settings, TriangleAlert } from 'lucide-react';
+import { ArrowLeftToLine } from 'lucide-react';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Box, Stack, Typography, useTheme } from '@mui/material';
+import { Icon } from '../Icon';
 import { KPIBox } from './components/KpiBox';
 
 export const KPIGroup = ({ items, showControls = true, status = '', background, border }) => {
@@ -67,14 +68,14 @@ export const KPIGroup = ({ items, showControls = true, status = '', background, 
               }}
             />
 
-            <Settings size={18} style={{ color: theme.palette.secondary.main }} />
+            <Icon name="Settings" size={18} color={theme.palette.secondary.main} />
           </Stack>
         )}
       </Box>
 
       {status && (
         <Stack direction="row" alignItems="center" gap={1}>
-          <TriangleAlert size={18} style={{ color: theme.palette.neutral.neutral03.main }} />
+          <Icon name="TriangleAlert" size={18} color={theme.palette.neutral.neutral03.main} />
           <Typography
             variant="caption"
             sx={{

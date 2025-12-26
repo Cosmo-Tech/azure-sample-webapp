@@ -1,12 +1,11 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { CircleArrowRight } from 'lucide-react';
 import React, { Fragment, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, Outlet, useParams, useNavigate, useMatch } from 'react-router-dom';
 import { Link as MuiLink, Box, Stack, Typography } from '@mui/material';
 import { useApp } from '../../AppHook';
-import { ApplicationErrorBanner } from '../../components';
+import { ApplicationErrorBanner, Icon } from '../../components';
 import { AppBar } from '../../components/AppBar';
 import { MainNavigation } from '../../components/MainNavigation';
 import { STATUSES } from '../../services/config/StatusConstants';
@@ -61,7 +60,7 @@ export const TabLayout = () => {
           </MuiLink>
           {activeSection && (
             <>
-              <CircleArrowRight size={14} />
+              <Icon name="CircleArrowRight" size={14} />
               <MuiLink underline="hover" color="inherit" href={`/${currentWorkspace?.data?.id}/${activeSection}`}>
                 <Typography fontSize={14}>{activeSection}</Typography>
               </MuiLink>
@@ -69,7 +68,7 @@ export const TabLayout = () => {
           )}
           {isScenarioPage && (
             <>
-              <CircleArrowRight size={14} />
+              <Icon name="CircleArrowRight" size={14} />
               <MuiLink
                 underline="hover"
                 color="inherit"

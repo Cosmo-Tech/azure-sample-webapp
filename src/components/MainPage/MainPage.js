@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { PlaySquare, SquarePen, SquarePlus } from 'lucide-react';
 import React, { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Stack, Box, Button } from '@mui/material';
@@ -12,6 +11,7 @@ import { TranslationUtils } from '../../utils';
 import Loading from '../../views/Loading';
 import { useScenario } from '../../views/Scenario/ScenarioHook';
 import { getScenarioManagerLabels } from '../../views/ScenarioManager/labels';
+import { Icon } from '../Icon';
 import { PageHeader } from '../PageHeader';
 import { useMainPage } from './MainPageHook';
 
@@ -56,7 +56,7 @@ export const MainPage = () => {
         actions={[
           <Button
             key="edit"
-            startIcon={<SquarePen size={16} />}
+            startIcon={<Icon name="SquarePen" size={16} />}
             sx={{ backgroundColor: (theme) => theme.palette.neutral.neutral04.main }}
             variant="default"
             state="enabled"
@@ -65,7 +65,7 @@ export const MainPage = () => {
           </Button>,
           <Button
             key="run"
-            startIcon={<PlaySquare size={16} />}
+            startIcon={<Icon name="PlaySquare" size={16} />}
             variant="highlighted"
             sx={{ backgroundColor: (theme) => theme.palette.primary.main }}
           >
@@ -73,7 +73,7 @@ export const MainPage = () => {
           </Button>,
           <Button
             key="new"
-            startIcon={<SquarePlus size={16} />}
+            startIcon={<Icon name="SquarePlus" size={16} />}
             sx={{ backgroundColor: (theme) => theme.palette.neutral.neutral04.main }}
             variant="default"
             state="enabled"
