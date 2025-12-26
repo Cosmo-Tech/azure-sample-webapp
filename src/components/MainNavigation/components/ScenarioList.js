@@ -1,10 +1,10 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { CornerDownRightIcon, SquareAsterisk } from 'lucide-react';
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Box, List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
+import { Icon } from '../../Icon';
 import { getNavigationItemStyles, getListItemTextStyles } from '../styles';
 
 const getScenarioDepth = (scenario, scenarios) => {
@@ -120,12 +120,12 @@ export const ScenarioList = ({ disabled, scenarios, activeScenarioId, onScenario
                     flexShrink: 0,
                   }}
                 >
-                  <CornerDownRightIcon size={20} />
+                  <Icon name="CornerDownRight" size={20} />
                 </Box>
               )}
               {!isChild && (
                 <ListItemIcon variant="navigation">
-                  <SquareAsterisk size={20} />
+                  <Icon name="SquareAsterisk" size={20} />
                 </ListItemIcon>
               )}
               <ListItemText

@@ -162,16 +162,16 @@ export default function CreateNewScenarioModal({ open, onClose }) {
       >
         {runTemplates.map((rt, idx) => (
           <Tab
-            key={rt.id}
+            key={rt?.id}
             label={
               <TabLabel
                 icon={FileQuestionMarkIcon}
                 color={secondary.main}
-                title={rt.labels.en}
-                desc={rt.description || ''}
+                title={rt?.labels?.en}
+                desc={rt?.description || ''}
               />
             }
-            disabled={rt.disabled}
+            disabled={rt?.disabled}
           />
         ))}
       </Tabs>

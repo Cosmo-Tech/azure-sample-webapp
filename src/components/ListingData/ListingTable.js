@@ -1,6 +1,5 @@
 /// Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { ArrowUpDown } from 'lucide-react';
 import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -15,6 +14,7 @@ import {
   Typography,
 } from '@mui/material';
 import { format } from 'date-fns';
+import { Icon } from '../Icon';
 
 const formatDate = (timestamp) => {
   if (!timestamp) return '-';
@@ -85,7 +85,7 @@ export const ListingTable = ({ items, RowComponent, resolveStatus, onEdit, onCop
         <Typography variant="subtitle1" sx={{ color: '#292F33', fontWeight: 600 }}>
           {label}
         </Typography>
-        <ArrowUpDown size={16} color="#68788A" />
+        <Icon name="ArrowUpDown" size={16} color="#68788A" />
       </Box>
     </TableCell>
   );

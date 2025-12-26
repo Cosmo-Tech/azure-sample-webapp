@@ -1,9 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { ArrowLeft, Home } from 'lucide-react';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Box, Button, Typography } from '@mui/material';
+import { Icon } from '../Icon';
 
 export const ErrorPage = ({
   code,
@@ -66,13 +66,13 @@ export const ErrorPage = ({
 
         <Box sx={{ display: 'flex', justifyContent: 'center', gap: 1 }}>
           {showBack && (
-            <Button variant="outlined" state="enabled" onClick={onBack} startIcon={<ArrowLeft size={18} />}>
+            <Button variant="outlined" state="enabled" onClick={onBack} startIcon={<Icon name="ArrowLeft" size={18} />}>
               {backLabel}
             </Button>
           )}
 
           {homeLabel && (
-            <Button variant="highlighted" state="enabled" href={homeUrl} startIcon={<Home size={18} />}>
+            <Button variant="highlighted" state="enabled" href={homeUrl} startIcon={<Icon name="Home" size={18} />}>
               {homeLabel}
             </Button>
           )}
