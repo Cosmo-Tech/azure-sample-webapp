@@ -7,6 +7,7 @@ export { default as AboutContent } from './AboutContent';
 export { ApplicationErrorBanner } from './ApplicationErrorBanner';
 export { SessionTimeoutDialog } from './SessionTimeoutDialog';
 export { TechnicalInfoContent } from './TechnicalInfoContent';
+export { DeleteDialog, ITEM_TYPES } from './DeleteDialog';
 
 export { default as ShareCurrentScenarioButton } from './ShareCurrentScenarioButton';
 export { default as CurrentScenarioPowerBiReport } from './CurrentScenarioPowerBIReport';
@@ -30,3 +31,4 @@ export { default as LoadingBackdrop } from './LoadingBackdrop';
 export { default as StatusBar } from './StatusBar';
 export { ModalWindow } from './ModalWindow';
 export { PageHeader } from './PageHeader';
+export { Icon } from './Icon';

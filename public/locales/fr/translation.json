@@ -834,6 +834,26 @@
         "revert": "Rétablir",
         "checkbox": "Ne plus afficher ce message"
       }
+    },
+    "valueframework": {
+      "delete": {
+        "dialog": {
+          "title": {
+            "framework": "Supprimer le Cadre de Valeur",
+            "objective": "Supprimer l'Objectif",
+            "metric": "Supprimer la Métrique",
+            "default": "Supprimer l'Élément"
+          },
+          "question": "Êtes-vous sûr de vouloir supprimer cet(te) {{itemType}} ?",
+          "consequences": {
+            "framework": "La suppression de ce cadre de valeur supprimera également :\n• Tous les Objectifs associés\n• Toutes les Métriques associées\n\nCela peut avoir un impact sur les Investissements et les Portefeuilles liés à ce cadre.",
+            "objective": "La suppression de cet objectif supprimera également :\n• Toutes les Métriques associées à cet objectif\n\nCela peut avoir un impact sur les Investissements et les Portefeuilles liés à cet objectif.",
+            "metric": "La suppression de cette métrique peut avoir un impact sur les Investissements et les Portefeuilles qui l'utilisent."
+          },
+          "cancel": "Annuler",
+          "confirm": "Supprimer"
+        }
+      }
     }
   },
   "views": {

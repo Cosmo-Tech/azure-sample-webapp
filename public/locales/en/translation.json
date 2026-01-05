@@ -836,6 +836,26 @@
         "revert": "Revert",
         "checkbox": "Don't show this message again"
       }
+    },
+    "valueframework": {
+      "delete": {
+        "dialog": {
+          "title": {
+            "framework": "Delete Value Framework",
+            "objective": "Delete Objective",
+            "metric": "Delete Metric",
+            "default": "Delete Item"
+          },
+          "question": "Are you sure you want to delete this {{itemType}}?",
+          "consequences": {
+            "framework": "Deleting this value framework will also delete:\n• All associated Objectives\n• All associated Metrics\n\nThis may impact Investments and Portfolios linked to this framework.",
+            "objective": "Deleting this objective will also delete:\n• All Metrics associated with this objective\n\nThis may impact Investments and Portfolios linked to this objective.",
+            "metric": "Deleting this metric may impact Investments and Portfolios that use it."
+          },
+          "cancel": "Cancel",
+          "confirm": "Delete"
+        }
+      }
     }
   },
   "views": {
