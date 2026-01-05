@@ -140,7 +140,7 @@ export const MainNavigation = () => {
               currentWorkspaceId={workspaceId}
               onScenarioChange={(scenarioId) => {
                 changeScenario(scenarioId);
-                navigate(`/${workspaceId}/${activeSection}/${scenarioId}`);
+                navigate(`/${workspaceId}/scenario/${scenarioId}`);
               }}
             />
           )}
