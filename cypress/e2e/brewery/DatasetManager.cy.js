@@ -6,7 +6,6 @@ import {
   DATASETS,
   WORKSPACE,
   DATASETS_TO_FILTER,
-  DATASETS_TO_REFRESH,
   ORGANIZATION_WITH_DEFAULT_ROLE_USER,
 } from '../../fixtures/stubbing/DatasetManager';
 import { RUNNERS_FOR_ETL_DATASETS } from '../../fixtures/stubbing/DatasetManager/runners';
@@ -281,50 +280,6 @@ describe('Dataset delete', () => {
     DatasetManager.deleteDataset(DATASETS[4].id, DATASETS[4].name);
     DatasetManager.getNoDatasetsPlaceholder().should('be.visible');
     DatasetManager.getNoDatasetsPlaceholderUserSubtitle().should('not.exist'); // Default role not set to "user"
-  });
-});
-
-describe('Refresh dataset', () => {
-  before(() => {
-    stub.start();
-    stub.setWorkspaces(WORKSPACES);
-    stub.setDatasets(DATASETS_TO_REFRESH);
-  });
-  beforeEach(() => Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' }));
-  after(stub.stop);
-
-  it.skip('can refresh AzureStorage datasets and display empty dataset placeholder', () => {
-    const refreshSuccessOptions = {
-      expectedPollsCount: 2,
-      finalIngestionStatus: 'SUCCESS',
-    };
-
-    const refreshFailedOptions = {
-      expectedPollsCount: 2,
-      finalIngestionStatus: 'ERROR',
-    };
-    DatasetManager.ignoreDatasetTwingraphQueries();
-    DatasetManager.switchToDatasetManagerView();
-    DatasetManager.getDatasetRefreshButton(DATASETS_TO_REFRESH[2].id).should('not.exist');
-    DatasetManager.selectDatasetById(DATASETS_TO_REFRESH[2].id);
-    DatasetManager.getDatasetOverviewPlaceholder().should('be.visible');
-    DatasetManager.getDatasetOverviewPlaceholderTitle().contains('empty');
-    DatasetManager.getDatasetOverviewPlaceholderApiLink().contains('Cosmo Tech API');
-    DatasetManager.selectDatasetById(DATASETS_TO_REFRESH[0].id);
-    DatasetManager.refreshDataset(DATASETS_TO_REFRESH[0].id, refreshSuccessOptions);
-    DatasetManager.getDatasetOverviewPlaceholder().should('be.visible');
-    DatasetManager.getDatasetOverviewPlaceholder().contains('Importing');
-    DatasetManager.getDatasetOverviewPlaceholder(30).should('not.exist');
-    DatasetManager.getRefreshDatasetSpinner(DATASETS_TO_REFRESH[0].id).should('not.exist');
-    DatasetManager.selectDatasetById(DATASETS_TO_REFRESH[1].id);
-    DatasetManager.refreshDataset(DATASETS_TO_REFRESH[1].id, refreshFailedOptions);
-    DatasetManager.selectDatasetById(DATASETS_TO_REFRESH[1].id);
-    DatasetManager.getDatasetOverviewPlaceholderTitle().contains('An error', { timeout: 30000 });
-    DatasetManager.getDatasetOverviewPlaceholderRetryButton().should('exist');
-    DatasetManager.getDatasetOverviewPlaceholderRollbackButton().should('exist');
-    DatasetManager.getRefreshDatasetErrorIcon(DATASETS_TO_REFRESH[1].id).should('be.visible');
-    DatasetManager.rollbackDatasetStatus();
-    DatasetManager.getDatasetNameInOverview().should('be.visible');
   });
 });
 
