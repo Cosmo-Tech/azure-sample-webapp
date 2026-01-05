@@ -22,17 +22,12 @@ describe('Subdatasets creation', () => {
 
   it('must show the parameter input fields associated to the selected data source', () => {
     const DATASET_A = DATASETS[0];
-    const enumParameterSelector = '[data-cy=enum-input-select-etl_dynamic_values_enum_parameter]';
+    const enumParameterSelector = '[data-cy=enum-input-select-dynamic_values_customers_enum]';
     const enumOption2Selector = '[data-cy="Dynamic value 2"]';
-    const selectorForAllEnumOptions = '[data-cy="Dynamic value"]';
+    const selectorForAllEnumOptions = '[data-cy^="Dynamic value"]';
 
-    const validateRequest = (req) =>
-      expect(req.body).to.deep.equal({ query: 'MATCH(n:Customer) RETURN n.id as customer_id' });
-    const queryResponse = [
-      { customer_id: 'Dynamic value 1' },
-      { customer_id: 'Dynamic value 2' },
-      { customer_id: 'Dynamic value 3' },
-    ];
+    const validateRequest = (req) => expect(req.url).to.include('selects=id');
+    const queryResponse = 'id\nDynamic value 1\nDynamic value 2\nDynamic value 3';
 
     DatasetManager.ignoreDatasetTwingraphQueries();
     DatasetManager.switchToDatasetManagerView();

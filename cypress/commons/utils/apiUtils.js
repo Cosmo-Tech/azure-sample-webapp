@@ -593,7 +593,7 @@ const interceptGetDatasetStatus = (times = 1) => {
 //       cypress checks on the content of the intercepted query
 const interceptPostDatasetTwingraphQuery = (response = {}, validateRequest = null, times = 1) => {
   const alias = forgeAlias('reqPostDatasetTwingraphQuery');
-  const options = { method: 'POST', url: API_REGEX.DATASET_TWINGRAPH };
+  const options = { method: 'GET', url: API_REGEX.DATASET_PART_QUERY };
   if (times > 0) options.times = times;
   cy.intercept(options, (req) => {
     if (validateRequest) validateRequest(req);
@@ -605,7 +605,7 @@ const interceptPostDatasetTwingraphQuery = (response = {}, validateRequest = nul
 
 const interceptPostDatasetTwingraphQueries = (responses = [], validateRequest = null, times = 1) => {
   const alias = forgeAlias('reqPostDatasetTwingraphQueries');
-  const options = { method: 'POST', url: API_REGEX.DATASET_TWINGRAPH };
+  const options = { method: 'GET', url: API_REGEX.DATASET_PART_QUERY };
   if (times > 0) options.times = times;
   cy.intercept(options, (req) => {
     if (validateRequest) validateRequest(req);
