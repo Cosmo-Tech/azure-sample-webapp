@@ -9,12 +9,12 @@ const defaultPowerBIReport = {
   settings: { navContentPaneEnabled: false, panes: { filters: { expanded: true, visible: true } } },
   staticFilters: [{ table: 'Bar', column: 'Bar', values: ['MyBar', 'MyBar2'] }],
   dynamicFilters: [
-    { table: 'StockProbe', column: 'SimulationRun', values: 'csmSimulationRun' },
-    { table: 'Bar', column: 'simulationrun', values: 'csmSimulationRun' },
-    { table: 'contains_Customer', column: 'simulationrun', values: 'csmSimulationRun' },
-    { table: 'arc_to_Customer', column: 'simulationrun', values: 'csmSimulationRun' },
-    { table: 'parameters', column: 'simulationrun', values: 'csmSimulationRun' },
-    { table: 'CustomerSatisfactionProbe', column: 'SimulationRun', values: 'csmSimulationRun' },
+    { table: 'StockProbe', column: 'SimulationRun', values: 'lastRunId' },
+    { table: 'Bar', column: 'simulationrun', values: 'lastRunId' },
+    { table: 'contains_Customer', column: 'simulationrun', values: 'lastRunId' },
+    { table: 'arc_to_Customer', column: 'simulationrun', values: 'lastRunId' },
+    { table: 'parameters', column: 'simulationrun', values: 'lastRunId' },
+    { table: 'CustomerSatisfactionProbe', column: 'SimulationRun', values: 'lastRunId' },
   ],
   pageName: { en: 'ReportSection', fr: 'ReportSection' },
 };
