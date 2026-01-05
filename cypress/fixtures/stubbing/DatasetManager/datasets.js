@@ -18,6 +18,16 @@ const FILE_DATASET_MAIN_A = {
   name: 'Dataset A',
   description: 'main dataset A from local file',
   tags: ['dataset', 'A'],
+  parts: [
+    {
+      id: 'dp-customers',
+      name: 'customers',
+      type: 'DB',
+      organizationId: 'O-stbdorgztn',
+      workspaceId: 'W-stbbdbrwryWithDM',
+      datasetId: 'D-stbdataset1',
+    },
+  ],
 };
 const FILE_DATASET_MAIN_B = {
   ...EDITABLE_DATASET,

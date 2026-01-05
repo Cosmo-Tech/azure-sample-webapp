@@ -54,24 +54,35 @@ export const SOLUTION_WITH_DYNAMIC_VALUES = {
   parameters: [
     ...DEFAULT_SOLUTION.parameters,
     {
-      id: 'etl_dynamic_values_enum_parameter',
+      id: 'dynamic_values_customers_enum',
+      labels: {
+        fr: 'Client (enum)',
+        en: 'Customer (enum)',
+      },
       varType: 'enum',
       additionalData: {
+        tooltipText: {
+          fr: 'Sélectionnez un client parmi la liste',
+          en: 'Pick a customer from the list',
+        },
         dynamicEnumValues: {
-          type: 'cypher',
-          query: 'MATCH(n:Customer) RETURN n.id as customer_id',
-          resultKey: 'customer_id',
+          type: 'dbDatasetPart',
+          datasetPartName: 'customers',
+          resultKey: 'id',
+          options: {
+            selects: 'id',
+          },
         },
       },
     },
   ],
   parameterGroups: [
     ...DEFAULT_SOLUTION.parameterGroups,
-    { id: 'dynamicValuesEnumGroup', parameters: ['etl_dynamic_values_enum_parameter'] },
+    { id: 'dynamic_values_customers_group', parameters: ['dynamic_values_customers_enum'] },
   ],
   runTemplates: [
     ...DEFAULT_SOLUTION.runTemplates,
-    { id: 'dynamic_values_enum_filter', parameterGroups: ['dynamicValuesEnumGroup'], tags: ['subdatasource'] },
+    { id: 'dynamic_values_enum_filter', parameterGroups: ['dynamic_values_customers_group'], tags: ['subdatasource'] },
   ],
 };
 

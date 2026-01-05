@@ -59,6 +59,7 @@ export const API_ENDPOINT = {
   DATASET_ROLLBACK: URL_ROOT + '/.*/datasets/((d|D)-[\\w]+)/refresh/rollback',
   DATASET_STATUS: URL_ROOT + '/.*/datasets/((d|D)-[\\w]+)/status',
   DATASET_TWINGRAPH: URL_ROOT + '/.*/datasets/((d|D)-[\\w]+)/twingraph',
+  DATASET_PART_QUERY: URL_ROOT + '/.*/datasets/((d|D)-[\\w]+)/parts/([\\w-]+)/query',
   RUNNERS: URL_ROOT + '/.*/runners',
   RUNNER: URL_ROOT + '/.*/runners/((r|R)-[\\w]+)',
   START_RUNNER: URL_ROOT + '/.*/runners/((r|R)-[\\w]+)/start', // Endpoint to start the runner
@@ -214,6 +215,7 @@ export const API_REGEX = {
   RUNNER_STATE: new RegExp('^' + API_ENDPOINT.RUNNER_STATE),
   STOP_RUNNER: new RegExp('^' + API_ENDPOINT.STOP_RUNNER),
   DATASET_TWINGRAPH: new RegExp('^' + API_ENDPOINT.DATASET_TWINGRAPH + '$'),
+  DATASET_PART_QUERY: new RegExp('^' + API_ENDPOINT.DATASET_PART_QUERY),
   RUNNER_DEFAULT_SECURITY: new RegExp('^' + API_ENDPOINT.RUNNER_DEFAULT_SECURITY + '$'),
   RUNNER_SECURITY_ACL: new RegExp('^' + API_ENDPOINT.RUNNER_SECURITY_ACL + '$'),
   RUNNER_SECURITY_USER_ACCESS: new RegExp('^' + API_ENDPOINT.RUNNER_SECURITY_USER_ACCESS + '$'),
