@@ -43,4 +43,12 @@ export const DEFAULT_DATASETS_LIST_DATA = [
     ingestionStatus: 'SUCCESS',
     twincacheStatus: 'FULL',
   },
+  {
+    ...DEFAULT_DATASET,
+    id: 'D-stbdefault',
+    name: 'Stubbed dataset',
+    additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
+    ingestionStatus: 'SUCCESS',
+    twincacheStatus: 'FULL',
+  },
 ];
