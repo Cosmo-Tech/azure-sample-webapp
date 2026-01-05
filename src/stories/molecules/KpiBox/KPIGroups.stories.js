@@ -96,7 +96,8 @@ export const PostRunLongNames = {
         title: 'TOTEX',
         value: '11.29B',
         comparison: '+6.8B',
-        scenarioName: 'vs 4.49B - Extremely Long Scenario Name That Will Be Truncated With Ellipsis',
+        scenarioName:
+          'vs 4.49B - Extremely Long Scenario Name That Will Be Truncated With Ellipsis At The End, hover to see',
         currency: '$',
         currencyPosition: 'after',
       },

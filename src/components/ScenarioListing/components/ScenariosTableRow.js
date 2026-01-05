@@ -105,7 +105,7 @@ export const ScenariosTableRow = ({
         </Typography>
       </TableCell>
       <TableCell sx={{ py: 1, pl: 0, border: 'none' }}>
-        <StatusBar status={status} size="small" />
+        <StatusBar status={status} size="small" tooltip={status} />
       </TableCell>
       <TableCell
         sx={{

@@ -127,6 +127,11 @@ const StatusBar = ({ status, size, message, tooltip, onClose }) => {
                 color: (theme) => theme.palette.secondary.main,
               },
             },
+            arrow: {
+              sx: {
+                color: (theme) => theme.palette.neutral.neutral04.main,
+              },
+            },
           }}
         >
           <span style={{ marginLeft: size === 'small' ? 8 : 0, display: 'flex', alignItems: 'center', width: 12 }}>

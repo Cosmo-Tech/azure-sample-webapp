@@ -12,6 +12,7 @@ import {
   TableRow,
   Paper,
   Typography,
+  useTheme,
 } from '@mui/material';
 import { format } from 'date-fns';
 import { Icon } from '../Icon';
@@ -26,20 +27,26 @@ const formatDate = (timestamp) => {
 };
 
 export const ListingTable = ({ items, RowComponent, resolveStatus, onEdit, onCopy, onShare, onDelete, columns }) => {
+  const theme = useTheme();
   const [sortBy, setSortBy] = useState(null);
-  const [sortDirection, setSortDirection] = useState('asc');
+  const [sortDirection, setSortDirection] = useState(null);
 
   const handleSort = (column) => {
     if (sortBy === column) {
-      setSortDirection((prev) => (prev === 'asc' ? 'desc' : 'asc'));
+      if (sortDirection === 'desc') {
+        setSortDirection('asc');
+      } else if (sortDirection === 'asc') {
+        setSortBy(null);
+        setSortDirection(null);
+      }
     } else {
       setSortBy(column);
-      setSortDirection('asc');
+      setSortDirection('desc');
     }
   };
 
   const sortedItems = useMemo(() => {
-    if (!sortBy) return items;
+    if (!sortBy || !sortDirection) return items;
 
     return [...items].sort((a, b) => {
       let aValue = '';
@@ -68,27 +75,33 @@ export const ListingTable = ({ items, RowComponent, resolveStatus, onEdit, onCop
     });
   }, [items, sortBy, sortDirection]);
 
-  const SortableHeader = ({ column, label, width }) => (
-    <TableCell
-      onClick={() => handleSort(column)}
-      sx={{
-        cursor: 'pointer',
-        userSelect: 'none',
-        pt: 1,
-        pb: 2,
-        px: 0,
-        borderBottom: 'none',
-        width: width || 'auto',
-      }}
-    >
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-        <Typography variant="subtitle1" sx={{ color: '#292F33', fontWeight: 600 }}>
-          {label}
-        </Typography>
-        <Icon name="ArrowUpDown" size={16} color="#68788A" />
-      </Box>
-    </TableCell>
-  );
+  const SortableHeader = ({ column, label, width }) => {
+    const isActive = sortBy === column;
+    const iconName = !isActive ? 'ArrowUpDown' : sortDirection === 'desc' ? 'ArrowDown' : 'ArrowUp';
+    const iconColor = isActive ? theme.palette.secondary.main : theme.palette.background.background02.main;
+
+    return (
+      <TableCell
+        onClick={() => handleSort(column)}
+        sx={{
+          cursor: 'pointer',
+          userSelect: 'none',
+          pt: 1,
+          pb: 2,
+          px: 0,
+          borderBottom: 'none',
+          width: width || 'auto',
+        }}
+      >
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <Typography variant="subtitle1" sx={{ color: '#292F33', fontWeight: 600 }}>
+            {label}
+          </Typography>
+          <Icon name={iconName} size={16} color={iconColor} />
+        </Box>
+      </TableCell>
+    );
+  };
 
   SortableHeader.propTypes = {
     column: PropTypes.string.isRequired,
