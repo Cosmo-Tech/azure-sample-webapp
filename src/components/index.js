@@ -7,6 +7,7 @@ export { default as AboutContent } from './AboutContent';
 export { ApplicationErrorBanner } from './ApplicationErrorBanner';
 export { SessionTimeoutDialog } from './SessionTimeoutDialog';
 export { TechnicalInfoContent } from './TechnicalInfoContent';
+export { DeleteDialog, ITEM_TYPES } from './ValueFrameworkDeleteDialog';
 
 export { default as ShareCurrentScenarioButton } from './ShareCurrentScenarioButton';
 export { default as CurrentScenarioPowerBiReport } from './CurrentScenarioPowerBIReport';
