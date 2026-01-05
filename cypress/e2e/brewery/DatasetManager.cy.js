@@ -117,8 +117,8 @@ describe('Data edition in dataset manager', () => {
     DatasetManager.getDatasetMetadataDescription().should('contain', newDescription);
     DatasetManager.getDatasetMetadataTag(1).should('contain', newTag);
   });
-  //might not need this as partially_prefilled_datasource is not used anymore
-  it.skip('correctly handles the form state even after closing and reopening the dataset creation dialog', () => {
+
+  it('correctly handles the form state even after closing and reopening the dataset creation dialog', () => {
     DatasetManager.ignoreDatasetTwingraphQueries();
     DatasetManager.switchToDatasetManagerView();
 
