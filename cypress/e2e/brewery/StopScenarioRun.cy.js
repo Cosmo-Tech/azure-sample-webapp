@@ -5,7 +5,7 @@ import { Scenarios, ScenarioManager, ScenarioParameters, Login } from '../../com
 import { RUN_TEMPLATE, SCENARIO_STATUS } from '../../commons/constants/brewery/TestConstants';
 import { FAILED_SCENARIO_RUN, SCENARIO_RUN_IN_PROGRESS } from '../../commons/constants/generic/TestConstants';
 import { stub } from '../../commons/services/stubbing';
-import { DEFAULT_DATASETS_LIST } from '../../fixtures/stubbing/default';
+import { MAIN_DATASET } from '../../fixtures/stubbing/default';
 
 const firstScenarioName = 'Test Cypress - Cancel run - ' + utils.randomStr(7);
 const secondScenarioName = 'Test Cypress - delete during run - ' + utils.randomStr(7);
@@ -29,7 +29,7 @@ describe('can cancel simulation run', () => {
   });
 
   it('creates scenario, launches it and cancels the simulation run', () => {
-    Scenarios.createScenario(firstScenarioName, true, DEFAULT_DATASETS_LIST[0].name, RUN_TEMPLATE.BREWERY_PARAMETERS);
+    Scenarios.createScenario(firstScenarioName, true, MAIN_DATASET.name, RUN_TEMPLATE.BREWERY_PARAMETERS);
     ScenarioParameters.launch({ runOptions, saveAndLaunch: true });
     Scenarios.getDashboardAccordion().click({ force: true });
     Scenarios.getDashboardPlaceholder().should('have.text', SCENARIO_RUN_IN_PROGRESS);
@@ -65,7 +65,7 @@ describe('can cancel simulation run before delete', () => {
     Scenarios.createScenario(
       secondScenarioName,
       true,
-      DEFAULT_DATASETS_LIST[0].name,
+      MAIN_DATASET.name,
       RUN_TEMPLATE.BREWERY_PARAMETERS
     ).then((value) => {
       const scenarioId = value.scenarioCreatedId;

@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-export { DEFAULT_DATASETS_LIST, DEFAULT_DATASET, LEGACY_DATASET_V2 } from './datasets';
+export { DEFAULT_DATASETS_LIST, DEFAULT_DATASET, MAIN_DATASET, RUNNER_BASE_DATASET, LEGACY_DATASET_V2 } from './datasets';
 export { DEFAULT_RUNNER } from './runners';
 export { SCENARIO_RUN_EXAMPLE, DEFAULT_SCENARIO_RUNS_LIST } from './scenarioRuns';
 export { SCENARIO_EXAMPLE, DEFAULT_SCENARIOS_LIST } from './scenarios';
