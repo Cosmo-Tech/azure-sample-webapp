@@ -92,6 +92,7 @@ export const KPIBox = ({
                 textOverflow: 'ellipsis',
                 mt: 1,
               }}
+              {...(isOverflowing && { title: scenarioName })}
             >
               {scenarioName}
             </Typography>
