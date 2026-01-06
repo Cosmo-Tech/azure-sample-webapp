@@ -27,7 +27,19 @@ export const DEFAULT_DATASET = {
   validatorId: null,
   compatibility: null,
   queries: null,
-  security: null,
+  security: { default: 'admin', accessControlList: [] },
 };
 
-export const DEFAULT_DATASETS_LIST = [DEFAULT_DATASET];
+export const MAIN_DATASET = {
+  ...DEFAULT_DATASET,
+  id: 'D-stbdMainDataset',
+  additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
+};
+
+export const RUNNER_BASE_DATASET = {
+  ...DEFAULT_DATASET,
+  id: 'D-stbdBaseDataset',
+  name: 'Runner base dataset',
+};
+
+export const DEFAULT_DATASETS_LIST = [DEFAULT_DATASET, MAIN_DATASET, RUNNER_BASE_DATASET];
