@@ -33,7 +33,7 @@ export const ScenarioListing = ({
     >
       <ListingHeader
         title={t('layouts.tabs.scenario.tab.title', 'Scenarios')}
-        subtitle={t('layouts.tabs.scenario.tab.description, ', 'Create, edit, share and delete your scenarios')}
+        subtitle={t('layouts.tabs.scenario.tab.description', 'Create, edit, share and delete your scenarios')}
         buttonLabel={t('layouts.tabs.scenario.tab.create', 'Create Scenario')}
         onButtonClick={handleOpenScenarioModal}
       />
