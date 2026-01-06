@@ -1,6 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { ROLES } from '../../../commons/constants/generic/TestConstants';
+import { RUNNER_BASE_DATASET } from './datasets';
 
 export const SCENARIO_EXAMPLE = {
   id: 'r-stubbedscnr00',
@@ -21,7 +22,7 @@ export const SCENARIO_EXAMPLE = {
   solutionName: 'Demo Brewery Solution',
   runTemplateName: 'Run template with mock basic types parameters',
   datasets: {
-    bases: ['D-4jwyQnmv7jx'],
+    bases: [RUNNER_BASE_DATASET.id],
     parameter: 'D-mockedParameterDataset',
     parameters: null,
   },
