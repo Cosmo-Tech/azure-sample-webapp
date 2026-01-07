@@ -8,7 +8,12 @@ on:
         required: true
         type: string
       imageTag:
-        description: 'Tag to set when building the docker image'
+        description: 'Tag to set when building the docker image (optional)'
+        default: ''
+        required: false
+        type: string
+      buildNumber:
+        description: 'Build number to display in the Technical Information dialog (optional)'
         default: ''
         required: false
         type: string
@@ -24,7 +29,8 @@ env:
   # Change the Container Registry information below if necessary
   REGISTRY: ghcr.io
   REPOSITORY_NAME: ${{ github.repository }}
-  VITE_BUILD_NUMBER: ${{ github.sha }}
+  # Use workflow input "buildNumber" if provided, or the commit SHA otherwise
+  VITE_BUILD_NUMBER: ${{ inputs.buildNumber != '' && inputs.buildNumber || github.sha }}
   # PUBLIC_URL is only required when building the server in instance-specific mode
   #PUBLIC_URL: /cosmotech-webapp/brewery
 
