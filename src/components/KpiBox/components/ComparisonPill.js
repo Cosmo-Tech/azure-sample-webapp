@@ -8,7 +8,7 @@ import { Typography, Stack, useTheme } from '@mui/material';
 const COLORS = (theme) => ({
   positive: { bg: theme.palette.status.success.background, text: theme.palette.status.success.main },
   negative: { bg: theme.palette.status.error.background, text: theme.palette.status.error.main },
-  neutral: { bg: theme.palette.neutral.neutral04.main, text: theme.palette.text.secondary },
+  neutral: { bg: theme.palette.neutral.neutral04.main, text: theme.palette.neutral.neutral03.main },
 });
 
 export const ComparisonPill = ({ value, colorMode = 'neutral' }) => {

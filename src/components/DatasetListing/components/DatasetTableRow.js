@@ -1,9 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { SquarePen, Share2, Trash2, InfoIcon, CopyPlus } from 'lucide-react';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { TableRow, TableCell, Box, IconButton, Tooltip, Typography } from '@mui/material';
+import { Icon } from '../../Icon';
 import StatusBar from '../../StatusBar';
 
 export const DatasetTableRow = ({
@@ -59,7 +59,7 @@ export const DatasetTableRow = ({
               },
             }}
           >
-            <InfoIcon size={16} sx={{ color: (theme) => theme.palette.secondary.main }} />
+            <Icon name="InfoIcon" size={16} sx={{ color: (theme) => theme.palette.secondary.main }} />
           </Tooltip>
         </Box>
       </TableCell>
@@ -100,7 +100,7 @@ export const DatasetTableRow = ({
                     backgroundColor: (theme) => theme.palette.neutral.neutral04.main,
                   }}
                 >
-                  <SquarePen size={16} />
+                  <Icon name="SquarePen" size={16} />
                 </IconButton>
               </Tooltip>
               <Tooltip title="Copy">
@@ -114,7 +114,7 @@ export const DatasetTableRow = ({
                     backgroundColor: (theme) => theme.palette.neutral.neutral04.main,
                   }}
                 >
-                  <CopyPlus size={16} />
+                  <Icon name="CopyPlus" />
                 </IconButton>
               </Tooltip>
               <Tooltip title="Share">
@@ -128,7 +128,7 @@ export const DatasetTableRow = ({
                     backgroundColor: (theme) => theme.palette.neutral.neutral04.main,
                   }}
                 >
-                  <Share2 size={16} />
+                  <Icon name="Share2" size={16} />
                 </IconButton>
               </Tooltip>
               <Tooltip title="Delete">
@@ -142,7 +142,7 @@ export const DatasetTableRow = ({
                     backgroundColor: (theme) => theme.palette.status.error.background,
                   }}
                 >
-                  <Trash2 size={16} />
+                  <Icon name="Trash2" size={16} />
                 </IconButton>
               </Tooltip>
             </>
