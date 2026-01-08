@@ -1,9 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { CircleX } from 'lucide-react';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Box, Dialog, DialogContent, IconButton, Stack, Typography, useTheme } from '@mui/material';
+import { Icon } from '../Icon';
 import { SubNavigation } from '../Subnavigation/SubNavigation';
 
 export const ModalWindow = ({
@@ -68,7 +68,7 @@ export const ModalWindow = ({
           </Box>
 
           <IconButton onClick={onClose} sx={{ p: 0 }}>
-            <CircleX size={24} color={theme.palette.secondary.main} />
+            <Icon name="CircleX" size={24} color={theme.palette.secondary.main} />
           </IconButton>
         </Stack>
 

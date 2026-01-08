@@ -1,8 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Box, Typography, Stack } from '@mui/material';
+import { Box, Typography, Stack, Tooltip, useTheme } from '@mui/material';
+import { Icon } from '../../Icon';
 import { ComparisonPill } from './ComparisonPill';
 
 export const KPIBox = ({
@@ -17,6 +18,16 @@ export const KPIBox = ({
   currency,
   currencyPosition = 'after',
 }) => {
+  const scenarioNameRef = useRef(null);
+  const [isOverflowing, setIsOverflowing] = useState(false);
+  const theme = useTheme();
+
+  useEffect(() => {
+    if (scenarioNameRef.current) {
+      setIsOverflowing(scenarioNameRef.current.scrollWidth > scenarioNameRef.current.clientWidth);
+    }
+  }, [scenarioName]);
+
   return (
     <Box
       sx={{
@@ -44,7 +55,7 @@ export const KPIBox = ({
         </Stack>
 
         <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
-          <Stack direction={currencyPosition === 'after' ? 'row-reverse' : 'row'} alignItems="center">
+          <Stack direction={currencyPosition === 'after' ? 'row-reverse' : 'row'} alignItems="baseline">
             <Typography
               component="span"
               sx={{
@@ -69,21 +80,31 @@ export const KPIBox = ({
           {comparison !== undefined && <ComparisonPill value={comparison} colorMode={comparisonColor} />}
         </Stack>
         {scenarioName && (
-          <Typography
-            variant="caption"
-            sx={{
-              fontSize: 12,
-              color: (theme) => theme.palette.secondary.main,
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              mt: 1,
-            }}
-          >
-            {scenarioName}
-          </Typography>
+          <Stack direction="row" alignItems="center" gap={0.5}>
+            <Typography
+              ref={scenarioNameRef}
+              variant="caption"
+              sx={{
+                fontSize: 12,
+                color: (theme) => theme.palette.secondary.main,
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                mt: 1,
+              }}
+              {...(isOverflowing && { title: scenarioName })}
+            >
+              {scenarioName}
+            </Typography>
+            {isOverflowing && (
+              <Tooltip title={scenarioName} arrow>
+                <span style={{ display: 'flex', alignItems: 'center', width: 12, marginTop: 6 }}>
+                  <Icon name="CircleHelp" size={12} color={theme.palette.secondary.main} />
+                </span>
+              </Tooltip>
+            )}
+          </Stack>
         )}
-
         {children}
       </Stack>
     </Box>

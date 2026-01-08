@@ -1,18 +1,18 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { Settings, User, CreditCard, LogOut } from 'lucide-react';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Box, Menu, MenuItem, ListItemIcon, ListItemText, Divider, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
+import { Icon } from '../../Icon';
 
 export const UserMenu = ({ anchorEl, open, onClose, userName, userEmail, activeUserMenuItem, onMenuAction }) => {
   const theme = useTheme();
   const navColors = theme.palette ?? {};
   const menuItems = [
-    { id: 'settings', label: 'Settings', icon: Settings },
-    { id: 'profile', label: 'Profile', icon: User },
-    { id: 'billing', label: 'Billing', icon: CreditCard },
+    { id: 'settings', label: 'Settings', icon: 'Settings' },
+    { id: 'profile', label: 'Profile', icon: 'User' },
+    { id: 'billing', label: 'Billing', icon: 'CreditCard' },
   ];
 
   const handleMenuAction = (action) => {
@@ -78,7 +78,6 @@ export const UserMenu = ({ anchorEl, open, onClose, userName, userEmail, activeU
 
       <Box sx={{ py: 1 }}>
         {menuItems.map((item) => {
-          const IconComponent = item.icon;
           const isActive = activeUserMenuItem === item.id;
           return (
             <MenuItem
@@ -106,7 +105,7 @@ export const UserMenu = ({ anchorEl, open, onClose, userName, userEmail, activeU
                   justifyContent: 'center',
                 }}
               >
-                <IconComponent size={16} />
+                <Icon name={item.icon} size={16} />
               </ListItemIcon>
               <ListItemText
                 primary={item.label}
@@ -145,7 +144,7 @@ export const UserMenu = ({ anchorEl, open, onClose, userName, userEmail, activeU
             justifyContent: 'center',
           }}
         >
-          <LogOut size={16} />
+          <Icon name="LogOut" size={16} />
         </ListItemIcon>
         <ListItemText
           primary="Log out"

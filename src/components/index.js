@@ -31,4 +31,5 @@ export { default as LoadingBackdrop } from './LoadingBackdrop';
 export { default as StatusBar } from './StatusBar';
 export { ModalWindow } from './ModalWindow';
 export { PageHeader } from './PageHeader';
+export { DeleteScenarioModal } from './DeleteScenarioModal';
 export { Icon } from './Icon';
