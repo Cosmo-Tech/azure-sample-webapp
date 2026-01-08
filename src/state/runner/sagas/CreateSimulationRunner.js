@@ -4,8 +4,10 @@ import { t } from 'i18next';
 import { call, put, select, takeEvery } from 'redux-saga/effects';
 import { Api } from '../../../services/config/Api';
 import { STATUSES } from '../../../services/config/StatusConstants';
+import DatasetService from '../../../services/dataset/DatasetService';
 import { ApiUtils, RunnersUtils } from '../../../utils';
 import { setApplicationErrorMessage } from '../../app/reducers';
+import { addDataset, addOrUpdateDatasetPart } from '../../datasets/reducers';
 import { RUNNER_ACTIONS_KEY } from '../constants';
 import { addSimulationRunner, setCurrentSimulationRunner } from '../reducers';
 
@@ -29,12 +31,30 @@ export function* createSimulationRunner(action) {
     const runnerPayload = { ...runner, security };
     RunnersUtils.setRunnerOptions(runnerPayload, { ownerName });
 
-    const { data } = yield call(Api.Runners.createRunner, organizationId, workspaceId, runnerPayload);
-    data.parametersValues = ApiUtils.formatParametersFromApi(data.parametersValues);
-    RunnersUtils.patchRunnerWithCurrentUserPermissions(data, userEmail, userId, runnersPermissionsMapping);
+    const { data: createdRunner } = yield call(Api.Runners.createRunner, organizationId, workspaceId, runnerPayload);
 
-    yield put(addSimulationRunner({ data }));
-    yield put(setCurrentSimulationRunner({ status: STATUSES.SUCCESS, runnerId: data.id }));
+    // When creating a new runner, some dataset parameters can be initialized by the back-end (e.g. runner inheritance,
+    // workspace solution default values, ...). If the new runner already has dataset parts, we must store them in redux
+    const runnerDatasetParameters = createdRunner.datasets.parameters;
+    if (Array.isArray(runnerDatasetParameters) && runnerDatasetParameters.length > 0) {
+      const datasetId = createdRunner.datasets.parameter;
+      const { data: runnerDataset } = yield call(
+        DatasetService.findDatasetById,
+        organizationId,
+        workspaceId,
+        datasetId
+      );
+      yield put(addDataset(runnerDataset));
+
+      for (const datasetPart of runnerDatasetParameters) {
+        yield put(addOrUpdateDatasetPart({ datasetId, datasetPart }));
+      }
+    }
+
+    createdRunner.parametersValues = ApiUtils.formatParametersFromApi(createdRunner.parametersValues);
+    RunnersUtils.patchRunnerWithCurrentUserPermissions(createdRunner, userEmail, userId, runnersPermissionsMapping);
+    yield put(addSimulationRunner({ data: createdRunner }));
+    yield put(setCurrentSimulationRunner({ status: STATUSES.SUCCESS, runnerId: createdRunner.id }));
   } catch (error) {
     console.error(error);
     const errorMessage = t('commoncomponents.banner.create', "Scenario hasn't been created.");

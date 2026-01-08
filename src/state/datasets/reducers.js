@@ -54,7 +54,7 @@ const datasetSlice = createSlice({
       const { datasetIndex, datasetId, datasetPart: newDatasetPart } = action.payload;
 
       const index = datasetIndex ?? state.list.data.findIndex((dataset) => dataset.id === datasetId);
-      if (index === undefined) {
+      if (index == null || index === -1) {
         console.warn(`Can't update parts of dataset with id "${datasetId}": dataset not found`);
         return;
       }
