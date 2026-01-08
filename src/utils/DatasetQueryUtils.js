@@ -10,3 +10,12 @@ export const parseCSVFromAPIResponse = (response) => {
 export const getColumnFirstValue = (colsAndRows, columnName) => {
   return colsAndRows?.rows?.[0]?.[columnName];
 };
+
+export const getConcatenatedColumnValues = (colsAndRows, columnName) => {
+  const values = [];
+  const rows = colsAndRows?.rows ?? [];
+  rows.forEach((row) => {
+    if (row?.[columnName] != null) values.push(JSON.stringify(row[columnName]));
+  });
+  return values.join(', ');
+};

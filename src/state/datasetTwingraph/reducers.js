@@ -2,7 +2,11 @@
 // Licensed under the MIT license.
 import { createSlice } from '@reduxjs/toolkit';
 import { KPI_STATE } from '../../services/config/kpiConstants';
-import { getColumnFirstValue, parseCSVFromAPIResponse } from '../../utils/DatasetQueryUtils';
+import {
+  getColumnFirstValue,
+  getConcatenatedColumnValues,
+  parseCSVFromAPIResponse,
+} from '../../utils/DatasetQueryUtils';
 
 export const initialState = {};
 
@@ -57,8 +61,11 @@ const datasetTwingraphQueriesResultsSlice = createSlice({
         const kpiIndex = expectedKpis.indexOf(columnName);
         if (kpiIndex !== -1) {
           expectedKpis.splice(kpiIndex, 1);
-          state[datasetId][queryId][columnName].value = getColumnFirstValue(resultColsAndRows, columnName);
-          state[datasetId][queryId][columnName].state = KPI_STATE.READY;
+          const kpiValue =
+            resultColsAndRows.rows.length > 1
+              ? getConcatenatedColumnValues(resultColsAndRows, columnName)
+              : getColumnFirstValue(resultColsAndRows, columnName);
+          state[datasetId][queryId][columnName] = { value: kpiValue, state: KPI_STATE.READY };
         }
       }
       expectedKpis.forEach((missingKpi) => (state[datasetId][queryId][missingKpi].state = KPI_STATE.UNKNOWN));
