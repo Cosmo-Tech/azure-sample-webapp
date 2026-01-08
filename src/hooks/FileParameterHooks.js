@@ -21,7 +21,7 @@ export const useFileParameters = () => {
   const solution = useSolutionData();
 
   const { getValues, setValue } = useFormContext() ?? {};
-  const isInFormContext = useMemo(() => getValues == null, [getValues]);
+  const isInFormContext = useMemo(() => getValues != null, [getValues]);
 
   const downloadDatasetPartFile = useCallback(
     async (parameterValue, setStatus) => {
