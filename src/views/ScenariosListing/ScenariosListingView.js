@@ -1,14 +1,20 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Box } from '@mui/material';
+import { DeleteScenarioModal } from '../../components';
 import { useCreateScenarioButton } from '../../components/CreateScenarioButton/CreateScenarioButtonHook';
 import { ScenarioListing } from '../../components/ScenarioListing';
 import { useSortedScenarioList } from '../../hooks/ScenarioListHooks';
+import { useDeleteRunner } from '../../state/runner/hooks';
 
 export const ScenariosListingView = () => {
   const sortedScenarioList = useSortedScenarioList();
   const { createScenario, workspaceId } = useCreateScenarioButton({});
+  const deleteRunner = useDeleteRunner();
+
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [scenarioToDelete, setScenarioToDelete] = useState(null);
 
   const handleCreateScenario = (form) => {
     const scenarioData = {
@@ -27,6 +33,23 @@ export const ScenariosListingView = () => {
     console.log('TODO: open Share modal:', dataset);
   }, []);
 
+  const handleDeleteScenario = useCallback((scenario) => {
+    setScenarioToDelete(scenario);
+    setDeleteModalOpen(true);
+  }, []);
+
+  const handleConfirmDelete = useCallback(() => {
+    if (scenarioToDelete) {
+      deleteRunner(scenarioToDelete.id);
+      setScenarioToDelete(null);
+    }
+  }, [deleteRunner, scenarioToDelete]);
+
+  const handleCloseDeleteModal = useCallback(() => {
+    setDeleteModalOpen(false);
+    setScenarioToDelete(null);
+  }, []);
+
   return (
     <Box
       sx={{
@@ -41,6 +64,13 @@ export const ScenariosListingView = () => {
         onCreateScenario={handleCreateScenario}
         onEditDataset={handleEditDataset}
         onShareDataset={handleShareDataset}
+        onDeleteScenario={handleDeleteScenario}
+      />
+      <DeleteScenarioModal
+        open={deleteModalOpen}
+        onClose={handleCloseDeleteModal}
+        onConfirm={handleConfirmDelete}
+        scenarioName={scenarioToDelete?.name}
       />
     </Box>
   );
