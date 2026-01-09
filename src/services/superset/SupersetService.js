@@ -4,6 +4,21 @@ import { jwtDecode } from 'jwt-decode';
 import { GET_SUPERSET_GUEST_TOKEN_URL } from '../../state/charts/constants';
 import { clientApi, getAuthenticationHeaders } from '../ClientApi';
 import ConfigService from '../ConfigService';
+import { ENV } from '../config/EnvironmentVariables';
+
+const getErrorMessageFromError = (error) => {
+  const errorMessage = error?.response?.data?.message ?? error?.message ?? '';
+  // In dev mode, the local proxy might return an error 500 when the Function App is not started
+  if (ENV.DEV && error?.code === 'ERR_BAD_RESPONSE') return errorMessage + '. Is the local Function App running?';
+
+  return errorMessage;
+};
+
+const getUserFriendlyError = (error) => ({
+  title: 'Failed to get Superset guest token',
+  message: getErrorMessageFromError(error),
+  status: error?.response?.status,
+});
 
 const getSupersetGuestToken = async (organizationId, workspaceId, dashboardIds) => {
   try {
@@ -39,15 +54,8 @@ const getSupersetGuestToken = async (organizationId, workspaceId, dashboardIds) 
     };
   } catch (error) {
     console.error('Error fetching Superset guest token:', error);
-    return {
-      token: null,
-      expiry: null,
-      error: {
-        title: 'Failed to get Superset guest token',
-        message: error?.response?.data?.message || error.message,
-        status: error?.response?.status,
-      },
-    };
+    const userFriendlyError = getUserFriendlyError(error);
+    return { token: null, expiry: null, error: userFriendlyError };
   }
 };
 
