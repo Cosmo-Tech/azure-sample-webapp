@@ -106,8 +106,8 @@ const getAverageConsumptionInput = () => ScenarioParameters.getParameterInput('s
 const getStartDate = () => ScenarioParameters.getParameterValue('date-input-start_date');
 const getEndDate = () => ScenarioParameters.getParameterValue('date-input-end_date');
 const getStartDateHelperText = () => cy.get('[id=date-text-field-start_date-helper-text]');
-const getStartDateInput = () => ScenarioParameters.getParameterInput('date-input-start_date');
-const getEndDateInput = () => ScenarioParameters.getParameterInput('date-input-end_date');
+const getStartDateInput = () => cy.get('[data-cy=date-input-start_date]');
+const getEndDateInput = () => cy.get('[data-cy=date-input-end_date]');
 const getEndDateHelperText = () => cy.get('[id=date-text-field-end_date-helper-text]');
 
 // Get addition parameters components & input fields

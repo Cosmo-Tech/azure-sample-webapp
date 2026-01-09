@@ -62,18 +62,15 @@ describe('can cancel simulation run before delete', () => {
 
   it('create scenario, launch it and delete it during it is running', () => {
     ScenarioParameters.expandParametersAccordion();
-    Scenarios.createScenario(
-      secondScenarioName,
-      true,
-      MAIN_DATASET.name,
-      RUN_TEMPLATE.BREWERY_PARAMETERS
-    ).then((value) => {
-      const scenarioId = value.scenarioCreatedId;
-      ScenarioParameters.launch({ runOptions, saveAndLaunch: true });
-      ScenarioManager.switchToScenarioManager({ force: true });
-      ScenarioManager.getScenarioAccordion(scenarioId).click();
-      ScenarioManager.getScenarioRunStatus(scenarioId, SCENARIO_STATUS.RUNNING);
-      ScenarioManager.deleteScenario(secondScenarioName, true);
-    });
+    Scenarios.createScenario(secondScenarioName, true, MAIN_DATASET.name, RUN_TEMPLATE.BREWERY_PARAMETERS).then(
+      (value) => {
+        const scenarioId = value.scenarioCreatedId;
+        ScenarioParameters.launch({ runOptions, saveAndLaunch: true });
+        ScenarioManager.switchToScenarioManager({ force: true });
+        ScenarioManager.getScenarioAccordion(scenarioId).click();
+        ScenarioManager.getScenarioRunStatus(scenarioId, SCENARIO_STATUS.RUNNING);
+        ScenarioManager.deleteScenario(secondScenarioName, true);
+      }
+    );
   });
 });

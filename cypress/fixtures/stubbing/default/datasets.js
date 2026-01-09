@@ -27,10 +27,11 @@ export const DEFAULT_DATASET = {
   validatorId: null,
   compatibility: null,
   queries: null,
-  security: {default: "admin", accessControlList: []},
+  security: { default: 'admin', accessControlList: [] },
 };
 
-export const MAIN_DATASET = {...DEFAULT_DATASET,
+export const MAIN_DATASET = {
+  ...DEFAULT_DATASET,
   id: 'D-stbdMainDataset',
   additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
 };
