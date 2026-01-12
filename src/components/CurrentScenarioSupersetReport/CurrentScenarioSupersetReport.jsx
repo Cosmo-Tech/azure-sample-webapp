@@ -22,8 +22,19 @@ const CurrentScenarioSupersetReport = ({
 }) => {
   const { t } = useTranslation();
 
-  const { currentScenarioData, isSupersetReducerLoading, report, guestToken, options, supersetInfo } =
-    useCurrentScenarioSupersetReport();
+  const {
+    currentScenarioData,
+    disabled,
+    noDashboardConfigured,
+    isSupersetReducerLoading,
+    report,
+    guestToken,
+    options,
+    supersetInfo,
+    visibleScenarios,
+    reportLabels,
+    downloadLogsFile,
+  } = useCurrentScenarioSupersetReport();
 
   useSupersetGuestTokenRefresh();
 
@@ -60,11 +71,7 @@ const CurrentScenarioSupersetReport = ({
       <Backdrop
         data-cy="charts-backdrop"
         open={showLoadingBackdrop}
-        sx={{
-          position: 'absolute',
-          color: '#fff',
-          zIndex: (theme) => theme.zIndex.drawer + 1,
-        }}
+        sx={{ position: 'absolute', color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
       >
         <Stack spacing={2} alignItems="center">
           <CircularProgress data-cy="charts-loading-spinner" size={24} color="inherit" />
@@ -78,35 +85,22 @@ const CurrentScenarioSupersetReport = ({
         title={t('commoncomponents.iframe.errorPlaceholder.title', 'Unexpected error')}
         description={t('commoncomponents.iframe.errorPlaceholder.description', defaultErrorDescription)}
       >
-        {guestToken && report && options?.supersetUrl ? (
-          <Box sx={{ height: '100vh' }}>
-            <SupersetReport
-              guestToken={guestToken}
-              report={report}
-              options={options}
-              style={{ width: '100%', height: '100%' }}
-              {...other}
-            />
-          </Box>
-        ) : (
-          <Box
-            sx={{
-              height: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            {!showLoadingBackdrop && (
-              <Typography variant="body1" color="text.secondary">
-                {t(
-                  'commoncomponents.iframe.scenario.nodashboard.label',
-                  "There isn't any dashboard configured for this run type"
-                )}
-              </Typography>
-            )}
-          </Box>
-        )}
+        <Box sx={{ height: '100%' }}>
+          <SupersetReport
+            alwaysShowReports={alwaysShowReports}
+            disabled={disabled}
+            downloadLogsFile={downloadLogsFile}
+            guestToken={guestToken}
+            labels={{ ...reportLabels, ...labels }}
+            noDashboardConfigured={noDashboardConfigured}
+            options={options}
+            report={report}
+            scenario={currentScenarioData}
+            style={{ width: '100%', height: '100%' }}
+            visibleScenarios={visibleScenarios}
+            {...other}
+          />
+        </Box>
       </ErrorBoundary>
     </Box>
   );

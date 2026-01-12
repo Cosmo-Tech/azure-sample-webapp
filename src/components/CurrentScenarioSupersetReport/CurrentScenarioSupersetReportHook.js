@@ -34,6 +34,10 @@ export const useCurrentScenarioSupersetReport = () => {
   const downloadLogsFile = useDownloadSimulationLogsFile();
 
   const isSupersetReducerLoading = useMemo(() => supersetReducerStatus === STATUSES.LOADING, [supersetReducerStatus]);
+  // FIXME
+  const disabled = useMemo(() => false, []);
+  const noDashboardConfigured = useMemo(() => false, []);
+
   const reportLabels = useMemo(() => getReportLabels(t), [t]);
   const language = useMemo(() => i18n.language, [i18n.language]);
 
@@ -60,15 +64,12 @@ export const useCurrentScenarioSupersetReport = () => {
     };
   }, [currentDashboard]);
 
-  const options = useMemo(
-    () => ({
-      supersetUrl,
-    }),
-    [supersetUrl]
-  );
+  const options = useMemo(() => ({ supersetUrl }), [supersetUrl]);
 
   return {
     currentScenarioData,
+    disabled,
+    noDashboardConfigured,
     isSupersetReducerLoading,
     visibleScenarios,
     reportLabels,
