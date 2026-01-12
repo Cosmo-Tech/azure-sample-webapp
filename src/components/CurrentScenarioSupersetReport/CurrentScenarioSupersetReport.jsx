@@ -4,7 +4,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Backdrop, Box, CircularProgress, Stack, Typography } from '@mui/material';
-import { ErrorBoundary, SupersetEmbed } from '@cosmotech/ui';
+import { ErrorBoundary, SupersetReport } from '@cosmotech/ui';
 import { useSupersetGuestTokenRefresh } from '../../hooks/SupersetGuestTokenRefresh';
 import { RUNNER_RUN_STATE } from '../../services/config/ApiConstants';
 import { STATUSES } from '../../services/config/StatusConstants';
@@ -80,7 +80,7 @@ const CurrentScenarioSupersetReport = ({
       >
         {guestToken && report && options?.supersetUrl ? (
           <Box sx={{ height: '100vh' }}>
-            <SupersetEmbed
+            <SupersetReport
               guestToken={guestToken}
               report={report}
               options={options}

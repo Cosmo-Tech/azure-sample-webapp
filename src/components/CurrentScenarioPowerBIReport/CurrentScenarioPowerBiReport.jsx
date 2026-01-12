@@ -4,7 +4,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Backdrop, Box, CircularProgress, Stack, Typography } from '@mui/material';
-import { ErrorBoundary, SimplePowerBIReportEmbed } from '@cosmotech/ui';
+import { ErrorBoundary, PowerBIReport } from '@cosmotech/ui';
 import { RUNNER_RUN_STATE } from '../../services/config/ApiConstants';
 import { RunnersUtils } from '../../utils';
 import StyledErrorContainer from '../StyledErrorContainer';
@@ -82,7 +82,7 @@ const CurrentScenarioPowerBiReport = ({
         title={t('commoncomponents.iframe.errorPlaceholder.title', 'Unexpected error')}
         description={t('commoncomponents.iframe.errorPlaceholder.description', defaultErrorDescription)}
       >
-        <SimplePowerBIReportEmbed
+        <PowerBIReport
           reports={reports}
           reportConfiguration={reportConfiguration}
           alwaysShowReports={alwaysShowReports}
@@ -103,11 +103,11 @@ const CurrentScenarioPowerBiReport = ({
 };
 
 CurrentScenarioPowerBiReport.propTypes = {
-  alwaysShowReports: SimplePowerBIReportEmbed.propTypes.alwaysShowReports,
+  alwaysShowReports: PowerBIReport.propTypes.alwaysShowReports,
   isParentLoading: PropTypes.bool,
-  reportConfiguration: SimplePowerBIReportEmbed.propTypes.reportConfiguration,
-  iframeRatio: SimplePowerBIReportEmbed.propTypes.iframeRatio,
-  index: SimplePowerBIReportEmbed.propTypes.index,
+  reportConfiguration: PowerBIReport.propTypes.reportConfiguration,
+  iframeRatio: PowerBIReport.propTypes.iframeRatio,
+  index: PowerBIReport.propTypes.index,
   labels: PropTypes.object,
 };
 
