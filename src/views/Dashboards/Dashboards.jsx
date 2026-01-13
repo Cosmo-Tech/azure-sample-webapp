@@ -5,10 +5,8 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Card, CardContent, Grid, Tab, Tabs } from '@mui/material';
 import { useRedirectFromDisabledView } from '../../hooks/RouterHooks';
-import { useDashboardsViewReportsConfig } from '../../state/charts/hooks';
+import { DEFAULT_MISSING_TITLE, useDashboards } from './DashboardsHook';
 import { DashboardsChartReport } from './components';
-
-const DEFAULT_MISSING_TITLE = 'MISSING_TITLE_IN_LANGUAGE';
 
 function a11yProps(index) {
   return {
@@ -21,13 +19,14 @@ const Dashboards = () => {
   const { i18n } = useTranslation();
   const [value, setValue] = useState(0);
 
+  const { reports, getTitleFromReport } = useDashboards();
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  const dashboardsViewReportsConfig = useDashboardsViewReportsConfig();
   useRedirectFromDisabledView('dashboards');
-  const dashboardTitle = dashboardsViewReportsConfig?.[value]?.title?.[i18n.language] ?? DEFAULT_MISSING_TITLE;
+  const dashboardTitle = getTitleFromReport(reports?.[value], i18n.language);
 
   return (
     <Grid container sx={{ height: '100%', margin: 'auto', width: '100%' }} direction="row">
@@ -56,7 +55,7 @@ const Dashboards = () => {
             indicatorColor="primary"
             textColor="inherit"
           >
-            {constructDashboardTabs(i18n, dashboardsViewReportsConfig)}
+            {constructDashboardTabs(i18n, reports)}
           </Tabs>
         </Card>
       </Grid>
@@ -86,9 +85,9 @@ function TabPanel(props) {
   );
 }
 
-const constructDashboardTabs = (i18n, dashboardsViewReportsConfig) => {
+const constructDashboardTabs = (i18n, reports) => {
   const tabs = [];
-  for (const dashboardConf of dashboardsViewReportsConfig) {
+  for (const dashboardConf of reports) {
     const dashboardTitle = dashboardConf.title[i18n.language] ?? DEFAULT_MISSING_TITLE;
     tabs.push(<Tab key={dashboardTitle} label={dashboardTitle} {...a11yProps(dashboardConf.id)} />);
   }
