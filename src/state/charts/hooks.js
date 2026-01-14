@@ -127,6 +127,8 @@ export const useCurrentSupersetDashboard = () => {
 
     return {
       dashboardId: fullDashboard.id,
+      height: fullDashboard.height,
+      width: fullDashboard.width,
       uiConfig: {
         hideTitle: fullDashboard.hideTitle,
         hideTab: fullDashboard.hideTab,

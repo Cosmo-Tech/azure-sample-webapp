@@ -58,6 +58,8 @@ export const useCurrentScenarioSupersetReport = () => {
 
     return {
       id: currentDashboard.dashboardId,
+      height: currentDashboard.height,
+      width: currentDashboard.width,
       uiConfig: {
         ...currentDashboard.uiConfig,
       },
