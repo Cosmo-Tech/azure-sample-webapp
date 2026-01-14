@@ -96,7 +96,6 @@ const CurrentScenarioSupersetReport = ({
             options={options}
             report={report}
             scenario={currentScenarioData}
-            style={{ width: '100%', height: '100%' }}
             visibleScenarios={visibleScenarios}
             {...other}
           />

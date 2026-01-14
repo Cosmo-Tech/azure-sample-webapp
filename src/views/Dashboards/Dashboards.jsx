@@ -63,7 +63,7 @@ const Dashboards = () => {
         <Card sx={{ height: '100%' }}>
           <CardContent sx={{ height: '100%', overflow: 'auto' }}>
             <TabPanel
-              sx={{ height: '100%', overflowY: 'auto', overflowX: 'hidden' }}
+              style={{ height: '100%', overflowY: 'auto', overflowX: 'hidden' }}
               index={value}
               key={dashboardTitle}
               title={dashboardTitle}
