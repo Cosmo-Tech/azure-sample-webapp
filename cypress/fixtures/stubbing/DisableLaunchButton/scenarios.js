@@ -7,24 +7,24 @@ export const SCENARIOS_WITH_DATASET_ERROR = [
     ...SCENARIO_EXAMPLE,
     name: 'Test Cypress - 1 - dataset not found',
     id: 's-stubbedscnr02',
-    datasetList: ['D-stbdatasetnfd'],
+    datasets: { bases: ['D-stbdatasetnfd'] },
   },
   {
     ...SCENARIO_EXAMPLE,
     name: 'Test Cypress - 2 - broken dataset',
     id: 's-stubbedscnr01',
-    datasetList: ['D-stbdataset9'],
+    datasets: { bases: ['D-stbdataset9'] },
   },
   {
     ...SCENARIO_EXAMPLE,
     name: 'Test Cypress - 3',
     id: 's-stubbedscnr03',
-    datasetList: ['D-stbdataset8'],
+    datasets: { bases: ['D-stbdataset10'] },
   },
   {
     ...SCENARIO_EXAMPLE,
     name: 'Test Cypress - 4 - empty datasetList',
     id: 's-stubbedscnr04',
-    datasetList: [],
+    datasets: { bases: [] },
   },
 ];

@@ -27,7 +27,11 @@ describe('User has no access to the solution', () => {
   // The solution interception is replaced here by a custom one because in this specific case,
   // we need to return an error instead of the base stubbed solution
   const customSelectWorkspace = (workspaceId) => {
-    const queries = [apiUtils.interceptPowerBIAzureFunction(), apiUtils.interceptGetRunners()];
+    const queries = [
+      apiUtils.interceptPowerBIAzureFunction(),
+      apiUtils.interceptGetRunners(),
+      apiUtils.interceptGetDatasets(),
+    ];
     Workspaces.getWorkspaceCardById(workspaceId)
       .should('be.visible')
       .find(GENERIC_SELECTORS.workspace.openButton)
@@ -48,7 +52,11 @@ describe('User has no access to the solution', () => {
 
     Workspaces.getWorkspacesView().should('exist');
     ErrorBanner.getErrorBanner().should('exist');
-    ErrorBanner.getErrorCommentText().should('have.text', `You don't have permission to access this solution.`);
+    ErrorBanner.getErrorCommentText().should(
+      'have.text',
+      `A problem occurred when fetching the solution "SOL-stubbedbrwy". ` +
+        `Either this solution does not exist, or you don't have access to it.`
+    );
     ErrorBanner.getErrorDetailText().should('have.text', 'RBAC SOL-unauthorized - User does not have permission read');
     ErrorBanner.checkAnDismissErrorBanner();
     ErrorBanner.getErrorBanner().should('not.be.visible');

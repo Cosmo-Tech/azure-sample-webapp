@@ -6,6 +6,8 @@ import {
   WORKSPACE,
   DATASETS_TO_REFRESH,
   ORGANIZATION_WITH_DEFAULT_ROLE_USER,
+  RUNNERS_FOR_ETL_DATASETS,
+  SOLUTION_WITH_TRANSLATED_RUN_TEMPLATES,
 } from '../../fixtures/stubbing/DatasetManager';
 import { SCENARIOS_WITH_DATASET_ERROR } from '../../fixtures/stubbing/DisableLaunchButton/scenarios';
 
@@ -13,8 +15,10 @@ describe('DisableLaunchButton', () => {
   stub.start();
   stub.setOrganizations([ORGANIZATION_WITH_DEFAULT_ROLE_USER]);
   stub.setWorkspaces([WORKSPACE]);
+  stub.setSolutions([SOLUTION_WITH_TRANSLATED_RUN_TEMPLATES]);
   stub.setDatasets([...DATASETS_TO_REFRESH]);
   stub.setScenarios(SCENARIOS_WITH_DATASET_ERROR);
+  stub.setRunners(RUNNERS_FOR_ETL_DATASETS);
 
   const scenarioWithBrokenDataset = SCENARIOS_WITH_DATASET_ERROR[1];
   const scenarioReadyToLaunch = SCENARIOS_WITH_DATASET_ERROR[2];
@@ -42,16 +46,16 @@ describe('DisableLaunchButton', () => {
     ScenarioParameters.getLaunchButton().should('not.be.disabled');
     DatasetManager.ignoreDatasetTwingraphQueries();
     DatasetManager.switchToDatasetManagerView();
-    DatasetManager.selectDatasetById(DATASETS_TO_REFRESH[1].id);
-    DatasetManager.refreshDataset(DATASETS_TO_REFRESH[1].id, refreshFailedOptions);
+    DatasetManager.selectDatasetById(DATASETS_TO_REFRESH[0].id);
+    DatasetManager.refreshDataset(DATASETS_TO_REFRESH[0].id, refreshFailedOptions);
     DatasetManager.getDatasetOverviewPlaceholderTitle().contains('An error', { timeout: 30000 });
     Scenarios.switchToScenarioView();
     ScenarioSelector.selectScenario(scenarioWithBrokenDataset.name, scenarioWithBrokenDataset.id);
     ScenarioParameters.getLaunchButton().should('be.disabled');
     DatasetManager.switchToDatasetManagerView();
-    DatasetManager.selectDatasetById(DATASETS_TO_REFRESH[1].id);
-    DatasetManager.refreshDataset(DATASETS_TO_REFRESH[1].id, refreshSuccessOptions);
-    DatasetManager.getRefreshDatasetSpinner(DATASETS_TO_REFRESH[1].id, 30000).should('not.exist');
+    DatasetManager.selectDatasetById(DATASETS_TO_REFRESH[0].id);
+    DatasetManager.refreshDataset(DATASETS_TO_REFRESH[0].id, refreshSuccessOptions);
+    DatasetManager.getRefreshDatasetSpinner(DATASETS_TO_REFRESH[0].id, 30000).should('not.exist');
     Scenarios.switchToScenarioView();
     ScenarioParameters.getLaunchButton().should('not.be.disabled');
   });

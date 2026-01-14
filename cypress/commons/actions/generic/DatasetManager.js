@@ -311,8 +311,11 @@ export const deleteDataset = (datasetId, datasetName) => {
 
 export const refreshDataset = (datasetId, options) => {
   const aliases = [
-    api.interceptRefreshDatasetAndPollStatus(datasetId, options),
-    api.interceptGetDatasetStatus(options.expectedPollsCount),
+    api.interceptStartEtlRunner(),
+    api.interceptGetEtlRunnerRunStatus({
+      expectedPollsCount: options.expectedPollsCount,
+      finalRunStatus: options.finalIngestionStatus === 'SUCCESS' ? 'Successful' : 'Failed',
+    }),
   ];
   getDatasetRefreshButton(datasetId).click();
   getConfirmDatasetRefreshButton().click();

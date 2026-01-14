@@ -1,17 +1,20 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { DEFAULT_RUNNER } from '../default';
+import { WORKSPACE } from './workspaces';
 
 const EDITABLE_RUNNER = {
   ...DEFAULT_RUNNER,
   status: 'Running',
   security: { default: 'admin', accessControlList: [] },
+  lastRunInfo: { lastRunId: 'run-stbdlastrun', lastRunStatus: 'Successful' },
 };
 
 const RUNNER_ETL = {
   ...EDITABLE_RUNNER,
   id: 'r-stbdrnr1',
-  organizationId: 'O-stbdbrwry',
+  organizationId: 'O-stbdorgztn',
+  workspaceId: WORKSPACE.id,
   name: 'ETL Runner',
   description: 'Runner for ETL',
   runTemplateId: 'etl_run_template',
@@ -20,7 +23,8 @@ const RUNNER_ETL = {
 const RUNNER_SUBDATASET = {
   ...EDITABLE_RUNNER,
   id: 'r-stbdrnr2',
-  organizationId: 'O-stbdbrwry',
+  organizationId: 'O-stbdorgztn',
+  workspaceId: WORKSPACE.id,
   name: 'Subdataset runner',
   description: 'Runner for subdataset ETL',
   runTemplateId: 'subdataset_run_template',

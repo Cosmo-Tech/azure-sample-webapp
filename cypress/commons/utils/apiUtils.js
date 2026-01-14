@@ -361,7 +361,9 @@ const interceptGetRunners = () => {
   const alias = forgeAlias('reqGetRunners');
   cy.intercept({ method: 'GET', url: API_REGEX.RUNNERS, times: 1 }, (req) => {
     if (!stub.isEnabledFor('GET_SCENARIOS')) return;
-    req.reply(stub.getScenarios());
+    // Return both simulation runners (scenarios) and ETL runners
+    const allRunners = [...stub.getScenarios(), ...stub.getRunners()];
+    req.reply(allRunners);
   }).as(alias);
   return alias;
 };
