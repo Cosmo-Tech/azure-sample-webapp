@@ -308,6 +308,13 @@ export const expectDatasetTwingraphQuery = (response = {}, validateRequest) => {
   return () => api.waitAlias(alias);
 };
 
+export const refreshDataset = (datasetId, options) => {
+  const aliases = [api.interceptStartRunner(options), api.interceptGetRunnerRunState(options?.expectedPollsCount)];
+  getDatasetRefreshButton(datasetId).click();
+  getConfirmDatasetRefreshButton().click();
+  api.waitAliases(aliases);
+};
+
 export const ignoreDatasetTwingraphQueries = () => {
   const response = [{ result: -1 }];
   api.interceptPostDatasetTwingraphQuery(response, null, 0);
