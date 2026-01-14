@@ -16,15 +16,18 @@ export const SOLUTION = {
       varType: 'enum',
       additionalData: {
         dynamicEnumValues: {
-          type: 'cypher',
-          query: 'MATCH(n:Customer) RETURN n.id as customer_id',
+          type: 'dbDatasetPart',
+          datasetPartName: 'customers',
           resultKey: 'customer_id',
+          options: {
+            selects: 'customer_id',
+          },
         },
       },
     },
     {
       id: 'etl_file_parameter',
-      varType: '%DATASETID%',
+      varType: '%DATASET_PART_ID_FILE%',
       additionalData: {
         connectorId: 'c-stbdcnctr',
       },
