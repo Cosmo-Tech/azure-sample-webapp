@@ -4,51 +4,48 @@ import { t } from 'i18next';
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
 import { Api } from '../../../services/config/Api';
-import { ApiUtils, ConfigUtils, DatasetsUtils } from '../../../utils';
+import { ApiUtils, ConfigUtils } from '../../../utils';
 import { setApplicationErrorMessage } from '../../app/reducers';
 import { DATASET_ACTIONS_KEY } from '../../datasets/constants';
-import { addDataset } from '../../datasets/reducers';
 import { RUNNER_ACTIONS_KEY } from '../constants';
 import { updateEtlRunner } from '../reducers';
 
-function* uploadFileParameter(parameter, organizationId, workspaceId) {
+function* uploadFileParameter(parameter, organizationId, workspaceId, runnerDatasetId) {
   try {
     const connectorId = parameter.connectorId;
-    const file = parameter.value.file;
+    const file = parameter.value?.value;
     const parameterId = parameter.parameterId;
 
     if (!connectorId) {
       throw new Error(`Missing connector id in configuration file for scenario parameter ${parameterId}`);
     }
+    if (!file) {
+      throw new Error(`Missing file in parameter ${parameterId}`);
+    }
     const datasetPart = {
-      name: parameterId,
+      name: file.name,
       description: parameter.description,
       connector: { id: connectorId },
       tags: ['dataset_part'],
       main: false,
     };
-    // FIXME: use new dataset parts system
-    // FIXME: add custom security with userEmail to support service accounts in ACL
-    const { data } = yield call(Api.Datasets.createDataset, organizationId, workspaceId, datasetPart);
 
-    const datasetId = data.id;
-
-    const storageFilePath = DatasetsUtils.buildStorageFilePath(datasetId, file.name);
-    const newConnector = DatasetsUtils.buildAzureStorageConnector(connectorId, storageFilePath);
-
-    const updatedDatasetPart = { ...datasetPart, connector: newConnector };
-    const { data: updatedDataset } = yield call(
-      Api.Datasets.updateDataset,
+    // Create the dataset part with the file
+    const { data: createdDatasetPart } = yield call(
+      Api.Datasets.createDatasetPart,
       organizationId,
       workspaceId,
-      datasetId,
-      updatedDatasetPart
+      runnerDatasetId,
+      file,
+      datasetPart
     );
-    // FIXME: workspace files no longer exist, replace by new dataset+part structure
-    // yield call(Api.Workspaces.uploadWorkspaceFile, organizationId, workspaceId, file, true, storageFilePath);
-    yield put(addDataset({ ...updatedDataset }));
 
-    return datasetId;
+    return {
+      datasetPartId: createdDatasetPart.id,
+      parameterId,
+      sourceName: file.name,
+      datasetId: runnerDatasetId,
+    };
   } catch (error) {
     console.error(error);
     yield put(
@@ -58,7 +55,7 @@ function* uploadFileParameter(parameter, organizationId, workspaceId) {
           'commoncomponents.banner.runnerFileNotUploaded',
           `Runner file {runnerFile} hasn't been uploaded`,
           {
-            runnerFile: parameter.value.file,
+            runnerFile: parameter.value?.name || 'unknown',
           }
         ),
       })
@@ -74,22 +71,49 @@ export function* updateEtlRunnerData(action) {
     const workspaceId = action.workspaceId;
     const runnerId = action.runnerId;
     const dataset = action.dataset;
+    const uploadedFiles = [];
+
     for (const parameter of runnerPatch.parametersValues) {
       if (ConfigUtils.isFileParameter(parameter)) {
-        if (parameter.value.status === UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD)
-          parameter.value = yield call(uploadFileParameter, parameter, organizationId, workspaceId);
-        else if (parameter.value.status === UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD)
+        if (parameter.value?.status === UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD) {
+          const fileInfo = yield call(uploadFileParameter, parameter, organizationId, workspaceId, dataset.id);
+          parameter.value = fileInfo.datasetPartId;
+          uploadedFiles.push(fileInfo);
+        } else if (parameter.value?.status === UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD) {
           parameter.value = parameter.value.id;
+        }
       }
     }
     const runnerDataToUpdate = runnerPatch.parametersValues
       ? { ...runnerPatch, ...ApiUtils.formatParametersForApi(runnerPatch.parametersValues) }
       : runnerPatch;
     const { data } = yield call(Api.Runners.updateRunner, organizationId, workspaceId, runnerId, runnerDataToUpdate);
+
+    // Update datasets.parameters with uploaded file information
+    const updatedRunner = { ...data, parametersValues: ApiUtils.formatParametersFromApi(data.parametersValues) };
+    if (uploadedFiles.length > 0) {
+      const datasetsParameters = updatedRunner.datasets?.parameters || [];
+      uploadedFiles.forEach((fileInfo) => {
+        const existingParam = datasetsParameters.find((p) => p.name === fileInfo.parameterId);
+        if (existingParam) {
+          existingParam.id = fileInfo.datasetPartId;
+          existingParam.sourceName = fileInfo.sourceName;
+        } else {
+          datasetsParameters.push({
+            id: fileInfo.datasetPartId,
+            name: fileInfo.parameterId,
+            datasetId: fileInfo.datasetId,
+            sourceName: fileInfo.sourceName,
+          });
+        }
+      });
+      updatedRunner.datasets = { ...updatedRunner.datasets, parameters: datasetsParameters };
+    }
+
     yield put(
       updateEtlRunner({
         runnerId,
-        runner: { ...data, parametersValues: ApiUtils.formatParametersFromApi(data.parametersValues) },
+        runner: updatedRunner,
       })
     );
     yield put({ type: DATASET_ACTIONS_KEY.REFRESH_DATASET, organizationId, dataset });

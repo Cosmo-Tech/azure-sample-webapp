@@ -63,7 +63,7 @@ export const API_ENDPOINT = {
   RUNNERS: URL_ROOT + '/.*/runners',
   RUNNER: URL_ROOT + '/.*/runners/((r|R)-[\\w]+)',
   START_RUNNER: URL_ROOT + '/.*/runners/((r|R)-[\\w]+)/start', // Endpoint to start the runner
-  RUNNER_STATE: URL_ROOT + '/.*/runs/(run-[\\w]+)/status',
+  RUNNER_STATE: URL_ROOT + '/.*/runners/((r|R)-[\\w]+)/runs/(run-[\\w]+)/status',
   STOP_RUNNER: URL_ROOT + '/.*/runners/((r|R)-[\\w]+)/stop', // Endpoint to stop a runner run
   RUNNER_DEFAULT_SECURITY: URL_ROOT + '/.*/runners/((r|R)-[\\w]+)/security/default',
   RUNNER_SECURITY_ACL: URL_ROOT + '/.*/runners/((r|R)-[\\w]+)/security/access',
@@ -203,7 +203,7 @@ export const API_REGEX = {
   DATASETS: new RegExp('^' + API_ENDPOINT.DATASETS),
   DATASET: new RegExp('^' + API_ENDPOINT.DATASET + '$'),
   DATASET_DEFAULT_SECURITY: new RegExp('^' + API_ENDPOINT.DATASET_DEFAULT_SECURITY + '$'),
-  DATASET_LINK: new RegExp('^' + API_ENDPOINT.DATASET_LINK + '$'),
+  DATASET_LINK: new RegExp('^' + API_ENDPOINT.DATASET_LINK),
   DATASET_SECURITY_ACL: new RegExp('^' + API_ENDPOINT.DATASET_SECURITY_ACL + '$'),
   DATASET_SECURITY_USER_ACCESS: new RegExp('^' + API_ENDPOINT.DATASET_SECURITY_USER_ACCESS + '$'),
   DATASET_REFRESH: new RegExp('^' + API_ENDPOINT.DATASET_REFRESH + '$'),

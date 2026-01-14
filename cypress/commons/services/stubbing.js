@@ -62,7 +62,7 @@ const DEFAULT_AUTH_DATA = {
 // scenarios runs, solutions and workspaces
 const DEFAULT_RESOURCES_DATA = {
   datasets: DEFAULT_DATASETS_LIST,
-  runners: [{ ...DEFAULT_RUNNER }],
+  runners: [...DEFAULT_SCENARIOS_LIST, DEFAULT_RUNNER],
   scenarioRuns: [],
   scenarios: DEFAULT_SCENARIOS_LIST,
   solutions: DEFAULT_SOLUTIONS_LIST,
@@ -306,6 +306,7 @@ class Stubbing {
   setRunners = (newRunners) => this._setResources('runners', newRunners);
   addRunner = (newRunner) => this._addResource('runners', newRunner);
   patchRunner = (runnerId, runnerPatch) => this._patchResourceById('runners', runnerId, runnerPatch);
+  getRunnerById = (runnerId) => this._getResourceById('runners', runnerId);
 
   getSolutions = () => this._getResources('solutions');
   setSolutions = (newSolutions) => this._setResources('solutions', newSolutions);

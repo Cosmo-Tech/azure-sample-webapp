@@ -268,7 +268,7 @@ const interceptUpdateScenarioSecurity = (defaultSecurityChangesCount, aclSecurit
 
 const interceptUpdateDatasetDefaultSecurity = (expectedDefaultSecurity) => {
   const alias = forgeAlias('reqUpdateDatasetDefaultSecurity');
-  cy.intercept({ method: 'POST', url: API_REGEX.DATASET_DEFAULT_SECURITY, times: 1 }, (req) => {
+  cy.intercept({ method: 'PATCH', url: API_REGEX.DATASET_DEFAULT_SECURITY, times: 1 }, (req) => {
     const datasetId = req.url.match(API_REGEX.DATASET_DEFAULT_SECURITY)[1];
     const newDefaultSecurity = req.body.role;
     if (expectedDefaultSecurity) expect(newDefaultSecurity).to.deep.equal(expectedDefaultSecurity);
@@ -796,7 +796,7 @@ const interceptRemoveDatasetAccessControl = (optionalDatasetId, expectedIdToRemo
 
 const interceptSetDatasetDefaultSecurity = (optionalDatasetId, expectedDefaultSecurity) => {
   const alias = forgeAlias('reqSetDatasetDefaultSecurity');
-  cy.intercept({ method: 'POST', url: API_REGEX.DATASET_DEFAULT_SECURITY, times: 1 }, (req) => {
+  cy.intercept({ method: 'PATCH', url: API_REGEX.DATASET_DEFAULT_SECURITY, times: 1 }, (req) => {
     const datasetId = optionalDatasetId ?? req.url.match(API_REGEX.DATASET_DEFAULT_SECURITY)[1];
     const newDefaultSecurity = req.body.role;
     if (expectedDefaultSecurity) expect(newDefaultSecurity).to.deep.equal(expectedDefaultSecurity);
@@ -962,6 +962,46 @@ const interceptSelectWorkspaceQueries = (isPowerBiEnabled = true) => {
   return workspaceQueries;
 };
 
+// Interceptor specifically for ETL runner starts (used in dataset manager)
+const interceptStartEtlRunner = () => {
+  const alias = forgeAlias('reqStartEtlRunner');
+  cy.intercept({ method: 'POST', url: API_REGEX.START_RUNNER, times: 1 }, (req) => {
+    const lastRunId = `run-stbd${utils.randomStr(6)}`;
+    req.reply({ id: lastRunId });
+  }).as(alias);
+  return alias;
+};
+
+// Interceptor for ETL runner run status polling
+// Parameters:
+//   - options: dict with properties:
+//     - expectedPollsCount: number of expected polling requests
+//     - finalRunStatus: final status of the run (e.g., 'Successful', 'Failed')
+const interceptGetEtlRunnerRunStatus = (options) => {
+  const alias = forgeAlias('reqGetEtlRunnerRunStatus');
+  const times = options?.expectedPollsCount ?? 1;
+  let pollCount = 0;
+  cy.intercept({ method: 'GET', url: API_REGEX.RUNNER_STATE, times }, (req) => {
+    pollCount++;
+    const isLastPoll = pollCount >= times;
+    const state = isLastPoll ? (options?.finalRunStatus ?? 'Successful') : 'Running';
+
+    // Update runner's lastRunInfo in stub when polling completes
+    if (isLastPoll) {
+      const regexMatch = req.url.match(API_REGEX.RUNNER_STATE);
+      const runnerId = regexMatch?.[1];
+      const runId = regexMatch?.[3];
+      if (runnerId) {
+        stub.patchRunner(runnerId, {
+          lastRunInfo: { lastRunId: runId, lastRunStatus: state },
+        });
+      }
+    }
+
+    req.reply({ state });
+  }).as(alias);
+  return alias;
+};
 export const apiUtils = {
   forgeAlias,
   waitAlias,
@@ -1022,4 +1062,6 @@ export const apiUtils = {
   interceptUpdateSimulationRunnerACLSecurity,
   interceptUpdateRunnerDefaultSecurity,
   interceptUpdateRunnerACLSecurity,
+  interceptStartEtlRunner,
+  interceptGetEtlRunnerRunStatus,
 };

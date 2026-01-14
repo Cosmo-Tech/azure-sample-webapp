@@ -173,6 +173,11 @@ const forgeRunnerParameters = (solution, formValues) => {
       varType: solutionParameter?.varType,
       value,
     };
+    // Add connector ID for file parameters
+    if (ConfigUtils.isDatasetPartVarType(solutionParameter?.varType)) {
+      const connectorId = ConfigUtils.getParameterAttribute(solutionParameter, 'connectorId');
+      if (connectorId) parameter.connectorId = connectorId;
+    }
     return parameter;
   });
 };

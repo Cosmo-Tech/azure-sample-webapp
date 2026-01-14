@@ -228,8 +228,8 @@ describe('Subdatasets creation', () => {
     cy.get(enumParameterSelector).should('not.exist');
     cy.get(listParameterSelector).should('not.exist');
     cy.get(dateParameterSelector).should('be.visible').click();
-    cy.get(dateParameterSelector).find('input').click();
-    cy.get(dateParameterSelector).find('input').type(dateValue);
+    cy.focused().type('{selectAll}{backspace}', { delay: 1 });
+    cy.focused().type(dateValue, { delay: 1 });
 
     // Check that prior inputs remain when switching back to previous datasources
     DatasetManager.selectNewDatasetSourceType('no_filter');

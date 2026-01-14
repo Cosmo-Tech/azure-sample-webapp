@@ -225,12 +225,27 @@ export const confirmDatasetCreation = (options = {}) => {
   const aliases = [];
   if (options.isETL) aliases.push(api.interceptCreateRunner(options.runnerCreationOptions));
   aliases.push(api.interceptCreateDataset(options, options.importJobOptions));
-  aliases.push(api.interceptLinkDataset());
+
+  // Link dataset is no longer called for ETL datasets in modern flow
+  if (!options.isETL) aliases.push(api.interceptLinkDataset());
+
   if (options.isETL) aliases.push(api.interceptUpdateRunner(options.runnerUpdateOptions));
 
   if (!options.isFile) {
-    aliases.push(api.interceptRefreshDataset());
-    aliases.push(api.interceptGetDatasetStatus(options.importJobOptions?.expectedPollsCount));
+    if (options.isETL && options.importJobOptions) {
+      // For ETL datasets, skip interceptRefreshDataset and go directly to runner start
+      aliases.push(api.interceptStartEtlRunner());
+      aliases.push(
+        api.interceptGetEtlRunnerRunStatus({
+          expectedPollsCount: options.importJobOptions?.expectedPollsCount,
+          finalRunStatus: options.importJobOptions?.finalIngestionStatus === 'SUCCESS' ? 'Successful' : 'Failed',
+        })
+      );
+    } else {
+      // For non-ETL datasets, use the old flow with refresh and status polling
+      aliases.push(api.interceptRefreshDataset());
+      aliases.push(api.interceptGetDatasetStatus(options.importJobOptions?.expectedPollsCount));
+    }
   }
   getConfirmDatasetCreation().click();
   api.waitAliases(aliases);
@@ -362,13 +377,16 @@ export const updateDatasetParameters = (datasetId, options) => {
   const aliases = [];
   options?.datasetsEvents?.reverse()?.forEach((datasetEvent) => {
     aliases.push(api.interceptCreateDataset({ id: datasetEvent.id }));
-    aliases.push(api.interceptUpdateDataset({ id: datasetEvent.id, customDatasetPatch: { id: datasetEvent.id } }));
-    aliases.push(api.interceptUploadWorkspaceFile());
   });
   const updateRunnerAlias = api.interceptUpdateRunner(options);
   aliases.push(updateRunnerAlias);
-  aliases.push(api.interceptRefreshDatasetAndPollStatus(datasetId, options.importJobOptions));
-  aliases.push(api.interceptGetDatasetStatus(options.importJobOptions?.expectedPollsCount));
+  aliases.push(api.interceptStartEtlRunner());
+  aliases.push(
+    api.interceptGetEtlRunnerRunStatus({
+      expectedPollsCount: options.importJobOptions?.expectedPollsCount,
+      finalRunStatus: options.importJobOptions?.finalIngestionStatus === 'SUCCESS' ? 'Successful' : 'Failed',
+    })
+  );
   getUpdateParametersButton().click();
   api.waitAliases(aliases, { timeout: 10 * 1000 });
 };

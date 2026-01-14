@@ -5,10 +5,12 @@ import { WORKSPACE } from './workspaces';
 
 const EDITABLE_DATASET = {
   ...DEFAULT_DATASET,
+  organizationId: 'O-stbdorgztn',
+  workspaceId: 'W-stbbdbrwry',
   ingestionStatus: 'SUCCESS',
   twincacheStatus: 'FULL',
   linkedWorkspaceIdList: [WORKSPACE.id],
-  security: { default: 'admin', accessControlList: [] },
+  security: { default: 'none', accessControlList: [{ id: 'dev.sample.webapp@example.com', role: 'admin' }] },
 };
 
 const DATASET_PART_1 = {
@@ -38,22 +40,51 @@ const MAIN_DATASET_A = {
 const MAIN_DATASET_B = {
   ...EDITABLE_DATASET,
   id: 'D-stbdparams3',
-  additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
+  additionalData: {
+    webapp: {
+      visible: { datasetManager: true, scenarioCreation: true },
+      sourceType: 'File',
+    },
+  },
   name: 'Parameters Dataset B',
   description: 'Dataset for parameters edition testing B',
   tags: ['parameters', 'test'],
-  sourceType: 'File',
+  parts: [
+    {
+      id: 'dp-customers',
+      name: 'customers',
+      type: 'DB',
+      organizationId: 'O-stbdorgztn',
+      workspaceId: 'W-stbbdbrwryWithDMParams',
+      datasetId: 'D-stbdparams3',
+    },
+  ],
 };
 
 const MAIN_DATASET_C = {
   ...EDITABLE_DATASET,
   id: 'D-stbdparams4',
-  parentId: 'D-stbdparams3',
-  additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
+  additionalData: {
+    webapp: {
+      visible: { datasetManager: true, scenarioCreation: true },
+      sourceType: 'ETL',
+      runnerId: 'r-stbdparams1',
+      parentId: 'D-stbdparams3',
+    },
+  },
   name: 'Parameters Dataset C',
   description: 'Dataset for parameters edition testing C with ETL',
   tags: ['parameters', 'test', 'etl'],
-  sourceType: 'ETL',
+  parts: [
+    {
+      id: 'dp-customers',
+      name: 'customers',
+      type: 'DB',
+      organizationId: 'O-stbdorgztn',
+      workspaceId: 'W-stbbdbrwryWithDMParams',
+      datasetId: 'D-stbdparams4',
+    },
+  ],
   source: {
     location: 'W-stbbdbrwry',
     name: 'r-stbdparams1',
@@ -65,7 +96,9 @@ const MAIN_DATASET_C = {
 const MAIN_DATASET_D = {
   ...EDITABLE_DATASET,
   id: 'D-stbdparams5',
-  additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
+  additionalData: {
+    webapp: { visible: { datasetManager: true, scenarioCreation: true }, sourceType: 'ETL', runnerId: 'r-stbdparams2' },
+  },
   name: 'Parameters Dataset D',
   description: 'Dataset for parameters edition testing D with ETL',
   tags: ['parameters', 'test', 'etl'],
@@ -81,7 +114,9 @@ const MAIN_DATASET_D = {
 const MAIN_DATASET_E = {
   ...EDITABLE_DATASET,
   id: 'D-stbdparams7',
-  additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
+  additionalData: {
+    webapp: { visible: { datasetManager: true, scenarioCreation: true }, sourceType: 'ETL', runnerId: 'r-stbdparams3' },
+  },
   name: 'Parameters Dataset E',
   description: 'Dataset for parameters edition testing D with ETL',
   tags: ['parameters', 'test', 'etl'],

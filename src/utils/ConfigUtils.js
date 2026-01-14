@@ -66,6 +66,7 @@ const getParameterAttribute = (parameter, attributeName) => {
   const knownAttributesNames = [
     'canChangeRowsNumber',
     'columns',
+    'connectorId',
     'dateFormat',
     'defaultFileTypeFilter',
     'description',
