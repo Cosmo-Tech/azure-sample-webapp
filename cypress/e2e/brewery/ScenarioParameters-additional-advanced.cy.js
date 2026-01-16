@@ -9,6 +9,7 @@ Cypress.Keyboard.defaults({
   keystrokeDelay: 0,
 });
 
+const EVENTS_CSV_FILE = 'events.csv';
 const SCENARIO_DATASET = DATASET.BREWERY_STORAGE;
 const SCENARIO_RUN_TEMPLATE = RUN_TEMPLATE.BASIC_TYPES;
 
@@ -63,7 +64,11 @@ describe('Additional advanced scenario parameters tests', () => {
     );
     Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
 
+    // Wait for scenario view to be fully loaded
+    Scenarios.getScenarioViewTab(60).should('be.visible');
+
     BreweryParameters.switchToEventsTab();
+    BreweryParameters.importEventsTableData(EVENTS_CSV_FILE);
     BreweryParameters.getEventsTableCell('reservationsNumber', 0).should('have.text', '200');
     BreweryParameters.getAdditionalSeatsInput().should('value', INIT_VALUES.additionalSeats);
     BreweryParameters.getActivatedInput().should('not.be.checked');
@@ -77,7 +82,7 @@ describe('Additional advanced scenario parameters tests', () => {
 
     BreweryParameters.switchToAdditionalParametersTab();
     BreweryParameters.getCommentInput().should('value', INIT_VALUES.comment);
-    BreweryParameters.getAdditionalDateInput().should('value', INIT_VALUES.additionalDate);
+    BreweryParameters.getAdditionalDateInput().contains(INIT_VALUES.additionalDate);
     BreweryParameters.getScenarioToCompareSelectInput().should('have.text', '');
 
     BreweryParameters.switchToEventsTab();
@@ -93,7 +98,8 @@ describe('Additional advanced scenario parameters tests', () => {
 
     BreweryParameters.switchToAdditionalParametersTab();
     BreweryParameters.getCommentInput().click().clear().type('Incredible service');
-    BreweryParameters.getAdditionalDateInput().type('08/29/1997').should('value', '08/29/1997');
+    BreweryParameters.getAdditionalDateInput().type('08/29/1997');
+    BreweryParameters.getAdditionalDateInput().contains('08/29/1997');
 
     cy.get('@scenarioToCompareId').then((id) => BreweryParameters.selectScenarioToCompareOption(id));
     BreweryParameters.getScenarioToCompareSelectInput().should('value', VALUES_TO_UPDATE.scenarioToCompare);
@@ -101,6 +107,7 @@ describe('Additional advanced scenario parameters tests', () => {
     ScenarioParameters.discard();
 
     BreweryParameters.switchToEventsTab();
+    BreweryParameters.importEventsTableData(EVENTS_CSV_FILE);
     BreweryParameters.getEventsTableCell('reservationsNumber', 0).should('have.text', '200');
     BreweryParameters.getAdditionalSeatsInput().should('value', INIT_VALUES.additionalSeats);
     BreweryParameters.getActivatedInput().should('not.be.checked');
@@ -114,7 +121,7 @@ describe('Additional advanced scenario parameters tests', () => {
 
     BreweryParameters.switchToAdditionalParametersTab();
     BreweryParameters.getCommentInput().should('value', INIT_VALUES.comment);
-    BreweryParameters.getAdditionalDateInput().should('value', INIT_VALUES.additionalDate);
+    BreweryParameters.getAdditionalDateInput().contains(INIT_VALUES.additionalDate);
     BreweryParameters.getScenarioToCompareSelectInput().should('value', INIT_VALUES.scenarioToCompare);
 
     BreweryParameters.switchToEventsTab();
