@@ -195,7 +195,7 @@ function getExampleDatasetPart3() {
   return cy.get(BREWERY_SELECTORS.scenario.parameters.extraDatasetPart.exampleDatasetPart3);
 }
 function getCustomersTable() {
-  return cy.get(BREWERY_SELECTORS.scenario.parameters.customers.table);
+  return cy.get(BREWERY_SELECTORS.scenario.parameters.customers.table, { timeout: 10000 });
 }
 
 function getCustomersTableLabel() {
@@ -316,7 +316,7 @@ function revertCustomersTable(response = {}) {
 }
 
 function getEventsTable() {
-  return cy.get(BREWERY_SELECTORS.scenario.parameters.events.table);
+  return cy.get(BREWERY_SELECTORS.scenario.parameters.events.table, { timeout: 10000 });
 }
 
 function getEventsTableLabel() {
@@ -423,9 +423,13 @@ function switchToBasicTypesTab() {
 }
 function switchToCustomersTab() {
   getCustomersTab().click({ force: true });
+  // Wait for the table container to be visible
+  cy.get(BREWERY_SELECTORS.scenario.parameters.customers.table, { timeout: 10000 }).should('be.visible');
 }
 function switchToEventsTab() {
   getEventsTab().click({ force: true });
+  // Wait for the table container to be visible
+  cy.get(BREWERY_SELECTORS.scenario.parameters.events.table, { timeout: 10000 }).should('be.visible');
 }
 function switchToAdditionalParametersTab() {
   getAdditionalParametersTab().click({ force: true });

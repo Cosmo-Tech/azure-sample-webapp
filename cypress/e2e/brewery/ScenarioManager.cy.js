@@ -28,7 +28,7 @@ describe('Create scenario and check its data in scenario manager', () => {
     const scenarioId = DEFAULT_SCENARIOS_LIST[0].id;
     const scenarioName = DEFAULT_SCENARIOS_LIST[0].name;
     const scenarioOwnerName = DEFAULT_SCENARIOS_LIST[0].ownerName;
-    const scenarioCreationDate = DEFAULT_SCENARIOS_LIST[0].creationDate;
+    const scenarioCreationDate = DEFAULT_SCENARIOS_LIST[0].createInfo.timestamp;
     const scenarioRunTemplate = DEFAULT_SCENARIOS_LIST[0].runTemplateName;
     const runOptions = {
       runDuration: 1000,

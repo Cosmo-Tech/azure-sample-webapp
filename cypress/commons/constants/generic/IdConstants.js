@@ -91,7 +91,7 @@ export const GENERIC_SELECTORS = {
     ownerName: '[data-cy=scenario-owner-name]',
     creationDate: '[data-cy=scenario-creation-date]',
     scenarioStatus: {
-      created: '[data-cy=scenario-status-created]',
+      notstarted: '[data-cy=scenario-status-notstarted]',
       running: '[data-cy=scenario-status-running]',
       successful: '[data-cy=scenario-status-successful]',
       failed: '[data-cy=scenario-status-failed]',
@@ -326,7 +326,7 @@ export const GENERIC_SELECTORS = {
       openColumnGroupIcon: '.ag-header-expand-icon-collapsed',
       columnGroup: '[aria-colindex=$COLGROUPNAME]',
       colByName: '[col-id=$COLNAME]',
-      rowsContainer: '[class=ag-center-cols-container]',
+      rowsContainer: '.ag-center-cols-viewport',
       row: '.ag-row',
       rowByIndex: '[row-index="$ROWINDEX"]',
       fullscreenTable: '[data-cy=fullscreen-table]',

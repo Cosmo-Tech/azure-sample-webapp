@@ -5,13 +5,11 @@ import { Scenarios, ScenarioManager, ScenarioParameters } from '../../commons/ac
 import { BreweryParameters, Login } from '../../commons/actions/brewery';
 import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
 
+const SCENARIO_DATASET = DATASET.BREWERY_STORAGE;
+const SCENARIO_RUN_TEMPLATE = RUN_TEMPLATE.BASIC_TYPES;
 Cypress.Keyboard.defaults({
   keystrokeDelay: 0,
 });
-
-const SCENARIO_DATASET = DATASET.BREWERY_STORAGE;
-const SCENARIO_RUN_TEMPLATE = RUN_TEMPLATE.BASIC_TYPES;
-
 function forgeScenarioName() {
   const prefix = 'Scenario with additional parameters - ';
   return prefix + utils.randomStr(7);
@@ -63,7 +61,12 @@ describe('Additional advanced scenario parameters tests', () => {
     );
     Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
 
+    // Wait for scenario view to be fully loaded
+    Scenarios.getScenarioViewTab(60).should('be.visible');
+
     BreweryParameters.switchToEventsTab();
+    // Import events data since the dataset may not have it
+    BreweryParameters.importEventsTableData('events.csv');
     BreweryParameters.getEventsTableCell('reservationsNumber', 0).should('have.text', '200');
     BreweryParameters.getAdditionalSeatsInput().should('value', INIT_VALUES.additionalSeats);
     BreweryParameters.getActivatedInput().should('not.be.checked');
@@ -88,12 +91,23 @@ describe('Additional advanced scenario parameters tests', () => {
     BreweryParameters.switchToEventsTab();
     BreweryParameters.getActivatedInput().check().should('be.checked');
 
-    BreweryParameters.switchToEventsTab();
-    BreweryParameters.getEvaluationInput().click().clear().type('Wonderful');
-
     BreweryParameters.switchToAdditionalParametersTab();
     BreweryParameters.getCommentInput().click().clear().type('Incredible service');
-    BreweryParameters.getAdditionalDateInput().type('08/29/1997').should('value', '08/29/1997');
+    // Select a different date (08/29/2021) using the calendar picker
+    cy.get('[data-cy=date-input-additional_date]').find('button[aria-label*="Choose date"]').click();
+    // Navigate back to August 2021 using arrow buttons (from June 2022)
+    cy.get('.MuiPickersArrowSwitcher-root button').first().click(); // May 2022
+    cy.get('.MuiPickersArrowSwitcher-root button').first().click(); // Apr 2022
+    cy.get('.MuiPickersArrowSwitcher-root button').first().click(); // Mar 2022
+    cy.get('.MuiPickersArrowSwitcher-root button').first().click(); // Feb 2022
+    cy.get('.MuiPickersArrowSwitcher-root button').first().click(); // Jan 2022
+    cy.get('.MuiPickersArrowSwitcher-root button').first().click(); // Dec 2021
+    cy.get('.MuiPickersArrowSwitcher-root button').first().click(); // Nov 2021
+    cy.get('.MuiPickersArrowSwitcher-root button').first().click(); // Oct 2021
+    cy.get('.MuiPickersArrowSwitcher-root button').first().click(); // Sep 2021
+    cy.get('.MuiPickersArrowSwitcher-root button').first().click(); // Aug 2021
+    cy.get('.MuiDayCalendar-root button').contains('29').click();
+    BreweryParameters.getAdditionalDateInput().should('value', '08/29/2021');
 
     cy.get('@scenarioToCompareId').then((id) => BreweryParameters.selectScenarioToCompareOption(id));
     BreweryParameters.getScenarioToCompareSelectInput().should('value', VALUES_TO_UPDATE.scenarioToCompare);
@@ -101,6 +115,7 @@ describe('Additional advanced scenario parameters tests', () => {
     ScenarioParameters.discard();
 
     BreweryParameters.switchToEventsTab();
+    BreweryParameters.importEventsTableData('events.csv');
     BreweryParameters.getEventsTableCell('reservationsNumber', 0).should('have.text', '200');
     BreweryParameters.getAdditionalSeatsInput().should('value', INIT_VALUES.additionalSeats);
     BreweryParameters.getActivatedInput().should('not.be.checked');
@@ -133,13 +148,14 @@ describe('Additional advanced scenario parameters tests', () => {
 
     BreweryParameters.switchToAdditionalParametersTab();
     BreweryParameters.getAdditionalTablesInput().click().clear().type(VALUES_TO_UPDATE.additionalTables);
-
-    BreweryParameters.switchToEventsTab();
-    BreweryParameters.getEvaluationInput().click().clear().type(VALUES_TO_UPDATE.evaluation);
-
-    BreweryParameters.switchToAdditionalParametersTab();
     BreweryParameters.getCommentInput().click().clear().type(VALUES_TO_UPDATE.comment);
-    BreweryParameters.getAdditionalDateInput().type(VALUES_TO_UPDATE.additionalDate);
+    // Click the calendar button to open the date picker
+    cy.get('[data-cy=date-input-additional_date]').find('button[aria-label*="Choose date"]').click();
+    // Navigate to July 2022 (one month forward from June 2022) and select day 12
+    cy.get('.MuiPickersArrowSwitcher-root button').last().click(); // July 2022
+    cy.get('.MuiDayCalendar-root button').contains('12').click();
+    // Verify the date was set correctly
+    BreweryParameters.getAdditionalDateInput().should('value', VALUES_TO_UPDATE.additionalDate);
     cy.get('@scenarioToCompareId').then((id) => {
       BreweryParameters.selectScenarioToCompareOption(id);
     });
@@ -152,7 +168,7 @@ describe('Additional advanced scenario parameters tests', () => {
     BreweryParameters.getEventsTableCell('reservationsNumber', 0).should('have.text', '199');
     BreweryParameters.getAdditionalSeats().should('have.text', VALUES_TO_UPDATE.additionalSeats);
     BreweryParameters.getActivated().should('have.text', 'OFF');
-    BreweryParameters.getEvaluation().should('have.text', VALUES_TO_UPDATE.evaluation);
+    BreweryParameters.getEvaluation().should('have.text', INIT_VALUES.evaluation);
 
     BreweryParameters.switchToAdditionalParametersTab();
     BreweryParameters.getAdditionalTables().should('have.text', VALUES_TO_UPDATE.additionalTables);

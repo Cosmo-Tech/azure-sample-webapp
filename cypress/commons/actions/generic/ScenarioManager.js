@@ -9,6 +9,8 @@ function getScenarioManagerView() {
 function switchToScenarioManager(options) {
   // eslint-disable-next-line cypress/no-force -- Workaround for MUI hidden elements not correctly ignored by cypress
   cy.get(GENERIC_SELECTORS.scenario.manager.tabName).click({ force: true, ...options });
+  // Wait for the scenario manager view to be visible before continuing
+  cy.get(GENERIC_SELECTORS.scenario.manager.search, { timeout: 10000 }).should('be.visible');
 }
 function getDeleteScenarioButton() {
   return cy.get(GENERIC_SELECTORS.scenario.manager.button.delete);

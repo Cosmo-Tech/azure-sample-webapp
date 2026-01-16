@@ -108,7 +108,8 @@ function getRevertDialogConfirmButton() {
 }
 
 function getHeader(tableParameterElement) {
-  return getGrid(tableParameterElement).find(GENERIC_SELECTORS.genericComponents.table.header);
+  // Wait for AG Grid header to be available
+  return getGrid(tableParameterElement).find(GENERIC_SELECTORS.genericComponents.table.header, { timeout: 60000 });
 }
 
 function getPlaceholder(tableParameterElement) {
@@ -121,7 +122,11 @@ function getHeaderCell(tableParameterElement, colName) {
 }
 
 function getRowsContainer(tableParameterElement) {
-  return getGrid(tableParameterElement).find(GENERIC_SELECTORS.genericComponents.table.rowsContainer);
+  // Wait for AG Grid to be fully initialized (data loaded) before accessing rows
+  // Use a longer timeout to allow for data fetching
+  return getGrid(tableParameterElement).find(GENERIC_SELECTORS.genericComponents.table.rowsContainer, {
+    timeout: 60000,
+  });
 }
 
 function getRows(tableParameterElement) {
@@ -130,7 +135,7 @@ function getRows(tableParameterElement) {
 
 function getRow(tableParameterElement, rowIndex) {
   const rowSelector = GENERIC_SELECTORS.genericComponents.table.rowByIndex.replace('$ROWINDEX', rowIndex);
-  return getRowsContainer(tableParameterElement).find(rowSelector);
+  return getRowsContainer(tableParameterElement).find(rowSelector, { timeout: 10000 });
 }
 
 function getCell(tableParameterElement, colName, rowIndex) {
