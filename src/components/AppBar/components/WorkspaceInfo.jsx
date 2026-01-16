@@ -6,18 +6,21 @@ import { useNavigate } from 'react-router';
 import { Box, Button, Grid, Popover, Typography } from '@mui/material';
 import { DefaultAvatar } from '@cosmotech/ui';
 import { useStopChartsTokenPolling } from '../../../state/charts/hooks';
+import { useStopAllRunnerStatusPolling } from '../../../state/runner/hooks';
 import { useWorkspaceInfo } from './hooks/WorkspaceInfoHook';
 
 export const WorkspaceInfo = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { currentWorkspaceData, workspacesList } = useWorkspaceInfo();
+  const stopAllRunnerStatusPolling = useStopAllRunnerStatusPolling();
   const stopChartsTokenPolling = useStopChartsTokenPolling();
 
   const [isPopoverOpened, setIsPopoverOpened] = useState(false);
   const anchorElement = useRef(null);
 
   const navigateToWorkspaceSelector = () => {
+    stopAllRunnerStatusPolling();
     stopChartsTokenPolling();
     navigate('/workspaces');
   };

@@ -19,6 +19,7 @@ import {
   dispatchUpdateEtlRunner,
   dispatchUpdateSimulationRunner,
   dispatchUpdateSimulationRunnerData,
+  dispatchStopAllRunnerStatusPolling,
 } from './dispatchers';
 import { resetCurrentSimulationRunner, setCurrentSimulationRunner, setValidationStatus } from './reducers';
 
@@ -254,4 +255,9 @@ export const useUpdateEtlRunner = () => {
       dispatch(dispatchUpdateEtlRunner(organizationId, workspaceId, runnerId, dataset, runnerPatch)),
     [dispatch, organizationId, workspaceId]
   );
+};
+
+export const useStopAllRunnerStatusPolling = () => {
+  const dispatch = useDispatch();
+  return useCallback(() => dispatch(dispatchStopAllRunnerStatusPolling()), [dispatch]);
 };
