@@ -1,6 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { delay, put, select, takeLatest } from 'redux-saga/effects';
+import { call, delay, put, select, take, takeLatest, race } from 'redux-saga/effects';
 import { ENV } from '../../../services/config/EnvironmentVariables';
 import { POWER_BI_INFO_POLLING_DELAY } from '../../../services/config/FunctionalConstants';
 import { STATUSES } from '../../../services/config/StatusConstants';
@@ -34,12 +34,7 @@ export function* getPowerBIEmbedInfoSaga() {
         'If you want to activate it, please configure the dashboards to be displayed in your workspace, ' +
         'in [workspace].additionalData.webapp.charts'
     );
-    yield put(
-      setPowerBIEmbedInfo({
-        data: noAccess,
-        status: STATUSES.DISABLED,
-      })
-    );
+    yield put(setPowerBIEmbedInfo({ data: noAccess, status: STATUSES.DISABLED }));
     return;
   }
 
@@ -65,23 +60,11 @@ export function* getPowerBIEmbedInfoSaga() {
       const error = response?.error;
 
       if (error) {
-        yield put(
-          setPowerBIEmbedInfo({
-            data: noAccess,
-            error,
-            status: STATUSES.ERROR,
-          })
-        );
+        yield put(setPowerBIEmbedInfo({ data: noAccess, error, status: STATUSES.ERROR }));
         tokenDelay = POWER_BI_INFO_POLLING_DELAY;
       } else {
         const accesses = response?.accesses;
-        yield put(
-          setPowerBIEmbedInfo({
-            data: accesses,
-            error: null,
-            status: STATUSES.SUCCESS,
-          })
-        );
+        yield put(setPowerBIEmbedInfo({ data: accesses, error: null, status: STATUSES.SUCCESS }));
         if (accesses?.expiry == null) {
           console.warn('Expiration delay of PowerBI token not provided. Token refresh may not work as expected.');
           tokenDelay = 0;
@@ -91,13 +74,7 @@ export function* getPowerBIEmbedInfoSaga() {
       }
     } catch (error) {
       console.error(error);
-      yield put(
-        setPowerBIEmbedInfo({
-          data: noAccess,
-          error,
-          status: STATUSES.ERROR,
-        })
-      );
+      yield put(setPowerBIEmbedInfo({ data: noAccess, error, status: STATUSES.ERROR }));
       tokenDelay = POWER_BI_INFO_POLLING_DELAY;
     }
 
@@ -106,7 +83,12 @@ export function* getPowerBIEmbedInfoSaga() {
   } while (tokenDelay);
 }
 
-function* getPowerBIEmbedInfoData() {
-  yield takeLatest(CHART_ACTIONS_KEY.GET_EMBED_INFO, getPowerBIEmbedInfoSaga);
+function* startPowerBITokenPolling(action) {
+  yield race([call(getPowerBIEmbedInfoSaga, action), take(CHART_ACTIONS_KEY.STOP_CHARTS_TOKEN_POLLING)]);
 }
+
+function* getPowerBIEmbedInfoData() {
+  yield takeLatest(CHART_ACTIONS_KEY.GET_EMBED_INFO, startPowerBITokenPolling);
+}
+
 export default getPowerBIEmbedInfoData;

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { PowerBIUtils } from '../../utils';
 import { resolveDynamicValue } from '../../utils/ResolveDynamicValue';
 import { useCurrentSimulationRunnerData, useRunners } from '../runner/hooks';
+import { dispatchStopChartsTokenPolling } from './dispatchers';
 import { setPowerBIReportConfig } from './reducers';
 
 export const useChartMode = () => {
@@ -139,4 +140,9 @@ export const useCurrentSupersetDashboard = () => {
       },
     };
   }, [dashboards, currentScenarioData, visibleScenarios]);
+};
+
+export const useStopChartsTokenPolling = () => {
+  const dispatch = useDispatch();
+  return useCallback(() => dispatch(dispatchStopChartsTokenPolling()), [dispatch]);
 };
