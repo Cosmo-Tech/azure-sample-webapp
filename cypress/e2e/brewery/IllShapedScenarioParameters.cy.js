@@ -18,10 +18,12 @@ describe('scenario parameter values without varType are supported if described i
 
   it('should detect missing varType in date parameter and use the varType in solution as a backup', () => {
     ScenarioParameters.expandParametersAccordion();
-    BreweryParameters.getStartDateInput().should('have.value', '01/01/2021');
-    BreweryParameters.getStartDateInput().clear();
-    BreweryParameters.getStartDateInput().type('10/22/2222').should('have.value', '10/22/2222');
+    BreweryParameters.getStartDateInput().find('input').should('have.value', '01/01/2021');
+    BreweryParameters.getStartDateInput().click();
+    cy.focused().type('{selectAll}{backspace}', { delay: 1 });
+    cy.focused().type('10/22/2222', { delay: 1 });
+    BreweryParameters.getStartDateInput().find('input').should('have.value', '10/22/2222');
     ScenarioParameters.discard();
-    BreweryParameters.getStartDateInput().should('have.value', '01/01/2021');
+    BreweryParameters.getStartDateInput().find('input').should('have.value', '01/01/2021');
   });
 });

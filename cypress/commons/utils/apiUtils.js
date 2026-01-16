@@ -268,7 +268,7 @@ const interceptUpdateScenarioSecurity = (defaultSecurityChangesCount, aclSecurit
 
 const interceptUpdateDatasetDefaultSecurity = (expectedDefaultSecurity) => {
   const alias = forgeAlias('reqUpdateDatasetDefaultSecurity');
-  cy.intercept({ method: 'PATCH', url: API_REGEX.DATASET_DEFAULT_SECURITY, times: 1 }, (req) => {
+  cy.intercept({ method: 'POST', url: API_REGEX.DATASET_DEFAULT_SECURITY, times: 1 }, (req) => {
     const datasetId = req.url.match(API_REGEX.DATASET_DEFAULT_SECURITY)[1];
     const newDefaultSecurity = req.body.role;
     if (expectedDefaultSecurity) expect(newDefaultSecurity).to.deep.equal(expectedDefaultSecurity);
@@ -324,7 +324,7 @@ const interceptGetRunnerRunState = (expectedPollsCount) => {
   const alias = forgeAlias('reqGetRunnerRunState');
   cy.intercept({ method: 'GET', url: API_REGEX.RUNNER_STATE, times: expectedPollsCount }, (req) => {
     if (!stub.isEnabledFor('LAUNCH_SCENARIO')) return;
-    const scenarioRunId = req.url.match(API_REGEX.RUNNER_STATE)[1];
+    const scenarioRunId = req.url.match(API_REGEX.RUNNER_STATE)[3];
     const lastRun = stub.getScenarioRunById(scenarioRunId);
     const stubbedStartTime = stub.getScenarioRunOptions().startTime;
     if (stubbedStartTime !== undefined) lastRun.startTime = stubbedStartTime;
@@ -361,9 +361,7 @@ const interceptGetRunners = () => {
   const alias = forgeAlias('reqGetRunners');
   cy.intercept({ method: 'GET', url: API_REGEX.RUNNERS, times: 1 }, (req) => {
     if (!stub.isEnabledFor('GET_SCENARIOS')) return;
-    // Return both simulation runners (scenarios) and ETL runners
-    const allRunners = [...stub.getScenarios(), ...stub.getRunners()];
-    req.reply(allRunners);
+    req.reply(stub.getRunners());
   }).as(alias);
   return alias;
 };
@@ -372,8 +370,8 @@ const interceptGetRunnersAndStatuses = () => {
   const aliases = [interceptGetRunners()];
   if (!stub.isEnabledFor('GET_SCENARIOS')) return aliases;
 
-  const stubbedScenariosWithLastRuns = stub.getScenarios().filter((scenario) => scenario.lastRunId);
-  const queriesToIntercept = stubbedScenariosWithLastRuns.length;
+  const stubbedRunnersWithLastRuns = stub.getRunners().filter((runner) => runner.lastRunInfo?.lastRunId);
+  const queriesToIntercept = stubbedRunnersWithLastRuns.length;
   if (queriesToIntercept > 0) aliases.push(interceptGetRunnerRunState(queriesToIntercept));
 
   return aliases;
@@ -473,6 +471,47 @@ const interceptStartRunner = (stubbingOptions) => {
       }, POLLING_START_DELAY);
       req.reply({ id: lastRunId });
     }
+  }).as(alias);
+  return alias;
+};
+
+// Interceptor specifically for ETL runner starts (used in dataset manager)
+const interceptStartEtlRunner = () => {
+  const alias = forgeAlias('reqStartEtlRunner');
+  cy.intercept({ method: 'POST', url: API_REGEX.START_RUNNER, times: 1 }, (req) => {
+    const lastRunId = `run-stbd${utils.randomStr(6)}`;
+    req.reply({ id: lastRunId });
+  }).as(alias);
+  return alias;
+};
+
+// Interceptor for ETL runner run status polling
+// Parameters:
+//   - options: dict with properties:
+//     - expectedPollsCount: number of expected polling requests
+//     - finalRunStatus: final status of the run (e.g., 'Successful', 'Failed')
+const interceptGetEtlRunnerRunStatus = (options) => {
+  const alias = forgeAlias('reqGetEtlRunnerRunStatus');
+  const times = options?.expectedPollsCount ?? 1;
+  let pollCount = 0;
+  cy.intercept({ method: 'GET', url: API_REGEX.RUNNER_STATE, times }, (req) => {
+    pollCount++;
+    const isLastPoll = pollCount >= times;
+    const state = isLastPoll ? (options?.finalRunStatus ?? 'Successful') : 'Running';
+
+    // Update runner's lastRunInfo in stub when polling completes
+    if (isLastPoll) {
+      const regexMatch = req.url.match(API_REGEX.RUNNER_STATE);
+      const runnerId = regexMatch?.[1];
+      const runId = regexMatch?.[3];
+      if (runnerId) {
+        stub.patchRunner(runnerId, {
+          lastRunInfo: { lastRunId: runId, lastRunStatus: state },
+        });
+      }
+    }
+
+    req.reply({ state });
   }).as(alias);
   return alias;
 };
@@ -644,24 +683,20 @@ const interceptCreateDataset = (options, stubbingOptions = stub.getDatasetImport
   cy.intercept({ method: 'POST', url: API_REGEX.DATASETS, times: 1 }, (req) => {
     if (options?.validateRequest) options?.validateRequest(req);
     const datasetId = options.id ?? `d-stbd${utils.randomStr(4)}`;
-    if (stub.isEnabledFor('CREATE_DATASET')) {
-      const dataset = {
-        ...DEFAULT_DATASET,
-        ...req.body,
-        id: datasetId,
-        ingestionStatus: 'PENDING',
-        ...options?.customDatasetPatch,
-      };
+    const dataset = {
+      ...DEFAULT_DATASET,
+      ...req.body,
+      id: datasetId,
+      ingestionStatus: 'PENDING',
+      ...options?.customDatasetPatch,
+    };
 
-      stub.addDataset(dataset);
-      setTimeout(() => {
-        stub.patchDataset(datasetId, { ingestionStatus: stubbingOptions.finalIngestionStatus });
-      }, stubbingOptions.importJobDuration);
+    stub.addDataset(dataset);
+    setTimeout(() => {
+      stub.patchDataset(datasetId, { ingestionStatus: stubbingOptions.finalIngestionStatus });
+    }, stubbingOptions.importJobDuration);
 
-      req.reply(dataset);
-    } else if (stub.isEnabledFor('GET_DATASETS')) {
-      req.continue((res) => stub.addDataset(res.body));
-    }
+    req.reply(dataset);
   }).as(alias);
   return alias;
 };
@@ -671,11 +706,9 @@ const interceptLinkDataset = () => {
   cy.intercept({ method: 'POST', url: API_REGEX.DATASET_LINK, times: 1 }, (req) => {
     const regexResult = req.url.match(API_REGEX.DATASET_LINK);
     const datasetId = regexResult?.[1];
-    if (stub.isEnabledFor('CREATE_DATASET') || stub.isEnabledFor('GET_DATASETS')) {
-      // TODO: patch dataset in stubbing object to add linked workspace
-      // const workspaceId = regexResult?.[3];
-      req.reply(stub.getDatasetById(datasetId));
-    }
+    // TODO: patch dataset in stubbing object to add linked workspace
+    // const workspaceId = regexResult?.[3];
+    req.reply(stub.getDatasetById(datasetId));
   }).as(alias);
   return alias;
 };
@@ -798,7 +831,7 @@ const interceptRemoveDatasetAccessControl = (optionalDatasetId, expectedIdToRemo
 
 const interceptSetDatasetDefaultSecurity = (optionalDatasetId, expectedDefaultSecurity) => {
   const alias = forgeAlias('reqSetDatasetDefaultSecurity');
-  cy.intercept({ method: 'PATCH', url: API_REGEX.DATASET_DEFAULT_SECURITY, times: 1 }, (req) => {
+  cy.intercept({ method: 'POST', url: API_REGEX.DATASET_DEFAULT_SECURITY, times: 1 }, (req) => {
     const datasetId = optionalDatasetId ?? req.url.match(API_REGEX.DATASET_DEFAULT_SECURITY)[1];
     const newDefaultSecurity = req.body.role;
     if (expectedDefaultSecurity) expect(newDefaultSecurity).to.deep.equal(expectedDefaultSecurity);
@@ -831,20 +864,16 @@ const interceptCreateRunner = (options = {}) => {
   cy.intercept({ method: 'POST', url: API_REGEX.RUNNERS, times: 1 }, (req) => {
     if (options?.validateRequest) options?.validateRequest(req);
     const runnerId = options.id ?? `r-stbd${utils.randomStr(4)}`;
-    if (stub.isEnabledFor('CREATE_DATASET')) {
-      const runner = {
-        ...DEFAULT_RUNNER,
-        ...req.body,
-        id: runnerId,
-        security: { default: 'none', accessControlList: [{ id: stub.getUser().email, role: 'admin' }] },
-        ...options?.customRunnerPatch,
-      };
+    const runner = {
+      ...DEFAULT_RUNNER,
+      ...req.body,
+      id: runnerId,
+      security: { default: 'none', accessControlList: [{ id: stub.getUser().email, role: 'admin' }] },
+      ...options?.customRunnerPatch,
+    };
 
-      stub.addRunner(runner);
-      req.reply(runner);
-    } else if (stub.isEnabledFor('GET_DATASETS')) {
-      req.continue((res) => stub.addRunner(res.body));
-    }
+    stub.addRunner(runner);
+    req.reply(runner);
   }).as(alias);
   return alias;
 };
@@ -864,8 +893,8 @@ const interceptUpdateRunner = (options = {}) => {
       ...options?.customRunnerPatch,
     };
     const runnerId = req.url.match(API_REGEX.RUNNER)?.[1];
-    if (stub.isEnabledFor('GET_DATASETS')) stub.patchRunner(runnerId, runnerPatch);
-    if (stub.isEnabledFor('UPDATE_DATASET')) req.reply(runnerPatch);
+    stub.patchRunner(runnerId, runnerPatch);
+    req.reply(runnerPatch);
   }).as(alias);
   return alias;
 };
@@ -964,46 +993,6 @@ const interceptSelectWorkspaceQueries = (isPowerBiEnabled = true) => {
   return workspaceQueries;
 };
 
-// Interceptor specifically for ETL runner starts (used in dataset manager)
-const interceptStartEtlRunner = () => {
-  const alias = forgeAlias('reqStartEtlRunner');
-  cy.intercept({ method: 'POST', url: API_REGEX.START_RUNNER, times: 1 }, (req) => {
-    const lastRunId = `run-stbd${utils.randomStr(6)}`;
-    req.reply({ id: lastRunId });
-  }).as(alias);
-  return alias;
-};
-
-// Interceptor for ETL runner run status polling
-// Parameters:
-//   - options: dict with properties:
-//     - expectedPollsCount: number of expected polling requests
-//     - finalRunStatus: final status of the run (e.g., 'Successful', 'Failed')
-const interceptGetEtlRunnerRunStatus = (options) => {
-  const alias = forgeAlias('reqGetEtlRunnerRunStatus');
-  const times = options?.expectedPollsCount ?? 1;
-  let pollCount = 0;
-  cy.intercept({ method: 'GET', url: API_REGEX.RUNNER_STATE, times }, (req) => {
-    pollCount++;
-    const isLastPoll = pollCount >= times;
-    const state = isLastPoll ? (options?.finalRunStatus ?? 'Successful') : 'Running';
-
-    // Update runner's lastRunInfo in stub when polling completes
-    if (isLastPoll) {
-      const regexMatch = req.url.match(API_REGEX.RUNNER_STATE);
-      const runnerId = regexMatch?.[1];
-      const runId = regexMatch?.[3];
-      if (runnerId) {
-        stub.patchRunner(runnerId, {
-          lastRunInfo: { lastRunId: runId, lastRunStatus: state },
-        });
-      }
-    }
-
-    req.reply({ state });
-  }).as(alias);
-  return alias;
-};
 export const apiUtils = {
   forgeAlias,
   waitAlias,
@@ -1058,12 +1047,12 @@ export const apiUtils = {
   interceptDeleteRunner,
   interceptUpdateSimulationRunner,
   interceptStartRunner,
+  interceptStartEtlRunner,
+  interceptGetEtlRunnerRunStatus,
   interceptStopRunner,
   interceptGetRunnerRunState,
   interceptUpdateSimulationRunnerDefaultSecurity,
   interceptUpdateSimulationRunnerACLSecurity,
   interceptUpdateRunnerDefaultSecurity,
   interceptUpdateRunnerACLSecurity,
-  interceptStartEtlRunner,
-  interceptGetEtlRunnerRunStatus,
 };

@@ -37,9 +37,6 @@ describe('results display is disabled', () => {
     Scenarios.getDashboardAccordionLogsDownloadButton().should('be.visible');
     Scenarios.getDashboardAccordion().click();
     Scenarios.getDashboardPlaceholder().should('be.visible');
-    Scenarios.getDashboardPlaceholder().should(
-      'have.text',
-      'Scenario run was successful but the display of results is disabled'
-    );
+    Scenarios.getDashboardPlaceholder().should('have.text', "There isn't any dashboard configured for this run type");
   });
 });

@@ -12,7 +12,7 @@ describe('Search bar in scenario manager view', () => {
   before(() => {
     setup.initCypressAndStubbing();
     stub.start();
-    stub.setScenarios(SCENARIOS);
+    stub.setRunners(SCENARIOS);
     stub.setScenarioRuns(SCENARIO_RUNS);
   });
 
