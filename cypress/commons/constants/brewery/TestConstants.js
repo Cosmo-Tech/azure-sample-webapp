@@ -10,7 +10,7 @@ export const DATASET_STORAGE_CONTAINER = '';
 export const DATASET_STORAGE_REFERENCE_FOLDER = '';
 
 export const SCENARIO_STATUS = {
-  CREATED: 'created',
+  CREATED: 'notstarted',
   RUNNING: 'running',
   SUCCESSFUL: 'successful',
   FAILED: 'failed',
