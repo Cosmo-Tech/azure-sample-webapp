@@ -89,6 +89,7 @@ const CurrentScenarioSupersetReport = ({
           <SupersetReport
             alwaysShowReports={alwaysShowReports}
             disabled={disabled}
+            isParentLoading={showLoadingBackdrop}
             downloadLogsFile={downloadLogsFile}
             guestToken={guestToken}
             labels={{ ...reportLabels, ...labels }}

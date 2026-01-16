@@ -67,7 +67,6 @@ export function* getSupersetGuestTokenSaga() {
     const error = response?.error;
 
     if (error) {
-      console.error('Superset token fetch failed:', error);
       yield put(
         setSupersetGuestToken({
           data: { token: null, expiry: null },

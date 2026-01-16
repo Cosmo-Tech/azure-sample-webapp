@@ -27,7 +27,8 @@ export const useCurrentScenarioSupersetReport = () => {
 
   const supersetInfo = useSupersetInfo();
   const supersetReducerStatus = useSupersetReducerStatus();
-  const guestToken = useSupersetGuestToken();
+  const guestTokenValue = useSupersetGuestToken();
+  const guestToken = { value: guestTokenValue, status: supersetReducerStatus };
   const supersetUrl = useSupersetUrl();
   const currentDashboard = useCurrentSupersetDashboard();
 
