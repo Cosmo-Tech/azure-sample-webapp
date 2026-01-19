@@ -8,6 +8,16 @@ const TWINGRAPH_DATASET = {
   twincacheStatus: 'FULL',
   linkedWorkspaceIdList: ['W-stbbdbrwry'],
   security: { default: 'admin', accessControlList: [] },
+  parts: [
+    {
+      id: 'dp-customers',
+      name: 'customers',
+      type: 'DB',
+      organizationId: 'O-stbdorgztn',
+      workspaceId: 'W-stbbdbrwry',
+      datasetId: 'D-stbdefault',
+    },
+  ],
 };
 
 export const TWINGRAPH_DATASET_LIST = [TWINGRAPH_DATASET];
