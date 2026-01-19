@@ -18,6 +18,7 @@ export const SOLUTION_WITH_DYNAMIC_PARAMETERS = {
       varType: 'int',
       additionalData: {
         dynamicValues: {
+          datasetPartName: 'customers',
           type: 'cypher',
           query: 'MATCH (c:Customer) RETURN count(c) AS stock',
           resultKey: 'stock',
@@ -29,6 +30,7 @@ export const SOLUTION_WITH_DYNAMIC_PARAMETERS = {
       varType: 'number',
       additionalData: {
         dynamicValues: {
+          datasetPartName: 'customers',
           type: 'cypher',
           query: 'MATCH (c:Customer) RETURN count(c) AS restock',
           resultKey: 'restock',
@@ -40,6 +42,7 @@ export const SOLUTION_WITH_DYNAMIC_PARAMETERS = {
       varType: 'int',
       additionalData: {
         dynamicValues: {
+          datasetPartName: 'customers',
           type: 'cypher',
           query: 'MATCH (c:Customer) RETURN count(c) AS waiters',
           resultKey: 'waiter',

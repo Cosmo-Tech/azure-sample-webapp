@@ -55,6 +55,7 @@ const basicParameterOptions = z.strictObject({
     .strictObject({
       datasetPartName: z.string().optional().nullable(),
       options: z.looseObject({}).optional().nullable(),
+      query: z.string().optional().nullable(),
       resultKey: z.string().optional().nullable(),
       type: z.string().optional().nullable(),
     })
