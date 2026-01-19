@@ -20,25 +20,33 @@ describe('dynamic value for number input', () => {
     stub.setRunners(SCENARIOS_WITH_DYNAMIC_NUMBERS);
   });
   beforeEach(() => {
+    apiUtils.interceptPostDatasetTwingraphQuery(
+      { body: 'stock\n10', headers: { 'content-type': 'text/csv' } },
+      false,
+      0
+    );
     Login.login();
   });
   after(stub.stop);
 
   it('can display parameters with dynamic values', () => {
-    const queryResponseBasicTypes = [{ stock: 10 }];
-    const queryResponseAdditionalParameters = [{ restock: 20 }];
-    const queryResponseEvents = [{ waiters: 30 }];
-
     Scenarios.getScenarioViewTab(60).should('be.visible');
     ScenarioParameters.expandParametersAccordion();
-    apiUtils.interceptPostDatasetTwingraphQuery(queryResponseBasicTypes, false);
     BreweryParameters.switchToBasicTypesTab();
     ScenarioParameters.getParameterInput('number-input-dynamic_int').should('have.value', 10);
-    apiUtils.interceptPostDatasetTwingraphQuery(queryResponseAdditionalParameters, false);
+    apiUtils.interceptPostDatasetTwingraphQuery(
+      { body: 'restock\n20', headers: { 'content-type': 'text/csv' } },
+      false,
+      0
+    );
     BreweryParameters.switchToAdditionalParametersTab();
     ScenarioParameters.getParameterInput('number-input-dynamic_number').should('have.value', 20);
-    apiUtils.interceptPostDatasetTwingraphQuery(queryResponseEvents, false);
-    BreweryParameters.switchToEventsTab();
+    apiUtils.interceptPostDatasetTwingraphQuery(
+      { body: 'wrong_column\n30', headers: { 'content-type': 'text/csv' } },
+      false,
+      0
+    );
+    BreweryParameters.getEventsTab().click({ force: true });
     ScenarioParameters.getParameterInput('number-input-dynamic_number_error').should('have.value', 0);
     ScenarioParameters.getDynamicValueErrorIcon().should('exist');
     ScenarioParameters.getParameterInput('number-input-dynamic_number_error').clear();
