@@ -4,7 +4,7 @@ import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { STATUSES } from '../../services/config/StatusConstants';
 import { PowerBIUtils } from '../../utils';
-import { resolveDynamicValue } from '../../utils/SupersetUtils';
+import { forgeNativeFilters } from '../../utils/SupersetUtils';
 import { useCurrentSimulationRunnerData, useRunners } from '../runner/hooks';
 import { dispatchStopChartsTokenPolling } from './dispatchers';
 import { setPowerBIReportConfig } from './reducers';
@@ -125,33 +125,7 @@ export const useGetSupersetReportWithScenarioContext = () => {
         return {};
       }
 
-      // TODO: extract low-level code below to the SupersetUtils file
-      const nativeFilters = [];
-      for (const filter of dashboard?.filters ?? []) {
-        if (typeof filter !== 'object') continue;
-
-        const { id, column, operator, value } = filter;
-        if (!id || !column || !operator || !value) {
-          console.warn('[Dynamic Filters] Invalid filter configuration detected:', filter);
-          continue;
-        }
-
-        const dynamicResolved = resolveDynamicValue(value, { currentScenarioData, visibleScenarios });
-        const valuesArray = Array.isArray(dynamicResolved) ? dynamicResolved : [dynamicResolved];
-        const nativeExpr = valuesArray
-          .map(
-            (value) =>
-              `(NATIVE_FILTER-${id}:` +
-              `(__cache:(label:'${value}',validateStatus:!f,value:!('${value}')),` +
-              `extraFormData:(filters:!((col:${column},op:${operator},val:!('${value}')))),` +
-              `filterState:(label:'${value}',validateStatus:!f,value:!('${value}')),` +
-              `id:NATIVE_FILTER-${id},ownState:()))`
-          )
-          .join(',');
-
-        nativeFilters.push(nativeExpr);
-      }
-      const nativeFiltersParam = nativeFilters.length > 0 ? nativeFilters.join(',') : undefined;
+      const nativeFiltersParam = forgeNativeFilters(dashboard?.filters, visibleScenarios, currentScenarioData);
 
       return {
         noDashboardConfiguredForRunTemplate: false,
