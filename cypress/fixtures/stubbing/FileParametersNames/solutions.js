@@ -6,7 +6,7 @@ const FILE_OPTIONS = { connectorId: 'c-stbdcnctor' };
 const TABLE_OPTIONS = { ...FILE_OPTIONS, subType: 'TABLE', columns: [{ field: 'foo' }] };
 const FILE_PARAMETER = {
   ...DEFAULT_RUN_TEMPLATE_PARAMETER,
-  varType: '%DATASETID%',
+  varType: '%DATASET_PART_ID_FILE%',
   additionalData: FILE_OPTIONS,
 };
 

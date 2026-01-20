@@ -47,7 +47,7 @@ export const SOLUTION_WITH_DYNAMIC_TABLE = {
         fr: 'Clients',
         en: 'Customers',
       },
-      varType: '%DATASETID%',
+      varType: '%DATASET_PART_ID_FILE%',
       defaultValue: null,
       minValue: null,
       maxValue: null,
@@ -100,7 +100,7 @@ export const SOLUTION_WITH_DYNAMIC_TABLE = {
         fr: 'Événements',
         en: 'Events',
       },
-      varType: '%DATASETID%',
+      varType: '%DATASET_PART_ID_FILE%',
       additionalData: {
         subType: 'TABLE',
         columns: [

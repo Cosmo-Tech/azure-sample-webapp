@@ -423,9 +423,11 @@ function switchToBasicTypesTab() {
 }
 function switchToCustomersTab() {
   getCustomersTab().click({ force: true });
+  getCustomersTab().should('have.attr', 'aria-selected', 'true'); // Wait for the tab to be selected
 }
 function switchToEventsTab() {
   getEventsTab().click({ force: true });
+  getEventsTab().should('have.attr', 'aria-selected', 'true'); // Wait for the tab to be selected
 }
 function switchToAdditionalParametersTab() {
   getAdditionalParametersTab().click({ force: true });

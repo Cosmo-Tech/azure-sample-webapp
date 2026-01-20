@@ -1,9 +1,10 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { Scenarios, ScenarioParameters, Login } from '../../commons/actions';
+import { Scenarios, ScenarioParameters, ScenarioSelector, Login } from '../../commons/actions';
 import { BreweryParameters } from '../../commons/actions/brewery';
 import { stub } from '../../commons/services/stubbing';
 import { SOLUTIONS } from '../../fixtures/stubbing/TableParameters-columnGrouping/solution';
+import { BASIC_PARAMETERS_SIMULATION_RUNNER } from '../../fixtures/stubbing/default';
 
 describe('check if column grouping is displayed in the stubbed Table component', () => {
   before(() => {
@@ -21,6 +22,7 @@ describe('check if column grouping is displayed in the stubbed Table component',
 
   it('can collapse & expand columns in groups and keep their state when adding or removing lines', () => {
     Scenarios.getScenarioViewTab(60).should('be.visible');
+    ScenarioSelector.selectScenario(BASIC_PARAMETERS_SIMULATION_RUNNER.name, BASIC_PARAMETERS_SIMULATION_RUNNER.id);
     ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.getCustomersTableGrid().should('exist');
