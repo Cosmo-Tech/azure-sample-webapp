@@ -4,7 +4,7 @@ import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { STATUSES } from '../../services/config/StatusConstants';
 import { PowerBIUtils } from '../../utils';
-import { forgeNativeFilters } from '../../utils/SupersetUtils';
+import { forgeReport } from '../../utils/SupersetUtils';
 import { useCurrentSimulationRunnerData, useRunners } from '../runner/hooks';
 import { dispatchStopChartsTokenPolling } from './dispatchers';
 import { setPowerBIReportConfig } from './reducers';
@@ -125,23 +125,9 @@ export const useGetSupersetReportWithScenarioContext = () => {
         return {};
       }
 
-      const nativeFiltersParam = forgeNativeFilters(dashboard?.filters, visibleScenarios, currentScenarioData);
-
       return {
         noDashboardConfiguredForRunTemplate: false,
-        report: {
-          id: dashboard.id,
-          height: dashboard.height,
-          width: dashboard.width,
-          uiConfig: {
-            hideTitle: dashboard.hideTitle,
-            hideTab: dashboard.hideTab,
-            hideChartControls: dashboard.hideChartControls,
-            hideFilters: dashboard.hideFilters,
-            filters: { expanded: dashboard.expandFilters },
-            urlParams: nativeFiltersParam ? { native_filters: nativeFiltersParam } : {},
-          },
-        },
+        report: forgeReport(dashboard, visibleScenarios, currentScenarioData),
       };
     },
     [dashboardsConfig, currentScenarioData, visibleScenarios, reducerStatus]

@@ -2,6 +2,11 @@
 // Licensed under the MIT license.
 import { RunnersUtils } from './RunnersUtils';
 
+const DEFAULT_EXPAND_FILTERS = false;
+const DEFAULT_HIDE_FILTERS = false;
+const DEFAULT_HIDE_CHART_CONTROLS = false;
+const DEFAULT_HIDE_TITLE = true;
+
 const resolveDynamicValue = (key, context) => {
   const { currentScenarioData, visibleScenarios } = context;
 
@@ -23,7 +28,7 @@ const resolveDynamicValue = (key, context) => {
   return resolver ? resolver() : key; // fallback to static value
 };
 
-export const forgeNativeFilters = (dashboardFilters, visibleScenarios, currentScenarioData) => {
+const forgeNativeFilters = (dashboardFilters, visibleScenarios, currentScenarioData) => {
   const nativeFilters = [];
   for (const filter of dashboardFilters ?? []) {
     if (typeof filter !== 'object') continue;
@@ -51,4 +56,35 @@ export const forgeNativeFilters = (dashboardFilters, visibleScenarios, currentSc
   }
 
   return nativeFilters.length > 0 ? nativeFilters.join(',') : undefined;
+};
+
+const returnBoolValueOrDefault = (value, defaultValue) => {
+  if (value == null) return defaultValue;
+  if (typeof value === 'boolean') return value;
+
+  console.warn('Invalid value in superset UI config options (a boolean value was expected)');
+  return defaultValue;
+};
+
+const forgeUiConfig = (dashboardConfig, visibleScenarios, currentScenarioData) => {
+  const nativeFiltersParam = forgeNativeFilters(dashboardConfig?.filters, visibleScenarios, currentScenarioData);
+
+  return {
+    hideTitle: returnBoolValueOrDefault(dashboardConfig?.hideTitle, DEFAULT_HIDE_TITLE),
+    hideChartControls: returnBoolValueOrDefault(dashboardConfig?.hideChartControls, DEFAULT_HIDE_CHART_CONTROLS),
+    filters: {
+      expanded: returnBoolValueOrDefault(dashboardConfig?.expandFilters, DEFAULT_EXPAND_FILTERS),
+      visible: !returnBoolValueOrDefault(dashboardConfig?.hideFilters, DEFAULT_HIDE_FILTERS),
+    },
+    urlParams: nativeFiltersParam ? { native_filters: nativeFiltersParam } : {},
+  };
+};
+
+export const forgeReport = (dashboardConfig, visibleScenarios, currentScenarioData) => {
+  return {
+    id: dashboardConfig.id,
+    height: dashboardConfig.height,
+    width: dashboardConfig.width,
+    uiConfig: forgeUiConfig(dashboardConfig, visibleScenarios, currentScenarioData),
+  };
 };
