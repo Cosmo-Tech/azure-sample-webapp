@@ -225,7 +225,7 @@ class Stubbing {
     const newScenarioSecurity = {
       security: {
         default: newDefaultSecurity,
-        accessControlList: scenario.security.accessControlList,
+        accessControlList: scenario?.security?.accessControlList ?? [],
       },
     };
     this.patchScenario(scenarioId, newScenarioSecurity);
@@ -233,10 +233,10 @@ class Stubbing {
 
   patchScenarioACLSecurity = (scenarioId, newACLSecurityItem) => {
     const scenario = this.getScenarioById(scenarioId);
-    const newACL = [...scenario.security.accessControlList, newACLSecurityItem];
+    const newACL = [...(scenario?.security?.accessControlList ?? []), newACLSecurityItem];
     const newScenarioSecurity = {
       security: {
-        default: scenario.security.default,
+        default: scenario?.security?.default,
         accessControlList: newACL,
       },
     };

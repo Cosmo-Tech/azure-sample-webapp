@@ -1,9 +1,15 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { DEFAULT_SOLUTION } from '../default';
+import { DEFAULT_SOLUTION, BASIC_TYPES_PARAMETERS_RUN_TEMPLATE } from '../default';
+
+const CUSTOM_RUN_TEMPLATE = {
+  ...BASIC_TYPES_PARAMETERS_RUN_TEMPLATE,
+  parameterGroups: ['customers', 'events'],
+};
 
 const SOLUTION_WITH_ADD_ROW_FEATURE = {
   ...DEFAULT_SOLUTION,
+  runTemplates: [CUSTOM_RUN_TEMPLATE],
   parameters: [
     {
       id: 'customers',
@@ -11,7 +17,7 @@ const SOLUTION_WITH_ADD_ROW_FEATURE = {
         fr: 'Clients',
         en: 'Customers',
       },
-      varType: '%DATASETID%',
+      varType: '%DATASET_PART_ID_FILE%',
       additionalData: {
         canChangeRowsNumber: true,
         connectorId: 'c-d7e5p9o0kjn9',
@@ -67,7 +73,7 @@ const SOLUTION_WITH_ADD_ROW_FEATURE = {
         fr: 'Nouveau clients',
         en: 'New clients',
       },
-      varType: '%DATASETID%',
+      varType: '%DATASET_PART_ID_FILE%',
       additionalData: {
         canChangeRowsNumber: true,
         connectorId: 'c-d7e5p9o0kjn9',

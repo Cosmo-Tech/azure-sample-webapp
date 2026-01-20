@@ -11,7 +11,7 @@ const SOLUTION_WITH_COLUMN_GROUP = {
         fr: 'Clients',
         en: 'Customers',
       },
-      varType: '%DATASETID%',
+      varType: '%DATASET_PART_ID_FILE%',
       additionalData: {
         canChangeRowsNumber: true,
         connectorId: 'c-d7e5p9o0kjn9',

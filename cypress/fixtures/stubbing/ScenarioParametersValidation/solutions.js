@@ -111,13 +111,13 @@ const SOLUTION_WITH_ALL_TYPES_OF_PARAMETERS = {
       ...SOLUTION_PARAMETER_EXAMPLE,
       id: 'example_dataset_part_1',
       labels: { fr: 'Exemple de sous-partie de dataset 1', en: 'Example dataset part 1' },
-      varType: '%DATASETID%',
+      varType: '%DATASET_PART_ID_FILE%',
     },
     {
       ...SOLUTION_PARAMETER_EXAMPLE,
       id: 'example_dataset_part_2',
       labels: { fr: 'Exemple de sous-partie de dataset 2', en: 'Example dataset part 2' },
-      varType: '%DATASETID%',
+      varType: '%DATASET_PART_ID_FILE%',
     },
   ],
   parameterGroups: [

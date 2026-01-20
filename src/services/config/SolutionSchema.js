@@ -65,6 +65,7 @@ const basicParameterOptions = z.strictObject({
   description: z.string().optional().nullable(),
   defaultFileTypeFilter: z.string().optional().nullable(),
   canChangeRowsNumber: z.boolean().optional().nullable(),
+  connectorId: z.string().optional().nullable(),
   dateFormat: z.string().optional().nullable(),
   columns: z.array(basicColumnField).optional().nullable(),
   shouldRenameFileOnUpload: z.string().optional().nullable(),

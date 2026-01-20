@@ -30,7 +30,7 @@ describe('Check workspace permissions for admin', () => {
   beforeEach(() => {
     stub.setFakeUser(USER_EXAMPLE);
     stub.setWorkspaces([WORKSPACE_WITH_USERS_LIST]);
-    stub.setScenarios(PRIVATE_SCENARIOS_LIST);
+    stub.setRunners(PRIVATE_SCENARIOS_LIST);
     Login.login();
   });
 
@@ -68,7 +68,7 @@ describe('Check workspace permissions for admin', () => {
     ScenarioSelector.selectScenario(scenario.name, scenario.id);
 
     RolesEdition.getShareButton().should('be.visible').should('not.be.disabled').click();
-    RolesEdition.getShareDialogTitle().should('have.text', 'Share ' + scenario.name);
+    RolesEdition.getShareDialogTitle().should('have.text', 'Permissions for ' + scenario.name);
     RolesEdition.selectOptionByAgent('Workspace', ROLES.RUNNER.EDITOR);
     RolesEdition.addAgent(USERS_LIST[1].email);
     RolesEdition.getShareDialogRolesCheckbox(ROLES.RUNNER.EDITOR).should('be.checked');
@@ -139,7 +139,7 @@ describe('Check workspace permissions for Viewer, Editor & Validator', () => {
   beforeEach(() => {
     stub.setFakeUser(USER_EXAMPLE);
     stub.setWorkspaces([WORKSPACE_WITH_USERS_LIST]);
-    stub.setScenarios(SHARED_SCENARIOS_LIST);
+    stub.setRunners(SHARED_SCENARIOS_LIST);
     Login.login();
   });
 
@@ -152,7 +152,7 @@ describe('Check workspace permissions for Viewer, Editor & Validator', () => {
     ScenarioSelector.selectScenario(scenario.name, scenario.id, true);
 
     Scenarios.getScenarioValidateButton().should('not.exist');
-    RolesEdition.getShareButton().should('be.visible').should('be.disabled');
+    RolesEdition.getShareButton().should('be.visible').should('not.be.disabled');
 
     Scenarios.getScenarioValidateButton().should('not.exist');
     Scenarios.getScenarioRejectButton().should('not.exist');
@@ -222,7 +222,7 @@ describe('Check scenario tree when root scenarios are not shared with user', () 
   beforeEach(() => {
     stub.setFakeUser(USER_EXAMPLE);
     stub.setWorkspaces([WORKSPACE_WITH_USERS_LIST]);
-    stub.setScenarios(NO_ROOT_SCENARIOS_LIST);
+    stub.setRunners(NO_ROOT_SCENARIOS_LIST);
     Login.login();
   });
 

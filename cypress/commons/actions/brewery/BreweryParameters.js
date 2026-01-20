@@ -423,13 +423,13 @@ function switchToBasicTypesTab() {
 }
 function switchToCustomersTab() {
   getCustomersTab().click({ force: true });
-  // Wait for the table container to be visible
-  cy.get(BREWERY_SELECTORS.scenario.parameters.customers.table, { timeout: 10000 }).should('be.visible');
+  // Wait for the tab to be selected before interacting with its content
+  getCustomersTab().should('have.attr', 'aria-selected', 'true');
 }
 function switchToEventsTab() {
   getEventsTab().click({ force: true });
-  // Wait for the table container to be visible
-  cy.get(BREWERY_SELECTORS.scenario.parameters.events.table, { timeout: 10000 }).should('be.visible');
+  // Wait for the tab to be selected before interacting with its content
+  getEventsTab().should('have.attr', 'aria-selected', 'true');
 }
 function switchToAdditionalParametersTab() {
   getAdditionalParametersTab().click({ force: true });

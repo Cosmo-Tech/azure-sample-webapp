@@ -335,7 +335,7 @@ const interceptGetRunnerRunState = (expectedPollsCount) => {
 
 const interceptUpdateSimulationRunnerDefaultSecurity = (expectedDefaultSecurity) => {
   const alias = forgeAlias('reqUpdateRunnerDefaultSecurity');
-  cy.intercept({ method: 'POST', url: API_REGEX.RUNNER_DEFAULT_SECURITY, times: 1 }, (req) => {
+  cy.intercept({ method: 'PATCH', url: API_REGEX.RUNNER_DEFAULT_SECURITY, times: 1 }, (req) => {
     const scenarioId = req.url.match(API_REGEX.RUNNER_DEFAULT_SECURITY)[1];
     const newDefaultSecurity = req.body.role;
     if (expectedDefaultSecurity) expect(newDefaultSecurity).to.deep.equal(expectedDefaultSecurity);
@@ -526,7 +526,7 @@ const interceptStopRunner = () => {
 
 const interceptUpdateRunnerDefaultSecurity = (expectedDefaultSecurity) => {
   const alias = forgeAlias('reqUpdateRunnerDefaultSecurity');
-  cy.intercept({ method: 'POST', url: API_REGEX.RUNNER_DEFAULT_SECURITY, times: 1 }, (req) => {
+  cy.intercept({ method: 'PATCH', url: API_REGEX.RUNNER_DEFAULT_SECURITY, times: 1 }, (req) => {
     const newDefaultSecurity = req.body.role;
     if (expectedDefaultSecurity) expect(newDefaultSecurity).to.deep.equal(expectedDefaultSecurity);
     if (stub.isEnabledFor('UPDATE_DATASET')) req.reply(newDefaultSecurity);
