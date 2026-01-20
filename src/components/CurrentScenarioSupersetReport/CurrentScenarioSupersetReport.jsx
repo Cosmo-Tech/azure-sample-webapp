@@ -12,29 +12,22 @@ import { RunnersUtils } from '../../utils';
 import StyledErrorContainer from '../StyledErrorContainer';
 import { useCurrentScenarioSupersetReport } from './CurrentScenarioSupersetReportHook';
 
-const CurrentScenarioSupersetReport = ({
-  alwaysShowReports,
-  isParentLoading = false,
-  reportConfiguration,
-  index,
-  labels,
-  ...other
-}) => {
+const CurrentScenarioSupersetReport = ({ alwaysShowReports, isParentLoading = false, index, labels, ...other }) => {
   const { t } = useTranslation();
 
   const {
     currentScenarioData,
-    disabled,
-    noDashboardConfigured,
-    isSupersetReducerLoading,
-    report,
+    downloadLogsFile,
+    getSupersetReportWithScenarioContext,
     guestToken,
+    isSupersetDisabled,
+    isSupersetReducerLoading,
     options,
+    reportLabels,
     supersetInfo,
     visibleScenarios,
-    reportLabels,
-    downloadLogsFile,
   } = useCurrentScenarioSupersetReport();
+  const { report, noDashboardConfiguredForRunTemplate } = getSupersetReportWithScenarioContext(index);
 
   useSupersetGuestTokenRefresh();
 
@@ -88,12 +81,12 @@ const CurrentScenarioSupersetReport = ({
         <Box sx={{ height: '100%' }}>
           <SupersetReport
             alwaysShowReports={alwaysShowReports}
-            disabled={disabled}
+            disabled={isSupersetDisabled}
             isParentLoading={showLoadingBackdrop}
             downloadLogsFile={downloadLogsFile}
             guestToken={guestToken}
             labels={{ ...reportLabels, ...labels }}
-            noDashboardConfigured={noDashboardConfigured}
+            noDashboardConfigured={noDashboardConfiguredForRunTemplate}
             options={options}
             report={report}
             scenario={currentScenarioData}
@@ -109,7 +102,6 @@ const CurrentScenarioSupersetReport = ({
 CurrentScenarioSupersetReport.propTypes = {
   alwaysShowReports: PropTypes.bool,
   isParentLoading: PropTypes.bool,
-  reportConfiguration: PropTypes.object,
   index: PropTypes.number,
   labels: PropTypes.object,
 };

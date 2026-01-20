@@ -1,3 +1,5 @@
+// Copyright (c) Cosmo Tech.
+// Licensed under the MIT license.
 import { RunnersUtils } from './RunnersUtils';
 
 export function resolveDynamicValue(key, context) {

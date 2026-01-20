@@ -2,8 +2,9 @@
 // Licensed under the MIT license.
 import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { STATUSES } from '../../services/config/StatusConstants';
 import { PowerBIUtils } from '../../utils';
-import { resolveDynamicValue } from '../../utils/ResolveDynamicValue';
+import { resolveDynamicValue } from '../../utils/SupersetUtils';
 import { useCurrentSimulationRunnerData, useRunners } from '../runner/hooks';
 import { dispatchStopChartsTokenPolling } from './dispatchers';
 import { setPowerBIReportConfig } from './reducers';
@@ -74,72 +75,103 @@ export const useSupersetUrl = () => {
   return useSelector((state) => state.charts?.superset?.data?.supersetUrl);
 };
 
-export const useCurrentSupersetDashboard = () => {
+export const useGetSupersetReportWithScenarioContext = () => {
   const visibleScenarios = useRunners();
-  const dashboards = useSupersetDashboards();
+  const dashboardsConfig = useSupersetDashboards();
   const currentScenarioData = useCurrentSimulationRunnerData();
+  const reducerStatus = useSupersetReducerStatus();
 
-  return useMemo(() => {
-    if (!dashboards?.scenarioView) return null;
+  // Parameters:
+  //  - selectedDashboardIndexInDashboardView (int): undefined when using component in Scenario view, otherwise it
+  //    represents the index of the selected dashboard when using component in Dashboards view
+  return useCallback(
+    (selectedDashboardIndexInDashboardView) => {
+      if (reducerStatus === STATUSES.DISABLED) return {};
 
-    const scenarioView = dashboards.scenarioView;
-    const runTemplateId = currentScenarioData?.runTemplateId;
+      let dashboardId;
+      if (selectedDashboardIndexInDashboardView == null) {
+        if (!dashboardsConfig?.scenarioView) {
+          console.warn(`No superset dashboards configured for scenario view`);
+          return { noDashboardConfiguredForRunTemplate: true };
+        }
 
-    let dashboardId = scenarioView.default;
-    if (scenarioView.overrides?.[runTemplateId]) {
-      dashboardId = scenarioView.overrides[runTemplateId];
-    }
-    if (!dashboardId) return null;
+        const scenarioViewDashboards = dashboardsConfig.scenarioView;
+        const runTemplateId = currentScenarioData?.runTemplateId;
+        dashboardId = scenarioViewDashboards.overrides?.[runTemplateId] ?? scenarioViewDashboards.default;
+        if (!dashboardId) {
+          console.warn(`No superset dashboard configured for run template "${runTemplateId}"`);
+          return { noDashboardConfiguredForRunTemplate: true };
+        }
+      } else {
+        if (!dashboardsConfig?.dashboardView) {
+          console.warn('No superset dashboards configured for dashboards view');
+          return {};
+        }
 
-    const fullDashboard = dashboards.dashboards?.find((dashboard) => dashboard.id === dashboardId);
-
-    if (!fullDashboard) return { dashboardId, uiConfig: {} };
-
-    const nativeFilters = [];
-
-    for (const filter of fullDashboard?.filters ?? []) {
-      if (typeof filter !== 'object') continue;
-
-      const { id, column, operator, value } = filter;
-      if (!id || !column || !operator || !value) {
-        console.warn('[Dynamic Filters] Invalid filter configuration detected:', filter);
-        continue;
+        dashboardId = dashboardsConfig.dashboardView[selectedDashboardIndexInDashboardView]?.id;
+        if (!dashboardId) {
+          console.warn(`No entry found in Dashbaords view list at index "${selectedDashboardIndexInDashboardView}"`);
+          return {};
+        }
       }
 
-      const dynamicResolved = resolveDynamicValue(value, { currentScenarioData, visibleScenarios });
+      const dashboard = dashboardsConfig.dashboards?.find((dashboard) => dashboard.id === dashboardId);
+      if (!dashboard) {
+        console.warn(
+          `No entry found in superset dashboards list with id "${dashboardId}".` +
+            'Plaese make sure that your dashboard is defined in your workspace configuration ' +
+            'additionalData.webapp.charts.dashboards)'
+        );
+        return {};
+      }
 
-      const valuesArray = Array.isArray(dynamicResolved) ? dynamicResolved : [dynamicResolved];
+      // TODO: extract low-level code below to the SupersetUtils file
+      const nativeFilters = [];
+      for (const filter of dashboard?.filters ?? []) {
+        if (typeof filter !== 'object') continue;
 
-      const nativeExpr = valuesArray
-        .map(
-          (value) =>
-            `(NATIVE_FILTER-${id}:` +
-            `(__cache:(label:'${value}',validateStatus:!f,value:!('${value}')),` +
-            `extraFormData:(filters:!((col:${column},op:${operator},val:!('${value}')))),` +
-            `filterState:(label:'${value}',validateStatus:!f,value:!('${value}')),` +
-            `id:NATIVE_FILTER-${id},ownState:()))`
-        )
-        .join(',');
+        const { id, column, operator, value } = filter;
+        if (!id || !column || !operator || !value) {
+          console.warn('[Dynamic Filters] Invalid filter configuration detected:', filter);
+          continue;
+        }
 
-      nativeFilters.push(nativeExpr);
-    }
+        const dynamicResolved = resolveDynamicValue(value, { currentScenarioData, visibleScenarios });
+        const valuesArray = Array.isArray(dynamicResolved) ? dynamicResolved : [dynamicResolved];
+        const nativeExpr = valuesArray
+          .map(
+            (value) =>
+              `(NATIVE_FILTER-${id}:` +
+              `(__cache:(label:'${value}',validateStatus:!f,value:!('${value}')),` +
+              `extraFormData:(filters:!((col:${column},op:${operator},val:!('${value}')))),` +
+              `filterState:(label:'${value}',validateStatus:!f,value:!('${value}')),` +
+              `id:NATIVE_FILTER-${id},ownState:()))`
+          )
+          .join(',');
 
-    const nativeFiltersParam = nativeFilters.length > 0 ? nativeFilters.join(',') : undefined;
+        nativeFilters.push(nativeExpr);
+      }
+      const nativeFiltersParam = nativeFilters.length > 0 ? nativeFilters.join(',') : undefined;
 
-    return {
-      dashboardId: fullDashboard.id,
-      height: fullDashboard.height,
-      width: fullDashboard.width,
-      uiConfig: {
-        hideTitle: fullDashboard.hideTitle,
-        hideTab: fullDashboard.hideTab,
-        hideChartControls: fullDashboard.hideChartControls,
-        hideFilters: fullDashboard.hideFilters,
-        filters: { expanded: fullDashboard.expandFilters },
-        urlParams: nativeFiltersParam ? { native_filters: nativeFiltersParam } : {},
-      },
-    };
-  }, [dashboards, currentScenarioData, visibleScenarios]);
+      return {
+        noDashboardConfiguredForRunTemplate: false,
+        report: {
+          id: dashboard.id,
+          height: dashboard.height,
+          width: dashboard.width,
+          uiConfig: {
+            hideTitle: dashboard.hideTitle,
+            hideTab: dashboard.hideTab,
+            hideChartControls: dashboard.hideChartControls,
+            hideFilters: dashboard.hideFilters,
+            filters: { expanded: dashboard.expandFilters },
+            urlParams: nativeFiltersParam ? { native_filters: nativeFiltersParam } : {},
+          },
+        },
+      };
+    },
+    [dashboardsConfig, currentScenarioData, visibleScenarios, reducerStatus]
+  );
 };
 
 export const useStopChartsTokenPolling = () => {

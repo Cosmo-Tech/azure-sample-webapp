@@ -67,6 +67,7 @@ const Dashboards = () => {
               index={value}
               key={dashboardTitle}
               title={dashboardTitle}
+              reports={reports}
             />
           </CardContent>
         </Card>
@@ -76,11 +77,11 @@ const Dashboards = () => {
 };
 
 function TabPanel(props) {
-  const { children, index, title, ...other } = props;
+  const { children, index, title, reports, ...other } = props;
 
   return (
     <div role="tabpanel" id={`vertical-tabpanel-${index}`} aria-labelledby={`vertical-tab-${index}`} {...other}>
-      <DashboardsChartReport index={index} />
+      <DashboardsChartReport index={index} reports={reports} />
     </div>
   );
 }
@@ -98,6 +99,7 @@ TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.any.isRequired,
   title: PropTypes.string.isRequired,
+  reports: PropTypes.object.isRequired,
 };
 
 export default Dashboards;
