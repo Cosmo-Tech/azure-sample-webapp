@@ -181,6 +181,16 @@ const DATASET_TWINGRAPH_A = {
   name: 'Dataset with twingraph A',
   sourceType: 'Twincache',
   twincacheStatus: 'FULL',
+  parts: [
+    {
+      id: 'dp-customers',
+      name: 'customers',
+      type: 'DB',
+      organizationId: 'O-stbdorgztn',
+      workspaceId: 'W-stbbdbrwry',
+      datasetId: 'D-stbdataset11',
+    },
+  ],
 };
 
 const DATASET_TWINGRAPH_B = {
@@ -190,6 +200,16 @@ const DATASET_TWINGRAPH_B = {
   name: 'Dataset with twingraph B',
   sourceType: 'Twincache',
   twincacheStatus: 'FULL',
+  parts: [
+    {
+      id: 'dp-customers',
+      name: 'customers',
+      type: 'DB',
+      organizationId: 'O-stbdorgztn',
+      workspaceId: 'W-stbbdbrwry',
+      datasetId: 'D-stbdataset12',
+    },
+  ],
 };
 
 export const DATASETS = [FILE_DATASET_MAIN_A, FILE_DATASET_MAIN_B, FILE_DATASET_NON_MAIN, ETL_DATASET, SUBDATASET];

@@ -24,7 +24,7 @@ export const SCENARIO_EXAMPLE = {
   datasets: {
     bases: [RUNNER_BASE_DATASET.id],
     parameter: 'D-mockedParameterDataset',
-    parameters: null,
+    parameters: [],
   },
   lastRunInfo: { lastRunId: null, lastRunStatus: 'NotStarted' },
   parametersValues: [],
@@ -43,7 +43,7 @@ export const DEFAULT_SCENARIOS_LIST = [
     datasets: {
       bases: ['D-stbdefault'],
       parameter: 'D-mockedParameterDataset',
-      parameters: null,
+      parameters: [],
     },
   },
   {

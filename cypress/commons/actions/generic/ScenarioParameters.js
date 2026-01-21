@@ -115,6 +115,9 @@ function cancelDiscardAndContinue() {
 //    false); used only when stubbing is enabled, to add interception of scenario updates
 //  - getLaunchButtonTimeout: maximum timeout, in seconds, before raising an error when waiting for the launch button
 //    to be enabled (default: 180)
+//  - datasetPartsEvents: list of objects describing dataset part-related queries to intercept; objects have this structure;
+//    - id (optional): id of the dataset part to create
+//    - validateRequest (optional): validation function to run on the dataset part creation request
 function launch(options) {
   const expectedPollsCount = options?.runOptions?.expectedPollsCount ?? stub.getScenarioRunOptions().expectedPollsCount;
   const aliases = [
@@ -130,6 +133,11 @@ function launch(options) {
     );
     aliases.push(api.interceptUploadWorkspaceFile());
   });
+  options?.datasetPartsEvents?.reverse()?.forEach((datasetPartEvent) => {
+    aliases.push(
+      api.interceptCreateDatasetPart({ id: datasetPartEvent.id, validateRequest: datasetPartEvent.validateRequest })
+    );
+  });
   getLaunchButton(options?.getLaunchButtonTimeout ?? 180)
     .should('not.be.disabled')
     .click();
@@ -139,7 +147,7 @@ function launch(options) {
 // Parameter 'options' is an object with the following properties:
 //  - wait: whether the action must wait for the update request interception (true by default). Set this option to false
 //    if you want to handle the request interception in your test or if you want to ignore it. This option is forced to
-//    true if the option 'datasetsEvents' is set.
+//    true if the option 'datasetsEvents' or 'datasetPartsEvents' is set.
 //  - updateOptions: options to provide to the interception of the "scenario update" query (default: undefined)
 //  - datasetsEvents: list of objects describing dataset-related queries to intercept; objects have this structure;
 //    - id (optional): id of the dataset to create
@@ -162,12 +170,17 @@ function save(options = {}) {
     );
     aliases.push(api.interceptUploadWorkspaceFile());
   });
+  options?.datasetPartsEvents?.reverse()?.forEach((datasetPartEvent) => {
+    aliases.push(
+      api.interceptCreateDatasetPart({ id: datasetPartEvent.id, validateRequest: datasetPartEvent.validateRequest })
+    );
+  });
 
   const reqUpdateScenarioAlias = api.interceptUpdateSimulationRunner(options?.updateOptions);
   aliases.push(reqUpdateScenarioAlias);
 
   getSaveButton().should('not.be.disabled').click();
-  if (options?.datasetsEvents != null || (options?.wait ?? true)) {
+  if (options?.datasetsEvents != null || options?.datasetPartsEvents != null || (options?.wait ?? true)) {
     Scenarios.getScenarioBackdrop(10).should('not.be.visible');
     api.waitAliases(aliases, { timeout: 10 * 1000 });
   } else return reqUpdateScenarioAlias;

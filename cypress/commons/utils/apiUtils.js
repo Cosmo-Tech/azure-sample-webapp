@@ -713,6 +713,54 @@ const interceptLinkDataset = () => {
   return alias;
 };
 
+const interceptCreateDatasetPart = (options = {}) => {
+  const alias = forgeAlias('reqCreateDatasetPart');
+  cy.intercept({ method: 'POST', url: API_REGEX.DATASET_PARTS, times: 1 }, (req) => {
+    if (options?.validateRequest) options?.validateRequest(req);
+    const datasetId = req.url.match(API_REGEX.DATASET_PARTS)?.[1];
+    const datasetPartId = options.id ?? `dp-stbd${utils.randomStr(4)}`;
+
+    // Parse form data to get file content
+    const form = fileUtils.parseMultipartFormData(req.body);
+    const fileContent = form?.file;
+
+    const datasetPart = {
+      id: datasetPartId,
+      name: req.body?.name ?? form?.name ?? 'customers',
+      type: 'FILE',
+      datasetId,
+      ...options?.customDatasetPartPatch,
+    };
+
+    if (stub.isEnabledFor('GET_DATASETS')) {
+      const dataset = stub.getDatasetById(datasetId);
+      if (dataset) {
+        const parts = dataset.parts ?? [];
+        parts.push(datasetPart);
+        stub.patchDataset(datasetId, { parts });
+      }
+      // Store the file content for later download
+      if (fileContent) {
+        stub.addDatasetPartFile(datasetPartId, fileContent);
+      }
+    }
+
+    req.reply(datasetPart);
+  }).as(alias);
+  return alias;
+};
+
+const interceptDownloadDatasetPart = (options = {}) => {
+  const alias = forgeAlias('reqDownloadDatasetPart');
+  cy.intercept({ method: 'GET', url: API_REGEX.DATASET_PART_DOWNLOAD, times: 1 }, (req) => {
+    if (!stub.isEnabledFor('GET_DATASETS')) return;
+    const datasetPartId = req.url.match(API_REGEX.DATASET_PART_DOWNLOAD)?.[3];
+    const fileContent = options?.fileContent ?? stub.getDatasetPartFile(datasetPartId);
+    req.reply(fileContent ?? '');
+  }).as(alias);
+  return alias;
+};
+
 const interceptRefreshDataset = () => {
   const alias = forgeAlias('reqRefreshDataset');
   cy.intercept({ method: 'POST', url: API_REGEX.DATASET_REFRESH, times: 1 }, (req) => {
@@ -1013,6 +1061,8 @@ export const apiUtils = {
   interceptPostDatasetTwingraphQueries,
   interceptRollbackDatasetStatus,
   interceptCreateDataset,
+  interceptCreateDatasetPart,
+  interceptDownloadDatasetPart,
   interceptLinkDataset,
   interceptRefreshDataset,
   interceptRefreshDatasetAndPollStatus,

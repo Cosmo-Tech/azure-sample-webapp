@@ -23,7 +23,7 @@ export const DEFAULT_RUNNER = {
   datasets: {
     bases: ['D-mockedBaseDataset'],
     parameter: 'D-mockedParameterDataset',
-    parameters: null,
+    parameters: [],
   },
   runSizing: null,
   parametersValues: [],

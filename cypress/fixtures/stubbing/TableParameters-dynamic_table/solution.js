@@ -57,6 +57,7 @@ export const SOLUTION_WITH_DYNAMIC_TABLE = {
         connectorId: 'c-d7e5p9o0kjn9',
         subType: 'TABLE',
         dynamicValues: {
+          datasetPartName: 'customers',
           query:
             'MATCH(customer: Customer) WITH {name: customer.id, satisfaction: customer.Satisfaction, ' +
             'surroundingSatisfaction: customer.SurroundingSatisfaction, thirsty: customer.Thirsty} ' +

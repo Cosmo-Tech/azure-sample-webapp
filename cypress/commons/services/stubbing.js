@@ -123,6 +123,7 @@ class Stubbing {
   constructor() {
     this.reset();
     this.workspaceFiles = {}; // TODO: isolate each workspace instead of using only one Object
+    this.datasetPartFiles = {}; // Storage for dataset part files
 
     this.enabledStubs = {};
     STUB_TYPES.forEach((stubType) => {
@@ -337,6 +338,11 @@ class Stubbing {
   setWorkspaceFiles = (newWorkspaceFiles) => (this.workspaceFiles = newWorkspaceFiles);
   addWorkspaceFile = (fileName, fileContent) => (this.workspaceFiles[fileName] = fileContent);
   getWorkspaceFile = (fileName) => this.workspaceFiles[fileName];
+
+  getDatasetPartFiles = () => this.datasetPartFiles;
+  setDatasetPartFiles = (newDatasetPartFiles) => (this.datasetPartFiles = newDatasetPartFiles);
+  addDatasetPartFile = (partId, fileContent) => (this.datasetPartFiles[partId] = fileContent);
+  getDatasetPartFile = (partId) => this.datasetPartFiles[partId];
 }
 
 export const stub = new Stubbing();
