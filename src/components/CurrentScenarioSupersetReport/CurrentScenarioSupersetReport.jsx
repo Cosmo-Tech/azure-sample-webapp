@@ -52,7 +52,7 @@ const CurrentScenarioSupersetReport = ({ alwaysShowReports, isParentLoading = fa
     t('commoncomponents.iframe.errorPlaceholder.description', defaultErrorDescription);
 
   return (
-    <Box sx={{ height: '100%', position: 'relative', pb: showErrorBanner ? '10px' : 0 }}>
+    <Box sx={{ height: '100%', position: 'relative', pb: showErrorBanner ? '10px' : 0, minHeight: '50px' }}>
       {showErrorBanner && (
         <StyledErrorContainer
           data-cy="superset-error-banner"
