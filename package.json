@@ -18,7 +18,7 @@
     "@cosmotech/api-ts": "5.0.0-rc1",
     "@cosmotech/azure": "^4.0.0-dev.1",
     "@cosmotech/core": "^3.0.0-dev.0",
-    "@cosmotech/ui": "^11.0.0-dev.7",
+    "@cosmotech/ui": "^11.0.0-dev.8",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^7.3.7",

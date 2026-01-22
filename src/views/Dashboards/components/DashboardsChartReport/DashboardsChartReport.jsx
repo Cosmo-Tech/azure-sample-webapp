@@ -9,12 +9,12 @@ import { CHART_MODES } from '../../../../state/charts/constants';
 import { useChartMode } from '../../../../state/charts/hooks';
 import { useDashboardsChartReport } from './DashboardsChartReportHook';
 
-const DashboardsChartReport = ({ index }) => {
+const DashboardsChartReport = ({ index, reports }) => {
   const { t } = useTranslation();
-  const { reportsConfig, iframeRatio } = useDashboardsChartReport();
+  const { iframeRatio } = useDashboardsChartReport();
   const chartMode = useChartMode();
 
-  const dynamicFilterValues = reportsConfig[index]?.dynamicFilters?.flatMap((filter) => filter.values);
+  const dynamicFilterValues = reports[index]?.dynamicFilters?.flatMap((filter) => filter.values);
   const hasFiltersOnSimulationRun =
     dynamicFilterValues?.some((value) => value === POWER_BI_FIELD_ENUM.LAST_RUN_ID) ?? false;
 
@@ -29,19 +29,13 @@ const DashboardsChartReport = ({ index }) => {
   };
 
   if (chartMode === CHART_MODES.SUPERSET) {
-    return (
-      <CurrentScenarioSupersetReport
-        index={index}
-        reportConfiguration={reportsConfig}
-        labels={dashboardsViewSpecificLabels}
-        alwaysShowReports
-      />
-    );
+    // FIXME: handle "alwaysShowReports" in CurrentScenarioSupersetReport and CurrentScenarioPowerBiReport components
+    return <CurrentScenarioSupersetReport index={index} labels={dashboardsViewSpecificLabels} alwaysShowReports />;
   }
   return (
     <CurrentScenarioPowerBiReport
       index={index}
-      reportConfiguration={reportsConfig}
+      reportConfiguration={reports}
       iframeRatio={iframeRatio}
       labels={dashboardsViewSpecificLabels}
       alwaysShowReports={!hasFiltersOnSimulationRun}
@@ -51,6 +45,7 @@ const DashboardsChartReport = ({ index }) => {
 
 DashboardsChartReport.propTypes = {
   index: PropTypes.any.isRequired,
+  reports: PropTypes.object.isRequired,
 };
 
 export default DashboardsChartReport;

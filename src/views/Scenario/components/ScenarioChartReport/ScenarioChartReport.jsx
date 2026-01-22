@@ -12,15 +12,8 @@ const ScenarioChartReport = () => {
 
   const chartMode = useChartMode();
 
-  if (chartMode === CHART_MODES.SUPERSET) {
-    return (
-      <CurrentScenarioSupersetReport
-        key={currentScenarioData?.id}
-        reportConfiguration={currentScenarioRunTemplateReport}
-        isParentLoading={isViewLoading}
-      />
-    );
-  }
+  if (chartMode === CHART_MODES.SUPERSET)
+    return <CurrentScenarioSupersetReport key={currentScenarioData?.id} isParentLoading={isViewLoading} />;
 
   return (
     <CurrentScenarioPowerBiReport

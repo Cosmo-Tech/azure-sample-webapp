@@ -128,3 +128,7 @@ export const dispatchUpdateEtlRunner = (organizationId, workspaceId, runnerId, d
   dataset,
   runnerPatch,
 });
+
+export const dispatchStopAllRunnerStatusPolling = () => ({
+  type: RUNNER_ACTIONS_KEY.STOP_ALL_RUNNERS_STATUS_POLLING,
+});

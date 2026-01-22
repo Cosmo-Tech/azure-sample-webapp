@@ -8,7 +8,7 @@ import { STATUSES } from '../../../services/config/StatusConstants';
 import { WorkspaceSchema } from '../../../services/config/WorkspaceSchema';
 import { ConfigUtils, RunnersUtils, WorkspacesUtils } from '../../../utils';
 import { setApplicationErrorMessage, setApplicationStatus } from '../../app/reducers';
-import { CHART_MODES } from '../../charts/constants';
+import { CHART_ACTIONS_KEY, CHART_MODES } from '../../charts/constants';
 import { dispatchGetPowerBIEmbedInfo, dispatchGetSupersetGuestToken } from '../../charts/dispatchers';
 import { clearAllChartsInfo, setChartMode, setSupersetDashboards, setSupersetUrl } from '../../charts/reducers';
 import { fetchAllDatasetsData } from '../../datasets/sagas/FindAllDatasets';
@@ -63,6 +63,7 @@ export function* selectWorkspace(action) {
   WorkspacesUtils.checkConfigurationPitfalls(selectedWorkspace);
 
   yield put({ type: RUNNER_ACTIONS_KEY.STOP_ALL_RUNNERS_STATUS_POLLING });
+  yield put({ type: CHART_ACTIONS_KEY.STOP_CHARTS_TOKEN_POLLING });
   yield put(clearAllChartsInfo());
   yield call(fetchAllDatasetsData, organizationId, selectedWorkspaceId);
 

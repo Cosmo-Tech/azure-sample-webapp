@@ -9,3 +9,7 @@ export const dispatchGetPowerBIEmbedInfo = () => ({
 export const dispatchGetSupersetGuestToken = () => ({
   type: CHART_ACTIONS_KEY.GET_SUPERSET_GUEST_TOKEN,
 });
+
+export const dispatchStopChartsTokenPolling = () => ({
+  type: CHART_ACTIONS_KEY.STOP_CHARTS_TOKEN_POLLING,
+});

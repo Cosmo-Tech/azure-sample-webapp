@@ -1617,14 +1617,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@base-ui-components/utils@npm:0.1.2":
-  version: 0.1.2
-  resolution: "@base-ui-components/utils@npm:0.1.2"
+"@base-ui/utils@npm:^0.2.3":
+  version: 0.2.4
+  resolution: "@base-ui/utils@npm:0.2.4"
   dependencies:
     "@babel/runtime": "npm:^7.28.4"
     "@floating-ui/utils": "npm:^0.2.10"
     reselect: "npm:^5.1.1"
-    use-sync-external-store: "npm:^1.5.0"
+    use-sync-external-store: "npm:^1.6.0"
   peerDependencies:
     "@types/react": ^17 || ^18 || ^19
     react: ^17 || ^18 || ^19
@@ -1632,7 +1632,7 @@ __metadata:
   peerDependenciesMeta:
     "@types/react":
       optional: true
-  checksum: 10c0/d4555f1bcb4245474939093f553104f27af18cd59a5cc78d34a4f199735660a041d0a02d7141bc5ae4646341d4e5130a632209d027f204eeaaac5d3970f33b8f
+  checksum: 10c0/98305af23d44fb42a2c331a95a0d90be1008a183dfaf767b3804f0962cee7d339d71d29732b2cb102b32f2b9c0ca5b756d5ca47d9c654673e72e4dbf4dba7f07
   languageName: node
   linkType: hard
 
@@ -1676,14 +1676,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmotech/ui@npm:^11.0.0-dev.7":
-  version: 11.0.0-dev.7
-  resolution: "@cosmotech/ui@npm:11.0.0-dev.7"
+"@cosmotech/ui@npm:^11.0.0-dev.8":
+  version: 11.0.0-dev.8
+  resolution: "@cosmotech/ui@npm:11.0.0-dev.8"
   dependencies:
     "@emotion/react": "npm:^11.14.0"
     "@emotion/styled": "npm:^11.14.1"
-    "@mui/x-date-pickers": "npm:^8.22.0"
-    "@mui/x-tree-view": "npm:^8.22.0"
+    "@mui/x-date-pickers": "npm:^8.25.0"
+    "@mui/x-tree-view": "npm:^8.25.0"
     "@superset-ui/embedded-sdk": "npm:^0.3.0"
     ag-grid-community: "npm:~35.0.0"
     ag-grid-react: "npm:~35.0.0"
@@ -1691,7 +1691,7 @@ __metadata:
     cytoscape-bubblesets: "npm:^4.1.0"
     cytoscape-dagre: "npm:^2.5.0"
     cytoscape-layers: "npm:^3.1.0"
-    powerbi-client-react: "npm:^2.0.0"
+    powerbi-client-react: "npm:^2.0.1"
     react-cytoscapejs: "npm:^2.0.0"
     react-lottie-player: "npm:^2.1.0"
     react-number-format: "npm:^5.4.4"
@@ -1705,7 +1705,7 @@ __metadata:
     react: ^19.1.1
     react-dom: ^19.1.1
     react-i18next: ^15.7.3
-  checksum: 10c0/3b68a007db9d6964ca4d6f9ad5b04b671e4b76cb016cb0a623b18abc858d171ead901bbbaa79c2558636162c6ff7fd007b3e9942331302429b3006ccfd7d6169
+  checksum: 10c0/ffdc72b2d12aae44544b8a72fb1919404b397cbd02e719341919e5f96b1e9d99a097f752b293a9673bd68e90da41774cfd67b13d981488f523cac0dcdcadfa52
   languageName: node
   linkType: hard
 
@@ -2994,13 +2994,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/x-date-pickers@npm:^8.22.0":
-  version: 8.22.0
-  resolution: "@mui/x-date-pickers@npm:8.22.0"
+"@mui/x-date-pickers@npm:^8.25.0":
+  version: 8.26.0
+  resolution: "@mui/x-date-pickers@npm:8.26.0"
   dependencies:
     "@babel/runtime": "npm:^7.28.4"
     "@mui/utils": "npm:^7.3.5"
-    "@mui/x-internals": "npm:8.22.0"
+    "@mui/x-internals": "npm:8.26.0"
     "@types/react-transition-group": "npm:^4.4.12"
     clsx: "npm:^2.1.1"
     prop-types: "npm:^15.8.1"
@@ -3038,13 +3038,13 @@ __metadata:
       optional: true
     moment-jalaali:
       optional: true
-  checksum: 10c0/18ee82181f602c6e6f948b3c8bbc2adad28eb820a6181da33a321de03695331676a3f4a846c51288e538151d2f1aba546484ad8a47e07f71f42f452525131fa8
+  checksum: 10c0/b2d28e10529cb0eb3e6413960658fb8f1c608066abd4365fab895adab66fa777846418e25cd91f04d47fc037d08abee114d9dde029b663532aefcede02c98175
   languageName: node
   linkType: hard
 
-"@mui/x-internals@npm:8.22.0":
-  version: 8.22.0
-  resolution: "@mui/x-internals@npm:8.22.0"
+"@mui/x-internals@npm:8.26.0":
+  version: 8.26.0
+  resolution: "@mui/x-internals@npm:8.26.0"
   dependencies:
     "@babel/runtime": "npm:^7.28.4"
     "@mui/utils": "npm:^7.3.5"
@@ -3052,18 +3052,18 @@ __metadata:
     use-sync-external-store: "npm:^1.6.0"
   peerDependencies:
     react: ^17.0.0 || ^18.0.0 || ^19.0.0
-  checksum: 10c0/a7579eab633ece2d168f2aab2623914ce1a72db48733315cc25dd43e3187cdbc19f6a559c956dd30962ab2849c9650a3fd6b321f0a0f3b08d90313cdbd62b541
+  checksum: 10c0/819564e1b1c7626f5e237edd81f716a3871df1479f2e2e9fbef45a5963df21c510eca4931f6af726fdcd9dc643a019e44c5d61657865b389ef0a2ab5abb10d6c
   languageName: node
   linkType: hard
 
-"@mui/x-tree-view@npm:^8.22.0":
-  version: 8.22.0
-  resolution: "@mui/x-tree-view@npm:8.22.0"
+"@mui/x-tree-view@npm:^8.25.0":
+  version: 8.26.0
+  resolution: "@mui/x-tree-view@npm:8.26.0"
   dependencies:
     "@babel/runtime": "npm:^7.28.4"
-    "@base-ui-components/utils": "npm:0.1.2"
+    "@base-ui/utils": "npm:^0.2.3"
     "@mui/utils": "npm:^7.3.5"
-    "@mui/x-internals": "npm:8.22.0"
+    "@mui/x-internals": "npm:8.26.0"
     "@types/react-transition-group": "npm:^4.4.12"
     clsx: "npm:^2.1.1"
     prop-types: "npm:^15.8.1"
@@ -3080,7 +3080,7 @@ __metadata:
       optional: true
     "@emotion/styled":
       optional: true
-  checksum: 10c0/12916d8ec01abf1096f545ce3c9a8e2e28de065cf55dd9a40334ee94226342f74adf301bc6b63cf125a51902f8786097184761c3b5c251c559911e76d5d7aa7d
+  checksum: 10c0/68780098d2cbac06778015a9161e1e3b42f1acd0b5299b7995efa0dfd7127ccb38b6e31f515eae570b3e1d831e0a6a072fbf9b6e6d96971ebd5392bb26145d38
   languageName: node
   linkType: hard
 
@@ -4659,7 +4659,7 @@ __metadata:
     "@cosmotech/api-ts": "npm:5.0.0-rc1"
     "@cosmotech/azure": "npm:^4.0.0-dev.1"
     "@cosmotech/core": "npm:^3.0.0-dev.0"
-    "@cosmotech/ui": "npm:^11.0.0-dev.7"
+    "@cosmotech/ui": "npm:^11.0.0-dev.8"
     "@emotion/react": "npm:^11.14.0"
     "@emotion/styled": "npm:^11.14.1"
     "@eslint/compat": "npm:^2.0.1"
@@ -10464,15 +10464,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"powerbi-client-react@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "powerbi-client-react@npm:2.0.0"
+"powerbi-client-react@npm:^2.0.1":
+  version: 2.0.2
+  resolution: "powerbi-client-react@npm:2.0.2"
   dependencies:
     lodash.isequal: "npm:^4.5.0"
     powerbi-client: "npm:^2.23.1"
   peerDependencies:
     react: ">= 18"
-  checksum: 10c0/681c6c3f96e23653242df6b992077277a00f8ffa3314bb3bad854f8fa4350c3ddd79303e170eb4c14546a924d0d589898fdf57d441868fd848d684db25d20f65
+  checksum: 10c0/30813ceeb92b5f6c7d1290c080ccb6870262ea9e36e9a2e53661e7b39f5b04d0e338d2b8b6d36821aef056d053657b5da7dae88e7b13a6fa45d1225951ddceee
   languageName: node
   linkType: hard
 
@@ -12557,7 +12557,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"use-sync-external-store@npm:^1.4.0, use-sync-external-store@npm:^1.5.0, use-sync-external-store@npm:^1.6.0":
+"use-sync-external-store@npm:^1.4.0, use-sync-external-store@npm:^1.6.0":
   version: 1.6.0
   resolution: "use-sync-external-store@npm:1.6.0"
   peerDependencies:

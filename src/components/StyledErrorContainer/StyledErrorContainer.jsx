@@ -21,8 +21,8 @@ const Container = styled('div')(({ theme }) => ({
 
 const StyledErrorContainer = ({ errorCode, errorDescription, ...rest }) => (
   <Container {...rest}>
-    {errorCode && <div style={{ fontWeight: 'bold', fontSize: 'large' }}>{errorCode}</div>}
-    {errorDescription && <div style={{ fontWeight: 'bold', fontSize: 'small' }}>{errorDescription}</div>}
+    {errorCode && <div style={{ width: '100%', fontWeight: 'bold', fontSize: 'large' }}>{errorCode}</div>}
+    {errorDescription && <div style={{ width: '100%', fontWeight: 'bold', fontSize: 'small' }}>{errorDescription}</div>}
   </Container>
 );
 

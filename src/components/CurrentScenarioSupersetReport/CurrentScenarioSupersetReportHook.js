@@ -10,7 +10,7 @@ import {
   useSupersetReducerStatus,
   useSupersetGuestToken,
   useSupersetUrl,
-  useCurrentSupersetDashboard,
+  useGetSupersetReportWithScenarioContext,
 } from '../../state/charts/hooks';
 import { useCurrentSimulationRunnerData, useRunners } from '../../state/runner/hooks';
 import darkTheme from '../../theme/powerbi/darkTheme.json';
@@ -21,18 +21,18 @@ import { getReportLabels } from '../CurrentScenarioPowerBIReport/labels';
 export const useCurrentScenarioSupersetReport = () => {
   const { t, i18n } = useTranslation();
 
-  const currentScenarioData = useCurrentSimulationRunnerData();
-
   const scenarios = useRunners();
+  const currentScenarioData = useCurrentSimulationRunnerData();
 
   const supersetInfo = useSupersetInfo();
   const supersetReducerStatus = useSupersetReducerStatus();
-  const guestToken = useSupersetGuestToken();
+  const guestTokenValue = useSupersetGuestToken();
+  const guestToken = { value: guestTokenValue, status: supersetReducerStatus };
   const supersetUrl = useSupersetUrl();
-  const currentDashboard = useCurrentSupersetDashboard();
-
+  const getSupersetReportWithScenarioContext = useGetSupersetReportWithScenarioContext();
   const downloadLogsFile = useDownloadSimulationLogsFile();
 
+  const isSupersetDisabled = useMemo(() => supersetReducerStatus === STATUSES.DISABLED, [supersetReducerStatus]);
   const isSupersetReducerLoading = useMemo(() => supersetReducerStatus === STATUSES.LOADING, [supersetReducerStatus]);
   const reportLabels = useMemo(() => getReportLabels(t), [t]);
   const language = useMemo(() => i18n.language, [i18n.language]);
@@ -48,36 +48,21 @@ export const useCurrentScenarioSupersetReport = () => {
 
   const { isDarkTheme } = useApplicationTheme();
   const theme = useMemo(() => (isDarkTheme ? darkTheme : lightTheme), [isDarkTheme]);
-
-  const report = useMemo(() => {
-    if (!currentDashboard?.dashboardId) return null;
-
-    return {
-      id: currentDashboard.dashboardId,
-      uiConfig: {
-        ...currentDashboard.uiConfig,
-      },
-    };
-  }, [currentDashboard]);
-
-  const options = useMemo(
-    () => ({
-      supersetUrl,
-    }),
-    [supersetUrl]
-  );
+  const options = useMemo(() => ({ supersetUrl }), [supersetUrl]);
 
   return {
     currentScenarioData,
-    isSupersetReducerLoading,
-    visibleScenarios,
-    reportLabels,
-    report,
-    guestToken,
-    options,
-    language,
     downloadLogsFile,
-    theme,
+    getSupersetReportWithScenarioContext,
+    guestToken,
+    isSupersetDisabled,
+    isSupersetReducerLoading,
+    options,
+    reportLabels,
     supersetInfo,
+    visibleScenarios,
+    // TODO: use values below to let integrators customize their superset reports
+    language,
+    theme,
   };
 };
