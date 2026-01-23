@@ -10,7 +10,13 @@ import { ConfigUtils, RunnersUtils, WorkspacesUtils } from '../../../utils';
 import { setApplicationErrorMessage, setApplicationStatus } from '../../app/reducers';
 import { CHART_ACTIONS_KEY, CHART_MODES } from '../../charts/constants';
 import { dispatchGetPowerBIEmbedInfo, dispatchGetSupersetGuestToken } from '../../charts/dispatchers';
-import { clearAllChartsInfo, setChartMode, setSupersetDashboards, setSupersetUrl } from '../../charts/reducers';
+import {
+  clearAllChartsInfo,
+  setChartMode,
+  setPowerBIEmbedInfo,
+  setSupersetDashboards,
+  setSupersetUrl,
+} from '../../charts/reducers';
 import { fetchAllDatasetsData } from '../../datasets/sagas/FindAllDatasets';
 import { RUNNER_ACTIONS_KEY } from '../../runner/constants';
 import { setCurrentSimulationRunner } from '../../runner/reducers';
@@ -121,6 +127,9 @@ export function* selectWorkspace(action) {
     yield put(dispatchGetPowerBIEmbedInfo());
   } else {
     yield put(setChartMode(null));
+    yield put(
+      setPowerBIEmbedInfo({ data: { accessToken: '', reportsInfo: '', expiry: '' }, status: STATUSES.DISABLED })
+    );
   }
 
   yield put(setApplicationStatus({ status: STATUSES.SUCCESS }));
