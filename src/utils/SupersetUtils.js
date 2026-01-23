@@ -1,5 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
+import { POWER_BI_FIELD_ENUM } from '@cosmotech/azure';
 import { RunnersUtils } from './RunnersUtils';
 
 const DEFAULT_EXPAND_FILTERS = false;
@@ -11,17 +12,18 @@ const resolveDynamicValue = (key, context) => {
   const { currentScenarioData, visibleScenarios } = context;
 
   const dynamic = {
-    id: () => currentScenarioData?.id,
-    lastRunId: () => RunnersUtils.getLastRunId(currentScenarioData),
-    state: () => RunnersUtils.getLastRunStatus(currentScenarioData),
-    name: () => currentScenarioData?.name,
-    masterId: () => currentScenarioData?.rootId,
-    parentId: () => currentScenarioData?.parentId,
-    ownerId: () => currentScenarioData?.createInfo?.userId,
-    solutionId: () => currentScenarioData?.solutionId,
+    [POWER_BI_FIELD_ENUM.SCENARIO_ID]: () => currentScenarioData?.id,
+    [POWER_BI_FIELD_ENUM.SCENARIO_NAME]: () => currentScenarioData?.name,
+    [POWER_BI_FIELD_ENUM.LAST_RUN_ID]: () => RunnersUtils.getLastRunId(currentScenarioData),
+    [POWER_BI_FIELD_ENUM.LAST_RUN_STATUS]: () => RunnersUtils.getLastRunStatus(currentScenarioData),
+    [POWER_BI_FIELD_ENUM.SCENARIO_ROOT_ID]: () => currentScenarioData?.rootId,
+    [POWER_BI_FIELD_ENUM.SCENARIO_PARENT_ID]: () => currentScenarioData?.parentId,
+    [POWER_BI_FIELD_ENUM.SCENARIO_OWNER_ID]: () => currentScenarioData?.createInfo?.userId,
+    [POWER_BI_FIELD_ENUM.SCENARIO_SOLUTION_ID]: () => currentScenarioData?.solutionId,
 
-    visibleScenariosIds: () => visibleScenarios?.map((s) => s.id),
-    visibleScenariosSimulationRunsIds: () => visibleScenarios?.map((s) => RunnersUtils.getLastRunId(s)),
+    [POWER_BI_FIELD_ENUM.VISIBLE_SCENARIOS_IDS]: () => visibleScenarios?.map((s) => s.id),
+    [POWER_BI_FIELD_ENUM.VISIBLE_SCENARIOS_LAST_RUN_IDS]: () =>
+      visibleScenarios?.map((s) => RunnersUtils.getLastRunId(s)),
   };
 
   const resolver = dynamic[key];
