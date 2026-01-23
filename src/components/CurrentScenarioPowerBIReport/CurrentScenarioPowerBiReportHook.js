@@ -3,6 +3,7 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDownloadSimulationLogsFile } from '../../hooks/RunnerRunHooks';
+import { RUNNER_RUN_STATE } from '../../services/config/ApiConstants';
 import { STATUSES } from '../../services/config/StatusConstants';
 import { useApplicationTheme } from '../../state/app/hooks';
 import { usePowerBIInfo, usePowerBIReducerStatus, usePowerBIUseWebappTheme } from '../../state/charts/hooks';
@@ -28,11 +29,7 @@ export const useCurrentScenarioPowerBiReport = () => {
   const language = useMemo(() => i18n.language, [i18n.language]);
 
   const visibleScenarios = useMemo(
-    () =>
-      scenarios?.map((runner) => ({
-        id: runner.id,
-        runId: RunnersUtils.getLastRunId(runner),
-      })),
+    () => scenarios?.filter((runner) => RunnersUtils.getLastRunStatus(runner) === RUNNER_RUN_STATE.SUCCESSFUL) ?? [],
     [scenarios]
   );
 
