@@ -39,6 +39,7 @@ const CurrentScenarioSupersetReport = ({ alwaysShowReports, isParentLoading = fa
   const showLoadingBackdrop =
     (scenarioStatus === RUNNER_RUN_STATE.SUCCESSFUL || alwaysShowReports === true) &&
     isSupersetReducerLoading &&
+    guestToken.value === '' &&
     !isParentLoading;
 
   const showErrorBanner = supersetInfo?.status === STATUSES.ERROR;
