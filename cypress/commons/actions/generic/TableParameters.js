@@ -223,17 +223,18 @@ function editStringCell(getTableElement, colName, rowIndex, newValue) {
   // eslint-disable-next-line cypress/no-unnecessary-waiting
   cy.wait(100);
 
-  // Click to select cell, then press Enter or F2 to enter edit mode
-  // Type the new value character by character to avoid issues with AG Grid 35
-  // Finally press Enter to confirm the edit and trigger onCellValueChanged
-  getCell(getTableElement(), colName, rowIndex).click();
+  // Double-click to enter edit mode directly (more reliable than click + Enter)
+  getCell(getTableElement(), colName, rowIndex).dblclick();
   // eslint-disable-next-line cypress/no-unnecessary-waiting
-  cy.wait(100); // Wait for cell selection
-  getCell(getTableElement(), colName, rowIndex).type('{enter}'); // Enter edit mode
-  // eslint-disable-next-line cypress/no-unnecessary-waiting
-  cy.wait(300); // Wait for edit mode to activate
-  cy.focused().clear().type(newValue);
-  cy.focused().type('{enter}'); // Confirm edit - this triggers onCellValueChanged
+  cy.wait(200); // Wait for edit mode to activate
+
+  // Find the input inside the cell and type the new value
+  getCell(getTableElement(), colName, rowIndex)
+    .find('input')
+    .should('exist')
+    .clear()
+    .type(newValue + '{enter}'); // Confirm edit - this triggers onCellValueChanged
+
   return getCell(getTableElement(), colName, rowIndex);
 }
 

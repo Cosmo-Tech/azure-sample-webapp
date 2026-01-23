@@ -50,10 +50,16 @@ describe('Table edit delete row button behavior', () => {
     BreweryParameters.editCustomersTableStringCell('age', 0, '72').should('have.text', '72');
     BreweryParameters.getCustomersDeleteRowButton().should('not.have.attr', 'aria-disabled');
     ScenarioParameters.save();
+    // After save, switch tabs to deselect any selected rows
+    BreweryParameters.switchToEventsTab();
+    BreweryParameters.switchToCustomersTab();
     BreweryParameters.getCustomersDeleteRowButton().should('have.attr', 'aria-disabled');
     BreweryParameters.editCustomersTableStringCell('age', 0, '13').should('have.text', '13');
     BreweryParameters.getCustomersDeleteRowButton().should('not.have.attr', 'aria-disabled');
     ScenarioParameters.discard();
+    // After discard, switch tabs to deselect any selected rows
+    BreweryParameters.switchToEventsTab();
+    BreweryParameters.switchToCustomersTab();
     BreweryParameters.getCustomersDeleteRowButton().should('have.attr', 'aria-disabled');
   });
 });
