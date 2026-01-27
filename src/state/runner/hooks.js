@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { STATUSES } from '../../services/config/StatusConstants';
 import { RunnersUtils } from '../../utils';
 import { useOrganizationId } from '../organizations/hooks';
 import { useWorkspaceId } from '../workspaces/hooks';
@@ -21,7 +22,13 @@ import {
   dispatchUpdateSimulationRunnerData,
   dispatchStopAllRunnerStatusPolling,
 } from './dispatchers';
-import { resetCurrentSimulationRunner, setCurrentSimulationRunner, setValidationStatus } from './reducers';
+import {
+  resetCurrentSimulationRunner,
+  setCurrentSimulationRunner,
+  setValidationStatus,
+  updateSimulationRunner,
+} from './reducers';
+import { asyncUpdateRunner } from './sagas/UpdateSimulationRunner.js';
 
 export const useRunnersReducerStatus = () => {
   return useSelector((state) => state.runner?.status);
@@ -148,6 +155,33 @@ export const useUpdateSimulationRunner = () => {
   return useCallback(
     (runnerId, runnerParameters) =>
       dispatch(dispatchUpdateSimulationRunner(organizationId, workspaceId, runnerId, runTemplateId, runnerParameters)),
+    [dispatch, organizationId, workspaceId, runTemplateId]
+  );
+};
+// useAsyncUpdateSimulationRunner is similar to useUpdateSimulationRunner, but using an async call to the API instead of
+// going through redux dispatchers. It can thus be used in component hooks with "await" to chain multiple calls to the
+// API (e.g. "save & launch" button)
+export const useAsyncUpdateSimulationRunner = () => {
+  const dispatch = useDispatch();
+  const organizationId = useOrganizationId();
+  const workspaceId = useWorkspaceId();
+  const runTemplateId = useCurrentSimulationRunnerRunTemplateId();
+  return useCallback(
+    async (runnerId, runnerParameters) => {
+      dispatch(updateSimulationRunner({ runnerId, status: STATUSES.SAVING }));
+      try {
+        const updatedRunner = await asyncUpdateRunner(
+          organizationId,
+          workspaceId,
+          runnerId,
+          runTemplateId,
+          runnerParameters
+        );
+        dispatch(updateSimulationRunner({ status: STATUSES.SUCCESS, runnerId, runner: updatedRunner }));
+      } catch (error) {
+        dispatch(updateSimulationRunner({ runnerId, status: STATUSES.ERROR }));
+      }
+    },
     [dispatch, organizationId, workspaceId, runTemplateId]
   );
 };

@@ -5,7 +5,7 @@ import { useFormContext } from 'react-hook-form';
 import DatasetService from '../services/dataset/DatasetService';
 import { useDeleteDatasetPartInRedux, useAddOrUpdateDatasetPartInRedux } from '../state/datasets/hooks';
 import { useOrganizationId } from '../state/organizations/hooks';
-import { useCurrentSimulationRunnerData, useRunners, useUpdateSimulationRunner } from '../state/runner/hooks';
+import { useCurrentSimulationRunnerData, useRunners, useAsyncUpdateSimulationRunner } from '../state/runner/hooks';
 import { useSolutionData } from '../state/solutions/hooks';
 import { useWorkspaceId } from '../state/workspaces/hooks';
 import { ScenarioParametersUtils } from '../utils';
@@ -16,7 +16,7 @@ const getRunTemplateParametersIds = (runTemplatesParametersIdsDict, runTemplateI
 };
 
 export const useUpdateParameters = () => {
-  const saveScenarioParameters = useUpdateSimulationRunner();
+  const asyncSaveScenarioParameters = useAsyncUpdateSimulationRunner();
   const { processFilesToUpload, updateSavedFileParameters } = useFileParameters();
   const addOrUpdateDatasetPartInRedux = useAddOrUpdateDatasetPartInRedux();
   const deleteDatasetPartFromRedux = useDeleteDatasetPartInRedux();
@@ -58,7 +58,7 @@ export const useUpdateParameters = () => {
       scenarios
     );
 
-    saveScenarioParameters(currentScenario.id, parametersForUpdateRequest.nonDatasetParts);
+    await asyncSaveScenarioParameters(currentScenario.id, parametersForUpdateRequest.nonDatasetParts);
 
     const createdDatasetParts = [];
     for (const parameter of parametersForUpdateRequest.fileDatasetParts) {
@@ -84,7 +84,7 @@ export const useUpdateParameters = () => {
   }, [
     addOrUpdateDatasetPartInRedux,
     deleteDatasetPartFromRedux,
-    saveScenarioParameters,
+    asyncSaveScenarioParameters,
     processFilesToUpload,
     updateSavedFileParameters,
     getValues,

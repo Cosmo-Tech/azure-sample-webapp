@@ -63,11 +63,9 @@ export const LaunchButton = () => {
             )
           );
         }
-
-        launchScenario(currentScenarioId);
-      } else {
-        launchScenario(currentScenarioId);
       }
+
+      launchScenario(currentScenarioId);
     },
     [currentScenarioId, forceUpdate, isDirty, launchScenario, saveParameterValues, t, setApplicationErrorMessage]
   );

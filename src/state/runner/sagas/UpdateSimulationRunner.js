@@ -9,28 +9,46 @@ import { setApplicationErrorMessage } from '../../app/reducers';
 import { RUNNER_ACTIONS_KEY } from '../constants';
 import { updateSimulationRunner } from '../reducers';
 
+export const asyncUpdateRunner = async (
+  organizationId,
+  workspaceId,
+  runnerId,
+  runTemplateId,
+  runnerParameters,
+  runnerDataPatch
+) => {
+  const runnerData = { ...runnerDataPatch };
+  if (runnerParameters) runnerData.parametersValues = runnerParameters;
+  if (runTemplateId) runnerData.runTemplateId = runTemplateId;
+  const runnerDataForRequest = runnerData.parametersValues
+    ? { ...runnerData, ...ApiUtils.formatParametersForApi(runnerData.parametersValues) }
+    : runnerData;
+
+  const { data: updateData } = await Api.Runners.updateRunner(
+    organizationId,
+    workspaceId,
+    runnerId,
+    runnerDataForRequest
+  );
+  runnerData.updateInfo = updateData.updateInfo;
+
+  return runnerData;
+};
+
 export function* callUpdateRunner(action, throwOnError = false) {
   const { organizationId, workspaceId, runnerId, runTemplateId, runnerParameters, runnerDataPatch } = action;
   try {
     yield put(updateSimulationRunner({ runnerId, status: STATUSES.SAVING }));
-
-    const runnerData = { ...runnerDataPatch };
-    if (runnerParameters) runnerData.parametersValues = runnerParameters;
-    if (runTemplateId) runnerData.runTemplateId = runTemplateId;
-    const runnerDataForRequest = runnerData.parametersValues
-      ? { ...runnerData, ...ApiUtils.formatParametersForApi(runnerData.parametersValues) }
-      : runnerData;
-
-    const { data: updateData } = yield call(
-      Api.Runners.updateRunner,
+    const updatedRunner = yield call(
+      asyncUpdateRunner,
       organizationId,
       workspaceId,
       runnerId,
-      runnerDataForRequest
+      runTemplateId,
+      runnerParameters,
+      runnerDataPatch
     );
-
-    runnerData.updateInfo = updateData.updateInfo;
-    yield put(updateSimulationRunner({ status: STATUSES.SUCCESS, runnerId, runner: runnerData }));
+    yield put(updateSimulationRunner({ status: STATUSES.SUCCESS, runnerId, runner: updatedRunner }));
   } catch (error) {
     yield put(updateSimulationRunner({ runnerId, status: STATUSES.ERROR }));
 
