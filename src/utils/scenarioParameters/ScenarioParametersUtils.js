@@ -341,8 +341,11 @@ const buildParametersForUpdateRequest = (
         else continue; // No modifications to save
       }
 
-      const parameter = { parameterId, varType, value: { file, part: { name: parameterId, sourceName: file?.name } } };
-      parameters.fileDatasetParts.push(parameter);
+      parameters.fileDatasetParts.push({
+        parameterId,
+        varType,
+        value: { file, part: { name: parameterId, sourceName: file?.name } },
+      });
       continue;
     }
 

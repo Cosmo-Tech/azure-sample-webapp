@@ -101,12 +101,9 @@ export const useFileParameters = () => {
               throw error;
             }
           }
-        } else if (fileStatus === FILE_STATUS.READY_TO_DELETE) {
-          setParameterValueStatus(parameterId, FILE_STATUS.EMPTY);
-          updateParameterValue(parameterId, clearFileParameter(parameterValue));
         } else if (fileStatus === FILE_STATUS.READY_TO_DOWNLOAD || fileStatus === FILE_STATUS.EMPTY) {
           continue;
-        } else {
+        } else if (fileStatus !== FILE_STATUS.READY_TO_DELETE) {
           console.warn(`Unknown file status "${fileStatus}"`);
         }
       }
