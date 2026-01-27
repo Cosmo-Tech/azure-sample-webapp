@@ -33,12 +33,17 @@ export const getReportLabels = (t) => ({
   hasUnknownStatus: {
     label: t(
       'commoncomponents.iframe.scenario.unknownStatus.label',
-      'This scenario has an unknown state, if the problem persists, please, contact your administrator'
+      'This scenario has an unknown state. If the problem persists, please contact your administrator.'
     ),
   },
   resultsDisplayDisabled: t(
     'commoncomponents.iframe.scenario.resultsDisplayDisabled',
+    'commoncomponents.iframe.scenario.noTokenForBI',
     'Scenario run was successful but the display of results is disabled'
+  ),
+  noTokenForBI: t(
+    'commoncomponents.iframe.errorPlaceholder.noTokenForBI',
+    'Authentication failed. If the problem persists, please contact your administrator.'
   ),
   downloadButton: t('commoncomponents.iframe.scenario.results.button.downloadLogs', 'Download logs'),
   refreshTooltip: t('commoncomponents.iframe.scenario.results.button.refresh', 'Refresh'),

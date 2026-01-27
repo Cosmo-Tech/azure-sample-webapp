@@ -4,6 +4,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Backdrop, Box, CircularProgress, Stack, Typography } from '@mui/material';
+import { POWER_BI_FIELD_ENUM } from '@cosmotech/azure';
 import { ErrorBoundary, PowerBIReport } from '@cosmotech/ui';
 import { RUNNER_RUN_STATE } from '../../services/config/ApiConstants';
 import { RunnersUtils } from '../../utils';
@@ -11,7 +12,7 @@ import StyledErrorContainer from '../StyledErrorContainer';
 import { useCurrentScenarioPowerBiReport } from './CurrentScenarioPowerBiReportHook';
 
 const CurrentScenarioPowerBiReport = ({
-  alwaysShowReports,
+  isInScenarioViewContext = false,
   isParentLoading = false,
   reportConfiguration,
   iframeRatio,
@@ -35,13 +36,6 @@ const CurrentScenarioPowerBiReport = ({
   const defaultErrorDescription =
     'Something went wrong when trying to display PowerBI dashboards. If the problem ' +
     'persists, please contact an administrator.';
-
-  const scenarioStatus = RunnersUtils.getLastRunStatus(currentScenarioData);
-  const showLoadingBackdrop =
-    (scenarioStatus === RUNNER_RUN_STATE.SUCCESSFUL || alwaysShowReports === true) &&
-    isPowerBIReducerLoading &&
-    !isParentLoading;
-
   const showErrorBanner = reports?.status === 'ERROR';
   const errorTitle =
     reports?.error?.status ||
@@ -52,11 +46,25 @@ const CurrentScenarioPowerBiReport = ({
     reports?.error?.description ||
     t('commoncomponents.iframe.errorPlaceholder.description', defaultErrorDescription);
 
+  const dynamicFilterValues = reportConfiguration[index]?.dynamicFilters?.flatMap((filter) => filter.values);
+  const hasFiltersOnSimulationRun =
+    dynamicFilterValues?.some((value) => value === POWER_BI_FIELD_ENUM.LAST_RUN_ID) ?? false;
+  const hasTokenFetchFailed = reports.status === 'ERROR';
+  const alwaysShowReports = !hasFiltersOnSimulationRun && !isInScenarioViewContext && !hasTokenFetchFailed;
+
+  const scenarioStatus = RunnersUtils.getLastRunStatus(currentScenarioData);
+  const showLoadingBackdrop =
+    (scenarioStatus === RUNNER_RUN_STATE.SUCCESSFUL || alwaysShowReports === true) &&
+    isPowerBIReducerLoading &&
+    !isParentLoading;
+
+  const paddingBottom = isInScenarioViewContext && showErrorBanner ? '10px' : 0;
   return (
-    <Box sx={{ height: '100%', position: 'relative' }}>
+    <Box sx={{ height: '100%', position: 'relative', pb: paddingBottom, minHeight: '50px' }}>
       {showErrorBanner && (
         <StyledErrorContainer
           data-cy="powerbi-error-banner"
+          isInScenarioViewContext={isInScenarioViewContext}
           hidden={reports.status !== 'ERROR'}
           errorCode={errorTitle}
           errorDescription={errorDescription}
@@ -103,7 +111,7 @@ const CurrentScenarioPowerBiReport = ({
 };
 
 CurrentScenarioPowerBiReport.propTypes = {
-  alwaysShowReports: PowerBIReport.propTypes.alwaysShowReports,
+  isInScenarioViewContext: PropTypes.bool,
   isParentLoading: PropTypes.bool,
   reportConfiguration: PowerBIReport.propTypes.reportConfiguration,
   iframeRatio: PowerBIReport.propTypes.iframeRatio,

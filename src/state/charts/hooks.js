@@ -2,8 +2,10 @@
 // Licensed under the MIT license.
 import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { POWER_BI_FIELD_ENUM } from '@cosmotech/azure';
+import { RUNNER_RUN_STATE } from '../../services/config/ApiConstants';
 import { STATUSES } from '../../services/config/StatusConstants';
-import { PowerBIUtils } from '../../utils';
+import { PowerBIUtils, RunnersUtils } from '../../utils';
 import { forgeReport } from '../../utils/SupersetUtils';
 import { useCurrentSimulationRunnerData, useRunners } from '../runner/hooks';
 import { dispatchStopChartsTokenPolling } from './dispatchers';
@@ -76,7 +78,9 @@ export const useSupersetUrl = () => {
 };
 
 export const useGetSupersetReportWithScenarioContext = () => {
-  const visibleScenarios = useRunners();
+  const visibleScenarios = (useRunners() ?? []).filter(
+    (runner) => RunnersUtils.getLastRunStatus(runner) === RUNNER_RUN_STATE.SUCCESSFUL
+  );
   const dashboardsConfig = useSupersetDashboards();
   const currentScenarioData = useCurrentSimulationRunnerData();
   const reducerStatus = useSupersetReducerStatus();
@@ -125,9 +129,14 @@ export const useGetSupersetReportWithScenarioContext = () => {
         return {};
       }
 
+      const filterValues = (dashboard?.filters ?? []).map((filter) => filter.value);
+      const hasFiltersOnLastRunId = filterValues.includes(POWER_BI_FIELD_ENUM.LAST_RUN_ID);
+      const alwaysShowReports = !hasFiltersOnLastRunId;
+
       return {
         noDashboardConfiguredForRunTemplate: false,
         report: forgeReport(dashboard, visibleScenarios, currentScenarioData),
+        alwaysShowReports,
       };
     },
     [dashboardsConfig, currentScenarioData, visibleScenarios, reducerStatus]

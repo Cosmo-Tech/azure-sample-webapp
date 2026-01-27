@@ -20,7 +20,6 @@ const Loading = () => {
   const { t } = useTranslation();
   const defaultTitle = 'LoadingLine Title';
   const {
-    powerBIReducerStatus,
     runnersReducerStatus,
     workspaces,
     workspacesReducerStatus,
@@ -89,13 +88,6 @@ const Loading = () => {
             title={t('genericcomponent.loading.line.scenario.list.title', defaultTitle)}
             hasError={hasErrors(runnersReducerStatus)}
             isLoading={isLoading(runnersReducerStatus)}
-            animations={animations}
-            style={loadingLineStyle}
-          />
-          <LoadingLine
-            title={t('genericcomponent.loading.line.powerbi.title', defaultTitle)}
-            hasError={hasErrors(powerBIReducerStatus)}
-            isLoading={isLoading(powerBIReducerStatus)}
             animations={animations}
             style={loadingLineStyle}
           />

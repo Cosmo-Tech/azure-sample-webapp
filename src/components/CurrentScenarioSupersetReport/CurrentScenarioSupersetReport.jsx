@@ -12,7 +12,13 @@ import { RunnersUtils } from '../../utils';
 import StyledErrorContainer from '../StyledErrorContainer';
 import { useCurrentScenarioSupersetReport } from './CurrentScenarioSupersetReportHook';
 
-const CurrentScenarioSupersetReport = ({ alwaysShowReports, isParentLoading = false, index, labels, ...other }) => {
+const CurrentScenarioSupersetReport = ({
+  isInScenarioViewContext = false,
+  isParentLoading = false,
+  index,
+  labels,
+  ...other
+}) => {
   const { t } = useTranslation();
 
   const {
@@ -27,20 +33,15 @@ const CurrentScenarioSupersetReport = ({ alwaysShowReports, isParentLoading = fa
     supersetInfo,
     visibleScenarios,
   } = useCurrentScenarioSupersetReport();
-  const { report, noDashboardConfiguredForRunTemplate } = getSupersetReportWithScenarioContext(index);
+
+  const { report, noDashboardConfiguredForRunTemplate, alwaysShowReports } =
+    getSupersetReportWithScenarioContext(index);
 
   useSupersetGuestTokenRefresh();
 
   const defaultErrorDescription =
     'Something went wrong when trying to display dashboards. If the problem ' +
     'persists, please contact an administrator.';
-
-  const scenarioStatus = RunnersUtils.getLastRunStatus(currentScenarioData);
-  const showLoadingBackdrop =
-    (scenarioStatus === RUNNER_RUN_STATE.SUCCESSFUL || alwaysShowReports === true) &&
-    isSupersetReducerLoading &&
-    !isParentLoading;
-
   const showErrorBanner = supersetInfo?.status === STATUSES.ERROR;
   const errorTitle =
     supersetInfo?.error?.title ||
@@ -51,11 +52,20 @@ const CurrentScenarioSupersetReport = ({ alwaysShowReports, isParentLoading = fa
     supersetInfo?.error?.description ||
     t('commoncomponents.iframe.errorPlaceholder.description', defaultErrorDescription);
 
+  const scenarioStatus = RunnersUtils.getLastRunStatus(currentScenarioData);
+  const showLoadingBackdrop =
+    (scenarioStatus === RUNNER_RUN_STATE.SUCCESSFUL || alwaysShowReports === true) &&
+    isSupersetReducerLoading &&
+    guestToken.value === '' &&
+    !isParentLoading;
+  const hasGuestTokenFetchFailed = guestToken?.status === STATUSES.ERROR;
+
   return (
     <Box sx={{ height: '100%', position: 'relative', pb: showErrorBanner ? '10px' : 0, minHeight: '50px' }}>
       {showErrorBanner && (
         <StyledErrorContainer
           data-cy="superset-error-banner"
+          isInScenarioViewContext={isInScenarioViewContext}
           hidden={supersetInfo.status !== STATUSES.ERROR}
           errorCode={errorTitle}
           errorDescription={errorDescription}
@@ -80,7 +90,7 @@ const CurrentScenarioSupersetReport = ({ alwaysShowReports, isParentLoading = fa
       >
         <Box sx={{ height: '100%' }}>
           <SupersetReport
-            alwaysShowReports={alwaysShowReports}
+            alwaysShowReports={alwaysShowReports && !isInScenarioViewContext && !hasGuestTokenFetchFailed}
             disabled={isSupersetDisabled}
             isParentLoading={showLoadingBackdrop}
             downloadLogsFile={downloadLogsFile}
@@ -100,7 +110,7 @@ const CurrentScenarioSupersetReport = ({ alwaysShowReports, isParentLoading = fa
 };
 
 CurrentScenarioSupersetReport.propTypes = {
-  alwaysShowReports: PropTypes.bool,
+  isInScenarioViewContext: PropTypes.bool,
   isParentLoading: PropTypes.bool,
   index: PropTypes.number,
   labels: PropTypes.object,
