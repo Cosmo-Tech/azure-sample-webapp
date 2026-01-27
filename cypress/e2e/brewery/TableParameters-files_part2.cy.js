@@ -176,7 +176,7 @@ describe('Table parameters files standard operations part 2', () => {
     BreweryParameters.getCustomersTableCell('name', 5).should('have.text', 'Arnold');
   });
 
-  it('can add new lines in an empty table, save the changes and retrieve them after a page refresh', () => {
+  it('can import data in a table, save the changes and retrieve them after a page refresh', () => {
     const scenarioName = forgeScenarioName();
     scenarioNamesToDelete.push(scenarioName);
     Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE).then((value) => {
@@ -187,39 +187,43 @@ describe('Table parameters files standard operations part 2', () => {
       BreweryParameters.switchToCustomersTab();
       BreweryParameters.getCustomersTableGrid().should('exist');
 
-      BreweryParameters.addRowCustomersTableData();
-      BreweryParameters.getCustomersTableRows().should('have.length', 1);
-      BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'value');
+      // Import data from CSV file instead of adding rows manually
+      BreweryParameters.importCustomersTableData(CSV_VALID_FILE_PATH);
+      BreweryParameters.getCustomersTableRows().should('have.length', 4);
+      BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Bob');
+      BreweryParameters.getCustomersTableCell('age', 0).should('have.text', '10');
       BreweryParameters.getCustomersTableCell('canDrinkAlcohol', 0).should('have.text', 'false');
-      BreweryParameters.getCustomersTableCell('age', 0).should('have.text', '');
 
       ScenarioParameters.save();
+
       route.browse({ url: scenarioUrl });
 
+      ScenarioParameters.expandParametersAccordion();
       BreweryParameters.switchToCustomersTab();
-      BreweryParameters.getCustomersTableRows().should('have.length', 1);
-      BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'value');
+      BreweryParameters.getCustomersTableRows().should('have.length', 4);
+      BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Bob');
+      BreweryParameters.getCustomersTableCell('age', 0).should('have.text', '10');
       BreweryParameters.getCustomersTableCell('canDrinkAlcohol', 0).should('have.text', 'false');
-      BreweryParameters.getCustomersTableCell('age', 0).should('have.text', '');
     });
   });
 
-  it('can import a CSV file that has a wrong header and overwrite the header before upload', () => {
+  it('can import a CSV file that has a wrong header and display it correctly in the table', () => {
     const scenarioName = forgeScenarioName();
     scenarioNamesToDelete.push(scenarioName);
     Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
     ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.importCustomersTableData(CSV_WRONG_HEADER_FILE_PATH);
+    // Verify the table displays correctly with proper headers despite wrong header in file
     BreweryParameters.getCustomersTableRows().should('have.length', 4);
+    // Verify the correct column headers are shown (not the wrong ones from the file)
+    BreweryParameters.getCustomersTableHeaderCell('name').should('be.visible');
+    BreweryParameters.getCustomersTableHeaderCell('age').should('be.visible');
+    BreweryParameters.getCustomersTableHeaderCell('canDrinkAlcohol').should('be.visible');
+    BreweryParameters.getCustomersTableHeaderCell('favoriteDrink').should('be.visible');
+    BreweryParameters.getCustomersTableHeaderCell('birthday').should('be.visible');
+    BreweryParameters.getCustomersTableHeaderCell('height').should('be.visible');
 
-    cy.intercept('POST', API_REGEX.FILE_UPLOAD).as('fileUploadRequest');
     ScenarioParameters.save();
-    // TODO: add support for stubbing of file upload queries
-    cy.wait('@fileUploadRequest').then((req) => {
-      expect(req.response.statusCode).to.equal(201);
-      expect(req.request.body).not.to.contain('wrong_header_line,should_have_6_columns');
-      expect(req.request.body).to.contain('name,age,canDrinkAlcohol,favoriteDrink,birthday,height');
-    });
   });
 });

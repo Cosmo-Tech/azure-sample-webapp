@@ -223,17 +223,16 @@ function editStringCell(getTableElement, colName, rowIndex, newValue) {
   // eslint-disable-next-line cypress/no-unnecessary-waiting
   cy.wait(100);
 
-  // Double-click to enter edit mode directly (more reliable than click + Enter)
-  getCell(getTableElement(), colName, rowIndex).dblclick();
+  // Click cell to select it, then press Enter to enter edit mode, type the new value
+  getCell(getTableElement(), colName, rowIndex).click();
   // eslint-disable-next-line cypress/no-unnecessary-waiting
-  cy.wait(200); // Wait for edit mode to activate
-
-  // Find the input inside the cell and type the new value
-  getCell(getTableElement(), colName, rowIndex)
-    .find('input')
-    .should('exist')
-    .clear()
-    .type(newValue + '{enter}'); // Confirm edit - this triggers onCellValueChanged
+  cy.wait(50);
+  // Type the key to start editing (Enter or F2), then clear and type new value
+  cy.focused().type('{enter}');
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.wait(50);
+  // Now the cell should be in edit mode - type the new value
+  cy.focused().type('{selectAll}' + newValue + '{enter}', { delay: 1 });
 
   return getCell(getTableElement(), colName, rowIndex);
 }

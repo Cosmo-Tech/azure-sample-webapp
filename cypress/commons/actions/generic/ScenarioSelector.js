@@ -10,7 +10,7 @@ function getScenarioSelectorInput(timeout) {
   return getScenarioSelector(timeout).find('input');
 }
 function getScenarioSelectorOption(scenarioId) {
-  return cy.get(GENERIC_SELECTORS.scenario.scenarioSelectOption.replace('$SCENARIOID', scenarioId));
+  return cy.get(GENERIC_SELECTORS.scenario.scenarioSelectOption.replace('$SCENARIOID', scenarioId), { timeout: 10000 });
 }
 function getScenarioSelectorOptionValidationStatusChip(scenarioId) {
   return getScenarioSelectorOption(scenarioId).find(GENERIC_SELECTORS.scenario.validationStatusChip);
@@ -59,6 +59,8 @@ function writeInScenarioSelectorInput(searchStr) {
       '{selectAll}{backspace}' + searchStr, // clear() does not always work, use "{selectAll}{backspace}" instead
       { force: true } // Force click to handle cases when the error banner is displayed above the selector options
     );
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.wait(500); // Wait for dropdown options to load
 }
 
 // Parameters:
@@ -70,6 +72,8 @@ function writeInScenarioSelectorInput(searchStr) {
 //     not have the edit permissions on the selected scenario (i.e. when the edit button is not visible)
 function selectScenario(scenarioName, scenarioId, options) {
   writeInScenarioSelectorInput(scenarioName);
+  // Wait for dropdown options to be populated
+  cy.get('ul[role="listbox"]', { timeout: 10000 }).should('be.visible');
   getScenarioSelectorOption(scenarioId).should('be.visible').should('not.be.disabled');
   getScenarioSelectorOption(scenarioId).click();
   ScenarioSelector.getScenarioSelectorInput().should('have.value', scenarioName);

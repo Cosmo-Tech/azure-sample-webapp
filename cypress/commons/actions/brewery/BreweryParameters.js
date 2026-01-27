@@ -422,14 +422,18 @@ function switchToBasicTypesTab() {
   getBasicTypesTab().click({ force: true });
 }
 function switchToCustomersTab() {
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.wait(200); // Wait for any pending UI updates
   getCustomersTab().click({ force: true });
   // Wait for the tab to be selected before interacting with its content
-  getCustomersTab().should('have.attr', 'aria-selected', 'true');
+  getCustomersTab().should('have.attr', 'aria-selected', 'true', { timeout: 10000 });
 }
 function switchToEventsTab() {
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.wait(200); // Wait for any pending UI updates
   getEventsTab().click({ force: true });
   // Wait for the tab to be selected before interacting with its content
-  getEventsTab().should('have.attr', 'aria-selected', 'true');
+  getEventsTab().should('have.attr', 'aria-selected', 'true', { timeout: 10000 });
 }
 function switchToAdditionalParametersTab() {
   getAdditionalParametersTab().click({ force: true });

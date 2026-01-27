@@ -8,12 +8,12 @@ function getScenarioManagerView() {
 }
 function switchToScenarioManager(options) {
   // eslint-disable-next-line cypress/no-force -- Workaround for MUI hidden elements not correctly ignored by cypress
-  cy.get(GENERIC_SELECTORS.scenario.manager.tabName).click({ force: true, ...options });
+  cy.get(GENERIC_SELECTORS.scenario.manager.tabName, { timeout: 15000 }).should('be.visible').click({ force: true, ...options });
   // Wait for the scenario manager view to be visible before continuing
-  cy.get(GENERIC_SELECTORS.scenario.manager.search, { timeout: 10000 }).should('be.visible');
+  cy.get(GENERIC_SELECTORS.scenario.manager.search, { timeout: 15000 }).should('be.visible');
 }
 function getDeleteScenarioButton() {
-  return cy.get(GENERIC_SELECTORS.scenario.manager.button.delete);
+  return cy.get(GENERIC_SELECTORS.scenario.manager.button.delete, { timeout: 10000 });
 }
 function deleteScenario(scenarioName, isRunning = false) {
   const getScenarioToDeleteAlias = api.interceptGetRunner();
@@ -45,6 +45,9 @@ function writeInFilter(searchStr) {
   cy.get(GENERIC_SELECTORS.scenario.manager.search)
     .find('input')
     .type('{selectAll}{backspace}' + searchStr + '{enter}');
+  // Wait for search results to load
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.wait(500);
 }
 
 function getScenarioAccordions() {

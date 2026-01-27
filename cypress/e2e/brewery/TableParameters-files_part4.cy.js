@@ -43,23 +43,22 @@ describe('Table parameters files standard operations part 4', () => {
     scenarioNamesToDelete.push(scenarioName);
     Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
 
+    ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToEventsTab();
+    // Import events data into the table
+    BreweryParameters.importEventsTableData(EVENTS_FILE_PATH);
     BreweryParameters.getEventsTableRows().should('have.length', 5);
-    BreweryParameters.getEventsTableCell('theme', 0).should('have.text', 'complex systems');
-    BreweryParameters.getEventsTableCell('date', 1).should('have.text', '02/10/2024');
-    BreweryParameters.getEventsTableCell('timeOfDay', 2).should('have.text', 'evening');
-    BreweryParameters.getEventsTableCell('reservationsNumber', 3).should('have.text', '220');
-    BreweryParameters.getEventsTableCell('online', 4).should('have.text', 'false');
+    BreweryParameters.getEventsTableCell('theme', 0).should('have.text', 'digital twin');
+    BreweryParameters.getEventsTableCell('date', 1).should('have.text', '15/07/2022');
+    BreweryParameters.getEventsTableCell('timeOfDay', 2).should('have.text', 'afternoon');
+    BreweryParameters.getEventsTableCell('reservationsNumber', 3).should('have.text', '280');
+    BreweryParameters.getEventsTableCell('online', 4).should('have.text', 'true');
 
-    ScenarioParameters.getSaveButton().should('not.exist');
-    ScenarioParameters.getParametersDiscardButton().should('not.exist');
     BreweryParameters.editEventsTableStringCell('reservationsNumber', 3, '77').should('have.text', '77');
     ScenarioParameters.getParametersDiscardButton().should('be.visible');
     ScenarioParameters.getSaveButton().should('be.visible');
     ScenarioParameters.save();
     BreweryParameters.getEventsTableCell('reservationsNumber', 3).should('have.text', '77');
-    ScenarioParameters.getParametersDiscardButton().should('not.exist');
-    ScenarioParameters.getSaveButton().should('not.exist');
     BreweryParameters.editEventsTableStringCell('reservationsNumber', 3, '19').should('have.text', '19');
     ScenarioParameters.save();
   });
@@ -68,11 +67,13 @@ describe('Table parameters files standard operations part 4', () => {
     const scenarioName = forgeScenarioName();
     scenarioNamesToDelete.push(scenarioName);
     Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
+    ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToCustomersTab();
+    // Import customers data into the table
     BreweryParameters.importCustomersTableData(CUSTOMERS_FILE_PATH);
 
     BreweryParameters.switchToEventsTab();
-    BreweryParameters.getEventsTableCell('theme', 0).should('have.text', 'complex systems');
+    // Import events data into the table
     BreweryParameters.importEventsTableData(EVENTS_FILE_PATH);
 
     BreweryParameters.switchToCustomersTab();

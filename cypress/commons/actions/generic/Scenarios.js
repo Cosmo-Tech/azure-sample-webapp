@@ -175,6 +175,9 @@ function createScenario(scenarioName, isMaster, datasetOrMasterName, runTemplate
   if (tags) tags.forEach((tag) => addNewScenarioTag(tag));
   if (isMaster === true) {
     selectDataset(datasetOrMasterName);
+  } else if (datasetOrMasterName) {
+    // For child scenarios, explicitly select the parent scenario
+    selectParentScenario(datasetOrMasterName);
   }
   selectRunTemplate(runTemplate);
 
