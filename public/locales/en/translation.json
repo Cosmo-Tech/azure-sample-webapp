@@ -304,7 +304,7 @@
           "label": "There isn't any dashboard configured for this run type"
         },
         "unknownStatus": {
-          "label": "This scenario has an unknown state, if the problem persists, please, contact your administrator"
+          "label": "This scenario has an unknown state. If the problem persists, please contact your administrator."
         },
         "resultsDisplayDisabled": "Scenario run was successful but the display of results is disabled",
         "error": {
@@ -316,7 +316,8 @@
       },
       "errorPlaceholder": {
         "title": "Unexpected error",
-        "description": "Something went wrong when trying to display dashboards. If the problem persists, please contact an administrator."
+        "description": "Something went wrong when trying to display dashboards. If the problem persists, please contact an administrator.",
+        "noTokenForBI": "Authentication failed. If the problem persists, please contact your administrator."
       }
     },
     "scenariomanager": {

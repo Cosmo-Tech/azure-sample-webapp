@@ -12,6 +12,7 @@ import StyledErrorContainer from '../StyledErrorContainer';
 import { useCurrentScenarioPowerBiReport } from './CurrentScenarioPowerBiReportHook';
 
 const CurrentScenarioPowerBiReport = ({
+  isInScenarioViewContext = false,
   isParentLoading = false,
   reportConfiguration,
   iframeRatio,
@@ -48,7 +49,8 @@ const CurrentScenarioPowerBiReport = ({
   const dynamicFilterValues = reportConfiguration[index]?.dynamicFilters?.flatMap((filter) => filter.values);
   const hasFiltersOnSimulationRun =
     dynamicFilterValues?.some((value) => value === POWER_BI_FIELD_ENUM.LAST_RUN_ID) ?? false;
-  const alwaysShowReports = !hasFiltersOnSimulationRun;
+  const hasTokenFetchFailed = reports.status === 'ERROR';
+  const alwaysShowReports = !hasFiltersOnSimulationRun && !isInScenarioViewContext && !hasTokenFetchFailed;
 
   const scenarioStatus = RunnersUtils.getLastRunStatus(currentScenarioData);
   const showLoadingBackdrop =
@@ -56,11 +58,13 @@ const CurrentScenarioPowerBiReport = ({
     isPowerBIReducerLoading &&
     !isParentLoading;
 
+  const paddingBottom = isInScenarioViewContext && showErrorBanner ? '10px' : 0;
   return (
-    <Box sx={{ height: '100%', position: 'relative' }}>
+    <Box sx={{ height: '100%', position: 'relative', pb: paddingBottom, minHeight: '50px' }}>
       {showErrorBanner && (
         <StyledErrorContainer
           data-cy="powerbi-error-banner"
+          isInScenarioViewContext={isInScenarioViewContext}
           hidden={reports.status !== 'ERROR'}
           errorCode={errorTitle}
           errorDescription={errorDescription}
@@ -107,6 +111,7 @@ const CurrentScenarioPowerBiReport = ({
 };
 
 CurrentScenarioPowerBiReport.propTypes = {
+  isInScenarioViewContext: PropTypes.bool,
   isParentLoading: PropTypes.bool,
   reportConfiguration: PowerBIReport.propTypes.reportConfiguration,
   iframeRatio: PowerBIReport.propTypes.iframeRatio,

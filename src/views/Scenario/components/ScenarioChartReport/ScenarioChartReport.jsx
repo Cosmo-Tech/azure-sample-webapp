@@ -13,7 +13,13 @@ const ScenarioChartReport = () => {
   const chartMode = useChartMode();
 
   if (chartMode === CHART_MODES.SUPERSET)
-    return <CurrentScenarioSupersetReport key={currentScenarioData?.id} isParentLoading={isViewLoading} />;
+    return (
+      <CurrentScenarioSupersetReport
+        key={currentScenarioData?.id}
+        isParentLoading={isViewLoading}
+        isInScenarioViewContext
+      />
+    );
 
   return (
     <CurrentScenarioPowerBiReport
@@ -23,6 +29,7 @@ const ScenarioChartReport = () => {
       reportConfiguration={currentScenarioRunTemplateReport}
       iframeRatio={iframeRatio}
       isParentLoading={isViewLoading}
+      isInScenarioViewContext
     />
   );
 };

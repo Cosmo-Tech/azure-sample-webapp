@@ -304,7 +304,7 @@
           "label": "Aucun tableau de bord n'est configuré pour ce type de scénario"
         },
         "unknownStatus": {
-          "label": "Le scénario a un statut inconnu, si le problème persiste, merci de contacter votre administrateur"
+          "label": "Le scénario a un statut inconnu. Si le problème persiste, veuillez contacter votre administrateur."
         },
         "resultsDisplayDisabled": "La simulation s'est terminée avec succès mais l'affichage des résultats est désactivé",
         "error": {
@@ -316,7 +316,8 @@
       },
       "errorPlaceholder": {
         "title": "Erreur inattendue",
-        "description": "Une erreur est survenue lors de l'affichage des tableaux de bord. Si le problème persiste, veuillez contacter un administrateur."
+        "description": "Une erreur est survenue lors de l'affichage des tableaux de bord. Si le problème persiste, veuillez contacter votre administrateur.",
+        "noTokenForBI": "Une erreur est survenue lors de l'authentification. Si le problème persiste, veuillez contacter votre administrateur."
       }
     },
     "scenariomanager": {
