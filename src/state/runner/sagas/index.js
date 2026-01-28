@@ -1,6 +1,6 @@
 import { all, fork } from 'redux-saga/effects';
 import applyRunnerSharingChangesSaga from './ApplyRunnerSharingChanges';
-import createRunnerSaga from './CreateRunner';
+import createRunnerSaga from './CreateETLRunnerAndDataset';
 import createSimulationRunnerSaga from './CreateSimulationRunner';
 import deleteRunnerSaga from './DeleteRunner';
 import getAllSimulationRunnersSaga from './GetAllRunners';
