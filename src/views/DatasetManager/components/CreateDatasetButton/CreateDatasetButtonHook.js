@@ -4,7 +4,7 @@ import { useCallback, useMemo } from 'react';
 import { NATIVE_DATASOURCE_TYPES, DATASET_SOURCES } from '../../../../services/config/ApiConstants';
 import { useUserName } from '../../../../state/auth/hooks';
 import { useCreateDataset } from '../../../../state/datasets/hooks';
-import { useCreateRunner } from '../../../../state/runner/hooks';
+import { useCreateETLRunnerAndDataset } from '../../../../state/runner/hooks';
 import { useDataSourceRunTemplates, useSolutionData } from '../../../../state/solutions/hooks';
 import { useWorkspaceData } from '../../../../state/workspaces/hooks';
 import { ArrayDictUtils, SolutionsUtils } from '../../../../utils';
@@ -12,7 +12,7 @@ import { ArrayDictUtils, SolutionsUtils } from '../../../../utils';
 export const useDatasetCreationParameters = () => {
   const ownerName = useUserName();
   const createDataset = useCreateDataset();
-  const createRunner = useCreateRunner();
+  const createETLRunnerAndDataset = useCreateETLRunnerAndDataset();
   const solutionData = useSolutionData();
   const workspace = useWorkspaceData();
   const customDataSourceRunTemplates = useDataSourceRunTemplates();
@@ -70,10 +70,10 @@ export const useDatasetCreationParameters = () => {
         const runner = { ...dataset, runTemplateId: sourceType };
         const escapedSourceType = SolutionsUtils.escapeRunTemplateId(sourceType);
         runner.parametersValues = SolutionsUtils.forgeRunnerParameters(solutionData, values[escapedSourceType]);
-        createRunner(runner);
+        createETLRunnerAndDataset(runner);
       }
     },
-    [createDataset, createRunner, ownerName, solutionData]
+    [createDataset, createETLRunnerAndDataset, ownerName, solutionData]
   );
 
   return {

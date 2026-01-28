@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 import { RUNNER_ACTIONS_KEY } from './constants';
 
-export const dispatchCreateRunner = (organizationId, workspaceId, runner) => ({
-  type: RUNNER_ACTIONS_KEY.CREATE_RUNNER,
+export const dispatchCreateETLRunnerAndDataset = (organizationId, workspaceId, runner) => ({
+  type: RUNNER_ACTIONS_KEY.CREATE_ETL_RUNNER_AND_DATASET,
   organizationId,
   workspaceId,
   runner,

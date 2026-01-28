@@ -63,7 +63,7 @@ function* uploadFileParameter(parameter, organizationId, workspaceId) {
   }
 }
 
-export function* createRunner(action) {
+export function* createETLRunnerAndDataset(action) {
   try {
     const organizationId = action.organizationId;
     const workspaceId = action.workspaceId;
@@ -148,8 +148,8 @@ export function* createRunner(action) {
   }
 }
 
-function* createRunnerSaga() {
-  yield takeEvery(RUNNER_ACTIONS_KEY.CREATE_RUNNER, createRunner);
+function* createETLRunnerAndDatasetSaga() {
+  yield takeEvery(RUNNER_ACTIONS_KEY.CREATE_ETL_RUNNER_AND_DATASET, createETLRunnerAndDataset);
 }
 
-export default createRunnerSaga;
+export default createETLRunnerAndDatasetSaga;

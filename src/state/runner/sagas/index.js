@@ -1,6 +1,6 @@
 import { all, fork } from 'redux-saga/effects';
 import applyRunnerSharingChangesSaga from './ApplyRunnerSharingChanges';
-import createRunnerSaga from './CreateETLRunnerAndDataset';
+import createETLRunnerAndDatasetSaga from './CreateETLRunnerAndDataset';
 import createSimulationRunnerSaga from './CreateSimulationRunner';
 import deleteRunnerSaga from './DeleteRunner';
 import getAllSimulationRunnersSaga from './GetAllRunners';
@@ -17,7 +17,7 @@ import updateSimulationRunnerSaga from './UpdateSimulationRunner';
 
 export default function* runnerSaga() {
   yield all([
-    fork(createRunnerSaga),
+    fork(createETLRunnerAndDatasetSaga),
     fork(createSimulationRunnerSaga),
     fork(getAllSimulationRunnersSaga),
     fork(getRunnerSaga),

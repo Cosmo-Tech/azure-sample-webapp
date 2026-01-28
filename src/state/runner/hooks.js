@@ -8,7 +8,7 @@ import { useOrganizationId } from '../organizations/hooks';
 import { useWorkspaceId } from '../workspaces/hooks';
 import {
   dispatchApplyRunnerSharingChanges,
-  dispatchCreateRunner,
+  dispatchCreateETLRunnerAndDataset,
   dispatchCreateSimulationRunner,
   dispatchDeleteRunner,
   dispatchGetRunner,
@@ -100,12 +100,12 @@ export const useCurrentSimulationRunnerLastRun = (runnerId) => {
   return useLastRunsList().find((run) => run.runnerId === runnerId);
 };
 
-export const useCreateRunner = () => {
+export const useCreateETLRunnerAndDataset = () => {
   const organizationId = useOrganizationId();
   const workspaceId = useWorkspaceId();
   const dispatch = useDispatch();
   return useCallback(
-    (runner) => dispatch(dispatchCreateRunner(organizationId, workspaceId, runner)),
+    (runner) => dispatch(dispatchCreateETLRunnerAndDataset(organizationId, workspaceId, runner)),
     [dispatch, organizationId, workspaceId]
   );
 };
