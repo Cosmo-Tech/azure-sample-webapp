@@ -70,14 +70,14 @@ const replaceDatasetPart = async (organizationId, workspaceId, datasetId, datase
 };
 
 const downloadDatasetPart = async (datasetPart) => {
-  const data = await fetchDatasetPartData(datasetPart);
+  const data = await fetchDatasetPartData(datasetPart, true);
   FileBlobUtils.downloadFileFromData(data, datasetPart.sourceName);
   return data;
 };
 
-const fetchDatasetPartData = async (datasetPart) => {
+const fetchDatasetPartData = async (datasetPart, downloadAsBlob = false) => {
   const { organizationId, workspaceId, datasetId, id } = datasetPart;
-  const options = { responseType: 'blob' };
+  const options = downloadAsBlob ? { responseType: 'blob' } : {};
   const { data, status } = await Api.Datasets.downloadDatasetPart(organizationId, workspaceId, datasetId, id, options);
   if (status !== 200) {
     throw new Error(`Error when downloading dataset part "${id}" in dataset "${datasetId}"`);
