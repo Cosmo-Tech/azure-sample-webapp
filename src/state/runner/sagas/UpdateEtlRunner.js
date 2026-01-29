@@ -1,97 +1,87 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { t } from 'i18next';
-import { call, put, takeEvery } from 'redux-saga/effects';
-import { UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
-import { Api } from '../../../services/config/Api';
-import { ApiUtils, ConfigUtils, DatasetsUtils } from '../../../utils';
+import { call, put, select, takeEvery } from 'redux-saga/effects';
+import DatasetService from '../../../services/dataset/DatasetService';
+import { ScenarioParametersUtils } from '../../../utils';
 import { setApplicationErrorMessage } from '../../app/reducers';
 import { DATASET_ACTIONS_KEY } from '../../datasets/constants';
-import { addDataset } from '../../datasets/reducers';
+import { addOrUpdateDatasetPart, deleteDatasetPart } from '../../datasets/reducers';
 import { RUNNER_ACTIONS_KEY } from '../constants';
 import { updateEtlRunner } from '../reducers';
+import { asyncUpdateRunner } from './UpdateSimulationRunner';
 
-function* uploadFileParameter(parameter, organizationId, workspaceId) {
-  try {
-    const connectorId = parameter.connectorId;
-    const file = parameter.value.file;
-    const parameterId = parameter.parameterId;
-
-    if (!connectorId) {
-      throw new Error(`Missing connector id in configuration file for scenario parameter ${parameterId}`);
-    }
-    const datasetPart = {
-      name: parameterId,
-      description: parameter.description,
-      connector: { id: connectorId },
-      tags: ['dataset_part'],
-      main: false,
-    };
-    // FIXME: use new dataset parts system
-    // FIXME: add custom security with userEmail to support service accounts in ACL
-    const { data } = yield call(Api.Datasets.createDataset, organizationId, workspaceId, datasetPart);
-
-    const datasetId = data.id;
-
-    const storageFilePath = DatasetsUtils.buildStorageFilePath(datasetId, file.name);
-    const newConnector = DatasetsUtils.buildAzureStorageConnector(connectorId, storageFilePath);
-
-    const updatedDatasetPart = { ...datasetPart, connector: newConnector };
-    const { data: updatedDataset } = yield call(
-      Api.Datasets.updateDataset,
-      organizationId,
-      workspaceId,
-      datasetId,
-      updatedDatasetPart
-    );
-    // FIXME: workspace files no longer exist, replace by new dataset+part structure
-    // yield call(Api.Workspaces.uploadWorkspaceFile, organizationId, workspaceId, file, true, storageFilePath);
-    yield put(addDataset({ ...updatedDataset }));
-
-    return datasetId;
-  } catch (error) {
-    console.error(error);
-    yield put(
-      setApplicationErrorMessage({
-        error,
-        errorMessage: t(
-          'commoncomponents.banner.runnerFileNotUploaded',
-          `Runner file {runnerFile} hasn't been uploaded`,
-          {
-            runnerFile: parameter.value.file,
-          }
-        ),
-      })
-    );
-    throw new Error(error);
-  }
-}
+const getETLRunners = (state) => state.runner?.etlRunners?.list?.data;
+const getSolution = (state) => state.solution?.current?.data;
 
 export function* updateEtlRunnerData(action) {
   try {
+    const runners = yield select(getETLRunners);
+    const solution = yield select(getSolution);
+
+    const runnerId = action.runnerId;
+    const runner = runners?.find((item) => item.id === runnerId);
+    if (runner === undefined) {
+      const errorMessage = `Couldn't retrieve runner with id "${runnerId}"`;
+      yield put(setApplicationErrorMessage({ error: { title: 'Dataset update failed' }, errorMessage }));
+      return;
+    }
+
     const runnerPatch = action.runnerPatch;
     const organizationId = action.organizationId;
     const workspaceId = action.workspaceId;
-    const runnerId = action.runnerId;
     const dataset = action.dataset;
-    for (const parameter of runnerPatch.parametersValues) {
-      if (ConfigUtils.isFileParameter(parameter)) {
-        if (parameter.value.status === UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD)
-          parameter.value = yield call(uploadFileParameter, parameter, organizationId, workspaceId);
-        else if (parameter.value.status === UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD)
-          parameter.value = parameter.value.id;
-      }
-    }
-    const runnerDataToUpdate = runnerPatch.parametersValues
-      ? { ...runnerPatch, ...ApiUtils.formatParametersForApi(runnerPatch.parametersValues) }
-      : runnerPatch;
-    const { data } = yield call(Api.Runners.updateRunner, organizationId, workspaceId, runnerId, runnerDataToUpdate);
-    yield put(
-      updateEtlRunner({
-        runnerId,
-        runner: { ...data, parametersValues: ApiUtils.formatParametersFromApi(data.parametersValues) },
-      })
+
+    const runnerParameterDatasetId = runner.datasets?.parameter;
+    const parameterValueDict = {};
+    runnerPatch.parametersValues.forEach((parameterValue) => {
+      parameterValueDict[parameterValue.parameterId] = parameterValue.value;
+    });
+
+    const parametersForUpdateRequest = ScenarioParametersUtils.buildParametersForUpdateRequest(
+      solution,
+      parameterValueDict,
+      null,
+      runner,
+      null
     );
+
+    const updatedRunner = yield call(
+      asyncUpdateRunner,
+      organizationId,
+      workspaceId,
+      runnerId,
+      runner?.runTemplateId,
+      parametersForUpdateRequest.nonDatasetParts,
+      runnerPatch
+    );
+    yield put(updateEtlRunner({ runnerId, runner: updatedRunner }));
+
+    for (const parameter of parametersForUpdateRequest.fileDatasetParts) {
+      const createdDatasetPart = yield call(
+        DatasetService.createDatasetPart,
+        organizationId,
+        workspaceId,
+        runnerParameterDatasetId,
+        parameter.value.part,
+        parameter.value.file
+      );
+      yield put(
+        addOrUpdateDatasetPart({ datasetId: runnerParameterDatasetId, datasetPart: createdDatasetPart, runnerId })
+      );
+    }
+
+    for (const datasetPartId of parametersForUpdateRequest.idsOfDatasetPartsToDelete) {
+      yield call(
+        DatasetService.deleteDatasetPart,
+        organizationId,
+        workspaceId,
+        runnerParameterDatasetId,
+        datasetPartId
+      );
+      yield put(deleteDatasetPart({ datasetId: runnerParameterDatasetId, datasetPartId, runnerId }));
+    }
+
     yield put({ type: DATASET_ACTIONS_KEY.REFRESH_DATASET, organizationId, dataset });
   } catch (error) {
     console.error(error);
