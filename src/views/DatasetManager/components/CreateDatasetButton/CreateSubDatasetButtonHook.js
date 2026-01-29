@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 import { useCallback, useMemo } from 'react';
 import { useOrganizationData } from '../../../../state/organizations/hooks';
-import { useCreateRunner } from '../../../../state/runner/hooks';
+import { useCreateETLRunnerAndDataset } from '../../../../state/runner/hooks';
 import { useSubDataSourceRunTemplates, useSolutionData } from '../../../../state/solutions/hooks';
 import { useWorkspaceData } from '../../../../state/workspaces/hooks';
 import { ArrayDictUtils, SolutionsUtils } from '../../../../utils';
 
 export const useSubDatasetCreationParameters = () => {
-  const createRunner = useCreateRunner();
+  const createETLRunnerAndDataset = useCreateETLRunnerAndDataset();
   const solutionData = useSolutionData();
   const workspace = useWorkspaceData();
   const customSubDataSourceRunTemplates = useSubDataSourceRunTemplates();
@@ -52,9 +52,9 @@ export const useSubDatasetCreationParameters = () => {
       };
       const escapedSourceType = SolutionsUtils.escapeRunTemplateId(sourceType);
       runner.parametersValues = SolutionsUtils.forgeRunnerParameters(solutionData, values[escapedSourceType]);
-      createRunner(runner);
+      createETLRunnerAndDataset(runner);
     },
-    [createRunner, solutionData]
+    [createETLRunnerAndDataset, solutionData]
   );
 
   return {

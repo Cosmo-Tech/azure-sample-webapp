@@ -195,9 +195,11 @@ const runnerSlice = createSlice({
           return;
         }
 
-        const runner = state.simulationRunners.list.data?.find((runner) => runner.id === runnerId);
+        const runner =
+          state.simulationRunners.list.data?.find((runner) => runner.id === runnerId) ??
+          state.etlRunners.list.data?.find((runner) => runner.id === runnerId);
         if (!runner) {
-          console.warn('Runner not found');
+          console.warn(`Can't add or update dataset part: no runner found with id "${runnerId}"`);
           return;
         }
 
@@ -229,9 +231,11 @@ const runnerSlice = createSlice({
           return;
         }
 
-        const runner = state.simulationRunners.list.data?.find((runner) => runner.id === runnerId);
+        const runner =
+          state.simulationRunners.list.data?.find((runner) => runner.id === runnerId) ??
+          state.etlRunners.list.data?.find((runner) => runner.id === runnerId);
         if (!runner) {
-          console.warn('Runner not found');
+          console.warn(`Can't delete dataset part: no runner found with id "${runnerId}"`);
           return;
         }
 

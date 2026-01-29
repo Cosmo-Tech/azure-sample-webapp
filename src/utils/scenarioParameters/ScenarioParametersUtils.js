@@ -311,7 +311,7 @@ const buildParametersForUpdateRequest = (
   allScenarios
 ) => {
   const parameters = { dbDatasetParts: [], fileDatasetParts: [], nonDatasetParts: [], idsOfDatasetPartsToDelete: [] };
-  for (const parameterId of runTemplateParametersIds) {
+  for (const parameterId of runTemplateParametersIds ?? Object.keys(parameterValues)) {
     const parameterValue = parameterValues[parameterId];
     if (parameterValue == null) continue;
 

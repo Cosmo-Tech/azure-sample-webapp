@@ -34,9 +34,9 @@ export const useFileParameters = () => {
       };
 
       try {
-        setStatus(FILE_STATUS.DOWNLOADING);
+        if (setStatus) setStatus(FILE_STATUS.DOWNLOADING);
         await DatasetService.downloadDatasetPart(datasetPart);
-        setStatus(FILE_STATUS.READY_TO_DOWNLOAD);
+        if (setStatus) setStatus(FILE_STATUS.READY_TO_DOWNLOAD);
       } catch (error) {
         console.error(error);
         const errorMessage = t('commoncomponents.banner.dataset', "Dataset hasn't been downloaded.");
