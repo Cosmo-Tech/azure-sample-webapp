@@ -5,21 +5,21 @@ __metadata:
   version: 8
   cacheKey: 10c0
 
-"@azure/msal-common@npm:15.13.3":
-  version: 15.13.3
-  resolution: "@azure/msal-common@npm:15.13.3"
-  checksum: 10c0/0d71c31ad098153985cb918c2bda9698aae0a15b659da5c0867728313ba6743854cc112332b39ba1a187b81dfc0abba22b1c22ee6f245e511c5ecec179832b03
+"@azure/msal-common@npm:15.14.1":
+  version: 15.14.1
+  resolution: "@azure/msal-common@npm:15.14.1"
+  checksum: 10c0/0782278648609e13a67361d1c4600d0bb2c74d85b3580ff045acc19b352b206e8d021266420bce59f40d69da3789da060c03291aa3f83d31ed0569bc2c3e89bb
   languageName: node
   linkType: hard
 
-"@azure/msal-node@npm:^3.8.4":
-  version: 3.8.4
-  resolution: "@azure/msal-node@npm:3.8.4"
+"@azure/msal-node@npm:^3.8.6":
+  version: 3.8.6
+  resolution: "@azure/msal-node@npm:3.8.6"
   dependencies:
-    "@azure/msal-common": "npm:15.13.3"
+    "@azure/msal-common": "npm:15.14.1"
     jsonwebtoken: "npm:^9.0.0"
     uuid: "npm:^8.3.0"
-  checksum: 10c0/8f61c2172c31cae156c42ada15bd7795ce7ef2b12c33e2c2e4e5802678596c53985f560cb40a93647064f1866d643f75c62699130121aa368ef9b69b87e5f071
+  checksum: 10c0/09360434bfdce269299369c66b06c93954308d4e09dc78668908a0eddc384f24f216afc806f66fe6f4cc64661222928aefca8d5a49c595378fde4f4e601b0ad7
   languageName: node
   linkType: hard
 
@@ -53,9 +53,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "api@workspace:."
   dependencies:
-    "@azure/msal-node": "npm:^3.8.4"
+    "@azure/msal-node": "npm:^3.8.6"
     jsonwebtoken: "npm:^9.0.3"
-    jwks-rsa: "npm:^3.2.1"
+    jwks-rsa: "npm:^3.2.2"
     uuid: "npm:^13.0.0"
   languageName: unknown
   linkType: soft
@@ -124,16 +124,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jwks-rsa@npm:^3.2.1":
-  version: 3.2.1
-  resolution: "jwks-rsa@npm:3.2.1"
+"jwks-rsa@npm:^3.2.2":
+  version: 3.2.2
+  resolution: "jwks-rsa@npm:3.2.2"
   dependencies:
     "@types/jsonwebtoken": "npm:^9.0.4"
     debug: "npm:^4.3.4"
     jose: "npm:^4.15.4"
     limiter: "npm:^1.1.5"
     lru-memoizer: "npm:^2.2.0"
-  checksum: 10c0/04bd809a01b426f2d1eeaef9fa933e95f1eff46049f06e99d7464317477f62dd2fa8c94ba37bdc258287d15d7806f970617242faa137b7a4764c0924b6531cf9
+  checksum: 10c0/a619ee0c5b342e1c9edcd69086d7beb86e3ef1dcce5b8aeb3ac6d0c0014309c90f00e5e7b0ce8143832628244fec8cdff51ecc38a5c3a95a4fcd810d60e79b1a
   languageName: node
   linkType: hard
 
