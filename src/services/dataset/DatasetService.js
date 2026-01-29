@@ -104,7 +104,7 @@ const queryDatasetPart = async (datasetPart, options = {}) => {
     orderBys
   );
   if (status !== 200) {
-    throw new Error(`Error when downloading dataset part "${id}" in dataset "${datasetId}"`);
+    throw new Error(`Error when querying dataset part "${id}" in dataset "${datasetId}"`);
   }
   return data;
 };
