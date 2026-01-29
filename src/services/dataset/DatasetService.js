@@ -77,7 +77,8 @@ const downloadDatasetPart = async (datasetPart) => {
 
 const fetchDatasetPartData = async (datasetPart) => {
   const { organizationId, workspaceId, datasetId, id } = datasetPart;
-  const { data, status } = await Api.Datasets.downloadDatasetPart(organizationId, workspaceId, datasetId, id);
+  const options = { responseType: 'blob' };
+  const { data, status } = await Api.Datasets.downloadDatasetPart(organizationId, workspaceId, datasetId, id, options);
   if (status !== 200) {
     throw new Error(`Error when downloading dataset part "${id}" in dataset "${datasetId}"`);
   }
