@@ -8,9 +8,8 @@ import { Grid, Typography } from '@mui/material';
 import rfdc from 'rfdc';
 import { UploadFile, BasicEnumInput } from '@cosmotech/ui';
 import { GenericEnumInput, GenericMultiSelect, GenericTextInput, GenericDateInput } from '../../../../../../components';
+import { useFileParameters } from '../../../../../../hooks/FileParameterHooks';
 import { FILE_DATASET_PART_ID_VARTYPE } from '../../../../../../services/config/ApiConstants';
-import { useOrganizationId } from '../../../../../../state/organizations/hooks';
-import { useWorkspaceId } from '../../../../../../state/workspaces/hooks';
 import { ConfigUtils, SolutionsUtils, TranslationUtils } from '../../../../../../utils';
 import { FileManagementUtils } from '../../../../../../utils/FileManagementUtils';
 import { useDatasetCreationParameters } from './DatasetCreationParametersHook';
@@ -20,8 +19,8 @@ const clone = rfdc();
 export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDataset, selectedRunner = {} }) => {
   const { t } = useTranslation();
   const { getValues, resetField } = useFormContext();
-  const organizationId = useOrganizationId();
-  const workspaceId = useWorkspaceId();
+  const { downloadDatasetPartFile } = useFileParameters();
+
   const { datasourceParameterHelpers, getDataSourceTypeEnumValues, getUploadFileLabels, getDefaultFileTypeFilter } =
     useDatasetCreationParameters();
 
@@ -126,9 +125,7 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
                     labels={getUploadFileLabels(parameterId, parameter.idForTranslationKey)}
                     tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterId), '')}
                     handleUploadFile={(event) => FileManagementUtils.prepareToUpload(event, onChange)}
-                    handleDownloadFile={(event) => {
-                      FileManagementUtils.downloadFile(organizationId, workspaceId, value.id, () => {});
-                    }}
+                    handleDownloadFile={() => downloadDatasetPartFile(value)}
                     editMode
                     handleDeleteFile={() => onChange(null)}
                     file={value ?? {}}
@@ -160,8 +157,6 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
     defaultFormState.current = {};
     return runTemplate?.parameters?.map((parameter) => forgeParameterInput(parameter));
   }, [
-    organizationId,
-    workspaceId,
     dataSourceRunTemplates,
     dataSourceType,
     datasourceParameterHelpers,
@@ -170,6 +165,7 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
     getUploadFileLabels,
     t,
     getDefaultFileTypeFilter,
+    downloadDatasetPartFile,
   ]);
 
   useEffect(() => {
