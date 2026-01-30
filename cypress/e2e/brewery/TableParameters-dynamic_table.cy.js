@@ -49,7 +49,6 @@ const twingraphQueryResponse = [
 
 const runOptions = {
   runDuration: 1000,
-  dataIngestionDuration: 1000,
   finalStatus: 'Successful',
   expectedPollsCount: 2,
 };

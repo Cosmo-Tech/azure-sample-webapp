@@ -72,14 +72,12 @@ const DEFAULT_RESOURCES_DATA = {
 
 // Default stubbing options to fake scenario runs. By default, the scenario runs will end immediately with a
 // 'Successful' status. To change these default options in a test, use stubbing.setScenarioRunOptions(options)
-// - runDuration represents the duration (in ms) of the 'Running' status, before it changes to 'DataIngestionInProgress'
-// - dataIngestionDuration represents the duration (in ms) of the 'DataIngestionInProgress' status, before it changes
+// - runDuration represents the duration (in ms) of the 'Running' status, before it changes
 //   to the final status
 // - finalStatus must be one of 'Failed', 'Successful' or 'Unknown'
 // - expectedPollsCount is an integer representing the number of polling requests to intercept
 const DEFAULT_SCENARIO_RUNS_OPTIONS = {
   runDuration: 0,
-  dataIngestionDuration: 0,
   finalStatus: 'Successful',
   expectedPollsCount: 1,
   startTime: new Date(),
@@ -110,12 +108,17 @@ export const assertStubTypeIsValid = (stubType) => {
 const forgeScenarioRunStatus = (scenarioRun) => ({
   id: scenarioRun.id,
   organizationId: scenarioRun.organizationId,
+  workspaceId: scenarioRun.workspaceId,
   workflowId: scenarioRun.workflowId,
   workflowName: scenarioRun.workflowName,
+  createInfo: null,
   startTime: new Date().toISOString(),
   endTime: null,
   phase: 'Running',
   progress: '0/1',
+  message: null,
+  estimatedDuration: null,
+  nodes: [],
   state: 'Running',
 });
 

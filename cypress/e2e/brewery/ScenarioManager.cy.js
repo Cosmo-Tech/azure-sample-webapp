@@ -32,7 +32,6 @@ describe('Create scenario and check its data in scenario manager', () => {
     const scenarioRunTemplate = DEFAULT_SCENARIOS_LIST[0].runTemplateName;
     const runOptions = {
       runDuration: 1000,
-      dataIngestionDuration: 1000,
       finalStatus: 'Successful',
       expectedPollsCount: 2,
     };
