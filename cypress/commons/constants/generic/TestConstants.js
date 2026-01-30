@@ -41,14 +41,6 @@ export const URL_REGEX = {
 };
 
 export const API_ENDPOINT = {
-  SCENARIOS: URL_ROOT + '/.*/scenarios',
-  SCENARIO: URL_ROOT + '/.*/scenarios/(s-[\\w]+)',
-  SCENARIO_DEFAULT_SECURITY: URL_ROOT + '/.*/scenarios/(s-[\\w]+)/security/default',
-  SCENARIO_SECURITY_ACL: URL_ROOT + '/.*/scenarios/(s-[\\w]+)/security/access',
-  LAUNCH_SCENARIO: URL_ROOT + '/.*/scenarios/(s-[\\w]+)/run', // Endpoint to start the run of a scenario
-  SCENARIO_RUN: URL_ROOT + '/.*/scenarioruns/(sr-[\\w]+)', // Endpoint to get the data of a specific scenario run
-  STOP_SCENARIO_RUN: URL_ROOT + '/.*/scenarioruns/(sr-[\\w]+)/stop', // Endpoint to stop a scenario run
-  SCENARIO_RUN_STATUS: URL_ROOT + '/.*/scenarioruns/(sr-[\\w]+)/status',
   DATASETS: URL_ROOT + '/.*/datasets',
   DATASET: URL_ROOT + '/.*/datasets/((d|D)-[\\w]+)',
   DATASET_DEFAULT_SECURITY: URL_ROOT + '/.*/datasets/((d|D)-[\\w]+)/security/default',
@@ -192,14 +184,6 @@ export const ROLES_PERMISSIONS_MAP = {
 
 export const API_REGEX = {
   ALL: new RegExp(URL_ROOT),
-  SCENARIOS: new RegExp('^' + API_ENDPOINT.SCENARIOS + '$'),
-  SCENARIO: new RegExp('^' + API_ENDPOINT.SCENARIO),
-  SCENARIO_DEFAULT_SECURITY: new RegExp('^' + API_ENDPOINT.SCENARIO_DEFAULT_SECURITY + '$'),
-  SCENARIO_SECURITY_ACL: new RegExp('^' + API_ENDPOINT.SCENARIO_SECURITY_ACL + '$'),
-  LAUNCH_SCENARIO: new RegExp('^' + API_ENDPOINT.LAUNCH_SCENARIO),
-  SCENARIO_RUN: new RegExp('^' + API_ENDPOINT.SCENARIO_RUN),
-  STOP_SCENARIO_RUN: new RegExp('^' + API_ENDPOINT.STOP_SCENARIO_RUN),
-  SCENARIO_RUN_STATUS: new RegExp('^' + API_ENDPOINT.SCENARIO_RUN_STATUS),
   DATASETS: new RegExp('^' + API_ENDPOINT.DATASETS),
   DATASET: new RegExp('^' + API_ENDPOINT.DATASET + '$'),
   DATASET_DEFAULT_SECURITY: new RegExp('^' + API_ENDPOINT.DATASET_DEFAULT_SECURITY + '$'),
