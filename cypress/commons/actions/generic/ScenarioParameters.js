@@ -26,6 +26,23 @@ function getParameterValue(id) {
 function getParameterInput(id) {
   return getParameterContainer(id).find(GENERIC_SELECTORS.genericComponents.basicInput.input);
 }
+function getDateParameterInput(id) {
+  return getParameterContainer(id).find(GENERIC_SELECTORS.genericComponents.basicInput.dateGroup);
+}
+function clearDateParameterInput(inputElement) {
+  inputElement.click({ force: true });
+  inputElement.type('{selectAll}{backspace}', { delay: 1 });
+}
+
+function typeInDateParameterInput(inputElement, value) {
+  clearDateParameterInput(inputElement);
+  inputElement.click({ force: true });
+
+  // Typing delay must be 0 for Chrome, but something above 10 for electron
+  let delay = 0;
+  if (Cypress.browser.name === 'electron') delay = 100;
+  inputElement.type(value, { delay });
+}
 
 function getDynamicParameterLoadingSpinner() {
   return cy.get(GENERIC_SELECTORS.scenario.parameters.loadingSpinner);
@@ -201,6 +218,9 @@ export const ScenarioParameters = {
   getParameterContainer,
   getParameterValue,
   getParameterInput,
+  getDateParameterInput,
+  clearDateParameterInput,
+  typeInDateParameterInput,
   getParametersDiscardButton,
   getParametersConfirmDiscardButton,
   getLaunchButton,

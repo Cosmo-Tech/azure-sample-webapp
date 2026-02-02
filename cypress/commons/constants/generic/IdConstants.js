@@ -335,6 +335,7 @@ export const GENERIC_SELECTORS = {
       disabledInputLabel: '[data-cy=disabled-input-label]',
       disabledInputValue: '[data-cy=disabled-input-value]',
       input: 'input',
+      dateGroup: '[role=group]',
     },
     basicEnumInput: {
       input: 'input',

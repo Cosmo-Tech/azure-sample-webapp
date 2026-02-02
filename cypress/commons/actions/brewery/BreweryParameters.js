@@ -106,8 +106,8 @@ const getAverageConsumptionInput = () => ScenarioParameters.getParameterInput('s
 const getStartDate = () => ScenarioParameters.getParameterValue('date-input-start_date');
 const getEndDate = () => ScenarioParameters.getParameterValue('date-input-end_date');
 const getStartDateHelperText = () => cy.get('[id=date-text-field-start_date-helper-text]');
-const getStartDateInput = () => cy.get('[data-cy=date-input-start_date]');
-const getEndDateInput = () => cy.get('[data-cy=date-input-end_date]');
+const getStartDateInput = () => ScenarioParameters.getDateParameterInput('date-input-start_date');
+const getEndDateInput = () => ScenarioParameters.getDateParameterInput('date-input-end_date');
 const getEndDateHelperText = () => cy.get('[id=date-text-field-end_date-helper-text]');
 
 // Get addition parameters components & input fields
@@ -128,7 +128,7 @@ const getCommentHelperText = () => cy.get('[id=text-input-comment-helper-text]')
 const getCommentInput = () => ScenarioParameters.getParameterInput('text-input-comment');
 const getAdditionalDate = () => ScenarioParameters.getParameterValue('date-input-additional_date');
 const getAdditionalDateHelperText = () => cy.get('[id=date-text-field-additional_date-helper-text]');
-const getAdditionalDateInput = () => ScenarioParameters.getParameterInput('date-input-additional_date');
+const getAdditionalDateInput = () => ScenarioParameters.getDateParameterInput('date-input-additional_date');
 const getScenarioToCompare = () => ScenarioParameters.getParameterValue('single-select-scenario_to_compare');
 
 const getScenarioToCompareSelect = () => {
