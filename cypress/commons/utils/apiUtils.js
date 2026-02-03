@@ -399,18 +399,6 @@ const interceptPostDatasetTwingraphQueries = (responses = [], validateRequest = 
   return alias;
 };
 
-const interceptRollbackDatasetStatus = () => {
-  const alias = forgeAlias('reqRollbackDatasetStatus');
-  cy.intercept({ method: 'POST', url: API_REGEX.DATASET_ROLLBACK, times: 1 }, (req) => {
-    const datasetId = req.url.match(API_REGEX.DATASET_ROLLBACK)?.[1];
-    if (stub.isEnabledFor('CREATE_DATASET')) {
-      req.reply({ message: `Dataset ${datasetId} status is now SUCCESS` });
-      stub.patchDataset(datasetId, { ingestionStatus: 'SUCCESS' });
-    }
-  }).as(alias);
-  return alias;
-};
-
 // Parameters:
 //   - options: dict with properties:
 //     - id (optional): id of the dataset to create
@@ -447,56 +435,6 @@ const interceptCreateDataset = (options, stubbingOptions = stub.getDatasetImport
   return alias;
 };
 
-const interceptLinkDataset = () => {
-  const alias = forgeAlias('reqLinkDataset');
-  cy.intercept({ method: 'POST', url: API_REGEX.DATASET_LINK, times: 1 }, (req) => {
-    const regexResult = req.url.match(API_REGEX.DATASET_LINK);
-    const datasetId = regexResult?.[1];
-    if (stub.isEnabledFor('CREATE_DATASET') || stub.isEnabledFor('GET_DATASETS')) {
-      // TODO: patch dataset in stubbing object to add linked workspace
-      // const workspaceId = regexResult?.[3];
-      req.reply(stub.getDatasetById(datasetId));
-    }
-  }).as(alias);
-  return alias;
-};
-
-const interceptRefreshDataset = () => {
-  const alias = forgeAlias('reqRefreshDataset');
-  cy.intercept({ method: 'POST', url: API_REGEX.DATASET_REFRESH, times: 1 }, (req) => {
-    if (stub.isEnabledFor('CREATE_DATASET')) {
-      const datasetId = req.url.match(API_REGEX.DATASET_REFRESH)?.[1];
-      req.reply({
-        jobId: 'gdi-stbdimportjob',
-        datasetId,
-        ingestionStatus: stub.getDatasetById(datasetId).ingestionStatus,
-      });
-    }
-  }).as(alias);
-  return alias;
-};
-
-const interceptRefreshDatasetAndPollStatus = (datasetId, options) => {
-  const alias = forgeAlias('reqRefreshDatasetAndPollStatus');
-  cy.intercept({ method: 'POST', url: API_REGEX.DATASET_REFRESH, times: 1 }, (req) => {
-    if (datasetId !== req.url.match(API_REGEX.DATASET_REFRESH)?.[1]) return;
-    if (stub.isEnabledFor('CREATE_DATASET')) {
-      stub.patchDataset(datasetId, { ingestionStatus: 'PENDING' });
-      setTimeout(() => {
-        stub.patchDataset(datasetId, {
-          ingestionStatus: options.finalIngestionStatus,
-        });
-      }, 5000 * options.expectedPollsCount);
-
-      req.reply({
-        jobId: 'gdi-stbdimportjob',
-        datasetId,
-        status: 'PENDING',
-      });
-    }
-  }).as(alias);
-  return alias;
-};
 // Parameters:
 //   - options: dict with properties:
 //     - validateRequest (optional): a function, taking the request object as argument, that can be used to perform
@@ -787,11 +725,7 @@ export const apiUtils = {
   interceptGetDatasetStatus,
   interceptPostDatasetTwingraphQuery,
   interceptPostDatasetTwingraphQueries,
-  interceptRollbackDatasetStatus,
   interceptCreateDataset,
-  interceptLinkDataset,
-  interceptRefreshDataset,
-  interceptRefreshDatasetAndPollStatus,
   interceptUpdateDataset,
   interceptUpdateDatasetSecurity,
   interceptAddDatasetAccessControl,

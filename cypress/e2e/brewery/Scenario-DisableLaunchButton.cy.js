@@ -43,6 +43,7 @@ describe('DisableLaunchButton', () => {
     DatasetManager.ignoreDatasetTwingraphQueries();
     DatasetManager.switchToDatasetManagerView();
     DatasetManager.selectDatasetById(DATASETS_TO_REFRESH[1].id);
+    // FIXME: replace call to refreshDataset (endpoint removed in v5)
     DatasetManager.refreshDataset(DATASETS_TO_REFRESH[1].id, refreshFailedOptions);
     DatasetManager.getDatasetOverviewPlaceholderTitle().contains('An error', { timeout: 30000 });
     Scenarios.switchToScenarioView();

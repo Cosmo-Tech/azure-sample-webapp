@@ -309,23 +309,6 @@ export const deleteDataset = (datasetId, datasetName) => {
   api.waitAlias(deleteDatasetAlias);
 };
 
-export const refreshDataset = (datasetId, options) => {
-  const aliases = [
-    api.interceptRefreshDatasetAndPollStatus(datasetId, options),
-    api.interceptGetDatasetStatus(options.expectedPollsCount),
-  ];
-  getDatasetRefreshButton(datasetId).click();
-  getConfirmDatasetRefreshButton().click();
-  getRefreshDatasetSpinner(datasetId).should('be.visible');
-  api.waitAliases(aliases);
-};
-
-export const rollbackDatasetStatus = () => {
-  const alias = api.interceptRollbackDatasetStatus();
-  getDatasetOverviewPlaceholderRollbackButton().click();
-  api.waitAlias(alias);
-};
-
 // Parameters:
 //   - response (optional): JSON response to the twingraph query that is simulated if stubbing is enabled. Example:
 //       [{"id":"Dynamic value 1"},{"id":"Dynamic value 2"},{"id":"Dynamic value 3"}]
