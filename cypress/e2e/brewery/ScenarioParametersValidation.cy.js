@@ -21,7 +21,7 @@ describe('scenario parameters inputs validation', () => {
   before(() => {
     stub.start();
     stub.setSolutions(SOLUTIONS);
-    stub.setScenarios(SCENARIOS);
+    stub.setRunners(SCENARIOS);
   });
 
   beforeEach(() => {
@@ -237,7 +237,7 @@ describe('validation with constraints between parameters', () => {
   before(() => {
     stub.start();
     stub.setSolutions(SOLUTIONS_WITH_CONSTRAINTS);
-    stub.setScenarios(SCENARIOS);
+    stub.setRunners(SCENARIOS);
   });
 
   beforeEach(() => {
@@ -285,7 +285,7 @@ describe('validation constraint with wrong configuration', () => {
   before(() => {
     stub.start();
     stub.setSolutions(SOLUTIONS_WITH_WRONG_CONSTRAINT);
-    stub.setScenarios(SCENARIOS);
+    stub.setRunners(SCENARIOS);
   });
 
   beforeEach(() => {

@@ -133,7 +133,7 @@ function cancelDiscardAndContinue() {
 //  - getLaunchButtonTimeout: maximum timeout, in seconds, before raising an error when waiting for the launch button
 //    to be enabled (default: 180)
 function launch(options) {
-  const expectedPollsCount = options?.runOptions?.expectedPollsCount ?? stub.getScenarioRunOptions().expectedPollsCount;
+  const expectedPollsCount = options?.runOptions?.expectedPollsCount ?? stub.getRunnerRunOptions().expectedPollsCount;
   const aliases = [
     options?.saveAndLaunch ? api.interceptUpdateSimulationRunner() : undefined,
     api.interceptStartRunner(options?.runOptions),

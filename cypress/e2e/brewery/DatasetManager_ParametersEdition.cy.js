@@ -19,7 +19,7 @@ describe('Dataset Manager - Parameters Edition', () => {
     stub.setSolutions([SOLUTION]);
     stub.setWorkspaces([WORKSPACE]);
     stub.setDatasets([...DATASETS]);
-    stub.setScenarios([...RUNNERS]);
+    stub.setRunners([...RUNNERS]);
     stub.setRunners([...RUNNERS]);
   });
 

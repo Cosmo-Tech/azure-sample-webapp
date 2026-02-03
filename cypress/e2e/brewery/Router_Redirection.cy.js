@@ -3,7 +3,7 @@
 import { Login, ScenarioManager, Scenarios, ScenarioSelector } from '../../commons/actions';
 import { PAGE_NAME } from '../../commons/constants/generic/TestConstants';
 import { stub } from '../../commons/services/stubbing';
-import { DEFAULT_SCENARIOS_LIST } from '../../fixtures/stubbing/default';
+import { DEFAULT_RUNNERS } from '../../fixtures/stubbing/default';
 
 describe('Redirects to right page', () => {
   before(() => {
@@ -23,7 +23,7 @@ describe('Redirects to right page', () => {
     Login.login();
     Scenarios.getScenarioView().should('be.visible');
     ScenarioManager.switchToScenarioManager();
-    ScenarioManager.openScenarioFromScenarioManager(DEFAULT_SCENARIOS_LIST[3].id);
-    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[3].name);
+    ScenarioManager.openScenarioFromScenarioManager(DEFAULT_RUNNERS[3].id);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_RUNNERS[3].name);
   });
 });

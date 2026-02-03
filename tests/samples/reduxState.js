@@ -28,12 +28,11 @@ export const DEFAULT_REDUX_STATE = {
   },
   runner: {
     simulationRunners: {
-      current: {
-        data: SCENARIODATA_WITH_USERS,
-      },
-      list: {
-        data: DEFAULT_SCENARIOS_LIST_DATA,
-      },
+      current: { data: SCENARIODATA_WITH_USERS },
+      list: { data: DEFAULT_SCENARIOS_LIST_DATA },
+    },
+    etlRunners: {
+      list: [],
     },
   },
   dataset: {

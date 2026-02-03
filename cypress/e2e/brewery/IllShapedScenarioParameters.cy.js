@@ -9,7 +9,7 @@ describe('scenario parameter values without varType are supported if described i
   before(() => {
     stub.start();
     stub.setSolutions(SOLUTIONS);
-    stub.setScenarios(SCENARIOS);
+    stub.setRunners(SCENARIOS);
   });
 
   beforeEach(() => {

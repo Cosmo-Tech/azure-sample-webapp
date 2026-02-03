@@ -4,9 +4,9 @@ import { Login, ScenarioParameters, Scenarios } from '../../commons/actions';
 import { getDashboardsTab } from '../../commons/actions/generic/Dashboards';
 import { stub } from '../../commons/services/stubbing';
 import { WORKSPACE_WITHOUT_DASHBOARDS } from '../../fixtures/stubbing/ScenarioViewDashboard/workspace';
-import { DEFAULT_SCENARIOS_LIST } from '../../fixtures/stubbing/default';
+import { DEFAULT_RUNNERS } from '../../fixtures/stubbing/default';
 
-const { id: scenarioId } = DEFAULT_SCENARIOS_LIST[0];
+const { id: scenarioId } = DEFAULT_RUNNERS[0];
 const runOptions = {
   runDuration: 1000,
   finalStatus: 'Successful',

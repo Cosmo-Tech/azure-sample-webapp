@@ -12,8 +12,8 @@ describe('Search bar in scenario manager view', () => {
   before(() => {
     setup.initCypressAndStubbing();
     stub.start();
-    stub.setScenarios(SCENARIOS);
-    stub.setScenarioRuns(SCENARIO_RUNS);
+    stub.setRunners(SCENARIOS);
+    stub.setRunnerRuns(SCENARIO_RUNS);
   });
 
   beforeEach(() => {

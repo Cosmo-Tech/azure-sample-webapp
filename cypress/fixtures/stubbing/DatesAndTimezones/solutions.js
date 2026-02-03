@@ -1,10 +1,10 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { DEFAULT_SOLUTION, RUN_TEMPLATE_EXAMPLE, SOLUTION_PARAMETER_EXAMPLE } from '../default';
+import { DEFAULT_SOLUTION, RUN_TEMPLATE_EXAMPLE, DEFAULT_RUN_TEMPLATE_PARAMETER } from '../default';
 
 const SCENARIO_PARAMETERS = [
   {
-    ...SOLUTION_PARAMETER_EXAMPLE,
+    ...DEFAULT_RUN_TEMPLATE_PARAMETER,
     id: 'start_date',
     varType: 'date',
     labels: null,
@@ -13,7 +13,7 @@ const SCENARIO_PARAMETERS = [
     maxValue: '2026-01-01T00:00:00Z',
   },
   {
-    ...SOLUTION_PARAMETER_EXAMPLE,
+    ...DEFAULT_RUN_TEMPLATE_PARAMETER,
     id: 'end_date',
     varType: 'date',
     labels: null,

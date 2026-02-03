@@ -85,6 +85,7 @@ describe('Test scenario buttons when scenario is not running', () => {
 
     test('Check buttons', async () => {
       expect(launchScenarioButton.Button).toBeVisible();
+      expect(launchScenarioButton.Button).toBeEnabled();
       expect(getByDataCy('launch-label')).toBeVisible();
       await launchScenarioButton.click();
       expect(mockSaveParameterValues).not.toHaveBeenCalled();

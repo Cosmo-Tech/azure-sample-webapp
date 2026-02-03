@@ -1,10 +1,10 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { SCENARIO_EXAMPLE } from '../default';
+import { DEFAULT_SIMULATION_RUNNER } from '../default';
 
 export const SCENARIOS = [
   {
-    ...SCENARIO_EXAMPLE,
+    ...DEFAULT_SIMULATION_RUNNER,
     id: 'r-stubbedscnr01',
     name: 'Test Cypress - Scenario with dates initialized',
     runTemplateId: 'dates',
@@ -25,14 +25,14 @@ export const SCENARIOS = [
     ],
   },
   {
-    ...SCENARIO_EXAMPLE,
+    ...DEFAULT_SIMULATION_RUNNER,
     id: 'r-stubbedscnr02',
     name: 'Test Cypress - Scenario with dates NOT initialized',
     runTemplateId: 'dates',
     runTemplateName: 'Run template with dates',
   },
   {
-    ...SCENARIO_EXAMPLE,
+    ...DEFAULT_SIMULATION_RUNNER,
     id: 'r-stubbedscnr03',
     name: 'Test Cypress - Scenario 2 with dates NOT initialized',
     runTemplateId: 'dates',

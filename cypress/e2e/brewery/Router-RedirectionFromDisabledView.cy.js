@@ -8,9 +8,9 @@ import {
   WORKSPACE_LIST_WITHOUT_DASHBOARDS,
   WORKSPACE_WITHOUT_DASHBOARDS,
 } from '../../fixtures/stubbing/ScenarioViewDashboard/workspace';
-import { DEFAULT_SCENARIOS_LIST } from '../../fixtures/stubbing/default';
+import { DEFAULT_RUNNERS } from '../../fixtures/stubbing/default';
 
-const scenarioId = DEFAULT_SCENARIOS_LIST[0].id;
+const scenarioId = DEFAULT_RUNNERS[0].id;
 
 describe('redirection from disabled view', () => {
   before(() => {

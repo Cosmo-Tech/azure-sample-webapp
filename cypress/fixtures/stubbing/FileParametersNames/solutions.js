@@ -1,11 +1,11 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { DEFAULT_SOLUTION, RUN_TEMPLATE_EXAMPLE, SOLUTION_PARAMETER_EXAMPLE } from '../default';
+import { DEFAULT_SOLUTION, RUN_TEMPLATE_EXAMPLE, DEFAULT_RUN_TEMPLATE_PARAMETER } from '../default';
 
 const FILE_OPTIONS = { connectorId: 'c-stbdcnctor' };
 const TABLE_OPTIONS = { ...FILE_OPTIONS, subType: 'TABLE', columns: [{ field: 'foo' }] };
 const FILE_PARAMETER = {
-  ...SOLUTION_PARAMETER_EXAMPLE,
+  ...DEFAULT_RUN_TEMPLATE_PARAMETER,
   varType: '%DATASETID%',
   additionalData: FILE_OPTIONS,
 };

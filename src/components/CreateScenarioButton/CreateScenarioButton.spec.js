@@ -7,8 +7,16 @@ import rfdc from 'rfdc';
 import CreateScenarioButton from '.';
 import { ROLES } from '../../../tests/constants';
 import { createMockStore } from '../../../tests/mocks';
-import { DEFAULT_REDUX_STATE, SCENARIODATA_WITHOUT_USERS, DEFAULT_SCENARIOS_LIST_DATA } from '../../../tests/samples';
+import {
+  DEFAULT_ETL_RUNNER,
+  DEFAULT_REDUX_STATE,
+  SCENARIODATA_WITHOUT_USERS,
+  DEFAULT_SCENARIOS_LIST_DATA,
+  DEFAULT_DATASET,
+  MAIN_DATASET,
+} from '../../../tests/samples';
 import { applyWorkspaceRoleToState } from '../../../tests/utils/security';
+import { RUNNER_RUN_STATE } from '../../services/config/ApiConstants.js';
 import { dispatchCreateSimulationRunner } from '../../state/runner/dispatchers';
 
 const clone = rfdc();
@@ -17,7 +25,6 @@ const DEFAULT_SCENARIOS_LIST_DATA_WITH_DEPTHS = DEFAULT_SCENARIOS_LIST_DATA.map(
   depth: 0,
 }));
 
-const spyConsoleWarn = jest.spyOn(console, 'warn').mockImplementation(() => {});
 let mockCreateScenarioUIProps;
 jest.mock('@cosmotech/ui', () => ({
   ...jest.requireActual('@cosmotech/ui'),
@@ -62,7 +69,6 @@ describe('CreateScenarioButton', () => {
   beforeEach(() => {
     mockCreateScenarioUIProps = undefined;
     mockOnScenarioCreated.mockClear();
-    spyConsoleWarn.mockClear();
   });
 
   describe('Workspace Roles', () => {
@@ -125,51 +131,45 @@ describe('CreateScenarioButton', () => {
   });
 
   describe('Filter dataset List', () => {
-    const setUpWithDatasetFilter = (linkedDatasetIdList) => {
+    const setUpWithCustomDatasetsAndRunners = (datasets, runners) => {
       const state = getStateWithWorkspaceRole(ROLES.WORKSPACE.ADMIN);
-      state.workspace.current.data.linkedDatasetIdList = linkedDatasetIdList;
+      if (datasets) state.dataset.list.data = datasets;
+      if (runners) state.runner.etlRunners.list.data = runners;
       setUp(state);
     };
 
-    test('when filter is missing, all datasets are shown', () => {
-      setUpWithDatasetFilter(undefined);
-      expect(mockCreateScenarioUIProps.datasets).toEqual(DEFAULT_REDUX_STATE.dataset.list.data);
+    test('must show only datasets with scenarioCreation=true (a.k.a. "main" datasets)', () => {
+      setUpWithCustomDatasetsAndRunners([DEFAULT_DATASET, MAIN_DATASET]);
+      expect(mockCreateScenarioUIProps.datasets).toEqual([MAIN_DATASET]);
     });
 
-    test('when filter is not an array, it is ignored and all datasets are shown', () => {
-      setUpWithDatasetFilter('notAnArrayFilter');
-      expect(spyConsoleWarn).toHaveBeenCalledTimes(1);
-      expect(mockCreateScenarioUIProps.datasets).toEqual(DEFAULT_REDUX_STATE.dataset.list.data);
-    });
+    test('must not show main datasets if created by an ETL and if this creation has failed', () => {
+      const successfulRunner = clone(DEFAULT_ETL_RUNNER);
+      successfulRunner.id = 'r-successful';
+      successfulRunner.lastRunInfo.lastRunStatus = RUNNER_RUN_STATE.SUCCESSFUL;
+      const failedRunner = clone(DEFAULT_ETL_RUNNER);
+      failedRunner.id = 'r-failed';
+      failedRunner.lastRunInfo.lastRunStatus = RUNNER_RUN_STATE.FAILED;
+      const runningRunner = clone(DEFAULT_ETL_RUNNER);
+      runningRunner.id = 'r-running';
+      runningRunner.lastRunInfo.lastRunStatus = RUNNER_RUN_STATE.RUNNING;
 
-    test('must return an empty list of datasets if the filter is an empty list', () => {
-      setUpWithDatasetFilter([]);
-      expect(spyConsoleWarn).toHaveBeenCalledTimes(0);
-      expect(mockCreateScenarioUIProps.datasets).toEqual([]);
-    });
+      const successfulETLDataset = clone(MAIN_DATASET);
+      successfulETLDataset.id = 'd-successful';
+      successfulETLDataset.additionalData.webapp.runnerId = 'r-successful';
+      const failedETLDataset = clone(MAIN_DATASET);
+      failedETLDataset.id = 'd-failed';
+      failedETLDataset.additionalData.webapp.runnerId = 'r-failed';
+      const runningETLDataset = clone(MAIN_DATASET);
+      runningETLDataset.id = 'd-running';
+      runningETLDataset.additionalData.webapp.runnerId = 'r-running';
+      const nativeDatasourceDataset = clone(MAIN_DATASET); // Not created by an ETL
+      nativeDatasourceDataset.id = 'd-nativeDatasource';
 
-    test('when dataset filter contains no dataset id on list, the resulting list should be empty', () => {
-      const datasetFilter = ['fakeDatasetId1', 'fakeDatasetId2'];
-      setUpWithDatasetFilter(datasetFilter);
-      expect(mockCreateScenarioUIProps.datasets).toEqual([]);
-    });
-
-    test('when filter is present only datasets with id filtered should be present', () => {
-      const datasetFilter = [DEFAULT_REDUX_STATE.dataset.list.data[1].id, DEFAULT_REDUX_STATE.dataset.list.data[2].id];
-
-      setUpWithDatasetFilter(datasetFilter);
-      expect(mockCreateScenarioUIProps.datasets).toHaveLength(datasetFilter.length);
-
-      datasetFilter.forEach((dsetFilter) =>
-        expect(mockCreateScenarioUIProps.datasets.some((dset) => dset.id === dsetFilter)).toBeTruthy()
-      );
-    });
-
-    test('when a filter is not string it should be ignored', () => {
-      const datasetFilter = [DEFAULT_REDUX_STATE.dataset.list.data[1].id, { id: 'fakeDatasetId' }];
-      setUpWithDatasetFilter(datasetFilter);
-      expect(spyConsoleWarn).toHaveBeenCalledTimes(1);
-      expect(mockCreateScenarioUIProps.datasets).toHaveLength(1);
+      const datasets = [successfulETLDataset, failedETLDataset, runningETLDataset, nativeDatasourceDataset];
+      const runners = [successfulRunner, failedRunner, runningRunner];
+      setUpWithCustomDatasetsAndRunners(datasets, runners);
+      expect(mockCreateScenarioUIProps.datasets).toEqual([successfulETLDataset, nativeDatasourceDataset]);
     });
   });
 
@@ -186,9 +186,10 @@ describe('CreateScenarioButton', () => {
 
     test('when filter is missing runTemplates are not filtered', () => {
       setUpWithRunTemplateFilter(undefined);
-      const expectedTranslatedTemplates = translateTemplatesInTest(
-        DEFAULT_REDUX_STATE.solution.current.data.runTemplates
+      const simulationRunTemplates = DEFAULT_REDUX_STATE.solution.current.data.runTemplates.filter(
+        (runTemplate) => !runTemplate.tags.includes('datasource') && !runTemplate.tags.includes('subdatasource')
       );
+      const expectedTranslatedTemplates = translateTemplatesInTest(simulationRunTemplates);
       expect(mockCreateScenarioUIProps.runTemplates).toEqual(expectedTranslatedTemplates);
     });
 

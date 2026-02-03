@@ -5,8 +5,7 @@ import { RolesEdition } from '../../commons/actions/generic/RolesEdition';
 import { ROLES } from '../../commons/constants/generic/TestConstants';
 import { stub } from '../../commons/services/stubbing';
 import { setup } from '../../commons/utils/setup';
-import { WORKSPACE_WITH_USERS_LIST } from '../../fixtures/stubbing/DatasetSharing';
-import { PRIVATE_DATASETS_LIST } from '../../fixtures/stubbing/DatasetSharing/datasets';
+import { PRIVATE_DATASETS_LIST, WORKSPACE_WITH_USERS_LIST } from '../../fixtures/stubbing/DatasetSharing';
 import { USER_EXAMPLE, USERS_LIST } from '../../fixtures/stubbing/default';
 
 describe('Check permissions shared dataset', () => {

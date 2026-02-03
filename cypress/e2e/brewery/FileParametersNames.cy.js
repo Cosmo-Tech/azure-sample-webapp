@@ -29,7 +29,7 @@ const getDatasetFilePath = (datasetId) => getFilePathFromDataset(stub.getDataset
 describe('Management of file names for scenario parameters of type file', () => {
   before(() => {
     stub.start();
-    stub.setScenarios(SCENARIOS);
+    stub.setRunners(SCENARIOS);
     stub.setSolutions(SOLUTIONS);
   });
 

@@ -1,8 +1,26 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { DEFAULT_DATASET } from '../../cypress/fixtures/stubbing/default';
+import {
+  DEFAULT_DATASET,
+  MAIN_DATASET,
+  DEFAULT_RUNNER_BASE_DATASET,
+  DEFAULT_RUNNER_PARAMETER_DATASET,
+  DEFAULT_WORKSPACE_DATASET,
+} from '../../cypress/fixtures/stubbing/default';
+
+export {
+  DEFAULT_DATASET,
+  MAIN_DATASET,
+  DEFAULT_RUNNER_BASE_DATASET,
+  DEFAULT_RUNNER_PARAMETER_DATASET,
+  DEFAULT_WORKSPACE_DATASET,
+};
 
 export const DEFAULT_DATASETS_LIST_DATA = [
+  MAIN_DATASET,
+  DEFAULT_RUNNER_BASE_DATASET,
+  DEFAULT_RUNNER_PARAMETER_DATASET,
+  DEFAULT_WORKSPACE_DATASET,
   {
     ...DEFAULT_DATASET,
     id: 'D-dataSetSmp1',

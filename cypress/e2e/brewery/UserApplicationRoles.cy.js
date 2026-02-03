@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 import { Login, Scenarios, ScenarioParameters } from '../../commons/actions';
 import { stub } from '../../commons/services/stubbing';
-import { DEFAULT_SCENARIOS_LIST, USER_EXAMPLE } from '../../fixtures/stubbing/default';
+import { DEFAULT_RUNNERS, USER_EXAMPLE } from '../../fixtures/stubbing/default';
 
 describe('check accessible features for Organization.Modeler application role as workspace admin', () => {
   before(() => {
     stub.start();
     stub.setFakeUser(USER_EXAMPLE);
     stub.setFakeRoles(['Organization.Modeler']);
-    stub.setScenarios(DEFAULT_SCENARIOS_LIST);
+    stub.setRunners(DEFAULT_RUNNERS);
   });
 
   beforeEach(() => {
@@ -33,7 +33,7 @@ describe('check accessible features for Organization.Viewer application role as 
     stub.start();
     stub.setFakeUser(USER_EXAMPLE);
     stub.setFakeRoles(['Organization.Viewer']);
-    stub.setScenarios(DEFAULT_SCENARIOS_LIST);
+    stub.setRunners(DEFAULT_RUNNERS);
   });
 
   beforeEach(() => {

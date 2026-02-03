@@ -1,10 +1,10 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { SCENARIO_EXAMPLE } from '../default';
+import { DEFAULT_SIMULATION_RUNNER } from '../default';
 
 export const SCENARIOS_WITH_DYNAMIC_NUMBERS = [
   {
-    ...SCENARIO_EXAMPLE,
+    ...DEFAULT_SIMULATION_RUNNER,
     id: 'r-stubbedscnr01',
     name: 'Test Cypress - Stubbed scenario with DYNAMIC NUMBERS',
     runTemplateId: 'dynamic_values',

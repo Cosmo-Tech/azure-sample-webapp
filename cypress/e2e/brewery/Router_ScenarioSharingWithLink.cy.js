@@ -3,7 +3,7 @@
 import { Login, ScenarioSelector } from '../../commons/actions';
 import { stub } from '../../commons/services/stubbing';
 import { routeUtils as route } from '../../commons/utils';
-import { DEFAULT_SCENARIOS_LIST, WORKSPACE_WITH_INSTANCE_VIEW } from '../../fixtures/stubbing/default';
+import { DEFAULT_RUNNERS, WORKSPACE_WITH_INSTANCE_VIEW } from '../../fixtures/stubbing/default';
 
 describe('Scenario sharing with a link', () => {
   before(() => {
@@ -20,24 +20,24 @@ describe('Scenario sharing with a link', () => {
   });
 
   it('shares the scenario with a link to Scenario view', () => {
-    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_RUNNERS[0].name);
     route.browse({
-      url: `${WORKSPACE_WITH_INSTANCE_VIEW.id}/scenario/${DEFAULT_SCENARIOS_LIST[3].id}`,
+      url: `${WORKSPACE_WITH_INSTANCE_VIEW.id}/scenario/${DEFAULT_RUNNERS[3].id}`,
       workspaceId: WORKSPACE_WITH_INSTANCE_VIEW.id,
-      scenarioId: DEFAULT_SCENARIOS_LIST[3].id,
+      scenarioId: DEFAULT_RUNNERS[3].id,
       expectedURL: 'scenario',
     });
-    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[3].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_RUNNERS[3].name);
   });
 
   it('shares the scenario with a link to Instance view', () => {
-    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_RUNNERS[0].name);
     route.browse({
-      url: `${WORKSPACE_WITH_INSTANCE_VIEW.id}/instance/${DEFAULT_SCENARIOS_LIST[3].id}`,
+      url: `${WORKSPACE_WITH_INSTANCE_VIEW.id}/instance/${DEFAULT_RUNNERS[3].id}`,
       workspaceId: WORKSPACE_WITH_INSTANCE_VIEW.id,
-      scenarioId: DEFAULT_SCENARIOS_LIST[3].id,
+      scenarioId: DEFAULT_RUNNERS[3].id,
       expectedURL: 'instance',
     });
-    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[3].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_RUNNERS[3].name);
   });
 });

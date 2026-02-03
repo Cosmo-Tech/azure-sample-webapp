@@ -17,7 +17,7 @@ describe('dynamic value for number input', () => {
     stub.setDatasets(TWINGRAPH_DATASET_LIST);
     stub.setWorkspaces(WORKSPACE_LIST_WITH_TWINGRAPH_DATASET);
     stub.setSolutions([SOLUTION_WITH_DYNAMIC_PARAMETERS]);
-    stub.setScenarios(SCENARIOS_WITH_DYNAMIC_NUMBERS);
+    stub.setRunners(SCENARIOS_WITH_DYNAMIC_NUMBERS);
   });
   beforeEach(() => {
     Login.login();

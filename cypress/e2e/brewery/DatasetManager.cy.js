@@ -9,7 +9,6 @@ import {
   ORGANIZATION_WITH_DEFAULT_ROLE_USER,
 } from '../../fixtures/stubbing/DatasetManager';
 import { RUNNERS_FOR_ETL_DATASETS } from '../../fixtures/stubbing/DatasetManager/runners';
-import { SOLUTION_WITH_TRANSLATED_RUN_TEMPLATES } from '../../fixtures/stubbing/DatasetManager/solutions';
 import { USER_EXAMPLE } from '../../fixtures/stubbing/default';
 
 const WORKSPACES = [WORKSPACE];
@@ -45,7 +44,6 @@ describe('Data edition in dataset manager', () => {
     stub.start();
     stub.setOrganizations([ORGANIZATION_WITH_DEFAULT_ROLE_USER]);
     stub.setWorkspaces(WORKSPACES);
-    stub.setSolutions([SOLUTION_WITH_TRANSLATED_RUN_TEMPLATES]);
     // we use the copy of DATASETS array to be able to reuse the same fixture
     // in all tests in the suite. The cypress doc says that  "fixture files are
     // assumed to be unchanged during the test, and thus Cypress loads them just once",
@@ -53,7 +51,7 @@ describe('Data edition in dataset manager', () => {
     // to keep the same list at the beginning of every describe block, we provide a copy
     // to stubbing function
     stub.setDatasets([...DATASETS]);
-    stub.setScenarios(RUNNERS_FOR_ETL_DATASETS);
+    stub.setRunners(RUNNERS_FOR_ETL_DATASETS);
   });
   beforeEach(() => Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' }));
   after(stub.stop);

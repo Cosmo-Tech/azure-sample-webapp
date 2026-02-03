@@ -14,7 +14,7 @@ describe('DisableLaunchButton', () => {
   stub.setOrganizations([ORGANIZATION_WITH_DEFAULT_ROLE_USER]);
   stub.setWorkspaces([WORKSPACE]);
   stub.setDatasets([...DATASETS_TO_REFRESH]);
-  stub.setScenarios(SCENARIOS_WITH_DATASET_ERROR);
+  stub.setRunners(SCENARIOS_WITH_DATASET_ERROR);
 
   const scenarioWithBrokenDataset = SCENARIOS_WITH_DATASET_ERROR[1];
   const scenarioReadyToLaunch = SCENARIOS_WITH_DATASET_ERROR[2];

@@ -1,36 +1,35 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { ROLES } from '../../../commons/constants/generic/TestConstants';
-import { DEFAULT_DATASETS_LIST } from './datasets';
+import { DEFAULT_ORGANIZATION } from './organizations';
+import { DEFAULT_SOLUTION } from './solutions';
+import { USER_EXAMPLE } from './users';
 
 const defaultPowerBIReport = {
   title: { en: 'Scenario dashboard', fr: 'Rapport du scénario' },
-  reportId: '608b7bef-f5e3-4aae-b8db-19bbb38325d5',
+  reportId: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
   settings: { navContentPaneEnabled: false, panes: { filters: { expanded: true, visible: true } } },
   staticFilters: [{ table: 'Bar', column: 'Bar', values: ['MyBar', 'MyBar2'] }],
-  dynamicFilters: [
-    { table: 'StockProbe', column: 'SimulationRun', values: 'lastRunId' },
-    { table: 'Bar', column: 'simulationrun', values: 'lastRunId' },
-    { table: 'contains_Customer', column: 'simulationrun', values: 'lastRunId' },
-    { table: 'arc_to_Customer', column: 'simulationrun', values: 'lastRunId' },
-    { table: 'parameters', column: 'simulationrun', values: 'lastRunId' },
-    { table: 'CustomerSatisfactionProbe', column: 'SimulationRun', values: 'lastRunId' },
-  ],
+  dynamicFilters: [{ table: 'StockProbe', column: 'SimulationRun', values: 'lastRunId' }],
   pageName: { en: 'ReportSection', fr: 'ReportSection' },
 };
-
-export const WORKSPACE_EXAMPLE = {
+export const DEFAULT_WORKSPACE_DATASET_ID = 'd-stbdWorkspaceDataset';
+export const DEFAULT_WORKSPACE = {
+  id: 'W-stbbdbrwry',
+  organizationId: DEFAULT_ORGANIZATION.id,
   key: 'DemoBrewery',
   name: 'Stubbed Demo Brewery Workspace',
+  createInfo: { timestamp: 1714487051204, userId: USER_EXAMPLE.email },
+  updateInfo: { timestamp: 1714487051204, userId: USER_EXAMPLE.email },
   solution: {
-    solutionId: 'SOL-stubbedbrwy',
+    solutionId: DEFAULT_SOLUTION.id,
+    datasetId: DEFAULT_WORKSPACE_DATASET_ID,
+    defaultParameterValues: {},
   },
-  id: 'W-stbbdbrwry',
+  security: { default: ROLES.RUNNER.ADMIN, accessControlList: [] },
   description: 'Stubbed workspace for Brewery Demo',
   version: null,
   tags: null,
-  ownerId: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
-  users: null,
   additionalData: {
     webapp: {
       solution: {
@@ -43,7 +42,7 @@ export const WORKSPACE_EXAMPLE = {
       },
       // Note: "datasetManager" and "instanceView" intentionally left undefined
       charts: {
-        workspaceId: '290de699-9026-42c0-8c83-e4e87c3f22dd',
+        workspaceId: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
         logInWithUserCredentials: false,
         scenarioViewIframeDisplayRatio: 1580 / 350,
         dashboardsViewIframeDisplayRatio: 1280 / 795,
@@ -52,15 +51,10 @@ export const WORKSPACE_EXAMPLE = {
       },
     },
   },
-  sendInputToDataWarehouse: true,
-  useDedicatedEventHubNamespace: true,
-  sendScenarioMetadataToEventHub: true,
-  security: { default: ROLES.RUNNER.ADMIN, accessControlList: [] },
-  linkedDatasetIdList: DEFAULT_DATASETS_LIST.map((dataset) => dataset.id),
+  datasetCopy: false,
 };
 
-export const DEFAULT_WORKSPACE = WORKSPACE_EXAMPLE;
-export const DEFAULT_WORKSPACES_LIST = [DEFAULT_WORKSPACE];
+export const DEFAULT_WORKSPACES = [DEFAULT_WORKSPACE];
 
 const workspaceCopy = JSON.parse(JSON.stringify(DEFAULT_WORKSPACE));
 workspaceCopy.additionalData.webapp.instanceView = {

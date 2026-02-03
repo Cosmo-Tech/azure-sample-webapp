@@ -11,12 +11,12 @@ import {
 } from '../../commons/actions';
 import { stub } from '../../commons/services/stubbing';
 import { routeUtils as route } from '../../commons/utils';
-import { DEFAULT_SCENARIOS_LIST, EXTENDED_WORKSPACES_LIST } from '../../fixtures/stubbing/default';
+import { DEFAULT_RUNNERS, EXTENDED_WORKSPACES_LIST } from '../../fixtures/stubbing/default';
 
 const WORKSPACE = EXTENDED_WORKSPACES_LIST[2];
-const SCENARIO3 = DEFAULT_SCENARIOS_LIST[2];
-const SCENARIO4 = DEFAULT_SCENARIOS_LIST[3];
-const SCENARIO5 = DEFAULT_SCENARIOS_LIST[4];
+const SCENARIO3 = DEFAULT_RUNNERS[2];
+const SCENARIO4 = DEFAULT_RUNNERS[3];
+const SCENARIO5 = DEFAULT_RUNNERS[4];
 
 // Patch EXTENDED_WORKSPACES_LIST to enable datasetmanager
 EXTENDED_WORKSPACES_LIST.forEach((workspace) => (workspace.additionalData.webapp.datasetManager = {}));

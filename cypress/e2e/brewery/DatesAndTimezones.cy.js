@@ -15,7 +15,7 @@ describe('Scenario parameters of type date', () => {
 
   beforeEach(() => {
     Login.login();
-    stub.setScenarios(SCENARIOS);
+    stub.setRunners(SCENARIOS);
     stub.setSolutions([SOLUTION]);
   });
 
