@@ -78,6 +78,10 @@ const datasetSlice = createSlice({
     deleteDatasetPart: (state, action) => {
       const { datasetId, datasetPartId: partIdToDelete } = action.payload;
       const index = state.list.data.findIndex((dataset) => dataset.id === datasetId);
+      if (index == null || index === -1) {
+        console.warn(`Can't delete parts of dataset with id "${datasetId}": dataset not found`);
+        return;
+      }
       const dataset = state.list.data[index];
       state.list.data[index] = { ...dataset, parts: dataset.parts.filter((partId) => partId !== partIdToDelete) };
     },

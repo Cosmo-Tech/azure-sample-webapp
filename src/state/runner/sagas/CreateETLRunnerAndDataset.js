@@ -31,17 +31,21 @@ function* createETLRunner(action) {
   RunnersUtils.setRunnerOptions(runner, { ownerName });
 
   const { data: createdRunner } = yield call(Api.Runners.createRunner, organizationId, workspaceId, runner);
+  const runnerDatasetId = createdRunner.datasets.parameter;
+  const { data: runnerDataset } = yield call(
+    DatasetService.findDatasetById,
+    organizationId,
+    workspaceId,
+    runnerDatasetId
+  );
+  yield put(addDataset(runnerDataset));
 
   // When creating a new runner, some dataset parameters can be initialized by the back-end (e.g. runner inheritance,
   // workspace solution default values, ...). If the new runner already has dataset parts, we must store them in redux
   const runnerDatasetParameters = createdRunner.datasets.parameters;
   if (Array.isArray(runnerDatasetParameters) && runnerDatasetParameters.length > 0) {
-    const datasetId = createdRunner.datasets.parameter;
-    const { data: runnerDataset } = yield call(DatasetService.findDatasetById, organizationId, workspaceId, datasetId);
-    yield put(addDataset(runnerDataset));
-
     for (const datasetPart of runnerDatasetParameters) {
-      yield put(addOrUpdateDatasetPart({ datasetId, datasetPart }));
+      yield put(addOrUpdateDatasetPart({ runnerDatasetId, datasetPart }));
     }
   }
 
