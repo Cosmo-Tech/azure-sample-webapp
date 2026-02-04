@@ -17,6 +17,7 @@ describe('Dataset manager can be empty on start', () => {
   before(() => {
     stub.start();
     stub.setOrganizations([ORGANIZATION_WITH_DEFAULT_ROLE_USER]);
+    stub.setDatasets([]);
     stub.setWorkspaces(WORKSPACES);
   });
   beforeEach(() => Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' }));

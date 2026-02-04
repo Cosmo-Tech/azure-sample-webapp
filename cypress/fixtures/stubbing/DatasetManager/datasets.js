@@ -1,13 +1,16 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { DEFAULT_DATASET } from '../default';
-import { WORKSPACE } from './workspaces';
+import {
+  DEFAULT_RUNNER_BASE_DATASET,
+  DEFAULT_RUNNER_PARAMETER_DATASET,
+  DEFAULT_WORKSPACE_DATASET,
+  DEFAULT_DATASET,
+} from '../default';
 
 const EDITABLE_DATASET = {
   ...DEFAULT_DATASET,
   ingestionStatus: 'SUCCESS',
   twincacheStatus: 'FULL',
-  linkedWorkspaceIdList: [WORKSPACE.id],
   security: { default: 'admin', accessControlList: [] },
 };
 
@@ -175,7 +178,16 @@ const DATASET_TWINGRAPH_B = {
   twincacheStatus: 'FULL',
 };
 
-export const DATASETS = [FILE_DATASET_MAIN_A, FILE_DATASET_MAIN_B, FILE_DATASET_NON_MAIN, ETL_DATASET, SUBDATASET];
+export const DATASETS = [
+  FILE_DATASET_MAIN_A,
+  FILE_DATASET_MAIN_B,
+  FILE_DATASET_NON_MAIN,
+  ETL_DATASET,
+  SUBDATASET,
+  DEFAULT_RUNNER_BASE_DATASET,
+  DEFAULT_RUNNER_PARAMETER_DATASET,
+  DEFAULT_WORKSPACE_DATASET,
+];
 
 export const DATASETS_TO_FILTER = [
   DATASET_AMSTERDAM,
@@ -188,8 +200,3 @@ export const DATASETS_TO_FILTER = [
 export const DATASETS_TO_REFRESH = [DATASET_AZURE_STORAGE, DATASET_FROM_SCRATCH];
 
 export const DATASETS_TWINGRAPH = [DATASET_TWINGRAPH_A, DATASET_TWINGRAPH_B];
-
-DATASETS.forEach((dataset) => WORKSPACE.linkedDatasetIdList.push(dataset.id));
-DATASETS_TO_FILTER.forEach((dataset) => WORKSPACE.linkedDatasetIdList.push(dataset.id));
-DATASETS_TO_REFRESH.forEach((dataset) => WORKSPACE.linkedDatasetIdList.push(dataset.id));
-DATASETS_TWINGRAPH.forEach((dataset) => WORKSPACE.linkedDatasetIdList.push(dataset.id));

@@ -20,7 +20,6 @@ describe('Dataset Manager - Parameters Edition', () => {
     stub.setWorkspaces([WORKSPACE]);
     stub.setDatasets([...DATASETS]);
     stub.setRunners([...RUNNERS]);
-    stub.setRunners([...RUNNERS]);
   });
 
   beforeEach(() =>
@@ -101,9 +100,10 @@ describe('Dataset Manager - Parameters Edition', () => {
     DatasetManager.uploadFileInParametersEditionDialog(NINE_CUSTOMERS_DATASET_ZIP_FILE_PATH);
 
     DatasetManager.updateDatasetParameters(datasetETLLocalFile.id, {
-      datasetsEvents: [{ id: 'd-stbddtspr1' }],
+      datasetPartEvents: [{ id: 'dp-newEtlFile1' }, { id: 'dp-etlFile1', delete: true }],
       importJobOptions: ingestionOptions,
     });
+
     DatasetManager.getRefreshDatasetSpinner(datasetETLLocalFile.id, 20).should('not.exist');
     DatasetManager.selectDatasetById(datasetETLDynamicValues.id);
     DatasetManager.openUpdateDatasetParametersDialog();

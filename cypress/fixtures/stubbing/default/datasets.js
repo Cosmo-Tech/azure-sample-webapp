@@ -45,4 +45,10 @@ export const DEFAULT_WORKSPACE_DATASET = {
   description: 'Dataset attached to the workspace to set default values of dataset part parameters',
 };
 
-export const DEFAULT_DATASETS = [DEFAULT_DATASET, MAIN_DATASET, DEFAULT_RUNNER_BASE_DATASET];
+export const DEFAULT_DATASETS = [
+  DEFAULT_DATASET,
+  MAIN_DATASET,
+  DEFAULT_RUNNER_BASE_DATASET,
+  DEFAULT_RUNNER_PARAMETER_DATASET,
+  DEFAULT_WORKSPACE_DATASET,
+];

@@ -1,15 +1,11 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { DEFAULT_DATASET } from '../default';
-import { WORKSPACE } from './workspaces';
+import { DEFAULT_DATASET, DEFAULT_RUNNER_BASE_DATASET, DEFAULT_RUNNER_PARAMETER_DATASET } from '../default';
 
 const EDITABLE_DATASET = {
   ...DEFAULT_DATASET,
-  organizationId: 'O-stbdorgztn',
-  workspaceId: 'W-stbbdbrwry',
   ingestionStatus: 'SUCCESS',
   twincacheStatus: 'FULL',
-  linkedWorkspaceIdList: [WORKSPACE.id],
   security: { default: 'none', accessControlList: [{ id: 'dev.sample.webapp@example.com', role: 'admin' }] },
 };
 
@@ -151,6 +147,6 @@ export const DATASETS = [
   MAIN_DATASET_D,
   DATASET_PART_2,
   MAIN_DATASET_E,
+  DEFAULT_RUNNER_BASE_DATASET,
+  DEFAULT_RUNNER_PARAMETER_DATASET,
 ];
-
-DATASETS.forEach((dataset) => WORKSPACE.linkedDatasetIdList.push(dataset.id));

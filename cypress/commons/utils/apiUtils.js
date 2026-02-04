@@ -230,6 +230,10 @@ const interceptCreateSimulationRunner = () => {
       req.continue((res) => stub.addRunner(res.body));
     }
   }).as(alias);
+
+  // The webapp automatically fetches the runner's parameter dataset on runner creation, add stubbing for this query too
+  interceptGetDataset();
+
   return alias;
 };
 
@@ -435,6 +439,33 @@ const interceptCreateDataset = (options, stubbingOptions = stub.getDatasetImport
   return alias;
 };
 
+const parseDatasetMultipartFormDataRequest = (req) => {
+  const form = fileUtils.parseMultipartFormData(req.body);
+  const fileContent = form?.file;
+
+  let datasetPartCreateRequest;
+  if (form?.datasetPartCreateRequest) {
+    try {
+      datasetPartCreateRequest = JSON.parse(form?.datasetPartCreateRequest);
+    } catch (error) {
+      console.error("Can't parse datasetPartCreateRequest value in multipart form data");
+      console.error(error);
+    }
+  }
+
+  let datasetCreateRequest;
+  if (form?.datasetCreateRequest) {
+    try {
+      datasetCreateRequest = JSON.parse(form?.datasetCreateRequest);
+    } catch (error) {
+      console.error("Can't parse datasetCreateRequest value in multipart form data");
+      console.error(error);
+    }
+  }
+
+  return { fileContent, datasetCreateRequest, datasetPartCreateRequest };
+};
+
 const interceptCreateDatasetPart = (options = {}) => {
   const alias = forgeAlias('reqCreateDatasetPart');
   cy.intercept({ method: 'POST', url: API_REGEX.DATASET_PARTS, times: 1 }, (req) => {
@@ -442,14 +473,13 @@ const interceptCreateDatasetPart = (options = {}) => {
     const datasetId = req.url.match(API_REGEX.DATASET_PARTS)?.[1];
     const datasetPartId = options.id ?? `dp-stbd${utils.randomStr(4)}`;
 
-    // Parse form data to get file content
-    const form = fileUtils.parseMultipartFormData(req.body);
-    const fileContent = form?.file;
+    const { fileContent, datasetPartCreateRequest } = parseDatasetMultipartFormDataRequest(req);
 
     const datasetPart = {
       id: datasetPartId,
-      name: req.body?.name ?? form?.name ?? 'customers',
-      type: 'FILE',
+      name: datasetPartCreateRequest?.name ?? 'defaultStubbedDatasetPartName',
+      sourceName: datasetPartCreateRequest?.sourceName ?? 'defaultStubbedDatasetPartSourceName',
+      type: 'File',
       datasetId,
       ...options?.customDatasetPartPatch,
     };
@@ -481,6 +511,23 @@ const interceptDownloadDatasetPart = (options = {}) => {
     req.reply(fileContent ?? '');
   }).as(alias);
   return alias;
+};
+
+const interceptDatasetEvents = (datasetEvents) => {
+  const aliases = [];
+  const events = datasetEvents ?? [];
+  events?.reverse()?.forEach((event) => aliases.push(interceptCreateDataset(event)));
+  return aliases;
+};
+
+const interceptDatasetPartEvents = (datasetPartEvents) => {
+  const aliases = [];
+  const events = datasetPartEvents ?? [];
+  events?.reverse()?.forEach((event) => {
+    if (event?.delete) aliases.push(interceptDeleteDatasetPart(event));
+    else aliases.push(interceptCreateDatasetPart(event));
+  });
+  return aliases;
 };
 
 // Parameters:
@@ -586,6 +633,17 @@ const interceptDeleteDataset = (datasetName) => {
   return alias;
 };
 
+const interceptDeleteDatasetPart = (datasetPartId) => {
+  const alias = forgeAlias('reqDeleteDatasetPart');
+  cy.intercept({ method: 'DELETE', url: API_REGEX.DATASET_PART, times: 1 }, (req) => {
+    if (stub.isEnabledFor('CREATE_DATASET')) {
+      stub.deleteDatasetPart(datasetPartId);
+      req.reply(req);
+    }
+  }).as(alias);
+  return alias;
+};
+
 // Parameters:
 //   - options: dict with properties:
 //     - id (optional): id of the runner to create
@@ -613,6 +671,10 @@ const interceptCreateRunner = (options = {}) => {
       req.continue((res) => stub.addRunner(res.body));
     }
   }).as(alias);
+
+  // The webapp automatically fetches the runner's parameter dataset on runner creation, add stubbing for this query too
+  interceptGetDataset();
+
   return alias;
 };
 
@@ -722,46 +784,6 @@ const interceptSelectWorkspaceQueries = (isPowerBiEnabled = true) => {
   return workspaceQueries;
 };
 
-// Interceptor specifically for ETL runner starts (used in dataset manager)
-const interceptStartEtlRunner = () => {
-  const alias = forgeAlias('reqStartEtlRunner');
-  cy.intercept({ method: 'POST', url: API_REGEX.START_RUNNER, times: 1 }, (req) => {
-    const lastRunId = `run-stbd${utils.randomStr(6)}`;
-    req.reply({ id: lastRunId });
-  }).as(alias);
-  return alias;
-};
-
-// Interceptor for ETL runner run status polling
-// Parameters:
-//   - options: dict with properties:
-//     - expectedPollsCount: number of expected polling requests
-//     - finalRunStatus: final status of the run (e.g., 'Successful', 'Failed')
-const interceptGetEtlRunnerRunStatus = (options) => {
-  const alias = forgeAlias('reqGetEtlRunnerRunStatus');
-  const times = options?.expectedPollsCount ?? 1;
-  let pollCount = 0;
-  cy.intercept({ method: 'GET', url: API_REGEX.RUNNER_STATE, times }, (req) => {
-    pollCount++;
-    const isLastPoll = pollCount >= times;
-    const state = isLastPoll ? (options?.finalRunStatus ?? 'Successful') : 'Running';
-
-    // Update runner's lastRunInfo in stub when polling completes
-    if (isLastPoll) {
-      const regexMatch = req.url.match(API_REGEX.RUNNER_STATE);
-      const runnerId = regexMatch?.[1];
-      const runId = regexMatch?.[3];
-      if (runnerId) {
-        stub.patchRunner(runnerId, {
-          lastRunInfo: { lastRunId: runId, lastRunStatus: state },
-        });
-      }
-    }
-
-    req.reply({ state });
-  }).as(alias);
-  return alias;
-};
 export const apiUtils = {
   forgeAlias,
   waitAlias,
@@ -774,8 +796,11 @@ export const apiUtils = {
   interceptPostDatasetTwingraphQuery,
   interceptPostDatasetTwingraphQueries,
   interceptCreateDataset,
+  parseDatasetMultipartFormDataRequest,
   interceptCreateDatasetPart,
   interceptDownloadDatasetPart,
+  interceptDatasetEvents,
+  interceptDatasetPartEvents,
   interceptUpdateDataset,
   interceptUpdateDatasetSecurity,
   interceptAddDatasetAccessControl,
@@ -783,6 +808,7 @@ export const apiUtils = {
   interceptRemoveDatasetAccessControl,
   interceptSetDatasetDefaultSecurity,
   interceptDeleteDataset,
+  interceptDeleteDatasetPart,
   interceptCreateRunner,
   interceptUpdateRunner,
   interceptDownloadWorkspaceFile,
@@ -808,6 +834,4 @@ export const apiUtils = {
   interceptUpdateSimulationRunnerACLSecurity,
   interceptUpdateRunnerDefaultSecurity,
   interceptUpdateRunnerACLSecurity,
-  interceptStartEtlRunner,
-  interceptGetEtlRunnerRunStatus,
 };

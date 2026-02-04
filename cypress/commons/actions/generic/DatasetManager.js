@@ -210,6 +210,7 @@ export const getConfirmDatasetCreation = () => cy.get(SELECTORS.wizard.confirmDa
 //  - options is an optional parameter, it must be an object with the following properties:
 //    - id (optional): id of the created dataset (only used when stubbing is enabled; if undefined, a random id is used)
 //    - validateRequest (optional): validation function to run on the dataset update request
+//    - datasetPartEvents: options for interceptions of dataset part related queries (default: undefined)
 //    - importJobOptions: options to provide to the interception of the "create dataset" query (default: undefined)
 //    - runnerCreationOptions: options to provide to the interception of the "create runner" query (default: undefined)
 //    - runnerUpdateOptions: options to provide to the interception of the "update runner" query (default: undefined)
@@ -222,31 +223,18 @@ export const confirmDatasetCreation = (options = {}) => {
     additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
     ...options.customDatasetPatch,
   };
-  const aliases = [];
+  const aliases = api.interceptDatasetEvents(options?.datasetsEvents);
+  aliases.push(...api.interceptDatasetPartEvents(options?.datasetPartEvents));
   if (options.isETL) aliases.push(api.interceptCreateRunner(options.runnerCreationOptions));
+
   aliases.push(api.interceptCreateDataset(options, options.importJobOptions));
 
-  // Link dataset is no longer called for ETL datasets in modern flow
-  if (!options.isETL) aliases.push(api.interceptLinkDataset());
-
-  if (options.isETL) aliases.push(api.interceptUpdateRunner(options.runnerUpdateOptions));
-
-  if (!options.isFile) {
-    if (options.isETL && options.importJobOptions) {
-      // For ETL datasets, skip interceptRefreshDataset and go directly to runner start
-      aliases.push(api.interceptStartEtlRunner());
-      aliases.push(
-        api.interceptGetEtlRunnerRunStatus({
-          expectedPollsCount: options.importJobOptions?.expectedPollsCount,
-          finalRunStatus: options.importJobOptions?.finalIngestionStatus === 'SUCCESS' ? 'Successful' : 'Failed',
-        })
-      );
-    } else {
-      // For non-ETL datasets, use the old flow with refresh and status polling
-      aliases.push(api.interceptRefreshDataset());
-      aliases.push(api.interceptGetDatasetStatus(options.importJobOptions?.expectedPollsCount));
-    }
+  if (options.isETL) {
+    aliases.push(api.interceptUpdateRunner(options.runnerUpdateOptions));
+    aliases.push(api.interceptStartRunner());
+    aliases.push(api.interceptGetRunnerRunState(options.importJobOptions?.expectedPollsCount));
   }
+
   getConfirmDatasetCreation().click();
   api.waitAliases(aliases);
 };
@@ -357,19 +345,11 @@ export const getUpdateParametersButton = () =>
   cy.get(GENERIC_SELECTORS.datasetmanager.update.confirmUpdateParametersButton);
 
 export const updateDatasetParameters = (datasetId, options) => {
-  const aliases = [];
-  options?.datasetsEvents?.reverse()?.forEach((datasetEvent) => {
-    aliases.push(api.interceptCreateDataset({ id: datasetEvent.id }));
-  });
-  const updateRunnerAlias = api.interceptUpdateRunner(options);
-  aliases.push(updateRunnerAlias);
-  aliases.push(api.interceptStartEtlRunner());
-  aliases.push(
-    api.interceptGetEtlRunnerRunStatus({
-      expectedPollsCount: options.importJobOptions?.expectedPollsCount,
-      finalRunStatus: options.importJobOptions?.finalIngestionStatus === 'SUCCESS' ? 'Successful' : 'Failed',
-    })
-  );
+  const aliases = api.interceptDatasetEvents(options?.datasetsEvents);
+  aliases.push(...api.interceptDatasetPartEvents(options?.datasetPartEvents));
+  aliases.push(api.interceptUpdateRunner(options));
+  aliases.push(api.interceptStartRunner());
+  aliases.push(api.interceptGetRunnerRunState(options.importJobOptions?.expectedPollsCount));
   getUpdateParametersButton().click();
   api.waitAliases(aliases, { timeout: 10 * 1000 });
 };

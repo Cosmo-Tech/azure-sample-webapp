@@ -28,9 +28,6 @@ export const SOLUTION = {
     {
       id: 'etl_file_parameter',
       varType: '%DATASET_PART_ID_FILE%',
-      additionalData: {
-        connectorId: 'c-stbdcnctr',
-      },
     },
     {
       id: 'etl_stock',

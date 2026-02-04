@@ -251,6 +251,13 @@ class Stubbing {
   getDatasetById = (datasetId) => this._getResourceById('datasets', datasetId);
   deleteDatasetByName = (datasetName) => this._deleteResourceByName('datasets', datasetName);
 
+  deleteDatasetPart = (datasetPartId) => {
+    this.resources['datasets'].forEach((dataset) => {
+      if (!dataset?.parts) return;
+      dataset.parts = dataset.parts.filter((part) => part.id !== datasetPartId);
+    });
+  };
+
   patchDatasetDefaultSecurity = (datasetId, newDefaultSecurity) => {
     const dataset = this.getDatasetById(datasetId);
     const newDatasetSecurity = {
