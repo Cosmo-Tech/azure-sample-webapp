@@ -4,7 +4,7 @@ import { Login, Scenarios, ScenarioManager, ScenarioParameters, ErrorBanner } fr
 import { SCENARIO_STATUS } from '../../commons/constants/brewery/TestConstants';
 import { stub } from '../../commons/services/stubbing';
 import { setup } from '../../commons/utils';
-import { DEFAULT_DATASETS_LIST, DEFAULT_SCENARIOS_LIST } from '../../fixtures/stubbing/default';
+import { DEFAULT_DATASETS, DEFAULT_RUNNERS } from '../../fixtures/stubbing/default';
 
 describe('Create scenario and check its data in scenario manager', () => {
   before(() => {
@@ -25,14 +25,13 @@ describe('Create scenario and check its data in scenario manager', () => {
   }
 
   it('Check scenario in scenario manager', () => {
-    const scenarioId = DEFAULT_SCENARIOS_LIST[0].id;
-    const scenarioName = DEFAULT_SCENARIOS_LIST[0].name;
-    const scenarioOwnerName = DEFAULT_SCENARIOS_LIST[0].ownerName;
-    const scenarioCreationDate = DEFAULT_SCENARIOS_LIST[0].creationDate;
-    const scenarioRunTemplate = DEFAULT_SCENARIOS_LIST[0].runTemplateName;
+    const scenarioId = DEFAULT_RUNNERS[0].id;
+    const scenarioName = DEFAULT_RUNNERS[0].name;
+    const scenarioOwnerName = DEFAULT_RUNNERS[0].ownerName;
+    const scenarioCreationDate = DEFAULT_RUNNERS[0].creationDate;
+    const scenarioRunTemplate = DEFAULT_RUNNERS[0].runTemplateName;
     const runOptions = {
       runDuration: 1000,
-      dataIngestionDuration: 1000,
       finalStatus: 'Successful',
       expectedPollsCount: 2,
     };
@@ -48,7 +47,7 @@ describe('Create scenario and check its data in scenario manager', () => {
     ScenarioManager.getScenarioEditableLink(scenarioId).should('have.text', scenarioName);
     ScenarioManager.getScenarioRunStatus(scenarioId, SCENARIO_STATUS.CREATED);
     ScenarioManager.getScenarioRunTemplate(scenarioId).should('have.text', scenarioRunTemplate);
-    ScenarioManager.getScenarioDataset(scenarioId).should('have.text', DEFAULT_DATASETS_LIST[0].name, {
+    ScenarioManager.getScenarioDataset(scenarioId).should('have.text', DEFAULT_DATASETS[0].name, {
       matchCase: false,
     });
 

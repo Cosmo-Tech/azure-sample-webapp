@@ -1,10 +1,10 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { SCENARIO_EXAMPLE } from '../default';
+import { DEFAULT_SIMULATION_RUNNER } from '../default';
 
 export const SCENARIOS = [
   {
-    ...SCENARIO_EXAMPLE,
+    ...DEFAULT_SIMULATION_RUNNER,
     id: 's-stubbedscnr01',
     name: 'Test Cypress - Stubbed scenario for scenario parameters inputs',
     runTemplateId: 'sim_brewery_parameters',

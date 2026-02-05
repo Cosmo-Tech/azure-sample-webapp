@@ -210,6 +210,7 @@ export const getConfirmDatasetCreation = () => cy.get(SELECTORS.wizard.confirmDa
 //  - options is an optional parameter, it must be an object with the following properties:
 //    - id (optional): id of the created dataset (only used when stubbing is enabled; if undefined, a random id is used)
 //    - validateRequest (optional): validation function to run on the dataset update request
+//    - datasetPartEvents: options for interceptions of dataset part related queries (default: undefined)
 //    - importJobOptions: options to provide to the interception of the "create dataset" query (default: undefined)
 //    - runnerCreationOptions: options to provide to the interception of the "create runner" query (default: undefined)
 //    - runnerUpdateOptions: options to provide to the interception of the "update runner" query (default: undefined)
@@ -222,16 +223,18 @@ export const confirmDatasetCreation = (options = {}) => {
     additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
     ...options.customDatasetPatch,
   };
-  const aliases = [];
+  const aliases = api.interceptDatasetEvents(options?.datasetsEvents);
+  aliases.push(...api.interceptDatasetPartEvents(options?.datasetPartEvents));
   if (options.isETL) aliases.push(api.interceptCreateRunner(options.runnerCreationOptions));
-  aliases.push(api.interceptCreateDataset(options, options.importJobOptions));
-  aliases.push(api.interceptLinkDataset());
-  if (options.isETL) aliases.push(api.interceptUpdateRunner(options.runnerUpdateOptions));
 
-  if (!options.isFile) {
-    aliases.push(api.interceptRefreshDataset());
-    aliases.push(api.interceptGetDatasetStatus(options.importJobOptions?.expectedPollsCount));
+  aliases.push(api.interceptCreateDataset(options, options.importJobOptions));
+
+  if (options.isETL) {
+    aliases.push(api.interceptUpdateRunner(options.runnerUpdateOptions));
+    aliases.push(api.interceptStartRunner());
+    aliases.push(api.interceptGetRunnerRunState(options.importJobOptions?.expectedPollsCount));
   }
+
   getConfirmDatasetCreation().click();
   api.waitAliases(aliases);
 };
@@ -294,23 +297,6 @@ export const deleteDataset = (datasetId, datasetName) => {
   api.waitAlias(deleteDatasetAlias);
 };
 
-export const refreshDataset = (datasetId, options) => {
-  const aliases = [
-    api.interceptRefreshDatasetAndPollStatus(datasetId, options),
-    api.interceptGetDatasetStatus(options.expectedPollsCount),
-  ];
-  getDatasetRefreshButton(datasetId).click();
-  getConfirmDatasetRefreshButton().click();
-  getRefreshDatasetSpinner(datasetId).should('be.visible');
-  api.waitAliases(aliases);
-};
-
-export const rollbackDatasetStatus = () => {
-  const alias = api.interceptRollbackDatasetStatus();
-  getDatasetOverviewPlaceholderRollbackButton().click();
-  api.waitAlias(alias);
-};
-
 // Parameters:
 //   - response (optional): JSON response to the twingraph query that is simulated if stubbing is enabled. Example:
 //       [{"id":"Dynamic value 1"},{"id":"Dynamic value 2"},{"id":"Dynamic value 3"}]
@@ -359,16 +345,11 @@ export const getUpdateParametersButton = () =>
   cy.get(GENERIC_SELECTORS.datasetmanager.update.confirmUpdateParametersButton);
 
 export const updateDatasetParameters = (datasetId, options) => {
-  const aliases = [];
-  options?.datasetsEvents?.reverse()?.forEach((datasetEvent) => {
-    aliases.push(api.interceptCreateDataset({ id: datasetEvent.id }));
-    aliases.push(api.interceptUpdateDataset({ id: datasetEvent.id, customDatasetPatch: { id: datasetEvent.id } }));
-    aliases.push(api.interceptUploadWorkspaceFile());
-  });
-  const updateRunnerAlias = api.interceptUpdateRunner(options);
-  aliases.push(updateRunnerAlias);
-  aliases.push(api.interceptRefreshDatasetAndPollStatus(datasetId, options.importJobOptions));
-  aliases.push(api.interceptGetDatasetStatus(options.importJobOptions?.expectedPollsCount));
+  const aliases = api.interceptDatasetEvents(options?.datasetsEvents);
+  aliases.push(...api.interceptDatasetPartEvents(options?.datasetPartEvents));
+  aliases.push(api.interceptUpdateRunner(options));
+  aliases.push(api.interceptStartRunner());
+  aliases.push(api.interceptGetRunnerRunState(options.importJobOptions?.expectedPollsCount));
   getUpdateParametersButton().click();
   api.waitAliases(aliases, { timeout: 10 * 1000 });
 };

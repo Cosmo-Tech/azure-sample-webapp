@@ -1,415 +1,50 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
-export const SOLUTION_PARAMETER_EXAMPLE = {
-  id: 'myParameter',
-  labels: { fr: 'Mon paramètre', en: 'My parameter' },
-  varType: 'int',
-  defaultValue: null,
-  minValue: null,
-  maxValue: null,
-  regexValidation: null,
-  additionalData: null,
-};
-
-export const RUN_TEMPLATE_EXAMPLE = {
-  id: 'sim_run_template_example',
-  name: 'MyRunTemplate',
-  description: 'My run template description',
-  csmSimulation: 'BreweryDemoSimulationWithConnector',
-  tags: ['sim_run_template_example'],
-  computeSize: null,
-  noDataIngestionState: null,
-  fetchDatasets: true,
-  scenarioDataDownloadTransform: null,
-  fetchScenarioParameters: true,
-  applyParameters: true,
-  validateData: false,
-  sendDatasetsToDataWarehouse: true,
-  sendInputParametersToDataWarehouse: true,
-  preRun: false,
-  run: null,
-  postRun: false,
-  parametersJson: null,
-  parametersHandlerSource: null,
-  datasetValidatorSource: null,
-  preRunSource: null,
-  runSource: null,
-  postRunSource: null,
-  scenariodataTransformSource: null,
-  parameterGroups: ['bar_parameters'],
-  stackSteps: null,
-  gitRepositoryUrl: null,
-  gitBranchName: null,
-  runTemplateSourceDir: null,
-  executionTimeout: null,
-};
-
-export const BREWERY_PARAMETERS_RUN_TEMPLATE = {
-  ...RUN_TEMPLATE_EXAMPLE,
-  id: 'sim_brewery_parameters',
-  name: 'Run template with Brewery parameters',
-  description: 'Run template with Brewery parameters',
-  tags: ['sim_brewery_parameters', 'With params'],
-  fetchScenarioParameters: true,
-  applyParameters: true,
-  sendDatasetsToDataWarehouse: true,
-  sendInputParametersToDataWarehouse: true,
-  parameterGroups: ['bar_parameters', 'file_upload'],
-};
-
-export const NO_PARAMETERS_RUN_TEMPLATE = {
-  ...RUN_TEMPLATE_EXAMPLE,
-  id: 'sim_no_parameters',
-  name: 'Run template without parameters',
-  description: 'Run template without parameters',
-  tags: ['sim_no_parameters', 'No param'],
-  fetchScenarioParameters: false,
-  applyParameters: false,
-  sendDatasetsToDataWarehouse: true,
-  sendInputParametersToDataWarehouse: false,
-  parameterGroups: null,
-};
-
-export const BASIC_TYPES_PARAMETERS_RUN_TEMPLATE = {
-  ...RUN_TEMPLATE_EXAMPLE,
-  id: 'sim_mock_parameters',
-  name: 'Run template with mock basic types parameters',
-  description: 'Run template with mock basic types parameters',
-  tags: ['sim_mock_parameters', 'Example'],
-  fetchScenarioParameters: false,
-  applyParameters: false,
-  sendDatasetsToDataWarehouse: true,
-  sendInputParametersToDataWarehouse: false,
-  parameterGroups: [
-    'basic_types',
-    'dataset_parts',
-    'extra_dataset_part',
-    'customers',
-    'events',
-    'additional_parameters',
-  ],
-};
-
-export const HIDDEN_RUN_TEMPLATE = {
-  ...RUN_TEMPLATE_EXAMPLE,
-  id: 'hidden test run template',
-  name: 'Hidden test run template without parameters',
-  description: 'Run template without parameters',
-  tags: ['2', 'No param'],
-  fetchScenarioParameters: false,
-  applyParameters: false,
-  sendDatasetsToDataWarehouse: true,
-  sendInputParametersToDataWarehouse: false,
-  parameterGroups: null,
-};
+import { ROLES } from '../../../commons/constants/generic/TestConstants';
+import { DEFAULT_ORGANIZATION } from './organizations';
+import { PARAMETER_GROUPS } from './runTemplateParameterGroups';
+import { PARAMETERS } from './runTemplateParameters';
+import {
+  BREWERY_PARAMETERS_RUN_TEMPLATE,
+  NO_PARAMETERS_RUN_TEMPLATE,
+  BASIC_TYPES_PARAMETERS_RUN_TEMPLATE,
+  HIDDEN_RUN_TEMPLATE,
+  CUSTOM_SUBDATASOURCES,
+  DYNAMIC_VALUES_ENUM_FILTER,
+  ETL_RUN_TEMPLATE,
+  PARTIALLY_PREFILLED_DATASOURCE,
+  SUBDATASET_RUN_TEMPLATE,
+} from './runTemplates';
+import { USER_EXAMPLE } from './users';
 
 export const DEFAULT_SOLUTION = {
-  id: 'SOL-stubbedbrwy',
+  id: 'sol-stubbedbrwy',
   key: 'Demo Brewery Solution',
   name: 'Stubbed Demo Brewery Solution',
   description: 'One Day Brewery Solution',
   repository: 'brewery_simulator',
-  csmSimulator: null,
-  version: '0.0.23',
-  ownerId: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
-  sdkVersion: null,
+  version: '0.0.1-stubbedVersion',
+  organizationId: DEFAULT_ORGANIZATION.id,
+  createInfo: { timestamp: 1714487051204, userId: USER_EXAMPLE.email },
+  updateInfo: { timestamp: 1714487051204, userId: USER_EXAMPLE.email },
+  alwaysPull: true,
+  sdkVersion: '12.34.56-789.1c411170',
   url: null,
   tags: ['1day', 'Brewery'],
-  parameters: [
-    {
-      ...SOLUTION_PARAMETER_EXAMPLE,
-      id: 'stock',
-      labels: { fr: 'Stock', en: 'Stock' },
-      varType: 'int',
-    },
-    {
-      ...SOLUTION_PARAMETER_EXAMPLE,
-      id: 'restock_qty',
-      labels: { fr: 'Restock', en: 'Restock' },
-      varType: 'int',
-    },
-    {
-      ...SOLUTION_PARAMETER_EXAMPLE,
-      id: 'nb_waiters',
-      labels: { fr: 'Serveurs', en: 'Waiters' },
-      varType: 'int',
-    },
-    {
-      ...SOLUTION_PARAMETER_EXAMPLE,
-      id: 'currency',
-      labels: { fr: 'Symbole de la monnaie', en: 'Currency symbol' },
-      varType: 'enum',
-      additionalData: {
-        enumValues: [
-          {
-            key: 'USD',
-            value: {
-              en: 'United States dollar ($)',
-              fr: 'Dollar américain ($)',
-            },
-            tooltipText: {
-              fr: 'Le dollar américain est la monnaie nationale des États-Unis et de plusieurs autres pays',
-              en: 'The United States dollar is the official currency of the United States and several other countries',
-            },
-          },
-          {
-            key: 'EUR',
-            value: 'Euro (€)',
-            tooltipText: {
-              fr: "L'euro est la monnaie unique de 20 des 27 États membres de l'Union européenne",
-              en: 'Euro is the official currency of 20 of the 27 member states of the European Union',
-            },
-          },
-          {
-            key: 'BTC',
-            value: 'Bitcoin (฿)',
-            tooltipText: {
-              fr: "Le Bitcoin est une cryptomonnaie dont l'objectif est de créer un système financier décentralisé",
-              en: 'Bitcoin is a protocol which implements a public, permanent, and decentralized ledger',
-            },
-          },
-          {
-            key: 'JPY',
-            value: {
-              en: 'Japanese yen (¥)',
-              fr: 'Yen (¥)',
-            },
-          },
-        ],
-      },
-    },
-    {
-      ...SOLUTION_PARAMETER_EXAMPLE,
-      id: 'currency_name',
-      labels: { fr: 'Nom de la monnaie', en: 'Currency name' },
-      varType: 'string',
-    },
-    {
-      ...SOLUTION_PARAMETER_EXAMPLE,
-      id: 'currency_value',
-      defaultValue: '1000',
-      labels: { fr: 'Valeur', en: 'Value' },
-      varType: 'number',
-    },
-    {
-      ...SOLUTION_PARAMETER_EXAMPLE,
-      id: 'currency_used',
-      labels: { fr: 'Activer la monnaie', en: 'Enable currency' },
-      varType: 'bool',
-    },
-    {
-      ...SOLUTION_PARAMETER_EXAMPLE,
-      id: 'start_date',
-      labels: { fr: 'Date de départ', en: 'Start date' },
-      varType: 'date',
-    },
-    {
-      ...SOLUTION_PARAMETER_EXAMPLE,
-      id: 'average_consumption',
-      labels: {
-        fr: 'Consommation moyenne',
-        en: 'Average consumption',
-      },
-      varType: 'number',
-      defaultValue: '3',
-      minValue: '0',
-      maxValue: '10',
-      regexValidation: null,
-      additionalData: {
-        subType: 'SLIDER',
-        tooltipText: {
-          fr: 'En pintes',
-          en: 'In pints',
-        },
-      },
-    },
-    {
-      ...SOLUTION_PARAMETER_EXAMPLE,
-      id: 'additional_seats',
-      labels: { fr: 'Sièges additionnels', en: 'Additional seats' },
-      varType: 'number',
-    },
-    {
-      ...SOLUTION_PARAMETER_EXAMPLE,
-      id: 'additional_tables',
-      labels: { fr: 'Tables additionnelles', en: 'Additional tables' },
-      varType: 'number',
-    },
-    {
-      ...SOLUTION_PARAMETER_EXAMPLE,
-      id: 'activated',
-      labels: { en: 'Activated', fr: 'Activé' },
-      varType: 'bool',
-    },
-    {
-      ...SOLUTION_PARAMETER_EXAMPLE,
-      id: 'evaluation',
-      labels: { fr: 'Evaluation', en: 'Evaluation' },
-      varType: 'string',
-    },
-    {
-      ...SOLUTION_PARAMETER_EXAMPLE,
-      id: 'volume_unit',
-      labels: { en: 'Volume unit', fr: 'Unité de volume' },
-      varType: 'enum',
-    },
-    {
-      ...SOLUTION_PARAMETER_EXAMPLE,
-      id: 'comment',
-      labels: { en: 'Comment', fr: 'Commentaire' },
-      varType: 'string',
-    },
-    {
-      ...SOLUTION_PARAMETER_EXAMPLE,
-      id: 'additional_date',
-      labels: { en: 'Additional date', fr: 'Date additionelle' },
-      varType: 'date',
-    },
-    {
-      ...SOLUTION_PARAMETER_EXAMPLE,
-      id: 'initial_stock_dataset',
-      labels: { fr: 'Stock de départ', en: 'Initial stock' },
-      varType: '%DATASETID%',
-    },
-    {
-      ...SOLUTION_PARAMETER_EXAMPLE,
-      id: 'example_dataset_part_1',
-      labels: { fr: 'Exemple de sous-partie de dataset 1', en: 'Example dataset part 1' },
-      varType: '%DATASETID%',
-    },
-    {
-      ...SOLUTION_PARAMETER_EXAMPLE,
-      id: 'example_dataset_part_2',
-      labels: { fr: 'Exemple de sous-partie de dataset 2', en: 'Example dataset part 2' },
-      varType: '%DATASETID%',
-    },
-    {
-      ...SOLUTION_PARAMETER_EXAMPLE,
-      id: 'example_dataset_part_3',
-      labels: { fr: 'Exemple de sous-partie de dataset 3', en: 'Example dataset part 3' },
-      varType: '%DATASETID%',
-    },
-    {
-      ...SOLUTION_PARAMETER_EXAMPLE,
-      id: 'customers',
-      labels: { fr: 'Clients', en: 'Customers' },
-      varType: '%DATASETID%',
-    },
-    {
-      ...SOLUTION_PARAMETER_EXAMPLE,
-      id: 'events',
-      labels: { fr: 'Evènements', en: 'Events' },
-      varType: '%DATASETID%',
-    },
-    {
-      ...SOLUTION_PARAMETER_EXAMPLE,
-      id: 'training_start_date',
-      labels: { fr: 'Date de départ', en: 'Start date' },
-      varType: 'date',
-    },
-    {
-      ...SOLUTION_PARAMETER_EXAMPLE,
-      id: 'training_end_date',
-      labels: { fr: 'Date de Fin', en: 'End date' },
-      varType: 'date',
-    },
-  ],
-  parameterGroups: [
-    {
-      id: 'bar_parameters',
-      labels: { fr: 'Bar', en: 'Pub' },
-      isTable: null,
-      additionalData: null,
-      parentId: null,
-      parameters: ['stock', 'restock_qty', 'nb_waiters'],
-    },
-    {
-      id: 'file_upload',
-      labels: { fr: 'Valeurs initiales', en: 'Initial values' },
-      isTable: null,
-      additionalData: null,
-      parameters: ['initial_stock_dataset'],
-      parentId: null,
-    },
-    {
-      id: 'basic_types',
-      labels: { fr: 'Exemples de types standards', en: 'Basic types examples' },
-      isTable: null,
-      additionalData: null,
-      parentId: null,
-      parameters: ['currency', 'currency_name', 'currency_value', 'currency_used', 'start_date', 'average_consumption'],
-    },
-    {
-      id: 'training_dates',
-      labels: { fr: 'Dates de simulation', en: 'Simulation dates' },
-      isTable: null,
-      additionalData: null,
-      parentId: null,
-      parameters: ['training_start_date', 'training_end_date'],
-    },
-    {
-      id: 'dataset_parts',
-      labels: {
-        en: 'Dataset parts',
-        fr: 'Fragments de dataset',
-      },
-      isTable: null,
-      additionalData: null,
-      parentId: null,
-      parameters: ['example_dataset_part_1', 'example_dataset_part_2'],
-    },
-    {
-      id: 'extra_dataset_part',
-      labels: {
-        en: 'Additional dataset part',
-        fr: 'Fragment additionel',
-      },
-      isTable: null,
-      additionalData: null,
-      parentId: null,
-      parameters: ['example_dataset_part_3'],
-    },
-    {
-      id: 'customers',
-      labels: {
-        en: 'Customers',
-        fr: 'Clients',
-      },
-      isTable: null,
-      additionalData: null,
-      parentId: null,
-      parameters: ['customers'],
-    },
-    {
-      id: 'events',
-      labels: {
-        en: 'Events',
-        fr: 'Évènements',
-      },
-      isTable: null,
-      additionalData: null,
-      parentId: null,
-      parameters: ['events', 'additional_seats', 'activated', 'evaluation'],
-    },
-    {
-      id: 'additional_parameters',
-      labels: {
-        en: 'Additional parameters',
-        fr: 'Paramètres additionnels',
-      },
-      isTable: null,
-      additionalData: null,
-      parentId: null,
-      parameters: ['volume_unit', 'additional_tables', 'comment', 'additional_date'],
-    },
-  ],
+  security: { default: ROLES.RUNNER.ADMIN, accessControlList: [] },
+  parameters: [...Object.values(PARAMETERS)],
+  parameterGroups: [...Object.values(PARAMETER_GROUPS)],
   runTemplates: [
     BREWERY_PARAMETERS_RUN_TEMPLATE,
     NO_PARAMETERS_RUN_TEMPLATE,
     BASIC_TYPES_PARAMETERS_RUN_TEMPLATE,
     HIDDEN_RUN_TEMPLATE,
+    ...CUSTOM_SUBDATASOURCES,
+    DYNAMIC_VALUES_ENUM_FILTER,
+    ETL_RUN_TEMPLATE,
+    PARTIALLY_PREFILLED_DATASOURCE,
+    SUBDATASET_RUN_TEMPLATE,
   ],
 };
 
-export const DEFAULT_SOLUTIONS_LIST = [DEFAULT_SOLUTION];
+export const DEFAULT_SOLUTIONS = [DEFAULT_SOLUTION];

@@ -1,6 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { SCENARIO_EXAMPLE, USERS_LIST } from '../default';
+import { DEFAULT_SIMULATION_RUNNER, USERS_LIST } from '../default';
 
 export const SCENARIO_RUNS = [
   { id: 'run-stubbedrun01', state: 'Created' },
@@ -13,7 +13,7 @@ export const SCENARIO_RUNS = [
 
 export const SCENARIOS = [
   {
-    ...SCENARIO_EXAMPLE,
+    ...DEFAULT_SIMULATION_RUNNER,
     id: 'r-stubbedrnr01',
     lastRunId: 'run-stubbedrun01',
     name: 'Simple Scenario 1',
@@ -24,7 +24,7 @@ export const SCENARIOS = [
     security: { default: 'admin' },
   },
   {
-    ...SCENARIO_EXAMPLE,
+    ...DEFAULT_SIMULATION_RUNNER,
     id: 'r-stubbedrnr02',
     lastRunId: 'run-stubbedrun02',
     name: 'Scenario 2024',
@@ -34,7 +34,7 @@ export const SCENARIOS = [
     security: { default: 'admin' },
   },
   {
-    ...SCENARIO_EXAMPLE,
+    ...DEFAULT_SIMULATION_RUNNER,
     id: 'r-stubbedrnr03',
     lastRunId: 'run-stubbedrun03',
     name: 'Scenario august',
@@ -45,7 +45,7 @@ export const SCENARIOS = [
     security: { default: 'admin' },
   },
   {
-    ...SCENARIO_EXAMPLE,
+    ...DEFAULT_SIMULATION_RUNNER,
     id: 'r-stubbedrnr04',
     lastRunId: 'run-stubbedrun04',
     name: 'Simple Scenario 2',
@@ -55,7 +55,7 @@ export const SCENARIOS = [
     security: { default: 'admin' },
   },
   {
-    ...SCENARIO_EXAMPLE,
+    ...DEFAULT_SIMULATION_RUNNER,
     id: 'r-stubbedrnr05',
     lastRunId: 'run-stubbedrun05',
     name: 'Simple Scenario 3',
@@ -64,7 +64,7 @@ export const SCENARIOS = [
     security: { default: 'admin' },
   },
   {
-    ...SCENARIO_EXAMPLE,
+    ...DEFAULT_SIMULATION_RUNNER,
     id: 'r-stubbedrnr06',
     lastRunId: 'run-stubbedrun06',
     name: 'global scenario',

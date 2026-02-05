@@ -18,6 +18,11 @@ const buildExtendedVarType = (varType, extension) => {
 };
 
 function getConversionMethod(param, functionArray) {
+  if (param == null) {
+    console.warn('Null or undefined object provided in the list of parameters');
+    return undefined;
+  }
+
   const varType = param?.varType;
   const subType = getParameterAttribute(param, 'subType');
   if (functionArray) {

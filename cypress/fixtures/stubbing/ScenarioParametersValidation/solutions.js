@@ -1,12 +1,12 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { DEFAULT_SOLUTION, RUN_TEMPLATE_EXAMPLE, SOLUTION_PARAMETER_EXAMPLE } from '../default';
+import { DEFAULT_SOLUTION, RUN_TEMPLATE_EXAMPLE, DEFAULT_RUN_TEMPLATE_PARAMETER } from '../default';
 
 const SOLUTION_WITH_ALL_TYPES_OF_PARAMETERS = {
   ...DEFAULT_SOLUTION,
   parameters: [
     {
-      ...SOLUTION_PARAMETER_EXAMPLE,
+      ...DEFAULT_RUN_TEMPLATE_PARAMETER,
       id: 'stock',
       labels: { fr: 'Stock', en: 'Stock' },
       varType: 'int',
@@ -15,7 +15,7 @@ const SOLUTION_WITH_ALL_TYPES_OF_PARAMETERS = {
       maxValue: 100,
     },
     {
-      ...SOLUTION_PARAMETER_EXAMPLE,
+      ...DEFAULT_RUN_TEMPLATE_PARAMETER,
       id: 'restock_qty',
       labels: { fr: 'Restock', en: 'Restock' },
       varType: 'number',
@@ -23,7 +23,7 @@ const SOLUTION_WITH_ALL_TYPES_OF_PARAMETERS = {
       maxValue: 25,
     },
     {
-      ...SOLUTION_PARAMETER_EXAMPLE,
+      ...DEFAULT_RUN_TEMPLATE_PARAMETER,
       id: 'nb_waiters',
       labels: { fr: 'Serveurs', en: 'Waiters' },
       varType: 'number',
@@ -31,7 +31,7 @@ const SOLUTION_WITH_ALL_TYPES_OF_PARAMETERS = {
       minValue: 1,
     },
     {
-      ...SOLUTION_PARAMETER_EXAMPLE,
+      ...DEFAULT_RUN_TEMPLATE_PARAMETER,
       id: 'comment',
       defaultValue: 'None',
       labels: { fr: 'Commentaire', en: 'Comment' },
@@ -41,7 +41,7 @@ const SOLUTION_WITH_ALL_TYPES_OF_PARAMETERS = {
       },
     },
     {
-      ...SOLUTION_PARAMETER_EXAMPLE,
+      ...DEFAULT_RUN_TEMPLATE_PARAMETER,
       id: 'evaluation',
       defaultValue: 'Good',
       labels: { fr: 'Evaluation', en: 'Evaluation' },
@@ -51,7 +51,7 @@ const SOLUTION_WITH_ALL_TYPES_OF_PARAMETERS = {
       },
     },
     {
-      ...SOLUTION_PARAMETER_EXAMPLE,
+      ...DEFAULT_RUN_TEMPLATE_PARAMETER,
       id: 'currency_name',
       defaultValue: 'EUR',
       labels: { fr: 'Nom de la monnaie', en: 'Currency name' },
@@ -62,7 +62,7 @@ const SOLUTION_WITH_ALL_TYPES_OF_PARAMETERS = {
       },
     },
     {
-      ...SOLUTION_PARAMETER_EXAMPLE,
+      ...DEFAULT_RUN_TEMPLATE_PARAMETER,
       id: 'start_date',
       labels: {
         fr: 'Date de départ',
@@ -76,7 +76,7 @@ const SOLUTION_WITH_ALL_TYPES_OF_PARAMETERS = {
       additionalData: null,
     },
     {
-      ...SOLUTION_PARAMETER_EXAMPLE,
+      ...DEFAULT_RUN_TEMPLATE_PARAMETER,
       id: 'end_date',
       labels: {
         fr: 'Date de fin',
@@ -92,7 +92,7 @@ const SOLUTION_WITH_ALL_TYPES_OF_PARAMETERS = {
       },
     },
     {
-      ...SOLUTION_PARAMETER_EXAMPLE,
+      ...DEFAULT_RUN_TEMPLATE_PARAMETER,
       id: 'additional_date',
       labels: {
         en: 'Additional date',
@@ -108,13 +108,13 @@ const SOLUTION_WITH_ALL_TYPES_OF_PARAMETERS = {
       },
     },
     {
-      ...SOLUTION_PARAMETER_EXAMPLE,
+      ...DEFAULT_RUN_TEMPLATE_PARAMETER,
       id: 'example_dataset_part_1',
       labels: { fr: 'Exemple de sous-partie de dataset 1', en: 'Example dataset part 1' },
       varType: '%DATASETID%',
     },
     {
-      ...SOLUTION_PARAMETER_EXAMPLE,
+      ...DEFAULT_RUN_TEMPLATE_PARAMETER,
       id: 'example_dataset_part_2',
       labels: { fr: 'Exemple de sous-partie de dataset 2', en: 'Example dataset part 2' },
       varType: '%DATASETID%',
@@ -169,7 +169,7 @@ const SOLUTION_WITH_CONSTRAINTS_BETWEEN_PARAMETERS = {
   ...DEFAULT_SOLUTION,
   parameters: [
     {
-      ...SOLUTION_PARAMETER_EXAMPLE,
+      ...DEFAULT_RUN_TEMPLATE_PARAMETER,
       id: 'stock',
       labels: { fr: 'Stock', en: 'Stock' },
       varType: 'int',
@@ -178,7 +178,7 @@ const SOLUTION_WITH_CONSTRAINTS_BETWEEN_PARAMETERS = {
       maxValue: 100,
     },
     {
-      ...SOLUTION_PARAMETER_EXAMPLE,
+      ...DEFAULT_RUN_TEMPLATE_PARAMETER,
       id: 'restock_qty',
       labels: { fr: 'Restock', en: 'Restock' },
       varType: 'number',
@@ -189,7 +189,7 @@ const SOLUTION_WITH_CONSTRAINTS_BETWEEN_PARAMETERS = {
       },
     },
     {
-      ...SOLUTION_PARAMETER_EXAMPLE,
+      ...DEFAULT_RUN_TEMPLATE_PARAMETER,
       id: 'nb_waiters',
       labels: { fr: 'Serveurs', en: 'Waiters' },
       varType: 'number',
@@ -200,7 +200,7 @@ const SOLUTION_WITH_CONSTRAINTS_BETWEEN_PARAMETERS = {
       },
     },
     {
-      ...SOLUTION_PARAMETER_EXAMPLE,
+      ...DEFAULT_RUN_TEMPLATE_PARAMETER,
       id: 'comment',
       defaultValue: 'None',
       labels: { fr: 'Commentaire', en: 'Comment' },
@@ -210,7 +210,7 @@ const SOLUTION_WITH_CONSTRAINTS_BETWEEN_PARAMETERS = {
       },
     },
     {
-      ...SOLUTION_PARAMETER_EXAMPLE,
+      ...DEFAULT_RUN_TEMPLATE_PARAMETER,
       id: 'evaluation',
       defaultValue: 'Good',
       labels: { fr: 'Evaluation', en: 'Evaluation' },
@@ -221,7 +221,7 @@ const SOLUTION_WITH_CONSTRAINTS_BETWEEN_PARAMETERS = {
       },
     },
     {
-      ...SOLUTION_PARAMETER_EXAMPLE,
+      ...DEFAULT_RUN_TEMPLATE_PARAMETER,
       id: 'start_date',
       labels: {
         fr: 'Date de départ',
@@ -235,7 +235,7 @@ const SOLUTION_WITH_CONSTRAINTS_BETWEEN_PARAMETERS = {
       additionalData: null,
     },
     {
-      ...SOLUTION_PARAMETER_EXAMPLE,
+      ...DEFAULT_RUN_TEMPLATE_PARAMETER,
       id: 'end_date',
       labels: {
         fr: 'Date de fin',
@@ -251,7 +251,7 @@ const SOLUTION_WITH_CONSTRAINTS_BETWEEN_PARAMETERS = {
       },
     },
     {
-      ...SOLUTION_PARAMETER_EXAMPLE,
+      ...DEFAULT_RUN_TEMPLATE_PARAMETER,
       id: 'additional_date',
       labels: {
         en: 'Additional date',
@@ -316,7 +316,7 @@ const SOLUTION_WITH_WRONG_CONSTRAINT_CONFIGURATION = {
   ...DEFAULT_SOLUTION,
   parameters: [
     {
-      ...SOLUTION_PARAMETER_EXAMPLE,
+      ...DEFAULT_RUN_TEMPLATE_PARAMETER,
       id: 'start_date',
       labels: {
         fr: 'Date de départ',
@@ -330,7 +330,7 @@ const SOLUTION_WITH_WRONG_CONSTRAINT_CONFIGURATION = {
       additionalData: null,
     },
     {
-      ...SOLUTION_PARAMETER_EXAMPLE,
+      ...DEFAULT_RUN_TEMPLATE_PARAMETER,
       id: 'end_date',
       labels: {
         fr: 'Date de fin',

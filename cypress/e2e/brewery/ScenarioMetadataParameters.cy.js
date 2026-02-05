@@ -19,7 +19,7 @@ const initialScenarios = [...SCENARIOS];
 describe('scenario metadata parameters', () => {
   before(() => {
     stub.start();
-    stub.setScenarios(SCENARIOS);
+    stub.setRunners(SCENARIOS);
     stub.setSolutions(SOLUTIONS);
   });
 
@@ -55,7 +55,7 @@ describe('scenario metadata parameters', () => {
 describe('hidden scenario parameters', () => {
   before(() => {
     stub.start();
-    stub.setScenarios(initialScenarios);
+    stub.setRunners(initialScenarios);
     stub.setSolutions(SOLUTIONS);
   });
 

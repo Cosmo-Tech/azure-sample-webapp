@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import { Login, Workspaces, Scenarios } from '../../commons/actions';
 import { stub } from '../../commons/services/stubbing';
-import { DEFAULT_WORKSPACES_LIST, EXTENDED_WORKSPACES_LIST } from '../../fixtures/stubbing/default';
+import { DEFAULT_WORKSPACES, EXTENDED_WORKSPACES_LIST } from '../../fixtures/stubbing/default';
 
 describe('Check workspaces features', () => {
   before(() => {
@@ -39,7 +39,7 @@ describe('Check workspaces features', () => {
   });
 
   it('Check routing behavior with only one workspace available', () => {
-    stub.setWorkspaces(DEFAULT_WORKSPACES_LIST);
+    stub.setWorkspaces(DEFAULT_WORKSPACES);
     Login.login();
 
     Scenarios.getScenarioView().should('be.visible');

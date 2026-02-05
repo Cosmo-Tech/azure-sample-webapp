@@ -4,7 +4,7 @@ import { Login, Scenarios, ScenarioParameters } from '../../commons/actions';
 import { BreweryParameters } from '../../commons/actions/brewery';
 import { getDashboardsTab } from '../../commons/actions/generic/Dashboards';
 import { stub } from '../../commons/services/stubbing';
-import { DEFAULT_SCENARIOS_LIST } from '../../fixtures/stubbing/default';
+import { DEFAULT_RUNNERS } from '../../fixtures/stubbing/default';
 
 describe('Scenario view PowerBI report', () => {
   before(() => stub.start());
@@ -12,7 +12,7 @@ describe('Scenario view PowerBI report', () => {
   afterEach(() => stub.reset());
   after(() => stub.stop());
 
-  const { id: scenarioId } = DEFAULT_SCENARIOS_LIST[0];
+  const { id: scenarioId } = DEFAULT_RUNNERS[0];
   const runOptions = {
     runDuration: 1000,
     finalStatus: 'Successful',
@@ -78,7 +78,7 @@ describe('Scenario view PowerBI report', () => {
 
   it('If the back end returns a start time as null, out-of-sync is never displayed', () => {
     const CURRENCY_VALUE_TO_UPDATE = 97779;
-    stub.setScenarioRunOptions({ startTime: null });
+    stub.setRunnerRunOptions({ startTime: null });
 
     ScenarioParameters.expandParametersAccordion();
     Scenarios.checkIfReportIsUnsynced(false);

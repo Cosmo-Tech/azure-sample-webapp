@@ -14,7 +14,7 @@ describe('DisableLaunchButton', () => {
   stub.setOrganizations([ORGANIZATION_WITH_DEFAULT_ROLE_USER]);
   stub.setWorkspaces([WORKSPACE]);
   stub.setDatasets([...DATASETS_TO_REFRESH]);
-  stub.setScenarios(SCENARIOS_WITH_DATASET_ERROR);
+  stub.setRunners(SCENARIOS_WITH_DATASET_ERROR);
 
   const scenarioWithBrokenDataset = SCENARIOS_WITH_DATASET_ERROR[1];
   const scenarioReadyToLaunch = SCENARIOS_WITH_DATASET_ERROR[2];
@@ -43,6 +43,7 @@ describe('DisableLaunchButton', () => {
     DatasetManager.ignoreDatasetTwingraphQueries();
     DatasetManager.switchToDatasetManagerView();
     DatasetManager.selectDatasetById(DATASETS_TO_REFRESH[1].id);
+    // FIXME: replace call to refreshDataset (endpoint removed in v5)
     DatasetManager.refreshDataset(DATASETS_TO_REFRESH[1].id, refreshFailedOptions);
     DatasetManager.getDatasetOverviewPlaceholderTitle().contains('An error', { timeout: 30000 });
     Scenarios.switchToScenarioView();

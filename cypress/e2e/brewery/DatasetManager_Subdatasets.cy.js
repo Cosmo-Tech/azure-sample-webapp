@@ -3,15 +3,20 @@
 import rfdc from 'rfdc';
 import { Login, DatasetManager } from '../../commons/actions';
 import { stub } from '../../commons/services/stubbing';
-import {
-  CUSTOM_SUBDATASOURCES,
-  DATASETS,
-  SOLUTION,
-  WORKSPACE,
-  ORGANIZATION_WITH_DEFAULT_ROLE_USER,
-} from '../../fixtures/stubbing/DatasetManager';
+import { apiUtils } from '../../commons/utils';
+import { DATASETS, WORKSPACE, ORGANIZATION_WITH_DEFAULT_ROLE_USER } from '../../fixtures/stubbing/DatasetManager';
+import { DEFAULT_SOLUTION } from '../../fixtures/stubbing/default';
 
 const clone = rfdc();
+
+const runTemplates = DEFAULT_SOLUTION.runTemplates;
+const datasources = runTemplates.filter((runTemplate) => runTemplate.tags.includes('datasource'));
+const datasourceCount = datasources.length;
+const subdatasources = runTemplates.filter((runTemplate) => runTemplate.tags.includes('subdatasource'));
+const subdatasourceCount = subdatasources.length;
+// Check fixtures data are not empty
+expect(datasourceCount).to.be.at.least(1);
+expect(subdatasourceCount).to.be.at.least(1);
 
 const WORKSPACE_WITH_SOURCE_FILTERS = clone(WORKSPACE);
 WORKSPACE_WITH_SOURCE_FILTERS.additionalData.webapp.datasetManager.subdatasourceFilter = [
@@ -28,7 +33,6 @@ describe('Subdatasources in subdataset creation wizard when no whitelist is defi
   before(() => {
     stub.start();
     stub.setOrganizations([ORGANIZATION_WITH_DEFAULT_ROLE_USER]);
-    stub.setSolutions([SOLUTION]);
     stub.setWorkspaces([WORKSPACE]);
     stub.setDatasets([...DATASETS]);
   });
@@ -43,8 +47,7 @@ describe('Subdatasources in subdataset creation wizard when no whitelist is defi
     DatasetManager.startSubdatasetCreation();
     DatasetManager.getDatasetCreationNextStep().click();
     DatasetManager.getNewDatasetSourceTypeSelect().click();
-    DatasetManager.getNewDatasetSourceTypeOptions().should('have.length', CUSTOM_SUBDATASOURCES.length);
-    DatasetManager.getNewDatasetSourceTypeOptions().should('have.length', 5);
+    DatasetManager.getNewDatasetSourceTypeOptions().should('have.length', subdatasourceCount);
   });
 });
 
@@ -52,7 +55,6 @@ describe('Subdatasources in subdataset creation wizard when whitelist is defined
   before(() => {
     stub.start();
     stub.setOrganizations([ORGANIZATION_WITH_DEFAULT_ROLE_USER]);
-    stub.setSolutions([SOLUTION]);
     stub.setWorkspaces([WORKSPACE_WITH_SOURCE_FILTERS]);
     stub.setDatasets([...DATASETS]);
   });
@@ -75,7 +77,6 @@ describe('Subdatasources in subdataset creation wizard when whitelist is empty',
   before(() => {
     stub.start();
     stub.setOrganizations([ORGANIZATION_WITH_DEFAULT_ROLE_USER]);
-    stub.setSolutions([SOLUTION]);
     stub.setWorkspaces([WORKSPACE_WITH_EMPTY_FILTERS]);
     stub.setDatasets([...DATASETS]);
   });
@@ -98,7 +99,6 @@ describe('Subdatasets creation', () => {
   before(() => {
     stub.start();
     stub.setOrganizations([ORGANIZATION_WITH_DEFAULT_ROLE_USER]);
-    stub.setSolutions([SOLUTION]);
     stub.setWorkspaces([WORKSPACE]);
     stub.setDatasets([...DATASETS]);
   });
@@ -113,15 +113,24 @@ describe('Subdatasets creation', () => {
 
     const expectedDatasetCreationPayload = {
       name: SUBDATASET_NAME,
-      parentId: DATASET_A.id,
-      ownerName: DATASET_A.ownerName,
-      tags: DATASET_A.tags,
       description: DATASET_A.description,
-      sourceType: 'ETL',
+      tags: DATASET_A.tags,
+      additionalData: {
+        webapp: {
+          runnerId: RUNNER_ID,
+          sourceType: 'ETL',
+          ownerName: 'Dave Lauper',
+          visible: { datasetManager: true, scenarioCreation: true },
+          parentId: DATASET_A.id,
+        },
+      },
+      parts: [],
       security: { default: 'none', accessControlList: [{ id: 'dev.sample.webapp@example.com', role: 'admin' }] },
-      source: { location: WORKSPACE.id, name: RUNNER_ID },
     };
-    const validateDatasetCreationRequest = (req) => expect(req.body).to.deep.equal(expectedDatasetCreationPayload);
+    const validateDatasetCreationRequest = (req) => {
+      const { datasetCreateRequest } = apiUtils.parseDatasetMultipartFormDataRequest(req);
+      expect(datasetCreateRequest).to.deep.equal(expectedDatasetCreationPayload);
+    };
 
     const expectedRunnerCreationPayload = {
       name: SUBDATASET_NAME,
@@ -129,12 +138,14 @@ describe('Subdatasets creation', () => {
       description: DATASET_A.description,
       datasetList: [DATASET_A.id],
       parametersValues: [],
+      solutionId: DEFAULT_SOLUTION.id,
+      additionalData: { webapp: { ownerName: 'Dave Lauper' } },
       security: { default: 'none', accessControlList: [{ id: 'dev.sample.webapp@example.com', role: 'admin' }] },
       runTemplateId: 'no_filter',
     };
     const validateRunnerCreationRequest = (req) => expect(req.body).to.deep.equal(expectedRunnerCreationPayload);
 
-    const expectedRunnerPatchPayload = { runTemplateId: 'no_filter', datasetList: [SUBDATASET_ID, DATASET_A.id] };
+    const expectedRunnerPatchPayload = { datasetList: [SUBDATASET_ID, DATASET_A.id] };
     const validateRunnerPatchRequest = (req) => expect(req.body).to.deep.equal(expectedRunnerPatchPayload);
 
     const subdatasetIngestionOptions = {
@@ -228,8 +239,8 @@ describe('Subdatasets creation', () => {
     cy.get(enumParameterSelector).should('not.exist');
     cy.get(listParameterSelector).should('not.exist');
     cy.get(dateParameterSelector).should('be.visible').click();
-    cy.get(dateParameterSelector).find('input').click();
-    cy.get(dateParameterSelector).find('input').type(dateValue);
+    cy.focused().type('{selectAll}{backspace}', { delay: 1 });
+    cy.focused().type(dateValue, { delay: 1 });
 
     // Check that prior inputs remain when switching back to previous datasources
     DatasetManager.selectNewDatasetSourceType('no_filter');

@@ -1,9 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { DEFAULT_RUNNER } from '../default';
+import { DEFAULT_ETL_RUNNER } from '../default';
 
 const EDITABLE_RUNNER = {
-  ...DEFAULT_RUNNER,
+  ...DEFAULT_ETL_RUNNER,
   status: 'Running',
   security: { default: 'admin', accessControlList: [] },
 };

@@ -1,5 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
+import { USER_EXAMPLE } from './users';
 
 export const DEFAULT_ORGANIZATION_PERMISSIONS = [
   {
@@ -45,15 +46,14 @@ export const DEFAULT_ORGANIZATION_PERMISSIONS = [
 ];
 
 export const DEFAULT_ORGANIZATION = {
-  id: 'O-stbdorgztn',
+  id: 'o-stbdorgztn',
   name: 'Stubbed organization',
-  ownerId: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+  createInfo: { timestamp: 1714487051204, userId: USER_EXAMPLE.email },
+  updateInfo: { timestamp: 1714487051204, userId: USER_EXAMPLE.email },
   security: {
     default: '',
     accessControlList: [],
   },
-  services: null,
-  users: null,
 };
 
-export const DEFAULT_ORGANIZATIONS_LIST = [DEFAULT_ORGANIZATION];
+export const DEFAULT_ORGANIZATIONS = [DEFAULT_ORGANIZATION];

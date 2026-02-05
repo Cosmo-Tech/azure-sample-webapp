@@ -1,11 +1,11 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { ROLES } from '../../../commons/constants/generic/TestConstants';
-import { DEFAULT_SCENARIOS_LIST, SCENARIO_EXAMPLE } from '../default/scenarios';
+import { DEFAULT_RUNNERS, DEFAULT_SIMULATION_RUNNER } from '../default/runners';
 import { USER_EXAMPLE, USERS_LIST } from '../default/users';
 
 const PRIVATE_SCENARIO = {
-  ...SCENARIO_EXAMPLE,
+  ...DEFAULT_SIMULATION_RUNNER,
   security: {
     default: 'none',
     accessControlList: [{ id: USER_EXAMPLE.email, role: ROLES.RUNNER.ADMIN }],
@@ -24,9 +24,9 @@ const DEFAULT_SECURITY = {
 };
 
 export const SHARED_SCENARIOS_LIST = [
-  { ...DEFAULT_SCENARIOS_LIST[0], security: JSON.parse(JSON.stringify(DEFAULT_SECURITY)) },
-  { ...DEFAULT_SCENARIOS_LIST[1], security: JSON.parse(JSON.stringify(DEFAULT_SECURITY)) },
-  { ...DEFAULT_SCENARIOS_LIST[2], security: JSON.parse(JSON.stringify(DEFAULT_SECURITY)) },
+  { ...DEFAULT_RUNNERS[0], security: JSON.parse(JSON.stringify(DEFAULT_SECURITY)) },
+  { ...DEFAULT_RUNNERS[1], security: JSON.parse(JSON.stringify(DEFAULT_SECURITY)) },
+  { ...DEFAULT_RUNNERS[2], security: JSON.parse(JSON.stringify(DEFAULT_SECURITY)) },
 ];
 
 // Set a different role for USER_EXAMPLE in SHARED_SCENARIOS_LIST scenarios
@@ -36,14 +36,14 @@ SHARED_SCENARIOS_LIST[2].security.accessControlList.push({ id: USER_EXAMPLE.emai
 
 export const NO_ROOT_SCENARIOS_LIST = [
   {
-    ...SCENARIO_EXAMPLE,
+    ...DEFAULT_SIMULATION_RUNNER,
     id: 's-stubbedscnr01',
     name: 'Test Cypress - Stubbed child scenario 1',
     parentId: 's-unknownscenario',
     rootId: 's-unknownscenario',
   },
   {
-    ...SCENARIO_EXAMPLE,
+    ...DEFAULT_SIMULATION_RUNNER,
     id: 's-stubbedscnr02',
     name: 'Test Cypress - Stubbed child scenario 2',
     parentId: 's-unknownscenario',

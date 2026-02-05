@@ -3,7 +3,7 @@
 import utils from '../../commons/TestUtils';
 import { Scenarios, ScenarioManager, Login, ScenarioSelector } from '../../commons/actions';
 import { stub } from '../../commons/services/stubbing';
-import { DEFAULT_DATASETS_LIST, DEFAULT_SOLUTION } from '../../fixtures/stubbing/default';
+import { DEFAULT_DATASETS, DEFAULT_SOLUTION } from '../../fixtures/stubbing/default';
 
 describe('If there are no scenarios created yet', () => {
   before(() => {
@@ -11,7 +11,7 @@ describe('If there are no scenarios created yet', () => {
   });
 
   beforeEach(() => {
-    stub.setScenarios([]);
+    stub.setRunners([]);
     Login.login();
   });
 
@@ -32,16 +32,13 @@ describe('If there are no scenarios created yet', () => {
     Scenarios.switchToScenarioView();
     const scenarioName = 'Test Cypress no scenario  - ' + utils.randomStr(7);
 
-    Scenarios.createScenario(
-      scenarioName,
-      true,
-      DEFAULT_DATASETS_LIST[0].name,
-      DEFAULT_SOLUTION.runTemplates[0].name
-    ).then((value) => {
-      const scenarioId = value.scenarioCreatedId;
-      ScenarioManager.switchToScenarioManager();
-      ScenarioManager.getScenarioAccordion(scenarioId).click();
-    });
+    Scenarios.createScenario(scenarioName, true, DEFAULT_DATASETS[0].name, DEFAULT_SOLUTION.runTemplates[0].name).then(
+      (value) => {
+        const scenarioId = value.scenarioCreatedId;
+        ScenarioManager.switchToScenarioManager();
+        ScenarioManager.getScenarioAccordion(scenarioId).click();
+      }
+    );
 
     ScenarioManager.deleteScenario(scenarioName);
     ScenarioManager.getScenarioAccordions().should('have.length', 0);

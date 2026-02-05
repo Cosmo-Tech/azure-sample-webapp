@@ -5,13 +5,14 @@ import { Login, ScenarioManager, Scenarios } from '../../commons/actions';
 import { stub } from '../../commons/services/stubbing';
 import { setup } from '../../commons/utils';
 import { SCENARIO_WITH_DESCRIPTION_AND_TAGS } from '../../fixtures/stubbing/DescriptionAndTags/scenarios';
-import { DEFAULT_DATASETS_LIST, DEFAULT_SOLUTION } from '../../fixtures/stubbing/default';
+import { DEFAULT_DATASETS, DEFAULT_SOLUTION } from '../../fixtures/stubbing/default';
 
 describe('Scenario tags and description', { keystrokeDelay: 1 }, () => {
   before(() => {
     setup.initCypressAndStubbing();
     stub.start();
-    stub.setScenarios([SCENARIO_WITH_DESCRIPTION_AND_TAGS]);
+    stub.setDatasets(DEFAULT_DATASETS);
+    stub.setRunners([SCENARIO_WITH_DESCRIPTION_AND_TAGS]);
   });
   beforeEach(() => {
     Login.login();
@@ -23,6 +24,7 @@ describe('Scenario tags and description', { keystrokeDelay: 1 }, () => {
   const scenarioId = SCENARIO_WITH_DESCRIPTION_AND_TAGS.id;
   const description = SCENARIO_WITH_DESCRIPTION_AND_TAGS.description;
   const tags = SCENARIO_WITH_DESCRIPTION_AND_TAGS.tags;
+
   it('can display and edit existing tags and description', () => {
     const newScenarioDescription = 'Edited scenario description';
     const validateDescriptionRequest = (req) =>
@@ -59,6 +61,7 @@ describe('Scenario tags and description', { keystrokeDelay: 1 }, () => {
     // delete description
     ScenarioManager.saveScenarioDescription(scenarioId, '', validateDeleteDescriptionRequest);
   });
+
   it('can create a scenario with tags and description', () => {
     const randomString = utils.randomStr(7);
     const scenarioName = 'Cypress tags and description - ' + randomString;
@@ -67,7 +70,7 @@ describe('Scenario tags and description', { keystrokeDelay: 1 }, () => {
     Scenarios.createScenario(
       scenarioName,
       true,
-      DEFAULT_DATASETS_LIST[0].name,
+      DEFAULT_DATASETS[0].name,
       DEFAULT_SOLUTION.runTemplates[0].name,
       scenarioDescription,
       scenarioTags

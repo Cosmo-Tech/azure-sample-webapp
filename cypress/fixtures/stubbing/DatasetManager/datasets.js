@@ -1,13 +1,16 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { DEFAULT_DATASET } from '../default';
-import { WORKSPACE } from './workspaces';
+import {
+  DEFAULT_RUNNER_BASE_DATASET,
+  DEFAULT_RUNNER_PARAMETER_DATASET,
+  DEFAULT_WORKSPACE_DATASET,
+  DEFAULT_DATASET,
+} from '../default';
 
 const EDITABLE_DATASET = {
   ...DEFAULT_DATASET,
   ingestionStatus: 'SUCCESS',
   twincacheStatus: 'FULL',
-  linkedWorkspaceIdList: [WORKSPACE.id],
   security: { default: 'admin', accessControlList: [] },
 };
 
@@ -18,6 +21,16 @@ const FILE_DATASET_MAIN_A = {
   name: 'Dataset A',
   description: 'main dataset A from local file',
   tags: ['dataset', 'A'],
+  parts: [
+    {
+      id: 'dp-customers',
+      name: 'customers',
+      type: 'DB',
+      organizationId: 'O-stbdorgztn',
+      workspaceId: 'W-stbbdbrwryWithDM',
+      datasetId: 'D-stbdataset1',
+    },
+  ],
 };
 const FILE_DATASET_MAIN_B = {
   ...EDITABLE_DATASET,
@@ -37,12 +50,21 @@ const FILE_DATASET_NON_MAIN = {
 
 const ETL_DATASET = {
   ...EDITABLE_DATASET,
-  additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
+  additionalData: {
+    webapp: {
+      visible: {
+        datasetManager: true,
+        scenarioCreation: true,
+      },
+      sourceType: 'ETL',
+      runnerId: 'r-stbdrnr1',
+    },
+  },
   id: 'D-stbdataset13',
   parentId: 'D-stbdataset2',
   name: 'Dataset ETL',
   description: 'ETL dataset',
-  sourceType: 'ETL',
+
   source: {
     location: 'W-stbbdbrwry',
     name: 'r-stbdrnr1',
@@ -54,7 +76,16 @@ const ETL_DATASET = {
 
 const SUBDATASET = {
   ...EDITABLE_DATASET,
-  additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
+  additionalData: {
+    webapp: {
+      sourceType: 'Subdataset run template with static filter',
+      runnerId: 'r-stbdrnr1',
+      visible: {
+        datasetManager: true,
+        scenarioCreation: true,
+      },
+    },
+  },
   id: 'D-stbdataset14',
   name: 'Subdataset',
   description: 'ETL dataset',
@@ -147,7 +178,16 @@ const DATASET_TWINGRAPH_B = {
   twincacheStatus: 'FULL',
 };
 
-export const DATASETS = [FILE_DATASET_MAIN_A, FILE_DATASET_MAIN_B, FILE_DATASET_NON_MAIN, ETL_DATASET, SUBDATASET];
+export const DATASETS = [
+  FILE_DATASET_MAIN_A,
+  FILE_DATASET_MAIN_B,
+  FILE_DATASET_NON_MAIN,
+  ETL_DATASET,
+  SUBDATASET,
+  DEFAULT_RUNNER_BASE_DATASET,
+  DEFAULT_RUNNER_PARAMETER_DATASET,
+  DEFAULT_WORKSPACE_DATASET,
+];
 
 export const DATASETS_TO_FILTER = [
   DATASET_AMSTERDAM,
@@ -160,8 +200,3 @@ export const DATASETS_TO_FILTER = [
 export const DATASETS_TO_REFRESH = [DATASET_AZURE_STORAGE, DATASET_FROM_SCRATCH];
 
 export const DATASETS_TWINGRAPH = [DATASET_TWINGRAPH_A, DATASET_TWINGRAPH_B];
-
-DATASETS.forEach((dataset) => WORKSPACE.linkedDatasetIdList.push(dataset.id));
-DATASETS_TO_FILTER.forEach((dataset) => WORKSPACE.linkedDatasetIdList.push(dataset.id));
-DATASETS_TO_REFRESH.forEach((dataset) => WORKSPACE.linkedDatasetIdList.push(dataset.id));
-DATASETS_TWINGRAPH.forEach((dataset) => WORKSPACE.linkedDatasetIdList.push(dataset.id));

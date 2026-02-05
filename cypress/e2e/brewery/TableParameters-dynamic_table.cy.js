@@ -7,7 +7,7 @@ import { stub } from '../../commons/services/stubbing';
 import { apiUtils } from '../../commons/utils';
 import { DATASETS_TWINGRAPH } from '../../fixtures/stubbing/DatasetManager';
 import { SOLUTION_WITH_DYNAMIC_TABLE } from '../../fixtures/stubbing/TableParameters-dynamic_table/solution';
-import { DEFAULT_SCENARIOS_LIST } from '../../fixtures/stubbing/default';
+import { DEFAULT_RUNNERS } from '../../fixtures/stubbing/default';
 
 const clone = rfdc();
 
@@ -49,7 +49,6 @@ const twingraphQueryResponse = [
 
 const runOptions = {
   runDuration: 1000,
-  dataIngestionDuration: 1000,
   finalStatus: 'Successful',
   expectedPollsCount: 2,
 };
@@ -64,13 +63,13 @@ const selectScenarioAndWaitForScenarioViewUrlUpdate = (scenario) => {
 };
 
 describe('can use dataset data in editable table', () => {
-  const SCENARIOS = clone(DEFAULT_SCENARIOS_LIST);
+  const SCENARIOS = clone(DEFAULT_RUNNERS);
   SCENARIOS.forEach((scenario) => (scenario.datasetList = ['D-stbdataset11']));
 
   before(() => {
     stub.start();
     stub.setDatasets(DATASETS_TWINGRAPH);
-    stub.setScenarios(SCENARIOS);
+    stub.setRunners(SCENARIOS);
     stub.setSolutions([SOLUTION_WITH_DYNAMIC_TABLE]);
   });
   beforeEach(() => {
@@ -201,13 +200,13 @@ describe('can use dataset data in editable table', () => {
 });
 
 describe('save table on second launch', () => {
-  const SCENARIOS = clone(DEFAULT_SCENARIOS_LIST);
+  const SCENARIOS = clone(DEFAULT_RUNNERS);
   SCENARIOS.forEach((scenario) => (scenario.datasetList = ['D-stbdataset11']));
 
   before(() => {
     stub.start();
     stub.setDatasets(DATASETS_TWINGRAPH);
-    stub.setScenarios(SCENARIOS);
+    stub.setRunners(SCENARIOS);
     stub.setSolutions([SOLUTION_WITH_DYNAMIC_TABLE]);
   });
   beforeEach(() => {

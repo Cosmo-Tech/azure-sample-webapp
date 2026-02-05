@@ -29,6 +29,10 @@ const getUserFromToken = (token) => {
 };
 
 function _findAccessTokenFromMSALResponse(authResponse) {
+  if (authResponse == null) {
+    throw new Error('Authentication failed. Please check your connection and the service account configuration');
+  }
+
   // Look for a "secret" key in the two objects returned by MSAL (its value will be the access token)
   for (const value of Object.values(authResponse)) {
     if ('secret' in value) {

@@ -9,7 +9,7 @@ import { USER_EXAMPLE } from '../../fixtures/stubbing/default';
 describe('check scenario sorted list after reload', () => {
   before(() => {
     stub.start();
-    stub.setScenarios(ALL_ROOT_SCENARIOS);
+    stub.setRunners(ALL_ROOT_SCENARIOS);
   });
 
   beforeEach(() => {
@@ -32,7 +32,7 @@ describe('check the list of sorted scenarios after deleting the current scenario
     stub.start();
     stub.setFakeUser(USER_EXAMPLE);
     stub.setFakeRoles(['Organization.Collaborator']);
-    stub.setScenarios(PARENT_AND_CHILD_SCENARIOS);
+    stub.setRunners(PARENT_AND_CHILD_SCENARIOS);
   });
 
   beforeEach(() => {

@@ -3,7 +3,7 @@
 import { Downloads, ScenarioParameters, ScenarioSelector } from '../../commons/actions';
 import { BreweryParameters, Login } from '../../commons/actions/brewery';
 import { stub } from '../../commons/services/stubbing';
-import { DEFAULT_SCENARIOS_LIST } from '../../fixtures/stubbing/default';
+import { DEFAULT_RUNNERS } from '../../fixtures/stubbing/default';
 
 const CSV_VALID_FILE_PATH_EMPTY = 'customers_empty.csv';
 const CSV_VALID_FILE_PATH_WITH_SPACES = 'customers_with_spaces.csv';
@@ -29,7 +29,7 @@ describe('Table parameters files standard operations part 1', () => {
   });
 
   it('can open the customers scenario parameters tab, and export an empty grid', () => {
-    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_RUNNERS[0].name);
     ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.getCustomersTable().should('be.visible');
@@ -45,7 +45,7 @@ describe('Table parameters files standard operations part 1', () => {
   });
 
   it('can import empty CSV & XLSX files and export the table afterwards', () => {
-    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_RUNNERS[0].name);
     const checkAndExport = () => {
       BreweryParameters.getCustomersErrorsPanel().should('not.exist');
       BreweryParameters.getCustomersTableHeader().should('not.exist');
@@ -66,7 +66,7 @@ describe('Table parameters files standard operations part 1', () => {
   });
 
   it('can import a CSV file with spaces and boolean values to re-format', () => {
-    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_RUNNERS[0].name);
     ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.importCustomersTableData(CSV_VALID_FILE_PATH_WITH_SPACES);

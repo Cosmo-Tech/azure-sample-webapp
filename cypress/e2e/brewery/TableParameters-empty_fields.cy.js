@@ -4,7 +4,7 @@ import { Downloads, ScenarioSelector, ScenarioParameters } from '../../commons/a
 import { BreweryParameters, Login } from '../../commons/actions/brewery';
 import { stub } from '../../commons/services/stubbing';
 import { EXPECTED_CUSTOMERS_AFTER_IMPORT_WITH_EMPTY_FIELDS } from '../../fixtures/TableParametersData';
-import { DEFAULT_SCENARIOS_LIST } from '../../fixtures/stubbing/default';
+import { DEFAULT_RUNNERS } from '../../fixtures/stubbing/default';
 
 const CSV_VALID_WITH_EMPTY_FIELDS = 'customers_empty_authorized_fields.csv';
 const XLSX_INVALID_EMPTY_FIELDS = 'customers_empty_unauthorized_fields.xlsx';
@@ -28,7 +28,7 @@ describe('Table parameters upload of valid and invalid files with empty fields',
   });
 
   it('can import a table with authorized empty fields, clear and edit authorized field and export the table', () => {
-    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_RUNNERS[0].name);
     ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.importCustomersTableData(CSV_VALID_WITH_EMPTY_FIELDS);
@@ -76,7 +76,7 @@ describe('Table parameters upload of valid and invalid files with empty fields',
       ];
       BreweryParameters.checkCustomersErrorsPanelFromList(expectedErrors);
     };
-    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_RUNNERS[0].name);
     ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.importCustomersTableData(XLSX_INVALID_EMPTY_FIELDS);

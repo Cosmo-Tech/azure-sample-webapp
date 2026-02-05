@@ -15,7 +15,6 @@ export const WORKSPACE = {
   ...DEFAULT_WORKSPACE,
   id: 'W-stbbdbrwryWithDM',
   name: 'Stubbed Demo Brewery Workspace with Dataset Manager config',
-  linkedDatasetIdList: [],
 };
 
 WORKSPACE.additionalData.webapp.datasetManager = {
@@ -55,7 +54,6 @@ WORKSPACE.additionalData.webapp.datasetManager = {
           },
         ],
         queryId: 'query_transports_attributes',
-        resultKey: 'fields',
       },
     },
     {
@@ -71,23 +69,27 @@ WORKSPACE.additionalData.webapp.datasetManager = {
   queries: [
     {
       id: 'query_entities',
-      query: 'MATCH entities',
+      datasetPartName: 'entities',
+      options: { counts: 'Name' },
     },
     {
       id: 'query_relationships',
-      query: 'MATCH relationships',
+      datasetPartName: 'relationships',
+      options: { counts: 'Name' },
     },
     {
       id: 'query_transport_KPI',
-      query: 'MATCH KPI',
+      datasetPartName: 'KPI',
+      options: { selects: 'transport_kpi1,transport_kpi2' },
     },
     {
       id: 'query_transports_attributes',
-      query: 'MATCH transports_attributes',
+      datasetPartName: 'transports_attributes',
     },
     {
       id: 'query_productionOperation_KPI',
-      query: 'MATCH productionOperation_KPI',
+      datasetPartName: 'productionOperation_KPI',
+      options: { selects: 'productionOperation_kpi1,productionOperation_kpi2' },
     },
   ],
 };

@@ -6,11 +6,9 @@ import {
   DATASETS,
   WORKSPACE,
   DATASETS_TO_FILTER,
-  DATASETS_TO_REFRESH,
   ORGANIZATION_WITH_DEFAULT_ROLE_USER,
 } from '../../fixtures/stubbing/DatasetManager';
 import { RUNNERS_FOR_ETL_DATASETS } from '../../fixtures/stubbing/DatasetManager/runners';
-import { SOLUTION_WITH_TRANSLATED_RUN_TEMPLATES } from '../../fixtures/stubbing/DatasetManager/solutions';
 import { USER_EXAMPLE } from '../../fixtures/stubbing/default';
 
 const WORKSPACES = [WORKSPACE];
@@ -19,6 +17,7 @@ describe('Dataset manager can be empty on start', () => {
   before(() => {
     stub.start();
     stub.setOrganizations([ORGANIZATION_WITH_DEFAULT_ROLE_USER]);
+    stub.setDatasets([]);
     stub.setWorkspaces(WORKSPACES);
   });
   beforeEach(() => Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' }));
@@ -46,7 +45,6 @@ describe('Data edition in dataset manager', () => {
     stub.start();
     stub.setOrganizations([ORGANIZATION_WITH_DEFAULT_ROLE_USER]);
     stub.setWorkspaces(WORKSPACES);
-    stub.setSolutions([SOLUTION_WITH_TRANSLATED_RUN_TEMPLATES]);
     // we use the copy of DATASETS array to be able to reuse the same fixture
     // in all tests in the suite. The cypress doc says that  "fixture files are
     // assumed to be unchanged during the test, and thus Cypress loads them just once",
@@ -54,7 +52,7 @@ describe('Data edition in dataset manager', () => {
     // to keep the same list at the beginning of every describe block, we provide a copy
     // to stubbing function
     stub.setDatasets([...DATASETS]);
-    stub.setScenarios(RUNNERS_FOR_ETL_DATASETS);
+    stub.setRunners(RUNNERS_FOR_ETL_DATASETS);
   });
   beforeEach(() => Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' }));
   after(stub.stop);
@@ -173,7 +171,12 @@ describe('Dataset creation', () => {
   beforeEach(() => Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' }));
   after(stub.stop);
 
-  it('can create a new Azure Storage dataset', () => {
+  // TODO: replace skipped test “can create a new Azure Storage dataset” by 2 new tests:
+  //   - one test creating a dataset with a native datasource (e.g. file upload)
+  //   - one test creating a dataset with a custom ETL datasource with parameters
+
+  // eslint-disable-next-line jest/no-disabled-tests
+  it.skip('can create a new Azure Storage dataset', () => {
     const datasetName = 'My new dataset';
     const datasetDescription = 'My dataset description';
     const datasetTags = ['A', 'B', 'C'];
@@ -208,6 +211,7 @@ describe('Dataset creation', () => {
     DatasetManager.getDatasetCreationNextStep().click();
 
     DatasetManager.getNewDatasetSourceTypeSelect().click();
+
     DatasetManager.getNewDatasetSourceTypeOptionFile().click();
     DatasetManager.getNewDatasetSourceTypeSelect().click();
     DatasetManager.getNewDatasetSourceTypeOptionAzureStorage().click();
@@ -280,49 +284,5 @@ describe('Dataset delete', () => {
     DatasetManager.deleteDataset(DATASETS[4].id, DATASETS[4].name);
     DatasetManager.getNoDatasetsPlaceholder().should('be.visible');
     DatasetManager.getNoDatasetsPlaceholderUserSubtitle().should('not.exist'); // Default role not set to "user"
-  });
-});
-
-describe('Refresh dataset', () => {
-  before(() => {
-    stub.start();
-    stub.setWorkspaces(WORKSPACES);
-    stub.setDatasets(DATASETS_TO_REFRESH);
-  });
-  beforeEach(() => Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' }));
-  after(stub.stop);
-
-  it('can refresh AzureStorage datasets and display empty dataset placeholder', () => {
-    const refreshSuccessOptions = {
-      expectedPollsCount: 2,
-      finalIngestionStatus: 'SUCCESS',
-    };
-
-    const refreshFailedOptions = {
-      expectedPollsCount: 2,
-      finalIngestionStatus: 'ERROR',
-    };
-    DatasetManager.ignoreDatasetTwingraphQueries();
-    DatasetManager.switchToDatasetManagerView();
-    DatasetManager.getDatasetRefreshButton(DATASETS_TO_REFRESH[2].id).should('not.exist');
-    DatasetManager.selectDatasetById(DATASETS_TO_REFRESH[2].id);
-    DatasetManager.getDatasetOverviewPlaceholder().should('be.visible');
-    DatasetManager.getDatasetOverviewPlaceholderTitle().contains('empty');
-    DatasetManager.getDatasetOverviewPlaceholderApiLink().contains('Cosmo Tech API');
-    DatasetManager.selectDatasetById(DATASETS_TO_REFRESH[0].id);
-    DatasetManager.refreshDataset(DATASETS_TO_REFRESH[0].id, refreshSuccessOptions);
-    DatasetManager.getDatasetOverviewPlaceholder().should('be.visible');
-    DatasetManager.getDatasetOverviewPlaceholder().contains('Importing');
-    DatasetManager.getDatasetOverviewPlaceholder(30).should('not.exist');
-    DatasetManager.getRefreshDatasetSpinner(DATASETS_TO_REFRESH[0].id).should('not.exist');
-    DatasetManager.selectDatasetById(DATASETS_TO_REFRESH[1].id);
-    DatasetManager.refreshDataset(DATASETS_TO_REFRESH[1].id, refreshFailedOptions);
-    DatasetManager.selectDatasetById(DATASETS_TO_REFRESH[1].id);
-    DatasetManager.getDatasetOverviewPlaceholderTitle().contains('An error', { timeout: 30000 });
-    DatasetManager.getDatasetOverviewPlaceholderRetryButton().should('exist');
-    DatasetManager.getDatasetOverviewPlaceholderRollbackButton().should('exist');
-    DatasetManager.getRefreshDatasetErrorIcon(DATASETS_TO_REFRESH[1].id).should('be.visible');
-    DatasetManager.rollbackDatasetStatus();
-    DatasetManager.getDatasetNameInOverview().should('be.visible');
   });
 });

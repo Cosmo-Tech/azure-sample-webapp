@@ -3,7 +3,7 @@
 import { ScenarioSelector, ScenarioParameters } from '../../commons/actions';
 import { BreweryParameters, Login } from '../../commons/actions/brewery';
 import { stub } from '../../commons/services/stubbing';
-import { DEFAULT_SCENARIOS_LIST } from '../../fixtures/stubbing/default';
+import { DEFAULT_RUNNERS } from '../../fixtures/stubbing/default';
 
 const CSV_INVALID_FILE_PATH = 'customers_invalid.csv';
 const XLSX_INVALID_FILE_PATH = 'customers_invalid.xlsx';
@@ -75,7 +75,7 @@ describe('Table fields invalid files operations', () => {
   });
 
   it('can import invalid files with few, many or invalid fields and display the errors panel', () => {
-    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_SCENARIOS_LIST[0].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_RUNNERS[0].name);
     ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.getCustomersImportButton().should('be.visible');

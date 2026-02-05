@@ -19,7 +19,7 @@ describe('Dataset Manager - Parameters Edition', () => {
     stub.setSolutions([SOLUTION]);
     stub.setWorkspaces([WORKSPACE]);
     stub.setDatasets([...DATASETS]);
-    stub.setScenarios([...RUNNERS]);
+    stub.setRunners([...RUNNERS]);
   });
 
   beforeEach(() =>
@@ -47,9 +47,9 @@ describe('Dataset Manager - Parameters Edition', () => {
       getStockParameterInput().type(value);
     };
 
-    const validateRequest = (req) =>
-      expect(req.body).to.deep.equal({ query: 'MATCH(n:Customer) RETURN n.id as customer_id' });
-    const queryResponse = [{ customer_id: 'First' }, { customer_id: 'Second' }, { customer_id: 'Third' }];
+    // Response must be in CSV format as the API returns CSV data
+    // The column name must match the resultKey in the solution parameter's dynamicEnumValues config
+    const queryResponse = 'customer_id\nFirst\nSecond\nThird';
 
     DatasetManager.ignoreDatasetTwingraphQueries();
     DatasetManager.switchToDatasetManagerView();
@@ -57,7 +57,7 @@ describe('Dataset Manager - Parameters Edition', () => {
     DatasetManager.getUpdateDatasetParametersButton().should('not.exist');
     DatasetManager.selectDatasetById(datasetETLDynamicValues.id);
     DatasetManager.getUpdateDatasetParametersButton().should('be.visible');
-    const waitForTwingraphQuery = DatasetManager.expectDatasetTwingraphQuery(queryResponse, validateRequest);
+    const waitForTwingraphQuery = DatasetManager.expectDatasetTwingraphQuery(queryResponse);
     DatasetManager.openUpdateDatasetParametersDialog();
     DatasetManager.getUpdateDatasetParametersDialog().should('be.visible');
     DatasetManager.getRunnerRunTemplate().should('exist').contains('ETL with dynamic values');
@@ -67,6 +67,7 @@ describe('Dataset Manager - Parameters Edition', () => {
     cy.get(enumParameterSelector).click();
     cy.get(enumValue1Selector).click();
     cy.get(enumParameterSelector).find('input').should('have.value', 'First');
+    cy.log(datasetETLDynamicValues);
     DatasetManager.updateDatasetParameters(datasetETLDynamicValues.id, {
       importJobOptions: ingestionOptions,
     });
@@ -99,9 +100,10 @@ describe('Dataset Manager - Parameters Edition', () => {
     DatasetManager.uploadFileInParametersEditionDialog(NINE_CUSTOMERS_DATASET_ZIP_FILE_PATH);
 
     DatasetManager.updateDatasetParameters(datasetETLLocalFile.id, {
-      datasetsEvents: [{ id: 'd-stbddtspr1' }],
+      datasetPartEvents: [{ id: 'dp-newEtlFile1' }, { id: 'dp-etlFile1', delete: true }],
       importJobOptions: ingestionOptions,
     });
+
     DatasetManager.getRefreshDatasetSpinner(datasetETLLocalFile.id, 20).should('not.exist');
     DatasetManager.selectDatasetById(datasetETLDynamicValues.id);
     DatasetManager.openUpdateDatasetParametersDialog();

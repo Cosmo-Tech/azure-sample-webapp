@@ -1,6 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { DEFAULT_SOLUTION, RUN_TEMPLATE_EXAMPLE, SOLUTION_PARAMETER_EXAMPLE } from '../default';
+import { DEFAULT_SOLUTION, RUN_TEMPLATE_EXAMPLE, DEFAULT_RUN_TEMPLATE_PARAMETER } from '../default';
 
 export const SCENARIO_METADATA_PARAMETERS_IDS = [
   'ScenarioName',
@@ -14,7 +14,7 @@ export const SCENARIO_METADATA_PARAMETERS_IDS = [
 ];
 
 const SCENARIO_METADATA_PARAMETERS = SCENARIO_METADATA_PARAMETERS_IDS.map((parameterId) => ({
-  ...SOLUTION_PARAMETER_EXAMPLE,
+  ...DEFAULT_RUN_TEMPLATE_PARAMETER,
   id: parameterId,
   varType: 'string',
   additionalData: {
@@ -27,7 +27,7 @@ const CUSTOM_SOLUTION = {
   ...DEFAULT_SOLUTION,
   parameters: [
     {
-      ...SOLUTION_PARAMETER_EXAMPLE,
+      ...DEFAULT_RUN_TEMPLATE_PARAMETER,
       id: 'stock',
       labels: { fr: 'Stock', en: 'Stock' },
       varType: 'int',
