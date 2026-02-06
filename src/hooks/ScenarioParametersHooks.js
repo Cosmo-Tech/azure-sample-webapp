@@ -42,7 +42,8 @@ export const useUpdateParameters = () => {
     );
 
     const parameterValues = currentScenario?.parametersValues;
-    return forcedByConfig || !parameterValues || parameterValues.length === 0;
+    const noParameters = runTemplateParametersIds.length === 0;
+    return !noParameters && (forcedByConfig || !parameterValues || parameterValues.length === 0);
   }, [currentScenario?.parametersValues, rhfParametersValues, runTemplateParametersIds, solution]);
 
   const saveParameterValues = useCallback(async () => {
