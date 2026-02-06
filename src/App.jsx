@@ -22,7 +22,7 @@ const SESSION_TIMEOUT_PROMPT_DELAY_IN_SECONDS = 30;
 
 const App = () => {
   const { t } = useTranslation();
-  document.title = t('commoncomponents.text.application.title', 'Cosmo Tech Web Application Sample');
+  document.title = t('commoncomponents.text.application.title', 'Cosmo Tech Web Application');
 
   const { applicationStatus, authStatus, isDarkTheme, getAllInitialData, setApplicationStatus, logIn, logOut } =
     useApp();

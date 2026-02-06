@@ -2,20 +2,20 @@
   "commoncomponents": {
     "text": {
       "application": {
-        "title": "azure-sample-webapp - modèle brewery 1"
+        "title": "Cosmo Tech - Solution Brewery"
       }
     }
   },
   "genericcomponent": {
     "dialog": {
       "about": {
-        "title": "azure-sample-webapp - modèle brewery 2"
+        "title": "Cosmo Tech - Solution Brewery"
       }
     }
   },
   "views": {
     "signin": {
-      "title": "azure-sample-webapp - modèle brewery 3"
+      "title": "Cosmo Tech - Solution Brewery"
     }
   },
   "layouts": {

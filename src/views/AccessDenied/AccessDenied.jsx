@@ -68,7 +68,7 @@ const AccessDenied = ({ application }) => {
         >
           <TitleDiv>
             <div style={{ textAlign: 'center', flexBasis: '600px', marginTop: '2%' }}>
-              <Typography variant="h4">{t('views.signin.title', 'Azure Sample Web Application')}</Typography>
+              <Typography variant="h4">{t('views.signin.title', 'Cosmo Tech Web Application')}</Typography>
             </div>
           </TitleDiv>
         </Grid>

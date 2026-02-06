@@ -178,7 +178,7 @@ const SignIn = ({ logInAction, auth }) => {
           <div className={classes.quote}>
             <div style={{ textAlign: 'center', flexBasis: '600px', marginTop: '2%' }}>
               <Typography sx={{ color: (theme) => theme.palette.text.primary, fontWeight: 300 }} variant="h4">
-                {t('views.signin.title', 'Azure Sample Web Application')}
+                {t('views.signin.title', 'Cosmo Tech Web Application')}
               </Typography>
             </div>
           </div>

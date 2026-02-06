@@ -1,6 +1,6 @@
 {
-  "short_name": "azure-sample-webapp",
-  "name": "Cosmo Tech Web Application Sample",
+  "short_name": "cosmo-tech-webapp",
+  "name": "Cosmo Tech Web Application",
   "icons": [
     {
       "src": "favicon.ico",

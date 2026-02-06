@@ -32,8 +32,8 @@ def is_patch_version(new_version):
 
 def parse_arguments():
     parser = argparse.ArgumentParser(
-        description='''Create release tags for Azure Sample Webapp. These tags will not be pushed by the script, this
-        operation must be done by the user.
+        description='''Create release tags for the Cosmo Tech Web Application. These tags will not be pushed by the
+        script, this operation must be done by the user.
         '''
     )
     parser.add_argument("version", help="Version to release (e.g. 2.0.0)")
