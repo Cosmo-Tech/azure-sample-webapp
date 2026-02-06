@@ -249,9 +249,7 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
       <Grid size={{ xs: 7 }} sx={{ width: '100%' }}>
         {sourceTypeComponent}
       </Grid>
-      <Stack sx={{ px: 2, pt: 3, width: '100%' }}>
-        {sourceParameters}
-      </Stack>
+      <Stack sx={{ px: 2, pt: 3, width: '100%' }}>{sourceParameters}</Stack>
     </Grid>
   );
 };
