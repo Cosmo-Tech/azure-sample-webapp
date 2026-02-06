@@ -220,25 +220,25 @@ const checkUnknownKeysInConfig = (schema, data) => {
           }
           if (issue.path.includes('solution')) {
             console.warn(
-              `Solution section of your workspace configuration contains
-              unknown keys: '${issueKeys}', please check your configuration`
+              `Solution section of your workspace configuration contains unknown keys: '${issueKeys}', ` +
+                'please check your configuration'
             );
           }
           if (issue.path.includes('webapp')) {
             if (issue.path.includes('charts')) {
               console.warn(
-                `Charts section of your workspace configuration contains
-                unknown keys: '${issueKeys}', please check your configuration`
+                `Charts section of your workspace configuration contains unknown keys: '${issueKeys}', ` +
+                  'please check your configuration'
               );
             } else if (issue.path.includes('instanceView')) {
               console.warn(
-                `Instance view section of your workspace configuration contains
-                unknown keys: '${issueKeys}', please check your configuration`
+                'Instance view section of your workspace configuration contains unknown keys: ' +
+                  `${issueKeys}', please check your configuration`
               );
             } else {
               console.warn(
-                `additionalData.webapp section of your workspace configuration contains
-                unknown keys: '${issueKeys}', please check your configuration`
+                'additionalData.webapp section of your workspace configuration contains unknown keys: ' +
+                  `${issueKeys}', please check your configuration`
               );
             }
           }
