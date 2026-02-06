@@ -36,6 +36,7 @@ i18next
     backend: {
       loadPath: `${publicUrl}/locales/{{lng}}/{{ns}}.json`,
     },
+    showSupportNotice: false,
   });
 
 i18next.on('initialized', function () {
