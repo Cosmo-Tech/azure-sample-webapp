@@ -66,7 +66,7 @@ export const GenericEnumInput = ({
   }, [enumValues, dynamicEnumValues, parameterValue, resetParameterValue]);
 
   const enumInputValue = useMemo(() => {
-    if (parameterValue != null && parameterValue !== '') return parameterValue;
+    if (parameterValue != null) return parameterValue;
     const firstOptionKey = enumValues?.[0]?.key ?? '';
     resetParameterValue(firstOptionKey);
     return firstOptionKey;
