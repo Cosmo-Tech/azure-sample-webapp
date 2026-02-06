@@ -65,7 +65,15 @@ export const GenericEnumInput = ({
     }
   }, [enumValues, dynamicEnumValues, parameterValue, resetParameterValue]);
 
+  const enumInputValue = useMemo(() => {
+    if (parameterValue != null && parameterValue !== '') return parameterValue;
+    const firstOptionKey = enumValues?.[0]?.key ?? '';
+    resetParameterValue(firstOptionKey);
+    return firstOptionKey;
+  }, [parameterValue, enumValues, resetParameterValue]);
+
   if (dynamicValuesError) return dynamicValuesError;
+
   return (
     <Grid size={3} {...gridItemProps}>
       {loadingDynamicValuesPlaceholder}
@@ -75,7 +83,7 @@ export const GenericEnumInput = ({
           id={parameterData.id}
           label={t(TranslationUtils.getParameterTranslationKey(parameterData.id), parameterData.id)}
           tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
-          value={parameterValue ?? enumValues?.[0]?.key ?? ''}
+          value={enumInputValue}
           changeEnumField={setParameterValue}
           textFieldProps={textFieldProps}
           enumValues={enumValues}
