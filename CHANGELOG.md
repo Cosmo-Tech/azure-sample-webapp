@@ -1,3 +1,59 @@
+## **7.0.0-rc1** <sub><sup>2026-02-06 ([b8e9c4d...c149c25](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/b8e9c4d9...c149c259?diff=split))</sup></sub>
+
+### BREAKING CHANGES
+
+- in workspace configuration files, integrators must rename the key ([18354db](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/18354dbd))<br> additionalData\.webapp\.datasetManager\.graphIndicators to replace it by<br> additionalData\.webapp\.datasetManager\.kpiCards
+
+### Documentation
+
+- rename graphIndicators to kpiCards in docs ([a44862c](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/a44862ce))
+
+### Bug Fixes
+
+- \[PROD\-13049\] send value of first enum option when no defaultValue is defined ([9a8f9fa](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/9a8f9fa3))
+- fix runner datasets not cached in redux on runner creation ([b8e9c4d](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/b8e9c4d9))
+- fix possible layout issues in dataset creation dialog ([26d0284](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/26d0284a))
+- fix selection of first enum option when no defaultValue is provided ([03bb0c8](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/03bb0c81))
+- fix favicon of deployed wrbapps ([2321a66](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/2321a667))
+- prevent unnecessary runner patch when launching scenarios without parameters ([69422f9](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/69422f93))
+- prevent possible webapp error when using invalid mock data ([9451b0f](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/9451b0f7))
+
+## **7.0.0-sphinx.2** <sub><sup>2026-01-29</sup></sub>
+
+### Bug Fixes
+
+- \[PROD\-15229\] fix creation of runners with default dataset parts ([45f6a81](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/45f6a815))
+- \[PROD\-15233\] fix button state when stopping a running scenario ([870ece1](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/870ece12))
+- \[PROD\-15251\] fix broken table edition ([eeb2d4d](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/eeb2d4de))
+- \[PROD\-15255\] concatenate values when dataset query returns multiple rows ([df248ce](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/df248cec))
+- fix placeholders of superset embedded dashboards ([b0357c1](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/b0357c17))
+- fix left menu items of Dashboards view when using Superset ([18d46c2](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/18d46c2b))
+- fix height of dashboards ([25f49ab](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/25f49ab2))
+- fix configuration of superset report size ([ffa8135](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/ffa81354))
+- improve handling of superset errors ([ab8ece0](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/ab8ece09))
+- fix width of error messages in dashboard banner ([84b9ded](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/84b9ded6))
+- stop PowerBI token polling when switching between workspaces ([a0c018b](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/a0c018b1))
+- stop polling of runner status when switching between workspaces ([14ba5e1](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/14ba5e1e))
+- fix superset dashboard selection in Dashboards view ([2d6ffda](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/2d6ffda5))
+- fix possible rison errors in superset native filters ([424067b](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/424067bb))
+- fix superset UI config options ([49a11a0](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/49a11a04))
+- fix height of results accordion when BI token cannot be fetched ([578c2e9](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/578c2e98))
+- fix list values in superset dynamic filters ([7e83ade](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/7e83ade1))
+- fix race condition of API queries when calling save and launch ([bc20e9d](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/bc20e9da))
+- fix removal of uploaded file parameters not being saved ([a61236d](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/a61236d5))
+- do not show loading spinner during token refresh ([e5d28e2](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/e5d28e28))
+- implement alwaysShowReports toggle for superset ([09bf27b](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/09bf27b5))
+- fix list of visible run ids in superset dynamic filter ([056b350](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/056b3508))
+- fix names of superset dynamic filters ([b212877](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/b2128778))
+- fix placeholder visibility when dashboards are disabled in workspace ([fd089aa](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/fd089aac))
+- various fixes of charts layout, error banner and placeholder ([44c1d75](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/44c1d754))
+- removed loading line of BI reducer status ([4d60f37](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/4d60f37e))
+- \[PROD\-15412\] support file parameters for ETL runners in dataset creation ([f639b3c](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/f639b3cf))
+- \[PROD\-15412\] fix update of ETL file parameters in dataset manager ([7fa3d9b](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/7fa3d9be))
+- fix file download from dataset edition dialog ([baa4e6f](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/baa4e6f9))
+- fix corrupted archive files when downloading from dataset parts ([513936b](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/513936bf))
+- fix download of plain\-text data from dataset parts ([a2776f2](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/a2776f26))
+
 ## **7.0.0-sphinx.1** <sub><sup>2025-12-18</sup></sub>
 
 ### BREAKING CHANGES
