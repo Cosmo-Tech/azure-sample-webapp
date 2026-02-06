@@ -29,9 +29,9 @@ function getErrorMessage(fileParameterElement) {
 }
 
 function download(fileParameterElement) {
-  const aliases = [api.interceptGetDataset(), api.interceptDownloadWorkspaceFile()];
+  const alias = api.interceptDownloadDatasetPart();
   getDownloadButton(fileParameterElement).click({ force: true });
-  api.waitAliases(aliases, { timeout: 60 * 1000 });
+  api.waitAlias(alias, { timeout: 60 * 1000 });
 }
 
 function _delete(fileParameterElement) {

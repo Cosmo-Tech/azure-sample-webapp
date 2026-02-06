@@ -138,6 +138,7 @@ describe('Back and forward navigation between tabs, scenarios and workspaces', (
   });
 
   it('can browse back and forward to the dataset manager', () => {
+    stub.setDatasets([]);
     Workspaces.getWorkspacesView().should('exist');
     Workspaces.selectWorkspace(WORKSPACE.id);
 

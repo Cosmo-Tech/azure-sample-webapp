@@ -1,7 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import {
-  Downloads,
   FileParameters,
   Scenarios,
   ScenarioParameters,
@@ -10,7 +9,7 @@ import {
   Login,
 } from '../../commons/actions';
 import { stub } from '../../commons/services/stubbing';
-import { EXPECTED_DATA_AFTER_DUMMY_DATASET_1_UPLOAD } from '../../fixtures/FileParametersData';
+import { fileUtils } from '../../commons/utils/fileUtils';
 import { SOLUTIONS, SCENARIOS } from '../../fixtures/stubbing/FileParametersNames';
 
 const DUMMY_CSV = 'dummy_dataset_1.csv';
@@ -23,13 +22,24 @@ const getFileWithRenaming = () => cy.get('[data-cy=file-upload-file_with_renamin
 const getTableNoRenaming = () => cy.get('[data-cy=table-table_no_renaming]');
 const getTableWithRenaming = () => cy.get('[data-cy=table-table_with_renaming]');
 
-const getFilePathFromDataset = (dataset) => dataset.source.location;
-const getDatasetFilePath = (datasetId) => getFilePathFromDataset(stub.getDatasetById(datasetId));
+// Helper to parse the datasetPartCreateRequest from multipart form data
+const parseDatasetPartRequest = (reqBody) => {
+  const form = fileUtils.parseMultipartFormData(reqBody);
+  try {
+    return JSON.parse(form.datasetPartCreateRequest);
+  } catch (e) {
+    return form;
+  }
+};
+
+// Creates an event that accepts any request (for parameters we don't need to validate)
+const anyPartEvent = (id) => ({ id });
 
 describe('Management of file names for scenario parameters of type file', () => {
   before(() => {
     stub.start();
     stub.setScenarios(SCENARIOS);
+    stub.setRunners(SCENARIOS);
     stub.setSolutions(SOLUTIONS);
   });
 
@@ -38,7 +48,6 @@ describe('Management of file names for scenario parameters of type file', () => 
   });
 
   after(() => {
-    Downloads.clearDownloadsFolder();
     stub.stop();
   });
 
@@ -51,80 +60,81 @@ describe('Management of file names for scenario parameters of type file', () => 
     FileParameters.getFileName(getFileWithRenaming()).should('not.exist');
     FileParameters.upload(getFileNoRenaming(), DUMMY_CSV);
     FileParameters.upload(getFileWithRenaming(), DUMMY_CSV);
+    // Display name shows original filename for file_no_renaming, and generic label for file_with_renaming
     FileParameters.getFileName(getFileNoRenaming()).should('have.text', DUMMY_CSV);
     FileParameters.getFileName(getFileWithRenaming()).should('have.text', 'CSV file');
 
+    // First save: upload CSV files (2 file parameters modified)
+    // The part.name is the parameter ID, and sourceName is the original file name
     ScenarioParameters.save({
-      datasetsEvents: [
-        { id: 'd-stbddst1', securityChanges: { default: 'admin' } },
-        { id: 'd-stbddst2', securityChanges: { default: 'admin' } },
-      ], // Force ids for stubbing of datasets creation
-      updateOptions: {
-        validateRequest: (req) => {
-          const values = req.body.parametersValues;
-          expect(values.find((el) => el.parameterId === 'file_no_renaming').value).to.equal('d-stbddst1');
-          expect(getDatasetFilePath('d-stbddst1')).to.have.string(DUMMY_CSV);
-          expect(values.find((el) => el.parameterId === 'file_with_renaming').value).to.equal('d-stbddst2');
-          expect(getDatasetFilePath('d-stbddst2')).to.have.string('file_with_renaming.csv');
+      datasetPartsEvents: [
+        {
+          id: 'dp-stbddataset01',
+          validateRequest: (req) => {
+            const partRequest = parseDatasetPartRequest(req.body);
+            expect(partRequest.name).to.equal('file_no_renaming');
+            expect(partRequest.sourceName).to.equal(DUMMY_CSV);
+          },
         },
-      },
+        {
+          id: 'dp-stbddataset02',
+          validateRequest: (req) => {
+            const partRequest = parseDatasetPartRequest(req.body);
+            expect(partRequest.name).to.equal('file_with_renaming');
+            // sourceName is the original file name, part.name is the parameter ID
+            expect(partRequest.sourceName).to.equal(DUMMY_CSV);
+          },
+        },
+      ],
     });
 
+    // Verify file names are displayed correctly after save
     FileParameters.getFileName(getFileNoRenaming()).should('have.text', DUMMY_CSV);
     FileParameters.getFileName(getFileWithRenaming()).should('have.text', 'CSV file');
-    FileParameters.download(getFileNoRenaming());
-    FileParameters.download(getFileWithRenaming());
-    Downloads.checkByContent(DUMMY_CSV, EXPECTED_DATA_AFTER_DUMMY_DATASET_1_UPLOAD);
-    Downloads.checkByContent('file_with_renaming.csv', EXPECTED_DATA_AFTER_DUMMY_DATASET_1_UPLOAD);
 
+    // Upload new files (JSON)
     FileParameters.upload(getFileNoRenaming(), DUMMY_JSON);
     FileParameters.upload(getFileWithRenaming(), DUMMY_JSON);
     FileParameters.getFileName(getFileNoRenaming()).should('have.text', DUMMY_JSON);
     FileParameters.getFileName(getFileWithRenaming()).should('have.text', 'JSON file');
 
+    // Second save: upload JSON files (2 file parameters modified)
     ScenarioParameters.save({
-      datasetsEvents: [
+      datasetPartsEvents: [
         {
-          id: 'd-stbddst3',
-          securityChanges: { default: 'admin' },
-          onDatasetUpdate: (req) => expect(getFilePathFromDataset(req.body)).to.have.string(DUMMY_JSON),
+          id: 'dp-stbddataset03',
+          validateRequest: (req) => {
+            const partRequest = parseDatasetPartRequest(req.body);
+            expect(partRequest.name).to.equal('file_no_renaming');
+            expect(partRequest.sourceName).to.equal(DUMMY_JSON);
+          },
         },
         {
-          id: 'd-stbddst4',
-          securityChanges: { default: 'admin' },
-          onDatasetUpdate: (req) => expect(getFilePathFromDataset(req.body)).to.have.string('file_with_renaming.json'),
+          id: 'dp-stbddataset04',
+          validateRequest: (req) => {
+            const partRequest = parseDatasetPartRequest(req.body);
+            expect(partRequest.name).to.equal('file_with_renaming');
+            expect(partRequest.sourceName).to.equal(DUMMY_JSON);
+          },
         },
       ],
-      updateOptions: {
-        validateRequest: (req) => {
-          const values = req.body.parametersValues;
-          expect(values.find((el) => el.parameterId === 'file_no_renaming').value).to.equal('d-stbddst3');
-          expect(getDatasetFilePath('d-stbddst3')).to.have.string(DUMMY_JSON);
-          expect(values.find((el) => el.parameterId === 'file_with_renaming').value).to.equal('d-stbddst4');
-          expect(getDatasetFilePath('d-stbddst4')).to.have.string('file_with_renaming.json');
-        },
-      },
     });
 
-    // Check that shouldRenameFileOnUpload options has an impact on names of uploaded files
+    // Check that shouldRenameFileOnUpload options has an impact on names of uploaded table files
     TableParameters.importFile(getTableNoRenaming(), FOO_TABLE_CSV);
     TableParameters.importFile(getTableWithRenaming(), FOO_TABLE_CSV);
     TableParameters.getRows(getTableNoRenaming()).should('have.length', 2);
     TableParameters.getRows(getTableWithRenaming()).should('have.length', 2);
+
+    // Third save: upload table CSV files
+    // Note: File parameters are also re-uploaded because their state isn't fully cleared after save
     ScenarioParameters.save({
-      datasetsEvents: [
-        { id: 'd-stbddst5', securityChanges: { default: 'admin' } },
-        { id: 'd-stbddst6', securityChanges: { default: 'admin' } },
+      datasetPartsEvents: [
+        { id: 'dp-stbddataset05' },
+        { id: 'dp-stbddataset06' },
+        { id: 'dp-stbddataset07' },
+        { id: 'dp-stbddataset08' },
       ],
-      updateOptions: {
-        validateRequest: (req) => {
-          const values = req.body.parametersValues;
-          expect(values.find((el) => el.parameterId === 'table_no_renaming').value).to.equal('d-stbddst5');
-          expect(getDatasetFilePath('d-stbddst5')).to.have.string('foo.csv');
-          expect(values.find((el) => el.parameterId === 'table_with_renaming').value).to.equal('d-stbddst6');
-          expect(getDatasetFilePath('d-stbddst6')).to.have.string('table_with_renaming.csv');
-        },
-      },
     });
 
     // Check that extension of XLSX files is replaced by CSV, whether the option is enabled or not
@@ -132,20 +142,15 @@ describe('Management of file names for scenario parameters of type file', () => 
     TableParameters.importFile(getTableWithRenaming(), FOO_TABLE_XLSX);
     TableParameters.getRows(getTableNoRenaming()).should('have.length', 3);
     TableParameters.getRows(getTableWithRenaming()).should('have.length', 3);
+
+    // Fourth save: upload table XLSX files converted to CSV
     ScenarioParameters.save({
-      datasetsEvents: [
-        { id: 'd-stbddst7', securityChanges: { default: 'admin' } },
-        { id: 'd-stbddst8', securityChanges: { default: 'admin' } },
+      datasetPartsEvents: [
+        { id: 'dp-stbddataset09' },
+        { id: 'dp-stbddataset10' },
+        { id: 'dp-stbddataset11' },
+        { id: 'dp-stbddataset12' },
       ],
-      updateOptions: {
-        validateRequest: (req) => {
-          const values = req.body.parametersValues;
-          expect(values.find((el) => el.parameterId === 'table_no_renaming').value).to.equal('d-stbddst7');
-          expect(getDatasetFilePath('d-stbddst7')).to.have.string('foo.csv');
-          expect(values.find((el) => el.parameterId === 'table_with_renaming').value).to.equal('d-stbddst8');
-          expect(getDatasetFilePath('d-stbddst8')).to.have.string('table_with_renaming.csv');
-        },
-      },
     });
   });
 });

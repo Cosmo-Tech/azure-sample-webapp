@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 import { Login, DatasetManager, TableParameters } from '../../commons/actions';
 import { stub } from '../../commons/services/stubbing';
+import { DEFAULT_DATASET } from '../../fixtures/stubbing/default';
 import {
   DATASETS_TWINGRAPH,
   SOLUTION,
@@ -24,7 +25,7 @@ describe('Dataset manager overview works correctly', () => {
     stub.setOrganizations([ORGANIZATION_WITH_DEFAULT_ROLE_USER]);
     stub.setSolutions([SOLUTION]);
     stub.setWorkspaces([WORKSPACE]);
-    stub.setDatasets(DATASETS_TWINGRAPH);
+    stub.setDatasets([DEFAULT_DATASET, ...DATASETS_TWINGRAPH]);
   });
   beforeEach(() => Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' }));
   after(stub.stop);
@@ -35,18 +36,12 @@ describe('Dataset manager overview works correctly', () => {
     DatasetManager.selectDatasetById(DATASETS_TWINGRAPH[1].id, KPI_QUERIES);
     DatasetManager.getDatasetNameInOverview().should('have.text', DATASETS_TWINGRAPH[1].name);
     DatasetManager.getIndicatorKpiLabel(DatasetManager.getIndicatorCard('entities')).should('have.text', 'Entities');
-    DatasetManager.getKpiValue(DatasetManager.getIndicatorCard('entities')).should(
-      'have.text',
-      TWINGRAPH_QUERIES[0].results[0].entities
-    );
+    DatasetManager.getKpiValue(DatasetManager.getIndicatorCard('entities')).should('have.text', '21');
     DatasetManager.getIndicatorKpiLabel(DatasetManager.getIndicatorCard('relationships')).should(
       'have.text',
       'Relationships'
     );
-    DatasetManager.getKpiValue(DatasetManager.getIndicatorCard('relationships')).should(
-      'have.text',
-      TWINGRAPH_QUERIES[1].results[0].relationships
-    );
+    DatasetManager.getKpiValue(DatasetManager.getIndicatorCard('relationships')).should('have.text', '42');
 
     DatasetManager.getCategoryName(getTransportAccordionSummary()).should('have.text', 'transport');
     DatasetManager.getCategoryType(getTransportAccordionSummary()).should('have.text', 'Relationship');
@@ -56,18 +51,18 @@ describe('Dataset manager overview works correctly', () => {
       'Transport category description'
     );
     DatasetManager.getCategoryKpiLabel(getTransportKpi('transport_kpi1')).should('have.text', 'My KPI #1');
-    DatasetManager.getKpiValue(getTransportKpi('transport_kpi1')).should('have.text', 3);
+    DatasetManager.getKpiValue(getTransportKpi('transport_kpi1')).should('have.text', '3');
     DatasetManager.getCategoryKpiLabel(getTransportKpi('transport_kpi2')).should('have.text', 'My KPI #2');
-    DatasetManager.getKpiValue(getTransportKpi('transport_kpi2')).should('have.text', 5);
+    DatasetManager.getKpiValue(getTransportKpi('transport_kpi2')).should('have.text', '5');
 
     DatasetManager.getCategoryDetailsDialog().should('not.exist');
     DatasetManager.openCategoryDetailsDialog('transport', TWINGRAPH_QUERIES[4].results);
     DatasetManager.getCategoryDetailsDialog().should('exist').should('be.visible');
 
     DatasetManager.getCategoryKpiLabel(getTransportKpi('transport_kpi1')).should('have.text', 'My KPI #1');
-    DatasetManager.getKpiValue(getTransportKpi('transport_kpi1')).should('have.text', 3);
+    DatasetManager.getKpiValue(getTransportKpi('transport_kpi1')).should('have.text', '3');
     DatasetManager.getCategoryKpiLabel(getTransportKpi('transport_kpi2')).should('have.text', 'My KPI #2');
-    DatasetManager.getKpiValue(getTransportKpi('transport_kpi2')).should('have.text', 5);
+    DatasetManager.getKpiValue(getTransportKpi('transport_kpi2')).should('have.text', '5');
 
     DatasetManager.getDetailsDialogCategoryName().should('have.text', 'transport');
     DatasetManager.getDetailsDialogDatasetName().should('have.text', DATASETS_TWINGRAPH[1].name);

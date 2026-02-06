@@ -343,6 +343,7 @@ class Stubbing {
   setDatasetPartFiles = (newDatasetPartFiles) => (this.datasetPartFiles = newDatasetPartFiles);
   addDatasetPartFile = (partId, fileContent) => (this.datasetPartFiles[partId] = fileContent);
   getDatasetPartFile = (partId) => this.datasetPartFiles[partId];
+  removeDatasetPartFile = (partId) => delete this.datasetPartFiles[partId];
 }
 
 export const stub = new Stubbing();

@@ -3,6 +3,7 @@
 import rfdc from 'rfdc';
 import { Login, DatasetManager } from '../../commons/actions';
 import { stub } from '../../commons/services/stubbing';
+import { fileUtils } from '../../commons/utils/fileUtils';
 import {
   CUSTOM_SUBDATASOURCES,
   DATASETS,
@@ -10,6 +11,7 @@ import {
   WORKSPACE,
   ORGANIZATION_WITH_DEFAULT_ROLE_USER,
 } from '../../fixtures/stubbing/DatasetManager';
+import { DEFAULT_DATASET } from '../../fixtures/stubbing/default';
 
 const clone = rfdc();
 
@@ -30,7 +32,7 @@ describe('Subdatasources in subdataset creation wizard when no whitelist is defi
     stub.setOrganizations([ORGANIZATION_WITH_DEFAULT_ROLE_USER]);
     stub.setSolutions([SOLUTION]);
     stub.setWorkspaces([WORKSPACE]);
-    stub.setDatasets([...DATASETS]);
+    stub.setDatasets([DEFAULT_DATASET, ...DATASETS]);
   });
   beforeEach(() => Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' }));
   after(stub.stop);
@@ -54,7 +56,7 @@ describe('Subdatasources in subdataset creation wizard when whitelist is defined
     stub.setOrganizations([ORGANIZATION_WITH_DEFAULT_ROLE_USER]);
     stub.setSolutions([SOLUTION]);
     stub.setWorkspaces([WORKSPACE_WITH_SOURCE_FILTERS]);
-    stub.setDatasets([...DATASETS]);
+    stub.setDatasets([DEFAULT_DATASET, ...DATASETS]);
   });
   beforeEach(() => Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' }));
   after(stub.stop);
@@ -77,7 +79,7 @@ describe('Subdatasources in subdataset creation wizard when whitelist is empty',
     stub.setOrganizations([ORGANIZATION_WITH_DEFAULT_ROLE_USER]);
     stub.setSolutions([SOLUTION]);
     stub.setWorkspaces([WORKSPACE_WITH_EMPTY_FILTERS]);
-    stub.setDatasets([...DATASETS]);
+    stub.setDatasets([DEFAULT_DATASET, ...DATASETS]);
   });
   beforeEach(() => Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' }));
   after(stub.stop);
@@ -100,11 +102,11 @@ describe('Subdatasets creation', () => {
     stub.setOrganizations([ORGANIZATION_WITH_DEFAULT_ROLE_USER]);
     stub.setSolutions([SOLUTION]);
     stub.setWorkspaces([WORKSPACE]);
-    stub.setDatasets([...DATASETS]);
+    stub.setDatasets([DEFAULT_DATASET, ...DATASETS]);
   });
   beforeEach(() => Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' }));
   after(stub.stop);
-
+  //could not fix , line 209 shows "Dataset A" instead of "Dataset A (subdataset)"
   it('can create a subdataset as a child of the selected dataset', () => {
     const DATASET_A = DATASETS[0];
     const SUBDATASET_ID = 'd-stbdsubdst00';
@@ -113,15 +115,26 @@ describe('Subdatasets creation', () => {
 
     const expectedDatasetCreationPayload = {
       name: SUBDATASET_NAME,
-      parentId: DATASET_A.id,
-      ownerName: DATASET_A.ownerName,
-      tags: DATASET_A.tags,
       description: DATASET_A.description,
-      sourceType: 'ETL',
-      security: { default: 'none', accessControlList: [{ id: 'dev.sample.webapp@example.com', role: 'admin' }] },
+      tags: DATASET_A.tags,
+      additionalData: {
+        webapp: {
+          runnerId: RUNNER_ID,
+          sourceType: 'ETL',
+          ownerName: DATASET_A.ownerName,
+          visible: { datasetManager: true, scenarioCreation: true },
+          parentId: DATASET_A.id,
+        },
+      },
       source: { location: WORKSPACE.id, name: RUNNER_ID },
+      parts: [],
+      security: { default: 'none', accessControlList: [{ id: 'dev.sample.webapp@example.com', role: 'admin' }] },
     };
-    const validateDatasetCreationRequest = (req) => expect(req.body).to.deep.equal(expectedDatasetCreationPayload);
+    const validateDatasetCreationRequest = (req) => {
+      const form = fileUtils.parseMultipartFormData(req.body);
+      const datasetCreateRequest = JSON.parse(form.datasetCreateRequest);
+      expect(datasetCreateRequest).to.deep.equal(expectedDatasetCreationPayload);
+    };
 
     const expectedRunnerCreationPayload = {
       name: SUBDATASET_NAME,
@@ -131,6 +144,8 @@ describe('Subdatasets creation', () => {
       parametersValues: [],
       security: { default: 'none', accessControlList: [{ id: 'dev.sample.webapp@example.com', role: 'admin' }] },
       runTemplateId: 'no_filter',
+      solutionId: SOLUTION.id,
+      additionalData: { webapp: { ownerName: DATASET_A.ownerName } },
     };
     const validateRunnerCreationRequest = (req) => expect(req.body).to.deep.equal(expectedRunnerCreationPayload);
 
@@ -165,7 +180,28 @@ describe('Subdatasets creation', () => {
       importJobOptions: subdatasetIngestionOptions,
       isETL: true,
       validateRequest: validateDatasetCreationRequest,
-      runnerCreationOptions: { id: RUNNER_ID, validateRequest: validateRunnerCreationRequest },
+      customDatasetPatch: {
+        name: SUBDATASET_NAME,
+        description: DATASET_A.description,
+        tags: DATASET_A.tags,
+        sourceType: 'ETL',
+        parentId: DATASET_A.id,
+        source: { location: WORKSPACE.id, name: RUNNER_ID },
+        additionalData: {
+          webapp: {
+            runnerId: RUNNER_ID,
+            sourceType: 'ETL',
+            ownerName: DATASET_A.ownerName,
+            visible: { datasetManager: true, scenarioCreation: true },
+            parentId: DATASET_A.id,
+          },
+        },
+      },
+      runnerCreationOptions: {
+        id: RUNNER_ID,
+        validateRequest: validateRunnerCreationRequest,
+        customRunnerPatch: { datasets: { bases: [DATASET_A.id], parameter: null, parameters: [] } },
+      },
       runnerUpdateOptions: { validateRequest: validateRunnerPatchRequest },
     });
 

@@ -1,6 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
+import { stub } from '../../services/stubbing';
 import { apiUtils as api } from '../../utils';
 import { FileParameters } from './FileParameters.js';
 
@@ -9,9 +10,13 @@ const SELECTORS = GENERIC_SELECTORS.datasetmanager;
 export const getDatasetManagerTab = (timeout = 5) => cy.get(SELECTORS.tabName, { timeout: timeout * 1000 });
 export const getDatasetManagerView = (timeout = 5) => cy.get(SELECTORS.view, { timeout: timeout * 1000 });
 export const switchToDatasetManagerView = (queries = []) => {
-  const alias = api.interceptPostDatasetTwingraphQueries(queries, null, queries?.length ?? 1);
-  getDatasetManagerTab().click();
-  if (Array.isArray(queries) && queries?.length > 0) api.waitAliases(queries.map(() => alias));
+  if (Array.isArray(queries) && queries?.length > 0) {
+    const alias = api.interceptPostDatasetTwingraphQueries(queries, null, queries.length);
+    getDatasetManagerTab().click();
+    api.waitAliases(queries.map(() => alias));
+  } else {
+    getDatasetManagerTab().click();
+  }
 };
 
 export const getNoDatasetsPlaceholder = (timeout = 5) =>
@@ -223,15 +228,25 @@ export const confirmDatasetCreation = (options = {}) => {
     ...options.customDatasetPatch,
   };
   const aliases = [];
+
+  // For file-based e2e tests (stubbing disabled), don't add any intercepts - just click and let real API handle it
+  if (options.isFile && !stub.isEnabledFor('CREATE_DATASET')) {
+    getConfirmDatasetCreation().click();
+    return;
+  }
+
   if (options.isETL) aliases.push(api.interceptCreateRunner(options.runnerCreationOptions));
   aliases.push(api.interceptCreateDataset(options, options.importJobOptions));
 
-  // Link dataset is no longer called for ETL datasets in modern flow
-  if (!options.isETL) aliases.push(api.interceptLinkDataset());
+  if (!options.isETL && !options.isFile) aliases.push(api.interceptLinkDataset());
 
   if (options.isETL) aliases.push(api.interceptUpdateRunner(options.runnerUpdateOptions));
 
-  if (!options.isFile) {
+  if (options.isFile) {
+    // For file-based datasets with stubbing enabled, intercept the dataset part creation and twingraph queries
+    aliases.push(api.interceptCreateDatasetPart(options.datasetPartOptions));
+    api.interceptPostDatasetTwingraphQueries(options.twingraphQueryResponses ?? []);
+  } else {
     if (options.isETL && options.importJobOptions) {
       // For ETL datasets, skip interceptRefreshDataset and go directly to runner start
       aliases.push(api.interceptStartEtlRunner());

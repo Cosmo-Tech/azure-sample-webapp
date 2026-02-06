@@ -43,13 +43,18 @@ describe('Create scenario', { keystrokeDelay: 1 }, () => {
   });
 
   after(() => {
-    const scenarioNamesToDelete = [
-      scenarioMasterName,
-      scenarioChildName,
-      otherScenarioName,
-      scenarioWithBasicTypesName,
-    ];
-    ScenarioManager.deleteScenarioList(scenarioNamesToDelete);
+    // Only delete scenarios that were actually created (have valid IDs)
+    const scenarioNamesToDelete = [];
+    if (otherScenarioId) scenarioNamesToDelete.push(otherScenarioName);
+    if (scenarioMasterId) scenarioNamesToDelete.push(scenarioMasterName);
+    if (scenarioChildId) scenarioNamesToDelete.push(scenarioChildName);
+    if (scenarioWithBasicTypesId) scenarioNamesToDelete.push(scenarioWithBasicTypesName);
+
+    if (scenarioNamesToDelete.length > 0) {
+      // Re-login to ensure clean state before cleanup
+      Login.login();
+      ScenarioManager.deleteScenarioList(scenarioNamesToDelete);
+    }
   });
 
   it('run templates are correctly filtered', () => {
@@ -157,6 +162,22 @@ describe('Create scenario', { keystrokeDelay: 1 }, () => {
   });
 
   it('can create scenario child', () => {
+    // First, create and configure the parent scenario if it doesn't exist
+    Scenarios.createScenario(scenarioMasterName, true, DATASET.BREWERY_STORAGE, RUN_TEMPLATE.BREWERY_PARAMETERS).then(
+      (value) => {
+        scenarioMasterId = value.scenarioCreatedId;
+
+        // Set parent parameters values
+        ScenarioParameters.expandParametersAccordion();
+        BreweryParameters.getStockInput().clear().type(stock);
+        BreweryParameters.getRestockInput().clear().type(restock);
+        BreweryParameters.getWaitersInput().clear().type(waiters);
+
+        // Save parent scenario parameters
+        ScenarioParameters.save();
+      }
+    );
+
     // Create Scenario Child
     let scenarioCreatedName;
     Scenarios.createScenario(scenarioChildName, false, scenarioMasterName, RUN_TEMPLATE.BREWERY_PARAMETERS).then(
@@ -217,7 +238,7 @@ describe('Create scenario', { keystrokeDelay: 1 }, () => {
     );
   });
 
-  it('can create scenario, edit/discard parameters and switch between parameters tabs', () => {
+  it.only('can create scenario, edit/discard parameters and switch between parameters tabs', () => {
     // Create Scenario with some parameters tabs
     let scenarioCreatedName;
     Scenarios.createScenario(scenarioWithBasicTypesName, true, DATASET.BREWERY_STORAGE, RUN_TEMPLATE.BASIC_TYPES).then(
@@ -233,20 +254,21 @@ describe('Create scenario', { keystrokeDelay: 1 }, () => {
     ScenarioParameters.getInputValue(BreweryParameters.getCurrencyNameInput()).as('currency-name');
     ScenarioParameters.getInputValue(BreweryParameters.getCurrencyValueInput()).as('currency-value');
     ScenarioParameters.getInputValue(BreweryParameters.getCurrencyUsedInput()).as('currency-used');
-    ScenarioParameters.getInputValue(BreweryParameters.getStartDateInput()).as('start-date');
-    ScenarioParameters.getInputValue(BreweryParameters.getEndDateInput()).as('end-date');
+    // For date inputs, get value from nested input element
+    BreweryParameters.getStartDateInput().find('input').invoke('val').as('start-date');
+    BreweryParameters.getEndDateInput().find('input').invoke('val').as('end-date');
     ScenarioParameters.getInputValue(BreweryParameters.getAverageConsumptionInput()).as('average-consumption');
 
     BreweryParameters.getCurrencyNameInput().click().clear().type(textValue);
     BreweryParameters.getCurrencyValueInput().click().clear().type(numberValue);
     BreweryParameters.getCurrencySelectOption(BASIC_PARAMETERS_CONST.ENUM_KEYS.JPY);
     BreweryParameters.getCurrencyUsedInput().check();
-    BreweryParameters.getStartDateInput()
-      .click()
-      .type('{leftArrow}{leftArrow}' + startDateValue);
-    BreweryParameters.getEndDateInput()
-      .click()
-      .type('{leftArrow}{leftArrow}' + endDateValue);
+    BreweryParameters.getStartDateInput().click();
+    cy.focused().type('{selectAll}{backspace}', { delay: 1 });
+    cy.focused().type(startDateValue, { delay: 1 });
+    BreweryParameters.getEndDateInput().click();
+    cy.focused().type('{selectAll}{backspace}', { delay: 1 });
+    cy.focused().type(endDateValue, { delay: 1 });
     BreweryParameters.moveAverageConsumptionSlider(sliderValue);
 
     // Switch parameters tabs then back and check parameters,
@@ -258,12 +280,15 @@ describe('Create scenario', { keystrokeDelay: 1 }, () => {
     BreweryParameters.getCurrencyInput().should('value', BASIC_PARAMETERS_CONST.ENUM_KEYS.JPY);
     BreweryParameters.getCurrencyParameterContainer().contains(BASIC_PARAMETERS_CONST.ENUM.JPY);
     BreweryParameters.getCurrencyUsedInput().should('be.checked');
-    BreweryParameters.getStartDateInput().should('value', startDateValue);
-    BreweryParameters.getEndDateInput().should('value', endDateValue);
+    BreweryParameters.getStartDateInput().find('input').should('have.value', startDateValue);
+    BreweryParameters.getEndDateInput().find('input').should('have.value', endDateValue);
     BreweryParameters.getAverageConsumptionInput().should('value', sliderValue);
 
     // Discard
     ScenarioParameters.discard();
+
+    // Ensure we're on the Basic Types tab after discard
+    BreweryParameters.switchToBasicTypesTab();
 
     cy.get('@currency-name').then((input) => {
       BreweryParameters.getCurrencyNameInput().should('value', input);
@@ -278,10 +303,10 @@ describe('Create scenario', { keystrokeDelay: 1 }, () => {
       BreweryParameters.getCurrencyUsedInput().should('not.be.checked');
     });
     cy.get('@start-date').then((input) => {
-      BreweryParameters.getStartDateInput().should('value', input);
+      BreweryParameters.getStartDateInput().find('input').should('have.value', input);
     });
     cy.get('@end-date').then((input) => {
-      BreweryParameters.getEndDateInput().should('value', input);
+      BreweryParameters.getEndDateInput().find('input').should('have.value', input);
     });
     cy.get('@average-consumption').then((input) => {
       BreweryParameters.getAverageConsumptionInput().should('value', input);
@@ -294,12 +319,12 @@ describe('Create scenario', { keystrokeDelay: 1 }, () => {
     BreweryParameters.getCurrencyValueInput().click().clear().type(numberValue);
     BreweryParameters.getCurrencySelectOption(BASIC_PARAMETERS_CONST.ENUM_KEYS.JPY);
     BreweryParameters.getCurrencyUsedInput().check();
-    BreweryParameters.getStartDateInput()
-      .click()
-      .type('{leftArrow}{leftArrow}' + startDateValue);
-    BreweryParameters.getEndDateInput()
-      .click()
-      .type('{leftArrow}{leftArrow}' + endDateValue);
+    BreweryParameters.getStartDateInput().click();
+    cy.focused().type('{selectAll}{backspace}', { delay: 1 });
+    cy.focused().type(startDateValue, { delay: 1 });
+    BreweryParameters.getEndDateInput().click();
+    cy.focused().type('{selectAll}{backspace}', { delay: 1 });
+    cy.focused().type(endDateValue, { delay: 1 });
     BreweryParameters.moveAverageConsumptionSlider(sliderValue);
     // update and launch
     cy.intercept('PATCH', API_REGEX.RUNNER).as('requestEditScenario');

@@ -53,6 +53,21 @@ const startInterceptionMiddlewares = () => {
       req.url = req.url.replace(stub.getFakeWorkspaceId(), stub.getActualWorkspaceId());
     }
   });
+
+  // Intercept all DELETE requests for dataset parts when stubbing is enabled
+  cy.intercept({ method: 'DELETE', url: API_REGEX.DATASET_PART }, (req) => {
+    if (stub.isEnabledFor('GET_DATASETS')) {
+      const datasetId = req.url.match(API_REGEX.DATASET_PART)?.[1];
+      const datasetPartId = req.url.match(API_REGEX.DATASET_PART)?.[3];
+      const dataset = stub.getDatasetById(datasetId);
+      if (dataset) {
+        const parts = (dataset.parts ?? []).filter((part) => part.id !== datasetPartId);
+        stub.patchDataset(datasetId, { parts });
+      }
+      stub.removeDatasetPartFile(datasetPartId);
+      req.reply({ statusCode: 204 });
+    }
+  });
 };
 
 const interceptAuthentication = () => {
@@ -651,7 +666,23 @@ const interceptPostDatasetTwingraphQueries = (responses = [], validateRequest = 
   cy.intercept(options, (req) => {
     if (validateRequest) validateRequest(req);
     if (!stub.isEnabledFor('GET_DATASETS')) return;
-    const matchingResponse = responses.find((response) => response.id === req.body.id)?.results ?? [];
+    // Extract dataset ID and part ID from URL: /datasets/{datasetId}/parts/{partId}/query
+    const urlMatch = req.url.match(/\/datasets\/([^/]+)\/parts\/([^/]+)\/query/);
+    const datasetId = urlMatch ? urlMatch[1] : null;
+    const partId = urlMatch ? urlMatch[2] : null;
+
+    // Get the part name from the dataset
+    const dataset = stub.getDatasetById(datasetId);
+    const partName = dataset?.parts?.find((p) => p.id === partId)?.name;
+
+    // Get the workspace queries to find the query ID for this part
+    const workspaces = stub.getWorkspaces();
+    const workspace = workspaces?.find((ws) => ws.id === dataset?.workspaceId);
+    const queries = workspace?.additionalData?.webapp?.datasetManager?.queries ?? [];
+    const queryId = queries.find((q) => q.datasetPartName === partName)?.id;
+
+    // Find the matching response by query ID
+    const matchingResponse = responses.find((response) => response.id === queryId)?.results ?? [];
     if (matchingResponse != null) req.reply(matchingResponse);
   }).as(alias);
   return alias;
@@ -717,35 +748,31 @@ const interceptCreateDatasetPart = (options = {}) => {
   const alias = forgeAlias('reqCreateDatasetPart');
   cy.intercept({ method: 'POST', url: API_REGEX.DATASET_PARTS, times: 1 }, (req) => {
     if (options?.validateRequest) options?.validateRequest(req);
-    const datasetId = req.url.match(API_REGEX.DATASET_PARTS)?.[1];
-    const datasetPartId = options.id ?? `dp-stbd${utils.randomStr(4)}`;
 
     // Parse form data to get file content
     const form = fileUtils.parseMultipartFormData(req.body);
     const fileContent = form?.file;
 
-    const datasetPart = {
-      id: datasetPartId,
-      name: req.body?.name ?? form?.name ?? 'customers',
-      type: 'FILE',
-      datasetId,
-      ...options?.customDatasetPartPatch,
-    };
+    // Continue request to real server and capture response
+    req.continue((res) => {
+      const datasetPart = res.body;
+      const datasetPartId = datasetPart?.id;
 
-    if (stub.isEnabledFor('GET_DATASETS')) {
-      const dataset = stub.getDatasetById(datasetId);
-      if (dataset) {
-        const parts = dataset.parts ?? [];
-        parts.push(datasetPart);
-        stub.patchDataset(datasetId, { parts });
-      }
-      // Store the file content for later download
-      if (fileContent) {
+      // Store the file content for later download using the REAL dataset part ID from server
+      if (fileContent && datasetPartId) {
         stub.addDatasetPartFile(datasetPartId, fileContent);
       }
-    }
 
-    req.reply(datasetPart);
+      if (stub.isEnabledFor('GET_DATASETS')) {
+        const datasetId = req.url.match(API_REGEX.DATASET_PARTS)?.[1];
+        const dataset = stub.getDatasetById(datasetId);
+        if (dataset) {
+          const parts = dataset.parts ?? [];
+          parts.push(datasetPart);
+          stub.patchDataset(datasetId, { parts });
+        }
+      }
+    });
   }).as(alias);
   return alias;
 };
@@ -753,10 +780,31 @@ const interceptCreateDatasetPart = (options = {}) => {
 const interceptDownloadDatasetPart = (options = {}) => {
   const alias = forgeAlias('reqDownloadDatasetPart');
   cy.intercept({ method: 'GET', url: API_REGEX.DATASET_PART_DOWNLOAD, times: 1 }, (req) => {
-    if (!stub.isEnabledFor('GET_DATASETS')) return;
     const datasetPartId = req.url.match(API_REGEX.DATASET_PART_DOWNLOAD)?.[3];
     const fileContent = options?.fileContent ?? stub.getDatasetPartFile(datasetPartId);
-    req.reply(fileContent ?? '');
+    // Return stored file content if available
+    if (fileContent != null) {
+      req.reply(fileContent);
+    }
+    // Otherwise let request pass through to real server
+  }).as(alias);
+  return alias;
+};
+
+const interceptDeleteDatasetPart = (options = {}) => {
+  const alias = forgeAlias('reqDeleteDatasetPart');
+  cy.intercept({ method: 'DELETE', url: API_REGEX.DATASET_PART, times: 1 }, (req) => {
+    if (stub.isEnabledFor('GET_DATASETS')) {
+      const datasetId = req.url.match(API_REGEX.DATASET_PART)?.[1];
+      const datasetPartId = req.url.match(API_REGEX.DATASET_PART)?.[3];
+      const dataset = stub.getDatasetById(datasetId);
+      if (dataset) {
+        const parts = (dataset.parts ?? []).filter((part) => part.id !== datasetPartId);
+        stub.patchDataset(datasetId, { parts });
+      }
+      stub.removeDatasetPartFile(datasetPartId);
+    }
+    req.reply({ statusCode: 204 });
   }).as(alias);
   return alias;
 };
@@ -1062,6 +1110,7 @@ export const apiUtils = {
   interceptRollbackDatasetStatus,
   interceptCreateDataset,
   interceptCreateDatasetPart,
+  interceptDeleteDatasetPart,
   interceptDownloadDatasetPart,
   interceptLinkDataset,
   interceptRefreshDataset,

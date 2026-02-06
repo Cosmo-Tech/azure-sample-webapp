@@ -72,11 +72,20 @@ function writeInScenarioSelectorInput(searchStr) {
 //     not have the edit permissions on the selected scenario (i.e. when the edit button is not visible)
 function selectScenario(scenarioName, scenarioId, options) {
   writeInScenarioSelectorInput(scenarioName);
-  // Wait for dropdown options to be populated
   cy.get('ul[role="listbox"]', { timeout: 10000 }).should('be.visible');
   getScenarioSelectorOption(scenarioId).should('be.visible').should('not.be.disabled');
-  getScenarioSelectorOption(scenarioId).click();
+  // Click on the option - use realClick if available for more reliable interaction
+  getScenarioSelectorOption(scenarioId).then(($el) => {
+    // Scroll the element into view and click
+    $el[0].scrollIntoView();
+    $el[0].click();
+  });
+  // Wait for dropdown to close after selection
+  cy.get('ul[role="listbox"]', { timeout: 5000 }).should('not.exist');
+  // Wait for the input value to update
   ScenarioSelector.getScenarioSelectorInput().should('have.value', scenarioName);
+  // Wait for URL to update with the selected scenario ID
+  cy.url().should('include', scenarioId);
 }
 
 export const ScenarioSelector = {

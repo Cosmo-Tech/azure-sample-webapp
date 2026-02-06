@@ -100,7 +100,7 @@ describe('scenario parameters inputs validation', () => {
       });
     }
   );
-  it.only(
+  it(
     'checks error message for date input when given value exceeds minimum and maximum value ' +
     'or expected format is not respected',
     () => {
@@ -108,39 +108,32 @@ describe('scenario parameters inputs validation', () => {
 
       BreweryParameters.switchToAdditionalParametersTab();
 
-      ScenarioParameters.getInputValue(BreweryParameters.getStartDateInput()).as('start_date');
-      ScenarioParameters.getInputValue(BreweryParameters.getAdditionalDateInput()).as('additional_date');
+      BreweryParameters.getStartDateInput().find('input').invoke('val').as('start_date');
+      BreweryParameters.getAdditionalDateInput().invoke('val').as('additional_date');
 
       BreweryParameters.getStartDateInput().click();
       cy.focused().type('{selectAll}{backspace}', { delay: 1 });
       BreweryParameters.getStartDateHelperText().should('be.visible').contains('required');
       cy.focused().type('12/31/2000', { delay: 1 });
-      cy.focused().blur();
       BreweryParameters.getStartDateInput().find('input').should('have.value', '12/31/2000');
       BreweryParameters.getStartDateHelperText().should('not.exist');
 
       cy.get('[data-cy=date-input-additional_date]').find('[role="group"]').click();
       cy.focused().type('{selectAll}{backspace}', { delay: 1 });
       cy.focused().type('05/05/2018', { delay: 1 });
-      cy.focused().blur();
+      BreweryParameters.getAdditionalDateInput().should('have.value', '05/05/2018');
       BreweryParameters.getAdditionalDateHelperText().should('exist').contains('Minimum date');
 
-      cy.get('[data-cy=date-input-additional_date]').find('[role="group"]').click();
-      cy.type('{selectAll}{backspace}', { delay: 1 });
-      cy.type('05/05/2024', { delay: 1 });
-      cy.blur();
+      cy.get('[data-cy=date-input-additional_date]').type('{leftArrow}{leftArrow}{selectAll}{backspace}05/05/2024', { delay: 1 });
+      BreweryParameters.getAdditionalDateInput().should('have.value', '05/05/2024');
       BreweryParameters.getAdditionalDateHelperText().should('exist').contains('Maximum date');
 
-      cy.get('[data-cy=date-input-additional_date]').find('[role="group"]').click();
-      cy.type('{selectAll}{backspace}', { delay: 1 });
-      cy.type('12/31/2020', { delay: 1 });
-      cy.blur();
+      cy.get('[data-cy=date-input-additional_date]').type('{leftArrow}{leftArrow}{selectAll}{backspace}12/31/2020', { delay: 1 });
+      BreweryParameters.getAdditionalDateInput().should('have.value', '12/31/2020');
       BreweryParameters.getAdditionalDateHelperText().should('exist').contains('Minimum date');
 
-      cy.get('[data-cy=date-input-additional_date]').find('[role="group"]').click();
-      cy.type('{selectAll}{backspace}', { delay: 1 });
-      cy.type('01/01/2023', { delay: 1 });
-      cy.blur();
+      cy.get('[data-cy=date-input-additional_date]').type('{leftArrow}{leftArrow}{selectAll}{backspace}01/01/2023', { delay: 1 });
+      BreweryParameters.getAdditionalDateInput().should('have.value', '01/01/2023');
       BreweryParameters.getAdditionalDateHelperText().should('exist').contains('Maximum date');
 
       ScenarioParameters.getSaveButton().should('be.disabled');
@@ -158,7 +151,7 @@ describe('scenario parameters inputs validation', () => {
         BreweryParameters.getStartDateInput().find('input').should('have.value', input);
       });
       cy.get('@additional_date').then((input) => {
-        BreweryParameters.getAdditionalDateInput().find('input').should('have.value', input);
+        BreweryParameters.getAdditionalDateInput().should('have.value', input);
       });
       BreweryParameters.getAdditionalDateHelperText().should('not.exist');
     }
@@ -265,7 +258,7 @@ describe('validation with constraints between parameters', () => {
   after(() => {
     stub.stop();
   });
-  //evaluation input is broken same as before
+  //evaluation input is broken same as before broken
   it('checks validation constraints', () => {
     ScenarioParameters.expandParametersAccordion();
 
@@ -344,7 +337,9 @@ describe('validation constraint with wrong configuration', () => {
     BreweryParameters.getEndDateHelperText().should('exist').contains('strictly after');
     ScenarioParameters.getTabsErrorBadge(BreweryParameters.getBasicTypesTab()).contains('1');
     ScenarioParameters.getLaunchButton().should('be.disabled');
-    BreweryParameters.getEndDateInput().clear().type('08/20/2014');
+    BreweryParameters.getEndDateInput().find('[role="group"]').click();
+    cy.focused().type('{selectAll}{backspace}', { delay: 1 });
+    cy.focused().type('08/20/2014', { delay: 1 });
     ScenarioParameters.getSaveButton().should('exist').should('not.be.disabled');
     ScenarioParameters.getLaunchButton().should('not.be.disabled');
   });
