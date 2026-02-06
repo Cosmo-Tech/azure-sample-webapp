@@ -10,7 +10,6 @@ import { useApp } from './AppHook';
 import AppRoutes from './AppRoutes';
 import './assets/scss/index.scss';
 import { SessionTimeoutDialog } from './components/SessionTimeoutDialog/SessionTimeoutDialog';
-import ConfigService from './services/ConfigService';
 import { DEFAULT_THEME_MODE, SESSION_INACTIVITY_TIMEOUT } from './services/config/FunctionalConstants';
 import { STATUSES } from './services/config/StatusConstants';
 import './services/config/auth';
@@ -92,10 +91,6 @@ const App = () => {
       }
     }
     checkLogin();
-
-    // Dynamically update favicon URL for deployed webapps
-    const favicon = document.getElementById('favicon');
-    favicon.href = `${ConfigService.getParameterValue('PUBLIC_URL') ?? ''}favicon.ico`;
   }, []);
 
   const timeout = 1000 * 60 * SESSION_INACTIVITY_TIMEOUT;
