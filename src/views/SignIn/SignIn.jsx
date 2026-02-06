@@ -208,7 +208,7 @@ const SignIn = ({ logInAction, auth }) => {
                   <Grid>
                     <SignInButton
                       autoFocus
-                      logo={`${ConfigService.getParameterValue('PUBLIC_URL') ?? ''}favicon.ico`}
+                      logo={`${ConfigService.getParameterValue('PUBLIC_URL') ?? ''}/favicon.ico`}
                       id="keycloak-redirect"
                       label={t('commoncomponents.button.login.keycloak', 'Sign in with Cosmo Tech')}
                       onClick={(event) => handleSignIn(event, AuthKeycloakRedirect.name)}
