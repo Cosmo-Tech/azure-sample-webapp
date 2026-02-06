@@ -11,6 +11,7 @@ import { forgeFileParameter, forgeFileParameterFromDatasetPart } from './FilePar
 const clone = rfdc();
 
 const shouldForceScenarioParametersUpdate = (runTemplateParametersIds, parametersValues, solutionData) => {
+  // Check if the run template uses a hidden scenario parameter
   const hiddenParametersIds = [
     'ScenarioName',
     'ScenarioId',
@@ -21,6 +22,9 @@ const shouldForceScenarioParametersUpdate = (runTemplateParametersIds, parameter
     'ParentLastRunId',
     'MasterLastRunId',
   ];
+  if (runTemplateParametersIds.some((parameterId) => hiddenParametersIds.includes(parameterId))) return true;
+
+  // Check if the scenario has dynamically fetched data that must be saved
   const dynamicParametersIds = solutionData?.parameters
     ?.filter((parameter) => ConfigUtils.getParameterAttribute(parameter, 'dynamicValues'))
     .map((parameter) => parameter.id);
@@ -29,9 +33,15 @@ const shouldForceScenarioParametersUpdate = (runTemplateParametersIds, parameter
       dynamicParametersIds?.includes(parameterId) &&
       parametersValues[parameterId]?.status === UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD
   );
-  return (
-    isDynamicValueUploaded || runTemplateParametersIds.some((parameterId) => hiddenParametersIds.includes(parameterId))
+  if (isDynamicValueUploaded) return true;
+
+  // Check if the scenario has an enum parameter without any configured defaultValue
+  const parameters = (solutionData?.parameters ?? []).filter((item) => runTemplateParametersIds.includes(item.id));
+  const enumParameters = parameters.filter((parameter) => parameter.varType === 'enum');
+  const hasEnumWithoutDefaultValue = enumParameters.some(
+    (parameter) => parameter.defaultValue == null || parameter.defaultValue === ''
   );
+  return hasEnumWithoutDefaultValue;
 };
 
 const _buildScenarioParameter = (parameterId, varType, value) => {
@@ -137,7 +147,7 @@ const _getDefaultParameterValue = (parameterId, solutionParameters) => {
   let defaultValue = solutionParameter.defaultValue;
   // defaultValue might not be in parameter data for parameters overridden by local config; when sent by the back-end,
   // parameters should always have a defaultValue property, that will be set to 'null' by default
-  if (!('defaultValue' in solutionParameter) || defaultValue === null) {
+  if (defaultValue == null || defaultValue === '') {
     const parameterVarType = solutionParameter?.varType;
     defaultValue = _getDefaultParameterValueFromDefaultValues(solutionParameter, parameterVarType);
   }

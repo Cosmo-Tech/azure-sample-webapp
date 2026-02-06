@@ -4,6 +4,8 @@ import { DateUtils } from '@cosmotech/core';
 import { FILE_DATASET_PART_ID_VARTYPE } from '../../../services/config/ApiConstants';
 
 function _convertEnumFromString(parameterValue) {
+  // PROD-14190 - API may return an empty string for parameters that have never been initialized: return null instead
+  if (parameterValue === '') return null;
   return parameterValue; // Already a string
 }
 
