@@ -137,7 +137,7 @@ const basicWebAppOptions = z.strictObject({
         .nullable(),
       datasourceFilter: z.array(z.string().optional()).optional().nullable(),
       subdatasourceFilter: z.array(z.string().optional()).optional().nullable(),
-      graphIndicators: z.array(TWINGRAPH_INDICATOR).optional().nullable(),
+      kpiCards: z.array(TWINGRAPH_INDICATOR).optional().nullable(),
       categories: z
         .array(
           z

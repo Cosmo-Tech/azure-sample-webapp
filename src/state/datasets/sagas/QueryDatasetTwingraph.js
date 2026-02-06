@@ -50,14 +50,14 @@ function* runDatasetTwingraphQuery(action, query, attemptsNumber = 0) {
 function* startAllDatasetTwingraphQueries(action) {
   const { workspace } = action.payload;
   const queries = workspace?.additionalData?.webapp?.datasetManager?.queries ?? [];
-  const graphIndicators = workspace?.additionalData?.webapp?.datasetManager?.graphIndicators;
+  const kpiCards = workspace?.additionalData?.webapp?.datasetManager?.kpiCards;
   const categories = workspace?.additionalData?.webapp?.datasetManager?.categories;
 
   yield all(
     queries.map((query, index) => {
       if (
         !categories?.some((category) => (category?.kpis ?? [])?.some((kpi) => kpi?.queryId === query.id)) &&
-        !graphIndicators?.some((indicator) => indicator?.queryId === query.id)
+        !kpiCards?.some((indicator) => indicator?.queryId === query.id)
       )
         return null;
       if (index !== 0) delay(TWINGRAPH_QUERIES_DELAY);
