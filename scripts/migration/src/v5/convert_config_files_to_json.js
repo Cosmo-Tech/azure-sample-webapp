@@ -39,7 +39,7 @@ const adaptConfig = (config, fileName) => {
 };
 
 const migrateRemainingConfigFiles = async () => {
-  const filesNames = ['ApplicationInsights', 'GlobalConfiguration', 'HelpMenuConfiguration', 'Languages'];
+  const filesNames = ['GlobalConfiguration', 'HelpMenuConfiguration', 'Languages'];
 
   for (const fileName of filesNames) {
     const filePath = join(getConfigFolder(), fileName + '.js');

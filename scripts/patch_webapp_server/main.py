@@ -214,7 +214,7 @@ def apply_csp(output_folder, csp_html):
 def load_config_values(input_config_folder, env_file):
     print(f"\nLoading configuration values:" )
     config_values = {}
-    mandatory_file_names = ["ApplicationInsights.json", "GlobalConfiguration.json"]
+    mandatory_file_names = ["GlobalConfiguration.json"]
     optional_file_names = ["HelpMenuConfiguration.json"]
     for file_name in mandatory_file_names + optional_file_names:
         file_path = os.path.join(input_config_folder, 'config', file_name)
