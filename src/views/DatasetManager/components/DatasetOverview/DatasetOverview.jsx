@@ -9,23 +9,23 @@ import { CategoryAccordion, DatasetOverviewPlaceholder, EditableDatasetName, Gra
 import DatasetActions from './components/DatasetActions/DatasetActions';
 
 export const DatasetOverview = () => {
-  const { categories, graphIndicators, kpiValues, datasetStatus, dataset } = useDatasetOverview();
+  const { categories, kpiCards, kpiValues, datasetStatus, dataset } = useDatasetOverview();
 
   const showPlaceholder = useMemo(
     () =>
       !DatasetsUtils.hasDBDatasetParts(dataset) ||
       datasetStatus !== RUNNER_RUN_STATE.SUCCESSFUL ||
-      (categories.length === 0 && graphIndicators.length === 0),
-    [dataset, categories, graphIndicators, datasetStatus]
+      (categories.length === 0 && kpiCards.length === 0),
+    [dataset, categories, kpiCards, datasetStatus]
   );
 
-  const graphIndicatorsElements = useMemo(() => {
-    return graphIndicators.map((kpi) => {
+  const kpiCardElements = useMemo(() => {
+    return kpiCards.map((kpi) => {
       const result = kpiValues?.[kpi.queryId]?.[kpi.id];
       const key = `${kpi.queryId}:${kpi.id}`;
       return <GraphIndicator key={key} queryId={kpi.queryId} id={kpi.id} kpi={result} />;
     });
-  }, [graphIndicators, kpiValues]);
+  }, [kpiCards, kpiValues]);
 
   const editableDatasetName = <EditableDatasetName />;
   return (
@@ -42,7 +42,7 @@ export const DatasetOverview = () => {
           <Grid container sx={{ flexFlow: 'column wrap', gap: 4 }}>
             <Grid>
               <Grid container sx={{ flexFlow: 'row wrap', alignItems: 'stretch', justifyContent: 'center', gap: 4 }}>
-                {graphIndicatorsElements}
+                {kpiCardElements}
               </Grid>
             </Grid>
             <Grid>

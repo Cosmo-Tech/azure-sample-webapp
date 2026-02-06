@@ -26,7 +26,7 @@ export const useDatasetOverview = () => {
     // Make a shallow copy of config object to prevent error "Object is not extensible" when trying to set properties
     const config = { ...workspaceData?.additionalData?.webapp?.datasetManager };
     if (config.categories == null) config.categories = [];
-    if (config.graphIndicators == null) config.graphIndicators = [];
+    if (config.kpiCards == null) config.kpiCards = [];
     if (config.queries == null) config.queries = [];
     return config;
   }, [workspaceData?.additionalData?.webapp?.datasetManager]);
@@ -36,7 +36,7 @@ export const useDatasetOverview = () => {
 
   return {
     categories: datasetManagerConfig.categories,
-    graphIndicators: datasetManagerConfig.graphIndicators,
+    kpiCards: datasetManagerConfig.kpiCards,
     kpiValues: flatQueriesResults,
     datasetStatus,
     dataset: currentDataset,

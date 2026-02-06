@@ -116,7 +116,7 @@ webApp:
 ### Graph indicators
 
 Configuration for the graph indicators must be defined with the key
-`[workspace].webApp.options.datasetManager.graphIndicators`.
+`[workspace].webApp.options.datasetManager.kpiCards`.
 The value for this field must be an **array of objects**, where each object represents one indicator, with the
 following fields:
 
@@ -132,7 +132,7 @@ following fields:
   "webApp": {
     "options": {
       "datasetManager": {
-        "graphIndicators": [
+        "kpiCards": [
           {
             "id": "nodes",
             "name": { "en": "Nodes", "fr": "Noeuds" },
@@ -159,7 +159,7 @@ following fields:
 webApp:
   options:
     datasetManager:
-      graphIndicators:
+      kpiCards:
         - id: nodes
           name:
             en: Nodes
@@ -669,7 +669,7 @@ export const WORKSPACES = [
     webApp: {
       options: {
         datasetManager: {
-          graphIndicators: [
+          kpiCards: [
             { id: 'nodes', name: { en: 'Nodes', fr: 'Noeuds' }, queryId: 'nodes_query' },
             { id: 'relationships', name: { en: 'Relationships', fr: 'Relations' }, queryId: 'relationships_query' },
           ],

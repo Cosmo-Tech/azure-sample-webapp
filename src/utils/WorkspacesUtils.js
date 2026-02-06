@@ -28,11 +28,8 @@ const patchWorkspacesIfLocalConfigExists = (originalWorkspaces) => {
 const forgeDatasetManagerConfiguration = (config) => {
   if (config == null || !(config instanceof Object)) return;
 
-  const { categories, graphIndicators } = config;
-  if (
-    (categories != null && !(categories instanceof Array)) ||
-    (graphIndicators != null && !(graphIndicators instanceof Array))
-  )
+  const { categories, kpiCards } = config;
+  if ((categories != null && !(categories instanceof Array)) || (kpiCards != null && !(kpiCards instanceof Array)))
     return;
 
   const kpiIdsByQueryId = {};
@@ -41,7 +38,7 @@ const forgeDatasetManagerConfiguration = (config) => {
     if (kpiIdsByQueryId[kpi.queryId] === undefined) kpiIdsByQueryId[kpi.queryId] = [kpi.id];
     else kpiIdsByQueryId[kpi.queryId].push(kpi.id);
   };
-  graphIndicators?.forEach(addKpi);
+  kpiCards?.forEach(addKpi);
   categories?.forEach((category) => category.kpis instanceof Array && category.kpis?.forEach(addKpi));
 
   return { kpiIdsByQueryId };
@@ -83,7 +80,7 @@ const checkDatasetManagerConfiguration = (workspace) => {
     return;
   }
 
-  const { graphIndicators, categories, queries } = config;
+  const { kpiCards, categories, queries } = config;
 
   const isQueriesValid = queries instanceof Array;
   if (queries != null) {
@@ -124,9 +121,9 @@ const checkDatasetManagerConfiguration = (workspace) => {
     });
   };
 
-  if (graphIndicators != null) {
-    if (!(graphIndicators instanceof Array)) logWarning('property "graphIndicators" must be an Array');
-    else checkKpisList(graphIndicators, 'graphIndicators');
+  if (kpiCards != null) {
+    if (!(kpiCards instanceof Array)) logWarning('property "kpiCards" must be an Array');
+    else checkKpisList(kpiCards, 'kpiCards');
   }
 
   if (categories != null) {

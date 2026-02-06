@@ -39,8 +39,8 @@ const getDatasetCategoryKpiNameTranslationKey = (categoryId, kpi) => {
   return `dataset.categories.${categoryId}.queries.${kpi.queryId}.kpis.${kpi.id}.name`;
 };
 
-const getDatasetGraphIndicatorNameTranslationKey = (graphIndicator) => {
-  return `dataset.queries.${graphIndicator.queryId}.graphIndicators.${graphIndicator.id}.name`;
+const getDatasetGraphIndicatorNameTranslationKey = (kpiCard) => {
+  return `dataset.queries.${kpiCard.queryId}.kpiCards.${kpiCard.id}.name`;
 };
 
 const _addResourcesToi18next = (resources) => {
@@ -55,7 +55,7 @@ const addTranslationOfDatasetManagerLabels = (datasetManager) => {
     resources[lang][key] = value;
   };
 
-  for (const indicator of datasetManager?.graphIndicators ?? []) {
+  for (const indicator of datasetManager?.kpiCards ?? []) {
     if (indicator.id == null || indicator.queryId == null) continue;
     for (const lang in indicator.name) {
       const key = getDatasetGraphIndicatorNameTranslationKey(indicator);

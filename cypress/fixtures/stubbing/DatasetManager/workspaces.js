@@ -18,7 +18,7 @@ export const WORKSPACE = {
 };
 
 WORKSPACE.additionalData.webapp.datasetManager = {
-  graphIndicators: [
+  kpiCards: [
     { id: 'entities', name: { en: 'Entities', fr: 'Entités' }, queryId: 'query_entities' },
     { id: 'relationships', name: { en: 'Relationships', fr: 'Relations' }, queryId: 'query_relationships' },
   ],
