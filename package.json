@@ -120,6 +120,7 @@
     "url": "^0.11.4"
   },
   "resolutions": {
+    "glob": "^13.0.1",
     "nth-check": "^2.1.1",
     "postcss": "^8.5.6"
   },
