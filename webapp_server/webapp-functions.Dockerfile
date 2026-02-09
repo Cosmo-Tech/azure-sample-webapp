@@ -25,6 +25,8 @@ RUN yarn install
 # Upgrade dependencies
 RUN apt-get update && apt-get -y upgrade
 RUN npm upgrade -g npm
+# Remove Yarn v1
+RUN rm -rf /home/.cache/node/corepack/v1/yarn/1.*
 
 # Uncomment the lines below & change authLevel in api/<function_folder>/function.json to enable the function key
 # ENV AzureWebJobsSecretStorageType=files
