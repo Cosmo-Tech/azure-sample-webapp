@@ -11,6 +11,7 @@
 !GetEmbedInfo/utils.js
 !host.json
 !package.json
+!yarn.lock
 !utils/models/powerbi/embedConfig.js
 !utils/models/powerbi/embedReportConfig.js
 !.yarnrc.yml
