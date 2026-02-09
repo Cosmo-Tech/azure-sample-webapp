@@ -11,6 +11,9 @@ ENV NODE_OPTIONS=--use-openssl-ca
 ENV NODE_EXTRA_CA_CERTS=/tmp/cert_file
 
 RUN corepack enable
+RUN yarn set version berry
+RUN node --version
+RUN yarn --version
 
 COPY . /home/site/wwwroot
 WORKDIR /home/site/wwwroot
