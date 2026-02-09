@@ -35,11 +35,16 @@ RUN PUBLIC_URL="$PUBLIC_URL" yarn build
 
 FROM node:24-slim as server-universal
 LABEL com.cosmotech.business-webapp.buildType="universal"
+
+RUN apt-get update
+RUN apt-get install -y python3
+# Remove Yarn v1
+RUN rm /usr/local/bin/yarn*
+RUN rm -rf /opt/yarn-v1.22.22
+
 WORKDIR /webapp
 ENV NODE_ENV production
 RUN npm install -g serve@^14.2.5
-RUN apt-get update
-RUN apt-get install -y python3
 
 COPY --from=build-universal /webapp/build ./build
 COPY --from=build-universal /webapp/scripts/patch_webapp_server ./patch_webapp_server
@@ -56,6 +61,11 @@ HEALTHCHECK --interval=60s --retries=3 CMD curl --fail http://localhost:3000 || 
 
 FROM node:24-slim as server-specific
 LABEL com.cosmotech.business-webapp.buildType="specific"
+
+# Remove Yarn v1
+RUN rm /usr/local/bin/yarn*
+RUN rm -rf /opt/yarn-v1.22.22
+
 WORKDIR /webapp
 ENV NODE_ENV production
 RUN npm install -g serve@^14.2.5
