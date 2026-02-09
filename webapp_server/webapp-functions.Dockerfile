@@ -22,6 +22,10 @@ RUN if [ ! -f package.json ]; then echo 'Functions folder seems to be empty: pac
 
 RUN yarn install
 
+# Upgrade dependencies
+RUN apt-get update && apt-get -y upgrade
+RUN npm upgrade -g npm
+
 # Uncomment the lines below & change authLevel in api/<function_folder>/function.json to enable the function key
 # ENV AzureWebJobsSecretStorageType=files
 # RUN mkdir secrets
