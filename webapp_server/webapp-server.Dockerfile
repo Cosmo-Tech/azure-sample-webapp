@@ -1,9 +1,13 @@
 # ==== Install dependencies ====
 
 FROM node:24-slim AS install_build_dependencies
+
 WORKDIR /webapp
 RUN corepack enable
 RUN yarn set version berry
+RUN node --version
+RUN yarn --version
+
 RUN --mount=type=bind,source=package.json,target=package.json \
    --mount=type=bind,source=yarn.lock,target=yarn.lock \
    --mount=type=bind,source=.yarnrc.yml,target=.yarnrc.yml \
@@ -35,11 +39,17 @@ RUN PUBLIC_URL="$PUBLIC_URL" VITE_BUILD_NUMBER="$VITE_BUILD_NUMBER" yarn buildWi
 
 FROM node:24-slim AS server-universal
 LABEL com.cosmotech.business-webapp.buildType="universal"
+
+RUN apt-get update && apt-get -y upgrade
+RUN apt-get install -y python3
+# Remove Yarn v1
+RUN rm /usr/local/bin/yarn*
+RUN rm -rf /opt/yarn-v1.22.22
+
 WORKDIR /webapp
 ENV NODE_ENV=production
+RUN npm upgrade -g npm
 RUN npm install -g serve@^14.2.5
-RUN apt-get update
-RUN apt-get install -y python3
 
 COPY --from=build-universal /webapp/build ./build
 COPY --from=build-universal /webapp/scripts/patch_webapp_server ./patch_webapp_server
@@ -56,8 +66,15 @@ HEALTHCHECK --interval=60s --retries=3 CMD curl --fail http://localhost:3000 || 
 
 FROM node:24-slim AS server-specific
 LABEL com.cosmotech.business-webapp.buildType="specific"
+
+RUN apt-get update && apt-get -y upgrade
+# Remove Yarn v1
+RUN rm /usr/local/bin/yarn*
+RUN rm -rf /opt/yarn-v1.22.22
+
 WORKDIR /webapp
 ENV NODE_ENV=production
+RUN npm upgrade -g npm
 RUN npm install -g serve@^14.2.5
 
 COPY --from=build-specific /webapp/build ./build
