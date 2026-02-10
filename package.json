@@ -53,8 +53,8 @@
     "zod": "^4.3.6"
   },
   "engines": {
-    "node": "^22",
-    "yarn": "4.5.3"
+    "node": "^24",
+    "yarn": "4.12.0"
   },
   "browserslist": {
     "production": [
@@ -110,5 +110,5 @@
     "vite-plugin-csp-guard": "^3.0.0",
     "vite-plugin-node-polyfills": "^0.25.0"
   },
-  "packageManager": "yarn@4.9.4"
+  "packageManager": "yarn@4.12.0"
 }
