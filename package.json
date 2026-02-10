@@ -110,5 +110,8 @@
     "vite-plugin-csp-guard": "^3.0.0",
     "vite-plugin-node-polyfills": "^0.25.0"
   },
+  "resolutions": {
+    "glob": "^13.0.1"
+  },
   "packageManager": "yarn@4.12.0"
 }
