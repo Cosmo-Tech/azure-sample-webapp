@@ -46,7 +46,7 @@ export function* createSimulationRunner(action) {
     const runnerDatasetParameters = createdRunner.datasets.parameters;
     if (Array.isArray(runnerDatasetParameters) && runnerDatasetParameters.length > 0) {
       for (const datasetPart of runnerDatasetParameters) {
-        yield put(addOrUpdateDatasetPart({ runnerDatasetId, datasetPart }));
+        yield put(addOrUpdateDatasetPart({ datasetId: runnerDatasetId, datasetPart }));
       }
     }
 
