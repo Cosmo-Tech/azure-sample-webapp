@@ -33,6 +33,14 @@ const resolveDynamicValue = (key, context) => {
   return value;
 };
 
+const sanitizeNativeFilterId = (idFromConfig) => {
+  if (!idFromConfig) return idFromConfig;
+
+  const prefixToRemove = 'NATIVE_FILTER-';
+  if (!idFromConfig.startsWith(prefixToRemove)) return idFromConfig;
+  return idFromConfig.substring(prefixToRemove.length);
+};
+
 const forgeNativeFilters = (dashboardFilters, visibleScenarios, currentScenarioData) => {
   const nativeFilters = [];
   for (const filter of dashboardFilters ?? []) {
@@ -44,13 +52,14 @@ const forgeNativeFilters = (dashboardFilters, visibleScenarios, currentScenarioD
       continue;
     }
 
+    const filterId = sanitizeNativeFilterId(id);
     const dynamicValue = resolveDynamicValue(value, { currentScenarioData, visibleScenarios });
     const nativeExpr =
-      `(NATIVE_FILTER-${id}:` +
+      `(NATIVE_FILTER-${filterId}:` +
       `(__cache:(label:'${dynamicValue}',validateStatus:!f,value:!('${dynamicValue}')),` +
       `extraFormData:(filters:!((col:'${column}',op:'${operator}',val:!('${dynamicValue}')))),` +
       `filterState:(label:'${dynamicValue}',validateStatus:!f,value:!('${dynamicValue}')),` +
-      `id:NATIVE_FILTER-${id},ownState:()))`;
+      `id:NATIVE_FILTER-${filterId},ownState:()))`;
 
     nativeFilters.push(nativeExpr);
   }
