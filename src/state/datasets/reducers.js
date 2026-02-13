@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 import { createSlice } from '@reduxjs/toolkit';
 import { ResourceUtils } from '@cosmotech/core';
-import { STATUSES } from '../../services/config/StatusConstants';
 import { DatasetsUtils } from '../../utils';
+import { DATASET_REDUCER_STATUS } from './constants';
 
 export const datasetInitialState = {
   list: {
     data: [],
-    status: STATUSES.IDLE,
+    status: DATASET_REDUCER_STATUS.IDLE,
   },
   selectedDatasetIndex: null,
 };
@@ -17,8 +17,12 @@ const datasetSlice = createSlice({
   name: 'dataset',
   initialState: datasetInitialState,
   reducers: {
+    setDatasetReducerStatus: (state, action) => {
+      const { status } = action.payload;
+      state.list.status = status;
+    },
     loadDatasets: (state) => {
-      state.list.status = STATUSES.LOADING;
+      state.list.status = DATASET_REDUCER_STATUS.LOADING;
       state.selectedDatasetIndex = null;
     },
     setAllDatasets: (state, action) => {
@@ -111,5 +115,6 @@ export const {
   deleteDatasetPart,
   selectDataset,
   selectDefaultDataset,
+  setDatasetReducerStatus,
 } = datasetSlice.actions;
 export default datasetSlice.reducer;

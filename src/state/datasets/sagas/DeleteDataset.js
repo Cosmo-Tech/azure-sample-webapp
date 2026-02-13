@@ -6,13 +6,15 @@ import { Api } from '../../../services/config/Api';
 import { DatasetsUtils } from '../../../utils';
 import { setApplicationErrorMessage } from '../../app/reducers';
 import { RUNNER_ACTIONS_KEY } from '../../runner/constants';
-import { DATASET_ACTIONS_KEY } from '../constants';
-import { deleteDataset, selectDataset } from '../reducers';
+import { DATASET_ACTIONS_KEY, DATASET_REDUCER_STATUS } from '../constants';
+import { deleteDataset, selectDataset, setDatasetReducerStatus } from '../reducers';
 
 const getWorkspaceId = (state) => state.workspace.current?.data?.id;
 const getDatasets = (state) => state.dataset.list?.data;
 
 export function* callDeleteDataset(action) {
+  yield put(setDatasetReducerStatus({ status: DATASET_REDUCER_STATUS.DELETING }));
+
   try {
     const organizationId = action.organizationId;
     const datasetId = action.datasetId;
@@ -46,6 +48,8 @@ export function* callDeleteDataset(action) {
       })
     );
   }
+
+  yield put(setDatasetReducerStatus({ status: DATASET_REDUCER_STATUS.SUCCESS }));
 }
 
 function* deleteDatasetSaga() {

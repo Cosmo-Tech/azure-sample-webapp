@@ -6,14 +6,16 @@ import DatasetService from '../../../services/dataset/DatasetService';
 import RunnerService from '../../../services/runner/RunnerService';
 import { DatasetsUtils } from '../../../utils';
 import { setApplicationErrorMessage } from '../../app/reducers';
-import { DATASET_ACTIONS_KEY } from '../constants';
-import { updateDataset } from '../reducers';
+import { DATASET_ACTIONS_KEY, DATASET_REDUCER_STATUS } from '../constants';
+import { updateDataset, setDatasetReducerStatus } from '../reducers';
 
 const getOrganizationId = (state) => state.organization.current.data.id;
 const getWorkspaceId = (state) => state.workspace.current.data.id;
 const getDatasetListData = (state) => state.dataset.list.data;
 
 export function* updateDatasetSecurity(action) {
+  yield put(setDatasetReducerStatus({ status: DATASET_REDUCER_STATUS.SAVING }));
+
   const datasetId = action.datasetId;
   try {
     const organizationId = yield select(getOrganizationId);
@@ -76,6 +78,8 @@ export function* updateDatasetSecurity(action) {
       })
     );
   }
+
+  yield put(setDatasetReducerStatus({ status: DATASET_REDUCER_STATUS.SUCCESS }));
 }
 
 function* updateDatasetSecuritySaga() {

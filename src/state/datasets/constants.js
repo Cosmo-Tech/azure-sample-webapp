@@ -1,5 +1,13 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
+import { STATUSES } from '../../services/config/StatusConstants';
+
+export const DATASET_REDUCER_STATUS = {
+  ...STATUSES,
+  CREATING: 'CREATING',
+  DELETING: 'DELETING',
+  STOPPING: 'STOPPING',
+};
 
 export const DATASET_ACTIONS_KEY = {
   GET_ALL_DATASETS: 'GET_ALL_DATASETS',

@@ -6,8 +6,8 @@ import { DATASET_PERMISSIONS_MAPPING } from '../../../services/config/ApiConstan
 import DatasetService from '../../../services/dataset/DatasetService';
 import { DatasetsUtils } from '../../../utils/DatasetsUtils';
 import { setApplicationErrorMessage } from '../../app/reducers';
-import { DATASET_ACTIONS_KEY } from '../constants';
-import { addDataset, selectDataset } from '../reducers';
+import { DATASET_ACTIONS_KEY, DATASET_REDUCER_STATUS } from '../constants';
+import { addDataset, selectDataset, setDatasetReducerStatus } from '../reducers';
 
 const getUserName = (state) => state.auth.userName;
 const getUserEmail = (state) => state.auth.userEmail;
@@ -60,7 +60,9 @@ export function* postDatasetAndDatasetParts(dataset, files) {
   return createdDataset;
 }
 
-export function* createDataset({ dataset, files, shouldSelectDataset }) {
+export function* createDataset({ dataset, files, shouldSelectDataset, shouldUpdateReducerStatus = true }) {
+  if (shouldUpdateReducerStatus) yield put(setDatasetReducerStatus({ status: DATASET_REDUCER_STATUS.CREATING }));
+
   let createdDataset;
   try {
     createdDataset = yield postDatasetAndDatasetParts(dataset, files);
@@ -70,6 +72,8 @@ export function* createDataset({ dataset, files, shouldSelectDataset }) {
     yield put(addDataset(createdDataset));
 
     if (shouldSelectDataset) yield put(selectDataset({ selectedDatasetId: createdDataset.id }));
+
+    if (shouldUpdateReducerStatus) yield put(setDatasetReducerStatus({ status: DATASET_REDUCER_STATUS.SUCCESS }));
     return createdDataset;
   } catch (error) {
     console.error(error);
@@ -79,6 +83,8 @@ export function* createDataset({ dataset, files, shouldSelectDataset }) {
     );
     yield put(setApplicationErrorMessage({ error, errorMessage }));
   }
+
+  if (shouldUpdateReducerStatus) yield put(setDatasetReducerStatus({ status: DATASET_REDUCER_STATUS.SUCCESS }));
 }
 
 function* createDatasetSaga() {
