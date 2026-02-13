@@ -16,6 +16,23 @@ import { useDatasetCreationParameters } from './DatasetCreationParametersHook';
 
 const clone = rfdc();
 
+const getParameterDefaultValue = (parameter) => {
+  const varType = parameter.varType;
+  if (varType === FILE_DATASET_PART_ID_VARTYPE) return null;
+  if (parameter?.defaultValue != null) return parameter?.defaultValue;
+
+  if (varType === 'string') return '';
+  if (varType === 'date') return new Date();
+  if (varType === 'list') return [];
+  if (varType === 'enum') {
+    const enumValues = ConfigUtils.getParameterAttribute(parameter, 'enumValues') ?? [];
+    return enumValues?.[0]?.key ?? '';
+  }
+
+  console.error(`VarType "${varType}" is not supported for ETL runner parameters.`);
+  return null;
+};
+
 export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDataset, selectedRunner = {} }) => {
   const { t } = useTranslation();
   const { getValues, resetField } = useFormContext();
@@ -53,26 +70,12 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
         parameter.additionalData = parameter.additionalData ?? {};
         parameter.additionalData.tooltipText = parametersPatch.tooltipText;
       }
+      const defaultValue = getParameterDefaultValue(parameter);
       const escapedSourceType = SolutionsUtils.escapeRunTemplateId(dataSourceType);
       const fieldPath = `${escapedSourceType}.${parameterId}`;
-      const inputType = parameter.varType;
-      let defaultValue;
-      if (inputType === 'string') defaultValue = parameter?.defaultValue ?? '';
-      else if (inputType === 'enum') {
-        const enumValues = ConfigUtils.getParameterAttribute(parameter, 'enumValues') ?? [];
-        defaultValue = enumValues?.[0]?.key;
-      } else if (inputType === 'list') {
-        defaultValue = [];
-      } else if (inputType === FILE_DATASET_PART_ID_VARTYPE) {
-        defaultValue = null;
-      } else if (inputType === 'date') {
-        defaultValue = new Date();
-      } else {
-        console.error(`VarType "${inputType}" is not supported for ETL runner parameters.`);
-        return null;
-      }
       defaultFormState.current[fieldPath] = defaultValue;
 
+      const varType = parameter.varType;
       return (
         <Controller
           key={fieldPath}
@@ -81,7 +84,7 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
           rules={{ required: true }}
           render={({ field }) => {
             const { value, onChange } = field;
-            if (inputType === 'string') {
+            if (varType === 'string') {
               return (
                 <GenericTextInput
                   parameterData={parameter}
@@ -93,7 +96,7 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
                   isDirty={null}
                 />
               );
-            } else if (inputType === 'enum') {
+            } else if (varType === 'enum') {
               return (
                 <GenericEnumInput
                   gridItemProps={{ size: 6, sx: { pt: 2 } }}
@@ -105,7 +108,7 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
                   isDirty={null}
                 />
               );
-            } else if (inputType === 'list') {
+            } else if (varType === 'list') {
               return (
                 <GenericMultiSelect
                   gridItemProps={{ sx: { pt: 2 } }}
@@ -116,7 +119,7 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
                   isDirty={null}
                 />
               );
-            } else if (inputType === FILE_DATASET_PART_ID_VARTYPE) {
+            } else if (varType === FILE_DATASET_PART_ID_VARTYPE) {
               return (
                 <Grid sx={{ pt: 1 }} size={12}>
                   <UploadFile
@@ -133,7 +136,7 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
                   />
                 </Grid>
               );
-            } else if (inputType === 'date') {
+            } else if (varType === 'date') {
               return (
                 <GenericDateInput
                   gridItemProps={{ sx: { pt: 1 }, size: 6 }}
