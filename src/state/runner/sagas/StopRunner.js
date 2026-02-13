@@ -6,23 +6,38 @@ import { Api } from '../../../services/config/Api';
 import { RUNNER_RUN_STATE } from '../../../services/config/ApiConstants';
 import { DatasetsUtils } from '../../../utils';
 import { setApplicationErrorMessage } from '../../app/reducers';
-import { updateDataset } from '../../datasets/reducers';
+import { DATASET_REDUCER_STATUS } from '../../datasets/constants';
+import { updateDataset, setDatasetReducerStatus } from '../../datasets/reducers';
 import { RUNNER_ACTIONS_KEY } from '../constants';
+import { updateEtlRunner } from '../reducers';
+import { forgeStopPollingAction } from './PollRunnerState.js';
 
 const getDatasets = (state) => state.dataset?.list?.data;
+const getETLRunners = (state) => state.runner?.etlRunners?.list?.data;
 
 export function* stopETLRunner(action) {
+  yield put(setDatasetReducerStatus({ status: DATASET_REDUCER_STATUS.STOPPING }));
   const datasetId = action.datasetId;
   const datasets = yield select(getDatasets);
   const dataset = datasets.find((dataset) => dataset.id === datasetId);
   const runnerId = DatasetsUtils.getDatasetOption(dataset, 'runnerId');
 
+  const runners = yield select(getETLRunners);
+  const runner = runners?.find((item) => item.id === runnerId);
+  if (runner === undefined) {
+    console.warn(`Couldn't retrieve runner with id "${runnerId}"`);
+    yield put(setDatasetReducerStatus({ status: DATASET_REDUCER_STATUS.SUCCESS }));
+    return;
+  }
+
   try {
     const organizationId = action.organizationId;
     const workspaceId = action.workspaceId;
 
+    yield put(forgeStopPollingAction(runnerId));
     yield call(Api.Runners.stopRun, organizationId, workspaceId, runnerId);
-    // FIXME: force dataset runner status to failed in redux?
+    const runningLastRunInfo = { ...runner.lastRunInfo, lastRunStatus: RUNNER_RUN_STATE.FAILED };
+    yield put(updateEtlRunner({ runnerId, runner: { lastRunInfo: runningLastRunInfo } }));
     yield put(updateDataset({ datasetId, datasetData: { ingestionStatus: RUNNER_RUN_STATE.FAILED } }));
   } catch (error) {
     console.error(error);
@@ -35,6 +50,8 @@ export function* stopETLRunner(action) {
       })
     );
   }
+
+  yield put(setDatasetReducerStatus({ status: DATASET_REDUCER_STATUS.SUCCESS }));
 }
 
 function* stopETLRunnerSaga() {

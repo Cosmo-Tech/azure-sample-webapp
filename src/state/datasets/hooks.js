@@ -11,7 +11,14 @@ import {
   dispatchUpdateDataset,
   dispatchUpdateDatasetSecurity,
 } from './dispatchers';
-import { addDataset, addOrUpdateDatasetPart, deleteDatasetPart, selectDataset, updateDataset } from './reducers';
+import {
+  addDataset,
+  addOrUpdateDatasetPart,
+  deleteDatasetPart,
+  selectDataset,
+  setDatasetReducerStatus,
+  updateDataset,
+} from './reducers';
 
 export const useDatasets = () => {
   return useSelector((state) => state.dataset?.list?.data);
@@ -24,6 +31,11 @@ export const useFindDatasetById = () => {
 
 export const useDatasetsReducerStatus = () => {
   return useSelector((state) => state.dataset.list?.status);
+};
+
+export const useSetDatasetReducerStatus = (status) => {
+  const dispatch = useDispatch();
+  return useCallback((status) => dispatch(setDatasetReducerStatus({ status })), [dispatch]);
 };
 
 export const useSelectedDatasetIndex = () => {

@@ -263,7 +263,11 @@
         "tooltip": "Create a new dataset"
       },
       "backdrop": {
-        "deleting": "Deleting dataset"
+        "deleting": "Deleting dataset",
+        "creating": "Creating dataset",
+        "stopping": "Stopping dataset creation",
+        "loading": "Loading datasets",
+        "saving": "Saving dataset changes"
       }
     },
     "iframe": {

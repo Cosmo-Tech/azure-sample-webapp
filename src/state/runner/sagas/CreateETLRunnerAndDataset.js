@@ -6,7 +6,8 @@ import { Api } from '../../../services/config/Api';
 import DatasetService from '../../../services/dataset/DatasetService';
 import { ApiUtils, ConfigUtils, DatasetsUtils, RunnersUtils } from '../../../utils';
 import { setApplicationErrorMessage } from '../../app/reducers';
-import { addDataset, addOrUpdateDatasetPart } from '../../datasets/reducers';
+import { DATASET_REDUCER_STATUS } from '../../datasets/constants';
+import { addDataset, addOrUpdateDatasetPart, setDatasetReducerStatus } from '../../datasets/reducers';
 import { createDataset } from '../../datasets/sagas/CreateDataset';
 import { RUNNER_ACTIONS_KEY } from '../constants';
 import { addEtlRunner, updateEtlRunner } from '../reducers';
@@ -96,7 +97,11 @@ function* forgeAndCreateDataset(action, createdRunner, parentDatasetId) {
   };
 
   if (parentDatasetId != null) DatasetsUtils.setDatasetOptions(dataset, { parentId: parentDatasetId });
-  return yield call(createDataset, { dataset, shouldSelectDataset: true });
+  return yield call(createDataset, {
+    dataset,
+    shouldSelectDataset: true,
+    shouldUpdateReducerStatus: false,
+  });
 }
 
 export function* createETLRunnerAndDataset(action) {
@@ -154,6 +159,8 @@ export function* createETLRunnerAndDataset(action) {
       })
     );
   }
+
+  yield put(setDatasetReducerStatus({ status: DATASET_REDUCER_STATUS.SUCCESS }));
 }
 
 function* createETLRunnerAndDatasetSaga() {

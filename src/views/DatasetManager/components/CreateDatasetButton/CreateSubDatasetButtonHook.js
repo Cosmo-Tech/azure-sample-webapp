@@ -1,6 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { useCallback, useMemo } from 'react';
+import { DATASET_REDUCER_STATUS } from '../../../../state/datasets/constants';
+import { useSetDatasetReducerStatus } from '../../../../state/datasets/hooks';
 import { useOrganizationData } from '../../../../state/organizations/hooks';
 import { useCreateETLRunnerAndDataset } from '../../../../state/runner/hooks';
 import { useSubDataSourceRunTemplates, useSolutionData } from '../../../../state/solutions/hooks';
@@ -12,6 +14,7 @@ export const useSubDatasetCreationParameters = () => {
   const solutionData = useSolutionData();
   const workspace = useWorkspaceData();
   const customSubDataSourceRunTemplates = useSubDataSourceRunTemplates();
+  const setDatasetReducerStatus = useSetDatasetReducerStatus();
 
   const userPermissionsInCurrentOrganization = useOrganizationData()?.security?.currentUserPermissions ?? [];
 
@@ -40,6 +43,7 @@ export const useSubDatasetCreationParameters = () => {
 
   const createSubDatasetRunner = useCallback(
     (parentDatasetId, values) => {
+      setDatasetReducerStatus(DATASET_REDUCER_STATUS.CREATING);
       ArrayDictUtils.removeUndefinedValuesFromDict(values);
 
       const sourceType = values.sourceType;
@@ -54,7 +58,7 @@ export const useSubDatasetCreationParameters = () => {
       runner.parametersValues = SolutionsUtils.forgeRunnerParameters(solutionData, values[escapedSourceType]);
       createETLRunnerAndDataset(runner);
     },
-    [createETLRunnerAndDataset, solutionData]
+    [createETLRunnerAndDataset, setDatasetReducerStatus, solutionData]
   );
 
   return {

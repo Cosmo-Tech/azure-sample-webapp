@@ -3,7 +3,8 @@
 import { useCallback, useMemo } from 'react';
 import { NATIVE_DATASOURCE_TYPES, DATASET_SOURCES } from '../../../../services/config/ApiConstants';
 import { useUserName } from '../../../../state/auth/hooks';
-import { useCreateDataset } from '../../../../state/datasets/hooks';
+import { DATASET_REDUCER_STATUS } from '../../../../state/datasets/constants';
+import { useCreateDataset, useSetDatasetReducerStatus } from '../../../../state/datasets/hooks';
 import { useCreateETLRunnerAndDataset } from '../../../../state/runner/hooks';
 import { useDataSourceRunTemplates, useSolutionData } from '../../../../state/solutions/hooks';
 import { useWorkspaceData } from '../../../../state/workspaces/hooks';
@@ -16,6 +17,7 @@ export const useDatasetCreationParameters = () => {
   const solutionData = useSolutionData();
   const workspace = useWorkspaceData();
   const customDataSourceRunTemplates = useDataSourceRunTemplates();
+  const setDatasetReducerStatus = useSetDatasetReducerStatus();
 
   const dataSourceRunTemplates = useMemo(() => {
     const parameters = solutionData.parameters;
@@ -42,6 +44,7 @@ export const useDatasetCreationParameters = () => {
 
   const createDatasetOrRunner = useCallback(
     (values) => {
+      setDatasetReducerStatus(DATASET_REDUCER_STATUS.CREATING);
       ArrayDictUtils.removeUndefinedValuesFromDict(values);
       const sourceType = values.sourceType;
       const dataset = {
@@ -73,7 +76,7 @@ export const useDatasetCreationParameters = () => {
         createETLRunnerAndDataset(runner);
       }
     },
-    [createDataset, createETLRunnerAndDataset, ownerName, solutionData]
+    [createDataset, createETLRunnerAndDataset, ownerName, setDatasetReducerStatus, solutionData]
   );
 
   return {
