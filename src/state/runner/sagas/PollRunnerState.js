@@ -15,7 +15,7 @@ import { setApplicationErrorMessage } from '../../app/reducers';
 import { RUNNER_ACTIONS_KEY } from '../constants';
 import { updateRun, updateEtlRunner, updateSimulationRunner } from '../reducers';
 
-function forgeStopPollingAction(runnerId) {
+export function forgeStopPollingAction(runnerId) {
   let actionName = RUNNER_ACTIONS_KEY.STOP_RUNNER_STATUS_POLLING;
   actionName += '_' + runnerId;
   return { type: actionName, data: { runnerId } };
