@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Grid, Stack, Typography } from '@mui/material';
 import rfdc from 'rfdc';
-import { UploadFile, BasicEnumInput } from '@cosmotech/ui';
+import { UploadFile, BasicEnumInput, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
 import { GenericEnumInput, GenericMultiSelect, GenericTextInput, GenericDateInput } from '../../../../../../components';
 import { useFileParameters } from '../../../../../../hooks/FileParameterHooks';
 import { FILE_DATASET_PART_ID_VARTYPE } from '../../../../../../services/config/ApiConstants';
@@ -31,6 +31,15 @@ const getParameterDefaultValue = (parameter) => {
 
   console.error(`VarType "${varType}" is not supported for ETL runner parameters.`);
   return null;
+};
+
+const validateFileFormat = (t, fileParameterValue) => {
+  return (
+    fileParameterValue?.value == null ||
+    fileParameterValue?.status === UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE ||
+    FileManagementUtils.isFileFormatValid(fileParameterValue.value.type) ||
+    t('views.scenario.scenarioParametersValidationErrors.fileFormat', 'File format not supported')
+  );
 };
 
 export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDataset, selectedRunner = {} }) => {
@@ -75,14 +84,18 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
       const fieldPath = `${escapedSourceType}.${parameterId}`;
       defaultFormState.current[fieldPath] = defaultValue;
 
+      const validationRules = {};
       const varType = parameter.varType;
+      if (varType === FILE_DATASET_PART_ID_VARTYPE)
+        validationRules.fileFormat = (value) => validateFileFormat(t, value);
+
       return (
         <Controller
           key={fieldPath}
           name={fieldPath}
           defaultValue={defaultValue}
-          rules={{ required: true }}
-          render={({ field }) => {
+          rules={{ required: true, validate: validationRules }}
+          render={({ field, fieldState: { error } }) => {
             const { value, onChange } = field;
             if (varType === 'string') {
               return (
@@ -132,6 +145,7 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
                     editMode
                     handleDeleteFile={() => onChange(null)}
                     file={value ?? {}}
+                    error={error}
                     acceptedFileTypes={getDefaultFileTypeFilter(dataSourceRunTemplates, parameterId)}
                   />
                 </Grid>
