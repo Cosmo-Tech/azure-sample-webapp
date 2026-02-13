@@ -132,7 +132,14 @@ const _findParameterInSolutionParametersById = (parameterId, solutionParameters)
   return solutionParameters?.find((param) => param.id === parameterId);
 };
 
-const _getDefaultParameterValueFromDefaultValues = (solutionParameter, parameterVarType) => {
+const _getDefaultValueBasedOnVarType = (solutionParameter, parameterVarType) => {
+  // Check specific cases of var types with indirect default values (e.g. first entry of enumValues for enum var type)
+  if (parameterVarType === 'enum') {
+    const enumValues = ConfigUtils.getParameterAttribute(solutionParameter, 'enumValues');
+    if (Array.isArray(enumValues) && enumValues.length > 0) return enumValues?.[0]?.key;
+  }
+
+  // Otherwise, use the var type fallback value
   const subType = ConfigUtils.getParameterAttribute(solutionParameter, 'subType');
   return _getVarTypeDefaultValue(parameterVarType, subType);
 };
@@ -149,7 +156,7 @@ const _getDefaultParameterValue = (parameterId, solutionParameters) => {
   // parameters should always have a defaultValue property, that will be set to 'null' by default
   if (defaultValue == null || defaultValue === '') {
     const parameterVarType = solutionParameter?.varType;
-    defaultValue = _getDefaultParameterValueFromDefaultValues(solutionParameter, parameterVarType);
+    defaultValue = _getDefaultValueBasedOnVarType(solutionParameter, parameterVarType);
   }
   if (defaultValue !== undefined) {
     return defaultValue;

@@ -65,13 +65,6 @@ export const GenericEnumInput = ({
     }
   }, [enumValues, dynamicEnumValues, parameterValue, resetParameterValue]);
 
-  const enumInputValue = useMemo(() => {
-    if (parameterValue != null) return parameterValue;
-    const firstOptionKey = enumValues?.[0]?.key ?? '';
-    resetParameterValue(firstOptionKey);
-    return firstOptionKey;
-  }, [parameterValue, enumValues, resetParameterValue]);
-
   if (dynamicValuesError) return dynamicValuesError;
 
   return (
@@ -83,7 +76,7 @@ export const GenericEnumInput = ({
           id={parameterData.id}
           label={t(TranslationUtils.getParameterTranslationKey(parameterData.id), parameterData.id)}
           tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
-          value={enumInputValue}
+          value={parameterValue ?? enumValues?.[0]?.key ?? ''}
           changeEnumField={setParameterValue}
           textFieldProps={textFieldProps}
           enumValues={enumValues}
