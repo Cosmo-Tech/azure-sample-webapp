@@ -353,7 +353,7 @@ const buildParametersForUpdateRequest = (
       // Check if file has been modified
       let file = parameterValue.value;
       if (file == null) {
-        if (parameterValue.serializedData != null)
+        if (parameterValue.status === UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD && parameterValue.serializedData != null)
           file = new File([parameterValue.serializedData], parameterId, { type: 'text/plain' });
         else continue; // No modifications to save
       }
