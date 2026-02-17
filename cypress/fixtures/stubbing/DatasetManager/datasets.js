@@ -139,13 +139,24 @@ const DATASET_EDINBURGH = {
   tags: ['size-3xl', 'random'],
 };
 
-const DATASET_AZURE_STORAGE = {
+const DATASET_ETL_FOR_REFRESH = {
   ...EDITABLE_DATASET,
   id: 'D-stbdataset9',
-  additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
-  name: 'Dataset Azure Storage',
-  sourceType: 'AzureStorage',
-  source: { location: 'azureStorageLocation', name: 'containerName', path: 'azure/storage/path' },
+  additionalData: {
+    webapp: {
+      visible: { datasetManager: true, scenarioCreation: true },
+      runnerId: 'r-stbdrnr1',
+      sourceType: 'ETL',
+    },
+  },
+  name: 'Dataset ETL for Refresh',
+  sourceType: 'ETL',
+  source: {
+    location: 'W-stbbdbrwry',
+    name: 'r-stbdrnr1',
+    path: null,
+    jobId: 'run-stbrun1',
+  },
   ingestionStatus: 'SUCCESS',
   twincacheStatus: 'FULL',
 };
@@ -153,9 +164,14 @@ const DATASET_AZURE_STORAGE = {
 const DATASET_FROM_SCRATCH = {
   ...EDITABLE_DATASET,
   id: 'D-stbdataset10',
-  additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
+  additionalData: {
+    webapp: {
+      visible: { datasetManager: true, scenarioCreation: true },
+      runnerId: 'r-stbdrnr1',
+      sourceType: 'None',
+    },
+  },
   name: 'Dataset From Scratch',
-  sourceType: 'None',
   source: {},
   ingestionStatus: 'NONE',
 };
@@ -197,6 +213,6 @@ export const DATASETS_TO_FILTER = [
   DATASET_EDINBURGH,
 ];
 
-export const DATASETS_TO_REFRESH = [DATASET_AZURE_STORAGE, DATASET_FROM_SCRATCH];
+export const DATASETS_TO_REFRESH = [DATASET_ETL_FOR_REFRESH, DATASET_FROM_SCRATCH];
 
 export const DATASETS_TWINGRAPH = [DATASET_TWINGRAPH_A, DATASET_TWINGRAPH_B];

@@ -4,7 +4,7 @@ import { USERS_LIST } from '../../../tests/samples';
 import { Login, ScenarioManager } from '../../commons/actions';
 import { stub } from '../../commons/services/stubbing';
 import { setup } from '../../commons/utils';
-import { SCENARIOS, SCENARIO_RUNS } from '../../fixtures/stubbing/ScenarioManager-SearchBar/scenarios';
+import { SCENARIOS, SCENARIO_RUNS } from '../../fixtures/stubbing/ScenarioManager_SearchBar/scenarios';
 
 const getFirstCharacters = (string) => string.substring(0, 3);
 

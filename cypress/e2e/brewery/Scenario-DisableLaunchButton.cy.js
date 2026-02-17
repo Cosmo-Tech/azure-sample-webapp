@@ -6,6 +6,7 @@ import {
   WORKSPACE,
   DATASETS_TO_REFRESH,
   ORGANIZATION_WITH_DEFAULT_ROLE_USER,
+  RUNNERS_FOR_ETL_DATASETS,
 } from '../../fixtures/stubbing/DatasetManager';
 import { SCENARIOS_WITH_DATASET_ERROR } from '../../fixtures/stubbing/DisableLaunchButton/scenarios';
 
@@ -14,21 +15,14 @@ describe('DisableLaunchButton', () => {
   stub.setOrganizations([ORGANIZATION_WITH_DEFAULT_ROLE_USER]);
   stub.setWorkspaces([WORKSPACE]);
   stub.setDatasets([...DATASETS_TO_REFRESH]);
-  stub.setRunners(SCENARIOS_WITH_DATASET_ERROR);
+  stub.setRunners([...RUNNERS_FOR_ETL_DATASETS, ...SCENARIOS_WITH_DATASET_ERROR]);
 
   const scenarioWithBrokenDataset = SCENARIOS_WITH_DATASET_ERROR[1];
   const scenarioReadyToLaunch = SCENARIOS_WITH_DATASET_ERROR[2];
   const scenarioWithoutDataset = SCENARIOS_WITH_DATASET_ERROR[3];
 
-  const refreshSuccessOptions = {
-    expectedPollsCount: 2,
-    finalIngestionStatus: 'SUCCESS',
-  };
-
-  const refreshFailedOptions = {
-    expectedPollsCount: 2,
-    finalIngestionStatus: 'ERROR',
-  };
+  const refreshSuccessOptions = { expectedPollsCount: 2, finalStatus: 'Successful' };
+  const refreshFailedOptions = { expectedPollsCount: 2, finalStatus: 'Failed' };
 
   beforeEach(() => Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' }));
   after(stub.stop);
@@ -42,17 +36,16 @@ describe('DisableLaunchButton', () => {
     ScenarioParameters.getLaunchButton().should('not.be.disabled');
     DatasetManager.ignoreDatasetTwingraphQueries();
     DatasetManager.switchToDatasetManagerView();
-    DatasetManager.selectDatasetById(DATASETS_TO_REFRESH[1].id);
-    // FIXME: replace call to refreshDataset (endpoint removed in v5)
-    DatasetManager.refreshDataset(DATASETS_TO_REFRESH[1].id, refreshFailedOptions);
+    DatasetManager.selectDatasetById(DATASETS_TO_REFRESH[0].id);
+    DatasetManager.refreshDataset(DATASETS_TO_REFRESH[0].id, refreshFailedOptions);
     DatasetManager.getDatasetOverviewPlaceholderTitle().contains('An error', { timeout: 30000 });
     Scenarios.switchToScenarioView();
     ScenarioSelector.selectScenario(scenarioWithBrokenDataset.name, scenarioWithBrokenDataset.id);
     ScenarioParameters.getLaunchButton().should('be.disabled');
     DatasetManager.switchToDatasetManagerView();
-    DatasetManager.selectDatasetById(DATASETS_TO_REFRESH[1].id);
-    DatasetManager.refreshDataset(DATASETS_TO_REFRESH[1].id, refreshSuccessOptions);
-    DatasetManager.getRefreshDatasetSpinner(DATASETS_TO_REFRESH[1].id, 30000).should('not.exist');
+    DatasetManager.selectDatasetById(DATASETS_TO_REFRESH[0].id);
+    DatasetManager.refreshDataset(DATASETS_TO_REFRESH[0].id, refreshSuccessOptions);
+    DatasetManager.getRefreshDatasetSpinner(DATASETS_TO_REFRESH[0].id, 30000).should('not.exist');
     Scenarios.switchToScenarioView();
     ScenarioParameters.getLaunchButton().should('not.be.disabled');
   });

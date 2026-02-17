@@ -20,9 +20,7 @@ describe('results display is disabled', () => {
   });
 
   beforeEach(() => {
-    Login.login({
-      isPowerBiEnabled: false,
-    });
+    Login.login({ isPowerBiEnabled: false });
   });
 
   after(() => {
@@ -31,7 +29,8 @@ describe('results display is disabled', () => {
 
   it('can launch a scenario and show Display of results is disabled dashboard', () => {
     getDashboardsTab().should('not.exist');
-    ScenarioParameters.launch({ scenarioId, runOptions, saveAndLaunch: true });
+    const saveAndLaunch = false; // No "update runner" query to intercept because there are no scenario parameters
+    ScenarioParameters.launch({ scenarioId, runOptions, saveAndLaunch });
     ScenarioParameters.waitForScenarioRunEnd();
     Scenarios.getDashboardAccordionLogsDownloadButton().should('be.visible');
     Scenarios.getDashboardAccordion().click();
