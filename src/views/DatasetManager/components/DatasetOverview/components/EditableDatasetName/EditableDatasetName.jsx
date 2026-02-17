@@ -85,7 +85,13 @@ export const EditableDatasetName = () => {
 
   const datasetNameElement = useMemo(
     () => (
-      <Typography data-cy="dataset-name" variant="h6" onClick={startEdition}>
+      <Typography
+        data-cy="dataset-name"
+        variant="h6"
+        onClick={startEdition}
+        sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+        title={datasetName}
+      >
         {datasetName}
       </Typography>
     ),
