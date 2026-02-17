@@ -102,8 +102,8 @@ export const DatasetList = () => {
       };
 
       return (
-        <Box onClick={ignoreClick} style={{ display: 'flex', flexDirection: 'row' }}>
-          <div style={{ display: 'inline-flex', padding: '8px', verticalAlign: 'middle' }}>{statusIcon}</div>
+        <Box onClick={ignoreClick} style={{ display: 'flex', alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', padding: '8px' }}>{statusIcon}</div>
           <DeleteDatasetButton dataset={dataset} location="" />
         </Box>
       );
