@@ -3,9 +3,11 @@
 import { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useOrganizationId } from '../organizations/hooks';
+import { useWorkspaceId } from '../workspaces/hooks';
 import {
   dispatchCreateDataset,
   dispatchDeleteDataset,
+  dispatchGetDataset,
   dispatchPollTwingraphStatus,
   dispatchRefreshDataset,
   dispatchUpdateDataset,
@@ -140,6 +142,16 @@ export const useUpdateDatasetInStore = () => {
     (datasetId, datasetData, datasetIndex = undefined) =>
       dispatch(updateDataset({ datasetId, datasetData, datasetIndex })),
     [dispatch]
+  );
+};
+
+export const useGetDataset = () => {
+  const dispatch = useDispatch();
+  const organizationId = useOrganizationId();
+  const workspaceId = useWorkspaceId();
+  return useCallback(
+    (datasetId) => dispatch(dispatchGetDataset(organizationId, workspaceId, datasetId)),
+    [dispatch, organizationId, workspaceId]
   );
 };
 

@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { t } from 'i18next';
-import { call, put, take, takeEvery, delay, race } from 'redux-saga/effects';
+import { call, put, select, take, takeEvery, delay, race } from 'redux-saga/effects';
 import { Api } from '../../../services/config/Api';
 import { RUNNER_RUN_STATE } from '../../../services/config/ApiConstants';
 import {
@@ -12,8 +12,13 @@ import {
 import { STATUSES } from '../../../services/config/StatusConstants';
 import { RunnersUtils } from '../../../utils';
 import { setApplicationErrorMessage } from '../../app/reducers';
+import { getDataset } from '../../datasets/sagas/GetDataset';
 import { RUNNER_ACTIONS_KEY } from '../constants';
 import { updateRun, updateEtlRunner, updateSimulationRunner } from '../reducers';
+
+const getETLRunnerFromState = (state, runnerId) => {
+  return state.runner.etlRunners.list.data?.find((runner) => runner.id === runnerId);
+};
 
 export function forgeStopPollingAction(runnerId) {
   let actionName = RUNNER_ACTIONS_KEY.STOP_RUNNER_STATUS_POLLING;
@@ -46,9 +51,17 @@ export function* pollRunnerState(action) {
 
       networkErrorsCount = 0;
       if ([RUNNER_RUN_STATE.FAILED, RUNNER_RUN_STATE.SUCCESSFUL, RUNNER_RUN_STATE.UNKNOWN].includes(runStatus.state)) {
+        if (runnerType === 'etl' && runStatus.state === RUNNER_RUN_STATE.SUCCESSFUL) {
+          const runner = yield select(getETLRunnerFromState, runnerId);
+          // Datasets created in the Dataset Manager are the first entry in runners' property "datasets.bases"
+          const datasetId = runner?.datasets?.bases?.[0];
+          if (datasetId != null) yield call(getDataset, organizationId, workspaceId, datasetId);
+        }
+
         const lastRunInfoPatch = RunnersUtils.forgeRunnerLastRunInfoPatch(lastRunId, runStatus.state);
         yield put(updateRunner({ runnerId, runner: { ...lastRunInfoPatch } }));
         yield put(updateRun({ data: runStatus }));
+
         yield put(forgeStopPollingAction(runnerId));
       }
 

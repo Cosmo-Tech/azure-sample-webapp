@@ -2,6 +2,13 @@
 // Licensed under the MIT license.
 import { DATASET_ACTIONS_KEY } from './constants';
 
+export const dispatchGetDataset = (organizationId, workspaceId, datasetId) => ({
+  type: DATASET_ACTIONS_KEY.GET_DATASET,
+  organizationId,
+  workspaceId,
+  datasetId,
+});
+
 export const dispatchDeleteDataset = (organizationId, datasetId, selectedDatasetId) => ({
   type: DATASET_ACTIONS_KEY.DELETE_DATASET,
   organizationId,
