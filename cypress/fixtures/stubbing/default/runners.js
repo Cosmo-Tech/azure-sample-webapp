@@ -3,7 +3,12 @@
 import { ROLES } from '../../../commons/constants/generic/TestConstants';
 import { DEFAULT_RUNNER_BASE_DATASET, DEFAULT_RUNNER_PARAMETER_DATASET } from './datasets';
 import { DEFAULT_ORGANIZATION } from './organizations';
-import { ETL_RUN_TEMPLATE, NO_PARAMETERS_RUN_TEMPLATE } from './runTemplates';
+import {
+  BASIC_TYPES_PARAMETERS_RUN_TEMPLATE,
+  BREWERY_PARAMETERS_RUN_TEMPLATE,
+  ETL_RUN_TEMPLATE,
+  NO_PARAMETERS_RUN_TEMPLATE,
+} from './runTemplates';
 import { DEFAULT_SOLUTION } from './solutions';
 import { USER_EXAMPLE } from './users';
 import { DEFAULT_WORKSPACE } from './workspaces';
@@ -36,6 +41,20 @@ export const DEFAULT_SIMULATION_RUNNER = {
   runSizing: null,
 };
 
+export const BREWERY_SIMULATION_RUNNER = {
+  ...DEFAULT_SIMULATION_RUNNER,
+  id: 'r-stubbedBreweryRunner',
+  name: 'Cypress - Stubbed brewery runner 0',
+  runTemplateId: BREWERY_PARAMETERS_RUN_TEMPLATE.id,
+};
+
+export const BASIC_PARAMETERS_SIMULATION_RUNNER = {
+  ...DEFAULT_SIMULATION_RUNNER,
+  id: 'r-stubbedRunnerMockParameters',
+  name: 'Cypress - Stubbed runner with mock parameters',
+  runTemplateId: BASIC_TYPES_PARAMETERS_RUN_TEMPLATE.id,
+};
+
 export const DEFAULT_ETL_RUNNER = {
   ...DEFAULT_SIMULATION_RUNNER,
   id: 'r-stubbedetlrnr99',
@@ -47,6 +66,8 @@ export const DEFAULT_ETL_RUNNER = {
 export const DEFAULT_RUNNERS = [
   DEFAULT_ETL_RUNNER,
   DEFAULT_SIMULATION_RUNNER,
+  BREWERY_SIMULATION_RUNNER,
+  BASIC_PARAMETERS_SIMULATION_RUNNER,
   { ...DEFAULT_SIMULATION_RUNNER, id: 'r-stubbedscnr01', name: 'Test Cypress - Stubbed scenario 1' },
   { ...DEFAULT_SIMULATION_RUNNER, id: 'r-stubbedscnr02', name: 'Test Cypress - Stubbed scenario 2' },
   { ...DEFAULT_SIMULATION_RUNNER, id: 'r-stubbedscnr03', name: 'Test Cypress - Stubbed scenario 3' },
