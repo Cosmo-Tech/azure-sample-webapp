@@ -288,6 +288,7 @@ const interceptStartRunner = (stubbingOptions) => {
         state: 'Running',
         startTime,
         id: lastRunId,
+        runnerId: scenarioId,
       };
       stub.addRunnerRun(scenarioRun);
 
