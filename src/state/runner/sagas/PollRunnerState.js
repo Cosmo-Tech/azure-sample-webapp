@@ -55,7 +55,7 @@ export function* pollRunnerState(action) {
           const runner = yield select(getETLRunnerFromState, runnerId);
           // Datasets created in the Dataset Manager are the first entry in runners' property "datasets.bases"
           const datasetId = runner?.datasets?.bases?.[0];
-          if (datasetId != null) yield call(getDataset, organizationId, workspaceId, datasetId);
+          if (datasetId != null) yield call(getDataset, organizationId, workspaceId, datasetId, true);
         }
 
         const lastRunInfoPatch = RunnersUtils.forgeRunnerLastRunInfoPatch(lastRunId, runStatus.state);

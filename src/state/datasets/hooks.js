@@ -150,7 +150,8 @@ export const useGetDataset = () => {
   const organizationId = useOrganizationId();
   const workspaceId = useWorkspaceId();
   return useCallback(
-    (datasetId) => dispatch(dispatchGetDataset(organizationId, workspaceId, datasetId)),
+    (datasetId, resetDatasetQueryResults) =>
+      dispatch(dispatchGetDataset(organizationId, workspaceId, datasetId, resetDatasetQueryResults)),
     [dispatch, organizationId, workspaceId]
   );
 };
