@@ -27,10 +27,11 @@ export const useScenarioDashboardCard = () => {
     () => currentScenarioLastRunId !== null && currentScenarioLastRunStatus === RUNNER_RUN_STATE.SUCCESSFUL,
     [currentScenarioLastRunId, currentScenarioLastRunStatus]
   );
+
   const isDashboardSync = useMemo(() => {
-    const disableOutOfSyncWarningBanner = workspace?.additionalData?.webapp?.disableOutOfSyncWarningBanner === true;
-    if (disableOutOfSyncWarningBanner || currentScenarioLastRun == null || currentScenarioLastRun.startTime == null)
-      return true;
+    // Since v7, banner is disabled by default, it must be enabled by setting disableOutOfSyncWarningBanner to false
+    const disableOutOfSyncWarningBanner = workspace?.additionalData?.webapp?.disableOutOfSyncWarningBanner !== false;
+    if (disableOutOfSyncWarningBanner || currentScenarioLastRun?.startTime == null) return true;
     if (isDirty) return false;
 
     const lastUpdate = new Date(currentScenarioLastUpdate);

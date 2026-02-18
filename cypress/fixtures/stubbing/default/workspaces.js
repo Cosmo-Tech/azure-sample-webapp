@@ -1,9 +1,12 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
+import rfdc from 'rfdc';
 import { ROLES } from '../../../commons/constants/generic/TestConstants';
 import { DEFAULT_ORGANIZATION } from './organizations';
 import { DEFAULT_SOLUTION } from './solutions';
 import { USER_EXAMPLE } from './users';
+
+const clone = rfdc();
 
 const defaultPowerBIReport = {
   title: { en: 'Scenario dashboard', fr: 'Rapport du scénario' },
@@ -56,14 +59,14 @@ export const DEFAULT_WORKSPACE = {
 
 export const DEFAULT_WORKSPACES = [DEFAULT_WORKSPACE];
 
-const workspaceCopy = JSON.parse(JSON.stringify(DEFAULT_WORKSPACE));
-workspaceCopy.additionalData.webapp.instanceView = {
-  dataSource: {
-    type: 'twingraph_dataset',
-  },
+export const WORKSPACE_WITH_INSTANCE_VIEW = clone(DEFAULT_WORKSPACE);
+WORKSPACE_WITH_INSTANCE_VIEW.additionalData.webapp.instanceView = {
+  dataSource: { type: 'twingraph_dataset' },
   dataContent: {},
 };
-export const WORKSPACE_WITH_INSTANCE_VIEW = workspaceCopy;
+
+export const WORKSPACE_WITH_OUT_OF_SYNC_WARNING_BANNER_ENABLED = clone(DEFAULT_WORKSPACE);
+WORKSPACE_WITH_OUT_OF_SYNC_WARNING_BANNER_ENABLED.additionalData.webapp.disableOutOfSyncWarningBanner = false;
 
 export const EXTENDED_WORKSPACES_LIST = [];
 for (let i = 0; i < 5; ++i) {

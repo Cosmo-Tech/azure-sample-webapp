@@ -1,18 +1,25 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { Login, Scenarios, ScenarioParameters } from '../../commons/actions';
+import { Login, Scenarios, ScenarioSelector, ScenarioParameters } from '../../commons/actions';
 import { BreweryParameters } from '../../commons/actions/brewery';
 import { getDashboardsTab } from '../../commons/actions/generic/Dashboards';
 import { stub } from '../../commons/services/stubbing';
-import { DEFAULT_RUNNERS } from '../../fixtures/stubbing/default';
+import {
+  BASIC_PARAMETERS_SIMULATION_RUNNER,
+  WORKSPACE_WITH_OUT_OF_SYNC_WARNING_BANNER_ENABLED,
+} from '../../fixtures/stubbing/default';
 
 describe('Scenario view PowerBI report', () => {
   before(() => stub.start());
-  beforeEach(() => Login.login());
+  beforeEach(() => {
+    Login.login();
+    stub.setWorkspaces([WORKSPACE_WITH_OUT_OF_SYNC_WARNING_BANNER_ENABLED]);
+  });
+
   afterEach(() => stub.reset());
   after(() => stub.stop());
 
-  const { id: scenarioId } = DEFAULT_RUNNERS[0];
+  const { id: scenarioId } = BASIC_PARAMETERS_SIMULATION_RUNNER;
   const runOptions = {
     runDuration: 1000,
     finalStatus: 'Successful',
@@ -23,6 +30,7 @@ describe('Scenario view PowerBI report', () => {
     // check Dashboard view tab to ensure dashboard config exists
     getDashboardsTab().should('be.visible');
 
+    ScenarioSelector.selectScenario(BASIC_PARAMETERS_SIMULATION_RUNNER.name, BASIC_PARAMETERS_SIMULATION_RUNNER.id);
     ScenarioParameters.expandParametersAccordion();
 
     // First phase: warning is never visible until we first launch the scenario
@@ -80,6 +88,7 @@ describe('Scenario view PowerBI report', () => {
     const CURRENCY_VALUE_TO_UPDATE = 97779;
     stub.setRunnerRunOptions({ startTime: null });
 
+    ScenarioSelector.selectScenario(BASIC_PARAMETERS_SIMULATION_RUNNER.name, BASIC_PARAMETERS_SIMULATION_RUNNER.id);
     ScenarioParameters.expandParametersAccordion();
     Scenarios.checkIfReportIsUnsynced(false);
     Scenarios.getScenarioBackdrop(10).should('not.be.visible');
