@@ -28,7 +28,7 @@ export const getReportLabels = (t) => ({
     ),
   },
   hasErrors: {
-    label: t('commoncomponents.iframe.scenario.results.label.error', 'An error occured during the scenario run'),
+    label: t('commoncomponents.iframe.scenario.results.label.error', 'An error occurred during the scenario run'),
   },
   hasUnknownStatus: {
     label: t(

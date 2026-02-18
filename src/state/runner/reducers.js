@@ -188,7 +188,7 @@ const runnerSlice = createSlice({
     builder
       .addCase(addOrUpdateDatasetPart, (state, action) => {
         const { runnerId, datasetPart: newDatasetPart } = action.payload;
-        if (!runnerId) return; // This action can be called without runner id, to udpate datasets in redux
+        if (!runnerId) return; // This action can be called without runner id, to update datasets in redux
 
         if (!newDatasetPart) {
           console.warn('No runner id or no dataset part id provided');

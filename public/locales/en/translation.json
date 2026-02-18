@@ -139,7 +139,7 @@
         }
       },
       "placeholder": {
-        "error": "An error occured, cannot visualize data.",
+        "error": "An error occurred, cannot visualize data.",
         "noScenario": "No scenario. You can create a new scenario in the Scenario view."
       }
     },
@@ -712,7 +712,7 @@
           "body": "You will lose all your current changes made on the scenario parameters.",
           "confirmLaunchDialog": {
             "title": "Launch scenario?",
-            "body": "Running a scenario can take time. Any existing results for this scenario will be overwriten.",
+            "body": "Running a scenario can take time. Any existing results for this scenario will be overwritten.",
             "checkbox": "Don't ask again"
           }
         },

@@ -712,7 +712,7 @@ _Note: a [migration guide](./doc/migrationGuides/v3.0.0.md) is available to help
 
 - add getFirstScenarioMaster function in utils ([62b147f](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/62b147f))
 - implement scenario run duration tracking ([4fc8523](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/4fc8523))
-- make scenario parameters collapsable and move it above dashboards ([04f971f](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/04f971f))
+- make scenario parameters collapsible and move it above dashboards ([04f971f](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/04f971f))
 - set Cosmo platform\-help URL page as documentation instead of previously used pdf file ([88db4a1](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/88db4a1))
 - add scenario launch confirmation dialog ([282d3ab](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/282d3ab))
 - add automatic expansion of the scenario parameters accordion when create scenario ([bf66e73](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/bf66e73))
@@ -757,7 +757,7 @@ _Note: a [migration guide](./doc/migrationGuides/v3.0.0.md) is available to help
 
 ### Features
 
-- Ag Grid theme is now setable in themes config ([8c87dee](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/8c87dee))
+- Ag Grid theme is now settable in themes config ([8c87dee](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/8c87dee))
 - add XLSX Import feature ([2548e44](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/2548e44))
 
 ### Bug Fixes
@@ -837,8 +837,8 @@ _Note: a [migration guide](./doc/migrationGuides/v3.0.0.md) is available to help
 
 - Alphabetic order for scenario list ([3226f59](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/3226f59))
 - Use a lighter color for dialogs ([a691e8b](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/a691e8b))
-- Labels layout in Dahsboards left menu ([37401dd](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/37401dd))
-- Unexcepted no scenario placeholder display after scenario create ([2c171a2](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/2c171a2))
+- Labels layout in Dashboards left menu ([37401dd](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/37401dd))
+- Unexpected no scenario placeholder display after scenario create ([2c171a2](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/2c171a2))
 - update config for multiple files ([a388cdb](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/a388cdb))
 - Right\-align labels in dashboards menu ([d43f587](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/d43f587))
 - \.eslintrc file in cypress folder ([665ee57](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/665ee57))

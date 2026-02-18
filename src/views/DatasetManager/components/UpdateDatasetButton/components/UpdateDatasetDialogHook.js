@@ -31,13 +31,13 @@ export const useUpdateDatasetDialog = (dataset, selectedRunner) => {
       ...dataSource,
       parameters: parameters.filter((parameter) => runTemplatesParameters[dataSource.id].includes(parameter.id)),
     }));
-    const subDatasSourceWithParameters = customSubDataSourceRunTemplates.map((dataSource) => ({
+    const subDataSourceWithParameters = customSubDataSourceRunTemplates.map((dataSource) => ({
       ...dataSource,
       parameters: parameters.filter((parameter) => runTemplatesParameters[dataSource.id].includes(parameter.id)),
     }));
     const datasourceFilter = workspace?.additionalData?.webapp?.datasetManager?.datasourceFilter;
     const runTemplates = {};
-    [...dataSourcesWithParameters, ...subDatasSourceWithParameters].forEach((runTemplate) => {
+    [...dataSourcesWithParameters, ...subDataSourceWithParameters].forEach((runTemplate) => {
       if (datasourceFilter == null || datasourceFilter.indexOf(runTemplate.id) !== -1)
         runTemplates[runTemplate.id] = runTemplate;
     });

@@ -5,7 +5,7 @@
 export const SESSION_INACTIVITY_TIMEOUT = 30;
 // Triggers a token refresh on API query, when the remaining time before expiration of the access token reaches this
 // threshold (minutes)
-export const SESSION_TOKEN_REFRESH_TRESHOLD = 3;
+export const SESSION_TOKEN_REFRESH_THRESHOLD = 3;
 
 // Polling delay to update running scenario status (milliseconds)
 export const RUNNER_STATUS_POLLING_DELAY = 10000;

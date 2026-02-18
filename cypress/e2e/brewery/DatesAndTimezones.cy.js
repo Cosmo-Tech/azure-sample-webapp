@@ -5,7 +5,7 @@ import { BreweryParameters } from '../../commons/actions/brewery';
 import { stub } from '../../commons/services/stubbing';
 import { SCENARIOS, SOLUTION } from '../../fixtures/stubbing/DatesAndTimezones';
 
-// NOTE: this test should be launched from terminal with different timezones to check that timzeones have no impact on
+// NOTE: this test should be launched from terminal with different timezones to check that timezones have no impact on
 // the dates displayed
 
 describe('Scenario parameters of type date', () => {
@@ -48,7 +48,7 @@ describe('Scenario parameters of type date', () => {
     ScenarioParameters.save(saveOptions);
   });
 
-  it('should display correct dates from default values in unitialized scenario', () => {
+  it('should display correct dates from default values in uninitialized scenario', () => {
     Scenarios.getScenarioViewTab(60).should('be.visible');
     ScenarioSelector.selectScenario(SCENARIOS[1].name, SCENARIOS[1].id);
     ScenarioParameters.expandParametersAccordion();

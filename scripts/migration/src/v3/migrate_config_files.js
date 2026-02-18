@@ -63,7 +63,7 @@ const copyAndFillScenarioParametersFile = (config) => {
   const newFilePath = join(getOutputFolder(), 'ScenarioParameters.js');
   const oldContentStr = fs.readFileSync(oldFilePath, { encoding: 'utf8', flag: 'r' });
   const oldContentArray = oldContentStr.split('\n');
-  // findLast not supported by Node 16, using 'find' here (expecting only one occurence of SCENARIO_PARAMETERS_CONFIG
+  // findLast not supported by Node 16, using 'find' here (expecting only one occurrence of SCENARIO_PARAMETERS_CONFIG
   // in the config file)
   const exportLineIndex = oldContentArray.findIndex((line) => line.includes('SCENARIO_PARAMETERS_CONFIG'));
   const newLines = [
@@ -96,7 +96,7 @@ const copyAndFillPowerBIFile = (config) => {
   const newFilePath = join(getOutputFolder(), 'PowerBI.js');
   const oldContentStr = fs.readFileSync(oldFilePath, { encoding: 'utf8', flag: 'r' });
   const oldContentArray = oldContentStr.split('\n');
-  // findLast not supported by Node 16, using 'find' here (expecting only one occurence of @cosmotech/azure in the
+  // findLast not supported by Node 16, using 'find' here (expecting only one occurrence of @cosmotech/azure in the
   // config file)
   const importLineIndex = oldContentArray.findIndex((line) => line.includes('@cosmotech/azure'));
   const newLines = [

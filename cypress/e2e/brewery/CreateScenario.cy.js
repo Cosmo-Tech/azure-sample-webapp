@@ -76,7 +76,7 @@ describe('Create scenario', { keystrokeDelay: 1 }, () => {
     ScenarioParameters.collapseParametersAccordion();
     ScenarioParameters.getParametersTabs().should('not.be.visible');
 
-    // Check persistance of parameters accordion state
+    // Check persistence of parameters accordion state
     ScenarioManager.switchToScenarioManager();
     Scenarios.switchToScenarioView();
     ScenarioParameters.getParametersTabs().should('not.be.visible');

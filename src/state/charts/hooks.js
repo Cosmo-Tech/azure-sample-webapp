@@ -114,7 +114,7 @@ export const useGetSupersetReportWithScenarioContext = () => {
 
         dashboardId = dashboardsConfig.dashboardView[selectedDashboardIndexInDashboardView]?.id;
         if (!dashboardId) {
-          console.warn(`No entry found in Dashbaords view list at index "${selectedDashboardIndexInDashboardView}"`);
+          console.warn(`No entry found in Dashboards view list at index "${selectedDashboardIndexInDashboardView}"`);
           return {};
         }
       }
@@ -123,7 +123,7 @@ export const useGetSupersetReportWithScenarioContext = () => {
       if (!dashboard) {
         console.warn(
           `No entry found in superset dashboards list with id "${dashboardId}".` +
-            'Plaese make sure that your dashboard is defined in your workspace configuration ' +
+            'Please make sure that your dashboard is defined in your workspace configuration ' +
             'additionalData.webapp.charts.dashboards)'
         );
         return {};

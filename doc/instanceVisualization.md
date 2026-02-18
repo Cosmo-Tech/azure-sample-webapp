@@ -331,7 +331,7 @@ Now that the Function App is created, we can start its configuration:
   - click on _“Turn on Application Insights“_
   - if you already have an App Insights instance, click on _“Select existing resource”_ and select your instance
   - if you don’t already have an App Insights instance, create a new resource:
-    - use an existing _“Log Analytics Workspace”_ (e.g. _“phoenixdev-loganalytics-worskpace”_) or create a new one
+    - use an existing _“Log Analytics Workspace”_ (e.g. _“phoenixdev-loganalytics-workspace”_) or create a new one
   - **click on _“Apply”_ and confirm**
 - open the _“CORS”_ blade
   - check _“Enable Access-Control-Allow-Credentials”_ the checkbox

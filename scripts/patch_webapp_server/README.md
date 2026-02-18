@@ -62,7 +62,7 @@ will result in the following CSP configuration:
 ### Assets copy mapping
 
 If your webapp adds custom assets into the _public_ folder, and if you want these resources to be patched from each
-project configuration, then you must declare the input and ouput paths of these resources in a JSON file describing all
+project configuration, then you must declare the input and output paths of these resources in a JSON file describing all
 the resources to copy. This file must be named _AssetCopyMapping.json_ and placed in the **input configuration folder**.
 
 If you want to start from a template, you can duplicate the file

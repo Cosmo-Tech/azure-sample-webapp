@@ -194,7 +194,7 @@ const Instance = () => {
   if (errorBannerMessage) {
     cytoVizPlaceholderMessage = t(
       'commoncomponents.cytoviz.placeholder.error',
-      'An error occured, cannot visualize data.'
+      'An error occurred, cannot visualize data.'
     );
   }
 

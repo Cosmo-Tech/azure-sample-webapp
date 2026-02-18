@@ -4,7 +4,7 @@ import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import { Auth } from '@cosmotech/core';
 import { ENV } from './config/EnvironmentVariables';
-import { SESSION_TOKEN_REFRESH_TRESHOLD } from './config/FunctionalConstants';
+import { SESSION_TOKEN_REFRESH_THRESHOLD } from './config/FunctionalConstants';
 
 const getAuthenticationHeaders = async (allowApiKey = false) => {
   if (allowApiKey && ENV.VITE_API_KEY) return { 'X-CSM-API-KEY': ENV.VITE_API_KEY };
@@ -14,7 +14,7 @@ const getAuthenticationHeaders = async (allowApiKey = false) => {
     const accessData = jwtDecode(tokens.accessToken);
     const expiryDate = accessData.exp;
     const remainingTimeInMinutes = Math.floor((expiryDate - Date.now() / 1000) / 60);
-    if (remainingTimeInMinutes <= SESSION_TOKEN_REFRESH_TRESHOLD) {
+    if (remainingTimeInMinutes <= SESSION_TOKEN_REFRESH_THRESHOLD) {
       tokens = await Auth.refreshTokens();
     }
     if (tokens?.accessToken) return { Authorization: 'Bearer ' + tokens.accessToken };

@@ -10,7 +10,7 @@ import argparse
 
 def parse_arguments():
     parser = argparse.ArgumentParser(
-        description='''Parse a JS file for occurences of data-cy and generate selectors and actions functions.
+        description='''Parse a JS file for occurrences of data-cy and generate selectors and actions functions.
         '''
     )
     parser.add_argument("input", help="Input file to parse")

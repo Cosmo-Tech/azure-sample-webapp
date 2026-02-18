@@ -40,7 +40,7 @@ def parse_arguments():
     return args
 
 
-def remove_occurences_in_file(file_path, pattern_to_remove):
+def remove_occurrences_in_file(file_path, pattern_to_remove):
     try:
         # Note: with inplace=True, standard output is directed to the input file
         with fileinput.FileInput(file_path, inplace=True, backup='.bak') as file:
@@ -207,7 +207,7 @@ def apply_csp(output_folder, csp_html):
     pattern_to_remove_str = '<meta\\ http\\-equiv="Content\\-Security\\-Policy"\\ content=".+">'
     pattern_to_remove = re.compile(pattern_to_remove_str)
     pattern_to_replace = '<meta http-equiv="Content-Security-Policy" content="">'
-    remove_occurences_in_file(html_file_path, pattern_to_remove) # Delete existing non-empty CSP elements
+    remove_occurrences_in_file(html_file_path, pattern_to_remove) # Delete existing non-empty CSP elements
     find_replace_in_file(html_file_path, pattern_to_replace, csp_html)
 
 
