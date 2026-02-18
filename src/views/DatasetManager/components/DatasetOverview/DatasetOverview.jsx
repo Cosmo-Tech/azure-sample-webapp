@@ -34,7 +34,11 @@ export const DatasetOverview = () => {
       sx={{ p: 1, width: '100%', height: '100%', overflow: 'auto', backgroundColor: 'transparent' }}
       data-cy="dataset-overview-card"
     >
-      <CardHeader title={editableDatasetName} sx={{ height: '65px' }} action={<DatasetActions dataset={dataset} />} />
+      <CardHeader
+        title={editableDatasetName}
+        sx={{ height: '65px', '& .MuiCardHeader-content': { overflow: 'hidden' } }}
+        action={<DatasetActions dataset={dataset} />}
+      />
       <CardContent sx={{ height: 'calc(100% - 65px)' }}>
         {showPlaceholder ? (
           <DatasetOverviewPlaceholder />

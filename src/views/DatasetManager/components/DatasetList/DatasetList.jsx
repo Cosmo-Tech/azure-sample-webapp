@@ -102,8 +102,8 @@ export const DatasetList = () => {
       };
 
       return (
-        <Box onClick={ignoreClick} style={{ display: 'flex', flexDirection: 'row' }}>
-          <div style={{ display: 'inline-flex', padding: '8px', verticalAlign: 'middle' }}>{statusIcon}</div>
+        <Box onClick={ignoreClick} style={{ display: 'flex', alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', padding: '8px' }}>{statusIcon}</div>
           <DeleteDatasetButton dataset={dataset} location="" />
         </Box>
       );
@@ -139,7 +139,14 @@ export const DatasetList = () => {
                 >
                   <ListItemText
                     data-cy={`datasets-list-item-text-${dataset.id}`}
-                    primary={dataset.name}
+                    primary={
+                      <Box
+                        sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                        title={dataset.name}
+                      >
+                        {dataset.name}
+                      </Box>
+                    }
                     primaryTypographyProps={{ variant: 'body1', lineHeight: '22px' }}
                     sx={{ pr: '120px', my: '0px' }}
                   />
