@@ -15,7 +15,7 @@ import { DatasetWizard } from './components/DatasetWizard';
 export const CreateSubDatasetButton = ({ parentDataset }) => {
   const { t } = useTranslation();
   const getDatasetRunnerStatus = useGetDatasetRunnerStatus();
-  const { dataSourceRunTemplates, createSubDatasetRunner, userPermissionsInCurrentOrganization } =
+  const { dataSourceRunTemplates, createSubDatasetRunner, userPermissionsOnCurrentWorkspace } =
     useSubDatasetCreationParameters();
   const [isDatasetWizardOpen, setIsDatasetWizardOpen] = useState(false);
   const isDisabled = useMemo(
@@ -34,8 +34,8 @@ export const CreateSubDatasetButton = ({ parentDataset }) => {
 
   return (
     <PermissionsGate
-      userPermissions={userPermissionsInCurrentOrganization}
-      necessaryPermissions={[ACL_PERMISSIONS.ORGANIZATION.CREATE_CHILDREN]}
+      userPermissions={userPermissionsOnCurrentWorkspace}
+      necessaryPermissions={[ACL_PERMISSIONS.WORKSPACE.CREATE_CHILDREN]}
     >
       <FadingTooltip
         title={t(

@@ -1,8 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { useOrganizationData } from '../../../../state/organizations/hooks';
+import { useUserPermissionsOnCurrentWorkspace } from '../../../../state/workspaces/hooks';
 
 export const useNoDatasetsPlaceholder = () => {
-  const userPermissionsInCurrentOrganization = useOrganizationData()?.security?.currentUserPermissions ?? [];
-  return { userPermissionsInCurrentOrganization };
+  const userPermissionsOnCurrentWorkspace = useUserPermissionsOnCurrentWorkspace();
+  return { userPermissionsOnCurrentWorkspace };
 };
