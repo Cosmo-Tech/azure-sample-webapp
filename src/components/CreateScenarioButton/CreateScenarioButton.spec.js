@@ -20,10 +20,9 @@ import { RUNNER_RUN_STATE } from '../../services/config/ApiConstants.js';
 import { dispatchCreateSimulationRunner } from '../../state/runner/dispatchers';
 
 const clone = rfdc();
-const DEFAULT_SCENARIOS_LIST_DATA_WITH_DEPTHS = DEFAULT_SCENARIOS_LIST_DATA.map((scenario) => ({
-  ...scenario,
-  depth: 0,
-}));
+const SORTED_SCENARIOS_WITH_DEPTH = DEFAULT_SCENARIOS_LIST_DATA.map((scenario) => ({ ...scenario, depth: 0 })).sort(
+  (scenarioA, scenarioB) => scenarioA.name.localeCompare(scenarioB.name)
+);
 
 let mockCreateScenarioUIProps;
 jest.mock('@cosmotech/ui', () => ({
@@ -105,7 +104,7 @@ describe('CreateScenarioButton', () => {
     });
 
     test('scenarios prop match to scenario list data state', () => {
-      expect(mockCreateScenarioUIProps.scenarios).toEqual(DEFAULT_SCENARIOS_LIST_DATA_WITH_DEPTHS);
+      expect(mockCreateScenarioUIProps.scenarios).toEqual(SORTED_SCENARIOS_WITH_DEPTH);
     });
 
     test('user prop match to auth state', () => {
