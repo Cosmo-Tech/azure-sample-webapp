@@ -3,11 +3,11 @@
 ## Create a new color theme
 
 - First, duplicate the directories `src/theme/custom/cosmoDark`
- (resp. `src/theme/custom/cosmoLight`) and rename it fooDark (resp. fooLight) for instance.
+  (resp. `src/theme/custom/cosmoLight`) and rename it fooDark (resp. fooLight) for instance.
 
 - Then, in the newly created directory, create `src/theme/custom/fooDark/palette.js`
- (resp. `src/theme/custom/fooLight/palette.js`)
- and set the colors dictionary as follows (colors are given as an example):
+  (resp. `src/theme/custom/fooLight/palette.js`)
+  and set the colors dictionary as follows (colors are given as an example):
 
 ```javascript
 export default {
@@ -53,12 +53,12 @@ export default {
 Do the same for your light theme.
 
 NB: There are other colors that can be modified, and the listed colors above are not mandatory. MUI has its own colors,
- and functions to compute missing ones, this is only to override the existing ones. For a complete theme file, see
- [default theme from MUI](https://mui.com/material-ui/customization/default-theme/), especially the `palette` entry.
+and functions to compute missing ones, this is only to override the existing ones. For a complete theme file, see
+[default theme from MUI](https://mui.com/material-ui/customization/default-theme/), especially the `palette` entry.
 
-## Customize the webapp logo and the *sign in* wallpaper
+## Customize the webapp logo and the _sign in_ wallpaper
 
-- Put your logo (fooDark.png resp. fooLight.png for instance) and your *sign in* picture (authDark.png resp. authDark.png)
+- Put your logo (fooDark.png resp. fooLight.png for instance) and your _sign in_ picture (authDark.png resp. authDark.png)
   in the directory: `public/theme`
 
 - Then, create `src/theme/custom/cosmoDark/picture.js` (resp. `src/theme/custom/cosmoDark/picture.js`) and set your picture paths in it:
@@ -73,8 +73,9 @@ export default {
 - Do the same for your light theme.
 
 ## Customize the AG grid Theme
+
 - From the [AG grid documentation](https://www.ag-grid.com/javascript-data-grid/themes/),
- chose your favorite theme and specify it in `src/theme/custom/cosmoDark/picture.js`:
+  chose your favorite theme and specify it in `src/theme/custom/cosmoDark/picture.js`:
 
 ```javascript
 export default {

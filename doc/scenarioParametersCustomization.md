@@ -50,7 +50,7 @@ In ScenarioParameters.js file all parameters data are rendered with a `ScenarioP
 generates generic and custom tabs by calling the corresponding component. Tab components have the following props:
 
 - `parametersGroupData`: the metadata of the parameters group
-- `userAppRoles`: an array containing the user application roles (e.g. `Platform.Admin`); these roles are used to restrict access to some tabs when `[parametersGroup].options.authorizedRoles` is defined
+- `userAppRoles`: an array containing the user application roles (e.g. `Platform.Admin`); these roles are used to restrict access to some tabs when `[parametersGroup].additionalData.authorizedRoles` is defined
 - `context`: a context object to pass all additional information; this object contains:
   - editMode: a boolean defining whether the edition mode is enabled (to disable user input if required)
   - isDarkTheme: a boolean defining whether or not the dark theme is enabled (can be used to adapt components to the
@@ -97,7 +97,7 @@ In some cases you may want to define a `subType` to have a distinction between s
 `varType`. For instance, the specific `varType` `%DATASETID%` is used for all dataset parts, but you may need to display
 different component in the webapp for some file parameters (e.g; a file upload vs. a table that users can edit).
 
-To define an extended var type, you must set the `options.subType` property in your parameter configuration.
+To define an extended var type, you must set the `additionalData.subType` property in your parameter configuration.
 
 Example:
 
@@ -109,7 +109,7 @@ parameters:
       fr: 'Unité de volume'
     varType: 'enum'
     defaultValue: 'LITRE'
-    options:
+    additionalData:
       enumValues:
         - key: 'LITRE'
           value: 'L'

@@ -130,30 +130,14 @@ webapps), based on the version number in the [package.json](../package.json) fil
 ```json
 {
   "name": "azure-sample-webapp",
-  "version": "5.0.0"
+  "version": "7.0.0"
 }
 ```
 
 The npm scripts "start" and "build" in the [package.json](../package.json) file are responsible for setting the
 environment variable `VITE_APP_VERSION`. If you prefer to use the hard-coded value in the configuration file
-instead, then you have to remove the part `VITE_APP_VERSION=$npm_package_version` in the
-scripts, in the [package.json](../package.json) file. Replace:
-
-```json
-"scripts": {
-  "start": "cross-env DISABLE_ESLINT_PLUGIN=true VITE_APP_VERSION=$npm_package_version HOST=localhost vite --open",
-  "build": "cross-env DISABLE_ESLINT_PLUGIN=true VITE_APP_VERSION=$npm_package_version vite build --outDir build --emptyOutDir"
-}
-```
-
-by:
-
-```json
-"scripts": {
-  "start": "cross-env DISABLE_ESLINT_PLUGIN=true HOST=localhost vite --open",
-  "build": "cross-env DISABLE_ESLINT_PLUGIN=true vite build --outDir build --emptyOutDir"
-}
-```
+instead, then you have to remove the part setting `VITE_APP_VERSION=$npm_package_version` in the scripts, in the
+[package.json](../package.json) file.
 
 #### Link to support page & organization website
 
@@ -165,12 +149,8 @@ These links can be defined in several ways:
   `VITE_ORGANIZATION_URL` and `VITE_SUPPORT_URL`
 - finally, values for these links can be **customized for each workspace**, by setting these parameters in the workspace
   data:
-
-  - `[workspace].webApp.options.menu.supportUrl`
-  - `[workspace].webApp.options.menu.organizationUrl`
-
-For labels translations, you can see this section:
-[Application title and company contact link](#application-title-and-company-contact-link)
+  - `additionalData.webapp.menu.supportUrl`
+  - `additionalData.webapp.menu.organizationUrl`
 
 ### Replacing the About component
 
@@ -179,6 +159,7 @@ If you prefer to write your own React component, open the file
 
 ```js
 import { MyCustomComponent } from '../../components/MyCustomComponent';
+
 export const About = MyCustomComponent;
 ```
 

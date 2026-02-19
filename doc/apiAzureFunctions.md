@@ -9,6 +9,11 @@ that will be deployed with the web application. In this folder you'll find sever
 
 ## GetEmbedInfo
 
-This Azure Function is only necessary when using the **service account** mode to access PowerBI reports. If your webapp
+This Azure Function is only necessary when using **PowerBI** reports with the **service account** mode. If your webapp
 is configured to use the connected user identity, then you do not need to use this Azure Function. See the
-[PowerBI configuration](powerBI.md) documentation for more details.
+[PowerBI configuration](charts_powerBI.md) documentation for more details.
+
+## GetSupersetGuestToken
+
+This Function is only necessary when using Superset as the BI tool to embed dashboards in the webapp. See the
+[Superset](charts_superset.md) documentation page for more details.

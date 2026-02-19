@@ -13,16 +13,11 @@ is set, the API will copy the datasets associated to a scenario when it is creat
 **the API behavior when this option is set is not supported by the webapp**. In order to prevent glitches and undefined
 behavior, please make sure that the workspace configuration contains `datasetCopy: false`.
 
-### `linkedDatasetIdList`
-
-New workspaces created with the Cosmo Tech API may have `linkedDatasetIdList` set to `null` (unless a specific value is
-set on creation). This `null` value may lead to **too many datasets being visible in the scenario creation dialog**.
-If you want to hide them, please replace its value by an empty array: `linkedDatasetIdList: []`.
-
 ## Configurable views
 
 The following pages of the webapp depend on the workspace configuration:
 
+- Dataset Manager view (see documentation [here](datasetManager.md))
 - Dashboards view (see documentation [here](powerBI.md))
 - Digital Twin view (see documentation [here](instanceVisualization.md))
 
@@ -35,6 +30,7 @@ Some items of the "_Help_" menu can be configured from the file
 [src/config/HelpMenuConfiguration.json](../src/config/HelpMenuConfiguration.json):
 
 - `APP_VERSION` is the webapp version number, that will be displayed in the "_About_" pop-up
+- `BUILD_NUMBER` is an option to display a specific build number, next the to the app version
 - `ORGANIZATION_URL` is the url (expressed as a string) to redirect users to your organization website, displayed in the
   "_About_" pop-up
 - `SUPPORT_URL` is the url (expressed as a string) of the support page. Links to this page will be shown in the
@@ -46,18 +42,11 @@ Some items of the "_Help_" menu can be configured from the file
 Except the app version, all these values can be **customized for each workspace**, by setting them in the workspace
 data:
 
-- `[workspace].webApp.options.menu.documentationUrl`
-- `[workspace].webApp.options.menu.supportUrl`
-- `[workspace].webApp.options.menu.organizationUrl`
+- `additionalData.webapp.menu.documentationUrl`
+- `additionalData.webapp.menu.supportUrl`
+- `additionalData.webapp.menu.organizationUrl`
 
 ## Other options
 
-- `[workspace].webApp.options.disableOutOfSyncWarningBanner` (optional) boolean value; when set to `true` the
+- `webApp.options.disableOutOfSyncWarningBanner` (optional) boolean value; when set to `true` the
   warning frame around scenario results in the Scenario view will be disabled (default value is `false`)
-- `[workspace].webApp.options.datasetFilter` (optional) this parameter must be a list of strings, where each string
-  represents the id of a dataset; this is a whitelist of datasets to show in the scenario creation pop-up. If the
-  parameter is null or if the list is empty, then the filter is ignored and all datasets with the tag `dataset` will be
-  shown.
-  > **Warning**
-  >
-  > This property `[workspace].webApp.options.datasetFilter` is deprecated. Please use the Cosmo Tech API to link or unlink dataset to the workspace

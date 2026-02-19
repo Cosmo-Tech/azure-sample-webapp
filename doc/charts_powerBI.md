@@ -1,79 +1,58 @@
 # PowerBI reports
 
-The azure-sample-webapp provides users with embedded
-[PowerBI](https://powerbi.microsoft.com/fr-fr/getting-started-with-power-bi/) reports in the _Scenario_ and
-_Dashboards_ pages to **display the results of scenario runs**:
-
-- in the _Scenario_ page, PowerBI reports usually display the results of the currently selected scenario, after it has
-  run; you can either define a specific report to use for each run template, or display a generic report for all run
-  templates
-- the _Dashboards_ page offers a menu to let users switch between several reports; this view can typically be used for
-  in-depth results analysis or to compare the results of several scenarios
-
-For both pages, these reports must be configured **for each workspace**, directly in the _Workspace_ data declared to
-the Cosmo Tech API (see section [Reports configuration](#reports-configuration)). Optionally, you can also "patch" the
-configuration of an existing workspace by applying changes defined in your front-end configuration folder (see section
-[Overriding the workspace configuration](#overriding-the-workspace-configuration)).
+_This page documents how to configure **PowerBI charts** to visualize simulation results in the webapp. For Superset,
+the instructions are documented [here](charts_superset.md)._
 
 The webapp currently offers **two different modes** to retrieve PowerBI tokens: with the **identity of the connected
 user**, or with a **service account**. Differences between these two modes and how to configure them is detailed in
 section [PowerBI authentication strategies](#powerbi-authentication-strategies).
 
-## Reports configuration
+## Workspace configuration
 
-In your Workspace object data, the reports can be configured as an object in `[workspace].webApp.options.charts`. The
-structure for this `charts` object is the following:
+### Overview
+
+In your Workspace, the reports can be configured in `additionalData.webapp.charts`. For PowerBI charts, the structure
+for this `charts` object is the following:
 
 ```js
 {
   // in Workspace data
   // ...
-  "charts": {
-    "logInWithUserCredentials": true,
-    "dashboardsViewIframeDisplayRatio": 1.6,
-    "scenarioViewIframeDisplayRatio": 4.5,
-    "workspaceId": "powerbi-workspace-id",
-    "dashboardsView": [
-      // ...
-    ],
-    "scenarioView": {
-      // ...
+  "additionalData": {
+    "webapp": {
+      "charts": {
+        "logInWithUserCredentials": true,
+        "useWebappTheme": false,
+        "dashboardsViewIframeDisplayRatio": 1.6,
+        "scenarioViewIframeDisplayRatio": 4.5,
+        "workspaceId": "<powerbi workspace id>",
+        "dashboardsView": [
+          // ...
+        ],
+        "scenarioView": {
+          // ...
+        }
+      }
     }
   }
 }
 ```
 
-| Key                                | Value description                                                                                                                                                             |
-| ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `logInWithUserCredentials`         | boolean defining if we must use "user account" (true) or "service account" mode (false) (see section [PowerBI authentication strategies](#powerbi-authentication-strategies)) |
-| `dashboardsViewIframeDisplayRatio` | number defining the width/height ratio for the report iframe in the _Dashboards_ page                                                                                         |
-| `scenarioViewIframeDisplayRatio`   | number defining the width/height ratio for the report iframe in the _Scenario_ page                                                                                           |
-| `workspaceId`                      | id of the PowerBI workspace containing your reports                                                                                                                           |
-| `dashboardsView`                   | array of reports to display in the _Dashboards_ page (see section [Dashboards page reports configuration](#dashboards-page-reports-configuration))                            |
-| `scenarioView`                     | dict or array of reports to display in the _Scenario_ page (see section [Scenario page report configuration](#scenario-page-report-configuration))                            |
+The existing options in `charts` are:
 
-### Enabling or disabling PowerBI custom themes
+| Key                                | Value description                                                                                                                                                                                     |
+| ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `logInWithUserCredentials`         | boolean defining if we must use "user account" (true) or "service account" mode (false) (see section [PowerBI authentication strategies](#powerbi-authentication-strategies))                         |
+| `useWebappTheme`                   | boolean defining if the webapp should apply custom theme files to embedded dashboards (disabled by default, see section [Customizing Power BI themes](#customizing-power-bi-themes) for more details) |
+| `dashboardsViewIframeDisplayRatio` | number defining the width/height ratio for the report iframe in the _Dashboards_ page                                                                                                                 |
+| `scenarioViewIframeDisplayRatio`   | number defining the width/height ratio for the report iframe in the _Scenario_ page                                                                                                                   |
+| `workspaceId`                      | id of the PowerBI workspace containing your reports                                                                                                                                                   |
+| `dashboardsView`                   | array of reports to display in the _Dashboards_ page (see section [Dashboards page reports configuration](#dashboards-page-reports-configuration))                                                    |
+| `scenarioView`                     | dict or array of reports to display in the _Scenario_ page (see section [Scenario page report configuration](#scenario-page-report-configuration))                                                    |
 
-As of version **v6.5.x**, the webapp no longer applies its custom PowerBI themes by default.  
-Integrators can now explicitly enable this behavior through the workspace configuration.
+### Report configuration structure
 
-#### Default behavior
-By default, PowerBI reports are displayed using **PowerBI’s native theme** (no custom colors or layout overrides).  
-This ensures that projects which do not provide a valid PowerBI theme configuration continue to render correctly.
-
-#### How to enable custom webapp themes
-
-To re-enable the use of the webapp’s built-in PowerBI themes (light and dark), set the following option in your workspace configuration:
-
-```yaml
-webApp:
-  options:
-    charts:
-      useWebappTheme: true
-
-### Report configuration object
-
-For both _Scenario_ and _Dashboards_ pages, the reports objects inside `scenarioView` and `dashboardsView` properties
+For both _Scenario_ and _Dashboards_ pages, the **report** objects inside `scenarioView` and `dashboardsView` properties
 expect the same structure:
 
 ```js
@@ -103,17 +82,15 @@ expect the same structure:
 | `dynamicFilters` | an array of dynamic filters objects (see section [Dynamic filters](#dynamic-filters))                                                                                            |
 | `pageName`       | the report section that you want to display, per language; it can be found in the URL of your report, and usually looks like `ReportSection` or `ReportSection0123456789abcdef`. |
 
-This structure is used to define **reports**, that are a part of the `scenarioView` and `dashboardsView`
+### Dashboard view
 
-### Dashboards page reports configuration
-
-**dashboardsView** must be an array with one or several configuration objects inside: each report in the array will add
+`dashboardsView` must be an array with one or several configuration objects inside: each report in the array will add
 an item in the menu on the left-side of the screen in the _Dashboards_ page.
 
 Examples:
 
 <details>
-<summary>Dashboards page configuration - JSON</summary>
+<summary>Dashboard page configuration - JSON</summary>
 
 ```json
 {
@@ -129,8 +106,8 @@ Examples:
       "reportId": "608b7bef-f5e3-4aae-b8db-19bbb38325d5",
       "settings": { "navContentPaneEnabled": false, "panes": { "filters": { "expanded": true, "visible": true } } },
       "dynamicFilters": [
-        { "table": "StockProbe", "column": "SimulationRun", "values": "csmSimulationRun" },
-        { "table": "Bar", "column": "simulationrun", "values": "csmSimulationRun" }
+        { "table": "StockProbe", "column": "SimulationRun", "values": "lastRunId" },
+        { "table": "Bar", "column": "simulationrun", "values": "lastRunId" }
       ],
       "pageName": { "en": "ReportSectionca125957a3f5ea936a30", "fr": "ReportSectionca125957a3f5ea936a30" }
     },
@@ -147,7 +124,7 @@ Examples:
 </details>
 
 <details>
-<summary>Dashboards page configuration - YAML</summary>
+<summary>Dashboard page configuration - YAML</summary>
 
 ```yaml
 dashboardsView:
@@ -177,10 +154,10 @@ dashboardsView:
     dynamicFilters:
       - table: 'StockProbe'
         column: 'SimulationRun'
-        values: 'csmSimulationRun'
+        values: 'lastRunId'
       - table: 'Bar'
         column: 'simulationrun'
-        values: 'csmSimulationRun'
+        values: 'lastRunId'
     pageName:
       en: 'ReportSectionca125957a3f5ea936a30'
       fr: 'ReportSectionca125957a3f5ea936a30'
@@ -201,7 +178,7 @@ dashboardsView:
 
 </details>
 
-### Scenario page report configuration
+### Scenario view
 
 There are two ways to configure the report in the _Scenario_ page:
 
@@ -256,10 +233,10 @@ scenarioView:
     dynamicFilters:
       - table: 'StockProbe'
         column: 'SimulationRun'
-        values: 'csmSimulationRun'
+        values: 'lastRunId'
       - table: 'contains_Customer'
         column: 'simulationrun'
-        values: 'csmSimulationRun'
+        values: 'lastRunId'
     pageName:
       en: 'ReportSection937f9c72cc8f1062aa88'
       fr: 'ReportSection937f9c72cc8f1062aa88'
@@ -328,10 +305,10 @@ scenarioView:
     dynamicFilters:
       - table: 'StockProbe'
         column: 'SimulationRun'
-        values: 'csmSimulationRun'
+        values: 'lastRunId'
       - table: 'contains_Customer'
         column: 'simulationrun'
-        values: 'csmSimulationRun'
+        values: 'lastRunId'
     pageName:
       en: 'ReportSection937f9c72cc8f1062aa88'
       fr: 'ReportSection937f9c72cc8f1062aa88'
@@ -398,75 +375,36 @@ You can also provide a list of several allowed values:
 #### Dynamic filters
 
 **Dynamic filters** can be context-dependent to filter rows based on various information, such as the currently selected
-scenario, its parent or root scenarios, or even the scenarios available to the user in the webapp.
+scenario, its parent or root scenarios, or even the scenarios available to the user in the webapp. For the full list of
+available options, please see the [Filters](charts_superset.md#filters) section in the page documenting common
+configuration between PowerBI and Superset charts.
 
-Here is the list of dynamic filters available:
-
-| Filter name                            | Description                                                            |
-| -------------------------------------- | ---------------------------------------------------------------------- |
-| `id`                                   | _id_ of the current scenario                                           |
-| `lastRunId`                            | _id of the last run_ of the current scenario                           |
-| `csmSimulationRun`                     | _csm run id_ of the last run of the current scenario                   |
-| `state`                                | _state_ of the current scenario                                        |
-| `name`                                 | _name_ of the current scenario                                         |
-| `masterId`                             | _id_ of the root scenario of the current scenario                      |
-| `parentId`                             | _id_ of the parent scenario of the current scenario                    |
-| `ownerId`                              | _id_ of the user that created the current scenario                     |
-| `solutionId`                           | _id_ of the solution                                                   |
-| `visibleScenariosIds`                  | list of _ids_ of the scenarios visible to the user                     |
-| `visibleScenariosSimulationRunsIds`    | list of _ids_ of the last run of scenarios visible to the user         |
-| `visibleScenariosCsmSimulationRunsIds` | list of _csm run ids_ of the last run of scenarios visible to the user |
-
-For example, you can filter the rows of several tables to only display the results of the last simulation run, by
-using the `csmSimulationRun` dynamic filter:
+Here is an example of how to filter the rows of several tables to only display the results of the last simulation run, by
+using the `lastRunId` dynamic filter:
 
 ```json
 {
   "dynamicFilters": [
-    { "table": "StockProbe", "column": "SimulationRun", "values": "csmSimulationRun" },
-    { "table": "contains_Customer", "column": "simulationrun", "values": "csmSimulationRun" }
+    { "table": "StockProbe", "column": "SimulationRun", "values": "lastRunId" },
+    { "table": "contains_Customer", "column": "simulationrun", "values": "lastRunId" }
   ]
 }
 ```
 
-You can also restrict the displayed results in a dashboards to only show the scenarios accessible to the user:
+You can also filter the results in a report to show only the scenarios accessible to the user:
 
 ```json
 {
-  "dynamicFilters": [
-    { "table": "StockProbe", "column": "SimulationRun", "values": "visibleScenariosCsmSimulationRunsIds" }
-  ]
+  "dynamicFilters": [{ "table": "StockProbe", "column": "SimulationRun", "values": "visibleScenariosLastRunIds" }]
 }
 ```
 
-#### Custom filters
-
-If you want to add a custom filter (neither PowerBIReportEmbedSimpleFilter nor PowerBIReportEmbedMultipleFilter) in staticFilters or dynamicFilters fields, you can but need to follow the [syntax compatible with embedded reports](https://github.com/microsoft/powerbi-models/blob/0d326572c4253fd9f89b73a0d8df1ae46318a860/src/models.ts#L338).
-For example, you can add a [IRelativeDateTimeFilter](https://github.com/microsoft/powerbi-models/blob/0d326572c4253fd9f89b73a0d8df1ae46318a860/src/models.ts#L373) following this pattern:
-
-```js
-{
-    $schema: string,
-    target: IFilterGeneralTarget,
-    filterType: FilterType,
-    displaySettings?: IFilterDisplaySettings,
-    operator: RelativeDateOperators,
-    timeUnitsCount?: number,
-    timeUnitType: RelativeDateFilterTimeUnit,
-}
-```
-
-See [PowerBI models](https://github.com/microsoft/powerbi-models) for further details.
-
-### Disable the display of results
-
-If the display of results after a simulation run isn't needed in the webapp, configuration of
-`[workspace].webApp.options.charts` can be omitted and thus PowerBi will be disabled in both
-Dashboards and Scenario views.
-
-## Complete example
+#### Complete example
 
 You can find below a complete example of a workspace YAML description file, defining the PowerBI charts to use:
+
+<details>
+<summary>Scenario page configuration - One report per run template - YAML</summary>
 
 ```yaml
 key: 'brewerydevworkspace'
@@ -477,9 +415,8 @@ description: 'A workspace for Brewery Dev'
 sendInputToDataWarehouse: true
 useDedicatedEventHubNamespace: true
 sendScenarioMetadataToEventHub: true
-webApp:
-  url: 'https://sample.app.cosmotech.com'
-  options:
+additionalData:
+  webapp:
     charts:
       workspaceId: '290de699-9026-42c0-8c83-e4e87c3f22dd'
       logInWithUserCredentials: false
@@ -512,10 +449,10 @@ webApp:
           dynamicFilters:
             - table: 'StockProbe'
               column: 'SimulationRun'
-              values: 'csmSimulationRun'
+              values: 'lastRunId'
             - table: 'Bar'
               column: 'simulationrun'
-              values: 'csmSimulationRun'
+              values: 'lastRunId'
           pageName:
             en: 'ReportSectionca125957a3f5ea936a30'
             fr: 'ReportSectionca125957a3f5ea936a30'
@@ -532,10 +469,10 @@ webApp:
           dynamicFilters:
             - table: 'StockProbe'
               column: 'SimulationRun'
-              values: 'csmSimulationRun'
+              values: 'lastRunId'
             - table: 'Bar'
               column: 'simulationrun'
-              values: 'csmSimulationRun'
+              values: 'lastRunId'
           pageName:
             en: 'ReportSectiond5265d03b73060af4244'
             fr: 'ReportSectiond5265d03b73060af4244'
@@ -560,10 +497,10 @@ webApp:
           dynamicFilters:
             - table: 'StockProbe'
               column: 'SimulationRun'
-              values: 'csmSimulationRun'
+              values: 'lastRunId'
             - table: 'contains_Customer'
               column: 'simulationrun'
-              values: 'csmSimulationRun'
+              values: 'lastRunId'
           pageName:
             en: 'ReportSection937f9c72cc8f1062aa88'
             fr: 'ReportSection937f9c72cc8f1062aa88'
@@ -587,10 +524,10 @@ webApp:
           dynamicFilters:
             - table: 'StockProbe'
               column: 'SimulationRun'
-              values: 'csmSimulationRun'
+              values: 'lastRunId'
             - table: 'Bar'
               column: 'simulationrun'
-              values: 'csmSimulationRun'
+              values: 'lastRunId'
           pageName:
             en: 'ReportSection'
             fr: 'ReportSection'
@@ -614,14 +551,16 @@ webApp:
           dynamicFilters:
             - table: 'StockProbe'
               column: 'SimulationRun'
-              values: 'csmSimulationRun'
+              values: 'lastRunId'
             - table: 'Bar'
               column: 'simulationrun'
-              values: 'csmSimulationRun'
+              values: 'lastRunId'
           pageName:
             en: 'ReportSection'
             fr: 'ReportSection'
 ```
+
+</details>
 
 ## PowerBI authentication strategies
 
@@ -750,61 +689,6 @@ JSON file. Create a _**local.settings.json**_ file in the **api** folder with th
 }
 ```
 
-## Overriding the workspace configuration
-
-Updating the workspace configuration via the Cosmo Tech API (with restish or swagger) can be a slow, cumbersome and
-error-prone process. A simpler way to iterate on the dashboards configuration during development is to use the file
-[src/config/overrides/Workspaces.js](../src/config/overrides/Workspaces.js). This file can be used to override the
-configuration of any workspace, by patching the workspace data sent by the Cosmo Tech API.
-
-Open the file and modify the `WORKSPACES` constant, that contains an array of workspace objects. These objects must
-contain an `id` property, that will be used to patch the matching workspace sent by the API.
-
-Here is an example of how to override the `charts` configuration via the
-[src/config/overrides/Workspaces.js](../src/config/overrides/Workspaces.js) file:
-
-```js
-export const WORKSPACES = [
-  {
-    id: 'w-000000000',
-    webApp: {
-      options: {
-        charts: {
-          workspaceId: '00000000-0000-0000-0000-000000000000',
-          logInWithUserCredentials: false,
-          scenarioViewIframeDisplayRatio: 1580 / 350,
-          dashboardsViewIframeDisplayRatio: 1280 / 795,
-          useWebAppTheme: true,
-          dashboardsView: [
-            {
-              title: { en: 'Stocks Follow-up', fr: 'Suivi de stock' },
-              reportId: '00000000-0000-0000-0000-000000000000',
-              settings: { navContentPaneEnabled: false, panes: { filters: { expanded: true, visible: true } } },
-              dynamicFilters: [],
-              pageName: { en: 'ReportSectionca125957a3f5ea936a30', fr: 'ReportSectionca125957a3f5ea936a30' },
-            },
-          ],
-          scenarioView: {
-            myRunTemplateId: {
-              title: { en: 'Scenario dashboard for run type 1', fr: 'Rapport de scénario du run type 1' },
-              reportId: '00000000-0000-0000-0000-000000000000',
-              settings: { navContentPaneEnabled: false, panes: { filters: { expanded: true, visible: true } } },
-              staticFilters: [],
-              dynamicFilters: [],
-              pageName: { en: 'ReportSection12345', fr: 'ReportSection12345' },
-            },
-          },
-        },
-      },
-    },
-  },
-];
-```
-
-This configuration will then be used when **running your webapp locally**, to quickly iterate on the configuration to
-check your dashboards configuration. You can even commit these changes in your webapp repository to keep using this
-"configuration patch" in **deployed webapps** (it can be useful for feature preview environments).
-
 ## Report page size recommendation
 
 For Scenario View iframe:
@@ -828,10 +712,15 @@ Note that you can set a fixed display ratio for these PowerBI iframes by setting
 
 ### Motivation
 
-This webapp comes with a dark theme and a light one. Having a unique theme for Power BI, either a dark or a light one, would clash when the other one is used for the webapp theme.
-The two themes switch according to the webapp theme switch, in order to give users a more unified experience, without having to duplicate any data.
+This webapp comes with light and dark themes. Having a unique theme for Power BI, either a dark or a light one, would
+clash when the other one is used for the webapp theme. When `additionalData.webapp.chartsuseWebappTheme` is enabled in
+the workspace configuration, the embedded dashboards will apply a custom theme based on the selected light or dark mode
+in the webapp.
 
-The files `darkTheme.json` and `lightTheme.json` are provided, which offer the bare minimum color palettes. These files can then be customized, to achieve specific goals, according to one's reports charts look and feel.
+The files `darkTheme.json` and `lightTheme.json` are provided, which offer the bare minimum color palettes. These files
+can then be customized, to achieve specific goals, according to one's reports charts look and feel.
+
+_Note: since **v7.0.0**, the webapp no longer applies its custom PowerBI themes by default._
 
 ### How to customize your own themes
 

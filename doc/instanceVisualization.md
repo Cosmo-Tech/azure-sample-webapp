@@ -1,9 +1,14 @@
 # Instance visualization
 
+> **Warning**
+>
+> Since v7.0.0, this view has been deprecated and is no longer supported (some configuration modes may still be working)
+
 This optional view can be enabled in the webapp to visualize digital twins. This view is disabled by default, and can
 be enabled by setting a valid **data source** in the workspace configuration.
 
 Integrators must choose between two modes to use this view:
+
 - option A: use native API features (setup is easier, but **only twingraph datasets are supported**)
 - option B: deploy a custom **Azure Function** to parse the content of datasets
 
@@ -11,7 +16,7 @@ Integrators must choose between two modes to use this view:
 
 ### Overview
 
-In order to enable the Instance View in your webapp, you must define the key `webApp.options.instanceView` in your
+In order to enable the Instance View in your webapp, you must define the key `additionalData.webapp.instanceView` in your
 **workspace configuration file** (e.g. _Workspace.yaml_). The value of `instanceView` must be an object with two keys
 `dataSource` and `dataContent`. Here is an example of a workspace YAML file defining the instance view configuration
 (the expected format of objects `dataSource` and `dataContent` will be detailed in the next sections):
@@ -19,9 +24,8 @@ In order to enable the Instance View in your webapp, you must define the key `we
 ```yaml
 key: 'mybreweryworkspace'
 name: 'My Brewery Workspace'
-webApp:
-  url: 'https://mybreweryworkspace.example.com'
-  options:
+additionalData:
+  webapp:
     instanceView:
       dataSource:
         type: 'azure_function'
@@ -56,9 +60,9 @@ The `dataSource` object defines which strategy the webapp should use to retrieve
 datasets. It can have the following fields:
 
 - `type`: string value defining which mode to use for data source. Possibles values are:
-    - `twingraph_dataset`: the webapp will only use the Cosmo Tech API (**only supports dataset of type twingraph**)
-    - `azure_function`: the webapp will use a specific Azure Function (**requires an Azure Function to be deployed**)
-    - _(deprecated)_ `adt`: this value is deprecated, use `azure_function` instead
+  - `twingraph_dataset`: the webapp will only use the Cosmo Tech API (**only supports dataset of type twingraph**)
+  - `azure_function`: the webapp will use a specific Azure Function (**requires an Azure Function to be deployed**)
+  - _(deprecated)_ `adt`: this value is deprecated, use `azure_function` instead
 - `functionUrl`: the url of your Function App, **followed by** `/api/ScenarioDownload` (only used if `type` is `azure_function`)
 - `functionKey`: the function key of your Function App; as defined in appendix A, section 2.2 (only used if `type` is `azure_function`)
 
@@ -294,8 +298,9 @@ Examples:
 The address of the package to be deployed (you can keep the default value).<br>
 
 Examples:
- - for API v3: _https://github.com/Cosmo-Tech/azure-function-scenario-download/releases/download/v2.0.0/artifact.zip_
- - for API v2: _https://github.com/Cosmo-Tech/azure-function-scenario-download/releases/download/v1.0.1/artifact.zip_
+
+- for API v3: _https://github.com/Cosmo-Tech/azure-function-scenario-download/releases/download/v2.0.0/artifact.zip_
+- for API v2: _https://github.com/Cosmo-Tech/azure-function-scenario-download/releases/download/v1.0.1/artifact.zip_
 
 You can then click on _“Review + create“_, and then on _“Create”_ after validation.
 
@@ -360,8 +365,8 @@ Here is an example of how to override the `instanceView` configuration via the
 export const WORKSPACES = [
   {
     id: 'w-000000000', // replace this id by your workspace id
-    webApp: {
-      options: {
+    additionalData: {
+      webapp: {
         instanceView: {
           dataSource: {
             type: 'adt',
