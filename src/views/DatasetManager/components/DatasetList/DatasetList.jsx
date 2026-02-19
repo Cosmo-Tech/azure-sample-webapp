@@ -44,7 +44,7 @@ export const Root = styled(Paper)(({ theme }) => ({
 export const DatasetList = () => {
   const { t } = useTranslation();
   const getDatasetRunnerStatus = useGetDatasetRunnerStatus();
-  const { userPermissionsInCurrentOrganization, datasets, currentDataset, selectDataset } = useDatasetList();
+  const { userPermissionsOnCurrentWorkspace, datasets, currentDataset, selectDataset } = useDatasetList();
 
   const sortedDatasetList = useMemo(() => {
     return ResourceUtils.sortResourceListByName(datasets);
@@ -79,8 +79,8 @@ export const DatasetList = () => {
     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 2, py: 1, height: '48px' }}>
       <Typography variant="h6">Datasets</Typography>
       <PermissionsGate
-        userPermissions={userPermissionsInCurrentOrganization}
-        necessaryPermissions={[ACL_PERMISSIONS.ORGANIZATION.CREATE_CHILDREN]}
+        userPermissions={userPermissionsOnCurrentWorkspace}
+        necessaryPermissions={[ACL_PERMISSIONS.WORKSPACE.CREATE_CHILDREN]}
       >
         <CreateDatasetButton />
       </PermissionsGate>

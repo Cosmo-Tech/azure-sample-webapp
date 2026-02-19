@@ -3,10 +3,9 @@
 import { useCallback, useMemo } from 'react';
 import { DATASET_REDUCER_STATUS } from '../../../../state/datasets/constants';
 import { useSetDatasetReducerStatus } from '../../../../state/datasets/hooks';
-import { useOrganizationData } from '../../../../state/organizations/hooks';
 import { useCreateETLRunnerAndDataset } from '../../../../state/runner/hooks';
 import { useSubDataSourceRunTemplates, useSolutionData } from '../../../../state/solutions/hooks';
-import { useWorkspaceData } from '../../../../state/workspaces/hooks';
+import { useUserPermissionsOnCurrentWorkspace, useWorkspaceData } from '../../../../state/workspaces/hooks';
 import { ArrayDictUtils, SolutionsUtils } from '../../../../utils';
 
 export const useSubDatasetCreationParameters = () => {
@@ -16,7 +15,7 @@ export const useSubDatasetCreationParameters = () => {
   const customSubDataSourceRunTemplates = useSubDataSourceRunTemplates();
   const setDatasetReducerStatus = useSetDatasetReducerStatus();
 
-  const userPermissionsInCurrentOrganization = useOrganizationData()?.security?.currentUserPermissions ?? [];
+  const userPermissionsOnCurrentWorkspace = useUserPermissionsOnCurrentWorkspace();
 
   const dataSourceRunTemplates = useMemo(() => {
     const parameters = solutionData.parameters;
@@ -64,6 +63,6 @@ export const useSubDatasetCreationParameters = () => {
   return {
     dataSourceRunTemplates,
     createSubDatasetRunner,
-    userPermissionsInCurrentOrganization,
+    userPermissionsOnCurrentWorkspace,
   };
 };

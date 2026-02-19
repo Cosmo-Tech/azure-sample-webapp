@@ -10,7 +10,7 @@ import { useNoDatasetsPlaceholder } from './NoDatasetsPlaceholderHook';
 
 export const NoDatasetsPlaceholder = () => {
   const { t } = useTranslation();
-  const { userPermissionsInCurrentOrganization } = useNoDatasetsPlaceholder();
+  const { userPermissionsOnCurrentWorkspace } = useNoDatasetsPlaceholder();
   const ViewerSubTitle = () => (
     <Typography data-cy="no-datasets-viewer-subtitle">
       {t(
@@ -44,8 +44,8 @@ export const NoDatasetsPlaceholder = () => {
             {t('commoncomponents.datasetmanager.noDatasets.title', "You don't have any datasets yet")}
           </Typography>
           <PermissionsGate
-            userPermissions={userPermissionsInCurrentOrganization}
-            necessaryPermissions={[ACL_PERMISSIONS.ORGANIZATION.CREATE_CHILDREN]}
+            userPermissions={userPermissionsOnCurrentWorkspace}
+            necessaryPermissions={[ACL_PERMISSIONS.WORKSPACE.CREATE_CHILDREN]}
             RenderNoPermissionComponent={ViewerSubTitle}
           >
             {editorSubTitle}
