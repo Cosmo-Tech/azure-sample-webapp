@@ -1,24 +1,24 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
+import rfdc from 'rfdc';
 import { Login, DatasetManager } from '../../commons/actions';
 import { stub } from '../../commons/services/stubbing';
-import {
-  DATASETS,
-  WORKSPACE,
-  DATASETS_TO_FILTER,
-  ORGANIZATION_WITH_DEFAULT_ROLE_USER,
-} from '../../fixtures/stubbing/DatasetManager';
+import { DATASETS, WORKSPACE, DATASETS_TO_FILTER } from '../../fixtures/stubbing/DatasetManager';
 import { RUNNERS_FOR_ETL_DATASETS } from '../../fixtures/stubbing/DatasetManager/runners';
 import { USER_EXAMPLE } from '../../fixtures/stubbing/default';
 
-const WORKSPACES = [WORKSPACE];
+const clone = rfdc();
+
+const WORKSPACE_WITH_VIEWER_ROLE = clone(WORKSPACE);
+WORKSPACE_WITH_VIEWER_ROLE.security = { default: 'viewer', accessControlList: [] };
+const WORKSPACE_WITH_USER_ROLE = clone(WORKSPACE);
+WORKSPACE_WITH_USER_ROLE.security = { default: 'user', accessControlList: [] };
 
 describe('Dataset manager can be empty on start', () => {
   before(() => {
     stub.start();
-    stub.setOrganizations([ORGANIZATION_WITH_DEFAULT_ROLE_USER]);
     stub.setDatasets([]);
-    stub.setWorkspaces(WORKSPACES);
+    stub.setWorkspaces([WORKSPACE_WITH_USER_ROLE]);
   });
   beforeEach(() => Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' }));
   after(stub.stop);
@@ -43,8 +43,7 @@ describe('Dataset manager can be empty on start', () => {
 describe('Data edition in dataset manager', () => {
   before(() => {
     stub.start();
-    stub.setOrganizations([ORGANIZATION_WITH_DEFAULT_ROLE_USER]);
-    stub.setWorkspaces(WORKSPACES);
+    stub.setWorkspaces([WORKSPACE_WITH_USER_ROLE]);
     // we use the copy of DATASETS array to be able to reuse the same fixture
     // in all tests in the suite. The cypress doc says that  "fixture files are
     // assumed to be unchanged during the test, and thus Cypress loads them just once",
@@ -164,8 +163,7 @@ describe('Dataset creation', () => {
 
   before(() => {
     stub.start();
-    stub.setOrganizations([ORGANIZATION_WITH_DEFAULT_ROLE_USER]);
-    stub.setWorkspaces(WORKSPACES);
+    stub.setWorkspaces([WORKSPACE_WITH_USER_ROLE]);
     stub.setDatasets([...DATASETS]);
   });
   beforeEach(() => Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' }));
@@ -234,7 +232,7 @@ describe('Dataset creation', () => {
 describe('Filtering datasets list', () => {
   before(() => {
     stub.start();
-    stub.setWorkspaces(WORKSPACES);
+    stub.setWorkspaces([WORKSPACE_WITH_USER_ROLE]);
     stub.setDatasets(DATASETS_TO_FILTER);
   });
   beforeEach(() => Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' }));
@@ -263,7 +261,7 @@ describe('Filtering datasets list', () => {
 describe('Dataset delete', () => {
   before(() => {
     stub.start();
-    stub.setWorkspaces(WORKSPACES);
+    stub.setWorkspaces([WORKSPACE_WITH_VIEWER_ROLE]);
     stub.setDatasets([...DATASETS]);
   });
   beforeEach(() => Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' }));
