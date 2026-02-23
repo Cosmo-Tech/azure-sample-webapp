@@ -15,7 +15,7 @@
     "unlink:ui": "yalc remove @cosmotech/ui && yarn install"
   },
   "dependencies": {
-    "@cosmotech/api-ts": "5.0.0-rc1",
+    "@cosmotech/api-ts": "5.0.0",
     "@cosmotech/azure": "^4.0.1",
     "@cosmotech/core": "^3.0.1",
     "@cosmotech/ui": "^11.0.1",
