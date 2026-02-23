@@ -1,3 +1,30 @@
+## **7.0.0** <sub><sup>2026-02-23 ([e4742bd...6f78caa](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/e4742bde...6f78caae?diff=split))</sup></sub>
+
+### BREAKING CHANGES
+
+- the banner warning users that scenario results might not be up\-to\-date because of recent scenario changes have never been stable \(it was raising false positives every time the scenario was renamed, validated, rejected, shared or renamed\)\. This feature will thus be disabled by default until it is fixed\. ([e5983e2](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/e5983e2e))
+
+### Features
+
+- \[PROD\-15543\] add detection and removal of prefixes in Superset native filter ids ([505145e](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/505145e5))
+
+### Bug Fixes
+
+- fix possible error on dataset updates after a scenario creation ([af81647](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/af81647e))
+- \[PROD\-13049\] fix default value of enum parameters sent to API on first launch ([741053c](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/741053c9))
+- add missing support of defaultValue option for most varTypes of ETL parameters ([5d78a4e](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/5d78a4e3))
+- restore missing loading spinner and backdrop in dataset manager ([3cac407](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/3cac4071))
+- fix unnecessary delay when stopping dataset creation in Dataset Manager ([1e1079a](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/1e1079ad))
+- \[PROD\-15525\] add missing file format validation in Dataset Manager ([0db5bba](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/0db5bbaa))
+- \[PROD\-15499\] fix unnecessary dataset parts reuploads ([feca1d0](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/feca1d0d))
+- fix Discard button sometimes not showing up after form modifications ([c63a13f](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/c63a13f3))
+- \[PROD\-15472\] fix missing fetch of dataset content after an ETL has successfully run ([cb6a211](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/cb6a2110))
+- fix vertical alignment of loading spinner in dataset list when ETL is running ([5fe1c51](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/5fe1c515))
+- fix Dataset Manager layout issues when datasets have long names ([5bbcfb9](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/5bbcfb9d))
+- fix some english typos ([77fd8c4](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/77fd8c4b))
+- \[PROD\-15472\] fix dataset parts not updated in webapp cache after ETL dataset edit ([88a715d](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/88a715db))
+- fix required permission for dataset creation ([33d3e99](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/33d3e997))
+
 ## **7.0.0-rc1** <sub><sup>2026-02-06 ([b8e9c4d...c149c25](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/b8e9c4d9...c149c259?diff=split))</sup></sub>
 
 ### BREAKING CHANGES
