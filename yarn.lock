@@ -25,12 +25,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@azure/msal-browser@npm:^4.28.1":
-  version: 4.28.2
-  resolution: "@azure/msal-browser@npm:4.28.2"
+"@azure/msal-browser@npm:^4.28.2":
+  version: 4.29.0
+  resolution: "@azure/msal-browser@npm:4.29.0"
   dependencies:
-    "@azure/msal-common": "npm:15.14.2"
-  checksum: 10c0/7e734c1176fa8f71bfd23ed907ee115784d7e82c3f156e2e9aadb2ce2271b69e9839c22cde8beff89fc8664c79f5313a80c91dd8b8dded89edf17c1b39d4a991
+    "@azure/msal-common": "npm:15.15.0"
+  checksum: 10c0/a25a57bf0928ef5f0d41c04f0961b93cbc70f5cb33e1f332ee7bcfc5224b0c1b836d8fc4bd01a2fcc0856397026c1dda422053b044a8027293aa46f49761b1ea
   languageName: node
   linkType: hard
 
@@ -38,6 +38,13 @@ __metadata:
   version: 15.14.2
   resolution: "@azure/msal-common@npm:15.14.2"
   checksum: 10c0/51c6faa7dc067ae9bdd4e6b80802d9d7666520727330801d4f0184d0e60db002ed520e38ec0c17171cffe5beb5b77564e3439098a1fb97e58edccde4e5d48e78
+  languageName: node
+  linkType: hard
+
+"@azure/msal-common@npm:15.15.0":
+  version: 15.15.0
+  resolution: "@azure/msal-common@npm:15.15.0"
+  checksum: 10c0/1b2cae4950dff473c957afc725ceba4f0e00486eb110671f25af0ec40a5c905ebe56ea688e9651cb8ff28e9d1025f817faed7245c5103070be439daa33a01b86
   languageName: node
   linkType: hard
 
@@ -1455,38 +1462,38 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmotech/azure@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "@cosmotech/azure@npm:4.0.0"
+"@cosmotech/azure@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "@cosmotech/azure@npm:4.0.1"
   dependencies:
-    "@azure/msal-browser": "npm:^4.28.1"
-  checksum: 10c0/39e0ddf971724dd9cde63be652027bcefd0beef6893ad1d82eba54e920616f8f69438e765a0bd8877deb7047f363e8e3add8de08140ee127b9f6ab2555ec4129
+    "@azure/msal-browser": "npm:^4.28.2"
+  checksum: 10c0/98844531cb71211d00c0501de09e0097dcc2c0dcf8b92036d6cb149a26847b19eea221188a53531b7b99291db2625e7d9f7869bbcdad174dcf6e436ea23a7cdf
   languageName: node
   linkType: hard
 
-"@cosmotech/core@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "@cosmotech/core@npm:3.0.0"
+"@cosmotech/core@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "@cosmotech/core@npm:3.0.1"
   dependencies:
-    "@azure/msal-browser": "npm:^4.28.1"
+    "@azure/msal-browser": "npm:^4.28.2"
     csv-string: "npm:^4.1.1"
     date-fns: "npm:^4.1.0"
     js-file-download: "npm:^0.4.12"
     rfdc: "npm:^1.4.1"
     validator: "npm:^13.15.26"
     xlsx: "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
-  checksum: 10c0/a2f61f3633d5881b292b489fe9902abf2edf93d0bd864e9cff5d64da416f525880ce0ea1982e32b25c48ad289ae5d4f152ea0a48e08016d045ca2e2f644e7571
+  checksum: 10c0/2547971efa62862705e71b97f4052589690d9816bd22e547bf438d8c4bc1d869bffe880f6c6bdfd8751d6cc9a5a9b14297ecd2ebd67a171bc99b64c4ccc6ed12
   languageName: node
   linkType: hard
 
-"@cosmotech/ui@npm:^11.0.0":
-  version: 11.0.0
-  resolution: "@cosmotech/ui@npm:11.0.0"
+"@cosmotech/ui@npm:^11.0.1":
+  version: 11.0.1
+  resolution: "@cosmotech/ui@npm:11.0.1"
   dependencies:
     "@emotion/react": "npm:^11.14.0"
     "@emotion/styled": "npm:^11.14.1"
-    "@mui/x-date-pickers": "npm:^8.27.0"
-    "@mui/x-tree-view": "npm:^8.27.0"
+    "@mui/x-date-pickers": "npm:^8.27.2"
+    "@mui/x-tree-view": "npm:^8.27.2"
     "@superset-ui/embedded-sdk": "npm:^0.3.0"
     ag-grid-community: "npm:~35.0.1"
     ag-grid-react: "npm:~35.0.1"
@@ -1500,15 +1507,15 @@ __metadata:
     react-number-format: "npm:^5.4.4"
     rfdc: "npm:^1.4.1"
   peerDependencies:
-    "@cosmotech/azure": ^4.0.0-dev.1
-    "@cosmotech/core": ^3.0.0-dev.0
+    "@cosmotech/azure": ^4.0.1
+    "@cosmotech/core": ^3.0.1
     "@mui/icons-material": ^7.3.2
     "@mui/material": ^7.3.2
     prop-types: ^15.7.2
     react: ^19.1.1
     react-dom: ^19.1.1
     react-i18next: ^15.7.3
-  checksum: 10c0/6f5cbb97ffb2ae4878864d0b1093e8285b972d58f7a2ff6f4528f68503bd6ed2831f9b291afbab23377a1b80f174d2355593565d528030516fae6aacfc24272c
+  checksum: 10c0/10e2950cd9402a41edaef8008c91c43cf45fde7177bcd1b9f52ca7b9fe788eeeb165ed7d9ba1e4b53f90be52324189f09a08aafe55c13764ab0e1f1e9cb26d4a
   languageName: node
   linkType: hard
 
@@ -2665,7 +2672,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/x-date-pickers@npm:^8.27.0":
+"@mui/x-date-pickers@npm:^8.27.2":
   version: 8.27.2
   resolution: "@mui/x-date-pickers@npm:8.27.2"
   dependencies:
@@ -2727,7 +2734,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/x-tree-view@npm:^8.27.0":
+"@mui/x-tree-view@npm:^8.27.2":
   version: 8.27.2
   resolution: "@mui/x-tree-view@npm:8.27.2"
   dependencies:
@@ -4328,9 +4335,9 @@ __metadata:
     "@babel/preset-env": "npm:^7.29.0"
     "@babel/preset-react": "npm:^7.28.5"
     "@cosmotech/api-ts": "npm:5.0.0-rc1"
-    "@cosmotech/azure": "npm:^4.0.0"
-    "@cosmotech/core": "npm:^3.0.0"
-    "@cosmotech/ui": "npm:^11.0.0"
+    "@cosmotech/azure": "npm:^4.0.1"
+    "@cosmotech/core": "npm:^3.0.1"
+    "@cosmotech/ui": "npm:^11.0.1"
     "@emotion/react": "npm:^11.14.0"
     "@emotion/styled": "npm:^11.14.1"
     "@eslint/compat": "npm:^2.0.2"
