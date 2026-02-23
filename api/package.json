@@ -8,7 +8,7 @@
     "test": "echo \"No tests yet...\""
   },
   "dependencies": {
-    "@azure/msal-node": "^3.8.6",
+    "@azure/msal-node": "^3.8.7",
     "jsonwebtoken": "^9.0.3",
     "jwks-rsa": "^3.2.2",
     "uuid": "^13.0.0"
