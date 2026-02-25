@@ -96,44 +96,113 @@ const AVERAGE_CONSUMPTION = {
 
 const ADDITIONAL_SEATS = {
   id: 'additional_seats',
-  labels: { fr: 'Sièges additionnels', en: 'Additional seats' },
+  labels: {
+    fr: 'Sièges additionnels',
+    en: 'Additional seats',
+  },
   varType: 'number',
+  defaultValue: '-4',
+  minValue: '-600',
+  maxValue: '2500',
+  additionalData: {
+    tooltipText: {
+      fr: 'La valeur peut être comprise entre -600 et 2500',
+      en: 'Value can be between -600 and 2500',
+    },
+  },
 };
 
 const ADDITIONAL_TABLES = {
   id: 'additional_tables',
-  labels: { fr: 'Tables additionnelles', en: 'Additional tables' },
+  labels: {
+    fr: 'Tables additionnelles',
+    en: 'Additional tables',
+  },
   varType: 'number',
+  defaultValue: '3',
+  minValue: '-150',
+  maxValue: '12000',
+  additionalData: {
+    tooltipText: {
+      fr: 'La valeur peut être comprise entre -150 et 12000',
+      en: 'Value can be between -150 and 12000',
+    },
+  },
 };
 
 const ACTIVATED = {
   id: 'activated',
-  labels: { en: 'Activated', fr: 'Activé' },
+  labels: {
+    en: 'Activated',
+    fr: 'Activé',
+  },
   varType: 'bool',
+  defaultValue: 'false',
 };
 
 const EVALUATION = {
   id: 'evaluation',
-  labels: { fr: 'Evaluation', en: 'Evaluation' },
+  labels: {
+    fr: 'Evaluation',
+    en: 'Evaluation',
+  },
   varType: 'string',
+  defaultValue: 'Good',
+  additionalData: {
+    minLength: 2,
+  },
 };
 
 const VOLUME_UNIT = {
   id: 'volume_unit',
-  labels: { en: 'Volume unit', fr: 'Unité de volume' },
+  labels: {
+    en: 'Volume unit',
+    fr: 'Unité de volume',
+  },
   varType: 'enum',
+  defaultValue: 'LITRE',
+  additionalData: {
+    enumValues: [
+      {
+        key: 'LITRE',
+        value: 'L',
+      },
+      {
+        key: 'BARREL',
+        value: 'bl',
+      },
+      {
+        key: 'CUBIC_METRE',
+        value: 'm³',
+      },
+    ],
+    subType: 'RADIO',
+  },
 };
 
 const COMMENT = {
   id: 'comment',
-  labels: { en: 'Comment', fr: 'Commentaire' },
+  labels: {
+    en: 'Comment',
+    fr: 'Commentaire',
+  },
   varType: 'string',
+  defaultValue: 'None',
+  additionalData: {
+    maxLength: 30,
+  },
 };
 
 const ADDITIONAL_DATE = {
   id: 'additional_date',
-  labels: { en: 'Additional date', fr: 'Date additionelle' },
+  labels: {
+    en: 'Additional date',
+    fr: 'Date additionnelle',
+  },
   varType: 'date',
+  defaultValue: '2022-06-22T00:00:00.000Z',
+  minValue: '2021-01-01T00:00:00.000Z',
+  maxValue: '2022-12-31T00:00:00.000Z',
 };
 
 const INITIAL_STOCK_DATASET = {
@@ -161,7 +230,56 @@ const EXAMPLE_DATASET_PART_3 = {
 };
 
 const CUSTOMERS = { id: 'customers', labels: { fr: 'Clients', en: 'Customers' }, varType: '%DATASET_PART_ID_FILE%' };
-const EVENTS = { id: 'events', labels: { fr: 'Evènements', en: 'Events' }, varType: '%DATASET_PART_ID_FILE%' };
+const EVENTS = {
+  id: 'events',
+  labels: {
+    fr: 'Evénements',
+    en: 'Events',
+  },
+  varType: '%DATASET_PART_ID_FILE%',
+  // "defaultValue": "d-kovkq76eo1qj9", // Dataset default value not usable yet with stubbing
+  additionalData: {
+    tooltipText: {
+      fr: "Importez ou exportez un fichier d'événements",
+      en: 'Import or export an events file',
+    },
+    description: 'events data',
+    subType: 'TABLE',
+    columns: [
+      {
+        field: 'theme',
+        type: ['string'],
+      },
+      {
+        field: 'date',
+        type: ['date'],
+        minValue: '01/01/1900',
+        maxValue: '31/12/2999',
+      },
+      {
+        field: 'timeOfDay',
+        type: ['enum'],
+        enumValues: ['morning', 'midday', 'afternoon', 'evening'],
+      },
+      {
+        field: 'eventType',
+        type: ['string', 'nonResizable', 'nonEditable'],
+      },
+      {
+        field: 'reservationsNumber',
+        type: ['int'],
+        minValue: '0',
+        maxValue: '300',
+        acceptsEmptyFields: true,
+      },
+      {
+        field: 'online',
+        type: ['bool', 'nonSortable'],
+      },
+    ],
+    dateFormat: 'dd/MM/yyyy',
+  },
+};
 
 const TRAINING_START_DATE = {
   id: 'training_start_date',
@@ -226,6 +344,23 @@ const DYNAMIC_VALUES_CUSTOMERS_ENUM = {
   },
 };
 
+const SCENARIO_TO_COMPARE = {
+  id: 'scenario_to_compare',
+  labels: {
+    fr: 'Scénario à comparer',
+    en: 'Scenario to compare',
+  },
+  varType: 'enum',
+  additionalData: {
+    subType: 'SCENARIOS',
+    runTemplateFilter: ['sim_brewery_parameters', 'sim_mock_parameters'],
+    tooltipText: {
+      fr: 'Scénario auquel on va comparer les données',
+      en: 'Scenario against which to compare data',
+    },
+  },
+};
+
 export const PARAMETERS = {
   STOCK,
   RESTOCK_QTY,
@@ -257,4 +392,5 @@ export const PARAMETERS = {
   ETL_STRING_WITH_DEFAULT,
   ETL_DATE,
   DYNAMIC_VALUES_CUSTOMERS_ENUM,
+  SCENARIO_TO_COMPARE,
 };
