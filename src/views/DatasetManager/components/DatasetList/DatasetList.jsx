@@ -139,9 +139,11 @@ export const DatasetList = () => {
                 >
                   <ListItemText
                     data-cy={`datasets-list-item-text-${dataset.id}`}
+                    component="div"
                     primary={
                       <Box
-                        sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                        component="span"
+                        sx={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
                         title={dataset.name}
                       >
                         {dataset.name}
