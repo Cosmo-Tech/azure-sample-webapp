@@ -1,26 +1,66 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import utils from '../../commons/TestUtils';
-import { Scenarios, ScenarioManager, ScenarioParameters } from '../../commons/actions';
-import { BreweryParameters, Login } from '../../commons/actions/brewery';
-import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
+import rfdc from 'rfdc';
+import { Scenarios, ScenarioSelector, ScenarioManager, ScenarioParameters, Login } from '../../commons/actions';
+import { BreweryParameters } from '../../commons/actions/brewery';
+import { stub } from '../../commons/services/stubbing';
+import { BASIC_PARAMETERS_SIMULATION_RUNNER } from '../../fixtures/stubbing/default';
+
+const clone = rfdc();
 
 Cypress.Keyboard.defaults({
   keystrokeDelay: 0,
 });
 
 const EVENTS_CSV_FILE = 'events.csv';
-const SCENARIO_DATASET = DATASET.BREWERY_STORAGE;
-const SCENARIO_RUN_TEMPLATE = RUN_TEMPLATE.BASIC_TYPES;
 
-function forgeScenarioName() {
-  const prefix = 'Scenario with additional parameters - ';
-  return prefix + utils.randomStr(7);
-}
+const SCENARIO1 = clone(BASIC_PARAMETERS_SIMULATION_RUNNER);
+const SCENARIO2 = clone(BASIC_PARAMETERS_SIMULATION_RUNNER);
+SCENARIO1.id = 'r-stubbedScenario1';
+SCENARIO2.id = 'r-stubbedScenario2';
+SCENARIO1.name = 'Cypress - Additional parameters - Scenario 1';
+SCENARIO2.name = 'Cypress - Additional parameters - Scenario 2';
+
+const RADIO_BUTTON_KEYS = {
+  LITRE: 'LITRE',
+  BARREL: 'BARREL',
+  CUBIC_METRE: 'CUBIC_METRE',
+};
+const INIT_VALUES = {
+  additionalSeats: -4,
+  evaluation: 'Good',
+  volumeUnit: 'L',
+  additionalTables: 3,
+  comment: 'None',
+  additionalDate: '06/22/2022',
+  countries: [],
+  scenarioToCompare: '',
+};
+const VALUES_TO_UPDATE = {
+  additionalSeats: 888,
+  evaluation: 'Awful',
+  volumeUnit: 'bl',
+  additionalTables: 9090,
+  comment: 'Strongly recommended',
+  additionalDate: '07/12/2022',
+  countries: ['France', 'Germany', 'Italy'],
+  scenarioToCompare: SCENARIO1.name,
+};
+
+const runOptions = {
+  runDuration: 1000,
+  finalStatus: 'Successful',
+  expectedPollsCount: 2,
+};
 
 describe('Additional advanced scenario parameters tests', () => {
+  before(() => {
+    stub.start();
+  });
+
   beforeEach(() => {
     Login.login();
+    stub.setRunners([SCENARIO1, SCENARIO2]);
   });
 
   const scenarioNamesToDelete = [];
@@ -29,43 +69,9 @@ describe('Additional advanced scenario parameters tests', () => {
   });
 
   it('additional advanced scenario parameters tests', () => {
-    const RADIO_BUTTON_KEYS = {
-      LITRE: 'LITRE',
-      BARREL: 'BARREL',
-      CUBIC_METRE: 'CUBIC_METRE',
-    };
-    const INIT_VALUES = {
-      additionalSeats: -4,
-      evaluation: 'Good',
-      volumeUnit: 'L',
-      additionalTables: 3,
-      comment: 'None',
-      additionalDate: '06/22/2022',
-      countries: [],
-      scenarioToCompare: '',
-    };
-    const VALUES_TO_UPDATE = {
-      additionalSeats: 888,
-      evaluation: 'Awful',
-      volumeUnit: 'bl',
-      additionalTables: 9090,
-      comment: 'Strongly recommended',
-      additionalDate: '07/12/2022',
-      countries: ['France', 'Germany', 'Italy'],
-      scenarioToCompare: forgeScenarioName(),
-    };
-
-    const scenarioName = forgeScenarioName();
-    scenarioNamesToDelete.push(scenarioName, VALUES_TO_UPDATE.scenarioToCompare);
-    Scenarios.createScenario(VALUES_TO_UPDATE.scenarioToCompare, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE).then(
-      (value) => {
-        cy.wrap(value.scenarioCreatedId).as('scenarioToCompareId');
-      }
-    );
-    Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE);
-
-    // Wait for scenario view to be fully loaded
     Scenarios.getScenarioViewTab(60).should('be.visible');
+    ScenarioSelector.selectScenario(SCENARIO2.name, SCENARIO2.id);
+    ScenarioParameters.expandParametersAccordion();
 
     BreweryParameters.switchToEventsTab();
     BreweryParameters.importEventsTableData(EVENTS_CSV_FILE);
@@ -101,7 +107,7 @@ describe('Additional advanced scenario parameters tests', () => {
     BreweryParameters.getAdditionalDateInput().type('08/29/1997');
     BreweryParameters.getAdditionalDateInput().contains('08/29/1997');
 
-    cy.get('@scenarioToCompareId').then((id) => BreweryParameters.selectScenarioToCompareOption(id));
+    BreweryParameters.selectScenarioToCompareOption(SCENARIO1.id);
     BreweryParameters.getScenarioToCompareSelectInput().should('value', VALUES_TO_UPDATE.scenarioToCompare);
 
     ScenarioParameters.discard();
@@ -147,12 +153,10 @@ describe('Additional advanced scenario parameters tests', () => {
     BreweryParameters.switchToAdditionalParametersTab();
     BreweryParameters.getCommentInput().click().clear().type(VALUES_TO_UPDATE.comment);
     BreweryParameters.getAdditionalDateInput().type(VALUES_TO_UPDATE.additionalDate);
-    cy.get('@scenarioToCompareId').then((id) => {
-      BreweryParameters.selectScenarioToCompareOption(id);
-    });
+    BreweryParameters.selectScenarioToCompareOption(SCENARIO1.id);
     BreweryParameters.getScenarioToCompareSelectInput().should('value', VALUES_TO_UPDATE.scenarioToCompare);
 
-    ScenarioParameters.launch();
+    ScenarioParameters.launch({ scenarioId: SCENARIO2.id, runOptions, saveAndLaunch: true });
 
     // Test input in read only mode
     BreweryParameters.switchToEventsTab();
