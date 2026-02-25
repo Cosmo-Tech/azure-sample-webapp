@@ -64,7 +64,7 @@ GenericTextInput.useValidationRules = (parameterData) => {
   const { getParameterConstraintValidation } = useParameterConstraintValidation(parameterData);
   const getStringSizeInBytes = (string) => new Blob([string]).size;
   const minLength = ConfigUtils.getParameterAttribute(parameterData, 'minLength') ?? 0;
-  const maxLength = ConfigUtils.getParameterAttribute(parameterData, 'maxLength') ?? 0;
+  const maxLength = ConfigUtils.getParameterAttribute(parameterData, 'maxLength');
   return {
     required: {
       value: minLength > 0,
