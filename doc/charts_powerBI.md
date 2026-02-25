@@ -376,7 +376,7 @@ You can also provide a list of several allowed values:
 
 **Dynamic filters** can be context-dependent to filter rows based on various information, such as the currently selected
 scenario, its parent or root scenarios, or even the scenarios available to the user in the webapp. For the full list of
-available options, please see the [Filters](charts_superset.md#filters) section in the page documenting common
+available options, please see the [Filters](charts.md#filters) section in the page documenting common
 configuration between PowerBI and Superset charts.
 
 Here is an example of how to filter the rows of several tables to only display the results of the last simulation run, by

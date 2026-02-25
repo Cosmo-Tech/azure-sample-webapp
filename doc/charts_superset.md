@@ -66,7 +66,7 @@ displayed in the _Dashboards_ page. You can configure the following options for 
   - `id`: the filter identifier
   - `operator`: the operator to use (e.g., `==`, `!=`, `in`)
   - `column`: the column to filter on
-  - `value`: the value to filter by (see the [Filters](charts_superset.md#filters) section for supported options)
+  - `value`: the value to filter by (see the [Filters](charts.md#filters) section for supported options)
 
 ### Scenario view
 
