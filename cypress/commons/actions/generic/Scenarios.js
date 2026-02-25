@@ -103,7 +103,8 @@ function switchToScenarioView() {
 
 // Open scenario creation dialog
 function openScenarioCreationDialog() {
-  getScenarioCreationButton().should('not.be.disabled').click();
+  getScenarioCreationButton().should('not.be.disabled');
+  getScenarioCreationButton().click();
 }
 
 // From scenario creation dialog
