@@ -9,7 +9,7 @@
   - removed dataset rollback button in dataset manager
 - **deprecated features**:
   - removed support of the _Digital Twin_ view (a.k.a. flowchart)
-  - webapp \*deployment with Azure Static Web Apps is now deprecated\*\*; Azure deployment should still work but it is no longer officially supported and some features might be broken (e.g. embedded Superset dashboards)
+  - webapp **deployment with Azure Static Web Apps is now deprecated**; Azure deployment should still work but it is no longer officially supported and some features might be broken (e.g. embedded Superset dashboards)
 - breaking changes in **workspace configuration**:
   - `webApp.options` moved to `additionalData.webapp`
   - **cypher queries** used in dynamic values and in the dataset manager have been **replaced by dataset part queries**
