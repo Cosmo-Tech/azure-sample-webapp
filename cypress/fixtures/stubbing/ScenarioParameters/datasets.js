@@ -1,23 +1,20 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { DEFAULT_DATASET } from '../default';
+import { DEFAULT_RUNNER_BASE_DATASET } from '../default';
 
-const TWINGRAPH_DATASET = {
-  ...DEFAULT_DATASET,
-  ingestionStatus: 'SUCCESS',
-  twincacheStatus: 'FULL',
-  linkedWorkspaceIdList: ['W-stbbdbrwry'],
+const DATASET_WITH_DB_PART = {
+  ...DEFAULT_RUNNER_BASE_DATASET,
   security: { default: 'admin', accessControlList: [] },
   parts: [
     {
       id: 'dp-customers',
       name: 'customers',
       type: 'DB',
-      organizationId: 'O-stbdorgztn',
-      workspaceId: 'W-stbbdbrwry',
-      datasetId: 'D-stbdefault',
+      organizationId: DEFAULT_RUNNER_BASE_DATASET.organizationId,
+      workspaceId: DEFAULT_RUNNER_BASE_DATASET.workspaceId,
+      datasetId: DEFAULT_RUNNER_BASE_DATASET.id,
     },
   ],
 };
 
-export const TWINGRAPH_DATASET_LIST = [TWINGRAPH_DATASET];
+export const DATASETS = [DATASET_WITH_DB_PART];
