@@ -29,19 +29,30 @@ function getParameterInput(id) {
 function getDateParameterInput(id) {
   return getParameterContainer(id).find(GENERIC_SELECTORS.genericComponents.basicInput.dateGroup);
 }
-function clearDateParameterInput(inputElement) {
-  inputElement.click({ force: true });
-  inputElement.type('{selectAll}{backspace}', { delay: 1 });
+function clearDateParameterInput(inputElementOrGetter) {
+  const getElement = () => (typeof inputElementOrGetter === 'function' ? inputElementOrGetter() : inputElementOrGetter);
+  getElement()
+    .find('div')
+    .first()
+    .find('span')
+    .first()
+    .click({ force: true })
+    .type('{selectAll}{backspace}', { delay: 1 });
 }
 
-function typeInDateParameterInput(inputElement, value) {
+function clearAndTypeInDateParameterInput(inputElement, value) {
   clearDateParameterInput(inputElement);
   inputElement.click({ force: true });
 
   // Typing delay must be 0 for Chrome, but something above 10 for electron
   let delay = 0;
   if (Cypress.browser.name === 'electron') delay = 100;
-  inputElement.type(value, { delay });
+  inputElement.type('{backspace}' + value, { delay });
+}
+
+function typeInDateParameterInput(inputElement, value) {
+  inputElement.click({ force: true });
+  inputElement.type('{backspace}' + value, { delay: 1 });
 }
 
 function getDynamicParameterLoadingSpinner() {
@@ -234,6 +245,7 @@ export const ScenarioParameters = {
   getParameterInput,
   getDateParameterInput,
   clearDateParameterInput,
+  clearAndTypeInDateParameterInput,
   typeInDateParameterInput,
   getParametersDiscardButton,
   getParametersConfirmDiscardButton,

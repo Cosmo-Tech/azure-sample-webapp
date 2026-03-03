@@ -104,7 +104,7 @@ describe('Additional advanced scenario parameters tests', () => {
 
     BreweryParameters.switchToAdditionalParametersTab();
     BreweryParameters.getCommentInput().click().clear().type('Incredible service');
-    BreweryParameters.getAdditionalDateInput().type('08/29/1997');
+    ScenarioParameters.clearAndTypeInDateParameterInput(BreweryParameters.getAdditionalDateInput(), '08/29/1997');
     BreweryParameters.getAdditionalDateInput().contains('08/29/1997');
 
     BreweryParameters.selectScenarioToCompareOption(SCENARIO1.id);
@@ -152,7 +152,10 @@ describe('Additional advanced scenario parameters tests', () => {
 
     BreweryParameters.switchToAdditionalParametersTab();
     BreweryParameters.getCommentInput().click().clear().type(VALUES_TO_UPDATE.comment);
-    BreweryParameters.getAdditionalDateInput().type(VALUES_TO_UPDATE.additionalDate);
+    ScenarioParameters.clearAndTypeInDateParameterInput(
+      BreweryParameters.getAdditionalDateInput(),
+      VALUES_TO_UPDATE.additionalDate
+    );
     BreweryParameters.selectScenarioToCompareOption(SCENARIO1.id);
     BreweryParameters.getScenarioToCompareSelectInput().should('value', VALUES_TO_UPDATE.scenarioToCompare);
 
