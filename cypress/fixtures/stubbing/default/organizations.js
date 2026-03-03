@@ -37,7 +37,7 @@ export const DEFAULT_ORGANIZATION_PERMISSIONS = [
     component: 'runner',
     roles: {
       none: [],
-      viewer: ['read', 'read_security'],
+      viewer: ['read'],
       editor: ['read', 'read_security', 'launch', 'write'],
       validator: ['read', 'read_security', 'launch', 'write', 'validate'],
       admin: ['read', 'read_security', 'launch', 'write', 'validate', 'write_security', 'delete'],
