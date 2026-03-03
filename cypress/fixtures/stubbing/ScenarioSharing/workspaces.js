@@ -1,10 +1,10 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { ROLES } from '../../../commons/constants/generic/TestConstants';
-import { WORKSPACE_EXAMPLE, USERS_LIST } from '../default';
+import { DEFAULT_WORKSPACE, USERS_LIST } from '../default';
 
 export const WORKSPACE_NO_USERS = {
-  ...WORKSPACE_EXAMPLE,
+  ...DEFAULT_WORKSPACE,
   key: 'DemoBreweryNoUsers',
   security: {
     default: 'none',
@@ -19,7 +19,7 @@ const usersAccess = [
   { id: USERS_LIST[3].email, role: ROLES.RUNNER.VIEWER },
 ];
 export const WORKSPACE_WITH_USERS_LIST = {
-  ...WORKSPACE_EXAMPLE,
+  ...DEFAULT_WORKSPACE,
   key: 'DemoBreweryWithUsers',
   security: {
     default: 'none',

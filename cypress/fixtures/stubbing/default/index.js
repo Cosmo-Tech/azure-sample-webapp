@@ -27,7 +27,6 @@ export {
 } from './runTemplates';
 export { DEFAULT_SOLUTION, DEFAULT_SOLUTIONS } from './solutions';
 export {
-  WORKSPACE_EXAMPLE,
   DEFAULT_WORKSPACE,
   DEFAULT_WORKSPACES,
   EXTENDED_WORKSPACES_LIST,
