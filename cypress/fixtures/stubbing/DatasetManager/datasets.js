@@ -176,6 +176,7 @@ const DATASET_FROM_SCRATCH = {
   ingestionStatus: 'NONE',
 };
 
+// FIXME: remove twingraph datasets (replace them by datasets with DB parts)
 const DATASET_TWINGRAPH_A = {
   ...EDITABLE_DATASET,
   id: 'D-stbdataset11',

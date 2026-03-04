@@ -63,14 +63,18 @@ export const DEFAULT_ETL_RUNNER = {
   runTemplateName: ETL_RUN_TEMPLATE.name,
 };
 
-export const DEFAULT_RUNNERS = [
-  DEFAULT_ETL_RUNNER,
-  DEFAULT_SIMULATION_RUNNER,
-  BREWERY_SIMULATION_RUNNER,
-  BASIC_PARAMETERS_SIMULATION_RUNNER,
+export const DEFAULT_SIMULATION_RUNNERS = [
   { ...DEFAULT_SIMULATION_RUNNER, id: 'r-stubbedscnr01', name: 'Test Cypress - Stubbed scenario 1' },
   { ...DEFAULT_SIMULATION_RUNNER, id: 'r-stubbedscnr02', name: 'Test Cypress - Stubbed scenario 2' },
   { ...DEFAULT_SIMULATION_RUNNER, id: 'r-stubbedscnr03', name: 'Test Cypress - Stubbed scenario 3' },
   { ...DEFAULT_SIMULATION_RUNNER, id: 'r-stubbedscnr04', name: 'Test Cypress - Stubbed scenario 4' },
   { ...DEFAULT_SIMULATION_RUNNER, id: 'r-stubbedscnr05', name: 'Test Cypress - Stubbed scenario 5' },
+];
+
+export const DEFAULT_RUNNERS = [
+  DEFAULT_ETL_RUNNER,
+  DEFAULT_SIMULATION_RUNNER,
+  BREWERY_SIMULATION_RUNNER,
+  BASIC_PARAMETERS_SIMULATION_RUNNER,
+  ...DEFAULT_SIMULATION_RUNNERS,
 ];

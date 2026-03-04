@@ -1,6 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { DEFAULT_RUNNER_BASE_DATASET } from '../default';
+import { DEFAULT_RUNNER_BASE_DATASET, DEFAULT_RUNNER_PARAMETER_DATASET } from '../default';
 
 const DATASET_WITH_DB_PART = {
   ...DEFAULT_RUNNER_BASE_DATASET,
@@ -17,4 +17,4 @@ const DATASET_WITH_DB_PART = {
   ],
 };
 
-export const DATASETS = [DATASET_WITH_DB_PART];
+export const DATASETS = [DEFAULT_RUNNER_PARAMETER_DATASET, DATASET_WITH_DB_PART];

@@ -54,14 +54,9 @@ export const SOLUTION_WITH_DYNAMIC_TABLE = {
       regexValidation: null,
       additionalData: {
         canChangeRowsNumber: true,
-        connectorId: 'c-d7e5p9o0kjn9',
         subType: 'TABLE',
         dynamicValues: {
-          query:
-            'MATCH(customer: Customer) WITH {name: customer.id, satisfaction: customer.Satisfaction, ' +
-            'surroundingSatisfaction: customer.SurroundingSatisfaction, thirsty: customer.Thirsty} ' +
-            'as fields RETURN fields',
-          resultKey: 'fields',
+          datasetPartName: 'customers',
         },
         columns: [
           {
