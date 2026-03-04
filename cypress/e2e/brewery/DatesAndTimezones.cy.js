@@ -31,11 +31,11 @@ describe('Scenario parameters of type date', () => {
     BreweryParameters.getEndDateInput().contains('07/25/2025');
     BreweryParameters.getEndDateHelperText().should('not.exist');
 
-    ScenarioParameters.typeInDateParameterInput(BreweryParameters.getStartDateInput(), '07/25/2025');
+    ScenarioParameters.clearAndTypeInDateParameterInput(BreweryParameters.getStartDateInput(), '07/25/2025');
     BreweryParameters.getStartDateInput().contains('07/25/2025');
     BreweryParameters.getEndDateHelperText().should('be.visible').contains('start_date').contains('end_date');
 
-    ScenarioParameters.typeInDateParameterInput(BreweryParameters.getEndDateInput(), '07/26/2025');
+    ScenarioParameters.clearAndTypeInDateParameterInput(BreweryParameters.getEndDateInput(), '07/26/2025');
     BreweryParameters.getEndDateInput().contains('07/26/2025');
     BreweryParameters.getEndDateHelperText().should('not.exist');
 
@@ -56,11 +56,11 @@ describe('Scenario parameters of type date', () => {
     BreweryParameters.getEndDateInput().contains('07/13/2025');
     BreweryParameters.getEndDateHelperText().should('not.exist');
 
-    ScenarioParameters.typeInDateParameterInput(BreweryParameters.getStartDateInput(), '07/13/2025');
+    ScenarioParameters.clearAndTypeInDateParameterInput(BreweryParameters.getStartDateInput(), '07/13/2025');
     BreweryParameters.getStartDateInput().contains('07/13/2025');
     BreweryParameters.getEndDateHelperText().should('be.visible').contains('start_date').contains('end_date');
 
-    ScenarioParameters.typeInDateParameterInput(BreweryParameters.getEndDateInput(), '07/14/2025');
+    ScenarioParameters.clearAndTypeInDateParameterInput(BreweryParameters.getEndDateInput(), '07/14/2025');
     BreweryParameters.getEndDateInput().contains('07/14/2025');
     BreweryParameters.getEndDateHelperText().should('not.exist');
 
@@ -82,18 +82,18 @@ describe('Scenario parameters of type date', () => {
     BreweryParameters.getStartDateHelperText().should('not.exist');
     BreweryParameters.getEndDateHelperText().should('not.exist');
 
-    ScenarioParameters.typeInDateParameterInput(BreweryParameters.getStartDateInput(), '12/31/2024');
+    ScenarioParameters.clearAndTypeInDateParameterInput(BreweryParameters.getStartDateInput(), '12/31/2024');
     BreweryParameters.getStartDateHelperText().should('be.visible').contains('Minimum date').contains('01/01/2025');
-    ScenarioParameters.typeInDateParameterInput(BreweryParameters.getStartDateInput(), '01/02/2026');
+    ScenarioParameters.clearAndTypeInDateParameterInput(BreweryParameters.getStartDateInput(), '01/02/2026');
     BreweryParameters.getStartDateHelperText().should('be.visible').contains('Maximum date').contains('01/01/2026');
-    ScenarioParameters.typeInDateParameterInput(BreweryParameters.getStartDateInput(), '01/13/2025');
+    ScenarioParameters.clearAndTypeInDateParameterInput(BreweryParameters.getStartDateInput(), '01/13/2025');
     BreweryParameters.getStartDateHelperText().should('not.exist');
 
-    ScenarioParameters.typeInDateParameterInput(BreweryParameters.getEndDateInput(), '06/30/2025');
+    ScenarioParameters.clearAndTypeInDateParameterInput(BreweryParameters.getEndDateInput(), '06/30/2025');
     BreweryParameters.getEndDateHelperText().should('be.visible').contains('Minimum date').contains('07/01/2025');
-    ScenarioParameters.typeInDateParameterInput(BreweryParameters.getEndDateInput(), '07/02/2026');
+    ScenarioParameters.clearAndTypeInDateParameterInput(BreweryParameters.getEndDateInput(), '07/02/2026');
     BreweryParameters.getEndDateHelperText().should('be.visible').contains('Maximum date').contains('07/01/2026');
-    ScenarioParameters.typeInDateParameterInput(BreweryParameters.getEndDateInput(), '07/13/2025');
+    ScenarioParameters.clearAndTypeInDateParameterInput(BreweryParameters.getEndDateInput(), '07/13/2025');
     BreweryParameters.getEndDateHelperText().should('not.exist');
   });
 });

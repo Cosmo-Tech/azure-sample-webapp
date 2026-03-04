@@ -20,7 +20,7 @@ describe('scenario parameter values without varType are supported if described i
     ScenarioParameters.expandParametersAccordion();
     BreweryParameters.getStartDateInput().contains('01/01/2021');
 
-    ScenarioParameters.typeInDateParameterInput(BreweryParameters.getStartDateInput(), '10/22/2222');
+    ScenarioParameters.clearAndTypeInDateParameterInput(BreweryParameters.getStartDateInput(), '10/22/2222');
     BreweryParameters.getStartDateInput().contains('10/22/2222');
 
     ScenarioParameters.discard();

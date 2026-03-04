@@ -4,12 +4,13 @@ import { Login, Scenarios, ScenarioManager, ScenarioParameters, ErrorBanner } fr
 import { SCENARIO_STATUS } from '../../commons/constants/brewery/TestConstants';
 import { stub } from '../../commons/services/stubbing';
 import { setup } from '../../commons/utils';
-import { DEFAULT_DATASETS, DEFAULT_RUNNERS } from '../../fixtures/stubbing/default';
+import { DEFAULT_RUNNER_BASE_DATASET, BASIC_PARAMETERS_SIMULATION_RUNNER } from '../../fixtures/stubbing/default';
 
 describe('Create scenario and check its data in scenario manager', () => {
   before(() => {
     setup.initCypressAndStubbing();
     stub.start();
+    stub.setRunners([BASIC_PARAMETERS_SIMULATION_RUNNER]);
   });
 
   beforeEach(() => {
@@ -25,11 +26,11 @@ describe('Create scenario and check its data in scenario manager', () => {
   }
 
   it('Check scenario in scenario manager', () => {
-    const scenarioId = DEFAULT_RUNNERS[0].id;
-    const scenarioName = DEFAULT_RUNNERS[0].name;
-    const scenarioOwnerName = DEFAULT_RUNNERS[0].ownerName;
-    const scenarioCreationDate = DEFAULT_RUNNERS[0].creationDate;
-    const scenarioRunTemplate = DEFAULT_RUNNERS[0].runTemplateName;
+    const scenarioId = BASIC_PARAMETERS_SIMULATION_RUNNER.id;
+    const scenarioName = BASIC_PARAMETERS_SIMULATION_RUNNER.name;
+    const scenarioOwnerName = BASIC_PARAMETERS_SIMULATION_RUNNER.additionalData.webapp.ownerName;
+    const scenarioCreationDate = BASIC_PARAMETERS_SIMULATION_RUNNER.createInfo.timestamp;
+    const scenarioRunTemplate = BASIC_PARAMETERS_SIMULATION_RUNNER.runTemplateName;
     const runOptions = {
       runDuration: 1000,
       finalStatus: 'Successful',
@@ -47,7 +48,7 @@ describe('Create scenario and check its data in scenario manager', () => {
     ScenarioManager.getScenarioEditableLink(scenarioId).should('have.text', scenarioName);
     ScenarioManager.getScenarioRunStatus(scenarioId, SCENARIO_STATUS.CREATED);
     ScenarioManager.getScenarioRunTemplate(scenarioId).should('have.text', scenarioRunTemplate);
-    ScenarioManager.getScenarioDataset(scenarioId).should('have.text', DEFAULT_DATASETS[0].name, {
+    ScenarioManager.getScenarioDataset(scenarioId).should('have.text', DEFAULT_RUNNER_BASE_DATASET.name, {
       matchCase: false,
     });
 

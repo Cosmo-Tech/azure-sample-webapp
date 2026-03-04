@@ -10,6 +10,7 @@ import {
   Login,
 } from '../../commons/actions';
 import { stub } from '../../commons/services/stubbing';
+import { fileUtils } from '../../commons/utils';
 import { EXPECTED_DATA_AFTER_DUMMY_DATASET_1_UPLOAD } from '../../fixtures/FileParametersData';
 import { SOLUTIONS, SCENARIOS } from '../../fixtures/stubbing/FileParametersNames';
 
@@ -23,9 +24,13 @@ const getFileWithRenaming = () => cy.get('[data-cy=file-upload-file_with_renamin
 const getTableNoRenaming = () => cy.get('[data-cy=table-table_no_renaming]');
 const getTableWithRenaming = () => cy.get('[data-cy=table-table_with_renaming]');
 
-const getFilePathFromDataset = (dataset) => dataset.source.location;
-const getDatasetFilePath = (datasetId) => getFilePathFromDataset(stub.getDatasetById(datasetId));
+const getFormDataFromRequest = (req) => {
+  const serializedFormData = fileUtils.parseMultipartFormData(req.body)?.datasetPartCreateRequest;
+  return JSON.parse(serializedFormData);
+};
 
+// FIXME: the option shouldRenameFileOnUpload may no longer be necessary since v7, because the dataset part can hold
+// both the file name (sourceName) and the parameter id (name)
 describe('Management of file names for scenario parameters of type file', () => {
   before(() => {
     stub.start();
@@ -55,19 +60,16 @@ describe('Management of file names for scenario parameters of type file', () => 
     FileParameters.getFileName(getFileWithRenaming()).should('have.text', 'CSV file');
 
     ScenarioParameters.save({
-      datasetsEvents: [
-        { id: 'd-stbddst1', securityChanges: { default: 'admin' } },
-        { id: 'd-stbddst2', securityChanges: { default: 'admin' } },
-      ], // Force ids for stubbing of datasets creation
-      updateOptions: {
-        validateRequest: (req) => {
-          const values = req.body.parametersValues;
-          expect(values.find((el) => el.parameterId === 'file_no_renaming').value).to.equal('d-stbddst1');
-          expect(getDatasetFilePath('d-stbddst1')).to.have.string(DUMMY_CSV);
-          expect(values.find((el) => el.parameterId === 'file_with_renaming').value).to.equal('d-stbddst2');
-          expect(getDatasetFilePath('d-stbddst2')).to.have.string('file_with_renaming.csv');
+      datasetPartEvents: [
+        {
+          id: 'dp-datasetPart1',
+          validateRequest: (req) => expect(getFormDataFromRequest(req)?.sourceName).to.equal(DUMMY_CSV),
         },
-      },
+        {
+          id: 'dp-datasetPart2',
+          validateRequest: (req) => expect(getFormDataFromRequest(req)?.sourceName).to.equal(DUMMY_CSV),
+        },
+      ],
     });
 
     FileParameters.getFileName(getFileNoRenaming()).should('have.text', DUMMY_CSV);
@@ -75,7 +77,6 @@ describe('Management of file names for scenario parameters of type file', () => 
     FileParameters.download(getFileNoRenaming());
     FileParameters.download(getFileWithRenaming());
     Downloads.checkByContent(DUMMY_CSV, EXPECTED_DATA_AFTER_DUMMY_DATASET_1_UPLOAD);
-    Downloads.checkByContent('file_with_renaming.csv', EXPECTED_DATA_AFTER_DUMMY_DATASET_1_UPLOAD);
 
     FileParameters.upload(getFileNoRenaming(), DUMMY_JSON);
     FileParameters.upload(getFileWithRenaming(), DUMMY_JSON);
@@ -83,27 +84,19 @@ describe('Management of file names for scenario parameters of type file', () => 
     FileParameters.getFileName(getFileWithRenaming()).should('have.text', 'JSON file');
 
     ScenarioParameters.save({
-      datasetsEvents: [
+      datasetPartEvents: [
         {
-          id: 'd-stbddst3',
-          securityChanges: { default: 'admin' },
-          onDatasetUpdate: (req) => expect(getFilePathFromDataset(req.body)).to.have.string(DUMMY_JSON),
+          id: 'dp-datasetPart3',
+          validateRequest: (req) => expect(getFormDataFromRequest(req)?.sourceName).to.equal(DUMMY_JSON),
         },
         {
-          id: 'd-stbddst4',
-          securityChanges: { default: 'admin' },
-          onDatasetUpdate: (req) => expect(getFilePathFromDataset(req.body)).to.have.string('file_with_renaming.json'),
+          id: 'dp-datasetPart4',
+          validateRequest: (req) => expect(getFormDataFromRequest(req)?.sourceName).to.equal(DUMMY_JSON),
         },
+        // Dataset parts previously existing must be deleted
+        { id: 'dp-datasetPart1', delete: true },
+        { id: 'dp-datasetPart2', delete: true },
       ],
-      updateOptions: {
-        validateRequest: (req) => {
-          const values = req.body.parametersValues;
-          expect(values.find((el) => el.parameterId === 'file_no_renaming').value).to.equal('d-stbddst3');
-          expect(getDatasetFilePath('d-stbddst3')).to.have.string(DUMMY_JSON);
-          expect(values.find((el) => el.parameterId === 'file_with_renaming').value).to.equal('d-stbddst4');
-          expect(getDatasetFilePath('d-stbddst4')).to.have.string('file_with_renaming.json');
-        },
-      },
     });
 
     // Check that shouldRenameFileOnUpload options has an impact on names of uploaded files
@@ -112,19 +105,24 @@ describe('Management of file names for scenario parameters of type file', () => 
     TableParameters.getRows(getTableNoRenaming()).should('have.length', 2);
     TableParameters.getRows(getTableWithRenaming()).should('have.length', 2);
     ScenarioParameters.save({
-      datasetsEvents: [
-        { id: 'd-stbddst5', securityChanges: { default: 'admin' } },
-        { id: 'd-stbddst6', securityChanges: { default: 'admin' } },
-      ],
-      updateOptions: {
-        validateRequest: (req) => {
-          const values = req.body.parametersValues;
-          expect(values.find((el) => el.parameterId === 'table_no_renaming').value).to.equal('d-stbddst5');
-          expect(getDatasetFilePath('d-stbddst5')).to.have.string('foo.csv');
-          expect(values.find((el) => el.parameterId === 'table_with_renaming').value).to.equal('d-stbddst6');
-          expect(getDatasetFilePath('d-stbddst6')).to.have.string('table_with_renaming.csv');
+      datasetPartEvents: [
+        // Webapp bug PROD-15499: dataset parts are re-uploaded even if they've not changed
+        { id: 'dp-bug_datasetPartThatShouldntBeReuploaded3' },
+        { id: 'dp-bug_datasetPartThatShouldntBeReuploaded4' },
+
+        // For tables "sourceName" must be the parameter id
+        {
+          id: 'dp-datasetPart5',
+          validateRequest: (req) => expect(getFormDataFromRequest(req)?.sourceName).to.equal('table_no_renaming'),
         },
-      },
+        {
+          id: 'dp-datasetPart6',
+          validateRequest: (req) => expect(getFormDataFromRequest(req)?.sourceName).to.equal('table_with_renaming'),
+        },
+        // Webapp bug PROD-15499: dataset parts are re-uploaded even if they've not changed
+        { id: 'dp-datasetPart3', delete: true },
+        { id: 'dp-datasetPart4', delete: true },
+      ],
     });
 
     // Check that extension of XLSX files is replaced by CSV, whether the option is enabled or not
@@ -133,19 +131,29 @@ describe('Management of file names for scenario parameters of type file', () => 
     TableParameters.getRows(getTableNoRenaming()).should('have.length', 3);
     TableParameters.getRows(getTableWithRenaming()).should('have.length', 3);
     ScenarioParameters.save({
-      datasetsEvents: [
-        { id: 'd-stbddst7', securityChanges: { default: 'admin' } },
-        { id: 'd-stbddst8', securityChanges: { default: 'admin' } },
-      ],
-      updateOptions: {
-        validateRequest: (req) => {
-          const values = req.body.parametersValues;
-          expect(values.find((el) => el.parameterId === 'table_no_renaming').value).to.equal('d-stbddst7');
-          expect(getDatasetFilePath('d-stbddst7')).to.have.string('foo.csv');
-          expect(values.find((el) => el.parameterId === 'table_with_renaming').value).to.equal('d-stbddst8');
-          expect(getDatasetFilePath('d-stbddst8')).to.have.string('table_with_renaming.csv');
+      datasetPartEvents: [
+        // Webapp bug PROD-15499: dataset parts are re-uploaded even if they've not changed
+        { id: 'dp-bug_datasetPartThatShouldntBeReuploaded5' },
+        { id: 'dp-bug_datasetPartThatShouldntBeReuploaded6' },
+
+        // For tables "sourceName" must be the parameter id
+        {
+          id: 'dp-datasetPart7',
+          validateRequest: (req) => expect(getFormDataFromRequest(req)?.sourceName).to.equal('table_no_renaming'),
         },
-      },
+        {
+          id: 'dp-datasetPart8',
+          validateRequest: (req) => expect(getFormDataFromRequest(req)?.sourceName).to.equal('table_with_renaming'),
+        },
+
+        // Webapp bug PROD-15499: dataset parts are re-uploaded even if they've not changed
+        { id: 'dp-bug_datasetPartThatShouldntBeReuploaded3', delete: true },
+        { id: 'dp-bug_datasetPartThatShouldntBeReuploaded4', delete: true },
+
+        // Dataset parts previously existing must be deleted
+        { id: 'dp-datasetPart5', delete: true },
+        { id: 'dp-datasetPart6', delete: true },
+      ],
     });
   });
 });
