@@ -105,7 +105,7 @@
     "jwt-simple": "^0.5.6",
     "neostandard": "^0.13.0",
     "prettier": "^3.8.1",
-    "read-excel-file": "^6.0.3",
+    "read-excel-file": "^7.0.1",
     "vite": "^7.3.1",
     "vite-plugin-csp-guard": "^3.0.0",
     "vite-plugin-node-polyfills": "^0.25.0"
