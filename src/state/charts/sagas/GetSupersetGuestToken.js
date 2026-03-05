@@ -1,10 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { call, delay, put, race, select, take, takeLatest } from 'redux-saga/effects';
-import {
-  SUPERSET_TOKEN_MAX_RETRIES,
-  SUPERSET_TOKEN_POLLING_DELAY,
-} from '../../../services/config/FunctionalConstants';
+import { SUPERSET_TOKEN_MAX_RETRIES, SUPERSET_TOKEN_POLLING_DELAY } from '../../../services/config/FunctionalConstants';
 import { STATUSES } from '../../../services/config/StatusConstants';
 import { SupersetService } from '../../../services/superset/SupersetService';
 import { CHART_ACTIONS_KEY } from '../constants';
