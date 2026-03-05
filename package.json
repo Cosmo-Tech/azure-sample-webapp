@@ -111,7 +111,9 @@
     "vite-plugin-node-polyfills": "^0.25.0"
   },
   "resolutions": {
-    "glob": "^13.0.1"
+    "glob": "^13.0.6",
+    "immutable": "^5.1.5",
+    "tar": "^7.5.10"
   },
   "packageManager": "yarn@4.12.0"
 }
