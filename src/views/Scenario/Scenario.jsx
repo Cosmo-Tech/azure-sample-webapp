@@ -301,6 +301,16 @@ const Scenario = () => {
             </Grid>
           </Grid>
           <Grid size={12}>
+            <div>
+              <iframe
+                width="100%"
+                height="500px"
+                seamless
+                frameBorder="0"
+                scrolling="no"
+                src="https://superset-kubernetes.cosmotech.com/superset/dashboard/p/Vmv5p78Y3Xj/?standalone=3&height=400"
+              ></iframe>
+            </div>
             <Card component={Paper}>
               {currentScenarioData && (
                 <ScenarioParameters
