@@ -15,6 +15,10 @@ export const POLLING_MAX_CONSECUTIVE_NETWORK_ERRORS = 3;
 // Polling delay to update Power BI information (milliseconds)
 export const POWER_BI_INFO_POLLING_DELAY = 10000;
 
+// Superset guest token retry settings
+export const SUPERSET_TOKEN_POLLING_DELAY = 10000;
+export const SUPERSET_TOKEN_MAX_RETRIES = 5;
+
 // Theme default mode (must be "system", "dark" or "light")
 export const DEFAULT_THEME_MODE = 'system';
 

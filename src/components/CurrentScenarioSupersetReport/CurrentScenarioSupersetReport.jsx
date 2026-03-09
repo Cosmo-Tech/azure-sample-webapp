@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Backdrop, Box, CircularProgress, Stack, Typography } from '@mui/material';
 import { ErrorBoundary, SupersetReport } from '@cosmotech/ui';
-import { useSupersetGuestTokenRefresh } from '../../hooks/SupersetGuestTokenRefresh';
 import { RUNNER_RUN_STATE } from '../../services/config/ApiConstants';
 import { STATUSES } from '../../services/config/StatusConstants';
 import { RunnersUtils } from '../../utils';
@@ -36,8 +35,6 @@ const CurrentScenarioSupersetReport = ({
 
   const { report, noDashboardConfiguredForRunTemplate, alwaysShowReports } =
     getSupersetReportWithScenarioContext(index);
-
-  useSupersetGuestTokenRefresh();
 
   const defaultErrorDescription =
     'Something went wrong when trying to display dashboards. If the problem ' +
