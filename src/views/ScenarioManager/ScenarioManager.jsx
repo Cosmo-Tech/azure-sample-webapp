@@ -147,7 +147,7 @@ const ScenarioManager = () => {
   );
 
   return (
-    <div style={{ position: 'fixed', margin: 'auto', height: '100%', width: '100%' }}>
+    <div style={{ height: '100%', width: '100%' }}>
       <LoadingBackdrop status={runnersListStatus} />
       <ScenarioManagerTreeList
         datasets={datasets}
