@@ -17,6 +17,10 @@ export const CreateSubDatasetButton = ({ parentDataset }) => {
   const getDatasetRunnerStatus = useGetDatasetRunnerStatus();
   const { dataSourceRunTemplates, createSubDatasetRunner, userPermissionsOnCurrentWorkspace } =
     useSubDatasetCreationParameters();
+  const hasSubdatasources = useMemo(
+    () => dataSourceRunTemplates && Object.keys(dataSourceRunTemplates).length > 0,
+    [dataSourceRunTemplates]
+  );
   const [isDatasetWizardOpen, setIsDatasetWizardOpen] = useState(false);
   const isDisabled = useMemo(
     () => !parentDataset || getDatasetRunnerStatus(parentDataset) !== RUNNER_RUN_STATE.SUCCESSFUL,
@@ -31,6 +35,8 @@ export const CreateSubDatasetButton = ({ parentDataset }) => {
     },
     [createSubDatasetRunner, parentDataset?.id, closeDialog]
   );
+
+  if (!hasSubdatasources) return null;
 
   return (
     <PermissionsGate
