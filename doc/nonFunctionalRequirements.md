@@ -2,5 +2,5 @@
 
 - users are automatically logged out after **30 minutes** of inactivity
 - supported browsers:
-  - Chrome/Chromium 103 to 145
-  - Firefox 140 to 147
+  - Chrome/Chromium 111 and above
+  - Firefox 114 and above
