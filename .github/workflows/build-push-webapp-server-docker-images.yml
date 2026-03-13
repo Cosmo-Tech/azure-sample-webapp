@@ -19,7 +19,7 @@ on:
         type: string
   push:
     # List of branches that will trigger the workflow
-    branches: ['main']
+    branches: ['main', 'THU/migrate_function_app_to_node_24']
     tags:
       - '*'
 
