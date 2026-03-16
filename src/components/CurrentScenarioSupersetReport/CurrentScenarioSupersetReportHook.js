@@ -14,8 +14,6 @@ import {
   useGetSupersetReportWithScenarioContext,
 } from '../../state/charts/hooks';
 import { useCurrentSimulationRunnerData, useRunners } from '../../state/runner/hooks';
-import darkTheme from '../../theme/powerbi/darkTheme.json';
-import lightTheme from '../../theme/powerbi/lightTheme.json';
 import { RunnersUtils } from '../../utils';
 import { getReportLabels } from '../CurrentScenarioPowerBIReport/labels';
 
@@ -43,8 +41,8 @@ export const useCurrentScenarioSupersetReport = () => {
     [scenarios]
   );
 
-  const { isDarkTheme } = useApplicationTheme();
-  const theme = useMemo(() => (isDarkTheme ? darkTheme : lightTheme), [isDarkTheme]);
+  const { mode } = useApplicationTheme();
+  const theme = useMemo(() => (mode === 'light' ? 'default' : mode), [mode]);
   const options = useMemo(() => ({ supersetUrl }), [supersetUrl]);
 
   return {
@@ -58,8 +56,8 @@ export const useCurrentScenarioSupersetReport = () => {
     reportLabels,
     supersetInfo,
     visibleScenarios,
+    theme,
     // TODO: use values below to let integrators customize their superset reports
     language,
-    theme,
   };
 };
