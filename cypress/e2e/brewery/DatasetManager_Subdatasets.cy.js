@@ -88,10 +88,7 @@ describe('Subdatasources in subdataset creation wizard when whitelist is empty',
     DatasetManager.ignoreDatasetTwingraphQueries();
     DatasetManager.switchToDatasetManagerView();
     DatasetManager.selectDatasetById(DATASET_A.id);
-    DatasetManager.startSubdatasetCreation();
-    DatasetManager.getDatasetCreationNextStep().click();
-    DatasetManager.getNewDatasetSourceTypeSelect().click();
-    DatasetManager.getNewDatasetSourceTypeOptions().should('have.length', 0);
+    DatasetManager.getCreateSubdatasetButton().should('not.exist');
   });
 });
 
