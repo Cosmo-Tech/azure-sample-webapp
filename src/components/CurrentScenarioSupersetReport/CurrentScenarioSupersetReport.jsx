@@ -30,6 +30,7 @@ const CurrentScenarioSupersetReport = ({
     options,
     reportLabels,
     supersetInfo,
+    theme,
     visibleScenarios,
   } = useCurrentScenarioSupersetReport();
 
@@ -97,6 +98,7 @@ const CurrentScenarioSupersetReport = ({
             options={options}
             report={report}
             scenario={currentScenarioData}
+            theme={theme}
             visibleScenarios={visibleScenarios}
             {...other}
           />

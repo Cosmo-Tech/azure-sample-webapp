@@ -26,7 +26,7 @@ export const useApplicationTheme = () => {
   }, [mode, systemMode]);
 
   const toggleTheme = useCallback(() => setMode(isDarkTheme ? 'light' : 'dark'), [isDarkTheme, setMode]);
-  return { isDarkTheme, toggleTheme };
+  return { isDarkTheme, toggleTheme, mode: mode ?? DEFAULT_THEME_MODE };
 };
 
 export const useApplication = () => {
