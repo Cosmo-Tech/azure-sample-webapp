@@ -1,3 +1,26 @@
+## **7.0.1** <sub><sup>2026-03-17 ([46a2cd8...58c9303](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/46a2cd8c...58c9303d?diff=split))</sup></sub>
+
+### Bug Fixes
+
+- fix maximum length of string parameters defaulting to 0 when not defined ([163d7ac](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/163d7acb))
+- \[PROD\-15641\] hide sub\-dataset creation button when no subdataset source exists ([02d52ac](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/02d52acf))
+- \[PROD\-15644\] fix parameters of sub-dataset that couldn't be edited after creation ([f12d622](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/f12d6220))
+- \[PROD\-15549\] make connection to superset more stable for embedded dashboards ([6ec45cd](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/6ec45cdc), [3df33eb](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/3df33eb4))
+- \[PROD\-11566\] fix unreachable scenario card in Scenario Manager view when the error banner is visible ([072fbf0](https://github.com/Cosmo-Tech/webapp-component-ui/commit/072fbf0))
+- fix title label in role edition Dialog ([00c95a7](https://github.com/Cosmo-Tech/webapp-component-ui/commit/00c95a7))
+- removed unnecessary hook ([1603a0f](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/1603a0f5))
+- fix console warning in Dataset Manager ([577a3d0](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/577a3d04))
+- \[PROD\-15028\] fix console warning on unexpected workspace configuration properties ([3d4e791](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/3d4e7914))
+
+### Documentation
+
+- upgrade docs to reflect changes of API v5 and webapp v7 ([e9514ea](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/e9514ea7))
+- remove old releases from changelog ([5b4c3f1](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/5b4c3f13))
+- add patch version v6.5.2 in changelog ([b98d150](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/b98d1501))
+- clean changelog of v7.0.0 ([a46fefa](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/a46fefa9))
+- fix broken links in docs ([1bc443a](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/1bc443ab))
+- fix formatting issue in changelog ([c76c753](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/c76c7539))
+
 ## **7.0.0** <sub><sup>2026-02-23</sup></sub>
 
 ### BREAKING CHANGES
