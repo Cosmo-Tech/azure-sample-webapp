@@ -14,24 +14,21 @@ function checkTargetVersion(targetVersion) {
   }
 }
 
-function checkRootFolder(rootFolder) {
-  const packageFilePath = path.join(path.resolve(rootFolder), 'package.json');
-  if (!fs.existsSync(packageFilePath)) {
-    const errorMessage =
-      `Can't find package.json file in project dir: "${path.dirname(packageFilePath)}".` +
-      ' Please use the "-p" option to set the path to the root folder of your webapp ';
-    throw new Error(errorMessage);
+function checkFileExists(filePath, argName) {
+  if (filePath == null) return;
+  if (!fs.existsSync(path.resolve(filePath))) {
+    console.error(`Error: ${argName} file not found: "${filePath}"`);
+    process.exit(1);
   }
 }
 
 const runAllChecks = (args) => {
   try {
     checkTargetVersion(args.target);
-    checkRootFolder(args.project_dir);
   } catch (e) {
     console.error('Error: ' + e.message);
     process.exit(1);
   }
 };
 
-module.exports = { runAllChecks };
+module.exports = { runAllChecks, checkFileExists };

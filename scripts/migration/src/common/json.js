@@ -12,7 +12,7 @@ const PRETTIER_DEFAULT_OPTIONS = {
 
 const readFromFile = (filePath, encoding = 'utf8') => {
   try {
-    JSON.parse(fs.readFileSync(filePath, encoding));
+    return JSON.parse(fs.readFileSync(filePath, encoding));
   } catch (e) {
     console.error(`Error when reading JSON file "${filePath}"`);
     console.error(e.message);
@@ -20,10 +20,10 @@ const readFromFile = (filePath, encoding = 'utf8') => {
   }
 };
 
-const writeToFile = (object, filePath) => {
+const writeToFile = async (object, filePath) => {
   try {
     let fileContent = JSON.stringify(object);
-    fileContent = prettier.format(fileContent, PRETTIER_DEFAULT_OPTIONS);
+    fileContent = await prettier.format(fileContent, PRETTIER_DEFAULT_OPTIONS);
     fs.writeFileSync(filePath, fileContent);
   } catch (e) {
     console.error(`Error when writing JSON file "${filePath}"`);

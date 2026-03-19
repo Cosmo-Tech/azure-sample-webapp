@@ -6,28 +6,28 @@
 const { getParserInstance } = require('./common/parser.js');
 const { runAllChecks } = require('./common/check.js');
 const { VALID_TARGET_VERSIONS, LATEST_VERSION } = require('./common/constants.js');
-const v3 = require('./v3/migrate_to_v3.js');
-const v5 = require('./v5/migrate_to_v5.js');
+const v7 = require('./v7/migrate_to_v7.js');
 
 const parser = getParserInstance();
 parser.add_argument('target', { help: `Target version for migration (e.g. ${LATEST_VERSION})` });
-parser.add_argument('-p', '--project-dir', { help: 'Root folder of the webapp to migrate', default: '.' });
 parser.add_argument('-s', '--solution', {
-  help: 'Path to solution file (used when migrating to v5 to generate a new solution YAML file)',
+  help: 'Path to solution file',
 });
 parser.add_argument('-w', '--workspace', {
-  help: 'Path to workspace file (used when migrating to v5 to generate a new workspace YAML file)',
+  help: 'Path to workspace file',
+});
+parser.add_argument('-f', '--format', {
+  help: 'Output format for migrated files (default: json)',
+  choices: ['json', 'yaml'],
+  default: 'json',
 });
 
 async function main() {
   const args = parser.parse_args();
   runAllChecks(args);
   switch (args.target) {
-    case 'v3':
-      await v3.run(args);
-      break;
-    case 'v5':
-      await v5.run(args);
+    case 'v7':
+      await v7.run(args);
       break;
     default:
       console.error('Error: Unknown target version. Valid options are: ' + VALID_TARGET_VERSIONS.join(', '));
