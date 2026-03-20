@@ -1,6 +1,6 @@
 {
   "name": "@cosmotech/migrate-azure-sample-webapp",
-  "version": "0.2.1",
+  "version": "0.3.0-dev.0",
   "description": "Scripts to help migrating between versions of the Azure Sample Webapp",
   "bin": {
     "migrate-azure-sample-webapp": "./src/migrate.js"
@@ -14,9 +14,7 @@
   "private": false,
   "dependencies": {
     "argparse": "^2.0.1",
-    "deepmerge": "^4.2.2",
-    "js-yaml": "^4.1.0",
-    "prettier": "^2.8.3"
-  },
-  "devDependencies": {}
+    "js-yaml": "^4.1.1",
+    "prettier": "^3.8.1"
+  }
 }
