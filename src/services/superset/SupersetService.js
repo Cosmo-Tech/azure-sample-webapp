@@ -7,8 +7,11 @@ import ConfigService from '../ConfigService';
 import { ENV } from '../config/EnvironmentVariables';
 
 const getUserFriendlyError = (axiosError) => {
+  const isBadGatewayError = axiosError?.response?.status === 502 && axiosError?.response?.statusText === 'Bad Gateway';
+  const isNetworkError = axiosError?.code === 'ERR_BAD_RESPONSE' && axiosError?.response?.data?.error == null;
+
   // In dev mode, the local proxy might return an error 500 when the Function App is not started.
-  if (ENV.DEV && axiosError?.code === 'ERR_BAD_RESPONSE')
+  if (ENV.DEV && (isBadGatewayError || isNetworkError))
     return {
       title: 'Failed to get Superset guest token',
       message: (axiosError?.message ?? '') + '. Is the local Function App running?',

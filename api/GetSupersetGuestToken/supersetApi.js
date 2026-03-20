@@ -4,7 +4,7 @@
 const { getConfigValue } = require('../common/config');
 const { ServiceAccountError } = require('../common/errors');
 
-const checkSupersetResponse = async (res, hintsByStatusCode = {}) => {
+const checkSupersetResponse = async (res, hintsByStatusCode = {}, errorMessageMapping = {}) => {
   if (res.ok) return;
 
   let errorMessage;
@@ -15,10 +15,18 @@ const checkSupersetResponse = async (res, hintsByStatusCode = {}) => {
     // No error message found, ignore the error
   }
 
+  let replacedErrorMessage;
+  for (const [messagePartToFind, messageToShow] of Object.entries(errorMessageMapping)) {
+    if (errorMessage.includes(messagePartToFind)) {
+      replacedErrorMessage = messageToShow;
+      break;
+    }
+  }
+
   throw new ServiceAccountError(
     res.status,
     res.statusText,
-    hintsByStatusCode?.[res.status] ?? errorMessage ?? 'Unknown error',
+    replacedErrorMessage ?? hintsByStatusCode?.[res.status] ?? errorMessage ?? 'Unknown error',
     `Error while retrieving report embed details\r\n${errorMessage ?? res.statusText}`
   );
 };
@@ -50,6 +58,8 @@ const getSupersetGuestToken = async (adminToken, dashboardIds) => {
   const resources = dashboardIds.map((dashboardId) => ({ type: 'dashboard', id: dashboardId }));
   const user = { username: 'Guest', first_name: 'Guest', last_name: 'Guest' };
   const rls = [];
+  // TODO: implement configurable RLS. Example of RLS clause;
+  // const rls = [{ clause: "customer_name <> 'Customer1'", dataset: 45 }];
 
   const body = JSON.stringify({ resources, rls, user });
   const headers = { 'Content-Type': 'application/json', Authorization: `Bearer ${adminToken}` };
@@ -59,7 +69,11 @@ const getSupersetGuestToken = async (adminToken, dashboardIds) => {
   console.debug('DEBUG: response received');
 
   const hintsByStatusCode = { 400: `Couldn't retrieve guest token for superset dashboards` };
-  await checkSupersetResponse(res, hintsByStatusCode);
+  const errorMessageMapping = {
+    'EmbeddedDashboard not found': 'Incorrect dashboard ids. Please check your workspace configuration.',
+  };
+
+  await checkSupersetResponse(res, hintsByStatusCode, errorMessageMapping);
 
   const data = await res.json();
   return data.token;
