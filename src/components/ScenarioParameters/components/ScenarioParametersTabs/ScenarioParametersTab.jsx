@@ -1,11 +1,12 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import React from 'react';
-import { connect, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Grid, Stack } from '@mui/material';
 import { t } from 'i18next';
 import { PermissionsGate } from '@cosmotech/ui';
+import { useCurrentSimulationRunnerId } from '../../../../state/runner/hooks';
 import { ConfigUtils } from '../../../../utils';
 import ScenarioParameterInput from './ScenarioParameterInput';
 
@@ -22,7 +23,7 @@ const ScenarioParametersTab = ({ parametersGroupData, context, userAppRoles }) =
     );
   };
 
-  const scenarioId = useSelector((state) => state.scenario?.current?.data?.id);
+  const scenarioId = useCurrentSimulationRunnerId();
   const authorizedRoles = ConfigUtils.getParametersGroupAttribute(parametersGroupData, 'authorizedRoles');
   const isParameterVisible = (parameter) => ConfigUtils.getParameterAttribute(parameter, 'hidden') !== true;
 

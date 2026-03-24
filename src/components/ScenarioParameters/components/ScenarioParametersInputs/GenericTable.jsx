@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 import React, { useEffect, useState, useRef, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import equal from 'fast-deep-equal';
 import rfdc from 'rfdc';
@@ -11,6 +10,7 @@ import { Table, TABLE_DATA_STATUS, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui'
 import { useFileParameters } from '../../../../hooks/FileParameterHooks';
 import DatasetService from '../../../../services/dataset/DatasetService';
 import { useOrganizationId } from '../../../../state/organizations/hooks';
+import { useCurrentSimulationRunnerId } from '../../../../state/runner/hooks';
 import { useWorkspaceId } from '../../../../state/workspaces/hooks.js';
 import { gridLight, gridDark } from '../../../../theme/';
 import { ConfigUtils, DatasetsUtils, TranslationUtils } from '../../../../utils';
@@ -54,7 +54,7 @@ export const GenericTable = ({
   const { t } = useTranslation();
   const organizationId = useOrganizationId();
   const workspaceId = useWorkspaceId();
-  const scenarioId = useSelector((state) => state.scenario?.current?.data?.id);
+  const scenarioId = useCurrentSimulationRunnerId();
   const canChangeRowsNumber = ConfigUtils.getParameterAttribute(parameterData, 'canChangeRowsNumber') ?? false;
 
   const parameterId = parameterData.id;
@@ -133,6 +133,12 @@ export const GenericTable = ({
       gridRef.current = null;
     };
   }, []);
+
+  useEffect(() => {
+    return () => {
+      GenericTable.downloadLocked[lockId] = false;
+    };
+  }, [lockId]);
 
   // Store last parameter in a ref
   // Update a state is async, so, in case of multiple call of updateParameterValue in same function

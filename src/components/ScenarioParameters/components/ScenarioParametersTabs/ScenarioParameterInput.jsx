@@ -18,7 +18,10 @@ const ScenarioParameterInput = ({ parameterData, context }) => {
   const { resetField } = useFormContext();
   const scenarioResetValues = useScenarioResetValues();
 
-  const getCurrentScenarioId = useCallback(() => store.getState().scenario?.current?.data?.id, [store]);
+  const getCurrentScenarioId = useCallback(
+    () => store.getState().runner?.simulationRunners?.current?.data?.id,
+    [store]
+  );
   const scenarioIdOnMount = useRef(getCurrentScenarioId());
 
   if (parameterVarType in VAR_TYPES_COMPONENTS_MAPPING) {
