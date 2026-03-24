@@ -51,12 +51,20 @@ const getSupersetAdminToken = async () => {
   return data.access_token;
 };
 
-const getSupersetGuestToken = async (adminToken, dashboardIds) => {
+const getSupersetGuestToken = async (adminToken, dashboardIds, userDataFromToken) => {
   const apiURL = getConfigValue('SUPERSET_API_URL').replace(/\/+$/, ''); // Remove trailing slashes from URL
   const queryURL = `${apiURL}/security/guest_token`;
 
   const resources = dashboardIds.map((dashboardId) => ({ type: 'dashboard', id: dashboardId }));
-  const user = { username: 'Guest', first_name: 'Guest', last_name: 'Guest' };
+  const user = {
+    username: 'Guest',
+    first_name: 'Guest',
+    last_name: 'Guest',
+    ...userDataFromToken
+  };
+  console.log('==================================');
+  console.log('==================================');
+  console.log(user);
   const rls = [];
   // TODO: implement configurable RLS. Example of RLS clause;
   // const rls = [{ clause: "customer_name <> 'Customer1'", dataset: 45 }];
@@ -76,6 +84,8 @@ const getSupersetGuestToken = async (adminToken, dashboardIds) => {
   await checkSupersetResponse(res, hintsByStatusCode, errorMessageMapping);
 
   const data = await res.json();
+  console.log('***************************************');
+  console.log(data.token);
   return data.token;
 };
 
