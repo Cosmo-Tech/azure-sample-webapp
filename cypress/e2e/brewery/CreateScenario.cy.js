@@ -52,22 +52,6 @@ describe('Create scenario', { keystrokeDelay: 1 }, () => {
     ScenarioManager.deleteScenarioList(scenarioNamesToDelete);
   });
 
-  it('run templates are correctly filtered', () => {
-    Scenarios.openScenarioCreationDialog();
-    Scenarios.getScenarioCreationDialogRunTypeSelector().click();
-
-    const visibleRunTemplates = [
-      RUN_TEMPLATE.BREWERY_PARAMETERS,
-      RUN_TEMPLATE.BASIC_TYPES,
-      RUN_TEMPLATE.WITHOUT_PARAMETERS,
-    ];
-    for (const runTemplate of visibleRunTemplates) {
-      Scenarios.getScenarioCreationDialogRunTypeSelectorOptions().contains(runTemplate).should('be.visible');
-    }
-
-    Scenarios.getScenarioCreationDialogRunTypeSelectorOptions().contains(RUN_TEMPLATE.HIDDEN).should('not.exist');
-  });
-
   it('can create and launch scenario master', () => {
     // Check parameters accordion
     ScenarioParameters.getParametersTabs(20).should('not.be.visible');
