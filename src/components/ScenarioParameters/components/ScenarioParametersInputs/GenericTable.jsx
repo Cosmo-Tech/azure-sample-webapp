@@ -136,7 +136,7 @@ export const GenericTable = ({
 
   useEffect(() => {
     return () => {
-      GenericTable.downloadLocked[lockId] = false;
+      if (GenericTable.downloadLocked != null) GenericTable.downloadLocked[lockId] = false;
     };
   }, [lockId]);
 
