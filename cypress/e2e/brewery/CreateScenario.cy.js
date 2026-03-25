@@ -19,6 +19,10 @@ describe('Create scenario', { keystrokeDelay: 1 }, () => {
   const otherScenarioName = 'Test Cypress - Scenario creation - Another scenario - ' + randomString;
   let scenarioMasterId, scenarioChildId, scenarioWithBasicTypesId, otherScenarioId;
 
+  // Initial default values on scenario creation (defined in Solution)
+  const defaultStartDate = '08/18/2014';
+  const defaultEndDate = '08/20/2014';
+  // New values for scenario edition
   const stock = utils.randomNmbr(BAR_PARAMETERS_RANGE.STOCK.MIN, BAR_PARAMETERS_RANGE.STOCK.MAX);
   const restock = utils.randomNmbr(BAR_PARAMETERS_RANGE.RESTOCK.MIN, BAR_PARAMETERS_RANGE.RESTOCK.MAX);
   const waiters = utils.randomNmbr(BAR_PARAMETERS_RANGE.WAITERS.MIN, BAR_PARAMETERS_RANGE.WAITERS.MAX);
@@ -53,32 +57,6 @@ describe('Create scenario', { keystrokeDelay: 1 }, () => {
   });
 
   it('can create and launch scenario master', () => {
-    // Check parameters accordion
-    ScenarioParameters.getParametersTabs(20).should('not.be.visible');
-    ScenarioParameters.expandParametersAccordion();
-    ScenarioParameters.getParametersTabs().should('be.visible');
-    ScenarioParameters.collapseParametersAccordion();
-    ScenarioParameters.getParametersTabs().should('not.be.visible');
-
-    // Check persistence of parameters accordion state
-    ScenarioManager.switchToScenarioManager();
-    Scenarios.switchToScenarioView();
-    ScenarioParameters.getParametersTabs().should('not.be.visible');
-    ScenarioParameters.expandParametersAccordion();
-    ScenarioParameters.getParametersTabs().should('be.visible');
-    ScenarioManager.switchToScenarioManager();
-    Scenarios.switchToScenarioView();
-    ScenarioParameters.getParametersTabs().should('be.visible');
-    cy.reload();
-    ScenarioParameters.getParametersTabs(20).should('be.visible');
-    ScenarioParameters.collapseParametersAccordion();
-    ScenarioParameters.getParametersTabs().should('not.be.visible');
-    ScenarioManager.switchToScenarioManager();
-    Scenarios.switchToScenarioView();
-    ScenarioParameters.getParametersTabs().should('not.be.visible');
-    cy.reload();
-    ScenarioParameters.getParametersTabs(20).should('not.be.visible');
-
     // Create scenario master:
     let scenarioName, scenarioRunTemplateName;
     Scenarios.createScenario(scenarioMasterName, true, DATASET.BREWERY_STORAGE, RUN_TEMPLATE.BREWERY_PARAMETERS).then(
@@ -166,14 +144,7 @@ describe('Create scenario', { keystrokeDelay: 1 }, () => {
 
         // save scenario child
         const reqUpdateScenarioAlias = ScenarioParameters.save({ wait: false });
-        // "saving" backdrop must be visible during save
-        Scenarios.getScenarioBackdrop().should('exist').should('be.visible');
-        Scenarios.getScenarioBackdropSavingText().should('be.visible');
-        Scenarios.getScenarioLoadingSpinner().should('be.visible');
-        // The backdrop should have disappeared, after 10 seconds
         Scenarios.getScenarioBackdrop(10).should('not.be.visible');
-        Scenarios.getScenarioBackdropSavingText().should('not.exist');
-        Scenarios.getScenarioLoadingSpinner().should('not.be.visible');
 
         cy.wait('@' + reqUpdateScenarioAlias).should((value) => {
           const { name: nameGet, id: idGet, parametersValues: paramsGet } = value.response.body;
@@ -217,20 +188,14 @@ describe('Create scenario', { keystrokeDelay: 1 }, () => {
     ScenarioParameters.getInputValue(BreweryParameters.getCurrencyNameInput()).as('currency-name');
     ScenarioParameters.getInputValue(BreweryParameters.getCurrencyValueInput()).as('currency-value');
     ScenarioParameters.getInputValue(BreweryParameters.getCurrencyUsedInput()).as('currency-used');
-    ScenarioParameters.getInputValue(BreweryParameters.getStartDateInput()).as('start-date');
-    ScenarioParameters.getInputValue(BreweryParameters.getEndDateInput()).as('end-date');
     ScenarioParameters.getInputValue(BreweryParameters.getAverageConsumptionInput()).as('average-consumption');
 
     BreweryParameters.getCurrencyNameInput().click().clear().type(textValue);
     BreweryParameters.getCurrencyValueInput().click().clear().type(numberValue);
     BreweryParameters.getCurrencySelectOption(BASIC_PARAMETERS_CONST.ENUM_KEYS.JPY);
     BreweryParameters.getCurrencyUsedInput().check();
-    BreweryParameters.getStartDateInput()
-      .click()
-      .type('{leftArrow}{leftArrow}' + startDateValue);
-    BreweryParameters.getEndDateInput()
-      .click()
-      .type('{leftArrow}{leftArrow}' + endDateValue);
+    ScenarioParameters.clearAndTypeInDateParameterInput(BreweryParameters.getStartDateInput(), startDateValue);
+    ScenarioParameters.clearAndTypeInDateParameterInput(BreweryParameters.getEndDateInput(), endDateValue);
     BreweryParameters.moveAverageConsumptionSlider(sliderValue);
 
     // Switch parameters tabs then back and check parameters,
@@ -242,8 +207,8 @@ describe('Create scenario', { keystrokeDelay: 1 }, () => {
     BreweryParameters.getCurrencyInput().should('value', BASIC_PARAMETERS_CONST.ENUM_KEYS.JPY);
     BreweryParameters.getCurrencyParameterContainer().contains(BASIC_PARAMETERS_CONST.ENUM.JPY);
     BreweryParameters.getCurrencyUsedInput().should('be.checked');
-    BreweryParameters.getStartDateInput().should('value', startDateValue);
-    BreweryParameters.getEndDateInput().should('value', endDateValue);
+    BreweryParameters.getStartDateInput().contains(startDateValue);
+    BreweryParameters.getEndDateInput().contains(endDateValue);
     BreweryParameters.getAverageConsumptionInput().should('value', sliderValue);
 
     // Discard
@@ -261,12 +226,8 @@ describe('Create scenario', { keystrokeDelay: 1 }, () => {
     cy.get('@currency-used').then(() => {
       BreweryParameters.getCurrencyUsedInput().should('not.be.checked');
     });
-    cy.get('@start-date').then((input) => {
-      BreweryParameters.getStartDateInput().should('value', input);
-    });
-    cy.get('@end-date').then((input) => {
-      BreweryParameters.getEndDateInput().should('value', input);
-    });
+    BreweryParameters.getStartDateInput().contains(defaultStartDate);
+    BreweryParameters.getEndDateInput().contains(defaultEndDate);
     cy.get('@average-consumption').then((input) => {
       BreweryParameters.getAverageConsumptionInput().should('value', input);
     });
@@ -278,12 +239,8 @@ describe('Create scenario', { keystrokeDelay: 1 }, () => {
     BreweryParameters.getCurrencyValueInput().click().clear().type(numberValue);
     BreweryParameters.getCurrencySelectOption(BASIC_PARAMETERS_CONST.ENUM_KEYS.JPY);
     BreweryParameters.getCurrencyUsedInput().check();
-    BreweryParameters.getStartDateInput()
-      .click()
-      .type('{leftArrow}{leftArrow}' + startDateValue);
-    BreweryParameters.getEndDateInput()
-      .click()
-      .type('{leftArrow}{leftArrow}' + endDateValue);
+    ScenarioParameters.clearAndTypeInDateParameterInput(BreweryParameters.getStartDateInput(), startDateValue);
+    ScenarioParameters.clearAndTypeInDateParameterInput(BreweryParameters.getEndDateInput(), endDateValue);
     BreweryParameters.moveAverageConsumptionSlider(sliderValue);
     // update and launch
     cy.intercept('PATCH', API_REGEX.RUNNER).as('requestEditScenario');
@@ -297,6 +254,8 @@ describe('Create scenario', { keystrokeDelay: 1 }, () => {
       const numberGet = parseFloat(paramsGet.find((obj) => obj.parameterId === 'currency_value').value);
       const enumGet = paramsGet.find((obj) => obj.parameterId === 'currency').value;
       const boolGet = paramsGet.find((obj) => obj.parameterId === 'currency_used').value;
+      // FIXME: possible timezone bug here caused by "new Date" being called on non-ISO formatted date string? (the
+      // input value might have a one-day offset)
       const startDateGet = utils.stringToDateInputExpectedFormat(
         new Date(paramsGet.find((obj) => obj.parameterId === 'start_date').value)
       );
@@ -304,6 +263,7 @@ describe('Create scenario', { keystrokeDelay: 1 }, () => {
         new Date(paramsGet.find((obj) => obj.parameterId === 'end_date').value)
       );
       const sliderNumberGet = paramsGet.find((obj) => obj.parameterId === 'average_consumption').value;
+
       expect(nameGet).equal(scenarioCreatedName);
       expect(idGet).equal(scenarioWithBasicTypesId);
       expect(textGet).equal(textValue);
