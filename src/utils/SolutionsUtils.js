@@ -109,6 +109,22 @@ const _getNonEditableColumn = (columns) => {
   }
 };
 
+const _patchColumnTypes = (columns, parameterId) => {
+  columns.forEach((column) => {
+    if (typeof column?.type === 'string') {
+      console.warn(
+        `In configuration of the Table parameter "${parameterId}", the option "type" should be an array, ` +
+          'but a string was provided. The webapp dynamically changed the option type but this might lead ' +
+          'to undefined behavior later. Please check your solution configuration.'
+      );
+      column.type = [column.type];
+    }
+    if (Array.isArray(column?.children) && column.children.length > 0) {
+      _patchColumnTypes(column.children, parameterId);
+    }
+  });
+};
+
 const patchIncorrectParameterValuesInSolution = (solution) => {
   solution.parameters?.forEach((parameter) => {
     if (parameter.varType === 'enum') {
@@ -137,17 +153,22 @@ const patchIncorrectParameterValuesInSolution = (solution) => {
       }
     } else if (
       parameter.varType === FILE_DATASET_PART_ID_VARTYPE &&
-      ConfigUtils.getParameterAttribute(parameter, 'subType') === 'TABLE' &&
-      ConfigUtils.getParameterAttribute(parameter, 'canChangeRowsNumber')
+      ConfigUtils.getParameterAttribute(parameter, 'subType') === 'TABLE'
     ) {
-      const nonEditableColumn = _getNonEditableColumn(ConfigUtils.getParameterAttribute(parameter, 'columns'));
-      if (nonEditableColumn != null) {
-        console.warn(
-          `parameter.additionalData.canChangeRowsNumber can't be true on ${parameter.id} ` +
-            `if column ${nonEditableColumn.field} is nonEditable, please fix it in the solution`
-        );
-        parameter.additionalData.canChangeRowsNumber = false;
+      // Check "canChangeRowsNumber" option for Table parameters
+      const columns = ConfigUtils.getParameterAttribute(parameter, 'columns') ?? [];
+      if (ConfigUtils.getParameterAttribute(parameter, 'canChangeRowsNumber')) {
+        const nonEditableColumn = _getNonEditableColumn(columns);
+        if (nonEditableColumn != null) {
+          console.warn(
+            `parameter.additionalData.canChangeRowsNumber can't be true on ${parameter.id} ` +
+              `if column ${nonEditableColumn.field} is nonEditable, please fix it in the solution`
+          );
+          parameter.additionalData.canChangeRowsNumber = false;
+        }
       }
+      // Check columns' "type" option for Table parameters
+      _patchColumnTypes(columns, parameter.id);
     } else if (parameter.varType === 'int' || parameter.varType === 'number') {
       if (parameter.defaultValue != null && ConfigUtils.getParameterAttribute(parameter, 'dynamicValues') != null) {
         console.warn(
