@@ -109,11 +109,7 @@ const _getNonEditableColumn = (columns) => {
   }
 };
 
-const patchIncompatibleValuesInSolution = (solution) => {
-  solution.parameters = solution.parameters?.filter((parameter) => parameter != null);
-  solution.parameterGroups = solution.parameterGroups?.filter((group) => group != null);
-  solution.runTemplates = solution.runTemplates?.filter((runTemplate) => runTemplate != null);
-
+const patchIncorrectParameterValuesInSolution = (solution) => {
   solution.parameters?.forEach((parameter) => {
     if (parameter.varType === 'enum') {
       const dynamicSourceConfig = ConfigUtils.getParameterAttribute(parameter, 'dynamicEnumValues');
@@ -161,6 +157,13 @@ const patchIncompatibleValuesInSolution = (solution) => {
       }
     }
   });
+};
+
+const patchIncompatibleValuesInSolution = (solution) => {
+  solution.parameters = solution.parameters?.filter((parameter) => parameter != null);
+  solution.parameterGroups = solution.parameterGroups?.filter((group) => group != null);
+  solution.runTemplates = solution.runTemplates?.filter((runTemplate) => runTemplate != null);
+  patchIncorrectParameterValuesInSolution(solution);
 };
 
 const forgeRunnerParameters = (solution, formValues) => {
