@@ -225,12 +225,8 @@ describe('Create scenario', { keystrokeDelay: 1 }, () => {
     BreweryParameters.getCurrencyValueInput().click().clear().type(numberValue);
     BreweryParameters.getCurrencySelectOption(BASIC_PARAMETERS_CONST.ENUM_KEYS.JPY);
     BreweryParameters.getCurrencyUsedInput().check();
-    BreweryParameters.getStartDateInput()
-      .click()
-      .type('{leftArrow}{leftArrow}' + startDateValue);
-    BreweryParameters.getEndDateInput()
-      .click()
-      .type('{leftArrow}{leftArrow}' + endDateValue);
+    ScenarioParameters.clearAndTypeInDateParameterInput(BreweryParameters.getStartDateInput(), startDateValue);
+    ScenarioParameters.clearAndTypeInDateParameterInput(BreweryParameters.getEndDateInput(), endDateValue);
     BreweryParameters.moveAverageConsumptionSlider(sliderValue);
 
     // Switch parameters tabs then back and check parameters,
@@ -242,8 +238,8 @@ describe('Create scenario', { keystrokeDelay: 1 }, () => {
     BreweryParameters.getCurrencyInput().should('value', BASIC_PARAMETERS_CONST.ENUM_KEYS.JPY);
     BreweryParameters.getCurrencyParameterContainer().contains(BASIC_PARAMETERS_CONST.ENUM.JPY);
     BreweryParameters.getCurrencyUsedInput().should('be.checked');
-    BreweryParameters.getStartDateInput().should('value', startDateValue);
-    BreweryParameters.getEndDateInput().should('value', endDateValue);
+    BreweryParameters.getStartDateInput().contains(startDateValue);
+    BreweryParameters.getEndDateInput().contains(endDateValue);
     BreweryParameters.getAverageConsumptionInput().should('value', sliderValue);
 
     // Discard
@@ -278,12 +274,8 @@ describe('Create scenario', { keystrokeDelay: 1 }, () => {
     BreweryParameters.getCurrencyValueInput().click().clear().type(numberValue);
     BreweryParameters.getCurrencySelectOption(BASIC_PARAMETERS_CONST.ENUM_KEYS.JPY);
     BreweryParameters.getCurrencyUsedInput().check();
-    BreweryParameters.getStartDateInput()
-      .click()
-      .type('{leftArrow}{leftArrow}' + startDateValue);
-    BreweryParameters.getEndDateInput()
-      .click()
-      .type('{leftArrow}{leftArrow}' + endDateValue);
+    ScenarioParameters.clearAndTypeInDateParameterInput(BreweryParameters.getStartDateInput(), startDateValue);
+    ScenarioParameters.clearAndTypeInDateParameterInput(BreweryParameters.getEndDateInput(), endDateValue);
     BreweryParameters.moveAverageConsumptionSlider(sliderValue);
     // update and launch
     cy.intercept('PATCH', API_REGEX.RUNNER).as('requestEditScenario');
@@ -323,8 +315,9 @@ describe('Create scenario', { keystrokeDelay: 1 }, () => {
 
     BreweryParameters.getCurrency().should('have.text', BASIC_PARAMETERS_CONST.ENUM.JPY);
     BreweryParameters.getCurrencyUsed().should('have.text', 'ON');
-    BreweryParameters.getStartDate().should('have.text', new Date(startDateValue).toLocaleDateString());
-    BreweryParameters.getEndDate().should('have.text', new Date(endDateValue).toLocaleDateString());
+    BreweryParameters.getStartDate().should('have.text', );
+    BreweryParameters.getStartDateInput().contains(new Date(startDateValue).toLocaleDateString());
+    BreweryParameters.getEndDateInput().contains(new Date(endDateValue).toLocaleDateString());
     BreweryParameters.getAverageConsumption().should('have.text', sliderValue);
 
     Scenarios.getDashboardPlaceholder().should('have.text', SCENARIO_RUN_IN_PROGRESS);
