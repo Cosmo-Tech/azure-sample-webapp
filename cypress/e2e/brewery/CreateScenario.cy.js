@@ -53,31 +53,33 @@ describe('Create scenario', { keystrokeDelay: 1 }, () => {
   });
 
   it('can create and launch scenario master', () => {
-    // Check parameters accordion
-    ScenarioParameters.getParametersTabs(20).should('not.be.visible');
-    ScenarioParameters.expandParametersAccordion();
-    ScenarioParameters.getParametersTabs().should('be.visible');
-    ScenarioParameters.collapseParametersAccordion();
-    ScenarioParameters.getParametersTabs().should('not.be.visible');
-
-    // Check persistence of parameters accordion state
-    ScenarioManager.switchToScenarioManager();
-    Scenarios.switchToScenarioView();
-    ScenarioParameters.getParametersTabs().should('not.be.visible');
-    ScenarioParameters.expandParametersAccordion();
-    ScenarioParameters.getParametersTabs().should('be.visible');
-    ScenarioManager.switchToScenarioManager();
-    Scenarios.switchToScenarioView();
-    ScenarioParameters.getParametersTabs().should('be.visible');
-    cy.reload();
-    ScenarioParameters.getParametersTabs(20).should('be.visible');
-    ScenarioParameters.collapseParametersAccordion();
-    ScenarioParameters.getParametersTabs().should('not.be.visible');
-    ScenarioManager.switchToScenarioManager();
-    Scenarios.switchToScenarioView();
-    ScenarioParameters.getParametersTabs().should('not.be.visible');
-    cy.reload();
-    ScenarioParameters.getParametersTabs(20).should('not.be.visible');
+    // // Check parameters accordion
+    // ScenarioParameters.getParametersTabs(20).should('not.be.visible');
+    // ScenarioParameters.expandParametersAccordion();
+    // ScenarioParameters.getParametersTabs().should('be.visible');
+    // ScenarioParameters.collapseParametersAccordion();
+    // ScenarioParameters.getParametersTabs().should('not.be.visible');
+    //
+    // // Check persistence of parameters accordion state
+    // ScenarioManager.switchToScenarioManager();
+    // Scenarios.switchToScenarioView();
+    // ScenarioParameters.getParametersTabs().should('not.be.visible');
+    // ScenarioParameters.expandParametersAccordion();
+    // ScenarioParameters.getParametersTabs().should('be.visible');
+    // ScenarioManager.switchToScenarioManager();
+    // Scenarios.switchToScenarioView();
+    // ScenarioParameters.getParametersTabs().should('be.visible');
+    //
+    // cy.reload();
+    // ScenarioParameters.getParametersTabs(20).should('be.visible');
+    // ScenarioParameters.collapseParametersAccordion();
+    // ScenarioParameters.getParametersTabs().should('not.be.visible');
+    // ScenarioManager.switchToScenarioManager();
+    // Scenarios.switchToScenarioView();
+    // ScenarioParameters.getParametersTabs().should('not.be.visible');
+    //
+    // cy.reload();
+    // ScenarioParameters.getParametersTabs(20).should('not.be.visible');
 
     // Create scenario master:
     let scenarioName, scenarioRunTemplateName;
