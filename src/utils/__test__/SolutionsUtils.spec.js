@@ -236,6 +236,42 @@ describe('patchIncompatibleValuesInSolution function unit tests', () => {
     const solution = { parameters };
     expect(() => SolutionsUtils.patchIncompatibleValuesInSolution(solution)).not.toThrow();
   });
+
+  test('should coerce column type from string to array and emit a warning', () => {
+    const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    const solution = {
+      parameters: [
+        {
+          ...TABLE_PARAMETER,
+          additionalData: {
+            ...TABLE_PARAMETER.additionalData,
+            columns: [
+              { field: 'name', type: 'nonEditable' },
+              { field: 'age', type: ['int'] },
+              {
+                field: 'group',
+                children: [
+                  { field: 'child1', type: 'nonEditable' },
+                  { field: 'child2', type: ['int'] },
+                ],
+              },
+            ],
+          },
+        },
+      ],
+    };
+    SolutionsUtils.patchIncompatibleValuesInSolution(solution);
+    expect(solution.parameters[0].additionalData.columns[0].type).toStrictEqual(['nonEditable']);
+    expect(solution.parameters[0].additionalData.columns[1].type).toStrictEqual(['int']);
+
+    const children = solution.parameters[0].additionalData.columns[2].children;
+    expect(children[0].type).toStrictEqual(['nonEditable']);
+    expect(children[1].type).toStrictEqual(['int']);
+
+    expect(warn).toHaveBeenCalledTimes(2);
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining('"type" should be an array'));
+    warn.mockReset();
+  });
 });
 
 describe('getParameterVarType', () => {
