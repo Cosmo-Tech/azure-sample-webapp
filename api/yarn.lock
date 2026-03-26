@@ -5,21 +5,21 @@ __metadata:
   version: 8
   cacheKey: 10c0
 
-"@azure/msal-common@npm:15.14.1":
-  version: 15.14.1
-  resolution: "@azure/msal-common@npm:15.14.1"
-  checksum: 10c0/0782278648609e13a67361d1c4600d0bb2c74d85b3580ff045acc19b352b206e8d021266420bce59f40d69da3789da060c03291aa3f83d31ed0569bc2c3e89bb
+"@azure/msal-common@npm:15.17.0":
+  version: 15.17.0
+  resolution: "@azure/msal-common@npm:15.17.0"
+  checksum: 10c0/9a9b077fd9f2b2275e489652f0f768ebd89b38364ac365f52b2c49fd1f85bbf2bcfccace7fcf4b887b8a751cfc5084302c390130b058d2399300c42ebcfc14b0
   languageName: node
   linkType: hard
 
-"@azure/msal-node@npm:^3.8.6":
-  version: 3.8.6
-  resolution: "@azure/msal-node@npm:3.8.6"
+"@azure/msal-node@npm:^3.8.10":
+  version: 3.8.10
+  resolution: "@azure/msal-node@npm:3.8.10"
   dependencies:
-    "@azure/msal-common": "npm:15.14.1"
+    "@azure/msal-common": "npm:15.17.0"
     jsonwebtoken: "npm:^9.0.0"
     uuid: "npm:^8.3.0"
-  checksum: 10c0/09360434bfdce269299369c66b06c93954308d4e09dc78668908a0eddc384f24f216afc806f66fe6f4cc64661222928aefca8d5a49c595378fde4f4e601b0ad7
+  checksum: 10c0/ea23662d992909050f95ab06ae740f3edee94c028e9c3013191bcdf741bafdf73a0007d088c8fcb8c1954fa79183c1c14c98faa1a8182d35c4ea74bcf712cecd
   languageName: node
   linkType: hard
 
@@ -53,7 +53,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "api@workspace:."
   dependencies:
-    "@azure/msal-node": "npm:^3.8.6"
+    "@azure/msal-node": "npm:^3.8.10"
     jsonwebtoken: "npm:^9.0.3"
     jwks-rsa: "npm:^3.2.2"
     uuid: "npm:^13.0.0"
@@ -95,7 +95,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jsonwebtoken@npm:^9.0.3":
+"jsonwebtoken@npm:^9.0.0, jsonwebtoken@npm:^9.0.3":
   version: 9.0.3
   resolution: "jsonwebtoken@npm:9.0.3"
   dependencies:
