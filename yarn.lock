@@ -6274,7 +6274,7 @@ __metadata:
     react-fade-in: "npm:^2.0.1"
     react-hook-form: "npm:^7.72.0"
     react-i18next: "npm:^16.6.6"
-    react-idle-timer: "npm:^5.7.3"
+    react-idle-timer: "npm:5.7.2"
     react-redux: "npm:^7.2.9"
     react-router-dom: "npm:^6.30.3"
     react-scripts: "npm:^5.0.1"
@@ -16352,13 +16352,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-idle-timer@npm:^5.7.3":
-  version: 5.7.3
-  resolution: "react-idle-timer@npm:5.7.3"
+"react-idle-timer@npm:5.7.2":
+  version: 5.7.2
+  resolution: "react-idle-timer@npm:5.7.2"
   peerDependencies:
     react: ">=16"
     react-dom: ">=16"
-  checksum: 10c0/09378c2d0ed0e84864a22bd96ac1ac3a52e089605146c621d5ead8dec5ea180769d84aff817ee0e8f6c6d41bbdf94d8d74635e3189ec3b3ea59c707adb6b2bc8
+  checksum: 10c0/ccb02df074e59009df875b331a224e8ee2e407400e8a47c21eb55d08f67315eadb993b2f50c9065f38a1e08043431c5d14ceee682bc3f262a9c7bcd7d672ef43
   languageName: node
   linkType: hard
 
