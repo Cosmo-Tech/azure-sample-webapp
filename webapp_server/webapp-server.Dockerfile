@@ -45,7 +45,7 @@ RUN rm -rf /opt/yarn-v1.22.22
 WORKDIR /webapp
 ENV NODE_ENV production
 RUN npm upgrade -g npm
-RUN npm install -g serve@^14.2.5
+RUN npm install -g serve@^14.2.6
 
 COPY --from=build-universal /webapp/build ./build
 COPY --from=build-universal /webapp/scripts/patch_webapp_server ./patch_webapp_server
@@ -71,7 +71,7 @@ RUN rm -rf /opt/yarn-v1.22.22
 WORKDIR /webapp
 ENV NODE_ENV production
 RUN npm upgrade -g npm
-RUN npm install -g serve@^14.2.5
+RUN npm install -g serve@^14.2.6
 
 COPY --from=build-specific /webapp/build ./build
 
