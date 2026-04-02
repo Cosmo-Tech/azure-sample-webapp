@@ -5,9 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { POWER_BI_FIELD_ENUM } from '@cosmotech/azure';
 import { RUNNER_RUN_STATE } from '../../services/config/ApiConstants';
 import { STATUSES } from '../../services/config/StatusConstants';
+import { useOverridableCurrentScenarioData } from '../../hooks/OverridableScenarioHooks';
 import { PowerBIUtils, RunnersUtils } from '../../utils';
 import { forgeReport } from '../../utils/SupersetUtils';
-import { useCurrentSimulationRunnerData, useRunners } from '../runner/hooks';
+import { useRunners } from '../runner/hooks';
 import { dispatchStopChartsTokenPolling } from './dispatchers';
 import { setPowerBIReportConfig } from './reducers';
 
@@ -36,7 +37,7 @@ export const useScenarioViewReportsConfig = () => {
 };
 
 export const useCurrentScenarioReportConfig = () => {
-  const currentScenarioData = useCurrentSimulationRunnerData();
+  const currentScenarioData = useOverridableCurrentScenarioData();
   const scenarioViewReportsConfig = useScenarioViewReportsConfig();
   return useMemo(
     () => PowerBIUtils.getScenarioViewReportConfig(scenarioViewReportsConfig, currentScenarioData?.runTemplateId),
@@ -82,7 +83,7 @@ export const useGetSupersetReportWithScenarioContext = () => {
     (runner) => RunnersUtils.getLastRunStatus(runner) === RUNNER_RUN_STATE.SUCCESSFUL
   );
   const dashboardsConfig = useSupersetDashboards();
-  const currentScenarioData = useCurrentSimulationRunnerData();
+  const currentScenarioData = useOverridableCurrentScenarioData();
   const reducerStatus = useSupersetReducerStatus();
 
   // Parameters:

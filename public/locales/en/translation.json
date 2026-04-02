@@ -910,6 +910,18 @@
         "equalDate": "The field {{field}} must be equal to the field {{constraint}}",
         "differentDate": "The field {{field}} must be different from the field {{constraint}}",
         "fileFormat": "File format not supported"
+      },
+      "splitView": {
+        "tooltip": "Compare scenarios side by side"
+      },
+      "comparison": {
+        "selector": {
+          "label": "Compare with"
+        },
+        "placeholder": "Select a scenario to compare",
+        "parameters": {
+          "noValue": "—"
+        }
       }
     }
   },

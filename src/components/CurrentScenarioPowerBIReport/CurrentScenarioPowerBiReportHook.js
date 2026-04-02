@@ -5,9 +5,10 @@ import { useTranslation } from 'react-i18next';
 import { useDownloadSimulationLogsFile } from '../../hooks/RunnerRunHooks';
 import { RUNNER_RUN_STATE } from '../../services/config/ApiConstants';
 import { STATUSES } from '../../services/config/StatusConstants';
+import { useOverridableCurrentScenarioData } from '../../hooks/OverridableScenarioHooks';
 import { useApplicationTheme } from '../../state/app/hooks';
 import { usePowerBIInfo, usePowerBIReducerStatus, usePowerBIUseWebappTheme } from '../../state/charts/hooks';
-import { useCurrentSimulationRunnerData, useRunners } from '../../state/runner/hooks';
+import { useRunners } from '../../state/runner/hooks';
 import { useWorkspaceChartsLogInWithUserCredentials } from '../../state/workspaces/hooks';
 import darkTheme from '../../theme/powerbi/darkTheme.json';
 import lightTheme from '../../theme/powerbi/lightTheme.json';
@@ -17,7 +18,7 @@ import { getReportLabels } from './labels';
 export const useCurrentScenarioPowerBiReport = () => {
   const { t, i18n } = useTranslation();
 
-  const currentScenarioData = useCurrentSimulationRunnerData();
+  const currentScenarioData = useOverridableCurrentScenarioData();
   const scenarios = useRunners();
   const reports = usePowerBIInfo();
   const logInWithUserCredentials = useWorkspaceChartsLogInWithUserCredentials();

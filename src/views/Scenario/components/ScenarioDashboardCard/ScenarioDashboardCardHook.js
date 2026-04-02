@@ -2,23 +2,23 @@
 // Licensed under the MIT license.
 import { useMemo } from 'react';
 import { useFormState } from 'react-hook-form';
+import {
+  useOverridableCurrentScenarioId,
+  useOverridableCurrentScenarioLastRun,
+  useOverridableCurrentScenarioLastRunId,
+  useOverridableCurrentScenarioLastRunStatus,
+  useOverridableCurrentScenarioLastUpdate,
+} from '../../../../hooks/OverridableScenarioHooks';
 import { useDownloadSimulationLogsFile } from '../../../../hooks/RunnerRunHooks';
 import { RUNNER_RUN_STATE } from '../../../../services/config/ApiConstants';
-import {
-  useCurrentSimulationRunnerId,
-  useCurrentSimulationRunnerLastRun,
-  useCurrentSimulationRunnerLastRunId,
-  useCurrentSimulationRunnerLastUpdate,
-  useCurrentSimulationRunnerLastRunStatus,
-} from '../../../../state/runner/hooks';
 import { useWorkspaceData } from '../../../../state/workspaces/hooks';
 
 export const useScenarioDashboardCard = () => {
-  const currentScenarioLastUpdate = useCurrentSimulationRunnerLastUpdate();
-  const currentScenarioId = useCurrentSimulationRunnerId();
-  const currentScenarioLastRun = useCurrentSimulationRunnerLastRun(currentScenarioId);
-  const currentScenarioLastRunId = useCurrentSimulationRunnerLastRunId();
-  const currentScenarioLastRunStatus = useCurrentSimulationRunnerLastRunStatus();
+  const currentScenarioLastUpdate = useOverridableCurrentScenarioLastUpdate();
+  const currentScenarioId = useOverridableCurrentScenarioId();
+  const currentScenarioLastRun = useOverridableCurrentScenarioLastRun(currentScenarioId);
+  const currentScenarioLastRunId = useOverridableCurrentScenarioLastRunId();
+  const currentScenarioLastRunStatus = useOverridableCurrentScenarioLastRunStatus();
   const downloadCurrentScenarioRunLogs = useDownloadSimulationLogsFile();
   const workspace = useWorkspaceData();
 

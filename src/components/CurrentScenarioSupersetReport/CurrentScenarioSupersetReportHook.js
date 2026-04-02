@@ -13,7 +13,8 @@ import {
   useSupersetUrl,
   useGetSupersetReportWithScenarioContext,
 } from '../../state/charts/hooks';
-import { useCurrentSimulationRunnerData, useRunners } from '../../state/runner/hooks';
+import { useOverridableCurrentScenarioData } from '../../hooks/OverridableScenarioHooks';
+import { useRunners } from '../../state/runner/hooks';
 import darkTheme from '../../theme/powerbi/darkTheme.json';
 import lightTheme from '../../theme/powerbi/lightTheme.json';
 import { RunnersUtils } from '../../utils';
@@ -23,7 +24,7 @@ export const useCurrentScenarioSupersetReport = () => {
   const { t, i18n } = useTranslation();
 
   const scenarios = useRunners();
-  const currentScenarioData = useCurrentSimulationRunnerData();
+  const currentScenarioData = useOverridableCurrentScenarioData();
 
   const supersetInfo = useSupersetInfo();
   const supersetReducerStatus = useSupersetReducerStatus();

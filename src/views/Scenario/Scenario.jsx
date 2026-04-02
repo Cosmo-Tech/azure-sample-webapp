@@ -5,6 +5,7 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
+import VerticalSplitIcon from '@mui/icons-material/VerticalSplit';
 import { Card, Divider, Grid, IconButton, Paper, Stack, Typography } from '@mui/material';
 import { ScenarioValidationStatusChip, PermissionsGate, FadingTooltip } from '@cosmotech/ui';
 import {
@@ -19,7 +20,7 @@ import { ACL_PERMISSIONS } from '../../services/config/accessControl';
 import RunnerService from '../../services/runner/RunnerService';
 import { TranslationUtils } from '../../utils';
 import { useScenario } from './ScenarioHook';
-import { ScenarioDashboardCard, BackdropLoadingScenario } from './components';
+import { ScenarioDashboardCard, BackdropLoadingScenario, ComparisonScenarioPanel } from './components';
 
 const STORAGE_SCENARIO_PARAMETERS_ACCORDION_EXPANDED_KEY = 'scenarioParametersAccordionExpanded';
 
@@ -74,6 +75,9 @@ const Scenario = () => {
     setIsScenarioParametersAccordionExpanded(true);
     localStorage.setItem(STORAGE_SCENARIO_PARAMETERS_ACCORDION_EXPANDED_KEY, true);
   }, []);
+
+  const [isSplitView, setIsSplitView] = useState(false);
+  const toggleSplitView = useCallback(() => setIsSplitView((prev) => !prev), []);
 
   const currentScenarioRenderInputTooltip = isDirty
     ? t(
@@ -240,80 +244,181 @@ const Scenario = () => {
     <FormProvider {...methods} key={`form-${currentScenarioData?.id}`}>
       <BackdropLoadingScenario />
       <div data-cy="scenario-view" style={{ paddingTop: '16px', paddingLeft: '8px', paddingRight: '8px' }}>
-        <Grid container spacing={2} sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
-          <Grid size={4}>
-            <Stack>
-              <CurrentScenarioSelector disabled={isDirty} renderInputToolTip={currentScenarioRenderInputTooltip} />
-              {currentScenarioData && (
-                <Stack direction="row" sx={{ justifyContent: 'center' }}>
-                  <FadingTooltip
-                    title={t(
-                      TranslationUtils.getRunTemplateTranslationKey(currentScenarioData.runTemplateId),
-                      currentScenarioData.runTemplateName
-                    )}
-                    useSpan
-                    spanProps={{ style: { overflow: 'hidden' } }}
+        {isSplitView ? (
+          /* ── Split view: two independent columns ── */
+          <Stack spacing={2}>
+            {/* Top action bar — full width */}
+            <Grid container sx={{ alignItems: 'center', justifyContent: 'flex-end' }}>
+              <Grid sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', alignItems: 'center', gap: 0.5 }}>
+                <FadingTooltip
+                  title={t('views.scenario.splitView.tooltip', 'Close split view')}
+                >
+                  <IconButton
+                    data-cy="split-view-button"
+                    color="primary"
+                    onClick={toggleSplitView}
                   >
-                    <Typography data-cy="run-template-name" align="center" noWrap color="text.secondary">
-                      <Typography component="span" sx={{ fontWeight: '700' }}>
-                        {t('views.scenario.text.scenariotype')}
-                      </Typography>
-                      :{' '}
-                      {t(
+                    <VerticalSplitIcon />
+                  </IconButton>
+                </FadingTooltip>
+                <CreateScenarioButton disabled={isDirty} onScenarioCreated={onScenarioCreated} isIconButton />
+                <ShareCurrentScenarioButton />
+                {validationAreaDivider}
+                {currentScenarioData && scenarioValidationArea}
+              </Grid>
+            </Grid>
+
+            {/* Two-column split layout */}
+            <Stack direction="row" spacing={0} sx={{ width: '100%' }}>
+              {/* ── Left column: current scenario ── */}
+              <Stack spacing={2} sx={{ flex: 1, minWidth: 0 }}>
+                <Stack>
+                  <CurrentScenarioSelector disabled={isDirty} renderInputToolTip={currentScenarioRenderInputTooltip} />
+                  {currentScenarioData && (
+                    <Stack direction="row" sx={{ justifyContent: 'center' }}>
+                      <FadingTooltip
+                        title={t(
+                          TranslationUtils.getRunTemplateTranslationKey(currentScenarioData.runTemplateId),
+                          currentScenarioData.runTemplateName
+                        )}
+                        useSpan
+                        spanProps={{ style: { overflow: 'hidden' } }}
+                      >
+                        <Typography data-cy="run-template-name" align="center" noWrap color="text.secondary">
+                          <Typography component="span" sx={{ fontWeight: '700' }}>
+                            {t('views.scenario.text.scenariotype')}
+                          </Typography>
+                          :{' '}
+                          {t(
+                            TranslationUtils.getRunTemplateTranslationKey(currentScenarioData.runTemplateId),
+                            currentScenarioData.runTemplateName
+                          )}
+                        </Typography>
+                      </FadingTooltip>
+                      <FadingTooltip
+                        title={currentScenarioDatasetName}
+                        useSpan
+                        spanProps={{ style: { overflow: 'hidden' } }}
+                      >
+                        <Typography data-cy="dataset-name" align="center" noWrap color="text.secondary">
+                          &nbsp;|&nbsp;
+                          <Typography component="span" sx={{ fontWeight: '700' }}>
+                            {t('commoncomponents.dialog.create.scenario.dropdown.dataset.label', 'Dataset')}:&nbsp;
+                          </Typography>
+                          {currentScenarioDatasetName}
+                        </Typography>
+                      </FadingTooltip>
+                    </Stack>
+                  )}
+                </Stack>
+                <Card component={Paper}>
+                  {currentScenarioData && (
+                    <ScenarioParameters
+                      isAccordionExpanded={isScenarioParametersAccordionExpanded}
+                      onToggleAccordion={toggleScenarioParametersAccordion}
+                    />
+                  )}
+                </Card>
+                <ScenarioDashboardCard />
+              </Stack>
+
+              {/* Vertical divider */}
+              <Divider orientation="vertical" flexItem sx={{ mx: 1.5 }} />
+
+              {/* ── Right column: comparison scenario ── */}
+              <Stack spacing={2} sx={{ flex: 1, minWidth: 0 }}>
+                <ComparisonScenarioPanel />
+              </Stack>
+            </Stack>
+          </Stack>
+        ) : (
+          /* ── Normal single-scenario view ── */
+          <Grid container spacing={2} sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
+            <Grid size={4}>
+              <Stack>
+                <CurrentScenarioSelector disabled={isDirty} renderInputToolTip={currentScenarioRenderInputTooltip} />
+                {currentScenarioData && (
+                  <Stack direction="row" sx={{ justifyContent: 'center' }}>
+                    <FadingTooltip
+                      title={t(
                         TranslationUtils.getRunTemplateTranslationKey(currentScenarioData.runTemplateId),
                         currentScenarioData.runTemplateName
                       )}
-                    </Typography>
-                  </FadingTooltip>
-                  <FadingTooltip
-                    title={currentScenarioDatasetName}
-                    useSpan
-                    spanProps={{ style: { overflow: 'hidden' } }}
-                  >
-                    <Typography data-cy="dataset-name" align="center" noWrap color="text.secondary">
-                      &nbsp;|&nbsp;
-                      <Typography component="span" sx={{ fontWeight: '700' }}>
-                        {t('commoncomponents.dialog.create.scenario.dropdown.dataset.label', 'Dataset')}:&nbsp;
+                      useSpan
+                      spanProps={{ style: { overflow: 'hidden' } }}
+                    >
+                      <Typography data-cy="run-template-name" align="center" noWrap color="text.secondary">
+                        <Typography component="span" sx={{ fontWeight: '700' }}>
+                          {t('views.scenario.text.scenariotype')}
+                        </Typography>
+                        :{' '}
+                        {t(
+                          TranslationUtils.getRunTemplateTranslationKey(currentScenarioData.runTemplateId),
+                          currentScenarioData.runTemplateName
+                        )}
                       </Typography>
-                      {currentScenarioDatasetName}
-                    </Typography>
-                  </FadingTooltip>
-                </Stack>
-              )}
-            </Stack>
-          </Grid>
-          <Grid container sx={{ justifyContent: 'flex-end' }} size={3}>
-            <Grid sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'flex-end' }}>
-              <CreateScenarioButton disabled={isDirty} onScenarioCreated={onScenarioCreated} isIconButton />
-              <ShareCurrentScenarioButton />
+                    </FadingTooltip>
+                    <FadingTooltip
+                      title={currentScenarioDatasetName}
+                      useSpan
+                      spanProps={{ style: { overflow: 'hidden' } }}
+                    >
+                      <Typography data-cy="dataset-name" align="center" noWrap color="text.secondary">
+                        &nbsp;|&nbsp;
+                        <Typography component="span" sx={{ fontWeight: '700' }}>
+                          {t('commoncomponents.dialog.create.scenario.dropdown.dataset.label', 'Dataset')}:&nbsp;
+                        </Typography>
+                        {currentScenarioDatasetName}
+                      </Typography>
+                    </FadingTooltip>
+                  </Stack>
+                )}
+              </Stack>
             </Grid>
-            {validationAreaDivider}
-            <Grid
-              sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                flexWrap: 'nowrap',
-                justifyContent: 'flex-start',
-                alignItems: 'center',
-              }}
-            >
-              {currentScenarioData && scenarioValidationArea}
+            <Grid container sx={{ justifyContent: 'flex-end' }} size={3}>
+              <Grid sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'flex-end' }}>
+                <FadingTooltip
+                  title={t('views.scenario.splitView.tooltip', 'Compare scenarios side by side')}
+                >
+                  <IconButton
+                    data-cy="split-view-button"
+                    color="default"
+                    onClick={toggleSplitView}
+                  >
+                    <VerticalSplitIcon />
+                  </IconButton>
+                </FadingTooltip>
+                <CreateScenarioButton disabled={isDirty} onScenarioCreated={onScenarioCreated} isIconButton />
+                <ShareCurrentScenarioButton />
+              </Grid>
+              {validationAreaDivider}
+              <Grid
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  flexWrap: 'nowrap',
+                  justifyContent: 'flex-start',
+                  alignItems: 'center',
+                }}
+              >
+                {currentScenarioData && scenarioValidationArea}
+              </Grid>
+            </Grid>
+            <Grid size={12}>
+              <Card component={Paper}>
+                {currentScenarioData && (
+                  <ScenarioParameters
+                    isAccordionExpanded={isScenarioParametersAccordionExpanded}
+                    onToggleAccordion={toggleScenarioParametersAccordion}
+                  />
+                )}
+              </Card>
+            </Grid>
+            <Grid size="grow">
+              <ScenarioDashboardCard />
             </Grid>
           </Grid>
-          <Grid size={12}>
-            <Card component={Paper}>
-              {currentScenarioData && (
-                <ScenarioParameters
-                  isAccordionExpanded={isScenarioParametersAccordionExpanded}
-                  onToggleAccordion={toggleScenarioParametersAccordion}
-                />
-              )}
-            </Card>
-          </Grid>
-          <Grid size="grow">
-            <ScenarioDashboardCard />
-          </Grid>
-        </Grid>
+        )}
       </div>
     </FormProvider>
   );
