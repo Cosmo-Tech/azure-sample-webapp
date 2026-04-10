@@ -101,6 +101,7 @@
   "resolutions": {
     "axios": "^1.15.0",
     "glob": "^13.0.6",
+    "picomatch": "^4.0.4",
     "yaml": "^2.8.3"
   },
   "packageManager": "yarn@4.12.0"
