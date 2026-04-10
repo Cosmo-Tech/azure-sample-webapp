@@ -4278,7 +4278,7 @@ __metadata:
     react-redux: "npm:^9.2.0"
     react-router: "npm:^7.14.0"
     react-virtualized: "npm:^9.22.6"
-    read-excel-file: "npm:^7.0.3"
+    read-excel-file: "npm:^8.0.3"
     redux: "npm:^5.0.1"
     redux-saga: "npm:^1.4.2"
     rfdc: "npm:^1.4.1"
@@ -10450,14 +10450,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"read-excel-file@npm:^7.0.3":
-  version: 7.0.3
-  resolution: "read-excel-file@npm:7.0.3"
+"read-excel-file@npm:^8.0.3":
+  version: 8.0.3
+  resolution: "read-excel-file@npm:8.0.3"
   dependencies:
     "@xmldom/xmldom": "npm:^0.8.11"
     fflate: "npm:^0.8.2"
     unzipper: "npm:^0.12.3"
-  checksum: 10c0/e4bf36d38dbb9770eee4684ae648d659b011af5fe065095d76f5ba3a9d35c2df31facab1e06c60f26afd3d7e7efa67bd1f29bafc351cbc4a0ef81dbd5835283b
+  checksum: 10c0/d56b60d2025cfaeef978dfdbcd5da7c1194221fe82128969e45388e922f71e191b0c679bca6b1562920527a790a936447c1412d5f0eba8d049b4fa3c064d888b
   languageName: node
   linkType: hard
 

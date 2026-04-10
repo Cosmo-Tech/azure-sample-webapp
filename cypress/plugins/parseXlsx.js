@@ -1,10 +1,10 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-const readXlsxFile = require('read-excel-file/node');
+import { readSheet } from 'read-excel-file/node'
 
 const parseXlsx = async (filePath) => {
-  return readXlsxFile(filePath);
+  return readSheet(filePath);
 
   //   .then((rows) => {
   //   // `rows` is an array of rows
