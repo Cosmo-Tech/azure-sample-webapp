@@ -1,7 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-
-import { readSheet } from 'read-excel-file/node'
+import { readSheet } from 'read-excel-file/node';
 
 const parseXlsx = async (filePath) => {
   return readSheet(filePath);
