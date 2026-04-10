@@ -99,6 +99,7 @@
     "vite-plugin-node-polyfills": "^0.26.0"
   },
   "resolutions": {
+    "axios": "^1.15.0",
     "glob": "^13.0.6"
   },
   "packageManager": "yarn@4.12.0"
