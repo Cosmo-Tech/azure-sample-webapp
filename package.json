@@ -30,7 +30,7 @@
     "react-fade-in": "^2.0.1",
     "react-hook-form": "^7.72.1",
     "react-i18next": "^13.5.0",
-    "react-idle-timer": "^5.7.2",
+    "react-idle-timer": "5.7.2",
     "react-redux": "^7.2.9",
     "react-router-dom": "^6.30.3",
     "redux": "^4.2.1",
