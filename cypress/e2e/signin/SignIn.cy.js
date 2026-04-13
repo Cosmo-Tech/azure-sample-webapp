@@ -14,7 +14,7 @@ describe('Log in & log out', () => {
   before(() => {});
 
   beforeEach(() => {
-    Login.login({ workspaceId: WORKSPACE_ID1, url: `/${WORKSPACE_ID1}` });
+    Login.login({ workspaceId: WORKSPACE_ID1, url: `/${WORKSPACE_ID1}`, isPowerBiEnabled: false});
   });
 
   it('can log in and log out', () => {
