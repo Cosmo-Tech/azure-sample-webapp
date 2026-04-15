@@ -1,3 +1,17 @@
+## **7.0.2** <sub><sup>2026-04-15 ([07a1dee...9111602](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/07a1dee0...91116029?diff=split))</sup></sub>
+
+### Bug Fixes
+
+- improve error messages when Superset configuration is incorrect ([bf8dad7](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/bf8dad78), [a3dc771](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/a3dc771f))
+- fix undefined scenario id possibly leading to stale table states ([5b1074a](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/5b1074a2))
+- fix possible error on first Table render ([26c31ee](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/26c31eee))
+- fix broken table row addition when column type configuration was incorrect ([7afc070](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/7afc0701))
+
+### Documentation
+
+- update README file of migration script tool ([3bb40c8](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/3bb40c88))
+- update versions of supported browsers based on Vite 8 build ([86c1276](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/86c12764))
+
 ## **7.0.1** <sub><sup>2026-03-17 ([46a2cd8...58c9303](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/46a2cd8c...58c9303d?diff=split))</sup></sub>
 
 ### Bug Fixes
