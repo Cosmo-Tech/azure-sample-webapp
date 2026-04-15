@@ -107,7 +107,7 @@
     "jest-environment-jsdom": "~29.7.0",
     "jwt-simple": "^0.5.6",
     "os-browserify": "^0.3.0",
-    "prettier": "^3.8.2",
+    "prettier": "^3.8.3",
     "process": "^0.11.10",
     "react-app-rewired": "^2.2.1",
     "react-error-overlay": "^6.1.0",
@@ -116,6 +116,11 @@
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
     "url": "^0.11.4"
+  },
+  "resolutions": {
+    "js-yaml": "^4.1.1",
+    "nth-check": "^2.1.1",
+    "underscore": "^1.13.7"
   },
   "packageManager": "yarn@4.5.3"
 }
