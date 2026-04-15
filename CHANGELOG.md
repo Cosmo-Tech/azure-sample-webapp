@@ -1,4 +1,4 @@
-## **7.0.2** <sub><sup>2026-04-15 ([07a1dee...9111602](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/07a1dee0...91116029?diff=split))</sup></sub>
+## **7.0.2** <sub><sup>(not released yet) ([07a1dee...9111602](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/07a1dee0...91116029?diff=split))</sup></sub>
 
 ### Bug Fixes
 
@@ -11,6 +11,11 @@
 
 - update README file of migration script tool ([3bb40c8](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/3bb40c88))
 - update versions of supported browsers based on Vite 8 build ([86c1276](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/86c12764))
+
+### Tools & dependencies
+
+- add migration script for v7, remove previous scripts for v3 and v5
+- upgrade Vite bundler from v7 to v8
 
 ## **7.0.1** <sub><sup>2026-03-17 ([46a2cd8...58c9303](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/46a2cd8c...58c9303d?diff=split))</sup></sub>
 
