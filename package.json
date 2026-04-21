@@ -53,8 +53,8 @@
     "unlink:ui": "yalc remove @cosmotech/ui && yarn install"
   },
   "engines": {
-    "node": "^18",
-    "yarn": "4.5.3"
+    "node": "^24",
+    "yarn": "4.12.0"
   },
   "browserslist": {
     "production": [
@@ -122,5 +122,5 @@
     "nth-check": "^2.1.1",
     "underscore": "^1.13.7"
   },
-  "packageManager": "yarn@4.5.3"
+  "packageManager": "yarn@4.12.0"
 }
