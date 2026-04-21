@@ -1,3 +1,13 @@
+## **6.5.4** <sub><sup>2026-04-21 ([6452831...6346421](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/6452831a...6346421d?diff=split))</sup></sub>
+
+### Bug Fixes
+
+- fix broken deployment of Azure Static Web Apps
+
+### Dependencies
+
+- upgrade Node version from v18 to v24
+
 ## **6.5.3** <sub><sup>2026-04-15 ([403d33b...c88757f](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/403d33bb...c88757fb?diff=split))</sup></sub>
 
 ### Dependencies
