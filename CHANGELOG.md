@@ -1,7 +1,8 @@
-## **7.0.2** <sub><sup>(not released yet) ([07a1dee...9111602](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/07a1dee0...91116029?diff=split))</sup></sub>
+## **7.0.2** <sub><sup>2026-04-22 ([07a1dee...7894520](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/07a1dee0...7894520f?diff=split))</sup></sub>
 
 ### Bug Fixes
 
+- fix table validation ignoring column options when using dynamic values ([25967af](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/25967afd))
 - improve error messages when Superset configuration is incorrect ([bf8dad7](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/bf8dad78), [a3dc771](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/a3dc771f))
 - fix undefined scenario id possibly leading to stale table states ([5b1074a](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/5b1074a2))
 - fix possible error on first Table render ([26c31ee](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/26c31eee))
