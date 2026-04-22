@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 import { AgGridUtils } from '@cosmotech/core';
 
-export const parseCSVFromAPIResponse = (response) => {
+export const parseCSVFromAPIResponse = (response, columns = [], options) => {
   const data = response?.data ?? response;
-  return AgGridUtils.fromCSV(data, true, []);
+  return AgGridUtils.fromCSV(data, true, columns, options);
 };
 
 export const getColumnFirstValue = (colsAndRows, columnName) => {

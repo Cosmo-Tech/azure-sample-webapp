@@ -317,7 +317,7 @@ export const GenericTable = ({
       return;
     }
 
-    const agGridData = parseCSVFromAPIResponse(data);
+    const agGridData = parseCSVFromAPIResponse(data, columns, options);
     if (agGridData.error) {
       setClientFileDescriptor({
         displayStatus: TABLE_DATA_STATUS.ERROR,
