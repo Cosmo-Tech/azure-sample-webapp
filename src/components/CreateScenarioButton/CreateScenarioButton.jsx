@@ -31,20 +31,22 @@ const CreateScenarioButton = ({ disabled = false, onScenarioCreated }) => {
         disabled: true, // Prevent scenario creation if user has insufficient privileges
       }}
     >
-      <CreateScenarioButtonUI
-        solution={solution}
-        workspaceId={workspaceId}
-        createScenario={createScenario}
-        currentScenario={currentScenario}
-        runTemplates={filteredAndTranslatedRunTemplates}
-        datasets={filteredDatasets}
-        scenarios={sortedScenarioList}
-        user={user}
-        disabled={disabled}
-        labels={createScenarioDialogLabels}
-        defaultRunTemplateDataset={defaultRunTemplateDataset}
-        isIconButton
-      />
+      <span data-cy="create-scenario-button">
+        <CreateScenarioButtonUI
+          solution={solution}
+          workspaceId={workspaceId}
+          createScenario={createScenario}
+          currentScenario={currentScenario}
+          runTemplates={filteredAndTranslatedRunTemplates}
+          datasets={filteredDatasets}
+          scenarios={sortedScenarioList}
+          user={user}
+          disabled={disabled}
+          labels={createScenarioDialogLabels}
+          defaultRunTemplateDataset={defaultRunTemplateDataset}
+          isIconButton
+        />
+      </span>
     </PermissionsGate>
   );
 };

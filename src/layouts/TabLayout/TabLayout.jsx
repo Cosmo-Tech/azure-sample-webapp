@@ -8,6 +8,7 @@ import { Tabs as MuiTabs, Tab, Box } from '@mui/material';
 import { filterTabsForCurrentWorkspace } from '../../AppLayout';
 import { ApplicationErrorBanner } from '../../components';
 import { AppBar } from '../../components/AppBar';
+import { OnboardingTour, OnboardingTourProvider } from '../../components/OnboardingTour';
 import { DashboardsManager } from '../../managers';
 import { useGetRunner } from '../../state/runner/hooks';
 import { useSelectWorkspace, useWorkspace } from '../../state/workspaces/hooks';
@@ -87,7 +88,7 @@ export const TabLayout = (props) => {
   );
 
   return currentWorkspace?.data ? (
-    <>
+    <OnboardingTourProvider>
       <DashboardsManager />
       <AppBar>{viewTabs}</AppBar>
       <Box
@@ -103,7 +104,8 @@ export const TabLayout = (props) => {
         <ApplicationErrorBanner />
         <Outlet />
       </Box>
-    </>
+      <OnboardingTour />
+    </OnboardingTourProvider>
   ) : null;
 };
 

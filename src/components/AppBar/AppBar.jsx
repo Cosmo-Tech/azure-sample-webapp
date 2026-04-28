@@ -3,7 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { AppBar as MuiAppBar, Toolbar } from '@mui/material';
-import { HelpMenuWrapper, Logo, ThemeSwitch, UserInfoWrapper, WorkspaceInfo } from './components';
+import { HelpMenuWrapper, Logo, ThemeSwitch, TourTriggerButton, UserInfoWrapper, WorkspaceInfo } from './components';
 
 export const AppBar = ({ children }) => {
   return (
@@ -18,6 +18,7 @@ export const AppBar = ({ children }) => {
         <WorkspaceInfo />
         <div style={{ flexGrow: 1 }}>{children}</div>
         <ThemeSwitch />
+        <TourTriggerButton />
         <HelpMenuWrapper />
         <UserInfoWrapper />
         <Logo />

@@ -953,5 +953,62 @@
         }
       }
     }
+  },
+  "onboardingTour": {
+    "triggerTooltip": "Guided tour",
+    "buttons": {
+      "back": "Back",
+      "close": "Close",
+      "finish": "Finish",
+      "next": "Next",
+      "open": "Open the dialog",
+      "skip": "Skip tour"
+    },
+    "steps": {
+      "welcome": {
+        "title": "Welcome to the application!",
+        "content": "This guided tour will walk you through the main features of the application. You can restart it anytime from the help area in the top bar."
+      },
+      "workspace": {
+        "title": "Workspace",
+        "content": "This shows your current workspace. Click here to see workspace details or switch to another workspace. Each workspace isolates your data and scenarios."
+      },
+      "datasetManagerTab": {
+        "title": "Dataset Manager",
+        "content": "The Dataset Manager lets you manage your datasets: import data, create sub-datasets with filters, and review your data before running simulations."
+      },
+      "datasetList": {
+        "title": "Dataset list",
+        "content": "Here you can browse all available datasets. Select a dataset to view its details and overview on the right panel."
+      },
+      "createDataset": {
+        "title": "Create a dataset",
+        "content": "Use this button to create a new dataset or sub-dataset. You can filter data by asset classes, granularity, and other criteria."
+      },
+      "scenarioTab": {
+        "title": "Scenario View",
+        "content": "The Scenario View is where you create, configure, and launch simulations. You can adjust parameters and view dashboards for each scenario."
+      },
+      "createScenario": {
+        "title": "Create a scenario",
+        "content": "Click here to create a new scenario. You will choose a name, a scenario type, and a dataset to use for the simulation."
+      },
+      "scenarioParams": {
+        "title": "Scenario parameters",
+        "content": "Expand this section to configure simulation parameters: duration, time step, aging laws, technical policies, budget, and more."
+      },
+      "launchScenario": {
+        "title": "Launch simulation",
+        "content": "Once your parameters are set, click this button to launch the simulation. Results will appear in the dashboard section below."
+      },
+      "dashboardsTab": {
+        "title": "Dashboards",
+        "content": "The Dashboards tab provides visual indicators and reports for your simulation results. You can compare scenarios and analyze key metrics."
+      },
+      "helpMenu": {
+        "title": "Need help?",
+        "content": "You can restart this guided tour anytime by clicking this button. The help menu next to it also provides links to documentation and support."
+      }
+    }
   }
 }

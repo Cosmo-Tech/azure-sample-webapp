@@ -943,5 +943,62 @@
         }
       }
     }
+  },
+  "onboardingTour": {
+    "triggerTooltip": "Visite guidée",
+    "buttons": {
+      "back": "Retour",
+      "close": "Fermer",
+      "finish": "Terminer",
+      "next": "Suivant",
+      "open": "Ouvrir la boîte de dialogue",
+      "skip": "Passer la visite"
+    },
+    "steps": {
+      "welcome": {
+        "title": "Bienvenue dans l'application !",
+        "content": "Cette visite guidée vous présentera les principales fonctionnalités de l'application. Vous pouvez la relancer à tout moment depuis la zone d'aide en haut de la page."
+      },
+      "workspace": {
+        "title": "Espace de travail",
+        "content": "Ceci affiche votre espace de travail actuel. Cliquez ici pour voir les détails ou changer d'espace de travail. Chaque espace de travail isole vos données et scénarios."
+      },
+      "datasetManagerTab": {
+        "title": "Gestionnaire de datasets",
+        "content": "Le Gestionnaire de datasets vous permet de gérer vos jeux de données : importer des données, créer des sous-datasets avec des filtres et vérifier vos données avant de lancer des simulations."
+      },
+      "datasetList": {
+        "title": "Liste des datasets",
+        "content": "Ici vous pouvez parcourir tous les datasets disponibles. Sélectionnez un dataset pour afficher ses détails et son aperçu dans le panneau de droite."
+      },
+      "createDataset": {
+        "title": "Créer un dataset",
+        "content": "Utilisez ce bouton pour créer un nouveau dataset ou sous-dataset. Vous pouvez filtrer les données par classes d'actifs, granularité et autres critères."
+      },
+      "scenarioTab": {
+        "title": "Vue Scénario",
+        "content": "La Vue Scénario est l'endroit où vous créez, configurez et lancez des simulations. Vous pouvez ajuster les paramètres et consulter les tableaux de bord pour chaque scénario."
+      },
+      "createScenario": {
+        "title": "Créer un scénario",
+        "content": "Cliquez ici pour créer un nouveau scénario. Vous choisirez un nom, un type de scénario et un jeu de données à utiliser pour la simulation."
+      },
+      "scenarioParams": {
+        "title": "Paramètres de scénario",
+        "content": "Développez cette section pour configurer les paramètres de simulation : durée, pas de temps, lois de vieillissement, politiques techniques, budget, et plus encore."
+      },
+      "launchScenario": {
+        "title": "Lancer la simulation",
+        "content": "Une fois vos paramètres définis, cliquez sur ce bouton pour lancer la simulation. Les résultats apparaîtront dans la section tableau de bord ci-dessous."
+      },
+      "dashboardsTab": {
+        "title": "Tableaux de bord",
+        "content": "L'onglet Tableaux de bord fournit des indicateurs visuels et des rapports pour les résultats de vos simulations. Vous pouvez comparer des scénarios et analyser les métriques clés."
+      },
+      "helpMenu": {
+        "title": "Besoin d'aide ?",
+        "content": "Vous pouvez relancer cette visite guidée à tout moment en cliquant sur ce bouton. Le menu d'aide à côté fournit également des liens vers la documentation et le support."
+      }
+    }
   }
 }

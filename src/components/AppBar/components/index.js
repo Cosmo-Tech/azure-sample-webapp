@@ -3,6 +3,7 @@
 
 export { ThemeSwitch } from './ThemeSwitch';
 export { HelpMenuWrapper } from './HelpMenuWrapper';
+export { TourTriggerButton } from './TourTriggerButton';
 export { UserInfoWrapper } from './UserInfoWrapper';
 export { Logo } from './Logo';
 export { WorkspaceInfo } from './WorkspaceInfo';
