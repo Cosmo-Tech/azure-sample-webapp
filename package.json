@@ -57,7 +57,7 @@
     "yarn": "4.12.0"
   },
   "devDependencies": {
-    "@azure/msal-node": "^3.8.10",
+    "@azure/msal-node": "^5.1.5",
     "@babel/core": "^7.29.0",
     "@babel/preset-env": "^7.29.3",
     "@babel/preset-react": "^7.28.5",
