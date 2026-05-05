@@ -27,7 +27,7 @@ export const CSP_CONFIG_POLICY = {
     'https://superset-kubernetes.cosmotech.com',
 
     // Examples of sources for Azure login and PowerBI
-    // 'https://app.powerbi.com',
+    'https://app.powerbi.com',
     // 'https://login.microsoftonline.com'
   ],
   'manifest-src': ["'self'"],
