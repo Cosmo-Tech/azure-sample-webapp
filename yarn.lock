@@ -5562,7 +5562,7 @@ __metadata:
     http-proxy-middleware: "npm:^2.0.9"
     https-browserify: "npm:^1.0.0"
     i18next: "npm:^23.16.8"
-    i18next-browser-languagedetector: "npm:^7.2.2"
+    i18next-browser-languagedetector: "npm:^8.2.1"
     i18next-http-backend: "npm:^2.7.3"
     jest: "npm:~29.7.0"
     jest-canvas-mock: "npm:^2.5.2"
@@ -10308,12 +10308,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next-browser-languagedetector@npm:^7.2.2":
-  version: 7.2.2
-  resolution: "i18next-browser-languagedetector@npm:7.2.2"
+"i18next-browser-languagedetector@npm:^8.2.1":
+  version: 8.2.1
+  resolution: "i18next-browser-languagedetector@npm:8.2.1"
   dependencies:
     "@babel/runtime": "npm:^7.23.2"
-  checksum: 10c0/9397c137af9401ec0c556930fc395fcb9aec8fa8cff84567b545e2abfd6a9df3c137a8b96f4f5801cff75f3dac3b16002aea4d98a37ae4ac49bdf1903e65d2f4
+  checksum: 10c0/d200847a79b4cb2764ef59b33e5399085d4d56b2b038e884bb54fffe17953b467899142a6ef6e985592234f10049d14d06b80f2c56441ae80648c5a6717704f3
   languageName: node
   linkType: hard
 
