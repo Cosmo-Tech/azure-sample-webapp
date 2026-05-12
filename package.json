@@ -126,7 +126,8 @@
     "path-to-regexp": "^0.1.13",
     "postcss": "^8.5.10",
     "serialize-javascript": "^7.0.3",
-    "underscore": "^1.13.8"
+    "underscore": "^1.13.8",
+    "uuid": "^14.0.0"
   },
   "packageManager": "yarn@4.12.0"
 }
