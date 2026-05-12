@@ -117,7 +117,6 @@
     "url": "^0.11.4"
   },
   "resolutions": {
-    "js-yaml": "^4.1.1",
     "nth-check": "^2.1.1",
     "underscore": "^1.13.7"
   },
