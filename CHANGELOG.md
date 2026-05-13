@@ -1,3 +1,9 @@
+## **7.0.3** <sub><sup>2026-05-13 ([a7abbbe...e0a4b86](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/a7abbbe4...e0a4b867?diff=split))</sup></sub>
+
+### Dependencies
+
+- update dependencies
+
 ## **7.0.2** <sub><sup>2026-04-22 ([07a1dee...7894520](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/07a1dee0...7894520f?diff=split))</sup></sub>
 
 ### Bug Fixes
