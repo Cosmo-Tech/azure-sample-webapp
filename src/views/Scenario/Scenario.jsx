@@ -239,7 +239,10 @@ const Scenario = () => {
   return (
     <FormProvider {...methods} key={`form-${currentScenarioData?.id}`}>
       <BackdropLoadingScenario />
-      <div data-cy="scenario-view" style={{ paddingTop: '16px', paddingLeft: '8px', paddingRight: '8px' }}>
+      <div
+        data-cy="scenario-view"
+        style={{ paddingTop: '16px', paddingLeft: '8px', paddingRight: '8px', height: '100%', overflow: 'auto' }}
+      >
         <Grid container spacing={2} sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
           <Grid size={4}>
             <Stack>
