@@ -54,7 +54,6 @@ export const DEFAULT_WORKSPACE = {
       },
     },
   },
-  datasetCopy: false,
 };
 
 export const DEFAULT_WORKSPACES = [DEFAULT_WORKSPACE];

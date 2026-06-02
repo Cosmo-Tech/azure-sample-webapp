@@ -13,7 +13,7 @@ import { useDeleteDatasetButton } from './DeleteDatasetButtonHooks';
 export const DeleteDatasetButton = ({ dataset, location = '' }) => {
   const { t } = useTranslation();
   const getDatasetRunnerStatus = useGetDatasetRunnerStatus();
-  const { deleteDataset, isDatasetCopyEnabledInWorkspace } = useDeleteDatasetButton();
+  const { deleteDataset } = useDeleteDatasetButton();
 
   const datasetStatus = getDatasetRunnerStatus(dataset);
   const isDisabled = !dataset || datasetStatus === RUNNER_RUN_STATE.RUNNING;
@@ -21,14 +21,13 @@ export const DeleteDatasetButton = ({ dataset, location = '' }) => {
   const askConfirmationToDeleteDialog = useCallback(
     async (event, dataset) => {
       event.stopPropagation();
-      const impactedScenariosWarning = isDatasetCopyEnabledInWorkspace
-        ? ''
-        : ' ' + // Space character is here on purpose, to separate concatenated sentences in confirmation dialog body
-          t(
-            'commoncomponents.datasetmanager.dialogs.delete.impactedScenariosWarning',
-            'Users won’t be able to launch scenarios using this dataset, but previously existing results will still ' +
-              'be available.'
-          );
+      const impactedScenariosWarning =
+        ' ' + // Space character is here on purpose, to separate concatenated sentences in confirmation dialog body
+        t(
+          'commoncomponents.datasetmanager.dialogs.delete.impactedScenariosWarning',
+          "Users won't be able to launch scenarios using this dataset, but previously existing results will still " +
+            'be available.'
+        );
 
       const dialogProps = {
         id: 'delete-dataset',
@@ -56,7 +55,7 @@ export const DeleteDatasetButton = ({ dataset, location = '' }) => {
         deleteDataset(dataset?.id);
       }
     },
-    [t, deleteDataset, isDatasetCopyEnabledInWorkspace]
+    [t, deleteDataset]
   );
 
   const userPermissionsOnDataset = dataset?.security?.currentUserPermissions ?? [];

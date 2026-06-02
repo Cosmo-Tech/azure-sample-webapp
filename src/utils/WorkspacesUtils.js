@@ -55,13 +55,6 @@ const patchWorkspaceWithDatasetManagerConfiguration = (workspace) => {
 };
 
 const checkConfigurationPitfalls = (workspace) => {
-  if (workspace?.datasetCopy === true) {
-    console.warn(
-      `WARNING: option "datasetCopy" is set to "true" in workspace "${workspace?.name}" (id: "${workspace?.id}"). ` +
-        'This option is currently not supported by the webapp: you may encounter glitches and undefined behavior. ' +
-        'Please consider changing this value to "datasetCopy: false".'
-    );
-  }
   if (workspace?.linkedDatasetIdList === null) {
     console.warn(
       `The option "linkedDatasetIdList" is "null" in workspace "${workspace?.name}" (id: "${workspace?.id}"). ` +

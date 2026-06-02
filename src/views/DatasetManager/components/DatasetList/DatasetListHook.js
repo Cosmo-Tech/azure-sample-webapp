@@ -4,11 +4,10 @@ import { useMemo } from 'react';
 import { useWorkspaceMainDatasets } from '../../../../hooks/WorkspaceDatasetsHooks';
 import { ACL_PERMISSIONS } from '../../../../services/config/accessControl';
 import { useCurrentDataset, useDeleteDataset, useSelectDataset } from '../../../../state/datasets/hooks';
-import { useWorkspaceData, useUserPermissionsOnCurrentWorkspace } from '../../../../state/workspaces/hooks';
+import { useUserPermissionsOnCurrentWorkspace } from '../../../../state/workspaces/hooks';
 
 export const useDatasetList = () => {
   const userPermissionsOnCurrentWorkspace = useUserPermissionsOnCurrentWorkspace();
-  const isDatasetCopyEnabledInWorkspace = useWorkspaceData()?.datasetCopy ?? false;
   const datasets = useWorkspaceMainDatasets();
   const selectDataset = useSelectDataset();
   const currentDataset = useCurrentDataset();
@@ -27,6 +26,5 @@ export const useDatasetList = () => {
     currentDataset,
     selectDataset,
     deleteDataset,
-    isDatasetCopyEnabledInWorkspace,
   };
 };
