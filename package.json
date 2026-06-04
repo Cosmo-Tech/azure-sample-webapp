@@ -96,7 +96,7 @@
     "read-excel-file": "^8.0.3",
     "vite": "^8.0.16",
     "vite-plugin-csp-guard": "^4.0.1",
-    "vite-plugin-node-polyfills": "^0.28.0"
+    "vite-plugin-node-polyfills": "0.26.0"
   },
   "resolutions": {
     "glob": "^13.0.6"
