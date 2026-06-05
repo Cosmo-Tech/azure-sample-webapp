@@ -29,8 +29,8 @@ const resolveDynamicValue = (key, context) => {
   const resolver = dynamic[key];
   const value = resolver ? resolver() : key; // fallback to static value
 
-  if (Array.isArray(value)) return value.join(',');
-  return value;
+  if (Array.isArray(value)) return "'" + value.join("','") + "'";
+  return `'${value}'`;
 };
 
 const sanitizeNativeFilterId = (idFromConfig) => {
@@ -56,9 +56,9 @@ const forgeNativeFilters = (dashboardFilters, visibleScenarios, currentScenarioD
     const dynamicValue = resolveDynamicValue(value, { currentScenarioData, visibleScenarios });
     const nativeExpr =
       `(NATIVE_FILTER-${filterId}:` +
-      `(__cache:(label:'${dynamicValue}',validateStatus:!f,value:!('${dynamicValue}')),` +
-      `extraFormData:(filters:!((col:'${column}',op:'${operator}',val:!('${dynamicValue}')))),` +
-      `filterState:(label:'${dynamicValue}',validateStatus:!f,value:!('${dynamicValue}')),` +
+      `(__cache:(label:!(${dynamicValue}),validateStatus:!f,value:!(${dynamicValue})),` +
+      `extraFormData:(filters:!((col:'${column}',op:'${operator}',val:!(${dynamicValue})))),` +
+      `filterState:(label:!(${dynamicValue}),validateStatus:!f,value:!(${dynamicValue})),` +
       `id:NATIVE_FILTER-${filterId},ownState:()))`;
 
     nativeFilters.push(nativeExpr);
