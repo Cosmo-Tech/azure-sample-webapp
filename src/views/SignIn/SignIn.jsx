@@ -1,6 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router';
 import PropTypes from 'prop-types';
@@ -142,18 +142,20 @@ const SignIn = ({ logInAction, auth }) => {
       </>
     ) : null;
 
-  let infoMessageText;
-  if (NO_PROVIDERS)
-    infoMessageText = t(
-      'views.signin.info.noProviders',
-      'No authentication provider detected. Please check the configuration of the web application server, or ' +
-        'contact your administrator.'
-    );
-  else if (localStorage.getItem('logoutByTimeout') === 'true')
-    infoMessageText = t(
-      'views.signin.info.timeout',
-      'For security reasons, your session has expired, due to inactivity.'
-    );
+  const infoMessageText = useMemo(() => {
+    if (NO_PROVIDERS)
+      return t(
+        'views.signin.info.noProviders',
+        'No authentication provider detected. Please check the configuration of the web application server, or ' +
+          'contact your administrator.'
+      );
+
+    if (localStorage.getItem('logoutByTimeout') === 'true') {
+      localStorage.removeItem('logoutByTimeout');
+      return t('views.signin.info.timeout', 'For security reasons, your session has expired, due to inactivity.');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const infoMessage = infoMessageText ? (
     <div className={classes.infoPaper}>
@@ -166,7 +168,7 @@ const SignIn = ({ logInAction, auth }) => {
           overflowWrap: 'break-word',
         }}
       >
-        {t('views.signin.info.timeout', 'For security reasons, your session has expired, due to inactivity.')}
+        {infoMessageText}
       </Typography>
     </div>
   ) : null;
