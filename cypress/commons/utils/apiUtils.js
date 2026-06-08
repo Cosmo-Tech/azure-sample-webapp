@@ -396,9 +396,11 @@ const interceptPostDatasetTwingraphQueries = (responses = [], validateRequest = 
   const options = { method: 'GET', url: API_REGEX.DATASET_PART_QUERY };
   if (times > 0) options.times = times;
   cy.intercept(options, (req) => {
+    // The 3rd group in the endpoint URL regex contains the dataset part id
+    const datasetPartId = req.url.match(API_REGEX.DATASET_PART_QUERY)[3];
     if (validateRequest) validateRequest(req);
     if (!stub.isEnabledFor('GET_DATASETS')) return;
-    const matchingResponse = responses.find((response) => response.id === req.body.id)?.results ?? [];
+    const matchingResponse = responses.find((response) => response.datasetPartId === datasetPartId)?.decodedResponse;
     if (matchingResponse != null) req.reply(matchingResponse);
   }).as(alias);
   return alias;

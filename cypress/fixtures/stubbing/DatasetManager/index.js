@@ -1,8 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-export { DATASETS, DATASETS_TO_FILTER, DATASETS_TO_REFRESH, DATASETS_TWINGRAPH } from './datasets';
+export { DATASETS, DATASETS_TO_FILTER, DATASETS_TO_REFRESH } from './datasets';
 export { ORGANIZATION_WITH_DEFAULT_ROLE_USER, ORGANIZATION_WITH_DEFAULT_ROLE_VIEWER } from './organizations';
 export { WORKSPACE, WORKSPACE_WITHOUT_CONFIG } from './workspaces';
-export { TWINGRAPH_QUERIES } from './twingraphQueries';
+export { DATASET_A_KPI_QUERIES, DATASET_B_KPI_QUERIES, DATASET_B_TABLE_DECODED_RESPONSE } from './twingraphQueries';
 export { RUNNERS_FOR_ETL_DATASETS } from './runners';
