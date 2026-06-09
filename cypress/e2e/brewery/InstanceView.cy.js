@@ -26,7 +26,10 @@ describe('Instance view disabled', () => {
   });
 });
 
-describe('Instance view when enabled', () => {
+// Instance view is no longer supported in v7.0, but we may bring it back in a future version. In the meantime, the
+// test below will be disabled
+// eslint-disable-next-line jest/no-disabled-tests
+describe.skip('Instance view when enabled', () => {
   before(() => {
     setup.initCypressAndStubbing();
     stub.start();
