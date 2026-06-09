@@ -2,15 +2,8 @@
 // Licensed under the MIT license.
 import { DEFAULT_DATASET, DEFAULT_RUNNER_BASE_DATASET, DEFAULT_RUNNER_PARAMETER_DATASET } from '../default';
 
-const EDITABLE_DATASET = {
-  ...DEFAULT_DATASET,
-  ingestionStatus: 'SUCCESS',
-  twincacheStatus: 'FULL',
-  security: { default: 'none', accessControlList: [{ id: 'dev.sample.webapp@example.com', role: 'admin' }] },
-};
-
 const DATASET_PART_1 = {
-  ...EDITABLE_DATASET,
+  ...DEFAULT_DATASET,
   id: 'D-stbdparams1',
   name: 'Parameters Dataset Reference',
   description: 'Reference dataset for parameters edition testing',
@@ -24,7 +17,7 @@ const DATASET_PART_1 = {
 };
 
 const MAIN_DATASET_A = {
-  ...EDITABLE_DATASET,
+  ...DEFAULT_DATASET,
   id: 'D-stbdparams2',
   additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
   name: 'Parameters Dataset A',
@@ -34,7 +27,7 @@ const MAIN_DATASET_A = {
 };
 
 const MAIN_DATASET_B = {
-  ...EDITABLE_DATASET,
+  ...DEFAULT_DATASET,
   id: 'D-stbdparams3',
   additionalData: {
     webapp: {
@@ -58,7 +51,7 @@ const MAIN_DATASET_B = {
 };
 
 const MAIN_DATASET_C = {
-  ...EDITABLE_DATASET,
+  ...DEFAULT_DATASET,
   id: 'D-stbdparams4',
   additionalData: {
     webapp: {
@@ -90,7 +83,7 @@ const MAIN_DATASET_C = {
 };
 
 const MAIN_DATASET_D = {
-  ...EDITABLE_DATASET,
+  ...DEFAULT_DATASET,
   id: 'D-stbdparams5',
   additionalData: {
     webapp: { visible: { datasetManager: true, scenarioCreation: true }, sourceType: 'ETL', runnerId: 'r-stbdparams2' },
@@ -108,7 +101,7 @@ const MAIN_DATASET_D = {
 };
 
 const MAIN_DATASET_E = {
-  ...EDITABLE_DATASET,
+  ...DEFAULT_DATASET,
   id: 'D-stbdparams7',
   additionalData: {
     webapp: { visible: { datasetManager: true, scenarioCreation: true }, sourceType: 'ETL', runnerId: 'r-stbdparams3' },
@@ -126,7 +119,7 @@ const MAIN_DATASET_E = {
 };
 
 const DATASET_PART_2 = {
-  ...EDITABLE_DATASET,
+  ...DEFAULT_DATASET,
   id: 'D-stbdparams6',
   name: 'Parameters Dataset Reference',
   description: 'Reference dataset for parameters edition testing',
