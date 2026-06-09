@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import { DatasetManager, Login } from '../../commons/actions';
 import { stub } from '../../commons/services/stubbing';
-import { SOLUTION, WORKSPACE, ORGANIZATION_WITH_DEFAULT_ROLE_USER } from '../../fixtures/stubbing/DatasetManager';
+import { WORKSPACE, ORGANIZATION_WITH_DEFAULT_ROLE_USER } from '../../fixtures/stubbing/DatasetManager';
 import { EDITABLE_DATASET, NON_EDITABLE_DATASET } from '../../fixtures/stubbing/RenameDataset';
 
 describe('rename datasets in Dataset Manager view', () => {
@@ -10,7 +10,6 @@ describe('rename datasets in Dataset Manager view', () => {
     const linkedWorkspace = { ...WORKSPACE, linkedDatasetIdList: [EDITABLE_DATASET.id, NON_EDITABLE_DATASET.id] };
     stub.start();
     stub.setOrganizations([ORGANIZATION_WITH_DEFAULT_ROLE_USER]);
-    stub.setSolutions([SOLUTION]);
     stub.setWorkspaces([linkedWorkspace]);
     stub.setDatasets([EDITABLE_DATASET, NON_EDITABLE_DATASET]);
   });
