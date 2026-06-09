@@ -281,7 +281,10 @@ export const setNewDatasetAzureStorageContainerName = (value) =>
 export const setNewDatasetAzureStoragePath = (value) =>
   getNewDatasetAzureStoragePath().type('{selectAll}{backspace}' + value);
 
-export const uploadFileInWizard = (filePath) => FileParameters.upload(getDatasetCreationDialog(), filePath);
+export const uploadFileInWizard = (filePath, editExistingDataset = false) => {
+  if (editExistingDataset) return FileParameters.upload(getUpdateDatasetParametersDialog(), filePath);
+  return FileParameters.upload(getDatasetCreationDialog(), filePath);
+};
 
 export const closeDeleteDatasetDialog = () => {
   getDeleteDatasetCancelButton().click();
