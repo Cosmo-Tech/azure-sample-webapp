@@ -13,7 +13,7 @@ function getBrowseButton(fileParameterElement) {
   return fileParameterElement.find(GENERIC_SELECTORS.genericComponents.uploadFile.browseButton, { timeout: 10000 });
 }
 function getDownloadButton(fileParameterElement) {
-  return fileParameterElement.find(GENERIC_SELECTORS.genericComponents.uploadFile.fileName, { timeout: 10000 });
+  return fileParameterElement.find(GENERIC_SELECTORS.genericComponents.uploadFile.downloadButton, { timeout: 10000 });
 }
 
 function getDeleteButton(fileParameterElement) {
