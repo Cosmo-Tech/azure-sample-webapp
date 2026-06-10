@@ -6,6 +6,10 @@ import { Login } from '../../commons/actions/brewery';
 
 const DATA_INGESTION_DURATION = 180;
 
+const selectFile2DBOption = () => {
+  cy.get('[data-cy=enum-input-value-tooltip-etl_zip2db]').click();
+};
+
 describe('End-to-end test of the dataset manager view', () => {
   beforeEach(() => {
     Login.login();
@@ -24,21 +28,26 @@ describe('End-to-end test of the dataset manager view', () => {
     DatasetManager.getDatasetCreationNextStep().click();
 
     DatasetManager.getNewDatasetSourceTypeSelect().click();
-    DatasetManager.getNewDatasetSourceTypeOptionFile().click();
+    selectFile2DBOption();
 
     DatasetManager.uploadFileInWizard(REFERENCE_DATASET_ZIP_FILE_PATH);
     DatasetManager.confirmDatasetCreation({ isFile: true });
 
     DatasetManager.getDatasetSearchBarInput().click().type(fileDatasetName);
     DatasetManager.getAllRefreshDatasetSpinners(DATA_INGESTION_DURATION).should('not.exist');
-    DatasetManager.getIndicatorCard('satisfaction_links_count').should('be.visible');
-    DatasetManager.getKpiValue(DatasetManager.getIndicatorCard('satisfaction_links_count')).should('have.text', 8);
+    DatasetManager.getIndicatorCard('count_name').should('be.visible');
+    // Since v7, two KPI cards have the same data-cy id, we want to pick the first one (hence the call to first())
+    DatasetManager.getKpiValue(DatasetManager.getIndicatorCard('count_name')).first().should('have.text', 8);
 
     DatasetManager.getDatasetsListItemButtons().should('have.length', 1);
-    DatasetManager.getAllReuploadDatasetButtons().click();
-    DatasetManager.getConfirmDatasetRefreshButton().click();
-    DatasetManager.getAllReuploadDatasetInputs().attachFile(NINE_CUSTOMERS_DATASET_ZIP_FILE_PATH);
-    DatasetManager.getKpiValue(DatasetManager.getIndicatorCard('satisfaction_links_count'), 10).should('have.text', 16);
+    DatasetManager.getUpdateDatasetParametersButton().click();
+    DatasetManager.uploadFileInWizard(NINE_CUSTOMERS_DATASET_ZIP_FILE_PATH, true);
+    DatasetManager.getUpdateParametersButton().click();
+    DatasetManager.getAllRefreshDatasetSpinners(DATA_INGESTION_DURATION).should('be.visible');
+    DatasetManager.getAllRefreshDatasetSpinners(DATA_INGESTION_DURATION).should('not.exist'); // Wait for end of ETL
+    DatasetManager.getIndicatorCard('count_name').should('be.visible');
+    // Since v7, two KPI cards have the same data-cy id, we want to pick the first one (hence the call to first())
+    DatasetManager.getKpiValue(DatasetManager.getIndicatorCard('count_name'), 10).first().should('have.text', 16);
 
     DatasetManager.getAllDeleteDatasetButtons().click();
     DatasetManager.getDeleteDatasetDialogBody().contains(fileDatasetName);

@@ -1,20 +1,22 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
+import rfdc from 'rfdc';
 import { Login, DatasetManager } from '../../commons/actions';
 import { stub } from '../../commons/services/stubbing';
-import {
-  DATASETS,
-  WORKSPACE,
-  WORKSPACE_WITHOUT_CONFIG,
-  ORGANIZATION_WITH_DEFAULT_ROLE_VIEWER,
-} from '../../fixtures/stubbing/DatasetManager';
+import { DATASETS, WORKSPACE, WORKSPACE_WITHOUT_CONFIG } from '../../fixtures/stubbing/DatasetManager';
 
-const WORKSPACES = [WORKSPACE, WORKSPACE_WITHOUT_CONFIG];
+const clone = rfdc();
+
+const WORKSPACE_WITH_VIEWER_ROLE = clone(WORKSPACE);
+WORKSPACE_WITH_VIEWER_ROLE.security.default = 'viewer';
+
+const WORKSPACES_AS_ADMIN = [WORKSPACE, WORKSPACE_WITHOUT_CONFIG];
+const WORKSPACES_AS_VIEWER = [WORKSPACE_WITH_VIEWER_ROLE, WORKSPACE_WITHOUT_CONFIG];
 
 describe('Dataset manager view is optional', () => {
   before(() => {
     stub.start();
-    stub.setWorkspaces(WORKSPACES);
+    stub.setWorkspaces(WORKSPACES_AS_ADMIN);
   });
   beforeEach(() => Login.login({ url: '/W-stbbdbrwryNoDM', workspaceId: 'W-stbbdbrwryNoDM' }));
   after(stub.stop);
@@ -27,8 +29,8 @@ describe('Dataset manager view is optional', () => {
 describe('Viewer role in an empty dataset manager', () => {
   before(() => {
     stub.start();
-    stub.setOrganizations([ORGANIZATION_WITH_DEFAULT_ROLE_VIEWER]);
-    stub.setWorkspaces(WORKSPACES);
+    stub.setWorkspaces(WORKSPACES_AS_VIEWER);
+    stub.setDatasets([]);
   });
   beforeEach(() => Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' }));
   after(stub.stop);
@@ -46,8 +48,7 @@ describe('Viewer role in an empty dataset manager', () => {
 describe('Viewer role in a non-empty dataset manager', () => {
   before(() => {
     stub.start();
-    stub.setOrganizations([ORGANIZATION_WITH_DEFAULT_ROLE_VIEWER]);
-    stub.setWorkspaces(WORKSPACES);
+    stub.setWorkspaces(WORKSPACES_AS_VIEWER);
     stub.setDatasets([...DATASETS]);
   });
   beforeEach(() => Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' }));

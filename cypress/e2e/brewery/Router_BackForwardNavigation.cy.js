@@ -38,6 +38,7 @@ const selectScenarioAndWaitForInstanceViewUrlUpdate = (scenario) => {
 describe('Back and forward navigation between tabs, scenarios and workspaces', () => {
   before(() => {
     stub.start();
+    stub.setDatasets([]);
     stub.setWorkspaces(EXTENDED_WORKSPACES_LIST);
   });
 

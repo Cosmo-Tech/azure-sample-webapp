@@ -5,11 +5,12 @@ import { ScenarioManager, Scenarios, ScenarioParameters, Login, Workspaces } fro
 import { BreweryParameters } from '../../commons/actions/brewery';
 import { stub } from '../../commons/services/stubbing';
 import { routeUtils as route } from '../../commons/utils';
-import { EXTENDED_WORKSPACES_LIST } from '../../fixtures/stubbing/default';
+import { BASIC_PARAMETERS_SIMULATION_RUNNER, EXTENDED_WORKSPACES_LIST } from '../../fixtures/stubbing/default';
 
 describe('Discard and continue inside the same workspace', () => {
   before(() => {
     stub.start();
+    stub.setRunners([BASIC_PARAMETERS_SIMULATION_RUNNER]);
   });
 
   beforeEach(() => {
@@ -53,7 +54,7 @@ describe('Discard and continue inside the same workspace', () => {
     ScenarioParameters.cancelDiscardAndContinue();
     BreweryParameters.getCurrencyNameInput().should('value', currencyName);
 
-    ScenarioParameters.discardAndContinue(); // Clear to prevent the blocking pop-up when running tests
+    ScenarioParameters.discard(); // Clear to prevent the blocking pop-up when running tests
   });
 
   it('Check change tab after discard modification', () => {
@@ -91,6 +92,7 @@ describe('Discard and continue inside the same workspace', () => {
 describe('Discard and continue go to workspaces', () => {
   before(() => {
     stub.start();
+    stub.setRunners([BASIC_PARAMETERS_SIMULATION_RUNNER]);
     stub.setWorkspaces(EXTENDED_WORKSPACES_LIST);
   });
 

@@ -64,11 +64,7 @@ function writeInScenarioSelectorInput(searchStr) {
 // Parameters:
 // - scenarioName (string): character string to write in the scenario selector search field
 // - scenarioId (string): scenario id expected in the intercepted queries and elements metadata
-// - options (object):
-//   - skipEditButtonCheck (bool, default=false): if true, then the function does not perform checks on the state of
-//     the edit button after switching to the selected scenario; this option can be useful when the connected user does
-//     not have the edit permissions on the selected scenario (i.e. when the edit button is not visible)
-function selectScenario(scenarioName, scenarioId, options) {
+function selectScenario(scenarioName, scenarioId) {
   writeInScenarioSelectorInput(scenarioName);
   getScenarioSelectorOption(scenarioId).should('be.visible').should('not.be.disabled');
   getScenarioSelectorOption(scenarioId).click();

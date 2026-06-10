@@ -8,11 +8,28 @@ import { DATASETS, RUNNERS, SOLUTION, WORKSPACE } from '../../fixtures/stubbing/
 
 const NINE_CUSTOMERS_DATASET_ZIP_FILE_PATH = 'customers2.csv';
 
+const datasetFile = DATASETS[2];
+const datasetETLDynamicValues = DATASETS[3];
+const datasetETLLocalFile = DATASETS[4];
+const secondDatasetETLLocalFile = DATASETS[6];
+const enumParameterSelector = '[data-cy=enum-input-select-etl_dynamic_values_enum_parameter]';
+const enumValue1Selector = '[data-cy=First]';
+const fileParameterSelector = '[data-cy="file-upload-etl_file_parameter"]';
+const stockParameterSelector = '[data-cy=text-input-etl_stock]';
+
+// Response must be in CSV format as the API returns CSV data
+// The column name must match the resultKey in the solution parameter's dynamicEnumValues config
+const queryResponse = 'customer_id\nFirst\nSecond\nThird';
+
+const getStockParameterInput = () => cy.get(stockParameterSelector).find('input');
+const clearStockParameterInput = () => getStockParameterInput().click().type('{selectAll}{backspace}');
+const editStockParameter = (value) => {
+  clearStockParameterInput();
+  getStockParameterInput().type(value);
+};
+
 describe('Dataset Manager - Parameters Edition', () => {
-  const ingestionOptions = {
-    expectedPollsCount: 2,
-    finalIngestionStatus: 'SUCCESS',
-  };
+  const ingestionOptions = { expectedPollsCount: 2, finalIngestionStatus: 'SUCCESS' };
   before(() => {
     stub.start();
     stub.setOrganizations([ORGANIZATION_WITH_DEFAULT_ROLE_USER]);
@@ -28,29 +45,6 @@ describe('Dataset Manager - Parameters Edition', () => {
   after(stub.stop);
 
   it('should edit ETL parameters of a dataset', () => {
-    const datasetFile = DATASETS[2];
-    const datasetETLDynamicValues = DATASETS[3];
-    const datasetETLLocalFile = DATASETS[4];
-    const secondDatasetETLLocalFile = DATASETS[6];
-    const enumParameterSelector = '[data-cy=enum-input-select-etl_dynamic_values_enum_parameter]';
-    const enumValue1Selector = '[data-cy=First]';
-    const fileParameterSelector = '[data-cy="file-upload-etl_file_parameter"]';
-    const stockParameterSelector = '[data-cy=text-input-etl_stock]';
-    const getStockParameterInput = () => {
-      return cy.get(stockParameterSelector).find('input');
-    };
-    const clearStockParameterInput = () => {
-      getStockParameterInput().click().type('{selectAll}{backspace}');
-    };
-    const editStockParameter = (value) => {
-      clearStockParameterInput();
-      getStockParameterInput().type(value);
-    };
-
-    // Response must be in CSV format as the API returns CSV data
-    // The column name must match the resultKey in the solution parameter's dynamicEnumValues config
-    const queryResponse = 'customer_id\nFirst\nSecond\nThird';
-
     DatasetManager.ignoreDatasetTwingraphQueries();
     DatasetManager.switchToDatasetManagerView();
     DatasetManager.selectDatasetById(datasetFile.id);
@@ -106,7 +100,9 @@ describe('Dataset Manager - Parameters Edition', () => {
 
     DatasetManager.getRefreshDatasetSpinner(datasetETLLocalFile.id, 20).should('not.exist');
     DatasetManager.selectDatasetById(datasetETLDynamicValues.id);
+    const waitForSecondTwingraphQuery = DatasetManager.expectDatasetTwingraphQuery(queryResponse);
     DatasetManager.openUpdateDatasetParametersDialog();
+    waitForSecondTwingraphQuery();
     cy.get(enumParameterSelector).find('input').should('have.value', 'First');
     DatasetManager.closeUpdateDatasetParametersDialog();
     DatasetManager.selectDatasetById(datasetETLLocalFile.id);

@@ -12,7 +12,7 @@ export const WORKSPACE = {
   additionalData: {
     webapp: {
       datasetManager: {
-        subdatasourceFilter: [],
+        subdatasourceFilter: null,
       },
     },
   },

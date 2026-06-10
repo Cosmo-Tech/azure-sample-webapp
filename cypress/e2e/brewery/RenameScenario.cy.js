@@ -1,105 +1,79 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import utils from '../../commons/TestUtils';
-import { Scenarios, ScenarioManager, ScenarioParameters } from '../../commons/actions';
-import { Login } from '../../commons/actions/brewery';
+import rfdc from 'rfdc';
+import { Login, Scenarios, ScenarioManager, ScenarioParameters } from '../../commons/actions';
 import { ScenarioSelector } from '../../commons/actions/generic/ScenarioSelector';
-import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
+import { stub } from '../../commons/services/stubbing';
+import { BASIC_PARAMETERS_SIMULATION_RUNNER } from '../../fixtures/stubbing/default';
+
+const clone = rfdc();
+
+const SCENARIO_A = BASIC_PARAMETERS_SIMULATION_RUNNER;
+const SCENARIO_B = clone(BASIC_PARAMETERS_SIMULATION_RUNNER);
+SCENARIO_A.id = 'r-scenarioA';
+SCENARIO_B.id = 'r-scenarioB';
+SCENARIO_A.name = 'Cypress Scenario A';
+SCENARIO_B.name = 'Cypress Scenario B';
+
+const SCENARIO_A_ID = SCENARIO_A.id;
+const SCENARIO_B_ID = SCENARIO_B.id;
+const SCENARIO_NAME_A1 = SCENARIO_A.name;
+const SCENARIO_NAME_A2 = SCENARIO_A.name + '_renamed';
+const SCENARIO_NAME_A3 = SCENARIO_A.name + '_renamed_again';
+const SCENARIO_NAME_B1 = SCENARIO_B.name;
 
 describe('Create scenario and rename it', () => {
-  Cypress.Keyboard.defaults({
-    keystrokeDelay: 0,
-  });
-
-  const SCENARIO_DATASET = DATASET.BREWERY_STORAGE;
-  const SCENARIO_RUN_TEMPLATE = RUN_TEMPLATE.BASIC_TYPES;
-
-  function forgeScenarioName() {
-    const prefix = 'Scenario to rename - ';
-    const randomString = utils.randomStr(7);
-    return prefix + randomString;
-  }
-
-  const anotherScenario = forgeScenarioName();
-  let anotherScenarioId;
-  const scenarioNamesToDelete = [];
-  scenarioNamesToDelete.push(anotherScenario);
-
   before(() => {
-    Login.login();
-    Scenarios.createScenario(anotherScenario, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE).then((data) => {
-      anotherScenarioId = data.scenarioCreatedId;
-    });
+    stub.start();
   });
 
   beforeEach(() => {
+    stub.setRunners([SCENARIO_A, SCENARIO_B]);
     Login.login();
   });
 
   after(() => {
-    ScenarioManager.deleteScenarioList(scenarioNamesToDelete);
+    stub.stop();
   });
 
-  it('Rename scenarios several times and launch', () => {
-    const scenarioNamePrefix = forgeScenarioName();
-    const scenarioName = scenarioNamePrefix + '_A';
-    let newScenarioName = scenarioNamePrefix + '_B';
+  it('Rename scenario several times and launch', () => {
+    ScenarioManager.switchToScenarioManager();
 
-    Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE).then((data) => {
-      const scenarioId = data.scenarioCreatedId;
-      ScenarioManager.switchToScenarioManager();
-      ScenarioManager.getRenameScenarioButton(scenarioId).click();
-      ScenarioManager.getScenarioEditableLink(scenarioId, 15).type(
-        '{selectAll}{backspace}' + newScenarioName + '{esc}'
-      ); // Do not confirm new name
-      ScenarioManager.getScenarioEditableLink(scenarioId, 15).should('have.text', scenarioName);
-      ScenarioManager.renameScenario(scenarioId, newScenarioName);
-      ScenarioManager.getScenarioEditableLink(scenarioId, 15).should('have.text', newScenarioName);
-      Scenarios.switchToScenarioView();
-      ScenarioSelector.selectScenario(anotherScenario, anotherScenarioId);
-      ScenarioSelector.selectScenario(newScenarioName, scenarioId);
+    // Start editing name and cancel edition
+    ScenarioManager.getRenameScenarioButton(SCENARIO_A_ID).click();
+    ScenarioManager.getScenarioEditableLink(SCENARIO_A_ID).type('{selectAll}{backspace}' + SCENARIO_NAME_A2 + '{esc}');
+    ScenarioManager.getScenarioEditableLink(SCENARIO_A_ID).should('have.text', SCENARIO_NAME_A1);
 
-      newScenarioName = scenarioNamePrefix + '_C';
-      scenarioNamesToDelete.push(newScenarioName);
+    // Actually rename the scenario
+    ScenarioManager.renameScenario(SCENARIO_A_ID, SCENARIO_NAME_A2);
+    ScenarioManager.getScenarioEditableLink(SCENARIO_A_ID).should('have.text', SCENARIO_NAME_A2);
+    Scenarios.switchToScenarioView();
+    ScenarioSelector.selectScenario(SCENARIO_NAME_B1, SCENARIO_B_ID);
+    ScenarioSelector.selectScenario(SCENARIO_NAME_A2, SCENARIO_A_ID); // Click on renamed scenario in selector
 
-      ScenarioManager.switchToScenarioManager();
-      ScenarioManager.getScenarioAccordion(scenarioId).click();
-      ScenarioManager.renameScenario(scenarioId, newScenarioName);
-      ScenarioManager.getScenarioEditableLink(scenarioId, 15).should('have.text', newScenarioName);
-      ScenarioManager.getScenarioViewRedirect(scenarioId).click();
-      ScenarioSelector.selectScenario(anotherScenario, anotherScenarioId);
-      ScenarioSelector.selectScenario(newScenarioName, scenarioId);
-    });
+    // Rename scenario again
+    ScenarioManager.switchToScenarioManager();
+    ScenarioManager.getScenarioAccordion(SCENARIO_A_ID).click();
+    ScenarioManager.renameScenario(SCENARIO_A_ID, SCENARIO_NAME_A3);
+    ScenarioManager.getScenarioEditableLink(SCENARIO_A_ID).should('have.text', SCENARIO_NAME_A3);
+    ScenarioManager.getScenarioViewRedirect(SCENARIO_A_ID).click();
+    ScenarioSelector.selectScenario(SCENARIO_NAME_B1, SCENARIO_B_ID);
+    ScenarioSelector.selectScenario(SCENARIO_NAME_A3, SCENARIO_A_ID);
 
     ScenarioParameters.launch();
   });
 
   it('Rename two scenarios, setting the second with the former name of the first one', () => {
-    const scenarioNamePrefix = forgeScenarioName();
-    const scenarioName1A = scenarioNamePrefix + '_1A';
-    const scenarioName2A = scenarioNamePrefix + '_2A';
-    const scenarioName1B = scenarioNamePrefix + '_1B';
+    ScenarioManager.switchToScenarioManager();
 
-    scenarioNamesToDelete.push(scenarioName1B, scenarioName1A);
+    ScenarioManager.getScenarioEditableLink(SCENARIO_A_ID).should('have.text', SCENARIO_NAME_A1);
+    ScenarioManager.renameScenario(SCENARIO_A_ID, SCENARIO_NAME_A2);
+    ScenarioManager.getScenarioEditableLink(SCENARIO_A_ID).should('have.text', SCENARIO_NAME_A2);
+    ScenarioManager.renameScenario(SCENARIO_B_ID, SCENARIO_NAME_A1);
+    ScenarioManager.getScenarioEditableLink(SCENARIO_B_ID).should('have.text', SCENARIO_NAME_A1);
 
-    Scenarios.createScenario(scenarioName1A, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE).then((data) => {
-      const scenarioID1 = data.scenarioCreatedId;
-      Scenarios.createScenario(scenarioName2A, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE).then((data) => {
-        const scenarioID2 = data.scenarioCreatedId;
-        ScenarioManager.switchToScenarioManager();
-
-        ScenarioManager.renameScenario(scenarioID1, scenarioName1B);
-        ScenarioManager.getScenarioEditableLink(scenarioID1, 15).should('have.text', scenarioName1B);
-        ScenarioManager.renameScenario(scenarioID2, scenarioName1A);
-        ScenarioManager.getScenarioEditableLink(scenarioID2, 15).should('have.text', scenarioName1A);
-
-        ScenarioManager.getScenarioViewRedirect(scenarioID2).click();
-        ScenarioSelector.selectScenario(anotherScenario, anotherScenarioId);
-        ScenarioSelector.selectScenario(scenarioName1B, scenarioID1);
-        ScenarioSelector.selectScenario(scenarioName1A, scenarioID2);
-      });
-    });
-
-    ScenarioParameters.launch();
+    ScenarioManager.getScenarioViewRedirect(SCENARIO_B_ID).click();
+    ScenarioSelector.selectScenario(SCENARIO_NAME_A2, SCENARIO_A_ID);
+    ScenarioSelector.selectScenario(SCENARIO_NAME_A1, SCENARIO_B_ID);
   });
 });

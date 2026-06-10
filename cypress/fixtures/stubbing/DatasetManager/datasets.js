@@ -30,8 +30,49 @@ const FILE_DATASET_MAIN_A = {
       workspaceId: 'W-stbbdbrwryWithDM',
       datasetId: 'D-stbdataset1',
     },
+    {
+      id: 'dp-entities',
+      name: 'entities',
+      type: 'DB',
+      organizationId: 'O-stbdorgztn',
+      workspaceId: 'W-stbbdbrwryWithDM',
+      datasetId: 'D-stbdataset1',
+    },
+    {
+      id: 'dp-relationships',
+      name: 'relationships',
+      type: 'DB',
+      organizationId: 'O-stbdorgztn',
+      workspaceId: 'W-stbbdbrwryWithDM',
+      datasetId: 'D-stbdataset1',
+    },
+    {
+      id: 'dp-transport_KPI',
+      name: 'KPI',
+      type: 'DB',
+      organizationId: 'O-stbdorgztn',
+      workspaceId: 'W-stbbdbrwryWithDM',
+      datasetId: 'D-stbdataset1',
+    },
+    {
+      id: 'dp-transports_attributes',
+      name: 'transports_attributes',
+      type: 'DB',
+      organizationId: 'O-stbdorgztn',
+      workspaceId: 'W-stbbdbrwryWithDM',
+      datasetId: 'D-stbdataset1',
+    },
+    {
+      id: 'dp-productionOperation_KPI',
+      name: 'productionOperation_KPI',
+      type: 'DB',
+      organizationId: 'O-stbdorgztn',
+      workspaceId: 'W-stbbdbrwryWithDM',
+      datasetId: 'D-stbdataset1',
+    },
   ],
 };
+
 const FILE_DATASET_MAIN_B = {
   ...EDITABLE_DATASET,
   additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
@@ -39,6 +80,56 @@ const FILE_DATASET_MAIN_B = {
   name: 'Dataset B',
   description: 'main dataset B from local file',
   tags: ['dataset', 'B'],
+  parts: [
+    {
+      id: 'dp-customersB',
+      name: 'customers',
+      type: 'DB',
+      organizationId: 'O-stbdorgztn',
+      workspaceId: 'W-stbbdbrwryWithDM',
+      datasetId: 'D-stbdataset2',
+    },
+    {
+      id: 'dp-entitiesB',
+      name: 'entities',
+      type: 'DB',
+      organizationId: 'O-stbdorgztn',
+      workspaceId: 'W-stbbdbrwryWithDM',
+      datasetId: 'D-stbdataset2',
+    },
+    {
+      id: 'dp-relationshipsB',
+      name: 'relationships',
+      type: 'DB',
+      organizationId: 'O-stbdorgztn',
+      workspaceId: 'W-stbbdbrwryWithDM',
+      datasetId: 'D-stbdataset2',
+    },
+    {
+      id: 'dp-transport_KPIB',
+      name: 'KPI',
+      type: 'DB',
+      organizationId: 'O-stbdorgztn',
+      workspaceId: 'W-stbbdbrwryWithDM',
+      datasetId: 'D-stbdataset2',
+    },
+    {
+      id: 'dp-transports_attributesB',
+      name: 'transports_attributes',
+      type: 'DB',
+      organizationId: 'O-stbdorgztn',
+      workspaceId: 'W-stbbdbrwryWithDM',
+      datasetId: 'D-stbdataset2',
+    },
+    {
+      id: 'dp-productionOperation_KPIB',
+      name: 'productionOperation_KPI',
+      type: 'DB',
+      organizationId: 'O-stbdorgztn',
+      workspaceId: 'W-stbbdbrwryWithDM',
+      datasetId: 'D-stbdataset2',
+    },
+  ],
 };
 
 const FILE_DATASET_NON_MAIN = {
@@ -176,25 +267,6 @@ const DATASET_FROM_SCRATCH = {
   ingestionStatus: 'NONE',
 };
 
-// FIXME: remove twingraph datasets (replace them by datasets with DB parts)
-const DATASET_TWINGRAPH_A = {
-  ...EDITABLE_DATASET,
-  id: 'D-stbdataset11',
-  additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
-  name: 'Dataset with twingraph A',
-  sourceType: 'Twincache',
-  twincacheStatus: 'FULL',
-};
-
-const DATASET_TWINGRAPH_B = {
-  ...EDITABLE_DATASET,
-  id: 'D-stbdataset12',
-  additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
-  name: 'Dataset with twingraph B',
-  sourceType: 'Twincache',
-  twincacheStatus: 'FULL',
-};
-
 export const DATASETS = [
   FILE_DATASET_MAIN_A,
   FILE_DATASET_MAIN_B,
@@ -215,5 +287,3 @@ export const DATASETS_TO_FILTER = [
 ];
 
 export const DATASETS_TO_REFRESH = [DATASET_ETL_FOR_REFRESH, DATASET_FROM_SCRATCH];
-
-export const DATASETS_TWINGRAPH = [DATASET_TWINGRAPH_A, DATASET_TWINGRAPH_B];

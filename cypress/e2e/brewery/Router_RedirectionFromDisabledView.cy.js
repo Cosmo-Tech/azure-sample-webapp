@@ -8,13 +8,14 @@ import {
   WORKSPACE_LIST_WITHOUT_DASHBOARDS,
   WORKSPACE_WITHOUT_DASHBOARDS,
 } from '../../fixtures/stubbing/ScenarioViewDashboard/workspace';
-import { DEFAULT_RUNNERS } from '../../fixtures/stubbing/default';
+import { DEFAULT_SIMULATION_RUNNER } from '../../fixtures/stubbing/default';
 
-const scenarioId = DEFAULT_RUNNERS[0].id;
+const scenarioId = DEFAULT_SIMULATION_RUNNER.id;
 
 describe('redirection from disabled view', () => {
   before(() => {
     stub.start();
+    stub.setRunners([DEFAULT_SIMULATION_RUNNER]);
     stub.setWorkspaces(WORKSPACE_LIST_WITHOUT_DASHBOARDS);
   });
 
