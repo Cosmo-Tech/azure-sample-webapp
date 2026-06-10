@@ -221,6 +221,7 @@ const EXAMPLE_DATASET_PART_2 = {
   id: 'example_dataset_part_2',
   labels: { fr: 'Exemple de sous-partie de dataset 2', en: 'Example dataset part 2' },
   varType: '%DATASET_PART_ID_FILE%',
+  additionalData: { shouldRenameFileOnUpload: true },
 };
 
 const EXAMPLE_DATASET_PART_3 = {
