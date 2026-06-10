@@ -43,7 +43,17 @@ export const useUpdateParameters = () => {
 
     const parameterValues = currentScenario?.parametersValues;
     const noParameters = runTemplateParametersIds.length === 0;
-    return !noParameters && (forcedByConfig || !parameterValues || parameterValues.length === 0);
+
+    if (noParameters) return false;
+
+    // Force update when the scenario has inherited parametersValues from a parent with a different run template:
+    // some (or all) of the current run template's parameters may be absent from the saved parametersValues.
+    const hasMissingRunTemplateParameters =
+      Array.isArray(parameterValues) &&
+      parameterValues.length > 0 &&
+      runTemplateParametersIds.some((id) => !parameterValues.some((pv) => pv.parameterId === id));
+
+    return forcedByConfig || !parameterValues || parameterValues.length === 0 || hasMissingRunTemplateParameters;
   }, [currentScenario?.parametersValues, rhfParametersValues, runTemplateParametersIds, solution]);
 
   const saveParameterValues = useCallback(async () => {
