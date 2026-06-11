@@ -16,11 +16,8 @@ const SCENARIO_RUN_TEMPLATE = RUN_TEMPLATE.BASIC_TYPES;
 const MASTER_CSV_FILE_PATH = 'customers.csv';
 const CHILD_CSV_FILE_PATH = 'customers2.csv';
 
-function forgeScenarioName() {
-  const prefix = 'Test Cypress - child scenario with table - ';
-  const randomString = utils.randomStr(7);
-  return prefix + randomString;
-}
+const forgeScenarioName = () => 'Cypress ChildScenario - ' + utils.randomStr(7);
+
 describe('Table parameters inheritance between parent and child scenarios', () => {
   let masterScenarioId, firstChildScenarioId;
 
@@ -34,7 +31,7 @@ describe('Table parameters inheritance between parent and child scenarios', () =
     ScenarioManager.deleteScenarioList(scenarioNamesToDelete);
   });
   it('checks that child scenario inherits from its parent table parameters with inline editing', () => {
-    const masterScenario = 'Test Cypress - master scenario with table - ' + utils.randomStr(7);
+    const masterScenario = 'Cypress MasterScenario - ' + utils.randomStr(7);
     scenarioNamesToDelete.push(masterScenario);
     Scenarios.createScenario(masterScenario, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE).then((data) => {
       masterScenarioId = data.scenarioCreatedId;

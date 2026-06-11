@@ -34,6 +34,9 @@ const parseMultipartFormData = (dataString) => {
   return form;
 };
 
+const getFileContentDataFromRequest = (req) => parseMultipartFormData(req.body)?.file;
+
 export const fileUtils = {
+  getFileContentDataFromRequest,
   parseMultipartFormData,
 };

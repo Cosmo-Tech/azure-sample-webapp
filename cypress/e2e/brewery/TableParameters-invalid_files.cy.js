@@ -1,9 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { ScenarioSelector, ScenarioParameters } from '../../commons/actions';
-import { BreweryParameters, Login } from '../../commons/actions/brewery';
+import { Login, ScenarioSelector, ScenarioParameters } from '../../commons/actions';
+import { BreweryParameters } from '../../commons/actions/brewery';
 import { stub } from '../../commons/services/stubbing';
-import { DEFAULT_RUNNERS } from '../../fixtures/stubbing/default';
+import { BASIC_PARAMETERS_SIMULATION_RUNNER } from '../../fixtures/stubbing/default';
 
 const CSV_INVALID_FILE_PATH = 'customers_invalid.csv';
 const XLSX_INVALID_FILE_PATH = 'customers_invalid.xlsx';
@@ -60,10 +60,8 @@ const expectedErrorsOnlyNameField = [
 
 describe('Table fields invalid files operations', () => {
   before(() => {
-    stub.start({
-      GET_DATASETS: true,
-      GET_SCENARIOS: true,
-    });
+    stub.start();
+    stub.setRunners([BASIC_PARAMETERS_SIMULATION_RUNNER]);
   });
 
   beforeEach(() => {
@@ -75,7 +73,7 @@ describe('Table fields invalid files operations', () => {
   });
 
   it('can import invalid files with few, many or invalid fields and display the errors panel', () => {
-    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_RUNNERS[0].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', BASIC_PARAMETERS_SIMULATION_RUNNER.name);
     ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.getCustomersImportButton().should('be.visible');

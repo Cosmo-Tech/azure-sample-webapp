@@ -1,22 +1,22 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { Downloads, ScenarioParameters, ScenarioSelector } from '../../commons/actions';
-import { BreweryParameters, Login } from '../../commons/actions/brewery';
+import { Downloads, Login, ScenarioParameters, ScenarioSelector } from '../../commons/actions';
+import { BreweryParameters } from '../../commons/actions/brewery';
 import { stub } from '../../commons/services/stubbing';
-import { DEFAULT_RUNNERS } from '../../fixtures/stubbing/default';
+import { fileUtils } from '../../commons/utils';
+import { BASIC_PARAMETERS_SIMULATION_RUNNER } from '../../fixtures/stubbing/default';
 
 const CSV_VALID_FILE_PATH_EMPTY = 'customers_empty.csv';
 const CSV_VALID_FILE_PATH_WITH_SPACES = 'customers_with_spaces.csv';
+const CSV_WRONG_HEADER_FILE_PATH = 'customers_valid_with_wrong_header.csv';
 const XLSX_VALID_FILE_PATH_EMPTY = 'customers_empty.xlsx';
 
 const COL_NAMES = ['name', 'age', 'canDrinkAlcohol', 'favoriteDrink', 'birthday', 'height'];
 
 describe('Table parameters files standard operations part 1', () => {
   before(() => {
-    stub.start({
-      GET_DATASETS: true,
-      GET_SCENARIOS: true,
-    });
+    stub.start();
+    stub.setRunners([BASIC_PARAMETERS_SIMULATION_RUNNER]);
   });
 
   beforeEach(() => {
@@ -29,7 +29,7 @@ describe('Table parameters files standard operations part 1', () => {
   });
 
   it('can open the customers scenario parameters tab, and export an empty grid', () => {
-    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_RUNNERS[0].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', BASIC_PARAMETERS_SIMULATION_RUNNER.name);
     ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.getCustomersTable().should('be.visible');
@@ -45,7 +45,7 @@ describe('Table parameters files standard operations part 1', () => {
   });
 
   it('can import empty CSV & XLSX files and export the table afterwards', () => {
-    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_RUNNERS[0].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', BASIC_PARAMETERS_SIMULATION_RUNNER.name);
     const checkAndExport = () => {
       BreweryParameters.getCustomersErrorsPanel().should('not.exist');
       BreweryParameters.getCustomersTableHeader().should('not.exist');
@@ -66,7 +66,7 @@ describe('Table parameters files standard operations part 1', () => {
   });
 
   it('can import a CSV file with spaces and boolean values to re-format', () => {
-    ScenarioSelector.getScenarioSelectorInput().should('have.value', DEFAULT_RUNNERS[0].name);
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', BASIC_PARAMETERS_SIMULATION_RUNNER.name);
     ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.importCustomersTableData(CSV_VALID_FILE_PATH_WITH_SPACES);
@@ -98,5 +98,26 @@ describe('Table parameters files standard operations part 1', () => {
     BreweryParameters.getCustomersTableCell('height', 1).should('have.text', '1.41');
     BreweryParameters.getCustomersTableCell('height', 2).should('have.text', '1.90');
     BreweryParameters.getCustomersTableCell('height', 3).should('have.text', '1.83');
+    ScenarioParameters.discard();
+  });
+
+  it('can import a CSV file that has a wrong header and overwrite the header before upload', () => {
+    ScenarioParameters.expandParametersAccordion();
+    BreweryParameters.switchToCustomersTab();
+    BreweryParameters.importCustomersTableData(CSV_WRONG_HEADER_FILE_PATH);
+    BreweryParameters.getCustomersTableRows().should('have.length', 4);
+
+    ScenarioParameters.save({
+      datasetPartEvents: [
+        {
+          id: 'dp-datasetPart1',
+          validateRequest: (req) => {
+            const fileContent = fileUtils.getFileContentDataFromRequest(req);
+            expect(fileContent).not.to.contain('wrong_header_line,should_have_6_columns');
+            expect(fileContent).to.contain('name,age,canDrinkAlcohol,favoriteDrink,birthday,height');
+          },
+        },
+      ],
+    });
   });
 });
