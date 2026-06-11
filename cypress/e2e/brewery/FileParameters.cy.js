@@ -26,9 +26,8 @@ describe('File parameters', () => {
 
   beforeEach(() => Login.login());
 
-  after(stub.stop);
-
   after(() => {
+    stub.stop();
     Downloads.clearDownloadsFolder();
   });
 
