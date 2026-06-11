@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
 import { apiUtils as api } from '../../utils';
+import { ScenarioSelector } from './ScenarioSelector';
 
 // From scenario View
 // Get elements
@@ -183,6 +184,7 @@ function createScenario(scenarioName, isMaster, datasetOrMasterName, runTemplate
 
   getScenarioCreationDialogSubmitButton().click();
   getScenarioCreationDialog().should('not.exist');
+  ScenarioSelector.getScenarioSelectorInput().should('value', scenarioName);
 
   let scenarioCreated;
   return api.waitAlias(createScenarioAlias).then((req) => {
