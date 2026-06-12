@@ -1,3 +1,13 @@
+## **7.0.4** <sub><sup>2026-06-12 ([e473730...eaf3120](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/e473730c...eaf3120e?diff=split))</sup></sub>
+
+### Bug Fixes
+
+- \[PROD\-16245\] fix multi\-value dynamic filters for superset embedded dashboards ([ca9eafe](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/ca9eafe7))
+- \[PROD\-12173\] force update when launching child scenario with different parameters ([eaf3120](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/eaf3120e))
+- fix token refresh for AuthKeycloakRedirect client ([743624f](https://github.com/Cosmo-Tech/webapp-component-core/commit/743624f))
+- fix auth client sometimes trying to use session data from a different environment ([dfc2c8a](https://github.com/Cosmo-Tech/webapp-component-core/commit/dfc2c8a))
+- clear inactivity logout warning on login page after one display ([e43b37c](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/e43b37c6))
+
 ## **7.0.3** <sub><sup>2026-05-13 ([a7abbbe...e0a4b86](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/a7abbbe4...e0a4b867?diff=split))</sup></sub>
 
 ### Dependencies
