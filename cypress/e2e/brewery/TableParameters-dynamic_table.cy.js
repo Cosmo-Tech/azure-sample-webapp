@@ -6,7 +6,10 @@ import { BreweryParameters } from '../../commons/actions/brewery';
 import { stub } from '../../commons/services/stubbing';
 import { apiUtils } from '../../commons/utils';
 import { DATASETS } from '../../fixtures/stubbing/ScenarioParameters/datasets';
-import { SOLUTION_WITH_DYNAMIC_TABLE } from '../../fixtures/stubbing/TableParameters-dynamic_table/solution';
+import {
+  SOLUTION_WITH_DYNAMIC_TABLE,
+  SOLUTION_WITH_DYNAMIC_TABLE_AND_OPTIONS,
+} from '../../fixtures/stubbing/TableParameters-dynamic_table/solution';
 import { DEFAULT_SIMULATION_RUNNERS } from '../../fixtures/stubbing/default';
 
 const clone = rfdc();
@@ -60,6 +63,8 @@ describe('can use dataset data in editable table', () => {
     BreweryParameters.getCustomersTable().should('be.visible');
     BreweryParameters.getCustomersTableLabel().should('be.visible').should('have.text', 'Customers');
     BreweryParameters.getCustomersTableGrid().should('exist');
+    BreweryParameters.getCustomersTableHeaderCell('name').should('be.visible');
+    BreweryParameters.getCustomersTableHeaderCell('satisfaction').should('be.visible');
     BreweryParameters.getCustomersTableCell('name', 0).should('have.text', firstCustomerName);
   });
 
@@ -181,6 +186,37 @@ describe('can use dataset data in editable table', () => {
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.getCustomersTableGrid().should('exist');
     BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Customer3');
+  });
+});
+
+describe('can use options to filter columns when fetching dynamic table data from dataset', () => {
+  const SCENARIOS = clone(DEFAULT_SIMULATION_RUNNERS);
+  SCENARIOS.forEach((scenario) => (scenario.runTemplateId = 'sim_mock_parameters'));
+
+  before(() => {
+    stub.start();
+    stub.setDatasets(DATASETS);
+    stub.setRunners(SCENARIOS);
+    stub.setSolutions([SOLUTION_WITH_DYNAMIC_TABLE_AND_OPTIONS]);
+  });
+  beforeEach(() => {
+    Login.login();
+  });
+  after(() => {
+    stub.stop();
+  });
+
+  it('sends options.selects to the query endpoint and only displays the selected columns', () => {
+    // The query response only returns the selected column (satisfaction), not the first column (name)
+    const filteredQueryResponse = 'satisfaction\n0\n0\n0\n0';
+    const validateRequest = (req) => expect(req.url).to.include('selects=satisfaction');
+    apiUtils.interceptPostDatasetTwingraphQuery(filteredQueryResponse, validateRequest);
+    Scenarios.getScenarioViewTab(60).should('be.visible');
+    ScenarioParameters.expandParametersAccordion();
+    BreweryParameters.switchToCustomersTab();
+    BreweryParameters.getCustomersTableGrid().should('exist');
+    BreweryParameters.getCustomersTableHeaderCell('satisfaction').should('be.visible');
+    BreweryParameters.getCustomersTableHeaderCell('name').should('not.exist');
   });
 });
 

@@ -44,14 +44,14 @@ export const CategoryDetailsDialog = (props) => {
   const detailsTable = useMemo(() => {
     const query = getQuery(category?.previewTable?.queryId);
     if (query == null) return null;
-    const { datasetPartName, options: queryOptions } = query;
+    const { datasetPartName, options } = query;
 
     const parameterData = {
       id: category?.id,
       additionalData: {
         columns: category?.previewTable?.columns,
         dateFormat: category?.previewTable?.dateFormat,
-        dynamicValues: { datasetPartName, queryOptions },
+        dynamicValues: { datasetPartName, options },
       },
     };
 

@@ -146,3 +146,40 @@ export const SOLUTION_WITH_DYNAMIC_TABLE = {
     },
   ],
 };
+
+export const SOLUTION_WITH_DYNAMIC_TABLE_AND_OPTIONS = {
+  ...SOLUTION_WITH_DYNAMIC_TABLE,
+  parameters: [
+    ...SOLUTION_WITH_DYNAMIC_TABLE.parameters.filter((p) => p.id !== 'customers'),
+    {
+      id: 'customers',
+      labels: {
+        fr: 'Clients',
+        en: 'Customers',
+      },
+      varType: '%DATASET_PART_ID_FILE%',
+      defaultValue: null,
+      minValue: null,
+      maxValue: null,
+      regexValidation: null,
+      additionalData: {
+        canChangeRowsNumber: true,
+        subType: 'TABLE',
+        dynamicValues: {
+          datasetPartName: 'customers',
+          options: { selects: 'satisfaction' },
+        },
+        columns: [
+          {
+            field: 'satisfaction',
+            headerName: 'Satisfaction',
+            type: ['int'],
+            minValue: 0,
+            maxValue: 10,
+            acceptsEmptyFields: true,
+          },
+        ],
+      },
+    },
+  ],
+};

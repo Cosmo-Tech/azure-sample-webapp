@@ -272,7 +272,9 @@ export const GenericTable = ({
       return;
     }
 
-    const { datasetPartName, queryOptions } = ConfigUtils.getParameterAttribute(parameterData, 'dynamicValues');
+    const dynamicValuesAttr = ConfigUtils.getParameterAttribute(parameterData, 'dynamicValues') || {};
+    const datasetPartName = dynamicValuesAttr.datasetPartName;
+    const queryOptions = dynamicValuesAttr.options ?? {};
     const datasetPart = (sourceDataset.parts ?? []).find((part) => part.name === datasetPartName);
     if (datasetPart == null) {
       setPlaceholder({
