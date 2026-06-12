@@ -141,6 +141,8 @@ function cancelDiscardAndContinue() {
 //  - runOptions: options to provide to the interception of the "get scenario run" query (default: undefined)
 //  - saveAndLaunch: boolean defining whether the test will trigger a SAVE of the scenario parameters (default:
 //    false); used only when stubbing is enabled, to add interception of scenario updates
+//  - runnerUpdateOptions: options to provide to the interceptUpdateSimulationRunner interception, only used when
+//    saveAndLaunch is true (default: undefined)
 //  - getLaunchButtonTimeout: maximum timeout, in seconds, before raising an error when waiting for the launch button
 //    to be enabled (default: 180)
 //  - datasetPartEvents: list of objects describing dataset part-related queries to intercept; objects have this
@@ -150,7 +152,7 @@ function cancelDiscardAndContinue() {
 function launch(options) {
   const expectedPollsCount = options?.runOptions?.expectedPollsCount ?? stub.getRunnerRunOptions().expectedPollsCount;
   const aliases = [
-    options?.saveAndLaunch ? api.interceptUpdateSimulationRunner() : undefined,
+    options?.saveAndLaunch ? api.interceptUpdateSimulationRunner(options?.runnerUpdateOptions) : undefined,
     api.interceptStartRunner(options?.runOptions),
     api.interceptGetRunnerRunState(expectedPollsCount),
   ];
