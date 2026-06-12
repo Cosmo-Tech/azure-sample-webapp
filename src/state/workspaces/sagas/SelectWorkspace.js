@@ -31,6 +31,15 @@ const selectSimulationRunners = (state) => state.runner.simulationRunners.list.d
 const selectETLRunners = (state) => state.runner.etlRunners.list.data;
 const getWorkspaces = (state) => state?.workspace?.list?.data;
 
+const normalizeSupersetDomain = (domain) => {
+  if (!domain) return domain;
+  const trimmedDomain = String(domain).trim();
+  if (trimmedDomain === '') return trimmedDomain;
+  if (/^https?:\/\//i.test(trimmedDomain)) return trimmedDomain;
+  if (/^\/\//.test(trimmedDomain)) return `https:${trimmedDomain}`;
+  return `https://${trimmedDomain}`;
+};
+
 export function* selectWorkspace(action) {
   const selectedWorkspaceId = action.workspaceId;
   yield put(setApplicationStatus({ status: STATUSES.LOADING }));
@@ -115,11 +124,10 @@ export function* selectWorkspace(action) {
     );
 
   yield all(pollingActions);
-
   const chartsConfig = selectedWorkspace?.additionalData?.webapp?.charts;
   if (chartsConfig?.supersetDomain) {
     yield put(setChartMode(CHART_MODES.SUPERSET));
-    yield put(setSupersetUrl(chartsConfig.supersetDomain));
+    yield put(setSupersetUrl(normalizeSupersetDomain(chartsConfig.supersetDomain)));
     yield put(setSupersetDashboards(chartsConfig));
     yield put(dispatchGetSupersetGuestToken());
   } else if (chartsConfig?.workspaceId) {
