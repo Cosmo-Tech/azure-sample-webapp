@@ -152,8 +152,10 @@ const interceptGetRunnerRunState = (expectedPollsCount) => {
     if (!stub.isEnabledFor('LAUNCH_SCENARIO')) return;
     const scenarioRunId = req.url.match(API_REGEX.RUNNER_STATE)[1];
     const lastRun = stub.getRunnerRunById(scenarioRunId);
-    const stubbedStartTime = stub.getRunnerRunOptions().startTime;
-    if (stubbedStartTime !== undefined) lastRun.startTime = stubbedStartTime;
+    if (lastRun == null) console.warn(`No stubbed run found with id ${scenarioRunId}`);
+    // startTime may be `null` (because of a back-end edge case we want to test), replace it only when it's `undefined`
+    else if (lastRun.startTime === undefined) lastRun.startTime = stub.getRunnerRunOptions().startTime;
+
     req.reply(lastRun);
   }).as(alias);
   return alias;
@@ -277,11 +279,13 @@ const interceptStartRunner = (stubbingOptions) => {
   const alias = forgeAlias('reqStartRunner');
   cy.intercept({ method: 'POST', url: API_REGEX.START_RUNNER, times: 1 }, (req) => {
     if (stub.isEnabledFor('LAUNCH_SCENARIO')) {
+      const lastRunId = `run-stbd${utils.randomStr(6)}`;
       const scenarioId = req.url.match(API_REGEX.START_RUNNER)[1];
       const runDuration = stubbingOptions?.runDuration ?? stub.getRunnerRunOptions().runDuration;
       const finalStatus = stubbingOptions?.finalStatus ?? stub.getRunnerRunOptions().finalStatus;
-      const startTime = stub.getRunnerRunOptions().startTime;
-      const lastRunId = `run-stbd${utils.randomStr(6)}`;
+      let startTime = stubbingOptions?.startTime;
+      // startTime may be `null` (because of a back-end edge case we want to test), replace it only when `undefined`
+      if (startTime === undefined) startTime = Date.now();
 
       const scenarioRun = {
         ...DEFAULT_RUNNER_RUN,
