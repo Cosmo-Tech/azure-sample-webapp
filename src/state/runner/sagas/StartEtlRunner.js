@@ -48,7 +48,7 @@ export function* startETLRunner(action) {
     const lastRunId = RunnersUtils.getRunIdFromRunnerStart(response.data);
     const lastRunInfoPatch = RunnersUtils.forgeRunnerLastRunInfoPatch(lastRunId, RUNNER_RUN_STATE.RUNNING);
     yield put(updateEtlRunner({ runnerId, runner: { ...lastRunInfoPatch } }));
-    yield put(addRun({ data: { id: lastRunId } }));
+    yield put(addRun({ data: { id: lastRunId, runnerId } }));
 
     // Start backend polling to update the scenario status
     yield put({

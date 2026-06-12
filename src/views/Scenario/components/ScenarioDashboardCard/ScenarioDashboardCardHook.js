@@ -36,9 +36,8 @@ export const useScenarioDashboardCard = () => {
 
     const lastUpdate = new Date(currentScenarioLastUpdate);
     const startTime = new Date(currentScenarioLastRun?.startTime);
-    lastUpdate.setSeconds(0);
+    // Back-end does not send startTime at millisecond precision, let's truncate both dates to second before comparison
     lastUpdate.setMilliseconds(0);
-    startTime.setSeconds(0);
     startTime.setMilliseconds(0);
     return lastUpdate <= startTime;
   }, [
