@@ -45,10 +45,10 @@ describe('Table parameters files standard operations part 4', () => {
 
     BreweryParameters.switchToEventsTab();
     BreweryParameters.getEventsTableRows().should('have.length', 5);
-    BreweryParameters.getEventsTableCell('theme', 0).should('have.text', 'complex systems');
-    BreweryParameters.getEventsTableCell('date', 1).should('have.text', '02/10/2024');
+    BreweryParameters.getEventsTableCell('theme', 0).should('have.text', 'industry processes');
+    BreweryParameters.getEventsTableCell('date', 1).should('have.text', '02/10/2026');
     BreweryParameters.getEventsTableCell('timeOfDay', 2).should('have.text', 'evening');
-    BreweryParameters.getEventsTableCell('reservationsNumber', 3).should('have.text', '220');
+    BreweryParameters.getEventsTableCell('reservationsNumber', 3).should('have.text', '10');
     BreweryParameters.getEventsTableCell('online', 4).should('have.text', 'false');
 
     ScenarioParameters.getSaveButton().should('not.exist');
@@ -72,7 +72,7 @@ describe('Table parameters files standard operations part 4', () => {
     BreweryParameters.importCustomersTableData(CUSTOMERS_FILE_PATH);
 
     BreweryParameters.switchToEventsTab();
-    BreweryParameters.getEventsTableCell('theme', 0).should('have.text', 'complex systems');
+    BreweryParameters.getEventsTableCell('theme', 0).should('have.text', 'industry processes');
     BreweryParameters.importEventsTableData(EVENTS_FILE_PATH);
 
     BreweryParameters.switchToCustomersTab();

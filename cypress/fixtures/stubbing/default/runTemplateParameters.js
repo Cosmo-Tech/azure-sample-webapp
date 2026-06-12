@@ -230,7 +230,42 @@ const EXAMPLE_DATASET_PART_3 = {
   varType: '%DATASET_PART_ID_FILE%',
 };
 
-const CUSTOMERS = { id: 'customers', labels: { fr: 'Clients', en: 'Customers' }, varType: '%DATASET_PART_ID_FILE%' };
+const CUSTOMERS = {
+  id: 'customers',
+  labels: { fr: 'Clients', en: 'Customers' },
+  varType: '%DATASET_PART_ID_FILE%',
+  additionalData: {
+    canChangeRowsNumber: true,
+    description: 'customers data',
+    subType: 'TABLE',
+    columns: [
+      { field: 'name', type: ['nonResizable', 'nonSortable'] },
+      { field: 'age', type: ['int'], minValue: '0', maxValue: '120', acceptsEmptyFields: true },
+      {
+        headerName: 'consumption',
+        children: [
+          { field: 'canDrinkAlcohol', type: ['bool'] },
+          { field: 'favoriteDrink', type: ['enum'], enumValues: ['AppleJuice', 'Beer', 'OrangeJuice', 'Wine'] },
+        ],
+      },
+      {
+        headerName: 'identity',
+        children: [
+          {
+            field: 'birthday',
+            type: ['date'],
+            minValue: '01/01/1900',
+            maxValue: '19/12/2022',
+            acceptsEmptyFields: true,
+          },
+          { field: 'height', type: ['number'], minValue: '0', maxValue: '2.5', acceptsEmptyFields: true },
+        ],
+      },
+    ],
+    dateFormat: 'dd/MM/yyyy',
+    tooltipText: { fr: 'Importez ou exportez un fichier clients', en: 'Import or export a customers file' },
+  },
+};
 const EVENTS = {
   id: 'events',
   labels: {
@@ -238,7 +273,6 @@ const EVENTS = {
     en: 'Events',
   },
   varType: '%DATASET_PART_ID_FILE%',
-  // "defaultValue": "d-kovkq76eo1qj9", // Dataset default value not usable yet with stubbing
   additionalData: {
     tooltipText: {
       fr: "Importez ou exportez un fichier d'événements",

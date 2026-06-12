@@ -264,4 +264,5 @@ export const ScenarioManager = {
   saveScenarioDescription,
   saveScenarioTag,
   deleteScenarioTag,
+  getScenarioTags,
 };

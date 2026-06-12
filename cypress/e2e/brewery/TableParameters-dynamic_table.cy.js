@@ -13,11 +13,11 @@ const clone = rfdc();
 
 const EDITED_DATA_CSV = 'customers_from_dataset_edited.csv';
 const queryResponse =
-  'name,thirsty,satisfaction,surroundingSatisfaction\n' +
-  'Customer3,false,0,0\n' +
-  'Customer1,false,0,0\n' +
-  'Customer2,false,0,0\n' +
-  'Customer4,false,0,0';
+  'name,satisfaction,surroundingSatisfaction,thirsty\n' +
+  'Customer3,0,0,false\n' +
+  'Customer1,0,0,false\n' +
+  'Customer2,0,0,false\n' +
+  'Customer4,0,0,false';
 const firstCustomerName = 'Customer3';
 
 const runOptions = {
@@ -51,6 +51,7 @@ describe('can use dataset data in editable table', () => {
   after(() => {
     stub.stop();
   });
+
   it('can display a table filled with data fetched from dataset', () => {
     apiUtils.interceptPostDatasetTwingraphQuery(queryResponse, false);
     Scenarios.getScenarioViewTab(60).should('be.visible');
@@ -61,6 +62,7 @@ describe('can use dataset data in editable table', () => {
     BreweryParameters.getCustomersTableGrid().should('exist');
     BreweryParameters.getCustomersTableCell('name', 0).should('have.text', firstCustomerName);
   });
+
   it('can export data fetched from dataset and upload a new table', () => {
     apiUtils.interceptPostDatasetTwingraphQuery(queryResponse, false);
     Scenarios.getScenarioViewTab(60).should('be.visible');
@@ -74,6 +76,7 @@ describe('can use dataset data in editable table', () => {
     BreweryParameters.getCustomersTableCell('name', 1).should('have.text', 'Client');
     ScenarioParameters.discard();
   });
+
   it('can fetch data from dataset, edit it without saving and revert', () => {
     apiUtils.interceptPostDatasetTwingraphQuery(queryResponse, false);
     Scenarios.getScenarioViewTab(60).should('be.visible');
@@ -87,6 +90,7 @@ describe('can use dataset data in editable table', () => {
     BreweryParameters.revertCustomersTable(queryResponse);
     ScenarioParameters.getSaveButton().should('not.exist');
   });
+
   it('can fetch data from dataset, edit it, save and revert without reloading', () => {
     apiUtils.interceptPostDatasetTwingraphQuery(queryResponse, false);
     Scenarios.getScenarioViewTab(60).should('be.visible');
@@ -100,6 +104,7 @@ describe('can use dataset data in editable table', () => {
     ScenarioParameters.getSaveButton().should('exist');
     ScenarioParameters.discard();
   });
+
   it('can fetch data from dataset and save table as dataset part, then revert data after reloading scenario', () => {
     apiUtils.interceptPostDatasetTwingraphQuery(queryResponse, false);
     Scenarios.getScenarioViewTab(60).should('be.visible');
@@ -137,6 +142,7 @@ describe('can use dataset data in editable table', () => {
     BreweryParameters.getCustomersTableGrid().should('exist');
     BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Customer3');
   });
+
   it('can fetch data from dataset and save table on first save', () => {
     apiUtils.interceptPostDatasetTwingraphQuery(queryResponse, false);
     Scenarios.getScenarioViewTab(60).should('be.visible');
@@ -154,6 +160,7 @@ describe('can use dataset data in editable table', () => {
     BreweryParameters.getCustomersTableGrid().should('exist');
     BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Customer3');
   });
+
   it('can fetch data from dataset and save table on first launch', () => {
     apiUtils.interceptPostDatasetTwingraphQuery(queryResponse, false);
     Scenarios.getScenarioViewTab(60).should('be.visible');
@@ -193,6 +200,7 @@ describe('save table on second launch', () => {
   after(() => {
     stub.stop();
   });
+
   it('can fetch data from dataset and save table on second launch', () => {
     Scenarios.getScenarioViewTab(60).should('be.visible');
     selectScenarioAndWaitForScenarioViewUrlUpdate(SCENARIOS[4]);

@@ -41,11 +41,16 @@ describe('Scenario tags and description', { keystrokeDelay: 1 }, () => {
     ScenarioManager.getScenarioAccordion(scenarioId).click();
     ScenarioManager.checkScenarioTagsChips(tags, scenarioId);
     ScenarioManager.saveScenarioTag(scenarioId, newScenarioTag, validateTagsRequest);
+
+    let remainingTagCount = newTagsList.length;
     newTagsList.forEach((tagToDelete, index) => {
       const tagsToDelete = newTagsList.slice(index + 1);
       const validateDeleteTagRequest = (req) =>
         expect(req.body).to.deep.equal({ tags: tagsToDelete, runTemplateId: 'sim_brewery_parameters' });
       ScenarioManager.deleteScenarioTag(scenarioId, 0, validateDeleteTagRequest);
+      // Wait for the change to be effective
+      remainingTagCount--;
+      ScenarioManager.getScenarioTags(scenarioId).find('div').should('have.length', remainingTagCount);
     });
     ScenarioManager.checkScenarioTagsChips([], scenarioId);
 
