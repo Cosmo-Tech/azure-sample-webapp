@@ -97,7 +97,12 @@ export const useLastRunsList = () => {
 };
 
 export const useCurrentSimulationRunnerLastRun = (runnerId) => {
-  return useLastRunsList().find((run) => run.runnerId === runnerId);
+  const runnerRuns = useLastRunsList().filter((run) => run.runnerId === runnerId);
+  // New runs may have no startTime when added in redux after their creation. If such a run is found, it is the last run
+  const runWithNoStartTime = runnerRuns.find((run) => !run.startTime);
+  if (runWithNoStartTime) return runWithNoStartTime;
+  // Otherwise, sort the list to find the most recent startTime
+  return runnerRuns.sort((a, b) => new Date(b.startTime) - new Date(a.startTime))[0];
 };
 
 export const useCreateETLRunnerAndDataset = () => {

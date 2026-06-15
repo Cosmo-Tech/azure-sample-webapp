@@ -20,11 +20,8 @@ describe('Scenario view PowerBI report', () => {
   after(() => stub.stop());
 
   const { id: scenarioId } = BASIC_PARAMETERS_SIMULATION_RUNNER;
-  const runOptions = {
-    runDuration: 1000,
-    finalStatus: 'Successful',
-    expectedPollsCount: 2,
-  };
+  const runOptions = { runDuration: 1000, finalStatus: 'Successful', expectedPollsCount: 2 };
+  const runOptionsWithNullStartTime = { ...runOptions, startTime: null };
 
   it('can correctly show "out of sync" dashboard warning & "logs download" button', () => {
     // check Dashboard view tab to ensure dashboard config exists
@@ -86,15 +83,13 @@ describe('Scenario view PowerBI report', () => {
 
   it('If the back end returns a start time as null, out-of-sync is never displayed', () => {
     const CURRENCY_VALUE_TO_UPDATE = 97779;
-    stub.setRunnerRunOptions({ startTime: null });
-
     ScenarioSelector.selectScenario(BASIC_PARAMETERS_SIMULATION_RUNNER.name, BASIC_PARAMETERS_SIMULATION_RUNNER.id);
     ScenarioParameters.expandParametersAccordion();
     Scenarios.checkIfReportIsUnsynced(false);
     Scenarios.getScenarioBackdrop(10).should('not.be.visible');
     Scenarios.getDashboardAccordionLogsDownloadButton().should('not.exist');
 
-    ScenarioParameters.launch({ scenarioId, runOptions, saveAndLaunch: true });
+    ScenarioParameters.launch({ scenarioId, runOptions: runOptionsWithNullStartTime, saveAndLaunch: true });
     Scenarios.checkIfReportIsUnsynced(false);
     Scenarios.getDashboardAccordionLogsDownloadButton().should('not.exist');
     ScenarioParameters.waitForScenarioRunEnd();
