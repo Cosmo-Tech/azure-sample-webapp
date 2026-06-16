@@ -2,10 +2,16 @@
 // Licensed under the MIT license.
 import { useCallback, useMemo } from 'react';
 import { useFormContext } from 'react-hook-form';
+import { STATUSES } from '../services/config/StatusConstants';
 import DatasetService from '../services/dataset/DatasetService';
 import { useDeleteDatasetPartInRedux, useAddOrUpdateDatasetPartInRedux } from '../state/datasets/hooks';
 import { useOrganizationId } from '../state/organizations/hooks';
-import { useCurrentSimulationRunnerData, useRunners, useAsyncUpdateSimulationRunner } from '../state/runner/hooks';
+import {
+  useCurrentSimulationRunnerData,
+  useRunners,
+  useAsyncUpdateSimulationRunner,
+  useUpdateSimulationRunnerInRedux,
+} from '../state/runner/hooks';
 import { useSolutionData } from '../state/solutions/hooks';
 import { useWorkspaceId } from '../state/workspaces/hooks';
 import { ScenarioParametersUtils } from '../utils';
@@ -16,6 +22,7 @@ const getRunTemplateParametersIds = (runTemplatesParametersIdsDict, runTemplateI
 };
 
 export const useUpdateParameters = () => {
+  const updateSimulationRunnerInRedux = useUpdateSimulationRunnerInRedux();
   const asyncSaveScenarioParameters = useAsyncUpdateSimulationRunner();
   const { processFilesToUpload, updateSavedFileParameters } = useFileParameters();
   const addOrUpdateDatasetPartInRedux = useAddOrUpdateDatasetPartInRedux();
@@ -69,35 +76,45 @@ export const useUpdateParameters = () => {
       scenarios
     );
 
-    await asyncSaveScenarioParameters(currentScenario.id, parametersForUpdateRequest.nonDatasetParts);
+    // Keep the SAVING status for the runner redux state after the save of parameters, because we still need to process
+    // the datasets and prevent users from UI actions until it's done
+    await asyncSaveScenarioParameters(currentScenario.id, parametersForUpdateRequest.nonDatasetParts, STATUSES.SAVING);
 
-    const createdDatasetParts = [];
-    for (const parameter of parametersForUpdateRequest.fileDatasetParts) {
-      const createdDatasetPart = await DatasetService.createDatasetPart(
-        organizationId,
-        workspaceId,
-        runnerParameterDatasetId,
-        parameter.value.part,
-        parameter.value.file
-      );
-      addOrUpdateDatasetPartInRedux(runnerParameterDatasetId, createdDatasetPart, undefined, currentScenario.id);
-      createdDatasetParts.push(createdDatasetPart);
+    try {
+      const createdDatasetParts = [];
+      for (const parameter of parametersForUpdateRequest.fileDatasetParts) {
+        const createdDatasetPart = await DatasetService.createDatasetPart(
+          organizationId,
+          workspaceId,
+          runnerParameterDatasetId,
+          parameter.value.part,
+          parameter.value.file
+        );
+        addOrUpdateDatasetPartInRedux(runnerParameterDatasetId, createdDatasetPart, undefined, currentScenario.id);
+        createdDatasetParts.push(createdDatasetPart);
+      }
+
+      const deletedDatasetPartIds = [];
+      for (const datasetPartId of parametersForUpdateRequest.idsOfDatasetPartsToDelete) {
+        await DatasetService.deleteDatasetPart(organizationId, workspaceId, runnerParameterDatasetId, datasetPartId);
+        deleteDatasetPartFromRedux(runnerParameterDatasetId, datasetPartId, currentScenario.id);
+        deletedDatasetPartIds.push(datasetPartId);
+      }
+
+      updateSavedFileParameters(createdDatasetParts, deletedDatasetPartIds);
+
+      // Clear the SAVING status and set it to success to close the saving backdrop
+      updateSimulationRunnerInRedux({ runnerId: currentScenario.id, status: STATUSES.SUCCESS });
+    } catch (e) {
+      updateSimulationRunnerInRedux({ runnerId: currentScenario.id, status: STATUSES.ERROR });
     }
-
-    const deletedDatasetPartIds = [];
-    for (const datasetPartId of parametersForUpdateRequest.idsOfDatasetPartsToDelete) {
-      await DatasetService.deleteDatasetPart(organizationId, workspaceId, runnerParameterDatasetId, datasetPartId);
-      deleteDatasetPartFromRedux(runnerParameterDatasetId, datasetPartId, currentScenario.id);
-      deletedDatasetPartIds.push(datasetPartId);
-    }
-
-    updateSavedFileParameters(createdDatasetParts, deletedDatasetPartIds);
   }, [
     addOrUpdateDatasetPartInRedux,
     deleteDatasetPartFromRedux,
     asyncSaveScenarioParameters,
     processFilesToUpload,
     updateSavedFileParameters,
+    updateSimulationRunnerInRedux,
     getValues,
     organizationId,
     workspaceId,
