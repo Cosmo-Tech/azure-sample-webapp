@@ -152,6 +152,12 @@ export const useStopETLRunner = () => {
   );
 };
 
+// Update the state of a given simulation runner in redux, without any API calls (simple call to the reducer)
+export const useUpdateSimulationRunnerInRedux = () => {
+  const dispatch = useDispatch();
+  return useCallback((payload) => dispatch(updateSimulationRunner(payload)), [dispatch]);
+};
+// Starts a saga with API calls to update a simulation runner
 export const useUpdateSimulationRunner = () => {
   const dispatch = useDispatch();
   const organizationId = useOrganizationId();
@@ -172,7 +178,7 @@ export const useAsyncUpdateSimulationRunner = () => {
   const workspaceId = useWorkspaceId();
   const runTemplateId = useCurrentSimulationRunnerRunTemplateId();
   return useCallback(
-    async (runnerId, runnerParameters) => {
+    async (runnerId, runnerParameters, runnerStatusOnSuccess = STATUSES.SUCCESS) => {
       dispatch(updateSimulationRunner({ runnerId, status: STATUSES.SAVING }));
       try {
         const updatedRunner = await asyncUpdateRunner(
@@ -182,7 +188,7 @@ export const useAsyncUpdateSimulationRunner = () => {
           runTemplateId,
           runnerParameters
         );
-        dispatch(updateSimulationRunner({ status: STATUSES.SUCCESS, runnerId, runner: updatedRunner }));
+        dispatch(updateSimulationRunner({ status: runnerStatusOnSuccess, runnerId, runner: updatedRunner }));
       } catch (error) {
         dispatch(updateSimulationRunner({ runnerId, status: STATUSES.ERROR }));
       }
