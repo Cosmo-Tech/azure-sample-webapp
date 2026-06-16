@@ -56,10 +56,6 @@ describe('File parameters (end-to-end test)', { keystrokeDelay: 1 }, () => {
       // Check file content
       BreweryParameters.downloadExampleDatasetPart1();
       Downloads.checkByContent(FILE_PATH_1, EXPECTED_DATA_AFTER_DUMMY_DATASET_1_UPLOAD);
-
-      // A webapp bug causes the form to become dirty when a file is downloaded
-      // Remove the line below when the bug is fixed
-      ScenarioParameters.discard();
     });
   });
 

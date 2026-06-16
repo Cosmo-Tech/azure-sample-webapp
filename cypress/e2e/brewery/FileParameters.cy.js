@@ -90,8 +90,6 @@ describe('File parameters', () => {
     BreweryParameters.getInitialStockFileName().should('have.text', FILE_PATH_2);
     BreweryParameters.downloadInitialStock();
     Downloads.checkByContent(FILE_PATH_2, EXPECTED_DATA_AFTER_DUMMY_DATASET_2_UPLOAD);
-
-    ScenarioParameters.discard();
   });
 
   it('clear file parameter: can delete a file previously uploaded and saved', () => {
