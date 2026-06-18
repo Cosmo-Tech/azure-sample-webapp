@@ -6,6 +6,13 @@ The _dataset manager_ view is an optional view of the webapp, where datasets can
 **browsed, created, previewed, edited and deleted**. The goal of this view is to let end-users
 **create datasets directly in the webapp**. These datasets can then be used when creating new scenarios.
 
+This feature can be enabled or disabled **for each workspace**. In order to enable it in a given workspace, patch the
+workspace configuration to define `additionalData.webapp.datasetManager`: when this entry is a **non-empty object**, the
+dataset manager tab becomes visible in the webapp.
+
+The [Features](#features) section below describes how to fill this entry to customize the default behavior of the
+dataset manager, and adapt it to your use cases.
+
 ## Compatibility notes
 
 > **Warning**
