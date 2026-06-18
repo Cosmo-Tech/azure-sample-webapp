@@ -21,5 +21,5 @@ export const useDashboards = () => {
     return report?.title?.[lang] ?? report?.id ?? report?.reportId ?? DEFAULT_MISSING_TITLE;
   }, []);
 
-  return { reports, getTitleFromReport };
+  return { reports, getTitleFromReport, chartType };
 };
