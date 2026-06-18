@@ -22,7 +22,9 @@ function* runDatasetTwingraphQuery(action, query, attemptsNumber = 0) {
   yield put(waitQueryResults({ datasetId, kpiIdsByQueryId, queryId: query.id }));
 
   const queryDatasetPartName = query.datasetPartName;
-  const datasetPartId = (dataset?.parts ?? []).find((part) => part.name === queryDatasetPartName)?.id;
+  const datasetPartId = (dataset?.parts ?? []).find(
+    (part) => part.name === queryDatasetPartName && part.type === 'DB'
+  )?.id;
   if (datasetPartId == null)
     throw Error(
       `No dataset part with name "${queryDatasetPartName}" found in dataset "${dataset.name}" (${dataset.id})`

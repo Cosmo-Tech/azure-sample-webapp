@@ -275,7 +275,7 @@ export const GenericTable = ({
     const dynamicValuesAttr = ConfigUtils.getParameterAttribute(parameterData, 'dynamicValues') || {};
     const datasetPartName = dynamicValuesAttr.datasetPartName;
     const queryOptions = dynamicValuesAttr.options ?? {};
-    const datasetPart = (sourceDataset.parts ?? []).find((part) => part.name === datasetPartName);
+    const datasetPart = (sourceDataset.parts ?? []).find((part) => part.name === datasetPartName && part.type === 'DB');
     if (datasetPart == null) {
       setPlaceholder({
         title: t('genericcomponent.table.labels.datasetErrorTitle', 'Dataset error'),

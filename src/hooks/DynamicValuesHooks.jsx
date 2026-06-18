@@ -73,7 +73,9 @@ export const useDynamicValues = (parameter, targetDataset) => {
         );
         return;
       }
-      const datasetPart = (targetDataset.parts ?? []).find((part) => part.name === datasetPartName);
+      const datasetPart = (targetDataset.parts ?? []).find(
+        (part) => part.name === datasetPartName && part.type === 'DB'
+      );
       if (!datasetPart) {
         setDynamicValues(
           t(
@@ -255,7 +257,9 @@ export const useLoadInitialValueFromDataset = (parameterValue, parameter, target
         setDynamicValueError('missingDatasetPartName');
         return;
       }
-      const datasetPart = (targetDataset?.parts ?? []).find((part) => part.name === datasetPartName);
+      const datasetPart = (targetDataset?.parts ?? []).find(
+        (part) => part.name === datasetPartName && part.type === 'DB'
+      );
       if (!datasetPart) {
         setDynamicValue(defaultValue);
         setDynamicValueError('datasetPartNotFound');

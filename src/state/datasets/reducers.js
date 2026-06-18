@@ -65,10 +65,19 @@ const datasetSlice = createSlice({
 
       let found = false;
       const newDatasetParts = state.list.data[index].parts.map((datasetPart) => {
-        if (datasetPart.name !== newDatasetPart.name) return datasetPart;
+        if (datasetPart.id != null && newDatasetPart.id != null) {
+          if (datasetPart.id === newDatasetPart.id) {
+            found = true;
+            return newDatasetPart;
+          }
+          return datasetPart;
+        }
 
-        found = true;
-        return newDatasetPart;
+        if (datasetPart.name === newDatasetPart.name && datasetPart.type === newDatasetPart.type) {
+          found = true;
+          return newDatasetPart;
+        }
+        return datasetPart;
       });
       if (!found) newDatasetParts.push(newDatasetPart);
 
