@@ -6,3 +6,12 @@ node_modules
 stats.html
 cypress/reports
 yarn.lock
+
+scripts
+webapp_server
+
+# Do not format bot-generated docs
+doc/botInstructions/cypressTests.md
+
+# Do not try to auto-fix formatting in index.html, it might break pattern-matching in the webapp server script
+index.html
