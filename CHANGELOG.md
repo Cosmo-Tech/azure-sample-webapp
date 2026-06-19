@@ -1,3 +1,17 @@
+## **7.0.5** <sub><sup>2026-06-19 ([8407015...fa069a4](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/84070155...fa069a4e?diff=split))</sup></sub>
+
+### Bug Fixes
+
+- \[PROD\-16295\] fix backdrop & spinner disappearing before the scenario save is actually finished ([0c2c5a8](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/0c2c5a8b))
+- \[PROD\-16010\] fix dataset query `options` that were ignored for dynamic tables ([c72e1f6](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/c72e1f67))
+- \[PROD\-16013\] use "DB" parts first for dataset queries, in case of name conflicts in dataset parts ([8406304](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/8406304c))
+- \[PROD\-16008\] add auto-complete of superset domain URL in config when protocol prefix is missing ([704f427](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/704f427f))
+- fix inconsistent behavior for the desynchronized results warning banner ([3159325](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/31593252))
+
+### Documentation
+
+- add bot instructions & guidelines to write cypress tests with stubbing ([998412b](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/998412bc))
+
 ## **7.0.4** <sub><sup>2026-06-12 ([e473730...eaf3120](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/e473730c...eaf3120e?diff=split))</sup></sub>
 
 ### Bug Fixes
