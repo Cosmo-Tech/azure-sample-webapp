@@ -291,6 +291,10 @@ file extensions you want to use as the default filter in users' file browser.
 
 #### File upload behavior
 
+:information_source: Since v7.0.0 of the azure-sample-webapp, the parameter `shouldRenameFileOnUpload`
+is deprecated. The dataset part's `sourceName` contains the name of the file that has been uploaded, and the
+`name` field contains the parameter id.
+
 When files uploaded by webapp users are sent to the back-end to be stored (for example in Azure Storage), the original
 file name is preserved. This behavior can be inconvenient when writing the parameter handler of your solution. If you
 want to have more predictable names for the files uploaded with the webapp, you can enable the option
