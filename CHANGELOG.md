@@ -6,6 +6,7 @@
 - \[PROD\-16010\] fix dataset query `options` that were ignored for dynamic tables ([c72e1f6](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/c72e1f67))
 - \[PROD\-16013\] use "DB" parts first for dataset queries, in case of name conflicts in dataset parts ([8406304](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/8406304c))
 - \[PROD\-16008\] add auto-complete of superset domain URL in config when protocol prefix is missing ([704f427](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/704f427f))
+- fix possible webapp crash caused by ErrorBanner component ([a7d6f13](https://github.com/Cosmo-Tech/webapp-component-ui/commit/a7d6f13))
 - fix inconsistent behavior for the desynchronized results warning banner ([3159325](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/31593252))
 
 ### Documentation
