@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Card, CardContent, Grid, Tab, Tabs } from '@mui/material';
 import { useRedirectFromDisabledView } from '../../hooks/RouterHooks';
+import { CHART_MODES } from '../../state/charts/constants';
 import { DEFAULT_MISSING_TITLE, useDashboards } from './DashboardsHook';
 import { DashboardsChartReport } from './components';
 
@@ -19,7 +20,8 @@ const Dashboards = () => {
   const { i18n } = useTranslation();
   const [value, setValue] = useState(0);
 
-  const { reports, getTitleFromReport } = useDashboards();
+  const { reports, getTitleFromReport, chartType } = useDashboards();
+  const isSuperset = chartType === CHART_MODES.SUPERSET;
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -63,7 +65,7 @@ const Dashboards = () => {
         <Card sx={{ height: '100%' }}>
           <CardContent sx={{ height: '100%', overflow: 'auto' }}>
             <TabPanel
-              style={{ height: '100%', overflowY: 'auto', overflowX: 'hidden' }}
+              style={isSuperset ? { minHeight: '100%' } : { height: '100%', overflowY: 'auto', overflowX: 'hidden' }}
               index={value}
               key={dashboardTitle}
               title={dashboardTitle}
