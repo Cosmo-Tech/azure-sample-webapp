@@ -34,7 +34,7 @@ export function* tryLogIn(action) {
       })
     );
 
-    if (isAuthenticated) localStorage.removeItem('logoutByTimeout');
+    if (isAuthenticated) sessionStorage.removeItem('logoutByTimeout');
   } catch (error) {
     if (!error.errorMessage) console.error(error);
     yield put(
@@ -49,7 +49,7 @@ export function* tryLogIn(action) {
         status: AUTH_STATUS.DENIED,
       })
     );
-    localStorage.removeItem('logoutByTimeout');
+    sessionStorage.removeItem('logoutByTimeout');
   }
 }
 

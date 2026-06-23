@@ -41,7 +41,7 @@ const MSAL_KEYCLOAK_CONFIG = {
       knownAuthorities: [authorityDomain],
     },
     cache: {
-      cacheLocation: 'localStorage',
+      cacheLocation: 'sessionStorage',
       storeAuthStateInCookie: false,
     },
   },

@@ -10,7 +10,7 @@ export function* tryLogOut(action) {
   try {
     sessionStorage.setItem('logoutInProgress', true);
     if (action.data.timeout) {
-      localStorage.setItem('logoutByTimeout', true);
+      sessionStorage.setItem('logoutByTimeout', true);
     }
     yield Auth.signOut();
     yield put(
